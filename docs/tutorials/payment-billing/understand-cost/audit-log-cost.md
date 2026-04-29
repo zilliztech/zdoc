@@ -1,16 +1,17 @@
 ---
 title: "Audit Logs Cost | Cloud"
 slug: /audit-log-cost
+sidebar_key: audit-log-cost
 sidebar_label: "Audit Logs"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "When you enable audit logs, Zilliz Cloud deploys a logging service. Collecting, processing, and forwarding these logs consumes additional system resources, which is why corresponding charges apply. | Cloud"
 type: origin
 token: GBfswoqhviHfTVk2qhHc4eGXnfh
-sidebar_position: 5
+sidebar_position: 7
 keywords: 
   - zilliz
   - vector database

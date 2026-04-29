@@ -1,16 +1,17 @@
 ---
 title: "Volume | Cloud"
 slug: /volume
+sidebar_key: volume
 sidebar_label: "Volume"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
-description: "A volume is an object store that holds either structured data or collections of unstructured data files. It provides a unified place to access, store, govern, and organize these data assets. This chapter explains what a volume is, its use cases, and demonstrates how to manage volumes on Zilliz Cloud. | Cloud"
+description: "This chapter focuses on the volume management operations. For details about how to choose a volume type, see Storage External & Managed Volumes. | Cloud"
 type: origin
 token: Fe9vwGQQKiaqurkTuz1cSAaUn2d
-sidebar_position: 6
+sidebar_position: 8
 keywords: 
   - zilliz
   - vector database
@@ -24,7 +25,9 @@ import Admonition from '@theme/Admonition';
 
 # Volume
 
-A volume is an object store that holds either structured data or collections of unstructured data files. It provides a unified place to access, store, govern, and organize these data assets. This chapter explains what a volume is, its use cases, and demonstrates how to manage volumes on Zilliz Cloud.
+This chapter focuses on the volume management operations. For details about how to choose a volume type, see Storage: External & Managed Volumes.
+
+
 
 import DocCardList from '@theme/DocCardList';
 

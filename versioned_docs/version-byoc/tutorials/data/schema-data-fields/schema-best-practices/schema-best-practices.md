@@ -1,11 +1,12 @@
 ---
-title: "Best Practices | BYOC"
+title: "Best Practices for Schema Design | BYOC"
 slug: /schema-best-practices
+sidebar_key: schema-best-practices
 sidebar_label: "Best Practices"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "This chapter covers best practices for schema design related to your dataset. | BYOC"
 type: origin
@@ -25,7 +26,7 @@ keywords:
 import Admonition from '@theme/Admonition';
 
 
-# Best Practices
+# Best Practices for Schema Design
 
 This chapter covers best practices for schema design related to your dataset.
 

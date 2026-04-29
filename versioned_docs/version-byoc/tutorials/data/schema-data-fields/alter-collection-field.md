@@ -1,11 +1,12 @@
 ---
 title: "Alter Collection Field | BYOC"
 slug: /alter-collection-field
-sidebar_label: "Alter Collection Field"
-beta: FALSE
+sidebar_key: alter-collection-field
+sidebar_label: "Alter Field"
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "You can alter the properties of a collection field to change column constraints or enforce stricter data integrity rules. | BYOC"
 type: origin

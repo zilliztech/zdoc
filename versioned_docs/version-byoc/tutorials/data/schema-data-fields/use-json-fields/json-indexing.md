@@ -1,11 +1,12 @@
 ---
 title: "JSON Indexing | BYOC"
 slug: /json-indexing
-sidebar_label: "JSON Indexing"
-beta: FALSE
+sidebar_key: json-indexing
+sidebar_label: "Indexing"
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "JSON fields provide a flexible way to store structured metadata in Zilliz Cloud. Without indexing, queries on JSON fields require full collection scans, which become slow as your dataset grows. JSON indexing enables fast lookups by creating indexes on within your JSON data. | BYOC"
 type: origin

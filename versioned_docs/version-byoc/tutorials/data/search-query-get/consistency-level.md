@@ -1,11 +1,12 @@
 ---
 title: "Consistency Level | BYOC"
 slug: /consistency-level
+sidebar_key: consistency-level
 sidebar_label: "Consistency Level"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "As a distributed vector database, Zilliz Cloud offers multiple levels of consistency to ensure that each node or replica can access the same data during read and write operations. Currently, the supported levels of consistency include Strong, Bounded, Eventually, and Session, with Bounded being the default level of consistency used. | BYOC"
 type: origin

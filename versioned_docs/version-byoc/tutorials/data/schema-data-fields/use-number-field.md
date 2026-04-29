@@ -1,11 +1,12 @@
 ---
 title: "Boolean & Number | BYOC"
 slug: /use-number-field
+sidebar_key: use-number-field
 sidebar_label: "Boolean & Number"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "A boolean or number field is a scalar field that stores boolean or numeric values. These values can be one of two possible values or whole numbers (integers) and decimal numbers (floating-point numbers). They are typically used to represent quantities, measurements, or any data that needs to be logically or mathematically processed. | BYOC"
 type: origin
@@ -112,10 +113,10 @@ schema = client.create_schema(
     enable_dynamic_fields=True,
 )
 
-# Add an INT64 field `age` that supports null values with default value 18
+# Add an INT64 field \`age\` that supports null values with default value 18
 schema.add_field(field_name="age", datatype=DataType.INT64, nullable=True, default_value=18)
 schema.add_field(field_name="broken", datatype=DataType.BOOL, nullable=True)
-# Add a FLOAT field `price` that supports null values without default value
+# Add a FLOAT field \`price\` that supports null values without default value
 schema.add_field(field_name="price", datatype=DataType.FLOAT, nullable=True)
 schema.add_field(field_name="pk", datatype=DataType.INT64, is_primary=True)
 schema.add_field(field_name="embedding", datatype=DataType.FLOAT_VECTOR, dim=3)
@@ -321,14 +322,14 @@ The following example creates indexes on the vector field `embedding` and the sc
 
 index_params = client.prepare_index_params()
 
-# Index `age` with AUTOINDEX
+# Index \`age\` with AUTOINDEX
 index_params.add_index(
     field_name="age",
     index_type="AUTOINDEX",
     index_name="age_index"
 )
 
-# Index `embedding` with AUTOINDEX and specify similarity metric type
+# Index \`embedding\` with AUTOINDEX and specify similarity metric type
 index_params.add_index(
     field_name="embedding",
     index_type="AUTOINDEX",  # Use automatic indexing to simplify complex index settings
@@ -495,11 +496,11 @@ After creating the collection, insert entities that match the schema.
 # Sample data
 data = [
     {"age": 25, "price": 99.99, "pk": 1, "embedding": [0.1, 0.2, 0.3]},
-    {"age": 30, "pk": 2, "embedding": [0.4, 0.5, 0.6]}, # `price` field is missing, which should be null
-    {"age": None, "price": None, "pk": 3, "embedding": [0.2, 0.3, 0.1]},  # `age` should default to 18, `price` is null
-    {"age": 45, "price": None, "pk": 4, "embedding": [0.9, 0.1, 0.4]},  # `price` is null
-    {"age": None, "price": 59.99, "pk": 5, "embedding": [0.8, 0.5, 0.3]},  # `age` should default to 18
-    {"age": 60, "price": None, "pk": 6, "embedding": [0.1, 0.6, 0.9]}  # `price` is null
+    {"age": 30, "pk": 2, "embedding": [0.4, 0.5, 0.6]}, # \`price\` field is missing, which should be null
+    {"age": None, "price": None, "pk": 3, "embedding": [0.2, 0.3, 0.1]},  # \`age\` should default to 18, \`price\` is null
+    {"age": 45, "price": None, "pk": 4, "embedding": [0.9, 0.1, 0.4]},  # \`price\` is null
+    {"age": None, "price": 59.99, "pk": 5, "embedding": [0.8, 0.5, 0.3]},  # \`age\` should default to 18
+    {"age": 60, "price": None, "pk": 6, "embedding": [0.1, 0.6, 0.9]}  # \`price\` is null
 ]
 
 client.insert(

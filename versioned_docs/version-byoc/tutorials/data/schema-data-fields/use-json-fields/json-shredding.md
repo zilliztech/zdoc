@@ -1,11 +1,12 @@
 ---
 title: "JSON Shredding | BYOC"
 slug: /json-shredding
-sidebar_label: "JSON Shredding"
-beta: FALSE
+sidebar_key: json-shredding
+sidebar_label: "Shredding"
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "JSON shredding accelerates JSON queries by converting traditional row-based storage into optimized columnar storage. While maintaining JSON's flexibility for data modeling, Zilliz Cloud performs behind-the-scenes columnar optimization that dramatically improves access and query efficiency. | BYOC"
 type: origin

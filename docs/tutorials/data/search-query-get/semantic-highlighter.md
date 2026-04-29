@@ -1,11 +1,12 @@
 ---
 title: "Semantic Highlighter | Cloud"
 slug: /semantic-highlighter
+sidebar_key: semantic-highlighter
 sidebar_label: "Semantic Highlighter"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "Semantic Highlighter identifies and highlights the most semantically relevant portions of your search results at the sentence level, helping you extract only what matters from retrieved top K documents. | Cloud"
 type: origin

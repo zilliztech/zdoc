@@ -1,10 +1,11 @@
 ---
-title: "Geometry フィールド | BYOC"
+title: "ジオメトリフィールド | BYOC"
 slug: /use-geometry-field
-sidebar_label: "Geometry フィールド"
+sidebar_key: use-geometry-field
+sidebar_label: "ジオメトリ"
 beta: FALSE
 notebook: FALSE
-description: "地理情報システム (GIS)、マッピングツール、位置情報サービスなどのアプリケーションを構築する際、幾何学的データを保存およびクエリする必要があることがよくあります。Milvus の `GEOMETRY` データ型は、柔軟な幾何学的データをネイティブに保存およびクエリする方法を提供することで、この課題を解決します。 | BYOC"
+description: "地理情報システム (GIS)、マッピングツール、位置情報サービスなどのアプリケーションを構築する際、幾何データの保存とクエリが必要になることがよくあります。Milvus の `GEOMETRY` データ型は、柔軟な幾何データをネイティブに保存およびクエリする方法を提供することで、この課題を解決します。| BYOC"
 type: origin
 token: H2GHwE8umiuP6WkwjxPcQOfGn0e
 sidebar_position: 11
@@ -12,13 +13,9 @@ keywords:
   - zilliz
   - ベクトルデータベース
   - クラウド
-  - collection
-  - schema
-  - geometry field
-  - ベクトルデータベースの仕組み
-  - ベクトルDB比較
-  - openai ベクトルDB
-  - 自然言語処理データベース
+  - コレクション
+  - スキーマ
+  - ジオメトリフィールド
 
 ---
 
@@ -26,51 +23,51 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Geometryフィールド
+# ジオメトリフィールド
 
-地理情報システム (GIS)、マッピングツール、位置情報サービスなどのアプリケーションを構築する場合、幾何学的データを保存およびクエリする必要があることがよくあります。Milvusの`GEOMETRY`データ型は、柔軟な幾何学的データを保存およびクエリするネイティブな方法を提供することで、この課題を解決します。
+地理情報システム (GIS)、マッピングツール、位置情報ベースのサービスなどのアプリケーションを構築する際には、ジオメトリデータを保存およびクエリする必要がよくあります。Milvus の `GEOMETRY` データ型は、柔軟なジオメトリデータをネイティブに保存・クエリする方法を提供することで、この課題を解決します。
 
-ベクトル類似性と空間制約を組み合わせる必要がある場合は、GEOMETRYフィールドを使用します。たとえば、次のような場合です。
+ベクトル類似性と空間制約を組み合わせる必要がある場合は、GEOMETRY フィールドを使用します。例えば以下のようなケースです：
 
-- 位置情報サービス (LBS): 「この都市ブロック**内**の類似したPOIを検索する」
+- 位置情報ベースサービス (LBS)：「この街区**内**にある類似のPOIを検索」
 
-- マルチモーダル検索: 「この地点から**1km以内**の類似した写真を検索する」
+- マルチモーダル検索：「この地点から**1km以内**にある類似の写真を取得」
 
-- マップとロジスティクス: 「領域**内**のアセット」または「パス**と交差する**ルート」
+- 地図・物流：「ある地域**内**の資産」または「ある経路と**交差する**ルート」
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>GEOMETRYフィールドを使用するには、SDKを最新バージョンにアップグレードしてください。</p>
+<p>GEOMETRY フィールドを使用するには、SDK を最新バージョンにアップグレードしてください。</p>
 
 </Admonition>
 
-## GEOMETRYフィールドとは？{#what-is-a-geometry-field}
+## GEOMETRY フィールドとは？\{#what-is-a-geometry-field}
 
-GEOMETRYフィールドは、Zilliz Cloudのスキーマ定義データ型 (`DataType.GEOMETRY`) であり、幾何学的データを保存します。ジオメトリフィールドを操作する場合、データの挿入とクエリの両方に使用される人間が読める形式である[Well-Known Text (WKT)](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry)を使用してデータと対話します。内部的には、Zilliz CloudはWKTを[Well-Known Binary (WKB)](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry#Well-known_binary)に変換して効率的なストレージと処理を行いますが、WKBを直接処理する必要はありません。
+GEOMETRY フィールドは、Zilliz Cloud におけるスキーマ定義済みのデータ型（`データType.GEOMETRY`）で、ジオメトリデータを格納します。ジオメトリフィールドを操作する際には、データの挿入およびクエリの両方で [Well-Known Text (WKT)](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry) 形式を使用します。これは人間が読みやすい表現形式です。内部的には、Zilliz Cloud が WKT を効率的な保存・処理のために [Well-Known Binary (WKB)](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry#Well-known_binary) に変換しますが、ユーザーが WKB を直接扱う必要はありません。
 
-`GEOMETRY`データ型は、以下の幾何学的オブジェクトをサポートしています。
+`GEOMETRY` データ型は以下のジオメトリオブジェクトをサポートしています：
 
-- **POINT**: `POINT (x y)`; 例: `POINT (13.403683 52.520711)` (ここで`x` = 経度、`y` = 緯度)
+- **POINT**: `POINT (x y)`；例：`POINT (13.403683 52.520711)`（`x` = 経度、`y` = 緯度）
 
-- **LINESTRING**: `LINESTRING (x1 y1, x2 y2, …)`; 例: `LINESTRING (13.40 52.52, 13.41 52.51)`
+- **LINESTRING**: `LINESTRING (x1 y1, x2 y2, …)`；例：`LINESTRING (13.40 52.52, 13.41 52.51)`
 
-- **POLYGON**: `POLYGON ((x1 y1, x2 y2, x3 y3, x1 y1))`; 例: `POLYGON ((30 10, 40 40, 20 40, 10 20, 30 10))`
+- **POLYGON**: `POLYGON ((x1 y1, x2 y2, x3 y3, x1 y1))`；例：`POLYGON ((30 10, 40 40, 20 40, 10 20, 30 10))`
 
-- **MULTIPOINT**: `MULTIPOINT ((x1 y1), (x2 y2), …)`, 例: `MULTIPOINT ((10 40), (40 30), (20 20), (30 10))`
+- **MULTIPOINT**: `MULTIPOINT ((x1 y1), (x2 y2), …)`；例：`MULTIPOINT ((10 40), (40 30), (20 20), (30 10))`
 
-- **MULTILINESTRING**: `MULTILINESTRING ((x1 y1, …), (xk yk, …))`, 例: `MULTILINESTRING ((10 10, 20 20, 10 40), (40 40, 30 30, 40 20, 30 10))`
+- **MULTILINESTRING**: `MULTILINESTRING ((x1 y1, …), (xk yk, …))`；例：`MULTILINESTRING ((10 10, 20 20, 10 40), (40 40, 30 30, 40 20, 30 10))`
 
-- **MULTIPOLYGON**: `MULTIPOLYGON (((outer ring ...)), ((outer ring ...)))`, 例: `MULTIPOLYGON (((30 20, 45 40, 10 40, 30 20)), ((15 5, 40 10, 10 20, 5 10, 15 5)))`
+- **MULTIPOLYGON**: `MULTIPOLYGON (((outer ring ...)), ((outer ring ...)))`；例：`MULTIPOLYGON (((30 20, 45 40, 10 40, 30 20)), ((15 5, 40 10, 10 20, 5 10, 15 5)))`
 
-- **GEOMETRYCOLLECTION**: `GEOMETRYCOLLECTION(POINT(x y), LINESTRING(x1 y1, x2 y2), ...)`, 例: `GEOMETRYCOLLECTION (POINT (40 10), LINESTRING (10 10, 20 20, 10 40), POLYGON ((40 40, 20 45, 45 30, 40 40)))`
+- **GEOMETRYCOLLECTION**: `GEOMETRYCOLLECTION(POINT(x y), LINESTRING(x1 y1, x2 y2), ...)`；例：`GEOMETRYCOLLECTION (POINT (40 10), LINESTRING (10 10, 20 20, 10 40), POLYGON ((40 40, 20 45, 45 30, 40 40)))`
 
-## 基本操作{#basic-operations}
+## 基本操作\{#basic-operations}
 
-`GEOMETRY`フィールドを使用するワークフローには、コレクションスキーマでの定義、幾何学的データの挿入、および特定のフィルター式を使用したデータのクエリが含まれます。
+`GEOMETRY` フィールドのワークフローには、コレクションスキーマでの定義、ジオメトリデータの挿入、そして特定のフィルター式を使用したデータのクエリが含まれます。
 
-### ステップ1: GEOMETRYフィールドを定義する{#step-1-define-a-geometry-field}
+### ステップ 1: GEOMETRY フィールドの定義\{#step-1-define-a-geometry-field}
 
-`GEOMETRY`フィールドを使用するには、コレクションを作成する際にコレクションスキーマで明示的に定義します。次の例は、`DataType.GEOMETRY`型の`geo`フィールドを持つコレクションを作成する方法を示しています。
+GEOMETRY フィールドを使用するには、コレクション作成時に明示的にコレクションスキーマ内で定義する必要があります。以下の例では、`geo` フィールドを `データType.GEOMETRY` 型として持つコレクションを作成する方法を示しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -145,7 +142,7 @@ client.createCollection(requestCreate);
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 import { MilvusClient, DataType } from '@zilliz/milvus2-sdk-node';
@@ -168,7 +165,7 @@ await milvusClient.createCollection({
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 // go
@@ -176,7 +173,7 @@ await milvusClient.createCollection({
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 # Configuration
@@ -229,13 +226,13 @@ curl --request POST \
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>この例では、コレクションスキーマで定義された <code>GEOMETRY</code> フィールドは、<code>nullable=True</code> で null 値を許可します。詳細については、<a href="./nullable-and-default">Nullable & Default</a> を参照してください。</p>
+<p>この例では、コレクションスキーマで定義された <code>GEOMETRY</code> フィールドが <code>nullable=True</code> により NULL 許容となっています。詳細については、<a href="./nullable-fields">NULL許容 & デフォルト値</a> を参照してください。</p>
 
 </Admonition>
 
-### ステップ2: データを挿入する{#step-2-insert-data}
+### Step 2: Insert data\{#step-2-insert-data}
 
-[WKT](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry) 形式でジオメトリデータを持つエンティティを挿入します。以下にいくつかの地理ポイントの例を示します。
+[WKT](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry) 形式のジオメトリデータを含むエンティティを挿入します。以下は複数の地理ポイントを含む例です：
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -309,7 +306,7 @@ client.insert(InsertReq.builder()
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 const geo_points = [
@@ -339,7 +336,7 @@ console.log(insert_result);
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 // go
@@ -347,7 +344,7 @@ console.log(insert_result);
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 echo -e "\n\n=== 2. Insert geometric data ==="
@@ -401,13 +398,13 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-### ステップ3：フィルタリング操作{#step-3-filtering-operations}
+### ステップ 3: フィルタリング操作\{#step-3-filtering-operations}
 
-`GEOMETRY`フィールドでフィルタリング操作を実行する前に、以下を確認してください。
+`GEOMETRY` フィールドに対してフィルタリング操作を実行する前に、以下の点を確認してください。
 
-- 各ベクトルフィールドにインデックスを作成していること。
+- 各ベクターフィールドにインデックスを作成済みであること。
 
-- コレクションがメモリにロードされていること。
+- コレクションがメモリにロード済みであること。
 
 <details>
 
@@ -446,7 +443,7 @@ client.createIndex(CreateIndexReq.builder()
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 
@@ -470,7 +467,7 @@ await milvusClient.loadCollection({
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 // go
@@ -478,7 +475,7 @@ await milvusClient.loadCollection({
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 echo -e "\n\n=== 3. Create Index ==="
@@ -515,29 +512,29 @@ sleep 3
 
 </details>
 
-これらの要件が満たされると、専用のジオメトリ演算子を持つ式を使用して、ジオメトリ値に基づいてコレクションをフィルタリングできます。
+これらの要件を満たせば、専用のジオメトリ演算子を使用した式で、ジオメトリ値に基づいてコレクションをフィルタリングできます。
 
-#### フィルタ式を定義する{#define-filter-expressions}
+#### フィルター式の定義\{#define-filter-expressions}
 
-`GEOMETRY`フィールドでフィルタリングするには、式でジオメトリ演算子を使用します。
+`GEOMETRY` フィールドでフィルタリングするには、式内でジオメトリ演算子を使用します：
 
 - 一般: `{operator}(geo_field, '{wkt}')`
 
 - 距離ベース: `ST_DWITHIN(geo_field, '{wkt}', distance)`
 
-ここで、
+ここで：
 
-- `operator`は、サポートされているジオメトリ演算子の1つです（例: `ST_CONTAINS`、`ST_INTERSECTS`）。演算子名はすべて大文字またはすべて小文字である必要があります。サポートされている演算子のリストについては、[サポートされているジオメトリ演算子](./geometry-operators)を参照してください。
+- `operator` はサポートされているジオメトリ演算子のいずれか（例：`ST_CONTAINS`, `ST_INTERSECTS`）です。演算子名はすべて大文字またはすべて小文字で記述する必要があります。サポートされている演算子の一覧については、[Supported geometry operators](./geometry-operators) を参照してください。
 
-- `geo_field`は、`GEOMETRY`フィールドの名前です。
+- `geo_field` は `GEOMETRY` フィールドの名前です。
 
-- `'{wkt}'`は、クエリするジオメトリのWKT表現です。
+- `'{wkt}'` はクエリ対象ジオメトリの WKT 表現です。
 
-- `distance`は、`ST_DWITHIN`に特化したしきい値です。
+- `distance` は `ST_DWITHIN` 専用の距離しきい値です。
 
-以下の例は、フィルタ式でさまざまなジオメトリ固有の演算子を使用する方法を示しています。
+以下の例では、さまざまなジオメトリ固有の演算子をフィルター式で使用する方法を示します：
 
-#### 例1: 長方形の領域内のエンティティを検索する{#example-1-find-entities-within-a-rectangular-area}
+#### 例 1: 矩形領域内に存在するエンティティを検索\{#example-1-find-entities-within-a-rectangular-area}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -598,19 +595,19 @@ for (QueryResp.QueryResult result : queryResults) {
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 const top_left_lon = 13.403683;
 const top_left_lat = 52.520711;
 const bottom_right_lon = 13.455868;
 const bottom_right_lat = 52.495862;
-const bounding_box_wkt = `POLYGON((${top_left_lon} ${top_left_lat}, ${bottom_right_lon} ${top_left_lat}, ${bottom_right_lon} ${bottom_right_lat}, ${top_left_lon} ${bottom_right_lat}, ${top_left_lon} ${top_left_lat}))`;
+const bounding_box_wkt = \`POLYGON((${top_left_lon} ${top_left_lat}, ${bottom_right_lon} ${top_left_lat}, ${bottom_right_lon} ${bottom_right_lat}, ${top_left_lon} ${bottom_right_lat}, ${top_left_lon} ${top_left_lat}))\`;
 
 const query_results = await milvusClient.query({
   collection_name: 'geo_collection',
   // highlight-next-line
-  filter: `st_within(geo, '${bounding_box_wkt}')`,
+  filter: \`st_within(geo, '${bounding_box_wkt}')\`,
   output_fields: ['name', 'geo'],
 });
 for (const ret of query_results.data) {
@@ -620,7 +617,7 @@ for (const ret of query_results.data) {
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 // go
@@ -628,7 +625,7 @@ for (const ret of query_results.data) {
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 echo -e "\n\n=== 5. Query geometric objects within a rectangular area ==="
@@ -646,7 +643,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-#### 例 2: 中心点から1km以内のエンティティを検索する{#example-2-find-entities-within-1km-of-central-point}
+#### 例2: 中心点から1km以内のエンティティを検索する\{#example-2-find-entities-within-1km-of-a-central-point}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -696,18 +693,18 @@ for (QueryResp.QueryResult result : queryResults) {
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 const center_point_lon = 13.403683;
 const center_point_lat = 52.520711;
 const radius_meters = 1000.0;
-const central_point_wkt = `POINT(${center_point_lon} ${center_point_lat})`;
+const central_point_wkt = \`POINT(${center_point_lon} ${center_point_lat})\`;
 
 const query_results_dwithin = await milvusClient.query({
   collection_name: 'geo_collection',
   // highlight-next-line
-  filter: `st_dwithin(geo, '${central_point_wkt}', ${radius_meters})`,
+  filter: \`st_dwithin(geo, '${central_point_wkt}', ${radius_meters})\`,
   output_fields: ['name', 'geo'],
 });
 for (const ret of query_results_dwithin.data) {
@@ -717,7 +714,7 @@ for (const ret of query_results_dwithin.data) {
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 // go
@@ -725,7 +722,7 @@ for (const ret of query_results_dwithin.data) {
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 echo -e "\n\n=== 6. Query geometric objects within a specified distance ==="
@@ -743,7 +740,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-#### 例3：ベクトル類似度と空間フィルタの組み合わせ{#example-3-combine-vector-similarity-with-a-spatial-filter}
+#### 例3: ベクトル類似性と空間フィルターを組み合わせる\{#example-3-combine-vector-similarity-with-a-spatial-filter}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -799,7 +796,7 @@ for (List<SearchResp.SearchResult> results : searchResults) {
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 const vectors_to_search = [[0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8]];
@@ -809,18 +806,18 @@ const search_results = await milvusClient.search({
   limit: 3,
   output_fields: ["name", "geo"],
   // highlight-next-line
-  filter: `st_within(geo, '${bounding_box_wkt}')`,
+  filter: \`st_within(geo, '${bounding_box_wkt}')\`,
 });
 for (const hits of search_results.results) {
   for (const hit of hits) {
-    console.log(`hit: ${JSON.stringify(hit)}`);
+    console.log(\`hit: ${JSON.stringify(hit)}\`);
   }
 }
 ```
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 // go
@@ -828,7 +825,7 @@ for (const hits of search_results.results) {
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 # Define bounding box coordinates
@@ -863,20 +860,20 @@ curl --request POST \
 
 ## 次のステップ: クエリの高速化\{#next-accelerate-queries}
 
-デフォルトでは、インデックスのない`GEOMETRY`フィールドに対するクエリは、すべての行をフルスキャンするため、大規模なデータセットでは遅くなる可能性があります。ジオメトリクエリを高速化するには、GEOMETRYフィールドに`AUTOINDEX`インデックスを作成します。
+インデックスが設定されていない `GEOMETRY` フィールドに対するクエリは、デフォルトで全行をスキャンするため、大規模なデータセットでは遅くなる可能性があります。幾何学的クエリを高速化するには、`GEOMETRY` フィールドに `AUTOINDEX` インデックスを作成してください。
 
-詳細については、[スカラーフィールドのインデックス作成](./index-scalar-fields)を参照してください。
+詳細については、[スカラー フィールドのインデックス作成](./index-scalar-fields)を参照してください。
 
 ## FAQ\{#faq}
 
-### コレクションで動的フィールド機能を有効にしている場合、動的フィールドキーにジオメトリデータを挿入できますか？\{#if-ive-enabled-the-dynamic-field-feature-for-my-collection-can-i-insert-geometric-data-into-a-dynamic-field-key}
+### コレクションで動的フィールド機能を有効にしている場合、動的フィールドキーに幾何学的データを挿入できますか？\{#if-ive-enabled-the-dynamic-field-feature-for-my-collection-can-i-insert-geometric-data-into-a-dynamic-field-key}
 
-いいえ、ジオメトリデータは動的フィールドに挿入できません。ジオメトリデータを挿入する前に、コレクションスキーマで`GEOMETRY`フィールドが明示的に定義されていることを確認してください。
+いいえ、幾何学的データを動的フィールドに挿入することはできません。幾何学的データを挿入する前に、コレクションスキーマ内で `GEOMETRY` フィールドが明示的に定義されていることを確認してください。
 
-### GEOMETRYフィールドはmmap機能をサポートしていますか？\{#does-the-geometry-field-support-the-mmap-feature}
+### GEOMETRY フィールドは mmap 機能をサポートしていますか？\{#does-the-geometry-field-support-the-mmap-feature}
 
-はい、`GEOMETRY`フィールドはmmapをサポートしています。詳細については、[mmapの使用](./use-mmap)を参照してください。
+はい、`GEOMETRY` フィールドは mmap をサポートしています。詳細については、[mmap の使用](./use-mmap)を参照してください。
 
-### GEOMETRYフィールドをnullableとして定義したり、デフォルト値を設定したりできますか？\{#can-i-define-the-geometry-field-as-nullable-or-set-a-default-value}
+### GEOMETRY フィールドを NULL 許容にしたり、デフォルト値を設定したりできますか？\{#can-i-define-the-geometry-field-as-nullable-or-set-a-default-value}
 
-はい、GEOMETRYフィールドは`nullable`属性とWKT形式のデフォルト値をサポートしています。詳細については、[Nullable & Default](./nullable-and-default)を参照してください。
+はい、`GEOMETRY` フィールドは `nullable` 属性と WKT 形式でのデフォルト値をサポートしています。詳細については、[NULL 許容 & デフォルト値](./nullable-fields)を参照してください。

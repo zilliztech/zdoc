@@ -1,115 +1,118 @@
 ---
-title: "機能の可用性 | Cloud"
+title: "機能の利用可能性 | Cloud"
 slug: /feature-availability
-sidebar_label: "機能の可用性"
+sidebar_key: feature-availability
+sidebar_label: "機能の利用可能性"
 beta: FALSE
 notebook: FALSE
-description: "最終更新日：2025年10月13日 | Cloud"
+description: "最終更新日：2025 年 10 月 13 日 | Cloud"
 type: origin
 token: HpbSwzS6kiW9gikHpQ0cUZLWnlc
-sidebar_position: 15
+sidebar_position: 19
 keywords: 
   - zilliz
   - ベクトルデータベース
   - クラウド
-  - 機能の可用性
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy ベクトル検索
-  - milvus
+  - 機能の利用可能性
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# 機能の可用性
+# 機能の提供状況
 
-*最終更新日: 2025年10月13日*
+*最終更新日：2025 年 10 月 13 日*
 
-機能の**可用性フェーズ**は、Zilliz Cloudにおけるその機能の成熟度、安定性、推奨される使用法を示します。以下に、機能のライフサイクル段階とその意味をユーザーの皆様向けに概説します。
+機能の**利用可能フェーズ**は、Zilliz Cloud におけるその成熟度、安定性、および推奨される使用方法を示します。以下に、機能ライフサイクルの段階と、ユーザーとしての皆様にとっての意味について概説します。
 
 ![YBh6wiorGhbetoba42DchATjnVm](https://zdoc-images.s3.us-west-2.amazonaws.com/YBh6wiorGhbetoba42DchATjnVm.png)
 
-- **プライベートプレビュー:**
+- **プライベートプレビュー:** 
 
-    - **定義:** プライベートプレビューの機能は、現在活発に開発中であり、変更される可能性があります。Zilliz Cloud内で実装およびテストされていますが、完全な使いやすさ、安定性、およびエッジケースの網羅はまだ完了していない場合があります。
+    - **定義:** プライベートプレビュー中の機能は現在開発中であり、変更される可能性があります。Zilliz Cloud 内で実装およびテスト済みですが、完全な使いやすさ、安定性、および隅々のケースのカバレッジが整っていない場合があります。
 
-    - **アクセス**: デフォルトでは利用できません。[Zillizサポート](http://support.zilliz.com)に連絡してアクセスをリクエストしてください。
+    - **アクセス**: デフォルトでは利用できません。アクセスをリクエストするには、[Zilliz サポート](http://support.zilliz.com) にお問い合わせください。
 
-    - **使用法**: 本番ワークロードでの使用は意図されていません。
+    - **使用方法**: 本番ワークロード用ではありません。
 
-- **パブリックプレビュー:**
+- **パブリックプレビュー:** 
 
-    - **定義:** パブリックプレビューの機能は、本番環境に近い状態であり、一般提供（GA）に達するまでに大幅な変更はほとんどありません。
+    - **定義:** パブリックプレビュー中の機能は本番環境対応に近く、一般提供（GA）に至るまでに大幅に変更される可能性は低いです。
 
-    - **アクセス**: クラスターのMilvusバージョンをアップグレードすると、通常はデフォルトで有効になります。クラスターが古いバージョンのMilvusを実行している場合、一部の機能にアクセスできない場合があります。そのような場合は、[サポートに連絡](http://support.zilliz.com)してクラスターをアップグレードしてください。
+    - **アクセス**: クラスターの Milvus バージョンをアップグレードした後、通常はデフォルトで有効になります。クラスターが古いバージョンの Milvus を実行している場合、一部の機能にアクセスできないことがあります。その場合は、[サポートにお問い合わせ](http://support.zilliz.com) クラスターをアップグレードしてください。
 
-    - **使用法:** 本番環境での使用は推奨されません。
+    - **使用方法:** 本番使用は推奨されません。
 
-- **一般提供 (GA):**
+- **一般提供（GA）:** 
 
-    - **定義:** GA機能は完全にリリースされ、本番環境に対応しており、積極的にサポートされています。
+    - **定義:** GA 機能は完全にリリースされ、本番環境に対応しており、積極的にサポートされています。
 
-    - **アクセス**: ほとんどのユーザーに対してデフォルトで有効になっていますが、価格に関する考慮事項があるエンタープライズ機能など、一部の機能は[営業担当者に連絡](https://zilliz.com/contact-sales)してアクティベーションを依頼する必要があります。
+    - **アクセス**: ほとんどのユーザーに対してデフォルトで有効ですが、価格設定の検討が必要なエンタープライズ機能など、一部の機能については、有効化のために [営業担当者にお問い合わせ](https://zilliz.com/contact-sales) いただく必要があります。
 
-    - **使用法**: 本番環境での使用。
+    - **使用方法**: 本番使用向けです。
 
-- **非推奨通知:**
+- **廃止予告:** 
 
-    - **定義:** このフェーズの機能は、まだ機能しておりアクセス可能ですが、重大なバグ修正を除いて、活発な開発は行われていません。
+    - **定義:** このフェーズの機能はまだ動作しアクセス可能ですが、重要なバグ修正を除き、積極的な開発は行われていません。
 
-    - **アクセス**: まだ利用可能ですが、正式な非推奨通知がメールで発行されています。
+    - **アクセス**: まだ利用可能ですが、メールを通じて正式な廃止予告が発行されています。
 
-    - **使用法**: 将来的に機能が削除されるため、新しいソリューションへの移行を開始するために[当社の専門家にご相談ください](https://zilliz.com/contact-sales)。
+    - **使用方法**: 将来的に機能が削除されるため、新しいソリューションへの移行を開始するには [専門家にご相談ください](https://zilliz.com/contact-sales)。
 
-- **非推奨:**
+- **廃止済み:** 
 
-    - **定義:** この機能はZilliz Cloudから完全に削除され、アクセスもサポートもされなくなりました。
+    - **定義:** 機能は Zilliz Cloud から完全に削除され、アクセスもサポートもされていません。
 
     - **アクセス**: 利用不可。
 
-## 機能の可用性フェーズを特定する方法{#how-to-identify-a-features-availability-phase}
+## 機能の利用可能フェーズの識別方法\{#how-to-identify-a-features-availability-phase}
 
-各機能の可用性フェーズは、Zilliz Cloudドキュメントに該当するラベルで示されています。特に明記されていない限り、機能は一般提供（GA）と見なされます。
+各機能の利用可能フェーズは、Zilliz Cloud のドキュメントにおいて対応するラベルで示されます。特に記載がない限り、機能は一般提供中とみなされます。
 
-## 現在の機能の可用性{#current-feature-availability}
+## 現在の機能提供状況\{#current-feature-availability}
 
-### プライベートプレビュー{#private-preview}
-
-- [抽出、変換、ロード (ETL)](/reference/restful/merge-data-v2)
-
-- [ゼロダウンタイム移行](./zero-downtime-migration)
+### プライベートプレビュー\{#private-preview}
 
 - [バックアップファイルのエクスポート](./export-backup-files)
 
-- [ホスト型モデル](./hosted-models)
-
-- [グローバルクラスター](./global-cluster)
+- [ホストモデル](./hosted-models)
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>これらの機能へのアクセスをリクエストするには、<a href="http://support.zilliz.com">Zillizサポート</a>にお問い合わせください。</p>
+<p>これらの機能へのアクセスをリクエストするには、<a href="http://support.zilliz.com">Zilliz サポート</a> までご連絡ください。</p>
 
 </Admonition>
 
-### パブリックプレビュー{#public-preview}
+### パブリックプレビュー\{#public-preview}
 
-- [Embedding](./model-based-functions) および [Rerank](./reranking) 関数
+- [埋め込み](./model-based-functions) および [再ランキング](./reranking) 関数
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>これらの機能にアクセスするには、クラスターのMilvusバージョンをアップグレードしてください。</p>
+<p>これらの機能にアクセスするには、クラスターの Milvus バージョンをアップグレードしてください。</p>
 
 </Admonition>
 
-### 非推奨通知{#deprecation-notice}
+- [アクセスログ](./access-logs)
 
-- [NumPyファイルからのデータインポート](./data-import-numpy)
+- [オンデマンドコンピューティング](./compute-real-time-serving-and-on-demand-compute#on-demand-compute-or-public)
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>お住まいの地域でこの機能がサポートされていない場合は、<a href="http://support.zilliz.com">お問い合わせ</a> いただき、さらなる地域のサポートをご請求ください。</p>
+
+</Admonition>
+
+### 廃止予告\{#deprecation-notice}
+
+- [NumPy ファイルからのデータインポート](./data-import-numpy)
 
 - [RESTful API (V1)](/reference/restful/v1)
 
-### 非推奨{#deprecated}
+- [データのマージ](./merge-data)
+
+### 廃止済み\{#deprecated}
 
 - パイプライン
 

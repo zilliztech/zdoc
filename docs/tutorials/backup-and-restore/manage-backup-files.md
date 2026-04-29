@@ -1,11 +1,12 @@
 ---
 title: "Manage Backup Files | Cloud"
 slug: /manage-backup-files
+sidebar_key: manage-backup-files
 sidebar_label: "Manage Backup Files"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "This guide walks you through how to view, rename, and delete existing backup files. | Cloud"
 type: origin

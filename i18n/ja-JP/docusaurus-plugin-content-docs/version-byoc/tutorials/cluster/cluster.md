@@ -1,31 +1,28 @@
 ---
-title: "クラスター | BYOC"
+title: "Serving Cluster | BYOC"
 slug: /cluster
-sidebar_label: "クラスター"
+sidebar_key: cluster
+sidebar_label: "Serving Cluster"
 beta: FALSE
 notebook: FALSE
-description: "Zilliz Cloudでクラスターを管理するために必要なすべての情報です。 | BYOC"
+description: "Zilliz Cloud でサービングクラスターを管理するために必要なすべての情報。| BYOC"
 type: origin
 token: BIy4we6qXiq8NpkHfXgcxuONngb
-sidebar_position: 5
+sidebar_position: 6
 keywords: 
   - zilliz
   - ベクトルデータベース
   - クラウド
   - クラスター
-  - 最近傍探索
-  - LLM評価
-  - 疎ベクトル vs 密ベクトル
-  - 密ベクトル
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# クラスター
+# Serving Cluster
 
-Zilliz Cloud でのクラスター管理に関するすべての情報。
+Zilliz Cloud 上でサービングクラスターを管理するために必要なすべての情報。
 
 
 

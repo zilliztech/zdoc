@@ -1,11 +1,12 @@
 ---
 title: "View Platform Audit Logs | Cloud"
 slug: /view-activities
+sidebar_key: view-activities
 sidebar_label: "View Platform Audit Logs"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "The Zilliz Cloud Platform Audit Logs feature provides a comprehensive view of logs associated with a specific Zilliz Cloud organization, encompassing billing and  access logs. | Cloud"
 type: origin

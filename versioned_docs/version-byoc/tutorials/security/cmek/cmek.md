@@ -1,11 +1,12 @@
 ---
 title: "Customer-Managed Encryption Keys | BYOC"
 slug: /cmek
+sidebar_key: cmek
 sidebar_label: "CMEK"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "Zilliz Cloud encrypts data at rest on disk/object storage using the 256-bit Advanced Encryption Standard (AES-256) algorithm by default. For customers with the highest security requirements, Zilliz Cloud adds an additional layer of security by leveraging the customer's cloud provider's Key Management Service (KMS) in combination with Zilliz Cloud's Customer-Managed Encryption Key (CMEK) feature. | BYOC"
 type: origin

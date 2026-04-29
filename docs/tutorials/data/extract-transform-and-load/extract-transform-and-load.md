@@ -1,16 +1,17 @@
 ---
 title: "Extract, Transform, and Load | Cloud"
 slug: /extract-transform-and-load
+sidebar_key: extract-transform-and-load
 sidebar_label: "Extract, Transform, and Load"
-beta: PRIVATE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: PRIVATE
 notebook: FALSE
 description: "This chapter covers the common procedures for you to extract, transform, and load data from external data sources and use it with Zilliz Cloud. | Cloud"
 type: origin
 token: MC6xw7oHkimmnQkigODc5wjynwf
-sidebar_position: 7
+sidebar_position: 8
 keywords: 
   - zilliz
   - vector database

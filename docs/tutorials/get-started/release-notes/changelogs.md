@@ -1,13 +1,14 @@
 ---
 title: "Changelogs | Cloud"
 slug: /changelogs
+sidebar_key: changelogs
 sidebar_label: "Changelogs"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
-description: "Last updated Feb 9, 2026 | Cloud"
+description: "Last updated April 11, 2026 | Cloud"
 type: origin
 token: MUL3wkn7Yi3YoFkYk59csf8bnNc
 sidebar_position: 1
@@ -26,7 +27,7 @@ import Grid from '@site/src/components/Grid';
 
 # Changelogs
 
-**Last updated:** Feb 9, 2026
+**Last updated:** April 11, 2026
 
 <Grid columnSize="2" widthRatios="25,74">
 
@@ -38,15 +39,39 @@ import Grid from '@site/src/components/Grid';
 
     <div>
 
-        - Global cluster with many more enhancements.
-
-        - External volume will become available soon.
+        - Lakebase is on the way.
 
     </div>
 
 </Grid>
 
 ## 2026\{#2026}
+
+<Grid columnSize="2" widthRatios="25,74">
+
+    <div>
+
+        **[April](./release-notes-2604)[ 11, 2026](./release-notes-2604)**
+
+    </div>
+
+    <div>
+
+        - [🌎 Global cluster](./global-cluster-explained) now fully supports regional disaster recovery failure with refined platform capabilities.
+
+        - 📈 More fine-grained [metrics are available at the collection level](./metrics-alerts-reference#cluster-and-collection-metrics).
+
+        - 📋 [Access logs](./access-logs) are available in Public Preview.
+
+        - ⚙️ The [maintenance window](./organization-settings#set-up-preferred-maintenance-window) has been redesigned to provide more predictable upgrade scheduling and proactive notifications.
+
+        - 👥 A new [cluster admin](./project-users#cluster-admin) role grants team members operational access to specific clusters without full project-level admin privileges.
+
+        - 💾 Tiered storage becomes available to clusters in BYOC projects.
+
+    </div>
+
+</Grid>
 
 <Grid columnSize="2" widthRatios="25,74">
 
@@ -188,7 +213,7 @@ import Grid from '@site/src/components/Grid';
 
     <div>
 
-        - 📦  Stage has been renamed to [Volume](./volume-explained), and becomes GA
+        - 📦  Stage has been renamed to [Volume](null), and becomes GA
 
         - [🔐  Organization-level IP Whitelist](./setup-console-ip-allowlist) becomes available
 
@@ -218,7 +243,7 @@ import Grid from '@site/src/components/Grid';
 
         - ⏰  Customizing the [notification interval](./manage-project-alerts#alert-settings) to suppress repeated alerts.
 
-        - 🔧  The [dynamic field can be enabled for existing collections](./modify-collections#example-4-enable-dynamic-field) without collection recreations.
+        - 🔧  The [dynamic field can be enabled for existing collections](./modify-collections#example-5-enable-dynamic-field) without collection recreations.
 
         - 💳  Subscription plans have been shifted to the project level, while clusters have several deployment options. Read [Detailed Plan Comparison](./select-zilliz-cloud-service-plans) to find more.
 
@@ -308,7 +333,7 @@ import Grid from '@site/src/components/Grid';
 
         - [🔗  Merge data API](./merge-data) for schema evolution.
 
-        - [📦  Stage](./manage-stages) as a shared staging layer for migration and data import
+        - [📦  Stage](null) as a shared staging layer for migration and data import
 
         - [📅  Schedule-based cluster autoscaling](./scale-query-cu)
 
@@ -357,8 +382,6 @@ import Grid from '@site/src/components/Grid';
     </div>
 
     <div>
-
-        - [🔄  Zero-downtime migration](./zero-downtime-migration) becomes available
 
         - ⚙️  Instance settings and AWS PrivateLink support for BYOC projects
 

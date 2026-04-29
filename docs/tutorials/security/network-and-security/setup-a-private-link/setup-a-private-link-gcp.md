@@ -1,11 +1,12 @@
 ---
 title: "Set up a Private Service Connect (GCP) | Cloud"
 slug: /setup-a-private-link-gcp
+sidebar_key: setup-a-private-link-gcp
 sidebar_label: "Set up a Private Service Connect (GCP)"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "This guide demonstrates the procedure for setting up a private link from a Zilliz Cloud cluster to your service hosted in different GCP VPCs. | Cloud"
 type: origin

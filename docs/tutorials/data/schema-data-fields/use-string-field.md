@@ -1,11 +1,12 @@
 ---
 title: "String Field | Cloud"
 slug: /use-string-field
-sidebar_label: "String Field"
-beta: FALSE
+sidebar_key: use-string-field
+sidebar_label: "String"
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "In Zilliz Cloud clusters, `VARCHAR` is the data type used for storing string data. | Cloud"
 type: origin
@@ -75,9 +76,9 @@ schema = client.create_schema(
     enable_dynamic_fields=True,
 )
 
-# Add `varchar_field1` that supports null values with default value "Unknown"
+# Add \`varchar_field1\` that supports null values with default value "Unknown"
 schema.add_field(field_name="varchar_field1", datatype=DataType.VARCHAR, max_length=100, nullable=True, default_value="Unknown")
-# Add `varchar_field2` that supports null values without default value
+# Add \`varchar_field2\` that supports null values without default value
 schema.add_field(field_name="varchar_field2", datatype=DataType.VARCHAR, max_length=200, nullable=True)
 schema.add_field(field_name="pk", datatype=DataType.INT64, is_primary=True)
 schema.add_field(field_name="embedding", datatype=DataType.FLOAT_VECTOR, dim=3)
@@ -138,7 +139,7 @@ schema.addField(AddFieldReq.builder()
 import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
 
 const client = new MilvusClient({
-  address: `YOUR_CLUSTER_ENDPOINT`
+  address: \`YOUR_CLUSTER_ENDPOINT\`
 });
 
 const schema = [
@@ -281,14 +282,14 @@ The following example creates indexes on the vector field `embedding` and the sc
 
 index_params = client.prepare_index_params()
 
-# Index `varchar_field1` with AUTOINDEX
+# Index \`varchar_field1\` with AUTOINDEX
 index_params.add_index(
     field_name="varchar_field1",
     index_type="AUTOINDEX",
     index_name="varchar_index"
 )
 
-# Index `embedding` with AUTOINDEX and specify metric_type
+# Index \`embedding\` with AUTOINDEX and specify metric_type
 index_params.add_index(
     field_name="embedding",
     index_type="AUTOINDEX",  # Use automatic indexing to simplify complex index settings
@@ -465,10 +466,10 @@ After creating the collection, insert entities that match the schema.
 data = [
     {"varchar_field1": "Product A", "varchar_field2": "High quality product", "pk": 1, "embedding": [0.1, 0.2, 0.3]},
     {"varchar_field1": "Product B", "pk": 2, "embedding": [0.4, 0.5, 0.6]}, # varchar_field2 field is missing, which should be NULL
-    {"varchar_field1": None, "varchar_field2": None, "pk": 3, "embedding": [0.2, 0.3, 0.1]},  # `varchar_field1` should default to `Unknown`, `varchar_field2` is NULL
-    {"varchar_field1": "Product C", "varchar_field2": None, "pk": 4, "embedding": [0.5, 0.7, 0.2]},  # `varchar_field2` is NULL
-    {"varchar_field1": None, "varchar_field2": "Exclusive deal", "pk": 5, "embedding": [0.6, 0.4, 0.8]},  # `varchar_field1` should default to `Unknown`
-    {"varchar_field1": "Unknown", "varchar_field2": None, "pk": 6, "embedding": [0.8, 0.5, 0.3]},  # `varchar_field2` is NULL
+    {"varchar_field1": None, "varchar_field2": None, "pk": 3, "embedding": [0.2, 0.3, 0.1]},  # \`varchar_field1\` should default to \`Unknown\`, \`varchar_field2\` is NULL
+    {"varchar_field1": "Product C", "varchar_field2": None, "pk": 4, "embedding": [0.5, 0.7, 0.2]},  # \`varchar_field2\` is NULL
+    {"varchar_field1": None, "varchar_field2": "Exclusive deal", "pk": 5, "embedding": [0.6, 0.4, 0.8]},  # \`varchar_field1\` should default to \`Unknown\`
+    {"varchar_field1": "Unknown", "varchar_field2": None, "pk": 6, "embedding": [0.8, 0.5, 0.3]},  # \`varchar_field2\` is NULL
     {"varchar_field1": "", "varchar_field2": "Best seller", "pk": 7, "embedding": [0.8, 0.5, 0.3]}, # Empty string is not treated as NULL
 ]
 
@@ -607,7 +608,7 @@ To retrieve entities where the `varchar_field1` matches the string `"Product A"`
 <TabItem value='python'>
 
 ```python
-# Filter `varchar_field1` with value "Product A"
+# Filter \`varchar_field1\` with value "Product A"
 filter = 'varchar_field1 == "Product A"'
 
 res = client.query(
@@ -706,7 +707,7 @@ To retrieve entities where the `varchar_field2` is null:
 <TabItem value='python'>
 
 ```python
-# Filter entities where `varchar_field2` is null
+# Filter entities where \`varchar_field2\` is null
 filter = 'varchar_field2 is null'
 
 res = client.query(
@@ -805,7 +806,7 @@ To retrieve entities where `varchar_field1` has the value `"Unknown"`, use the f
 <TabItem value='python'>
 
 ```python
-# Filter entities with `varchar_field1` with value `Unknown`
+# Filter entities with \`varchar_field1\` with value \`Unknown\`
 filter = 'varchar_field1 == "Unknown"'
 
 res = client.query(
@@ -907,7 +908,7 @@ In addition to basic scalar field filtering, you can combine vector similarity s
 ```python
 # Search with string filtering
 
-# Filter `varchar_field2` with value "Best seller"
+# Filter \`varchar_field2\` with value "Best seller"
 filter = 'varchar_field2 == "Best seller"'
 
 res = client.search(

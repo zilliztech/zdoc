@@ -1,16 +1,17 @@
 ---
 title: "Release Notes (Dec 26, 2024) | Cloud"
 slug: /release-notes-2120
+sidebar_key: release-notes-2120
 sidebar_label: "December 26, 2024"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "With this release, Zilliz Cloud introduces significant enhancements to improve security, performance, and usability across its BYOC solution. A global mmap strategy is now implemented, offering customizable configurations at both the field and index levels, which enables increased collection capacity while maintaining search performance. Building on Milvus, Zilliz Cloud now supports database creation within clusters and provides collection-level Role-Based Access Control (RBAC) for better data management and multi-tenancy. Additionally, search precision settings have been refined, and these are now coupled with recall rate estimation capabilities to help optimize search accuracy and performance effectively. | Cloud"
 type: origin
 token: OJVrwOiE4i3fFjk2J3NcneLznfh
-sidebar_position: 13
+sidebar_position: 14
 keywords: 
   - zilliz
   - vector database

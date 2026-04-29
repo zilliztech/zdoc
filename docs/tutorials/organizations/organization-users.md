@@ -1,11 +1,12 @@
 ---
 title: "Manage Organization Users | Cloud"
 slug: /organization-users
+sidebar_key: organization-users
 sidebar_label: "Organization Users"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "In Zilliz Cloud, an organization typically represents a company. You can invite employees to your organization and assign them roles based on their job functions. These roles determine the user's access to specific resources and the operations they can perform. For example, developers typically need access to data but do not require billing privileges. | Cloud"
 type: origin

@@ -1,16 +1,17 @@
 ---
 title: "Search | Cloud"
 slug: /search-query-get
+sidebar_key: search-query-get
 sidebar_label: "Search"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "Zilliz Cloud implements vector-based similarity searches and provides multiple optimizations to improve search efficiency and performance. In this chapter, you will learn the principles and tutorials of various vector search methods available on Zilliz Cloud. | Cloud"
 type: origin
 token: CSYrwhK4Gigk07kd6ufcNTGMnZf
-sidebar_position: 5
+sidebar_position: 6
 keywords: 
   - zilliz
   - vector database

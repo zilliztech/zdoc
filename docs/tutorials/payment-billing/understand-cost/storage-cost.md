@@ -1,16 +1,17 @@
 ---
 title: "Storage Cost | Cloud"
 slug: /storage-cost
+sidebar_key: storage-cost
 sidebar_label: "Storage"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "In Zilliz Cloud, storage costs are incurred when you store data or backup files, regardless of whether your cluster is running. | Cloud"
 type: origin
 token: PNj2w5fY9ifr82kbX8ucKgXAn0r
-sidebar_position: 3
+sidebar_position: 5
 keywords: 
   - zilliz
   - vector database
@@ -32,11 +33,23 @@ In Zilliz Cloud, storage costs are incurred when you store data or backup files,
 
 You will be billed for storage in the following scenarios:
 
-- Cluster data storage: raw data and indexes stored in your clusters. If your cluster type is tiered-storage, additional cold data access costs may incur.
+- [Real-time serving](./compute-real-time-serving-and-on-demand-compute#realtime-serving): data stored in your serving clusters.
+
+    - Data and indexes in your managed collections.
+
+    - Indexes in your external collections.
+
+    - If your serving cluster type is tiered-storage, additional cold data access costs may incur.
+
+- [On-demand](./compute-real-time-serving-and-on-demand-compute#on-demand-compute-or-public)[ compute](./compute-real-time-serving-and-on-demand-compute#on-demand-compute-or-public): data stored in your on-demand compute database.
+
+    - Data and indexes in your managed collections.
+
+    - Indexes in your external collections.
 
 - [Backup](./backup-and-restore) storage: backup files you create for disaster recovery.
 
-- [Volume](./volume-explained) storage: either structured data or collections of unstructured data files stored in a volume.
+- [Managed volume](./managed-volume) storage: either structured data or collections of unstructured data files stored in a volume.
 
 ## Cost calculation\{#cost-calculation}
 
@@ -72,7 +85,7 @@ Cold Data Access Cost =  Cold Data Access Unit Price x Cold Data Size
 
 The billing rules of cluster, volume storage is slightly different from backup storage and cold data access.
 
-- **Cluster Data and Volume Storage:** Billed hourly, minimum charge of 1 hour.
+- **Cluster Data, Volume, and on-demand compute database Storage:** Billed hourly, minimum charge of 1 hour.
 
 - **Backup Storage:** Billed daily, minimum charge of 1 day.
 
@@ -82,9 +95,9 @@ The billing rules of cluster, volume storage is slightly different from backup s
 
 The following are some examples to help you understand how storage costs are calculated.
 
-### Example 1: Cluster storage cost\{#example-1-cluster-storage-cost}
+### Example 1: Data storage cost\{#example-1-data-storage-cost}
 
-Suppose your cluster configuration is as follows:
+Suppose your serving cluster configuration is as follows:
 
 - **Cloud Provider & Region**: AWS us-east-1 (Virginia)
 
@@ -118,7 +131,7 @@ Due to the [billing rule](./storage-cost#billing-rules), any partial day is roun
 
 The total backup storage cost of the example cluster is  `$0.025 x 20 x 1.5 = $0.75`.
 
-### Example 3: Volume storage cost\{#example-3-volume-storage-cost}
+### Example 3: Managed volume storage cost\{#example-3-managed-volume-storage-cost}
 
 If you upload **10 GB** of data to a volume for import and keep it for **1 month**, with a unit price of **&#36;0.04/GB per month**, the cost is  `$0.04 × 10 × 1 = $0.40`.
 

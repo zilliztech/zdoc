@@ -1,16 +1,17 @@
 ---
 title: "August 2025 Release Notes | Cloud"
 slug: /release-notes-2508
+sidebar_key: release-notes-2508
 sidebar_label: "August, 2025"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "August 2025 Release Notes | Cloud"
 type: origin
 token: JNWZwEqkwiDmeSkVPBlc4hnanEe
-sidebar_position: 7
+sidebar_position: 8
 keywords: 
   - zilliz
   - vector database

@@ -1,11 +1,12 @@
 ---
 title: "Invoices | Cloud"
 slug: /view-invoice
+sidebar_key: view-invoice
 sidebar_label: "Invoices"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "Zilliz Cloud charges at the organization level. To access invoices, you must have either Organization Owner or Billing Admin permissions. | Cloud"
 type: origin

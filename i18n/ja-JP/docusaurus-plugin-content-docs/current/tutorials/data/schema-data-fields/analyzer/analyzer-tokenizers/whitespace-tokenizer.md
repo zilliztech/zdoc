@@ -1,26 +1,23 @@
 ---
-title: "Whitespace | Cloud"
+title: "空白 | Cloud"
 slug: /whitespace-tokenizer
-sidebar_label: "Whitespace"
+sidebar_key: whitespace-tokenizer
+sidebar_label: "空白"
 beta: FALSE
 notebook: FALSE
-description: "`whitespace` トークナイザーは、単語間にスペースがある場合にテキストを用語に分割します。 | Cloud"
+description: "`whitespace` トークナイザーは、単語間にスペースがあるたびにテキストを項に分割します。 | Cloud"
 type: origin
 token: F2QrwjFSziSUkJkyXzbcwovUnCg
 sidebar_position: 2
 keywords: 
   - zilliz
-  - ベクターデータベース
+  - ベクトルデータベース
   - cloud
   - collection
   - schema
   - analyzer
   - 組み込みトークナイザー
   - whitespace-tokenizer
-  - ベクター埋め込み
-  - ベクターストア
-  - オープンソース ベクターデータベース
-  - ベクターインデックス
 
 ---
 
@@ -32,9 +29,9 @@ import TabItem from '@theme/TabItem';
 
 `whitespace` トークナイザーは、単語間にスペースがあるたびにテキストを用語に分割します。
 
-## 設定{#configuration}
+## 設定\{#configuration}
 
-`whitespace` トークナイザーを使用してアナライザーを設定するには、`analyzer_params` で `tokenizer` を `whitespace` に設定します。
+`whitespace` トークナイザーを使用してアナライザーを設定するには、`analyzer_params` 内で `tokenizer` を `whitespace` に設定します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -56,7 +53,7 @@ analyzerParams.put("tokenizer", "whitespace");
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 const analyzer_params = {
@@ -66,7 +63,7 @@ const analyzer_params = {
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 analyzerParams = map[string]any{"tokenizer": "whitespace"}
@@ -74,7 +71,7 @@ analyzerParams = map[string]any{"tokenizer": "whitespace"}
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 # restful
@@ -86,7 +83,7 @@ analyzerParams='{
 </TabItem>
 </Tabs>
 
-空白区切りトークナイザーは、1つ以上のフィルターと連携して動作します。例えば、以下のコードは、`whitespace`トークナイザーと[`lowercase`](./lowercase-filter)[フィルター](./lowercase-filter)を使用するアナライザーを定義しています。
+ホワイトスペーストークナイザーは、1つ以上のフィルターと組み合わせて使用できます。たとえば、次のコードでは、`whitespace` トークナイザーと [`lowercase`](./lowercase-filter) フィルターを使用するアナライザーを定義しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -110,7 +107,7 @@ analyzerParams.put("filter", Collections.singletonList("lowercase"));
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 const analyzer_params = {
@@ -121,7 +118,7 @@ const analyzer_params = {
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 analyzerParams = map[string]any{"tokenizer": "whitespace", "filter": []any{"lowercase"}}
@@ -129,7 +126,7 @@ analyzerParams = map[string]any{"tokenizer": "whitespace", "filter": []any{"lowe
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 # restful
@@ -144,13 +141,13 @@ analyzerParams='{
 </TabItem>
 </Tabs>
 
-`analyzer_params` を定義した後、コレクションスキーマを定義する際に `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud は指定されたアナライザーを使用してそのフィールドのテキストを処理し、効率的なトークン化とフィルタリングを行うことができます。詳細については、[使用例](./analyzer-overview#example-use)を参照してください。
+`analyzer_params` を定義した後、コレクションスキーマを定義する際に `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud は指定されたアナライザーを使用してそのフィールド内のテキストを処理し、効率的なトークン化とフィルタリングを実現します。詳細については、[使用例](./analyzer-overview#example-use)を参照してください。
 
-## 例{#examples}
+## 例\{#examples}
 
-アナライザー設定をコレクションスキーマに適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
+コレクションスキーマにアナライザー設定を適用する前に、`run_analyzer` メソッドを使用してその動作を検証してください。
 
-### アナライザー設定{#analyzer-configuration}
+### アナライザー設定\{#analyzer-configuration}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -174,7 +171,7 @@ analyzerParams.put("filter", Collections.singletonList("lowercase"));
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 // javascript
@@ -182,7 +179,7 @@ analyzerParams.put("filter", Collections.singletonList("lowercase"));
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 analyzerParams = map[string]any{"tokenizer": "whitespace", "filter": []any{"lowercase"}}
@@ -190,7 +187,7 @@ analyzerParams = map[string]any{"tokenizer": "whitespace", "filter": []any{"lowe
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 # restful
@@ -199,7 +196,7 @@ analyzerParams = map[string]any{"tokenizer": "whitespace", "filter": []any{"lowe
 </TabItem>
 </Tabs>
 
-### `run_analyzer` を使用した検証 {#verification-using-runanalyzer}
+### `run_analyzer` を使用した検証\{#verification-using-runanalyzer}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -250,7 +247,7 @@ List<RunAnalyzerResp.AnalyzerResult> results = resp.getResults();
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 // javascript
@@ -258,7 +255,7 @@ List<RunAnalyzerResp.AnalyzerResult> results = resp.getResults();
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 import (
@@ -292,7 +289,7 @@ if err != nil {
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 # restful
@@ -301,7 +298,7 @@ if err != nil {
 </TabItem>
 </Tabs>
 
-### 期待される出力結果\{#expected-output}
+### 期待される出力\{#expected-output}
 
 ```plaintext
 ['the', 'milvus', 'vector', 'database', 'is', 'built', 'for', 'scale!']

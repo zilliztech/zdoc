@@ -1,16 +1,17 @@
 ---
 title: "Cost Optimization | Cloud"
 slug: /cost-optimization
+sidebar_key: cost-optimization
 sidebar_label: "Cost Optimization"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "As data scales and query volumes rise, cost control becomes critical. This guide systematically outlines cost optimization strategies for Zilliz Cloud across five dimensions deployment selection, index tuning, elastic scaling, discounts, and billing analysis. | Cloud"
 type: origin
 token: MYHwwhKtri4MMJku6BbcMjF4n1d
-sidebar_position: 0
+sidebar_position: 1
 keywords: 
   - zilliz
   - vector database
@@ -147,7 +148,7 @@ Choosing the right deployment method is your most impactful decision. Selecting 
 - **Compliance or existing Cloud Discounts (RI/SP)?**
 → **BYOC (Bring Your Own Cloud)**. Clusters run in your VPC, allowing you to leverage enterprise-level cloud discounts and meet data sovereignty requirements.
 
-### Recommendation: capacity-optimized—the best fit for most scenarios{#recommendation-capacity-optimizedthe-best-fit-for-most-scenarios}
+### Recommendation: capacity-optimized—the best fit for most scenarios\{#recommendation-capacity-optimizedthe-best-fit-for-most-scenarios}
 
 Capacity-optimized cluster is often misunderstood as just a "slower" version. In reality, it is Zilliz Cloud's most architecturally sophisticated product.
 
@@ -161,7 +162,7 @@ While traditional vector databases keep all indexes and raw data in memory, trad
 
 **Summary:** Performance-optimized option buys speed with hardware while capacity-optimized option buys efficiency with technology.
 
-### Project plans: Standard vs. Enterprise vs. Business Critical{#project-plans-standard-vs-enterprise-vs-business-critical}
+### Project plans: Standard vs. Enterprise vs. Business Critical\{#project-plans-standard-vs-enterprise-vs-business-critical}
 
 Zilliz Cloud offers several plans that affect features and scaling limits:
 
@@ -220,7 +221,7 @@ For details, see [Detailed Plan Comparison](./select-zilliz-cloud-service-plans)
 
 **Advice:** Start with **Standard**. Upgrade to **Enterprise** only when you need higher SLAs, Multi-AZ, or larger scale. Upgrades are seamless and require no data migration.
 
-### Common pitfalls{#common-pitfalls}
+### Common pitfalls\{#common-pitfalls}
 
 1. **Defaulting to performance-optimized cluster:** Many users budget based on performance-optimized clusters used during PoCs. However, capacity-optimized is not a "downgraded" version; it is a purpose-built architecture for cost-efficiency. It provides sufficient QPS for most scenarios at only 1/3 the cost of a performance-optimized cluster.
 
@@ -228,11 +229,11 @@ For details, see [Detailed Plan Comparison](./select-zilliz-cloud-service-plans)
 
 1. **Using Dedicated for Small Scales:** For small datasets or unstable traffic, Serverless (pay-per-use) is far more cost-effective than Dedicated. Avoid over-provisioning resources solely for the sake of "enterprise" appearances.
 
-## Index and storage optimization{#index-and-storage-optimization}
+## Index and storage optimization\{#index-and-storage-optimization}
 
 Once the mode is selected, tune parameters to maximize the utility of each CU.
 
-### Index build level: capacity vs. recall{#index-build-level-capacity-vs-recall}
+### Index build level: capacity vs. recall\{#index-build-level-capacity-vs-recall}
 
 The [`build_level`](./tune-index-build-level)[ parameter ](./tune-index-build-level)controls index precision and storage density. Reducing it can significantly increase the storage capacity of each CU for scenarios that don't require extreme recall.
 
@@ -310,7 +311,7 @@ The [`build_level`](./tune-index-build-level)[ parameter ](./tune-index-build-le
 
 </Admonition>
 
-### Search level: performance vs. cost{#search-level-performance-vs-cost}
+### Search level: performance vs. cost\{#search-level-performance-vs-cost}
 
 The [`level`](./tune-recall-rate)[ parameter](./tune-recall-rate) (1–10) controls search precision. 
 
@@ -322,7 +323,7 @@ The [`level`](./tune-recall-rate)[ parameter](./tune-recall-rate) (1–10) contr
 
 **Advice:** Measure recall using `enable_recall_calculation=true` and find the lowest level that meets your business requirements. Each level increase raises the computational resources consumed by search — in Serverless cluster, this directly translates to higher Read vCU costs; in Dedicated cluster, it means lower QPS supportable under the same CU allocation.
 
-### Mmap configuration: balancing memory and disk{#mmap-configuration-balancing-memory-and-disk}
+### Mmap configuration: balancing memory and disk\{#mmap-configuration-balancing-memory-and-disk}
 
 [Memory Mapping (mmap)](./use-mmap) offloads data from memory to disk.
 
@@ -361,11 +362,11 @@ The [`level`](./tune-recall-rate)[ parameter](./tune-recall-rate) (1–10) contr
 
 </Admonition>
 
-## Query optimization{#query-optimization}
+## Query optimization\{#query-optimization}
 
 Efficient queries reduce Read Unit (RU) costs for Serverless users and increase the QPS of Dedicated CUs.
 
-### Index scalar fields{#index-scalar-fields}
+### Index scalar fields\{#index-scalar-fields}
 
 Many users neglect [scalar indexing](./index-scalar-fields). Without it, filters (e.g., `category == "electronics"` or `timestamp > 1700000000`) trigger a **full collection scan**, which is extremely expensive. You can create indexes for frequently filtered scalar fields.
 
@@ -388,7 +389,7 @@ collection.create_index(
 
 - **Important:** For filtered vector searches on capacity-optimized clusters in particular, the presence or absence of a scalar index directly determines whether query latency is measured in milliseconds or seconds.
 
-### Select appropriate TopK{#select-appropriate-topk}
+### Select appropriate TopK\{#select-appropriate-topk}
 
 [TopK](./single-vector-search) directly affects compute and network overhead. 
 
@@ -431,7 +432,7 @@ collection.create_index(
 
 - **Large TopK:** Use [pagination](./single-vector-search#use-limit-and-offset) (`offset` + `limit`) or [iterators](./with-iterators) instead of returning massive result sets in one request.
 
-### Refine output fields{#refine-output-fields}
+### Refine output fields\{#refine-output-fields}
 
 By default, search returns all scalar fields as illustrated below.
 
@@ -458,7 +459,7 @@ For details, see [Use Output Fields](./single-vector-search#use-output-fields).
 
 - In Serverless mode, the amount of data returned directly affects Read vCU billing — reducing unnecessary fields is the simplest way to cut costs.
 
-### Utilize partition keys{#utilize-partition-keys}
+### Utilize partition keys\{#utilize-partition-keys}
 
 [Partition keys](./use-partition-key) automatically distribute data into partitions based on a scalar value, allowing searches to skip irrelevant data.
 
@@ -472,17 +473,15 @@ schema.add_field("tenant_id", DataType.VARCHAR, max_length=128, is_partition_key
 
 - **Multi-tenant SaaS:** Using `tenant_id` as the partition key ensures each tenant's queries scan only their own data partition, significantly improving both QPS and latency.
 
-- **Time series:** Using a date field as the partition key allows queries for the most recent 7 days to automatically skip historical partitions.
-
 - **Category filtering:** Using `category` as the partition key eliminates the need to scan the full dataset when searching within a specific category.
 
 **Performance gain:** Assuming 100 tenants with evenly distributed data, using a partition key reduces the scan volume per query by approximately 99%. Even with uneven distribution, scan volume is typically reduced by 50–90%.
 
-## Elastic scaling{#elastic-scaling}
+## Elastic scaling\{#elastic-scaling}
 
 The biggest cost trap with Dedicated clusters is "provisioning for peak load and running around the clock." Zilliz Cloud offers three scaling strategies to break this pattern.
 
-### Dynamic scaling{#dynamic-scaling}
+### Dynamic scaling\{#dynamic-scaling}
 
 Set a minimum and maximum CU value, and the system scales automatically based on real-time load.
 
@@ -494,7 +493,7 @@ Set a minimum and maximum CU value, and the system scales automatically based on
 
 For details, see [Dynamic Scaling](./scale-query-cu#dynamic-scaling).
 
-### Scheduled scaling{#scheduled-scaling}
+### Scheduled scaling\{#scheduled-scaling}
 
 Suited for workloads with predictable traffic patterns. Supports Basic mode (simple selectors) and Advanced mode (Unix cron expressions).
 
@@ -508,29 +507,29 @@ Suited for workloads with predictable traffic patterns. Supports Basic mode (sim
 
 For details, see [Scheduled Scaling](./scale-query-cu#scheduled-scaling).
 
-### Manual scaling{#manual-scaling}
+### Manual scaling\{#manual-scaling}
 
 Do not overlook the simplest option — when your workload enters a quiet period (e.g., between projects or during off-season), proactively reduce your CU configuration. Many users forget to scale down after a PoC and end up paying for weeks or even months of unnecessary capacity.
 
 For details, see [Manual Scaling](./scale-query-cu#manual-scaling).
 
-### Scaling constraints{#scaling-constraints}
+### Scaling constraints\{#scaling-constraints}
 
-- Query CU × Replica ≤ 256
+- Query CU × Replica ≤ 10,240
 
-- When Replica > 1, the cluster cannot scale below 8 CU
+- When Replica > 1, the cluster cannot scale below 12 CU
 
 - When scaling down, data volume must be below 80% of the new CU capacity
 
-- Below 8 CU, only Query CU can be adjusted; above 8 CU, Query CU and Replicas can be adjusted independently
+- Below 12 CU, only Query CU can be adjusted; above 12 CU, Query CU and Replicas can be adjusted independently
 
 **Recommendation:** Use dynamic scaling for unpredictable traffic; use scheduled scaling for regular traffic patterns. The two can be combined.
 
-## Get more credits and discounts{#get-more-credits-and-discounts}
+## Get more credits and discounts\{#get-more-credits-and-discounts}
 
 Beyond technical optimization, taking full advantage of Zilliz's promotional programs is equally important.
 
-### Credits{#credits}
+### Credits\{#credits}
 
 <table>
     <tr>
@@ -561,7 +560,7 @@ Beyond technical optimization, taking full advantage of Zilliz's promotional pro
 
 **Recommendation:** Add a payment method as soon as possible after your initial registration to extend the validity of your &#36;100 credits from 30 days to 1 year, giving you ample time for technical evaluation.
 
-### Dedicated programs{#dedicated-programs}
+### Dedicated programs\{#dedicated-programs}
 
 <table>
     <tr>
@@ -581,7 +580,7 @@ Beyond technical optimization, taking full advantage of Zilliz's promotional pro
     </tr>
 </table>
 
-### Enterprise customers{#enterprise-customers}
+### Enterprise customers\{#enterprise-customers}
 
 - **Contact sales for a custom quote:** Enterprise customers can receive discounts through annual subscriptions; [contact sales](https://zilliz.com/contact-sales) for specific pricing.
 
@@ -589,11 +588,11 @@ Beyond technical optimization, taking full advantage of Zilliz's promotional pro
 
 - **Advance pay:** Fund your account via [advance pay](./advance-pay). Deduction priority is: credits > advance pay > cloud marketplace subscriptions/credit cards. Suitable for organizations with budget management requirements.
 
-## Monitor usage page{#monitor-usage-page}
+## Monitor usage page\{#monitor-usage-page}
 
 Optimization is not a one-time effort. Zilliz Cloud provides multi-dimensional cost analysis tools to help you continuously track and optimize spending.
 
-### Visualized Cost Analysis{#visualized-cost-analysis}
+### Visualized Cost Analysis\{#visualized-cost-analysis}
 
 On the **Billing > Usage** page, you can break down your bill across five dimensions:
 
@@ -628,7 +627,7 @@ Multiple dimensions can be combined as filters. For example, selecting CU costs 
 
 For details, see [Analyze Cost](./analyze-cost).
 
-### RESTful API{#restful-api}
+### RESTful API\{#restful-api}
 
 The [Query Daily Usage](/reference/restful/query-daily-usage-v2) API provides usage data with up to 8 decimal places of precision and can be integrated programmatically into internal FinOps workflows to:
 
@@ -638,7 +637,7 @@ The [Query Daily Usage](/reference/restful/query-daily-usage-v2) API provides us
 
 - Set custom alerting rules
 
-### Usage alerts{#usage-alerts}
+### Usage alerts\{#usage-alerts}
 
 It is recommended to monitor [cost metrics](./metrics-alerts-reference#organization-level-metrics) and configure alert thresholds to catch abnormal spending early — particularly in the following scenarios:
 
@@ -648,7 +647,7 @@ It is recommended to monitor [cost metrics](./metrics-alerts-reference#organizat
 
 - When new team members may have created unnecessary resources
 
-## Cost optimization checklist{#cost-optimization-checklist}
+## Cost optimization checklist\{#cost-optimization-checklist}
 
 A checklist you can act on directly:
 
@@ -662,7 +661,7 @@ A checklist you can act on directly:
 
 **Billing Optimization**
 
-## Summary{#summary}
+## Summary\{#summary}
 
 Cost optimization on Zilliz Cloud is not about tuning a single parameter — it is a systems effort spanning selection, configuration, querying, operations, and billing. The highest-leverage optimizations are:
 

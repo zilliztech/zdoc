@@ -1,23 +1,20 @@
 ---
 title: "クイックスタート | BYOC"
 slug: /quick-start
+sidebar_key: quick-start
 sidebar_label: "クイックスタート"
 beta: FALSE
 notebook: FALSE
-description: "このガイドでは、Zilliz Cloud クラスターを使用して高性能なセマンティック検索に関連する操作を実行する方法を説明します。 | BYOC"
+description: "このガイドでは、Zilliz Cloud クラスターを使用して高性能なセマンティック検索に関連する操作を実行する方法を示します。| BYOC"
 type: origin
 token: GQN0wDCrni4n36kyeVQcF41Lned
-sidebar_position: 6
+sidebar_position: 8
 keywords: 
   - zilliz
   - ベクトルデータベース
   - クイックスタート
   - cloud
   - milvus
-  - rag llm アーキテクチャ
-  - プライベート llms
-  - nn search
-  - llm eval
 
 ---
 
@@ -27,45 +24,49 @@ import TabItem from '@theme/TabItem';
 
 # クイックスタート
 
-このガイドでは、Zilliz Cloud クラスターを使用して高性能セマンティック検索に関連する操作を実行する方法を説明します。
+このガイドでは、Zilliz Cloud クラスターを使用して高性能なセマンティック検索に関連する操作を実行する方法を示します。
 
-## 開始する前に{#before-you-start}
+## 始める前に\{#before-you-start}
 
-Zilliz Cloud は Bring-Your-Own-Cloud (BYOC) ソリューションを提供しており、組織は Zilliz Cloud のインフラストラクチャを使用する代わりに、独自のクラウドアカウントでアプリケーションとデータをホストできます。BYOC ソリューションの詳細については、[BYOC の概要](./byoc-intro)を参照してください。
+Zilliz Cloud は、Bring-Your-Own-Cloud (BYOC) ソリューションを提供しており、組織は Zilliz Cloud のインフラストラクチャを使用する代わりに、独自のクラウドアカウントでアプリケーションとデータをホストできます。BYOC ソリューションの詳細については、[BYOC の概要](./byoc-intro) をお読みください。
 
-次の図は、BYOC ソリューションの使用を開始する手順を示しています。
+次の図は、BYOC ソリューションの使用を開始するための手順を示しています。
 
 ![ChT3woJqYhkzj1bipPxcXNZrnbc](https://zdoc-images.s3.us-west-2.amazonaws.com/ChT3woJqYhkzj1bipPxcXNZrnbc.png)
 
-このクイックスタートに進む前に、以下を確認してください。
+このクイックスタートを進める前に、以下を確認してください。
 
-- Zilliz Cloud にアカウントを登録していること。
+- Zilliz Cloud にアカウントを登録済みであること。
 
-    手順については、[Zilliz Cloud への登録](./register-with-zilliz-cloud)を参照してください。
+    手順については、[Zilliz Cloud への登録](./register-with-zilliz-cloud) を参照してください。
 
-- Zilliz Cloud の営業担当者に連絡し、アカウントを提供していること。
+- Zilliz Cloud の営業担当者に連絡し、アカウント情報を提供済みであること。
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    <p>Zilliz BYOC は現在、<strong>一般提供</strong>されています。アクセスおよび実装の詳細については、<a href="https://zilliz.com/contact-sales">Zilliz Cloud の営業担当者</a>にお問い合わせください。</p>
+    <p>Zilliz BYOC は現在<strong>一般提供</strong>されています。アクセスおよび実装の詳細については、<a href="https://zilliz.com/contact-sales">Zilliz Cloud の営業担当者</a> までお問い合わせください。</p>
 
     </Admonition>
 
-- BYOC 組織でプロジェクトを作成し、プロジェクトのデータプレーンインフラストラクチャをデプロイしていること。
+- BYOC 組織内にプロジェクトを作成し、そのプロジェクトのデータプレーンインフラストラクチャをデプロイ済みであること。
 
-    Zilliz BYOC は Virtual Private Cloud (VPC) 内で動作するため、データプレーンコンポーネントのデプロイを開始する必要があります。データプレーンは、次のクラウドプロバイダーでホストされている VPC にデプロイできます。
+    Zilliz BYOC はお客様の Virtual プライベート Cloud (VPC) 内で動作するため、データプレーンコンポーネントのデプロイを開始する必要があります。以下のクラウドプロバイダーでホストされている VPC にデータプレーンをデプロイできます。
 
-    - [AWS への BYOC のデプロイ](./deploy-byoc-aws)
+    - [AWS での BYOC のデプロイ](./deploy-byoc-aws)
 
-    - [AWS への BYOC-I のデプロイ](./deploy-byoc-i-aws)
+    - [AWS での BYOC-I のデプロイ](./deploy-byoc-i-aws)
 
-    上記のクラウドプロバイダーが利用できない場合は、[Zilliz Cloud サポート](https://zilliz.com/contact-sales)にお問い合わせください。
+    - [GCP での BYOC のデプロイ](./deploy-byoc-gcp)
 
-以下の手順は、クラスターを既に作成し、API キーまたはクラスターの認証情報を取得し、好みの SDK をインストールしていることを前提としています。
+    お使いのクラウドプロバイダーが上記に該当しない場合は、[Zilliz Cloud サポート](https://zilliz.com/contact-sales) にお問い合わせください。
 
-## 接続の設定{#set-up-connection}
+- BYOC クラスターへの接続方法を決定済みであること。詳細については、[BYOC クラスターへの接続準備](./prepare-for-cluster-connection) を参照してください。
 
-クラスターの認証情報または API キーを取得したら、それを使用してクラスターに接続できます。
+以下の手順では、すでにクラスターを作成し、クラスターの認証情報を取得済みであり、希望する SDK をインストール済みであることを前提としています。
+
+## 接続の設定\{#set-up-connection}
+
+クラスターの認証情報を取得したら、それを使用してクラスターに接続できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -75,9 +76,9 @@ from pymilvus import MilvusClient, DataType
 
 CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT"
 TOKEN = "YOUR_CLUSTER_TOKEN" 
-# A valid token could be either
-# - An API key, or 
-# - A colon-joined cluster username and password, as in `user:pass`
+# A valid token could be 
+# 
+# - A colon-joined cluster username and password, as in \`user:pass\`
 
 # 1. Set up a Milvus client
 client = MilvusClient(
@@ -96,9 +97,9 @@ import io.milvus.v2.client.ConnectConfig;
 
 String CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT";
 String TOKEN = "YOUR_CLUSTER_TOKEN";
-// A valid token could be either
-// - An API key, or 
-// - A colon-joined cluster username and password, as in `user:pass`
+// A valid token could be 
+// 
+// - A colon-joined cluster username and password, as in \`user:pass\`
 
 // 1. Connect to Milvus server
 ConnectConfig connectConfig = ConnectConfig.builder()
@@ -111,7 +112,7 @@ MilvusClientV2 client = new MilvusClientV2(connectConfig);
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 import (
@@ -127,14 +128,14 @@ ctx, cancel := context.WithCancel(context.Background())
 defer cancel()
 
 milvusAddr := "YOUR_CLUSTER_ENDPOINT"
-APIKey := "YOUR_API_KEY"
-// Or you can use the cluster credentials to authenticate
-// Username := "YOUR_CLUSTER_USERNAME"
-// Password := "YOUR_CLUSTER_PASSWORD"
+token := "YOUR_CLUSTER_TOKEN"
+// A valid token could be 
+// 
+// - A colon-joined cluster username and password, as in \`user:pass\`
 
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: milvusAddr,
-    APIKey: APIKey
+    APIKey: token
 })
 if err != nil {
     fmt.Println(err.Error())
@@ -145,16 +146,16 @@ defer client.Close(ctx)
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 const { MilvusClient, DataType, sleep } = require("@zilliz/milvus2-sdk-node")
 
 const address = "YOUR_CLUSTER_ENDPOINT"
 const token = "YOUR_CLUSTER_TOKEN"
-// A valid token could be either
-// - An API key, or 
-// - A colon-joined cluster username and password, as in `user:pass`
+// A valid token could be 
+// 
+// - A colon-joined cluster username and password, as in \`user:pass\`
 
 // 1. Connect to the cluster
 const client = new MilvusClient({address, token})
@@ -162,24 +163,30 @@ const client = new MilvusClient({address, token})
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
 export CLUSTER_TOKEN="YOUR_CLUSTER_TOKEN"
-# A valid token could be either
-# - An API key, or 
-# - A colon-joined cluster username and password, as in `user:pass`
+# A valid token could be 
+# 
+# - A colon-joined cluster username and password, as in \`user:pass\`
 ```
 
 </TabItem>
 </Tabs>
 
-## コレクションの作成{#create-collection}
+<Admonition type="info" icon="📘" title="Notes">
 
-Zilliz Cloudでは、ベクトル埋め込みをコレクションに保存する必要があります。コレクションに保存されるすべてのベクトル埋め込みは、類似性を測定するための同じ次元と距離メトリックを共有します。
+<p>データプレーンの RESTful API エンドポイントを呼び出す際は、ターゲットクラスタのユーザー名とパスワードをコロンで区切った文字列（例：<code>username:password</code>）を認証トークンとして使用してください。</p>
 
-コレクションを作成するには、コレクション内の各フィールドの属性（名前、データ型、特定のフィールドの追加属性など）を定義する必要があります。さらに、検索パフォーマンスを高速化する必要があるフィールドにインデックスを作成する必要があります。ベクトルフィールドにはインデックスが必須であることに注意してください。
+</Admonition>
+
+## コレクションの作成\{#create-collection}
+
+Zilliz Cloud では、ベクトル埋め込みをコレクションに保存する必要があります。1 つのコレクションに保存されるすべてのベクトル埋め込みは、同じ次元数と類似性を測定するための距離計量を共有します。
+
+コレクションを作成するには、コレクション内の各フィールドの属性（名前、データ型、および特定のフィールドの追加属性など）を定義する必要があります。さらに、検索パフォーマンスの高速化が必要なフィールドにはインデックスを作成する必要があります。なお、ベクトルフィールドにはインデックスが必須です。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -279,7 +286,7 @@ client.createCollection(customizedSetupReq);
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 // add fields
@@ -290,7 +297,6 @@ schema := entity.NewSchema().WithDynamicFieldEnabled(true).
 // set index options
 indexOptions := []milvusclient.CreateIndexOption{
     milvusclient.NewCreateIndexOption(collectionName, "my_vector", index.NewAutoIndex(entity.COSINE)),
-    milvusclient.NewCreateIndexOption(collectionName, "my_id", index.NewAutoIndex(entity.COSINE)),
 }
 
 // create collection
@@ -305,7 +311,7 @@ fmt.Println("collection created")
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 // 3. Create a collection in customized setup mode
@@ -341,7 +347,7 @@ await client.createCollection({
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 COLLECTION_NAME="customized_setup"
@@ -379,44 +385,44 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-上記の設定では、コレクションの作成時に、スキーマやインデックスパラメータなど、コレクションのさまざまな側面を定義しました。
+上記の設定では、コレクションの作成時にスキーマやインデックスパラメータなど、コレクションのさまざまな側面を定義しています。
 
 - **スキーマ**
 
-    スキーマはコレクションの構造を定義します。上記で示したように、定義済みのフィールドを追加し、その属性を設定する以外に、以下を有効または無効にするオプションがあります。
+    スキーマはコレクションの構造を定義します。上記のように事前定義されたフィールドを追加してその属性を設定する以外にも、以下のオプションを有効または無効にできます。
 
-    - **Auto ID**
+    - **自動ID**
 
-        コレクションがプライマリフィールドを自動的にインクリメントするかどうか。
+        プライマリフィールドを自動的に増分させるかどうかを指定します。
 
-    - **Dynamic Field**
+    - **動的フィールド**
 
-        予約済みのJSONフィールド**$meta**を使用して、スキーマで定義されていないフィールドとその値を保存するかどうか。
+        スキーマで定義されていないフィールドとその値を格納するために、予約済み JSON フィールド **&#36;meta** を使用するかどうかを指定します。
 
-    スキーマの詳細については、[スキーマの説明](./schema-explained)を参照してください。
+    スキーマの詳細な説明については、[スキーマの説明](./schema-explained) を参照してください。
 
 - **インデックスパラメータ**
 
-    インデックスパラメータは、Zilliz Cloudがコレクション内のデータをどのように整理するかを決定します。**メトリックタイプ**と**インデックスタイプ**を設定することで、特定のインデックスをフィールドに割り当てることができます。
+    インデックスパラメータは、Zilliz Cloud がコレクション内でデータをどのように整理するかを決定します。**メトリックタイプ**と**インデックスタイプ**を設定することで、特定のフィールドにインデックスを割り当てることができます。
 
-    - ベクトルフィールドの場合、インデックスタイプとして**AUTOINDEX**を使用し、`metric_type`として**COSINE**、**L2**、または**IP**を使用できます。
+    - ベクトルフィールドの場合、インデックスタイプとして **AUTOINDEX** を使用し、`metric_type` として **COSINE**、**L2**、または **IP** を使用できます。
 
-    - スカラーフィールド（プライマリフィールドを含む）の場合、Zilliz Cloudは整数に**TRIE**を、文字列に**STL_SORT**を使用します。
+    - プライマリフィールドを含むスカラーフィールドの場合、Zilliz Cloud は整数に対して **TRIE** を、文字列に対して **STL_SORT** を使用します。
 
-    インデックスタイプに関する追加情報については、[AUTOINDEXの説明](./autoindex-explained)を参照してください。
+    インデックスタイプの詳細については、[AUTOINDEX の説明](./autoindex-explained) を参照してください。
 
 <Admonition type="info" icon="📘" title="Notes">
 
 <ul>
-<li><p>上記のコードスニペットで作成されたコレクションは自動的にロードされます。自動的にロードされるコレクションを作成したくない場合は、インデックスパラメータの設定をスキップしてください。詳細については、<a href="./manage-collections-sdks">コレクションの作成</a>を参照してください。</p></li>
-<li><p>RESTful APIを使用して作成されたコレクションは、常に自動的にロードされます。</p></li>
+<li><p>前述のコードスニペットで作成されたコレクションは自動的にロードされます。自動的にロードされるコレクションにしたくない場合は、インデックスパラメータの設定をスキップしてください。詳細については、<a href="./undefined">コレクションの作成</a> を参照してください。</p></li>
+<li><p>RESTful API を使用して作成されたコレクションは、常に自動的にロードされます。</p></li>
 </ul>
 
 </Admonition>
 
-## データの挿入{#insert-data}
+## データの挿入\{#insert-data}
 
-コレクションの準備ができたら、次のようにデータを追加できます。
+コレクションの準備が整ったら、以下のようにデータを追加できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -502,7 +508,7 @@ System.out.println(JSONObject.toJSON(res));
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 dynamicColumn := column.NewColumnString("color", []string{
@@ -533,7 +539,7 @@ if err != nil {
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 // 4. Insert data into the collection
@@ -564,7 +570,7 @@ console.log(res.insert_cnt)
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 curl -s --request POST \
@@ -612,26 +618,26 @@ curl -s --request POST \
 </TabItem>
 </Tabs>
 
-上記のコードに示すように、
+上記のコードに示されているように、
 
-- 挿入するデータは辞書のリストとして編成されており、各辞書はエンティティと呼ばれるデータレコードを表します。
+- 挿入するデータは辞書のリスト形式で構成され、各辞書が1つのデータレコード（エンティティ）を表します。
 
 - 各辞書には、スキーマで定義されていない **color** という名前のフィールドが含まれています。
 
-- 各辞書には、事前定義されたフィールドと動的フィールドの両方に対応するキーが含まれています。
+- 各辞書には、事前に定義されたフィールドおよび動的フィールドに対応するキーが含まれています。
 
 <Admonition type="info" icon="📘" title="Notes">
 
 <ul>
-<li><p>RESTful API を使用して作成された collection は AutoID が有効になっているため、挿入するデータではプライマリフィールドをスキップする必要があります。</p></li>
-<li><p>挿入操作は非同期であり、データ挿入直後に検索すると、結果セットが空になる可能性があります。これを避けるために、数秒待つことをお勧めします。</p></li>
+<li><p>RESTful API を使用して作成されたコレクションでは AutoID が有効になっているため、挿入するデータに主キー（primary field）を含めない必要があります。</p></li>
+<li><p>挿入操作は非同期で実行されるため、データ挿入直後に検索を行うと結果が空になる可能性があります。これを回避するには、数秒間待機することをお勧めします。</p></li>
 </ul>
 
 </Admonition>
 
-## 類似性検索{#similarity-search}
+## 類似性検索\{#similarity-search}
 
-1つ以上のベクトル埋め込みに基づいて類似性検索を実行できます。検索リクエストにフィルタリング条件を含めることで、類似性検索結果を強化することもできます。
+1つまたは複数のベクトル埋め込みに基づいて類似性検索を実行できます。また、検索リクエストにフィルタリング条件を含めることで、類似性検索の結果をさらに強化できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -719,7 +725,7 @@ System.out.println(JSONObject.toJSON(filteredVectorSearchRes));
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 queryVector := []float32{0.041732933, 0.013779674, -0.027564144, -0.013061441, 0.009748648}
@@ -751,7 +757,7 @@ for _, resultSet := range resultSets {
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 // 8. Search with a filter expression using schema-defined fields
@@ -776,7 +782,7 @@ console.log(res.results)
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 # 8. Conduct a single vector search
@@ -817,9 +823,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-出力は、検索されたエンティティを表す3つの辞書のサブリストで、それぞれにID、距離、および指定された出力フィールドが含まれます。
+出力は、検索されたエンティティを表す3つの辞書からなるサブリストであり、各辞書にはそのID、距離、および指定された出力フィールドが含まれます。
 
-フィルター式に動的フィールドを含めることもできます。次のコードスニペットでは、`color` はスキーマで定義されていないフィールドです。これらを `$meta` フィールドのキーとして `$meta["color"]` のように含めるか、スキーマで定義されたフィールドのように `color` と直接使用できます。
+フィルター式に動的フィールドを含めることもできます。以下のコードスニペットでは、`color` はスキーマで定義されていないフィールドです。このようなフィールドは、マジックフィールド `$meta` のキーとして `$meta["color"]` のように記述するか、スキーマ定義済みフィールドと同様に `color` のように直接使用できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -915,7 +921,7 @@ System.out.println(JSONObject.toJSON(customFilteredVectorSearchRes));
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 queryVector := []float32{0.041732933, 0.013779674, -0.027564144, -0.013061441, 0.009748648}
@@ -952,7 +958,7 @@ for _, resultSet := range resultSets {
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 // 9. Search with a filter expression using non-schema-defined fields
@@ -978,7 +984,7 @@ console.log(res.results)
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 # 9. Conduct a single vector search with filters and output fields
@@ -1021,11 +1027,11 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## エンティティの削除{#delete-entities}
+## エンティティの削除\{#delete-entities}
 
-Zilliz Cloudでは、IDとフィルターでエンティティを削除できます。
+Zilliz Cloud では、ID およびフィルターによるエンティティの削除が可能です。
 
-- **IDでエンティティを削除する。**
+- **ID によるエンティティの削除**
 
     <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
@@ -1070,7 +1076,7 @@ Zilliz Cloudでは、IDとフィルターでエンティティを削除できま
 
     </TabItem>
 
-    <TabItem value='go'>
+    <TabItem value='java'>
 
     ```go
     _, err = client.Delete(ctx, milvusclient.NewDeleteOption("quick_setup").
@@ -1083,7 +1089,7 @@ Zilliz Cloudでは、IDとフィルターでエンティティを削除できま
 
     </TabItem>
 
-    <TabItem value='javascript'>
+    <TabItem value='java'>
 
     ```javascript
     // 13. Delete entities by IDs
@@ -1103,7 +1109,7 @@ Zilliz Cloudでは、IDとフィルターでエンティティを削除できま
 
     </TabItem>
 
-    <TabItem value='bash'>
+    <TabItem value='java'>
 
     ```bash
     # 12. Delete entities by IDs
@@ -1166,7 +1172,7 @@ Zilliz Cloudでは、IDとフィルターでエンティティを削除できま
 
     </TabItem>
 
-    <TabItem value='go'>
+    <TabItem value='java'>
 
     ```go
     _, err = client.Delete(ctx, milvusclient.NewDeleteOption("custom_setup").
@@ -1179,7 +1185,7 @@ Zilliz Cloudでは、IDとフィルターでエンティティを削除できま
 
     </TabItem>
 
-    <TabItem value='javascript'>
+    <TabItem value='java'>
 
     ```javascript
     // 14. Delete entities by filter
@@ -1198,7 +1204,7 @@ Zilliz Cloudでは、IDとフィルターでエンティティを削除できま
 
     </TabItem>
 
-    <TabItem value='bash'>
+    <TabItem value='java'>
 
     ```bash
     # 12. Delete entities by IDs
@@ -1220,13 +1226,13 @@ Zilliz Cloudでは、IDとフィルターでエンティティを削除できま
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    <p>現在、RESTful APIの削除エンドポイントはフィルターをサポートしていません。</p>
+    <p>現在、RESTful API の delete エンドポイントはフィルターをサポートしていません。</p>
 
     </Admonition>
 
-## コレクションを削除する{#drop-the-collection}
+## Drop the collection\{#drop-the-collection}
 
-このガイドを終えたら、次のようにコレクションを削除できます。
+このガイドの手順が完了したら、以下のようにコレクションを削除できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -1265,7 +1271,7 @@ client.dropCollection(dropCustomizedSetupParam);
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 err = client.DropCollection(ctx, milvusclient.NewDropCollectionOption("custom_setup"))
@@ -1277,7 +1283,7 @@ if err != nil {
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 // 15. Drop the collection
@@ -1306,7 +1312,7 @@ console.log(res.error_code)
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 curl --request POST \
@@ -1335,25 +1341,25 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## まとめ{#recaps}
+## 再確認\{#recaps}
 
 - コレクションを作成する前に、スキーマを作成し、コレクション内のフィールドを定義する必要があります。
 
-- データ挿入プロセスには時間がかかる場合があります。データを挿入した後、類似性検索を実行する前に数秒待つことをお勧めします。
+- データ挿入プロセスが完了するまでに時間がかかる場合があります。データ挿入後、類似性検索を実行する前に数秒待機することを推奨します。
 
-- フィルター式は、検索リクエストとクエリリクエストの両方で使用できます。ただし、クエリリクエストでは必須です。
+- フィルター式は検索リクエストとクエリリクエストの両方で使用できますが、クエリリクエストでは必須です。
 
-## 次のステップ{#next-steps}
+## 次のステップ\{#next-steps}
 
-このクイックスタートガイドを確認した後、以下のトピックを探索できます。
+このクイックスタートガイドを確認した後は、以下のトピックを参照してください：
 
 - [コレクションの操作](./collection)
 
-- [データの挿入と削除](./insert-update-delete)
+- [データの挿入・削除](./insert-update-delete)
 
 - [データのインデックス作成](./manage-indexes)
 
-- [検索と再ランキング](./search-query-get)
+- [検索とリランキング](./search-query-get)
 
-- [データのインポートとエクスポート](./data-import-export)
+- [データのインポート・エクスポート](./data-import-export)
 

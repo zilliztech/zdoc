@@ -1,11 +1,12 @@
 ---
 title: "Weighted Ranker | BYOC"
 slug: /reranking-weighted-reranker
+sidebar_key: reranking-weighted-reranker
 sidebar_label: "Weighted Ranker"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "Weighted Ranker intelligently combines and prioritizes results from multiple search paths by assigning different importance weights to each. Similar to how a skilled chef balances multiple ingredients to create the perfect dish, Weighted Ranker balances different search results to deliver the most relevant combined outcomes. This approach is ideal when searching across multiple vector fields or modalities where certain fields should contribute more significantly to the final ranking than others. | BYOC"
 type: origin
@@ -361,7 +362,10 @@ Weighted Ranker is designed specifically for hybrid search operations that combi
 from pymilvus import MilvusClient, AnnSearchRequest
 
 # Connect to Milvus server
-milvus_client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
+milvus_client = MilvusClient(
+    uri="YOUR_CLUSTER_ENDPOINT",
+    token="YOUR_CLUSTER_TOKEN"
+)
 
 # Assume you have a collection setup
 
@@ -408,6 +412,7 @@ import io.milvus.v2.service.vector.request.data.FloatVec;
 
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
         .build());
         
 List<AnnSearchReq> searchRequests = new ArrayList<>();
@@ -439,7 +444,10 @@ SearchResp searchResp = client.hybridSearch(hybridSearchReq);
 ```javascript
 import { MilvusClient, FunctionType } from "@zilliz/milvus2-sdk-node";
 
-const milvusClient = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT" });
+const milvusClient = new MilvusClient({ 
+    address: "YOUR_CLUSTER_ENDPOINT",
+    token: "YOUR_CLUSTER_TOKEN"
+});
 
 const text_search = {
   data: ["modern dining table"],

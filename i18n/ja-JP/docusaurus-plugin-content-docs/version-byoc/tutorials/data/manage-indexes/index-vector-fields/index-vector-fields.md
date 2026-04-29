@@ -1,23 +1,20 @@
 ---
 title: "ベクトルフィールドのインデックス作成 | BYOC"
 slug: /index-vector-fields
-sidebar_label: "ベクトルフィールドのインデックス作成"
+sidebar_key: index-vector-fields
+sidebar_label: "ベクトルインデックス"
 beta: FALSE
 notebook: FALSE
-description: "このガイドでは、コレクション内のベクトルフィールドにインデックスを作成し、管理するための基本的な操作について説明します。 | BYOC"
+description: "このガイドでは、コレクション内のベクトルフィールドに対してインデックスを作成および管理するための基本操作について説明します。| BYOC"
 type: origin
 token: Qc0SwFomWiEXvMkDAH9cMAhlnIh
 sidebar_position: 1
 keywords: 
-  - Zilliz
+  - zilliz
   - ベクトルデータベース
-  - クラウド
+  - cloud
   - ベクトルフィールド
-  - インデックス
-  - ベクトル検索
-  - knnアルゴリズム
-  - HNSW
-  - 非構造化データとは
+  - index
 
 ---
 
@@ -25,27 +22,27 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# ベクトルフィールドのインデックス
+# ベクトルフィールドのインデックス作成
 
-このガイドでは、コレクション内のベクトルフィールドに対するインデックスの作成と管理に関する基本的な操作について説明します。
+このガイドでは、コレクション内のベクトルフィールドに対してインデックスを作成および管理するための基本操作について説明します。
 
-## 概要{#overview}
+## 概要\{#overview}
 
-インデックスファイルに保存されたメタデータを活用することで、Zilliz Cloudはデータを特殊な構造で整理し、検索やクエリ中に要求された情報を迅速に取得できるようにします。
+Zilliz Cloud は、インデックスファイルに格納されたメタデータを活用してデータを特殊な構造で整理し、検索やクエリ時に要求された情報の迅速な取得を可能にします。
 
-Zilliz Cloudは、効率的な類似性検索を可能にするために[AUTOINDEX](./autoindex-explained)を採用しています。また、ベクトル埋め込み間の距離を測定するために、**コサイン類似度** (COSINE)、**ユークリッド距離** (L2)、**内積** (IP)、**JACCARD**、**HAMMING** の[メトリックタイプ](./search-metrics-explained)も提供しています。ベクトルフィールドのタイプとメトリックの詳細については、[メトリックタイプ](./search-metrics-explained)と[スキーマの説明](./schema-explained)を参照してください。
+Zilliz Cloud は、効率的な類似度検索を実現するために [AUTOINDEX](./autoindex-explained) を採用しています。また、ベクトル埋め込み間の距離を測定するために、以下の [メトリックタイプ](./search-metrics-explained) を提供しています：**コサイン類似度** (COSINE)、**ユークリッド距離** (L2)、**内積** (IP)、**JACCARD**、および **HAMMING**。ベクトルフィールドのタイプとメトリックの詳細については、[メトリックタイプ](./search-metrics-explained) および [スキーマの説明](./schema-explained) を参照してください。
 
-頻繁にアクセスされるベクトルフィールドとスカラーフィールドの両方にインデックスを作成することをお勧めします。コレクションに複数のベクトルフィールドが含まれている場合は、各ベクトルフィールドに個別にインデックスを作成できます。
+頻繁にアクセスされるベクトルフィールドとスカラーフィールドの両方に対してインデックスを作成することを推奨します。コレクションに複数のベクトルフィールドが含まれている場合は、各ベクトルフィールドごとに個別にインデックスを作成できます。
 
-## 準備{#preparations}
+## 準備\{#preparations}
 
-[コレクションの作成](./manage-collections-sdks)で説明したように、Zilliz Cloudは、コレクション作成リクエストで次のいずれかの条件が指定されている場合、コレクションの作成時にインデックスを自動的に生成し、メモリにロードします。
+[コレクションの作成](./undefined) で説明されているように、コレクション作成リクエストで以下のいずれかの条件が指定されている場合、Zilliz Cloud はコレクション作成時に自動的にインデックスを生成し、メモリにロードします。
 
-- ベクトルフィールドの次元とメトリックタイプ、または
+- ベクトルフィールドの次元数とメトリックタイプ、または
 
 - スキーマとインデックスパラメータ。
 
-以下のコードスニペットは、Zilliz Cloudへの接続を確立し、インデックスパラメータを指定せずにコレクションを作成するために既存のコードを再利用しています。この場合、コレクションにはインデックスがなく、アンロードされたままになります。
+以下のコードスニペットは、既存のコードを流用して Zilliz Cloud への接続を確立し、インデックスパラメータを指定せずにコレクションを作成するものです。この場合、コレクションにはインデックスが存在せず、ロードされていない状態になります。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"}]}>
 <TabItem value='python'>
@@ -123,7 +120,7 @@ client.createCollection(customizedSetupReq);
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 // 1. Set up a Milvus Client
@@ -161,9 +158,9 @@ console.log(res.error_code)
 </TabItem>
 </Tabs>
 
-## コレクションのインデックス作成{#index-a-collection}
+## コレクションにインデックスを作成する\{#index-a-collection}
 
-コレクションのインデックスを作成するには、インデックスパラメータを設定し、`create_index()`を呼び出す必要があります。
+コレクションのインデックスを作成するには、インデックスパラメータを設定し、`create_index()` を呼び出します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"}]}>
 <TabItem value='python'>
@@ -225,7 +222,7 @@ client.createIndex(createIndexReq);
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 // 4. Set up index for the collection
@@ -249,15 +246,15 @@ console.log(res.error_code)
 </TabItem>
 </Tabs>
 
-上記のコードスニペットでは、インデックスタイプを`AUTOINDEX`、メトリックタイプを`COSINE`に設定してベクトルフィールドにインデックスを確立しました。さらに、インデックスタイプを`AUTOINDEX`に設定してスカラフィールドにインデックスを作成しました。インデックスタイプとメトリックタイプについて詳しく知るには、[AUTOINDEX Explained](./autoindex-explained)と[Metric Types](./search-metrics-explained)をお読みください。
+提供されたコードスニペットでは、ベクトルフィールドに対してインデックスを設定し、インデックスタイプを `AUTOINDEX`、メトリックタイプを `COSINE` にしています。さらに、スカラーフィールドにもインデックスタイプ `AUTOINDEX` を使用してインデックスを作成しています。インデックスタイプおよびメトリックタイプの詳細については、[AUTOINDEX Explained](./autoindex-explained) および [メトリックタイプs](./search-metrics-explained) を参照してください。
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>現在、コレクション内の各フィールドに対して1つのインデックスファイルのみを作成できます。</p>
+<p>現在、コレクション内の各フィールドに対して作成できるインデックスファイルは1つだけです。</p>
 
 </Admonition>
 
-## インデックスの詳細を確認する{#check-index-details}
+## インデックスの詳細を確認する\{#check-index-details}
 
 インデックスを作成したら、その詳細を確認できます。
 
@@ -339,7 +336,7 @@ System.out.println(JSONObject.toJSON(describeIndexResp));
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 // 5. Describe the index
@@ -380,15 +377,15 @@ console.log(JSON.stringify(res.index_descriptions, null, 2))
 </TabItem>
 </Tabs>
 
-特定のフィールドに作成されたインデックスファイルを確認し、このインデックスファイルを使用してインデックス付けされた行数の統計を収集できます。
+特定のフィールドに作成されたインデックスファイルを確認し、そのインデックスファイルを使用してインデックスされた行数の統計情報を収集できます。
 
-## インデックスを削除する{#drop-an-index}
+## Drop an index\{#drop-an-index}
 
-不要になったインデックスは、簡単に削除できます。
+インデックスが不要になった場合は、簡単に削除できます。
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>インデックスを削除する前に、まずリリースされていることを確認してください。</p>
+<p>インデックスを削除する前に、事前にリリース済みであることを確認してください。</p>
 
 </Admonition>
 
@@ -420,7 +417,7 @@ client.dropIndex(dropIndexReq);
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 // 6. Drop the index
@@ -440,9 +437,9 @@ console.log(res.error_code)
 </TabItem>
 </Tabs>
 
-## 高度な機能{#advanced-features}
+## 高度な機能\{#advanced-features}
 
-ベクトルインデックスに関する高度な機能もいくつかあります。
+ベクターインデックスに関して、他にもいくつかの高度な機能があります。
 
 
 

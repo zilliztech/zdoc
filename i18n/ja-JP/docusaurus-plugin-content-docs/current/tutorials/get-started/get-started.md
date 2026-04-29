@@ -1,31 +1,28 @@
 ---
-title: "Zilliz Cloud を始める | Cloud"
+title: "はじめに | Cloud"
 slug: /get-started
-sidebar_label: "始める"
+sidebar_key: get-started
+sidebar_label: "はじめに"
 beta: FALSE
 notebook: FALSE
-description: "この章では、Zilliz Cloud を始めるための資料を提供します。"
+description: "この章では、Zilliz Cloud を使い始めるための資料を提供します。| Cloud"
 type: origin
 token: BDOHwqlMDiei78kdUefcjSQUnEg
-sidebar_position: 2
+sidebar_position: 3
 keywords: 
   - zilliz
   - ベクトルデータベース
-  - 始める
+  - はじめに
   - milvus
-  - 密な埋め込み
-  - Faiss ベクトルデータベース
-  - Chroma ベクトルデータベース
-  - nlp 検索
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Zilliz Cloud を始める
+# はじめに
 
-この章では、Zilliz Cloud を始めるための資料を提供します。
+この章では、Zilliz Cloud を使い始めるための資料を提供します。
 
 
 

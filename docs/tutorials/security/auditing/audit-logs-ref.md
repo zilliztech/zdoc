@@ -1,11 +1,12 @@
 ---
 title: "VectorDB Audit Logs Reference | Cloud"
 slug: /audit-logs-ref
+sidebar_key: audit-logs-ref
 sidebar_label: "VectorDB Audit Logs Reference"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "On Zilliz Cloud, audit logs have the following syntax | Cloud"
 type: origin

@@ -1,22 +1,19 @@
 ---
 title: "クラスター認証情報 | BYOC"
 slug: /cluster-credentials
+sidebar_key: cluster-credentials
 sidebar_label: "クラスター認証情報"
 beta: FALSE
 notebook: FALSE
-description: "Zilliz Cloudは、トークンを使用してユーザーの身元を認証します。トークンは、クラスター認証情報またはAPIキーのいずれかです。このガイドでは、クラスター認証情報による認証について説明します。 | BYOC"
+description: "Zilliz Cloud はトークンを使用してユーザーの身元を認証します。トークンは、クラスター認証情報または API キーのいずれかです。このガイドでは、クラスター認証情報を使用した認証について説明します。| BYOC"
 type: origin
 token: YmsVwIzOBinv4OklCfmc2nyznAe
 sidebar_position: 3
 keywords: 
-  - Zilliz
-  - ベクターデータベース
-  - クラウド
+  - zilliz
+  - ベクトルデータベース
+  - cloud
   - クラスター認証情報
-  - ハイブリッドベクター検索
-  - 動画の重複排除
-  - 動画類似性検索
-  - ベクター検索
 
 ---
 
@@ -26,17 +23,17 @@ import TabItem from '@theme/TabItem';
 
 # クラスター認証情報
 
-Zilliz Cloudは、トークンを使用してユーザーの身元を認証します。トークンは、クラスター認証情報またはAPIキーのいずれかです。このガイドでは、クラスター認証情報による認証について説明します。
+Zilliz Cloud は、トークンを使用してユーザーの身元を認証します。トークンは、クラスター認証情報または API キーのいずれかです。このガイドでは、クラスター認証情報を使用した認証について説明します。
 
-クラスター認証情報は、ユーザー名とパスワードのペア（`user:password`）で構成され、クラスター操作のリクエストを認証および承認するために使用されます。
+クラスター認証情報は、ユーザー名とパスワードのペア（`user:password`）で構成され、クラスターとの対話に関するリクエストの認証と承認に使用されます。
 
-クラスターをセットアップする際、Zilliz Cloudは、`Admin`ロールを持つデフォルトのクラスターユーザー`db_admin`を作成し、クラスターへの完全なアクセスを許可します。デフォルトユーザーのパスワードは、クラスター作成時に一度だけ表示されるため、メモを取り、適切な場所に安全に保管することが重要です。
+クラスターのセットアップ時、Zilliz Cloud は `Admin` ロールを持つデフォルトのクラスターユーザー `db_admin` を作成し、クラスターへのフルアクセス権を付与します。デフォルトユーザーのパスワードはクラスター作成時に一度だけ表示されるため、メモを取り、適切な場所に安全に保管することが重要です。
 
-デフォルトの`db_admin`ユーザー以外にも、認証用のパスワードを持つクラスターユーザーを[作成](./cluster-users#create-a-cluster-user)できます。
+デフォルトの `db_admin` ユーザーに加え、認証用に対応するパスワードを持つ他のクラスターユーザーを [作成](./cluster-users#create-a-cluster-user) することもできます。
 
-## パスワードのリセット{#reset-password}
+## パスワードのリセット\{#reset-password}
 
-ユーザーのパスワードを忘れた場合や、漏洩した疑いがある場合は、パスワードをリセットできます。
+ユーザーのパスワードを忘れた場合、または漏洩した疑いがある場合は、パスワードをリセットできます。
 
 - **コンソールでユーザーパスワードをリセットする**
 
@@ -44,7 +41,7 @@ Zilliz Cloudは、トークンを使用してユーザーの身元を認証し�
 
 - **プログラムでユーザーパスワードをリセットする**
 
-    RESTful APIまたはSDKを使用して、プログラムでユーザーパスワードをリセットできます。
+    RESTful API または SDK を使用して、プログラムでユーザーパスワードをリセットできます。
 
     <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
@@ -78,7 +75,7 @@ Zilliz Cloudは、トークンを使用してユーザーの身元を認証し�
 
     </TabItem>
 
-    <TabItem value='javascript'>
+    <TabItem value='java'>
 
     ```javascript
     milvusClient.updateUser({
@@ -90,7 +87,7 @@ Zilliz Cloudは、トークンを使用してユーザーの身元を認証し�
 
     </TabItem>
 
-    <TabItem value='go'>
+    <TabItem value='java'>
 
     ```go
     import (
@@ -119,7 +116,7 @@ Zilliz Cloudは、トークンを使用してユーザーの身元を認証し�
 
     </TabItem>
 
-    <TabItem value='bash'>
+    <TabItem value='java'>
 
     ```bash
     curl --request POST \

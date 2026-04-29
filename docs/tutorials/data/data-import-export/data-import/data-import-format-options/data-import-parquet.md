@@ -1,11 +1,12 @@
 ---
 title: "Import from a Parquet File | Cloud"
 slug: /data-import-parquet
+sidebar_key: data-import-parquet
 sidebar_label: "Parquet (Recommended)"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "Apache Parquet is an open-source, column-oriented data file format designed for efficient data storage and retrieval. It offers high-performance compression and encoding schemes to manage complex data in bulk and is supported in various programming languages and analytics tools tools. | Cloud"
 type: origin

@@ -1,10 +1,11 @@
 ---
 title: "クラスターの作成 | BYOC"
 slug: /create-cluster
+sidebar_key: create-cluster
 sidebar_label: "クラスターの作成"
 beta: FALSE
 notebook: FALSE
-description: "このトピックでは、クラスターを作成する方法について説明します。 | BYOC"
+description: "このトピックでは、クラスターを作成する方法について説明します。| BYOC"
 type: origin
 token: KrbjwFhy3iojF3k97XmcvvXMnW7
 sidebar_position: 1
@@ -14,10 +15,6 @@ keywords:
   - クラウド
   - クラスター
   - 作成
-  - 動画検索
-  - AIの幻覚
-  - AIエージェント
-  - セマンティック検索
 
 ---
 
@@ -27,23 +24,23 @@ import TabItem from '@theme/TabItem';
 
 # クラスターの作成
 
-このトピックでは、クラスターの作成方法について説明します。
+このトピックでは、クラスターを作成する方法について説明します。
 
-## 前提条件{#prerequisites}
+## 前提条件\{#prerequisites}
 
-以下を確認してください。
+次のことを確認してください。
 
-- BYOC プロジェクト。手順については、[AWS への BYOC のデプロイ](./deploy-byoc-aws)を参照してください。
+- BYOC プロジェクトがあること。手順については、[AWS への BYOC のデプロイ](./deploy-byoc-aws) を参照してください。
 
-- クラスターを確立する組織またはプロジェクトの所有権。ロールと権限の詳細については、[アクセス制御](./access-control)を参照してください。
+- クラスターを構築する組織またはプロジェクトの所有権があること。ロールと権限の詳細については、[アクセス制御](./access-control) を参照してください。
 
-## クラスターの作成{#create-a-cluster}
+## クラスターの作成\{#create-a-cluster}
 
 <Tabs groupId="cluster" defaultValue="Cloud Console" values={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"cURL","value":"Bash"}]}>
 
 <TabItem value="Cloud Console">
 
-1. [Zilliz Cloud コンソール](https://cloud.zilliz.com/login)にログインします。
+1. [Zilliz Cloud コンソール](https://cloud.zilliz.com/login) にログインします。
 
 1. 目的の組織とプロジェクトを入力します。
 
@@ -55,33 +52,33 @@ import TabItem from '@theme/TabItem';
 
     ![cluster-cluster-byoc](https://zdoc-images.s3.us-west-2.amazonaws.com/cluster-cluster-byoc.png "cluster-cluster-byoc")
 
-    - **Cluster Name**: クラスターの一意の識別子を割り当てます。
+    - **クラスター名**: クラスターの一意の識別子を割り当てます。
 
-    - **Cluster Settings**:
+    - **クラスター設定**:
 
-        - **Cluster Type**: クラスターのパフォーマンス要件に合ったクラスタータイプを選択します。詳細については、[適切な CU の選択](./cu-types-explained)を参照してください。
+        - **クラスタータイプ**: クラスターのパフォーマンス要件に合致するクラスタータイプを選択します。詳細については、[適切な CU の選択](./cu-types-explained) を参照してください。
 
-        - **Query CU**: クラスターのクエリ CU の数を選択します。
+        - **Query CU**: クラスターのクエリ CU 数を選択します。
 
-        - **Topology**: クラスターの構造を示すグラフィカルな表現。これには、さまざまなノードのロールとコンピューティングリソースの指定が含まれます。
+        - **トポロジー**: クラスターの構造を示すグラフィカル表現です。これには、さまざまなノードに対するロールと計算リソースの指定が含まれます。
 
-            - **Proxy**: ユーザー接続を管理し、ロードバランサーでサービスアドレスを合理化するステートレスノード。
+            - **プロキシ**: ユーザー接続を管理し、ロードバランサーを介してサービスアドレスを効率化するステートレスノードです。
 
-            - **Query Node**: ハイブリッドベクトル検索とスカラー検索、および増分データ更新を担当します。
+            - **Query Node**: ハイブリッドベクトル検索およびスカラー検索、ならびに増分データ更新を担当します。
 
-            - **Coordinator**: オーケストレーションセンターであり、ワーカーノード全体にタスクを分散します。
+            - **コーディネーター**: オーケストレーションセンターであり、タスクをワーカーノード全体に分散します。
 
-            - **Data Node**: データ変更と永続性のためのログからスナップショットへの変換を処理します。
+            - **データ Node**: 永続化のためのデータ変更とログからスナップショットへの変換を処理します。
 
-    - (オプション) **Backup Policy**: 作成するクラスターのバックアップ頻度を決定します。Zilliz Cloud は、クラスターが作成された直後にバックアップを作成します。その後のバックアップは、指定されたスケジュールに従います。
+    - (オプション) **Backup Policy**: 作成するクラスターのバックアップ頻度を決定します。Zilliz Cloud は、クラスター作成直後にバックアップを作成します。その後のバックアップは、指定されたスケジュールに従って実行されます。
 
 1. **Create Cluster** をクリックします。
 
-    プロジェクトのリソースクォータを確認するよう求められます。リソースが十分な場合、確認が完了するとダイアログボックスは消えます。そうでない場合は、次のことができます。
+    プロジェクトのリソース割当量を確認するよう促されます。リソースが十分であれば、チェック完了後にダイアログボックスが消えます。そうでない場合は、次のいずれかを行います。
 
-    - **Go To Project Resource Settings** をクリックして、プロジェクトのリソース設定を編集するか、
+    - **Go To Project リソース設定** をクリックして、プロジェクトのリソース設定を編集する、または
 
-    - **Back to Last Step** をクリックして、クラスター設定を変更します。
+    - **前のステップに戻る** をクリックして、クラスター設定を変更する。
 
     ![ZHZqbofKioaBqNxkeSYcXgtnnwc](https://zdoc-images.s3.us-west-2.amazonaws.com/zhzqbofkioabqnxkesycxgtnnwc.png "ZHZqbofKioaBqNxkeSYcXgtnnwc")
 
@@ -91,15 +88,15 @@ import TabItem from '@theme/TabItem';
 
     </Admonition>
 
-    その後、クラスターアクセス用のパブリックエンドポイントとトークンを示すダイアログにリダイレクトされます。これらの詳細は安全に保管してください。
+    その後、クラスターアクセス用のパブリックエンドポイントとトークンを表示するダイアログにリダイレクトされます。これらの詳細を安全に保管してください。
 
 </TabItem>
 
 <TabItem value="Bash">
 
-リクエストは次の例のようになります。`{API_KEY}` は認証に使用される API キーです。
+リクエストは以下の例のようになります。ここで、`{API_KEY}` は認証に使用される API キーです。
 
-次の `POST` リクエストは、リクエストボディを受け取り、1 つのクエリ [CU](./cu-types-explained) を持つ `cluster-02` という名前のパフォーマンス最適化されたクラスターを作成します。
+以下の `POST` リクエストはリクエストボディを受け取り、1 つのクエリ [CU](./cu-types-explained) を持つ `cluster-02` という名前の パフォーマンス最適化済み クラスターを作成します。
 
 ```bash
 curl --request POST \
@@ -127,23 +124,28 @@ curl --request POST \
 # }
 ```
 
-上記のコマンドでは、
+上記のコマンドにおいて、
 
-- `{API_KEY}`: API リクエストの認証に使用される認証情報。値を自分のものに置き換えてください。
+- `{API_KEY}`: API リクエストの認証に使用される資格情報。この値を独自の値に置き換えてください。
 
 - `clusterName`: 作成するクラスターの名前。
 
-- `projectId`: クラスターを作成するプロジェクトの ID。プロジェクト ID を一覧表示するには、[List Projects](/reference/restful/list-projects-v2) 操作を呼び出します。
+- `projectId`: クラスターを作成するプロジェクトの ID。プロジェクト ID を一覧表示するには、[プロジェクトの一覧表示](/reference/restful/list-projects-v2) オペレーションを呼び出します。
 
-- `regionId`: クラスターを作成するクラウドリージョンの ID。利用可能なクラウドリージョン ID を取得するには、[List Cloud Regions](/reference/restful/list-cloud-regions-v2) 操作を呼び出します。
+- `regionId`: クラスターを作成するクラウドリージョンの ID。利用可能なクラウドリージョン ID を取得するには、[クラウドリージョンの一覧表示](/reference/restful/list-cloud-regions-v2) オペレーションを呼び出します。
 
-- `cuType`: クラスターのタイプ。有効な値: Performance-optimized、Capacity-optimized。
+- `cuType`: クラスターのタイプ。有効な値: パフォーマンス最適化済み, 容量最適化済み。
 
 - `cuSize`: クラスターに使用されるクエリ CU の数。値の範囲: 1 から 256。
 
-詳細については、[Create Dedicated Cluster](/reference/restful/create-dedicated-cluster-v2) を参照してください。
+詳細については、[専用クラスターの作成](/reference/restful/create-dedicated-cluster-v2) を参照してください。
 
 </TabItem>
 
 </Tabs>
 
+## FAQ\{#faq}
+
+**クラスター作成時に Milvus のバージョンを指定できますか？**
+
+いいえ。Zilliz Cloud は、サポートされている最新の Milvus バージョンでクラスターを自動的にプロビジョニングし、管理されたローリングアップグレードを通じて最新の状態に保ちます。特定のバージョンが必要な場合は、[サポートにお問い合わせ](https://support.zilliz.com/hc/en-us/requests/new) いただき、ユースケースをご説明ください。

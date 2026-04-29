@@ -1,22 +1,19 @@
 ---
 title: "移行 | BYOC"
 slug: /migrations
+sidebar_key: migrations
 sidebar_label: "移行"
 beta: FALSE
 notebook: FALSE
-description: "Zilliz Cloudは、Milvus、Elasticsearch、PostgreSQLなどの外部ソースからの移行オプションや、同じ組織内または異なる組織間のクラスター間移行を提供し、効率的なデータ統合と管理を可能にします。 | BYOC"
+description: "Zilliz Cloud は、Milvus、Elasticsearch、PostgreSQL などの外部ソースからの移行や、同一または異なる組織間でのクラスター間移行を提供し、効率的なデータ統合と管理を実現します。| BYOC"
 type: origin
 token: IeNswy8ySiutKAkdphRc4lfynsf
-sidebar_position: 7
+sidebar_position: 9
 keywords: 
   - zilliz
   - ベクトルデータベース
-  - クラウド
+  - cloud
   - 移行
-  - 密な埋め込み
-  - Faiss ベクトルデータベース
-  - Chroma ベクトルデータベース
-  - nlp 検索
 
 ---
 
@@ -25,7 +22,7 @@ import Admonition from '@theme/Admonition';
 
 # 移行
 
-Zilliz Cloud は、Milvus、Elasticsearch、PostgreSQL などの外部ソースからの移行オプションや、同じ組織内または異なる組織間のクラスター間移行を提供し、効率的なデータ統合と管理を可能にします。
+Zilliz Cloud は、Milvus、Elasticsearch、PostgreSQL などの外部ソースからの移行オプションや、同一または異なる組織間でのクラスター間移行を提供し、効率的なデータ統合と管理を実現します。
 
 
 

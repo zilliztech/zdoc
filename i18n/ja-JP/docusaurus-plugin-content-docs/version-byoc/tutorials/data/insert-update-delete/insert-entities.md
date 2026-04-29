@@ -1,25 +1,22 @@
 ---
 title: "エンティティの挿入 | BYOC"
 slug: /insert-entities
-sidebar_label: "エンティティの挿入"
+sidebar_key: insert-entities
+sidebar_label: "挿入"
 beta: FALSE
 notebook: FALSE
-description: "collection内のエンティティは、同じフィールドセットを共有するデータレコードです。各データレコードのフィールド値がエンティティを形成します。このページでは、collectionにエンティティを挿入する方法について説明します。 | BYOC"
+description: "コレクション内のエンティティとは、同じフィールドセットを共有するデータレコードのことです。各データレコードのフィールド値の集合が 1 つのエンティティを構成します。このページでは、コレクションにエンティティを挿入する方法について説明します。 | BYOC"
 type: origin
 token: L5jawEj7FiBXWZkGhLgcQCWQnDd
 sidebar_position: 1
 keywords: 
   - zilliz
   - ベクトルデータベース
-  - クラウド
+  - cloud
   - collection
-  - データ
-  - 挿入
-  - エンティティの挿入
-  - milvus
-  - Zilliz
-  - milvus ベクトルデータベース
-  - milvus db
+  - data
+  - insert
+  - insert entities
 
 ---
 
@@ -29,29 +26,29 @@ import TabItem from '@theme/TabItem';
 
 # エンティティの挿入
 
-コレクション内のエンティティは、同じフィールドセットを共有するデータレコードです。すべてのデータレコードのフィールド値がエンティティを形成します。このページでは、エンティティをコレクションに挿入する方法について説明します。
+コレクション内のエンティティとは、同じフィールドセットを共有するデータレコードです。各データレコードのフィールド値がまとまって1つのエンティティを構成します。このページでは、コレクションにエンティティを挿入する方法を紹介します。
 
 <Admonition type="info" icon="📘" title="Notes">
 
 <ul>
-<li><strong>重複処理</strong>: 標準の <code>insert</code> 操作では、重複する主キーはチェックされません。既存の主キーを持つデータを挿入すると、同じキーを持つ新しいエンティティが作成され、データの重複や潜在的なアプリケーションの問題につながります。既存のエンティティを更新したり、重複を回避したりするには、代わりに <code>upsert</code> 操作を使用してください。詳細については、<a href="./upsert-entities">エンティティのアップサート</a>を参照してください。</li>
+<li><strong>重複処理</strong>: 標準の <code>insert</code> 操作は、主キーの重複をチェックしません。既存の主キーを持つデータを挿入すると、同じキーを持つ新しいエンティティが作成され、データの重複やアプリケーション上の問題を引き起こす可能性があります。既存のエンティティを更新したり、重複を回避したりするには、代わりに <code>upsert</code> 操作を使用してください。詳細については、<a href="./upsert-entities">Upsert Entities</a> を参照してください。</li>
 </ul>
 
 </Admonition>
 
-## 概要{#overview}
+## 概要\{#overview}
 
-Zilliz Cloud クラスターでは、**エンティティ**は、同じ**スキーマ**を共有する**コレクション**内のデータレコードを指し、行の各フィールドのデータがエンティティを構成します。したがって、同じコレクション内のエンティティは、同じ属性（フィールド名、データ型、その他の制約など）を持ちます。
+Zilliz Cloud クラスターにおいて、**エンティティ**（Entity）とは、同じ **スキーマ**（Schema）を共有する **コレクション**（Collection）内のデータレコードを指します。各行の各フィールドに含まれるデータがまとまって1つのエンティティを構成します。したがって、同一コレクション内のエンティティはすべて同じ属性（フィールド名、データ型、その他の制約など）を持ちます。
 
-エンティティをコレクションに挿入する場合、挿入されるエンティティは、スキーマで定義されているすべてのフィールドが含まれている場合にのみ正常に追加できます。挿入されたエンティティは、挿入順に**_default**という名前のパーティションに入ります。特定のパーティションが存在する場合、挿入リクエストでパーティション名を指定することで、そのパーティションにエンティティを挿入することもできます。
+コレクションにエンティティを挿入する際、挿入対象のエンティティがスキーマで定義されたすべてのフィールドを含んでいる場合にのみ、正常に追加されます。挿入されたエンティティは、挿入順に従って **_default** という名前のパーティションに入ります。特定のパーティションが存在する場合は、挿入リクエスト内でそのパーティション名を指定することで、そのパーティションにエンティティを挿入することも可能です。
 
-Zilliz Cloud は、コレクションのスケーラビリティを維持するために動的フィールドもサポートしています。動的フィールドが有効になっている場合、スキーマで定義されていないフィールドをコレクションに挿入できます。これらのフィールドと値は、**$meta**という名前の予約済みフィールドにキーと値のペアとして保存されます。動的フィールドの詳細については、動的フィールドを参照してください。
+Zilliz Cloud は、コレクションのスケーラビリティを維持するために動的フィールド（dynamic fields）もサポートしています。動的フィールドが有効になっている場合、スキーマで定義されていないフィールドもコレクションに挿入できます。これらのフィールドとその値は、**$meta** という名前の予約済みフィールド内にキー・バリュー・ペアとして格納されます。動的フィールドの詳細については、「Dynamic Field」をご参照ください。
 
-## コレクションへのエンティティの挿入{#insert-entities-into-a-collection}
+## コレクションへのエンティティの挿入\{#insert-entities-into-a-collection}
 
-データを挿入する前に、スキーマに従ってデータを辞書のリストに整理する必要があります。各辞書はエンティティを表し、スキーマで定義されているすべてのフィールドを含みます。コレクションで動的フィールドが有効になっている場合、各辞書にはスキーマで定義されていないフィールドを含めることもできます。
+データを挿入する前に、スキーマに従ってデータを辞書のリスト形式に整理する必要があります。ここで、各辞書が1つのエンティティを表し、スキーマで定義されたすべてのフィールドを含んでいなければなりません。コレクションで動的フィールドが有効になっている場合、各辞書にはスキーマで定義されていないフィールドを含めることもできます。
 
-このセクションでは、クイックセットアップ方式で作成されたコレクションにエンティティを挿入します。この方法で作成されたコレクションには、**id**と**vector**という2つのフィールドしかありません。さらに、このコレクションでは動的フィールドが有効になっているため、例のコードのエンティティには、スキーマで定義されていない**color**というフィールドが含まれています。
+このセクションでは、クイックセットアップ方式で作成したコレクションにエンティティを挿入します。この方式で作成されたコレクションには **id** および **vector** という2つのフィールドしかありません。さらに、このコレクションでは動的フィールドが有効になっているため、例示コードのエンティティにはスキーマで定義されていない **color** というフィールドが含まれています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -136,7 +133,7 @@ System.out.println(insertResp);
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 const { MilvusClient, DataType } = require("@zilliz/milvus2-sdk-node")
@@ -175,7 +172,7 @@ console.log(res.insert_cnt)
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 import (
@@ -227,7 +224,7 @@ if err != nil {
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
@@ -276,9 +273,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## パーティションへのエンティティの挿入{#insert-entities-into-a-partition}
+## パーティションへのエンティティの挿入\{#insert-entities-into-a-partition}
 
-指定したパーティションにエンティティを挿入することもできます。以下のコードスニペットは、コレクションに**PartitionA**という名前のパーティションがあることを前提としています。
+指定したパーティションにエンティティを挿入することもできます。以下のコードスニペットは、コレクション内に **PartitionA** という名前のパーティションが存在することを前提としています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -352,7 +349,7 @@ System.out.println(insertResp);
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 const { MilvusClient, DataType } = require("@zilliz/milvus2-sdk-node")
@@ -389,7 +386,7 @@ console.log(res.insert_cnt)
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 dynamicColumn = column.NewColumnString("color", []string{
@@ -421,7 +418,7 @@ if err != nil {
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"

@@ -1,16 +1,17 @@
 ---
 title: "Import & Export | Cloud"
 slug: /data-import-export
+sidebar_key: data-import-export
 sidebar_label: "Import & Export"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "This chapter covers the common procedures for you to import data into and export data from Zilliz Cloud clusters. | Cloud"
 type: origin
 token: Oh3VwT15Yi03bRkOtoXcZpurnWe
-sidebar_position: 6
+sidebar_position: 7
 keywords: 
   - zilliz
   - vector database

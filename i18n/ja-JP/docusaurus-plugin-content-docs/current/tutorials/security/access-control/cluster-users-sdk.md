@@ -1,25 +1,22 @@
 ---
 title: "クラスターユーザーの管理 (SDK) | Cloud"
 slug: /cluster-users-sdk
+sidebar_key: cluster-users-sdk
 sidebar_label: "クラスターユーザーの管理 (SDK)"
 beta: FALSE
 notebook: FALSE
-description: "Zilliz Cloudでは、クラスターユーザーを作成し、クラスターロールを割り当てることで、権限を定義し、データセキュリティを実現できます。| Cloud"
+description: "Zilliz Cloud では、クラスターユーザーを作成し、クラスターロールを割り当てることで権限を定義し、データセキュリティを実現できます。| Cloud"
 type: origin
 token: I2CHwfDHKilTMukoZ13cR2M4nzb
 sidebar_position: 3
 keywords: 
   - zilliz
   - ベクトルデータベース
-  - クラウド
+  - cloud
   - クラスター
   - アクセス制御
   - rbac
   - ユーザー
-  - ベクトルデータベースとは
-  - vectordb
-  - マルチモーダルベクトルデータベース検索
-  - Retrieval Augmented Generation
 
 ---
 
@@ -29,17 +26,17 @@ import TabItem from '@theme/TabItem';
 
 # クラスターユーザーの管理 (SDK)
 
-Zilliz Cloudでは、クラスターユーザーを作成し、クラスターロールを割り当てることで、権限を定義し、データセキュリティを実現できます。
+Zilliz Cloud では、クラスターユーザーを作成し、クラスターロールを割り当てることで権限を定義し、データセキュリティを実現できます。
 
-このガイドでは、クラスターユーザーの作成方法、ユーザーへのロールの付与、ユーザーからのロールの取り消し、そしてユーザーの削除方法について説明します。クラスターロールの詳細については、[クラスターロールの管理 (コンソール)](./cluster-roles)を参照してください。
+このガイドでは、クラスターユーザーの作成、ユーザーへのロールの付与、ユーザーからのロールの剥奪、そして最終的にユーザーの削除を行う方法について説明します。クラスターロールの詳細については、[クラスターロールの管理 (コンソール)](./cluster-roles) を参照してください。
 
-## ユーザーの作成 {#create-a-user}
+## ユーザーの作成\{#create-a-user}
 
-以下の例は、ユーザー名 `user_1` とパスワード `P@ssw0rd` を持つユーザーを作成する方法を示しています。ユーザーのユーザー名とパスワードは、以下のルールに従う必要があります。
+以下の例は、ユーザー名 `user_1` とパスワード `P@ssw0rd` でユーザーを作成する方法を示しています。ユーザーのユーザー名とパスワードは、以下のルールに従う必要があります。
 
-- ユーザー名: 文字で始まり、大文字または小文字、数字、アンダースコアのみを含めることができます。
+- ユーザー名: 文字で始まる必要があり、大文字・小文字のアルファベット、数字、アンダースコアのみを含めることができます。
 
-- パスワード: 8～64文字の長さで、大文字、小文字、数字、特殊文字のうち3つを含める必要があります。
+- パスワード: 8〜64 文字である必要があり、大文字、小文字、数字、特殊文字のうち 3 つ以上を含む必要があります。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -81,7 +78,7 @@ client.createUser(createUserReq);
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 const { MilvusClient, DataType } = require("@zilliz/milvus2-sdk-node")
@@ -98,7 +95,7 @@ await milvusClient.createUser({
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
@@ -117,9 +114,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## ユーザーのリスト表示{#list-users}
+## List users\{#list-users}
 
-複数のユーザーを作成した後、既存のすべてのユーザーをリスト表示して確認できます。
+複数のユーザーを作成した後、既存のすべてのユーザーを一覧表示して確認できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -140,7 +137,7 @@ List<String> resp = client.listUsers();
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 const { MilvusClient, DataType } = require("@zilliz/milvus2-sdk-node")
@@ -150,7 +147,7 @@ await milvusClient.listUsers();
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 curl --request POST \
@@ -169,9 +166,9 @@ curl --request POST \
 ['root', 'user_1']
 ```
 
-## ユーザーにロールを付与する{#grant-a-role-to-a-user}
+## ユーザーへのロールの付与\{#grant-a-role-to-a-user}
 
-以下の例は、ユーザー `user_1` にロール `role_a` を付与する方法を示しています。
+次の例では、ユーザー `user_1` にロール `role_a` を付与する方法を示します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -215,7 +212,7 @@ client.grantRole(grantRoleReq);
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 const { MilvusClient, DataType } = require("@zilliz/milvus2-sdk-node")
@@ -232,7 +229,7 @@ milvusClient.grantRole({
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
@@ -251,11 +248,11 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## ユーザーを記述する {#describe-user}
+## Describe user\{#describe-user}
 
 ユーザーにロールを付与した後、`describe_user()` メソッドを使用して、付与操作が成功したかどうかを確認できます。
 
-以下の例は、ユーザー `user_1` のロールを確認する方法を示しています。
+次の例では、ユーザー `user_1` のロールを確認する方法を示します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -282,7 +279,7 @@ DescribeUserResp describeUserResp = client.describeUser(describeUserReq);
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 const { MilvusClient, DataType } = require("@zilliz/milvus2-sdk-node")
@@ -292,7 +289,7 @@ milvusClient.describeUser({username: 'user_1'})
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 curl --request POST \
@@ -313,11 +310,11 @@ curl --request POST \
 {'user_name': 'user_1', 'roles': 'role_a'}
 ```
 
-## ロールの取り消し{#revoke-a-role}
+## Revoke a role\{#revoke-a-role}
 
 ユーザーに割り当てられたロールを取り消すこともできます。
 
-次の例は、ユーザー `user_1` に割り当てられたロール `role_a` を取り消す方法を示しています。
+次の例では、ユーザー `user_1` に割り当てられたロール `role_a` を取り消す方法を示します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -346,7 +343,7 @@ client.revokeRole(RevokeRoleReq.builder()
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 await client.revokeRole({
@@ -357,7 +354,7 @@ await client.revokeRole({
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 curl --request POST \
@@ -373,9 +370,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## ユーザーの削除{#drop-user}
+## Drop user\{#drop-user}
 
-以下の例は、ユーザー `user_1` を削除する方法を示しています。
+次の例では、ユーザー `user_1` を削除する方法を示します。
 
 <Admonition type="info" icon="📘" title="Notes">
 
@@ -422,7 +419,7 @@ client.dropUser(dropUserReq);
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 const { MilvusClient, DataType } = require("@zilliz/milvus2-sdk-node")
@@ -438,7 +435,7 @@ milvusClient.deleteUser({
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
@@ -456,7 +453,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-ユーザーが削除されたら、既存のすべてのユーザーをリストして、削除操作が成功したかどうかを確認できます。
+ユーザーが削除されたら、既存のユーザーを一覧表示して、削除操作が成功したか確認できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -479,7 +476,7 @@ List<String> resp = client.listUsers();
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 const { MilvusClient, DataType } = require("@zilliz/milvus2-sdk-node")
@@ -489,7 +486,7 @@ milvusClient.listUsers()
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 curl --request POST \
@@ -502,7 +499,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-以下は出力例です。リストに `user_1` はありません。ドロップ操作は成功しました。
+以下は出力例です。リストには `user_1` が存在しません。削除操作は成功しました。
 
 ```bash
 ['root']

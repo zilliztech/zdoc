@@ -1,11 +1,12 @@
 ---
 title: "Delete Entities | BYOC"
 slug: /delete-entities
-sidebar_label: "Delete Entities"
-beta: FALSE
+sidebar_key: delete-entities
+sidebar_label: "Delete"
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "You can delete the entities that are no longer needed by filtering conditions or their primary keys. | BYOC"
 type: origin

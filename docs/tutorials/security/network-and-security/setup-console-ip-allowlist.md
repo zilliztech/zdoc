@@ -1,11 +1,12 @@
 ---
 title: "Set Up Console IP Allowlist | Cloud"
 slug: /setup-console-ip-allowlist
+sidebar_key: setup-console-ip-allowlist
 sidebar_label: "Set Up Console IP Allowlist"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "By default, your organization’s web console is accessible from any IP address. To restrict access and enhance security, configure a console IP allowlist so that uses can access the web console only from specified addresses, such as the IP of your office network. | Cloud"
 type: origin

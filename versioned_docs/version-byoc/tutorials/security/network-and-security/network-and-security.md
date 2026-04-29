@@ -1,11 +1,12 @@
 ---
 title: "Network & Security | BYOC"
 slug: /network-and-security
+sidebar_key: network-and-security
 sidebar_label: "Network Access"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "Learn more about how to set up whitelist and private links to secure the access to your data on Zilliz Cloud. | BYOC"
 type: origin

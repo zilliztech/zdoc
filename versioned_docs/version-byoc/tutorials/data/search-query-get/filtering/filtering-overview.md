@@ -1,11 +1,12 @@
 ---
 title: "Filtering Explained | BYOC"
 slug: /filtering-overview
-sidebar_label: "Filtering Explained"
-beta: FALSE
+sidebar_key: filtering-overview
+sidebar_label: "Overview"
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "Zilliz Cloud provides powerful filtering capabilities that enable precise querying of your data. Filter expressions allow you to target specific scalar fields and refine search results with different conditions. This guide explains how to use filter expressions in Zilliz Cloud clusters, with examples focused on query operations. You can also apply these filters in search and delete requests. | BYOC"
 type: origin

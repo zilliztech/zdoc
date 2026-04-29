@@ -1,11 +1,12 @@
 ---
 title: "Whitespace | Cloud"
 slug: /whitespace-tokenizer
+sidebar_key: whitespace-tokenizer
 sidebar_label: "Whitespace"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "The `whitespace` tokenizer divides text into terms whenever there is a space between words. | Cloud"
 type: origin

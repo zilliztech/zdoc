@@ -1,11 +1,12 @@
 ---
 title: "Integrate with AWS S3 | Cloud"
 slug: /integrate-with-aws-s3
+sidebar_key: integrate-with-aws-s3
 sidebar_label: "AWS S3"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "Zilliz Cloud allows you to integrate with Amazon Simple Storage Service (Amazon S3) to export backup files or audit logs to designated S3 buckets. | Cloud"
 type: origin
@@ -34,12 +35,6 @@ import Procedures from '@site/src/components/Procedures';
 
 Zilliz Cloud allows you to integrate with Amazon Simple Storage Service (Amazon S3) to export backup files or audit logs to designated S3 buckets.
 
-<Admonition type="info" icon="📘" title="Notes">
-
-<p>This feature is available only to <strong>Dedicated</strong> clusters in an <strong>Enterprise</strong> project.</p>
-
-</Admonition>
-
 ![BUEcwkZiChJrTlbziBMc3V49nFe](https://zdoc-images.s3.us-west-2.amazonaws.com/BUEcwkZiChJrTlbziBMc3V49nFe.png)
 
 ## Before you start\{#before-you-start}
@@ -50,7 +45,7 @@ Zilliz Cloud allows you to integrate with Amazon Simple Storage Service (Amazon 
 
 ## Step 1: Start integration in Zilliz Cloud console\{#step-1-start-integration-in-zilliz-cloud-console}
 
-<Supademo id="cmeibltu49co2h3pytvtdthb2" title="Step 1: Start integration in Zilliz Cloud console" />
+<Supademo id="cmeibltu49co2h3pytvtdthb2" title=""  />
 
 <Procedures>
 
@@ -66,9 +61,26 @@ Zilliz Cloud allows you to integrate with Amazon Simple Storage Service (Amazon 
 
     - **Integration Description** *(optional)*: A description for this integration (e.g., `for export backupfile`).
 
+    - **Bucket Permission**: Select the level of access Zilliz Cloud has to your S3 bucket. The following table explains the options.
+
+        <table>
+           <tr>
+             <th><p><strong>Permission</strong></p></th>
+             <th><p><strong>Description</strong></p></th>
+           </tr>
+           <tr>
+             <td><p>Read only</p></td>
+             <td><p>Zilliz Cloud can only read files from the bucket. Use for <a href="./external-volume">external volumes</a> that back external collections.</p></td>
+           </tr>
+           <tr>
+             <td><p>Read write</p></td>
+             <td><p>Zilliz Cloud can both read from and write to the bucket. Use for <a href="./export-backup-files">backup export</a>, <a href="./audit-logs">audit log forwarding</a>, or <a href="./configure-access-logs">access log forwarding</a>.</p></td>
+           </tr>
+        </table>
+
 1. Click **Next**. You'll be redirected to the **Create Amazon S3 Bucket** step:
 
-    1. In the **Zilliz Cloud Cluster** **Region** field, select the cloud region where your Zilliz Cloud cluster resides. The bucket you create later must be in the same region as your Zilliz Cloud cluster.
+    1. In the **Zilliz Cloud Cluster** **Region** field, select the cloud region where your Zilliz Cloud cluster or external volume resides. The bucket you create later must be in the same region as your Zilliz Cloud cluster or volume.
 
     1. Open the [S3 console](https://us-west-2.console.aws.amazon.com/s3/buckets) and proceed to [step 2](./integrate-with-aws-s3).
 
@@ -80,12 +92,12 @@ Zilliz Cloud allows you to integrate with Amazon Simple Storage Service (Amazon 
 
 <Procedures>
 
-1. In the upper-right corner of the [Amazon S3 console](https://console.aws.amazon.com/s3/), choose the AWS region that matches your Zilliz Cloud cluster’s region.
+1. In the upper-right corner of the [Amazon S3 console](https://console.aws.amazon.com/s3/), choose the AWS region that matches the region of your Zilliz Cloud cluster or external volume.
 
     <Admonition type="info" icon="📘" title="Notes">
 
     <ul>
-    <li><p>The AWS region to create a bucket should be consistent with the region where your Zilliz Cloud cluster resides. For Zilliz Cloud-supported regions, refer to <a href="./cloud-providers-and-regions">Cloud Providers & Regions</a>.</p></li>
+    <li><p>The AWS region to create a bucket should be consistent with the region where your Zilliz Cloud cluster or external volume resides. For Zilliz Cloud-supported regions, refer to <a href="./cloud-providers-and-regions">Cloud Providers & Regions</a>.</p></li>
     <li><p>For clusters running in different regions, create separate integrations for each region to ensure backup files or audit logs can be exported properly.</p></li>
     </ul>
 

@@ -1,16 +1,17 @@
 ---
 title: "Try Zilliz Cloud For Free | Cloud"
 slug: /free-trials
+sidebar_key: free-trials
 sidebar_label: "Try Zilliz Cloud For Free"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "Zilliz Cloud offers both free cluster and free trial to help you evaluate or test the powerful vector database features and estimate costs of using Zilliz Cloud. To start, simply register an account on Zilliz Cloud. No payment information is required. | Cloud"
 type: origin
 token: LMfdwRwKIiJtywkwbHVcGnOFnRf
-sidebar_position: 10
+sidebar_position: 12
 keywords: 
   - zilliz
   - vector database
@@ -41,7 +42,7 @@ If you need more resources or want to access advanced features, please use the [
 
 ## Free trial\{#free-trial}
 
-Zilliz Cloud offers free trial for clusters and vector database features. The following sections introduces the credit-based free trial for clusters. If you want to try the volume feature, an object store that holds either structured tables or collections of unstructured data files, please refer to [Volume Explained](./volume-explained#free-trial-volume).
+Zilliz Cloud offers free trial for clusters and vector database features. The following sections introduces the credit-based free trial for clusters. If you want to try the volume feature, an object store that holds either structured tables or collections of unstructured data files, please refer to Volume Explained.
 
 ### Use free trial\{#use-free-trial}
 

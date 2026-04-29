@@ -1,11 +1,12 @@
 ---
 title: "Exponential Decay | BYOC"
 slug: /exponential-decay
+sidebar_key: exponential-decay
 sidebar_label: "Exponential Decay"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "Exponential decay creates a steep initial drop followed by a long tail in your search results. Like a breaking news cycle where relevance diminishes rapidly at first but some stories retain importance over time, exponential decay applies a sharp penalty to items just beyond your ideal range while still keeping distant items discoverable. This approach is ideal when you want to heavily prioritize proximity or recency but don't want to completely eliminate more distant options. | BYOC"
 type: origin
@@ -119,7 +120,7 @@ $$
 Where:
 
 $$
-\lambda = \frac\{\ln(decay)}{scale}
+\lambda = \frac{\ln(decay)}{scale}
 $$
 
 Breaking this down in plain language:

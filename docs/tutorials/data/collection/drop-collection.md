@@ -1,11 +1,12 @@
 ---
 title: "Drop Collection | Cloud"
 slug: /drop-collection
-sidebar_label: "Drop Collection"
-beta: FALSE
+sidebar_key: drop-collection
+sidebar_label: "Drop"
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "You can drop a collection if it is no longer needed. | Cloud"
 type: origin
@@ -29,6 +30,12 @@ import TabItem from '@theme/TabItem';
 # Drop Collection
 
 You can drop a collection if it is no longer needed.
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>Unlike dropping a managed collection, which removes both the collection and the data, dropping an external collection only removes the collection and keeps the data intact.</p>
+
+</Admonition>
 
 ## Examples\{#examples}
 

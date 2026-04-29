@@ -1,13 +1,14 @@
 ---
-title: "API と SDK | BYOC"
+title: "API & SDKs | BYOC"
 slug: /api-sdks
-sidebar_label: "API と SDK"
+sidebar_key: api-sdks
+sidebar_label: "API & SDKs"
 beta: FALSE
 notebook: FALSE
-description: "この章では、RESTful API と SDK の使用またはインストール手順、およびそれらのリファレンスドキュメントへのアクセスを提供します。 | BYOC"
+description: "この章では、RESTful API および SDK の使用方法やインストール手順、ならびにそれらのリファレンスドキュメントへのアクセス方法について説明します。| BYOC"
 type: origin
 token: Ecwpw6cImiFV0gkkusgcQhvBnLe
-sidebar_position: 12
+sidebar_position: 16
 keywords: 
   - zilliz
   - milvus
@@ -20,10 +21,6 @@ keywords:
   - go
   - node
   - nodejs
-  - 次元削減
-  - hnsw アルゴリズム
-  - ベクトル類似性検索
-  - 近似最近傍探索
 
 ---
 
@@ -32,7 +29,7 @@ import Admonition from '@theme/Admonition';
 
 # API と SDK
 
-この章では、RESTful API と SDK の使用またはインストール手順、およびそれらのリファレンスドキュメントへのアクセス方法について説明します。 
+この章では、RESTful API や SDK の使用またはインストール手順およびそのリファレンスドキュメントへのアクセス方法を提供します。 
 
 import DocCardList from '@theme/DocCardList';
 

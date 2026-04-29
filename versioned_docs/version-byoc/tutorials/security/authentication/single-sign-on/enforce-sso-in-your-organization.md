@@ -1,11 +1,12 @@
 ---
 title: "Enforce SSO in Your Organization | BYOC"
 slug: /enforce-sso-in-your-organization
+sidebar_key: enforce-sso-in-your-organization
 sidebar_label: "Enforce SSO in Your Organization"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "By default, after Single Sign-on (SSO) is configured for an organization, members can still choose to log in with email/password or third-party accounts (Google, GitHub). SSO enforcement removes this flexibility by mandating that all members use SSO as the only login method. | BYOC"
 type: origin

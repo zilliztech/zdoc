@@ -4,7 +4,7 @@ slug: /faq-cluster
 sidebar_label: "FAQ: クラスター"
 beta: FALSE
 notebook: FALSE
-description: "このトピックでは、Zilliz Cloud クラスターの使用中に発生する可能性のある問題と、それに対応する解決策を一覧表示します。 | CLOUD"
+description: "このトピックでは、Zilliz Cloud クラスターの使用中に発生する可能性のある問題と、それに対応する解決策を一覧で紹介します。| CLOUD"
 type: origin
 token: EV41wG08BiOWW8kbo9xcTGoPnKd
 sidebar_position: 2
@@ -13,73 +13,65 @@ sidebar_position: 2
 
 # FAQ: クラスター
 
-このトピックでは、Zilliz Cloud クラスターの使用中に発生する可能性のある問題と、それに対応する解決策をリストアップします。
+このトピックでは、Zilliz Cloud クラスターの使用中に発生する可能性のある問題と、それに対応する解決策を一覧で紹介します。
 
 ## 目次
 
-- [無料クラスターの容量はどれくらいですか？](#what-is-the-capacity-of-a-free-cluster)
-- ["quota exceeded\[reason=disk quota exceeded, please allocate more resources" というエラーが表示された場合、どうすればよいですか？](#what-can-i-do-if-i-receive-the-error-quota-exceededreasondisk-quota-exceeded-please-allocate-more-resources)
-- [専用クラスター作成後、CU タイプを変更できますか？](#can-i-change-the-cu-type-after-my-dedicated-cluster-is-created)
-- [クラスター作成後、クラスターのクラウドリージョンを変更できますか？](#can-i-change-the-cloud-region-of-my-cluster-after-it-is-created)
-- [クラスターのCUサイズをスケールダウンするにはどうすればよいですか？](#how-can-i-scale-down-my-cluster-cu-size)
-- [AWSに無料クラスターをデプロイできますか？](#can-i-deploy-a-free-cluster-on-aws)
-- [Zilliz Cloudへの接続を試みた際に、接続タイムアウトエラーが発生した場合、どうすればよいですか？](#how-can-i-deal-with-a-connection-timeout-error-when-i-attempt-to-connect-to-zilliz-cloud)
-- [クラスター作成後、クラスターに接続できないのはなぜですか？](#why-cant-i-connect-to-the-cluster-after-the-cluster-is-created)
-- [Node.js SDKでZilliz Cloudに接続できない場合、どうすればよいですか？](#what-can-i-do-if-i-cannot-connect-to-zilliz-cloud-with-nodejs-sdk)
+- [フリークラスターの容量はどれくらいですか？](#what-is-the-capacity-of-a-free-cluster)
+- ["quota exceeded\[reason=disk quota exceeded, please allocate more resources"というエラーを受け取った場合、どうすればよいですか？](#what-can-i-do-if-i-receive-the-error-quota-exceededreasondisk-quota-exceeded-please-allocate-more-resources)
+- [専用クラスター作成後にクラスタータイプを変更できますか？](#can-i-change-the-cluster-type-after-my-dedicated-cluster-is-created)
+- [プロジェクト作成後にクラウドリージョンを変更できますか？](#can-i-change-the-cloud-region-of-my-project-after-it-is-created)
+- [サービングクラスターのクエリ CU を縮小するにはどうすればよいですか？](#how-can-i-scale-down-the-query-cus-of-my-serving-cluster)
+- [Zilliz Cloud への接続時に接続タイムアウトエラーが発生した場合、どう対処すればよいですか？](#how-can-i-deal-with-a-connection-timeout-error-when-i-attempt-to-connect-to-zilliz-cloud)
+- [クラスター作成後にクラスターへ接続できないのはなぜですか？](#why-cant-i-connect-to-the-cluster-after-the-cluster-is-created)
+- [Node.js SDK で Zilliz Cloud に接続できない場合、どうすればよいですか？](#what-can-i-do-if-i-cannot-connect-to-zilliz-cloud-with-nodejs-sdk)
 - [非アクティブなクラスターはどうなりますか？](#what-happens-to-my-inactive-clusters)
-- [クラスターを一時停止した場合、料金は発生しますか？](#will-i-be-charged-if-i-suspend-my-cluster)
-- [クラスターURIを取得するにはどうすればよいですか？](#how-to-obtain-a-cluster-uri)
+- [クラスターを一時停止しても課金されますか？](#will-i-be-charged-if-i-suspend-my-cluster)
+- [接続エンドポイントを取得するにはどうすればよいですか？](#how-to-obtain-a-connection-endpoint)
+- [Zilliz Cloud を Attu に接続できますか？](#can-i-connect-zilliz-cloud-to-attu)
 
-## FAQ
+## よくある質問
 
 
 
 
-### 無料クラスターの容量はどれくらいですか？{#what-is-the-capacity-of-a-free-cluster}
+### フリークラスターの容量はどれくらいですか？\{#what-is-the-capacity-of-a-free-cluster}
 
-一般的に、無料クラスターは100万個の768次元ベクトルを処理できます。ただし、実際の容量はスキーマによって異なります。
+一般的に、フリークラスターは 100 万個の 768 次元ベクトルを処理できます。ただし、実際の容量はスキーマによって異なります。
 
-データが無料クラスターの最大容量を超える場合は、ServerlessまたはDedicatedデプロイオプションに[アップグレード](./select-zilliz-cloud-service-plans)して新しいクラスターを作成し、そこに[データを移行](./offline-migration)してください。クラスターの容量に関する詳細については、[適切なCUの選択](./cu-types-explained#assess-capacity)を参照してください。
+データがフリークラスターの最大容量を超える場合は、[アップグレード](./select-zilliz-cloud-service-plans) して Serverless または Dedicated デプロイメントオプションを選択し、新しいクラスターを作成して、そこに [データを移行](./offline-migration) してください。クラスターの容量の詳細については、[適切な CU の選択](./cu-types-explained#assess-capacity) をご参照ください。
 
-### "quota exceeded\[reason=disk quota exceeded, please allocate more resources" というエラーが表示された場合、どうすればよいですか？{#what-can-i-do-if-i-receive-the-error-quota-exceededreasondisk-quota-exceeded-please-allocate-more-resources}
+### "quota exceeded\[reason=disk quota exceeded, please allocate more resources"というエラーを受け取った場合、どうすればよいですか？\{#what-can-i-do-if-i-receive-the-error-quota-exceededreasondisk-quota-exceeded-please-allocate-more-resources}
 
-データを挿入またはアップサートする際に、データがクラスターのCU容量を超えているため、このエラーが表示されます。無料クラスターは100万個の768次元ベクトルを処理できます。専用クラスターの容量は、その[CUタイプとCUサイズ](./cu-types-explained#assess-capacity)によって異なります。
+データの挿入またはアップサート時にこのエラーが表示されるのは、データがサービングクラスターの CU 容量を超えているためです。フリークラスターは 100 万個の 768 次元ベクトルを処理できます。専用クラスターの容量は、その [クラスタータイプと CU サイズ](./cu-types-explained#assess-capacity) によって異なります。
 
 この問題に対処するには、以下の手順に従ってください。
 
-- 無料クラスターを使用している場合は、ServerlessまたはDedicatedデプロイオプションに[アップグレード](./manage-cluster)してください。
+- フリークラスターを使用している場合は、Serverless または Dedicated デプロイメントオプションに [アップグレード](./manage-cluster) してください。
 
-- 専用クラスターを使用している場合は、CUサイズを増やすことで[クラスターをスケールアップ](./scale-query-cu)してください。
+- 専用クラスターを使用している場合は、CU サイズを増やすことでクラスターを [スケールアップ](./scale-query-cu) してください。
 
-### 専用クラスター作成後、CU タイプを変更できますか？{#can-i-change-the-cu-type-after-my-dedicated-cluster-is-created}
+### 専用クラスター作成後にクラスタータイプを変更できますか？\{#can-i-change-the-cluster-type-after-my-dedicated-cluster-is-created}
 
-はい、できます。CUタイプを変更するには、以下の手順に従う必要があります。
+はい。クラスタータイプを変更するには、以下の手順に従ってください。
 
-1. 目的のCUタイプで新しいクラスターを作成します。[計算ツール](https://zilliz.com/pricing#calculator)を使用して、この新しいクラスターのCUサイズを決定します。
+1. 希望するクラスタータイプで新しいサービングクラスターを作成します。この新しいサービングクラスターのクエリ CU を決定するには、[計算機](https://zilliz.com/pricing#calculator) を使用してください。
 
-1. 現在のクラスターから、作成したばかりの新しいクラスターにデータを[移行](./offline-migration)します。または、[お問い合わせ](https://support.zilliz.com/hc/en-us)いただくと、クラスター間のデータ移行を代行することも可能です。その際は、ソースクラスターとターゲットクラスターを明記してください。
+1. 現在のサービングクラスターから、刚刚作成した新しいクラスターへデータを [移行](./offline-migration) します。あるいは、クラスター間のデータ移行を当社に代行させるために、[お問い合わせ](https://support.zilliz.com/hc/en-us) いただくこともできます。お問い合わせの際は、ソースクラスターとターゲットクラスターを明記してください。
 
-### クラスター作成後、クラスターのクラウドリージョンを変更できますか？{#can-i-change-the-cloud-region-of-my-cluster-after-it-is-created}
+### プロジェクト作成後にクラウドリージョンを変更できますか？\{#can-i-change-the-cloud-region-of-my-project-after-it-is-created}
 
-はい、できます。クラスターのクラウドリージョンを変更するには、以下の手順に従う必要があります。
+いいえ。プロジェクトのリージョンは、プロジェクト作成後には変更できません。別のリージョンを使用するには、新しいプロジェクトを作成してください。詳細については、「プロジェクトの管理」をご覧ください。
 
-1. 目的のクラウドリージョンで新しいクラスターを作成します。
+### サービングクラスターのクエリ CU を縮小するにはどうすればよいですか？\{#how-can-i-scale-down-the-query-cus-of-my-serving-cluster}
 
-1. 現在のクラスターから、作成したばかりの新しいクラスターにデータを[移行](./offline-migration)します。または、[お問い合わせ](https://support.zilliz.com/hc/en-us)いただくと、クラスター間のデータ移行を代行することも可能です。その際は、ソースクラスターとターゲットクラスターを明記してください。
+はい。サービングクラスターのクエリ CU を縮小するには、[Zilliz Cloud コンソール](https://cloud.zilliz.com/signup) の **概要** セクションに移動し、**クエリ CU** の横にある **スケール** をクリックしてください。これにより、クエリ CU の量を増減できるスケーリングページが開きます。サービングクラスターを縮小する前に、新しいクエリ CU 数がデータ量とワークロード容量に対応できることを確認してください。
 
-### クラスターのCUサイズをスケールダウンするにはどうすればよいですか？{#how-can-i-scale-down-my-cluster-cu-size}
+詳細については、[クラスターのスケール](./scale-query-cu) をご参照ください。
 
-はい、できます。クラスターのCUサイズをスケールダウンするには、[Zilliz Cloud コンソール](https://cloud.zilliz.com/signup)の**Summary**セクションに移動し、CU **Size**の横にある**Scale**をクリックします。これにより、CUサイズを増減できるスケーリングページが開きます。クラスターをスケールダウンする前に、CUサイズがデータ量とワークロード容量に対応できることを確認してください。
+### Zilliz Cloud への接続時に接続タイムアウトエラーが発生した場合、どう対処すればよいですか？\{#how-can-i-deal-with-a-connection-timeout-error-when-i-attempt-to-connect-to-zilliz-cloud}
 
-詳細については、[クラスターのスケール](./scale-query-cu)を参照してください。
-
-### AWSに無料クラスターをデプロイできますか？{#can-i-deploy-a-free-cluster-on-aws}
-
-はい、できます。無料クラスターは、AWS eu-central-1 (ドイツ、フランクフルト) または Google Cloud us-west1 (米国、オレゴン) のいずれかにデプロイできます。他のクラウドリージョンにクラスターをデプロイするには、Dedicatedデプロイオプションにアップグレードするだけです。サポートされているクラウドプロバイダーとリージョンの完全なリストについては、[クラウドプロバイダーとリージョン](./cloud-providers-and-regions)を参照してください。
-
-### Zilliz Cloudへの接続を試みた際に、接続タイムアウトエラーが発生した場合、どうすればよいですか？{#how-can-i-deal-with-a-connection-timeout-error-when-i-attempt-to-connect-to-zilliz-cloud}
-
-Zilliz Cloud クラスターへの接続を確立するには、いくつかの関連パラメーターを指定する必要があります。たとえば、PyMilvus SDK の接続メソッドは以下のように使用できます。
+Zilliz Cloud クラスターへの接続を確立するには、いくつかの関連パラメータを提供する必要があります。例えば、PyMilvus SDK の connect メソッドは以下のように使用できます。
 
 ```python
 from pymilvus import Connections
@@ -97,32 +89,32 @@ conn = Connections.connect(
 
 接続タイムアウトエラーは、以下のシナリオで発生する可能性があります。
 
-- ネットワークの状態が悪い
+- ネットワーク状態が不良な場合
 
-    ネットワークの状態が悪い場合、接続操作のタイムアウト時間を長くすることをお勧めします。上記のコードでは、`timeout`は`30`秒に設定されています。これは、リクエストが送信されてから30秒以内に応答がない場合、接続操作がタイムアウトすることを意味します。
+    ネットワーク状態が不良な場合は、接続操作のタイムアウト時間を延長することを推奨します。上記のコードでは、`timeout` が `30` 秒に設定されており、リクエスト送信後30秒以内に応答がない場合、接続操作はタイムアウトします。
 
-- 接続パラメータが正しくない
+- 接続パラメータが正しくない場合
 
-    Zilliz CloudクラスターはTLSが有効になっているため、クラスターに正常に接続するには、接続パラメータに`secure`を含め、上記の例に示すように`true`に設定してください。そうしないと、接続に失敗し、タイムアウトエラーが表示される可能性があります。
+    Zilliz Cloud クラスターは TLS が有効になっているため、クラスターに正常に接続するには、上記の例のように接続パラメータに `secure` を含め、その値を `true` に設定する必要があります。これを設定しないと、接続に失敗し、タイムアウトエラーが表示される可能性があります。
 
-- ホワイトリストに登録されていないローカルIPアドレス
+- ローカルの IP アドレスがホワイトリストに登録されていない場合
 
-    クラスターへの接続を試みる場合、VPN/プロキシ接続をオフにし、パブリックIPアドレスを取得し（プライベートIPアドレスは機能しません）、そのIPアドレスを接続したいクラスターのホワイトリストに追加する必要があります。
+    クラスターへの接続を試みる際には、VPN/プロキシ接続を無効にし、パブリック IP アドレス（プライベート IP アドレスは機能しません）を取得して、接続したいクラスターのホワイトリストにその IP アドレスを追加する必要があります。
 
-### クラスター作成後にクラスターに接続できないのはなぜですか？{#why-cant-i-connect-to-the-cluster-after-the-cluster-is-created}
+### クラスター作成後にクラスターに接続できないのはなぜですか？\{#why-cant-i-connect-to-the-cluster-after-the-cluster-is-created}
 
-以下の手順で問題を確認できます。
+以下の手順に従って問題を特定できます。
 
-1. クラスターのステータスがRUNNINGであることを確認します。クラスターが作成中、削除中、またはIPホワイトリストが更新中の場合、クラスターに接続することはできません。
+1. クラスターのステータスが RUNNING であるか確認してください。クラスターが作成中、削除中、または IP ホワイトリストが更新中の場合、クラスターに接続できません。
 
-1. 接続元のIPアドレスがIPホワイトリストに含まれていることを確認します。
+1. 接続元の IP アドレスが IP ホワイトリストに含まれているか確認してください。
 
-1. クラスターエンドポイントURIのポートが正しいことを確認します。Zilliz Cloud WebコンソールからエンドポイントURIをコピーしていることを確認してください。以下の表は、異なるクラウドプロバイダーにデプロイされたクラスターのポートを示しています。
+1. クラスターのエンドポイント URI 内のポート番号が正しいか確認してください。Zilliz Cloud ウェブコンソールからエンドポイント URI をコピーしていることを確認してください。以下の表は、異なるクラウドプロバイダー上にデプロイされたクラスターのポート番号を示しています。
 
     <table>
        <tr>
          <th><p><strong>クラウドプロバイダー</strong></p></th>
-         <th><p><strong>ポート</strong></p></th>
+         <th><p><strong>Port</strong></p></th>
        </tr>
        <tr>
          <td><p>AWS</p></td>
@@ -138,30 +130,30 @@ conn = Connections.connect(
        </tr>
     </table>
 
-1. `telnet in01-(uuid).(region).vectordb.zillizcloud.com port-number`を実行して、ポートの接続性をテストします。
+1. `telnet in01-(uuid).(region).vectordb.zillizcloud.com port-number` を実行してポートの接続性をテストしてください。
 
-上記の手順をすべて試しても問題が解決しない場合は、[リクエストを送信してください](https://support.zilliz.com/hc/en-us)。
+上記の手順をすべて試しても問題が解決しない場合は、[リクエストを送信](https://support.zilliz.com/hc/en-us)してください。
 
-### Node.js SDKでZilliz Cloudに接続できない場合、どうすればよいですか？{#what-can-i-do-if-i-cannot-connect-to-zilliz-cloud-with-nodejs-sdk}
+### Node.js SDK で Zilliz Cloud に接続できない場合はどうすればよいですか？\{#what-can-i-do-if-i-cannot-connect-to-zilliz-cloud-with-nodejs-sdk}
 
-Node.js SDKでZilliz Cloudに接続できない場合は、以下を試してください。
+Node.js SDK を使用して Zilliz Cloud への接続に失敗した場合は、以下の対応をお試しください。
 
-1. [Node.js SDK](https://github.com/milvus-io/milvus-sdk-node)の最新バージョンがインストールされていることを確認します。
+1. 最新バージョンの [Node.js SDK](https://github.com/milvus-io/milvus-sdk-node) がインストールされていることを確認してください。
 
-1. クライアントが正しく初期化されていることを確認します。
+1. クライアントが正しく初期化されていることを確認してください。
 
     ```bash
     const client = new MilvusClient('https://your-db-address-with-port', true, 'your-db-user', 'your-db-pasword');
     ```
 
-1. クラスターのエンドポイントとトークンが正しいことを確認してください。クラスターのエンドポイントにはプロトコル `https://` を含めるようにしてください。
+1. クラスターエンドポイントとトークンが正しいことを確認してください。クラスターエンドポイントにはプロトコル `https://` を含めてください。
 
-1. クラスターのエンドポイントURIのポートが正しいか確認してください。Zilliz CloudウェブコンソールからエンドポイントURIをコピーしていることを確認してください。以下の表は、異なるクラウドプロバイダーにデプロイされたクラスターのポートを示しています。
+1. クラスターエンドポイント URI のポートが正しいか確認してください。エンドポイント URI は Zilliz Cloud Web コンソールからコピーしてください。以下の表に、異なるクラウドプロバイダーにデプロイされたクラスターのポートを示します。
 
     <table>
        <tr>
          <th><p><strong>クラウドプロバイダー</strong></p></th>
-         <th><p><strong>ポート</strong></p></th>
+         <th><p><strong>Port</strong></p></th>
        </tr>
        <tr>
          <td><p>AWS</p></td>
@@ -177,17 +169,20 @@ Node.js SDKでZilliz Cloudに接続できない場合は、以下を試してく
        </tr>
     </table>
 
-1. あなたのIPアドレスは、クラスター設定でホワイトリストに登録されている必要があります。
+1. IP アドレスがクラスター設定でホワイトリストに登録されている必要があります。
 
-### 非アクティブなクラスターはどうなりますか？{#what-happens-to-my-inactive-clusters}
+### What happens to my inactive clusters?\{#what-happens-to-my-inactive-clusters}
 
-無料クラスターは、7日間非アクティブ状態が続くと、通知とともに自動的に一時停止されます。必要に応じていつでもクラスターを再開できます。ただし、専用クラスターは、長期間の非アクティブ状態によって自動的に一時停止されることはありません。コストを節約するために、専用クラスターを手動で一時停止することをお勧めします。
+フリークラスターは、7 日間非アクティブ状態が続くと、通知後に自動的に一時停止されます。必要に応じてクラスターをいつでも再開できます。ただし、専用クラスターは長期間非アクティブであっても自動的に一時停止されることはありません。コスト削減のため、専用クラスターは手動で一時停止することをお勧めします。
 
-### クラスターを一時停止した場合でも料金は発生しますか？{#will-i-be-charged-if-i-suspend-my-cluster}
+### Will I be charged if I suspend my cluster?\{#will-i-be-charged-if-i-suspend-my-cluster}
 
-クラスターが一時停止されている場合、コンピューティングではなくストレージに対してのみ課金されます。ストレージコストの詳細については、[料金](https://zilliz.com/pricing)を参照してください。
+クラスターが一時停止されている場合、コンピューティングではなくストレージのみに対して課金されます。ストレージコストの詳細については、[料金](https://zilliz.com/pricing) をご覧ください。
 
-### クラスターURIを取得するにはどうすればよいですか？{#how-to-obtain-a-cluster-uri}
-クラスターURIとは、接続に使用できるクラスターエンドポイントのことです。
+### How to obtain a connection endpoint?\{#how-to-obtain-a-connection-endpoint}
 
-URIはZilliz Cloudウェブコンソールから取得できます。詳細については、[クラスターへの接続](./connect-to-cluster#connect-to-a-cluster)を参照してください。
+エンドポイントは Zilliz Cloud Web コンソールから取得できます。どのタイプのエンドポイントを使用すべきかの詳細については、[アクセス：接続エンドポイント](./access-connection-endpoints) を参照してください。
+
+### Can I connect Zilliz Cloud to Attu?\{#can-i-connect-zilliz-cloud-to-attu}
+
+はい。[Attu](https://github.com/zilliztech/attu) は、Milvus および Zilliz Cloud 向けのオープンソースの視覚的管理ツールです。Docker コンテナまたはデスクトップアプリとして実行できます。接続するには、Attu のログインページで Zilliz Cloud の**パブリックエンドポイント**と**API キー**（または username:password 形式のクラスター認証情報）を提供してください。

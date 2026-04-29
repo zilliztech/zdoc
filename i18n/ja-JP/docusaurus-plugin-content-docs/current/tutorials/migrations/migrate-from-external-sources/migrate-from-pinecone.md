@@ -1,23 +1,20 @@
 ---
 title: "Pinecone から Zilliz Cloud への移行 | Cloud"
 slug: /migrate-from-pinecone
+sidebar_key: migrate-from-pinecone
 sidebar_label: "Pinecone"
 beta: FALSE
 notebook: FALSE
-description: "このトピックでは、Pinecone から Zilliz Cloud へ移行する際のデータ型マッピング、フィールド変換、ネームスペース処理、およびコレクション命名規則について説明します。 | Cloud"
+description: "このトピックでは、Pinecone から移行する際に、Zilliz Cloud がデータ型のマッピング、フィールドの変換、ネームスペースの処理、およびコレクションの命名規則をどのように扱うかについて説明します。| Cloud"
 type: origin
 token: R33EwQchxiO3HKk4vPnce6vkntc
 sidebar_position: 2
 keywords: 
   - zilliz
-  - ベクターデータベース
-  - クラウド
-  - 移行
+  - ベクトルデータベース
+  - cloud
+  - migrations
   - pinecone
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - milvusとは
 
 ---
 
@@ -26,13 +23,13 @@ import Admonition from '@theme/Admonition';
 
 # Pinecone から Zilliz Cloud への移行
 
-このトピックでは、Pinecone から移行する際に、Zilliz Cloud がデータ型マッピング、フィールド変換、ネームスペース処理、コレクション命名規則をどのように処理するかについて説明します。
+このトピックでは、[Pinecone](https://www.pinecone.io/) から移行する際に、Zilliz Cloud がデータ型のマッピング、フィールドの変換、ネームスペースの処理、およびコレクションの命名規則をどのように扱うかについて説明します。
 
-## 前提条件{#prerequisites}
+## 前提条件\{#prerequisites}
 
 Pinecone から Zilliz Cloud への移行を開始する前に、以下の要件を満たしていることを確認してください。
 
-### Pinecone の要件{#pinecone-requirements}
+### Pinecone の要件\{#pinecone-requirements}
 
 <table>
    <tr>
@@ -41,7 +38,7 @@ Pinecone から Zilliz Cloud への移行を開始する前に、以下の要件
    </tr>
    <tr>
      <td><p>インデックスタイプ</p></td>
-     <td><p>Pinecone Serverless インデックスからの移行のみをサポート</p></td>
+     <td><p>Pinecone Serverless インデックスからのみ移行をサポート</p></td>
    </tr>
    <tr>
      <td><p>API アクセス</p></td>
@@ -53,11 +50,11 @@ Pinecone から Zilliz Cloud への移行を開始する前に、以下の要件
    </tr>
    <tr>
      <td><p>ベクトル次元</p></td>
-     <td><p>次元は 1 より大きい必要があります。単一次元のベクトルは移行失敗の原因となります。</p></td>
+     <td><p>次元は &gt; 1 である必要があります。単一次元のベクトルは移行失敗の原因となります</p></td>
    </tr>
 </table>
 
-### Zilliz Cloud の要件{#zilliz-cloud-requirements}
+### Zilliz Cloud の要件\{#zilliz-cloud-requirements}
 
 <table>
    <tr>
@@ -66,83 +63,81 @@ Pinecone から Zilliz Cloud への移行を開始する前に、以下の要件
    </tr>
    <tr>
      <td><p>ユーザーロール</p></td>
-     <td><p>組織オーナーまたはプロジェクト管理者</p></td>
+     <td><p>組織オーナー または プロジェクト管理者</p></td>
    </tr>
    <tr>
      <td><p>クラスター容量</p></td>
-     <td><p>十分なストレージとコンピューティングリソース（CU サイズの見積もりには<a href="https://zilliz.com/pricing#calculator">CU 計算機</a>を使用）</p></td>
+     <td><p>十分なストレージおよび計算リソース（CU サイズの見積もりには <a href="https://zilliz.com/pricing#calculator">CU 計算機</a> を使用してください）</p></td>
    </tr>
    <tr>
-     <td><p>ネットワークアクセス</p></td>
-     <td><p>ネットワーク制限を使用している場合は、<a href="./zilliz-cloud-ips">Zilliz Cloud IP</a> を許可リストに追加</p></td>
+     <td><p>ネットワーク アクセス</p></td>
+     <td><p>ネットワーク制限を使用している場合は、<a href="./zilliz-cloud-ips">Zilliz Cloud IPs</a> を許可リストに追加してください</p></td>
    </tr>
 </table>
 
-## データ型マッピング{#data-type-mapping}
+## データ型のマッピング\{#data-type-mapping}
 
-Pinecone のデータ型が Zilliz Cloud にどのようにマッピングされるかを理解することは、移行計画を立てる上で非常に重要です。
+Pinecone のデータ型が Zilliz Cloud にどのようにマッピングされるかを理解することは、移行計画において重要です。
 
 <table>
    <tr>
-     <th><p>Pinecone フィールドタイプ</p></th>
-     <th><p>Zilliz Cloud フィールドタイプ</p></th>
-     <th><p>備考</p></th>
+     <th><p>Pinecone フィールド型</p></th>
+     <th><p>Zilliz Cloud フィールド型</p></th>
+     <th><p>注記</p></th>
    </tr>
    <tr>
      <td><p>主キー</p></td>
      <td><p>VARCHAR (主キー)</p></td>
-     <td><p>自動的にマッピングされます。Auto ID を有効にすると新しい ID が生成されます（元の値は破棄されます）。</p></td>
+     <td><p>自動的にマッピングされます。自動ID を有効にすると新しい ID が生成されます（元の値は破棄されます）。</p></td>
    </tr>
    <tr>
      <td><p>密ベクトル</p></td>
      <td><p>FLOAT_VECTOR</p></td>
-     <td><p>次元は正確に保持され、変更は不要です。</p></td>
+     <td><p>次元はそのまま保持され、変更は不要です</p></td>
    </tr>
    <tr>
      <td><p>疎ベクトル</p></td>
      <td><p>SPARSE_FLOAT_VECTOR</p></td>
-     <td><p>サンプルデータが空でない場合にのみマッピングされます。</p></td>
+     <td><p>サンプルデータで空でない場合にのみマッピングされます。</p></td>
    </tr>
    <tr>
      <td><p>メタデータ</p></td>
-     <td><p>dynamic field</p></td>
-     <td><p>デフォルトでは dynamic schema としてマッピングされます。固定フィールドに変換することも可能です。</p><p>詳細については、<a href="./enable-dynamic-field">Dynamic Field</a> を参照してください。</p></td>
+     <td><p>動的フィールド</p></td>
+     <td><p>デフォルトでは動的スキーマとしてマッピングされます。固定フィールドに変換することも可能です。</p><p>詳細については、<a href="./enable-dynamic-field">動的フィールド</a> を参照してください。</p></td>
    </tr>
    <tr>
      <td><p>ネームスペース</p></td>
-     <td><p>partition key / partition</p></td>
-     <td><p>パフォーマンス最適化のために推奨されます。</p><p>詳細については、<a href="./migrate-from-pinecone#namespace-processing">ネームスペース処理</a>を参照してください。</p></td>
+     <td><p>パーティションキー / パーティション</p></td>
+     <td><p>パフォーマンス最適化のために推奨されます。</p><p>詳細については、<a href="./migrate-from-pinecone#namespace-processing">ネームスペースの処理</a> を参照してください。</p></td>
    </tr>
 </table>
 
-## メタデータフィールドの変換{#metadata-field-conversion}
+## メタデータフィールドの変換\{#metadata-field-conversion}
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Zilliz Cloud は、メタデータ schema を検出するために 100 行をサンプリングします。必要に応じて、追加のフィールドを手動で追加できます。</p>
+<p>Zilliz Cloud はメタデータスキーマを検出するために 100 行をサンプリングします。必要に応じて手動で追加のフィールドを追加できます。</p>
 
 </Admonition>
 
-Pinecone のメタデータは、最大限の柔軟性を確保するために、最初は Zilliz Cloud の dynamic schema にマッピングされます。オプションで、メタデータフィールドを固定フィールドに変換することで、以下のメリットが得られます。
+Pinecone のメタデータは、最大限の柔軟性のために当初 Zilliz Cloud の動的スキーマにマッピングされます。以下の利点を得るために、オプションでメタデータフィールドを固定フィールドに変換できます。
 
 - より強力な検証のためのデータ型の強制
-
-- クエリパフォーマンス向上のためのインデックス最適化
-
-- 一貫したデータ管理のための構造化された schema
+- より良いクエリパフォーマンスのためのインデックス最適化
+- 一貫したデータ管理のための構造化されたスキーマ
 
 メタデータを固定フィールドに変換する場合：
 
 <table>
    <tr>
-     <th><p>Pinecone メタデータタイプ</p></th>
-     <th><p>Zilliz 固定フィールドタイプ</p></th>
-     <th><p>備考</p></th>
+     <th><p>Pinecone メタデータ型</p></th>
+     <th><p>Zilliz 固定フィールド型</p></th>
+     <th><p>注記</p></th>
    </tr>
    <tr>
      <td><p>文字列</p></td>
      <td><p>VARCHAR</p></td>
-     <td><p>最大 65,535 バイトをサポート</p></td>
+     <td><p>最大 65,535 バイトまでサポート</p></td>
    </tr>
    <tr>
      <td><p>数値 (int/float)</p></td>
@@ -156,22 +151,22 @@ Pinecone のメタデータは、最大限の柔軟性を確保するために�
    </tr>
    <tr>
      <td><p>文字列のリスト</p></td>
-     <td><p>ARRAY\<VARCHAR></p></td>
+     <td><p>ARRAY&lt;VARCHAR&gt;</p></td>
      <td><p>ネストされた配列をサポート</p></td>
    </tr>
 </table>
 
-固定フィールドに変換されたメタデータフィールドには、追加の属性を設定できます。
+固定フィールドに変換されたメタデータフィールドに対しては、追加の属性を設定できます。
 
-- **Nullable**: フィールドが null 値を受け入れるかどうかを決定します。この機能はデフォルトで有効になっています。詳細については、[Nullable 属性](./nullable-and-default#nullable-attribute)を参照してください。
+- **NULL 許容**: フィールドが null 値を受け入れられるかどうかを決定します。この機能はデフォルトで有効です。詳細については、[NULL 許容属性](./nullable-fields) を参照してください。
 
-- **Default Value**: データが欠落している場合のフォールバック値を設定します。詳細については、[デフォルト値](./nullable-and-default#default-values)を参照してください。
+- **デフォルト値**: データが欠落している場合のフォールバック値を設定します。詳細については、[デフォルト値](./nullable-fields) を参照してください。
 
-## Pinecone 固有の処理ルール{#pinecone-specific-handling-rules}
+## Pinecone 固有の処理規則\{#pinecone-specific-handling-rules}
 
-### ネームスペース処理{#namespace-processing}
+### ネームスペースの処理\{#namespace-processing}
 
-Pinecone のネームスペースは、2 つの戦略で移行できます。
+Pinecone のネームスペースは、以下の 2 つの戦略を使用して移行できます。
 
 <table>
    <tr>
@@ -181,16 +176,16 @@ Pinecone のネームスペースは、2 つの戦略で移行できます。
      <th><p>ユースケース</p></th>
    </tr>
    <tr>
-     <td><p><strong>Partition Key としてのネームスペース</strong> <em>(推奨)</em></p></td>
-     <td><p>ネームスペースは partition key フィールドの値になります</p></td>
+     <td><p><strong>ネームスペースをパーティションキーとして使用</strong> <em>(推奨)</em></p></td>
+     <td><p>ネームスペースはパーティションキーフィールドの値になります</p></td>
      <td><p>検索パフォーマンスの自動最適化</p></td>
      <td><p>複数のネームスペースを持つほとんどのシナリオ</p></td>
    </tr>
    <tr>
-     <td><p><strong>Partition としてのネームスペース</strong></p></td>
-     <td><p>各ネームスペースが個別の partition になります</p></td>
-     <td><p>手動での partition 管理が必要</p></td>
-     <td><p>ネームスペースが少なく、安定している単純なシナリオ</p></td>
+     <td><p><strong>ネームスペースをパーティションとして使用</strong></p></td>
+     <td><p>各ネームスペースが個別のパーティションになります</p></td>
+     <td><p>手動でのパーティション管理が必要</p></td>
+     <td><p>少数で安定したネームスペースを持つ単純なシナリオ</p></td>
    </tr>
 </table>
 
@@ -198,27 +193,27 @@ Pinecone のネームスペースは、2 つの戦略で移行できます。
 
 <p>Pinecone の <code>default</code> ネームスペースの処理：</p>
 <ul>
-<li><p><strong>Partition として</strong>: Zilliz Cloud では <code>_default</code> partition になります</p></li>
-<li><p><strong>Partition Key として</strong>: 空文字列 <code>""</code> の値になります</p></li>
+<li><p><strong>パーティションとして</strong>: Zilliz Cloud 内の <code>_default</code> パーティションになります</p></li>
+<li><p><strong>パーティションキーとして</strong>: 空文字列 <code>""</code> の値になります</p></li>
 </ul>
-<p>partition および partition key の概念の詳細については、<a href="./manage-partitions">パーティションの管理</a>および<a href="./use-partition-key">パーティションキーの使用</a>を参照してください。</p>
+<p>パーティションおよびパーティションキーの概念の詳細については、<a href="./manage-partitions">パーティションの管理</a> および <a href="./use-partition-key">パーティションキーの使用</a> を参照してください。</p>
 
 </Admonition>
 
-### collection 命名規則{#collection-naming-rules}
+### コレクションの命名規則\{#collection-naming-rules}
 
 Pinecone のインデックス名は、Zilliz Cloud との互換性のために自動的に処理されます。
 
 <table>
    <tr>
      <th><p>Pinecone インデックス名</p></th>
-     <th><p>Zilliz Cloud collection 名</p></th>
-     <th><p>適用されるルール</p></th>
+     <th><p>Zilliz Cloud コレクション名</p></th>
+     <th><p>適用された規則</p></th>
    </tr>
    <tr>
      <td><p><code>my-vector-index</code></p></td>
      <td><p><code>my_vector_index</code></p></td>
-     <td><p>Zilliz Cloud の collection 命名規則に準拠するため、ハイフン (<code>-</code>) はアンダースコア (<code>_</code>) に変換されます</p></td>
+     <td><p>ハイフン (<code>-</code>) は、Zilliz Cloud のコレクション命名規約に準拠するためにアンダースコア (<code>_</code>) に変換されます</p></td>
    </tr>
    <tr>
      <td><p><code>product_search</code></p></td>
@@ -227,11 +222,9 @@ Pinecone のインデックス名は、Zilliz Cloud との互換性のために�
    </tr>
 </table>
 
-**命名の競合**: ターゲットデータベースに同じ名前の collection がすでに存在する場合、以下のいずれかの操作を行う必要があります。
+**名前の競合**: ターゲットデータベースに同じ名前のコレクションが既に存在する場合は、以下のいずれかを行う必要があります。
 
-- 既存の collection を削除する、または
-
-- 別のターゲットデータベースを選択する、または
-
-- 移行設定中にターゲット collection の名前を変更する
+- 既存のコレクションを削除する
+- 別のターゲットデータベースを選択する
+- 移行設定中にターゲットコレクションの名前を変更する
 

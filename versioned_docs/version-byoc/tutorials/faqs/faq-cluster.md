@@ -18,12 +18,12 @@ This topic lists the possible issues that you may encounter while you use Zilliz
 ## Contents
 
 - [What can I do if I receive the error "quota exceeded\[reason=disk quota exceeded, please allocate more resources"?](#what-can-i-do-if-i-receive-the-error-quota-exceededreasondisk-quota-exceeded-please-allocate-more-resources)
-- [How can I scale down my cluster CU size?](#how-can-i-scale-down-my-cluster-cu-size)
+- [How can I scale down the query CUs of my serving cluster?](#how-can-i-scale-down-the-query-cus-of-my-serving-cluster)
 - [How can I deal with a connection timeout error when I attempt to connect to Zilliz Cloud?](#how-can-i-deal-with-a-connection-timeout-error-when-i-attempt-to-connect-to-zilliz-cloud)
 - [Why can’t I connect to the cluster after the cluster is created?](#why-cant-i-connect-to-the-cluster-after-the-cluster-is-created)
 - [What can I do if I cannot connect to Zilliz Cloud with Node.js SDK?](#what-can-i-do-if-i-cannot-connect-to-zilliz-cloud-with-nodejs-sdk)
 - [Will I be charged if I suspend my cluster?](#will-i-be-charged-if-i-suspend-my-cluster)
-- [How to obtain a cluster URI?](#how-to-obtain-a-cluster-uri)
+- [How to obtain a connection endpoint?](#how-to-obtain-a-connection-endpoint)
 
 ## FAQs
 
@@ -32,15 +32,15 @@ This topic lists the possible issues that you may encounter while you use Zilliz
 
 ### What can I do if I receive the error "quota exceeded\[reason=disk quota exceeded, please allocate more resources"?{#what-can-i-do-if-i-receive-the-error-quota-exceededreasondisk-quota-exceeded-please-allocate-more-resources}
 
-When inserting or upserting data, you will receive this error because your data exceeds the cluster CU capacity.  The capacity of a cluster depends on its [CU type and CU size](./cu-types-explained#assess-capacity).
+When inserting or upserting data, you will receive this error because your data exceeds the serving cluster CU capacity.  The capacity of a cluster depends on its [cluster type and CU size](./cu-types-explained#assess-capacity).
 
 To address this issue, you can follow the instructions below.
 
-In such a case, you are advised to  [scale up your cluster](./scale-query-cu) by increasing the CU size.
+In such a case, you are advised to  [scale up your serving cluster](./scale-query-cu) by increasing the query CUs.
 
-### How can I scale down my cluster CU size?{#how-can-i-scale-down-my-cluster-cu-size}
+### How can I scale down the query CUs of my serving cluster?{#how-can-i-scale-down-the-query-cus-of-my-serving-cluster}
 
-If you need to scale down your cluster CU size, please[ submit a request](https://support.zilliz.com/hc/en-us).
+If you need to scale down your cluster, please[ submit a request](https://support.zilliz.com/hc/en-us).
 
 ### How can I deal with a connection timeout error when I attempt to connect to Zilliz Cloud?{#how-can-i-deal-with-a-connection-timeout-error-when-i-attempt-to-connect-to-zilliz-cloud}
 
@@ -70,9 +70,9 @@ A connection timeout error may occur in the following scenarios:
 
     Zilliz Cloud clusters come with TLS enabled, so to connect successfully to your cluster, ensure that you include `secure` in the connect parameters and set it to `true` as shown in the above example. Failure to do so may result in a connection failure and a timeout error prompt.
 
-- Non-whitelisted local IP addresses
+- VPC security group rules
 
-    If you are attempting to connect to your cluster, you also need to ensure that you have turned off any VPN/Proxy connections, obtained your public IP address (private IP addresses simply do not work), and added that IP address to the whitelist for the clusters you want to connect to.
+    If you experience connection timeouts, check your VPC security group rules to ensure the source IP is allowed.
 
 ### Why can’t I connect to the cluster after the cluster is created?{#why-cant-i-connect-to-the-cluster-after-the-cluster-is-created}
 
@@ -148,7 +148,6 @@ If you fail to connect to Zilliz Cloud with the Node.js SDK, please try the foll
 
 When your cluster is suspended, you will only be charged for storage, not computing. For more details about storage costs, see [Pricing](https://zilliz.com/pricing).
 
-### How to obtain a cluster URI?{#how-to-obtain-a-cluster-uri}
-A cluster URI refers to your cluster endpoint which can be used for connection.
+### How to obtain a connection endpoint?{#how-to-obtain-a-connection-endpoint}
 
-You can obtain the URI from the Zilliz Cloud web console. For details, refer to [Connect to Cluster](./connect-to-cluster#connect-to-a-cluster).
+You can obtain the endpoints from the Zilliz Cloud web console. For details about which type of endpoints to use, refer to [Access: Connection Endpionts](./access-connection-endpoints).

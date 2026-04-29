@@ -1,10 +1,11 @@
 ---
 title: "API の可用性 | BYOC"
 slug: /api-comparison
+sidebar_key: api-comparison
 sidebar_label: "API の可用性"
 beta: FALSE
 notebook: FALSE
-description: "Zilliz Cloud は、より良いユーザーエクスペリエンスを提供するために、Milvus とは若干異なる動作をします。この記事では、API の観点から両プラットフォームの違いを明確にすることを目的としています。"
+description: "Zilliz Cloud は、より優れたユーザー体験を提供するために Milvus とは若干異なる動作をします。この記事では、両プラットフォーム間の API に関する違いを明確にすることを目的としています。| BYOC"
 type: origin
 token: DAk8w3GCJiuUTTkms6IcMtnAnMf
 sidebar_position: 2
@@ -13,67 +14,63 @@ keywords:
   - ベクトルデータベース
   - クラウド
   - milvus
-  - API の可用性
-  - milvus
-  - Zilliz
-  - milvus ベクトルデータベース
-  - milvus db
+  - api の可用性
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# APIの可用性
+# API の可用性
 
-Zilliz Cloudは、より良いユーザーエクスペリエンスを提供するために、Milvusとは若干異なる動作をします。この記事では、APIの観点から両プラットフォームの違いを明確にすることを目的としています。
+Zilliz Cloud は、より優れたユーザーエクスペリエンスを提供するために、Milvus とはわずかに異なる動作をします。この記事では、両プラットフォーム間の API に関する違いを明確にすることを目的としています。
 
-MilvusからZilliz Cloudへの移行を計画している場合は、既存のコードにいくつかの必要な変更を加える必要があるかもしれません。
+Milvus から Zilliz Cloud への移行を検討している場合、既存のコードに対していくつかの必要な変更を加える必要があるかもしれません。
 
-## シナリオ固有の権限{#scenario-specific-privileges}
+## シナリオ固有の権限\{#scenario-specific-privileges}
 
-以下の表は、様々なサービスティアにおけるAPIの可用性を比較したものです。 [Bring Your Own Cloud (BYOC)](/docs/byoc/byoc-intro)ソリューションのAPIの可用性は、**StandardおよびEnterprise**ティアのそれと一致することに注意してください。
+以下の表は、サービスティアごとの API の可用性を比較したものです。[Bring Your Own Cloud (BYOC)](/docs/byoc/byoc-intro) ソリューションの API 可用性は、一部の例外を除き、**Standard および Enterprise** ティアと一致します。詳細については、[Zilliz Cloud 制限s](./limits) を参照してください。
 
 <table>
    <tr>
      <th><p><strong>カテゴリ</strong></p></th>
      <th><p><strong>API</strong></p></th>
-     <th><p><strong>コンソール</strong></p></th>
+     <th><p><strong>Console</strong></p></th>
      <th><p><strong>Free</strong></p></th>
      <th><p><strong>Serverless</strong></p></th>
      <th><p><strong>Dedicated / BYOC</strong></p></th>
    </tr>
    <tr>
-     <td rowspan="5"><p>Alias</p></td>
-     <td><p>alterAlias()</p></td>
+     <td rowspan="5"><p>エイリアス</p></td>
+     <td><p>alterエイリアス()</p></td>
      <td><p>✘</p></td>
      <td><p>✘</p></td>
      <td><p>✘</p></td>
      <td><p>✘</p></td>
    </tr>
    <tr>
-     <td><p>createAlias()</p></td>
+     <td><p>createエイリアス()</p></td>
      <td><p>✘</p></td>
      <td><p>✔︎</p></td>
      <td><p>✔︎</p></td>
      <td><p>✔︎</p></td>
    </tr>
    <tr>
-     <td><p>dropAlias()</p></td>
+     <td><p>dropエイリアス()</p></td>
      <td><p>✘</p></td>
      <td><p>✔︎</p></td>
      <td><p>✔︎</p></td>
      <td><p>✔︎</p></td>
    </tr>
    <tr>
-     <td><p>describeAlias()</p></td>
+     <td><p>describeエイリアス()</p></td>
      <td><p>✘</p></td>
      <td><p>✔︎</p></td>
      <td><p>✔︎</p></td>
      <td><p>✔︎</p></td>
    </tr>
    <tr>
-     <td><p>listAliases()</p></td>
+     <td><p>listエイリアスes()</p></td>
      <td><p>✘</p></td>
      <td><p>✔︎</p></td>
      <td><p>✔︎</p></td>
@@ -244,22 +241,22 @@ MilvusからZilliz Cloudへの移行を計画している場合は、既存の�
      <td><p>✔︎</p></td>
    </tr>
    <tr>
-     <td rowspan="3"><p>Database</p></td>
-     <td><p>ListDatabases</p></td>
+     <td rowspan="3"><p>データベース</p></td>
+     <td><p>Listデータベースs</p></td>
      <td><p>✔︎</p></td>
      <td><p>✘</p></td>
      <td><p>✘</p></td>
      <td><p>✔︎</p></td>
    </tr>
    <tr>
-     <td><p>DropDatabase</p></td>
+     <td><p>Dropデータベース</p></td>
      <td><p>✔︎</p></td>
      <td><p>✘</p></td>
      <td><p>✘</p></td>
      <td><p>✔︎</p></td>
    </tr>
    <tr>
-     <td><p>CreateDatabase</p></td>
+     <td><p>Createデータベース</p></td>
      <td><p>✔︎</p></td>
      <td><p>✘</p></td>
      <td><p>✘</p></td>
@@ -374,21 +371,21 @@ MilvusからZilliz Cloudへの移行を計画している場合は、既存の�
      <td><p>✔︎</p></td>
    </tr>
    <tr>
-     <td><p>loadPartitions()</p></td>
+     <td><p>loadパーティション()</p></td>
      <td><p>✘</p></td>
      <td><p>✔︎</p></td>
      <td><p>✔︎</p></td>
      <td><p>✔︎</p></td>
    </tr>
    <tr>
-     <td><p>releasePartitions()</p></td>
+     <td><p>releaseパーティション()</p></td>
      <td><p>✘</p></td>
      <td><p>✔︎</p></td>
      <td><p>✔︎</p></td>
      <td><p>✔︎</p></td>
    </tr>
    <tr>
-     <td><p>showPartitions()</p></td>
+     <td><p>showパーティション()</p></td>
      <td><p>✔︎</p></td>
      <td><p>✔︎</p></td>
      <td><p>✔︎</p></td>
@@ -410,64 +407,64 @@ MilvusからZilliz Cloudへの移行を計画している場合は、既存の�
      <td><p>✔︎</p></td>
    </tr>
    <tr>
-     <td rowspan="12"><p>Role-based access control (RBAC)</p></td>
-     <td><p>addUserToRole()</p></td>
+     <td rowspan="12"><p>ロール-based access control (RBAC)</p></td>
+     <td><p>addUserToロール()</p></td>
      <td><p>✔︎</p></td>
      <td><p>✘</p></td>
      <td><p>✘</p></td>
      <td><p>✔︎</p></td>
    </tr>
    <tr>
-     <td><p>createRole()</p></td>
+     <td><p>createロール()</p></td>
      <td><p>✔︎</p></td>
      <td><p>✘</p></td>
      <td><p>✘</p></td>
      <td><p>✔︎</p></td>
    </tr>
    <tr>
-     <td><p>dropRole()</p></td>
+     <td><p>dropロール()</p></td>
      <td><p>✔︎</p></td>
      <td><p>✘</p></td>
      <td><p>✘</p></td>
      <td><p>✔︎</p></td>
    </tr>
    <tr>
-     <td><p>grantRolePrivilege()</p></td>
+     <td><p>grantロールPrivilege()</p></td>
      <td><p>✔︎</p></td>
      <td><p>✘</p></td>
      <td><p>✘</p></td>
      <td><p>✘</p></td>
    </tr>
    <tr>
-     <td><p>removeUserFromRole()</p></td>
+     <td><p>removeUserFromロール()</p></td>
      <td><p>✔︎</p></td>
      <td><p>✘</p></td>
      <td><p>✘</p></td>
      <td><p>✔︎</p></td>
    </tr>
    <tr>
-     <td><p>revokeRolePrivilege()</p></td>
+     <td><p>revokeロールPrivilege()</p></td>
      <td><p>✔︎</p></td>
      <td><p>✘</p></td>
      <td><p>✘</p></td>
      <td><p>✘</p></td>
    </tr>
    <tr>
-     <td><p>selectGrantForRole()</p></td>
+     <td><p>selectGrantForロール()</p></td>
      <td><p>✔︎</p></td>
      <td><p>✘</p></td>
      <td><p>✘</p></td>
      <td><p>✔︎</p></td>
    </tr>
    <tr>
-     <td><p>selectGrantForRoleAndObject()</p></td>
+     <td><p>selectGrantForロールAndObject()</p></td>
      <td><p>✔︎</p></td>
      <td><p>✘</p></td>
      <td><p>✘</p></td>
      <td><p>✔︎</p></td>
    </tr>
    <tr>
-     <td><p>selectRole()</p></td>
+     <td><p>selectロール()</p></td>
      <td><p>✔︎</p></td>
      <td><p>✘</p></td>
      <td><p>✘</p></td>

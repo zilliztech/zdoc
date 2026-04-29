@@ -1,16 +1,17 @@
 ---
 title: "Schema & Data Fields | Cloud"
 slug: /schema-data-fields
+sidebar_key: schema-data-fields
 sidebar_label: "Schema & Data Fields"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "A schema defines the data structure of a collection and determines the names, order, data types, and related attributes of the collection fields. This chapter mainly discusses the schema and related concepts. | Cloud"
 type: origin
 token: NuWQwL1AhiDzokkx5UPckhthnsf
-sidebar_position: 2
+sidebar_position: 3
 keywords: 
   - zilliz
   - vector database

@@ -1,11 +1,12 @@
 ---
 title: "API Keys | BYOC"
 slug: /manage-api-keys
+sidebar_key: manage-api-keys
 sidebar_label: "API Keys"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "API keys are used to authenticate users or applications making API or SDK calls to access Zilliz Cloud control plane and data plane resources. An API key is an alphanumeric string with its own properties, such as a name and an ID. | BYOC"
 type: origin
@@ -82,6 +83,8 @@ The table below details the access scope of API keys based on assigned roles. Fo
 </table>
 
 ### Limits and restrictions\{#limits-and-restrictions}
+
+- To perform data manipulation operations, use your cluster token instead. A valid cluster token is a colon-separated cluster username and password, as in `user:pass`.
 
 - Each organization can contain a maximum of 100 customized API keys.
 

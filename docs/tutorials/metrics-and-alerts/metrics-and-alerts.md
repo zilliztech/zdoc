@@ -1,16 +1,17 @@
 ---
 title: "Metrics & Alerts | Cloud"
 slug: /metrics-and-alerts
+sidebar_key: metrics-and-alerts
 sidebar_label: "Metrics & Alerts"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "Zilliz Cloud provides handy metric charts and alerts for you to know what is happening in your organization and clusters. | Cloud"
 type: origin
 token: Xma9w6Ne9ihcsZkFkSmcHidEnZg
-sidebar_position: 8
+sidebar_position: 10
 keywords: 
   - zilliz
   - vector database

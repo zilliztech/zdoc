@@ -1,11 +1,12 @@
 ---
 title: "Required GCP API Services | BYOC"
 slug: /required-api-services-gcp
+sidebar_key: required-api-services-gcp
 sidebar_label: "Required GCP API Services"
-beta: CONTACT SALES
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: CONTACT SALES
 notebook: FALSE
 description: "This page lists the Google Cloud Platform (GCP) API services required to create GCP resources using the Zilliz Cloud Terraform Provider and provides several ways to enable them. | BYOC"
 type: origin

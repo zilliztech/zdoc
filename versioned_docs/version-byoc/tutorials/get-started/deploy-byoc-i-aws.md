@@ -1,11 +1,12 @@
 ---
 title: "Deploy BYOC-I on AWS | BYOC"
 slug: /deploy-byoc-i-aws
+sidebar_key: deploy-byoc-i-aws
 sidebar_label: "Deploy BYOC-I on AWS"
-beta: CONTACT SALES
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: CONTACT SALES
 notebook: FALSE
 description: "This page explains how to deploy a Bring-Your-Own-Cloud (BYOC) data plane with a BYOC agent in your AWS Virtual Private Cloud (VPC). | BYOC"
 type: origin

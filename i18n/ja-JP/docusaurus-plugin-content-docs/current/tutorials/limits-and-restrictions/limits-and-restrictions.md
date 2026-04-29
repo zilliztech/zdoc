@@ -1,32 +1,29 @@
 ---
-title: "制限事項 | Cloud"
+title: "制限と制約 | Cloud"
 slug: /limits-and-restrictions
-sidebar_label: "制限事項"
+sidebar_key: limits-and-restrictions
+sidebar_label: "制限と制約"
 beta: FALSE
 notebook: FALSE
-description: "Zilliz Cloud での操作に関する制限事項について説明します。"
+description: "Zilliz Cloud での操作において知っておくべき制限と制約について学びます。| Cloud"
 type: origin
 token: Tve5wxmTHio0LPk50jgcKHe1nWg
-sidebar_position: 15
+sidebar_position: 18
 keywords: 
   - zilliz
   - ベクトルデータベース
-  - クラウド
+  - cloud
   - milvus
   - 制限
-  - ベクトルDB比較
-  - openai ベクトルDB
-  - 自然言語処理データベース
-  - 安価なベクトルデータベース
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# 制限事項
+# 制限と制約
 
-Zilliz Cloud での操作に関して知っておくべき制限事項について説明します。
+Zilliz Cloud での操作に関して知っておくべき制限と制約について学びます。
 
 import DocCardList from '@theme/DocCardList';
 

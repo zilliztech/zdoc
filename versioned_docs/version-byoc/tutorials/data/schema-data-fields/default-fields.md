@@ -1,13 +1,14 @@
 ---
 title: "Default Values | BYOC"
 slug: /default-fields
+sidebar_key: default-fields
 sidebar_label: "Default Values"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
-description: "Milvus allows you to set default values for scalar fields (excluding the primary field). When a field has a default value configured, Milvus automatically applies this value if no data is provided during insertion. | BYOC"
+description: "Zilliz Cloud allows you to set default values for scalar fields (excluding the primary field). When a field has a default value configured, Zilliz Cloud automatically applies this value if no data is provided during insertion. | BYOC"
 type: origin
 token: SsGkwyGJDirNDwk170rcHbUjnVe
 sidebar_position: 15
@@ -27,9 +28,9 @@ import TabItem from '@theme/TabItem';
 
 # Default Values
 
-Milvus allows you to set default values for scalar fields (excluding the primary field). When a field has a default value configured, Milvus automatically applies this value if no data is provided during insertion.
+Zilliz Cloud allows you to set default values for scalar fields (excluding the primary field). When a field has a default value configured, Zilliz Cloud automatically applies this value if no data is provided during insertion.
 
-Default values simplify data migration from other database systems to Milvus by preserving existing default value settings. You can also use default values for fields where values might be uncertain at the time of insertion.
+Default values simplify data migration from other database systems to Zilliz Cloud by preserving existing default value settings. You can also use default values for fields where values might be uncertain at the time of insertion.
 
 ## Limits\{#limits}
 
@@ -111,7 +112,7 @@ client.create_collection(collection_name="my_collection", schema=schema, index_p
 
 ## Insert entities\{#insert-entities}
 
-When inserting data, if you omit a field that has a default value or explicitly set it to NULL, Milvus automatically uses the configured default value.
+When inserting data, if you omit a field that has a default value or explicitly set it to NULL, Zilliz Cloud automatically uses the configured default value.
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -320,7 +321,7 @@ Query results (status == 'active'):
 
 ## Applicable rules\{#applicable-rules}
 
-When both `nullable` and `default_value` are configured for a field, the following rules determine how Milvus handles NULL input or missing field values during insertion.
+When both `nullable` and `default_value` are configured for a field, the following rules determine how Zilliz Cloud handles NULL input or missing field values during insertion.
 
 <table>
    <tr>

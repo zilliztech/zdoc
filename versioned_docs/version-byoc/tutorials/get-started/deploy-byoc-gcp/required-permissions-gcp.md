@@ -1,11 +1,12 @@
 ---
 title: "Required Permissions | BYOC"
 slug: /required-permissions-gcp
+sidebar_key: required-permissions-gcp
 sidebar_label: "Required Permissions"
-beta: CONTACT SALES
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: CONTACT SALES
 notebook: FALSE
 description: "This page lists the IAM policies required during the deployment of Zilliz BYOC data plane on your VPC network. | BYOC"
 type: origin

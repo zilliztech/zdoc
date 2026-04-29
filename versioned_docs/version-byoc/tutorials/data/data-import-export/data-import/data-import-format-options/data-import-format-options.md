@@ -1,11 +1,12 @@
 ---
 title: "Format Options | BYOC"
 slug: /data-import-format-options
+sidebar_key: data-import-format-options
 sidebar_label: "Format Options"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "Zilliz Cloud supports importing data in various formats, including Parquet (recommended), JSON, and NumPy files. In this section, you will find the procedures for importing data in these formats and the aspects you should pay attention to to. | BYOC"
 type: origin

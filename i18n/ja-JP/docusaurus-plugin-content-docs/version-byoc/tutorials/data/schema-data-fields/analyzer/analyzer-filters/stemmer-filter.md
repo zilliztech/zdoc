@@ -1,26 +1,23 @@
 ---
 title: "ステマー | BYOC"
 slug: /stemmer-filter
+sidebar_key: stemmer-filter
 sidebar_label: "ステマー"
 beta: FALSE
 notebook: FALSE
-description: "`stemmer` フィルターは、単語をその基本形または語根形（ステミングとして知られる）に還元し、異なる活用形を持つ単語間で類似の意味を持つ単語を照合しやすくします。`stemmer` フィルターは複数の言語をサポートしており、さまざまな言語コンテキストで効果的な検索とインデックス作成を可能にします。 | BYOC"
+description: "`stemmer` フィルターは、単語を基本形または語根（ステミングと呼ばれます）に還元し、異なる活用形を持つ類似の意味の単語をマッチングしやすくします。`stemmer` フィルターは複数の言語に対応しており、さまざまな言語コンテキストで効果的な検索とインデックス作成を可能にします。 | BYOC"
 type: origin
 token: JksSwTwJPidjsnk18Olc2TjWnZe
 sidebar_position: 9
 keywords: 
   - zilliz
   - ベクトルデータベース
-  - クラウド
+  - cloud
   - collection
   - schema
   - analyzer
   - 組み込みフィルター
   - stemmer
-  - Agentic RAG
-  - rag llm アーキテクチャ
-  - プライベート LLM
-  - NN 検索
 
 ---
 
@@ -30,11 +27,11 @@ import TabItem from '@theme/TabItem';
 
 # Stemmer
 
-`stemmer` フィルターは、単語をその基本形または語根形（ステミングとして知られています）に還元し、異なる活用形を持つ単語を類似の意味で照合しやすくします。`stemmer` フィルターは複数の言語をサポートしており、さまざまな言語コンテキストで効果的な検索とインデックス作成を可能にします。
+`stemmer` フィルターは、単語をその基本形または語幹（ステミングと呼ばれる処理）に還元し、異なる活用形を持つ類似の意味の単語を簡単にマッチングできるようにします。`stemmer` フィルターは複数の言語をサポートしており、さまざまな言語環境において効果的な検索およびインデックス作成を実現します。
 
-## 設定{#configuration}
+## 設定\{#configuration}
 
-`stemmer` フィルターは Zilliz Cloud のカスタムフィルターです。これを使用するには、フィルター設定で `"type": "stemmer"` を指定し、ステミングに使用する言語を選択するための `language` パラメーターも指定します。
+`stemmer` フィルターは Zilliz Cloud におけるカスタムフィルターです。このフィルターを使用するには、フィルター設定で `"type": "stemmer"` を指定し、さらに `language` パラメータを設定してステミングに使用する言語を選択します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -68,7 +65,7 @@ analyzerParams.put("filter",
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 const analyzer_params = {
@@ -82,7 +79,7 @@ const analyzer_params = {
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 analyzerParams = map[string]any{"tokenizer": "standard",
@@ -94,7 +91,7 @@ analyzerParams = map[string]any{"tokenizer": "standard",
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 # restful
@@ -122,19 +119,19 @@ analyzerParams='{
    </tr>
    <tr>
      <td><p><code>language</code></p></td>
-     <td><p>ステミング処理の言語を指定します。サポートされている言語は以下の通りです: <code>"arabic"</code>, <code>"danish"</code>, <code>"dutch"</code>, <code>"english"</code>, <code>"finnish"</code>, <code>"french"</code>, <code>"german"</code>, <code>"greek"</code>, <code>"hungarian"</code>, <code>"italian"</code>, <code>"norwegian"</code>, <code>"portuguese"</code>, <code>"romanian"</code>, <code>"russian"</code>, <code>"spanish"</code>, <code>"swedish"</code>, <code>"tamil"</code>, <code>"turkish"</code></p></td>
+     <td><p>ステミング処理に使用する言語を指定します。サポートされている言語には、<code>"arabic"</code>、<code>"danish"</code>、<code>"dutch"</code>、<code>"english"</code>、<code>"finnish"</code>、<code>"french"</code>、<code>"german"</code>、<code>"greek"</code>、<code>"hungarian"</code>、<code>"italian"</code>、<code>"norwegian"</code>、<code>"portuguese"</code>、<code>"romanian"</code>、<code>"russian"</code>、<code>"spanish"</code>、<code>"swedish"</code>、<code>"tamil"</code>、<code>"turkish"</code> が含まれます。</p></td>
    </tr>
 </table>
 
-`stemmer` フィルターはトークナイザーによって生成された用語に対して動作するため、トークナイザーと組み合わせて使用する必要があります。
+`stemmer` フィルターはトークナイザーによって生成された語彙項（term）に対して動作するため、トークナイザーと組み合わせて使用する必要があります。
 
-`analyzer_params` を定義した後、collection schema を定義する際に `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud は指定された analyzer を使用してそのフィールドのテキストを処理し、効率的なトークン化とフィルタリングを行います。詳細については、[使用例](./analyzer-overview#example-use) を参照してください。
+`analyzer_params` を定義した後、コレクションスキーマを定義する際に `VARCHAR` 型フィールドに適用できます。これにより、Zilliz Cloud はそのフィールドのテキストを指定されたアナライザーを使用して効率的にトークン化およびフィルタリング処理を行います。詳細については、[Example use](./analyzer-overview#example-use) を参照してください。
 
-## 例{#examples}
+## 例\{#examples}
 
-analyzer 設定を collection schema に適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
+コレクションスキーマにアナライザー設定を適用する前に、`run_analyzer` メソッドを使用してその動作を検証してください。
 
-### アナライザー設定{#analyzer-configuration}
+### アナライザー設定\{#analyzer-configuration}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -168,7 +165,7 @@ analyzerParams.put("filter",
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 // javascript
@@ -176,7 +173,7 @@ analyzerParams.put("filter",
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 analyzerParams = map[string]any{"tokenizer": "standard",
@@ -188,7 +185,7 @@ analyzerParams = map[string]any{"tokenizer": "standard",
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 # restful
@@ -207,7 +204,7 @@ analyzerParams='{
 </TabItem>
 </Tabs>
 
-### `run_analyzer` を使用した検証 {#verification-using-runanalyzer}
+### `run_analyzer` を使用した検証\{#verification-using-runanalyzer}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -254,7 +251,7 @@ List<RunAnalyzerResp.AnalyzerResult> results = resp.getResults();
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 // javascript
@@ -262,7 +259,7 @@ List<RunAnalyzerResp.AnalyzerResult> results = resp.getResults();
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 import (
@@ -296,7 +293,7 @@ if err != nil {
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 # restful
@@ -306,7 +303,7 @@ not support yet
 </TabItem>
 </Tabs>
 
-### 期待される出力結果\{#expected-output}
+### 期待される出力\{#expected-output}
 
 ```python
 ['run', 'run', 'look', 'ran', 'runner']

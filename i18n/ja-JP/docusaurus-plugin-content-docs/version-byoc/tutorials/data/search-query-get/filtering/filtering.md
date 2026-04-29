@@ -1,10 +1,11 @@
 ---
 title: "フィルタリング | BYOC"
 slug: /filtering
+sidebar_key: filtering
 sidebar_label: "フィルタリング"
 beta: FALSE
 notebook: FALSE
-description: "この章では、スカラーフィールドでのフィルタリングの実行方法、および適用可能なフィルタリング演算子とテンプレートについて説明します。 | BYOC"
+description: "この章では、スカラーフィールドに対するフィルタリングの実行方法、適用可能なフィルタリング演算子、およびテンプレートについて説明します。| BYOC"
 type: origin
 token: ObdvwrXi9ia9i0kTLKUcCaYtnhd
 sidebar_position: 9
@@ -13,14 +14,10 @@ keywords:
   - ベクトルデータベース
   - cloud
   - collection
-  - データ
-  - フィルター
+  - data
+  - filter
   - フィルタリング式
   - フィルタリング
-  - 情報検索
-  - 次元削減
-  - hnsw アルゴリズム
-  - ベクトル類似性検索
 
 ---
 
@@ -29,7 +26,7 @@ import Admonition from '@theme/Admonition';
 
 # フィルタリング
 
-この章では、スカラーフィールドに対するフィルタリングの実行方法、および適用可能なフィルタリング演算子とテンプレートについて説明します。
+この章では、スカラーフィールドに対するフィルタリングの実行方法と、適用可能なフィルタリング演算子およびテンプレートについて説明します。
 
 
 

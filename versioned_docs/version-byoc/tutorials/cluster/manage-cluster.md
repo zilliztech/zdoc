@@ -1,11 +1,12 @@
 ---
 title: "Manage Cluster | BYOC"
 slug: /manage-cluster
+sidebar_key: manage-cluster
 sidebar_label: "Manage Cluster"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "This guide describes the lifecycle of a cluster so that you can make full use of your Zilliz Cloud console to achieve your goals. | BYOC"
 type: origin
@@ -30,13 +31,17 @@ import Supademo from '@site/src/components/Supademo';
 
 This guide describes the lifecycle of a cluster so that you can make full use of your Zilliz Cloud console to achieve your goals.
 
-## Rename cluster\{#rename-cluster}
+## Manage serving cluster\{#manage-serving-cluster}
+
+You can perform the following operations on a serving cluster.
+
+### Rename\{#rename}
 
 Navigate to the **Cluster Details** page of your target cluster and then follow the instructions below to rename your cluster.
 
 <Supademo id="cm9tp57ye0ri911m7ljrn1yg6" title=""  />
 
-## Suspend cluster\{#suspend-cluster}
+### Suspend\{#suspend}
 
 You can suspend a cluster via the web console or programmatically.
 
@@ -74,7 +79,7 @@ curl --request POST \
 
 In the command above,
 
-- `{API_KEY}`: The credential used to authenticate API requests. Replace the value with your own.
+- `{API_KEY}`: The credential used to authenticate API requests. Replace the value with your own. Note that API keys authenticate Platform API (Control Plane) requests. For data plan connections, use cluster credentials (`username:password`) instead.
 
 - `{CLUSTER_ID}`: The ID of the Dedicated cluster to suspend.
 
@@ -86,7 +91,7 @@ For details, refer to [Suspend Cluster](/reference/restful/suspend-cluster-v2).
 
 Once the suspend operation is successful, a job record will be generated. You can check the progress on the [Jobs](./job-center) page.
 
-## Resume cluster\{#resume-cluster}
+### Resume\{#resume}
 
 Please note that during resuming, you cannot perform other actions on the cluster.
 
@@ -137,7 +142,7 @@ curl --request POST \
 
 In the command above,
 
-- `{API_KEY}`: The credential used to authenticate API requests. Replace the value with your own.
+- `{API_KEY}`: The credential used to authenticate API requests. Replace the value with your own. Note that API keys authenticate Platform API (Control Plane) requests. For data plan connections, use cluster credentials (`username:password`) instead.
 
 - `{CLUSTER_ID}`: The ID of the cluster to resume.
 
@@ -149,13 +154,7 @@ For details, refer to [Resume Cluster](/reference/restful/resume-cluster-v2).
 
 Once the resume operation is successful, a job record will be generated. You can check the progress on the [Jobs](./job-center) page.
 
-## Convert to a global cluster\{#convert-to-a-global-cluster}
-
-If you need to convert an existing Dedicated cluster to a [global cluster](./global-cluster-explained), follow the steps below.
-
-<Supademo id="cmm5p53sh3hogdtfhemesjhv0" title=""  />
-
-## Drop cluster\{#drop-cluster}
+### Drop\{#drop}
 
 When a cluster is no longer needed, you can drop it. You can drop a cluster via the web console or programatically.
 
@@ -193,7 +192,7 @@ curl --request POST \
 
 In the command above,
 
-- `{API_KEY}`: The credential used to authenticate API requests. Replace the value with your own.
+- `{API_KEY}`: The credential used to authenticate API requests. Replace the value with your own. Note that API keys authenticate Platform API (Control Plane) requests. For data plan connections, use cluster credentials (`username:password`) instead.
 
 - `{CLUSTER_ID}`: The ID of the Dedicated cluster to drop.
 
@@ -202,4 +201,21 @@ For details, refer to [Drop Cluster](/reference/restful/drop-cluster-v2).
 </TabItem>
 
 </Tabs>
+
+## Manage on-demand cluster ｜PUBLIC\{#manage-on-demand-cluster-public}
+
+You can perform the following operations on an on-demand cluster.
+
+### Drop\{#drop}
+
+- **Via RESTful API**
+
+    ```bash
+    curl --request DELETE \
+         --url "https://${BASE_URL}/v2/clusters/onDemandClusters/in07-7d6ac8697204a6a" \
+         --header "Authorization: Bearer ${API_KEY}" \
+         --header "Accept: application/json"
+    ```
+
+- **Via web console**
 

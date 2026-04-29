@@ -1,11 +1,12 @@
 ---
 title: "Integrate with Prometheus | Cloud"
 slug: /prometheus-monitoring
+sidebar_key: prometheus-monitoring
 sidebar_label: "Prometheus"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "Prometheus is a monitoring system that collects metrics from configured targets at specified intervals, evaluates rule expressions, displays the results, and can trigger alerts based on specific conditions. | Cloud"
 type: origin
@@ -54,9 +55,11 @@ To monitor Zilliz Cloud clusters with Prometheus, follow these steps:
 
     ```yaml
     scrape_configs:
-      - job_name: in01-06b8404b623xxxx
+      - job_name: {{clusterId}}
         scheme: https
         metrics_path: /v2/clusters/{{clusterId}}/metrics/export
+        scrape_interval: 60s
+        scrape_timeout: 30s
         authorization:
           type: Bearer
           credentials: {{apiKey}}
@@ -64,6 +67,12 @@ To monitor Zilliz Cloud clusters with Prometheus, follow these steps:
         static_configs:
             - targets: ["api.cloud.zilliz.com"]
     ```
+
+    <Admonition type="info" icon="📘" title="Notes">
+
+    <p>The cluster must contain no more than 10,000 collections. Clusters exceeding this limit may experience incomplete or degraded metrics export.</p>
+
+    </Admonition>
 
     <table>
        <tr>
@@ -83,6 +92,10 @@ To monitor Zilliz Cloud clusters with Prometheus, follow these steps:
          <td><p>The path on the target service that provides the metric data.</p></td>
        </tr>
        <tr>
+         <td><p><code>scrape_interval</code></p></td>
+         <td><p>How frequently to scrape the target. The minimum supported value is <code>60s</code>. Lower values are not accepted by the endpoint.</p></td>
+       </tr>
+       <tr>
          <td><p><code>authorization.type</code></p></td>
          <td><p>The authentication type used to access the Zilliz Cloud metrics. Set the value to <code>Bearer</code>.</p></td>
        </tr>
@@ -92,7 +105,7 @@ To monitor Zilliz Cloud clusters with Prometheus, follow these steps:
        </tr>
        <tr>
          <td><p><code>static_configs.targets</code></p></td>
-         <td><p>The static target that Prometheus will scrape, which should be <code>api.cloud.zilliz.com</code>, the host address of the Zilliz Cloud RESTful API.</p></td>
+         <td><p>The static target that Prometheus will scrape, which should be <code>api.cloud.zilliz.com</code>, the host address of the Zilliz Cloud RESTful API..</p></td>
        </tr>
     </table>
 
@@ -104,25 +117,41 @@ For more details, refer to [Prometheus official documentation](https://prometheu
 
 ## Example scraped metrics\{#example-scraped-metrics}
 
-The following are example Prometheus metrics scraped from the Zilliz Cloud `/metrics/export` endpoint:
+The following are example Prometheus metrics scraped from the Zilliz Cloud `/metrics/export` endpoint. Per-collection metrics include `collection_name` and `db_name` labels, while cluster-only metrics remain unchanged.
 
-```plaintext
+```yaml
+# HELP zilliz_entities Total number of entities stored
+# TYPE zilliz_entities gauge
+zilliz_entities{cluster_id="in01-xxx", collection_name="prod_embedding", db_name="default"} 5000000
+zilliz_entities{cluster_id="in01-xxx", collection_name="user_profile", db_name="default"} 120000
+# HELP zilliz_loaded_entities Number of entities loaded in memory
+# TYPE zilliz_loaded_entities gauge
+zilliz_loaded_entities{cluster_id="in01-xxx", collection_name="prod_embedding", db_name="default"} 3000000
+zilliz_loaded_entities{cluster_id="in01-xxx", collection_name="user_profile", db_name="default"} 80000
+
+# HELP zilliz_requests_total Total number of requests processed
+# TYPE zilliz_requests_total counter
+zilliz_requests_total{cluster_id="in01-xxx", request_type="search", status="success", collection_name="prod_embedding", db_name="default"} 30000
+zilliz_requests_total{cluster_id="in01-xxx", request_type="search", status="success", collection_name="user_profile", db_name="default"} 12850
+# HELP zilliz_request_duration_seconds_bucket Latency distribution of requests
+# TYPE zilliz_request_duration_seconds_bucket histogram
+zilliz_request_duration_seconds_bucket{cluster_id="in01-xxx", request_type="search", le="0.1", collection_name="prod_embedding", db_name="default"} 28000
+zilliz_request_duration_seconds_bucket{cluster_id="in01-xxx", request_type="search", le="0.1", collection_name="user_profile", db_name="default"} 10000
+# HELP zilliz_request_vectors_total Total number of vectors in requests
+# TYPE zilliz_request_vectors_total counter
+zilliz_request_vectors_total{cluster_id="in01-xxx", request_type="search", collection_name="prod_embedding", db_name="default"} 50000
+zilliz_request_vectors_total{cluster_id="in01-xxx", request_type="insert", collection_name="prod_embedding", db_name="default"} 10000
+
+# --- Cluster-only metrics ---
 # HELP zilliz_cluster_capacity Cluster capacity ratio
 # TYPE zilliz_cluster_capacity gauge
 zilliz_cluster_capacity 0.88
 # HELP zilliz_cluster_computation Cluster computation ratio
 # TYPE zilliz_cluster_computation gauge
 zilliz_cluster_computation 0.1
-# HELP zilliz_cluster_storage_bytes Cluster storage usage
-# TYPE zilliz_cluster_storage_bytes gauge
-zilliz_cluster_storage_bytes 8.9342782E7
-# HELP zilliz_request_vectors_total Total number of vectors in requests
-# TYPE zilliz_request_vectors_total counter
-zilliz_request_vectors_total{request_type="bulk_insert"} 1.0
-zilliz_request_vectors_total{request_type="delete"} 1.0
-zilliz_request_vectors_total{request_type="insert"} 1.0
-zilliz_request_vectors_total{request_type="search"} 1.0
-zilliz_request_vectors_total{request_type="upsert"} 1.0
+# HELP zilliz_storage_bytes Cluster storage usage
+# TYPE zilliz_storage_bytes gauge
+zilliz_storage_bytes 8.9342782E7
 ```
 
 ## Zilliz Cloud metric labels\{#zilliz-cloud-metric-labels}
@@ -152,8 +181,13 @@ The metrics exposed by Zilliz Cloud are labeled with the following identifiers.
    </tr>
    <tr>
      <td><p><code>collection_name</code></p></td>
-     <td><p>The name of the collection being monitored.</p></td>
+     <td><p>The name of the collection. Present on all per-collection metrics, including request metrics (<code>zilliz_requests_total</code>, <code>zilliz_request_vectors_total</code>, <code>zilliz_request_duration_seconds_bucket</code>) and data metrics (<code>zilliz_entities</code>, <code>zilliz_loaded_entities</code>).</p></td>
      <td><p>-</p></td>
+   </tr>
+   <tr>
+     <td><p><code>db_name</code></p></td>
+     <td><p>The name of the database the collection belongs to. Present on all per-collection metrics alongside <code>collection_name</code>. Use this label to disambiguate collections with the same name across different databases.</p></td>
+     <td><p>Defaults to <code>default</code></p></td>
    </tr>
    <tr>
      <td><p><code>request_type</code></p></td>
@@ -169,7 +203,7 @@ The metrics exposed by Zilliz Cloud are labeled with the following identifiers.
 
 ## Available metrics\{#available-metrics}
 
-The following table lists the metrics available for Zilliz Cloud, along with their types, descriptions, and associated labels.
+The following table lists the metrics available for Zilliz Cloud, along with their types, descriptions, and associated labels. Per-collection metrics are returned with `collection_name` and `db_name` labels, producing separate time series for each collection. Cluster-only metrics are returned as a single series per cluster.
 
 <table>
    <tr>
@@ -206,19 +240,19 @@ The following table lists the metrics available for Zilliz Cloud, along with the
      <td><p><code>zilliz_requests_total</code></p></td>
      <td><p>Counter</p></td>
      <td><p>The total number of requests processed.</p></td>
-     <td><p><code>cluster_id</code>, <code>org_id</code>, <code>project_id</code>, <code>request_type</code>, <code>status</code></p></td>
+     <td><p><code>cluster_id</code>, <code>org_id</code>, <code>project_id</code>, <code>request_type</code>, <code>status</code>, <code>collection_name</code>, <code>db_name</code></p></td>
    </tr>
    <tr>
      <td><p><code>zilliz_request_vectors_total</code></p></td>
      <td><p>Counter</p></td>
      <td><p>The total number of vectors manipulated across all requests.</p></td>
-     <td><p><code>cluster_id</code>, <code>org_id</code>, <code>project_id</code>, <code>request_type</code></p></td>
+     <td><p><code>cluster_id</code>, <code>org_id</code>, <code>project_id</code>, <code>request_type</code>, <code>collection_name</code>, <code>db_name</code></p></td>
    </tr>
    <tr>
      <td><p><code>zilliz_request_duration_seconds_bucket</code></p></td>
      <td><p>Histogram</p></td>
      <td><p>The latency distribution of requests processed.</p></td>
-     <td><p><code>cluster_id</code>, <code>org_id</code>, <code>project_id</code>, <code>request_type</code></p></td>
+     <td><p><code>cluster_id</code>, <code>org_id</code>, <code>project_id</code>, <code>request_type</code>, <code>collection_name</code>, <code>db_name</code></p></td>
    </tr>
    <tr>
      <td><p><code>zilliz_slow_queries_total</code></p></td>
@@ -230,19 +264,13 @@ The following table lists the metrics available for Zilliz Cloud, along with the
      <td><p><code>zilliz_entities</code></p></td>
      <td><p>Gauge</p></td>
      <td><p>The total number of entities stored.</p></td>
-     <td><p><code>cluster_id</code>, <code>org_id</code>, <code>project_id</code>, <code>collection_name</code></p></td>
+     <td><p><code>cluster_id</code>, <code>org_id</code>, <code>project_id</code>, <code>collection_name</code>, <code>db_name</code></p></td>
    </tr>
    <tr>
      <td><p><code>zilliz_loaded_entities</code></p></td>
      <td><p>Gauge</p></td>
      <td><p>The number of entities currently loaded in memory.</p></td>
-     <td><p><code>cluster_id</code>, <code>org_id</code>, <code>project_id</code>, <code>collection_name</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>zilliz_indexed_entities</code></p></td>
-     <td><p>Gauge</p></td>
-     <td><p>The number of entities that have been indexed.</p></td>
-     <td><p><code>cluster_id</code>, <code>org_id</code>, <code>project_id</code>, <code>collection_name</code></p></td>
+     <td><p><code>cluster_id</code>, <code>org_id</code>, <code>project_id</code>, <code>collection_name</code>, <code>db_name</code></p></td>
    </tr>
    <tr>
      <td><p><code>zilliz_collections</code></p></td>
@@ -260,7 +288,7 @@ The following table lists the metrics available for Zilliz Cloud, along with the
 
 ## Example Prometheus queries\{#example-prometheus-queries}
 
-Here are some example queries you can use to analyze Zilliz Cloud metrics with Prometheus:
+Here are some example queries you can use to analyze Zilliz Cloud metrics with Prometheus.
 
 - Calculate insert QPS
 

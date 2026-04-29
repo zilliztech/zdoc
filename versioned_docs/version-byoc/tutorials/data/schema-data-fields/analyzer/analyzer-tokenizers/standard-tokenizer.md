@@ -1,11 +1,12 @@
 ---
 title: "Standard Tokenizer | BYOC"
 slug: /standard-tokenizer
-sidebar_label: "Standard Tokenizer"
-beta: FALSE
+sidebar_key: standard-tokenizer
+sidebar_label: "Standard"
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "The `standard` tokenizer in Zilliz Cloud splits text based on spaces and punctuation marks, making it suitable for most languages. | BYOC"
 type: origin

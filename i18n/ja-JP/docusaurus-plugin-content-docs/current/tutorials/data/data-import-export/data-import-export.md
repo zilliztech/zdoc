@@ -1,33 +1,30 @@
 ---
-title: "データのインポートとエクスポート | Cloud"
+title: "インポートとエクスポート | Cloud"
 slug: /data-import-export
-sidebar_label: "データのインポートとエクスポート"
+sidebar_key: data-import-export
+sidebar_label: "インポートとエクスポート"
 beta: FALSE
 notebook: FALSE
-description: "この章では、Zilliz Cloud クラスターへのデータのインポートとエクスポートに関する一般的な手順について説明します。"
+description: "この章では、Zilliz Cloud クラスターへのデータのインポートおよびクラスターからのデータのエクスポートに関する一般的な手順について説明します。| Cloud"
 type: origin
 token: Oh3VwT15Yi03bRkOtoXcZpurnWe
-sidebar_position: 6
+sidebar_position: 7
 keywords: 
   - zilliz
   - ベクトルデータベース
-  - クラウド
+  - cloud
   - データインポート
   - エクスポート
   - milvus
-  - マネージドベクトルデータベース
-  - Pinecone ベクトルデータベース
-  - 音声検索
-  - セマンティック検索とは
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# データのインポートとエクスポート
+# インポートとエクスポート
 
-この章では、Zilliz Cloud クラスターへのデータのインポートとエクスポートに関する一般的な手順について説明します。
+この章では、Zilliz Cloud クラスターへのデータインポートおよびクラスターからのデータエクスポートに関する一般的な手順について説明します。
 
 import DocCardList from '@theme/DocCardList';
 

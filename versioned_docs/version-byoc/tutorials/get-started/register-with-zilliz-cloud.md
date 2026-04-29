@@ -1,11 +1,12 @@
 ---
 title: "Register with Zilliz Cloud | BYOC"
 slug: /register-with-zilliz-cloud
+sidebar_key: register-with-zilliz-cloud
 sidebar_label: "Register with Zilliz Cloud"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "This guide provides comprehensive instructions on how to create an account for accessing Zilliz Cloud services. | BYOC"
 type: origin

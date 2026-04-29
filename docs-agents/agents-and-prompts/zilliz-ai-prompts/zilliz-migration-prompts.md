@@ -1,11 +1,12 @@
 ---
 title: "Migration | Cloud"
 slug: /zilliz-migration-prompts
+sidebar_key: zilliz-migration-prompts
 sidebar_label: "Migration"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "You can use this prompt for AI-powered IDEs, helping AI assistants implement Zilliz Cloud features correctly and efficiently. | Cloud"
 type: origin

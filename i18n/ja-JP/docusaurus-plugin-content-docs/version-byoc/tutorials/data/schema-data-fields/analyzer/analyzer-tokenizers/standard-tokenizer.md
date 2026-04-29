@@ -1,26 +1,23 @@
 ---
-title: "Standard Tokenizer | BYOC"
+title: "標準トークナイザー | BYOC"
 slug: /standard-tokenizer
-sidebar_label: "Standard Tokenizer"
+sidebar_key: standard-tokenizer
+sidebar_label: "標準"
 beta: FALSE
 notebook: FALSE
-description: "Zilliz Cloud の `standard` トークナイザーは、スペースと句読点に基づいてテキストを分割するため、ほとんどの言語に適しています。 | BYOC"
+description: "Zilliz Cloud の `standard` トークナイザーは、スペースや句読点に基づいてテキストを分割し、ほとんどの言語に適しています。| BYOC"
 type: origin
 token: GAX8wkC1QiTZhXkLBocc1GoTnke
 sidebar_position: 1
 keywords: 
   - zilliz
-  - vector database
+  - ベクトルデータベース
   - cloud
   - collection
   - schema
   - analyzer
   - 組み込みトークナイザー
   - standard-tokenizer
-  - コサイン距離
-  - ベクトルデータベースとは
-  - vectordb
-  - マルチモーダルベクトルデータベース検索
 
 ---
 
@@ -28,13 +25,13 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Standard Tokenizer
+# Standard トークナイザー
 
-Zilliz Cloud の `standard` トークナイザーは、スペースと句読点に基づいてテキストを分割するため、ほとんどの言語に適しています。
+Zilliz Cloud の `standard` トークナイザーは、スペースおよび句読点に基づいてテキストを分割するため、ほとんどの言語に適しています。
 
-## 設定{#configuration}
+## 設定\{#configuration}
 
-`standard` トークナイザーを使用してアナライザーを設定するには、`analyzer_params` で `tokenizer` を `standard` に設定します。
+`standard` トークナイザーを使用してアナライザーを設定するには、`analyzer_params` 内の `tokenizer` を `standard` に設定します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -56,7 +53,7 @@ analyzerParams.put("tokenizer", "standard");
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 const analyzer_params = {
@@ -66,7 +63,7 @@ const analyzer_params = {
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 analyzerParams = map[string]any{"tokenizer": "standard"}
@@ -74,7 +71,7 @@ analyzerParams = map[string]any{"tokenizer": "standard"}
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 # restful
@@ -86,7 +83,7 @@ analyzerParams='{
 </TabItem>
 </Tabs>
 
-`standard` トークナイザーは、1つ以上のフィルターと連携して動作できます。例えば、以下のコードは、`standard` トークナイザーと `lowercase` フィルターを使用するアナライザーを定義しています。
+`standard` トークナイザーは、1つ以上のフィルターと組み合わせて使用できます。たとえば、次のコードでは、`standard` トークナイザーと `lowercase` フィルターを使用するアナライザーを定義しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -110,7 +107,7 @@ analyzerParams.put("filter", Collections.singletonList("lowercase"));
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 const analyzer_params = {
@@ -121,7 +118,7 @@ const analyzer_params = {
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 analyzerParams = map[string]any{"tokenizer": "standard", "filter": []any{"lowercase"}}
@@ -129,7 +126,7 @@ analyzerParams = map[string]any{"tokenizer": "standard", "filter": []any{"lowerc
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 # restful
@@ -146,17 +143,17 @@ analyzerParams='{
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>よりシンプルなセットアップのために、<code>standard</code> トークナイザーと <a href="./lowercase-filter"><code>lowercase</code></a><a href="./lowercase-filter"> フィルター</a>を組み合わせた<a href="./standard-analyzer"><code>standard</code></a> <a href="./standard-analyzer">アナライザー</a>を使用することもできます。</p>
+<p>よりシンプルなセットアップを行うには、<a href="./standard-analyzer"><code>standard</code></a> <a href="./standard-analyzer">アナライザー</a>を使用することもできます。これは<code>standard</code>トークナイザーと<a href="./lowercase-filter"><code>lowercase</code></a><a href="./lowercase-filter">フィルター</a>を組み合わせたものです。</p>
 
 </Admonition>
 
-`analyzer_params` を定義した後、コレクションのschemaを定義する際に `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud は指定されたアナライザーを使用してそのフィールドのテキストを処理し、効率的なトークン化とフィルタリングを行います。詳細については、[使用例](./analyzer-overview#example-use)を参照してください。
+`analyzer_params` を定義した後、コレクションスキーマを定義する際に `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud はそのフィールドのテキストを指定されたアナライザーを使って効率的にトークン化およびフィルタリング処理できます。詳細については、[Example use](./analyzer-overview#example-use) を参照してください。
 
-## 例\{#examples}
+## Examples\{#examples}
 
-アナライザー設定をコレクションschemaに適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
+コレクションスキーマにアナライザー設定を適用する前に、`run_analyzer` メソッドを使ってその動作を検証してください。
 
-### アナライザー設定\{#analyzer-configuration}
+### Analyzer configuration\{#analyzer-configuration}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -180,7 +177,7 @@ analyzerParams.put("filter", Collections.singletonList("lowercase"));
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 // javascript
@@ -188,7 +185,7 @@ analyzerParams.put("filter", Collections.singletonList("lowercase"));
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 analyzerParams = map[string]any{"tokenizer": "standard", "filter": []any{"lowercase"}}
@@ -196,7 +193,7 @@ analyzerParams = map[string]any{"tokenizer": "standard", "filter": []any{"lowerc
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 # restful
@@ -205,7 +202,7 @@ analyzerParams = map[string]any{"tokenizer": "standard", "filter": []any{"lowerc
 </TabItem>
 </Tabs>
 
-### `run_analyzer` を使用した検証 {#verification-using-runanalyzer}
+### `run_analyzer` を使用した検証\{#verification-using-runanalyzer}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -256,7 +253,7 @@ List<RunAnalyzerResp.AnalyzerResult> results = resp.getResults();
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 // javascript
@@ -264,7 +261,7 @@ List<RunAnalyzerResp.AnalyzerResult> results = resp.getResults();
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 import (
@@ -298,7 +295,7 @@ if err != nil {
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 # restful
@@ -307,7 +304,7 @@ if err != nil {
 </TabItem>
 </Tabs>
 
-### 期待される出力結果\{#expected-output}
+### 期待される出力\{#expected-output}
 
 ```plaintext
 ['the', 'milvus', 'vector', 'database', 'is', 'built', 'for', 'scale']

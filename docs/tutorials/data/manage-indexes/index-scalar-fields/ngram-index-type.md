@@ -1,16 +1,17 @@
 ---
 title: "NGRAM | Cloud"
 slug: /ngram-index-type
+sidebar_key: ngram-index-type
 sidebar_label: "NGRAM"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "The `NGRAM` index in Zilliz Cloud is built to accelerate `LIKE` queries on `VARCHAR` fields or specific JSON paths within `JSON` fields. Before building the index, Zilliz Cloud splits text into short, overlapping substrings of a fixed length n, known as n-grams. For example, with n = 3, the word \"Milvus\" is split into 3-grams \"Mil\", \"ilv\", \"lvu\", and \"vus\". These n-grams are then stored in an inverted index that maps each gram to the document IDs in which it appears. At query time, this index allows Zilliz Cloud to quickly narrow the search to a small set of candidates, resulting in much faster query execution. | Cloud"
 type: origin
 token: Q0wpw4xZiimaUsk4GvScAg2un1d
-sidebar_position: 1
+sidebar_position: 3
 keywords: 
   - zilliz
   - vector database

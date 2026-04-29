@@ -1,11 +1,12 @@
 ---
 title: "Collection Explained | Cloud"
 slug: /manage-collections
-sidebar_label: "Collection Explained"
-beta: FALSE
+sidebar_key: manage-collections
+sidebar_label: "Overview"
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "On Zilliz Cloud, you can create multiple collections to manage your data, and insert your data as entities into the collections. Collections and entities are similar to tables and records in relational databases. This page helps you to learn about the collection and related concepts. | Cloud"
 type: origin
@@ -127,7 +128,7 @@ For details, refer to [Manage Partitions](./manage-partitions).
 
 Shards are horizontal slices of a collection. Each shard corresponds to a data input channel. Every collection has a shard by default. You can set the appropriate number of shards when creating a collection based on the expected throughput and the volume of the data to insert into the collection.
 
-For details on how to set the shard number, refer to [Create Collection](./manage-collections-sdks).
+For details on how to set the shard number, refer to [Create Collection](./undefined).
 
 ## Alias\{#alias}
 

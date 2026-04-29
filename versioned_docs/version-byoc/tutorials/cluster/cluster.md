@@ -1,16 +1,17 @@
 ---
-title: "Cluster | BYOC"
+title: "Serving Cluster | BYOC"
 slug: /cluster
-sidebar_label: "Cluster"
-beta: FALSE
+sidebar_key: cluster
+sidebar_label: "Serving Cluster"
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
-description: "Everything you need to know about managing clusters on Zilliz Cloud. | BYOC"
+description: "Everything you need to know about managing serving clusters on Zilliz Cloud. | BYOC"
 type: origin
 token: BIy4we6qXiq8NpkHfXgcxuONngb
-sidebar_position: 5
+sidebar_position: 6
 keywords: 
   - zilliz
   - vector database
@@ -22,9 +23,9 @@ keywords:
 import Admonition from '@theme/Admonition';
 
 
-# Cluster
+# Serving Cluster
 
-Everything you need to know about managing clusters on Zilliz Cloud.
+Everything you need to know about managing serving clusters on Zilliz Cloud.
 
 
 

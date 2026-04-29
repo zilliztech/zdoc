@@ -1,16 +1,17 @@
 ---
 title: "Dedicated Cluster Cost | Cloud"
 slug: /dedicated-cluster-cost
+sidebar_key: dedicated-cluster-cost
 sidebar_label: "Dedicated Cluster"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "Dedicated clusters in Zilliz Cloud follows a pay-as-you-go model, where you are mainly charged for the compute resources consumed by your clusters. This ensures you only pay for what you actually use, without the need to over-provision resources in advance. | Cloud"
 type: origin
 token: J2prwh2KLis9oqkqNIAcU1d6nsd
-sidebar_position: 1
+sidebar_position: 3
 keywords: 
   - zilliz
   - vector database

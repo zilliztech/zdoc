@@ -1,26 +1,23 @@
 ---
-title: "プライマリフィールドとAutoID | BYOC"
+title: "主キーフィールドと AutoID | BYOC"
 slug: /primary-field-auto-id
-sidebar_label: "プライマリフィールドとAutoID"
+sidebar_key: primary-field-auto-id
+sidebar_label: "主キーフィールド"
 beta: FALSE
 notebook: FALSE
-description: "Zilliz Cloudのすべてのcollectionには、各entityを一意に識別するためのプライマリフィールドが必要です。このフィールドにより、すべてのentityを曖昧さなく挿入、更新、クエリ、または削除できます。 | BYOC"
+description: "Zilliz Cloud のすべてのコレクションには、各エンティティを一意に識別するための主キーフィールドが必要です。このフィールドにより、すべてのエンティティを曖昧さなく挿入、更新、クエリ、または削除できます。| BYOC"
 type: origin
 token: D2ctwKZhNilLY0ke1vpcHL62n5G
 sidebar_position: 2
 keywords: 
   - zilliz
-  - ベクターデータベース
+  - ベクトルデータベース
   - cloud
   - collection
-  - schema
-  - プライマリフィールド
+  - スキーマ
+  - 主キーフィールド
   - autoId
   - autoid
-  - 自然言語検索
-  - 類似性検索
-  - マルチモーダルRAG
-  - LLMのハルシネーション
 
 ---
 
@@ -28,27 +25,27 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# プライマリフィールドとAutoID
+# プライマリフィールドと AutoID
 
-Zilliz Cloudのすべてのコレクションには、各エンティティを一意に識別するためのプライマリフィールドが必要です。このフィールドにより、すべてのエンティティがあいまいさなく挿入、更新、クエリ、または削除されることが保証されます。
+Zilliz Cloud のすべてのコレクションには、各エンティティを一意に識別するためのプライマリフィールドが必要です。このフィールドにより、各エンティティを曖昧さなく挿入・更新・照会・削除できます。
 
-ユースケースに応じて、Zilliz CloudにIDを自動生成させる（AutoID）か、手動で独自のIDを割り当てるかを選択できます。
+ユースケースに応じて、Zilliz Cloud に自動的に ID を生成させる（AutoID）か、自分で ID を手動で割り当てるかを選択できます。
 
-## プライマリフィールドとは？{#what-is-a-primary-field}
+## プライマリフィールドとは？\{#what-is-a-primary-field}
 
-プライマリフィールドは、従来のデータベースのプライマリキーと同様に、コレクション内の各エンティティの一意のキーとして機能します。Zilliz Cloudは、挿入、アップサート、削除、およびクエリ操作中にエンティティを管理するためにプライマリフィールドを使用します。
+プライマリフィールドは、コレクション内の各エンティティを一意に識別するキーとして機能し、従来のデータベースにおける主キー（Primary キー）と同様の役割を果たします。Zilliz Cloud は、エンティティの挿入、アップサート、削除、および照会操作中にプライマリフィールドを使用してエンティティを管理します。
 
-主な要件：
+主な要件:
 
-- 各コレクションには**正確に1つ**のプライマリフィールドが必要です。
+- 各コレクションには**ちょうど1つ**のプライマリフィールドが必要です。
 
-- プライマリフィールドの値はnullにできません。
+- プライマリフィールドの値は null にできません。
 
-- データ型は作成時に指定する必要があり、後で変更することはできません。
+- データ型は作成時に指定する必要があり、後から変更することはできません。
 
-## サポートされているデータ型{#supported-data-types}
+## サポートされているデータ型\{#supported-data-types}
 
-プライマリフィールドは、エンティティを一意に識別できるサポートされているスカラーデータ型を使用する必要があります。
+プライマリフィールドには、エンティティを一意に識別できるスカラー型のデータ型を使用する必要があります。
 
 <table>
    <tr>
@@ -57,52 +54,52 @@ Zilliz Cloudのすべてのコレクションには、各エンティティを�
    </tr>
    <tr>
      <td><p><code>INT64</code></p></td>
-     <td><p>64ビット整数型で、AutoIDと組み合わせてよく使用されます。ほとんどのユースケースで推奨されるオプションです。</p></td>
+     <td><p>64ビット整数型。AutoID と組み合わせてよく使用されます。ほとんどのユースケースで推奨されるオプションです。</p></td>
    </tr>
    <tr>
      <td><p><code>VARCHAR</code></p></td>
-     <td><p>可変長文字列型。エンティティ識別子が外部システム（例：製品コードやユーザーID）から来る場合に使用します。値ごとに許可される最大バイト数を定義するために<code>max_length</code>プロパティが必要です。</p></td>
+     <td><p>可変長文字列型。エンティティ識別子が外部システム（例：商品コードやユーザーID）から提供される場合に使用します。<code>max_length</code> プロパティを設定して、各値に許容される最大バイト数を定義する必要があります。</p></td>
    </tr>
 </table>
 
-## AutoIDと手動IDの選択{#choose-between-autoid-and-manual-ids}
+## AutoID と手動 ID の選択\{#choose-between-autoid-and-manual-ids}
 
-Zilliz Cloudは、プライマリキー値を割り当てるための2つのモードをサポートしています。
+Zilliz Cloud では、プライマリキーの値を割り当てる方法として2つのモードをサポートしています。
 
 <table>
    <tr>
      <th><p>モード</p></th>
      <th><p>説明</p></th>
-     <th><p>推奨される用途</p></th>
+     <th><p>推奨用途</p></th>
    </tr>
    <tr>
      <td><p>AutoID</p></td>
-     <td><p>Zilliz Cloudは、挿入またはインポートされたエンティティに対して一意の識別子を自動的に生成します。</p></td>
-     <td><p>IDを手動で管理する必要がないほとんどのシナリオ。</p></td>
+     <td><p>Zilliz Cloud が挿入またはインポートされたエンティティに対して自動的に一意の識別子を生成します。</p></td>
+     <td><p>ID を手動で管理する必要がないほとんどのシナリオ。</p></td>
    </tr>
    <tr>
-     <td><p>手動ID</p></td>
-     <td><p>データの挿入またはインポート時に、ユーザー自身で一意のIDを提供します。</p></td>
-     <td><p>IDが外部システムまたは既存のデータセットと一致する必要がある場合。</p></td>
+     <td><p>手動 ID</p></td>
+     <td><p>データの挿入またはインポート時に、自分で一意の ID を提供します。</p></td>
+     <td><p>ID を外部システムや既存のデータセットと整合させる必要がある場合。</p></td>
    </tr>
 </table>
 
 <Admonition type="info" icon="📘" title="Notes">
 
 <ul>
-<li><p>どちらのモードを選択すべきか不明な場合は、より簡単な取り込みと一意性の保証のために<a href="./primary-field-auto-id#quickstart-use-autoid">AutoIDから始める</a>ことをお勧めします。</p></li>
-<li><p>プライマリキーを手動で設定することが有益な場合を除き、すべての場合において<code>autoId</code>に依存することをお勧めします。</p></li>
+<li><p>どちらのモードを選べばよいかわからない場合は、<a href="./primary-field-auto-id#quickstart-use-autoid">AutoID から始めて</a>、シンプルなデータ取り込みと一意性の保証を活用してください。</p></li>
+<li><p>手動でプライマリキーを設定することが有益でない限り、すべてのケースで <code>autoId</code> を使用することをお勧めします。</p></li>
 </ul>
 
 </Admonition>
 
-## クイックスタート: AutoIDの使用{#quickstart-use-autoid}
+## クイックスタート: AutoID の使用\{#quickstart-use-autoid}
 
-Zilliz CloudにID生成を自動的に処理させることができます。
+Zilliz Cloud に ID の自動生成を任せることができます。
 
-### ステップ1: AutoIDでコレクションを作成する{#step-1-create-a-collection-with-autoid}
+### ステップ 1: AutoID を有効にしてコレクションを作成\{#step-1-create-a-collection-with-autoid}
 
-プライマリフィールド定義で`auto_id=True`を有効にします。Zilliz CloudがID生成を自動的に処理します。
+プライマリフィールド定義で `auto_id=True` を有効にします。これにより、Zilliz Cloud が自動的に ID を生成します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -181,7 +178,7 @@ client.createCollection(requestCreate);
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
@@ -223,7 +220,7 @@ await client.createCollection({
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 // go
@@ -231,7 +228,7 @@ await client.createCollection({
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 # restful
@@ -274,9 +271,9 @@ curl -X POST 'YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/create' \
 </TabItem>
 </Tabs>
 
-### ステップ2：データを挿入する{#step-2-insert-data}
+### Step 2: データの挿入\{#step-2-insert-data}
 
-**重要：** 主キーフィールドの列をデータに含めないでください。Zilliz CloudはIDを自動的に生成します。
+**重要:** データに主キー列を含めないでください。Zilliz Cloud は ID を自動的に生成します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -324,7 +321,7 @@ System.out.printf("Generated IDs: %s\n", insertR.getPrimaryKeys());
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 const data = [
@@ -342,7 +339,7 @@ console.log(res);
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 // go
@@ -350,7 +347,7 @@ console.log(res);
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 # restful
@@ -378,15 +375,15 @@ curl -X POST 'YOUR_CLUSTER_ENDPOINT/v2/vectordb/entities/insert' \
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>既存のエンティティを操作する際に、重複IDエラーを避けるために<code>insert()</code>の代わりに<code>upsert()</code>を使用してください。</p>
+<p>既存のエンティティを扱う際は、重複IDエラーを回避するために <code>insert()</code> の代わりに <code>upsert()</code> を使用してください。</p>
 
 </Admonition>
 
-## 手動IDを使用する{#use-manual-ids}
+## 手動IDを使用する\{#use-manual-ids}
 
 IDを手動で制御する必要がある場合は、AutoIDを無効にして独自の値を指定します。
 
-### ステップ1: AutoIDなしでcollectionを作成する{#step-1-create-a-collection-without-autoid}
+### ステップ 1: AutoIDなしでコレクションを作成する\{#step-1-create-a-collection-without-autoid}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -467,7 +464,7 @@ client.createCollection(requestCreate);
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 
@@ -507,7 +504,7 @@ const res = await client.createCollection({
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 // go
@@ -515,7 +512,7 @@ const res = await client.createCollection({
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 # restful
@@ -560,15 +557,15 @@ curl -X POST 'YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/create' \
 </TabItem>
 </Tabs>
 
-### ステップ2：独自のIDでデータを挿入する{#step-2-insert-data-with-your-ids}
+### ステップ 2: 自分の ID を使ってデータを挿入する\{#step-2-insert-data-with-your-ids}
 
-すべての挿入操作には、プライマリフィールドの列を含める必要があります。
+すべての insert 操作には、主キー（primary field）カラムを含める必要があります。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
-# Each entity must contain the primary field `product_id`
+# Each entity must contain the primary field \`product_id\`
 data = [
     {"product_id": "PROD-001", "embedding": [0.1, 0.2, 0.3, 0.4], "category": "book"},
     {"product_id": "PROD-002", "embedding": [0.2, 0.3, 0.4, 0.5], "category": "toy"},
@@ -613,7 +610,7 @@ System.out.printf("Generated IDs: %s\n", insertR.getPrimaryKeys());
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 
@@ -632,7 +629,7 @@ console.log(insert);
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 // go
@@ -640,7 +637,7 @@ console.log(insert);
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 # restful
@@ -669,11 +666,11 @@ curl -X POST 'YOUR_CLUSTER_ENDPOINT/v2/vectordb/entities/insert' \
 </TabItem>
 </Tabs>
 
-責任範囲：
+あなたの責任:
 
-- すべてのエンティティでIDが一意であることを確認する
+- すべてのエンティティ間で ID が一意になるようにすること
 
-- すべての挿入/インポート操作にプライマリフィールドを含める
+- 挿入/インポート操作ごとに主キーを含めること
 
-- IDの競合と重複検出を自分で処理する
+- ID の競合および重複検出を自分で処理すること
 

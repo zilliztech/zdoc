@@ -1,11 +1,12 @@
 ---
 title: "Access Control Explained | BYOC"
 slug: /access-control-overview
+sidebar_key: access-control-overview
 sidebar_label: "Access Control Explained"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "Zilliz Cloud implements Role-Based Access Control (RBAC) to finely control access to resources in Zilliz Cloud. RBAC (Role-Based Access Control) is a security measure that grants privileges to roles rather than directly to users. These roles, which contains specific privileges to resources, are then granted to users, enabling efficient management of user access control. | BYOC"
 type: origin

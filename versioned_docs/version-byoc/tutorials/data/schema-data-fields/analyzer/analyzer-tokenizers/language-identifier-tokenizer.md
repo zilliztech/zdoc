@@ -1,11 +1,12 @@
 ---
 title: "Language Identifier | BYOC"
 slug: /language-identifier-tokenizer
+sidebar_key: language-identifier-tokenizer
 sidebar_label: "Language Identifier"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "The `languageidentifier` is a specialized tokenizer designed to enhance the text search capabilities of Zilliz Cloud by automating the language analysis process. Its primary function is to detect the language of a text field and then dynamically apply a pre-configured analyzer that is most suitable for that language. This is particularly valuable for applications that handle a variety of languages, as it eliminates the need for manual language assignment on a per-input basis. | BYOC"
 type: origin
@@ -171,8 +172,8 @@ For both `whatlang` and `lingua`, use the language names as shown in their respe
 ```python
 analyzer_params = {
     "tokenizer": {
-        "type": "language_identifier",  # Must be `language_identifier`
-        "identifier": "whatlang",  # or `lingua`
+        "type": "language_identifier",  # Must be \`language_identifier\`
+        "identifier": "whatlang",  # or \`lingua\`
         "analyzers": {  # A set of analyzer configs
             "default": {
                 "tokenizer": "standard"  # fallback if language detection fails

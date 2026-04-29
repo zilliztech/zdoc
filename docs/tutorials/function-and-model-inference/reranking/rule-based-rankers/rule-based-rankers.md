@@ -1,11 +1,12 @@
 ---
 title: "Rule-based Rankers | Cloud"
 slug: /rule-based-rankers
+sidebar_key: rule-based-rankers
 sidebar_label: "Rule-based Rankers"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "Rankers in this section should be used in semantic searches, but not hybrid searches. | Cloud"
 type: origin

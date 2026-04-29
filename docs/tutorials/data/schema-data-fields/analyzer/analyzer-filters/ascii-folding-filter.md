@@ -1,11 +1,12 @@
 ---
 title: "ASCII folding | Cloud"
 slug: /ascii-folding-filter
+sidebar_key: ascii-folding-filter
 sidebar_label: "ASCII folding"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "The `asciifolding` filter converts characters outside the Basic Latin Unicode block into their ASCII equivalents. For instance, it transforms characters like `í` to `i`, making text processing simpler and more consistent, especially for multilingual content. | Cloud"
 type: origin

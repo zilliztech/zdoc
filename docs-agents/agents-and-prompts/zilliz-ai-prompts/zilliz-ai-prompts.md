@@ -1,11 +1,12 @@
 ---
 title: "AI Prompts | Cloud"
 slug: /zilliz-ai-prompts
+sidebar_key: zilliz-ai-prompts
 sidebar_label: "AI Prompts"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "The Zilliz Cloud AI prompt library offers curated prompts for AI-powered IDEs, helping AI assistants implement Zilliz Cloud features correctly and efficiently. | Cloud"
 type: origin

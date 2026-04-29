@@ -1,16 +1,17 @@
 ---
 title: "January 2026 Release Notes | Cloud"
 slug: /release-notes-2601
+sidebar_key: release-notes-2601
 sidebar_label: "January, 2026"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "January 2026 Release Notes | Cloud"
 type: origin
 token: ZBEiwpvlbijhYDkmnNScc7zyn5d
-sidebar_position: 3
+sidebar_position: 4
 keywords: 
   - zilliz
   - vector database

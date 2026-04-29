@@ -1,11 +1,12 @@
 ---
 title: "Set up a PrivateLink (AWS) | Cloud"
 slug: /setup-a-private-link-aws
+sidebar_key: setup-a-private-link-aws
 sidebar_label: "Set up a PrivateLink (AWS)"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "This guide demonstrates the procedure for setting up a private link from a Zilliz Cloud cluster to your service hosted in different AWS VPCs. | Cloud"
 type: origin

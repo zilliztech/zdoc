@@ -1,11 +1,12 @@
 ---
 title: "Integrate with Google Cloud Storage | Cloud"
 slug: /integrate-with-gcp
+sidebar_key: integrate-with-gcp
 sidebar_label: "Google Cloud Storage"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "Zilliz Cloud allows you to integrate with Google Cloud Storage to export audit logs or backup files to designated buckets. | Cloud"
 type: origin
@@ -33,12 +34,6 @@ import Procedures from '@site/src/components/Procedures';
 # Integrate with Google Cloud Storage
 
 Zilliz Cloud allows you to integrate with [Google Cloud Storage](https://cloud.google.com/storage) to export audit logs or backup files to designated buckets.
-
-<Admonition type="info" icon="📘" title="Notes">
-
-<p>This feature is available only to <strong>Dedicated</strong> clusters in an <strong>Enterprise</strong> project.</p>
-
-</Admonition>
 
 The following digram illustrates the necessary steps on Zilliz Cloud and Google Admin console.
 

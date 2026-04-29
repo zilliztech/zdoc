@@ -1,11 +1,12 @@
 ---
 title: "BYOC Overview | BYOC"
 slug: /byoc-intro
+sidebar_key: byoc-intro
 sidebar_label: "BYOC Overview"
-beta: CONTACT SALES
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: CONTACT SALES
 notebook: FALSE
 description: "Bring Your Own Cloud (BYOC) is a deployment option for organizations to host applications and data in their own cloud accounts instead of using Zilliz Cloud's infrastructure. This solution is ideal for organizations with specific security requirements or regulatory compliance needs that require maintaining full data control sovereignty. | BYOC"
 type: origin
@@ -70,7 +71,9 @@ In this fully managed mode of Zilliz BYOC, you employ the cross-account role ass
 
 ![PCAOw33vKhCLHubzOiCciDDMnGg](https://zdoc-images.s3.us-west-2.amazonaws.com/PCAOw33vKhCLHubzOiCciDDMnGg.png)
 
-According to the architecture outlined above, you need to provide a VPC, an S3 bucket, and the minimum permissions for Zilliz Cloud to start an EKS cluster and deploy the necessary components, such as the Milvus Operator, Import/Backup tools, the monitoring stack, including Grafana and Prometheus, and a Milvus instance on your behalf.
+According to the architecture outlined above, you need to provide a VPC, an S3 bucket, and the minimum permissions for Zilliz Cloud to start an EKS cluster and deploy the necessary components, such as the Milvus Operator, Import/Backup tools, the monitoring stack, including Grafana and Prometheus, and a Milvus instance on your behalf. 
+
+Notes that the monitoring stack is integrated locally within your BYOC infrastructure, not through the Zilliz Cloud control plane. To enable and configure monitoring integrations, please contact [Zilliz Technical Support](https://support.zilliz.com/hc/en-us).
 
 Additionally, Zilliz Cloud establishes two separate planes for communication with the components deployed in your VPC, and they are
 

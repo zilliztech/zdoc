@@ -1,11 +1,12 @@
 ---
 title: "Modify Collection | Cloud"
 slug: /modify-collections
-sidebar_label: "Modify Collection"
-beta: FALSE
+sidebar_key: modify-collections
+sidebar_label: "Modify"
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "You can rename a collection or change its settings. This page focuses on how to modify a collection. | Cloud"
 type: origin
@@ -154,6 +155,12 @@ curl --request POST \
 
 You can modify collection-level properties after a collection is created.
 
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>All the properties listed in this section apply only to managed collections.</p>
+
+</Admonition>
+
 ### Supported properties\{#supported-properties}
 
 <table>
@@ -163,7 +170,11 @@ You can modify collection-level properties after a collection is created.
    </tr>
    <tr>
      <td><p><code>collection.ttl.seconds</code></p></td>
-     <td><p>If the data of a collection needs to be deleted after a specific period, consider setting its Time-To-Live (TTL) in seconds. Once the TTL times out, Zilliz Cloud deletes all entities from the collection. </p><p>The deletion is asynchronous, indicating that searches and queries are still possible before the deletion is complete.</p><p>For details, refer to <a href="./set-collection-ttl">Set Collection TTL</a>.</p></td>
+     <td><p>If the data of a collection needs to be deleted after a specific period, consider setting its Time-To-Live (TTL) in seconds. Once the TTL times out, Zilliz Cloud deletes all entities from the collection. </p><p>The deletion is asynchronous, indicating that searches and queries are still possible before the deletion is complete.</p><p>For details, refer to <a href="./set-collection-ttl#set-collection-level-ttl">Set collection-level TTL</a>.</p></td>
+   </tr>
+   <tr>
+     <td><p><code>ttl_field</code></p></td>
+     <td><p>Name of the <code>TIMESTAMPTZ</code> field that stores each entity's absolute expiration timestamp (<strong>entity-level TTL</strong>). Each entity expires exactly when wall-clock time reaches the value stored in this field; a <code>NULL</code> in the field means the entity never expires. Mutually exclusive with <code>collection.ttl.seconds</code>.</p><p>For details, refer to <a href="./set-collection-ttl#set-entity-level-ttl-or-private-preview">Set entity-level TTL</a>.</p></td>
    </tr>
    <tr>
      <td><p><code>mmap.enabled</code></p></td>
@@ -187,7 +198,7 @@ You can modify collection-level properties after a collection is created.
    </tr>
 </table>
 
-### Example 1: Set collection TTL\{#example-1-set-collection-ttl}
+### Example 1: Set collection-level TTL\{#example-1-set-collection-level-ttl}
 
 The following code snippet demonstrates how to set collection TTL.
 
@@ -267,7 +278,61 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-### Example 2: Enable mmap\{#example-2-enable-mmap}
+### Example 2: Set entity-level TTL | Private Preview\{#example-2-set-entity-level-ttl}
+
+The following code snippet designates an existing `TIMESTAMPTZ` field (`expire_at`) as the TTL field for entity-level TTL. The collection must already contain a `TIMESTAMPTZ` field with that name, and `collection.ttl.seconds` must not be set — the two TTL modes are mutually exclusive.
+
+For the full entity-level TTL workflow (schema setup, insert, query, refresh, drop), refer to [Set entity-level TTL](null).
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
+from pymilvus import MilvusClient
+
+client.alter_collection_properties(
+    collection_name="my_collection",
+    # highlight-next-line
+    properties={"ttl_field": "expire_at"}
+)
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// java
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// nodejs
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+```
+
+</TabItem>
+</Tabs>
+
+### Example 3: Enable mmap\{#example-3-enable-mmap}
 
 The following code snippet demonstrates how to enable mmap.
 
@@ -340,7 +405,7 @@ curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/alter_properties" \
 </TabItem>
 </Tabs>
 
-### Example 3: Enable partition key\{#example-3-enable-partition-key}
+### Example 4: Enable partition key\{#example-4-enable-partition-key}
 
 The following code snippet demonstrates how to enable the partition key.
 
@@ -414,7 +479,7 @@ curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/alter_properties" \
 </TabItem>
 </Tabs>
 
-### Example 4: Enable dynamic field\{#example-4-enable-dynamic-field}
+### Example 5: Enable dynamic field\{#example-5-enable-dynamic-field}
 
 The following code snippet demonstrates how to enable the dynamic field.
 
@@ -488,7 +553,7 @@ curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/alter_properties" \
 </TabItem>
 </Tabs>
 
-### Example 5: Enable allow_insert_auto_id\{#example-5-enable-allowinsertautoid}
+### Example 6: Enable allow_insert_auto_id\{#example-6-enable-allowinsertautoid}
 
 The `allow_insert_auto_id` property allows a collection with AutoID enabled to accept user-provided primary key values during insert, upsert, and bulk import. When set to **"true"**, Zilliz Cloud uses the user-provided primary key value if present; otherwise it auto-generates. Default is **"false"**.
 
@@ -564,7 +629,7 @@ curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/alter_properties" \
 </TabItem>
 </Tabs>
 
-### Example 6: Set collection time zone\{#example-6-set-collection-time-zone}
+### Example 7: Set collection time zone\{#example-7-set-collection-time-zone}
 
 You can set a default time zone for your collection using the `timezone` property. This determines how time-related data is interpreted and displayed for all operations within the collection, including data insertion, querying, and results presentation.
 

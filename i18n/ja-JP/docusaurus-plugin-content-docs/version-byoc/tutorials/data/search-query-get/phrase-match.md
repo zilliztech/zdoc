@@ -1,27 +1,24 @@
 ---
-title: "フレーズ一致 | BYOC"
+title: "フレーズマッチ | BYOC"
 slug: /phrase-match
-sidebar_label: "フレーズ一致"
+sidebar_key: phrase-match
+sidebar_label: "フレーズマッチ"
 beta: FALSE
 notebook: FALSE
-description: "フレーズ一致では、クエリ用語を正確なフレーズとして含むドキュメントを検索できます。デフォルトでは、単語は同じ順序で直接隣接して出現する必要があります。たとえば、「robotics machine learning」というクエリは、「…typical robotics machine learning models…」のようなテキストに一致します。この場合、「robotics」、「machine」、「learning」という単語は、間に他の単語を挟まずに連続して出現します。 | BYOC"
+description: "フレーズマッチを使用すると、クエリ用語が正確なフレーズとして含まれるドキュメントを検索できます。デフォルトでは、単語は同じ順序で、かつ互いに直接隣接して出現する必要があります。例えば、「robotics machine learning」というクエリは、「…typical robotics machine learning models…」のようなテキストに一致します。これは、「robotics」、「machine」、「learning」という単語が他の単語を挟まずに連続して出現している場合です。 | BYOC"
 type: origin
 token: O2YiwLai5iSjT1k1WEsc06E8nEe
-sidebar_position: 13
+sidebar_position: 14
 keywords: 
   - zilliz
   - ベクトルデータベース
   - cloud
   - collection
-  - データ
-  - フィルター
-  - フィルタリング式
-  - フィルタリング
-  - フレーズ一致
-  - 近似最近傍探索
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - data
+  - filter
+  - filtering expressions
+  - filtering
+  - phrase-match
 
 ---
 
@@ -29,43 +26,43 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# フレーズマッチ
+# フレーズ一致
 
-フレーズマッチを使用すると、クエリ用語を正確なフレーズとして含むドキュメントを検索できます。デフォルトでは、単語は同じ順序で直接隣接して出現する必要があります。たとえば、**「robotics machine learning」**というクエリは、「…typical robotics machine learning models…」のようなテキストに一致します。この場合、**「robotics」**、**「machine」**、**「learning」**という単語は、間に他の単語を挟まずに連続して出現します。
+フレーズ一致を使用すると、クエリの語句を完全一致するフレーズとして含むドキュメントを検索できます。デフォルトでは、単語は同じ順序で、かつ直接隣接している必要があります。たとえば、**"robotics machine learning"** というクエリは、*"…typical robotics machine learning models…"* のようなテキストにマッチします。この例では、**"robotics"**、**"machine"**、**"learning"** という単語が連続して現れ、その間に他の単語が挟まれていません。
 
-しかし、現実世界のシナリオでは、厳密なフレーズマッチは厳しすぎる場合があります。たとえば、「…machine learning models widely adopted in robotics…」のようなテキストに一致させたい場合があります。ここでは、同じキーワードが存在しますが、隣接しておらず、元の順序でもありません。これを処理するために、フレーズマッチは柔軟性を導入する`slop`パラメーターをサポートしています。`slop`値は、フレーズ内の用語間に許容される位置シフトの数を定義します。たとえば、`slop`が1の場合、**「machine learning」**というクエリは、「...machine deep learning...」のようなテキストに一致します。この場合、1つの単語（**「deep」**）が元の用語を隔てています。
+しかし実際のユースケースでは、厳密なフレーズ一致はあまりにも硬直的である場合があります。たとえば、*"…machine learning models widely adopted in robotics…"* のようなテキストにもマッチさせたい場合があるでしょう。ここでは同じキーワードが含まれていますが、隣接しておらず、元の順序でもありません。このようなケースに対応するため、フレーズ一致では `slop` パラメータがサポートされています。この `slop` 値は、フレーズ内の語句間で許容される位置のずれ（positional shifts）の数を定義します。たとえば、`slop` を 1 に設定すると、**"machine learning"** というクエリは *"...machine deep learning..."* のようなテキストにマッチします。この例では、元の語句の間に 1 単語（**"deep"**）が挟まっています。
 
-## 概要{#overview}
+## 概要\{#overview}
 
-[Tantivy](https://github.com/quickwit-oss/tantivy)検索エンジンライブラリを搭載したフレーズマッチは、ドキュメント内の単語の位置情報を分析することで機能します。以下の図は、そのプロセスを示しています。
+[Tantivy](https://github.com/quickwit-oss/tantivy) 検索エンジンライブラリを活用し、フレーズ一致はドキュメント内の単語の位置情報を分析することで動作します。以下の図はその処理フローを示しています：
 
 ![AFrdwVT8ChT11ibs9lpcuN7onZc](https://zdoc-images.s3.us-west-2.amazonaws.com/AFrdwVT8ChT11ibs9lpcuN7onZc.png)
 
-1. **ドキュメントのトークン化**: Zilliz Cloudにドキュメントを挿入すると、テキストはアナライザーを使用してトークン（個々の単語または用語）に分割され、各トークンの位置情報が記録されます。たとえば、**doc_1**は**["machine" (pos=0), "learning" (pos=1), "boosts" (pos=2), "efficiency" (pos=3)]**にトークン化されます。アナライザーの詳細については、[アナライザーの概要](./analyzer-overview)を参照してください。
+1. **ドキュメントのトークン化**: Zilliz Cloud にドキュメントを挿入すると、アナライザによってテキストがトークン（個々の単語または語句）に分割され、各トークンに対して位置情報が記録されます。たとえば、**doc_1** は **["machine" (pos=0), "learning" (pos=1), "boosts" (pos=2), "efficiency" (pos=3)]** にトークン化されます。アナライザの詳細については、[Analyzer Overview](./analyzer-overview) を参照してください。
 
-1. **転置インデックスの作成**: Zilliz Cloudは転置インデックスを構築し、各トークンをそれが現れるドキュメントと、それらのドキュメント内でのトークンの位置にマッピングします。
+1. **転置インデックスの作成**: Zilliz Cloud は転置インデックスを構築し、各トークンをそれが出現するドキュメントおよびそのドキュメント内での位置にマッピングします。
 
-1. **フレーズマッチング**: フレーズクエリが実行されると、Zilliz Cloudは転置インデックス内の各トークンを検索し、それらの位置をチェックして、正しい順序と近接性で出現するかどうかを判断します。`slop`パラメーターは、一致するトークン間に許容される最大位置数を制御します。
+1. **フレーズマッチング**: フレーズクエリが実行されると、Zilliz Cloud は転置インデックス内で各トークンを検索し、それらの位置を確認して、正しい順序と近接性で出現しているかどうかを判定します。`slop` パラメータは、マッチするトークン間に許容される最大位置数を制御します：
 
-    - **slop = 0**は、トークンが**正確な順序で、かつすぐに隣接して**出現する必要があることを意味します（つまり、間に余分な単語がない）。
+    - **slop = 0** の場合、トークンは**完全に同じ順序で、かつ直接隣接**している必要があります（つまり、間に他の単語が一切挟まれない）。
 
-        - この例では、**doc_1**（**pos=0**の**「machine」**、**pos=1**の**「learning」**）のみが正確に一致します。
+        - この例では、**doc_1**（**"machine"** が **pos=0**、**"learning"** が **pos=1**）のみが完全一致します。
 
-    - **slop = 2**は、一致するトークン間に最大2つの位置の柔軟性または再配置を許可します。
+    - **slop = 2** の場合、マッチするトークン間に最大 2 つの位置の柔軟性または並べ替えが許容されます。
 
-        - これにより、逆順（**「learning machine」**）や、トークン間のわずかなギャップが許容されます。
+        - これにより、逆順（**"learning machine"**）やトークン間に小さなギャップがある場合もマッチします。
 
-        - その結果、**doc_1**、**doc_2**（**pos=0**の**「learning」**、**pos=1**の**「machine」**）、および**doc_3**（**pos=1**の**「learning」**、**pos=2**の**「machine」**）のすべてが一致します。
+        - 結果として、**doc_1**、**doc_2**（**"learning"** が **pos=0**、**"machine"** が **pos=1**）、および **doc_3**（**"learning"** が **pos=1**、**"machine"** が **pos=2**）がすべてマッチします。
 
-## フレーズマッチを有効にする{#enable-phrase-match}
+## フレーズ一致の有効化\{#enable-phrase-match}
 
-フレーズマッチは、Zilliz Cloudの文字列データ型である`VARCHAR`フィールドタイプで機能します。
+フレーズ一致は、Zilliz Cloud の文字列データ型である `VARCHAR` フィールドタイプで動作します。
 
-フレーズマッチを有効にするには、`enable_analyzer`と`enable_match`パラメーターの両方を`True`に設定してコレクションスキーマを構成します。この設定により、テキストがトークン化され、位置情報を含む転置インデックスが構築され、効率的なフレーズ検索が可能になります。
+フレーズ一致を有効にするには、コレクションスキーマを設定する際に `enable_analyzer` および `enable_match` パラメータを両方とも `True` に設定します。この設定により、テキストがトークン化され、位置情報を含む転置インデックスが構築され、効率的なフレーズ検索が可能になります。
 
-### スキーマフィールドの定義{#define-schema-fields}
+### スキーマフィールドの定義\{#define-schema-fields}
 
-特定の`VARCHAR`フィールドでフレーズマッチを有効にするには、フィールドスキーマを定義する際に`enable_analyzer`と`enable_match`の両方を`True`に設定します。
+特定の `VARCHAR` フィールドに対してフレーズ一致を有効にするには、フィールドスキーマを定義する際に `enable_analyzer` および `enable_match` を両方とも `True` に設定します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -155,7 +152,7 @@ schema.addField(AddFieldReq.builder()
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 // Set up a MilvusClient
@@ -195,7 +192,7 @@ const schema = {
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 import (
@@ -218,7 +215,7 @@ schema := entity.NewSchema().WithName(collectionName).
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 export idField='{
@@ -260,15 +257,15 @@ export schema="{
 </TabItem>
 </Tabs>
 
-デフォルトでは、Zilliz Cloudは[標準アナライザー](./standard-analyzer)を使用します。これは、空白と句読点によってテキストをトークン化し、テキストを小文字に変換します。
+デフォルトでは、Zilliz Cloud は [standard](./standard-analyzer) [analyzer](./standard-analyzer) を使用します。このアナライザーは、テキストを空白文字や句読点でトークン化し、小文字に変換します。
 
-テキストデータが特定の言語または形式である場合は、`analyzer_params`パラメーターを使用してカスタムアナライザーを設定できます（例：`{ "type": "english" }`または`{ "type": "jieba" }`）。
+テキストデータが特定の言語または形式である場合は、`analyzer_params` パラメータを使用してカスタムアナライザーを設定できます（例: `{ "type": "english" }` や `{ "type": "jieba" }`）。
 
-詳細については、[アナライザーの概要](./analyzer-overview)を参照してください。
+詳細については、[Analyzer Overview](./analyzer-overview) を参照してください。
 
-### collectionの作成{#create-the-collection}
+### Create the collection\{#create-the-collection}
 
-必要なフィールドが定義されたら、以下のコードを使用してcollectionを作成します。
+必要なフィールドを定義したら、以下のコードを使用してコレクションを作成します：
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -315,7 +312,7 @@ client.createCollection(
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 // Create or recreate the collection if it already exists
@@ -332,7 +329,7 @@ await client.createCollection(schema);
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 // go
@@ -340,7 +337,7 @@ await client.createCollection(schema);
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 # restful
@@ -373,12 +370,10 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-コレクションが作成されたら、[フレーズマッチを使用する](./phrase-match#use-phrase-match)前に、以下の必要な手順が実行されていることを確認してください。
+コレクションを作成した後、[フレーズマッチを使用する](./phrase-match#use-phrase-match)前に、以下の必要な手順を必ず実行してください。
 
 - エンティティがコレクションに挿入されていること。
-
-- 各ベクトルフィールドにインデックスが作成されていること。
-
+- 各ベクトルフィールドに対してインデックスが作成されていること。
 - コレクションがメモリにロードされていること。
 
 <details>
@@ -472,7 +467,7 @@ client.loadCollection(LoadCollectionReq.builder()
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 // Format and insert sample data for "machine learning" phrase matching
@@ -521,7 +516,7 @@ await client.loadCollection({
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 // go
@@ -529,7 +524,7 @@ await client.loadCollection({
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 # restful
@@ -591,19 +586,19 @@ curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/load" \
 
 </details>
 
-## フレーズ一致を使用する{#use-phrase-match}
+## フレーズ一致を使用する\{#use-phrase-match}
 
-コレクションスキーマで `VARCHAR` フィールドの照合を有効にすると、`PHRASE_MATCH` 式を使用してフレーズ照合を実行できます。
+コレクションスキーマ内の `VARCHAR` フィールドに対してフレーズ一致を有効化した後、`PHRASE_MATCH` 式を使用してフレーズ一致検索を実行できます。
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p><code>PHRASE_MATCH</code> 式は大文字と小文字を区別しません。<code>PHRASE_MATCH</code> または <code>phrase_match</code> のどちらでも使用できます。</p>
+<p><code>PHRASE_MATCH</code> 式は大文字・小文字を区別しません。<code>PHRASE_MATCH</code> または <code>phrase_match</code> のどちらを使用しても構いません。</p>
 
 </Admonition>
 
-### PHRASE_MATCH 式の構文{#phrasematch-expression-syntax}
+### PHRASE_MATCH 式の構文\{#phrasematch-expression-syntax}
 
-`PHRASE_MATCH` 式を使用して、検索時にフィールド、フレーズ、およびオプションの柔軟性 (`slop`) を指定します。構文は次のとおりです。
+検索時にフィールド、フレーズ、およびオプションの柔軟性（`slop`）を指定するために `PHRASE_MATCH` 式を使用します。構文は次のとおりです：
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -622,7 +617,7 @@ String filter = "PHRASE_MATCH(text, 'machine learning')";
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 PHRASE_MATCH(field_name, phrase, slop)
@@ -630,7 +625,7 @@ PHRASE_MATCH(field_name, phrase, slop)
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 // go
@@ -638,7 +633,7 @@ PHRASE_MATCH(field_name, phrase, slop)
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 # restful
@@ -648,25 +643,25 @@ export filter = "PHRASE_MATCH(field_name, phrase, slop)"
 </TabItem>
 </Tabs>
 
-- `field_name`**:** フレーズマッチを実行する`VARCHAR`フィールドの名前。
+- `field_name`**:** フレーズ一致を実行する `VARCHAR` フィールドの名前。
 
 - `phrase`**:** 検索する正確なフレーズ。
 
-- `slop` (オプション)**:** マッチングトークンで許可される最大位置数を指定する整数。
+- `slop` (オプション)**:** 一致するトークン間に許容される最大位置数を指定する整数。
 
-    - `0` (デフォルト): 正確なフレーズのみをマッチングします。例: **"machine learning"** のフィルターは、**"machine learning"** に正確にマッチしますが、**"machine boosts learning"** や **"learning machine"** にはマッチしません。
+    - `0` (デフォルト): 完全一致のフレーズのみに一致します。例: **"machine learning"** に対するフィルターは、**"machine learning"** に完全一致するもののみに一致し、**"machine boosts learning"** や **"learning machine"** には一致しません。
 
-    - `1`: わずかなバリエーションを許可します。例えば、1つの余分な単語や位置のわずかなずれ。例: **"machine learning"** のフィルターは、**"machine boosts learning"** ( **"machine"** と **"learning"** の間に1つのトークン) にマッチしますが、**"learning machine"** (単語が逆) にはマッチしません。
+    - `1`: 1つの追加語や位置のわずかなずれなど、わずかな変動を許容します。例: **"machine learning"** に対するフィルターは、**"machine boosts learning"** (**"machine"** と **"learning"** の間に1トークンある) には一致しますが、**"learning machine"** (語順が逆) には一致しません。
 
-    - `2`: より柔軟性を許可します。例えば、単語の順序が逆になったり、間に最大2つのトークンが入ったりします。例: **"machine learning"** のフィルターは、**"learning machine"** (単語が逆) や **"machine quickly boosts learning"** ( **"machine"** と **"learning"** の間に2つのトークン) にマッチします。
+    - `2`: 語順の反転や、最大2トークンの間隔など、より柔軟な一致を許容します。例: **"machine learning"** に対するフィルターは、**"learning machine"** (語順が逆) や **"machine quickly boosts learning"** (**"machine"** と **"learning"** の間に2トークンある) に一致します。
 
-### フレーズマッチによるクエリ{#query-with-phrase-match}
+### Query with フレーズ一致\{#query-with-phrase-match}
 
-`query()` メソッドを使用する場合、**PHRASE_MATCH** はスカラーフィルターとして機能します。指定されたフレーズ（許可されたスロップに従う）を含むドキュメントのみが返されます。
+`query()` メソッドを使用する際、**PHRASE_MATCH** はスカラー・フィルターとして機能します。指定されたフレーズ（許容される slop の範囲内）を含むドキュメントのみが返されます。
 
-#### 例: slop = 0 (完全一致){#example-slop-0-exact-match}
+#### Example: slop = 0 (exact match)\{#example-slop-0-exact-match}
 
-この例では、間に余分なトークンを含まない正確なフレーズ **"machine learning"** を含むドキュメントを返します。
+この例では、**"machine learning"** という正確なフレーズを含み、その間に余分なトークンが一切ないドキュメントを返します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -706,7 +701,7 @@ QueryResp result = client.query(QueryReq.builder()
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 const filter = "PHRASE_MATCH(text, 'machine learning')";
@@ -720,7 +715,7 @@ const result = await client.query({
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 // go
@@ -728,7 +723,7 @@ const result = await client.query({
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 # restful
@@ -746,13 +741,13 @@ curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/entities/query" \
 </TabItem>
 </Tabs>
 
-### フレーズ一致で検索する{#search-with-phrase-match}
+### フレーズ一致での検索\{#search-with-phrase-match}
 
-検索操作では、**PHRASE_MATCH** は、ベクトル類似度ランキングを適用する前にドキュメントを事前フィルタリングするために使用されます。この2段階のアプローチでは、まずテキストマッチングによって候補セットを絞り込み、次にベクトル埋め込みに基づいてそれらの候補を再ランク付けします。
+検索操作において、**PHRASE_MATCH** はベクトル類似度ランキングを適用する前にドキュメントを事前フィルタリングするために使用されます。この2段階のアプローチでは、まずテキスト一致によって候補セットを絞り込み、その後ベクトル埋め込みに基づいてそれらの候補を再ランキングします。
 
-#### 例: slop = 1{#example-slop-1}
+#### 例: slop = 1\{#example-slop-1}
 
-ここでは、slop を 1 に設定します。このフィルターは、**"learning machine"** というフレーズをわずかな柔軟性をもって含むドキュメントに適用されます。
+ここでは、slop（許容誤差）を1に設定しています。このフィルターは、フレーズ **"learning machine"** をわずかな柔軟性をもって含むドキュメントに適用されます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -804,7 +799,7 @@ System.out.println("Slop 1 result: " + resultSlop1);
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 const filter_slop1 = "PHRASE_MATCH(text, 'learning machine', 1)";
@@ -822,7 +817,7 @@ const result_slop1 = await client.search({
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 // go
@@ -830,7 +825,7 @@ const result_slop1 = await client.search({
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 # restful
@@ -857,9 +852,9 @@ curl -X POST "http://${MILVUS_HOST}/v2/vectordb/entities/search" \
 </TabItem>
 </Tabs>
 
-#### 例: slop = 2{#example-slop-2}
+#### 例: slop = 2\{#example-slop-2}
 
-この例では、slop を 2 に設定しています。これは、**"machine"** と **"learning"** の単語間に最大 2 つの余分なトークン（または逆順の用語）が許容されることを意味します。
+この例では slop 値が 2 に設定されており、単語 **"machine"** と **"learning"** の間に最大で 2 つの余分なトークン（または語順が逆になった語）が許容されます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -911,7 +906,7 @@ System.out.println("Slop 2 result: " + resultSlop2);
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 const filter_slop2 = "PHRASE_MATCH(text, 'learning machine', 2)";
@@ -929,7 +924,7 @@ const result_slop2 = await client.search({
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 // go
@@ -937,7 +932,7 @@ const result_slop2 = await client.search({
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 #restful
@@ -958,9 +953,9 @@ curl -X POST "http://${MILVUS_HOST}/v2/vectordb/entities/search" \
 </TabItem>
 </Tabs>
 
-#### 例: slop = 3{#example-slop-3}
+#### 例: slop = 3\{#example-slop-3}
 
-この例では、slopを3にすることで、さらに柔軟性が増します。フィルターは、単語間に最大3つのトークン位置を許容して**"machine learning"**を検索します。
+この例では、slop値を3に設定することでさらに柔軟性が高まります。フィルターは**"machine learning"**を検索し、単語間に最大3トークン分の位置のずれを許容します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -1011,7 +1006,7 @@ System.out.printf("Slop 3 result: %s%n", resultSlop3);
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 const filter_slop3 = "PHRASE_MATCH(text, 'learning machine', 3)";
@@ -1028,7 +1023,7 @@ const result_slop3 = await client.search({
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 // go
@@ -1036,7 +1031,7 @@ const result_slop3 = await client.search({
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 # restful
@@ -1057,19 +1052,19 @@ curl -X POST "http://${MILVUS_HOST}/v2/vectordb/entities/search" \
 </TabItem>
 </Tabs>
 
-## 考慮事項{#considerations}
+## 注意事項\{#considerations}
 
-- フィールドのフレーズマッチングを有効にすると、転置インデックスが作成され、ストレージリソースを消費します。この機能を有効にするかどうかを決定する際には、テキストサイズ、一意のトークン、および使用されるアナライザーによって異なるため、ストレージへの影響を考慮してください。
+- フィールドに対してフレーズ一致を有効にすると、転置インデックスが作成され、ストレージリソースを消費します。この機能を有効にするかどうか判断する際は、テキストサイズ、一意のトークン数、および使用するアナライザーに基づいてストレージへの影響を考慮してください。
 
-- スキーマでアナライザーを定義すると、その設定はそのコレクションに対して永続的になります。別のanalyserがニーズにより適していると判断した場合は、既存のコレクションを削除し、目的のanalyser構成で新しいコレクションを作成することを検討してください。
+- スキーマ内でアナライザーを定義すると、そのコレクションに対してその設定は永続化されます。異なるアナライザーの方が要件に適していると判断した場合は、既存のコレクションを削除し、希望するアナライザー設定で新しいコレクションを作成することを検討してください。
 
-- フレーズマッチのパフォーマンスは、テキストがどのようにトークン化されるかに依存します。アナライザーをコレクション全体に適用する前に、`run_analyzer` メソッドを使用してトークン化の出力を確認してください。詳細については、[アナライザーの概要](./analyzer-overview)を参照してください。
+- フレーズ一致のパフォーマンスは、テキストがどのようにトークン化されるかに依存します。アナライザーをコレクション全体に適用する前に、`run_analyzer` メソッドを使用してトークン化の出力を確認してください。詳細については、[Analyzer Overview](./analyzer-overview) を参照してください。
 
-- `filter` 式におけるエスケープルール:
+- `filter` 式におけるエスケープルール：
 
-    - 式内で二重引用符または一重引用符で囲まれた文字は、文字列定数として解釈されます。文字列定数にエスケープ文字が含まれる場合、エスケープ文字はエスケープシーケンスで表現する必要があります。たとえば、`\` を表すには `\\`、タブ `\t` を表すには `\\t`、改行を表すには `\\n` を使用します。
+    - 式内で二重引用符または一重引用符で囲まれた文字は、文字列定数として解釈されます。文字列定数にエスケープ文字が含まれる場合、エスケープ文字はエスケープシーケンスで表現する必要があります。例えば、`\` を表すには `\\` を、タブ `\t` を表すには `\\t` を、改行を表すには `\\n` を使用します。
 
-    - 文字列定数が一重引用符で囲まれている場合、定数内の一重引用符は `\\'` として表現する必要があり、二重引用符は `"` または `\\"` のいずれかで表現できます。例: `'It\\'s milvus'`。
+    - 文字列定数が一重引用符で囲まれている場合、定数内の一重引用符は `\\'` で表現し、二重引用符は `"` または `\\"` のいずれかで表現できます。例：`'It\\'s milvus'`。
 
-    - 文字列定数が二重引用符で囲まれている場合、定数内の二重引用符は `\\"` として表現する必要があり、一重引用符は `'` または `\\'` のいずれかで表現できます。例: `"He said \\"Hi\\""`。
+    - 文字列定数が二重引用符で囲まれている場合、定数内の二重引用符は `\\"` で表現し、一重引用符は `'` または `\\'` のいずれかで表現できます。例：`"He said \\"Hi\\""`。
 

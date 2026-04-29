@@ -1,11 +1,12 @@
 ---
 title: "Other IdP (SAML 2.0) | Cloud"
 slug: /single-sign-on-with-other-idp
+sidebar_key: single-sign-on-with-other-idp
 sidebar_label: "Other IdP (SAML 2.0)"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "This topic describes how to configure single sign-on (SSO) in Zilliz Cloud with any identity provider (IdP) that supports the SAML 2.0 protocol. | Cloud"
 type: origin

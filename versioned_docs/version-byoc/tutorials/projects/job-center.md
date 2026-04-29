@@ -1,11 +1,12 @@
 ---
 title: "Manage Project Jobs | BYOC"
 slug: /job-center
+sidebar_key: job-center
 sidebar_label: "Project Jobs"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "Zilliz Cloud offers an intuitive Jobs page that integrates all historical and asynchronous data tasks within the same project. | BYOC"
 type: origin
@@ -62,26 +63,26 @@ The following job information is displayed:
        </tr>
        <tr>
          <td><p><a href="./migrations">Migration</a></p></td>
-         <td><p>Migrate data to a cluster.</p><ul><li><p>External Data Migration: </p><ul><li><p>From Milvus</p></li><li><p>From Pinecone</p></li><li><p>From Qdrant</p></li><li><p>From Elasticsearch</p></li><li><p>From OpenSearch</p></li><li><p>From PostgreSQL</p></li><li><p>From Tencent Cloud VectorDB</p></li></ul></li><li><p>Zilliz Cloud Cross-cluster migration:</p><ul><li><p>Cross-cluster migration within the same organization</p></li><li><p>Migration between clusters across organizations</p></li></ul></li></ul></td>
+         <td><p>Migrate data to a cluster.</p><ul><li><p>Zilliz Cloud Cross-cluster migration:</p><ul><li><p>Cross-cluster migration within the same organization</p></li><li><p>Migration between clusters across organizations</p></li></ul></li></ul></td>
        </tr>
        <tr>
          <td><p><a href="./data-import">Import</a></p></td>
          <td><p>Import data to a collection</p></td>
        </tr>
        <tr>
-         <td><p><a href="./manage-collections-console#create-collection">Clone Collection</a></p></td>
+         <td><p><a href="./manage-collections-console#create-a-collection">Clone Collection</a></p></td>
          <td><p>Make a full copy of the collection with both its schema and data</p></td>
        </tr>
        <tr>
-         <td><p><a href="./manage-collections-console#create-collection">Create Sample Collection</a></p></td>
+         <td><p><a href="./manage-collections-console#create-a-collection">Create Sample Collection</a></p></td>
          <td><p>Create a collection loaded with a sample dataset</p></td>
        </tr>
        <tr>
-         <td><p><a href="./manage-cluster#suspend-cluster">Suspend Cluster</a></p></td>
+         <td><p><a href="./manage-cluster#suspend">Suspend Cluster</a></p></td>
          <td><p>Manually suspend a cluster</p></td>
        </tr>
        <tr>
-         <td><p><a href="./manage-cluster#resume-cluster">Resume Cluster</a></p></td>
+         <td><p><a href="./manage-cluster#resume">Resume Cluster</a></p></td>
          <td><p>Manually resume a cluster</p></td>
        </tr>
        <tr>

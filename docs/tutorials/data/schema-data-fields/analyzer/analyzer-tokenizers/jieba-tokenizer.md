@@ -1,11 +1,12 @@
 ---
 title: "Jieba | Cloud"
 slug: /jieba-tokenizer
+sidebar_key: jieba-tokenizer
 sidebar_label: "Jieba"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "The `jieba` tokenizer processes Chinese text by breaking it down into its component words. | Cloud"
 type: origin
@@ -176,11 +177,14 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
-Map<String, Object> analyzerParams = new HashMap<>();
-analyzerParams.put("type", "jieba");
-analyzerParams.put("dict", Collections.singletonList("customDictionary"));
-analyzerParams.put("mode", "exact");
-analyzerParams.put("hmm", false);
+Map<String, Object> analyzerParams = new HashMap<>();                                                                          
+analyzerParams.put("tokenizer", new HashMap<String, Object>() {{
+  put("type", "jieba");                                                                                                      
+  put("dict", Arrays.asList("customDictionary"));             
+  put("mode", "exact");
+  put("hmm", false);
+}});
+
 ```
 
 </TabItem>
@@ -196,7 +200,14 @@ analyzerParams.put("hmm", false);
 <TabItem value='go'>
 
 ```go
-analyzerParams = map[string]any{"type": "jieba", "dict": []any{"customDictionary"}, "mode": "exact", "hmm": false}
+analyzerParams := map[string]interface{}{
+  "tokenizer": map[string]interface{}{
+      "type": "jieba",
+      "dict": []string{"customDictionary"},
+      "mode": "exact",
+      "hmm":  false,
+  },
+}
 ```
 
 </TabItem>
@@ -238,7 +249,154 @@ analyzerParams = map[string]any{"type": "jieba", "dict": []any{"customDictionary
    </tr>
 </table>
 
+To load a large custom vocabulary from an external file instead of inlining it via `dict`, see [Custom configuration with a dictionary file](./jieba-tokenizer#custom-configuration-with-a-dictionary-file-or-private) below.
+
 After defining `analyzer_params`, you can apply them to a `VARCHAR` field when defining a collection schema. This allows Zilliz Cloud to process the text in that field using the specified analyzer for efficient tokenization and filtering. For details, refer to [Example use](./analyzer-overview#example-use).
+
+### Custom configuration with a dictionary file | PRIVATE\{#custom-configuration-with-a-dictionary-file}
+
+For large custom vocabularies — domain glossaries, product terminology, or proper-noun lists — store the words in a file and register the file as a remote file resource, then reference it from the tokenizer via the `extra_dict_file` parameter. The analyzer loads these words into its vocabulary on top of the built-in dictionary.
+
+The file is plain UTF‑8 text with one term per line. For example:
+
+```plaintext
+结巴分词器
+向量数据库
+```
+
+Upload the file to the object store that your Milvus cluster is configured to use, then register it:
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
+from pymilvus import MilvusClient
+
+client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
+
+# Register the uploaded file under a name you'll reference from analyzer configs.
+client.add_file_resource(
+    name="zh_terms",
+    path="file/zh_terms.txt",    # full S3 object key, including the rootPath prefix
+)
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// java
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// nodejs
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+```
+
+</TabItem>
+</Tabs>
+
+Reference the registered resource in the tokenizer via `extra_dict_file`:
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
+analyzer_params = {
+    "tokenizer": {
+        "type": "jieba",
+        "dict": ["_default_"],             # keep the built-in dictionary
+        "mode": "exact",
+        "hmm": False,
+        "extra_dict_file": {
+            "type": "remote",
+            "resource_name": "zh_terms",
+            "file_name": "zh_terms.txt",
+        },
+    },
+}
+
+client.run_analyzer(["milvus结巴分词器中文测试"], analyzer_params)
+# → [['milvus', '结巴', '分词器', '中文', '测试']]
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// java
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// nodejs
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+```
+
+</TabItem>
+</Tabs>
+
+The `extra_dict_file` parameter accepts an object with the following fields:
+
+<table>
+   <tr>
+     <th><p>Field</p></th>
+     <th><p>Description</p></th>
+   </tr>
+   <tr>
+     <td><p><code>type</code></p></td>
+     <td><p>The resource type. Use <code>"remote"</code> for a file registered via <code>add_file_resource</code>. For the <code>"local"</code> variant used in self-hosted deployments, refer to <a href="./undefined">Manage File Resources</a>.</p></td>
+   </tr>
+   <tr>
+     <td><p><code>resource_name</code></p></td>
+     <td><p>The name used when the file was registered with <code>add_file_resource</code>.</p></td>
+   </tr>
+   <tr>
+     <td><p><code>file_name</code></p></td>
+     <td><p>The filename portion of the registered resource's object-store path (for example, <code>"zh_terms.txt"</code> if the resource was registered with <code>path="file/zh_terms.txt"</code>).</p></td>
+   </tr>
+</table>
+
+Words added via `extra_dict_file` are merged with the built-in dictionary, so jieba's segmentation algorithm sees them alongside existing entries. Whether any specific term surfaces as a standalone token depends on jieba's probability-weighted DAG selection — a long custom term such as `向量数据库` may still be split into `向量` + `数据库` if those shorter entries have higher frequencies in the built-in dictionary.
 
 ## Examples\{#examples}
 
@@ -265,11 +423,13 @@ analyzer_params = {
 <TabItem value='java'>
 
 ```java
-Map<String, Object> analyzerParams = new HashMap<>();
-analyzerParams.put("type", "jieba");
-analyzerParams.put("dict", Collections.singletonList("结巴分词器"));
-analyzerParams.put("mode", "exact");
-analyzerParams.put("hmm", false);
+Map<String, Object> analyzerParams = new HashMap<>();                                                                          
+analyzerParams.put("tokenizer", new HashMap<String, Object>() {{
+  put("type", "jieba");                                                                                                      
+  put("dict", Arrays.asList("结巴分词器"));                   
+  put("mode", "exact");
+  put("hmm", false);
+}});
 ```
 
 </TabItem>
@@ -285,7 +445,14 @@ analyzerParams.put("hmm", false);
 <TabItem value='go'>
 
 ```go
-analyzerParams = map[string]any{"type": "jieba", "dict": []any{"结巴分词器"}, "mode": "exact", "hmm": false}
+analyzerParams := map[string]interface{}{
+  "tokenizer": map[string]interface{}{
+      "type": "jieba",
+      "dict": []string{"结巴分词器"},
+      "mode": "exact",
+      "hmm":  false,
+  },
+}
 ```
 
 </TabItem>

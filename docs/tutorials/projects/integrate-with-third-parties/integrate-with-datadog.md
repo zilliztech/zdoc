@@ -1,11 +1,12 @@
 ---
 title: "Integrate with Datadog | Cloud"
 slug: /integrate-with-datadog
+sidebar_key: integrate-with-datadog
 sidebar_label: "Datadog"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "Datadog is a cloud monitoring and analytics platform that provides real-time insights into application performance, infrastructure, and log management. By integrating Zilliz Cloud with Datadog, you can send metric data about your Zilliz Cloud clusters to your Datadog dashboards. | Cloud"
 type: origin

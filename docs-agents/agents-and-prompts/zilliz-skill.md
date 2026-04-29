@@ -1,11 +1,12 @@
 ---
 title: "Zilliz Skill | Cloud"
 slug: /zilliz-skill
+sidebar_key: zilliz-skill
 sidebar_label: "Zilliz Skill"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "Zilliz Skills are reusable skill modules for Claude Code that provide specialized capabilities for working with Zilliz Cloud. | Cloud"
 type: origin

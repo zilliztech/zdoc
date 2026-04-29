@@ -1,16 +1,17 @@
 ---
 title: "Release Notes (March 6, 2023) | Cloud"
 slug: /release-notes-100
+sidebar_key: release-notes-100
 sidebar_label: "March 6, 2023"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "We are pleased to announce the general availability of a significant update to Zilliz Cloud. This release raises the standard of vector database services for usability, security, performance, and capability to a new stage, bringing you a state-of-the-art vector database experience built for everyone. | Cloud"
 type: origin
 token: XmUYwRgNDitesQkl9QDc3IslnOh
-sidebar_position: 30
+sidebar_position: 31
 keywords: 
   - zilliz
   - vector database

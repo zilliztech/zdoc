@@ -1,11 +1,12 @@
 ---
 title: "Multi-language Analyzers | Cloud"
 slug: /multi-language-analyzers
+sidebar_key: multi-language-analyzers
 sidebar_label: "Multi-language Analyzers"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "When Zilliz Cloud performs text analysis, it typically applies a single analyzer across an entire text field in a collection. If that analyzer is optimized for English, it struggles with the very different tokenization and stemming rules required by other languages, such as Chinese, Spanish, or French, resulting a lower recall rate. For instance, a search for the Spanish word \"teléfono\" (meaning \"phone\") would trip up an English‑focused analyzer it may drop the accent and apply no Spanish‑specific stemming, causing relevant results to be overlooked. | Cloud"
 type: origin
@@ -848,7 +849,7 @@ const result = await client.insert({
 
 // Print results
 const inserted = result.insert_count;
-console.log(`Successfully inserted ${inserted} documents`);
+console.log(\`Successfully inserted ${inserted} documents\`);
 console.log("Documents by language: 2 English, 2 Chinese");
 
 // Expected output:
@@ -1027,8 +1028,8 @@ const english_results = await client.search({
 console.log("\n=== English Search Results ===");
 english_results.results.forEach((hit, i) => {
   console.log(
-    `${i + 1}. [${hit.score.toFixed(4)}] ${hit.entity.text} ` +
-      `(Language: ${hit.entity.language})`
+    \`${i + 1}. [${hit.score.toFixed(4)}] ${hit.entity.text} \` +
+      \`(Language: ${hit.entity.language})\`
   );
 });
 
@@ -1171,8 +1172,8 @@ const cn_results = await client.search({
 console.log("\n=== Chinese Search Results ===");
 cn_results.results.forEach((hit, i) => {
   console.log(
-    `${i + 1}. [${hit.score.toFixed(4)}] ${hit.entity.text} ` +
-      `(Language: ${hit.entity.language})`
+    \`${i + 1}. [${hit.score.toFixed(4)}] ${hit.entity.text} \` +
+      \`(Language: ${hit.entity.language})\`
   );
 });
 

@@ -1,11 +1,12 @@
 ---
 title: "Quickstart | Cloud"
 slug: /quick-start
+sidebar_key: quick-start
 sidebar_label: "Quickstart"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "This guide demonstrates how to use Zilliz Cloud clusters to perform operations related to high-performance semantic search. | Cloud"
 type: origin
@@ -44,7 +45,7 @@ CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT"
 TOKEN = "YOUR_CLUSTER_TOKEN" 
 # A valid token could be either
 # - An API key, or 
-# - A colon-joined cluster username and password, as in `user:pass`
+# - A colon-joined cluster username and password, as in \`user:pass\`
 
 # 1. Set up a Milvus client
 client = MilvusClient(
@@ -65,7 +66,7 @@ String CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT";
 String TOKEN = "YOUR_CLUSTER_TOKEN";
 // A valid token could be either
 // - An API key, or 
-// - A colon-joined cluster username and password, as in `user:pass`
+// - A colon-joined cluster username and password, as in \`user:pass\`
 
 // 1. Connect to Milvus server
 ConnectConfig connectConfig = ConnectConfig.builder()
@@ -94,14 +95,14 @@ ctx, cancel := context.WithCancel(context.Background())
 defer cancel()
 
 milvusAddr := "YOUR_CLUSTER_ENDPOINT"
-APIKey := "YOUR_API_KEY"
-// Or you can use the cluster credentials to authenticate
-// Username := "YOUR_CLUSTER_USERNAME"
-// Password := "YOUR_CLUSTER_PASSWORD"
+token := "YOUR_CLUSTER_TOKEN"
+// A valid token could be either
+// - An API key, or 
+// - A colon-joined cluster username and password, as in \`user:pass\`
 
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: milvusAddr,
-    APIKey: APIKey
+    APIKey: token
 })
 if err != nil {
     fmt.Println(err.Error())
@@ -121,7 +122,7 @@ const address = "YOUR_CLUSTER_ENDPOINT"
 const token = "YOUR_CLUSTER_TOKEN"
 // A valid token could be either
 // - An API key, or 
-// - A colon-joined cluster username and password, as in `user:pass`
+// - A colon-joined cluster username and password, as in \`user:pass\`
 
 // 1. Connect to the cluster
 const client = new MilvusClient({address, token})
@@ -136,7 +137,7 @@ export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
 export CLUSTER_TOKEN="YOUR_CLUSTER_TOKEN"
 # A valid token could be either
 # - An API key, or 
-# - A colon-joined cluster username and password, as in `user:pass`
+# - A colon-joined cluster username and password, as in \`user:pass\`
 ```
 
 </TabItem>
@@ -257,7 +258,6 @@ schema := entity.NewSchema().WithDynamicFieldEnabled(true).
 // set index options
 indexOptions := []milvusclient.CreateIndexOption{
     milvusclient.NewCreateIndexOption(collectionName, "my_vector", index.NewAutoIndex(entity.COSINE)),
-    milvusclient.NewCreateIndexOption(collectionName, "my_id", index.NewAutoIndex(entity.COSINE)),
 }
 
 // create collection
@@ -375,7 +375,7 @@ In the above setup, you have defined various aspects of the collection during it
 <Admonition type="info" icon="📘" title="Notes">
 
 <ul>
-<li><p>The collection created in the preceding code snippets is automatically loaded. If you prefer not to make an automatically loaded collection, skip setting the index parameters. For details, refer to <a href="./manage-collections-sdks">Create Collection</a>.</p></li>
+<li><p>The collection created in the preceding code snippets is automatically loaded. If you prefer not to make an automatically loaded collection, skip setting the index parameters. For details, refer to <a href="./undefined">Create Collection</a>.</p></li>
 <li><p>Collections created using the RESTful API are always automatically loaded.</p></li>
 </ul>
 

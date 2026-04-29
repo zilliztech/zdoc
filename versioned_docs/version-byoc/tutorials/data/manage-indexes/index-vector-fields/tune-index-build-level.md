@@ -1,11 +1,12 @@
 ---
 title: "Tune Index Build Level | BYOC"
 slug: /tune-index-build-level
-sidebar_label: "Tune Index Build Level"
-beta: FALSE
+sidebar_key: tune-index-build-level
+sidebar_label: "Tune Build Level"
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "Zilliz Cloud introduces a parameter called `buildlevel`, which allows users to balance storage capacity and search recall rate for the target collection. For collections that are infrequently used or need more storage space, you can sacrifice a small recall rate degradation in exchange for a huge increase in storage capacity, and vice versa. This guide explains the available options and how to use them to build indexes for collections. | BYOC"
 type: origin
@@ -34,10 +35,10 @@ Zilliz Cloud introduces a parameter called `build_level`, which allows users to 
 
 <p>This feature is currently in <strong>PUBLIC REVIEW</strong> and applies to dedicated clusters only if:</p>
 <ul>
-<li><p>The clusters are of the <strong>Performance-optimized</strong> or <strong>Capacity-optimized</strong> type, and</p></li>
+<li><p>The clusters are <strong>Performance-optimized</strong>, <strong>Capacity-optimized</strong>, and <strong>Tiered-storage</strong> type, and</p></li>
 <li><p>The clusters are compatible with <strong>Milvus v2.6.x</strong>.</p></li>
 </ul>
-<p>You can upgrade your clusters to test this feature and <a href="https://support.zilliz.com/hc/en-us/requests/new">contact us</a> if you have encountered anything that needs further clarification.</p>
+<p>You can upgrade your clusters to test this feature, and contact us if you encounter anything that needs further clarification.</p>
 
 </Admonition>
 
@@ -75,19 +76,19 @@ The following table compares the capacity, QPS, and recall rate of a performance
    <tr>
      <td><p>Capacity-first (0)</p></td>
      <td><p>2.1 million 768-dim vectors</p></td>
-     <td><p>~ 2,850</p></td>
+     <td><p>&#126; 2,850</p></td>
      <td><p>90% - 95%</p></td>
    </tr>
    <tr>
      <td><p>Balanced (1)</p></td>
      <td><p>1.5 million 768-dim vectors</p></td>
-     <td><p>~ 3,500</p></td>
+     <td><p>&#126; 3,500</p></td>
      <td><p>91% - 97%</p></td>
    </tr>
    <tr>
      <td><p>Precison-first (2)</p></td>
      <td><p>1 million 768-dim vectors</p></td>
-     <td><p>~ 3,000</p></td>
+     <td><p>&#126; 3,000</p></td>
      <td><p>92% - 98% (↑)</p></td>
    </tr>
 </table>
@@ -106,22 +107,32 @@ The following table compares the capacity, QPS, and recall rate of a capacity-op
    <tr>
      <td><p>Capacity-first (0)</p></td>
      <td><p>7 million 768-dim vectors</p></td>
-     <td><p>~ 300</p></td>
+     <td><p>&#126; 300</p></td>
      <td><p>89% - 97%</p></td>
    </tr>
    <tr>
      <td><p>Balanced (1)</p></td>
      <td><p>5 million 768-dim vectors</p></td>
-     <td><p>~ 350</p></td>
+     <td><p>&#126; 350</p></td>
      <td><p>93% - 98%</p></td>
    </tr>
    <tr>
      <td><p>Precision-first (2)</p></td>
      <td><p>3 million 768-dim vectors</p></td>
-     <td><p>~ 345</p></td>
+     <td><p>&#126; 345</p></td>
      <td><p>94% - 98%</p></td>
    </tr>
 </table>
+
+### Tiered-storage clusters\{#tiered-storage-clusters}
+
+Since the majority of the data is stored on S3, memory is no longer the primary bottleneck. Consequently, the maximum cluster capacity will remain relatively stable; the most significant impact will be on **Recall**, with minor variations in performance due to different quantization levels.
+
+- **Balanced (1):** This represents the current state, where performance remains aligned with our existing benchmarks.
+
+- **Precision-first (2):** Increasing the Build Level improves **Recall by approximately 3%–4%**, though it results in a slight decrease in QPS and a minor increase in latency.
+
+- **Capacity-first (0):** This configuration is expected to be rare as the benefits are minimal. While capacity remains unchanged, **Recall drops by 3%–4%** in exchange for a marginal improvement in QPS and latency.
 
 ## Limits\{#limits}
 

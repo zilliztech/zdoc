@@ -1,23 +1,20 @@
 ---
 title: "コレクションの表示 | Cloud"
 slug: /view-collections
-sidebar_label: "コレクションの表示"
+sidebar_key: view-collections
+sidebar_label: "表示"
 beta: FALSE
 notebook: FALSE
-description: "現在接続されているデータベース内のすべてのコレクションの名前リストを取得し、特定のコレクションの詳細を確認できます。 | Cloud"
+description: "現在接続されているデータベース内のすべてのコレクション名のリストを取得し、特定のコレクションの詳細を確認できます。| Cloud"
 type: origin
 token: VAirw0c7ZiKCSqkjtDscAsC4nAf
 sidebar_position: 4
 keywords: 
   - zilliz
-  - vector database
+  - ベクトルデータベース
   - cloud
-  - collection
+  - コレクション
   - コレクションの表示
-  - Vector embeddings
-  - Vector store
-  - オープンソース ベクトルデータベース
-  - Vector index
 
 ---
 
@@ -27,11 +24,11 @@ import TabItem from '@theme/TabItem';
 
 # コレクションの表示
 
-現在接続されているデータベース内のすべてのコレクションの名前リストを取得し、特定のコレクションの詳細を確認できます。
+現在接続中のデータベースに存在するすべてのコレクションの名前一覧を取得したり、特定のコレクションの詳細を確認したりできます。
 
-## コレクションのリスト表示{#list-collections}
+## コレクションの一覧表示\{#list-collections}
 
-以下の例は、現在接続されているデータベース内のすべてのコレクションの名前リストを取得する方法を示しています。
+以下の例では、現在接続中のデータベース内のすべてのコレクションの名前一覧を取得する方法を示しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -71,7 +68,7 @@ System.out.println(resp.getCollectionNames());
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 import { MilvusClient } from '@zilliz/milvus2-sdk-node';
@@ -87,7 +84,7 @@ console.log(collections);
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 import (
@@ -123,7 +120,7 @@ fmt.Println(collectionNames)
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 curl --request POST \
@@ -136,15 +133,15 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-`quick_setup`という名前のコレクションをすでに作成している場合、上記の例の結果は次のようになります。
+すでに `quick_setup` という名前のコレクションを作成済みの場合、上記の例の結果は以下のようになります。
 
 ```json
 ["quick_setup"]
 ```
 
-## コレクションの記述{#describe-collection}
+## コレクションの詳細取得\{#describe-collection}
 
-特定のコレクションの詳細を取得することもできます。以下の例では、`quick_setup`という名前のコレクションがすでに作成されていることを前提としています。
+特定のコレクションの詳細情報を取得することもできます。以下の例では、`quick_setup` という名前のコレクションがすでに作成済みであることを前提としています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -174,7 +171,7 @@ System.out.println(resp);
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 const res = await client.describeCollection({
@@ -186,7 +183,7 @@ console.log(res);
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 collection, err := client.DescribeCollection(ctx, milvusclient.NewDescribeCollectionOption("quick_setup"))
@@ -200,7 +197,7 @@ fmt.Println(collection)
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 curl --request POST \
@@ -212,10 +209,10 @@ curl --request POST \
 }'
 ```
 
-</TabItem>
+</TabItem>  
 </Tabs>
 
-上記の例の結果は、以下のようになります。
+上記の例の結果は、以下のようになるはずです。
 
 ```plaintext
 {

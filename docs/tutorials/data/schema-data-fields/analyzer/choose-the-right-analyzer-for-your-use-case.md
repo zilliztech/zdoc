@@ -1,11 +1,12 @@
 ---
 title: "Choose the Right Analyzer for Your Use Case | Cloud"
 slug: /choose-the-right-analyzer-for-your-use-case
+sidebar_key: choose-the-right-analyzer-for-your-use-case
 sidebar_label: "Best Practice"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "This guide helps you select and configure the most suitable analyzer for your text content in Zilliz Cloud. | Cloud"
 type: origin
@@ -618,6 +619,23 @@ analyzer_params = {
         "type": "stop",
         "stop_words": [<put stop words list here>]
     }]
+}
+```
+
+### Korean\{#korean}
+
+```json
+{
+    "tokenizer": {
+        "type": "lindera",
+        "dict_kind": "ko-dic",
+        "filter": [
+            {
+                "kind": "korean_stop_tags",
+                "tags": ["SP", "SSC", "SSO", "SC", "SE", "SF", "JKS", "JKC", "JKG", "JKO", "JKB", "JKV", "JKQ", "JX", "JC", "UNK", "EP", "ETM"]
+            }
+        ]
+    }
 }
 ```
 

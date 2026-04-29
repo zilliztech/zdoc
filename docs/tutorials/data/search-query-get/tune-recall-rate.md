@@ -1,11 +1,12 @@
 ---
 title: "Tune Recall Rate | Cloud"
 slug: /tune-recall-rate
+sidebar_key: tune-recall-rate
 sidebar_label: "Tune Recall Rate"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "Zilliz Cloud introduces a search parameter `level` to allow users to balance search recall and performance. It also provides another search parameter, `enablerecallcalculation`, to give users the estimated recall rate of the current search. You can combine these two parameters to tune the recall rate of vector searches. | Cloud"
 type: origin

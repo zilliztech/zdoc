@@ -1,11 +1,12 @@
 ---
 title: "Cncharonly | Cloud"
 slug: /cncharonly-filter
+sidebar_key: cncharonly-filter
 sidebar_label: "Cncharonly"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "The `cncharonly` filter removes tokens that contain any non-Chinese characters. This filter is useful when you want to focus solely on Chinese text, filtering out any tokens that contain other scripts, numbers, or symbols. | Cloud"
 type: origin

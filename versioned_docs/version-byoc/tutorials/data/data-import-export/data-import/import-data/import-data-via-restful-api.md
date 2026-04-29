@@ -1,11 +1,12 @@
 ---
 title: "Import Data (RESTful API) | BYOC"
 slug: /import-data-via-restful-api
+sidebar_key: import-data-via-restful-api
 sidebar_label: "RESTful API"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "This page introduces how to import the prepared data via the Zilliz Cloud RESTful API. | BYOC"
 type: origin
@@ -69,7 +70,7 @@ Once the object path and bucket credentials are obtained, call the API as follow
 # replace url and token with your own
 curl --request POST \
      --url "https://api.cloud.zilliz.com/v2/vectordb/jobs/import/create" \
-     --header "Authorization: Bearer ${TOKEN}" \
+     --header "Authorization: Bearer ${API_KEY}" \
      --header "Accept: application/json" \
      --header "Content-Type: application/json" \
      -d '{
@@ -89,7 +90,7 @@ After Zilliz Cloud processes the above request, you will receive a job ID. Use t
 ```bash
 curl --request POST \
      --url "https://api.cloud.zilliz.com/v2/vectordb/jobs/import/getProgress" \
-     --header "Authorization: Bearer ${TOKEN}" \
+     --header "Authorization: Bearer ${API_KEY}" \
      --header "Accept: application/json" \
      --header "Content-Type: application/json" \
      -d '{

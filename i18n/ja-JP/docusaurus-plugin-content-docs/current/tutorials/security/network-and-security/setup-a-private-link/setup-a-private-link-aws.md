@@ -1,10 +1,11 @@
 ---
-title: "PrivateLink (AWS) のセットアップ | Cloud"
+title: "PrivateLink (AWS) の設定 | Cloud"
 slug: /setup-a-private-link-aws
-sidebar_label: "PrivateLink (AWS) のセットアップ"
+sidebar_key: setup-a-private-link-aws
+sidebar_label: "PrivateLink (AWS) の設定"
 beta: FALSE
 notebook: FALSE
-description: "このガイドでは、Zilliz Cloud クラスターから異なる AWS VPC でホストされているサービスへのプライベートリンクを設定する手順を説明します。 | Cloud"
+description: "このガイドでは、Zilliz Cloud クラスターから異なる AWS VPC でホストされているサービスへ PrivateLink を設定する手順を示します。 | Cloud"
 type: origin
 token: GBY6wbUmwi9lLjkXSuKccODgnne
 sidebar_position: 1
@@ -12,17 +13,13 @@ keywords:
   - zilliz
   - ベクトルデータベース
   - cloud
-  - プライベートリンク
+  - private link
   - privatelink
-  - プライベートエンドポイント
-  - プライベートサービス接続
+  - private endpoint
+  - private service connect
   - aws
   - gcp
   - azure
-  - milvus
-  - Zilliz
-  - milvus ベクトルデータベース
-  - milvus db
 
 ---
 
@@ -31,47 +28,47 @@ import Admonition from '@theme/Admonition';
 
 import Procedures from '@site/src/components/Procedures';
 
-# PrivateLink (AWS) をセットアップする
+# プライベートLink (AWS) の設定
 
-このガイドでは、Zilliz Cloud クラスターから異なる AWS VPC でホストされているサービスへのプライベートリンクをセットアップする手順を説明します。
-
-<Admonition type="info" icon="📘" title="Notes">
-
-<p>この機能は、<strong>Dedicated</strong> クラスターでのみ利用可能です。</p>
-
-</Admonition>
-
-プライベートリンクはプロジェクトレベルで設定され、このプロジェクトの下で同じクラウドプロバイダーとリージョンにデプロイされたすべてのクラスターに有効です。
+このガイドでは、Zilliz Cloud クラスターから異なる AWS VPC でホストされているサービスへプライベートリンクを設定する手順を示します。
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Zilliz Cloud は、プライベートエンドポイントの作成と使用に対して課金しません。ただし、クラウドプロバイダーは、Zilliz Cloud にアクセスするために作成する各エンドポイントに対して<a href="https://aws.amazon.com/privatelink/pricing/">課金する</a>場合があります。</p>
+<p>この機能は<strong>Dedicated</strong> クラスターでのみ利用可能です。</p>
 
 </Admonition>
 
-## 開始する前に{#before-you-start}
+プライベートリンクはプロジェクトレベルで設定され、このプロジェクト下で同じクラウドプロバイダーおよびリージョンにデプロイされたすべてのクラスターに対して有効になります。
 
-以下を確認してください。
+<Admonition type="info" icon="📘" title="Notes">
 
-- サービスと Zilliz Cloud クラスターが異なるリージョンにあり、サービスが AWS PrivateLink を介してクラスターにアクセスする必要がある場合は、[チケットを送信](https://support.zilliz.com/hc/en-us/requests/new)してください。当社がお客様のリクエストを処理します。
+<p>Zilliz Cloud では、プライベートエンドポイントの作成および利用に対する課金はありません。ただし、クラウドプロバイダーによっては、Zilliz Cloud へのアクセス用に作成した<a href="https://aws.amazon.com/privatelink/pricing/">各エンドポイントに対して料金が発生する場合があります</a>。</p>
 
-## プライベートエンドポイントを作成する{#create-private-endpoint}
+</Admonition>
 
-Zilliz Cloud は、プライベートエンドポイントを追加するための直感的なウェブコンソールを提供します。ターゲットプロジェクトに移動し、左側のナビゲーションで **Network > Private Endpoint** をクリックします。**+ Private Endpoint** をクリックします。
+## 開始前の準備\{#before-you-start}
+
+以下の点を確認してください：
+
+- サービスと Zilliz Cloud クラスターが異なるリージョンにあり、サービスが AWS プライベートLink を介してクラスターにアクセスする必要がある場合は、[チケットを提出](https://support.zilliz.com/hc/en-us/requests/new)してください。当社が対応いたします。
+
+## プライベートエンドポイントの作成\{#create-private-endpoint}
+
+Zilliz Cloud では、直感的な Web コンソールを使用してプライベートエンドポイントを追加できます。対象のプロジェクトに移動し、左側のナビゲーションで**ネットワーク > プライベートエンドポイント**をクリックします。**+ プライベートエンドポイント**をクリックします。
 
 ![I02ibsAgioWpuLxwzHDcp1c2nge](https://zdoc-images.s3.us-west-2.amazonaws.com/i02ibsagiowpulxwzhdcp1c2nge.png "I02ibsAgioWpuLxwzHDcp1c2nge")
 
-### ステップ 1: クラウドプロバイダーとリージョンを選択する{#step-1-select-a-cloud-provider-and-region}
+### ステップ 1: クラウドプロバイダーとリージョンの選択\{#step-1-select-a-cloud-provider-and-region}
 
-AWS リージョンにデプロイされたクラスターのプライベートエンドポイントを作成するには、**Cloud Provider** ドロップダウンリストから **AWS** を選択します。**Region** で、プライベートにアクセスしたいクラスターを収容するリージョンを選択します。**Next** をクリックします。
+AWS リージョンにデプロイされたクラスターのプライベートエンドポイントを作成するには、**クラウドプロバイダー**ドロップダウンリストから**AWS**を選択します。**リージョン**では、プライベートにアクセスしたいクラスターが存在するリージョンを選択します。**次へ**をクリックします。
 
-利用可能なクラウドプロバイダーとリージョンの詳細については、[Cloud Providers & Regions](./cloud-providers-and-regions) を参照してください。
+利用可能なクラウドプロバイダーとリージョンの詳細については、[クラウドプロバイダーとリージョン](./cloud-providers-and-regions) をご覧ください。
 
 ![NxuFbXh41oA53VxB4sPcfR9snVg](https://zdoc-images.s3.us-west-2.amazonaws.com/nxufbxh41oa53vxb4spcfr9snvg.png "NxuFbXh41oA53VxB4sPcfR9snVg")
 
-### ステップ 2: エンドポイントを作成する{#step-2-create-an-endpoint}
+### ステップ 2: エンドポイントの作成\{#step-2-create-an-endpoint}
 
-このステップは、UI コンソールまたは CLI を使用して、クラウドプロバイダーコンソールで完了する必要があります。
+このステップは、UI コンソール経由または CLI 経由のいずれかを使用して、クラウドプロバイダーのコンソール上で完了する必要があります。
 
 - **UI コンソール経由**
 
@@ -79,41 +76,41 @@ AWS リージョンにデプロイされたクラスターのプライベート�
 
     <Procedures>
 
-    1. **Via UI Console** タブに切り替え、**Service Name** をコピーします。
+    1. **UI コンソール経由**タブに切り替え、**サービス名**をコピーします。
 
-    1. AWS コンソールに移動し、右上隅でサービスが実行されているリージョンを選択します。次に、左側のナビゲーションで **Endpoints** をクリックします。**Create Endpoint** をクリックします。
+    1. AWS コンソールに移動し、右上隅でお使いのサービスが実行されているリージョンを選択します。次に、左側のナビゲーションで**エンドポイント**をクリックします。**エンドポイントの作成**をクリックします。
 
         <Admonition type="info" icon="📘" title="Notes">
 
-        <p>Zilliz Cloud クラスターへのアクセスが必要なサービスが配置されているリージョンを常に使用する必要があります。</p>
+        <p>常に、Zilliz Cloud クラスターへのアクセスが必要なサービスが配置されているリージョンを使用してください。</p>
         <ul>
-        <li><p>サービスが Zilliz Cloud クラスターをホストしているリージョンと同じリージョンで実行されている場合は、そのリージョンを使用します。</p></li>
-        <li><p>サービスが Zilliz Cloud クラスターをホストしているリージョンとは異なるリージョンで実行されている場合は、サービスが実行されているリージョンを使用します。</p></li>
+        <li><p>サービスが Zilliz Cloud クラスターをホストしているリージョンと同じリージョンで実行されている場合は、そのリージョンを使用してください。</p></li>
+        <li><p>サービスが Zilliz Cloud クラスターをホストしているリージョンとは異なるリージョンで実行されている場合は、サービスが実行されているリージョンを使用してください。</p></li>
         </ul>
 
         </Admonition>
 
         ![setup_private_link_window_aws](https://zdoc-images.s3.us-west-2.amazonaws.com/setup_private_link_window_aws.png "setup_private_link_window_aws")
 
-    1. **Create Endpoint** ページで、エンドポイントの **Type** として **Endpoint services that use NLBs and GWLBs** を選択します。
+    1. **エンドポイントの作成**ページで、エンドポイントの**タイプ**として**NLB および GWLB を使用するエンドポイントサービス**を選択します。
 
         ![create_endpoint_type_gcp](https://zdoc-images.s3.us-west-2.amazonaws.com/create_endpoint_type_gcp.png "create_endpoint_type_gcp")
 
-    1. AWS コンソールに切り替えます。**Service Settings** で、Zilliz Cloud ウェブコンソールからコピーした **Service Name** を **Service Name** フィールドに貼り付けます。次に、**Verify service** をクリックします。
+    1. AWS コンソールに切り替えます。**サービス設定**で、Zilliz Cloud Web コンソールからコピーした**サービス名**を**サービス名**フィールドに貼り付けます。次に、**サービスの確認**をクリックします。
 
         ![enter_service_name_gcp](https://zdoc-images.s3.us-west-2.amazonaws.com/enter_service_name_gcp.png "enter_service_name_gcp")
 
         <Admonition type="info" icon="📘" title="Notes">
 
-        <p>サービスが Zilliz Cloud クラスターがホストされているリージョンとは異なるリージョンで動作している場合は、<strong>Enable Cross Region endpoint</strong> を選択し、Zilliz Cloud クラスターが実行されているリージョンを選択していることを確認してください。次に、<strong>Verify service</strong> をクリックします。</p>
-        <p>次の図では、Zilliz Cloud クラスターは<strong>ヨーロッパ (フランクフルト)</strong> で実行されており、サービスは別のリージョンで実行されていると仮定しています。</p>
+        <p>サービスが Zilliz Cloud クラスターがホストされているリージョンとは異なるリージョンで動作している場合は、<strong>クロスリージョンエンドポイントを有効にする</strong>を選択し、Zilliz Cloud クラスターが実行されているリージョンを選択してから、<strong>サービスの確認</strong>をクリックしてください。</p>
+        <p>以下の図では、Zilliz Cloud クラスターが<strong>ヨーロッパ (フランクフルト)</strong>で実行されており、サービスが別のリージョンで実行されていることを想定しています。</p>
         <p><img src="https://zdoc-images.s3.us-west-2.amazonaws.com/nx2abfqbfokf1axbn4lchjfznqs.png" alt="NX2AbfqBfokf1axbn4LchJfZnqS" title="NX2AbfqBfokf1axbn4LchJfZnqS" /></p>
 
         </Admonition>
 
-    1. サービス名が検証されたら、ネットワーク設定、サブネット、セキュリティグループを完了し、**Create** をクリックします。
+    1. サービス名の確認が完了したら、ネットワーク設定、サブネット、セキュリティグループを設定し、**作成**をクリックします。
 
-    1. エンドポイントが正常に作成されたら、エンドポイント ID (「vpce-」で始まる) をコピーします。
+    1. エンドポイントが正常に作成されたら、エンドポイント ID（"vpce-" で始まる文字列）をコピーします。
 
     </Procedures>
 
@@ -123,27 +120,27 @@ AWS リージョンにデプロイされたクラスターのプライベート�
 
     <Procedures>
 
-    1. **Via CLI** タブに切り替えます。
+    1. **CLI 経由**タブに切り替えます。
 
-    1. **VPC ID** を入力します。
+    1. **VPC ID**を入力します。
 
-        VPC を表示するには、[Amazon VPC コンソール](https://console.aws.amazon.com/vpc/)に移動します。ナビゲーションペインで、**Your VPCs** を選択します。目的の VPC を見つけて、その ID をコピーします。この ID を Zilliz Cloud の **VPC ID** に入力します。
+        VPC を表示するには、[Amazon VPC コンソール](https://console.aws.amazon.com/vpc/) に移動します。ナビゲーションペインで**お客様の VPC**を選択します。目的の VPC を見つけてその ID をコピーし、Zilliz Cloud の**VPC ID**に入力します。
 
-        VPC を作成するには、[Create a VPC](https://docs.aws.amazon.com/vpc/latest/userguide/working-with-vpcs.html#Create-VPC) を参照してください。
+        VPC を作成する方法については、[VPC の作成](https://docs.aws.amazon.com/vpc/latest/userguide/working-with-vpcs.html#Create-VPC) をご覧ください。
 
-    1. **Subnet IDs** を入力します。
+    1. **サブネット ID**を入力します。
 
-        サブネットは VPC のサブディビジョンです。作成するプライベートエンドポイントと同じリージョンに存在するサブネットが必要です。サブネットを表示するには、[Amazon VPC コンソール](https://console.aws.amazon.com/vpc/)に移動します。現在のリージョンをプライベートリンク作成用に指定されたリージョンに変更します。ナビゲーションペインで、**Subnets** を選択します。目的のサブネットを見つけて、その ID をコピーします。この ID を Zilliz Cloud の **Subnet IDs** に入力します。
+        サブネットは VPC の細分化された単位です。作成するプライベートエンドポイントと同じリージョンに存在するサブネットが必要です。サブネットを表示するには、[Amazon VPC コンソール](https://console.aws.amazon.com/vpc/) に移動します。現在のリージョンをプライベートリンクの作成用に指定されたリージョンに変更します。ナビゲーションペインで**サブネット**を選択します。目的のサブネットを見つけてその ID をコピーし、Zilliz Cloud の**サブネット ID**に入力します。
 
-        サブネットを作成するには、[Create a Subnet in Your VPC](https://docs.aws.amazon.com/vpc/latest/userguide/working-with-subnets.html#create-subnets) を参照してください。
+        サブネットを作成する方法については、[VPC 内のサブネットの作成](https://docs.aws.amazon.com/vpc/latest/userguide/working-with-subnets.html#create-subnets) をご覧ください。
 
-    1. コードブロックのコピーアイコンをクリックし、AWS コンソールに移動します。
+    1. コードブロック内のコピーアイコンをクリックし、AWS コンソールに移動します。
 
-        上部のナビゲーションで、AWS CloudShell を起動します。Zilliz Cloud からコピーした CLI コマンドを CloudShell で実行します。
+        上部のナビゲーションで AWS CloudShell を起動します。Zilliz Cloud からコピーした CLI コマンドを CloudShell で実行します。
 
         ![setup_private_link_aws_cloud_shell](https://zdoc-images.s3.us-west-2.amazonaws.com/setup_private_link_aws_cloud_shell.png "setup_private_link_aws_cloud_shell")
 
-        返されるメッセージは次のようになります。
+        返されるメッセージは以下のようになります：
 
         ```json
         {
@@ -166,66 +163,66 @@ AWS リージョンにデプロイされたクラスターのプライベート�
         }
         ```
 
-        返されたメッセージで、作成したVPCエンドポイントのVpcEndpointId（「vpce-」で始まる）をコピーします。
+        返されたメッセージで、作成された VPC エンドポイントの VpcEndpointId（"vpce-" で始まる）をコピーします。
 
     </Procedures>
 
-### ステップ3：エンドポイントを承認する{#step-3-authorize-your-endpoint}
+### ステップ 3: エンドポイントの承認\{#step-3-authorize-your-endpoint}
 
-AWSコンソールから取得したエンドポイントIDをZilliz Cloudの**Endpoint ID**ボックスに貼り付けます。**Create**をクリックします。
+AWS コンソールで取得したエンドポイント ID を Zilliz Cloud の**エンドポイントID**ボックスに貼り付けます。**Create**をクリックします。
 
 ![setup_private_link_aws_authorize_endpoint](https://zdoc-images.s3.us-west-2.amazonaws.com/setup_private_link_aws_authorize_endpoint.png "setup_private_link_aws_authorize_endpoint")
 
-## プライベートリンクを取得する{#obtain-a-private-link}
+## プライベートリンクの取得\{#obtain-a-private-link}
 
-送信したVPCエンドポイントを確認して承認した後、Zilliz Cloudはこのエンドポイントにプライベートリンクを割り当てます。このプロセスには約5分かかります。
+送信した VPC エンドポイントを確認して承認すると、Zilliz Cloud はこのエンドポイント用にプライベートリンクを割り当てます。このプロセスには約 5 分かかります。
 
-プライベートリンクの準備が整うと、Zilliz Cloudの**Private Link**ページで確認できます。
+プライベートリンクの準備が整うと、Zilliz Cloud の**プライベート Link**ページで確認できます。
 
-## DNSレコードを設定する{#set-up-a-dns-record}
+## DNS レコードの設定\{#set-up-a-dns-record}
 
-Zilliz Cloudによって割り当てられたプライベートリンクを介してクラスターにアクセスする前に、プライベートリンクをVPCエンドポイントのDNS名に解決するために、DNSゾーンにCNAMEレコードを作成する必要があります。
+Zilliz Cloud によって割り当てられたプライベートリンク経由でクラスターにアクセスする前に、DNS ゾーンに CNAME レコードを作成して、プライベートリンクを VPC エンドポイントの DNS 名に解決する必要があります。
 
-- **Amazon Route 53を使用してホストゾーンを作成する**
+- **Amazon Route 53 を使用してホストゾーンを作成する**
 
-    Amazon Route 53はウェブベースのDNSサービスです。DNSレコードを追加できるように、ホストされたDNSゾーンを作成します。
+    Amazon Route 53 は Web ベースの DNS サービスです。DNS レコードを追加できるように、ホスト DNS ゾーンを作成します。
 
     ![A1zxblLRPo96Kvx0zzccZ485nGb](https://zdoc-images.s3.us-west-2.amazonaws.com/a1zxbllrpo96kvx0zzccz485ngb.png "A1zxblLRPo96Kvx0zzccZ485nGb")
 
     <Procedures>
 
-    1. AWSアカウントにログインし、[Hosted zones](https://us-east-1.console.aws.amazon.com/route53/v2/hostedzones#)に移動します。
+    1. AWS アカウントにログインし、[Hosted zones](https://us-east-1.console.aws.amazon.com/route53/v2/hostedzones#) に移動します。
 
     1. **Create hosted zone**をクリックします。
 
-    1. **Hosted zone configuration**セクションで、以下のパラメータを設定します。
+    1. **ホストゾーン設定**セクションで、以下のパラメータを設定します。
 
         <table>
            <tr>
-             <th><p><strong>パラメータ名</strong></p></th>
-             <th><p><strong>パラメータの説明</strong></p></th>
+             <th><p><strong>Parameter name</strong></p></th>
+             <th><p><strong>Parameter Description</strong></p></th>
            </tr>
            <tr>
              <td><p><strong>Domain name</strong></p></td>
-             <td><p>ターゲットクラスター用にZilliz Cloudによって割り当てられたプライベートリンク。</p></td>
+             <td><p>対象クラスター用に Zilliz Cloud によって割り当てられた プライベート Link。</p></td>
            </tr>
            <tr>
              <td><p><strong>Description</strong></p></td>
-             <td><p>ホストゾーンを区別するために使用される説明。</p></td>
+             <td><p>ホストゾーンを区別するために使用する説明。</p></td>
            </tr>
            <tr>
              <td><p><strong>Type</strong></p></td>
-             <td><p><strong>Private hosted zone</strong>を選択します。</p></td>
+             <td><p><strong>プライベート hosted zone</strong>を選択します。</p></td>
            </tr>
         </table>
 
-    1. ホストゾーンに関連付けるVPCのセクションで、VPC IDを追加してホストゾーンに関連付けます。
+    1. ホストゾーンに関連付ける VPC のセクションで、ホストゾーンに関連付けるために VPC ID を追加します。
 
     </Procedures>
 
-- **ホストゾーンにエイリアスレコードを作成する**
+- **ホストゾーン内にエイリアスレコードを作成する**
 
-    エイリアスレコードは、エイリアス名を真のまたは正規のドメイン名にマッピングするDNSレコードの一種です。Zilliz Cloudによって割り当てられたプライベートリンクをVPCエンドポイントのDNS名にマッピングするエイリアスレコードを作成します。これにより、プライベートリンクを使用してクラスターにプライベートにアクセスできます。
+    エイリアスレコードは、エイリアス名を真のまたは正規のドメイン名にマップする DNS レコードの一種です。エイリアスレコードを作成して、Zilliz Cloud によって割り当てられたプライベートリンクを VPC エンドポイントの DNS 名にマップします。その後、プライベートリンクを使用してクラスターにプライベートにアクセスできます。
 
     ![VoCsbJtTDo1glVx0vtGcqWPRnEd](https://zdoc-images.s3.us-west-2.amazonaws.com/vocsbjttdo1glvx0vtgcqwprned.png "VoCsbJtTDo1glVx0vtGcqWPRnEd")
 
@@ -233,11 +230,11 @@ Zilliz Cloudによって割り当てられたプライベートリンクを介�
 
     1. 作成したホストゾーンで、**Create record**をクリックします。
 
-    1. **Create record**ページで、**Alias**をオンにし、Route traffic toを次のように選択します。
+    1. **Create record**ページで、**エイリアス**をオンにし、以下のようにトラフィックのルーティング先を選択します。
 
-        1. 最初のドロップダウンリストで**Alias to VPC endpoint**を選択します。
+        1. 最初のドロップダウンリストで**エイリアス to VPC endpoint**を選択します。
 
-        1. 2番目のドロップダウンリストでクラウドリージョンを選択します。
+        1. 2 番目のドロップダウンリストでクラウドリージョンを選択します。
 
         1. 上記で作成したエンドポイントの名前を入力します。
 
@@ -245,15 +242,15 @@ Zilliz Cloudによって割り当てられたプライベートリンクを介�
 
     </Procedures>
 
-## クラスターへのインターネットアクセスを管理する{#manage-internet-access-to-your-clusters}
+## クラスターへのインターネットアクセスの管理\{#manage-internet-access-to-your-clusters}
 
-プライベートエンドポイントを設定した後、クラスターのパブリックエンドポイントを無効にして、プロジェクトへのインターネットアクセスを制限することができます。パブリックエンドポイントを無効にすると、ユーザーはプライベートリンクを使用してのみクラスターに接続できます。
+プライベートエンドポイントを設定した後、プロジェクトへのインターネットアクセスを制限するためにクラスターのパブリックエンドポイントを無効化することを選択できます。パブリックエンドポイントを無効化すると、ユーザーはプライベートリンクのみを使用してクラスターに接続できるようになります。
 
-パブリックエンドポイントを無効にするには：
+パブリックエンドポイントを無効化するには：
 
 <Procedures>
 
-1. ターゲットクラスターの**Cluster Details**ページに移動します。
+1. 対象クラスターの**クラスターの詳細**ページに移動します。
 
 1. **Connect**セクションに移動します。
 
@@ -266,55 +263,55 @@ Zilliz Cloudによって割り当てられたプライベートリンクを介�
 <Admonition type="info" icon="📘" title="Notes">
 
 <ul>
-<li><p>プライベートエンドポイントは、<a href="/reference/restful/data-plane-v2">データプレーン</a>アクセスにのみ影響します。<a href="/reference/restful/control-plane-v2">コントロールプレーン</a>は引き続きパブリックインターネット経由でアクセスできます。</p></li>
-<li><p>パブリックエンドポイントを再度有効にした後、パブリックエンドポイントにアクセスできるようになるまで、ローカルDNSキャッシュの期限切れを待つ必要がある場合があります。</p></li>
+<li><p>プライベートエンドポイントは<a href="/reference/restful/data-plane-v2">data plane</a>アクセスのみに影響します。<a href="/reference/restful/control-plane-v2">Control plane</a>は引き続きパブリックインターネット経由でアクセスできます。</p></li>
+<li><p>パブリックエンドポイントを再度有効にした後、パブリックエンドポイントにアクセスできるようになるまで、ローカル DNS キャッシュの有効期限が切れるのを待つ必要がある場合があります。</p></li>
 </ul>
 
 </Admonition>
 
 ![disable_public_endpoint](https://zdoc-images.s3.us-west-2.amazonaws.com/disable_public_endpoint.png "disable_public_endpoint")
 
-## FAQ{#faq}
+## よくある質問\{#faq}
 
-### AWSでプライベートリンクに接続すると、常にタイムアウトが報告されるのはなぜですか？{#why-does-it-always-report-a-timeout-when-connecting-to-the-private-link-on-aws}
+### AWS 上でプライベートリンクに接続する際に常にタイムアウトが報告されるのはなぜですか？\{#why-does-it-always-report-a-timeout-when-connecting-to-the-private-link-on-aws}
 
-タイムアウトは通常、次の理由で発生します。
+タイムアウトは通常、以下の理由で発生します。
 
-- プライベートDNSレコードが存在しない。
+- プライベート DNS レコードが存在しない。
 
-    DNSレコードが存在する場合、次のようにプライベートリンクをpingできます。
+    DNS レコードが存在する場合、以下のようにプライベートリンクを ping できます。
 
     ![QOanbDGrYovMXHxczXmcCbUcnsc](https://zdoc-images.s3.us-west-2.amazonaws.com/qoanbdgryovmxhxczxmccbucnsc.png "QOanbDGrYovMXHxczXmcCbUcnsc")
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    <p>pingリクエストの出力でVPCエンドポイントのIPアドレスが正しく解決されている場合、DNSレコードは機能しています。</p>
+    <p>ping リクエストの出力で VPC エンドポイントの IP アドレスが正しく解決されていれば、DNS レコードは機能しています。</p>
 
     </Admonition>
 
-    次のような表示がある場合は、[DNSレコードを設定する](./setup-a-private-link-aws#set-up-a-dns-record)必要があります。
+    以下が表示される場合は、[DNS レコードの設定](./setup-a-private-link-aws#set-up-a-dns-record)を行う必要があります。
 
     ![X5ahblpw1oRxp8xKR3OczuD9nFf](https://zdoc-images.s3.us-west-2.amazonaws.com/x5ahblpw1orxp8xkr3oczud9nff.png "X5ahblpw1oRxp8xKR3OczuD9nFf")
 
-- セキュリティグループのルールが存在しないか、無効である。
+- セキュリティグループルールが存在しない、または無効である。
 
-    AWSコンソールで、EC2インスタンスからVPCエンドポイントへのトラフィックに対するセキュリティグループのルールを適切に設定する必要があります。VPC内の適切なセキュリティグループは、EC2インスタンスからのインバウンドアクセスを、プライベートリンクにサフィックスされたポートで許可する必要があります。
+    AWS コンソールで、EC2 インスタンスから VPC エンドポイントへのトラフィックに対してセキュリティグループルールを適切に設定する必要があります。VPC 内の適切なセキュリティグループは、プライベートリンクに付加されたポート上で EC2 インスタンスからのインバウンドアクセスを許可する必要があります。
 
-    `curl`コマンドを使用して、プライベートリンクの接続をテストできます。通常の場合、400応答が返されます。
+    `curl` コマンドを使用してプライベートリンクの接続性をテストできます。正常な場合、400 レスポンスが返されます。
 
     ![ERtlbR2v7oA3Q4xXRlccM3VhnNc](https://zdoc-images.s3.us-west-2.amazonaws.com/ertlbr2v7oa3q4xxrlccm3vhnnc.png "ERtlbR2v7oA3Q4xXRlccM3VhnNc")
 
-    次のスクリーンショットのように、`curl`コマンドが応答なしでハングアップする場合、[VPCエンドポイントを作成する](https://docs.amazonaws.cn/en_us/vpc/latest/privatelink/create-interface-endpoint.html)のステップ9を参照して、適切なセキュリティグループのルールを設定する必要があります。
+    以下のスクリーンショットのように `curl` コマンドがレスポンスなしでハングアップする場合は、[VPC エンドポイントの作成](https://docs.amazonaws.cn/en_us/vpc/latest/privatelink/create-interface-endpoint.html)のステップ 9 を参照して、適切なセキュリティグループルールを設定する必要があります。
 
     ![KHj0bEy7ZojM6axnR0ocg1LPnue](https://zdoc-images.s3.us-west-2.amazonaws.com/khj0bey7zojm6axnr0ocg1lpnue.png "KHj0bEy7ZojM6axnR0ocg1LPnue")
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    <p>2つのセキュリティグループを設定する必要があります。1つはEC2インスタンス用で、プライベートリンクに関連付けられたポートでのトラフィックを許可する必要があります。もう1つはVPCエンドポイント用で、EC2インスタンスのIPアドレスからのトラフィックを許可し、指定されたポート番号をターゲットにする必要があります。</p>
+    <p>2 つのセキュリティグループを設定する必要があります。1 つは EC2 インスタンス用で、プライベートリンクに関連付けられたポートでのトラフィックを許可する必要があり、もう 1 つは VPC エンドポイント用で、EC2 インスタンスの IP アドレスからのトラフィックを許可し、指定されたポート番号を対象とする必要があります。</p>
 
     </Admonition>
 
-### 既存のクラスターにプライベートエンドポイントを作成できますか？{#can-i-create-a-private-endpoint-for-an-existing-cluster}
+### 既存のクラスター用にプライベートエンドポイントを作成できますか？\{#can-i-create-a-private-endpoint-for-an-existing-cluster}
 
-はい。プライベートエンドポイントを作成すると、同じリージョンおよびプロジェクトに存在するすべての既存および将来のDedicated (Enterprise) クラスターに適用されます。異なるクラスターに対して異なるDNSレコードを追加するだけで済みます。
+はい。プライベートエンドポイントを作成すると、同じリージョンおよびプロジェクトに存在するすべての既存および将来の Dedicated (Enterprise) クラスターに効果が及びます。必要なことは、異なるクラスターごとに異なる DNS レコードを追加することだけです。
 

@@ -1,11 +1,12 @@
 ---
 title: "Deploy BYOC on AWS | BYOC"
 slug: /deploy-byoc-aws
+sidebar_key: deploy-byoc-aws
 sidebar_label: "Deploy BYOC on AWS"
-beta: CONTACT SALES
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: CONTACT SALES
 notebook: FALSE
 description: "This page describes how to manually create a fully managed Bring-Your-Own-Cloud (BYOC) data plane in your AWS Virtual Private Cloud (VPC) using the Zilliz Cloud console and custom AWS configurations. | BYOC"
 type: origin
@@ -54,7 +55,7 @@ Within your BYOC organization, click the **Create Project and Deploy Data Plane*
 
 In this step, you need to set the project name, determine the cloud providers and regions as well as the initial project size, and choose the way for Zilliz Cloud to create the project and deploy the data plane.
 
-![ObsWbiWhxo4IQHx7pPacHUl2nuh](https://zdoc-images.s3.us-west-2.amazonaws.com/obswbiwhxo4iqhx7ppachul2nuh.png "ObsWbiWhxo4IQHx7pPacHUl2nuh")
+![Jo6Rw1WoBhBchRbBOMmcRBC3nsd](https://zdoc-images.s3.us-west-2.amazonaws.com/Jo6Rw1WoBhBchRbBOMmcRBC3nsd.png)
 
 <Procedures>
 
@@ -76,15 +77,15 @@ In this step, you need to set the project name, determine the cloud providers an
 
     1. Configure **Initial Project Size**. 
 
-        In a BYOC project, the query node, index services, Milvus components, and dependencies use different types of EC2 instances. You can set instance types and counts for these services and components individually. 
+        In a BYOC project, the query node, tiered query node, index services, Milvus components, and dependencies use different types of EC2 instances. You can set instance types and counts for these services and components individually. 
 
         If **Auto-scaling** is disabled, simply specify the number of EC2 instances required for each project component in the corresponding **Count** field.
 
-        ![V1r0b6PDzokWRqxaA4ccrTs2nEd](https://zdoc-images.s3.us-west-2.amazonaws.com/v1r0b6pdzokwrqxaa4ccrts2ned.png "V1r0b6PDzokWRqxaA4ccrTs2nEd")
+        ![MliHb3dF5oJYGPxvhpfcLT1vnfd](https://zdoc-images.s3.us-west-2.amazonaws.com/mlihb3df5ojygpxvhpfclt1vnfd.png "MliHb3dF5oJYGPxvhpfcLT1vnfd")
 
         Once **Auto-scaling** is enabled, you need to specify a range for Zilliz Cloud to automatically scale the number of EC2 instances based on actual project workloads by setting the corresponding **Min** and **Max** fields.
 
-        ![XYW9bj1qfoKEXMx9L4DchlE7nHh](https://zdoc-images.s3.us-west-2.amazonaws.com/xyw9bj1qfokexmx9l4dchle7nhh.png "XYW9bj1qfoKEXMx9L4DchlE7nHh")
+        ![QQ4Gb1IyiowJPQxCViGcMb8pnHb](https://zdoc-images.s3.us-west-2.amazonaws.com/qq4gb1iyiowjpqxcvigcmb8pnhb.png "QQ4Gb1IyiowJPQxCViGcMb8pnHb")
 
         To facilitate resource settings, there are four predefined project size options. The following table shows the mapping between these project size options and the number of clusters that can be created in the project, as well as the number of entities these clusters can contain.
 
@@ -125,6 +126,22 @@ In this step, you need to set the project name, determine the cloud providers an
         </table>
 
         You can also customize the settings by selecting **Custom** in **Initial Project Size** and adjusting the EC2 instance types and counts for all data plane components. If your preferred EC2 instance types are not listed, please [contact Zilliz support](https://zilliz.com/contact) for further assistance. 
+
+    1. Determine whether to enable **Tiered Query Node**.
+
+        This option determines whether you can create tiered-storage clusters. Once you select this option, you can set the instance type and count for the tiered query nodes. 
+
+        ![LWMFbm73GoM8mFxjajCcaGqPnMO](https://zdoc-images.s3.us-west-2.amazonaws.com/lwmfbm73gom8mfxjajccagqpnmo.png "LWMFbm73GoM8mFxjajCcaGqPnMO")
+
+        <Admonition type="info" icon="📘" title="Notes">
+
+        <ul>
+        <li><p>Your choice in <strong>Project Size</strong> does not affect the settings in <strong>Tiered Storage Node</strong>.</p></li>
+        <li><p>If <strong>Auto-scaling</strong> is disabled, the sum of the <strong>Default Query Node</strong> count and the <strong>Tiered Query Node</strong> count should be a positive integer.</p></li>
+        <li><p>If <strong>Auto-scaling</strong> is enabled, the sum of the <strong>Min</strong> values of both the <strong>Default Query Node</strong> and the <strong>Tiered Query Node</strong> should be a positive integer.</p></li>
+        </ul>
+
+        </Admonition>
 
 1. Choose the way for Zilliz Cloud to carry on the task in **Deploy Method**.
 

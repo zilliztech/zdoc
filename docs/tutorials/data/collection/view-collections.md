@@ -1,11 +1,12 @@
 ---
 title: "View Collections | Cloud"
 slug: /view-collections
-sidebar_label: "View Collections"
-beta: FALSE
+sidebar_key: view-collections
+sidebar_label: "View"
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "You can obtain the name list of all the collections in the currently connected database, and check the details of a specific collection. | Cloud"
 type: origin

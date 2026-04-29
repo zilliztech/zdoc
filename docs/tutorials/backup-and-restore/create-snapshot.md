@@ -1,11 +1,12 @@
 ---
 title: "Create Backup | Cloud"
 slug: /create-snapshot
+sidebar_key: create-snapshot
 sidebar_label: "Create Backup"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "In Zilliz Cloud, a backup is a copy of the data that allows you to restore the entire cluster or specific collections in the event of data loss or system failure. | Cloud"
 type: origin
@@ -77,9 +78,13 @@ The following demo shows how to create a cluster backup on the Zilliz Cloud web 
 The following example creates a backup for the cluster `in01-xxxxxxxxxxxxxx`. For details about the RESTful API, see [Create Backup](/reference/restful/create-backup-v2).
 
 ```bash
+export API_KEY="YOUR_API_KEY"
+export BASE_URL="https://api.cloud.zilliz.com"
+export CLUSTER_ID="your-cluster-id"
+
 curl --request POST \
      --url "${BASE_URL}/v2/clusters/${CLUSTER_ID}/backups/create" \
-     --header "Authorization: Bearer ${TOKEN}" \
+     --header "Authorization: Bearer ${API_KEY}" \
      --header "Content-Type: application/json" \
      --data-raw '{
             "backupType": "CLUSTER"
@@ -116,7 +121,7 @@ The following example creates a backup for the collection `medium_articles` in t
 ```bash
 curl --request POST \
 --url "${BASE_URL}/v2/clusters/${CLUSTER_ID}/backups/create" \
---header "Authorization: Bearer ${TOKEN}" \
+--header "Authorization: Bearer ${API_KEY}" \
 --header "Content-Type: application/json" \
 -d '{
     "backupType": "COLLECTION",

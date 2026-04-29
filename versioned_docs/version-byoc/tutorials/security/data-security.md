@@ -1,11 +1,12 @@
 ---
 title: "Data Security | BYOC"
 slug: /data-security
+sidebar_key: data-security
 sidebar_label: "Data Security"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "Data security is integral to Zilliz Cloud. This document summarizes key measures and policies that Zilliz Cloud implements to safeguard your data comprehensively. | BYOC"
 type: origin
@@ -79,7 +80,7 @@ For details, refer to [Access Control](./access-control).
 
 Zilliz Cloud secures your network interactions through:
 
-- **IP Allowlisting:** Define allowed IP ranges (CIDR blocks) to restrict access.
+- **Console IP Allowlisting:** Restrict console access by allowed IP ranges (CIDR blocks).
 
 - **Private Links:** Establish secure, private connections between your VPC and Zilliz Cloud control plane.
 

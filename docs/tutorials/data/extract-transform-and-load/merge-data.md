@@ -1,11 +1,12 @@
 ---
 title: "Merge Data | Cloud"
 slug: /merge-data
+sidebar_key: merge-data
 sidebar_label: "Merge Data"
-beta: PRIVATE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "You can merge data from an existing Zilliz Cloud collection with data from a local file or an external object storage bucket to create a collection that combines data from both sources. This is referred to as a data merging operation, and you can use it as a workaround to add fields with data to an existing collection. | Cloud"
 type: origin
@@ -65,7 +66,7 @@ The data source should be a set of PARQUET file either in a Zilliz Cloud volume 
 
 To perform a data merging operation using a volume, you first create a volume and upload the data from the local file system into it. Once that is done, you can perform a data merge operation to create a new collection that combines the data from both the existing collection and the volume.
 
-The following code snippet demonstrates how to perform the data merging operation using a volume. For details on how to create a volume and upload data to it, refer to [Manage Stages](./manage-stages).
+The following code snippet demonstrates how to perform the data merging operation using a volume. For details on how to create a volume and upload data to it, refer to Manage Stages.
 
 ```bash
 export BASE_URL="https://api.cloud.zilliz.com"

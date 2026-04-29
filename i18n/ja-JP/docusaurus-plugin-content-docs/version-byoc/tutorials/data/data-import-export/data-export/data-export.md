@@ -1,31 +1,28 @@
 ---
-title: "データのエクスポート | BYOC"
+title: "データエクスポート | BYOC"
 slug: /data-export
-sidebar_label: "データのエクスポート"
+sidebar_key: data-export
+sidebar_label: "データエクスポート"
 beta: FALSE
 notebook: FALSE
-description: "このガイドでは、さまざまな方法を使用してZilliz Cloudからデータをエクスポートする方法の例を紹介します。 | BYOC"
+description: "このガイドでは、さまざまな方法を使用して Zilliz Cloud からデータをエクスポートする例を紹介します。| BYOC"
 type: origin
 token: CeH9wPtUfiOdDckoPszcAuLonce
 sidebar_position: 2
 keywords: 
   - zilliz
-  - ベクターデータベース
-  - クラウド
+  - ベクトルデータベース
+  - cloud
   - データエクスポート
-  - マルチモーダルRAG
-  - LLMの幻覚
-  - ハイブリッド検索
-  - 語彙検索
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# データのエクスポート
+# データエクスポート
 
-このガイドでは、さまざまな方法を使用してZilliz Cloudからデータをエクスポートする方法の例を紹介します。
+このガイドでは、Zilliz Cloud からデータをエクスポートするさまざまな方法の例を紹介します。
 
 
 

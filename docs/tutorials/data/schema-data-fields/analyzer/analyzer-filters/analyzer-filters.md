@@ -1,11 +1,12 @@
 ---
 title: "Filter Reference | Cloud"
 slug: /analyzer-filters
+sidebar_key: analyzer-filters
 sidebar_label: "Filter"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "This section provides a detailed reference for filters in analyzers. | Cloud"
 type: origin

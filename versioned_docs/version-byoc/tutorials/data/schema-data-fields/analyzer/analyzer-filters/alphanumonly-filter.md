@@ -1,11 +1,12 @@
 ---
 title: "Alphanumonly | BYOC"
 slug: /alphanumonly-filter
+sidebar_key: alphanumonly-filter
 sidebar_label: "Alphanumonly"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "The `alphanumonly` filter removes tokens that contain non-ASCII characters, keeping only alphanumeric terms. This filter is useful for processing text where only basic letters and numbers are relevant, excluding any special characters or symbols. | BYOC"
 type: origin

@@ -1,10 +1,11 @@
 ---
 title: "クラスターロールの管理 (SDK) | Cloud"
 slug: /cluster-roles-sdk
+sidebar_key: cluster-roles-sdk
 sidebar_label: "クラスターロールの管理 (SDK)"
 beta: FALSE
 notebook: FALSE
-description: "クラスターロールは、ユーザーがクラスター内で持つ権限を定義します。より具体的には、クラスターロールは、クラスターユーザーのクラスター、データベース、およびコレクションレベルでの権限を制御します。 | Cloud"
+description: "クラスターロールは、ユーザーがクラスター内で持つ権限を定義します。具体的には、クラスターロールはクラスターユーザーのクラスター、データベース、およびコレクションレベルでの権限を制御します。 | Cloud"
 type: origin
 token: PBZwwNqWjiikeYkXgHPcGhLznTh
 sidebar_position: 5
@@ -16,10 +17,6 @@ keywords:
   - アクセス制御
   - rbac
   - ロール
-  - hnsw algorithm
-  - ベクトル類似性検索
-  - 近似最近傍検索
-  - DiskANN
 
 ---
 
@@ -29,21 +26,21 @@ import TabItem from '@theme/TabItem';
 
 # クラスターロールの管理 (SDK)
 
-クラスターロールは、ユーザーがクラスター内で持つ権限を定義します。より具体的には、クラスターロールは、クラスター、データベース、およびコレクションレベルでのクラスターユーザーの権限を制御します。
+クラスターロールは、ユーザーがクラスター内で持つ特権を定義します。具体的には、クラスターロールはクラスターユーザーのクラスター、データベース、およびコレクションレベルにおける特権を制御します。
 
-このガイドでは、ロールの作成、ロールへの組み込み権限グループの付与、ロールからの権限グループの取り消し、およびロールの削除について説明します。組み込み権限グループの詳細については、「[権限](./cluster-privileges#built-in-privilege-groups)」を参照してください。
+このガイドでは、ロールの作成、ビルトイン特権グループのロールへの付与、ロールからの特権グループの剥奪、そしてロールの削除までの手順を説明します。ビルトイン特権グループの詳細については、[特権](./cluster-privileges#built-in-privilege-groups) を参照してください。
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>この機能は、Dedicated クラスターでのみ利用可能です。</p>
+<p>この機能は Dedicated クラスターでのみ利用可能です。</p>
 
 </Admonition>
 
-## ロールの作成{#create-a-role}
+## ロールの作成\{#create-a-role}
 
-以下の例は、`role_a` という名前のロールを作成する方法を示しています。
+以下の例では、`role_a` という名前のロールを作成する方法を示します。
 
-ロール名は文字で始まり、大文字または小文字、数字、アンダースコアのみを含めることができます。
+ロール名は文字で始まる必要があり、大文字・小文字のアルファベット、数字、アンダースコアのみを含めることができます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -69,7 +66,7 @@ CreateRoleReq createRoleReq = CreateRoleReq.builder()
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 client.createRole(createRoleReq);
@@ -82,7 +79,7 @@ await milvusClient.createRole({
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 curl --request POST \
@@ -97,7 +94,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## ロールを一覧表示する{#list-roles}
+## List roles\{#list-roles}
 
 いくつかのロールを作成した後、既存のすべてのロールを一覧表示して確認できます。
 
@@ -120,7 +117,7 @@ List<String> roles = client.listRoles();
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 const { MilvusClient, DataType } = require("@zilliz/milvus2-sdk-node")
@@ -132,7 +129,7 @@ await milvusClient.listRoles(
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 curl --request POST \
@@ -145,29 +142,29 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-以下は出力例です。`role_a` は作成されたばかりの新しいロールです。
+以下は出力例です。`role_a` は新しく作成されたロールです。
 
 ```bash
 ['role_a']
 ```
 
-## ロールに特権または特権グループを付与する{#grant-a-privilege-or-a-privilege-group-to-a-role}
+## 特権または特権グループをロールに付与する\{#grant-a-privilege-or-a-privilege-group-to-a-role}
 
-Zilliz Cloudでは、ロールに以下のものを付与できます。
+Zilliz Cloud では、以下の内容をロールに付与できます。
 
-- **特権:** Zilliz Cloudは様々な種類の特権を提供します。詳細については、[すべての特権](./cluster-privileges#all-privileges)を参照してください。
+- **特権:** Zilliz Cloud はさまざまな種類の特権を提供しています。詳細については、[すべての特権](./cluster-privileges#all-privileges) を参照してください。
 
-- **組み込み特権グループ:** Zilliz Cloudは9つの組み込み特権グループを提供します。各組み込み特権グループに含まれる特定の特権の詳細については、[組み込み特権グループ](./cluster-privileges#built-in-privilege-groups)を参照してください。
+- **組み込み特権グループ:** Zilliz Cloud は 9 つの組み込み特権グループを提供しています。各組み込み特権グループに含まれる具体的な特権の詳細については、[組み込み特権グループ](./cluster-privileges#built-in-privilege-groups) を参照してください。
 
-- **カスタム特権グループ:** 組み込み特権がニーズに合わない場合は、異なる特権を組み合わせて独自のカスタム特権グループを作成できます。詳細については、[カスタム特権グループ](./cluster-privileges#custom-privilege-groups)を参照してください。
+- **カスタム特権グループ:** 組み込み特権がニーズを満たさない場合、異なる特権を組み合わせて独自のカスタム特権グループを作成できます。詳細については、[カスタム特権グループ](./cluster-privileges#custom-privilege-groups) を参照してください。
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>特定の特権とカスタム特権グループをロールに付与する必要がある場合は、まず<a href="http://support.zilliz.com">サポートチケットを作成</a>して、この機能を有効にしてください。</p>
+<p>特定の特権とカスタム特権グループをロールに付与する必要がある場合は、まず<a href="http://support.zilliz.com">サポートチケットを作成</a>し、この機能を有効化してください。</p>
 
 </Admonition>
 
-以下の例は、`default`データベースの`collection_01`に対する`PrivilegeSearch`特権と、`privilege_group_1`という名前のカスタム特権グループを`role_a`ロールに付与する方法を示しています。
+次の例では、`default` データベース内の `collection_01` に対する `PrivilegeSearch` 特権および `privilege_group_1` という名前のカスタム特権グループを、`role_a` ロールに付与する方法を示します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -228,7 +225,7 @@ client.grantPrivilegeV2(GrantPrivilegeReqV2.builder()
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 import (
@@ -272,7 +269,7 @@ if err != nil {
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 const { MilvusClient, DataType } = require("@zilliz/milvus2-sdk-node")
@@ -305,7 +302,7 @@ await client.grantPrivilegeV2({
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 curl --request POST \
@@ -346,9 +343,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## ロールを記述する{#describe-a-role}
+## ロールの説明\{#describe-a-role}
 
-以下の例は、`describe_role` メソッドを使用して、ロール `role_a` に付与された権限を表示する方法を示しています。
+次の例では、`describe_role` メソッドを使用してロール `role_a` に付与された権限を表示する方法を示します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Go","value":"go"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -361,7 +358,7 @@ client.describe_role(role_name="role_a")
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 import "github.com/milvus-io/milvus-sdk-go/v2/client"
@@ -386,7 +383,7 @@ List<DescribeRoleResp.GrantInfo> infos = resp.getGrantInfos();
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 const { MilvusClient, DataType } = require("@zilliz/milvus2-sdk-node")
@@ -396,7 +393,7 @@ await milvusClient.describeRole({roleName: 'role_a'});
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 curl --request POST \
@@ -417,14 +414,14 @@ curl --request POST \
 {
      "role": "role_a",
      "privileges": [
-         "COLL_ADMIN"
+         "Search"
      ]
 }
 ```
 
-## ロールから特権または特権グループを取り消す{#revoke-a-privilege-or-a-privilege-group-from-a-role}
+## ロールから特権または特権グループを取り消す\{#revoke-a-privilege-or-a-privilege-group-from-a-role}
 
-以下の例は、`default` データベースの `collection_01` に対する特権 `PrivilegeSearch` と、ロール `role_a` に付与された特権グループ `privilege_group_1` を取り消す方法を示しています。
+次の例では、`default` データベース内の `collection_01` に対して付与されていた特権 `PrivilegeSearch` およびロール `role_a` に付与されていた特権グループ `privilege_group_1` を取り消す方法を示します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -483,7 +480,7 @@ client.revokePrivilegeV2(RevokePrivilegeReqV2.builder()
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 err = client.RevokePrivilegeV2(ctx, milvusclient.NewRevokePrivilegeV2Option("role_a", "Search", "collection_01").
@@ -510,7 +507,7 @@ if err != nil {
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 await client.revokePrivilegeV2({
@@ -537,7 +534,7 @@ await client.revokePrivilegeV2({
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 curl --request POST \
@@ -578,9 +575,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## ロールを削除する{#drop-a-role}
+## ロールの削除\{#drop-a-role}
 
-以下の例は、ロール `role_a` を削除する方法を示しています。
+次の例では、ロール `role_a` を削除する方法を示します。
 
 <Admonition type="info" icon="📘" title="Notes">
 
@@ -612,7 +609,7 @@ client.dropRole(dropRoleReq);
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 const { MilvusClient, DataType } = require("@zilliz/milvus2-sdk-node")
@@ -624,7 +621,7 @@ milvusClient.dropRole({
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 curl --request POST \
@@ -639,7 +636,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-ロールが削除されたら、既存のすべてのロールをリストして、削除操作が成功したかどうかを確認できます。
+ロールが削除されたら、既存のすべてのロールを一覧表示して、削除操作が成功したか確認できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -660,7 +657,7 @@ List<String> resp = client.listRoles();
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 const { MilvusClient, DataType } = require("@zilliz/milvus2-sdk-node")
@@ -672,7 +669,7 @@ milvusClient.listRoles(
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 curl --request POST \
@@ -685,7 +682,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-以下は出力例です。リストに `role_a` はありません。ドロップ操作は成功しました。
+以下は出力例です。リストには `role_a` が存在しません。削除操作は成功しました。
 
 ```bash
 ['admin']

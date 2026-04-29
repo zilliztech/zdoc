@@ -1,11 +1,12 @@
 ---
 title: "Cohere Ranker | Cloud"
 slug: /cohere-model-ranker
+sidebar_key: cohere-model-ranker
 sidebar_label: "Cohere Ranker"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "The Cohere Ranker leverages Cohere's rerank models to improve result ordering by applying semantic reranking to retrieved candidates. | Cloud"
 type: origin

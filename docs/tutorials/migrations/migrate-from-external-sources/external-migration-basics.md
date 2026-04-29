@@ -1,11 +1,12 @@
 ---
 title: "External Migration Basics | Cloud"
 slug: /external-migration-basics
+sidebar_key: external-migration-basics
 sidebar_label: "External Migration Basics"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "External migration simplifies the process of moving your vector databases and search systems to Zilliz Cloud. Whether you're migrating from vector databases like Pinecone and Qdrant, or from search engines with vector capabilities like Elasticsearch and OpenSearch, Zilliz Cloud provides migration tools to ensure data integrity while minimizing migration complexity. | Cloud"
 type: origin

@@ -1,11 +1,12 @@
 ---
 title: "Migrate from OpenSearch to Zilliz Cloud | Cloud"
 slug: /migrate-from-opensearch
+sidebar_key: migrate-from-opensearch
 sidebar_label: "OpenSearch"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "This topic describes how Zilliz Cloud handles data type mapping, collection naming rules, and considerations when migrating from OpenSearch. | Cloud"
 type: origin

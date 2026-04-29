@@ -1,24 +1,21 @@
 ---
 title: "OpenSearch から Zilliz Cloud への移行 | Cloud"
 slug: /migrate-from-opensearch
+sidebar_key: migrate-from-opensearch
 sidebar_label: "OpenSearch"
 beta: FALSE
 notebook: FALSE
-description: "このトピックでは、OpenSearch から Zilliz Cloud へ移行する際のデータ型マッピング、コレクション命名規則、および考慮事項について説明します。 | Cloud"
+description: "このトピックでは、OpenSearch から移行する際のデータ型のマッピング、コレクションの命名規則、および考慮事項について説明します。 | Cloud"
 type: origin
 token: VFMLwxpsniVGKYkE3DecmpQ2nrg
 sidebar_position: 7
 keywords: 
   - zilliz
-  - ベクターデータベース
-  - クラウド
-  - 移行
+  - ベクトルデータベース
+  - cloud
+  - migrations
   - amazon
   - opensearch
-  - 自然言語検索
-  - 類似性検索
-  - マルチモーダル RAG
-  - LLM の幻覚
 
 ---
 
@@ -27,307 +24,307 @@ import Admonition from '@theme/Admonition';
 
 # OpenSearch から Zilliz Cloud への移行
 
-このトピックでは、OpenSearch から移行する際の Zilliz Cloud でのデータ型マッピング、コレクション命名規則、および考慮事項について説明します。
+このトピックでは、[OpenSearch](https://opensearch.org/) から移行する際のデータ型マッピング、コレクション命名規則、および考慮事項について説明します。
 
-## 前提条件{#prerequisites}
+## 前提条件\{#prerequisites}
 
 OpenSearch から Zilliz Cloud への移行を開始する前に、以下の要件を満たしていることを確認してください。
 
-### OpenSearch の要件{#opensearch-requirements}
+### OpenSearch の要件\{#opensearch-requirements}
 
 <table>
    <tr>
-     <th><p>要件</p></th>
-     <th><p>詳細</p></th>
+     <th><p>Requirement</p></th>
+     <th><p>Details</p></th>
    </tr>
    <tr>
-     <td><p>ネットワークアクセス</p></td>
-     <td><p>ソース OpenSearch クラスターは、パブリックインターネットからアクセス可能である必要があります。</p></td>
+     <td><p>ネットワーク access</p></td>
+     <td><p>Source OpenSearch cluster must be accessible from the public internet</p></td>
    </tr>
    <tr>
-     <td><p>認証</p></td>
-     <td><p>必要な権限を持つ有効なクラスターエンドポイント、ユーザー名、パスワード</p></td>
+     <td><p>Authentication</p></td>
+     <td><p>Valid cluster endpoint, username, and password with necessary permissions</p></td>
    </tr>
    <tr>
-     <td><p>ベクトルフィールドの要件</p></td>
-     <td><p>各ソースインデックスには、少なくとも1つの k-NN ベクトルフィールドが含まれている必要があります。</p></td>
+     <td><p>Vector field requirement</p></td>
+     <td><p>Each source index must contain at least one k-NN vector field</p></td>
    </tr>
    <tr>
-     <td><p>データの可用性</p></td>
-     <td><p>ソースインデックスにはデータが含まれている必要があります。空のインデックスは移行できません。</p></td>
+     <td><p>データ availability</p></td>
+     <td><p>Source indexes must contain data. Empty indexes cannot be migrated.</p></td>
    </tr>
 </table>
 
-### Zilliz Cloud の要件{#zilliz-cloud-requirements}
+### Zilliz Cloud の要件\{#zilliz-cloud-requirements}
 
 <table>
    <tr>
-     <th><p>要件</p></th>
-     <th><p>詳細</p></th>
+     <th><p>Requirement</p></th>
+     <th><p>Details</p></th>
    </tr>
    <tr>
-     <td><p>ユーザーロール</p></td>
-     <td><p>Organization Owner または Project Admin</p></td>
+     <td><p>User role</p></td>
+     <td><p>組織オーナー or プロジェクト管理者</p></td>
    </tr>
    <tr>
-     <td><p>クラスター容量</p></td>
-     <td><p>十分なストレージとコンピューティングリソース（CU サイズの見積もりには<a href="https://zilliz.com/pricing#calculator">CU 計算ツール</a>を使用してください）</p></td>
+     <td><p>Cluster capacity</p></td>
+     <td><p>Sufficient storage and compute resources (use the <a href="https://zilliz.com/pricing#calculator">CU calculator</a> to estimate CU size)</p></td>
    </tr>
    <tr>
-     <td><p>ネットワークアクセス</p></td>
-     <td><p>ネットワーク制限を使用している場合は、<a href="./zilliz-cloud-ips">Zilliz Cloud IP</a> を許可リストに追加してください。</p></td>
+     <td><p>ネットワーク access</p></td>
+     <td><p>Add <a href="./zilliz-cloud-ips">Zilliz Cloud IPs</a> to allowlists if using network restrictions</p></td>
    </tr>
 </table>
 
-## データ型マッピング{#data-type-mapping}
+## データ型マッピング\{#data-type-mapping}
 
-以下の表は、OpenSearch のフィールドタイプが Zilliz Cloud のフィールドタイプにどのようにマッピングされるか、およびカスタマイズオプションの詳細をまとめたものです。
+以下の表は、OpenSearch のフィールド型が Zilliz Cloud のフィールド型にどのようにマッピングされるかを要約したものであり、カスタマイズオプションの詳細も含んでいます。
 
 <table>
    <tr>
-     <th><p><strong>OpenSearch フィールドタイプ</strong></p></th>
-     <th><p><strong>Zilliz Cloud フィールドタイプ</strong></p></th>
-     <th><p><strong>説明</strong></p></th>
+     <th><p><strong>OpenSearch Field Type</strong></p></th>
+     <th><p><strong>Zilliz Cloud Field Type</strong></p></th>
+     <th><p><strong>Description</strong></p></th>
    </tr>
    <tr>
-     <td><p>プライマリキー</p></td>
-     <td><p>プライマリキー</p></td>
-     <td><p>OpenSearch のプライマリキー (<a href="https://opensearch.org/docs/latest/field-types/metadata-fields/id/">_id</a>) は、Zilliz Cloud のプライマリキーとして自動的にマッピングされます。</p><p>データを移行する際に、Auto ID を有効にすることができます。ただし、有効にした場合、ソーステーブルの元のプライマリキー値は破棄されます。</p></td>
+     <td><p>Primary key</p></td>
+     <td><p>Primary key</p></td>
+     <td><p>OpenSearch's primary key (<a href="https://opensearch.org/docs/latest/field-types/metadata-fields/id/">_id</a>) is automatically mapped as the primary key in Zilliz Cloud.</p><p>When migrating data, you can enable 自動ID. However, if you do so, the original primary key values from your source table will be discarded.</p></td>
    </tr>
    <tr>
-     <td><p><a href="https://opensearch.org/docs/latest/field-types/supported-field-types/knn-vector/">k-NN ベクトル</a></p></td>
+     <td><p><a href="https://opensearch.org/docs/latest/field-types/supported-field-types/knn-vector/">k-NN vector</a></p></td>
      <td><p>FLOAT_VECTOR</p></td>
-     <td><p>OpenSearch の <code>float</code> ベクトルタイプは、Zilliz Cloud の <code>FLOAT_VECTOR</code> にマッピングされます。OpenSearch のバイト/バイナリベクトルは移行でサポートされていません。</p><p>ベクトル次元は変更されません。</p></td>
+     <td><p>The <code>float</code> vector type from OpenSearch is mapped to <code>FLOAT_VECTOR</code> on Zilliz Cloud. Byte/Binary vectors from OpenSearch are サポートされていません for migration.</p><p>Vector dimensions remain unchanged.</p></td>
    </tr>
    <tr>
      <td><p><a href="https://opensearch.org/docs/latest/field-types/supported-field-types/alias/">エイリアス</a></p></td>
-     <td><p>サポートされていません</p></td>
-     <td><p>エイリアスフィールドはサポートされていません。</p></td>
+     <td><p>Not supported</p></td>
+     <td><p>エイリアス fields are サポートされていません.</p></td>
    </tr>
    <tr>
-     <td><p><a href="https://opensearch.org/docs/latest/field-types/supported-field-types/binary/">バイナリ</a></p></td>
+     <td><p><a href="https://opensearch.org/docs/latest/field-types/supported-field-types/binary/">Binary</a></p></td>
      <td><p>VARCHAR</p></td>
-     <td><p>バイナリデータは Zilliz Cloud 上で文字列として保存されます。</p></td>
+     <td><p>Binary data is stored as a string on Zilliz Cloud.</p></td>
    </tr>
    <tr>
-     <td><p><a href="https://opensearch.org/docs/latest/field-types/supported-field-types/numeric/">数値</a></p></td>
+     <td><p><a href="https://opensearch.org/docs/latest/field-types/supported-field-types/numeric/">Numeric</a></p></td>
      <td></td>
      <td></td>
    </tr>
    <tr>
      <td><p><code>byte</code></p></td>
      <td><p>INT8</p></td>
-     <td><p>直接マッピングされます。</p></td>
+     <td><p>Directly mapped.</p></td>
    </tr>
    <tr>
      <td><p><code>double</code></p></td>
      <td><p>DOUBLE</p></td>
-     <td><p>直接マッピングされます。</p></td>
+     <td><p>Directly mapped.</p></td>
    </tr>
    <tr>
      <td><p><code>float</code></p></td>
      <td><p>FLOAT</p></td>
-     <td><p>直接マッピングされます。</p></td>
+     <td><p>Directly mapped.</p></td>
    </tr>
    <tr>
      <td><p><code>half_float</code></p></td>
      <td><p>FLOAT</p></td>
-     <td><p><code>FLOAT</code> にマッピングされます。</p></td>
+     <td><p>Mapped to <code>FLOAT</code>.</p></td>
    </tr>
    <tr>
      <td><p><code>integer</code></p></td>
      <td><p>INT32</p></td>
-     <td><p>直接マッピングされます。</p></td>
+     <td><p>Directly mapped.</p></td>
    </tr>
    <tr>
      <td><p><code>long</code></p></td>
      <td><p>INT64</p></td>
-     <td><p>直接マッピングされます。</p></td>
+     <td><p>Directly mapped.</p></td>
    </tr>
    <tr>
      <td><p><code>short</code></p></td>
      <td><p>INT16</p></td>
-     <td><p>直接マッピングされます。</p></td>
+     <td><p>Directly mapped.</p></td>
    </tr>
    <tr>
      <td><p><code>unsigned_long</code></p></td>
-     <td><p>サポートされていません</p></td>
-     <td><p>Zilliz Cloud ではサポートされていません。</p></td>
+     <td><p>Not supported</p></td>
+     <td><p>Not supported on Zilliz Cloud.</p></td>
    </tr>
    <tr>
      <td><p><code>scaled_float</code></p></td>
-     <td><p>サポートされていません</p></td>
-     <td><p>Zilliz Cloud ではサポートされていません。</p></td>
+     <td><p>Not supported</p></td>
+     <td><p>Not supported on Zilliz Cloud.</p></td>
    </tr>
    <tr>
-     <td><p><a href="https://opensearch.org/docs/latest/field-types/supported-field-types/boolean/">ブール値</a></p></td>
+     <td><p><a href="https://opensearch.org/docs/latest/field-types/supported-field-types/boolean/">Boolean</a></p></td>
      <td><p>BOOL</p></td>
-     <td><p><code>true</code> または <code>false</code> を保存します。</p></td>
+     <td><p>Stores <code>true</code> or <code>false</code>.</p></td>
    </tr>
    <tr>
-     <td><p><a href="https://opensearch.org/docs/latest/field-types/supported-field-types/dates/">日付</a></p></td>
+     <td><p><a href="https://opensearch.org/docs/latest/field-types/supported-field-types/dates/">Date</a></p></td>
      <td><p>VARCHAR</p></td>
-     <td><p>文字列として保存されます。正しい形式変換を確認してください。</p></td>
+     <td><p>Stored as a string. Ensure correct format conversion.</p></td>
    </tr>
    <tr>
-     <td><p><a href="https://opensearch.org/docs/latest/field-types/supported-field-types/ip/">IP アドレス</a></p></td>
+     <td><p><a href="https://opensearch.org/docs/latest/field-types/supported-field-types/ip/">IPアドレス</a></p></td>
      <td><p>VARCHAR</p></td>
-     <td><p>文字列として保存されます。</p></td>
+     <td><p>Stored as a string.</p></td>
    </tr>
    <tr>
-     <td><p><a href="https://opensearch.org/docs/latest/field-types/supported-field-types/range/">範囲</a></p></td>
+     <td><p><a href="https://opensearch.org/docs/latest/field-types/supported-field-types/range/">Range</a></p></td>
      <td><p>JSON</p></td>
-     <td><p>JSON 形式で保存されます。</p></td>
+     <td><p>Stored in JSON format.</p></td>
    </tr>
    <tr>
-     <td><p><a href="https://opensearch.org/docs/latest/field-types/supported-field-types/object-fields/">オブジェクト</a></p></td>
+     <td><p><a href="https://opensearch.org/docs/latest/field-types/supported-field-types/object-fields/">Object</a></p></td>
      <td></td>
      <td></td>
    </tr>
    <tr>
      <td><p><code>object</code></p></td>
      <td><p>JSON</p></td>
-     <td><p>JSON 形式で保存されます。</p></td>
+     <td><p>Stored in JSON format.</p></td>
    </tr>
    <tr>
      <td><p><code>nested</code></p></td>
      <td><p>JSON</p></td>
-     <td><p>JSON 形式で保存されます。</p></td>
+     <td><p>Stored in JSON format.</p></td>
    </tr>
    <tr>
      <td><p><code>flat_object</code></p></td>
      <td><p>JSON</p></td>
-     <td><p>JSON 形式で保存されます。</p></td>
+     <td><p>Stored in JSON format.</p></td>
    </tr>
    <tr>
      <td><p><code>join</code></p></td>
      <td><p>VARCHAR</p></td>
-     <td><p>文字列として保存されます。</p></td>
+     <td><p>Stored as a string.</p></td>
    </tr>
    <tr>
-     <td><p><a href="https://opensearch.org/docs/latest/field-types/supported-field-types/string/">文字列</a></p></td>
+     <td><p><a href="https://opensearch.org/docs/latest/field-types/supported-field-types/string/">String</a></p></td>
      <td></td>
      <td></td>
    </tr>
    <tr>
      <td><p><code>keyword</code></p></td>
      <td><p>VARCHAR</p></td>
-     <td><p>文字列として保存されます。</p></td>
+     <td><p>Stored as a string.</p></td>
    </tr>
    <tr>
      <td><p><code>text</code></p></td>
      <td><p>VARCHAR</p></td>
-     <td><p><code>VARCHAR</code> にマッピングされます。</p></td>
+     <td><p>Mapped to <code>VARCHAR</code> .</p></td>
    </tr>
    <tr>
      <td><p><code>match_only_text</code></p></td>
      <td><p>VARCHAR</p></td>
-     <td><p>文字列として保存されます。</p></td>
+     <td><p>Stored as a string.</p></td>
    </tr>
    <tr>
      <td><p><code>token_count</code></p></td>
      <td><p>INT32</p></td>
-     <td><p>INT32 として保存されます。</p></td>
+     <td><p>Stored as INT32.</p></td>
    </tr>
    <tr>
      <td><p><code>wildcard</code></p></td>
-     <td><p>サポートされていません</p></td>
-     <td><p>Zilliz Cloud ではサポートされていません。</p></td>
+     <td><p>Not supported</p></td>
+     <td><p>Not supported on Zilliz Cloud.</p></td>
    </tr>
    <tr>
-     <td><p><a href="https://opensearch.org/docs/latest/field-types/supported-field-types/autocomplete/">オートコンプリート</a></p></td>
+     <td><p><a href="https://opensearch.org/docs/latest/field-types/supported-field-types/autocomplete/">Autocomplete</a></p></td>
      <td><p>VARCHAR</p></td>
-     <td><p>文字列として保存されます。</p></td>
+     <td><p>Stored as a string.</p></td>
    </tr>
    <tr>
-     <td><p><a href="https://opensearch.org/docs/latest/field-types/supported-field-types/geographic/">地理情報</a></p></td>
+     <td><p><a href="https://opensearch.org/docs/latest/field-types/supported-field-types/geographic/">Geographic</a></p></td>
      <td><p>VARCHAR</p></td>
-     <td><p>文字列として保存されます。</p></td>
+     <td><p>Stored as a string.</p></td>
    </tr>
    <tr>
-     <td><p><a href="https://opensearch.org/docs/latest/field-types/supported-field-types/rank/">ランク</a></p></td>
+     <td><p><a href="https://opensearch.org/docs/latest/field-types/supported-field-types/rank/">Rank</a></p></td>
      <td><p>VARCHAR</p></td>
-     <td><p>文字列として保存されます。</p></td>
+     <td><p>Stored as a string.</p></td>
    </tr>
    <tr>
-     <td><p><a href="https://opensearch.org/docs/latest/field-types/supported-field-types/percolator/">パーコレーター</a></p></td>
+     <td><p><a href="https://opensearch.org/docs/latest/field-types/supported-field-types/percolator/">Percolator</a></p></td>
      <td><p>VARCHAR</p></td>
-     <td><p>文字列として保存されます。</p></td>
+     <td><p>Stored as a string.</p></td>
    </tr>
    <tr>
-     <td><p><a href="https://opensearch.org/docs/latest/field-types/supported-field-types/derived/">派生</a></p></td>
-     <td><p>サポートされていません</p></td>
-     <td><p>派生フィールドは Zilliz Cloud ではサポートされていません。</p></td>
+     <td><p><a href="https://opensearch.org/docs/latest/field-types/supported-field-types/derived/">Derived</a></p></td>
+     <td><p>Not supported</p></td>
+     <td><p>Derived fields are サポートされていません on Zilliz Cloud.</p></td>
    </tr>
    <tr>
-     <td><p><a href="https://opensearch.org/docs/latest/field-types/supported-field-types/star-tree/">スターツリー</a></p></td>
-     <td><p>サポートされていません</p></td>
-     <td><p>スターツリーフィールドは Zilliz Cloud ではサポートされていません。</p></td>
+     <td><p><a href="https://opensearch.org/docs/latest/field-types/supported-field-types/star-tree/">Star-tree</a></p></td>
+     <td><p>Not supported</p></td>
+     <td><p>Star-tree fields are サポートされていません on Zilliz Cloud.</p></td>
    </tr>
    <tr>
-     <td><p><a href="https://docs.opensearch.org/docs/latest/field-types/supported-field-types/index/#arrays">配列</a></p></td>
-     <td><p>サポートされていません</p></td>
-     <td><p>配列は移行でサポートされていません。</p></td>
+     <td><p><a href="https://docs.opensearch.org/docs/latest/field-types/supported-field-types/index/#arrays">配列s</a></p></td>
+     <td><p>Not supported</p></td>
+     <td><p>配列s are サポートされていません for migration.</p></td>
    </tr>
    <tr>
-     <td><p><a href="https://docs.opensearch.org/docs/latest/field-types/supported-field-types/index/#multifields">マルチフィールド</a></p></td>
-     <td><p>サポートされていません</p></td>
-     <td><p>マルチフィールドは移行でサポートされていません。</p></td>
+     <td><p><a href="https://docs.opensearch.org/docs/latest/field-types/supported-field-types/index/#multifields">Multifields</a></p></td>
+     <td><p>Not supported</p></td>
+     <td><p>Multifields are サポートされていません for migration.</p></td>
    </tr>
 </table>
 
-## OpenSearch 固有の処理ルール{#opensearch-specific-handling-rules}
+## OpenSearch 固有の処理規則\{#opensearch-specific-handling-rules}
 
-### コレクション命名規則{#collection-naming-rules}
+### コレクション命名規則\{#collection-naming-rules}
 
-OpenSearch のインデックス名は、以下の考慮事項に基づいて Zilliz Cloud に転送されます。
+OpenSearch のインデックス名は、以下の考慮事項を踏まえて Zilliz Cloud に引き継がれます。
 
 <table>
    <tr>
-     <th><p>シナリオ</p></th>
-     <th><p>影響</p></th>
-     <th><p>解決策</p></th>
+     <th><p>Scenario</p></th>
+     <th><p>Impact</p></th>
+     <th><p>ソリューション</p></th>
    </tr>
    <tr>
-     <td><p>デフォルトの命名</p></td>
-     <td><p>コレクション名はソースインデックス名と完全に一致します</p></td>
-     <td><p>名前は OpenSearch からそのまま保持されます</p></td>
+     <td><p>Default naming</p></td>
+     <td><p>Collection names match source index names exactly</p></td>
+     <td><p>Names are preserved as-is from OpenSearch</p></td>
    </tr>
    <tr>
-     <td><p>特殊文字</p></td>
-     <td><p>ハイフン (-) またはドット (.) を含むインデックス名はエラーを引き起こし、ジョブの送信を妨げます</p></td>
-     <td><p>アンダースコアまたはその他の有効な文字を使用するようにインデックス名を手動で変更します</p></td>
+     <td><p>Special characters</p></td>
+     <td><p>Index names with hyphens (-) or dots (.) will cause errors and prevent job submission</p></td>
+     <td><p>手動で rename indexes to use underscores or other valid characters</p></td>
    </tr>
    <tr>
-     <td><p>命名の競合</p></td>
-     <td><p>同じ名前のコレクションがすでに存在する場合、ジョブを送信できません</p></td>
-     <td><p>既存のコレクションを削除するか、別のデータベースを選択するか、移行設定中に名前を変更します</p></td>
+     <td><p>名前の競合</p></td>
+     <td><p>Cannot submit job if a collection with the same name already exists</p></td>
+     <td><p>Delete existing collection, choose a different database, or rename during migration configuration</p></td>
    </tr>
 </table>
 
-### 移行の考慮事項{#migration-considerations}
+### 移行に関する考慮事項\{#migration-considerations}
 
-以下の機能は OpenSearch 移行では**サポートされていません**。
+以下の機能は、OpenSearch からの移行において**サポートされていません**。
 
 <table>
    <tr>
-     <th><p>制限</p></th>
-     <th><p>影響</p></th>
-     <th><p>代替案</p></th>
+     <th><p>制限ation</p></th>
+     <th><p>Impact</p></th>
+     <th><p>Alternative</p></th>
    </tr>
    <tr>
-     <td><p>動的フィールドから固定フィールドへの変換</p></td>
-     <td><p>既存の動的フィールドを固定タイプに変換できません</p></td>
-     <td><p>フィールドは元の動的な性質を維持します</p></td>
+     <td><p>Dynamic to fixed field conversion</p></td>
+     <td><p>Cannot convert existing dynamic fields to fixed types</p></td>
+     <td><p>Fields maintain their original dynamic nature</p></td>
    </tr>
    <tr>
-     <td><p>フィールドの追加</p></td>
-     <td><p>移行中に新しいフィールドを追加できません</p></td>
-     <td><p>既存の Elasticsearch フィールドのみが移行されます</p></td>
+     <td><p>Add more fields</p></td>
+     <td><p>Cannot add new fields during migration</p></td>
+     <td><p>Only existing Elasticsearch fields are migrated</p></td>
    </tr>
    <tr>
-     <td><p>スパースベクトル</p></td>
-     <td><p>現在のリリースではサポートされていません</p></td>
-     <td><p>密ベクトル代替案を検討するか、ロードマップについてサポートに問い合わせてください</p></td>
+     <td><p>Sparse vectors</p></td>
+     <td><p>Not supported in current release</p></td>
+     <td><p>Consider dense vector alternatives or contact support for roadmap</p></td>
    </tr>
 </table>

@@ -1,25 +1,22 @@
 ---
 title: "コレクションの削除 | BYOC"
 slug: /drop-collection
-sidebar_label: "コレクションの削除"
+sidebar_key: drop-collection
+sidebar_label: "削除"
 beta: FALSE
 notebook: FALSE
-description: "不要になったコレクションを削除できます。| BYOC"
+description: "不要になったコレクションは削除できます。| BYOC"
 type: origin
 token: DEUuwEwM4iMLOikU7XpcpNnKnGd
-sidebar_position: 10
+sidebar_position: 11
 keywords: 
   - zilliz
   - ベクトルデータベース
   - cloud
   - collection
-  - 削除
-  - フィルターによる削除
-  - IDによる削除
-  - ベクトルデータベースとは
-  - ベクトルデータベース比較
-  - Faiss
-  - 動画検索
+  - drop
+  - drop by filter
+  - drop by id
 
 ---
 
@@ -29,11 +26,11 @@ import TabItem from '@theme/TabItem';
 
 # コレクションの削除
 
-不要になったコレクションは削除できます。
+コレクションが不要になった場合は、削除できます。
 
-## 例{#examples}
+## 例\{#examples}
 
-以下のコードスニペットは、**my_collection**という名前のコレクションがあることを前提としています。
+以下のコードスニペットは、**my_collection** という名前のコレクションが存在することを前提としています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -80,7 +77,7 @@ client.dropCollection(dropQuickSetupParam);
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
@@ -104,7 +101,7 @@ console.log(res.error_code)
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 import (
@@ -140,7 +137,7 @@ if err != nil {
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"

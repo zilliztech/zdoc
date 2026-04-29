@@ -1,13 +1,14 @@
 ---
 title: "Nullable Fields | Cloud"
 slug: /nullable-fields
+sidebar_key: nullable-fields
 sidebar_label: "Nullable Fields"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
-description: "Milvus supports nullable fields, which allow a field value to be missing or explicitly set to NULL. Nullability is defined at the schema level and applies consistently across data ingestion, indexing, search, and query operations. | Cloud"
+description: "Zilliz Cloud supports nullable fields, which allow a field value to be missing or explicitly set to NULL. Nullability is defined at the schema level and applies consistently across data ingestion, indexing, search, and query operations. | Cloud"
 type: origin
 token: DjROwgK6ziCf7Rkoji6ccyEUnsg
 sidebar_position: 14
@@ -27,7 +28,7 @@ import TabItem from '@theme/TabItem';
 
 # Nullable Fields
 
-Milvus supports nullable fields, which allow a field value to be missing or explicitly set to NULL. Nullability is defined at the schema level and applies consistently across data ingestion, indexing, search, and query operations.
+Zilliz Cloud supports nullable fields, which allow a field value to be missing or explicitly set to NULL. Nullability is defined at the schema level and applies consistently across data ingestion, indexing, search, and query operations.
 
 Use nullable fields when:
 
@@ -49,9 +50,9 @@ Use nullable fields when:
 
 ## What is a nullable field?\{#what-is-a-nullable-field}
 
-In Milvus, whether a field is allowed to store a NULL value is controlled by a schema-level field attribute named `nullable`.
+In Zilliz Cloud, whether a field is allowed to store a NULL value is controlled by a schema-level field attribute named `nullable`.
 
-When a field is defined with `nullable=True`, Milvus allows the field value to be missing during data ingestion. In practice, Milvus treats the following two inputs as equivalent and stores the field value as NULL:
+When a field is defined with `nullable=True`, Zilliz Cloud allows the field value to be missing during data ingestion. In practice, Zilliz Cloud treats the following two inputs as equivalent and stores the field value as NULL:
 
 - The field is omitted from the input entity
 
@@ -66,7 +67,7 @@ The nullable attribute is supported for both **scalar and vector fields** in a c
 <p>Nullability determines whether a field value may be missing; it does not define what value is used when a field is missing.</p>
 <ul>
 <li><p>If a nullable field is configured without a default value, omitting the field results in a stored NULL value.</p></li>
-<li><p>If a default value is configured, Milvus may store the default value instead. For details, see <a href="./default-fields">Default Values</a>.</p></li>
+<li><p>If a default value is configured, Zilliz Cloud may store the default value instead. For details, see <a href="./default-fields">Default Values</a>.</p></li>
 </ul>
 
 </Admonition>
@@ -169,7 +170,7 @@ schema.add_field(
 
 ## Insert behavior with missing or NULL values\{#insert-behavior-with-missing-or-null-values}
 
-Once a field is defined as nullable in the collection schema, Milvus allows the field value to be missing or explicitly set to NULL during data ingestion.
+Once a field is defined as nullable in the collection schema, Zilliz Cloud allows the field value to be missing or explicitly set to NULL during data ingestion.
 
 The example below inserts three entities into the collection created in [Step 1](./nullable-fields#define-a-nullable-field-in-the-collection-schema), demonstrating these different cases.
 
@@ -238,11 +239,11 @@ In this example:
 
 - Entity **id = 2** explicitly assigns a NULL value to the embedding field.
 
-- Entity **id = 3** omits the embedding field entirely; Milvus stores it as NULL.
+- Entity **id = 3** omits the embedding field entirely; Zilliz Cloud stores it as NULL.
 
 ## Index behavior on nullable fields\{#index-behavior-on-nullable-fields}
 
-After inserting data, you can build an index on a nullable field as usual. The key difference is how Milvus handles NULL values during index construction:
+After inserting data, you can build an index on a nullable field as usual. The key difference is how Zilliz Cloud handles NULL values during index construction:
 
 - Only entities with non-null values are added to the index.
 
@@ -315,7 +316,7 @@ At this point:
 
 ## Search behavior with nullable fields\{#search-behavior-with-nullable-fields}
 
-When you perform search operations on a nullable field, Milvus evaluates only entities with non-null values for the field used in the search. Entities whose vector field is NULL are skipped automatically.
+When you perform search operations on a nullable field, Zilliz Cloud evaluates only entities with non-null values for the field used in the search. Entities whose vector field is NULL are skipped automatically.
 
 For a nullable vector field such as `embedding` in this example:
 
@@ -323,7 +324,7 @@ For a nullable vector field such as `embedding` in this example:
 
 - Entities with NULL vectors do not cause errors.
 
-- If the number of valid vectors is smaller than the requested topK (`limit`), Milvus may return fewer results than `limit`.
+- If the number of valid vectors is smaller than the requested topK (`limit`), Zilliz Cloud may return fewer results than `limit`.
 
 The following example performs a vector search on the nullable vector field `embedding`:
 
@@ -485,7 +486,7 @@ Entities where `status` is NULL are excluded from the results.
 
 ## Applicable rules\{#applicable-rules}
 
-When both `nullable` and `default_value` are configured for a field, the following rules determine how Milvus handles NULL input or missing field values during insertion.
+When both `nullable` and `default_value` are configured for a field, the following rules determine how Zilliz Cloud handles NULL input or missing field values during insertion.
 
 <table>
    <tr>

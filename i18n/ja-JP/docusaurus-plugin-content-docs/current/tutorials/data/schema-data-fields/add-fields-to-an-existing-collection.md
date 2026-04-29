@@ -1,25 +1,22 @@
 ---
-title: "既存のコレクションにフィールドを追加する | Cloud"
+title: "既存のコレクションへのフィールド追加 | Cloud"
 slug: /add-fields-to-an-existing-collection
-sidebar_label: "既存のコレクションにフィールドを追加する"
+sidebar_key: add-fields-to-an-existing-collection
+sidebar_label: "フィールドの追加"
 beta: FALSE
 notebook: FALSE
-description: "Milvusでは、既存のコレクションに新しいフィールドを動的に追加できるため、アプリケーションのニーズの変化に合わせてデータスキーマを簡単に進化させることができます。このガイドでは、実用的な例を使用して、さまざまなシナリオでフィールドを追加する方法を示します。 | Cloud"
+description: "Milvus では、既存のコレクションに動的に新しいフィールドを追加できるため、アプリケーションの要件の変化に合わせてデータスキーマを容易に進化させることができます。このガイドでは、実用的な例を用いて、さまざまなシナリオでフィールドを追加する方法を示します。 | Cloud"
 type: origin
 token: UR9SwucAIiQ2TYkc9EucsgvSnng
-sidebar_position: 17
+sidebar_position: 18
 keywords: 
-  - Zilliz
+  - zilliz
   - ベクトルデータベース
   - cloud
-  - collection
-  - schema
+  - コレクション
+  - スキーマ
   - フィールドプロパティ
   - コレクションフィールドの追加
-  - 密なベクトル
-  - 階層的ナビゲーション可能な小世界
-  - 密な埋め込み
-  - Faiss ベクトルデータベース
 
 ---
 
@@ -27,43 +24,43 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# 既存のコレクションにフィールドを追加する
+# 既存のコレクションへのフィールドの追加
 
-Milvusでは、既存のコレクションに新しいフィールドを動的に追加できるため、アプリケーションのニーズの変化に合わせてデータスキーマを簡単に進化させることができます。このガイドでは、実際の例を使用して、さまざまなシナリオでフィールドを追加する方法を示します。
+Milvus を使用すると、既存のコレクションに動的に新しいフィールドを追加できるため、アプリケーションのニーズの変化に合わせてデータスキーマを簡単に進化させることができます。このガイドでは、実用的な例を使用して、さまざまなシナリオでフィールドを追加する方法を示します。
 
-## 考慮事項{#considerations}
+## 考慮事項\{#considerations}
 
-コレクションにフィールドを追加する前に、以下の重要な点を考慮してください。
+コレクションにフィールドを追加する前に、以下の重要な点に留意してください：
 
-- スカラーフィールド（`INT64`、`VARCHAR`、`FLOAT`、`DOUBLE`など）を追加できます。ベクトルフィールドは既存のコレクションに追加できません。
+- スカラーフィールド（`INT64`、`VARCHAR`、`FLOAT`、`DOUBLE` など）を追加できます。ベクトルフィールドは既存のコレクションに追加できません。
 
-- 新しいフィールドは、新しいフィールドの値を持たない既存のエンティティに対応するために、null許容（nullable=True）である必要があります。
+- 新しいフィールドは、新しいフィールドの値を持たない既存のエンティティに対応するために、null 許容（nullable=True）である必要があります。
 
 - ロードされたコレクションにフィールドを追加すると、メモリ使用量が増加します。
 
-- コレクションあたりの合計フィールド数には最大制限があります。詳細については、[Milvusの制限](https://milvus.io/docs/limitations.md#Number-of-resources-in-a-collection)を参照してください。
+- コレクションあたりのフィールド総数には最大制限があります。詳細については、[Milvus の制限](https://milvus.io/docs/limitations.md#Number-of-resources-in-a-collection) を参照してください。
 
-- フィールド名は静的フィールド間で一意である必要があります。
+- フィールド名は、静的フィールド間で一意である必要があります。
 
-- `enable_dynamic_field=True`で作成されていないコレクションに対して、動的フィールド機能を有効にするために`$meta`フィールドを追加することはできません。
+- 元々 `enable_dynamic_field=True` で作成されていないコレクションに対して、動的フィールド機能を有効にするために `$meta` フィールドを追加することはできません。
 
-## 前提条件{#prerequisites}
+## 前提条件\{#prerequisites}
 
-このガイドは、以下のものがあることを前提としています。
+このガイドでは、以下が準備されていることを前提としています：
 
-- 実行中のMilvusインスタンス
+- 実行中の Milvus インスタンス
 
-- Milvus SDKがインストールされていること
+- インストール済みの Milvus SDK
 
 - 既存のコレクション
 
-<Admonition type="info" icon="📘" title="**セットアップでお困りですか？**">
+<Admonition type="info" icon="📘" title="**Need help setting up?**">
 
-<p>コレクションの作成と基本的な操作については、<a href="./manage-collections-sdks">コレクションの作成</a>を参照してください。</p>
+<p>コレクションの作成と基本操作については、<a href="./undefined">コレクションの作成</a> を参照してください。</p>
 
 </Admonition>
 
-## 基本的な使用方法{#basic-usage}
+## 基本的な使用方法\{#basic-usage}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -93,7 +90,7 @@ MilvusClientV2 client = new MilvusClientV2(config);
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 import { MilvusClient } from '@zilliz/milvus2-sdk-node';
@@ -105,7 +102,7 @@ const milvusClient = new MilvusClient({
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 // go
@@ -113,7 +110,7 @@ const milvusClient = new MilvusClient({
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 # restful
@@ -123,9 +120,9 @@ export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
 </TabItem>
 </Tabs>
 
-## シナリオ 1: Nullable フィールドを素早く追加する{#scenario-1-quickly-add-nullable-fields}
+## シナリオ 1: Null 許容フィールドを迅速に追加する\{#scenario-1-quickly-add-nullable-fields}
 
-collection を拡張する最も簡単な方法は、nullable フィールドを追加することです。これは、データに新しい属性を素早く追加する必要がある場合に最適です。
+コレクションを拡張する最も簡単な方法は、Null 許容フィールドを追加することです。これは、データに新しい属性を素早く追加したい場合に最適です。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -162,7 +159,7 @@ client.addCollectionField(AddCollectionFieldReq.builder()
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 await client.addCollectionField({
@@ -177,7 +174,7 @@ await client.addCollectionField({
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 // go
@@ -185,7 +182,7 @@ await client.addCollectionField({
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 # restful
@@ -205,15 +202,15 @@ curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/fields/add" \
 </TabItem>
 </Tabs>
 
-期待される動作：
+期待される動作:
 
-- **既存のエンティティ**は、新しいフィールドに対してNULLを持ちます。
+- **既存のエンティティ**は、新しいフィールドに対して NULL を持つ
 
-- **新しいエンティティ**は、NULLまたは実際の値を持つことができます。
+- **新しいエンティティ**は、NULL または実際の値のいずれかを持つことができる
 
-- **フィールドの可用性**は、内部スキーマ同期による最小限の遅延で、ほぼ即座に発生します。
+- **フィールドの可用性**は、内部スキーマ同期により、ほぼ即座に（最小限の遅延で）発生する
 
-- 短い同期期間の後、**すぐにクエリ可能**になります。
+- 同期期間が短時間経過した後、**即時クエリ可能**となる
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -236,7 +233,7 @@ curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/fields/add" \
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 // nodejs
@@ -248,7 +245,7 @@ curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/fields/add" \
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 // go
@@ -256,7 +253,7 @@ curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/fields/add" \
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 # restful
@@ -270,9 +267,9 @@ curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/fields/add" \
 </TabItem>
 </Tabs>
 
-## シナリオ2：デフォルト値を持つフィールドを追加する{#scenario-2-add-fields-with-default-values}
+## シナリオ 2: デフォルト値を持つフィールドを追加する\{#scenario-2-add-fields-with-default-values}
 
-既存のエンティティにNULLではなく意味のある初期値を持たせたい場合は、デフォルト値を指定します。
+既存のエンティティに NULL ではなく意味のある初期値を持たせたい場合は、デフォルト値を指定します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -310,7 +307,7 @@ client.addCollectionField(AddCollectionFieldReq.builder()
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 await client.addCollectionField({
@@ -326,7 +323,7 @@ await client.addCollectionField({
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 // go
@@ -334,7 +331,7 @@ await client.addCollectionField({
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 # restful
@@ -358,15 +355,15 @@ curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/fields/add" \
 </TabItem>
 </Tabs>
 
-期待される動作：
+期待される動作:
 
-- **既存のエンティティ**は、新しく追加されたフィールドのデフォルト値（`"standard"`）を持ちます。
+- **既存のエンティティ**は、新しく追加されたフィールドに対してデフォルト値（`"standard"`）を持つことになります。
 
-- **新しいエンティティ**は、デフォルト値を上書きするか、値が指定されていない場合はデフォルト値を使用できます。
+- **新しいエンティティ**は、デフォルト値を上書きすることも、値が指定されない場合はそのデフォルト値を使用することもできます。
 
-- **フィールドの可用性**は、最小限の遅延でほぼ即座に発生します。
+- **フィールドの可用性**は、ごくわずかな遅延でほぼ即座に発生します。
 
-- 短い同期期間の後、**すぐにクエリ可能**になります。
+- 短い同期期間の後、すぐに**即時クエリ可能**になります。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -389,7 +386,7 @@ curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/fields/add" \
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 {
@@ -400,7 +397,7 @@ curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/fields/add" \
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 // go
@@ -408,7 +405,7 @@ curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/fields/add" \
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 # restful
@@ -423,9 +420,9 @@ curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/fields/add" \
 
 ## FAQ\{#faq}
 
-### `$meta`フィールドを追加して動的スキーマ機能を有効にできますか？\{#can-i-enable-dynamic-schema-functionality-by-adding-a-dollarmeta-field}
+### `$meta` フィールドを追加することで動的スキーマ機能を有効にできますか？\{#can-i-enable-dynamic-schema-functionality-by-adding-a-dollarmeta-field}
 
-いいえ、`add_collection_field`を使用して`$meta`フィールドを追加し、動的フィールド機能を有効にすることはできません。例えば、以下のコードは機能しません。
+いいえ、`add_collection_field` を使用して `$meta` フィールドを追加し、動的フィールド機能を有効にすることはできません。たとえば、以下のコードは動作しません：
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -454,7 +451,7 @@ client.addCollectionField(AddCollectionFieldReq.builder()
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 // ❌ This is NOT supported
@@ -469,7 +466,7 @@ await client.addCollectionField({
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 // go
@@ -477,7 +474,7 @@ await client.addCollectionField({
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 # restful
@@ -500,17 +497,17 @@ curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/fields/add" \
 
 動的スキーマ機能を有効にするには：
 
-- **新規コレクション**: コレクション作成時に`enable_dynamic_field`をTrueに設定します。詳細については、[コレクションの作成](./manage-collections-sdks#create-schema)を参照してください。
+- **新しいコレクション**: コレクション作成時に `enable_dynamic_field` を True に設定します。詳細については、[コレクションの作成](./undefined#create-schema) を参照してください。
 
-- **既存コレクション**: コレクションレベルのプロパティ`dynamicfield.enabled`をTrueに設定します。詳細については、[コレクションの変更](./modify-collections#example-4-enable-dynamic-field)を参照してください。
+- **既存のコレクション**: コレクションレベルのプロパティ `dynamicfield.enabled` を True に設定します。詳細については、[コレクションの変更](./modify-collections#example-5-enable-dynamic-field) を参照してください。
 
-### 動的フィールドキーと同じ名前のフィールドを追加するとどうなりますか？{#what-happens-when-i-add-a-field-with-the-same-name-as-a-dynamic-field-key}
+### 動的フィールドキーと同じ名前のフィールドを追加するとどうなりますか？\{#what-happens-when-i-add-a-field-with-the-same-name-as-a-dynamic-field-key}
 
-コレクションで動的フィールドが有効になっている場合（`$meta`が存在する場合）、既存の動的フィールドキーと同じ名前の静的フィールドを追加できます。新しい静的フィールドは動的フィールドキーをマスクしますが、元の動的データは保持されます。
+コレクションで動的フィールドが有効になっている場合（`$meta` が存在する場合）、既存の動的フィールドキーと同じ名前の静的フィールドを追加できます。新しい静的フィールドは動的フィールドキーをマスクしますが、元の動的データは保持されます。
 
-フィールド名の衝突を避けるため、フィールドを追加する前に、既存のフィールドと動的フィールドキーを参照して、追加するフィールドの名前を検討してください。
+フィールド名の競合を避けるためには、実際に追加する前に既存のフィールドと動的フィールドキーを参照して、追加するフィールドの名前を検討してください。
 
-**シナリオ例:**
+**例シナリオ：**
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -586,7 +583,7 @@ insertR = client.insert(InsertReq.builder()
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 // Original collection with dynamic field enabled
@@ -626,7 +623,7 @@ await client.insert({
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 // go
@@ -634,7 +631,7 @@ await client.insert({
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 # restful
@@ -691,15 +688,15 @@ curl -X POST "http://${MILVUS_HOST}/v2/vectordb/entities/insert" \
 
 期待される動作:
 
-- **既存のエンティティ**は、新しい静的フィールド`extra_info`に対してNULLを持ちます。
+- **既存のエンティティ**は、新しい静的フィールド `extra_info` に対して NULL を持つ
 
-- **新しいエンティティ**は、静的フィールドのデータ型（`INT64`）を使用する必要があります。
+- **新しいエンティティ**は、静的フィールドのデータ型（`INT64`）を使用する必要がある
 
-- **元の動的フィールドのキー値**は保持され、`$meta`構文を介してアクセスできます。
+- **元の動的フィールドのキー値**は保持され、`$meta` 構文を介してアクセス可能
 
-- **静的フィールドは、通常のクエリで動的フィールドのキーをマスクします**。
+- **静的フィールドは通常のクエリにおいて動的フィールドのキーをマスクする**
 
-**静的値と動的値の両方にアクセスする:**
+**静的フィールドと動的フィールドの両方の値にアクセスする方法:**
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -744,7 +741,7 @@ results = client.query(
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 // 1. Query static field only (dynamic field key is masked)
@@ -778,7 +775,7 @@ results = client.query({
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 // go
@@ -786,7 +783,7 @@ results = client.query({
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 # restful
@@ -830,7 +827,7 @@ curl -X POST "http://${MILVUS_HOST}/v2/vectordb/entities/query" \
 </TabItem>
 </Tabs>
 
-### 新しいフィールドが利用可能になるまでどのくらい時間がかかりますか？{#how-long-does-it-take-for-a-new-field-to-become-available}
+### 新しいフィールドが利用可能になるまでどのくらい時間がかかりますか？\{#how-long-does-it-take-for-a-new-field-to-become-available}
 
-追加されたフィールドはほぼ即座に利用可能になりますが、Milvus クラスター全体での内部スキーマ変更のブロードキャストにより、わずかな遅延が発生する場合があります。この同期により、すべてのノードが新しいフィールドを含むクエリを処理する前にスキーマの更新を認識していることが保証されます。
+追加されたフィールドはほぼ即座に利用可能になりますが、Milvusクラスター全体で内部スキーマ変更をブロードキャストする際に、ごく短い遅延が発生する可能性があります。この同期処理により、すべてのノードが新しいフィールドを含むスキーマ更新を認識し、そのフィールドを含むクエリを処理できるようになります。
 

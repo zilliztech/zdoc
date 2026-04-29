@@ -1,22 +1,19 @@
 ---
 title: "プロジェクトの管理 | BYOC"
 slug: /manage-projects
+sidebar_key: manage-projects
 sidebar_label: "プロジェクト"
 beta: FALSE
 notebook: FALSE
-description: "Zilliz Cloudでは、プロジェクトは組織内の論理的なコンテナとして機能し、クラスターと関連リソースをグループ化します。ビジネスのさまざまな側面に合わせた複数のプロジェクトを作成できます。たとえば、会社がマルチメディア推薦サービスを提供している場合、ビデオ推薦用に1つ、音楽推薦用に別のプロジェクトを作成できます。 | BYOC"
+description: "Zilliz Cloud では、プロジェクトは組織内の論理的なコンテナとして機能し、クラスター、ボリューム、および関連するリソースをグループ化します。プロジェクト内のすべてのリソースは、同じクラウドプロバイダーとリージョンを共有します。| BYOC"
 type: origin
 token: NXypwJ2ySiv7RAkyKb5cZ9SKnvf
 sidebar_position: 1
 keywords: 
-  - Zilliz
+  - zilliz
   - ベクトルデータベース
-  - クラウド
+  - cloud
   - プロジェクト
-  - セマンティック検索
-  - 異常検知
-  - sentence transformers
-  - 推薦システム
 
 ---
 
@@ -25,21 +22,21 @@ import Admonition from '@theme/Admonition';
 
 # プロジェクトの管理
 
-Zilliz Cloudでは、プロジェクトは組織内の論理コンテナとして機能し、クラスターと関連リソースをグループ化します。ビジネスのさまざまな側面に合わせた複数のプロジェクトを作成できます。たとえば、会社がマルチメディア推薦サービスを提供している場合、ビデオ推薦用に1つのプロジェクトを、音楽推薦用に別のプロジェクトを作成できます。
+Zilliz Cloud では、プロジェクトは組織内の論理的なコンテナとして機能し、クラスター、ボリューム、および関連するリソースをグループ化します。プロジェクト内のすべてのリソースは、同じクラウドプロバイダーとリージョンを共有します。
 
-このガイドでは、プロジェクトを管理する手順を説明します。
+ビジネスのさまざまな側面に合わせて複数のプロジェクトを作成できます。たとえば、会社がマルチメディア推奨サービスを提供している場合、動画推薦用のプロジェクトと音楽推薦用のプロジェクトをそれぞれ作成できます。
 
-## すべてのプロジェクトを表示する{#view-all-projects}
+BYOC デプロイメントでは、各プロジェクトは 1 つのリージョンにある単一の Kubernetes クラスターに対応します。クロスリージョン操作はサポートされていません。複数のリージョンで運用するには、個別の BYOC プロジェクトを作成してください。
 
-組織内で、アクセス権のあるすべてのプロジェクトのリストを表示できます。
+このガイドでは、プロジェクトを管理するための手順について説明します。
 
-- **ウェブコンソール経由**
+## すべてのプロジェクトを表示\{#view-all-projects}
 
-    ![view-projects-byoc](https://zdoc-images.s3.us-west-2.amazonaws.com/view-projects-byoc.png "view-projects-byoc")
+組織内での権限範囲に含まれるすべてのプロジェクトのリストを表示できます。
 
-- **RESTful API経由**
+- **RESTful API 経由**
 
-    以下の例は、現在の組織内のすべてのプロジェクトをリストする方法を示しています。詳細については、[List Projects](/reference/restful/list-projects-v2)を参照してください。
+    次の例は、現在の組織内のすべてのプロジェクトを一覧表示する方法を示しています。詳細については、[プロジェクトの一覧表示](/reference/restful/list-projects-v2) をご覧ください。
 
     ```bash
     export TOKEN="YOUR_API_KEY"
@@ -53,34 +50,44 @@ Zilliz Cloudでは、プロジェクトは組織内の論理コンテナとし�
 
     以下は出力例です。
 
-    ```json
+    ```bash
     {
-        "code": 0,
-        "data": [
-            {
-                "projectName": "Default Project",
-                "projectId": "proj-xxxxxxxxxxxxxxxxxxxxxxx",
-                "instanceCount": 2,
-                "createTime": "2023-08-16T07:34:06Z",
-                "plan": "Enterprise"
-            }
-        ]
+      "code": 0,
+      "data": [
+        {
+          "projectName": "project1",
+          "projectId": "proj-a0195d6acacaf2bb985173",
+          "instanceCount": 3,
+          "createTime": "2023-12-07T03:21:32Z",
+          "plan": "Standard",
+          "projectType": "Regional",
+          "regions": ["aws-us-west-2"]
+        },
+        {
+          "projectName": "Default Project",
+          "projectId": "proj-412e874430bfa02e857247",
+          "instanceCount": 0,
+          "createTime": "2023-08-16T07:34:06Z",
+          "plan": "Enterprise",
+          "projectType": "Legacy",
+          "regions": []
+        }
+      ]
     }
+    
     ```
 
-## プロジェクトの詳細を表示する{#view-project-details}
+- **ウェブコンソール経由**
+
+    ![view-projects-byoc](https://zdoc-images.s3.us-west-2.amazonaws.com/view-projects-byoc.png "view-projects-byoc")
+
+## プロジェクトの詳細を表示する\{#view-project-details}
 
 特定のプロジェクトの詳細を確認することもできます。
 
-- **Webコンソール経由**
+- **RESTful API 経由**
 
-    **Projects**ページで、プロジェクト名、プラン、作成時間、プロジェクト内のクラスター数を確認できます。特定のプロジェクトをクリックすると、そのクラスターを表示できます。
-
-    ![NoSTbfMVjoPp99x5cjcc0cwWnbd](https://zdoc-images.s3.us-west-2.amazonaws.com/nostbfmvjopp99x5cjcc0cwwnbd.png "NoSTbfMVjoPp99x5cjcc0cwWnbd")
-
-- **RESTful API経由**
-
-    以下の例では、プロジェクト`proj-xxxxxxxxxxxxxxx`について説明します。詳細については、[Describe Project](/reference/restful/describe-project-v2)を参照してください。
+    次の例では、プロジェクト `proj-xxxxxxxxxxxxxxx` について説明しています。詳細は [プロジェクトの説明](/reference/restful/describe-project-v2) をご覧ください。
 
     ```bash
     export TOKEN="YOUR_API_KEY"
@@ -96,30 +103,40 @@ Zilliz Cloudでは、プロジェクトは組織内の論理コンテナとし�
 
     ```json
     {
-        "code": 0,
-        "data": {
-            "projectId": "proj-x",
-            "projectName": "My Project",
-            "instanceCount": 2,
-            "createTime": "2023-08-16T07:34:06Z",
-            "plan": "Enterprise"
+      "code": 0,
+      "data": [
+        {
+          "projectName": "project1",
+          "projectId": "proj-a0195d6acacaf2bb985173",
+          "instanceCount": 3,
+          "createTime": "2023-12-07T03:21:32Z",
+          "plan": "Standard",
+          "projectType": "Regional",
+          "regions": ["aws-us-west-2"]
         }
+      ]
     }
     ```
 
-## プロジェクトの名前を変更する{#rename-a-project}
+- **ウェブコンソール経由**
 
-プロジェクトの名前を変更するには、[組織の所有者](./organization-users)である必要があります。Webコンソールからプロジェクトの名前を変更できます。
+    **プロジェクト**ページで、プロジェクト名、プラン、作成日時、およびプロジェクト内のクラスター数を確認できます。特定のプロジェクトをクリックして、そのクラスターをさらに表示することもできます。
+
+    ![KgjvbAvUkopKWsxnGXycOZEynZd](https://zdoc-images.s3.us-west-2.amazonaws.com/kgjvbavukopkwsxngxycozeynzd.png "KgjvbAvUkopKWsxnGXycOZEynZd")
+
+## プロジェクトの名前変更\{#rename-a-project}
+
+プロジェクトの名前を変更するには、[組織オーナー](./organization-users) である必要があります。ウェブコンソール経由でプロジェクトの名前を変更できます。
 
 ![rename-project-byoc](https://zdoc-images.s3.us-west-2.amazonaws.com/rename-project-byoc.png "rename-project-byoc")
 
-## プロジェクトを削除する{#delete-a-project}
+## プロジェクトの削除\{#delete-a-project}
 
-プロジェクトを削除するには、[組織の所有者](./organization-users)である必要があります。
+プロジェクトを削除するには、[組織オーナー](./organization-users) である必要があります。
 
-プロジェクトを削除する前に、プロジェクト内のすべての[クラスター](./manage-cluster#drop-cluster)を削除する必要があります。
+プロジェクトを削除する前に、プロジェクト内のすべての [クラスター](./manage-cluster#drop) をドロップする必要があります。
 
-プロジェクトが削除されると、関連するすべてのデータとリソースも元に戻せない形でクリーンアップされます。
+プロジェクトが削除されると、関連するすべてのデータとリソースも取り消し不能にクリーンアップされます。
 
 <Admonition type="info" icon="📘" title="Notes">
 
@@ -127,7 +144,7 @@ Zilliz Cloudでは、プロジェクトは組織内の論理コンテナとし�
 
 </Admonition>
 
-Webコンソールからプロジェクトを削除できます。
+ウェブコンソール経由でプロジェクトを削除できます。
 
 ![delete-project-byoc](https://zdoc-images.s3.us-west-2.amazonaws.com/delete-project-byoc.png "delete-project-byoc")
 

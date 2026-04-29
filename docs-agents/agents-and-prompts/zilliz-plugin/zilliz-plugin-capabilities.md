@@ -1,11 +1,12 @@
 ---
 title: "Zilliz Claude Code Plugin Capabilities | Cloud"
 slug: /zilliz-plugin-capabilities
+sidebar_key: zilliz-plugin-capabilities
 sidebar_label: "Core Capabilities"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "The Zilliz Plugin offers capabilities across various areas for managing Zilliz Cloud resources using natural language. In this guide, you will find the main features related to managing clusters and collections, as well as vector operations. | Cloud"
 type: origin

@@ -1,11 +1,12 @@
 ---
 title: "TIMESTAMPTZ Field | BYOC"
 slug: /use-timestamptz-field
-sidebar_label: "TIMESTAMPTZ Field"
-beta: FALSE
+sidebar_key: use-timestamptz-field
+sidebar_label: "TIMSTAMPTZ"
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "Applications that track time across regions, such as e-commerce systems, collaboration tools, or distributed logging, need precise handling of timestamps with time zones. The `TIMESTAMPTZ` data type in Zilliz Cloud provides this capability by storing timestamps with their associated time zone. | BYOC"
 type: origin
@@ -332,7 +333,7 @@ const dayStr = String(day).padStart(2, '0');
 const hourStr = String(hour).padStart(2, '0');
 const minuteStr = String(minute).padStart(2, '0');
 const secondStr = String(second).padStart(2, '0');
-return `${year}-${monthStr}-${dayStr}T${hourStr}:${minuteStr}:${secondStr}${timezoneOffset}`;
+return \`${year}-${monthStr}-${dayStr}T${hourStr}:${minuteStr}:${secondStr}${timezoneOffset}\`;
 };
 
 const data = [];
@@ -800,7 +801,7 @@ You can control the time zone for `TIMESTAMPTZ` fields at the **collection** or 
 
 For step-by-step instructions and code samples, refer to the dedicated pages:
 
-- [Modify Collection](./modify-collections#example-6-set-collection-time-zone)
+- [Modify Collection](./modify-collections#example-7-set-collection-time-zone)
 
 - [Query](./get-and-scalar-query#temporarily-set-a-timezone-for-a-query)
 

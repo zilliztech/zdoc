@@ -1,10 +1,11 @@
 ---
-title: "Lowercase | BYOC"
+title: "小文字化 | BYOC"
 slug: /lowercase-filter
-sidebar_label: "Lowercase"
+sidebar_key: lowercase-filter
+sidebar_label: "小文字化"
 beta: FALSE
 notebook: FALSE
-description: "`lowercase` フィルターは、トークナイザーによって生成された用語を小文字に変換し、検索を大文字と小文字を区別しないようにします。たとえば、`[\"High\", \"Performance\", \"Vector\", \"Database\"]` を `[\"high\", \"performance\", \"vector\", \"database\"]` に変換できます。 | BYOC"
+description: '`lowercase` フィルターは、トークナイザーによって生成された用語を小文字に変換し、大文字・小文字を区別しない検索を可能にします。例えば、`["High", "Performance", "Vector", "Database"]` を `["high", "performance", "vector", "database"]` に変換できます。| BYOC'
 type: origin
 token: AhAhw08MFiB9OpkDjbPcVUTVnlg
 sidebar_position: 1
@@ -13,14 +14,10 @@ keywords:
   - ベクトルデータベース
   - cloud
   - collection
-  - schema
-  - analyzer
+  - スキーマ
+  - アナライザー
   - 組み込みフィルター
   - lowercase
-  - 近似最近傍探索
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
 
 ---
 
@@ -28,11 +25,11 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# 小文字
+# Lowercase
 
-`lowercase` フィルターは、トークナイザーによって生成された用語を小文字に変換し、検索を大文字と小文字を区別しないようにします。たとえば、`["High", "Performance", "Vector", "Database"]` を `["high", "performance", "vector", "database"]` に変換できます。
+`lowercase` フィルターは、トークナイザーによって生成された語彙を小文字に変換し、検索を大文字・小文字を区別しないものにします。たとえば、`["High", "パフォーマンス", "Vector", "データベース"]` を `["high", "performance", "vector", "database"]` に変換できます。
 
-## 設定{#configuration}
+## 設定\{#configuration}
 
 `lowercase` フィルターは Zilliz Cloud に組み込まれています。これを使用するには、`analyzer_params` 内の `filter` セクションでその名前を指定するだけです。
 
@@ -58,7 +55,7 @@ analyzerParams.put("filter", Collections.singletonList("lowercase"));
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 const analyzer_params = {
@@ -69,7 +66,7 @@ const analyzer_params = {
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 analyzerParams = map[string]any{"tokenizer": "standard", "filter": []any{"lowercase"}}
@@ -77,7 +74,7 @@ analyzerParams = map[string]any{"tokenizer": "standard", "filter": []any{"lowerc
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 # restful
@@ -92,15 +89,15 @@ analyzerParams='{
 </TabItem>
 </Tabs>
 
-`lowercase` フィルターは、トークナイザーによって生成された用語に対して動作するため、トークナイザーと組み合わせて使用する必要があります。
+`lowercase` フィルターはトークナイザーによって生成された語彙項（term）に対して動作するため、トークナイザーと組み合わせて使用する必要があります。
 
-`analyzer_params` を定義した後、コレクションスキーマを定義する際に `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud は、指定されたアナライザーを使用してそのフィールドのテキストを処理し、効率的なトークン化とフィルタリングを行うことができます。詳細については、[使用例](./analyzer-overview#example-use) を参照してください。
+`analyzer_params` を定義した後、コレクションスキーマを定義する際に `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud はそのフィールド内のテキストを指定されたアナライザーを使って処理し、効率的なトークン化およびフィルタリングを実現します。詳細については、[使用例](./analyzer-overview#example-use)を参照してください。
 
-## 例{#examples}
+## 例\{#examples}
 
-アナライザー設定をコレクションスキーマに適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
+コレクションスキーマにアナライザー設定を適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
 
-### アナライザー設定{#analyzer-configuration}
+### アナライザー設定\{#analyzer-configuration}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -124,7 +121,7 @@ analyzerParams.put("filter", Collections.singletonList("lowercase"));
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 // javascript
@@ -132,7 +129,7 @@ analyzerParams.put("filter", Collections.singletonList("lowercase"));
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 analyzerParams := map[string]any{"tokenizer": "standard", "filter": []any{"lowercase"}}
@@ -140,7 +137,7 @@ analyzerParams := map[string]any{"tokenizer": "standard", "filter": []any{"lower
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 # restful
@@ -149,7 +146,7 @@ analyzerParams := map[string]any{"tokenizer": "standard", "filter": []any{"lower
 </TabItem>
 </Tabs>
 
-### `run_analyzer` を使用した検証 {#verification-using-runanalyzer}
+### `run_analyzer` を使用した検証\{#verification-using-runanalyzer}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -200,7 +197,7 @@ List<RunAnalyzerResp.AnalyzerResult> results = resp.getResults();
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 // javascript
@@ -208,7 +205,7 @@ List<RunAnalyzerResp.AnalyzerResult> results = resp.getResults();
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 import (
@@ -242,7 +239,7 @@ if err != nil {
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 # restful
@@ -251,7 +248,7 @@ if err != nil {
 </TabItem>
 </Tabs>
 
-### 期待される出力結果\{#expected-output}
+### 期待される出力\{#expected-output}
 
 ```python
 ['the', 'lowercase', 'filter', 'ensures', 'uniformity', 'in', 'text', 'processing']

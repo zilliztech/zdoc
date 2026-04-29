@@ -1,11 +1,12 @@
 ---
 title: "Import Data (Console) | BYOC"
 slug: /import-data-on-web-ui
+sidebar_key: import-data-on-web-ui
 sidebar_label: "Console"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "This page introduces how to import the prepared data on the Zilliz Cloud console. | BYOC"
 type: origin

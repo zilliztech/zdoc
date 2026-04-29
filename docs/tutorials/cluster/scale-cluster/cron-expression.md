@@ -1,11 +1,12 @@
 ---
 title: "Cron Expression | Cloud"
 slug: /cron-expression
+sidebar_key: cron-expression
 sidebar_label: "Cron Expression"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "A cron expression defines a schedule for running a scaling task at specific times. | Cloud"
 type: origin

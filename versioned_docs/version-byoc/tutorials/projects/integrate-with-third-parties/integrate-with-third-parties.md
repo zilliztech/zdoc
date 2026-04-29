@@ -1,11 +1,12 @@
 ---
 title: "Integrate with Third Parties | BYOC"
 slug: /integrate-with-third-parties
+sidebar_key: integrate-with-third-parties
 sidebar_label: "Integrate with Third Parties"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "Learn how to integrate your Zilliz Cloud project with third-party services. | BYOC"
 type: origin

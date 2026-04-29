@@ -1,11 +1,12 @@
 ---
 title: "Standard Analyzer | BYOC"
 slug: /standard-analyzer
-sidebar_label: "Standard Analyzer"
-beta: FALSE
+sidebar_key: standard-analyzer
+sidebar_label: "Standard"
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "The `standard` analyzer is the default analyzer in Zilliz Cloud, which is automatically applied to text fields if no analyzer is specified. It uses grammar-based tokenization, making it effective for most languages. | BYOC"
 type: origin

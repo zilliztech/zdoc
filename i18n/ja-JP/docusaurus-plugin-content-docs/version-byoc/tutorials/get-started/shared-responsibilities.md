@@ -1,23 +1,20 @@
 ---
-title: "共有責任 | BYOC"
+title: "責任の共有 | BYOC"
 slug: /shared-responsibilities
-sidebar_label: "共有責任"
+sidebar_key: shared-responsibilities
+sidebar_label: "責任の共有"
 beta: CONTACT SALES
 notebook: FALSE
-description: "このページでは、Zilliz CloudとBYOCユーザーの責任を明確にし、クラウド管理、アップグレード、セキュリティ、アクセス制御、サービス可用性、技術サポートに関連するタスクの分担を明確にすることで、安全で効率的な運用環境を維持しながらスムーズなコラボレーションを保証します。 | BYOC"
+description: "このページでは、クラウド管理、アップグレード、セキュリティ、アクセス制御、サービスの可用性、技術サポートに関連するタスクの分担を明確にし、安全かつ効率的な運用環境を維持しながら円滑な連携を実現するために、Zilliz Cloud と BYOC ユーザーのそれぞれの責任について説明します。| BYOC"
 type: origin
 token: QqtGwq7lSimnHJk6IuXcM9synWg
-sidebar_position: 11
+sidebar_position: 15
 keywords: 
   - zilliz
   - byoc
   - milvus
   - ベクトルデータベース
-  - 共有責任
-  - llm-as-a-judge
-  - ハイブリッドベクトル検索
-  - ビデオ重複排除
-  - ビデオ類似性検索
+  - 責任の共有
 
 ---
 
@@ -26,9 +23,9 @@ import Admonition from '@theme/Admonition';
 
 # 共有責任
 
-このページでは、Zilliz CloudとBYOCユーザーの責任を概説し、クラウド管理、アップグレード、セキュリティ、アクセス制御、サービス可用性、およびテクニカルサポートに関連するタスクの分担を明確にすることで、安全で効率的な運用環境を維持しながらスムーズなコラボレーションを保証します。
+このページでは、クラウド管理、アップグレード、セキュリティ、アクセス制御、サービス可用性、および技術サポートに関連するタスクの分担を明確にし、安全かつ効率的な運用環境を維持しながら円滑な連携を実現するために、Zilliz Cloud と BYOC ユーザーのそれぞれの責任について説明します。
 
-## クラウド管理{#cloud-management}
+## クラウド管理\{#cloud-management}
 
 <table>
    <tr>
@@ -37,33 +34,33 @@ import Admonition from '@theme/Admonition';
      <th><p>顧客</p></th>
    </tr>
    <tr>
-     <td><p>VPCのセットアップ</p></td>
+     <td><p>VPC の設定</p></td>
      <td></td>
      <td><p>✔</p></td>
    </tr>
    <tr>
-     <td><p>EC2インスタンスの管理</p></td>
+     <td><p>EC2 インスタンスの管理</p></td>
      <td><p>✔</p></td>
      <td></td>
    </tr>
    <tr>
-     <td><p>Kubernetesクラスターの管理</p></td>
+     <td><p>Kubernetes クラスターの管理</p></td>
      <td><p>✔</p></td>
      <td></td>
    </tr>
    <tr>
-     <td><p>S3バケットの管理</p></td>
+     <td><p>S3 バケットの管理</p></td>
      <td></td>
      <td><p>✔</p></td>
    </tr>
    <tr>
-     <td><p>Milvusインスタンスのプロビジョニング</p></td>
+     <td><p>Milvus インスタンスのプロビジョニング</p></td>
      <td><p>✔</p></td>
      <td></td>
    </tr>
 </table>
 
-## アップグレードとセキュリティ{#upgrade-and-security}
+## アップグレードとセキュリティ\{#upgrade-and-security}
 
 <table>
    <tr>
@@ -72,17 +69,17 @@ import Admonition from '@theme/Admonition';
      <th><p>顧客</p></th>
    </tr>
    <tr>
-     <td><p>Milvusインスタンスのアップグレード</p></td>
+     <td><p>Milvus インスタンスのアップグレード</p></td>
      <td><p>✔</p></td>
      <td></td>
    </tr>
    <tr>
-     <td><p>ソフトウェアの脆弱性のパッチ適用</p></td>
+     <td><p>ソフトウェアの脆弱性へのパッチ適用</p></td>
      <td><p>✔</p></td>
      <td></td>
    </tr>
    <tr>
-     <td><p>インフラストラクチャの脆弱性のパッチ適用</p></td>
+     <td><p>インフラストラクチャの脆弱性へのパッチ適用</p></td>
      <td><p>✔</p></td>
      <td><p>✔</p></td>
    </tr>
@@ -93,7 +90,7 @@ import Admonition from '@theme/Admonition';
    </tr>
 </table>
 
-## アクセス制御{#access-control}
+## アクセス制御\{#access-control}
 
 <table>
    <tr>
@@ -102,7 +99,7 @@ import Admonition from '@theme/Admonition';
      <th><p>顧客</p></th>
    </tr>
    <tr>
-     <td><p>IAMロールとサービスアカウントの管理</p></td>
+     <td><p>IAM ロールとサービスアカウントの管理</p></td>
      <td><p>✔</p></td>
      <td><p>✔</p></td>
    </tr>
@@ -113,7 +110,7 @@ import Admonition from '@theme/Admonition';
    </tr>
 </table>
 
-## サービス可用性{#service-availability}
+## サービス可用性\{#service-availability}
 
 <table>
    <tr>
@@ -133,7 +130,7 @@ import Admonition from '@theme/Admonition';
    </tr>
 </table>
 
-## テクニカルサポート{#technical-support}
+## 技術サポート\{#technical-support}
 
 <table>
    <tr>
@@ -142,12 +139,12 @@ import Admonition from '@theme/Admonition';
      <th><p>顧客</p></th>
    </tr>
    <tr>
-     <td><p>ロギング</p></td>
+     <td><p>ログ記録</p></td>
      <td></td>
      <td><p>✔</p></td>
    </tr>
    <tr>
-     <td><p>監査ロギング</p></td>
+     <td><p>監査ログ記録</p></td>
      <td><p>✔</p></td>
      <td><p>✔</p></td>
    </tr>
@@ -157,7 +154,7 @@ import Admonition from '@theme/Admonition';
      <td></td>
    </tr>
    <tr>
-     <td><p>ブレークグラスアクセス</p></td>
+     <td><p>緊急アクセス（Break-glass アクセス）</p></td>
      <td><p>✔</p></td>
      <td><p>✔</p></td>
    </tr>

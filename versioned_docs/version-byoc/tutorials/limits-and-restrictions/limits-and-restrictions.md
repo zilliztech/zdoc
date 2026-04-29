@@ -1,16 +1,17 @@
 ---
 title: "Limits & Restrictions | BYOC"
 slug: /limits-and-restrictions
+sidebar_key: limits-and-restrictions
 sidebar_label: "Limits & Restrictions"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "Learn about the limits and restrictions you should know about your operations on Zilliz Cloud. | BYOC"
 type: origin
 token: Tve5wxmTHio0LPk50jgcKHe1nWg
-sidebar_position: 16
+sidebar_position: 18
 keywords: 
   - zilliz
   - vector database

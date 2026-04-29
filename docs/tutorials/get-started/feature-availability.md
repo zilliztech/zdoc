@@ -1,16 +1,17 @@
 ---
 title: "Feature Availability | Cloud"
 slug: /feature-availability
+sidebar_key: feature-availability
 sidebar_label: "Feature Availability"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "Last updated Oct 13, 2025 | Cloud"
 type: origin
 token: HpbSwzS6kiW9gikHpQ0cUZLWnlc
-sidebar_position: 17
+sidebar_position: 19
 keywords: 
   - zilliz
   - vector database
@@ -76,10 +77,6 @@ The availability phase of each feature is indicated in the Zilliz Cloud document
 
 ### Private Preview\{#private-preview}
 
-- [Extract, Transform & Load (ETL)](/reference/restful/merge-data-v2)
-
-- [Zero downtime migration](./zero-downtime-migration)
-
 - [Export backup files](./export-backup-files)
 
 - [Hosted models](./hosted-models)
@@ -100,11 +97,23 @@ The availability phase of each feature is indicated in the Zilliz Cloud document
 
 </Admonition>
 
+- [Access Logs](./access-logs)
+
+- [On-demand compute](./compute-real-time-serving-and-on-demand-compute#on-demand-compute-or-public)
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>If your region does support this feature, <a href="http://support.zilliz.com">contact us</a> to request more regions</p>
+
+</Admonition>
+
 ### Deprecation notice\{#deprecation-notice}
 
 - [Import Data from NumPy Files](./data-import-numpy)
 
 - [RESTful APIs (V1)](/reference/restful/v1)
+
+- [Merge Data](./merge-data)
 
 ### Deprecated\{#deprecated}
 

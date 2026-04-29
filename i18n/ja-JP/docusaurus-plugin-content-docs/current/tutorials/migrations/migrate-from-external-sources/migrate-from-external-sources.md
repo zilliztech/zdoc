@@ -1,24 +1,21 @@
 ---
 title: "外部ソースからの移行 | Cloud"
 slug: /migrate-from-external-sources
+sidebar_key: migrate-from-external-sources
 sidebar_label: "外部ソースからの移行"
 beta: FALSE
 notebook: FALSE
-description: "Zilliz Cloud は、データ型サポートの改善、動的フィールドから固定フィールドへの変換、および応答性の高いユーザーフレンドリーなインターフェース内でのフィールドとシャード設定を構成するための直感的なコントロールにより、複雑な collection とフィールドのマッピングを自信を持って処理するのに役立ちます。"
+description: "Zilliz Cloud は、データ型のサポート強化、動的フィールドから固定フィールドへの変換、およびレスポンシブで使いやすいインターフェース内でのフィールド設定やシャード設定を直感的に制御する機能を提供し、複雑なコレクションとフィールドのマッピングを自信を持って処理できるよう支援します。| Cloud"
 type: origin
 token: OpQHwQrMki9brIkTsAGcq93Zndf
 sidebar_position: 3
 keywords: 
-  - Zilliz
+  - zilliz
   - ベクトルデータベース
-  - クラウド
+  - cloud
   - 移行
   - 外部
   - データソース
-  - ベクトル検索
-  - knnアルゴリズム
-  - HNSW
-  - 非構造化データとは
 
 ---
 
@@ -27,7 +24,7 @@ import Admonition from '@theme/Admonition';
 
 # 外部ソースからの移行
 
-Zilliz Cloudは、データ型サポートの改善、動的フィールドから固定フィールドへの変換、応答性の高いユーザーフレンドリーなインターフェース内でのフィールドおよびシャード設定を構成するための直感的なコントロールにより、複雑なコレクションおよびフィールドマッピングを自信を持って処理するのに役立ちます。
+Zilliz Cloud は、データ型のサポート強化、動的フィールドから固定フィールドへの変換、およびレスポンシブでユーザーフレンドリーなインターフェース内でのフィールド設定やシャード設定を直感的に制御する機能を提供し、複雑なコレクションとフィールドのマッピングを自信を持って処理できるよう支援します。
 
 import DocCardList from '@theme/DocCardList';
 

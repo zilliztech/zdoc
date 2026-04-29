@@ -1,10 +1,11 @@
 ---
-title: "JSONフィールド | BYOC"
+title: "JSON フィールド | BYOC"
 slug: /use-json-fields
-sidebar_label: "JSONフィールド"
+sidebar_key: use-json-fields
+sidebar_label: "JSON"
 beta: FALSE
 notebook: FALSE
-description: "この章では、JSONフィールドのデータ型について説明し、JSONフィールドにインデックスを付ける方法についてガイドを提供します。 | BYOC"
+description: "この章では、JSON フィールド型について紹介し、JSON フィールドのインデックス作成方法に関するガイドを提供します。| BYOC"
 type: origin
 token: BkDMwo71MiZMazk7gbtc7fqknbh
 sidebar_position: 8
@@ -15,10 +16,6 @@ keywords:
   - collection
   - schema
   - json field
-  - 語彙検索
-  - 近傍検索
-  - Agentic RAG
-  - rag llm architecture
 
 ---
 
@@ -27,7 +24,9 @@ import Admonition from '@theme/Admonition';
 
 # JSONフィールド
 
-この章では、JSONフィールドタイプについて説明し、JSONフィールドをインデックス化する方法についてガイドを提供します。 
+この章では、JSONフィールド型を紹介し、JSONフィールドのインデックス作成方法に関するガイドを提供します。 
+
+
 
 import DocCardList from '@theme/DocCardList';
 

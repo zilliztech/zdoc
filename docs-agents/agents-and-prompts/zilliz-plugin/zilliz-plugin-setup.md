@@ -1,11 +1,12 @@
 ---
 title: "Zilliz Claude Code Plugin Setup | Cloud"
 slug: /zilliz-plugin-setup
+sidebar_key: zilliz-plugin-setup
 sidebar_label: "Setup"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "This guide provides multiple methods for integrating Zilliz Plugins into your LLM Agent-powered workflows. | Cloud"
 type: origin

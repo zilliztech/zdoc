@@ -1,25 +1,22 @@
 ---
 title: "パーティションキーの使用 | BYOC"
 slug: /use-partition-key
-sidebar_label: "パーティションキーの使用"
+sidebar_key: use-partition-key
+sidebar_label: "パーティションキー（ネームスペース）"
 beta: FALSE
 notebook: FALSE
-description: "パーティションキーは、パーティションに基づく検索最適化ソリューションです。特定のスカラフィールドをパーティションキーとして指定し、検索時にパーティションキーに基づくフィルタリング条件を指定することで、検索範囲を複数のパーティションに絞り込み、検索効率を向上させることができます。この記事では、パーティションキーの使用方法と関連する考慮事項について説明します。 | BYOC"
+description: "パーティションキーは、コレクションのネームスペースとして機能することで論理的なデータ分離を実現する検索最適化ソリューションです。特定のスカラフィールド（テナント ID やプロジェクト名など）をパーティションキーとして指定することで、単一のコレクション内でデータを個別のネームスペースに効果的に分割できます。これにより、フィルタリング条件を通じて検索リクエストを特定のネームスペースに限定でき、検索範囲を大幅に狭めて全体の効率を向上させることが可能です。本記事では、このネームスペースベースの最適化の実装方法と、パーティションキーを使用する際の考慮事項について紹介します。 | BYOC"
 type: origin
 token: QWqiwrgJViA5AJkv64VcgQX2nKd
-sidebar_position: 17
+sidebar_position: 18
 keywords: 
   - zilliz
   - ベクトルデータベース
-  - クラウド
+  - cloud
   - コレクション
   - データ
   - 検索最適化
   - パーティションキー
-  - knnアルゴリズム
-  - HNSW
-  - 非構造化データとは
-  - ベクトル埋め込み
 
 ---
 
@@ -27,43 +24,43 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# パーティションキーを使用する
+# パーティションキーの使用
 
-パーティションキーは、パーティションに基づく検索最適化ソリューションです。特定のスカラフィールドをパーティションキーとして指定し、検索時にパーティションキーに基づくフィルタリング条件を指定することで、検索範囲をいくつかのパーティションに絞り込み、検索効率を向上させることができます。この記事では、パーティションキーの使用方法と関連する考慮事項について説明します。
+**パーティションキー**は、コレクションの**ネームスペース**として機能することで論理的なデータ分離を可能にする検索最適化ソリューションです。特定のスカラフィールド（テナント ID やプロジェクト名など）をパーティションキーとして指定することで、単一のコレクション内でデータを異なるネームスペースに効果的にセグメント化できます。これにより、フィルタリング条件を通じて検索リクエストを特定のネームスペースに限定でき、検索範囲を大幅に狭めて全体の効率を向上させることができます。本記事では、このネームスペースベースの最適化の実装方法と、パーティションキーを使用する際の考慮事項について説明します。
 
-## 概要{#overview}
+## 概要\{#overview}
 
-Zilliz Cloudでは、パーティションを使用してデータ分離を実装し、検索範囲を特定のパーティションに制限することで検索パフォーマンスを向上させることができます。パーティションを手動で管理することを選択した場合、コレクション内に最大1,024個のパーティションを作成し、特定のルールに基づいてこれらのパーティションにエンティティを挿入することで、特定の数のパーティション内での検索を制限して検索範囲を絞り込むことができます。
+Zilliz Cloud では、パーティションを使用してデータの分離を実装し、検索範囲を特定のパーティションに制限することで検索パフォーマンスを向上させることができます。パーティションを手動で管理することを選択した場合、コレクション内に最大 1,024 個のパーティションを作成でき、特定のルールに基づいてこれらのパーティションにエンティティを挿入することで、特定の数のパーティション内での検索に制限して検索範囲を狭めることができます。
 
-Zilliz Cloudは、データ分離でパーティションを再利用し、コレクション内に作成できるパーティション数の制限を克服するためにパーティションキーを導入しています。コレクションを作成する際、スカラフィールドをパーティションキーとして使用できます。コレクションの準備が整うと、Zilliz Cloudはコレクション内に指定された数のパーティションを作成します。挿入されたエンティティを受け取ると、Zilliz Cloudはエンティティのパーティションキー値を使用してハッシュ値を計算し、ハッシュ値とコレクションの`partitions_num`プロパティに基づいてモジュロ演算を実行してターゲットパーティションIDを取得し、エンティティをターゲットパーティションに保存します。
+Zilliz Cloud は、コレクション内で作成できるパーティション数の制限を克服するために、データ分離においてパーティションを再利用できるようパーティションキーを導入しました。コレクションを作成する際、スカラフィールドをパーティションキーとして使用できます。コレクションの準備が整うと、Zilliz Cloud はコレクション内に指定された数のパーティションを作成します。挿入されたエンティティを受信すると、Zilliz Cloud はそのエンティティのパーティションキー値を使用してハッシュ値を計算し、そのハッシュ値とコレクションの `partitions_num` プロパティに基づいて剰余演算を実行してターゲットパーティション ID を取得し、エンティティをターゲットパーティションに保存します。
 
 ![IXXIwZdOYhRFXmbTMdwcaN6fnPe](https://zdoc-images.s3.us-west-2.amazonaws.com/IXXIwZdOYhRFXmbTMdwcaN6fnPe.png)
 
-次の図は、パーティションキー機能が有効になっている場合と有効になっていない場合のコレクションでの検索リクエストをZilliz Cloudがどのように処理するかを示しています。
+以下の図は、パーティションキー機能が有効または無効になっているコレクションにおいて、Zilliz Cloud が検索リクエストをどのように処理するかを示しています。
 
-- パーティションキーが無効になっている場合、Zilliz Cloudはコレクション内でクエリベクトルに最も類似したエンティティを検索します。どのパーティションに最も関連性の高い結果が含まれているかを知っている場合、検索範囲を絞り込むことができます。
+- パーティションキーが無効になっている場合、Zilliz Cloud はコレクション内でクエリベクトルに最も類似したエンティティを検索します。どのパーティションに最も関連性の高い結果が含まれているかが分かっている場合は、検索範囲を狭めることができます。
 
-- パーティションキーが有効になっている場合、Zilliz Cloudは検索フィルターで指定されたパーティションキー値に基づいて検索範囲を決定し、一致するパーティション内のエンティティのみをスキャンします。
+- パーティションキーが有効になっている場合、Zilliz Cloud は検索フィルタで指定されたパーティションキー値に基づいて検索範囲を決定し、一致するパーティション内のエンティティのみをスキャンします。
 
 ![RTaqwdaWXhRWPTb4uJTc9Uknn5c](https://zdoc-images.s3.us-west-2.amazonaws.com/RTaqwdaWXhRWPTb4uJTc9Uknn5c.png)
 
-## パーティションキーを使用する{#use-partition-key}
+## パーティションキーの使用\{#use-partition-key}
 
-パーティションキーを使用するには、次の操作が必要です。
+パーティションキーを使用するには、以下を行う必要があります。
 
-- [パーティションキーを設定する](./use-partition-key#set-partition-key)、
+- [パーティションキーの設定](./use-partition-key#set-partition-key)
 
-- [作成するパーティション数を設定する](./use-partition-key#set-partition-numbers) (オプション)、および
+- [作成するパーティション数の設定](./use-partition-key#set-partition-numbers)（オプション）
 
-- [パーティションキーに基づくフィルタリング条件を作成する](./use-partition-key#create-filtering-condition)。
+- [パーティションキーに基づくフィルタリング条件の作成](./use-partition-key#create-filtering-condition)
 
-### パーティションキーを設定する{#set-partition-key}
+### パーティションキーの設定\{#set-partition-key}
 
-スカラフィールドをパーティションキーとして指定するには、スカラフィールドを追加する際に`is_partition_key`属性を`true`に設定する必要があります。
+スカラフィールドをパーティションキーとして指定するには、スカラフィールドを追加する際にその `is_partition_key` 属性を `true` に設定する必要があります。
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>スカラフィールドをパーティションキーとして設定する場合、フィールド値は空またはnullにすることはできません。</p>
+<p>スカラフィールドをパーティションキーとして設定する場合、そのフィールド値は空または null にできません。</p>
 
 </Admonition>
 
@@ -143,7 +140,7 @@ schema.addField(AddFieldReq.builder()
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 import (
@@ -188,7 +185,7 @@ schema.WithField(entity.NewField().
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
@@ -222,7 +219,7 @@ const fields = [
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 export schema='{
@@ -256,11 +253,11 @@ export schema='{
 </TabItem>
 </Tabs>
 
-### パーティション数を設定する{#set-partition-numbers}
+### Set Partition Numbers\{#set-partition-numbers}
 
-コレクション内のスカラフィールドをパーティションキーとして指定すると、Zilliz Cloudはコレクション内に自動的に16個のパーティションを作成します。エンティティを受信すると、Zilliz Cloudはこのエンティティのパーティションキー値に基づいてパーティションを選択し、そのエンティティをパーティションに保存します。これにより、一部またはすべてのパーティションに異なるパーティションキー値を持つエンティティが保持されます。
+コレクション内のスカラー フィールドをパーティションキーとして指定すると、Zilliz Cloud はそのコレクション内に自動的に 16 個のパーティションを作成します。エンティティを受信すると、Zilliz Cloud はそのエンティティのパーティションキー値に基づいてパーティションを選び、そのパーティション内にエンティティを格納します。この結果、一部またはすべてのパーティションが異なるパーティションキー値を持つエンティティを保持することになります。
 
-コレクションとともに作成するパーティションの数を決定することもできます。これは、スカラフィールドがパーティションキーとして指定されている場合にのみ有効です。
+コレクション作成時にパーティション数を自分で決定することもできます。ただし、これはスカラー フィールドがパーティションキーとして指定されている場合にのみ有効です。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -291,7 +288,7 @@ CreateCollectionReq createCollectionReq = CreateCollectionReq.builder()
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 err = client.CreateCollection(ctx,
@@ -305,7 +302,7 @@ if err != nil {
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 await client.create_collection({
@@ -317,7 +314,7 @@ await client.create_collection({
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 export params='{
@@ -341,13 +338,13 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-### フィルタリング条件の作成{#create-filtering-condition}
+### フィルタリング条件の作成\{#create-filtering-condition}
 
-Partition Key機能が有効なcollectionでANN検索を実行する場合、検索リクエストにPartition Keyを含むフィルタリング式を含める必要があります。フィルタリング式では、特定の範囲内でPartition Key値を制限することで、Zilliz Cloudは対応するpartition内の検索範囲を制限します。
+パーティションキー機能が有効化されたコレクションでANN検索を実行する際には、検索リクエストにパーティションキーを含むフィルタリング式を指定する必要があります。このフィルタリング式では、パーティションキーの値を特定の範囲内に限定することで、Zilliz Cloudが対応するパーティション内でのみ検索を実行します。
 
-削除操作を実行する際は、より効率的な削除を実現するために、単一のpartition keyを指定するフィルタ式を含めることをお勧めします。このアプローチにより、削除操作が特定のpartitionに限定され、コンパクション中の書き込み増幅が減少し、コンパクションとインデックス作成のリソースが節約されます。
+削除操作を実行する際には、単一のパーティションキーを指定するフィルター式を含めることを推奨します。これにより、削除操作が特定のパーティションに限定され、コンパクション時のライトアンプリフィケーションが軽減され、コンパクションおよびインデックス作成のためのリソースを節約できます。
 
-以下の例は、特定のPartition Key値と一連のPartition Key値に基づいたPartition-Keyベースのフィルタリングを示しています。
+以下の例では、特定のパーティションキー値および複数のパーティションキー値に基づくフィルタリングを示しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -374,7 +371,7 @@ String filter = "partition_key in ['x', 'y', 'z'] && <other conditions>";
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 // Filter based on a single partition key value, or
@@ -386,7 +383,7 @@ filter = "partition_key in ['x', 'y', 'z'] && <other conditions>"
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 // Filter based on a single partition key value, or
@@ -398,7 +395,7 @@ const filter = 'partition_key in ["x", "y", "z"] && <other conditions>'
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 # Filter based on a single partition key value, or
@@ -413,23 +410,23 @@ export filter='partition_key in ["x", "y", "z"] && <other conditions>'
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p><code>partition_key</code> をパーティションキーとして指定されているフィールド名に置き換える必要があります。</p>
+<p><code>partition_key</code> は、パーティションキーとして指定されたフィールドの名前に置き換える必要があります。</p>
 
 </Admonition>
 
-## パーティションキー分離の使用法{#use-partition-key-isolation}
+## Use パーティションキー Isolation\{#use-partition-key-isolation}
 
-マルチテナンシーのシナリオでは、テナントIDに関連するスカラーフィールドをパーティションキーとして指定し、このスカラーフィールドの特定の値に基づいてフィルターを作成できます。同様のシナリオで検索パフォーマンスをさらに向上させるために、Zilliz Cloudはパーティションキー分離機能を提供します。
+マルチテナントシナリオでは、テナント識別子に関連するスカラー型フィールドをパーティションキーとして指定し、このスカラー型フィールド内の特定の値に基づくフィルターを作成できます。同様のシナリオにおいて検索パフォーマンスをさらに向上させるため、Zilliz Cloud は パーティションキー Isolation（パーティションキー分離）機能を導入しています。
 
 ![BVotwv5BvhBWXXbvotUccowZnng](https://zdoc-images.s3.us-west-2.amazonaws.com/BVotwv5BvhBWXXbvotUccowZnng.png)
 
-上記の図に示すように、Zilliz Cloudはパーティションキー値に基づいてエンティティをグループ化し、これらのグループごとに個別のインデックスを作成します。検索リクエストを受信すると、Zilliz Cloudはフィルタリング条件で指定されたパーティションキー値に基づいてインデックスを特定し、インデックスに含まれるエンティティ内の検索範囲を制限します。これにより、検索中に無関係なエンティティをスキャンすることを回避し、検索パフォーマンスを大幅に向上させます。
+上図に示すように、Zilliz Cloud はパーティションキーの値に基づいてエンティティをグループ化し、各グループごとに個別のインデックスを作成します。検索リクエストを受信すると、Zilliz Cloud はフィルタリング条件で指定されたパーティションキーの値に基づいて対応するインデックスを特定し、そのインデックスに含まれるエンティティ内でのみ検索範囲を限定します。これにより、検索時に無関係なエンティティをスキャンすることを回避し、検索パフォーマンスを大幅に向上させます。
 
-パーティションキー分離を有効にすると、Zilliz Cloudが一致するインデックスに含まれるエンティティ内の検索範囲を制限できるように、パーティションキーベースのフィルターに1つの特定の値のみを含める必要があります。
+パーティションキー Isolation を有効にした場合、パーティションキーに基づくフィルターには必ず1つの特定の値のみを含める必要があります。そうすることで、Zilliz Cloud は一致するインデックスに含まれるエンティティ内でのみ検索範囲を限定できます。
 
-### パーティションキー分離の有効化{#enable-partition-key-isolation}
+### Enable パーティションキー Isolation\{#enable-partition-key-isolation}
 
-以下のコード例は、パーティションキー分離を有効にする方法を示しています。
+以下のコード例は、パーティションキー Isolation を有効にする方法を示しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -463,7 +460,7 @@ client.createCollection(createCollectionReq);
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 err = client.CreateCollection(ctx,
@@ -477,7 +474,7 @@ if err != nil {
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 res = await client.alterCollection({
@@ -490,7 +487,7 @@ res = await client.alterCollection({
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 export params='{
@@ -514,4 +511,4 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-パーティションキー分離を有効にした後も、[パーティション数の設定](./use-partition-key#set-partition-numbers)で説明されているように、パーティションキーとパーティション数を設定できます。パーティションキーベースのフィルターには、特定のパーティションキー値のみを含める必要があることに注意してください。
+パーティションキー分離を有効にした後でも、[パーティション数の設定](./use-partition-key#set-partition-numbers)で説明されているように、パーティションキーとパーティション数を設定できます。ただし、パーティションキーに基づくフィルターには、特定のパーティションキー値を1つだけ含める必要があります。

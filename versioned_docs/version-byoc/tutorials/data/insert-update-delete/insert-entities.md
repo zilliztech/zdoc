@@ -1,11 +1,12 @@
 ---
 title: "Insert Entities | BYOC"
 slug: /insert-entities
-sidebar_label: "Insert Entities"
-beta: FALSE
+sidebar_key: insert-entities
+sidebar_label: "Insert"
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "Entities in a collection are data records that share the same set of fields. Field values in every data record form an entity. This page introduces how to insert entities into a collection. | BYOC"
 type: origin

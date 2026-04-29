@@ -1,11 +1,12 @@
 ---
 title: "Microsoft Entra (SAML 2.0) | BYOC"
 slug: /single-sign-on-with-microsoft-entra
+sidebar_key: single-sign-on-with-microsoft-entra
 sidebar_label: "Microsoft Entra (SAML 2.0)"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "This topic describes how to configure single sign-on (SSO) with Microsoft Entra using the SAML 2.0 protocol. | BYOC"
 type: origin

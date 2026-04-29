@@ -1,11 +1,12 @@
 ---
 title: "Zilliz Claude Code Plugin | Cloud"
 slug: /zilliz-plugin
+sidebar_key: zilliz-plugin
 sidebar_label: "Claude Code Plugin"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "The Zilliz Cloud plugin for Claude Code is a natural language interface that brings Zilliz Cloud operations directly into your IDE. Instead of memorizing CLI commands or switching to the web console, describe what you want in plain language and the plugin handles it. | Cloud"
 type: origin

@@ -1,13 +1,14 @@
 ---
-title: "Array of Structs | BYOC"
+title: "StructArray | BYOC"
 slug: /use-array-of-structs
-sidebar_label: "Array of Structs"
-beta: FALSE
+sidebar_key: use-array-of-structs
+sidebar_label: "Structs"
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
-description: "An Array of Structs field in an entity stores an ordered set of Struct elements. Each Struct in the Array shares the same pre-defined schema, comprising multiple vectors and scalar fields. | BYOC"
+description: "An Array of Structs field, or a StructArray field, in an entity stores an ordered set of Struct elements. Each Struct in the Array shares the same pre-defined schema, comprising multiple vectors and scalar fields. | BYOC"
 type: origin
 token: LIMbwXk1OiS5SykUyNhc5FtSnPb
 sidebar_position: 10
@@ -27,11 +28,13 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Array of Structs
+import Grid from '@site/src/components/Grid';
 
-An Array of Structs field in an entity stores an ordered set of Struct elements. Each Struct in the Array shares the same pre-defined schema, comprising multiple vectors and scalar fields.
+# StructArray
 
-Here's an example of an entity from a collection that contains an Array of Structs field.
+An Array of Structs field, or a StructArray field, in an entity stores an ordered set of Struct elements. Each Struct in the Array shares the same pre-defined schema, comprising multiple vectors and scalar fields.
+
+Here's an example of an entity from a collection that contains a StructArray field.
 
 ```json
 {
@@ -57,13 +60,13 @@ Here's an example of an entity from a collection that contains an Array of Struc
 }
 ```
 
-In the example above, the `chunks` field is an Array of Structs field, and each Struct element contains its own fields, namely `text`, `text_vector`, and `chapter`. 
+In the example above, the `chunks` field is a StructArray field, and each Struct element contains its own fields, namely `text`, `text_vector`, and `chapter`. 
 
 ## When to use\{#when-to-use}
 
-Modern AI applications, from autonomous driving to multimodal retrieval, increasingly rely on nested, heterogeneous data. Traditional flat data models struggle to represent complex relationships like "**one document with many annotated chunks**" or "**one driving scene with multiple observed maneuvers**". This is where the Array of Structs data type in Zilliz Cloud shines.
+Modern AI applications, from autonomous driving to multimodal retrieval, increasingly rely on nested, heterogeneous data. Traditional flat data models struggle to represent complex relationships like "**one document with many annotated chunks**" or "**one driving scene with multiple observed maneuvers**". This is where the StructArray data type in Zilliz Cloud shines.
 
-To quickly determine if the Array of Structs suits your application scenarios, consider whether:
+To quickly determine if the StructArray field suits your application scenarios, consider whether:
 
 - Your data is in a hierarchical structure, such as one document with many annotated chunks.
 
@@ -71,50 +74,51 @@ To quickly determine if the Array of Structs suits your application scenarios, c
 
 - The search results contain massive duplicate entities, and you struggle to retrieve the final results using techniques such as grouping, deduplication, and reranking.
 
-If your answers to the questions above are yes, you should use the Array of Structs.
+If your answers to the questions above are yes, you should use the StructArray.
 
 ## Limits\{#limits}
 
 - **Data types**
 
-    When you create a collection, you can use the Struct type as the data type for the elements in an Array field. However, you cannot add an Array of Structs to an existing collection, and Zilliz Cloud does not support using the Struct type as the data type for a collection field.
+    When you create a collection, you can use the Struct type as the data type for the elements in an Array field. However, you cannot add a StructArray to an existing collection, and Zilliz Cloud does not support using the Struct type as the data type for a collection field.
 
     The Structs in an Array field share the same schema, which should be defined when you create the Array field.
 
-    A Struct schema contains both vectors and scalar fields, as listed in the following table:
+    A Struct schema contains both vectors and scalar fields, as listed below:
 
-    <table>
-       <tr>
-         <th><p>Field Type</p></th>
-         <th><p>Data Type</p></th>
-       </tr>
-       <tr>
-         <td><p>Vector</p></td>
-         <td><p><code>FLOAT_VECTOR</code></p></td>
-       </tr>
-       <tr>
-         <td rowspan="5"><p>Scalar</p></td>
-         <td><p><code>VARCHAR</code></p></td>
-       </tr>
-       <tr>
-         <td><p><code>INT8/16/32/64</code></p></td>
-       </tr>
-       <tr>
-         <td><p><code>FLOAT</code></p></td>
-       </tr>
-       <tr>
-         <td><p><code>DOUBLE</code></p></td>
-       </tr>
-       <tr>
-         <td><p><code>BOOLEAN</code></p></td>
-       </tr>
-    </table>
+    <Grid columnSize="2" widthRatios="50,50">
+
+        <div>
+
+            Applicable vector fields:
+
+            - `FLOAT_VECTOR`
+
+        </div>
+
+        <div>
+
+            Applicable scalar fields:
+
+            - `VARCHAR`
+
+            - `INT8/16/32/64`
+
+            - `FLOAT`
+
+            - `DOUBLE`
+
+            - `BOOL`
+
+        </div>
+
+    </Grid>
 
     Keep the number of vector fields both at the collection level and in the Structs combined to be no greater than or equal to the upper bound of your cluster. For details, refer to [Zilliz Cloud Limits](./limits#fields).
 
 - **Nullable & default values**
 
-    An Array of Structs field is not nullable and does not accept any default value.
+    A StructArray field is not nullable and does not accept any default value.
 
 - **Function**
 
@@ -122,9 +126,9 @@ If your answers to the questions above are yes, you should use the Array of Stru
 
 - **Index type & metric type**
 
-    All vector fields in a collection must be indexed. To index a vector field within an Array of Structs field, Zilliz Cloud uses an embedding list to organize the vector embeddings in each Struct element and indexes the entire embedding list as a whole.
+    All vector fields in a collection must be indexed. To index a vector field within a StructArray field, Zilliz Cloud uses an embedding list to organize the vector embeddings in each Struct element and indexes the entire embedding list as a whole.
 
-    You can use `AUTOINDEX`  as the index type and any metric type listed below to build indexes for the embedding lists in an Array of Structs field. 
+    You can use `AUTOINDEX`  as the index type and any metric type listed below to build indexes for the embedding lists in a StructArray field. 
 
     <table>
        <tr>
@@ -133,21 +137,15 @@ If your answers to the questions above are yes, you should use the Array of Stru
          <th><p>Remarks</p></th>
        </tr>
        <tr>
-         <td rowspan="3"><p><code>AUTOINDEX</code></p></td>
-         <td><p><code>MAX_SIM_COSINE</code></p></td>
-         <td rowspan="3"><p>For embedding lists of the following types:</p><ul><li>FLOAT_VECTOR</li></ul></td>
-       </tr>
-       <tr>
-         <td><p><code>MAX_SIM_IP</code></p></td>
-       </tr>
-       <tr>
-         <td><p><code>MAX_SIM_L2</code></p></td>
+         <td rowspan="3"><ul><li><code>AUTOINDEX</code></li></ul></td>
+         <td rowspan="3"><ul><li><p><code>MAX_SIM_COSINE</code></p></li><li><p><code>MAX_SIM_IP</code></p></li><li><p><code>MAX_SIM_L2</code></p></li></ul></td>
+         <td rowspan="3"><p>For embedding lists of the following types:</p><ul><li><code>FLOAT_VECTOR</code></li></ul></td>
        </tr>
     </table>
 
     For details on how Zilliz Cloud calculates the similarity between the query and an embedding list, refer to [Maximum Similarity](./search-metrics-explained#maximum-similarity).
 
-    The scalar fields in the Array of Structs field do not support indexes.
+    The scalar fields in the StructArray field do not support indexing.
 
 - **Upsert data**
 
@@ -155,15 +153,15 @@ If your answers to the questions above are yes, you should use the Array of Stru
 
 - **Scalar filtering**
 
-    You cannot use an Array of Structs or any fields within its Struct element in filtering expressions within searches and queries. 
+    You cannot use a StructArray or any fields within its Struct element in filtering expressions within searches and queries.
 
-## Add Array of Structs\{#add-array-of-structs}
+## Add a StructArray\{#add-a-structarray}
 
-To use an Array of Structs in Zilliz Cloud clusters, you need to define an array field when creating a collection, and set the data type for its elements to Struct. The process is as follows:
+To add a StructArray field in Zilliz Cloud clusters, you need to define an array field when creating a collection, and set the data type for its elements to Struct. The process is as follows:
 
 1. Set the data type of a field to `DataType.ARRAY` when adding the field as an Array field to the collection schema.
 
-1. Set the field's `element_type` attribute to `DataType.STRUCT` to make the field an Array of Structs.
+1. Set the field's `element_type` attribute to `DataType.STRUCT` to make the field a Struct Array.
 
 1. Create a Struct schema and include the required fields. Then, reference the Struct schema in the field's `struct_schema` attribute.
 
@@ -171,7 +169,7 @@ To use an Array of Structs in Zilliz Cloud clusters, you need to define an array
 
 1. (**Optional**) You can set `mmap.enabled` for any field within the Struct element to balance the hot and cold data in the Struct.
 
-Here's how you can define a collection schema that includes an Array of Structs:
+Here's how you can define a collection schema that includes a StructArray field:
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -209,7 +207,7 @@ struct_schema.add_field("chapter", DataType.VARCHAR, max_length=512)
 struct_schema.add_field("text_vector", DataType.FLOAT_VECTOR, mmap_enabled=True, dim=5)
 
 # reference the struct schema in an Array field with its 
-# element type set to `DataType.STRUCT`
+# element type set to \`DataType.STRUCT\`
 schema.add_field("chunks", datatype=DataType.ARRAY, element_type=DataType.STRUCT, 
                     struct_schema=struct_schema, max_capacity=1000)
 # highlight-end
@@ -419,13 +417,13 @@ SCHEMA='{
 </TabItem>
 </Tabs>
 
-The highlighted lines in the above code example illustrate the procedure to include an Array of Structs in a collection schema.
+The highlighted lines in the code example above illustrate how to include a StructArray in a collection schema.
 
 ## Set index params\{#set-index-params}
 
 Indexing is mandatory for all vector fields, including both the vector fields in the collection and those defined in the element Struct.
 
-To index an embedding list, you need to set its index type to `AUTOINDEX` , and use `MAX_SIM_COSINE` as the metric type for Zilliz Cloud clusters to measure the similarities between embedding lists.
+To index an embedding list, you need to set its index type to `AUTOINDEX` , and use an listed metric type for Zilliz Cloud clusters to measure the similarities between embedding lists.
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -532,7 +530,7 @@ INDEX_PARAMS='[
 
 ## Create a collection\{#create-a-collection}
 
-Once the schema and index are ready, you can create a collection that includes an Array of Structs field.
+Once the schema and index are ready, you can create a collection that includes a StructArray field.
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -836,15 +834,15 @@ client.insert(collection_name="my_collection", data=data)
 
 </details>
 
-## Vector search against an Array of Structs field\{#vector-search-against-an-array-of-structs-field}
+## Vector search in a StructArray field\{#vector-search-in-a-structarray-field}
 
-You can perform vector searches on the vector fields of a collection and in an Array of Structs. 
+You can perform vector searches on the vector fields of a collection and in a StructArray. 
 
-Specifically, you should concatenate the name of the Array of Structs field and those of the target vector fields within Struct elements as the value for the `anns_field` parameter in a search request, and use `EmbeddingList` to organize query vectors neatly.
+Specifically, you should concatenate the name of the StructArray field and those of the target vector fields within Struct elements as the value for the `anns_field` parameter in a search request, and use `EmbeddingList` to organize query vectors neatly.
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Zilliz Cloud provides <code>EmbeddingList</code> to help you organize query vectors for searches against an embedding list in an Array of Structs more neatly. Each <code>EmbeddingList</code> contains at least a vector embedding and expects a number of topK entities in return.</p>
+<p>Zilliz Cloud provides <code>EmbeddingList</code> to help you organize query vectors for searches against an embedding list in a StructArray more neatly. Each <code>EmbeddingList</code> contains at least a vector embedding and expects a number of topK entities in return.</p>
 <p>However, <code>EmbeddingList</code> can be used only in <code>search()</code> requests without range search or grouping search parameters, let alone <code>search_iterator()</code> requests.</p>
 
 </Admonition>
@@ -1183,5 +1181,5 @@ In the above code example, `embeddingList1` is an embedding list of one vector, 
 
 ## Next steps\{#next-steps}
 
-The development of a native Array of Structs data type represents a major advancement in Zilliz Cloud's capability to handle complex data structures. To better understand its use cases and maximize this new feature, you are encouraged to read [Schema Design Using an Array of Structs](./schema-design-with-structs).
+The development of a native StructArray data type represents a major advancement in Zilliz Cloud's capability to handle complex data structures. To better understand its use cases and maximize this new feature, you are encouraged to read [Schema Design Using an Array of Structs](./schema-design-with-structs).
 

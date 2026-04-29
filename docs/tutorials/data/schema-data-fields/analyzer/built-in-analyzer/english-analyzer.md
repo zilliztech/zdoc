@@ -1,11 +1,12 @@
 ---
 title: "English | Cloud"
 slug: /english-analyzer
+sidebar_key: english-analyzer
 sidebar_label: "English"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "The `english` analyzer in Zilliz Cloud is designed to process English text, applying language-specific rules for tokenization and filtering. | Cloud"
 type: origin

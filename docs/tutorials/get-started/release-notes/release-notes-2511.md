@@ -1,16 +1,17 @@
 ---
 title: " November 2025 Release Notes  | Cloud"
 slug: /release-notes-2511
+sidebar_key: release-notes-2511
 sidebar_label: "November, 2025"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: " November 2025 Release Notes  | Cloud"
 type: origin
 token: CK0ewQWC2iz6lakP0kscqogbnGh
-sidebar_position: 5
+sidebar_position: 6
 keywords: 
   - zilliz
   - vector database
@@ -46,7 +47,7 @@ import Grid from '@site/src/components/Grid';
 
         - **Struct data type support** — Model nested, multi-attribute records more naturally to simplify schema design and improve querying in metadata-rich AI workloads. For details, refer to [Array of Structs](./use-array-of-structs).
 
-        - **Enable Dynamic Field on existing collections** — Turn on dynamic field support without recreating the collection, allowing schema flexibility as business attributes evolve. For details, refer to [Modify Collection](./modify-collections#example-4-enable-dynamic-field).
+        - **Enable Dynamic Field on existing collections** — Turn on dynamic field support without recreating the collection, allowing schema flexibility as business attributes evolve. For details, refer to [Modify Collection](./modify-collections#example-5-enable-dynamic-field).
 
         - **Support Deleting Scalar Indexes Under Loading Status** — Allow deleting and rebuilding scalar indexes while the collection is in loading status.
 

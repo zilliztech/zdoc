@@ -1,16 +1,17 @@
 ---
 title: "Release Notes (April 3, 2024) | Cloud"
 slug: /release-notes-270
+sidebar_key: release-notes-270
 sidebar_label: "April 3, 2024"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "This update introduces powerful tools and enhancements to Zilliz Cloud new Connectors for easy data ingestion from sources like Object Storage, Rerankers to improve search relevance, a Metrics Monitoring API for in-depth system state analytics, and a Cross Cloud Data Import feature allowing direct import from AWS S3, Google Cloud Storage, and Azure Blob Storage to vector database instances. These features combine to elevate data ingestion, search precision, and operational insight, streamlining the management of vector databases in the cloud. | Cloud"
 type: origin
 token: S7PMwgqGOiURCpkTFT4cTnTjnAc
-sidebar_position: 20
+sidebar_position: 21
 keywords: 
   - zilliz
   - vector database

@@ -1,11 +1,12 @@
 ---
 title: "Zilliz Cloud Limits | BYOC"
 slug: /limits
+sidebar_key: limits
 sidebar_label: "Zilliz Cloud Limits"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "This page provides information about limits on the Zilliz Cloud platform. You can use the OPS system that Zilliz provides to tune most of the settings mentioned on this page. You can still contact us if you need further help. | BYOC"
 type: origin
@@ -43,6 +44,116 @@ The following table lists the limits on the maximum number of orgsanizations and
      <td><p>Each user can create up to 100 projects in 1 organization.</p></td>
    </tr>
 </table>
+
+## Users & Roles\{#users-and-roles}
+
+The following table lists the limits on the maximum number of users allowed in Zilliz Cloud.
+
+<table>
+   <tr>
+     <th><p><strong>Item</strong></p></th>
+     <th><p><strong>Max Number</strong></p></th>
+     <th><p><strong>Remarks</strong></p></th>
+   </tr>
+   <tr>
+     <td><p>Cluster User</p></td>
+     <td><p>100</p></td>
+     <td><p>A cluster can have up to 100 users in total.</p></td>
+   </tr>
+   <tr>
+     <td><p>Cluster Custom Role</p></td>
+     <td><p>20</p></td>
+     <td><p>A cluster can have up to 20 custom roles in total. <a href="http://support.zilliz.com">Contact us</a> to remove this limit.</p></td>
+   </tr>
+</table>
+
+## API Keys\{#api-keys}
+
+<table>
+   <tr>
+     <th><p><strong>Item</strong></p></th>
+     <th><p><strong>Max Number</strong></p></th>
+     <th><p><strong>Remarks</strong></p></th>
+   </tr>
+   <tr>
+     <td><p>API Key</p></td>
+     <td><p>100</p></td>
+     <td><p>Each organization can contain a maximum of 100 customized API keys for optimal resource utilization and security.</p></td>
+   </tr>
+</table>
+
+## Console IP Allowlist\{#console-ip-allowlist}
+
+<table>
+   <tr>
+     <th><p><strong>Item</strong></p></th>
+     <th><p><strong>Max Number</strong></p></th>
+     <th><p><strong>Remarks</strong></p></th>
+   </tr>
+   <tr>
+     <td><p>IPs in the organization console IP allowlist</p></td>
+     <td><p>100</p></td>
+     <td><p>Each organization console IP allowlist can contain a maximum of 100 IPs or CIDR blocks.</p></td>
+   </tr>
+</table>
+
+## Clusters\{#clusters}
+
+### CUs\{#cus}
+
+A CU is the basic unit of compute resources used for parallel processing of data, and different CU types comprise varying combinations of CPU, memory, and storage. The concept of CU only applies to Dedicated clusters.
+
+<table>
+   <tr>
+     <th><p><strong>Project Plan & Cluster Deployment Option</strong></p></th>
+     <th><p><strong>Limits</strong></p></th>
+     <th><p><strong>Remarks</strong></p></th>
+   </tr>
+   <tr>
+     <td><p>Dedicated serving cluster in a Standard project</p></td>
+     <td><p>CU size &lt;=32</p></td>
+     <td><p>On the console, you can create up to 32 CUs for a single cluster.</p></td>
+   </tr>
+   <tr>
+     <td><p>Dedicated serving cluster in an Enterprise project</p></td>
+     <td><p>CU size x Replica Count &lt;=10,240</p></td>
+     <td><p>On the console, you can create up to 1,024 CUs for a single cluster.</p><p>However, the limit is CU size x Replica Count &lt;=10,240 if replicas are added.</p></td>
+   </tr>
+</table>
+
+You are welcome to [contact us](https://support.zilliz.com/hc/en-us) 
+
+- If your Dedicated clusters in a Standard project require more than 32 CUs
+
+- If your Dedicated clusters in an Enterprise project require more than 1,024 CUs
+
+## Replicas\{#replicas}
+
+To add replicas, the cluster needs to have **12 CUs or more**. The following limit applies as well.
+
+<table>
+   <tr>
+     <th><p><strong>Item</strong></p></th>
+     <th><p><strong>Limits</strong></p></th>
+     <th><p><strong>Remarks</strong></p></th>
+   </tr>
+   <tr>
+     <td><p>Replica</p></td>
+     <td><p>10</p></td>
+     <td><p>You can create a maximum of 10 replicas.</p></td>
+   </tr>
+   <tr>
+     <td><p>Query CU x Replica Count</p></td>
+     <td><p>10,240</p></td>
+     <td><p>The cluster replica x query CU should not exceed 10,240.</p></td>
+   </tr>
+</table>
+
+## Databases\{#databases}
+
+- Each Serving-Dedicated cluster can have up to 1024 databases.
+
+- Default database cannot be dropped.
 
 ## Collections\{#collections}
 
@@ -147,95 +258,42 @@ Zilliz Cloud also imposes rate limits on collection and partition data definitio
 
 This section focuses on the rate limit for common data operations in Zilliz Cloud clusters.
 
-### Insert\{#insert}
+### Insert and Upsert\{#insert-and-upsert}
 
-Each insert request/response should be no greater than **64** MB.
-
-The rate limit that applies varies with the cluster types and the number of CUs in use. The following table lists the rate limits for insert operations.
+The rate limit for insert and upsert operations depends on the cluster deployment option and the number of CUs in use. 
 
 <table>
    <tr>
      <th></th>
-     <th><p>Maximum Insert Rate Limits</p></th>
+     <th><p>Maximum Insert and Upsert Rate Limits</p></th>
    </tr>
    <tr>
-     <td><p>[1 CU, 2 CUs]</p></td>
-     <td><p>8 MB/s</p></td>
-   </tr>
-   <tr>
-     <td><p>[4 CUs,  8 CUs]</p></td>
-     <td><p>12 MB/s</p></td>
-   </tr>
-   <tr>
-     <td><p>[12 CUs, 20 CUs]</p></td>
-     <td><p>16 MB/s</p></td>
-   </tr>
-   <tr>
-     <td><p>[24 CUs, 64 CUs)</p></td>
-     <td><p>24 MB/s</p></td>
-   </tr>
-   <tr>
-     <td><p>[64 CUs, 128CUs)</p></td>
-     <td><p>36 MB/s</p></td>
-   </tr>
-   <tr>
-     <td><p>[128 CUs, 256CUs)</p></td>
-     <td><p>48 MB/s</p></td>
-   </tr>
-   <tr>
-     <td><blockquote>  <p>= 256 CUs</p></blockquote></td>
-     <td><p>64 MB/s</p></td>
+     <td><p>Dedicated cluster</p></td>
+     <td><p>16 MB/s + 1 MB/s × CU</p><p>Up to 256 MB/s at most.</p></td>
    </tr>
 </table>
 
-When inserting data, include all schema-defined fields. Exclude the primary key if the collection has AutoID enabled.
+Examples:
 
-To make inserted entities immediately retrievable in searches and queries, consider changing the consistency level in the search or query requests to **Strong**. Read [Consistency Level](./consistency-level) for more.
+- `1 CU`: `17 MB/s`
 
-### Upsert\{#upsert}
+- `8 CUs`: `24 MB/s`
 
-Each upsert request/response should be no greater than **64** MB.
+- `64 CUs`: `80 MB/s`
 
-The rate limit that applies varies with the cluster types and the number of CUs in use. The following table lists the rate limits for upsert operations.
+- `240 CUs`: `256 MB/s`
 
-<table>
-   <tr>
-     <th></th>
-     <th><p>Maximum Upsert Rate Limits</p></th>
-   </tr>
-   <tr>
-     <td><p>[1 CU, 2 CUs]</p></td>
-     <td><p>8 MB/s</p></td>
-   </tr>
-   <tr>
-     <td><p>[4 CUs,  8 CUs]</p></td>
-     <td><p>12 MB/s</p></td>
-   </tr>
-   <tr>
-     <td><p>[12 CUs, 20 CUs]</p></td>
-     <td><p>16 MB/s</p></td>
-   </tr>
-   <tr>
-     <td><p>[24 CUs, 64 CUs)</p></td>
-     <td><p>24 MB/s</p></td>
-   </tr>
-   <tr>
-     <td><p>[64 CUs, 128CUs)</p></td>
-     <td><p>36 MB/s</p></td>
-   </tr>
-   <tr>
-     <td><p>[128 CUs, 256CUs)</p></td>
-     <td><p>48 MB/s</p></td>
-   </tr>
-   <tr>
-     <td><blockquote>  <p>= 256 CUs</p></blockquote></td>
-     <td><p>64 MB/s</p></td>
-   </tr>
-</table>
+- `>= 240 CUs`: `256 MB/s` maximum
 
-When upserting data, include all schema-defined fields. 
+In addition, the following extra limits apply:
 
-To make upserted entities immediately retrievable in searches and queries, consider changing the consistency level in the search or query requests to **Strong**. Read [Consistency Level](./consistency-level) for more.
+- The write rate for a single shard must not exceed **32 MB/s**.
+
+- When inserting data, include all schema-defined fields. Exclude the primary key if the collection has AutoID enabled.
+
+- When upserting data, include all schema-defined fields.
+
+- To make inserted or upserted entities immediately retrievable in searches and queries, consider changing the consistency level in the search or query requests to **Strong**. Read [Consistency Level](./consistency-level) for more.
 
 ### Index\{#index}
 
@@ -361,9 +419,9 @@ You can restore a backup file in the same region as the original cluster of the 
      <th><p><strong>Remarks</strong></p></th>
    </tr>
    <tr>
-     <td><p>IP Address (CIDR)</p></td>
+     <td><p>Console IP Access</p></td>
      <td><p>100</p></td>
-     <td><p>You can add up to 100 IP addresses to the allow list.</p></td>
+     <td><p>You can add up to 100 IP addresses to the console IP allowlist.</p></td>
    </tr>
 </table>
 

@@ -1,11 +1,12 @@
 ---
 title: "Migrate from Milvus to Zilliz Cloud | BYOC"
 slug: /migrate-from-milvus
+sidebar_key: migrate-from-milvus
 sidebar_label: "Migrate from Milvus"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "Milvus is an open-source vector database optimized for scalable similarity search and AI applications. Known for its high performance and ease of use, it is widely used for managing large-scale vector data. | BYOC"
 type: origin

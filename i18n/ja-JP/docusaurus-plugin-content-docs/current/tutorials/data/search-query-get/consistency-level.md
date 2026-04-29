@@ -1,24 +1,21 @@
 ---
 title: "一貫性レベル | Cloud"
 slug: /consistency-level
+sidebar_key: consistency-level
 sidebar_label: "一貫性レベル"
 beta: FALSE
 notebook: FALSE
-description: "分散型ベクトルデータベースとして、Zilliz Cloud は、読み取りおよび書き込み操作中に各ノードまたはレプリカが同じデータにアクセスできるように、複数のレベルの一貫性を提供します。現在サポートされている一貫性レベルには、Strong、Bounded、Eventually、および Session があり、Bounded がデフォルトの一貫性レベルとして使用されます。 | Cloud"
+description: "分散型ベクトルデータベースである Zilliz Cloud は、読み取りおよび書き込み操作中に各ノードまたはレプリカが同じデータにアクセスできるように、複数の一貫性レベルを提供します。現在サポートされている一貫性レベルには、Strong、Bounded、Eventually、Session があり、デフォルトの一貫性レベルは Bounded です。 | Cloud"
 type: origin
 token: Xx9EwWtekinLZfkWKqic37dDnFb
-sidebar_position: 20
+sidebar_position: 21
 keywords: 
-  - Zilliz
+  - zilliz
   - ベクトルデータベース
-  - クラウド
+  - cloud
   - collection
-  - データ
+  - data
   - 一貫性レベル
-  - Milvus ベクトルデータベース
-  - Milvus DB
-  - Milvus ベクトル DB
-  - Zilliz Cloud
 
 ---
 
@@ -28,53 +25,53 @@ import TabItem from '@theme/TabItem';
 
 # 一貫性レベル
 
-分散型ベクトルデータベースとして、Zilliz Cloud は、読み取りおよび書き込み操作中に各ノードまたはレプリカが同じデータにアクセスできるように、複数のレベルの一貫性を提供します。現在サポートされている一貫性レベルには、**Strong**、**Bounded**、**Eventually**、および **Session** があり、**Bounded** がデフォルトの一貫性レベルとして使用されます。
+分散型ベクトルデータベースとして、Zilliz Cloud は複数の一貫性レベルを提供し、読み取りおよび書き込み操作中に各ノードまたはレプリカが同じデータにアクセスできるようにします。現在サポートされている一貫性レベルには、**Strong**（強い一貫性）、**Bounded**（限定的古さ許容）、**Eventually**（結果整合性）、**Session**（セッション一貫性）があり、デフォルトで使用される一貫性レベルは **Bounded** です。
 
-## 概要{#overview}
+## 概要\{#overview}
 
-Zilliz Cloud は、ストレージと計算を分離するシステムです。このシステムでは、**DataNodes** がデータの永続性を担当し、最終的に MinIO/S3 などの分散オブジェクトストレージに保存します。**QueryNodes** は、検索などの計算タスクを処理します。これらのタスクには、**バッチデータ**と**ストリーミングデータ**の両方の処理が含まれます。簡単に言えば、バッチデータはすでにオブジェクトストレージに保存されているデータとして理解でき、ストリーミングデータはまだオブジェクトストレージに保存されていないデータを指します。ネットワーク遅延のため、QueryNodes は最新のストリーミングデータを保持していないことがよくあります。追加の保護なしにストリーミングデータに対して直接検索を実行すると、多くのコミットされていないデータポイントが失われ、検索結果の精度に影響を与える可能性があります。
+Zilliz Cloud はストレージとコンピューティングを分離したシステムです。このシステムにおいて、**データNode** はデータの永続化を担当し、最終的に MinIO/S3 などの分散オブジェクトストレージにデータを保存します。一方、**QueryNode** は Search などの計算タスクを処理します。これらのタスクでは、**バッチデータ**と**ストリーミングデータ**の両方を処理します。簡単に言うと、バッチデータとはすでにオブジェクトストレージに保存されたデータであり、ストリーミングデータとはまだオブジェクトストレージに保存されていないデータを指します。ネットワーク遅延のため、QueryNode は最新のストリーミングデータを保持していないことがよくあります。追加の保護措置がなければ、ストリーミングデータに対して直接 Search を実行すると、多くの未コミットデータが失われ、検索結果の精度に影響を与える可能性があります。
 
 ![UlOJwpWuKhj5LAbGSp9cwMFznEb](https://zdoc-images.s3.us-west-2.amazonaws.com/UlOJwpWuKhj5LAbGSp9cwMFznEb.png)
 
-上記の図に示すように、QueryNodes は検索リクエストを受信した後、ストリーミングデータとバッチデータの両方を同時に受信できます。ただし、ネットワーク遅延のため、QueryNodes が取得するストリーミングデータは不完全である可能性があります。
+上図のように、QueryNode は Search リクエストを受け取った後、ストリーミングデータとバッチデータの両方を同時に受信できます。しかしネットワーク遅延のため、QueryNode が取得するストリーミングデータは不完全な場合があります。
 
-この問題に対処するため、Zilliz Cloud はデータキュー内の各レコードにタイムスタンプを付け、同期タイムスタンプをデータキューに継続的に挿入します。同期タイムスタンプ (syncTs) が受信されるたびに、QueryNodes はそれを ServiceTime として設定します。これは、QueryNodes がその ServiceTime 以前のすべてのデータを見ることができることを意味します。ServiceTime に基づいて、Zilliz Cloud は、一貫性と可用性に関するさまざまなユーザー要件を満たすために、保証タイムスタンプ (GuaranteeTs) を提供できます。ユーザーは、検索リクエストで GuaranteeTs を指定することにより、指定された時点以前のデータを検索スコープに含める必要があることを QueryNodes に通知できます。
+この問題に対処するため、Zilliz Cloud はデータキュー内の各レコードにタイムスタンプを付与し、継続的に同期タイムスタンプ（syncTs）をデータキューに挿入します。QueryNode が同期タイムスタンプ（syncTs）を受信すると、それを ServiceTime として設定します。つまり、QueryNode はその ServiceTime より前のすべてのデータを参照可能になります。この ServiceTime を基に、Zilliz Cloud はユーザーの異なる一貫性および可用性要件を満たすために保証タイムスタンプ（GuaranteeTs）を提供できます。ユーザーは Search リクエスト内で GuaranteeTs を指定することで、QueryNode に指定時刻以前のデータを検索範囲に含めるよう指示できます。
 
 ![Owddb7D3Fo8zyFxJgWWcZCxanIf](https://zdoc-images.s3.us-west-2.amazonaws.com/owddb7d3fo8zyfxjgwwczcxanif.png "Owddb7D3Fo8zyFxJgWWcZCxanIf")
 
-上記の図に示すように、GuaranteeTs が ServiceTime より小さい場合、指定された時点以前のすべてのデータが完全にディスクに書き込まれていることを意味し、QueryNodes はすぐに検索操作を実行できます。GuaranteeTs が ServiceTime より大きい場合、QueryNodes は ServiceTime が GuaranteeTs を超えるまで待機してから、検索操作を実行する必要があります。
+上図のように、GuaranteeTs が ServiceTime より小さい場合、指定時刻以前のすべてのデータがディスクに完全に書き込まれていることを意味し、QueryNode は直ちに Search 操作を実行できます。一方、GuaranteeTs が ServiceTime より大きい場合、QueryNode は ServiceTime が GuaranteeTs を超えるまで待機し、その後で Search 操作を実行できます。
 
-ユーザーは、クエリの精度とクエリのレイテンシの間でトレードオフを行う必要があります。ユーザーが一貫性要件が高く、クエリのレイテンシに敏感でない場合は、GuaranteeTs を可能な限り大きな値に設定できます。ユーザーが検索結果を迅速に受け取りたいが、クエリの精度に対してより寛容である場合は、GuaranteeTs をより小さな値に設定できます。
+ユーザーは、クエリ精度とクエリレイテンシの間でトレードオフを行う必要があります。一貫性要件が高く、クエリレイテンシに敏感でない場合は、GuaranteeTs を可能な限り大きな値に設定できます。一方、検索結果を迅速に受け取りたい場合やクエリ精度に対する許容度が高い場合は、GuaranteeTs をより小さな値に設定できます。
 
 ![Y9YabwvmjoWMXhxt9kRc8Atmnid](https://zdoc-images.s3.us-west-2.amazonaws.com/y9yabwvmjowmxhxt9krc8atmnid.png "Y9YabwvmjoWMXhxt9kRc8Atmnid")
 
-Zilliz Cloud は、異なる GuaranteeTs を持つ4種類の一貫性レベルを提供します。
+Zilliz Cloud は、異なる GuaranteeTs を持つ以下の4種類の一貫性レベルを提供します。
 
 - **Strong**
 
-    最新のタイムスタンプが GuaranteeTs として使用され、QueryNodes は ServiceTime が GuaranteeTs を満たすまで待機してから検索リクエストを実行する必要があります。
+    最新のタイムスタンプを GuaranteeTs として使用し、QueryNode は ServiceTime が GuaranteeTs に到達するまで待機してから Search リクエストを実行します。
 
 - **Eventual**
 
-    GuaranteeTs は、一貫性チェックを回避するために、1などの非常に小さい値に設定され、QueryNodes はすべてのバッチデータに対してすぐに検索リクエストを実行できます。
+    GuaranteeTs を 1 のような極めて小さな値に設定し、一貫性チェックを回避することで、QueryNode はバッチデータに対して直ちに Search リクエストを実行できます。
 
 - **Bounded Staleness**
 
-    GuaranteeTs は、最新のタイムスタンプよりも前の時点に設定され、QueryNodes は特定のデータ損失を許容して検索を実行します。
+    GuaranteeTs を最新タイムスタンプよりも前の時点に設定し、QueryNode が一定のデータ損失を許容しながら検索を実行できるようにします。
 
 - **Session**
 
-    クライアントがデータを挿入した最新の時点が GuaranteeTs として使用され、QueryNodes はクライアントが挿入したすべてのデータに対して検索を実行できます。
+    クライアントがデータを挿入した最新の時点を GuaranteeTs として使用し、QueryNode がそのクライアントによって挿入されたすべてのデータに対して検索を実行できるようにします。
 
-Zilliz Cloud は、デフォルトの一貫性レベルとして Bounded Staleness を使用します。GuaranteeTs が指定されていない場合、最新の ServiceTime が GuaranteeTs として使用されます。
+Zilliz Cloud はデフォルトで Bounded Staleness を一貫性レベルとして使用します。GuaranteeTs が明示されない場合、最新の ServiceTime が GuaranteeTs として使用されます。
 
-## 一貫性レベルの設定{#set-consistency-level}
+## 一貫性レベルの設定\{#set-consistency-level}
 
-コレクションを作成する際、および検索とクエリを実行する際に、異なる一貫性レベルを設定できます。検索またはクエリに対して一貫性レベルが指定されていない場合、コレクション作成時に指定された一貫性レベルが適用されます。
+コレクション作成時や Search・Query 実行時に、異なる一貫性レベルを設定できます。Search や Query で一貫性レベルが指定されない場合、コレクション作成時に指定された一貫性レベルが適用されます。
 
-### コレクション作成時の一貫性レベルの設定{#set-consistency-level-upon-creating-collection}
+### コレクション作成時の一貫性レベル設定\{#set-consistency-level-upon-creating-collection}
 
-コレクションを作成する際、コレクション内の検索とクエリの一貫性レベルを設定できます。以下のコード例では、一貫性レベルを **Bounded** に設定しています。
+コレクション作成時に、そのコレクション内で実行される Search や Query の一貫性レベルを設定できます。以下のコード例では、一貫性レベルを **Bounded** に設定しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -104,7 +101,7 @@ client.createCollection(createCollectionReq);
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 err = client.CreateCollection(ctx,
@@ -118,7 +115,7 @@ if err != nil {
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 export schema='{
@@ -166,11 +163,11 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-`consistency_level` パラメータの指定可能な値は、`Strong`、`Bounded`、`Eventually`、および `Session` です。
+`consistency_level` パラメータの可能な値は、`Strong`、`Bounded`、`Eventually`、および `Session` です。
 
-### 検索における一貫性レベルの設定 {#set-consistency-level-in-search}
+### Search での一貫性レベルの設定\{#set-consistency-level-in-search}
 
-特定の検索に対して、一貫性レベルをいつでも変更できます。以下のコード例では、一貫性レベルを **Bounded** に戻しています。この変更は、現在の検索リクエストにのみ適用されます。
+特定の検索に対して常に一貫性レベルを変更できます。次のコード例では、一貫性レベルを **Bounded** に設定し直しています。この変更は現在の検索リクエストにのみ適用されます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -205,7 +202,7 @@ SearchResp searchResp = client.search(searchReq);
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
@@ -222,7 +219,7 @@ if err != nil {
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 curl --request POST \
@@ -242,11 +239,11 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-このパラメータは、ハイブリッド検索と検索イテレータでも利用できます。`consistency_level` パラメータの可能な値は、`Strong`、`Bounded`、`Eventually`、および `Session` です。
+このパラメータはハイブリッド検索および検索イテレータでも利用可能です。`consistency_level` パラメータに指定可能な値は、`Strong`、`Bounded`、`Eventually`、および `Session` です。
 
-### クエリでの整合性レベルの設定{#set-consistency-level-in-query}
+### クエリでの一貫性レベルの設定\{#set-consistency-level-in-query}
 
-特定の検索の整合性レベルはいつでも変更できます。以下のコード例では、整合性レベルを **Eventually** に設定しています。この設定は、現在のクエリリクエストにのみ適用されます。
+特定の検索に対していつでも一貫性レベルを変更できます。以下のコード例では、一貫性レベルを **Eventually** に設定しています。この設定は現在のクエリリクエストにのみ適用されます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -281,7 +278,7 @@ QueryReq queryReq = QueryReq.builder()
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 resultSet, err := client.Query(ctx, milvusclient.NewQueryOption("my_collection").
@@ -297,7 +294,7 @@ if err != nil {
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 curl --request POST \
@@ -315,4 +312,4 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-このパラメータはクエリイテレータでも利用できます。`consistency_level` パラメータの取りうる値は、`Strong`、`Bounded`、`Eventually`、`Session` です。
+このパラメータはクエリイテレータでも利用可能です。`consistency_level` パラメータの取り得る値は、`Strong`、`Bounded`、`Eventually`、および `Session` です。

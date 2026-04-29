@@ -1,11 +1,12 @@
 ---
 title: "Integrate with Model Providers | Cloud"
 slug: /integrate-with-model-providers
+sidebar_key: integrate-with-model-providers
 sidebar_label: "Model Providers"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "A model provider integration connects Zilliz Cloud to a third-party model service and makes the provider’s capabilities available to your project. | Cloud"
 type: origin

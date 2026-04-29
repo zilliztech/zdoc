@@ -1,24 +1,21 @@
 ---
-title: "MCP Server | BYOC"
+title: "MCP サーバー | BYOC"
 slug: /zilliz-mcp-server
-sidebar_label: "MCP Server"
+sidebar_key: zilliz-mcp-server
+sidebar_label: "MCP サーバー"
 beta: FALSE
 notebook: FALSE
-description: "Zilliz Cloudは、標準化された[Model Context Protocol (MCP)](https://github.com/zilliztech/zilliz-mcp-server/tree/master)を介してAIエージェントがZilliz Cloudとシームレスに連携できるようにするMCPサーバーを提供します。このページでは、Zilliz MCPサーバーをローカルでセットアップし、お好みのAIエージェントで使用する方法を説明します。 | BYOC"
+description: "Zilliz Cloud は、AI エージェントが標準化された [Model Context Protocol (MCP)](https://github.com/zilliztech/zilliz-mcp-server/tree/master) を介して Zilliz Cloud とシームレスに連携できるようにする MCP サーバーを提供しています。このページでは、Zilliz MCP サーバーをローカルにセットアップし、お好みの AI エージェントで使用する方法について説明します。 | BYOC"
 type: origin
 token: WRFqwygyNiZ0YJkmsfwcGEsSn4d
-sidebar_position: 13
+sidebar_position: 17
 keywords: 
   - zilliz
   - ベクトルデータベース
   - クラウド
   - mcp
   - milvus
-  - mcpサーバー
-  - 情報検索
-  - 次元削減
-  - hnswアルゴリズム
-  - ベクトル類似性検索
+  - mcp サーバー
 
 ---
 
@@ -27,51 +24,47 @@ import Admonition from '@theme/Admonition';
 
 import Procedures from '@site/src/components/Procedures';
 
-# MCPサーバー
+# MCP サーバー
 
-Zilliz Cloudは、AIエージェントが標準化された[Model Context Protocol (MCP)](https://modelcontextprotocol.io/)を介してZilliz Cloudとシームレスに連携できるようにする[MCPサーバー](https://github.com/zilliztech/zilliz-mcp-server/tree/master)を提供しています。このページでは、Zilliz MCPサーバーをローカルでセットアップし、お好みのAIエージェントで使用する方法を説明します。
+Zilliz Cloud は、AI エージェントが標準化された [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) を介して Zilliz Cloud とシームレスに連携できるようにする [MCP サーバー](https://github.com/zilliztech/zilliz-mcp-server/tree/master) を提供しています。このページでは、Zilliz MCP サーバーをローカルにセットアップし、お好みの AI エージェントで使用する方法について説明します。
 
-## 開始する前に{#before-you-start}
+## 始める前に\{#before-you-start}
 
-以下を確認してください。
+以下の準備ができていることを確認してください。
 
-- Zilliz Cloud APIキーを取得していること。
+- Python 3.10 以降がインストールされていること。
 
-    [このページ](./manage-api-keys#create-an-api-key)のガイドに従って作成できます。
-
-- Python 3.10以降のバージョンがインストールされていること。
-
-    インストールされているPythonのバージョンを確認するには、ターミナルで次のコマンドを実行します。
+    インストールされている Python のバージョンを確認するには、ターミナルで次のコマンドを実行します。
 
     ```bash
     python3 -V
     ```
 
-    利用可能なPythonリリースについては、[ダウンロードページ](https://www.python.org/downloads/)を参照してください。
+    利用可能な Python リリースについては、[ダウンロードページ](https://www.python.org/downloads/) を参照してください。
 
-- uvをインストールし、PATHに追加しました。
+- uv をインストールし、PATH に追加済みであること。
 
-    インストールされているuvのバージョンを確認するには、ターミナルで次のコマンドを実行します。
+    インストール済みの uv のバージョンを確認するには、ターミナルで以下のコマンドを実行します：
 
     ```bash
     uv -V
     ```
 
-    [このページ](https://github.com/astral-sh/uv?tab=readme-ov-file#installation)のガイドに従ってインストールできます。
+    [このページ](https://github.com/astral-sh/uv?tab=readme-ov-file#installation) のガイドに従ってインストールできます。
 
-## 手順{#procedure}
+## Procedure\{#procedure}
 
 Zilliz MCP Server を実行するには、設定を準備し、お好みの AI エージェントに追加する必要があります。
 
-### ステップ 1: Zilliz MCP Server の設定を準備する{#step-1-prepare-zilliz-mcp-server-configuration}
+### Step 1: Prepare Zilliz MCP Server configuration\{#step-1-prepare-zilliz-mcp-server-configuration}
 
 Zilliz MCP Server は、以下のいずれかのモードで設定できます。
 
-#### ローカルモード (標準入出力){#local-mode-standard-inputoutput}
+#### Local mode (Standard Input/Output)\{#local-mode-standard-inputoutput}
 
-このモードでは、Zilliz MCP Server は、お好みの AI エージェントと同じマシン上でローカルに実行され、AI エージェントが Zilliz MCP Server のライフサイクルを直接管理します。
+このモードでは、Zilliz MCP Server およびお好みの AI エージェントが同じマシン上でローカルに実行され、AI エージェントが Zilliz MCP Server のライフサイクルを直接管理します。
 
-AI エージェントが実行されるマシンに Python と uv をインストールしたら、`YOUR-API-KEY` を十分な権限を持つ有効な Zilliz Cloud API キーに置き換えて、以下のサーバー設定を使用できます。 
+AI エージェントが実行されているマシンに Python と uv をインストールしたら、十分な権限を持つクラスターユーザー名とパスワードを `user:pass` の形式（コロンで結合）で `YOUR-CLUSTER-TOKEN` に置き換えた後、以下のサーバー設定を使用できます。 
 
 ```json
 {
@@ -80,35 +73,35 @@ AI エージェントが実行されるマシンに Python と uv をインス�
       "command": "uvx",
       "args": ["zilliz-mcp-server"],
       "env": {
-          "ZILLIZ_CLOUD_TOKEN": "YOUR-API-KEY"
+          "ZILLIZ_CLOUD_TOKEN": "YOUR-CLUSTER-TOKEN"
       }
     }
   }
 }
 ```
 
-#### サーバーモード (Streamable HTTP){#server-mode-streamable-http}
+#### Server mode (Streamable HTTP)\{#server-mode-streamable-http}
 
-複数のマシンで動作する複数のAIエージェント間でZilliz MCP Serverを共有したい場合は、Zilliz MCP Serverをサーバーモードで実行します。これには、設定を準備する前に、Zilliz MCP Serverリポジトリをクローンし、別のマシンでサーバーを起動する必要があります。
+複数の AI エージェントが異なるマシン上で実行されている間で Zilliz MCP Server を共有したい場合は、Zilliz MCP Server をサーバーモードで実行してください。これには、設定を準備する前に Zilliz MCP Server リポジトリをクローンし、別のマシン上でサーバーを起動する必要があります。
 
 <Procedures>
 
-1. Zilliz MCP Serverリポジトリをクローンします。
+1. Zilliz MCP Server リポジトリをクローンします。
 
     ```bash
     git clone https://github.com/zilliztech/zilliz-mcp-server.git
     cd zilliz-mcp-server
     ```
 
-1. 環境変数ファイル (**.env**) を作成します。
+1. 環境変数ファイル（**.env**）を作成します。
 
     ```bash
     cp example.env .env
     ```
 
-1. Zilliz Cloud APIキーを**.env**ファイルに追加します。
+1. Zilliz Cloud クラスタートークンを **.env** ファイルに追加します。
 
-    **.env**ファイルは以下のようになります。`ZILLIZ_CLOUD_TOKEN=`の末尾に、十分な権限を持つ有効なZilliz Cloud APIキーを追記します。
+    **.env** ファイルは以下のようになります。`ZILLIZ_CLOUD_TOKEN=` の末尾に、適切な権限を持つクラスタユーザー名とパスワードを `user:pass` の形式（コロンで結合）で追加してください。
 
     ```bash
     # Zilliz MCP Server Configuration
@@ -136,9 +129,9 @@ AI エージェントが実行されるマシンに Python と uv をインス�
     uv run src/zilliz_mcp_server/server.py --transport streamable-http
     ```
 
-1. サーバー構成を準備します。
+1. サーバー設定を準備します。
 
-    Zilliz MCP Server はデフォルトで `localhost*:*8000` で起動します。上記の **.env** ファイルでサーバー設定を変更した場合は、以下の構成の URL を正しいものに更新してください。
+    Zilliz MCP Server はデフォルトで `localhost*:*8000` で起動します。上記の **.env** ファイルでサーバー設定を変更している場合は、以下の設定内の URL を正しいものに更新してください。
 
     ```json
     {
@@ -154,35 +147,35 @@ AI エージェントが実行されるマシンに Python と uv をインス�
 
 </Procedures>
 
-### ステップ2：設定をお好みのAIエージェントに追加する{#step-2-add-the-configuration-to-your-preferred-ai-agent}
+### ステップ 2: お好みの AI エージェントに設定を追加する\{#step-2-add-the-configuration-to-your-preferred-ai-agent}
 
-MCPは、アプリケーションがLLMにコンテキストを提供する方法を標準化するオープンプロトコルです。多くのAI駆動型アプリケーションがこれをサポートしています。このステップでは、AIコードエディタであるCursorに設定を追加する方法を学びます。
+MCP は、アプリケーションが LLM にコンテキストを提供する方法を標準化するオープンプロトコルです。多くの AI 駆動型アプリケーションがこれをサポートしています。このステップでは、AI コードエディターである カーソル に設定を追加する方法を学びます。
 
 <Procedures>
 
-1. Cursorを起動し、トップメニューバーで**Cursor** > **Settings** > **Cursor Settings**を選択します。
+1. カーソル を起動し、トップメニューバーで **カーソル** > **Settings** > **カーソル Settings** を選択します。
 
-1. 左側のナビゲーションペインから**Tools & Integrations**を選択します。
+1. 左側のナビゲーションペインから **ツールと統合** を選択します。
 
-1. **Add Custom MCP**をクリックします。これにより`mcp.json`が開きます。
+1. **Add Custom MCP** をクリックします。これにより `mcp.json` が開きます。
 
-1. [ステップ1](./zilliz-mcp-server#step-1-prepare-zilliz-mcp-server-configuration)で準備した設定をコピーし、開いたファイルに貼り付けます。
+1. [ステップ 1](./zilliz-mcp-server#step-1-prepare-zilliz-mcp-server-configuration) で準備した設定をコピーし、開いているファイルに貼り付けます。
 
-1. ファイルを保存し、**Tools & Integrations**に戻ります。**MCP Tools**にZilliz MCP Serverがリストされ、AIエージェントが呼び出すことができる利用可能なツールが表示されます。
+1. ファイルを保存して **ツールと統合** に戻ります。**MCP Tools** に Zilliz MCP Server が一覧表示され、AI エージェントが呼び出せる利用可能なツールが表示されていることを確認できます。
 
     ![D8YHbAKHQoEskbx23bNcj3jCnDg](https://zdoc-images.s3.us-west-2.amazonaws.com/d8yhbakhqoeskbx23bncj3jcndg.png "D8YHbAKHQoEskbx23bNcj3jCnDg")
 
 </Procedures>
 
-Zilliz MCP Serverをお好みのAIアプリケーションに追加する手順は非常に似ています。AIアプリケーションに固有の指示に従って設定を追加できます。
+お好みの AI アプリケーションに Zilliz MCP Server を追加する手順は非常に類似しています。お使いの AI アプリケーション固有の手順に従って設定を追加してください。
 
-## 利用可能なツール{#available-tools}
+## 利用可能なツール\{#available-tools}
 
-Zilliz MCP Serverは、Zilliz Cloudと対話するための以下のツールを提供します。
+Zilliz MCP Server は、Zilliz Cloud と対話するための以下のツールを提供します。
 
-### コントロールプレーンツール{#control-plane-tools}
+### コントロールプレーンツール\{#control-plane-tools}
 
-これらのツールは、コントロールプレーン上のプロジェクトやクラスターなどのリソースを管理するために使用されます。
+これらのツールは、コントロールプレーン上でプロジェクトやクラスターなどのリソースを管理するために使用されます。
 
 <table>
    <tr>
@@ -191,15 +184,15 @@ Zilliz MCP Serverは、Zilliz Cloudと対話するための以下のツールを
    </tr>
    <tr>
      <td><p><code>list_projects</code></p></td>
-     <td><p>Zilliz Cloudアカウント内のすべてのプロジェクトをリストします。</p></td>
+     <td><p>Zilliz Cloud アカウント内のすべてのプロジェクトを一覧表示します。</p></td>
    </tr>
    <tr>
      <td><p><code>list_clusters</code></p></td>
-     <td><p>プロジェクト内のすべてのクラスターをリストします。</p></td>
+     <td><p>プロジェクト内のすべてのクラスターを一覧表示します。</p></td>
    </tr>
    <tr>
      <td><p><code>create_free_cluster</code></p></td>
-     <td><p>新しい無料ティアのMilvusクラスターを作成します。</p></td>
+     <td><p>新しいフリーティアの Milvus クラスターを作成します。</p></td>
    </tr>
    <tr>
      <td><p><code>describe_cluster</code></p></td>
@@ -215,13 +208,13 @@ Zilliz MCP Serverは、Zilliz Cloudと対話するための以下のツールを
    </tr>
    <tr>
      <td><p><code>query_cluster_metrics</code></p></td>
-     <td><p>クラスターのさまざまなパフォーマンスメトリクスをクエリします。</p></td>
+     <td><p>クラスターのさまざまなパフォーマンス指標を照会します。</p></td>
    </tr>
 </table>
 
-### データプレーンツール{#data-plane-tools}
+### データプレーンツール\{#data-plane-tools}
 
-これらのツールは、データベースやcollectionなどのリソースを管理し、データプレーン上でベクトル検索を実行するために使用されます。
+これらのツールは、データプレーン上でデータベースとコレクションなどのリソースを管理し、ベクトル検索を実行するために使用されます。
 
 <table>
    <tr>
@@ -230,35 +223,35 @@ Zilliz MCP Serverは、Zilliz Cloudと対話するための以下のツールを
    </tr>
    <tr>
      <td><p><code>list_databases</code></p></td>
-     <td><p>特定のクラスター内のすべてのデータベースをリストします。</p></td>
+     <td><p>特定のクラスター内のすべてのデータベースを一覧表示します。</p></td>
    </tr>
    <tr>
      <td><p><code>list_collections</code></p></td>
-     <td><p>データベース内のすべてのcollectionをリストします。</p></td>
+     <td><p>データベース内のすべてのコレクションを一覧表示します。</p></td>
    </tr>
    <tr>
      <td><p><code>create_collection</code></p></td>
-     <td><p>指定されたschemaで新しいcollectionを作成します。</p></td>
+     <td><p>指定されたスキーマを持つ新しいコレクションを作成します。</p></td>
    </tr>
    <tr>
      <td><p><code>describe_collection</code></p></td>
-     <td><p>schemaを含むcollectionに関する詳細情報を取得します。</p></td>
+     <td><p>スキーマを含むコレクションに関する詳細情報を取得します。</p></td>
    </tr>
    <tr>
      <td><p><code>insert_entities</code></p></td>
-     <td><p>entity（ベクトルを持つデータレコード）をcollectionに挿入します。</p></td>
+     <td><p>エンティティ（ベクトルを含むデータレコード）をコレクションに挿入します。</p></td>
    </tr>
    <tr>
      <td><p><code>delete_entities</code></p></td>
-     <td><p>IDまたはフィルター式に基づいてcollectionからentityを削除します。</p></td>
+     <td><p>ID またはフィルター式に基づいてコレクションからエンティティを削除します。</p></td>
    </tr>
    <tr>
      <td><p><code>search</code></p></td>
-     <td><p>collectionに対してベクトル類似性検索を実行します。</p></td>
+     <td><p>コレクションでベクトル類似性検索を実行します。</p></td>
    </tr>
    <tr>
      <td><p><code>query</code></p></td>
-     <td><p>スカラーフィルター式に基づいてentityをクエリします。</p></td>
+     <td><p>スカラーフィルター式に基づいてエンティティを照会します。</p></td>
    </tr>
    <tr>
      <td><p><code>hybrid_search</code></p></td>
@@ -266,8 +259,8 @@ Zilliz MCP Serverは、Zilliz Cloudと対話するための以下のツールを
    </tr>
 </table>
 
-## トラブルシューティング{#troubleshooting}
+## トラブルシューティング\{#troubleshooting}
 
-1. **AIエージェントがZilliz MCP Serverにツールがゼロであると報告するのはなぜですか？**
+1. **AI エージェントが Zilliz MCP Server にツールが 0 個あると報告するのはなぜですか？**
 
-    これは通常、**Python**や**uv**などの特定の依存関係が不足していることが原因です。それらが適切にインストールされていることを確認してください。詳細については、[始める前に](./zilliz-mcp-server#before-you-start)を参照してください。
+    これは通常、**Python** や **uv** などの特定の依存関係が欠落していることが原因です。それらが適切にインストールされていることを確認してください。詳細については、[始める前に](./zilliz-mcp-server#before-you-start) を参照してください。

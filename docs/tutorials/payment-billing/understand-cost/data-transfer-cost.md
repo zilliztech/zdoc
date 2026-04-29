@@ -1,16 +1,17 @@
 ---
 title: "Data Transfer Cost | Cloud"
 slug: /data-transfer-cost
+sidebar_key: data-transfer-cost
 sidebar_label: "Data Transfer"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "Data transfer can be traffic coming into Zilliz Cloud, leaving Zilliz Cloud out into the internet, or in between two resources within Zilliz Cloud. Data transfer costs in Zilliz Cloud are billed based on the amount of data transferred. | Cloud"
 type: origin
 token: BClgwKlHaiushBkPPssclTkYnef
-sidebar_position: 4
+sidebar_position: 6
 keywords: 
   - zilliz
   - vector database
@@ -66,8 +67,6 @@ You will be billed for data transfer in the following scenarios:
 - Operations like [search/query](./search-query-get)
 
 - Forwarding [audit logs](./audit-logs) to cloud object storage
-
-- [Zero downtime migration](./zero-downtime-migration) data sync
 
 - [Offline migration](./offline-migration)
 

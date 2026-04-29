@@ -1,16 +1,17 @@
 ---
 title: "Release Notes (May 15, 2024) | Cloud"
 slug: /release-notes-280
+sidebar_key: release-notes-280
 sidebar_label: "May 15, 2024"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "This update to Zilliz Cloud introduces the Serverless plan in BETA. It is designed for applications with variable query volumes, requiring minimal configuration and offering seamless scalability. This plan is now available on GCP us-west1 (Oregon) and includes a free trial during the BETA period. Additionally, new regions are supported for dedicated clusters Germany West Central (Frankfurt) for Azure, and europe-west3 (Frankfurt) and us-east-4 (Virginia) for GCP. This release also introduces several enhancements to monitoring metrics, search precision control, and import jobs. | Cloud"
 type: origin
 token: EL8jwqHsPikz2okhYzXcuLscnhf
-sidebar_position: 19
+sidebar_position: 20
 keywords: 
   - zilliz
   - vector database

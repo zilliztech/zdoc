@@ -1,11 +1,12 @@
 ---
 title: "License Usage | BYOC"
 slug: /license-usage
+sidebar_key: license-usage
 sidebar_label: "License Usage"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "Zilliz Cloud offers a license for your Bring Your Own Cloud (BYOC) organization. While the license is active, Zilliz Cloud charges based on the number of vCPUs used in the organization and deducts that amount from the licensed capacity. | BYOC"
 type: origin

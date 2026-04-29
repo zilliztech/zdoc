@@ -1,23 +1,20 @@
 ---
 title: "mmap の使用 | BYOC"
 slug: /use-mmap
+sidebar_key: use-mmap
 sidebar_label: "mmap の使用"
 beta: FALSE
 notebook: FALSE
-description: "メモリマッピング (mmap) は、ディスク上の大きなファイルへの直接メモリアクセスを可能にし、Zilliz Cloud がインデックスとデータをメモリとハードドライブの両方に保存できるようにします。このアプローチは、アクセス頻度に基づいてデータ配置ポリシーを最適化し、検索パフォーマンスに影響を与えることなくコレクションのストレージ容量を拡張するのに役立ちます。このページでは、Zilliz Cloud が mmap を使用して高速かつ効率的なデータストレージと取得を可能にする方法を理解するのに役立ちます。 | BYOC"
+description: "メモリマップ（Mmap）により、ディスク上の大容量ファイルへの直接メモリアクセスが可能になり、Zilliz Cloud はインデックスとデータをメモリとハードドライブの両方に保存できます。このアプローチは、アクセス頻度に基づいてデータ配置ポリシーを最適化し、検索パフォーマンスに影響を与えることなくコレクションのストレージ容量を拡張するのに役立ちます。このページでは、Zilliz Cloud が mmap を使用して高速かつ効率的なデータの保存と取得をどのように実現するかについて説明します。 | BYOC"
 type: origin
 token: P3wrwSMNNihy8Vkf9p6cTsWYnTb
-sidebar_position: 18
+sidebar_position: 19
 keywords: 
   - zilliz
   - ベクトルデータベース
   - クラウド
   - mmap
-  - 検索最適化
-  - 自然言語処理
-  - AIチャットボット
-  - コサイン距離
-  - ベクトルデータベースとは
+  - 検索の最適化
 
 ---
 
@@ -25,40 +22,40 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# mmap を使用する
+# mmap の使用
 
-メモリマッピング (mmap) は、ディスク上の大容量ファイルへの直接メモリアクセスを可能にし、Zilliz Cloud がインデックスとデータをメモリとハードドライブの両方に保存できるようにします。このアプローチは、アクセス頻度に基づいてデータ配置ポリシーを最適化し、検索パフォーマンスに影響を与えることなくコレクションのストレージ容量を拡張するのに役立ちます。このページでは、Zilliz Cloud が mmap を使用して高速かつ効率的なデータストレージと取得を可能にする方法を理解するのに役立ちます。
+メモリマップ (Mmap) により、ディスク上の大容量ファイルへの直接メモリアクセスが可能になり、Zilliz Cloud はインデックスとデータをメモリとハードドライブの両方に保存できます。このアプローチは、アクセス頻度に基づいてデータ配置ポリシーを最適化し、検索パフォーマンスに影響を与えることなくコレクションのストレージ容量を拡張するのに役立ちます。このページでは、Zilliz Cloud が mmap を使用してどのように高速かつ効率的なデータ保存と取得を実現するかについて説明します。
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>異なるプランを持つソースクラスターとターゲットクラスター間でデータを移行または復元する場合、ソースコレクションの mmap 設定はターゲットクラスターに移行されません。ターゲットクラスターで mmap 設定を手動で再構成してください。</p>
+<p>異なるプランを持つソースクラスターとターゲットクラスター間でデータを移行または復元する場合、ソースコレクションの mmap 設定はターゲットクラスターへ移行されません。ターゲットクラスターで mmap 設定を手動で再構成してください。</p>
 
 </Admonition>
 
-Zilliz Cloud は、mmap 設定をプログラムで、またはウェブコンソール経由で構成することをサポートしています。このページでは、mmap をプログラムで設定する方法に焦点を当てています。ウェブコンソールでの操作の詳細については、[コレクションの管理 (コンソール)](./manage-collections-console#mmap) を参照してください。
+Zilliz Cloud では、プログラム経由または Web コンソールを通じて mmap 設定を構成できます。このページでは、プログラムによる mmap 設定方法に焦点を当てます。Web コンソールでの操作の詳細については、[コレクションの管理 (コンソール)](./manage-collections-console#mmap) を参照してください。
 
-## 概要{#overview}
+## 概要\{#overview}
 
-Zilliz Cloud は、ベクトル埋め込みとそのメタデータを整理するためにコレクションを使用し、コレクションの各行はエンティティを表します。以下の左図に示すように、ベクトルフィールドはベクトル埋め込みを保存し、スカラーフィールドはそれらのメタデータを保存します。特定のフィールドにインデックスを作成し、コレクションをロードすると、Zilliz Cloud は作成されたインデックスとすべてのフィールドの生データをメモリにロードします。
+Zilliz Cloud は、ベクトル埋め込みとそのメタデータを整理するためにコレクションを使用し、コレクション内の各行がエンティティを表します。以下の左図に示すように、ベクトルフィールドにはベクトル埋め込みが格納され、スカラーフィールドにはそのメタデータが格納されます。特定のフィールドにインデックスを作成し、コレクションをロードすると、Zilliz Cloud は作成されたインデックスとすべてのフィールドの生データをメモリにロードします。
 
 ![EPNvwAI7hhCppbbKmuxcW5VRnUh](https://zdoc-images.s3.us-west-2.amazonaws.com/EPNvwAI7hhCppbbKmuxcW5VRnUh.png)
 
-Zilliz Cloud クラスターはメモリ集約型のデータベースシステムであり、利用可能なメモリサイズがコレクションの容量を決定します。データサイズがメモリ容量を超える場合、大量のデータを含むフィールドをメモリにロードすることは不可能であり、これは AI 駆動型アプリケーションでは一般的なケースです。
+Zilliz Cloud クラスターはメモリ集約型のデータベースシステムであり、利用可能なメモリサイズがコレクションの容量を決定します。AI 駆動型アプリケーションでは一般的なことですが、データサイズがメモリ容量を超えると、大量のデータを含むフィールドをメモリにロードすることは不可能です。
 
-このような問題を解決するために、Zilliz Cloud はコレクション内のホットデータとコールドデータのロードのバランスを取るために mmap を導入しています。上記の右図に示すように、容量最適化された CU を持つ Zilliz Cloud クラスターを使用している場合、コレクションをロードすると、Zilliz Cloud はベクトルインデックスのみをメモリにロードし、すべてのフィールドの生データとスカラーインデックスをメモリマップします。
+このような問題を解決するため、Zilliz Cloud は mmap を導入し、コレクション内のホットデータとコールドデータのロードバランスを図っています。上記の右図に示すように、容量最適化済み CU を備えた Zilliz Cloud クラスターを使用している場合、コレクションをロードする際にベクトルインデックスのみをメモリにロードし、すべてのフィールドの生データとスカラーインデックスをメモリマップします。
 
-左図と右図のデータ配置手順を比較すると、左図の方がメモリ使用量がはるかに高いことがわかります。mmap を有効にすると、メモリにロードされるはずだったデータがハードドライブにオフロードされ、オペレーティングシステムのページキャッシュにキャッシュされるため、メモリフットプリントが削減されます。ただし、キャッシュヒットの失敗はパフォーマンスの低下につながる可能性があります。詳細については、[この記事](https://en.wikipedia.org/wiki/Mmap) を参照してください。
+左右の図におけるデータ配置手順を比較すると、左図の方がメモリ使用量がはるかに高いことがわかります。mmap を有効にすると、本来メモリにロードされるべきデータがハードドライブにオフロードされ、オペレーティングシステムのページキャッシュにキャッシュされるため、メモリフットプリントが削減されます。ただし、キャッシュヒットの失敗によりパフォーマンスが低下する可能性があります。詳細については、[この記事](https://en.wikipedia.org/wiki/Mmap) を参照してください。
 
-## グローバル mmap 戦略{#global-mmap-strategy}
+## グローバル mmap 戦略\{#global-mmap-strategy}
 
-次の表は、異なるティアのクラスターのグローバル mmap 戦略を示しています。
+以下の表は、異なるティアのクラスターに対するグローバル mmap 戦略を示しています。
 
 <table>
    <tr>
      <th></th>
-     <th><p>パフォーマンス最適化</p></th>
-     <th><p>容量最適化</p></th>
-     <th><p>階層型ストレージ</p></th>
+     <th><p>パフォーマンス最適化済み</p></th>
+     <th><p>容量最適化済み</p></th>
+     <th><p>ティアードストレージ</p></th>
    </tr>
    <tr>
      <td><p>スカラーフィールド生データ</p></td>
@@ -86,31 +83,31 @@ Zilliz Cloud クラスターはメモリ集約型のデータベースシステ�
    </tr>
 </table>
 
-**パフォーマンス最適化** CU を使用するクラスターでは、Zilliz Cloud はベクトルフィールドの生データに対してのみ mmap を有効にし、スカラーフィールドの生データとすべてのフィールドインデックスをメモリにロードします。検索およびクエリ中のメタデータフィルタリングと取得のパフォーマンスを確保するために、グローバル設定を維持することをお勧めします。ただし、メタデータフィルタリングに関与しないフィールドや出力フィールドとして使用されないフィールドに対しては、mmap を有効にすることができます。
+**パフォーマンス最適化済み** CU を使用するクラスターでは、Zilliz Cloud はベクトルフィールドの生データに対してのみ mmap を有効にし、スカラーフィールドの生データおよびすべてのフィールドインデックスをメモリにロードします。検索およびクエリ中のメタデータフィルタリングと取得のパフォーマンスを確保するため、グローバル設定を維持することを推奨します。ただし、メタデータフィルタリングに関与せず、出力フィールドとしても使用されないフィールドについては、引き続き mmap を有効にすることができます。
 
-**容量最適化** CU を使用するクラスターでは、Zilliz Cloud は自動インデックス作成のためにベクトルフィールドインデックスの mmap を無効にし、スカラーフィールドのインデックスとすべてのフィールドの生データをメモリマップして、最大のストレージ容量を確保します。メタデータフィルタリング条件で使用されるフィールドや出力フィールドにリストされているフィールドの生データが大きすぎて、ハードドライブに残しておくと応答が遅くなったり、ネットワークのジッターが発生したりする場合は、これらのフィールドの mmap を無効にして検索パフォーマンスを向上させることを検討できます。
+**容量最適化済み** CU を使用するクラスターでは、Zilliz Cloud は自動インデックス作成のためベクトルフィールドインデックスに対する mmap を無効にし、スカラーフィールドのインデックスおよびすべてのフィールドの生データをメモリマップすることで、最大のストレージ容量を確保します。メタデータフィルタリング条件で使用されるフィールドや出力フィールドに記載されているフィールドの生データが大きすぎて、それらをハードドライブに残すと応答が遅くなったりネットワークジッターが発生したりする場合は、これらのフィールドに対する mmap を無効にして検索パフォーマンスを向上させることを検討してください。
 
-**拡張容量 CU** を使用するクラスターおよび専用クラスターでは、Zilliz Cloud はすべてのフィールドの生データとインデックスに対して mmap を有効にし、システムキャッシュを最大限に活用し、ホットデータのパフォーマンスを向上させ、コールドデータのコストを削減します。
+**拡張容量 CU** を使用するクラスターおよび専用クラスターでは、Zilliz Cloud はすべてのフィールドの生データとインデックスに対して mmap を有効にし、システムキャッシュを最大限に活用してホットデータのパフォーマンスを向上させ、コールドデータのコストを削減します。
 
-## コレクション固有の mmap 設定{#collection-specific-mmap-settings}
+## コレクション固有の mmap 設定\{#collection-specific-mmap-settings}
 
-mmap 設定を変更するには、コレクションをリリースし、再度ロードして mmap 設定を有効にする必要があります。特定のフィールド、フィールドインデックス、またはコレクションに対して mmap を構成できます。
+mmap 設定を変更するにはコレクションをリリースし、変更を有効にするために再度ロードする必要があります。特定のフィールド、フィールドインデックス、またはコレクション全体に対して mmap を構成できます。
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>mmap 設定を変更する際は注意して行ってください。不適切な mmap 設定は、以下の問題を引き起こす可能性があります。</p>
+<p>mmap 設定の変更は慎重に行ってください。不適切な mmap 設定により、以下の問題が発生する可能性があります。</p>
 <ul>
-<li><p>パフォーマンス最適化された専用クラスターでは、すべてのスカラーフィールドの生データとベクトルインデックスは、検索およびクエリ中のスカラーフィールドの高速取得を保証するために、デフォルトでメモリにロードされます。デフォルトの mmap 設定を変更すると、パフォーマンスが低下する可能性があります。</p></li>
-<li><p>容量最適化された専用クラスターでは、ベクトルインデックスのみが、最大のストレージ容量を保証するために、デフォルトでメモリにロードされます。デフォルトの mmap 設定を変更すると、メモリ不足 (OOM) の問題によりロードが失敗する可能性があります。</p></li>
+<li><p>パフォーマンス最適化済みの専用クラスターでは、検索およびクエリ中にスカラーフィールドを高速に取得できるよう、デフォルトですべてのスカラーフィールドの生データとベクトルインデックスがメモリにロードされます。デフォルトの mmap 設定を変更すると、パフォーマンスが低下する可能性があります。</p></li>
+<li><p>容量最適化済みの専用クラスターでは、最大のストレージ容量を確保するため、デフォルトでベクトルインデックスのみがメモリにロードされます。デフォルトの mmap 設定を変更すると、メモリ不足 (OOM) によりロードに失敗する可能性があります。</p></li>
 </ul>
 
 </Admonition>
 
-### 特定のフィールドの mmap を構成する{#configure-mmap-for-specific-fields}
+### 特定のフィールド向けの mmap 構成\{#configure-mmap-for-specific-fields}
 
-小規模なパフォーマンス最適化された CU を持つ専用クラスターを使用しており、データセット内のフィールドの生データが大きい場合は、mmap が有効なコレクションにそのフィールドを追加することを検討してください。
+小規模なパフォーマンス最適化済み CU を備えた専用クラスターを使用しており、データセット内の特定のフィールドの生データが大きい場合は、mmap を有効にした状態でそのフィールドをコレクションに追加することを検討してください。
 
-次の例では、パフォーマンス最適化された専用クラスターに接続し、フィールドを追加する際に **doc_chunk** という名前の VarChar フィールドで mmap を有効にする方法を示します。
+以下の例では、パフォーマンス最適化済みの専用クラスターへの接続を想定し、**doc_chunk** という名前の VarChar フィールドを追加する際に、そのフィールドで mmap を有効にする方法を示します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -142,7 +139,7 @@ schema.add_field(
 client.create_collection(collection_name="my_collection", schema=schema)
 
 # Disable mmap on an existing field
-# The following assumes that you have a collection named `my_collection`
+# The following assumes that you have a collection named \`my_collection\`
 client.alter_collection_field(
     collection_name="my_collection",
     field_name="doc_chunk",
@@ -210,7 +207,7 @@ client.alterCollectionField(AlterCollectionFieldReq.builder()
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 import { MilvusClient, DataType } from '@zilliz/milvus2-sdk-node';
@@ -250,7 +247,7 @@ await client.alterCollectionFieldProperties({
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 import (
@@ -308,7 +305,7 @@ if err != nil {
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 #restful
@@ -374,13 +371,13 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-上記のスキーマを使用して作成されたコレクションをロードすると、Zilliz Cloudは**doc_chunk**フィールドの生データをメモリマップします。フィールドのmmap設定を変更するには、コレクションをリリースし、変更後に再度コレクションをロードする必要があることに注意してください。
+上記のスキーマを使用して作成されたコレクションをロードする際、Zilliz Cloud は **doc_chunk** フィールドの生データをメモリマップします。フィールドの mmap 設定を変更するには、まずコレクションをリリースし、変更後に再度コレクションをロードする必要があることに注意してください。
 
-### スカラインデックスのmmapを設定する{#configure-mmap-for-scalar-indexes}
+### スカラーフィールドのインデックスに対する mmap の設定\{#configure-mmap-for-scalar-indexes}
 
-メタデータフィルタリングに関与する、または出力フィールドとして使用されるスカラフィールドについては、それらをメモリにロードし、他のスカラフィールドはハードドライブに残すことを検討してください。
+メタデータフィルタリングに使用される、または出力フィールドとして使用されるスカラーフィールドについては、それらをメモリにロードし、他のスカラーフィールドはハードディスク上に保持することを検討してください。
 
-以下の例では、容量最適化された専用クラスターに接続することを想定し、迅速な取得のために**title**という名前のVarCharフィールドのインデックスでmmapを無効にする方法を示します。
+以下の例では、容量最適化型の専用クラスターに接続していることを前提として、クイックな取得のために **title** という名前の VarChar フィールドのインデックスに対する mmap を無効にする方法を示しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -404,7 +401,7 @@ index_params.add_index(
 )
 
 # Change mmap settings for an index
-# The following assumes that you have a collection named `my_collection`
+# The following assumes that you have a collection named \`my_collection\`
 client.alter_index_properties(
     collection_name="my_collection",
     index_name="title",
@@ -442,7 +439,7 @@ client.alterIndexProperties(AlterIndexPropertiesReq.builder()
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 // Create index on the varchar field with mmap settings
@@ -453,7 +450,7 @@ await client.createIndex({
 });
 
 // Change mmap settings for an index
-// The following assumes that you have a collection named `my_collection`
+// The following assumes that you have a collection named \`my_collection\`
 await client.alterIndexProperties({
     collection_name: "my_collection",
     index_name: "title",
@@ -463,7 +460,7 @@ await client.alterIndexProperties({
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 schema.WithField(entity.NewField().
@@ -486,7 +483,7 @@ if err != nil {
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 # restful
@@ -525,13 +522,13 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-上記のインデックスパラメータを使用して作成されたコレクションをロードすると、Zilliz Cloudは**title**フィールドのインデックスをメモリにロードします。フィールドのmmap設定を変更するには、コレクションをリリースし、変更後に再度コレクションをロードする必要があることに注意してください。
+上記のインデックスパラメータを使用して作成されたコレクションをロードする際、Zilliz Cloud は **title** フィールドのインデックスをメモリに読み込みます。フィールドの mmap 設定を変更するには、まずコレクションをリリースし、変更後に再度コレクションをロードする必要があることに注意してください。
 
-### コレクションでのmmapの設定{#configure-mmap-in-collection}
+### コレクションでの mmap の設定\{#configure-mmap-in-collection}
 
-コレクションでmmap設定を無効にすると、Zilliz Cloudはすべてのフィールドの生データを完全にメモリにロードします。
+コレクションで mmap 設定を無効にすることで、Zilliz Cloud がすべてのフィールドの生データを完全にメモリに読み込むようにできます。
 
-以下の例では、パフォーマンス最適化された専用クラスターに接続し、コレクション作成時にmmapを無効にする方法を示します。
+以下の例では、パフォーマンス最適化型の専用クラスターに接続していることを前提として、コレクション作成時に mmap を無効にする方法を示します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -560,7 +557,7 @@ client.createCollection(req);
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 await client.createCollection({
@@ -572,7 +569,7 @@ await client.createCollection({
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 err = client.CreateCollection(ctx,
@@ -586,7 +583,7 @@ if err != nil {
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 curl --request POST \
@@ -605,7 +602,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-既存のコレクションのmmap設定は、以下のように変更することもできます。
+既存のコレクションのmmap設定を次のように変更することもできます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -649,7 +646,7 @@ client.loadCollection(LoadCollectionReq.builder()
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 // Release collection before change mmap settings
@@ -674,7 +671,7 @@ await client.loadCollection({
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 err = client.ReleaseCollection(ctx, milvusclient.NewReleaseCollectionOption("my_collection"))
@@ -699,7 +696,7 @@ if err != nil {
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 # restful
@@ -734,7 +731,7 @@ curl --request POST \
 }'
 ```
 
-</TabItem>
+</TabItem>  
 </Tabs>
 
-コレクションのプロパティを変更するにはコレクションをリリースし、変更を有効にするにはコレクションをリロードする必要があります。
+コレクションのプロパティを変更するには、一度コレクションをリリースし、変更を有効にするために再度コレクションをリロードする必要があります。

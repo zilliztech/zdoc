@@ -1,11 +1,12 @@
 ---
 title: "Data Model Design with an Array of Structs | BYOC"
 slug: /schema-design-with-structs
+sidebar_key: schema-design-with-structs
 sidebar_label: "Data Model with Structs"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "Modern AI applications, especially in the Internet of Things (IoT) and autonomous driving, typically reason over rich, structured events a sensor reading with its timestamp and vector embedding, a diagnostic log with an error code and audio snippet, or a trip segment with location, speed, and scene context. These require the database to natively support the ingestion and search of nested data. | BYOC"
 type: origin

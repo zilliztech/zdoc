@@ -1,23 +1,20 @@
 ---
-title: "イテレータを使用したデータのエクスポート | Cloud"
+title: "イテレーターを使用したデータのエクスポート | Cloud"
 slug: /export-data-iterators
-sidebar_label: "イテレータの使用"
+sidebar_key: export-data-iterators
+sidebar_label: "イテレーターの使用"
 beta: FALSE
 notebook: FALSE
-description: "このガイドでは、Zilliz Cloud collection からデータをエクスポートする方法の例を説明します。"
+description: "このガイドでは、Zilliz Cloud コレクションからデータをエクスポートする例を示します。| Cloud"
 type: origin
 token: N6fZwCUXqiqoJEkFiVNcvDJEnnc
 sidebar_position: 1
 keywords: 
   - zilliz
-  - ベクターデータベース
+  - ベクトルデータベース
   - cloud
   - データエクスポート
-  - イテレータ
-  - Zilliz ベクターデータベース
-  - Zilliz データベース
-  - 非構造化データ
-  - ベクターデータベース
+  - iterator
 
 ---
 
@@ -25,35 +22,35 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# イテレーターを使用したデータのエクスポート
+# イテレータを使用したデータのエクスポート
 
-このガイドでは、Zilliz Cloudコレクションからデータをエクスポートする方法の例を示します。
+このガイドでは、Zilliz Cloud のコレクションからデータをエクスポートする方法の例を示します。
 
-## 概要{#overview}
+## 概要\{#overview}
 
-MilvusのPythonおよびJava SDKはどちらも、コレクション内のエンティティをメモリ効率の良い方法で反復処理するための一連のイテレーターAPIを提供します。詳細については、[Search Iterator](./with-iterators)を参照してください。
+Milvus の Python SDK および Java SDK は、コレクション内のエンティティをメモリ効率の良い方法でイテレートするための一連のイテレータ API を提供しています。詳細については、[Search Iterator](./with-iterators) を参照してください。
 
-イテレーターを使用すると、次の利点があります。
+イテレータを使用することには、以下のような利点があります。
 
-- **シンプルさ**: 複雑な**オフセット**と**リミット**の設定が不要になります。
+- **シンプルさ**: 複雑な **offset** および **limit** の設定を不要にします。
 
-- **効率性**: 必要なデータのみをフェッチすることで、スケーラブルなデータ取得を提供します。
+- **効率性**: 必要なデータのみを取得することで、スケーラブルなデータ取得を実現します。
 
-- **一貫性**: ブールフィルターを使用して一貫したデータセットサイズを保証します。
+- **一貫性**: ブールフィルタを使用してもデータセットのサイズが一貫して保たれます。
 
-これらのAPIを利用して、Zilliz Cloudコレクションから特定のエンティティまたはすべてのエンティティをエクスポートできます。
+これらの API を活用して、Zilliz Cloud コレクションから特定のエンティティまたはすべてのエンティティをエクスポートできます。
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>この機能は、Milvus 2.3.x以降と互換性のあるZilliz Cloudクラスターで利用できます。</p>
+<p>この機能は、Milvus 2.3.x 以降と互換性のある Zilliz Cloud クラスタで利用可能です。</p>
 
 </Admonition>
 
-## 準備{#preparations}
+## 準備\{#preparations}
 
-以下の手順では、Zilliz Cloudクラスターに接続し、コレクションを迅速にセットアップし、10,000を超えるランダムに生成されたエンティティをコレクションに挿入するためのコードを再利用します。
+以下の手順では、Zilliz Cloud クラスタに接続し、コレクションを迅速にセットアップして、10,000 件以上のランダムに生成されたエンティティをコレクションに挿入するコードを再利用します。
 
-### ステップ1: コレクションを作成する{#step-1-create-a-collection}
+### ステップ 1: コレクションの作成\{#step-1-create-a-collection}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
 <TabItem value='python'>
@@ -109,7 +106,7 @@ client.createCollection(createCollectionParam);
 </TabItem>
 </Tabs>
 
-### ステップ2：ランダムに生成されたエンティティを挿入する{#step-2-insert-randomly-generated-entities}
+### ステップ 2: ランダムに生成されたエンティティを挿入する\{#step-2-insert-randomly-generated-entities}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
 <TabItem value='python'>
@@ -224,21 +221,21 @@ System.out.println(wrapper.getInsertCount());
 </TabItem>
 </Tabs>
 
-## イテレータを使用したデータのエクスポート{#export-data-using-iterators}
+## イテレータを使用したデータのエクスポート\{#export-data-using-iterators}
 
-イテレータを使用してデータをエクスポートするには、次のようにします。
+イテレータを使用してデータをエクスポートするには、以下の手順に従います。
 
-1. 検索イテレータを初期化して、検索パラメータと出力フィールドを定義します。`batch_size` パラメータを設定することで、イテレーションごとにエクスポートするエンティティの数を制限できます。
+1. 検索パラメータと出力フィールドを定義するために検索イテレータを初期化します。`batch_size` パラメータを設定することで、1回のイテレーションでエクスポートするエンティティの数を制限できます。
 
-1. ループ内で `next()` メソッドを使用して、検索結果をページ分割します。
+1. ループ内で `next()` メソッドを使用して、検索結果をページネーションします。
 
-    - メソッドが空の配列を返した場合、ループは終了します。
+    - このメソッドが空の配列を返す場合、ループは終了します。
 
-    - それ以外の場合は、返されたデータを任意の形式で保存します。たとえば、返されたデータをファイルに追加したり、データベースに保存したり、他のコンシューマプログラムに供給したりできます。
+    - それ以外の場合は、任意の方法で返されたデータを保存します。たとえば、ファイルに追記したり、データベースに保存したり、他のコンシューマープログラムに渡したりできます。
 
-1. すべてのデータが取得されたら、`close()` メソッドを呼び出してイテレータを閉じます。
+1. すべてのデータを取得し終えたら、`close()` メソッドを呼び出してイテレータを閉じます。
 
-次のコードスニペットは、**QueryIterator** API を使用してエクスポートされたデータをファイルに追加する方法を示しています。
+以下のコードスニペットは、**QueryIterator** API を使用してエクスポートされたデータをファイルに追記する方法を示しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
 <TabItem value='python'>

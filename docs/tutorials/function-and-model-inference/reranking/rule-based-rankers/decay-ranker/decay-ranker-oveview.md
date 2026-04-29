@@ -1,11 +1,12 @@
 ---
 title: "Decay Ranker Overview | Cloud"
 slug: /decay-ranker-oveview
+sidebar_key: decay-ranker-oveview
 sidebar_label: "Decay Ranker Overview"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "In traditional vector search, results are ranked purely by vector similarity—how closely vectors match in mathematical space. But in real-world applications, what makes content truly relevant often depends on more than just semantic similarity. | Cloud"
 type: origin

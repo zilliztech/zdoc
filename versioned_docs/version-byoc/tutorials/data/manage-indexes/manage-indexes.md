@@ -1,16 +1,17 @@
 ---
 title: "Manage Indexes | BYOC"
 slug: /manage-indexes
-sidebar_label: "Manage Indexes"
-beta: FALSE
+sidebar_key: manage-indexes
+sidebar_label: "Indexes"
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "Learn how to manipulate indexes on vector and scalar fields via SDKs. | BYOC"
 type: origin
 token: NDLBwtFIuihc5wkq37KchzqLnrc
-sidebar_position: 4
+sidebar_position: 5
 keywords: 
   - zilliz
   - vector database
@@ -33,7 +34,7 @@ Learn how to manipulate indexes on vector and scalar fields via SDKs.
 <ul>
 <li><p>On the console.</p></li>
 <li><p><a href="/reference/create-collection">Using RESTful API</a>.</p></li>
-<li><p><a href="./manage-collections-sdks">Using applicable SDKs with index parameters specified.</a></p></li>
+<li><p><a href="./undefined">Using applicable SDKs with index parameters specified.</a></p></li>
 </ul>
 <p>You can also create a collection that is not loaded automatically and start managing indexes on your own.</p>
 

@@ -1,11 +1,12 @@
 ---
 title: "Migrate from Milvus to Zilliz Cloud Via Endpoint | Cloud"
 slug: /via-endpoint
+sidebar_key: via-endpoint
 sidebar_label: "Via Endpoint"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "Zilliz Cloud offers Milvus as a fully managed, cloud-hosted solution for users who want to use the Milvus vector database without the need to manage the infrastructure themselves. This topic describes how to migrate from Milvus via the database endpoint. | Cloud"
 type: origin

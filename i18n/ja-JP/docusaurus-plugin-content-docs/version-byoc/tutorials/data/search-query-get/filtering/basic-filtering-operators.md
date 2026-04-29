@@ -1,27 +1,24 @@
 ---
 title: "基本演算子 | BYOC"
 slug: /basic-filtering-operators
-sidebar_label: "基本演算子"
+sidebar_key: basic-filtering-operators
+sidebar_label: "基本"
 beta: FALSE
 notebook: FALSE
-description: "Zilliz Cloudは、データを効率的にフィルタリングおよびクエリするのに役立つ豊富な基本演算子セットを提供します。これらの演算子を使用すると、スカラーフィールド、数値計算、論理条件などに基づいて検索条件を絞り込むことができます。これらの演算子の使用方法を理解することは、正確なクエリを構築し、検索の効率を最大化するために不可欠です。 | BYOC"
+description: "Zilliz Cloud は、データを効率的にフィルタリングおよびクエリするための豊富な基本演算子を提供します。これらの演算子を使用すると、スカラーフィールド、数値計算、論理条件などに基づいて検索条件を絞り込むことができます。これらの演算子の使用方法を理解することは、正確なクエリを構築し、検索効率を最大化するために不可欠です。| BYOC"
 type: origin
 token: LBbUwOGcwi1UMak3eE2cM1gvnUe
 sidebar_position: 2
 keywords: 
   - zilliz
-  - ベクトルデータベース
+  - vector database
   - cloud
   - collection
-  - データ
-  - フィルター
-  - フィルタリング式
-  - フィルタリング
-  - 基本演算子
-  - 近傍探索
-  - Agentic RAG
-  - rag llm アーキテクチャ
-  - プライベート llms
+  - data
+  - filter
+  - filtering expressions
+  - filtering
+  - basic operators
 
 ---
 
@@ -30,13 +27,13 @@ import Admonition from '@theme/Admonition';
 
 # 基本演算子
 
-Zilliz Cloudは、データを効率的にフィルタリングおよびクエリするのに役立つ豊富な基本演算子を提供します。これらの演算子を使用すると、スカラーフィールド、数値計算、論理条件などに基づいて検索条件を絞り込むことができます。これらの演算子の使用方法を理解することは、正確なクエリを構築し、検索の効率を最大化するために不可欠です。
+Zilliz Cloud は、データを効率的にフィルタリングおよびクエリするための豊富な基本演算子を提供します。これらの演算子を使用すると、スカラーフィールド、数値計算、論理条件などに基づいて検索条件を絞り込むことができます。これらの演算子の使い方を理解することは、正確なクエリを構築し、検索の効率を最大化するために不可欠です。
 
-## 比較演算子{#comparison-operators}
+## 比較演算子\{#comparison-operators}
 
-比較演算子は、等価性、不等価性、またはサイズに基づいてデータをフィルタリングするために使用されます。これらは数値フィールドとテキストフィールドに適用できます。
+比較演算子は、等価性、非等価性、または大小関係に基づいてデータをフィルタリングするために使用されます。これらは数値フィールドおよびテキストフィールドに適用できます。
 
-### サポートされている比較演算子{#supported-comparison-operators}
+### サポートされている比較演算子:\{#supported-comparison-operators}
 
 - `==` (等しい)
 
@@ -46,123 +43,123 @@ Zilliz Cloudは、データを効率的にフィルタリングおよびクエ�
 
 - `<` (より小さい)
 
-- `>=` (より大きいか等しい)
+- `>=` (以上)
 
-- `<=` (より小さいか等しい)
+- `<=` (以下)
 
-### 例1: 等しい (`==`) を使用したフィルタリング{#example-1-filtering-with-equal-to}
+### 例1: 等号 (`==`) を使ったフィルタリング\{#example-1-filtering-with-equal-to}
 
-`status`という名前のフィールドがあり、`status`が「active」であるすべてのentityを見つけたいとします。等価演算子`==`を使用できます。
+`status` という名前のフィールドがあり、`status` が "active" であるすべてのエンティティを検索したいとします。この場合、等号演算子 `==` を使用できます:
 
 ```python
 filter = 'status == "active"'
 ```
 
-### 例 2: 不等号 (`!=`) を使用したフィルタリング{#example-2-filtering-with-not-equal-to}
+### 例 2: Not Equal To (`!=`) を使用したフィルタリング\{#example-2-filtering-with-not-equal-to}
 
-`status` が "inactive" ではないエンティティを検索するには、次のようにします。
+`status` が "inactive" ではないエンティティを検索するには：
 
 ```python
 filter = 'status != "inactive"'
 ```
 
-### 例 3: より大きい (`>`) を使用したフィルタリング{#example-3-filtering-with-greater-than-greater}
+### 例 3: より大きい (`>`) を使ったフィルタリング\{#example-3-filtering-with-greater-than-greater}
 
-`age` が 30 より大きいすべてのエンティティを検索する場合:
+`age` が 30 より大きいすべてのエンティティを検索したい場合:
 
 ```python
 filter = 'age > 30'
 ```
 
-### 例 4: 未満でのフィルタリング\{#example-4-filtering-with-less-than}
+### 例4: 未満でフィルタリング\{#example-4-filtering-with-less-than}
 
-`price` が 100 未満のエンティティを見つけるには:
+`price` が100未満のエンティティを検索するには：
 
 ```python
 filter = 'price < 100'
 ```
 
-### 例 5: 以上 (`>=`) を用いたフィルタリング{#example-5-filtering-with-greater-than-or-equal-to-greater}
+### 例 5: 大なりイコール（`>=`）によるフィルタリング\{#example-5-filtering-with-greater-than-or-equal-to-greater}
 
-`rating` が 4 以上のすべてのエンティティを検索する場合:
+`rating` が 4 以上であるすべてのエンティティを検索したい場合：
 
 ```python
 filter = 'rating >= 4'
 ```
 
-### 例 6: 以下でフィルタリングする\{#example-6-filtering-with-less-than-or-equal-to}
+### 例6: 小なりイコールでのフィルタリング\{#example-6-filtering-with-less-than-or-equal-to}
 
-`discount`が10%以下のエンティティを見つけるには：
+`discount` が10%以下であるエンティティを検索するには：
 
 ```python
 filter = 'discount <= 10'
 ```
 
-## 範囲演算子{#range-operators}
+## 範囲演算子\{#range-operators}
 
-範囲演算子は、特定のセットまたは値の範囲に基づいてデータをフィルタリングするのに役立ちます。
+範囲演算子は、特定の値の集合や範囲に基づいてデータをフィルタリングするのに役立ちます。
 
-### サポートされている範囲演算子：{#supported-range-operators}
+### サポートされている範圍演算子:\{#supported-range-operators}
 
-- `IN`: 特定のセットまたは範囲内の値と一致させるために使用されます。
+- `IN`: 特定の集合または範囲内の値に一致させるために使用します。
 
-- `LIKE`: パターンと一致させるために使用されます（主にテキストフィールド用）。
+- `LIKE`: パターンに一致させるために使用します（主にテキストフィールド向け）。
 
-### 例 1: `IN` を使用して複数の値と一致させる{#example-1-using-in-to-match-multiple-values}
+### 例1: 複数の値に一致させるための `IN` の使用\{#example-1-using-in-to-match-multiple-values}
 
-`color` が「red」、「green」、または「blue」のいずれかであるすべてのエンティティを検索したい場合：
+`color` が "red"、"green"、または "blue" のいずれかであるすべてのエンティティを検索したい場合：
 
 ```python
 filter = 'color in ["red", "green", "blue"]'
 ```
 
-これは、値のリストにメンバーシップがあるかどうかを確認したい場合に便利です。
+これは、値のリスト内に特定の値が含まれているかをチェックしたい場合に役立ちます。
 
-### 例 2: パターンマッチングに `LIKE` を使用する {#example-2-using-like-for-pattern-matching}
+### 例2: パターンマッチングに `LIKE` を使用する\{#example-2-using-like-for-pattern-matching}
 
-`LIKE` 演算子は、文字列フィールドでのパターンマッチングに使用されます。テキスト内の異なる位置で部分文字列を照合できます。**プレフィックス**、**インフィックス**、または**サフィックス**としてです。`LIKE` 演算子は、任意の数の文字 (ゼロを含む) に一致するワイルドカードとして `%` 記号を使用します。
+`LIKE` 演算子は、文字列フィールドでのパターンマッチングに使用されます。この演算子は、テキスト内の異なる位置（**プレフィックス**、**インフィックス**、または**サフィックス**）で部分文字列をマッチさせることができます。`LIKE` 演算子では、任意の文字数（ゼロ文字も含む）にマッチするワイルドカードとして `%` 記号を使用します。
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>ほとんどの場合、<strong>インフィックス</strong>または<strong>サフィックス</strong>マッチングは、プレフィックスマッチングよりも大幅に遅くなります。パフォーマンスが重要な場合は、注意して使用してください。</p>
+<p>多くの場合、<strong>インフィックス</strong>マッチや<strong>サフィックス</strong>マッチは、プレフィックスマッチと比べて著しく低速になります。パフォーマンスが重要な場合は、これらの使用に注意が必要です。</p>
 
 </Admonition>
 
-### プレフィックスマッチ (で始まる) {#prefix-match-starts-with}
+### プレフィックスマッチ（前方一致）\{#prefix-match-starts-with}
 
-文字列が特定のパターンで始まる**プレフィックス**マッチを実行するには、パターンを先頭に配置し、`%` を使用してそれに続く任意の文字に一致させます。たとえば、`name` が「Prod」で始まるすべての製品を見つけるには、次のようにします。
+**プレフィックス**マッチ（文字列が指定されたパターンで始まる場合）を行うには、パターンを先頭に配置し、その後に続く任意の文字にマッチさせるために `%` を使用します。例えば、`name` が "Prod" で始まるすべての製品を検索するには、次のようにします：
 
 ```python
 filter = 'name LIKE "Prod%"'
 ```
 
-これは、「Product A」、「Product B」など、「Prod」で始まるすべての製品に一致します。
+これは、「Product A」や「Product B」など、名前が "Prod" で始まるすべての製品に一致します。
 
-### 後方一致 (Ends With){#suffix-match-ends-with}
+### 接尾辞マッチ（末尾一致）\{#suffix-match-ends-with}
 
-**後方一致**の場合、つまり文字列が特定のパターンで終わる場合は、パターンの先頭に`%`記号を配置します。たとえば、`name`が「XYZ」で終わるすべての製品を見つけるには、次のようにします。
+**接尾辞**マッチ（文字列の末尾が指定されたパターンに一致する場合）では、パターンの先頭に `%` 記号を置きます。たとえば、`name` が "XYZ" で終わるすべての製品を検索するには：
 
 ```python
 filter = 'name LIKE "%XYZ"'
 ```
 
-これは、「ProductXYZ」、「SampleXYZ」など、「XYZ」で終わる名前を持つすべての製品に一致します。
+これは、"ProductXYZ" や "SampleXYZ" など、名前が "XYZ" で終わるすべての製品に一致します。
 
-### 中間一致 (含む){#infix-match-contains}
+### 中間一致（部分一致）\{#infix-match-contains}
 
-文字列内の任意の場所にパターンが出現する**中間**一致を実行するには、パターンの先頭と末尾の両方に`%`記号を配置します。たとえば、「Pro」という単語を含むすべての製品の`name`を見つけるには、次のようにします。
+**中間一致**（文字列中の任意の位置にパターンが含まれる場合）を実行するには、パターンの前後に `%` 記号を配置します。たとえば、`name` に "Pro" という単語を含むすべての製品を検索するには：
 
 ```python
 filter = 'name LIKE "%Pro%"'
 ```
 
-これは、「Product」、「ProLine」、「SuperPro」など、「Pro」という部分文字列を含むすべての製品名に一致します。
+これは、「Product」、「ProLine」、または「SuperPro」など、名前に部分文字列 "Pro" を含むすべての製品に一致します。
 
-## 算術演算子{#arithmetic-operators}
+## 算術演算子\{#arithmetic-operators}
 
-算術演算子を使用すると、数値フィールドを含む計算に基づいて条件を作成できます。
+算術演算子を使用すると、数値フィールドを用いた計算に基づいて条件を作成できます。
 
-### サポートされている算術演算子：{#supported-arithmetic-operators}
+### Supported 算術演算子:\{#supported-arithmetic-operators}
 
 - `+` (加算)
 
@@ -174,117 +171,117 @@ filter = 'name LIKE "%Pro%"'
 
 - `%` (剰余)
 
-- `**` (累乗)
+- `**` (べき乗)
 
-### 例 1: 剰余 (`%`) の使用{#example-1-using-modulus-percent}
+### Example 1: Using Modulus (`%`)\{#example-1-using-modulus-percent}
 
-`id` が偶数 (つまり、2 で割り切れる) のエンティティを見つけるには：
+`id` が偶数（つまり2で割り切れる）であるエンティティを検索するには：
 
 ```python
 filter = 'id % 2 == 0'
 ```
 
-### 例 2: 累乗 (`**`) の使用{#example-2-using-exponentiation}
+### 例 2: 累乗演算子（`**`）の使用\{#example-2-using-exponentiation}
 
-`price` を 2 乗した値が 1000 より大きいエンティティを検索するには、次のようにします。
+`price` の 2 乗が 1000 より大きいエンティティを検索する場合：
 
 ```python
 filter = 'price ** 2 > 1000'
 ```
 
-## 論理演算子{#logical-operators}
+## 論理演算子\{#logical-operators}
 
-論理演算子は、複数の条件を組み合わせてより複雑なフィルター式を作成するために使用されます。これには、`AND`、`OR`、`NOT` が含まれます。
+論理演算子は、複数の条件を組み合わせてより複雑なフィルター式を作成するために使用されます。これには `AND`、`OR`、および `NOT` が含まれます。
 
-### サポートされている論理演算子{#supported-logical-operators}
+### サポートされている論理演算子:\{#supported-logical-operators}
 
-- `AND`: すべてが真でなければならない複数の条件を結合します。
+- `AND`: すべて真である必要がある複数の条件を組み合わせます。
 
-- `OR`: 少なくとも1つが真でなければならない条件を結合します。
+- `OR`: 少なくとも1つが真である必要がある条件を組み合わせます。
 
 - `NOT`: 条件を否定します。
 
-### 例1: `AND` を使用した条件の結合{#example-1-using-and-to-combine-conditions}
+### 例1: `AND` を使用して条件を組み合わせる\{#example-1-using-and-to-combine-conditions}
 
-`price` が100より大きく、かつ `stock` が50より大きいすべての製品を見つけるには：
+`price` が 100 より大きく、かつ `stock` が 50 より大きいすべての製品を検索する場合:
 
 ```python
 filter = 'price > 100 AND stock > 50'
 ```
 
-### 例2: `OR` を使用して条件を結合する\{#example-2-using-or-to-combine-conditions}
+### 例 2: `OR` を使用して条件を組み合わせる\{#example-2-using-or-to-combine-conditions}
 
-`color` が「red」または「blue」のすべての製品を見つけるには：
+`color` が "red" または "blue" であるすべての製品を検索するには：
 
 ```python
 filter = 'color == "red" OR color == "blue"'
 ```
 
-### 例 3: `NOT` を使用して条件を除外する{#example-3-using-not-to-exclude-a-condition}
+### 例 3: `NOT` を使用して条件を除外する\{#example-3-using-not-to-exclude-a-condition}
 
-`color` が「green」ではないすべての製品を見つけるには、次のようにします。
+`color` が "green" でないすべての製品を検索するには：
 
 ```python
 filter = 'NOT color == "green"'
 ```
 
-## IS NULL および IS NOT NULL 演算子{#is-null-and-is-not-null-operators}
+## IS NULL および IS NOT NULL 演算子\{#is-null-and-is-not-null-operators}
 
-`IS NULL` および `IS NOT NULL` 演算子は、フィールドが null 値 (データがないこと) を含むかどうかに基づいてフィールドをフィルタリングするために使用されます。
+`IS NULL` および `IS NOT NULL` 演算子は、フィールドに null 値（データの欠如）が含まれているかどうかに基づいてフィルタリングするために使用されます。
 
-- `IS NULL`: 特定のフィールドに null 値が含まれる、つまり値が存在しないか未定義である entity を識別します。
+- `IS NULL`: 特定のフィールドに null 値（値が存在しない、または未定義）が含まれるエンティティを識別します。
 
-- `IS NOT NULL`: 特定のフィールドに null 以外の値が含まれる、つまりフィールドに有効で定義された値がある entity を識別します。
-
-<Admonition type="info" icon="📘" title="Notes">
-
-<p>これらの演算子は大文字と小文字を区別しないため、<code>IS NULL</code> または <code>is null</code>、および <code>IS NOT NULL</code> または <code>is not null</code> を使用できます。</p>
-
-</Admonition>
-
-### null 値を持つ通常のスカラフィールド{#regular-scalar-fields-with-null-values}
-
-Zilliz Cloud は、文字列や数値などの通常のスカラフィールドを null 値でフィルタリングできます。
+- `IS NOT NULL`: 特定のフィールドに null 以外の何らかの値（有効で定義された値）が含まれるエンティティを識別します。
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>空の文字列 <code>""</code> は、<code>VARCHAR</code> フィールドの null 値として扱われません。</p>
+<p>これらの演算子は大文字・小文字を区別しないため、<code>IS NULL</code> や <code>is null</code>、<code>IS NOT NULL</code> や <code>is not null</code> のいずれでも使用できます。</p>
 
 </Admonition>
 
-`description` フィールドが null である entity を取得するには:
+### Null 値を含むスカラーフィールド\{#regular-scalar-fields-with-null-values}
+
+Zilliz Cloud では、文字列や数値などのスカラーフィールドに対して、null 値を含むフィルタリングが可能です。
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p><code>VARCHAR</code> フィールドにおいて、空文字列 <code>""</code> は null 値とは見なされません。</p>
+
+</Admonition>
+
+`description` フィールドが null であるエンティティを取得するには：
 
 ```python
 filter = 'description IS NULL'
 ```
 
-`description` フィールドが null でないエンティティを取得するには、次のようにします。
+`description` フィールドが null でないエンティティを取得するには：
 
 ```python
 filter = 'description IS NOT NULL'
 ```
 
-`description` フィールドが null ではなく、`price` フィールドが 10 より大きいエンティティを取得するには、以下のようにします。
+`description` フィールドが null ではなく、かつ `price` フィールドが 10 より大きいエンティティを取得するには：
 
 ```python
 filter = 'description IS NOT NULL AND price > 10'
 ```
 
-### Null値を持つJSONフィールド{#json-fields-with-null-values}
+### Null 値を含む JSON フィールド\{#json-fields-with-null-values}
 
-Zilliz Cloudは、null値を含むJSONフィールドでのフィルタリングを可能にします。JSONフィールドは、以下の方法でnullとして扱われます。
+Zilliz Cloud では、Null 値を含む JSON フィールドに対してフィルタリングが可能です。JSON フィールドは以下のケースで null とみなされます。
 
-- JSONオブジェクト全体が明示的にNone (null) に設定されている場合。例: `{"metadata": None}`。
+- JSON オブジェクト全体が明示的に `None`（null）に設定されている場合（例: `{"metadata": None}`）。
 
-- JSONフィールド自体がエンティティから完全に欠落している場合。
+- エンティティから JSON フィールド自体が完全に欠落している場合。
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>JSONオブジェクト内の一部の要素がnullであっても（例：個々のキー）、そのフィールドはnullではないと見なされます。例えば、<code>\{"metadata": \{"category": None, "price": 99.99}}</code>は、<code>category</code>キーがnullであっても、nullとしては扱われません。</p>
+<p>JSON オブジェクト内の一部の要素（個別のキーなど）が null であっても、そのフィールド自体は non-null とみなされます。例えば、<code>\{"metadata": \{"category": None, "price": 99.99}}</code> の場合、<code>category</code> キーが null であっても、このフィールドは null とはみなされません。</p>
 
 </Admonition>
 
-Zilliz Cloudがnull値を持つJSONフィールドをどのように処理するかをさらに説明するために、JSONフィールド`metadata`を持つ以下のサンプルデータを考えてみましょう。
+Zilliz Cloud が null 値を含む JSON フィールドをどのように扱うかをさらに具体的に示すため、以下に JSON フィールド `metadata` を含むサンプルデータを示します。
 
 ```python
 data = [
@@ -298,7 +295,7 @@ data = [
       "pk": 2,
       "embedding": [0.56, 0.78, 0.90]
   },
-  {  # JSON field `metadata` is completely missing
+  {  # JSON field \`metadata\` is completely missing
       "pk": 3,
       "embedding": [0.91, 0.18, 0.23]
   },
@@ -310,9 +307,9 @@ data = [
 ]
 ```
 
-**例 1: メタデータが null のエンティティを取得する**
+**例1: `metadata` が null であるエンティティを取得する**
 
-`metadata` フィールドが存在しないか、明示的に None に設定されているエンティティを見つけるには、次のようにします。
+`metadata` フィールドが存在しない、または明示的に None に設定されているエンティティを検索するには：
 
 ```python
 filter = 'metadata IS NULL'
@@ -324,9 +321,9 @@ filter = 'metadata IS NULL'
 # ]
 ```
 
-**例 2: メタデータがnullではないエンティティを取得する**
+**例2: `metadata` が null でないエンティティを取得する**
 
-`metadata`フィールドがnullではないエンティティを見つけるには、次のようにします。
+`metadata` フィールドが null でないエンティティを検索するには:
 
 ```python
 filter = 'metadata IS NOT NULL'
@@ -338,21 +335,21 @@ filter = 'metadata IS NOT NULL'
 # ]
 ```
 
-### NULL値を持つARRAYフィールド\{#array-fields-with-null-values}
+### null 値を含む ARRAY フィールド\{#array-fields-with-null-values}
 
-Zilliz Cloudは、NULL値を含むARRAYフィールドでのフィルタリングをサポートしています。ARRAYフィールドは、以下の方法でNULLとして扱われます。
+Zilliz Cloud では、null 値を含む ARRAY フィールドに対してフィルタリングが可能です。ARRAY フィールドは以下のケースで null とみなされます。
 
-- ARRAYフィールド全体が明示的にNone（null）に設定されている場合。例: `"tags": None`。
+- ARRAY フィールド全体が明示的に `None`（null）に設定されている場合（例: `"tags": None`）。
 
-- ARRAYフィールドがentityから完全に欠落している場合。
+- エンティティから ARRAY フィールドが完全に省略されている場合。
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>ARRAYフィールド内のすべての要素は同じデータ型である必要があるため、ARRAYフィールドに部分的なNULL値を含めることはできません。詳細については、<a href="./use-array-fields">Array Field</a>を参照してください。</p>
+<p>ARRAY フィールドには部分的な null 値を含めることはできません。ARRAY フィールド内のすべての要素は同じデータ型を持つ必要があります。詳細については、<a href="./use-array-fields">配列 Field</a> を参照してください。</p>
 
 </Admonition>
 
-Zilliz CloudがNULL値を持つARRAYフィールドをどのように処理するかをさらに説明するために、ARRAYフィールド`tags`を持つ以下のサンプルデータを考えてみましょう。
+Zilliz Cloud が null 値を含む ARRAY フィールドをどのように扱うかをさらに具体的に示すため、ARRAY フィールド `tags` を持つ以下のサンプルデータを考えてみましょう。
 
 ```python
 data = [
@@ -376,9 +373,9 @@ data = [
 ]
 ```
 
-**例 1: tags が null のエンティティを取得する**
+**例1: `tags` が null であるエンティティを取得する**
 
-`tags` フィールドが存在しないか、明示的に `None` に設定されているエンティティを取得するには、次のようにします。
+`tags` フィールドが存在しない、または明示的に `None` に設定されているエンティティを取得するには：
 
 ```python
 filter = 'tags IS NULL'
@@ -390,9 +387,9 @@ filter = 'tags IS NULL'
 # ]
 ```
 
-**例 2: tags が null でないエンティティを取得する**
+**例2: `tags` が null でないエンティティを取得する**
 
-`tags` フィールドが null でないエンティティを取得するには、次のようにします。
+`tags` フィールドが null でないエンティティを取得するには:
 
 ```python
 filter = 'tags IS NOT NULL'
@@ -404,29 +401,29 @@ filter = 'tags IS NOT NULL'
 # ]
 ```
 
-## JSONフィールドとARRAYフィールドで基本演算子を使用するためのヒント{#tips-on-using-basic-operators-with-json-and-array-fields}
+## JSONおよびARRAYフィールドで基本演算子を使用する際のヒント\{#tips-on-using-basic-operators-with-json-and-array-fields}
 
-Zilliz Cloudクラスターの基本演算子は汎用性が高く、スカラーフィールドに適用できるだけでなく、JSONフィールドとARRAYフィールドのキーとインデックスにも効果的に使用できます。
+Zilliz Cloudクラスターの基本演算子は汎用性が高く、スカラーフィールドに適用できるだけでなく、JSONおよびARRAYフィールド内のキーおよびインデックスに対しても効果的に使用できます。
 
-たとえば、`price`、`model`、``tags`などの複数のキーを含む`product`フィールドがある場合、常にキーを直接参照してください。
+例えば、`price`、`model`、`tags` といった複数のキーを含む `product` フィールドがある場合、常にキーを直接参照してください:
 
 ```python
 filter = 'product["price"] > 1000'
 ```
 
-記録された温度の配列の最初の温度が特定の値を超えるレコードを見つけるには、次を使用します。
+記録された温度の配列において、最初の温度が特定の値を超えるレコードを検索するには、次のようにします。
 
 ```python
 filter = 'history_temperatures[0] > 30'
 ```
 
-## まとめ{#conclusion}
+## 結論\{#conclusion}
 
-Zilliz Cloudは、データのフィルタリングとクエリに柔軟性をもたらすさまざまな基本演算子を提供します。比較演算子、範囲演算子、算術演算子、論理演算子を組み合わせることで、強力なフィルター式を作成し、検索結果を絞り込み、必要なデータを効率的に取得できます。
+Zilliz Cloud は、データのフィルタリングおよびクエリに柔軟性をもたらすさまざまな基本演算子を提供します。比較演算子、範囲演算子、算術演算子、論理演算子を組み合わせることで、強力なフィルタ式を作成し、検索結果を絞り込んで必要なデータを効率的に取得できます。
 
-## FAQ{#faq}
+## FAQ\{#faq}
 
-**フィルター条件におけるマッチ値リストの長さに制限はありますか（例：`filter='color in ["red", "green", "blue"]'`）？リストが長すぎる場合はどうすればよいですか？**
+**フィルタ条件（例：`filter='color in ["red", "green", "blue"]'`）における一致値リストの長さに制限はありますか？リストが長すぎる場合はどうすればよいですか？**
 
-Zilliz Cloudは、フィルター条件におけるマッチ値リストの長さに制限を設けていません。ただし、リストが長すぎるとクエリのパフォーマンスに大きな影響を与える可能性があります。
-フィルター条件に長いマッチ値リストや多くの要素を含む複雑な式が含まれる場合は、クエリのパフォーマンスを向上させるために[フィルターテンプレート](./filtering-templating)を使用することをお勧めします。
+Zilliz Cloud では、フィルタ条件における一致値リストの長さに制限を設けていません。ただし、リストが極端に長い場合、クエリのパフォーマンスに大きな影響を与える可能性があります。  
+フィルタ条件に非常に長い一致値リストや多数の要素を含む複雑な式が含まれる場合は、[フィルタテンプレート](./filtering-templating)を使用してクエリパフォーマンスを向上させることを推奨します。

@@ -1,13 +1,14 @@
 ---
-title: "View Cluster Metric Charts | Cloud"
+title: "View Metric Charts | Cloud"
 slug: /view-cluster-metric-charts
-sidebar_label: "View Cluster Metric Charts"
-beta: FALSE
+sidebar_key: view-cluster-metric-charts
+sidebar_label: "View Metric Charts"
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
-description: "Zilliz Cloud offers a dashboard for observing cluster-specific metrics. To access this feature, navigate to the Metrics tab within one of your clusters. | Cloud"
+description: "Zilliz Cloud offers dashboards for monitoring metrics at both the cluster and collection level. The metric charts provide performance data on resource usage, queries per second (QPS), latency, and data operations within a specific time range. | Cloud"
 type: origin
 token: DbPIw4jLOiEabCk5uptc6EZ1nbf
 sidebar_position: 2
@@ -24,9 +25,17 @@ keywords:
 import Admonition from '@theme/Admonition';
 
 
-# View Cluster Metric Charts
+import Supademo from '@site/src/components/Supademo';
 
-Zilliz Cloud offers a dashboard for observing cluster-specific metrics. To access this feature, navigate to the **Metrics** tab within one of your clusters.
+# View Metric Charts
+
+Zilliz Cloud offers dashboards for monitoring metrics at both the cluster and collection level. The metric charts provide performance data on resource usage, queries per second (QPS), latency, and data operations within a specific time range.
+
+## View cluster metrics\{#view-cluster-metrics}
+
+To view cluster-wide metrics, navigate to your cluster in the [Zilliz Cloud console](https://cloud.zilliz.com/login) and select the **Metrics** tab.
+
+Zilliz Cloud's metric charts provide performance data on resource usage, queries per second (QPS), request results, and data operations, offering granular analysis within a specific time range.
 
 <Admonition type="info" icon="📘" title="Notes">
 
@@ -34,21 +43,33 @@ Zilliz Cloud offers a dashboard for observing cluster-specific metrics. To acces
 
 </Admonition>
 
-![view_metric_charts](https://zdoc-images.s3.us-west-2.amazonaws.com/view_metric_charts.png "view_metric_charts")
+<Supademo id="cmn429im00fjyz3qmh6bt98w5" title=""  />
 
-## Access cluster metric charts\{#access-cluster-metric-charts}
+Cluster metric charts are organized into the following groups:
 
-In the [Zilliz Cloud console](https://cloud.zilliz.com/login), locate the target cluster and select the **Metrics** tab.
+### Resources\{#resources}
 
-Zilliz Cloud's metric charts provide performance data on resource usage, queries per second (QPS), request results, and data operations, offering granular analysis within a specific time range.
+These charts show the cluster's resource usage, including CU computation, CU capacity, and storage. For a full list of resource metrics, refer to [Metrics Reference](./metrics-alerts-reference#resources).
 
-<Admonition type="info" icon="📘" title="Notes">
+### Performance\{#performance}
 
-<p>Clicking <strong>View Alerts Settings</strong> on the right will redirect you to the <strong>Alert Settings</strong> page, offering a shortcut to manage your alerts.</p>
+These charts show cluster performance, including QPS, latency, request failure rates, and throughput. For a full list of performance metrics, refer to [Metrics Reference](./metrics-alerts-reference#performance).
 
-</Admonition>
+### Data\{#data}
 
-For details on each metric chart, refer to [View metric charts](./view-cluster-metric-charts#view-metric-charts).
+These charts show the cluster's data status, including the number of collections, entities, and loaded entities. For a full list of data metrics, refer to [Metrics Reference](./metrics-alerts-reference#data).
+
+Clicking **View Alerts Settings** on the right will redirect you to the **Alert Settings** page, offering a shortcut to manage your alerts.
+
+## View collection metrics\{#view-collection-metrics}
+
+A subset of cluster metrics is also available **at the collection level**, helping you pinpoint performance issues and plan capacity for individual collections.
+
+To view collection-level metrics, navigate to a collection in the [Zilliz Cloud console](https://cloud.zilliz.com/login) and select the **Metrics** tab.
+
+<Supademo id="cmn42p79v0gcpz3qmql1xx412" title=""  />
+
+The chart layout and time range controls are identical to those on the cluster **Metrics** tab. Each chart shows the same metric definition scoped to the selected collection rather than the entire cluster.
 
 ## Modify curve window size\{#modify-curve-window-size}
 
@@ -73,22 +94,6 @@ The **Metrics** tab allows for two types of window sizes.
 - **Absolute Range**: Enter the exact start time and end time. Using absolute range allows you to control the metrics you see in a more fine-tuned way.
 
     - The time difference between the start and the end time should be greater than 10 minutes.
-
-## View metric charts\{#view-metric-charts}
-
-Zilliz Cloud offers metric charts for monitoring cluster performance from various aspects.
-
-### Resources\{#resources}
-
-To view metric charts for resource usage, select the **Metrics** tab and refer to the **Resources** area. These charts provide a snapshot of the cluster's resource usage, including computation, capacity, and storage. For a quick overview of available metrics, refer to [Metrics & Alerts Reference](./metrics-alerts-reference#project-level-metrics-cluster-metrics).
-
-### Performance\{#performance}
-
-To view metric charts for performance, select the **Metrics** tab and refer to the **Performance** area. These charts provide a snapshot of cluster performance, including QPS, VPS, latency, and request. For a quick overview of available metrics, refer to [Metrics & Alerts Reference](./metrics-alerts-reference#project-level-metrics-cluster-metrics).
-
-### Data\{#data}
-
-To view metric charts for business data, select the **Metrics** tab and refer to the **Data** area. These charts provide a snapshot of the cluster's entity data by indicating the number of collections, entities, and loaded entities in the cluster. For a quick overview of available metrics, refer to [Metrics & Alerts Reference](./metrics-alerts-reference#project-level-metrics-cluster-metrics).
 
 ## Related topics\{#related-topics}
 

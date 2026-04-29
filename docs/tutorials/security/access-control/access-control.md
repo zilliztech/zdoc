@@ -1,11 +1,12 @@
 ---
 title: "Access Control | Cloud"
 slug: /access-control
+sidebar_key: access-control
 sidebar_label: "Access Control"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "Learn more about how Zilliz Cloud implements RBAC for more efficient access control and how to manage cluster users and roles, privileges. | Cloud"
 type: origin

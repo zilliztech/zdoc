@@ -1,16 +1,17 @@
 ---
 title: "Environment Isolation | BYOC"
 slug: /environment-isolation
+sidebar_key: environment-isolation
 sidebar_label: "Environment Isolation"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "Proper environment isolation and access control are essential in enterprise application development and deployment. Zilliz Cloud offers flexible isolation through a hierarchical structure of Organizations, Projects, and Clusters. This guide helps you select the most appropriate strategy based on your operational, security, and financial requirements. | BYOC"
 type: origin
 token: LQwnwNY73iCd8Hkj55ZczQTOn6g
-sidebar_position: 3
+sidebar_position: 4
 keywords: 
   - zilliz
   - vector database

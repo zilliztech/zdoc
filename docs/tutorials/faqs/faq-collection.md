@@ -42,9 +42,9 @@ A Serverless cluster can have up to 100 collections.
 
 The number of collections allowed in a Dedicated cluster varies with the cluster CU size. For more information, please refer to [Zilliz Cloud Limits](./limits#collections).
 
-If you have reached the maximum number of collections allowed in a cluster, you can:
+If you have reached the maximum number of collections allowed in a serving cluster, you can:
 
-1. [Scale](./manage-cluster) your cluster to larger CU sizes.
+1. [Scale](./manage-cluster) your serving cluster to larger numbers of query CUs.
 
 1. [Drop](./drop-collection) unused collections.
 
@@ -102,7 +102,7 @@ For details, refer to [Manage Partitions](./manage-partitions) and [Use Partitio
 
 ### Can I modify the number of shards in a collection?{#can-i-modify-the-number-of-shards-in-a-collection}
 
-Yes. To change the number of shards, use the "[clone collection](./manage-collections-console#create-collection)" feature:
+Yes. To change the number of shards, use the "[clone collection](./manage-collections-console#create-a-collection)" feature:
 
 1. Go to the **Overview** page of the target collection.
 

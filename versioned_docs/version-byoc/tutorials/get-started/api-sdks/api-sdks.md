@@ -1,16 +1,17 @@
 ---
 title: "API & SDKs | BYOC"
 slug: /api-sdks
+sidebar_key: api-sdks
 sidebar_label: "API & SDKs"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "This chapter provides access to the procedure for using or installing RESTful API and SDKs and their reference docs. | BYOC"
 type: origin
 token: Ecwpw6cImiFV0gkkusgcQhvBnLe
-sidebar_position: 14
+sidebar_position: 16
 keywords: 
   - zilliz
   - milvus

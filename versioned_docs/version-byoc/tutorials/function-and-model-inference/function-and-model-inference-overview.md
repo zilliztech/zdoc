@@ -1,11 +1,12 @@
 ---
 title: "Function & Model Inference Overview | BYOC"
 slug: /function-and-model-inference-overview
+sidebar_key: function-and-model-inference-overview
 sidebar_label: "Overview"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "Zilliz Cloud provides a unified search architecture for building modern retrieval systems, including semantic search, lexical search, hybrid search, and intelligent reranking. Rather than exposing these capabilities as isolated features, Zilliz Cloud organizes them around a single core abstraction the Function. | BYOC"
 type: origin
@@ -135,115 +136,3 @@ The table below summarizes the available Post-search Functions:
 
 Because Post-search Functions operate only on retrieved candidates, they are refinement steps that affect result order but not retrieval scope.
 
-## Understand model inference\{#understand-model-inference}
-
-In the Function-based architecture of Zilliz Cloud, **model inference is not a standalone concept or execution stage**. Instead, it is an implementation detail used by specific Function types when machine learning-based signals are required.
-
-### Where model inference fits in\{#where-model-inference-fits-in}
-
-Model inference refers to the runtime execution of machine learning models to generate semantic signals, such as:
-
-- Dense vector embeddings derived from text
-
-- Relevance scores used to rerank search results
-
-Within Zilliz Cloud, model inference is used only by **model-based functions**, including:
-
-- [Model-based Pre-search Functions](./function-and-model-inference-overview#pre-search-functions-convert-text-to-vector-embeddings), which convert raw text into dense vector embeddings
-
-- [Model-based Rankers](./function-and-model-inference-overview#post-search-functions-rerank-candidate-results), which evaluate relevance and reorder retrieved candidates
-
-Other Functions, such as the BM25 Function and rule-based rankers, run entirely within the database engine and **do not require model inference**.
-
-### Sources of model inference\{#sources-of-model-inference}
-
-Zilliz Cloud supports two sources of model inference. Both provide model-based capabilities, but differ in how models are provisioned and managed:
-
-<table>
-   <tr>
-     <th><p>Aspect</p></th>
-     <th><p>Hosted Models</p></th>
-     <th><p>Third-Party Model Services</p></th>
-   </tr>
-   <tr>
-     <td><p><strong>Where models run</strong></p></td>
-     <td><p>Inside Zilliz Cloud</p></td>
-     <td><p>External model provider (OpenAI, Voyage AI, etc.)</p></td>
-   </tr>
-   <tr>
-     <td><p><strong>Who manages models</strong></p></td>
-     <td><p>Zilliz Cloud</p></td>
-     <td><p>External model provider</p></td>
-   </tr>
-   <tr>
-     <td><p><strong>How access is set up</strong></p></td>
-     <td><p>See <a href="./hosted-models">Hosted Models</a></p></td>
-     <td><p>Through <a href="./integrate-with-model-providers">model provider integration</a> on your own</p></td>
-   </tr>
-   <tr>
-     <td><p><strong>Credentials</strong></p></td>
-     <td><p>Provided during onboarding with Zilliz Cloud support</p></td>
-     <td><p>Provided by you (for example, API keys)</p></td>
-   </tr>
-   <tr>
-     <td><p><strong>Typical use cases</strong></p></td>
-     <td><p>Tightly integrated or customized deployments</p></td>
-     <td><p>Using standard models from established providers</p></td>
-   </tr>
-   <tr>
-     <td><p><strong>Setup complexity</strong></p></td>
-     <td><p>Higher (requires onboarding)</p></td>
-     <td><p>Lower (connect your existing API keys)</p></td>
-   </tr>
-</table>
-
-**Choose Hosted Models if you need**:
-
-- Tight integration with Zilliz Cloud (single vendor, unified support)
-
-- Custom model fine-tuning or specialized models
-
-- Predictable performance and latency
-
-- Simplified credential management
-
-**Choose Third-Party Model Services if you**:
-
-- Already have an existing relationship with a model provider
-
-- Want to leverage the latest models from providers like OpenAI
-
-- Prefer flexibility to switch providers
-
-### Supported model providers\{#supported-model-providers}
-
-Zilliz Cloud integrates with leading model providers that offer different capabilities. The table below shows which providers support text embedding and reranking:
-
-<Admonition type="info" icon="📘" title="Notes">
-
-<p>Provider availability and supported capabilities may vary by region and release. Refer to provider-specific documentation for the most up-to-date information.</p>
-
-</Admonition>
-
-<table>
-   <tr>
-     <th><p>Model Provider</p></th>
-     <th><p>Text Embedding</p></th>
-     <th><p>Reranking</p></th>
-   </tr>
-   <tr>
-     <td><p>OpenAI</p></td>
-     <td><p><a href="https://platform.openai.com/docs/guides/embeddings#embedding-models">Yes</a></p></td>
-     <td><p>No</p></td>
-   </tr>
-   <tr>
-     <td><p>Voyage AI</p></td>
-     <td><p><a href="https://docs.voyageai.com/docs/embeddings">Yes</a></p></td>
-     <td><p><a href="https://docs.voyageai.com/docs/reranker">Yes</a></p></td>
-   </tr>
-   <tr>
-     <td><p>Cohere</p></td>
-     <td><p><a href="https://docs.cohere.com/docs/cohere-embed">Yes</a></p></td>
-     <td><p><a href="https://docs.cohere.com/docs/rerank">Yes</a></p></td>
-   </tr>
-</table>

@@ -1,11 +1,12 @@
 ---
 title: "Set up a Private Link (Azure) | Cloud"
 slug: /setup-a-private-link-azure
+sidebar_key: setup-a-private-link-azure
 sidebar_label: "Set up a Private Link (Azure)"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "This guide demonstrates the procedure for setting up a private link from a Zilliz Cloud cluster to your service hosted in different Microsoft Azure VPCs. | Cloud"
 type: origin

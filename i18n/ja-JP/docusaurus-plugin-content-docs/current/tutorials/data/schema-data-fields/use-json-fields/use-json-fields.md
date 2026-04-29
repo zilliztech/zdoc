@@ -1,10 +1,11 @@
 ---
-title: "JSONフィールド | Cloud"
+title: "JSON フィールド | Cloud"
 slug: /use-json-fields
-sidebar_label: "JSONフィールド"
+sidebar_key: use-json-fields
+sidebar_label: "JSON"
 beta: FALSE
 notebook: FALSE
-description: "この章では、JSONフィールドのタイプと、JSONフィールドにインデックスを付ける方法について説明します。 | Cloud"
+description: "この章では、JSON フィールド型について紹介し、JSON フィールドのインデックス作成方法に関するガイドを提供します。| Cloud"
 type: origin
 token: BkDMwo71MiZMazk7gbtc7fqknbh
 sidebar_position: 8
@@ -14,11 +15,7 @@ keywords:
   - cloud
   - collection
   - schema
-  - json field
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
+  - json フィールド
 
 ---
 
@@ -27,7 +24,9 @@ import Admonition from '@theme/Admonition';
 
 # JSONフィールド
 
-この章では、JSONフィールドタイプについて説明し、JSONフィールドをインデックス化する方法についてガイドを提供します。 
+この章では、JSONフィールド型を紹介し、JSONフィールドのインデックス作成方法に関するガイドを提供します。 
+
+
 
 import DocCardList from '@theme/DocCardList';
 

@@ -1,16 +1,17 @@
 ---
-title: "Get Started with Zilliz Cloud | Cloud"
+title: "Get Started | Cloud"
 slug: /get-started
+sidebar_key: get-started
 sidebar_label: "Get Started"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "This chapter provides materials for you to get started with Zilliz Cloud. | Cloud"
 type: origin
 token: BDOHwqlMDiei78kdUefcjSQUnEg
-sidebar_position: 2
+sidebar_position: 3
 keywords: 
   - zilliz
   - vector database
@@ -22,7 +23,7 @@ keywords:
 import Admonition from '@theme/Admonition';
 
 
-# Get Started with Zilliz Cloud
+# Get Started
 
 This chapter provides materials for you to get started with Zilliz Cloud.
 

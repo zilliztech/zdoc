@@ -1,10 +1,11 @@
 ---
-title: "エンティティのカウント | BYOC"
+title: "エンティティ数のカウント | BYOC"
 slug: /count-entities
-sidebar_label: "エンティティのカウント"
+sidebar_key: count-entities
+sidebar_label: "カウント"
 beta: FALSE
 notebook: FALSE
-description: "この記事では、collection 内のエンティティをカウントする方法と、エンティティのカウントが実際の数値と異なる可能性がある理由について説明します。 | BYOC"
+description: "この記事では、コレクション内のエンティティ数をカウントする方法と、エンティティ数が実際の数値と異なる可能性がある理由について説明します。| BYOC"
 type: origin
 token: OfUIwNWVuimZgFk3gBVc61GnnKW
 sidebar_position: 3
@@ -13,14 +14,10 @@ keywords:
   - ベクトルデータベース
   - cloud
   - collection
-  - データ
+  - data
   - upsert
   - update
-  - カウント
-  - ベクトル検索
-  - knnアルゴリズム
-  - HNSW
-  - 非構造化データとは
+  - count
 
 ---
 
@@ -28,47 +25,45 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# エンティティをカウントする
+# エンティティ数のカウント
 
-この記事では、コレクション内のエンティティをカウントする方法と、エンティティ数が実際の数値と異なる可能性がある理由について説明します。
+この記事では、コレクション内のエンティティ数をカウントする方法と、エンティティ数が実際の値と異なる可能性がある理由について説明します。
 
-## 概要{#overview}
+## 概要\{#overview}
 
-Zilliz Cloudでは、コレクション内のエンティティをカウントする方法が2つあります。
+Zilliz Cloud では、コレクション内のエンティティ数をカウントする方法が2つ提供されています。
 
-- **出力フィールドとしてcount(*)を指定してクエリを実行する**
+- **`count(*)` を出力フィールドとして使用したクエリ**
 
-    コレクション内の正確なエンティティ数を取得するには、この方法を使用し、以下のことを確認する必要があります。
+    コレクション内の正確なエンティティ数を取得するには、この方法を使用し、以下の条件を満たす必要があります。
 
-    - ターゲットコレクションをロードしていること。
+    - 対象のコレクションがロード済みであること。
+    - クエリリクエストで `consistency_level` を `Strong` に設定すること。
+    - `output_field` を `['count(*)']` に設定すること。
 
-    - クエリリクエストで`consistency_level`を`Strong`に設定していること。
+    このようなクエリを受信すると、Zilliz Cloud はクエリノードにリクエストを送信し、メモリにすでにロードされているエンティティをカウントします。
 
-    - `output_field`を`['count(*)']`に設定していること。
+    複数のパーティション名をクエリ内で指定することで、それらのパーティションごとのエンティティ数を取得できます。詳細については、「[Query with count(*) as the output field](./count-entities)」を参照してください。
 
-    このようなクエリを受け取ると、Zilliz Cloudはクエリノードにリクエストを送信し、すでにメモリにロードされているエンティティをカウントします。
+- **`get_collection_stats()` の使用**
 
-    クエリで複数のパーティション名を指定して、これらのパーティション内の対応するエンティティ数を取得できます。詳細については、[出力フィールドとしてcount(*)を指定してクエリを実行する](./count-entities)を参照してください。
+    上記の方法でコレクションの正確なエンティティ数を取得できますが、すべての場面でこの方法を使用することは推奨されません。この処理は基本的にクエリであり、頻繁に呼び出すとネットワークの不安定化や、ビジネスに関連する検索・クエリへの影響を引き起こす可能性があります。
 
-- **get_collection_stats()を使用する**
+    精度が最重要でない場合は、代わりに `get_collection_stats()` および `get_partition_stats()` を使用することを推奨します。この呼び出しは推定されたエンティティ数を提供しますが、対象のコレクションをロードする必要がなく、内部トラッカーが記録している情報を報告するだけなので、コストは非常に小さく無視できるほどです。
 
-    上記のメソッドを使用してコレクションの正確なカウントを取得できますが、すべての場所で使用することはお勧めしません。このプロセスは基本的にクエリであり、頻繁な呼び出しはネットワークのジッターを引き起こしたり、ビジネスに関連する検索やクエリに影響を与えたりする可能性があります。
-
-    精度が主な懸念事項でない場合は、代わりに`get_collection_stats()`と`get_partition_stats()`を使用する必要があります。この呼び出しは推定エンティティ数を提供しますが、実行するためにターゲットコレクションをロードする必要はなく、内部トラッカーが記録したものを報告するだけなので、コストは無視できるほど小さいです。
-
-    参考までに、すべてのデータ操作は非同期であるため、内部トラッカーはエンティティ数をリアルタイムで反映できません。詳細については、[get_collection_stats()を使用する](./count-entities#use-getcollectionstats)を参照してください。
+    なお、すべてのデータ操作は非同期で実行されるため、内部トラッカーがエンティティ数をリアルタイムで反映できない点にご注意ください。詳細については、「[Use get_collection_stats()](./count-entities#use-getcollectionstats)」を参照してください。
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>上記の2つのメソッドはどちらも、同じプライマリキーを持つエンティティを別々のエンティティとしてカウントします。</p>
+<p>上記のどちらの方法も、同じプライマリキーを持つエンティティを別々のエンティティとしてカウントします。</p>
 
 </Admonition>
 
-エンティティ数をプログラムで取得する代わりに、Zilliz Cloudコンソールでクラスター、コレクション、またはパーティションの数値にアクセスすることもできます。詳細については、[Zilliz Cloudコンソールでのエンティティ数](./count-entities)を参照してください。
+プログラムによるエンティティ数の取得に加えて、Zilliz Cloud コンソール上でクラスター、コレクション、またはパーティションごとのエンティティ数を確認することもできます。詳細については、「[Entity counts on the Zilliz Cloud console](./count-entities)」をご覧ください。
 
-## 出力フィールドとして`count(*)`を指定してクエリを実行する{#query-with-count-as-the-output-field}
+## `count(*)` を出力フィールドとして使用したクエリ\{#query-with-count-as-the-output-field}
 
-正確なエンティティ数を取得するには、コレクションをロードし、出力フィールドとして`count(*)`を指定してクエリを実行し、クエリの整合性レベルを`Strong`に設定します。
+正確なエンティティ数を取得するには、コレクションをロードし、`count(*)` を出力フィールドとして指定してクエリを実行し、そのクエリの整合性レベル（consistency level）を `Strong` に設定します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -149,7 +144,7 @@ System.out.print(count.getQueryResults().get(0).getEntity().get("count(*)"));
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 resultSet, err := client.Query(ctx, milvusclient.NewQueryOption("test_collection").
@@ -167,7 +162,7 @@ fmt.Println("count: ", resultSet.GetColumn("count").FieldData().GetScalars())
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
@@ -199,7 +194,7 @@ console.log(res.data[0]['count(*)'])
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
@@ -220,11 +215,11 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## `get_collection_stats()` の使用法 {#use-getcollectionstats}
+## `get_collection_stats()` の使用\{#use-getcollectionstats}
 
-上記で説明したように、`get_collection_stats()` はコレクション内のエンティティの推定数を返します。これは実際のエンティティ数とは異なる場合があります。コレクションをロードせずに、これを参照として使用できます。
+前述のとおり、`get_collection_stats()` はコレクション内のエンティティ数の推定値を返します。この値は実際のエンティティ数と異なる場合があります。このメソッドはコレクションをロードせずに参照として使用できます。
 
-以下の例では、`test_collection` という名前のコレクションが存在することを前提としています。
+以下の例では、`test_collection` という名前のコレクションがすでに存在しているものと仮定しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -294,7 +289,7 @@ System.out.print(partitionStats.getNumOfEntities());
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 // go
@@ -302,7 +297,7 @@ System.out.print(partitionStats.getNumOfEntities());
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 import { MilvusClient } from '@zilliz/milvus2-sdk-node';
@@ -328,7 +323,7 @@ milvusClient.getCollectionStats({
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 # curl
@@ -337,45 +332,45 @@ milvusClient.getCollectionStats({
 </TabItem>
 </Tabs>
 
-## Zilliz Cloud コンソールでのエンティティ数{#entity-counts-on-the-zilliz-cloud-console}
+## Zilliz Cloud コンソールでのエンティティ数\{#entity-counts-on-the-zilliz-cloud-console}
 
-プログラムでエンティティをカウントする代わりに、Zilliz Cloud コンソールにアクセスして、以下のページでクラスター、コレクション、またはパーティションのエンティティ数を確認することもできます。
+プログラムでエンティティをカウントする代わりに、Zilliz Cloud コンソールにアクセスして、以下のページでクラスター、コレクション、またはパーティションのエンティティ数を確認できます。
 
-### メトリクス{#metrics}
+### メトリクス\{#metrics}
 
-クラスターの**メトリクス**タブで、**エンティティ数**と**ロードされたエンティティ (概算)** を確認できます。どちらの値も推定値です。曲線内の値は、[`get_collection_stats()`](./count-entities#use-getcollectionstats) を[使用して取得されます](./count-entities#use-getcollectionstats)。それ以上のデータ挿入や削除がない場合、**エンティティ数**曲線は最終的に現在のコレクション内の実際のエンティティ数を反映します。
+クラスターの**メトリクス**タブで、**エンティティ数**と**ロードされたエンティティ（概算）**を確認できます。どちらの値も推定値です。曲線の値は、[`get_collection_stats()`](./count-entities#use-getcollectionstats) [を使用して取得されます](./count-entities#use-getcollectionstats)。データの挿入や削除がこれ以上行われない場合、**エンティティ数**の曲線は最終的に現在のコレクション内の実際のエンティティ数を反映します。
 
-![UGT3bXxnjordXpxhTZUcMYK6nQg](https://zdoc-images.s3.us-west-2.amazonaws.com/ugt3bxxnjordxpxhtzucmyk6nqg.png "UGT3bXxnjordXpxhTZUcMYK6nQg")
+![ZVYcwdlqAhOUqDb4vC3c2Hf8n5e](https://zdoc-images.s3.us-west-2.amazonaws.com/ZVYcwdlqAhOUqDb4vC3c2Hf8n5e.png)
 
-### コレクションの詳細{#collection-details}
+### コレクションの詳細\{#collection-details}
 
-コレクションの実際のエンティティ数は、その詳細タブで確認できます。この値は、出力フィールドとして[`count(*)`](./count-entities) を[使用したクエリ](./count-entities)によって取得されます。
+コレクションの詳細タブで、コレクションの実際のエンティティ数を確認できます。この値は、出力フィールドとして [`count(*)`](./count-entities) [を使用するクエリ](./count-entities) によって取得されます。
 
-![L8ImbqFLIonMTxx47WBcF5IbnTf](https://zdoc-images.s3.us-west-2.amazonaws.com/l8imbqflionmtxx47wbcf5ibntf.png "L8ImbqFLIonMTxx47WBcF5IbnTf")
+![PfXfwGQoLhW0OBbVMMfccM0Qnaf](https://zdoc-images.s3.us-west-2.amazonaws.com/PfXfwGQoLhW0OBbVMMfccM0Qnaf.png)
 
-### パーティション{#partitions}
+### パーティション\{#partitions}
 
-コレクションの**パーティション**タブを使用して、子パーティションにロードされたエンティティの推定数を見つけることもできます。この値は`get_partition_stats()`を使用して取得されます。
+コレクションの**パーティション**タブを使用して、子パーティション内にロードされたエンティティの推定数を確認することもできます。この値は `get_partition_stats()` を使用して取得されます。
 
-![Y4Etb0AITotVQNxvzs4cZCHsn9d](https://zdoc-images.s3.us-west-2.amazonaws.com/y4etb0aitotvqnxvzs4czchsn9d.png "Y4Etb0AITotVQNxvzs4cZCHsn9d")
+![LKThwnS2fhTj8vbFJpEcjAMunwf](https://zdoc-images.s3.us-west-2.amazonaws.com/LKThwnS2fhTj8vbFJpEcjAMunwf.png)
 
-## FAQ{#faqs}
+## よくある質問\{#faqs}
 
-- **`get_collection_stats()` または `get_partition_stats()` を使用して取得したエンティティ数が、エンティティを挿入した後もターゲットコレクションまたはパーティション内の実際のエンティティ数を反映しないのはなぜですか？**
+- **get_collection_stats() または get_partition_stats() を使用して取得したエンティティ数が、エンティティを挿入した後でも、対象のコレクションまたはパーティション内の実際のエンティティ数を反映しないのはなぜですか？**
 
-    これらのメソッドは、内部トラッカーが記録したものを報告するだけであり、すべてのデータ操作は非同期であるため、実際のエンティティ数とは異なる場合があります。
+    これらのメソッドは内部トラッカーが記録している内容のみを報告するため、すべてのデータ操作が非同期であることから、実際のエンティティ数と異なる場合があります。
 
-- **エンティティを挿入または削除した後も、コレクションのメトリクスタブのエンティティ数曲線が変化しないのはなぜですか？**
+- **コレクションのメトリクスタブにあるエンティティ数の曲線が、エンティティを挿入または削除しても変化しないのはなぜですか？**
 
-    **エンティティ数**曲線内の値は、特定の時点での推定値です。すべてのデータ操作は非同期であるため、曲線に反映されるまでに遅延が生じる場合があります。
+    **エンティティ数**の曲線の値は特定の時点で推定されたものです。すべてのデータ操作が非同期であるため、曲線に反映されるまでに遅延が生じる可能性があります。
 
-- **エンティティを挿入または削除した後も、コレクションのパーティションタブのエンティティ数 (概算) 列に表示される値が変化しないのはなぜですか？**
+- **コレクションのパーティションタブにあるエンティティ数（概算）列に表示される値が、エンティティを挿入または削除しても変化しないのはなぜですか？**
 
-    リストされたパーティションに表示される値はすべて推定値です。すべてのデータ操作は非同期であるため、曲線に反映されるまでに遅延が生じる場合があります。
+    リストされたパーティションに表示される値はすべて推定値です。すべてのデータ操作が非同期であるため、曲線に反映されるまでに遅延が生じる可能性があります。
 
 - **コレクションの概要タブに表示されるロードされたエンティティの値が、コレクション内の実際のエンティティ数を反映しないのはなぜですか？**
 
-    **ロードされたエンティティ**に表示される値は正確です。この値と通常のクエリから取得されるエンティティ数との間にギャップがある場合、コレクション内の一部のエンティティが同一のプライマリキーを持っている可能性があります。
+    **ロードされたエンティティ**に表示される値は正確です。この値と通常のクエリで取得したエンティティ数との間に差がある場合、コレクション内の一部のエンティティが同一のプライマリキーを持っている可能性があります。
 
-    出力フィールドとして`count(*)` を持つクエリは、同一のプライマリキーを持つエンティティを別々のエンティティとして扱いますが、他のクエリは最終結果を返す前に同一のプライマリキーを持つエンティティを省略することに注意してください。
+    出力フィールドとして `count(*)` を使用するクエリは、同一のプライマリキーを持つエンティティを別々のエンティティとして扱いますが、他のクエリは最終結果を返す前に同一のプライマリキーを持つエンティティを除外します。
 

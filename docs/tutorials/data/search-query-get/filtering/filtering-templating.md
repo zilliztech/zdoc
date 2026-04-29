@@ -1,11 +1,12 @@
 ---
 title: "Filter Templating | Cloud"
 slug: /filtering-templating
-sidebar_label: "Filter Templating"
-beta: FALSE
+sidebar_key: filtering-templating
+sidebar_label: "Template"
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "In Zilliz Cloud, complex filter expressions with numerous elements, especially those involving non-ASCII characters like CJK characters, can significantly affect query performance. To address this, Zilliz Cloud introduces a filter expression templating mechanism designed to improve efficiency by reducing the time spent parsing complex expressions. This page explains using filter expression templating in search, query, and delete operations. | Cloud"
 type: origin

@@ -1,11 +1,12 @@
 ---
 title: "ARRAY Operators | Cloud"
 slug: /array-filtering-operators
-sidebar_label: "ARRAY Operators"
-beta: FALSE
+sidebar_key: array-filtering-operators
+sidebar_label: "Array"
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "Zilliz Cloud provides powerful operators to query array fields, allowing you to filter and retrieve entities based on the contents of arrays. | Cloud"
 type: origin

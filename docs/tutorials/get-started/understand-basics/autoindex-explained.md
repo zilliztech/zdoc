@@ -1,13 +1,14 @@
 ---
 title: "AUTOINDEX Explained | Cloud"
 slug: /autoindex-explained
+sidebar_key: autoindex-explained
 sidebar_label: "AUTOINDEX Explained"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
-description: "Zilliz Cloud offers Performance-optimized and Capacity-optimized clusters. Because of their different purposes, building indexes on these clusters requires different approaches. To save users the trouble of tuning and tweaking index parameters, AUTOINDEX comes into play. | Cloud"
+description: "Zilliz Cloud offers clusters running different configurations. Building indexes on these clusters requires different approaches. To save users the trouble of tuning and tweaking index parameters, AUTOINDEX comes into play. | Cloud"
 type: origin
 token: EA2twSf5oiERMDkriKScU9GInc4
 sidebar_position: 1
@@ -25,21 +26,81 @@ import Admonition from '@theme/Admonition';
 
 # AUTOINDEX Explained
 
-Zilliz Cloud offers Performance-optimized and Capacity-optimized clusters. Because of their different purposes, building indexes on these clusters requires different approaches. To save users the trouble of tuning and tweaking index parameters, **AUTOINDEX** comes into play.
+Zilliz Cloud offers clusters running different configurations. Building indexes on these clusters requires different approaches. To save users the trouble of tuning and tweaking index parameters, **AUTOINDEX** comes into play.
 
-**AUTOINDEX** is a proprietary index type available on Zilliz Cloud that can help you achieve better search performance. Whenever you want to index a vector field in your collection on Zilliz Cloud, **AUTOINDEX** applies.
+**AUTOINDEX** is a proprietary index type available on Zilliz Cloud that can help you achieve better search performance. Whenever you want to index a vector field or a scalar field in your collection on Zilliz Cloud, **AUTOINDEX** applies.
 
 ## Features and benefits\{#features-and-benefits}
 
-**AUTOINDEX** offers a significant performance advantage over open-source Milvus, achieving up to 3x QPS on specific datasets. You can use AUTOINDEX to create indexes on all field types that Zilliz Cloud clusters support, including [Dense Vector](./use-dense-vector), [Binary Vector](./use-binary-vector), and [Binary Vector](./use-binary-vector).
+For vector fields, **AUTOINDEX** offers a significant performance advantage over open-source Milvus, achieving up to 3x QPS on specific datasets. You can use AUTOINDEX to create indexes on all field types that Zilliz Cloud clusters support, including [Dense Vector](./use-dense-vector), [Binary Vector](./use-binary-vector), and [Binary Vector](./use-binary-vector).
+
+For scalar fields, **AUTOINDEX** provides an efficient mapping between field types and the most suitable scalar index types.
+
+<table>
+   <tr>
+     <th><p>Field Type</p></th>
+     <th><p>AUTOINDEX Resolves to</p></th>
+     <th><p>Description</p></th>
+   </tr>
+   <tr>
+     <td><p><code>VARCHAR</code></p></td>
+     <td><p><strong>BITMAP</strong> (C&ast; &lt; 100) / <strong>INVERTED</strong> ( C ≥ 100)</p></td>
+     <td><p>String data type. For details, refer to <a href="./use-string-field">String Field</a>.</p></td>
+   </tr>
+   <tr>
+     <td><p><code>INT8</code>, <code>INT16</code>, <code>INT32</code>, <code>INT64</code></p></td>
+     <td><p><strong>BITMAP</strong> (C &lt; 100) / <strong>STL_SORT</strong> (C ≥ 100)</p></td>
+     <td><p>Integer. For details, refer to <a href="./use-number-field">Boolean & Number</a>.</p></td>
+   </tr>
+   <tr>
+     <td><p><code>FLOAT</code>, <code>DOUBLE</code></p></td>
+     <td><p><strong>BITMAP</strong> (C&ast; &lt; 100) / <strong>INVERTED</strong> ( C ≥ 100)</p></td>
+     <td><p>Floating point. For details, refer to <a href="./use-number-field">Boolean & Number</a>.</p></td>
+   </tr>
+   <tr>
+     <td><p><code>BOOL</code></p></td>
+     <td><p><strong>BITMAP</strong></p></td>
+     <td><p>Boolean. For details, refer to <a href="./use-number-field">Boolean & Number</a>.</p></td>
+   </tr>
+   <tr>
+     <td><p><code>ARRAY</code></p></td>
+     <td><p><strong>BITMAP</strong> (C&ast; &lt; 100) / <strong>INVERTED</strong> ( C ≥ 100)</p></td>
+     <td><p>Homogeneous array of scalar values. For details, refer to <a href="./use-array-fields">Array Field</a>.</p></td>
+   </tr>
+   <tr>
+     <td><p><code>GEOMETRY</code></p></td>
+     <td><p><strong>RTREE</strong></p></td>
+     <td><p>Geometric data that stores spatial information. For details, refer to <a href="./use-geometry-field">Geometry Field</a>.</p></td>
+   </tr>
+   <tr>
+     <td><p><code>TIMESTAMPTZ</code></p></td>
+     <td><p><strong>STL_SORT</strong></p></td>
+     <td><p>time zone-aware ISO 8601 inputs, stored as UTC for consistent filtering and ordering across time zones. For details, refer to <a href="./use-timestamptz-field">TIMESTAMPTZ Field</a>.</p></td>
+   </tr>
+</table>
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>Cardinality (C in the above table) shows the number of unique values in a field across a whole collection. For example, the cardinality of a float field is the number of distinct float values in that field.</p>
+<p>For an array field, the cardinality is the number of <strong>distinct element values</strong> across all arrays in the segment. For example:</p>
+
+```plaintext
+[1, 2, 3]
+[2, 3, 4]
+[1, 4, 5]
+```
+
+<p>The distinct element values are <code>{1, 2, 3, 4, 5}</code> → cardinality = <strong>5</strong>. It flattens all elements from all arrays, then counts unique values — not the number of distinct arrays, nor the array lengths.</p>
+
+</Admonition>
 
 **AUTOINDEX** delivers high performance in these aspects:
 
 - Leverage Single Instruction, Multiple Data (SIMD) to speed up queries and storage, squeezing every possible bit of performance out of machines.
 
-- Optimize data graphing and cropping strategies to significantly reduce the number of data points accessed when searching.
+- Optimize data graphing and cropping strategies to reduce the number of data points accessed when searching.
 
-- Implement a dynamic quantization strategy to reduce distance calculation costs.
+- Implement a dynamic quantization strategy to reduce the cost of distance calculations.
 
 ### Cost efficiency\{#cost-efficiency}
 

@@ -1,86 +1,83 @@
 ---
 title: "API の可用性 | Cloud"
 slug: /api-comparison
+sidebar_key: api-comparison
 sidebar_label: "API の可用性"
 beta: FALSE
 notebook: FALSE
-description: "Zilliz Cloud は、より良いユーザーエクスペリエンスを提供するために、Milvus とは若干異なる動作をします。この記事では、API の観点から両プラットフォームの違いを明確にすることを目的としています。"
+description: "Zilliz Cloud は、より優れたユーザー体験を提供するために Milvus とは若干異なる動作をします。この記事では、両プラットフォーム間の API に関する違いを明確にすることを目的としています。| Cloud"
 type: origin
 token: DAk8w3GCJiuUTTkms6IcMtnAnMf
 sidebar_position: 2
 keywords: 
   - zilliz
-  - ベクターデータベース
+  - ベクトルデータベース
   - cloud
   - milvus
-  - API の可用性
-  - マルチモーダル RAG
-  - LLM のハルシネーション
-  - ハイブリッド検索
-  - 語彙検索
+  - api の可用性
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# APIの可用性
+# API の可用性
 
-Zilliz Cloudは、より良いユーザーエクスペリエンスを提供するために、Milvusとは少し異なる動作をします。この記事では、APIの観点から両プラットフォームの違いを明確にすることを目的としています。
+Zilliz Cloud は、より優れたユーザー体験を提供するために Milvus とはわずかに異なる動作をします。この記事では、両プラットフォーム間の API に関する違いを明確にすることを目的としています。
 
-MilvusからZilliz Cloudへの移行を計画している場合は、レガシーコードにいくつかの必要な変更を加える必要があるかもしれません。
+Milvus から Zilliz Cloud への移行を検討している場合、既存のコードにいくつかの変更を加える必要があるかもしれません。
 
-## シナリオ固有の権限{#scenario-specific-privileges}
+## シナリオ固有の権限\{#scenario-specific-privileges}
 
-以下の表は、さまざまなサービスティアにおけるAPIの可用性を比較したものです。 [Bring Your Own Cloud (BYOC)](/docs/byoc/byoc-intro)ソリューションのAPIの可用性は、**StandardおよびEnterprise**ティアのそれと一致することに注意してください。
+以下の表は、サービスティアごとの API 可用性を比較したものです。[Bring Your Own Cloud (BYOC)](/docs/byoc/byoc-intro) ソリューションの API 可用性は、**Standard および Enterprise** ティアと一致することに注意してください。
 
 <table>
    <tr>
      <th><p><strong>カテゴリ</strong></p></th>
      <th><p><strong>API</strong></p></th>
-     <th><p><strong>コンソール</strong></p></th>
+     <th><p><strong>Console</strong></p></th>
      <th><p><strong>Free</strong></p></th>
      <th><p><strong>Serverless</strong></p></th>
      <th><p><strong>Dedicated / BYOC</strong></p></th>
    </tr>
    <tr>
      <td rowspan="5"><p>エイリアス</p></td>
-     <td><p>alterAlias()</p></td>
+     <td><p>alterエイリアス()</p></td>
      <td><p>✘</p></td>
      <td><p>✘</p></td>
      <td><p>✘</p></td>
      <td><p>✘</p></td>
    </tr>
    <tr>
-     <td><p>createAlias()</p></td>
+     <td><p>createエイリアス()</p></td>
      <td><p>✘</p></td>
      <td><p>✔︎</p></td>
      <td><p>✔︎</p></td>
      <td><p>✔︎</p></td>
    </tr>
    <tr>
-     <td><p>dropAlias()</p></td>
+     <td><p>dropエイリアス()</p></td>
      <td><p>✘</p></td>
      <td><p>✔︎</p></td>
      <td><p>✔︎</p></td>
      <td><p>✔︎</p></td>
    </tr>
    <tr>
-     <td><p>describeAlias()</p></td>
+     <td><p>describeエイリアス()</p></td>
      <td><p>✘</p></td>
      <td><p>✔︎</p></td>
      <td><p>✔︎</p></td>
      <td><p>✔︎</p></td>
    </tr>
    <tr>
-     <td><p>listAliases()</p></td>
+     <td><p>listエイリアスes()</p></td>
      <td><p>✘</p></td>
      <td><p>✔︎</p></td>
      <td><p>✔︎</p></td>
      <td><p>✔︎</p></td>
    </tr>
    <tr>
-     <td rowspan="4"><p>認証</p></td>
+     <td rowspan="4"><p>Authentication</p></td>
      <td><p>createCredential()</p></td>
      <td><p>✔︎</p></td>
      <td><p>✘</p></td>
@@ -109,7 +106,7 @@ MilvusからZilliz Cloudへの移行を計画している場合は、レガシ�
      <td><p>✘</p></td>
    </tr>
    <tr>
-     <td rowspan="3"><p>一括挿入</p></td>
+     <td rowspan="3"><p>BulkInsert</p></td>
      <td><p>bulkInsert()</p></td>
      <td><p>✔︎</p></td>
      <td><p>✘</p></td>
@@ -131,7 +128,7 @@ MilvusからZilliz Cloudへの移行を計画している場合は、レガシ�
      <td><p>✔︎</p></td>
    </tr>
    <tr>
-     <td rowspan="16"><p>コレクション</p></td>
+     <td rowspan="16"><p>Collection</p></td>
      <td><p>getCollectionStatistics()</p></td>
      <td><p>✘</p></td>
      <td><p>✔︎</p></td>
@@ -245,28 +242,28 @@ MilvusからZilliz Cloudへの移行を計画している場合は、レガシ�
    </tr>
    <tr>
      <td rowspan="3"><p>データベース</p></td>
-     <td><p>ListDatabases</p></td>
+     <td><p>Listデータベースs</p></td>
      <td><p>✔︎</p></td>
      <td><p>✘</p></td>
      <td><p>✘</p></td>
      <td><p>✔︎</p></td>
    </tr>
    <tr>
-     <td><p>DropDatabase</p></td>
+     <td><p>Dropデータベース</p></td>
      <td><p>✔︎</p></td>
      <td><p>✘</p></td>
      <td><p>✘</p></td>
      <td><p>✔︎</p></td>
    </tr>
    <tr>
-     <td><p>CreateDatabase</p></td>
+     <td><p>Createデータベース</p></td>
      <td><p>✔︎</p></td>
      <td><p>✘</p></td>
      <td><p>✘</p></td>
      <td><p>✔︎</p></td>
    </tr>
    <tr>
-     <td rowspan="5"><p>インデックス</p></td>
+     <td rowspan="5"><p>Index</p></td>
      <td><p>createIndex()</p></td>
      <td><p>✔︎</p></td>
      <td><p>✔︎</p></td>
@@ -302,7 +299,7 @@ MilvusからZilliz Cloudへの移行を計画している場合は、レガシ�
      <td><p>✔︎</p></td>
    </tr>
    <tr>
-     <td rowspan="6"><p>管理</p></td>
+     <td rowspan="6"><p>Management</p></td>
      <td><p>getCompactionState()</p></td>
      <td><p>✘</p></td>
      <td><p>✔︎</p></td>
@@ -345,7 +342,7 @@ MilvusからZilliz Cloudへの移行を計画している場合は、レガシ�
      <td><p>✔︎</p></td>
    </tr>
    <tr>
-     <td rowspan="7"><p>パーティション</p></td>
+     <td rowspan="7"><p>Partition</p></td>
      <td><p>createPartition()</p></td>
      <td><p>✔︎</p></td>
      <td><p>✔︎</p></td>
@@ -374,28 +371,28 @@ MilvusからZilliz Cloudへの移行を計画している場合は、レガシ�
      <td><p>✔︎</p></td>
    </tr>
    <tr>
-     <td><p>loadPartitions()</p></td>
+     <td><p>loadパーティション()</p></td>
      <td><p>✘</p></td>
      <td><p>✔︎</p></td>
      <td><p>✔︎</p></td>
      <td><p>✔︎</p></td>
    </tr>
    <tr>
-     <td><p>releasePartitions()</p></td>
+     <td><p>releaseパーティション()</p></td>
      <td><p>✘</p></td>
      <td><p>✔︎</p></td>
      <td><p>✔︎</p></td>
      <td><p>✔︎</p></td>
    </tr>
    <tr>
-     <td><p>showPartitions()</p></td>
+     <td><p>showパーティション()</p></td>
      <td><p>✔︎</p></td>
      <td><p>✔︎</p></td>
      <td><p>✔︎</p></td>
      <td><p>✔︎</p></td>
    </tr>
    <tr>
-     <td rowspan="2"><p>検索とクエリ</p></td>
+     <td rowspan="2"><p>Search & Query</p></td>
      <td><p>search()</p></td>
      <td><p>✔︎</p></td>
      <td><p>✔︎</p></td>
@@ -410,64 +407,64 @@ MilvusからZilliz Cloudへの移行を計画している場合は、レガシ�
      <td><p>✔︎</p></td>
    </tr>
    <tr>
-     <td rowspan="12"><p>ロールベースアクセス制御 (RBAC)</p></td>
-     <td><p>addUserToRole()</p></td>
+     <td rowspan="12"><p>ロール-based access control (RBAC)</p></td>
+     <td><p>addUserToロール()</p></td>
      <td><p>✔︎</p></td>
      <td><p>✘</p></td>
      <td><p>✘</p></td>
      <td><p>✔︎</p></td>
    </tr>
    <tr>
-     <td><p>createRole()</p></td>
+     <td><p>createロール()</p></td>
      <td><p>✔︎</p></td>
      <td><p>✘</p></td>
      <td><p>✘</p></td>
      <td><p>✔︎</p></td>
    </tr>
    <tr>
-     <td><p>dropRole()</p></td>
+     <td><p>dropロール()</p></td>
      <td><p>✔︎</p></td>
      <td><p>✘</p></td>
      <td><p>✘</p></td>
      <td><p>✔︎</p></td>
    </tr>
    <tr>
-     <td><p>grantRolePrivilege()</p></td>
+     <td><p>grantロールPrivilege()</p></td>
      <td><p>✔︎</p></td>
      <td><p>✘</p></td>
      <td><p>✘</p></td>
      <td><p>✘</p></td>
    </tr>
    <tr>
-     <td><p>removeUserFromRole()</p></td>
+     <td><p>removeUserFromロール()</p></td>
      <td><p>✔︎</p></td>
      <td><p>✘</p></td>
      <td><p>✘</p></td>
      <td><p>✔︎</p></td>
    </tr>
    <tr>
-     <td><p>revokeRolePrivilege()</p></td>
+     <td><p>revokeロールPrivilege()</p></td>
      <td><p>✔︎</p></td>
      <td><p>✘</p></td>
      <td><p>✘</p></td>
      <td><p>✘</p></td>
    </tr>
    <tr>
-     <td><p>selectGrantForRole()</p></td>
+     <td><p>selectGrantForロール()</p></td>
      <td><p>✔︎</p></td>
      <td><p>✘</p></td>
      <td><p>✘</p></td>
      <td><p>✔︎</p></td>
    </tr>
    <tr>
-     <td><p>selectGrantForRoleAndObject()</p></td>
+     <td><p>selectGrantForロールAndObject()</p></td>
      <td><p>✔︎</p></td>
      <td><p>✘</p></td>
      <td><p>✘</p></td>
      <td><p>✔︎</p></td>
    </tr>
    <tr>
-     <td><p>selectRole()</p></td>
+     <td><p>selectロール()</p></td>
      <td><p>✔︎</p></td>
      <td><p>✘</p></td>
      <td><p>✘</p></td>
@@ -495,7 +492,7 @@ MilvusからZilliz Cloudへの移行を計画している場合は、レガシ�
      <td><p>✔︎</p></td>
    </tr>
    <tr>
-     <td rowspan="2"><p>システム</p></td>
+     <td rowspan="2"><p>System</p></td>
      <td><p>getVersion()</p></td>
      <td><p>✔︎</p></td>
      <td><p>✔︎</p></td>

@@ -1,11 +1,12 @@
 ---
 title: "Single Sign-on (SSO) | Cloud"
 slug: /single-sign-on
+sidebar_key: single-sign-on
 sidebar_label: "Single Sign-on (SSO)"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "Single sign-on (SSO) is a feature that allows users to log in to multiple applications or services with a single set of credentials, rather than requiring separate logins for each. | Cloud"
 type: origin

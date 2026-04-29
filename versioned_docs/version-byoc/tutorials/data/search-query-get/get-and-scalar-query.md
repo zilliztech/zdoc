@@ -1,11 +1,12 @@
 ---
 title: "Query | BYOC"
 slug: /get-and-scalar-query
+sidebar_key: get-and-scalar-query
 sidebar_label: "Query"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "In addition to ANN searches, Zilliz Cloud also supports metadata filtering through queries. This page introduces how to use Query, Get, and QueryIterators to perform metadata filtering. | BYOC"
 type: origin
@@ -238,6 +239,8 @@ curl --request POST \
 
 ## Use Query\{#use-query}
 
+### Basic Query\{#basic-query}
+
 When you need to find entities by custom filtering conditions, use the **Query** method. The following code examples assume there are three fields named `id`, `vector`, and `color` and return the specified number of entities that hold a `color` value starting with `red`.
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
@@ -344,6 +347,197 @@ curl --request POST \
     "outputFields": ["vector", "color"]
 }'
 #{"code":0,"cost":0,"data":[{"color":"red_7025","id":1,"vector":[0.19886813,0.060235605,0.6976963,0.26144746,0.8387295]},{"color":"red_4794","id":4,"vector":[0.44523495,-0.8757027,0.82207793,0.4640629,0.3033748]},{"color":"red_9392","id":6,"vector":[0.8371978,-0.015764369,-0.31062937,-0.56266695,-0.8984948]}]}
+```
+
+</TabItem>
+</Tabs>
+
+### Sort Query Results | Private Preview\{#sort-query-results}
+
+By default, Query returns results in an unspecified order. Use the `order_by` parameter to sort results by one or more scalar fields. When using `order_by`, note that:
+
+- `order_by` must be used together with `limit`.
+
+- Supported field types: `INT8`, `INT16`, `INT32`, `INT64`, `FLOAT`, `DOUBLE`, and `VARCHAR`. Sorting by vector, `JSON`, or `ARRAY` fields is not supported.
+
+- When sorting by a nullable field, NULL values are placed at the end for ascending order (NULLS LAST) and at the beginning for descending order (NULLS FIRST).
+
+#### Basic Sort\{#basic-sort}
+
+Pass a list of `"field_name:direction"` strings to the `order_by` parameter, where `direction` is either `asc` (ascending) or `desc` (descending). Note that `asc` and `desc` are case-sensitive.
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
+from pymilvus import MilvusClient
+
+client = MilvusClient(
+    uri="YOUR_CLUSTER_ENDPOINT",
+    token="YOUR_CLUSTER_TOKEN"
+)
+
+# Sort results by id in ascending order
+res = client.query(
+    collection_name="my_collection",
+    filter="color like \"red%\"",
+    output_fields=["vector", "color"],
+    limit=3,
+    # highlight-next-line
+    order_by=["id:asc"],
+)
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// java
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// nodejs
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+```
+
+</TabItem>
+</Tabs>
+
+#### Multi-field Sort\{#multi-field-sort}
+
+You can sort by multiple fields at once. Results are first ordered by the first field in the list. When two rows have the same value in that field, the second field determines their order, and so on.
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
+# Sort by rating descending, then by price ascending for ties
+res = client.query(
+    collection_name="my_collection",
+    filter="",
+    output_fields=["color", "rating", "price"],
+    limit=10,
+    # highlight-next-line
+    order_by=["rating:desc", "price:asc"],
+)
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// java
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// nodejs
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+```
+
+</TabItem>
+</Tabs>
+
+#### Pagination with Sort\{#pagination-with-sort}
+
+Use `order_by` together with `limit` and `offset` to paginate through sorted results. For example, to display a product list sorted by price across multiple pages, each page shows the next batch of items in the correct price order without duplicates or gaps.
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
+# Page 1
+page1 = client.query(
+    collection_name="my_collection",
+    filter="color like \"red%\"",
+    output_fields=["color", "price"],
+    limit=5,
+    offset=0,
+    # highlight-next-line
+    order_by=["price:asc"],
+)
+
+# Page 2
+page2 = client.query(
+    collection_name="my_collection",
+    filter="color like \"red%\"",
+    output_fields=["color", "price"],
+    limit=5,
+    offset=5,
+    # highlight-next-line
+    order_by=["price:asc"],
+)
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// java
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// nodejs
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
 ```
 
 </TabItem>
@@ -763,7 +957,7 @@ if err != nil {
 </TabItem>
 </Tabs>
 
-## Temporarily set a timezone for a query\{#temporarily-set-a-timezone-for-a-query}
+## Temporarily Set a Timezone for a Query\{#temporarily-set-a-timezone-for-a-query}
 
 If your collection has a `TIMESTAMPTZ` field, you can temporarily override the database or collection default timezone for a single operation by setting the `timezone` parameter in the query call. This controls how `TIMESTAMPTZ` values are displayed and compared during the operation.
 

@@ -1,11 +1,12 @@
 ---
 title: "Voyage AI Ranker | Cloud"
 slug: /voyage-ai-model-ranker
+sidebar_key: voyage-ai-model-ranker
 sidebar_label: "Voyage AI Ranker"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "The Voyage AI Ranker leverages Voyage AI's and search applications. | Cloud"
 type: origin

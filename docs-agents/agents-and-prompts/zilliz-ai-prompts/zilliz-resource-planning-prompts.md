@@ -1,11 +1,12 @@
 ---
 title: "Resource Planning | Cloud"
 slug: /zilliz-resource-planning-prompts
+sidebar_key: zilliz-resource-planning-prompts
 sidebar_label: "Resource Planning"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "You can use this prompt for AI-powered IDEs, helping AI assistants implement Zilliz Cloud features correctly and efficiently. | Cloud"
 type: origin

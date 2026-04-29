@@ -1,11 +1,12 @@
 ---
 title: "JSON Field | Cloud"
 slug: /use-json-fields
-sidebar_label: "JSON Field"
-beta: FALSE
+sidebar_key: use-json-fields
+sidebar_label: "JSON"
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "This chapter introduces the JSON field type, and provides guides on how to index a JSON field. | Cloud"
 type: origin

@@ -1,11 +1,12 @@
 ---
 title: "Deploy BYOC-I on Microsoft Azure | BYOC"
 slug: /deploy-byoc-i-azure
+sidebar_key: deploy-byoc-i-azure
 sidebar_label: "Deploy BYOC-I on Microsoft Azure"
-beta: CONTACT SALES
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: CONTACT SALES
 notebook: FALSE
 description: "This page explains how to deploy a Bring-Your-Own-Cloud (BYOC) data plane with a BYOC agent in your Microsoft Azure Virtual Network. | BYOC"
 type: origin

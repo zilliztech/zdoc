@@ -1,11 +1,12 @@
 ---
 title: "Import from NumPy Files | Cloud"
 slug: /data-import-numpy
+sidebar_key: data-import-numpy
 sidebar_label: "NumPy"
-beta: NEAR DEPRECATE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "The `.npy` format is NumPy's standard binary format](https//numpy.org/devdocs/reference/generated/numpy.lib.format.html) for saving a single array, including its shape and dtype information, ensuring it can be correctly reconstructed on different machines.  You are advised to use [the BulkWriter tool to prepare your raw data into Parquet files. The following figure demonstrates how your raw data can be mapped into a set of `.npy` file. | Cloud"
 type: origin

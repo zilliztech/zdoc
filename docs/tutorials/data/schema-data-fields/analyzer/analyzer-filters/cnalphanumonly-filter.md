@@ -1,11 +1,12 @@
 ---
 title: "Cnalphanumonly | Cloud"
 slug: /cnalphanumonly-filter
+sidebar_key: cnalphanumonly-filter
 sidebar_label: "Cnalphanumonly"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "The `cnalphanumonly` filter removes tokens that contain any characters other than Chinese characters, English letters, or digits. | Cloud"
 type: origin

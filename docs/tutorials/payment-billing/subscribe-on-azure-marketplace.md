@@ -1,11 +1,12 @@
 ---
 title: "Subscribe on Azure Marketplace | Cloud"
 slug: /subscribe-on-azure-marketplace
+sidebar_key: subscribe-on-azure-marketplace
 sidebar_label: "Azure Marketplace"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "This guide provides a step-by-step walkthrough of the subscription process and outlines the pricing terms of Zilliz Cloud on Azure Marketplace. | Cloud"
 type: origin

@@ -1,11 +1,12 @@
 ---
 title: "Length | BYOC"
 slug: /length-filter
+sidebar_key: length-filter
 sidebar_label: "Length"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "The `length` filter removes tokens that do not meet specified length requirements, allowing you to control the length of tokens retained during text processing. | BYOC"
 type: origin

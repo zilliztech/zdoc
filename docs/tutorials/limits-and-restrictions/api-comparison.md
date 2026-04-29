@@ -1,11 +1,12 @@
 ---
 title: "API Availability | Cloud"
 slug: /api-comparison
+sidebar_key: api-comparison
 sidebar_label: "API Availability"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "Zilliz Cloud operates slightly differently from Milvus in order to provide a better user experience. This article aims to clarify the differences between the two platforms in terms of APIs. | Cloud"
 type: origin
@@ -31,7 +32,7 @@ If you are planning to migrate from Milvus to Zilliz Cloud, you may need to make
 
 ## Scenario-specific privileges\{#scenario-specific-privileges}
 
-The table below provides a comparison of API availability across various service tiers. Note that the availability of the API for the [Bring Your Own Cloud (BYOC)](/docs/byoc/byoc-intro) solution is consistent with that of the **Standard and Enterprise** tiers.
+The table below compares API availability across service tiers. Note that the API availability for the [Bring Your Own Cloud (BYOC)](/docs/byoc/byoc-intro) solution is consistent with that of the **Standard and Enterprise** tiers.
 
 <table>
    <tr>

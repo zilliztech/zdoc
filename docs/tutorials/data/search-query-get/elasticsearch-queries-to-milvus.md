@@ -1,11 +1,12 @@
 ---
 title: "Elasticsearch Queries to Milvus | Cloud"
 slug: /elasticsearch-queries-to-milvus
+sidebar_key: elasticsearch-queries-to-milvus
 sidebar_label: "Elasticsearch Queries to Milvus"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "Elasticsearch, built on Apache Lucene, is a leading open-source search engine. However, it faces challenges in modern AI applications, including high update costs, poor real-time performance, inefficient shard management, a non-cloud-native design, and excessive resource demands. As a cloud-native vector database, Milvus overcomes these issues with decoupled storage and computing, efficient indexing for high-dimensional data, and seamless integration with modern infrastructures. It offers superior performance and scalability for AI workloads. | Cloud"
 type: origin

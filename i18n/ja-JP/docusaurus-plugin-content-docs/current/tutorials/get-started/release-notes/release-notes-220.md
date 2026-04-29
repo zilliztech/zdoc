@@ -1,66 +1,63 @@
 ---
-title: "リリースノート (2023年9月13日) | Cloud"
+title: "リリースノート（2023 年 9 月 13 日） | Cloud"
 slug: /release-notes-220
-sidebar_label: "2023年9月13日"
+sidebar_key: release-notes-220
+sidebar_label: "2023 年 9 月 13 日"
 beta: FALSE
 notebook: FALSE
-description: "Zilliz Cloudは、Zilliz Cloudクラスター間およびElasticSearchからのデータ移行、新しいチケットシステムの稼働、強化されたデータインポート機能など、ユーザーエクスペリエンスを向上させるために設計された一連の新機能を誇るリリースを発表できることを嬉しく思います。 | Cloud"
+description: "Zilliz Cloud の新リリースをお知らせいたします。本アップデートでは、Zilliz Cloud クラスター間および ElasticSearch からのデータ移行機能、新しいチケットシステムの導入、データインポート機能の強化など、ユーザーエクスペリエンスを向上させる多数の新機能を搭載しています。 | Cloud"
 type: origin
 token: GqyhwKVspiYRwDk8OaucNfgJnhd
-sidebar_position: 25
+sidebar_position: 27
 keywords: 
-  - Zilliz
+  - zilliz
   - ベクトルデータベース
-  - クラウド
+  - cloud
   - リリースノート
-  - ベクトル検索
-  - 音声類似性検索
-  - Elastic ベクトルデータベース
-  - Pinecone vs Milvus
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# リリースノート (2023年9月13日)
+# リリースノート（2023年9月13日）
 
-Zilliz Cloudのリリースを発表できることを嬉しく思います。Zilliz Cloudクラスター間およびElasticSearchからのデータ移行、新しいチケットシステムの稼働、データインポート機能の強化など、ユーザーエクスペリエンスを向上させるために設計された一連の新機能が搭載されています。
+Zilliz Cloud の新リリースをお知らせします。本リリースでは、ユーザー体験を向上させるための新機能が多数追加されており、Zilliz Cloud クラスター間および ElasticSearch からのデータ移行機能、新たに導入されたチケットシステム、強化されたデータインポート機能などが含まれます。
 
-## Milvus互換性{#milvus-compatibility}
+## Milvus 互換性\{#milvus-compatibility}
 
 このリリースは **Milvus 2.2.x** と互換性があります。
 
-## 概要{#overview}
+## 概要\{#overview}
 
-このリリースでは、新しく立ち上げられたチケットシステムが導入され、迅速かつ効率的なサポートが保証されます。さらに、更新されたデータインポートおよび移行ツールにより、Zilliz Cloudクラスター間のシームレスな移行が可能になり、複数のファイルを一度にインポートするためのサポートが改善されました。これらのツールを探索し、その利点を直接体験していただくことをお勧めします。
+本リリースでは、新たにチケットシステムを導入し、迅速かつスムーズなサポートを実現しました。さらに、更新されたデータインポートおよび移行ツールにより、Zilliz Cloud クラスター間でのシームレスな移行が可能になり、複数ファイルの一括インポートもより簡単にサポートされるようになりました。ぜひこれらのツールをお試しいただき、そのメリットを体感してください。
 
-## Zilliz Cloudクラスター間のデータ移行{#data-migration-across-zilliz-cloud-clusters}
+## Zilliz Cloud クラスター間でのデータ移行\{#data-migration-across-zilliz-cloud-clusters}
 
-このリリースでは、ユーザーはZilliz Cloud内でデータを簡単に移行できる合理化された機能を利用でき、効率的なデータ統合、構成、およびバランスを確保できます。
+今回のリリースにより、ユーザーは Zilliz Cloud 内でデータを簡単に移行できるようになり、効率的なデータ統合、設定、負荷分散が可能になります。
 
-- 簡単な移行: 複数のZilliz Cloudクラスター間でデータをシームレスに移行します。
+- 簡単な移行: 複数の Zilliz Cloud クラスター間でデータをシームレスに移動できます。
 
-- セキュリティの強化: 移行中のデータセキュリティを強化し、データの整合性と機密性を保護します。
+- 強化されたセキュリティ: 移行中のデータセキュリティを強化し、データの整合性と機密性を保護します。
 
-- リアルタイム監視: ユーザーが移行の進行状況を監視し、ステータス更新を即座に受け取るための直感的なUI。
+- リアルタイム監視: 直感的な UI を通じて、ユーザーは移行の進捗状況をリアルタイムで監視し、ステータス更新を即座に受け取れます。
 
-詳細は[クラスター間の移行](./offline-migration)をご覧ください。
+詳細については、[クラスター間の移行](./offline-migration)をご覧ください。
 
-## ElasticSearchからZilliz Cloudへの簡単な移行{#easy-migration-from-elasticsearch-to-zilliz-cloud}
+## ElasticSearch から Zilliz Cloud への簡単な移行\{#easy-migration-from-elasticsearch-to-zilliz-cloud}
 
-ElasticSearchからZilliz Cloudへの移行がこれまでになく簡単になりました。包括的なドキュメントと組み込みツールで補完されたパスを作成し、スムーズな切り替えと移行後の一貫したデータを保証します。詳細は[Elasticsearchからの移行](./migrate-from-elasticsearch)をご覧ください。
+ElasticSearch から Zilliz Cloud への移行がこれまでになく簡単になりました。包括的なドキュメントと組み込みツールを用意し、スムーズな切り替えと移行後のデータの一貫性を保証します。詳細については、[Elasticsearch からの移行](./migrate-from-elasticsearch)をご確認ください。
 
-## 新しいチケットシステムの稼働{#new-ticket-system-go-live}
+## 新チケットシステムの提供開始\{#new-ticket-system-go-live}
 
-当社の新しいチケットシステムは、Zilliz Cloudユーザーに当社のチームへの直接チャネルを提供します。フィードバックの送信、問題の報告、専門家によるサポートのいずれの場合でも、効率性と明確性を考慮してシステムを設計しました。[今すぐチケットシステムを探索し、合理化されたサポートを体験してください。](https://support.zilliz.com/hc/en-us/)
+新たに導入されたチケットシステムにより、Zilliz Cloud ユーザーは当社チームへ直接連絡できるチャネルを獲得しました。フィードバックの送信、問題の報告、専門的なサポートの依頼など、どのような場合でも効率的かつ明確な対応を実現するよう設計されています。[今すぐチケットシステムをご利用いただき、スムーズなサポートを体験してください。](https://support.zilliz.com/hc/en-us/)
 
-## データインポート機能の強化{#enhanced-data-import-capabilities}
+## 強化されたデータインポート機能\{#enhanced-data-import-capabilities}
 
-Zilliz Cloudへのデータのインポート方法を革新しました。
+Zilliz Cloud へのデータインポート方法を大幅に改善しました。
 
-- フォルダーインポート: 以前の単一ファイルモードの制約から解放されます。ファイル全体のフォルダーを使用してデータをインポートできるようになり、大量のデータ取り込みが合理化されます。
+- フォルダインポート: これまでの単一ファイルモードの制限から解放され、複数ファイルを含むフォルダ全体を一度にインポートできるようになり、大量データの取り込みが効率化されます。
 
-- インポートタスク監視: Zilliz Cloud Webコンソールを介してデータインポートタスクをリアルタイムで監視し、データアップロードの透明性と制御を確保します。
+- インポートタスクの監視: Zilliz Cloud Web コンソールを通じて、データインポートタスクをリアルタイムで監視でき、データアップロードの透明性とコントロールが確保されます。
 
-詳細は[データインポートの準備](./prepare-data-import)をご覧ください。
+詳細については、[データインポートの準備](./prepare-data-import)をご確認ください。

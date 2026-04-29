@@ -1,10 +1,11 @@
 ---
 title: "Alphanumonly | Cloud"
 slug: /alphanumonly-filter
+sidebar_key: alphanumonly-filter
 sidebar_label: "Alphanumonly"
 beta: FALSE
 notebook: FALSE
-description: "`alphanumonly` フィルターは、非ASCII文字を含むトークンを削除し、英数字のみを保持します。このフィルターは、特殊文字や記号を除外し、基本的な文字と数字のみが関連するテキストを処理するのに役立ちます。 | Cloud"
+description: "`alphanumonly` フィルターは、非 ASCII 文字を含むトークンを除去し、英数字の項のみを保持します。このフィルターは、特殊文字や記号を除外して基本的な文字と数字のみを処理する必要があるテキストの処理に役立ちます。| Cloud"
 type: origin
 token: BZkiw99tkiDkLXktLhqcJtjKnmb
 sidebar_position: 3
@@ -15,12 +16,8 @@ keywords:
   - collection
   - schema
   - analyzer
-  - 組み込みフィルター
+  - built-in filters
   - alphanumonly
-  - 類似性検索
-  - マルチモーダルRAG
-  - LLMの幻覚
-  - ハイブリッド検索
 
 ---
 
@@ -28,13 +25,13 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Alphanumonly
+# アルファnumonly
 
-`alphanumonly` フィルターは、非 ASCII 文字を含むトークンを削除し、英数字のみを保持します。このフィルターは、基本的な文字と数字のみが関連し、特殊文字や記号を除外するテキストを処理する場合に役立ちます。
+`alphanumonly` フィルターは、非ASCII文字を含むトークンを削除し、英数字のみの語彙を保持します。このフィルターは、特殊文字や記号を除外し、基本的なアルファベットと数字のみが関連するテキストの処理に役立ちます。
 
-## 設定{#configuration}
+## 設定\{#configuration}
 
-`alphanumonly` フィルターは Zilliz Cloud に組み込まれています。これを使用するには、`analyzer_params` 内の `filter` セクションでその名前を指定するだけです。
+`alphanumonly` フィルターは Zilliz Cloud に組み込まれています。使用するには、`analyzer_params` 内の `filter` セクションでその名前を指定するだけです。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -58,7 +55,7 @@ analyzerParams.put("filter", Collections.singletonList("alphanumonly"));
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 const analyzer_params = {
@@ -69,7 +66,7 @@ const analyzer_params = {
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 analyzerParams = map[string]any{"tokenizer": "standard", "filter": []any{"alphanumonly"}}
@@ -77,7 +74,7 @@ analyzerParams = map[string]any{"tokenizer": "standard", "filter": []any{"alphan
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 # restful
@@ -93,15 +90,15 @@ analyzerParams='{
 </TabItem>
 </Tabs>
 
-`alphanumonly` フィルターはトークナイザーによって生成された用語に対して動作するため、トークナイザーと組み合わせて使用する必要があります。Zilliz Cloud で利用可能なトークナイザーのリストについては、[トークナイザーリファレンス](./analyzer-tokenizers)を参照してください。
+`alphanumonly` フィルターはトークナイザーによって生成された語彙項に対して動作するため、トークナイザーと組み合わせて使用する必要があります。Zilliz Cloud で利用可能なトークナイザーの一覧については、[トークナイザー Reference](./analyzer-tokenizers) を参照してください。
 
-`analyzer_params` を定義した後、コレクションスキーマを定義する際に `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud は指定されたアナライザーを使用してそのフィールドのテキストを処理し、効率的なトークン化とフィルタリングを行うことができます。詳細については、[使用例](./analyzer-overview#example-use)を参照してください。
+`analyzer_params` を定義した後、コレクションスキーマを定義する際に `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud はそのフィールド内のテキストを指定されたアナライザーを使用して処理し、効率的なトークン化とフィルタリングを実現します。詳細については、[Example use](./analyzer-overview#example-use) を参照してください。
 
-## 例{#examples}
+## 例\{#examples}
 
-アナライザー設定をコレクションスキーマに適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
+コレクションスキーマにアナライザー設定を適用する前に、`run_analyzer` メソッドを使用してその動作を検証してください。
 
-### アナライザー設定{#analyzer-configuration}
+### アナライザー設定\{#analyzer-configuration}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -125,7 +122,7 @@ analyzerParams.put("filter", Collections.singletonList("alphanumonly"));
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 // javascript
@@ -133,7 +130,7 @@ analyzerParams.put("filter", Collections.singletonList("alphanumonly"));
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 analyzerParams = map[string]any{"tokenizer": "standard", "filter": []any{"alphanumonly"}}
@@ -141,7 +138,7 @@ analyzerParams = map[string]any{"tokenizer": "standard", "filter": []any{"alphan
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 # restful
@@ -150,7 +147,7 @@ analyzerParams = map[string]any{"tokenizer": "standard", "filter": []any{"alphan
 </TabItem>
 </Tabs>
 
-### `run_analyzer` を使用した検証 {#verification-using-runanalyzer}
+### `run_analyzer` を使用した検証\{#verification-using-runanalyzer}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -201,7 +198,7 @@ List<RunAnalyzerResp.AnalyzerResult> results = resp.getResults();
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 // javascript
@@ -209,7 +206,7 @@ List<RunAnalyzerResp.AnalyzerResult> results = resp.getResults();
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 import (
@@ -243,7 +240,7 @@ if err != nil {
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 # restful
@@ -252,7 +249,7 @@ if err != nil {
 </TabItem>
 </Tabs>
 
-### 期待される出力結果\{#expected-output}
+### 期待される出力\{#expected-output}
 
 ```python
 ['Milvus', '2', '0', 'Scale', 'AI', 'Vector']

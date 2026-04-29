@@ -1,11 +1,12 @@
 ---
 title: "Voyage AI | Cloud"
 slug: /voyage-ai
+sidebar_key: voyage-ai
 sidebar_label: "Voyage AI"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "This topic describes how to configure and use Voyage AI embedding functions in Milvus. | Cloud"
 type: origin

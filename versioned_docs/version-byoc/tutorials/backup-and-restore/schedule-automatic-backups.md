@@ -1,11 +1,12 @@
 ---
 title: "Schedule Automatic Backups | BYOC"
 slug: /schedule-automatic-backups
+sidebar_key: schedule-automatic-backups
 sidebar_label: "Schedule Automatic Backups"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "Zilliz Cloud allows you to enable automatic backups for your clusters, helping ensure data recovery in case of unexpected issues. Automatic backups apply to the entire cluster—backing up individual collections automatically is not supported. | BYOC"
 type: origin
@@ -88,33 +89,6 @@ curl --request POST \
     "startTime": "02:00-04:00",
     "retentionDays": 7,
     "enabled": true
-}'
-```
-
-To also create cross-region copies for any backups created using the above policy, do as follows:
-
-```bash
-curl --request POST \
---url "${BASE_URL}/v2/clusters/${CLUSTER_ID}/backups/policy" \
---header "Authorization: Bearer ${TOKEN}" \
---header "Content-Type: application/json" \
--d '{
-    "frequency": "1,2,3,5",
-    "startTime": "02:00-04:00",
-    "retentionDays": 7,
-    "enabled": true,
-    "crossRegionPolicies": [
-        {
-            "regionId": "aws-us-west-2",
-            "retentionDays": 7,
-            "region": "us-west-2"
-        },
-        {
-            "regionId": "aws-us-east-1",
-            "retentionDays": 7,
-            "region": "us-east-1"
-        }
-    ]
 }'
 ```
 

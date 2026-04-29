@@ -1,10 +1,11 @@
 ---
 title: "オフライン移行 | BYOC"
 slug: /offline-migration
+sidebar_key: offline-migration
 sidebar_label: "オフライン移行"
 beta: FALSE
 notebook: FALSE
-description: "オフライン移行は、既存のすべてのデータをソースのZilliz CloudクラスターからターゲットのZilliz Cloudクラスターに転送します。この方法は、同じ組織内および異なる組織間の両方の移行をサポートします。計画的なメンテナンスや小規模なデータベース移行など、一時的な書き込み中断が許容されるシナリオに最適です。 | BYOC"
+description: "オフライン移行は、既存のデータをソース Zilliz Cloud クラスターからターゲット Zilliz Cloud クラスターへすべて転送します。この方法は、同一組織内および異なる組織間での移行をサポートしています。計画されたメンテナンスや小規模なデータベース移行など、一時的な書き込み中断が許容されるシナリオに最適です。 | BYOC"
 type: origin
 token: MTqjwwUKhiyns4kGV7Lc7PRlnwb
 sidebar_position: 1
@@ -15,10 +16,6 @@ keywords:
   - 移行
   - クラスター
   - オフライン
-  - HNSW
-  - 非構造化データとは
-  - ベクトル埋め込み
-  - ベクトルストア
 
 ---
 
@@ -29,11 +26,11 @@ import Supademo from '@site/src/components/Supademo';
 
 # オフライン移行
 
-オフライン移行は、ソース Zilliz Cloud クラスターからターゲット Zilliz Cloud クラスターへ既存のすべてのデータを転送します。この方法は、同じ組織内および異なる組織間の両方での移行をサポートします。計画的なメンテナンスや小規模なデータベース移行など、一時的な書き込み中断が許容されるシナリオに最適です。
+オフライン移行は、既存のすべてのデータをソース Zilliz Cloud クラスターからターゲット Zilliz Cloud クラスターへ転送します。この方法は、同一組織内および異なる組織間での移行をサポートしています。計画されたメンテナンスや小規模なデータベース移行など、一時的な書き込み中断が許容されるシナリオに最適です。
 
-## 移行機能{#migration-capabilities}
+## 移行機能\{#migration-capabilities}
 
-### 移行範囲オプション{#migration-scope-options}
+### 移行スコープのオプション\{#migration-scope-options}
 
 <table>
    <tr>
@@ -42,32 +39,32 @@ import Supademo from '@site/src/components/Supademo';
      <th><p>ユースケース</p></th>
    </tr>
    <tr>
-     <td><p>同じプロジェクト内</p></td>
-     <td><p>同じ Zilliz Cloud プロジェクト内の既存のクラスター間で移行</p></td>
-     <td><p>クラスターのアップグレード、パフォーマンス最適化、データ統合</p></td>
+     <td><p>同一プロジェクト内</p></td>
+     <td><p>同一 Zilliz Cloud プロジェクト内の既存クラスター間で移行</p></td>
+     <td><p>クラスターのアップグレード、パフォーマンス最適化、データの統合</p></td>
    </tr>
    <tr>
      <td><p>プロジェクト間または組織間</p></td>
-     <td><p>異なる Zilliz Cloud プロジェクトまたは組織内の既存のクラスター間で移行</p></td>
-     <td><p>企業合併、部門間移動、マルチテナントシナリオ</p></td>
+     <td><p>異なる Zilliz Cloud プロジェクトまたは組織内の既存クラスター間で移行</p></td>
+     <td><p>企業の合併、部門の移管、マルチテナントシナリオ</p></td>
    </tr>
 </table>
 
-### 直接データ転送{#direct-data-transfer}
+### 直接データ転送\{#direct-data-transfer}
 
-オフライン移行は、Zilliz Cloud クラスター間で直接データレプリケーションを実行し、以下の特徴を持ちます。
+オフライン移行は、Zilliz Cloud クラスター間で直接的なデータレプリケーションを実行し、以下の特徴があります：
 
-- **schema の保持**: ソース schema は変更されずにターゲットクラスターに転送されます。
+- **スキーマの保持**: ソーススキーマが変更されずにターゲットクラスターへ転送されます
 
-- **フィールドの変更なし**: 移行中にフィールド名の変更、データ型の変更、フィールド属性の変更はできません。
+- **フィールドの変更なし**: 移行中にフィールドの名前変更、データ型の変更、またはフィールド属性の変更はできません
 
-- **自動インデックス作成**: ターゲットクラスターのベクトルフィールドには AUTOINDEX が自動的に作成されます。
+- **自動インデックス作成**: AUTOINDEX がターゲットクラスターの ベクトルフィールド に対して自動的に作成されます
 
-## 前提条件{#prerequisites}
+## 前提条件\{#prerequisites}
 
-オフライン移行を開始する前に、以下の要件を満たしていることを確認してください。
+オフライン移行を開始する前に、以下の要件を満たしていることを確認してください：
 
-### 一般的な要件{#general-requirements}
+### 一般 要件\{#general-requirements}
 
 <table>
    <tr>
@@ -76,7 +73,7 @@ import Supademo from '@site/src/components/Supademo';
    </tr>
    <tr>
      <td><p>ユーザー権限</p></td>
-     <td><p>Organization Owner または Project Admin ロール</p></td>
+     <td><p>組織オーナーまたはプロジェクト管理者のロール</p></td>
    </tr>
    <tr>
      <td><p>ソースクラスターへのアクセス</p></td>
@@ -84,11 +81,11 @@ import Supademo from '@site/src/components/Supademo';
    </tr>
    <tr>
      <td><p>ターゲットクラスターの容量</p></td>
-     <td><p>ソースデータを収容するのに十分な CU サイズ（<a href="https://zilliz.com/pricing#calculator">CU 計算機</a>を使用）</p></td>
+     <td><p>ソースデータを格納するのに十分な CU サイズ（<a href="https://zilliz.com/pricing#calculator">CU 計算ツール</a>を使用）</p></td>
    </tr>
 </table>
 
-### プロジェクト間または組織間の移行要件{#cross-project-or-organization-migration-requirements}
+### プロジェクト間または組織間の移行要件\{#cross-project-or-organization-migration-requirements}
 
 <table>
    <tr>
@@ -96,24 +93,24 @@ import Supademo from '@site/src/components/Supademo';
      <th><p>詳細</p></th>
    </tr>
    <tr>
-     <td><p>接続資格情報</p></td>
+     <td><p>接続 認証情報</p></td>
      <td><p>ソースクラスターのパブリックエンドポイント、API キー、またはクラスターのユーザー名とパスワード</p></td>
    </tr>
    <tr>
-     <td><p>ネットワークアクセス</p></td>
+     <td><p>ネットワーク アクセス</p></td>
      <td><p>ターゲット組織からソースクラスターに接続できること</p></td>
    </tr>
 </table>
 
-## はじめに{#getting-started}
+## 始め方\{#getting-started}
 
-以下のデモでは、オフライン移行の全プロセスを説明します。
+以下のデモでは、オフライン移行の完全なプロセスを段階的に説明します：
 
 <Supademo id="cmb91ow5v0me4sn1rzlbzqi8x" title="Zilliz Cloud - Offline Migration Demo" />
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>移行された collection は、検索またはクエリ操作にすぐに利用できるわけではありません。検索およびクエリ機能を有効にするには、Zilliz Cloud で collection を手動で load する必要があります。詳細については、<a href="./load-release-collections">Load & Release</a> を参照してください。</p>
+<p>移行されたコレクションは、検索またはクエリ操作のためにすぐに利用可能になるわけではありません。検索およびクエリ機能を有効にするには、Zilliz Cloud でコレクションを手動でロードする必要があります。詳細については、<a href="./load-release-collections">ロードとリリース</a> を参照してください。</p>
 
 </Admonition>
 

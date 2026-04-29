@@ -1,11 +1,12 @@
 ---
 title: "Metric Types | BYOC"
 slug: /search-metrics-explained
+sidebar_key: search-metrics-explained
 sidebar_label: "Metric Types"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "Similarity metrics are used to measure similarities among vectors. Choosing an appropriate distance metric helps improve classification and clustering performance significantly. | BYOC"
 type: origin
@@ -245,7 +246,7 @@ BM25 is a widely used text relevance measurement method, specifically designed f
 The BM25 scoring is calculated as follows:
 
 $$
-score(D, Q)=\sum_{i=1}^{n}IDF(q_i)\cdot \{\{TF(q_i,D)\cdot(k_1+1)}\over\{TF(q_i, D)+k_1\cdot(1-b+b\cdot \{\{|D|}\over{avgdl}})}}
+score(D, Q)=\sum_{i=1}^{n}IDF(q_i)\cdot {{TF(q_i,D)\cdot(k_1+1)}\over{TF(q_i, D)+k_1\cdot(1-b+b\cdot {{|D|}\over{avgdl}})}}
 $$
 
 Parameter description:
@@ -259,7 +260,7 @@ Parameter description:
 - $IDF(q_i)$: Inverse document frequency, calculated as:
 
     $$
-    IDF(q_i)=\log(\{N-n(q_i)+0.5\over n(q_i)+0.5} + 1)
+    IDF(q_i)=\log({N-n(q_i)+0.5\over n(q_i)+0.5} + 1)
     $$
 
     where $N$ is the total number of documents in the corpus, and$n(q_i)$ is the number of documents containing term $q_i$.

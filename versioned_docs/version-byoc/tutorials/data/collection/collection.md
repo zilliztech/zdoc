@@ -1,11 +1,12 @@
 ---
 title: "Collection | BYOC"
 slug: /collection
+sidebar_key: collection
 sidebar_label: "Collection"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "On Zilliz Cloud, a collection is a table used to hold vector embeddings and their metadata. In this chapter, you will learn the definition and related concepts of the collection with relevant demonstrations. | BYOC"
 type: origin

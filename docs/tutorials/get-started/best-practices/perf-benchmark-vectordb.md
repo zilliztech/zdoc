@@ -1,16 +1,17 @@
 ---
 title: "Performance Benchmarking with VectorDBBench | Cloud"
 slug: /perf-benchmark-vectordb
+sidebar_key: perf-benchmark-vectordb
 sidebar_label: "Use VectorDBBench"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "VectorDBBench is an open-source benchmarking tool designed specifically for vector databases. | Cloud"
 type: origin
 token: Za3QwAcfjiSSvxk8UzUcTPmfnmb
-sidebar_position: 1
+sidebar_position: 2
 keywords: 
   - zilliz
   - vector database

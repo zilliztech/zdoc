@@ -1,11 +1,12 @@
 ---
 title: "Migrate from Milvus to Zilliz Cloud Via Backup Tool | Cloud"
 slug: /via-stage
+sidebar_key: via-stage
 sidebar_label: "Via Backup Tool"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "Zilliz Cloud provides a backup tool for data migration from Milvus. This backup tool allows users to perform data migration more easily and efficiently, without needing to handle complex details manually, thus greatly enhancing usability and success rates. | Cloud"
 type: origin

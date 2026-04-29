@@ -1,11 +1,12 @@
 ---
 title: "Install SDKs | BYOC"
 slug: /install-sdks
+sidebar_key: install-sdks
 sidebar_label: "Install SDKs"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "Zilliz Cloud offers a managed Milvus vector database as a service. Four SDK options exist to facilitate cluster connections Python](./install-sdks#install-pymilvus-python-sdk), [Java](./install-sdks#install-java-sdk), [Go](./install-sdks#install-go-sdk), or [Node.js. | BYOC"
 type: origin
@@ -36,6 +37,34 @@ Zilliz Cloud offers a managed Milvus vector database as a service. Four SDK opti
 
 </Admonition>
 
+## SDK Compatibility\{#sdk-compatibility}
+
+The following table lists the compatible SDK versions of each Milvus version.
+
+<table>
+   <tr>
+     <th><p><strong>Milvus Version</strong></p></th>
+     <th><p><strong>Python SDK</strong></p></th>
+     <th><p><strong>Node.js SDK</strong></p></th>
+     <th><p><strong>Java SDK</strong></p></th>
+     <th><p><strong>Go SDK</strong></p></th>
+   </tr>
+   <tr>
+     <td><p><code>2.6.x</code></p></td>
+     <td><p><code>2.6.9</code></p></td>
+     <td><p><code>2.6.10</code></p></td>
+     <td><p><code>2.6.14</code></p></td>
+     <td><p><code>2.6.2</code></p></td>
+   </tr>
+   <tr>
+     <td><p><code>2.5.x</code></p></td>
+     <td><p><code>2.5.18</code></p></td>
+     <td><p><code>2.5.13</code></p></td>
+     <td><p><code>2.5.15</code></p></td>
+     <td><p><code>2.5.6</code></p></td>
+   </tr>
+</table>
+
 ## Install PyMilvus: Python SDK\{#install-pymilvus-python-sdk}
 
 PyMilvus is Milvus's Python SDK. Access its [source code on GitHub](https://github.com/milvus-io/pymilvus).
@@ -48,7 +77,7 @@ PyMilvus is Milvus's Python SDK. Access its [source code on GitHub](https://gith
 
 ```bash
 # Install pymilvus compatible with Milvus v2.5.x
-python -m pip install pymilvus==2.5.16
+python -m pip install pymilvus==2.5.18
 
 # Update PyMilvus to the newest version
 python -m pip install --upgrade pymilvus
@@ -57,7 +86,7 @@ python -m pip install --upgrade pymilvus
 python -m pip list | grep pymilvus
 ```
 
-If your cluster is compatible with **Milvus v2.6.x (Public Preview),** please change `2.5.16` in the above commands to `2.6.3`.
+If your cluster is compatible with **Milvus v2.6.x (Public Preview),** please change `2.5.18` in the above commands to `2.6.9`.
 
 ## Install Node.js SDK\{#install-nodejs-sdk}
 
@@ -96,7 +125,7 @@ const { MilvusClient } = require("@zilliz/milvus2-sdk-node")
 import { MilvusClient } from "@zilliz/milvus2-sdk-node"
 ```
 
-If your cluster is compatible with **Milvus v2.6.x (Public Preview),** please change `2.5.13` in the above commands to `2.6.4`.
+If your cluster is compatible with **Milvus v2.6.x (Public Preview),** please change `2.5.13` in the above commands to `2.6.10`.
 
 ## Install Java SDK\{#install-java-sdk}
 
@@ -109,7 +138,7 @@ Use Apache Maven or Gradle/Grails to obtain the SDK. Access the [source code on 
     <dependency>
          <groupId>io.milvus</groupId>
          <artifactId>milvus-sdk-java</artifactId>
-         <version>2.5.14</version>
+         <version>2.5.15</version>
      </dependency>
     ```
 
@@ -117,10 +146,10 @@ Use Apache Maven or Gradle/Grails to obtain the SDK. Access the [source code on 
 
     ```bash
     # Install Java SDK compatible with Milvus v2.5.x
-    compile 'io.milvus:milvus-sdk-java:2.5.14'
+    compile 'io.milvus:milvus-sdk-java:2.5.15'
     ```
 
-If your cluster is compatible with **Milvus v2.6.x (Public Preview),** please change `2.5.14` in the above commands to `2.6.6`.
+If your cluster is compatible with **Milvus v2.6.x (Public Preview),** please change `2.5.15` in the above commands to `2.6.14`.
 
 ## Install Go SDK\{#install-go-sdk}
 

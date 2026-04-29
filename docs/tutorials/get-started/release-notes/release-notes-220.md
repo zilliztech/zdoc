@@ -1,16 +1,17 @@
 ---
 title: "Release Notes (Sept 13, 2023) | Cloud"
 slug: /release-notes-220
+sidebar_key: release-notes-220
 sidebar_label: "September 13, 2023"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "We are pleased to announce the release of Zilliz Cloud, which boasts a suite of new features designed to enhance your user experience, including data migration across Zilliz Cloud clusters and from ElasticSearch, a brand-new ticket system going live, and enhanced data import capabilities. | Cloud"
 type: origin
 token: GqyhwKVspiYRwDk8OaucNfgJnhd
-sidebar_position: 26
+sidebar_position: 27
 keywords: 
   - zilliz
   - vector database

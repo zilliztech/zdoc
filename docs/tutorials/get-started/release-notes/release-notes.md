@@ -1,16 +1,17 @@
 ---
 title: "Release Notes | Cloud"
 slug: /release-notes
+sidebar_key: release-notes
 sidebar_label: "Release Notes"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "You can find the history of Zilliz Cloud releases in these docs. | Cloud"
 type: origin
 token: NOYvw884PigqIhk1gwLcw1OYnfe
-sidebar_position: 18
+sidebar_position: 20
 keywords: 
   - zilliz
   - vector database

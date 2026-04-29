@@ -1,11 +1,12 @@
 ---
 title: "Binary Vector | Cloud"
 slug: /use-binary-vector
+sidebar_key: use-binary-vector
 sidebar_label: "Binary Vector"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "Binary vectors are a special form of data representation that convert traditional high-dimensional floating-point vectors into binary vectors containing only 0s and 1s. This transformation not only compresses the size of the vector but also reduces storage and computational costs while retaining semantic information. When precision for non-critical features is not essential, binary vectors can effectively maintain most of the integrity and utility of the original floating-point vectors. | Cloud"
 type: origin

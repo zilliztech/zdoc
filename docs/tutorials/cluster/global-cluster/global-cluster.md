@@ -1,11 +1,12 @@
 ---
 title: "Global Cluster | Cloud"
 slug: /global-cluster
+sidebar_key: global-cluster
 sidebar_label: "Global Cluster"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "A global cluster is cluster deployed across multiple regions for improved resilience and lower read latency. | Cloud"
 type: origin
@@ -17,6 +18,10 @@ keywords:
   - cloud
   - milvus
   - global cluster
+  - switchover
+  - failover
+  - disaster recovery
+  - high availability
 
 ---
 

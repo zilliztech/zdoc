@@ -1,11 +1,12 @@
 ---
 title: "Basic Operators | BYOC"
 slug: /basic-filtering-operators
-sidebar_label: "Basic Operators"
-beta: FALSE
+sidebar_key: basic-filtering-operators
+sidebar_label: "Basic"
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "Zilliz Cloud provides a rich set of basic operators to help you filter and query data efficiently. These operators allow you to refine your search conditions based on scalar fields, numeric calculations, logical conditions, and more. Understanding how to use these operators is crucial for building precise queries and maximizing the efficiency of your searches. | BYOC"
 type: origin
@@ -297,7 +298,7 @@ data = [
       "pk": 2,
       "embedding": [0.56, 0.78, 0.90]
   },
-  {  # JSON field `metadata` is completely missing
+  {  # JSON field \`metadata\` is completely missing
       "pk": 3,
       "embedding": [0.91, 0.18, 0.23]
   },

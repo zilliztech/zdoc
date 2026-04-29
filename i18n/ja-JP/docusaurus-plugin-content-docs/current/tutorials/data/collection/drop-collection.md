@@ -1,25 +1,22 @@
 ---
 title: "コレクションの削除 | Cloud"
 slug: /drop-collection
-sidebar_label: "コレクションの削除"
+sidebar_key: drop-collection
+sidebar_label: "削除"
 beta: FALSE
 notebook: FALSE
-description: "不要になったコレクションは削除できます。 | Cloud"
+description: "不要になったコレクションは削除できます。| Cloud"
 type: origin
 token: DEUuwEwM4iMLOikU7XpcpNnKnGd
-sidebar_position: 10
+sidebar_position: 11
 keywords: 
   - zilliz
   - ベクトルデータベース
   - cloud
-  - collection
+  - コレクション
   - 削除
   - フィルターによる削除
-  - IDによる削除
-  - 近似最近傍探索
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - ID による削除
 
 ---
 
@@ -31,9 +28,15 @@ import TabItem from '@theme/TabItem';
 
 不要になったコレクションは削除できます。
 
-## 例{#examples}
+<Admonition type="info" icon="📘" title="Notes">
 
-以下のコードスニペットは、**my_collection**という名前のコレクションがあることを前提としています。
+<p>管理対象コレクションの削除ではコレクションとデータの両方が削除されますが、外部コレクションの削除ではコレクションのみが削除され、データはそのまま保持されます。</p>
+
+</Admonition>
+
+## 例\{#examples}
+
+以下のコードスニペットでは、**my_collection** という名前のコレクションが存在することを前提としています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -80,7 +83,7 @@ client.dropCollection(dropQuickSetupParam);
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
@@ -104,7 +107,7 @@ console.log(res.error_code)
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 import (
@@ -140,7 +143,7 @@ if err != nil {
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"

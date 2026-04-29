@@ -1,63 +1,60 @@
 ---
-title: "リリースノート (2023年8月16日) | Cloud"
+title: "リリースノート（2023 年 8 月 16 日） | Cloud"
 slug: /release-notes-210
-sidebar_label: "2023年8月16日"
+sidebar_key: release-notes-210
+sidebar_label: "2023 年 8 月 16 日"
 beta: FALSE
 notebook: FALSE
-description: "Zilliz Cloudのリリースを発表できることを大変嬉しく思います。このリリースには、対応リージョンの拡大、移行やサーバーレスインスタンス管理といった使いやすさの向上機能など、さまざまな機能強化と新機能が含まれています。さらに、Bulk-insertとDedicated Clusterのサポートにより、RESTful APIも強化されました。 | Cloud"
+description: "Zilliz Cloud のローンチを発表できることを嬉しく思います。このリリースには、リージョンサポートの拡大や、移行およびサーバーレスインスタンス管理などの使いやすさの向上など、さまざまな機能強化が含まれています。さらに、RESTful API において、バルク挿入と専用クラスターのサポートを強化しました。 | Cloud"
 type: origin
 token: Ti5uwysf0iZhuyk4xvjcFmsSnhG
-sidebar_position: 26
+sidebar_position: 28
 keywords: 
   - zilliz
   - ベクトルデータベース
-  - クラウド
+  - cloud
   - リリースノート
-  - 質問応答システム
-  - llm-as-a-judge
-  - ハイブリッドベクトル検索
-  - 動画の重複排除
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# リリースノート (2023年8月16日)
+# リリースノート（2023年8月16日）
 
-Zilliz Cloudのリリースを発表できることを嬉しく思います。このリリースには、地域サポートの拡大や、移行やサーバーレスインスタンス管理などの使いやすさの強化を含む、さまざまな機能強化と機能が含まれています。さらに、Bulk-insertとDedicated Clusterのサポートにより、RESTful APIを強化しました。
+Zilliz Cloud の正式リリースをお知らせします。今回のリリースでは、リージョンサポートの拡大や移行・サーバーレスインスタンス管理などのユーザビリティ向上機能を含むさまざまな強化と新機能が導入されています。さらに、RESTful API にも Bulk-insert 機能および Dedicated Cluster サポートが追加されました。
 
-## Milvus互換性{#milvus-compatibility}
+## Milvus 互換性\{#milvus-compatibility}
 
 このリリースは **Milvus 2.1.x** と互換性があります。
 
-## 地域サポートの拡大{#expanded-regional-support}
+## リージョンサポートの拡大\{#expanded-regional-support}
 
-Zilliz Cloudは、シンガポールのパブリッククラウドリージョン、具体的にはAWSの**ap-southeast-1**とGCPの**asia-southeast-1**を含むようにサービスを拡大しました。この拡大により、東南アジアのユーザーはより広範なリーチと優れたパフォーマンスを享受できます。
+Zilliz Cloud はサービス提供リージョンをシンガポールに拡大し、AWS の **ap-southeast-1** および GCP の **asia-southeast-1** のパブリッククラウドリージョンを新たにサポートしました。これにより、東南アジアのお客様に対してより広範なリーチと優れたパフォーマンスを提供できます。
 
-サポートされているすべてのパブリッククラウドリージョンについては、[Cloud Providers & Regions](./cloud-providers-and-regions)を参照してください。
+サポートされているすべてのパブリッククラウドリージョンについては、[クラウドプロバイダーs & Regions](./cloud-providers-and-regions) を参照してください。
 
-## 強化された使いやすさの機能{#enhanced-usability-features}
+## ユーザビリティ向上機能\{#enhanced-usability-features}
 
 - 移行サポート:
 
-    サーバーレスインスタンスから専用クラスターへのコレクションのシームレスな移行をサポートするようになりました。これにより、スケーリングと操作の柔軟性が向上します。
+    サーバーレスインスタンスから専用クラスターへのコレクションのシームレスな移行をサポートしました。これにより、スケーリングや運用面での柔軟性が向上します。
 
 - サーバーレスインスタンス管理:
 
-    サーバーレスインスタンスを削除する機能により、ユーザーはリソース割り当てをより細かく制御できます。
+    サーバーレスインスタンスを削除できるようになったことで、ユーザーはリソース割り当てをより細かく制御できるようになります。
 
-    スケーリングと操作の柔軟性を高めるために、サーバーレスインスタンスから専用クラスターへのコレクションのシームレスな移行をサポートするようになりました。
+    スケーリングおよび運用の柔軟性を高めるため、サーバーレスインスタンスから専用クラスターへのコレクションのシームレスな移行をサポートしました。
 
-詳細については、[Manage Cluster](./manage-cluster)を参照してください。
+詳細については、[Manage Cluster](./manage-cluster) を参照してください。
 
-## RESTful APIの強化{#restful-api-enhancements}
+## RESTful API の強化\{#restful-api-enhancements}
 
-- バルクインサート
+- Bulk Insert
 
-    データ取り込みプロセスを効率化するために、バルクデータインポート専用の新しいRESTful APIを導入しました。この機能は、データアップロードの時間と複雑さを大幅に削減することを目的としています。詳細については、[APIリファレンス](/reference/restful/import-operations)を参照してください。
+    データ取り込みプロセスを効率化するため、バルクデータインポート専用の新しい RESTful API を導入しました。この機能により、データアップロードにかかる時間と複雑さを大幅に削減することを目指しています。詳細については、[API リファレンス](/reference/restful/import-operations) を参照してください。
 
-- 専用クラスターアクセス
+- 専用クラスターへのアクセス
 
-    ユーザーに幅広い制御と柔軟性を提供するために、専用クラスターはRESTful APIを介してアクセスおよび管理できるようになり、統合と自動化がより簡単になりました。詳細については、[APIリファレンス](/reference/restful/cloud-meta)を参照してください。
+    ユーザーがより広範な制御と柔軟性を得られるように、専用クラスターを RESTful API 経由でアクセス・管理できるようになりました。これにより、統合や自動化がより簡単になります。詳細については、[API リファレンス](/reference/restful/cloud-meta) を参照してください。
 

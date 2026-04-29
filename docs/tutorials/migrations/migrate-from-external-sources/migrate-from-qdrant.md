@@ -1,11 +1,12 @@
 ---
 title: "Migrate from Qdrant to Zilliz Cloud | Cloud"
 slug: /migrate-from-qdrant
+sidebar_key: migrate-from-qdrant
 sidebar_label: "Qdrant"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "This topic describes how Zilliz Cloud handles data type mapping, payload field conversion, and collection naming rules when migrating from Qdrant. | Cloud"
 type: origin

@@ -1,24 +1,21 @@
 ---
-title: "その他のIdP (SAML 2.0) | Cloud"
+title: "その他の IdP（SAML 2.0） | Cloud"
 slug: /single-sign-on-with-other-idp
-sidebar_label: "その他のIdP (SAML 2.0)"
+sidebar_key: single-sign-on-with-other-idp
+sidebar_label: "その他の IdP（SAML 2.0）"
 beta: FALSE
 notebook: FALSE
-description: "このトピックでは、SAML 2.0プロトコルをサポートする任意のIDプロバイダー（IdP）を使用して、Zilliz Cloudでシングルサインオン（SSO）を構成する方法について説明します。"
+description: "このトピックでは、SAML 2.0 プロトコルをサポートする任意のアイデンティティプロバイダー（IdP）を使用して Zilliz Cloud でシングルサインオン（SSO）を構成する方法について説明します。 | Cloud"
 type: origin
 token: WDOJwtKkAijW4gkUpQhcAL0Rn1d
 sidebar_position: 5
 keywords: 
   - zilliz
-  - ベクターデータベース
+  - ベクトルデータベース
   - cloud
   - sso
   - その他
   - idp
-  - 動画検索
-  - AI幻覚
-  - AIエージェント
-  - セマンティック検索
 
 ---
 
@@ -29,142 +26,156 @@ import Supademo from '@site/src/components/Supademo';
 
 import Procedures from '@site/src/components/Procedures';
 
-# その他のIdP (SAML 2.0)
+# その他の IdP (SAML 2.0)
 
-このトピックでは、SAML 2.0プロトコルをサポートする任意のIDプロバイダー（IdP）を使用して、Zilliz Cloudでシングルサインオン（SSO）を構成する方法について説明します。
+このトピックでは、SAML 2.0 プロトコルをサポートする任意のアイデンティティプロバイダー (IdP) を使用して Zilliz Cloud でシングルサインオン (SSO) を構成する方法について説明します。
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Zilliz Cloudは、<a href="./single-sign-on-with-okta">Okta</a>、<a href="./single-sign-on-with-google-workspace">Google Workspace</a>、<a href="./single-sign-on-with-microsoft-entra">Microsoft Entra</a>専用の統合ガイドを提供していますが、<strong>その他のIdP (SAML 2.0)</strong>オプションを使用すれば、SAML 2.0に準拠した任意のIdPを使用できます。</p>
+<p>Zilliz Cloud は、<a href="./single-sign-on-with-okta">Okta</a>、<a href="./single-sign-on-with-google-workspace">Google Workspace</a>、および <a href="./single-sign-on-with-microsoft-entra">Microsoft Entra</a> 向けの専用統合ガイドを提供していますが、標準に準拠した SAML 2.0 IdP であれば、**その他の IdP (SAML 2.0)** オプションで使用できます。</p>
 
 </Admonition>
 
-## 開始する前に{#before-you-start}
+## 開始前に\{#before-you-start}
 
-- Zilliz Cloud組織に少なくとも1つの**Dedicated (Enterprise)**クラスターがあること。
+- Zilliz Cloud 組織に少なくとも 1 つの **Dedicated (Enterprise)** クラスターがあること。
 
-- SSOを構成するZilliz Cloud組織の**Organization Owner**であること。
+- SSO を構成する Zilliz Cloud 組織において、あなたが**組織オーナー**であること。
 
-- 使用する予定のIdPへの管理者アクセス権があること。
+- 使用する予定の IdP に対して管理者アクセス権を持っていること。
 
-- IdP固有のセットアップの詳細については、IdPの公式ドキュメントを参照してください。
+- IdP 固有の設定詳細については、お使いの IdP の公式ドキュメントを参照してください。
 
-## 設定手順{#configuration-steps}
+## 構成手順\{#configuration-steps}
 
-### ステップ1: Zilliz Cloudコンソールでサービスプロバイダーの詳細にアクセスする{#step-1-access-service-provider-details-in-zilliz-cloud-console}
+### ステップ 1: Zilliz Cloud コンソールでサービスプロバイダーの詳細にアクセスする\{#step-1-access-service-provider-details-in-zilliz-cloud-console}
 
 <Supademo id="cme6sledl274yh3py7hf96vo1" title="Step 1: Access service provider details in Zilliz Cloud" />
 
 <Procedures>
 
-1. [Zilliz Cloudコンソール](https://cloud.zilliz.com/login)にログインし、SSOを構成したい組織に移動します。
+1. [Zilliz Cloud コンソール](https://cloud.zilliz.com/login) にログインし、SSO を構成したい組織へ移動します。
 
-1. 左側のナビゲーションペインで、**Settings**をクリックします。
+1. 左側のナビゲーションペインで、**設定**をクリックします。
 
-1. **Settings**ページで、**Single Sign-On (SSO)**セクションを見つけて、**Configure**をクリックします。
+1. **設定**ページで、**シングルサインオン (SSO)** セクションを見つけ、**構成**をクリックします。
 
-1. 表示されるダイアログボックスで、IdPとプロトコルとして**Other IdP (SAML)**を選択します。
+1. 表示されたダイアログボックスで、IdP およびプロトコルとして**その他の IdP (SAML)** を選択します。
 
-1. **Service Provider Details**カードで、以下の値をコピーします。
+1. **サービスプロバイダーの詳細**カードで、以下の値をコピーします：
 
-    - **SP Entity ID**
+    - **SP エンティティ ID**
 
     - **ACS URL**
 
 </Procedures>
 
-これらの値は、IdPでSAMLアプリケーションを作成する際の[ステップ2](./single-sign-on-with-other-idp#step-2-create-a-saml-app-in-your-idp-console)で必要になります。
+これらの値は、IdP で SAML アプリケーションを作成する際の [ステップ 2](./single-sign-on-with-other-idp#step-2-create-a-saml-app-in-your-idp-console) で必要になります。
 
-### ステップ2: IdPコンソールでSAMLアプリを作成する{#step-2-create-a-saml-app-in-your-idp-console}
+### ステップ 2: IdP コンソールで SAML アプリを作成する\{#step-2-create-a-saml-app-in-your-idp-console}
 
-正確なプロセスはIdPによって異なります。一般的には次のとおりです。
-
-<Procedures>
-
-1. IdPの管理者コンソールにサインインします。
-
-1. 新しいSAML 2.0アプリケーション（SAML接続または統合と呼ばれることもあります）を作成します。
-
-1. サービスプロバイダー情報の提供を求められたら、以下を入力します。
-
-    - [ステップ1](./single-sign-on-with-other-idp#step-1-access-service-provider-details-in-zilliz-cloud-console)の**SP Entity ID**。
-
-    - [ステップ1](./single-sign-on-with-other-idp#step-1-access-service-provider-details-in-zilliz-cloud-console)の**ACS URL**。
-
-1. アプリケーションを保存し、以下のいずれかの形式でIdP構成を取得します。
-
-    - **オプション1 – メタデータURL/ファイル**: ほとんどのIdPは、必要なSAMLメタデータすべてを含むダウンロード可能なXMLファイルまたは公開URLを提供します。
-
-    - **オプション2 – 手動**: メタデータが利用できない場合は、IdPから以下を収集します。
-
-        - **IdP SSO URL**（Zilliz Cloudが認証リクエストを送信するエンドポイント）
-
-        - **x.509証明書**（`-----BEGIN CERTIFICATE-----`と`-----END CERTIFICATE-----`の行を含む）
-
-    この情報は、[ステップ3](./single-sign-on-with-other-idp#step-3-configure-idp-settings-in-zilliz-cloud-console)で使用します。
-
-</Procedures>
-
-### ステップ3: Zilliz CloudコンソールでIdP設定を構成する{#step-3-configure-idp-settings-in-zilliz-cloud-console}
+正確なプロセスは IdP によって異なります。一般的には以下の通りです：
 
 <Procedures>
 
-1. [Zilliz Cloudコンソール](https://cloud.zilliz.com/login)に戻ります。
+1. IdP の管理者コンソールにサインインします。
 
-1. シングルサインオン（SSO）設定ダイアログボックスの**Identity Provider Details**カードで、以下のいずれかの方法を選択します。
+1. 新しい SAML 2.0 アプリケーション（SAML 接続または統合と呼ばれる場合もあります）を作成します。
 
-    **オプション1 – メタデータURL/ファイル**
+1. サービスプロバイダー情報の入力を求められたら、以下を入力します：
 
-    - IdPからコピーした**Metadata URL**を貼り付けるか、ダウンロードしたMetadata XMLファイルをアップロードします。
+    - [ステップ 1](./single-sign-on-with-other-idp#step-1-access-service-provider-details-in-zilliz-cloud-console) から取得した **SP エンティティ ID**。
 
-    - Zilliz Cloudは、証明書を含む必要なIdPの詳細を自動的にインポートします。
+    - [ステップ 1](./single-sign-on-with-other-idp#step-1-access-service-provider-details-in-zilliz-cloud-console) から取得した **ACS URL**。
 
-    **オプション2 – 手動**
+1. アプリケーションを保存し、以下のいずれかの形式で IdP 構成を取得します：
 
-    - IdPから**IdP SSO URL**を入力します。
+    - **オプション 1 – メタデータ URL/ファイル**: ほとんどの IdP は、必要なすべての SAML メタデータを含むダウンロード可能な XML ファイルまたは公開 URL を提供します。
 
-    - X.509形式のIdP署名証明書をアップロードまたは貼り付けます。`-----BEGIN CERTIFICATE-----`と`-----END CERTIFICATE-----`の行が含まれていることを確認してください。
+    - **オプション 2 – 手動**: メタデータが利用できない場合は、IdP から以下を収集します：
 
-1. **Save**をクリックします。
+        - **IdP SSO URL**（Zilliz Cloud が認証リクエストを送信するエンドポイント）
+
+        - **x.509 証明書**（`-----BEGIN CERTIFICATE-----` および `-----END CERTIFICATE-----` の行を含む）
+
+    この情報は [ステップ 3](./single-sign-on-with-other-idp#step-3-configure-idp-settings-in-zilliz-cloud-console) で使用します。
 
 </Procedures>
 
-## 構成後のタスク{#post-configuration-tasks}
+### ステップ 3: Zilliz Cloud コンソールで IdP 設定を構成する\{#step-3-configure-idp-settings-in-zilliz-cloud-console}
 
-### タスク1: IdPでユーザーにSAMLアプリを割り当てる{#task-1-assign-saml-app-to-users-in-your-idp}
+<Procedures>
 
-ユーザーがSSO経由でサインインする前に、IdPでSAMLアプリへのアクセス権を付与する必要があります。
+1. [Zilliz Cloud コンソール](https://cloud.zilliz.com/login) に戻ります。
 
-- アプリを特定のユーザーまたはグループに割り当てます。
+1. シングルサインオン (SSO) の構成ダイアログボックス内の**ID プロバイダーの詳細**カードで、以下のいずれかの方法を選択します：
 
-- 割り当てられた各ユーザーのメールアドレスが、Zilliz Cloudアカウントのメールアドレスと一致していることを確認します。
+    **オプション 1 – メタデータ URL/ファイル**
 
-### タスク2: ユーザーをプロジェクトに招待する{#task-2-invite-users-to-your-project}
+    - IdP からコピーした**メタデータ URL**を貼り付けるか、ダウンロードしたメタデータ XML ファイルをアップロードします。
 
-ユーザーがSSO経由でZilliz Cloudに初めてログインすると、**Organization Member**として登録されますが、デフォルトではどのプロジェクトにもアクセスできません。
+    - Zilliz Cloud は、証明書を含む必要な IdP 詳細を自動的にインポートします。
 
-- **Organization Owner**は、適切なプロジェクトにユーザーを招待する必要があります。
+    **オプション 2 – 手動**
 
-- ユーザーをプロジェクトに招待する手順については、[プロジェクトユーザーの管理](./project-users#invite-a-user-to-a-project)を参照してください。
+    - IdP から取得した**IdP SSO URL**を入力します。
 
-プロジェクトに招待された後、**Organization Owner**はZilliz CloudログインURLをエンタープライズユーザーと共有し、SSO経由でサインインできるようにします。
+    - X.509 形式の IdP 署名証明書をアップロードまたは貼り付けます。`-----BEGIN CERTIFICATE-----` および `-----END CERTIFICATE-----` の行が含まれていることを確認してください。
 
-セットアップまたはテストプロセス中に問題が発生した場合は、[Zillizサポート](https://zilliz.com/contact-sales)にお問い合わせください。
+1. **保存**をクリックします。
 
-## FAQ{#faq}
+</Procedures>
 
-### SSO経由で初めてログインするユーザーに割り当てられるロールは何ですか？{#what-role-is-assigned-to-users-who-log-in-via-sso-for-the-first-time}
+## 構成後のタスク\{#post-configuration-tasks}
 
-Zilliz Cloudアカウントをまだ持っていない新規ユーザーは、最初のSSOログイン時に自動的に作成されます。これらのユーザーには、デフォルトで**Organization Member**ロールが割り当てられます。後でZilliz Cloudコンソールでロールを変更できます。詳細な手順については、[プロジェクトユーザーの管理](./project-users#edit-a-collaborators-role-or-remove-a-collaborator)を参照してください。
+### タスク 1: IdP でユーザーに SAML アプリを割り当てる\{#task-1-assign-saml-app-to-users-in-your-idp}
 
-### SSOログイン後、ユーザーはどのようにプロジェクトにアクセスしますか？{#how-do-users-access-projects-after-sso-login}
+ユーザーが SSO を介してサインインできるようにする前に、IdP で SAML アプリへのアクセス権限を付与する必要があります：
 
-SSO経由でログインした後、ユーザーはデフォルトで**Organization Member**ロールを持ちます。特定のプロジェクトにアクセスするには、**Organization Owner**または**Project Admin**がプロジェクトに招待する必要があります。詳細な手順については、[プロジェクトユーザーの管理](./project-users)を参照してください。
+- 特定のユーザーまたはグループにアプリを割り当てます。
 
-### SSOでログインする前に、ユーザーがすでにZilliz Cloudアカウントを持っている場合はどうなりますか？{#what-happens-if-a-user-already-has-a-zilliz-cloud-account-before-logging-in-with-sso}
+- 割り当てられた各ユーザーのメールアドレスが、そのユーザーの Zilliz Cloud アカウントのメールアドレスと一致していることを確認します。
 
-ユーザーが（メールアドレスに基づいて）Zilliz Cloud組織にすでに存在する場合、SSO経由でログインしても、元のロールと権限が保持されます。システムはメールアドレスでユーザーを照合し、既存のアカウントを上書きすることはありません。
+### タスク 2: ユーザーをプロジェクトに招待する\{#task-2-invite-users-to-your-project}
 
-### 同じ組織に対して複数のSSOプロバイダーを構成できますか？{#can-i-configure-multiple-sso-providers-for-the-same-organization}
+ユーザーが初めて SSO を介して Zilliz Cloud にログインすると、**組織メンバー**として登録されますが、デフォルトではどのプロジェクトにもアクセスできません。
 
-現在、各Zilliz Cloud組織は、一度に**1つのアクティブなSAML SSO構成**のみをサポートしています。
+- **組織オーナー**は、それらを適切なプロジェクトに招待する必要があります。
+
+- ユーザーをプロジェクトに招待する手順の詳細については、[プロジェクトユーザーの管理](./project-users#invite-a-user-to-a-project) を参照してください。
+
+プロジェクトに招待された後、**組織** **オーナー**は、エンタープライズユーザーが SSO を介してサインインできるよう、Zilliz Cloud ログイン URL を共有できます。
+
+設定またはテストプロセス中に問題が発生した場合は、[Zilliz サポート](https://zilliz.com/contact-sales) までお問い合わせください。
+
+### タスク 3: （オプション）SSO 強制を有効にする\{#task-3-optional-enable-sso-enforcement}
+
+SSO 接続が完全に構成され、テストが完了した後、オプションで**SSO 強制**を有効にして、組織メンバー全員に SSO を介したみのログインを必須にすることができます。有効にすると、メンバーはメール/パスワードまたはサードパーティアカウント（Google、GitHub）を使用してサインインできなくなります。
+
+<Admonition type="danger" icon="🚧" title="Warning">
+
+<p>この機能を有効にすると、現在パスワードでサインインしているすべてのメンバーが直ちにログアウトされ、非 SSO ログイン方法がブロックされます。</p>
+
+</Admonition>
+
+<Supademo id="cml4tlban34cozsadvi68n666" title=""  />
+
+詳細については、[組織での SSO 強制](./enforce-sso-in-your-organization) を参照してください。
+
+## よくある質問\{#faq}
+
+### 初めて SSO を介してログインするユーザーにはどのような役割が割り当てられますか？\{#what-role-is-assigned-to-users-who-log-in-via-sso-for-the-first-time}
+
+Zilliz Cloud アカウントをまだ持っていない新規ユーザーは、最初の SSO ログイン時に自動的に作成されます。これらのユーザーには、デフォルトで**組織メンバー**ロールが割り当てられます。後で Zilliz Cloud コンソールでロールを変更できます。詳細な手順については、[プロジェクトユーザーの管理](./project-users#edit-a-collaborators-role) を参照してください。
+
+### SSO ログイン後、ユーザーはどのようにプロジェクトにアクセスしますか？\{#how-do-users-access-projects-after-sso-login}
+
+SSO を介してログインした後、ユーザーにはデフォルトで**組織メンバー**ロールが付与されます。特定のプロジェクトにアクセスするには、**組織オーナー**または**プロジェクト管理者**がそれらをプロジェクトに招待する必要があります。詳細な手順については、[プロジェクトユーザーの管理](./project-users) を参照してください。
+
+### SSO でログインする前にユーザーがすでに Zilliz Cloud アカウントを持っている場合、どうなりますか？\{#what-happens-if-a-user-already-has-a-zilliz-cloud-account-before-logging-in-with-sso}
+
+ユーザーがすでに（メールアドレスに基づいて）Zilliz Cloud 組織に存在する場合、SSO を介してログインしても元のロールと権限は維持されます。システムはメールアドレスでユーザーを照合し、既存のアカウントを上書きしません。
+
+### 同じ組織に対して複数の SSO プロバイダーを構成できますか？\{#can-i-configure-multiple-sso-providers-for-the-same-organization}
+
+現在、各 Zilliz Cloud 組織では、一度にアクティブな SAML SSO 構成を**1 つのみ**サポートしています。

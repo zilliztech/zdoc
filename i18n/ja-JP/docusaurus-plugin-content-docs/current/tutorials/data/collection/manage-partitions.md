@@ -1,10 +1,11 @@
 ---
 title: "パーティションの管理 | Cloud"
 slug: /manage-partitions
-sidebar_label: "パーティションの管理"
+sidebar_key: manage-partitions
+sidebar_label: "パーティション"
 beta: FALSE
 notebook: FALSE
-description: "パーティションはコレクションのサブセットです。各パーティションは親コレクションと同じデータ構造を共有しますが、コレクション内のデータの一部のみを含みます。このページでは、パーティションを管理する方法について説明します。 | Cloud"
+description: "パーティションはコレクションの部分集合です。各パーティションは親コレクションと同じデータ構造を共有しますが、コレクション内のデータの一部のみを含みます。このページでは、パーティションの管理方法について説明します。| Cloud"
 type: origin
 token: JCMPwIyVciCT4Hk4O20c96MEnch
 sidebar_position: 8
@@ -15,10 +16,6 @@ keywords:
   - collection
   - partition
   - partitions
-  - 類似性検索
-  - マルチモーダルRAG
-  - LLMの幻覚
-  - ハイブリッド検索
 
 ---
 
@@ -28,26 +25,32 @@ import TabItem from '@theme/TabItem';
 
 # パーティションの管理
 
-パーティションはコレクションのサブセットです。各パーティションは親コレクションと同じデータ構造を共有しますが、コレクション内のデータの一部のみを含みます。このページでは、パーティションの管理方法について説明します。
-
-## 概要{#overview}
-
-コレクションを作成すると、Zilliz Cloud はコレクション内に **_default** という名前のパーティションも作成します。他のパーティションを追加しない場合、コレクションに挿入されるすべてのエンティティはデフォルトパーティションに入り、すべての検索とクエリもデフォルトパーティション内で実行されます。
-
-より多くのパーティションを追加し、特定の基準に基づいてエンティティをそれらに挿入できます。これにより、検索とクエリを特定のパーティション内に制限し、検索パフォーマンスを向上させることができます。
-
-1つのコレクションは最大1,024個のパーティションを持つことができます。
+パーティションはコレクションの部分集合です。各パーティションは親コレクションと同じデータ構造を共有しますが、コレクション内のデータの一部のみを含みます。このページでは、パーティションの管理方法について説明します。
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p><strong>パーティションキー</strong>機能は、パーティションに基づく検索最適化であり、Zilliz Cloud が特定のスカラフィールドの値に基づいてエンティティを異なるパーティションに分散することを可能にします。この機能は、パーティション指向のマルチテナンシーを実装し、検索パフォーマンスを向上させるのに役立ちます。</p>
-<p>この機能については、このページでは説明しません。詳細については、<a href="./use-partition-key">パーティションキーの使用</a>を参照してください。</p>
+<p>この機能はマネージドコレクションにのみ適用されます。</p>
 
 </Admonition>
 
-## パーティションのリスト表示{#list-partitions}
+## 概要\{#overview}
 
-コレクションを作成すると、Zilliz Cloud はコレクション内に **_default** という名前のパーティションも作成します。コレクション内のパーティションは次のようにリスト表示できます。
+コレクションを作成すると、Zilliz Cloud はそのコレクション内に **_default** という名前のパーティションも作成します。他のパーティションを追加しない場合、コレクションに挿入されたすべてのエンティティはデフォルトパーティションに格納され、すべての検索およびクエリもデフォルトパーティション内で実行されます。
+
+特定の基準に基づいて追加のパーティションを作成し、そこにエンティティを挿入することができます。その後、特定のパーティション内でのみ検索やクエリを実行するように制限することで、検索パフォーマンスを向上させることができます。
+
+1 つのコレクションが持てるパーティションの最大数は 1,024 です。
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p><strong>パーティションキー</strong> 機能は、パーティションに基づく検索最適化であり、Zilliz Cloud が特定のスカラフィールドの値に基づいてエンティティを異なるパーティションに分散できるようにします。この機能は、パーティション指向のマルチテナンシーの実装を支援し、検索パフォーマンスを向上させます。</p>
+<p>この機能についてはこのページで解説しません。詳細については、<a href="./use-partition-key">Use パーティションキー</a> を参照してください。</p>
+
+</Admonition>
+
+## パーティションの一覧表示\{#list-partitions}
+
+コレクションを作成すると、Zilliz Cloud はそのコレクション内に **_default** という名前のパーティションも作成します。コレクション内のパーティションを一覧表示するには、次のようにします。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -106,7 +109,7 @@ System.out.println(partitionNames);
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
@@ -127,7 +130,7 @@ console.log(res);
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 import (
@@ -161,7 +164,7 @@ fmt.Println(partitionNames)
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
@@ -186,9 +189,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## パーティションの作成{#create-partition}
+## Create Partition\{#create-partition}
 
-コレクションにパーティションを追加し、特定の基準に基づいてこれらのパーティションにエンティティを挿入できます。
+コレクションにさらにパーティションを追加し、特定の条件に基づいてエンティティをこれらのパーティションに挿入できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -237,7 +240,7 @@ System.out.println(partitionNames);
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 await client.createPartition({
@@ -257,7 +260,7 @@ console.log(res)
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 import (
@@ -288,7 +291,7 @@ fmt.Println(partitionNames)
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
@@ -328,9 +331,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## 特定のパーティションの確認{#check-for-a-specific-partition}
+## 特定のパーティションの確認\{#check-for-a-specific-partition}
 
-以下のコードスニペットは、特定のコレクションにパーティションが存在するかどうかを確認する方法を示しています。
+以下のコードスニペットは、特定のコレクション内にパーティションが存在するかどうかを確認する方法を示しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -369,7 +372,7 @@ System.out.println(hasPartitionRes);
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 res = await client.hasPartition({
@@ -385,7 +388,7 @@ console.log(res.value)
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 result, err := client.HasPartition(ctx, milvusclient.NewHasPartitionOption("my_collection", "partitionA"))
@@ -402,7 +405,7 @@ fmt.Println(result)
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
@@ -428,13 +431,13 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## パーティションのロードとリリース{#load-and-release-partitions}
+## パーティションのロードとリリース\{#load-and-release-partitions}
 
 1つまたは特定のパーティションを個別にロードまたはリリースできます。
 
-### パーティションのロード{#load-partitions}
+### パーティションのロード\{#load-partitions}
 
-collection内の特定のパーティションを個別にロードできます。collection内にアンロードされたパーティションがある場合、collectionのロードステータスはアンロードされたままになることに注意してください。
+コレクション内の特定のパーティションを個別にロードできます。コレクション内にロードされていないパーティションが1つでも存在する場合、そのコレクション全体のロード状態は「アンロード済み」となることに注意してください。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -486,7 +489,7 @@ System.out.println(getLoadStateRes);
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 await client.loadPartitions({
@@ -509,7 +512,7 @@ console.log(res)
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 task, err := client.LoadPartitions(ctx, milvusclient.NewLoadPartitionsOption("my_collection", "partitionA"))
@@ -535,7 +538,7 @@ fmt.Println(state)
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
@@ -577,7 +580,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-### パーティションのリリース{#release-partitions}
+### Release パーティション\{#release-partitions}
 
 特定のパーティションをリリースすることもできます。
 
@@ -631,7 +634,7 @@ System.out.println(getLoadStateRes);
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 await client.releasePartitions({
@@ -654,7 +657,7 @@ console.log(res)
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 err = client.ReleasePartitions(ctx, milvusclient.NewReleasePartitionsOptions("my_collection", "partitionA"))
@@ -673,7 +676,7 @@ fmt.Println(state)
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
@@ -715,29 +718,29 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## パーティション内のデータ操作{#data-operations-within-partitions}
+## パーティション内でのデータ運用\{#data-operations-within-partitions}
 
-### エンティティの挿入と削除{#insert-and-delete-entities}
+### エンティティの挿入と削除\{#insert-and-delete-entities}
 
-特定の操作で挿入、upsert、削除操作を実行できます。詳細については、以下を参照してください。
+特定のパーティションに対して、挿入（insert）、アップサート（upsert）、および削除（delete）の各操作を実行できます。詳細については、以下を参照してください。
 
 - [パーティションへのエンティティの挿入](./insert-entities#insert-entities-into-a-partition)
 
-- [パーティションへのエンティティのUpsert](./upsert-entities#upsert-entities-in-a-partition)
+- [パーティションへのエンティティのアップサート](./upsert-entities#upsert-entities-in-a-partition)
 
 - [パーティションからのエンティティの削除](./delete-entities#delete-entities-from-partitions)
 
-### 検索とクエリ{#search-and-query}
+### 検索とクエリ\{#search-and-query}
 
-特定のパーティション内で検索とクエリを実行できます。詳細については、以下を参照してください。
+特定のパーティション内で検索およびクエリを実行できます。詳細については、以下を参照してください。
 
 - [パーティション内でのANN検索の実行](./single-vector-search#ann-search-in-partition)
 
 - [パーティション内でのメタデータフィルタリングの実行](./get-and-scalar-query#queries-in-partitions)
 
-## パーティションの削除{#drop-partition}
+## パーティションの削除\{#drop-partition}
 
-不要になったパーティションを削除できます。パーティションを削除する前に、パーティションがリリースされていることを確認してください。
+不要になったパーティションを削除できます。パーティションを削除する前に、そのパーティションがリリース済みであることを確認してください。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -798,7 +801,7 @@ System.out.println(partitionNames);
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 await client.releasePartitions({
@@ -823,7 +826,7 @@ console.log(res)
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 err = client.ReleasePartitions(ctx, milvusclient.NewReleasePartitionsOptions("my_collection", "partitionA"))
@@ -848,7 +851,7 @@ fmt.Println(partitionNames)
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"

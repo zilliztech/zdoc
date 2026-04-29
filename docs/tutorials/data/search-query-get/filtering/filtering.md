@@ -1,11 +1,12 @@
 ---
 title: "Filtering | Cloud"
 slug: /filtering
+sidebar_key: filtering
 sidebar_label: "Filtering"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "This chapter explains how to perform filtering on scalar fields and applicable filtering operators and templates. | Cloud"
 type: origin

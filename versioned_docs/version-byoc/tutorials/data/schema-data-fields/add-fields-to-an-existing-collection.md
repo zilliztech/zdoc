@@ -1,11 +1,12 @@
 ---
 title: "Add Fields to an Existing Collection | BYOC"
 slug: /add-fields-to-an-existing-collection
-sidebar_label: "Add Fields to an Existing Collection"
-beta: FALSE
+sidebar_key: add-fields-to-an-existing-collection
+sidebar_label: "Add Fields"
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "Milvus allows you to dynamically add new fields to existing collections, making it easy to evolve your data schema as your application needs change. This guide shows you how to add fields in different scenarios using practical examples. | BYOC"
 type: origin
@@ -58,7 +59,7 @@ This guide assumes you have:
 
 <Admonition type="info" icon="📘" title="**Need help setting up?**">
 
-<p>Refer to our <a href="./manage-collections-sdks">Create Collection</a> for collection creation and basic operations.</p>
+<p>Refer to our <a href="./undefined">Create Collection</a> for collection creation and basic operations.</p>
 
 </Admonition>
 
@@ -499,9 +500,9 @@ curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/fields/add" \
 
 To enable dynamic schema functionality:
 
-- **New collection**: Set `enable_dynamic_field` to True when creating the collection. For details, refer to [Create Collection](./manage-collections-sdks#create-schema)
+- **New collection**: Set `enable_dynamic_field` to True when creating the collection. For details, refer to [Create Collection](./undefined#create-schema)
 
-- **Existing collection**: Set the collection-level property `dynamicfield.enabled` to True. For details, refer to [Modify Collection](./modify-collections#example-4-enable-dynamic-field).
+- **Existing collection**: Set the collection-level property `dynamicfield.enabled` to True. For details, refer to [Modify Collection](./modify-collections#example-5-enable-dynamic-field).
 
 ### What happens when I add a field with the same name as a dynamic field key?\{#what-happens-when-i-add-a-field-with-the-same-name-as-a-dynamic-field-key}
 

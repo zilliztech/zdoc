@@ -1,10 +1,11 @@
 ---
-title: "モデルベース関数 | Cloud"
+title: "モデルベースの埋め込み関数 | Cloud"
 slug: /model-based-functions
-sidebar_label: "モデルベース関数"
+sidebar_key: model-based-functions
+sidebar_label: "埋め込みモデル"
 beta: FALSE
 notebook: FALSE
-description: "Zilliz Cloud でモデルベース関数を使用する方法を学びます。"
+description: "Zilliz Cloud でモデルベースの埋め込み関数を使用する方法を学びます。| Cloud"
 type: origin
 token: AP0lw1SNciBJNYkJ2iDc0qnfnEg
 sidebar_position: 3
@@ -12,24 +13,21 @@ keywords:
   - zilliz
   - ベクトルデータベース
   - cloud
-  - 関数
-  - モデル
-  - 推論
-  - テキスト
-  - 埋め込み
-  - ベクトルデータベース比較
-  - Faiss
-  - ビデオ検索
-  - AI Hallucination
+  - function
+  - model
+  - inference
+  - text
+  - embedding
+  - function
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# モデルベース関数
+# モデルベースの埋め込み関数
 
-Zilliz Cloudでモデルベース関数を使用する方法を学びます。
+Zilliz Cloud でモデルベースの埋め込み関数を使用する方法を学びます。
 
 
 

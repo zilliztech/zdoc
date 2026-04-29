@@ -1,11 +1,12 @@
 ---
 title: "Basic Vector Search | Cloud"
 slug: /single-vector-search
+sidebar_key: single-vector-search
 sidebar_label: "Basic Vector Search"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "Based on an index file recording the sorted order of vector embeddings, the Approximate Nearest Neighbor (ANN) search locates a subset of vector embeddings based on the query vector carried in a received search request, compares the query vector with those in the subgroup, and returns the most similar results. With ANN search, Zilliz Cloud provides an efficient search experience. This page helps you to learn how to conduct basic ANN searches. | Cloud"
 type: origin
@@ -52,7 +53,7 @@ For details on AUTOINDEX and applicable metric types, refer to [AUTOINDEX Explai
 
 - [Bulk-vector search](./single-vector-search#bulk-vector-search)
 
-- [ANN search in partition](./single-vector-search#ann-search-in-partition)
+- [ANN search in partitions](./single-vector-search#ann-search-in-partition)
 
 - [Use output fields](./single-vector-search#use-output-fields)
 
@@ -974,6 +975,125 @@ curl --request POST \
 
 </TabItem>
 </Tabs>
+
+## Sort Search Results by Scalar Fields | PRIVATE\{#sort-search-results-by-scalar-fields}
+
+By default, Zilliz Cloud orders search results by their similarity score to the query vector. If you want the returned entities to follow a scalar field order, add `order_by_fields` to the search request.
+
+Each item in `order_by_fields` specifies a scalar field and a sort direction. Use `"asc"` for ascending order or `"desc"` for descending order. If you omit `order`, Zilliz Cloud sorts the field in ascending order.
+
+The following example sorts search results by `price` from low to high. Include the sort field in `output_fields` if you want to inspect the field value in the response.
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
+res = client.search(
+    collection_name="product_catalog",
+    data=query_vectors,
+    anns_field="embedding",
+    limit=20,
+    output_fields=["id", "price", "rating", "category"],
+    # highlight-start
+    order_by_fields=[
+        {"field": "price", "order": "asc"}
+    ],
+    # highlight-end
+)
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// java
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// nodejs
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+```
+
+</TabItem>
+</Tabs>
+
+You can also sort by multiple scalar fields. Zilliz Cloud applies the fields in the order that you specify. In the following example, Zilliz Cloud sorts results by `price` in ascending order. For entities with the same `price`, Zilliz Cloud then sorts by `rating` in descending order.
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
+res = client.search(
+    collection_name="product_catalog",
+    data=query_vectors,
+    anns_field="embedding",
+    limit=20,
+    output_fields=["id", "price", "rating", "category"],
+    # highlight-start
+    order_by_fields=[
+        {"field": "price", "order": "asc"},
+        {"field": "rating", "order": "desc"},
+    ],
+    # highlight-end
+)
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// java
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// nodejs
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+```
+
+</TabItem>
+</Tabs>
+
+For entities with the same values in all specified order-by fields, Zilliz Cloud keeps the original similarity-score order.
 
 ## Use Limit and Offset\{#use-limit-and-offset}
 

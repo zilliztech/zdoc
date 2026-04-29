@@ -1,11 +1,12 @@
 ---
 title: "Manage Partitions | Cloud"
 slug: /manage-partitions
-sidebar_label: "Manage Partitions"
-beta: FALSE
+sidebar_key: manage-partitions
+sidebar_label: "Partitions"
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "A partition is a subset of a collection. Each partition shares the same data structure with its parent collection but contains only a subset of the data in the collection. This page helps you understand how to manage partitions. | Cloud"
 type: origin
@@ -28,6 +29,12 @@ import TabItem from '@theme/TabItem';
 # Manage Partitions
 
 A partition is a subset of a collection. Each partition shares the same data structure with its parent collection but contains only a subset of the data in the collection. This page helps you understand how to manage partitions.
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>This feature applies only to managed collections.</p>
+
+</Admonition>
 
 ## Overview\{#overview}
 

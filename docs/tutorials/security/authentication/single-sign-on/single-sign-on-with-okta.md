@@ -1,11 +1,12 @@
 ---
 title: "Okta (SAML 2.0) | Cloud"
 slug: /single-sign-on-with-okta
+sidebar_key: single-sign-on-with-okta
 sidebar_label: "Okta (SAML 2.0)"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "This topic describes how to configure single sign-on (SSO) with Okta using the SAML 2.0 protocol. | Cloud"
 type: origin

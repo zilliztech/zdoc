@@ -1,16 +1,17 @@
 ---
 title: "Geometry Operators | Cloud"
 slug: /geometry-operators
-sidebar_label: "Geometry Operators"
-beta: FALSE
+sidebar_key: geometry-operators
+sidebar_label: "Geometry"
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "Zilliz Cloud supports a set of operators for spatial filtering on `GEOMETRY` fields, which are essential for managing and analyzing geometric data. These operators allow you to retrieve entities based on the geometric relationships between objects. | Cloud"
 type: origin
 token: SOgiwzPxpisy8MkhtuecZqFbnaf
-sidebar_position: 7
+sidebar_position: 8
 keywords: 
   - zilliz
   - vector database

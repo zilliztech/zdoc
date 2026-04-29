@@ -1,11 +1,12 @@
 ---
 title: "Scale Replica | BYOC"
 slug: /manage-replica
+sidebar_key: manage-replica
 sidebar_label: "Scale Replica"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "Zilliz Cloud supports cluster-level replication. Each replica is an exact copy of the resources and data in a cluster. Using replicas can increase query throughput and availability. | BYOC"
 type: origin
@@ -33,15 +34,15 @@ For users experiencing QPS bottlenecks, adding replicas can distribute the query
 
 Note that adding replicas will not increase the cluster capacity because the capacity is only determined by the number of query CUs of each cluster. If you want to increase the cluster capacity, please refer to [Scale Cluster](./scale-query-cu).
 
-This guide outlines the procedures of configuring replicas for a cluster in Zilliz Cloud.
+This guide outlines the procedures of configuring replicas for a **serving cluster** in Zilliz Cloud.
 
 ## Limits\{#limits}
 
 You can configure replicas for an existing Dedicated cluster as long as the following conditions are met:
 
-- The cluster has 8 query CUs or more
+- The cluster has 12 query CUs or more
 
-- The product of the cluster query CU count x replica count should not exceed 256.
+- The product of the cluster query CU count x replica count should not exceed 10,240.
 
 <Admonition type="caution" icon="🚧" title="Warning">
 

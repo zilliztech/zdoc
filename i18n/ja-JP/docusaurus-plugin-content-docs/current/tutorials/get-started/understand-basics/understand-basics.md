@@ -1,23 +1,20 @@
 ---
 title: "基本を理解する | Cloud"
 slug: /understand-basics
+sidebar_key: understand-basics
 sidebar_label: "概念"
 beta: FALSE
 notebook: FALSE
-description: "Zilliz Cloud の使用方法について説明する際によく使用する用語について解説します。"
+description: "Zilliz Cloud の使用方法について議論する際に使用する一般的な用語の説明です。| Cloud"
 type: origin
 token: L4qDwChWLi1Vy6kbt30cd7W4ntC
-sidebar_position: 7
+sidebar_position: 11
 keywords: 
   - zilliz
   - ベクトルデータベース
   - クラウド
   - 基本
   - milvus
-  - マルチモーダル検索
-  - ベクトル検索アルゴリズム
-  - 質問応答システム
-  - llm-as-a-judge
 
 ---
 
@@ -26,7 +23,7 @@ import Admonition from '@theme/Admonition';
 
 # 基本を理解する
 
-Zilliz Cloud の使用方法について説明する際によく使用する用語について解説します。
+Zilliz Cloud の使用方法について議論する際に使用する一般的な用語の説明です。
 
 
 

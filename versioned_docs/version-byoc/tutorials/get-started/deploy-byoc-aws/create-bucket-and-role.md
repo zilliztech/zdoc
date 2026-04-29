@@ -1,11 +1,12 @@
 ---
 title: "Create S3 Bucket and IAM Role | BYOC"
 slug: /create-bucket-and-role
+sidebar_key: create-bucket-and-role
 sidebar_label: "Create S3 Bucket and IAM Role"
-beta: CONTACT SALES
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: CONTACT SALES
 notebook: FALSE
 description: "This page describes the procedure for creating and configuring the root storage for a Bring-Your-Own-Cloud (BYOC) project with proper permissions. | BYOC"
 type: origin

@@ -1,27 +1,24 @@
 ---
 title: "テキストマッチ | BYOC"
 slug: /text-match
+sidebar_key: text-match
 sidebar_label: "テキストマッチ"
 beta: FALSE
 notebook: FALSE
-description: "Zilliz Cloud のテキストマッチは、特定の用語に基づいて正確なドキュメント検索を可能にします。この機能は主に、特定の条件を満たすためのフィルタリング検索に使用され、クエリ結果を絞り込むためにスカラーフィルタリングを組み込むことができ、スカラー条件を満たすベクトル内で類似性検索を可能にします。 | BYOC"
+description: "Zilliz Cloud のテキストマッチ機能により、特定の用語に基づいてドキュメントを正確に検索できます。この機能は主に、特定の条件を満たすフィルタリング検索に使用され、スカラーフィルタリングを組み合わせてクエリ結果を絞り込むことで、スカラー基準を満たすベクトル内での類似度検索を実現します。| BYOC"
 type: origin
 token: RQQKwqhZUiubFzkHo4WcR62Gnvh
 sidebar_position: 11
 keywords: 
   - zilliz
   - ベクトルデータベース
-  - クラウド
+  - cloud
   - collection
-  - データ
-  - フィルター
+  - data
+  - filter
   - フィルタリング式
   - フィルタリング
-  - テキストマッチ
-  - AI Hallucination
-  - AI Agent
-  - セマンティック検索
-  - 異常検出
+  - text-match
 
 ---
 
@@ -29,37 +26,37 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# テキストマッチ
+# テキスト一致
 
-Zilliz Cloudのテキストマッチは、特定の用語に基づいて正確なドキュメント検索を可能にします。この機能は主に、特定の条件を満たすためのフィルタリング検索に使用され、スカラーフィルタリングを組み合わせてクエリ結果を絞り込み、スカラー基準を満たすベクトル内で類似性検索を行うことができます。
+Zilliz Cloud のテキスト一致機能は、特定の用語に基づいて正確なドキュメントを検索できるようにします。この機能は主に特定の条件を満たすフィルタリング検索に使用され、スカラー値によるフィルタリングを組み合わせてクエリ結果を絞り込むことができ、スカラー条件を満たすベクトル内での類似性検索を可能にします。
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>テキストマッチは、クエリ用語の正確な出現箇所を見つけることに焦点を当てており、一致したドキュメントの関連性をスコアリングしません。クエリ用語のセマンティックな意味と重要性に基づいて最も関連性の高いドキュメントを取得したい場合は、<a href="./full-text-search">Full Text Search</a>の使用をお勧めします。</p>
+<p>テキスト一致はクエリ用語の完全一致のみを対象とし、マッチしたドキュメントの関連性スコアは計算しません。クエリ用語の意味的関連性や重要度に基づいて最も関連性の高いドキュメントを取得したい場合は、<a href="./full-text-search">全文検索（Full Text Search）</a>の利用を推奨します。</p>
 
 </Admonition>
 
-Zilliz Cloudは、プログラムまたはウェブコンソールを介してテキストマッチを有効にすることをサポートしています。このページでは、プログラムでテキストマッチを有効にする方法に焦点を当てています。ウェブコンソールでの操作の詳細については、[コレクションの管理 (コンソール)](./manage-collections-console#text-match)を参照してください。
+Zilliz Cloud では、テキスト一致をプログラムから有効化することも、ウェブコンソールから有効化することもできます。このページでは、プログラムによる有効化方法について説明します。ウェブコンソールでの操作の詳細については、[コレクションの管理（コンソール）](./manage-collections-console#text-match)を参照してください。
 
-## 概要{#overview}
+## 概要\{#overview}
 
-Zilliz Cloudは、基盤となる転置インデックスと用語ベースのテキスト検索を強化するために[Tantivy](https://github.com/quickwit-oss/tantivy)を統合しています。各テキストエントリについて、Zilliz Cloudは次の手順でインデックスを作成します。
+Zilliz Cloud は、基盤となる転置インデックスおよび用語ベースのテキスト検索を実現するために [Tantivy](https://github.com/quickwit-oss/tantivy) を統合しています。各テキストエントリに対して、Zilliz Cloud は以下の手順でインデックスを作成します。
 
-1. [アナライザー](./analyzer-overview): アナライザーは、入力テキストを個々の単語（トークン）にトークン化し、必要に応じてフィルターを適用して処理します。これにより、Zilliz Cloudはこれらのトークンに基づいてインデックスを構築できます。
+1. [アナライザー](./analyzer-overview): アナライザーは入力テキストを個々の単語（トークン）に分割（トークン化）し、必要に応じてフィルターを適用します。これにより、Zilliz Cloud はこれらのトークンに基づいたインデックスを構築できます。
 
-1. [インデックスの管理](./manage-indexes): テキスト分析後、Zilliz Cloudは各一意のトークンをそれを含むドキュメントにマッピングする転置インデックスを作成します。
+1. [インデックス作成](./manage-indexes): テキスト分析後、Zilliz Cloud は各一意なトークンをそのトークンを含むドキュメントにマッピングする転置インデックスを作成します。
 
-ユーザーがテキストマッチを実行すると、転置インデックスが使用され、用語を含むすべてのドキュメントが迅速に取得されます。これは、各ドキュメントを個別にスキャンするよりもはるかに高速です。
+ユーザーがテキスト一致を実行すると、この転置インデックスを使用して該当する用語を含むすべてのドキュメントを高速に取得できます。これは個々のドキュメントを逐一スキャンするよりもはるかに高速です。
 
 ![N43zw7HuGhmCHRbYDDmctO1bnkd](https://zdoc-images.s3.us-west-2.amazonaws.com/N43zw7HuGhmCHRbYDDmctO1bnkd.png)
 
-## テキストマッチを有効にする{#enable-text-match}
+## テキスト一致の有効化\{#enable-text-match}
 
-テキストマッチは、Zilliz Cloudの文字列データ型である[`VARCHAR`](./use-string-field)フィールドタイプで機能します。テキストマッチを有効にするには、`enable_analyzer`と`enable_match`の両方を`True`に設定し、必要に応じてコレクションschemaを定義する際にテキスト分析用の[アナライザー](./analyzer-overview)を設定します。
+テキスト一致は [`VARCHAR`](./use-string-field) フィールドタイプ（Zilliz Cloud における文字列データ型）に対して機能します。テキスト一致を有効にするには、コレクションスキーマを定義する際に `enable_analyzer` および `enable_match` を `True` に設定し、オプションでテキスト分析用の[アナライザー](./analyzer-overview)を設定します。
 
-### `enable_analyzer`と`enable_match`を設定する{#set-enableanalyzer-and-enablematch}
+### `enable_analyzer` および `enable_match` の設定\{#set-enableanalyzer-and-enablematch}
 
-特定の`VARCHAR`フィールドでテキストマッチを有効にするには、フィールドschemaを定義する際に`enable_analyzer`と`enable_match`の両方のパラメーターを`True`に設定します。これにより、Zilliz Cloudはテキストをトークン化し、指定されたフィールドの転置インデックスを作成して、高速で効率的なテキストマッチを可能にします。
+特定の `VARCHAR` フィールドに対してテキスト一致を有効にするには、フィールドスキーマを定義する際に `enable_analyzer` および `enable_match` パラメータを両方とも `True` に設定します。これにより、Zilliz Cloud は指定されたフィールドのテキストをトークン化し、転置インデックスを作成して、高速かつ効率的なテキスト一致を可能にします。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -122,7 +119,7 @@ schema.addField(AddFieldReq.builder()
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 import "github.com/milvus-io/milvus/client/v2/entity"
@@ -148,7 +145,7 @@ schema.WithField(entity.NewField().
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 const schema = [
@@ -174,7 +171,7 @@ const schema = [
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 export schema='{
@@ -209,13 +206,13 @@ export schema='{
 </TabItem>
 </Tabs>
 
-### オプション：アナライザーの設定 {#optional-configure-an-analyzer}
+### （オプション）アナライザーの設定\{#optional-configure-an-analyzer}
 
-キーワードマッチングのパフォーマンスと精度は、選択されたアナライザーに依存します。異なるアナライザーは様々な言語やテキスト構造に合わせて調整されているため、適切なアナライザーを選択することで、特定のユースケースにおける検索結果に大きな影響を与える可能性があります。
+キーワードマッチングのパフォーマンスと精度は、選択したアナライザーに依存します。さまざまな言語やテキスト構造に合わせて異なるアナライザーが用意されているため、ユースケースに最適なアナライザーを選択することで検索結果が大きく改善される可能性があります。
 
-デフォルトでは、Zilliz Cloudは`standard`アナライザーを使用します。これは、空白と句読点に基づいてテキストをトークン化し、40文字を超えるトークンを削除し、テキストを小文字に変換します。このデフォルト設定を適用するために追加のパラメータは必要ありません。詳細については、[Standard](./standard-analyzer)を参照してください。
+デフォルトでは、Zilliz Cloud は `standard` アナライザーを使用します。このアナライザーは、空白や句読点に基づいてテキストをトークン化し、40文字を超えるトークンを削除して小文字に変換します。このデフォルト設定を適用するには、追加のパラメータは不要です。詳細については、[Standard](./standard-analyzer) を参照してください。
 
-異なるアナライザーが必要な場合は、`analyzer_params`パラメータを使用して設定できます。例えば、英語のテキストを処理するために`english`アナライザーを適用するには、次のようにします。
+別のアナライザーが必要な場合は、`analyzer_params` パラメータを使用して設定できます。たとえば、英語テキストを処理するために `english` アナライザーを適用するには、次のようになります：
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -253,7 +250,7 @@ schema.addField(AddFieldReq.builder()
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 analyzerParams := map[string]any{"type": "english"}
@@ -269,7 +266,7 @@ schema.WithField(entity.NewField().
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 const schema = [
@@ -296,7 +293,7 @@ const schema = [
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 export schema='{
@@ -332,25 +329,25 @@ export schema='{
 </TabItem>
 </Tabs>
 
-Zilliz Cloud は、さまざまな言語やシナリオに適した他のアナライザーも提供しています。詳細については、[アナライザーの概要](./analyzer-overview)を参照してください。
+Zilliz Cloud は、さまざまな言語やシナリオに適した他のアナライザーも提供しています。詳細については、[Analyzer Overview](./analyzer-overview) を参照してください。
 
-## テキストマッチの使用方法{#use-text-match}
+## テキスト一致の使用\{#use-text-match}
 
-コレクションスキーマで VARCHAR フィールドのテキストマッチを有効にすると、`TEXT_MATCH` 式を使用してテキストマッチを実行できます。
+コレクションスキーマ内の VARCHAR フィールドでテキスト一致を有効化すると、`TEXT_MATCH` 式を使用してテキスト一致検索を実行できます。
 
-### TEXT_MATCH 式の構文{#textmatch-expression-syntax}
+### TEXT_MATCH 式の構文\{#textmatch-expression-syntax}
 
-`TEXT_MATCH` 式は、検索するフィールドと用語を指定するために使用されます。その構文は次のとおりです。
+`TEXT_MATCH` 式は、検索対象のフィールドと検索語句を指定するために使用されます。その構文は次のとおりです：
 
 ```python
 TEXT_MATCH(field_name, text)
 ```
 
-- `field_name`: 検索するVARCHARフィールドの名前。
+- `field_name`: 検索対象となる VARCHAR フィールドの名前。
 
-- `text`: 検索する用語。複数の用語は、言語と設定されたアナライザーに基づいて、スペースまたはその他の適切な区切り文字で区切ることができます。
+- `text`: 検索する語句。複数の語句は、スペースまたは言語と設定されたアナライザーに基づく適切な区切り文字で分離できます。
 
-デフォルトでは、`TEXT_MATCH`は**OR**マッチングロジックを使用します。つまり、指定された用語のいずれかを含むドキュメントを返します。たとえば、`text`フィールドに`machine`または`deep`という用語を含むドキュメントを検索するには、次の式を使用します。
+デフォルトでは、`TEXT_MATCH` は **OR** マッチングロジックを使用します。つまり、指定された語句のいずれかを含むドキュメントが返されます。たとえば、`text` フィールドに `machine` または `deep` を含むドキュメントを検索するには、次の式を使用します：
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -369,7 +366,7 @@ String filter = "TEXT_MATCH(text, 'machine deep')";
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 filter := "TEXT_MATCH(text, 'machine deep')"
@@ -377,7 +374,7 @@ filter := "TEXT_MATCH(text, 'machine deep')"
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 const filter = "TEXT_MATCH(text, 'machine deep')";
@@ -385,7 +382,7 @@ const filter = "TEXT_MATCH(text, 'machine deep')";
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 export filter="\"TEXT_MATCH(text, 'machine deep')\""
@@ -394,9 +391,9 @@ export filter="\"TEXT_MATCH(text, 'machine deep')\""
 </TabItem>
 </Tabs>
 
-論理演算子を使用して複数の `TEXT_MATCH` 式を組み合わせることで、**AND** マッチングを実行することもできます。
+論理演算子を使用して複数の `TEXT_MATCH` 式を組み合わせ、**AND** マッチングを実行することもできます。
 
-- `text` フィールドに `machine` と `deep` の両方を含むドキュメントを検索するには、次の式を使用します。
+- `text` フィールドに `machine` と `deep` の両方を含むドキュメントを検索するには、次の式を使用します：
 
     <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
@@ -415,7 +412,7 @@ export filter="\"TEXT_MATCH(text, 'machine deep')\""
 
     </TabItem>
 
-    <TabItem value='go'>
+    <TabItem value='java'>
 
     ```go
     filter := "TEXT_MATCH(text, 'machine') and TEXT_MATCH(text, 'deep')"
@@ -423,7 +420,7 @@ export filter="\"TEXT_MATCH(text, 'machine deep')\""
 
     </TabItem>
 
-    <TabItem value='javascript'>
+    <TabItem value='java'>
 
     ```javascript
     const filter = "TEXT_MATCH(text, 'machine') and TEXT_MATCH(text, 'deep')"
@@ -431,7 +428,7 @@ export filter="\"TEXT_MATCH(text, 'machine deep')\""
 
     </TabItem>
 
-    <TabItem value='bash'>
+    <TabItem value='java'>
 
     ```bash
     export filter="\"TEXT_MATCH(text, 'machine') and TEXT_MATCH(text, 'deep')\""
@@ -440,7 +437,7 @@ export filter="\"TEXT_MATCH(text, 'machine deep')\""
     </TabItem>
     </Tabs>
 
-- `text`フィールドに`machine`と`learning`の両方を含むが、`deep`を含まないドキュメントを検索するには、以下の式を使用します。
+- `text` フィールド内で `machine` および `learning` を含み、かつ `deep` を含まないドキュメントを検索するには、次の式を使用します:
 
     <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
@@ -459,7 +456,7 @@ export filter="\"TEXT_MATCH(text, 'machine deep')\""
 
     </TabItem>
 
-    <TabItem value='go'>
+    <TabItem value='java'>
 
     ```go
     filter := "not TEXT_MATCH(text, 'deep') and TEXT_MATCH(text, 'machine') and TEXT_MATCH(text, 'learning')"
@@ -467,7 +464,7 @@ export filter="\"TEXT_MATCH(text, 'machine deep')\""
 
     </TabItem>
 
-    <TabItem value='javascript'>
+    <TabItem value='java'>
 
     ```javascript
     const filter = "not TEXT_MATCH(text, 'deep') and TEXT_MATCH(text, 'machine') and TEXT_MATCH(text, 'learning')";
@@ -475,7 +472,7 @@ export filter="\"TEXT_MATCH(text, 'machine deep')\""
 
     </TabItem>
 
-    <TabItem value='bash'>
+    <TabItem value='java'>
 
     ```bash
     export filter="\"not TEXT_MATCH(text, 'deep') and TEXT_MATCH(text, 'machine') and TEXT_MATCH(text, 'learning')\""
@@ -484,17 +481,17 @@ export filter="\"TEXT_MATCH(text, 'machine deep')\""
     </TabItem>
     </Tabs>
 
-### テキストマッチによる検索{#search-with-text-match}
+### テキスト一致による検索\{#search-with-text-match}
 
-テキストマッチは、検索範囲を絞り込み、検索パフォーマンスを向上させるために、ベクトル類似性検索と組み合わせて使用できます。ベクトル類似性検索の前にテキストマッチを使用してコレクションをフィルタリングすることで、検索する必要があるドキュメントの数を減らし、クエリ時間を短縮できます。
+テキスト一致は、ベクトル類似性検索と組み合わせて使用することで、検索範囲を絞り込み、検索パフォーマンスを向上させることができます。ベクトル類似性検索の前にテキスト一致でコレクションをフィルタリングすることで、検索対象となるドキュメント数を削減し、クエリの実行時間を短縮できます。
 
-この例では、`filter` 式は、指定された用語 `keyword1` または `keyword2` に一致するドキュメントのみを含むように検索結果をフィルタリングします。その後、このフィルタリングされたドキュメントのサブセットに対してベクトル類似性検索が実行されます。
+この例では、`filter` 式により、指定された用語 `keyword1` または `keyword2` に一致するドキュメントのみが検索結果に含まれるようにフィルタリングされます。その後、このフィルタリングされたドキュメントのサブセットに対してベクトル類似性検索が実行されます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
-# Match entities with `keyword1` or `keyword2`
+# Match entities with \`keyword1\` or \`keyword2\`
 filter = "TEXT_MATCH(text, 'keyword1 keyword2')"
 
 # Assuming 'embeddings' is the vector field and 'text' is the VARCHAR field
@@ -530,7 +527,7 @@ SearchResp searchResp = client.search(SearchReq.builder()
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 filter := "TEXT_MATCH(text, 'keyword1 keyword2')"
@@ -550,10 +547,10 @@ if err != nil {
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
-// Match entities with `keyword1` or `keyword2`
+// Match entities with \`keyword1\` or \`keyword2\`
 const filter = "TEXT_MATCH(text, 'keyword1 keyword2')";
 
 // Assuming 'embeddings' is the vector field and 'text' is the VARCHAR field
@@ -571,7 +568,7 @@ const result = await client.search(
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 export filter="\"TEXT_MATCH(text, 'keyword1 keyword2')\""
@@ -601,9 +598,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-### テキストマッチによるクエリ{#query-with-text-match}
+### Query with テキスト一致\{#query-with-text-match}
 
-テキストマッチは、クエリ操作におけるスカラーフィルタリングにも使用できます。`query()` メソッドの `expr` パラメータに `TEXT_MATCH` 式を指定することで、指定された用語に一致するドキュメントを取得できます。
+テキスト一致は、クエリ操作におけるスカラーフィルタリングにも使用できます。`query()` メソッドの `expr` パラメータに `TEXT_MATCH` 式を指定することで、指定された用語に一致するドキュメントを取得できます。
 
 以下の例では、`text` フィールドに `keyword1` と `keyword2` の両方の用語が含まれるドキュメントを取得します。
 
@@ -611,7 +608,7 @@ curl --request POST \
 <TabItem value='python'>
 
 ```python
-# Match entities with both `keyword1` and `keyword2`
+# Match entities with both \`keyword1\` and \`keyword2\`
 filter = "TEXT_MATCH(text, 'keyword1') and TEXT_MATCH(text, 'keyword2')"
 
 result = client.query(
@@ -640,7 +637,7 @@ QueryResp queryResp = client.query(QueryReq.builder()
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 filter = "TEXT_MATCH(text, 'keyword1') and TEXT_MATCH(text, 'keyword2')"
@@ -656,10 +653,10 @@ if err != nil {
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
-// Match entities with both `keyword1` and `keyword2`
+// Match entities with both \`keyword1\` and \`keyword2\`
 const filter = "TEXT_MATCH(text, 'keyword1') and TEXT_MATCH(text, 'keyword2')";
 
 const result = await client.query(
@@ -672,7 +669,7 @@ const result = await client.query(
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 export filter="\"TEXT_MATCH(text, 'keyword1') and TEXT_MATCH(text, 'keyword2')\""
@@ -694,17 +691,17 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## 考慮事項{#considerations}
+## Considerations\{#considerations}
 
-- フィールドの用語マッチングを有効にすると、転置インデックスが作成され、ストレージリソースを消費します。この機能を有効にするかどうかを決定する際には、テキストサイズ、一意のトークン、および使用されるアナライザーによって異なるため、ストレージへの影響を考慮してください。
+- フィールドに対して用語マッチングを有効にすると、転置インデックスが作成され、ストレージリソースを消費します。この機能を有効にするかどうかを決定する際は、テキストのサイズ、固有のトークン数、使用されるアナライザーによって異なるストレージへの影響を考慮してください。
 
-- スキーマでアナライザーを定義すると、その設定はそのコレクションに対して永続的になります。異なるアナライザーがニーズにより適していると判断した場合は、既存のコレクションを削除し、目的のアナライザー構成で新しいコレクションを作成することを検討してください。
+- スキーマでアナライザーを定義 once すると、その設定は該当のコレクションに対して永続的になります。別のアナライザーの方がニーズに適していると判断した場合は、既存のコレクションを削除し、希望のアナライザー構成で新しいコレクションを作成することを検討してください。
 
-- `filter` 式におけるエスケープルール：
+- `filter` 式におけるエスケープ規則：
 
-    - 式内で二重引用符または一重引用符で囲まれた文字は、文字列定数として解釈されます。文字列定数にエスケープ文字が含まれる場合、エスケープ文字はエスケープシーケンスで表現する必要があります。たとえば、`\` を表すには `\\` を、タブ `\t` を表すには `\\t` を、改行 `\n` を表すには `\\n` を使用します。
+    - 式内で二重引用符または単一引用符で囲まれた文字は文字列定数として解釈されます。文字列定数にエスケープ文字が含まれる場合、エスケープ文字はエスケープシーケンスで表現する必要があります。例えば、`\` を表すには `\\` を、タブ `\t` を表すには `\\t` を、改行を表すには `\\n` を使用します。
 
-    - 文字列定数が一重引用符で囲まれている場合、定数内の一重引用符は `\\'` として表現する必要があり、二重引用符は `"` または `\\"` のいずれかで表現できます。例：`'It\\'s milvus'`。
+    - 文字列定数が単一引用符で囲まれている場合、定数内の単一引用符は `\\'` として表現する必要があり、二重引用符は `"` または `\\"` のいずれかで表現できます。例：`'It\\'s milvus'`
 
-    - 文字列定数が二重引用符で囲まれている場合、定数内の二重引用符は `\\"` として表現する必要があり、一重引用符は `'` または `\\'` のいずれかで表現できます。例：`"He said \\"Hi\\""`。
+    - 文字列定数が二重引用符で囲まれている場合、定数内の二重引用符は `\\"` として表現する必要があり、単一引用符は `'` または `\\'` のいずれかで表現できます。例：`"He said \\"Hi\\""`
 

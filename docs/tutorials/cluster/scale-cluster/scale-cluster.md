@@ -1,11 +1,12 @@
 ---
 title: "Scale Cluster | Cloud"
 slug: /scale-cluster
+sidebar_key: scale-cluster
 sidebar_label: "Scale Cluster"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "In Zilliz Cloud, a query CU is a set of hardware resources used to serve indexes and process search requests. You can think of a query CU as a fully managed physical node that runs your query service. A replica is a cluster-level copy that contains the same resources and data. Query CUs primarily determine cluster capacity and compute resources, while replicas provide additional parallelism for serving queries. | Cloud"
 type: origin
@@ -27,15 +28,22 @@ import Admonition from '@theme/Admonition';
 
 In Zilliz Cloud, a **query CU** is a set of hardware resources used to serve indexes and process search requests. You can think of a query CU as a fully managed physical node that runs your query service. A **replica** is a cluster-level copy that contains the same resources and data. Query CUs primarily determine cluster capacity and compute resources, while replicas provide additional parallelism for serving queries.
 
+<Admonition type="info" icon="📘" title="Note">
+
+<p>The scaling options described in this article only apply to <strong>serving clusters</strong>. </p>
+<p><strong>On-demand clusters</strong> scale automatically — they spin up when a request arrives and scale back to zero when idle, with no manual intervention required.</p>
+
+</Admonition>
+
 ## Query CU vs Replica\{#query-cu-vs-replica}
 
-As your workload grows and more data is written, a cluster may eventually reach its capacity and performance limit. To proactively manage this, you can monitor **Query CU Capacity** and **Query CU Computation** on the metrics page and **scale** before you hit the limit.
+As your workload grows and more data is written, a serving cluster may eventually reach its capacity and performance limit. To proactively manage this, you can monitor **Query CU Capacity** and **Query CU Computation** on the metrics page and **scale** before you hit the limit.
 
 Choosing whether to scale query CUs or replicas depends on your goal. As a rule of thumb: 
 
-- For clusters with 1 - 8 query CUs, you can directly scale query CU.
+- For serving clusters with 1 - 8 query CUs, you can directly scale query CU.
 
-- For clusters with more than 8 query CUs, you can scale query CU or replica depending on your need.
+- For serving clusters with more than 8 query CUs, you can scale query CU or replica depending on your need.
 
 ### Scale query CUs for more capacity\{#scale-query-cus-for-more-capacity}
 
@@ -43,7 +51,7 @@ Scale query CUs if you are hitting capacity-related limits or expect continued g
 
 Typical signals and scenarios include:
 
-- Write operations fail while reads still succeed. This often indicates the cluster is at or near capacity.
+- Write operations fail while reads still succeed. This often indicates the serving cluster is at or near capacity.
 
 - You are working with large datasets or require more collections.
 
@@ -53,7 +61,7 @@ For details, see [Scale Query CU](./scale-query-cu).
 
 ### Scale replicas for higher throughput or availability\{#scale-replicas-for-higher-throughput-or-availability}
 
-Scale replicas when your cluster can hold the data, but you see bottlenecks of query throughput (QPS) or need better availability.
+Scale replicas when your serving cluster can hold the data, but you see bottlenecks of query throughput (QPS) or need better availability.
 
 Typical signals and scenarios include:
 
@@ -67,7 +75,7 @@ For details, see [Scale Replica](./manage-replica).
 
 ## Scaling options\{#scaling-options}
 
-Zilliz Cloud provides multiple ways to scale cluster resources. Depending on your workload pattern, you can scale immediately, on a schedule, or automatically.
+Zilliz Cloud provides multiple ways to scale serving cluster resources. Depending on your workload pattern, you can scale immediately, on a schedule, or automatically.
 
 ### Manual scaling\{#manual-scaling}
 
@@ -105,7 +113,7 @@ Enable dynamic scaling for **unpredictable workloads**. Zilliz Cloud automatical
 
     - If you have a very clear understanding of your workload patterns—such as consistent daily peaks or planned batch import jobs—**manual** scaling and **scheduled** scaling is right option for you. If you need to adjust the query CU immediately, choose manual scaling. If you want the adjustment to occur recurringly at a specific future time, choose scheduled scaling.
 
-    - If your workload is unpredictable and varies throughout the day or week, **dynamic scaling** is recommended. It adjusts the cluster size automatically within a range you define, helping to maintain performance while optimizing cost.
+    - If your workload is unpredictable and varies throughout the day or week, **dynamic scaling** is recommended. It adjusts the serving cluster size automatically within a range you define, helping to maintain performance while optimizing cost.
 
 1. **When should I scale replicas and when should I scale query CU?**
 
@@ -127,7 +135,7 @@ Enable dynamic scaling for **unpredictable workloads**. Zilliz Cloud automatical
 
         *Tips:  Increasing CU size gives each query node more computing resources and capacity.*
 
-    - **Suggestion**: For clusters with 1 - 8 CUs, you can directly scale query CU. For clusters with more than 8 CUs, please increase replicas.
+    - **Suggestion**: For serving clusters with 1 - 8 CUs, you can directly scale query CU. For serving clusters with more than 8 CUs, please increase replicas.
 
 1. **How does scaling work in Zilliz Cloud?**
 
@@ -139,11 +147,11 @@ Enable dynamic scaling for **unpredictable workloads**. Zilliz Cloud automatical
 
     - **Resource check**: Zilliz Cloud validates your scaling request against the following requirements.
 
-        - Enterprise project: Query CU × Replica ≤ 256
+        - Enterprise project: Query CU × Replica ≤ 10,240
 
-        - Standard project: Query CU × Replica ≤ 32
+        - Standard project: Query CU ≤ 32
 
-        - If Replica > 1, the cluster cannot scale down to less than 8 query CUs.
+        - If Replica > 1, the serving cluster cannot scale down to less than 12 query CUs.
 
         - Current data volume < 80% of the CU capacity of the new CU size.
 
@@ -151,9 +159,9 @@ Enable dynamic scaling for **unpredictable workloads**. Zilliz Cloud automatical
 
         - If you have any problems with scaling, [contact support](http://support.zilliz.com).
 
-    - **Generate a scaling job**: Once the resource check passes, Zilliz Cloud creates a scaling job. You can track progress on the [Jobs](./job-center) page. During this time, the cluster status changes to **Modifying**, and cluster operations such as suspend, migrate, and drop are unavailable.
+    - **Generate a scaling job**: Once the resource check passes, Zilliz Cloud creates a scaling job. You can track progress on the [Jobs](./job-center) page. During this time, the serving cluster status changes to **Modifying**, and cluster operations such as suspend, migrate, and drop are unavailable.
 
-    - **Job completed**: When the job completes, scaling succeeds and the cluster status returns to **Running**. You will also receive an email confirming the resource adjustment.
+    - **Job completed**: When the job completes, scaling succeeds and the serving cluster status returns to **Running**. You will also receive an email confirming the resource adjustment.
 
 
 

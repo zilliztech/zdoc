@@ -1,11 +1,12 @@
 ---
 title: "Okta (OIDC) | BYOC"
 slug: /openid-connect
+sidebar_key: openid-connect
 sidebar_label: "Okta (OIDC)"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "This topic describes how to configure single sign-on (SSO) with Okta using the OpenID Connect (OIDC) protocol. | BYOC"
 type: origin

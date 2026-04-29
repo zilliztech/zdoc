@@ -1,11 +1,12 @@
 ---
 title: "BM25 Function | BYOC"
 slug: /bm25-function
+sidebar_key: bm25-function
 sidebar_label: "BM25 Function"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "The BM25 function enables full text search by transforming raw text into sparse vectors and scoring documents based on lexical relevance. It applies term-based matching and frequency-aware weighting to support efficient retrieval of text documents that closely match query terms. | BYOC"
 type: origin
@@ -242,8 +243,11 @@ ctx, cancel := context.WithCancel(context.Background())
 defer cancel()
 
 milvusAddr := "YOUR_CLUSTER_ENDPOINT"
+token := "YOUR_CLUSTER_TOKEN"
+
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: milvusAddr,
+    APIKey: token
 })
 if err != nil {
     fmt.Println(err.Error())
@@ -348,7 +352,7 @@ bm25_function = Function(
     input_field_names=["text"], # Name of the VARCHAR field containing raw text data
     output_field_names=["sparse"], # Name of the SPARSE_FLOAT_VECTOR field reserved to store generated embeddings
     # highlight-next-line
-    function_type=FunctionType.BM25, # Set to `BM25`
+    function_type=FunctionType.BM25, # Set to \`BM25\`
 )
 
 schema.add_function(bm25_function)

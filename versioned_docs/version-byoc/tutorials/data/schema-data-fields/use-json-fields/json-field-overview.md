@@ -1,11 +1,12 @@
 ---
 title: "JSON Field Overview | BYOC"
 slug: /json-field-overview
-sidebar_label: "JSON Field Overview"
-beta: FALSE
+sidebar_key: json-field-overview
+sidebar_label: "Overview"
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "When building applications like product catalogs, content management systems, or user preference engines, you often need to store flexible metadata alongside your vector embeddings. Product attributes vary by category, user preferences evolve over time, and document properties have complex nested structures. JSON fields in Zilliz Cloud solve this challenge by allowing you to store and query flexible structured data without sacrificing performance. | BYOC"
 type: origin

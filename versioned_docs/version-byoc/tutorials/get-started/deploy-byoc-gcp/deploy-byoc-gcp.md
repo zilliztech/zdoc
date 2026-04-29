@@ -1,11 +1,12 @@
 ---
 title: "Deploy BYOC on GCP | BYOC"
 slug: /deploy-byoc-gcp
+sidebar_key: deploy-byoc-gcp
 sidebar_label: "Deploy BYOC on GCP"
-beta: CONTACT SALES
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: CONTACT SALES
 notebook: FALSE
 description: "This page describes how to manually create a fully managed Bring-Your-Own-Cloud (BYOC) data plane in your Google Cloud Platform (GCP) Virtual Private Cloud (VPC) using the Zilliz Cloud console and custom GCP configurations. | BYOC"
 type: origin

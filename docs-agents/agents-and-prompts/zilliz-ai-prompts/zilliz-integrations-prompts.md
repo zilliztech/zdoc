@@ -1,11 +1,12 @@
 ---
 title: "Integrations | Cloud"
 slug: /zilliz-integrations-prompts
+sidebar_key: zilliz-integrations-prompts
 sidebar_label: "Integrations"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "You can use this prompt for AI-powered IDEs, helping AI assistants implement Zilliz Cloud features correctly and efficiently. | Cloud"
 type: origin

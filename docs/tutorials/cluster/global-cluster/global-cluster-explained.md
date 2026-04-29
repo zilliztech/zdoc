@@ -1,11 +1,12 @@
 ---
 title: "Global Cluster Explained | Cloud"
 slug: /global-cluster-explained
+sidebar_key: global-cluster-explained
 sidebar_label: "Global Cluster Explained"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "Zilliz Cloud global cluster lets you deploy a primary cluster and multiple read-only secondary clusters across multiple regions on the same cloud provider. | Cloud"
 type: origin
@@ -17,6 +18,10 @@ keywords:
   - cloud
   - milvus
   - global cluster
+  - switchover
+  - failover
+  - disaster recovery
+  - high availability
 
 ---
 
@@ -45,64 +50,31 @@ A Zilliz Cloud **global cluster** consists of one **primary cluster** and up to 
 
 All writes are directed to the primary cluster. Zilliz Cloud then automatically replicates data changes from the primary cluster to all secondary clusters. 
 
-This multi-region setup provides:
-
-- Resilience against regional outages: If the primary cluster fails or experiences an outage, you can promote a secondary cluster as a primary cluster.
-
-- Low-latency reads: Because a full copy of your data is available in multiple geographic locations, applications can read from the nearest region to minimize latency.
-
-### Connectivity and routing\{#connectivity-and-routing}
-
 The following diagram shows how a global cluster works in Zilliz Cloud.
 
 ![UZjtwUeaxh2lDsb9eeOclNZ6nae](https://zdoc-images.s3.us-west-2.amazonaws.com/UZjtwUeaxh2lDsb9eeOclNZ6nae.png)
 
-Your application connects to a global cluster through a **global endpoint** which provides the following benefits:
+This multi-region setup provides the following benefits:
 
-- **One Unified URL:** Your application uses one global endpoint that does not change, regardless of the underlying infrastructure. During planned switchover or emergency failover, the endpoint updates its internal routing automatically, so you do not need to change connection endpoint in your application code.
+- **Resilience against regional outages**: If the primary cluster fails or experiences an outage, you can promote a secondary cluster as a primary cluster.
 
-- **Intelligent Routing:** The global endpoint routes **write requests** to the primary cluster and **read requests** to the primary or an appropriate secondary cluster based on latency and workload.
-
-### Switchover and failover\{#switchover-and-failover}
-
-Zilliz Cloud global clusters support two operations that change which region hosts the primary cluster: 
-
-- **Switchover**: A planned operation that promotes a fully synchronized secondary cluster to become the new primary cluster. To learn how to perform a switchover, see [Manage Global Cluster](./manage-global-cluster#switchover). During a switchover, Zilliz Cloud first ensures that the selected secondary cluster in another region is fully synchronized with the current primary. The secondary is then promoted to become the new primary cluster. Because promotion occurs only after synchronization is complete, no data loss is expected. For more information, see [Manage Global Cluster](./manage-global-cluster#switchover).
-
-- **Failover**: An unplanned emergency recovery operation that promotes a secondary cluster to primary after an outage in the original primary region. During a cross-region failover, Zilliz Cloud first fences the original primary cluster which stops accepting new write requests. Then, a secondary cluster in another region is promoted as the new primary cluster based on its latest replicated state.
-
-The following table compares these two concepts.
-
-<table>
-   <tr>
-     <th></th>
-     <th><p><strong>Switchover</strong></p></th>
-     <th><p><strong>Failover</strong></p></th>
-   </tr>
-   <tr>
-     <td><p><strong>Typical use case</strong></p></td>
-     <td><p>Planned operations (regional rotation, compliance, data residency, etc.)</p></td>
-     <td><p>Unplanned outage or failure in the primary region</p></td>
-   </tr>
-   <tr>
-     <td><p><strong>Trigger</strong></p></td>
-     <td><p>Manually initiated for operational reasons</p></td>
-     <td><p>Manually initiated as a recovery action after an incident</p></td>
-   </tr>
-   <tr>
-     <td><p><strong>RPO & RTO</strong></p></td>
-     <td><p>RPO: 0 (no data loss)</p><p>RTO: near zero</p></td>
-     <td><p>RPO: equals the sync latency between the old and new primary cluster, typically a few seconds.</p><p>RTO: typically about a few minutes.</p></td>
-   </tr>
-</table>
+- **Low-latency reads**: Because a full copy of your data is available in multiple geographic locations, applications can read from the nearest region to minimize latency.
 
 ## Typical use cases\{#typical-use-cases}
 
 The global cluster feature has 2 typical use cases:
 
-- **Disaster recovery & high availability:** You need clusters in multiple regions for failover. In this case, connect to the global cluster through a **global endpoint**—Zilliz Cloud automatically routes traffic.
+- **Disaster recovery & high availability:** Deploy clusters in multiple regions for failover. In this case, connect through the **global** **endpoint** — a single, unified URL that never changes. Zilliz Cloud automatically routes write requests to the primary cluster and read requests to the nearest secondary based on latency. During switchover or failover, the endpoint re-routes automatically with no code changes required.
 
-- **Data replication between environments:** You run multiple clusters (for example, production and testing) in the same region and need to replicate data between them. In this case, connect to each cluster using its **public endpoint**.
+- **Data replication between environments:** Run multiple clusters (for example, production and testing) in the same or different regions and replicate data between them. In this case, connect to each cluster directly using its **public** **endpoint**.
+
+For details, see [Connect to Global Cluster](./connect-to-global-cluster).
+
+## Switchover and failover\{#switchover-and-failover}
+
+Zilliz Cloud global clusters support switchover and failover. Both operations change which region hosts the primary cluster, and the global endpoint re-routes automatically.
+
+For details, see [Switchover and Failover](./switchover-and-failover).
 
 ## Billing\{#billing}
 
@@ -128,23 +100,110 @@ You’ll be charged for the sum of the following:
 
 For detailed list prices, see [Zilliz Cloud List Price](https://zilliz.com/pricing/pricing-guide).
 
-## Limitations\{#limitations}
+<Admonition type="info" icon="📘" title="Notes">
 
-- **Plan availability**: You need to have a project on the Business Critical plan to access the global cluster feature.
+<p>Discarded clusters in the recycle bin after a <a href="./switchover-and-failover#perform-a-failover">failover</a> are billed for <strong>storage</strong> only.</p>
+
+</Admonition>
+
+## Considerations\{#considerations}
+
+- **Project plan availability**: You need to have a multi-regional project on the Business Critical plan to access the global cluster feature. In addition, secondary cluster regions in a Global Cluster are limited to the regions supported by your [project](./manage-projects).
 
 - **Access Control**: You need to be a Project Admin to configure a global cluster
 
-- **Usage**:
+- **Cluster configuration**:
 
     - You can only add up to 5 secondary clusters.
 
-    - You cannot suspend a global cluster and its primary or secondary clusters.
+    - Secondary clusters must use the same cloud provider and cluster type as the primary.
 
-    - The cluster type, cloud provider, query CU count, and replica count of the primary and secondary clusters should all be consistent.
+    - Query CU count is controlled by the primary; secondaries follow automatically.
 
-    - You can scale the replica of a primary cluster but cannot scale the replica of a secondary cluster.
+    - Replica count is controlled independently per cluster. Dynamic Scaling and Schedule Scaling are also independent per cluster.
 
-    - To drop a global cluster, you need to drop all its primary and secondary clusters.
+- **Cluster operations:**
 
-    - The backup policy is configured on the primary cluster only. After a switchover or failover, the backup policy automatically applies to the new primary cluster.
+    Not all cluster operations are available on both primary and secondary clusters. The following table summarizes what is supported on each.
+
+    <table>
+       <tr>
+         <th><p><strong>Operation</strong></p></th>
+         <th><p><strong>Primary</strong></p></th>
+         <th><p><strong>Secondary</strong></p></th>
+         <th><p><strong>Notes</strong></p></th>
+       </tr>
+       <tr>
+         <td><p>Read (search, query)</p></td>
+         <td><p>Yes</p></td>
+         <td><p>Yes</p></td>
+         <td><p>--</p></td>
+       </tr>
+       <tr>
+         <td><p>Write (insert, upsert, delete)</p></td>
+         <td><p>Yes</p></td>
+         <td><p>No</p></td>
+         <td><p>Only the primary cluster accepts write operations. Writing to a secondary cluster will fail.</p></td>
+       </tr>
+       <tr>
+         <td><p>Query CU scaling</p></td>
+         <td><p>Yes</p></td>
+         <td><p>No</p></td>
+         <td><p>Query CU changes are applied to the primary; secondaries follow automatically.</p></td>
+       </tr>
+       <tr>
+         <td><p>Replica scaling</p></td>
+         <td><p>Yes</p></td>
+         <td><p>Yes</p></td>
+         <td><p>Each cluster controls its own replica count. Dynamic scaling and schedule scaling configurations are also independent.</p></td>
+       </tr>
+       <tr>
+         <td><p>Import</p></td>
+         <td><p>No</p></td>
+         <td><p>No</p></td>
+         <td><p>Will be supported soon.</p></td>
+       </tr>
+       <tr>
+         <td><p>Migration</p></td>
+         <td><p>Yes</p></td>
+         <td><p>No</p></td>
+         <td><p>Migration is only supported on the primary cluster. All data migrated to the primary cluster will be replicated to secondary clusters.</p></td>
+       </tr>
+       <tr>
+         <td><p>Backup</p></td>
+         <td><p>Yes</p></td>
+         <td><p>No</p></td>
+         <td><p>You can only create backups for a primary cluster.</p><p>Automatic backup policies also run on the primary only.</p></td>
+       </tr>
+       <tr>
+         <td><p>Restore</p></td>
+         <td><p>No</p></td>
+         <td><p>No</p></td>
+         <td><p>Will be supported soon.</p></td>
+       </tr>
+       <tr>
+         <td><p>Suspend / Resume</p></td>
+         <td><p>No</p></td>
+         <td><p>No</p></td>
+         <td><p>All primary and secondary clusters cannot be suspended.</p></td>
+       </tr>
+       <tr>
+         <td><p>Switchover</p></td>
+         <td><p>Yes</p></td>
+         <td><p>—</p></td>
+         <td><p>Can only be triggered when all of the primary and secondary clusters are RUNNING.</p></td>
+       </tr>
+       <tr>
+         <td><p>Failover</p></td>
+         <td><p>Yes</p></td>
+         <td><p>—</p></td>
+         <td><p>Can be triggered anytime. This is a high-risk emergency operation.</p></td>
+       </tr>
+    </table>
+
+- **Unsupported features**
+
+    - Setting up a private global endpoint is not supported. The global endpoint requires public internet access.
+
+    - Customer-managed encryption key ([CMEK](./cmek)) is not supported for a global cluster. If a cluster has CMEK enabled, it cannot be converted to a global cluster.
 

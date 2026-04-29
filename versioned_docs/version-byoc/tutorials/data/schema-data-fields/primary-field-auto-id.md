@@ -1,11 +1,12 @@
 ---
 title: "Primary Field & AutoID | BYOC"
 slug: /primary-field-auto-id
-sidebar_label: "Primary Field & AutoID"
-beta: FALSE
+sidebar_key: primary-field-auto-id
+sidebar_label: "Primary Field"
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "Every collection in Zilliz Cloud must have a primary field to uniquely identify each entity. This field ensures that every entity can be inserted, updated, queried, or deleted without ambiguity. | BYOC"
 type: origin
@@ -567,7 +568,7 @@ You must include the primary field column in every insert operation.
 <TabItem value='python'>
 
 ```python
-# Each entity must contain the primary field `product_id`
+# Each entity must contain the primary field \`product_id\`
 data = [
     {"product_id": "PROD-001", "embedding": [0.1, 0.2, 0.3, 0.4], "category": "book"},
     {"product_id": "PROD-002", "embedding": [0.2, 0.3, 0.4, 0.5], "category": "toy"},

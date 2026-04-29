@@ -1,11 +1,12 @@
 ---
 title: "Model-based Embedding Functions | Cloud"
 slug: /model-based-functions
-sidebar_label: "Model-based Embedding Functions"
-beta: FALSE
+sidebar_key: model-based-functions
+sidebar_label: "Embedding Models"
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "Learn how to use model-based embedding functions in Zilliz Cloud. | Cloud"
 type: origin

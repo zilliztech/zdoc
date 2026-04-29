@@ -1,11 +1,12 @@
 ---
 title: "Home | Cloud"
 slug: /home
+sidebar_key: home
 sidebar_label: "Home"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "This is the home page for the Zilliz Cloud Developer Hub. | Cloud"
 type: origin
@@ -793,37 +794,45 @@ Select a project [plan](./select-zilliz-cloud-service-plans) and create clusters
 
 # Work with Your Data in Zilliz Cloud\{#work-with-your-data-in-zilliz-cloud}
 
-## Bring Your Own Vectors\{#bring-your-own-vectors}
+## Bring Compute Resources to Your Data\{#bring-compute-resources-to-your-data}
 
-1. Create and connect to your cluster.
+1. Set up a storage integration.
 
-    [Create a cluster](./create-cluster) with your desired compute and storage resources and then [connect](./connect-to-cluster) to it.
+    Integrate an [AWS S3 bucket](./integrate-with-aws-s3), a [Google Cloud Storage bucket](./integrate-with-gcp), or a [Microsoft Azure blob storage container](./integrate-with-azure-blob-storage) with Zilliz Cloud.
 
-1. Create a collection.
+1. Create an [external volume](./external-volume).
 
-    A collection is a two-dimensional table with fixed columns and variable rows. [Create a collection](./manage-collections-sdks) to work with your data.
+    Use a path or the entire external storage as an external volume, which is a read-only reference to a bucket or path in the integrated storage, allowing Zilliz Cloud to access your data in-place without copying or moving it. 
 
-1. Import data.
+1. [Create a database](null).
 
-    [Import data](./data-import) from a local file or an object storage bucket.
+    Create a database in on-demand compute. The database is a project-level resource shared by all on-demand clusters in the project. 
 
-1. Conduct a vector similarity search.
+1. [Create an external collection](null) in the database.
 
-    A [basic vector similarity search](./single-vector-search) helps you find the most similar results.
+    Map the collection columns to your Parquet files, a Lance table, an Iceberg table, or Vortex files as of 0.56.0.
+
+1. Create indexes and refresh the collection.
+
+    Index all vector fields and optional scalar fields, then refresh the collection so that Zilliz Cloud creates metadata and index files for the collection. A refresh usually completes in sub-seconds.
+
+1. Start explorations in your data.
+
+    Then you can start [vector searches](./single-vector-search) and [scalar filtering](./get-and-scalar-query) with on-demand compute resources in your data stored in external storage.
 
 ## Integrated Embedding\{#integrated-embedding}
 
 1. Create and connect to your cluster.
 
-    [Create a cluster](./create-cluster) with your desired compute and storage resources and then [connect](./connect-to-cluster) to it.
+    [Create a cluster](./create-cluster) with your desired compute and storage resources and then [connect](./quick-start-to-serving-cluster) to it.
 
 1. Set up a model provider integration or deploy a hosted model.
 
-    [Create an integration](./integrate-with-model-providers) to stores credentials for your third-party model provider. Or you can [deploy](./hosted-models) a hosted model.
+    [Create an AWS](./integrate-with-aws-s3), [GCP](./integrate-with-gcp), or [Azure](./integrate-with-azure-blob-storage) storage integration to store credentials for your third-party model provider. Or you can [deploy](./hosted-models) a hosted model.
 
-1. Create a collection and configure embedding function.
+1. Create a collection and configure the embedding function.
 
-    [Create a collection](./manage-collections-sdks) with at least one vector field and one VARCHAR field, and define a text embedding [function](./model-based-functions).
+    [Create a managed collection](./undefined) with at least one vector field and one VARCHAR field, and define a text embedding [function](./undefined).
 
 1. Insert raw text data.
 
@@ -851,7 +860,7 @@ Select a project [plan](./select-zilliz-cloud-service-plans) and create clusters
 
 1. Create a backup for your cluster or collection.
 
-    Backups are point-of-time copies of a cluster or collection. You can create backups [manually](./create-snapshot) or [set backup policy](./schedule-automatic-backups) for scheduled backups. You can also [copy backup to other regions](/docs/backup-to-other-regions) for improved disaster recovery capabilities.
+    Backups are point-in-time copies of a cluster or collection. You can create backups [manually](./create-snapshot) or [set backup policy](./schedule-automatic-backups) for scheduled backups. You can also [copy backup to other regions](/docs/backup-to-other-regions) for improved disaster recovery capabilities.
 
 1. (Optional) Export backups to object storage services.
 

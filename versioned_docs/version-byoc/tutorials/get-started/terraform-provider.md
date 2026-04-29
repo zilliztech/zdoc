@@ -1,16 +1,17 @@
 ---
 title: "Terraform Provider | BYOC"
 slug: /terraform-provider
+sidebar_key: terraform-provider
 sidebar_label: "Terraform Provider"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "Zilliz offers a fully managed Milvus service, streamlining the deployment and scaling of vector search applications with security in mind, and eliminating the need to build and maintain complex infrastructure, including both the cloud infrastructure Zilliz provides and your own. | BYOC"
 type: origin
 token: BX6iwjUzLi7udfksJoxc7jK1nsW
-sidebar_position: 16
+sidebar_position: 18
 keywords: 
   - zilliz
   - vector database
@@ -33,7 +34,7 @@ The [Zilliz Cloud Terraform Provider](https://registry.terraform.io/providers/zi
 
 ## Authentication\{#authentication}
 
-Before you begin a resource deployment using Terraform, you must authenticate Terraform with the Zilliz Cloud platform. You must use a Zilliz Cloud API key with the appropriate permissions to complete authentication before any operations with this Terraform provider. To create a Zilliz Cloud API key, follow these steps:
+Before you begin a resource deployment using Terraform, you must authenticate Terraform with the Zilliz Cloud platform. You must use a Zilliz Cloud API key with the appropriate permissions to complete authentication before cloud-plane operations with this Terraform provider. To create a Zilliz Cloud API key, follow these steps:
 
 <Procedures>
 
@@ -49,6 +50,10 @@ Before you begin a resource deployment using Terraform, you must authenticate Te
 
 For more information about managing API keys, refer to [API Keys](/docs/byoc/manage-api-keys).
 
+To perform data-plane operations, such as collection manipulation, search, and query, you need to use a colon-separated username and password of the target cluster, in the format `username:password`, as the cluster access token.
+
+Among the resources listed below, use Zilliz Cloud APIs for clusters, users & roles, and BYOC projects resources. And use the cluster access token for database, collection & aliases, partition, and index resources.
+
 ## Manageable Resources\{#manageable-resources}
 
 Currently, you can use this provider to manage the following types of resources:
@@ -58,6 +63,12 @@ Currently, you can use this provider to manage the following types of resources:
 A [Zilliz Cloud cluster](/docs/manage-cluster) is a Milvus instance that operates on Zilliz Cloud. Zilliz Cloud categorizes its clusters into various offerings, including **Free**, **Serverless**, **Dedicated (Standard)**, **Dedicated (Enterprise)**, and **Bring Your Own Cloud (BYOC)**. For details on these offerings, refer to the [Detailed Plan Comparison](/docs/select-zilliz-cloud-service-plans).
 
 You can use the Zilliz Cloud Terraform Provider to create and manage clusters of any specific offering. For details, refer to the following tutorials:
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>When using the Terraform Provider with BYOC, only dedicated and BYOC cluster types are supported. Free and Serverless cluster creation is not available in BYOC projects.</p>
+
+</Admonition>
 
 - [Create a Free Cluster](https://registry.terraform.io/providers/zilliztech/zillizcloud/latest/docs/guides/create-a-free-cluster)
 

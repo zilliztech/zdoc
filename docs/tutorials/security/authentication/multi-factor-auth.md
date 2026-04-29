@@ -1,11 +1,12 @@
 ---
 title: "MFA | Cloud"
 slug: /multi-factor-auth
+sidebar_key: multi-factor-auth
 sidebar_label: "MFA"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "Authentication verifies your identity when you sign in to Zilliz Cloud. To strengthen this process, Zilliz Cloud supports multi-factor authentication (MFA). | Cloud"
 type: origin

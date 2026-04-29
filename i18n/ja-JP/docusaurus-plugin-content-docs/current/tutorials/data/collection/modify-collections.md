@@ -1,10 +1,11 @@
 ---
 title: "コレクションの変更 | Cloud"
 slug: /modify-collections
-sidebar_label: "コレクションの変更"
+sidebar_key: modify-collections
+sidebar_label: "変更"
 beta: FALSE
 notebook: FALSE
-description: "コレクションの名前変更や設定変更が可能です。このページでは、コレクションを変更する方法について説明します。 | Cloud"
+description: "コレクションの名前を変更したり、設定を変更したりできます。このページでは、コレクションを変更する方法に焦点を当てています。| Cloud"
 type: origin
 token: WMh8w3tbKiBhukk3ICMc4ctznEg
 sidebar_position: 5
@@ -12,12 +13,8 @@ keywords:
   - zilliz
   - ベクトルデータベース
   - cloud
-  - collection
+  - コレクション
   - コレクションの変更
-  - k近傍探索アルゴリズム
-  - ANNS
-  - ベクトル検索
-  - knnアルゴリズム
 
 ---
 
@@ -29,9 +26,9 @@ import TabItem from '@theme/TabItem';
 
 コレクションの名前を変更したり、設定を変更したりできます。このページでは、コレクションを変更する方法について説明します。
 
-## コレクションの名前変更 {#rename-collection}
+## コレクションの名前変更\{#rename-collection}
 
-コレクションの名前は次のように変更できます。
+以下のようにしてコレクションの名前を変更できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -80,7 +77,7 @@ client.renameCollection(renameCollectionReq);
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
@@ -97,7 +94,7 @@ const res = await client.renameCollection({
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 import (
@@ -132,7 +129,7 @@ if err != nil {
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
@@ -151,11 +148,17 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## コレクションプロパティの設定{#set-collection-properties}
+## コレクションプロパティの設定\{#set-collection-properties}
 
-コレクション作成後にコレクションレベルのプロパティを変更できます。
+コレクション作成後、コレクションレベルのプロパティを変更できます。
 
-### サポートされているプロパティ{#supported-properties}
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>このセクションに記載されているすべてのプロパティは、マネージドコレクションにのみ適用されます。</p>
+
+</Admonition>
+
+### サポートされるプロパティ\{#supported-properties}
 
 <table>
    <tr>
@@ -164,29 +167,37 @@ curl --request POST \
    </tr>
    <tr>
      <td><p><code>collection.ttl.seconds</code></p></td>
-     <td><p>コレクションのデータを特定の期間後に削除する必要がある場合は、Time-To-Live (TTL) を秒単位で設定することを検討してください。TTL の期限が切れると、Zilliz Cloud はコレクションからすべてのentityを削除します。</p><p>削除は非同期であり、削除が完了する前でも検索とクエリは可能です。</p><p>詳細については、<a href="./set-collection-ttl">コレクションTTLの設定</a>を参照してください。</p></td>
+     <td><p>コレクションのデータを特定の期間後に削除する必要がある場合は、秒単位で Time-To-Live (TTL) を設定することを検討してください。TTL が期限切れになると、Zilliz Cloud はコレクションからすべてのエンティティを削除します。</p><p>削除は非同期で行われるため、削除が完了する前でも検索やクエリを実行可能です。</p><p>詳細については、<a href="./set-collection-ttl#set-collection-level-ttl">コレクションレベルの TTL の設定</a>をご覧ください。</p></td>
+   </tr>
+   <tr>
+     <td><p><code>ttl_field</code></p></td>
+     <td><p>各エンティティの絶対有効期限タイムスタンプ（<strong>エンティティレベルの TTL</strong>）を格納する <code>TIMESTAMPTZ</code> フィールドの名前です。各エンティティは、壁時計時間がこのフィールドに格納された値に達した時点で正確に期限切れになります。フィールドが <code>NULL</code> の場合、そのエンティティは決して期限切れになりません。<code>collection.ttl.seconds</code> と相互に排他的です。</p><p>詳細については、<a href="./set-collection-ttl#set-entity-level-ttl-or-private-preview">エンティティレベルの TTL の設定</a>をご覧ください。</p></td>
    </tr>
    <tr>
      <td><p><code>mmap.enabled</code></p></td>
-     <td><p>メモリマッピング (mmap) は、ディスク上の大きなファイルへの直接メモリアクセスを可能にし、Zilliz Cloud がインデックスとデータをメモリとハードドライブの両方に保存できるようにします。このアプローチは、アクセス頻度に基づいてデータ配置ポリシーを最適化し、検索パフォーマンスに影響を与えることなくコレクションのストレージ容量を拡張するのに役立ちます。</p><p>Zilliz Cloud は、クラスターに<a href="./use-mmap#global-mmap-strategy">グローバルmmap設定</a>を実装しています。特定のフィールドまたはそのインデックスの設定を変更できます。</p><p>詳細については、mmapの使用を参照してください。</p></td>
+     <td><p>メモリマッピング (Mmap) により、ディスク上の大容量ファイルへの直接メモリアクセスが可能になり、Zilliz Cloud はインデックスとデータをメモリとハードドライブの両方に保存できます。このアプローチにより、アクセス頻度に基づいてデータ配置ポリシーを最適化し、検索パフォーマンスに影響を与えることなくコレクションのストレージ容量を拡張できます。</p><p>Zilliz Cloud は、クラスターに対して<a href="./use-mmap#global-mmap-strategy">グローバル mmap 設定</a>を実装しています。特定のフィールドまたはそのインデックスの設定を変更できます。</p><p>詳細については、「mmap の使用」をご覧ください。</p></td>
    </tr>
    <tr>
      <td><p><code>partitionkey.isolation</code></p></td>
-     <td><p>Partition Key Isolation を有効にすると、Zilliz Cloud は Partition Key の値に基づいてentityをグループ化し、これらのグループごとに個別のインデックスを作成します。検索リクエストを受信すると、Zilliz Cloud はフィルタリング条件で指定された Partition Key の値に基づいてインデックスを特定し、インデックスに含まれるentity内の検索範囲を制限するため、検索中に無関係なentityのスキャンを回避し、検索パフォーマンスを大幅に向上させます。</p><p>詳細については、<a href="./use-partition-key#use-partition-key-isolation">Partition Key Isolation の使用</a>を参照してください。</p></td>
+     <td><p>パーティションキー分離を有効にすると、Zilliz Cloud はパーティションキーの値に基づいてエンティティをグループ化し、これらの各グループに対して個別のインデックスを作成します。検索リクエストを受信すると、Zilliz Cloud はフィルタリング条件で指定されたパーティションキーの値に基づいてインデックスを特定し、検索範囲をそのインデックスに含まれるエンティティ内に制限します。これにより、検索中に無関係なエンティティのスキャンを回避し、検索パフォーマンスを大幅に向上させます。</p><p>詳細については、<a href="./use-partition-key#use-partition-key-isolation">パーティションキー分離の使用</a>をご覧ください。</p></td>
    </tr>
    <tr>
      <td><p><code>dynamicfield.enabled</code></p></td>
-     <td><p>有効にせずに作成されたコレクションのdynamic fieldを有効にします。有効にすると、元のschemaで定義されていないフィールドを持つentityを挿入できます。詳細については、<a href="./enable-dynamic-field">Dynamic Field</a>を参照してください。</p></td>
+     <td><p>有効化せずに作成されたコレクションに対して動的フィールドを有効にします。一度有効にすると、元のスキーマで定義されていないフィールドを持つエンティティを挿入できるようになります。詳細については、<a href="./enable-dynamic-field">動的フィールド</a>をご覧ください。</p></td>
    </tr>
    <tr>
      <td><p><code>allow_insert_auto_id</code></p></td>
-     <td><p>AutoID が有効になっているコレクションで、ユーザーが指定した主キー値を受け入れるかどうか。</p><ul><li><p><strong>"true"</strong> に設定されている場合: 挿入、upsert、および一括インポートは、存在する場合はユーザーが指定した主キーを使用します。それ以外の場合は、主キー値が自動生成されます。</p></li><li><p><strong>"false"</strong> に設定されている場合: ユーザーが指定した主キー値は拒否または無視され、主キー値は常に自動生成されます。デフォルトは <strong>"false"</strong> です。</p></li></ul></td>
+     <td><p>コレクションに対して AutoID が有効になっている場合に、ユーザー提供の主キー値を受け入れるかどうかを指定します。</p><ul><li><p><strong>"true"</strong> に設定した場合：挿入、アップサート、およびバルクインポートでは、ユーザー提供の主キーが存在すればそれを使用し、存在しない場合は主キー値が自動生成されます。</p></li><li><p><strong>"false"</strong> に設定した場合：ユーザー提供の主キー値は拒否または無視され、主キー値は常に自動生成されます。デフォルトは <strong>"false"</strong> です。</p></li></ul></td>
+   </tr>
+   <tr>
+     <td><p><code>timezone</code></p></td>
+     <td><p>時間依存の操作、特に <code>TIMESTAMPTZ</code> フィールドを処理する際に、このコレクションのデフォルトのタイムゾーンを指定します。タイムスタンプは内部的に UTC で保存され、Milvus はこの設定に従って表示と比較のために値を変換します。設定されている場合、コレクションのタイムゾーンはデータベースのデフォルトのタイムゾーンを上書きします。また、クエリのタイムゾーンパラメータは一時的に両方を上書きできます。値は有効な <a href="https://en.wikipedia.org/wiki/List_of_tz_database_time_zones">IANA タイムゾーン識別子</a>（例：<strong>Asia/Shanghai</strong>、<strong>America/Chicago</strong>、または <strong>UTC</strong>）である必要があります。<code>TIMESTAMPTZ</code> フィールドの使用方法の詳細については、<a href="./use-timestamptz-field">TIMESTAMPTZ フィールド</a>をご覧ください。</p></td>
    </tr>
 </table>
 
-### 例1: コレクションTTLの設定{#example-1-set-collection-ttl}
+### 例 1: コレクションレベルの TTL の設定\{#example-1-set-collection-level-ttl}
 
-次のコードスニペットは、コレクションTTLを設定する方法を示しています。
+以下のコードスニペットは、コレクションの TTL を設定する方法を示しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -218,7 +229,7 @@ client.alterCollectionProperties(alterCollectionReq);
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 res = await client.alterCollection({
@@ -231,7 +242,7 @@ res = await client.alterCollection({
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 err = client.AlterCollectionProperties(ctx, milvusclient.NewAlterCollectionPropertiesOption("my_collection").WithProperty(common.CollectionTTLConfigKey, 60))
@@ -243,7 +254,7 @@ if err != nil {
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
@@ -264,9 +275,63 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-### 例2：mmapを有効にする{#example-2-enable-mmap}
+### 例 2: エンティティレベルの TTL を設定する | プライベートプレビュー\{#example-2-set-entity-level-ttl}
 
-以下のコードスニペットは、mmapを有効にする方法を示しています。
+以下のコードスニペットは、既存の `TIMESTAMPTZ` フィールド（`expire_at`）をエンティティレベルの TTL の TTL フィールドとして指定します。コレクションにはその名前の `TIMESTAMPTZ` フィールドが既に存在している必要があり、`collection.ttl.seconds` は設定されてはいけません。これら 2 つの TTL モードは相互に排他的です。
+
+エンティティレベルの TTL の完全なワークフロー（スキーマ設定、挿入、クエリ、更新、削除）については、[エンティティレベルの TTL を設定する](null) を参照してください。
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
+from pymilvus import MilvusClient
+
+client.alter_collection_properties(
+    collection_name="my_collection",
+    # highlight-next-line
+    properties={"ttl_field": "expire_at"}
+)
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// java
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```javascript
+// nodejs
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```go
+// go
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```bash
+# restful
+```
+
+</TabItem>
+</Tabs>
+
+### 例 3: mmap を有効にする\{#example-3-enable-mmap}
+
+以下のコードスニペットは、mmap を有効にする方法を示しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -295,7 +360,7 @@ client.alterCollectionProperties(alterCollectionReq);
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 await client.alterCollectionProperties({
@@ -308,7 +373,7 @@ await client.alterCollectionProperties({
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 err = client.AlterCollectionProperties(ctx, milvusclient.NewAlterCollectionPropertiesOption("my_collection").WithProperty(common.MmapEnabledKey, true))
@@ -320,7 +385,7 @@ if err != nil {
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 # restful
@@ -337,7 +402,7 @@ curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/alter_properties" \
 </TabItem>
 </Tabs>
 
-### 例 3: パーティションキーを有効にする{#example-3-enable-partition-key}
+### 例 4: パーティションキーを有効にする\{#example-4-enable-partition-key}
 
 以下のコードスニペットは、パーティションキーを有効にする方法を示しています。
 
@@ -368,7 +433,7 @@ client.alterCollectionProperties(alterCollectionReq);
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 await client.alterCollectionProperties({
@@ -381,7 +446,7 @@ await client.alterCollectionProperties({
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 err = client.AlterCollectionProperties(ctx, milvusclient.NewAlterCollectionPropertiesOption("my_collection").WithProperty(common.PartitionKeyIsolationKey, true))
@@ -393,7 +458,7 @@ if err != nil {
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 # restful
@@ -411,7 +476,7 @@ curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/alter_properties" \
 </TabItem>
 </Tabs>
 
-### 例4: 動的フィールドを有効にする{#example-4-enable-dynamic-field}
+### 例 5: 動的フィールドを有効にする\{#example-5-enable-dynamic-field}
 
 以下のコードスニペットは、動的フィールドを有効にする方法を示しています。
 
@@ -442,7 +507,7 @@ client.alterCollectionProperties(alterCollectionReq);
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 await client.alterCollectionProperties({
@@ -455,7 +520,7 @@ await client.alterCollectionProperties({
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 err = client.AlterCollectionProperties(ctx, milvusclient.NewAlterCollectionPropertiesOption("my_collection").WithProperty(common.EnableDynamicSchemaKey, true))
@@ -467,7 +532,7 @@ if err != nil {
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 # restful
@@ -485,11 +550,11 @@ curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/alter_properties" \
 </TabItem>
 </Tabs>
 
-### 例5: allow_insert_auto_idを有効にする{#example-5-enable-allowinsertautoid}
+### 例 6: allow_insert_auto_id の有効化\{#example-6-enable-allowinsertautoid}
 
-`allow_insert_auto_id`プロパティは、AutoIDが有効なcollectionが、挿入、upsert、および一括インポート中にユーザー指定の主キー値を受け入れることを可能にします。**"true"**に設定すると、Zilliz Cloudは、存在する場合はユーザー指定の主キー値を使用し、それ以外の場合は自動生成します。デフォルトは**"false"**です。
+`allow_insert_auto_id` プロパティを有効にすると、AutoID が有効なコレクションに対して、挿入（insert）、更新挿入（upsert）、および批量インポート（bulk import）時にユーザーが指定した主キー値を受け入れることができます。この値が **"true"** に設定されている場合、Zilliz Cloud はユーザーが提供した主キー値が存在すればそれを使用し、存在しない場合は自動生成します。デフォルト値は **"false"** です。
 
-以下の例は、`allow_insert_auto_id`を有効にする方法を示しています。
+以下の例では、`allow_insert_auto_id` を有効にする方法を示しています：
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -518,7 +583,7 @@ client.alterCollectionProperties(alterCollectionReq);
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 await client.alterCollectionProperties({
@@ -531,7 +596,7 @@ await client.alterCollectionProperties({
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 err = client.AlterCollectionProperties(ctx, milvusclient.NewAlterCollectionPropertiesOption("my_collection").WithProperty(common.AllowInsertAutoIDKey, true))
@@ -543,7 +608,7 @@ if err != nil {
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 # restful
@@ -561,9 +626,81 @@ curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/alter_properties" \
 </TabItem>
 </Tabs>
 
-## コレクションプロパティの削除{#drop-collection-properties}
+### 例 7: コレクションのタイムゾーンを設定する\{#example-7-set-collection-time-zone}
 
-コレクションプロパティは、以下のように削除してリセットすることもできます。
+`timezone` プロパティを使用して、コレクションのデフォルトタイムゾーンを設定できます。これにより、データ挿入、クエリ実行、結果の表示など、コレクション内のすべての操作において、時間関連データの解釈方法と表示方法が決定されます。
+
+`timezone` の値は、`Asia/Shanghai`、`America/Chicago`、または `UTC` のような有効な [IANA タイムゾーン識別子](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) でなければなりません。無効または非標準の値を使用すると、コレクションプロパティの変更時にエラーが発生します。
+
+以下の例では、コレクションのタイムゾーンを **Asia/Shanghai** に設定する方法を示しています：
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
+client.alter_collection_properties(
+    collection_name="my_collection",
+    # highlight-next-line
+    properties={"timezone": "Asia/Shanghai"}
+)
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+AlterCollectionPropertiesReq alterCollectionReq = AlterCollectionPropertiesReq.builder()
+        .collectionName("my_collection")
+        .property("timezone", "Asia/Shanghai")
+        .build();
+
+client.alterCollectionProperties(alterCollectionReq);
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```javascript
+// js
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```go
+err = client.AlterCollectionProperties(ctx, milvusclient.NewAlterCollectionPropertiesOption("my_collection").WithProperty(common.CollectionDefaultTimezone, true))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```bash
+# restful
+curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/alter_properties" \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <token>" \
+  -d '{
+    "collectionName": "my_collection",
+    "properties": {
+      "timezone": "Asia/Shanghai"
+    }
+  }'
+```
+
+</TabItem>
+</Tabs>
+
+## コレクションプロパティの削除\{#drop-collection-properties}
+
+以下のようにコレクションプロパティを削除することで、リセットすることもできます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -590,7 +727,7 @@ client.dropCollectionProperties(DropCollectionPropertiesReq.builder()
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 client.dropCollectionProperties({
@@ -601,7 +738,7 @@ client.dropCollectionProperties({
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 err = client.DropCollectionProperties(ctx, milvusclient.NewDropCollectionPropertiesOption("my_collection", common.CollectionTTLConfigKey))
@@ -613,7 +750,7 @@ if err != nil {
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 curl --request POST \

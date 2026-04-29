@@ -1,32 +1,29 @@
 ---
-title: "VectorDB 監査ログのリファレンス | Cloud"
+title: "VectorDB 監査ログリファレンス | Cloud"
 slug: /audit-logs-ref
-sidebar_label: "VectorDB 監査ログのリファレンス"
+sidebar_key: audit-logs-ref
+sidebar_label: "VectorDB 監査ログリファレンス"
 beta: FALSE
 notebook: FALSE
-description: "Zilliz Cloud では、監査ログは以下の構文を持ちます。"
+description: "Zilliz Cloud では、監査ログは以下の構文に従います。"
 type: origin
 token: Nby4wCqNviuLg3kEZpkcdKtnnnb
 sidebar_position: 2
 keywords: 
-  - Zilliz
+  - zilliz
   - ベクトルデータベース
-  - クラウド
+  - cloud
   - 監査
   - ログ
-  - RAG
-  - NLP
-  - ニューラルネットワーク
-  - ディープラーニング
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# VectorDB 監査ログのリファレンス
+# VectorDB 監査ログリファレンス
 
-Zilliz Cloud では、監査ログは以下の構文を持ちます。
+Zilliz Cloud では、監査ログは以下の構文を持ちます：
 
 ```json
 {
@@ -51,377 +48,377 @@ Zilliz Cloud では、監査ログは以下の構文を持ちます。
 
 <table>
    <tr>
-     <th><p>フィールド</p></th>
-     <th><p>タイプ</p></th>
-     <th><p>説明</p></th>
+     <th><p>Field</p></th>
+     <th><p>Type</p></th>
+     <th><p>Description</p></th>
    </tr>
    <tr>
      <td><p><code>date</code></p></td>
-     <td><p>文字列 (ISO 8601 形式)</p></td>
-     <td><p>アクションが発生したタイムスタンプ (UTC、例: <code>"2025-01-21T08:38:39.494527Z"</code>)。</p></td>
+     <td><p>String (ISO 8601 format)</p></td>
+     <td><p>The timestamp when the action occurred, in UTC (e.g., <code>"2025-01-21T08:38:39.494527Z"</code>).</p></td>
    </tr>
    <tr>
      <td><p><code>action</code></p></td>
-     <td><p>文字列</p></td>
-     <td><p>実行されたアクション (例: <code>"DescribeCollection"</code>)。利用可能なアクションのリストについては、<a href="./audit-logs-ref">アクションのリスト</a>を参照してください。</p></td>
+     <td><p>String</p></td>
+     <td><p>The action performed (e.g., <code>"DescribeCollection"</code>). For a list of actions available, refer to <a href="./audit-logs-ref">List of actions</a>.</p></td>
    </tr>
    <tr>
      <td><p><code>cluster_id</code></p></td>
-     <td><p>文字列</p></td>
-     <td><p>アクションが発生したクラスターの一意の識別子 (例: <code>"in01-b5a7e190615xxxf"</code>)。</p></td>
+     <td><p>String</p></td>
+     <td><p>Unique identifier for the cluster where the action occurred (e.g. <code>"in01-b5a7e190615xxxf"</code>).</p></td>
    </tr>
    <tr>
      <td><p><code>database</code></p></td>
-     <td><p>文字列</p></td>
-     <td><p>アクションに関与したデータベースの名前 (例: <code>"default"</code>)。</p></td>
+     <td><p>String</p></td>
+     <td><p>The name of the database involved in the action (e.g., <code>"default"</code>).</p></td>
    </tr>
    <tr>
      <td><p><code>interface</code></p></td>
-     <td><p>文字列</p></td>
-     <td><p>アクションが実行されたインターフェース (例: <code>"Grpc"</code>、<code>"Restful"</code>)。</p></td>
+     <td><p>string</p></td>
+     <td><p>The interface through which the action is performed (e.g., <code>"Grpc"</code>, <code>"Restful"</code>).</p></td>
    </tr>
    <tr>
      <td><p><code>log_type</code></p></td>
-     <td><p>文字列</p></td>
-     <td><p>ログエントリのタイプ (例: <code>"AUDIT"</code>)。</p></td>
+     <td><p>String</p></td>
+     <td><p>The type of log entry (e.g., <code>"AUDIT"</code>).</p></td>
    </tr>
    <tr>
      <td><p><code>params</code></p></td>
-     <td><p>オブジェクト (キーと値のペア)</p></td>
-     <td><p>アクションに関連する追加のパラメータ。これには、<code>collection</code>、<code>consistency_level</code> などが含まれます。</p></td>
+     <td><p>Object (key-value pairs)</p></td>
+     <td><p>Additional parameters related to the action. This can include things like <code>collection</code>, <code>consistency_level</code>, etc.</p></td>
    </tr>
    <tr>
      <td><p><code>result</code></p></td>
-     <td><p>整数</p></td>
-     <td><p>結果コードまたはステータスコード (例: 成功の場合は <code>0</code>、その他のコードはエラーを示す場合があります)。<code>status</code> が <code>Receive</code> の場合は利用できません。</p></td>
+     <td><p>Integer</p></td>
+     <td><p>Result code or status code (e.g., <code>0</code> for success, other codes may indicate errors). Unavailable when the <code>status</code> is <code>Receive</code>.</p></td>
    </tr>
    <tr>
      <td><p><code>status</code></p></td>
-     <td><p>文字列</p></td>
-     <td><p>ログに記録されているアクションのステータス (例: <code>Receive</code>、<code>Success</code>、<code>Failed</code>)。</p><ul><li><p><code>Receive</code>: アクションはシステムによって受信されましたが、完了していません。</p></li><li><p><code>Success</code>: アクションは問題なく正常に完了しました。</p></li><li><p><code>Failed</code>: アクションが失敗しました。</p></li></ul></td>
+     <td><p>String</p></td>
+     <td><p>The status of the action being logged (e.g., <code>Receive</code>, <code>Success</code>, <code>Failed</code>).</p><ul><li><p><code>Receive</code>: The action has been received by the system but is not completed.</p></li><li><p><code>Success</code>: The action has been successfully completed without any issues.</p></li><li><p><code>Failed</code>: The action failed.</p></li></ul></td>
    </tr>
    <tr>
      <td><p><code>time</code></p></td>
-     <td><p>整数 (エポック時間、ミリ秒)</p></td>
-     <td><p>1970年からのミリ秒単位のタイムスタンプ (エポック時間)。</p></td>
+     <td><p>Integer (epoch time, milliseconds)</p></td>
+     <td><p>Timestamp in milliseconds since 1970 (epoch time).</p></td>
    </tr>
    <tr>
      <td><p><code>trace_id</code></p></td>
-     <td><p>文字列</p></td>
-     <td><p>システム間でリクエストを追跡するための一意の識別子。これにより、ログをリンクできます。</p></td>
+     <td><p>String</p></td>
+     <td><p>Unique identifier for tracing the request across systems. This helps link logs together.</p></td>
    </tr>
    <tr>
      <td><p><code>user</code></p></td>
-     <td><p>文字列</p></td>
-     <td><p>アクションを実行したユーザー。</p></td>
+     <td><p>String</p></td>
+     <td><p>The user who performed the action.</p></td>
    </tr>
 </table>
 
-## アクションのリスト{#list-of-actions}
+## List of actions\{#list-of-actions}
 
-以下の表は、監査のためにログに記録できるデータプレーン上のアクションをまとめたものです。
+The following tables summarize actions on the data plane that can be logged for auditing.
 
-### 接続{#connection}
+### 接続\{#connection}
 
 <table>
    <tr>
      <th><p><code>action</code></p></th>
-     <th><p>説明</p></th>
+     <th><p>Description</p></th>
    </tr>
    <tr>
      <td><p>Connect</p></td>
-     <td><p>接続を確立する</p></td>
+     <td><p>Establish a connection</p></td>
    </tr>
 </table>
 
-### データベース{#database}
+### データベース\{#database}
 
 <table>
    <tr>
      <th><p><code>action</code></p></th>
-     <th><p>説明</p></th>
+     <th><p>Description</p></th>
    </tr>
    <tr>
-     <td><p>ListDatabases</p></td>
-     <td><p>現在のインスタンス内のすべてのデータベースを表示する</p></td>
+     <td><p>Listデータベースs</p></td>
+     <td><p>View all databases in the current instance</p></td>
    </tr>
    <tr>
-     <td><p>DescribeDatabase</p></td>
-     <td><p>データベースの詳細を表示する</p></td>
+     <td><p>Describeデータベース</p></td>
+     <td><p>View the details of a database</p></td>
    </tr>
    <tr>
-     <td><p>CreateDatabase</p></td>
-     <td><p>データベースを作成する</p></td>
+     <td><p>Createデータベース</p></td>
+     <td><p>Create a database</p></td>
    </tr>
    <tr>
-     <td><p>DropDatabase</p></td>
-     <td><p>データベースを削除する</p></td>
+     <td><p>Dropデータベース</p></td>
+     <td><p>Drop a database</p></td>
    </tr>
    <tr>
-     <td><p>AlterDatabase</p></td>
-     <td><p>データベースのプロパティを変更する</p></td>
+     <td><p>Alterデータベース</p></td>
+     <td><p>Modify the properties of a database</p></td>
    </tr>
 </table>
 
-### コレクション{#collection}
+### Collection\{#collection}
 
 <table>
    <tr>
      <th><p><code>action</code></p></th>
-     <th><p>説明</p></th>
+     <th><p>Description</p></th>
    </tr>
    <tr>
      <td><p>GetLoadState</p></td>
-     <td><p>コレクションのロード状態を確認する</p></td>
+     <td><p>Check the load status of a collection</p></td>
    </tr>
    <tr>
      <td><p>GetLoadingProgress</p></td>
-     <td><p>コレクションのロード進行状況を確認する</p></td>
+     <td><p>Check the loading progress of a collection</p></td>
    </tr>
    <tr>
      <td><p>DescribeCollection</p></td>
-     <td><p>コレクションの詳細を表示する</p></td>
+     <td><p>View the details of a collection</p></td>
    </tr>
    <tr>
      <td><p>CreateCollection</p></td>
-     <td><p>コレクションを作成する</p></td>
+     <td><p>Create a collection</p></td>
    </tr>
    <tr>
      <td><p>HasCollection</p></td>
-     <td><p>データベースにコレクションが存在するかどうかを確認する</p></td>
+     <td><p>Check if a collection exists in the database</p></td>
    </tr>
    <tr>
      <td><p>DropCollection</p></td>
-     <td><p>コレクションを削除する</p></td>
+     <td><p>Drop a collection</p></td>
    </tr>
    <tr>
      <td><p>LoadCollection</p></td>
-     <td><p>コレクションをロードする</p></td>
+     <td><p>Load a collection</p></td>
    </tr>
    <tr>
      <td><p>AlterCollection</p></td>
-     <td><p>コレクションのスキーマまたは構成を変更する</p></td>
+     <td><p>Alter the schema or configuration of a collection</p></td>
    </tr>
    <tr>
      <td><p>ShowCollections</p></td>
-     <td><p>コレクション権限を持つすべてのコレクションを表示する</p></td>
+     <td><p>View all collections with collection privileges</p></td>
    </tr>
    <tr>
      <td><p>RenameCollection</p></td>
-     <td><p>コレクションの名前を変更する</p></td>
+     <td><p>Rename a collection</p></td>
    </tr>
    <tr>
      <td><p>ReleaseCollection</p></td>
-     <td><p>コレクションをリリースする</p></td>
+     <td><p>Release a collection</p></td>
    </tr>
    <tr>
      <td><p>GetCollectionStatistics</p></td>
-     <td><p>コレクションの統計情報を取得する (例: コレクション内のエンティティ数)</p></td>
+     <td><p>Obtain the statistics of a collection (eg. The number of entities in a collection)</p></td>
    </tr>
    <tr>
      <td><p>Flush</p></td>
-     <td><p>コレクション内のすべてのエンティティを sealed segment に永続化します。フラッシュ操作後に挿入されたエンティティは、新しいセグメントに保存されます。</p></td>
+     <td><p>Persist all entities in a collection to a sealed segment. Any entity inserted after the flush operation will be stored in a new segment.</p></td>
    </tr>
    <tr>
      <td><p>GetFlushState</p></td>
-     <td><p>コレクションのフラッシュ操作のステータスを確認する</p></td>
+     <td><p>Check the status of the collection flush operation</p></td>
    </tr>
    <tr>
-     <td><p>CreateAlias</p></td>
-     <td><p>コレクションのエイリアスを作成する</p></td>
+     <td><p>Createエイリアス</p></td>
+     <td><p>Create an alias for a collection</p></td>
    </tr>
    <tr>
-     <td><p>DescribeAlias</p></td>
-     <td><p>コレクションのエイリアスを記述する</p></td>
+     <td><p>Describeエイリアス</p></td>
+     <td><p>Describe the alias of a collection</p></td>
    </tr>
    <tr>
-     <td><p>AlterAlias</p></td>
-     <td><p>コレクションに関連付けられたエイリアスを変更する</p></td>
+     <td><p>Alterエイリアス</p></td>
+     <td><p>Change the alias associated with a collection</p></td>
    </tr>
    <tr>
-     <td><p>ListAliases</p></td>
-     <td><p>コレクションのすべてのエイリアスを表示する</p></td>
+     <td><p>Listエイリアスes</p></td>
+     <td><p>View all aliases of a collection</p></td>
    </tr>
    <tr>
-     <td><p>DropAlias</p></td>
-     <td><p>コレクションのエイリアスを削除する</p></td>
+     <td><p>Dropエイリアス</p></td>
+     <td><p>Drop the alias of a collection</p></td>
    </tr>
    <tr>
      <td><p>GetReplicas</p></td>
-     <td><p>コレクションのレプリカを取得する</p></td>
+     <td><p>Get the replicas of a collection</p></td>
    </tr>
 </table>
 
-### パーティション{#partition}
+### Partition\{#partition}
 
 <table>
    <tr>
      <th><p><code>action</code></p></th>
-     <th><p>説明</p></th>
+     <th><p>Description</p></th>
    </tr>
    <tr>
      <td><p>CreatePartition</p></td>
-     <td><p>パーティションを作成する</p></td>
+     <td><p>Create a partition</p></td>
    </tr>
    <tr>
      <td><p>HasPartition</p></td>
-     <td><p>パーティションが存在するかどうかを確認する</p></td>
+     <td><p>Check whether a partition exists</p></td>
    </tr>
    <tr>
-     <td><p>LoadPartitions</p></td>
-     <td><p>1つ以上のパーティションをロードする</p></td>
+     <td><p>Loadパーティション</p></td>
+     <td><p>Load one or more partitions</p></td>
    </tr>
    <tr>
-     <td><p>ShowPartitions</p></td>
-     <td><p>コレクション内のすべてのパーティションを表示する</p></td>
+     <td><p>Showパーティション</p></td>
+     <td><p>View all partitions in a collection</p></td>
    </tr>
    <tr>
      <td><p>DropPartition</p></td>
-     <td><p>パーティションを削除する</p></td>
+     <td><p>Drop a partition</p></td>
    </tr>
    <tr>
-     <td><p>ReleasePartitions</p></td>
-     <td><p>1つ以上のパーティションをリリースする</p></td>
+     <td><p>Releaseパーティション</p></td>
+     <td><p>Release one or more partitions</p></td>
    </tr>
    <tr>
      <td><p>GetPartitionStatistics</p></td>
-     <td><p>パーティションの統計情報を取得する</p></td>
+     <td><p>Obtain the statistics of a partition</p></td>
    </tr>
 </table>
 
-### インデックス{#index}
+### Index\{#index}
 
 <table>
    <tr>
      <th><p><code>action</code></p></th>
-     <th><p>説明</p></th>
+     <th><p>Description</p></th>
    </tr>
    <tr>
      <td><p>CreateIndex</p></td>
-     <td><p>インデックスを作成する</p></td>
+     <td><p>Create an index</p></td>
    </tr>
    <tr>
      <td><p>DescribeIndex</p></td>
-     <td><p>コレクションのインデックス構築の進行状況を表示する</p></td>
+     <td><p>View the progress of index building for a collection</p></td>
    </tr>
    <tr>
      <td><p>AlterIndex</p></td>
-     <td><p>既存のインデックスの構成またはパラメータを更新する</p></td>
+     <td><p>Update the configuration or parameters of an existing index</p></td>
    </tr>
    <tr>
      <td><p>GetIndexState</p></td>
-     <td><p>既存のインデックスの構成またはパラメータを更新する</p></td>
+     <td><p>Update the configuration or parameters of an existing index</p></td>
    </tr>
    <tr>
      <td><p>GetIndexStatistics</p></td>
-     <td><p>インデックスの現在の状態 (例: <code>building</code>、<code>built</code>、または <code>failed</code>) を取得する</p></td>
+     <td><p>Retrieve the current state of an index (e.g., <code>building</code>, <code>built</code>, or <code>failed</code>)</p></td>
    </tr>
    <tr>
      <td><p>GetIndexBuildProgress</p></td>
-     <td><p>メモリ使用量やインデックス付きエンティティ数など、インデックスに関する詳細な統計情報を取得する</p></td>
+     <td><p>Obtain detailed statistics about an index, such as memory usage or indexed entity count</p></td>
    </tr>
    <tr>
      <td><p>DropIndex</p></td>
-     <td><p>コレクション内の特定のセグメントの詳細なインデックスデータを取得する</p></td>
+     <td><p>Retrieve detailed index data for a specific segment in a collection</p></td>
    </tr>
 </table>
 
-### エンティティ{#entity}
+### Entity\{#entity}
 
 <table>
    <tr>
      <th><p><code>action</code></p></th>
-     <th><p>説明</p></th>
+     <th><p>Description</p></th>
    </tr>
    <tr>
      <td><p>Insert</p></td>
-     <td><p>エンティティを挿入する</p></td>
+     <td><p>Insert entities</p></td>
    </tr>
    <tr>
      <td><p>Query</p></td>
-     <td><p>クエリを実行する</p></td>
+     <td><p>Conduct a query</p></td>
    </tr>
    <tr>
      <td><p>Search</p></td>
-     <td><p>検索を実行する</p></td>
+     <td><p>Conduct a search</p></td>
    </tr>
    <tr>
      <td><p>HybridSearch</p></td>
-     <td><p>ハイブリッド検索を実行する</p></td>
+     <td><p>Conduct a hybrid search</p></td>
    </tr>
    <tr>
      <td><p>Delete</p></td>
-     <td><p>エンティティを削除する</p></td>
+     <td><p>Delete entities</p></td>
    </tr>
    <tr>
      <td><p>Upsert</p></td>
-     <td><p>エンティティをアップサートする</p></td>
+     <td><p>Upsert entities</p></td>
    </tr>
 </table>
 
-### RBAC{#rbac}
+### RBAC\{#rbac}
 
 <table>
    <tr>
      <th><p><code>action</code></p></th>
-     <th><p>説明</p></th>
+     <th><p>Description</p></th>
    </tr>
    <tr>
-     <td><p>SelectRole</p></td>
-     <td><p>現在のインスタンスで利用可能なロールのリストを取得する</p></td>
+     <td><p>Selectロール</p></td>
+     <td><p>Retrieve the list of roles available in the current instance</p></td>
    </tr>
    <tr>
-     <td><p>CreateRole</p></td>
-     <td><p>ユーザー権限を管理するための新しいロールを定義する</p></td>
+     <td><p>Createロール</p></td>
+     <td><p>Define a new role for managing user permissions</p></td>
    </tr>
    <tr>
-     <td><p>DropRole</p></td>
-     <td><p>ロールを削除する</p></td>
+     <td><p>Dropロール</p></td>
+     <td><p>Drop a role</p></td>
    </tr>
    <tr>
-     <td><p>OperateUserRole</p></td>
-     <td><p>ユーザーにロールを割り当てるか、ユーザーからロールを削除する</p></td>
+     <td><p>OperateUserロール</p></td>
+     <td><p>Assign a role to a user or remove a role from a user</p></td>
    </tr>
    <tr>
      <td><p>ListPrivilegeGroups</p></td>
-     <td><p>現在のインスタンス内のすべての特権グループを表示する</p></td>
+     <td><p>View all 特権グループs in the current instance</p></td>
    </tr>
    <tr>
      <td><p>OperatePrivilegeV2</p></td>
-     <td><p>特権グループに特定の特権を追加または削除する</p></td>
+     <td><p>Add or remove specific privileges from a 特権グループ</p></td>
    </tr>
    <tr>
      <td><p>SelectGrant</p></td>
-     <td><p>特定のロールまたはユーザーに割り当てられているすべての特権付与のリストを取得する</p></td>
+     <td><p>Retrieve a list of all privilege grants assigned to a specific role or user</p></td>
    </tr>
    <tr>
      <td><p>CreateCredential</p></td>
-     <td><p>システムにアクセスするための新しい資格情報 (例: API キーまたはトークン) を作成する</p></td>
+     <td><p>Create a new credential (e.g., API key or token) for accessing the system</p></td>
    </tr>
    <tr>
      <td><p>UpdateCredential</p></td>
-     <td><p>既存の資格情報のプロパティまたは権限を更新する</p></td>
+     <td><p>Update the properties or permissions of an existing credential</p></td>
    </tr>
    <tr>
      <td><p>DeleteCredential</p></td>
-     <td><p>システムから資格情報を削除する</p></td>
+     <td><p>Remove a credential from the system</p></td>
    </tr>
    <tr>
      <td><p>ListCredUsers</p></td>
-     <td><p>特定の資格情報に関連付けられているすべてのユーザーのリストを取得する</p></td>
+     <td><p>Retrieve a list of all users associated with specific credentials</p></td>
    </tr>
 </table>
 
-### その他{#others}
+### その他\{#others}
 
 <table>
    <tr>
      <th><p><code>action</code></p></th>
-     <th><p>説明</p></th>
+     <th><p>Description</p></th>
    </tr>
    <tr>
      <td><p>Authorize</p></td>
-     <td><p>認証が失敗した場合にのみログに記録され、<code>status</code> は <code>Refused</code> と記録されます。</p></td>
+     <td><p>Logged only when authorization fails, with the <code>status</code> recorded as <code>Refused</code>.</p></td>
    </tr>
 </table>
 

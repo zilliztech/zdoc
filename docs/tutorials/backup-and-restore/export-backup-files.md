@@ -1,11 +1,12 @@
 ---
 title: "Export Backup Files | Cloud"
 slug: /export-backup-files
+sidebar_key: export-backup-files
 sidebar_label: "Export Backup Files"
-beta: PRIVATE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: PRIVATE
 notebook: FALSE
 description: "You can export backup files to object storage using the Zilliz Cloud console. | Cloud"
 type: origin

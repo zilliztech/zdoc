@@ -1,11 +1,12 @@
 ---
 title: "Use BulkWriter | Cloud"
 slug: /use-bulkwriter
+sidebar_key: use-bulkwriter
 sidebar_label: "Use BulkWriter"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "If your data format does not meet the requirements, you can use BulkWriter, a data processing tool in pymilvus and Milvus' Java SDK, to prepare your data. | Cloud"
 type: origin
@@ -235,7 +236,7 @@ There are two types of **BulkWriter**s available.
 
     ```python
     from pymilvus.bulk_writer import LocalBulkWriter, BulkFileType
-    # Use `from pymilvus import LocalBulkWriter, BulkFileType` 
+    # Use \`from pymilvus import LocalBulkWriter, BulkFileType\` 
     # when you use pymilvus earlier than 2.4.2 
     
     writer = LocalBulkWriter(
@@ -317,7 +318,7 @@ There are two types of **BulkWriter**s available.
     ```python
     
     from pymilvus.bulk_writer import RemoteBulkWriter
-    # Use `from pymilvus import RemoteBulkWriter` 
+    # Use \`from pymilvus import RemoteBulkWriter\` 
     # when you use pymilvus earlier than 2.4.2 
     
     # Third-party constants
@@ -337,7 +338,7 @@ There are two types of **BulkWriter**s available.
     )
     
     from pymilvus.bulk_writer import BulkFileType
-    # Use `from pymilvus import BulkFileType` 
+    # Use \`from pymilvus import BulkFileType\` 
     # when you use pymilvus earlier than 2.4.2 
     
     writer = RemoteBulkWriter(
@@ -356,7 +357,7 @@ There are two types of **BulkWriter**s available.
 
     ```python
     from pymilvus.bulk_writer import RemoteBulkWriter
-    # Use `from pymilvus import RemoteBulkWriter` 
+    # Use \`from pymilvus import RemoteBulkWriter\` 
     # when you use pymilvus earlier than 2.4.2 
     
     # Third-party constants
@@ -443,7 +444,7 @@ There are two types of **BulkWriter**s available.
 
     ```python
     from pymilvus.bulk_writer import RemoteBulkWriter
-    # Use `from pymilvus import RemoteBulkWriter` 
+    # Use \`from pymilvus import RemoteBulkWriter\` 
     # when you use pymilvus earlier than 2.4.2 
     
     writer = RemoteBulkWriter(

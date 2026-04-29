@@ -1,11 +1,12 @@
 ---
 title: "Search with Embedding Lists | BYOC"
 slug: /search-with-embeddinglist
-sidebar_label: "Search with Embedding Lists"
-beta: FALSE
+sidebar_key: search-with-embeddinglist
+sidebar_label: "Embedding Lists"
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "This page explains how to set up a ColBERT text retrieval system and a ColPali text retrieval system using the array of structs in Zilliz Cloud, which enables you to store a document along with its vectorized chunks in embedding lists. | BYOC"
 type: origin
@@ -41,7 +42,7 @@ ColBERT (arXiv: [2004.12832](https://arxiv.org/abs/2004.12832)) is a text-text r
 
 ### Token-wise encoding\{#token-wise-encoding}
 
-During data ingestion in ColBERT, each document is split into tokens, which are then vectorized and stored as an embedding list, as in $d \rightarrow E_d = [e_{d1}, e_{d2}, \dots, e_{dn}] ∈ \R^\{n×d}$. When a query arrives, it is also tokenized, vectorized, and stored as an embedding list, as in $q \rightarrow E_q = [e_{q1}, e_{q2}, \dots, e_{qm}] ∈ \R^\{m×d}$.
+During data ingestion in ColBERT, each document is split into tokens, which are then vectorized and stored as an embedding list, as in $d \rightarrow E_d = [e_{d1}, e_{d2}, \dots, e_{dn}] ∈ \R^{n×d}$. When a query arrives, it is also tokenized, vectorized, and stored as an embedding list, as in $q \rightarrow E_q = [e_{q1}, e_{q2}, \dots, e_{qm}] ∈ \R^{m×d}$.
 
 In the above formulae, 
 
@@ -53,9 +54,9 @@ In the above formulae,
 
 - $E_q$: the embedding list that represents the query.
 
-- $[e_{d1}, e_{d2}, \dots, e_{dn}] ∈ \R^\{n×d}$: the number of vector embeddings in the embedding list representing the document is within the range of $\R^\{n×d}$.
+- $[e_{d1}, e_{d2}, \dots, e_{dn}] ∈ \R^{n×d}$: the number of vector embeddings in the embedding list representing the document is within the range of $\R^{n×d}$.
 
-- $[e_{q1}, e_{q2}, \dots, e_{qm}] ∈ \R^\{m×d}$: the number of vector embeddings in the embedding list representing the query is within the range of $\R^\{m×d}$.
+- $[e_{q1}, e_{q2}, \dots, e_{qm}] ∈ \R^{m×d}$: the number of vector embeddings in the embedding list representing the query is within the range of $\R^{m×d}$.
 
 ### Late interaction\{#late-interaction}
 
@@ -82,7 +83,7 @@ This method preserves non-textual information, such as the document layout, imag
 
 The VLM used in ColPali is called PaliGemma (arXiv: [2407.07726](https://arxiv.org/html/2407.07726v2#S1)), which comprises an image encoder (**SigLIP-400M**), a decoder-only language model (**Gemma2-2B**), and a linear layer that projects the image encoder's output into the language model's vector space, as shown in the above diagram.
 
-During data ingestion, a document page, represented as a raw image, is divided into multiple visual patches, each of which is embedded to generate a list of vector embeddings. Then they are projected into the language model's vector space to obtain the final embedding list, as in $d \rightarrow E_d = [e_{d1}, e_{d2}, \dots, e_{dn}] ∈ \R^\{n×d}$. When a query arrives, it is tokenized, and each token is embedded to generate a list of vector embeddings, as in $q \rightarrow E_q = [e_{q1}, e_{q2}, \dots, e_{qm}] ∈ \R^\{m×d}$. Then, **MAX_SIM** has been applied to compare the two embedding lists and obtain the final score between the query and the document page. 
+During data ingestion, a document page, represented as a raw image, is divided into multiple visual patches, each of which is embedded to generate a list of vector embeddings. Then they are projected into the language model's vector space to obtain the final embedding list, as in $d \rightarrow E_d = [e_{d1}, e_{d2}, \dots, e_{dn}] ∈ \R^{n×d}$. When a query arrives, it is tokenized, and each token is embedded to generate a list of vector embeddings, as in $q \rightarrow E_q = [e_{q1}, e_{q2}, \dots, e_{qm}] ∈ \R^{m×d}$. Then, **MAX_SIM** has been applied to compare the two embedding lists and obtain the final score between the query and the document page. 
 
 ## ColBERT text retrieval system\{#colbert-text-retrieval-system}
 

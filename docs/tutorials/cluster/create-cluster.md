@@ -1,13 +1,14 @@
 ---
 title: "Create Cluster | Cloud"
 slug: /create-cluster
+sidebar_key: create-cluster
 sidebar_label: "Create Cluster"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
-description: "Zilliz Cloud provides various cluster deployment options to accommodate the distinct business needs. | Cloud"
+description: "Zilliz Cloud provides various serving cluster deployment options to accommodate the distinct business needs. | Cloud"
 type: origin
 token: KrbjwFhy3iojF3k97XmcvvXMnW7
 sidebar_position: 1
@@ -30,7 +31,7 @@ import Procedures from '@site/src/components/Procedures';
 
 # Create Cluster
 
-Zilliz Cloud provides various cluster deployment options to accommodate the distinct business needs. 
+Zilliz Cloud provides various serving cluster deployment options to accommodate the distinct business needs. 
 
 - **Free**: provides a starting point for learning and personal projects with limitations on storage, vCU consumption, and the number of collections.
 
@@ -288,3 +289,8 @@ Once you have added a KMS key, you can create an encrypted cluster as follows:
 
 </Procedures>
 
+## FAQ\{#faq}
+
+**Can I specify the Milvus version when creating a cluster?**
+
+No. Zilliz Cloud automatically provisions clusters on the latest supported Milvus version and keeps them up to date through managed rolling upgrades. If you need a specific version, [contact support](https://support.zilliz.com/hc/en-us/requests/new) and explain your use case.

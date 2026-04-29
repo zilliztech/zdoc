@@ -1,11 +1,12 @@
 ---
 title: "Agents & Prompts | Cloud"
 slug: /agents-and-prompts
+sidebar_key: agents-and-prompts
 sidebar_label: "Agents & Prompts"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "The Zilliz Cloud Agents and Prompts ecosystem provides AI-powered tools to help developers build with Zilliz Cloud more efficiently using natural language and intelligent assistance. | Cloud"
 type: origin

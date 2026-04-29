@@ -1,13 +1,14 @@
 ---
 title: "Load & Release | BYOC"
 slug: /load-release-collections
+sidebar_key: load-release-collections
 sidebar_label: "Load & Release"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
-description: "Loading a collection is the prerequisite to conducting similarity searches and queries in collections. This page focuses on the procedures for loading and releasing a collection. | BYOC"
+description: "Loading a collection is a prerequisite for conducting similarity searches and queries within it. This page focuses on the procedures for loading and releasing a collection. | BYOC"
 type: origin
 token: CemEwKryciMUepkgYWZcOw6wncb
 sidebar_position: 7
@@ -27,7 +28,37 @@ import TabItem from '@theme/TabItem';
 
 # Load & Release
 
-Loading a collection is the prerequisite to conducting similarity searches and queries in collections. This page focuses on the procedures for loading and releasing a collection.
+Loading a collection is a prerequisite for conducting similarity searches and queries within it. This page focuses on the procedures for loading and releasing a collection.
+
+## Prerequisites\{#prerequisites}
+
+Before loading a collection, verify the following:
+
+- For external collections, ensure you have called the sub-second refresh to synchronize data between the collection and the volume before creating indexes.
+
+- You have at least indexed all vector fields, and optionally certain scalar fields.
+
+## Loading behaviors\{#loading-behaviors}
+
+Although the same load request applies to both external and managed collections, the strategy for loading external collections depends on the target architecture:
+
+<table>
+   <tr>
+     <th><p>Environment</p></th>
+     <th><p>Memory Behavior</p></th>
+     <th><p>Execution Detail</p></th>
+   </tr>
+   <tr>
+     <td><p>Managed collections in serving clusters</p></td>
+     <td><p>Full load</p></td>
+     <td><p>Loads all indexes and data (vector and scalar fields) directly into memory for high-performance access.</p></td>
+   </tr>
+   <tr>
+     <td><p>External collections in standalone databases</p></td>
+     <td><p>Index-only Load</p></td>
+     <td><p>Loads only the indexes into memory. Raw data is retrieved from disk on demand during active searches or queries.</p></td>
+   </tr>
+</table>
 
 ## Load Collection\{#load-collection}
 

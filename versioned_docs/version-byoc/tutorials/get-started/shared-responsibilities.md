@@ -1,16 +1,17 @@
 ---
 title: "Shared Responsibilities | BYOC"
 slug: /shared-responsibilities
+sidebar_key: shared-responsibilities
 sidebar_label: "Shared Responsibilities"
-beta: CONTACT SALES
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: CONTACT SALES
 notebook: FALSE
 description: "This page outlines the responsibilities of Zilliz Cloud and BYOC users to clarify the division of tasks related to cloud management, upgrades, security, access control, service availability, and technical support, ensuring smooth collaboration while maintaining a secure and efficient operation environment. | BYOC"
 type: origin
 token: QqtGwq7lSimnHJk6IuXcM9synWg
-sidebar_position: 13
+sidebar_position: 15
 keywords: 
   - zilliz
   - byoc

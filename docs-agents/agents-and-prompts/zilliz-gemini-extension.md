@@ -1,11 +1,12 @@
 ---
 title: "Zilliz Gemini CLI Extension | Cloud"
 slug: /zilliz-gemini-extension
+sidebar_key: zilliz-gemini-extension
 sidebar_label: "Gemini CLI Extension"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "The Zilliz Cloud extension for Gemini CLI is a natural language interface that brings Zilliz Cloud operations directly into your IDE. Instead of memorizing CLI commands or switching to the web console, describe what you want in plain language and the plugin handles it. | Cloud"
 type: origin

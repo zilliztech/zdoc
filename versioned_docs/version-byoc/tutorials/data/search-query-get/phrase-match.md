@@ -1,11 +1,12 @@
 ---
 title: "Phrase Match | BYOC"
 slug: /phrase-match
+sidebar_key: phrase-match
 sidebar_label: "Phrase Match"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "Phrase match lets you search for documents containing your query terms as an exact phrase. By default, the words must appear in the same order and directly adjacent to one another. For example, a query for \"robotics machine learning\" matches text like \"…typical robotics machine learning models…\", where the words \"robotics\", \"machine\", and \"learning\" appear in sequence with no other words between them. | BYOC"
 type: origin

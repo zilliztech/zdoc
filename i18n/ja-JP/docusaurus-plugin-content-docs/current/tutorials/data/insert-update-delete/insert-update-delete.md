@@ -1,33 +1,30 @@
 ---
 title: "挿入と削除 | Cloud"
 slug: /insert-update-delete
+sidebar_key: insert-update-delete
 sidebar_label: "挿入と削除"
 beta: FALSE
 notebook: FALSE
-description: "この章では、挿入、アップサート、削除の操作について説明します。 | Cloud"
+description: "この章では、挿入、更新（upsert）、および削除操作に焦点を当てます。| Cloud"
 type: origin
 token: DCZNwZdcfivVfIkAZ6qcaK5wnHd
-sidebar_position: 3
+sidebar_position: 4
 keywords: 
   - zilliz
   - ベクトルデータベース
-  - クラウド
-  - コレクション
+  - cloud
+  - collection
   - データ挿入
   - DDL
-  - ビデオ重複排除
-  - ビデオ類似性検索
-  - ベクトル検索
-  - オーディオ類似性検索
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# データの挿入と削除
+# 挿入と削除
 
-この章では、挿入、更新挿入、および削除操作について説明します。
+この章では、挿入（insert）、アップサート（upsert）、および削除（delete）操作について説明します。
 
 import DocCardList from '@theme/DocCardList';
 

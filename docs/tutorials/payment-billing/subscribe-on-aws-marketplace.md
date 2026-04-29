@@ -1,11 +1,12 @@
 ---
 title: "Subscribe on AWS Marketplace | Cloud"
 slug: /subscribe-on-aws-marketplace
+sidebar_key: subscribe-on-aws-marketplace
 sidebar_label: "AWS Marketplace"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "This guide provides a step-by-step walkthrough of the subscription process and outlines the pricing terms of Zilliz Cloud on AWS Marketplace. | Cloud"
 type: origin

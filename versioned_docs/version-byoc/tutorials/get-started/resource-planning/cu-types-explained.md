@@ -1,11 +1,12 @@
 ---
 title: "Select the Right Cluster Type | BYOC"
 slug: /cu-types-explained
+sidebar_key: cu-types-explained
 sidebar_label: "Cluster Types"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "Selecting the right Compute Unit (CU) is a crucial step when creating a cluster in Zilliz Cloud. A CU is the basic unit of compute resources used for parallel processing of data, and different cluster types comprise varying combinations of CPU, memory, and storage. | BYOC"
 type: origin
@@ -43,22 +44,22 @@ The following table offers a quick comparison of the three cluster types in diff
    </tr>
    <tr>
      <td><p><strong>Performance-optimized</strong></p></td>
-     <td><p>500~1500</p></td>
-     <td><p>sub-10 ms</p></td>
+     <td><p>500-1500</p></td>
+     <td><p>10 ms</p></td>
      <td><p>1.5 million 768-dim vectors</p></td>
      <td><p>from &#36;65/mo.</p></td>
    </tr>
    <tr>
      <td><p><strong>Capacity-optimized</strong></p></td>
-     <td><p>100~300</p></td>
-     <td><p>tens-ms</p></td>
+     <td><p>100-300</p></td>
+     <td><p>50-100 ms</p></td>
      <td><p>5 million 768-dim vectors</p></td>
      <td><p>from &#36;20/mo.</p></td>
    </tr>
    <tr>
      <td><p><strong>Tiered-storage</strong></p></td>
-     <td><p>5~20</p></td>
-     <td><p>hundreds-ms</p></td>
+     <td><p>10-50</p></td>
+     <td><p>100-1000 ms</p></td>
      <td><p>20 million 768-dim vectors</p></td>
      <td><p>from &#36;7/mo.</p></td>
    </tr>
@@ -75,6 +76,12 @@ The following table offers a quick comparison of the three cluster types in diff
 - Crafted for handling vast datasets, boasting five times the data capacity of its Performance-optimized counterpart, albeit with subdued search performance.
 
 - Ideal for large-scale unstructured data search, copyright detection, and identity verification.
+
+### Tiered-storage cluster\{#tiered-storage-cluster}
+
+- Best for ultra-large-scale, cost-sensitive workloads.
+
+- Ideal for applications that need to store massive volumes of data at a low cost. The capacity of a Tiered-storage cluster is 4 times that of a Capacity-optimized cluster.
 
 ## Select an optimal cluster type\{#select-an-optimal-cluster-type}
 

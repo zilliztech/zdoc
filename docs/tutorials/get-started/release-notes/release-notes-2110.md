@@ -1,16 +1,17 @@
 ---
 title: "Release Notes (Nov 6, 2024) | Cloud"
 slug: /release-notes-2110
+sidebar_key: release-notes-2110
 sidebar_label: "November 6, 2024"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "This release includes a fresh web console user interface, support for migrating data from Qdrant, Pinecone Serverless, and Tencent VectorDB, a smoother payment process, and a revamped Invoice page with detailed payment info. | Cloud"
 type: origin
 token: HwWfwN9SViqU0Ukcv68cufBAnBe
-sidebar_position: 14
+sidebar_position: 15
 keywords: 
   - zilliz
   - vector database

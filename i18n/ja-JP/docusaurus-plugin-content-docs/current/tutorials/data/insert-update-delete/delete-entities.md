@@ -1,25 +1,22 @@
 ---
 title: "エンティティの削除 | Cloud"
 slug: /delete-entities
-sidebar_label: "エンティティの削除"
+sidebar_key: delete-entities
+sidebar_label: "削除"
 beta: FALSE
 notebook: FALSE
-description: "不要になったエンティティは、フィルタリング条件またはプライマリキーで削除できます。 | Cloud"
+description: "不要になったエンティティは、フィルタ条件または主キーを指定して削除できます。| Cloud"
 type: origin
 token: RhKcwNACpi3WihkTzo8cr4BCnee
 sidebar_position: 4
 keywords: 
   - zilliz
-  - ベクターデータベース
+  - ベクトルデータベース
   - cloud
   - collection
   - データ
   - 削除
   - エンティティの削除
-  - 自然言語検索
-  - 類似性検索
-  - multimodal RAG
-  - llm hallucinations
 
 ---
 
@@ -29,11 +26,11 @@ import TabItem from '@theme/TabItem';
 
 # エンティティの削除
 
-不要になったエンティティは、フィルタリング条件または主キーで削除できます。
+不要になったエンティティを、フィルタリング条件または主キーを使って削除できます。
 
-## フィルタリング条件によるエンティティの削除{#delete-entities-by-filtering-conditions}
+## フィルタリング条件によるエンティティの削除\{#delete-entities-by-filtering-conditions}
 
-いくつかの属性を共有する複数のエンティティをバッチで削除する場合、フィルター式を使用できます。以下のコード例では、**in** 演算子を使用して、**color** フィールドが **red** と **purple** の値に設定されているすべてのエンティティを一括削除します。要件を満たすフィルター式を構築するために、他の演算子を使用することもできます。フィルター式の詳細については、[フィルタリングの説明](./filtering-overview)を参照してください。
+複数のエンティティを一括で削除する際に、それらが共通して持つ属性がある場合は、フィルタ式を使用できます。以下の例では、**in** 演算子を使って **color** フィールドが **red** または **purple** に設定されているすべてのエンティティを一括削除しています。その他の演算子も使用して、要件に応じたフィルタ式を構築できます。フィルタ式の詳細については、[フィルタリングの概要](./filtering-overview)をご参照ください。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -49,7 +46,7 @@ client = MilvusClient(
 res = client.delete(
     collection_name="quick_setup",
     # highlight-next-line
-    filter="color in ['red_7025', 'purple_4976]"
+    filter="color in ['red_7025', 'purple_4976']"
 )
 
 print(res)
@@ -82,7 +79,7 @@ DeleteResp deleteResp = client.delete(DeleteReq.builder()
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 const { MilvusClient, DataType } = require("@zilliz/milvus2-sdk-node")
@@ -108,7 +105,7 @@ console.log(res.delete_cnt)
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 import (
@@ -142,7 +139,7 @@ if err != nil {
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
@@ -161,9 +158,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## 主キーによるエンティティの削除{#delete-entities-by-primary-keys}
+## プライマリキーによるエンティティの削除\{#delete-entities-by-primary-keys}
 
-ほとんどの場合、主キーはエンティティを一意に識別します。削除リクエストで主キーを設定することで、エンティティを削除できます。以下のコード例は、主キーが **18** と **19** の2つのエンティティを削除する方法を示しています。
+ほとんどの場合、プライマリキーはエンティティを一意に識別します。削除リクエストにプライマリキーを指定することで、エンティティを削除できます。以下のコード例では、プライマリキーが **18** および **19** の2つのエンティティを削除する方法を示しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -199,7 +196,7 @@ DeleteResp deleteResp = client.delete(DeleteReq.builder()
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 const { MilvusClient, DataType } = require("@zilliz/milvus2-sdk-node")
@@ -219,7 +216,7 @@ console.log(res.delete_cnt)
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 _, err = client.Delete(ctx, milvusclient.NewDeleteOption("quick_setup").
@@ -232,7 +229,7 @@ if err != nil {
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
@@ -252,9 +249,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## パーティションからのエンティティの削除{#delete-entities-from-partitions}
+## Delete Entities from パーティション\{#delete-entities-from-partitions}
 
-特定のパーティションに保存されているエンティティを削除することもできます。以下のコードスニペットは、コレクションに **PartitionA** という名前のパーティションがあることを前提としています。
+特定のパーティションに保存されているエンティティを削除することもできます。以下のコードスニペットは、コレクション内に **PartitionA** という名前のパーティションが存在することを前提としています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -291,7 +288,7 @@ DeleteResp deleteResp = client.delete(DeleteReq.builder()
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 const { MilvusClient, DataType } = require("@zilliz/milvus2-sdk-node")
@@ -312,7 +309,7 @@ console.log(res.delete_cnt)
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 _, err = client.Delete(ctx, milvusclient.NewDeleteOption("quick_setup").
@@ -326,7 +323,7 @@ if err != nil {
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"

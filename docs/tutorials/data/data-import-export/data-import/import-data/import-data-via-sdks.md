@@ -1,11 +1,12 @@
 ---
 title: "Import Data (SDK) | Cloud"
 slug: /import-data-via-sdks
+sidebar_key: import-data-via-sdks
 sidebar_label: "SDKs"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "This guide helps you learn how to use our SDKs to import data into a collection with the bulk-writer and bulk-import APIs. | Cloud"
 type: origin
@@ -163,9 +164,7 @@ Once your data and collection are ready, you can import your data into a specifi
 
 ### Import data via volume\{#import-data-via-volume}
 
-To import data via volume, you need to create a storage and upload your data into the volume beforehand. For details, refer to [Merge Data](./merge-data).
-
-Once the volume is ready and the source data file is in place, you can import data from a volume as follows:
+To import data from a volume, first create a [managed or external volume](null). For a managed volume, upload your data files to the volume. For an external volume, ensure the data files are in the mapped cloud storage bucket. Then import the data as follows:
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
 <TabItem value='python'>
@@ -437,6 +436,16 @@ public static void main(String[] args) throws Exception {
 
 </TabItem>
 </Tabs>
+
+## FAQ\{#faq}
+
+**What is the difference between an external volume and importing directly from external storage?**
+
+Both allow you to import data from your own S3 or GCS bucket. The key differences are:
+
+- External volume uses a [storage integration](null) for credential management. Credentials are set up once and reused across multiple volumes and operations. Data engineers do not need direct access to cloud storage keys.
+
+- Direct [external storage import](./import-data-on-web-ui#remote-files-from-an-object-storage-bucket) requires you to provide credentials (access key, secret key) inline with each import request. This is simpler for one-time imports but does not offer credential separation or reusability.
 
 ## Related topics\{#related-topics}
 

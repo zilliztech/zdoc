@@ -1,11 +1,12 @@
 ---
 title: "Use mmap | Cloud"
 slug: /use-mmap
+sidebar_key: use-mmap
 sidebar_label: "Use mmap"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "Memory mapping (Mmap) enables direct memory access to large files on disk, allowing Zilliz Cloud to store indexes and data in both memory and hard drives. This approach helps optimize data placement policy based on access frequency, expanding storage capacity for collections without impacting search performance. This page helps you understand how Zilliz Cloud uses mmap to enable fast and efficient data storage and retrieval. | Cloud"
 type: origin
@@ -145,7 +146,7 @@ schema.add_field(
 client.create_collection(collection_name="my_collection", schema=schema)
 
 # Disable mmap on an existing field
-# The following assumes that you have a collection named `my_collection`
+# The following assumes that you have a collection named \`my_collection\`
 client.alter_collection_field(
     collection_name="my_collection",
     field_name="doc_chunk",
@@ -407,7 +408,7 @@ index_params.add_index(
 )
 
 # Change mmap settings for an index
-# The following assumes that you have a collection named `my_collection`
+# The following assumes that you have a collection named \`my_collection\`
 client.alter_index_properties(
     collection_name="my_collection",
     index_name="title",
@@ -456,7 +457,7 @@ await client.createIndex({
 });
 
 // Change mmap settings for an index
-// The following assumes that you have a collection named `my_collection`
+// The following assumes that you have a collection named \`my_collection\`
 await client.alterIndexProperties({
     collection_name: "my_collection",
     index_name: "title",

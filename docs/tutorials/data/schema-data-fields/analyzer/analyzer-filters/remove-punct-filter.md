@@ -1,11 +1,12 @@
 ---
 title: "Remove Punct | Cloud"
 slug: /remove-punct-filter
+sidebar_key: remove-punct-filter
 sidebar_label: "Remove Punct"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "The `removepunct` filter removes standalone punctuation tokens from the token stream. Use it when you want cleaner text processing that focuses on meaningful content words rather than punctuation marks. | Cloud"
 type: origin

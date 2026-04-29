@@ -1,11 +1,12 @@
 ---
 title: "Migrate from Milvus to Zilliz Cloud Via Backup Files | Cloud"
 slug: /via-backup-files
+sidebar_key: via-backup-files
 sidebar_label: "Via Backup Files"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "Zilliz Cloud offers Milvus as a fully managed, cloud-hosted solution for users who want to use the Milvus vector database without the need to manage the infrastructure themselves. This topic describes how to migrate from Milvus by uploading backup files directly. | Cloud"
 type: origin
@@ -42,7 +43,11 @@ Make sure the following prerequisites are met:
 
     - **From Object Storage**: The public URL and access credentials for the Milvus object storage. You can choose long-term or temporary credentials. For detailed examples of an object storage URL, see [FAQ](./via-backup-files#faq).
 
-    - **From Volume**: For very large local backup files, upload the file to a Zilliz Cloud volume first, then specify the file path in that volume.
+    - **From Volume**: 
+
+        - **Managed volume**: For very large local backup files, upload the file to a Zilliz Cloud [managed volume](./managed-volume) first, then specify the file path in that volume.
+
+        - **External volume**: If your backup files are in a cloud object storage bucket, create an [external volume](./external-volume) that maps to that bucket. You can then migrate data directly from the external volume without providing credentials each time.
 
 - You have been granted the **Organization Owner** or **Project Admin** role. If you do not have the necessary permissions, contact your Zilliz Cloud Organization Owner.
 
@@ -142,7 +147,7 @@ To prepare migration data for Milvus 2.x,
 
 ## Migrate data to Zilliz Cloud\{#migrate-data-to-zilliz-cloud}
 
-With backup files ready, you can migrate the data from local files, an object storage, or a volume.
+With backup files ready, you can migrate the data from local files, an object storage, or a volume or an object storage.
 
 <Supademo id="cmbhd2wj85jktsn1rnjmi4t5o" title="Zilliz Cloud - Migrate from Milvus via Backup File Demo" />
 

@@ -1,11 +1,12 @@
 ---
 title: "Cluster Credentials | Cloud"
 slug: /cluster-credentials
+sidebar_key: cluster-credentials
 sidebar_label: "Cluster Credentials"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "Zilliz Cloud authenticates your identity using a token. A token can be either the cluster credential or an API key. This guide introduces authentication with cluster credentials. | Cloud"
 type: origin

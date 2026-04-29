@@ -1,11 +1,12 @@
 ---
 title: "Zilliz Cloud Limits | Cloud"
 slug: /limits
+sidebar_key: limits
 sidebar_label: "Zilliz Cloud Limits"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "This page provides information about limits on the Zilliz Cloud platform. Submit a request to us if you need to report issues related to these limits. | Cloud"
 type: origin
@@ -115,9 +116,14 @@ The following table lists the limits on the maximum number of users allowed in Z
      <th><p><strong>Remarks</strong></p></th>
    </tr>
    <tr>
-     <td><p>Volume</p></td>
+     <td><p>Managed volume</p></td>
      <td><p>100</p></td>
-     <td><p>Each organization can contain a maximum of 100 volumes.</p></td>
+     <td><p>Each organization can contain a maximum of 100 managed volumes.</p></td>
+   </tr>
+   <tr>
+     <td><p>External volume</p></td>
+     <td><p>100</p></td>
+     <td><p>Each organization can contain a maximum of 100 external volumes.</p></td>
    </tr>
 </table>
 
@@ -156,19 +162,24 @@ The maximum number of clusters varies with your payment method and deployment op
          <th><p><strong>Remarks</strong></p></th>
        </tr>
        <tr>
-         <td><p>Free</p></td>
+         <td><p>Serving - Free</p></td>
          <td><p>1</p></td>
          <td><p>Only 1 Free cluster is allowed in each organization. You can drop an existing Free cluster and replace it with a new one if required.</p></td>
        </tr>
        <tr>
-         <td><p>Serverless</p></td>
-         <td><p>N/A</p></td>
-         <td><p>N/A</p></td>
+         <td><p>Serving - Serverless</p></td>
+         <td><p>100</p></td>
+         <td><p>You can only create up to 100 Serverless clusters in each project.</p></td>
        </tr>
        <tr>
-         <td><p>Dedicated</p></td>
-         <td><p>Total CU size &lt; 320</p></td>
-         <td><p>The maximum number of clusters in an organization depends on the total amount of cluster CUs. The accumulated number of CUs for all Dedicated clusters in an organization should not exceed 320.</p></td>
+         <td><p>Serving - Dedicated</p></td>
+         <td><p>100</p></td>
+         <td><p>You can only create up to 100 Dedicated clusters in each project.</p></td>
+       </tr>
+       <tr>
+         <td><p>On-demand</p></td>
+         <td><p>20</p></td>
+         <td><p>You can only create up to 20 on-demand clusters in each project.</p></td>
        </tr>
     </table>
 
@@ -183,14 +194,19 @@ A CU is the basic unit of compute resources used for parallel processing of data
      <th><p><strong>Remarks</strong></p></th>
    </tr>
    <tr>
-     <td><p>Dedicated cluster in a Standard project</p></td>
-     <td><p>CU size x Replica Count &lt;=32</p></td>
-     <td><p>On the console, you can create up to 32 CUs for a single cluster. </p><p>However, the limit is CU size x Replica Count &lt;=32 if replicas are added.</p></td>
+     <td><p>Dedicated serving cluster in a Standard project</p></td>
+     <td><p>CU size &lt;=32</p></td>
+     <td><p>On the console, you can create up to 32 CUs for a single cluster.</p></td>
    </tr>
    <tr>
-     <td><p>Dedicated cluster in an Enterprise project</p></td>
-     <td><p>CU size x Replica Count &lt;=1,024</p></td>
-     <td><p>On the console, you can create up to 1,024 CUs for a single cluster.</p><p>However, the limit is CU size x Replica Count &lt;=1,024 if replicas are added.</p></td>
+     <td><p>Dedicated serving cluster in an Enterprise project</p></td>
+     <td><p>CU size x Replica Count &lt;=10,240</p></td>
+     <td><p>On the console, you can create up to 1,024 CUs for a single cluster.</p><p>However, the limit is CU size x Replica Count &lt;=10,240 if replicas are added.</p></td>
+   </tr>
+   <tr>
+     <td><p>On-demand cluster in an Enterprise project</p></td>
+     <td><p>8&lt;= CU size &lt;= 256</p></td>
+     <td><p>On the console, a single on-demand cluster supports 8 to 256 CUs.</p></td>
    </tr>
 </table>
 
@@ -250,7 +266,7 @@ The following table lists the limits on the capacity of each type of cluster pla
 
 ## Replicas\{#replicas}
 
-To add replicas, the cluster needs to have **8 CUs or more**. The following limit applies as well.
+To add replicas, the cluster needs to have **12 CUs or more**. The following limit applies as well.
 
 <table>
    <tr>
@@ -264,17 +280,17 @@ To add replicas, the cluster needs to have **8 CUs or more**. The following limi
      <td><p>You can create a maximum of 10 replicas.</p></td>
    </tr>
    <tr>
-     <td><p>Replica count x CU size</p></td>
-     <td><p>&lt;= 256</p></td>
-     <td><p>The cluster CU size x Replica count should not exceed 256.</p></td>
+     <td><p>Query CU x Replica Count</p></td>
+     <td><p>10,240</p></td>
+     <td><p>The cluster replica x query CU should not exceed 10,240.</p></td>
    </tr>
 </table>
 
 ## Databases\{#databases}
 
-- Databases can only be created in Dedicated clusters.
+- Each Serving-Dedicated cluster can have up to 1024 databases.
 
-- Each Dedicated cluster can have up to 1024 databases.
+- You can create up to 100 on-demand compute databases in each project.
 
 - Default database cannot be dropped.
 
@@ -386,16 +402,14 @@ Zilliz Cloud also imposes rate limits on collection and partition data definitio
 
 This section focuses on the rate limit for common data operations in Zilliz Cloud clusters.
 
-### Insert\{#insert}
+### Insert and Upsert\{#insert-and-upsert}
 
-Each insert request/response should be no greater than **64** MB.
-
-The rate limit that applies varies with the cluster types and the number of CUs in use. The following table lists the rate limits for insert operations.
+The rate limit for insert and upsert operations depends on the cluster deployment option and the number of CUs in use. 
 
 <table>
    <tr>
      <th></th>
-     <th><p>Maximum Insert Rate Limits</p></th>
+     <th><p>Maximum Insert and Upsert Rate Limits</p></th>
    </tr>
    <tr>
      <td><p>Free cluster</p></td>
@@ -406,91 +420,32 @@ The rate limit that applies varies with the cluster types and the number of CUs 
      <td><p>10 MB/s</p></td>
    </tr>
    <tr>
-     <td><p>Dedicated cluster [1 CU, 2 CUs]</p></td>
-     <td><p>8 MB/s</p></td>
-   </tr>
-   <tr>
-     <td><p>Dedicated cluster [4 CUs,  8 CUs]</p></td>
-     <td><p>12 MB/s</p></td>
-   </tr>
-   <tr>
-     <td><p>Dedicated cluster [12 CUs, 20 CUs]</p></td>
-     <td><p>16 MB/s</p></td>
-   </tr>
-   <tr>
-     <td><p>Dedicated cluster [24 CUs, 64 CUs)</p></td>
-     <td><p>24 MB/s</p></td>
-   </tr>
-   <tr>
-     <td><p>Dedicated cluster [64 CUs, 128CUs)</p></td>
-     <td><p>36 MB/s</p></td>
-   </tr>
-   <tr>
-     <td><p>Dedicated cluster [128 CUs, 256CUs)</p></td>
-     <td><p>48 MB/s</p></td>
-   </tr>
-   <tr>
-     <td><p>Dedicated cluster &gt;= 256 CUs</p></td>
-     <td><p>64 MB/s</p></td>
+     <td><p>Dedicated cluster</p></td>
+     <td><p>16 MB/s + 1 MB/s × CU</p><p>Up to 256 MB/s at most.</p></td>
    </tr>
 </table>
 
-When inserting data, include all schema-defined fields. Exclude the primary key if the collection has AutoID enabled.
+Examples:
 
-To make inserted entities immediately retrievable in searches and queries, consider changing the consistency level in the search or query requests to **Strong**. Read [Consistency Level](./consistency-level) for more.
+- `1 CU`: `17 MB/s`
 
-### Upsert\{#upsert}
+- `8 CUs`: `24 MB/s`
 
-Each upsert request/response should be no greater than **64** MB.
+- `64 CUs`: `80 MB/s`
 
-The rate limit that applies varies with the cluster types and the number of CUs in use. The following table lists the rate limits for upsert operations.
+- `240 CUs`: `256 MB/s`
 
-<table>
-   <tr>
-     <th></th>
-     <th><p>Maximum Upsert Rate Limits</p></th>
-   </tr>
-   <tr>
-     <td><p>Free cluster</p></td>
-     <td><p>2 MB/s</p></td>
-   </tr>
-   <tr>
-     <td><p>Serverless cluster</p></td>
-     <td><p>10 MB/s</p></td>
-   </tr>
-   <tr>
-     <td><p>Dedicated cluster [1 CU, 2 CUs]</p></td>
-     <td><p>8 MB/s</p></td>
-   </tr>
-   <tr>
-     <td><p>Dedicated cluster [4 CUs,  8 CUs]</p></td>
-     <td><p>12 MB/s</p></td>
-   </tr>
-   <tr>
-     <td><p>Dedicated cluster [12 CUs, 20 CUs]</p></td>
-     <td><p>16 MB/s</p></td>
-   </tr>
-   <tr>
-     <td><p>Dedicated cluster [24 CUs, 64 CUs)</p></td>
-     <td><p>24 MB/s</p></td>
-   </tr>
-   <tr>
-     <td><p>Dedicated cluster [64 CUs, 128CUs)</p></td>
-     <td><p>36 MB/s</p></td>
-   </tr>
-   <tr>
-     <td><p>Dedicated cluster [128 CUs, 256CUs)</p></td>
-     <td><p>48 MB/s</p></td>
-   </tr>
-   <tr>
-     <td><p>Dedicated cluster &gt;= 256 CUs</p></td>
-     <td><p>64 MB/s</p></td>
-   </tr>
-</table>
+- `>= 240 CUs`: `256 MB/s` maximum
 
-When upserting data, include all schema-defined fields. 
+In addition, the following extra limits apply:
 
-To make upserted entities immediately retrievable in searches and queries, consider changing the consistency level in the search or query requests to **Strong**. Read [Consistency Level](./consistency-level) for more.
+- The write rate for a single shard must not exceed **32 MB/s**.
+
+- When inserting data, include all schema-defined fields. Exclude the primary key if the collection has AutoID enabled.
+
+- When upserting data, include all schema-defined fields.
+
+- To make inserted or upserted entities immediately retrievable in searches and queries, consider changing the consistency level in the search or query requests to **Strong**. Read [Consistency Level](./consistency-level) for more.
 
 ### Index\{#index}
 
@@ -630,9 +585,14 @@ You can restore a backup file in the same region as the original cluster of the 
      <th><p><strong>Remarks</strong></p></th>
    </tr>
    <tr>
-     <td><p>IP Address (CIDR)</p></td>
+     <td><p>Console IP Access</p></td>
      <td><p>100</p></td>
-     <td><p>You can add up to 100 IP addresses to the allow list.</p></td>
+     <td><p>You can add up to 100 IP addresses to the console IP allowlist.</p></td>
+   </tr>
+   <tr>
+     <td><p>Cluster IP Access</p></td>
+     <td><p>100</p></td>
+     <td><p>You can add up to 100 IP addresses to the cluster IP allowlist.</p></td>
    </tr>
 </table>
 

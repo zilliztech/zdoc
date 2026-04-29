@@ -1,13 +1,14 @@
 ---
 title: "専用クラスターのコスト | Cloud"
 slug: /dedicated-cluster-cost
+sidebar_key: dedicated-cluster-cost
 sidebar_label: "専用クラスター"
 beta: FALSE
 notebook: FALSE
-description: "Zilliz Cloud の専用クラスターは従量課金制を採用しており、主にクラスターが消費するコンピューティングリソースに対して課金されます。これにより、事前にリソースを過剰にプロビジョニングすることなく、実際に使用した分だけを支払うことができます。"
+description: "Zilliz Cloud の専用クラスターは従量課金モデルを採用しており、主にクラスターが消費するコンピューティングリソースに対して課金されます。これにより、事前にリソースを過剰にプロビジョニングすることなく、実際に使用した分のみを支払うことができます。| Cloud"
 type: origin
 token: J2prwh2KLis9oqkqNIAcU1d6nsd
-sidebar_position: 1
+sidebar_position: 3
 keywords: 
   - zilliz
   - ベクトルデータベース
@@ -15,101 +16,97 @@ keywords:
   - 専用
   - コスト
   - 請求
-  - ANN検索
-  - ベクトル埋め込みとは
-  - ベクトルデータベースチュートリアル
-  - ベクトルデータベースの仕組み
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Dedicated Cluster の費用
+# 専用クラスターのコスト
 
-Zilliz Cloud の Dedicated Cluster は従量課金制を採用しており、主にクラスターが消費するコンピューティングリソースに対して課金されます。これにより、事前にリソースを過剰にプロビジョニングすることなく、実際に使用した分だけを支払うことができます。
+Zilliz Cloud の専用クラスターは従量課金モデルを採用しており、主にクラスターが消費するコンピューティングリソースに対して課金されます。これにより、事前にリソースを過剰にプロビジョニングすることなく、実際に使用した分のみを支払うことができます。
 
-Dedicated Cluster の総費用は、以下の要素の合計です。
+専用クラスターの総コストは、以下のコンポーネントの合計です：
 
-- [Vector database の費用](./dedicated-cluster-cost#vector-database-cost)
+- [ベクトルデータベースのコスト](./dedicated-cluster-cost#vector-database-cost)
 
 - [ストレージ費用](./dedicated-cluster-cost#storage-cost)
 
-上記の2つの主要な課金項目に加えて、以下のオプションの追加料金が適用される場合があります。
+上記の 2 つの主要な課金項目に加え、以下のオプションの追加料金が発生する場合があります：
 
-- [データ転送費用](./data-transfer-cost)
+- [データ転送コスト](./data-transfer-cost)
 
-- [監査ログ費用](./audit-log-cost)
+- [監査ログコスト](./audit-log-cost)
 
-## Vector database の費用{#vector-database-cost}
+## ベクトルデータベースのコスト\{#vector-database-cost}
 
-Vector database の費用には、Dedicated Cluster のコンピューティングリソースの使用料が含まれます。
+ベクトルデータベースのコストには、専用クラスターのコンピューティングリソースの使用に対する課金が含まれます。
 
-### 費用計算{#cost-calculation}
+### コスト計算\{#cost-calculation}
 
 ```plaintext
 Vector Database Cost = Query CU Unit Price x Total Number of Query CU x Cluster Runtime
 ```
 
-- **クエリCU単価**: クラスターのリージョン、タイプ、プロジェクトプランによって決定されます。詳細な料金については、[Zilliz Cloud Pricing](http://zilliz.com/pricing) を参照してください。
+- **Query CU 単価**: クラスターのリージョン、タイプ、およびプロジェクトプランによって決定されます。詳細な料金については、[Zilliz Cloud Pricing](http://zilliz.com/pricing) をご覧ください。
 
-- **クエリCUの総数**: レプリカを考慮した、クラスター内のクエリCUの総数。
+- **Total クエリCU数**: レプリカを考慮した、クラスター内のクエリ CU の総数です。
 
     ```plaintext
     Total Number of Query CU = Number of Query CU × Replica Count
     ```
 
-    例えば、2つのクエリCUと2つのレプリカを持つクラスターのCUの合計は4です。
+    たとえば、2 つのクエリ CU と 2 つのレプリカを持つクラスターの場合、CU の合計は 4 つになります。
 
-- **クラスター実行時間**: クラスターが課金対象ステータスである合計時間（時間単位）：
+- **クラスター実行時間**: クラスターが課金対象ステータスにある合計時間（時間単位）：
 
-    - 課金対象ステータス: Running、Modifyingなど。
+    - 課金対象ステータス：Running、変更中 など
 
-    - 非課金対象ステータス: Creating、Suspending、Resuming、Suspendedなど。非課金対象ステータス中、CU料金は停止しますが、ストレージ料金は引き続き適用されます。
+    - 非課金ステータス：Creating、一時停止ing、Resuming、一時停止ed など。非課金ステータスの間は CU 料金は発生しませんが、ストレージ費用は引き続き適用されます。
 
-### 例{#example}
+### 例\{#example}
 
-クラスター構成が以下の通りであると仮定します。
+クラスター構成が以下の通りであると仮定します：
 
-- **プロジェクトプラン:** Enterprise
+- **Project Plan:** Enterprise
 
 - **クラスターデプロイオプション**: Dedicated
 
-- **クラウドプロバイダーとリージョン:** AWS us-east-1 (バージニア)
+- **クラウドプロバイダー & Region:** AWS us-east-1 (Virginia)
 
-- **クラスタータイプ:** パフォーマンス最適化
+- **クラスタータイプ:** パフォーマンス最適化済み
 
 - **クエリCU数:** 8 CU
 
-- **レプリカ数:** 2
+- **Replica Count:** 2
 
-- **クラスター** **実行時間:** 720時間 (1ヶ月)。
+- **Cluster** **Runtime:** 720 時間（1 ヶ月）。
 
-プラン、クラウドプロバイダーとリージョン、クラスタータイプの情報から、[料金ページ](https://zilliz.com/pricing)でCU単価が**&#36;0.248/時間**であることがわかります。
+プラン、クラウドプロバイダーとリージョン、およびクラスタータイプの情報に基づき、[料金ページ](https://zilliz.com/pricing) で CU の単価が **&#36;0.248/時間** であることを確認できます。
 
 ![find-cu-unit-price](https://zdoc-images.s3.us-west-2.amazonaws.com/find-cu-unit-price.png "find-cu-unit-price")
 
-クエリCU数とレプリカ数に応じて、クエリCUの合計数は`8 CU x 2 レプリカ = 16 CU`です。
+クエリ CU 数とレプリカ数に基づくと、クエリ CU の合計数は `8 CU x 2 Replica = 16 CU` となります。
 
-例のDedicatedクラスターのベクトルデータベースの総コストは、&#36;0.248 x 16 x 720 = &#36;2856.96です。
+Dedicated クラスターのベクトルデータベースの総費用は `$0.248 x 16 x 720 = $2856.96` です。
 
-## ストレージコスト{#storage-cost}
+## ストレージ費用\{#storage-cost}
 
-ストレージコストはCUコストとは別に課金され、以下に依存します。
+ストレージ費用は CU 費用とは別に課金され、以下に依存します：
 
-- クラスターのクラウドプロバイダーとリージョン、タイプ、プラン
+- クラスターのクラウドプロバイダーとリージョン、タイプ、およびプラン
 
 - ストレージ使用量
 
-詳細については、[ストレージ](./storage-cost)を参照してください。
+詳細については、[ストレージ](./storage-cost) をご覧ください。
 
-## よくある質問{#faqs}
+## よくある質問\{#faqs}
 
-1. **Dedicatedクラスターを一時停止した場合、料金は発生しますか？**
+1. **Dedicated クラスターを一時停止した場合、料金は発生しますか？**
 
-    Dedicatedクラスターが一時停止されている間は、ベクトルデータベースのコストは停止しますが、クラスターを削除するまでストレージ料金は継続します。
+    Dedicated クラスターが一時停止されると、ベクトルデータベースの費用は発生しませんが、クラスターを削除するまでストレージ費用は引き続き発生します。
 
-1. **クラスターの作成中または一時停止中に課金されますか？**
+1.  **クラスターの作成中または一時停止中に課金されますか？**
 
-    Creating、Suspending、Resuming、またはSuspendedステータス中は、ベクトルデータベースのコストは課金されません。ただし、ストレージコストは引き続き適用されます。
+    Creating、一時停止ing、Resuming、または 一時停止ed ステータスの間は、ベクトルデータベースの費用は発生しません。ただし、ストレージ費用は引き続き適用されます。
 

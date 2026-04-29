@@ -1,11 +1,12 @@
 ---
 title: "Cohere | Cloud"
 slug: /cohere
+sidebar_key: cohere
 sidebar_label: "Cohere"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "This topic describes how to configure and use Cohere embedding functions in Milvus. | Cloud"
 type: origin

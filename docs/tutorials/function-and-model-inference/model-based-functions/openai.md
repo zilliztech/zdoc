@@ -1,11 +1,12 @@
 ---
 title: "OpenAI | Cloud"
 slug: /openai
+sidebar_key: openai
 sidebar_label: "OpenAI"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "Use an OpenAI embedding model with Zilliz Cloud by choosing an embedding model and creating a collection with a text embedding function. | Cloud"
 type: origin

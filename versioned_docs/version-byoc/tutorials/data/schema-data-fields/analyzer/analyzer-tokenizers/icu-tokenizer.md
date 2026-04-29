@@ -1,11 +1,12 @@
 ---
 title: "ICU | BYOC"
 slug: /icu-tokenizer
+sidebar_key: icu-tokenizer
 sidebar_label: "ICU"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "The `icu` tokenizer is built on the Internationalization Components of Unicode open‑source project, which provides key tools for software internationalization. By using ICU's word‑break algorithm, the tokenizer can accurately split text into words across the majority of the world’s languages. | BYOC"
 type: origin

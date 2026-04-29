@@ -1,11 +1,12 @@
 ---
 title: "Detailed Plan Comparison | Cloud"
 slug: /select-zilliz-cloud-service-plans
+sidebar_key: select-zilliz-cloud-service-plans
 sidebar_label: "Plan Comparison"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "Zilliz Cloud provides a range of project plans to suit diverse requirements. Whether you're new to vector databases or require robust solutions for enterprise-level tasks, making the right choice ensures optimal performance, scalability, and cost-efficiency. This guide will help you make an informed decision. | Cloud"
 type: origin
@@ -191,7 +192,7 @@ The following section compares the plans and deployment options, detailing the s
      <td><p>✔</p></td>
    </tr>
    <tr>
-     <td><p><a href="./zero-downtime-migration">Zero downtime migration</a></p></td>
+     <td><p><a href="./undefined">Zero downtime migration</a></p></td>
      <td></td>
      <td></td>
      <td></td>
@@ -209,7 +210,7 @@ The following section compares the plans and deployment options, detailing the s
      <td><p>✔</p></td>
    </tr>
    <tr>
-     <td><p><a href="./manage-stages">Stage</a></p></td>
+     <td><p><a href="null">Stage</a></p></td>
      <td><p>✔</p></td>
      <td><p>✔</p></td>
      <td><p>✔</p></td>

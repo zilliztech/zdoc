@@ -1,11 +1,12 @@
 ---
 title: "Manage Organization Alerts | Cloud"
 slug: /manage-organization-alerts
+sidebar_key: manage-organization-alerts
 sidebar_label: "Manage Organization Alerts"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "Organization alerts monitor billing and account-related metrics across your entire Zilliz Cloud organization. Unlike project alerts that focus on cluster performance, organization alerts help you track credit balances, payment methods, and usage patterns to ensure uninterrupted service and prevent unexpected billing issues. Stay informed about account health and avoid service disruptions by receiving timely notifications about credit depletion, payment failures, and usage thresholds. | Cloud"
 type: origin

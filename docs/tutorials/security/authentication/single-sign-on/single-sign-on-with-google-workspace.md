@@ -1,11 +1,12 @@
 ---
 title: "Google Workspace (SAML 2.0) | Cloud"
 slug: /single-sign-on-with-google-workspace
+sidebar_key: single-sign-on-with-google-workspace
 sidebar_label: "Google Workspace (SAML 2.0)"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "This topic describes how to configure single sign-on (SSO) with Google Workspace using the SAML 2.0 protocol. | Cloud"
 type: origin

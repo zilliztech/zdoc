@@ -1,11 +1,12 @@
 ---
 title: "Grouping Search | Cloud"
 slug: /grouping-search
+sidebar_key: grouping-search
 sidebar_label: "Grouping Search"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "A grouping search allows Zilliz Cloud to group the search results by the values in a specified field to aggregate data at a higher level. For example, you can use a basic ANN search to find books similar to the one at hand, but you can use a grouping search to find the book categories that may involve the topics discussed in that book. This topic describes how to use Grouping Search along with key considerations. | Cloud"
 type: origin
@@ -101,7 +102,7 @@ res = client.search(
     output_fields=["docId"]
 )
 
-# Retrieve the values in the `docId` column
+# Retrieve the values in the \`docId\` column
 doc_ids = [result['entity']['docId'] for result in res[0]]
 ```
 
@@ -216,7 +217,7 @@ res = await client.search({
     // highlight-end
 })
 
-// Retrieve the values in the `docId` column
+// Retrieve the values in the \`docId\` column
 var docIds = res.results.map(result => result.entity.docId)
 ```
 
@@ -379,7 +380,7 @@ res = await client.search({
     // highlight-end
 })
 
-// Retrieve the values in the `docId` column
+// Retrieve the values in the \`docId\` column
 var docIds = res.results.map(result => result.entity.docId)
 ```
 
@@ -416,6 +417,72 @@ In the example above:
 - `strict_group_size`: This boolean parameter controls whether the system should strictly enforce the count set by `group_size`. When `strict_group_size=True`, the system will attempt to include the exact number of entities specified by `group_size` in each group (e.g., two paragraphs), unless there isn’t enough data in that group. By default (`strict_group_size=False`), the system prioritizes meeting the number of groups specified by the `limit` parameter, rather than ensuring each group contains `group_size` entities. This approach is generally more efficient in cases where data distribution is uneven.
 
 For additional parameter details, refer to [search](/reference/python/python/Vector-search).
+
+## Order groups by a scalar field | Private Preview\{#order-groups-by-a-scalar-field}
+
+You can combine Grouping Search with `order_by_fields` to order groups by a scalar field. This is useful when you want diverse results across groups, but still want the groups to follow a business-relevant order such as price or rating.
+
+The following example groups search results by `category`, returns up to three entities per group, and orders the returned groups by `price` from low to high.
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
+res = client.search(
+    collection_name="product_catalog",
+    data=query_vectors,
+    anns_field="embedding",
+    limit=20,
+    group_by_field="category",
+    group_size=3,
+    strict_group_size=True,
+    output_fields=["category", "price", "rating"],
+    # highlight-start
+    order_by_fields=[
+        {"field": "price", "order": "asc"}
+    ],
+    # highlight-end
+)
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// java
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// nodejs
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+```
+
+</TabItem>
+</Tabs>
+
+In the request above, `limit=20` means Zilliz Cloud selects up to 20 groups, not 20 entities. Because `group_size=3`, the flat result list can contain up to 60 entities in total.
+
+When you use `order_by_fields` with `group_by_field`, Zilliz Cloud orders groups by the specified scalar field value of each group's top entity. Within each group, entities remain ordered by their similarity score to the query vector.
 
 ## Considerations\{#considerations}
 

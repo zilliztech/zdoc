@@ -1,10 +1,11 @@
 ---
-title: "基本的なベクトル検索 | Cloud"
+title: "基本ベクトル検索 | Cloud"
 slug: /single-vector-search
-sidebar_label: "基本的なベクトル検索"
+sidebar_key: single-vector-search
+sidebar_label: "基本ベクトル検索"
 beta: FALSE
 notebook: FALSE
-description: "ベクトル埋め込みのソート順を記録したインデックスファイルに基づき、近似最近傍探索（ANN）は、受信した検索リクエストに含まれるクエリベクトルに基づいてベクトル埋め込みのサブセットを特定し、そのサブグループ内のベクトルとクエリベクトルを比較して、最も類似した結果を返します。ANN検索により、Zilliz Cloudは効率的な検索体験を提供します。このページでは、基本的なANN検索の実行方法を学ぶことができます。 | Cloud"
+description: "ベクトル埋め込みのソート順を記録したインデックスファイルに基づき、近似最近傍（ANN）検索は、受信した検索リクエストに含まれるクエリベクトルに基づいてベクトル埋め込みの部分集合を特定し、そのサブグループ内のベクトルとクエリベクトルを比較して、最も類似した結果を返します。ANN 検索により、Zilliz Cloud は効率的な検索体験を提供します。このページでは、基本的な ANN 検索の実行方法について説明します。 | Cloud"
 type: origin
 token: BaGlwzDmyiyVvVk6NurcFclInCd
 sidebar_position: 1
@@ -13,13 +14,9 @@ keywords:
   - ベクトルデータベース
   - cloud
   - collection
-  - データ
-  - ベクトル検索
+  - data
+  - vector search
   - ann
-  - セマンティック検索とは
-  - Embedding model
-  - 画像類似性検索
-  - Context Window
 
 ---
 
@@ -27,43 +24,49 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# 基本的なベクトル検索
+# ベクトル検索の基礎
 
-ベクトル埋め込みのソート順を記録したインデックスファイルに基づいて、近似最近傍 (ANN) 検索は、受信した検索リクエストに含まれるクエリベクトルに基づいてベクトル埋め込みのサブセットを特定し、クエリベクトルとサブグループ内のベクトルを比較し、最も類似した結果を返します。ANN検索により、Zilliz Cloudは効率的な検索体験を提供します。このページでは、基本的なANN検索を実行する方法を学びます。
+ベクトル埋め込みのソート順を記録したインデックスファイルに基づき、近似最近傍探索（ANN 検索）は、受信した検索リクエストに含まれるクエリベクトルに基づいてベクトル埋め込みのサブセットを特定し、クエリベクトルと該サブグループ内のベクトルを比較して、最も類似性の高い結果を返します。ANN 検索により、Zilliz Cloud は効率的な検索体験を提供します。このページでは、基本的な ANN 検索の実行方法について説明します。
 
-## 概要{#overview}
+<Admonition type="info" icon="📘" title="Notes">
 
-ANNとk-最近傍 (kNN) 検索は、ベクトル類似性検索における一般的な手法です。kNN検索では、最も類似したものを特定する前に、ベクトル空間内のすべてのベクトルを検索リクエストに含まれるクエリベクトルと比較する必要があり、これは時間とリソースを大量に消費します。
+<p>コレクション作成後に動的に新しいフィールドを追加した場合、これらのフィールドを含む検索では、値が明示的に設定されていないエンティティに対して、定義されたデフォルト値または NULL が返されます。詳細については、「<a href="./add-fields-to-an-existing-collection">既存のコレクションへのフィールドの追加</a>」をご覧ください。</p>
 
-kNN検索とは異なり、ANN検索アルゴリズムは、ベクトル埋め込みのソート順を記録する**インデックス**ファイルを必要とします。検索リクエストが来たとき、インデックスファイルを参考に、クエリベクトルに最も類似している可能性のあるベクトル埋め込みを含むサブグループを素早く特定できます。次に、指定された**メトリックタイプ**を使用して、クエリベクトルとサブグループ内のベクトルとの類似性を測定し、クエリベクトルとの類似性に基づいてグループメンバーをソートし、**トップK**のグループメンバーを特定します。
+</Admonition>
 
-ANN検索は事前に構築されたインデックスに依存し、検索スループット、メモリ使用量、検索の正確性は選択したインデックスタイプによって異なる場合があります。検索パフォーマンスと正確性のバランスを取る必要があります。
+## 概要\{#overview}
 
-学習曲線を減らすために、Zilliz Cloudは**AUTOINDEX**を提供します。**AUTOINDEX**を使用すると、Zilliz Cloudはインデックスを構築しながらコレクション内のデータ分布を分析し、検索パフォーマンスと正確性のバランスを取るために、分析に基づいて最も最適化されたインデックスパラメータを設定します。
+ANN 検索と k-最近傍（kNN）検索は、ベクトル類似性検索において一般的な手法です。kNN 検索では、最も類似性の高いベクトルを特定する前に、検索リクエストに含まれるクエリベクトルとベクトル空間内のすべてのベクトルを比較する必要があり、時間とリソースを大量に消費します。
 
-AUTOINDEXと適用可能なメトリックタイプの詳細については、[AUTOINDEXの説明](./autoindex-explained)と[メトリックタイプ](./search-metrics-explained)を参照してください。このセクションでは、以下のトピックに関する詳細情報を見つけることができます。
+kNN 検索とは異なり、ANN 検索アルゴリズムはベクトル埋め込みのソート順を記録した**インデックス**ファイルを必要とします。検索リクエストが届くと、インデックスファイルを参照して、クエリベクトルに最も類似している可能性のあるベクトル埋め込みを含むサブグループを迅速に特定できます。その後、指定された**メトリックタイプ**を使用してクエリベクトルとサブグループ内のベクトルとの類似性を測定し、クエリベクトルとの類似性に基づいてグループメンバーをソートして、**トップ K**のグループメンバーを特定します。
+
+ANN 検索は事前構築されたインデックスに依存しており、選択するインデックスタイプによって検索スループット、メモリ使用量、検索精度が異なる場合があります。検索パフォーマンスと精度のバランスを取る必要があります。
+
+学習曲線を緩やかにするため、Zilliz Cloud は**AUTOINDEX**を提供しています。**AUTOINDEX**を使用すると、Zilliz Cloud はインデックス構築中にコレクション内のデータ分布を分析し、その分析に基づいて最適なインデックスパラメータを設定することで、検索パフォーマンスと精度のバランスを取ります。
+
+AUTOINDEX および適用可能なメトリックタイプの詳細については、「[AUTOINDEX の解説](./autoindex-explained)」および「[メトリックタイプ](./search-metrics-explained)」をご覧ください。このセクションでは、以下のトピックに関する詳細情報を確認できます。
 
 - [単一ベクトル検索](./single-vector-search#single-vector-search)
 
-- [バルクベクトル検索](./single-vector-search#bulk-vector-search)
+- [バッチベクトル検索](./single-vector-search#bulk-vector-search)
 
-- [パーティション内のANN検索](./single-vector-search#ann-search-in-partition)
+- [パーティションにおける ANN 検索](./single-vector-search#ann-search-in-partition)
 
 - [出力フィールドの使用](./single-vector-search#use-output-fields)
 
-- [limitとoffsetの使用](./single-vector-search#use-limit-and-offset)
+- [limit と offset の使用](./single-vector-search#use-limit-and-offset)
 
-- [levelの使用](./single-vector-search#use-level)
+- [level の使用](./single-vector-search#use-level)
 
 - [再現率の取得](./single-vector-search#get-recall-rate)
 
-- [ANN検索の強化](./single-vector-search#enhancing-ann-search)
+- [ANN 検索の強化](./single-vector-search#enhancing-ann-search)
 
-## 単一ベクトル検索{#single-vector-search}
+## 単一ベクトル検索\{#single-vector-search}
 
-ANN検索において、単一ベクトル検索とは、1つのクエリベクトルのみを含む検索を指します。事前に構築されたインデックスと検索リクエストに含まれるメトリックタイプに基づいて、Zilliz Cloudはクエリベクトルに最も類似したトップK個のベクトルを見つけます。
+ANN 検索において、単一ベクトル検索とは、クエリベクトルが 1 つのみ含まれる検索を指します。事前構築されたインデックスと検索リクエストに含まれるメトリックタイプに基づき、Zilliz Cloud はクエリベクトルに最も類似したトップ K のベクトルを検出します。
 
-このセクションでは、単一ベクトル検索を実行する方法を学びます。検索リクエストは単一のクエリベクトルを含み、Zilliz Cloudに内積 (IP) を使用してクエリベクトルとコレクション内のベクトルとの類似性を計算し、最も類似した3つのベクトルを返すように要求します。
+このセクションでは、単一ベクトル検索の実行方法について説明します。検索リクエストには単一のクエリベクトルが含まれており、Zilliz Cloud に対して内積（IP）を使用してクエリベクトルとコレクション内のベクトルとの類似性を計算し、最も類似性の高い 3 つの結果を返すよう指示します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -156,7 +159,7 @@ for (List<SearchResp.SearchResult> results : searchResults) {
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 import (
@@ -204,7 +207,7 @@ for _, resultSet := range resultSets {
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
@@ -233,7 +236,7 @@ console.log(res.results)
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
@@ -274,46 +277,46 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-Milvusは、クエリベクトルに対する類似度スコアに基づいて検索結果を降順にランク付けします。類似度スコアはクエリベクトルまでの距離とも呼ばれ、その値の範囲は使用するメトリックタイプによって異なります。
+Milvus は、検索結果をクエリベクトルとの類似度スコアに基づいて降順にランキングします。この類似度スコアはクエリベクトルへの距離とも呼ばれ、その値の範囲は使用中のメトリックタイプによって異なります。
 
-次の表は、適用可能なメトリックタイプと対応する距離範囲を示しています。
+次の表は、適用可能なメトリックタイプと対応する距離の範囲を示しています。
 
 <table>
    <tr>
      <th><p>メトリックタイプ</p></th>
-     <th><p>特性</p></th>
-     <th><p>距離範囲</p></th>
+     <th><p>Characteristics</p></th>
+     <th><p>Distance Range</p></th>
    </tr>
    <tr>
      <td><p><code>L2</code></p></td>
-     <td><p>値が小さいほど類似度が高いことを示します。</p></td>
+     <td><p>A smaller value indicates a higher similarity.</p></td>
      <td><p>[0, ∞)</p></td>
    </tr>
    <tr>
      <td><p><code>IP</code></p></td>
-     <td><p>値が大きいほど類似度が高いことを示します。</p></td>
+     <td><p>A greater value indicates a higher similarity.</p></td>
      <td><p>[-1, 1]</p></td>
    </tr>
    <tr>
      <td><p><code>COSINE</code></p></td>
-     <td><p>値が大きいほど類似度が高いことを示します。</p></td>
+     <td><p>A greater value indicates a higher similarity.</p></td>
      <td><p>[-1, 1]</p></td>
    </tr>
    <tr>
      <td><p><code>JACCARD</code></p></td>
-     <td><p>値が小さいほど類似度が高いことを示します。</p></td>
+     <td><p>A smaller value indicates a higher similarity.</p></td>
      <td><p>[0, 1]</p></td>
    </tr>
    <tr>
      <td><p><code>HAMMING</code></p></td>
-     <td><p>値が小さいほど類似度が高いことを示します。</p></td>
+     <td><p>A smaller value indicates a higher similarity.</p></td>
      <td><p>[0, dim(vector)]</p></td>
    </tr>
 </table>
 
-## バルクベクトル検索{#bulk-vector-search}
+## Bulk-Vector Search\{#bulk-vector-search}
 
-同様に、検索リクエストに複数のクエリベクトルを含めることができます。Zilliz Cloudは、クエリベクトルに対してANN検索を並行して実行し、2組の結果を返します。
+同様に、検索リクエストに複数のクエリベクトルを含めることができます。Zilliz Cloud はこれらのクエリベクトルに対して並列で ANN 検索を実行し、2 組の結果を返します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -422,7 +425,7 @@ for (List<SearchResp.SearchResult> results : searchResults) {
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 queryVectors := []entity.Vector{
@@ -449,7 +452,7 @@ for _, resultSet := range resultSets {
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 // 7. Search with multiple vectors
@@ -484,7 +487,7 @@ console.log(res.results)
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
@@ -543,11 +546,81 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## パーティション内のANN検索{#ann-search-in-partition}
+## Primary-キー Search\{#primary-key-search}
 
-コレクション内に複数のパーティションを作成しており、検索スコープを特定の数のパーティションに絞り込むことができる場合、検索リクエストにターゲットパーティション名を含めることで、指定されたパーティション内での検索スコープを制限できます。検索に関与するパーティションの数を減らすことで、検索パフォーマンスが向上します。
+クエリベクトルを設定する代わりに、クエリベクトルがすでにターゲットコレクションに存在している場合、プライマリキーを使用できます。
 
-以下のコードスニペットは、コレクション内に**PartitionA**という名前のパーティションがあることを前提としています。
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
+res = client.search(
+    collection_name="quick_setup",
+    anns_field="vector",
+    # highlight-start
+    ids=[551, 296, 43],
+    # highlight-end
+    limit=3,
+    search_params={"metric_type": "IP"}
+)
+
+for hits in res:
+    for hit in hits:
+        print(hit)
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// java
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```javascript
+// node.js
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```go
+// go
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```bash
+# restful
+curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/entities/search" \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_CLUSTER_TOKEN" \
+  -d '{
+    "collectionName": "quick_setup",
+    "annsField": "vector",
+    "ids": [551, 296, 43],
+    "limit": 3,
+    "searchParams": {
+      "metric_type": "IP"
+    }
+  }'
+```
+
+</TabItem>
+</Tabs>
+
+## パーティション内でのANN検索\{#ann-search-in-partition}
+
+コレクション内に複数のパーティションを作成している場合、検索範囲を特定のパーティションに限定できます。その場合は、検索リクエストにターゲットとなるパーティション名を指定することで、検索範囲をそのパーティション内に制限できます。検索対象のパーティション数を減らすことで、検索パフォーマンスが向上します。
+
+以下のコードスニペットでは、コレクション内に **PartitionA** という名前のパーティションが存在することを前提としています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -625,7 +698,7 @@ for (List<SearchResp.SearchResult> results : searchResults) {
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 queryVector := []float32{0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592}
@@ -650,7 +723,7 @@ for _, resultSet := range resultSets {
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 // 4. Single vector search
@@ -675,7 +748,7 @@ console.log(res.results)
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
@@ -718,9 +791,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## 出力フィールドの使用方法{#use-output-fields}
+## 出力フィールドの使用\{#use-output-fields}
 
-検索結果では、Zilliz Cloud はデフォルトで、上位 K 個のベクトル埋め込みを含むエンティティのプライマリフィールド値と類似度距離/スコアを含みます。検索リクエストで、ベクトルフィールドとスカラーフィールドの両方を含むターゲットフィールドの名前を出力フィールドとして含めることで、検索結果にこれらのエンティティの他のフィールドからの値を含めることができます。
+検索結果において、Zilliz Cloud はデフォルトで、上位 K 件のベクトル埋め込みを含むエンティティの主キーと類似度距離（またはスコア）を返します。検索リクエストに目的のフィールド名（ベクトルフィールドおよびスカラーフィールドの両方を含む）を出力フィールドとして指定することで、これらのエンティティに含まれる他のフィールドの値も検索結果に含めることができます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -803,7 +876,7 @@ for (List<SearchResp.SearchResult> results : searchResults) {
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 queryVector := []float32{0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592}
@@ -829,7 +902,7 @@ for _, resultSet := range resultSets {
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 // 4. Single vector search
@@ -854,7 +927,7 @@ console.log(res.results)
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
@@ -900,43 +973,162 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## LimitとOffsetの使用{#use-limit-and-offset}
+## 結果をスカラーフィールドで並べ替える | PRIVATE\{#sort-search-results-by-scalar-fields}
 
-検索リクエストに含まれる`limit`パラメータは、検索結果に含めるentityの数を決定することにお気づきかもしれません。このパラメータは、1回の検索で返されるentityの最大数を指定し、通常は**top-K**と呼ばれます。
+デフォルトでは、Zilliz Cloud は検索結果をクエリベクトルとの類似度スコア順に並べ替えます。返されるエンティティをスカラーフィールドの順序に従わせたい場合は、検索リクエストに `order_by_fields` を追加してください。
 
-ページネーションされたクエリを実行したい場合は、ループを使用して複数の検索リクエストを送信し、各クエリリクエストに**Limit**と**Offset**パラメータを含めることができます。具体的には、**Limit**パラメータを現在のクエリ結果に含めたいentityの数に設定し、**Offset**をすでに返されたentityの総数に設定します。
+`order_by_fields` の各項目は、スカラーフィールドと並べ替え方向を指定します。昇順には `"asc"`、降順には `"desc"` を使用します。`order` を省略した場合、Zilliz Cloud はそのフィールドを昇順で並べ替えます。
 
-以下の表は、一度に100個のentityを返す場合の、ページネーションされたクエリの**Limit**と**Offset**パラメータの設定方法を示しています。
+以下の例では、検索結果を `price` で低から高へ並べ替えています。レスポンスでフィールド値を確認したい場合は、ソートフィールドを `output_fields` に含めてください。
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
+res = client.search(
+    collection_name="product_catalog",
+    data=query_vectors,
+    anns_field="embedding",
+    limit=20,
+    output_fields=["id", "price", "rating", "category"],
+    # highlight-start
+    order_by_fields=[
+        {"field": "price", "order": "asc"}
+    ],
+    # highlight-end
+)
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// java
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```javascript
+// nodejs
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```go
+// go
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```bash
+# restful
+```
+
+</TabItem>
+</Tabs>
+
+複数のスカラーフィールドでソートすることもできます。Zilliz Cloud は、指定された順序でフィールドを適用します。以下の例では、Zilliz Cloud が結果を `price` の昇順でソートします。`price` が同じエンティティについては、さらに `rating` の降順でソートされます。
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
+res = client.search(
+    collection_name="product_catalog",
+    data=query_vectors,
+    anns_field="embedding",
+    limit=20,
+    output_fields=["id", "price", "rating", "category"],
+    # highlight-start
+    order_by_fields=[
+        {"field": "price", "order": "asc"},
+        {"field": "rating", "order": "desc"},
+    ],
+    # highlight-end
+)
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// java
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```javascript
+// nodejs
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```go
+// go
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```bash
+# restful
+```
+
+</TabItem>
+</Tabs>
+
+すべての指定された order-by フィールドの値が同じエンティティの場合、Zilliz Cloud は元の類似度スコアの順序を維持します。
+
+## 制限 と オフセット の使用\{#use-limit-and-offset}
+
+検索リクエストに含まれる `limit` パラメータが、検索結果に含まれるエンティティの数を決定することに気づかれたかもしれません。このパラメータは、1 回の検索で返されるエンティティの最大数を指定するもので、通常 **top-K** と呼ばれます。
+
+ページネーションされたクエリを実行したい場合は、ループを使用して複数の Search リクエストを送信し、各クエリリクエストに **制限** および **オフセット** パラメータを含めることができます。具体的には、**制限** パラメータを現在のクエリ結果に含めたいエンティティの数に設定し、**オフセット** をすでに返されたエンティティの総数に設定します。
+
+以下の表は、1 回あたり 100 個のエンティティを返す場合の、ページネーションされたクエリにおける **制限** および **オフセット** パラメータの設定方法を示しています。
 
 <table>
    <tr>
      <th><p>クエリ</p></th>
-     <th><p>クエリごとに返されるentity</p></th>
-     <th><p>すでに返されたentityの合計</p></th>
+     <th><p>クエリごとに返されるエンティティ</p></th>
+     <th><p>これまでに返されたエンティティの総数</p></th>
    </tr>
    <tr>
-     <td><p><strong>1番目</strong>のクエリ</p></td>
+     <td><p><strong>1 回目</strong>のクエリ</p></td>
      <td><p>100</p></td>
      <td><p>0</p></td>
    </tr>
    <tr>
-     <td><p><strong>2番目</strong>のクエリ</p></td>
+     <td><p><strong>2 回目</strong>のクエリ</p></td>
      <td><p>100</p></td>
      <td><p>100</p></td>
    </tr>
    <tr>
-     <td><p><strong>3番目</strong>のクエリ</p></td>
+     <td><p><strong>3 回目</strong>のクエリ</p></td>
      <td><p>100</p></td>
      <td><p>200</p></td>
    </tr>
    <tr>
-     <td><p><strong>n番目</strong>のクエリ</p></td>
+     <td><p><strong>n 回目</strong>のクエリ</p></td>
      <td><p>100</p></td>
      <td><p>100 x (n-1)</p></td>
    </tr>
 </table>
 
-なお、1回のANN検索における`limit`と`offset`の合計は16,384未満である必要があります。
+なお、1 回の ANN 検索における `limit` と `offset` の合計は 16,384 未満である必要があります。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -993,7 +1185,7 @@ for (List<SearchResp.SearchResult> results : searchResults) {
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 queryVector := []float32{0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592}
@@ -1018,7 +1210,7 @@ for _, resultSet := range resultSets {
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 // 4. Single vector search
@@ -1035,7 +1227,7 @@ res = await client.search({
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
@@ -1059,15 +1251,15 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## 使用レベル{#use-level}
+## Use Level\{#use-level}
 
-ANN検索を最適化するために、Zilliz Cloudは、簡素化された検索最適化で検索精度を制御する`level`というパラメータを提供します。
+ANN検索を最適化するために、Zilliz Cloudは`level`というパラメータを提供しており、これにより簡略化された検索最適化で検索精度を制御できます。
 
-このパラメータは`1`から`10`の範囲で、デフォルトは`1`です。値を大きくすると、検索パフォーマンスが低下しますが、検索リコール率が向上します。一般的なケースでは、デフォルト値で最大90%のリコール率が得られます。必要に応じて値を増やすことができます。
+このパラメータの範囲は`1`から`10`で、デフォルト値は`1`です。値を大きくすると検索の再現率（recall rate）が向上しますが、検索パフォーマンスは低下します。一般的なケースでは、デフォルト値で最大90%の再現率が得られます。必要に応じてこの値を増やすことができます。
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p><code>level</code>パラメータはまだ<strong>パブリックプレビュー</strong>です。<code>5</code>より大きい値に設定できない場合、クラスターはこの機能を完全にサポートしていない可能性があります。回避策として、代わりに<code>1</code>から<code>5</code>の範囲の値を設定するか、<a href="https://zilliz.com/contact-sales">Zilliz Cloudサポート</a>にお問い合わせください。</p>
+<p><code>level</code> パラメータは現在<strong>パブリックプレビュー</strong>中です。もし<code>5</code>より大きい値を設定できない場合、ご利用のクラスタはこの機能を完全にはサポートしていない可能性があります。回避策として、代わりに<code>1</code>から<code>5</code>の範囲内の値を設定するか、<a href="https://zilliz.com/contact-sales">Zilliz Cloud サポート</a>までお問い合わせください。</p>
 
 </Admonition>
 
@@ -1129,7 +1321,7 @@ for (List<SearchResp.SearchResult> results : searchResults) {
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 queryVector := []float32{0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592}
@@ -1154,7 +1346,7 @@ for _, resultSet := range resultSets {
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 // 4. Single vector search
@@ -1173,7 +1365,7 @@ res = await client.search({
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
@@ -1204,13 +1396,13 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## リコール率の取得{#get-recall-rate}
+## Get Recall Rate\{#get-recall-rate}
 
-`level` パラメータを調整する際に `enable_recall_calculation` を `true` に設定すると、異なる `level` 値での検索の精度を評価できます。
+`level` パラメータを調整する際に `enable_recall_calculation` を `true` に設定することで、異なる `level` 値を使用した検索の精度を評価できます。
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p><code>enable_recall_calculation</code> パラメータはまだ <strong>Public Preview</strong> 段階であり、互換性の問題により使用できない場合があります。サポートが必要な場合は、<a href="https://zilliz.com/contact-sales">Zilliz Cloud サポート</a>までお問い合わせください。</p>
+<p><code>enable_recall_calculation</code> パラメータは現在<strong>パブリックプレビュー</strong>中であり、互換性の問題により使用できない場合があります。ご不明な点がございましたら、<a href="https://zilliz.com/contact-sales">Zilliz Cloud サポート</a>までお問い合わせください。</p>
 
 </Admonition>
 
@@ -1274,7 +1466,7 @@ for (List<SearchResp.SearchResult> results : searchResults) {
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 queryVector := []float32{0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592}
@@ -1299,7 +1491,7 @@ for _, resultSet := range resultSets {
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 // 4. Single vector search
@@ -1319,7 +1511,7 @@ res = await client.search({
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
@@ -1351,61 +1543,133 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## ANN検索の強化{#enhancing-ann-search}
+## 検索時に一時的にタイムゾーンを設定する\{#temporarily-set-a-timezone-for-a-search}
 
-AUTOINDEXは、ANN検索の学習曲線を大幅に平坦化します。しかし、トップKが増加するにつれて、検索結果が常に正しいとは限りません。Zilliz Cloudは、検索範囲の縮小、検索結果の関連性の向上、検索結果の多様化によって、以下の検索強化を実現します。
+コレクションに `TIMESTAMPTZ` フィールドが含まれている場合、検索呼び出し時に `timezone` パラメータを設定することで、単一の操作に対してデータベースまたはコレクションのデフォルトタイムゾーンを一時的に上書きできます。これにより、その操作中に `TIMESTAMPTZ` 値の表示方法や比較方法が制御されます。
 
-- フィルタリング検索
+`timezone` の値は、有効な [IANA タイムゾーン識別子](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)（例：**Asia/Shanghai**、**America/Chicago**、**UTC** など）である必要があります。`TIMESTAMPTZ` フィールドの使用方法の詳細については、[TIMESTAMPTZ フィールド](./use-timestamptz-field) を参照してください。
 
-    検索リクエストにフィルタリング条件を含めることで、Zilliz CloudはANN検索を実行する前にメタデータフィルタリングを実行し、検索範囲をコレクション全体から指定されたフィルタリング条件に一致するエンティティのみに絞り込みます。
+以下の例では、検索操作時に一時的にタイムゾーンを設定する方法を示しています：
 
-    メタデータフィルタリングとフィルタリング条件の詳細については、[フィルタリング検索](./filtered-search)と[フィルタリング](./filtering)を参照してください。
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
 
-- 範囲検索
+```python
+res = client.search(
+    collection_name="quick_setup",
+    anns_field="vector",
+    data=[query_vector],
+    limit=3,
+    search_params={"metric_type": "IP"},
+    # highlight-next-line
+    timezone="America/Havana",
+)
+```
 
-    返されるエンティティの距離またはスコアを特定の範囲内に制限することで、検索結果の関連性を向上させることができます。Zilliz Cloudでは、範囲検索は、クエリベクトルに最も類似したベクトル埋め込みを中心とする2つの同心円を描くことを含みます。検索リクエストは両方の円の半径を指定し、Zilliz Cloudは外側の円の内側にあるが内側の円の内側にはないすべてのベクトル埋め込みを返します。
+</TabItem>
 
-    範囲検索の詳細については、[範囲検索](./range-search)を参照してください。
+<TabItem value='java'>
 
-- グループ化検索
+```java
+// java
+```
 
-    返されるエンティティが特定のフィールドで同じ値を持つ場合、検索結果はベクトル空間内のすべてのベクトル埋め込みの分布を表さない可能性があります。検索結果を多様化するには、グループ化検索の使用を検討してください。
+</TabItem>
 
-    グループ化検索の詳細については、[グループ化検索](./grouping-search)を参照してください。
+<TabItem value='java'>
 
-- ハイブリッド検索
+```javascript
+// js
+```
 
-    コレクションには、異なる埋め込みモデルを使用して生成されたベクトル埋め込みを保存するために、複数のベクトルフィールドを含めることができます。そうすることで、ハイブリッド検索を使用してこれらのベクトルフィールドからの検索結果を再ランク付けし、リコール率を向上させることができます。
+</TabItem>
 
-    ハイブリッド検索の詳細については、[ハイブリッド検索](./hybrid-search)を参照してください。
+<TabItem value='java'>
 
-    コレクションで許可されるベクトルフィールドの数の制限の詳細については、[Zilliz Cloudの制限](./limits#fields)を参照してください。
+```go
+// go
+```
 
-- 検索イテレータ
+</TabItem>
 
-    単一のANN検索は最大16,384個のエンティティを返します。単一の検索でより多くのエンティティを返す必要がある場合は、検索イテレータの使用を検討してください。
+<TabItem value='java'>
 
-    検索イテレータの詳細については、[検索イテレータ](./with-iterators)を参照してください。
+```bash
+# restful
+export QUERY_VECTOR='[0.1, 0.2, 0.3, 0.4]'                                                                                                                                                                                                              
+                                                                                                                                                                                                                                                          
+curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/entities/search" \                                                                                                                                                                                     
+-H "Content-Type: application/json" \                                                                                                                                                                                                                 
+-d '{                                                                                                                                                                                                                                                 
+  "collectionName": "quick_setup",                                                                                                                                                                                                                    
+  "annsField": "vector",                                                                                                                                                                                                                              
+  "data": ['"$QUERY_VECTOR"'],                                                                                                                                                                                                                        
+  "limit": 3,                                                                                                                                                                                                                                         
+  "searchParams": {                                                                                                                                                                                                                                   
+    "metric_type": "IP",                                                                                                                                                                                                                              
+    "timezone": "America/Havana"                                                                                                                                                                                                                      
+  }                                                                                                                                                                                                                                                   
+}'
+```
 
-- フルテキスト検索
+</TabItem>
+</Tabs>
 
-    フルテキスト検索は、テキストデータセット内の特定の用語やフレーズを含むドキュメントを検索し、関連性に基づいて結果をランク付けする機能です。この機能は、正確な用語を見落とす可能性のあるセマンティック検索の制限を克服し、最も正確で文脈に関連する結果を確実に受け取れるようにします。さらに、生のテキスト入力を受け入れることでベクトル検索を簡素化し、手動でベクトル埋め込みを生成する必要なく、テキストデータを自動的にスパース埋め込みに変換します。
+## ANN検索の強化\{#enhancing-ann-search}
 
-    フルテキスト検索の詳細については、[フルテキスト検索](./full-text-search)を参照してください。
+AUTOINDEXはANN検索の学習曲線を大幅に緩やかにします。ただし、top-Kが大きくなるにつれて検索結果が常に正確であるとは限りません。検索範囲を縮小し、検索結果の関連性を向上させ、検索結果の多様性を高めることで、Zilliz Cloudは以下の検索強化機能を提供しています。
 
-- テキストマッチ
+- フィルター検索
 
-    Zilliz Cloudのキーワードマッチは、特定の用語に基づいて正確なドキュメント検索を可能にします。この機能は、特定の条件を満たすためのフィルタリング検索に主に使用され、スカラーフィルタリングを組み込むことでクエリ結果を絞り込み、スカラー基準を満たすベクトル内で類似性検索を可能にします。
+    検索リクエストにフィルター条件を含めることで、Zilliz CloudはANN検索を実行する前にメタデータフィルタリングを実施し、検索範囲をコレクション全体から指定されたフィルター条件に一致するエンティティのみに絞り込むことができます。
 
-    キーワードマッチの詳細については、[キーワードマッチ](./text-match)を参照してください。
+    メタデータフィルタリングおよびフィルター条件の詳細については、[Filtered Search](./filtered-search) および [Filtering](./filtering) を参照してください。
 
-- パーティションキーの使用
+- 範囲検索（Range Search）
 
-    メタデータフィルタリングに複数のスカラーフィールドを含め、かなり複雑なフィルタリング条件を使用すると、検索効率に影響を与える可能性があります。スカラーフィールドをパーティションキーとして設定し、検索リクエストでパーティションキーを含むフィルタリング条件を使用すると、指定されたパーティションキー値に対応するパーティション内の検索範囲を制限するのに役立ちます。
+    返されるエンティティの距離またはスコアを特定の範囲内に制限することで、検索結果の関連性を向上させることができます。Zilliz Cloudでは、範囲検索はクエリベクトルと最も類似したベクトル埋め込みを中心とする2つの同心円を描くもので、検索リクエストで両方の円の半径を指定すると、Zilliz Cloudは外側の円内にありながら内側の円外にあるすべてのベクトル埋め込みを返します。
 
-    パーティションキーの詳細については、[パーティションキーの使用](./use-partition-key)を参照してください。
+    範囲検索の詳細については、[Range Search](./range-search) を参照してください。
 
-- mmapの使用
+- グループ化検索（Grouping Search）
 
-    mmap設定の詳細については、[mmapの使用](./use-mmap)を参照してください。
+    返されたエンティティがある特定のフィールドにおいて同じ値を持つ場合、検索結果はベクトル空間内の全ベクトル埋め込みの分布を十分に反映しない可能性があります。検索結果の多様性を高めるには、グループ化検索をご検討ください。
+
+    グループ化検索の詳細については、[Grouping Search](./grouping-search) を参照してください。
+
+- ハイブリッド検索（Hybrid Search）
+
+    コレクションには、異なる埋め込みモデルを使って生成されたベクトル埋め込みを保存するための複数のベクトルフィールドを含めることができます。これにより、これらのベクトルフィールドからの検索結果をハイブリッド検索で再ランキングし、再現率（recall rate）を向上させることが可能です。
+
+    ハイブリッド検索の詳細については、[Hybrid Search](./hybrid-search) を参照してください。
+
+    コレクションに設定可能なベクトルフィールド数の制限については、[Zilliz Cloud 制限s](./limits#fields) を参照してください。
+
+- 検索イテレータ（Search Iterator）
+
+    1回のANN検索では最大16,384件のエンティティしか返されません。1回の検索でそれ以上のエンティティが必要な場合は、検索イテレータをご利用ください。
+
+    検索イテレータの詳細については、[Search Iterator](./with-iterators) を参照してください。
+
+- 全文検索（全文検索）
+
+    全文検索は、テキストデータセット内で特定の単語やフレーズを含むドキュメントを取得し、関連性に基づいて結果をランキングする機能です。この機能により、セマンティック検索の限界（正確な用語を見逃す可能性がある点）を克服し、最も正確かつ文脈に即した結果を得ることができます。また、ベクトル検索を簡素化し、生のテキスト入力をそのまま受け入れ、手動でベクトル埋め込みを生成することなく、テキストデータを自動的にスパース埋め込みに変換します。
+
+    全文検索の詳細については、[Full Text Search](./full-text-search) を参照してください。
+
+- テキストマッチ（Text Match）
+
+    Zilliz Cloudのキーワードマッチ機能は、特定の用語に基づいて正確なドキュメントを取得できます。この機能は主にフィルター検索で特定の条件を満たすために使用され、スカラーフィルタリングを組み合わせてクエリ結果をさらに絞り込むことができ、スカラー条件を満たすベクトル内での類似性検索を可能にします。
+
+    キーワードマッチの詳細については、[キーword Match](./text-match) を参照してください。
+
+- パーティションキーの使用（Use パーティションキー）
+
+    メタデータフィルタリングに複数のスカラーフィールドを含めたり、非常に複雑なフィルター条件を使用したりすると、検索効率に影響を与える可能性があります。スカラーフィールドをパーティションキーとして設定し、検索リクエストでそのパーティションキーを含むフィルター条件を使用すれば、指定されたパーティションキーの値に対応するパーティション内に検索範囲を限定することができます。
+
+    パーティションキーの詳細については、[Use パーティションキー](./use-partition-key) を参照してください。
+
+- mmapの使用（Use mmap）
+
+    mmap設定の詳細については、[Use mmap](./use-mmap) を参照してください。
 

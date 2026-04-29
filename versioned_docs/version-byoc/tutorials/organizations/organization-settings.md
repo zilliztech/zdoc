@@ -1,11 +1,12 @@
 ---
 title: "Manage Organization Settings | BYOC"
 slug: /organization-settings
+sidebar_key: organization-settings
 sidebar_label: "Organization Settings"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "If you are an Organization Owner, you have the privileges to manage the organization settings. | BYOC"
 type: origin
@@ -22,6 +23,8 @@ keywords:
 
 import Admonition from '@theme/Admonition';
 
+
+import Supademo from '@site/src/components/Supademo';
 
 import Procedures from '@site/src/components/Procedures';
 
@@ -57,23 +60,37 @@ To view the current time zone, you can either be an Organization Owner or an Org
 
 To modify the system time zone, you must be an [Organization Owner](./organization-users). Click **Edit** to open the **Time Zone Settings** dialog box, and select a time zone from the drop-down list. You can also enter the name of a time zone to quickly filter the desired time zone.
 
-## Set up maintenance window\{#set-up-maintenance-window}
+## Set up preferred maintenance window\{#set-up-preferred-maintenance-window}
 
-You can set up a maintenance window to allow Zilliz Cloud to schedule maintenance for your hosted cluster. This makes impactful maintenance events more predictable and less disruptive for your workload.
+A preferred maintenance window is a **4-hour** period during which Zilliz Cloud automatically performs scheduled maintenance—such as upgrading the Milvus version of your Dedicated clusters.
 
-Currently, the maintenance window setting is global and applies to all clusters hosted on Zilliz Cloud.
+Setting a preferred window helps you schedule maintenance outside peak traffic hours and minimize impact on your workloads.
 
-By default, Zilliz Cloud blocks most impactful updates from 0 AM to 2 PM local time daily to avoid disruptions during peak business hours. You will receive a notification in advance for an upcoming maintenance event on a specific day. On that day, Zilliz Cloud takes action during the preferred window hours.
+By default, the window is set to **2:00 AM–6:00 AM**. You can update it based on your needs.
 
-A maintenance event usually lasts two hours and may cause service interruptions. The default maintenance window is between 2 AM and 4 AM local time. You can adjust the maintenance window by selecting an option in "System Maintenance Window" to fit your needs.
+The following demo shows how to edit the preferred maintenance window.
 
-You will receive another notification after a maintenance event has finished. Zilliz Cloud also lists the start and end of every maintenance event in "Activities" for further checks in case you miss the notifications.
+<Supademo id="cmn4bhv4l0ps5z3qmdcrmuij7" title=""  />
 
-To view the current time zone, choose **Settings** from the left navigation pane and find the currently applied maintenance window hours under the **System Maintenance Window** area.
+<Admonition type="info" icon="📘" title="Note">
 
-To change the system maintenance window hours, click **Edit** to open the Edit System Maintenance Window dialog box, and select a time window from the **System Maintenance Window** drop-down list.
+<p>If maintenance runs past your preferred window, it will continue until completion.</p>
 
-![byoc-maintenance-window](https://zdoc-images.s3.us-west-2.amazonaws.com/byoc-maintenance-window.png "byoc-maintenance-window")
+</Admonition>
+
+7 days before scheduled maintenance, you will see a notification on the **Cluster Overview** page in the web console.
+
+![Czaab7qPaoElX6xVizQcEiwznmh](https://zdoc-images.s3.us-west-2.amazonaws.com/czaab7qpaoelx6xvizqceiwznmh.png "Czaab7qPaoElX6xVizQcEiwznmh")
+
+- For **Organization Owners** and **Project Admins**, you can choose to:
+
+    - Upgrade the cluster to the latest Milvus version immediately.
+
+    - Defer the maintenance for 7 days. You can only defer once.
+
+    - Take no action and let maintenance run as scheduled.
+
+- For **Organization Members**, please check your [SDK compatibility](./install-sdks#sdk-compatibility).
 
 ## Delete organization\{#delete-organization}
 

@@ -1,11 +1,12 @@
 ---
 title: "Chinese | BYOC"
 slug: /chinese-analyzer
+sidebar_key: chinese-analyzer
 sidebar_label: "Chinese"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "The `chinese` analyzer is designed specifically to handle Chinese text, providing effective segmentation and tokenization. | BYOC"
 type: origin

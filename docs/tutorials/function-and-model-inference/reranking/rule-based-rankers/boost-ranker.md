@@ -1,11 +1,12 @@
 ---
 title: "Boost Ranker | Cloud"
 slug: /boost-ranker
+sidebar_key: boost-ranker
 sidebar_label: "Boost Ranker"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "Instead of relying solely on semantic similarity calculated based on vector distances, Boost Rankers allow you to influence search results in a meaningful way. It is ideal for quickly adjusting search results using metadata filtering. | Cloud"
 type: origin
@@ -539,7 +540,7 @@ const rerank = {
      <td><p><code>params.random_score</code></p></td>
      <td><p>No</p></td>
      <td><p>Specifies the random function that generates a value between <code>0</code> and <code>1</code> randomly. It has the following two optional arguments:</p><ul><li><p><code>seed</code> (number) Specifies an initial value used to start a pseudorandom number generator (PRNG).</p></li><li><p><code>field</code> (string) Specifies the name of a field whose value will be used as a random factor in generating the random number. A field with unique values will suffice.</p><p>You are advised to set both <code>seed</code> and <code>field</code> to ensure consistency across generations by using the same seed and field values.</p></li></ul></td>
-     <td><p><code>\{"seed": 126, "field": "id"}</code></p></td>
+     <td><p><code>\{"seed": 126, "field": "id"\}</code></p></td>
    </tr>
 </table>
 

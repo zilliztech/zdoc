@@ -1,34 +1,31 @@
 ---
-title: "抽出、変換、ロード | Cloud"
+title: "抽出、変換、および読み込み | Cloud"
 slug: /extract-transform-and-load
-sidebar_label: "抽出、変換、ロード"
+sidebar_key: extract-transform-and-load
+sidebar_label: "抽出、変換、および読み込み"
 beta: PRIVATE
 notebook: FALSE
-description: "この章では、外部データソースからデータを抽出し、変換し、Zilliz Cloud で使用するための一般的な手順について説明します。"
+description: "この章では、外部データソースからデータを抽出、変換、および読み込み、Zilliz Cloud で利用するための一般的な手順について説明します。 | Cloud"
 type: origin
 token: MC6xw7oHkimmnQkigODc5wjynwf
-sidebar_position: 7
+sidebar_position: 8
 keywords: 
   - zilliz
   - ベクトルデータベース
-  - クラウド
+  - cloud
   - ETL
   - 抽出
   - 変換
-  - ロード
-  - milvusとは
-  - milvusデータベース
-  - milvus lite
-  - milvus benchmark
+  - 読み込み
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# 抽出、変換、ロード
+# データの抽出、変換、ロード
 
-この章では、外部データソースからデータを抽出し、変換し、Zilliz Cloud で使用するための一般的な手順について説明します。
+この章では、外部データソースからデータを抽出・変換・ロードし、Zilliz Cloud で使用するための一般的な手順について説明します。
 
 import DocCardList from '@theme/DocCardList';
 

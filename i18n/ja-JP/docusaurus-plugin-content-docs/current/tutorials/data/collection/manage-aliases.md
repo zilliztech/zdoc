@@ -1,10 +1,11 @@
 ---
 title: "エイリアスの管理 | Cloud"
 slug: /manage-aliases
-sidebar_label: "エイリアスの管理"
+sidebar_key: manage-aliases
+sidebar_label: "エイリアス"
 beta: FALSE
 notebook: FALSE
-description: "Zilliz Cloudでは、エイリアスはcollectionのセカンダリで変更可能な名前です。エイリアスを使用すると、抽象化のレイヤーが提供され、アプリケーションコードを変更することなくcollectionを動的に切り替えることができます。これは、シームレスなデータ更新、A/Bテスト、その他の運用タスクのために、本番環境で特に役立ちます。 | Cloud"
+description: "Zilliz Cloud では、エイリアスはコレクションの二次的で変更可能な名前です。エイリアスを使用することで、アプリケーションコードを変更せずにコレクションを動的に切り替えることができる抽象化レイヤーが提供されます。これは、本番環境におけるシームレスなデータ更新、A/B テスト、その他の運用タスクに特に役立ちます。| Cloud"
 type: origin
 token: OLn1wMgW0iceBlkuey2cBD91neb
 sidebar_position: 9
@@ -13,12 +14,8 @@ keywords:
   - ベクトルデータベース
   - cloud
   - collection
-  - エイリアス
-  - エイリアス
-  - 大規模言語モデル
-  - ベクトル化
-  - k近傍法
-  - ANNS
+  - alias
+  - aliases
 
 ---
 
@@ -28,35 +25,35 @@ import TabItem from '@theme/TabItem';
 
 # エイリアスの管理
 
-Zilliz Cloudでは、エイリアスはコレクションのセカンダリで変更可能な名前です。エイリアスを使用すると、アプリケーションコードを変更せずにコレクションを動的に切り替えることができる抽象化レイヤーが提供されます。これは、シームレスなデータ更新、A/Bテスト、その他の運用タスクのために、本番環境で特に役立ちます。
+Zilliz Cloud では、エイリアスはコレクションに対する変更可能な別名です。エイリアスを使用することで、アプリケーションコードを変更せずに動的にコレクションを切り替えることができる抽象化レイヤーが提供されます。これは特に本番環境において、シームレスなデータ更新や A/B テスト、その他の運用タスクに役立ちます。
 
-このページでは、コレクションエイリアスの作成、一覧表示、再割り当て、および削除の方法について説明します。
+このページでは、コレクションのエイリアスを作成・一覧表示・再割り当て・削除する方法を説明します。
 
-## エイリアスを使用する理由{#why-use-an-alias}
+## エイリアスを使用する理由\{#why-use-an-alias}
 
 エイリアスを使用する主な利点は、クライアントアプリケーションを特定の物理的なコレクション名から切り離すことです。
 
-`prod_data`というエイリアスを持つコレクションをクエリするライブアプリケーションがあるとします。基になるデータを更新する必要がある場合、サービスを中断することなく更新を実行できます。ワークフローは次のようになります。
+たとえば、`prod_data` というエイリアスを持つコレクションに対してクエリを実行している稼働中のアプリケーションがあるとします。基盤となるデータを更新する必要がある場合でも、サービスを中断することなく更新を実施できます。そのワークフローは以下のようになります。
 
-1. **新しいコレクションの作成**: たとえば、`prod_data_v2`という新しいコレクションを作成します。
+1. **新しいコレクションの作成**: `prod_data_v2` のような新しいコレクションを作成します。
 
-1. **データの準備**: `prod_data_v2`に新しいデータをインデックス化してロードします。
+1. **データの準備**: `prod_data_v2` に新しいデータをインデックス作成し、ロードします。
 
-1. **エイリアスの切り替え**: 新しいコレクションがサービス準備完了になったら、エイリアス`prod_data`を古いコレクションから`prod_data_v2`にアトミックに再割り当てします。
+1. **エイリアスの切り替え**: 新しいコレクションの準備が完了したら、エイリアス `prod_data` を古いコレクションから `prod_data_v2` にアトミックに再割り当てします。
 
-アプリケーションはエイリアス`prod_data`にリクエストを送信し続け、ダウンタイムは発生しません。このメカニズムにより、シームレスな更新が可能になり、ベクトル検索サービスのブルー/グリーンデプロイメントなどの操作が簡素化されます。
+これにより、アプリケーションは引き続きエイリアス `prod_data` に対してリクエストを送信し、ダウンタイムをゼロに抑えることができます。この仕組みにより、ベクター検索サービスのブルー・グリーンデプロイメントなどの運用が容易になります。
 
-**エイリアスの主なプロパティ:**
+**エイリアスの主な特性:**
 
-- 1つのコレクションは複数のエイリアスを持つことができます。
+- 1つのコレクションには複数のエイリアスを設定できます。
 
 - 1つのエイリアスは一度に1つのコレクションのみを指すことができます。
 
-- リクエストを処理するとき、Zilliz Cloudはまず、指定された名前のコレクションが存在するかどうかを確認します。存在しない場合は、その名前がコレクションのエイリアスであるかどうかを確認します。
+- リクエストを処理する際、Zilliz Cloud はまず指定された名前のコレクションが存在するかを確認します。存在しない場合は、その名前がコレクションのエイリアスであるかどうかをチェックします。
 
-## エイリアスの作成{#create-alias}
+## エイリアスの作成\{#create-alias}
 
-次のコードスニペットは、コレクションのエイリアスを作成する方法を示しています。
+以下のコードスニペットは、コレクションのエイリアスを作成する方法を示しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -122,7 +119,7 @@ client.createAlias(createAliasReq);
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
@@ -160,7 +157,7 @@ console.log(res.error_code)
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 import (
@@ -197,7 +194,7 @@ if err != nil {
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
@@ -235,9 +232,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## エイリアスを一覧表示する{#list-aliases}
+## エイリアスの一覧\{#list-aliases}
 
-以下のコードスニペットは、特定のコレクションに割り当てられたエイリアスを一覧表示する手順を示しています。
+次のコードスニペットは、特定のコレクションに割り当てられたエイリアスを一覧表示する手順を示しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -285,7 +282,7 @@ System.out.println(listAliasRes.getAlias());
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 // 9.2 List aliases
@@ -303,7 +300,7 @@ console.log(res.aliases)
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 aliases, err := client.ListAliases(ctx, milvusclient.NewListAliasesOption("my_collection_1"))
@@ -316,7 +313,7 @@ fmt.Println(aliases)
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
@@ -340,9 +337,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## エイリアスの記述 {#describe-alias}
+## エイリアスの詳細\{#describe-alias}
 
-以下のコードスニペットは、特定のエイリアスを詳細に記述し、それが割り当てられているcollectionの名前を含みます。
+以下のコードスニペットは、特定のエイリアスについて、それが割り当てられているコレクションの名前を含めて詳細に記述しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -387,7 +384,7 @@ System.out.println(describeAliasRes);
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 // 9.3 Describe aliases
@@ -418,7 +415,7 @@ console.log(res)
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 alias, err := client.DescribeAlias(ctx, milvusclient.NewDescribeAliasOption("bob"))
@@ -431,7 +428,7 @@ fmt.Println(alias)
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
@@ -458,9 +455,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## エイリアスの変更 {#alter-alias}
+## Alter エイリアス\{#alter-alias}
 
-特定のコレクションにすでに割り当てられているエイリアスを、別のコレクションに再割り当てできます。
+特定のコレクションにすでに割り当てられているエイリアスを別のコレクションに再割り当てできます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -542,7 +539,7 @@ System.out.println(listAliasRes.getAlias());
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 // 9.4 Reassign aliases to other collections
@@ -584,7 +581,7 @@ console.log(res.aliases)
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 err = client.AlterAlias(ctx, milvusclient.NewAlterAliasOption("alice", "my_collection_2"))
@@ -610,7 +607,7 @@ fmt.Println(aliases)
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
@@ -668,9 +665,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## エイリアスの削除{#drop-alias}
+## Drop エイリアス\{#drop-alias}
 
-以下のコードスニペットは、エイリアスを削除する手順を示しています。
+次のコードスニペットは、エイリアスを削除する手順を示しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -709,7 +706,7 @@ client.dropAlias(dropAliasReq);
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 // 9.5 Drop aliases
@@ -738,7 +735,7 @@ console.log(res.error_code)
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 err = client.DropAlias(ctx, milvusclient.NewDropAliasOption("bob"))
@@ -756,7 +753,7 @@ if err != nil {
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"

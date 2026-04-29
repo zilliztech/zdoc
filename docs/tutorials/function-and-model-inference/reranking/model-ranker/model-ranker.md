@@ -1,11 +1,12 @@
 ---
 title: "Model-based Rankers | Cloud"
 slug: /model-ranker
-sidebar_label: "Model-based Rankers"
-beta: FALSE
+sidebar_key: model-ranker
+sidebar_label: "Reranking Models"
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "Model Ranker transforms Zilliz Cloud search by integrating advanced language models that understand semantic relationships between queries and documents. Instead of relying solely on vector similarity, it evaluates content meaning and context to deliver more intelligent, relevant results. | Cloud"
 type: origin

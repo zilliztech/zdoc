@@ -1,13 +1,14 @@
 ---
 title: "Manage Project Users | BYOC"
 slug: /project-users
+sidebar_key: project-users
 sidebar_label: "Project Users"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
-description: "In Zilliz Cloud, you can invite users to projects and assign them roles based on their job functions. These roles determine the user's access to projects and the operations they can perform. | BYOC"
+description: "In Zilliz Cloud, you can invite users to projects and assign them roles based on their job functions. These roles determine the user's access to project resources and the operations they can perform. | BYOC"
 type: origin
 token: PZ4uwwgUfio5OikY0Ecc5nrunFf
 sidebar_position: 2
@@ -24,42 +25,35 @@ import Admonition from '@theme/Admonition';
 
 # Manage Project Users
 
-In Zilliz Cloud, you can invite users to projects and assign them roles based on their job functions. These roles determine the user's access to projects and the operations they can perform.
+In Zilliz Cloud, you can invite users to projects and assign them roles based on their job functions. These roles determine the user's access to project resources and the operations they can perform.
 
 This topic describes how to manage project users.
 
 ## Invite a user to a project\{#invite-a-user-to-a-project}
 
-To invite a user to join a project, you must be an **Organization Owner** or a **Project Admin**.
+To invite users to a project, you must be an **Organization Owner** or **Project Admin**.  
 
-When inviting a user to a project, you need to assign a role that defines the privileges to perform specific operations within the project. 
+1. Enter the email addresses of the users you want to invite.
 
-To invite users, enter the email addresses of the users you wish to invite. Then select the project role you wish to grant to the new project users. 
+1. Choose how to assign access:
 
-You can either 
+    - [Project Admin](./project-users#project-admin) — Grants full control over the project and all its resources.
 
-- Assign **[Project Admin](./project-users#project-admin)** to the user or
+    - Custom [project access policy](./project-users#project-access) — Configure specific privileges for the user within the project.
 
-- Configure [project access policies](./project-users#project-access) for the user.
+Invitation recipients will receive an email invitation that must be accepted within 48 hours to join the project. Alternatively, you can also copy the invitation link from the web console and share it with the invitees.
+
+Once the user joins the project, they automatically become an Organization Member in the organization to which the project belongs.
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>Each time, you can invite one or more users with the same role to join the project.</p>
+
+</Admonition>
 
 ### Project Admin\{#project-admin}
 
 A **Project Admin** role has full privileges to manage a project and all its resources (clusters, databases, collections).
-
-The following table lists the corresponding UI and API privileges of each project role.
-
-<table>
-   <tr>
-     <th><p><strong>UI Privileges</strong></p></th>
-     <th><p><strong>Control Plane RESTful API (V2) Privileges</strong></p></th>
-     <th><p><strong>Data Plane RESTful API (V2) Privileges</strong></p></th>
-   </tr>
-   <tr>
-     <td><ul><li><p>Manage <a href="./collection">collections</a> & <a href="./manage-indexes">indexes</a></p></li><li><p>Manage <a href="./project-users">project users</a></p></li><li><p>Manage <a href="./network-and-security">IP access list and private links</a></p></li><li><p>Manage <a href="./manage-project-alerts">project alerts</a></p></li><li><p>Manage <a href="./backup-and-restore">backups</a></p></li><li><p>Manage data <a href="./migrations">migrations</a></p></li><li><p>Manage <a href="./job-center">project jobs</a></p></li><li><p>Manage integrations</p></li><li><p>Plus all <a href="./cluster-roles#built-in-cluster-roles">Cluster Admin</a> privileges </p></li></ul></td>
-     <td><ul><li><p><a href="/reference/restful/cloud-meta-v2">All cloud meta operations</a></p></li><li><p><a href="/reference/restful/cluster-operations-v2">All cluster operations</a></p></li><li><p><a href="/reference/restful/volume-operations-v2">All volume operations</a></p></li><li><p><a href="/reference/restful/import-operations-v2">All import operations</a></p></li><li><p><a href="/reference/restful/backup-and-restore-v2">All backup & restore operations</a></p></li><li><p><a href="/reference/restful/cloud-migration-v2">All cloud migration operations</a></p></li><li><p><a href="/reference/restful/cloud-job-v2">All cloud job operations</a></p></li></ul></td>
-     <td><ul><li><p><a href="/reference/restful/collection-operations-v2">All collection operations</a></p></li><li><p><a href="/reference/restful/index-operations-v2">All index operations</a></p></li><li><p><a href="/reference/restful/partition-operations-v2">All partition operations</a></p></li><li><p><a href="/reference/restful/vector-operations-v2">All vector operations</a></p></li><li><p><a href="/reference/restful/alias-operations-v2">All alias operations</a></p></li><li><p><a href="/reference/restful/role-operations-v2">All role operations</a></p></li><li><p><a href="/reference/restful/user-operations-v2">All user operations</a></p></li></ul></td>
-   </tr>
-</table>
 
 ### Project Access\{#project-access}
 
@@ -73,51 +67,668 @@ To limit access, select specific clusters from the dropdown. You can also disabl
 
 Click **+ Cluster Access** to add more cluster access policies.
 
-You can find the specific privileges of the **Read-Write** and **Read-Only** roles in the following sections.
+You can find the specific privileges of the **Read-Write,** **Read-Only and **Cluster Admin** roles in the following sections.
 
 #### Read-Write\{#read-write}
 
-A Read-Write role has the privileges to view a project and manage its resources (clusters, databases, collections). The following table lists the corresponding UI and API privileges of each project role.
-
-<table>
-   <tr>
-     <th><p><strong>UI Privileges</strong></p></th>
-     <th><p><strong>Control Plane RESTful API (V2) Privileges</strong></p></th>
-     <th><p><strong>Data Plane RESTful API (V2) Privileges</strong></p></th>
-   </tr>
-   <tr>
-     <td><ul><li><p>Manage <a href="./collection">collections</a> & <a href="./manage-indexes">indexes</a></p></li><li><p>View <a href="null">backups</a>, but cannot create or restore from a backup file</p></li><li><p>View <a href="./job-center">project jobs</a>, but cannot cancel jobs or retry failed jobs</p></li></ul></td>
-     <td><ul><li><p><a href="/reference/restful/cloud-meta-v2">All cloud meta operations</a></p></li><li><p>Part of cluster operations</p><ul><li><p><a href="/reference/restful/list-projects-v2">List Projects</a></p></li><li><p><a href="/reference/restful/list-clusters-v2">List Clusters</a></p></li><li><p><a href="/reference/restful/describe-cluster-v2">Describe Cluster</a></p></li><li><p><a href="/reference/restful/query-cluster-metrics-v2">Query Cluster Metrics</a></p></li><li><p><a href="/docs/prometheus-monitoring">Export Metrics</a></p></li></ul></li><li><p>Part of volume operations</p><ul><li><a href="/reference/restful/list-volumes-v2">List Volumes</a></li></ul></li><li><p><a href="/reference/restful/import-operations-v2">All import operations</a></p></li><li><p>Part of backup & restore operations</p><ul><li><p><a href="/reference/restful/list-backups-v2">List Backups</a></p></li><li><p><a href="/reference/restful/describe-backup-v2">Describe Backup</a></p></li><li><p><a href="/reference/restful/get-backup-policy-v2">Get Backup Policy</a></p></li></ul></li><li><p><a href="/reference/restful/cloud-job-v2">All cloud job operations</a></p></li></ul></td>
-     <td><ul><li><p><a href="/reference/restful/collection-operations-v2">All collection operations</a></p></li><li><p><a href="/reference/restful/index-operations-v2">All index operations</a></p></li><li><p><a href="/reference/restful/partition-operations-v2">All partition operations</a></p></li><li><p><a href="/reference/restful/vector-operations-v2">All vector operations</a></p></li><li><p><a href="/reference/restful/alias-operations-v2">All alias operations</a></p></li></ul></td>
-   </tr>
-</table>
+A Read-Write role has the privileges to view a project and manage its resources (clusters, databases, collections). 
 
 #### Read-Only\{#read-only}
 
-A Read-Only role has the privileges to view a project and its resources (clusters, databases, collections). The following table lists the corresponding UI and API privileges of each project role.
+A Read-Only role has the privileges to view a project and its resources (clusters, databases, collections). 
+
+#### Cluster Admin\{#cluster-admin}
+
+A Cluster Admin role has the privileges to view a project and manage its resources (clusters, databases, collections). 
+
+In addition to the privileges of a Project Read-Write role, a Cluster Admin can perform cluster operations such as scaling, suspending, and resuming clusters.
+
+### Project role and access comparison\{#project-role-and-access-comparison}
+
+The following tables provide a quick comparison of the privileges of different project roles.
+
+**Cluster operations**
 
 <table>
    <tr>
-     <th><p><strong>UI Privileges</strong></p></th>
-     <th><p><strong>Control Plane RESTful API (V2) Privileges</strong></p></th>
-     <th><p><strong>Data Plane RESTful API (V2) Privileges</strong></p></th>
+     <th><p><strong>Operation</strong></p></th>
+     <th><p><strong>Project Admin</strong></p></th>
+     <th><p><strong>Cluster Admin</strong></p></th>
+     <th><p><strong>Project Read-Write</strong></p></th>
+     <th><p><strong>Project Read-Only</strong></p></th>
    </tr>
    <tr>
-     <td><ul><li><p>View <a href="./collection">collections</a> & <a href="./manage-indexes">indexes</a> only</p></li><li><p>View <a href="null">backups</a>, but cannot create or restore from a backup file</p></li><li><p>View <a href="./job-center">project jobs</a>, but cannot cancel jobs or retry failed jobs</p></li></ul></td>
-     <td><ul><li><p><a href="/reference/restful/cloud-meta-v2">All cloud meta operations</a></p></li><li><p>Part of cluster operations</p><ul><li><p><a href="/reference/restful/list-projects-v2">List Projects</a></p></li><li><p><a href="/reference/restful/list-clusters-v2">List Clusters</a></p></li><li><p><a href="/reference/restful/describe-cluster-v2">Describe Cluster</a></p></li><li><p><a href="/reference/restful/query-cluster-metrics-v2">Query Cluster Metrics</a></p></li><li><p><a href="/docs/prometheus-monitoring">Export Metrics</a></p></li></ul></li><li><p>Part of volume operations</p><ul><li><a href="/reference/restful/list-volumes-v2">List Volumes</a></li></ul></li><li><p>Part of import operations</p><ul><li><p><a href="/reference/restful/get-import-job-progress-v2">Get Import Job Progress</a></p></li><li><p><a href="/reference/restful/list-import-jobs-v2">List Import Jobs </a></p></li></ul></li><li><p>Part of backup & restore operations</p><ul><li><p><a href="/reference/restful/list-backups-v2">List Backups</a></p></li><li><p><a href="/reference/restful/describe-backup-v2">Describe Backup</a></p></li><li><p><a href="/reference/restful/get-backup-policy-v2">Get Backup Policy</a></p></li></ul></li><li><p><a href="/reference/restful/cloud-job-v2">All cloud job operations</a></p></li></ul></td>
-     <td><ul><li><p>Part of collection operations</p><ul><li><p><a href="/reference/restful/describe-collection-v2">Describe Collection</a></p></li><li><p><a href="/reference/restful/get-collection-load-state-v2">Get Collection Load State</a></p></li><li><p><a href="/reference/restful/get-collection-stats-v2">Get Collection Stats</a></p></li><li><p><a href="/reference/restful/has-collection-v2">Has Collection</a></p></li><li><p><a href="/reference/restful/list-collections-v2">List Collections</a></p></li></ul></li><li><p>Part of index operations</p><ul><li><p><a href="/reference/restful/describe-index-v2">Describe Index</a></p></li><li><p><a href="/reference/restful/list-indexes-v2">List Indexes</a></p></li></ul></li><li><p>Part of partition operations</p><ul><li><p><a href="/reference/restful/get-partition-statistics-v2">Get Partition Statistics</a></p></li><li><p><a href="/reference/restful/has-partition-v2">Has Partition</a></p></li><li><p><a href="/reference/restful/list-partitions-v2">List Partitions</a></p></li></ul></li><li><p>Part of alias operations</p><ul><li><p><a href="/reference/restful/describe-alias-v2">Describe Alias</a></p></li><li><p><a href="/reference/restful/list-aliases-v2">List Aliases</a></p></li></ul></li><li><p>Part of vector operations</p><ul><li><p><a href="/reference/restful/get-v2">Get</a></p></li><li><p><a href="/reference/restful/hybrid-search-v2">Hybrid Search</a></p></li><li><p><a href="/reference/restful/query-v2">Query</a></p></li><li><p><a href="/reference/restful/search-v2">Search</a></p></li></ul></li></ul></td>
+     <td><p>Create Cluster</p></td>
+     <td><p>✅</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
+   </tr>
+   <tr>
+     <td><p>Drop Cluster</p></td>
+     <td><p>✅</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
+   </tr>
+   <tr>
+     <td><p>Scale Cluster Query CU</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
+   </tr>
+   <tr>
+     <td><p>Scale Cluster Replica</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
+   </tr>
+   <tr>
+     <td><p>Suspend Cluster</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
+   </tr>
+   <tr>
+     <td><p>Resume Cluster</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
+   </tr>
+   <tr>
+     <td><p>View Cluster List</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+   </tr>
+   <tr>
+     <td><p>View Cluster Details</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+   </tr>
+   <tr>
+     <td><p>View Cluster Metrics</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
    </tr>
 </table>
 
-Invitation recipients will receive an email invitation that must be accepted within 48 hours to join the project. Alternatively, you can also copy the invitation link from the web console and share it with the invitees.
+**Cluster users**
 
-Once the user joins the project, they automatically become an Organization Member in the organization to which the project belongs.
+<table>
+   <tr>
+     <th><p><strong>Operation</strong></p></th>
+     <th><p><strong>Project Admin</strong></p></th>
+     <th><p><strong>Cluster Admin</strong></p></th>
+     <th><p><strong>Project Read-Write</strong></p></th>
+     <th><p><strong>Project Read-Only</strong></p></th>
+   </tr>
+   <tr>
+     <td><p>View Cluster User List</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+   </tr>
+   <tr>
+     <td><p>Create Cluster User</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
+   </tr>
+   <tr>
+     <td><p>Reset the Password of a Cluster User</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
+   </tr>
+   <tr>
+     <td><p>Delete Cluster User</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
+   </tr>
+</table>
+
+**Audit logs**
+
+<table>
+   <tr>
+     <th><p><strong>Operation</strong></p></th>
+     <th><p><strong>Project Admin</strong></p></th>
+     <th><p><strong>Cluster Admin</strong></p></th>
+     <th><p><strong>Project Read-Write</strong></p></th>
+     <th><p><strong>Project Read-Only</strong></p></th>
+   </tr>
+   <tr>
+     <td><p>Enable Audit Logs</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
+   </tr>
+   <tr>
+     <td><p>Edit Audit Logs Configuration</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
+   </tr>
+   <tr>
+     <td><p>Disable Audit Logs</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
+   </tr>
+   <tr>
+     <td><p>View the Status of Audit Logs</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+   </tr>
+</table>
+
+**Data plane operations**
+
+<table>
+   <tr>
+     <th><p><strong>Operation</strong></p></th>
+     <th><p><strong>Project Admin</strong></p></th>
+     <th><p><strong>Cluster Admin</strong></p></th>
+     <th><p><strong>Project Read-Write</strong></p></th>
+     <th><p><strong>Project Read-Only</strong></p></th>
+   </tr>
+   <tr>
+     <td><p>Create Collection</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>❌</p></td>
+   </tr>
+   <tr>
+     <td><p>Drop Collection</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>❌</p></td>
+   </tr>
+   <tr>
+     <td><p>List/Describe Collection</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+   </tr>
+   <tr>
+     <td><p>Insert/Upsert</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>❌</p></td>
+   </tr>
+   <tr>
+     <td><p>Delete</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>❌</p></td>
+   </tr>
+   <tr>
+     <td><p>Query/Search/Get</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+   </tr>
+   <tr>
+     <td><p>Bulk Import</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>❌</p></td>
+   </tr>
+   <tr>
+     <td><p>All other RESTful operations</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>Depends</p></td>
+   </tr>
+</table>
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Each time, you can invite one or more users with the same role to join the project.</p>
+<p>Both the Cluster Admin and the Project Read-Write roles share the same data plane privileges.       </p>
 
 </Admonition>
+
+**Backup and restore**
+
+<table>
+   <tr>
+     <th><p><strong>Operation</strong></p></th>
+     <th><p><strong>Project Admin</strong></p></th>
+     <th><p><strong>Cluster Admin</strong></p></th>
+     <th><p><strong>Project Read-Write</strong></p></th>
+     <th><p><strong>Project Read-Only</strong></p></th>
+   </tr>
+   <tr>
+     <td><p>View Backup List</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+   </tr>
+   <tr>
+     <td><p>Create Backup</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
+   </tr>
+   <tr>
+     <td><p>Restore a cluster backup file to a new cluster</p></td>
+     <td><p>✅</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
+   </tr>
+   <tr>
+     <td><p>Restore a collection backup file to an existing cluster</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
+   </tr>
+   <tr>
+     <td><p>Delete cluster backup</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
+   </tr>
+</table>
+
+**Volume**
+
+<table>
+   <tr>
+     <th><p><strong>Operation</strong></p></th>
+     <th><p><strong>Project Admin</strong></p></th>
+     <th><p><strong>Cluster Admin</strong></p></th>
+     <th><p><strong>Project Read-Write</strong></p></th>
+     <th><p><strong>Project Read-Only</strong></p></th>
+   </tr>
+   <tr>
+     <td><p>View Volume List</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+   </tr>
+   <tr>
+     <td><p>Create Volume</p></td>
+     <td><p>✅</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
+   </tr>
+   <tr>
+     <td><p>Delete Volume</p></td>
+     <td><p>✅</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
+   </tr>
+</table>
+
+**Migration**
+
+<table>
+   <tr>
+     <th><p><strong>Operation</strong></p></th>
+     <th><p><strong>Project Admin</strong></p></th>
+     <th><p><strong>Cluster Admin</strong></p></th>
+     <th><p><strong>Project Read-Write</strong></p></th>
+     <th><p><strong>Project Read-Only</strong></p></th>
+   </tr>
+   <tr>
+     <td><p>View Migration Jobs</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+   </tr>
+   <tr>
+     <td><p>Create Migration Job</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
+   </tr>
+   <tr>
+     <td><p>Cancel a Migration Job</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
+   </tr>
+   <tr>
+     <td><p>View the Details of a Migration Job (View Migrated Collections/Databases)</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+   </tr>
+</table>
+
+**Jobs**
+
+<table>
+   <tr>
+     <th><p><strong>Operation</strong></p></th>
+     <th><p><strong>Project Admin</strong></p></th>
+     <th><p><strong>Cluster Admin</strong></p></th>
+     <th><p><strong>Project Read-Write</strong></p></th>
+     <th><p><strong>Project Read-Only</strong></p></th>
+   </tr>
+   <tr>
+     <td><p>View Job List</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+   </tr>
+   <tr>
+     <td><p>View Job Details</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+   </tr>
+   <tr>
+     <td><p>Cancel Job</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
+   </tr>
+   <tr>
+     <td><p>Retry Job</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
+   </tr>
+</table>
+
+**Project alerts**
+
+<table>
+   <tr>
+     <th><p><strong>Operation</strong></p></th>
+     <th><p><strong>Project Admin</strong></p></th>
+     <th><p><strong>Cluster Admin</strong></p></th>
+     <th><p><strong>Project Read-Write</strong></p></th>
+     <th><p><strong>Project Read-Only</strong></p></th>
+   </tr>
+   <tr>
+     <td><p>View Alert List</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+   </tr>
+   <tr>
+     <td><p>Create Alert</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+   </tr>
+   <tr>
+     <td><p>Edit Alert</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+   </tr>
+   <tr>
+     <td><p>Delete Alert</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+   </tr>
+   <tr>
+     <td><p>View Alert History</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+   </tr>
+</table>
+
+**Collaborators**
+
+<table>
+   <tr>
+     <th><p><strong>Operation</strong></p></th>
+     <th><p><strong>Project Admin</strong></p></th>
+     <th><p><strong>Cluster Admin</strong></p></th>
+     <th><p><strong>Project Read-Write</strong></p></th>
+     <th><p><strong>Project Read-Only</strong></p></th>
+   </tr>
+   <tr>
+     <td><p>Invite Project Collaborator</p></td>
+     <td><p>✅</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
+   </tr>
+   <tr>
+     <td><p>Edit the Role of a Project Collaborator</p></td>
+     <td><p>✅</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
+   </tr>
+   <tr>
+     <td><p>Remove Project Collaborator</p></td>
+     <td><p>✅</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
+   </tr>
+</table>
+
+**Cluster IP allowlist**
+
+<table>
+   <tr>
+     <th><p><strong>Operation</strong></p></th>
+     <th><p><strong>Project Admin</strong></p></th>
+     <th><p><strong>Cluster Admin</strong></p></th>
+     <th><p><strong>Project Read-Write</strong></p></th>
+     <th><p><strong>Project Read-Only</strong></p></th>
+   </tr>
+   <tr>
+     <td><p>View Cluster IP Allowlist</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+   </tr>
+   <tr>
+     <td><p>Add IP Address to the Cluster IP Allowlist</p></td>
+     <td><p>✅</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
+   </tr>
+   <tr>
+     <td><p>Modify IP Address in the Cluster IP Allowlist</p></td>
+     <td><p>✅</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
+   </tr>
+   <tr>
+     <td><p>Delete IP Address from the Cluster IP Allowlist</p></td>
+     <td><p>✅</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
+   </tr>
+</table>
+
+**Private endpoints**
+
+<table>
+   <tr>
+     <th><p><strong>Operation</strong></p></th>
+     <th><p><strong>Project Admin</strong></p></th>
+     <th><p><strong>Cluster Admin</strong></p></th>
+     <th><p><strong>Project Read-Write</strong></p></th>
+     <th><p><strong>Project Read-Only</strong></p></th>
+   </tr>
+   <tr>
+     <td><p>View Private Endpoint List</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+   </tr>
+   <tr>
+     <td><p>Create Private Endpoint</p></td>
+     <td><p>✅</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
+   </tr>
+   <tr>
+     <td><p>Delete Private Endpoint</p></td>
+     <td><p>✅</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
+   </tr>
+</table>
+
+**CMEK**
+
+<table>
+   <tr>
+     <th><p><strong>Operation</strong></p></th>
+     <th><p><strong>Project Admin</strong></p></th>
+     <th><p><strong>Cluster Admin</strong></p></th>
+     <th><p><strong>Project Read-Write</strong></p></th>
+     <th><p><strong>Project Read-Only</strong></p></th>
+   </tr>
+   <tr>
+     <td><p>View CMEK List</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+   </tr>
+   <tr>
+     <td><p>Add CMEK</p></td>
+     <td><p>✅</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
+   </tr>
+   <tr>
+     <td><p>Delete CMEK</p></td>
+     <td><p>✅</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
+   </tr>
+</table>
+
+**Integrations**
+
+<table>
+   <tr>
+     <th><p><strong>Operation</strong></p></th>
+     <th><p><strong>Project Admin</strong></p></th>
+     <th><p><strong>Cluster Admin</strong></p></th>
+     <th><p><strong>Project Read-Write</strong></p></th>
+     <th><p><strong>Project Read-Only</strong></p></th>
+   </tr>
+   <tr>
+     <td><p>View Integrations List</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+   </tr>
+   <tr>
+     <td><p>View Datadog Integration</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+   </tr>
+   <tr>
+     <td><p>Create Datadog Integration</p></td>
+     <td><p>✅</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
+   </tr>
+   <tr>
+     <td><p>Edit Datadog Integration Configuration</p></td>
+     <td><p>✅</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
+   </tr>
+   <tr>
+     <td><p>Delete Datadog Integration</p></td>
+     <td><p>✅</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
+   </tr>
+   <tr>
+     <td><p>View Storage Integration</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+   </tr>
+   <tr>
+     <td><p>Create Storage Integration</p></td>
+     <td><p>✅</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
+   </tr>
+   <tr>
+     <td><p>Delete Storage Integration</p></td>
+     <td><p>✅</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
+   </tr>
+</table>
 
 ## Revoke or resend an invitation\{#revoke-or-resend-an-invitation}
 

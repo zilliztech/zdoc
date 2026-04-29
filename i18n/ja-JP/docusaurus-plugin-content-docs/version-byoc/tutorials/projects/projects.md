@@ -1,22 +1,19 @@
 ---
 title: "プロジェクト | BYOC"
 slug: /projects
+sidebar_key: projects
 sidebar_label: "プロジェクト"
 beta: FALSE
 notebook: FALSE
-description: "この章では、プロジェクトの操作と関連設定について説明します。 | BYOC"
+description: "この章では、プロジェクトの操作と関連設定について説明します。| BYOC"
 type: origin
 token: QHzrwVlEOipspAkPiyucWezqneC
-sidebar_position: 11
+sidebar_position: 14
 keywords: 
   - zilliz
   - ベクトルデータベース
-  - クラウド
+  - cloud
   - プロジェクト
-  - ベクトル埋め込みとは
-  - ベクトルデータベースチュートリアル
-  - ベクトルデータベースの仕組み
-  - ベクトルDB比較
 
 ---
 

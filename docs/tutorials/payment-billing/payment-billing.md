@@ -1,16 +1,17 @@
 ---
 title: "Payment & Billing | Cloud"
 slug: /payment-billing
+sidebar_key: payment-billing
 sidebar_label: "Payment & Billing"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "This guide details the available ways for you to subscribe to our services on Zilliz Cloud with relevant notes on invoice management | Cloud"
 type: origin
 token: FmkCwm1QHitB7uk9U9ncLnHrnse
-sidebar_position: 15
+sidebar_position: 17
 keywords: 
   - zilliz
   - vector database

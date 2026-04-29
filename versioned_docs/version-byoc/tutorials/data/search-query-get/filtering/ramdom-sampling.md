@@ -1,16 +1,17 @@
 ---
 title: "Random Sampling | BYOC"
 slug: /ramdom-sampling
+sidebar_key: ramdom-sampling
 sidebar_label: "Random Sampling"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "When working with large-scale datasets, you often don't need to process all your data to gain insights or test filtering logic. Random sampling provides a solution by allowing you to work with a statistically representative subset of your data, significantly reducing query time and resource consumption. | BYOC"
 type: origin
 token: ByJbwcpoCiBkDckR3VCcC4LTneg
-sidebar_position: 6
+sidebar_position: 7
 keywords: 
   - zilliz
   - vector database

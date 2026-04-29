@@ -1,11 +1,12 @@
 ---
 title: "Rerank Functions | Cloud"
 slug: /reranking
+sidebar_key: reranking
 sidebar_label: "Rerank Functions"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "Hybrid Search achieves more precise search results through multiple simultaneous ANN searches. Multiple searches return several sets of results, which require a reranking strategy to help merge and reorder the results and return a single set of results. This guide will introduce the reranking strategies supported by Zilliz Cloud and provide tips for selecting the appropriate reranking strategy. | Cloud"
 type: origin

@@ -1,11 +1,12 @@
 ---
 title: "Configure a Customer-Managed VPC on GCP | BYOC"
 slug: /configure-vpc-gcp
+sidebar_key: configure-vpc-gcp
 sidebar_label: "Configure a Customer-Managed VPC on GCP"
-beta: CONTACT SALES
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: CONTACT SALES
 notebook: FALSE
 description: "The Zilliz Cloud Bring-Your-Own-Cloud (BYOC) solution enables you to set up a project within your own Virtual Private Cloud (VPC). With a Zilliz Cloud project running in a customer-managed VPC, you gain greater control over your network configurations, allowing you to meet specific cloud security and governance standards required by your organization. | BYOC"
 type: origin

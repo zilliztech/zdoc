@@ -1,11 +1,12 @@
 ---
 title: "Schedule Automatic Backups | Cloud"
 slug: /schedule-automatic-backups
+sidebar_key: schedule-automatic-backups
 sidebar_label: "Schedule Automatic Backups"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "Zilliz Cloud allows you to enable automatic backups for your clusters, helping ensure data recovery in case of unexpected issues. Automatic backups apply to the entire cluster—backing up individual collections automatically is not supported. | Cloud"
 type: origin

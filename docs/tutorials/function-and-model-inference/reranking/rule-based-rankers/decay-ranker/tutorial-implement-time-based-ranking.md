@@ -1,11 +1,12 @@
 ---
 title: "Tutorial: Implement Time-based Ranking | Cloud"
 slug: /tutorial-implement-time-based-ranking
+sidebar_key: tutorial-implement-time-based-ranking
 sidebar_label: "Tutorial: Implement Time-based Ranking"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "In many search applications, the freshness of content is just as important as its relevance. News articles, product listings, social media posts, and research papers all benefit from ranking systems that balance semantic relevance with recency. This tutorial demonstrates how to implement time-based ranking in Zilliz Cloud using decay rankers. | Cloud"
 type: origin

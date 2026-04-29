@@ -1,102 +1,115 @@
 ---
 title: "組織設定の管理 | BYOC"
 slug: /organization-settings
+sidebar_key: organization-settings
 sidebar_label: "組織設定"
 beta: FALSE
 notebook: FALSE
-description: "組織のオーナーであれば、組織設定を管理する権限があります。 | BYOC"
+description: "組織オーナーの場合、組織設定を管理する権限があります。| BYOC"
 type: origin
 token: AAqUwQW3qia3akkjfDNc0kwanlh
 sidebar_position: 2
 keywords: 
   - zilliz
   - ベクトルデータベース
-  - クラウド
-  - 組織
-  - 設定
-  - ベクトルデータベース オープンソース
-  - オープンソース ベクトルDB
-  - ベクトルデータベース 例
-  - rag ベクトルデータベース
+  - cloud
+  - organizations
+  - settings
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
+import Supademo from '@site/src/components/Supademo';
+
 import Procedures from '@site/src/components/Procedures';
 
 # 組織設定の管理
 
-組織の所有者である場合、組織設定を管理する権限があります。
+組織オーナーである場合、組織設定を管理する権限があります。
 
-このガイドでは、組織設定を管理する手順を説明します。
+このガイドでは、組織設定を管理する手順について説明します。
 
-## 組織の表示{#view-organizations}
+## 組織の表示\{#view-organizations}
 
-Zilliz Cloud にサインアップすると、デフォルトの組織が作成されます。新しい組織を作成することはできませんが、招待によって他のユーザーの組織に参加できます。
+Zilliz Cloud にサインアップすると、デフォルトの組織が作成されます。新しい組織を作成することはできませんが、招待を通じて他のユーザーの組織に参加することができます。
 
-[Zilliz Cloud コンソール](https://cloud.zilliz.com/login)にログインすると、参加している組織を一覧表示するページが表示されます。これらの組織を確認して入力できます。
+[Zilliz Cloud コンソール](https://cloud.zilliz.com/login) にログインすると、あなたが所属している組織の一覧ページが表示されます。これらの組織を確認し、進入することができます。
 
-参加しているすべての組織をすばやく表示するには、左上隅の **All Organizations** をクリックします。
+参加しているすべての組織をすばやく表示するには、左上隅にある **すべての組織** をクリックしてください。
 
 ![view-organizations](https://zdoc-images.s3.us-west-2.amazonaws.com/view-organizations.png "view-organizations")
 
-## 組織名の変更{#rename-an-organization}
+## 組織の名前変更\{#rename-an-organization}
 
-組織名を変更するには、[組織の所有者](./organization-users)である必要があります。
+組織の名前を変更するには、[組織オーナー](./organization-users) である必要があります。
 
 ![edit-organization-name-byoc](https://zdoc-images.s3.us-west-2.amazonaws.com/edit-organization-name-byoc.png "edit-organization-name-byoc")
 
-## タイムゾーンの管理{#manage-timezone}
+## タイムゾーンの管理\{#manage-timezone}
 
-システムタイムゾーンは、最初のログインが発生した場所に設定され、Zilliz Cloud に表示されるすべての時刻文字列に適用されます。
+システムのタイムゾーンは、最初のログイン時に設定され、Zilliz Cloud に表示されるすべての時刻文字列に適用されます。
 
-現在のタイムゾーンを表示するには、組織の所有者または組織のメンバーである必要があります。組織内の役割の詳細については、[組織ユーザーの管理](./organization-users)を参照してください。
+現在のタイムゾーンを表示するには、組織オーナーまたは組織メンバーである必要があります。組織内の役割の詳細については、[組織ユーザーの管理](./organization-users) を参照してください。
 
 ![byoc-timezone-settings](https://zdoc-images.s3.us-west-2.amazonaws.com/byoc-timezone-settings.png "byoc-timezone-settings")
 
-システムタイムゾーンを変更するには、[組織の所有者](./organization-users)である必要があります。**Edit** をクリックして **Time Zone Settings** ダイアログボックスを開き、ドロップダウンリストからタイムゾーンを選択します。タイムゾーンの名前を入力して、目的のタイムゾーンをすばやくフィルタリングすることもできます。
+システムのタイムゾーンを変更するには、[組織オーナー](./organization-users) である必要があります。**編集** をクリックして **タイムゾーン設定** ダイアログボックスを開き、ドロップダウンリストからタイムゾーンを選択します。また、タイムゾーンの名前を入力して、目的のタイムゾーンをすばやくフィルターすることもできます。
 
-## メンテナンスウィンドウの設定{#set-up-maintenance-window}
+## 優先メンテナンスウィンドウの設定\{#set-up-preferred-maintenance-window}
 
-メンテナンスウィンドウを設定して、Zilliz Cloud がホストされているクラスターのメンテナンスをスケジュールできるようにすることができます。これにより、影響の大きいメンテナンスイベントがより予測可能になり、ワークロードへの影響が少なくなります。
+優先メンテナンスウィンドウとは、Zilliz Cloud が Dedicated クラスターの Milvus バージョンのアップグレードなどの予定されたメンテナンスを自動的に実行する**4 時間**の期間です。
 
-現在、メンテナンスウィンドウの設定はグローバルであり、Zilliz Cloud でホストされているすべてのクラスターに適用されます。
+優先ウィンドウを設定することで、トラフィックのピーク時を避けてメンテナンスをスケジュールし、ワークロードへの影響を最小限に抑えることができます。
 
-デフォルトでは、Zilliz Cloud は、ピーク時のビジネス時間中の混乱を避けるため、毎日午前 0 時から午後 2 時まで、ほとんどの影響の大きい更新をブロックします。特定の日の今後のメンテナンスイベントについて、事前に通知を受け取ります。その日、Zilliz Cloud は優先ウィンドウ時間中にアクションを実行します。
+デフォルトでは、ウィンドウは **午前 2:00～午前 6:00** に設定されています。必要に応じて更新できます。
 
-メンテナンスイベントは通常 2 時間続き、サービスの中断を引き起こす可能性があります。デフォルトのメンテナンスウィンドウは、現地時間の午前 2 時から午前 4 時までです。ニーズに合わせて、「System Maintenance Window」でオプションを選択してメンテナンスウィンドウを調整できます。
+以下のデモでは、優先メンテナンスウィンドウを編集する方法を示しています。
 
-メンテナンスイベントが終了すると、別の通知を受け取ります。Zilliz Cloud は、通知を見逃した場合に備えて、「Activities」にすべてのメンテナンスイベントの開始と終了をリストアップします。
+<Supademo id="cmn4bhv4l0ps5z3qmdcrmuij7" title=""  />
 
-現在のタイムゾーンを表示するには、左側のナビゲーションペインから **Settings** を選択し、**System Maintenance Window** エリアで現在適用されているメンテナンスウィンドウ時間を見つけます。
+<Admonition type="info" icon="📘" title="Note">
 
-システムメンテナンスウィンドウ時間を変更するには、**Edit** をクリックして Edit System Maintenance Window ダイアログボックスを開き、**System Maintenance Window** ドロップダウンリストから時間ウィンドウを選択します。
+<p>メンテナンスが優先ウィンドウを超えて実行された場合、完了するまで継続されます。</p>
 
-![byoc-maintenance-window](https://zdoc-images.s3.us-west-2.amazonaws.com/byoc-maintenance-window.png "byoc-maintenance-window")
+</Admonition>
 
-## 組織の削除{#delete-organization}
+予定されたメンテナンスの 7 日前に、Web コンソールの **クラスター概要** ページに通知が表示されます。
 
-開始する前に、次の条件が満たされていることを確認してください。
+![Czaab7qPaoElX6xVizQcEiwznmh](https://zdoc-images.s3.us-west-2.amazonaws.com/czaab7qpaoelx6xvizqceiwznmh.png "Czaab7qPaoElX6xVizQcEiwznmh")
 
-- 現在の組織内のすべてのクラスターが[削除されている](./manage-cluster)。
+- **組織オーナー** および **プロジェクト管理者** は、次のいずれかを選択できます。
 
-- ターゲット組織で[組織の所有者](./organization-users)ロールが付与されている。
+    - クラスターを最新の Milvus バージョンにすぐにアップグレードする。
 
-- 残りの前払い資金はすべて払い戻される必要がある。
+    - メンテナンスを 7 日間延期する。延期は 1 回のみ可能です。
+
+    - 何もしないで、メンテナンスを予定通りに実行させる。
+
+- **組織メンバー** の場合は、[SDK の互換性](./install-sdks#sdk-compatibility) を確認してください。
+
+## 組織の削除\{#delete-organization}
+
+開始する前に、以下の条件が満たされていることを確認してください。
+
+- 現在の組織内のすべてのクラスターが [削除](./manage-cluster) されていること。
+
+- 対象組織で [組織オーナー](./organization-users) の役割が付与されていること。
+
+- 残っている前払い資金がすべて返金されていること。
 
 組織を削除するには：
 
 <Procedures>
 
-1. [Zilliz Cloud コンソール](https://cloud.zilliz.com/login)にログインします。
+1. [Zilliz Cloud コンソール](https://cloud.zilliz.com/login) にログインします。
 
 1. 削除したい組織に入ります。
 
-1. 左側のナビゲーションペインで、**Settings** をクリックします。
+1. 左側のナビゲーションペインで、**設定** をクリックします。
 
-1. **System Settings** ページで、**Delete Organization** エリアを見つけてボタンをクリックします。
+1. **システム設定** ページで、**組織の削除** エリアを見つけてボタンをクリックします。
 
 1. ポップアップウィンドウの指示に従い、ボタンをクリックして組織の削除を完了します。
 
@@ -104,7 +117,7 @@ Zilliz Cloud にサインアップすると、デフォルトの組織が作成�
 
 <Admonition type="caution" icon="🚧" title="Warning">
 
-<p>組織を削除する操作は元に戻せません。この操作には細心の注意を払ってください。</p>
+<p>組織の削除操作は元に戻せません。この操作には十分注意してください。</p>
 
 </Admonition>
 

@@ -1,11 +1,12 @@
 ---
 title: "Drop Collection | BYOC"
 slug: /drop-collection
-sidebar_label: "Drop Collection"
-beta: FALSE
+sidebar_key: drop-collection
+sidebar_label: "Drop"
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "You can drop a collection if it is no longer needed. | BYOC"
 type: origin

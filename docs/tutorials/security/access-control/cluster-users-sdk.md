@@ -1,11 +1,12 @@
 ---
 title: "Manage Cluster User (SDK) | Cloud"
 slug: /cluster-users-sdk
+sidebar_key: cluster-users-sdk
 sidebar_label: "Manage Cluster User (SDK)"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "In Zilliz Cloud, you can create cluster users and assign them cluster roles to define the privileges, achieving data security. | Cloud"
 type: origin

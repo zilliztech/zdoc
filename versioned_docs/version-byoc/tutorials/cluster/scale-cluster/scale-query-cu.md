@@ -1,13 +1,14 @@
 ---
 title: "Scale Query CU | BYOC"
 slug: /scale-query-cu
+sidebar_key: scale-query-cu
 sidebar_label: "Scale Query CU"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
-description: "As your workload grows and more data is written, the cluster may reach its capacity limit. In such cases, read operations will continue to function, but new write operations may fail. | BYOC"
+description: "As your workload grows and more data is written, the serving cluster may reach its capacity limit. In such cases, read operations will continue to function, but new write operations may fail. | BYOC"
 type: origin
 token: ExUFwDY1siCa2Bkp4incCvxFnlh
 sidebar_position: 1
@@ -29,13 +30,13 @@ import Supademo from '@site/src/components/Supademo';
 
 # Scale Query CU
 
-As your workload grows and more data is written, the cluster may reach its capacity limit. In such cases, read operations will continue to function, but new write operations may fail.
+As your workload grows and more data is written, the serving cluster may reach its capacity limit. In such cases, read operations will continue to function, but new write operations may fail.
 
 To proactively manage this, you can monitor **Query** **CU Capacity** on the [metrics](./metrics-alerts-reference) page to determine when query CU scaling is needed. Based on your business needs and patterns, you can increase the number of query CUs to expand cluster capacity or reduce it when demand decreases to save on costs.
 
-Please note that for clusters with 1 - 8 CUs, you can directly scale query CU. For clusters with more than 8 CUs, please increase [replicas](./manage-replica).
+Please note that for serving clusters with 1 - 12 CUs, you can directly scale query CU. For serving clusters with more than 12 CUs, please increase [replicas](./manage-replica).
 
-This guide explains how to resize a cluster to suit your changing workload.
+This guide explains how to resize a serving cluster to suit your changing workload.
 
 ## Considerations\{#considerations}
 
@@ -47,13 +48,13 @@ This guide explains how to resize a cluster to suit your changing workload.
 
             Dedicated (Enterprise) clusters: Up to 1,024 CUs
 
-        - The product of **Number of Query CU** × **Replica count** must not exceed 1,0240
+        - The product of **Number of Query CU** × **Replica count** must not exceed 10,240
 
         For larger query CU, [contact sales](http://zilliz.com/contact-sales).
 
     - **Scale down**
 
-        - Clusters with replicas cannot scale down to less than 8 CUs
+        - Clusters with replicas cannot scale down to less than 12 CUs
 
         - A scale-down request only succeeds if:
 

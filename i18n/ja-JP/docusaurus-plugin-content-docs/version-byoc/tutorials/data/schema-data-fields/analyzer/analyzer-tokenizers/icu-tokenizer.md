@@ -1,10 +1,11 @@
 ---
 title: "ICU | BYOC"
 slug: /icu-tokenizer
+sidebar_key: icu-tokenizer
 sidebar_label: "ICU"
 beta: FALSE
 notebook: FALSE
-description: "`icu` トークナイザーは、ソフトウェアの国際化のための主要なツールを提供するUnicodeオープンソースプロジェクトの国際化コンポーネントに基づいて構築されています。ICUの単語分割アルゴリズムを使用することで、このトークナイザーは世界のほとんどの言語でテキストを正確に単語に分割できます。 | BYOC"
+description: "`icu` トークナイザーは、ソフトウェアの国際化に必要な主要なツールを提供する Unicode のオープンソースプロジェクト「Internationalization Components of Unicode」に基づいて構築されています。ICU の単語区切りアルゴリズムを使用することで、このトークナイザーは世界中のほとんどの言語においてテキストを正確に単語へ分割できます。| BYOC"
 type: origin
 token: Q3gKwc5lkilAbKkalCWcW2AbnLe
 sidebar_position: 5
@@ -17,10 +18,6 @@ keywords:
   - analyzer
   - 組み込みトークナイザー
   - icu-tokenizer
-  - RAG
-  - NLP
-  - ニューラルネットワーク
-  - ディープラーニング
 
 ---
 
@@ -30,17 +27,17 @@ import TabItem from '@theme/TabItem';
 
 # ICU
 
-`icu` トークナイザーは、ソフトウェアの国際化のための主要なツールを提供する [Internationalization Components of Unicode](http://site.icu-project.org/) (ICU) オープンソースプロジェクトをベースにしています。ICU の単語分割アルゴリズムを使用することで、このトークナイザーは世界のほとんどの言語でテキストを正確に単語に分割できます。
+`icu` トークナイザーは、ソフトウェアの国際化に必要な主要なツールを提供するオープンソースプロジェクトである [Internationalization Components of Unicode](http://site.icu-project.org/)（ICU）に基づいて構築されています。ICU の単語区切りアルゴリズムを使用することで、このトークナイザーは世界中のほとんどの言語においてテキストを正確に単語単位に分割できます。
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p><code>icu</code> トークナイザーは、句読点とスペースを個別のトークンとして出力に保持します。たとえば、<code>"Привет! Как дела?"</code> は <code>["Привет", "!", " ", "Как", " ", "дела", "?"]</code> になります。これらの独立した句読点トークンを削除するには、<a href="./remove-punct-filter"><code>removepunct</code></a> フィルターを使用します。</p>
+<p><code>icu</code> トークナイザーは、句読点やスペースを出力内の独立したトークンとして保持します。例えば、<code>"Привет! Как дела?"</code> は <code>["Привет", "!", " ", "Как", " ", "дела", "?"]</code> になります。このような独立した句読点トークンを削除するには、<a href="./remove-punct-filter"><code>removepunct</code></a> フィルターを使用してください。</p>
 
 </Admonition>
 
-## 設定{#configuration}
+## 設定\{#configuration}
 
-`icu` トークナイザーを使用してアナライザーを設定するには、`analyzer_params` で `tokenizer` を `icu` に設定します。
+`icu` トークナイザーを使用してアナライザーを設定するには、`analyzer_params` 内で `tokenizer` を `icu` に設定します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -62,7 +59,7 @@ analyzerParams.put("tokenizer", "icu");
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 // node
@@ -70,7 +67,7 @@ analyzerParams.put("tokenizer", "icu");
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 analyzerParams = map[string]any{"tokenizer": "icu"}
@@ -78,7 +75,7 @@ analyzerParams = map[string]any{"tokenizer": "icu"}
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 # curl
@@ -87,7 +84,7 @@ analyzerParams = map[string]any{"tokenizer": "icu"}
 </TabItem>
 </Tabs>
 
-`icu` トークナイザーは、1つまたは複数のフィルターと連携して動作できます。例えば、以下のコードは、`icu` トークナイザーと[remove punct フィルター](./remove-punct-filter)を使用するアナライザーを定義しています。
+`icu` トークナイザーは、1つ以上のフィルターと連携して動作できます。たとえば、次のコードは `icu` トークナイザーと[remove punct filter](./remove-punct-filter)を使用するアナライザーを定義しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -111,7 +108,7 @@ analyzerParams.put("filter", Collections.singletonList("removepunct"));
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 // node
@@ -119,7 +116,7 @@ analyzerParams.put("filter", Collections.singletonList("removepunct"));
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 analyzerParams = map[string]any{"tokenizer": "icu", "filter": []string{"removepunct"}}
@@ -127,7 +124,7 @@ analyzerParams = map[string]any{"tokenizer": "icu", "filter": []string{"removepu
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 # curl
@@ -136,13 +133,13 @@ analyzerParams = map[string]any{"tokenizer": "icu", "filter": []string{"removepu
 </TabItem>
 </Tabs>
 
-`analyzer_params` を定義した後、コレクションスキーマを定義する際に `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud は指定されたアナライザーを使用してそのフィールドのテキストを処理し、効率的なトークン化とフィルタリングを行うことができます。詳細については、[使用例](./analyzer-overview#example-use)を参照してください。
+`analyzer_params` を定義した後、コレクションスキーマを定義する際に `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud は指定されたアナライザーを使用してそのフィールド内のテキストを処理し、効率的なトークン化とフィルタリングを実現します。詳細については、[使用例](./analyzer-overview#example-use)を参照してください。
 
-## 例{#examples}
+## 例\{#examples}
 
-アナライザー設定をコレクションスキーマに適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
+コレクションスキーマにアナライザー設定を適用する前に、`run_analyzer` メソッドを使用してその動作を検証してください。
 
-### アナライザー設定{#analyzer-configuration}
+### アナライザー設定\{#analyzer-configuration}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -164,7 +161,7 @@ analyzerParams.put("tokenizer", "icu");
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 // node
@@ -172,7 +169,7 @@ analyzerParams.put("tokenizer", "icu");
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 analyzerParams = map[string]any{"tokenizer": "icu"}
@@ -180,7 +177,7 @@ analyzerParams = map[string]any{"tokenizer": "icu"}
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 # curl
@@ -189,7 +186,7 @@ analyzerParams = map[string]any{"tokenizer": "icu"}
 </TabItem>
 </Tabs>
 
-### `run_analyzer` を使用した検証 {#verification-using-runanalyzer}
+### `run_analyzer` を使用した検証\{#verification-using-runanalyzer}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -240,7 +237,7 @@ List<RunAnalyzerResp.AnalyzerResult> results = resp.getResults();
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 // javascript
@@ -248,7 +245,7 @@ List<RunAnalyzerResp.AnalyzerResult> results = resp.getResults();
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 import (
@@ -282,7 +279,7 @@ if err != nil {
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 # restful
@@ -291,7 +288,7 @@ if err != nil {
 </TabItem>
 </Tabs>
 
-### 期待される出力結果\{#expected-output}
+### 期待される出力\{#expected-output}
 
 ```plaintext
 ['Привет', '!', ' ', 'Как', ' ', 'дела', '?']

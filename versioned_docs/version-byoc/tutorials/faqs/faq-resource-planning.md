@@ -21,7 +21,6 @@ This topic lists the possible issues that you may encounter while planning your 
 - [How can I avoid expenses on unused clusters?](#how-can-i-avoid-expenses-on-unused-clusters)
 - [How many query CUs do I need for a given collection?](#how-many-query-cus-do-i-need-for-a-given-collection)
 - [Which type of cluster should I pick?](#which-type-of-cluster-should-i-pick)
-- [What's the difference between Performance-optimized CU and Capacity-optimized CU?](#whats-the-difference-between-performance-optimized-cu-and-capacity-optimized-cu)
 
 ## FAQs
 
@@ -52,12 +51,4 @@ These estimates are based on vectors with primary keys only. Additional scalar f
 
 Select the Performance-optimized if you instant search results and high concurrent traffic for real-time applications.
 Choose the Capacity-optimized if you need to handle large vector datasets while maintaining reliable search speeds.
-Opt for the Tiered-storage cluster if you need to handle ultra-large-scale, cost-sensitive workloads with clear hot and cold data patterns. To select a Tiered-storage cluster, your cluster must have at least 8 query CUs.
-
-### What's the difference between Performance-optimized CU and Capacity-optimized CU?{#whats-the-difference-between-performance-optimized-cu-and-capacity-optimized-cu}
-
-The "Performance-optimized CU" suits low latency or high throughput similarity searches. This option works best for high-search performance scenarios.
-
-The "Capacity-optimized CU" suits data volumes that are five times larger than the performance-optimized CU option. This option works best for increased storage capacity scenarios.
-
-For more details, see [Select the Right CU](./cu-types-explained).
+Opt for the Tiered-storage cluster if you need to handle ultra-large-scale, cost-sensitive workloads. To select a Tiered-storage cluster, your cluster must have at least 8 query CUs.

@@ -1,11 +1,12 @@
 ---
 title: "Prepare for Cluster Connection | BYOC"
 slug: /prepare-for-cluster-connection
+sidebar_key: prepare-for-cluster-connection
 sidebar_label: "Prepare for Cluster Connection"
-beta: CONTACT SALES
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: CONTACT SALES
 notebook: FALSE
 description: "All BYOC clusters are hosted entirely on your own virtual networks (AWS VPC, GCP VPC, or Microsoft Azure VNet) and do not have public endpoints. This guide explains the two approaches to connecting to these BYOC clusters. | BYOC"
 type: origin

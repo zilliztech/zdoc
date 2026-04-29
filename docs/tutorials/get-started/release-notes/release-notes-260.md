@@ -1,16 +1,17 @@
 ---
 title: "Release Notes (March 13, 2024) | Cloud"
 slug: /release-notes-260
+sidebar_key: release-notes-260
 sidebar_label: "March 13, 2024"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "Zilliz Cloud has introduced two major enhancements in its latest release. Firstly, Pipelines now support six state-of-the-art (SOTA) embedding models, which expands your data processing capabilities. The other major enhancement is that the Collection Playground feature has been added to simplify your onboarding experience. With this feature, you can easily perform basic Create, Run, Update, and Delete (CRUD) operations directly from the Zilliz Cloud console, making your data interaction processes more streamlined. You can try these new features today to enjoy a more efficient and effective workflow. | Cloud"
 type: origin
 token: NmolwVTkCiQ2yZkXsJhcftyTnhc
-sidebar_position: 21
+sidebar_position: 22
 keywords: 
   - zilliz
   - vector database

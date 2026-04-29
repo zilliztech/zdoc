@@ -1,26 +1,23 @@
 ---
-title: "Length | Cloud"
+title: "長さ | Cloud"
 slug: /length-filter
-sidebar_label: "Length"
+sidebar_key: length-filter
+sidebar_label: "長さ"
 beta: FALSE
 notebook: FALSE
-description: "`length` フィルターは、指定された長さ要件を満たさないトークンを削除し、テキスト処理中に保持されるトークンの長さを制御できるようにします。 | Cloud"
+description: "`length` フィルターは、指定された長さの要件を満たさないトークンを削除し、テキスト処理中に保持されるトークンの長さを制御できます。 | Cloud"
 type: origin
 token: MKdvwWBDRi5MMAkkn5PcD1x9nfh
 sidebar_position: 6
 keywords: 
   - zilliz
-  - vector database
+  - ベクトルデータベース
   - cloud
   - collection
   - schema
   - analyzer
   - 組み込みフィルター
-  - length
-  - 類似性検索
-  - マルチモーダルRAG
-  - LLMの幻覚
-  - ハイブリッド検索
+  - 長さ
 
 ---
 
@@ -28,13 +25,13 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# 長さ
+# Length
 
-`length` フィルターは、指定された長さ要件を満たさないトークンを削除し、テキスト処理中に保持されるトークンの長さを制御できるようにします。
+`length` フィルターは、指定された長さの要件を満たさないトークンを削除し、テキスト処理中に保持されるトークンの長さを制御できるようにします。
 
-## 設定{#configuration}
+## 設定\{#configuration}
 
-`length` フィルターは Zilliz Cloud のカスタムフィルターで、フィルター設定で `"type": "length"` を設定することで指定されます。`analyzer_params` 内で辞書として設定し、長さの制限を定義できます。
+`length` フィルターは Zilliz Cloud におけるカスタムフィルターであり、フィルター設定内で `"type": "length"` を設定することで指定します。`analyzer_params` 内で辞書として設定し、長さの制限を定義できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -65,7 +62,7 @@ analyzerParams.put("filter",
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 cosnt analyzer_params = {
@@ -79,7 +76,7 @@ cosnt analyzer_params = {
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 analyzerParams = map[string]any{"tokenizer": "standard",
@@ -91,7 +88,7 @@ analyzerParams = map[string]any{"tokenizer": "standard",
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 # restful
@@ -110,28 +107,28 @@ analyzerParams='{
 </TabItem>
 </Tabs>
 
-`length` フィルターは、以下の設定可能なパラメータを受け入れます。
+`length` フィルターは、次の設定可能なパラメーターを受け入れます。
 
 <table>
    <tr>
-     <th><p>パラメータ</p></th>
+     <th><p>パラメーター</p></th>
      <th><p>説明</p></th>
    </tr>
    <tr>
      <td><p><code>max</code></p></td>
-     <td><p>トークンの最大長を設定します。この長さより長いトークンは削除されます。</p></td>
+     <td><p>トークンの最大長を設定します。この長さを超えるトークンは削除されます。</p></td>
    </tr>
 </table>
 
-`length` フィルターはトークナイザーによって生成された用語に対して動作するため、トークナイザーと組み合わせて使用する必要があります。Zilliz Cloud で利用可能なトークナイザーのリストについては、[トークナイザーリファレンス](./analyzer-tokenizers)を参照してください。
+`length` フィルターはトークナイザーによって生成された語彙項に対して動作するため、トークナイザーと組み合わせて使用する必要があります。Zilliz Cloud で利用可能なトークナイザーの一覧については、[トークナイザー Reference](./analyzer-tokenizers) を参照してください。
 
-`analyzer_params` を定義した後、コレクションスキーマを定義する際に `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud は指定されたアナライザーを使用してそのフィールドのテキストを処理し、効率的なトークン化とフィルタリングを行うことができます。詳細については、[使用例](./analyzer-overview#example-use)を参照してください。
+`analyzer_params` を定義したら、コレクションスキーマを定義する際に `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud は指定されたアナライザーを使用してそのフィールド内のテキストを処理し、効率的なトークン化とフィルタリングを実現します。詳細については、[Example use](./analyzer-overview#example-use) を参照してください。
 
-## 例{#examples}
+## 例\{#examples}
 
-アナライザー設定をコレクションスキーマに適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
+コレクションスキーマにアナライザー設定を適用する前に、`run_analyzer` メソッドを使用してその動作を検証してください。
 
-### アナライザー設定{#analyzer-configuration}
+### アナライザー設定\{#analyzer-configuration}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -162,7 +159,7 @@ analyzerParams.put("filter",
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 // javascript
@@ -170,7 +167,7 @@ analyzerParams.put("filter",
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 analyzerParams = map[string]any{"tokenizer": "standard",
@@ -182,7 +179,7 @@ analyzerParams = map[string]any{"tokenizer": "standard",
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 # restful
@@ -191,7 +188,7 @@ analyzerParams = map[string]any{"tokenizer": "standard",
 </TabItem>
 </Tabs>
 
-### `run_analyzer` を使用した検証 {#verification-using-runanalyzer}
+### `run_analyzer` を使用した検証\{#verification-using-runanalyzer}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -238,7 +235,7 @@ List<RunAnalyzerResp.AnalyzerResult> results = resp.getResults();
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 // javascript
@@ -246,7 +243,7 @@ List<RunAnalyzerResp.AnalyzerResult> results = resp.getResults();
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 import (
@@ -280,7 +277,7 @@ if err != nil {
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 # restful
@@ -289,7 +286,7 @@ if err != nil {
 </TabItem>
 </Tabs>
 
-### 期待される出力結果\{#expected-output}
+### 期待される出力\{#expected-output}
 
 ```python
 ['The', 'length', 'filter', 'allows', 'control', 'over', 'token', 'length', 'for', 'text', 'processing']

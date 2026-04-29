@@ -1,26 +1,23 @@
 ---
 title: "中国語 | Cloud"
 slug: /chinese-analyzer
+sidebar_key: chinese-analyzer
 sidebar_label: "中国語"
 beta: FALSE
 notebook: FALSE
-description: "`chinese` アナライザーは、中国語のテキストを効果的にセグメント化およびトークン化するために特別に設計されています。 | Cloud"
+description: "`chinese` アナライザーは、中国語テキストを効果的にセグメンテーションおよびトークン化するために特別に設計されています。| Cloud"
 type: origin
 token: Of8PwuunCihBfxksNJJcSCRYnsf
 sidebar_position: 3
 keywords: 
   - zilliz
   - ベクトルデータベース
-  - cloud
-  - collection
-  - schema
-  - analyzer
+  - クラウド
+  - コレクション
+  - スキーマ
+  - アナライザー
   - 組み込みアナライザー
   - 中国語アナライザー
-  - Faiss
-  - ビデオ検索
-  - AI Hallucination
-  - AI Agent
 
 ---
 
@@ -30,17 +27,17 @@ import TabItem from '@theme/TabItem';
 
 # Chinese
 
-`chinese` アナライザーは、中国語テキストを効果的にセグメント化し、トークン化するために特別に設計されています。
+`chinese` アナライザーは中国語テキストを効果的に処理するために特別に設計されており、効率的なセグメンテーションとトークン化を提供します。
 
-### 定義{#definition}
+### Definition\{#definition}
 
-`chinese` アナライザーは以下で構成されます。
+`chinese` アナライザーは以下のコンポーネントで構成されています:
 
-- **Tokenizer**: `jieba` トークナイザーを使用して、語彙と文脈に基づいて中国語テキストをトークンにセグメント化します。詳細については、[Jieba](./jieba-tokenizer) を参照してください。
+- **トークナイザー**: 語彙と文脈に基づいて中国語テキストをトークンに分割するための `jieba` トークナイザーを使用します。詳細については、[Jieba](./jieba-tokenizer) を参照してください。
 
-- **Filter**: `cnalphanumonly` フィルターを使用して、中国語以外の文字を含むトークンを削除します。詳細については、[Cnalphanumonly](./cnalphanumonly-filter) を参照してください。
+- **Filter**: 中国語以外の文字を含むトークンを削除する `cnalphanumonly` フィルターを使用します。詳細については、[Cnalphanumonly](./cnalphanumonly-filter) を参照してください。
 
-`chinese` アナライザーの機能は、以下のカスタムアナライザー設定と同等です。
+`chinese` アナライザーの機能は、次のカスタムアナライザー設定と同等です:
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -64,7 +61,7 @@ analyzerParams.put("filter", Collections.singletonList("cnalphanumonly"));
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 const analyzer_params = {
@@ -75,7 +72,7 @@ const analyzer_params = {
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 analyzerParams = map[string]any{"tokenizer": "jieba", "filter": []any{"cnalphanumonly"}}
@@ -83,7 +80,7 @@ analyzerParams = map[string]any{"tokenizer": "jieba", "filter": []any{"cnalphanu
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 # restful
@@ -99,9 +96,9 @@ analyzerParams='{
 </TabItem>
 </Tabs>
 
-### 設定{#configuration}
+### 設定\{#configuration}
 
-フィールドに`chinese`アナライザーを適用するには、`analyzer_params`で`type`を`chinese`に設定するだけです。
+フィールドに `chinese` アナライザーを適用するには、`analyzer_params` 内で `type` を `chinese` に設定します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -123,7 +120,7 @@ analyzerParams.put("type", "chinese");
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 const analyzer_params = {
@@ -133,7 +130,7 @@ const analyzer_params = {
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 analyzerParams = map[string]any{"type": "chinese"}
@@ -141,7 +138,7 @@ analyzerParams = map[string]any{"type": "chinese"}
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 # restful
@@ -155,15 +152,15 @@ analyzerParams='{
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p><code>chinese</code> analyzer はオプションパラメータを受け入れません。</p>
+<p><code>chinese</code> アナライザーはオプションのパラメータを受け付けません。</p>
 
 </Admonition>
 
-## 例{#examples}
+## 例\{#examples}
 
-analyzer の設定をコレクションのスキーマに適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
+コレクションスキーマにアナライザー設定を適用する前に、`run_analyzer` メソッドを使用してその動作を検証してください。
 
-### アナライザーの設定{#analyzer-configuration}
+### アナライザー設定\{#analyzer-configuration}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -185,7 +182,7 @@ analyzerParams.put("type", "chinese");
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 analyzer_params = {
@@ -195,7 +192,7 @@ analyzer_params = {
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 analyzerParams = map[string]any{"type": "chinese"}
@@ -203,7 +200,7 @@ analyzerParams = map[string]any{"type": "chinese"}
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 # restful
@@ -213,7 +210,7 @@ analyzerParams='{"type": "chinese"}'
 </TabItem>
 </Tabs>
 
-### `run_analyzer` を使用した検証 {#verification-using-runanalyzer}
+### `run_analyzer` を使用した検証\{#verification-using-runanalyzer}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -264,7 +261,7 @@ List<RunAnalyzerResp.AnalyzerResult> results = resp.getResults();
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 import { MilvusClient } from "@zilliz/milvus2-node-sdk";
@@ -284,7 +281,7 @@ const result = await client.runAnalyzer({
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 import (
@@ -318,7 +315,7 @@ if err != nil {
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 # restful
@@ -334,7 +331,7 @@ curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/common/run_analyzer" \
 </TabItem>
 </Tabs>
 
-### 期待される出力結果\{#expected-output}
+### 期待される出力\{#expected-output}
 
 ```python
 Chinese analyzer output: ['Milvus', '是', '一个', '高性', '性能', '高性能', '可', '扩展', '的', '向量', '数据', '据库', '数据库']

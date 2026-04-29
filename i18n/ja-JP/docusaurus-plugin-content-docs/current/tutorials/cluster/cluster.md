@@ -1,31 +1,28 @@
 ---
-title: "クラスター | Cloud"
+title: "Serving Cluster | Cloud"
 slug: /cluster
-sidebar_label: "クラスター"
+sidebar_key: cluster
+sidebar_label: "Serving Cluster"
 beta: FALSE
 notebook: FALSE
-description: "Zilliz Cloud でのクラスター管理について知っておくべきことすべて。 | Cloud"
+description: "Zilliz Cloud でサービングクラスターを管理するために必要なすべての情報。| Cloud"
 type: origin
 token: BIy4we6qXiq8NpkHfXgcxuONngb
-sidebar_position: 5
+sidebar_position: 6
 keywords: 
-  - Zilliz
+  - zilliz
   - ベクトルデータベース
-  - クラウド
-  - クラスター
-  - 大規模言語モデル
-  - ベクトル化
-  - k近傍法
-  - ANNS
+  - cloud
+  - cluster
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# クラスター
+# Serving Cluster
 
-Zilliz Cloud でのクラスター管理に関するすべての情報。
+Zilliz Cloud 上でサービングクラスターを管理するために必要なすべての情報。
 
 
 

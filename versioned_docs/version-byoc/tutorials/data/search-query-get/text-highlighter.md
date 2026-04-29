@@ -1,11 +1,12 @@
 ---
 title: "Lexical Highlighter | BYOC"
 slug: /text-highlighter
+sidebar_key: text-highlighter
 sidebar_label: "Lexical Highlighter"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "The Highlighter in Zilliz Cloud annotates matched terms in text fields by wrapping them with customizable tags. Highlighting helps explain why a document matches, improves result readability, and supports rich rendering in search and RAG applications. | BYOC"
 type: origin

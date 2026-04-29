@@ -1,11 +1,12 @@
 ---
 title: "Connect to Cluster | Cloud"
 slug: /connect-to-cluster
+sidebar_key: connect-to-cluster
 sidebar_label: "Connect to Cluster"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "This article offers a systematic guide on connecting to a cluster. | Cloud"
 type: origin
@@ -41,6 +42,7 @@ Ensure the following prerequisites are met before proceeding:
 <Admonition type="info" icon="📘" title="Note">
 
 <p>For those leaning towards the utilization of RESTful APIs over SDKs, it's important to understand that a continuous connection cannot be established. This is attributed to the HTTP protocol's unidirectional communication mode.</p>
+<p></p>
 
 </Admonition>
 

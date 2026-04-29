@@ -1,11 +1,12 @@
 ---
 title: "Create Cluster | BYOC"
 slug: /create-cluster
+sidebar_key: create-cluster
 sidebar_label: "Create Cluster"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "This topic describes how to create a cluster. | BYOC"
 type: origin
@@ -146,3 +147,8 @@ For further details, see [Create Dedicated Cluster](/reference/restful/create-de
 
 </Tabs>
 
+## FAQ\{#faq}
+
+**Can I specify the Milvus version when creating a cluster?**
+
+No. Zilliz Cloud automatically provisions clusters on the latest supported Milvus version and keeps them up to date through managed rolling upgrades. If you need a specific version, [contact support](https://support.zilliz.com/hc/en-us/requests/new) and explain your use case.

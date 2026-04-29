@@ -1,11 +1,12 @@
 ---
 title: "Migrate from Tencent Cloud to Zilliz Cloud | Cloud"
 slug: /migrate-from-tencent-cloud
+sidebar_key: migrate-from-tencent-cloud
 sidebar_label: "Tencent Cloud VectorDB"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "This topic describes how Zilliz Cloud handles data type mapping, JSON field conversion, and collection naming rules when migrating from Tencent Cloud VectorDB. | Cloud"
 type: origin

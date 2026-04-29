@@ -1,17 +1,18 @@
 ---
-title: "API と SDK | Cloud"
+title: "API & SDK | Cloud"
 slug: /api-sdks
-sidebar_label: "API と SDK"
+sidebar_key: api-sdks
+sidebar_label: "API & SDK"
 beta: FALSE
 notebook: FALSE
-description: "この章では、RESTful API と SDK の使用またはインストール手順、およびそれらのリファレンスドキュメントへのアクセスを提供します。| Cloud"
+description: "この章では、RESTful API および SDK の使用方法やインストール手順、ならびにそれらのリファレンスドキュメントへのアクセス方法について説明します。| Cloud"
 type: origin
 token: Ecwpw6cImiFV0gkkusgcQhvBnLe
-sidebar_position: 12
+sidebar_position: 16
 keywords: 
   - zilliz
   - milvus
-  - ベクターデータベース
+  - ベクトルデータベース
   - api
   - restful
   - sdk
@@ -20,10 +21,6 @@ keywords:
   - go
   - node
   - nodejs
-  - マネージドベクターデータベース
-  - Pinecone ベクターデータベース
-  - 音声検索
-  - セマンティック検索とは
 
 ---
 
@@ -32,7 +29,7 @@ import Admonition from '@theme/Admonition';
 
 # API と SDK
 
-この章では、RESTful API と SDK の使用またはインストール手順、およびそれらのリファレンスドキュメントへのアクセス方法について説明します。 
+この章では、RESTful API や SDK の使用またはインストール手順およびそのリファレンスドキュメントへのアクセス方法を提供します。 
 
 import DocCardList from '@theme/DocCardList';
 

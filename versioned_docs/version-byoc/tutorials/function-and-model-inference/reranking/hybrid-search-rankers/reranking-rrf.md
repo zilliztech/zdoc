@@ -1,11 +1,12 @@
 ---
 title: "RRF Ranker | BYOC"
 slug: /reranking-rrf
+sidebar_key: reranking-rrf
 sidebar_label: "RRF Ranker"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "Reciprocal Rank Fusion (RRF) Ranker is a reranking strategy for Zilliz Cloud hybrid search that balances results from multiple vector search paths based on their ranking positions rather than their raw similarity scores. Like a sports tournament that considers players' rankings rather than individual statistics, RRF Ranker combines search results based on how highly each item ranks in different search paths, creating a fair and balanced final ranking. | BYOC"
 type: origin

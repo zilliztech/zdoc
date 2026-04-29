@@ -1,11 +1,12 @@
 ---
 title: "Primary-Key Search | BYOC"
 slug: /primary-key-search
+sidebar_key: primary-key-search
 sidebar_label: "Primary-Key Search"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "When conducting similarity searches, you are always asked to provide one or more query vectors, even if the query vectors are already present in the target collection. To avoid retrieving vectors before the search, you can use primary keys instead. | BYOC"
 type: origin

@@ -1,11 +1,12 @@
 ---
 title: "Set up a Private Endpoint | Cloud"
 slug: /setup-a-private-link
+sidebar_key: setup-a-private-link
 sidebar_label: "Set up a Private Endpoint"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "Zilliz Cloud offers private access to your cluster through a private link. This is useful if you do not want your cluster traffic to go over the Internet. | Cloud"
 type: origin

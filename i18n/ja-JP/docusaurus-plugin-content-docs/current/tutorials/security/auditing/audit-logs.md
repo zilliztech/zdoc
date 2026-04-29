@@ -1,10 +1,11 @@
 ---
 title: "VectorDB 監査ログ | Cloud"
 slug: /audit-logs
+sidebar_key: audit-logs
 sidebar_label: "VectorDB 監査ログ"
 beta: FALSE
 notebook: FALSE
-description: "監査ログを使用すると、管理者は Zilliz Cloud クラスターでのユーザー主導の操作と API 呼び出しを追跡および監視できます。この機能は、ベクトル検索、クエリ実行、インデックス管理、その他のデータ操作を含む、ベクトル DB アクティビティの詳細な記録を提供します。"
+description: "監査ログ機能により、管理者は Zilliz Cloud クラスターにおけるユーザー操作や API コールを追跡・監視できます。この機能は、ベクトル検索、クエリ実行、インデックス管理、その他のデータ操作など、ベクトルデータベースのアクティビティの詳細な記録を提供します。| Cloud"
 type: origin
 token: M5dXwsGOOiPdAjkWLZUc2Pxonuh
 sidebar_position: 1
@@ -15,10 +16,6 @@ keywords:
   - 監査
   - ログ
   - 設定
-  - ベクトルデータベースチュートリアル
-  - ベクトルデータベースの仕組み
-  - ベクトルDB比較
-  - openai ベクトルDB
 
 ---
 
@@ -31,44 +28,44 @@ import Procedures from '@site/src/components/Procedures';
 
 # VectorDB 監査ログ
 
-監査ロギングにより、管理者はZilliz Cloudクラスター上でのユーザー主導の操作とAPI呼び出しを追跡および監視できます。この機能は、ベクトル検索、クエリ実行、インデックス管理、その他のデータ操作を含む、ベクトルDBアクティビティの詳細な記録を提供します。
+監査ログにより、管理者は Zilliz Cloud クラスターにおけるユーザー駆動型の運用および API コールを追跡・監視できます。この機能は、ベクトル検索、クエリ実行、インデックス管理、その他のデータ操作など、Vector DB 活動の詳細な記録を提供します。
 
 <Admonition type="info" icon="📘" title="Notes">
 
 <ul>
-<li><p>監査ロギングは、<strong>Enterprise</strong>プロジェクトまたはそれ以上のプランティアの<strong>Dedicated</strong>クラスターでのみ利用可能です。</p></li>
-<li><p>監査ロギングは、Milvus 2.5.xを実行しているZilliz Cloudクラスターでのみサポートされています。</p></li>
-<li><p>監査ロギングは、<a href="./integrate-with-aws-s3">AWS S3</a>、<a href="./integrate-with-azure-blob-storage">Azure Blob Storage</a>、または<a href="./integrate-with-gcp">Google Cloud Storage</a>に転送できます。</p></li>
-<li><p>監査ロギングを有効にすると料金が発生します。詳細については、<a href="./audit-log-cost">監査ログ</a>を参照してください。</p></li>
+<li><p>監査ログは、<strong>Enterprise</strong> プロジェクト以上のプランティアを持つ<strong>Dedicated</strong> クラスターでのみ利用可能です。</p></li>
+<li><p>監査ログは、Milvus 2.5.x 以降を実行している Zilliz Cloud クラスターでのみサポートされています。</p></li>
+<li><p>監査ログは、<a href="./integrate-with-aws-s3">AWS S3</a>、<a href="./integrate-with-azure-blob-storage">Azure Blob Storage</a>、または <a href="./integrate-with-gcp">Google Cloud Storage</a> に転送できます。</p></li>
+<li><p>監査ログを有効にすると料金が発生します。詳細については、<a href="./audit-log-cost">監査ログ</a> をご覧ください。</p></li>
 </ul>
 
 </Admonition>
 
-## 概要{#overview}
+## 概要\{#overview}
 
-監査ロギングは、データプレーン上の幅広い操作を追跡します。これには以下が含まれます。
+監査ログは、データプレーン上の幅広い運用を追跡します。これには以下が含まれます：
 
-- **検索およびクエリ操作**: ベクトル検索、ハイブリッド検索、およびクエリ操作。
+- **検索およびクエリ運用**: ベクトル検索、ハイブリッド検索、およびクエリ運用。
 
-- **データ管理**: インデックス作成、collection作成、partition管理、およびinsert、delete、upsertなどのentity操作。
+- **データ Management**: インデックス作成、コレクション作成、パーティション管理、および挿入、削除、アップサートなどのエンティティ運用。
 
-- **システムイベント**: ユーザーアクセス試行、認証チェック、およびその他の事前定義されたアクション。
+- **システムイベント**: ユーザーアクセス 試行、認証チェック、およびその他の事前定義されたアクション。
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>移行、バックアップ、復元などのクラスターレベルのデータジョブは監査ログを生成しません。これらのアクティビティ記録を表示するには、<a href="./view-activities">アクティビティの表示</a>を参照してください。</p>
+<p>移行、バックアップ、リストアなどのクラスターレベルのデータジョブは、監査ログを生成しません。これらの活動記録を表示するには、<a href="./view-activities">View Activities</a> を参照してください。</p>
 
 </Admonition>
 
-監査ログは、定期的にユーザー指定のオブジェクトストレージバケットに直接転送されます。ログは、アクセスと管理を容易にするために、構造化されたファイルパスと命名形式で保存されます。
+監査ログは、定期的な間隔でユーザーが指定したオブジェクトストレージバケットに直接転送されます。ログは、容易なアクセスと管理のために構造化された ファイルパス および命名形式で保存されます：
 
-- **ファイルパス**: `/<Cluster ID>/<Log type>/<Date>`
+- **ファイルパス**: `/<クラスターID>/<Log type>/<Date>`
 
-- **ファイル命名規則**: *HH:MM:SS-&#36;UUID*形式の`<File name><File name suffix>`。ここで、*HH:MM:SS*はUTCでの時刻を表し、*&#36;UUID*は一意のランダムな文字列です。例: `09:16:53-jz5l7D8Q`。
+- **ファイル命名規則**: *HH:MM:SS-&#36;UUID* 形式の `<File name><File name suffix>`。ここで、*HH:MM:SS* は UTC 時刻を表し、*&#36;UUID* は固有のランダム文字列です。例：`09:16:53-jz5l7D8Q`。
 
-以下は、バケットに転送された監査ログエントリの例です。
+以下は、バケットに転送された監査ログエントリーの例です：
 
-- **Collectionの作成**
+- **Create Collection**
 
     ```json
     {
@@ -89,7 +86,7 @@ import Procedures from '@site/src/components/Procedures';
     }
     ```
 
-- **インデックスの作成**
+- **Create Index**
 
     ```json
     {
@@ -129,75 +126,75 @@ import Procedures from '@site/src/components/Procedures';
     }
     ```
 
-サポートされているアクションと対応するログフィールドの詳細なリストについては、[監査ログリファレンス](./audit-logs-ref)を参照してください。
+詳細なサポート対象アクションと対応するログフィールドの一覧については、[監査ログリファレンス](./audit-logs-ref) を参照してください。
 
-## 監査ログを有効にする{#enable-audit-log}
+## 監査ログの有効化\{#enable-audit-log}
 
-Zilliz Cloud の監査ロギングは、監査ログをストレージバケットに直接転送します。
+Zilliz Cloud での監査ログ記録は、監査ログをストレージバケットに直接転送します。
 
-### 開始する前に{#before-you-start}
+### 開始前に\{#before-you-start}
 
-- Zilliz Cloud クラスターは、**Dedicated-Enterprise** プランティア以上で実行されています。必要に応じて、[プランをアップグレード](./manage-cluster)してください。
+- Zilliz Cloud クラスターが**Dedicated-Enterprise**プラン以上で実行されていること。必要に応じて [プランをアップグレード](./manage-cluster) してください。
 
-- 監査ログは設定後にバケットに転送されるため、Zilliz Cloud プロジェクトをオブジェクトストレージと統合している必要があります。詳細な手順については、[AWS S3 と統合する](./integrate-with-aws-s3)、[Azure Blob Storage と統合する](./integrate-with-azure-blob-storage)、または[Google Cloud Storage と統合する](./integrate-with-gcp)を参照してください。
+- 監査ログは設定後にバケットへ転送されるため、Zilliz Cloud プロジェクトをオブジェクトストレージと統合済みであること。詳細な手順については、[AWS S3 との統合](./integrate-with-aws-s3)、[Azure Blob Storage との統合](./integrate-with-azure-blob-storage)、または [Google Cloud Storage との統合](./integrate-with-gcp) を参照してください。
 
-- プロジェクトに対する**Organization Owner**または**Project Admin**アクセス権限を持っている必要があります。必要な権限がない場合は、Zilliz Cloud 管理者に連絡してください。
+- プロジェクトに対して**組織オーナー**または**プロジェクト管理者**のアクセス権限を持っていること。必要な権限を持っていない場合は、Zilliz Cloud 管理者にお問い合わせください。
 
-### 手順{#procedure}
+### 手順\{#procedure}
 
 <Supademo id="cmei9fcd99br6h3pydbp52sv8" title="Zilliz Cloud - Enable audit log" />
 
 <Procedures>
 
-1. [Zilliz Cloud コンソール](https://cloud.zilliz.com/login)にログインします。
+1. [Zilliz Cloud コンソール](https://cloud.zilliz.com/login) にログインします。
 
-1. 左側のナビゲーションペインで、**Clusters**を選択します。
+1. 左側のナビゲーションペインで、**Clusters** を選択します。
 
-1. 対象クラスターの詳細ページに移動し、**Auditing**タブを選択します。このタブは、クラスターが**CREATING**、**DELETING**、または**DELETED**ステータスの場合、利用できません。
+1. 対象クラスターの詳細ページに移動し、**監査** タブを選択します。このタブは、クラスターのステータスが**CREATING**、**DELETING**、または**DELETED**の場合は利用できません。
 
-1. **Enable Audit Log**をクリックします。
+1. **Enable 監査ログ** をクリックします。
 
-1. **Enable Audit Logs**ダイアログボックスで、オブジェクトストレージ統合設定を指定します。
+1. **Enable 監査ログ** ダイアログボックスで、オブジェクトストレージの統合設定を指定します。
 
-    - **Storage Integration**: 監査ログを保存するバケットを選択します。
+    - **ストレージ統合**: 監査ログを保存するバケットを選択します。
 
         <Admonition type="info" icon="📘" title="Notes">
 
-        <p>クラスターと同じリージョンにあるバケットのみがドロップダウンリストに表示されます。</p>
+        <p>ドロップダウンリストには、クラスターと同じリージョンにあるバケットのみが表示されます。</p>
 
         </Admonition>
 
-    - **Forward Directory**: 監査ログを保存するバケット内のディレクトリを指定します。
+    - **転送ディレクトリ**: 監査ログを保存するためのバケット内のディレクトリを指定します。
 
-1. **Enable**をクリックします。**Audit Log**ステータスが**Active**になると、正常に有効化されています。ステータスが**Abnormal**の場合は、トラブルシューティングのために[FAQ](./audit-logs#faq)を参照してください。
+1. **Enable** をクリックします。**監査ログ** のステータスが**Active**になれば、正常に有効化されています。ステータスが**異常**の場合は、[FAQ](./audit-logs#faq) でトラブルシューティングを行ってください。
 
 </Procedures>
 
-設定が完了すると、監査ログは約5分間隔でバケットに転送されます。必要に応じてバケットにアクセスしてログを表示または管理できます。
+設定が完了すると、監査ログは約 5 分間隔でバケットに転送されます。必要に応じてバケットにアクセスしてログを表示または管理できます。
 
-監査ログがS3バケットに転送されたら、S3ストレージを視覚化プラットフォームと統合して、監視と分析を強化できます。たとえば、Snowflakeを使用してより深い洞察を得たい場合は、[Automating Snowpipe for Amazon S3](https://docs.snowflake.com/en/user-guide/data-load-snowpipe-auto-s3)を参照してください。
+監査ログが S3 バケットに転送された後、S3 ストレージを可視化プラットフォームと統合して、監視と分析を強化できます。たとえば、Snowflake を使用してより深い洞察を得たい場合は、[Amazon S3 用の Snowpipe の自動化](https://docs.snowflake.com/en/user-guide/data-load-snowpipe-auto-s3) を参照してください。
 
-ログエントリのパラメータを理解するには、[監査ログ](./audit-logs-ref)を参照してください。
+ログエントリ内のパラメーターを理解するには、[監査ログ](./audit-logs-ref) を参照してください。
 
-## 監査ログを管理する{#manage-audit-logs}
+## 監査ログの管理\{#manage-audit-logs}
 
-監査ログが有効になったら、必要に応じてその設定を編集したり、無効にしたりできます。
+監査ログが有効になると、必要に応じてその設定を編集したり、無効にしたりできます。
 
 ![XyvNb9sf1oGSKox0XxWc2BFAnrg](https://zdoc-images.s3.us-west-2.amazonaws.com/xyvnb9sf1ogskox0xxwc2bfanrg.png "XyvNb9sf1oGSKox0XxWc2BFAnrg")
 
-## FAQ{#faq}
+## FAQ\{#faq}
 
-このFAQでは、Zilliz Cloud の監査ロギングに関する一般的な問題と質問について説明します。さらにサポートが必要な場合は、[Zilliz Cloud サポート](https://support.zilliz.com/hc/en-us)にお問い合わせください。
+この FAQ では、Zilliz Cloud での監査ログ記録に関する一般的な問題と質問に対応しています。さらにサポートが必要な場合は、[Zilliz Cloud サポート](https://support.zilliz.com/hc/en-us) までお問い合わせください。
 
-- **監査ログのステータスが異常な場合はどうすればよいですか？**
+- **監査ログ のステータスが異常の場合、どうすればよいですか？**
 
-    **Abnormal**ステータスは、監査ログに問題が発生していることを意味します。トラブルシューティングのために次の手順に従ってください。
+    **異常**ステータスは、監査ログに問題が発生していることを意味します。以下の手順に従ってトラブルシューティングを行ってください。
 
-    1. **バケットを確認する:** 設定されたストレージバケットが正しく設定されており、必要な権限があることを確認します。
+    1. **バケットの確認**: 設定済みのストレージバケットが正しく設定されており、必要な権限があることを確認します。
 
-    1. **サポートに連絡する:** 問題が解決しない場合は、[Zilliz Cloud サポート](https://support.zilliz.com/hc/en-us)に連絡して、さらにサポートを受けてください。
+    1. **サポートへの連絡**: 問題が解決しない場合は、[Zilliz Cloud サポート](https://support.zilliz.com/hc/en-us) までお問い合わせください。
 
-- **クラスターの異常なステータスは監査ログサービスに影響しますか？**
+- **クラスターのステータスが異常でも、監査ログ サービスに影響しますか？**
 
-    クラスターの異常なステータスは、クラスターがネットワーク接続の問題や Zilliz Cloud サービスの停止などの問題を経験している可能性があることを示します。ただし、これらの問題は監査ログサービスには影響せず、監査ログサービスは通常どおり機能し、期待どおりにログを転送します。永続的な問題が発生した場合は、[Zilliz Cloud サポート](https://support.zilliz.com/hc/en-us)に連絡してください。
+    異常なクラスターステータスは、ネットワーク接続の問題や Zilliz Cloud サービスの中断など、クラスターに問題が発生している可能性を示しています。ただし、これらの問題は監査ログサービスには影響せず、サービスは通常どおり機能し、期待通りにログを転送し続けます。持続的な問題が発生した場合は、[Zilliz Cloud サポート](https://support.zilliz.com/hc/en-us) までお問い合わせください。
 

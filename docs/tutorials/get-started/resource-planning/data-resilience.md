@@ -1,11 +1,12 @@
 ---
 title: "Data Resilience | Cloud"
 slug: /data-resilience
+sidebar_key: data-resilience
 sidebar_label: "Data Resilience"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "Zilliz Cloud, as a fully managed vector database service, delivers enterprise-grade High Availability (HA) and Disaster Recovery (DR) capabilities to ensure the continuous availability of your mission-critical data and services under various failure scenarios. | Cloud"
 type: origin

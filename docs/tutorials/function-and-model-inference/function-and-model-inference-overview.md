@@ -1,11 +1,12 @@
 ---
 title: "Function & Model Inference Overview | Cloud"
 slug: /function-and-model-inference-overview
+sidebar_key: function-and-model-inference-overview
 sidebar_label: "Overview"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "Zilliz Cloud provides a unified search architecture for building modern retrieval systems, including semantic search, lexical search, hybrid search, and intelligent reranking. Rather than exposing these capabilities as isolated features, Zilliz Cloud organizes them around a single core abstraction the Function. | Cloud"
 type: origin
@@ -247,3 +248,4 @@ Zilliz Cloud integrates with leading model providers that offer different capabi
      <td><p><a href="https://docs.cohere.com/docs/rerank">Yes</a></p></td>
    </tr>
 </table>
+

@@ -1,11 +1,12 @@
 ---
 title: "Stemmer | BYOC"
 slug: /stemmer-filter
+sidebar_key: stemmer-filter
 sidebar_label: "Stemmer"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "The `stemmer` filter reduces words to their base or root form (known as stemming), making it easier to match words with similar meanings across different inflections. The `stemmer` filter supports multiple languages, allowing for effective search and indexing in various linguistic contexts. | BYOC"
 type: origin

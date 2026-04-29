@@ -1,11 +1,12 @@
 ---
 title: "Email Accounts | Cloud"
 slug: /email-accounts
+sidebar_key: email-accounts
 sidebar_label: "Email Accounts"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "Once you have registered an account with Zilliz Cloud, you can manage your account information, switch your login method, and unlink from your Google or GitHub account. | Cloud"
 type: origin

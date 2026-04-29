@@ -1,11 +1,12 @@
 ---
 title: "Upsert Entities | Cloud"
 slug: /upsert-entities
-sidebar_label: "Upsert Entities"
-beta: FALSE
+sidebar_key: upsert-entities
+sidebar_label: "Upsert"
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "The `upsert` operation provides a convenient way to insert or update entities in a collection. | Cloud"
 type: origin
@@ -52,6 +53,10 @@ You can also use the `partial_update` flag to make an upsert request work in mer
 To perform a merge, set `partial_update` to `True` in the `upsert` request along with the primary key and the fields to update with their new values. 
 
 Upon receiving such a request, Zilliz Cloud performs a query with strong consistency to retrieve the entity, updates the field values based on the data in the request, inserts the modified data, and then deletes the existing entity with the original primary key carried in the request.
+
+### Update field values\{#update-field-values}
+
+To update the field values of an existing entity, use [upsert in merge mode](./upsert-entities#upsert-entities-in-merge-mode). In this mode, only the fields included in the request are updated — all other fields retain their existing values.
 
 ### Upsert behaviors: special notes\{#upsert-behaviors-special-notes}
 

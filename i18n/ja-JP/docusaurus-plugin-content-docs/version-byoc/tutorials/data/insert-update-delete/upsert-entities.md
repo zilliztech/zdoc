@@ -1,10 +1,11 @@
 ---
 title: "エンティティのアップサート | BYOC"
 slug: /upsert-entities
-sidebar_label: "エンティティのアップサート"
+sidebar_key: upsert-entities
+sidebar_label: "アップサート"
 beta: FALSE
 notebook: FALSE
-description: "`upsert` 操作は、collection 内のエンティティを挿入または更新する便利な方法を提供します。 | BYOC"
+description: "`upsert` 操作は、コレクション内のエンティティを挿入または更新する便利な方法を提供します。| BYOC"
 type: origin
 token: YtJPwEVETiTaPMkWSfAccjXTnge
 sidebar_position: 2
@@ -12,15 +13,11 @@ keywords:
   - zilliz
   - ベクトルデータベース
   - クラウド
-  - collection
+  - コレクション
   - データ
   - アップサート
   - 更新
   - 挿入
-  - 次元削減
-  - HNSWアルゴリズム
-  - ベクトル類似性検索
-  - 近似最近傍探索
 
 ---
 
@@ -30,69 +27,73 @@ import TabItem from '@theme/TabItem';
 
 # エンティティのアップサート
 
-`upsert` 操作は、コレクション内のエンティティを挿入または更新する便利な方法を提供します。
+`upsert` 操作は、コレクション内のエンティティを挿入または更新するための便利な方法を提供します。
 
-## 概要{#overview}
+## 概要\{#overview}
 
-`upsert` を使用すると、アップサートリクエストで提供されたプライマリキーがコレクションに存在するかどうかに応じて、新しいエンティティを挿入するか、既存のエンティティを更新することができます。プライマリキーが見つからない場合は、挿入操作が行われます。それ以外の場合は、更新操作が実行されます。
+`upsert` を使用して、アップサートリクエストで提供された主キーがコレクションに存在するかどうかに応じて、新しいエンティティを挿入するか、既存のエンティティを更新することができます。主キーが見つからない場合は、挿入操作が行われます。それ以外の場合、更新操作が実行されます。
 
-アップサートリクエストは、挿入と削除を組み合わせたものです。既存のエンティティに対する `upsert` リクエストが受信されると、Zilliz Cloud はリクエストペイロードに含まれるデータを挿入し、同時にデータで指定された元のプライマリキーを持つ既存のエンティティを削除します。
+アップサートリクエストは、挿入と削除を組み合わせたものです。既存のエンティティに対する `upsert` リクエストを受信すると、Zilliz Cloud はリクエストペイロードに含まれるデータを挿入し、同時にデータで指定された元の主キーを持つ既存のエンティティを削除します。
 
 ![Q3LawAQIKht1FKbsM3EcoQAHnvc](https://zdoc-images.s3.us-west-2.amazonaws.com/Q3LawAQIKht1FKbsM3EcoQAHnvc.png)
 
-ターゲットコレクションのプライマリフィールドで `autoid` が有効になっている場合、Zilliz Cloud は、リクエストペイロードに含まれるデータを挿入する前に、新しいプライマリキーを生成します。
+ターゲットコレクションの主フィールドで `autoid` が有効になっている場合、Zilliz Cloud はリクエストペイロードに含まれるデータに対して新しい主キーを生成してから挿入します。
 
-`nullable` が有効になっているフィールドの場合、更新が不要であれば、`upsert` リクエストでそれらを省略できます。
+`nullable` が有効になっているフィールドについては、更新が必要ない場合、`upsert` リクエストで省略できます。
 
-### マージモードでのアップサート | PUBLIC{#upsert-in-merge-mode}
+### マージモードでのアップサート\{#upsert-in-merge-mode}
 
-`partial_update` フラグを使用して、アップサートリクエストをマージモードで動作させることもできます。これにより、更新が必要なフィールドのみをリクエストペイロードに含めることができます。
+`partial_update` フラグを使用して、アップサートリクエストをマージモードで動作させることもできます。これにより、リクエストペイロードに更新が必要なフィールドのみを含めることができます。
 
 ![NZNKwxm9ahmi87b487TcuCrNn4c](https://zdoc-images.s3.us-west-2.amazonaws.com/NZNKwxm9ahmi87b487TcuCrNn4c.png)
 
-マージを実行するには、`upsert` リクエストで `partial_update` を `True` に設定し、プライマリキーと、新しい値で更新するフィールドを含めます。
+マージを実行するには、`upsert` リクエストで `partial_update` を `True` に設定し、主キーおよび更新するフィールドとその新しい値を指定します。
 
-このようなリクエストを受信すると、Zilliz Cloud は厳密な整合性でクエリを実行してエンティティを取得し、リクエストのデータに基づいてフィールド値を更新し、変更されたデータを挿入し、その後、リクエストに含まれる元のプライマリキーを持つ既存のエンティティを削除します。
+このようなリクエストを受信すると、Zilliz Cloud は強い整合性でクエリを実行してエンティティを取得し、リクエストのデータに基づいてフィールド値を更新した後、変更されたデータを挿入し、最後にリクエストに含まれる元の主キーを持つ既存のエンティティを削除します。
 
-### アップサートの動作: 特記事項{#upsert-behaviors-special-notes}
+### フィールド値の更新\{#update-field-values}
 
-マージ機能を使用する前に考慮すべきいくつかの特記事項があります。以下のケースでは、`title` と `issue` という2つのスカラーフィールド、プライマリキー `id`、および `vector` と呼ばれるベクトルフィールドを持つコレクションがあることを前提としています。
+既存のエンティティのフィールド値を更新するには、[マージモードでのアップサート](./upsert-entities#upsert-entities-in-merge-mode) を使用します。このモードでは、リクエストに含まれるフィールドのみが更新され、他のすべてのフィールドは既存の値を保持します。
 
-- **`nullable` が有効なフィールドのアップサート。**
+### アップサートの動作：特別な注意点\{#upsert-behaviors-special-notes}
 
-    `issue` フィールドが null にできると仮定します。これらのフィールドをアップサートする場合、次の点に注意してください。
+マージ機能を使用する前に考慮すべきいくつかの特別な注意点があります。以下のケースでは、`title` と `issue` という名前の 2 つのスカラーフィールド、主キー `id`、および `vector` という名前のベクトルフィールドを持つコレクションがあると仮定します。
 
-    - `upsert` リクエストで `issue` フィールドを省略し、`partial_update` を無効にすると、`issue` フィールドは元の値を保持する代わりに `null` に更新されます。
+- **`nullable` が有効なフィールドのアップサート**
 
-    - `issue` フィールドの元の値を保持するには、`partial_update` を有効にして `issue` フィールドを省略するか、`upsert` リクエストに `issue` フィールドとその元の値を含める必要があります。
+    `issue` フィールドが null になり得ると仮定します。これらのフィールドをアップサートする際、次の点に注意してください：
 
-- **動的フィールドのキーのアップサート。**
+    - `upsert` リクエストで `issue` フィールドを省略し、`partial_update` を無効にした場合、`issue` フィールドは元の値を保持する代わりに `null` に更新されます。
 
-    例のコレクションで動的キーを有効にしており、エンティティの動的フィールドのキーと値のペアが `{"author": "John", "year": 2020, "tags": ["fiction"]}` のようになっていると仮定します。
+    - `issue` フィールドの元の値を保持するには、`partial_update` を有効にして `issue` フィールドを省略するか、`upsert` リクエストに `issue` フィールドを元の値と共に含める必要があります。
 
-    `author`、`year`、`tags` などのキーでエンティティをアップサートしたり、他のキーを追加したりする場合、次の点に注意してください。
+- **動的フィールド内のキーのアップサート**
 
-    - `partial_update` を無効にしてアップサートすると、デフォルトの動作は**上書き**です。これは、動的フィールドの値が、リクエストに含まれるスキーマで定義されていないすべてのフィールドとその値によって上書きされることを意味します。
+    例のコレクションで動的キーが有効になっており、エンティティの動的フィールド内のキーと値のペアが `{"author": "John", "year": 2020, "tags": ["fiction"]}` のようであると仮定します。
 
-        たとえば、リクエストに含まれるデータが `{"author": "Jane", "genre": "fantasy"}` の場合、ターゲットエンティティの動的フィールドのキーと値のペアはそれに更新されます。
+    `author`、`year`、`tags` などのキーを持つエンティティをアップサートしたり、他のキーを追加したりする際、次の点に注意してください：
 
-    - `partial_update` を有効にしてアップサートすると、デフォルトの動作は**マージ**です。これは、動的フィールドの値が、リクエストに含まれるスキーマで定義されていないすべてのフィールドとその値とマージされることを意味します。
+    - `partial_update` を無効にしてアップサートした場合、デフォルトの動作は**上書き**です。つまり、動的フィールドの値は、リクエストに含まれるスキーマ定義されていないすべてのフィールドとその値によって上書きされます。
 
-        たとえば、リクエストに含まれるデータが `{"author": "John", "year": 2020, "tags": ["fiction"]}` の場合、アップサート後、ターゲットエンティティの動的フィールドのキーと値のペアは `{"author": "John", "year": 2020, "tags": ["fiction"], "genre": "fantasy"}` になります。
+        例えば、リクエストに含まれるデータが `{"author": "Jane", "genre": "fantasy"}` の場合、ターゲットエンティティの動的フィールド内のキーと値のペアはそのように更新されます。
 
-- **JSON フィールドのアップサート。**
+    - `partial_update` を有効にしてアップサートした場合、デフォルトの動作は**マージ**です。つまり、動的フィールドの値は、リクエストに含まれるスキーマ定義されていないすべてのフィールドとその値とマージされます。
 
-    例のコレクションに `extras` というスキーマ定義の JSON フィールドがあり、このエンティティの JSON フィールドのキーと値のペアが `{"author": "John", "year": 2020, "tags": ["fiction"]}` のようになっていると仮定します。
+        例えば、リクエストに含まれるデータが `{"author": "John", "year": 2020, "tags": ["fiction"]}` の場合、アップサート後にターゲットエンティティの動的フィールド内のキーと値のペアは `{"author": "John", "year": 2020, "tags": ["fiction"], "genre": "fantasy"}` になります。
 
-    変更された JSON データでエンティティの `extras` フィールドをアップサートする場合、JSON フィールドは全体として扱われ、個々のキーを選択的に更新することはできません。言い換えれば、JSON フィールドは**マージ**モードでのアップサートを**サポートしていません**。
+- **JSON フィールドのアップサート**
 
-### 制限事項{#limits-and-restrictions}
+    例のコレクションに `extras` という名前のスキーマ定義された JSON フィールドがあり、そのエンティティのこの JSON フィールド内のキーと値のペアが `{"author": "John", "year": 2020, "tags": ["fiction"]}` のようであると仮定します。
 
-上記のコンテンツに基づいて、従うべきいくつかの制限事項があります。
+    変更された JSON データを持つエンティティの `extras` フィールドをアップサートする際、JSON フィールドは全体として扱われ、個々のキーを選択的に更新することはできない点に注意してください。换句话说、JSON フィールドは**マージ**モードでのアップサートをサポート**しません**。
 
-- `upsert` リクエストには、常にターゲットエンティティのプライマリキーを含める必要があります。
+### 制限事項\{#limits-and-restrictions}
 
-- ターゲットコレクションはロードされ、クエリ可能である必要があります。
+上記の内容に基づき、従うべきいくつかの制限と制約があります：
+
+- `upsert` リクエストには、常にターゲットエンティティの主キーを含める必要があります。
+
+- ターゲットコレクションはロードされており、クエリが可能でなければなりません。
 
 - リクエストで指定されたすべてのフィールドは、ターゲットコレクションのスキーマに存在する必要があります。
 
@@ -100,11 +101,11 @@ import TabItem from '@theme/TabItem';
 
 - 関数を使用して別のフィールドから派生したフィールドの場合、Zilliz Cloud は再計算を可能にするために、アップサート中に派生フィールドを削除します。
 
-## コレクション内のエンティティのアップサート{#upsert-entities-in-a-collection}
+## コレクション内のエンティティのアップサート\{#upsert-entities-in-a-collection}
 
-このセクションでは、`my_collection` という名前のコレクションにエンティティをアップサートします。このコレクションには、`id`、`vector`、`title`、`issue` という4つのフィールドしかありません。`id` フィールドはプライマリフィールドであり、`title` と `issue` フィールドはスカラーフィールドです。
+このセクションでは、`my_collection` という名前のコレクションにエンティティをアップサートします。このコレクションには、`id`、`vector`、`title`、`issue` という名前の 4 つのフィールドのみがあります。`id` フィールドは主フィールドであり、`title` および `issue` フィールドはスカラーフィールドです。
 
-コレクションに存在する場合、3つのエンティティはアップサートリクエストに含まれるエンティティによって上書きされます。
+コレクション内に存在する場合、3 つのエンティティはアップサートリクエストに含まれるものによって上書きされます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -188,7 +189,7 @@ System.out.println(upsertResp);
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 const { MilvusClient, DataType } = require("@zilliz/milvus2-sdk-node")
@@ -218,7 +219,7 @@ console.log(res.upsert_cnt)
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 import (
@@ -267,7 +268,7 @@ if err != nil {
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
@@ -302,11 +303,11 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## パーティション内のエンティティをアップサートする{#upsert-entities-in-a-partition}
+## パーティション内のエンティティをアップサートする\{#upsert-entities-in-a-partition}
 
-指定したパーティションにエンティティをアップサートすることもできます。以下のコードスニペットは、コレクションに **PartitionA** という名前のパーティションがあることを前提としています。
+指定されたパーティションにエンティティをアップサートすることもできます。以下のコードスニペットは、コレクション内に **PartitionA** という名前のパーティションが存在することを前提としています。
 
-3つのエンティティは、パーティション内に存在する場合、リクエストに含まれるエンティティによって上書きされます。
+該当パーティション内に既存のエンティティが存在する場合、リクエストに含まれるエンティティによって上書きされます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -376,7 +377,7 @@ System.out.println(upsertResp);
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 const { MilvusClient, DataType } = require("@zilliz/milvus2-sdk-node")
@@ -404,7 +405,7 @@ console.log(res.upsert_cnt)
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 titleColumn = column.NewColumnString("title", []string{
@@ -432,7 +433,7 @@ if err != nil {
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
@@ -468,15 +469,15 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## マージモードでエンティティをアップサートする | PUBLIC{#upsert-entities-in-merge-mode}
+## マージモードでエンティティをアップサートする\{#upsert-entities-in-merge-mode}
 
-以下のコード例は、部分的な更新でエンティティをアップサートする方法を示しています。更新が必要なフィールドとその新しい値、および明示的な部分更新フラグのみを指定します。
+以下のコード例は、部分的な更新（partial updates）を伴うエンティティのアップサート方法を示しています。更新が必要なフィールドとその新しい値のみを提供し、明示的に部分更新フラグを指定します。
 
 以下の例では、アップサートリクエストで指定されたエンティティの `issue` フィールドが、リクエストに含まれる値に更新されます。
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>マージモードでアップサートを実行する場合、リクエストに含まれるエンティティが同じフィールドセットを持つことを確認してください。以下のコードスニペットに示すように、2つ以上のエンティティをアップサートする場合、エラーを防ぎ、データ整合性を維持するために、それらが同一のフィールドを含むことが重要です。</p>
+<p>マージモードでアップサートを実行する際は、リクエストに関与するエンティティが同一のフィールドセットを持つことを確認してください。たとえば、以下のコードスニペットのように2つ以上のエンティティをアップサートする場合、エラーを防ぎデータの整合性を維持するために、それらが同一のフィールドを含んでいることが重要です。</p>
 
 </Admonition>
 
@@ -536,7 +537,7 @@ System.out.println(upsertResp);
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 pkColumn := column.NewColumnInt64("id", []int64{1, 2})
@@ -556,7 +557,7 @@ if err != nil {
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 const data=[
@@ -586,7 +587,7 @@ console.log(res)
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"

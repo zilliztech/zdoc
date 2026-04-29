@@ -1,13 +1,14 @@
 ---
 title: "Manage Projects | BYOC"
 slug: /manage-projects
+sidebar_key: manage-projects
 sidebar_label: "Projects"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
-description: "In Zilliz Cloud, a project serves as a logical container within an organization, grouping clusters and related resources. You can create multiple projects tailored to different aspects of your business. For example, if your company offers multimedia recommendation services, you can create one project for video recommendations and another for music recommendations. | BYOC"
+description: "In Zilliz Cloud, a project serves as a logical container within an organization, grouping clusters, volumes, and related resources. All resources within a project share the same cloud provider and region. | BYOC"
 type: origin
 token: NXypwJ2ySiv7RAkyKb5cZ9SKnvf
 sidebar_position: 1
@@ -24,17 +25,17 @@ import Admonition from '@theme/Admonition';
 
 # Manage Projects
 
-In Zilliz Cloud, a project serves as a logical container within an organization, grouping clusters and related resources. You can create multiple projects tailored to different aspects of your business. For example, if your company offers multimedia recommendation services, you can create one project for video recommendations and another for music recommendations.
+In Zilliz Cloud, a project serves as a logical container within an organization, grouping clusters, volumes, and related resources. All resources within a project share the same cloud provider and region.
+
+You can create multiple projects tailored to different aspects of your business. For example, if your company offers multimedia recommendation services, you can create one project for video recommendations and another for music recommendations.
+
+In BYOC deployments, each project maps to a single Kubernetes cluster in one region. Cross-region operations are not supported. To operate in multiple regions, create separate BYOC projects.
 
 This guide will walk you through the steps of managing projects.
 
 ## View all projects\{#view-all-projects}
 
 You can view the list of all projects in your permission scope in the organization.
-
-- **Via web console**
-
-    ![view-projects-byoc](https://zdoc-images.s3.us-west-2.amazonaws.com/view-projects-byoc.png "view-projects-byoc")
 
 - **Via RESTful API**
 
@@ -52,30 +53,40 @@ You can view the list of all projects in your permission scope in the organizati
 
     The following is an example output.
 
-    ```json
+    ```bash
     {
-        "code": 0,
-        "data": [
-            {
-                "projectName": "Default Project",
-                "projectId": "proj-xxxxxxxxxxxxxxxxxxxxxxx",
-                "instanceCount": 2,
-                "createTime": "2023-08-16T07:34:06Z",
-                "plan": "Enterprise"
-            }
-        ]
+      "code": 0,
+      "data": [
+        {
+          "projectName": "project1",
+          "projectId": "proj-a0195d6acacaf2bb985173",
+          "instanceCount": 3,
+          "createTime": "2023-12-07T03:21:32Z",
+          "plan": "Standard",
+          "projectType": "Regional",
+          "regions": ["aws-us-west-2"]
+        },
+        {
+          "projectName": "Default Project",
+          "projectId": "proj-412e874430bfa02e857247",
+          "instanceCount": 0,
+          "createTime": "2023-08-16T07:34:06Z",
+          "plan": "Enterprise",
+          "projectType": "Legacy",
+          "regions": []
+        }
+      ]
     }
+    
     ```
+
+- **Via web console**
+
+    ![view-projects-byoc](https://zdoc-images.s3.us-west-2.amazonaws.com/view-projects-byoc.png "view-projects-byoc")
 
 ## View project details\{#view-project-details}
 
 You can also check the details of a certain project.
-
-- **Via web console**
-
-    You can check the project name, plan, creation time, and the number of clusters within the project on the **Projects** page. You can further click on a certain project to view its clusters.
-
-    ![NoSTbfMVjoPp99x5cjcc0cwWnbd](https://zdoc-images.s3.us-west-2.amazonaws.com/nostbfmvjopp99x5cjcc0cwwnbd.png "NoSTbfMVjoPp99x5cjcc0cwWnbd")
 
 - **Via RESTful API**
 
@@ -95,16 +106,26 @@ You can also check the details of a certain project.
 
     ```json
     {
-        "code": 0,
-        "data": {
-            "projectId": "proj-x",
-            "projectName": "My Project",
-            "instanceCount": 2,
-            "createTime": "2023-08-16T07:34:06Z",
-            "plan": "Enterprise"
+      "code": 0,
+      "data": [
+        {
+          "projectName": "project1",
+          "projectId": "proj-a0195d6acacaf2bb985173",
+          "instanceCount": 3,
+          "createTime": "2023-12-07T03:21:32Z",
+          "plan": "Standard",
+          "projectType": "Regional",
+          "regions": ["aws-us-west-2"]
         }
+      ]
     }
     ```
+
+- **Via web console**
+
+    You can check the project name, plan, creation time, and the number of clusters within the project on the **Projects** page. You can further click on a certain project to view its clusters.
+
+    ![KgjvbAvUkopKWsxnGXycOZEynZd](https://zdoc-images.s3.us-west-2.amazonaws.com/kgjvbavukopkwsxngxycozeynzd.png "KgjvbAvUkopKWsxnGXycOZEynZd")
 
 ## Rename a project\{#rename-a-project}
 
@@ -116,7 +137,7 @@ To rename a project, you must be an [Organization Owner](./organization-users). 
 
 To delete a project, you must be an [Organization Owner](./organization-users). 
 
-Before you delete a project, you must drop all [clusters](./manage-cluster#drop-cluster) within the project.
+Before you delete a project, you must drop all [clusters](./manage-cluster#drop) within the project.
 
 Once a project is deleted, all its associated data and resources will be irreversibly cleaned as well.
 

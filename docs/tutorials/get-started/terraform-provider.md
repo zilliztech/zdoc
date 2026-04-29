@@ -1,16 +1,17 @@
 ---
 title: "Terraform Provider | Cloud"
 slug: /terraform-provider
+sidebar_key: terraform-provider
 sidebar_label: "Terraform Provider"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "Zilliz offers a fully managed Milvus service, streamlining the deployment and scaling of vector search applications with security in mind, and eliminating the need to build and maintain complex infrastructure, including both the cloud infrastructure Zilliz provides and your own. | Cloud"
 type: origin
 token: BX6iwjUzLi7udfksJoxc7jK1nsW
-sidebar_position: 16
+sidebar_position: 18
 keywords: 
   - zilliz
   - vector database
@@ -58,6 +59,12 @@ Currently, you can use this provider to manage the following types of resources:
 A [Zilliz Cloud cluster](/docs/manage-cluster) is a Milvus instance that operates on Zilliz Cloud. Zilliz Cloud categorizes its clusters into various offerings, including **Free**, **Serverless**, **Dedicated (Standard)**, **Dedicated (Enterprise)**, and **Bring Your Own Cloud (BYOC)**. For details on these offerings, refer to the [Detailed Plan Comparison](/docs/select-zilliz-cloud-service-plans).
 
 You can use the Zilliz Cloud Terraform Provider to create and manage clusters of any specific offering. For details, refer to the following tutorials:
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>When using the Terraform Provider with BYOC, only dedicated and BYOC cluster types are supported. Free and Serverless cluster creation is not available in BYOC projects.</p>
+
+</Admonition>
 
 - [Create a Free Cluster](https://registry.terraform.io/providers/zilliztech/zillizcloud/latest/docs/guides/create-a-free-cluster)
 

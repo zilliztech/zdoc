@@ -1,11 +1,12 @@
 ---
 title: "Text Match | Cloud"
 slug: /text-match
+sidebar_key: text-match
 sidebar_label: "Text Match"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "Text match in Zilliz Cloud enables precise document retrieval based on specific terms. This feature is primarily used for filtered search to satisfy specific conditions and can incorporate scalar filtering to refine query results, allowing similarity searches within vectors that meet scalar criteria. | Cloud"
 type: origin
@@ -493,7 +494,7 @@ In this example, the `filter` expression filters the search results to only incl
 <TabItem value='python'>
 
 ```python
-# Match entities with `keyword1` or `keyword2`
+# Match entities with \`keyword1\` or \`keyword2\`
 filter = "TEXT_MATCH(text, 'keyword1 keyword2')"
 
 # Assuming 'embeddings' is the vector field and 'text' is the VARCHAR field
@@ -552,7 +553,7 @@ if err != nil {
 <TabItem value='javascript'>
 
 ```javascript
-// Match entities with `keyword1` or `keyword2`
+// Match entities with \`keyword1\` or \`keyword2\`
 const filter = "TEXT_MATCH(text, 'keyword1 keyword2')";
 
 // Assuming 'embeddings' is the vector field and 'text' is the VARCHAR field
@@ -610,7 +611,7 @@ The example below retrieves documents where the `text` field contains both terms
 <TabItem value='python'>
 
 ```python
-# Match entities with both `keyword1` and `keyword2`
+# Match entities with both \`keyword1\` and \`keyword2\`
 filter = "TEXT_MATCH(text, 'keyword1') and TEXT_MATCH(text, 'keyword2')"
 
 result = client.query(
@@ -658,7 +659,7 @@ if err != nil {
 <TabItem value='javascript'>
 
 ```javascript
-// Match entities with both `keyword1` and `keyword2`
+// Match entities with both \`keyword1\` and \`keyword2\`
 const filter = "TEXT_MATCH(text, 'keyword1') and TEXT_MATCH(text, 'keyword2')";
 
 const result = await client.query(

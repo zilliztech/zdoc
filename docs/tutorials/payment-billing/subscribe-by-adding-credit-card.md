@@ -1,11 +1,12 @@
 ---
 title: "Subscribe by Adding Credit Card | Cloud"
 slug: /subscribe-by-adding-credit-card
+sidebar_key: subscribe-by-adding-credit-card
 sidebar_label: "Credit Card"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "This guide provides comprehensive instructions on how to add a payment credit card for your organization on Zilliz Cloud. | Cloud"
 type: origin

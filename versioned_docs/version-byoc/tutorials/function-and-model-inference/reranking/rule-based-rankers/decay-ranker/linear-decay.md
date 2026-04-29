@@ -1,11 +1,12 @@
 ---
 title: "Linear Decay | BYOC"
 slug: /linear-decay
+sidebar_key: linear-decay
 sidebar_label: "Linear Decay"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "Linear decay creates a straight-line decline that terminates at an absolute zero point in your search results. Like an upcoming event countdown where relevance gradually fades until the event has passed, linear decay applies a predictable, steady reduction in relevance as items move away from your ideal point until they completely disappear. This approach is ideal when you want a consistent decay rate with a clear cutoff, ensuring that items beyond a certain boundary are completely excluded from results. | BYOC"
 type: origin
@@ -115,7 +116,7 @@ This behavior mirrors how event planning typically works—imminent events are m
 The mathematical formula for calculating a linear decay score is:
 
 $$
-S(doc) = \max\left( \frac\{s - \max(0, |fieldvalue_{doc} - origin| - offset)}{s}, 0 \right)
+S(doc) = \max\left( \frac{s - \max(0, |fieldvalue_{doc} - origin| - offset)}{s}, 0 \right)
 $$
 
 Where:

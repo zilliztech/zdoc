@@ -1,11 +1,12 @@
 ---
 title: "Integrate with Azure Blob Storage | Cloud"
 slug: /integrate-with-azure-blob-storage
+sidebar_key: integrate-with-azure-blob-storage
 sidebar_label: "Azure Blob Storage"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "Zilliz Cloud allows you to integrate with Azure Blob Storage to export backup files or audit logs to designated containers. | Cloud"
 type: origin
@@ -31,12 +32,6 @@ import Procedures from '@site/src/components/Procedures';
 # Integrate with Azure Blob Storage
 
 Zilliz Cloud allows you to integrate with [Azure Blob Storage](https://azure.microsoft.com/en-us/products/storage/blobs) to export backup files or audit logs to designated containers.
-
-<Admonition type="info" icon="📘" title="Notes">
-
-<p>This feature is available only to <strong>Dedicated</strong> clusters in an <strong>Enterprise</strong> project.</p>
-
-</Admonition>
 
 The following digram illustrates the necessary steps on Zilliz Cloud and Azure Portal.
 

@@ -1,11 +1,12 @@
 ---
 title: "Import from a JSON/JSON Lines File | BYOC"
 slug: /data-import-json
+sidebar_key: data-import-json
 sidebar_label: "JSON/JSON Line"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "JSON is a lightweight, human-readable data format that machines can parse and generate easily. Language-independent, it follows conventions familiar to C-family language programmers, making it an ideal data interchange format. | BYOC"
 type: origin
@@ -41,12 +42,12 @@ The following table provides an example of data in a JSON or JSON Line file.
    </tr>
    <tr>
      <td><p>JSON (.json)</p></td>
-     <td><pre><code class="json language-json"> [     \{"primary_key":89,"vector":[0.7857309327639853,0.6185684289533679]},     \{"primary_key":-22,"vector":[0.7227987733802379,0.6910585598920134]},     \{"primary_key":85,"vector":[0.7948503430666686,0.6068055142521362]} ]</code></pre></td>
+     <td><pre><code class="json language-json"> [     \{"primary_key":89,"vector":[0.7857309327639853,0.6185684289533679]\},     \{"primary_key":-22,"vector":[0.7227987733802379,0.6910585598920134]\},     \{"primary_key":85,"vector":[0.7948503430666686,0.6068055142521362]\} ]</code></pre></td>
      <td></td>
    </tr>
    <tr>
      <td><p>JSON Lines (.ndjson, .jsonl)</p></td>
-     <td><pre><code class="json language-json"> \{"primary_key":89,"vector":[0.7857309327639853,0.6185684289533679]} \{"primary_key":-22,"vector":[0.7227987733802379,0.6910585598920134]} \{"primary_key":85,"vector":[0.7948503430666686,0.6068055142521362]}</code></pre></td>
+     <td><pre><code class="json language-json"> \{"primary_key":89,"vector":[0.7857309327639853,0.6185684289533679]\} \{"primary_key":-22,"vector":[0.7227987733802379,0.6910585598920134]\} \{"primary_key":85,"vector":[0.7948503430666686,0.6068055142521362]\}</code></pre></td>
      <td></td>
    </tr>
 </table>

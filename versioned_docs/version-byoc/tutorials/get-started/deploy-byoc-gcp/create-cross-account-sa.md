@@ -1,11 +1,12 @@
 ---
 title: "Create a Cross-Account Service Account | BYOC"
 slug: /create-cross-account-sa
+sidebar_key: create-cross-account-sa
 sidebar_label: "Create a Cross-Account Service Account"
-beta: CONTACT SALES
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: CONTACT SALES
 notebook: FALSE
 description: "This page describes how to create and configure a cross-account service account for Zilliz Cloud to bootstrap your project data plane. This service account grants Zilliz Cloud the necessary permissions to manage VPC resources on your behalf. | BYOC"
 type: origin

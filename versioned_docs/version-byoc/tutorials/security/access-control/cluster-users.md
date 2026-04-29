@@ -1,11 +1,12 @@
 ---
 title: "Manage Cluster Users (Console) | BYOC"
 slug: /cluster-users
+sidebar_key: cluster-users
 sidebar_label: "Manage Cluster Users (Console)"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "In Zilliz Cloud, you can create cluster users and assign them cluster roles to define the privileges, achieving data security. | BYOC"
 type: origin

@@ -1,16 +1,17 @@
 ---
 title: "Release Notes (April 24, 2025) | Cloud"
 slug: /release-notes-2150
+sidebar_key: release-notes-2150
 sidebar_label: "April 24, 2025"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
-description: "We’re thrilled to share that Zero-Downtime Migration is now available in Private Preview on Zilliz Cloud! Whether you need to upgrade your cluster or make a change to your deployment, such as switching from Capacity-optimized Compute Units (CU) to another option, you can effortlessly migrate your data without any service interruptions. Additionally, Zilliz BYOC has introduced several enhancements, allowing you to configure instance settings for your BYOC project and enable AWS PrivateLink for your cluster. | Cloud"
+description: "We’re thrilled to share that Zilliz BYOC has introduced several enhancements, allowing you to configure instance settings for your BYOC project and enable AWS PrivateLink for your cluster. | Cloud"
 type: origin
 token: JPNiwF6rPiNe0pkx460cr321nTc
-sidebar_position: 10
+sidebar_position: 11
 keywords: 
   - zilliz
   - vector database
@@ -24,7 +25,7 @@ import Admonition from '@theme/Admonition';
 
 # Release Notes (April 24, 2025)
 
-We’re thrilled to share that Zero-Downtime Migration is now available in **Private Preview** on Zilliz Cloud! Whether you need to upgrade your cluster or make a change to your deployment, such as switching from Capacity-optimized Compute Units (CU) to another option, you can effortlessly migrate your data without any service interruptions. Additionally, Zilliz BYOC has introduced several enhancements, allowing you to configure instance settings for your BYOC project and enable AWS PrivateLink for your cluster.
+We’re thrilled to share that Zilliz BYOC has introduced several enhancements, allowing you to configure instance settings for your BYOC project and enable AWS PrivateLink for your cluster.
 
 ## Milvus Compatibility\{#milvus-compatibility}
 
@@ -37,24 +38,6 @@ This release is compatible with **Milvus v2.5.x**.
 Currently, all Milvus v2.5.x features are still in **PUBLIC PREVIEW**.
 
 ![GeJSbANVto14OtxFg6zcPFAYnZz](https://zdoc-images.s3.us-west-2.amazonaws.com/gejsbanvto14otxfg6zcpfaynzz.png "GeJSbANVto14OtxFg6zcPFAYnZz")
-
-## Seamless Data Migration with Minimal Service Interruption\{#seamless-data-migration-with-minimal-service-interruption}
-
-In previous releases, migrating data between clusters required carefully planned downtime, an obstacle for businesses with strict availability requirements. With Zero-Downtime Migration, Zilliz Cloud now eliminates this complexity, delivering a seamless, fully managed migration experience.
-
-This feature uses a dual-stack strategy combining two components: a backup tool and Change Data Capture (CDC). The backup tool captures a consistent snapshot of your source cluster, while CDC continuously tracks and replicates new writes to the target cluster in real time.
-
-Zilliz Cloud’s native migration flow ensures:
-
-- Consistency across historical data and real-time updates,
-
-- Correct event ordering and robust fault tolerance,
-
-- Protection against write conflicts, race conditions, and schema mismatches, and
-
-- Smooth state transitions between the source and target clusters throughout the migration process.
-
-Zero-Downtime Migration is now available in **Private Preview** on the Zilliz Cloud console. Log in to start your first migration—no downtime required. For detailed operating procedures and limits, refer to [Zero Downtime Migration](./zero-downtime-migration).
 
 ## BYOC Enhanced with Instance Settings and AWS PrivateLink Support\{#byoc-enhanced-with-instance-settings-and-aws-privatelink-support}
 

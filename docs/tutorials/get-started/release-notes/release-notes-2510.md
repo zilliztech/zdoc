@@ -1,16 +1,17 @@
 ---
 title: " October 2025 Release Notes | Cloud"
 slug: /release-notes-2510
+sidebar_key: release-notes-2510
 sidebar_label: "October, 2025"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: " October 2025 Release Notes | Cloud"
 type: origin
 token: PmaowiSUaiTa8ckPMYJcqdRYnQg
-sidebar_position: 6
+sidebar_position: 7
 keywords: 
   - zilliz
   - vector database
@@ -26,7 +27,7 @@ import Grid from '@site/src/components/Grid';
 
 #  October 2025 Release Notes
 
-<Grid columnSize="2" widthRatios="15,84">
+<Grid columnSize="2" widthRatios="24,75">
 
     <div>
 

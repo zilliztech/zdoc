@@ -1,10 +1,11 @@
 ---
-title: "スカラーフィールドのインデックス | Cloud"
+title: "スカラーフィールドのインデックス作成 | Cloud"
 slug: /index-scalar-fields
-sidebar_label: "スカラーフィールドのインデックス"
+sidebar_key: index-scalar-fields
+sidebar_label: "スカラーインデックス"
 beta: FALSE
 notebook: FALSE
-description: "Zilliz Cloudは、スカラーフィールド（非ベクトルフィールド）のインデックスをサポートしており、特に大規模なデータセットにおいて、フィルタリングと検索のパフォーマンスを大幅に向上させます。"
+description: "Zilliz Cloud は、スカラーフィールド（非ベクトルフィールド）のインデックス作成をサポートしており、特に大規模なデータセットにおいて、フィルタリングと検索のパフォーマンスを大幅に向上させます。| Cloud"
 type: origin
 token: XCCwwOLqKi2nYGkfy5Gc0Vnfnpb
 sidebar_position: 2
@@ -14,10 +15,6 @@ keywords:
   - cloud
   - スカラーフィールド
   - インデックス
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
 
 ---
 
@@ -25,56 +22,79 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# スカラフィールドのインデックス作成
+# スカラーフィールドのインデックス作成
 
-Zilliz Cloudは、スカラフィールド（非ベクトルフィールド）のインデックス作成をサポートしており、特に大規模なデータセットにおいて、フィルタリングと検索のパフォーマンスを大幅に向上させます。
+Zilliz Cloud は、スカラーフィールド（非ベクトルフィールド）に対するインデックス作成をサポートしており、特に大規模なデータセットにおいてフィルタリングと検索のパフォーマンスを大幅に向上させます。
 
-## 概要{#overview}
+## 概要\{#overview}
 
-スカラフィールドのインデックス作成は任意ですが、フィルタ条件で特定のスカラフィールドに頻繁にアクセスする場合は推奨されます。
+スカラーフィールドのインデックス作成は任意ですが、フィルタ条件で特定のスカラフィールドに頻繁にアクセスする場合は推奨されます。
 
-Zilliz Cloudは、以下のフィールドタイプに対して`AUTOINDEX`をサポートしています。
+Zilliz Cloud は、以下のフィールドタイプに対して `AUTOINDEX` をサポートしています：
 
 <table>
    <tr>
      <th><p>フィールドタイプ</p></th>
+     <th><p>AUTOINDEX の解決先</p></th>
      <th><p>説明</p></th>
    </tr>
    <tr>
      <td><p><code>VARCHAR</code></p></td>
-     <td><p>文字列データ型。詳細は<a href="./use-string-field">文字列フィールド</a>を参照してください。</p></td>
+     <td><p><strong>BITMAP</strong> (C&ast; &lt; 100) / <strong>INVERTED</strong> ( C ≥ 100)</p></td>
+     <td><p>文字列データタイプ。詳細については、<a href="./use-string-field">String Field</a> を参照してください。</p></td>
    </tr>
    <tr>
-     <td><p><code>INT8</code>, <code>INT32</code>, <code>INT64</code></p></td>
-     <td><p>整数。詳細は<a href="./use-number-field">ブール値と数値</a>を参照してください。</p></td>
+     <td><p><code>INT8</code>, <code>INT16</code>, <code>INT32</code>, <code>INT64</code></p></td>
+     <td><p><strong>BITMAP</strong> (C &lt; 100) / <strong>STL_SORT</strong> (C ≥ 100)</p></td>
+     <td><p>整数。詳細については、<a href="./use-number-field">Boolean & Number</a> を参照してください。</p></td>
    </tr>
    <tr>
      <td><p><code>FLOAT</code>, <code>DOUBLE</code></p></td>
-     <td><p>浮動小数点数。詳細は<a href="./use-number-field">ブール値と数値</a>を参照してください。</p></td>
+     <td><p><strong>BITMAP</strong> (C&ast; &lt; 100) / <strong>INVERTED</strong> ( C ≥ 100)</p></td>
+     <td><p>浮動小数点数。詳細については、<a href="./use-number-field">Boolean & Number</a> を参照してください。</p></td>
    </tr>
    <tr>
      <td><p><code>BOOL</code></p></td>
-     <td><p>ブール値。詳細は<a href="./use-number-field">ブール値と数値</a>を参照してください。</p></td>
+     <td><p><strong>BITMAP</strong></p></td>
+     <td><p>ブール値。詳細については、<a href="./use-number-field">Boolean & Number</a> を参照してください。</p></td>
    </tr>
    <tr>
      <td><p><code>ARRAY</code></p></td>
-     <td><p>スカラ値の同種配列。詳細は<a href="./use-array-fields">配列フィールド</a>を参照してください。</p></td>
+     <td><p><strong>BITMAP</strong> (C&ast; &lt; 100) / <strong>INVERTED</strong> ( C ≥ 100)</p></td>
+     <td><p>スカラー値の同種配列。詳細については、<a href="./use-array-fields">配列 Field</a> を参照してください。</p></td>
    </tr>
    <tr>
      <td><p><code>GEOMETRY</code></p></td>
-     <td><p>空間情報を格納する幾何学的データ。詳細は<a href="./use-geometry-field">ジオメトリフィールド</a>を参照してください。</p></td>
+     <td><p><strong>RTREE</strong></p></td>
+     <td><p>空間情報を格納する幾何学データ。詳細については、<a href="./use-geometry-field">ジオメトリ Field</a> を参照してください。</p></td>
    </tr>
    <tr>
      <td><p><code>TIMESTAMPTZ</code></p></td>
-     <td><p>タイムゾーン対応のISO 8601入力で、タイムゾーンをまたいだ一貫したフィルタリングと順序付けのためにUTCとして保存されます。詳細は<a href="./use-timestamptz-field">TIMESTAMPTZフィールド</a>を参照してください。</p></td>
+     <td><p><strong>STL_SORT</strong></p></td>
+     <td><p>タイムゾーン対応の ISO 8601 入力。UTC として保存され、タイムゾーン間で一貫したフィルタリングと順序付けが可能になります。詳細については、<a href="./use-timestamptz-field">TIMESTAMPTZ Field</a> を参照してください。</p></td>
    </tr>
 </table>
 
-## 準備{#preparations}
+<Admonition type="info" icon="📘" title="Notes">
 
-インデックスを作成する前に、ベクトルフィールドとスカラフィールドの両方を含むcollectionを定義します。Zilliz Cloudは、すべてのcollectionにベクトルフィールドを必要とします。
+<p>基数（上記表の C）は、コレクション全体におけるフィールド内の一意の値の数を示します。例えば、浮動小数点フィールドの基数は、そのフィールド内の異なる浮動小数点値の数です。</p>
+<p>配列フィールドの場合、基数はセグメント内のすべての配列にわたる<strong>固有の要素値</strong>の数です。例えば：</p>
 
-この例では、必須のベクトルフィールド（`vector`）と`DOUBLE`型のスカラフィールド（`price`）を含む製品カタログのschemaを定義します。
+```plaintext
+[1, 2, 3]
+[2, 3, 4]
+[1, 4, 5]
+```
+
+<p>異なる要素値は <code>{1, 2, 3, 4, 5}</code> → カーディナリティ = <strong>5</strong> です。これは、すべての配列からすべての要素を平坦化し、一意の値の数をカウントします。異なる配列の数や配列の長さではありません。</p>
+
+</Admonition>
+
+## Preparations\{#preparations}
+
+インデックスを作成する前に、ベクトルフィールドとスカラーフィールドの両方を含むコレクションを定義します。Zilliz Cloud では、すべてのコレクションにベクトルフィールドが必要です。
+
+この例では、必須のベクトルフィールド（`vector`）と `DOUBLE` 型のスカラーフィールド（`price`）を含む製品カタログのスキーマを定義します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -145,7 +165,7 @@ client.createCollection(requestCreate);
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 import { MilvusClient, DataType } from '@zilliz/milvus2-sdk-node';
@@ -193,7 +213,7 @@ console.log('Create collection result:', res);
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 import (
@@ -235,7 +255,7 @@ if err != nil {
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 export TOKEN="YOUR_CLUSTER_TOKEN"
@@ -285,9 +305,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## スカラフィールドのインデックス作成{#index-a-scalar-field}
+## スカラー型フィールドにインデックスを作成する\{#index-a-scalar-field}
 
-`AUTOINDEX` を使用してスカラフィールドにインデックスを作成できます。追加のインデックスパラメータは必要ありません。以下の例では、`price` フィールドにインデックスを作成します。
+`AUTOINDEX` を使用してスカラー型フィールドにインデックスを作成できます。追加のインデックスパラメータは不要です。以下の例では、`price` フィールドにインデックスを作成しています：
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -320,7 +340,7 @@ indexParams.add(IndexParam.builder()
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 const indexParams = [{
@@ -333,7 +353,7 @@ const indexParams = [{
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 import (
@@ -346,7 +366,7 @@ indexOpt := client.NewCreateIndexOption("product_catalog", "price",
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 export priceIndex='{
@@ -361,7 +381,7 @@ export priceIndex='{
 </TabItem>
 </Tabs>
 
-インデックスパラメータを定義したら、`create_index()` を使用してコレクションに適用できます。
+インデックスパラメータを定義した後、`create_index()` を使用してコレクションに適用できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -388,7 +408,7 @@ client.createIndex(CreateIndexReq.builder()
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 client.createIndex(indexParams)
@@ -396,7 +416,7 @@ client.createIndex(indexParams)
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='java'>
 
 ```go
 indexTask1, err := client.CreateIndex(ctx, indexOpt1)
@@ -419,7 +439,7 @@ if err != nil {
 
 </TabItem>
 
-<TabItem value='bash'>
+<TabItem value='java'>
 
 ```bash
 curl --request POST \
@@ -435,7 +455,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## インデックスの詳細を確認する{#check-index-details}
+## インデックスの詳細を確認する\{#check-index-details}
 
 インデックスを作成したら、その詳細を確認できます。
 
@@ -489,7 +509,7 @@ System.out.println(JSONObject.toJSON(describeIndexResp));
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 // Describe the index
@@ -504,13 +524,13 @@ console.log(JSON.stringify(res.index_descriptions, null, 2))
 </TabItem>
 </Tabs>
 
-## インデックスの削除{#drop-an-index}
+## インデックスの削除\{#drop-an-index}
 
-既存のインデックスをコレクションから削除するには、`drop_index()` メソッドを使用します。
+`drop_index()` メソッドを使用して、コレクションから既存のインデックスを削除します。
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p><strong>Milvus v2.6.x</strong> と互換性のあるクラスターでは、不要になったスカラーインデックスを直接削除できます。コレクションを最初に release する必要はありません。</p>
+<p><strong>Milvus v2.6.x</strong> と互換性のあるクラスターでは、スカラーインデックスが不要になった時点で直接削除できます。コレクションを事前にリリースする必要はありません。</p>
 
 </Admonition>
 
@@ -542,7 +562,7 @@ client.dropIndex(dropIndexReq);
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='java'>
 
 ```javascript
 // Drop the index
@@ -557,9 +577,9 @@ console.log(res.error_code)
 </TabItem>
 </Tabs>
 
-## 高度な機能{#advanced-features}
+## 高度な機能\{#advanced-features}
 
-スカラーインデックスには、他にもいくつかの高度な機能があります。
+スカラーインデックスに関して、他にもいくつかの高度な機能があります。
 
 import DocCardList from '@theme/DocCardList';
 

@@ -1,11 +1,12 @@
 ---
 title: "Subscribe on Google Cloud Marketplace | Cloud"
 slug: /subscribe-on-gcp-marketplace
+sidebar_key: subscribe-on-gcp-marketplace
 sidebar_label: "Google Cloud Marketplace"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "This guide provides a step-by-step walkthrough of the subscription process and outlines the pricing terms of Zilliz Cloud on GCP Marketplace. | Cloud"
 type: origin

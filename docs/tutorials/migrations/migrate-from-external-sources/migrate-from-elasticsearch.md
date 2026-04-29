@@ -1,11 +1,12 @@
 ---
 title: "Migrate from Elasticsearch to Zilliz Cloud | Cloud"
 slug: /migrate-from-elasticsearch
+sidebar_key: migrate-from-elasticsearch
 sidebar_label: "Elasticsearch"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "This topic describes how Zilliz Cloud handles data type mapping, collection naming rules, and considerations when migrating from Elasticsearch. | Cloud"
 type: origin

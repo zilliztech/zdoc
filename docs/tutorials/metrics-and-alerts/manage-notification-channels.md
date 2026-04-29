@@ -1,11 +1,12 @@
 ---
 title: "Manage Notification Channels | Cloud"
 slug: /manage-notification-channels
+sidebar_key: manage-notification-channels
 sidebar_label: "Manage Notification Channels"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "Alert notifications in Zilliz Cloud keep you informed about events occurring within your clusters. By default, these notifications are sent to specified user email addresses. However, you can also set up custom notification channels using webhooks for more integrated, event-driven notifications. This guide will walk you through the process of configuring alert notification channels. | Cloud"
 type: origin
