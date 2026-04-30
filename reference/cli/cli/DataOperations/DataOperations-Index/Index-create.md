@@ -1,21 +1,22 @@
 ---
 title: "create | Cloud"
 slug: /cli/cli/Index-create
+sidebar_key: cli/Index-create
 sidebar_label: "create"
-beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation creates an index on a collection field. | Cloud"
 type: docx
 token: Jx8CdhWZ7ooK8PxwYAHc4yodnDe
 sidebar_position: 1
 keywords: 
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
   - zilliz
   - zilliz cloud
   - cloud

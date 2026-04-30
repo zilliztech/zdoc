@@ -1,21 +1,22 @@
 ---
 title: "encode_queries() | Python"
 slug: /python/python/CohereEmbeddingFunction-encode_queries
+sidebar_key: python/CohereEmbeddingFunction-encode_queries
 sidebar_label: "encode_queries()"
-beta: false
 added_since: v2.4.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation takes in a list of query strings and encodes each query into a vector embedding. | Python"
 type: docx
 token: BqtYdPHHPoNhyKxhSnEcVOKenFb
 sidebar_position: 3
 keywords: 
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - pymilvus26
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';

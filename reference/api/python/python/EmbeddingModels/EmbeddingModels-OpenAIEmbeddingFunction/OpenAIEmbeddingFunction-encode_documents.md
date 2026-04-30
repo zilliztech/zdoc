@@ -1,21 +1,22 @@
 ---
 title: "encode_documents() | Python"
 slug: /python/python/OpenAIEmbeddingFunction-encode_documents
+sidebar_key: python/OpenAIEmbeddingFunction-encode_documents
 sidebar_label: "encode_documents()"
-beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation takes in documents and encodes them into vector embeddings. | Python"
 type: docx
 token: UrG5delwyok3RPx0UBlcdBQ5nZd
 sidebar_position: 1
 keywords: 
+  - Chroma vs Milvus
+  - Annoy vector search
   - milvus
   - Zilliz
-  - milvus vector database
-  - milvus db
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - pymilvus26
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';

@@ -1,21 +1,22 @@
 ---
 title: "add_connection() | Python | ORM"
 slug: /python/python/Connections-add_connection
+sidebar_key: python/Connections-add_connection
 sidebar_label: "add_connection()"
-beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation adds connections to multiple Zilliz Cloud clusters for different purposes in a batch. | Python | ORM"
 type: docx
 token: C37ldNLbFog6ThxA23ScMldnnmb
 sidebar_position: 1
 keywords: 
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - pymilvus26
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # add_connection()
 
-This operation adds connections to multiple Zilliz Cloud clusters for different purposes in a batch. 
+This operation adds [connections](./ORM-Connections) to multiple Zilliz Cloud clusters for different purposes in a batch. 
 
 ## Request Syntax\{#request-syntax}
 

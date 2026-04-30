@@ -1,21 +1,22 @@
 ---
 title: "Model2VecEmbeddingFunction | Python"
 slug: /python/python/EmbeddingModels-Model2VecEmbeddingFunction
+sidebar_key: python/EmbeddingModels-Model2VecEmbeddingFunction
 sidebar_label: "Model2VecEmbeddingFunction"
-beta: false
 added_since: v2.5.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "Model2VecEmbeddingFunction is a class in pymilvus that handles encoding text into embeddings using the model2vec module to support embedding retrieval in Milvus. | Python"
 type: docx
 token: WiT4dJ1SJod0fdx4z23cwFbAn7c
 sidebar_position: 3
 keywords: 
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - pymilvus26
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';

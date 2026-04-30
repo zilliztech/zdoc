@@ -1,21 +1,22 @@
 ---
 title: "getLoadState() | Node.js"
 slug: /node/node/Management-getLoadState
+sidebar_key: node/Management-getLoadState
 sidebar_label: "getLoadState()"
-beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation displays whether a specified collection or partition is loaded or not. | Node.js"
 type: docx
 token: J17ZdPNwqo4nt3x5b8pc0H5Nnph
 sidebar_position: 14
 keywords: 
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - nodejs26
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,13 +34,13 @@ import Admonition from '@theme/Admonition';
 This operation displays whether a specified collection or partition is loaded or not.
 
 ```javascript
-getLoadState(data): Promise<GetLoadStateResponse>
+await milvusClient.getLoadState(data)
 ```
 
 ## Request Syntax\{#request-syntax}
 
 ```javascript
-milvusClient.getLoadState({
+await milvusClient.getLoadState({
    db_name: string,
    collection_name: string,
    partition_names?: string[],
@@ -110,7 +110,10 @@ This method returns a promise that resolves to a **GetLoadStateResponse** object
 ## Example\{#example}
 
 ```java
-const milvusClient = new milvusClient(MILUVS_ADDRESS);
+const milvusClient = new MilvusClient({
+    address: 'YOUR_CLUSTER_ENDPOINT',
+    token: 'YOUR_CLUSTER_TOKEN',
+});
  const resStatus = await milvusClient.getLoadState({
    collection_name: 'my_collection',
  });

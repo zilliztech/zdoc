@@ -1,21 +1,22 @@
 ---
 title: "uninstall | Cloud"
 slug: /cli/cli/Completion-uninstall
+sidebar_key: cli/Completion-uninstall
 sidebar_label: "uninstall"
-beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation removes shell completion from RC file. | Cloud"
 type: docx
 token: ZgnKdDBGboisN2xZXSqcVTNSnFg
 sidebar_position: 4
 keywords: 
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
   - zilliz
   - zilliz cloud
   - cloud

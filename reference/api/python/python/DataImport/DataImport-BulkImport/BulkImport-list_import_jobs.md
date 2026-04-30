@@ -1,21 +1,22 @@
 ---
 title: "list_import_jobs() | Python"
 slug: /python/python/BulkImport-list_import_jobs
+sidebar_key: python/BulkImport-list_import_jobs
 sidebar_label: "list_import_jobs()"
-beta: false
 added_since: Inherit
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation lists all bulk-import jobs of a specific cluster. | Python"
 type: docx
 token: P0vxdEVBPoTNKLxkKIzcznlYnNc
 sidebar_position: 3
 keywords: 
-  - managed milvus
-  - Serverless vector database
   - milvus open source
   - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - pymilvus26
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';

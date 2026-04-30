@@ -12,10 +12,10 @@ token: OOcKfRAVdlXgf4dqW0sc9Zl2nyg
 sidebar_position: 10
 sidebar_label: "Volume"
 keywords: 
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
   - zilliz
   - zilliz cloud
   - cloud

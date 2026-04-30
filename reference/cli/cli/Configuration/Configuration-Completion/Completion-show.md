@@ -1,21 +1,22 @@
 ---
 title: "show | Cloud"
 slug: /cli/cli/Completion-show
+sidebar_key: cli/Completion-show
 sidebar_label: "show"
-beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation shows the completion script for manual installation. You can copy the command from the output and run it in your shell environment. | Cloud"
 type: docx
 token: URetdWlVeo3A6Ox5Z3JccMt3nGd
 sidebar_position: 2
 keywords: 
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
   - zilliz
   - zilliz cloud
   - cloud

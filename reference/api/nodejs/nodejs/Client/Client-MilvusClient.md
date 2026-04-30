@@ -1,21 +1,22 @@
 ---
 title: "MilvusClient | Node.js"
 slug: /node/node/Client-MilvusClient
+sidebar_key: node/Client-MilvusClient
 sidebar_label: "MilvusClient"
-beta: false
 added_since: v2.3.x
 last_modified: v2.5.x
 deprecate_since: false
+beta: false
 notebook: false
 description: "A MilvusClient instance represents a Node.js client that connects to a specific Zilliz Cloud cluster. | Node.js"
 type: docx
 token: ZxPXdeBXGopnvMxl7v6c9DSanFL
 sidebar_position: 5
 keywords: 
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - nodejs26
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';

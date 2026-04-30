@@ -1,21 +1,22 @@
 ---
 title: "create | Cloud"
 slug: /cli/cli/Database-create
+sidebar_key: cli/Database-create
 sidebar_label: "create"
-beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation creates a new database. (Dedicated only) | Cloud"
 type: docx
 token: IKTjdZU2ioqYvbxGD08cp58In7c
 sidebar_position: 1
 keywords: 
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
   - zilliz
   - zilliz cloud
   - cloud

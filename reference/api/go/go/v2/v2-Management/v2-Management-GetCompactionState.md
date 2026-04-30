@@ -1,11 +1,12 @@
 ---
 title: "GetCompactionState() | Go | v2"
 slug: /go/v2-Management-GetCompactionState
+sidebar_key: v2-Management-GetCompactionState
 sidebar_label: "GetCompactionState()"
-beta: FALSE
 added_since: v2.5.x
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "This method compacts segments to improve search efficiency. | Go | v2"
 type: origin

@@ -1,21 +1,22 @@
 ---
 title: "alter_collection_properties() | Python | MilvusClient"
 slug: /python/python/Collections-alter_collection_properties
+sidebar_key: python/Collections-alter_collection_properties
 sidebar_label: "alter_collection_properties()"
-beta: false
 added_since: v2.4.x
 last_modified: v2.6.x
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation alters the specified collection properties. | Python | MilvusClient"
 type: docx
 token: Pl7Fd8C3zocPaZx3VrAcl54Dnkd
 sidebar_position: 3
 keywords: 
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - pymilvus26
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';

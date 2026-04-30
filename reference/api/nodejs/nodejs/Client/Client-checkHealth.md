@@ -1,21 +1,22 @@
 ---
 title: "checkHealth() | Node.js"
 slug: /node/node/Client-checkHealth
+sidebar_key: node/Client-checkHealth
 sidebar_label: "checkHealth()"
-beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation checks the health status of the Milvus server. | Node.js"
 type: docx
 token: DDvudeY20o6tV5xwwo4cKovjnHf
 sidebar_position: 2
 keywords: 
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - nn search
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - nodejs26
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +34,7 @@ import Admonition from '@theme/Admonition';
 This operation checks the health status of the Milvus server.
 
 ```javascript
-checkHealth(): Promise<CheckHealthResponse>
+await milvusClient.checkHealth()
 ```
 
 ## Request Syntax\{#request-syntax}

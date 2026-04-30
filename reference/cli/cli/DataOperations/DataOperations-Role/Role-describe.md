@@ -1,21 +1,22 @@
 ---
 title: "describe | Cloud"
 slug: /cli/cli/Role-describe
+sidebar_key: cli/Role-describe
 sidebar_label: "describe"
-beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation gets details and privileges of a role. | Cloud"
 type: docx
 token: G7QddCl8goZgcvxQPChcHXibnKX
 sidebar_position: 2
 keywords: 
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
   - zilliz
   - zilliz cloud
   - cloud

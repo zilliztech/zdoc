@@ -1,11 +1,12 @@
 ---
 title: "list_collections() | Python | MilvusClient"
 slug: /python/python/Collections-list_collections
+sidebar_key: python/Collections-list_collections
 sidebar_label: "list_collections()"
-beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation lists all existing collections. | Python | MilvusClient"
 type: docx
@@ -23,7 +24,6 @@ keywords:
   - pymilvus26
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -82,22 +82,4 @@ client.list_collections()
 
 # ['test_collection']
 ```
-
-## Related methods\{#related-methods}
-
-- [create_collection()](./Collections-create_collection)
-
-- [create_schema()](./Collections-create_schema)
-
-- [describe_collection()](./Collections-describe_collection)
-
-- [drop_collection()](./Collections-drop_collection)
-
-- [get_collection_stats()](./Collections-get_collection_stats)
-
-- [has_collection()](./Collections-has_collection)
-
-- [rename_collection()](./Collections-rename_collection)
-
-- [DataType](./Collections-DataType)
 

@@ -1,21 +1,22 @@
 ---
 title: "JinaRerankFunction | Python"
 slug: /python/python/Rerankers-JinaRerankFunction
+sidebar_key: python/Rerankers-JinaRerankFunction
 sidebar_label: "JinaRerankFunction"
-beta: false
 added_since: v2.4.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "JinaRerankFunction is a class in milvusmodel that takes a query and document as input and directly returns a similarity score instead of embeddings. This functionality uses the underlying Jina AI reranking model. | Python"
 type: docx
 token: E3opdXwZCoY8igxMjQ1cwsTbnzh
 sidebar_position: 1
 keywords: 
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
   - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - pymilvus26
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -64,7 +64,7 @@ JinaRerankFunction(
 from pymilvus.model.reranker import JinaRerankFunction
 
 jina_rf = JinaRerankFunction(
-    model_name="jina-reranker-v2-base-multilingual", # Defaults to `jina-reranker-v2-base-multilingual`
+    model_name="jina-reranker-v2-base-multilingual", # Defaults to \`jina-reranker-v2-base-multilingual\`
     api_key="YOUR_JINAAI_API_KEY"
 )
 ```

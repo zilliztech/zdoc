@@ -1,21 +1,22 @@
 ---
 title: "listAliases() | Node.js"
 slug: /node/node/Collections-listAliases
+sidebar_key: node/Collections-listAliases
 sidebar_label: "listAliases()"
-beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This is a method template. | Node.js"
 type: docx
 token: KeoKdlitaog6n1xpX8McIIIrnWb
 sidebar_position: 14
 keywords: 
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - nodejs26
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +34,7 @@ import Admonition from '@theme/Admonition';
 This is a method template.
 
 ```javascript
-listAliases(data): Promise<ResStatus>
+await milvusClient.listAliases(data)
 ```
 
 ## Request Syntax\{#request-syntax}
@@ -96,7 +96,10 @@ This method returns a promise that resolves to a **ResStatus** object.
 ## Example\{#example}
 
 ```java
-const milvusClient = new milvusClient(MILUVS_ADDRESS);
+const milvusClient = new MilvusClient({
+    address: 'YOUR_CLUSTER_ENDPOINT',
+    token: 'YOUR_CLUSTER_TOKEN',
+});
 const res = await milvusClient.listAliases({ collection_name: 'my_collection' });
 ```
 

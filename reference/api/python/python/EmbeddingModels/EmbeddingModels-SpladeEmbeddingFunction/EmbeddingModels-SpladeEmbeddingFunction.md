@@ -1,21 +1,22 @@
 ---
 title: "SpladeEmbeddingFunction | Python"
 slug: /python/python/EmbeddingModels-SpladeEmbeddingFunction
+sidebar_key: python/EmbeddingModels-SpladeEmbeddingFunction
 sidebar_label: "SpladeEmbeddingFunction"
-beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "SpladeEmbeddingFunction is a class in pymilvus that handles encoding text into embeddings using SPLADE models to support embedding retrieval in Milvus. | Python"
 type: docx
 token: UdeRd0YVhoDBeVxrQaBcoikVnAI
 sidebar_position: 3
 keywords: 
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - pymilvus26
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';

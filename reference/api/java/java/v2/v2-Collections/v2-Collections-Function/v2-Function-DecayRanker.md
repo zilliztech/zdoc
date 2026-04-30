@@ -1,21 +1,22 @@
 ---
 title: "DecayRanker | Java | v2"
 slug: /java/java/v2-Function-DecayRanker
+sidebar_key: java/v2-Function-DecayRanker
 sidebar_label: "DecayRanker"
-beta: false
 added_since: v2.6.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "The DecayRanker class extends from the Function class and provides extra parameters. | Java | v2"
 type: docx
 token: QIpldgpB1oP5IYxNSSdcyRNcn1c
 sidebar_position: 2
 keywords: 
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - javaV226
 displayed_sidebar: javaSidebar
 
-displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -110,7 +110,7 @@ DecayRanker.builder()
 
 **RETURNS:**
 
- A decay ranker instance.
+A decay ranker instance.
 
 ## Examples:\{#examples}
 

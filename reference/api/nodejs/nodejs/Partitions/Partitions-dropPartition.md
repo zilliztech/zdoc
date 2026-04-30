@@ -1,21 +1,22 @@
 ---
 title: "dropPartition() | Node.js"
 slug: /node/node/Partitions-dropPartition
+sidebar_key: node/Partitions-dropPartition
 sidebar_label: "dropPartition()"
-beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation drops a specified partition from the current collection. | Node.js"
 type: docx
 token: BBmsddqZEozxWyxkoADcFfzpncW
 sidebar_position: 2
 keywords: 
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - nodejs26
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,13 +34,13 @@ import Admonition from '@theme/Admonition';
 This operation drops a specified partition from the current collection.
 
 ```javascript
-dropPartition(data): Promise<ResStatus>
+await milvusClient.dropPartition(data)
 ```
 
 ## Request Syntax\{#request-syntax}
 
 ```javascript
-milvusClient.dropPartition({
+await milvusClient.dropPartition({
     db_name: string,
     collection_name: string,
     partition_name: string,
@@ -101,7 +101,10 @@ This method returns a promise that resolves to a **ResStatus** object.
 ## Example\{#example}
 
 ```java
-new milvusClient(MILUVS_ADDRESS).dropPartition({
+new MilvusClient({
+    address: 'YOUR_CLUSTER_ENDPOINT',
+    token: 'YOUR_CLUSTER_TOKEN',
+}).dropPartition({
     collection_name: 'my_collection',
     partition_name: 'my_partition',
  });

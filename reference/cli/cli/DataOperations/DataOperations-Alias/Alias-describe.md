@@ -1,21 +1,22 @@
 ---
 title: "describe | Cloud"
 slug: /cli/cli/Alias-describe
+sidebar_key: cli/Alias-describe
 sidebar_label: "describe"
-beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation gets details of an alias. | Cloud"
 type: docx
 token: Qnx9d72SIo9CzrxvmcFcMRconNu
 sidebar_position: 3
 keywords: 
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
   - zilliz
   - zilliz cloud
   - cloud

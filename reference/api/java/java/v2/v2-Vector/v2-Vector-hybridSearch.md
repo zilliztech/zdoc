@@ -1,21 +1,22 @@
 ---
 title: "hybridSearch() | Java | v2"
 slug: /java/java/v2-Vector-hybridSearch
+sidebar_key: java/v2-Vector-hybridSearch
 sidebar_label: "hybridSearch()"
-beta: false
 added_since: v2.4.x
 last_modified: v2.6.x
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation performs multi-vector search on a collection and returns search results after reranking. | Java | v2"
 type: docx
 token: BNDrdC8lToZe3ExOVGNcBX3Gnxc
 sidebar_position: 3
 keywords: 
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - javaV226
 displayed_sidebar: javaSidebar
 
-displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';

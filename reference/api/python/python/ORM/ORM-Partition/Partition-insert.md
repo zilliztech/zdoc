@@ -1,21 +1,22 @@
 ---
 title: "insert() | Python | ORM"
 slug: /python/python/Partition-insert
+sidebar_key: python/Partition-insert
 sidebar_label: "insert()"
-beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation inserts data into the current partition. | Python | ORM"
 type: docx
 token: QXDxdv36FoVgjcxDV1gcDwWXnsd
 sidebar_position: 5
 keywords: 
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - pymilvus26
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -35,7 +35,7 @@ This operation inserts data into the current partition.
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Using the <strong>partition_name</strong> parameter in the <strong>insert()</strong> method of a <strong>Collection</strong> object is equivalent to using the <strong>insert()</strong> method of a <strong>Partition</strong> object.</p>
+<p>Using the <strong>partition_name</strong> parameter in the <strong>insert()</strong> method of a <strong><a href="./ORM-Collection">Collection</a></strong> object is equivalent to using the <strong>insert()</strong> method of a <strong><a href="./ORM-Partition">Partition</a></strong> object.</p>
 
 </Admonition>
 

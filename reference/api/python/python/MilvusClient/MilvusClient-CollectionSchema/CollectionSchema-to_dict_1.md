@@ -1,21 +1,22 @@
 ---
 title: "to_dict() | Python | MilvusClient"
 slug: /python/python/CollectionSchema-to_dict_1
+sidebar_key: python/CollectionSchema-to_dict_1
 sidebar_label: "to_dict()"
-beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation converts a CollectionSchema object to a dictionary representation. | Python | MilvusClient"
 type: docx
 token: NnIxd6VYso9IBPx6bJDcJJmUnNd
 sidebar_position: 4
 keywords: 
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - pymilvus26
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';

@@ -1,21 +1,22 @@
 ---
 title: "export | Cloud"
 slug: /cli/cli/Backup-export
+sidebar_key: cli/Backup-export
 sidebar_label: "export"
-beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation exports a backup to external storage. | Cloud"
 type: docx
 token: A4XEdRBSZoBVotxjz8Bca39Dnbf
 sidebar_position: 5
 keywords: 
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
+  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
   - zilliz
   - zilliz cloud
   - cloud

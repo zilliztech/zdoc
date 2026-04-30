@@ -12,10 +12,10 @@ token: XwnjfvziYljpWjdb1IacbEnVnhb
 sidebar_position: 5
 sidebar_label: "Context"
 keywords: 
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
   - zilliz
   - zilliz cloud
   - cloud

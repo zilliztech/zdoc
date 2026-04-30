@@ -1,21 +1,22 @@
 ---
 title: "construct_from_dict() | Python | ORM"
 slug: /python/python/FieldSchema-construct_from_dict
+sidebar_key: python/FieldSchema-construct_from_dict
 sidebar_label: "construct_from_dict()"
-beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation constructs a FieldSchema object from a dictionary representation. | Python | ORM"
 type: docx
 token: DCLUdOpVjohl8HxPUx1cGjokngf
 sidebar_position: 1
 keywords: 
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - pymilvus26
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -56,7 +56,7 @@ construct_from_dict(
 
 **RETURN TYPE:**
 
-*FieldSchema*
+*[FieldSchema](./ORM-FieldSchema)*
 
 **RETURNS:**
 

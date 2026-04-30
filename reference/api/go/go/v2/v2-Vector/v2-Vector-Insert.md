@@ -1,11 +1,12 @@
 ---
 title: "Insert() | Go | v2"
 slug: /go/v2-Vector-Insert
+sidebar_key: v2-Vector-Insert
 sidebar_label: "Insert()"
-beta: FALSE
 added_since: v2.5.x
 last_modified: v2.6.x
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "This method inserts data into a specific collection. | Go | v2"
 type: origin

@@ -1,21 +1,22 @@
 ---
 title: "describeIndex() | Node.js"
 slug: /node/node/Management-describeIndex
+sidebar_key: node/Management-describeIndex
 sidebar_label: "describeIndex()"
-beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation describes a specific index. | Node.js"
 type: docx
 token: PePIdiq9po6cplxAoF6ca5C2ntb
 sidebar_position: 4
 keywords: 
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - nodejs26
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +34,7 @@ import Admonition from '@theme/Admonition';
 This operation describes a specific index.
 
 ```javascript
-describeIndex(data): Promise<DescribeIndexResponse>
+await milvusClient.describeIndex(data)
 ```
 
 ## Request Syntax\{#request-syntax}

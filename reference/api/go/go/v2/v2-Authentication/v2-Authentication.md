@@ -1,11 +1,12 @@
 ---
 title: "Authentication | Go | v2"
 slug: /go/v2-Authentication
+sidebar_key: v2-Authentication
 sidebar_label: "Authentication"
-beta: FALSE
 added_since: v2.5.x
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "In this chapter, you will find functions related to role-based access control (RBAC). | Go | v2"
 type: origin

@@ -1,21 +1,22 @@
 ---
 title: "enable | Cloud"
 slug: /cli/cli/Alert-enable
+sidebar_key: cli/Alert-enable
 sidebar_label: "enable"
-beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation enables an alert rule. | Cloud"
 type: docx
 token: G8Xtd9rypofGjax3HUbcWUNPn3g
 sidebar_position: 4
 keywords: 
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
   - zilliz
   - zilliz cloud
   - cloud

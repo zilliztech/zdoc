@@ -1,21 +1,22 @@
 ---
 title: "loadPartitions() | Java | v2"
 slug: /java/java/v2-Partitions-loadPartitions
+sidebar_key: java/v2-Partitions-loadPartitions
 sidebar_label: "loadPartitions()"
-beta: false
 added_since: v2.3.x
 last_modified: v2.6.x
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation releases the partitions in a specified collection from memory. | Java | v2"
 type: docx
 token: MH8cdNxkgoliJ5xU0f9cBKqunYe
 sidebar_position: 6
 keywords: 
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - javaV226
 displayed_sidebar: javaSidebar
 
-displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';

@@ -1,21 +1,22 @@
 ---
 title: "load() | Python | ORM"
 slug: /python/python/Partition-load
+sidebar_key: python/Partition-load
 sidebar_label: "load()"
-beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation loads the data of the current partition into memory. | Python | ORM"
 type: docx
 token: TWxddf6iboyM15xK4Kzc8ASknRb
 sidebar_position: 6
 keywords: 
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - pymilvus26
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -35,7 +35,7 @@ This operation loads the data of the current partition into memory.
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Using the <strong>partition_names</strong> parameter in the <strong>load()</strong> method of a <strong>Collection</strong> object is equivalent to using the <strong>load()</strong> method of corresponding <strong>Partition</strong> objects.</p>
+<p>Using the <strong>partition_names</strong> parameter in the <strong>load()</strong> method of a <strong><a href="./ORM-Collection">Collection</a></strong> object is equivalent to using the <strong>load()</strong> method of corresponding <strong><a href="./ORM-Partition">Partition</a></strong> objects.</p>
 
 </Admonition>
 

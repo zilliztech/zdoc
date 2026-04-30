@@ -12,10 +12,10 @@ token: BYCBfRYr4lcSD2dra3NcFxronVd
 sidebar_position: 5
 sidebar_label: "Job"
 keywords: 
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
   - zilliz
   - zilliz cloud
   - cloud

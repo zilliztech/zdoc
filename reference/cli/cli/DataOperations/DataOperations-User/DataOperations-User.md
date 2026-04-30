@@ -12,10 +12,10 @@ token: KVy0fojDTl01lHdWSFWcVflBnSf
 sidebar_position: 7
 sidebar_label: "User"
 keywords: 
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
   - zilliz
   - zilliz cloud
   - cloud

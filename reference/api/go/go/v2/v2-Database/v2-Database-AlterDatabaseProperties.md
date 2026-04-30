@@ -1,11 +1,12 @@
 ---
 title: "AlterDatabaseProperties() | Go | v2"
 slug: /go/v2-Database-AlterDatabaseProperties
+sidebar_key: v2-Database-AlterDatabaseProperties
 sidebar_label: "AlterDatabaseProperties()"
-beta: FALSE
 added_since: v2.5.x
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "This method changes the specified properties of a database. | Go | v2"
 type: origin
@@ -85,7 +86,7 @@ Null
 ## Example\{#example}
 
 ```go
-dbName := `test_db`
+dbName := \`test_db\`
 err = cli.AlterDatabaseProperties(ctx, milvusclient.NewAlterDatabasePropertiesOption(dbName).WithProperty("database.replica.number", 2))
 if err != nil {
     // handle err

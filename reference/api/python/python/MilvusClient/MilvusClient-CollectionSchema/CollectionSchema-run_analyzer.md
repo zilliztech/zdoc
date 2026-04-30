@@ -1,21 +1,22 @@
 ---
 title: "run_analyzer() | Python | MilvusClient"
 slug: /python/python/CollectionSchema-run_analyzer
+sidebar_key: python/CollectionSchema-run_analyzer
 sidebar_label: "run_analyzer()"
-beta: false
 added_since: v2.5.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation processes the input data and generates tokenized output. | Python | MilvusClient"
 type: docx
 token: TWzjdJ61ho613AxKSd7clQt9nrg
 sidebar_position: 6
 keywords: 
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - pymilvus26
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';

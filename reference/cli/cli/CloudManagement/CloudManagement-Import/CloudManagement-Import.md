@@ -12,10 +12,10 @@ token: DTaCf9lEKlW82HdbjMMcMTR0nYF
 sidebar_position: 4
 sidebar_label: "Import"
 keywords: 
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
   - zilliz
   - zilliz cloud
   - cloud

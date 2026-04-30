@@ -1,21 +1,22 @@
 ---
 title: "flush_all() | Python | ORM"
 slug: /python/python/utility-flush_all
+sidebar_key: python/utility-flush_all
 sidebar_label: "flush_all()"
-beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation seals all segments. | Python | ORM"
 type: docx
 token: Uwsfd443boKKgyx2zZTcYDqKnCe
 sidebar_position: 12
 keywords: 
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - pymilvus26
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -95,7 +95,7 @@ collection = Collection(
 collection.insert([[1, 2], [[1.0, 2.0], [3.0, 4.0]]])
 
 utility.flush_all(_async=False) # synchronized flush_all
-# or use `future` to flush_all asynchronously
+# or use \`future\` to flush_all asynchronously
 
 future = utility.flush_all(_async=True)
 future.done() # flush_all finished

@@ -1,21 +1,22 @@
 ---
 title: "get | Cloud"
 slug: /cli/cli/Configure-get
+sidebar_key: cli/Configure-get
 sidebar_label: "get"
-beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation gets a configuration value. | Cloud"
 type: docx
 token: OHLjdwKGYoYj7HxmsfDcu10Mn0c
 sidebar_position: 2
 keywords: 
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
   - zilliz
   - zilliz cloud
   - cloud

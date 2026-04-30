@@ -1,21 +1,22 @@
 ---
 title: "to_numpy() | Python | MilvusClient"
 slug: /python/python/EmbeddingList-to_numpy
+sidebar_key: python/EmbeddingList-to_numpy
 sidebar_label: "to_numpy()"
-beta: false
 added_since: v2.6.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
-description: "This operation converts the current EmbeddingList instance into a two-dimensional (2D) NumPy array containing all vector embeddings. | Python | MilvusClient"
+description: "This operation converts the current EmbeddingList NumPy array containing all vector embeddings. | Python | MilvusClient"
 type: docx
 token: XQAQd2tPKon4JgxKEoAc0CCHnUg
 sidebar_position: 6
 keywords: 
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - pymilvus26
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # to_numpy()
 
-This operation converts the current **EmbeddingList** instance into a two-dimensional (2D) NumPy array containing all vector embeddings.
+This operation converts the current **[EmbeddingList](./MilvusClient-EmbeddingList)** instance into a two-dimensional (2D) NumPy array containing all vector embeddings.
 
 ## Request Syntax\{#request-syntax}
 
@@ -51,7 +51,7 @@ A 2D NumPy array containing all vector embeddings in the shape **(num_embeddings
 
 - **ValueError**:
 
-    This exception will be raised if the current **EmbeddingList** instance is empty.
+    This exception will be raised if the current **[EmbeddingList](./MilvusClient-EmbeddingList)** instance is empty.
 
 ## Examples\{#examples}
 

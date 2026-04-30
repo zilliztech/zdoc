@@ -12,10 +12,10 @@ token: JukBfPwp8luly7dRHdWc1MEBnge
 sidebar_position: 6
 sidebar_label: "Partitions"
 keywords: 
+  - Zilliz database
+  - Unstructured Data
+  - vector database
   - IVF
-  - knn
-  - Image Search
-  - LLMs
   - zilliz
   - zilliz cloud
   - cloud

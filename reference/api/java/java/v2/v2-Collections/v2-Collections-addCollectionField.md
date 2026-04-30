@@ -1,21 +1,22 @@
 ---
 title: "addCollectionField() | Java | v2"
 slug: /java/java/v2-Collections-addCollectionField
+sidebar_key: java/v2-Collections-addCollectionField
 sidebar_label: "addCollectionField()"
-beta: false
 added_since: v2.6.x
 last_modified: v2.6.x
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation adds a scalar field to the schema of an existing collection. | Java | v2"
 type: docx
 token: V9rBdJEGzoCybDx9FIfcpqJbnlc
 sidebar_position: 23
 keywords: 
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - javaV226
 displayed_sidebar: javaSidebar
 
-displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';

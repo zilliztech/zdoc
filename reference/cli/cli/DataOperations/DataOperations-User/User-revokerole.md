@@ -1,21 +1,22 @@
 ---
 title: "revoke-role | Cloud"
 slug: /cli/cli/User-revokerole
+sidebar_key: cli/User-revokerole
 sidebar_label: "revoke-role"
-beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation revokes a role from a user. | Cloud"
 type: docx
 token: Bp4sdXEoYoKuYtxs7WwcZBQFncb
 sidebar_position: 6
 keywords: 
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
   - zilliz
   - zilliz cloud
   - cloud

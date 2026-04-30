@@ -1,21 +1,22 @@
 ---
 title: "with_query() | Python | MilvusClient"
 slug: /python/python/Highlighter-with_query
+sidebar_key: python/Highlighter-with_query
 sidebar_label: "with_query()"
-beta: false
 added_since: v2.6.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "Adds a query-term definition to a `LexicalHighlighter` configuration for highlighting text matched by filtering expressions (e.g., TEXTMATCH). This augments `highlightquery` with one entry describing which field and terms to highlight and which filter type produced them. Highlighting runs as post-processing and does not affect retrieval, filtering, ranking, or scoring. | Python | MilvusClient"
 type: docx
 token: KdiQdpHp3oEQwNx2hd5chqQKn2D
 sidebar_position: 3
 keywords: 
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - pymilvus26
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';

@@ -1,11 +1,12 @@
 ---
 title: "drop | Cloud"
 slug: /cli/cli/Role-drop
+sidebar_key: cli/Role-drop
 sidebar_label: "drop"
-beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation drops a role. | Cloud"
 type: docx

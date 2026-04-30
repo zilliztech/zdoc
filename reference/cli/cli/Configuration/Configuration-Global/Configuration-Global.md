@@ -12,10 +12,10 @@ token: HQ85fH0pflAopvdTHUWc1hhHnzc
 sidebar_position: 6
 sidebar_label: "Global"
 keywords: 
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
   - zilliz
   - zilliz cloud
   - cloud

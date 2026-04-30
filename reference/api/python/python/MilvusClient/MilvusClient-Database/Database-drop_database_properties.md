@@ -1,21 +1,22 @@
 ---
 title: "drop_database_properties() | Python | MilvusClient"
 slug: /python/python/Database-drop_database_properties
+sidebar_key: python/Database-drop_database_properties
 sidebar_label: "drop_database_properties()"
-beta: false
 added_since: v2.5.x
 last_modified: v2.6.x
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation drops the setting of the specified properties. | Python | MilvusClient"
 type: docx
 token: AdSXdtNDsoTMnJx1QoGcSsnZnWd
 sidebar_position: 5
 keywords: 
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - pymilvus26
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -57,17 +57,17 @@ drop_database_properties(
 
     Names of the properties to drop. Possible database properties are as follows:
 
-      - **database.replica.number** (*int*) - Number of replicas for the database.
+    - **database.replica.number** (*int*) - Number of replicas for the database.
 
-      - **database.resource_groups** (*list[str]*) - Resource groups dedicated to the database.
+    - **database.resource_groups** (*list[str]*) - Resource groups dedicated to the database.
 
-      - **database.diskQuota.mb** (*int*) - Disk quota allocated to the database in megabytes (**MB**).
+    - **database.diskQuota.mb** (*int*) - Disk quota allocated to the database in megabytes (**MB**).
 
-      - **database.max.collections** (*int*) - Maximum number of collections allowed in the database.
+    - **database.max.collections** (*int*) - Maximum number of collections allowed in the database.
 
-      - **database.force.deny.writing** (*bool*) - Whether to deny all write operations in the database.
+    - **database.force.deny.writing** (*bool*) - Whether to deny all write operations in the database.
 
-      - **database.force.deny.reading** (*bool*) - Whether to deny all read operations in the database.
+    - **database.force.deny.reading** (*bool*) - Whether to deny all read operations in the database.
 
     - **database.replica.number** (*int*) - Number of replicas for the database.
 

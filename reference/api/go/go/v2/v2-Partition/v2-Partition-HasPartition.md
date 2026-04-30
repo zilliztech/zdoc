@@ -1,11 +1,12 @@
 ---
 title: "HasPartition() | Go | v2"
 slug: /go/v2-Partition-HasPartition
+sidebar_key: v2-Partition-HasPartition
 sidebar_label: "HasPartition()"
-beta: FALSE
 added_since: v2.5.x
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "This method checks whether the specified partition exists. | Go | v2"
 type: origin

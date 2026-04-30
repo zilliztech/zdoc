@@ -1,21 +1,22 @@
 ---
 title: "search() | Java | v2"
 slug: /java/java/v2-Vector-search
+sidebar_key: java/v2-Vector-search
 sidebar_label: "search()"
-beta: false
 added_since: v2.3.x
 last_modified: v2.6.x
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation conducts a vector similarity search with an optional scalar filtering expression. | Java | v2"
 type: docx
 token: PAP5dHUZZowH4PxBTxac1W4Jnlh
 sidebar_position: 7
 keywords: 
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - javaV226
 displayed_sidebar: javaSidebar
 
-displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';

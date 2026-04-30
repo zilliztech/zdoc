@@ -1,21 +1,22 @@
 ---
 title: "dropDatabaseProperties() | Java | v2"
 slug: /java/java/v2-Database-dropDatabaseProperties
+sidebar_key: java/v2-Database-dropDatabaseProperties
 sidebar_label: "dropDatabaseProperties()"
-beta: false
 added_since: v2.4.x
 last_modified: v2.6.x
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation resets the database properties to their default values. | Java | v2"
 type: docx
 token: HSYzdg59FoBzeIxymrLc0EbBnyd
 sidebar_position: 5
 keywords: 
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - what is milvus
+  - milvus database
+  - milvus lite
+  - milvus benchmark
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - javaV226
 displayed_sidebar: javaSidebar
 
-displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';

@@ -1,21 +1,22 @@
 ---
 title: "drop | Cloud"
 slug: /cli/cli/Index-drop
+sidebar_key: cli/Index-drop
 sidebar_label: "drop"
-beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation drops an index. | Cloud"
 type: docx
 token: OUnsdvdjxoz76OxI9hLcFWQrnug
 sidebar_position: 3
 keywords: 
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
   - zilliz
   - zilliz cloud
   - cloud

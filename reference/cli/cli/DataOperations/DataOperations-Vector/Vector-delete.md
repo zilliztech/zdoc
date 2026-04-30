@@ -1,21 +1,22 @@
 ---
 title: "delete | Cloud"
 slug: /cli/cli/Vector-delete
+sidebar_key: cli/Vector-delete
 sidebar_label: "delete"
-beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation deletes entities by filter expression. | Cloud"
 type: docx
 token: OTx6dAm4wofwrIxq7w4cjHBIn9v
 sidebar_position: 1
 keywords: 
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
   - zilliz
   - zilliz cloud
   - cloud

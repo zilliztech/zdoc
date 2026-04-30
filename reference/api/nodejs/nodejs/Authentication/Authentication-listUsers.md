@@ -1,21 +1,22 @@
 ---
 title: "listUsers() | Node.js"
 slug: /node/node/Authentication-listUsers
+sidebar_key: node/Authentication-listUsers
 sidebar_label: "listUsers()"
-beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation lists currently available users. | Node.js"
 type: docx
 token: Z0EOd1PXooNeowx4SQgcq3synBc
 sidebar_position: 21
 keywords: 
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - nodejs26
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +34,7 @@ import Admonition from '@theme/Admonition';
 This operation lists currently available users.
 
 ```javascript
-listUsers(data): Promise<ListCredUsersResponse>
+await milvusClient.listUsers(data)
 ```
 
 ## Request Syntax\{#request-syntax}

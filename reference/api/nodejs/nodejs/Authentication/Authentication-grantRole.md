@@ -1,21 +1,22 @@
 ---
 title: "grantRole() | Node.js"
 slug: /node/node/Authentication-grantRole
+sidebar_key: node/Authentication-grantRole
 sidebar_label: "grantRole()"
-beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation grants a role to a user. | Node.js"
 type: docx
 token: LPJsdEnvwo6apcxjhZgc3rpDnuc
 sidebar_position: 16
 keywords: 
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - nodejs26
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,13 +34,13 @@ import Admonition from '@theme/Admonition';
 This operation grants a role to a user.
 
 ```javascript
-grantRole(data): Promise<ResStatus>
+await milvusClient.grantRole(data)
 ```
 
 ## Request Syntax\{#request-syntax}
 
 ```javascript
-milvusClient.grantRole({
+await milvusClient.grantRole({
    username: string,
    roleName: string,
    timeout?: number
@@ -96,7 +96,7 @@ This method returns a promise that resolves to a **ResStatus** object.
 ## Example\{#example}
 
 ```java
-milvusClient.grantRole({
+await milvusClient.grantRole({
    username: 'my',
    roleName: 'myrole'
  })

@@ -1,21 +1,22 @@
 ---
 title: "list | Cloud"
 slug: /cli/cli/Configure-list
+sidebar_key: cli/Configure-list
 sidebar_label: "list"
-beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation lists all configuration values. | Cloud"
 type: docx
 token: XuEOdjJbVo2k7mxPTGbclGipnug
 sidebar_position: 3
 keywords: 
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
   - zilliz
   - zilliz cloud
   - cloud

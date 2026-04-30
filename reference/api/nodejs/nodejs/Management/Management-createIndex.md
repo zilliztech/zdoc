@@ -1,21 +1,22 @@
 ---
 title: "createIndex() | Node.js"
 slug: /node/node/Management-createIndex
+sidebar_key: node/Management-createIndex
 sidebar_label: "createIndex()"
-beta: false
 added_since: v2.3.x
 last_modified: v2.5.x
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation creates an index for a specific collection. | Node.js"
 type: docx
 token: Nu0Id3wzGoJIFyxkC7IcmjAznNf
 sidebar_position: 3
 keywords: 
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - nodejs26
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,13 +34,13 @@ import Admonition from '@theme/Admonition';
 This operation creates an index for a specific collection.
 
 ```javascript
-createIndex(data): Promise<ResStatus>
+await milvusClient.createIndex(data)
 ```
 
 ## Request Syntax\{#request-syntax}
 
 ```javascript
-milvusClient.createIndex([
+await milvusClient.createIndex([
     {
        db_name?: string,
        collection_name: string,
@@ -132,7 +132,7 @@ This method returns a promise that resolves to a **ResStatus** object.
 ## Example\{#example}
 
 ```java
-milvusClient._createIndex({
+await milvusClient._createIndex({
    collection_name: "my_collection",
    field_name: "vector_field",
    index_name: "vector_index"

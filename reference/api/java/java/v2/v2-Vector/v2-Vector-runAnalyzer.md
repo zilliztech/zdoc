@@ -1,21 +1,22 @@
 ---
 title: "runAnalyzer() | Java | v2"
 slug: /java/java/v2-Vector-runAnalyzer
+sidebar_key: java/v2-Vector-runAnalyzer
 sidebar_label: "runAnalyzer()"
-beta: false
 added_since: v2.6.x
 last_modified: v2.6.x
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation processes the input data and generates tokenized output. | Java | v2"
 type: docx
 token: AXt2dvFmQoP04wx9zlVciuitnQf
 sidebar_position: 10
 keywords: 
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - javaV226
 displayed_sidebar: javaSidebar
 
-displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';

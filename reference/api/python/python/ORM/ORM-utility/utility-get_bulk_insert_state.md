@@ -1,21 +1,22 @@
 ---
 title: "get_bulk_insert_state() | Python | ORM"
 slug: /python/python/utility-get_bulk_insert_state
+sidebar_key: python/utility-get_bulk_insert_state
 sidebar_label: "get_bulk_insert_state()"
-beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation returns the state of a specified bulk-insert task. | Python | ORM"
 type: docx
 token: XzHhd3AdCo9DCsxawYycr69CnAb
 sidebar_position: 13
 keywords: 
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - pymilvus26
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -77,10 +77,10 @@ res = utility.get_bulk_insert_state(task_id=task_id)
 
 RETURN TYPE:
 
-*BulkInsertState*
+*[BulkInsertState](./utility-BulkInsertState)*
 
 **RETURNS:**
-A **BulkInsertState** that contains information about the state of the specified bulk-insert task.
+A **[BulkInsertState](./utility-BulkInsertState)** that contains information about the state of the specified bulk-insert task.
 
 ```python
 ├── BulkInsertState
@@ -104,7 +104,7 @@ A **BulkInsertState** that contains information about the state of the specified
 │   └── collection_name
 ```
 
-A **BulkInsertState** object has the following fields
+A **[BulkInsertState](./utility-BulkInsertState)** object has the following fields
 
 - **task_id** (*int*)
 
@@ -162,11 +162,11 @@ A **BulkInsertState** object has the following fields
 
         The names of the files involved in the current bulk-insert task in a comma-separated string.
 
-    - **collection** (*str*)
+    - **[collection](./ORM-Collection)** (*str*)
 
         The name of the target collection.
 
-    - **partition** (*str*)
+    - **[partition](./ORM-Partition)** (*str*)
 
         The name of the target partition.
 

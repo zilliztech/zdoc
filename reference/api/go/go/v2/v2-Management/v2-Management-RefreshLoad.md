@@ -1,11 +1,12 @@
 ---
 title: "RefreshLoad() | Go | v2"
 slug: /go/v2-Management-RefreshLoad
+sidebar_key: v2-Management-RefreshLoad
 sidebar_label: "RefreshLoad()"
-beta: FALSE
 added_since: v2.5.x
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "This method refreshes the load state of the specified collection. | Go | v2"
 type: origin

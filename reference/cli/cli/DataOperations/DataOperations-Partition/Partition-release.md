@@ -1,21 +1,22 @@
 ---
 title: "release | Cloud"
 slug: /cli/cli/Partition-release
+sidebar_key: cli/Partition-release
 sidebar_label: "release"
-beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation releases partitions from memory. | Cloud"
 type: docx
 token: Oy2NdZ5FroKJOPxzFyNcL3SDnyf
 sidebar_position: 7
 keywords: 
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
   - zilliz
   - zilliz cloud
   - cloud

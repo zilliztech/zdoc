@@ -1,21 +1,22 @@
 ---
 title: "searchIterator() | Java | v2"
 slug: /java/java/v2-Vector-searchIterator
+sidebar_key: java/v2-Vector-searchIterator
 sidebar_label: "searchIterator()"
-beta: false
 added_since: v2.4.x
 last_modified: v2.6.x
 deprecate_since: false
+beta: false
 notebook: false
 description: "This method returns a search iterator to iterate search results. | Java | v2"
 type: docx
 token: NYIqdKnfWobgPrxOmxFcbi3JnSd
 sidebar_position: 8
 keywords: 
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - javaV226
 displayed_sidebar: javaSidebar
 
-displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';

@@ -1,21 +1,22 @@
 ---
 title: "update-password | Cloud"
 slug: /cli/cli/User-updatepassword
+sidebar_key: cli/User-updatepassword
 sidebar_label: "update-password"
-beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation updates the user password. | Cloud"
 type: docx
 token: CLzGdXUNzo2XaHxRvBYcaYSZnud
 sidebar_position: 7
 keywords: 
-  - milvus
   - Zilliz
   - milvus vector database
   - milvus db
+  - milvus vector db
   - zilliz
   - zilliz cloud
   - cloud

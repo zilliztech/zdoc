@@ -1,0 +1,97 @@
+---
+title: "append_row() | Python"
+slug: /python/python/VolumeBulkWriter-append_row
+sidebar_key: python/VolumeBulkWriter-append_row
+sidebar_label: "append_row()"
+added_since: v2.6.x
+last_modified: false
+deprecate_since: false
+beta: v2.6.x
+notebook: false
+description: "This operation appends a single row of data to the internal buffer. When the buffer size exceeds the configured chunk size, the buffer is automatically flushed to local files and uploaded to the remote volume. | Python"
+type: docx
+token: LJKOd7ZDUopRISxNzamcwb1PnMJ
+sidebar_position: 1
+keywords: 
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - append_row()
+  - pymilvus26
+displayed_sidebar: pythonSidebar
+
+---
+
+import Admonition from '@theme/Admonition';
+
+
+# append_row()
+
+This operation appends a single row of data to the internal buffer. When the buffer size exceeds the configured chunk size, the buffer is automatically flushed to local files and uploaded to the remote volume.
+
+## Request Syntax\{#request-syntax}
+
+```python
+VolumeBulkWriter.append_row(
+    row: Dict[str, Any],
+    **kwargs
+)
+```
+
+**PARAMETERS:**
+
+- **row** (*Dict[str, Any]*) -
+
+    **[REQUIRED]**
+
+    A dictionary representing a single row of data. The keys must match the field names defined in the collection schema, and the values must conform to the corresponding field types.
+
+**RETURN TYPE:**
+
+*None*
+
+This method does not return a value.
+
+**EXCEPTIONS:**
+
+- **MilvusException**
+
+    Raised when the row data fails validation against the collection schema (e.g., type mismatch, missing required fields, vector dimension mismatch).
+
+## Examples\{#examples}
+
+```python
+from pymilvus.bulk_writer.volume_bulk_writer import VolumeBulkWriter
+from pymilvus import CollectionSchema, FieldSchema, DataType
+
+fields = [
+    FieldSchema(name="id", dtype=DataType.INT64, is_primary=True, auto_id=False),
+    FieldSchema(name="vector", dtype=DataType.FLOAT_VECTOR, dim=128),
+]
+schema = CollectionSchema(fields, "example_collection")
+
+writer = VolumeBulkWriter(
+    schema=schema,
+    remote_path="/data/bulk_import",
+    cloud_endpoint="https://your-cloud-endpoint.zillizcloud.com",
+    api_key="your-api-key",
+    volume_name="my-volume",
+)
+
+# Append a single row
+writer.append_row({
+    "id": 1,
+    "vector": [0.1] * 128,
+})
+
+# Append multiple rows
+for i in range(1000):
+    writer.append_row({
+        "id": i,
+        "vector": [0.1] * 128,
+    })
+```

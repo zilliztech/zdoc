@@ -1,21 +1,22 @@
 ---
 title: "LexicalHighlighter | Java | v2"
 slug: /java/java/v2-Highlighter-LexicalHighlighter
+sidebar_key: java/v2-Highlighter-LexicalHighlighter
 sidebar_label: "LexicalHighlighter"
-beta: false
 added_since: v2.6.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "A `LexicalHighlighter` instance configures post-processing term highlighting for text fields in search results. Highlighting annotates matched spans using customizable tags, and can return fragment-based snippets for improved readability and UI rendering. It does not impact retrieval, filtering, ranking, or scoring. | Java | v2"
 type: docx
 token: Krd6dVuQbohTF5xFHGYcomHsnEg
 sidebar_position: 2
 keywords: 
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - javaV226
 displayed_sidebar: javaSidebar
 
-displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';

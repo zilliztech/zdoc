@@ -1,21 +1,22 @@
 ---
 title: "list | Cloud"
 slug: /cli/cli/Backup-list
+sidebar_key: cli/Backup-list
 sidebar_label: "list"
-beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation lists all backups. | Cloud"
 type: docx
 token: IO8UdHyHmotVsLx6D18cRBpYn8y
 sidebar_position: 6
 keywords: 
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
   - zilliz
   - zilliz cloud
   - cloud

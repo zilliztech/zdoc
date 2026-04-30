@@ -1,21 +1,22 @@
 ---
 title: "search() | Node.js"
 slug: /node/node/Vector-search
+sidebar_key: node/Vector-search
 sidebar_label: "search()"
-beta: false
 added_since: v2.3.x
 last_modified: v2.6.x
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation conducts a vector similarity search with an optional scalar filtering expression. | Node.js"
 type: docx
 token: C8kgdOn3pozkrtxCBMLcqcSTnTb
-sidebar_position: 8
+sidebar_position: 7
 keywords: 
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - nodejs26
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,13 +34,13 @@ import Admonition from '@theme/Admonition';
 This operation conducts a vector similarity search with an optional scalar filtering expression.
 
 ```javascript
-search(data): Promise<ResStatus>
+await milvusClient.search(data)
 ```
 
 ## Request Syntax\{#request-syntax}
 
 ```javascript
-milvusClient.search({
+await milvusClient.search({
   db_name?: string,
   collection_name: string,
   partition_names?: string[];
@@ -222,7 +222,7 @@ milvusClient.search({
 
 - **hints** (*string*) -
 
-     A hints string to improve search performance.
+    A hints string to improve search performance.
 
 - **round_decimal** (*number*) -
 
@@ -369,7 +369,10 @@ This method returns a promise that resolves to a **SearchResults** object.
 ## Example\{#example}
 
 ```plaintext
-const milvusClient = new milvusClient(MILUVS_ADDRESS);
+const milvusClient = new MilvusClient({
+    address: 'YOUR_CLUSTER_ENDPOINT',
+    token: 'YOUR_CLUSTER_TOKEN',
+});
 const searchResults = await milvusClient.search({
    collection_name: 'my_collection',
    vector: [1, 2, 3, 4],

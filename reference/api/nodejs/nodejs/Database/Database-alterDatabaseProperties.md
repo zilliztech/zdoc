@@ -1,21 +1,22 @@
 ---
 title: "alterDatabaseProperties() | Node.js"
 slug: /node/node/Database-alterDatabaseProperties
+sidebar_key: node/Database-alterDatabaseProperties
 sidebar_label: "alterDatabaseProperties()"
-beta: false
 added_since: v2.5.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation modifies the properties of the specified database. | Node.js"
 type: docx
 token: NNWed9Vd1o7vDkxY4pncM4wYnaf
 sidebar_position: 7
 keywords: 
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - nodejs26
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +34,7 @@ import Admonition from '@theme/Admonition';
 This operation modifies the properties of the specified database.
 
 ```javascript
-alterDatabaseProperties(data): Promise<ResStatus>
+await milvusClient.alterDatabaseProperties(data)
 ```
 
 <Admonition type="info" icon="📘" title="Notes">
@@ -46,7 +46,7 @@ alterDatabaseProperties(data): Promise<ResStatus>
 ## Request Syntax\{#request-syntax}
 
 ```javascript
-milvusClient.alterDatabaseProperties({
+await milvusClient.alterDatabaseProperties({
     db_name: string,
     delete_keys: Object,
     properties: Record<string, string | number | boolean>
@@ -153,7 +153,10 @@ This method returns a promise that resolves to a **ResStatus** object.
 ## Example\{#example}
 
 ```javascript
-const milvusClient = new milvusClient(MILUVS_ADDRESS);
+const milvusClient = new MilvusClient({
+    address: 'YOUR_CLUSTER_ENDPOINT',
+    token: 'YOUR_CLUSTER_TOKEN',
+});
 const resStatus = await milvusClient.alterDatabaseProperties({ 
     db_name: 'new_db',
     delete_properties: {'database.replica.number': 3} 

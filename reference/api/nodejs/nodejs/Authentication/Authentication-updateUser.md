@@ -1,21 +1,22 @@
 ---
 title: "updateUser() | Node.js"
 slug: /node/node/Authentication-updateUser
+sidebar_key: node/Authentication-updateUser
 sidebar_label: "updateUser()"
-beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation updates the password of a specific user. | Node.js"
 type: docx
 token: BCGKdCttdotF32xUJTec8UFlndg
 sidebar_position: 28
 keywords: 
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - nodejs26
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,13 +34,13 @@ import Admonition from '@theme/Admonition';
 This operation updates the password of a specific user.
 
 ```javascript
-updateUser(data): Promise<ResStatus>
+await milvusClient.updateUser(data)
 ```
 
 ## Request Syntax\{#request-syntax}
 
 ```javascript
-milvusClient.updateUser({
+await milvusClient.updateUser({
    username: string,
    newPassword: string,
    oldPassword: string,
@@ -103,7 +103,7 @@ This method returns a promise that resolves to a **ResStatus** object.
 ## Example\{#example}
 
 ```java
-milvusClient.updateUser({
+await milvusClient.updateUser({
    username: 'exampleUser',
    newPassword: 'newPassword',
    oldPassword: 'oldPassword',

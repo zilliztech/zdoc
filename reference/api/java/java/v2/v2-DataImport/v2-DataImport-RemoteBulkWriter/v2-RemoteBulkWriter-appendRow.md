@@ -1,21 +1,22 @@
 ---
 title: "appendRow() | Java | v2"
 slug: /java/java/v2-RemoteBulkWriter-appendRow
+sidebar_key: java/v2-RemoteBulkWriter-appendRow
 sidebar_label: "appendRow()"
-beta: false
 added_since: v2.5.x
 last_modified: v2.6.x
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation appends a row of data to the RemoteBulkWriter buffer. The data will be uploaded to remote storage when the buffer is full or when `commit()` is called. | Java | v2"
 type: docx
 token: PLJTd37DWozRwbx74AIcQyh4nmc
 sidebar_position: 6
 keywords: 
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - javaV226
 displayed_sidebar: javaSidebar
 
-displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';

@@ -1,21 +1,22 @@
 ---
 title: "load | Cloud"
 slug: /cli/cli/Collection-load
+sidebar_key: cli/Collection-load
 sidebar_label: "load"
-beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation loads a collection into memory for search. | Cloud"
 type: docx
 token: Q577dSJWeoSb23xarfmcmMeqncg
 sidebar_position: 10
 keywords: 
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
   - zilliz
   - zilliz cloud
   - cloud

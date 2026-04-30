@@ -1,21 +1,22 @@
 ---
 title: "closeConnection() | Node.js"
 slug: /node/node/Client-closeConnection
+sidebar_key: node/Client-closeConnection
 sidebar_label: "closeConnection()"
-beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation closes the current connection to the Milvus server. | Node.js"
 type: docx
 token: HtOGdjTpOoG0RcxpGv1cCBcEnAh
 sidebar_position: 3
 keywords: 
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - nodejs26
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +34,7 @@ import Admonition from '@theme/Admonition';
 This operation closes the current connection to the Milvus server.
 
 ```javascript
-closeConnection(): Promise<CONNECT_STATUS>
+await milvusClient.closeConnection()
 ```
 
 ## Request Syntax\{#request-syntax}

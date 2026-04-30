@@ -1,21 +1,22 @@
 ---
 title: "uploadFilesAsync | Java | v2"
 slug: /java/java/v2-VolumeFileManager-uploadFilesAsync
+sidebar_key: java/v2-VolumeFileManager-uploadFilesAsync
 sidebar_label: "uploadFilesAsync"
-beta: false
 added_since: false
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation uploads the local file at the specified source path to the target file path within the specified volume. | Java | v2"
 type: docx
 token: GE25dbBmMoU8glxCWbJckYObnN1
 sidebar_position: 1
 keywords: 
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - javaV226
 displayed_sidebar: javaSidebar
 
-displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';

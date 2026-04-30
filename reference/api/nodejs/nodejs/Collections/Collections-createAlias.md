@@ -1,21 +1,22 @@
 ---
 title: "createAlias() | Node.js"
 slug: /node/node/Collections-createAlias
+sidebar_key: node/Collections-createAlias
 sidebar_label: "createAlias()"
-beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation creates an alias for an existing collection. | Node.js"
 type: docx
 token: MPuIdwujBoXM6rx7Okfc3lhZnUd
 sidebar_position: 4
 keywords: 
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - nodejs26
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,13 +34,13 @@ import Admonition from '@theme/Admonition';
 This operation creates an alias for an existing collection.
 
 ```javascript
-createAlias(data): Promise<ResStatus>
+await milvusClient.createAlias(data)
 ```
 
 ## Request Syntax\{#request-syntax}
 
 ```javascript
-milvusClient.createAlias({
+await milvusClient.createAlias({
    alias: string,
    db_name: string,
    collection_name: string,
@@ -117,7 +117,10 @@ This method returns a promise that resolves to a **ResStatus** object.
 ## Example\{#example}
 
 ```java
-const milvusClient = new milvusClient(MILUVS_ADDRESS);
+const milvusClient = new MilvusClient({
+    address: 'YOUR_CLUSTER_ENDPOINT',
+    token: 'YOUR_CLUSTER_TOKEN',
+});
  const resStatus = await milvusClient.createAlias({
    alias: 'my_collection_alias',
    collection_name: 'my_collection',

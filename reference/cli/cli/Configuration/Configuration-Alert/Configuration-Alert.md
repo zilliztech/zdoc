@@ -12,10 +12,10 @@ token: KckdfroNnlfPlZd6GLuc2Zsrnqh
 sidebar_position: 1
 sidebar_label: "Alert"
 keywords: 
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
   - zilliz
   - zilliz cloud
   - cloud

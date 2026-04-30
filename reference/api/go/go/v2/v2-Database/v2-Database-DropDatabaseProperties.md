@@ -1,11 +1,12 @@
 ---
 title: "DropDatabaseProperties() | Go | v2"
 slug: /go/v2-Database-DropDatabaseProperties
+sidebar_key: v2-Database-DropDatabaseProperties
 sidebar_label: "DropDatabaseProperties()"
-beta: FALSE
 added_since: v2.5.x
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "This method resets the specified property of a database to its default value. | Go | v2"
 type: origin
@@ -90,7 +91,7 @@ Null
 ## Example\{#example}
 
 ```go
-dbName := `test_db`
+dbName := \`test_db\`
 err = cli.DropDatabaseProperties(ctx, milvusclient.NewDropDatabasePropertiesOption(dbName, "database.replica.number"))
 if err != nil {
     // handle err

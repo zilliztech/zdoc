@@ -1,21 +1,22 @@
 ---
 title: "revoke_role() | Python | MilvusClient"
 slug: /python/python/Authentication-revoke_role
+sidebar_key: python/Authentication-revoke_role
 sidebar_label: "revoke_role()"
-beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation revokes the role assigned to a user. | Python | MilvusClient"
 type: docx
 token: JJOId59ePoMLefxz1ChcBZ6inOh
 sidebar_position: 19
 keywords: 
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - pymilvus26
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -101,12 +101,4 @@ client.grant_role(user_name="user_1", role_name="db_ro")
 # 4. Revoke the role from the user
 client.revoke_role(user_name="user_1", role_name="db_ro")
 ```
-
-## Related methods\{#related-methods}
-
-- [describe_role()](./Authentication-describe_role)
-
-- [grant_role()](./Authentication-grant_role)
-
-- [list_roles()](./Authentication-list_roles)
 

@@ -1,21 +1,22 @@
 ---
 title: "resume | Cloud"
 slug: /cli/cli/Cluster-resume
+sidebar_key: cli/Cluster-resume
 sidebar_label: "resume"
-beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation resumes a suspended cluster. | Cloud"
 type: docx
 token: EbredHGusoLbZbxRLiWcjeManIf
 sidebar_position: 9
 keywords: 
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
   - zilliz
   - zilliz cloud
   - cloud

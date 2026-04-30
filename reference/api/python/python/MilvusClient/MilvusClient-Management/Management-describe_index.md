@@ -1,11 +1,12 @@
 ---
 title: "describe_index() | Python | MilvusClient"
 slug: /python/python/Management-describe_index
+sidebar_key: python/Management-describe_index
 sidebar_label: "describe_index()"
-beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation describes a specific index. | Python | MilvusClient"
 type: docx
@@ -23,7 +24,6 @@ keywords:
   - pymilvus26
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';

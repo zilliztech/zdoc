@@ -1,21 +1,22 @@
 ---
 title: "encode_documents() | Python"
 slug: /python/python/JinaEmbeddingFunction-encode_documents
+sidebar_key: python/JinaEmbeddingFunction-encode_documents
 sidebar_label: "encode_documents()"
-beta: false
 added_since: v2.4.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation takes in documents and encodes them into vector embeddings. | Python"
 type: docx
 token: ZMs1dJJOGobyBjxRo7icXtE8nPe
 sidebar_position: 1
 keywords: 
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - pymilvus26
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -67,7 +67,7 @@ A list where each element is a NumPy array.
 from pymilvus.model.dense import JinaEmbeddingFunction
 
 jina_ef = JinaEmbeddingFunction(
-    model_name="jina-embeddings-v2-base-en", # Defaults to `jina-embeddings-v2-base-en`
+    model_name="jina-embeddings-v2-base-en", # Defaults to \`jina-embeddings-v2-base-en\`
     api_key="YOUR_JINAAI_API_KEY" # Provide your Jina AI API key
 )
 

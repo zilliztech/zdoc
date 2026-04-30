@@ -1,21 +1,22 @@
 ---
 title: "drop | Cloud"
 slug: /cli/cli/Alias-drop
+sidebar_key: cli/Alias-drop
 sidebar_label: "drop"
-beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation drops an alias. | Cloud"
 type: docx
 token: KjCMddr4IoRPU6xGhe6c4v7qnTd
 sidebar_position: 4
 keywords: 
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
   - zilliz
   - zilliz cloud
   - cloud

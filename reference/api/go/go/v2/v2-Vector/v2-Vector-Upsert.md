@@ -1,11 +1,12 @@
 ---
 title: "Upsert() | Go | v2"
 slug: /go/v2-Vector-Upsert
+sidebar_key: v2-Vector-Upsert
 sidebar_label: "Upsert()"
-beta: FALSE
 added_since: v2.5.x
 last_modified: v2.6.x
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "This method updates or inserts data in a specific collection. | Go | v2"
 type: origin

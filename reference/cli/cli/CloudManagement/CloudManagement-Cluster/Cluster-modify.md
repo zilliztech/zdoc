@@ -1,21 +1,22 @@
 ---
 title: "modify | Cloud"
 slug: /cli/cli/Cluster-modify
+sidebar_key: cli/Cluster-modify
 sidebar_label: "modify"
-beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation modifies a cluster configuration, such as scaling the number of allocated CUs or the number of replicas to create. | Cloud"
 type: docx
 token: YmP7dBDHPo5rKAxGFRGcUFjznLd
 sidebar_position: 6
 keywords: 
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
   - zilliz
   - zilliz cloud
   - cloud

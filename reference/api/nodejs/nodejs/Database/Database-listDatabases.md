@@ -1,21 +1,22 @@
 ---
 title: "listDatabases() | Node.js"
 slug: /node/node/Database-listDatabases
+sidebar_key: node/Database-listDatabases
 sidebar_label: "listDatabases()"
-beta: false
 added_since: v2.3.x
 last_modified: v2.5.x
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation lists all existing databases. | Node.js"
 type: docx
 token: Kp9Dd2dIgoxyDixuqtqctPZXnFb
 sidebar_position: 5
 keywords: 
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - nodejs26
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,13 +34,13 @@ import Admonition from '@theme/Admonition';
 This operation lists all existing databases.
 
 ```javascript
-listDatabases(data?): Promise<ListDatabasesResponse>
+await milvusClient.listDatabases(data?)
 ```
 
 ## Request Syntax\{#request-syntax}
 
 ```javascript
-milvusClient.listDatabases({
+await milvusClient.listDatabases({
     timeout?: number
 })
 ```
@@ -93,6 +93,9 @@ This method returns a promise that resolves to a **ListDatabaseResponse** object
 ## Example\{#example}
 
 ```javascript
-const milvusClient = new milvusClient(MILUVS_ADDRESS);
+const milvusClient = new MilvusClient({
+    address: 'YOUR_CLUSTER_ENDPOINT',
+    token: 'YOUR_CLUSTER_TOKEN',
+});
 const res = await milvusClient.listDatabases();
 ```

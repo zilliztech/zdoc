@@ -1,21 +1,22 @@
 ---
 title: "get-load-state | Cloud"
 slug: /cli/cli/Collection-getloadstate
+sidebar_key: cli/Collection-getloadstate
 sidebar_label: "get-load-state"
-beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation gets collection load state. | Cloud"
 type: docx
 token: RnRTdshwloBzIFx5rLHcFTm2nVh
 sidebar_position: 6
 keywords: 
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
   - zilliz
   - zilliz cloud
   - cloud

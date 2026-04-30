@@ -1,21 +1,22 @@
 ---
 title: "getServerVersion() | Java | v2"
 slug: /java/java/v2-Management-getServerVersion
+sidebar_key: java/v2-Management-getServerVersion
 sidebar_label: "getServerVersion()"
-beta: false
 added_since: v2.6.x
 last_modified: v2.6.x
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation returns the version string of the connected . | Java | v2"
 type: docx
 token: FuDHdadxHoX9qSxe4aac4wzNnRh
 sidebar_position: 23
 keywords: 
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - javaV226
 displayed_sidebar: javaSidebar
 
-displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';

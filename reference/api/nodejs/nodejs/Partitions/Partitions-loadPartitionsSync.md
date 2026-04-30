@@ -1,21 +1,22 @@
 ---
 title: "loadPartitionsSync() | Node.js"
 slug: /node/node/Partitions-loadPartitionsSync
+sidebar_key: node/Partitions-loadPartitionsSync
 sidebar_label: "loadPartitionsSync()"
-beta: false
 added_since: v2.4.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation loads the data of specific partitions into memory. This is the synchronous function that helps to ensure that the specified partitions have been loaded. | Node.js"
 type: docx
 token: VGofdSRi0o6EagxNkokc9Iinndf
 sidebar_position: 7
 keywords: 
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - nodejs26
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,13 +34,13 @@ import Admonition from '@theme/Admonition';
 This operation loads the data of specific partitions into memory. This is the synchronous function that helps to ensure that the specified partitions have been loaded.
 
 ```javascript
-loadPartitionsSync(data): Promise<ResStatus>
+await milvusClient.loadPartitionsSync(data)
 ```
 
 ## Request Syntax\{#request-syntax}
 
 ```javascript
-milvusClient.loadPartitionsSync({ 
+await milvusClient.loadPartitionsSync({ 
     db_name: string,
     collection_name: string,
     refresh?: boolean,
@@ -109,7 +109,10 @@ This method returns a promise that resolves to a **ResStatus** object.
 ## Example\{#example}
 
 ```java
-new milvusClient(MILUVS_ADDRESS).loadPartitionsSync({
+new MilvusClient({
+    address: 'YOUR_CLUSTER_ENDPOINT',
+    token: 'YOUR_CLUSTER_TOKEN',
+}).loadPartitionsSync({
     collection_name: 'my_collection',
     partition_names: ['my_partition'],
  });

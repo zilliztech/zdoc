@@ -1,21 +1,22 @@
 ---
 title: "list_loaded_segments() | Python | MilvusClient"
 slug: /python/python/Management-list_loaded_segments
+sidebar_key: python/Management-list_loaded_segments
 sidebar_label: "list_loaded_segments()"
-beta: false
 added_since: v2.6.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation lists all currently loaded segments for a collection, including information about row count, sort status, storage level, and memory size. | Python | MilvusClient"
 type: docx
 token: QWlfd7SO1ojpdHxM968coTYQnYg
 sidebar_position: 21
 keywords: 
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - pymilvus26
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';

@@ -1,21 +1,22 @@
 ---
 title: "bulk_import() | Python"
 slug: /python/python/BulkImport-bulk_import
+sidebar_key: python/BulkImport-bulk_import
 sidebar_label: "bulk_import()"
-beta: false
 added_since: Inherit
 last_modified: v2.5.x
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation imports the prepared data files to Zilliz Cloud. To learn how to prepare your data files, read Prepare Data Import. | Python"
 type: docx
 token: RFSCdiUYGouQrtx8c1RczPVvnmf
 sidebar_position: 1
 keywords: 
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - pymilvus26
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';

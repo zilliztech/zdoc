@@ -1,21 +1,22 @@
 ---
 title: "createAlias() | Java | v2"
 slug: /java/java/v2-Collections-createAlias
+sidebar_key: java/v2-Collections-createAlias
 sidebar_label: "createAlias()"
-beta: false
 added_since: v2.3.x
 last_modified: v2.6.x
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation creates an alias for an existing collection. | Java | v2"
 type: docx
 token: BujpdsEJnozVT4xY3NFczyfrnDe
 sidebar_position: 6
 keywords: 
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - javaV226
 displayed_sidebar: javaSidebar
 
-displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';

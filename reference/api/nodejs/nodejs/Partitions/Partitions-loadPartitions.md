@@ -1,21 +1,22 @@
 ---
 title: "loadPartitions() | Node.js"
 slug: /node/node/Partitions-loadPartitions
+sidebar_key: node/Partitions-loadPartitions
 sidebar_label: "loadPartitions()"
-beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation loads a specific set of partitions in a specified collection into memory. | Node.js"
 type: docx
 token: Pyh3dttWKoBqcBx8FGhcArhAnqg
 sidebar_position: 6
 keywords: 
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - nodejs26
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,13 +34,13 @@ import Admonition from '@theme/Admonition';
 This operation loads a specific set of partitions in a specified collection into memory.
 
 ```javascript
-loadPartitions(data): Promise<ResStatus>
+await milvusClient.loadPartitions(data)
 ```
 
 ## Request Syntax\{#request-syntax}
 
 ```javascript
-milvusClient.loadPartitions({
+await milvusClient.loadPartitions({
     db_name: string,
     collection_name: string,
     partition_names: string[],
@@ -109,7 +109,10 @@ This method returns a promise that resolves to a **ResStatus** object.
 ## Example\{#example}
 
 ```java
-new milvusClient(MILUVS_ADDRESS).loadPartitions({
+new MilvusClient({
+    address: 'YOUR_CLUSTER_ENDPOINT',
+    token: 'YOUR_CLUSTER_TOKEN',
+}).loadPartitions({
     collection_name: 'my_collection',
     partition_names: ['my_partition'],
  });

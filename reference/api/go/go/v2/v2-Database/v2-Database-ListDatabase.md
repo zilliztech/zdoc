@@ -1,11 +1,12 @@
 ---
 title: "ListDatabase() | Go | v2"
 slug: /go/v2-Database-ListDatabase
+sidebar_key: v2-Database-ListDatabase
 sidebar_label: "ListDatabase()"
-beta: FALSE
 added_since: v2.5.x
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "This method returns a list of database names. | Go | v2"
 type: origin

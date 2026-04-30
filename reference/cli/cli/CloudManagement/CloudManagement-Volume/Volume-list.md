@@ -1,21 +1,22 @@
 ---
 title: "list | Cloud"
 slug: /cli/cli/Volume-list
+sidebar_key: cli/Volume-list
 sidebar_label: "list"
-beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation lists all volumes in a project. | Cloud"
 type: docx
 token: FDjjdFVzxozhvhxU5tgc42utnZg
 sidebar_position: 3
 keywords: 
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
   - zilliz
   - zilliz cloud
   - cloud

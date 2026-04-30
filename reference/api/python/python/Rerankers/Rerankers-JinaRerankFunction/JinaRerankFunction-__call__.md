@@ -1,21 +1,22 @@
 ---
 title: "\_\_call\_\_() | Python"
 slug: /python/python/JinaRerankFunction-__call__
+sidebar_key: python/JinaRerankFunction-__call__
 sidebar_label: "__call__()"
-beta: false
 added_since: v2.4.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation in JinaRerankFunction takes in a query and document strings and returns a list of `RerankResult` objects with the top k documents ranked by score. | Python"
 type: docx
 token: R3gEdUOSfo6JzMxwUsTcevNHn9g
 sidebar_position: 2
 keywords: 
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - pymilvus26
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -96,7 +96,7 @@ Each `RerankResult` object contains:
 from pymilvus.model.reranker import JinaRerankFunction
 
 jina_rf = JinaRerankFunction(
-    model_name="jina-reranker-v1-base-en", # Defaults to `jina-reranker-v1-base-en`
+    model_name="jina-reranker-v1-base-en", # Defaults to \`jina-reranker-v1-base-en\`
     api_key="YOUR_JINAAI_API_KEY"
 )
 

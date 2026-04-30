@@ -1,11 +1,12 @@
 ---
 title: "CreateIndex() | Go | v2"
 slug: /go/v2-Management-CreateIndex
+sidebar_key: v2-Management-CreateIndex
 sidebar_label: "CreateIndex()"
-beta: FALSE
 added_since: v2.5.x
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "This method creates an index on a specific field. | Go | v2"
 type: origin

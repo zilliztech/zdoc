@@ -1,21 +1,22 @@
 ---
 title: "list | Cloud"
 slug: /cli/cli/Role-list
+sidebar_key: cli/Role-list
 sidebar_label: "list"
-beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation lists all roles. | Cloud"
 type: docx
 token: RnVSdpa8Uog0ufxOa5Bc2LN2n9d
 sidebar_position: 5
 keywords: 
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
   - zilliz
   - zilliz cloud
   - cloud

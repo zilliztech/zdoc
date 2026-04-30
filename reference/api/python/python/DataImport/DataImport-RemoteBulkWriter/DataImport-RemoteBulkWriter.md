@@ -1,21 +1,22 @@
 ---
 title: "RemoteBulkWriter | Python"
 slug: /python/python/DataImport-RemoteBulkWriter
+sidebar_key: python/DataImport-RemoteBulkWriter
 sidebar_label: "RemoteBulkWriter"
-beta: false
 added_since: v2.3.x
 last_modified: v2.5.x
 deprecate_since: false
+beta: false
 notebook: false
 description: "A RemoteBulkWriter instance writes your raw data in a format that Zilliz Cloud understands into an AWS-S3-compatible bucket. | Python"
 type: docx
 token: BDP4dew9to9tQoxNEMPcBR5xnZb
 sidebar_position: 4
 keywords: 
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - pymilvus26
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -93,7 +93,7 @@ writer = RemoteBulkWriter(
 
     </Admonition>
 
-- **file_type** (*BulkFileType*) -
+- **file_type** (*[BulkFileType](./DataImport-BulkFileType)*) -
 
     The type of the output file.
 
@@ -112,7 +112,7 @@ writer = RemoteBulkWriter(
     }
     ```
 
-    -  **sep** (*string*)
+    - **sep** (*string*)
 
         The delimiter of CSV file. The value must be a string of length 1, which defaults to `","`. The following strings are not allowed: `"\0"`, `"\n"`, `"\r"`, `"""`.
 

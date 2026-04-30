@@ -1,21 +1,22 @@
 ---
 title: "start | Cloud"
 slug: /cli/cli/Import-start
+sidebar_key: cli/Import-start
 sidebar_label: "start"
-beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation starts a data import job. | Cloud"
 type: docx
 token: EMBrd9PtWoNfh4xBseQcPzaOn2b
 sidebar_position: 2
 keywords: 
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
   - zilliz
   - zilliz cloud
   - cloud

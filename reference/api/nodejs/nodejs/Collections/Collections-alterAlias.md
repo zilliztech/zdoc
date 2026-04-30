@@ -1,21 +1,22 @@
 ---
 title: "alterAlias() | Node.js"
 slug: /node/node/Collections-alterAlias
+sidebar_key: node/Collections-alterAlias
 sidebar_label: "alterAlias()"
-beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation reassigns the alias of one collection to another. | Node.js"
 type: docx
 token: DXTLdtFCso7fo6xJHShc7XLpngh
 sidebar_position: 1
 keywords: 
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - nodejs26
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,13 +34,13 @@ import Admonition from '@theme/Admonition';
 This operation reassigns the alias of one collection to another.
 
 ```javascript
-alterAlias(data): Promise<ResStatus>
+await milvusClient.alterAlias(data)
 ```
 
 ## Request Syntax\{#request-syntax}
 
 ```javascript
-milvusClient.alterAlias({
+await milvusClient.alterAlias({
    alias: string,
    db_name: string
    collection_name: string,
@@ -119,7 +119,10 @@ This method returns a promise that resolves to a **ResStatus** object.
 ## Example\{#example}
 
 ```java
-const milvusClient = new milvusClient(MILUVS_ADDRESS);
+const milvusClient = new MilvusClient({
+    address: 'YOUR_CLUSTER_ENDPOINT',
+    token: 'YOUR_CLUSTER_TOKEN',
+});
 const resStatus = await milvusClient.alterAlias({
    alias: 'my_collection_alias',
    collection_name: 'my_collection',

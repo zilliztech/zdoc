@@ -1,21 +1,22 @@
 ---
 title: "describe | Cloud"
 slug: /cli/cli/Job-describe
+sidebar_key: cli/Job-describe
 sidebar_label: "describe"
-beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation gets the status of an async job (backup, restore, migration, import, etc.). | Cloud"
 type: docx
 token: DKW5dWKqcoDIaHxD5dycfhzTnbd
 sidebar_position: 1
 keywords: 
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
   - zilliz
   - zilliz cloud
   - cloud

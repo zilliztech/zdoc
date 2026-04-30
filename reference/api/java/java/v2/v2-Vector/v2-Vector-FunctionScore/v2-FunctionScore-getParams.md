@@ -1,21 +1,22 @@
 ---
 title: "getParams() | Java | v2"
 slug: /java/java/v2-FunctionScore-getParams
+sidebar_key: java/v2-FunctionScore-getParams
 sidebar_label: "getParams()"
-beta: false
 added_since: v2.6.x
 last_modified: v2.6.x
 deprecate_since: false
+beta: false
 notebook: false
 description: "This getter returns the parameters map of this FunctionScore object. | Java | v2"
 type: docx
 token: DUJsdflImor0joxV14ecSwpnnDb
 sidebar_position: 4
 keywords: 
-  - what is a vector database
-  - vectordb
   - multimodal vector database retrieval
   - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - javaV226
 displayed_sidebar: javaSidebar
 
-displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';

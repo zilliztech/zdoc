@@ -12,10 +12,10 @@ token: PNMKfl6RdlfEzzdg6zycDTQHnGw
 sidebar_position: 1
 sidebar_label: "Alias"
 keywords: 
-  - Embedding model
   - image similarity search
   - Context Window
   - Natural language search
+  - Similarity Search
   - zilliz
   - zilliz cloud
   - cloud

@@ -1,21 +1,22 @@
 ---
 title: "list_bulk_insert_tasks() | Python | ORM"
 slug: /python/python/utility-list_bulk_insert_tasks
+sidebar_key: python/utility-list_bulk_insert_tasks
 sidebar_label: "list_bulk_insert_tasks()"
-beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation lists all bulk-insert tasks. | Python | ORM"
 type: docx
 token: T1CGdXeVkoG2yAxkualc1jVonRb
 sidebar_position: 23
 keywords: 
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - pymilvus26
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -73,7 +73,7 @@ list_bulk_insert_tasks(
 *list*
 
 **RETURNS:**
-A list of **BulkInsertState** objects.
+A list of **[BulkInsertState](./utility-BulkInsertState)** objects.
 
 ```python
 ├── BulkInsertState
@@ -153,11 +153,11 @@ A list of **BulkInsertState** objects.
 
         The names of the files involved in the current bulk-insert task in a comma-separated string.
 
-    - **collection** (*str*)
+    - **[collection](./ORM-Collection)** (*str*)
 
         The name of the target collection.
 
-    - **partition** (*str*)
+    - **[partition](./ORM-Partition)** (*str*)
 
         The name of the target partition.
 

@@ -1,21 +1,22 @@
 ---
 title: "listPartitions() | Node.js"
 slug: /node/node/Partitions-listPartitions
+sidebar_key: node/Partitions-listPartitions
 sidebar_label: "listPartitions()"
-beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation lists the partitions in a specified collection. | Node.js"
 type: docx
 token: IvnLd6nXooRR6NxM9jdcDxCHnhh
 sidebar_position: 5
 keywords: 
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - nodejs26
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,13 +34,13 @@ import Admonition from '@theme/Admonition';
 This operation lists the partitions in a specified collection.
 
 ```javascript
-listPartitions(data): Promise<ShowPartitionsResponse>
+await milvusClient.listPartitions(data)
 ```
 
 ## Request Syntax\{#request-syntax}
 
 ```javascript
-milvusClient.listPartitions({
+await milvusClient.listPartitions({
     db_name: string,
     collection_name: string,
     timeout?: number,
@@ -125,7 +125,10 @@ This method returns a promise that resolves to a **ShowPartitionsResponse** obje
 ## Example\{#example}
 
 ```java
-new milvusClient(MILUVS_ADDRESS).listPartitions({
+new MilvusClient({
+    address: 'YOUR_CLUSTER_ENDPOINT',
+    token: 'YOUR_CLUSTER_TOKEN',
+}).listPartitions({
     collection_name: 'my_collection',
  });
 ```

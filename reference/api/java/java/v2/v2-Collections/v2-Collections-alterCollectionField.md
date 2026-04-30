@@ -1,21 +1,22 @@
 ---
 title: "alterCollectionField() | Java | v2"
 slug: /java/java/v2-Collections-alterCollectionField
+sidebar_key: java/v2-Collections-alterCollectionField
 sidebar_label: "alterCollectionField()"
-beta: false
 added_since: v2.4.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation modifies the properties of a specified collection field. | Java | v2"
 type: docx
 token: OtrZdy7OtoC9N9xb8TjcCtM7nfc
 sidebar_position: 2
 keywords: 
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - javaV226
 displayed_sidebar: javaSidebar
 
-displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -114,7 +114,7 @@ ConnectConfig connectConfig = ConnectConfig.builder()
         
 MilvusClientV2 client = new MilvusClientV2(connectConfig);
 
-// 2. Alter the `max_length` property of a VarChar field named `varchar`
+// 2. Alter the \`max_length\` property of a VarChar field named \`varchar\`
 Map<String, String> properties = new HashMap<>()
 properties.put("max_length", "512")
 

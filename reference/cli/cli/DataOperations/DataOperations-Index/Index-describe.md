@@ -1,21 +1,22 @@
 ---
 title: "describe | Cloud"
 slug: /cli/cli/Index-describe
+sidebar_key: cli/Index-describe
 sidebar_label: "describe"
-beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation gets details of an index. | Cloud"
 type: docx
 token: AUsKdhNcZoJ116xqQo9cVQAanCb
 sidebar_position: 2
 keywords: 
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
   - zilliz
   - zilliz cloud
   - cloud

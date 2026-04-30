@@ -1,21 +1,22 @@
 ---
 title: "create | Cloud"
 slug: /cli/cli/Collection-create
+sidebar_key: cli/Collection-create
 sidebar_label: "create"
-beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation creates a new collection. | Cloud"
 type: docx
 token: P5jpdMWcMoW2MMxMBtcczRjInYc
 sidebar_position: 2
 keywords: 
-  - cosine distance
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
   - zilliz
   - zilliz cloud
   - cloud

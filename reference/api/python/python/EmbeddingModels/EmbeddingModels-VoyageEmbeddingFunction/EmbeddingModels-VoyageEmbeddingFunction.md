@@ -1,21 +1,22 @@
 ---
 title: "VoyageEmbeddingFunction | Python"
 slug: /python/python/EmbeddingModels-VoyageEmbeddingFunction
+sidebar_key: python/EmbeddingModels-VoyageEmbeddingFunction
 sidebar_label: "VoyageEmbeddingFunction"
-beta: false
 added_since: v2.4.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "VoyageEmbeddingFunction is a class in pymilvus that handles encoding text into embeddings using Voyage models to support embedding retrieval in Milvus. | Python"
 type: docx
 token: HEyLd2lxzo3bl4xqVBOco8vWn1c
 sidebar_position: 3
 keywords: 
-  - openai vector db
-  - natural language processing database
   - cheap vector database
   - Managed vector database
+  - Pinecone vector database
+  - Audio search
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - pymilvus26
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -69,7 +69,7 @@ VoyageEmbeddingFunction(
 from pymilvus.model.dense import VoyageEmbeddingFunction
 
 voyage_ef = VoyageEmbeddingFunction(
-    model_name="voyage-lite-02-instruct", # Defaults to `voyage-2`
+    model_name="voyage-lite-02-instruct", # Defaults to \`voyage-2\`
     api_key='YOUR_API_KEY' # Replace with your own Voyage API key
 )
 ```

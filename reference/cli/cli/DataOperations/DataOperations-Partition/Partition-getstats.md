@@ -1,21 +1,22 @@
 ---
 title: "get-stats | Cloud"
 slug: /cli/cli/Partition-getstats
+sidebar_key: cli/Partition-getstats
 sidebar_label: "get-stats"
-beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation gets partition statistics. | Cloud"
 type: docx
 token: R2iYdl0Hnous6rxl5KMccADVn1c
 sidebar_position: 3
 keywords: 
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
   - zilliz
   - zilliz cloud
   - cloud

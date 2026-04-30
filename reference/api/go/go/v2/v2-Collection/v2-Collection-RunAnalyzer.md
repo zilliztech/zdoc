@@ -1,11 +1,12 @@
 ---
 title: "RunAnalyzer() | Go | v2"
 slug: /go/v2-Collection-RunAnalyzer
+sidebar_key: v2-Collection-RunAnalyzer
 sidebar_label: "RunAnalyzer()"
-beta: FALSE
 added_since: v2.5.x
 last_modified: v2.6.x
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "This operation processes the input data and generates tokenized output. | Go | v2"
 type: origin

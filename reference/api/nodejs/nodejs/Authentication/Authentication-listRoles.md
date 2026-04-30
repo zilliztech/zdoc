@@ -1,21 +1,22 @@
 ---
 title: "listRoles() | Node.js"
 slug: /node/node/Authentication-listRoles
+sidebar_key: node/Authentication-listRoles
 sidebar_label: "listRoles()"
-beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation lists all custom roles. | Node.js"
 type: docx
 token: GIeMdvjlMoLwGrxUOu3cFw7bnWc
 sidebar_position: 20
 keywords: 
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - nodejs26
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,13 +34,13 @@ import Admonition from '@theme/Admonition';
 This operation lists all custom roles.
 
 ```javascript
-listRoles(data): Promise<SelectRoleResponse>
+await milvusClient.listRoles(data)
 ```
 
 ## Request Syntax\{#request-syntax}
 
 ```javascript
-milvusClient.listRoles(
+await milvusClient.listRoles(
     includeUserInfo?: boolean,
     timeout?: number
 )

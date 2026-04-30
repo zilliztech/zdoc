@@ -1,21 +1,22 @@
 ---
 title: "loadCollection() | Java | v2"
 slug: /java/java/v2-Management-loadCollection
+sidebar_key: java/v2-Management-loadCollection
 sidebar_label: "loadCollection()"
-beta: false
 added_since: v2.3.x
 last_modified: v2.6.x
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation loads the data of a specific collection into memory. | Java | v2"
 type: docx
 token: Y3q1d5FzmoSiNkxsWDLcHnAlnQf
 sidebar_position: 13
 keywords: 
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - javaV226
 displayed_sidebar: javaSidebar
 
-displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';

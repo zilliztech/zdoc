@@ -1,21 +1,22 @@
 ---
 title: "appendRow() | Java | v2"
 slug: /java/java/v2-LocalBulkWriter-appendRow
+sidebar_key: java/v2-LocalBulkWriter-appendRow
 sidebar_label: "appendRow()"
-beta: false
 added_since: v2.5.x
 last_modified: v2.6.x
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation appends a row of data to the LocalBulkWriter buffer. The data will be written to a file when the buffer is full or when `commit()` is called. | Java | v2"
 type: docx
 token: OgXWdeRGhoxMYqxzNSrcSZAknIb
 sidebar_position: 6
 keywords: 
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - javaV226
 displayed_sidebar: javaSidebar
 
-displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -48,6 +48,14 @@ public void appendRow(JsonObject rowData) throws IOException, InterruptedExcepti
 *void*
 
 **EXCEPTIONS:**
+
+- **IOException**
+
+    This is a checked exception thrown when any data-read or data-write errors occur during this operation.
+
+- **InterruptedException**
+
+    This is a checked exception thrown when a thread that is currently "blocking" (waiting, sleeping, or otherwise occupied) is interrupted by another thread using the `Thread.interrupt()` method.
 
 - **MilvusClientException**
 

@@ -1,21 +1,22 @@
 ---
 title: "has | Cloud"
 slug: /cli/cli/Partition-has
+sidebar_key: cli/Partition-has
 sidebar_label: "has"
-beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation checks if a partition exists. | Cloud"
 type: docx
 token: KtkldxyCGoCmF8xsxYHcfRQZnCf
 sidebar_position: 4
 keywords: 
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
   - zilliz
   - zilliz cloud
   - cloud

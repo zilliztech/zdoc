@@ -1,11 +1,12 @@
 ---
 title: "LoadPartitions() | Go | v2"
 slug: /go/v2-Management-LoadPartitions
+sidebar_key: v2-Management-LoadPartitions
 sidebar_label: "LoadPartitions()"
-beta: FALSE
 added_since: v2.5.x
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "This method loads one or multiple specified partitions. | Go | v2"
 type: origin

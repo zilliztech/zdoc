@@ -1,21 +1,22 @@
 ---
 title: "release | Cloud"
 slug: /cli/cli/Collection-release
+sidebar_key: cli/Collection-release
 sidebar_label: "release"
-beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation releases a collection from memory. | Cloud"
 type: docx
 token: Tl8cdrCCvoT8Six3cy0co3SDnjd
 sidebar_position: 11
 keywords: 
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
   - zilliz
   - zilliz cloud
   - cloud

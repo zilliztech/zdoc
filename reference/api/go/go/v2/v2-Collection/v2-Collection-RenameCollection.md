@@ -1,11 +1,12 @@
 ---
 title: "RenameCollection() | Go | v2"
 slug: /go/v2-Collection-RenameCollection
+sidebar_key: v2-Collection-RenameCollection
 sidebar_label: "RenameCollection()"
-beta: FALSE
 added_since: v2.5.x
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "This method renames the specified collection. | Go | v2"
 type: origin

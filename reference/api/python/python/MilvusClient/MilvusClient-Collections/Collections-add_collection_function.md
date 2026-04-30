@@ -1,21 +1,22 @@
 ---
 title: "add_collection_function() | Python | MilvusClient"
 slug: /python/python/Collections-add_collection_function
+sidebar_key: python/Collections-add_collection_function
 sidebar_label: "add_collection_function()"
-beta: false
 added_since: v2.6.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation adds a new function to the collection. Functions allow you to define custom processing logic such as BM25 scoring or embedding generation. | Python | MilvusClient"
 type: docx
 token: Qe3GdWZa9oAxjrx85tkct8ManRe
 sidebar_position: 21
 keywords: 
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - what is milvus
+  - milvus database
+  - milvus lite
+  - milvus benchmark
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - pymilvus26
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -52,7 +52,7 @@ client.add_collection_function(
 
     The name of the collection.
 
-- **function** (*Function*) -
+- **[function](./MilvusClient-Function)** (*[Function](./MilvusClient-Function)*) -
 
     **[REQUIRED]**
 

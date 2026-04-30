@@ -1,21 +1,22 @@
 ---
 title: "getPartitionStatistics() | Node.js"
 slug: /node/node/Partitions-getPartitionStatistics
+sidebar_key: node/Partitions-getPartitionStatistics
 sidebar_label: "getPartitionStatistics()"
-beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation displays the statistics collected on a specific partition. | Node.js"
 type: docx
 token: XDXid6aZ8oCHnVxxFpPcKAB9n0c
 sidebar_position: 3
 keywords: 
-  - milvus vector database
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - nodejs26
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,13 +34,13 @@ import Admonition from '@theme/Admonition';
 This operation displays the statistics collected on a specific partition.
 
 ```javascript
-getPartitionStatistics(data): Promise<StatisticsResponse>
+await milvusClient.getPartitionStatistics(data)
 ```
 
 ## Request Syntax\{#request-syntax}
 
 ```javascript
-milvusClient.getPartitionStatistics({
+await milvusClient.getPartitionStatistics({
     db_name: string,
     collection_name: string,
     partition_name: string,
@@ -111,7 +111,10 @@ This method returns a promise that resolves to a **StatisticsResponse** object.
 ## Example\{#example}
 
 ```java
-new milvusClient(MILUVS_ADDRESS).getPartitionStatistics({
+new MilvusClient({
+    address: 'YOUR_CLUSTER_ENDPOINT',
+    token: 'YOUR_CLUSTER_TOKEN',
+}).getPartitionStatistics({
     collection_name: 'my_collection',
     partition_name: "_default",
  });

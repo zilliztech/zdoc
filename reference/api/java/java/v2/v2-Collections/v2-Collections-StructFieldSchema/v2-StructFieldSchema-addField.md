@@ -1,21 +1,22 @@
 ---
 title: "addField() | Java | v2"
 slug: /java/java/v2-StructFieldSchema-addField
+sidebar_key: java/v2-StructFieldSchema-addField
 sidebar_label: "addField()"
-beta: false
 added_since: v2.6.x
 last_modified: v2.6.x
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation adds a sub-field to a struct field schema. Use this to define the inner fields of a struct-type column. | Java | v2"
 type: docx
 token: FGO8dhjlTovfOdxpOw0c3wyNntc
 sidebar_position: 1
 keywords: 
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - javaV226
 displayed_sidebar: javaSidebar
 
-displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -45,7 +45,7 @@ public StructFieldSchema addField(AddFieldReq addFieldReq)
 
 **RETURNS:**
 
-*StructFieldSchema*
+*[StructFieldSchema](./v2-Collections-StructFieldSchema)*
 
 **EXCEPTIONS:**
 

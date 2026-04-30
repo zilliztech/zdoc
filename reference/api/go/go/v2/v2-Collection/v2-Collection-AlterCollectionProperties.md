@@ -1,11 +1,12 @@
 ---
 title: "AlterCollectionProperties() | Go | v2"
 slug: /go/v2-Collection-AlterCollectionProperties
+sidebar_key: v2-Collection-AlterCollectionProperties
 sidebar_label: "AlterCollectionProperties()"
-beta: FALSE
 added_since: v2.5.x
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "This method changes the specified properties of a collection. | Go | v2"
 type: origin

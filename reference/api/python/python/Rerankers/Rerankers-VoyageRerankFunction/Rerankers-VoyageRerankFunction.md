@@ -1,21 +1,22 @@
 ---
 title: "VoyageRerankFunction | Python"
 slug: /python/python/Rerankers-VoyageRerankFunction
+sidebar_key: python/Rerankers-VoyageRerankFunction
 sidebar_label: "VoyageRerankFunction"
-beta: false
 added_since: v2.4.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "VoyageRerankFunction is a class in milvusmodel that takes a query and document as input and directly returns a similarity score instead of embeddings. This functionality uses the underlying Voyage reranking model. | Python"
 type: docx
 token: Smobd2lIho2yQPxtRhLcLcKznCf
 sidebar_position: 1
 keywords: 
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - pymilvus26
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -65,7 +65,7 @@ from pymilvus.model.reranker import VoyageRerankFunction
 
 # Define the rerank function
 voyage_rf = VoyageRerankFunction(
-    model_name="rerank-lite-1",  # Specify the model name. Defaults to `rerank-lite-1`.
+    model_name="rerank-lite-1",  # Specify the model name. Defaults to \`rerank-lite-1\`.
     api_key=VOYAGE_API_KEY # Replace with your Voyage API key
 )
 ```

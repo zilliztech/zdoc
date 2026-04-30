@@ -1,21 +1,22 @@
 ---
 title: "getLoadingProgress() | Node.js"
 slug: /node/node/Management-getLoadingProgress
+sidebar_key: node/Management-getLoadingProgress
 sidebar_label: "getLoadingProgress()"
-beta: false
 added_since: v2.4.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation gets the loading progress of a specific collection. | Node.js"
 type: docx
 token: DkImdRkJwoUmdqxzqn1cpQr9nhy
 sidebar_position: 13
 keywords: 
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - nodejs26
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,13 +34,13 @@ import Admonition from '@theme/Admonition';
 This operation gets the loading progress of a specific collection.
 
 ```javascript
-getLoadingProgress(data): Promise<GetLoadingProgressResponse>
+await milvusClient.getLoadingProgress(data)
 ```
 
 ## Request Syntax\{#request-syntax}
 
 ```javascript
-milvusClient.getLoadingProgress({
+await milvusClient.getLoadingProgress({
       db_name?: string,
       collection_name: string,
       partition_names?: string[]
@@ -112,7 +112,10 @@ This method returns a promise that resolves to a **GetLoadingProgressResponse** 
 ## Example\{#example}
 
 ```java
-const milvusClient = new milvusClient(MILUVS_ADDRESS);
+const milvusClient = new MilvusClient({
+    address: 'YOUR_CLUSTER_ENDPOINT',
+    token: 'YOUR_CLUSTER_TOKEN',
+});
 const resStatus = await milvusClient.getLoadingProgress({
     collection_name: 'my_collection',
 });

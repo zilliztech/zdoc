@@ -1,21 +1,22 @@
 ---
 title: "OnnxEmbeddingFunction | Python"
 slug: /python/python/EmbeddingModels-OnnxEmbeddingFunction
+sidebar_key: python/EmbeddingModels-OnnxEmbeddingFunction
 sidebar_label: "OnnxEmbeddingFunction"
-beta: false
 added_since: v2.4.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "OnnxEmbeddingFunction is a class in pymilvus that handles encoding text into embeddings using Open Neural Network Exchange (ONNX) embedding models to support embedding retrieval in Milvus. | Python"
 type: docx
 token: MVLRdU9nPonUeExs7ogctwZ1n4c
 sidebar_position: 3
 keywords: 
+  - Hierarchical Navigable Small Worlds
   - Dense embedding
   - Faiss vector database
   - Chroma vector database
-  - nlp search
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - pymilvus26
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -64,7 +64,7 @@ OnnxEmbeddingFunction(
 from pymilvus.model.dense import OnnxEmbeddingFunction
 
 onnx_ef = OnnxEmbeddingFunction(
-    model_name="GPTCache/paraphrase-albert-onnx", # Defaults to `GPTCache/paraphrase-albert-onnx`
-    tokenizer_name="GPTCache/paraphrase-albert-small-v2" # Defaults to `GPTCache/paraphrase-albert-small-v2`
+    model_name="GPTCache/paraphrase-albert-onnx", # Defaults to \`GPTCache/paraphrase-albert-onnx\`
+    tokenizer_name="GPTCache/paraphrase-albert-small-v2" # Defaults to \`GPTCache/paraphrase-albert-small-v2\`
 )
 ```

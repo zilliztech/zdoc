@@ -1,21 +1,22 @@
 ---
 title: "describeUser() | Node.js"
 slug: /node/node/Authentication-describeUser
+sidebar_key: node/Authentication-describeUser
 sidebar_label: "describeUser()"
-beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This is a method template. | Node.js"
 type: docx
 token: Da9KdvvWroKX9cxOwsmcLRBxnVb
 sidebar_position: 10
 keywords: 
+  - sentence transformers
+  - Recommender systems
   - information retrieval
   - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - nodejs26
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,13 +34,13 @@ import Admonition from '@theme/Admonition';
 This is a method template.
 
 ```javascript
-describeUser(data): Promise<SelectUserResponse>
+await milvusClient.describeUser(data)
 ```
 
 ## Request Syntax\{#request-syntax}
 
 ```javascript
-milvusClient.describeUser({
+await milvusClient.describeUser({
     includeRoleInfo?: boolean,
     timeout?: number,
     username: string

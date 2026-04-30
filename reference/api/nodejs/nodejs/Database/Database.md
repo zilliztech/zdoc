@@ -12,10 +12,10 @@ token: F0ZXfs6XSlspHxdg7DwcYb84nMf
 sidebar_position: 4
 sidebar_label: "Database"
 keywords: 
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
   - zilliz
   - zilliz cloud
   - cloud

@@ -1,21 +1,22 @@
 ---
 title: "add() | Python | MilvusClient"
 slug: /python/python/EmbeddingList-add
+sidebar_key: python/EmbeddingList-add
 sidebar_label: "add()"
-beta: false
 added_since: v2.6.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation adds a single vector embedding to the current EmbeddingList instance. | Python | MilvusClient"
 type: docx
 token: R0E9dLzIAoYGCcxRVj6cjJmWnPe
 sidebar_position: 1
 keywords: 
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - pymilvus26
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # add()
 
-This operation adds a single vector embedding to the current **EmbeddingList** instance.
+This operation adds a single vector embedding to the current **[EmbeddingList](./MilvusClient-EmbeddingList)** instance.
 
 ## Request syntax\{#request-syntax}
 
@@ -46,15 +46,15 @@ add(
 
 - **embedding** (*np.ndarray, List[Any]*) - 
 
-    The vector embedding that is to be added to the current **EmbeddingList** instance.
+    The vector embedding that is to be added to the current **[EmbeddingList](./MilvusClient-EmbeddingList)** instance.
 
 **RETURN TYPE:**
 
-*EmbeddingList*
+*[EmbeddingList](./MilvusClient-EmbeddingList)*
 
 **RETURNS:**
 
-The current **EmbeddingList** instance itself for method chaining
+The current **[EmbeddingList](./MilvusClient-EmbeddingList)** instance itself for method chaining
 
 **EXCEPTIONS:**
 

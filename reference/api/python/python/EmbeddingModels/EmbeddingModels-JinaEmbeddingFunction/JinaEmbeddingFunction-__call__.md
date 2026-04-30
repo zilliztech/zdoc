@@ -1,21 +1,22 @@
 ---
 title: "\_\_call\_\_() | Python"
 slug: /python/python/JinaEmbeddingFunction-__call__
+sidebar_key: python/JinaEmbeddingFunction-__call__
 sidebar_label: "__call__()"
-beta: false
 added_since: v2.4.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation in JinaEmbeddingFunction takes a list of text strings and directly encodes them into vector embeddings. | Python"
 type: docx
 token: Yf9GddNheoKrFCxcUeYc7NHjnVb
 sidebar_position: 4
 keywords: 
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - pymilvus26
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -74,7 +74,7 @@ A list where each element is a NumPy array.
 from pymilvus.model.dense import JinaEmbeddingFunction
 
 jina_ef = JinaEmbeddingFunction(
-    model_name="jina-embeddings-v2-base-en", # Defaults to `jina-embeddings-v2-base-en`
+    model_name="jina-embeddings-v2-base-en", # Defaults to \`jina-embeddings-v2-base-en\`
     api_key="YOUR_JINAAI_API_KEY" # Provide your Jina AI API key
 )
 

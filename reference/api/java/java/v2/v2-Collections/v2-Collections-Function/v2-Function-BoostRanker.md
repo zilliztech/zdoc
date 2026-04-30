@@ -1,21 +1,22 @@
 ---
 title: "BoostRanker | Java | v2"
 slug: /java/java/v2-Function-BoostRanker
+sidebar_key: java/v2-Function-BoostRanker
 sidebar_label: "BoostRanker"
-beta: false
 added_since: v2.6.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "The BoostRanker extends from the Function class and provides extra parameters. | Java | v2"
 type: docx
 token: QO5ldltYOoo5uFxS4ZJc24JWnUh
 sidebar_position: 1
 keywords: 
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - javaV226
 displayed_sidebar: javaSidebar
 
-displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -108,7 +108,7 @@ BoostRanker.builder()
 
 **RETURNS:**
 
- A boost ranker instance.
+A boost ranker instance.
 
 ## Examples:\{#examples}
 

@@ -12,10 +12,10 @@ token: ItZcfBNHclfCEgdfAYacPWDEnzO
 sidebar_position: 2
 sidebar_label: "Billing"
 keywords: 
-  - milvus vector database
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
   - zilliz
   - zilliz cloud
   - cloud

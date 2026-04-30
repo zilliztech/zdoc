@@ -1,21 +1,22 @@
 ---
 title: "AzureConnectParam | Python"
 slug: /python/python/RemoteBulkWriter-AzureConnectParam
+sidebar_key: python/RemoteBulkWriter-AzureConnectParam
 sidebar_label: "AzureConnectParam"
-beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "An AzureConnectParam instance sets connection parameters for a RemoteBulkWriter instance. | Python"
 type: docx
 token: C2YSddNqZoDNmNxWqqEcuzhKn4f
 sidebar_position: 2
 keywords: 
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - pymilvus26
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # AzureConnectParam
 
-An **AzureConnectParam** instance sets connection parameters for a **RemoteBulkWriter** instance.
+An **AzureConnectParam** instance sets connection parameters for a **[RemoteBulkWriter](./DataImport-RemoteBulkWriter)** instance.
 
 ```python
 class pymilvus.RemoteBulkWriter.AzureConnectParam
@@ -44,7 +44,7 @@ Constructs an **AzureConnectParam** object by a set of parameters, such as **con
 <Admonition type="info" icon="📘" title="Notes">
 
 <p>An <strong>AzureConnectParam</strong> object defines the parameters necessary for Zilliz Cloud to connect to an Azure blob storage bucket.</p>
-<p>You need to create this object before initializing a <strong>RemoteBulkWriter</strong> object.</p>
+<p>You need to create this object before initializing a <strong><a href="./DataImport-RemoteBulkWriter">RemoteBulkWriter</a></strong> object.</p>
 
 </Admonition>
 

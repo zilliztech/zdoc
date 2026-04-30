@@ -1,11 +1,12 @@
 ---
 title: "CreateRole() | Go | v2"
 slug: /go/v2-Authentication-CreateRole
+sidebar_key: v2-Authentication-CreateRole
 sidebar_label: "CreateRole()"
-beta: FALSE
 added_since: v2.5.x
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "This method creates a role. In Milvus, you can allocate multiple privileges or privilege groups to a role and grant the role to a user so that the user gains the privileges allocated to the role. | Go | v2"
 type: origin

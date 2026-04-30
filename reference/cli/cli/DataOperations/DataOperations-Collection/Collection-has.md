@@ -1,21 +1,22 @@
 ---
 title: "has | Cloud"
 slug: /cli/cli/Collection-has
+sidebar_key: cli/Collection-has
 sidebar_label: "has"
-beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation checks if a collection exists. | Cloud"
 type: docx
 token: B0Wld8SqbonTPHxqGTac4Sngnob
 sidebar_position: 8
 keywords: 
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
   - zilliz
   - zilliz cloud
   - cloud

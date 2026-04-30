@@ -1,21 +1,22 @@
 ---
 title: "describe_role() | Python | MilvusClient"
 slug: /python/python/Authentication-describe_role
+sidebar_key: python/Authentication-describe_role
 sidebar_label: "describe_role()"
-beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation describes a specific role. | Python | MilvusClient"
 type: docx
 token: JJz3dFrE2oJP3AxySWYcJlf4nMh
 sidebar_position: 5
 keywords: 
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - pymilvus26
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -81,7 +81,7 @@ A list of dictionaries containing the permissions assigned to the role. The stru
 
     The type of the resource object granted to the role. 
 
-    Possible values are **Collection**, **Global**, and **User**.
+    Possible values are **[Collection](./ORM-Collection)**, **Global**, and **User**.
 
 - **object_name** (*str*) -
 
@@ -213,12 +213,4 @@ client.describe_role(role_name="db_ro")
 <p>Each Zilliz Cloud cluster has three built-in roles, namely, <strong>db_ro</strong>, <strong>db_rw</strong>, and <strong>db_admin</strong>. For details, refer to <a href="/docs/user-roles#cluster-built-in-roles">Cluster Built-in Roles</a>.</p>
 
 </Admonition>
-
-## Related methods\{#related-methods}
-
-- [grant_role()](./Authentication-grant_role)
-
-- [list_roles()](./Authentication-list_roles)
-
-- [revoke_role()](./Authentication-revoke_role)
 

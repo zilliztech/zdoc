@@ -1,21 +1,22 @@
 ---
 title: "create | Cloud"
 slug: /cli/cli/Volume-create
+sidebar_key: cli/Volume-create
 sidebar_label: "create"
-beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation creates a new volume. | Cloud"
 type: docx
 token: GO7LdV0RfoCgcvx18DjcvS27nJb
 sidebar_position: 1
 keywords: 
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
   - zilliz
   - zilliz cloud
   - cloud

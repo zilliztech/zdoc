@@ -1,11 +1,12 @@
 ---
 title: "ListImportJobs() | Go | v2"
 slug: /go/v2-DataImport-ListImportJobs
+sidebar_key: v2-DataImport-ListImportJobs
 sidebar_label: "ListImportJobs()"
-beta: FALSE
 added_since: v2.5.x
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "This operation lists all bulk-import jobs of a specific cluster. | Go | v2"
 type: origin
@@ -162,9 +163,9 @@ The `ListImportJobsResponse` struct type is as follows:
 
 ```go
 type ListImportJobsResponse struct {
-    Status  int    `json:"status"`
-    Message string `json:"message"`     
-    Data *ListImportJobData `json:"data"`
+    Status  int    \`json:"status"\`
+    Message string \`json:"message"\`     
+    Data *ListImportJobData \`json:"data"\`
 }
 ```
 
@@ -174,12 +175,12 @@ The `ListImportJobData` struct type is as follows:
 
 ```go
 type ListImportJobsOption struct {
-    URL            string `json:"-"`
-    CollectionName string `json:"collectionName"`
-    ClusterID      string `json:"clusterId,omitempty"`
-    APIKey         string `json:"-"`
-    PageSize       int    `json:"pageSize,omitempty"`
-    CurrentPage    int    `json:"currentPage,omitempty"`
+    URL            string \`json:"-"\`
+    CollectionName string \`json:"collectionName"\`
+    ClusterID      string \`json:"clusterId,omitempty"\`
+    APIKey         string \`json:"-"\`
+    PageSize       int    \`json:"pageSize,omitempty"\`
+    CurrentPage    int    \`json:"currentPage,omitempty"\`
 }
 ```
 

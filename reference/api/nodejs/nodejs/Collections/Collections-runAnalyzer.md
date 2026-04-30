@@ -1,21 +1,22 @@
 ---
 title: "runAnalyzer() | Node.js"
 slug: /node/node/Collections-runAnalyzer
+sidebar_key: node/Collections-runAnalyzer
 sidebar_label: "runAnalyzer()"
-beta: false
 added_since: v2.5.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation runs an analyzer on the provided text for test purposes. | Node.js"
 type: docx
 token: LsMldPd8GodoVqxCAZUcWYjdnwh
 sidebar_position: 18
 keywords: 
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - nodejs26
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +34,7 @@ import Admonition from '@theme/Admonition';
 This operation runs an analyzer on the provided text for test purposes.
 
 ```javascript
-runAnalyzer(data): Promise<RunAnalyzerResponse>
+await milvusClient.runAnalyzer(data)
 ```
 
 ## Request Syntax\{#request-syntax}

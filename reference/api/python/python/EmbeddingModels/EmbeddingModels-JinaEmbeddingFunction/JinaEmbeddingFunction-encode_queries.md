@@ -1,21 +1,22 @@
 ---
 title: "encode_queries() | Python"
 slug: /python/python/JinaEmbeddingFunction-encode_queries
+sidebar_key: python/JinaEmbeddingFunction-encode_queries
 sidebar_label: "encode_queries()"
-beta: false
 added_since: v2.4.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation takes in a list of query strings and encodes each query into a vector embedding. | Python"
 type: docx
 token: FgbjdQHBEoITxgxk7NMc1NzpnAc
 sidebar_position: 2
 keywords: 
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - pymilvus26
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -67,7 +67,7 @@ A list where each element is a NumPy array.
 from pymilvus.model.dense import JinaEmbeddingFunction
 
 jina_ef = JinaEmbeddingFunction(
-    model_name="jina-embeddings-v2-base-en", # Defaults to `jina-embeddings-v2-base-en`
+    model_name="jina-embeddings-v2-base-en", # Defaults to \`jina-embeddings-v2-base-en\`
     api_key="YOUR_JINAAI_API_KEY" # Provide your Jina AI API key
 )
 

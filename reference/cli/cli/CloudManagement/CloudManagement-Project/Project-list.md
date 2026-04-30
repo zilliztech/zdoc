@@ -1,21 +1,22 @@
 ---
 title: "list | Cloud"
 slug: /cli/cli/Project-list
+sidebar_key: cli/Project-list
 sidebar_label: "list"
-beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation lists all projects. | Cloud"
 type: docx
 token: AMQEd3tO4o7CSSxZ51NcLA2AnVc
 sidebar_position: 3
 keywords: 
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
   - zilliz
   - zilliz cloud
   - cloud

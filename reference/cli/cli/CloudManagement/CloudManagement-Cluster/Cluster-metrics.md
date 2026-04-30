@@ -1,21 +1,22 @@
 ---
 title: "metrics | Cloud"
 slug: /cli/cli/Cluster-metrics
+sidebar_key: cli/Cluster-metrics
 sidebar_label: "metrics"
-beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation queries cluster performance metrics (QPS, latency, storage, etc.). | Cloud"
 type: docx
 token: SoWFdvNGKoOEMpxODQScdKEmnze
 sidebar_position: 5
 keywords: 
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
   - zilliz
   - zilliz cloud
   - cloud

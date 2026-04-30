@@ -1,21 +1,22 @@
 ---
 title: "Partition | Python | ORM"
 slug: /python/python/ORM-Partition
+sidebar_key: python/ORM-Partition
 sidebar_label: "Partition"
-beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "A Partition instance represents a partition within a collection. | Python | ORM"
 type: docx
 token: X9scdVMmxoBTuUxlKhecJXEunHd
 sidebar_position: 7
 keywords: 
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - pymilvus26
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -57,13 +57,13 @@ Partition(
 
 **PARAMETERS:**
 
-- **collection** (*Collection* | *str*) - 
+- **[collection](./ORM-Collection)** (*[Collection](./ORM-Collection)* | *str*) - 
 
     **[REQUIRED]**
 
     The collection in which to create a partition. 
 
-    You can either reference a **Collection** object or its name.
+    You can either reference a **[Collection](./ORM-Collection)** object or its name.
 
     <Admonition type="info" icon="📘" title="What is a collection?">
 

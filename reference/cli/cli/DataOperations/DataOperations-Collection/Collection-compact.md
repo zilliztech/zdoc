@@ -1,21 +1,22 @@
 ---
 title: "compact | Cloud"
 slug: /cli/cli/Collection-compact
+sidebar_key: cli/Collection-compact
 sidebar_label: "compact"
-beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation compacts collection segments to optimize storage. | Cloud"
 type: docx
 token: KYOydyGRaoMchUxkS0ucd8VUnve
 sidebar_position: 1
 keywords: 
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
   - zilliz
   - zilliz cloud
   - cloud

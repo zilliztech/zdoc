@@ -1,21 +1,22 @@
 ---
 title: "update | Cloud"
 slug: /cli/cli/Alert-update
+sidebar_key: cli/Alert-update
 sidebar_label: "update"
-beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation updates an existing alert rule. | Cloud"
 type: docx
 token: O4mCdJC4IoG8Z8xBbpOcC26wnoe
 sidebar_position: 6
 keywords: 
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
   - zilliz
   - zilliz cloud
   - cloud

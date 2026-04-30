@@ -1,11 +1,12 @@
 ---
 title: "RevokeRole() | Go | v2"
 slug: /go/v2-Authentication-RevokeRole
+sidebar_key: v2-Authentication-RevokeRole
 sidebar_label: "RevokeRole()"
-beta: FALSE
 added_since: v2.5.x
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "This method revokes the role of a specific user. In Milvus, you can allocate multiple privileges or privilege groups to a role and grant the role to a user so that the user gains the privileges allocated to the role. | Go | v2"
 type: origin

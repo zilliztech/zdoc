@@ -1,21 +1,22 @@
 ---
 title: "getElementType() | Java | v2"
 slug: /java/java/v2-StructFieldSchema-getElementType
+sidebar_key: java/v2-StructFieldSchema-getElementType
 sidebar_label: "getElementType()"
-beta: false
 added_since: v2.6.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation returns the data type of the Struct elements within an Array of Structs field. | Java | v2"
 type: docx
 token: PvRGdribPou7PHxcoSWcRK3unUc
 sidebar_position: 4
 keywords: 
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
+  - vector database
+  - IVF
+  - knn
+  - Image Search
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - javaV226
 displayed_sidebar: javaSidebar
 
-displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -45,7 +45,7 @@ getElementType()
 
 **RETURN TYPE:**
 
-*DataType*
+*[DataType](./v2-Collections-DataType)*
 
 **RETURNS:**
 

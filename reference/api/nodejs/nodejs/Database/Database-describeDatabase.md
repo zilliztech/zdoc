@@ -1,21 +1,22 @@
 ---
 title: "describeDatabase() | Node.js"
 slug: /node/node/Database-describeDatabase
+sidebar_key: node/Database-describeDatabase
 sidebar_label: "describeDatabase()"
-beta: false
 added_since: v2.6.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation lists detailed information about the specified database. | Node.js"
 type: docx
-token: PrZfdbHCHoizSmxxglXctm9FnJf
+token: PzXldcfljoU9rOx9TFUcIoNknt6
 sidebar_position: 8
 keywords: 
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - nodejs26
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';

@@ -1,21 +1,22 @@
 ---
 title: "encode_documents() | Python"
 slug: /python/python/InstructorEmbeddingFunction-encode_documents
+sidebar_key: python/InstructorEmbeddingFunction-encode_documents
 sidebar_label: "encode_documents()"
-beta: false
 added_since: v2.4.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation takes in documents and encodes them into vector embeddings. | Python"
 type: docx
 token: Mp7CdNfJnoBF2DxscRNc6RO0n7d
 sidebar_position: 1
 keywords: 
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - pymilvus26
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -65,7 +65,7 @@ A list where each element is a NumPy array.
 from pymilvus.model.dense import InstructorEmbeddingFunction
 
 ef = InstructorEmbeddingFunction(
-    model_name="hkunlp/instructor-xl", # Defaults to `hkunlp/instructor-xl`
+    model_name="hkunlp/instructor-xl", # Defaults to \`hkunlp/instructor-xl\`
     query_instruction="Represent the question for retrieval:",
     doc_instruction="Represent the document for retrieval:"
 )

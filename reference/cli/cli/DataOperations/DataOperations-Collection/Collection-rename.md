@@ -1,21 +1,22 @@
 ---
 title: "rename | Cloud"
 slug: /cli/cli/Collection-rename
+sidebar_key: cli/Collection-rename
 sidebar_label: "rename"
-beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation renames a collection. | Cloud"
 type: docx
 token: Wa80d1UXco4S4jxSYKQcPzXjnVe
 sidebar_position: 12
 keywords: 
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
   - zilliz
   - zilliz cloud
   - cloud

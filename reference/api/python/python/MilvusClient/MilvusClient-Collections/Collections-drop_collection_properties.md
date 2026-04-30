@@ -1,21 +1,22 @@
 ---
 title: "drop_collection_properties() | Python | MilvusClient"
 slug: /python/python/Collections-drop_collection_properties
+sidebar_key: python/Collections-drop_collection_properties
 sidebar_label: "drop_collection_properties()"
-beta: false
 added_since: v2.4.x
 last_modified: v2.5.x
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation drops the specified collection properties. | Python | MilvusClient"
 type: docx
 token: WjNRdifU9o3xl5xG0W7ch4Fjnme
 sidebar_position: 12
 keywords: 
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - pymilvus26
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';

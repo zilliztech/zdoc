@@ -1,21 +1,22 @@
 ---
 title: "get_compact_state() | Python | MilvusClient"
 slug: /python/python/Management-get_compact_state
+sidebar_key: python/Management-get_compact_state
 sidebar_label: "get_compact_state()"
-beta: false
 added_since: v2.4.x
 last_modified: false
 deprecate_since: v2.6.x
+beta: false
 notebook: false
 description: "This operation returns the status of the specified compaction job. | Python | MilvusClient"
 type: docx
 token: WEsjdspGLokueRxggM1cNFgknze
 sidebar_position: 7
 keywords: 
+  - open source vector db
   - vector database example
   - rag vector database
   - what is vector db
-  - what are vector databases
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - pymilvus26
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';

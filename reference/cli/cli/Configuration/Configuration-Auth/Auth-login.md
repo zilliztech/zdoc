@@ -1,21 +1,22 @@
 ---
 title: "login | Cloud"
 slug: /cli/cli/Auth-login
+sidebar_key: cli/Auth-login
 sidebar_label: "login"
-beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation logs you into Zilliz Cloud. | Cloud"
 type: docx
 token: Ax22dr6zSoqKmqxdnbxckuJbn8g
 sidebar_position: 1
 keywords: 
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
   - zilliz
   - zilliz cloud
   - cloud

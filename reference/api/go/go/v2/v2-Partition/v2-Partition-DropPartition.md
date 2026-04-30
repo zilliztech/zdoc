@@ -1,11 +1,12 @@
 ---
 title: "DropPartition() | Go | v2"
 slug: /go/v2-Partition-DropPartition
+sidebar_key: v2-Partition-DropPartition
 sidebar_label: "DropPartition()"
-beta: FALSE
 added_since: v2.5.x
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "This method creates a partition in a collection. | Go | v2"
 type: origin

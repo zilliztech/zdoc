@@ -1,21 +1,22 @@
 ---
 title: "listGrants() | Node.js"
 slug: /node/node/Authentication-listGrants
+sidebar_key: node/Authentication-listGrants
 sidebar_label: "listGrants()"
-beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation lists the privileges granted to the specified role. | Node.js"
 type: docx
 token: CJ9DdmU1ooquOnxcK5AciA3sn3g
 sidebar_position: 18
 keywords: 
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - nodejs26
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +34,7 @@ import Admonition from '@theme/Admonition';
 This operation lists the privileges granted to the specified role.
 
 ```javascript
-listGrants(data): Promise<SelectGrantResponse>
+await milvusClient.listGrants(data)
 ```
 
 ## Request Syntax\{#request-syntax}

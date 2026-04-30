@@ -1,21 +1,22 @@
 ---
 title: "create_partition() | Python | MilvusClient"
 slug: /python/python/Partitions-create_partition
+sidebar_key: python/Partitions-create_partition
 sidebar_label: "create_partition()"
-beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation creates a partition in the target collection. | Python | MilvusClient"
 type: docx
 token: I6hvdlYUuoUaw3xWqSnce4Fin9g
 sidebar_position: 1
 keywords: 
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - pymilvus26
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -65,7 +65,7 @@ create_partition(
 
 **RETURN TYPE:**
 
-*Partition*
+*[Partition](./ORM-Partition)*
 
 **RETURNS:**
 

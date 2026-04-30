@@ -12,10 +12,10 @@ token: XxzIf86n5lHZJPdaeTqcRm6Gnhe
 sidebar_position: 1
 sidebar_label: "Cloud Management"
 keywords: 
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
   - zilliz
   - zilliz cloud
   - cloud

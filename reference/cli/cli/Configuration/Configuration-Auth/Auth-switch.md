@@ -1,21 +1,22 @@
 ---
 title: "switch | Cloud"
 slug: /cli/cli/Auth-switch
+sidebar_key: cli/Auth-switch
 sidebar_label: "switch"
-beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation switches to a different organization. | Cloud"
 type: docx
 token: EQcvdvxQWoicwnxrGGpcThwYnKd
 sidebar_position: 4
 keywords: 
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
   - zilliz
   - zilliz cloud
   - cloud

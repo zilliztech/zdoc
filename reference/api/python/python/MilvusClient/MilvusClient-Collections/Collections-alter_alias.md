@@ -1,21 +1,22 @@
 ---
 title: "alter_alias() | Python | MilvusClient"
 slug: /python/python/Collections-alter_alias
+sidebar_key: python/Collections-alter_alias
 sidebar_label: "alter_alias()"
-beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation reassigns the alias of one collection to another. | Python | MilvusClient"
 type: docx
 token: CBc3d1mrdoYqmDxe4Kcc9zxAnzh
 sidebar_position: 1
 keywords: 
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - pymilvus26
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -87,7 +87,7 @@ alter_alias(
 
 **RETURNS:**
 
- None
+None
 
 **EXCEPTIONS:**
 

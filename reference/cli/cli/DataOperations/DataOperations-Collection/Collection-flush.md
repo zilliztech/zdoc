@@ -1,21 +1,22 @@
 ---
 title: "flush | Cloud"
 slug: /cli/cli/Collection-flush
+sidebar_key: cli/Collection-flush
 sidebar_label: "flush"
-beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation flushes collection data to disk. | Cloud"
 type: docx
 token: R0FRdiaHuo4IElxDELmcyR90nLd
 sidebar_position: 5
 keywords: 
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
   - zilliz
   - zilliz cloud
   - cloud

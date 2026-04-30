@@ -1,21 +1,22 @@
 ---
 title: "getCompactionState() | Node.js"
 slug: /node/node/Management-getCompactionState
+sidebar_key: node/Management-getCompactionState
 sidebar_label: "getCompactionState()"
-beta: false
 added_since: v2.4.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation lists the statistics collected on a specific collection. | Node.js"
 type: docx
 token: CRFLdvgkhoeRikxMcMAcJk3qnIc
 sidebar_position: 9
 keywords: 
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - nodejs26
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,13 +34,13 @@ import Admonition from '@theme/Admonition';
 This operation lists the statistics collected on a specific collection.
 
 ```javascript
-getCompactionState(data): Promise<GetCompactionStateResponse>
+await milvusClient.getCompactionState(data)
 ```
 
 ## Request Syntax\{#request-syntax}
 
 ```javascript
-milvusClient.getCompactionState({ 
+await milvusClient.getCompactionState({ 
     compactionID: string | number,
     timeout?: number 
 })
@@ -115,7 +115,10 @@ This method returns a promise that resolves to a **GetCompactionStateResponse** 
 ## Example\{#example}
 
 ```javascript
-const milvusClient = new milvusClient(MILUVS_ADDRESS);
+const milvusClient = new MilvusClient({
+    address: 'YOUR_CLUSTER_ENDPOINT',
+    token: 'YOUR_CLUSTER_TOKEN',
+});
 const resStatus = await milvusClient.getCompactionState({
     compactionID: 'your_compaction_id',
 });

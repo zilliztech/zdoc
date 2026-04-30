@@ -1,21 +1,22 @@
 ---
 title: "listImportJobs() | Java | v2"
 slug: /java/java/v2-BulkImport-listImportJobs
+sidebar_key: java/v2-BulkImport-listImportJobs
 sidebar_label: "listImportJobs()"
-beta: false
 added_since: v2.5.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation lists all existing import jobs regarding the specified collection. | Java | v2"
 type: docx
 token: CN9sdiCicoERZpx9GhmcLa4Wn7g
 sidebar_position: 4
 keywords: 
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - javaV226
 displayed_sidebar: javaSidebar
 
-displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';

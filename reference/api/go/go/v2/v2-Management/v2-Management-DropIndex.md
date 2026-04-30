@@ -1,11 +1,12 @@
 ---
 title: "DropIndex() | Go | v2"
 slug: /go/v2-Management-DropIndex
+sidebar_key: v2-Management-DropIndex
 sidebar_label: "DropIndex()"
-beta: FALSE
 added_since: v2.5.x
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "This method drops the specified index. | Go | v2"
 type: origin

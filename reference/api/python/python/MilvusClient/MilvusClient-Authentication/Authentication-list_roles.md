@@ -1,21 +1,22 @@
 ---
 title: "list_roles() | Python | MilvusClient"
 slug: /python/python/Authentication-list_roles
+sidebar_key: python/Authentication-list_roles
 sidebar_label: "list_roles()"
-beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation lists all custom roles. | Python | MilvusClient"
 type: docx
 token: MApVdDl17oU8OixzbMPcgceKnOh
 sidebar_position: 14
 keywords: 
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - pymilvus26
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -89,12 +89,4 @@ client.list_roles()
 <p>Each Zilliz Cloud cluster has three built-in roles, namely, <strong>db_ro</strong>, <strong>db_rw</strong>, and <strong>db_admin</strong>. For details, refer to <a href="/docs/user-roles#cluster-built-in-roles">Cluster Built-in Roles</a>.</p>
 
 </Admonition>
-
-## Related methods\{#related-methods}
-
-- [describe_role()](./Authentication-describe_role)
-
-- [grant_role()](./Authentication-grant_role)
-
-- [revoke_role()](./Authentication-revoke_role)
 

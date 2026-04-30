@@ -1,11 +1,12 @@
 ---
 title: "ListAliases() | Go | v2"
 slug: /go/v2-Collection-ListAliases
+sidebar_key: v2-Collection-ListAliases
 sidebar_label: "ListAliases()"
-beta: FALSE
 added_since: v2.5.x
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "This method lists all existing aliases associated with the specified collection. | Go | v2"
 type: origin

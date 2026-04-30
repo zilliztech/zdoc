@@ -1,21 +1,22 @@
 ---
 title: "alter_alias() | Python | ORM"
 slug: /python/python/utility-alter_alias
+sidebar_key: python/utility-alter_alias
 sidebar_label: "alter_alias()"
-beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation reassigns the alias of one collection to another. | Python | ORM"
 type: docx
 token: MfTsdrbGcoO9JqxjgPtcMZTvncc
 sidebar_position: 1
 keywords: 
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - pymilvus26
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -70,10 +70,10 @@ alter_alias(
 
     The alias of the collection. Note that the alias should exist beforehand.
 
-    <Admonition type="info" icon="📘" title="What is a collection alias?">
+    <Admonition type="info" icon="📘" title="What is a[ collection](./ORM-Collection) alias?">
 
-    <p>A collection alias is an additional name for a collection. Collection aliases are useful when you want to switch your application to a new collection without any changes to your code. </p>
-    <p>In , a collection alias is a globally unique identifier. One alias can only be assigned to exactly one collection. Conversely, a collection can have multiple aliases.</p>
+    <p>A<a href="./ORM-Collection"> collection</a> alias is an additional name for a collection. Collection aliases are useful when you want to switch your application to a new collection without any changes to your code. </p>
+    <p>In , a<a href="./ORM-Collection"> collection</a> alias is a globally unique identifier. One alias can only be assigned to exactly one collection. Conversely, a collection can have multiple aliases.</p>
     <p>Below is an example of reassigning the alias of one collection to another:</p>
     <p>Suppose there are two collections: <code>collection_1</code> and <code>collection_2</code>. There is also a collection alias named <code>bob</code>, which was originally assigned to <code>collection_1</code>:</p>
     <ul>
@@ -104,7 +104,7 @@ alter_alias(
 
 **RETURNS:**
 
- None
+None
 
 **EXCEPTIONS:**
 

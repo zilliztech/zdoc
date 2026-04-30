@@ -1,21 +1,22 @@
 ---
 title: "\_\_call\_\_() | Python"
 slug: /python/python/BGERerankFunction-__call__
+sidebar_key: python/BGERerankFunction-__call__
 sidebar_label: "__call__()"
-beta: false
 added_since: v2.4.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation in BGERerankFunction takes in a query and document strings and returns a list of `RerankResult` objects with the top k documents ranked by score. | Python"
 type: docx
 token: C2AbdIReZos7HwxiZXIcyW8nnm1
 sidebar_position: 2
 keywords: 
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - pymilvus26
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -97,7 +97,7 @@ from pymilvus.model.reranker import BGERerankFunction
 
 # Define the rerank function
 bge_rf = BGERerankFunction(
-    model_name="BAAI/bge-reranker-v2-m3",  # Specify the model name. Defaults to `BAAI/bge-reranker-v2-m3`.
+    model_name="BAAI/bge-reranker-v2-m3",  # Specify the model name. Defaults to \`BAAI/bge-reranker-v2-m3\`.
     device="cpu" # Specify the device to use, e.g., 'cpu' or 'cuda:0'
 )
 

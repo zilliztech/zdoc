@@ -1,11 +1,12 @@
 ---
 title: "Query() | Go | v2"
 slug: /go/v2-Vector-Query
+sidebar_key: v2-Vector-Query
 sidebar_label: "Query()"
-beta: FALSE
 added_since: v2.5.x
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "This method performs a scalar-filtering query. | Go | v2"
 type: origin

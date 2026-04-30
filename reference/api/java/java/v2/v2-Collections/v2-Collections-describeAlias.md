@@ -1,21 +1,22 @@
 ---
 title: "describeAlias() | Java | v2"
 slug: /java/java/v2-Collections-describeAlias
+sidebar_key: java/v2-Collections-describeAlias
 sidebar_label: "describeAlias()"
-beta: false
 added_since: v2.3.x
 last_modified: v2.6.x
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation displays the details of an alias. | Java | v2"
 type: docx
 token: BDqGdp4uqo3XRexslRNcts9knmd
 sidebar_position: 11
 keywords: 
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - javaV226
 displayed_sidebar: javaSidebar
 
-displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';

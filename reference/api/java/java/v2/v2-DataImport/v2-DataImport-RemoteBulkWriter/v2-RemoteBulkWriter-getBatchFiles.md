@@ -1,21 +1,22 @@
 ---
 title: "getBatchFiles() | Java | v2"
 slug: /java/java/v2-RemoteBulkWriter-getBatchFiles
+sidebar_key: java/v2-RemoteBulkWriter-getBatchFiles
 sidebar_label: "getBatchFiles()"
-beta: false
 added_since: v2.5.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation returns a list of files passed to the current LocalBulkWriter instance. | Java | v2"
 type: docx
 token: YlpQdEUnKoFR3xxizt2cCV8UnZb
 sidebar_position: 4
 keywords: 
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - javaV226
 displayed_sidebar: javaSidebar
 
-displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';

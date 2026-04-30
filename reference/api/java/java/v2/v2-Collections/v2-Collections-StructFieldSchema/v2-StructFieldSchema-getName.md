@@ -1,21 +1,22 @@
 ---
 title: "getName() | Java | v2"
 slug: /java/java/v2-StructFieldSchema-getName
+sidebar_key: java/v2-StructFieldSchema-getName
 sidebar_label: "getName()"
-beta: false
 added_since: v2.6.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation returns the name of an Array of Structs field. | Java | v2"
 type: docx
 token: DZcddGCD3oh29txhnB5cuxzzn4d
 sidebar_position: 7
 keywords: 
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - javaV226
 displayed_sidebar: javaSidebar
 
-displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';

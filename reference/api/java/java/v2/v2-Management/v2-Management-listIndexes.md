@@ -1,21 +1,22 @@
 ---
 title: "listIndexes() | Java | v2"
 slug: /java/java/v2-Management-listIndexes
+sidebar_key: java/v2-Management-listIndexes
 sidebar_label: "listIndexes()"
-beta: false
 added_since: v2.4.x
 last_modified: v2.6.x
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation lists the indexes of a field in a specific collection. | Java | v2"
 type: docx
 token: LxwIdeFiGoYaRAxKS72cdjNkneh
 sidebar_position: 12
 keywords: 
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - javaV226
 displayed_sidebar: javaSidebar
 
-displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -87,7 +87,7 @@ ConnectConfig connectConfig = ConnectConfig.builder()
         
 MilvusClientV2 client = new MilvusClientV2(connectConfig);
 
-// 2. List the indexes on the `varchar` field in the `test` collection
+// 2. List the indexes on the \`varchar\` field in the \`test\` collection
 ListIndexesReq listIndexesReq = ListIndexesReq.builder()
         .collectionName("test")
         .fieldName("varchar")

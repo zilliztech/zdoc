@@ -1,21 +1,22 @@
 ---
 title: "SearchIteratorV2() | Java | v2"
 slug: /java/java/v2-Vector-SearchIteratorV2
+sidebar_key: java/v2-Vector-SearchIteratorV2
 sidebar_label: "SearchIteratorV2()"
-beta: false
 added_since: v2.5.x
 last_modified: v2.6.x
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation creates an iterator for you to iterate over the search results. It is useful, especially when the search result contains a large volume of data. | Java | v2"
 type: docx
 token: OvF4dFxpGoTSgkx68KQc9AdYnAf
 sidebar_position: 11
 keywords: 
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - javaV226
 displayed_sidebar: javaSidebar
 
-displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';

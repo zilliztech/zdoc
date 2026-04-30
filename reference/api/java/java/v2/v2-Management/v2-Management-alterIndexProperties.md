@@ -1,21 +1,22 @@
 ---
 title: "alterIndexProperties() | Java | v2"
 slug: /java/java/v2-Management-alterIndexProperties
+sidebar_key: java/v2-Management-alterIndexProperties
 sidebar_label: "alterIndexProperties()"
-beta: false
 added_since: v2.4.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation modifies the properties of a specified index. | Java | v2"
 type: docx
 token: ITkydrfmroQyLLxusZtc6t1nnjf
 sidebar_position: 1
 keywords: 
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - vector database
+  - IVF
+  - knn
+  - Image Search
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - javaV226
 displayed_sidebar: javaSidebar
 
-displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -96,7 +96,7 @@ ConnectConfig connectConfig = ConnectConfig.builder()
         
 MilvusClientV2 client = new MilvusClientV2(connectConfig);
 
-// 2. Alter the `mmap.enabled` property
+// 2. Alter the \`mmap.enabled\` property
 Map<String, String> properties = new HashMap<>()
 properties.put("mmap.enabled", "true")
 

@@ -1,21 +1,22 @@
 ---
 title: "delete() | Python | MilvusClient"
 slug: /python/python/Vector-delete
+sidebar_key: python/Vector-delete
 sidebar_label: "delete()"
-beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation deletes entities by their IDs or with a boolean expression. | Python | MilvusClient"
 type: docx
 token: DWLXdSCYnoPT4ExktRKceEqLnAd
 sidebar_position: 1
 keywords: 
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - pymilvus26
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -167,16 +167,4 @@ client.delete(
 
 # {'delete_count': 2}
 ```
-
-## Related methods\{#related-methods}
-
-- [get()](./Vector-get)
-
-- [insert()](./Vector-insert)
-
-- [query()](./Vector-query)
-
-- [search()](./Vector-search)
-
-- [upsert()](./Vector-upsert)
 

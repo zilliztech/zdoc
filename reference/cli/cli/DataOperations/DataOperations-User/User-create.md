@@ -1,21 +1,22 @@
 ---
 title: "create | Cloud"
 slug: /cli/cli/User-create
+sidebar_key: cli/User-create
 sidebar_label: "create"
-beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation creates a new database user. | Cloud"
 type: docx
 token: USPedjTNOo7vNTxeNiwctLAcnMb
 sidebar_position: 1
 keywords: 
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
   - zilliz
   - zilliz cloud
   - cloud

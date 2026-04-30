@@ -1,21 +1,22 @@
 ---
 title: "use_database() | Python | MilvusClient"
 slug: /python/python/Database-use_database
+sidebar_key: python/Database-use_database
 sidebar_label: "use_database()"
-beta: false
 added_since: v2.6.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation switches the client to use a different database. Future operations will use the specified database. The method validates that the database exists before switching. | Python | MilvusClient"
 type: docx
 token: AglQd68yqoEn8Ixkn9ociyqKnMx
 sidebar_position: 8
 keywords: 
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - pymilvus26
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';

@@ -1,21 +1,22 @@
 ---
 title: "create | Cloud"
 slug: /cli/cli/Alert-create
+sidebar_key: cli/Alert-create
 sidebar_label: "create"
-beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation creates a new alert rule. | Cloud"
 type: docx
 token: XM95d6m5QoaHfPxnNAycJSM1nRU
 sidebar_position: 1
 keywords: 
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
   - zilliz
   - zilliz cloud
   - cloud

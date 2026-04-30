@@ -1,11 +1,12 @@
 ---
 title: "BulkImport() | Go | v2"
 slug: /go/v2-DataImport-BulkImport
+sidebar_key: v2-DataImport-BulkImport
 sidebar_label: "BulkImport()"
-beta: FALSE
 added_since: v2.5.x
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "This operation imports the prepared data files to Zilliz Cloud. To learn how to prepare your data files, read Prepare Data Import. | Go | v2"
 type: origin
@@ -192,11 +193,11 @@ The `BulkImportResponse` struct type is as follows:
 
 ```go
 type BulkImportResponse struct {
-    Status  int    `json:"status"`
-    Message string `json:"message"`      
+    Status  int    \`json:"status"\`
+    Message string \`json:"message"\`      
     Data struct {
-        JobID string `json:"jobId"`
-    } `json:"data"`
+        JobID string \`json:"jobId"\`
+    } \`json:"data"\`
 }
 ```
 

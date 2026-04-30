@@ -1,21 +1,22 @@
 ---
 title: "EmbeddingList | Python | MilvusClient"
 slug: /python/python/MilvusClient-EmbeddingList
+sidebar_key: python/MilvusClient-EmbeddingList
 sidebar_label: "EmbeddingList"
-beta: false
 added_since: v2.6.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "An EmbeddingList instance represents a list of vector embeddings. You can use an EmbeddingList instance to build the query vectors in a search against a vector field in an Array of Structs field. | Python | MilvusClient"
 type: docx
 token: Ve2WdUAfwoz456xwBIJcGvltn6b
 sidebar_position: 4
 keywords: 
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - pymilvus26
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -73,7 +73,7 @@ EmbeddingList(
 
     - **string**, such as `'float32'`, `'float16'`, or `'uint8'`
 
-    - **DataType**, such as `DataType.FLOAT_VECTOR`, `DataType.FLOAT16_VECTOR`, `DataType.BFLOAT16_VECTOR`, `DataType.INT8_VECTOR`, or `DataType.BINARY_VECTOR`
+    - **[DataType](./Collections-DataType)**, such as `DataType.FLOAT_VECTOR`, `DataType.FLOAT16_VECTOR`, `DataType.BFLOAT16_VECTOR`, `DataType.INT8_VECTOR`, or `DataType.BINARY_VECTOR`
 
 **RETURN TYPE:**
 

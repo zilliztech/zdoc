@@ -12,10 +12,10 @@ token: EE5tfLfAnlOByHdia0zc1hyEnyl
 sidebar_position: 8
 sidebar_label: "Vector"
 keywords: 
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
   - zilliz
   - zilliz cloud
   - cloud

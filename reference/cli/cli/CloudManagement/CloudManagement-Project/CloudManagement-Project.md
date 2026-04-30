@@ -12,10 +12,10 @@ token: RWFvfrzqEl1BB3d3rkgctazrnqb
 sidebar_position: 6
 sidebar_label: "Project"
 keywords: 
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
   - zilliz
   - zilliz cloud
   - cloud

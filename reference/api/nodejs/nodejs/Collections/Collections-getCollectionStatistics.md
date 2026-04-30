@@ -1,21 +1,22 @@
 ---
 title: "getCollectionStatistics() | Node.js"
 slug: /node/node/Collections-getCollectionStatistics
+sidebar_key: node/Collections-getCollectionStatistics
 sidebar_label: "getCollectionStatistics()"
-beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation lists the statistics collected on a specific collection. | Node.js"
 type: docx
 token: LQMGdRHjKogdeMxekCtcdBLqnNf
 sidebar_position: 12
 keywords: 
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - nodejs26
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,13 +34,13 @@ import Admonition from '@theme/Admonition';
 This operation lists the statistics collected on a specific collection.
 
 ```javascript
-getCollectionStatistics(data): Promise<StatisticsResponse>
+await milvusClient.getCollectionStatistics(data)
 ```
 
 ## Request Syntax\{#request-syntax}
 
 ```javascript
-milvusClient.getCollectionStatistics({ 
+await milvusClient.getCollectionStatistics({ 
     db_name: string,
     collection_name: string,
     timeout?: number 
@@ -100,7 +100,10 @@ This method returns a promise that resolves to a **StatisticsResponse** object.
 ## Example\{#example}
 
 ```java
-const milvusClient = new milvusClient(MILUVS_ADDRESS);
+const milvusClient = new MilvusClient({
+    address: 'YOUR_CLUSTER_ENDPOINT',
+    token: 'YOUR_CLUSTER_TOKEN',
+});
  const res = await milvusClient.getCollectionStatistics({ collection_name: 'my_collection' });
 ```
 

@@ -12,10 +12,10 @@ token: Wqpcf6ygDlCZofdoUszcZNfxn5g
 sidebar_position: 4
 sidebar_label: "Configure"
 keywords: 
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
   - zilliz
   - zilliz cloud
   - cloud

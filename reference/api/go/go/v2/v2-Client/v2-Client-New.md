@@ -1,11 +1,12 @@
 ---
 title: "New() | Go | v2"
 slug: /go/v2-Client-New
+sidebar_key: v2-Client-New
 sidebar_label: "New()"
-beta: FALSE
 added_since: v2.5.x
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "This method creates a Milvus client that connects to a specific Milvus deployment. | Go | v2"
 type: origin

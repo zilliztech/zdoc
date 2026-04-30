@@ -1,21 +1,22 @@
 ---
 title: "upgrade | Cloud"
 slug: /cli/cli/Project-upgrade
+sidebar_key: cli/Project-upgrade
 sidebar_label: "upgrade"
-beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation upgrades a project's subscription plan. | Cloud"
 type: docx
 token: LZksdPD7Ao7HdwxYr4Lc3IHlngg
 sidebar_position: 4
 keywords: 
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
   - zilliz
   - zilliz cloud
   - cloud

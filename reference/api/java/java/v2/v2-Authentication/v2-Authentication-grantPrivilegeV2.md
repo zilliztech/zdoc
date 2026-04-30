@@ -1,21 +1,22 @@
 ---
 title: "grantPrivilegeV2() | Java | v2"
 slug: /java/java/v2-Authentication-grantPrivilegeV2
+sidebar_key: java/v2-Authentication-grantPrivilegeV2
 sidebar_label: "grantPrivilegeV2()"
-beta: false
 added_since: v2.4.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation grants privileges or privilege groups to a specific role. | Java | v2"
 type: docx
 token: MFv3drbbXouqVxxE1OicBBl5ndf
 sidebar_position: 11
 keywords: 
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - javaV226
 displayed_sidebar: javaSidebar
 
-displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';

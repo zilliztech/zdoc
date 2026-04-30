@@ -1,21 +1,22 @@
 ---
 title: "loadCollection() | Node.js"
 slug: /node/node/Management-loadCollection
+sidebar_key: node/Management-loadCollection
 sidebar_label: "loadCollection()"
-beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation loads the data of a specific collection into memory. | Node.js"
 type: docx
 token: LoNvdRK80oWllFxV0H6co0HrnBe
 sidebar_position: 17
 keywords: 
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - nodejs26
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,13 +34,13 @@ import Admonition from '@theme/Admonition';
 This operation loads the data of a specific collection into memory.
 
 ```javascript
-loadCollection(data): Promise<ResStatus>
+await milvusClient.loadCollection(data)
 ```
 
 ## Request Syntax\{#request-syntax}
 
 ```javascript
-milvusClient.loadCollection({ 
+await milvusClient.loadCollection({ 
     db_name: string,
     collection_name: string,
     refresh?: boolean,
@@ -109,7 +109,10 @@ This method returns a promise that resolves to a **ResStatus** object.
 ## Example\{#example}
 
 ```java
-const milvusClient = new milvusClient(MILUVS_ADDRESS);
+const milvusClient = new MilvusClient({
+    address: 'YOUR_CLUSTER_ENDPOINT',
+    token: 'YOUR_CLUSTER_TOKEN',
+});
  const resStatus = await milvusClient.loadCollection({ collection_name: 'my_collection' });
 ```
 

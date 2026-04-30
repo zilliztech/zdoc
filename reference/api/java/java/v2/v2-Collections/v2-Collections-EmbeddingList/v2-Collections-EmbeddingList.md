@@ -1,21 +1,22 @@
 ---
 title: "EmbeddingList | Java | v2"
 slug: /java/java/v2-Collections-EmbeddingList
+sidebar_key: java/v2-Collections-EmbeddingList
 sidebar_label: "EmbeddingList"
-beta: false
 added_since: v2.6.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "An EmbeddingList instance represents a list of vector embeddings. You can use an EmbeddingList instance to build the query vectors in a search against a vector field in an Array of Structs field. | Java | v2"
 type: docx
 token: EXcNdtZrro7Ufkxp3G6cUArOn7b
 sidebar_position: 2
 keywords: 
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - javaV226
 displayed_sidebar: javaSidebar
 
-displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';

@@ -1,21 +1,22 @@
 ---
 title: "CollectionSchema | Python | MilvusClient"
 slug: /python/python/MilvusClient-CollectionSchema
+sidebar_key: python/MilvusClient-CollectionSchema
 sidebar_label: "CollectionSchema"
-beta: false
 added_since: v2.3.x
 last_modified: v2.5.x
 deprecate_since: false
+beta: false
 notebook: false
 description: "A CollectionSchema instance represents the schema of a collection. A schema sketches the structure of a collection. | Python | MilvusClient"
 type: docx
 token: U4Q8deNe2offXCx3OgIc9QJPnnh
 sidebar_position: 2
 keywords: 
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - pymilvus26
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -54,7 +54,7 @@ CollectionSchema(
 
     **[REQUIRED]**
 
-    A list of **FieldSchema** objects that define the fields in the collection schema.
+    A list of **[FieldSchema](./ORM-FieldSchema)** objects that define the fields in the collection schema.
 
     <Admonition type="info" icon="📘" title="What is a field schema?">
 
@@ -94,7 +94,7 @@ CollectionSchema(
 
         The value should be the name of a field listed in **fields**.
 
-        As an alternative, you can set **is_primary** when creating a **FieldSchema** object.
+        As an alternative, you can set **is_primary** when creating a **[FieldSchema](./ORM-FieldSchema)** object.
 
     - **partition_key_field** (*str*) -
 
@@ -104,7 +104,7 @@ CollectionSchema(
 
         Setting this makes Zilliz Cloud manage all partitions in the current collection.
 
-        As an alternative, you can set **is_partition_key** when creating a **FieldSchema** object.
+        As an alternative, you can set **is_partition_key** when creating a **[FieldSchema](./ORM-FieldSchema)** object.
 
         <Admonition type="info" icon="📘" title="What is a partition key?">
 
@@ -134,7 +134,7 @@ A **CollectionSchema** object.
 
 - **FieldTypeException**: 
 
-    This exception will be raised when a field in the **fields** list is not a **FieldSchema** object.
+    This exception will be raised when a field in the **fields** list is not a **[FieldSchema](./ORM-FieldSchema)** object.
 
 - **PrimaryKeyException:**
 

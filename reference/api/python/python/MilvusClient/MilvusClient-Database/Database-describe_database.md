@@ -1,21 +1,22 @@
 ---
 title: "describe_database() | Python | MilvusClient"
 slug: /python/python/Database-describe_database
+sidebar_key: python/Database-describe_database
 sidebar_label: "describe_database()"
-beta: false
 added_since: v2.5.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation lists detailed information about the specified database. | Python | MilvusClient"
 type: docx
 token: LEaYdk179oZn0vxqa0lcn4mnnrg
 sidebar_position: 3
 keywords: 
-  - Vector index
   - vector database open source
   - open source vector db
   - vector database example
+  - rag vector database
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - pymilvus26
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';

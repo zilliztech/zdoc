@@ -1,21 +1,22 @@
 ---
 title: "add_field() | Python | MilvusClient"
 slug: /python/python/CollectionSchema-add_field_1
+sidebar_key: python/CollectionSchema-add_field_1
 sidebar_label: "add_field()"
-beta: false
 added_since: v2.3.x
 last_modified: v2.5.x
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation adds a field to the schema of a collection. | Python | MilvusClient"
 type: docx
 token: Ehbdd1HRLoB34nxU6hQcRk2Mnug
 sidebar_position: 1
 keywords: 
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - pymilvus26
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -51,7 +51,7 @@ add_field(
 
     The name of the field.
 
-- **datatype** (*[DataType](./Collections-DataType)*) - 
+- **[datatype](./Collections-DataType)** (*[DataType](./Collections-DataType)*) - 
 
     **[REQUIRED]**
 
@@ -142,7 +142,7 @@ add_field(
 
 **RETURNS:**
 
-A **CollectionSchema** object contains the fields that have been added to the schema.
+A **[CollectionSchema](./MilvusClient-CollectionSchema)** object contains the fields that have been added to the schema.
 
 **EXCEPTIONS:**
 

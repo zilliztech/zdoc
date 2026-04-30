@@ -1,11 +1,12 @@
 ---
 title: "DropIndexProperties() | Go | v2"
 slug: /go/v2-Management-DropIndexProperties
+sidebar_key: v2-Management-DropIndexProperties
 sidebar_label: "DropIndexProperties()"
-beta: FALSE
 added_since: v2.5.x
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "This operation drops the settings of the specified index properties. | Go | v2"
 type: origin

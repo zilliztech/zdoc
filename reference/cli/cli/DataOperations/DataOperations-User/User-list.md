@@ -1,21 +1,22 @@
 ---
 title: "list | Cloud"
 slug: /cli/cli/User-list
+sidebar_key: cli/User-list
 sidebar_label: "list"
-beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation lists all database users. | Cloud"
 type: docx
 token: HfpOdcNw3ovpRgxrIQAcFW0Jnlp
 sidebar_position: 5
 keywords: 
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
   - zilliz
   - zilliz cloud
   - cloud

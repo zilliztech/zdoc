@@ -1,21 +1,22 @@
 ---
 title: "regions | Cloud"
 slug: /cli/cli/Cluster-regions
+sidebar_key: cli/Cluster-regions
 sidebar_label: "regions"
-beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation lists all available regions for a cloud provider. | Cloud"
 type: docx
 token: IsRxdCpeEo3RmOxiY0jcCYLhnde
 sidebar_position: 8
 keywords: 
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
   - zilliz
   - zilliz cloud
   - cloud

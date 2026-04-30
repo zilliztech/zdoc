@@ -1,21 +1,22 @@
 ---
 title: "VolumeFileManager | Python"
 slug: /python/python/Volume-VolumeFileManager
+sidebar_key: python/Volume-VolumeFileManager
 sidebar_label: "VolumeFileManager"
-beta: false
 added_since: false
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "A `VolumeFileManager` instance maintains a connection to a specific Zilliz Cloud volume. Before uploading data files to a volume, you need to initiate a `VolumeFileManager` instance. | Python"
 type: docx
 token: IbWgdAwWOoTa1exF2LicP9henJJ
 sidebar_position: 2
 keywords: 
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
   - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - pymilvus26
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';

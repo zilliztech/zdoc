@@ -1,21 +1,22 @@
 ---
 title: "create_partition() | Python | ORM"
 slug: /python/python/Collection-create_partition
+sidebar_key: python/Collection-create_partition
 sidebar_label: "create_partition()"
-beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation creates a partition in the target collection. | Python | ORM"
 type: docx
 token: Sh7HdgJOIoJipXx5AoNcicjMnyd
 sidebar_position: 5
 keywords: 
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - pymilvus26
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -56,7 +56,7 @@ create_partition(
 
 **RETURN TYPE:**
 
-*Partition*
+*[Partition](./ORM-Partition)*
 
 **RETURNS:**
 

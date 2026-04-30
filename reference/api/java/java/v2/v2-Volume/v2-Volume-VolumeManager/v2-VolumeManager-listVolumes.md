@@ -1,21 +1,22 @@
 ---
 title: "listVolumes() | Java | v2"
 slug: /java/java/v2-VolumeManager-listVolumes
+sidebar_key: java/v2-VolumeManager-listVolumes
 sidebar_label: "listVolumes()"
-beta: false
 added_since: false
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation lists all volumes within a specific project in a paginated manner. | Java | v2"
 type: docx
 token: Cde1dlUbDosa86xjuShcoKgQnvg
 sidebar_position: 3
 keywords: 
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - javaV226
 displayed_sidebar: javaSidebar
 
-displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';

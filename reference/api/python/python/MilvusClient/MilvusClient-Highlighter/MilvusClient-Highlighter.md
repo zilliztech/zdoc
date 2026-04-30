@@ -12,10 +12,10 @@ token: O7mqfZp5fleHncduy7HcWkdTnPb
 sidebar_position: 13
 sidebar_label: "Highlighter"
 keywords: 
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
   - zilliz
   - zilliz cloud
   - cloud

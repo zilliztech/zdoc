@@ -1,21 +1,22 @@
 ---
 title: "encode_documents() | Python"
 slug: /python/python/VoyageEmbeddingFunction-encode_documents
+sidebar_key: python/VoyageEmbeddingFunction-encode_documents
 sidebar_label: "encode_documents()"
-beta: false
 added_since: v2.4.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation takes in documents and encodes them into vector embeddings. | Python"
 type: docx
 token: S9zrdw1etovCFKx0gcic6AiVn0e
 sidebar_position: 1
 keywords: 
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
+  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - pymilvus26
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -67,7 +67,7 @@ A list where each element is a NumPy array.
 from pymilvus.model.dense import VoyageEmbeddingFunction
 
 voyage_ef = VoyageEmbeddingFunction(
-    model_name="voyage-lite-02-instruct", # Defaults to `voyage-2`
+    model_name="voyage-lite-02-instruct", # Defaults to \`voyage-2\`
     api_key='YOUR_API_KEY' # Replace with your own Voyage API key
 )
 

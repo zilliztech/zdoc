@@ -1,21 +1,22 @@
 ---
 title: "delete | Cloud"
 slug: /cli/cli/Backup-delete
+sidebar_key: cli/Backup-delete
 sidebar_label: "delete"
-beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation deletes a backup. | Cloud"
 type: docx
 token: HXoRdtosOo9mFLxdKLic4telnWW
 sidebar_position: 2
 keywords: 
-  - cosine distance
   - what is a vector database
   - vectordb
   - multimodal vector database retrieval
+  - Retrieval Augmented Generation
   - zilliz
   - zilliz cloud
   - cloud

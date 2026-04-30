@@ -1,21 +1,22 @@
 ---
 title: "encode_queries() | Python"
 slug: /python/python/NomicEmbeddingFunction-encode_queries
+sidebar_key: python/NomicEmbeddingFunction-encode_queries
 sidebar_label: "encode_queries()"
-beta: false
 added_since: v2.4.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation takes in a list of query strings and encodes each query into a vector embedding. | Python"
 type: docx
 token: KBujdxXhko2zJjx4hFmcsHGhn4g
 sidebar_position: 2
 keywords: 
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - pymilvus26
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -67,7 +67,7 @@ A list where each element is a NumPy array.
 from pymilvus.model.dense import NomicEmbeddingFunction
 
 ef = NomicEmbeddingFunction(
-    model_name="nomic-embed-text-v1.5", # Defaults to `mistral-embed`
+    model_name="nomic-embed-text-v1.5", # Defaults to \`mistral-embed\`
     api_key="NOMIC_API_KEY" # Provide your Nomic API key
 )
 

@@ -1,21 +1,22 @@
 ---
 title: "ListCollectionsV2() | Java | v2"
 slug: /java/java/v2-Collections-ListCollectionsV2
+sidebar_key: java/v2-Collections-ListCollectionsV2
 sidebar_label: "ListCollectionsV2()"
-beta: false
 added_since: v2.5.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation lists all existing collections in a specified database. | Java | v2"
 type: docx
 token: WY4idJdzCozGGnxmLoFcIjC2ndw
 sidebar_position: 29
 keywords: 
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - javaV226
 displayed_sidebar: javaSidebar
 
-displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';

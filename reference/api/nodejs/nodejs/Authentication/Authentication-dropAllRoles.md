@@ -1,21 +1,22 @@
 ---
 title: "dropAllRoles() | Node.js"
 slug: /node/node/Authentication-dropAllRoles
+sidebar_key: node/Authentication-dropAllRoles
 sidebar_label: "dropAllRoles()"
-beta: false
 added_since: v2.4.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation drops all roles in Milvus. | Node.js"
 type: docx
 token: E5rYdw3EWo2WKZxEyGac049an3e
 sidebar_position: 11
 keywords: 
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - nodejs26
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,13 +34,13 @@ import Admonition from '@theme/Admonition';
 This operation drops all roles in Milvus.
 
 ```javascript
-dropAllRoles(data?): Promise<ResStatus[]>
+await milvusClient.dropAllRoles(data?)
 ```
 
 ## Request Syntax\{#request-syntax}
 
 ```javascript
-milvusClient.dropAllRoles({
+await milvusClient.dropAllRoles({
    timeout?: number
 })
 ```

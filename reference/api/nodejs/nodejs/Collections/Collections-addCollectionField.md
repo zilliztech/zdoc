@@ -1,21 +1,22 @@
 ---
 title: "addCollectionField() | Node.js"
 slug: /node/node/Collections-addCollectionField
+sidebar_key: node/Collections-addCollectionField
 sidebar_label: "addCollectionField()"
-beta: false
 added_since: v2.6.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation adds a new scalar field to an existing collection without recreating it. The field becomes available almost immediately with minimal delay due to internal schema synchronization. | Node.js"
 type: docx
 token: JqOJdOA6Dooy2cxAXTkcQpBEnyk
 sidebar_position: 19
 keywords: 
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - nodejs26
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +34,7 @@ import Admonition from '@theme/Admonition';
 This operation adds a new scalar field to an existing collection without recreating it. The field becomes available almost immediately with minimal delay due to internal schema synchronization.
 
 ```javascript
-addCollectionField(data: AddCollectionFieldReq): Promise<ResStatus>
+await milvusClient.addCollectionField(data: AddCollectionFieldReq)
 ```
 
 <Admonition type="info" icon="📘" title="Notes">
@@ -46,7 +46,7 @@ addCollectionField(data: AddCollectionFieldReq): Promise<ResStatus>
 ## Request Syntax\{#request-syntax}
 
 ```javascript
-milvusClient.addCollectionField({
+await milvusClient.addCollectionField({
     collection_name: string,
     db_name?: string,
     field: FieldType,

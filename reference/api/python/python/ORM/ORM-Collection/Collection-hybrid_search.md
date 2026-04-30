@@ -1,21 +1,22 @@
 ---
 title: "hybrid_search() | Python | ORM"
 slug: /python/python/Collection-hybrid_search
+sidebar_key: python/Collection-hybrid_search
 sidebar_label: "hybrid_search()"
-beta: NEAR DEPRECATE
 added_since: v2.4.x
 last_modified: false
 deprecate_since: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation performs multi-vector search on a collection and returns search results after reranking. | Python | ORM"
 type: docx
 token: QqOSdTDaLoOKGRxiKEtcuuiAnrf
 sidebar_position: 17
 keywords: 
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - pymilvus26
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';

@@ -1,21 +1,22 @@
 ---
 title: "describe-policy | Cloud"
 slug: /cli/cli/Backup-describepolicy
+sidebar_key: cli/Backup-describepolicy
 sidebar_label: "describe-policy"
-beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation describes the backup policy for a cluster. | Cloud"
 type: docx
 token: L7cCdeeP2oszbnxQE5ccCpIJnGb
 sidebar_position: 4
 keywords: 
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
   - zilliz
   - zilliz cloud
   - cloud

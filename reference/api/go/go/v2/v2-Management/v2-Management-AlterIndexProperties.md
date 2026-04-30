@@ -1,11 +1,12 @@
 ---
 title: "AlterIndexProperties() | Go | v2"
 slug: /go/v2-Management-AlterIndexProperties
+sidebar_key: v2-Management-AlterIndexProperties
 sidebar_label: "AlterIndexProperties()"
-beta: FALSE
 added_since: v2.5.x
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "This operation changes the values of the specified index properties. | Go | v2"
 type: origin

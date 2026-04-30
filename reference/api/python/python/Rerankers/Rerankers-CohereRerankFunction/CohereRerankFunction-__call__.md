@@ -1,21 +1,22 @@
 ---
 title: "\_\_call\_\_() | Python"
 slug: /python/python/CohereRerankFunction-__call__
+sidebar_key: python/CohereRerankFunction-__call__
 sidebar_label: "__call__()"
-beta: false
 added_since: v2.4.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation in CohereRerankFunction takes in a query and document strings and returns a list of `RerankResult` objects with the top k documents ranked by score. | Python"
 type: docx
 token: M7pWdbu8foKkJAxY3uBcMfHrnrh
 sidebar_position: 2
 keywords: 
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - pymilvus26
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -97,7 +97,7 @@ from pymilvus.model.reranker import CohereRerankFunction
 
 # Define the rerank function
 cohere_rf = CohereRerankFunction(
-    model_name="rerank-english-v3.0",  # Specify the model name. Defaults to `rerank-english-v2.0`.
+    model_name="rerank-english-v3.0",  # Specify the model name. Defaults to \`rerank-english-v2.0\`.
     api_key=COHERE_API_KEY # Replace with your Cohere API key
 )
 

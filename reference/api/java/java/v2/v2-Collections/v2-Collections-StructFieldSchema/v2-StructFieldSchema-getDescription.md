@@ -1,21 +1,22 @@
 ---
 title: "getDescription() | Java | v2"
 slug: /java/java/v2-StructFieldSchema-getDescription
+sidebar_key: java/v2-StructFieldSchema-getDescription
 sidebar_label: "getDescription()"
-beta: false
 added_since: v2.6.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation returns the description of an Array of Structs field. | Java | v2"
 type: docx
 token: QbfPdyw7EoXpGwxSkGgcytBBnAb
 sidebar_position: 3
 keywords: 
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - javaV226
 displayed_sidebar: javaSidebar
 
-displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';

@@ -1,21 +1,22 @@
 ---
 title: "insert() | Node.js"
 slug: /node/node/Vector-insert
+sidebar_key: node/Vector-insert
 sidebar_label: "insert()"
-beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation inserts data into a specific collection. | Node.js"
 type: docx
 token: SZNQds74zoKniRxtJwdcfdz1nCh
 sidebar_position: 5
 keywords: 
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - nodejs26
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,18 +34,18 @@ import Admonition from '@theme/Admonition';
 This operation inserts data into a specific collection.
 
 ```javascript
-insert(data): Promise<MutationResult>
+await milvusClient.insert(data: InsertReq)
 ```
 
 ## Request Syntax\{#request-syntax}
 
 ```javascript
-milvusClient.insert({
-    db_name: string,
+await milvusClient.insert({
     collection_name: string,
-    data?: RowData[],
+    data: RowData | RowData[],
     partition_name?: string,
-    timeout?: number
+    db_name?: string,
+    timeout?: number,
 })
 ```
 
@@ -188,9 +188,21 @@ This method returns a promise that resolves to a **MutationResult** object.
 ## Example\{#example}
 
 ```javascript
-const milvusClient = new milvusClient(MILUVS_ADDRESS);
-const res = await milvusClient.listAliases({
-   collection_name: 'my_collection',
+import { MilvusClient } from '@zilliz/milvus2-sdk-node';
+
+const milvusClient = new MilvusClient({
+    address: 'YOUR_CLUSTER_ENDPOINT',
+    token: 'YOUR_CLUSTER_TOKEN',
 });
+
+const res = await milvusClient.insert({
+    collection_name: 'my_collection',
+    data: [
+        { id: 1, vector: [0.1, 0.2, 0.3, 0.4, 0.5], text: 'Hello' },
+        { id: 2, vector: [0.6, 0.7, 0.8, 0.9, 1.0], text: 'World' },
+    ],
+});
+
+console.log(res.insert_cnt); // '2'
 ```
 

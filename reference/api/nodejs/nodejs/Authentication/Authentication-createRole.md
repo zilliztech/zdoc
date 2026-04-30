@@ -1,21 +1,22 @@
 ---
 title: "createRole() | Node.js"
 slug: /node/node/Authentication-createRole
+sidebar_key: node/Authentication-createRole
 sidebar_label: "createRole()"
-beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation creates a custom role. | Node.js"
 type: docx
 token: SDoYdccLWo1W3PxkNFncibwDnch
 sidebar_position: 6
 keywords: 
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - nodejs26
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,13 +34,13 @@ import Admonition from '@theme/Admonition';
 This operation creates a custom role.
 
 ```javascript
-createRole(data): Promise<ResStatus>
+await milvusClient.createRole(data)
 ```
 
 ## Request Syntax\{#request-syntax}
 
 ```javascript
-milvusClient.createRole({
+await milvusClient.createRole({
    roleName: string,
    timeout?: number
  })
@@ -89,7 +89,7 @@ This method returns a promise that resolves to a **ResStatus** object.
 ## Example\{#example}
 
 ```java
-milvusClient.createRole({
+await milvusClient.createRole({
    roleName: 'exampleRole',
  })
 ```

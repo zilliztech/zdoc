@@ -1,21 +1,22 @@
 ---
 title: "hasRole() | Node.js"
 slug: /node/node/Authentication-hasRole
+sidebar_key: node/Authentication-hasRole
 sidebar_label: "hasRole()"
-beta: false
 added_since: v2.6.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
-description: "Checks if a role exists in the Milvus cluster. | Node.js"
+description: "This operation checks if a role exists in the Milvus cluster. | Node.js"
 type: docx
-token: Cgm7deeT9oQ6DwxCI3tc9GSfnuc
+token: Beq1d1hDUoTzIsxJ6WTcVtlpnah
 sidebar_position: 29
 keywords: 
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - nodejs26
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,10 +31,19 @@ import Admonition from '@theme/Admonition';
 
 # hasRole()
 
-Checks if a role exists in the Milvus cluster.
+This operation checks if a role exists in the Milvus cluster.
 
-```typescript
+```javascript
 await milvusClient.hasRole(data: HasRoleReq)
+```
+
+## Request Syntax\{#request-syntax}
+
+```javascript
+await milvusClient.hasRole({
+    roleName: string,
+    timeout?: number,
+})
 ```
 
 **PARAMETERS:**
@@ -63,10 +72,13 @@ The response contains a `hasRole` boolean indicating whether the role exists.
 
 ## Example\{#example}
 
-```typescript
+```javascript
 import { MilvusClient } from '@zilliz/milvus2-sdk-node';
 
-const client = new MilvusClient({ address: 'YOUR_CLUSTER_ENDPOINT' });
+const client = new MilvusClient({
+    address: 'YOUR_CLUSTER_ENDPOINT',
+    token: 'YOUR_CLUSTER_TOKEN',
+});
 const res = await client.hasRole({ roleName: 'my_role' });
 console.log(res.hasRole); // true or false
 ```

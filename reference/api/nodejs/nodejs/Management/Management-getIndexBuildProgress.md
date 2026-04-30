@@ -1,21 +1,22 @@
 ---
 title: "getIndexBuildProgress() | Node.js"
 slug: /node/node/Management-getIndexBuildProgress
+sidebar_key: node/Management-getIndexBuildProgress
 sidebar_label: "getIndexBuildProgress()"
-beta: false
 added_since: v2.4.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation gets the build progress of the specified index. | Node.js"
 type: docx
 token: G6CGdbM4QoNgr5xS1ZAc94lhnFd
 sidebar_position: 11
 keywords: 
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - nodejs26
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,13 +34,13 @@ import Admonition from '@theme/Admonition';
 This operation gets the build progress of the specified index.
 
 ```javascript
-getIndexBuildProgress(data): Promise<GetIndexBuildProgressResponse>
+await milvusClient.getIndexBuildProgress(data)
 ```
 
 ## Request Syntax\{#request-syntax}
 
 ```javascript
-milvusClient.getIndexBuildProgress({
+await milvusClient.getIndexBuildProgress({
       db_name?: string,
       collection_name: string,
       field_name: string,

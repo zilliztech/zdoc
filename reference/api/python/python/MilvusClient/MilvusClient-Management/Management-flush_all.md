@@ -1,21 +1,22 @@
 ---
 title: "flush_all() | Python | MilvusClient"
 slug: /python/python/Management-flush_all
+sidebar_key: python/Management-flush_all
 sidebar_label: "flush_all()"
-beta: false
 added_since: v2.6.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation flushes all collections in the current database. This ensures all inserted data is written to persistent storage. | Python | MilvusClient"
 type: docx
 token: QejKdv2qKo97mQxEV0CcaSM5nLh
 sidebar_position: 16
 keywords: 
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - pymilvus26
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';

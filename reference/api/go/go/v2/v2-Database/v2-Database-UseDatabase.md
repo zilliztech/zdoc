@@ -1,11 +1,12 @@
 ---
 title: "UseDatabase() | Go | v2"
 slug: /go/v2-Database-UseDatabase
+sidebar_key: v2-Database-UseDatabase
 sidebar_label: "UseDatabase()"
-beta: FALSE
 added_since: v2.5.x
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "This method disconnects the currently connected database and connects to the specified one. | Go | v2"
 type: origin
@@ -80,7 +81,7 @@ Null
 ## Example\{#example}
 
 ```plaintext
-dbName := `test_db`
+dbName := \`test_db\`
 cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: milvusAddr,
 })

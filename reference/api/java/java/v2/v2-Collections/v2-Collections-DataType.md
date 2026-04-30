@@ -1,21 +1,22 @@
 ---
 title: "DataType | Java | v2"
 slug: /java/java/v2-Collections-DataType
+sidebar_key: java/v2-Collections-DataType
 sidebar_label: "DataType"
-beta: false
 added_since: v2.3.x
 last_modified: v2.6.x
 deprecate_since: false
+beta: false
 notebook: false
 description: "This is an enumeration that provides the following constants. | Java | v2"
 type: docx
 token: RZ8idPxaho5yMoxJzGdc7QAcnNf
 sidebar_position: 10
 keywords: 
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - javaV226
 displayed_sidebar: javaSidebar
 
-displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -105,7 +105,7 @@ This is an enumeration that provides the following constants.
 
 - SparseFloatVector(104)
 
-      Sets the data type to **Sparse Vector**.
+Sets the data type to **Sparse Vector**.
 
 - Inv8Vector(105)
 

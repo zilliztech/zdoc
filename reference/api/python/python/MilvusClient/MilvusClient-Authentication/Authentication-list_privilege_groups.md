@@ -1,21 +1,22 @@
 ---
 title: "list_privilege_groups() | Python | MilvusClient"
 slug: /python/python/Authentication-list_privilege_groups
+sidebar_key: python/Authentication-list_privilege_groups
 sidebar_label: "list_privilege_groups()"
-beta: false
 added_since: v2.4.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation lists all existing privilege groups. | Python | MilvusClient"
 type: docx
 token: N6kjdex5Ao0lRqxPXBhcxq4AnNh
 sidebar_position: 13
 keywords: 
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - pymilvus26
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';

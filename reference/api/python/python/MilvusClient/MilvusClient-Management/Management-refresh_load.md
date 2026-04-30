@@ -1,21 +1,22 @@
 ---
 title: "refresh_load() | Python | MilvusClient"
 slug: /python/python/Management-refresh_load
+sidebar_key: python/Management-refresh_load
 sidebar_label: "refresh_load()"
-beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation loads the unloaded data of a loaded collection into memory. | Python | MilvusClient"
 type: docx
 token: X3NXdtC2koiAxyxhcUBcv38Wnsh
 sidebar_position: 12
 keywords: 
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - pymilvus26
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -62,7 +62,7 @@ refresh_load(
 
 **RETURNS:**
 
- None
+None
 
 **EXCEPTIONS:**
 

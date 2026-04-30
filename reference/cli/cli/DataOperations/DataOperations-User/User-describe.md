@@ -1,21 +1,22 @@
 ---
 title: "describe | Cloud"
 slug: /cli/cli/User-describe
+sidebar_key: cli/User-describe
 sidebar_label: "describe"
-beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation gets details of a user. | Cloud"
 type: docx
 token: IgAUdLDvcoWDR6xOu2XcmRoznIh
 sidebar_position: 2
 keywords: 
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
   - zilliz
   - zilliz cloud
   - cloud

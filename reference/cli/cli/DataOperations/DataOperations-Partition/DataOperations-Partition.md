@@ -12,10 +12,10 @@ token: Vh1yfsLKOliEvPdk4hzc9EdSncj
 sidebar_position: 5
 sidebar_label: "Partition"
 keywords: 
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
   - zilliz
   - zilliz cloud
   - cloud

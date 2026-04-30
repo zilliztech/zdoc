@@ -1,21 +1,22 @@
 ---
 title: "releaseCollection() | Node.js"
 slug: /node/node/Management-releaseCollection
+sidebar_key: node/Management-releaseCollection
 sidebar_label: "releaseCollection()"
-beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation releases the data of a specific collection from memory. | Node.js"
 type: docx
 token: UxOXdeKF1oOIBuxTjPhcKBtPnRb
 sidebar_position: 20
 keywords: 
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - nodejs26
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,13 +34,13 @@ import Admonition from '@theme/Admonition';
 This operation releases the data of a specific collection from memory.
 
 ```javascript
-releaseCollection(data): Promise<ResStatus>
+await milvusClient.releaseCollection(data)
 ```
 
 ## Request Syntax\{#request-syntax}
 
 ```javascript
-milvusClient.releaseCollection({ 
+await milvusClient.releaseCollection({ 
     db_name: string,
     collection_name: 'my_collection',
     timeout?: number 
@@ -94,7 +94,10 @@ This method returns a promise that resolves to a **ResStatus** object.
 ## Example\{#example}
 
 ```java
-const milvusClient = new milvusClient(MILUVS_ADDRESS);
+const milvusClient = new MilvusClient({
+    address: 'YOUR_CLUSTER_ENDPOINT',
+    token: 'YOUR_CLUSTER_TOKEN',
+});
 const resStatus = await milvusClient.releaseCollection({ collection_name: 'my_collection' });
 ```
 

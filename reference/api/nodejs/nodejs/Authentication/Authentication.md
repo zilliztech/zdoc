@@ -12,10 +12,10 @@ token: KWn3ff3dRlg3zndqerbcW0QXn1c
 sidebar_position: 1
 sidebar_label: "Authentication"
 keywords: 
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
   - zilliz
   - zilliz cloud
   - cloud

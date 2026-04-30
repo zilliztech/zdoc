@@ -1,11 +1,12 @@
 ---
 title: "Management | Go | v2"
 slug: /go/v2-Management
+sidebar_key: v2-Management
 sidebar_label: "Management"
-beta: FALSE
 added_since: v2.5.x
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "This chapter provides references for the methods to perform operations over indexes, collections, and partitions. | Go | v2"
 type: origin

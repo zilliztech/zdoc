@@ -12,10 +12,10 @@ token: Q8jzfSMtAlSUEYd8Ilfc2NP2nQd
 sidebar_position: 1
 sidebar_label: "Backup"
 keywords: 
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
   - zilliz
   - zilliz cloud
   - cloud

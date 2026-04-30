@@ -1,21 +1,22 @@
 ---
 title: "encode_documents() | Python"
 slug: /python/python/MistralAIEmbeddingFunction-encode_documents
+sidebar_key: python/MistralAIEmbeddingFunction-encode_documents
 sidebar_label: "encode_documents()"
-beta: false
 added_since: v2.4.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation takes in documents and encodes them into vector embeddings. | Python"
 type: docx
 token: SeFLdfKVjoGX8Xx11e3cmkY4n7g
 sidebar_position: 1
 keywords: 
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - pymilvus26
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -67,7 +67,7 @@ A list where each element is a NumPy array.
 from pymilvus.model.dense import MistralAIEmbeddingFunction
 
 ef = MistralAIEmbeddingFunction(
-    model_name="mistral-embed", # Defaults to `mistral-embed`
+    model_name="mistral-embed", # Defaults to \`mistral-embed\`
     api_key="MISTRAL_API_KEY" # Provide your Mistral AI API key
 )
 

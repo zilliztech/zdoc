@@ -1,21 +1,22 @@
 ---
 title: "wait_for_compaction_completed() | Python | ORM"
 slug: /python/python/Collection-wait_for_compaction_completed
+sidebar_key: python/Collection-wait_for_compaction_completed
 sidebar_label: "wait_for_compaction_completed()"
-beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation blocks the current session until the compaction request is completed. | Python | ORM"
 type: docx
 token: VFKIdx0tDoeAzSx4Ud6c3u5Snsf
 sidebar_position: 29
 keywords: 
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - pymilvus26
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';

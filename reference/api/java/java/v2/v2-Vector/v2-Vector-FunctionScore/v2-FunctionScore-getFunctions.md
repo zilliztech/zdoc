@@ -1,21 +1,22 @@
 ---
 title: "getFunctions() | Java | v2"
 slug: /java/java/v2-FunctionScore-getFunctions
+sidebar_key: java/v2-FunctionScore-getFunctions
 sidebar_label: "getFunctions()"
-beta: false
 added_since: v2.6.x
 last_modified: v2.6.x
 deprecate_since: false
+beta: false
 notebook: false
 description: "This getter returns the list of functions defined in this FunctionScore object. | Java | v2"
 type: docx
 token: RsqKdZaMnoHbaRxYr1fcqRbRnth
 sidebar_position: 3
 keywords: 
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - javaV226
 displayed_sidebar: javaSidebar
 
-displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';

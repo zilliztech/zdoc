@@ -1,21 +1,22 @@
 ---
 title: "add() | Java | v2"
 slug: /java/java/v2-EmbeddingList-add
+sidebar_key: java/v2-EmbeddingList-add
 sidebar_label: "add()"
-beta: false
 added_since: v2.6.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation adds vector embeddings to an EmbeddingList instance. | Java | v2"
 type: docx
 token: PUOBd229uoQGUIxnHLWcMSidnQh
 sidebar_position: 1
 keywords: 
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - javaV226
 displayed_sidebar: javaSidebar
 
-displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # add()
 
-This operation adds vector embeddings to an **EmbeddingList** instance.
+This operation adds vector embeddings to an **[EmbeddingList](./v2-Collections-EmbeddingList)** instance.
 
 ```java
 public void add(BaseVector vector)
@@ -45,7 +45,7 @@ public void add(BaseVector vector)
 
 **RETURN TYPE:**
 
-*EmbeddingList*
+*[EmbeddingList](./v2-Collections-EmbeddingList)*
 
 **RETURNS:**
 

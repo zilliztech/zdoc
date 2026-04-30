@@ -1,21 +1,22 @@
 ---
 title: "hybridts_to_datetime() | Python | ORM"
 slug: /python/python/utility-hybridts_to_datetime
+sidebar_key: python/utility-hybridts_to_datetime
 sidebar_label: "hybridts_to_datetime()"
-beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation converts a hybrid timestamp to a Python's datetime object. | Python | ORM"
 type: docx
 token: EBAFdcmoKoNJISxM8i1cqXzRn9H
 sidebar_position: 19
 keywords: 
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - pymilvus26
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';

@@ -1,21 +1,22 @@
 ---
 title: "dropDatabase() | Node.js"
 slug: /node/node/Database-dropDatabase
+sidebar_key: node/Database-dropDatabase
 sidebar_label: "dropDatabase()"
-beta: false
 added_since: v2.3.x
 last_modified: v2.5.x
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation drops a database. | Node.js"
 type: docx
 token: Ja99dnnaOoncwbx2zIPc4PjunXx
 sidebar_position: 3
 keywords: 
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - nn search
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - nodejs26
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +34,7 @@ import Admonition from '@theme/Admonition';
 This operation drops a database.
 
 ```javascript
-dropDatabase(data?): Promise<ResStatus>
+await milvusClient.dropDatabase(data?)
 ```
 
 <Admonition type="info" icon="📘" title="Notes">
@@ -46,7 +46,7 @@ dropDatabase(data?): Promise<ResStatus>
 ## Request Syntax\{#request-syntax}
 
 ```javascript
-milvusClient.dropDatabase({
+await milvusClient.dropDatabase({
     db_name: string,
     timeout?: number
 })
@@ -95,7 +95,10 @@ This method returns a promise that resolves to a **ResStatus** object.
 ## Example\{#example}
 
 ```javascript
-const milvusClient = new milvusClient(MILUVS_ADDRESS);
+const milvusClient = new MilvusClient({
+    address: 'YOUR_CLUSTER_ENDPOINT',
+    token: 'YOUR_CLUSTER_TOKEN',
+});
 const resStatus = await milvusClient.dropDatabase({ db_name: 'db_to_drop' });
 ```
 

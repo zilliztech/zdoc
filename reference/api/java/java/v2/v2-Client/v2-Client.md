@@ -12,10 +12,10 @@ token: LxHMfE9RNlOtvOdHs9wcrGnWnGg
 sidebar_position: 2
 sidebar_label: "Client"
 keywords: 
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
   - zilliz
   - zilliz cloud
   - cloud

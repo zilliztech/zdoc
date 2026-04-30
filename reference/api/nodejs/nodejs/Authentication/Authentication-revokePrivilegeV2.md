@@ -1,21 +1,22 @@
 ---
 title: "revokePrivilegeV2() | Node.js"
 slug: /node/node/Authentication-revokePrivilegeV2
+sidebar_key: node/Authentication-revokePrivilegeV2
 sidebar_label: "revokePrivilegeV2()"
-beta: false
 added_since: v2.4.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation revokes a privilege already assigned to a role. | Node.js"
 type: docx
 token: UlAUdLNkCo1Mp8xFZYWclSL9n6b
 sidebar_position: 26
 keywords: 
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - nodejs26
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,13 +34,13 @@ import Admonition from '@theme/Admonition';
 This operation revokes a privilege already assigned to a role.
 
 ```javascript
-revokePrivilegeV2(data): Promise<ResStatus>
+await milvusClient.revokePrivilegeV2(data)
 ```
 
 ## Request Syntax\{#request-syntax}
 
 ```javascript
-milvusClient.revokePrivilege({
+await milvusClient.revokePrivilege({
    role: string,
    privilege: string,
    db_name: string,

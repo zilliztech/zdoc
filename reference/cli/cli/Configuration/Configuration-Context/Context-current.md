@@ -1,21 +1,22 @@
 ---
 title: "current | Cloud"
 slug: /cli/cli/Context-current
+sidebar_key: cli/Context-current
 sidebar_label: "current"
-beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation shows the current context. | Cloud"
 type: docx
 token: TwNSdFMsaoQPVYxBYx8cnGpinng
 sidebar_position: 1
 keywords: 
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
   - zilliz
   - zilliz cloud
   - cloud

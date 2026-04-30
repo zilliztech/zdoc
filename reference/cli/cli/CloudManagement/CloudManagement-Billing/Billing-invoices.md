@@ -1,21 +1,22 @@
 ---
 title: "invoices | Cloud"
 slug: /cli/cli/Billing-invoices
+sidebar_key: cli/Billing-invoices
 sidebar_label: "invoices"
-beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation lists invoices or gets details of a specific invoice. | Cloud"
 type: docx
 token: D6R2dPsd4owSCAxnFdmcim4bneh
 sidebar_position: 2
 keywords: 
+  - Sparse vs Dense
+  - Dense vector
   - Hierarchical Navigable Small Worlds
   - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
   - zilliz
   - zilliz cloud
   - cloud

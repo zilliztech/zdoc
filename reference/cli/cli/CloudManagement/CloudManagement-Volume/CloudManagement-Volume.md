@@ -12,10 +12,10 @@ token: WTZ1fyvHZlctXqdIbubcF8jCndf
 sidebar_position: 7
 sidebar_label: "Volume"
 keywords: 
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
   - zilliz
   - zilliz cloud
   - cloud

@@ -1,21 +1,22 @@
 ---
 title: "describeAlias() | Node.js"
 slug: /node/node/Collections-describeAlias
+sidebar_key: node/Collections-describeAlias
 sidebar_label: "describeAlias()"
-beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation describes a specific alias. | Node.js"
 type: docx
 token: YCzNdg5yWoeZVrxj7jGcb1UXnBd
 sidebar_position: 7
 keywords: 
-  - Unstructured Data
   - vector database
   - IVF
   - knn
+  - Image Search
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - nodejs26
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,13 +34,13 @@ import Admonition from '@theme/Admonition';
 This operation describes a specific alias.
 
 ```javascript
-describeAlias(data): Promise<DescribeAliasResponse>
+await milvusClient.describeAlias(data)
 ```
 
 ## Request Syntax\{#request-syntax}
 
 ```javascript
-milvusClient.describeAlias({
+await milvusClient.describeAlias({
     db_name: string,
     alias: string,
     collection_name: string
@@ -127,7 +127,10 @@ This method returns a promise that resolves to a **ResStatus** object.
 ## Example\{#example}
 
 ```javascript
-const milvusClient = new milvusClient(MILUVS_ADDRESS);
+const milvusClient = new MilvusClient({
+    address: 'YOUR_CLUSTER_ENDPOINT',
+    token: 'YOUR_CLUSTER_TOKEN',
+});
 const res = await milvusClient.describeAlias({
    alias: 'my_collection_alias',
    collection_name: 'my_collection',

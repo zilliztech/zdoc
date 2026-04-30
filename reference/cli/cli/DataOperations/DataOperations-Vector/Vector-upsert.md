@@ -1,21 +1,22 @@
 ---
 title: "upsert | Cloud"
 slug: /cli/cli/Vector-upsert
+sidebar_key: cli/Vector-upsert
 sidebar_label: "upsert"
-beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation upserts entities. | Cloud"
 type: docx
 token: PLojdlFoioPDSEx6vKpcsmevnTf
 sidebar_position: 7
 keywords: 
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
   - zilliz
   - zilliz cloud
   - cloud

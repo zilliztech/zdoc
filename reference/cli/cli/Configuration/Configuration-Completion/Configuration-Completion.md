@@ -12,10 +12,10 @@ token: ZisQffFbFlu2nsdTGU0cCJ7TnCd
 sidebar_position: 3
 sidebar_label: "Completion"
 keywords: 
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
   - zilliz
   - zilliz cloud
   - cloud

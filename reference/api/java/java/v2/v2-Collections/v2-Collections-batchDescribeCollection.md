@@ -1,21 +1,22 @@
 ---
 title: "batchDescribeCollection() | Java | v2"
 slug: /java/java/v2-Collections-batchDescribeCollection
+sidebar_key: java/v2-Collections-batchDescribeCollection
 sidebar_label: "batchDescribeCollection()"
-beta: false
 added_since: v2.6.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation gets the descriptions of multiple collections in a batch. | Java | v2"
 type: docx
 token: SRI6dEn82oNe4Uxro8hcyFV3n1d
 sidebar_position: 32
 keywords: 
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - javaV226
 displayed_sidebar: javaSidebar
 
-displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -121,7 +121,7 @@ A **DescribeCollectionResp** object that contains detailed information about the
 
     The time when the collection was created in UTC.
 
-- **consistencyLevel** (*ConsistencyLevel*) -
+- **[consistencyLevel](./v2-Collections-ConsistencyLevel)** (*[ConsistencyLevel](./v2-Collections-ConsistencyLevel)*) -
 
     The consistency level of the collection.
 

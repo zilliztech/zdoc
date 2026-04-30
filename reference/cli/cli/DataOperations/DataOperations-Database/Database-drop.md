@@ -1,21 +1,22 @@
 ---
 title: "drop | Cloud"
 slug: /cli/cli/Database-drop
+sidebar_key: cli/Database-drop
 sidebar_label: "drop"
-beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation drops a database. (Dedicated only) | Cloud"
 type: docx
 token: TB3Odp61soJUTnxuGb7cjA00nXf
 sidebar_position: 3
 keywords: 
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
   - zilliz
   - zilliz cloud
   - cloud

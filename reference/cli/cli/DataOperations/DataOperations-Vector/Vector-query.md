@@ -1,21 +1,22 @@
 ---
 title: "query | Cloud"
 slug: /cli/cli/Vector-query
+sidebar_key: cli/Vector-query
 sidebar_label: "query"
-beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation queries entities by scalar filter expression. | Cloud"
 type: docx
 token: BFfGdYH1aocKSjx2CLQce7C9nWo
 sidebar_position: 5
 keywords: 
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
   - zilliz
   - zilliz cloud
   - cloud

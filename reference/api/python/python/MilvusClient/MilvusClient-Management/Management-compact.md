@@ -1,11 +1,12 @@
 ---
 title: "compact() | Python | MilvusClient"
 slug: /python/python/Management-compact
+sidebar_key: python/Management-compact
 sidebar_label: "compact()"
-beta: false
 added_since: v2.4.x
 last_modified: v2.6.x
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation compacts the collection by merging small segments into larger ones. It is recommended to call this operation after inserting a large amount of data into a collection. | Python | MilvusClient"
 type: docx
@@ -23,7 +24,6 @@ keywords:
   - pymilvus26
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -60,6 +60,10 @@ compact(
 - **is_l0** (*bool*) -
 
     Whether to perform an L0 compaction, which specifically handles L0 segments by merging delete operations into existing data segments. Defaults to **False**.
+
+- **target_size** *(str)* - 
+
+    Whether to perform a force merge compaction. Defaults to **0** or omitted.
 
 - **timeout** (*Optional[float]*) -
 
@@ -104,6 +108,12 @@ job_id = client.compact(
 job_id = client.compact(
     collection_name="my_collection",
     is_l0=True
+)
+
+#Force merge compaction
+job_id = client.compact(
+    collection_name="target_collection",
+    target_size="2048 MB"  
 )
 
 # Check compaction status

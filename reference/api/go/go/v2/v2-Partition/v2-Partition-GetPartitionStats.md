@@ -1,11 +1,12 @@
 ---
 title: "GetPartitionStats() | Go | v2"
 slug: /go/v2-Partition-GetPartitionStats
+sidebar_key: v2-Partition-GetPartitionStats
 sidebar_label: "GetPartitionStats()"
-beta: FALSE
 added_since: v2.5.x
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "This method collects the statistics on the specified partition. | Go | v2"
 type: origin

@@ -1,21 +1,22 @@
 ---
 title: "delete() | Node.js"
 slug: /node/node/Vector-delete
+sidebar_key: node/Vector-delete
 sidebar_label: "delete()"
-beta: false
 added_since: v2.3.x
 last_modified: v2.5.x
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation deletes entities by their IDs or with a boolean expression. | Node.js"
 type: docx
 token: KOZHdyeQvo4htOxhO8BcbEudnNd
 sidebar_position: 2
 keywords: 
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - nodejs26
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -35,7 +35,7 @@ import TabItem from '@theme/TabItem';
 This operation deletes entities by their IDs or with a boolean expression.
 
 ```javascript
-delete(data): Promise<MutationResult>
+await milvusClient.delete(data)
 ```
 
 ## Request Syntax\{#request-syntax}
@@ -45,7 +45,7 @@ This method has the following alternatives.
 ### With DeleteByIdsReq\{#with-deletebyidsreq}
 
 ```javascript
-milvusClient.delete({
+await milvusClient.delete({
    db_name: string,
    collection_name: string,
    partition_name?: string,
@@ -94,7 +94,7 @@ milvusClient.delete({
 ### With DeleteByFilterReq\{#with-deletebyfilterreq}
 
 ```javascript
-milvusClient.delete({
+await milvusClient.delete({
    db_name: string,
    collection_name: string,
    partition_name?: string,
@@ -147,7 +147,10 @@ milvusClient.delete({
 <TabItem value='python'>
 
 ```python
-const milvusClient = new milvusClient(MILUVS_ADDRESS);
+const milvusClient = new MilvusClient({
+    address: 'YOUR_CLUSTER_ENDPOINT',
+    token: 'YOUR_CLUSTER_TOKEN',
+});
  const resStatus = await milvusClient.delete({
    collection_name: 'my_collection',
    ids: [1,2,3,4]
@@ -159,11 +162,24 @@ const milvusClient = new milvusClient(MILUVS_ADDRESS);
 <TabItem value='java'>
 
 ```java
-const milvusClient = new milvusClient(MILUVS_ADDRESS);
- const resStatus = await milvusClient.delete({
-   collection_name: 'my_collection',
-   filter: 'id in [1,2,3,4]'
- });
+import { MilvusClient } from '@zilliz/milvus2-sdk-node';
+
+const milvusClient = new MilvusClient({
+    address: 'YOUR_CLUSTER_ENDPOINT',
+    token: 'YOUR_CLUSTER_TOKEN',
+});
+
+// Delete by IDs
+const resStatus1 = await milvusClient.delete({
+    collection_name: 'my_collection',
+    ids: [1, 2, 3, 4],
+});
+
+// Delete by filter
+const resStatus2 = await milvusClient.delete({
+    collection_name: 'my_collection',
+    filter: 'id in [5, 6, 7, 8]',
+});
 ```
 
 </TabItem>

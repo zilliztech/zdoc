@@ -1,21 +1,22 @@
 ---
 title: "create | Cloud"
 slug: /cli/cli/Cluster-create
+sidebar_key: cli/Cluster-create
 sidebar_label: "create"
-beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation creates a new cluster. | Cloud"
 type: docx
 token: KNCGdB4VfolyidxJBWOcuUGin3c
 sidebar_position: 1
 keywords: 
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
   - zilliz
   - zilliz cloud
   - cloud
@@ -34,7 +35,7 @@ This operation creates a new cluster.
 
 ## Description\{#description}
 
-Zilliz Cloud provides various cluster deployment options to accommodate the distinct business needs. 
+Zilliz Cloud provides various serving cluster deployment options to accommodate the distinct business needs. 
 
 - **Free**: provides a starting point for learning and personal projects with limitations on storage, vCU consumption, and the number of collections.
 
@@ -58,7 +59,7 @@ Regarding dedicated clusters, Zilliz Cloud offers the following cluster types: *
 
 ### Tiered-storage cluster\{#tiered-storage-cluster}
 
-- Best for ultra-large-scale, cost-sensitive workloads with clear hot and cold data patterns.
+- Best for ultra-large-scale, cost-sensitive workloads.
 
 - Ideal for applications that need to store massive volumes of data at a low cost. The capacity of a Tiered-storage cluster is 4 times that of a Capacity-optimized cluster.
 

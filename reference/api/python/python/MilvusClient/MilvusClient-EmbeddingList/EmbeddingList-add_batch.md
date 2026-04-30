@@ -1,21 +1,22 @@
 ---
 title: "add_batch() | Python | MilvusClient"
 slug: /python/python/EmbeddingList-add_batch
+sidebar_key: python/EmbeddingList-add_batch
 sidebar_label: "add_batch()"
-beta: false
 added_since: v2.6.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation adds multiple vector embeddings to the current EmbeddingList instance. | Python | MilvusClient"
 type: docx
 token: TJundbM8FoU8UKxczaMcix3QnHb
 sidebar_position: 2
 keywords: 
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - pymilvus26
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # add_batch()
 
-This operation adds multiple vector embeddings to the current **EmbeddingList** instance.
+This operation adds multiple vector embeddings to the current **[EmbeddingList](./MilvusClient-EmbeddingList)** instance.
 
 ## Request syntax\{#request-syntax}
 
@@ -46,15 +46,15 @@ add_batch(
 
 - **embeddings** (*List[np.ndarray], np.ndarray*) - 
 
-    The vector embeddings that are to be added to the current **EmbeddingList** instance.
+    The vector embeddings that are to be added to the current **[EmbeddingList](./MilvusClient-EmbeddingList)** instance.
 
 **RETURN TYPE:**
 
-*EmbeddingList*
+*[EmbeddingList](./MilvusClient-EmbeddingList)*
 
 **RETURNS:**
 
-The current **EmbeddingList** instance itself for method chaining
+The current **[EmbeddingList](./MilvusClient-EmbeddingList)** instance itself for method chaining
 
 **EXCEPTIONS:**
 

@@ -1,21 +1,22 @@
 ---
 title: "get-stats | Cloud"
 slug: /cli/cli/Collection-getstats
+sidebar_key: cli/Collection-getstats
 sidebar_label: "get-stats"
-beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation gets collection statistics (row count, etc.). | Cloud"
 type: docx
 token: TS6mdq8Clo4yLNxzZvpcJOkanid
 sidebar_position: 7
 keywords: 
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
   - zilliz
   - zilliz cloud
   - cloud

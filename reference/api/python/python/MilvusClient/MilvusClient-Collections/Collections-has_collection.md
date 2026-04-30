@@ -1,21 +1,22 @@
 ---
 title: "has_collection() | Python | MilvusClient"
 slug: /python/python/Collections-has_collection
+sidebar_key: python/Collections-has_collection
 sidebar_label: "has_collection()"
-beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation checks whether a specific collection exists. | Python | MilvusClient"
 type: docx
 token: SSQ6dFGdxouy7hxRwCOcatnEn0e
 sidebar_position: 14
 keywords: 
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - pymilvus26
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -84,32 +84,14 @@ client = MilvusClient(
 # 2. Create a collection
 client.create_collection(collection_name="test_collection", dimension=5)
 
-# 3. Check whether a collection named `test_collection` exists
+# 3. Check whether a collection named \`test_collection\` exists
 client.has_collection(collection_name="test_collection") 
 
 # True
 
-# 4. Check whether a collection named `test_collection_2` exists
+# 4. Check whether a collection named \`test_collection_2\` exists
 client.has_collection(collection_name="test_collection_2") 
 
 # False
 ```
-
-## Related methods\{#related-methods}
-
-- [create_collection()](./Collections-create_collection)
-
-- [create_schema()](./Collections-create_schema)
-
-- [describe_collection()](./Collections-describe_collection)
-
-- [drop_collection()](./Collections-drop_collection)
-
-- [get_collection_stats()](./Collections-get_collection_stats)
-
-- [list_collections()](./Collections-list_collections)
-
-- [rename_collection()](./Collections-rename_collection)
-
-- [DataType](./Collections-DataType)
 

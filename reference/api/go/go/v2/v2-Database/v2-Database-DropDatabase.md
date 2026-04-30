@@ -1,11 +1,12 @@
 ---
 title: "DropDatabase() | Go | v2"
 slug: /go/v2-Database-DropDatabase
+sidebar_key: v2-Database-DropDatabase
 sidebar_label: "DropDatabase()"
-beta: FALSE
 added_since: v2.5.x
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "This method drops a database. | Go | v2"
 type: origin

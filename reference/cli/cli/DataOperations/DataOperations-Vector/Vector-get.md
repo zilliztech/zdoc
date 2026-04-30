@@ -1,21 +1,22 @@
 ---
 title: "get | Cloud"
 slug: /cli/cli/Vector-get
+sidebar_key: cli/Vector-get
 sidebar_label: "get"
-beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation gets entities by primary key IDs. | Cloud"
 type: docx
 token: KwQLdb4UZo41g6xySjfcFtiCnl9
 sidebar_position: 2
 keywords: 
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - what is milvus
+  - milvus database
+  - milvus lite
+  - milvus benchmark
   - zilliz
   - zilliz cloud
   - cloud

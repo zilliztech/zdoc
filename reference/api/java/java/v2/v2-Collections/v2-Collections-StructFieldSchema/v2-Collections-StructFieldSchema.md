@@ -1,21 +1,22 @@
 ---
 title: "StructFieldSchema | Java | v2"
 slug: /java/java/v2-Collections-StructFieldSchema
+sidebar_key: java/v2-Collections-StructFieldSchema
 sidebar_label: "StructFieldSchema"
-beta: false
 added_since: v2.6.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "A StructFieldSchema instance represents the schema of the Struct elements in an Array of Structs field. A schema sketches the structure of its Struct elements. | Java | v2"
 type: docx
 token: DCszdG9rCoZxhfxfAuOcNsXRnOc
 sidebar_position: 8
 keywords: 
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - javaV226
 displayed_sidebar: javaSidebar
 
-displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';

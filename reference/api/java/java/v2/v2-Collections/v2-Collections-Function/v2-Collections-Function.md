@@ -1,21 +1,22 @@
 ---
 title: "Function | Java | v2"
 slug: /java/java/v2-Collections-Function
+sidebar_key: java/v2-Collections-Function
 sidebar_label: "Function"
-beta: false
 added_since: v2.5.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "A `Function` instance for generating vector embeddings from user-provided raw data or configuring rerankers for searches. | Java | v2"
 type: docx
 token: CW06d3MZQo2AzuxIv2ycCFpsn4b
 sidebar_position: 3
 keywords: 
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - javaV226
 displayed_sidebar: javaSidebar
 
-displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';

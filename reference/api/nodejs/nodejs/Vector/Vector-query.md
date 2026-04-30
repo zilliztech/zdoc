@@ -1,11 +1,12 @@
 ---
 title: "query() | Node.js"
 slug: /node/node/Vector-query
+sidebar_key: node/Vector-query
 sidebar_label: "query()"
-beta: false
 added_since: v2.3.x
 last_modified: v2.5.x
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation conducts a scalar filtering with a specified boolean expression. | Node.js"
 type: docx
@@ -23,7 +24,6 @@ keywords:
   - nodejs26
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +34,7 @@ import Admonition from '@theme/Admonition';
 This operation conducts a scalar filtering with a specified boolean expression.
 
 ```javascript
-query(data): Promise<ResStatus>
+await milvusClient.query(data)
 ```
 
 ## Request Syntax\{#request-syntax}
@@ -156,7 +156,10 @@ This method returns a promise that resolves to a **QueryResults** object.
 ## Example\{#example}
 
 ```java
-const milvusClient = new milvusClient(MILUVS_ADDRESS);
+const milvusClient = new MilvusClient({
+    address: 'YOUR_CLUSTER_ENDPOINT',
+    token: 'YOUR_CLUSTER_TOKEN',
+});
  const queryResults = await milvusClient.query({
    collection_name: 'my_collection',
    filter: "age in [1,2,3,4,5,6,7,8]",

@@ -1,21 +1,22 @@
 ---
 title: "dropCollectionFieldProperties() | Java | v2"
 slug: /java/java/v2-Collections-dropCollectionFieldProperties
+sidebar_key: java/v2-Collections-dropCollectionFieldProperties
 sidebar_label: "dropCollectionFieldProperties()"
-beta: false
 added_since: v2.5.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation drops the specified properties of a field. | Java | v2"
 type: docx
 token: O3E9duLvfoMC26x8AmDcomlWneh
 sidebar_position: 26
 keywords: 
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - javaV226
 displayed_sidebar: javaSidebar
 
-displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';

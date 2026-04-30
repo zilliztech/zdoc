@@ -1,21 +1,22 @@
 ---
 title: "get_import_progress() | Python"
 slug: /python/python/BulkImport-get_import_progress
+sidebar_key: python/BulkImport-get_import_progress
 sidebar_label: "get_import_progress()"
-beta: false
 added_since: Inherit
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation gets the progress of the specified bulk-import job. | Python"
 type: docx
 token: MkWNdU1tvoqlBRxI05Rcu09cnEc
 sidebar_position: 2
 keywords: 
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - pymilvus26
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';

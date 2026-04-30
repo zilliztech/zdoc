@@ -1,21 +1,22 @@
 ---
 title: "\_\_call\_\_() | Python"
 slug: /python/python/InstructorEmbeddingFunction-__call__
+sidebar_key: python/InstructorEmbeddingFunction-__call__
 sidebar_label: "__call__()"
-beta: false
 added_since: v2.4.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation in InstructorEmbeddingFunction takes a list of text strings and directly encodes them into vector embeddings. | Python"
 type: docx
 token: VmAIdW9J2oH6iWxDh2PcJYfRnne
 sidebar_position: 4
 keywords: 
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - pymilvus26
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -72,7 +72,7 @@ A list where each element is a NumPy array.
 from pymilvus.model.dense import InstructorEmbeddingFunction
 
 ef = InstructorEmbeddingFunction(
-    model_name="hkunlp/instructor-xl", # Defaults to `hkunlp/instructor-xl`
+    model_name="hkunlp/instructor-xl", # Defaults to \`hkunlp/instructor-xl\`
     query_instruction="Represent the question for retrieval:",
     doc_instruction="Represent the document for retrieval:"
 )

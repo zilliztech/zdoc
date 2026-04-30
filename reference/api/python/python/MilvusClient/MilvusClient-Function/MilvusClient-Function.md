@@ -1,21 +1,22 @@
 ---
 title: "Function | Python | MilvusClient"
 slug: /python/python/MilvusClient-Function
+sidebar_key: python/MilvusClient-Function
 sidebar_label: "Function"
-beta: false
 added_since: v2.5.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "A `Function` instance for generating vector embeddings from user-provided raw data or applying a reranking strategy to the search results in Milvus. | Python | MilvusClient"
 type: docx
 token: RrW9dOM8do7d3ixXIP9clJJUnVg
 sidebar_position: 3
 keywords: 
-  - hybrid search
   - lexical search
   - nearest neighbor search
   - Agentic RAG
+  - rag llm architecture
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - pymilvus26
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -59,7 +59,7 @@ Function(
 
     The name of the function. This identifier is used to reference the function within queries and collections.
 
-- `function_type` (*FunctionType*) -
+- `function_type` (*[FunctionType](./Collections-FunctionType)*) -
 
     **[REQUIRED]**
 

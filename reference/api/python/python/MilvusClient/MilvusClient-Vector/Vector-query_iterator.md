@@ -1,21 +1,22 @@
 ---
 title: "query_iterator() | Python | MilvusClient"
 slug: /python/python/Vector-query_iterator
+sidebar_key: python/Vector-query_iterator
 sidebar_label: "query_iterator()"
-beta: false
 added_since: v2.5.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation conducts a scalar filtering with a specified boolean expression in an iterative manner. | Python | MilvusClient"
 type: docx
 token: L6i8dmvsBogcmIxtORsc1Mu0nhg
 sidebar_position: 5
 keywords: 
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
+  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - pymilvus26
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';

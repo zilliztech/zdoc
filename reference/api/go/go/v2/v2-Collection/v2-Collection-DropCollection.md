@@ -1,11 +1,12 @@
 ---
 title: "DropCollection() | Go | v2"
 slug: /go/v2-Collection-DropCollection
+sidebar_key: v2-Collection-DropCollection
 sidebar_label: "DropCollection()"
-beta: FALSE
 added_since: v2.5.x
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "This method drops a collection. | Go | v2"
 type: origin

@@ -1,21 +1,22 @@
 ---
 title: "getIndexState() | Node.js"
 slug: /node/node/Management-getIndexState
+sidebar_key: node/Management-getIndexState
 sidebar_label: "getIndexState()"
-beta: false
 added_since: v2.4.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation gets the status of the specified index. | Node.js"
 type: docx
 token: HqE5d2jOroEuObxIjkZcHkX4nWX
 sidebar_position: 12
 keywords: 
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - nodejs26
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,13 +34,13 @@ import Admonition from '@theme/Admonition';
 This operation gets the status of the specified index.
 
 ```javascript
-getIndexState(data): Promise<GetIndexStateResponse>
+await milvusClient.getIndexState(data)
 ```
 
 ## Request Syntax\{#request-syntax}
 
 ```javascript
-milvusClient.getIndexState({
+await milvusClient.getIndexState({
       db_name?: string,
       collection_name: string,
       field_name?: string,

@@ -1,21 +1,22 @@
 ---
 title: "hybrid_search() | Python | MilvusClient"
 slug: /python/python/Vector-hybrid_search
+sidebar_key: python/Vector-hybrid_search
 sidebar_label: "hybrid_search()"
-beta: false
 added_since: v2.5.x
 last_modified: v2.6.x
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation performs multi-vector search on a collection and returns search results after reranking. | Python | MilvusClient"
 type: docx
 token: Iv1PdIVxYoDOMax47xDcLnbEnXb
 sidebar_position: 9
 keywords: 
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - pymilvus26
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';

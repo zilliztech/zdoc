@@ -1,21 +1,22 @@
 ---
 title: "FieldSchema | Java | v2"
 slug: /java/java/v2-Collections-FieldSchema
+sidebar_key: java/v2-Collections-FieldSchema
 sidebar_label: "FieldSchema"
-beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "A FieldSchema instance defines the data type and related attributes of a specific field in a collection. | Java | v2"
 type: docx
 token: WeXmdv8bioJ7AEx9sEtct6kgnUd
 sidebar_position: 16
 keywords: 
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - javaV226
 displayed_sidebar: javaSidebar
 
-displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -81,13 +81,13 @@ CreateCollectionReq.FieldSchema.builder()
 
     The maximum number of characters a value should contain.
 
-    This is required if **dataType** of this field is set to **DataType.VarChar.**
+    This is required if **[dataType](./v2-Collections-DataType)** of this field is set to **DataType.VarChar.**
 
 - `dimension(int dimension)`
 
     The number of dimensions a value should have.
 
-    This is required if **dataType** of this field is set to **DataType.FloatVector**.
+    This is required if **[dataType](./v2-Collections-DataType)** of this field is set to **DataType.FloatVector**.
 
 - `isPrimaryKey(boolean isPrimaryKey)`
 

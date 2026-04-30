@@ -1,21 +1,22 @@
 ---
 title: "\_\_call\_\_() | Python"
 slug: /python/python/NomicEmbeddingFunction-__call__
+sidebar_key: python/NomicEmbeddingFunction-__call__
 sidebar_label: "__call__()"
-beta: false
 added_since: v2.4.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation in NomicEmbeddingFunction takes a list of text strings and directly encodes them into vector embeddings. | Python"
 type: docx
 token: Dsl1dDLBeoGixjxt2lpcFP5ynSA
 sidebar_position: 4
 keywords: 
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - pymilvus26
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -72,7 +72,7 @@ A list where each element is a NumPy array.
 from pymilvus.model.dense import NomicEmbeddingFunction
 
 ef = NomicEmbeddingFunction(
-    model_name="nomic-embed-text-v1.5", # Defaults to `mistral-embed`
+    model_name="nomic-embed-text-v1.5", # Defaults to \`mistral-embed\`
     api_key="NOMIC_API_KEY" # Provide your Nomic API key
 )
 

@@ -1,11 +1,12 @@
 ---
 title: "verify() | Python | MilvusClient"
 slug: /python/python/CollectionSchema-verify_1
+sidebar_key: python/CollectionSchema-verify_1
 sidebar_label: "verify()"
-beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation performs final validation checks on the CollectionSchema to detect any obvious problems. | Python | MilvusClient"
 type: docx
@@ -23,7 +24,6 @@ keywords:
   - pymilvus26
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';

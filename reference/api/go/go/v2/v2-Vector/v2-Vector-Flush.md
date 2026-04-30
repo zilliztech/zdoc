@@ -1,11 +1,12 @@
 ---
 title: "Flush() | Go | v2"
 slug: /go/v2-Vector-Flush
+sidebar_key: v2-Vector-Flush
 sidebar_label: "Flush()"
-beta: FALSE
 added_since: v2.5.x
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "This method flushes data into storage. | Go | v2"
 type: origin
@@ -137,7 +138,7 @@ This method does not take any input parameters. The following table lists the va
 ## Example\{#example}
 
 ```plaintext
-collectionName := `customized_setup_1`
+collectionName := \`customized_setup_1\`
 
 task, err := cli.Flush(ctx, milvusclient.NewFlushOption(collectionName))
 if err != nil {

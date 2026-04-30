@@ -1,21 +1,22 @@
 ---
 title: "deleteUser() | Node.js"
 slug: /node/node/Authentication-deleteUser
+sidebar_key: node/Authentication-deleteUser
 sidebar_label: "deleteUser()"
-beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation drops a user. | Node.js"
 type: docx
 token: Cl5PdhU5jouHnrxyYXLcOQAZneb
 sidebar_position: 8
 keywords: 
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - nodejs26
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +34,7 @@ import Admonition from '@theme/Admonition';
 This operation drops a user.
 
 ```javascript
-deleteUser(data): Promise<ResStatus>
+await milvusClient.deleteUser(data)
 ```
 
 ## Request Syntax\{#request-syntax}
@@ -42,7 +42,7 @@ deleteUser(data): Promise<ResStatus>
 This method has the following alternatives.
 
 ```javascript
-milvusClient.deleteUser({
+await milvusClient.deleteUser({
     username: string,
     timeout?: number
 })
@@ -91,7 +91,7 @@ This method returns a promise that resolves to a **ResStatus** object.
 ## Example\{#example}
 
 ```java
-milvusClient.deleteUser({
+await milvusClient.deleteUser({
     username: 'exampleUser'
 })
 ```

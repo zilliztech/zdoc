@@ -1,11 +1,12 @@
 ---
 title: "DropCollectionProperties() | Go | v2"
 slug: /go/v2-Collection-DropCollectionProperties
+sidebar_key: v2-Collection-DropCollectionProperties
 sidebar_label: "DropCollectionProperties()"
-beta: FALSE
 added_since: v2.5.x
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "This method resets the specified properties of a collection to their default values. | Go | v2"
 type: origin

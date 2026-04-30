@@ -1,21 +1,22 @@
 ---
 title: "get_compaction_plans() | Python | MilvusClient"
 slug: /python/python/Management-get_compaction_plans
+sidebar_key: python/Management-get_compaction_plans
 sidebar_label: "get_compaction_plans()"
-beta: false
 added_since: v2.6.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation returns the compaction plans for a specific compaction job, including the merge plans showing which segments will be combined. | Python | MilvusClient"
 type: docx
 token: Qa8ZdRkOKocH60xujcLcOxuBnkh
 sidebar_position: 17
 keywords: 
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - pymilvus26
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';

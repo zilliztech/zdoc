@@ -1,21 +1,22 @@
 ---
 title: "isEnableDynamicField() | Java | v2"
 slug: /java/java/v2-CollectionSchema-isEnableDynamicField
+sidebar_key: java/v2-CollectionSchema-isEnableDynamicField
 sidebar_label: "isEnableDynamicField()"
-beta: false
 added_since: v2.6.x
 last_modified: v2.6.x
 deprecate_since: false
+beta: false
 notebook: false
 description: "This getter returns whether the dynamic field is enabled for the collection schema. | Java | v2"
 type: docx
 token: XoUqdHpskoe2mOxPtITcHpPUnHg
 sidebar_position: 9
 keywords: 
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - javaV226
 displayed_sidebar: javaSidebar
 
-displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';

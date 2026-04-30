@@ -1,21 +1,22 @@
 ---
 title: "BGEM3EmbeddingFunction | Python"
 slug: /python/python/EmbeddingModels-BGEM3EmbeddingFunction
+sidebar_key: python/EmbeddingModels-BGEM3EmbeddingFunction
 sidebar_label: "BGEM3EmbeddingFunction"
-beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "BGEM3EmbeddingFunction is a class in pymilvus that handles encoding text into embeddings using the BGE M3 model to support embedding retrieval in Milvus. | Python"
 type: docx
 token: XYSVdCqCDoJ9Y5xqKEAceYkpnnh
 sidebar_position: 1
 keywords: 
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - pymilvus26
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -99,9 +99,9 @@ BGEM3EmbeddingFunction(
 from pymilvus import model
 
 bge_m3_ef = model.hybrid.BGEM3EmbeddingFunction(
-    model_name='BAAI/bge-m3', # Specify t`he model name
+    model_name='BAAI/bge-m3', # Specify t\`he model name
     device='cpu', # Specify the device to use, e.g., 'cpu' or 'cuda:0'
-    use_fp16=False # Whether to use fp16. `False` for `device='cpu'`.
+    use_fp16=False # Whether to use fp16. \`False\` for \`device='cpu'\`.
 )
 ```
 

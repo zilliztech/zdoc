@@ -1,21 +1,22 @@
 ---
 title: "\_\_call\_\_() | Python"
 slug: /python/python/GeminiEmbeddingFunction-__call__
+sidebar_key: python/GeminiEmbeddingFunction-__call__
 sidebar_label: "__call__()"
-beta: false
 added_since: v2.5.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation in Model2VecEmbeddingFunction takes a list of text strings and directly encodes them into vector embeddings. | Python"
 type: docx
 token: Pvdhdb8IrozdCgx3N4fcTWdWnPg
 sidebar_position: 4
 keywords: 
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - pymilvus26
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 This operation in [Model2VecEmbeddingFunction](./EmbeddingModels-Model2VecEmbeddingFunction) takes a list of text strings and directly encodes them into vector embeddings.
 
-The **GeminiEmbeddingFunction()** method of Model2VecEmbeddingFunction shares the same functionality as [encode_documents()](./Model2VecEmbeddingFunction-encode_documents) and [encode_queries()](./Model2VecEmbeddingFunction-encode_queries).
+The **[GeminiEmbeddingFunction()](./EmbeddingModels-GeminiEmbeddingFunction)** method of Model2VecEmbeddingFunction shares the same functionality as [encode_documents()](./Model2VecEmbeddingFunction-encode_documents) and [encode_queries()](./Model2VecEmbeddingFunction-encode_queries).
 
 ## Request syntax\{#request-syntax}
 

@@ -1,21 +1,22 @@
 ---
 title: "getTotalRowCount() | Java | v2"
 slug: /java/java/v2-RemoteBulkWriter-getTotalRowCount
+sidebar_key: java/v2-RemoteBulkWriter-getTotalRowCount
 sidebar_label: "getTotalRowCount()"
-beta: false
 added_since: v2.6.x
 last_modified: v2.6.x
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation returns the total number of rows written by this RemoteBulkWriter instance. | Java | v2"
 type: docx
 token: QH3hdlzwDoxHjTxPj39c6qMSnbg
 sidebar_position: 7
 keywords: 
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - javaV226
 displayed_sidebar: javaSidebar
 
-displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';

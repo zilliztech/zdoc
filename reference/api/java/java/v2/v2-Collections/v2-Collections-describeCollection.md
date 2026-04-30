@@ -1,21 +1,22 @@
 ---
 title: "describeCollection() | Java | v2"
 slug: /java/java/v2-Collections-describeCollection
+sidebar_key: java/v2-Collections-describeCollection
 sidebar_label: "describeCollection()"
-beta: false
 added_since: v2.3.x
 last_modified: v2.5.x
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation lists detailed information about a specific collection. | Java | v2"
 type: docx
 token: F8lCdDCa3oD48WxWyURcmfoznYt
 sidebar_position: 12
 keywords: 
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - javaV226
 displayed_sidebar: javaSidebar
 
-displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -121,7 +121,7 @@ A **DescribeCollectionResp** object that contains detailed information about the
 
     The time when the collection was created in UTC.
 
-- **consistencyLevel** (*ConsistencyLevel*) -
+- **[consistencyLevel](./v2-Collections-ConsistencyLevel)** (*[ConsistencyLevel](./v2-Collections-ConsistencyLevel)*) -
 
     The consistency level of the collection.
 

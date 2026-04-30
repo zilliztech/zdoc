@@ -1,21 +1,22 @@
 ---
 title: "encode_queries() | Python"
 slug: /python/python/MistralAIEmbeddingFunction-encode_queries
+sidebar_key: python/MistralAIEmbeddingFunction-encode_queries
 sidebar_label: "encode_queries()"
-beta: false
 added_since: v2.4.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation takes in a list of query strings and encodes each query into a vector embedding. | Python"
 type: docx
 token: SptWdOyFqoGM5VxVS16cofqfnDg
 sidebar_position: 2
 keywords: 
-  - approximate nearest neighbor search
   - DiskANN
   - Sparse vector
   - Vector Dimension
+  - ANN Search
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - pymilvus26
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -67,7 +67,7 @@ A list where each element is a NumPy array.
 from pymilvus.model.dense import MistralAIEmbeddingFunction
 
 ef = MistralAIEmbeddingFunction(
-    model_name="mistral-embed", # Defaults to `mistral-embed`
+    model_name="mistral-embed", # Defaults to \`mistral-embed\`
     api_key="MISTRAL_API_KEY" # Provide your Mistral AI API key
 )
 

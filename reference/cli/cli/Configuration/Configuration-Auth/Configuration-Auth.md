@@ -12,10 +12,10 @@ token: PXh2fHhrulidp6dvqn2cORWSnwe
 sidebar_position: 2
 sidebar_label: "Auth"
 keywords: 
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
   - zilliz
   - zilliz cloud
   - cloud

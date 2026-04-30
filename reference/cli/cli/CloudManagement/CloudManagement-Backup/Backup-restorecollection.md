@@ -1,21 +1,22 @@
 ---
 title: "restore-collection | Cloud"
 slug: /cli/cli/Backup-restorecollection
+sidebar_key: cli/Backup-restorecollection
 sidebar_label: "restore-collection"
-beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation restores specific collections from a backup. | Cloud"
 type: docx
 token: AloudGinroMIAHxCT0GcJt5An4g
 sidebar_position: 8
 keywords: 
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
   - zilliz
   - zilliz cloud
   - cloud

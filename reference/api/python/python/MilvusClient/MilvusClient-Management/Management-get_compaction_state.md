@@ -1,21 +1,22 @@
 ---
 title: "get_compaction_state() | Python | MilvusClient"
 slug: /python/python/Management-get_compaction_state
+sidebar_key: python/Management-get_compaction_state
 sidebar_label: "get_compaction_state()"
-beta: false
 added_since: v2.6.x
 last_modified: v2.6.x
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation returns the current state of a compaction job. Use this after calling `compact()` to verify that compaction has completed. | Python | MilvusClient"
 type: docx
 token: MSDVdu103obklexX8GvcW5cWnCf
 sidebar_position: 18
 keywords: 
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - pymilvus26
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';

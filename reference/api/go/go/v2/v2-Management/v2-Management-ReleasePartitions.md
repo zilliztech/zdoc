@@ -1,11 +1,12 @@
 ---
 title: "ReleasePartitions() | Go | v2"
 slug: /go/v2-Management-ReleasePartitions
+sidebar_key: v2-Management-ReleasePartitions
 sidebar_label: "ReleasePartitions()"
-beta: FALSE
 added_since: v2.5.x
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "This method releases the specified collection. | Go | v2"
 type: origin

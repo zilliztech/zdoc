@@ -1,21 +1,22 @@
 ---
 title: "alterCollectionFunction() | Java | v2"
 slug: /java/java/v2-Collections-alterCollectionFunction
+sidebar_key: java/v2-Collections-alterCollectionFunction
 sidebar_label: "alterCollectionFunction()"
-beta: false
 added_since: v2.6.x
 last_modified: v2.6.x
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation alters an existing function in a collection by replacing it with a new function definition. | Java | v2"
 type: docx
 token: A6Vld2dJToRXs8xhq0wcGdiRnDc
 sidebar_position: 31
 keywords: 
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - javaV226
 displayed_sidebar: javaSidebar
 
-displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';

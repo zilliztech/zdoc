@@ -1,21 +1,22 @@
 ---
 title: "drop | Cloud"
 slug: /cli/cli/User-drop
+sidebar_key: cli/User-drop
 sidebar_label: "drop"
-beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation drops a database user. | Cloud"
 type: docx
 token: EXwwdyHGZopIv9xJ48dckYjanVc
 sidebar_position: 3
 keywords: 
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
   - zilliz
   - zilliz cloud
   - cloud

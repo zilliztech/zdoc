@@ -1,21 +1,22 @@
 ---
 title: "disable | Cloud"
 slug: /cli/cli/Alert-disable
+sidebar_key: cli/Alert-disable
 sidebar_label: "disable"
-beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation disables an alert rule. | Cloud"
 type: docx
 token: Dx3jdB9XjoyDwXxuX2GcTgBanDc
 sidebar_position: 3
 keywords: 
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
   - zilliz
   - zilliz cloud
   - cloud

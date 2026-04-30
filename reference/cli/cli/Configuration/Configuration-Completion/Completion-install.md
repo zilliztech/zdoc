@@ -1,21 +1,22 @@
 ---
 title: "install | Cloud"
 slug: /cli/cli/Completion-install
+sidebar_key: cli/Completion-install
 sidebar_label: "install"
-beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation installs shell completion. | Cloud"
 type: docx
 token: N0WHdp8BVoNlmmxa7wvclA8Knfg
 sidebar_position: 1
 keywords: 
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
   - zilliz
   - zilliz cloud
   - cloud

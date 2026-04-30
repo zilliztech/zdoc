@@ -1,21 +1,22 @@
 ---
 title: "\_\_call\_\_() | Python"
 slug: /python/python/VoyageRerankFunction-__call__
+sidebar_key: python/VoyageRerankFunction-__call__
 sidebar_label: "__call__()"
-beta: false
 added_since: v2.4.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation in VoyageRerankFunction takes in a query and document strings and returns a list of `RerankResult` objects with the top k documents ranked by score. | Python"
 type: docx
 token: N2aHdla1Uohk1HxGyPHcdG4lnnb
 sidebar_position: 2
 keywords: 
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - pymilvus26
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -97,7 +97,7 @@ from pymilvus.model.reranker import VoyageRerankFunction
 
 # Define the rerank function
 voyage_rf = VoyageRerankFunction(
-    model_name="rerank-lite-1",  # Specify the model name. Defaults to `rerank-lite-1`.
+    model_name="rerank-lite-1",  # Specify the model name. Defaults to \`rerank-lite-1\`.
     api_key=VOYAGE_API_KEY # Replace with your Voyage API key
 )
 

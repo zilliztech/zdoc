@@ -1,21 +1,22 @@
 ---
 title: "query() | Java | v2"
 slug: /java/java/v2-Vector-query
+sidebar_key: java/v2-Vector-query
 sidebar_label: "query()"
-beta: false
 added_since: v2.3.x
 last_modified: v2.6.x
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation conducts a scalar filtering with a specified boolean expression. | Java | v2"
 type: docx
 token: VXCddqVY5oholaxUlRNcYhOjndh
 sidebar_position: 5
 keywords: 
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - javaV226
 displayed_sidebar: javaSidebar
 
-displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';

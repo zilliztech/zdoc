@@ -12,10 +12,10 @@ token: ZgAkf2bMOligiLdACQrcEBgpn7b
 sidebar_position: 3
 sidebar_label: "Cluster"
 keywords: 
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
   - zilliz
   - zilliz cloud
   - cloud

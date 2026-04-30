@@ -1,21 +1,22 @@
 ---
 title: "construct_from_dict() | Python | ORM"
 slug: /python/python/CollectionSchema-construct_from_dict
+sidebar_key: python/CollectionSchema-construct_from_dict
 sidebar_label: "construct_from_dict()"
-beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation constructs a CollectionSchema object from a dictionary representation. | Python | ORM"
 type: docx
 token: DYuUdc503o1TANxuGozcXhCmnRN
 sidebar_position: 3
 keywords: 
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - pymilvus26
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # construct_from_dict()
 
-This operation constructs a **CollectionSchema** object from a dictionary representation.
+This operation constructs a **[CollectionSchema](./MilvusClient-CollectionSchema)** object from a dictionary representation.
 
 ## Request Syntax\{#request-syntax}
 
@@ -49,11 +49,11 @@ construct_from_dict(
 
 **RETURN TYPE:**
 
-*CollectionSchema*
+*[CollectionSchema](./MilvusClient-CollectionSchema)*
 
 **RETURNS:**
 
-A **CollectionSchema** object.
+A **[CollectionSchema](./MilvusClient-CollectionSchema)** object.
 
 **EXCEPTIONS:**
 

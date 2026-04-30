@@ -1,21 +1,22 @@
 ---
 title: "grant-role | Cloud"
 slug: /cli/cli/User-grantrole
+sidebar_key: cli/User-grantrole
 sidebar_label: "grant-role"
-beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation grants a role to a user. | Cloud"
 type: docx
 token: Fz3JdZ0rSoNxuDxvR0TcIXl5nhh
 sidebar_position: 4
 keywords: 
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
   - zilliz
   - zilliz cloud
   - cloud

@@ -1,21 +1,22 @@
 ---
 title: "RRFRanker | Java | v2"
 slug: /java/java/v2-Function-RRFRanker
+sidebar_key: java/v2-Function-RRFRanker
 sidebar_label: "RRFRanker"
-beta: false
 added_since: v2.6.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "The RRFRanker class extends from the Function class and provides extra parameters. | Java | v2"
 type: docx
 token: FuSTdeSCdojDu0xSBEmcYgv9n4g
 sidebar_position: 6
 keywords: 
-  - Vectorization
-  - k nearest neighbor algorithm
   - ANNS
   - Vector search
+  - knn algorithm
+  - HNSW
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - javaV226
 displayed_sidebar: javaSidebar
 
-displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -72,7 +72,7 @@ RRFRanker.builder()
 
 **RETURNS:**
 
- A RRF ranker instance.
+A RRF ranker instance.
 
 ## Examples:\{#examples}
 

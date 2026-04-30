@@ -1,21 +1,22 @@
 ---
 title: "delete() | Python | ORM"
 slug: /python/python/Partition-delete
+sidebar_key: python/Partition-delete
 sidebar_label: "delete()"
-beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation deletes entities from a partition with a boolean expression. | Python | ORM"
 type: docx
 token: V9BidASNqoWYrmxo11ecuN99neg
 sidebar_position: 1
 keywords: 
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - pymilvus26
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -35,7 +35,7 @@ This operation deletes entities from a partition with a boolean expression.
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Using the <strong>partition_name</strong> parameter in the <strong>delete()</strong> method of a <strong>Collection</strong> object is equivalent to using the <strong>delete()</strong> method of a <strong>Partition</strong> object.</p>
+<p>Using the <strong>partition_name</strong> parameter in the <strong>delete()</strong> method of a <strong><a href="./ORM-Collection">Collection</a></strong> object is equivalent to using the <strong>delete()</strong> method of a <strong><a href="./ORM-Partition">Partition</a></strong> object.</p>
 
 </Admonition>
 

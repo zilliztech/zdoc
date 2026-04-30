@@ -1,21 +1,22 @@
 ---
 title: "encode_documents() | Python"
 slug: /python/python/BGEM3EmbeddingFunction-encode_documents
+sidebar_key: python/BGEM3EmbeddingFunction-encode_documents
 sidebar_label: "encode_documents()"
-beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation takes in documents and encodes them into vector embeddings. | Python"
 type: docx
 token: Q0rYdTPkEoRZgUx99LCcfMDUnvh
 sidebar_position: 2
 keywords: 
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - pymilvus26
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -69,9 +69,9 @@ When initializing [BGEM3EmbeddingFunction](./EmbeddingModels-BGEM3EmbeddingFunct
 from pymilvus import model
 
 bge_m3_ef = model.hybrid.BGEM3EmbeddingFunction(
-    model_name='BAAI/bge-m3', # Specify t`he model name
+    model_name='BAAI/bge-m3', # Specify t\`he model name
     device='cpu', # Specify the device to use, e.g., 'cpu' or 'cuda:0'
-    use_fp16=False # Whether to use fp16. `False` for `device='cpu'`.
+    use_fp16=False # Whether to use fp16. \`False\` for \`device='cpu'\`.
 )
 
 docs = [

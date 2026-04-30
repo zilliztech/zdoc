@@ -1,21 +1,22 @@
 ---
 title: "rename_collection() | Python | MilvusClient"
 slug: /python/python/Collections-rename_collection
+sidebar_key: python/Collections-rename_collection
 sidebar_label: "rename_collection()"
-beta: false
 added_since: v2.3.x
 last_modified: v2.6.x
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation renames an existing collection. | Python | MilvusClient"
 type: docx
 token: WR4qdjFUXog2JHxuJpMcWcVlnEf
 sidebar_position: 18
 keywords: 
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - pymilvus26
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';

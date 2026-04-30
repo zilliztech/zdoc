@@ -12,10 +12,10 @@ token: OGWXfrqcVlYSC9da251c3WT9nXe
 sidebar_position: 2
 sidebar_label: "Collection"
 keywords: 
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
   - zilliz
   - zilliz cloud
   - cloud

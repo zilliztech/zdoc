@@ -1,21 +1,22 @@
 ---
 title: "getMaxCapacity() | Java | v2"
 slug: /java/java/v2-StructFieldSchema-getMaxCapacity
+sidebar_key: java/v2-StructFieldSchema-getMaxCapacity
 sidebar_label: "getMaxCapacity()"
-beta: false
 added_since: v2.6.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation returns the maximum capacity of an Array of Structs field. | Java | v2"
 type: docx
 token: PSdEdxU7ZoTxelx7sLzcAAXsnQH
 sidebar_position: 6
 keywords: 
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - javaV226
 displayed_sidebar: javaSidebar
 
-displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';

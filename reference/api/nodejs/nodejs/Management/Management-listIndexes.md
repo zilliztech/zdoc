@@ -1,21 +1,22 @@
 ---
 title: "listIndexes() | Node.js"
 slug: /node/node/Management-listIndexes
+sidebar_key: node/Management-listIndexes
 sidebar_label: "listIndexes()"
-beta: false
 added_since: v2.4.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation lists the indexes of a specific collection | Node.js"
 type: docx
 token: N1fldMqhtoWBJPxh8VccivqxnZd
 sidebar_position: 16
 keywords: 
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - nodejs26
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,13 +34,13 @@ import Admonition from '@theme/Admonition';
 This operation lists the indexes of a specific collection
 
 ```javascript
-listIndexes(data): Promise<ListIndexResponse>
+await milvusClient.listIndexes(data)
 ```
 
 ## Request Syntax\{#request-syntax}
 
 ```javascript
-milvusClient.listIndexes({
+await milvusClient.listIndexes({
    db_name: string,
    collection_name: string,
    field_name?: string,

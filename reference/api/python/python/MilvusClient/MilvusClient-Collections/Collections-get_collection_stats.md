@@ -1,21 +1,22 @@
 ---
 title: "get_collection_stats() | Python | MilvusClient"
 slug: /python/python/Collections-get_collection_stats
+sidebar_key: python/Collections-get_collection_stats
 sidebar_label: "get_collection_stats()"
-beta: false
 added_since: v2.3.x
 last_modified: v2.6.x
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation lists the statistics collected on a specific collection. | Python | MilvusClient"
 type: docx
 token: VfaldXzLUocBrJxffw6cJHPinlh
 sidebar_position: 13
 keywords: 
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - pymilvus26
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';

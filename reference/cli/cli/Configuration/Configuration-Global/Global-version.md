@@ -1,21 +1,22 @@
 ---
 title: "version | Cloud"
 slug: /cli/cli/Global-version
+sidebar_key: cli/Global-version
 sidebar_label: "version"
-beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation shows the version of the installed Zilliz CLI. | Cloud"
 type: docx
 token: XpUSdubUjobmtaxISJUcVVlpnug
 sidebar_position: 1
 keywords: 
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
   - zilliz
   - zilliz cloud
   - cloud

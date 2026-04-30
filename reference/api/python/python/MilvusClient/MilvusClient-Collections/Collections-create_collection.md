@@ -1,21 +1,22 @@
 ---
 title: "create_collection() | Python | MilvusClient"
 slug: /python/python/Collections-create_collection
+sidebar_key: python/Collections-create_collection
 sidebar_label: "create_collection()"
-beta: false
 added_since: v2.3.x
 last_modified: v2.5.x
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation supports creating a collection in two distinct ways quick setup or custom setup. | Python | MilvusClient"
 type: docx
 token: H7eOdq9hOo7so7xes5LchIVwnrb
 sidebar_position: 5
 keywords: 
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - pymilvus26
 displayed_sidebar: pythonSidebar
 
-displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -111,13 +111,13 @@ create_collection(
 
     The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response returns or error occurs.
 
-- **schema** (*CollectionSchema* | *None*)
+- **schema** (*[CollectionSchema](./MilvusClient-CollectionSchema)* | *None*)
 
     The schema of this collection.
 
     Setting this to **None** indicates this collection will be created in a quick setup manner. 
 
-    To set up a collection with a customized schema, you need to create a **CollectionSchema** object and reference it here. In this case, Zilliz Cloud ignores all other schema-related settings carried in the request.
+    To set up a collection with a customized schema, you need to create a **[CollectionSchema](./MilvusClient-CollectionSchema)** object and reference it here. In this case, Zilliz Cloud ignores all other schema-related settings carried in the request.
 
 - **index_params** (*IndexParams* | *None*)
 

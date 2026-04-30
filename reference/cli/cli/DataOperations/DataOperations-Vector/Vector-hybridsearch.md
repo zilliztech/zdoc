@@ -1,21 +1,22 @@
 ---
 title: "hybrid-search | Cloud"
 slug: /cli/cli/Vector-hybridsearch
+sidebar_key: cli/Vector-hybridsearch
 sidebar_label: "hybrid-search"
-beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation performs hybrid search with multiple vectors and reranking. | Cloud"
 type: docx
 token: YVendfgHUotdoxxNTkcc8XUMnxf
 sidebar_position: 3
 keywords: 
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
   - zilliz
   - zilliz cloud
   - cloud

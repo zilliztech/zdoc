@@ -1,21 +1,22 @@
 ---
 title: "MilvusClientV2Pool | Java | v2"
 slug: /java/java/v2-Client-MilvusClientV2Pool
+sidebar_key: java/v2-Client-MilvusClientV2Pool
 sidebar_label: "MilvusClientV2Pool"
-beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "A MilvusClientV2Pool instance is a connection pool for MilvusClientV2 objects. The number of MilvusClientV2 objects automatically increases or decreases to avoid frequent opening and closing connections, improving your application's performance. | Java | v2"
 type: docx
 token: UrjHd9KZKo1Rlfxfj8AcmXNinlg
 sidebar_position: 2
 keywords: 
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - javaV226
 displayed_sidebar: javaSidebar
 
-displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -149,9 +149,9 @@ PoolConfig poolConfig = PoolConfig.builder()
 
     If this flag is set to true, the pool will check if the grpc connection of a client is terminated or closed each time the returnClient() is called.
 
-## ConnectConfig\{#connectconfig}
+## [ConnectConfig](./v2-Client-ConnectConfig)\{#connectconfigv2-client-connectconfig}
 
-Read the description on the **[MilvusClientV2](./v2-Client-MilvusClientV2)** page.
+Read the description on the **[MilvusClientV2](./v2-Client-MilvusClientV2#connectconfigv2-client-connectconfig)** page.
 
 ## Examples\{#examples}
 

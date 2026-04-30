@@ -1,21 +1,22 @@
 ---
 title: "search | Cloud"
 slug: /cli/cli/Vector-search
+sidebar_key: cli/Vector-search
 sidebar_label: "search"
-beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation searches for similar vectors. | Cloud"
 type: docx
 token: X82qdozLzoGYUaxyRE2cBIBRnff
 sidebar_position: 6
 keywords: 
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
   - zilliz
   - zilliz cloud
   - cloud

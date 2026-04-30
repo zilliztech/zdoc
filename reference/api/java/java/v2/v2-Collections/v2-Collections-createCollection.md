@@ -1,21 +1,22 @@
 ---
 title: "createCollection() | Java | v2"
 slug: /java/java/v2-Collections-createCollection
+sidebar_key: java/v2-Collections-createCollection
 sidebar_label: "createCollection()"
-beta: false
 added_since: v2.3.x
 last_modified: v2.6.x
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation creates a collection either with default or customized settings. | Java | v2"
 type: docx
 token: GEvkd6lHion0nUxgdIRcxtqqnHb
 sidebar_position: 7
 keywords: 
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
+  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - javaV226
 displayed_sidebar: javaSidebar
 
-displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';

@@ -1,21 +1,22 @@
 ---
 title: "delete | Cloud"
 slug: /cli/cli/Cluster-delete
+sidebar_key: cli/Cluster-delete
 sidebar_label: "delete"
-beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation deletes a cluster. This action is irreversible. | Cloud"
 type: docx
 token: VmQ7dKl8FoFf9sxbmG3c3udOnVe
 sidebar_position: 2
 keywords: 
-  - milvus vector database
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
   - zilliz
   - zilliz cloud
   - cloud

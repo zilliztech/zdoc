@@ -12,10 +12,10 @@ token: FsZhfuntQlHRRQdBeXEcosCEnzf
 sidebar_position: 2
 sidebar_label: "Configuration"
 keywords: 
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
   - zilliz
   - zilliz cloud
   - cloud

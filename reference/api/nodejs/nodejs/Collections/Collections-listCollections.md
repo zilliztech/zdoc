@@ -1,21 +1,22 @@
 ---
 title: "listCollections() | Node.js"
 slug: /node/node/Collections-listCollections
+sidebar_key: node/Collections-listCollections
 sidebar_label: "listCollections()"
-beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
+beta: false
 notebook: false
 description: "This operation lists all existing collections. | Node.js"
 type: docx
 token: Djg7dlb5NoINz9xOAs1cyY67nsh
 sidebar_position: 15
 keywords: 
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
   - zilliz
   - zilliz cloud
   - cloud
@@ -23,7 +24,6 @@ keywords:
   - nodejs26
 displayed_sidebar: nodeSidebar
 
-displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -123,7 +123,10 @@ This method returns a promise that resolves to a **ShowCollectionsResponse** obj
 ## Example\{#example}
 
 ```java
-const milvusClient = new milvusClient(MILUVS_ADDRESS);
+const milvusClient = new MilvusClient({
+    address: 'YOUR_CLUSTER_ENDPOINT',
+    token: 'YOUR_CLUSTER_TOKEN',
+});
 const res = await milvusClient.listCollections({ collection_name: 'my_collection' });
 ```
 

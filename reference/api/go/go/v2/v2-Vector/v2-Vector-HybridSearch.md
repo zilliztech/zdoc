@@ -1,11 +1,12 @@
 ---
 title: "HybridSearch() | Go | v2"
 slug: /go/v2-Vector-HybridSearch
+sidebar_key: v2-Vector-HybridSearch
 sidebar_label: "HybridSearch()"
-beta: FALSE
 added_since: v2.5.x
 last_modified: v2.6.x
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "This method performs a vector search. | Go | v2"
 type: origin
