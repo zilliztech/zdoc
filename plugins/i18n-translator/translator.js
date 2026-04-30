@@ -14,6 +14,8 @@ const {
   splitBodyIntoChunks,
   placeholderifyTags,
   restorePlaceholders,
+  placeholderifyLinks,
+  restoreLinkPlaceholders,
 } = require('./markdownParser')
 const { TranslationCache } = require('./cache')
 const { harvestTerms, proposeTerms, approveTerms, loadGlossary, walkDir } = require('./harvest')
@@ -150,7 +152,12 @@ Rules:
 - keywords: translate each keyword to natural Japanese; keep proper nouns in English
 - Do NOT translate these terms (keep as-is): ${untranslatableList}
 ${glossaryHint ? `- Use EXACTLY these translations:\n${glossaryHint}` : ''}
-- Return ONLY the JSON object, no explanation`
+
+Correct example:
+  Input: {"title": "Collection Management | Cloud", "sidebar_label": "Manage Collections", "description": "Learn how to manage collections in Zilliz Cloud."}
+  Output: {"title": "コレクションの管理 | Cloud", "sidebar_label": "コレクションを管理", "description": "Zilliz Cloud でコレクションを管理する方法を学びます。"}
+
+Return ONLY the JSON object, no explanation`
 
   const userPrompt = JSON.stringify(toTranslate, null, 2)
 
@@ -218,6 +225,118 @@ function auditTranslation(source, output, untranslatables) {
   }
 
   return issues
+}
+
+// ---------------------------------------------------------------------------
+// Link validation / repair
+// ---------------------------------------------------------------------------
+
+/**
+ * Extract markdown links from text.
+ * Returns Map<lowercaseUrl, {url, label}[]> to handle duplicate URLs.
+ */
+function extractLinks(text) {
+  const links = new Map()
+  const re = /\[([^\]]*)\]\(([^)]+)\)/g
+  let m
+  while ((m = re.exec(text)) !== null) {
+    const [, label, url] = m
+    const key = url.toLowerCase()
+    if (!links.has(key)) links.set(key, [])
+    links.get(key).push({ url, label, index: m.index })
+  }
+  return links
+}
+
+/**
+ * After translation, validate that all markdown links from the source are
+ * preserved in the output. If a URL was corrupted (e.g. changed to
+ * ./undefined) or dropped, repair it by restoring the original URL.
+ *
+ * This is a surgical fix: it only touches the URL inside (parentheses),
+ * never the translated label inside [brackets].
+ */
+function repairLinks(sourceText, translatedText) {
+  const sourceLinks = extractLinks(sourceText)
+  const outputLinks = extractLinks(translatedText)
+
+  let repaired = translatedText
+  let repairCount = 0
+
+  // Known corruption patterns that the LLM invents
+  const BAD_URLS = new Set(['./undefined', './null', './none', './nan'])
+
+  for (const [key, srcInstances] of sourceLinks) {
+    const outInstances = outputLinks.get(key)
+
+    if (outInstances) {
+      // URL exists in output with matching label — assume OK
+      continue
+    }
+
+    // URL missing or corrupted. Find the best match in output.
+    // Heuristic: look for links with the SAME label but a different URL.
+    for (const src of srcInstances) {
+      // Scan output links for same label
+      let fixed = false
+      for (const [, outList] of outputLinks) {
+        for (const out of outList) {
+          if (out.label === src.label && BAD_URLS.has(out.url)) {
+            // Same label, but URL is corrupted — replace the bad URL
+            const search = `[${out.label}](${out.url})`
+            const replace = `[${out.label}](${src.url})`
+            repaired = repaired.replace(search, replace)
+            repairCount++
+            fixed = true
+            break
+          }
+        }
+        if (fixed) break
+      }
+
+      if (!fixed) {
+        // Fallback: if the corrupted URL appears somewhere in the output
+        // (even with a different label), replace it with the correct URL.
+        for (const [, outList] of outputLinks) {
+          for (const out of outList) {
+            if (BAD_URLS.has(out.url)) {
+              const search = `](${out.url})`
+              const replace = `](${src.url})`
+              // Only replace first occurrence to avoid over-fixing
+              if (repaired.includes(search)) {
+                repaired = repaired.replace(search, replace)
+                repairCount++
+                fixed = true
+                break
+              }
+            }
+          }
+          if (fixed) break
+        }
+      }
+    }
+  }
+
+  // Also scan for any remaining bad URLs that didn't match a source link
+  // and replace them with the most plausible source URL.
+  for (const bad of BAD_URLS) {
+    if (repaired.includes(bad)) {
+      // Find the first source URL that looks like a relative path
+      for (const [key, srcInstances] of sourceLinks) {
+        if (srcInstances[0].url.startsWith('./') || srcInstances[0].url.startsWith('../')) {
+          repaired = repaired.replace(new RegExp(`\\(\\s*${bad.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\s*\\)`, 'g'), `(${srcInstances[0].url})`)
+          repairCount++
+          break
+        }
+      }
+    }
+  }
+
+  if (repairCount > 0) {
+    console.log(`[i18n-translator]     🔗 repaired ${repairCount} broken link(s)`)
+  }
+
+  return repaired
 }
 
 /**
@@ -292,12 +411,23 @@ async function translateBody(body, glossary, untranslatables, llmConfig, limiter
     // placeholders before hashing and sending to the LLM. This prevents the
     // model from reordering or mis-closing tags like <Tabs>, <TabItem>,
     // <table>, <tr>, <li>, etc. which causes MDX compilation failures.
-    const { placeholderText, placeholders } = placeholderifyTags(trimmed)
+    const tagResult = placeholderifyTags(trimmed)
+    let placeholderText = tagResult.placeholderText
+    const placeholders = tagResult.placeholders
+
+    // Also replace markdown link URLs with placeholders. The label stays
+    // visible so the LLM can translate it, but the URL is hidden, preventing
+    // corruption like ./undefined.
+    const linkResult = placeholderifyLinks(placeholderText)
+    placeholderText = linkResult.placeholderText
+    const linkPlaceholders = linkResult.linkPlaceholders
 
     const chunkHash = hashContent(placeholderText)
     const cachedChunk = force ? null : await cache.getTranslation(chunkHash, locale, glossaryHash)
     if (cachedChunk) {
-      result.push(pre + restorePlaceholders(cachedChunk.output, placeholders) + post)
+      let cachedOutput = restorePlaceholders(cachedChunk.output, placeholders)
+      cachedOutput = restoreLinkPlaceholders(cachedOutput, linkPlaceholders)
+      result.push(pre + cachedOutput + post)
       continue
     }
 
@@ -309,11 +439,25 @@ Translate the provided markdown text from English to Japanese.
 Rules:
 1. Preserve ALL markdown syntax exactly: ##, **, *, >, -, tables, numbered lists, etc.
 2. Preserve ALL XTAGX placeholders (e.g. XTAG0X, XTAG1X) exactly as-is — do not translate, reorder, or remove them
-3. Preserve ALL markdown link URLs — only translate the visible link text: [translate this](keep-url-unchanged)
+3. Preserve ALL XURLX placeholders (e.g. XURL0X, XURL1X) exactly as-is — do not translate, reorder, or remove them
 4. Preserve ALL heading anchor IDs exactly: \\{#heading-id} stays unchanged
 5. Preserve ALL inline code: \`code\` stays unchanged
 6. Preserve ALL leading whitespace on every line exactly — do not add or remove spaces or tabs at the start of any line
-${untranslatableList ? `6. Do NOT translate these technical terms — output them exactly as English: ${untranslatableList}\n` : ''}${glossaryHint ? `7. Use EXACTLY these translations:\n${glossaryHint}\n` : ''}
+${untranslatableList ? `7. Do NOT translate these technical terms — output them exactly as English: ${untranslatableList}\n` : ''}${glossaryHint ? `8. Use EXACTLY these translations:\n${glossaryHint}\n` : ''}
+
+CRITICAL — Markdown link handling (most common source of errors):
+- The text inside [brackets] MUST be translated to natural Japanese
+- The URL is hidden as an XURLX placeholder — preserve it exactly
+- NEVER invent URLs like ./undefined or change ./path to something else
+- NEVER drop the URL entirely
+
+Correct examples:
+  Input:  For details, see [Collection Creation](XURL0X).
+  Output: 詳細については、[コレクションの作成](XURL0X) を参照してください。
+
+  Input:  Learn more in the [Zilliz Cloud documentation](XURL1X).
+  Output: 詳細については、[Zilliz Cloud ドキュメント](XURL1X) を参照してください。
+
 Return ONLY the translated markdown, no explanation.`
 
     let raw = await limiter.schedule(() =>
@@ -334,14 +478,15 @@ Return ONLY the translated markdown, no explanation.`
       console.warn(`[i18n-translator] Instruction echo detected — retrying with minimal prompt`)
       raw = await limiter.schedule(() =>
         callLLM([
-          { role: 'system', content: 'Translate the following markdown text from English to Japanese. Preserve all XTAGX placeholders (e.g. XTAG0X, XTAG1X) exactly as-is. Output only the translated text.' },
+          { role: 'system', content: 'Translate the following markdown text from English to Japanese. Preserve all XTAGX placeholders (e.g. XTAG0X, XTAG1X) and all XURLX placeholders (e.g. XURL0X, XURL1X) exactly as-is. Output only the translated text.' },
           { role: 'user', content: placeholderText },
         ], llmConfig)
       )
     }
 
-    // Restore structural tags from placeholders before post-processing
+    // Restore structural tags and link URLs from placeholders before post-processing
     raw = restorePlaceholders(raw, placeholders)
+    raw = restoreLinkPlaceholders(raw, linkPlaceholders)
 
     const translated = applyGlossaryPostProcess(raw, glossary)
     await cache.setTranslation(chunkHash, locale, glossaryHash, { output: translated })
@@ -385,6 +530,9 @@ async function translateFile({
   }
 
   outputBody = await translateBody(body, glossary, untranslatables, llmConfig, limiter, cache, locale, glossaryHash, force)
+
+  // Post-processing: repair any markdown links that the LLM corrupted
+  outputBody = repairLinks(body, outputBody)
 
   // Inject sidebar_key into category index docs (filename == parent folder name).
   // Docusaurus derives the sidebar i18n key from sidebar_label, so two categories

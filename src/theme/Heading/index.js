@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Link from '@docusaurus/Link'
 import Heading from '@theme-original/Heading';
 import { useDoc } from '@docusaurus/plugin-content-docs/client';
-import { useLocation } from '@docusaurus/router';
+import useRouteContext from '@docusaurus/useRouteContext';
 import styles from './styles.module.css';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 

@@ -218,6 +218,40 @@ function placeholderifyTags(text) {
 }
 
 /**
+ * Replace markdown link URLs with numbered placeholders.
+ *
+ * The label inside [brackets] remains visible to the LLM so it can be
+ * translated, but the URL inside (parentheses) is hidden. This prevents
+ * the model from corrupting or inventing URLs (e.g. ./undefined).
+ *
+ * Returns { placeholderText, linkPlaceholders } where `linkPlaceholders`
+ * is the ordered array of original URL strings.
+ */
+function placeholderifyLinks(text) {
+  const linkPlaceholders = []
+
+  const LINK_RE = /\[([^\]]*)\]\(([^)]+)\)/g
+
+  const placeholderText = text.replace(LINK_RE, (match, label, url) => {
+    const idx = linkPlaceholders.length
+    linkPlaceholders.push(url)
+    return `[${label}](XURL${idx}X)`
+  })
+
+  return { placeholderText, linkPlaceholders }
+}
+
+/**
+ * Restore XURL{N}X placeholders back to their original URLs.
+ */
+function restoreLinkPlaceholders(text, linkPlaceholders) {
+  return text.replace(/XURL(\d+)X/g, (match, idx) => {
+    const i = parseInt(idx, 10)
+    return i < linkPlaceholders.length ? linkPlaceholders[i] : match
+  })
+}
+
+/**
  * Restore {{TAG_N}} placeholders back to their original tag strings.
  * Any placeholder that the LLM dropped (hallucination or truncation) is
  * re-inserted as-is so the output remains structurally valid.
@@ -243,6 +277,8 @@ module.exports = {
   splitBodyIntoChunks,
   placeholderifyTags,
   restorePlaceholders,
+  placeholderifyLinks,
+  restoreLinkPlaceholders,
   safeYamlValue,
   yamlDqUnescape,
 }

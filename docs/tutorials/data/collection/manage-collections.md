@@ -128,7 +128,7 @@ For details, refer to [Manage Partitions](./manage-partitions).
 
 Shards are horizontal slices of a collection. Each shard corresponds to a data input channel. Every collection has a shard by default. You can set the appropriate number of shards when creating a collection based on the expected throughput and the volume of the data to insert into the collection.
 
-For details on how to set the shard number, refer to [Create Collection](./undefined).
+For details on how to set the shard number, refer to [Create a Collection](./manage-collections-sdks#set-shard-number).
 
 ## Alias\{#alias}
 

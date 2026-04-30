@@ -375,7 +375,7 @@ In the above setup, you have defined various aspects of the collection during it
 <Admonition type="info" icon="📘" title="Notes">
 
 <ul>
-<li><p>The collection created in the preceding code snippets is automatically loaded. If you prefer not to make an automatically loaded collection, skip setting the index parameters. For details, refer to <a href="./undefined">Create Collection</a>.</p></li>
+<li><p>The collection created in the preceding code snippets is automatically loaded. If you prefer not to make an automatically loaded collection, skip setting the index parameters. For details, refer to <a href="./manage-collections-sdks">Create Collection</a>.</p></li>
 <li><p>Collections created using the RESTful API are always automatically loaded.</p></li>
 </ul>
 

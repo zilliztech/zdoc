@@ -39,7 +39,7 @@ It is recommended to create indexes for both the vector field and scalar fields 
 
 ## Preparations\{#preparations}
 
-As explained in [Create Collection](./undefined), Zilliz Cloud automatically generates an index and loads it into memory when creating a collection if any of the following conditions are specified in the collection creation request:
+As explained in [Create Collection](./manage-collections-sdks), Zilliz Cloud automatically generates an index and loads it into memory when creating a collection if any of the following conditions are specified in the collection creation request:
 
 - The dimensionality of the vector field and the metric type, or
 

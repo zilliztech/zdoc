@@ -567,7 +567,7 @@ This example adds a built-in BM25 function in schema, utilizing the `text` field
 
 ## Next Steps\{#next-steps}
 
-- [Create Collection](./undefined)
+- [Create Collection](./manage-collections-sdks)
 
 - [Alter Collection Field](./alter-collection-field)
 

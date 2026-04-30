@@ -59,7 +59,7 @@ This guide assumes you have:
 
 <Admonition type="info" icon="📘" title="**Need help setting up?**">
 
-<p>Refer to our <a href="./undefined">Create Collection</a> for collection creation and basic operations.</p>
+<p>Refer to our <a href="./manage-collections-sdks">Create Collection</a> for collection creation and basic operations.</p>
 
 </Admonition>
 
@@ -500,7 +500,7 @@ curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/fields/add" \
 
 To enable dynamic schema functionality:
 
-- **New collection**: Set `enable_dynamic_field` to True when creating the collection. For details, refer to [Create Collection](./undefined#create-schema)
+- **New collection**: Set `enable_dynamic_field` to True when creating the collection. For details, refer to [Create Collection](./manage-collections-sdks#create-schema)
 
 - **Existing collection**: Set the collection-level property `dynamicfield.enabled` to True. For details, refer to [Modify Collection](./modify-collections#example-5-enable-dynamic-field).
 

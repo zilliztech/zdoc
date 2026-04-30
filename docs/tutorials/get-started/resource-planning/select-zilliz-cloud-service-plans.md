@@ -192,15 +192,6 @@ The following section compares the plans and deployment options, detailing the s
      <td><p>✔</p></td>
    </tr>
    <tr>
-     <td><p><a href="./undefined">Zero downtime migration</a></p></td>
-     <td></td>
-     <td></td>
-     <td></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-   </tr>
-   <tr>
      <td><p><a href="./migrate-from-external-sources">Migration from external sources</a></p></td>
      <td><p>✔</p></td>
      <td><p>✔</p></td>

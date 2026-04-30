@@ -178,7 +178,7 @@ Before using MinHash LSH in Zilliz Cloud, you must first generate **MinHash sign
 <p>You can prepare MinHash signatures for the <code>MINHASH_LSH</code> index in two ways:</p>
 <ul>
 <li><p>Generate signatures yourself using external tools and insert them into a BINARY_VECTOR field, or</p></li>
-<li><p>Use the built-in MinHash function to automatically generate compatible binary vectors from text. For the end-to-end workflow and configuration options of the MinHash function, see <a href="./undefined">MinHash Function</a>.</p></li>
+<li><p>Use the built-in MinHash function to automatically generate compatible binary vectors from text. For the end-to-end workflow and configuration options of the MinHash function, see <a href="./minhash-function">MinHash Function</a>.</p></li>
 </ul>
 
 </Admonition>

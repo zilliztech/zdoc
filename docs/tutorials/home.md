@@ -804,11 +804,11 @@ Select a project [plan](./select-zilliz-cloud-service-plans) and create clusters
 
     Use a path or the entire external storage as an external volume, which is a read-only reference to a bucket or path in the integrated storage, allowing Zilliz Cloud to access your data in-place without copying or moving it. 
 
-1. [Create a database](null).
+1. [Create a database](./on-demand-database#create-database).
 
     Create a database in on-demand compute. The database is a project-level resource shared by all on-demand clusters in the project. 
 
-1. [Create an external collection](null) in the database.
+1. [Create an external collection](./create-external-collection) in the database.
 
     Map the collection columns to your Parquet files, a Lance table, an Iceberg table, or Vortex files as of 0.56.0.
 
@@ -832,7 +832,7 @@ Select a project [plan](./select-zilliz-cloud-service-plans) and create clusters
 
 1. Create a collection and configure the embedding function.
 
-    [Create a managed collection](./undefined) with at least one vector field and one VARCHAR field, and define a text embedding [function](./undefined).
+    [Create a managed collection](./manage-collections-sdks) with at least one vector field and one VARCHAR field, and define a text embedding [function](null).
 
 1. Insert raw text data.
 
@@ -846,7 +846,7 @@ Select a project [plan](./select-zilliz-cloud-service-plans) and create clusters
 
 1. Connect to your data source.
 
-    Zilliz Cloud supports various data sources, including Pinecone, MongoDB, Qdrant, PostgreSQL, etc. See [Migration ](./migrations)[g](./migrations)[uides](./migrations).
+    Zilliz Cloud supports various data sources, including Pinecone, MongoDB, Qdrant, PostgreSQL, etc. See [Migration guides](./migrate-from-external-sources).
 
 1. Configure the migration source and target.
 
