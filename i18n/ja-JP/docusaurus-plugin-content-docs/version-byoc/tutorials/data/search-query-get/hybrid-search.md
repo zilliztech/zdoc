@@ -5,7 +5,7 @@ sidebar_key: hybrid-search
 sidebar_label: "ハイブリッド検索"
 beta: FALSE
 notebook: FALSE
-description: "多くのアプリケーションでは、タイトルや説明など豊富な情報、あるいはテキスト、画像、音声などの複数のモダリティを用いてオブジェクトを検索できます。例えば、テキストと画像を含むツイートは、検索クエリの意味論に対してテキストまたは画像のいずれかが一致する場合に検索対象となります。ハイブリッド検索は、これらの多様なフィールドにわたる検索を組み合わせることで、検索体験を向上させます。Zilliz Cloud は、複数のベクトルフィールドでの検索を可能にし、同時に複数の近似最近傍（ANN）検索を実行することでこれをサポートしています。マルチベクトルハイブリッド検索は、テキストと画像の両方を検索したい場合、同じオブジェクトを記述する複数のテキストフィールドを検索したい場合、または検索品質を向上させるために密ベクトルと疎ベクトルの両方を使用したい場合に特に有用です。| BYOC"
+description: "多くのアプリケーションでは、タイトルや説明など豊富な情報、あるいはテキスト、画像、音声などの複数のモダリティを用いてオブジェクトを検索できます。例えば、テキストと画像を含むツイートは、テキストまたは画像のいずれかが検索クエリの意味と一致する場合に検索対象となります。ハイブリッド検索は、これらの多様なフィールドにわたる検索を組み合わせることで、検索体験を向上させます。Zilliz Cloud は、複数のベクトルフィールドでの検索を可能にし、複数の近似最近傍（ANN）検索を同時に実行することでこれをサポートしています。マルチベクトルハイブリッド検索は、テキストと画像の両方を検索したい場合、同じオブジェクトを記述する複数のテキストフィールドを検索したい場合、または検索品質を向上させるために疎ベクトルと密ベクトルの両方を使用したい場合に特に有用です。 | BYOC"
 type: origin
 token: WTsmwWdgOiKnwpkdZdScp093njh
 sidebar_position: 7
@@ -891,13 +891,13 @@ export req='[
 </TabItem>
 </Tabs>
 
-パラメータ `limit` が 2 に設定されているため、各 `AnnSearchRequest` は 2 つの検索結果を返します。この例では、3 つの `AnnSearchRequest` インスタンスが作成されるため、合計で 6 つの検索結果が得られます。
+パラメータ `limit` が 2 に設定されているため、各 `AnnSearchRequest` は 2 件の検索結果を返します。この例では 3 つの `AnnSearchRequest` インスタンスが作成されるため、合計で 6 件の検索結果が得られます。
 
-### Step 2: Configure a reranking strategy\{#step-2-configure-a-reranking-strategy}
+### ステップ 2: リランキング戦略の設定\{#step-2-configure-a-reranking-strategy}
 
-ANN 検索結果のセットをマージし再ランク付けするには、適切な再ランク付け戦略を選択することが不可欠です。Zilliz Cloud では、いくつかの種類の再ランク付け戦略を提供しています。これらの再ランク付けメカニズムの詳細については、Weighted Ranker または RRF Ranker を参照してください。
+ANN 検索結果のセットを統合してリランキングするには、適切なリランキング戦略を選択することが重要です。Zilliz Cloud では複数のリランキング戦略を提供しています。これらのリランキング機構の詳細については、[Weighted Ranker](./reranking-weighted-reranker) または [RRF Ranker](./reranking-rrf) を参照してください。
 
-この例では、特定の検索クエリを特に重視しないため、RRFRanker 戦略を採用して進めます。
+この例では、特定の検索クエリを特に重視しないため、RRFRanker 戦略を使用します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
