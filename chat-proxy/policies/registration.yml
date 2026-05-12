@@ -2,4 +2,5 @@ policyMode:
   enabled: true
   topics:
     - external-data-lake-search
+    - on-demand-search
     - zilliz-cli

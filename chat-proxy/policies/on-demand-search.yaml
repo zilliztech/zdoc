@@ -1,0 +1,148 @@
+policies:
+  - intent_id: ods_fit_infrequent_batch
+    fixed_facts:
+      - "Interactive discovery and batch analytics often operate on data volumes one to three orders of magnitude larger than online serving."
+      - "These datasets can reach TB or PB scale, especially when they include feedback data, agent-generated notes, logs, and crawled corpora."
+      - "These workloads are task-driven and do not require 24/7 active infrastructure."
+      - "Compute can remain idle most of the time, often over about 97% idle time."
+      - "On-demand search cost is mainly composed of storage, index build, and query compute."
+      - "Storage cost is close to cloud object storage cost."
+      - "Index build cost is triggered when new data enters."
+      - "Query compute is allocated only when there are active query requests."
+      - "When idle, on-demand search automatically releases compute resources and does not charge compute fees."
+      - "If accumulated active search is about 10 hours per month, compute cost is charged for about those 10 hours."
+    must_include:
+      - "one to three orders of magnitude larger"
+      - "TB or PB"
+      - "97%"
+      - "storage"
+      - "index build"
+      - "query compute"
+      - "10 hours"
+    trigger_phrases:
+      - "why is on-demand compute a great fit for infrequent and batch search workloads"
+      - "why is on-demand search good for batch workloads"
+      - "on-demand search for infrequent vector search"
+      - "pay-as-you-go search for batch analytics"
+      - "idle compute cost for on-demand search"
+      - "on-demand search for TB or PB scale discovery workloads"
+    must_not_say:
+      - "On-demand Search is the best choice for always-on low-latency production serving"
+      - "On-demand Search cost savings are guaranteed for every workload"
+    response_outline:
+      - "Explain workload fit: large, task-driven, bursty or infrequent"
+      - "Explain cost structure: storage, index build, query compute"
+      - "Give the about 10 active hours per month example"
+    style:
+      language: "same as user"
+      tone: "concise, helpful"
+
+  - intent_id: ods_cost_vs_serving_cluster
+    fixed_facts:
+      - "On-demand search savings are directly tied to the workload active-time ratio."
+      - "Serving clusters are charged 7x24 while the cluster is running."
+      - "On-demand search charges active compute at fine-grained time intervals, with a minimum billing unit of 1 minute."
+      - "If accumulated active search is about 10 hours per month, then with comparable compute resources, on-demand search costs about 2% of a serving cluster using the most cost-effective tiered storage serving-cluster type as the comparison baseline."
+      - "The main cost difference is that on-demand search charges only active fine-grained time while serving clusters charge continuously."
+      - "On-demand search is especially suitable for infrequent and batch search workloads."
+    must_include:
+      - "active-time ratio"
+      - "7x24"
+      - "1 minute"
+      - "10 hours"
+      - "2%"
+      - "infrequent and batch search workloads"
+    trigger_phrases:
+      - "how much cost can on-demand search save compared to always-on serving clusters"
+      - "on-demand search cost vs serving cluster"
+      - "on-demand search compared to always-on cluster cost"
+      - "is on-demand cheaper than an always-on cluster for batch search"
+      - "cost savings with 10 hours active search per month"
+      - "7x24 serving cluster vs on-demand search cost"
+    must_not_say:
+      - "On-demand Search cost savings are guaranteed for every workload"
+      - "Serving clusters are billed only during active queries"
+    response_outline:
+      - "State that savings depend on active-time ratio"
+      - "Contrast 7x24 serving-cluster billing with fine-grained active compute billing"
+      - "Use the about 10 hours and about 2% example"
+    style:
+      language: "same as user"
+      tone: "concise, helpful"
+
+  - intent_id: ods_cost_vs_serverless
+    fixed_facts:
+      - "Serverless serving solutions may seem appealing for infrequent or batch search, but they can become much more expensive for these workloads."
+      - "At the compute layer, both Serverless and On-Demand Search follow a pay-as-you-go model, and underlying compute cost can be similar."
+      - "In Serverless architecture, pooling overhead, indexing, and persistent data costs are embedded into additional write and storage markups."
+      - "Zilliz On-Demand Search charges directly for object storage and on-demand compute."
+      - "This is similar to AWS Lambda-style pricing, where compute pricing is primarily based on allocated resource size and execution time while storage remains close to underlying S3 cost."
+      - "This avoids hidden infrastructure overhead and black-box pricing models."
+      - "Example setup: 1B vectors with 768 dimensions, about 6 TB of storage including data and index files, and about 10 hours of accumulated active compute time over 1 month."
+      - "In that example, On-Demand Search total cost is about 1/15 of Serverless, about $318 vs $4,937."
+    must_include:
+      - "pay-as-you-go"
+      - "write and storage markups"
+      - "object storage"
+      - "1B vectors"
+      - "768 dimensions"
+      - "6 TB"
+      - "10 hours"
+      - "1/15"
+      - "$318"
+      - "$4,937"
+    trigger_phrases:
+      - "how much cost can on-demand search save compared to serverless"
+      - "on-demand search cost vs serverless"
+      - "why can serverless be more expensive for batch search"
+      - "serverless storage markup vs on-demand object storage"
+      - "1B vectors on-demand search vs serverless cost"
+      - "318 vs 4937 on-demand search serverless"
+    must_not_say:
+      - "Serverless is always cheaper for infrequent or batch search"
+      - "On-demand Search cost savings are guaranteed for every workload"
+    response_outline:
+      - "Explain why Serverless can be expensive for these workloads"
+      - "Contrast hidden markups with direct object-storage and on-demand compute charging"
+      - "Use the 1B-vector cost example with approximate wording"
+    style:
+      language: "same as user"
+      tone: "concise, helpful"
+
+  - intent_id: ods_limitations
+    fixed_facts:
+      - "On-demand Compute is best for discovery-style, batch, exploratory, or periodic workloads, not always-on low-latency production serving."
+      - "Cold-start latency must be acceptable."
+      - "For ingestion, On-demand Compute supports Import only."
+      - "Insert, Upsert, and Delete are not available for On-demand Compute ingestion."
+      - "Managing on-demand clusters or databases requires Project Admin permissions."
+      - "On-demand clusters are limited to 8-256 CUs, in increments of 8."
+      - "Every 8 CUs supports search across up to about 3 TB of raw data; queries above that limit return an error."
+      - "Each project can create up to 20 on-demand clusters."
+    must_include:
+      - "Import only"
+      - "Insert, Upsert, and Delete"
+      - "cold-start latency"
+      - "Project Admin"
+      - "8-256 CUs"
+      - "3 TB"
+      - "20 on-demand clusters"
+    trigger_phrases:
+      - "what are the limitations of on-demand search"
+      - "on-demand compute limitations"
+      - "what can on-demand compute not do"
+      - "on-demand search constraints"
+      - "on-demand compute import only"
+      - "cold start limitations for on-demand clusters"
+      - "on-demand cluster CU and project admin limits"
+    must_not_say:
+      - "On-demand Compute supports Insert, Upsert, or Delete"
+      - "On-demand Search is the best choice for always-on low-latency production serving"
+      - "On-demand Search has no cold-start tradeoff"
+    response_outline:
+      - "State the workload-fit limitation"
+      - "List ingestion and write-operation limitations"
+      - "List permission, CU, raw-data, and cluster-count limits"
+    style:
+      language: "same as user"
+      tone: "concise, helpful"
