@@ -22,6 +22,26 @@ describe('policy catalog', () => {
     ]);
   });
 
+  it('loads on-demand-search policy intents', async () => {
+    const {loadTopicPolicies} = await importCatalog();
+    const policies = loadTopicPolicies('on-demand-search');
+    expect(policies.length).toBe(4);
+    expect(policies.map(p => p.intent_id).sort()).toEqual([
+      'external_data_lake_search_best_fit_use_cases',
+      'external_data_lake_search_how_it_works',
+      'external_data_lake_search_supported_formats',
+      'external_data_lake_search_sync_updates',
+    ]);
+  });
+
+  it('loads configured trigger_phrases from policy yaml', async () => {
+    const {loadTopicPolicies} = await importCatalog();
+    const policies = loadTopicPolicies('on-demand-search');
+    const howItWorks = policies.find(p => p.intent_id === 'external_data_lake_search_how_it_works');
+
+    expect(howItWorks?.trigger_phrases).toContain('how external data lake search works');
+  });
+
   it('returns null when intent does not exist', async () => {
     const {loadTopicPolicies, getPolicyByIntent} = await importCatalog();
     loadTopicPolicies('zilliz-cli');

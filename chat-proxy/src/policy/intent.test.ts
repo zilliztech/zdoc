@@ -36,4 +36,19 @@ describe('resolvePolicyIntent', () => {
     const intent = resolvePolicyIntent('how does context affect vector operations?', ['zilliz-cli']);
     expect(intent).toBeNull();
   });
+
+  it('matches best-fit use cases intent for on-demand-search topic', () => {
+    const intent = resolvePolicyIntent('best-fit use cases for external data lake search', ['on-demand-search']);
+    expect(intent).toBe('external_data_lake_search_best_fit_use_cases');
+  });
+
+  it('matches supported formats intent for on-demand-search topic', () => {
+    const intent = resolvePolicyIntent('what data formats are supported in external data lake search', ['on-demand-search']);
+    expect(intent).toBe('external_data_lake_search_supported_formats');
+  });
+
+  it('matches how-it-works intent for phrasing with explicit subject between how and works', () => {
+    const intent = resolvePolicyIntent('how external data lake search works', ['on-demand-search']);
+    expect(intent).toBe('external_data_lake_search_how_it_works');
+  });
 });

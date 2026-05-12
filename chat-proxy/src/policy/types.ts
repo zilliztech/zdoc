@@ -9,6 +9,7 @@ export interface PolicyPayload {
   must_include: string[];
   must_not_say: string[];
   response_outline?: string[];
+  trigger_phrases?: string[];
   style: PolicyStyle;
 }
 

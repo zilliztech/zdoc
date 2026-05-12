@@ -14,7 +14,7 @@ describe('policy registration config', () => {
     const {getPolicyModeRegistration} = await importRegistration();
     const config = getPolicyModeRegistration();
     expect(config.enabled).toBe(true);
-    expect([...config.topics]).toEqual(['zilliz-cli']);
+    expect([...config.topics]).toEqual(['on-demand-search', 'zilliz-cli']);
   });
 
   it('returns safe defaults when file is missing', async () => {
