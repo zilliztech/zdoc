@@ -356,18 +356,22 @@ from pymilvus.bulk_writer import bulk_import
 
 # The path should be relative to the root 
 # of a zilliz cloud volume or an external storage
-STORAGE_PATH = "s3://your/data/path/in/external/storage"
-ACCESS_KEY = "YOUR_STORAGE_ACCESS_KEY"
+OBJECT_URLS = [[                                                                                                             
+    "https://s3.us-west-2.amazonaws.com/your-bucket/path/in/external/storage.json"                                           
+]]                                                                                                                           
+                                                                                                                               
+ACCESS_KEY = "YOUR_STORAGE_ACCESS_KEY"                                                                                       
 SECRET_KEY = "YOUR_STORAGE_SECRET_KEY"
 
 res = bulk_import(
     api_key="YOUR_ZILLIZ_API_KEY",
     url="https://api.cloud.zilliz.com",
-    cluster_id="inxx-xxxxxxxxxxxxxxxxxxx",
+    cluser_id="inxx-xxxxxxxxxxxxxxxxxxx",
+    db_name="my_database",
     collection_name="prod_collection",
-    object_url="s3://your/data/path/in/external/storage.json",
-    access_key="YOUR_STORAGE_ACCESS_KEY",
-    secret_key="YOUR_STORAGE_SECRET_KEY"
+    object_url=OBJECT_URLS,
+    access_key=ACCESS_KEY,
+    secret_key=SECRET_KEY
 )
 
 # job-xxxxxxxxxxxxxxxxxxxxx
@@ -389,7 +393,7 @@ curl --request POST \
      -d '{
         "clusterId": "inxx-xxxxxxxxxxxxxxx",
         "collectionName": "prod_collection",
-        "objectUrl": "s3://your/data/path/in/external/storage.json",
+        "objectUrls": [["https://s3.{region}.amazonaws.com/{bucket}/path/in/external/storage.json"]],
         "accessKey": "YOUR_STORAGE_ACCESS_KEY",
         "secretKey": "YOUR_STORAGE_SECRET_KEY"
     }'
@@ -454,8 +458,7 @@ res = client.search(
     anns_field="embedding",
     data=[query_vector],
     limit=3,
-    output_fields=["product_name"],
-    search_params={"metric_type": "COSINE"}
+    output_fields=["product_name"]
 )
 ```
 

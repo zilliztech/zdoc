@@ -261,9 +261,6 @@ results = client.search(
     collection_name="wiki_documents",
     data=[query_emb_list],
     anns_field="paragraphs[emb]",
-    search_params={
-        "metric_type": "MAX_SIM_COSINE"
-    },
     limit=10,
     output_fields=["title"]
 )
@@ -506,9 +503,6 @@ results = client.search(
     collection_name="financial_reports",
     data=[query_emb_list],
     anns_field="patches[emb]",
-    search_params={
-        "metric_type": "MAX_SIM_COSINE"
-    },
     limit=10,
     output_fields=["doc_id", "page_number_in_doc"]
 )

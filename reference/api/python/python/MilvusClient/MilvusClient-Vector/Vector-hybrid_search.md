@@ -5,18 +5,18 @@ sidebar_key: python/Vector-hybrid_search
 sidebar_label: "hybrid_search()"
 added_since: v2.5.x
 last_modified: v2.6.x
-deprecate_since: false
-beta: false
-notebook: false
+deprecate_since: FALSE
+beta: FALSE
+notebook: FALSE
 description: "This operation performs multi-vector search on a collection and returns search results after reranking. | Python | MilvusClient"
 type: docx
 token: Iv1PdIVxYoDOMax47xDcLnbEnXb
 sidebar_position: 9
 keywords: 
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
   - zilliz
   - zilliz cloud
   - cloud
@@ -92,7 +92,7 @@ hybrid_search(
 
         - **anns_field** (*str*): The vector field to use in the request.
 
-        - **param** (*dict*): A dictionary of search parameters for the request. For details, refer to the settings in [search()](./Vector-search).
+        - **param** (*dict*): A dictionary of search parameters for the request. For details, refer to the settings in search().
 
         - **limit** (*int*): The maximum number of results to return in the request. When performing a hybrid search with multiple ANN search requests, the top results defined by **limit** from each request will be combined and re-ranked before returning the final search results.
 
@@ -241,7 +241,6 @@ A **SearchResult** object that contains a list of **Hits** objects.
         "data": [query_dense_vector],
         "anns_field": "dense",
         "param": {
-            "metric_type": "IP",
             "params": {"nprobe": 10}
         },
         "limit": 2
@@ -253,7 +252,6 @@ A **SearchResult** object that contains a list of **Hits** objects.
         "data": [query_sparse_vector],
         "anns_field": "sparse",
         "param": {
-            "metric_type": "IP",
             "params": {}
         },
         "limit": 2
@@ -302,7 +300,6 @@ A **SearchResult** object that contains a list of **Hits** objects.
         "data": [query_dense_vector],
         "anns_field": "dense",
         "param": {
-            "metric_type": "IP",
             "params": {"nprobe": 10}
         },
         "limit": 2
@@ -314,7 +311,6 @@ A **SearchResult** object that contains a list of **Hits** objects.
         "data": [query_sparse_vector],
         "anns_field": "sparse",
         "param": {
-            "metric_type": "IP",
             "params": {}
         },
         "limit": 2

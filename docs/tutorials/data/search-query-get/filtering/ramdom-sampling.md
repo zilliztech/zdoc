@@ -489,7 +489,7 @@ search_results = client.search(
     data=[[0.1, 0.2, 0.3, 0.4, 0.5]],  # query vector
     # highlight-next-line
     filter='category == "books" AND RANDOM_SAMPLE(0.01)',
-    search_params={"metric_type": "L2", "params": {}},
+    search_params={"params": {}},
     output_fields=["title", "author", "price"],
     limit=10
 )

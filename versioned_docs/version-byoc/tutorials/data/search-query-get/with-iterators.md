@@ -65,7 +65,6 @@ iterator = client.search_iterator(
     collection_name="iterator_collection"
     data=query_vectors,
     anns_field="vector",
-    search_param={"metric_type": "L2", "params": {"nprobe": 16}},
     # highlight-next-line
     batch_size=50,
     output_fields=["color"],
@@ -100,7 +99,6 @@ SearchIterator searchIterator = client.searchIterator(SearchIteratorReq.builder(
         .batchSize(500L)
         .outputFields(Lists.newArrayList("color"))
         .topK(20000)
-        .metricType(IndexParam.MetricType.L2)
         .build());
 ```
 
@@ -164,7 +162,6 @@ const iterator = milvusClient.searchIterator({
     collection_name: collectionName,
     vectors: queryVectors,
     anns_field: 'vector',
-    params: { metric_type: 'L2', params: { nprobe: 16 } },
     batch_size: 50,
     output_fields: ['color'],
     limit: 20000,

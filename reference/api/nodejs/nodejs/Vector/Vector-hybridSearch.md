@@ -5,18 +5,18 @@ sidebar_key: node/Vector-hybridSearch
 sidebar_label: "hybridSearch()"
 added_since: v2.4.x
 last_modified: v3.0.x
-deprecate_since: false
-beta: false
-notebook: false
+deprecate_since: FALSE
+beta: FALSE
+notebook: FALSE
 description: "This operation conducts a hybrid search across multiple vector fields with an optional scalar filtering expression and returns the merged, reranked results. | Node.js"
 type: docx
 token: Ph9ldBswooKwebxKI9EcqSu4nlc
 sidebar_position: 4
 keywords: 
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
   - zilliz
   - zilliz cloud
   - cloud
@@ -49,7 +49,6 @@ await milvusClient.hybridSearch({
     filter?: string,
     rerank?: RerankerObj | FunctionObject | FunctionScore,
     partition_names?: string[],
-    metric_type?: string,
     consistency_level?: ConsistencyLevelEnum,
     ignore_growing?: boolean,
     group_by_field?: string,
@@ -100,10 +99,6 @@ await milvusClient.hybridSearch({
 - **partition_names** (*string[]*) -
 
     The names of the partitions to search.
-
-- **metric_type** (*string*) -
-
-    The metric type used to measure similarity between vectors.
 
 - **consistency_level** (*ConsistencyLevelEnum*) -
 

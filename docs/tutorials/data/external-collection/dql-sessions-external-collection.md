@@ -110,8 +110,7 @@ res = session.search(
     anns_field="vector",
     data=[query_vector],
     limit=3,
-    output_fields=["product_id", "title", "main_category", "price", "average_rating", "rating_number"],
-    search_params={"metric_type": "COSINE"}
+    output_fields=["product_id", "title", "main_category", "price", "average_rating", "rating_number"]
 )
 ```
 
@@ -174,3 +173,4 @@ session.close()
 ```typescript
 session.close();
 ```
+

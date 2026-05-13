@@ -508,10 +508,6 @@ The following is a non-strict equivalence of the above Elasticsearch example in 
 search_params_dense = {
     "data": [[1.25, 2, 3.5]],
     "anns_field": "vector",
-    "param": {
-        "metric_type": "IP",
-        
-    },
     "limit": 100
 }
 
@@ -519,10 +515,7 @@ req_dense = ANNSearchRequest(**search_params_dense)
 
 search_params_sparse = {
     "data": ["shoes"],
-    "anns_field": "text_sparse",
-    "param": {
-        "metric_type": "BM25",
-    }
+    "anns_field": "text_sparse"
 }
 
 req_sparse = ANNSearchRequest(**search_params_sparse)

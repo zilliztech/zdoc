@@ -66,7 +66,7 @@ res = client.search(
     filter=expr,
     limit=10,
     output_fields=["age", "city"],
-    search_params={"metric_type": "COSINE", "params": {"search_list": 100}},
+    search_params={"params": {"search_list": 100}},
     filter_params=filter_params,
 )
 ```

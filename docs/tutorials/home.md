@@ -94,8 +94,7 @@ res = client.search(
     collection_name="my_collection",
     data=[query_vector],
     anns_field="vector",  # Field to search on
-    limit=3,  # Return top 3 results
-    search_params={"metric_type": "IP"}  # Inner Product similarity
+    limit=3  # Return top 3 results
 )
 
 for hits in res:
@@ -398,14 +397,12 @@ client = MilvusClient(
 req1 = AnnSearchRequest(
     data=[[0.358, -0.602, ...]],
     anns_field="text_dense",  # Search on text embeddings
-    param={"metric_type": "IP"},
     limit=3
 )
 # Search request 2: image dense vector
 req2 = AnnSearchRequest(
     data=[[0.123, 0.456, ...]],
     anns_field="image_dense",  # Search on image embeddings
-    param={"metric_type": "IP"},
     limit=3
 )
 
@@ -420,18 +417,16 @@ res = client.hybrid_search(
 
 ```java
 Map<String,Object> params1 = new HashMap<>();
-params1.put("metric_type", "IP");
+
 AnnSearchReq req1 = AnnSearchReq.builder()
     .vectorFieldName("text_dense")
     .vectors(Collections.singletonList(new FloatVec(textVector)))
-    .params(params1)
     .topK(3)
     .build();
 
 AnnSearchReq req2 = AnnSearchReq.builder()
     .vectorFieldName("image_dense")
     .vectors(Collections.singletonList(new FloatVec(imageVector)))
-    .params(params1)
     .topK(3)
     .build();
 
@@ -860,7 +855,7 @@ Select a project [plan](./select-zilliz-cloud-service-plans) and create clusters
 
 1. Create a backup for your cluster or collection.
 
-    Backups are point-in-time copies of a cluster or collection. You can create backups [manually](./create-backup) or [set backup policy](./schedule-automatic-backups) for scheduled backups. You can also [copy backup to other regions](/docs/backup-to-other-regions) for improved disaster recovery capabilities.
+    Backups are point-in-time copies of a cluster or collection. You can create backups [manually](./create-snapshot) or [set backup policy](./schedule-automatic-backups) for scheduled backups. You can also [copy backup to other regions](/docs/backup-to-other-regions) for improved disaster recovery capabilities.
 
 1. (Optional) Export backups to object storage services.
 
@@ -868,7 +863,7 @@ Select a project [plan](./select-zilliz-cloud-service-plans) and create clusters
 
 1. Restore data.
 
-    [Restore your data](./restore-from-backup-files) in the event of unexpected system failure or data loss.
+    [Restore your data](./restore-from-snapshot) in the event of unexpected system failure or data loss.
 
 </Stories>
 

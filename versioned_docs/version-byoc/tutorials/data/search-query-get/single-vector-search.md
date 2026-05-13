@@ -94,8 +94,7 @@ res = client.search(
     collection_name="quick_setup",
     anns_field="vector",
     data=[query_vector],
-    limit=3,
-    search_params={"metric_type": "IP"}
+    limit=3
 )
 
 for hits in res:
@@ -569,8 +568,7 @@ res = client.search(
     # highlight-start
     ids=[551, 296, 43],
     # highlight-end
-    limit=3,
-    search_params={"metric_type": "IP"}
+    limit=3
 )
 
 for hits in res:
@@ -615,10 +613,7 @@ curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/entities/search" \
     "collectionName": "quick_setup",
     "annsField": "vector",
     "ids": [551, 296, 43],
-    "limit": 3,
-    "searchParams": {
-      "metric_type": "IP"
-    }
+    "limit": 3
   }'
 ```
 
@@ -815,7 +810,6 @@ res = client.search(
     collection_name="quick_setup",
     data=[query_vector],
     limit=3, # The number of results to return
-    search_params={"metric_type": "IP"}，
     # highlight-next-line
     output_fields=["color"]
 )
@@ -1151,7 +1145,6 @@ res = client.search(
     data=[query_vector],
     limit=3, # The number of results to return
     search_params={
-        "metric_type": "IP", 
         # highlight-next-line
         "offset": 10 # The records to skip
     }
@@ -1569,7 +1562,6 @@ res = client.search(
     anns_field="vector",
     data=[query_vector],
     limit=3,
-    search_params={"metric_type": "IP"},
     # highlight-next-line
     timezone="America/Havana",
 )
@@ -1614,8 +1606,7 @@ curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/entities/search" \
   "annsField": "vector",                                                                                                                                                                                                                              
   "data": ['"$QUERY_VECTOR"'],                                                                                                                                                                                                                        
   "limit": 3,                                                                                                                                                                                                                                         
-  "searchParams": {                                                                                                                                                                                                                                   
-    "metric_type": "IP",                                                                                                                                                                                                                              
+  "searchParams": {                                                                                                                                                                                                                                                                                                                                                                                                                                                                
     "timezone": "America/Havana"                                                                                                                                                                                                                      
   }                                                                                                                                                                                                                                                   
 }'

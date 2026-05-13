@@ -11,7 +11,7 @@ notebook: FALSE
 description: "A serving cluster is a self-contained server that combines both compute and storage for real-time production serving. Once you have cleaned your data through your Extract-Transform-Load (ETL) pipelines, you can import it into a serving cluster to deliver significant performance gains. | Cloud"
 type: origin
 token: B1XTwQgNRizAMTkZQvrclGSonyc
-sidebar_position: 8
+sidebar_position: 10
 keywords: 
   - zilliz
   - vector database
@@ -225,8 +225,7 @@ index_params = client.prepare_index_params()
 # Add indexes
 index_params.add_index(
     field_name="embedding",
-    index_type="AUTOINDEX",
-    metric_type="COSINE"
+    index_type="AUTOINDEX"
 )
 
 index_params.add_index(
@@ -249,7 +248,6 @@ client.create_index(
 export indexParams='[
     {
         "fieldName": "embedding",
-        "metricType": "COSINE",
         "indexName": "embedding",
         "indexType": "AUTOINDEX"
     },
@@ -422,8 +420,7 @@ res = client.search(
     anns_field="embedding",
     data=[query_vector],
     limit=3,
-    output_fields=["product_name"],
-    search_params={"metric_type": "COSINE"}
+    output_fields=["product_name"]
 )
 ```
 

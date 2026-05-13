@@ -325,7 +325,7 @@ client.insert(collection_name=COLLECTION_NAME, data=[{"text": t} for t in docs])
 print(f"✓ Collection created with {len(docs)} documents\n")
 
 # Helper for search params
-SEARCH_PARAMS = {"metric_type": "BM25", "params": {"drop_ratio_search": 0.0}}
+SEARCH_PARAMS = {"params": {"drop_ratio_search": 0.0}}
 
 # Expected output:
 # ✓ Collection created with 4 documents
