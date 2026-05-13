@@ -8,10 +8,10 @@ last_modified: FALSE
 deprecate_since: FALSE
 beta: PUBLIC
 notebook: FALSE
-description: "External data lake search lets you search massive datasets with zero-copy access to data in external storage or imported into Zilliz Cloud, without keeping compute resources running continuously. You can create collections from external vosearlumes or imported files, build indexes and refresh metadata via the project data plane endpoint, and start an on-demand cluster only when you need to run search or query workloads. | Cloud"
+description: "External data lake search lets you search massive datasets with zero-copy access to data in external storage or imported into Zilliz Cloud, without keeping compute resources running continuously. You can create collections from external volumes or imported files, build indexes and refresh metadata via the project data plane endpoint, and start an on-demand cluster only when you need to run search or query workloads. | Cloud"
 type: origin
 token: KdwFwQnDNisT4skHH6Hc16uInji
-sidebar_position: 9
+sidebar_position: 10
 keywords: 
   - zilliz
   - vector database
@@ -28,7 +28,7 @@ import TabItem from '@theme/TabItem';
 
 # Quickstart to External Data Lake Search
 
-External data lake search lets you search massive datasets with zero-copy access to data in external storage or imported into Zilliz Cloud, without keeping compute resources running continuously. You can create collections from external vosearlumes or imported files, build indexes and refresh metadata via the project data plane endpoint, and start an on-demand cluster only when you need to run search or query workloads.
+External data lake search lets you search massive datasets with zero-copy access to data in external storage or imported into Zilliz Cloud, without keeping compute resources running continuously. You can create collections from external volumes or imported files, build indexes and refresh metadata via the project data plane endpoint, and start an on-demand cluster only when you need to run search or query workloads.
 
 To do so, the procedure is as follows:
 

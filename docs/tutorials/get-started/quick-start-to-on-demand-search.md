@@ -11,7 +11,7 @@ notebook: FALSE
 description: "Zilliz Cloud provides on-demand compute resources, allowing you to run similarity searches and queries on demand. You pay only for the resources you use and can shut down clusters at no cost when you do not need them. | Cloud"
 type: origin
 token: GQN0wDCrni4n36kyeVQcF41Lned
-sidebar_position: 8
+sidebar_position: 9
 keywords: 
   - zilliz
   - vector database
@@ -213,7 +213,8 @@ index_params = client.prepare_index_params()
 # Add indexes
 index_params.add_index(
     field_name="embedding",
-    index_type="AUTOINDEX"
+    index_type="AUTOINDEX",
+    metric_type="COSINE"
 )
 
 index_params.add_index(
