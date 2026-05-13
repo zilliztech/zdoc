@@ -8,7 +8,7 @@ last_modified: FALSE
 deprecate_since: FALSE
 beta: FALSE
 notebook: FALSE
-description: "This guide provides multiple methods for integrating Zilliz Plugins into your LLM Agent-powered workflows. | Cloud"
+description: "This guide explains how to install and set up the Zilliz Plugin in Claude Code. | Cloud"
 type: origin
 token: UDxnwONhSidaQikY6NGcRdmOnUh
 sidebar_position: 1
@@ -33,7 +33,7 @@ import Procedures from '@site/src/components/Procedures';
 
 # Zilliz Claude Code Plugin Setup
 
-This guide provides multiple methods for integrating Zilliz Plugins into your LLM Agent-powered workflows.
+This guide explains how to install and set up the Zilliz Plugin in Claude Code.
 
 ## Prerequisites\{#prerequisites}
 
@@ -42,6 +42,36 @@ This guide provides multiple methods for integrating Zilliz Plugins into your LL
 ## Setup Procedure\{#setup-procedure}
 
 <Procedures>
+
+1. Run Claude Code
+
+    ```bash
+    > claude
+    ```
+
+1. Open the plugin marketplace
+
+    ```bash
+    /plugins
+    ```
+
+1. Find the Zilliz Plugin
+
+    Go to the **Discover** tab and search for zilliz
+
+    ![TqS3b4z7Ho9xcXxHJaIc7HTZn1e](https://zdoc-images.s3.us-west-2.amazonaws.com/tqs3b4z7ho9xcxxhjaic7htzn1e.png "TqS3b4z7Ho9xcXxHJaIc7HTZn1e")
+
+1. Install the plugin
+
+      Select the zilliz plugin from the marketplace to install it.
+
+</Procedures>
+
+If your environment does not support marketplace discovery, you may still be able to install the plugin by adding the Zilliz plugin marketplace manually.
+
+<details>
+
+<summary>Install by adding Zilliz Cloud plugin marketplace</summary>
 
 1. Run Claude Code
 
@@ -61,7 +91,7 @@ This guide provides multiple methods for integrating Zilliz Plugins into your LL
     /plugin install zilliz@zilliztech/zilliz-plugin
     ```
 
-</Procedures>
+</details>
 
 ## Initial Setup\{#initial-setup}
 
