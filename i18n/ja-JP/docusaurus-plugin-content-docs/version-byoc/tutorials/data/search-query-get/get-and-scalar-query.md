@@ -5,7 +5,7 @@ sidebar_key: get-and-scalar-query
 sidebar_label: "クエリ"
 beta: FALSE
 notebook: FALSE
-description: "ANN 検索に加えて、Zilliz Cloud はクエリによるメタデータフィルタリングもサポートしています。このページでは、Query、Get、QueryIterators を使用してメタデータフィルタリングを実行する方法を紹介します。 | BYOC"
+description: "ANN 検索に加えて、Zilliz Cloud はクエリによるメタデータフィルタリングもサポートしています。このページでは、Query、Get、QueryIterators を使用してエンティティの取得、メタデータのフィルタリング、クエリ結果の並べ替え、スカラー値の集計を行う方法を紹介します。 | BYOC"
 type: origin
 token: R7F7wY8pCiJ5Q4kbntxcMsE6nLf
 sidebar_position: 8
@@ -27,7 +27,13 @@ import TabItem from '@theme/TabItem';
 
 # クエリ
 
-ANN検索に加えて、Zilliz Cloud はメタデータフィルタリングをクエリを通じてサポートしています。このページでは、メタデータフィルタリングを実行するために Query、Get、および QueryIterator を使用する方法を紹介します。
+ANN 検索に加えて、Zilliz Cloud はクエリによるメタデータフィルタリングもサポートしています。このページでは、Query、Get、QueryIterators を使用してエンティティの取得、メタデータのフィルタリング、クエリ結果の並べ替え、スカラー値の集計を行う方法を紹介します。
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>コレクション作成後に新しいフィールドを動的に追加した場合、これらのフィールドを含むクエリでは、値が明示的に設定されていないエンティティに対して定義済みのデフォルト値または NULL が返されます。詳細は <a href="./add-fields-to-an-existing-collection">既存コレクションへのフィールド追加</a> を参照してください。</p>
+
+</Admonition>
 
 ## 概要\{#overview}
 
@@ -349,7 +355,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-### クエリ結果の並べ替え | プライベートプレビュー\{#sort-query-results}
+### クエリ結果の並べ替え | PRIVATE\{#sort-query-results}
 
 デフォルトでは、クエリは不定の順序で結果を返します。`order_by` パラメータを使用して、1 つ以上のスカラーフィールドで結果を並べ替えます。`order_by` を使用する際は、以下の点に注意してください：
 
@@ -532,6 +538,254 @@ page2 = client.query(
 </TabItem>
 
 <TabItem value='java'>
+
+```bash
+# restful
+```
+
+</TabItem>
+</Tabs>
+
+### クエリ結果の集計 | PRIVATE\{#aggregate-query-results}
+
+クエリ結果を 1 つ以上のスカラーフィールドでグループ化し、グループごとに集計を計算できます。サポートされている集計演算子は `count`、`min`、`max`、`sum`、`avg` です。
+
+`group_by_fields` を使用する際は、以下の点に注意してください：
+
+- `group_by_fields` でサポートされるフィールド型は `INT8`、`INT16`、`INT32`、`INT64`、`VARCHAR`、`TIMESTAMPTZ` です。`FLOAT`、`DOUBLE`、ベクトル、`JSON`、`ARRAY` フィールドでのグループ化はエラーになります。
+
+- `sum` と `avg` は数値型フィールドでのみ使用できます。`VARCHAR` フィールドに適用するとエラーになります。
+
+集計を有効にするには、`query()` に `group_by_fields` を渡し、`output_fields` に集計式（`count(*)`、`count(<field>)`、`min(<field>)`、`max(<field>)`、`sum(<field>)`、`avg(<field>)`）を追加します。
+
+次の例では、エンティティを `color` フィールドでグループ化し、各色グループ内のエンティティ数を返します：
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
+from pymilvus import MilvusClient
+
+client = MilvusClient(
+    uri="YOUR_CLUSTER_ENDPOINT",
+    token="YOUR_CLUSTER_TOKEN"
+)
+
+res = client.query(
+    collection_name="my_collection",
+    filter="",
+    # highlight-start
+    group_by_fields=["color"],
+    output_fields=["color", "count(*)"],
+    # highlight-end
+)
+
+# [{'color': 'red',    'count(*)': 10},
+#  {'color': 'orange', 'count(*)': 10},
+#  {'color': 'yellow', 'count(*)': 10},
+#  {'color': 'green',  'count(*)': 10},
+#  {'color': 'blue',   'count(*)': 10}]
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// java
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// nodejs
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+```
+
+</TabItem>
+</Tabs>
+
+1 回の呼び出しで複数の集計式を指定することもできます。次の例では `color` でグループ化し、各グループの行数、平均価格、最大評価を返します：
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
+res = client.query(
+    collection_name="my_collection",
+    filter="",
+    # highlight-start
+    group_by_fields=["color"],
+    output_fields=["color", "count(*)", "avg(price)", "max(rating)"],
+    # highlight-end
+)
+
+# [{'color': 'red',    'count(*)': 10, 'avg(price)': 65.22, 'max(rating)': 5},
+#  {'color': 'orange', 'count(*)': 10, 'avg(price)': 48.67, 'max(rating)': 5},
+#  {'color': 'yellow', 'count(*)': 10, 'avg(price)': 64.15, 'max(rating)': 3},
+#  {'color': 'green',  'count(*)': 10, 'avg(price)': 58.28, 'max(rating)': 5},
+#  {'color': 'blue',   'count(*)': 10, 'avg(price)': 50.20, 'max(rating)': 5}]
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// java
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// nodejs
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+```
+
+</TabItem>
+</Tabs>
+
+`group_by_fields` に複数のフィールドを渡すことで、複合グループを計算できます。次の例では `(color, rating)` でグループ化し、各バケットの価格レンジを計算します：
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
+res = client.query(
+    collection_name="my_collection",
+    filter="",
+    # highlight-start
+    group_by_fields=["color", "rating"],
+    output_fields=["color", "rating", "min(price)", "max(price)"],
+    # highlight-end
+)
+
+# [{'color': 'red',    'rating': 5, 'min(price)': 34.51, 'max(price)': 70.90},
+#  {'color': 'orange', 'rating': 2, 'min(price)': 12.39, 'max(price)': 81.99},
+#  {'color': 'yellow', 'rating': 2, 'min(price)': 22.62, 'max(price)': 88.24},
+#  {'color': 'green',  'rating': 1, 'min(price)': 18.35, 'max(price)': 59.53},
+#  {'color': 'blue',   'rating': 4, 'min(price)': 21.23, 'max(price)': 82.45},
+#  ...]
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// java
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// nodejs
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+```
+
+</TabItem>
+</Tabs>
+
+`group_by_fields` を `limit` と組み合わせることで、返されるグループ数に上限を設定できます。これはフィールドのカーディナリティが高く、バケットのサンプルだけが必要な場合に有効です：
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
+res = client.query(
+    collection_name="my_collection",
+    filter="",
+    group_by_fields=["color"],
+    output_fields=["color", "avg(price)", "count(*)"],
+    # highlight-next-line
+    limit=5,
+)
+
+# [{'color': 'red',    'avg(price)': 65.22, 'count(*)': 10},
+#  {'color': 'orange', 'avg(price)': 48.67, 'count(*)': 10},
+#  {'color': 'yellow', 'avg(price)': 64.15, 'count(*)': 10},
+#  {'color': 'green',  'avg(price)': 58.28, 'count(*)': 10},
+#  {'color': 'blue',   'avg(price)': 50.20, 'count(*)': 10}]
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// java
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// nodejs
+```
+
+</TabItem>
+
+<TabItem value='bash'>
 
 ```bash
 # restful

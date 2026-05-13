@@ -8,7 +8,7 @@ last_modified: FALSE
 deprecate_since: FALSE
 beta: FALSE
 notebook: FALSE
-description: "In addition to ANN searches, Zilliz Cloud also supports metadata filtering through queries. This page introduces how to use Query, Get, and QueryIterators to perform metadata filtering. | BYOC"
+description: "In addition to ANN searches, Zilliz Cloud also supports metadata filtering through queries. This page introduces how to use Query, Get, and QueryIterators to retrieve entities, filter metadata, sort query results, and aggregate scalar values. | BYOC"
 type: origin
 token: R7F7wY8pCiJ5Q4kbntxcMsE6nLf
 sidebar_position: 8
@@ -30,7 +30,13 @@ import TabItem from '@theme/TabItem';
 
 # Query
 
-In addition to ANN searches, Zilliz Cloud also supports metadata filtering through queries. This page introduces how to use Query, Get, and QueryIterators to perform metadata filtering.
+In addition to ANN searches, Zilliz Cloud also supports metadata filtering through queries. This page introduces how to use Query, Get, and QueryIterators to retrieve entities, filter metadata, sort query results, and aggregate scalar values.
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>If you dynamically add new fields after the collection has been created, queries that include these fields will return the defined default values or NULL for entities that have not explicitly set values. For details, refer to <a href="./add-fields-to-an-existing-collection">Add Fields to an Existing Collection</a>.</p>
+
+</Admonition>
 
 ## Overview\{#overview}
 
@@ -352,7 +358,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-### Sort Query Results | Private Preview\{#sort-query-results}
+### Sort Query Results | PRIVATE\{#sort-query-results}
 
 By default, Query returns results in an unspecified order. Use the `order_by` parameter to sort results by one or more scalar fields. When using `order_by`, note that:
 
@@ -506,6 +512,254 @@ page2 = client.query(
     # highlight-next-line
     order_by=["price:asc"],
 )
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// java
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// nodejs
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+```
+
+</TabItem>
+</Tabs>
+
+### Aggregate Query Results | PRIVATE\{#aggregate-query-results}
+
+You can group query results by one or more scalar fields and compute aggregations per group. The supported aggregation operators are `count`, `min`, `max`, `sum`, and `avg`.
+
+When using `group_by_fields`, note that:
+
+- Supported field types for `group_by_fields`: `INT8`, `INT16`, `INT32`, `INT64`, `VARCHAR`, and `TIMESTAMPTZ`. Grouping by `FLOAT`, `DOUBLE`, vector, `JSON`, or `ARRAY` fields returns an error.
+
+- `sum` and `avg` are numeric only — applying them to a `VARCHAR` field returns an error.
+
+To enable aggregation, pass `group_by_fields` to `query()` and add aggregation expressions (`count(*)`, `count(<field>)`, `min(<field>)`, `max(<field>)`, `sum(<field>)`, `avg(<field>)`) to `output_fields`.
+
+The following example groups entities by the `color` field and returns the number of entities in each color group:
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
+from pymilvus import MilvusClient
+
+client = MilvusClient(
+    uri="YOUR_CLUSTER_ENDPOINT",
+    token="YOUR_CLUSTER_TOKEN"
+)
+
+res = client.query(
+    collection_name="my_collection",
+    filter="",
+    # highlight-start
+    group_by_fields=["color"],
+    output_fields=["color", "count(*)"],
+    # highlight-end
+)
+
+# [{'color': 'red',    'count(*)': 10},
+#  {'color': 'orange', 'count(*)': 10},
+#  {'color': 'yellow', 'count(*)': 10},
+#  {'color': 'green',  'count(*)': 10},
+#  {'color': 'blue',   'count(*)': 10}]
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// java
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// nodejs
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+```
+
+</TabItem>
+</Tabs>
+
+You can request several aggregation expressions in a single call. The following example groups by `color` and returns the row count, average price, and maximum rating for each group:
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
+res = client.query(
+    collection_name="my_collection",
+    filter="",
+    # highlight-start
+    group_by_fields=["color"],
+    output_fields=["color", "count(*)", "avg(price)", "max(rating)"],
+    # highlight-end
+)
+
+# [{'color': 'red',    'count(*)': 10, 'avg(price)': 65.22, 'max(rating)': 5},
+#  {'color': 'orange', 'count(*)': 10, 'avg(price)': 48.67, 'max(rating)': 5},
+#  {'color': 'yellow', 'count(*)': 10, 'avg(price)': 64.15, 'max(rating)': 3},
+#  {'color': 'green',  'count(*)': 10, 'avg(price)': 58.28, 'max(rating)': 5},
+#  {'color': 'blue',   'count(*)': 10, 'avg(price)': 50.20, 'max(rating)': 5}]
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// java
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// nodejs
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+```
+
+</TabItem>
+</Tabs>
+
+Pass more than one field to `group_by_fields` to compute composite groups. The following example groups by `(color, rating)` and computes the price range in each bucket:
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
+res = client.query(
+    collection_name="my_collection",
+    filter="",
+    # highlight-start
+    group_by_fields=["color", "rating"],
+    output_fields=["color", "rating", "min(price)", "max(price)"],
+    # highlight-end
+)
+
+# [{'color': 'red',    'rating': 5, 'min(price)': 34.51, 'max(price)': 70.90},
+#  {'color': 'orange', 'rating': 2, 'min(price)': 12.39, 'max(price)': 81.99},
+#  {'color': 'yellow', 'rating': 2, 'min(price)': 22.62, 'max(price)': 88.24},
+#  {'color': 'green',  'rating': 1, 'min(price)': 18.35, 'max(price)': 59.53},
+#  {'color': 'blue',   'rating': 4, 'min(price)': 21.23, 'max(price)': 82.45},
+#  ...]
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// java
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// nodejs
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+```
+
+</TabItem>
+</Tabs>
+
+You can also combine `group_by_fields` with `limit` to cap how many groups come back — useful when a field has high cardinality and you only need a sample of buckets:
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
+res = client.query(
+    collection_name="my_collection",
+    filter="",
+    group_by_fields=["color"],
+    output_fields=["color", "avg(price)", "count(*)"],
+    # highlight-next-line
+    limit=5,
+)
+
+# [{'color': 'red',    'avg(price)': 65.22, 'count(*)': 10},
+#  {'color': 'orange', 'avg(price)': 48.67, 'count(*)': 10},
+#  {'color': 'yellow', 'avg(price)': 64.15, 'count(*)': 10},
+#  {'color': 'green',  'avg(price)': 58.28, 'count(*)': 10},
+#  {'color': 'blue',   'avg(price)': 50.20, 'count(*)': 10}]
 ```
 
 </TabItem>
