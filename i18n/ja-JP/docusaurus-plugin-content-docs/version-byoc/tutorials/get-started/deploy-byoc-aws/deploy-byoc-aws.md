@@ -44,25 +44,31 @@ import Procedures from '@site/src/components/Procedures';
 
 AWS 上に BYOC をデプロイするために、Zilliz Cloud はお客様に代わってカスタマー管理 VPC 内の S3 バケットおよび EKS クラスターにアクセスするための特定のロールを引き受ける必要があります。そのため、Zilliz Cloud は S3 バケット、EKS クラスター、VPC に関する情報と、これらのインフラストラクチャリソースにアクセスするために必要なロールを収集する必要があります。
 
-BYOC 組織内で、**Create Project and Deploy データプレーン** ボタンをクリックしてデプロイを開始します。
-
-![XtlJbBTIboHNbixzfqpc7H3nnvb](https://zdoc-images.s3.us-west-2.amazonaws.com/xtljbbtibohnbixzfqpc7h3nnvb.png "XtlJbBTIboHNbixzfqpc7H3nnvb")
+BYOC 組織内で、**Create Project** ボタンをクリックしてデプロイを開始します。
 
 ### ステップ 1: プロジェクトを作成する\{#step-1-create-a-project}
 
-このステップでは、プロジェクト名の設定、クラウドプロバイダーとリージョンおよび初期プロジェクトサイズの決定、Zilliz Cloud がプロジェクトを作成しデータプレーンをデプロイする方法の選択を行う必要があります。
+このステップでは、プロジェクト名を設定し、クラウドプロバイダーとリージョン、初期プロジェクトサイズを決定したうえで、Zilliz Cloud がプロジェクトを作成してデータプレーンをデプロイする方法を選択します。
 
-![Jo6Rw1WoBhBchRbBOMmcRBC3nsd](https://zdoc-images.s3.us-west-2.amazonaws.com/Jo6Rw1WoBhBchRbBOMmcRBC3nsd.png)
+**Zilliz BYOC Project Name** を設定し、**Create and Next** をクリックします。このステップの最後でプロジェクトが作成され、**Deploy Data Plane** ダイアログにリダイレクトされます。
+
+![FlZqw4JI6hcTNVbWCyJcBPdFnsb](https://zdoc-images.s3.us-west-2.amazonaws.com/FlZqw4JI6hcTNVbWCyJcBPdFnsb.png)
+
+### ステップ 2: データプレーンをデプロイする\{#step-2-deploy-the-data-plane}
 
 <Procedures>
 
-1. **プロジェクト名** を設定します。
+1. **Data Plane Name** と **Cloud Region** を設定して **Next** をクリックします。
 
-1. **クラウドプロバイダー** と **リージョン** を選択します。
+    **Cancel** をクリックするとデータプレーンのデプロイは中止されますが、上記で作成したプロジェクトは保持されます。プロジェクトでは後からいつでもデータプレーンのデプロイを開始でき、1つのプロジェクトに複数のデータプレーンを追加できます。
+
+    ![W1BNwopYAht6oxb9m9FccJXDnRc](https://zdoc-images.s3.us-west-2.amazonaws.com/W1BNwopYAht6oxb9m9FccJXDnRc.png)
 
 1. **AWS プライベートLink** を有効にするかどうかを決定します。
 
     このオプションにより、現在のプロジェクト内のクラスターへのプライベート接続が可能になります。このオプションを有効にする場合は、プライベート接続用に VPC エンドポイントを作成する必要があります。詳細については、[クラスター接続の準備](./prepare-for-cluster-connection#private-endpoint-access) を参照してください。
+
+    ![EfRbwxMhIhlIKfbCaTPcPZPlnJd](https://zdoc-images.s3.us-west-2.amazonaws.com/EfRbwxMhIhlIKfbCaTPcPZPlnJd.png)
 
 1. **アーキテクチャ** で、アプリケーションに合ったアーキテクチャタイプを選択します。
 
@@ -240,11 +246,9 @@ BYOC 組織内で、**Create Project and Deploy データプレーン** ボタ�
 
 プロジェクトを一時停止すると、データプレーンが停止し、プロジェクトをサポートする EKS クラスターに関連付けられたすべての EC2 インスタンスが終了します。この操作は、プロジェクト内の一時停止された Zilliz Cloud クラスターには影響せず、データプレーンが復元されると再開できます。
 
-![BN8KbqawgoErlZxtNYFcEvrjne4](https://zdoc-images.s3.us-west-2.amazonaws.com/bn8kbqawgoerlzxtnyfcevrjne4.png "BN8KbqawgoErlZxtNYFcEvrjne4")
+![G2tIwZdrsh88VrbSWsEc6iHunWe](https://zdoc-images.s3.us-west-2.amazonaws.com/G2tIwZdrsh88VrbSWsEc6iHunWe.png)
 
 プロジェクト内にクラスターがないか、すべてのクラスターがすでに一時停止されている場合にのみ、実行中のプロジェクトを一時停止できます。
-
-![QXK1bRewYoasCzx1AHNcpbSBnhe](https://zdoc-images.s3.us-west-2.amazonaws.com/qxk1brewyoasczx1ahncpbsbnhe.png "QXK1bRewYoasCzx1AHNcpbSBnhe")
 
 プロジェクトカードのステータスタグが **一時停止ed** と表示されると、プロジェクト内のクラスターを操作できなくなります。この場合、**Resume** をクリックしてプロジェクトを再開できます。ステータスタグが再び **Running** に変わると、プロジェクト内のクラスターの操作を続行できます。
 
@@ -252,13 +256,9 @@ BYOC 組織内で、**Create Project and Deploy データプレーン** ボタ�
 
 トラブルシューティングおよびメンテナンス操作を支援するため、Zilliz Cloud はデフォルトでテクニカルサポートがプロジェクトのデータプレーンにアクセスできるようにしています。
 
-![K1qzbwdxXoge0exlN6NcClN7nfh](https://zdoc-images.s3.us-west-2.amazonaws.com/k1qzbwdxxoge0exln6nccln7nfh.png "K1qzbwdxXoge0exlN6NcClN7nfh")
+![TKIEwRBp0hpQL5btdvwccQGKngZ](https://zdoc-images.s3.us-west-2.amazonaws.com/TKIEwRBp0hpQL5btdvwccQGKngZ.png)
 
-対象プロジェクトのドロップダウンメニューから **テクニカルサポートアクセス** をクリックして、現在の設定を表示します。
-
-![YYOabQl2ioTl6AxIVLwcwjWqnBc](https://zdoc-images.s3.us-west-2.amazonaws.com/yyoabql2iotl6axivlwcwjwqnbc.png "YYOabQl2ioTl6AxIVLwcwjWqnBc")
-
-データガバナンスおよびセキュリティ要件を満たすために、これを無効にすることができます。
+対象プロジェクトのドロップダウンメニューから **テクニカルサポートアクセス** をクリックすると、現在の設定を表示できます。データガバナンスおよびセキュリティ要件を満たすために、これを無効にできます。
 
 ## 手順\{#procedures}
 

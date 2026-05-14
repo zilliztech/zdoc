@@ -5,7 +5,7 @@ sidebar_key: changelogs
 sidebar_label: "変更履歴"
 beta: FALSE
 notebook: FALSE
-description: "最終更新日: 2026年5月9日 | Cloud"
+description: "最終更新日: 2026年5月7日 | Cloud"
 type: origin
 token: MUL3wkn7Yi3YoFkYk59csf8bnNc
 sidebar_position: 1
@@ -24,7 +24,7 @@ import Grid from '@site/src/components/Grid';
 
 # 変更履歴
 
-**最終更新日:** 2026年5月9日
+**最終更新日:** 2026年5月7日
 
 <Grid columnSize="2" widthRatios="25,74">
 
@@ -48,7 +48,23 @@ import Grid from '@site/src/components/Grid';
 
     <div>
 
-        **[2026年5月9日](./release-notes-2605)**
+        **[2026年5月13日](./release-notes-2605#byoc-multi-dataplane-support)**
+
+    </div>
+
+    <div>
+
+        - 🔒 BYOC プロジェクトで、異なるリージョンに複数のデータプレーンを作成できるようになりました。
+
+    </div>
+
+</Grid>
+
+<Grid columnSize="2" widthRatios="25,74">
+
+    <div>
+
+        **[2026年5月7日](./release-notes-2605)**
 
     </div>
 

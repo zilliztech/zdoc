@@ -119,21 +119,21 @@ import Procedures from '@site/src/components/Procedures';
 
 ### ステップ 2: プロジェクトの作成\{#step-2-create-a-project}
 
-BYOC-I 組織内で、**Create Project and Deploy データプレーン** ボタンをクリックしてデプロイを開始します。
+BYOC-I 組織内で、**Create Project** ボタンをクリックしてデプロイを開始します。表示されたダイアログで **Zilliz BYOC Project Name** を設定し、**Create and Next** をクリックします。
 
-![YYgcbgENMo6672xja9ucq9Dsnne](https://zdoc-images.s3.us-west-2.amazonaws.com/yygcbgenmo6672xja9ucq9dsnne.png "YYgcbgENMo6672xja9ucq9Dsnne")
+プロジェクトはこのステップの最後で作成され、**Deploy Data Plane** ダイアログにリダイレクトされます。
 
-### ステップ 3: 一般設定の構成\{#step-3-set-up-the-general-settings}
+![Wc5KwW4BihKe17beYFccNdb3nCf](https://zdoc-images.s3.us-west-2.amazonaws.com/Wc5KwW4BihKe17beYFccNdb3nCf.png)
 
-**一般設定** で、プロジェクト名を設定し、Zilliz Cloud がプロジェクトのデータプレーンをデプロイするクラウドプロバイダーとリージョンを決定する必要があります。
-
-![Ugm3bsxb9oCsxzxqOYkclb7ZnRb](https://zdoc-images.s3.us-west-2.amazonaws.com/ugm3bsxb9ocsxzxqoykclb7znrb.png "Ugm3bsxb9oCsxzxqOYkclb7ZnRb")
+### ステップ 3: データプレーンをデプロイする\{#step-3-deploy-the-data-plane}
 
 <Procedures>
 
-1. **プロジェクト名** を設定します。
+1. **Data Plane Name** と **Cloud Region** を設定し、**Next** をクリックします。
 
-1. **クラウドプロバイダー** と **リージョン** を選択します。
+    **Cancel** をクリックするとデータプレーンのデプロイは中止されますが、上記で作成したプロジェクトは保持されます。プロジェクトでは後からいつでもデータプレーンのデプロイを開始でき、1つのプロジェクトに複数のデータプレーンを追加できます。
+
+    ![M8EWwH1WJhTkVBbyJLOcWEDjnqN](https://zdoc-images.s3.us-west-2.amazonaws.com/M8EWwH1WJhTkVBbyJLOcWEDjnqN.png)
 
 1. **Azure プライベート Service Connect** を有効にするかどうかを決定します。
 
@@ -155,11 +155,11 @@ BYOC-I 組織内で、**Create Project and Deploy データプレーン** ボタ
 
         **オートスケーリング** が無効の場合は、各プロジェクトコンポーネントに必要な VM インスタンスの数を対応する **Count** フィールドに指定するだけです。
 
-        ![Ut9fbvTUDoXYxOxfp99cZIAGnMd](https://zdoc-images.s3.us-west-2.amazonaws.com/ut9fbvtudoxyxoxfp99cziagnmd.png "Ut9fbvTUDoXYxOxfp99cZIAGnMd")
+        ![MzcibkvtSoZZK6xcsFncpd0Gn2f](https://zdoc-images.s3.us-west-2.amazonaws.com/mzcibkvtsozzk6xcsfncpd0gn2f.png "MzcibkvtSoZZK6xcsFncpd0Gn2f")
 
         **オートスケーリング** を有効にすると、実際のプロジェクトワークロードに基づいて Zilliz Cloud が VM インスタンスの数を自動的にスケーリングする範囲を、対応する **Min** および **Max** フィールドを設定して指定する必要があります。
 
-        ![VS2UbJ1cDoIqj0x3fiKc4vhMnLg](https://zdoc-images.s3.us-west-2.amazonaws.com/vs2ubj1cdoiqj0x3fikc4vhmnlg.png "VS2UbJ1cDoIqj0x3fiKc4vhMnLg")
+        ![IbqMbM0lGoNweKxba4Hcw0Ien4e](https://zdoc-images.s3.us-west-2.amazonaws.com/ibqmbm0lgonwekxba4hcw0ien4e.png "IbqMbM0lGoNweKxba4Hcw0Ien4e")
 
         リソース設定を容易にするため、4 つの定義済みプロジェクトサイズオプションがあります。次の表は、これらのプロジェクトサイズオプションとプロジェクト内で作成できるクラスターの数、および各クラスターが含めることができるエンティティの数の対応関係を示しています。
 
@@ -215,19 +215,19 @@ BYOC-I 組織内で、**Create Project and Deploy データプレーン** ボタ
 
 プロジェクトのデータプレーンをデプロイし、クラスターを作成したら、直接 VPC アクセスまたは Azure プライベート Link を介してこれらのクラスターに接続できます。詳細については、[BYOC クラスターへの接続](./prepare-for-cluster-connection) を参照してください。
 
-## プロジェクトの管理\{#manage-projects}
+## データプレーンの管理\{#manage-dataplanes}
 
-![J3Xibh9vtozuRHxt8Hjc0SqwnYg](https://zdoc-images.s3.us-west-2.amazonaws.com/j3xibh9vtozurhxt8hjc0sqwnyg.png "J3Xibh9vtozuRHxt8Hjc0SqwnYg")
+![IqvEwsg5ah4UaAb56tmcbOOlnIR](https://zdoc-images.s3.us-west-2.amazonaws.com/IqvEwsg5ah4UaAb56tmcbOOlnIR.png)
 
-### デプロイ解除タグの付いたプロジェクト\{#projects-with-an-undeploy-tag}
+### Undeploy タグの付いたデータプレーン\{#data-planes-with-an-undeploy-tag}
 
 プロジェクトカードの右上隅のステータスタグが **デプロイ解除** と表示されている場合は、プロジェクトカードの **Deploy データプレーン** ボタンをクリックしていつでも再度開くことができます。プロジェクトの名前を変更または削除するには、プロジェクトカードの **...** ボタンをクリックし、ドロップダウンメニューから **Rename** または **Delete** を選択します。
 
-### デプロイ中タグの付いたプロジェクト\{#projects-with-a-deploying-tag}
+### Deploying タグの付いたデータプレーン\{#data-planes-with-a-deploying-tag}
 
 デプロイ環境の準備が完了し、表示されたコマンドを実行したら、BYOC エージェントがアクティブ化するのを待つ必要があります。プロジェクトカードのステータスタグが **デプロイ中** と表示され、進行状況のパーセンテージが表示されている場合は、データプレーンが準備できるまでプロジェクトの名前を変更または削除することはできません。
 
-### 実行中タグの付いたプロジェクト\{#projects-with-a-running-tag}
+### Running タグの付いたデータプラン\{#data-plans-with-a-running-tag}
 
 プロジェクトカードのステータスタグが **Running** と表示されると、プロジェクト内でクラスターの作成を開始できます。実行中のプロジェクトの名前を変更または削除するには、プロジェクト内にクラスターが存在しないことを確認してください。
 

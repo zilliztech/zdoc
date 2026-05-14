@@ -31,6 +31,32 @@ import Grid from '@site/src/components/Grid';
 
     <div>
 
+        **2026-05-13**
+
+    </div>
+
+    <div>
+
+        ## [BYOC] マルチデータプレーンサポート\{#byoc-multi-dataplane-support}
+
+        Zilliz Cloud BYOC は、単一プロジェクト内で複数のデータプレーンをサポートするようになりました。BYOC プロジェクトは複数リージョンにまたがる構成が可能になり、各データプレーンはリージョンごとのインフラユニットとして機能します。
+
+        - 1つの BYOC プロジェクト配下で **複数のデータプレーン** を管理でき、データプレーン管理用の **新しいデータプレーンページ** が追加されました。
+
+        - プロジェクト内でターゲットリージョン／データプレーンを選択してクラスターを作成できます。
+
+        既存の BYOC プロジェクトとの互換性は維持され、データ移行は不要です。現在の BYOC プロジェクトは、1つのデータプレーンを持つプロジェクトとしてそのまま利用できます。
+
+        詳細は、[AWS で BYOC をデプロイ](/docs/byoc/deploy-byoc-aws)、[AWS で BYOC-I をデプロイ](/docs/byoc/deploy-byoc-i-aws)、[Microsoft Azure で BYOC-I をデプロイ](/docs/byoc/deploy-byoc-i-azure)、[GCP で BYOC をデプロイ](/docs/byoc/deploy-byoc-gcp) を参照してください。
+
+    </div>
+
+</Grid>
+
+<Grid columnSize="2" widthRatios="14,85">
+
+    <div>
+
         **2026-05-09**
 
     </div>
@@ -115,7 +141,7 @@ import Grid from '@site/src/components/Grid';
 
         - **Query / Search Order By** — 検索結果およびクエリ結果に対して、フィールドごとの ASC / DESC を指定した複数フィールド並び替えをサポートし、カーネルへプッシュダウンします。複合ランキングのための過剰フェッチやクライアント側再ソートは不要です。
 
-            詳細は [Basic Vector Search](./single-vector-search#sort-search-results-by-scalar-fields-or-private)、[Grouping Search](./grouping-search#order-groups-by-a-scalar-field-or-private-preview)、[Query](./get-and-scalar-query#sort-query-results-or-private-preview) を参照してください。
+            詳細は [Basic Vector Search](./single-vector-search#sort-search-results-by-scalar-fields)、[Grouping Search](./grouping-search#order-groups-by-a-scalar-field)、[Query](./get-and-scalar-query#sort-query-results) を参照してください。
 
         **データライフサイクルと運用**
 

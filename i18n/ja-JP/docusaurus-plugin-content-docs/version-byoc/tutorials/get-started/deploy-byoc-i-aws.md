@@ -63,25 +63,27 @@ import Procedures from '@site/src/components/Procedures';
 
 ### ステップ 2: プロジェクトを作成する\{#step-2-create-a-project}
 
-BYOC-I 組織内で、**Create Project and Deploy データプレーン** ボタンをクリックしてデプロイを開始します。
+BYOC-I 組織内で、**Create Project** ボタンをクリックしてデプロイを開始します。表示されたダイアログで **Zilliz BYOC Project Name** を設定し、**Create and Next** をクリックします。
 
-![Xd4ObksJao97jdxSFVTclO4Fno6](https://zdoc-images.s3.us-west-2.amazonaws.com/xd4obksjao97jdxsfvtclo4fno6.png "Xd4ObksJao97jdxSFVTclO4Fno6")
+プロジェクトはこのステップの最後で作成され、**Deploy Data Plane** ダイアログにリダイレクトされます。
 
-### ステップ 3: 一般設定を構成する\{#step-3-set-up-the-general-settings}
+![BYiTwvFLRhOJvRbMWNSc7zitnPu](https://zdoc-images.s3.us-west-2.amazonaws.com/BYiTwvFLRhOJvRbMWNSc7zitnPu.png)
 
-**一般設定** で、プロジェクト名を設定し、Zilliz Cloud がプロジェクトのデータプレーンをデプロイするクラウドプロバイダーとリージョンを決定する必要があります。
-
-![Xejfbdz6PockHsxn5uacw3OTnVc](https://zdoc-images.s3.us-west-2.amazonaws.com/xejfbdz6pockhsxn5uacw3otnvc.png "Xejfbdz6PockHsxn5uacw3OTnVc")
+### ステップ 3: データプレーンをデプロイする\{#step-3-deploy-the-data-plane}
 
 <Procedures>
 
-1. **プロジェクト名** を設定します。
+1. **Data Plane Name** と **Cloud Region** を設定し、**Next** をクリックします。
 
-1. **クラウドプロバイダー** と **リージョン** を選択します。
+    **Cancel** をクリックするとデータプレーンのデプロイは中止されますが、上記で作成したプロジェクトは保持されます。プロジェクトでは後からいつでもデータプレーンのデプロイを開始でき、1つのプロジェクトに複数のデータプレーンを追加できます。
+
+    ![Lxi8wtMwmhRETHbRDqucLMx1nvb](https://zdoc-images.s3.us-west-2.amazonaws.com/Lxi8wtMwmhRETHbRDqucLMx1nvb.png)
 
 1. **AWS プライベートLink** を有効にするかどうかを決定します。
 
     このオプションにより、現在のプロジェクト内のクラスターへのプライベート接続が可能になります。このオプションを有効にする場合は、プライベート接続用の VPC エンドポイントを作成する必要があります。
+
+    ![WIjGwV6bvhzqk1ba4YecWQGonTh](https://zdoc-images.s3.us-west-2.amazonaws.com/WIjGwV6bvhzqk1ba4YecWQGonTh.png)
 
 1. **アーキテクチャ** で、アプリケーションに合ったアーキテクチャタイプを選択します。
 
@@ -157,19 +159,19 @@ BYOC-I 組織内で、**Create Project and Deploy データプレーン** ボタ
 
 プロジェクトのデータプレーンをデプロイし、クラスターを作成したら、直接 VPC アクセスまたは AWS プライベートLink を介してこれらのクラスターに接続できます。詳細については、[BYOC クラスターへの接続](./prepare-for-cluster-connection) を参照してください。
 
-## プロジェクトの管理\{#manage-projects}
+## データプレーンの管理\{#manage-dataplanes}
 
-![AHEybTRhto0gcKxnKIucbm3inte](https://zdoc-images.s3.us-west-2.amazonaws.com/aheybtrhto0gckxnkiucbm3inte.png "AHEybTRhto0gcKxnKIucbm3inte")
+![RJwFwpytnhWVcabKr6tcNsnfnrb](https://zdoc-images.s3.us-west-2.amazonaws.com/RJwFwpytnhWVcabKr6tcNsnfnrb.png)
 
-### デプロイ解除 タグの付いたプロジェクト\{#projects-with-an-undeploy-tag}
+### Undeploy タグの付いたデータプレーン\{#data-planes-with-an-undeploy-tag}
 
 プロジェクトカードの右上隅のステータスタグが **デプロイ解除** と表示されている場合は、いつでもプロジェクトカードの **Deploy データプレーン** ボタンをクリックして再度開くことができます。プロジェクトの名前を変更または削除するには、プロジェクトカードの **...** ボタンをクリックし、ドロップダウンメニューから **Rename** または **Delete** を選択します。
 
-### デプロイ中 タグの付いたプロジェクト\{#projects-with-a-deploying-tag}
+### Deploying タグの付いたデータプレーン\{#data-planes-with-a-deploying-tag}
 
 デプロイ環境を準備し、表示されたコマンドを実行したら、BYOC エージェントがアクティブ化されるまで待つ必要があります。プロジェクトカードのステータスタグが **デプロイ中** と表示され、進行状況のパーセンテージが表示されている場合、データプレーンが準備できるまでプロジェクトの名前を変更または削除することはできません。
 
-### Running タグの付いたプロジェクト\{#projects-with-a-running-tag}
+### Running タグの付いたデータプレーン\{#data-planes-with-a-running-tag}
 
 プロジェクトカードのステータスタグが **Running** と表示されると、プロジェクト内でクラスターの作成を開始できます。実行中のプロジェクトの名前を変更または削除するには、プロジェクト内にクラスターがないことを確認してください。
 

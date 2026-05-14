@@ -45,27 +45,33 @@ This page describes how to manually create a fully managed Bring-Your-Own-Cloud 
 
 ## Procedure\{#procedure}
 
-To deploy BYOC on AWS, Zilliz Cloud needs to assume specific roles to access the S3 bucket and the EKS cluster within a customer-managed VPC on your behalf. Consequently, Zilliz Cloud needs to gather information about your S3 bucket, EKS cluster, and VPC, along with the roles necessary for accessing these infrastructure resources.
+To deploy BYOC on AWS, Zilliz Cloud needs to assume specific roles to access the S3 bucket and the EKS cluster within a customer-managed VPC on your behalf. Consequently, Zilliz Cloud needs to gather information about your S3 bucket, EKS cluster, and VPC, as well as the roles required to access these infrastructure resources.
 
-Within your BYOC organization, click the **Create Project and Deploy Data Plane** button to start the deployment.
-
-![XtlJbBTIboHNbixzfqpc7H3nnvb](https://zdoc-images.s3.us-west-2.amazonaws.com/xtljbbtibohnbixzfqpc7h3nnvb.png "XtlJbBTIboHNbixzfqpc7H3nnvb")
+Within your BYOC organization, click the **Create Project** button to start the deployment.
 
 ### Step 1: Create a project\{#step-1-create-a-project}
 
 In this step, you need to set the project name, determine the cloud providers and regions as well as the initial project size, and choose the way for Zilliz Cloud to create the project and deploy the data plane.
 
-![Jo6Rw1WoBhBchRbBOMmcRBC3nsd](https://zdoc-images.s3.us-west-2.amazonaws.com/Jo6Rw1WoBhBchRbBOMmcRBC3nsd.png)
+Set **Zilliz BYOC Project Name**, and click **Create and Next**.The project is created at the end of this step, and you will be redirected to the **Deploy Data Plane** dialog box.
+
+![FlZqw4JI6hcTNVbWCyJcBPdFnsb](https://zdoc-images.s3.us-west-2.amazonaws.com/FlZqw4JI6hcTNVbWCyJcBPdFnsb.png)
+
+### Step 2: Deploy the data plane\{#step-2-deploy-the-data-plane}
 
 <Procedures>
 
-1. Set **Project Name**.
+1. Set **Data Plane Name** and **Cloud Region**, and click **Next**.
 
-1. Select **Cloud Provider** and **Region**.
+    Click **Cancel** to stop deploying the data plane. However, the project created above is still available. You can start deploying a data plane in the project at any time and add multiple data planes to a project. 
+
+    ![W1BNwopYAht6oxb9m9FccJXDnRc](https://zdoc-images.s3.us-west-2.amazonaws.com/W1BNwopYAht6oxb9m9FccJXDnRc.png)
 
 1. Determine whether to enable **AWS PrivateLink**.
 
     This option allows private connectivity to the clusters within the current project. If you enable this option, you must create a VPC Endpoint for private connectivity. For details, refer to [Prepare for Cluster Connection](./prepare-for-cluster-connection#private-endpoint-access).
+
+    ![EfRbwxMhIhlIKfbCaTPcPZPlnJd](https://zdoc-images.s3.us-west-2.amazonaws.com/EfRbwxMhIhlIKfbCaTPcPZPlnJd.png)
 
 1. Select an architecture type that matches your application in **Architecture**. 
 
@@ -243,11 +249,9 @@ Once you have deployed the project's data plane and created clusters, you can co
 
 Suspending a project halts the data plane and terminates all EC2 instances associated with the EKS cluster supporting the project. This action does not impact the suspended Zilliz Cloud clusters within the project, which can be resumed once the data plane is restored.
 
-![BN8KbqawgoErlZxtNYFcEvrjne4](https://zdoc-images.s3.us-west-2.amazonaws.com/bn8kbqawgoerlzxtnyfcevrjne4.png "BN8KbqawgoErlZxtNYFcEvrjne4")
+![G2tIwZdrsh88VrbSWsEc6iHunWe](https://zdoc-images.s3.us-west-2.amazonaws.com/G2tIwZdrsh88VrbSWsEc6iHunWe.png)
 
 You can only suspend a running project if there are no clusters in the project or all clusters have already been suspended.
-
-![QXK1bRewYoasCzx1AHNcpbSBnhe](https://zdoc-images.s3.us-west-2.amazonaws.com/qxk1brewyoasczx1ahncpbsbnhe.png "QXK1bRewYoasCzx1AHNcpbSBnhe")
 
 Once the status tag on a project card reads **Suspended**, you cannot manipulate clusters in the project. In such a case, you can click **Resume** to resume the project. Once the status tag turns to **Running** again, you can continue manipulating clusters in the project.
 
@@ -255,13 +259,9 @@ Once the status tag on a project card reads **Suspended**, you cannot manipulate
 
 To assist you with troubleshooting and maintenance operations, Zilliz Cloud enables technical support to access your project's data plane by default. 
 
-![K1qzbwdxXoge0exlN6NcClN7nfh](https://zdoc-images.s3.us-west-2.amazonaws.com/k1qzbwdxxoge0exln6nccln7nfh.png "K1qzbwdxXoge0exlN6NcClN7nfh")
+![TKIEwRBp0hpQL5btdvwccQGKngZ](https://zdoc-images.s3.us-west-2.amazonaws.com/TKIEwRBp0hpQL5btdvwccQGKngZ.png)
 
-When you click **Technical Support Access** from the target project's drop-down menu to view the current settings.
-
-![YYOabQl2ioTl6AxIVLwcwjWqnBc](https://zdoc-images.s3.us-west-2.amazonaws.com/yyoabql2iotl6axivlwcwjwqnbc.png "YYOabQl2ioTl6AxIVLwcwjWqnBc")
-
-You can disable it to meet data governance and security requirements.
+When you click **Technical Support Access** from the target project's drop-down menu to view the current settings. You can disable it to meet data governance and security requirements.
 
 ## Procedures\{#procedures}
 

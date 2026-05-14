@@ -66,25 +66,27 @@ A deployment environment is a local machine, a virtual machine (VM), or a CI/CD 
 
 ### Step 2: Create a project\{#step-2-create-a-project}
 
-Within your BYOC-I organization, click the **Create Project and Deploy Data Plane** button to start the deployment.
+Within your BYOC-I organization, click the **Create Project** button to start the deployment. In the prompted dialog box, set **Zilliz BYOC Project Name**, and click **Create and Next**.
 
-![Xd4ObksJao97jdxSFVTclO4Fno6](https://zdoc-images.s3.us-west-2.amazonaws.com/xd4obksjao97jdxsfvtclo4fno6.png "Xd4ObksJao97jdxSFVTclO4Fno6")
+The project is created at the end of this step, and you will be redirected to the **Deploy Data Plane** dialog box.
 
-### Step 3: Set up the general settings\{#step-3-set-up-the-general-settings}
+![BYiTwvFLRhOJvRbMWNSc7zitnPu](https://zdoc-images.s3.us-west-2.amazonaws.com/BYiTwvFLRhOJvRbMWNSc7zitnPu.png)
 
-In **General Settings**, you need to set the project name and determine the cloud providers and regions where Zilliz Cloud deploys the data plane for the project.
-
-![Xejfbdz6PockHsxn5uacw3OTnVc](https://zdoc-images.s3.us-west-2.amazonaws.com/xejfbdz6pockhsxn5uacw3otnvc.png "Xejfbdz6PockHsxn5uacw3OTnVc")
+### Step 3: Deploy the data plane\{#step-3-deploy-the-data-plane}
 
 <Procedures>
 
-1. Set **Project Name**.
+1. Set **Data Plane Name** and **Cloud Region**, and click **Next**.
 
-1. Select **Cloud Provider** and **Region**.
+    Click **Cancel** to stop deploying the data plane. However, the project created above is still available. You can start deploying a data plane in the project at any time and add multiple data planes to a project. 
+
+    ![Lxi8wtMwmhRETHbRDqucLMx1nvb](https://zdoc-images.s3.us-west-2.amazonaws.com/Lxi8wtMwmhRETHbRDqucLMx1nvb.png)
 
 1. Determine whether to enable **AWS PrivateLink**.
 
     This option allows private connectivity to the clusters within the current project. If you enable this option, you must create a VPC Endpoint for private connectivity.
+
+    ![WIjGwV6bvhzqk1ba4YecWQGonTh](https://zdoc-images.s3.us-west-2.amazonaws.com/WIjGwV6bvhzqk1ba4YecWQGonTh.png)
 
 1. Select an architecture type that matches your application in **Architecture**. 
 
@@ -160,19 +162,19 @@ For details on running the above Terraform scripts, refer to the [Zilliz Cloud B
 
 Once you have deployed the project's data plane and created clusters, you can connect to these clusters either through direct VPC access or via AWS PrivateLink. For details, refer to [Connect to BYOC Clusters](./prepare-for-cluster-connection).
 
-## Manage projects\{#manage-projects}
+## Manage dataplanes\{#manage-dataplanes}
 
-![AHEybTRhto0gcKxnKIucbm3inte](https://zdoc-images.s3.us-west-2.amazonaws.com/aheybtrhto0gckxnkiucbm3inte.png "AHEybTRhto0gcKxnKIucbm3inte")
+![RJwFwpytnhWVcabKr6tcNsnfnrb](https://zdoc-images.s3.us-west-2.amazonaws.com/RJwFwpytnhWVcabKr6tcNsnfnrb.png)
 
-### Projects with an Undeploy tag\{#projects-with-an-undeploy-tag}
+### Data planes with an Undeploy tag\{#data-planes-with-an-undeploy-tag}
 
 If the status tag on the right corner of a project card reads **Undeploy**, you can always click the **Deploy Data Plane** button on the project card to reopen it. To rename or delete the project, click the **...** button in the project card and select **Rename** or **Delete** from the drop-down menu.  
 
-### Projects with a Deploying tag\{#projects-with-a-deploying-tag}
+### Data planes with a Deploying tag\{#data-planes-with-a-deploying-tag}
 
 Once you have prepared the deployment environment and executed the displayed commands, you must wait for the BYOC agent to activate. When the status tag on the project card reads **Deploying** and shows the progress percentage, you cannot rename or delete the project until the data plane is in place.
 
-### Projects with a Running tag\{#projects-with-a-running-tag}
+### Data planes with a Running tag\{#data-planes-with-a-running-tag}
 
 Once the status tag on a project card reads **Running**, you can start creating clusters in the project. To rename or delete a running project, ensure that there are no clusters in the project.
 

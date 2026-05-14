@@ -49,21 +49,21 @@ import Procedures from '@site/src/components/Procedures';
 
 GCP 上に BYOC をデプロイするために、Zilliz Cloud は、お客様が管理する VPC 内の Cloud Storage バケットと GKE クラスターにアクセスするための特定のロールを引き受ける必要があります。その結果、Zilliz Cloud は、これらのインフラストラクチャリソースにアクセスするために必要なロールとともに、Cloud Storage バケット、GKE クラスター、および VPC に関する情報を収集する必要があります。
 
-BYOC 組織内で、**プロジェクトの作成とデータプレーンのデプロイ**ボタンをクリックして、デプロイを開始します。
+BYOC 組織内で、**Create Project** ボタンをクリックして、デプロイを開始します。
 
-![Cl50bi7eVoxSoHxk4jrcclh6n5O](https://zdoc-images.s3.us-west-2.amazonaws.com/cl50bi7evoxsohxk4jrcclh6n5o.png "Cl50bi7eVoxSoHxk4jrcclh6n5O")
+![LyCiw8o03hUOnebv2CJc0vianpf](https://zdoc-images.s3.us-west-2.amazonaws.com/LyCiw8o03hUOnebv2CJc0vianpf.png)
 
-### ステップ 1: プロジェクトを作成する\{#step-1-create-a-project}
+### ステップ 1: データプレーンをデプロイする\{#step-1-deploy-the-data-plane}
 
-このステップでは、Zilliz BYOC プロジェクト名を設定し、クラウドプロバイダーとリージョン、およびデプロイの初期プロジェクトサイズを決定する必要があります。
-
-![A8VVbPbJgobXzzxEdumcpxJ4nMg](https://zdoc-images.s3.us-west-2.amazonaws.com/a8vvbpbjgobxzzxedumcpxj4nmg.png "A8VVbPbJgobXzzxEdumcpxJ4nMg")
+このステップでは、Zilliz BYOC プロジェクト名、クラウドプロバイダー、クラウドリージョン、初期プロジェクトサイズを決定する必要があります。
 
 <Procedures>
 
-1. **Zilliz BYOC プロジェクト名**を設定します。
+1. **Data Plane Name** と **Cloud Region** を設定し、**Next** をクリックします。
 
-1. **クラウドプロバイダー**と**クラウドリージョン**を選択します。
+    **Cancel** をクリックするとデータプレーンのデプロイは中止されますが、上記で作成したプロジェクトは保持されます。プロジェクトでは後からいつでもデータプレーンをデプロイでき、1つのプロジェクトに複数のデータプレーンを追加できます。
+
+    ![SVVZwpbNphBfYGb5IgmckSkan6b](https://zdoc-images.s3.us-west-2.amazonaws.com/SVVZwpbNphBfYGb5IgmckSkan6b.png)
 
 1. **GCP プライベート Service Connect**を有効にするかどうかを決定します。
 
@@ -205,7 +205,7 @@ BYOC 組織内で、**プロジェクトの作成とデータプレーンのデ�
 
 プロジェクトを一時停止すると、データプレーンが停止し、プロジェクトをサポートする GKE クラスターに関連付けられたすべての GCE インスタンスが終了します。この操作は、プロジェクト内の一時停止された Zilliz Cloud クラスターには影響せず、データプレーンが復元されると再開できます。
 
-![YC2YbM9oyo6IcUxDQ5Bc3AzDnPc](https://zdoc-images.s3.us-west-2.amazonaws.com/yc2ybm9oyo6icuxdq5bc3azdnpc.png "YC2YbM9oyo6IcUxDQ5Bc3AzDnPc")
+![Lq7AwLshAh64ZObMKeFcIXBwn5g](https://zdoc-images.s3.us-west-2.amazonaws.com/Lq7AwLshAh64ZObMKeFcIXBwn5g.png)
 
 プロジェクト内にクラスターがないか、すべてのクラスターがすでに一時停止されている場合にのみ、実行中のプロジェクトを一時停止できます。
 
@@ -213,17 +213,13 @@ BYOC 組織内で、**プロジェクトの作成とデータプレーンのデ�
 
 プロジェクトカードのステータスタグが**一時停止**と表示されると、プロジェクト内のクラスターを操作できなくなります。この場合、**再開**をクリックしてプロジェクトを再開できます。ステータスタグが再度**実行中**に変わると、プロジェクト内のクラスターの操作を続行できます。
 
-![EQKqbumOxoT1tVxw1ZRcZahXnDd](https://zdoc-images.s3.us-west-2.amazonaws.com/eqkqbumoxot1tvxw1zrczahxndd.png "EQKqbumOxoT1tVxw1ZRcZahXnDd")
-
 ## テクニカルサポートアクセス\{#technical-support-access}
 
 トラブルシューティングとメンテナンス操作を支援するために、Zilliz Cloud はデフォルトでテクニカルサポートがプロジェクトのデータプレーンにアクセスできるようにしています。
 
-![LxiUbIQCqoJf2Zx7pincPOCnnyf](https://zdoc-images.s3.us-west-2.amazonaws.com/lxiubiqcqojf2zx7pincpocnnyf.png "LxiUbIQCqoJf2Zx7pincPOCnnyf")
+![OHNUwYrFHhEUeIbgOW9coc5hngb](https://zdoc-images.s3.us-west-2.amazonaws.com/OHNUwYrFHhEUeIbgOW9coc5hngb.png)
 
 対象プロジェクトのドロップダウンメニューから**テクニカルサポートアクセス**をクリックして、現在の設定を表示します。
-
-![WbyNbPrfioPvmpxTe9ocowainnh](https://zdoc-images.s3.us-west-2.amazonaws.com/wbynbprfiopvmpxte9ocowainnh.png "WbyNbPrfioPvmpxTe9ocowainnh")
 
 データガバナンスとセキュリティ要件を満たすために、これを無効にすることができます。
 

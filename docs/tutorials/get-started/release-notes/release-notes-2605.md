@@ -31,6 +31,32 @@ import Grid from '@site/src/components/Grid';
 
     <div>
 
+        **2026-05-13**
+
+    </div>
+
+    <div>
+
+        ## [BYOC] Multi-Dataplane Support\{#byoc-multi-dataplane-support}
+
+        Zilliz Cloud BYOC now supports multiple dataplanes within a single project. A BYOC project can now span multiple regions, with each dataplane representing a region-specific infrastructure unit.
+
+        - **Multiple dataplanes** under one BYOC project, with a **new dataplane page** for dataplane management
+
+        - Create clusters by selecting a target region/dataplane within the project.
+
+        Existing BYOC projects remain compatible and require no data migration. A current BYOC project will continue to work as a project with one dataplane.
+
+        For details, you can read [Deploy BYOC on AWS](/docs/byoc/deploy-byoc-aws), [Deploy BYOC-I on AWS](/docs/byoc/deploy-byoc-i-aws), [Deploy BYOC-I on Microsoft Azure](/docs/byoc/deploy-byoc-i-azure), and [Deploy BYOC on GCP](/docs/byoc/deploy-byoc-gcp).
+
+    </div>
+
+</Grid>
+
+<Grid columnSize="2" widthRatios="14,85">
+
+    <div>
+
         **2026-05-09**
 
     </div>
@@ -115,7 +141,7 @@ import Grid from '@site/src/components/Grid';
 
         - **Query / Search Order By** — Multi-field ordering for search and query results, with per-field ASC / DESC, pushed down into the kernel. No more over-fetching and client-side re-sorting for composite ranking.
 
-            For details, refer to [Basic Vector Search](./single-vector-search#sort-search-results-by-scalar-fields-or-private), [Grouping Search](./grouping-search#order-groups-by-a-scalar-field-or-private-preview), and [Query](./get-and-scalar-query#sort-query-results-or-private-preview).
+            For details, refer to [Basic Vector Search](./single-vector-search#sort-search-results-by-scalar-fields), [Grouping Search](./grouping-search#order-groups-by-a-scalar-field), and [Query](./get-and-scalar-query#sort-query-results).
 
         **Data lifecycle and operations**
 

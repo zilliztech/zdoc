@@ -855,7 +855,7 @@ Select a project [plan](./select-zilliz-cloud-service-plans) and create clusters
 
 1. Create a backup for your cluster or collection.
 
-    Backups are point-in-time copies of a cluster or collection. You can create backups [manually](./create-snapshot) or [set backup policy](./schedule-automatic-backups) for scheduled backups. You can also [copy backup to other regions](/docs/backup-to-other-regions) for improved disaster recovery capabilities.
+    Backups are point-in-time copies of a cluster or collection. You can create backups [manually](./create-backup) or [set backup policy](./schedule-automatic-backups) for scheduled backups. You can also [copy backup to other regions](/docs/backup-to-other-regions) for improved disaster recovery capabilities.
 
 1. (Optional) Export backups to object storage services.
 
@@ -863,7 +863,7 @@ Select a project [plan](./select-zilliz-cloud-service-plans) and create clusters
 
 1. Restore data.
 
-    [Restore your data](./restore-from-snapshot) in the event of unexpected system failure or data loss.
+    [Restore your data](./restore-from-backup-files) in the event of unexpected system failure or data loss.
 
 </Stories>
 
