@@ -25,47 +25,63 @@ Zilliz Cloud offers RESTful APIs for you to manipulate your clusters, collection
 
 Zilliz Cloud uses the control plane to centralize the management of clusters and related resources, while the data plane is responsible for data storage and processing within a specific collection.
 
-- When using the Control Plane APIs, you need to use **a valid API key** to authenticate your requests.
+## Control plane API
 
-    The following is an example of listing all the available cloud providers.
+When using the Control Plane APIs, you need to use **a valid API key** to authenticate your requests.
 
-    ```shell
-    export API_KEY="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+The following is an example of listing all the available cloud providers.
 
-    curl --request GET \
-        --url "https://api.cloud.zilliz.com/v2/clouds" \
-        --header "Authorization: Bearer ${API_KEY}" \
-        --header "accept: application/json" \
-        --header "content-type: application/json"
-    ```
+```shell
+export API_KEY="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 
-- When using the Data Plane APIs, you need to use the correct credentials to authenticate.
+curl --request GET \
+    --url "https://api.cloud.zilliz.com/v2/clouds" \
+    --header "Authorization: Bearer ${API_KEY}" \
+    --header "Content-Type: application/json"
+```
 
-    The following is an example of listing all the available collections in the specified serving cluster. You can use **either a valid API key or a valid pair of cluster username and password** to authenticate your requests.
+## Data plane API
 
-    ```shell
-    export CLUSTER_ENDPOINT="https://{cluster_id}.{region}.vectordb.zillizcloud.com"
-    export TOKEN="db_admin:xxxxxxxxxxxx"
+When using the Data Plane APIs, you need to use the correct credentials to authenticate.
 
-    curl --request GET \
-        --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/list" \
-        --header "Authorization: Bearer ${TOKEN}" \
-        --header "accept: application/json" \
-        --header "content-type: application/json" \
-        -d '{}'
-    ```
+The following is an example of listing all the available collections in the specified serving cluster. You can use **either a valid API key or a valid pair of cluster username and password** to authenticate your requests.
 
-    The following is an example of listing all available collections using project endpoint. You can only use **a valid API key** to authenticate your requests.
+```shell
+export CLUSTER_ENDPOINT="https://{cluster_id}.{region}.vectordb.zillizcloud.com"
+export TOKEN="db_admin:xxxxxxxxxxxx"
 
-    ```shell
-    export PROJECT_ENDPOINT="https://{project_id}.{region}.api.zillizcloud.com"
-    export TOKEN="YOUR_API_KEY"
-
-    curl --request POST \
-    --url "${PROJECT_ENDPOINT}/v2/vectordb/collections/list" \
+curl --request GET \
+    --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/list" \
     --header "Authorization: Bearer ${TOKEN}" \
     --header "Content-Type: application/json" \
     -d '{}'
-    ```
+```
+
+The following is an example of listing all available collections using project endpoint. You can only use **a valid API key** to authenticate your requests.
+
+```shell
+export PROJECT_ENDPOINT="https://{project_id}.{region}.api.zillizcloud.com"
+export TOKEN="YOUR_API_KEY"
+
+curl --request POST \
+--url "${PROJECT_ENDPOINT}/v2/vectordb/collections/list" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+-d '{}'
+```
+
+## Request Timeout
+
+You can also set to `Request-Timeout` header to determine the timeout duration for the current request. For example, the following request has its request timeout set to 5, indicating that the request fails if no response is received 5 seconds after the request is sent.
+
+```shell
+export API_KEY="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+
+curl --request GET \
+    --url "https://api.cloud.zilliz.com/v2/clouds" \
+    --header "Authorization: Bearer ${API_KEY}" \
+    --header "Request-Timeout: 5" \
+    --header "content-type: application/json"
+```
 
 <!-- openapi-downloads -->
