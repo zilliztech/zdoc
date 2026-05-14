@@ -37,6 +37,9 @@ A project endpoint is designed to provide your access to on-demand compute resou
 
 The following code example assumes that you have an external collection named `my_collection` in the default database. And you should always use a valid API key with sufficient permissions to set up the connection.
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
 client = MilvusClient(
     uri="https://{project-id}.{region}.vectordb.zillizcloud.com",
@@ -48,7 +51,11 @@ client.has_collection(
 )
 ```
 
-```typescript
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
 const client = new MilvusClient({
     address: "https://{project-id}.{region}.vectordb.zillizcloud.com",
     token: "YOUR_API_KEY"
@@ -58,6 +65,10 @@ client.has_collection({
     collection_name: "my_collection"
 });
 ```
+
+</TabItem>
+
+<TabItem value='bash'>
 
 ```bash
 export PROJECT_ENDPOINT='https://{project-id}.{region}.vectordb.zillizcloud.com'
@@ -72,6 +83,9 @@ curl --request POST \
 }'
 ```
 
+</TabItem>
+</Tabs>
+
 ## Create a session\{#create-a-session}
 
 Once you set up a connection to the project endpoint, create a session to attach the compute resource from a specified on-demand cluster.
@@ -84,23 +98,40 @@ The following example assumes that you have already created an on-demand cluster
 
 </Admonition>
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
 session = client.session(
     cluster_id="inxx-xxxxxxxxxxxxxxxxx"
 )
 ```
 
-```typescript
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
 const session = client.session("inxx-xxxxxxxxxxxxxxxxx");
 ```
+
+</TabItem>
+
+<TabItem value='bash'>
 
 ```bash
 export CLUSTER_ID="inxx-xxxxxxxxxxxxxxxxx"
 ```
 
+</TabItem>
+</Tabs>
+
 ## Conduct DQL operations\{#conduct-dql-operations}
 
 Once the session is ready, you can conduct searches. The following example uses a basic vector search as an example. This also applies to query, get, and hybrid search.
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
 
 ```python
 query_vector = [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, ..., 0.9029438446296592]
@@ -114,7 +145,11 @@ res = session.search(
 )
 ```
 
-```typescript
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
 const query_vector = [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, ..., 0.9029438446296592];
 const res = session.search({
     db_name: "my_database",
@@ -125,6 +160,10 @@ const res = session.search({
     output_fields: ["product_id", "title", "main_category", "price", "average_rating", "rating_number"],
 });
 ```
+
+</TabItem>
+
+<TabItem value='bash'>
 
 ```bash
 curl --request POST \
@@ -156,6 +195,9 @@ curl --request POST \
 }'
 ```
 
+</TabItem>
+</Tabs>
+
 ## Close a session\{#close-a-session}
 
 Once your on-demand computing tasks are complete, you can close the session. A closed session cannot be used for further DQL operations.
@@ -166,11 +208,21 @@ Once your on-demand computing tasks are complete, you can close the session. A c
 
 </Admonition>
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"NodeJS","value":"javascript"}]}>
+<TabItem value='python'>
+
 ```python
 session.close()
 ```
 
-```typescript
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
 session.close();
 ```
+
+</TabItem>
+</Tabs>
 
