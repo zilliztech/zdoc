@@ -842,12 +842,8 @@ export const method = "${method}"`
             result += content.slice(lastIndex, urlStart);
 
             if (!isInCodeBlock(urlStart)) {
-                // If the url contains <, [, or {, treat it as an example and encode it
-                if (/[<\[\{]/.test(match[0])) {
-                    result += match[0].replace('http', '<i>http</i>')
-                } else {
-                    result += match[0];
-                }
+                // Keep example URLs intact and let MDX patching handle escaping/safety.
+                result += match[0];
             } else {
                 // Inside code block, leave as is
                 result += match[0];
