@@ -53,15 +53,15 @@ The following table offers a quick comparison of the three cluster types in diff
      <td><p><strong>Capacity-optimized</strong></p></td>
      <td><p>100-300</p></td>
      <td><p>50-100 ms</p></td>
-     <td><p>6 million 768-dim vectors</p></td>
-     <td><p>from &#36;21/mo.</p></td>
+     <td><p>8 million 768-dim vectors</p></td>
+     <td><p>from &#36;16/mo.</p></td>
    </tr>
    <tr>
      <td><p><strong>Tiered-storage</strong></p></td>
      <td><p>10-50</p></td>
      <td><p>100-1000 ms</p></td>
-     <td><p>25 million 768-dim vectors</p></td>
-     <td><p>from &#36;8/mo.</p></td>
+     <td><p>40 million 768-dim vectors</p></td>
+     <td><p>from &#36;5/mo.</p></td>
    </tr>
 </table>
 
@@ -167,9 +167,9 @@ To select the right cluster type and query CU for this requirement, follow these
 
 1. **Evaluate Latency**: The Performance-optimized cluster is the only type that meets the 30-millisecond latency requirement.
 
-1. **Assess Capacity**: A single Performance-optimized cluster with 1 query CU accommodates 1.5 million 768-dimensional vectors. To store all 8 million vectors, you would need at least 6 query CUs.
+1. **Assess Capacity**: A single Performance-optimized cluster with 1 query CU accommodates 2 million 768-dimensional vectors. To store all 8 million vectors, you would need at least 4 query CUs.
 
 1. **Check Throughput**: With a `top-k` setting of 100, the Performance-optimized cluster can achieve a QPS of 440. To sustain a consistent 1,000 QPS, you would need to triple the number of replicas.
 
-In conclusion, for this scenario, the Performance-optimized cluster is your best bet. A configuration of 3 replicas, with each replica consisting of 6 query CUs, should serve you perfectly.
+In conclusion, for this scenario, the Performance-optimized cluster is your best bet. A configuration of 3 replicas, with each replica consisting of 4 query CUs, should serve you perfectly.
 
