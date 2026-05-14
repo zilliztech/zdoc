@@ -72,16 +72,22 @@ curl --request POST \
 
 ## Request Timeout
 
-You can also set to `Request-Timeout` header to determine the timeout duration for the current request. For example, the following request has its request timeout set to 5, indicating that the request fails if no response is received 5 seconds after the request is sent.
+For Control Plane APIs, requests time out 1 minute after the request is sent if no response is received.
+
+For Data Plane APIs, you can set a `Request-Timeout` header for a request on the data plane to determine the timeout duration for the request at the server side. For example, the following request has its request timeout set to 5, indicating that the request fails with HTTP 408 if no response is received 5 seconds after the request is sent.
+
+A proper request timeout may help your Zilliz Cloud clusters to release resources in time. In common cases, a timeout duration of 5 to 10 seconds suffices. However, you should set it based on your actual situations, such as network conditions and service payload.
 
 ```shell
-export API_KEY="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+export CLUSTER_ENDPOINT="https://{cluster_id}.{region}.vectordb.zillizcloud.com"
+export TOKEN="db_admin:xxxxxxxxxxxx"
 
 curl --request GET \
-    --url "https://api.cloud.zilliz.com/v2/clouds" \
-    --header "Authorization: Bearer ${API_KEY}" \
-    --header "Request-Timeout: 5" \
-    --header "content-type: application/json"
+    --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/list" \
+    --header "Authorization: Bearer ${TOKEN}" \
+    --header "Request-Timeout: 10"
+    --header "Content-Type: application/json" \
+    -d '{}'
 ```
 
 <!-- openapi-downloads -->

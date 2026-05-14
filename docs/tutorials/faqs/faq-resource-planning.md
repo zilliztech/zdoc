@@ -68,9 +68,9 @@ To view your plan, go to the project list. You will see the plan of each project
 
 - Performance-optimized: Supports up to 2 million 768-dimensional vectors.
 
-- Capacity-optimized: Supports up to 6 million 768-dimensional vectors.
+- Capacity-optimized: Supports up to 8 million 768-dimensional vectors.
 
-- Tiered-storage: Supports up to 25 million 768-dimensional vectors.
+- Tiered-storage: Supports up to 40 million 768-dimensional vectors.
 
 These estimates are based on vectors with primary keys only. Additional scalar fields like IDs or labels may reduce capacity. We recommend conducting your own tests for accurate assessment.
 
