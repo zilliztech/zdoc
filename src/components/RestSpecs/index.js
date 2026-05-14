@@ -524,7 +524,7 @@ const ExampleRequests = ({ endpoint, method, headersExample, pathExample, queryE
     const token = (condition || selectedBaseUrl?.key === 'on-demand-compute') ? 'YOUR_API_KEY' : "db_admin:xxxxxxxxxxxxx"
     var req = `export TOKEN="${token}"${pathExample ? "\n"+pathExample : ''}\n\ncurl --request ${method.toUpperCase()} \\\n--url "${effectiveBaseUrl}${endpoint}`
     req = (queryExample ? `${req}?${queryExample}` : req) + `"`
-    req = headersExample ? `${req} \\\n${headersExample + ` \\\n--header "Content-Type: application/json"`}` : req
+    req = headersExample ? `${req} \\\n${headersExample + ` \\\n--header "Request-Timeout: 5"`  + ` \\\n--header "Content-Type: application/json"`}` : req
 
     if (requestBody?.content['application/json']?.example) {
         req += ` \\\n-d '${JSON.stringify(requestBody.content['application/json'].example, null, 4)}'`
