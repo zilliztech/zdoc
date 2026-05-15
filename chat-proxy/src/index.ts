@@ -4,13 +4,13 @@ import {cors} from 'hono/cors';
 import {streamText, stepCountIs, type Tool} from 'ai';
 import type {ChatRequest} from './types.js';
 import {resolveModel, createModelInstance} from './runtime-config.js';
-import {getOrCreateSession, appendAndWindow, shouldInjectPageContext} from './sessions.js';
+import {getOrCreateSession, appendAndWindow, clearSessionMessages, shouldInjectPageContext} from './sessions.js';
 import {checkGuard} from './guard.js';
 import {searchDocs, getIndexStatus, getTitleByUrl, type SearchResult} from './rag.js';
 import {isDemotedSource} from './demotion.js';
 import {groundAtomically} from './grounding-agent.js';
 import {computeGrounding} from './grounding.js';
-import {routeIntent} from './router.js';
+import {routeIntent, clearSessionRoute} from './router.js';
 import {getAgent} from './agents/index.js';
 import {getToolsForAgent, type ToolName} from './tools/index.js';
 import {logDebugFlow, logEvent, saveConversation, summarizeForDebugLog, updateUserProfile} from './logger.js';
@@ -632,6 +632,7 @@ const exactAnswerCache = new LruTtlCache<SseEventRecord[]>({
   ttlMs: ANSWER_EXACT_CACHE_TTL_MS,
 });
 const answerInflight = new Map<string, ReturnType<typeof createDeferred<SseEventRecord[]>>>();
+const sessionResponseCacheKeys = new Map<string, Set<string>>();
 
 function responseCacheGet(key: string): SseEventRecord[] | null {
   return responseCache.get(key) ?? null;
@@ -642,10 +643,30 @@ export function clearResponseCache(): void {
   responseCache.clear();
   exactAnswerCache.clear();
   answerInflight.clear();
+  sessionResponseCacheKeys.clear();
 }
 
-function responseCacheSet(key: string, events: SseEventRecord[]): void {
+function responseCacheSetForSession(sessionId: string, key: string, events: SseEventRecord[]): void {
   responseCache.set(key, events);
+  let keys = sessionResponseCacheKeys.get(sessionId);
+  if (!keys) {
+    keys = new Set<string>();
+    sessionResponseCacheKeys.set(sessionId, keys);
+  }
+  keys.add(key);
+}
+
+function clearSessionResponseCache(sessionId: string): number {
+  const keys = sessionResponseCacheKeys.get(sessionId);
+  if (!keys || keys.size === 0) return 0;
+  let cleared = 0;
+  for (const key of keys) {
+    if (responseCache.delete(key)) {
+      cleared++;
+    }
+  }
+  sessionResponseCacheKeys.delete(sessionId);
+  return cleared;
 }
 
 function getRequestLanguage(c: Context): string {
@@ -1167,7 +1188,7 @@ app.post('/chat', async c => {
           incCounter('chat_proxy_cache_hits_total', {type: 'answer_exact'});
           send('cache', JSON.stringify({type: 'exact'}));
           await replayCachedEvents(exactCachedEvents, 'exact');
-          responseCacheSet(responseCacheKey, exactCachedEvents);
+          responseCacheSetForSession(session.id, responseCacheKey, exactCachedEvents);
           debug('chat.response.completed', {status: 'answer_exact_cache_hit', totalDurationMs: Date.now() - tChatStart});
           controller.close();
           return;
@@ -1194,7 +1215,7 @@ app.post('/chat', async c => {
               if (events.length > 0) {
                 send('cache', JSON.stringify({type: 'inflight'}));
                 await replayCachedEvents(events, 'inflight');
-                responseCacheSet(responseCacheKey, events);
+                responseCacheSetForSession(session.id, responseCacheKey, events);
                 debug('chat.response.completed', {status: 'answer_inflight_replay', totalDurationMs: Date.now() - tChatStart});
                 controller.close();
                 return;
@@ -1267,7 +1288,7 @@ app.post('/chat', async c => {
           incCounter('chat_proxy_cache_hits_total', {type: 'semantic'});
           send('cache', JSON.stringify({type: 'semantic', similarity: semanticHit.similarity}));
           await replayCachedEvents(semanticEvents, 'semantic');
-          responseCacheSet(responseCacheKey, semanticEvents);
+          responseCacheSetForSession(session.id, responseCacheKey, semanticEvents);
           resolveOwnedInflight(semanticEvents);
           debug('chat.response.completed', {status: 'semantic_cache_hit', similarity: semanticHit.similarity, totalDurationMs: Date.now() - tChatStart});
           controller.close();
@@ -1939,7 +1960,7 @@ app.post('/chat', async c => {
           const answerEventBytes = eventsByteLength(answerReplayEvents);
 
           // Cache the successful response for replay (session-scoped exact match)
-          responseCacheSet(responseCacheKey, answerReplayEvents);
+          responseCacheSetForSession(session.id, responseCacheKey, answerReplayEvents);
 
           if (isCacheablePublicAnswer({
             rawQuery,
@@ -2131,6 +2152,37 @@ app.post('/chat', async c => {
       },
     },
   );
+});
+
+// ---------------------------------------------------------------------------
+// POST /clear — clear session conversation context
+// ---------------------------------------------------------------------------
+
+app.post('/clear', async c => {
+  let body: {sessionId?: string};
+  try {
+    body = await c.req.json<{sessionId?: string}>();
+  } catch {
+    return c.json({error: 'Invalid JSON body'}, 400);
+  }
+
+  if (!body.sessionId || typeof body.sessionId !== 'string') {
+    return c.json({error: 'sessionId is required'}, 400);
+  }
+
+  clearSessionMessages(body.sessionId);
+  clearSessionRoute(body.sessionId);
+  const sessionResponseCache = clearSessionResponseCache(body.sessionId);
+
+  return c.json({
+    ok: true,
+    sessionId: body.sessionId,
+    cleared: {
+      messages: true,
+      stickyRoute: true,
+      sessionResponseCache,
+    },
+  });
 });
 
 // ---------------------------------------------------------------------------

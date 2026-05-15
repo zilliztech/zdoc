@@ -1,5 +1,5 @@
 import {describe, it, expect, vi, beforeEach} from 'vitest';
-import {getOrCreateSession, appendAndWindow, shouldInjectPageContext, getSessionCount} from './sessions.js';
+import {getOrCreateSession, appendAndWindow, clearSessionMessages, shouldInjectPageContext} from './sessions.js';
 
 describe('getOrCreateSession', () => {
   it('creates new session when no ID provided', () => {
@@ -65,6 +65,29 @@ describe('appendAndWindow', () => {
     }));
     const result = appendAndWindow(session, messages);
     expect(result).toHaveLength(10);
+  });
+});
+
+describe('clearSessionMessages', () => {
+  it('clears messages and page URL for an existing session', () => {
+    const {session} = getOrCreateSession();
+    appendAndWindow(session, [
+      {role: 'user', content: 'Hello'},
+      {role: 'assistant', content: 'Hi'},
+    ]);
+    shouldInjectPageContext(session, '/docs/intro');
+
+    const cleared = clearSessionMessages(session.id);
+    const {session: resolved, isNew} = getOrCreateSession(session.id);
+
+    expect(cleared).toBe(true);
+    expect(isNew).toBe(false);
+    expect(resolved.messages).toEqual([]);
+    expect(shouldInjectPageContext(resolved, '/docs/intro')).toBe(true);
+  });
+
+  it('returns false when session does not exist', () => {
+    expect(clearSessionMessages('missing-session')).toBe(false);
   });
 });
 

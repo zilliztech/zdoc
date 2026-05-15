@@ -33,6 +33,7 @@ vi.mock('./rag.js', () => ({
 }));
 vi.mock('./router.js', () => ({
   routeIntent: vi.fn().mockResolvedValue({agent: 'general', reasoning: 'test'}),
+  clearSessionRoute: vi.fn(),
 }));
 vi.mock('./logger.js', async () => {
   const actual = await vi.importActual<typeof import('./logger.js')>('./logger.js');
@@ -48,6 +49,7 @@ vi.mock('./sessions.js', () => {
   return {
     getOrCreateSession: vi.fn(() => ({session, isNew: true})),
     appendAndWindow: vi.fn((_, msgs) => msgs),
+    clearSessionMessages: vi.fn(() => true),
     shouldInjectPageContext: vi.fn(() => false),
     getSessionCount: vi.fn(() => 5),
   };
@@ -96,7 +98,8 @@ import {checkGuard} from './guard.js';
 import {llmHealth} from './health.js';
 import {logEvent} from './logger.js';
 import {recordFeedback} from './feedback.js';
-import {routeIntent} from './router.js';
+import {clearSessionMessages} from './sessions.js';
+import {routeIntent, clearSessionRoute} from './router.js';
 
 function parseSSE(text: string): Array<{event: string; data: any}> {
   const events: Array<{event: string; data: any}> = [];
@@ -181,6 +184,50 @@ describe('HTTP Endpoints', () => {
     expect(res.status).toBe(400);
     const body = await res.json();
     expect(body.error).toContain('messages');
+  });
+
+  it('POST /clear with invalid JSON → 400', async () => {
+    const res = await app.request('/clear', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: 'not json',
+    });
+
+    expect(res.status).toBe(400);
+    expect(clearSessionMessages).not.toHaveBeenCalled();
+    expect(clearSessionRoute).not.toHaveBeenCalled();
+  });
+
+  it('POST /clear missing sessionId → 400', async () => {
+    const res = await app.request('/clear', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({}),
+    });
+
+    expect(res.status).toBe(400);
+    expect(clearSessionMessages).not.toHaveBeenCalled();
+    expect(clearSessionRoute).not.toHaveBeenCalled();
+  });
+
+  it('POST /clear valid → ok and clears session context', async () => {
+    const res = await app.request('/clear', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({sessionId: 's1'}),
+    });
+
+    expect(res.status).toBe(200);
+    const body = await res.json();
+    expect(body.ok).toBe(true);
+    expect(body.sessionId).toBe('s1');
+    expect(body.cleared).toEqual({
+      messages: true,
+      stickyRoute: true,
+      sessionResponseCache: 0,
+    });
+    expect(clearSessionMessages).toHaveBeenCalledWith('s1');
+    expect(clearSessionRoute).toHaveBeenCalledWith('s1');
   });
 
   it('POST /chat guard blocks injection → SSE with deflection', async () => {

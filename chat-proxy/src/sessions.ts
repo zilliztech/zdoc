@@ -80,6 +80,15 @@ export function appendAndWindow(
   return session.messages;
 }
 
+export function clearSessionMessages(sessionId: string): boolean {
+  const session = sessions.get(sessionId);
+  if (!session) return false;
+  session.messages = [];
+  session.pageUrl = undefined;
+  session.lastActiveAt = Date.now();
+  return true;
+}
+
 /**
  * Check if page context should be re-injected.
  * Returns true on first request or when the page URL changes.
