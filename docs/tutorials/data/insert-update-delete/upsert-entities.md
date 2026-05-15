@@ -54,6 +54,8 @@ To perform a merge, set `partial_update` to `True` in the `upsert` request along
 
 Upon receiving such a request, Zilliz Cloud performs a query with strong consistency to retrieve the entity, updates the field values based on the data in the request, inserts the modified data, and then deletes the existing entity with the original primary key carried in the request.
 
+For `ARRAY` fields, merge mode supports two operators: `ARRAY_APPEND` and `ARRAY_REMOVE`. These operators let you append elements to or remove matching elements from an existing `ARRAY` field, without first querying the entity to retrieve its current value. For details, see [Upsert ARRAY fields with partial-update operators](./upsert-entities#upsert-array-fields-with-partial-update-operators).
+
 ### Update field values\{#update-field-values}
 
 To update the field values of an existing entity, use [upsert in merge mode](./upsert-entities#upsert-entities-in-merge-mode). In this mode, only the fields included in the request are updated — all other fields retain their existing values.
@@ -89,6 +91,16 @@ There are several special notes you should consider before using the merge featu
     Suppose that the example collection has a schema-defined JSON field named `extras`, and the key-value pairs in this JSON field of an entity are similar to `{"author": "John", "year": 2020, "tags": ["fiction"]}`.
 
     When you upsert the `extras` field of an entity with modified JSON data, note that the JSON field is treated as a whole, and you cannot update individual keys selectively. In other words, the JSON field **DOES NOT** support upsert in **merge** mode.
+
+- **Upsert an** `ARRAY` **field.**
+
+    By default, an `ARRAY` field in merge mode follows **REPLACE** semantics: the value carried in the request overwrites the existing array. For finer-grained updates, Zilliz Cloud also supports two operators:
+
+    - `ARRAY_APPEND` appends the elements in the request payload to the existing array.
+
+    - `ARRAY_REMOVE` removes every element from the existing array that matches a value in the request payload.
+
+    For operator syntax, supported element types, and other constraints, see [Upsert array fields with partial-update operators](./upsert-entities#upsert-array-fields-with-partial-update-operators).
 
 ### Limits & Restrictions\{#limits-and-restrictions}
 
@@ -281,6 +293,7 @@ curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/upsert" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
+--header "Request-Timeout: 10" \
 -d '{
     "data": [
         {"id": 0, "vector": [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592], "title": "Artificial Intelligence in Real Life", "issue": "vol.12"},
@@ -446,6 +459,7 @@ curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/upsert" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
+--header "Request-Timeout: 10" \
 -d '{
     "data": [
         {"id": 10, "vector": [0.06998888224297328, 0.8582816610326578, -0.9657938677934292, 0.6527905683627726, -0.8668460657158576], "title": "Layour Design Reference", "issue": "vol.34"},
@@ -611,6 +625,7 @@ export UPSERT_DATA='[
 curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/entities/upsert" \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer ${TOKEN}" \
+  -H "Request-Timeout: 10" \
   -d "{
     \"collectionName\": \"${COLLECTION_NAME}\",
     \"data\": ${UPSERT_DATA},
@@ -627,6 +642,261 @@ curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/entities/upsert" \
 #         ]
 #     }
 # }
+```
+
+</TabItem>
+</Tabs>
+
+## Upsert ARRAY fields with partial-update operators\{#upsert-array-fields-with-partial-update-operators}
+
+Before introducing partial-update operators (`ARRAY_APPEND` and `ARRAY_REMOVE`), updating part of an `ARRAY` field required a client-side read-modify-write flow: query the existing array, change it in application code, and upsert the full replacement value. Partial-update operators let you send only the elements to append or remove, which reduces client-side logic and avoids the extra read before the upsert.
+
+Suppose the entity with primary key `1` already has `tags = ["new", "trial"]`. Before partial-update operators, adding element `"premium"` to an array required upserting the full replacement array:
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
+client.upsert(
+    collection_name="users",
+    # highlight-start
+    data=[{"pk": 1, "tags": ["new", "trial", "premium"]}],
+    partial_update=True,
+    # highlight-end
+)
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// java
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// nodejs
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+```
+
+</TabItem>
+</Tabs>
+
+With `ARRAY_APPEND`, send only the element to add:
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
+client.upsert(
+    collection_name="users",
+    # highlight-start
+    data=[{"pk": 1, "tags": ["premium"]}],
+    field_ops={"tags": FieldOp.array_append()},
+    # highlight-end
+)
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// java
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// nodejs
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+```
+
+</TabItem>
+</Tabs>
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>Attaching either operator to a field via <code>field_ops</code> implicitly enables partial-update semantics.  Therefore, you do <strong>not</strong> need to pass <code>partial_update=True</code> alongside <code>field_ops</code>.</p>
+
+</Admonition>
+
+### Limits\{#limits}
+
+- The payload values must match the `element_type` of the target `ARRAY` field. For example, if the target field is `ARRAY<VARCHAR>`, the payload must contain string values.
+
+- For this release, `ARRAY_APPEND` and `ARRAY_REMOVE` support `ARRAY` fields whose `element_type` is `BOOL`, `INT8`, `INT16`, `INT32`, `INT64`, `FLOAT`, `DOUBLE`, or `VARCHAR`.
+
+- After an `ARRAY_APPEND` operation, the resulting array length must not exceed the field's `max_capacity`.
+
+- Concurrent upserts to the same entity are not atomic across requests. If two requests update the same `ARRAY` field at the same time, the later write can overwrite the earlier one. Use application-level coordination if you need to preserve all concurrent changes.
+
+### Example\{#example}
+
+The following example uses a small `users` collection with a primary key `pk`, a `tags` field of type `ARRAY<VARCHAR>`, and an `embedding` vector field. It first inserts two entities with initial `tags` values, then uses `ARRAY_APPEND` and `ARRAY_REMOVE` to show how each operator changes the stored array.
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
+from pymilvus import DataType, FieldOp, MilvusClient
+
+client = MilvusClient(
+    uri="YOUR_CLUSTER_ENDPOINT",
+    token="YOUR_CLUSTER_TOKEN"
+)
+
+# 1. Create a collection with an ARRAY<VARCHAR> field
+schema = client.create_schema(enable_dynamic_field=False)
+schema.add_field("pk", DataType.INT64, is_primary=True)
+schema.add_field("embedding", DataType.FLOAT_VECTOR, dim=5)
+schema.add_field(
+    "tags",
+    DataType.ARRAY,
+    element_type=DataType.VARCHAR,
+    max_capacity=8,
+    max_length=32,
+)
+
+index_params = client.prepare_index_params()
+index_params.add_index(
+    field_name="embedding",
+    index_type="AUTOINDEX",
+    metric_type="L2",
+)
+
+client.create_collection(
+    collection_name="users",
+    schema=schema,
+    index_params=index_params
+)
+
+# 2. Seed two entities
+client.insert(
+    collection_name="users",
+    data=[
+        {"pk": 1, "embedding": [0.1, 0.2, 0.3, 0.4, 0.5], "tags": ["new"]},
+        {"pk": 2, "embedding": [0.6, 0.7, 0.8, 0.9, 1.0], "tags": ["new", "trial"]},
+    ],
+)
+
+# 3. Append tags without reading the existing ARRAY values
+client.upsert(
+    collection_name="users",
+    # highlight-start
+    data=[
+        {"pk": 1, "tags": ["premium", "vip"]},
+        {"pk": 2, "tags": ["premium"]},
+    ],
+    field_ops={"tags": FieldOp.array_append()},
+    # highlight-end
+)
+
+res = client.query(
+    collection_name="users",
+    filter="pk in [1, 2]",
+    output_fields=["pk", "tags"],
+)
+print(res)
+
+# Example output:
+# data: [
+#   "{'pk': 1, 'tags': ['new', 'premium', 'vip']}",
+#   "{'pk': 2, 'tags': ['new', 'trial', 'premium']}"
+# ]
+
+# 4. Remove matching tags without replacing the full ARRAY field
+client.upsert(
+    collection_name="users",
+    # highlight-start
+    data=[
+        {"pk": 1, "tags": ["new"]},
+        {"pk": 2, "tags": ["trial"]},
+    ],
+    field_ops={"tags": FieldOp.array_remove()},
+    # highlight-end
+)
+
+res = client.query(
+    collection_name="users",
+    filter="pk in [1, 2]",
+    output_fields=["pk", "tags"],
+)
+print(res)
+
+# Example output:
+# data: [
+#   "{'pk': 1, 'tags': ['premium', 'vip']}",
+#   "{'pk': 2, 'tags': ['new', 'premium']}"
+# ]
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// java
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// nodejs
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
 ```
 
 </TabItem>

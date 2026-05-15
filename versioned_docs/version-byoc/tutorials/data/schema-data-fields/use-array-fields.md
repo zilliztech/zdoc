@@ -442,6 +442,7 @@ curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/create" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
+--header "Request-Timeout: 10" \
 -d "{
     \"collectionName\": \"my_collection\",
     \"schema\": $schema,
@@ -576,6 +577,7 @@ curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/insert" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
+--header "Request-Timeout: 10" \
 -d '{
     "data": [
         {
@@ -603,6 +605,12 @@ curl --request POST \
 
 </TabItem>
 </Tabs>
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>Beyond inserting full arrays, <code>ARRAY</code> fields also support the <code>ARRAY_APPEND</code> and <code>ARRAY_REMOVE</code> partial-update operators on the <code>upsert</code> API. These let you append elements to or remove matching elements from an existing array without first retrieving its current value, which avoids the client-side read-modify-write pattern. For details, see <a href="./upsert-entities">Upsert array fields with partial-update operators</a>.</p>
+
+</Admonition>
 
 ## Query with filter expressions\{#query-with-filter-expressions}
 
@@ -694,6 +702,7 @@ curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/query" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
+--header "Request-Timeout: 10" \
 -d '{
     "collectionName": "my_collection",
     "filter": "tags IS NOT NULL",
@@ -802,6 +811,7 @@ curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/query" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
+--header "Request-Timeout: 10" \
 -d '{
   "collectionName": "my_collection",
   "filter": "ratings[0] > 4",
@@ -919,6 +929,7 @@ curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/search" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
+--header "Request-Timeout: 10" \
 -d '{
     "collectionName": "my_collection",
     "data": [
