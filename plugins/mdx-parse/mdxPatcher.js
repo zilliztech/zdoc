@@ -272,7 +272,8 @@ function escapeNonHtmlTags(content) {
                     // Escape non-HTML lowercase placeholder tags (e.g. <bucket_name>, <region-code>).
                     // Tags with attributes won't match because the regex only allows \s*\/?>
                     part = part.replace(/(?<!\\)<\/?([a-z][a-z0-9]*(?:[_-][a-z0-9]+)*)\s*\/?>/g, (match, tagName) => {
-                        return KNOWN_TAGS.has(tagName) ? match : '\\' + match;
+                        if (KNOWN_TAGS.has(tagName)) return match;
+                        return match.replace(/^\\/, '').replace(/</g, '&lt;').replace(/>/g, '&gt;');
                     });
                     // Escape uppercase/PascalCase tags not identified as real JSX components.
                     // Uses HTML entities so the angle brackets render correctly in the output.
