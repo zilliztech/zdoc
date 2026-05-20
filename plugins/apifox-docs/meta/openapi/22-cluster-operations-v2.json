@@ -1164,6 +1164,18 @@
                     }
                   },
                   "2": {
+                    "summary": "success",
+                    "x-target-response": "OPTION 1",
+                    "x-target-lang": "zh-CN",
+                    "value": {
+                      "code": 0,
+                      "data": {
+                        "clusterId": "inxx-xxxxxxxxxxxxxxx",
+                        "prompt": "已成功提交，按需集群正在创建中。您可以使用 Describe On-Demand Cluster API 查看创建进度和集群状态。集群状态为 RUNNING 后，使用 API 密钥访问按需集群。"
+                      }
+                    }
+                  },
+                  "3": {
                     "summary": "failure",
                     "x-target-response": "OPTION 2",
                     "value": {

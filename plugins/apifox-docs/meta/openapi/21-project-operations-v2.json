@@ -844,6 +844,9 @@
             "description": "本接口可更新指定项目的订阅计划。"
           }
         },
+        "x-include-langs": [
+          "en-US"
+        ],
         "tags": [
           "Project Operations (V2)"
         ],

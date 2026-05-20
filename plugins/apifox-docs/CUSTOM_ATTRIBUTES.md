@@ -12,6 +12,7 @@ These attributes live inside the OpenAPI JSON files (`meta/openapi/*.json`) and 
 |-----------|-------|-------|---------|-------------|
 | `x-i18n` | tags, operations, parameters, schemas, properties, examples | Yes | Yes | Provides localized translations for `summary`, `description`, and `example`. |
 | `x-include-target` | tags, operations, parameters, schema properties, examples | Yes | Yes | Filters content by publication target (`zilliz` or `milvus`). |
+| `x-include-langs` | tags, operations | Yes | — | Filters generated pages by language (`en-US`, `zh-CN`). |
 | `x-beta` | operations, tags | Yes | — | Controls the beta/visibility badge (`DEPRECATED`, `FALSE`, `PRIVATE`). |
 | `x-admonition` | operations, parameters, schema properties | Yes | Yes | Injects admonition (callout) blocks into generated docs and UI. |
 | `x-tab-label` | `anyOf` / `oneOf` schema items | — | Yes | Overrides the default tab label when multiple request/response options are shown. |
@@ -56,6 +57,21 @@ Usage locations:
 - **Operations**: Skip individual endpoints.
 - **Parameters / Properties**: Hide fields in the `RestSpecs` UI.
 - **Examples**: Hide request/response examples.
+
+### 1.2.1 `x-include-langs`
+
+Conditionally includes tags or operations by documentation language at build time. If this attribute is present and the current language is not in the list, the page is not generated.
+
+```json
+{
+  "summary": "Upgrade Project",
+  "x-include-langs": ["en-US"]
+}
+```
+
+Usage locations:
+- **Tags**: Hide entire API groups for selected languages.
+- **Operations**: Hide individual endpoints for selected languages.
 
 ### 1.3 `x-beta`
 

@@ -151,7 +151,7 @@
                           "description": "Cost of this operation.<include target=\"zilliz\"> This applies to free and serverless clusters only, indicating the vCU usage of the current request.</include>",
                           "x-i18n": {
                             "zh-CN": {
-                              "description": "当前操作的花费。<include target=\"zilliz\">仅用于 Free 和 Serverless 集群，表示当前操作消耗的 vCU。"
+                              "description": "当前操作的花费。<include target=\"zilliz\">仅用于 Free 和 Serverless 集群，表示当前操作消耗的 vCU。</include>"
                             }
                           }
                         },
@@ -494,7 +494,7 @@
                           "description": "Cost of this operation.<include target=\"zilliz\"> This applies to free and serverless clusters only, indicating the vCU usage of the current request.</include>",
                           "x-i18n": {
                             "zh-CN": {
-                              "description": "当前操作的花费。<include target=\"zilliz\">仅用于 Free 和 Serverless 集群，表示当前操作消耗的 vCU。"
+                              "description": "当前操作的花费。<include target=\"zilliz\">仅用于 Free 和 Serverless 集群，表示当前操作消耗的 vCU。</include>"
                             }
                           }
                         },
@@ -852,7 +852,7 @@
                           "description": "Cost of this operation.<include target=\"zilliz\"> This applies to free and serverless clusters only, indicating the vCU usage of the current request.</include>",
                           "x-i18n": {
                             "zh-CN": {
-                              "description": "当前操作的花费。<include target=\"zilliz\">仅用于 Free 和 Serverless 集群，表示当前操作消耗的 vCU。"
+                              "description": "当前操作的花费。<include target=\"zilliz\">仅用于 Free 和 Serverless 集群，表示当前操作消耗的 vCU。</include>"
                             }
                           }
                         },
@@ -1200,7 +1200,7 @@
                           "description": "Cost of this operation.<include target=\"zilliz\"> This applies to free and serverless clusters only, indicating the vCU usage of the current request.</include>",
                           "x-i18n": {
                             "zh-CN": {
-                              "description": "当前操作的花费。<include target=\"zilliz\">仅用于 Free 和 Serverless 集群，表示当前操作消耗的 vCU。"
+                              "description": "当前操作的花费。<include target=\"zilliz\">仅用于 Free 和 Serverless 集群，表示当前操作消耗的 vCU。</include>"
                             }
                           }
                         },
@@ -1782,7 +1782,7 @@
                           "description": "Cost of this operation.<include target=\"zilliz\"> This applies to free and serverless clusters only, indicating the vCU usage of the current request.</include>",
                           "x-i18n": {
                             "zh-CN": {
-                              "description": "当前操作的花费。<include target=\"zilliz\">仅用于 Free 和 Serverless 集群，表示当前操作消耗的 vCU。"
+                              "description": "当前操作的花费。<include target=\"zilliz\">仅用于 Free 和 Serverless 集群，表示当前操作消耗的 vCU。</include>"
                             }
                           }
                         },
@@ -2467,7 +2467,7 @@
                           "description": "Cost of this operation.<include target=\"zilliz\"> This applies to free and serverless clusters only, indicating the vCU usage of the current request.</include>",
                           "x-i18n": {
                             "zh-CN": {
-                              "description": "当前操作的花费。<include target=\"zilliz\">仅用于 Free 和 Serverless 集群，表示当前操作消耗的 vCU。"
+                              "description": "当前操作的花费。<include target=\"zilliz\">仅用于 Free 和 Serverless 集群，表示当前操作消耗的 vCU。</include>"
                             }
                           }
                         },
@@ -2830,7 +2830,7 @@
                           "description": "Cost of this operation.<include target=\"zilliz\"> This applies to free and serverless clusters only, indicating the vCU usage of the current request.</include>",
                           "x-i18n": {
                             "zh-CN": {
-                              "description": "当前操作的花费。<include target=\"zilliz\">仅用于 Free 和 Serverless 集群，表示当前操作消耗的 vCU。"
+                              "description": "当前操作的花费。<include target=\"zilliz\">仅用于 Free 和 Serverless 集群，表示当前操作消耗的 vCU。</include>"
                             }
                           }
                         },
