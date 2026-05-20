@@ -233,6 +233,7 @@ curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/search" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
+--header "Request-Timeout: 10" \
 -d '{
     "collectionName": "my_collection",
     "data": [
@@ -393,6 +394,7 @@ curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/search" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
+--header "Request-Timeout: 10" \
 -d '{
     "collectionName": "my_collection",
     "data": [
@@ -418,7 +420,7 @@ In the example above:
 
 For additional parameter details, refer to [search](/reference/python/python/Vector-search).
 
-## Order groups by a scalar field | Private Preview\{#order-groups-by-a-scalar-field}
+## Order groups by a scalar field | PRIVATE\{#order-groups-by-a-scalar-field}
 
 You can combine Grouping Search with `order_by_fields` to order groups by a scalar field. This is useful when you want diverse results across groups, but still want the groups to follow a business-relevant order such as price or rating.
 

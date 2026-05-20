@@ -34,7 +34,7 @@ This guide walks you through how to restore a full or partial cluster from backu
 
 <Admonition type="info" icon="📘" title="Notes">
 
-This feature is available only to **Dedicated** clusters.
+<p>This feature is available only to <strong>Dedicated</strong> clusters.</p>
 
 </Admonition>
 
@@ -50,7 +50,7 @@ During restoration, you may choose whether to include RBAC settings.
 
 <Admonition type="info" icon="📘" title="Notes">
 
-RBAC restoration is currently supported only via the web console; the RESTful API does not support it yet.
+<p>RBAC restoration is currently supported only via the web console; the RESTful API does not support it yet.</p>
 
 </Admonition>
 
@@ -118,7 +118,7 @@ curl --request POST \
 --header "Authorization: Bearer ${API_KEY}" \
 --header "Content-Type: application/json" \
 -d '{
-    "destClusterId": "in01-xxxxxxxxxxxxxx",
+    "destClusterId": "inxx-xxxxxxxxxxxxxxx",
     "dbCollections": [
         {
             "collections": [
@@ -150,7 +150,7 @@ When you restore an encrypted backup to a new cluster, Zilliz Cloud will use the
 
 <Admonition type="info" icon="📘" title="Notes">
 
-This feature is available only to **Dedicated** clusters in a **Business Critical** project.
+<p>This feature is available only to <strong>Dedicated</strong> clusters in a <strong>Business Critical</strong> project.</p>
 
 </Admonition>
 

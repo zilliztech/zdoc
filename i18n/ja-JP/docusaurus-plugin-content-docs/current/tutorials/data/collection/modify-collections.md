@@ -171,7 +171,7 @@ curl --request POST \
    </tr>
    <tr>
      <td><p><code>ttl_field</code></p></td>
-     <td><p>各エンティティの絶対有効期限タイムスタンプ（<strong>エンティティレベルの TTL</strong>）を格納する <code>TIMESTAMPTZ</code> フィールドの名前です。各エンティティは、壁時計時間がこのフィールドに格納された値に達した時点で正確に期限切れになります。フィールドが <code>NULL</code> の場合、そのエンティティは決して期限切れになりません。<code>collection.ttl.seconds</code> と相互に排他的です。</p><p>詳細については、<a href="./set-collection-ttl#set-entity-level-ttl-or-private-preview">エンティティレベルの TTL の設定</a>をご覧ください。</p></td>
+     <td><p>各エンティティの絶対有効期限タイムスタンプ（<strong>エンティティレベルの TTL</strong>）を格納する <code>TIMESTAMPTZ</code> フィールドの名前です。各エンティティは、壁時計時間がこのフィールドに格納された値に達した時点で正確に期限切れになります。フィールドが <code>NULL</code> の場合、そのエンティティは決して期限切れになりません。<code>collection.ttl.seconds</code> と相互に排他的です。</p><p>詳細については、<a href="./set-collection-ttl#set-entity-level-ttl">エンティティレベルの TTL の設定</a>をご覧ください。</p></td>
    </tr>
    <tr>
      <td><p><code>mmap.enabled</code></p></td>

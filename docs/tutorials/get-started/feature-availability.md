@@ -11,7 +11,7 @@ notebook: FALSE
 description: "Last updated Oct 13, 2025 | Cloud"
 type: origin
 token: HpbSwzS6kiW9gikHpQ0cUZLWnlc
-sidebar_position: 19
+sidebar_position: 20
 keywords: 
   - zilliz
   - vector database
@@ -73,9 +73,9 @@ The **availability phase** of a feature indicates its maturity, stability, and r
 
 The availability phase of each feature is indicated in the Zilliz Cloud documentation by a corresponding label. Unless otherwise indicated, a feature is considered to be in general availability.
 
-## Current Feature Availability\{#current-feature-availability}
+## Current feature availability\{#current-feature-availability}
 
-### Private Preview\{#private-preview}
+### Private preview\{#private-preview}
 
 - [Export backup files](./export-backup-files)
 

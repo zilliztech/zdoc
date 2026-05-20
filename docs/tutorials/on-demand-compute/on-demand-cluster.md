@@ -63,7 +63,7 @@ This topic describes how to create an **on-demand** cluster.
          --header "Accept: application/json" \
          --header "Content-Type: application/json" \
          --data-raw '{
-            "projectId": "proj-09ee1f4b1151d5dd1edbc5",
+            "projectId": "proj-xxxxxxxxxxxxxxx",
             "regionId": "aws-us-west-2",
             "clusterName": "my-on-demand",
             "cuSize": 8,
@@ -75,7 +75,7 @@ This topic describes how to create an **on-demand** cluster.
     #   "data": {
     #     "clusterId": "inxx-xxxxxxxxxxxxxxx",
     #     "regionId": "aws-us-west-2",
-    #     "projectId": "proj-09ee1f4b1151d5dd1edbc5"
+    #     "projectId": "proj-xxxxxxxxxxxxxxx"
     #   }
     # }
     ```
@@ -136,7 +136,7 @@ This topic describes how to create an **on-demand** cluster.
            </tr>
            <tr>
              <td><p>Query CU</p></td>
-             <td><p>The number of query CUs to allocate. The cluster automatically scales between zero and this value based on workload — it spins up to the specified CU size when requests arrive and scales back to zero when idle. </p><p>The minimum is 8 CU, the maximum is 256 CU, and sizes increase in increments of 8 (for example, 8, 16, and 24). Clusters with more than 8 CU require a payment method.</p><p>This value is fixed after creation and cannot be changed.</p></td>
+             <td><p>The number of query CUs to allocate. The cluster automatically scales between zero and this value based on workload — it spins up to the specified CU size when requests arrive and scales back to zero when idle. </p><p>The minimum is 8 CU, the maximum is 256 CU, and sizes increase in increments of 8 (for example, 8, 16, and 24). Clusters with more than 8 CU require a payment method.</p><p>Setting this to 8 enables searches across data up to 3 TB. To increase the data volume, increase the CU size.</p><p>This value is fixed after creation and cannot be changed.</p></td>
            </tr>
            <tr>
              <td><p>Auto suspend</p></td>
@@ -173,14 +173,14 @@ This topic describes how to create an **on-demand** cluster.
         "count": 2,
         "onDemandClusters": [
           {
-            "clusterId": "inxx-xxxxxxxxxxxxxxx",
+            "clusterId": "in07-7d6ac8697204a6a",
             "clusterName": "xxx",
             "regionId": "aws-us-west-2",
             "cuSize": 8,
             "status": "SUSPENDED",
             "endpoint": "https://proj-09ee1f4b1151d5dd1edbc5.aws-us-west-2.vectordb-uat3.zillizcloud.com",
             "privateLink": "",
-            "createdBy": "john.doe@zilliz.com",
+            "createdBy": "admin@zilliz.com",
             "createTime": 1745396115000
           }
         ]
@@ -219,9 +219,9 @@ This topic describes how to create an **on-demand** cluster.
         "regionId": "aws-us-west-2",
         "cuSize": 8,
         "status": "RUNNING",
-        "endpoint": "https://proj-09ee1f4b1151d5dd1edbc5.aws-us-west-2.vectordb-uat3.zillizcloud.com",
+        "endpoint": "https://proj-xxxxxxxxxxxxxxx.aws-us-west-2.vectordb-uat3.zillizcloud.com",
         "privateLink": "",
-        "createdBy": "john.doe@zilliz.com",
+        "createdBy": "admin@zilliz.com",
         "createTime": 1745396115000
       }
     }

@@ -411,7 +411,20 @@
                     "regionId": "aws-us-west-2",
                     "volumeName": "my_external_volume",
                     "type": "EXTERNAL",
-                    "storageIntegrationId": "si-123456",
+                    "storageIntegrationId": "integ-xxxxxxxxxxxxxxxxxxx",
+                    "path": "data/"
+                  }
+                },
+                "4": {
+                  "summary": "External Volume",
+                  "x-target-response": "OPTION 1",
+                  "x-target-lang": "zh-CN",
+                  "value": {
+                    "projectId": "proj-xxxxxxxxxxxxxxxxxxxxxxx",
+                    "regionId": "ali-cn-hangzhou",
+                    "volumeName": "my_external_volume",
+                    "type": "EXTERNAL",
+                    "storageIntegrationId": "integ-xxxxxxxxxxxxxxxxxxx",
                     "path": "data/"
                   }
                 }
@@ -713,6 +726,7 @@
                   "1": {
                     "summary": "Managed",
                     "x-target-response": "OPTION 1",
+                    "x-target-lang": "en-US",
                     "value": {
                       "code": 0,
                       "data": {
@@ -727,13 +741,14 @@
                   "2": {
                     "summary": "External",
                     "x-target-response": "OPTION 1",
+                    "x-target-lang": "en-US",
                     "value": {
                       "code": 0,
                       "data": {
                         "volumeName": "my_external_volume",
                         "type": "EXTERNAL",
                         "regionId": "aws-us-west-2",
-                        "storageIntegrationId": "si-123456",
+                        "storageIntegrationId": "integ-xxxxxxxxxxxxxxxxxxx",
                         "path": "data/",
                         "status": "RUNNING",
                         "createTime": "2026-05-06T03:50:35Z"
@@ -746,6 +761,38 @@
                     "value": {
                       "code": 63240,
                       "message": "The specified volume not exists, please check your request."
+                    }
+                  },
+                  "4": {
+                    "summary": "Managed",
+                    "x-target-response": "OPTION 1",
+                    "x-target-lang": "zh-CN",
+                    "value": {
+                      "code": 0,
+                      "data": {
+                        "volumeName": "my_volume",
+                        "type": "MANAGED",
+                        "regionId": "ali-cn-hangzhou",
+                        "status": "RUNNING",
+                        "createTime": "2026-05-06T03:50:35Z"
+                      }
+                    }
+                  },
+                  "5": {
+                    "summary": "External",
+                    "x-target-response": "OPTION 1",
+                    "x-target-lang": "zh-CN",
+                    "value": {
+                      "code": 0,
+                      "data": {
+                        "volumeName": "my_external_volume",
+                        "type": "EXTERNAL",
+                        "regionId": "ali-cn-hangzhou",
+                        "storageIntegrationId": "integ-xxxxxxxxxxxxxxxxxxx",
+                        "path": "data/",
+                        "status": "RUNNING",
+                        "createTime": "2026-05-06T03:50:35Z"
+                      }
                     }
                   }
                 }

@@ -23,8 +23,7 @@ keywords:
 ---
 
 import Admonition from '@theme/Admonition';
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
+
 
 # MINHASH_LSH
 
@@ -39,6 +38,10 @@ The **MINHASH_LSH** index in Zilliz Cloud enables fast, scalable, and accurate a
 This guide walks you through the concepts, prerequisites, setup, and best practices for using MINHASH_LSH in Zilliz Cloud.
 
 ## Overview\{#overview}
+
+<details>
+
+<summary>Expand to see how it works</summary>
 
 ### Jaccard similarity\{#jaccard-similarity}
 
@@ -169,6 +172,8 @@ The deduplication process powered by MinHash LSH allows Zilliz Cloud to efficien
 
 1. **Insert & store**: Insert only unique items into the collection. They become searchable for future dedup checks.
 
+</details>
+
 ## Prerequisites\{#prerequisites}
 
 Before using MinHash LSH in Zilliz Cloud, you must first generate **MinHash signatures**. These compact binary signatures approximate Jaccard similarity between sets and are required for `MHJACCARD`-based search in Zilliz Cloud.
@@ -249,49 +254,11 @@ Once your MinHash vectors and original token sets are ready, you can store, inde
 
 ### Connect to your cluster\{#connect-to-your-cluster}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
-<TabItem value='python'>
-
 ```python
 from pymilvus import MilvusClient
 
 client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")  # Update if your URI is different
 ```
-
-</TabItem>
-
-<TabItem value='java'>
-
-```java
-// java
-```
-
-</TabItem>
-
-<TabItem value='javascript'>
-
-```javascript
-// nodejs
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-// go
-```
-
-</TabItem>
-
-<TabItem value='bash'>
-
-```bash
-# restful
-```
-
-</TabItem>
-</Tabs>
 
 ### Define collection schema\{#define-collection-schema}
 
@@ -305,9 +272,6 @@ Define a schema with:
 
 - Optionally, a `document` field for original text
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
-<TabItem value='python'>
-
 ```python
 from pymilvus import DataType
 
@@ -320,47 +284,9 @@ schema.add_field("token_set", DataType.VARCHAR, max_length=1000)  # required for
 schema.add_field("document", DataType.VARCHAR, max_length=1000)
 ```
 
-</TabItem>
-
-<TabItem value='java'>
-
-```java
-// java
-```
-
-</TabItem>
-
-<TabItem value='javascript'>
-
-```javascript
-// nodejs
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-// go
-```
-
-</TabItem>
-
-<TabItem value='bash'>
-
-```bash
-# restful
-```
-
-</TabItem>
-</Tabs>
-
 ### Build index parameters and create collection\{#build-index-parameters-and-create-collection}
 
 Build a `MINHASH_LSH` index with Jaccard refinement enabled:
-
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
-<TabItem value='python'>
 
 ```python
 index_params = client.prepare_index_params()
@@ -378,41 +304,6 @@ index_params.add_index(
 client.create_collection("minhash_demo", schema=schema, index_params=index_params)
 ```
 
-</TabItem>
-
-<TabItem value='java'>
-
-```java
-// java
-```
-
-</TabItem>
-
-<TabItem value='javascript'>
-
-```javascript
-// nodejs
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-// go
-```
-
-</TabItem>
-
-<TabItem value='bash'>
-
-```bash
-# restful
-```
-
-</TabItem>
-</Tabs>
-
 For more information on index building parameters, refer to [Index building params](./minhash-lsh#index-building-params).
 
 ### Insert data\{#insert-data}
@@ -424,9 +315,6 @@ For each document, prepare:
 - A serialized token set string
 
 - (Optionally) the original text
-
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
-<TabItem value='python'>
 
 ```python
 documents = [
@@ -449,41 +337,6 @@ client.insert("minhash_demo", insert_data)
 client.flush("minhash_demo")
 ```
 
-</TabItem>
-
-<TabItem value='java'>
-
-```java
-// java
-```
-
-</TabItem>
-
-<TabItem value='javascript'>
-
-```javascript
-// nodejs
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-// go
-```
-
-</TabItem>
-
-<TabItem value='bash'>
-
-```bash
-# restful
-```
-
-</TabItem>
-</Tabs>
-
 ### Perform similarity search\{#perform-similarity-search}
 
 Zilliz Cloud supports two modes of similarity search using MinHash LSH:
@@ -496,55 +349,14 @@ Zilliz Cloud supports two modes of similarity search using MinHash LSH:
 
 To perform a similarity search, generate a MinHash signature for the query document. This signature must match the same dimension and encoding format used during data insertion.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
-<TabItem value='python'>
-
 ```python
 query_text = "neural networks model patterns in data"
 query_sig = generate_minhash_signature(query_text)
 ```
 
-</TabItem>
-
-<TabItem value='java'>
-
-```java
-// java
-```
-
-</TabItem>
-
-<TabItem value='javascript'>
-
-```javascript
-// nodejs
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-// go
-```
-
-</TabItem>
-
-<TabItem value='bash'>
-
-```bash
-# restful
-```
-
-</TabItem>
-</Tabs>
-
 #### 5.2 Approximate search (LSH-only)\{#52-approximate-search-lsh-only}
 
 This is fast and scalable but may miss close matches or include false positives:
-
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
-<TabItem value='python'>
 
 ```python
 # highlight-start
@@ -570,47 +382,9 @@ for i, hit in enumerate(approx_results[0]):
     print(f"{i+1}. Similarity: {sim:.3f} | {hit['entity']['document']}")
 ```
 
-</TabItem>
-
-<TabItem value='java'>
-
-```java
-// java
-```
-
-</TabItem>
-
-<TabItem value='javascript'>
-
-```javascript
-// nodejs
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-// go
-```
-
-</TabItem>
-
-<TabItem value='bash'>
-
-```bash
-# restful
-```
-
-</TabItem>
-</Tabs>
-
 #### 5.3 Refined search (recommended for accuracy):\{#53-refined-search-recommended-for-accuracy}
 
 This enables accurate Jaccard comparison using the original token sets stored in Zilliz Cloud. It's slightly slower but recommended for quality-sensitive tasks:
-
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
-<TabItem value='python'>
 
 ```python
 # highlight-start
@@ -638,41 +412,6 @@ for i, hit in enumerate(refined_results[0]):
     sim = 1 - hit['distance']
     print(f"{i+1}. Similarity: {sim:.3f} | {hit['entity']['document']}")
 ```
-
-</TabItem>
-
-<TabItem value='java'>
-
-```java
-// java
-```
-
-</TabItem>
-
-<TabItem value='javascript'>
-
-```javascript
-// nodejs
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-// go
-```
-
-</TabItem>
-
-<TabItem value='bash'>
-
-```bash
-# restful
-```
-
-</TabItem>
-</Tabs>
 
 ## Index params\{#index-params}
 

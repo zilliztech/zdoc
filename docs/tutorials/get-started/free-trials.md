@@ -11,7 +11,7 @@ notebook: FALSE
 description: "Zilliz Cloud offers both free cluster and free trial to help you evaluate or test the powerful vector database features and estimate costs of using Zilliz Cloud. To start, simply register an account on Zilliz Cloud. No payment information is required. | Cloud"
 type: origin
 token: LMfdwRwKIiJtywkwbHVcGnOFnRf
-sidebar_position: 12
+sidebar_position: 13
 keywords: 
   - zilliz
   - vector database

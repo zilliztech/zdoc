@@ -8,10 +8,10 @@ last_modified: FALSE
 deprecate_since: FALSE
 beta: PUBLIC
 notebook: FALSE
-description: "Zilliz Cloud provides on-demand compute resources, allowing you to run similarity searches and queries on demand. You pay only for the resources you use and can shut down clusters at no cost when you do not need them. | Cloud"
+description: "Zilliz Cloud provides on-demand compute resources, allowing you to run similarity searches and queries on demand. As shown in the figure below, compute resources automatically suspend when no requests arrive, and suspended compute resources do not incur charges. | Cloud"
 type: origin
 token: GQN0wDCrni4n36kyeVQcF41Lned
-sidebar_position: 9
+sidebar_position: 10
 keywords: 
   - zilliz
   - vector database
@@ -30,7 +30,9 @@ import TabItem from '@theme/TabItem';
 
 # Quickstart to On-Demand Search
 
-Zilliz Cloud provides on-demand compute resources, allowing you to run similarity searches and queries on demand. You pay only for the resources you use and can shut down clusters at no cost when you do not need them.
+Zilliz Cloud provides on-demand compute resources, allowing you to run similarity searches and queries on demand. As shown in the figure below, compute resources automatically suspend when no requests arrive, and suspended compute resources do not incur charges.
+
+![ZhWHbgOD0o56IpxbQ32ctGaInBe](https://zdoc-images.s3.us-west-2.amazonaws.com/zhwhbgod0o56ipxbq32ctgainbe.png "ZhWHbgOD0o56IpxbQ32ctGaInBe")
 
 ## Step 1: Connect to a project endpoint.\{#step-1-connect-to-a-project-endpoint}
 

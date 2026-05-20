@@ -11,7 +11,7 @@ notebook: FALSE
 description: "A serving cluster is a self-contained server that combines both compute and storage for real-time production serving. Once you have cleaned your data through your Extract-Transform-Load (ETL) pipelines, you can import it into a serving cluster to deliver significant performance gains. | Cloud"
 type: origin
 token: B1XTwQgNRizAMTkZQvrclGSonyc
-sidebar_position: 8
+sidebar_position: 9
 keywords: 
   - zilliz
   - vector database
@@ -38,17 +38,17 @@ The following procedure assumes that you have already created a serving cluster 
 
 Once you have obtained the cluster credentials or an API key, you can use it to connect to your cluster.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
 from pymilvus import MilvusClient, DataType
 
 SERVING_CLUSTER_ENDPOINT = "https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530"
-TOKEN = "YOUR_CLUSTER_TOKEN" 
+TOKEN = "YOUR_ZILLIZ_API_KEY" 
 # A valid token could be either
 # - An API key, or 
-# - A colon-joined cluster username and password, as in \`user:pass\`
+# - Use your Zilliz Cloud API key
 
 # 1. Set up a Milvus client
 client = MilvusClient(
@@ -59,15 +59,66 @@ client = MilvusClient(
 
 </TabItem>
 
+<TabItem value='java'>
+
+```java
+import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.client.MilvusClientV2;
+
+ConnectConfig config = ConnectConfig.builder()
+    .uri(SERVING_CLUSTER_ENDPOINT)
+    .token(TOKEN)
+    .build();
+MilvusClientV2 client = new MilvusClientV2(config);
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+import (
+    "context"
+
+    "github.com/milvus-io/milvus/client/v2/milvusclient"
+)
+
+ctx := context.Background()
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: SERVING_CLUSTER_ENDPOINT,
+    APIKey:  TOKEN,
+})
+if err != nil {
+    panic(err)
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+import { MilvusClient } from '@zilliz/milvus2-sdk-node';
+
+const client = new MilvusClient({
+  address: SERVING_CLUSTER_ENDPOINT,
+  token: TOKEN,
+});
+
+await client.connectPromise;
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
 export CLOUD_PLATFORM_ENDPOINT="https://api.cloud.zilliz.com"
 export SERVING_CLUSTER_ENDPOINT="https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530"
-export TOKEN="YOUR_CLUSTER_TOKEN"
+export TOKEN="YOUR_ZILLIZ_API_KEY"
 # A valid token could be either
 # - An API key, or 
-# - A colon-joined cluster username and password, as in \`user:pass\`
+# - Use your Zilliz Cloud API key
 ```
 
 </TabItem>
@@ -77,7 +128,7 @@ export TOKEN="YOUR_CLUSTER_TOKEN"
 
 A serving cluster ships with a default database. If you choose that, skip this step. You can also create a database as follows:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -91,6 +142,39 @@ client = MilvusClient(
 client.create_database(
     db_name="my_database"
 )
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.v2.service.database.request.CreateDatabaseReq;
+
+client.createDatabase(CreateDatabaseReq.builder()
+    .databaseName("my_database")
+    .build());
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+err = cli.CreateDatabase(ctx, milvusclient.NewCreateDatabaseOption("my_database"))
+if err != nil {
+    panic(err)
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+await client.createDatabase({
+  db_name: 'my_database',
+});
 ```
 
 </TabItem>
@@ -116,7 +200,7 @@ Once the database is ready, you can create managed collections in it. Unlike an 
 
 The following example demonstrates how to set up the collection schema and create a collection.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -141,6 +225,61 @@ schema.add_field(
     datatype=DataType.FLOAT_VECTOR,
     dim=768
 )
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.v2.common.DataType;
+import io.milvus.v2.service.collection.request.AddFieldReq;
+import io.milvus.v2.service.collection.request.CreateCollectionReq;
+
+CreateCollectionReq.CollectionSchema collectionSchema = CreateCollectionReq.CollectionSchema.builder()
+    .build();
+collectionSchema.addField(AddFieldReq.builder()
+    .fieldName("product_id")
+    .dataType(DataType.Int64)
+    .isPrimaryKey(true)
+    .build());
+collectionSchema.addField(AddFieldReq.builder()
+    .fieldName("product_name")
+    .dataType(DataType.VarChar)
+    .maxLength(512)
+    .build());
+collectionSchema.addField(AddFieldReq.builder()
+    .fieldName("embedding")
+    .dataType(DataType.FloatVector)
+    .dimension(768)
+    .build());
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+import "github.com/milvus-io/milvus/client/v2/entity"
+
+schema := entity.NewSchema().
+    WithField(entity.NewField().WithName("product_id").WithDataType(entity.FieldTypeInt64).WithIsPrimaryKey(true)).
+    WithField(entity.NewField().WithName("product_name").WithDataType(entity.FieldTypeVarChar).WithMaxLength(512)).
+    WithField(entity.NewField().WithName("embedding").WithDataType(entity.FieldTypeFloatVector).WithDim(768))
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+import { DataType } from '@zilliz/milvus2-sdk-node';
+
+const fields = [
+  { name: 'product_id', data_type: DataType.Int64, is_primary_key: true },
+  { name: 'product_name', data_type: DataType.VarChar, max_length: 512 },
+  { name: 'embedding', data_type: DataType.FloatVector, dim: 768 },
+];
 ```
 
 </TabItem>
@@ -178,7 +317,7 @@ export schema='{
 
 Then you can create a collection with the above schema. If you decide to use the default database, you can safely skip the `db_name` parameter.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -191,6 +330,47 @@ client.create_collection(
     collection_name="prod_collection",
     schema=schema
 )
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+client.createCollection(CreateCollectionReq.builder()
+    .databaseName("my_database")
+    .collectionName("prod_collection")
+    .collectionSchema(collectionSchema)
+    .build());
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+err = cli.UseDatabase(ctx, milvusclient.NewUseDatabaseOption("my_database"))
+if err != nil {
+    panic(err)
+}
+
+err = cli.CreateCollection(ctx, milvusclient.NewCreateCollectionOption("prod_collection", schema))
+if err != nil {
+    panic(err)
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+await client.useDatabase({ db_name: 'my_database' });
+
+await client.createCollection({
+  collection_name: 'prod_collection',
+  fields,
+});
 ```
 
 </TabItem>
@@ -216,7 +396,7 @@ curl --request POST \
 
 You need to create indexes for all vector fields and, optionally, for selected scalar fields.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -239,6 +419,62 @@ client.create_index(
     collection_name="prod_collection",
     index_params=index_params
 )
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.v2.common.IndexParam;
+import io.milvus.v2.service.index.request.CreateIndexReq;
+
+List<IndexParam> indexParams = new ArrayList<>();
+indexParams.add(IndexParam.builder()
+    .fieldName("embedding")
+    .indexType(IndexParam.IndexType.AUTOINDEX)
+    .metricType(IndexParam.MetricType.COSINE)
+    .build());
+
+client.createIndex(CreateIndexReq.builder()
+    .databaseName("my_database")
+    .collectionName("prod_collection")
+    .indexParams(indexParams)
+    .build());
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+import "github.com/milvus-io/milvus/client/v2/index"
+
+task, err := cli.CreateIndex(ctx, milvusclient.NewCreateIndexOption(
+    "prod_collection",
+    "embedding",
+    index.NewAutoIndex(entity.COSINE),
+).WithIndexName("embedding"))
+if err != nil {
+    panic(err)
+}
+if err = task.Await(ctx); err != nil {
+    panic(err)
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+await client.createIndex({
+  collection_name: 'prod_collection',
+  field_name: 'embedding',
+  index_type: 'AUTOINDEX',
+  metric_type: 'COSINE',
+  index_name: 'embedding',
+});
 ```
 
 </TabItem>
@@ -278,7 +514,7 @@ curl --request POST \
 
 Once indexes are ready, load the collection into memory.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -286,6 +522,50 @@ client.load_collection(
     db_name="my_database",
     collection_name="prod_collection"
 )
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.v2.service.collection.request.LoadCollectionReq;
+
+client.loadCollection(LoadCollectionReq.builder()
+    .databaseName("my_database")
+    .collectionName("prod_collection")
+    .build());
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+err = cli.UseDatabase(ctx, milvusclient.NewUseDatabaseOption("my_database"))
+if err != nil {
+    panic(err)
+}
+
+loadTask, err := cli.LoadCollection(ctx, milvusclient.NewLoadCollectionOption("prod_collection"))
+if err != nil {
+    panic(err)
+}
+if err = loadTask.Await(ctx); err != nil {
+    panic(err)
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+await client.useDatabase({ db_name: 'my_database' });
+
+await client.loadCollection({
+  collection_name: 'prod_collection',
+});
 ```
 
 </TabItem>
@@ -330,10 +610,10 @@ SECRET_KEY = "YOUR_STORAGE_SECRET_KEY"
 res = bulk_import(
     api_key="YOUR_ZILLIZ_API_KEY",
     url="https://api.cloud.zilliz.com",
-    cluser_id="inxx-xxxxxxxxxxxxxxxxxxx",
+    cluster_id="inxx-xxxxxxxxxxxxxxxxxxx",
     db_name="my_database",
     collection_name="prod_collection",
-    object_url=OBJECT_URLS,
+    object_urls=OBJECT_URLS,
     access_key=ACCESS_KEY,
     secret_key=SECRET_KEY
 )
@@ -411,7 +691,7 @@ curl --request POST \
 
 Once the import completes, you can invite users to consume your data through searches, queries, and hybrid searches.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -424,6 +704,59 @@ res = client.search(
     limit=3,
     output_fields=["product_name"]
 )
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.v2.service.vector.request.SearchReq;
+import io.milvus.v2.service.vector.request.data.FloatVec;
+
+List<Float> queryVector = Arrays.asList(0.35803764f, -0.6023496f, 0.18414013f, -0.26286206f, 0.90294385f);
+SearchResp searchResp = client.search(SearchReq.builder()
+    .databaseName("my_database")
+    .collectionName("prod_collection")
+    .annsField("embedding")
+    .data(Collections.singletonList(new FloatVec(queryVector)))
+    .limit(3)
+    .outputFields(Collections.singletonList("product_name"))
+    .build());
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+queryVector := []float32{0.35803764, -0.6023496, 0.18414013, -0.26286206, 0.90294385}
+resultSets, err := cli.Search(ctx, milvusclient.NewSearchOption(
+    "prod_collection",
+    3,
+    []entity.Vector{entity.FloatVector(queryVector)},
+).WithANNSField("embedding").WithOutputFields("product_name"))
+if err != nil {
+    panic(err)
+}
+_ = resultSets
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const queryVector = [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592];
+
+const results = await client.search({
+  db_name: 'my_database',
+  collection_name: 'prod_collection',
+  anns_field: 'embedding',
+  data: [queryVector],
+  limit: 3,
+  output_fields: ['product_name'],
+});
 ```
 
 </TabItem>

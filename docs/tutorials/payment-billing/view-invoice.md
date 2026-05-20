@@ -11,7 +11,7 @@ notebook: FALSE
 description: "Zilliz Cloud charges at the organization level. To access invoices, you must have either Organization Owner or Billing Admin permissions. | Cloud"
 type: origin
 token: PBEbwjRu9iyyaFkZnuzcINHCnke
-sidebar_position: 7
+sidebar_position: 9
 keywords: 
   - zilliz
   - vector database

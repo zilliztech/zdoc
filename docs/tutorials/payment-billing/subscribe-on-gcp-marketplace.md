@@ -11,7 +11,7 @@ notebook: FALSE
 description: "This guide provides a step-by-step walkthrough of the subscription process and outlines the pricing terms of Zilliz Cloud on GCP Marketplace. | Cloud"
 type: origin
 token: MIqTw7iJ4iQAtVkYKiEc98a7nsh
-sidebar_position: 4
+sidebar_position: 5
 keywords: 
   - zilliz
   - vector database

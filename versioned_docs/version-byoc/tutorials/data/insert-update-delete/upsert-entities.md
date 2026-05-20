@@ -671,7 +671,17 @@ client.upsert(
 <TabItem value='java'>
 
 ```java
-// java
+List<JsonObject> replacementData = Collections.singletonList(
+        gson.fromJson("{\"pk\": 1, \"tags\": [\"new\", \"trial\", \"premium\"]}", JsonObject.class)
+);
+
+client.upsert(UpsertReq.builder()
+        .collectionName("users")
+        // highlight-start
+        .partialUpdate(true)
+        .data(replacementData)
+        // highlight-end
+        .build());
 ```
 
 </TabItem>
@@ -721,7 +731,23 @@ client.upsert(
 <TabItem value='java'>
 
 ```java
-// java
+List<JsonObject> appendData = Collections.singletonList(
+        gson.fromJson("{\"pk\": 1, \"tags\": [\"premium\"]}", JsonObject.class)
+);
+
+UpsertReq.FieldPartialUpdateOp appendTags = UpsertReq.FieldPartialUpdateOp.builder()
+        .fieldName("tags")
+        .opType(UpsertReq.FieldPartialUpdateOp.OpType.ARRAY_APPEND)
+        .build();
+
+client.upsert(UpsertReq.builder()
+        .collectionName("users")
+        // highlight-start
+        .partialUpdate(true)
+        .data(appendData)
+        .fieldOps(Collections.singletonList(appendTags))
+        // highlight-end
+        .build());
 ```
 
 </TabItem>
@@ -872,7 +898,144 @@ print(res)
 <TabItem value='java'>
 
 ```java
-// java
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.client.MilvusClientV2;
+import io.milvus.v2.common.ConsistencyLevel;
+import io.milvus.v2.common.DataType;
+import io.milvus.v2.common.IndexParam;
+import io.milvus.v2.service.collection.request.AddFieldReq;
+import io.milvus.v2.service.collection.request.CreateCollectionReq;
+import io.milvus.v2.service.vector.request.InsertReq;
+import io.milvus.v2.service.vector.request.QueryReq;
+import io.milvus.v2.service.vector.request.UpsertReq;
+import io.milvus.v2.service.vector.response.QueryResp;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
+        .build());
+Gson gson = new Gson();
+
+// 1. Create a collection with an ARRAY<VARCHAR> field
+CreateCollectionReq.CollectionSchema schema = CreateCollectionReq.CollectionSchema.builder()
+        .enableDynamicField(false)
+        .build();
+
+schema.addField(AddFieldReq.builder()
+        .fieldName("pk")
+        .dataType(DataType.Int64)
+        .isPrimaryKey(true)
+        .build());
+schema.addField(AddFieldReq.builder()
+        .fieldName("embedding")
+        .dataType(DataType.FloatVector)
+        .dimension(5)
+        .build());
+schema.addField(AddFieldReq.builder()
+        .fieldName("tags")
+        .dataType(DataType.Array)
+        .elementType(DataType.VarChar)
+        .maxCapacity(8)
+        .maxLength(32)
+        .build());
+
+List<IndexParam> indexParams = Collections.singletonList(IndexParam.builder()
+        .fieldName("embedding")
+        .indexType(IndexParam.IndexType.AUTOINDEX)
+        .metricType(IndexParam.MetricType.L2)
+        .build());
+
+client.createCollection(CreateCollectionReq.builder()
+        .collectionName("users")
+        .collectionSchema(schema)
+        .indexParams(indexParams)
+        .consistencyLevel(ConsistencyLevel.STRONG)
+        .build());
+
+// 2. Seed two entities
+List<JsonObject> data = Arrays.asList(
+        gson.fromJson("{\"pk\": 1, \"embedding\": [0.1, 0.2, 0.3, 0.4, 0.5], \"tags\": [\"new\"]}", JsonObject.class),
+        gson.fromJson("{\"pk\": 2, \"embedding\": [0.6, 0.7, 0.8, 0.9, 1.0], \"tags\": [\"new\", \"trial\"]}", JsonObject.class)
+);
+
+client.insert(InsertReq.builder()
+        .collectionName("users")
+        .data(data)
+        .build());
+
+// 3. Append tags without reading the existing ARRAY values
+List<JsonObject> appendData = Arrays.asList(
+        gson.fromJson("{\"pk\": 1, \"tags\": [\"premium\", \"vip\"]}", JsonObject.class),
+        gson.fromJson("{\"pk\": 2, \"tags\": [\"premium\"]}", JsonObject.class)
+);
+
+UpsertReq.FieldPartialUpdateOp appendTags = UpsertReq.FieldPartialUpdateOp.builder()
+        .fieldName("tags")
+        .opType(UpsertReq.FieldPartialUpdateOp.OpType.ARRAY_APPEND)
+        .build();
+
+client.upsert(UpsertReq.builder()
+        .collectionName("users")
+        // highlight-start
+        .partialUpdate(true)
+        .data(appendData)
+        .fieldOps(Collections.singletonList(appendTags))
+        // highlight-end
+        .build());
+
+QueryResp res = client.query(QueryReq.builder()
+        .collectionName("users")
+        .filter("pk in [1, 2]")
+        .outputFields(Arrays.asList("pk", "tags"))
+        .consistencyLevel(ConsistencyLevel.STRONG)
+        .build());
+System.out.println(res);
+
+// Example output:
+// [
+//   {"pk": 1, "tags": ["new", "premium", "vip"]},
+//   {"pk": 2, "tags": ["new", "trial", "premium"]}
+// ]
+
+// 4. Remove matching tags without replacing the full ARRAY field
+List<JsonObject> removeData = Arrays.asList(
+        gson.fromJson("{\"pk\": 1, \"tags\": [\"new\"]}", JsonObject.class),
+        gson.fromJson("{\"pk\": 2, \"tags\": [\"trial\"]}", JsonObject.class)
+);
+
+UpsertReq.FieldPartialUpdateOp removeTags = UpsertReq.FieldPartialUpdateOp.builder()
+        .fieldName("tags")
+        .opType(UpsertReq.FieldPartialUpdateOp.OpType.ARRAY_REMOVE)
+        .build();
+
+client.upsert(UpsertReq.builder()
+        .collectionName("users")
+        // highlight-start
+        .partialUpdate(true)
+        .data(removeData)
+        .fieldOps(Collections.singletonList(removeTags))
+        // highlight-end
+        .build());
+
+res = client.query(QueryReq.builder()
+        .collectionName("users")
+        .filter("pk in [1, 2]")
+        .outputFields(Arrays.asList("pk", "tags"))
+        .consistencyLevel(ConsistencyLevel.STRONG)
+        .build());
+System.out.println(res);
+
+// Example output:
+// [
+//   {"pk": 1, "tags": ["premium", "vip"]},
+//   {"pk": 2, "tags": ["new", "premium"]}
+// ]
 ```
 
 </TabItem>

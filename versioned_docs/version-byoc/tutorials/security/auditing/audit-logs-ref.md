@@ -68,7 +68,7 @@ On Zilliz Cloud, audit logs have the following syntax:
    <tr>
      <td><p><code>cluster_id</code></p></td>
      <td><p>String</p></td>
-     <td><p>Unique identifier for the cluster where the action occurred (e.g. <code>"inxx-xxxxxxxxxxxxxxx"</code>).</p></td>
+     <td><p>Unique identifier for the cluster where the action occurred (e.g. <code>"in01-b5a7e190615xxxf"</code>).</p></td>
    </tr>
    <tr>
      <td><p><code>database</code></p></td>

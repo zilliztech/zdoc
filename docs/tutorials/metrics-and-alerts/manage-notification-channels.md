@@ -222,7 +222,7 @@ Example webhook notification:
 {
   "orgId": "org-elqqyqjnsdfvcxmpjugfmj",
   "projectId": "proj-a641f9272ca1c5005760e4",
-  "summary": "New Zilliz Cloud Alert for your cluster Cluster-01 (in01-ffbab4a57bdd0bb). CU Computation >= 0 % for 10 minutes.",
+  "summary": "New Zilliz Cloud Alert for your cluster Cluster-01 (inxx-xxxxxxxxxxxxxxx). CU Computation >= 0 % for 10 minutes.",
   "level": "WARNING",
   "timestamp": "2024-03-22T07:11:00Z"
 }

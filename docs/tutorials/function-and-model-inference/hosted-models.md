@@ -83,54 +83,70 @@ Available options include:
    <tr>
      <th><p><strong>Type</strong></p></th>
      <th><p><strong>Model</strong></p></th>
+     <th><p><strong>Description</strong></p></th>
    </tr>
    <tr>
      <td rowspan="9"><p>Embedding</p></td>
-     <td><p>Qwen/Qwen3-Embedding-0.6B</p></td>
+     <td><p><code>Qwen/Qwen3-Embedding-0.6B</code></p></td>
+     <td><p>Lightweight multilingual embedding model for efficient semantic retrieval, code retrieval, classification, and clustering; supports 100+ languages, 32K context, and up to 1024-dimensional embeddings.</p></td>
    </tr>
    <tr>
-     <td><p>Qwen/Qwen3-Embedding-4B</p></td>
+     <td><p><code>Qwen/Qwen3-Embedding-4B</code></p></td>
+     <td><p>Balanced Qwen3 embedding model for stronger multilingual and cross-lingual retrieval quality while keeping deployment cost lower than the 8B model; supports 32K context and up to 2560-dimensional embeddings.</p></td>
    </tr>
    <tr>
-     <td><p>Qwen/Qwen3-Embedding-8B</p></td>
+     <td><p><code>Qwen/Qwen3-Embedding-8B</code></p></td>
+     <td><p>Highest-capacity Qwen3 embedding model for accuracy-focused multilingual, long-text, and code retrieval workloads; supports 32K context and up to 4096-dimensional embeddings.</p></td>
    </tr>
    <tr>
-     <td><p>BAAI/bge-small-en-v1.5</p></td>
+     <td><p><code>BAAI/bge-small-en-v1.5</code></p></td>
+     <td><p>Compact English BGE embedding model for low-cost, low-latency semantic search and retrieval; uses 384-dimensional embeddings.</p></td>
    </tr>
    <tr>
-     <td><p>BAAI/bge-small-zh-v1.5</p></td>
+     <td><p><code>BAAI/bge-small-zh-v1.5</code></p></td>
+     <td><p>Compact Chinese BGE embedding model for efficient Chinese semantic search and retrieval; uses 512-dimensional embeddings.</p></td>
    </tr>
    <tr>
-     <td><p>BAAI/bge-base-en-v1.5</p></td>
+     <td><p><code>BAAI/bge-base-en-v1.5</code></p></td>
+     <td><p>Mid-size English BGE embedding model that balances retrieval quality and efficiency; uses 768-dimensional embeddings.</p></td>
    </tr>
    <tr>
-     <td><p>BAAI/bge-base-zh-v1.5</p></td>
+     <td><p><code>BAAI/bge-base-zh-v1.5</code></p></td>
+     <td><p>Mid-size Chinese BGE embedding model that balances quality and efficiency for Chinese retrieval workloads; uses 768-dimensional embeddings.</p></td>
    </tr>
    <tr>
-     <td><p>BAAI/bge-large-en-v1.5</p></td>
+     <td><p><code>BAAI/bge-large-en-v1.5</code></p></td>
+     <td><p>High-quality English BGE embedding model for accuracy-sensitive semantic search, RAG, and retrieval workloads; uses 1024-dimensional embeddings.</p></td>
    </tr>
    <tr>
-     <td><p>BAAI/bge-large-zh-v1.5</p></td>
+     <td><p><code>BAAI/bge-large-zh-v1.5</code></p></td>
+     <td><p>High-quality Chinese BGE embedding model for accuracy-sensitive Chinese semantic search and retrieval; uses 1024-dimensional embeddings.</p></td>
    </tr>
    <tr>
      <td rowspan="5"><p>Reranking</p></td>
-     <td><p>BAAI/bge-reranker-base</p></td>
+     <td><p><code>BAAI/bge-reranker-base</code></p></td>
+     <td><p>Lightweight English and Chinese cross-encoder reranker for reordering retrieved candidates with fast inference and easy deployment.</p></td>
    </tr>
    <tr>
-     <td><p>BAAI/bge-reranker-large</p></td>
+     <td><p><code>BAAI/bge-reranker-large</code></p></td>
+     <td><p>Larger English and Chinese cross-encoder reranker for higher-quality reranking when accuracy matters more than inference cost.</p></td>
    </tr>
    <tr>
-     <td><p>Qwen/Qwen3-Reranker-0.6B</p></td>
+     <td><p><code>Qwen/Qwen3-Reranker-0.6B</code></p></td>
+     <td><p>Lightweight Qwen3 text reranking model for efficient multilingual and code-related retrieval workflows; supports 100+ languages, 32K context, and instruction-aware reranking.</p></td>
    </tr>
    <tr>
-     <td><p>Qwen/Qwen3-Reranker-4B</p></td>
+     <td><p><code>Qwen/Qwen3-Reranker-4B</code></p></td>
+     <td><p>Balanced Qwen3 reranking model for stronger multilingual, cross-lingual, long-text, and code retrieval quality while keeping deployment cost below the 8B model.</p></td>
    </tr>
    <tr>
-     <td><p>Qwen/Qwen3-Reranker-8B</p></td>
+     <td><p><code>Qwen/Qwen3-Reranker-8B</code></p></td>
+     <td><p>Highest-capacity Qwen3 reranking model for accuracy-focused retrieval scenarios that need strong multilingual, long-context, and instruction-aware ranking performance.</p></td>
    </tr>
    <tr>
      <td><p>Semantic Highlighter</p></td>
-     <td><p>zilliz/semantic-highlight-bilingual-v1</p></td>
+     <td><p><code>zilliz/semantic-highlight-bilingual-v1</code></p></td>
+     <td><p>Lightweight bilingual semantic highlighting model for RAG and search workflows; identifies English or Chinese text segments that are semantically relevant to a query, helping users highlight useful context and reduce unnecessary tokens before generation.</p></td>
    </tr>
 </table>
 

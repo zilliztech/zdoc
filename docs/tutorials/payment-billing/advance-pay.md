@@ -11,7 +11,7 @@ notebook: FALSE
 description: "Zilliz Cloud also accepts advance pay (bank transfer) as the payment method in alternative to adding a credit card or subscribing on AWS Marketplace. | Cloud"
 type: origin
 token: K8hFwmeBQiCSO4ktT9ScD9zMnua
-sidebar_position: 6
+sidebar_position: 8
 keywords: 
   - zilliz
   - vector database

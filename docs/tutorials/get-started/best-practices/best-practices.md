@@ -11,7 +11,7 @@ notebook: FALSE
 description: "You can find articles on the best practices when using Zilliz Cloud. | Cloud"
 type: origin
 token: HWzCwbjfci51HHk4BvTcfbiHn1d
-sidebar_position: 14
+sidebar_position: 15
 keywords: 
   - zilliz
   - vector database

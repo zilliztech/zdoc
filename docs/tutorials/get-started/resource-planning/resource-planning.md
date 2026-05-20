@@ -11,7 +11,7 @@ notebook: FALSE
 description: "Topics related to resource planning before you move your data to Zilliz Cloud. | Cloud"
 type: origin
 token: NM2OwCcfVijX8DkNsIxcdajEnr7
-sidebar_position: 13
+sidebar_position: 14
 keywords: 
   - zilliz
   - vector database

@@ -146,13 +146,14 @@ curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/collections/fields/alter_properties" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
---data "{
+--header "Request-Timeout: 10" \
+--data '{
     "collectionName": "my_collection",
     "field_name": "varchar",
     "properties": {
         "max_length": "1024"
     }
-}"
+}'
 ```
 
 </TabItem>
@@ -226,13 +227,14 @@ curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/collections/fields/alter_properties" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
---data "{
+--header "Request-Timeout: 10" \
+--data '{
     "collectionName": "my_collection",
     "field_name": "array",
     "properties": {
         "max_capacity": "64"
     }
-}"
+}'
 ```
 
 </TabItem>
@@ -304,13 +306,14 @@ curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/collections/fields/alter_properties" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
---data "{
+--header "Request-Timeout: 10" \
+--data '{
     "collectionName": "my_collection",
     "field_name": "doc_chunk",
     "properties": {
         "mmap.enabled": True
     }
-}"
+}'
 ```
 
 </TabItem>

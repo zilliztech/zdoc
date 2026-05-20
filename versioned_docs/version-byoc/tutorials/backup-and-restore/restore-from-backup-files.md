@@ -112,7 +112,7 @@ curl --request POST \
 --header "Authorization: Bearer ${API_KEY}" \
 --header "Content-Type: application/json" \
 -d '{
-    "destClusterId": "in01-xxxxxxxxxxxxxx",
+    "destClusterId": "inxx-xxxxxxxxxxxxxxx",
     "dbCollections": [
         {
             "collections": [

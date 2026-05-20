@@ -180,6 +180,29 @@ class larkDocScraper {
         return children
     }
 
+    __resolve_wiki_file_token(node) {
+        return node.origin_node_token || node.node_token
+    }
+
+    __cleanup_legacy_empty_token_file(node, fileToken) {
+        if (!fileToken) {
+            return
+        }
+
+        const legacyPath = `${this.doc_source_dir}/.json`
+        if (!fs.existsSync(legacyPath)) {
+            return
+        }
+
+        try {
+            const legacy = JSON.parse(fs.readFileSync(legacyPath, 'utf8'))
+            if (legacy?.node_token === node?.node_token) {
+                fs.rmSync(legacyPath, { force: true })
+            }
+        } catch (error) {
+        }
+    }
+
     async __wait(duration) {
         return new Promise((resolve, _) => {
             setTimeout(() => {
@@ -370,8 +393,10 @@ class larkDocScraper {
 
         node.children = directChildren
         node.has_child = true
-        fs.writeFileSync(`${this.doc_source_dir}/${node.origin_node_token}.json`, JSON.stringify(node, null, 2))
-        console.log(`3. Fetched ${node.origin_node_token}.json`)
+        const onePagerToken = this.__resolve_wiki_file_token(node)
+        this.__cleanup_legacy_empty_token_file(node, onePagerToken)
+        fs.writeFileSync(`${this.doc_source_dir}/${onePagerToken}.json`, JSON.stringify(node, null, 2))
+        console.log(`3. Fetched ${onePagerToken}.json`)
 
     }
 
@@ -430,16 +455,20 @@ class larkDocScraper {
                     return item
                 }))
                 
-                fs.writeFileSync(`${this.doc_source_dir}/${node.origin_node_token}.json`, JSON.stringify(node, null, 2))
-                console.log(`0. Fetched ${node.origin_node_token}.json`)
+                const nodeFileToken = this.__resolve_wiki_file_token(node)
+                this.__cleanup_legacy_empty_token_file(node, nodeFileToken)
+                fs.writeFileSync(`${this.doc_source_dir}/${nodeFileToken}.json`, JSON.stringify(node, null, 2))
+                console.log(`0. Fetched ${nodeFileToken}.json`)
                 
                 if (recursive) {
                     await Promise.all(node.children.map(async child => {
                         await this.__fetch_wiki_children(child, recursive)
                         await this.__fetch_blocks(child)
                         child.slug = await this.__slugify(child.node_token, child.title)
-                        fs.writeFileSync(`${this.doc_source_dir}/${child.origin_node_token}.json`, JSON.stringify(child, null, 2))
-                        console.log(`1. Fetched ${child.origin_node_token}.json`)
+                        const childFileToken = this.__resolve_wiki_file_token(child)
+                        this.__cleanup_legacy_empty_token_file(child, childFileToken)
+                        fs.writeFileSync(`${this.doc_source_dir}/${childFileToken}.json`, JSON.stringify(child, null, 2))
+                        console.log(`1. Fetched ${childFileToken}.json`)
                         delete child.children
                         delete child.blocks
                     }))
@@ -450,8 +479,10 @@ class larkDocScraper {
                 await this.__fetch_wiki_children(node, recursive)
             }
         } else {
-            fs.writeFileSync(`${this.doc_source_dir}/${node.origin_node_token}.json`, JSON.stringify(node, null, 2))
-            console.log(`2. Fetched ${node.origin_node_token}.json`)
+            const nodeFileToken = this.__resolve_wiki_file_token(node)
+            this.__cleanup_legacy_empty_token_file(node, nodeFileToken)
+            fs.writeFileSync(`${this.doc_source_dir}/${nodeFileToken}.json`, JSON.stringify(node, null, 2))
+            console.log(`2. Fetched ${nodeFileToken}.json`)
         }
     }
 

@@ -170,7 +170,7 @@ The diagram above illustrates the traffic flow from your client application to B
 
 1. On the **Cluster Details** page, locate the **Connect** card.
 
-1. Copy the **Cluster Endpoint** — it is in the format `<i>http</i>s://${cluster-id}-internal.${region}.byoc.vectordb.zillizcloud.com:19530`.
+1. Copy the **Cluster Endpoint** — it is in the format `https://${cluster-id}-internal.${region}.byoc.vectordb.zillizcloud.com:19530`.
 
     <Admonition type="info" icon="📘" title="Notes">
 

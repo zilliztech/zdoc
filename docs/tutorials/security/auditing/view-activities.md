@@ -61,11 +61,11 @@ To enhance your control and ease in navigating through the platform audit logs, 
        </tr>
        <tr>
          <td><p>Info</p></td>
-         <td><p>General information related to clusters, access, or billing. </p><p>Eg. Cluster in01-xxxxxxxxxxxxxxx was created.</p></td>
+         <td><p>General information related to clusters, access, or billing. </p><p>Eg. Cluster inxx-xxxxxxxxxxxxxxx was created.</p></td>
        </tr>
        <tr>
          <td><p>Warning</p></td>
-         <td><p>Updates regarding resource states that necessitate your attention.</p><p>E.g., "Cluster in01-xxxxxxxxxxxxxxx was deleted."</p></td>
+         <td><p>Updates regarding resource states that necessitate your attention.</p><p>E.g., "Cluster inxx-xxxxxxxxxxxxxxx was deleted."</p></td>
        </tr>
        <tr>
          <td><p>Error</p></td>

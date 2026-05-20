@@ -222,6 +222,7 @@ export MILVUS_HOST="YOUR_CLUSTER_ENDPOINT"
 export TEXT_TO_ANALYZE="An efficient system relies on a robust analyzer to correctly process text for various applications."
 curl -X POST "http://${MILVUS_HOST}/v2/vectordb/common/run_analyzer" \
   -H "Content-Type: application/json" \
+  -H "Request-Timeout: 10" \
   -d '{
     "text": ["'"${TEXT_TO_ANALYZE}"'"],
     "analyzerParams": "{\"type\":\"standard\",\"stop_words\":[\"a\",\"an\",\"for\"]}"
@@ -679,6 +680,7 @@ export MILVUS_HOST="YOUR_CLUSTER_ENDPOINT"
 export MILVUS_TOKEN="YOUR_CLUSTER_TOKEN"
 curl -X POST "http://${MILVUS_HOST}/v2/vectordb/collections/create" \
   -H "Content-Type: application/json" \
+  -H "Request-Timeout: 10" \
   -H "Authorization: Bearer ${MILVUS_TOKEN}" \
   -d '{
     "collectionName": "my_collection",
@@ -782,6 +784,7 @@ curl -X POST "http://${MILVUS_HOST}/v2/vectordb/collections/create" \
     export SAMPLE_TEXT="Milvus simplifies text analysis for search."
     curl -X POST "http://${MILVUS_HOST}/v2/vectordb/common/run_analyzer" \
       -H "Content-Type: application/json" \
+      -H "Request-Timeout: 10" \
       -d '{
         "text": ["'"${SAMPLE_TEXT}"'"],
         "analyzerParams": "{\"type\":\"english\"}"
@@ -923,6 +926,7 @@ curl -X POST "http://${MILVUS_HOST}/v2/vectordb/collections/create" \
     # 使用自定义分析器配置
     curl -X POST "http://${MILVUS_HOST}/v2/vectordb/common/run_analyzer" \
       -H "Content-Type: application/json" \
+      -H "Request-Timeout: 10" \
       -d '{
         "text": ["'"${SAMPLE_TEXT}"'"],
         "analyzerParams": "{\"tokenizer\":\"standard\",\"filter\":[\"lowercase\",{\"type\":\"length\",\"max\":40},{\"type\":\"stop\",\"stop_words\":[\"of\",\"for\"]}]}"
@@ -1215,6 +1219,7 @@ export INDEX_PARAMS='[{"fieldName": "embedding", "metricType": "COSINE", "indexT
 # restful
 curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/create" \
   -H "Content-Type: application/json" \
+  -H "Request-Timeout: 10" \
   -d "{
     \"collectionName\": \"my_collection\",
     \"schema\": ${SCHEMA_CONFIG},

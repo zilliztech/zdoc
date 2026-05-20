@@ -16,7 +16,7 @@ keywords:
   - zilliz
   - vector database
   - cloud
-  - changelogs
+  - release notes
 
 ---
 

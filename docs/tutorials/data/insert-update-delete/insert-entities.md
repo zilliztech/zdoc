@@ -34,7 +34,8 @@ Entities in a collection are data records that share the same set of fields. Fie
 <Admonition type="info" icon="📘" title="Notes">
 
 <ul>
-<li><strong>Duplicate handling</strong>: The standard <code>insert</code> operation does not check for duplicate primary keys. Inserting data with an existing primary key creates a new entity with the same key, leading to data duplication and potential application issues. To update existing entities or avoid duplicates, use the <code>upsert</code> operation instead. For more information, refer to <a href="./upsert-entities">Upsert Entities</a>.</li>
+<li><p><strong>Fields added after collection creation</strong>: If you add new fields to a collection after creation and don't specify values during insertion, Milvus automatically populates them with defined default values or NULL if no defaults are set. For details, refer to <a href="./add-fields-to-an-existing-collection">Add Fields to an Existing Collection</a>.</p></li>
+<li><p><strong>Duplicate handling</strong>: The standard <code>insert</code> operation does not check for duplicate primary keys. Inserting data with an existing primary key creates a new entity with the same key, leading to data duplication and potential application issues. To update existing entities or avoid duplicates, use the <code>upsert</code> operation instead. For more information, refer to <a href="./upsert-entities">Upsert Entities</a>.</p></li>
 </ul>
 
 </Admonition>
@@ -237,6 +238,7 @@ curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/insert" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
+--header "Request-Timeout: 10" \
 -d '{
     "data": [
         {"id": 0, "vector": [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592], "color": "pink_8682"},
@@ -431,6 +433,7 @@ curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/insert" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
+--header "Request-Timeout: 10" \
 -d '{
     "data": [
         {"id": 10, "vector": [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592], "color": "pink_8682"},

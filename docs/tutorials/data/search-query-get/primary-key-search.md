@@ -149,6 +149,7 @@ for (List<SearchResp.SearchResult> results : searchResults) {
 curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/entities/search" \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer YOUR_CLUSTER_TOKEN" \
+  -H "Request-Timeout: 10" \
   -d '{
     "collectionName": "my_collection",
     "annsField": "vector",
@@ -226,6 +227,7 @@ for (List<SearchResp.SearchResult> results : searchResults) {
 curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/entities/search" \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer YOUR_CLUSTER_TOKEN" \
+  -H "Request-Timeout: 10" \
   -d '{
     "collectionName": "my_collection",
     "annsField": "vector",
@@ -312,6 +314,7 @@ for (List<SearchResp.SearchResult> results : searchResults) {
 curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/entities/search" \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer YOUR_CLUSTER_TOKEN" \
+  -H "Request-Timeout: 10" \
   -d '{
     "collectionName": "my_collection",
     "annsField": "vector",
@@ -395,6 +398,7 @@ for (List<SearchResp.SearchResult> results : searchResults) {
 curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/entities/search" \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer YOUR_CLUSTER_TOKEN" \
+  -H "Request-Timeout: 10" \
   -d '{
     "collectionName": "my_collection",
     "annsField": "vector",

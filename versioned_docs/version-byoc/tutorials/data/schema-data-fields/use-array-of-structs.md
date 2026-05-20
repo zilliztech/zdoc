@@ -28,8 +28,6 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-import Grid from '@site/src/components/Grid';
-
 # StructArray
 
 An Array of Structs field, or a StructArray field, in an entity stores an ordered set of Struct elements. Each Struct in the Array shares the same pre-defined schema, comprising multiple vectors and scalar fields.
@@ -86,33 +84,9 @@ If your answers to the questions above are yes, you should use the StructArray.
 
     A Struct schema contains both vectors and scalar fields, as listed below:
 
-    <Grid columnSize="2" widthRatios="50,50">
+    - Applicable vector fields: `FLOAT_VECTOR`, 
 
-        <div>
-
-            Applicable vector fields:
-
-            - `FLOAT_VECTOR`
-
-        </div>
-
-        <div>
-
-            Applicable scalar fields:
-
-            - `VARCHAR`
-
-            - `INT8/16/32/64`
-
-            - `FLOAT`
-
-            - `DOUBLE`
-
-            - `BOOL`
-
-        </div>
-
-    </Grid>
+    - Applicable scalar fields: `VARCHAR`, `INT8/16/32/64`, `FLOAT`, `DOUBLE`, `BOOL`
 
     Keep the number of vector fields both at the collection level and in the Structs combined to be no greater than or equal to the upper bound of your cluster. For details, refer to [Zilliz Cloud Limits](./limits#fields).
 
@@ -586,6 +560,7 @@ await milvusClient.createCollection({
 # restful
 curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/create" \
   -H "Content-Type: application/json" \
+  -H "Request-Timeout: 10" \
   -d "{
     \"collectionName\": \"my_collection\",
     \"description\": \"A collection for storing book information with struct array chunks\",
@@ -719,6 +694,7 @@ await milvusClient.insert({
 # restful
 curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/entities/insert" \
   -H "Content-Type: application/json" \
+  -H "Request-Timeout: 10" \
   -d '{
     "collectionName": "my_collection",
     "data": [
@@ -938,6 +914,7 @@ embeddingList1='[[0.2,0.9,0.4,-0.3,0.2]]'
 embeddingList2='[[-0.2,-0.2,0.5,0.6,0.9],[-0.4,0.3,0.5,0.8,0.2]]'
 curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/entities/search" \
   -H "Content-Type: application/json" \
+  -H "Request-Timeout: 10" \
   -d "{
     \"collectionName\": \"my_collection\",
     \"data\": [$embeddingList1],
@@ -1080,6 +1057,7 @@ const results2 = await milvusClient.search({
 # restful
 curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/entities/search" \
   -H "Content-Type: application/json" \
+  -H "Request-Timeout: 10" \
   -d "{
     \"collectionName\": \"my_collection\",
     \"data\": [$embeddingList1, $embeddingList2],
