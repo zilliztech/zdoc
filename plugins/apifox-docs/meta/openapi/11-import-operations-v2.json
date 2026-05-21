@@ -718,6 +718,7 @@
                   "x-include-target": [
                     "zilliz"
                   ],
+                  "x-target-lang": "en-US",  
                   "value": {
                     "clusterId": "inxx-xxxxxxxxxxxxxxx",
                     "dbName": "default",
@@ -725,7 +726,7 @@
                     "partitionName": "",
                     "objectUrls": [
                       [
-                        "https://s3.us-west-2.amazonaws.com/publicdataset.zillizcloud.com/medium_articles_2020_dpr/medium_articles_2020_dpr.json"
+                        "https://s3.<region>.amazonaws.com/publicdataset.zillizcloud.com/medium_articles_2020_dpr/medium_articles_2020_dpr.json"
                       ]
                     ],
                     "accessKey": "",
@@ -738,6 +739,7 @@
                   "x-include-target": [
                     "zilliz"
                   ],
+                  "x-target-lang": "en-US",
                   "value": {
                     "clusterId": "inxx-xxxxxxxxxxxxxxx",
                     "dbName": "default",
@@ -757,15 +759,16 @@
                   "x-include-target": [
                     "zilliz"
                   ],
+                  "x-target-lang": "en-US",
                   "value": {
                     "projectId": "proj-xxxxxxxxxxxxxxx",
-                    "regionId": "aws-us-west-2",
+                    "regionId": "ali-cn-hangzhou",
                     "dbName": "default",
                     "collectionName": "medium_articles",
                     "partitionName": "",
                     "objectUrls": [
                       [
-                        "https://s3.us-west-2.amazonaws.com/publicdataset.zillizcloud.com/medium_articles_2020_dpr/medium_articles_2020_dpr.json"
+                        "https://s3.<region>.amazonaws.com/publicdataset.zillizcloud.com/medium_articles_2020_dpr/medium_articles_2020_dpr.json"
                       ]
                     ],
                     "accessKey": "",
@@ -778,9 +781,94 @@
                   "x-include-target": [
                     "zilliz"
                   ],
+                  "x-target-lang": "en-US",
                   "value": {
                     "projectId": "proj-xxxxxxxxxxxxxxx",
-                    "regionId": "aws-us-west-2",
+                    "regionId": "ali-cn-hangzhou",
+                    "dbName": "default",
+                    "collectionName": "medium_articles",
+                    "partitionName": "",
+                    "volumeName": "my_volume",
+                    "dataPaths": [
+                      [
+                        "json-folder/1.json"
+                      ]
+                    ]
+                  }
+                },
+                "6": {
+                  "summary": "object storage (serving)",
+                  "x-target-request": "OPTION 3",
+                  "x-include-target": [
+                    "zilliz"
+                  ],
+                  "x-target-lang": "zh-CN",  
+                  "value": {
+                    "clusterId": "inxx-xxxxxxxxxxxxxxx",
+                    "dbName": "default",
+                    "collectionName": "medium_articles",
+                    "partitionName": "",
+                    "objectUrls": [
+                      [
+                        "https://oss.<region>.aliyuncs.com/publicdataset.zillizcloud.com/medium_articles_2020_dpr/medium_articles_2020_dpr.json"
+                      ]
+                    ],
+                    "accessKey": "",
+                    "secretKey": ""
+                  }
+                },
+                "7": {
+                  "summary": "volume (serving)",
+                  "x-target-request": "OPTION 1",
+                  "x-include-target": [
+                    "zilliz"
+                  ],
+                  "x-target-lang": "zh-CN",
+                  "value": {
+                    "clusterId": "inxx-xxxxxxxxxxxxxxx",
+                    "dbName": "default",
+                    "collectionName": "medium_articles",
+                    "partitionName": "",
+                    "volumeName": "my_volume",
+                    "dataPaths": [
+                      [
+                        "json-folder/1.json"
+                      ]
+                    ]
+                  }
+                },
+                "8": {
+                  "summary": "object storage (on-demand)",
+                  "x-target-request": "OPTION 4",
+                  "x-include-target": [
+                    "zilliz"
+                  ],
+                  "x-target-lang": "zh-CN",
+                  "value": {
+                    "projectId": "proj-xxxxxxxxxxxxxxx",
+                    "regionId": "ali-cn-hangzhou",
+                    "dbName": "default",
+                    "collectionName": "medium_articles",
+                    "partitionName": "",
+                    "objectUrls": [
+                      [
+                        "https://oss.<region>.aliyuncs.com/publicdataset.zillizcloud.com/medium_articles_2020_dpr/medium_articles_2020_dpr.json"
+                      ]
+                    ],
+                    "accessKey": "",
+                    "secretKey": ""
+                  }
+                },
+                "9": {
+                  "summary": "volume (on-demand)",
+                  "x-target-request": "OPTION 2",
+                  "x-include-target": [
+                    "zilliz"
+                  ],
+                  "x-target-lang": "zh-CN",
+                  "value": {
+                    "projectId": "proj-xxxxxxxxxxxxxxx",
+                    "regionId": "ali-cn-hangzhou",
                     "dbName": "default",
                     "collectionName": "medium_articles",
                     "partitionName": "",
@@ -1411,10 +1499,24 @@
                   "x-include-target": [
                     "zilliz"
                   ],
+                  "x-target-lang": "en-US",
                   "value": {
                     "jobId": "job-xxxxxxxxxxxxxxxxxxxxx",
                     "projectId": "proj-xxxxxxxxxxxxxxx",
                     "regionId": "aws-us-west-2"
+                  }
+                },
+                "3": {
+                  "summary": "on-demand compute",
+                  "x-target-request": "OPTION 2",
+                  "x-include-target": [
+                    "zilliz"
+                  ],
+                  "x-target-lang": "zh-CN",
+                  "value": {
+                    "jobId": "job-xxxxxxxxxxxxxxxxxxxxx",
+                    "projectId": "proj-xxxxxxxxxxxxxxx",
+                    "regionId": "ali-cn-hangzhou"
                   }
                 }
               }

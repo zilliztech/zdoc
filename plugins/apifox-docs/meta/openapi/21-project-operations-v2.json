@@ -227,6 +227,7 @@
                   "1": {
                     "summary": "success",
                     "x-target-response": "OPTION 1",
+                    "x-target-lang": "en-US",
                     "value": {
                       "code": 0,
                       "data": [
@@ -243,6 +244,25 @@
                     }
                   },
                   "2": {
+                    "summary": "success",
+                    "x-target-response": "OPTION 1",
+                    "x-target-lang": "zh-CN",
+                    "value": {
+                      "code": 0,
+                      "data": [
+                        {
+                          "projectName": "Default Project",
+                          "projectId": "proj-xxxxxxxxxxxxxxxxxxxxxxx",
+                          "regionIds": ["ali-cn-hangzhou"],
+                          "instanceCount": 2,
+                          "createTime": "2023-08-16T07:34:06Z",
+                          "plan": "Enterprise",
+                          "orgType": "SAAS"
+                        }
+                      ]
+                    }
+                  },
+                  "3": {
                     "summary": "failure",
                     "x-target-response": "OPTION 2",
                     "value": {

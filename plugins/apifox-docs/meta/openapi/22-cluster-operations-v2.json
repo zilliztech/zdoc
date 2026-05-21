@@ -375,6 +375,36 @@
                     }
                   },
                   "2": {
+                    "summary": "success",
+                    "x-target-response": "OPTION 1",
+                    "x-target-lang": "zh-CN",
+                    "value": {
+                      "code": 0,
+                      "data": {
+                        "count": 1,
+                        "currentPage": 1,
+                        "pageSize": 10,
+                        "clusters": [
+                          {
+                            "clusterId": "inxx-xxxxxxxxxxxxxxx",
+                            "clusterName": "dedicated-3",
+                            "description": "",
+                            "regionId": "ali-cn-hangzhou",
+                            "plan": "Enterprise",
+                            "cuType": "Performance-optimized",
+                            "cuSize": 1,
+                            "status": "RUNNING",
+                            "connectAddress": "https://inxx-xxxxxxxxxxxxxxx.ali-cn-hangzhou.vectordb.zilliz.com.cn:19530",
+                            "privateLinkAddress": "",
+                            "createTime": "2024-06-30T16:49:50Z",
+                            "projectId": "proj-xxxxxxxxxxxxxxxxxxxxxx",
+                            "deploymentOption": "Dedicated"
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  "3": {
                     "summary": "failure",
                     "x-target-response": "OPTION 2",
                     "value": {
@@ -550,7 +580,7 @@
                   "value": {
                     "clusterName": "Cluster-05",
                     "projectId": "proj-xxxxxxxxxxxxxxxxxxxxxx",
-                    "regionId": "ali-cn-hangzhou",
+                    "regionId": "ali-cn-beijing",
                     "plan": "Standard",
                     "cuType": "Performance-optimized",
                     "cuSize": 1
@@ -1049,7 +1079,7 @@
                   "x-target-lang": "zh-CN",
                   "value": {
                     "projectId": "proj-xxxxxxxxxxxxxxxxxxx",
-                    "regionId": "ali-cn-hangzhou",
+                    "regionId": "ali-cn-beijing",
                     "clusterName": "my-on-demand",
                     "cuSize": 8,
                     "autoSuspend": 60
@@ -1679,7 +1709,7 @@
                             "regionId": "aws-us-west-2",
                             "cuSize": 8,
                             "status": "RUNNING",
-                            "endpoint": "https://proj-xxxxxxxxxxxxxxx.aws-us-west-2.zillizcloud.com",
+                            "endpoint": "https://proj-xxxxxxxxxxxxxxx.aws-us-west-2.api.zillizcloud.com",
                             "privateLink": "",
                             "createdBy": "john.doe@zilliz.com",
                             "createTime": 1745396115000,
@@ -1692,7 +1722,7 @@
                             "regionId": "aws-us-west-2",
                             "status": "RUNNING",
                             "cuSize": 8,
-                            "endpoint": "https://proj-xxxxxxxxxxxxxxx.aws-us-west-2.zillizcloud.com",
+                            "endpoint": "https://proj-xxxxxxxxxxxxxxx.aws-us-west-2.api.zillizcloud.com",
                             "privateLink": "",
                             "createdBy": "john.doe@zilliz.com",
                             "createTime": 1745396116450,
@@ -1703,6 +1733,44 @@
                     }
                   },
                   "2": {
+                    "summary": "success",
+                    "x-target-lang": "zh-CN",
+                    "value": {
+                      "code": 0,
+                      "data": {
+                        "count": 2,
+                        "onDemandClusters": [
+                          {
+                            "projectId": "proj-xxxxxxxxxxxxxxx",
+                            "clusterId": "inxx-xxxxxxxxxxxxxxx",
+                            "clusterName": "Cluster-01",
+                            "regionId": "ali-cn-beijing",
+                            "cuSize": 8,
+                            "status": "RUNNING",
+                            "endpoint": "https://proj-xxxxxxxxxxxxxxx.ali-cn-beijing.api.cloud.zilliz.com.cn",
+                            "privateLink": "",
+                            "createdBy": "john.doe@zilliz.com",
+                            "createTime": 1745396115000,
+                            "autoSuspend": 60
+                          },
+                          {
+                            "projectId": "proj-xxxxxxxxxxxxxxx",
+                            "clusterId": "inxx-xxxxxxxxxxxxxxx",
+                            "clusterName": "Cluster-02",
+                            "regionId": "ali-cn-beijing",
+                            "status": "RUNNING",
+                            "cuSize": 8,
+                            "endpoint": "https://proj-xxxxxxxxxxxxxxx.ali-cn-beijing.api.cloud.zilliz.com.cn",
+                            "privateLink": "",
+                            "createdBy": "john.doe@zilliz.com",
+                            "createTime": 1745396116450,
+                            "autoSuspend": 60
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  "3": {
                     "summary": "failure",
                     "value": {
                       "code": 21119,
@@ -2090,7 +2158,7 @@
                         "regionId": "aws-us-west-2",
                         "cuSize": 8,
                         "status": "RUNNING",
-                        "endpoint": "https://proj-xxxxxxxxxxxxxxx.aws-us-west-2.zillizcloud.com",
+                        "endpoint": "https://proj-xxxxxxxxxxxxxxx.aws-us-west-2.api.zillizcloud.com",
                         "privateLink": "",
                         "createdBy": "john.doe@zilliz.com",
                         "createTime": 1745396115000,
@@ -2099,6 +2167,26 @@
                     }
                   },
                   "2": {
+                    "summary": "success",
+                    "x-target-lang": "zh-CN",
+                    "value": {
+                      "code": 0,
+                      "data": {
+                        "projectId": "proj-xxxxxxxxxxxxxxxxxx",
+                        "clusterId": "inxx-xxxxxxxxxxxxxxx",
+                        "clusterName": "Cluster-01",
+                        "regionId": "ali-cn-beijing",
+                        "cuSize": 8,
+                        "status": "RUNNING",
+                        "endpoint": "https://proj-xxxxxxxxxxxxxxx.ali-cn-beijing.api.zilliz.com.cn",
+                        "privateLink": "",
+                        "createdBy": "john.doe@zilliz.com",
+                        "createTime": 1745396115000,
+                        "autoSuspend": 60
+                      }
+                    }
+                  },
+                  "3": {
                     "summary": "failure",
                     "value": {
                       "code": 21119,
@@ -2691,7 +2779,7 @@
                         "cuType": "Performance-optimized",
                         "plan": "Standard",
                         "status": "RUNNING",
-                        "connectAddress": "https://in01-108240180a4faf8.ali-cn-hangzhou.vectordb.zillizcloud.com:19539",
+                        "connectAddress": "https://in01-108240180a4faf8.ali-cn-hangzhou.vectordb.zilliz.com.cn:19539",
                         "privateLinkAddress": "",
                         "createTime": "2024-06-30T16:34:09Z",
                         "replica": 1,
@@ -2717,7 +2805,7 @@
                         "cuType": "",
                         "plan": "Serverless",
                         "status": "RUNNING",
-                        "connectAddress": "https://in05-991240180a4faf8.ali-cn-hangzhou.cloud.zilliz.com",
+                        "connectAddress": "https://in05-991240180a4faf8.ali-cn-hangzhou.cloud.zilliz.com.cn",
                         "privateLinkAddress": "",
                         "createTime": "2024-06-29T16:35:09Z",
                         "replica": 1,
@@ -2743,7 +2831,7 @@
                         "cuType": "",
                         "plan": "Free",
                         "status": "RUNNING",
-                        "connectAddress": "https://in03-112340180a4faf8.api.ali-cn-hangzhou.zillizcloud.com",
+                        "connectAddress": "https://in03-112340180a4faf8.ali-cn-hangzhou.zilliz.com.cn",
                         "privateLinkAddress": "",
                         "createTime": "2024-06-24T12:35:09Z",
                         "replica": 1,

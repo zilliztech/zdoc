@@ -93,9 +93,23 @@
                   "regionId"
                 ]
               },
-              "example": {
-                "projectId": "proj-xxx",
-                "regionId": "aws-us-west-2"
+              "examples": {
+                "1": {
+                  "summary": "Global",
+                  "x-target-lang": "en-US",
+                  "value": {
+                    "projectId": "proj-xxx",
+                    "regionId": "aws-us-west-2"
+                  }
+                },
+                "2": {
+                  "summary": "China",
+                  "x-target-lang": "zh-CN",
+                  "value": {
+                    "projectId": "proj-xxx",
+                    "regionId": "ali-cn-hangzhou"
+                  }
+                }
               }
             }
           }
@@ -220,6 +234,20 @@
                   "1": {
                     "summary": "success",
                     "x-target-response": "OPTION 1",
+                    "x-target-lang": "zh-CN",
+                    "value": {
+                      "code": 0,
+                      "data": {
+                        "projectId": "proj-xxx",
+                        "regionId": "ali-cn-hangzhou",
+                        "status": "enabled"
+                      }
+                    }
+                  },
+                  "2": {
+                    "summary": "success",
+                    "x-target-response": "OPTION 1",
+                    "x-target-lang": "en-US",
                     "value": {
                       "code": 0,
                       "data": {
@@ -229,7 +257,7 @@
                       }
                     }
                   },
-                  "2": {
+                  "3": {
                     "summary": "failure",
                     "x-target-response": "OPTION 2",
                     "value": {
@@ -425,6 +453,7 @@
                   "1": {
                     "summary": "success",
                     "x-target-response": "OPTION 1",
+                    "x-target-lang": "en-US",
                     "value": {
                       "code": 0,
                       "data": {
@@ -435,6 +464,19 @@
                     }
                   },
                   "2": {
+                    "summary": "success",
+                    "x-target-response": "OPTION 1",
+                    "x-target-lang": "zh-CN",
+                    "value": {
+                      "code": 0,
+                      "data": {
+                        "projectId": "proj-xxx",
+                        "regionId": "ali-cn-hangzhou",
+                        "status": "enabled"
+                      }
+                    }
+                  },
+                  "3": {
                     "summary": "failure",
                     "x-target-response": "OPTION 2",
                     "value": {
