@@ -1,7 +1,7 @@
 import React from 'react';
 import clsx from 'clsx';
 import Translate from '@docusaurus/Translate';
-import Heading from '@theme/Heading';
+import Heading from '@theme-original/Heading';
 
 export default function NotFoundContent({className}) {
   return (

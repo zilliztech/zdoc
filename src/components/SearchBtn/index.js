@@ -14,23 +14,28 @@ export default function SearchBtn(props) {
         setIsOpen(isOpen);
     }, []);
 
-    const config = inkeepSettings;
-
-    config.baseSettings.apiKey = siteConfig.plugins.find(plugin => {
+    const apiKey = siteConfig.plugins.find(plugin => {
         return plugin[0] === '@inkeep/cxkit-docusaurus';
-    })[1].ChatButton.baseSettings.apiKey;
+    })?.[1]?.SearchBar?.baseSettings?.apiKey;
 
-    config.modalSettings = {
-        isOpen,
-        onOpenChange: handleOpenChange,
-    }
+    const config = {
+        ...inkeepSettings,
+        baseSettings: {
+            ...inkeepSettings.baseSettings,
+            apiKey,
+        },
+        modalSettings: {
+            isOpen,
+            onOpenChange: handleOpenChange,
+        },
+    };
 
     return (
         <>
             <div className={styles.searchBtn} onClick={() => setIsOpen(true)}>
                 <i className={styles.searchIcon} />
             </div>
-            <InkeepModalSearch {...config} />
+            {apiKey && <InkeepModalSearch {...config} />}
         </>
     )
 }

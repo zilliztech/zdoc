@@ -14,15 +14,20 @@ export default function Banner({ bannerText, bannerLinkText }) {
         setIsOpen(isOpen);
     }, []);
 
-    const config = inkeepSettings;
-
-    config.baseSettings.apiKey = siteConfig.plugins.find(plugin => {
+    const apiKey = siteConfig.plugins.find(plugin => {
         return plugin[0] === '@inkeep/cxkit-docusaurus';
-    })[1].SearchBar.baseSettings.apiKey;
+    })?.[1]?.SearchBar?.baseSettings?.apiKey;
 
-    config.modalSettings = {
-        isOpen,
-        onOpenChange: handleOpenChange,
+    const config = {
+        ...inkeepSettings,
+        baseSettings: {
+            ...inkeepSettings.baseSettings,
+            apiKey,
+        },
+        modalSettings: {
+            isOpen,
+            onOpenChange: handleOpenChange,
+        },
     };
 
     return (
@@ -37,7 +42,7 @@ export default function Banner({ bannerText, bannerLinkText }) {
                 </span>
             </div> 
 
-            <InkeepModalChat {...config} />
+            {apiKey && <InkeepModalChat {...config} />}
         </div>
     )
 }
