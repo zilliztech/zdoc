@@ -358,6 +358,30 @@ function HeadingWithDocContext(props) {
   );
 }
 
+class SafeDocHeading extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError(error) {
+    if (
+      error?.message?.includes('DocProvider') ||
+      error?.message?.includes('outside the <DocProvider>')
+    ) {
+      return { hasError: true };
+    }
+    throw error;
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return <Heading {...this.props} />;
+    }
+    return <HeadingWithDocContext {...this.props} />;
+  }
+}
+
 export default function HeadingWrapper(props) {
   const { pathname } = useLocation();
   // useDoc() only works inside <DocProvider>, which only exists on /docs and /reference pages.
@@ -368,5 +392,8 @@ export default function HeadingWrapper(props) {
   if (!isDocPage) {
     return <Heading {...props} />;
   }
-  return <HeadingWithDocContext {...props} />;
+  // For URLs that look like doc pages, we might be on a 404 page during
+  // client-side hydration (e.g., /docs/volum). SafeDocHeading catches the
+  // useDoc() error on the client and falls back to the plain Heading.
+  return <SafeDocHeading {...props} />;
 }
