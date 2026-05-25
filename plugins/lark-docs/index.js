@@ -80,7 +80,7 @@ function fetchLarkDocsPlugin(context, options) {
                             fs.mkdirSync(docSourceDir, { recursive: true })
                             await scraper.fetch(true)
                             if (fallbackSourceDir !== undefined) {
-                                utils.fetch_fallback_sources(docSourceDir, fallbackSourceDir, sourceType)
+                                utils.fetch_fallback_sources(docSourceDir, fallbackSourceDir, sourceType, root)
                             }
                         // Pull specific source file from Feishu
                         } else if (opts.docToken !== undefined) {
@@ -125,7 +125,7 @@ function fetchLarkDocsPlugin(context, options) {
                                 fs.mkdirSync(docSourceDir, { recursive: true })
                                 await scraper.fetch(true)
                                 if (fallbackSourceDir !== undefined) {
-                                    utils.fetch_fallback_sources(docSourceDir, fallbackSourceDir, sourceType)
+                                    utils.fetch_fallback_sources(docSourceDir, fallbackSourceDir, sourceType, root)
                                 }
                             }
                             
