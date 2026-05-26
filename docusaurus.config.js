@@ -70,6 +70,7 @@ const config = {
       ({
         docs: {
           path: 'docs',
+          exclude: ['**/get-started/release-notes/release-notes.md'],
           breadcrumbs: false,
           sidebarPath: require.resolve('./sidebarsTutorial.js'),
           routeBasePath: 'docs',
@@ -319,7 +320,7 @@ const config = {
               },
               {
                 label: 'Release Notes',
-                to: '/docs/release-notes',
+                to: '/docs/changelogs',
               }
             ],
           },
