@@ -1484,6 +1484,9 @@ export const method = "${method}"`
                     case 'Bash':
                         label = 'cURL'
                         break;
+                    case 'Shell':
+                        label = 'Zilliz CLI'
+                        break;
                     default:
                         label = lang
                         break;
