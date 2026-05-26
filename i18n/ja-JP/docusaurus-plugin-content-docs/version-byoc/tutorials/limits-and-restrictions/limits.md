@@ -44,7 +44,7 @@ import Admonition from '@theme/Admonition';
 
 ## ユーザー & ロール\{#users-and-roles}
 
-次の表は、Zilliz Cloud で許可されるユーザーの最大数の制限を示しています。
+次の表は、Zilliz Cloud で許可されるユーザーとロールの最大数の制限を示しています。
 
 <table>
    <tr>
@@ -54,13 +54,13 @@ import Admonition from '@theme/Admonition';
    </tr>
    <tr>
      <td><p>クラスターユーザー</p></td>
-     <td><p>100</p></td>
-     <td><p>1 つのクラスターには合計最大 100 人のユーザーを設定できます。</p></td>
+     <td><p>500</p></td>
+     <td><p>1 つのクラスターには合計最大 500 人のユーザーを設定できます。</p></td>
    </tr>
    <tr>
      <td><p>クラスターカスタムロール</p></td>
-     <td><p>20</p></td>
-     <td><p>1 つのクラスターには合計最大 20 のカスタムロールを設定できます。この制限を解除するには <a href="http://support.zilliz.com">お問い合わせ</a> ください。</p></td>
+     <td><p>500</p></td>
+     <td><p>1 つのクラスターには合計最大 500 のカスタムロールを設定できます。この制限を解除するには <a href="http://support.zilliz.com">お問い合わせ</a> ください。</p></td>
    </tr>
 </table>
 
@@ -411,4 +411,3 @@ Zilliz Cloud は、Web コンソールでのインポートファイルにも制
 ## マイグレーション\{#migration}
 
 他のベンダーから Zilliz Cloud クラスターにデータを移行でき、マイグレーションごとの最大コレクション数は Zilliz Cloud クラスターによって異なります。マイグレーション中は、1 回あたり最大 **10** 個のコレクションを移行できます。
-

@@ -47,7 +47,7 @@ The following table lists the limits on the maximum number of orgsanizations and
 
 ## Users & Roles\{#users-and-roles}
 
-The following table lists the limits on the maximum number of users allowed in Zilliz Cloud.
+The following table lists the limits on the maximum number of users and roles allowed in Zilliz Cloud.
 
 <table>
    <tr>
@@ -57,13 +57,13 @@ The following table lists the limits on the maximum number of users allowed in Z
    </tr>
    <tr>
      <td><p>Cluster User</p></td>
-     <td><p>100</p></td>
-     <td><p>A cluster can have up to 100 users in total.</p></td>
+     <td><p>500</p></td>
+     <td><p>A cluster can have up to 500 users in total.</p></td>
    </tr>
    <tr>
      <td><p>Cluster Custom Role</p></td>
-     <td><p>20</p></td>
-     <td><p>A cluster can have up to 20 custom roles in total. <a href="http://support.zilliz.com">Contact us</a> to remove this limit.</p></td>
+     <td><p>500</p></td>
+     <td><p>A cluster can have up to 500 custom roles in total. <a href="http://support.zilliz.com">Contact us</a> to remove this limit.</p></td>
    </tr>
 </table>
 

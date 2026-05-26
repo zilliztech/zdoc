@@ -125,7 +125,7 @@ Zilliz Cloud は、ベクトルデータベースシステムで一般的に必�
 
     ![add-cluster-role-form](https://zdoc-images.s3.us-west-2.amazonaws.com/add-cluster-role-form.png "add-cluster-role-form")
 
-1. **作成** をクリックします。各クラスターは最大20個のカスタムクラスターロールを持つことができます。
+1. **作成** をクリックします。各クラスターは最大500個のカスタムクラスターロールを持つことができます。
 
 </Procedures>
 
@@ -154,4 +154,3 @@ Zilliz Cloud は、ベクトルデータベースシステムで一般的に必�
 ユーザーに付与されているロールは削除できません。まず、対象のロールが付与されているユーザーを特定し、別のロールを割り当てる必要があります。
 
 ![delete-cluster-role](https://zdoc-images.s3.us-west-2.amazonaws.com/delete-cluster-role.png "delete-cluster-role")
-

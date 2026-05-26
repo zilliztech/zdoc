@@ -47,9 +47,10 @@ import Admonition from '@theme/Admonition';
    </tr>
 </table>
 
+
 ## ユーザー & ロール\{#users-and-roles}
 
-次の表は、Zilliz Cloud で許可されるユーザーの最大数の制限を示しています。
+次の表は、Zilliz Cloud で許可されるユーザーとロールの最大数の制限を示しています。
 
 <table>
    <tr>
@@ -64,13 +65,13 @@ import Admonition from '@theme/Admonition';
    </tr>
    <tr>
      <td><p>Cluster User</p></td>
-     <td><p>100</p></td>
-     <td><p>1つのクラスターは、合計で最大100人のユーザーを持つことができます。</p></td>
+     <td><p>500</p></td>
+     <td><p>1つのクラスターは、合計で最大500人のユーザーを持つことができます。</p></td>
    </tr>
    <tr>
      <td><p>Cluster Custom ロール</p></td>
-     <td><p>20</p></td>
-     <td><p>1つのクラスターは、合計で最大20個のカスタムロールを持つことができます。この制限を解除するには、<a href="http://support.zilliz.com">お問い合わせ</a>ください。</p></td>
+     <td><p>500</p></td>
+     <td><p>1つのクラスターは、合計で最大500個のカスタムロールを持つことができます。この制限を解除するには、<a href="http://support.zilliz.com">お問い合わせ</a>ください。</p></td>
    </tr>
 </table>
 
@@ -611,4 +612,3 @@ Zilliz Cloud は、Web コンソールでのインポートファイルにも制
      <td><p>10</p></td>
    </tr>
 </table>
-

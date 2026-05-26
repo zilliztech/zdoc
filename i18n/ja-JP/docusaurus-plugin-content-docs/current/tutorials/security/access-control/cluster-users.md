@@ -52,7 +52,7 @@ Zilliz Cloud では、クラスターユーザーを作成し、クラスター�
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>各クラスターには最大 100 人のクラスターユーザーを作成できます。</p>
+<p>各クラスターには最大 500 人のクラスターユーザーを作成できます。</p>
 
 </Admonition>
 
@@ -69,4 +69,3 @@ Zilliz Cloud では、クラスターユーザーを作成し、クラスター�
 </Admonition>
 
 ![drop-cluster-user](https://zdoc-images.s3.us-west-2.amazonaws.com/drop-cluster-user.png "drop-cluster-user")
-

@@ -128,7 +128,7 @@ For collection-level access control, it is recommended to create custom roles.
 
     ![add-cluster-role-form](https://zdoc-images.s3.us-west-2.amazonaws.com/add-cluster-role-form.png "add-cluster-role-form")
 
-1. Click **Create**. Each cluster can have up to 20 custom cluster roles.
+1. Click **Create**. Each cluster can have up to 500 custom cluster roles.
 
 </Procedures>
 
