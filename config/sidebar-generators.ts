@@ -1,3 +1,30 @@
+const CHANGELOGS_DOC_ID = 'tutorials/get-started/release-notes/changelogs';
+
+function isReleaseNotesCategory(item) {
+    return item.type === 'category' && (
+        item.key === 'release-notes' ||
+        item.label === 'release-notes' ||
+        item.label === 'Release Notes' ||
+        item.label === 'リリースノート'
+    );
+}
+
+function useChangelogsAsReleaseNotesIndex(item, label, changelogsLabel, description) {
+    item.label = label;
+    item.description = description;
+    item.link = {
+        type: 'doc',
+        id: CHANGELOGS_DOC_ID,
+    };
+    item.items = item.items.filter(
+        (child) => child.key !== 'changelogs' && child.label !== changelogsLabel,
+    );
+}
+
+function isJapaneseGetStartedCategory(item) {
+    return item.label === '始める' || item.label === 'はじめに';
+}
+
 export async function tutorialsItemsGenerator({
     defaultSidebarItemsGenerator, ...args
 }) {
@@ -45,11 +72,20 @@ export async function tutorialsItemsGenerator({
                     ])
                 }
 
+                if (isReleaseNotesCategory(subItem)) {
+                    useChangelogsAsReleaseNotesIndex(
+                        subItem,
+                        'Release Notes',
+                        'Changelogs',
+                        'You can find the history of Zilliz Cloud releases in these docs. | Cloud',
+                    )
+                }
+
                 return subItem;
             })
         }
 
-        if (item.label === '始める') {
+        if (isJapaneseGetStartedCategory(item)) {
             item.items = item.items.map(subItem => {
                 if (subItem.label === 'APIとSDK') {
                     subItem.items.push(...[
@@ -79,6 +115,15 @@ export async function tutorialsItemsGenerator({
                             href: '/ja-JP/reference/restful'
                         }
                     ])
+                }
+
+                if (isReleaseNotesCategory(subItem)) {
+                    useChangelogsAsReleaseNotesIndex(
+                        subItem,
+                        'リリースノート',
+                        '変更履歴',
+                        'これらのドキュメントで Zilliz Cloud のリリース履歴を確認できます。| Cloud',
+                    )
                 }
 
                 return subItem;
