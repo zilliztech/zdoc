@@ -31,6 +31,12 @@ import Supademo from '@site/src/components/Supademo';
 
 Offline Migration transfers all existing data from a source Zilliz Cloud cluster to a target Zilliz Cloud cluster. This method supports migrations both within the same organization and across different organizations. It is ideal for scenarios where temporary write interruptions are acceptable, such as during planned maintenance or smaller-scale database transitions.
 
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>If your application keeps writing to the source cluster during cutover, the target cluster might miss new entities, especially entities inserted after the migration job completes. To keep the target data complete, schedule a cutover window, pause writes to the source cluster, wait for the migration job to complete, validate the target cluster, and then resume writes on the target cluster only.</p>
+
+</Admonition>
+
 ## Migration capabilities\{#migration-capabilities}
 
 ### Migration scope options\{#migration-scope-options}
@@ -62,6 +68,8 @@ Offline migration performs direct data replication between Zilliz Cloud clusters
 - **No field modifications**: Cannot rename fields, change data types, or modify field attributes during migration
 
 - **Automatic indexing**: AUTOINDEX automatically created for vector fields in target cluster
+
+- **One-time data copy**: Offline Migration copies data from the source cluster during the migration job. It does not keep the target cluster synchronized with new writes after the migration job completes.
 
 ## Prerequisites\{#prerequisites}
 
@@ -104,6 +112,22 @@ Before starting your offline migration, ensure you meet these requirements:
      <td><p>Ability to connect to source cluster from target organization</p></td>
    </tr>
 </table>
+
+### Plan the cutover\{#plan-the-cutover}
+
+Before starting an offline migration, choose a cutover window when your application can temporarily stop writing to the source cluster. Use the following process to avoid missing data:
+
+1. Pause writes to the source cluster before the final migration and validation window.
+
+1. Run the migration job and wait until the job status changes to **Successful**.
+
+1. Validate the data in the target cluster, such as by checking the number of entities and sampling recently inserted entities.
+
+1. Switch application reads and writes to the target cluster.
+
+1. Resume writes only on the target cluster.
+
+Keep the source cluster available until you confirm that the migrated data is complete.
 
 ## Getting started\{#getting-started}
 
