@@ -63,9 +63,15 @@ Vector Database Cost = Query CU Unit Price x Total Number of Query CU x Cluster 
 
 - **Cluster Runtime**: The total time (in hours) your cluster is in a billable status:
 
-    - Billable statuses: Running, Modifying, etc.
+    - Billable statuses: Running, Modifying, Migrating etc.
 
     - Non-billable statuses: Creating, Suspending, Resuming, Suspended, etc. During non-billable statuses, CU charges stop but storage charges still apply.
+
+    <Admonition type="info" icon="📘" title="Note">
+
+    <p>During a <a href="./scale-cluster">scaling</a> job, Zilliz Cloud continues to bill the cluster based on its previous configuration. The new configuration is used for billing only after the scaling job is completed successfully. This applies to both scale-up and scale-down operations. While the job is still in progress, the cluster continues to serve with the previous available configuration.</p>
+
+    </Admonition>
 
 ### Example\{#example}
 
@@ -105,11 +111,14 @@ For details, see [Storage](./storage-cost).
 
 ## FAQs\{#faqs}
 
-1. **Will I be charged if I suspend my Dedicated cluster?**
+**Will I be charged if I suspend my Dedicated cluster?**
 
-    When your Dedicated cluster is suspended, vector database costs stop, but storage charges continue until you delete the cluster.
+When your Dedicated cluster is suspended, vector database costs stop, but storage charges continue until you delete the cluster.
 
-1.  **Will I be billed during cluster creation or suspension?**
+**Will I be billed during cluster creation or suspension?**
 
-    No vector database costs are charged while in Creating, Suspending, Resuming, or Suspended status. However, storage costs still apply.
+No vector database costs are charged while in Creating, Suspending, Resuming, or Suspended status. However, storage costs still apply.
 
+**When I scale a Dedicated cluster, am I billed based on the old configuration or the new configuration during scaling?**
+
+During [scaling](./scale-cluster), you are billed based on the previous configuration. The new configuration is used for billing only after the scaling job completes successfully. 

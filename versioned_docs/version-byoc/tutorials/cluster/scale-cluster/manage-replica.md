@@ -36,19 +36,17 @@ Note that adding replicas will not increase the cluster capacity because the cap
 
 This guide outlines the procedures of configuring replicas for a **serving cluster** in Zilliz Cloud.
 
-## Limits\{#limits}
+## Considerations\{#considerations}
 
-You can configure replicas for an existing Dedicated cluster as long as the following conditions are met:
+- **Resource Limitations**: You can configure replicas for an existing Dedicated cluster as long as the following conditions are met:
 
-- The cluster has 12 query CUs or more
+    - The cluster has 12 query CUs or more
 
-- The product of the cluster query CU count x replica count should not exceed 10,240.
+    - The product of the cluster query CU count x replica count should not exceed 10,240.
 
-<Admonition type="caution" icon="🚧" title="Warning">
+- **Billing during scaling:** During a replica scaling job, Zilliz Cloud continues to bill the cluster based on the previous replica configuration. The new replica count is used for billing only after the scaling job is completed successfully. If the scaling job is still in progress or does not complete, billing remains based on the previous replica configuration.
 
-<p>Updating the replica configurations may lead to slight service jitter. Please exercise caution.</p>
-
-</Admonition>
+- **Performance Impact**: Scaling may cause slight service jitter and may temporarily affect data reads.
 
 ## Manual scaling\{#manual-scaling}
 

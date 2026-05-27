@@ -96,67 +96,75 @@ Enable dynamic scaling for **unpredictable workloads**. Zilliz Cloud automatical
 
 - **Replicas:** Auto-scales based on the **CU Computation** metric value.
 
+## Billing during scaling\{#billing-during-scaling}
+
+For Dedicated clusters, scaling does not change billing immediately. During a scaling job, Zilliz Cloud continues to bill the cluster based on its previous configuration. The new query CU or replica configuration is used for billing only after the scaling job is completed successfully.
+
+For more details, see [Dedicated Cluster Cost](./dedicated-cluster-cost).
+
 ## FAQs\{#faqs}
 
-1. **Which scaling option should I choose?**
+**Which scaling option should I choose?**
 
-    The following is a quick tip to help you choose the right scaling method for your needs:
+The following is a quick tip to help you choose the right scaling method for your needs:
 
-    ![ZsKhw59w5hZv4RbjorlclAaEn4e](https://zdoc-images.s3.us-west-2.amazonaws.com/ZsKhw59w5hZv4RbjorlclAaEn4e.png)
+![ZsKhw59w5hZv4RbjorlclAaEn4e](https://zdoc-images.s3.us-west-2.amazonaws.com/ZsKhw59w5hZv4RbjorlclAaEn4e.png)
 
-    - If you have a very clear understanding of your workload patterns—such as consistent daily peaks or planned batch import jobs—**manual** scaling and **scheduled** scaling is right option for you. If you need to adjust the query CU immediately, choose manual scaling. If you want the adjustment to occur recurringly at a specific future time, choose scheduled scaling.
+- If you have a very clear understanding of your workload patterns—such as consistent daily peaks or planned batch import jobs—**manual** scaling and **scheduled** scaling is right option for you. If you need to adjust the query CU immediately, choose manual scaling. If you want the adjustment to occur recurringly at a specific future time, choose scheduled scaling.
 
-    - If your workload is unpredictable and varies throughout the day or week, **dynamic scaling** is recommended. It adjusts the serving cluster size automatically within a range you define, helping to maintain performance while optimizing cost.
+- If your workload is unpredictable and varies throughout the day or week, **dynamic scaling** is recommended. It adjusts the serving cluster size automatically within a range you define, helping to maintain performance while optimizing cost.
 
-1. **When should I scale replicas and when should I scale query CU?**
+**When should I scale replicas and when should I scale query CU?**
 
-    You are recommended to:
+You are recommended to:
 
-    - Increase **replica** count when:
+- Increase **replica** count when:
 
-        - You need to handle high QPS (queries per second) and high availability.
+    - You need to handle high QPS (queries per second) and high availability.
 
-        - Your workload consists of many concurrent search or query requests. You need to increase throughput.
+    - Your workload consists of many concurrent search or query requests. You need to increase throughput.
 
-        *Tips: Each replica is an independent copy of the query CU resources and handles a subset of queries.*
+    *Tips: Each replica is an independent copy of the query CU resources and handles a subset of queries.*
 
-    - Increase **query CU** when:
+- Increase **query CU** when:
 
-        - You are working with large datasets or require more collections.
+    - You are working with large datasets or require more collections.
 
-        - You are seeing high CPU or memory usage.
+    - You are seeing high CPU or memory usage.
 
-        *Tips:  Increasing CU size gives each query node more computing resources and capacity.*
+    *Tips:  Increasing CU size gives each query node more computing resources and capacity.*
 
-    - **Suggestion**: For serving clusters with 1 - 8 CUs, you can directly scale query CU. For serving clusters with more than 8 CUs, please increase replicas.
+- **Suggestion**: For serving clusters with 1 - 8 CUs, you can directly scale query CU. For serving clusters with more than 8 CUs, please increase replicas.
 
-1. **How does scaling work in Zilliz Cloud?**
+**How does scaling work in Zilliz Cloud?**
 
-    The following diagram shows the workflow of a scaling operation in Zilliz Cloud.
+The following diagram shows the workflow of a scaling operation in Zilliz Cloud.
 
-    ![ORwIwl2z2h0XxLbFNLBcdFOlneh](https://zdoc-images.s3.us-west-2.amazonaws.com/ORwIwl2z2h0XxLbFNLBcdFOlneh.png)
+![ORwIwl2z2h0XxLbFNLBcdFOlneh](https://zdoc-images.s3.us-west-2.amazonaws.com/ORwIwl2z2h0XxLbFNLBcdFOlneh.png)
 
-    - **Initiate scaling**: You can submit a scaling request via the web console or through the RESTful API.
+- **Initiate scaling**: You can submit a scaling request via the web console or through the RESTful API.
 
-    - **Resource check**: Zilliz Cloud validates your scaling request against the following requirements.
+- **Resource check**: Zilliz Cloud validates your scaling request against the following requirements.
 
-        - Enterprise project: Query CU × Replica ≤ 10,240
+    - Enterprise project: Query CU × Replica ≤ 10,240
 
-        - Standard project: Query CU ≤ 32
+    - Standard project: Query CU ≤ 32
 
-        - If Replica > 1, the serving cluster cannot scale down to less than 12 query CUs.
+    - If Replica > 1, the serving cluster cannot scale down to less than 12 query CUs.
 
-        - Current data volume < 80% of the CU capacity of the new CU size.
+    - Current data volume < 80% of the CU capacity of the new CU size.
 
-        - Current number of collections and partitions < the [maximum number of collections and partitions](./limits#collections) allowed in the new CU size.
+    - Current number of collections and partitions < the [maximum number of collections and partitions](./limits#collections) allowed in the new CU size.
 
-        - If you have any problems with scaling, [contact support](http://support.zilliz.com).
+    - If you have any problems with scaling, [contact support](http://support.zilliz.com).
 
-    - **Generate a scaling job**: Once the resource check passes, Zilliz Cloud creates a scaling job. You can track progress on the [Jobs](./job-center) page. During this time, the serving cluster status changes to **Modifying**, and cluster operations such as suspend, migrate, and drop are unavailable.
+- **Generate a scaling job**: Once the resource check passes, Zilliz Cloud creates a scaling job. You can track progress on the [Jobs](./job-center) page. During this time, the serving cluster status changes to **Modifying**, and cluster operations such as suspend, migrate, and drop are unavailable.
 
-    - **Job completed**: When the job completes, scaling succeeds and the serving cluster status returns to **Running**. You will also receive an email confirming the resource adjustment.
+- **Job completed**: When the job completes, scaling succeeds and the serving cluster status returns to **Running**. You will also receive an email confirming the resource adjustment.
 
+**When I scale a Dedicated cluster, am I billed based on the old configuration or the new configuration during scaling?**
 
+During [scaling](./scale-cluster), you are billed based on the previous configuration. The new configuration is used for billing only after the scaling job completes successfully. 
 
 import DocCardList from '@theme/DocCardList';
 

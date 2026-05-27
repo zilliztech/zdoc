@@ -64,6 +64,8 @@ This guide explains how to resize a serving cluster to suit your changing worklo
 
 - **During Scaling**: The cluster status changes to “Modifying,” during which no operations can be performed. If multiple scaling tasks are triggered, they will be processed sequentially based on trigger timestamp. Completion time depends on data volume.
 
+- **Billing during scaling:** During a query CU scaling job, Zilliz Cloud continues to bill the cluster based on the previous query CU configuration. The new query CU count is used for billing only after the scaling job is completed successfully. If the scaling job is still in progress or does not complete, billing remains based on the previous query CU configuration.
+
 - **Performance Impact**: Scaling may cause slight service jitter.
 
 - **Backup Limitations**: Dynamic and scheduled scaling settings are not included in [backups](./create-backup). After restoring a cluster, reconfigure these settings manually.
