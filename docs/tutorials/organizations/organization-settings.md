@@ -114,7 +114,7 @@ Before you start, make sure the following conditions are met:
 
 - All remaining advance pay funds need to be refunded.
 
-- Third-party [marketplace subscription needs to be cancelled](./subscribe-on-aws-marketplace#cancel-aws-marketplace-subscription).
+- Third-party [marketplace subscription needs to be cancelled](./marketplace-subscription).
 
 To delete an organization: 
 

@@ -111,7 +111,7 @@ Zilliz Cloud にサインアップすると、デフォルトの組織が自動�
 
 - 残っている前払い資金の払い戻しが必要であること。
 
-- サードパーティの [マーケットプレイスサブスクリプションをキャンセルする](./subscribe-on-aws-marketplace#cancel-aws-marketplace-subscription) 必要があること。
+- サードパーティの [マーケットプレイスサブスクリプションをキャンセルする](./marketplace-subscription) 必要があること。
 
 組織を削除するには：
 
@@ -136,4 +136,3 @@ Zilliz Cloud にサインアップすると、デフォルトの組織が自動�
 </Admonition>
 
 ![delete-organization-en](https://zdoc-images.s3.us-west-2.amazonaws.com/delete-organization-en.png "delete-organization-en")
-

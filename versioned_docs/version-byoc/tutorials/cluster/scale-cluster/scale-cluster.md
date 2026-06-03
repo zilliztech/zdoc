@@ -96,12 +96,6 @@ Enable dynamic scaling for **unpredictable workloads**. Zilliz Cloud automatical
 
 - **Replicas:** Auto-scales based on the **CU Computation** metric value.
 
-## Billing during scaling\{#billing-during-scaling}
-
-For Dedicated clusters, scaling does not change billing immediately. During a scaling job, Zilliz Cloud continues to bill the cluster based on its previous configuration. The new query CU or replica configuration is used for billing only after the scaling job is completed successfully.
-
-For more details, see [Dedicated Cluster Cost](./dedicated-cluster-cost).
-
 ## FAQs\{#faqs}
 
 **Which scaling option should I choose?**

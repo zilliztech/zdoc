@@ -35,8 +35,6 @@ Milvus allows you to dynamically add new fields to existing collections, making 
 
 Before adding fields to your collection, keep these important points in mind:
 
-- You can add scalar fields (`INT64`, `VARCHAR`, `FLOAT`, `DOUBLE`, etc.). Vector fields cannot be added to existing collections.
-
 - New fields must be nullable (nullable=True) to accommodate existing entities that don't have values for the new field.
 
 - Adding fields to loaded collections increases memory usage.

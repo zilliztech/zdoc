@@ -108,31 +108,151 @@ client.create_collection(
 <TabItem value='java'>
 
 ```java
-// java
+import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.client.MilvusClientV2;
+import io.milvus.v2.common.DataType;
+import io.milvus.v2.service.collection.request.AddFieldReq;
+import io.milvus.v2.service.collection.request.CreateCollectionReq;
+
+MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
+        .build());
+
+CreateCollectionReq.CollectionSchema schema = CreateCollectionReq.CollectionSchema.builder()
+        .build();
+
+schema.addField(AddFieldReq.builder()
+        .fieldName("id")
+        .dataType(DataType.Int64)
+        .isPrimaryKey(true)
+        .build());
+schema.addField(AddFieldReq.builder()
+        .fieldName("embedding")
+        .dataType(DataType.FloatVector)
+        .dimension(4)
+        // highlight-next-line
+        .isNullable(true)
+        .build());
+
+client.createCollection(CreateCollectionReq.builder()
+        .collectionName("my_collection")
+        .collectionSchema(schema)
+        .build());
+
 ```
 
 </TabItem>
 
-<TabItem value='java'>
+<TabItem value='javascript'>
 
 ```javascript
-// js
+import { MilvusClient, DataType } from '@zilliz/milvus2-sdk-node';
+
+const client = new MilvusClient({
+  address: 'YOUR_CLUSTER_ENDPOINT',
+  token: 'YOUR_CLUSTER_TOKEN'
+});
+
+await client.createCollection({
+  collection_name: 'my_collection',
+  fields: [
+    {
+      name: 'id',
+      data_type: DataType.Int64,
+      is_primary_key: true
+    },
+    {
+      name: 'embedding',
+      data_type: DataType.FloatVector,
+      dim: 4,
+      // highlight-next-line
+      nullable: true // Enable the nullable attribute; defaults to false
+    }
+  ]
+});
+
 ```
 
 </TabItem>
 
-<TabItem value='java'>
+<TabItem value='go'>
 
 ```go
-// go
+import (
+    "context"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v2/entity"
+    "github.com/milvus-io/milvus/client/v2/milvusclient"
+)
+
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
+
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: "YOUR_CLUSTER_ENDPOINT",
+    APIKey:  "YOUR_CLUSTER_TOKEN",
+})
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+defer client.Close(ctx)
+
+schema := entity.NewSchema()
+schema.WithField(entity.NewField().
+    WithName("id").
+    WithDataType(entity.FieldTypeInt64).
+    WithIsPrimaryKey(true),
+).WithField(entity.NewField().
+    WithName("embedding").
+    WithDataType(entity.FieldTypeFloatVector).
+    WithDim(4).
+    // highlight-next-line
+    WithNullable(true),
+)
+
+err = client.CreateCollection(ctx,
+    milvusclient.NewCreateCollectionOption("my_collection", schema))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
 ```
 
 </TabItem>
 
-<TabItem value='java'>
+<TabItem value='bash'>
 
 ```bash
-# restful
+curl --request POST \
+  --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/create" \
+  --header "Authorization: Bearer ${TOKEN}" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "collectionName": "my_collection",
+    "schema": {
+      "autoID": false,
+      "fields": [
+        {
+          "fieldName": "id",
+          "dataType": "Int64",
+          "isPrimary": true
+        },
+        {
+          "fieldName": "embedding",
+          "dataType": "FloatVector",
+          "elementTypeParams": {
+            "dim": "4"
+          },
+          "nullable": true
+        }
+      ]
+    }
+  }'
+
 ```
 
 </TabItem>
@@ -154,6 +274,9 @@ client.create_collection(
 
 スカラーフィールドも同様に `nullable` 属性を使用して NULL 許容として定義でき、取り込み時にも同じルールに従います。例えば：
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
 schema.add_field(
     field_name="age",
@@ -162,6 +285,64 @@ schema.add_field(
     nullable=True,
 )
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+schema.addField(AddFieldReq.builder()
+        .fieldName("age")
+        .dataType(DataType.Int64)
+        // highlight-next-line
+        .isNullable(true)
+        .build());
+
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const ageField = {
+  name: 'age',
+  data_type: DataType.Int64,
+  // highlight-next-line
+  nullable: true
+};
+
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+schema.WithField(entity.NewField().
+    WithName("age").
+    WithDataType(entity.FieldTypeInt64).
+    // highlight-next-line
+    WithNullable(true),
+)
+
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+{
+  "fieldName": "age",
+  "dataType": "Int64",
+  "nullable": true
+}
+
+```
+
+</TabItem>
+</Tabs>
 
 </details>
 
@@ -200,31 +381,123 @@ client.insert(
 <TabItem value='java'>
 
 ```java
-// java
+import com.google.gson.Gson;
+import com.google.gson.JsonNull;
+import com.google.gson.JsonObject;
+import io.milvus.v2.service.vector.request.InsertReq;
+
+import java.util.Arrays;
+import java.util.List;
+
+Gson gson = new Gson();
+
+JsonObject row1 = new JsonObject();
+row1.addProperty("id", 1);
+row1.add("embedding", gson.toJsonTree(Arrays.asList(0.1f, 0.2f, 0.3f, 0.4f)));
+
+JsonObject row2 = new JsonObject();
+row2.addProperty("id", 2);
+row2.add("embedding", JsonNull.INSTANCE); // Explicitly set to NULL
+
+JsonObject row3 = new JsonObject();
+row3.addProperty("id", 3); // Field omitted; stored as NULL
+
+List<JsonObject> data = Arrays.asList(row1, row2, row3);
+
+client.insert(InsertReq.builder()
+        .collectionName("my_collection")
+        .data(data)
+        .build());
+
 ```
 
 </TabItem>
 
-<TabItem value='java'>
+<TabItem value='javascript'>
 
 ```javascript
-// js
+const data = [
+  {
+    id: 1,
+    embedding: [0.1, 0.2, 0.3, 0.4]
+  },
+  {
+    id: 2,
+    embedding: null // Explicitly set to NULL
+  },
+  {
+    id: 3 // Field omitted; stored as NULL
+  }
+];
+
+await client.insert({
+  collection_name: 'my_collection',
+  data
+});
+
 ```
 
 </TabItem>
 
-<TabItem value='java'>
+<TabItem value='go'>
 
 ```go
-// go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v2/column"
+    "github.com/milvus-io/milvus/client/v2/milvusclient"
+)
+
+embeddingCol, err := column.NewNullableColumnFloatVector(
+    "embedding",
+    4,
+    [][]float32{{0.1, 0.2, 0.3, 0.4}},
+    []bool{true, false, false},
+)
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
+_, err = client.Insert(ctx, milvusclient.NewColumnBasedInsertOption(
+    "my_collection",
+    column.NewColumnInt64("id", []int64{1, 2, 3}),
+    embeddingCol,
+))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
 ```
 
 </TabItem>
 
-<TabItem value='java'>
+<TabItem value='bash'>
 
 ```bash
-# restful
+curl --request POST \
+  --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/insert" \
+  --header "Authorization: Bearer ${TOKEN}" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "collectionName": "my_collection",
+    "data": [
+      {
+        "id": 1,
+        "embedding": [0.1, 0.2, 0.3, 0.4]
+      },
+      {
+        "id": 2,
+        "embedding": null
+      },
+      {
+        "id": 3
+      }
+    ]
+  }'
+
 ```
 
 </TabItem>
@@ -275,31 +548,120 @@ client.load_collection(collection_name="my_collection")
 <TabItem value='java'>
 
 ```java
-// java
+import io.milvus.v2.common.IndexParam;
+import io.milvus.v2.service.collection.request.LoadCollectionReq;
+import io.milvus.v2.service.index.request.CreateIndexReq;
+
+import java.util.Collections;
+
+IndexParam indexParam = IndexParam.builder()
+        .fieldName("embedding")
+        .indexName("embedding_index")
+        .indexType(IndexParam.IndexType.AUTOINDEX)
+        .metricType(IndexParam.MetricType.COSINE)
+        .build();
+
+client.createIndex(CreateIndexReq.builder()
+        .collectionName("my_collection")
+        .indexParams(Collections.singletonList(indexParam))
+        .build());
+
+client.loadCollection(LoadCollectionReq.builder()
+        .collectionName("my_collection")
+        .build());
+
 ```
 
 </TabItem>
 
-<TabItem value='java'>
+<TabItem value='javascript'>
 
 ```javascript
-// js
+await client.createIndex({
+  collection_name: 'my_collection',
+  field_name: 'embedding',
+  index_type: 'AUTOINDEX',
+  metric_type: 'COSINE'
+});
+
+await client.loadCollection({
+  collection_name: 'my_collection'
+});
+
 ```
 
 </TabItem>
 
-<TabItem value='java'>
+<TabItem value='go'>
 
 ```go
-// go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v2/entity"
+    "github.com/milvus-io/milvus/client/v2/index"
+    "github.com/milvus-io/milvus/client/v2/milvusclient"
+)
+
+indexTask, err := client.CreateIndex(ctx, milvusclient.NewCreateIndexOption(
+    "my_collection",
+    "embedding",
+    index.NewAutoIndex(entity.COSINE),
+))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
+err = indexTask.Await(ctx)
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
+loadTask, err := client.LoadCollection(ctx, milvusclient.NewLoadCollectionOption("my_collection"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
+err = loadTask.Await(ctx)
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
 ```
 
 </TabItem>
 
-<TabItem value='java'>
+<TabItem value='bash'>
 
 ```bash
-# restful
+curl --request POST \
+  --url "${CLUSTER_ENDPOINT}/v2/vectordb/indexes/create" \
+  --header "Authorization: Bearer ${TOKEN}" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "collectionName": "my_collection",
+    "indexParams": [
+      {
+        "fieldName": "embedding",
+        "indexName": "embedding_index",
+        "indexType": "AUTOINDEX",
+        "metricType": "COSINE"
+      }
+    ]
+  }'
+
+curl --request POST \
+  --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/load" \
+  --header "Authorization: Bearer ${TOKEN}" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "collectionName": "my_collection"
+  }'
+
 ```
 
 </TabItem>
@@ -345,31 +707,87 @@ print(res)
 <TabItem value='java'>
 
 ```java
-// java
+import io.milvus.v2.service.vector.request.SearchReq;
+import io.milvus.v2.service.vector.request.data.FloatVec;
+import io.milvus.v2.service.vector.response.SearchResp;
+
+import java.util.Arrays;
+import java.util.Collections;
+
+SearchResp res = client.search(SearchReq.builder()
+        .collectionName("my_collection")
+        .data(Collections.singletonList(new FloatVec(Arrays.asList(0.1f, 0.2f, 0.3f, 0.4f))))
+        .annsField("embedding")
+        .limit(3)
+        .outputFields(Collections.singletonList("embedding"))
+        .build());
+
+System.out.println(res);
+
 ```
 
 </TabItem>
 
-<TabItem value='java'>
+<TabItem value='javascript'>
 
 ```javascript
-// js
+const res = await client.search({
+  collection_name: 'my_collection',
+  data: [[0.1, 0.2, 0.3, 0.4]],
+  anns_field: 'embedding',
+  limit: 3,
+  output_fields: ['embedding']
+});
+
+console.log(res);
+
 ```
 
 </TabItem>
 
-<TabItem value='java'>
+<TabItem value='go'>
 
 ```go
-// go
+import (
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v2/entity"
+    "github.com/milvus-io/milvus/client/v2/milvusclient"
+)
+
+query := []float32{0.1, 0.2, 0.3, 0.4}
+resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
+    "my_collection",
+    3,
+    []entity.Vector{entity.FloatVector(query)},
+).WithANNSField("embedding").
+    WithOutputFields("embedding"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
+fmt.Println(resultSets)
+
 ```
 
 </TabItem>
 
-<TabItem value='java'>
+<TabItem value='bash'>
 
 ```bash
-# restful
+curl --request POST \
+  --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/search" \
+  --header "Authorization: Bearer ${TOKEN}" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "collectionName": "my_collection",
+    "data": [[0.1, 0.2, 0.3, 0.4]],
+    "annsField": "embedding",
+    "limit": 3,
+    "outputFields": ["embedding"]
+  }'
+
 ```
 
 </TabItem>
@@ -403,31 +821,35 @@ expr = "age > 18"
 <TabItem value='java'>
 
 ```java
-// java
+String filter = "age > 18";
+
 ```
 
 </TabItem>
 
-<TabItem value='java'>
+<TabItem value='javascript'>
 
 ```javascript
-// js
+const filter = 'age > 18';
+
 ```
 
 </TabItem>
 
-<TabItem value='java'>
+<TabItem value='go'>
 
 ```go
-// go
+filter := "age > 18"
+
 ```
 
 </TabItem>
 
-<TabItem value='java'>
+<TabItem value='bash'>
 
 ```bash
-# restful
+"filter": "age > 18"
+
 ```
 
 </TabItem>
@@ -449,31 +871,35 @@ expr = "status == \"active\""
 <TabItem value='java'>
 
 ```java
-// java
+String filter = "status == \"active\"";
+
 ```
 
 </TabItem>
 
-<TabItem value='java'>
+<TabItem value='javascript'>
 
 ```javascript
-// js
+const filter = 'status == "active"';
+
 ```
 
 </TabItem>
 
-<TabItem value='java'>
+<TabItem value='go'>
 
 ```go
-// go
+filter := \`status == "active"\`
+
 ```
 
 </TabItem>
 
-<TabItem value='java'>
+<TabItem value='bash'>
 
 ```bash
-# restful
+"filter": "status == \"active\""
+
 ```
 
 </TabItem>

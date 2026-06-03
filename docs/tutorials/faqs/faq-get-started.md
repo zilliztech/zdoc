@@ -90,7 +90,7 @@ Once the free trial ends, you can still access your free clusters. However, all 
 
 ### What is the pricing of Zilliz Cloud on Marketplaces?{#what-is-the-pricing-of-zilliz-cloud-on-marketplaces}
 
-Please refer to [Payment & Billing](./payment-billing#marketplace-pricing-terms) for more about Marketplace pricing terms.
+Please refer to [Billing Management](./payment-billing) for more about Marketplace pricing terms.
 
 ### Can I apply for more credits?{#can-i-apply-for-more-credits}
 

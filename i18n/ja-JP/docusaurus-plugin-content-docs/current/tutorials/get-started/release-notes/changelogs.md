@@ -5,10 +5,10 @@ sidebar_key: changelogs
 sidebar_label: "変更履歴"
 beta: FALSE
 notebook: FALSE
-description: "最終更新日: 2026年5月7日 | Cloud"
+description: "最終更新日: 2026年6月3日 | Cloud"
 type: origin
 token: MUL3wkn7Yi3YoFkYk59csf8bnNc
-sidebar_position: 1
+sidebar_position: 0
 keywords: 
   - zilliz
   - ベクトルデータベース
@@ -24,7 +24,7 @@ import Grid from '@site/src/components/Grid';
 
 # 変更履歴
 
-**最終更新日:** 2026年5月7日
+**最終更新日:** 2026年6月3日
 
 <Grid columnSize="2" widthRatios="25,74">
 
@@ -43,6 +43,22 @@ import Grid from '@site/src/components/Grid';
 </Grid>
 
 ## 2026\{#2026}
+
+<Grid columnSize="2" widthRatios="25,74">
+
+    <div>
+
+        **[2026年6月3日](./release-notes-2606#nullable-vector)**
+
+    </div>
+
+    <div>
+
+        - 📅 ベクトルフィールドが `nullable` 属性をサポートするようになり、既存のコレクションに新しいベクトルフィールドを追加できるようになりました。
+
+    </div>
+
+</Grid>
 
 <Grid columnSize="2" widthRatios="25,74">
 
@@ -1127,4 +1143,3 @@ import Grid from '@site/src/components/Grid';
     </div>
 
 </Grid>
-
