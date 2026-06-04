@@ -4,19 +4,19 @@ slug: /python/python/BulkImport-bulk_import
 sidebar_key: python/BulkImport-bulk_import
 sidebar_label: "bulk_import()"
 added_since: Inherit
-last_modified: v3.0.x
+last_modified: v2.6.x
 deprecate_since: false
 beta: false
 notebook: false
-description: "This operation imports the prepared data files to Zilliz Cloud. To learn how to prepare your data files, read Prepare Data Import. | Python"
+description: "This function submits a bulk import job for open-source Milvus or Zilliz Cloud, including project/region routing for project databases. | Python"
 type: docx
-token: SE6wdwuONoUwQ8x7fdgcKvNwnyg
+token: HVwRdVSbAo2jUexpxmdczdqPnzh
 sidebar_position: 1
 keywords: 
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,170 +31,166 @@ import Admonition from '@theme/Admonition';
 
 # bulk_import()
 
-This operation imports the prepared data files to Zilliz Cloud. To learn how to prepare your data files, read [Prepare Data Import](/docs/prepare-data-import).
+This function submits a bulk import job for open-source Milvus or Zilliz Cloud, including project/region routing for project databases.
 
-## Request syntax\{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```python
 bulk_import(
     url: str,
-    api_key: str,
-    object_url: str,
-    access_key: str,
-    secret_key: str,
-    cluster_id: str,
-    project_id: str,
-    region_id: str,
     collection_name: str,
+    db_name: str = "",
+    files: list[list[str]] | None = None,
+    object_url: str = "",
+    object_urls: list[list[str]] | None = None,
+    cluster_id: str = "",
+    api_key: str = "",
+    access_key: str = "",
+    secret_key: str = "",
+    token: str = "",
+    volume_name: str = "",
+    data_paths: list[list[str]] | None = None,
+
+    project_id: str = "",
+    region_id: str = "",
+
+    verify: bool | str = True,
+    cert: str | tuple | None = None,
     **kwargs,
 )
 ```
 
 **PARAMETERS:**
 
-- **url** (*string*) -
+- **url** (*str*) -
 
     **[REQUIRED]**
 
-    The endpoint URL of your Zilliz Cloud cluster. 
+    Server endpoint for Milvus or Zilliz Cloud bulk import APIs.
 
-    For example, the endpoint URL should be in the following format:
-
-    ```python
-    https://api.cloud.zilliz.com
-    ```
-
-    Replace `cloud-region` with the ID of the region that accommodates your cluster. You can get the cloud region ID from the endpoint URL of your cluster.
-
-- **api_key** (*string*) -
+- **collection_name** (*str*) -
 
     **[REQUIRED]**
 
-    A valid Zilliz Cloud API key with sufficient permissions to manipulate the cluster.
+    Target collection name.
 
-- **object_url** (*string*) -
+- **db_name** (*str*) -
 
-    **[REQUIRED]**
+    Target database name.
 
-    The URL of your data files in one of your block storage buckets. The following are some examples of some renowned block storage services:
+- **files** (*list[list[str]]*) -
 
-    ```python
-    # Google Cloud Storage
-    gs://{bucket-name}/{object-path}/
-    
-    # AWS S3
-    s3://{bucket-name}/{object-path}/
-    ```
+    Local file groups for import.
 
-- **access_key** (*string*) -
+- **object_url** (*str*) -
 
-    **[REQUIRED]**
+    An object storage URL for cloud import.
 
-    The access key that is used to authenticate access to your data files.
+- **object_urls** (*list[list[str]]*) -
 
-- **secret_key** (*string*) -
+    Object storage URL groups for cloud import.
 
-    **[REQUIRED]**
+- **cluster_id** (*str*) -
 
-    The secret key that is used to authenticate access to your data files.
+    Cloud cluster ID for import jobs.
 
-- **cluster_id** (*string*) -
+- **access_key** (*str*) -
 
-    **[REQUIRED]**
+    Object storage access key.
 
-    The instance ID of the target cluster of this operation.
+- **secret_key** (*str*) -
 
-    You can get the instance ID of a cluster on its details page from the Zilliz Cloud console.
+    Object storage secret key.
 
-    This parameter applies when you use a **cluster endpoint**. For details, refer to [Connection Endpoints.](/docs/access-connection-endpoints)
+- **token** (*str*) -
 
-- **project_id** (*string*) -
+    Temporary session token for object storage access.
 
-    **[REQUIRED]**
+- **volume_name** (*str*) -
 
-    The project ID of the target cluster of this operation.
+    Volume name for volume-based imports.
 
-    You can get the project ID for a cluster from its details page in the Zilliz Cloud console.
+- **data_paths** (*list[list[str]]*) -
 
-    This parameter applies when you use a **project endpoint**. For details, refer to [Connection Endpoints](/docs/access-connection-endpoints)
+    Volume-relative paths for data files.
 
-- **region_id** (*string*) -
+- **project_id** (*str*) -
 
-    **[REQUIRED]**
+    A valid Zilliz Cloud project ID.
 
-    The region ID of the target cluster of this operation.
+    This applies when you bulk import into a database for on-demand compute.
 
-    You can get the region ID of a cluster on its details page from the Zilliz Cloud console.
+- **region_id** (*str*) -
 
-    This parameter applies when you use a **project endpoint**. For details, refer to [Connection Endpoints](/docs/access-connection-endpoints)
+    A valid Zilliz Cloud region ID.
+
+    This applies when you bulk import into a database for on-demand compute.
+
+- **verify** (*bool | str*) -
+
+    TLS verification setting.
+
+- **cert** (*str | tuple*) -
+
+    Client certificate path or `(cert, key)` tuple.
+
+- **kwargs** (*dict*) -
+
+    Optional fields such as `partition_name` and `options`.
 
 **RETURN TYPE:**
+*requests.Response*
 
-*dict*
+Returns the import-job creation response.
 
-**RETURNS:**
-
-- Response syntax
-
-    ```python
-    # {
-    #     "code": 200,
-    #     "data": {
-    #         "jobId": "string"
-    #     }
-    # }
-    ```
-
-- Response structure
-
-    - **jobId** (*string*) -
-
-        If present, indicates that a bulk-import job has been created successfully and is currently running.
+HTTP response containing created import job metadata.
 
 **EXCEPTIONS:**
 
-None
+- **MilvusException**
+
+    Raised when request submission fails or the server rejects the job.
 
 ## Examples\{#examples}
 
 ```python
 from pymilvus.bulk_writer import bulk_import
 
-# Bulk-import your data from the prepared data files
-CLOUD_API_ENDPOINT = "https://api.cloud.zilliz.com"
-CLUSTER_ID = "inxx-xxxxxxxxxxxxxxx"
-API_KEY = ""
-STORAGE_URL = ""
-ACCESS_KEY = ""
-SECRET_KEY = ""
-
-res = bulk_import(
-    api_key=API_KEY,
-    url=CLOUD_API_ENDPOINT,
-    cluster_id=CLUSTER_ID,
-    collection_name="quick_setup",
-    object_url=STORAGE_URL,
-    access_key=ACCESS_KEY,
-    secret_key=SECRET_KEY
+resp = bulk_import(
+    url="https://api.cloud.zilliz.com",
+    api_key="YOUR_API_KEY",
+    project_id="proj-xxx",
+    region_id="aws-us-west-2",
+    collection_name="book_catalog",
+    files=[
+        ["s3://demo-bucket/books/part-0001.parquet"],
+        ["s3://demo-bucket/books/part-0002.parquet"],
+    ],
+    access_key="AKIA...",
+    secret_key="SECRET...",
 )
 
-print(res.json())
-
-# Output
-#
-# {
-#     "code": 200,
-#     "data": {
-#         "jobId": "9d0bc230-6b99-4739-a872-0b91cfe2515a"
-#     }
-# }
+print(resp.json())
 ```
 
-For details, refer to [Import Data (SDK)](/docs/import-data-via-sdks) in our user guides.
+<include  target="milvus">
 
-## Related methods\{#related-methods}
+```python
+from pymilvus.bulk_writer import bulk_import
 
-- [get_import_progress()](./BulkImport-get_import_progress)
+resp = bulk_import(
+    url="https://YOUR_CLUSTER_ENDPOINT",
+    api_key="username:password", # replace this with your actual credentials
+    collection_name="book_catalog",
+    files=[
+        ["s3://demo-bucket/books/part-0001.parquet"],
+        ["s3://demo-bucket/books/part-0002.parquet"],
+    ],
+    access_key="AKIA...",
+    secret_key="SECRET...",
+)
 
-- [list_import_jobs()](./BulkImport-list_import_jobs)
+print(resp.json())
+```
 
+</include>
