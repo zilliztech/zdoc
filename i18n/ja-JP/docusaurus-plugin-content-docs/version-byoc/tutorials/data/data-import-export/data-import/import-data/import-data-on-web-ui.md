@@ -61,6 +61,7 @@ import Supademo from '@site/src/components/Supademo';
 <Admonition type="info" icon="📘" title="Notes">
 
 <p>Zilliz Cloud では、クラスタをホストしているクラウドプロバイダーに関係なく、任意のオブジェクトストレージサービスから任意の Zilliz Cloud クラスタにデータをインポートできるようになりました。たとえば、AWS S3 バケットから GCP にデプロイされた Zilliz Cloud クラスタにデータをインポートできます。</p>
+<p>低レイテンシで安定したエクスペリエンスを確保するために、ターゲットクラスタと同じプロバイダ、同じリージョンのバケットまたは BLOB コンテナを使用することをお勧めします。</p>
 
 </Admonition>
 
@@ -85,4 +86,3 @@ import Supademo from '@site/src/components/Supademo';
 - [SDK でデータをインポート](./import-data-via-sdks)
 
 - [データインポート実践ガイド](./data-import-zero-to-hero)
-

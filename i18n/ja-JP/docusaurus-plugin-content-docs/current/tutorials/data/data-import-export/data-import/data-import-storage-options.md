@@ -26,6 +26,13 @@ import Admonition from '@theme/Admonition';
 
 データをインポートする前に、サポートされているクラウドストレージオプションとそれに対応するURL形式を理解することが重要です。これにより、リクエストが検証エラーなく適切に処理されることが保証されます。
 
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>Zilliz Cloud では、クラスタをホストしているクラウドプロバイダに関係なく、任意のオブジェクトストレージサービスから任意の Zilliz Cloud クラスタにデータをインポートできるようになりました。たとえば、AWS S3 バケットから GCP にデプロイされた Zilliz Cloud クラスタにデータをインポートできます。</p>
+<p>低レイテンシで安定したエクスペリエンスを確保するために、ターゲットクラスタと同じプロバイダ、同じリージョンのバケットまたは BLOB コンテナを使用することをお勧めします。</p>
+
+</Admonition>
+
 ## Amazon Simple Storage Service (S3)\{#amazon-simple-storage-service-s3}
 
 - **オブジェクトアクセスURI**
@@ -134,4 +141,3 @@ import Admonition from '@theme/Admonition';
     - 長期認証情報で認証する場合は、詳細について[アカウントアクセスキーの表示](https://learn.microsoft.com/en-us/azure/storage/common/storage-account-keys-manage?tabs=azure-portal#view-account-access-keys) を参照してください
 
     - 短期認証情報で認証する場合は、[このFAQ](/docs/faq-data-import#can-i-use-short-term-credentials-when-importing-data-from-an-object-storage-service) を参照してください。
-

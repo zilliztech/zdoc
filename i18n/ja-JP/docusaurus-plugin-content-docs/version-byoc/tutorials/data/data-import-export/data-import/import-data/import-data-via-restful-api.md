@@ -39,6 +39,13 @@ import Admonition from '@theme/Admonition';
 
      コレクションの作成の詳細については、[コレクションの管理 (コンソール)](./manage-collections-console) を参照してください。
 
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>Zilliz Cloud では、クラスタをホストしているクラウドプロバイダに関係なく、任意のオブジェクトストレージサービスから任意の Zilliz Cloud クラスタにデータをインポートできるようになりました。たとえば、AWS S3 バケットから GCP にデプロイされた Zilliz Cloud クラスタにデータをインポートできます。</p>
+<p>低レイテンシで安定したエクスペリエンスを確保するために、ターゲットクラスタと同じプロバイダ、同じリージョンのバケットまたは BLOB コンテナを使用することをお勧めします。</p>
+
+</Admonition>
+
 ## データのインポート\{#import-data}
 
 外部ストレージからファイルをインポートするには、まずファイルをオブジェクトストレージバケットにアップロードする必要があります。アップロード後、リモートバケット内のファイルへのパスと、Zilliz Cloud がバケットからデータをプルするためのバケット認証情報を取得します。サポートされているオブジェクトパスの詳細については、[ストレージオプション](./data-import-storage-options) を参照してください。
@@ -112,4 +119,3 @@ curl --request POST \
 ```
 
 RESTful API を呼び出して、[現在のインポートジョブの進捗状況を取得](/reference/restful/get-import-job-progress-v2)したり、[すべてのインポートジョブを一覧表示](/reference/restful/list-import-jobs-v2)したりすることもできます。または、Zilliz Cloud コンソールの [ジョブセンター](./job-center) に移動して、結果とジョブの詳細を確認することもできます。
-

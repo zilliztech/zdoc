@@ -31,6 +31,13 @@ This guide helps you learn how to use our SDKs to import data into a collection 
 
 Alternatively, you can also refer to [our fast-track end-to-end course](./data-import-zero-to-hero) which covers both data preparations and data import to Zilliz Cloud collections.
 
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>Zilliz Cloud now allows you to import data from any object storage service to any Zilliz Cloud cluster, regardless of the cloud provider hosting the clusters. For instance, you can import data from an AWS S3 bucket to a Zilliz Cloud cluster deployed on GCP.</p>
+<p>You are advised to use a bucket or a blob container from the same provider and in the same region as the target cluster to ensure a low-latency, stable experience.</p>
+
+</Admonition>
+
 ## Install dependencies\{#install-dependencies}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>

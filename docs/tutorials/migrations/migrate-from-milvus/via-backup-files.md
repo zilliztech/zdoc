@@ -43,6 +43,12 @@ Make sure the following prerequisites are met:
 
     - **From Object Storage**: The public URL and access credentials for the Milvus object storage. You can choose long-term or temporary credentials. For detailed examples of an object storage URL, see [FAQ](./via-backup-files#faq).
 
+        <Admonition type="info" icon="📘" title="Notes">
+
+        <p>You are advised to use a bucket or a blob container from the same provider and in the same region as the target cluster to ensure a low-latency, stable experience.</p>
+
+        </Admonition>
+
     - **From Volume**: 
 
         - **Managed volume**: For very large local backup files, upload the file to a Zilliz Cloud [managed volume](./managed-volume) first, then specify the file path in that volume.
@@ -203,27 +209,27 @@ If the migration process encounters any issues, you can take the following steps
        <tr>
          <td rowspan="3"><p><strong>Amazon S3</strong></p></td>
          <td><p>AWS Object URL, virtual-hosted–style</p></td>
-         <td><p>https://\{bucket_name\}.s3.\{region-code\}.amazonaws.com/\{folder_name\}/</p></td>
+         <td><p>https://\<bucket_name>.s3.\<region-code>.amazonaws.com/\<folder_name>/</p></td>
        </tr>
        <tr>
          <td><p>AWS Object URL, path-style</p></td>
-         <td><p>https://s3.\{region-code\}.amazonaws.com/\{bucket_name\}/\{folder_name\}/</p></td>
+         <td><p>https://s3.\<region-code>.amazonaws.com/\<bucket_name>/\<folder_name>/</p></td>
        </tr>
        <tr>
          <td><p>Amazon S3 URI</p></td>
-         <td><p>s3://\{bucket_name\}/\{folder_name\}/</p></td>
+         <td><p>s3://\<bucket_name>/\<folder_name>/</p></td>
        </tr>
        <tr>
          <td rowspan="2"><p><strong>Google Cloud Storage</strong></p></td>
          <td><p>GSC public URL</p></td>
-         <td><p>https://storage.cloud.google.com/\{bucket_name\}/\{folder_name\}/</p></td>
+         <td><p>https://storage.cloud.google.com/\<bucket_name>/\<folder_name>/</p></td>
        </tr>
        <tr>
          <td><p>GSC gsutil URI</p></td>
-         <td><p>gs://\{bucket_name\}/\{folder_name\}/</p></td>
+         <td><p>gs://\<bucket_name>/\<folder_name>/</p></td>
        </tr>
        <tr>
          <td colspan="2"><p><strong>Azure Blob Storage</strong></p></td>
-         <td><p>https://\{storage_account\}.blob.core.windows.net/\{container\}/\{folder\}/</p></td>
+         <td><p>https://\<storage_account>.blob.core.windows.net/\<container>/\<folder>/</p></td>
        </tr>
     </table>

@@ -43,6 +43,13 @@ Make sure the following conditions are met:
 
      For details on creating a collection, see [Manage Collections (Console)](./manage-collections-console).
 
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>Zilliz Cloud now allows you to import data from any object storage service to any Zilliz Cloud cluster, regardless of the cloud provider hosting the clusters. For instance, you can import data from an AWS S3 bucket to a Zilliz Cloud cluster deployed on GCP.</p>
+<p>You are advised to use a bucket or a blob container from the same provider and in the same region as the target cluster to ensure a low-latency, stable experience.</p>
+
+</Admonition>
+
 ## Import data from volumes\{#import-data-from-volumes}
 
 To import data from a volume into a cluster, first create a [managed or external volume](./volume). For a managed volume, upload your data files to the volume. For an external volume, ensure the data files are in the mapped cloud storage bucket. Then import the data as follows:

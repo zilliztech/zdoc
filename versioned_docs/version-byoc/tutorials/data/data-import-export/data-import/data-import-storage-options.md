@@ -29,6 +29,13 @@ import Admonition from '@theme/Admonition';
 
 Before importing data, it's important to understand the supported cloud storage options and their corresponding URL formats. This ensures that your requests can be properly processed without undergoing validation errors.
 
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>Zilliz Cloud now allows you to import data from any object storage service to any Zilliz Cloud cluster, regardless of the cloud provider hosting the clusters. For instance, you can import data from an AWS S3 bucket to a Zilliz Cloud cluster deployed on GCP.</p>
+<p>You are advised to use a bucket or a blob container from the same provider and in the same region as the target cluster to ensure a low-latency, stable experience.</p>
+
+</Admonition>
+
 ## Amazon Simple Storage Service (S3)\{#amazon-simple-storage-service-s3}
 
 - **Object access URIs**
@@ -40,15 +47,15 @@ Before importing data, it's important to understand the supported cloud storage 
        </tr>
        <tr>
          <td><p><strong>AWS Object URL, virtual-hosted–style</strong></p></td>
-         <td><ul><li><p><strong>File</strong>: https://\{bucket_name\}.s3.\{region-code\}.amazonaws.com/\{object_name\}</p></li><li><p><strong>Folder</strong>: https://\{bucket_name\}.s3.\{region-code\}.amazonaws.com/\{folder_name\}/</p></li></ul></td>
+         <td><ul><li><p><strong>File</strong>: https://\<bucket_name>.s3.\<region-code>.amazonaws.com/\<object_name></p></li><li><p><strong>Folder</strong>: https://\<bucket_name>.s3.\<region-code>.amazonaws.com/\<folder_name>/</p></li></ul></td>
        </tr>
        <tr>
          <td><p><strong>AWS Object URL, path-style</strong></p></td>
-         <td><ul><li><p><strong>File</strong>: https://s3.\{region-code\}.amazonaws.com/\{bucket_name\}/\{object_name\}</p></li><li><p><strong>Folder</strong>: https://s3.\{region-code\}.amazonaws.com/\{bucket_name\}/\{folder_name\}/</p></li></ul></td>
+         <td><ul><li><p><strong>File</strong>: https://s3.\<region-code>.amazonaws.com/\<bucket_name>/\<object_name></p></li><li><p><strong>Folder</strong>: https://s3.\<region-code>.amazonaws.com/\<bucket_name>/\<folder_name>/</p></li></ul></td>
        </tr>
        <tr>
          <td><p><strong>AWS S3 URI</strong></p></td>
-         <td><ul><li><p><strong>File</strong>: s3://\{bucket_name\}/\{object_name\}</p></li><li><p><strong>Folder</strong>: s3://\{bucket_name\}/\{folder_name\}/</p></li></ul></td>
+         <td><ul><li><p><strong>File</strong>: s3://\<bucket_name>/\<object_name></p></li><li><p><strong>Folder</strong>: s3://\<bucket_name>/\<folder_name>/</p></li></ul></td>
        </tr>
     </table>
 
@@ -89,11 +96,11 @@ Before importing data, it's important to understand the supported cloud storage 
        </tr>
        <tr>
          <td><p><strong>GSC public URL</strong></p></td>
-         <td><ul><li><p><strong>File</strong>: https://storage.cloud.google.com/\{bucket_name\}/\{object_name\}</p></li><li><p><strong>Folder</strong>: https://storage.cloud.google.com/\{bucket_name\}/\{folder_name\}/</p></li></ul></td>
+         <td><ul><li><p><strong>File</strong>: https://storage.cloud.google.com/\<bucket_name>/\<object_name></p></li><li><p><strong>Folder</strong>: https://storage.cloud.google.com/\<bucket_name>/\<folder_name>/</p></li></ul></td>
        </tr>
        <tr>
          <td><p><strong>GSC gsutil URI</strong></p></td>
-         <td><ul><li><p><strong>File</strong>: gs://\{bucket_name\}/\{object_name\}</p></li><li><p><strong>Folder</strong>: gs://\{bucket_name\}/\{folder_name\}/</p></li></ul></td>
+         <td><ul><li><p><strong>File</strong>: gs://\<bucket_name>/\<object_name></p></li><li><p><strong>Folder</strong>: gs://\<bucket_name>/\<folder_name>/</p></li></ul></td>
        </tr>
     </table>
 
@@ -124,7 +131,7 @@ Before importing data, it's important to understand the supported cloud storage 
        </tr>
        <tr>
          <td><p><strong>Azure storage blob URI</strong></p></td>
-         <td><ul><li><p><strong>File</strong>: https://\{storage_account\}.blob.core.windows.net/\{container\}/\{blob\}</p></li><li><p><strong>Folder</strong>: https://\{storage_account\}.blob.core.windows.net/\{container\}/\{folder\}/</p></li></ul></td>
+         <td><ul><li><p><strong>File</strong>: https://\<storage_account>.blob.core.windows.net/\<container>/\<blob></p></li><li><p><strong>Folder</strong>: https://\<storage_account>.blob.core.windows.net/\<container>/\<folder>/</p></li></ul></td>
        </tr>
     </table>
 

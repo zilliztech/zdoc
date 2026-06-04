@@ -40,6 +40,12 @@ Zilliz Cloud は、Milvus ベクトルデータベースを使用したいが、
 
     - **オブジェクトストレージから**: Milvus オブジェクトストレージのパブリック URL とアクセス認証情報。長期または一時的な認証情報を選択できます。オブジェクトストレージ URL の詳細な例については、[FAQ](./via-backup-files#faq) を参照してください。
 
+        <Admonition type="info" icon="📘" title="Notes">
+
+        <p>低レイテンシで安定したエクスペリエンスを確保するために、ターゲットクラスタと同じプロバイダ、同じリージョンのバケットまたは BLOB コンテナを使用することをお勧めします。</p>
+
+        </Admonition>
+
 - **組織オーナー** または **プロジェクト管理者** のロールが付与されていること。必要な権限がない場合は、Zilliz Cloud の組織オーナーに連絡してください。
 
 - ターゲットクラスターの CU サイズがソースデータを収容できることを確認してください。必要な CU サイズを見積もるには、[calculator](https://zilliz.com/pricing?_gl=1*qro801*_ga*MzkzNTY1NDM0LjE3Mjk1MDExNzQ.*_ga_Q1F8R2NWDP*MTc0NTQ4MzY1Ni4zMDEuMS4xNzQ1NDg0MTEzLjAuMC4w*_ga_KKMVYG8YF2*MTc0NTQ4MzY1Ni4yNTIuMS4xNzQ1NDg0MTEzLjAuMC4w#calculator) を使用してください。

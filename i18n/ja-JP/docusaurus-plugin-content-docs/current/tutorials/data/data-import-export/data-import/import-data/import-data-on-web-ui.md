@@ -69,6 +69,7 @@ Zilliz Cloud は、ローカルの JSON または Parquet ファイルからの�
 <Admonition type="info" icon="📘" title="Notes">
 
 <p>Zilliz Cloud では、クラスタをホストしているクラウドプロバイダに関係なく、任意のオブジェクトストレージサービスから任意の Zilliz Cloud クラスタにデータをインポートできるようになりました。たとえば、AWS S3 バケットから GCP にデプロイされた Zilliz Cloud クラスタにデータをインポートできます。</p>
+<p>低レイテンシで安定したエクスペリエンスを確保するために、ターゲットクラスタと同じプロバイダ、同じリージョンのバケットまたは BLOB コンテナを使用することをお勧めします。</p>
 
 </Admonition>
 
@@ -113,4 +114,3 @@ Zilliz Cloud は、ローカルの JSON または Parquet ファイルからの�
 - [SDK でデータをインポート](./import-data-via-sdks)
 
 - [データインポート実践ガイド](./data-import-zero-to-hero)
-

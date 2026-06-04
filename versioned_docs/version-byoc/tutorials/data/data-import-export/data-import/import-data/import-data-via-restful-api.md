@@ -42,6 +42,13 @@ Make sure the following conditions are met:
 
      For details on creating a collection, see [Manage Collections (Console)](./manage-collections-console).
 
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>Zilliz Cloud now allows you to import data from any object storage service to any Zilliz Cloud cluster, regardless of the cloud provider hosting the clusters. For instance, you can import data from an AWS S3 bucket to a Zilliz Cloud cluster deployed on GCP.</p>
+<p>You are advised to use a bucket or a blob container from the same provider and in the same region as the target cluster to ensure a low-latency, stable experience.</p>
+
+</Admonition>
+
 ## Import data\{#import-data}
 
 To import data from files via external storage, you must first upload the files to an object storage bucket. Once uploaded, obtain the path to the files in the remote bucket and bucket credentials for Zilliz Cloud to pull data from your bucket. For details on supported object paths, refer to [Storage Options](./data-import-storage-options).

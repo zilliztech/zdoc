@@ -28,6 +28,13 @@ import TabItem from '@theme/TabItem';
 
 または、[クイックスタートのエンドツーエンドコース](./data-import-zero-to-hero) を参照することもできます。このコースでは、Zilliz Cloud コレクションへのデータ準備とデータインポートの両方をカバーしています。
 
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>Zilliz Cloud では、クラスタをホストしているクラウドプロバイダに関係なく、任意のオブジェクトストレージサービスから任意の Zilliz Cloud クラスタにデータをインポートできるようになりました。たとえば、AWS S3 バケットから GCP にデプロイされた Zilliz Cloud クラスタにデータをインポートできます。</p>
+<p>低レイテンシで安定したエクスペリエンスを確保するために、ターゲットクラスタと同じプロバイダ、同じリージョンのバケットまたは BLOB コンテナを使用することをお勧めします。</p>
+
+</Admonition>
+
 ## 依存関係のインストール\{#install-dependencies}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
@@ -368,4 +375,3 @@ public static void main(String[] args) throws Exception {
 - [RESTful API を使用したデータのインポート](./import-data-via-restful-api)
 
 - [データインポート ゼロからヒーローへ](./data-import-zero-to-hero) 
-
