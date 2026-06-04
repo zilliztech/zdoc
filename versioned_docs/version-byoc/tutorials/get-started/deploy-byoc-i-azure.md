@@ -158,11 +158,11 @@ The project is created at the end of this step, and you will be redirected to th
 
         If **Auto-scaling** is disabled, simply specify the number of VM instances required for each project component in the corresponding **Count** field.
 
-        ![MzcibkvtSoZZK6xcsFncpd0Gn2f](https://zdoc-images.s3.us-west-2.amazonaws.com/mzcibkvtsozzk6xcsfncpd0gn2f.png "MzcibkvtSoZZK6xcsFncpd0Gn2f")
+        ![DYwHb4uOioMCbZxajkHc6unEn8f](https://zdoc-images.s3.us-west-2.amazonaws.com/dywhb4uoiomcbzxajkhc6unen8f.png "DYwHb4uOioMCbZxajkHc6unEn8f")
 
         Once **Auto-scaling** is enabled, you need to specify a range for Zilliz Cloud to automatically scale the number of VM instances based on actual project workloads by setting the corresponding **Min** and **Max** fields.
 
-        ![IbqMbM0lGoNweKxba4Hcw0Ien4e](https://zdoc-images.s3.us-west-2.amazonaws.com/ibqmbm0lgonwekxba4hcw0ien4e.png "IbqMbM0lGoNweKxba4Hcw0Ien4e")
+        ![As6Ebvzaoo4iccxsxdlctOCRnpd](https://zdoc-images.s3.us-west-2.amazonaws.com/as6ebvzaoo4iccxsxdlctocrnpd.png "As6Ebvzaoo4iccxsxdlctOCRnpd")
 
         To facilitate resource settings, there are four predefined project size options. The following table shows the mapping between these project size options and the number of clusters that can be created in the project, along with the number of entities each cluster can contain.
 
@@ -170,39 +170,60 @@ The project is created at the end of this step, and you will be redirected to th
            <tr>
              <th rowspan="2"><p>Size</p></th>
              <th rowspan="2"><p>Maximum Cluster Quantity</p></th>
-             <th colspan="2"><p>Maximum Number of Entities (Million)</p></th>
+             <th colspan="3"><p>Maximum Number of Entities (Million)</p></th>
            </tr>
            <tr>
              <td><p>Performance-optimized CU</p></td>
              <td><p>Capacity-optimized CU</p></td>
+             <td><p>Tiered-storage CU</p></td>
            </tr>
            <tr>
              <td><p>Small</p></td>
              <td><p>3 clusters with 8 to 16 CUs</p></td>
-             <td><p>10 Million - 25 Million</p></td>
-             <td><p>40 Million - 80 Million</p></td>
+             <td><p>20 Million - 40 Million</p></td>
+             <td><p>64 Million - 128 Million</p></td>
+             <td><p>320 Million - 640 Million</p></td>
            </tr>
            <tr>
              <td><p>Medium</p></td>
              <td><p>7 clusters with 16 to 64 CUs</p></td>
-             <td><p>25 Million - 100 Million</p></td>
-             <td><p>80 Million - 350 Million</p></td>
+             <td><p>40 Million - 160 Million</p></td>
+             <td><p>128 Million - 512 Million</p></td>
+             <td><p>640 Million - 2.6 Billion</p></td>
            </tr>
            <tr>
              <td><p>Large</p></td>
              <td><p>12 clusters with 64 to 192 CUs</p></td>
-             <td><p>100 Million - 300 Million</p></td>
-             <td><p>350 Million - 1 Billion</p></td>
+             <td><p>160 Million - 480 Million</p></td>
+             <td><p>512 Million - 1.5 Billion</p></td>
+             <td><p>2.6 Billion - 7.7 Billion</p></td>
            </tr>
            <tr>
              <td><p>X-Large</p></td>
              <td><p>17 clusters with 192 to 576 CUs</p></td>
-             <td><p>300 Million - 900 Million</p></td>
-             <td><p>1 Billion - 3 Billion</p></td>
+             <td><p>480 Million - 1.44 Billion</p></td>
+             <td><p>1.5 Billion -  4.6 Billion</p></td>
+             <td><p>7.7 Billion - 23 Billion</p></td>
            </tr>
         </table>
 
         You can also customize the settings by selecting **Custom** in **Initial Project Size** and adjusting the VM instance types and counts for all data plane components. If your preferred VM instance types are not listed, please [contact Zilliz support](https://zilliz.com/contact) for further assistance. 
+
+    1. Determine whether to enable **Tiered Query Node**.
+
+        This option determines whether you can create tiered-storage clusters. Once you select this option, you can set the instance type and count for the tiered query nodes. 
+
+        ![Aolab6yB3o8Z3mxDFCycMzNqnTf](https://zdoc-images.s3.us-west-2.amazonaws.com/aolab6yb3o8z3mxdfcycmznqntf.png "Aolab6yB3o8Z3mxDFCycMzNqnTf")
+
+        <Admonition type="info" icon="📘" title="Notes">
+
+        <ul>
+        <li><p>Your choice in <strong>Project Size</strong> does not affect the settings in <strong>Tiered Storage Node</strong>.</p></li>
+        <li><p>If <strong>Auto-scaling</strong> is disabled, the sum of the <strong>Default Query Node</strong> count and the <strong>Tiered Query Node</strong> count should be a positive integer.</p></li>
+        <li><p>If <strong>Auto-scaling</strong> is enabled, the sum of the <strong>Min</strong> values of both the <strong>Default Query Node</strong> and the <strong>Tiered Query Node</strong> should be a positive integer.</p></li>
+        </ul>
+
+        </Admonition>
 
 1. Click **Next**.
 

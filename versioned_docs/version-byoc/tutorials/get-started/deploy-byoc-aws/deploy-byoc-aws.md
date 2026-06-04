@@ -99,35 +99,40 @@ Set **Zilliz BYOC Project Name**, and click **Create and Next**.The project is c
            <tr>
              <th rowspan="2"><p>Size</p></th>
              <th rowspan="2"><p>Maximum Cluster Quantity</p></th>
-             <th colspan="2"><p>Maximum Number of Entities (Million)</p></th>
+             <th colspan="3"><p>Maximum Number of Entities (Million)</p></th>
            </tr>
            <tr>
              <td><p>Performance-optimized CU</p></td>
              <td><p>Capacity-optimized CU</p></td>
+             <td><p>Tiered-storage CU</p></td>
            </tr>
            <tr>
              <td><p>Small</p></td>
              <td><p>3 clusters with 8 to 16 CUs</p></td>
-             <td><p>10 Million - 25 Million</p></td>
-             <td><p>40 Million - 80 Million</p></td>
+             <td><p>20 Million - 40 Million</p></td>
+             <td><p>64 Million - 128 Million</p></td>
+             <td><p>320 Million - 640 Million</p></td>
            </tr>
            <tr>
              <td><p>Medium</p></td>
              <td><p>7 clusters with 16 to 64 CUs</p></td>
-             <td><p>25 Million - 100 Million</p></td>
-             <td><p>80 Million - 350 Million</p></td>
+             <td><p>40 Million - 160 Million</p></td>
+             <td><p>128 Million - 512 Million</p></td>
+             <td><p>640 Million - 2.6 Billion</p></td>
            </tr>
            <tr>
              <td><p>Large</p></td>
              <td><p>12 clusters with 64 to 192 CUs</p></td>
-             <td><p>100 Million - 300 Million</p></td>
-             <td><p>350 Million - 1 Billion</p></td>
+             <td><p>160 Million - 480 Million</p></td>
+             <td><p>512 Million - 1.5 Billion</p></td>
+             <td><p>2.6 Billion - 7.7 Billion</p></td>
            </tr>
            <tr>
              <td><p>X-Large</p></td>
              <td><p>17 clusters with 192 to 576 CUs</p></td>
-             <td><p>300 Million - 900 Million</p></td>
-             <td><p>1 Billion - 3 Billion</p></td>
+             <td><p>480 Million - 1.44 Billion</p></td>
+             <td><p>1.5 Billion -  4.6 Billion</p></td>
+             <td><p>7.7 Billion - 23 Billion</p></td>
            </tr>
         </table>
 
