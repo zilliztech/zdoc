@@ -145,6 +145,23 @@ BYOC-I 組織内で、**Create Project** ボタンをクリックしてデプロ
 
         **初期プロジェクトサイズ** で **Custom** を選択し、すべてのデータプレーンコンポーネントの EC2 インスタンスタイプと数を調整することで、設定をカスタマイズすることもできます。希望する EC2 インスタンスタイプがリストにない場合は、さらなるサポートのために [Zilliz サポートにお問い合わせ](https://zilliz.com/contact) ください。
 
+    1. **Tiered Query Node** を有効にするかどうかを決定します。
+
+        このオプションにより、階層型ストレージクラスターを作成できるかどうかが決まります。このオプションを選択すると、階層型クエリノードのインスタンスタイプと数を設定できます。
+
+        ![FKDsbxbUuoEqMJxniZGcSZMQnb3](https://zdoc-images.s3.us-west-2.amazonaws.com/fkdsbxbuuoeqmjxnizgcszmqnb3.png "FKDsbxbUuoEqMJxniZGcSZMQnb3")
+
+        <Admonition type="info" icon="📘" title="Notes">
+
+        <ul>
+        <li><p><strong>Project Size</strong> での選択は、<strong>Tiered Storage Node</strong> の設定には影響しません。</p></li>
+        <li><p><strong>Auto-scaling</strong> が無効の場合、<strong>Default Query Node</strong> の数と <strong>Tiered Query Node</strong> の数の合計は正の整数である必要があります。</p></li>
+        <li><p><strong>Auto-scaling</strong> が有効の場合、<strong>Default Query Node</strong> と <strong>Tiered Query Node</strong> の両方の <strong>Min</strong> 値の合計は正の整数である必要があります。</p></li>
+        <li><p>BYOC で階層型ストレージが利用可能になる前に作成されたクラスターでは、階層型ストレージを手動で有効にできます。詳細については、<a href="./enable-tiered-storage-aws">既存クラスターで階層型ストレージを有効にする</a>を参照してください。</p></li>
+        </ul>
+
+        </Admonition>
+
 1. **Next** をクリックします。
 
 </Procedures>
@@ -250,4 +267,3 @@ BYOC-I 組織内で、**Create Project** ボタンをクリックしてデプロ
 - **アドオン管理**: EKS アドオンの作成、更新、記述、および削除
 
 - **アクセスエントリー管理**: EKS アクセスエントリーおよびポッド ID 関連付けの作成、更新、記述、および削除
-

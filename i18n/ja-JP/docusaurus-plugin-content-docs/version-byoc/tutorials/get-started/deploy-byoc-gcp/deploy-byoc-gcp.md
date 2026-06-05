@@ -34,7 +34,7 @@ import Procedures from '@site/src/components/Procedures';
 
 <ul>
 <li><p>Zilliz BYOC は現在 <strong>一般提供</strong>されています。アクセスと実装の詳細については、<a href="https://zilliz.com/contact-sales">Zilliz Cloud 営業</a>までお問い合わせください。</p></li>
-<li><p>このガイドでは、AWS コンソール上で必要なリソースを段階的に作成する方法を説明します。インフラストラクチャのプロビジョニングに Terraform スクリプトを使用する場合は、<a href="./terraform-provider">Terraform Provider</a> を参照してください。</p></li>
+<li><p>このガイドでは、GCP コンソール上で必要なリソースを段階的に作成する方法を説明します。インフラストラクチャのプロビジョニングに Terraform スクリプトを使用する場合は、<a href="./terraform-provider">Terraform Provider</a> を参照してください。</p></li>
 </ul>
 
 </Admonition>
@@ -75,7 +75,7 @@ BYOC 組織内で、**Create Project** ボタンをクリックして、デプ�
 
 1. **リソース設定**では、以下を行う必要があります。
 
-    1. **オートスケーリング**を有効または無効にして、Zilliz Cloud がプロジェクトのワークロードに基づいて定義された範囲内で EC2 インスタンスの数を自動的に調整できるようにし、効率的なリソース使用を確保します。
+    1. **オートスケーリング**を有効または無効にして、Zilliz Cloud がプロジェクトのワークロードに基づいて定義された範囲内で GCE インスタンスの数を自動的に調整できるようにし、効率的なリソース使用を確保します。
 
     1. **初期プロジェクトサイズ**を構成します。
 
@@ -95,39 +95,60 @@ BYOC 組織内で、**Create Project** ボタンをクリックして、デプ�
            <tr>
              <th rowspan="2"><p>サイズ</p></th>
              <th rowspan="2"><p>最大クラスター数</p></th>
-             <th colspan="2"><p>最大エンティティ数（百万）</p></th>
+             <th colspan="3"><p>最大エンティティ数（百万）</p></th>
            </tr>
            <tr>
              <td><p>パフォーマンス最適化済み CU</p></td>
              <td><p>容量最適化済み CU</p></td>
+             <td><p>階層型ストレージ CU</p></td>
            </tr>
            <tr>
              <td><p>小</p></td>
              <td><p>8 ～ 16 CU のクラスター 3 つ</p></td>
-             <td><p>1000 万 ～ 2500 万</p></td>
-             <td><p>4000 万 ～ 8000 万</p></td>
+             <td><p>2000 万 ～ 4000 万</p></td>
+             <td><p>6400 万 ～ 1.28 億</p></td>
+             <td><p>3.2 億 ～ 6.4 億</p></td>
            </tr>
            <tr>
              <td><p>中</p></td>
              <td><p>16 ～ 64 CU のクラスター 7 つ</p></td>
-             <td><p>2500 万 ～ 1 億</p></td>
-             <td><p>8000 万 ～ 3 億 5000 万</p></td>
+             <td><p>4000 万 ～ 1.6 億</p></td>
+             <td><p>1.28 億 ～ 5.12 億</p></td>
+             <td><p>6.4 億 ～ 26 億</p></td>
            </tr>
            <tr>
              <td><p>大</p></td>
              <td><p>64 ～ 192 CU のクラスター 12 つ</p></td>
-             <td><p>1 億 ～ 3 億</p></td>
-             <td><p>3 億 5000 万 ～ 10 億</p></td>
+             <td><p>1.6 億 ～ 4.8 億</p></td>
+             <td><p>5.12 億 ～ 15 億</p></td>
+             <td><p>26 億 ～ 77 億</p></td>
            </tr>
            <tr>
              <td><p>特大</p></td>
              <td><p>192 ～ 576 CU のクラスター 17 つ</p></td>
-             <td><p>3 億 ～ 9 億</p></td>
-             <td><p>10 億 ～ 30 億</p></td>
+             <td><p>4.8 億 ～ 14.4 億</p></td>
+             <td><p>15 億 ～ 46 億</p></td>
+             <td><p>77 億 ～ 230 億</p></td>
            </tr>
         </table>
 
         **初期プロジェクトサイズ**で**カスタム**を選択し、すべてのデータプレーンコンポーネントの GCE インスタンスタイプと数を調整することで、設定をカスタマイズすることもできます。希望する GCE インスタンスタイプがリストにない場合は、さらなるサポートのために [Zilliz サポートにお問い合わせ](https://zilliz.com/contact)ください。
+
+    1. **Tiered Query Node** を有効にするかどうかを決定します。
+
+        このオプションにより、階層型ストレージクラスターを作成できるかどうかが決まります。このオプションを選択すると、階層型クエリノードのインスタンスタイプと数を設定できます。
+
+        ![CFISbr4gloeeYoxStjuc7VuanM5](https://zdoc-images.s3.us-west-2.amazonaws.com/cfisbr4gloeeyoxstjuc7vuanm5.png "CFISbr4gloeeYoxStjuc7VuanM5")
+
+        <Admonition type="info" icon="📘" title="Notes">
+
+        <ul>
+        <li><p><strong>Project Size</strong> での選択は、<strong>Tiered Storage Node</strong> の設定には影響しません。</p></li>
+        <li><p><strong>Auto-scaling</strong> が無効の場合、<strong>Default Query Node</strong> の数と <strong>Tiered Query Node</strong> の数の合計は正の整数である必要があります。</p></li>
+        <li><p><strong>Auto-scaling</strong> が有効の場合、<strong>Default Query Node</strong> と <strong>Tiered Query Node</strong> の両方の <strong>Min</strong> 値の合計は正の整数である必要があります。</p></li>
+        </ul>
+
+        </Admonition>
 
 1. **次へ**をクリックして認証情報を設定します。
 

@@ -142,6 +142,7 @@ BYOC 組織内で、**Create Project** ボタンをクリックしてデプロ�
         <li><p><strong>プロジェクトサイズ</strong> での選択は、<strong>Tiered Storage Node</strong> の設定には影響しません。</p></li>
         <li><p><strong>オートスケーリング</strong> が無効の場合、<strong>Default Query Node</strong> の数と <strong>Tiered Query Node</strong> の数の合計は正の整数である必要があります。</p></li>
         <li><p><strong>オートスケーリング</strong> が有効の場合、<strong>Default Query Node</strong> と <strong>Tiered Query Node</strong> の両方の <strong>Min</strong> 値の合計は正の整数である必要があります。</p></li>
+        <li><p>BYOC で階層型ストレージが利用可能になる前に作成されたクラスターでは、階層型ストレージを手動で有効にできます。詳細については、<a href="./enable-tiered-storage-aws">既存クラスターで階層型ストレージを有効にする</a>を参照してください。</p></li>
         </ul>
 
         </Admonition>

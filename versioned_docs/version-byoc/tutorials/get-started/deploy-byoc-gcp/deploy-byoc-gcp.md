@@ -37,7 +37,7 @@ This page describes how to manually create a fully managed Bring-Your-Own-Cloud 
 
 <ul>
 <li><p>Zilliz BYOC is currently available in <strong>General Availability</strong>. For access and implementation details, please contact <a href="https://zilliz.com/contact-sales">Zilliz Cloud sales</a>.</p></li>
-<li><p>This guide demonstrates how to create the necessary resources on the AWS console step-by-step. If you prefer to use a Terraform script to provision the infrastructure, see <a href="./terraform-provider">Terraform Provider</a>. </p></li>
+<li><p>This guide demonstrates how to create the necessary resources on the GCP console step-by-step. If you prefer to use a Terraform script to provision the infrastructure, see <a href="./terraform-provider">Terraform Provider</a>. </p></li>
 </ul>
 
 </Admonition>
@@ -78,7 +78,7 @@ In this step, you need to set the Zilliz BYOC project name, determine the cloud 
 
 1. In **Resource Settings**, you need to
 
-    1. Enable or disable **Auto-scaling** to allow Zilliz Cloud to automatically adjust the number of EC2 instances within a defined range based on your project workloads, ensuring efficient resource use.
+    1. Enable or disable **Auto-scaling** to allow Zilliz Cloud to automatically adjust the number of GCE instances within a defined range based on your project workloads, ensuring efficient resource use.
 
     1. Configure **Initial Project Size**. 
 

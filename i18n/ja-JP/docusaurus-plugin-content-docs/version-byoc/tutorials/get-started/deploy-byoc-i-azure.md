@@ -167,39 +167,60 @@ BYOC-I 組織内で、**Create Project** ボタンをクリックしてデプロ
            <tr>
              <th rowspan="2"><p>サイズ</p></th>
              <th rowspan="2"><p>最大クラスター数</p></th>
-             <th colspan="2"><p>最大エンティティ数（百万）</p></th>
+             <th colspan="3"><p>最大エンティティ数（百万）</p></th>
            </tr>
            <tr>
              <td><p>パフォーマンス最適化済み CU</p></td>
              <td><p>容量最適化済み CU</p></td>
+             <td><p>階層型ストレージ CU</p></td>
            </tr>
            <tr>
              <td><p>小</p></td>
              <td><p>8 ～ 16 CU のクラスター 3 つ</p></td>
-             <td><p>1,000 万 ～ 2,500 万</p></td>
-             <td><p>4,000 万 ～ 8,000 万</p></td>
+             <td><p>2000 万 ～ 4000 万</p></td>
+             <td><p>6400 万 ～ 1.28 億</p></td>
+             <td><p>3.2 億 ～ 6.4 億</p></td>
            </tr>
            <tr>
              <td><p>中</p></td>
              <td><p>16 ～ 64 CU のクラスター 7 つ</p></td>
-             <td><p>2,500 万 ～ 1 億</p></td>
-             <td><p>8,000 万 ～ 3.5 億</p></td>
+             <td><p>4000 万 ～ 1.6 億</p></td>
+             <td><p>1.28 億 ～ 5.12 億</p></td>
+             <td><p>6.4 億 ～ 26 億</p></td>
            </tr>
            <tr>
              <td><p>大</p></td>
              <td><p>64 ～ 192 CU のクラスター 12 つ</p></td>
-             <td><p>1 億 ～ 3 億</p></td>
-             <td><p>3.5 億 ～ 10 億</p></td>
+             <td><p>1.6 億 ～ 4.8 億</p></td>
+             <td><p>5.12 億 ～ 15 億</p></td>
+             <td><p>26 億 ～ 77 億</p></td>
            </tr>
            <tr>
              <td><p>特大</p></td>
              <td><p>192 ～ 576 CU のクラスター 17 つ</p></td>
-             <td><p>3 億 ～ 9 億</p></td>
-             <td><p>10 億 ～ 30 億</p></td>
+             <td><p>4.8 億 ～ 14.4 億</p></td>
+             <td><p>15 億 ～ 46 億</p></td>
+             <td><p>77 億 ～ 230 億</p></td>
            </tr>
         </table>
 
         **初期プロジェクトサイズ** で **Custom** を選択し、すべてのデータプレーンコンポーネントの VM インスタンスタイプと数を調整して、設定をカスタマイズすることもできます。希望する VM インスタンスタイプがリストにない場合は、[Zilliz サポートにお問い合わせ](https://zilliz.com/contact) ください。
+
+    1. **Tiered Query Node** を有効にするかどうかを決定します。
+
+        このオプションにより、階層型ストレージクラスターを作成できるかどうかが決まります。このオプションを選択すると、階層型クエリノードのインスタンスタイプと数を設定できます。
+
+        ![Aolab6yB3o8Z3mxDFCycMzNqnTf](https://zdoc-images.s3.us-west-2.amazonaws.com/aolab6yb3o8z3mxdfcycmznqntf.png "Aolab6yB3o8Z3mxDFCycMzNqnTf")
+
+        <Admonition type="info" icon="📘" title="Notes">
+
+        <ul>
+        <li><p><strong>Project Size</strong> での選択は、<strong>Tiered Storage Node</strong> の設定には影響しません。</p></li>
+        <li><p><strong>Auto-scaling</strong> が無効の場合、<strong>Default Query Node</strong> の数と <strong>Tiered Query Node</strong> の数の合計は正の整数である必要があります。</p></li>
+        <li><p><strong>Auto-scaling</strong> が有効の場合、<strong>Default Query Node</strong> と <strong>Tiered Query Node</strong> の両方の <strong>Min</strong> 値の合計は正の整数である必要があります。</p></li>
+        </ul>
+
+        </Admonition>
 
 1. **Next** をクリックします。
 
@@ -242,4 +263,3 @@ BYOC-I 組織内で、**Create Project** ボタンをクリックしてデプロ
 ![NdnSbwFbkokOPpxaW1ocGwklnab](https://zdoc-images.s3.us-west-2.amazonaws.com/ndnsbwfbkokoppxaw1ocgwklnab.png "NdnSbwFbkokOPpxaW1ocGwklnab")
 
 データガバナンスおよびセキュリティ要件を満たすために、これを無効にすることができます。
-

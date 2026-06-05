@@ -150,6 +150,7 @@ Set **Zilliz BYOC Project Name**, and click **Create and Next**.The project is c
         <li><p>Your choice in <strong>Project Size</strong> does not affect the settings in <strong>Tiered Storage Node</strong>.</p></li>
         <li><p>If <strong>Auto-scaling</strong> is disabled, the sum of the <strong>Default Query Node</strong> count and the <strong>Tiered Query Node</strong> count should be a positive integer.</p></li>
         <li><p>If <strong>Auto-scaling</strong> is enabled, the sum of the <strong>Min</strong> values of both the <strong>Default Query Node</strong> and the <strong>Tiered Query Node</strong> should be a positive integer.</p></li>
+        <li><p>For clusters created before Tiered Storage becomes available for BYOC, you can manually enable Tiered Storage. For details, refer to <a href="./enable-tiered-storage-aws">Enable Tiered Storage for Existing Clusters</a>.</p></li>
         </ul>
 
         </Admonition>
