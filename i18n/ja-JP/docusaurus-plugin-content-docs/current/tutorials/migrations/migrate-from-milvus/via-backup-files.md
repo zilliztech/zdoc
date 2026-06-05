@@ -205,27 +205,27 @@ Milvus 2.x の移行データを準備するには、
        <tr>
          <td rowspan="3"><p><strong>Amazon S3</strong></p></td>
          <td><p>AWS Object URL, virtual-hosted–style</p></td>
-         <td><p><i>http</i>s://\<bucket_name>.s3.\<region-code>.amazonaws.com/\<folder_name>/</p></td>
+         <td><p><i>http</i>s://&lt;bucket_name&gt;.s3.&lt;region-code&gt;.amazonaws.com/&lt;folder_name&gt;/</p></td>
        </tr>
        <tr>
          <td><p>AWS Object URL, path-style</p></td>
-         <td><p><i>http</i>s://s3.\<region-code>.amazonaws.com/\<bucket_name>/\<folder_name>/</p></td>
+         <td><p><i>http</i>s://s3.&lt;region-code&gt;.amazonaws.com/&lt;bucket_name&gt;/&lt;folder_name&gt;/</p></td>
        </tr>
        <tr>
          <td><p>Amazon S3 URI</p></td>
-         <td><p>s3://\<bucket_name>/\<folder_name>/</p></td>
+         <td><p>s3://&lt;bucket_name&gt;/&lt;folder_name&gt;/</p></td>
        </tr>
        <tr>
          <td rowspan="2"><p><strong>Google Cloud Storage</strong></p></td>
          <td><p>GSC public URL</p></td>
-         <td><p><i>http</i>s://storage.cloud.google.com/\<bucket_name>/\<folder_name>/</p></td>
+         <td><p><i>http</i>s://storage.cloud.google.com/&lt;bucket_name&gt;/&lt;folder_name&gt;/</p></td>
        </tr>
        <tr>
          <td><p>GSC gsutil URI</p></td>
-         <td><p>gs://\<bucket_name>/\<folder_name>/</p></td>
+         <td><p>gs://&lt;bucket_name&gt;/&lt;folder_name&gt;/</p></td>
        </tr>
        <tr>
          <td colspan="2"><p><strong>Azure Blob Storage</strong></p></td>
-         <td><p><i>http</i>s://\<storage_account>.blob.core.windows.net/\<container>/\<folder>/</p></td>
+         <td><p><i>http</i>s://&lt;storage_account&gt;.blob.core.windows.net/&lt;container&gt;/&lt;folder&gt;/</p></td>
        </tr>
     </table>

@@ -44,15 +44,15 @@ import Admonition from '@theme/Admonition';
        </tr>
        <tr>
          <td><p><strong>AWSオブジェクトURL、バーチャルホストスタイル</strong></p></td>
-         <td><ul><li><p><strong>ファイル</strong>: <i>http</i>s://\<bucket_name>.s3.\<region-code>.amazonaws.com/\<object_name></p></li><li><p><strong>フォルダ</strong>: <i>http</i>s://\<bucket_name>.s3.\<region-code>.amazonaws.com/\<folder_name>/</p></li></ul></td>
+         <td><ul><li><p><strong>ファイル</strong>: <i>http</i>s://&lt;bucket_name&gt;.s3.&lt;region-code&gt;.amazonaws.com/&lt;object_name&gt;</p></li><li><p><strong>フォルダ</strong>: <i>http</i>s://&lt;bucket_name&gt;.s3.&lt;region-code&gt;.amazonaws.com/&lt;folder_name&gt;/</p></li></ul></td>
        </tr>
        <tr>
          <td><p><strong>AWSオブジェクトURL、パススタイル</strong></p></td>
-         <td><ul><li><p><strong>ファイル</strong>: <i>http</i>s://s3.\<region-code>.amazonaws.com/\<bucket_name>/\<object_name></p></li><li><p><strong>フォルダ</strong>: <i>http</i>s://s3.\<region-code>.amazonaws.com/\<bucket_name>/\<folder_name>/</p></li></ul></td>
+         <td><ul><li><p><strong>ファイル</strong>: <i>http</i>s://s3.&lt;region-code&gt;.amazonaws.com/&lt;bucket_name&gt;/&lt;object_name&gt;</p></li><li><p><strong>フォルダ</strong>: <i>http</i>s://s3.&lt;region-code&gt;.amazonaws.com/&lt;bucket_name&gt;/&lt;folder_name&gt;/</p></li></ul></td>
        </tr>
        <tr>
          <td><p><strong>AWS S3 URI</strong></p></td>
-         <td><ul><li><p><strong>ファイル</strong>: s3://\<bucket_name>/\<object_name></p></li><li><p><strong>フォルダ</strong>: s3://\<bucket_name>/\<folder_name>/</p></li></ul></td>
+         <td><ul><li><p><strong>ファイル</strong>: s3://&lt;bucket_name&gt;/&lt;object_name&gt;</p></li><li><p><strong>フォルダ</strong>: s3://&lt;bucket_name&gt;/&lt;folder_name&gt;/</p></li></ul></td>
        </tr>
     </table>
 
@@ -93,11 +93,11 @@ import Admonition from '@theme/Admonition';
        </tr>
        <tr>
          <td><p><strong>GSCパブリックURL</strong></p></td>
-         <td><ul><li><p><strong>ファイル</strong>: <i>http</i>s://storage.cloud.google.com/\<bucket_name>/\<object_name></p></li><li><p><strong>フォルダ</strong>: <i>http</i>s://storage.cloud.google.com/\<bucket_name>/\<folder_name>/</p></li></ul></td>
+         <td><ul><li><p><strong>ファイル</strong>: <i>http</i>s://storage.cloud.google.com/&lt;bucket_name&gt;/&lt;object_name&gt;</p></li><li><p><strong>フォルダ</strong>: <i>http</i>s://storage.cloud.google.com/&lt;bucket_name&gt;/&lt;folder_name&gt;/</p></li></ul></td>
        </tr>
        <tr>
          <td><p><strong>GSC gsutil URI</strong></p></td>
-         <td><ul><li><p><strong>ファイル</strong>: gs://\<bucket_name>/\<object_name></p></li><li><p><strong>フォルダ</strong>: gs://\<bucket_name>/\<folder_name>/</p></li></ul></td>
+         <td><ul><li><p><strong>ファイル</strong>: gs://&lt;bucket_name&gt;/&lt;object_name&gt;</p></li><li><p><strong>フォルダ</strong>: gs://&lt;bucket_name&gt;/&lt;folder_name&gt;/</p></li></ul></td>
        </tr>
     </table>
 
@@ -128,7 +128,7 @@ import Admonition from '@theme/Admonition';
        </tr>
        <tr>
          <td><p><strong>AzureストレージBLOB URI</strong></p></td>
-         <td><ul><li><p><strong>ファイル</strong>: <i>http</i>s://\<storage_account>.blob.core.windows.net/\<container>/\<blob></p></li><li><p><strong>フォルダ</strong>: <i>http</i>s://\<storage_account>.blob.core.windows.net/\<container>/\<folder>/</p></li></ul></td>
+         <td><ul><li><p><strong>ファイル</strong>: <i>http</i>s://&lt;storage_account&gt;.blob.core.windows.net/&lt;container&gt;/&lt;blob&gt;</p></li><li><p><strong>フォルダ</strong>: <i>http</i>s://&lt;storage_account&gt;.blob.core.windows.net/&lt;container&gt;/&lt;folder&gt;/</p></li></ul></td>
        </tr>
     </table>
 

@@ -47,15 +47,15 @@ Before importing data, it's important to understand the supported cloud storage 
        </tr>
        <tr>
          <td><p><strong>AWS Object URL, virtual-hosted–style</strong></p></td>
-         <td><ul><li><p><strong>File</strong>: https://\<bucket_name>.s3.\<region-code>.amazonaws.com/\<object_name></p></li><li><p><strong>Folder</strong>: https://\<bucket_name>.s3.\<region-code>.amazonaws.com/\<folder_name>/</p></li></ul></td>
+         <td><ul><li><p><strong>File</strong>: https://&lt;bucket_name&gt;.s3.&lt;region-code&gt;.amazonaws.com/&lt;object_name&gt;</p></li><li><p><strong>Folder</strong>: https://&lt;bucket_name&gt;.s3.&lt;region-code&gt;.amazonaws.com/&lt;folder_name&gt;/</p></li></ul></td>
        </tr>
        <tr>
          <td><p><strong>AWS Object URL, path-style</strong></p></td>
-         <td><ul><li><p><strong>File</strong>: https://s3.\<region-code>.amazonaws.com/\<bucket_name>/\<object_name></p></li><li><p><strong>Folder</strong>: https://s3.\<region-code>.amazonaws.com/\<bucket_name>/\<folder_name>/</p></li></ul></td>
+         <td><ul><li><p><strong>File</strong>: https://s3.&lt;region-code&gt;.amazonaws.com/&lt;bucket_name&gt;/&lt;object_name&gt;</p></li><li><p><strong>Folder</strong>: https://s3.&lt;region-code&gt;.amazonaws.com/&lt;bucket_name&gt;/&lt;folder_name&gt;/</p></li></ul></td>
        </tr>
        <tr>
          <td><p><strong>AWS S3 URI</strong></p></td>
-         <td><ul><li><p><strong>File</strong>: s3://\<bucket_name>/\<object_name></p></li><li><p><strong>Folder</strong>: s3://\<bucket_name>/\<folder_name>/</p></li></ul></td>
+         <td><ul><li><p><strong>File</strong>: s3://&lt;bucket_name&gt;/&lt;object_name&gt;</p></li><li><p><strong>Folder</strong>: s3://&lt;bucket_name&gt;/&lt;folder_name&gt;/</p></li></ul></td>
        </tr>
     </table>
 
@@ -96,11 +96,11 @@ Before importing data, it's important to understand the supported cloud storage 
        </tr>
        <tr>
          <td><p><strong>GSC public URL</strong></p></td>
-         <td><ul><li><p><strong>File</strong>: https://storage.cloud.google.com/\<bucket_name>/\<object_name></p></li><li><p><strong>Folder</strong>: https://storage.cloud.google.com/\<bucket_name>/\<folder_name>/</p></li></ul></td>
+         <td><ul><li><p><strong>File</strong>: https://storage.cloud.google.com/&lt;bucket_name&gt;/&lt;object_name&gt;</p></li><li><p><strong>Folder</strong>: https://storage.cloud.google.com/&lt;bucket_name&gt;/&lt;folder_name&gt;/</p></li></ul></td>
        </tr>
        <tr>
          <td><p><strong>GSC gsutil URI</strong></p></td>
-         <td><ul><li><p><strong>File</strong>: gs://\<bucket_name>/\<object_name></p></li><li><p><strong>Folder</strong>: gs://\<bucket_name>/\<folder_name>/</p></li></ul></td>
+         <td><ul><li><p><strong>File</strong>: gs://&lt;bucket_name&gt;/&lt;object_name&gt;</p></li><li><p><strong>Folder</strong>: gs://&lt;bucket_name&gt;/&lt;folder_name&gt;/</p></li></ul></td>
        </tr>
     </table>
 
@@ -131,7 +131,7 @@ Before importing data, it's important to understand the supported cloud storage 
        </tr>
        <tr>
          <td><p><strong>Azure storage blob URI</strong></p></td>
-         <td><ul><li><p><strong>File</strong>: https://\<storage_account>.blob.core.windows.net/\<container>/\<blob></p></li><li><p><strong>Folder</strong>: https://\<storage_account>.blob.core.windows.net/\<container>/\<folder>/</p></li></ul></td>
+         <td><ul><li><p><strong>File</strong>: https://&lt;storage_account&gt;.blob.core.windows.net/&lt;container&gt;/&lt;blob&gt;</p></li><li><p><strong>Folder</strong>: https://&lt;storage_account&gt;.blob.core.windows.net/&lt;container&gt;/&lt;folder&gt;/</p></li></ul></td>
        </tr>
     </table>
 
