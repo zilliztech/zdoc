@@ -197,7 +197,7 @@ You need to configure the following information of the Dedicated cluster.
 
     - **Cluster Type**: Select a cluster type that aligns with your cluster's performance requirements. For more information, refer to [Select the Right Cluster Type](./cu-types-explained). To select a Tiered-storage cluster, your cluster must have at least 8 query CUs.
 
-    - **Query CU**: Select the number of query CUs of the cluster.
+    - **Query CU**: Select the number of query CUs of the cluster. For organizations created with a personal email address, the maximum query CU size for a Dedicated cluster is 32, even if a payment method is configured.
 
 - (Optional) **Backup Policy**: Decide the backup frequency for the cluster to create. Once enabled, Zilliz Cloud will create a backup immediately after the cluster is created. Subsequent backups will follow the specified schedule.
 
@@ -251,7 +251,7 @@ In the command above,
 
 - `cuType`: The type of the cluster. Valid values: Performance-optimized, Capacity-optimized, and Tiered-storage.
 
-- `cuSize`: The number of query CUs used for the cluster. Value range: 1 to 256.
+- `cuSize`: The number of query CUs used for the cluster. Value range: 1 to 256. For organizations created with a personal email address, the maximum query CU size for a Dedicated cluster is 32, even if a payment method is configured.
 
 For further details, see [Create Dedicated Cluster](/reference/restful/create-dedicated-cluster-v2).
 
