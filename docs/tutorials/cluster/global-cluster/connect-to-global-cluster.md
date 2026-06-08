@@ -138,7 +138,7 @@ Ensure you have [installed](./install-sdks) SDKs. Before connecting to a global 
 
 The global endpoint is a single URL that routes requests to the appropriate cluster in the global cluster. Use it as the `uri` in your SDK client.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"}]}>
 <TabItem value='python'>
 
 ```python
@@ -197,25 +197,13 @@ client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
 ```
 
 </TabItem>
-
-<TabItem value='bash'>
-
-```bash
-curl --request POST \
-  --url "YOUR_GLOBAL_ENDPOINT" \
-  --header "Authorization: Bearer YOUR_CLUSTER_TOKEN" \
-  --header "Content-Type: application/json" \
-  --data '{"dbName": "default"}'
-```
-
-</TabItem>
 </Tabs>
 
 ## Connect using a public endpoint\{#connect-using-a-public-endpoint}
 
 Each cluster in the global cluster has its own public endpoint. Use this when you need to target a specific cluster directly.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"}]}>
 <TabItem value='python'>
 
 ```python
@@ -271,18 +259,6 @@ client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_PUBLIC_ENDPOINT",  // Public endpoint of a specific cluster
     APIKey:  "YOUR_CLUSTER_TOKEN",  // API key or username:password
 })
-```
-
-</TabItem>
-
-<TabItem value='bash'>
-
-```bash
-curl --request POST \
-  --url "YOUR_CLUSTER_PUBLIC_ENDPOINT" \
-  --header "Authorization: Bearer YOUR_CLUSTER_TOKEN" \
-  --header "Content-Type: application/json" \
-  --data '{"dbName": "default"}'
 ```
 
 </TabItem>
