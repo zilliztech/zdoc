@@ -11,13 +11,6 @@ description: "This topic describes how to configure single sign-on (SSO) in Zill
 type: origin
 token: WDOJwtKkAijW4gkUpQhcAL0Rn1d
 sidebar_position: 5
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - sso
-  - other
-  - idp
 displayed_sidebar: default
 
 ---

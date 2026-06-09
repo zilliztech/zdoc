@@ -2,7 +2,7 @@
 title: "On-Demand Compute Cost | Cloud"
 slug: /on-demand-compute-cost
 sidebar_label: "On-Demand Compute"
-beta: PUBLIC
+beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
@@ -11,12 +11,6 @@ description: "On-demand compute in Zilliz Cloud follows a usage-based billing mo
 type: origin
 token: XOonwITB7idiV8kT3cpc8Bi5nrb
 sidebar_position: 1
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - cost
-  - billing
 displayed_sidebar: default
 
 ---

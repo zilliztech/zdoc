@@ -11,16 +11,6 @@ description: "Instead of relying solely on semantic similarity calculated based 
 type: origin
 token: Qa60w2vDuiqNk0kclKLcZ0uQnkg
 sidebar_position: 1
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - collection
-  - data
-  - search result reranking
-  - result reranking
-  - boost
-  - boost ranker
 displayed_sidebar: default
 
 ---

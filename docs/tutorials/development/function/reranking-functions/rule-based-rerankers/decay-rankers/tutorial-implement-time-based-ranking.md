@@ -11,18 +11,6 @@ description: "In many search applications, the freshness of content is just as i
 type: origin
 token: Dj2NwrlqTiYlmDkwfAbcJNWSntd
 sidebar_position: 5
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - collection
-  - data
-  - search result reranking
-  - result reranking
-  - decay
-  - decay ranker
-  - tutorial
-  - time-based ranking
 displayed_sidebar: default
 
 ---

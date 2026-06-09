@@ -2,7 +2,7 @@
 title: "Export Backup Files | Cloud"
 slug: /export-backup-files
 sidebar_label: "Export Backup Files"
-beta: PRIVATE
+beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
@@ -11,15 +11,6 @@ description: "You can export backup files to object storage using the Zilliz Clo
 type: origin
 token: QUTDwkbTTiA2UlkWYDlc796ensf
 sidebar_position: 5
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - backup
-  - export
-  - integrate
-  - object
-  - storage
 displayed_sidebar: default
 
 ---

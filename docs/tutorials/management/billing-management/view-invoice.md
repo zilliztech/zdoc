@@ -11,12 +11,6 @@ description: "Zilliz Cloud charges at the organization level. | Cloud"
 type: origin
 token: VSykwZb3his5JFk2BxycdiADnbh
 sidebar_position: 5
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - invoice
-  - overview
 displayed_sidebar: default
 
 ---

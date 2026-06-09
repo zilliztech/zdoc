@@ -11,17 +11,6 @@ description: "The Cohere Ranker leverages Cohere's rerank models to improve resu
 type: origin
 token: Mtxfwvu2fiOLwXkcURCcJxDPnLd
 sidebar_position: 1
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - collection
-  - data
-  - search result reranking
-  - result reranking
-  - reranking model
-  - model ranker
-  - cohere
 displayed_sidebar: default
 
 ---

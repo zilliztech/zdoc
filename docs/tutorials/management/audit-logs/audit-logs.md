@@ -11,13 +11,6 @@ description: "Audit logging allows administrators to track and monitor user-driv
 type: origin
 token: M5dXwsGOOiPdAjkWLZUc2Pxonuh
 sidebar_position: 1
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - auditing
-  - log
-  - configure
 displayed_sidebar: default
 
 ---

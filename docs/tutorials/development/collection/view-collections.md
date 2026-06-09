@@ -11,12 +11,6 @@ description: "You can obtain the name list of all the collections in the current
 type: origin
 token: VAirw0c7ZiKCSqkjtDscAsC4nAf
 sidebar_position: 4
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - collection
-  - view collections
 displayed_sidebar: default
 
 ---

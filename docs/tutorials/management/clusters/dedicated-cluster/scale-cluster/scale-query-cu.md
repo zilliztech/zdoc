@@ -11,14 +11,6 @@ description: "As your workload grows and more data is written, the serving clust
 type: origin
 token: ExUFwDY1siCa2Bkp4incCvxFnlh
 sidebar_position: 1
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - cluster
-  - scale
-  - manage
-  - query cu
 displayed_sidebar: default
 
 ---

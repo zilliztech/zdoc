@@ -41,13 +41,13 @@ module.exports = [
       },
       {
         "type": "doc",
-        "id": "tutorials/get-started/cu-types-explained",
-        "label": "Cluster Types"
+        "id": "tutorials/get-started/select-zilliz-cloud-service-plans",
+        "label": "Plan Comparison"
       },
       {
         "type": "doc",
-        "id": "tutorials/get-started/select-zilliz-cloud-service-plans",
-        "label": "Plan Comparison"
+        "id": "tutorials/get-started/cu-types-explained",
+        "label": "Cluster Types"
       },
       {
         "type": "doc",
@@ -68,6 +68,11 @@ module.exports = [
             "type": "doc",
             "id": "tutorials/development/search-and-query/single-vector-search",
             "label": "Basic Vector Search"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/development/search-and-query/dql-sessions-external-collection",
+            "label": "DQL sessions"
           },
           {
             "type": "doc",
@@ -202,11 +207,6 @@ module.exports = [
           },
           {
             "type": "doc",
-            "id": "tutorials/development/search-and-query/dql-sessions-external-collection",
-            "label": "DQL sessions"
-          },
-          {
-            "type": "doc",
             "id": "tutorials/development/search-and-query/use-partition-key",
             "label": "Partition Key (Namespace)"
           },
@@ -327,6 +327,11 @@ module.exports = [
                 "label": "On Console"
               }
             ]
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/development/collection/external-collection-limits",
+            "label": "External Collection Limits"
           }
         ]
       },
@@ -497,6 +502,58 @@ module.exports = [
       },
       {
         "type": "category",
+        "label": "Vector Index",
+        "items": [
+          {
+            "type": "doc",
+            "id": "tutorials/development/vector-index/autoindex-explained",
+            "label": "AUTOINDEX"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/development/vector-index/minhash-lsh",
+            "label": "MINHASH_LSH"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/development/vector-index/tune-index-build-level",
+            "label": "Tune Build Level"
+          }
+        ]
+      },
+      {
+        "type": "category",
+        "label": "Scalar Index",
+        "items": [
+          {
+            "type": "doc",
+            "id": "tutorials/development/scalar-index/bitmap-index-type",
+            "label": "BITMAP"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/development/scalar-index/inverted-index-type",
+            "label": "INVERTED"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/development/scalar-index/ngram-index-type",
+            "label": "NGRAM"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/development/scalar-index/rtree-index-type",
+            "label": "RTREE"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/development/scalar-index/slt-sort-index-type",
+            "label": "STL_SORT"
+          }
+        ]
+      },
+      {
+        "type": "category",
         "label": "Insert & Delete",
         "items": [
           {
@@ -592,48 +649,12 @@ module.exports = [
       },
       {
         "type": "category",
-        "label": "Vector Index",
+        "label": "Data Export",
         "items": [
           {
             "type": "doc",
-            "id": "tutorials/development/vector-index/tune-index-build-level",
-            "label": "Tune Build Level"
-          },
-          {
-            "type": "doc",
-            "id": "tutorials/development/vector-index/minhash-lsh",
-            "label": "MINHASH_LSH"
-          }
-        ]
-      },
-      {
-        "type": "category",
-        "label": "Scalar Index",
-        "items": [
-          {
-            "type": "doc",
-            "id": "tutorials/development/scalar-index/bitmap-index-type",
-            "label": "BITMAP"
-          },
-          {
-            "type": "doc",
-            "id": "tutorials/development/scalar-index/inverted-index-type",
-            "label": "INVERTED"
-          },
-          {
-            "type": "doc",
-            "id": "tutorials/development/scalar-index/ngram-index-type",
-            "label": "NGRAM"
-          },
-          {
-            "type": "doc",
-            "id": "tutorials/development/scalar-index/rtree-index-type",
-            "label": "RTREE"
-          },
-          {
-            "type": "doc",
-            "id": "tutorials/development/scalar-index/slt-sort-index-type",
-            "label": "STL_SORT"
+            "id": "tutorials/development/data-export/export-data-iterators",
+            "label": "Using Iterators"
           }
         ]
       },
@@ -676,6 +697,11 @@ module.exports = [
                 "label": "Cohere"
               }
             ]
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/development/function/minhash-function",
+            "label": "MinHash Function"
           },
           {
             "type": "category",
@@ -756,11 +782,6 @@ module.exports = [
                 ]
               }
             ]
-          },
-          {
-            "type": "doc",
-            "id": "tutorials/development/function/minhash-function",
-            "label": "MinHash Function"
           }
         ]
       },
@@ -800,39 +821,39 @@ module.exports = [
             "items": [
               {
                 "type": "doc",
-                "id": "tutorials/development/analyzer/analyzer-tokenizers/standard-tokenizer",
+                "id": "tutorials/development/analyzer/tokenizers/standard-tokenizer",
                 "label": "Standard"
               },
               {
                 "type": "doc",
-                "id": "tutorials/development/analyzer/analyzer-tokenizers/whitespace-tokenizer",
+                "id": "tutorials/development/analyzer/tokenizers/whitespace-tokenizer",
                 "label": "Whitespace"
               },
               {
                 "type": "doc",
-                "id": "tutorials/development/analyzer/analyzer-tokenizers/jieba-tokenizer",
+                "id": "tutorials/development/analyzer/tokenizers/jieba-tokenizer",
                 "label": "Jieba"
               },
               {
                 "type": "doc",
-                "id": "tutorials/development/analyzer/analyzer-tokenizers/lindera-tokenizer",
+                "id": "tutorials/development/analyzer/tokenizers/lindera-tokenizer",
                 "label": "Lindera"
               },
               {
                 "type": "doc",
-                "id": "tutorials/development/analyzer/analyzer-tokenizers/icu-tokenizer",
+                "id": "tutorials/development/analyzer/tokenizers/icu-tokenizer",
                 "label": "ICU"
               },
               {
                 "type": "doc",
-                "id": "tutorials/development/analyzer/analyzer-tokenizers/language-identifier-tokenizer",
+                "id": "tutorials/development/analyzer/tokenizers/language-identifier-tokenizer",
                 "label": "Language Identifier"
               }
             ]
           },
           {
             "type": "category",
-            "label": "Filter",
+            "label": "Analyzer Filters",
             "items": [
               {
                 "type": "doc",
@@ -920,17 +941,6 @@ module.exports = [
             "type": "doc",
             "id": "tutorials/development/snapshots/manage-snapshots",
             "label": "Manage Snapshots"
-          }
-        ]
-      },
-      {
-        "type": "category",
-        "label": "Data Export",
-        "items": [
-          {
-            "type": "doc",
-            "id": "tutorials/development/data-export/export-data-iterators",
-            "label": "Using Iterators"
           }
         ]
       }
@@ -1088,6 +1098,43 @@ module.exports = [
       },
       {
         "type": "category",
+        "label": "Volume",
+        "items": [
+          {
+            "type": "ref",
+            "id": "tutorials/development/volume/managed-volume",
+            "label": "Managed Volumes"
+          },
+          {
+            "type": "ref",
+            "id": "tutorials/development/volume/external-volume",
+            "label": "External Volumes"
+          },
+          {
+            "type": "category",
+            "label": "Storage Integrations",
+            "items": [
+              {
+                "type": "ref",
+                "id": "tutorials/development/volume/storage-integration/integrate-with-aws-s3",
+                "label": "AWS S3"
+              },
+              {
+                "type": "ref",
+                "id": "tutorials/development/volume/storage-integration/integrate-with-gcp",
+                "label": "Google Cloud Storage"
+              },
+              {
+                "type": "ref",
+                "id": "tutorials/development/volume/storage-integration/integrate-with-azure-blob-storage",
+                "label": "Azure Blob Storage"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "category",
         "label": "Backup & Restore",
         "items": [
           {
@@ -1127,54 +1174,86 @@ module.exports = [
         "label": "Migrations",
         "items": [
           {
-            "type": "doc",
-            "id": "tutorials/management/migrations/migrate-between-clusters",
-            "label": "Zilliz to Zilliz Migrations"
+            "type": "category",
+            "label": "Zilliz to Zilliz Migrations",
+            "items": [
+              {
+                "type": "doc",
+                "id": "tutorials/management/migrations/migrate-between-clusters/offline-migration",
+                "label": "Offline Migration"
+              }
+            ]
           },
           {
-            "type": "doc",
-            "id": "tutorials/management/migrations/migrate-from-milvus",
-            "label": "Migrate from Milvus"
+            "type": "category",
+            "label": "Migrate from Milvus",
+            "link": {
+              "type": "doc",
+              "id": "tutorials/management/migrations/migrate-from-milvus/migrate-from-milvus"
+            },
+            "items": [
+              {
+                "type": "doc",
+                "id": "tutorials/management/migrations/migrate-from-milvus/via-endpoint",
+                "label": "Via Endpoint"
+              },
+              {
+                "type": "doc",
+                "id": "tutorials/management/migrations/migrate-from-milvus/via-backup-files",
+                "label": "Via Backup Files"
+              },
+              {
+                "type": "doc",
+                "id": "tutorials/management/migrations/migrate-from-milvus/via-stage",
+                "label": "Via Backup Tool"
+              }
+            ]
           },
           {
-            "type": "doc",
-            "id": "tutorials/management/migrations/external-migration-basics",
-            "label": "External Migration Basics"
-          },
-          {
-            "type": "doc",
-            "id": "tutorials/management/migrations/migrate-from-pinecone",
-            "label": "Pinecone"
-          },
-          {
-            "type": "doc",
-            "id": "tutorials/management/migrations/migrate-from-qdrant",
-            "label": "Qdrant"
-          },
-          {
-            "type": "doc",
-            "id": "tutorials/management/migrations/migrate-from-elasticsearch",
-            "label": "Elasticsearch"
-          },
-          {
-            "type": "doc",
-            "id": "tutorials/management/migrations/migrate-from-pgvector",
-            "label": "PostgreSQL"
-          },
-          {
-            "type": "doc",
-            "id": "tutorials/management/migrations/migrate-from-tencent-cloud",
-            "label": "Tencent Cloud VectorDB"
-          },
-          {
-            "type": "doc",
-            "id": "tutorials/management/migrations/migrate-from-opensearch",
-            "label": "OpenSearch"
-          },
-          {
-            "type": "doc",
-            "id": "tutorials/management/migrations/zilliz-cloud-ips",
-            "label": "Zilliz Cloud IP Addresses"
+            "type": "category",
+            "label": "Migration from External Sources",
+            "items": [
+              {
+                "type": "doc",
+                "id": "tutorials/management/migrations/migration-from-external-sources/external-migration-basics",
+                "label": "External Migration Basics"
+              },
+              {
+                "type": "doc",
+                "id": "tutorials/management/migrations/migration-from-external-sources/migrate-from-pinecone",
+                "label": "Pinecone"
+              },
+              {
+                "type": "doc",
+                "id": "tutorials/management/migrations/migration-from-external-sources/migrate-from-qdrant",
+                "label": "Qdrant"
+              },
+              {
+                "type": "doc",
+                "id": "tutorials/management/migrations/migration-from-external-sources/migrate-from-elasticsearch",
+                "label": "Elasticsearch"
+              },
+              {
+                "type": "doc",
+                "id": "tutorials/management/migrations/migration-from-external-sources/migrate-from-pgvector",
+                "label": "PostgreSQL"
+              },
+              {
+                "type": "doc",
+                "id": "tutorials/management/migrations/migration-from-external-sources/migrate-from-tencent-cloud",
+                "label": "Tencent Cloud VectorDB"
+              },
+              {
+                "type": "doc",
+                "id": "tutorials/management/migrations/migration-from-external-sources/migrate-from-opensearch",
+                "label": "OpenSearch"
+              },
+              {
+                "type": "doc",
+                "id": "tutorials/management/migrations/migration-from-external-sources/zilliz-cloud-ips",
+                "label": "Zilliz Cloud IP Addresses"
+              }
+            ]
           }
         ]
       },
@@ -1235,6 +1314,16 @@ module.exports = [
             "label": "Access Control Explained"
           },
           {
+            "type": "ref",
+            "id": "tutorials/management/organizations/organization-users",
+            "label": "Organization Users"
+          },
+          {
+            "type": "ref",
+            "id": "tutorials/management/projects/project-users",
+            "label": "Project Users"
+          },
+          {
             "type": "doc",
             "id": "tutorials/management/access-control/cluster-users",
             "label": "Manage Cluster Users (Console)"
@@ -1258,48 +1347,6 @@ module.exports = [
             "type": "doc",
             "id": "tutorials/management/access-control/cluster-privileges",
             "label": "Privileges & Privilege Groups"
-          }
-        ]
-      },
-      {
-        "type": "category",
-        "label": "Audit Logs",
-        "items": [
-          {
-            "type": "doc",
-            "id": "tutorials/management/audit-logs/audit-logs",
-            "label": "VectorDB Audit Logs"
-          },
-          {
-            "type": "doc",
-            "id": "tutorials/management/audit-logs/audit-logs-ref",
-            "label": "VectorDB Audit Logs Reference"
-          },
-          {
-            "type": "doc",
-            "id": "tutorials/management/audit-logs/view-activities",
-            "label": "View Platform Audit Logs"
-          }
-        ]
-      },
-      {
-        "type": "category",
-        "label": "Access Logs",
-        "items": [
-          {
-            "type": "doc",
-            "id": "tutorials/management/access-logs/access-log-overview",
-            "label": "Access Logs Overview"
-          },
-          {
-            "type": "doc",
-            "id": "tutorials/management/access-logs/configure-access-logs",
-            "label": "Configure Access Logs"
-          },
-          {
-            "type": "doc",
-            "id": "tutorials/management/access-logs/access-log-reference",
-            "label": "Access Log Reference"
           }
         ]
       },
@@ -1423,38 +1470,43 @@ module.exports = [
       },
       {
         "type": "category",
-        "label": "Volume",
+        "label": "Audit Logs",
         "items": [
           {
             "type": "doc",
-            "id": "tutorials/management/volume/managed-volume",
-            "label": "Managed Volumes"
+            "id": "tutorials/management/audit-logs/audit-logs",
+            "label": "VectorDB Audit Logs"
           },
           {
             "type": "doc",
-            "id": "tutorials/management/volume/external-volume",
-            "label": "External Volumes"
+            "id": "tutorials/management/audit-logs/audit-logs-ref",
+            "label": "VectorDB Audit Logs Reference"
           },
           {
-            "type": "category",
-            "label": "Storage Integrations",
-            "items": [
-              {
-                "type": "doc",
-                "id": "tutorials/management/volume/storage-integrations/integrate-with-aws-s3",
-                "label": "AWS S3"
-              },
-              {
-                "type": "doc",
-                "id": "tutorials/management/volume/storage-integrations/integrate-with-gcp",
-                "label": "Google Cloud Storage"
-              },
-              {
-                "type": "doc",
-                "id": "tutorials/management/volume/storage-integrations/integrate-with-azure-blob-storage",
-                "label": "Azure Blob Storage"
-              }
-            ]
+            "type": "doc",
+            "id": "tutorials/management/audit-logs/view-activities",
+            "label": "View Platform Audit Logs"
+          }
+        ]
+      },
+      {
+        "type": "category",
+        "label": "Access Logs",
+        "items": [
+          {
+            "type": "doc",
+            "id": "tutorials/management/access-logs/access-log-overview",
+            "label": "Access Logs Overview"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/management/access-logs/configure-access-logs",
+            "label": "Configure Access Logs"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/management/access-logs/access-log-reference",
+            "label": "Access Log Reference"
           }
         ]
       },
@@ -1489,10 +1541,6 @@ module.exports = [
               {
                 "type": "category",
                 "label": "Marketplace Subscription",
-                "link": {
-                  "type": "doc",
-                  "id": "tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/marketplace-subscription"
-                },
                 "items": [
                   {
                     "type": "doc",
@@ -1555,7 +1603,7 @@ module.exports = [
           },
           {
             "type": "category",
-            "label": "Separate Billing on Marketplace",
+            "label": "Separate Billing by Marketplace Account",
             "items": [
               {
                 "type": "doc",
@@ -1632,6 +1680,62 @@ module.exports = [
             "label": "Cost Optimization"
           }
         ]
+      },
+      {
+        "type": "category",
+        "label": "Zilliz Cloud Limits",
+        "link": {
+          "type": "doc",
+          "id": "tutorials/management/limits/limits"
+        },
+        "items": [
+          {
+            "type": "doc",
+            "id": "tutorials/management/limits/api-comparison",
+            "label": "API Availability"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "category",
+    "label": "Client Libraries",
+    "items": [
+      {
+        "type": "doc",
+        "id": "tutorials/client-libraries/install-sdks",
+        "label": "Install SDKs"
+      },
+      {
+        "type": "link",
+        "href": "/reference/restful",
+        "label": "RESTful API"
+      },
+      {
+        "type": "link",
+        "href": "/reference/python",
+        "label": "Python"
+      },
+      {
+        "type": "link",
+        "href": "/reference/java",
+        "label": "Java"
+      },
+      {
+        "type": "link",
+        "href": "/reference/go",
+        "label": "Go"
+      },
+      {
+        "type": "link",
+        "href": "/reference/nodejs",
+        "label": "Node.js"
+      },
+      {
+        "type": "link",
+        "href": "/reference/cpp",
+        "label": "C++"
       }
     ]
   },
@@ -1739,10 +1843,40 @@ module.exports = [
                 "type": "doc",
                 "id": "tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-integrations-prompts",
                 "label": "Integrations"
+              },
+              {
+                "type": "doc",
+                "id": "tutorials/tools/agents-and-prompts/zilliz-ai-prompts/on-demand-search",
+                "label": "On-Demand Search"
+              },
+              {
+                "type": "doc",
+                "id": "tutorials/tools/agents-and-prompts/zilliz-ai-prompts/backfill-and-schema-iteration",
+                "label": "Backfill and Schema Iteration"
+              },
+              {
+                "type": "doc",
+                "id": "tutorials/tools/agents-and-prompts/zilliz-ai-prompts/indexes",
+                "label": "Indexes"
+              },
+              {
+                "type": "doc",
+                "id": "tutorials/tools/agents-and-prompts/zilliz-ai-prompts/agent-plugins-and-extensions",
+                "label": "Agent Plugins and Extensions"
               }
             ]
           }
         ]
+      },
+      {
+        "type": "doc",
+        "id": "tutorials/tools/terraform-provider",
+        "label": "Terraform Provider"
+      },
+      {
+        "type": "link",
+        "href": "/reference/cli/overview",
+        "label": "Zilliz CLI"
       }
     ]
   },
@@ -1752,13 +1886,87 @@ module.exports = [
     "items": [
       {
         "type": "doc",
-        "id": "tutorials/ai-models/hosted-models",
-        "label": "Hosted Models"
+        "id": "tutorials/ai-models/integrate-with-model-providers",
+        "label": "Model Providers"
+      },
+      {
+        "type": "category",
+        "label": "Text Embedding Models",
+        "items": [
+          {
+            "type": "ref",
+            "id": "tutorials/development/function/text-embedding-functions/openai",
+            "label": "OpenAI"
+          },
+          {
+            "type": "ref",
+            "id": "tutorials/development/function/text-embedding-functions/voyage-ai",
+            "label": "Voyage AI"
+          },
+          {
+            "type": "ref",
+            "id": "tutorials/development/function/text-embedding-functions/cohere",
+            "label": "Cohere"
+          }
+        ]
+      },
+      {
+        "type": "category",
+        "label": "Reranking Models",
+        "items": [
+          {
+            "type": "ref",
+            "id": "tutorials/development/function/reranking-functions/model-based-rerankers/cohere-model-ranker",
+            "label": "Cohere Ranker"
+          },
+          {
+            "type": "ref",
+            "id": "tutorials/development/function/reranking-functions/model-based-rerankers/voyage-ai-model-ranker",
+            "label": "Voyage AI Ranker"
+          }
+        ]
       },
       {
         "type": "doc",
-        "id": "tutorials/ai-models/integrate-with-model-providers",
-        "label": "Model Providers"
+        "id": "tutorials/ai-models/hosted-models",
+        "label": "Hosted Models"
+      }
+    ]
+  },
+  {
+    "type": "category",
+    "label": "Architecture",
+    "items": [
+      {
+        "type": "doc",
+        "id": "tutorials/architecture/data-resilience",
+        "label": "Data Resilience"
+      },
+      {
+        "type": "doc",
+        "id": "tutorials/architecture/data-security",
+        "label": "Data Security"
+      },
+      {
+        "type": "category",
+        "label": "Best Practices",
+        "items": [
+          {
+            "type": "doc",
+            "id": "tutorials/architecture/best-practices/multi-tenancy",
+            "label": "Implement Multi-tenancy"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/architecture/best-practices/environment-isolation",
+            "label": "Environment Isolation"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/architecture/best-practices/perf-benchmark-vectordb",
+            "label": "Performance Benchmarking with VectorDBBench"
+          }
+        ]
       }
     ]
   }

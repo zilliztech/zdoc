@@ -11,18 +11,6 @@ description: "Linear decay creates a straight-line decline that terminates at an
 type: origin
 token: M7xHwZSIuiAP4Fkfm67cBU7Pn8g
 sidebar_position: 4
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - collection
-  - data
-  - search result reranking
-  - result reranking
-  - decay
-  - decay ranker
-  - linear decay
-  - linear
 displayed_sidebar: default
 
 ---

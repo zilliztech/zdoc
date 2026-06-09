@@ -10,15 +10,7 @@ notebook: FALSE
 description: "A grouping search allows Zilliz Cloud to group the search results by the values in a specified field to aggregate data at a higher level. For example, you can use a basic ANN search to find books similar to the one at hand, but you can use a grouping search to find the book categories that may involve the topics discussed in that book. This topic describes how to use Grouping Search along with key considerations. | Cloud"
 type: origin
 token: JWZGw89MBiUDBNkhtGfcyyUcnsd
-sidebar_position: 5
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - collection
-  - data
-  - grouping search
-  - group
+sidebar_position: 6
 displayed_sidebar: default
 
 ---

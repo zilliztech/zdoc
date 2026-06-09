@@ -7,19 +7,10 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "In addition to ANN searches, Zilliz Cloud also supports metadata filtering through queries. This page introduces how to use Query, Get, and QueryIterators to retrieve entities, filter metadata, sort query results, and aggregate scalar values. | Cloud"
+description: "In addition to ANN searches, MilvusZilliz Cloud also supports metadata filtering through queries. This page introduces how to use Query, Get, and QueryIterators to perform metadata filtering. | Cloud"
 type: origin
 token: R7F7wY8pCiJ5Q4kbntxcMsE6nLf
-sidebar_position: 8
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - collection
-  - data
-  - get by id
-  - query with filters
-  - filtering
+sidebar_position: 9
 displayed_sidebar: default
 
 ---
@@ -30,11 +21,11 @@ import TabItem from '@theme/TabItem';
 
 # Query
 
-In addition to ANN searches, Zilliz Cloud also supports metadata filtering through queries. This page introduces how to use Query, Get, and QueryIterators to retrieve entities, filter metadata, sort query results, and aggregate scalar values.
+In addition to ANN searches, MilvusZilliz Cloud also supports metadata filtering through queries. This page introduces how to use Query, Get, and QueryIterators to perform metadata filtering.
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>If you dynamically add new fields after the collection has been created, queries that include these fields will return the defined default values or NULL for entities that have not explicitly set values. For details, refer to <a href="./add-fields-to-an-existing-collection">Add Fields to an Existing Collection</a>.</p>
+<p>If you add new fields after the collection has been created, queries that include these fields return the defined default values or <code>NULL</code> for entities that have not explicitly set values. For details, refer to <a href="./add-fields-to-an-existing-collection">Alter Collection Schema</a>.</p>
 
 </Admonition>
 

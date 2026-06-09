@@ -2,7 +2,7 @@
 title: "StructArray Operators | Cloud"
 slug: /struct-array-filtering
 sidebar_label: "StructArray"
-beta: PRIVATE
+beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
@@ -11,16 +11,6 @@ description: "The Array of Structs, or StructArray, stores an ordered set of Str
 type: origin
 token: VmGMwsTliiGZdFkzzeBckRNlnCh
 sidebar_position: 7
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - collection
-  - data
-  - filter
-  - filtering expressions
-  - filtering
-  - struct array operators
 displayed_sidebar: default
 
 ---

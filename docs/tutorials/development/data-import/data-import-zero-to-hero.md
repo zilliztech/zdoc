@@ -11,12 +11,6 @@ description: "This is a fast-track course to help you quickly start importing da
 type: origin
 token: BjHZwBkk0iFScik49QMc1Wwjndb
 sidebar_position: 5
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - data import
-  - milvus
 displayed_sidebar: default
 
 ---

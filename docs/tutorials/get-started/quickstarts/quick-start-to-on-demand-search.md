@@ -2,7 +2,7 @@
 title: "Quickstart to On-Demand Search | Cloud"
 slug: /quick-start-to-on-demand-search
 sidebar_label: "Quickstart to On-Demand Search"
-beta: PUBLIC
+beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
@@ -11,15 +11,6 @@ description: "Zilliz Cloud provides on-demand compute resources, allowing you to
 type: origin
 token: GQN0wDCrni4n36kyeVQcF41Lned
 sidebar_position: 3
-keywords: 
-  - zilliz
-  - vector database
-  - quickstart
-  - cloud
-  - milvus
-  - on-demand search
-  - data lake
-  - search in external data lake
 displayed_sidebar: default
 
 ---

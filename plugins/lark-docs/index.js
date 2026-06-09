@@ -16,6 +16,7 @@ module.exports = function (context, options) {
                 .option('-doc, --docTitle <docTitle>', 'Title of a child Lark doc')
                 .option('-token, --docToken <docToken>', 'Token of a child Lark doc')
                 .option('-src-only, --sourceOnly', 'Only fetch doc sources')
+                .option('--table <table>', 'Only fetch/update source files and navigation for one Base table by name or table_id')
                 .option('-tar, --pubTarget <pubTarget>', 'Target of the doc')
                 .option('-faq, --faq', 'Generate FAQ pages')
                 .option('-skipS, --skipSourceDown', 'Skip fetching document sources')
@@ -24,6 +25,10 @@ module.exports = function (context, options) {
                 .option('-s3, --uploadToS3', 'Upload images to S3 instead of local storage')
                 .option('-sidebar, --sidebarOnly', 'Only regenerate sidebar file from existing sources')
                 .option('-skipSidebar, --skipSidebar', 'Skip sidebar generation (preserve manual edits)')
+                .option('--validateLinks', 'Validate Feishu doc links in existing sources against canonical Base records')
+                .option('--skipLinkValidation', 'Skip content link validation report generation')
+                .option('--failOnBrokenContentLinks', 'Fail when content link validation finds missing canonical records')
+                .option('--linkShim <path>', 'Apply approved Feishu doc link replacements from a shim JSON file during export')
                 .action(async (opts) => {
                     try {
                         process.env.REPO_BRANCH = fs.readFileSync('.git/HEAD', 'utf8').split(': ')[1].trim().split('/').slice(-1)[0]
@@ -37,12 +42,15 @@ module.exports = function (context, options) {
 
                     // Determine the manual to fetch
                     var manual;
+                    var manualName;
 
                     if (opts.manual === undefined) {
                         manual = options[manuals[0]]
+                        manualName = manuals[0]
                         console.log(`Fetching ${manuals[0]} ...`)
                     } else if (manuals.includes(opts.manual)) {
                         manual = options[opts.manual]
+                        manualName = opts.manual
                         console.log(`Fetching ${opts.manual} ...`)
                     } else {
                         throw new Error(`Please provide a valid manual tag... \nAvailable manual tags: \n- ${manuals.join('\n- ')}`)
@@ -57,14 +65,34 @@ module.exports = function (context, options) {
                         fs.mkdirSync(docSourceDir, { recursive: true })
                     }
 
+                    const contentLinkReportPath = `./plugins/lark-docs/meta/reports/${manualName}-broken-content-links.json`
+                    const shouldAutoValidateContentLinks = () => sourceType === 'wiki' && base.endsWith(':*')
+                    const validateContentLinks = async ({ force=false, fresh=false } = {}) => {
+                        if (opts.skipLinkValidation) return null
+                        if (!force && !shouldAutoValidateContentLinks()) return null
+                        const validationScraper = fresh ? new docScraper(root, base, sourceType, docSourceDir) : scraper
+                        return validationScraper.validate_content_links({
+                            reportPath: contentLinkReportPath,
+                            failOnBroken: !!opts.failOnBrokenContentLinks,
+                        })
+                    }
+
+                    if (opts.validateLinks && opts.pubTarget === undefined && !opts.sourceOnly && opts.docToken === undefined) {
+                        await validateContentLinks({ force: true })
+                        return
+                    }
+
                     // Sidebar-only mode: regenerate sidebar from existing sources without re-fetching
                     if (opts.sidebarOnly) {
+                        if (opts.validateLinks) {
+                            await validateContentLinks({ force: true })
+                        }
                         const targetConfig = resolveTarget(targets, opts.pubTarget) ?? resolveTarget(targets, utils.list_valid_targets(targets)[0])
                         const { outputDir } = targetConfig
                         const effectiveSidebarPath = targetConfig.sidebarPath ?? sidebarPath
                         if (!effectiveSidebarPath) throw new Error('sidebarPath is not configured for this manual or target')
                         const writer = sourceType === 'wiki' || sourceType === 'onePager'
-                            ? new docWriter(root, base, displayedSidebar, docSourceDir, null, opts.pubTarget ?? Object.keys(targets)[0], true, false)
+                            ? new docWriter(root, base, displayedSidebar, docSourceDir, null, opts.pubTarget ?? Object.keys(targets)[0], true, false, opts.linkShim)
                             : new driveWriter(root, base, displayedSidebar, docSourceDir, null, opts.pubTarget ?? Object.keys(targets)[0], true, false, opts.manual)
                         console.log('Generating sidebar from existing sources...')
                         const sidebarItems = await writer.generate_sidebar(outputDir, outputDir.split('/')[0])
@@ -78,12 +106,21 @@ module.exports = function (context, options) {
                     if (opts.pubTarget === undefined) {
                         // Only pull source files from Feishu iteratively
                         if (opts.sourceOnly) {
-                            // const scraper = new docScraper(root, base, sourceType, docSourceDir)
-                            fs.rmSync(docSourceDir, { recursive: true })
-                            fs.mkdirSync(docSourceDir, { recursive: true })
-                            await scraper.fetch(true)
-                            if (fallbackSourceDir !== undefined) {
-                                utils.fetch_fallback_sources(docSourceDir, fallbackSourceDir, sourceType)
+                            if (opts.table) {
+                                if (sourceType !== 'wiki' || !base.endsWith(':*')) {
+                                    throw new Error('--table is only supported for wiki manuals backed by all Base tables')
+                                }
+                                await scraper.fetch_base_table_sources(opts.table)
+                                await validateContentLinks({ force: !!opts.validateLinks, fresh: true })
+                            } else {
+                                // const scraper = new docScraper(root, base, sourceType, docSourceDir)
+                                fs.rmSync(docSourceDir, { recursive: true })
+                                fs.mkdirSync(docSourceDir, { recursive: true })
+                                await scraper.fetch(true)
+                                if (fallbackSourceDir !== undefined) {
+                                    utils.fetch_fallback_sources(docSourceDir, fallbackSourceDir, sourceType)
+                                }
+                                await validateContentLinks({ force: !!opts.validateLinks })
                             }
                         // Pull specific source file from Feishu
                         } else if (opts.docToken !== undefined) {
@@ -109,7 +146,7 @@ module.exports = function (context, options) {
                         }
 
                         const writer = sourceType === 'wiki' || sourceType === 'onePager' ?
-                            new docWriter(root, base, displayedSidebar, docSourceDir, imageDir, opts.pubTarget, opts.skipImageDown, opts.uploadToS3) :
+                            new docWriter(root, base, displayedSidebar, docSourceDir, imageDir, opts.pubTarget, opts.skipImageDown, opts.uploadToS3, opts.linkShim) :
                             new driveWriter(root, base, displayedSidebar, docSourceDir, imageDir, opts.pubTarget, opts.skipImageDown, opts.uploadToS3, opts.manual)
 
                         // Ensure S3 connections are always closed, even on error or Ctrl+C
@@ -151,6 +188,10 @@ module.exports = function (context, options) {
                                     if (fallbackSourceDir !== undefined) {
                                         utils.fetch_fallback_sources(docSourceDir, fallbackSourceDir, sourceType)
                                     }
+                                }
+
+                                if (!opts.skipSourceDown || opts.validateLinks) {
+                                    await validateContentLinks({ force: !!opts.validateLinks })
                                 }
 
                                 if (opts.sourceOnly) {

@@ -11,11 +11,6 @@ description: "In Zilliz Cloud, you can invite users to projects and assign them 
 type: origin
 token: PZ4uwwgUfio5OikY0Ecc5nrunFf
 sidebar_position: 2
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - project users
 displayed_sidebar: default
 
 ---

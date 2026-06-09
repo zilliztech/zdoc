@@ -2,7 +2,7 @@
 title: "Configure Access Logs | Cloud"
 slug: /configure-access-logs
 sidebar_label: "Configure Access Logs"
-beta: PUBLIC
+beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
@@ -11,13 +11,6 @@ description: "This guide covers the full lifecycle of access logs on Zilliz Clou
 type: origin
 token: QPgEwd4qziOa5RkgJR2c9gpnn3b
 sidebar_position: 2
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - access
-  - logs
-  - configure
 displayed_sidebar: default
 
 ---

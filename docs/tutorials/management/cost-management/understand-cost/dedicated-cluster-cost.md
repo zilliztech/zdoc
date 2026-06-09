@@ -11,13 +11,6 @@ description: "Dedicated clusters in Zilliz Cloud follows a pay-as-you-go model, 
 type: origin
 token: MA5TwtCG9imviYkzvFAc5LJynCb
 sidebar_position: 2
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - dedicated
-  - cost
-  - billing
 displayed_sidebar: default
 
 ---

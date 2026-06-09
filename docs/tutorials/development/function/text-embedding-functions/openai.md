@@ -11,16 +11,6 @@ description: "Use an OpenAI embedding model with Zilliz Cloud by choosing an emb
 type: origin
 token: IrQ2wm2oaiAWl4kqQhkc303Rnlg
 sidebar_position: 2
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - function
-  - model
-  - inference
-  - text
-  - embedding
-  - openai
 displayed_sidebar: default
 
 ---

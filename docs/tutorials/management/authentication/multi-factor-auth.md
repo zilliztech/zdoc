@@ -11,11 +11,6 @@ description: "Authentication verifies your identity when you sign in to Zilliz C
 type: origin
 token: KHAMwm0HUiU6qdkH2LOcu0FFnug
 sidebar_position: 4
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - mfa
 displayed_sidebar: default
 
 ---

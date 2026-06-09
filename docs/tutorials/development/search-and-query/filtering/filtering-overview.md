@@ -11,15 +11,6 @@ description: "Zilliz Cloud provides powerful filtering capabilities that enable 
 type: origin
 token: AIb1wNAE3iiKVSk8MHAcVA4QnJb
 sidebar_position: 1
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - collection
-  - data
-  - filter
-  - filtering expressions
-  - filtering
 displayed_sidebar: default
 
 ---

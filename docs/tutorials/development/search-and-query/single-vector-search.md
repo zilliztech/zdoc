@@ -11,14 +11,6 @@ description: "Based on an index file recording the sorted order of vector embedd
 type: origin
 token: BaGlwzDmyiyVvVk6NurcFclInCd
 sidebar_position: 1
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - collection
-  - data
-  - vector search
-  - ann
 displayed_sidebar: default
 
 ---
@@ -33,7 +25,7 @@ Based on an index file recording the sorted order of vector embeddings, the Appr
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>If you dynamically add new fields after the collection has been created, searches that include these fields will return the defined default values or NULL for entities that have not explicitly set values. For details, refer to <a href="./add-fields-to-an-existing-collection">Add Fields to an Existing Collection</a>.</p>
+<p>If you add new fields after the collection has been created, searches that include these fields return the defined default values or <code>NULL</code> for entities that have not explicitly set values. For details, refer to <a href="./add-fields-to-an-existing-collection">Alter Collection Schema</a>.</p>
 
 </Admonition>
 
@@ -47,7 +39,7 @@ ANN searches depend on pre-built indexes, and the search throughput, memory usag
 
 To reduce the learning curve, Zilliz Cloud provides **AUTOINDEX**. With **AUTOINDEX**, Zilliz Cloud can analyze the data distribution within your collection while building the index and sets the most optimized index parameters based on the analysis to strike a balance between search performance and correctness. 
 
-For details on AUTOINDEX and applicable metric types, refer to [AUTOINDEX Explained](./undefined) and [Metric Types](./search-metrics-explained). In this section, you will find detailed information about the following topics:
+For details on AUTOINDEX and applicable metric types, refer to [AUTOINDEX Explained](./autoindex-explained) and [Metric Types](./search-metrics-explained). In this section, you will find detailed information about the following topics:
 
 - [Single-vector search](./single-vector-search#single-vector-search)
 

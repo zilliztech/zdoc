@@ -11,15 +11,6 @@ description: "This guide helps you set up Zilliz CLI and agent integrations loca
 type: shortcut
 token: HxWmwteOEi1Egukx26pcBnnknSd
 sidebar_position: 1
-keywords: 
-  - zilliz
-  - vector database
-  - quickstart
-  - cloud
-  - milvus
-  - cli
-  - agent
-  - integration
 displayed_sidebar: default
 
 ---

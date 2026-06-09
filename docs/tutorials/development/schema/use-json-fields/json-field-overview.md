@@ -11,14 +11,6 @@ description: "When building applications like product catalogs, content manageme
 type: origin
 token: Neq4wR0EdiXokRkhXwbcMPfanCd
 sidebar_position: 1
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - collection
-  - schema
-  - json field
-  - overview
 displayed_sidebar: default
 
 ---

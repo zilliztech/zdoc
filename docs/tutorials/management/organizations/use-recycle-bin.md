@@ -11,11 +11,6 @@ description: "Zilliz Cloud's Recycle Bin feature safeguards your data by keeping
 type: origin
 token: JQvjwCDxhiMcj0kpaWicqXsTn1e
 sidebar_position: 3
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - recycle bin
 displayed_sidebar: default
 
 ---

@@ -11,12 +11,6 @@ description: "Zilliz Cloud is a cloud-based service that offers vector database 
 type: origin
 token: CPLrwghdWiSvGBkdeEecGjgLnSb
 sidebar_position: 6
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - providers
-  - regions
 displayed_sidebar: default
 
 ---

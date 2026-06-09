@@ -11,16 +11,6 @@ description: "Zilliz Cloud supports advanced operators for querying and filterin
 type: origin
 token: Py6zwu6r4iPMqVkKAYXcUYLEnXg
 sidebar_position: 5
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - collection
-  - data
-  - filter
-  - filtering expressions
-  - filtering
-  - json operators
 displayed_sidebar: default
 
 ---

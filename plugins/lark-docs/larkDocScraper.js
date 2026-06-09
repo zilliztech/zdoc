@@ -272,8 +272,46 @@ class larkDocScraper {
         }
     }
 
-    async __base_tables(token) {
-        if (this.base_tables) return this.base_tables
+    __field_link(value) {
+        if (!value) return null
+        if (typeof value === 'object' && !(value instanceof Array)) {
+            if (value.link) return value.link
+            if (value.url) return value.url
+        }
+        if (value instanceof Array) return this.__field_link(value[0])
+        return null
+    }
+
+    __field_token(value) {
+        const raw = this.__field_link(value) || this.__plain_value(value)
+        if (!raw) return null
+        const linkMatch = raw.match(/https?:\/\/\S+/)
+        const link = linkMatch ? linkMatch[0] : raw.trim()
+        if (link.includes('#')) return link.split('#').pop()
+        try {
+            const url = new URL(link)
+            return url.pathname.split('/').filter(Boolean).pop()
+        } catch (_) {
+            return link.startsWith('http://') || link.startsWith('https://') ? null : link
+        }
+    }
+
+    __field_href(value) {
+        const raw = this.__field_link(value) || this.__plain_value(value)
+        if (!raw) return null
+        const linkMatch = raw.match(/https?:\/\/\S+/)
+        return (linkMatch ? linkMatch[0] : raw).trim()
+    }
+
+    __table_filter_values(tableFilter) {
+        if (!tableFilter) return null
+        const values = tableFilter instanceof Array ? tableFilter : String(tableFilter).split(',')
+        return values.map(value => value.trim().toLowerCase()).filter(Boolean)
+    }
+
+    async __base_tables(token, tableFilter=null) {
+        const filterValues = this.__table_filter_values(tableFilter)
+        if (this.base_tables && !filterValues) return this.base_tables
 
         if (this.base_table_id && !this.use_all_base_tables) {
             this.base_tables = [{ table_id: this.base_table_id, name: this.base_table_id, index: 0 }]
@@ -299,22 +337,75 @@ class larkDocScraper {
             pageToken = jres.data.has_more ? jres.data.page_token : null
         } while (pageToken)
 
-        const selectedTables = this.use_all_base_tables ? tables : tables.slice(0, 1)
-        this.base_tables = selectedTables.map((table, index) => ({
+        let selectedTables = this.use_all_base_tables ? tables : tables.slice(0, 1)
+        selectedTables = selectedTables.map((table, index) => ({
             ...table,
             table_id: table.table_id || table.id,
             name: table.name || table.table_name || table.table_id || table.id,
             index,
         }))
+
+        if (filterValues) {
+            selectedTables = selectedTables.filter(table => {
+                const candidates = [table.table_id, table.id, table.name, table.table_name]
+                    .filter(Boolean)
+                    .map(value => String(value).toLowerCase())
+                return filterValues.some(filter => candidates.includes(filter))
+            })
+            if (selectedTables.length === 0) {
+                throw new Error(`[base] Cannot find table(s): ${filterValues.join(', ')}`)
+            }
+            return selectedTables
+        }
+
+        this.base_tables = selectedTables
         return this.base_tables
+    }
+
+    async __base_view_id(token, table) {
+        if (table.view_id) return table.view_id
+
+        const views = []
+        let pageToken = null
+        do {
+            const pageTokenExpr = pageToken ? `&page_token=${pageToken}` : ''
+            const url = `${FEISHU_HOST}/open-apis/bitable/v1/apps/${this.base_app_token}/tables/${table.table_id}/views?page_size=100${pageTokenExpr}`
+            const jres = await (await fetch(url, {
+                method: "get",
+                headers: {
+                    'Content-Type': 'application/json; charset=utf-8',
+                    'Authorization': `Bearer ${token}`
+                }
+            })).json()
+            if (jres.code !== 0) {
+                console.warn(`[base] Failed to list views for ${table.name || table.table_id}; falling back to API default record order: ${JSON.stringify(jres)}`)
+                return null
+            }
+            const items = jres.data?.items || []
+            if (!Array.isArray(items)) {
+                console.warn(`[base] Unexpected views payload for ${table.name || table.table_id}; falling back to API default record order: ${JSON.stringify(jres)}`)
+                return null
+            }
+            views.push(...items)
+            pageToken = jres.data?.has_more ? jres.data.page_token : null
+        } while (pageToken)
+
+        const gridView = views.find(view => {
+            const type = String(view.view_type || view.type || '').toLowerCase()
+            return type === 'grid' || type === '1'
+        })
+        const selectedView = gridView || views[0]
+        return selectedView?.view_id || selectedView?.id || null
     }
 
     async __base_records(token, table) {
         const records = []
+        const viewId = await this.__base_view_id(token, table)
         let pageToken = null
         do {
             const pageTokenExpr = pageToken ? `&page_token=${pageToken}` : ''
-            const url = `${FEISHU_HOST}/open-apis/bitable/v1/apps/${this.base_app_token}/tables/${table.table_id}/records?page_size=500${pageTokenExpr}`
+            const viewExpr = viewId ? `&view_id=${encodeURIComponent(viewId)}` : ''
+            const url = `${FEISHU_HOST}/open-apis/bitable/v1/apps/${this.base_app_token}/tables/${table.table_id}/records?page_size=500${viewExpr}${pageTokenExpr}`
             const jres = await (await fetch(url, {
                 method: "get",
                 headers: {
@@ -341,11 +432,12 @@ class larkDocScraper {
         return records
     }
 
-    async __base() {
+    async __base({ tableFilter=null, force=false } = {}) {
+        if (this.records && !tableFilter && !force) return
         const fetcher = new tokenFetcher()
         await fetcher.fetchToken()
         const token = await fetcher.token()
-        const tables = await this.__base_tables(token)
+        const tables = await this.__base_tables(token, tableFilter)
         const recordsByTable = []
 
         for (const table of tables) {
@@ -353,6 +445,7 @@ class larkDocScraper {
         }
 
         this.records = recordsByTable
+        this.base_tables = tables
 
         const slugs = {}
         if (this.records.length > 0) {
@@ -421,11 +514,18 @@ class larkDocScraper {
         return slug
     }
 
+    __record_order(record) {
+        const explicit = this.__plain_value(record.fields['Sidebar Order'] || record.fields['Nav Order'] || record.fields.Order)
+        if (explicit && !Number.isNaN(Number(explicit))) return Number(explicit)
+        return record.base_record_index ?? 0
+    }
+
     __sort_records(records) {
         return records.sort((a, b) => {
-            const aSeq = parseInt(this.__plain_value(a.fields['Seq. ID']) || a.base_record_index || '0')
-            const bSeq = parseInt(this.__plain_value(b.fields['Seq. ID']) || b.base_record_index || '0')
-            return aSeq - bSeq
+            const aOrder = this.__record_order(a)
+            const bOrder = this.__record_order(b)
+            if (aOrder !== bOrder) return aOrder - bOrder
+            return String(a.record_id).localeCompare(String(b.record_id))
         })
     }
 
@@ -525,8 +625,243 @@ class larkDocScraper {
         return this.__plain_value(record.fields.Slug) || slugify(this.__record_title(record), { lower: true, strict: true })
     }
 
+    __placement_type(record) {
+        const value = this.__plain_value(record.fields['Placement Type'])
+        const normalized = value ? value.trim().toLowerCase() : ''
+        if (['canonical', 'ref', 'section', 'link'].includes(normalized)) return normalized
+        return this.__doc_token(this.__doc_field(record.fields)) && record.fields.Slug ? 'canonical' : 'section'
+    }
+
     __is_structural_record(record) {
-        return !this.__doc_token(this.__doc_field(record.fields)) || !record.fields.Slug
+        const placementType = this.__placement_type(record)
+        return placementType === 'section' || placementType === 'ref' || placementType === 'link' || !this.__doc_token(this.__doc_field(record.fields)) || !record.fields.Slug
+    }
+
+    __source_base_meta(source, record) {
+        source.base_record_id = record.record_id
+        source.base_table_id = record.base_table_id
+        source.base_table_name = record.base_table_name
+        source.base_record_index = record.base_record_index
+        source.base_placement_type = this.__placement_type(record)
+        source.base_targets = (record.fields.Targets || record.fields['Publish Targets'] || [])
+        source.base_status = record.fields.Status || record.fields.Progress || null
+        source.base_labels = record.fields.Labels || null
+        source.base_ref_target_doc = record.fields['Ref Target Doc'] || null
+        return source
+    }
+
+    __safe_decode_url(value) {
+        if (!value) return null
+        let decoded = String(value)
+        for (let i = 0; i < 2; i++) {
+            try {
+                const next = decodeURIComponent(decoded)
+                if (next === decoded) break
+                decoded = next
+            } catch (_) {
+                break
+            }
+        }
+        return decoded
+    }
+
+    __content_link_target(url) {
+        const decoded = this.__safe_decode_url(url)
+        if (!decoded) return null
+        const linkMatch = decoded.match(/https?:\/\/\S+/)
+        const link = linkMatch ? linkMatch[0] : decoded.trim()
+        let parsed
+        try {
+            parsed = new URL(link)
+        } catch (_) {
+            return null
+        }
+
+        const host = parsed.hostname.toLowerCase()
+        if (!host.includes('feishu.cn') && !host.includes('larksuite.com')) {
+            return null
+        }
+
+        const segments = parsed.pathname.split('/').filter(Boolean)
+        const kind = segments[0]
+        if (!['wiki', 'doc', 'docs', 'docx'].includes(kind)) {
+            return null
+        }
+
+        const token = segments[segments.length - 1]
+        if (!token) return null
+        return {
+            url: decoded,
+            token,
+            kind,
+            anchor: parsed.hash ? parsed.hash.slice(1) : null,
+        }
+    }
+
+    __source_token_aliases(source) {
+        return [source.node_token, source.origin_node_token, source.obj_token, source.token]
+            .filter(Boolean)
+    }
+
+    __record_graph() {
+        const sources = this.__source_files()
+        const canonicalByToken = new Map()
+        const records = this.records || []
+
+        for (const record of records) {
+            const placementType = this.__placement_type(record)
+            if (placementType !== 'canonical') continue
+
+            const docField = this.__doc_field(record.fields)
+            const docToken = this.__doc_token(docField)
+            if (!docToken) continue
+
+            const canonical = {
+                record_id: record.record_id,
+                table_id: record.base_table_id,
+                table_name: record.base_table_name,
+                title: this.__record_title(record),
+                slug: this.__record_slug(record),
+                doc_token: docToken,
+            }
+            canonicalByToken.set(docToken, canonical)
+
+            const source = sources.get(docToken)
+            if (source) {
+                for (const alias of this.__source_token_aliases(source)) {
+                    canonicalByToken.set(alias, canonical)
+                }
+            }
+        }
+
+        return { sources, canonicalByToken }
+    }
+
+    __walk_json(value, visit) {
+        if (!value || typeof value !== 'object') return
+        visit(value)
+        if (value instanceof Array) {
+            value.forEach(item => this.__walk_json(item, visit))
+            return
+        }
+        Object.values(value).forEach(item => this.__walk_json(item, visit))
+    }
+
+    __content_links_for_source(source) {
+        const links = []
+        const blocks = source.blocks?.items || []
+        for (const block of blocks) {
+            this.__walk_json(block, value => {
+                if (value.mention_doc?.url) {
+                    const target = this.__content_link_target(value.mention_doc.url)
+                    if (target) {
+                        links.push({
+                            source_type: 'mention_doc',
+                            source_token: source.node_token || source.origin_node_token || source.obj_token || source.token,
+                            source_title: source.title || source.name || null,
+                            source_slug: source.slug || null,
+                            block_id: block.block_id || null,
+                            link_text: value.mention_doc.title || null,
+                            raw_url: this.__safe_decode_url(value.mention_doc.url),
+                            ...target,
+                        })
+                    }
+                }
+
+                const textRun = value.text_run
+                const linkUrl = textRun?.text_element_style?.link?.url
+                if (linkUrl) {
+                    const target = this.__content_link_target(linkUrl)
+                    if (target) {
+                        links.push({
+                            source_type: 'href_link',
+                            source_token: source.node_token || source.origin_node_token || source.obj_token || source.token,
+                            source_title: source.title || source.name || null,
+                            source_slug: source.slug || null,
+                            block_id: block.block_id || null,
+                            link_text: textRun.content || null,
+                            raw_url: this.__safe_decode_url(linkUrl),
+                            ...target,
+                        })
+                    }
+                }
+            })
+        }
+        return links
+    }
+
+    __content_link_report_path() {
+        const parent = node_path.dirname(this.doc_source_dir.replace(/\/$/, ''))
+        return node_path.join(parent, 'reports', 'broken-content-links.json')
+    }
+
+    async validate_content_links({ reportPath=null, failOnBroken=false } = {}) {
+        if (!this.records) {
+            await this.__base()
+        }
+
+        const { canonicalByToken } = this.__record_graph()
+        const files = fs.existsSync(this.doc_source_dir)
+            ? fs.readdirSync(this.doc_source_dir).filter(file => file.endsWith('.json'))
+            : []
+        const contentLinks = []
+        const brokenContentLinks = []
+        let scannedSources = 0
+        let skippedNonCanonicalSources = 0
+
+        for (const file of files) {
+            const source = JSON.parse(fs.readFileSync(`${this.doc_source_dir}/${file}`, 'utf8'))
+            if (!source.blocks?.items) continue
+            const isCanonicalSource = this.__source_token_aliases(source)
+                .some(token => canonicalByToken.has(token))
+            if (!isCanonicalSource) {
+                skippedNonCanonicalSources++
+                continue
+            }
+            scannedSources++
+
+            const links = this.__content_links_for_source(source)
+            for (const link of links) {
+                contentLinks.push(link)
+                if (!canonicalByToken.has(link.token)) {
+                    brokenContentLinks.push({
+                        reason: 'missing canonical',
+                        source_file: file,
+                        ...link,
+                    })
+                }
+            }
+        }
+
+        const report = {
+            generated_at: new Date().toISOString(),
+            source_dir: this.doc_source_dir,
+            base_app_token: this.base_app_token,
+            base_table_id: this.base_table_id,
+            summary: {
+                canonical_tokens: canonicalByToken.size,
+                scanned_sources: scannedSources,
+                skipped_noncanonical_sources: skippedNonCanonicalSources,
+                content_links: contentLinks.length,
+                broken_content_links: brokenContentLinks.length,
+            },
+            broken_content_links: brokenContentLinks,
+        }
+
+        const output = reportPath || this.__content_link_report_path()
+        fs.mkdirSync(node_path.dirname(output), { recursive: true })
+        fs.writeFileSync(output, JSON.stringify(report, null, 2))
+
+        if (brokenContentLinks.length > 0) {
+            console.warn(`[content-links] Found ${brokenContentLinks.length} Feishu doc link(s) without canonical Base records. Report written to ${output}`)
+            if (failOnBroken) {
+                throw new Error(`[content-links] Broken content links found: ${brokenContentLinks.length}. See ${output}`)
+            }
+        } else {
+            console.log(`[content-links] No broken Feishu doc links found. Report written to ${output}`)
+        }
+
+        return report
     }
 
     __virtual_source({ nodeToken, parentToken, title, slug, children=[] }) {
@@ -546,7 +881,7 @@ class larkDocScraper {
         }
     }
 
-    async __apply_base_navigation() {
+    async __apply_base_navigation({ partialTables=false } = {}) {
         if (!this.records) {
             await this.__base()
         }
@@ -563,6 +898,7 @@ class larkDocScraper {
         }
 
         const recordsById = new Map(this.records.map(record => [record.record_id, record]))
+        const sourcesByToken = () => this.__source_files()
         const childrenByParent = new Map()
         for (const record of this.records) {
             const parentIds = this.__parent_record_ids(record)
@@ -576,6 +912,7 @@ class larkDocScraper {
                 .map(child => materializeRecord(child, this.__nav_token(record)))
             const docField = this.__doc_field(record.fields)
             const docToken = this.__doc_token(docField)
+            const placementType = this.__placement_type(record)
             const isStructural = this.__is_structural_record(record)
             const title = this.__record_title(record)
             const slug = this.__record_slug(record)
@@ -584,15 +921,38 @@ class larkDocScraper {
             const existingSource = isStructural ? null : (docToken ? sources.get(docToken) : (titleMatches.length === 1 ? titleMatches[0] : null))
             let source
 
-            if (existingSource && record.fields.Slug) {
+            if (placementType === 'ref') {
+                const targetToken = this.__field_token(record.fields['Ref Target Doc'])
+                const targetSource = targetToken ? sourcesByToken().get(targetToken) : null
+                if (!targetSource) {
+                    console.warn(`[base-nav] Ref target not found for "${title}" (${record.record_id}): ${targetToken || 'empty Ref Target Doc'}`)
+                }
+                source = this.__virtual_source({
+                    nodeToken: this.__nav_token(record),
+                    parentToken,
+                    title,
+                    slug: targetSource?.slug || slug,
+                    children: [],
+                })
+                source.base_nav_ref = true
+                source.base_nav_ref_target_token = targetToken
+                source.base_nav_ref_target_title = targetSource?.title || targetSource?.name || null
+            } else if (placementType === 'link') {
+                source = this.__virtual_source({
+                    nodeToken: this.__nav_token(record),
+                    parentToken,
+                    title,
+                    slug,
+                    children: [],
+                })
+                source.base_nav_link = true
+                source.base_nav_link_href = this.__field_href(record.fields['Ref Target Doc']) || this.__doc_link(docField) || null
+            } else if (existingSource && record.fields.Slug) {
                 source = existingSource
                 source.title = title
                 source.name = title
                 source.slug = slug
                 source.parent_node_token = parentToken
-                source.base_record_id = record.record_id
-                source.base_table_id = record.base_table_id
-                source.base_table_name = record.base_table_name
                 source.has_child = children.length > 0
                 if (children.length > 0) {
                     source.children = children
@@ -607,11 +967,9 @@ class larkDocScraper {
                     slug,
                     children,
                 })
-                source.base_record_id = record.record_id
-                source.base_table_id = record.base_table_id
-                source.base_table_name = record.base_table_name
             }
 
+            this.__source_base_meta(source, record)
             const filename = source.__source_file || this.__nav_file_name(source.node_token || source.token)
             delete source.__source_file
             fs.writeFileSync(`${this.doc_source_dir}/${filename}`, JSON.stringify(source, null, 2))
@@ -635,12 +993,38 @@ class larkDocScraper {
             tableChildren.push(this.__nav_ref(tableSource))
         }
 
-        root.children = tableChildren
-        root.has_child = tableChildren.length > 0
+        if (partialTables) {
+            const selectedTokens = new Set(tableChildren.map(child => child.node_token))
+            const tableByToken = new Map(tableChildren.map(child => [child.node_token, child]))
+            const nextChildren = []
+
+            for (const child of root.children || []) {
+                if (selectedTokens.has(child.node_token)) {
+                    nextChildren.push(tableByToken.get(child.node_token))
+                    tableByToken.delete(child.node_token)
+                } else {
+                    nextChildren.push(child)
+                }
+            }
+
+            nextChildren.push(...tableByToken.values())
+            root.children = nextChildren
+        } else {
+            root.children = tableChildren
+        }
+        root.has_child = (root.children || []).length > 0
         const rootFile = root.__source_file || `${root.origin_node_token || root.node_token}.json`
         delete root.__source_file
         fs.writeFileSync(`${this.doc_source_dir}/${rootFile}`, JSON.stringify(root, null, 2))
         console.log(`[base-nav] Rewrote navigation from ${this.base_tables.length} Base table(s).`)
+    }
+
+    async fetch_base_table_sources(tableFilter) {
+        const fetcher = new tokenFetcher()
+        await fetcher.fetchToken()
+        this.token = await fetcher.token()
+        await this.__base({ tableFilter, force: true })
+        await this.__apply_base_navigation({ partialTables: true })
     }
 
     async __split_one_pager(node) {

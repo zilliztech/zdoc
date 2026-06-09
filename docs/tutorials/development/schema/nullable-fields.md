@@ -11,13 +11,6 @@ description: "Zilliz Cloud supports nullable fields, which allow a field value t
 type: origin
 token: DjROwgK6ziCf7Rkoji6ccyEUnsg
 sidebar_position: 15
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - collection
-  - schema
-  - nullable
 displayed_sidebar: default
 
 ---

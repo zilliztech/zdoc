@@ -11,11 +11,6 @@ description: "A managed volume is a Zilliz Cloud-hosted object store for holding
 type: origin
 token: A33MwQX84iXyQNkzopece3oenye
 sidebar_position: 1
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - volume
 displayed_sidebar: default
 
 ---

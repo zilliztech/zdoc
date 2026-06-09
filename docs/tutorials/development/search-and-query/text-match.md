@@ -10,17 +10,7 @@ notebook: FALSE
 description: "Text match in Zilliz Cloud enables precise document retrieval based on specific terms. This feature is primarily used for filtered search to satisfy specific conditions and can incorporate scalar filtering to refine query results, allowing similarity searches within vectors that meet scalar criteria. | Cloud"
 type: origin
 token: RQQKwqhZUiubFzkHo4WcR62Gnvh
-sidebar_position: 11
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - collection
-  - data
-  - filter
-  - filtering expressions
-  - filtering
-  - text-match
+sidebar_position: 12
 displayed_sidebar: default
 
 ---

@@ -11,16 +11,6 @@ description: "Zilliz Cloud provides powerful operators to query array fields, al
 type: origin
 token: MaWywRYCniq6vwkJsT7c2wAyn0f
 sidebar_position: 6
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - collection
-  - data
-  - filter
-  - filtering expressions
-  - filtering
-  - array operators
 displayed_sidebar: default
 
 ---

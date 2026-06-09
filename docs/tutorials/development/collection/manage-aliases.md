@@ -11,13 +11,6 @@ description: "In Zilliz Cloud, an alias is a secondary, mutable name for a colle
 type: origin
 token: OLn1wMgW0iceBlkuey2cBD91neb
 sidebar_position: 10
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - collection
-  - alias
-  - aliases
 displayed_sidebar: default
 
 ---

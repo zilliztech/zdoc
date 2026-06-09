@@ -11,13 +11,6 @@ description: "Loading a collection is a prerequisite for conducting similarity s
 type: origin
 token: CemEwKryciMUepkgYWZcOw6wncb
 sidebar_position: 8
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - collection
-  - load
-  - release
 displayed_sidebar: default
 
 ---

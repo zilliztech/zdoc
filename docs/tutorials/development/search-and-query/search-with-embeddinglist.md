@@ -10,17 +10,7 @@ notebook: FALSE
 description: "This page explains how to set up a ColBERT text retrieval system and a ColPali text retrieval system using the array of structs in Zilliz Cloud, which enables you to store a document along with its vectorized chunks in embedding lists. | Cloud"
 type: origin
 token: Mf7GwGwgQiLCcykOi69cvaD8ncz
-sidebar_position: 16
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - collection
-  - data
-  - embeddinglist
-  - search
-  - colbert
-  - colpali
+sidebar_position: 17
 displayed_sidebar: default
 
 ---

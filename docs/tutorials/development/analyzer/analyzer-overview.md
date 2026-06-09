@@ -11,13 +11,6 @@ description: "In text processing, an analyzer is a crucial component that conver
 type: origin
 token: H8MVwnjdgihp0hkRHHKcjBe9n5e
 sidebar_position: 1
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - collection
-  - schema
-  - analyzer explained
 displayed_sidebar: default
 
 ---

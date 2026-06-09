@@ -11,13 +11,6 @@ description: "When building applications like Geographic Information Systems (GI
 type: origin
 token: H2GHwE8umiuP6WkwjxPcQOfGn0e
 sidebar_position: 12
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - collection
-  - schema
-  - geometry field
 displayed_sidebar: default
 
 ---

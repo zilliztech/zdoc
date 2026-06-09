@@ -11,12 +11,6 @@ description: "The Zilliz Cloud AI prompt library offers curated prompts for AI-p
 type: origin
 token: Li1gwPA8HiBgsokLgO4cKA7nnDg
 sidebar_position: 4
-keywords: 
-  - zilliz
-  - vector database
-  - ai-agents
-  - decision matrix
-  - prompts
 displayed_sidebar: default
 
 ---

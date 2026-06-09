@@ -2,7 +2,7 @@
 title: "Access Logs Overview | Cloud"
 slug: /access-log-overview
 sidebar_label: "Access Logs Overview"
-beta: PUBLIC
+beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
@@ -11,13 +11,6 @@ description: "In high-volume workloads, understanding which data is accessed mos
 type: origin
 token: PIfLwbrMmiOZKAkqtpScjnhinXf
 sidebar_position: 1
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - access
-  - logs
-  - overview
 displayed_sidebar: default
 
 ---

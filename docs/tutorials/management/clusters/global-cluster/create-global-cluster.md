@@ -11,15 +11,6 @@ description: "This guide explains how to create a global cluster. | Cloud"
 type: origin
 token: MZ2WwklE5ifX4hkO4ZOcXz0indc
 sidebar_position: 2
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - milvus
-  - global cluster
-  - disaster recovery
-  - high availability
-  - multi-region
 displayed_sidebar: default
 
 ---

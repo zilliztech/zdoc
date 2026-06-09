@@ -11,15 +11,6 @@ description: "The `regex` filter is a regular expression filter any token produc
 type: origin
 token: AwmtwHGQii1j9Wk1W04cNxvBnth
 sidebar_position: 11
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - collection
-  - schema
-  - analyzer
-  - built-in filters
-  - regex
 displayed_sidebar: default
 
 ---

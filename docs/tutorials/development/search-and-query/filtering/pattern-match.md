@@ -2,7 +2,7 @@
 title: "Pattern Matching | Cloud"
 slug: /pattern-match
 sidebar_label: "Pattern Matching"
-beta: PRIVATE
+beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
@@ -11,18 +11,6 @@ description: "In agentic search applications, vector search and grep-style patte
 type: origin
 token: PFbNwB7Mli18n6k6VWScGcpWndc
 sidebar_position: 3
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - collection
-  - data
-  - filter
-  - filtering expressions
-  - filtering
-  - pattern match
-  - regex
-  - like
 displayed_sidebar: default
 
 ---

@@ -11,15 +11,6 @@ description: "This article demonstrates how to count entities in a collection an
 type: origin
 token: OfUIwNWVuimZgFk3gBVc61GnnKW
 sidebar_position: 3
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - collection
-  - data
-  - upsert
-  - update
-  - count
 displayed_sidebar: default
 
 ---

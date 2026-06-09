@@ -11,13 +11,6 @@ description: "Truncating a collection removes all entities while preserving the 
 type: origin
 token: JMtVw2kCYiunF9khkmHcFWbFnxf
 sidebar_position: 11
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - collection
-  - truncate
-  - delete without schema change
 displayed_sidebar: default
 
 ---

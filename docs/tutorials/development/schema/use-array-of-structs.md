@@ -11,15 +11,6 @@ description: "An Array of Structs field, or a StructArray field, in an entity st
 type: origin
 token: LIMbwXk1OiS5SykUyNhc5FtSnPb
 sidebar_position: 11
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - collection
-  - schema
-  - array field
-  - array of structs
-  - structs
 displayed_sidebar: default
 
 ---

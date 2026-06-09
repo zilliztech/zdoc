@@ -11,12 +11,6 @@ description: "Project alerts enable proactive monitoring of your Zilliz Cloud cl
 type: origin
 token: NvDLw4kFji0xeWkc4Hpc9wUfnRh
 sidebar_position: 4
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - project
-  - alerts
 displayed_sidebar: default
 
 ---

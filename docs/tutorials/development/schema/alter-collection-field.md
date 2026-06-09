@@ -11,14 +11,6 @@ description: "You can alter the properties of a collection field to change colum
 type: origin
 token: PLjFwlcT8ilFBakYXyfcg6S2n7d
 sidebar_position: 17
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - collection
-  - schema
-  - field properties
-  - alter collection field
 displayed_sidebar: default
 
 ---
@@ -29,7 +21,9 @@ import TabItem from '@theme/TabItem';
 
 # Alter Collection Field
 
-You can alter the properties of a collection field to change column constraints or enforce stricter data integrity rules. 
+You can alter the properties of a collection field to change column constraints or enforce stricter data integrity rules.
+
+This page covers field property changes, not schema-shape changes such as adding or dropping fields. To add scalar fields or drop fields from an existing collection, refer to [Alter Collection Schema](./add-fields-to-an-existing-collection).
 
 <Admonition type="info" icon="📘" title="Notes">
 

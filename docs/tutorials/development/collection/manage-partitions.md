@@ -11,13 +11,6 @@ description: "A partition is a subset of a collection. Each partition shares the
 type: origin
 token: JCMPwIyVciCT4Hk4O20c96MEnch
 sidebar_position: 9
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - collection
-  - partition
-  - partitions
 displayed_sidebar: default
 
 ---

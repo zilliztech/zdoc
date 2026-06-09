@@ -11,17 +11,6 @@ description: "The Voyage AI Ranker leverages Voyage AI's and search applications
 type: origin
 token: PpGlwYU6PiSsfVkZ7doco50vnKg
 sidebar_position: 2
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - collection
-  - data
-  - search result reranking
-  - result reranking
-  - reranking model
-  - model ranker
-  - voyage ai
 displayed_sidebar: default
 
 ---

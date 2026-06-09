@@ -11,13 +11,6 @@ description: "Efficient deduplication and similarity search are critical for lar
 type: origin
 token: BYtDwHuOXiG7imkyIjHcWa6fnlb
 sidebar_position: 2
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - vector field
-  - index
-  - minhash
 displayed_sidebar: default
 
 ---

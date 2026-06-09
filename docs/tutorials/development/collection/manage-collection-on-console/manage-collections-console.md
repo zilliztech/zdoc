@@ -11,13 +11,6 @@ description: "A collection is a two-dimensional table used to store vector embed
 type: origin
 token: CmR5wFcybi3iMokOJBxcXDQcntg
 sidebar_position: 1
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - collection
-  - manage
-  - console
 displayed_sidebar: default
 
 ---
@@ -36,7 +29,7 @@ This guide walks you through the collection creation and management operations o
 <Admonition type="info" icon="📘" title="Notes">
 
 <p>If you need strong data isolation and manage only a small number of tenants, you can create a separate collection for each tenant.</p>
-<p>However, you can only create a maximum of 16,384 collections depending on your <a href="./limits">cluster plan</a>. Therefore, for large-scale multi-tenancy, consider using alternative strategies such as partition-based or partition-key-based multi-tenancy, depending on your use case. For details, see <a href="./undefined">Implement Multi-tenancy</a>.</p>
+<p>However, you can only create a maximum of 16,384 collections depending on your <a href="./limits">cluster plan</a>. Therefore, for large-scale multi-tenancy, consider using alternative strategies such as partition-based or partition-key-based multi-tenancy, depending on your use case. For details, see <a href="./multi-tenancy">Implement Multi-tenancy</a>.</p>
 
 </Admonition>
 
@@ -92,7 +85,7 @@ A schema defines the data structure of your collection and must include:
 
 An index is a data structure that organizes data to accelerate searches and queries. Zilliz Cloud supports two types of indexes:
 
-- **Vector index**: Automatically created using [AUTOINDEX](./undefined) to accelerate vector searches. If you have multiple vector fields in the schema, you can create a separate index for each vector field. In addition, you can also edit the [metric type](./search-metrics-explained) used to calculate the distance between vectors and the index build level that controls the underlying quantization strategy for tradeoffs between index cost, performance and capacity. 
+- **Vector index**: Automatically created using [AUTOINDEX](./autoindex-explained) to accelerate vector searches. If you have multiple vector fields in the schema, you can create a separate index for each vector field. In addition, you can also edit the [metric type](./search-metrics-explained) used to calculate the distance between vectors and the index build level that controls the underlying quantization strategy for tradeoffs between index cost, performance and capacity. 
 
     <Supademo id="cmgk9ynaq290okrn90l496fq7?utm_source=link" title=""  />
 
@@ -134,7 +127,7 @@ Functions fall into two main categories based on when they are applied:
 
 <p>To decide whether you need to create partitions or use partition key, you can consider the following factors:</p>
 <ul>
-<li><p><strong>Multi-tenancy strategies:</strong> If you need to support millions of tenants, please use partition key. If you need strong physical data isolation between tenants, please use partitions. For details, refer to <a href="./undefined">Implement Multi-tenancy</a>.</p></li>
+<li><p><strong>Multi-tenancy strategies:</strong> If you need to support millions of tenants, please use partition key. If you need strong physical data isolation between tenants, please use partitions. For details, refer to <a href="./multi-tenancy">Implement Multi-tenancy</a>.</p></li>
 <li><p><strong>Resource management:</strong> If you prefer creating and managing partitions on you own, you can choose to use partitions. If you need automatic creation and management of partitions, please use partitions keys.</p></li>
 <li><p><strong>Hot and cold data management:</strong> If you need efficient handling of hot and cold data, please use partition key. To use partition key for hot and cold data management in Dedicated clusters, please <a href="http://support.zilliz.com">contact us</a>.</p></li>
 </ul>

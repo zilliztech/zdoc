@@ -11,14 +11,6 @@ description: "You can delete the entities that are no longer needed by filtering
 type: origin
 token: RhKcwNACpi3WihkTzo8cr4BCnee
 sidebar_position: 4
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - collection
-  - data
-  - delete
-  - delete entities
 displayed_sidebar: default
 
 ---

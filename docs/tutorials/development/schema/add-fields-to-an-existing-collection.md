@@ -7,18 +7,10 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Milvus allows you to dynamically add new fields to existing collections, making it easy to evolve your data schema as your application needs change. This guide shows you how to add fields in different scenarios using practical examples. | Cloud"
+description: "As a collection moves from development to production, the metadata around each entity often changes. A RAG application that initially stores only embeddings and text might later need fields such as `sourceuri` to trace where a passage came from, `reviewstatus` to separate approved content from drafts, or `tenantid` to route requests to the right knowledge base. At the same time, fields added for earlier experiments can stop being useful for search, filtering, or application logic. Alter Collection Schema lets you make supported schema changes in place instead of recreating the collection. You can add schema-defined scalar fields for new metadata, or drop fields that your application no longer uses. | Cloud"
 type: origin
 token: UR9SwucAIiQ2TYkc9EucsgvSnng
 sidebar_position: 18
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - collection
-  - schema
-  - field properties
-  - add collection fields
 displayed_sidebar: default
 
 ---
@@ -27,120 +19,75 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Add Fields to an Existing Collection
+# Alter Collection Schema
 
-Milvus allows you to dynamically add new fields to existing collections, making it easy to evolve your data schema as your application needs change. This guide shows you how to add fields in different scenarios using practical examples.
+As a collection moves from development to production, the metadata around each entity often changes. A RAG application that initially stores only embeddings and text might later need fields such as `source_uri` to trace where a passage came from, `review_status` to separate approved content from drafts, or `tenant_id` to route requests to the right knowledge base. At the same time, fields added for earlier experiments can stop being useful for search, filtering, or application logic. Alter Collection Schema lets you make supported schema changes in place instead of recreating the collection. You can add schema-defined scalar fields for new metadata, or drop fields that your application no longer uses.
 
-## Considerations\{#considerations}
+<Admonition type="info" icon="📘" title="Notes">
 
-Before adding fields to your collection, keep these important points in mind:
-
-- New fields must be nullable (nullable=True) to accommodate existing entities that don't have values for the new field.
-
-- Adding fields to loaded collections increases memory usage.
-
-- There's a maximum limit on total fields per collection. For details, refer to [Milvus Limits](https://milvus.io/docs/limitations.md#Number-of-resources-in-a-collection).
-
-- Field names must be unique among static fields.
-
-- You cannot add a `$meta` field to enable dynamic field functionality for collections that weren't originally created with `enable_dynamic_field=True`.
-
-## Prerequisites\{#prerequisites}
-
-This guide assumes you have:
-
-- A running Milvus instance
-
-- Milvus SDK installed
-
-- An existing collection
-
-<Admonition type="info" icon="📘" title="**Need help setting up?**">
-
-<p>Refer to our <a href="./manage-collections-sdks">Create Collection</a> for collection creation and basic operations.</p>
+<p>This guide focuses on schema shape changes. For field property changes, such as changing <code>max_length</code> on a <code>VARCHAR</code> field or <code>max_capacity</code> on an <code>ARRAY</code> field, refer to <a href="./alter-collection-field">Alter Collection Field</a>. For dynamic field behavior, refer to <a href="./enable-dynamic-field">Dynamic Field</a> and <a href="./modify-collections">Modify Collection</a>.</p>
 
 </Admonition>
 
-## Basic usage\{#basic-usage}
+## Limits\{#limits}
+
+**Add fields**
+
+- You can add scalar fields only. You cannot add vector fields to an existing collection.
+
+- Added fields must be nullable. Set `nullable=True` when calling `add_collection_field()`.
+
+- Field names must be unique among schema-defined fields in the collection.
+
+- You cannot explicitly add `$meta` to enable dynamic field for a collection that was created without dynamic field enabled.
+
+- The total number of fields in the collection cannot exceed the Zilliz Cloud field-count limit. For details, refer to [Zilliz Cloud Limits](./limits#fields).
+
+**Drop fields**
+
+- You cannot drop the primary key field, partition key field, clustering key field, Milvus-managed system fields such as the `$meta` dynamic field, or the last vector field in a collection.
+
+- You cannot directly drop a field that is used as a function input field or generated as a function output field. For example, the sparse vector field generated by a BM25 function cannot be dropped with `drop_collection_field()`. To remove that generated field, drop the function that generates it. For more information about BM25 functions, refer to [BM25 Function](./bm25-function).
+
+- You cannot drop an individual sub-field inside an `ARRAY<STRUCT>` field.
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>For schema changes outside add and drop operations, recreate or migrate the collection. </p>
+
+</Admonition>
+
+## Add fields\{#add-fields}
+
+Use `add_collection_field()` to add a schema-defined scalar field to an existing collection. This differs from storing arbitrary keys in the dynamic field: after the schema update is available, the new field becomes a regular part of the collection schema. You can insert or upsert values into it, create indexes on it where supported, use it in queries and search filters, and return it in query or search output.
+
+Because existing entities were inserted before the new field existed, every added field must be nullable:
+
+- If you add a field with `nullable=True` and no `default_value`, existing entities return `NULL` for the new field.
+
+- If you also set `default_value`, existing entities return the default value instead of `NULL`.
+
+### Add a scalar field that allows null values\{#add-a-scalar-field-that-allows-null-values}
+
+The following example adds a nullable `source` field to an existing collection named `product_catalog`.
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
-from pymilvus import MilvusClient, DataType
+from pymilvus import DataType, MilvusClient
 
-# Connect to your Milvus server
-client = MilvusClient(
-    uri="YOUR_CLUSTER_ENDPOINT"  # Replace with your Milvus server URI
-)
-```
+client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
 
-</TabItem>
-
-<TabItem value='java'>
-
-```java
-import io.milvus.v2.client.MilvusClientV2;
-import io.milvus.v2.client.ConnectConfig;
-
-ConnectConfig config = ConnectConfig.builder()
-        .uri("YOUR_CLUSTER_ENDPOINT")
-        .build();
-MilvusClientV2 client = new MilvusClientV2(config);
-```
-
-</TabItem>
-
-<TabItem value='javascript'>
-
-```javascript
-import { MilvusClient } from '@zilliz/milvus2-sdk-node';
-
-const milvusClient = new MilvusClient({
-    address: 'YOUR_CLUSTER_ENDPOINT'
-});
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-// go
-```
-
-</TabItem>
-
-<TabItem value='bash'>
-
-```bash
-# restful
-export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
-```
-
-</TabItem>
-</Tabs>
-
-## Scenario 1: Quickly add nullable fields\{#scenario-1-quickly-add-nullable-fields}
-
-The simplest way to extend your collection is by adding nullable fields. This is perfect when you need to quickly add new attributes to your data.
-
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
-<TabItem value='python'>
-
-```python
-# Add a nullable field to an existing collection
-# This operation:
-# - Returns almost immediately (non-blocking)
-# - Makes the field available for use with minimal delay
-# - Sets NULL for all existing entities
+# highlight-start
 client.add_collection_field(
     collection_name="product_catalog",
-    field_name="created_timestamp",  # Name of the new field to add
-    data_type=DataType.INT64,        # Data type must be a scalar type
-    nullable=True                    # Must be True for added fields
-    # Allows NULL values for existing entities
+    field_name="source",
+    data_type=DataType.VARCHAR,
+    max_length=128,
+    nullable=True,
 )
+# highlight-end
 ```
 
 </TabItem>
@@ -148,14 +95,24 @@ client.add_collection_field(
 <TabItem value='java'>
 
 ```java
+import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.client.MilvusClientV2;
+import io.milvus.v2.common.DataType;
 import io.milvus.v2.service.collection.request.AddCollectionFieldReq;
 
+MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .build());
+
+// highlight-start
 client.addCollectionField(AddCollectionFieldReq.builder()
         .collectionName("product_catalog")
-        .fieldName("created_timestamp")
-        .dataType(DataType.Int64)
+        .fieldName("source")
+        .dataType(DataType.VarChar)
+        .maxLength(128)
         .isNullable(true)
         .build());
+// highlight-end
 ```
 
 </TabItem>
@@ -163,14 +120,21 @@ client.addCollectionField(AddCollectionFieldReq.builder()
 <TabItem value='javascript'>
 
 ```javascript
+const { MilvusClient, DataType } = require("@zilliz/milvus2-sdk-node");
+
+const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT" });
+
+// highlight-start
 await client.addCollectionField({
-    collection_name: 'product_catalog',
-    field: {
-        name: 'created_timestamp',
-        dataType: 'Int64',
-        nullable: true
-     }
+  collection_name: "product_catalog",
+  field: {
+    name: "source",
+    data_type: DataType.VarChar,
+    max_length: 128,
+    nullable: true,
+  },
 });
+// highlight-end
 ```
 
 </TabItem>
@@ -194,9 +158,12 @@ curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/fields/add" \
   -d '{
     "collectionName": "product_catalog",
     "schema": {
-      "fieldName": "created_timestamp",
-      "dataType": "Int64",
-      "nullable": true
+      "fieldName": "source",
+      "dataType": "VarChar",
+      "nullable": true,
+      "elementTypeParams": {
+        "max_length": "128"
+      }
     }
   }'
 ```
@@ -204,25 +171,130 @@ curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/fields/add" \
 </TabItem>
 </Tabs>
 
-Expected behavior:
+After the field is added, entities that already existed in the collection return `NULL` for `source`. New entities can set `source` during insert or upsert.
 
-- **Existing entities** will have NULL for the new field
+### Add a scalar field with a default value\{#add-a-scalar-field-with-a-default-value}
 
-- **New entities** can have either NULL or actual values
-
-- **Field availability** occurs almost immediately with minimal delay due to internal schema synchronization
-
-- **Queryable immediately** after the brief synchronization period
+If existing entities should return a concrete value instead of `NULL`, specify `default_value` when adding the field. The following example adds a `review_status` field and uses `"unreviewed"` as the default value.
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
-# Example query result
-{
-    'id': 1, 
-    'created_timestamp': None  # New field shows NULL for existing entities
-}
+from pymilvus import DataType, MilvusClient
+
+client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
+
+# highlight-start
+client.add_collection_field(
+    collection_name="product_catalog",
+    field_name="review_status",
+    data_type=DataType.VARCHAR,
+    max_length=32,
+    nullable=True,
+    default_value="unreviewed",
+)
+# highlight-end
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// java
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const { MilvusClient, DataType } = require("@zilliz/milvus2-sdk-node");
+
+const client = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT" });
+
+// highlight-start
+await client.addCollectionField({
+  collection_name: "product_catalog",
+  field: {
+    name: "review_status",
+    data_type: DataType.VarChar,
+    max_length: 32,
+    nullable: true,
+    default_value: "unreviewed",
+  },
+});
+// highlight-end
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/fields/add" \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <token>" \
+  -H "Request-Timeout: 10" \
+  -d '{
+    "collectionName": "product_catalog",
+    "schema": {
+      "fieldName": "review_status",
+      "dataType": "VarChar",
+      "nullable": true,
+      "defaultValue": "unreviewed",
+      "elementTypeParams": {
+        "max_length": "32"
+      }
+    }
+  }'
+```
+
+</TabItem>
+</Tabs>
+
+After the field is added, entities that already existed in the collection return `"unreviewed"` for `review_status`. New entities can set a different value or use the default value when no value is provided.
+
+## Drop fields\{#drop-fields}
+
+Use `drop_collection_field()` to remove a field that is no longer part of your collection schema.
+
+Dropping a field first changes the collection schema and field visibility:
+
+- After `drop_collection_field()` succeeds, the collection schema is updated: `describe_collection()` no longer returns the dropped field, and queries or searches can no longer return the field in `output_fields` or use it in expressions.
+
+- Indexes built on the dropped field are cleaned up as part of the schema update.
+
+Storage cleanup is handled separately from schema cleanup. For details, refer to When is storage space reclaimed after dropping a field?.
+
+### Drop a scalar field\{#drop-a-scalar-field}
+
+The following example assumes that `experiment_tag` is a schema-defined scalar field in `product_catalog`, and drops it from the collection.
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
+from pymilvus import MilvusClient
+
+client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
+
+# highlight-start
+client.drop_collection_field(
+    collection_name="product_catalog",
+    field_name="experiment_tag",
+)
+# highlight-end
 ```
 
 </TabItem>
@@ -239,10 +311,6 @@ Expected behavior:
 
 ```javascript
 // nodejs
-{
-    'id': 1, 
-    'created_timestamp': None  # New field shows NULL for existing entities
-}
 ```
 
 </TabItem>
@@ -259,124 +327,35 @@ Expected behavior:
 
 ```bash
 # restful
-{
-  "code": 0,
-  "data": {},
-  "cost": 0
-}
 ```
 
 </TabItem>
 </Tabs>
 
-## Scenario 2: Add fields with default values\{#scenario-2-add-fields-with-default-values}
+If your application manages schema fields by field ID, you can also specify `field_id` instead of `field_name`.
 
-When you want existing entities to have a meaningful initial value instead of NULL, specify default values.
+After dropping a field, you can call `describe_collection()` to verify that the field is no longer part of the schema.
+
+### Drop a vector field\{#drop-a-vector-field}
+
+You can drop a vector field with the same `drop_collection_field()` method, but the collection must still contain at least one vector field after the drop. This is useful for collections that temporarily carry multiple vector representations and later standardize on one of them.
+
+The following example assumes that `image_vector` is a schema-defined vector field in `hybrid_catalog`, and that the collection still retains another vector field, such as `text_vector`.
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
-# Add a field with default value
-# This operation:
-# - Sets the default value for all existing entities
-# - Makes the field available with minimal delay
-# - Maintains data consistency with the default value
-client.add_collection_field(
-    collection_name="product_catalog",
-    field_name="priority_level",     # Name of the new field
-    data_type=DataType.VARCHAR,      # String type field
-    max_length=20,                   # Maximum string length
-    nullable=True,                   # Required for added fields
-    default_value="standard"         # Value assigned to existing entities
-    # Also used for new entities if no value provided
+from pymilvus import MilvusClient
+
+client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
+
+# highlight-start
+client.drop_collection_field(
+    collection_name="hybrid_catalog",
+    field_name="image_vector",
 )
-```
-
-</TabItem>
-
-<TabItem value='java'>
-
-```java
-client.addCollectionField(AddCollectionFieldReq.builder()
-        .collectionName("product_catalog")
-        .fieldName("priority_level")
-        .dataType(DataType.VarChar)
-        .maxLength(20)
-        .isNullable(true)
-        .build());
-```
-
-</TabItem>
-
-<TabItem value='javascript'>
-
-```javascript
-await client.addCollectionField({
-    collection_name: 'product_catalog',
-    field: {
-        name: 'priority_level',
-        dataType: 'VarChar',
-        nullable: true,
-        default_value: 'standard',
-     }
-});
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-// go
-```
-
-</TabItem>
-
-<TabItem value='bash'>
-
-```bash
-# restful
-curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/fields/add" \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer <token>" \
-  -H "Request-Timeout: 10" \
-  -d '{
-    "collectionName": "product_catalog",
-    "schema": {
-      "fieldName": "priority_level",
-      "dataType": "VarChar",
-      "nullable": true,
-      "defaultValue": "standard",
-      "elementTypeParams": {
-        "max_length": "20"
-      }
-    }
-  }'
-```
-
-</TabItem>
-</Tabs>
-
-Expected behavior:
-
-- **Existing entities** will have the default value (`"standard"`) for the newly added field
-
-- **New entities** can override the default value or use it if no value is provided
-
-- **Field availability** occurs almost immediately with minimal delay
-
-- **Queryable immediately** after the brief synchronization period
-
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
-<TabItem value='python'>
-
-```python
-# Example query result
-{
-    'id': 1,
-    'priority_level': 'standard'  # Shows default value for existing entities
-}
+# highlight-end
 ```
 
 </TabItem>
@@ -392,10 +371,7 @@ Expected behavior:
 <TabItem value='javascript'>
 
 ```javascript
-{
-    'id': 1,
-    'priority_level': 'standard'  # Shows default value for existing entities
-}
+// nodejs
 ```
 
 </TabItem>
@@ -412,432 +388,88 @@ Expected behavior:
 
 ```bash
 # restful
-{
-    'id': 1,
-    'priority_level': 'standard'  # Shows default value for existing entities
-}
 ```
 
 </TabItem>
 </Tabs>
+
+If `image_vector` is the last vector field in the collection, the drop operation is rejected.
+
+### Drop function-generated fields\{#drop-function-generated-fields}
+
+Do not directly drop a field that is used by a function. This includes both function input fields and function-generated output fields.
+
+For example, in a collection that uses a BM25 function for full text search, Zilliz Cloud stores raw text in a `VARCHAR` input field and generates a `SPARSE_FLOAT_VECTOR` output field for BM25 ranking. To remove the generated sparse vector field, drop the BM25 function instead of calling `drop_collection_field()` on the output field.
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
+from pymilvus import MilvusClient
+
+client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
+
+# highlight-start
+client.drop_collection_function(
+    collection_name="product_catalog",
+    function_name="bm25_text",
+)
+# highlight-end
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// java
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// nodejs
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+```
+
+</TabItem>
+</Tabs>
+
+Dropping a function removes the function and its generated output fields, and also cleans up indexes on those output fields. Function input fields are preserved. If removing the function output fields would leave the collection without any vector field, the operation is rejected.
 
 ## FAQ\{#faq}
 
-### Can I enable dynamic schema functionality by adding a `$meta` field?\{#can-i-enable-dynamic-schema-functionality-by-adding-a-dollarmeta-field}
+### What happens if I add a schema-defined field with the same name as a dynamic field key?\{#what-happens-if-i-add-a-schema-defined-field-with-the-same-name-as-a-dynamic-field-key}
 
-No, you cannot use `add_collection_field` to add a `$meta` field to enable dynamic field functionality. For example, the code below will not work:
+If dynamic field is enabled, you can add a schema-defined field with the same name as an existing dynamic field key. The new schema-defined field masks the dynamic field key in normal query output, but the original dynamic data is preserved in `$meta`.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
-<TabItem value='python'>
+For example, if existing entities store a dynamic key named `source`, and you later add a schema-defined field named `source`, normal output for `source` refers to the schema-defined field. To access the original dynamic value, use the `$meta` path syntax, such as `$meta["source"]`.
 
-```python
-# ❌ This is NOT supported
-client.add_collection_field(
-    collection_name="existing_collection",
-    field_name="$meta",
-    data_type=DataType.JSON  # This operation will fail
-)
-```
+### Do I need to wait after altering a collection schema?\{#do-i-need-to-wait-after-altering-a-collection-schema}
 
-</TabItem>
+Usually, no manual wait is required. If your next operation depends on the updated schema, you can call `describe_collection()` first to confirm the schema that Zilliz Cloud currently returns.
 
-<TabItem value='java'>
+In a distributed deployment, there can be a short propagation window while Zilliz Cloud components refresh collection metadata. If an operation immediately after the schema change fails with a schema-related error, refresh the schema and retry the operation.
 
-```java
-// ❌ This is NOT supported
-client.addCollectionField(AddCollectionFieldReq.builder()
-        .collectionName("existing_collection")
-        .fieldName("$meta")
-        .dataType(DataType.JSON)
-        .build());
-```
+### When is storage space reclaimed after dropping a field?\{#when-is-storage-space-reclaimed-after-dropping-a-field}
 
-</TabItem>
+Dropping a field removes it from the current schema and normal query/search visibility, but historical data for that field is not physically deleted from object storage immediately.
 
-<TabItem value='javascript'>
-
-```javascript
-// ❌ This is NOT supported
-await client.addCollectionField({
-    collection_name: 'product_catalog',
-    field: {
-        name: '$meta',
-        dataType: 'JSON',
-     }
-});
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-// go
-```
-
-</TabItem>
-
-<TabItem value='bash'>
-
-```bash
-# restful
-# ❌ This is NOT supported
-curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/fields/add" \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer <token>" \
-  -H "Request-Timeout: 10" \
-  -d '{
-    "collectionName": "existing_collection",
-    "schema": {
-      "fieldName": "$meta",
-      "dataType": "JSON",
-      "nullable": true
-    }
-  }'
-```
-
-</TabItem>
-</Tabs>
-
-To enable dynamic schema functionality:
-
-- **New collection**: Set `enable_dynamic_field` to True when creating the collection. For details, refer to [Create Collection](./manage-collections-sdks#create-schema)
-
-- **Existing collection**: Set the collection-level property `dynamicfield.enabled` to True. For details, refer to [Modify Collection](./modify-collections#example-5-enable-dynamic-field).
-
-### What happens when I add a field with the same name as a dynamic field key?\{#what-happens-when-i-add-a-field-with-the-same-name-as-a-dynamic-field-key}
-
-When your collection has dynamic field enabled (`$meta` exists), you can add static fields that have the same name as existing dynamic field keys. The new static field will mask the dynamic field key, but the original dynamic data is preserved.
-
-To avoid possible conflicts in field names, consider the name for the field to add by referring to existing fields and dynamic field keys before actually adding it.
-
-**Example scenario:**
-
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
-<TabItem value='python'>
-
-```python
-# Original collection with dynamic field enabled
-# Insert data with dynamic field keys
-data = [{
-    "id": 1,
-    "my_vector": [0.1, 0.2, ...],
-    "extra_info": "this is a dynamic field key",  # Dynamic field key as string
-    "score": 99.5                                 # Another dynamic field key
-}]
-client.insert(collection_name="product_catalog", data=data)
-
-# Add static field with same name as existing dynamic field key
-client.add_collection_field(
-    collection_name="product_catalog",
-    field_name="extra_info",         # Same name as dynamic field key
-    data_type=DataType.INT64,        # Data type can differ from dynamic field key
-    nullable=True                    # Must be True for added fields
-)
-
-# Insert new data after adding static field
-new_data = [{
-    "id": 2,
-    "my_vector": [0.3, 0.4, ...],
-    "extra_info": 100,               # Now must use INT64 type (static field)
-    "score": 88.0                    # Still a dynamic field key
-}]
-client.insert(collection_name="product_catalog", data=new_data)
-```
-
-</TabItem>
-
-<TabItem value='java'>
-
-```java
-import com.google.gson.*;
-import io.milvus.v2.service.vector.request.InsertReq;
-import io.milvus.v2.service.vector.response.InsertResp;
-
-Gson gson = new Gson();
-JsonObject row = new JsonObject();
-row.addProperty("id", 1);
-row.add("my_vector", gson.toJsonTree(new float[]{0.1f, 0.2f, ...}));
-row.addProperty("extra_info", "this is a dynamic field key");
-row.addProperty("score", 99.5);
-
-InsertResp insertR = client.insert(InsertReq.builder()
-        .collectionName("product_catalog")
-        .data(Collections.singletonList(row))
-        .build());
-        
-client.addCollectionField(AddCollectionFieldReq.builder()
-        .collectionName("product_catalog")
-        .fieldName("extra_info")
-        .dataType(DataType.Int64)
-        .isNullable(true)
-        .build());
-        
-JsonObject newRow = new JsonObject();
-newRow.addProperty("id", 2);
-newRow.add("my_vector", gson.toJsonTree(new float[]{0.3f, 0.4f, ...}));
-newRow.addProperty("extra_info", 100);
-newRow.addProperty("score", 88.0);
-
-insertR = client.insert(InsertReq.builder()
-        .collectionName("product_catalog")
-        .data(Collections.singletonList(newRow))
-        .build());
-```
-
-</TabItem>
-
-<TabItem value='javascript'>
-
-```javascript
-// Original collection with dynamic field enabled
-// Insert data with dynamic field keys
-const data = [{
-    "id": 1,
-    "my_vector": [0.1, 0.2, ...],
-    "extra_info": "this is a dynamic field key",  // Dynamic field key as string
-    "score": 99.5                                 // Another dynamic field key
-}]
-await client.insert({
-    collection_name: "product_catalog", 
-    data: data
-});
-
-// Add static field with same name as existing dynamic field key
-await client.add_collection_field({
-    collection_name: "product_catalog",
-    field_name: "extra_info",         // Same name as dynamic field key
-    data_type: DataType.INT64,        // Data type can differ from dynamic field key
-    nullable: true                   // Must be True for added fields
-});
-
-// Insert new data after adding static field
-const new_data = [{
-    "id": 2,
-    "my_vector": [0.3, 0.4, ...],
-    "extra_info": 100,               # Now must use INT64 type (static field)
-    "score": 88.0                    # Still a dynamic field key
-}];
-
-await client.insert({
-    collection_name:"product_catalog", 
-    data: new_data
-});
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-// go
-```
-
-</TabItem>
-
-<TabItem value='bash'>
-
-```bash
-# restful
-#!/bin/bash
-
-export MILVUS_HOST="YOUR_CLUSTER_ENDPOINT"
-export AUTH_TOKEN="your_token_here"
-export COLLECTION_NAME="product_catalog"
-
-echo "Step 1: Insert initial data with dynamic fields..."
-curl -X POST "http://${MILVUS_HOST}/v2/vectordb/entities/insert" \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer ${AUTH_TOKEN}" \
-  -H "Request-Timeout: 10" \
-  -d "{
-    \"collectionName\": \"${COLLECTION_NAME}\",
-    \"data\": [{
-      \"id\": 1,
-      \"my_vector\": [0.1, 0.2, 0.3, 0.4, 0.5],
-      \"extra_info\": \"this is a dynamic field key\",
-      \"score\": 99.5
-    }]
-  }"
-
-echo -e "\n\nStep 2: Add static field with same name as dynamic field..."
-curl -X POST "http://${MILVUS_HOST}/v2/vectordb/collections/fields/add" \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer ${AUTH_TOKEN}" \
-  -H "Request-Timeout: 10" \
-  -d "{
-    \"collectionName\": \"${COLLECTION_NAME}\",
-    \"schema\": {
-      \"fieldName\": \"extra_info\",
-      \"dataType\": \"Int64\",
-      \"nullable\": true
-    }
-  }"
-
-echo -e "\n\nStep 3: Insert new data after adding static field..."
-curl -X POST "http://${MILVUS_HOST}/v2/vectordb/entities/insert" \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer ${AUTH_TOKEN}" \
-  -H "Request-Timeout: 10" \
-  -d "{
-    \"collectionName\": \"${COLLECTION_NAME}\",
-    \"data\": [{
-      \"id\": 2,
-      \"my_vector\": [0.3, 0.4, 0.5, 0.6, 0.7],
-      \"extra_info\": 100,
-      \"score\": 88.0
-    }]
-  }"
-```
-
-</TabItem>
-</Tabs>
-
-Expected behavior:
-
-- **Existing entities** will have NULL for the new static field `extra_info`
-
-- **New entities** must use the static field's data type (`INT64`)
-
-- **Original dynamic field key values** are preserved and accessible via `$meta` syntax
-
-- **The static field masks the dynamic field key** in normal queries
-
-**Accessing both static and dynamic values:**
-
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
-<TabItem value='python'>
-
-```python
-# 1. Query static field only (dynamic field key is masked)
-results = client.query(
-    collection_name="product_catalog",
-    filter="id == 1",
-    output_fields=["extra_info"]
-)
-# Returns: {"id": 1, "extra_info": None}  # NULL for existing entity
-
-# 2. Query both static and original dynamic values
-results = client.query(
-    collection_name="product_catalog", 
-    filter="id == 1",
-    output_fields=["extra_info", "$meta['extra_info']"]
-)
-# Returns: {
-#     "id": 1,
-#     "extra_info": None,                           # Static field value (NULL)
-#     "$meta['extra_info']": "this is a dynamic field key"  # Original dynamic value
-# }
-
-# 3. Query new entity with static field value
-results = client.query(
-    collection_name="product_catalog",
-    filter="id == 2", 
-    output_fields=["extra_info"]
-)
-# Returns: {"id": 2, "extra_info": 100}  # Static field value
-```
-
-</TabItem>
-
-<TabItem value='java'>
-
-```java
-// java
-```
-
-</TabItem>
-
-<TabItem value='javascript'>
-
-```javascript
-// 1. Query static field only (dynamic field key is masked)
-let results = client.query({
-    collection_name: "product_catalog",
-    filter: "id == 1",
-    output_fields: ["extra_info"]
-})
-// Returns: {"id": 1, "extra_info": None}  # NULL for existing entity
-
-// 2. Query both static and original dynamic values
-results = client.query({
-    collection_name:"product_catalog", 
-    filter: "id == 1",
-    output_fields: ["extra_info", "$meta['extra_info']"]
-});
-// Returns: {
-//     "id": 1,
-//     "extra_info": None,                           # Static field value (NULL)
-//     "$meta['extra_info']": "this is a dynamic field key"  # Original dynamic value
-// }
-
-// 3. Query new entity with static field value
-results = client.query({
-    collection_name: "product_catalog",
-    filter: "id == 2", 
-    output_fields: ["extra_info"]
-})
-// Returns: {"id": 2, "extra_info": 100}  # Static field value
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-// go
-```
-
-</TabItem>
-
-<TabItem value='bash'>
-
-```bash
-# restful
-#!/bin/bash
-
-export MILVUS_HOST="YOUR_CLUSTER_ENDPOINT"
-export AUTH_TOKEN="your_token_here"
-export COLLECTION_NAME="product_catalog"
-
-echo "Query 1: Static field only (dynamic field masked)..."
-curl -X POST "http://${MILVUS_HOST}/v2/vectordb/entities/query" \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer ${AUTH_TOKEN}" \
-  -H "Request-Timeout: 10" \
-  -d "{
-    \"collectionName\": \"${COLLECTION_NAME}\",
-    \"filter\": \"id == 1\",
-    \"outputFields\": [\"extra_info\"]
-  }"
-
-echo -e "\n\nQuery 2: Both static and original dynamic values..."
-curl -X POST "http://${MILVUS_HOST}/v2/vectordb/entities/query" \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer ${AUTH_TOKEN}" \
-  -H "Request-Timeout: 10" \
-  -d "{
-    \"collectionName\": \"${COLLECTION_NAME}\",
-    \"filter\": \"id == 1\",
-    \"outputFields\": [\"extra_info\", \"\$meta['extra_info']\"]
-  }"
-
-echo -e "\n\nQuery 3: New entity with static field value..."
-curl -X POST "http://${MILVUS_HOST}/v2/vectordb/entities/query" \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer ${AUTH_TOKEN}" \
-  -H "Request-Timeout: 10" \
-  -d "{
-    \"collectionName\": \"${COLLECTION_NAME}\",
-    \"filter\": \"id == 2\",
-    \"outputFields\": [\"extra_info\"]
-  }"
-```
-
-</TabItem>
-</Tabs>
-
-### How long does it take for a new field to become available?\{#how-long-does-it-take-for-a-new-field-to-become-available}
-
-Added fields become available almost immediately, but there may be a brief delay due to internal schema change broadcasting across the Milvus cluster. This synchronization ensures all nodes are aware of the schema update before processing queries involving the new field.
-
+Storage space can be reclaimed later during compaction. Compaction is a background process that reorganizes existing data files into new, more compact files. After a field is dropped, newly compacted files follow the current schema and omit the dropped field. Zilliz Cloud does not guarantee an immediate or fixed-time storage-space reduction after a field is dropped.

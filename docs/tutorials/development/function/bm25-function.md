@@ -11,14 +11,6 @@ description: "The BM25 function enables full text search by transforming raw tex
 type: origin
 token: YbChwcPMBim5ryk1EQocEbDenDd
 sidebar_position: 2
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - function
-  - model
-  - inference
-  - bm25
 displayed_sidebar: default
 
 ---

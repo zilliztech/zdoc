@@ -11,15 +11,6 @@ description: "Zilliz Cloud allows you to integrate with Amazon Simple Storage Se
 type: origin
 token: PAViwMSb3iVMzuk56z3c1zfRnwh
 sidebar_position: 1
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - backup
-  - export
-  - integrate
-  - object
-  - storage
 displayed_sidebar: default
 
 ---

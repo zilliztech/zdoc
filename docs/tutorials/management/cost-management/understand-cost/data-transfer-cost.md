@@ -11,13 +11,6 @@ description: "Data transfer can be traffic coming into Zilliz Cloud, leaving Zil
 type: origin
 token: JNtPwA2dnioj5Fk7N1WcW5k9nMB
 sidebar_position: 6
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - data transfer
-  - cost
-  - billing
 displayed_sidebar: default
 
 ---
@@ -68,7 +61,7 @@ You will be billed for data transfer in the following scenarios:
 
 - Forwarding [audit logs](./audit-logs) to cloud object storage
 
-- [Offline migration](./undefined)
+- [Offline migration](./offline-migration)
 
 - [Cross-region backup](/docs/backup-to-other-regions)
 

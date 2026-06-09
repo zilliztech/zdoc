@@ -11,13 +11,6 @@ description: "This topic describes how to configure single sign-on (SSO) with Go
 type: origin
 token: OLAEwETZtitiNFkkA9JcE5YZnXf
 sidebar_position: 3
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - sso
-  - google
-  - workspace
 displayed_sidebar: default
 
 ---

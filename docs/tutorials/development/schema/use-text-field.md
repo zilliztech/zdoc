@@ -11,14 +11,6 @@ description: "In AI search applications, vector search helps you find semantical
 type: origin
 token: GBynwwkyBihIHukvJXfc76dMnth
 sidebar_position: 7
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - collection
-  - schema
-  - string field
-  - text field
 displayed_sidebar: default
 
 ---

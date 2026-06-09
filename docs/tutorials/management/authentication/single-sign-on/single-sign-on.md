@@ -11,11 +11,6 @@ description: "Single sign-on (SSO) is a feature that allows users to log in to m
 type: origin
 token: SXBNw91txiJhL6kq2ARcvYbRntg
 sidebar_position: 5
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - sso
 displayed_sidebar: default
 
 ---

@@ -11,13 +11,6 @@ description: "Prometheus is a monitoring system that collects metrics from confi
 type: origin
 token: Ex99woZlsico4FkfwxGckjRRnqf
 sidebar_position: 1
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - third-party
-  - services
-  - prometheus
 displayed_sidebar: default
 
 ---

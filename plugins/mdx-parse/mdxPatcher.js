@@ -11,6 +11,133 @@ const KNOWN_JSX_TAGS = new Set([
     'RestSpecs', 'Stories', 'Supademo',
 ]);
 
+function createFenceTracker() {
+    return {
+        inCodeBlock: false,
+        markerChar: null,
+        markerLength: 0,
+        update(line) {
+            if (!this.inCodeBlock) {
+                const open = line.match(/^[ \t]{0,3}(`{3,}|~{3,})(.*)$/);
+                if (!open) return false;
+                this.inCodeBlock = true;
+                this.markerChar = open[1][0];
+                this.markerLength = open[1].length;
+                return true;
+            }
+
+            const close = line.match(/^[ \t]{0,3}(`{3,}|~{3,})[ \t]*$/);
+            if (close && close[1][0] === this.markerChar && close[1].length >= this.markerLength) {
+                this.inCodeBlock = false;
+                this.markerChar = null;
+                this.markerLength = 0;
+                return true;
+            }
+
+            return false;
+        },
+    };
+}
+
+function getFencedCodeRanges(content) {
+    const ranges = [];
+    const tracker = createFenceTracker();
+    const lines = content.split('\n');
+    let offset = 0;
+    let start = null;
+
+    for (const line of lines) {
+        const before = tracker.inCodeBlock;
+        const changed = tracker.update(line);
+        const after = tracker.inCodeBlock;
+
+        if (changed && !before && after) {
+            start = offset;
+        } else if (changed && before && !after && start !== null) {
+            ranges.push({ start, end: offset + line.length });
+            start = null;
+        }
+
+        offset += line.length + 1;
+    }
+
+    return ranges;
+}
+
+function selectCodeFence(content, markerChar = '`') {
+    const escaped = markerChar === '`' ? '`' : '\\~';
+    const regex = new RegExp(`${escaped}{3,}`, 'g');
+    let maxLength = 2;
+    let match;
+
+    while ((match = regex.exec(content)) !== null) {
+        maxLength = Math.max(maxLength, match[0].length);
+    }
+
+    return markerChar.repeat(Math.max(3, maxLength + 1));
+}
+
+function createFencedCodeBlock(content, lang = '', indent = 0) {
+    const normalized = String(content ?? '').replace(/^\n|\n$/g, '');
+    const fence = selectCodeFence(normalized, '`');
+    const pad = ' '.repeat(indent);
+    const body = normalized
+        .split('\n')
+        .map(line => pad + line)
+        .join('\n');
+
+    return `${pad}${fence}${lang || ''}\n${body}\n${pad}${fence}\n`;
+}
+
+/**
+ * Prompt docs sometimes store an entire prompt in a plaintext code block, and the
+ * prompt itself contains Markdown examples with ``` fences. A three-backtick
+ * outer fence is then closed by the first inner example, leaving Python f-strings
+ * such as {i} as live MDX expressions. For these generated prompt blocks, widen
+ * the outer fence so inner three-backtick fences remain literal code content.
+ */
+function normalizeNestedPlaintextFences(content) {
+    const lines = content.split('\n');
+    let changed = false;
+
+    for (let i = 0; i < lines.length; i++) {
+        const open = lines[i].match(/^([ \t]{0,3})(`{3,}|~{3,})([ \t]*)([A-Za-z0-9_-]+)[ \t]*$/);
+        if (!open) continue;
+
+        const info = open[4].toLowerCase();
+        if (info !== 'plaintext' && info !== 'text') continue;
+
+        const markerChar = open[2][0];
+        const closingIndexes = [];
+        let lastNonEmpty = i;
+
+        for (let j = i + 1; j < lines.length; j++) {
+            if (lines[j].trim() !== '') lastNonEmpty = j;
+            const close = lines[j].match(/^[ \t]{0,3}(`{3,}|~{3,})[ \t]*$/);
+            if (close && close[1][0] === markerChar && close[1].length >= open[2].length) {
+                closingIndexes.push(j);
+            }
+        }
+
+        if (closingIndexes.length < 2) continue;
+
+        const closeIndex = closingIndexes[closingIndexes.length - 1];
+        // Conservative: only auto-widen generated prompt blocks that close at EOF.
+        if (closeIndex !== lastNonEmpty) continue;
+
+        const nestedContent = lines.slice(i + 1, closeIndex).join('\n');
+        const widened = selectCodeFence(nestedContent, markerChar);
+        if (widened.length <= open[2].length) continue;
+
+        lines[i] = `${open[1]}${widened}${open[3]}${open[4]}`;
+        lines[closeIndex] = `${open[1]}${widened}`;
+        changed = true;
+        i = closeIndex;
+    }
+
+    return changed ? lines.join('\n') : content;
+}
+
 /**
  * Pre-processing: remove hallucinated prose inserted between </TabItem> and the
  * next <TabItem> or </Tabs>. LLMs sometimes fabricate content in those gaps,
@@ -22,16 +149,13 @@ function removeTabsHallucinations(content) {
     const result = [];
     let tabsDepth = 0;
     let afterTabItemClose = false;
-    let inCodeBlock = false;
+    const fence = createFenceTracker();
 
     for (const line of lines) {
         const trimmed = line.trim();
+        fence.update(line);
 
-        if (trimmed.startsWith('```') || trimmed.startsWith('~~~')) {
-            inCodeBlock = !inCodeBlock;
-        }
-
-        if (!inCodeBlock) {
+        if (!fence.inCodeBlock) {
             if (/^<Tabs[\s>]/.test(trimmed)) tabsDepth++;
             if (/^<\/Tabs>/.test(trimmed)) tabsDepth = Math.max(0, tabsDepth - 1);
 
@@ -81,16 +205,13 @@ function unescapeKnownJsxTags(content) {
  */
 function escapeCurrencyDollars(content) {
     const lines = content.split('\n');
-    let inCodeBlock = false;
+    const fence = createFenceTracker();
     const result = [];
 
     for (let line of lines) {
-        const stripped = line.trim();
-        if (stripped.startsWith('```') || stripped.startsWith('~~~')) {
-            inCodeBlock = !inCodeBlock;
-        }
+        fence.update(line);
 
-        if (!inCodeBlock) {
+        if (!fence.inCodeBlock) {
             // Split by inline code spans; odd-indexed segments are inside backticks
             const parts = line.split(/(`+[^`]+`+)/);
             line = parts.map((part, i) => {
@@ -120,18 +241,16 @@ function escapeCurrencyDollars(content) {
 function escapeMathBraces(content) {
     const lines = content.split('\n');
     const result = [];
-    let inCodeBlock = false;
+    const fence = createFenceTracker();
     let inDisplayMath = false;
 
     for (let line of lines) {
         const stripped = line.trim();
 
         // Track fenced code blocks
-        if (stripped.startsWith('```') || stripped.startsWith('~~~')) {
-            inCodeBlock = !inCodeBlock;
-        }
+        fence.update(line);
 
-        if (inCodeBlock) {
+        if (fence.inCodeBlock) {
             result.push(line);
             continue;
         }
@@ -232,16 +351,13 @@ function escapeNonHtmlTags(content) {
     }
 
     const lines = content.split('\n');
-    let inCodeBlock = false;
+    const fence = createFenceTracker();
     const result = [];
 
     for (let line of lines) {
-        const stripped = line.trim();
-        if (stripped.startsWith('```') || stripped.startsWith('~~~')) {
-            inCodeBlock = !inCodeBlock;
-        }
+        fence.update(line);
 
-        if (!inCodeBlock) {
+        if (!fence.inCodeBlock) {
             // Split by inline code spans; odd-indexed segments are inside backticks
             const parts = line.split(/(`+[^`]+`+)/);
             line = parts.map((part, i) => {
@@ -308,16 +424,13 @@ function escapeHtmlElementBraces(content) {
     const JSX_COMPONENT_PATTERN = /<[A-Z][A-Za-z0-9]*\b/;
 
     const lines = content.split('\n');
-    let inCodeBlock = false;
+    const fence = createFenceTracker();
     const result = [];
 
     for (let line of lines) {
-        const stripped = line.trim();
-        if (stripped.startsWith('```') || stripped.startsWith('~~~')) {
-            inCodeBlock = !inCodeBlock;
-        }
+        fence.update(line);
 
-        if (!inCodeBlock) {
+        if (!fence.inCodeBlock) {
             // Split by inline code spans; odd-indexed segments are inside backticks
             const codeParts = line.split(/(`+[^`]+`+)/);
             line = codeParts.map((part, i) => {
@@ -363,6 +476,11 @@ function escapeHtmlElementBraces(content) {
 function validateMdxStructure(content) {
     const errors = [];
 
+    // Check 0: generated prompt blocks with nested ``` fences need a wider outer fence.
+    if (normalizeNestedPlaintextFences(content) !== content) {
+        errors.push('nested code fences found inside a plaintext prompt fence');
+    }
+
     // Check 1: prose between TabItems
     if (removeTabsHallucinations(content) !== content) {
         errors.push('prose found between </TabItem> and next <TabItem>/<\\/Tabs> (LLM hallucination)');
@@ -382,15 +500,14 @@ function validateMdxStructure(content) {
 
     // Check 4: tag balance for <Tabs> and <TabItem> (outside code blocks)
     const lines = content.split('\n');
-    let inCodeBlock = false;
+    const fence = createFenceTracker();
     const delta = { Tabs: 0, TabItem: 0 };
     for (const line of lines) {
         const trimmed = line.trim();
-        if (trimmed.startsWith('```') || trimmed.startsWith('~~~')) {
-            inCodeBlock = !inCodeBlock;
+        fence.update(line);
+        if (fence.inCodeBlock) {
             continue;
         }
-        if (inCodeBlock) continue;
         for (const tag of ['Tabs', 'TabItem']) {
             const opens = (trimmed.match(new RegExp(`<${tag}[\\s>/]`, 'g')) || []).length;
             const closes = (trimmed.match(new RegExp(`<\\/${tag}>`, 'g')) || []).length;
@@ -413,7 +530,8 @@ async function applyMdxPatches(content) {
         const remarkMath = (await import('remark-math')).default;
 
         // Pre-process: fix hallucination patterns, then escape problem characters
-        let patchedContent = removeTabsHallucinations(content);
+        let patchedContent = normalizeNestedPlaintextFences(content);
+        patchedContent = removeTabsHallucinations(patchedContent);
         patchedContent = unescapeKnownJsxTags(patchedContent);
         patchedContent = escapeCurrencyDollars(patchedContent);
         patchedContent = escapeNonHtmlTags(patchedContent);
@@ -573,6 +691,11 @@ async function applyMdxPatches(content) {
 module.exports = {
     applyMdxPatches,
     validateMdxStructure,
+    normalizeNestedPlaintextFences,
+    createFenceTracker,
+    getFencedCodeRanges,
+    createFencedCodeBlock,
+    selectCodeFence,
     removeTabsHallucinations,
     unescapeKnownJsxTags,
     escapeMathBraces,

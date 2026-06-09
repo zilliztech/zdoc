@@ -11,14 +11,6 @@ description: "This page explains how to monitor the health, replication status, 
 type: origin
 token: ZQqowpu4Oi0xIPkyRSTconB6nnb
 sidebar_position: 6
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - milvus
-  - global cluster
-  - monitoring
-  - metrics
 displayed_sidebar: default
 
 ---

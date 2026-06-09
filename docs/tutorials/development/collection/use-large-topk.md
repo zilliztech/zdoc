@@ -11,12 +11,6 @@ description: "A Zilliz Cloud collection allows you to retrieve up to 16,384 enti
 type: origin
 token: RH6MwFlaCig6LRkR6Qec206OnUc
 sidebar_position: 7
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - collection
-  - large TopK
 displayed_sidebar: default
 
 ---

@@ -11,16 +11,6 @@ description: "A Zilliz Cloud global cluster supports two operations that change 
 type: origin
 token: D7F1wYcfVinn92kK0l5cTZDLnLf
 sidebar_position: 4
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - milvus
-  - global cluster
-  - switchover
-  - failover
-  - disaster recovery
-  - high availability
 displayed_sidebar: default
 
 ---

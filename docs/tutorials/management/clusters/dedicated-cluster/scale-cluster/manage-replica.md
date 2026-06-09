@@ -11,12 +11,6 @@ description: "Zilliz Cloud supports cluster-level replication. Each replica is a
 type: origin
 token: W8Mhwa4faiQqtRkH4t9cdexCnlf
 sidebar_position: 2
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - cluster
-  - manage
 displayed_sidebar: default
 
 ---

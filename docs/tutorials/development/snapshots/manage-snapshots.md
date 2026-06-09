@@ -2,7 +2,7 @@
 title: "Manage Snapshots | Cloud"
 slug: /manage-snapshots
 sidebar_label: "Manage Snapshots"
-beta: PRIVATE
+beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
@@ -11,13 +11,6 @@ description: "In this guide, you will learn how to create and manage snapshots, 
 type: origin
 token: J0jDwYQb8il1biknRo4cazHPn5d
 sidebar_position: 1
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - snapshot
-  - restore
-  - backup
 displayed_sidebar: default
 
 ---

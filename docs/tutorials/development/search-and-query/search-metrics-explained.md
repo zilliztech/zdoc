@@ -11,18 +11,6 @@ description: "Similarity metrics are used to measure similarities among vectors.
 type: origin
 token: EOxmwUDxMiy2cpkOfIsc1dYzn4c
 sidebar_position: 23
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - collection
-  - data
-  - search metrics
-  - metric types
-  - L2
-  - IP
-  - COSINE
-  - Jaccard
 displayed_sidebar: default
 
 ---

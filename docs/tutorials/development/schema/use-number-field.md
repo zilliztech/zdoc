@@ -11,16 +11,6 @@ description: "A boolean or number field is a scalar field that stores boolean or
 type: origin
 token: EwArwXCOPip15hkSvvpciAMJnSe
 sidebar_position: 8
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - collection
-  - schema
-  - number field
-  - int
-  - integer
-  - float
 displayed_sidebar: default
 
 ---
@@ -312,7 +302,7 @@ export schema="{
 
 Indexing helps improve search and query performance. In Zilliz Cloud clusters, indexing is mandatory for vector fields but optional for scalar fields.
 
-The following example creates indexes on the vector field `embedding` and the scalar field `age`, both using the `AUTOINDEX` index type. With this type, Milvus automatically selects the most suitable index based on the data type.For details, refer to [AUTOINDEX Explained](./undefined).
+The following example creates indexes on the vector field `embedding` and the scalar field `age`, both using the `AUTOINDEX` index type. With this type, Milvus automatically selects the most suitable index based on the data type.For details, refer to [AUTOINDEX Explained](./autoindex-explained).
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>

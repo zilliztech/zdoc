@@ -11,12 +11,6 @@ description: "This page introduces how to import the prepared data on the Zilliz
 type: origin
 token: KkdswLx2bi4bgCkY6bEc7Do9neh
 sidebar_position: 1
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - data import
-  - console
 displayed_sidebar: default
 
 ---

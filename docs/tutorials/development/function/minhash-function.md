@@ -2,7 +2,7 @@
 title: "MinHash Function | Cloud"
 slug: /minhash-function
 sidebar_label: "MinHash Function"
-beta: PRIVATE
+beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
@@ -10,17 +10,7 @@ notebook: FALSE
 description: "The MinHash function converts raw text into binary vectors that approximate Jaccard similarity between documents. It applies text shingling and multiple hash functions to produce fixed-length signature vectors, enabling fast near-duplicate detection and document deduplication at scale. | Cloud"
 type: origin
 token: EAwdw2ZbtiBKttk66FTctUebn7f
-sidebar_position: 5
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - function
-  - model
-  - inference
-  - text
-  - minhash lsh
-  - minhash function
+sidebar_position: 4
 displayed_sidebar: default
 
 ---

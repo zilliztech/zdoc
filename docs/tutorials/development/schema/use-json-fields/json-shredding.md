@@ -11,14 +11,6 @@ description: "JSON shredding accelerates JSON queries by converting traditional 
 type: origin
 token: Dh8MwFuZliYf9Wkhee3c1FhUnGd
 sidebar_position: 3
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - collection
-  - schema
-  - json field
-  - json shredding
 displayed_sidebar: default
 
 ---

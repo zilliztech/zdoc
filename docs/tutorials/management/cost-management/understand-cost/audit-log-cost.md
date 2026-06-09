@@ -11,13 +11,6 @@ description: "When you enable audit logs, Zilliz Cloud deploys a logging service
 type: origin
 token: ZuWZwz63QiQi2kkuNk6czyVdn2g
 sidebar_position: 7
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - audit log
-  - cost
-  - billing
 displayed_sidebar: default
 
 ---

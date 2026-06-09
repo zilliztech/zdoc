@@ -11,13 +11,6 @@ description: "Cross-region backup in Zilliz Cloud enhances data protection by co
 type: origin
 token: ESVGwTkn8iLfUakSSrkc5dWJnye
 sidebar_position: 3
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - backup
-  - files
-  - view
 displayed_sidebar: default
 
 ---

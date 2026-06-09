@@ -11,12 +11,6 @@ description: "In Zilliz Cloud, a query CU is a set of hardware resources used to
 type: origin
 token: YlCuwjS4wikG71k3NGVcMlBWnnv
 sidebar_position: 4
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - cluster
-  - manage
 displayed_sidebar: default
 
 ---

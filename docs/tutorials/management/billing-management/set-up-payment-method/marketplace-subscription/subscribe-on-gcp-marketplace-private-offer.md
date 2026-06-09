@@ -11,13 +11,6 @@ description: "A private offer on Google Cloud Marketplace is a custom purchasing
 type: origin
 token: WNZhw0KCDioSi5kR5ACcgBwNn7f
 sidebar_position: 5
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - marketplace
-  - google cloud
-  - public offer
 displayed_sidebar: default
 
 ---

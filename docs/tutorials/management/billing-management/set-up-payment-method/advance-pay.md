@@ -11,11 +11,6 @@ description: "Zilliz Cloud accepts advance pay (bank transfer) as the payment me
 type: origin
 token: CueVwdABAiX6fCkBKlrcFr0TnJh
 sidebar_position: 3
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - advance pay
 displayed_sidebar: default
 
 ---

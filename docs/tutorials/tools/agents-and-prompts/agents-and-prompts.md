@@ -11,15 +11,6 @@ description: "The Zilliz Cloud Agents and Prompts ecosystem provides AI-powered 
 type: origin
 token: GEw3wMvvti0FoNk4194c4GHBn8d
 sidebar_position: 1
-keywords: 
-  - zilliz
-  - vector database
-  - ai-agents
-  - decision matrix
-  - skill
-  - plugin
-  - mcp
-  - prompts
 displayed_sidebar: default
 
 ---

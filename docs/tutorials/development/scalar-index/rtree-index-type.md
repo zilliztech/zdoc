@@ -11,13 +11,6 @@ description: "The `RTREE` index is a tree-based data structure that accelerates 
 type: origin
 token: RlY2wylVQiZswikT0G2cBHVznTf
 sidebar_position: 4
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - scalar field
-  - geometry
-  - rtree
 displayed_sidebar: default
 
 ---

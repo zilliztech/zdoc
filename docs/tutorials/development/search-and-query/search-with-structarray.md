@@ -10,17 +10,7 @@ notebook: FALSE
 description: "Use this page when you already have a collection that contains a StructArray field and want to search the vector sub-fields inside each Struct element. | Cloud"
 type: origin
 token: DGCFwPHDqijeJJklqTScLwUunrh
-sidebar_position: 15
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - collection
-  - data
-  - filter
-  - filtering expressions
-  - filtering
-  - search with structarray
+sidebar_position: 16
 displayed_sidebar: default
 
 ---

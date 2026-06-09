@@ -11,14 +11,6 @@ description: "Information Retrieval systems, also known as search engines, are e
 type: origin
 token: PV2bwNENViEjXWkOgzZcXoKHnce
 sidebar_position: 1
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - collection
-  - schema
-  - schema design
-  - hands-on
 displayed_sidebar: default
 
 ---

@@ -11,13 +11,6 @@ description: "By default, after Single Sign-on (SSO) is configured for an organi
 type: origin
 token: MvE5wUlFli3gJOk0MkeclZCqnib
 sidebar_position: 6
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - sso
-  - enforcement
-  - idp
 displayed_sidebar: default
 
 ---

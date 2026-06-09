@@ -10,18 +10,7 @@ notebook: FALSE
 description: "The Highlighter in Zilliz Cloud annotates matched terms in text fields by wrapping them with customizable tags. Highlighting helps explain why a document matches, improves result readability, and supports rich rendering in search and RAG applications. | Cloud"
 type: origin
 token: BJCjwpj8JizP0nkI11uci1pPndh
-sidebar_position: 12
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - collection
-  - data
-  - filter
-  - filtering expressions
-  - filtering
-  - text-match
-  - lexical
+sidebar_position: 13
 displayed_sidebar: default
 
 ---

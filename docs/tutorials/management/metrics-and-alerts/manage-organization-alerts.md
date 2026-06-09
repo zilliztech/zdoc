@@ -11,12 +11,6 @@ description: "Organization alerts monitor billing and account-related metrics ac
 type: origin
 token: UPg7wiU71ioeELk8I8KcLDYqncb
 sidebar_position: 3
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - organization
-  - alerts
 displayed_sidebar: default
 
 ---

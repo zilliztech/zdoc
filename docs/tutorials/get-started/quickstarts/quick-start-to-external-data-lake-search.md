@@ -2,7 +2,7 @@
 title: "Quickstart to External Data Lake Search | Cloud"
 slug: /quick-start-to-external-data-lake-search
 sidebar_label: "Quickstart to External Data Lake Search"
-beta: PUBLIC
+beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
@@ -11,13 +11,6 @@ description: "External data lake search lets you search massive datasets with ze
 type: origin
 token: KdwFwQnDNisT4skHH6Hc16uInji
 sidebar_position: 4
-keywords: 
-  - zilliz
-  - vector database
-  - quickstart
-  - cloud
-  - milvus
-  - on-demand search
 displayed_sidebar: default
 
 ---

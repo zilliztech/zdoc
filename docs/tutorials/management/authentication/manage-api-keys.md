@@ -11,12 +11,6 @@ description: "API keys are used to authenticate users or applications making API
 type: origin
 token: BRsZwqOUTiBbrPk9b5WcvFgTnze
 sidebar_position: 2
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - cluster credentials
-  - api key
 displayed_sidebar: default
 
 ---

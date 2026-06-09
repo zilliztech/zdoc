@@ -11,11 +11,6 @@ description: "A database is a logical container for collections within a project
 type: origin
 token: B7SFwbn76iUM06kkYzBcffE8nYf
 sidebar_position: 1
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - database
 displayed_sidebar: default
 
 ---
@@ -86,7 +81,7 @@ This type of databases support the following operations:
    </tr>
    <tr>
      <td><p>Import</p></td>
-     <td><p>Yes</p><p>(Import is only supported for managed collections in on-demand compute databases. For details, see External Collection Limits.)</p></td>
+     <td><p>Yes</p><p>(Import is only supported for managed collections in on-demand compute databases. For details, see <a href="./external-collection-limits">External Collection Limits</a>.)</p></td>
    </tr>
    <tr>
      <td><p>Insert, upsert, delete</p></td>

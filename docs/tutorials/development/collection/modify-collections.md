@@ -11,12 +11,6 @@ description: "You can rename a collection or change its settings. This page focu
 type: origin
 token: WMh8w3tbKiBhukk3ICMc4ctznEg
 sidebar_position: 5
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - collection
-  - modify collections
 displayed_sidebar: default
 
 ---

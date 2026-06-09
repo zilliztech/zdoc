@@ -11,14 +11,6 @@ description: "You can drop a collection if it is no longer needed. | Cloud"
 type: origin
 token: DEUuwEwM4iMLOikU7XpcpNnKnGd
 sidebar_position: 12
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - collection
-  - drop
-  - drop by filter
-  - drop by id
 displayed_sidebar: default
 
 ---

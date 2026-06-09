@@ -11,13 +11,6 @@ description: "Serverless clusters in Zilliz Cloud use a pay-per-operation model,
 type: origin
 token: Pdwcwv1lMicTR2kwwrickJmInNf
 sidebar_position: 3
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - serverless
-  - cost
-  - billing
 displayed_sidebar: default
 
 ---

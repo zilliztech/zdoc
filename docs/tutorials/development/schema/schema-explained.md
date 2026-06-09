@@ -11,12 +11,6 @@ description: "A schema defines the data structure of a collection. Before creati
 type: origin
 token: Vs4YwNnvzitoQ8kunlGcWMJInbf
 sidebar_position: 1
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - collection
-  - schema explained
 displayed_sidebar: default
 
 ---

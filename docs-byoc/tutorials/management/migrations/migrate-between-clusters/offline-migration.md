@@ -1,0 +1,136 @@
+---
+title: "Offline Migration | BYOC"
+slug: /offline-migration
+sidebar_label: "Offline Migration"
+beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
+notebook: FALSE
+description: "Offline Migration transfers all existing data from a source Zilliz Cloud cluster to a target Zilliz Cloud cluster. This method supports migrations both within the same organization and across different organizations. It is ideal for scenarios where temporary write interruptions are acceptable, such as during planned maintenance or smaller-scale database transitions. | BYOC"
+type: origin
+token: MTqjwwUKhiyns4kGV7Lc7PRlnwb
+sidebar_position: 1
+displayed_sidebar: default
+
+---
+
+import Admonition from '@theme/Admonition';
+
+
+import Supademo from '@site/src/components/Supademo';
+
+# Offline Migration
+
+Offline Migration transfers all existing data from a source Zilliz Cloud cluster to a target Zilliz Cloud cluster. This method supports migrations both within the same organization and across different organizations. It is ideal for scenarios where temporary write interruptions are acceptable, such as during planned maintenance or smaller-scale database transitions.
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>If your application keeps writing to the source cluster during cutover, the target cluster might miss new entities, especially entities inserted after the migration job completes. To keep the target data complete, schedule a cutover window, pause writes to the source cluster, wait for the migration job to complete, validate the target cluster, and then resume writes on the target cluster only.</p>
+
+</Admonition>
+
+## Migration capabilities\{#migration-capabilities}
+
+### Migration scope options\{#migration-scope-options}
+
+<table>
+   <tr>
+     <th><p>Migration Type</p></th>
+     <th><p>Description</p></th>
+     <th><p>Use Cases</p></th>
+   </tr>
+   <tr>
+     <td><p>Within same project</p></td>
+     <td><p>Migrate between existing clusters in the same Zilliz Cloud project</p></td>
+     <td><p>Cluster upgrades, performance optimization, data consolidation</p></td>
+   </tr>
+   <tr>
+     <td><p>Cross-project or organization</p></td>
+     <td><p>Migrate between existing clusters in different Zilliz Cloud projects or organizations</p></td>
+     <td><p>Company mergers, department transfers, multi-tenant scenarios</p></td>
+   </tr>
+</table>
+
+### Direct data transfer\{#direct-data-transfer}
+
+Offline migration performs direct data replication between Zilliz Cloud clusters with the following characteristics:
+
+- **Schema preservation**: Source schema transferred unchanged to target cluster
+
+- **No field modifications**: Cannot rename fields, change data types, or modify field attributes during migration
+
+- **Automatic indexing**: AUTOINDEX automatically created for vector fields in target cluster
+
+- **One-time data copy**: Offline Migration copies data from the source cluster during the migration job. It does not keep the target cluster synchronized with new writes after the migration job completes.
+
+## Prerequisites\{#prerequisites}
+
+Before starting your offline migration, ensure you meet these requirements:
+
+### General requirements\{#general-requirements}
+
+<table>
+   <tr>
+     <th><p>Requirement</p></th>
+     <th><p>Details</p></th>
+   </tr>
+   <tr>
+     <td><p>User permissions</p></td>
+     <td><p>Organization Owner or Project Admin role</p></td>
+   </tr>
+   <tr>
+     <td><p>Source cluster access</p></td>
+     <td><p>Source cluster must be accessible from the public internet</p></td>
+   </tr>
+   <tr>
+     <td><p>Target cluster capacity</p></td>
+     <td><p>Sufficient CU size to accommodate source data (use the <a href="https://zilliz.com/pricing#calculator">CU calculator</a>)</p></td>
+   </tr>
+</table>
+
+### Cross-project or organization migration requirements\{#cross-project-or-organization-migration-requirements}
+
+<table>
+   <tr>
+     <th><p>Requirement</p></th>
+     <th><p>Details</p></th>
+   </tr>
+   <tr>
+     <td><p>Connection credentials</p></td>
+     <td><p>Public endpoint, API key, or cluster username and password for source cluster</p></td>
+   </tr>
+   <tr>
+     <td><p>Network access</p></td>
+     <td><p>Ability to connect to source cluster from target organization</p></td>
+   </tr>
+</table>
+
+### Plan the cutover\{#plan-the-cutover}
+
+Before starting an offline migration, choose a cutover window when your application can temporarily stop writing to the source cluster. Use the following process to avoid missing data:
+
+1. Pause writes to the source cluster before the final migration and validation window.
+
+1. Run the migration job and wait until the job status changes to **Successful**.
+
+1. Validate the data in the target cluster, such as by checking the number of entities and sampling recently inserted entities.
+
+1. Switch application reads and writes to the target cluster.
+
+1. Resume writes only on the target cluster.
+
+Keep the source cluster available until you confirm that the migrated data is complete.
+
+## Getting started\{#getting-started}
+
+The following demo walks you through the complete offline migration process:
+
+<Supademo id="cmb91ow5v0me4sn1rzlbzqi8x" title=""  />
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>The migrated collections are not immediately available for search or query operations. You must manually load the collections in Zilliz Cloud to enable search and query functionalities. For details, refer to <a href="./load-release-collections">Load & Release</a>.</p>
+
+</Admonition>
+

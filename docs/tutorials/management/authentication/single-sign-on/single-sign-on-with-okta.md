@@ -11,12 +11,6 @@ description: "This topic describes how to configure single sign-on (SSO) with Ok
 type: origin
 token: QUC4wfVYTi73ctkMzEec17oVnjh
 sidebar_position: 2
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - sso
-  - okta
 displayed_sidebar: default
 
 ---

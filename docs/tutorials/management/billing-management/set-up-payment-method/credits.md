@@ -11,13 +11,6 @@ description: "Credits can be used to cover Zilliz Cloud usage charges. You may r
 type: origin
 token: XDs8wYvLEi1Bz5kyGxVckBMInxc
 sidebar_position: 1
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - payment
-  - billing
-  - credits
 displayed_sidebar: default
 
 ---

@@ -11,13 +11,6 @@ description: "As a distributed vector database, Zilliz Cloud offers multiple lev
 type: origin
 token: Xx9EwWtekinLZfkWKqic37dDnFb
 sidebar_position: 22
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - collection
-  - data
-  - consistency level
 displayed_sidebar: default
 
 ---

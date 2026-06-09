@@ -11,14 +11,6 @@ description: "Zilliz Cloud provides a unified search architecture for building m
 type: origin
 token: V7xfwDariioU5GkcmfXctzSEnyc
 sidebar_position: 1
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - function
-  - model
-  - inference
-  - overview
 displayed_sidebar: default
 
 ---

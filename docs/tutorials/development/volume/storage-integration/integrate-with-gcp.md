@@ -11,15 +11,6 @@ description: "Zilliz Cloud allows you to integrate with Google Cloud Storage to 
 type: origin
 token: INoRwFTjfiindPkaNlwc9XAgnkh
 sidebar_position: 2
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - third-party
-  - services
-  - google
-  - cloud
-  - storage
 displayed_sidebar: default
 
 ---

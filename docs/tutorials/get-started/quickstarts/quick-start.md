@@ -11,13 +11,6 @@ description: "A serving cluster is a self-contained server that combines both co
 type: origin
 token: B1XTwQgNRizAMTkZQvrclGSonyc
 sidebar_position: 2
-keywords: 
-  - zilliz
-  - vector database
-  - quickstart
-  - cloud
-  - milvus
-  - real-time serving
 displayed_sidebar: default
 
 ---

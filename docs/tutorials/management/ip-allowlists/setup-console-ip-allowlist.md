@@ -11,12 +11,6 @@ description: "By default, your organization’s web console is accessible from a
 type: origin
 token: E1BCwXVouiDrtpkWp5ecvdXHnAb
 sidebar_position: 1
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - network
-  - security
 displayed_sidebar: default
 
 ---

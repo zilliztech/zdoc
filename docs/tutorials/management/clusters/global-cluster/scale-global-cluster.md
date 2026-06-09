@@ -11,15 +11,6 @@ description: "Scaling a global cluster works differently from scaling a regular 
 type: origin
 token: G6xpwyghRitwbqkwl86cpb3Gn2g
 sidebar_position: 5
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - milvus
-  - global cluster
-  - scaling
-  - query CU
-  - replica
 displayed_sidebar: default
 
 ---

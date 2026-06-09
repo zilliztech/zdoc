@@ -11,15 +11,6 @@ description: "This guide helps you select and configure the most suitable analyz
 type: origin
 token: Pulhw06e5iXJTFkidFXcGbylnod
 sidebar_position: 6
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - collection
-  - schema
-  - analyzer
-  - best
-  - practice
 displayed_sidebar: default
 
 ---

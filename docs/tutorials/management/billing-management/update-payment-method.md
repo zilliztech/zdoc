@@ -11,13 +11,6 @@ description: "You can update your payment method when your organization needs to
 type: origin
 token: JUFpwiSk2iY661kIXiscZXyznAf
 sidebar_position: 3
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - payment
-  - billing
-  - update
 displayed_sidebar: default
 
 ---

@@ -11,13 +11,6 @@ description: "Dense vectors are numerical data representations widely used in ma
 type: origin
 token: ARalwpaVDiCwDZkoSHtcPNgXnRg
 sidebar_position: 3
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - collection
-  - schema
-  - dense vector
 displayed_sidebar: default
 
 ---

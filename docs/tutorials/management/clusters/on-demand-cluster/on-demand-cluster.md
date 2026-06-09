@@ -2,7 +2,7 @@
 title: "Cluster | Cloud"
 slug: /on-demand-cluster
 sidebar_label: "Cluster"
-beta: PUBLIC
+beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
@@ -11,12 +11,6 @@ description: "A cluster is a set of compute resources that runs your vector data
 type: origin
 token: XFoiwC15Jiu5LAkUeuVcvbconDR
 sidebar_position: 1
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - on-demand compute
-  - cluster
 displayed_sidebar: default
 
 ---

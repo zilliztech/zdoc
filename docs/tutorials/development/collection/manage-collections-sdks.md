@@ -11,12 +11,6 @@ description: "You can create a collection by defining its schema, index paramete
 type: origin
 token: EmcowmwYpiFbWgkmnqfcMf3knVc
 sidebar_position: 2
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - collection
-  - create collections
 displayed_sidebar: default
 
 ---
@@ -32,7 +26,7 @@ You can create a collection by defining its schema, index parameters, metric typ
 <Admonition type="info" icon="📘" title="Notes">
 
 <p>If you need strong data isolation and manage only a small number of tenants, you can create a separate collection for each tenant.</p>
-<p>However, you can only create a maximum of 16,384 collections depending on your <a href="./limits">project plan and cluster deployment option</a>. Therefore, for large-scale multi-tenancy, consider using alternative strategies such as partition-based or partition-key-based multi-tenancy, depending on your use case. For details, see <a href="./undefined">Implement Multi-tenancy</a>.</p>
+<p>However, you can only create a maximum of 16,384 collections depending on your <a href="./limits">project plan and cluster deployment option</a>. Therefore, for large-scale multi-tenancy, consider using alternative strategies such as partition-based or partition-key-based multi-tenancy, depending on your use case. For details, see <a href="./multi-tenancy">Implement Multi-tenancy</a>.</p>
 
 </Admonition>
 
@@ -477,7 +471,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-You can also create a collection without any index parameters and add them afterward. In this case, Zilliz Cloud does not load the collection upon its creation. For details on how to create indexes for an existing collection, refer to [AUTOINDEX Explained](./undefined).
+You can also create a collection without any index parameters and add them afterward. In this case, Zilliz Cloud does not load the collection upon its creation. For details on how to create indexes for an existing collection, refer to [AUTOINDEX Explained](./autoindex-explained).
 
 The following code snippet demonstrates how to create a collection without an index, and the load status of the collection remains unloaded upon creation.
 

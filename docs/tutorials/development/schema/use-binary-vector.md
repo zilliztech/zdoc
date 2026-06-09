@@ -11,13 +11,6 @@ description: "Binary vectors are a special form of data representation that conv
 type: origin
 token: NTwawtvYdiXTkukbss7ccw2RnXc
 sidebar_position: 4
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - collection
-  - schema
-  - binary vector
 displayed_sidebar: default
 
 ---

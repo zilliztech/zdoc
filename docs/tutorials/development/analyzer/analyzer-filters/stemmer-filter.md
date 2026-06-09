@@ -11,15 +11,6 @@ description: "The `stemmer` filter reduces words to their base or root form (kno
 type: origin
 token: JksSwTwJPidjsnk18Olc2TjWnZe
 sidebar_position: 9
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - collection
-  - schema
-  - analyzer
-  - built-in filters
-  - stemmer
 displayed_sidebar: default
 
 ---

@@ -11,16 +11,6 @@ description: "This topic describes how to configure and use Cohere embedding fun
 type: origin
 token: WVaVw8J7UiYZ52kaqVUcktqAnAf
 sidebar_position: 4
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - function
-  - model
-  - inference
-  - text
-  - embedding
-  - cohere
 displayed_sidebar: default
 
 ---

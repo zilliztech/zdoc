@@ -11,16 +11,6 @@ description: "In Zilliz Cloud, complex filter expressions with numerous elements
 type: origin
 token: TumJwDYrhiDYcUkKsUIcuSnbnCf
 sidebar_position: 4
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - collection
-  - data
-  - filter
-  - filtering expressions
-  - filtering
-  - filtering templating
 displayed_sidebar: default
 
 ---

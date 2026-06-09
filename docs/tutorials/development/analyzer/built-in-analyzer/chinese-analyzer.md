@@ -11,15 +11,6 @@ description: "The `chinese` analyzer is designed specifically to handle Chinese 
 type: origin
 token: Of8PwuunCihBfxksNJJcSCRYnsf
 sidebar_position: 3
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - collection
-  - schema
-  - analyzer
-  - built-in analyzer
-  - chinese analyzer
 displayed_sidebar: default
 
 ---

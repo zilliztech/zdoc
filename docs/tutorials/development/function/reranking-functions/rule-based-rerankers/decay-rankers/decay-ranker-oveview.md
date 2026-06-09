@@ -11,17 +11,6 @@ description: "In traditional vector search, results are ranked purely by vector 
 type: origin
 token: QZYhwcQhWigYTVkLnHeczkwYnZb
 sidebar_position: 1
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - collection
-  - data
-  - search result reranking
-  - result reranking
-  - decay
-  - decay ranker
-  - decay ranker overview
 displayed_sidebar: default
 
 ---

@@ -10,15 +10,7 @@ notebook: FALSE
 description: "In Zilliz Cloud, you can create cluster users and assign them cluster roles to define the privileges, achieving data security. | Cloud"
 type: origin
 token: I2CHwfDHKilTMukoZ13cR2M4nzb
-sidebar_position: 3
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - cluster
-  - access control
-  - rbac
-  - users
+sidebar_position: 5
 displayed_sidebar: default
 
 ---

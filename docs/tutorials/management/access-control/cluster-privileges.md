@@ -10,15 +10,7 @@ notebook: FALSE
 description: "A privilege refers to the permission of specific operations on certain Zilliz Cloud resources such as clusters, databases, and collections. Privileges are assigned to roles, which are then granted to users, defining the operations users can perform on the resources. An example of a privilege could be the permission to insert data into a collection named `collection01`. | Cloud"
 type: origin
 token: NitBwKVzzi0hXBkjdDFcfwRsngb
-sidebar_position: 6
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - cluster
-  - access control
-  - rbac
-  - privileges
+sidebar_position: 8
 displayed_sidebar: default
 
 ---

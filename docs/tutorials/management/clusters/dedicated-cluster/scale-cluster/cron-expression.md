@@ -11,13 +11,6 @@ description: "A cron expression defines a schedule for running a scaling task at
 type: origin
 token: UwfQwgneji2a7tkPa1rcQ7Rhnwc
 sidebar_position: 3
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - cluster
-  - manage
-  - cron expression
 displayed_sidebar: default
 
 ---

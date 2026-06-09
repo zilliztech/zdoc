@@ -10,12 +10,7 @@ notebook: FALSE
 description: "Zilliz Cloud provides a range of project plans to suit diverse requirements. Whether you're new to vector databases or require robust solutions for enterprise-level tasks, making the right choice ensures optimal performance, scalability, and cost-efficiency. This guide will help you make an informed decision. | Cloud"
 type: origin
 token: Ghq9wEiOOivgeIkmj2HcHC9onXe
-sidebar_position: 5
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - cluster plan
+sidebar_position: 4
 displayed_sidebar: default
 
 ---
@@ -183,7 +178,7 @@ The following section compares the plans and deployment options, detailing the s
      <th><p><strong>Bring Your Own Cloud (BYOC)</strong></p></th>
    </tr>
    <tr>
-     <td><p><a href="./undefined">Cross-cluster migration</a></p></td>
+     <td><p><a href="./offline-migration">Cross-cluster migration</a></p></td>
      <td></td>
      <td><p>From Free cluster</p></td>
      <td><p>✔</p></td>
@@ -296,7 +291,7 @@ The following section compares the plans and deployment options, detailing the s
      <td><p>✔</p></td>
    </tr>
    <tr>
-     <td><p><a href="./undefined#data-encryption">Data encryption in transit and at rest</a></p></td>
+     <td><p><a href="./data-security#data-encryption">Data encryption in transit and at rest</a></p></td>
      <td><p>✔</p></td>
      <td><p>✔</p></td>
      <td><p>✔</p></td>

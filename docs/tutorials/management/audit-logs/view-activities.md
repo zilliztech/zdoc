@@ -11,12 +11,6 @@ description: "The Zilliz Cloud Platform Audit Logs feature provides a comprehens
 type: origin
 token: NeUWwqRl2iwn4HkZg3ocjLjmnth
 sidebar_position: 3
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - activities
-  - view
 displayed_sidebar: default
 
 ---

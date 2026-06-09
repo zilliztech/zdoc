@@ -11,13 +11,6 @@ description: "You can use this prompt for AI-powered IDEs, helping AI assistants
 type: origin
 token: IcSOwHl8nikfM1kOhQxcOdgLnPf
 sidebar_position: 5
-keywords: 
-  - zilliz
-  - vector database
-  - ai-agents
-  - decision matrix
-  - prompts
-  - schema design
 displayed_sidebar: default
 
 ---

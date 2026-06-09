@@ -11,16 +11,6 @@ description: "JSON fields provide a flexible way to store structured metadata in
 type: origin
 token: MBVVww2Zii8k6Bk77GJcXbZJnpf
 sidebar_position: 2
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - collection
-  - schema
-  - json field
-  - index
-  - path index
-  - flat index
 displayed_sidebar: default
 
 ---

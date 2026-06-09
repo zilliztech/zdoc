@@ -11,16 +11,6 @@ description: "Zilliz Cloud global cluster lets you deploy a primary cluster and 
 type: origin
 token: AICcwQ55yiNqEPkjdV6cb2i8nqe
 sidebar_position: 1
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - milvus
-  - global cluster
-  - switchover
-  - failover
-  - disaster recovery
-  - high availability
 displayed_sidebar: default
 
 ---

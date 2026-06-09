@@ -11,12 +11,6 @@ description: "As data scales and query volumes rise, cost control becomes critic
 type: origin
 token: SqTUwWPAxit4MMkJeC6c1bvgnhf
 sidebar_position: 3
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - milvus
-  - cost optimization
 displayed_sidebar: default
 
 ---

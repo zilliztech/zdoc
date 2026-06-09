@@ -10,15 +10,7 @@ notebook: FALSE
 description: "A model provider integration connects Zilliz Cloud to a third-party model service and makes the provider’s capabilities available to your project. | Cloud"
 type: origin
 token: B1cSwfWcri4VJLkCR20cHIs6nCf
-sidebar_position: 2
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - third-party
-  - services
-  - model
-  - providers
+sidebar_position: 1
 displayed_sidebar: default
 
 ---

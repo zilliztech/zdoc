@@ -11,12 +11,6 @@ description: "Zilliz Cloud allows you to enable automatic backups for your clust
 type: origin
 token: HDmKwGeGLi2P67kGdNXcigXDn3e
 sidebar_position: 2
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - backup
-  - automatic
 displayed_sidebar: default
 
 ---

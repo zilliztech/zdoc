@@ -11,12 +11,6 @@ description: "On Zilliz Cloud, audit logs have the following syntax | Cloud"
 type: origin
 token: Nby4wCqNviuLg3kEZpkcdKtnnnb
 sidebar_position: 2
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - auditing
-  - log
 displayed_sidebar: default
 
 ---

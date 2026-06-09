@@ -11,18 +11,6 @@ description: "The Zilliz Plugin offers capabilities across various areas for man
 type: origin
 token: A6q4wqxGViorDmkD5iKcoDBOnRh
 sidebar_position: 2
-keywords: 
-  - zilliz
-  - vector database
-  - ai-agents
-  - decision matrix
-  - skill
-  - claude
-  - zilliz cli
-  - capabilities
-  - vector operations
-  - cluster management
-  - collection management
 displayed_sidebar: default
 
 ---

@@ -11,16 +11,6 @@ description: "The text embedding function in Zilliz Cloud allows you to transfor
 type: origin
 token: DKyXws0pXibd45kdPXPc1PV5nIb
 sidebar_position: 1
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - function
-  - model
-  - inference
-  - text
-  - embedding
-  - overview
 displayed_sidebar: default
 
 ---

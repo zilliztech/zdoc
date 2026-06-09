@@ -2,7 +2,7 @@
 title: "Manage External Collections (Console) | Cloud"
 slug: /manage-external-collections-console
 sidebar_label: "On Console"
-beta: PUBLIC
+beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
@@ -11,11 +11,6 @@ description: "This page covers how to manage an external collection via the Zill
 type: origin
 token: W04nwxHqNiqyrykxMZOcu4ianle
 sidebar_position: 2
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - external collection
 displayed_sidebar: default
 
 ---

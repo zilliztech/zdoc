@@ -2,7 +2,7 @@
 title: "Database | Cloud"
 slug: /on-demand-database
 sidebar_label: "Database"
-beta: PUBLIC
+beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
@@ -11,12 +11,6 @@ description: "A database in on-demand compute is managed by the platform and doe
 type: origin
 token: Dln4wglKhi0ijkkHtCQcLGQpnnc
 sidebar_position: 3
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - on-demand compute
-  - database
 displayed_sidebar: default
 
 ---

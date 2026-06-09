@@ -11,12 +11,6 @@ description: "Memory mapping (Mmap) enables direct memory access to large files 
 type: origin
 token: P3wrwSMNNihy8Vkf9p6cTsWYnTb
 sidebar_position: 21
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - mmap
-  - search optimization
 displayed_sidebar: default
 
 ---

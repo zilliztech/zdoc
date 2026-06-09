@@ -11,14 +11,6 @@ description: "This page explains how to add and delete secondary clusters, conve
 type: origin
 token: DW9wwFlgAiwOhBk2PgucY4URnke
 sidebar_position: 7
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - milvus
-  - global cluster
-  - manage
-  - convert to regular cluster
 displayed_sidebar: default
 
 ---

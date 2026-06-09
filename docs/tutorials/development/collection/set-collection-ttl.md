@@ -11,13 +11,6 @@ description: "Zilliz Cloud can automatically expire entities through a Time-to-L
 type: origin
 token: GthGwnrpEiGpClkV5JXcgWUgn8c
 sidebar_position: 6
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - collection
-  - collection ttl
-  - time-to-live
 displayed_sidebar: default
 
 ---

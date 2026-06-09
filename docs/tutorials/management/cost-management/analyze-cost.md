@@ -11,12 +11,6 @@ description: "The Usage page in Zilliz Cloud provides you with a visualized cost
 type: origin
 token: OnipwPISWiGPz1kueugcwtcinoh
 sidebar_position: 2
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - invoice
-  - view
 displayed_sidebar: default
 
 ---
@@ -28,7 +22,7 @@ import Admonition from '@theme/Admonition';
 
 The **Usage** page in Zilliz Cloud provides you with a visualized cost analysis tool, enabling you to view and track Zilliz Cloud usage and expenses from multiple dimensions. 
 
-If you subscribe through a marketplace and want to separate billing by marketplace account, see [Separate Billing by Marketplace Account](./separate-billing-by-marketplace-account).
+If you subscribe through a marketplace and want to separate billing by marketplace account, see [Separate Billing by Marketplace Account](./undefined).
 
 ## Prerequisites\{#prerequisites}
 

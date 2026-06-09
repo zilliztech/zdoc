@@ -11,13 +11,6 @@ description: "Bitmap indexing is an efficient indexing technique designed to imp
 type: origin
 token: SkJtwgkCDiGYeOkakIgcLT46nee
 sidebar_position: 1
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - scalar field
-  - bool
-  - bitmap
 displayed_sidebar: default
 
 ---

@@ -10,14 +10,7 @@ notebook: FALSE
 description: "A range search improves search result relevancy by restricting the distance or score of the returned entities within a specific range. This page helps you understand what range search is and the procedures to conduct a range search. | Cloud"
 type: origin
 token: GnvtwMeQWi8iRCk7dGccCBQZnOh
-sidebar_position: 4
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - collection
-  - data
-  - range search
+sidebar_position: 5
 displayed_sidebar: default
 
 ---

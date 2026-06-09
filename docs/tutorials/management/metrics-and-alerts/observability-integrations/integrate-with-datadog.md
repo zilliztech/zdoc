@@ -11,13 +11,6 @@ description: "Datadog is a cloud monitoring and analytics platform that provides
 type: origin
 token: JGFQwMcVmiikeOkhepGcQ8Ken0e
 sidebar_position: 2
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - third-party
-  - services
-  - datadog
 displayed_sidebar: default
 
 ---

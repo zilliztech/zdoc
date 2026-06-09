@@ -11,12 +11,6 @@ description: "The restore feature in Zilliz Cloud lets you recover data from bac
 type: origin
 token: Dd6jwYIGiiz6HWkEPJqcpMA3n6g
 sidebar_position: 4
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - backup
-  - restore
 displayed_sidebar: default
 
 ---

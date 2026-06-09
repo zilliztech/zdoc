@@ -2,7 +2,7 @@
 title: "Hosted Models | Cloud"
 slug: /hosted-models
 sidebar_label: "Hosted Models"
-beta: PRIVATE
+beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
@@ -10,14 +10,7 @@ notebook: FALSE
 description: "Zilliz Cloud can host embedding and reranking models on Zilliz-managed infrastructure. You can deploy dedicated, fully managed model instances and use them directly from Zilliz Cloud for stable and high-performance inference. | Cloud"
 type: origin
 token: DMrCwn4LXi1uKBkbHGfcpGnsnyh
-sidebar_position: 1
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - model
-  - inference
-  - hosted models
+sidebar_position: 4
 displayed_sidebar: default
 
 ---

@@ -11,11 +11,6 @@ description: "Zilliz Cloud authenticates your identity using a token. A token ca
 type: origin
 token: YmsVwIzOBinv4OklCfmc2nyznAe
 sidebar_position: 3
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - cluster credentials
 displayed_sidebar: default
 
 ---

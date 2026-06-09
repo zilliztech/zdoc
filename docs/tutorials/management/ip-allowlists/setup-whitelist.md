@@ -11,12 +11,6 @@ description: "Cluster IP allowlist on Zilliz Cloud serves as a robust security l
 type: origin
 token: FnS1wY0iuia4qgkMycVclZyHnOf
 sidebar_position: 2
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - whitelist
-  - setup
 displayed_sidebar: default
 
 ---

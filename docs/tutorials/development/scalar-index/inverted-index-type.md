@@ -11,18 +11,6 @@ description: "When you need to perform frequent filter queries on your data, `IN
 type: origin
 token: YNczwtWpFiN0CckMvDVcn0pvnEb
 sidebar_position: 2
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - scalar field
-  - float
-  - double
-  - varchar
-  - string
-  - array
-  - json
-  - inverted
 displayed_sidebar: default
 
 ---
@@ -156,7 +144,7 @@ client.drop_index(
 
 ## Next steps\{#next-steps}
 
-- Learn about [AUTOINDEX](./undefined).
+- Learn about [AUTOINDEX](./autoindex-explained).
 
 - See [JSON Indexing](./json-indexing) for advanced JSON indexing scenarios
 

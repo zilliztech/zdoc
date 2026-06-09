@@ -11,13 +11,6 @@ description: "Zilliz Cloud allows you to set default values for scalar fields (e
 type: origin
 token: SsGkwyGJDirNDwk170rcHbUjnVe
 sidebar_position: 16
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - collection
-  - schema
-  - default value
 displayed_sidebar: default
 
 ---

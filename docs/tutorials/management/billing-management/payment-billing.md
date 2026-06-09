@@ -11,12 +11,6 @@ description: "This guide explains the payment methods available for Zilliz Cloud
 type: origin
 token: C0VRwRCs2iwEoUkgmq1cXCChnlh
 sidebar_position: 1
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - payment
-  - billing
 displayed_sidebar: default
 
 ---
@@ -199,7 +193,7 @@ If your organization is frozen or payment fails, update your payment method to r
 
 ## Related topics\{#related-topics}
 
-- [Set Up Payment Method](./set-up-payment-method)
+- [Set Up Payment Method](./undefined)
 
 - [Update Payment Method](./update-payment-method)
 
@@ -211,7 +205,7 @@ If your organization is frozen or payment fails, update your payment method to r
 
 - [Failed Payments ](./failed-payments-organization-recovery)
 
-- [Separate Billing by Marketplace Account](./separate-billing-by-marketplace-account)
+- [Separate Billing by Marketplace Account](./undefined)
 
 - [Monitor Billing Alerts](./monitor-billing-alerts)
 

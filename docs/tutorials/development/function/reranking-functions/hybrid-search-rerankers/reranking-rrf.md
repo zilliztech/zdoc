@@ -11,15 +11,6 @@ description: "Reciprocal Rank Fusion (RRF) Ranker is a reranking strategy for Zi
 type: origin
 token: Nqguwf6ikiKrHEkGKgAc8g7Lnnh
 sidebar_position: 2
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - collection
-  - data
-  - search result reranking
-  - result reranking
-  - rrf
 displayed_sidebar: default
 
 ---

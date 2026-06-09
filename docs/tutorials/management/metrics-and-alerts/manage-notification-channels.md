@@ -11,12 +11,6 @@ description: "Alert notifications in Zilliz Cloud keep you informed about events
 type: origin
 token: ARpTwYXlIi7ZLtkEHx5ciUK6nuc
 sidebar_position: 5
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - notification
-  - channels
 displayed_sidebar: default
 
 ---

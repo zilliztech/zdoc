@@ -11,15 +11,6 @@ description: "Every collection in Zilliz Cloud must have a primary field to uniq
 type: origin
 token: D2ctwKZhNilLY0ke1vpcHL62n5G
 sidebar_position: 2
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - collection
-  - schema
-  - primary field
-  - autoId
-  - autoid
 displayed_sidebar: default
 
 ---

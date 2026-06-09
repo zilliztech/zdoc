@@ -11,12 +11,6 @@ description: "If your data format does not meet the requirements, you can use Bu
 type: origin
 token: QyjpwAaKuihAeJkNBUJcdFesn9e
 sidebar_position: 1
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - data import
-  - bulk writer
 displayed_sidebar: default
 
 ---

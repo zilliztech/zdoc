@@ -10,18 +10,7 @@ notebook: FALSE
 description: "Full text search is a feature that retrieves documents containing specific terms or phrases in text datasets, then ranking the results based on relevance. This feature overcomes semantic search limitations, which might overlook precise terms, ensuring you receive the most accurate and contextually relevant results. Additionally, it simplifies vector searches by accepting raw text input, automatically converting your text data into sparse embeddings without the need to manually generate vector embeddings. | Cloud"
 type: origin
 token: RQTRwhOVPiwnwokqr4scAtyfnBf
-sidebar_position: 10
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - collection
-  - data
-  - filter
-  - filtering expressions
-  - filtering
-  - full-text search
-  - data in data out
+sidebar_position: 11
 displayed_sidebar: default
 
 ---

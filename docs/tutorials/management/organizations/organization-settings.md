@@ -11,12 +11,6 @@ description: "If you are an Organization Owner, you have the privileges to manag
 type: origin
 token: AAqUwQW3qia3akkjfDNc0kwanlh
 sidebar_position: 2
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - organizations
-  - settings
 displayed_sidebar: default
 
 ---
@@ -98,7 +92,7 @@ The following demo shows how to edit the preferred maintenance window.
 
     - Take no action and let maintenance run as scheduled.
 
-- For **Organization Members**, please check your SDK compatibility.
+- For **Organization Members**, please check your [SDK compatibility](./install-sdks#sdk-compatibility).
 
 ## Delete organization\{#delete-organization}
 
@@ -114,7 +108,7 @@ Before you start, make sure the following conditions are met:
 
 - All remaining advance pay funds need to be refunded.
 
-- Third-party [marketplace subscription needs to be cancelled](./marketplace-subscription).
+- Third-party [marketplace subscription needs to be cancelled](./undefined).
 
 To delete an organization: 
 

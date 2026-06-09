@@ -11,12 +11,6 @@ description: "This article offers a systematic guide on connecting to a cluster.
 type: origin
 token: IVFfws0lJi8gIVkRvrvc9aXvnNe
 sidebar_position: 2
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - cluster
-  - connect
 displayed_sidebar: default
 
 ---
@@ -37,7 +31,7 @@ Ensure the following prerequisites are met before proceeding:
 
 - You have created a cluster. For details, see [Create Cluster](./create-cluster).
 
-- You have installed a Milvus SDK applicable to your use case. For details, see Install SDKs.
+- You have installed a Milvus SDK applicable to your use case. For details, see [Install SDKs](./install-sdks).
 
 <Admonition type="info" icon="📘" title="Note">
 

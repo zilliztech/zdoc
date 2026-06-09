@@ -11,18 +11,6 @@ description: "Exponential decay creates a steep initial drop followed by a long 
 type: origin
 token: FbVmwmuaei9WkIkIWJmcs3ManEd
 sidebar_position: 3
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - collection
-  - data
-  - search result reranking
-  - result reranking
-  - decay
-  - decay ranker
-  - exponential decay
-  - exp
 displayed_sidebar: default
 
 ---

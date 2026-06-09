@@ -11,12 +11,6 @@ description: "This guide describes the lifecycle of a cluster so that you can ma
 type: origin
 token: PharwAysCiBzvgkuqqecmNzunQf
 sidebar_position: 3
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - cluster
-  - manage
 displayed_sidebar: default
 
 ---

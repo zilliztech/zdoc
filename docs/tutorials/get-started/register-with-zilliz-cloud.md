@@ -11,12 +11,6 @@ description: "This guide provides comprehensive instructions on how to create an
 type: origin
 token: HriHwEU3qiQrgskz3a0cdkcpnyf
 sidebar_position: 1
-keywords: 
-  - zilliz
-  - vector database
-  - register
-  - cloud
-  - milvus
 displayed_sidebar: default
 
 ---

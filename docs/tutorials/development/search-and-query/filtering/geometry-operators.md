@@ -11,16 +11,6 @@ description: "Zilliz Cloud supports a set of operators for spatial filtering on 
 type: origin
 token: SOgiwzPxpisy8MkhtuecZqFbnaf
 sidebar_position: 9
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - collection
-  - data
-  - filter
-  - filtering expressions
-  - filtering
-  - geometry
 displayed_sidebar: default
 
 ---

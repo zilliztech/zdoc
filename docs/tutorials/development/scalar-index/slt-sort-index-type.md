@@ -11,18 +11,6 @@ description: "The `STLSORT` index is an index type specifically designed to enha
 type: origin
 token: YBYmwvx68iMKFRknytJccwk0nPf
 sidebar_position: 5
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - scalar field
-  - timestamptz
-  - slt_sort
-  - sltsort
-  - int8
-  - int16
-  - int32
-  - int64
 displayed_sidebar: default
 
 ---

@@ -2,7 +2,7 @@
 title: "On-Demand DQL Operations | Cloud"
 slug: /dql-sessions-external-collection
 sidebar_label: "DQL sessions"
-beta: PUBLIC
+beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
@@ -10,13 +10,7 @@ notebook: FALSE
 description: "DQL operations in collections for on-demand computing, such as search, query, get, and hybrid search, require attaching compute resources from an on-demand cluster. Zilliz Cloud allows you to create a session to meet your on-demand compute needs. | Cloud"
 type: origin
 token: BcjLwmXTni1fiMkkyx9ct5iWngc
-sidebar_position: 19
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - external collection
-  - session
+sidebar_position: 2
 displayed_sidebar: default
 
 ---

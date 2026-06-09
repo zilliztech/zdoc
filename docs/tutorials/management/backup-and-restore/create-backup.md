@@ -11,11 +11,6 @@ description: "In Zilliz Cloud, a backup is a copy of the data that allows you to
 type: origin
 token: HHXewT7wTiM1zqkySjHcMNX5n9b
 sidebar_position: 1
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - backup
 displayed_sidebar: default
 
 ---

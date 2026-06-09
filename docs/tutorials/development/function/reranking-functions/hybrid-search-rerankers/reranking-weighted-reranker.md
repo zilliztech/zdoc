@@ -11,15 +11,6 @@ description: "Weighted Ranker intelligently combines and prioritizes results fro
 type: origin
 token: Oyy6w5DYJiVCMYkdduEc6eD9nZg
 sidebar_position: 1
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - collection
-  - data
-  - search result reranking
-  - result reranking
-  - weighted reranker
 displayed_sidebar: default
 
 ---

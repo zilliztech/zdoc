@@ -10,15 +10,7 @@ notebook: FALSE
 description: "An ANN search finds vector embeddings most similar to specified vector embeddings. However, the search results may not always be correct. You can include filtering conditions in a search request so that Zilliz Cloud conducts metadata filtering before conducting ANN searches, reducing the search scope from the whole collection to only the entities matching the specified filtering conditions. | Cloud"
 type: origin
 token: CpBbwcJ87irHp0k9oCSc2RNIn3d
-sidebar_position: 3
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - collection
-  - data
-  - filtered search
-  - filtering
+sidebar_position: 4
 displayed_sidebar: default
 
 ---

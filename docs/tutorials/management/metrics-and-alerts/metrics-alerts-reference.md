@@ -11,12 +11,6 @@ description: "Zilliz Cloud organizes metrics into the following levels | Cloud"
 type: origin
 token: KnnBwce9JifxvXkd070cvgUPnag
 sidebar_position: 1
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - metrics
-  - alerts
 displayed_sidebar: default
 
 ---

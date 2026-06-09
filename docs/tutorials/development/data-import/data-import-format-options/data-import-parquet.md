@@ -11,14 +11,6 @@ description: "Apache Parquet is an open-source, column-oriented data file format
 type: origin
 token: WtkSwXgDdiB0eTkEkorcDCFlnme
 sidebar_position: 1
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - data import
-  - milvus
-  - format options
-  - parquet
 displayed_sidebar: default
 
 ---

@@ -11,11 +11,6 @@ description: "Once you have registered an account with Zilliz Cloud, you can man
 type: origin
 token: GMdhwQQCRi2QaLkimNOcc3qNnbh
 sidebar_position: 1
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - email accounts
 displayed_sidebar: default
 
 ---

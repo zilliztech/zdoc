@@ -11,14 +11,6 @@ description: "In Zilliz Cloud clusters, textual scalar data can be stored with `
 type: origin
 token: QBXVwP7oiiuEovkprDnckJlEnoK
 sidebar_position: 6
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - collection
-  - schema
-  - string field
-  - varchar field
 displayed_sidebar: default
 
 ---

@@ -1,5 +1,14 @@
 const larkTokenFetcher = require('./larkTokenFetcher.js')
-const { removeTabsHallucinations, unescapeKnownJsxTags, escapeMathBraces, escapeHtmlElementBraces } = require('../mdx-parse/mdxPatcher')
+const {
+    removeTabsHallucinations,
+    unescapeKnownJsxTags,
+    escapeMathBraces,
+    escapeHtmlElementBraces,
+    normalizeNestedPlaintextFences,
+    createFenceTracker,
+    getFencedCodeRanges,
+    createFencedCodeBlock,
+} = require('../mdx-parse/mdxPatcher')
 const Downloader = require('./larkImageDownloader.js')
 const slugify = require('slugify')
 const fs = require('node:fs')
@@ -32,7 +41,8 @@ class larkDocWriter {
         imageDir='static/img',
         targets='zilliz.saas',
         skip_image_download=false,
-        upload_to_s3=false
+        upload_to_s3=false,
+        linkReplacementShimPath=null
     ) {
         this.root_token = root_token
         const baseParts = base_token.split(':')
@@ -53,6 +63,8 @@ class larkDocWriter {
         this.tokenFetcher = new larkTokenFetcher()
         this.downloader = new Downloader({}, imageDir)
         this.upload_to_s3 = upload_to_s3
+        this.linkReplacementShimPath = linkReplacementShimPath
+        this.linkReplacementShim = this.__load_link_replacement_shim(linkReplacementShimPath)
     }
 
     destroy() {
@@ -103,6 +115,8 @@ class larkDocWriter {
     }
 
     async generate_sidebar(outputDir, contentRoot) {
+        this.sidebarOutputDir = outputDir
+        this.sidebarContentRoot = contentRoot
         return this.__sidebar_items(outputDir, contentRoot, this.root_token)
     }
 
@@ -121,6 +135,33 @@ class larkDocWriter {
 
         for (let i = 0; i < children.length; i++) {
             const child = children[i]
+            let childSource = null
+            try { childSource = this.__fetch_doc_source('node_token', child.node_token, child.slug) } catch (e) {}
+
+            if (childSource?.base_nav_link) {
+                const meta = await this.__is_to_publish(child.title, child.slug)
+                if (!meta.publish) continue
+                const href = childSource.base_nav_link_href
+                if (!href) {
+                    console.warn(`[sidebar] Cannot resolve link target for "${child.title}" (${childSource.node_token})`)
+                    continue
+                }
+                items.push({ type: 'link', href, label: meta.labels || child.title })
+                continue
+            }
+
+            if (childSource?.base_nav_ref) {
+                const meta = await this.__is_to_publish(child.title, child.slug)
+                if (!meta.publish) continue
+                const refId = this.__doc_id_for_token(childSource.base_nav_ref_target_token, contentRoot)
+                if (!refId) {
+                    console.warn(`[sidebar] Cannot resolve ref target for "${child.title}" (${childSource.node_token})`)
+                    continue
+                }
+                items.push({ type: 'ref', id: refId, label: meta.labels || child.title })
+                continue
+            }
+
             const meta = await this.__is_to_publish(child.title, child.slug)
             if (!meta.publish) continue
 
@@ -128,8 +169,6 @@ class larkDocWriter {
             const label = meta.labels || child.title
 
             if (child.has_child) {
-                let childSource = null
-                try { childSource = this.__fetch_doc_source('node_token', child.node_token) } catch (e) {}
                 const category = childSource ? this.categorize_node(childSource) : 'meaningful'
                 const childItems = await this.__sidebar_items(`${currentPath}/${slug}`, contentRoot, child.node_token)
 
@@ -153,6 +192,102 @@ class larkDocWriter {
         }
 
         return items
+    }
+
+    __base_source_is_publishable(source) {
+        const targetsField = source.base_targets
+        const status = this.__plain_value(source.base_status)
+        const isPublishable = ['Draft', 'Approved', 'Published', 'Publish', 'Reviewed'].includes(status)
+        if (!targetsField) return isPublishable
+
+        const targets = (targetsField instanceof Array ? targetsField : [targetsField])
+            .map(item => this.__plain_value(item)?.trim().toLowerCase())
+            .filter(Boolean)
+
+        return isPublishable && targets.includes(this.targets.toLowerCase())
+    }
+
+    __base_source_has_publish_constraints(source) {
+        const status = this.__plain_value(source.base_status)
+        const targetsField = source.base_targets
+        const targets = (targetsField instanceof Array ? targetsField : [targetsField])
+            .map(item => this.__plain_value(item)?.trim())
+            .filter(Boolean)
+
+        return !!status || targets.length > 0
+    }
+
+    __base_nav_source_is_publishable(source) {
+        if (!this.__base_source_has_publish_constraints(source)) return true
+        return this.__base_source_is_publishable(source)
+    }
+
+    __fetch_base_source_meta(title, slug) {
+        if (!slug || !fs.existsSync(this.docSourceDir)) return null
+        const files = fs.readdirSync(this.docSourceDir).filter(file => file.endsWith('.json'))
+        for (const file of files) {
+            const source = JSON.parse(fs.readFileSync(`${this.docSourceDir}/${file}`, 'utf8'))
+            if (
+                (source.base_record_id || source.base_nav_virtual) &&
+                source.slug === slug &&
+                (source.title === title || source.name === title)
+            ) {
+                return source
+            }
+        }
+        return null
+    }
+
+    __fetch_doc_source_by_any_token(token) {
+        const tokenKeys = ['node_token', 'origin_node_token', 'obj_token', 'token']
+        const files = fs.readdirSync(this.docSourceDir).filter(file => file.endsWith('.json'))
+        for (const file of files) {
+            const source = JSON.parse(fs.readFileSync(`${this.docSourceDir}/${file}`, {encoding: 'utf-8', flag: 'r'}))
+            if (tokenKeys.some(key => source[key] === token)) {
+                return source
+            }
+        }
+        return null
+    }
+
+    __has_base_publish_meta(source) {
+        return source && (
+            Object.prototype.hasOwnProperty.call(source, 'base_status') ||
+            Object.prototype.hasOwnProperty.call(source, 'base_targets')
+        )
+    }
+
+    __doc_id_for_token(token, contentRoot) {
+        if (!token) return null
+        const source = this.__fetch_doc_source_by_any_token(token)
+        if (!source) return null
+        if (source.base_nav_ref && source.base_nav_ref_target_token) {
+            return this.__doc_id_for_token(source.base_nav_ref_target_token, contentRoot)
+        }
+        if (!source.slug) return null
+
+        const segments = []
+        let current = source
+        const seen = new Set()
+        while (current && current.slug && !seen.has(current.node_token || current.origin_node_token || current.token)) {
+            seen.add(current.node_token || current.origin_node_token || current.token)
+            segments.unshift(current.slug)
+            const parentToken = current.parent_node_token
+            if (!parentToken || parentToken === this.root_token) break
+            try {
+                current = this.__fetch_doc_source('node_token', parentToken)
+            } catch (_) {
+                break
+            }
+        }
+
+        if (source.has_child && this.categorize_node(source) === 'meaningful') {
+            segments.push(source.slug)
+        }
+
+        return node_path.join(this.sidebarOutputDir || contentRoot, ...segments)
+            .replace(/\\/g, '/')
+            .replace(new RegExp(`^${contentRoot}/`), '')
     }
 
     __fetch_doc_source (type, value, slug="") {
@@ -179,6 +314,98 @@ class larkDocWriter {
         } else {
             throw new Error(`2. Cannot find ${value} in ${this.docSourceDir}`)
         }
+    }
+
+    __safe_url(value) {
+        try {
+            return new URL(value)
+        } catch (_) {
+            return null
+        }
+    }
+
+    __link_token(value) {
+        if (!value) return null
+        const url = this.__safe_url(value)
+        if (url) return url.pathname.split('/').filter(Boolean).pop()
+        return String(value).split('#')[0].trim() || null
+    }
+
+    __normalize_link_replacement_url(replacement) {
+        const replacementUrl = replacement.replacement_url || replacement.target_url || replacement.url || replacement.doc_link
+        if (replacementUrl) return replacementUrl
+        const token = replacement.replacement_token || replacement.target_token || replacement.doc_token
+        return token ? `https://zilliverse.feishu.cn/wiki/${token}` : null
+    }
+
+    __shim_replacement_is_approved(replacement) {
+        return replacement.approved === true ||
+            replacement.enabled === true ||
+            String(replacement.status || '').toLowerCase() === 'approved'
+    }
+
+    __load_link_replacement_shim(shimPath) {
+        const shim = { byToken: new Map(), byUrl: new Map() }
+        if (!shimPath) return shim
+        if (!fs.existsSync(shimPath)) {
+            console.warn(`[link-shim] Shim file not found: ${shimPath}`)
+            return shim
+        }
+
+        const data = JSON.parse(fs.readFileSync(shimPath, 'utf8'))
+        const replacements = Array.isArray(data)
+            ? data
+            : Array.isArray(data.replacements)
+                ? data.replacements
+                : Object.entries(data).map(([source, target]) => ({
+                    approved: true,
+                    source_token: this.__link_token(source),
+                    source_url: source.startsWith('http') ? source : null,
+                    replacement_url: target,
+                }))
+
+        let active = 0
+        for (const replacement of replacements) {
+            if (!this.__shim_replacement_is_approved(replacement)) continue
+            const replacementUrl = this.__normalize_link_replacement_url(replacement)
+            if (!replacementUrl) continue
+
+            const normalized = {
+                ...replacement,
+                replacement_url: replacementUrl,
+            }
+            const sourceToken = replacement.source_token ||
+                replacement.old_token ||
+                replacement.token ||
+                this.__link_token(replacement.source_url || replacement.source)
+            if (sourceToken) {
+                shim.byToken.set(sourceToken, normalized)
+                active++
+            }
+            if (replacement.source_url) {
+                shim.byUrl.set(String(replacement.source_url).split('#')[0], normalized)
+            }
+        }
+
+        console.log(`[link-shim] Loaded ${active} approved replacement(s) from ${shimPath}`)
+        return shim
+    }
+
+    __apply_link_replacement_shim(rawUrl) {
+        if (!this.linkReplacementShim || !rawUrl) return rawUrl
+        const original = this.__safe_url(rawUrl)
+        if (!original) return rawUrl
+
+        const replacement = this.linkReplacementShim.byToken.get(this.__link_token(rawUrl)) ||
+            this.linkReplacementShim.byUrl.get(`${original.origin}${original.pathname}`)
+        if (!replacement) return rawUrl
+
+        const replacementUrl = this.__safe_url(replacement.replacement_url)
+        if (!replacementUrl) return replacement.replacement_url
+        if (replacement.preserve_anchor === true && original.hash && !replacementUrl.hash) {
+            replacementUrl.hash = original.hash
+        }
+        return replacementUrl.toString()
     }
 
     async write_docs(path, token) {
@@ -241,6 +468,9 @@ class larkDocWriter {
                         await this.write_docs(`${current_path}/${slug}`, token)
                     }
                 } else {
+                    if (child.base_nav_ref || child.base_nav_link) {
+                        return
+                    }
                     const meta = await this.__is_to_publish(child.title, child.slug)
                     switch (child.slug) {
                         case 'faqs':
@@ -615,16 +845,41 @@ class larkDocWriter {
 
     async __is_to_publish (title, slug, token=null) {
         if (slug && fs.existsSync(this.docSourceDir)) {
-            const virtualSource = fs.readdirSync(this.docSourceDir)
-                .filter(file => file.endsWith('.json'))
-                .map(file => JSON.parse(fs.readFileSync(`${this.docSourceDir}/${file}`, 'utf8')))
-                .find(source => source.base_nav_virtual && source.slug === slug && (source.title === title || source.name === title))
-            if (virtualSource) {
-                return {
-                    publish: !!virtualSource.has_child,
-                    title: virtualSource.title || title,
-                    slug,
-                    labels: virtualSource.title || title,
+            const baseSource = this.__fetch_base_source_meta(title, slug)
+            if (baseSource) {
+                if (baseSource.base_nav_ref) {
+                    return {
+                        publish: this.__base_nav_source_is_publishable(baseSource),
+                        title: baseSource.title || title,
+                        slug,
+                        labels: this.__plain_value(baseSource.base_labels) || baseSource.title || title,
+                    }
+                }
+                if (baseSource.base_nav_link) {
+                    return {
+                        publish: this.__base_nav_source_is_publishable(baseSource),
+                        title: baseSource.title || title,
+                        slug,
+                        labels: this.__plain_value(baseSource.base_labels) || baseSource.title || title,
+                    }
+                }
+                if (baseSource.base_nav_virtual) {
+                    return {
+                        publish: baseSource.base_placement_type
+                            ? (this.__base_nav_source_is_publishable(baseSource) && !!baseSource.has_child)
+                            : !!baseSource.has_child,
+                        title: baseSource.title || title,
+                        slug,
+                        labels: this.__plain_value(baseSource.base_labels) || baseSource.title || title,
+                    }
+                }
+                if (this.__has_base_publish_meta(baseSource)) {
+                    return {
+                        publish: this.__base_source_is_publishable(baseSource),
+                        title: baseSource.title || title,
+                        slug,
+                        labels: this.__plain_value(baseSource.base_labels) || baseSource.title || title,
+                    }
                 }
             }
         }
@@ -997,13 +1252,7 @@ class larkDocWriter {
     }
 
     __example_http_urls(content) {
-        // Find all fenced code blocks and mark their ranges
-        const codeBlockRegex = /```[\s\S]*?```/g;
-        let codeBlocks = [];
-        let match;
-        while ((match = codeBlockRegex.exec(content)) !== null) {
-            codeBlocks.push({ start: match.index, end: match.index + match[0].length });
-        }
+        const codeBlocks = getFencedCodeRanges(content);
 
         // Helper to check if a position is inside any code block
         function isInCodeBlock(pos) {
@@ -1014,6 +1263,7 @@ class larkDocWriter {
         const urlRegex = /https?:\/\/[^\s'")]+/g;
         let result = '';
         let lastIndex = 0;
+        let match;
 
         // Find all URLs and process those outside code blocks
         while ((match = urlRegex.exec(content)) !== null) {
@@ -1049,16 +1299,13 @@ class larkDocWriter {
         // inline code spans, to prevent remark-math/KaTeX from treating them as math
         // delimiters (which causes unicodeTextInMathMode warnings and broken rendering).
         const lines = content.split('\n');
-        let inCodeBlock = false;
+        const fence = createFenceTracker();
         const result = [];
 
         for (let line of lines) {
-            const stripped = line.trim();
-            if (stripped.startsWith('```') || stripped.startsWith('~~~')) {
-                inCodeBlock = !inCodeBlock;
-            }
+            fence.update(line);
 
-            if (!inCodeBlock) {
+            if (!fence.inCodeBlock) {
                 // Split by inline code spans; odd-indexed segments are inside backticks
                 const parts = line.split(/(`+[^`]+`+)/);
                 line = parts.map((part, i) => {
@@ -1133,16 +1380,13 @@ class larkDocWriter {
         }
 
         const lines = content.split('\n');
-        let inCodeBlock = false;
+        const fence = createFenceTracker();
         const result = [];
 
         for (let line of lines) {
-            const stripped = line.trim();
-            if (stripped.startsWith('```') || stripped.startsWith('~~~')) {
-                inCodeBlock = !inCodeBlock;
-            }
+            fence.update(line);
 
-            if (!inCodeBlock) {
+            if (!fence.inCodeBlock) {
                 // Split by inline code spans; odd-indexed segments are inside backticks
                 const parts = line.split(/(`+[^`]+`+)/);
                 line = parts.map((part, i) => {
@@ -1184,7 +1428,8 @@ class larkDocWriter {
             const remarkMath = (await import('remark-math')).default;
 
             // Pre-process: fix translation/editor artefacts, then escape problem characters
-            let patchedContent = removeTabsHallucinations(content);
+            let patchedContent = normalizeNestedPlaintextFences(content);
+            patchedContent = removeTabsHallucinations(patchedContent);
             patchedContent = unescapeKnownJsxTags(patchedContent);
             patchedContent = this.__escape_currency_dollars(patchedContent);
             patchedContent = this.__escape_non_html_tags(patchedContent);
@@ -1477,7 +1722,7 @@ class larkDocWriter {
                 lang = langMatch ? langMatch[1] : (classAttr.split(/\s+/)[0] || '');
             }
             const decoded = code.replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"');
-            return '\n```' + lang + '\n' + decoded.replace(/^\n|\n$/g, '') + '\n```\n';
+            return '\n' + createFencedCodeBlock(decoded, lang, 0);
         });
 
         return html;
@@ -1583,7 +1828,7 @@ class larkDocWriter {
         var tab_item_end = `${' '.repeat(indent)}</TabItem>`
         var tabs_end = `${' '.repeat(indent)}</Tabs>`
         if (divider === -1) {
-            elements = `${' '.repeat(indent)}\`\`\`${lang.toLowerCase()}\n${' '.repeat(indent) + elements.join('\n' + ' '.repeat(indent))}\n${' '.repeat(indent)}\`\`\`\n`
+            elements = createFencedCodeBlock(elements.join('\n'), lang.toLowerCase(), indent)
             switch (position) {
                 case 'first':
                     values = values && values.length > 0 ? values : [{ label: lang, value: lang.toLowerCase() }]
@@ -1615,8 +1860,8 @@ class larkDocWriter {
             var inner_tab_item_end = `${' '.repeat(indent)}</TabItem>`
             var inner_tabs_end = `${' '.repeat(indent)}</Tabs>`
             
-            half_1 = `${' '.repeat(indent)}\`\`\`${lang.toLowerCase()}\n${' '.repeat(indent) + half_1.slice(1).join('\n' + ' '.repeat(indent))}\n${' '.repeat(indent)}\`\`\`\n`
-            half_2 = `${' '.repeat(indent)}\`\`\`${lang.toLowerCase()}\n${' '.repeat(indent) + half_2.slice(3).join('\n' + ' '.repeat(indent))}\n${' '.repeat(indent)}\`\`\`\n`
+            half_1 = createFencedCodeBlock(half_1.slice(1).join('\n'), lang.toLowerCase(), indent)
+            half_2 = createFencedCodeBlock(half_2.slice(3).join('\n'), lang.toLowerCase(), indent)
 
             switch (position) {
                 case 'first':
@@ -2175,6 +2420,7 @@ class larkDocWriter {
     }
 
     async __convert_link(url) {
+        url = this.__apply_link_replacement_shim(url)
         if (url.includes('zilliverse')) {
             url = new URL(url);
             const token = url.pathname.split('/').pop();

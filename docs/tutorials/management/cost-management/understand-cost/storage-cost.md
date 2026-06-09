@@ -11,13 +11,6 @@ description: "In Zilliz Cloud, storage costs are incurred when you store data or
 type: origin
 token: Uj3wwkysGiBhfqk8jsMckyiTnBb
 sidebar_position: 4
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - storage
-  - cost
-  - billing
 displayed_sidebar: default
 
 ---

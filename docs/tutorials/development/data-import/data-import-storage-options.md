@@ -11,13 +11,6 @@ description: "Before importing data, it's important to understand the supported 
 type: origin
 token: TjxAw7lx6iNluBkR4a6czoHpn0f
 sidebar_position: 1
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - data import
-  - milvus
-  - storage options
 displayed_sidebar: default
 
 ---

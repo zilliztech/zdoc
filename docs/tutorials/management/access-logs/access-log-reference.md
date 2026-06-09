@@ -2,7 +2,7 @@
 title: "Access Log Reference | Cloud"
 slug: /access-log-reference
 sidebar_label: "Access Log Reference"
-beta: PUBLIC
+beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
@@ -11,13 +11,6 @@ description: "Access logs are delivered in JSON Lines format - one JSON object p
 type: origin
 token: TeLbw6guCimFLgkQWdmcZB2unMd
 sidebar_position: 3
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - access
-  - logs
-  - reference
 displayed_sidebar: default
 
 ---

@@ -11,16 +11,6 @@ description: "Zilliz Cloud provides a rich set of basic operators to help you fi
 type: origin
 token: LBbUwOGcwi1UMak3eE2cM1gvnUe
 sidebar_position: 2
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - collection
-  - data
-  - filter
-  - filtering expressions
-  - filtering
-  - basic operators
 displayed_sidebar: default
 
 ---

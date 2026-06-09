@@ -11,18 +11,6 @@ description: "Gaussian decay, also known as normal decay, creates the most natur
 type: origin
 token: G39mw621Yi3iICkv69JcQ0J5nHf
 sidebar_position: 2
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - collection
-  - data
-  - search result reranking
-  - result reranking
-  - decay
-  - decay ranker
-  - gaussian decay
-  - gauss
 displayed_sidebar: default
 
 ---

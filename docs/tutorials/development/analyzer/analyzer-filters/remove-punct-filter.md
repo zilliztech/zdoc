@@ -11,15 +11,6 @@ description: "The `removepunct` filter removes standalone punctuation tokens fro
 type: origin
 token: TVfnwtCEQico7Bk9bngcnV1cnGb
 sidebar_position: 10
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - collection
-  - schema
-  - analyzer
-  - built-in filters
-  - remove punct
 displayed_sidebar: default
 
 ---

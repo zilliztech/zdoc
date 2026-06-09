@@ -11,13 +11,6 @@ description: "Sparse vectors are an important method of capturing surface-level 
 type: origin
 token: JbPDwHqd0iZZSuk5tYicGqKbn9c
 sidebar_position: 5
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - collection
-  - schema
-  - sparse vector
 displayed_sidebar: default
 
 ---

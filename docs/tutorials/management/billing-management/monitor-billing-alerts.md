@@ -11,13 +11,6 @@ description: "Monitor billing alerts to track recent usage, credit status, payme
 type: origin
 token: V7qxwH6n4irO3zkGABXcksTLnFc
 sidebar_position: 9
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - usage
-  - monitor
-  - billing alerts
 displayed_sidebar: default
 
 ---
@@ -60,7 +53,7 @@ Zilliz Cloud provides the following billing alert metrics.
    <tr>
      <td><p>Remaining Credits ($)</p></td>
      <td><p>Remaining balance of free credits.</p></td>
-     <td><p><a href="./set-up-payment-method">Set up another payment method</a> before credits run out to avoid service interruption.</p></td>
+     <td><p><a href="./undefined">Set up another payment method</a> before credits run out to avoid service interruption.</p></td>
    </tr>
    <tr>
      <td><p>Credit Card Validity (days)</p></td>

@@ -11,13 +11,6 @@ description: "A private offer on AWS Marketplace is a custom purchasing option c
 type: origin
 token: UwFiwkAPciydBDktH1HcyR8ynEf
 sidebar_position: 3
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - marketplace
-  - aws
-  - private offer
 displayed_sidebar: default
 
 ---

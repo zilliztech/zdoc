@@ -11,13 +11,6 @@ description: "An ARRAY field stores an ordered list of elements of the same data
 type: origin
 token: N0RmwUtmqinQvokWdYLc3yV5nJh
 sidebar_position: 10
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - collection
-  - schema
-  - array field
 displayed_sidebar: default
 
 ---

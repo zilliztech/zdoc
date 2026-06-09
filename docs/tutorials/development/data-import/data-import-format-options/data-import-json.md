@@ -11,14 +11,6 @@ description: "JSON is a lightweight, human-readable data format that machines ca
 type: origin
 token: EHmOwLz5qi3tPDkb0gZcb5ExnJb
 sidebar_position: 2
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - data import
-  - milvus
-  - format options
-  - json
 displayed_sidebar: default
 
 ---

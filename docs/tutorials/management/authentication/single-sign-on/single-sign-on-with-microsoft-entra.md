@@ -11,13 +11,6 @@ description: "This topic describes how to configure single sign-on (SSO) with Mi
 type: origin
 token: Qkm3wPF9Titu1MkQ0fgcENs4nZc
 sidebar_position: 4
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - sso
-  - microsoft
-  - entra
 displayed_sidebar: default
 
 ---

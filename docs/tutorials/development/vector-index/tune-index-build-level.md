@@ -10,14 +10,7 @@ notebook: FALSE
 description: "Zilliz Cloud introduces a parameter called `buildlevel`, which allows users to balance storage capacity and search recall rate for the target collection. For collections that are infrequently used or need more storage space, you can sacrifice a small recall rate degradation in exchange for a huge increase in storage capacity, and vice versa. This guide explains the available options and how to use them to build indexes for collections. | Cloud"
 type: origin
 token: WQvUw9c9lifskGkgz0fcmUWvnFb
-sidebar_position: 1
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - vector field
-  - index
-  - index build level
+sidebar_position: 3
 displayed_sidebar: default
 
 ---

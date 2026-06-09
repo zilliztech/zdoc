@@ -11,13 +11,6 @@ description: "Zilliz Cloud implements Role-Based Access Control (RBAC) to finely
 type: origin
 token: UDjcwWISuixYjqkQy3GcmBpsnmV
 sidebar_position: 1
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - cluster
-  - access control
-  - rbac
 displayed_sidebar: default
 
 ---

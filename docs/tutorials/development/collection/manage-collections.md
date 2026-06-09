@@ -11,12 +11,6 @@ description: "On Zilliz Cloud, you can create multiple collections to manage you
 type: origin
 token: Z9AMwNkVLiog0jkXxNscuMpJnjL
 sidebar_position: 1
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - collection
-  - collection explained
 displayed_sidebar: default
 
 ---
@@ -64,7 +58,7 @@ For more information, please refer to [Primary Field & AutoId](./primary-field-a
 
 Creating indexes on specific fields improves search efficiency. You are advised to create indexes for all the fields your service relies on, among which indexes on vector fields are mandatory.
 
-Unlike in Milvus, AUTOINDEX is the only applicable index type to the vector fields in collections on Zilliz Cloud. For more details, refer to [AUTOINDEX Explained](./undefined).
+Unlike in Milvus, AUTOINDEX is the only applicable index type to the vector fields in collections on Zilliz Cloud. For more details, refer to [AUTOINDEX Explained](./autoindex-explained).
 
 ## Entity\{#entity}
 

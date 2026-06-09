@@ -11,14 +11,6 @@ description: "This guide provides a step-by-step walkthrough of the subscription
 type: origin
 token: XHdswv9CWi0ZHjkzxTMcoHqpnzd
 sidebar_position: 6
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - marketplace
-  - azure
-  - microsoft
-  - public offer
 displayed_sidebar: default
 
 ---

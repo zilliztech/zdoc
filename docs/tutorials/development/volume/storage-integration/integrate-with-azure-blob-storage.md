@@ -11,15 +11,6 @@ description: "Zilliz Cloud allows you to integrate with Azure Blob Storage to ex
 type: origin
 token: IzXPwUlJ5isTa4kH9KTcC6SfnvZ
 sidebar_position: 3
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - third-party
-  - services
-  - azure
-  - blob
-  - storage
 displayed_sidebar: default
 
 ---

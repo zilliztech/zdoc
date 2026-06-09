@@ -11,15 +11,6 @@ description: "If you need to separate Zilliz Cloud billing on Microsoft Marketpl
 type: origin
 token: Jj3VwVVpciWR47ktWTTcuJE6n8b
 sidebar_position: 2
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - marketplace
-  - azure
-  - microsoft
-  - usage
-  - separate billing
 displayed_sidebar: default
 
 ---

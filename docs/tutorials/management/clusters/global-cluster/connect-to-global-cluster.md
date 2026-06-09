@@ -11,15 +11,6 @@ description: "After your global cluster is running, connect to it using an endpo
 type: origin
 token: DknbwaLS3iAAiUk9ifPc1Vmvnze
 sidebar_position: 3
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - milvus
-  - global cluster
-  - connection
-  - endpoint
-  - routing
 displayed_sidebar: default
 
 ---
@@ -109,7 +100,7 @@ The following table compares the two connection endpoints.
 
 ## Check SDK version\{#check-sdk-version}
 
-Ensure you have installed SDKs. Before connecting to a global cluster, ensure your SDK meets the minimum version requirement.
+Ensure you have [installed](./install-sdks) SDKs. Before connecting to a global cluster, ensure your SDK meets the minimum version requirement.
 
 <table>
    <tr>

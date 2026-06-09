@@ -11,11 +11,6 @@ description: "Zilliz Cloud offers an intuitive Jobs page that integrates all his
 type: origin
 token: RY8ww0NDQi8yU9kNpjicHP7Gn4b
 sidebar_position: 3
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - project jobs
 displayed_sidebar: default
 
 ---

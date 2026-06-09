@@ -10,15 +10,7 @@ notebook: FALSE
 description: "A cluster role defines the privileges that a user has within the cluster. More specifically, the cluster role controls a cluster user's privileges on the cluster, database, and collection level. | Cloud"
 type: origin
 token: YHG0wCYxfiZILvkZ2VLclmvsn7g
-sidebar_position: 4
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - cluster
-  - access control
-  - rbac
-  - roles
+sidebar_position: 6
 displayed_sidebar: default
 
 ---

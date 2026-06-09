@@ -11,12 +11,6 @@ description: "Storage request cost is a type of storage cost that covers operati
 type: origin
 token: KEj5wPt9tiDsPMkhgV1czn1Snsh
 sidebar_position: 5
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - cost
-  - billing
 displayed_sidebar: default
 
 ---

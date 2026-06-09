@@ -11,14 +11,6 @@ description: "The Zilliz Cloud extension for Gemini CLI is a natural language in
 type: origin
 token: FDwgwyDbMi98nckzPxkc2qWynW4
 sidebar_position: 3
-keywords: 
-  - zilliz
-  - vector database
-  - ai-agents
-  - decision matrix
-  - skill
-  - gemini
-  - zilliz cli
 displayed_sidebar: default
 
 ---

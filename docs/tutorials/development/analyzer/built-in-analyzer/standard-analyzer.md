@@ -11,15 +11,6 @@ description: "The `standard` analyzer is the default analyzer in Zilliz Cloud, w
 type: origin
 token: WMSvwXXz4iR7mZkGmUscF3Y1nxs
 sidebar_position: 1
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - collection
-  - schema
-  - analyzer
-  - built-in analyzer
-  - standard-analyzer
 displayed_sidebar: default
 
 ---

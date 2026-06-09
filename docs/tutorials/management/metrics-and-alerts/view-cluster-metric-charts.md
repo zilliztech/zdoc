@@ -11,13 +11,6 @@ description: "Zilliz Cloud offers dashboards for monitoring metrics at both the 
 type: origin
 token: DbPIw4jLOiEabCk5uptc6EZ1nbf
 sidebar_position: 2
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - metrics
-  - alerts
-  - view
 displayed_sidebar: default
 
 ---

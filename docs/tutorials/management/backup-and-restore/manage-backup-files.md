@@ -11,12 +11,6 @@ description: "This guide walks you through how to view, rename, and delete exist
 type: origin
 token: Ml6dwBPTfiQOY9koK24cT1Sznge
 sidebar_position: 6
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - backup
-  - manage
 displayed_sidebar: default
 
 ---

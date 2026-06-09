@@ -2,7 +2,7 @@
 title: "Import from NumPy Files | Cloud"
 slug: /data-import-numpy
 sidebar_label: "NumPy"
-beta: NEAR DEPRECATE
+beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
@@ -11,14 +11,6 @@ description: "The `.npy` format is NumPy's standard binary format](https//numpy.
 type: origin
 token: FOwZwuxaWiuthnkZdedcGbJOnZf
 sidebar_position: 3
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - data import
-  - milvus
-  - format options
-  - numpy
 displayed_sidebar: default
 
 ---

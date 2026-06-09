@@ -11,13 +11,6 @@ description: "You can use this prompt for AI-powered IDEs, helping AI assistants
 type: origin
 token: U1dnw1bYyid9pTkjBhkcjOkenVc
 sidebar_position: 8
-keywords: 
-  - zilliz
-  - vector database
-  - ai-agents
-  - decision matrix
-  - prompts
-  - migration
 displayed_sidebar: default
 
 ---
@@ -63,7 +56,7 @@ Save the Zilliz Cloud prompt to a file in your repo, then include it in your AI 
 
 ## Prompt\{#prompt}
 
-```plaintext
+````plaintext
   # Zilliz Cloud Migration Prompt
   Help me migrate data into Zilliz Cloud.
 
@@ -292,4 +285,4 @@ Save the Zilliz Cloud prompt to a file in your repo, then include it in your AI 
   - indexes exist as expected
   - collections are loaded if required
   - a representative query and search both succeed
-```
+````

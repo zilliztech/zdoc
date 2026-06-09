@@ -11,12 +11,6 @@ description: "Zilliz Cloud offers both free cluster and free trial to help you e
 type: origin
 token: LMfdwRwKIiJtywkwbHVcGnOFnRf
 sidebar_position: 2
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - free trial
-  - milvus
 displayed_sidebar: default
 
 ---

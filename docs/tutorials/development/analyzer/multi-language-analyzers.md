@@ -11,14 +11,6 @@ description: "When Zilliz Cloud performs text analysis, it typically applies a s
 type: origin
 token: BnYLwepruiGNpwkJfBHcdrrOnOh
 sidebar_position: 5
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - collection
-  - schema
-  - analyzer
-  - multi-language
 displayed_sidebar: default
 
 ---

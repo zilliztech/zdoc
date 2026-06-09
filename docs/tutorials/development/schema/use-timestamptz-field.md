@@ -11,14 +11,6 @@ description: "Applications that track time across regions, such as e-commerce sy
 type: origin
 token: RxUiwJ77WiFKZGkC8rEcLeopnTf
 sidebar_position: 13
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - collection
-  - schema
-  - timestamp field
-  - time zone
 displayed_sidebar: default
 
 ---

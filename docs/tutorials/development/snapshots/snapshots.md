@@ -2,7 +2,7 @@
 title: "Snapshots | Cloud"
 slug: /snapshots
 sidebar_label: "Snapshots"
-beta: PRIVATE
+beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
@@ -10,14 +10,7 @@ notebook: FALSE
 description: "A snapshot is a point-in-time image of a Milvus collection, ideal for quick rollbacks, versioning, and testing. It captures the collection's state at a specific timestamp and stores only metadata and manifest files, such as the schema, indexes, and vector data files (binlogs), for efficient storage and restoration. | Cloud"
 type: origin
 token: XC1ow3jGBi7hVvkINtBcXhQ6n8g
-sidebar_position: 13
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - snapshot
-  - restore
-  - backup
+sidebar_position: 15
 displayed_sidebar: default
 
 ---

@@ -11,17 +11,6 @@ description: "This topic describes how to configure and use Voyage AI embedding 
 type: origin
 token: P4KNwDdqaivEZFk7RpOcYeyhn2N
 sidebar_position: 3
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - function
-  - model
-  - inference
-  - text
-  - embedding
-  - voyage
-  - ai
 displayed_sidebar: default
 
 ---

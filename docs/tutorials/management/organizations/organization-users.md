@@ -11,12 +11,6 @@ description: "In Zilliz Cloud, an organization typically represents a company. Y
 type: origin
 token: OzLjwMmWliJdEBkz0gPcVZrqnZb
 sidebar_position: 1
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - organizations
-  - users
 displayed_sidebar: default
 
 ---

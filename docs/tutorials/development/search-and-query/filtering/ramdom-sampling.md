@@ -11,16 +11,6 @@ description: "When working with large-scale datasets, you often don't need to pr
 type: origin
 token: ByJbwcpoCiBkDckR3VCcC4LTneg
 sidebar_position: 8
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - collection
-  - data
-  - filter
-  - filtering expressions
-  - filtering
-  - random sampling
 displayed_sidebar: default
 
 ---

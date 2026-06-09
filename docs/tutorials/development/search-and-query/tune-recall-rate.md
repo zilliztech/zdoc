@@ -10,17 +10,7 @@ notebook: FALSE
 description: "Zilliz Cloud introduces a search parameter `level` to allow users to balance search recall and performance. It also provides another search parameter, `enablerecallcalculation`, to give users the estimated recall rate of the current search. You can combine these two parameters to tune the recall rate of vector searches. | Cloud"
 type: origin
 token: Fz9swr5WwixkH8kKHircWCejnye
-sidebar_position: 2
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - collection
-  - data
-  - vector search
-  - ann
-  - recall rate
-  - tune recall rate
+sidebar_position: 3
 displayed_sidebar: default
 
 ---

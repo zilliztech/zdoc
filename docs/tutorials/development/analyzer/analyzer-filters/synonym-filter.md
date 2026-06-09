@@ -11,15 +11,6 @@ description: "The `synonym` filter rewrites tokens according to a synonym dictio
 type: origin
 token: Wo5xwhRaWitCP9kXOG2c082en2c
 sidebar_position: 12
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - collection
-  - schema
-  - analyzer
-  - built-in filters
-  - synonym
 displayed_sidebar: default
 
 ---

@@ -11,12 +11,6 @@ description: "This guide provides instructions on how to view, download, and tra
 type: origin
 token: DRJmwIMnbiuWz1kXPbsc6O3wnDg
 sidebar_position: 6
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - invoice
-  - manage
 displayed_sidebar: default
 
 ---

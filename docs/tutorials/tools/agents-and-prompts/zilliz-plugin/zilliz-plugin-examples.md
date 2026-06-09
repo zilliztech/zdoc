@@ -11,17 +11,6 @@ description: "In this guide, you will find more examples that use natural langua
 type: origin
 token: JiHgw9rQsibSugklTvBcpS1unGe
 sidebar_position: 3
-keywords: 
-  - zilliz
-  - vector database
-  - ai-agents
-  - decision matrix
-  - skill
-  - claude
-  - zilliz cli
-  - examples
-  - rbac
-  - migration
 displayed_sidebar: default
 
 ---

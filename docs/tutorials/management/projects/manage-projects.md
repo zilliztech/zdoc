@@ -11,11 +11,6 @@ description: "In Zilliz Cloud, a project serves as a logical container within an
 type: origin
 token: NXypwJ2ySiv7RAkyKb5cZ9SKnvf
 sidebar_position: 1
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - projects
 displayed_sidebar: default
 
 ---
@@ -325,5 +320,5 @@ You can delete a project via the web console.
 
 **Can I downgrade my project plan?**
 
-Direct plan downgrades are not supported. To switch to a lower plan, create a new project on the desired plan and [migrate](./undefined) your data to it.
+Direct plan downgrades are not supported. To switch to a lower plan, create a new project on the desired plan and [migrate](./offline-migration) your data to it.
 

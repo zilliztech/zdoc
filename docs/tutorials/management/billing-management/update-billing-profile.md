@@ -11,13 +11,6 @@ description: "The billing profile contains the organization and contact informat
 type: origin
 token: Lk7kwMmCxin65BkSkd6csubWncd
 sidebar_position: 4
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - payment
-  - billing profile
-  - update
 displayed_sidebar: default
 
 ---

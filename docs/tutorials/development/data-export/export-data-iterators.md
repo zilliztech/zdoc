@@ -11,12 +11,6 @@ description: "This guide provides an example of how to export data from a Zilliz
 type: origin
 token: N6fZwCUXqiqoJEkFiVNcvDJEnnc
 sidebar_position: 1
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - data export
-  - iterator
 displayed_sidebar: default
 
 ---

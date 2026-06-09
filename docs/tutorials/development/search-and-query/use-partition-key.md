@@ -11,14 +11,6 @@ description: "The Partition Key is a search optimization solution that enables l
 type: origin
 token: QWqiwrgJViA5AJkv64VcgQX2nKd
 sidebar_position: 20
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - collection
-  - data
-  - search optimization
-  - partition key
 displayed_sidebar: default
 
 ---

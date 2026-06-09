@@ -11,11 +11,6 @@ description: "An external volume is a read-only reference to a bucket or path in
 type: origin
 token: JaLdw76LPiX003kLpKHcA0n8n2d
 sidebar_position: 2
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - volume
 displayed_sidebar: default
 
 ---

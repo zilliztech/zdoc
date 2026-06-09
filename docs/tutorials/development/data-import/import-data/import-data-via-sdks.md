@@ -11,12 +11,6 @@ description: "This guide helps you learn how to use our SDKs to import data into
 type: origin
 token: MvgAwL4HIiuRRJkH0FwcJhxSnld
 sidebar_position: 3
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - data import
-  - sdk
 displayed_sidebar: default
 
 ---

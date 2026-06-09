@@ -11,15 +11,6 @@ description: "The `english` analyzer in Zilliz Cloud is designed to process Engl
 type: origin
 token: W0WhwqRyciRMRLklcsdca1U2nae
 sidebar_position: 2
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - collection
-  - schema
-  - analyzer
-  - built-in analyzer
-  - english analyzer
 displayed_sidebar: default
 
 ---

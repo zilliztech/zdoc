@@ -11,12 +11,6 @@ description: "This page introduces how to import the prepared data via the Zilli
 type: origin
 token: ZOikw2pIUiAZj9kuLYRcdhLnnoc
 sidebar_position: 2
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - data import
-  - restful
 displayed_sidebar: default
 
 ---

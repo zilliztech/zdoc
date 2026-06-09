@@ -11,14 +11,6 @@ description: "If you need to separate Zilliz Cloud billing on AWS Marketplace by
 type: origin
 token: MMJIwQxHmiMWgCkIfQCc6EKCnPf
 sidebar_position: 1
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - marketplace
-  - aws
-  - usage
-  - separate billing
 displayed_sidebar: default
 
 ---

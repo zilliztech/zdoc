@@ -11,12 +11,6 @@ description: "This guide provides comprehensive instructions on how to add a pay
 type: origin
 token: IhEbw9V3SicIU9kx3HxcmJRSncb
 sidebar_position: 2
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - credit card
-  - subscribe
 displayed_sidebar: default
 
 ---
@@ -91,7 +85,7 @@ This guide provides comprehensive instructions on how to add a payment credit ca
 
 ## Replace a credit card\{#replace-a-credit-card}
 
-When your credit card approaches its expiration date, you can choose to replace your existing card or switch to a [Marketplace subscription](./marketplace-subscription).
+When your credit card approaches its expiration date, you can choose to replace your existing card or switch to a [Marketplace subscription](./undefined).
 
 The following demo shows how to replace your existing credit card to a new card.
 
@@ -127,7 +121,7 @@ Upon successful subscription, your existing credit card information will be auto
 
 </Admonition>
 
-For details about Marketplace subscription see [Marketplace Subscription](./marketplace-subscription).
+For details about Marketplace subscription see [Marketplace Subscription](./undefined).
 
 For details about updating a payment method, see [Update Payment Method](./update-payment-method).
 

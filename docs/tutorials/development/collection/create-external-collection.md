@@ -2,7 +2,7 @@
 title: "Create an External Collection | Cloud"
 slug: /create-external-collection
 sidebar_label: "Create an External Collection"
-beta: PUBLIC
+beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
@@ -11,11 +11,6 @@ description: "An external collection is a type of data collection in Zilliz Clou
 type: origin
 token: RsGAwmgAYiE6fgkOiokcijsBnEg
 sidebar_position: 3
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - external collection
 displayed_sidebar: default
 
 ---

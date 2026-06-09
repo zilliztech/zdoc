@@ -11,16 +11,6 @@ description: "Modern AI applications, especially in the Internet of Things (IoT)
 type: origin
 token: VOkIwd5adiziGQkoDO1cRoRFnre
 sidebar_position: 2
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - collection
-  - schema
-  - schema design
-  - hands-on
-  - structs
-  - array of structs
 displayed_sidebar: default
 
 ---

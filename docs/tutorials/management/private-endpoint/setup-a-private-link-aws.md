@@ -11,17 +11,6 @@ description: "This guide demonstrates the procedure for setting up a private lin
 type: origin
 token: GBY6wbUmwi9lLjkXSuKccODgnne
 sidebar_position: 1
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - private link
-  - privatelink
-  - private endpoint
-  - private service connect
-  - aws
-  - gcp
-  - azure
 displayed_sidebar: default
 
 ---

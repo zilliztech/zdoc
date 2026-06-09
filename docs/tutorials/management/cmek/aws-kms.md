@@ -11,12 +11,6 @@ description: "AWS Key Management Service (KMS) is an AWS-managed service that ma
 type: origin
 token: FOamwIi07ia7kpkBPW8cEuIpniu
 sidebar_position: 1
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - cmek
-  - aws kms
 displayed_sidebar: default
 
 ---

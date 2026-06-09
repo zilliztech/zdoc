@@ -11,13 +11,6 @@ description: "The `NGRAM` index in Zilliz Cloud accelerates `LIKE` queries and e
 type: origin
 token: Q0wpw4xZiimaUsk4GvScAg2un1d
 sidebar_position: 3
-keywords: 
-  - zilliz
-  - vector database
-  - cloud
-  - scalar field
-  - varchar
-  - ngram
 displayed_sidebar: default
 
 ---
