@@ -75,11 +75,6 @@
       "label": "Concepts",
       "afterDoc": "tutorials/what-is-vector-lakebase",
       "collapsed": true
-    },
-    {
-      "label": "Quickstarts",
-      "afterCategory": "Concepts",
-      "collapsed": true
     }
   ],
   "sectionGroupers": [

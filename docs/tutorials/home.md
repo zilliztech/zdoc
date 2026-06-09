@@ -11,6 +11,7 @@ description: "This is the home page for the Zilliz Cloud Developer Hub. | Cloud"
 type: origin
 token: KXgEwDH8yifWxukkXXFctMdLnpg
 sidebar_position: 1
+displayed_sidebar: default
 keywords: 
   - zilliz
   - vector database
@@ -934,4 +935,3 @@ Select a project [plan](./select-zilliz-cloud-service-plans) and create clusters
 </Blocks>
 
 <Banner bannerText="Can't find what you're looking for?" bannerLinkText="Try Ask AI" />
-

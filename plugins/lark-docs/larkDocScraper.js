@@ -3,6 +3,7 @@ const tokenFetcher = require('./larkTokenFetcher.js')
 const fs = require('fs')
 const node_path = require('path')
 const _ = require('lodash')
+const slugify = require('slugify')
 require('dotenv').config()
 
 const FEISHU_HOST = process.env.FEISHU_HOST
@@ -15,8 +16,10 @@ class larkDocScraper {
         const baseParts = base_app_id.split(':')
         this.base_app_token = baseParts[0]
         this.base_table_id = baseParts.length > 1 ? baseParts[1] : null
+        this.use_all_base_tables = this.base_table_id === '*'
         this.target_type = target_type
         this.doc_source_dir = doc_source_dir
+        this.base_tables = null
 
         // fs.rmSync(this.doc_source_dir, { recursive: true, force: true })
     }
@@ -116,6 +119,10 @@ class larkDocScraper {
             }
         }
 
+        if (recursive && this.target_type == "wiki") {
+            await this.__apply_base_navigation()
+        }
+
         // validate all docx source files have blocks before proceeding
         const incomplete = []
         for (const file of fs.readdirSync(this.doc_source_dir).filter(f => f.endsWith('.json'))) {
@@ -211,48 +218,153 @@ class larkDocScraper {
         })
     }
 
-    async __base() {
-        const fetcher = new tokenFetcher()
-        await fetcher.fetchToken()
-        const token = await fetcher.token()
+    __plain_value(value) {
+        if (value === null || value === undefined) return null
+        if (typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean') return String(value)
+        if (value instanceof Array) {
+            return value.map(item => this.__plain_value(item)).filter(Boolean).join(', ')
+        }
+        if (typeof value === 'object') {
+            if (value.text) return value.text
+            if (value.name) return value.name
+            if (value.link) return value.link
+            if (value.id) return value.id
+            const typedKey = value.type && value[value.type] ? value.type : null
+            if (typedKey) return this.__plain_value(value[typedKey])
+        }
+        return null
+    }
 
-        let table_id = this.base_table_id
-        if (!table_id) {
-            let url = `${FEISHU_HOST}/open-apis/bitable/v1/apps/${this.base_app_token}/tables`
-            table_id = (await (await fetch(url, {
+    __doc_field(fields) {
+        return fields.Doc || fields.Docs
+    }
+
+    __doc_link(docField) {
+        if (!docField) return null
+        if (typeof docField === 'string') {
+            const markdownMatch = docField.match(/\[[^\]]+\]\(([^)]+)\)/)
+            return markdownMatch ? markdownMatch[1] : docField
+        }
+        if (docField.link) return docField.link
+        if (docField.url) return docField.url
+        if (docField instanceof Array) return this.__doc_link(docField[0])
+        return null
+    }
+
+    __doc_title(docField) {
+        if (!docField) return null
+        if (typeof docField === 'string') {
+            const markdownMatch = docField.match(/\[([^\]]+)\]\([^)]+\)/)
+            return markdownMatch ? markdownMatch[1] : docField
+        }
+        return docField.text || docField.name || this.__plain_value(docField)
+    }
+
+    __doc_token(docField) {
+        const link = this.__doc_link(docField)
+        if (!link) return null
+        if (link.includes('#')) return link.split('#').pop()
+        try {
+            const url = new URL(link)
+            return url.pathname.split('/').filter(Boolean).pop()
+        } catch (_) {
+            return link.startsWith('http://') || link.startsWith('https://') ? null : link
+        }
+    }
+
+    async __base_tables(token) {
+        if (this.base_tables) return this.base_tables
+
+        if (this.base_table_id && !this.use_all_base_tables) {
+            this.base_tables = [{ table_id: this.base_table_id, name: this.base_table_id, index: 0 }]
+            return this.base_tables
+        }
+
+        const tables = []
+        let pageToken = null
+        do {
+            const pageTokenExpr = pageToken ? `&page_token=${pageToken}` : ''
+            const url = `${FEISHU_HOST}/open-apis/bitable/v1/apps/${this.base_app_token}/tables?page_size=100${pageTokenExpr}`
+            const jres = await (await fetch(url, {
                 method: "get",
                 headers: {
                     'Content-Type': 'application/json; charset=utf-8',
                     'Authorization': `Bearer ${token}`
                 }
-            })).json()).data.items[0].table_id
+            })).json()
+            if (jres.code !== 0) {
+                throw new Error(`[base] Failed to list tables for ${this.base_app_token}: ${JSON.stringify(jres)}`)
+            }
+            tables.push(...jres.data.items)
+            pageToken = jres.data.has_more ? jres.data.page_token : null
+        } while (pageToken)
+
+        const selectedTables = this.use_all_base_tables ? tables : tables.slice(0, 1)
+        this.base_tables = selectedTables.map((table, index) => ({
+            ...table,
+            table_id: table.table_id || table.id,
+            name: table.name || table.table_name || table.table_id || table.id,
+            index,
+        }))
+        return this.base_tables
+    }
+
+    async __base_records(token, table) {
+        const records = []
+        let pageToken = null
+        do {
+            const pageTokenExpr = pageToken ? `&page_token=${pageToken}` : ''
+            const url = `${FEISHU_HOST}/open-apis/bitable/v1/apps/${this.base_app_token}/tables/${table.table_id}/records?page_size=500${pageTokenExpr}`
+            const jres = await (await fetch(url, {
+                method: "get",
+                headers: {
+                    'Content-Type': 'application/json; charset=utf-8',
+                    'Authorization': `Bearer ${token}`
+                }
+            })).json()
+            if (jres.code !== 0) {
+                throw new Error(`[base] Failed to list records for ${table.name || table.table_id}: ${JSON.stringify(jres)}`)
+            }
+            const items = jres.data?.items || []
+            if (!Array.isArray(items)) {
+                throw new Error(`[base] Unexpected records payload for ${table.name || table.table_id}: ${JSON.stringify(jres)}`)
+            }
+            records.push(...items.map((record, index) => ({
+                ...record,
+                base_table_id: table.table_id,
+                base_table_name: table.name || table.table_id,
+                base_table_index: table.index,
+                base_record_index: records.length + index,
+            })))
+            pageToken = jres.data?.has_more ? jres.data.page_token : null
+        } while (pageToken)
+        return records
+    }
+
+    async __base() {
+        const fetcher = new tokenFetcher()
+        await fetcher.fetchToken()
+        const token = await fetcher.token()
+        const tables = await this.__base_tables(token)
+        const recordsByTable = []
+
+        for (const table of tables) {
+            recordsByTable.push(...await this.__base_records(token, table))
         }
 
-        let url = `${FEISHU_HOST}/open-apis/bitable/v1/apps/${this.base_app_token}/tables/${table_id}/records?page_size=500`
-        const records = (await (await fetch(url, {
-            method: "get",
-            headers: {
-                'Content-Type': 'application/json; charset=utf-8',
-                'Authorization': `Bearer ${token}`
-            }
-        })).json()).data.items
-
-        this.records = records
-
-        // fs.writeFileSync(`records.json`, JSON.stringify(this.records, null, 2))
+        this.records = recordsByTable
 
         const slugs = {}
-        if (records.length > 0) {
-            for (let record of records) {
-                const docField = record.fields.Doc || record.fields.Docs
-                if (record.fields.Slug && docField) {
-                    slugs[docField.link.split('/').pop()] = { slug: record.fields.Slug, title: docField.text }
-                } else if (!record.fields.Slug) {
-                    throw new Error(`Slug field not found for record ${record.fields['Seq. ID'] || record.record_id}`)
+        if (this.records.length > 0) {
+            for (let record of this.records) {
+                const docField = this.__doc_field(record.fields)
+                const docToken = this.__doc_token(docField)
+                if (record.fields.Slug && docToken) {
+                    slugs[docToken] = { slug: record.fields.Slug, title: this.__doc_title(docField) }
                 }
             }
         }
-        
+
         const slugs_arr = this.__uniquify(Object.values(slugs).map(s => s.slug instanceof Array ? s.slug[0][s.slug[0].type] : s.slug))
         const slug_keys = Object.keys(slugs)
 
@@ -265,8 +377,6 @@ class larkDocScraper {
         })
 
         this.slugs = slugs
-
-        // fs.writeFileSync(`slugs.json`, JSON.stringify(this.slugs, null, 2))
     }
 
     __uniquify(arr) {
@@ -309,6 +419,228 @@ class larkDocScraper {
         }
 
         return slug
+    }
+
+    __sort_records(records) {
+        return records.sort((a, b) => {
+            const aSeq = parseInt(this.__plain_value(a.fields['Seq. ID']) || a.base_record_index || '0')
+            const bSeq = parseInt(this.__plain_value(b.fields['Seq. ID']) || b.base_record_index || '0')
+            return aSeq - bSeq
+        })
+    }
+
+    __parent_record_ids(record) {
+        const parent = record.fields.Parent
+        if (!parent) return []
+        const items = parent instanceof Array ? parent : [parent]
+        return items.map(item => {
+            if (typeof item === 'string') return item
+            if (item?.record_id) return item.record_id
+            if (item?.record_ids instanceof Array) return item.record_ids
+            if (item?.id) return item.id
+            return null
+        }).flat().filter(Boolean)
+    }
+
+    __source_files() {
+        const sources = new Map()
+        const files = fs.existsSync(this.doc_source_dir) ? fs.readdirSync(this.doc_source_dir).filter(file => file.endsWith('.json')) : []
+        for (const file of files) {
+            const source = JSON.parse(fs.readFileSync(`${this.doc_source_dir}/${file}`, 'utf8'))
+            source.__source_file = file
+            ;[source.node_token, source.origin_node_token, source.obj_token, source.token].filter(Boolean).forEach(token => {
+                sources.set(token, source)
+            })
+        }
+        return sources
+    }
+
+    async __fetch_base_doc_sources() {
+        const sources = this.__source_files()
+        for (const record of this.records || []) {
+            const docField = this.__doc_field(record.fields)
+            const docToken = this.__doc_token(docField)
+            if (!docToken || sources.has(docToken)) continue
+
+            const url = `${FEISHU_HOST}/open-apis/wiki/v2/spaces/get_node?token=${docToken}`
+            const jres = await (await fetch(url, {
+                headers: {
+                    'Content-Type': 'application/json; charset=utf-8',
+                    'Authorization': `Bearer ${this.token}`
+                }
+            })).json()
+
+            if (jres.code !== 0) {
+                console.warn(`[base-nav] Failed to resolve linked wiki node ${docToken}: ${JSON.stringify(jres)}`)
+                continue
+            }
+
+            let node = jres.data.node
+            if (node.node_type === 'shortcut') {
+                const shortcutUrl = `${FEISHU_HOST}/open-apis/wiki/v2/spaces/get_node?token=${node.origin_node_token}`
+                const shortcutJres = await (await fetch(shortcutUrl, {
+                    headers: {
+                        'Content-Type': 'application/json; charset=utf-8',
+                        'Authorization': `Bearer ${this.token}`
+                    }
+                })).json()
+                if (shortcutJres.code === 0) {
+                    node = shortcutJres.data.node
+                }
+            }
+
+            node.slug = await this.__slugify(node.node_token, node.title)
+            await this.__fetch_blocks(node)
+            const filenameToken = node.origin_node_token || node.node_token || node.obj_token || docToken
+            if (!node.origin_node_token) node.origin_node_token = filenameToken
+            this.__write_source(node, `${this.doc_source_dir}/${filenameToken}.json`)
+            ;[node.node_token, node.origin_node_token, node.obj_token, node.token].filter(Boolean).forEach(token => {
+                sources.set(token, node)
+            })
+            console.log(`[base-nav] Fetched linked Base doc ${filenameToken}.json`)
+        }
+    }
+
+    __nav_token(record) {
+        return `base:${record.base_table_id}:${record.record_id}`
+    }
+
+    __nav_file_name(nodeToken) {
+        return `${nodeToken.replace(/[^a-zA-Z0-9_-]/g, '_')}.json`
+    }
+
+    __nav_ref(source) {
+        const ref = _.cloneDeep(source)
+        delete ref.blocks
+        delete ref.children
+        delete ref.__source_file
+        return ref
+    }
+
+    __record_title(record) {
+        return this.__doc_title(this.__doc_field(record.fields)) || this.__plain_value(record.fields.Labels) || record.record_id
+    }
+
+    __record_slug(record) {
+        return this.__plain_value(record.fields.Slug) || slugify(this.__record_title(record), { lower: true, strict: true })
+    }
+
+    __is_structural_record(record) {
+        return !this.__doc_token(this.__doc_field(record.fields)) || !record.fields.Slug
+    }
+
+    __virtual_source({ nodeToken, parentToken, title, slug, children=[] }) {
+        return {
+            obj_type: 'folder',
+            node_type: 'folder',
+            type: 'folder',
+            title,
+            name: title,
+            slug,
+            node_token: nodeToken,
+            origin_node_token: nodeToken,
+            parent_node_token: parentToken,
+            base_nav_virtual: true,
+            has_child: children.length > 0,
+            children,
+        }
+    }
+
+    async __apply_base_navigation() {
+        if (!this.records) {
+            await this.__base()
+        }
+        if (!this.records || this.records.length === 0 || !this.base_tables || !this.use_all_base_tables) {
+            return
+        }
+
+        await this.__fetch_base_doc_sources()
+        const sources = this.__source_files()
+        const root = sources.get(this.root)
+        if (!root) {
+            console.warn(`[base-nav] Root source ${this.root} not found; skipping Base navigation rewrite.`)
+            return
+        }
+
+        const recordsById = new Map(this.records.map(record => [record.record_id, record]))
+        const childrenByParent = new Map()
+        for (const record of this.records) {
+            const parentIds = this.__parent_record_ids(record)
+            const parentKey = parentIds.find(id => recordsById.has(id)) || `${record.base_table_id}:root`
+            if (!childrenByParent.has(parentKey)) childrenByParent.set(parentKey, [])
+            childrenByParent.get(parentKey).push(record)
+        }
+
+        const materializeRecord = (record, parentToken) => {
+            const children = this.__sort_records([...(childrenByParent.get(record.record_id) || [])])
+                .map(child => materializeRecord(child, this.__nav_token(record)))
+            const docField = this.__doc_field(record.fields)
+            const docToken = this.__doc_token(docField)
+            const isStructural = this.__is_structural_record(record)
+            const title = this.__record_title(record)
+            const slug = this.__record_slug(record)
+            const titleMatches = Array.from(new Set(Array.from(sources.values())))
+                .filter(source => !source.base_nav_virtual && (source.title === title || source.name === title))
+            const existingSource = isStructural ? null : (docToken ? sources.get(docToken) : (titleMatches.length === 1 ? titleMatches[0] : null))
+            let source
+
+            if (existingSource && record.fields.Slug) {
+                source = existingSource
+                source.title = title
+                source.name = title
+                source.slug = slug
+                source.parent_node_token = parentToken
+                source.base_record_id = record.record_id
+                source.base_table_id = record.base_table_id
+                source.base_table_name = record.base_table_name
+                source.has_child = children.length > 0
+                if (children.length > 0) {
+                    source.children = children
+                } else {
+                    delete source.children
+                }
+            } else {
+                source = this.__virtual_source({
+                    nodeToken: this.__nav_token(record),
+                    parentToken,
+                    title,
+                    slug,
+                    children,
+                })
+                source.base_record_id = record.record_id
+                source.base_table_id = record.base_table_id
+                source.base_table_name = record.base_table_name
+            }
+
+            const filename = source.__source_file || this.__nav_file_name(source.node_token || source.token)
+            delete source.__source_file
+            fs.writeFileSync(`${this.doc_source_dir}/${filename}`, JSON.stringify(source, null, 2))
+            return this.__nav_ref(source)
+        }
+
+        const tableChildren = []
+        for (const table of this.base_tables) {
+            const tableToken = `base:${table.table_id}`
+            const rows = this.__sort_records([...(childrenByParent.get(`${table.table_id}:root`) || [])])
+            const children = rows.map(record => materializeRecord(record, tableToken))
+            const tableSource = this.__virtual_source({
+                nodeToken: tableToken,
+                parentToken: this.root,
+                title: table.name || table.table_id,
+                slug: slugify(table.name || table.table_id, { lower: true, strict: true }),
+                children,
+            })
+            tableSource.base_table_id = table.table_id
+            fs.writeFileSync(`${this.doc_source_dir}/${this.__nav_file_name(tableToken)}`, JSON.stringify(tableSource, null, 2))
+            tableChildren.push(this.__nav_ref(tableSource))
+        }
+
+        root.children = tableChildren
+        root.has_child = tableChildren.length > 0
+        const rootFile = root.__source_file || `${root.origin_node_token || root.node_token}.json`
+        delete root.__source_file
+        fs.writeFileSync(`${this.doc_source_dir}/${rootFile}`, JSON.stringify(root, null, 2))
+        console.log(`[base-nav] Rewrote navigation from ${this.base_tables.length} Base table(s).`)
     }
 
     async __split_one_pager(node) {

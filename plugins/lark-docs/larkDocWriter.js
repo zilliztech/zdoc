@@ -38,6 +38,8 @@ class larkDocWriter {
         const baseParts = base_token.split(':')
         this.base_app_token = baseParts[0]
         this.base_table_id = baseParts.length > 1 ? baseParts[1] : null
+        this.use_all_base_tables = this.base_table_id === '*'
+        this.base_tables = null
         this.displayedSidebar = displayedSidebar
         this.docSourceDir = docSourceDir
         this.page_blocks = []
@@ -104,6 +106,11 @@ class larkDocWriter {
         return this.__sidebar_items(outputDir, contentRoot, this.root_token)
     }
 
+    __has_renderable_page(source) {
+        const page = source?.blocks?.items?.find(block => block.block_type === 1)
+        return !!(page?.children && page.children.length > 0)
+    }
+
     async __sidebar_items(currentPath, contentRoot, token) {
         let node
         try { node = this.__fetch_doc_source('node_token', token) } catch (e) { return [] }
@@ -131,10 +138,13 @@ class larkDocWriter {
                         .replace(/\\/g, '/')
                         .replace(new RegExp(`^${contentRoot}/`), '')
                     items.push({ type: 'category', label, link: { type: 'doc', id: docId }, items: childItems })
-                } else {
+                } else if (childItems.length > 0) {
                     items.push({ type: 'category', label, items: childItems })
                 }
             } else if (child.slug !== 'faqs') {
+                let childSource = null
+                try { childSource = this.__fetch_doc_source('node_token', child.node_token, child.slug) } catch (e) {}
+                if (childSource && !this.__has_renderable_page(childSource)) continue
                 const docId = node_path.join(currentPath, slug)
                     .replace(/\\/g, '/')
                     .replace(new RegExp(`^${contentRoot}/`), '')
@@ -329,13 +339,18 @@ class larkDocWriter {
         if (page_token) {
             obj = this.__fetch_doc_source('node_token', page_token, page_slug)
             if (obj) {
-                blocks = obj.blocks.items
+                blocks = obj.blocks?.items
             }
         } else if (page_title) {
             obj = this.__fetch_doc_source('title', page_title, page_slug)
             if (obj) {
-                blocks = obj.blocks.items
+                blocks = obj.blocks?.items
             }
+        }
+
+        if (!blocks) {
+            console.warn(`[write_doc] Skipping ${page_slug || page_title}: source has no blocks`)
+            return
         }
 
         if (blocks) {
@@ -480,50 +495,159 @@ class larkDocWriter {
         }
     }
 
-    async __listed_docs() {
-        const token = await this.tokenFetcher.token()
+    __plain_value(value) {
+        if (value === null || value === undefined) return null
+        if (typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean') return String(value)
+        if (value instanceof Array) {
+            return value.map(item => this.__plain_value(item)).filter(Boolean).join(', ')
+        }
+        if (typeof value === 'object') {
+            if (value.text) return value.text
+            if (value.name) return value.name
+            if (value.link) return value.link
+            if (value.id) return value.id
+            const typedKey = value.type && value[value.type] ? value.type : null
+            if (typedKey) return this.__plain_value(value[typedKey])
+        }
+        return null
+    }
 
-        let table_id = this.base_table_id
-        if (!table_id) {
-            let url = `${process.env.FEISHU_HOST}/open-apis/bitable/v1/apps/${this.base_app_token}/tables`
-            table_id = (await (await fetch(url, {
+    __doc_field(fields) {
+        return fields.Doc || fields.Docs
+    }
+
+    __doc_link(docField) {
+        if (!docField) return null
+        if (typeof docField === 'string') {
+            const markdownMatch = docField.match(/\[[^\]]+\]\(([^)]+)\)/)
+            return markdownMatch ? markdownMatch[1] : docField
+        }
+        if (docField.link) return docField.link
+        if (docField.url) return docField.url
+        if (docField instanceof Array) return this.__doc_link(docField[0])
+        return null
+    }
+
+    __doc_title(docField) {
+        if (!docField) return null
+        if (typeof docField === 'string') {
+            const markdownMatch = docField.match(/\[([^\]]+)\]\([^)]+\)/)
+            return markdownMatch ? markdownMatch[1] : docField
+        }
+        return docField.text || docField.name || this.__plain_value(docField)
+    }
+
+    async __base_tables(token) {
+        if (this.base_tables) return this.base_tables
+        if (this.base_table_id && !this.use_all_base_tables) {
+            this.base_tables = [{ table_id: this.base_table_id, name: this.base_table_id, index: 0 }]
+            return this.base_tables
+        }
+
+        const tables = []
+        let pageToken = null
+        do {
+            const pageTokenExpr = pageToken ? `&page_token=${pageToken}` : ''
+            const url = `${process.env.FEISHU_HOST}/open-apis/bitable/v1/apps/${this.base_app_token}/tables?page_size=100${pageTokenExpr}`
+            const jres = await (await fetch(url, {
                 method: "get",
                 headers: {
                     'Content-Type': 'application/json; charset=utf-8',
                     'Authorization': `Bearer ${token}`
                 }
-            })).json()).data.items[0].table_id
-        }
-
-        let url = `${process.env.FEISHU_HOST}/open-apis/bitable/v1/apps/${this.base_app_token}/tables/${table_id}/records?page_size=500`
-        this.records = (await (await fetch(url, {
-            method: "get",
-            headers: {
-                'Content-Type': 'application/json; charset=utf-8',
-                'Authorization': `Bearer ${token}`
+            })).json()
+            if (jres.code !== 0) {
+                throw new Error(`[base] Failed to list tables for ${this.base_app_token}: ${JSON.stringify(jres)}`)
             }
-        })).json()).data.items
+            const items = jres.data?.items || []
+            if (!Array.isArray(items)) {
+                throw new Error(`[base] Unexpected tables payload for ${this.base_app_token}: ${JSON.stringify(jres)}`)
+            }
+            tables.push(...items)
+            pageToken = jres.data?.has_more ? jres.data.page_token : null
+        } while (pageToken)
+
+        const selectedTables = this.use_all_base_tables ? tables : tables.slice(0, 1)
+        this.base_tables = selectedTables.map((table, index) => ({
+            ...table,
+            table_id: table.table_id || table.id,
+            name: table.name || table.table_name || table.table_id || table.id,
+            index,
+        }))
+        return this.base_tables
+    }
+
+    async __base_records(token, table) {
+        const records = []
+        let pageToken = null
+        do {
+            const pageTokenExpr = pageToken ? `&page_token=${pageToken}` : ''
+            const url = `${process.env.FEISHU_HOST}/open-apis/bitable/v1/apps/${this.base_app_token}/tables/${table.table_id}/records?page_size=500${pageTokenExpr}`
+            const jres = await (await fetch(url, {
+                method: "get",
+                headers: {
+                    'Content-Type': 'application/json; charset=utf-8',
+                    'Authorization': `Bearer ${token}`
+                }
+            })).json()
+            if (jres.code !== 0) {
+                throw new Error(`[base] Failed to list records for ${table.name || table.table_id}: ${JSON.stringify(jres)}`)
+            }
+            const items = jres.data?.items || []
+            if (!Array.isArray(items)) {
+                throw new Error(`[base] Unexpected records payload for ${table.name || table.table_id}: ${JSON.stringify(jres)}`)
+            }
+            records.push(...items)
+            pageToken = jres.data?.has_more ? jres.data.page_token : null
+        } while (pageToken)
+        return records
+    }
+
+    async __listed_docs() {
+        const token = await this.tokenFetcher.token()
+        const tables = await this.__base_tables(token)
+        const records = []
+        for (const table of tables) {
+            records.push(...await this.__base_records(token, table))
+        }
+        this.records = records
     }
 
     async __is_to_publish (title, slug, token=null) {
+        if (slug && fs.existsSync(this.docSourceDir)) {
+            const virtualSource = fs.readdirSync(this.docSourceDir)
+                .filter(file => file.endsWith('.json'))
+                .map(file => JSON.parse(fs.readFileSync(`${this.docSourceDir}/${file}`, 'utf8')))
+                .find(source => source.base_nav_virtual && source.slug === slug && (source.title === title || source.name === title))
+            if (virtualSource) {
+                return {
+                    publish: !!virtualSource.has_child,
+                    title: virtualSource.title || title,
+                    slug,
+                    labels: virtualSource.title || title,
+                }
+            }
+        }
+
         if (!this.records) {
             await this.__listed_docs()
         }
 
         const result = this.records.filter(record => {
-            const docField = record.fields.Doc || record.fields.Docs
+            const docField = this.__doc_field(record.fields)
             if (!docField) return false
 
-            const record_slug = record["fields"]["Slug"] instanceof Array ? record["fields"]["Slug"][0].text : record["fields"]["Slug"]
+            const record_slug = this.__plain_value(record["fields"]["Slug"])
             const targetField = record.fields['Publish Targets'] || record.fields.Targets
 
             // Check publish eligibility via Status (new) or Progress (old)
-            const isPublishable = record.fields.Status
-                ? ['Draft', 'Approved', 'Published'].includes(record.fields.Status)
-                : (record.fields.Progress === 'Draft' || record.fields.Progress === 'Publish')
+            const status = this.__plain_value(record.fields.Status || record.fields.Progress)
+            const isPublishable = ['Draft', 'Approved', 'Published', 'Publish', 'Reviewed'].includes(status)
 
-            if (((docField.text === title && record_slug == slug) || docField.link.endsWith(token)) && targetField && isPublishable) {
-                const targets = targetField.map(item => item.trim().toLowerCase())
+            const docLink = this.__doc_link(docField) || ''
+            const docTitle = this.__doc_title(docField)
+            if (((docTitle === title && record_slug == slug) || (token && docLink.endsWith(token))) && targetField && isPublishable) {
+                const targets = (targetField instanceof Array ? targetField : [targetField]).map(item => this.__plain_value(item)?.trim().toLowerCase())
                 if (targets.includes(this.targets.toLowerCase())) {
                     return record
                 }
@@ -532,10 +656,10 @@ class larkDocWriter {
 
         if (result.length > 0) {
             const fields = result[0].fields
-            const docField = fields.Doc || fields.Docs
+            const docField = this.__doc_field(fields)
             return {
                 publish: true,
-                title: docField.text,
+                title: this.__doc_title(docField),
                 slug: fields.Slug,
                 beta: fields.Beta || null,
                 notebook: fields.Notebook || null,
@@ -740,7 +864,7 @@ class larkDocWriter {
         }
 
         if (displayed_sidebar === 'default') {
-            displayed_sidebar = ''
+            displayed_sidebar = `displayed_sidebar: ${displayed_sidebar}\n`
         } else if (displayed_sidebar === 'releasesSidebar') {
             // Release notes use a dedicated sidebar but keep their original slug
             displayed_sidebar = `displayed_sidebar: ${displayed_sidebar}\n`
@@ -1462,6 +1586,7 @@ class larkDocWriter {
             elements = `${' '.repeat(indent)}\`\`\`${lang.toLowerCase()}\n${' '.repeat(indent) + elements.join('\n' + ' '.repeat(indent))}\n${' '.repeat(indent)}\`\`\`\n`
             switch (position) {
                 case 'first':
+                    values = values && values.length > 0 ? values : [{ label: lang, value: lang.toLowerCase() }]
                     var tabs_start = `${' '.repeat(indent)}<Tabs groupId="code" defaultValue='${values[0].value}' values={${JSON.stringify(values)}}>`;
                     return [tabs_start, tab_item_start, elements, tab_item_end].join('\n');
                 case 'last':

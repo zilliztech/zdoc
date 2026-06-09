@@ -1,0 +1,262 @@
+---
+title: "Import Data (RESTful API) | Cloud"
+slug: /import-data-via-restful-api
+sidebar_label: "RESTful API"
+beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
+notebook: FALSE
+description: "This page introduces how to import the prepared data via the Zilliz Cloud RESTful API. | Cloud"
+type: origin
+token: ZOikw2pIUiAZj9kuLYRcdhLnnoc
+sidebar_position: 2
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - data import
+  - restful
+displayed_sidebar: default
+
+---
+
+import Admonition from '@theme/Admonition';
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Import Data (RESTful API)
+
+This page introduces how to import the prepared data via the Zilliz Cloud RESTful API.
+
+## Before you start\{#before-you-start}
+
+Make sure the following conditions are met:
+
+- You have obtained an API key for your cluster. For details, see [API Keys](./manage-api-keys).
+
+- You have prepared your data in either of the supported formats. 
+
+    For details on how to prepare your data, refer to [Storage Options](./data-import-storage-options) and [Format Options](./data-import-format-options). You can also refer to the end-to-end notebook [Data Import Hands-On](./data-import-zero-to-hero) to get more.
+
+- You have created a collection with a schema matching the example dataset.
+
+     For details on creating a collection, see [Manage Collections (Console)](./manage-collections-console).
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>Zilliz Cloud now allows you to import data from any object storage service to any Zilliz Cloud cluster, regardless of the cloud provider hosting the clusters. For instance, you can import data from an AWS S3 bucket to a Zilliz Cloud cluster deployed on GCP.</p>
+<p>You are advised to use a bucket or a blob container from the same provider and in the same region as the target cluster to ensure a low-latency, stable experience.</p>
+
+</Admonition>
+
+## Import data from volumes\{#import-data-from-volumes}
+
+To import data from a volume into a cluster, first create a managed or external volume. For a managed volume, upload your data files to the volume. For an external volume, ensure the data files are in the mapped cloud storage bucket. Then import the data as follows:
+
+<Tabs groupId="create-import">
+
+<TabItem value="serving" label="Serving Cluster">
+
+```bash
+curl --request POST \
+--url "https://api.cloud.zilliz.com/v2/vectordb/jobs/import/create" \
+--header "Authorization: Bearer ${API_KEY}" \
+--header "Content-Type: application/json" \
+-d '{
+    "clusterId": "inxx-xxxxxxxxxxxxxxx",
+    "dbName": "default",
+    "collectionName": "medium_articles",
+    "partitionName": "",
+    "volumeName": "my_volume",
+    "dataPaths": [
+        [
+            "json-folder/1.json"
+        ]
+    ]
+}'
+```
+
+</TabItem>
+
+<TabItem value="on-demand" label="On-Demand Compute">
+
+```bash
+curl --request POST \
+--url "https://api.cloud.zilliz.com/v2/vectordb/jobs/import/create" \
+--header "Authorization: Bearer ${API_KEY}" \
+--header "Content-Type: application/json" \
+-d '{
+    "projectId": "proj-xxxxxxxxxxxxxxx",
+    "regionId": "aws-us-west-2",
+    "dbName": "default",
+    "collectionName": "medium_articles",
+    "partitionName": "",
+    "volumeName": "my_volume",
+    "dataPaths": [
+        [
+            "json-folder/1.json"
+        ]
+    ]
+}'
+```
+
+</TabItem>
+
+</Tabs>
+
+To import data into a specific partition, include `partitionName` in the request.
+
+After Zilliz Cloud processes the above request, you will receive a job ID. Use this job ID to monitor the import progress with the following command:
+
+```bash
+curl --request POST \
+     --url "https://api.cloud.zilliz.com/v2/vectordb/jobs/import/getProgress" \
+     --header "Authorization: Bearer ${API_KEY}" \
+     --header "Accept: application/json" \
+     --header "Content-Type: application/json" \
+     -d '{
+        "clusterId": "inxx-xxxxxxxxxxxxxxx",
+        "jobId": "job-xxxxxxxxxxxxxxxxxxxxx"
+    }'
+```
+
+## Import data from external storage\{#import-data-from-external-storage}
+
+To import data from files via external storage, you must first upload the files to an object storage bucket, such as AWS S3 or Google Cloud Storage (GCS). Once uploaded, obtain the path to the files in the remote bucket and bucket credentials for Zilliz Cloud to pull data from your bucket. For details on supported object paths, refer to [Storage Options](./data-import-storage-options).
+
+Based on your data security requirements, you can use either long-term or short-term credentials during data import. 
+
+For more information about obtaining credentials, refer to:
+
+- Amazon S3: [Authenticate using long-term credentials](https://docs.aws.amazon.com/sdkref/latest/guide/access-iam-users.html)
+
+- Google Cloud Storage: [Manage HMAC keys for service accounts](https://cloud.google.com/storage/docs/authentication/managing-hmackeys)
+
+- Azure Blob Storage: [View account access keys](https://learn.microsoft.com/en-us/azure/storage/common/storage-account-keys-manage?tabs=azure-portal#view-account-access-keys)
+
+For more information about using session tokens, refer to [this FAQ](/docs/faq-data-import#can-i-use-short-term-credentials-when-importing-data-from-an-object-storage-service).
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>For successful data import, ensure the target collection has less than 10,000 running or pending import jobs.</p>
+
+</Admonition>
+
+Once the object path and bucket credentials are obtained, call the API as follows:
+
+<Tabs groupId="create-import">
+
+<TabItem value="serving" label="Serving Cluster">
+
+```bash
+# replace url and token with your own
+curl --request POST \
+     --url "https://api.cloud.zilliz.com/v2/vectordb/jobs/import/create" \
+     --header "Authorization: Bearer ${API_KEY}" \
+     --header "Accept: application/json" \
+     --header "Content-Type: application/json" \
+     -d '{
+        "clusterId": "inxx-xxxxxxxxxxxxxxx",
+        "collectionName": "medium_articles",
+        "partitionName": "",
+        "objectUrl": "https://assets.zilliz.com/docs/example-data-import.json",
+        "accessKey": "",
+        "secretKey": ""
+    }'
+```
+
+</TabItem>
+
+<TabItem value="on-demand" label="On-Demand Compute">
+
+```bash
+# replace url and token with your own
+curl --request POST \
+     --url "https://api.cloud.zilliz.com/v2/vectordb/jobs/import/create" \
+     --header "Authorization: Bearer ${API_KEY}" \
+     --header "Accept: application/json" \
+     --header "Content-Type: application/json" \
+     -d '{
+        "projectId": "proj-xxxxxxxxxxxxxxx",
+        "regionId": "aws-us-west-2",
+        "collectionName": "medium_articles",
+        "partitionName": "",
+        "objectUrl": "https://assets.zilliz.com/docs/example-data-import.json",
+        "accessKey": "",
+        "secretKey": ""
+    }'
+```
+
+</TabItem>
+
+</Tabs>
+
+To import data into a specific partition, you need to include `partitionName` in the request.
+
+After Zilliz Cloud processes the above request, you will receive a job ID. Use this job ID to monitor the import progress with the following command:
+
+<Tabs groupId="create-import">
+
+<TabItem value="serving" label="Serving Cluster">
+
+```bash
+curl --request POST \
+     --url "https://api.cloud.zilliz.com/v2/vectordb/jobs/import/get_progress" \
+     --header "Authorization: Bearer ${API_KEY}" \
+     --header "Accept: application/json" \
+     --header "Content-Type: application/json" \
+     -d '{
+        "clusterId": "inxx-xxxxxxxxxxxxxxx",
+        "jobId": "job-xxxxxxxxxxxxxxxxxxxxx"
+    }'
+```
+
+</TabItem>
+
+<TabItem value="on-demand" label="On-Demand Compute">
+
+```bash
+curl --request POST \
+     --url "https://api.cloud.zilliz.com/v2/vectordb/jobs/import/get_progress" \
+     --header "Authorization: Bearer ${API_KEY}" \
+     --header "Accept: application/json" \
+     --header "Content-Type: application/json" \
+     -d '{
+        "clusterId": "inxx-xxxxxxxxxxxxxxx",
+        "projectId": "proj-xxxxxxxxxxxxxxxxxxxxx",
+        "regionId": "aws-us-west-2"
+    }'
+```
+
+</TabItem>
+
+</Tabs>
+
+For details, see [Import](/reference/restful/create-import-jobs-v2) and [Get Import Progress](/reference/restful/get-import-job-progress-v2).
+
+## Verify the result\{#verify-the-result}
+
+If the command output is similar as follows, the import job is successfully submitted:
+
+```bash
+{
+    "code": 0,
+    "data": {
+        "jobId": "job-xxxxxxxxxxxxxxxxxxxxx"
+    }
+}
+```
+
+You can also call RESTful APIs to [get the progress of the current import job](/reference/restful/get-import-job-progress-v2) and [list all import jobs](/reference/restful/list-import-jobs-v2) to get more. As an alternative, you can also go to the [job center](./job-center) on the Zilliz Cloud console to view the result and job details.
+
+## FAQ\{#faq}
+
+**What is the difference between an external volume and importing directly from external storage?**
+
+Both allow you to import data from your own S3 or GCS bucket. The key differences are:
+
+- External volume requires you to integrate an [AWS S3 bucket](./integrate-with-aws-s3), a [Google Cloud Storage bucket](./integrate-with-gcp), or a [Microsoft Azure blob storage container](./integrate-with-azure-blob-storage) with Zilliz Cloud  for credential management. Credentials are set up once and reused across multiple volumes and operations. Data engineers do not need direct access to cloud storage keys.
+
+- Direct [external storage import](./import-data-on-web-ui#remote-files-from-an-object-storage-bucket) requires you to provide credentials (access key, secret key) inline with each import request. This is simpler for one-time imports but does not offer credential separation or reusability.
+

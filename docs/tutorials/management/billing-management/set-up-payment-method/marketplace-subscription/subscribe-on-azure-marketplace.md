@@ -1,0 +1,369 @@
+---
+title: "Subscribe to a Public Offer on Microsoft Marketplace | Cloud"
+slug: /subscribe-on-azure-marketplace
+sidebar_label: "Microsoft Marketplace (Public Offer)"
+beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
+notebook: FALSE
+description: "This guide provides a step-by-step walkthrough of the subscription process and outlines the pricing terms of Zilliz Cloud on Azure Marketplace. | Cloud"
+type: origin
+token: XHdswv9CWi0ZHjkzxTMcoHqpnzd
+sidebar_position: 6
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - marketplace
+  - azure
+  - microsoft
+  - public offer
+displayed_sidebar: default
+
+---
+
+import Admonition from '@theme/Admonition';
+
+
+import Supademo from '@site/src/components/Supademo';
+
+import Grid from '@site/src/components/Grid';
+
+import Procedures from '@site/src/components/Procedures';
+
+# Subscribe to a Public Offer on Microsoft Marketplace
+
+This guide provides a step-by-step walkthrough of the subscription process and outlines the pricing terms of Zilliz Cloud on Azure Marketplace.
+
+<Admonition type="info" icon="📘" title="Note">
+
+<ul>
+<li><p>Once subscribed, you can pay for the usage of Azure clusters via Azure Marketplace. If you have clusters deployed on other cloud providers, you can also use Azure Marketplace to pay.</p></li>
+<li><p>If you need to separate Azure Marketplace billing across different teams or business units, see <a href="./separate-zilliz-cloud-billing-on-azure-marketplace">Separate Zilliz Cloud Billing on Azure Marketplace</a></p></li>
+</ul>
+
+</Admonition>
+
+## Before you start\{#before-you-start}
+
+Ensure you have an [Azure Marketplace](https://learn.microsoft.com/en-us/marketplace/azure-marketplace-overview) account and an Azure [billing account](https://learn.microsoft.com/en-us/azure/cost-management-billing/manage/view-all-accounts) for subscription on Azure Marketplace.
+
+Also ensure your billing country or region is on the list of supported markets. Zilliz Cloud does not support certain markets in the Azure Marketplace due to tax and compliance reasons. If you attempt to subscribe from an unsupported market, you may receive an error message stating, `"No plans are available for market '<market_code>'."` If this occurs, please [contact support](http://support.zilliz.com/) and provide a screenshot of the error message along with the market code. We will discuss possible solutions with you.
+
+![KkPSbV6w8oECUoxMxKJcTtgAnSh](https://zdoc-images.s3.us-west-2.amazonaws.com/kkpsbv6w8oecuoxmxkjcttgansh.png "KkPSbV6w8oECUoxMxKJcTtgAnSh")
+
+<details>
+
+<summary>Supported markets</summary>
+
+<Grid columnSize="4" widthRatios="25,25,25,25">
+
+    <div>
+
+        - Armenia
+
+        - Australia
+
+        - Austria
+
+        - Bahrain
+
+        - Barbados
+
+        - Belarus
+
+        - Belgium
+
+        - Bulgaria
+
+        - Canada
+
+        - Chile
+
+        - Colombia
+
+        - Croatia
+
+        - Cyprus
+
+        - Czechia
+
+        - Denmark
+
+        - Egypt
+
+        - Estonia
+
+        - Finland
+
+    </div>
+
+    <div>
+
+        - France
+
+        - Georgia
+
+        - Germany
+
+        - Greece
+
+        - Hong Kong SAR
+
+        - Hungary
+
+        - Iceland
+
+        - India
+
+        - Indonesia
+
+        - Ireland
+
+        - Italy
+
+        - Japan
+
+        - Kenya
+
+        - Latvia
+
+        - Liechtenstein
+
+        - Lithuania
+
+        - Luxembourg
+
+        - Malaysia
+
+    </div>
+
+    <div>
+
+        - Malta
+
+        - Moldova
+
+        - Monaco
+
+        - Netherlands
+
+        - New Zealand
+
+        - Nigeria
+
+        - Norway
+
+        - Oman
+
+        - Philippines
+
+        - Poland
+
+        - Portugal
+
+        - Puerto Rico
+
+        - Qatar
+
+        - Romania
+
+        - Russia
+
+        - Saudi Arabia
+
+        - Serbia
+
+        - Singapore
+
+    </div>
+
+    <div>
+
+        - Slovakia
+
+        - Slovenia
+
+        - South Africa
+
+        - South Korea
+
+        - Spain
+
+        - Sweden
+
+        - Switzerland
+
+        - Taiwan
+
+        - Tajikistan
+
+        - Thailand
+
+        - Türkiye
+
+        - Uganda
+
+        - Ukraine
+
+        - United Arab Emirates
+
+        - United Kingdom
+
+        - United States
+
+        - Uzbekistan
+
+        - Vietnam
+
+    </div>
+
+</Grid>
+
+</details>
+
+## Subscribe on Azure Marketplace\{#subscribe-on-azure-marketplace}
+
+Visit [Azure Marketplace](https://azuremarketplace.microsoft.com/en-us) and start subscribing to Zilliz Cloud as follows:
+
+<Supademo id="cm9jmpiac3eq2ljv5itt1tn7s" title="Zilliz Cloud - Azure Marketplace Subscription Demo" />
+
+<Procedures>
+
+1. Search for **Zilliz Cloud** in the search box, or [go to the Azure Marketplace](https://azuremarketplace.microsoft.com/en-us/marketplace/apps/zillizinc1703056661329.zilliz_cloud?tab=Overview) to view the Zilliz Cloud portal page.
+
+    ![search_for_zilliz_on_azure](https://zdoc-images.s3.us-west-2.amazonaws.com/search_for_zilliz_on_azure.png "search_for_zilliz_on_azure")
+
+1. Click **Zilliz Cloud**.
+
+    Familiarize yourself with the services and pricing.
+
+1. Switch to the **Plans + Pricing** tab. Click **Get it now**.
+
+    ![get_it_now_on_azure](https://zdoc-images.s3.us-west-2.amazonaws.com/get_it_now_on_azure.png "get_it_now_on_azure")
+
+1. In the pop-up window, enter your basic information required by Zilliz Cloud.
+
+    ![enter_basic_information_azure](https://zdoc-images.s3.us-west-2.amazonaws.com/enter_basic_information_azure.png "enter_basic_information_azure")
+
+1. On the **Subscribe to Zilliz Cloud** page, complete the following steps:
+
+    1. Configure the **Project Details** by selecting an appropriate **Subscription** and **Resource group**. If there is no Resource group, please create one. For details about subscription and resource group, refer to Azures' [The SaaS Purchase Experience](https://learn.microsoft.com/en-us/marketplace/purchase-saas-offer-in-azure-portal#the-saas-purchase-experience).
+
+    1. Configure the **SaaS Details**. 
+
+        1. Name your subscription to easily identify it later.
+
+        1. Choose the contract duration: 1 month or 1 year.
+
+        1. Configure **Auto-renew** settings.
+
+            <Admonition type="info" icon="📘" title="Note">
+
+            <p>When auto-renew is on, you will be automatically subscribed to Zilliz Cloud on Azure at the end of the contract duration. When auto-renew is off, your subscription will end at the end of the contract duration and your Zilliz Cloud organization and account will be automatically unlinked from this Azure Marketplace subscription.</p>
+
+            </Admonition>
+
+    1. Review the subscription details and click **Review+Subscribe**.
+
+    ![configure_subscription_on_azure](https://zdoc-images.s3.us-west-2.amazonaws.com/configure_subscription_on_azure.png "configure_subscription_on_azure")
+
+1. On the next page, link your Azure Marketplace subscription to Zilliz Cloud by clicking **Configure account now**.
+
+    ![configure_account_azure](https://zdoc-images.s3.us-west-2.amazonaws.com/configure_account_azure.png "configure_account_azure")
+
+1. In the new tab, follow the steps below to complete subscription.
+
+    1. If you already have a Zilliz Cloud account, simply log in. If not, choose a [sign-up option](./register-with-zilliz-cloud) and follow the process.
+
+    1. Link your subscription to an existing Zilliz Cloud organization.
+
+    1. Complete authorization.
+
+        ![aws-marketplace-dialog](https://zdoc-images.s3.us-west-2.amazonaws.com/aws-marketplace-dialog.png "aws-marketplace-dialog")
+
+1. Go to **Billing** on Zilliz Cloud to ensure your Azure Marketplace subscription is set as your payment method.
+
+    ![azure-marketplace-success](https://zdoc-images.s3.us-west-2.amazonaws.com/azure-marketplace-success.png "azure-marketplace-success")
+
+</Procedures>
+
+## Update subscription or payment method\{#update-subscription-or-payment-method}
+
+After successfully subscribing from Marketplace, you can always update your subscription at any time that you see fit. 
+
+More specifically, you can either:
+
+- Change the Marketplace account used for the subscription to another one
+
+- Switch your payment method from Marketplace subscription to a credit card.
+
+For details, see [Update Payment Method](./update-payment-method)
+
+## Cancel Azure Marketplace subscription\{#cancel-azure-marketplace-subscription}
+
+<Procedures>
+
+1. Open the Azure Marketplace homepage.
+
+1. Click **All resources** or find your subscription in the **Resources/Recent** tab.
+
+    ![azure_all_resources](https://zdoc-images.s3.us-west-2.amazonaws.com/azure_all_resources.png "azure_all_resources")
+
+1. Navigate to the subscription you want to cancel. Click **Cancel subscription**. Wait for a few minutes for Azure Marketplace to complete the process.
+
+    ![cancel_azure_subscription](https://zdoc-images.s3.us-west-2.amazonaws.com/cancel_azure_subscription.png "cancel_azure_subscription")
+
+</Procedures>
+
+For more information about how to cancel subscription on Azure Marketplace, see [here](https://learn.microsoft.com/en-us/marketplace/saas-subscription-lifecycle-management#cancel-subscription).
+
+## Troubleshooting\{#troubleshooting}
+
+**Why do I see “No plans are available for market '\<country_code>'” when subscribing via Azure Marketplace?**
+
+This message appears because Zilliz Cloud is not yet available in the Azure Marketplace for your billing country or region. For details, see [supported markets](./subscribe-on-azure-marketplace#before-you-start). Please [contact support](http://support.zilliz.com) and provide a screenshot of the error message along with the market code. We may be able to provide alternative solutions or update availability.
+
+**What I can do if there is no organization available when linking a marketplace subscription to Zilliz Cloud?**
+
+There could be several reasons.
+
+- **Insufficient permissions** 
+
+    This can happen when you do not have sufficient privileges. You will see an **"Insufficient Permissions"** tag next to the unavailable organization.
+
+    ![insufficient-permission-subscription](https://zdoc-images.s3.us-west-2.amazonaws.com/insufficient-permission-subscription.png "insufficient-permission-subscription")
+
+    To link an organization with a marketplace subscription, you must be an **Organization Owner** or an **Organization Billing Admin**. But if you are only an Organization Member, you do not have the required permissions. Please contact the organization owner for assistance.
+
+- **All organizations have already been successfully linked to a Marketplace subscription**
+
+    This can happen when all your organizations are already linked to Marketplace subscriptions. You will see a **"Marketplace Linked"** tag next to the unavailable organization.
+
+    ![marketplace-already-linked-subscription](https://zdoc-images.s3.us-west-2.amazonaws.com/marketplace-already-linked-subscription.png "marketplace-already-linked-subscription")
+
+    In this case,
+
+    - If you need to update an existing marketplace subscription, please unlink the current subscription of the organization first and then set up a new subscription.
+
+    - If you need multiple organizations for different Marketplace subscription, you can:
+
+        - [Register](./register-with-zilliz-cloud) a new Zilliz Cloud account to create a new organization. Then, [invite](./organization-users#invite-a-user-to-your-organization) the organization owner to the new organization. This organization owner will then belong to multiple organizations and can setup different marketplace subscriptions for each organization.
+
+        - [Create a support ticket](http://support.zilliz.com) so that we will create new organizations for you. Currently, Zilliz Cloud does not support manually creating organizations by users.
+
+- **No organizations in the list**
+
+    - This can happen if your account has been closed or if you have left all organizations. Your UI will be similar to the following.
+
+    ![no-organization-during-subcription](https://zdoc-images.s3.us-west-2.amazonaws.com/no-organization-during-subcription.png "no-organization-during-subcription")
+
+    In this case, you can:
+
+    - Create a new organization.
+
+    - Ask other users to [invite](./organization-users#invite-a-user-to-your-organization) you to their organizations and grant you the role of an Organization Owner.
+
+    - [Create a support ticket](https://support.zilliz.com/hc/en-us) and we will create a new organization for you.
+

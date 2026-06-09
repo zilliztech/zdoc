@@ -25,7 +25,7 @@ interface Manual {
 
 const guides: Manual = {
     root: 'Tg6mwbRGDitPQ3kLUQzc44I7nth',
-    base: 'PzpWbIBSSa2R83s63G0crUTtnHT:tblkC0Fuv7lWZT8F',
+    base: 'Ac7xbs2k1ad7bjsCXr0ccHe9nMh:*',
     sourceType: 'wiki',
     displayedSidebar: 'default',
     docSourceDir: './plugins/lark-docs/meta/sources/guides',

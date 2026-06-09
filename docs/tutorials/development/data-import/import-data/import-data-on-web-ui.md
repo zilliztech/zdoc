@@ -1,0 +1,120 @@
+---
+title: "Import Data (Console) | Cloud"
+slug: /import-data-on-web-ui
+sidebar_label: "Console"
+beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
+notebook: FALSE
+description: "This page introduces how to import the prepared data on the Zilliz Cloud console. | Cloud"
+type: origin
+token: KkdswLx2bi4bgCkY6bEc7Do9neh
+sidebar_position: 1
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - data import
+  - console
+displayed_sidebar: default
+
+---
+
+import Admonition from '@theme/Admonition';
+
+
+import Supademo from '@site/src/components/Supademo';
+
+# Import Data (Console)
+
+This page introduces how to import the prepared data on the Zilliz Cloud console.
+
+## Import data on the web UI\{#import-data-on-the-web-ui}
+
+Once data files are ready, you can import them directly from your local drive or upload them to an object storage bucket, such as AWS S3 or Google Cloud GCS, Azure Blob Storage for data imports.
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<ul>
+<li><p>You can have up to 10,000 running or pending import jobs in a collection.</p></li>
+<li><p>The web console supports uploading a local JSON or Parquet file of up to 1 GB. For larger files, it is recommended to <a href="./import-data-on-web-ui#remote-files-from-an-object-storage-bucket">upload from an object storage</a> instead. If you have any difficulties with data import, please <a href="https://support.zilliz.com/hc/en-us">create a support ticket</a>.</p></li>
+</ul>
+
+</Admonition>
+
+### Local file\{#local-file}
+
+Zilliz Cloud supports importing data from a local JSON or Parquet file. If your data is prepared in the NumPy format, please import from an [object storage bucket](./import-data-on-web-ui#remote-files-from-an-object-storage-bucket).
+
+To import data from a local file, you can drag or drop a file into the upload area and click **Import**.
+
+<Supademo id="cme7x3fgv388ch3pyymi6ek0q?utm_source=link" title=""  />
+
+### Remote files from an object storage bucket\{#remote-files-from-an-object-storage-bucket}
+
+To import remote files, you must first upload them to a remote bucket. You can easily convert your raw data into supported formats and upload the result files [using the BulkWriter tool](./use-bulkwriter). 
+
+Once you have uploaded the prepared files to a remote bucket, select the object storage service and fill in the path to the files in the remote bucket and bucket credentials for Zilliz Cloud to pull data from your bucket. 
+
+Based on your data security requirements, you can use either long-term credentials or short-term tokens during data import. 
+
+For more information about obtaining credentials, refer to:
+
+- Amazon S3: [Authenticate using long-term credentials](https://docs.aws.amazon.com/sdkref/latest/guide/access-iam-users.html)
+
+- Google Cloud Storage: [Manage HMAC keys for service accounts](https://cloud.google.com/storage/docs/authentication/managing-hmackeys)
+
+- Azure Blob Storage: [View account access keys](https://learn.microsoft.com/en-us/azure/storage/common/storage-account-keys-manage?tabs=azure-portal#view-account-access-keys)
+
+For more information about using short-term tokens, refer to [this FAQ](/docs/faq-data-import#can-i-use-short-term-credentials-when-importing-data-from-an-object-storage-service).
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>Zilliz Cloud now allows you to import data from any object storage service to any Zilliz Cloud cluster, regardless of the cloud provider hosting the clusters. For instance, you can import data from an AWS S3 bucket to a Zilliz Cloud cluster deployed on GCP.</p>
+<p>You are advised to use a bucket or a blob container from the same provider and in the same region as the target cluster to ensure a low-latency, stable experience.</p>
+
+</Admonition>
+
+<Supademo id="cme7xfbw40096xf0irz21196r?utm_source=link" title=""  />
+
+### From a volume\{#from-a-volume}
+
+- **Managed volume**: If your local file is extremely large (> 1GB), you can [upload the file to a managed volume](./managed-volume) first and them import from the volume. Once you have uploaded the prepared files to a volume, copy the file path and continue to import the file into a collection.
+
+- **External volume**: If your data files are in a cloud object storage bucket, you can create an [external volume](./external-volume) that maps to that bucket. You can then import data directly from the external volume without providing credentials each time.
+
+The following demo shows how to import data from a managed volume.
+
+<Supademo id="cmidzr662adilb7b4d7l45rnf?utm_source=link" title=""  />
+
+## Verify results\{#verify-results}
+
+You can view the progress and status of the import job on the [Jobs](./job-center) page.
+
+## Supported object paths\{#supported-object-paths}
+
+For applicable object paths, refer to [Storage Options](./data-import-storage-options) and [Format Options](./data-import-format-options).
+
+## FAQ\{#faq}
+
+**What is the difference between an external volume and importing directly from external storage?**
+
+Both allow you to import data from your own S3 or GCS bucket. The key differences are:
+
+- External volume requires you to integrate an [AWS S3 bucket](./integrate-with-aws-s3), a [Google Cloud Storage bucket](./integrate-with-gcp), or a [Microsoft Azure blob storage container](./integrate-with-azure-blob-storage) with Zilliz Cloud  for credential management. Credentials are set up once and reused across multiple volumes and operations. Data engineers do not need direct access to cloud storage keys.
+
+- Direct [external storage import](./import-data-on-web-ui#remote-files-from-an-object-storage-bucket) requires you to provide credentials (access key, secret key) inline with each import request. This is simpler for one-time imports but does not offer credential separation or reusability.
+
+## Related topics\{#related-topics}
+
+- [Storage Options](./data-import-storage-options)
+
+- [Format Options](./data-import-format-options)
+
+- [Import Data via RESTful API](./import-data-via-restful-api)
+
+- [Import Data via SDKs](./import-data-via-sdks)
+
+- [Data Import Hands-On](./data-import-zero-to-hero)
+
