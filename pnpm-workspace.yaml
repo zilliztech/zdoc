@@ -2,8 +2,10 @@ packages:
   - 'chat-proxy'
   - 'packages/chat-ui'
 
-allowBuilds:
-  core-js: true
-  core-js-pure: true
-  esbuild: true
-  sharp: true
+onlyBuiltDependencies:
+  - '@swc/core'
+  - core-js
+  - core-js-pure
+  - esbuild
+  - sharp
+  - sqlite3
