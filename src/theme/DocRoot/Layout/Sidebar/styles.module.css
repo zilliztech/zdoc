@@ -1,6 +1,18 @@
 :root {
-  --doc-sidebar-width: 256px;
+  --doc-sidebar-width: 32.5rem;
   --doc-sidebar-hidden-width: 52px;
+}
+
+@media (min-width: 997px) and (max-width: 1280px) {
+  :root {
+    --doc-sidebar-width: 23rem;
+  }
+}
+
+@media (min-width: 1281px) and (max-width: 1440px) {
+  :global(.docs-chat-open) {
+    --doc-sidebar-width: 23rem;
+  }
 }
 
 /* Hide on mobile, the sidebar is in the mobile hamburger menu */
@@ -12,8 +24,7 @@
   .docSidebarContainer {
     display: flex;
     flex-direction: column;
-    /* Always occupies collapsed width in the flex flow */
-    width: var(--doc-sidebar-hidden-width);
+    width: var(--doc-sidebar-width);
     flex-shrink: 0;
     min-height: 0;
     position: relative;
@@ -22,37 +33,25 @@
   }
 
   .docSidebarContainerHidden {
+    width: var(--doc-sidebar-hidden-width);
     cursor: pointer;
   }
 
-  /*
-   * sidebarViewport is a flex column:
-   * - dropdown (flex-shrink: 0) sticks at the top
-   * - .sidebarScroll (flex: 1) scrolls the nav items below
-   *
-   * When expanded, it floats over content via absolute positioning.
-   */
   .sidebarViewport {
     display: flex;
     flex-direction: column;
-    position: absolute;
-    left: 0;
-    top: 0;
+    position: static;
     width: var(--doc-sidebar-width);
     height: 100%;
     z-index: 10;
     background: #fff;
-    box-shadow: 4px 0 16px rgba(0, 0, 0, 0.08);
     border-right: 1px solid var(--ifm-toc-border-color);
     min-height: 0;
     overflow: hidden;
   }
 
-  /* When sidebar is collapsed, viewport sits statically inside the 52px aside */
   .sidebarViewportHidden {
-    position: static;
     width: 100%;
-    box-shadow: none;
     border-right: 1px solid var(--ifm-toc-border-color);
     overflow: visible;
   }

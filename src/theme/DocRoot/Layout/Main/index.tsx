@@ -2,6 +2,7 @@ import React, {type ReactNode} from 'react';
 import clsx from 'clsx';
 import {useDocsSidebar} from '@docusaurus/plugin-content-docs/client';
 import type {Props} from '@theme/DocRoot/Layout/Main';
+import Footer from '@theme-original/Footer';
 
 import styles from './styles.module.css';
 
@@ -24,6 +25,7 @@ export default function DocRootLayoutMain({
         )}>
         {children}
       </div>
+      <Footer />
     </main>
   );
 }

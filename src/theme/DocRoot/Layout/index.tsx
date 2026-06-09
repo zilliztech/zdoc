@@ -1,4 +1,4 @@
-import React, {type ReactNode, useState, useRef, useCallback, useEffect} from 'react';
+import React, {type ReactNode, useEffect, useState} from 'react';
 import {useLocation} from '@docusaurus/router';
 import {useDocsSidebar} from '@docusaurus/plugin-content-docs/client';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
@@ -8,130 +8,90 @@ import DocRootLayoutMain from '@theme/DocRoot/Layout/Main';
 import type {Props} from '@theme/DocRoot/Layout';
 import SecondaryNavbar from '@site/src/components/SecondaryNavbar';
 import ChatPanel, {ChatProvider} from '@site/src/components/ChatPanel';
+import {useChatContext} from '@site/src/components/ChatPanel/ChatContext';
+import {MessageSquare, Send} from 'lucide-react';
 
 import styles from './styles.module.css';
 
-const CHAT_MIN_WIDTH = 260;
-const CHAT_MAX_WIDTH = 560;
-const CHAT_DEFAULT_WIDTH = 500;
-// Collapse sidebar when chat is dragged past this width; restore with hysteresis
-const SIDEBAR_COLLAPSE_THRESHOLD = 520;
-const SIDEBAR_RESTORE_THRESHOLD = 480;
+let persistedHiddenContainer = false;
+let persistedHidden = false;
 
-// Module-level state that persists across remounts (e.g. cross-plugin navigation)
-let persistedHiddenContainer = true;
-let persistedHidden = true;
+function FloatingChatInput({
+  onOpen,
+  sidebarCollapsed,
+}: {
+  onOpen: () => void;
+  sidebarCollapsed: boolean;
+}): ReactNode {
+  const {isStreaming, send} = useChatContext();
+  const [query, setQuery] = useState('');
 
-export default function DocRootLayout({children}: Props): ReactNode {
+  const submit = () => {
+    const text = query.trim();
+    if (!text || isStreaming) return;
+    onOpen();
+    setQuery('');
+    void send(text);
+  };
+
+  return (
+    <form
+      className={[
+        styles.floatingChatInput,
+        sidebarCollapsed ? styles.floatingChatInputSidebarCollapsed : '',
+      ].filter(Boolean).join(' ')}
+      onSubmit={event => {
+        event.preventDefault();
+        submit();
+      }}>
+      <MessageSquare size={17} aria-hidden="true" />
+      <input
+        type="text"
+        value={query}
+        onChange={event => setQuery(event.target.value)}
+        placeholder="Ask Zilliz Copilot..."
+        aria-label="Ask Zilliz Copilot"
+        disabled={isStreaming}
+      />
+      <button type="submit" disabled={!query.trim() || isStreaming} aria-label="Send to Copilot">
+        <Send size={15} strokeWidth={2.5} />
+      </button>
+    </form>
+  );
+}
+
+function DocRootLayoutInner({children}: Props): ReactNode {
   const sidebar = useDocsSidebar();
   const {pathname} = useLocation();
+  const [hiddenSidebarContainer, setHiddenSidebarContainerState] = useState(persistedHiddenContainer);
+  const [hiddenSidebar, setHiddenSidebarState] = useState(persistedHidden);
+  const [isChatOpen, setIsChatOpen] = useState(false);
+  const [isChatExpanded, setIsChatExpanded] = useState(false);
 
-  // Close full-screen chat overlay on navigation
-  useEffect(() => {
-    setIsChatExpanded(false);
-  }, [pathname]);
-  const [hiddenSidebarContainer, _setHiddenSidebarContainer] = useState(persistedHiddenContainer);
-  const setHiddenSidebarContainer = useCallback((v: boolean | ((prev: boolean) => boolean)) => {
-    _setHiddenSidebarContainer(prev => {
-      const next = typeof v === 'function' ? v(prev) : v;
+  const setHiddenSidebarContainer = (value: boolean | ((prev: boolean) => boolean)) => {
+    setHiddenSidebarContainerState(prev => {
+      const next = typeof value === 'function' ? value(prev) : value;
       persistedHiddenContainer = next;
       return next;
     });
-  }, []);
-  const [hiddenSidebar, _setHiddenSidebar] = useState(persistedHidden);
-  const setHiddenSidebar = useCallback((v: boolean | ((prev: boolean) => boolean)) => {
-    _setHiddenSidebar(prev => {
-      const next = typeof v === 'function' ? v(prev) : v;
+  };
+
+  const setHiddenSidebar = (value: boolean | ((prev: boolean) => boolean)) => {
+    setHiddenSidebarState(prev => {
+      const next = typeof value === 'function' ? value(prev) : value;
       persistedHidden = next;
       return next;
     });
-  }, []);
-  const [isChatExpanded, setIsChatExpanded] = useState(false);
-  const [chatWidth, setChatWidth] = useState(CHAT_DEFAULT_WIDTH);
-  const dragging = useRef(false);
-  const startX = useRef(0);
-  const startWidth = useRef(0);
-  // Track whether we auto-collapsed the sidebar so we can auto-restore it
-  const autoCollapsedSidebar = useRef(false);
-  // Pending rAF handle — keeps resize updates capped to display refresh rate
-  const rafRef = useRef<number | null>(null);
-
-  const onMouseDown = useCallback((e: React.MouseEvent) => {
-    dragging.current = true;
-    startX.current = e.clientX;
-    startWidth.current = chatWidth;
-    document.body.style.cursor = 'col-resize';
-    document.body.style.userSelect = 'none';
-  }, [chatWidth]);
-
-  const onKeyDown = useCallback((e: React.KeyboardEvent) => {
-    const STEP = 20;
-    if (e.key === 'ArrowRight') {
-      e.preventDefault();
-      setChatWidth(w => Math.min(CHAT_MAX_WIDTH, w + STEP));
-    } else if (e.key === 'ArrowLeft') {
-      e.preventDefault();
-      setChatWidth(w => Math.max(CHAT_MIN_WIDTH, w - STEP));
-    }
-  }, []);
+  };
 
   useEffect(() => {
-    const onMouseMove = (e: MouseEvent) => {
-      if (!dragging.current) return;
-      // Capture position synchronously — event object may be recycled before rAF fires
-      const clientX = e.clientX;
-      // Skip if a frame update is already queued — caps work to display refresh rate
-      if (rafRef.current !== null) return;
-      rafRef.current = requestAnimationFrame(() => {
-        rafRef.current = null;
-        const delta = clientX - startX.current;
-        const next = Math.min(CHAT_MAX_WIDTH, Math.max(CHAT_MIN_WIDTH, startWidth.current + delta));
-        setChatWidth(next);
+    setIsChatExpanded(false);
+  }, [pathname]);
 
-        setHiddenSidebarContainer(prev => {
-          if (next >= SIDEBAR_COLLAPSE_THRESHOLD && !prev) {
-            autoCollapsedSidebar.current = true;
-            return true;
-          }
-          if (next <= SIDEBAR_RESTORE_THRESHOLD && prev && autoCollapsedSidebar.current) {
-            autoCollapsedSidebar.current = false;
-            setHiddenSidebar(false);
-            return false;
-          }
-          return prev;
-        });
-      });
-    };
-    const onMouseUp = () => {
-      if (!dragging.current) return;
-      dragging.current = false;
-      // Cancel any pending frame so a stale position isn't applied after release
-      if (rafRef.current !== null) {
-        cancelAnimationFrame(rafRef.current);
-        rafRef.current = null;
-      }
-      document.body.style.cursor = '';
-      document.body.style.userSelect = '';
-    };
-    document.addEventListener('mousemove', onMouseMove);
-    document.addEventListener('mouseup', onMouseUp);
-    return () => {
-      document.removeEventListener('mousemove', onMouseMove);
-      document.removeEventListener('mouseup', onMouseUp);
-      if (rafRef.current !== null) {
-        cancelAnimationFrame(rafRef.current);
-      }
-    };
-  }, []);
-
-  // Listen for open-chat events from search bar
   useEffect(() => {
-    const handler = (e: Event) => {
-      const query = (e as CustomEvent).detail?.query;
-      // Show the chat panel
-      setHiddenSidebarContainer(false);
-      setHiddenSidebar(false);
-      // Tell the chat to send this query
+    const handler = (event: Event) => {
+      const query = (event as CustomEvent).detail?.query;
+      setIsChatOpen(true);
       if (query) {
         setTimeout(() => {
           document.dispatchEvent(new CustomEvent('chat-send', {detail: {query}}));
@@ -142,115 +102,83 @@ export default function DocRootLayout({children}: Props): ReactNode {
     return () => document.removeEventListener('open-chat', handler);
   }, []);
 
-  // Handle ?chat= URL parameter on mount
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    if (params.has('chat')) {
-      setHiddenSidebarContainer(false);
-      setHiddenSidebar(false);
-      const query = params.get('chat');
-      if (query && query !== '1') {
-        setTimeout(() => {
-          document.dispatchEvent(new CustomEvent('chat-send', {detail: {query}}));
-        }, 300);
-      }
-      // Clean up URL
-      const url = new URL(window.location.href);
-      url.searchParams.delete('chat');
-      window.history.replaceState({}, '', url.toString());
+    if (!params.has('chat')) return;
+
+    setIsChatOpen(true);
+    const query = params.get('chat');
+    if (query && query !== '1') {
+      setTimeout(() => {
+        document.dispatchEvent(new CustomEvent('chat-send', {detail: {query}}));
+      }, 300);
     }
+
+    const url = new URL(window.location.href);
+    url.searchParams.delete('chat');
+    window.history.replaceState({}, '', url.toString());
   }, []);
 
+  const openChat = () => setIsChatOpen(true);
+
+  return (
+    <div className={[styles.docsWrapper, isChatOpen ? 'docs-chat-open' : ''].filter(Boolean).join(' ')}>
+      <BackToTopButton />
+      <SecondaryNavbar />
+
+      <div className={styles.docRoot}>
+        {sidebar && (
+          <DocRootLayoutSidebar
+            sidebar={sidebar.items}
+            hiddenSidebarContainer={hiddenSidebarContainer}
+            setHiddenSidebarContainer={setHiddenSidebarContainer}
+            hiddenSidebar={hiddenSidebar}
+            setHiddenSidebar={setHiddenSidebar}
+          />
+        )}
+
+        <DocRootLayoutMain hiddenSidebarContainer={hiddenSidebarContainer}>
+          {children}
+        </DocRootLayoutMain>
+
+        {isChatOpen && (
+          <aside className={styles.chatPane} aria-label="Zilliz Copilot">
+            <ChatPanel
+              isExpanded={false}
+              onToggle={() => setIsChatOpen(false)}
+              toggleMode="minimize"
+            />
+          </aside>
+        )}
+      </div>
+
+      {isChatExpanded && (
+        <div className={styles.chatOverlay}>
+          <ChatPanel
+            isExpanded={true}
+            onToggle={() => setIsChatExpanded(false)}
+          />
+        </div>
+      )}
+
+      {!isChatOpen && (
+        <FloatingChatInput
+          onOpen={openChat}
+          sidebarCollapsed={hiddenSidebarContainer || !sidebar}
+        />
+      )}
+    </div>
+  );
+}
+
+export default function DocRootLayout(props: Props): ReactNode {
   const {siteConfig} = useDocusaurusContext();
   const chatEndpoint = (siteConfig.customFields?.chatEndpoint as string) || '/api/chat';
   const chatDebug = Boolean(siteConfig.customFields?.chatDebug);
 
   return (
     <ChatProvider chatEndpoint={chatEndpoint} debugDefault={chatDebug}>
-      <div className={styles.docsWrapper}>
-        <BackToTopButton />
-
-        {/* Secondary navbar — full width, above 3-pane area */}
-        <SecondaryNavbar />
-
-        {/* 3-pane content area */}
-        <div className={styles.docRoot}>
-          {/* Pane 1: Chat */}
-          <div className={styles.chatPane} style={{width: chatWidth, minWidth: CHAT_MIN_WIDTH}}>
-            <ChatPanel
-              isExpanded={false}
-              onToggle={() => setIsChatExpanded(true)}
-            />
-          </div>
-
-          {/* Drag-to-resize handle between chat and sidebar */}
-          <div
-            className={styles.chatResizeHandle}
-            onMouseDown={onMouseDown}
-            onKeyDown={onKeyDown}
-            role="separator"
-            aria-orientation="vertical"
-            aria-label="Resize chat panel"
-            aria-valuenow={chatWidth}
-            aria-valuemin={CHAT_MIN_WIDTH}
-            aria-valuemax={CHAT_MAX_WIDTH}
-            tabIndex={0}
-          />
-
-          {/* Pane 2: Sidebar */}
-          {sidebar && (
-            <DocRootLayoutSidebar
-              sidebar={sidebar.items}
-              hiddenSidebarContainer={hiddenSidebarContainer}
-              setHiddenSidebarContainer={setHiddenSidebarContainer}
-              hiddenSidebar={hiddenSidebar}
-              setHiddenSidebar={setHiddenSidebar}
-            />
-          )}
-
-          {/* Pane 3: Content — click to collapse sidebar */}
-          {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
-          <div
-            style={{display: 'contents'}}
-            onMouseDown={() => {
-              if (!hiddenSidebarContainer) {
-                setHiddenSidebarContainer(true);
-                setHiddenSidebar(true);
-              }
-            }}>
-            <DocRootLayoutMain hiddenSidebarContainer={hiddenSidebarContainer}>
-              {children}
-            </DocRootLayoutMain>
-          </div>
-        </div>
-
-        {/* Expanded chat overlay */}
-        {isChatExpanded && (
-          <div className={styles.chatOverlay}>
-            <ChatPanel
-              isExpanded={true}
-              onToggle={() => setIsChatExpanded(false)}
-            />
-          </div>
-        )}
-
-        {/* Mobile chat FAB */}
-        <button
-          className={styles.mobileChatFab}
-          onClick={() => setIsChatExpanded(prev => !prev)}
-          title={isChatExpanded ? 'Close chat' : 'Open chat'}
-          aria-label={isChatExpanded ? 'Close chat' : 'Open chat'}>
-          {isChatExpanded ? (
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
-            </svg>
-          ) : (
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-            </svg>
-          )}
-        </button>
-      </div>
+      <DocRootLayoutInner {...props} />
     </ChatProvider>
   );
 }

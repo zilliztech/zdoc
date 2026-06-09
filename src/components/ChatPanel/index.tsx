@@ -69,13 +69,26 @@ function getSuggestions(pathname: string): string[] {
 interface ChatPanelProps {
   isExpanded: boolean;
   onToggle: () => void;
+  toggleMode?: 'expand' | 'minimize';
 }
 
 function ZillizStarIcon() {
   return <img src="/icons/zilliz-star.svg" width="16" height="16" aria-hidden="true" />;
 }
 
-function ChatHeader({onNewChat, onToggle, isExpanded}: {onNewChat: () => void; onToggle: () => void; isExpanded: boolean}) {
+function ChatHeader({
+  onNewChat,
+  onToggle,
+  isExpanded,
+  toggleMode = 'expand',
+}: {
+  onNewChat: () => void;
+  onToggle: () => void;
+  isExpanded: boolean;
+  toggleMode?: 'expand' | 'minimize';
+}) {
+  const isMinimizeToggle = toggleMode === 'minimize';
+  const toggleTitle = isMinimizeToggle ? 'Minimize' : isExpanded ? 'Minimize' : 'Expand';
   return (
     <div className={styles.chatHeader}>
       <div className={styles.chatTitleGroup}>
@@ -91,8 +104,8 @@ function ChatHeader({onNewChat, onToggle, isExpanded}: {onNewChat: () => void; o
             <SquarePen size={15} />
           </IconButton>
         )}
-        <IconButton onClick={onToggle} title={isExpanded ? 'Minimize' : 'Expand'} aria-label={isExpanded ? 'Minimize chat' : 'Expand chat'}>
-          {isExpanded ? <Minimize2 size={15} /> : <Maximize2 size={15} />}
+        <IconButton onClick={onToggle} title={toggleTitle} aria-label={`${toggleTitle} chat`}>
+          {isExpanded || isMinimizeToggle ? <Minimize2 size={15} /> : <Maximize2 size={15} />}
         </IconButton>
       </div>
     </div>
@@ -195,7 +208,7 @@ function ChatSidebar({
   );
 }
 
-export default function ChatPanel({onToggle, isExpanded}: ChatPanelProps): React.ReactElement {
+export default function ChatPanel({onToggle, isExpanded, toggleMode = 'expand'}: ChatPanelProps): React.ReactElement {
   const {messages, input, setInput, isStreaming, send, newChat, rateFeedback, chatHistory, activeChatId, loadChat, deleteChat} = useChatContext();
   const location = useLocation();
   const history = useHistory();
@@ -368,7 +381,7 @@ export default function ChatPanel({onToggle, isExpanded}: ChatPanelProps): React
   if (isExpanded) {
     return (
       <div className={styles.chatInnerExpanded}>
-        <ChatHeader onNewChat={newChat} onToggle={onToggle} isExpanded={isExpanded} />
+        <ChatHeader onNewChat={newChat} onToggle={onToggle} isExpanded={isExpanded} toggleMode={toggleMode} />
         <div className={styles.expandedWrapper}>
           <ChatSidebar
             chatHistory={chatHistory}
@@ -387,7 +400,7 @@ export default function ChatPanel({onToggle, isExpanded}: ChatPanelProps): React
 
   return (
     <div className={styles.chatInner}>
-      <ChatHeader onNewChat={newChat} onToggle={onToggle} isExpanded={isExpanded} />
+      <ChatHeader onNewChat={newChat} onToggle={onToggle} isExpanded={isExpanded} toggleMode={toggleMode} />
       {conversationContent}
     </div>
   );

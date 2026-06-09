@@ -149,6 +149,12 @@
   }
 }
 
+@media (min-width: 997px) and (max-width: 1440px) {
+  :global(.docs-chat-open) .tocCol {
+    display: none;
+  }
+}
+
 @media (max-width: 996px) {
   .docItemCol {
     padding: 1.25rem 1rem 2rem;

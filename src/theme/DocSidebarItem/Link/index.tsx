@@ -1,4 +1,4 @@
-import React, {type ReactNode} from 'react';
+import React, {type ReactNode, useContext} from 'react';
 import clsx from 'clsx';
 import {ThemeClassNames} from '@docusaurus/theme-common';
 import {isActiveSidebarItem} from '@docusaurus/plugin-content-docs/client';
@@ -7,6 +7,7 @@ import isInternalUrl from '@docusaurus/isInternalUrl';
 import IconExternalLink from '@theme/Icon/ExternalLink';
 import type {Props} from '@theme/DocSidebarItem/Link';
 import {CATEGORY_ICONS} from '../Category';
+import SidebarIconVisibilityContext from '../iconVisibility';
 
 import styles from '../Category/styles.module.css';
 
@@ -19,8 +20,9 @@ export default function DocSidebarItemLink({
   ...props
 }: Props): ReactNode {
   const {href, label, className, autoAddBaseUrl} = item;
+  const showSidebarIcons = useContext(SidebarIconVisibilityContext);
   const iconKey = item.customProps?.icon as string | undefined;
-  const IconComponent = iconKey ? CATEGORY_ICONS[iconKey] : undefined;
+  const IconComponent = showSidebarIcons && iconKey ? CATEGORY_ICONS[iconKey] : undefined;
   const isActive = isActiveSidebarItem(item, activePath);
   const isInternalLink = isInternalUrl(href);
   return (

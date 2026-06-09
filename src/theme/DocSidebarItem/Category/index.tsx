@@ -1,6 +1,7 @@
 import React, {
   type ComponentProps,
   type ReactNode,
+  useContext,
   useEffect,
   useMemo,
 } from 'react';
@@ -76,6 +77,7 @@ import {
 } from 'lucide-react';
 
 import styles from './styles.module.css';
+import SidebarIconVisibilityContext from '../iconVisibility';
 
 // ─── Icon map ────────────────────────────────────────────────────────────────
 
@@ -212,9 +214,13 @@ function CollapseButton({
 function CategoryLinkLabel({
   label,
   IconComponent,
+  showChildCaret,
+  collapsed,
 }: {
   label: string;
   IconComponent?: React.ComponentType<LucideProps>;
+  showChildCaret?: boolean;
+  collapsed?: boolean;
 }) {
   return (
     <>
@@ -226,6 +232,9 @@ function CategoryLinkLabel({
       <span title={label} className={styles.categoryLinkLabel}>
         {label}
       </span>
+      {showChildCaret && (
+        <span className={styles.childCaret} aria-hidden="true" data-collapsed={collapsed} />
+      )}
     </>
   );
 }
@@ -264,8 +273,9 @@ function DocSidebarItemCategoryCollapsible({
   ...props
 }: Props): ReactNode {
   const {items, label, collapsible, className, href} = item;
+  const showSidebarIcons = useContext(SidebarIconVisibilityContext);
   const iconKey = item.customProps?.icon as string | undefined;
-  const IconComponent = iconKey ? CATEGORY_ICONS[iconKey] : undefined;
+  const IconComponent = showSidebarIcons && iconKey ? CATEGORY_ICONS[iconKey] : undefined;
 
   const {
     docs: {
@@ -311,6 +321,7 @@ function DocSidebarItemCategoryCollapsible({
       }
     }
   };
+  const showChildCaret = !showSidebarIcons && !href && !item.link && items.length > 0;
 
   return (
     <li
@@ -328,7 +339,7 @@ function DocSidebarItemCategoryCollapsible({
         <Link
           className={clsx(styles.categoryLink, 'menu__link', {
             'menu__link--sublist': collapsible,
-            'menu__link--sublist-caret': !href && collapsible,
+            'menu__link--sublist-caret': !href && collapsible && showSidebarIcons,
             'menu__link--active': isActive,
           })}
           onClick={handleItemClick}
@@ -337,7 +348,12 @@ function DocSidebarItemCategoryCollapsible({
           aria-expanded={collapsible && !href ? !collapsed : undefined}
           href={collapsible ? hrefWithSSRFallback ?? '#' : hrefWithSSRFallback}
           {...props}>
-          <CategoryLinkLabel label={label} IconComponent={IconComponent} />
+          <CategoryLinkLabel
+            label={label}
+            IconComponent={IconComponent}
+            showChildCaret={showChildCaret}
+            collapsed={collapsible ? collapsed : false}
+          />
         </Link>
         {href && collapsible && (
           <CollapseButton

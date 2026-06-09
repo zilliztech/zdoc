@@ -1,4 +1,6 @@
 .categoryLink {
+  display: flex !important;
+  align-items: center;
   overflow: hidden;
 }
 
@@ -8,6 +10,7 @@
 
 .categoryLinkLabel {
   flex: 1;
+  min-width: 0;
   overflow: hidden;
   display: -webkit-box;
   line-clamp: 2;
@@ -25,4 +28,20 @@
 
 .categoryIcon svg {
   display: block;
+}
+
+.childCaret {
+  display: inline-block;
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  margin-left: 0.5rem;
+  background: var(--ifm-menu-link-sublist-icon) 50% / 1.1rem 1.1rem no-repeat;
+  transform: rotate(90deg);
+  transform-origin: center;
+  transition: transform var(--ifm-transition-fast) linear;
+}
+
+.childCaret[data-collapsed='false'] {
+  transform: rotate(0deg);
 }

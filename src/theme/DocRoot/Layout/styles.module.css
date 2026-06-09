@@ -1,8 +1,3 @@
-/*
- * .docsWrapper is height-constrained to viewport minus the fixed navbar.
- * This is the key to making all three panes scroll independently.
- * overflow: hidden prevents content from escaping the container.
- */
 .docsWrapper {
   display: flex;
   flex-direction: column;
@@ -12,12 +7,6 @@
   background: var(--ifm-background-color);
 }
 
-/*
- * .docRoot is the 3-pane flex row.
- * flex: 1 + min-height: 0 fills remaining space after SecondaryNavbar (48px).
- * min-height: 0 overrides the default min-height: auto on flex items,
- * which would otherwise allow this to grow beyond its container.
- */
 .docRoot {
   display: flex;
   flex: 1;
@@ -25,62 +14,21 @@
   overflow: hidden;
 }
 
-/* Chat pane — left (width set via inline style) */
 .chatPane {
-  flex-shrink: 0;
-  background: #ffffff;
-  overflow: hidden;
+  position: relative;
+  flex: 0 0 clamp(20rem, 27vw, 26rem);
+  width: clamp(20rem, 27vw, 26rem);
+  min-width: 20rem;
+  max-width: 26rem;
   display: flex;
   flex-direction: column;
+  min-height: 0;
+  background: #ffffff;
+  border-left: 1px solid var(--ifm-toc-border-color);
+  box-shadow: -10px 0 24px rgba(15, 23, 42, 0.06);
+  z-index: 1;
 }
 
-/* Drag-to-resize handle — flex sibling between chat pane and sidebar */
-.chatResizeHandle {
-  flex-shrink: 0;
-  width: 8px;
-  cursor: col-resize;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: transparent;
-  transition: background 0.15s ease;
-}
-
-.chatResizeHandle:hover {
-  background: var(--zd-primary-alpha-4);
-}
-
-/* Grip dots — 3 dots stacked vertically */
-.chatResizeHandle::after {
-  content: '';
-  width: 3px;
-  height: 3px;
-  border-radius: 50%;
-  background: var(--zd-gray-300);
-  box-shadow:
-    0 -8px 0 2px var(--zd-gray-300),
-    0  0   0 2px var(--zd-gray-300),
-    0  8px 0 2px var(--zd-gray-300);
-  opacity: 0.5;
-  transition: opacity 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
-}
-
-.chatResizeHandle:hover::after,
-.chatResizeHandle:focus-visible::after {
-  opacity: 1;
-  background: var(--ifm-color-primary);
-  box-shadow:
-    0 -8px 0 2px var(--ifm-color-primary),
-    0  0   0 2px var(--ifm-color-primary),
-    0  8px 0 2px var(--ifm-color-primary);
-}
-
-.chatResizeHandle:focus-visible {
-  outline: 2px solid var(--ifm-color-primary);
-  outline-offset: -2px;
-}
-
-/* Expanded chat overlay — covers content area below navbars */
 .chatOverlay {
   position: fixed;
   left: 0;
@@ -91,41 +39,96 @@
   background: #ffffff;
   display: flex;
   flex-direction: column;
-  box-shadow: none;
 }
 
-/* Mobile chat FAB — visible only on small screens */
-.mobileChatFab {
-  display: none;
+.floatingChatInput {
+  position: fixed;
+  left: 50%;
+  bottom: 2rem;
+  z-index: 400;
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  width: min(42rem, calc(100vw - 2rem));
+  min-height: 3.25rem;
+  padding: 0.5rem 0.5rem 0.5rem 1rem;
+  transform: translateX(-50%);
+  color: var(--zd-gray-600);
+  background: #ffffff;
+  border: 1px solid var(--zd-gray-200);
+  border-radius: 1rem;
+  box-shadow: 0 16px 38px rgba(15, 23, 42, 0.14);
+  opacity: 0.85;
+  transition: opacity 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
-@media (max-width: 996px) {
-  .mobileChatFab {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: fixed;
-    bottom: 1.5rem;
-    right: 1.5rem;
-    width: 3rem;
-    height: 3rem;
-    border-radius: 50%;
-    background: var(--ifm-color-primary);
-    border: none;
-    cursor: pointer;
-    box-shadow: 0 4px 12px var(--zd-primary-alpha-40);
-    z-index: 200;
-    transition: background-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+.floatingChatInput:hover,
+.floatingChatInput:focus-within {
+  opacity: 1;
+}
+
+.floatingChatInput:focus-within {
+  border-color: var(--ifm-color-primary);
+  box-shadow: 0 18px 42px rgba(15, 23, 42, 0.16), 0 0 0 3px var(--zd-primary-alpha-8);
+}
+
+.floatingChatInput input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--zd-gray-900);
+  font-size: 0.9375rem;
+  line-height: 1.4;
+}
+
+.floatingChatInput input::placeholder {
+  color: var(--zd-gray-400);
+}
+
+.floatingChatInput button {
+  width: 2.25rem;
+  height: 2.25rem;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  background: var(--ifm-color-primary);
+  border: 0;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  transition: background-color 0.15s ease, opacity 0.15s ease;
+}
+
+.floatingChatInput button:hover {
+  background: var(--ifm-color-primary-dark);
+}
+
+.floatingChatInput button:disabled,
+.floatingChatInput input:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+@media (min-width: 997px) {
+  .floatingChatInput {
+    left: calc(var(--doc-sidebar-width) + ((100vw - var(--doc-sidebar-width)) / 2));
+    width: min(42rem, calc(100vw - var(--doc-sidebar-width) - 5rem));
   }
 
-  .mobileChatFab:hover {
-    background: var(--ifm-color-primary-dark);
-    box-shadow: 0 6px 16px var(--zd-primary-alpha-50);
-    transform: translateY(-1px);
+  .floatingChatInputSidebarCollapsed {
+    left: calc(var(--doc-sidebar-hidden-width) + ((100vw - var(--doc-sidebar-hidden-width)) / 2));
+    width: min(42rem, calc(100vw - var(--doc-sidebar-hidden-width) - 5rem));
   }
+}
 
-  .mobileChatFab svg {
-    color: #ffffff;
+@media (max-width: 1200px) {
+  .chatPane {
+    flex-basis: 18rem;
+    width: 18rem;
+    min-width: 18rem;
   }
 }
 
@@ -135,15 +138,26 @@
     overflow: visible;
   }
 
-  .chatPane {
-    display: none;
-  }
-
-  .chatResizeHandle {
-    display: none;
-  }
-
   .docRoot {
     overflow: visible;
+  }
+
+  .chatPane {
+    position: fixed;
+    top: calc(var(--ifm-navbar-height) + var(--zd-secondary-navbar-height));
+    right: 0;
+    bottom: 0;
+    z-index: 20;
+    width: min(100vw, 26rem);
+    min-width: 0;
+    border-left: 1px solid var(--ifm-toc-border-color);
+  }
+
+  .floatingChatInput {
+    left: 50%;
+    bottom: 1.25rem;
+    width: calc(100vw - 1.25rem);
+    min-height: 3rem;
+    border-radius: 0.875rem;
   }
 }

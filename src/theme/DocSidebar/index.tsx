@@ -1,11 +1,10 @@
-import React, {type ReactNode, useState} from 'react';
+import React, {type ReactNode, useEffect, useMemo, useState} from 'react';
 import {useLocation, useHistory} from '@docusaurus/router';
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {useWindowSize} from '@docusaurus/theme-common';
 import DocSidebar from '@theme-original/DocSidebar';
 import type DocSidebarType from '@theme/DocSidebar';
 import type {WrapperProps} from '@docusaurus/types';
-import type {PropSidebarItemCategory} from '@docusaurus/plugin-content-docs';
+import type {PropSidebarItem, PropSidebarItemCategory} from '@docusaurus/plugin-content-docs';
 import {findFirstSidebarItemLink} from '@docusaurus/plugin-content-docs/client';
 import {
   Rocket,
@@ -39,8 +38,6 @@ import {
   Link as LinkIcon,
   User,
   Bookmark,
-  ChevronDown,
-  ChevronLeft,
   ChevronRight,
   Home,
   BookOpen,
@@ -48,10 +45,10 @@ import {
   Server,
   Library,
   AlertTriangle,
+  Wrench,
 } from 'lucide-react';
-import ICONS from '../../utils/navIcons';
-import {useDropdownClose} from '../../utils/useDropdownClose';
 import IconButton from '../../components/IconButton';
+import SidebarIconVisibilityContext from '../DocSidebarItem/iconVisibility';
 
 import styles from './styles.module.css';
 
@@ -59,27 +56,6 @@ import styles from './styles.module.css';
 let hasEverExpanded = false;
 
 type Props = WrapperProps<typeof DocSidebarType>;
-
-interface NavItem {
-  label: string;
-  href?: string;
-  prefix: string | null;
-  icon: string;
-  hidden?: boolean;
-  items?: NavItem[];
-}
-
-/** Flatten secondaryNavbar config into sections for the ProductDropdown.
- *  Items with sub-items (e.g. API & SDK) are expanded into individual sections.
- *  Hidden items are filtered out.
- */
-function flattenNavSections(navItems: NavItem[]): NavItem[] {
-  return navItems.flatMap(item => {
-    if (item.hidden) return [];
-    if (item.items?.length) return item.items;
-    return [item];
-  });
-}
 
 /** All known sidebar section icon keys → icon element.
  *  New section icons should be added here as they appear in sidebar customProps.
@@ -133,6 +109,23 @@ const SIDEBAR_ICON_MAP: Record<string, React.ReactNode> = {
   'limits-restrictions': <AlertTriangle size={18} />,
 };
 
+const SIDEBAR_LABEL_ICON_MAP: Record<string, React.ReactNode> = {
+  'get started': <Rocket size={18} />,
+  development: <Code size={18} />,
+  management: <Settings size={18} />,
+  tools: <Wrench size={18} />,
+  'ai models': <Brain size={18} />,
+  'cloud management': <Cloud size={18} />,
+  configuration: <Settings2 size={18} />,
+  'data operations': <Database size={18} />,
+};
+
+function getSidebarSectionIcon(item: PropSidebarItem, label: string): React.ReactNode {
+  const iconKey = (item as {customProps?: {icon?: string}}).customProps?.icon;
+  const keyedIcon = iconKey ? SIDEBAR_ICON_MAP[iconKey] : undefined;
+  return keyedIcon ?? SIDEBAR_LABEL_ICON_MAP[label.toLowerCase()] ?? <BookOpen size={18} />;
+}
+
 function CollapsedIconColumn({
   onExpand,
   sidebar,
@@ -149,22 +142,24 @@ function CollapsedIconColumn({
     onExpand();
   };
 
-  // Derive icon entries dynamically from the live sidebar, preserving order.
-  // Only items with a customProps.icon that exists in SIDEBAR_ICON_MAP are included.
+  // Derive entries dynamically from the live sidebar, preserving order.
+  // Base-generated sections may not have custom icons, so keep a neutral fallback.
   const iconEntries = React.useMemo(() => {
     const entries: {key: string; label: string; href: string | undefined; icon: React.ReactNode}[] = [];
     for (let i = 0; i < sidebar.length; i++) {
       const item = sidebar[i];
       const key = (item as {customProps?: {icon?: string}}).customProps?.icon;
-      if (!key || !SIDEBAR_ICON_MAP[key]) continue;
+      const icon = key ? SIDEBAR_ICON_MAP[key] : undefined;
       const label = (item as {label?: string}).label ?? key;
       let href: string | undefined;
       if (item.type === 'category') {
         href = findFirstSidebarItemLink(item as PropSidebarItemCategory);
       } else if (item.type === 'link') {
         href = (item as {href: string}).href;
+      } else {
+        continue;
       }
-      entries.push({key, label, href, icon: SIDEBAR_ICON_MAP[key]});
+      entries.push({key: key ?? `${label}-${i}`, label, href, icon: icon ?? <BookOpen size={18} />});
     }
     return entries;
   }, [sidebar]);
@@ -203,72 +198,87 @@ function CollapsedIconColumn({
   );
 }
 
-function ProductDropdown({onCollapse}: {onCollapse?: () => void}): ReactNode {
+function normalizePath(path: string): string {
+  return path.replace(/\/$/, '');
+}
+
+function getItemHref(item: PropSidebarItem): string | undefined {
+  if (item.type === 'link') return item.href;
+  if (item.type === 'category') return item.href || findFirstSidebarItemLink(item);
+  return undefined;
+}
+
+function itemContainsPath(item: PropSidebarItem, pathname: string): boolean {
+  const normalizedPathname = normalizePath(pathname);
+  const href = getItemHref(item);
+  if (href && normalizePath(href) === normalizedPathname) return true;
+
+  if (item.type === 'category') {
+    return item.items.some(child => itemContainsPath(child, pathname));
+  }
+
+  return false;
+}
+
+function TwoLevelSidebar(props: Props): ReactNode {
   const {pathname} = useLocation();
   const history = useHistory();
-  const {siteConfig} = useDocusaurusContext();
-  const [open, setOpen] = useState(false);
+  const activeIndex = useMemo(() => {
+    const found = props.sidebar.findIndex(item => itemContainsPath(item, pathname));
+    return found >= 0 ? found : 0;
+  }, [pathname, props.sidebar]);
+  const [selectedIndex, setSelectedIndex] = useState(activeIndex);
 
-  useDropdownClose(open, setOpen);
+  useEffect(() => {
+    setSelectedIndex(activeIndex);
+  }, [activeIndex]);
 
-  const navItems = (siteConfig.customFields?.secondaryNavbar ?? []) as NavItem[];
-  const sections = flattenNavSections(navItems);
-
-  // Use longest-prefix match so /docs/byoc/... prefers BYOC over Cloud Guides
-  const active = sections.reduce<NavItem | null>((best, s) => {
-    if (!s.prefix) return best;
-    const matches = pathname === s.prefix || pathname.startsWith(s.prefix + '/');
-    if (!matches) return best;
-    if (!best || s.prefix.length > (best.prefix?.length ?? 0)) return s;
-    return best;
-  }, null) ?? sections[0];
+  const selectedItem = props.sidebar[selectedIndex] ?? props.sidebar[0];
+  const secondarySidebar = selectedItem?.type === 'category' ? selectedItem.items : selectedItem ? [selectedItem] : [];
 
   return (
-    <div className={styles.dropdownWrapper}>
-      <button
-        type="button"
-        className={styles.dropdownTrigger}
-        onClick={() => setOpen(o => !o)}
-        aria-expanded={open}>
-        <span className={styles.dropdownTriggerInner}>
-          {active?.icon && ICONS[active.icon]}
-          {active?.label}
-        </span>
-        <ChevronDown size={14} strokeWidth={2.5} />
-      </button>
+    <div className={styles.twoLevelSidebar}>
+      <nav className={styles.primaryRail} aria-label="Documentation sections">
+        {props.sidebar.map((item, index) => {
+          const label = 'label' in item ? item.label : `Section ${index + 1}`;
+          const isActive = index === selectedIndex;
+          const icon = getSidebarSectionIcon(item, label);
+          return (
+            <button
+              key={`${label}-${index}`}
+              type="button"
+              className={`${styles.primaryRailItem} ${isActive ? styles.primaryRailItemActive : ''}`}
+              title={label}
+              data-label={label}
+              onClick={() => {
+                if (item.type === 'category' && item.items.length > 0) {
+                  setSelectedIndex(index);
+                  return;
+                }
+                const href = getItemHref(item);
+                if (href) history.push(href);
+              }}
+              aria-current={isActive ? 'true' : undefined}>
+              <span className={styles.primaryRailIcon} aria-hidden="true">
+                {icon}
+              </span>
+              <span className={styles.primaryRailLabel}>
+                {label}
+              </span>
+            </button>
+          );
+        })}
+      </nav>
 
-      {onCollapse && (
-        <IconButton
-          size="sm"
-          variant="outlined"
-          onClick={onCollapse}
-          title="Collapse sidebar"
-          aria-label="Collapse sidebar">
-          <ChevronLeft size={16} />
-        </IconButton>
-      )}
-
-      {open && (
-        <>
-          <div className={styles.dropdownBackdrop} onClick={() => setOpen(false)} aria-hidden="true" />
-          <div className={styles.dropdownMenu} role="menu">
-            {sections.map(s => (
-              <button
-                key={s.label}
-                type="button"
-                role="menuitem"
-                className={`${styles.dropdownItem} ${s.label === active?.label ? styles.dropdownItemActive : ''}`}
-                onClick={() => {
-                  if (s.href) history.push(s.href);
-                  setOpen(false);
-                }}>
-                {s.icon && ICONS[s.icon]}
-                {s.label}
-              </button>
-            ))}
+      <section className={styles.secondaryPane} aria-label="Documentation pages">
+        <div className={styles.sidebarScroll}>
+          <div className={styles.secondarySidebarContent}>
+            <SidebarIconVisibilityContext.Provider value={false}>
+              <DocSidebar {...props} sidebar={secondarySidebar} />
+            </SidebarIconVisibilityContext.Provider>
           </div>
-        </>
-      )}
+        </div>
+      </section>
     </div>
   );
 }
@@ -283,9 +293,12 @@ export default function DocSidebarWrapper(props: Props): ReactNode {
     return <CollapsedIconColumn onExpand={props.onCollapse!} sidebar={props.sidebar} />;
   }
 
+  if (!isMobile) {
+    return <TwoLevelSidebar {...props} />;
+  }
+
   return (
     <>
-      {!isMobile && <ProductDropdown onCollapse={props.onCollapse} />}
       <div className={styles.sidebarScroll}>
         <DocSidebar {...props} />
       </div>
