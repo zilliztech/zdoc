@@ -113,6 +113,7 @@ const config: Config = {
     ['./plugins/lark-docs', larkDocsConfig],
     ['./plugins/i18n-translator', i18nTranslatorConfig],
     './plugins/apifox-docs',
+    './plugins/link-checks',
     ['./plugins/embed-markdown', {
       sources: [
         { folder: 'docs',      route: '/docs'     },

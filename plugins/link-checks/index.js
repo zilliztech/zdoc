@@ -2,20 +2,39 @@ const fs = require('node:fs')
 const fetch = require('node-fetch')
 const { URL } = require('node:url')
 const xml2js = require('xml2js')
-const node_path = require('path')
+const path = require('node:path')
 const _ = require('lodash')
-require('dotenv/config')
+const dotenv = require('dotenv')
 
 module.exports = function (context, options) {
+    dotenv.config({ path: path.join(context.siteDir, '.env') })
+
+    function normalizeUrl (value) {
+        return value.replace(/\/+$/, '') + '/'
+    }
+
+    function resolveRemoteSitemapSource () {
+        if (process.env.LINK_CHECKS_REMOTE_SITEMAP) {
+            return process.env.LINK_CHECKS_REMOTE_SITEMAP
+        }
+
+        const remoteBaseUrl = process.env.LINK_CHECKS_REMOTE_BASE_URL || (context.siteConfig.url + context.siteConfig.baseUrl)
+        return normalizeUrl(remoteBaseUrl)
+    }
+
+    function resolveLocalSitemapSource () {
+        return process.env.LINK_CHECKS_LOCAL_SITEMAP || path.join(context.siteDir, 'build', 'sitemap.xml')
+    }
 
     async function listUrls (baseUrl) {
         var oSitemap;
         if (baseUrl.startsWith('http://') || baseUrl.startsWith('https://')) {
-            oSitemap = await (await fetch(baseUrl + 'sitemap.xml')).text()
+            const sitemapUrl = baseUrl.endsWith('.xml') ? baseUrl : normalizeUrl(baseUrl) + 'sitemap.xml'
+            oSitemap = await (await fetch(sitemapUrl)).text()
         } else if (fs.existsSync(baseUrl)) {
             oSitemap = fs.readFileSync(baseUrl, 'utf8')
         } else {
-            throw new Error('baseUrl is not either a valid URL or a local file path')
+            throw new Error(`baseUrl is not either a valid URL or a local file path: ${baseUrl}`)
         }
 
         const parser = new xml2js.Parser()
@@ -32,8 +51,8 @@ module.exports = function (context, options) {
                 .command('link-checks')
                 .description('check external links in markdown files')
                 .action(async (opts) => {
-                    const remote = await listUrls(context.siteConfig.url + context.siteConfig.baseUrl)
-                    const local = await listUrls('build/sitemap.xml')
+                    const remote = await listUrls(resolveRemoteSitemapSource())
+                    const local = await listUrls(resolveLocalSitemapSource())
 
                     const deleted =remote.filter(url =>!local.includes(url))
                     const added = local.filter(url =>!remote.includes(url))
@@ -70,7 +89,7 @@ module.exports = function (context, options) {
 
                     await Promise.all(externalLinks.map(async (link) => {
                         try {
-                            const response = await fetch(link.split('|')[0], { method: 'HEAD'}) 
+                            const response = await fetch(link.split('|')[0], { method: 'HEAD'})
 
                             if (response.status >= 400) {
                                 brokenLinks.push(link)

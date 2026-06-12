@@ -149,5 +149,9 @@
         "milvus": {
             "name": "Privilege Group (v2)"
         }
+    },
+    {
+        "name": "on-demand-compute-v2",
+        "description": "This set of APIs provides a way to manage on-demand compute for projects."
     }
 ]
