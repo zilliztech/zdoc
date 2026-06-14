@@ -6,6 +6,7 @@ import i18nTranslatorConfig from './config/i18n-translator.config';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 import {visit} from 'unist-util-visit';
+const planeConfig = require('./plugins/apifox-docs/meta/plane-config.json');
 
 // Remark plugin: fix escaped braces inside math nodes.
 // Doc sources use \{ and \} (MDX escapes) inside $...$ blocks.
@@ -61,6 +62,7 @@ const config: Config = {
   },
 
   customFields: {
+    planeConfig,
     chatEndpoint: process.env.CHAT_ENDPOINT || '/api/chat',
     chatDebug: process.env.CHAT_DEBUG === 'true',
     secondaryNavbar: [

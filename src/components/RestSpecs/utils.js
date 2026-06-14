@@ -1,9 +1,10 @@
 import { capitalize } from 'lodash';
 import { i18n } from './i18n'
 import Showdown from 'showdown';
+// planeConfig is passed from callers that read it via useDocusaurusContext
 
-export const getBaseUrl = (endpoint, lang, pubTarget) => {
-    const condition = isControlPlane(endpoint)
+export const getBaseUrl = (endpoint, lang, pubTarget, planeConfig) => {
+    const condition = isControlPlane(endpoint, pubTarget, planeConfig)
 
     var server = "https://api.cloud.zilliz.com";
     var children = `export BASE_URL="${server}"`
@@ -58,7 +59,7 @@ export const textFilter =  (text, targets) => {
     const converter = new Showdown.Converter();
     text = converter.makeHtml(text);
 
-    return text
+    return text;
 }
 
 const matchFilterTags = (text) => {
@@ -100,47 +101,37 @@ const matchFilterTags = (text) => {
     return returns
 }
 
-export const getRandomString = (length) => {
-    var result = '';
-    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    var charactersLength = characters.length;
-    for ( var i = 0; i < length; i++ ) {
-       result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
-    return result;
+let _tabIdCounter = 0;
+export const getRandomString = () => {
+    return `tid${++_tabIdCounter}`;
 }
 
 export const chooseParamExample = (param, lang, target) => {
+    // Check x-i18n first (consistent with Primitive component)
+    if (param["x-i18n"]?.[lang]?.example !== undefined) {
+        param.example = param["x-i18n"][lang].example
+        return param
+    }
+
     if (param.examples) {
         const validkey = Object.keys(param.examples).filter(key => {
-            return param.examples[key]?.["x-target-lang"] === lang || param.examples[key]?.["x-include-target"]?.includes(target)
+            const ex = param.examples[key]
+            const langMatch = !ex?.["x-target-lang"] || ex["x-target-lang"] === lang
+            const targetMatch = !ex?.["x-include-target"] || ex["x-include-target"].includes(target)
+            return langMatch && targetMatch
         })[0]
 
-        param.example = param.examples[validkey].value
+        if (validkey) {
+            param.example = param.examples[validkey].value
+        }
     }
 
     return param
 }
 
-export const isControlPlane = (endpoint) => {
-    
-    return endpoint.includes('cloud') || 
-        endpoint.includes('region') || 
-        endpoint.includes('cluster') || 
-        endpoint.includes('import') || 
-        endpoint.includes('pipeline') || 
-        endpoint.includes('project') || 
-        endpoint.includes('metrics') ||
-        endpoint.includes('migration') ||
-        endpoint.includes('backup') ||
-        endpoint.includes('restore') ||
-        endpoint.includes('usage') ||
-        endpoint.includes('invoices') ||
-        endpoint.includes('job') ||
-        endpoint.includes('alert') ||
-        endpoint.includes('etl') ||
-        endpoint.includes('stage') ||
-        endpoint.includes('project')
+export const isControlPlane = (endpoint, target = 'zilliz', planeConfig) => {
+    const keywords = planeConfig?.controlPlaneKeywords?.[target] || planeConfig?.controlPlaneKeywords?.zilliz || []
+    return keywords.some(k => endpoint.includes(k))
 }
 
 export const isBeta = (endpoint) => {
