@@ -5,8 +5,8 @@ import {
   useCurrentSidebarSiblings,
   filterDocCardListItems,
 } from '@docusaurus/plugin-content-docs/client';
-import DocCard from '@theme/DocCard';
 import type {Props} from '@theme/DocCardList';
+import DocCard from '../DocCard';
 
 type HeadingLevel = 1 | 2 | 3 | 4 | 5 | 6;
 

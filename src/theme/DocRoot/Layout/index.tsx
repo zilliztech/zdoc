@@ -3,13 +3,13 @@ import {useLocation} from '@docusaurus/router';
 import {useDocsSidebar} from '@docusaurus/plugin-content-docs/client';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import BackToTopButton from '@theme/BackToTopButton';
-import DocRootLayoutSidebar from '@theme/DocRoot/Layout/Sidebar';
 import DocRootLayoutMain from '@theme/DocRoot/Layout/Main';
 import type {Props} from '@theme/DocRoot/Layout';
 import SecondaryNavbar from '@site/src/components/SecondaryNavbar';
 import ChatPanel, {ChatProvider} from '@site/src/components/ChatPanel';
 import {useChatContext} from '@site/src/components/ChatPanel/ChatContext';
 import {MessageSquare, Send} from 'lucide-react';
+import DocRootLayoutSidebar from './Sidebar';
 
 import styles from './styles.module.css';
 

@@ -321,7 +321,8 @@ function DocSidebarItemCategoryCollapsible({
       }
     }
   };
-  const showChildCaret = !showSidebarIcons && !href && !item.link && items.length > 0;
+  const categoryLink = (item as PropSidebarItemCategory & {link?: unknown}).link;
+  const showChildCaret = !showSidebarIcons && !href && !categoryLink && items.length > 0;
 
   return (
     <li

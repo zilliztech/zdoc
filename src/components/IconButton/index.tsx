@@ -1,8 +1,13 @@
-import React from 'react';
+import React, {type MouseEventHandler, type ReactNode} from 'react';
 import clsx from 'clsx';
 import styles from './styles.module.css';
 
-interface IconButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface IconButtonProps {
+  className?: string;
+  children?: ReactNode;
+  onClick?: MouseEventHandler<HTMLButtonElement>;
+  title?: string;
+  'aria-label'?: string;
   /** Visual size: 'sm' = 36×36px, 'md' = 44×44px. Default: 'md' */
   size?: 'sm' | 'md';
   /** 'ghost' = no border; 'outlined' = 1px gray border. Default: 'ghost' */

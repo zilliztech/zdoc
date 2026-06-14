@@ -1,7 +1,12 @@
 import React, {useState, useRef, useEffect, type ReactNode} from 'react';
 import {useDoc} from '@docusaurus/plugin-content-docs/client';
-import type {TOCItem} from '@docusaurus/mdx-loader';
 import styles from './styles.module.css';
+
+type TOCItem = {
+  readonly value: string;
+  readonly id: string;
+  readonly level: number;
+};
 
 function TocItem({item, onClick}: {item: TOCItem; onClick: () => void}) {
   const isH3 = item.level === 3;

@@ -1,3 +1,5 @@
+import type {ChatMessage} from '@zdoc/chat-ui';
+
 export type {
   Source,
   FeedbackRating,
