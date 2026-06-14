@@ -48,6 +48,24 @@ const guides: Manual = {
     },
 }
 
+const agents: Manual = {
+    root: 'R8ZwwvHrJivIAyk8JkQchM0Anng',
+    base: 'YxSibAMZ4aDqhjs5Ru4clmrun4f',
+    sourceType: 'wiki',
+    displayedSidebar: 'agentsSidebar',
+    docSourceDir: './plugins/lark-docs/meta/sources/agents-and-prompts',
+    sidebarPath: './config/generated/agents.sidebar.js',
+    contentRoot: 'docs',
+    targets: {
+        zilliz: {
+            // Keep files in the Tools chapter, but keep master-compatible
+            // /docs/agents/* routes via displayedSidebar slug prefixing.
+            outputDir: 'docs/tutorials/tools',
+            imageDir: 'static/img',
+        },
+    },
+}
+
 // sdk: python =============================
 
 const python : Manual =  {
@@ -210,6 +228,25 @@ const javaV226: Manual = {
     },
 }
 
+const javaV230: Manual = {
+    root: 'C4Ckfsx5qlKHbnd5PVrcpxvTn2d',
+    base: 'AOFDbSmwma9XrNsLa8KcQgt9ngc',
+    sourceType: 'drive',
+    displayedSidebar: 'javaSidebar',
+    version: 'v3.0.x',
+    docSourceDir: './plugins/lark-docs/meta/sources/java/v3.0.x/v2',
+    fallbackSourceDir: './plugins/lark-docs/meta/sources/java/v2.6.x/v2',
+    sidebarPath: './config/generated/java.sidebar.js',
+    overridePath: './config/sidebar-overrides/java.json',
+    contentRoot: 'reference',
+    targets: {
+        zilliz: {
+            outputDir: 'reference/api/java/java/v2',
+            imageDir: 'static/img',
+        },
+    },
+}
+
 // sdk: node ===============================
 
 const node : Manual = {
@@ -259,6 +296,25 @@ const nodejs26: Manual = {
     displayedSidebar: 'nodeSidebar',
     docSourceDir: './plugins/lark-docs/meta/sources/node/v2.6.x',
     fallbackSourceDir: './plugins/lark-docs/meta/sources/node/v2.5.x',
+    sidebarPath: './config/generated/node.sidebar.js',
+    overridePath: './config/sidebar-overrides/node.json',
+    contentRoot: 'reference',
+    targets: {
+        zilliz: {
+            outputDir: 'reference/api/nodejs/nodejs',
+            imageDir: 'static/img',
+        },
+    },
+}
+
+const nodejs30: Manual = {
+    root: 'LW67fVlTvlNCZRdxOVYcQZyJnFQ',
+    base: 'LlrPbysPZau2dGsSVuicHmvCn0e',
+    sourceType: 'drive',
+    version: 'v3.0.x',
+    displayedSidebar: 'nodeSidebar',
+    docSourceDir: './plugins/lark-docs/meta/sources/node/v3.0.x',
+    fallbackSourceDir: './plugins/lark-docs/meta/sources/node/v2.6.x',
     sidebarPath: './config/generated/node.sidebar.js',
     overridePath: './config/sidebar-overrides/node.json',
     contentRoot: 'reference',
@@ -346,8 +402,30 @@ const cli01: Manual = {
     },
 }
 
+const cliv01 = cli01
+
+const cliv13: Manual = {
+    root: 'QBLKf6CCPloK0cddw6gcXUZqnob',
+    base: 'Rr4lbWr8baQj5psICV9cEFa2nYe',
+    sourceType: 'drive',
+    version: 'v1.3.x',
+    displayedSidebar: 'cliSidebar',
+    docSourceDir: './plugins/lark-docs/meta/sources/cli/v1.3.x',
+    fallbackSourceDir: './plugins/lark-docs/meta/sources/cli/v0.1.x',
+    sidebarPath: './config/generated/cli.sidebar.js',
+    overridePath: './config/sidebar-overrides/cli.json',
+    contentRoot: 'reference',
+    targets: {
+        zilliz: {
+            outputDir: 'reference/api/cli/cli',
+            imageDir: 'static/img',
+        },
+    },
+}
+
 export default {
     guides,
+    agents,
     python,
     pymilvus25,
     pymilvus26,
@@ -356,11 +434,15 @@ export default {
     javaV2,
     javaV225,
     javaV226,
+    javaV230,
     node,
     nodejs25,
     nodejs26,
+    nodejs30,
     gov1,
     gov226,
     gov230,
-    cli01
+    cli01,
+    cliv01,
+    cliv13
 }
