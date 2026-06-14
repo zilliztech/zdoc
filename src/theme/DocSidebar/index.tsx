@@ -49,6 +49,16 @@ import {
 } from 'lucide-react';
 import IconButton from '../../components/IconButton';
 import SidebarIconVisibilityContext from '../DocSidebarItem/iconVisibility';
+import {
+  clearManualReferenceOrigin,
+  getDefaultManualReferenceOrigin,
+  getManualReferenceTarget,
+  getReferenceNavigationHref,
+  readManualReferenceOrigin,
+  shouldClearManualReferenceOrigin,
+  writeManualReferenceOrigin,
+  type ManualReferenceOrigin,
+} from './manualReferenceSidebar';
 
 import styles from './styles.module.css';
 
@@ -223,23 +233,62 @@ function itemContainsPath(item: PropSidebarItem, pathname: string): boolean {
 function TwoLevelSidebar(props: Props): ReactNode {
   const {pathname} = useLocation();
   const history = useHistory();
+  const referenceTarget = getManualReferenceTarget(pathname);
+  const [manualReferenceOrigin, setManualReferenceOrigin] = useState<ManualReferenceOrigin | undefined>(() => {
+    const origin = readManualReferenceOrigin();
+    if (origin && referenceTarget) return origin;
+    return referenceTarget ? getDefaultManualReferenceOrigin(referenceTarget) : undefined;
+  });
+
+  useEffect(() => {
+    setManualReferenceOrigin(current => {
+      if (!current && referenceTarget) {
+        const origin = getDefaultManualReferenceOrigin(referenceTarget);
+        writeManualReferenceOrigin(origin);
+        return origin;
+      }
+
+      if (shouldClearManualReferenceOrigin(pathname, current)) {
+        clearManualReferenceOrigin();
+        return undefined;
+      }
+      return current;
+    });
+  }, [pathname, referenceTarget]);
+
+  const isManualReferenceMode = Boolean(manualReferenceOrigin && referenceTarget);
+  const primarySidebar = isManualReferenceMode ? manualReferenceOrigin!.sidebar : props.sidebar;
+
   const activeIndex = useMemo(() => {
-    const found = props.sidebar.findIndex(item => itemContainsPath(item, pathname));
+    if (isManualReferenceMode) {
+      const found = primarySidebar.findIndex(
+        item => 'label' in item && item.label === manualReferenceOrigin!.selectedLabel,
+      );
+      return found >= 0 ? found : 0;
+    }
+
+    const found = primarySidebar.findIndex(item => itemContainsPath(item, pathname));
     return found >= 0 ? found : 0;
-  }, [pathname, props.sidebar]);
+  }, [isManualReferenceMode, manualReferenceOrigin, pathname, primarySidebar]);
   const [selectedIndex, setSelectedIndex] = useState(activeIndex);
 
   useEffect(() => {
     setSelectedIndex(activeIndex);
   }, [activeIndex]);
 
-  const selectedItem = props.sidebar[selectedIndex] ?? props.sidebar[0];
-  const secondarySidebar = selectedItem?.type === 'category' ? selectedItem.items : selectedItem ? [selectedItem] : [];
+  const selectedItem = primarySidebar[selectedIndex] ?? primarySidebar[0];
+  const secondarySidebar = isManualReferenceMode
+    ? props.sidebar
+    : selectedItem?.type === 'category'
+      ? selectedItem.items
+      : selectedItem
+        ? [selectedItem]
+        : [];
 
   return (
     <div className={styles.twoLevelSidebar}>
       <nav className={styles.primaryRail} aria-label="Documentation sections">
-        {props.sidebar.map((item, index) => {
+        {primarySidebar.map((item, index) => {
           const label = 'label' in item ? item.label : `Section ${index + 1}`;
           const isActive = index === selectedIndex;
           const icon = getSidebarSectionIcon(item, label);
@@ -251,6 +300,16 @@ function TwoLevelSidebar(props: Props): ReactNode {
               title={label}
               data-label={label}
               onClick={() => {
+                if (isManualReferenceMode) {
+                  const href = label === manualReferenceOrigin!.selectedLabel
+                    ? manualReferenceOrigin!.backHref
+                    : getItemHref(item);
+                  clearManualReferenceOrigin();
+                  setManualReferenceOrigin(undefined);
+                  if (href) history.push(href);
+                  return;
+                }
+
                 if (item.type === 'category' && item.items.length > 0) {
                   setSelectedIndex(index);
                   return;
@@ -270,9 +329,46 @@ function TwoLevelSidebar(props: Props): ReactNode {
         })}
       </nav>
 
-      <section className={styles.secondaryPane} aria-label="Documentation pages">
+      <section
+        className={styles.secondaryPane}
+        aria-label="Documentation pages"
+        onClickCapture={event => {
+          if (isManualReferenceMode) return;
+          const target = event.target as HTMLElement | null;
+          const link = target?.closest('a[href^="/reference/"]') as HTMLAnchorElement | null;
+          if (!link) return;
+          const href = link.getAttribute('href') ?? '';
+          if (!getManualReferenceTarget(href)) return;
+
+          const selectedLabel = selectedItem && 'label' in selectedItem ? selectedItem.label : 'Documentation';
+          const origin: ManualReferenceOrigin = {
+            backHref: selectedItem ? getItemHref(selectedItem) ?? pathname : pathname,
+            backLabel: selectedLabel,
+            selectedLabel,
+            sidebar: primarySidebar,
+          };
+          writeManualReferenceOrigin(origin);
+          setManualReferenceOrigin(origin);
+          const navigationHref = getReferenceNavigationHref(href);
+          if (navigationHref !== href) {
+            event.preventDefault();
+            history.push(navigationHref);
+          }
+        }}>
         <div className={styles.sidebarScroll}>
           <div className={styles.secondarySidebarContent}>
+            {isManualReferenceMode && manualReferenceOrigin && (
+              <button
+                type="button"
+                className={styles.backToManualButton}
+                onClick={() => {
+                  clearManualReferenceOrigin();
+                  setManualReferenceOrigin(undefined);
+                  history.push(manualReferenceOrigin.backHref);
+                }}>
+                Back to {manualReferenceOrigin.backLabel}
+              </button>
+            )}
             <SidebarIconVisibilityContext.Provider value={false}>
               <DocSidebar {...props} sidebar={secondarySidebar} />
             </SidebarIconVisibilityContext.Provider>
