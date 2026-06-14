@@ -118,7 +118,7 @@ module.exports = function (context, options) {
                                 fs.mkdirSync(docSourceDir, { recursive: true })
                                 await scraper.fetch(true)
                                 if (fallbackSourceDir !== undefined) {
-                                    utils.fetch_fallback_sources(docSourceDir, fallbackSourceDir, sourceType)
+                                    utils.fetch_fallback_sources(docSourceDir, fallbackSourceDir, sourceType, root)
                                 }
                                 await validateContentLinks({ force: !!opts.validateLinks })
                             }
@@ -186,7 +186,7 @@ module.exports = function (context, options) {
                                     fs.mkdirSync(docSourceDir, { recursive: true })
                                     await scraper.fetch(true)
                                     if (fallbackSourceDir !== undefined) {
-                                        utils.fetch_fallback_sources(docSourceDir, fallbackSourceDir, sourceType)
+                                        utils.fetch_fallback_sources(docSourceDir, fallbackSourceDir, sourceType, root)
                                     }
                                 }
 

@@ -1394,7 +1394,8 @@ class larkDocWriter {
                         // Escape non-HTML lowercase placeholder tags (e.g. <bucket_name>, <region-code>).
                         // Tags with attributes won't match because the regex only allows \s*\/?>
                         part = part.replace(/(?<!\\)<\/?([a-z][a-z0-9]*(?:[_-][a-z0-9]+)*)\s*\/?>/g, (match, tagName) => {
-                            return KNOWN_TAGS.has(tagName) ? match : '\\' + match;
+                            if (KNOWN_TAGS.has(tagName)) return match;
+                            return match.replace(/^\\/, '').replace(/</g, '&lt;').replace(/>/g, '&gt;');
                         });
                         // Escape uppercase/PascalCase tags not identified as real JSX components.
                         // Uses HTML entities so the angle brackets render correctly in the output.
@@ -1728,6 +1729,49 @@ class larkDocWriter {
         return html;
     }
 
+    __escapeJsxAttribute(value) {
+        return String(value ?? '')
+            .replace(/&/g, '&amp;')
+            .replace(/"/g, '&quot;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+    }
+
+    __normalizeAdmonitionBody(lines) {
+        let body = Array.isArray(lines) ? lines.join('\n') : String(lines ?? '')
+        let bodyLines = body.split('\n')
+
+        while (bodyLines.length && bodyLines[0].trim() === '') bodyLines.shift()
+        while (bodyLines.length && bodyLines[bodyLines.length - 1].trim() === '') bodyLines.pop()
+
+        const indents = bodyLines
+            .filter(line => line.trim() !== '')
+            .map(line => line.match(/^ */)[0].length)
+        const commonIndent = indents.length ? Math.min(...indents) : 0
+
+        if (commonIndent > 0) {
+            bodyLines = bodyLines.map(line => line.startsWith(' '.repeat(commonIndent)) ? line.slice(commonIndent) : line)
+        }
+
+        return bodyLines.join('\n')
+    }
+
+    __admonitionMarkdown({ type, icon, title, bodyLines, indent }) {
+        const pad = ' '.repeat(indent)
+        const body = this.__normalizeAdmonitionBody(bodyLines)
+        const bodyWithIndent = body ? body.split('\n').map(line => pad + line).join('\n') : ''
+        const titleAttr = this.__escapeJsxAttribute(title || 'Notes')
+        const iconAttr = this.__escapeJsxAttribute(icon)
+
+        return [
+            `${pad}<Admonition type="${type}" icon="${iconAttr}" title="${titleAttr}">`,
+            '',
+            bodyWithIndent,
+            '',
+            `${pad}</Admonition>`,
+        ].join('\n').replace(/(\s*\n){3,}/g, `\n${pad}\n`)
+    }
+
     async __callout(block, indent) {
         let children = []
         if (block.children) {
@@ -1741,30 +1785,36 @@ class larkDocWriter {
         }
 
         let emoji = block['callout']['emoji_id']
-        let type;
+        let type = 'info'
+        let icon = '📘'
+        let title = children[0]?.trim() || 'Notes'
 
         switch (emoji) {
             case 'blue_book':
-                type = `<Admonition type="info" icon="📘" title="${children[0].trim()}">`
+                type = 'info'
+                icon = '📘'
                 break;
             case 'construction':
-                type = `<Admonition type="danger" icon="🚧" title="${children[0].trim()}">`
+                type = 'danger'
+                icon = '🚧'
                 break;
             default:
-                type = `<Admonition type="info" icon="📘" title="${children[0].trim()}">`
+                type = 'info'
+                icon = '📘'
                 break;
         }         
         
-        const converter = new showdown.Converter()
-        let html = converter.makeHtml(children.slice(1).map(line => line.replace(/^\s*/g, '')).join('\n'))
-        html = this.__showdownToMdxSafe(html);
-
-        const raw = ' '.repeat(indent) + type + '\n\n' + ' '.repeat(indent) + html.split('\n').join('\n' + ' '.repeat(indent)) + '\n\n' + ' '.repeat(indent) + '</Admonition>';
-        return raw.replace(/(\s*\n){3,}/g, `\n${' '.repeat(indent)}\n`);
+        return this.__admonitionMarkdown({
+            type,
+            icon,
+            title,
+            bodyLines: children.slice(1),
+            indent,
+        })
     }
 
     async __code(code, indent, prev, next, blocks) {
-        const valid_langs = ['Python', 'JavaScript', 'Java', 'Go', 'Bash']
+        const valid_langs = ['Python', 'JavaScript', 'Java', 'Go', 'C++', 'Bash', 'Shell']
         let lang = code.style.language ? this.code_langs[code['style']['language']] : 'plaintext'
         let elements = (await Promise.all(code['elements'].map( async x => {
             let content = await this.__text_run(x, code['elements'], true)
@@ -1772,7 +1822,7 @@ class larkDocWriter {
             return content
         }))).join('') 
 
-        if (lang === 'C++') return; // to be removed once c++ is supported
+        // if (lang === 'C++') return; // to be removed once c++ is supported
 
         if (valid_langs.includes(lang)) {
             const prev_type = prev ? this.block_types[prev['block_type']-1] : null;
@@ -1787,7 +1837,6 @@ class larkDocWriter {
             ) {
                 console.log('first block')
                 const values = this.__code_tabs(code, prev, next, blocks)
-                    .filter(tab => tab.value !== 'c++'); // to be removed once c++ is supported
 
                 return this.__code_block_split(elements, indent, lang, 'first', values);
             }
@@ -1910,6 +1959,9 @@ class larkDocWriter {
                     case 'Bash':
                         label = 'cURL'
                         break;
+                    case 'Shell':
+                        label = 'Zilliz CLI'
+                        break;
                     default:
                         label = lang
                         break;
@@ -1928,26 +1980,27 @@ class larkDocWriter {
         });
         let res = (await this.__markdown(quotes, indent)).split('\n');
 
-        let type = 'info Notes';
+        let type = 'info';
+        let icon = '📘';
         let possible_titles = ['Notes', 'Note', '说明', 'ノート', 'Warning', 'Warn', '警告']
-        let title = possible_titles.find((x, i) => res[0].includes(x));
+        let title = possible_titles.find((x, i) => res[0].includes(x)) || 'Notes';
 
 
         if (title && ['Warning', 'Warn', '警告'].indexOf(title) == -1) {
-            type = `info 📘 ${title}`;
+            type = 'info';
+            icon = '📘';
         } else {
-            type = `caution 🚧 ${title}`;
+            type = 'caution';
+            icon = '🚧';
         }
 
-        type = `<Admonition type="${type.split(' ')[0]}" icon="${type.split(' ')[1]}" title="${type.split(' ')[2]}">`;
-        res.splice(1, 0, "");
-
-        const converter = new showdown.Converter()
-        let html = converter.makeHtml(res.slice(1).map(line => line.replace(/^\s*/g, '')).join('\n'))
-        html = this.__showdownToMdxSafe(html);
-
-        const raw = ' '.repeat(indent) + type + '\n\n' + ' '.repeat(indent) + html.split('\n').join('\n' + ' '.repeat(indent)) + '\n\n' + ' '.repeat(indent) + '</Admonition>';
-        return raw.replace(/(\s*\n){3,}/g, '\n\n');
+        return this.__admonitionMarkdown({
+            type,
+            icon,
+            title,
+            bodyLines: res.slice(1),
+            indent,
+        })
     }
 
     async __image(image) {
@@ -2099,6 +2152,98 @@ class larkDocWriter {
         }
     }
 
+    __tableMergeInfoHasMerges(mergeInfo) {
+        return Array.isArray(mergeInfo) && mergeInfo.some(merge => {
+            return !merge || merge.col_span > 1 || merge.row_span > 1
+        })
+    }
+
+    __sheetHasMerges(merges) {
+        return Array.isArray(merges) && merges.length > 0
+    }
+
+    __isMarkdownTableSafeCell(cell) {
+        const content = String(cell ?? '').trim()
+
+        if (!content) return true
+
+        return ![
+            /^```/m,
+            /^\s*[-*+]\s+/m,
+            /^\s*\d+\.\s+/m,
+            /<\/?(Admonition|Tabs|TabItem|table|tr|td|th|ul|ol|li|pre|div)\b/,
+        ].some(pattern => pattern.test(content))
+    }
+
+    __markdownTableCell(cell) {
+        return String(cell ?? '')
+            .trim()
+            .split(/\r?\n+/)
+            .map(line => line.trim())
+            .join('<br/>')
+            .replace(/^\n/, '')
+            .replace(/(?<!~)~(?!~)/g, '&#126;')
+            .replace(/\|/g, '\\|')
+    }
+
+    __markdownTable(rows, indent) {
+        if (!rows.length) return ''
+
+        const columnSize = Math.max(...rows.map(row => row.length))
+        const pad = ' '.repeat(indent)
+        const normalizedRows = rows.map(row => {
+            return Array.from({ length: columnSize }, (_, idx) => this.__markdownTableCell(row[idx]))
+        })
+        const header = normalizedRows[0]
+        const body = normalizedRows.slice(1)
+        const separator = Array.from({ length: columnSize }, () => '---')
+        const renderRow = row => `${pad}| ${row.join(' | ')} |`
+
+        return [
+            renderRow(header),
+            renderRow(separator),
+            ...body.map(renderRow),
+        ].join('\n') + '\n'
+    }
+
+    __htmlTableCellMarkdown(cell) {
+        return String(cell ?? '')
+            .trim()
+            .replace(/^\n/, '')
+            .replace(/<br\/>/g, '\n\n')
+            .replace(/(?<!~)~(?!~)/g, '&#126;')
+    }
+
+    __htmlTableCellContent(cell, converter) {
+        let cellText = this.__htmlTableCellMarkdown(cell)
+
+        // Protect Admonition JSX from showdown's <p> wrapping
+        var admonitions = [];
+        cellText = cellText.replace(
+            /<Admonition[^>]*>[\s\S]*?<\/Admonition>/g,
+            (match) => {
+                admonitions.push(match);
+                return `%%ADMONITION_${admonitions.length - 1}%%`;
+            }
+        );
+
+        admonitions = admonitions.map(admonition => admonition.replace(/\n/g, ''));
+
+        cellText = converter.makeHtml(cellText)
+            .replace(/\n/g, '')
+            .replace(/&amp;/g, '&')
+            .replace(/\*/g, '&ast;');
+
+        // Restore Admonition components (strip <p> wrapper showdown added)
+        cellText = cellText.replace(
+            /<p>%%ADMONITION_(\d+)%%<\/p>/g,
+            (_, idx) => admonitions[parseInt(idx)]
+        );
+
+        // escape { and } for MDX
+        return cellText.replace(/\{/g, '\\{').replace(/\}/g, '\\}');
+    }
+
     async __table(table, indent) {
         const converter = new showdown.Converter({ underline: true })
         const cells = table['cells'];
@@ -2107,12 +2252,28 @@ class larkDocWriter {
         });
         const cell_texts = await Promise.all(cell_blocks.map(async (cell) => {
             let blocks = cell.map(block => this.__retrieve_block_by_id(block));
-            return (await this.__markdown(blocks, 1)).replace(/\n/g, '<br/>');
+            return this.__filter_content(await this.__markdown(blocks, 1), this.targets).trim();
         }));
 
         const row_size = table['property']['row_size'];
         const column_size = table['property']['column_size'];
-        var merge_info = table['property']['merge_info'];
+        var merge_info = Array.isArray(table['property']['merge_info'])
+            ? table['property']['merge_info']
+            : Array.from({ length: row_size * column_size }, () => ({ col_span: 1, row_span: 1 }));
+        const hasMerges = this.__tableMergeInfoHasMerges(merge_info);
+
+        if (!hasMerges && cell_texts.every(cell => this.__isMarkdownTableSafeCell(cell))) {
+            const rows = [];
+            for (var rowIdx = 0; rowIdx < row_size; rowIdx++) {
+                rows.push(cell_texts.slice(rowIdx * column_size, (rowIdx + 1) * column_size));
+            }
+
+            return this.__markdownTable(rows, indent);
+        }
+
+        cell_texts.forEach((cell, idx) => {
+            cell_texts[idx] = cell.replace(/\n/g, '<br/>');
+        })
         
         merge_info = merge_info.map((merge, idx) => {
             if (merge) {
@@ -2137,38 +2298,7 @@ class larkDocWriter {
                 if (merge) {
                     const colspan = merge.col_span > 1 ? ` colspan="${merge.col_span}"` : "";
                     const rowspan = merge.row_span > 1 ? ` rowspan="${merge.row_span}"` : "";
-                    let cell_text = this.__filter_content(cell_texts[cell_idx], this.targets).trim()
-                        .replace(/^\n/, '')
-                        .replace(/<br\/>/g, '\n\n');
-
-                    // Escape solitary tildes to prevent MDX strikethrough parsing
-                    cell_text = cell_text.replace(/(?<!~)~(?!~)/g, '&#126;');
-
-                    // Protect Admonition JSX from showdown's <p> wrapping
-                    var admonitions = [];
-                    cell_text = cell_text.replace(
-                        /<Admonition[^>]*>[\s\S]*?<\/Admonition>/g,
-                        (match) => {
-                            admonitions.push(match);
-                            return `%%ADMONITION_${admonitions.length - 1}%%`;
-                        }
-                    );
-
-                    admonitions = admonitions.map(admonition => admonition.replace(/\n/g, ''));
-
-                    cell_text = converter.makeHtml(cell_text)
-                        .replace(/\n/g, '')
-                        .replace(/&amp;/g, '&')
-                        .replace(/\*/g, '&ast;');
-
-                    // Restore Admonition components (strip <p> wrapper showdown added)
-                    cell_text = cell_text.replace(
-                        /<p>%%ADMONITION_(\d+)%%<\/p>/g,
-                        (_, idx) => admonitions[parseInt(idx)]
-                    );
-
-                    // escape { and } for MDX
-                    cell_text = cell_text.replace(/\{/g, '\\{').replace(/\}/g, '\\}');
+                    let cell_text = this.__htmlTableCellContent(cell_texts[cell_idx], converter);
 
                     if (i === 0) {
                         html += ` ${' '.repeat(indent)}    <th${colspan}${rowspan}>${cell_text}</th>\n`;
@@ -2188,6 +2318,20 @@ class larkDocWriter {
         const converter = new showdown.Converter({ underline: true })
         const merges = sheet.meta?.data.sheet.merges;
         const values = sheet.values.data.valueRange.values;
+        const markdownRows = values.map(row => {
+            return row.map(cell => {
+                if (cell && typeof cell === 'object') {
+                    return this.__sheet_cell(cell, { markdown: true })
+                }
+
+                return String(cell ?? '')
+            })
+        })
+
+        if (!this.__sheetHasMerges(merges) && markdownRows.every(row => row.every(cell => this.__isMarkdownTableSafeCell(cell)))) {
+            return this.__markdownTable(markdownRows, indent);
+        }
+
         var result = ' '.repeat(indent) + "<table>" + "\n";
 
         values.forEach((row, ridx) => {
@@ -2207,7 +2351,7 @@ class larkDocWriter {
                     cell = cell.replace(/\n/g, '<br/>')
                 }
 
-                if (typeof cell === 'object') {
+                if (cell && typeof cell === 'object') {
                     cell = this.__sheet_cell(cell)
                 } 
 
@@ -2231,7 +2375,7 @@ class larkDocWriter {
         return result.replace('"{', '"\\{');
     }    
 
-    __sheet_cell(cell) {
+    __sheet_cell(cell, options={}) {
         if (cell instanceof Array) {
             return cell.map(block => {
                 if (block['type'] === 'text') {
@@ -2239,6 +2383,10 @@ class larkDocWriter {
                 }
     
                 if (block['type'] === 'url') {
+                    if (options.markdown) {
+                        return `[${String(block['text']).replace(/\]/g, '\\]')}](${block['link']})`
+                    }
+
                     return `<a href="${block['link']}">${block['text']}</a>`
                 }
             }).join('')
@@ -2425,18 +2573,26 @@ class larkDocWriter {
             url = new URL(url);
             const token = url.pathname.split('/').pop();
             const header = url.hash.slice(1);
-            const key = url.pathname.split('/')[1] === 'wiki' ? 'origin_node_token' : ['token', 'obj_token'];
+            const isWikiUrl = url.pathname.split('/')[1] === 'wiki';
             var page;
 
-            try {
-                page = this.__fetch_doc_source(key, token);
-            } catch (error) {
-                page = null;
-            }
-
-            if (!page && key === 'origin_node_token') {
+            if (isWikiUrl) {
                 try {
                     page = this.__fetch_doc_source('node_token', token);
+                } catch (error) {
+                    page = null;
+                }
+
+                if (!page) {
+                    try {
+                        page = this.__fetch_doc_source('origin_node_token', token);
+                    } catch (error) {
+                        page = null;
+                    }
+                }
+            } else {
+                try {
+                    page = this.__fetch_doc_source(['token', 'obj_token'], token);
                 } catch (error) {
                     page = null;
                 }
