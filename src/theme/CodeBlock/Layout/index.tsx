@@ -106,12 +106,13 @@ export default function CodeBlockLayout({className}: {className?: string}): Reac
       setLabelPos('left');
       return;
     }
-    const tabs = Array.from(container.querySelectorAll('.tabs__item'));
+    const tabs = Array.from(container.querySelectorAll<HTMLElement>('.tabs__item'));
     const panels = Array.from(container.querySelectorAll('[role="tabpanel"]'));
+    const tabForPanel = tabs[panels.indexOf(panel)] as HTMLElement | undefined;
     const tabText =
       panels.length === tabs.length
-        ? (tabs[panels.indexOf(panel)]?.textContent || '').trim()
-        : (container.querySelector('.tabs__item--active')?.textContent || '').trim();
+        ? (tabForPanel?.textContent || '').trim()
+        : (container.querySelector<HTMLElement>('.tabs__item--active')?.textContent || '').trim();
     const tabL = tabText.toLowerCase();
     const langL = (displayName || '').toLowerCase();
     setLabelPos(tabL && tabL === langL ? 'hidden' : 'right');

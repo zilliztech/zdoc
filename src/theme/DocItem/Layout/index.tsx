@@ -128,7 +128,8 @@ export default function DocItemLayout({children}: Props): ReactNode {
   // Desktop only: the TOC is always expanded; on mobile it disappears entirely.
   const showDesktopTOC = hasTOC && windowSize !== 'mobile';
   // BYOC / "beta: CONTACT SALES" pages show a Contact Sales CTA under Copy page.
-  const betaRaw = typeof frontMatter.beta === 'string' ? frontMatter.beta : undefined;
+  const frontMatterWithBeta = frontMatter as typeof frontMatter & {beta?: unknown};
+  const betaRaw = typeof frontMatterWithBeta.beta === 'string' ? frontMatterWithBeta.beta : undefined;
   const showContactSales = pathname.startsWith('/docs/byoc') || betaRaw === 'CONTACT SALES';
 
   return (

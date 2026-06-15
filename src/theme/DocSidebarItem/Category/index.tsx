@@ -344,7 +344,8 @@ function DocSidebarItemCategoryCollapsible({
     onItemClick?.(item);
     updateCollapsed();
   };
-  const showChildCaret = !href && !item.link && items.length > 0;
+  const categoryLink = (item as PropSidebarItemCategory & {link?: unknown}).link;
+  const showChildCaret = !href && !categoryLink && items.length > 0;
   const isButtonCategory = collapsible && !href;
 
   useBrowserLayoutEffect(() => {
