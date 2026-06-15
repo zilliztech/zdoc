@@ -601,11 +601,8 @@ pre {
   margin-top: 0 !important;
 }
 
-/* Inside a Tabs strip the tabs already show the language → hide the code block's
-   own text label so it isn't shown twice. */
-.tabs-container [class*="titleBarLabel"] {
-  display: none !important;
-}
+/* Label visibility inside Tabs is handled per-block in CodeBlock/Layout
+   (hidden when the tab name == language, shown on the right when they differ). */
 
 /* Let the window frame handle border-radius and shadow; zero out the container defaults */
 .theme-code-block {

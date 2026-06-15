@@ -34,6 +34,18 @@
   white-space: nowrap;
 }
 
+/* Same label, but on the right (just before Ask AI) — used when a tab's name
+   differs from the code language (e.g. NodeJS tab → javascript). */
+.titleBarLabelRight {
+  flex-shrink: 0;
+  margin-right: 4px;
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #6b7280;
+  white-space: nowrap;
+}
+
 /* ── Traffic lights ── */
 .trafficLights {
   display: flex;

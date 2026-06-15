@@ -1,4 +1,4 @@
-import React, {type ReactNode, useState} from 'react';
+import React, {type ReactNode, useState, useRef, useEffect} from 'react';
 import clsx from 'clsx';
 import {useCodeBlockContext} from '@docusaurus/theme-common/internal';
 import Container from '@theme/CodeBlock/Container';
@@ -85,11 +85,44 @@ export default function CodeBlockLayout({className}: {className?: string}): Reac
     ? (LANG_LABELS[rawName.toLowerCase()] ?? rawName.charAt(0).toUpperCase() + rawName.slice(1))
     : undefined;
 
+  // Where to show the language label:
+  //  - 'left'   : standalone code block (no tab) — label on the left.
+  //  - 'hidden' : inside a tab whose name already states the language (redundant,
+  //               e.g. "Python" tab → python code).
+  //  - 'right'  : inside a tab whose name differs from the language (e.g. "NodeJS"
+  //               tab → javascript code) — surface the language right of Ask AI.
+  const titleBarRef = useRef<HTMLDivElement>(null);
+  const [labelPos, setLabelPos] = useState<'left' | 'hidden' | 'right'>('left');
+
+  useEffect(() => {
+    const el = titleBarRef.current;
+    if (!el) return;
+    const container = el.closest('.tabs-container');
+    const panel = el.closest('[role="tabpanel"]');
+    const frame = el.closest('[class*="windowFrame"]');
+    // Only the code block that merges INTO the tab strip (the panel's first child)
+    // participates in this logic; everything else keeps the left label.
+    if (!container || !panel || !frame || panel.firstElementChild !== frame) {
+      setLabelPos('left');
+      return;
+    }
+    const tabs = Array.from(container.querySelectorAll('.tabs__item'));
+    const panels = Array.from(container.querySelectorAll('[role="tabpanel"]'));
+    const tabText =
+      panels.length === tabs.length
+        ? (tabs[panels.indexOf(panel)]?.textContent || '').trim()
+        : (container.querySelector('.tabs__item--active')?.textContent || '').trim();
+    const tabL = tabText.toLowerCase();
+    const langL = (displayName || '').toLowerCase();
+    setLabelPos(tabL && tabL === langL ? 'hidden' : 'right');
+  }, [displayName]);
+
   return (
     <Container as="div" className={clsx(styles.windowFrame, className, metadata.className)}>
-      <div className={styles.titleBar}>
-        {rawName && <span className={styles.titleBarLabel}>{rawName}</span>}
+      <div className={styles.titleBar} ref={titleBarRef}>
+        {rawName && labelPos === 'left' && <span className={styles.titleBarLabel}>{rawName}</span>}
         <div className={styles.titleBarRight}>
+          {rawName && labelPos === 'right' && <span className={styles.titleBarLabelRight}>{rawName}</span>}
           <AskAiCodeButton
             code={typeof metadata.code === 'string' ? metadata.code : ''}
             label={displayName}
