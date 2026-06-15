@@ -61,18 +61,23 @@
   border-top: 1px solid var(--ifm-toc-border-color);
 }
 
-/* Contact Sales CTA under "Copy page" — warm beige accent (on-brand, not purple) */
+/* Contact Sales CTA under "Copy page" — same colors as the Notes admonition
+   (bg #f4f2ea, border #e6e1d2, text #1f2937), icon + colored text.
+   Exact same footprint as the Copy page button (147×30, radius 10, 13px). */
 .tocContactSales {
   display: flex;
+  box-sizing: border-box;
+  width: 147px;
+  height: 30px;
   align-items: center;
   justify-content: center;
   gap: 6px;
   margin-top: 0.625rem;
-  padding: 8px 14px;
+  padding: 0 12px;
   font-family: var(--ifm-font-family-base);
   font-size: 13px;
   font-weight: 500;
-  color: #1a1a1a;
+  color: #9a8344;
   background: #f4f2ea;
   border: 1px solid #e6e1d2;
   border-radius: 10px;
@@ -80,10 +85,14 @@
   transition: background 0.15s ease, border-color 0.15s ease;
 }
 
+.tocContactSales svg {
+  flex-shrink: 0;
+}
+
 .tocContactSales:hover {
   background: #ece8da;
   border-color: #ddd7c4;
-  color: #1a1a1a;
+  color: #9a8344;
 }
 
 
