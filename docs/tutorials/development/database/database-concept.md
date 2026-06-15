@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "A database is a logical container for collections within a project. | Cloud"
+description: "A database is a logical container for collections within a project. It helps you organize data for different applications, tenants, or environments while keeping collection names and operations scoped to the database you choose. | Cloud"
 type: origin
 token: B7SFwbn76iUM06kkYzBcffE8nYf
 sidebar_position: 1
@@ -20,145 +20,81 @@ import Admonition from '@theme/Admonition';
 
 # Database Explained
 
-A database is a logical container for collections within a project. 
+A database is a logical container for collections within a project. It helps you organize data for different applications, tenants, or environments while keeping collection names and operations scoped to the database you choose.
 
-Zilliz Cloud supports two types of databases, depending on how they are hosted and accessed.
+Zilliz Cloud uses two database models:
 
-## Database in serving cluster\{#database-in-serving-cluster}
+- **Database in serving clusters**: A database hosted by a Dedicated serving cluster. It supports schema management, data writes, deletes, search, query, and other collection operations through the serving cluster endpoint.
 
-A cluster database is created in a specific serving cluster. When a serving cluster is created, a default cluster database is automatically created with it. You can create additional cluster databases in the same serving cluster as needed.
+- **Database for on-demand search**: A project-level database managed by Zilliz Cloud. It is independent of serving clusters and is queried through a project endpoint with on-demand compute.
 
-A cluster database has full access to all operations — DDL, DML (insert, upsert, delete), and DQL (search, query) — through the serving cluster endpoint.     
+<Admonition type="info" icon="📘" title="This page explains the database models. To create and manage databases, see [Database in Serving Clusters](./database) and [Database for On-Demand Search](./on-demand-database).">
 
-The lifecycle of a cluster database is tied to its serving cluster:
+</Admonition>
 
-- If the serving cluster is **suspended**, all cluster databases and collections in it become unavailable until the cluster is resumed.
+## Database in serving clusters\{#database-in-serving-clusters}
 
-- If the serving cluster is **dropped**, all cluster databases and collections in it are deleted as well.
+A database in a serving cluster is created inside a specific Dedicated serving cluster. When a Dedicated cluster is created, a default database is created with it. You can create additional databases in the same serving cluster as needed.
 
-Cluster databases are suited for production workloads that require always-on, low-latency access to data.
+Databases in serving clusters are tied to the lifecycle of the hosting cluster:
 
-The following diagram shows how projects, serving clusters, databases, and collections are organized.
+- If the serving cluster is suspended, its databases and collections become unavailable until the cluster is resumed.
 
-```plaintext
-Project                                                                                                                                                                                                   
-   └── Serving Cluster                       
-        ├── Database (default)                                                                                                                                                                   
-        │    ├── Collection_01
-        │    └── Collection_02                                                                                                                                                                              
-        │                                                       
-        └── Database
-             ├── Collection_03                                                                                                                                                                              
-             └── Collection_04
-```
+- If the serving cluster is dropped, its databases and collections are deleted as well.
 
-## Database in on-demand compute\{#database-in-on-demand-compute}
-
-In addition to the cluster database, there is another type of project-level database that is not tied to any cluster. It is managed by the platform and does not require you to provision or maintain a cluster for it. You specify on-demand compute to perform query search on data in this type of database.
-
-This type of databases support the following operations:
-
-<table>
-   <tr>
-     <th><p><strong>Operations</strong></p></th>
-     <th><p><strong>Supported</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>Create/drop database</p></td>
-     <td><p>Yes</p></td>
-   </tr>
-   <tr>
-     <td><p>Create/drop collection</p></td>
-     <td><p>Yes</p></td>
-   </tr>
-   <tr>
-     <td><p>Load/release collection</p></td>
-     <td><p>No need</p></td>
-   </tr>
-   <tr>
-     <td><p>Search, query</p></td>
-     <td><p>Yes</p></td>
-   </tr>
-   <tr>
-     <td><p>Import</p></td>
-     <td><p>Yes</p><p>(Import is only supported for managed collections in on-demand compute databases. For details, see <a href="./external-collection-limits">External Collection Limits</a>.)</p></td>
-   </tr>
-   <tr>
-     <td><p>Insert, upsert, delete</p></td>
-     <td><p>No</p></td>
-   </tr>
-</table>
-
-This type of database is suited for large-scale datasets with infrequent queries. 
+Use this model for production workloads that need always-on, low-latency access to data.
 
 ```plaintext
 Project
- ├── Serving Cluster 
- │    └── Database (default)
- │         ├── Collection_01 
- │         └── Collection_02                                                                                                                                                            
- │                                 
- └── Databases in on-demand compute
-      ├── External_Collection_01     
-      └── External_Collection_02
+└── Serving Cluster
+    ├── Database (default)
+    │   ├── Collection_01
+    │   └── Collection_02
+    └── Database
+        ├── Collection_03
+        └── Collection_04
+```
+
+## Database for on-demand search\{#database-for-on-demand-search}
+
+A database for on-demand search is a project-level database managed by Zilliz Cloud. It is not tied to a serving cluster. You use a project endpoint and specify on-demand compute when you search or query data in this database.
+
+This model supports database and collection management, import, search, and query. It does not support insert, upsert, or delete operations.
+
+Use this model for large-scale datasets that are queried less frequently or searched with bursty workloads.
+
+```plaintext
+Project
+├── Serving Cluster
+│   └── Database (default)
+│       ├── Collection_01
+│       └── Collection_02
+└── Databases for on-demand search
+    ├── Database
+    │   └── External_Collection_01
+    └── Database
+        └── Managed_Collection_01
 ```
 
 ## Comparison\{#comparison}
 
-The following table compares the 2 types of databases.
-
-<table>
-   <tr>
-     <th></th>
-     <th><p><strong>Database in Serving Cluster</strong></p></th>
-     <th><p><strong>Database in On-Demand Compute</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>Best for</p></td>
-     <td><p>Production workloads that require always-on, low-latency access to data.</p></td>
-     <td><p>Large-scale datasets with bursty searches and queries.</p></td>
-   </tr>
-   <tr>
-     <td><p>Hosted on</p></td>
-     <td><p>User-created serving cluster</p></td>
-     <td><p>Platform-managed</p></td>
-   </tr>
-   <tr>
-     <td><p>Compute resource</p></td>
-     <td><p>Served by the hosting serving cluster</p></td>
-     <td><p>Served by a specified on-demand cluster</p></td>
-   </tr>
-   <tr>
-     <td><p>Insert/upsert/delete</p></td>
-     <td><p>Yes</p></td>
-     <td><p>No</p></td>
-   </tr>
-   <tr>
-     <td><p>Import/Truncate</p></td>
-     <td><p>Yes</p></td>
-     <td><p>Yes</p></td>
-   </tr>
-   <tr>
-     <td><p>Search and query</p></td>
-     <td><p>Yes</p></td>
-     <td><p>Yes</p></td>
-   </tr>
-   <tr>
-     <td><p>Lifecycle</p></td>
-     <td><p>Tied to serving cluster</p></td>
-     <td><p>Independent of any cluster</p></td>
-   </tr>
-</table>
-
-<Admonition type="info" icon="📘" title="Note">
-
-<p>Use different connection endpoints for the two types of databases. For details, see <a href="./undefined">Connection Endpoints</a>.</p>
-
-</Admonition>
+|  | **Database in Serving Clusters** | **Database for On-Demand Search** |
+| --- | --- | --- |
+| Best for | Production workloads that require always-on, low-latency access to data. | Large-scale datasets with bursty searches and queries. |
+| Hosted on | A serving cluster | Platform-managed project resources |
+| Endpoint | Serving cluster endpoint | Project endpoint |
+| Compute resource | Hosting serving cluster | Specified on-demand compute |
+| Create/drop database | Yes | Yes |
+| Create/drop collection | Yes | Yes |
+| Load/release collection | Yes | No need |
+| Insert/upsert/delete | Yes | No |
+| Import | Yes | Yes |
+| Search and query | Yes | Yes |
+| Lifecycle | Tied to the serving cluster | Independent of serving clusters |
 
 ## Next steps\{#next-steps}
 
-- [Create an External Collection](./create-external-collection)
+- [Database in Serving Clusters](./database)
 
-- [Create a Collection](./manage-collections-sdks)
+- [Database for On-Demand Search](./on-demand-database)
 

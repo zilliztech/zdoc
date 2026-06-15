@@ -41,49 +41,25 @@ Key requirements:
 
 The primary field must use a supported scalar data type that can uniquely identify entities.
 
-<table>
-   <tr>
-     <th><p>Data Type</p></th>
-     <th><p>Description</p></th>
-   </tr>
-   <tr>
-     <td><p><code>INT64</code></p></td>
-     <td><p>64-bit integer type, commonly used with AutoID. This is the recommended option for most use cases.</p></td>
-   </tr>
-   <tr>
-     <td><p><code>VARCHAR</code></p></td>
-     <td><p>Variable-length string type. Use this when entity identifiers come from external systems (for example, product codes or user IDs). Requires the <code>max_length</code> property to define the maximum number of bytes allowed per value.</p></td>
-   </tr>
-</table>
+| Data Type | Description |
+| --- | --- |
+| `INT64` | 64-bit integer type, commonly used with AutoID. This is the recommended option for most use cases. |
+| `VARCHAR` | Variable-length string type. Use this when entity identifiers come from external systems (for example, product codes or user IDs). Requires the `max_length` property to define the maximum number of bytes allowed per value. |
 
 ## Choose between AutoID and Manual IDs\{#choose-between-autoid-and-manual-ids}
 
 Zilliz Cloud supports two modes for assigning primary key values.
 
-<table>
-   <tr>
-     <th><p>Mode</p></th>
-     <th><p>Description</p></th>
-     <th><p>Recommended For</p></th>
-   </tr>
-   <tr>
-     <td><p>AutoID</p></td>
-     <td><p>Zilliz Cloud automatically generates unique identifiers for inserted or imported entities.</p></td>
-     <td><p>Most scenarios where you don’t need to manage IDs manually.</p></td>
-   </tr>
-   <tr>
-     <td><p>Manual ID</p></td>
-     <td><p>You provide unique IDs yourself when inserting or importing data.</p></td>
-     <td><p>When IDs must align with external systems or pre-existing datasets.</p></td>
-   </tr>
-</table>
+| Mode | Description | Recommended For |
+| --- | --- | --- |
+| AutoID | Zilliz Cloud automatically generates unique identifiers for inserted or imported entities. | Most scenarios where you don’t need to manage IDs manually. |
+| Manual ID | You provide unique IDs yourself when inserting or importing data. | When IDs must align with external systems or pre-existing datasets. |
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<ul>
-<li><p>If you are unsure which mode to choose, <a href="./primary-field-auto-id#quickstart-use-autoid">start with AutoID</a> for simpler ingestion and guaranteed uniqueness.</p></li>
-<li><p>You are advised to rely on <code>autoId</code> in all cases unless manually setting primary keys is beneficial.</p></li>
-</ul>
+- If you are unsure which mode to choose, [start with AutoID](./primary-field-auto-id#quickstart-use-autoid) for simpler ingestion and guaranteed uniqueness.
+
+- You are advised to rely on `autoId` in all cases unless manually setting primary keys is beneficial.
 
 </Admonition>
 
@@ -209,7 +185,6 @@ await client.createCollection({
   collection_name: "demo_autoid",
   fields: schema,
 });
-
 ```
 
 </TabItem>
@@ -265,6 +240,35 @@ curl -X POST 'YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/create' \
 
 </TabItem>
 </Tabs>
+
+```c++
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>();
+schema->AddField({"id", milvus::DataType::INT64, "Primary field", true, true});
+schema->AddField(milvus::FieldSchema("embedding", milvus::DataType::FLOAT_VECTOR, "Vector field").WithDimension(4));
+schema->AddField(milvus::FieldSchema("category", milvus::DataType::VARCHAR, "Scalar field").WithMaxLength(1000));
+
+status = client->DropCollection(milvus::DropCollectionRequest().WithCollectionName("demo_autoid"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+status = client->CreateCollection(milvus::CreateCollectionRequest()
+                                    .WithCollectionName("demo_autoid")
+                                    .WithCollectionSchema(schema));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
 
 ### Step 2: Insert Data\{#step-2-insert-data}
 
@@ -369,9 +373,24 @@ curl -X POST 'YOUR_CLUSTER_ENDPOINT/v2/vectordb/entities/insert' \
 </TabItem>
 </Tabs>
 
+```c++
+milvus::EntityRows data = {{{"embedding", std::vector<float>{0.1, 0.2, 0.3, 0.4}}, {"category", "book"}},
+                           {{"embedding", std::vector<float>{0.2, 0.3, 0.4, 0.5}}, {"category", "toy"}}};
+
+milvus::InsertResponse response;
+auto status = client->Insert(milvus::InsertRequest()
+                                .WithCollectionName("demo_autoid")
+                                .WithRowsData(std::move(data))
+                                , response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+auto ids = response.Results().IdArray().IntIDArray();
+```
+
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Use <code>upsert()</code> instead of <code>insert()</code> when working with existing entities to avoid duplicate ID errors.</p>
+Use `upsert()` instead of `insert()` when working with existing entities to avoid duplicate ID errors.
 
 </Admonition>
 
@@ -463,7 +482,6 @@ client.createCollection(requestCreate);
 <TabItem value='javascript'>
 
 ```javascript
-
 import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
 
 const client = new MilvusClient({
@@ -495,7 +513,6 @@ const res = await client.createCollection({
   collection_name: "demo_autoid",
   schema: schema,
 });
-
 ```
 
 </TabItem>
@@ -554,6 +571,35 @@ curl -X POST 'YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/create' \
 </TabItem>
 </Tabs>
 
+```c++
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>();
+schema->AddField(milvus::FieldSchema("product_id", milvus::DataType::VARCHAR, "", true, false).WithMaxLength(100));
+schema->AddField(milvus::FieldSchema("embedding", milvus::DataType::FLOAT_VECTOR).WithDimension(4));
+schema->AddField(milvus::FieldSchema("category", milvus::DataType::VARCHAR).WithMaxLength(1000));
+
+status = client->DropCollection(milvus::DropCollectionRequest().WithCollectionName("demo_manual_ids"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+status = client->CreateCollection(milvus::CreateCollectionRequest()
+                                    .WithCollectionName("demo_manual_ids")
+                                    .WithCollectionSchema(schema));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
 ### Step 2: Insert data with your IDs\{#step-2-insert-data-with-your-ids}
 
 You must include the primary field column in every insert operation.
@@ -610,7 +656,6 @@ System.out.printf("Generated IDs: %s\n", insertR.getPrimaryKeys());
 <TabItem value='javascript'>
 
 ```javascript
-
 const data = [
     {"product_id": "PROD-001", "embedding": [0.1, 0.2, 0.3, 0.4], "category": "book"},
     {"product_id": "PROD-002", "embedding": [0.2, 0.3, 0.4, 0.5], "category": "toy"},
@@ -663,6 +708,21 @@ curl -X POST 'YOUR_CLUSTER_ENDPOINT/v2/vectordb/entities/insert' \
 
 </TabItem>
 </Tabs>
+
+```c++
+milvus::EntityRows data = {{{"product_id", "PROD-001"}, {"embedding", std::vector<float>{0.1, 0.2, 0.3, 0.4}}, {"category", "book"}},
+                           {{"product_id", "PROD-002"}, {"embedding", std::vector<float>{0.2, 0.3, 0.4, 0.5}}, {"category", "toy"}}};
+
+milvus::InsertResponse response;
+auto status = client->Insert(milvus::InsertRequest()
+                                .WithCollectionName("demo_manual_ids")
+                                .WithRowsData(std::move(data))
+                                , response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+auto ids = response.Results().IdArray().StrIDArray()
+```
 
 Your responsibilities:
 

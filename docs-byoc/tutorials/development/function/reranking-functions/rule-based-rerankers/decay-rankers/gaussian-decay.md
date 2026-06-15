@@ -35,33 +35,12 @@ Gaussian decay provides a more balanced, intuitive approach that feels natural t
 
 Gaussian decay is particularly effective for:
 
-<table>
-   <tr>
-     <th><p>Use Case</p></th>
-     <th><p>Example</p></th>
-     <th><p>Why Gaussian Works Well</p></th>
-   </tr>
-   <tr>
-     <td><p>Location-based searches</p></td>
-     <td><p>Restaurant finders, store locators</p></td>
-     <td><p>Mimics natural human perception of distance relevance</p></td>
-   </tr>
-   <tr>
-     <td><p>Content recommendations</p></td>
-     <td><p>Article suggestions based on publication date</p></td>
-     <td><p>Gradual decline in relevance as content ages</p></td>
-   </tr>
-   <tr>
-     <td><p>Product listings</p></td>
-     <td><p>Items priced near a target</p></td>
-     <td><p>Smooth relevance decline as prices deviate from target</p></td>
-   </tr>
-   <tr>
-     <td><p>Expertise matching</p></td>
-     <td><p>Finding professionals with relevant experience</p></td>
-     <td><p>Balanced assessment of experience relevance</p></td>
-   </tr>
-</table>
+| Use Case | Example | Why Gaussian Works Well |
+| --- | --- | --- |
+| Location-based searches | Restaurant finders, store locators | Mimics natural human perception of distance relevance |
+| Content recommendations | Article suggestions based on publication date | Gradual decline in relevance as content ages |
+| Product listings | Items priced near a target | Smooth relevance decline as prices deviate from target |
+| Expertise matching | Finding professionals with relevant experience | Balanced assessment of experience relevance |
 
 If your application requires a natural feeling of declining relevance without harsh penalties or strict cutoffs, Gaussian decay is likely your best choice.
 
@@ -119,7 +98,7 @@ Gaussian decay can be applied to both standard vector search and hybrid search o
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Before using decay functions, you must first create a collection with appropriate numeric fields (like timestamps, distances, etc.) that will be used for decay calculations. For complete working examples including collection setup, schema definition, and data insertion, refer to <a href="./tutorial-implement-time-based-ranking">Tutorial: Implement Time-based Ranking in Milvus</a>.</p>
+Before using decay functions, you must first create a collection with appropriate numeric fields (like timestamps, distances, etc.) that will be used for decay calculations. For complete working examples including collection setup, schema definition, and data insertion, refer to [Tutorial: Implement Time-based Ranking in Milvus](./tutorial-implement-time-based-ranking).
 
 </Admonition>
 
@@ -127,7 +106,7 @@ Gaussian decay can be applied to both standard vector search and hybrid search o
 
 After your collection is set up with a numeric field (in this example, `distance` in meters from the user), create a Gaussian decay ranker:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -187,7 +166,6 @@ const rerank = {
     scale: 2000,
   },
 };
-
 ```
 
 </TabItem>
@@ -207,13 +185,27 @@ const rerank = {
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+auto rerank = std::make_shared<milvus::DecayRerank>("restaurant_distance_decay");
+rerank->AddInputFieldName("distance");
+rerank->SetFunction("gauss");
+rerank->SetOrigin(0);
+rerank->SetScale(2000);
+rerank->SetOffset(300);
+rerank->SetDecay(0.5);
+```
+
+</TabItem>
 </Tabs>
 
 ### Apply to standard vector search\{#apply-to-standard-vector-search}
 
 After defining your decay ranker, you can apply it during search operations by passing it to the `ranker` parameter:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -287,5 +279,30 @@ const result = await milvusClient.search({
 ```
 
 </TabItem>
-</Tabs>
 
+<TabItem value='c++'>
+
+```c++
+auto function_score = std::make_shared<milvus::FunctionScore>();
+function_score->AddFunction(rerank);
+
+auto request = milvus::SearchRequest()
+                   .WithCollectionName(collection_name)
+                   .WithAnnsField("dense")
+                   .WithRerank(function_score)
+                   .WithLimit(10)
+                   .AddOutputField("name")
+                   .AddOutputField("cuisine")
+                   .AddOutputField("distance")
+                   .AddFloatVector(your_query_vector)
+                   .WithConsistencyLevel(milvus::ConsistencyLevel::STRONG);
+
+milvus::SearchResponse response;
+auto status = client->Search(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+</Tabs>

@@ -35,33 +35,12 @@ Exponential decay uniquely "frontloads" the penalty, applying most of the releva
 
 Exponential decay is particularly effective for:
 
-<table>
-   <tr>
-     <th><p>Use Case</p></th>
-     <th><p>Example</p></th>
-     <th><p>Why Exponential Works Well</p></th>
-   </tr>
-   <tr>
-     <td><p>News feeds</p></td>
-     <td><p>Breaking news portals</p></td>
-     <td><p>Quickly reduces relevance of older news while still showing important stories from days ago</p></td>
-   </tr>
-   <tr>
-     <td><p>Social media timelines</p></td>
-     <td><p>Activity feeds, status updates</p></td>
-     <td><p>Emphasizes fresh content but allows viral older content to surface</p></td>
-   </tr>
-   <tr>
-     <td><p>Notification systems</p></td>
-     <td><p>Alert prioritization</p></td>
-     <td><p>Creates urgency for recent alerts while maintaining visibility for important ones</p></td>
-   </tr>
-   <tr>
-     <td><p>Flash sales</p></td>
-     <td><p>Limited-time offers</p></td>
-     <td><p>Rapidly decreases visibility as deadline approaches</p></td>
-   </tr>
-</table>
+| Use Case | Example | Why Exponential Works Well |
+| --- | --- | --- |
+| News feeds | Breaking news portals | Quickly reduces relevance of older news while still showing important stories from days ago |
+| Social media timelines | Activity feeds, status updates | Emphasizes fresh content but allows viral older content to surface |
+| Notification systems | Alert prioritization | Creates urgency for recent alerts while maintaining visibility for important ones |
+| Flash sales | Limited-time offers | Rapidly decreases visibility as deadline approaches |
 
 Choose exponential decay when:
 
@@ -77,7 +56,7 @@ Exponential decay creates a curve that drops quickly at first, then gradually fl
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>All time parameters (<code>origin</code>, <code>offset</code>, <code>scale</code>) must use the same unit as the collection data. If your collection stores timestamps in a different unit (milliseconds, microseconds), adjust all parameters accordingly.</p>
+All time parameters (`origin`, `offset`, `scale`) must use the same unit as the collection data. If your collection stores timestamps in a different unit (milliseconds, microseconds), adjust all parameters accordingly.
 
 </Admonition>
 
@@ -129,7 +108,7 @@ Exponential decay can be applied to both standard vector search and hybrid searc
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Before using decay functions, you must first create a collection with appropriate numeric fields (like timestamps, distances, etc.) that will be used for decay calculations. For complete working examples including collection setup, schema definition, and data insertion, refer to <a href="./tutorial-implement-time-based-ranking">Decay Ranker Tutorial</a>.</p>
+Before using decay functions, you must first create a collection with appropriate numeric fields (like timestamps, distances, etc.) that will be used for decay calculations. For complete working examples including collection setup, schema definition, and data insertion, refer to [Decay Ranker Tutorial](./tutorial-implement-time-based-ranking).
 
 </Admonition>
 
@@ -139,11 +118,11 @@ After your collection is set up with a numeric field (in this example, `publish_
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p><strong>Time unit consistency</strong>: When using time-based decay, ensure that <code>origin</code>, <code>scale</code>, and <code>offset</code> parameters use the same time unit as your collection data. If your collection stores timestamps in seconds, use seconds for all parameters. If it uses milliseconds, use milliseconds for all parameters.</p>
+**Time unit consistency**: When using time-based decay, ensure that `origin`, `scale`, and `offset` parameters use the same time unit as your collection data. If your collection stores timestamps in seconds, use seconds for all parameters. If it uses milliseconds, use milliseconds for all parameters.
 
 </Admonition>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -183,7 +162,6 @@ DecayRanker rerank = DecayRanker.builder()
         .decay(0.5)
         .scale(24 * 60 * 60)
         .build();
-
 ```
 
 </TabItem>
@@ -191,7 +169,6 @@ DecayRanker rerank = DecayRanker.builder()
 <TabItem value='javascript'>
 
 ```javascript
-
 import { FunctionType } from "@zilliz/milvus2-sdk-node";
 
 const rerank = {
@@ -207,7 +184,6 @@ const rerank = {
     scale: 24 * 60 * 60,
   },
 };
-
 ```
 
 </TabItem>
@@ -227,13 +203,27 @@ const rerank = {
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+auto rerank = std::make_shared<milvus::DecayRerank>("news_recency");
+rerank->AddInputFieldName("publish_time");
+rerank->SetFunction("exp");
+rerank->SetOrigin(1736870400);
+rerank->SetScale(24 * 60 * 60);
+rerank->SetOffset(3 * 60 * 60);
+rerank->SetDecay(0.5);
+```
+
+</TabItem>
 </Tabs>
 
 ### Apply to standard vector search\{#apply-to-standard-vector-search}
 
 After defining your decay ranker, you can apply it during search operations by passing it to the `ranker` parameter:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -292,7 +282,6 @@ const result = await milvusClient.search({
   rerank: rerank,
   consistency_level: "Strong",
 });
-
 ```
 
 </TabItem>
@@ -312,5 +301,29 @@ const result = await milvusClient.search({
 ```
 
 </TabItem>
-</Tabs>
 
+<TabItem value='c++'>
+
+```c++
+auto function_score = std::make_shared<milvus::FunctionScore>();
+function_score->AddFunction(rerank);
+
+auto request = milvus::SearchRequest()
+                   .WithCollectionName(collection_name)
+                   .WithAnnsField("dense")
+                   .WithRerank(function_score)
+                   .WithLimit(10)
+                   .AddOutputField("title")
+                   .AddOutputField("publish_time")
+                   .AddFloatVector(your_query_vector)
+                   .WithConsistencyLevel(milvus::ConsistencyLevel::STRONG);
+
+milvus::SearchResponse response;
+auto status = client->Search(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+</Tabs>

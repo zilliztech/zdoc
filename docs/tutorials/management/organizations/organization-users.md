@@ -117,7 +117,7 @@ Invitation recipients will receive an email invitation that must be accepted wit
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Each time, you can invite one or more users with the same role to the organization. Each organization can have up to 100 users.</p>
+Each time, you can invite one or more users with the same role to the organization. Each organization can have up to 100 users.
 
 </Admonition>
 
@@ -143,7 +143,7 @@ To remove an organization user, you must be an **Organization Owner**.
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Upon removing a member, the corresponding personal API key will be immediately revoked and access will be denied. To prevent service disruption, please ensure that any personal keys utilized in your environments are replaced prior to removal. This action cannot be undone.</p>
+Upon removing a member, the corresponding personal API key will be immediately revoked and access will be denied. To prevent service disruption, please ensure that any personal keys utilized in your environments are replaced prior to removal. This action cannot be undone.
 
 </Admonition>
 
@@ -157,7 +157,7 @@ Each organization must have at least one organization owner. If you are the only
 
 <Admonition type="caution" icon="🚧" title="Warning">
 
-<p>Once you leave an organization, you will no longer be able to access the organization and associated resources.</p>
+Once you leave an organization, you will no longer be able to access the organization and associated resources.
 
 </Admonition>
 

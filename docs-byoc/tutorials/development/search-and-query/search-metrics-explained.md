@@ -10,7 +10,7 @@ notebook: FALSE
 description: "Similarity metrics are used to measure similarities among vectors. Choosing an appropriate distance metric helps improve classification and clustering performance significantly. | BYOC"
 type: origin
 token: EOxmwUDxMiy2cpkOfIsc1dYzn4c
-sidebar_position: 23
+sidebar_position: 22
 displayed_sidebar: default
 
 ---
@@ -26,104 +26,34 @@ Currently, Zilliz Cloud supports these types of similarity Metrics: Euclidean di
 
 The table below summarizes the mapping between different field types and their corresponding metric types.
 
-<table>
-   <tr>
-     <th><p>Field Type</p></th>
-     <th><p>Dimension Range</p></th>
-     <th><p>Supported Metric Types</p></th>
-     <th><p>Default Metric Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>FLOAT_VECTOR</code></p></td>
-     <td><p>2-32,768</p></td>
-     <td><p><code>COSINE</code>, <code>L2</code>, <code>IP</code></p></td>
-     <td><p><code>COSINE</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>FLOAT16_VECTOR</code></p></td>
-     <td><p>2-32,768</p></td>
-     <td><p><code>COSINE</code>, <code>L2</code>, <code>IP</code></p></td>
-     <td><p><code>COSINE</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>BFLOAT16_VECTOR</code></p></td>
-     <td><p>2-32,768</p></td>
-     <td><p><code>COSINE</code>, <code>L2</code>, <code>IP</code></p></td>
-     <td><p><code>COSINE</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>INT8_VECTOR</code></p></td>
-     <td><p>2-32,768</p></td>
-     <td><p><code>COSINE</code>, <code>L2</code>, <code>IP</code></p></td>
-     <td><p><code>COSINE</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>SPARSE\_FLOAT\_VECTOR</code></p></td>
-     <td><p>No need to specify the dimension.</p></td>
-     <td><p><code>IP</code>, <code>BM25</code> (used only for full text search)</p></td>
-     <td><p><code>IP</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>BINARY_VECTOR</code></p></td>
-     <td><p>8-32,768&ast;8</p></td>
-     <td><p><code>HAMMING</code>, <code>JACCARD</code>, <code>MHJACCARD</code></p></td>
-     <td><p><code>HAMMING</code></p></td>
-   </tr>
-</table>
+| Field Type | Dimension Range | Supported Metric Types | Default Metric Type |
+| --- | --- | --- | --- |
+| `FLOAT_VECTOR` | 2-32,768 | `COSINE`, `L2`, `IP` | `COSINE` |
+| `FLOAT16_VECTOR` | 2-32,768 | `COSINE`, `L2`, `IP` | `COSINE` |
+| `BFLOAT16_VECTOR` | 2-32,768 | `COSINE`, `L2`, `IP` | `COSINE` |
+| `INT8_VECTOR` | 2-32,768 | `COSINE`, `L2`, `IP` | `COSINE` |
+| `SPARSE\_FLOAT\_VECTOR` | No need to specify the dimension. | `IP`, `BM25` (used only for full text search) | `IP` |
+| `BINARY_VECTOR` | 8-32,768*8 | `HAMMING`, `JACCARD`, `MHJACCARD` | `HAMMING` |
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<ul>
-<li><p>For vector fields of the <code>SPARSE\_FLOAT\_VECTOR</code> type, use the <code>BM25</code> metric type only when performing full text search. For more information, refer to <a href="./full-text-search">Full Text Search</a>.</p></li>
-<li><p>For vector fields of the <code>BINARY_VECTOR</code> type, the dimension value (<code>dim</code>) must be a multiple of 8. </p></li>
-</ul>
+- For vector fields of the `SPARSE\_FLOAT\_VECTOR` type, use the `BM25` metric type only when performing full text search. For more information, refer to [Full Text Search](./full-text-search).
+
+- For vector fields of the `BINARY_VECTOR` type, the dimension value (`dim`) must be a multiple of 8. 
 
 </Admonition>
 
 The table below summarizes the characteristics of the similarity distance values of all supported metric types and their value range.
 
-<table>
-   <tr>
-     <th><p>Metric Type</p></th>
-     <th><p>Characteristics of the Similarity Distance Values</p></th>
-     <th><p>Similarity Distance Value Range</p></th>
-   </tr>
-   <tr>
-     <td><p><code>L2</code></p></td>
-     <td><p>A smaller value indicates a greater similarity.</p></td>
-     <td><p>[0, ∞)</p></td>
-   </tr>
-   <tr>
-     <td><p><code>IP</code></p></td>
-     <td><p>A greater value indicates a greater similarity.</p></td>
-     <td><p>[-1, 1]</p></td>
-   </tr>
-   <tr>
-     <td><p><code>COSINE</code></p></td>
-     <td><p>A greater value indicates a greater similarity.</p></td>
-     <td><p>[-1, 1]</p></td>
-   </tr>
-   <tr>
-     <td><p><code>JACCARD</code></p></td>
-     <td><p>A smaller value indicates a greater similarity.</p></td>
-     <td><p>[0, 1]</p></td>
-   </tr>
-   <tr>
-     <td><p><code>MHJACCARD</code></p></td>
-     <td><p>Estimates Jaccard similarity from MinHash signature bits; smaller distance = more similar</p></td>
-     <td><p>[0, 1]</p></td>
-   </tr>
-   <tr>
-     <td><p><code>HAMMING</code></p></td>
-     <td><p>A smaller value indicates a greater similarity.</p></td>
-     <td><p>[0, dim(vector)]</p></td>
-   </tr>
-   <tr>
-     <td><p><code>BM25</code></p></td>
-     <td><p>Score the relevance based on the term frequency, inverted document frequency, and document normalization.</p></td>
-     <td><p>[0, ∞)</p></td>
-   </tr>
-</table>
+| Metric Type | Characteristics of the Similarity Distance Values | Similarity Distance Value Range |
+| --- | --- | --- |
+| `L2` | A smaller value indicates a greater similarity. | [0, ∞) |
+| `IP` | A greater value indicates a greater similarity. | [-1, 1] |
+| `COSINE` | A greater value indicates a greater similarity. | [-1, 1] |
+| `JACCARD` | A smaller value indicates a greater similarity. | [0, 1] |
+| `MHJACCARD` | Estimates Jaccard similarity from MinHash signature bits; smaller distance = more similar | [0, 1] |
+| `HAMMING` | A smaller value indicates a greater similarity. | [0, dim(vector)] |
+| `BM25` | Score the relevance based on the term frequency, inverted document frequency, and document normalization. | [0, ∞) |
 
 ## Euclidean distance (L2)\{#euclidean-distance-l2}
 
@@ -139,7 +69,7 @@ It's the most commonly used distance metric and is very useful when the data are
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Zilliz Cloud only calculates the value before applying the square root when Euclidean distance is chosen as the distance metric.</p>
+Zilliz Cloud only calculates the value before applying the square root when Euclidean distance is chosen as the distance metric.
 
 </Admonition>
 
@@ -153,7 +83,7 @@ IP is more useful if you need to compare non-normalized data or when you care ab
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>If you use IP to calculate similarities between embeddings, you must normalize your embeddings. After normalization, the inner product equals cosine similarity.</p>
+If you use IP to calculate similarities between embeddings, you must normalize your embeddings. After normalization, the inner product equals cosine similarity.
 
 </Admonition>
 
@@ -287,22 +217,9 @@ In Zilliz Cloud, you can use **MAX_SIM** to measure the similarity between the q
 
 The following table lists the applicable metric types in the **MAX_SIM** series:
 
-<table>
-   <tr>
-     <th><p>Metric type</p></th>
-     <th><p>Description</p></th>
-   </tr>
-   <tr>
-     <td><p>MAX_SIM_L2</p></td>
-     <td><p><strong>L2</strong> is used to calculate the distance between each query token and each document token, generating multiple score lists, while <strong>MAX_SIM</strong> determines the final score by summing the highest scores across all score lists.</p></td>
-   </tr>
-   <tr>
-     <td><p>MAX_SIM_IP</p></td>
-     <td><p><strong>IP</strong> is used to calculate the distance between each query token and each document token, generating multiple score lists, while <strong>MAX_SIM</strong> determines the final score by summing the highest scores from all score lists.</p></td>
-   </tr>
-   <tr>
-     <td><p>MAX_SIM_COSINE</p></td>
-     <td><p><strong>COSINE</strong> is used to calculate the distance between each query token and each document token, generating multiple score lists, while <strong>MAX_SIM</strong> determines the final score by summing the highest scores from all score lists.</p></td>
-   </tr>
-</table>
+| Metric type | Description |
+| --- | --- |
+| MAX_SIM_L2 | **L2** is used to calculate the distance between each query token and each document token, generating multiple score lists, while **MAX_SIM** determines the final score by summing the highest scores across all score lists. |
+| MAX_SIM_IP | **IP** is used to calculate the distance between each query token and each document token, generating multiple score lists, while **MAX_SIM** determines the final score by summing the highest scores from all score lists. |
+| MAX_SIM_COSINE | **COSINE** is used to calculate the distance between each query token and each document token, generating multiple score lists, while **MAX_SIM** determines the final score by summing the highest scores from all score lists. |
 

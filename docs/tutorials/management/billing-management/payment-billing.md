@@ -24,7 +24,7 @@ This guide explains the payment methods available for Zilliz Cloud, how payment 
 
 <Admonition type="info" icon="📘" title="Note">
 
-<p>To manage payment and billing settings, you must be an <strong>Organization Owner</strong> or <strong>Organization Billing Admin</strong>.</p>
+To manage payment and billing settings, you must be an **Organization Owner** or **Organization Billing Admin**.
 
 </Admonition>
 
@@ -140,24 +140,11 @@ Marketplace pricing can vary by cloud provider, region, cluster type, and cluste
 
 Payment and billing settings are managed at the organization level. To view or update billing information, you must have the required organization-level permissions.
 
-<table>
-   <tr>
-     <th><p><strong>Role</strong></p></th>
-     <th><p><strong>Billing Permissions</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>Organization Owner</p></td>
-     <td><p>Can manage payment methods, billing profiles, Marketplace subscriptions, invoices, and billing alerts.</p></td>
-   </tr>
-   <tr>
-     <td><p>Organization Billing Admin</p></td>
-     <td><p>Can manage payment methods, billing profiles, Marketplace subscriptions, invoices, and billing alerts.</p></td>
-   </tr>
-   <tr>
-     <td><p>Other Organization Roles</p></td>
-     <td><p>Have no access to billing information. To view or update billing settings, contact Organization Owner or Organization Billing Admin.</p></td>
-   </tr>
-</table>
+| **Role** | **Billing Permissions** |
+| --- | --- |
+| Organization Owner | Can manage payment methods, billing profiles, Marketplace subscriptions, invoices, and billing alerts. |
+| Organization Billing Admin | Can manage payment methods, billing profiles, Marketplace subscriptions, invoices, and billing alerts. |
+| Other Organization Roles | Have no access to billing information. To view or update billing settings, contact Organization Owner or Organization Billing Admin. |
 
 For details, see [Manage Organization Users](./organization-users).
 

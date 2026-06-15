@@ -56,96 +56,25 @@ Zilliz Cloud, as a fully managed vector database service, delivers enterprise-gr
 
 ### High Availability (HA) Tiers\{#high-availability-ha-tiers}
 
-<table>
-   <tr>
-     <th><p>Tier</p></th>
-     <th><p>Description</p></th>
-     <th><p>RPO</p></th>
-     <th><p>RTO</p></th>
-     <th><p>Write Latency / Replication Scheme</p></th>
-     <th><p>Fault Tolerance</p></th>
-     <th><p>SLA</p></th>
-     <th><p>Relative Cost</p></th>
-   </tr>
-   <tr>
-     <td><p><strong>Standard</strong></p></td>
-     <td><p>Single-region, single-AZ deployment with multi-replica mechanism</p></td>
-     <td><p>0 seconds</p></td>
-     <td><p>≤1 minute</p></td>
-     <td><p>Write within single AZ; WAL replicated via Quorum</p></td>
-     <td><p>Node-level failure</p><p>AZs: 1</p><p>Regions: 1</p></td>
-     <td><p>No SLA guarantee</p></td>
-     <td><p>Low</p></td>
-   </tr>
-   <tr>
-     <td><p><strong>Enterprise</strong></p></td>
-     <td><p>Single-region deployment across 3 AZs with automatic failover</p></td>
-     <td><p>0 seconds</p></td>
-     <td><p>≤1 minute</p></td>
-     <td><p>Cross-AZ writes; WAL replicated via Quorum</p></td>
-     <td><p>AZ-level failure</p><p>AZs: 3</p><p>Regions: 1</p></td>
-     <td><p>99.95%</p></td>
-     <td><p>Medium</p></td>
-   </tr>
-   <tr>
-     <td><p><strong>Enterprise Multi-Replica</strong></p></td>
-     <td><p>Active-active multi-replica architecture within region; read/write separation with fast failover</p></td>
-     <td><p>0 seconds</p></td>
-     <td><p>≤10 seconds</p></td>
-     <td><p>Cross-AZ writes; inter-replica sync via WAL</p></td>
-     <td><p>AZ-level failure</p><p>AZs: 3</p><p>Regions: 1</p></td>
-     <td><p>99.99%</p></td>
-     <td><p>Medium–High</p></td>
-   </tr>
-   <tr>
-     <td><p><strong>Cross-Region HA</strong></p></td>
-     <td><p>Multi-region/multi-cloud deployment with global load balancing</p></td>
-     <td><p>≤10 seconds</p></td>
-     <td><p>Manual or auto failover:</p><p>Auto: ≤3 minutes</p></td>
-     <td><p>Synchronous writes across AZs; asynchronous replication to other regions/clouds</p></td>
-     <td><p>Region-level failure</p><p>AZs: ≥3</p><p>Regions: ≥2</p></td>
-     <td><p>99.99%</p></td>
-     <td><p>High</p></td>
-   </tr>
-</table>
+| Tier | Description | RPO | RTO | Write Latency / Replication Scheme | Fault Tolerance | SLA | Relative Cost |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| **Standard** | Single-region, single-AZ deployment with multi-replica mechanism | 0 seconds | ≤1 minute | Write within single AZ; WAL replicated via Quorum | Node-level failure<br/>AZs: 1<br/>Regions: 1 | No SLA guarantee | Low |
+| **Enterprise** | Single-region deployment across 3 AZs with automatic failover | 0 seconds | ≤1 minute | Cross-AZ writes; WAL replicated via Quorum | AZ-level failure<br/>AZs: 3<br/>Regions: 1 | 99.95% | Medium |
+| **Enterprise Multi-Replica** | Active-active multi-replica architecture within region; read/write separation with fast failover | 0 seconds | ≤10 seconds | Cross-AZ writes; inter-replica sync via WAL | AZ-level failure<br/>AZs: 3<br/>Regions: 1 | 99.99% | Medium–High |
+| **Cross-Region HA** | Multi-region/multi-cloud deployment with global load balancing | ≤10 seconds | Manual or auto failover:<br/>Auto: ≤3 minutes | Synchronous writes across AZs; asynchronous replication to other regions/clouds | Region-level failure<br/>AZs: ≥3<br/>Regions: ≥2 | 99.99% | High |
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Cross-region HA will be available in November 2025. </p>
+Cross-region HA will be available in November 2025. 
 
 </Admonition>
 
 ### Disaster Recovery (DR) Tiers\{#disaster-recovery-dr-tiers}
 
-<table>
-   <tr>
-     <th><p>Tier</p></th>
-     <th><p>Description</p></th>
-     <th><p>RPO</p></th>
-     <th><p>Restore Speed</p></th>
-     <th><p>Backup Strategy</p></th>
-     <th><p>Use Case</p></th>
-     <th><p>Additional Cost</p></th>
-   </tr>
-   <tr>
-     <td><p><strong>Local Backup</strong></p></td>
-     <td><p>Same-region object storage; scheduled full backups</p></td>
-     <td><p>Hourly</p></td>
-     <td><p>Minutes to hours</p></td>
-     <td><p>Full backups</p></td>
-     <td><p>Accidental deletion, logical error recovery</p></td>
-     <td><p>Low</p></td>
-   </tr>
-   <tr>
-     <td><p><strong>Cross-Region Backup</strong></p></td>
-     <td><p>Backup data stored in a different region; protects against regional disasters</p></td>
-     <td><p>Hourly</p></td>
-     <td><p>Minutes to hours</p></td>
-     <td><p>Full backups replicated across regions/clouds</p></td>
-     <td><p>Regional disaster, compliance requirements</p></td>
-     <td><p>Medium</p></td>
-   </tr>
-</table>
+| Tier | Description | RPO | Restore Speed | Backup Strategy | Use Case | Additional Cost |
+| --- | --- | --- | --- | --- | --- | --- |
+| **Local Backup** | Same-region object storage; scheduled full backups | Hourly | Minutes to hours | Full backups | Accidental deletion, logical error recovery | Low |
+| **Cross-Region Backup** | Backup data stored in a different region; protects against regional disasters | Hourly | Minutes to hours | Full backups replicated across regions/clouds | Regional disaster, compliance requirements | Medium |
 
 ## Quick Selection Guide\{#quick-selection-guide}
 
@@ -193,43 +122,12 @@ Zilliz Cloud, as a fully managed vector database service, delivers enterprise-gr
 
 ### Cost Optimization Decision Matrix\{#cost-optimization-decision-matrix}
 
-<table>
-   <tr>
-     <th><p>Business Impact</p></th>
-     <th><p>Data Value</p></th>
-     <th><p>Compliance Requirement</p></th>
-     <th><p>Recommended Solution</p></th>
-     <th><p>Cost Level</p></th>
-   </tr>
-   <tr>
-     <td><p>Extremely High</p></td>
-     <td><p>Extremely High</p></td>
-     <td><p>Strict</p></td>
-     <td><p>Cross-region HA + Full DR</p></td>
-     <td><p>High</p></td>
-   </tr>
-   <tr>
-     <td><p>High</p></td>
-     <td><p>High</p></td>
-     <td><p>Moderate</p></td>
-     <td><p>Enterprise Multi-Replica + Cross-region Backup</p></td>
-     <td><p>Medium–High</p></td>
-   </tr>
-   <tr>
-     <td><p>Medium</p></td>
-     <td><p>Medium</p></td>
-     <td><p>Basic</p></td>
-     <td><p>Enterprise + Local Backup</p></td>
-     <td><p>Medium</p></td>
-   </tr>
-   <tr>
-     <td><p>Low</p></td>
-     <td><p>Low</p></td>
-     <td><p>None</p></td>
-     <td><p>Standard + Basic Backup</p></td>
-     <td><p>Low</p></td>
-   </tr>
-</table>
+| Business Impact | Data Value | Compliance Requirement | Recommended Solution | Cost Level |
+| --- | --- | --- | --- | --- |
+| Extremely High | Extremely High | Strict | Cross-region HA + Full DR | High |
+| High | High | Moderate | Enterprise Multi-Replica + Cross-region Backup | Medium–High |
+| Medium | Medium | Basic | Enterprise + Local Backup | Medium |
+| Low | Low | None | Standard + Basic Backup | Low |
 
 ## Frequently Asked Questions (FAQ)\{#frequently-asked-questions-faq}
 
@@ -307,7 +205,7 @@ Zilliz Cloud uses a compute-storage disaggregated architecture with three data t
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p><strong>The roadmap for 2026:</strong> Achieve <strong>RPO = 0</strong> with cross-region Woodpecker</p>
+**The roadmap for 2026:** Achieve **RPO = 0** with cross-region Woodpecker
 
 </Admonition>
 
@@ -319,28 +217,11 @@ Zilliz Cloud uses a compute-storage disaggregated architecture with three data t
 
 **Access Patterns**
 
-<table>
-   <tr>
-     <th><p>Mode</p></th>
-     <th><p>Characteristics</p></th>
-     <th><p>Use Case</p></th>
-   </tr>
-   <tr>
-     <td><p><strong>Active-Standby DR</strong></p></td>
-     <td><p>Primary handles reads/writes; standby is activated only during failover</p></td>
-     <td><p>Standard disaster recovery</p></td>
-   </tr>
-   <tr>
-     <td><p><strong>Active-Active (Multi-Read)</strong></p></td>
-     <td><p>Primary writes; multiple regions serve reads (nearest-region read)</p></td>
-     <td><p>Global read-heavy, low-write workloads</p></td>
-   </tr>
-   <tr>
-     <td><p><strong>Multi-Primary</strong> <em>(Coming in 2026)</em></p></td>
-     <td><p>Both regions accept writes; the user must avoid data conflicts</p></td>
-     <td><p>Cell-based or sharded deployments</p></td>
-   </tr>
-</table>
+| Mode | Characteristics | Use Case |
+| --- | --- | --- |
+| **Active-Standby DR** | Primary handles reads/writes; standby is activated only during failover | Standard disaster recovery |
+| **Active-Active (Multi-Read)** | Primary writes; multiple regions serve reads (nearest-region read) | Global read-heavy, low-write workloads |
+| **Multi-Primary** *(Coming in 2026)* | Both regions accept writes; the user must avoid data conflicts | Cell-based or sharded deployments |
 
 For the latest feature updates or technical support, please contact [Zilliz Cloud support](https://support.zilliz.com/hc/en-us).
 

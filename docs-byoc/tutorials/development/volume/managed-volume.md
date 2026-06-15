@@ -183,28 +183,12 @@ You can create a volume on the web console or via SDK.
 
     The following table describes the parameters.
 
-    <table>
-       <tr>
-         <th><p><strong>Parameter</strong></p></th>
-         <th><p><strong>Description</strong></p></th>
-       </tr>
-       <tr>
-         <td><p><code>projectId</code></p></td>
-         <td><p>The ID of the project in which you want to create the volume.</p></td>
-       </tr>
-       <tr>
-         <td><p><code>regionId</code></p></td>
-         <td><p>The region of the volume to create must match the cloud provider and region of the target cluster you plan to import or migrate data into.</p></td>
-       </tr>
-       <tr>
-         <td><p><code>volumeName</code></p></td>
-         <td><p>The name of the volume to create must be unique across the organization, no longer than 64 characters, start with a letter or underscore, and contain only letters, digits, hyphens, and underscores.</p></td>
-       </tr>
-       <tr>
-         <td><p><code>type</code>(optional)</p></td>
-         <td><p>Options: <code>MANAGED</code>, <code>EXTERNAL</code></p><p>If this parameter is omitted, a managed cluster will be created by default.</p></td>
-       </tr>
-    </table>
+    | **Parameter** | **Description** |
+    | --- | --- |
+    | `projectId` | The ID of the project in which you want to create the volume. |
+    | `regionId` | The region of the volume to create must match the cloud provider and region of the target cluster you plan to import or migrate data into. |
+    | `volumeName` | The name of the volume to create must be unique across the organization, no longer than 64 characters, start with a letter or underscore, and contain only letters, digits, hyphens, and underscores. |
+    | `type`(optional) | Options: `MANAGED`, `EXTERNAL`<br/>If this parameter is omitted, a managed cluster will be created by default. |
 
 - **Via web console**
 
@@ -456,7 +440,7 @@ You can also check the details of a specific managed volume.
     export TOKEN="YOUR_API_KEY"
     
     curl --request GET \
-    --url "${BASE_URL}/v2/volumes/${VOLUME_NAME}" \
+    --url "$\{BASE_URL\}/v2/volumes/${VOLUME_NAME}" \
     --header "Authorization: Bearer ${TOKEN}" \
     --header "Content-Type: application/json"
     
@@ -636,7 +620,7 @@ Deleting data from a managed volume may take several minutes, depending on the s
 
 <Admonition type="caution" icon="🚧" title="Warning">
 
-<p>Deleted files and folders <strong>cannot be recovered</strong>. Proceed with caution.</p>
+Deleted files and folders **cannot be recovered**. Proceed with caution.
 
 </Admonition>
 
@@ -662,7 +646,7 @@ Deleting a managed volume removes **all its files and folders** as well.
 
 <Admonition type="caution" icon="🚧" title="Warning">
 
-<p>Deleted volumes <strong>cannot be recovered</strong>. Proceed with caution.</p>
+Deleted volumes **cannot be recovered**. Proceed with caution.
 
 </Admonition>
 
@@ -732,7 +716,7 @@ Deleting a managed volume removes **all its files and folders** as well.
     export VOLUME_NAME="managed_volume"
     
     curl --request DELETE \
-    --url "${BASE_URL}/v2/volumes/${VOLUME_NAME}" \
+    --url "$\{BASE_URL\}/v2/volumes/${VOLUME_NAME}" \
     --header "Authorization: Bearer ${TOKEN}" \
     --header "Content-Type: application/json"
     
@@ -765,33 +749,12 @@ Deleting a managed volume removes **all its files and folders** as well.
 
 When you create a managed volume, you can choose either a **free trial** or **pay-as-you-go** plan. The table below compares their typical use cases and limits.
 
-<table>
-   <tr>
-     <th></th>
-     <th><p><strong>Free Trial</strong></p></th>
-     <th><p><strong>Pay-as-you-go</strong></p></th>
-   </tr>
-   <tr>
-     <td><p><strong>Use case</strong></p></td>
-     <td><p>For testing environments only.</p></td>
-     <td><p>For production usage.</p></td>
-   </tr>
-   <tr>
-     <td><p><strong>Capacity</strong></p></td>
-     <td><p>5 GB</p></td>
-     <td><p>Unlimited</p></td>
-   </tr>
-   <tr>
-     <td><p><strong>File size & amount per upload</strong></p></td>
-     <td><p>Up to 1 GB of data and no more than 1,000 files in each upload</p></td>
-     <td><p>Up to 100 GB of data and unlimited number of files in each upload</p></td>
-   </tr>
-   <tr>
-     <td><p><strong>Max. numbers volumes</strong></p></td>
-     <td><p>1</p></td>
-     <td><p>100</p></td>
-   </tr>
-</table>
+|  | **Free Trial** | **Pay-as-you-go** |
+| --- | --- | --- |
+| **Use case** | For testing environments only. | For production usage. |
+| **Capacity** | 5 GB | Unlimited |
+| **File size & amount per upload** | Up to 1 GB of data and no more than 1,000 files in each upload | Up to 100 GB of data and unlimited number of files in each upload |
+| **Max. numbers volumes** | 1 | 100 |
 
 **Free trial volume**
 
@@ -829,18 +792,8 @@ The free trial volume option is hidden once a free trial volume has been created
 
 The following table lists the possible volume statuses.
 
-<table>
-   <tr>
-     <th><p><strong>Status</strong></p></th>
-     <th><p><strong>Description</strong></p></th>
-   </tr>
-   <tr>
-     <td><p><strong>Available</strong></p></td>
-     <td><p>The volume is active and usable.</p></td>
-   </tr>
-   <tr>
-     <td><p><strong>Frozen</strong></p></td>
-     <td><p>The organization is frozen due to overdue <a href="./view-invoice">invoices</a>. The volume cannot be used for new operations. Please pay your bill to continue using volumes.</p></td>
-   </tr>
-</table>
+| **Status** | **Description** |
+| --- | --- |
+| **Available** | The volume is active and usable. |
+| **Frozen** | The organization is frozen due to overdue [invoices](./view-invoice). The volume cannot be used for new operations. Please pay your bill to continue using volumes. |
 

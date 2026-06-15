@@ -28,36 +28,11 @@ Zilliz Cloud offers these cluster types: **Performance-optimized, Capacity-optim
 
 The following table offers a quick comparison of the three cluster types in different aspects. For a detailed comparison in terms of the capacity and performance among the cluster types, please proceed to [Select an optimal cluster type](./cu-types-explained#select-an-optimal-cluster-type).
 
-<table>
-   <tr>
-     <th><p>Cluster Type</p></th>
-     <th><p>Search QPS</p></th>
-     <th><p>Search Latency</p></th>
-     <th><p>Per Query CU Capacity</p></th>
-     <th><p>Cost per Million Vectors</p></th>
-   </tr>
-   <tr>
-     <td><p><strong>Performance-optimized</strong></p></td>
-     <td><p>500-1500</p></td>
-     <td><p>10 ms</p></td>
-     <td><p>2 million 768-dim vectors</p></td>
-     <td><p>from &#36;63/mo.</p></td>
-   </tr>
-   <tr>
-     <td><p><strong>Capacity-optimized</strong></p></td>
-     <td><p>100-300</p></td>
-     <td><p>50-100 ms</p></td>
-     <td><p>8 million 768-dim vectors</p></td>
-     <td><p>from &#36;16/mo.</p></td>
-   </tr>
-   <tr>
-     <td><p><strong>Tiered-storage</strong></p></td>
-     <td><p>10-50</p></td>
-     <td><p>100-1000 ms</p></td>
-     <td><p>40 million 768-dim vectors</p></td>
-     <td><p>from &#36;5/mo.</p></td>
-   </tr>
-</table>
+| Cluster Type | Search QPS | Search Latency | Per Query CU Capacity | Cost per Million Vectors |
+| --- | --- | --- | --- | --- |
+| **Performance-optimized** | 500-1500 | 10 ms | 2 million 768-dim vectors | from &#36;63/mo. |
+| **Capacity-optimized** | 100-300 | 50-100 ms | 8 million 768-dim vectors | from &#36;16/mo. |
+| **Tiered-storage** | 10-50 | 100-1000 ms | 40 million 768-dim vectors | from &#36;5/mo. |
 
 ### Performance-optimized cluster\{#performance-optimized-cluster}
 
@@ -95,63 +70,21 @@ The Performance-optimized cluster distinctly outperforms Capacity-optimized clus
 
 The following table shows the test result of how performance-optimized cluster and capacity-optimized cluster perform in terms of QPS.
 
-<table>
-   <tr>
-     <th><p>top_k</p></th>
-     <th><p>QPS for Performance-optimized cluster (768-dim 1M vectors)</p></th>
-     <th><p>QPS for Capacity-optimized cluster (768-dim 5M vectors)</p></th>
-   </tr>
-   <tr>
-     <td><p>10</p></td>
-     <td><p>520</p></td>
-     <td><p>100</p></td>
-   </tr>
-   <tr>
-     <td><p>100</p></td>
-     <td><p>440</p></td>
-     <td><p>80</p></td>
-   </tr>
-   <tr>
-     <td><p>250</p></td>
-     <td><p>270</p></td>
-     <td><p>60</p></td>
-   </tr>
-   <tr>
-     <td><p>1000</p></td>
-     <td><p>150</p></td>
-     <td><p>40</p></td>
-   </tr>
-</table>
+| top_k | QPS for Performance-optimized cluster (768-dim 1M vectors) | QPS for Capacity-optimized cluster (768-dim 5M vectors) |
+| --- | --- | --- |
+| 10 | 520 | 100 |
+| 100 | 440 | 80 |
+| 250 | 270 | 60 |
+| 1000 | 150 | 40 |
 
 The following table shows the test result of how each cluster type performs in terms of latency.
 
-<table>
-   <tr>
-     <th><p>top_k</p></th>
-     <th><p>Latency of Performance-optimized cluster (768-dim 1M vectors)</p></th>
-     <th><p>Latency of Capacity-optimized cluster (768-dim 5M vectors)</p></th>
-   </tr>
-   <tr>
-     <td><p>10</p></td>
-     <td><p>&lt; 10 ms</p></td>
-     <td><p>&lt; 50 ms</p></td>
-   </tr>
-   <tr>
-     <td><p>100</p></td>
-     <td><p>&lt; 10 ms</p></td>
-     <td><p>&lt; 50 ms</p></td>
-   </tr>
-   <tr>
-     <td><p>250</p></td>
-     <td><p>&lt; 10 ms</p></td>
-     <td><p>&lt; 50 ms</p></td>
-   </tr>
-   <tr>
-     <td><p>1000</p></td>
-     <td><p>10 - 20 ms</p></td>
-     <td><p>50 - 100 ms</p></td>
-   </tr>
-</table>
+| top_k | Latency of Performance-optimized cluster (768-dim 1M vectors) | Latency of Capacity-optimized cluster (768-dim 5M vectors) |
+| --- | --- | --- |
+| 10 | < 10 ms | < 50 ms |
+| 100 | < 10 ms | < 50 ms |
+| 250 | < 10 ms | < 50 ms |
+| 1000 | 10 - 20 ms | 50 - 100 ms |
 
 ## Scenario breakdown\{#scenario-breakdown}
 

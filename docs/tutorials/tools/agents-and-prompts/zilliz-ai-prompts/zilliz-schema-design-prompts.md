@@ -1,6 +1,6 @@
 ---
 title: "Schema Design | Cloud"
-slug: /zilliz-schema-design-prompts
+slug: /agents/zilliz-schema-design-prompts
 sidebar_label: "Schema Design"
 beta: FALSE
 added_since: FALSE
@@ -11,7 +11,14 @@ description: "You can use this prompt for AI-powered IDEs, helping AI assistants
 type: origin
 token: IcSOwHl8nikfM1kOhQxcOdgLnPf
 sidebar_position: 5
-displayed_sidebar: default
+keywords: 
+  - zilliz
+  - vector database
+  - ai-agents
+  - decision matrix
+  - prompts
+  - schema design
+displayed_sidebar: agentsSidebar
 
 ---
 
@@ -26,37 +33,16 @@ You can use this prompt for AI-powered IDEs, helping AI assistants implement Zil
 
 Save the Zilliz Cloud prompt to a file in your repo, then include it in your AI tool when chatting. The table below demonstrates where to place the prompt in different tools.
 
-<table>
-   <tr>
-     <th><p><strong>Tool</strong></p></th>
-     <th><p><strong>Where to place the prompt</strong></p></th>
-     <th><p><strong>Reference</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>Claude Code</p></td>
-     <td><p>Include the prompt in your <code>CLAUDE.md</code> file.</p></td>
-     <td><p><a href="https://code.claude.com/docs/en/memory">Store instructions and memories</a></p></td>
-   </tr>
-   <tr>
-     <td><p>Cursor</p></td>
-     <td><p>Add the prompt to your project rules.</p></td>
-     <td><p><a href="https://docs.cursor.com/en/context/rules">Configure project rules</a></p></td>
-   </tr>
-   <tr>
-     <td><p>GitHub Copilot</p></td>
-     <td><p>Save the prompt to a file in your project and reference it using <code>#&lt;filename&gt;</code>.</p></td>
-     <td><p><a href="https://code.visualstudio.com/docs/copilot/copilot-customization#_custom-instructions">Custom instructions in Copilot</a></p></td>
-   </tr>
-   <tr>
-     <td><p>Gemini CLI</p></td>
-     <td><p>Include the prompt in your <code>GEMINI.md</code> file.</p></td>
-     <td><p><a href="https://codelabs.developers.google.com/gemini-cli-hands-on">Gemini CLI codelab</a></p></td>
-   </tr>
-</table>
+| **Tool** | **Where to place the prompt** | **Reference** |
+| --- | --- | --- |
+| Claude Code | Include the prompt in your `CLAUDE.md` file. | [Store instructions and memories](https://code.claude.com/docs/en/memory) |
+| Cursor | Add the prompt to your project rules. | [Configure project rules](https://docs.cursor.com/en/context/rules) |
+| GitHub Copilot | Save the prompt to a file in your project and reference it using `#<filename>`. | [Custom instructions in Copilot](https://code.visualstudio.com/docs/copilot/copilot-customization#_custom-instructions) |
+| Gemini CLI | Include the prompt in your `GEMINI.md` file. | [Gemini CLI codelab](https://codelabs.developers.google.com/gemini-cli-hands-on) |
 
 ## Prompt\{#prompt}
 
-```plaintext
+````plaintext
   # Zilliz Cloud Schema Design Prompt
   Help me design a collection schema in Zilliz Cloud.
 
@@ -259,7 +245,7 @@ Save the Zilliz Cloud prompt to a file in your repo, then include it in your AI 
   client.insert(
       collection_name="documents",
       data=[
-          \{
+          {
               "id": "doc-1",
               "tenant_id": "acme",
               "title": "Getting Started",
@@ -267,7 +253,7 @@ Save the Zilliz Cloud prompt to a file in your repo, then include it in your AI 
               "embedding": [0.01] * 1536,
               "source": "docs",  # stored in dynamic field because enable_dynamic_field=True
           },
-          \{
+          {
               "id": "doc-2",
               "tenant_id": "acme",
               "title": "Billing FAQ",
@@ -288,4 +274,4 @@ Save the Zilliz Cloud prompt to a file in your repo, then include it in your AI 
   - primary key format is stable
   - metadata fields support your expected filters
   - index metrics match the retrieval strategy
-```
+````

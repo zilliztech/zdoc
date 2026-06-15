@@ -1,6 +1,6 @@
 ---
 title: "Integrations | Cloud"
-slug: /zilliz-integrations-prompts
+slug: /agents/zilliz-integrations-prompts
 sidebar_label: "Integrations"
 beta: FALSE
 added_since: FALSE
@@ -11,7 +11,14 @@ description: "You can use this prompt for AI-powered IDEs, helping AI assistants
 type: origin
 token: SHy1wIJ58iGIhykpBW6cZ3Ibndf
 sidebar_position: 10
-displayed_sidebar: default
+keywords: 
+  - zilliz
+  - vector database
+  - ai-agents
+  - decision matrix
+  - prompts
+  - integrations
+displayed_sidebar: agentsSidebar
 
 ---
 
@@ -26,37 +33,16 @@ You can use this prompt for AI-powered IDEs, helping AI assistants implement Zil
 
 Save the Zilliz Cloud prompt to a file in your repo, then include it in your AI tool when chatting. The table below demonstrates where to place the prompt in different tools.
 
-<table>
-   <tr>
-     <th><p><strong>Tool</strong></p></th>
-     <th><p><strong>Where to place the prompt</strong></p></th>
-     <th><p><strong>Reference</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>Claude Code</p></td>
-     <td><p>Include the prompt in your <code>CLAUDE.md</code> file.</p></td>
-     <td><p><a href="https://code.claude.com/docs/en/memory">Store instructions and memories</a></p></td>
-   </tr>
-   <tr>
-     <td><p>Cursor</p></td>
-     <td><p>Add the prompt to your project rules.</p></td>
-     <td><p><a href="https://docs.cursor.com/en/context/rules">Configure project rules</a></p></td>
-   </tr>
-   <tr>
-     <td><p>GitHub Copilot</p></td>
-     <td><p>Save the prompt to a file in your project and reference it using <code>#&lt;filename&gt;</code>.</p></td>
-     <td><p><a href="https://code.visualstudio.com/docs/copilot/copilot-customization#_custom-instructions">Custom instructions in Copilot</a></p></td>
-   </tr>
-   <tr>
-     <td><p>Gemini CLI</p></td>
-     <td><p>Include the prompt in your <code>GEMINI.md</code> file.</p></td>
-     <td><p><a href="https://codelabs.developers.google.com/gemini-cli-hands-on">Gemini CLI codelab</a></p></td>
-   </tr>
-</table>
+| **Tool** | **Where to place the prompt** | **Reference** |
+| --- | --- | --- |
+| Claude Code | Include the prompt in your `CLAUDE.md` file. | [Store instructions and memories](https://code.claude.com/docs/en/memory) |
+| Cursor | Add the prompt to your project rules. | [Configure project rules](https://docs.cursor.com/en/context/rules) |
+| GitHub Copilot | Save the prompt to a file in your project and reference it using `#<filename>`. | [Custom instructions in Copilot](https://code.visualstudio.com/docs/copilot/copilot-customization#_custom-instructions) |
+| Gemini CLI | Include the prompt in your `GEMINI.md` file. | [Gemini CLI codelab](https://codelabs.developers.google.com/gemini-cli-hands-on) |
 
 ## Prompt\{#prompt}
 
-```plaintext
+````plaintext
   # Zilliz Cloud Integrations Prompt
   Help me integrate Zilliz Cloud with external tools, AI frameworks, model providers, or observability platforms.
 
@@ -114,7 +100,7 @@ Save the Zilliz Cloud prompt to a file in your repo, then include it in your AI 
 
   vectorstore = Milvus(
       embedding_function=OpenAIEmbeddings(model="text-embedding-3-small"),
-      connection_args=\{
+      connection_args={
           "uri": "https://YOUR_CLUSTER_ENDPOINT",
           "token": "YOUR_ZILLIZ_CLOUD_API_KEY",
       },
@@ -151,7 +137,7 @@ Save the Zilliz Cloud prompt to a file in your repo, then include it in your AI 
       function_type=FunctionType.TEXTEMBEDDING,
       input_field_names=["document"],
       output_field_names=["dense"],
-      params=\{
+      params={
           "provider": "openai",
           "model_name": "text-embedding-3-small",
           "integration_id": "YOUR_INTEGRATION_ID",
@@ -176,8 +162,8 @@ Save the Zilliz Cloud prompt to a file in your repo, then include it in your AI 
   client.insert(
       collection_name="openai_docs",
       data=[
-          \{"id": 1, "document": "Zilliz Cloud supports text embedding functions."},
-          \{"id": 2, "document": "Model provider integrations are configured in the console."},
+          {"id": 1, "document": "Zilliz Cloud supports text embedding functions."},
+          {"id": 2, "document": "Model provider integrations are configured in the console."},
       ],
   )
   ```
@@ -192,7 +178,7 @@ Save the Zilliz Cloud prompt to a file in your repo, then include it in your AI 
       function_type=FunctionType.TEXTEMBEDDING,
       input_field_names=["document"],
       output_field_names=["dense"],
-      params=\{
+      params={
           "provider": "voyageai",
           "model_name": "voyage-3-large",
           "integration_id": "YOUR_INTEGRATION_ID",
@@ -209,7 +195,7 @@ Save the Zilliz Cloud prompt to a file in your repo, then include it in your AI 
       name="cohere_semantic_ranker",
       input_field_names=["document"],
       function_type=FunctionType.RERANK,
-      params=\{
+      params={
           "reranker": "model",
           "provider": "cohere",
           "model_name": "rerank-english-v3.0",
@@ -257,4 +243,4 @@ Save the Zilliz Cloud prompt to a file in your repo, then include it in your AI 
   - the `integration_id` matches the provider you intended to use
   - the vector dimension matches the model output
   - insert or search succeeds end to end
-```
+````

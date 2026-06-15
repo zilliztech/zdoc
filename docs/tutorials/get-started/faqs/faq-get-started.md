@@ -51,33 +51,12 @@ However, please[ submit a request](https://support.zilliz.com/hc/en-us) if you a
 
 The search latency depends on the cluster type and data volume. 
 
-<table>
-   <tr>
-     <th><p>top_k</p></th>
-     <th><p>Latency of Performance-optimized cluster (768-dim 1M vectors)</p></th>
-     <th><p>Latency of Capacity-optimized cluster (768-dim 5M vectors)</p></th>
-   </tr>
-   <tr>
-     <td><p>10</p></td>
-     <td><p>&lt; 10 ms</p></td>
-     <td><p>&lt; 50 ms</p></td>
-   </tr>
-   <tr>
-     <td><p>100</p></td>
-     <td><p>&lt; 10 ms</p></td>
-     <td><p>&lt; 50 ms</p></td>
-   </tr>
-   <tr>
-     <td><p>250</p></td>
-     <td><p>&lt; 10 ms</p></td>
-     <td><p>&lt; 50 ms</p></td>
-   </tr>
-   <tr>
-     <td><p>1000</p></td>
-     <td><p>10 - 20 ms</p></td>
-     <td><p>50 - 100 ms</p></td>
-   </tr>
-</table>
+| top_k | Latency of Performance-optimized cluster (768-dim 1M vectors) | Latency of Capacity-optimized cluster (768-dim 5M vectors) |
+| --- | --- | --- |
+| 10 | < 10 ms | < 50 ms |
+| 100 | < 10 ms | < 50 ms |
+| 250 | < 10 ms | < 50 ms |
+| 1000 | 10 - 20 ms | 50 - 100 ms |
 
 For more details about the test result, see [Select the Right CU](./cu-types-explained).
 

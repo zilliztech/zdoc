@@ -48,20 +48,10 @@ Ensure the following prerequisites are met before proceeding:
 
     The following table describes the fields.
 
-    <table>
-       <tr>
-         <th><p><strong>Field</strong></p></th>
-         <th><p><strong>Description</strong></p></th>
-       </tr>
-       <tr>
-         <td><p>IP Address (CIDR)</p></td>
-         <td><p>The IP addresses or CIDR block that you want to add to the allowlist. Up to 100 CIDR blocks are allowed. Example value: 192.168.1.1/20.</p></td>
-       </tr>
-       <tr>
-         <td><p>Description</p></td>
-         <td><p>The description of the IP addresses or CIDR block to add to the allowlist.</p></td>
-       </tr>
-    </table>
+    | **Field** | **Description** |
+    | --- | --- |
+    | IP Address (CIDR) | The IP addresses or CIDR block that you want to add to the allowlist. Up to 100 CIDR blocks are allowed. Example value: 192.168.1.1/20. |
+    | Description | The description of the IP addresses or CIDR block to add to the allowlist. |
 
 1. Click **Add**.
 
@@ -69,11 +59,11 @@ Ensure the following prerequisites are met before proceeding:
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<ul>
-<li><p>Without any entries in the allowlist, Zilliz Cloud allows access from any IP address.</p></li>
-<li><p>Upon adding a CIDR block, cluster access is exclusively limited to the IP addresses within that block.</p></li>
-<li><p>Adding 0.0.0.0/0 equates to having an empty allowlist.</p></li>
-</ul>
+- Without any entries in the allowlist, Zilliz Cloud allows access from any IP address.
+
+- Upon adding a CIDR block, cluster access is exclusively limited to the IP addresses within that block.
+
+- Adding 0.0.0.0/0 equates to having an empty allowlist.
 
 </Admonition>
 

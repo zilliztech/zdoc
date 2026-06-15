@@ -28,78 +28,35 @@ Before starting your Tencent Cloud VectorDB to Zilliz Cloud migration, ensure yo
 
 ### Tencent Cloud VectorDB requirements\{#tencent-cloud-vectordb-requirements}
 
-<table>
-   <tr>
-     <th><p>Requirement</p></th>
-     <th><p>Details</p></th>
-   </tr>
-   <tr>
-     <td><p>Network access</p></td>
-     <td><p>Source VectorDB instance must be accessible from the public internet</p></td>
-   </tr>
-   <tr>
-     <td><p>API access</p></td>
-     <td><p>Valid instance URL and API key with necessary permissions</p></td>
-   </tr>
-   <tr>
-     <td><p>Data availability</p></td>
-     <td><p>Source collections must contain data. Empty collections cannot be migrated.</p></td>
-   </tr>
-</table>
+| Requirement | Details |
+| --- | --- |
+| Network access | Source VectorDB instance must be accessible from the public internet |
+| API access | Valid instance URL and API key with necessary permissions |
+| Data availability | Source collections must contain data. Empty collections cannot be migrated. |
 
 ### Zilliz Cloud requirements\{#zilliz-cloud-requirements}
 
-<table>
-   <tr>
-     <th><p>Requirement</p></th>
-     <th><p>Details</p></th>
-   </tr>
-   <tr>
-     <td><p>User role</p></td>
-     <td><p>Organization Owner or Project Admin</p></td>
-   </tr>
-   <tr>
-     <td><p>Cluster capacity</p></td>
-     <td><p>Sufficient storage and compute resources (use the <a href="https://zilliz.com/pricing#calculator">CU calculator</a> to estimate CU size)</p></td>
-   </tr>
-   <tr>
-     <td><p>Network access</p></td>
-     <td><p>Add <a href="./zilliz-cloud-ips">Zilliz Cloud IPs</a> to allowlists if using network restrictions</p></td>
-   </tr>
-</table>
+| Requirement | Details |
+| --- | --- |
+| User role | Organization Owner or Project Admin |
+| Cluster capacity | Sufficient storage and compute resources (use the [CU calculator](https://zilliz.com/pricing#calculator) to estimate CU size) |
+| Network access | Add [Zilliz Cloud IPs](./zilliz-cloud-ips) to allowlists if using network restrictions |
 
 ## Data type mapping\{#data-type-mapping}
 
 Understanding how Tencent Cloud VectorDB data types map to Zilliz Cloud is crucial for planning your migration:
 
-<table>
-   <tr>
-     <th><p>VectorDB Field Type</p></th>
-     <th><p>Zilliz Cloud Field Type</p></th>
-     <th><p>Description</p></th>
-   </tr>
-   <tr>
-     <td><p>Primary key</p></td>
-     <td><p>VARCHAR (Primary key)</p></td>
-     <td><p>The primary key from Tencent Cloud VectorDB is automatically mapped as the primary key in Zilliz Cloud.</p><p>When migrating data, you can enable Auto ID. However, if you do so, the original primary key values from your source collection will be discarded.</p></td>
-   </tr>
-   <tr>
-     <td><p>Dense vector</p></td>
-     <td><p>FLOAT_VECTOR</p></td>
-     <td><p>Dense vector fields are transferred as FLOAT_VECTOR with no modifications required.</p></td>
-   </tr>
-   <tr>
-     <td><p>JSON</p></td>
-     <td><p>JSON (dynamic fields)</p></td>
-     <td><p>Mapped as dynamic schema by default; can be converted to fixed fields.</p><p>Refer to <a href="./enable-dynamic-field">Dynamic Field</a> for more details.</p></td>
-   </tr>
-</table>
+| VectorDB Field Type | Zilliz Cloud Field Type | Description |
+| --- | --- | --- |
+| Primary key | VARCHAR (Primary key) | The primary key from Tencent Cloud VectorDB is automatically mapped as the primary key in Zilliz Cloud.<br/>When migrating data, you can enable Auto ID. However, if you do so, the original primary key values from your source collection will be discarded. |
+| Dense vector | FLOAT_VECTOR | Dense vector fields are transferred as FLOAT_VECTOR with no modifications required. |
+| JSON | JSON (dynamic fields) | Mapped as dynamic schema by default; can be converted to fixed fields.<br/>Refer to [Dynamic Field](./enable-dynamic-field) for more details. |
 
 ## JSON field conversion\{#json-field-conversion}
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Zilliz Cloud samples 100 rows to detect JSON schema. You can manually add additional fields if needed.</p>
+Zilliz Cloud samples 100 rows to detect JSON schema. You can manually add additional fields if needed.
 
 </Admonition>
 
@@ -113,33 +70,12 @@ Tencent Cloud VectorDB's JSON fields are initially mapped to Zilliz Cloud's dyna
 
 The following JSON field types can be automatically converted from dynamic to fixed fields:
 
-<table>
-   <tr>
-     <th><p>VectorDB JSON Type</p></th>
-     <th><p>Zilliz Fixed Field Type</p></th>
-     <th><p>Notes</p></th>
-   </tr>
-   <tr>
-     <td><p>string</p></td>
-     <td><p>VARCHAR</p></td>
-     <td><p>Maximum 65,535 bytes supported</p></td>
-   </tr>
-   <tr>
-     <td><p>uint64</p></td>
-     <td><p>INT32</p></td>
-     <td><p>Numeric conversion with type adjustment</p></td>
-   </tr>
-   <tr>
-     <td><p>double</p></td>
-     <td><p>DOUBLE</p></td>
-     <td><p>Direct type conversion</p></td>
-   </tr>
-   <tr>
-     <td><p>array</p></td>
-     <td><p>ARRAY</p></td>
-     <td><p>Supported with corresponding element types</p></td>
-   </tr>
-</table>
+| VectorDB JSON Type | Zilliz Fixed Field Type | Notes |
+| --- | --- | --- |
+| string | VARCHAR | Maximum 65,535 bytes supported |
+| uint64 | INT32 | Numeric conversion with type adjustment |
+| double | DOUBLE | Direct type conversion |
+| array | ARRAY | Supported with corresponding element types |
 
 For JSON fields converted to fixed fields, you can configure additional attributes:
 
@@ -155,25 +91,8 @@ For JSON fields converted to fixed fields, you can configure additional attribut
 
 Tencent Cloud VectorDB collection names are transferred to Zilliz Cloud with the following considerations:
 
-<table>
-   <tr>
-     <th><p>Scenario</p></th>
-     <th><p>Impact</p></th>
-     <th><p>Solution</p></th>
-   </tr>
-   <tr>
-     <td><p>Default naming</p></td>
-     <td><p>Collection names match source collection names exactly</p></td>
-     <td><p>Names are preserved as-is from Tencent Cloud VectorDB</p></td>
-   </tr>
-   <tr>
-     <td><p>Naming conflicts</p></td>
-     <td><p>Cannot submit a migration job if a collection with the same name already exists in the database</p></td>
-     <td><p>Delete existing collection, choose a different target database, or rename during migration configuration</p></td>
-   </tr>
-   <tr>
-     <td><p>Special characters</p></td>
-     <td><p>Collection names are preserved as-is from Qdrant</p></td>
-     <td><p>Ensure collection names comply with Zilliz Cloud naming conventions</p></td>
-   </tr>
-</table>
+| Scenario | Impact | Solution |
+| --- | --- | --- |
+| Default naming | Collection names match source collection names exactly | Names are preserved as-is from Tencent Cloud VectorDB |
+| Naming conflicts | Cannot submit a migration job if a collection with the same name already exists in the database | Delete existing collection, choose a different target database, or rename during migration configuration |
+| Special characters | Collection names are preserved as-is from Qdrant | Ensure collection names comply with Zilliz Cloud naming conventions |

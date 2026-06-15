@@ -33,7 +33,7 @@ Use a GEOMETRY field when you need to combine vector similarity with spatial con
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>To use the GEOMETRY field, upgrade your SDK to the latest version.</p>
+To use the GEOMETRY field, upgrade your SDK to the latest version.
 
 </Admonition>
 
@@ -133,7 +133,6 @@ CreateCollectionReq requestCreate = CreateCollectionReq.builder()
         .collectionSchema(collectionSchema)
         .build();
 client.createCollection(requestCreate);
-
 ```
 
 </TabItem>
@@ -221,9 +220,35 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
+```c++
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+const std::string collection_name = "geo_collection";
+milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>();
+schema->AddField({"id", milvus::DataType::INT64, "", true, false});
+schema->AddField(milvus::FieldSchema("embeddings", milvus::DataType::FLOAT_VECTOR).WithDimension(8));
+schema->AddField(milvus::FieldSchema("geo", milvus::DataType::GEOMETRY).WithNullable(true));
+schema->AddField(milvus::FieldSchema("name", milvus::DataType::VARCHAR).WithMaxLength(128));
+
+status = client->CreateCollection(milvus::CreateCollectionRequest()
+                                    .WithCollectionName(collection_name)
+                                    .WithCollectionSchema(schema));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>In this example, the <code>GEOMETRY</code> field defined in the collection schema allows null values with <code>nullable=True</code>. For details, refer to <a href="./nullable-fields">Nullable & Default</a>.</p>
+In this example, the `GEOMETRY` field defined in the collection schema allows null values with `nullable=True`. For details, refer to [Nullable & Default](./nullable-fields).
 
 </Admonition>
 
@@ -396,6 +421,24 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
+```c++
+milvus::EntityRows data = {{{"id", 1}, {"name", "Shop A"}, {"embeddings", std::vector<float>{0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8}}, {"geo", "POINT(13.399710 52.518010)"}},
+                           {{"id", 2}, {"name", "Shop B"}, {"embeddings", std::vector<float>{0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9}}, {"geo", "POINT(13.403934 52.522877)"}},
+                           {{"id", 3}, {"name", "Shop C"}, {"embeddings", std::vector<float>{0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 0.1}}, {"geo", "POINT(13.405088 52.521124)"}},
+                           {{"id", 4}, {"name", "Shop D"}, {"embeddings", std::vector<float>{0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 0.1, 0.2}}, {"geo", "POINT(13.408223 52.516876)"}},
+                           {{"id", 5}, {"name", "Shop E"}, {"embeddings", std::vector<float>{0.5, 0.6, 0.7, 0.8, 0.9, 0.1, 0.2, 0.3}}, {"geo", "POINT(13.400092 52.521507)"}},
+                           {{"id", 6}, {"name", "Shop F"}, {"embeddings", std::vector<float>{0.6, 0.7, 0.8, 0.9, 0.1, 0.2, 0.3, 0.4}}, {"geo", "POINT(13.408529 52.519274)"}}};
+                           
+milvus::InsertResponse response;
+auto status = client->Insert(milvus::InsertRequest()
+                                .WithCollectionName(collection_name)
+                                .WithRowsData(std::move(data)),
+                             response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
 ### Step 3: Filtering operations\{#step-3-filtering-operations}
 
 Before you can perform filtering operations on `GEOMETRY` fields, make sure:
@@ -444,7 +487,6 @@ client.createIndex(CreateIndexReq.builder()
 <TabItem value='javascript'>
 
 ```javascript
-
 const index_params = {
   field_name: "embeddings",
   index_type: "IVF_FLAT",
@@ -509,6 +551,24 @@ sleep 3
 
 </TabItem>
 </Tabs>
+
+```c++
+milvus::IndexDesc index_vector("embeddings", "", milvus::IndexType::IVF_FLAT, milvus::MetricType::L2)
+index_vector.AddExtraParam(milvus::NLIST, "128");
+
+auto status = client->CreateIndex(milvus::CreateIndexRequest()
+                                     .WithCollectionName(collection_name)
+                                     .AddIndex(std::move(index_vector)));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+status = client->LoadCollection(milvus::LoadCollectionRequest()
+                                    .WithCollectionName(collection_name));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
 
 </details>
 
@@ -644,6 +704,27 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
+```c++
+std::string filter = "st_within(geo, 'POLYGON((13.403683 52.520711, 13.455868 52.520711, 13.455868 52.495862, 13.403683 52.495862, 13.403683 52.520711))')";
+auto request = milvus::QueryRequest()
+                       .WithCollectionName(collection_name)
+                       .WithFilter(filter)
+                       .AddOutputField("name")
+                       .AddOutputField("geo");
+
+milvus::QueryResponse response;
+auto status = client->Query(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+milvus::EntityRows output_rows;
+status = query_results.OutputRows(output_rows);
+for (const auto& row : output_rows) {
+    std::cout << "\t" << row << std::endl;
+}
+```
+
 #### Example 2: Find entities within 1km of a central point\{#example-2-find-entities-within-1km-of-a-central-point}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
@@ -741,6 +822,27 @@ curl --request POST \
 
 </TabItem>
 </Tabs>
+
+```c++
+std::string filter = "st_dwithin(geo, 'POINT(13.403683 52.520711)', 1000.0)";
+auto request = milvus::QueryRequest()
+                       .WithCollectionName(collection_name)
+                       .WithFilter(filter)
+                       .AddOutputField("name")
+                       .AddOutputField("geo");
+
+milvus::QueryResponse response;
+auto status = client->Query(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+milvus::EntityRows output_rows;
+status = query_results.OutputRows(output_rows);
+for (const auto& row : output_rows) {
+    std::cout << "\t" << row << std::endl;
+}
+```
 
 #### Example 3: Combine vector similarity with a spatial filter\{#example-3-combine-vector-similarity-with-a-spatial-filter}
 
@@ -860,6 +962,34 @@ curl --request POST \
 
 </TabItem>
 </Tabs>
+
+```c++
+std::vector<float> query_vector = {0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8};
+std::string filter = "st_within(geo, 'POLYGON((13.403683 52.520711, 13.455868 52.520711, 13.455868 52.495862, 13.403683 52.495862, 13.403683 52.520711))')";
+auto request = milvus::SearchRequest()
+                   .WithCollectionName(collection_name)
+                   .WithAnnsField("embeddings")
+                   .WithLimit(3)
+                   .WithFilter(filter)
+                   .AddOutputField("name")
+                   .AddOutputField("geo")
+                   .AddFloatVector(query_vector);
+
+milvus::SearchResponse response;
+auto status = client->Search(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+auto search_results = response.Results();
+for (auto& result : search_results.Results()) {
+    milvus::EntityRows output_rows;
+    status = result.OutputRows(output_rows);
+    for (const auto& row : output_rows) {
+        std::cout << "\t" << row << std::endl;
+    }
+}
+```
 
 ## Next: Accelerate queries\{#next-accelerate-queries}
 

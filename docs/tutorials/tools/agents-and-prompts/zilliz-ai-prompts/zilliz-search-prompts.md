@@ -1,6 +1,6 @@
 ---
 title: "Search | Cloud"
-slug: /zilliz-search-prompts
+slug: /agents/zilliz-search-prompts
 sidebar_label: "Search"
 beta: FALSE
 added_since: FALSE
@@ -11,7 +11,14 @@ description: "You can use this prompt for AI-powered IDEs, helping AI assistants
 type: origin
 token: ANK0wJQ8DibXxIkpYDEcScMHnYe
 sidebar_position: 6
-displayed_sidebar: default
+keywords: 
+  - zilliz
+  - vector database
+  - ai-agents
+  - decision matrix
+  - prompts
+  - search
+displayed_sidebar: agentsSidebar
 
 ---
 
@@ -26,37 +33,16 @@ You can use this prompt for AI-powered IDEs, helping AI assistants implement Zil
 
 Save the Zilliz Cloud prompt to a file in your repo, then include it in your AI tool when chatting. The table below demonstrates where to place the prompt in different tools.
 
-<table>
-   <tr>
-     <th><p><strong>Tool</strong></p></th>
-     <th><p><strong>Where to place the prompt</strong></p></th>
-     <th><p><strong>Reference</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>Claude Code</p></td>
-     <td><p>Include the prompt in your <code>CLAUDE.md</code> file.</p></td>
-     <td><p><a href="https://code.claude.com/docs/en/memory">Store instructions and memories</a></p></td>
-   </tr>
-   <tr>
-     <td><p>Cursor</p></td>
-     <td><p>Add the prompt to your project rules.</p></td>
-     <td><p><a href="https://docs.cursor.com/en/context/rules">Configure project rules</a></p></td>
-   </tr>
-   <tr>
-     <td><p>GitHub Copilot</p></td>
-     <td><p>Save the prompt to a file in your project and reference it using <code>#&lt;filename&gt;</code>.</p></td>
-     <td><p><a href="https://code.visualstudio.com/docs/copilot/copilot-customization#_custom-instructions">Custom instructions in Copilot</a></p></td>
-   </tr>
-   <tr>
-     <td><p>Gemini CLI</p></td>
-     <td><p>Include the prompt in your <code>GEMINI.md</code> file.</p></td>
-     <td><p><a href="https://codelabs.developers.google.com/gemini-cli-hands-on">Gemini CLI codelab</a></p></td>
-   </tr>
-</table>
+| **Tool** | **Where to place the prompt** | **Reference** |
+| --- | --- | --- |
+| Claude Code | Include the prompt in your `CLAUDE.md` file. | [Store instructions and memories](https://code.claude.com/docs/en/memory) |
+| Cursor | Add the prompt to your project rules. | [Configure project rules](https://docs.cursor.com/en/context/rules) |
+| GitHub Copilot | Save the prompt to a file in your project and reference it using `#<filename>`. | [Custom instructions in Copilot](https://code.visualstudio.com/docs/copilot/copilot-customization#_custom-instructions) |
+| Gemini CLI | Include the prompt in your `GEMINI.md` file. | [Gemini CLI codelab](https://codelabs.developers.google.com/gemini-cli-hands-on) |
 
 ## Prompt\{#prompt}
 
-```plaintext
+````plaintext
   # Zilliz Cloud Search Prompt
   Help me design, implement, and tune search in Zilliz Cloud.
 
@@ -120,9 +106,9 @@ Save the Zilliz Cloud prompt to a file in your repo, then include it in your AI 
       anns_field="vector",
       data=[query_vector],
       limit=3,
-      search_params=\{
+      search_params={
           "metric_type": "IP",
-          "params": \{"level": 3},
+          "params": {"level": 3},
       },
       output_fields=["id"],
   )
@@ -164,7 +150,7 @@ Save the Zilliz Cloud prompt to a file in your repo, then include it in your AI 
       limit=5,
       filter='color like "red%" and likes > 50',
       output_fields=["color", "likes"],
-      search_params=\{
+      search_params={
           "hints": "iterative_filter"
       },
   )
@@ -214,9 +200,9 @@ Save the Zilliz Cloud prompt to a file in your repo, then include it in your AI 
   client.insert(
       "bm25_docs",
       [
-          \{"text": "information retrieval is a field of study."},
-          \{"text": "information retrieval focuses on finding relevant information in large datasets."},
-          \{"text": "data mining and information retrieval overlap in research."},
+          {"text": "information retrieval is a field of study."},
+          {"text": "information retrieval focuses on finding relevant information in large datasets."},
+          {"text": "data mining and information retrieval overlap in research."},
       ],
   )
   ```
@@ -224,8 +210,8 @@ Save the Zilliz Cloud prompt to a file in your repo, then include it in your AI 
   ### BM25 full text search
 
   ```
-  search_params = \{
-      "params": \{"level": 10},
+  search_params = {
+      "params": {"level": 10},
   }
 
   res = client.search(
@@ -248,4 +234,4 @@ Save the Zilliz Cloud prompt to a file in your repo, then include it in your AI 
   - returned fields exclude unsupported BM25 sparse output
   - filters return expected subsets
   - recall and latency are acceptable at the chosen level
-```
+````

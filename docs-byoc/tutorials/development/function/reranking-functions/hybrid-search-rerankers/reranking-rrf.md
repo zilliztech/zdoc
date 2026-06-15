@@ -27,33 +27,12 @@ Reciprocal Rank Fusion (RRF) Ranker is a reranking strategy for Zilliz Cloud hyb
 
 RRF Ranker is specifically designed for hybrid search scenarios where you want to balance results from multiple vector search paths without assigning explicit importance weights. It's particularly effective for:
 
-<table>
-   <tr>
-     <th><p>Use Case</p></th>
-     <th><p>Example</p></th>
-     <th><p>Why RRF Ranker Works Well</p></th>
-   </tr>
-   <tr>
-     <td><p>Multimodal search with equal importance</p></td>
-     <td><p>Image-text search where both modalities matter equally</p></td>
-     <td><p>Balances results without requiring arbitrary weight assignments</p></td>
-   </tr>
-   <tr>
-     <td><p>Ensemble vector search</p></td>
-     <td><p>Combining results from different embedding models</p></td>
-     <td><p>Democratically merges rankings without favoring any particular model's scoring distribution</p></td>
-   </tr>
-   <tr>
-     <td><p>Cross-lingual search</p></td>
-     <td><p>Finding documents across multiple languages</p></td>
-     <td><p>Ranks results fairly regardless of language-specific embedding characteristics</p></td>
-   </tr>
-   <tr>
-     <td><p>Expert recommendations</p></td>
-     <td><p>Combining recommendations from multiple expert systems</p></td>
-     <td><p>Creates consensus rankings when different systems use incomparable scoring methods</p></td>
-   </tr>
-</table>
+| Use Case | Example | Why RRF Ranker Works Well |
+| --- | --- | --- |
+| Multimodal search with equal importance | Image-text search where both modalities matter equally | Balances results without requiring arbitrary weight assignments |
+| Ensemble vector search | Combining results from different embedding models | Democratically merges rankings without favoring any particular model's scoring distribution |
+| Cross-lingual search | Finding documents across multiple languages | Ranks results fairly regardless of language-specific embedding characteristics |
+| Expert recommendations | Combining recommendations from multiple expert systems | Creates consensus rankings when different systems use incomparable scoring methods |
 
 If your hybrid search application requires balancing multiple search paths democratically without assigning explicit weights, RRF Ranker is your ideal choice.
 
@@ -77,154 +56,46 @@ This example demonstrates a Hybrid Search (topK=5) on sparse-dense vectors and i
 
 - Results of ANN search on sparse vectors of texts （topK=5)：
 
-    <table>
-       <tr>
-         <th><p><strong>ID</strong></p></th>
-         <th><p><strong>Rank (sparse)</strong></p></th>
-       </tr>
-       <tr>
-         <td><p>101</p></td>
-         <td><p>1</p></td>
-       </tr>
-       <tr>
-         <td><p>203</p></td>
-         <td><p>2</p></td>
-       </tr>
-       <tr>
-         <td><p>150</p></td>
-         <td><p>3</p></td>
-       </tr>
-       <tr>
-         <td><p>198</p></td>
-         <td><p>4</p></td>
-       </tr>
-       <tr>
-         <td><p>175</p></td>
-         <td><p>5</p></td>
-       </tr>
-    </table>
+    | **ID** | **Rank (sparse)** |
+    | --- | --- |
+    | 101 | 1 |
+    | 203 | 2 |
+    | 150 | 3 |
+    | 198 | 4 |
+    | 175 | 5 |
 
 - Results of ANN search on dense vectors of texts （topK=5)：
 
-    <table>
-       <tr>
-         <th><p><strong>ID</strong></p></th>
-         <th><p><strong>Rank (dense)</strong></p></th>
-       </tr>
-       <tr>
-         <td><p>198</p></td>
-         <td><p>1</p></td>
-       </tr>
-       <tr>
-         <td><p>101</p></td>
-         <td><p>2</p></td>
-       </tr>
-       <tr>
-         <td><p>110</p></td>
-         <td><p>3</p></td>
-       </tr>
-       <tr>
-         <td><p>175</p></td>
-         <td><p>4</p></td>
-       </tr>
-       <tr>
-         <td><p>250</p></td>
-         <td><p>5</p></td>
-       </tr>
-    </table>
+    | **ID** | **Rank (dense)** |
+    | --- | --- |
+    | 198 | 1 |
+    | 101 | 2 |
+    | 110 | 3 |
+    | 175 | 4 |
+    | 250 | 5 |
 
 - Use RRF to rearrange the rankings of the two sets of search results. Assume that the smoothing parameter `k` is set at 60.
 
-    <table>
-       <tr>
-         <th><p><strong>ID</strong></p></th>
-         <th><p><strong>Score (Sparse)</strong></p></th>
-         <th><p><strong>Score (Dense)</strong></p></th>
-         <th><p><strong>Final Score</strong></p></th>
-       </tr>
-       <tr>
-         <td><p>101</p></td>
-         <td><p>1</p></td>
-         <td><p>2</p></td>
-         <td><p>1/(60+1)+1/(60+2) = 0.03252247</p></td>
-       </tr>
-       <tr>
-         <td><p>198</p></td>
-         <td><p>4</p></td>
-         <td><p>1</p></td>
-         <td><p>1/(60+4)+1/(60+1) = 0.03201844</p></td>
-       </tr>
-       <tr>
-         <td><p>175</p></td>
-         <td><p>5</p></td>
-         <td><p>4</p></td>
-         <td><p>1/(60+5)+1/(60+4) = 0.03100962</p></td>
-       </tr>
-       <tr>
-         <td><p>203</p></td>
-         <td><p>2</p></td>
-         <td><p>N/A</p></td>
-         <td><p>1/(60+2) = 0.01612903</p></td>
-       </tr>
-       <tr>
-         <td><p>150</p></td>
-         <td><p>3</p></td>
-         <td><p>N/A</p></td>
-         <td><p>1/(60+3) = 0.01587302</p></td>
-       </tr>
-       <tr>
-         <td><p>110</p></td>
-         <td><p>N/A</p></td>
-         <td><p>3</p></td>
-         <td><p>1/(60+3) = 0.01587302</p></td>
-       </tr>
-       <tr>
-         <td><p>250</p></td>
-         <td><p>N/A</p></td>
-         <td><p>5</p></td>
-         <td><p>1/(60+5) = 0.01538462</p></td>
-       </tr>
-    </table>
+    | **ID** | **Score (Sparse)** | **Score (Dense)** | **Final Score** |
+    | --- | --- | --- | --- |
+    | 101 | 1 | 2 | 1/(60+1)+1/(60+2) = 0.03252247 |
+    | 198 | 4 | 1 | 1/(60+4)+1/(60+1) = 0.03201844 |
+    | 175 | 5 | 4 | 1/(60+5)+1/(60+4) = 0.03100962 |
+    | 203 | 2 | N/A | 1/(60+2) = 0.01612903 |
+    | 150 | 3 | N/A | 1/(60+3) = 0.01587302 |
+    | 110 | N/A | 3 | 1/(60+3) = 0.01587302 |
+    | 250 | N/A | 5 | 1/(60+5) = 0.01538462 |
 
 - The final results after reranking（topK=5)：
 
-    <table>
-       <tr>
-         <th><p><strong>Rank</strong></p></th>
-         <th><p><strong>ID</strong></p></th>
-         <th><p><strong>Final Score</strong></p></th>
-       </tr>
-       <tr>
-         <td><p>1</p></td>
-         <td><p>101</p></td>
-         <td><p>0.03252247</p></td>
-       </tr>
-       <tr>
-         <td><p>2</p></td>
-         <td><p>198</p></td>
-         <td><p>0.03201844</p></td>
-       </tr>
-       <tr>
-         <td><p>3</p></td>
-         <td><p>175</p></td>
-         <td><p>0.03100962</p></td>
-       </tr>
-       <tr>
-         <td><p>4</p></td>
-         <td><p>203</p></td>
-         <td><p>0.01612903</p></td>
-       </tr>
-       <tr>
-         <td><p>5</p></td>
-         <td><p>150</p></td>
-         <td><p>0.01587302</p></td>
-       </tr>
-       <tr>
-         <td><p>5</p></td>
-         <td><p>110</p></td>
-         <td><p>0.01587302</p></td>
-       </tr>
-    </table>
+    | **Rank** | **ID** | **Final Score** |
+    | --- | --- | --- |
+    | 1 | 101 | 0.03252247 |
+    | 2 | 198 | 0.03201844 |
+    | 3 | 175 | 0.03100962 |
+    | 4 | 203 | 0.01612903 |
+    | 5 | 150 | 0.01587302 |
+    | 5 | 110 | 0.01587302 |
 
 ## Usage of RRF Ranker\{#usage-of-rrf-ranker}
 
@@ -234,7 +105,7 @@ When using the RRF reranking strategy, you need to configure the parameter `k`. 
 
 After your collection is set up with multiple vector fields, create an RRF Ranker with an appropriate smoothing parameter:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -283,7 +154,6 @@ const rerank = {
     k: 100,
   },
 };
-
 ```
 
 </TabItem>
@@ -303,52 +173,31 @@ const rerank = {
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+auto rerank = std::make_shared<milvus::Function>("rrf", milvus::FunctionType::RERANK);
+rerank->AddParam("reranker", "rrf");
+rerank->AddParam("k", "100");
+```
+
+</TabItem>
 </Tabs>
 
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Required?</p></th>
-     <th><p>Description</p></th>
-     <th><p>Value/Example</p></th>
-   </tr>
-   <tr>
-     <td><p><code>name</code></p></td>
-     <td><p>Yes</p></td>
-     <td><p>Unique identifier for this Function</p></td>
-     <td><p><code>"rrf"</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>input_field_names</code></p></td>
-     <td><p>Yes</p></td>
-     <td><p>List of vector fields to apply the function to (must be empty for RRF Ranker)</p></td>
-     <td><p>[]</p></td>
-   </tr>
-   <tr>
-     <td><p><code>function_type</code></p></td>
-     <td><p>Yes</p></td>
-     <td><p>The type of Function to invoke; use <code>RERANK</code> to specify a reranking strategy</p></td>
-     <td><p><code>FunctionType.RERANK</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>params.reranker</code></p></td>
-     <td><p>Yes</p></td>
-     <td><p>Specifies the reranking method to use.</p><p>Must be set to <code>rrf</code> to use RRF Ranker.</p></td>
-     <td><p><code>"weighted"</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>params.k</code></p></td>
-     <td><p>No</p></td>
-     <td><p>Smoothing parameter that controls the impact of document ranks; higher <code>k</code> reduces sensitivity to top ranks. Range: (0, 16384); default: <code>60</code>.</p><p>For details, refer to <a href="./reranking-rrf#mechanism-of-rrf-ranker">Mechanism of RRF Ranker</a>.</p></td>
-     <td><p><code>100</code></p></td>
-   </tr>
-</table>
+| Parameter | Required? | Description | Value/Example |
+| --- | --- | --- | --- |
+| `name` | Yes | Unique identifier for this Function | `"rrf"` |
+| `input_field_names` | Yes | List of vector fields to apply the function to (must be empty for RRF Ranker) | [] |
+| `function_type` | Yes | The type of Function to invoke; use `RERANK` to specify a reranking strategy | `FunctionType.RERANK` |
+| `params.reranker` | Yes | Specifies the reranking method to use.<br/>Must be set to `rrf` to use RRF Ranker. | `"weighted"` |
+| `params.k` | No | Smoothing parameter that controls the impact of document ranks; higher `k` reduces sensitivity to top ranks. Range: (0, 16384); default: `60`.<br/>For details, refer to [Mechanism of RRF Ranker](./reranking-rrf#mechanism-of-rrf-ranker). | `100` |
 
 ### Apply to hybrid search\{#apply-to-hybrid-search}
 
 RRF Ranker is designed specifically for hybrid search operations that combine multiple vector fields. Here's how to use it in a hybrid search:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -472,6 +321,38 @@ const search = await milvusClient.search({
 
 ```bash
 # restful
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+auto text_search = milvus::SubSearchRequest()
+                    .WithLimit(10)
+                    .WithAnnsField("text_vector")
+                    .AddEmbeddedText("modern dining table");
+
+auto image_search = milvus::SubSearchRequest()
+                    .WithLimit(10)
+                    .WithAnnsField("image_vector")
+                    .AddFloatVector(image_embedding);
+
+auto request = milvus::HybridSearchRequest()
+                    .WithCollectionName(collection_name)
+                    .WithLimit(10)
+                    .AddSubRequest(std::make_shared<milvus::SubSearchRequest>(std::move(text_search)))
+                    .AddSubRequest(std::make_shared<milvus::SubSearchRequest>(std::move(image_search)))
+                    .WithRerank(rerank)
+                    .AddOutputField("product_name")
+                    .AddOutputField("price")
+                    .AddOutputField("category");
+
+milvus::SearchResponse response;
+auto status = client->HybridSearch(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
 ```
 
 </TabItem>

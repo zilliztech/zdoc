@@ -27,7 +27,7 @@ Project alerts enable proactive monitoring of your Zilliz Cloud clusters by send
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This feature is available only to <strong>Dedicated</strong> clusters.</p>
+This feature is available only to **Dedicated** clusters.
 
 </Admonition>
 
@@ -179,7 +179,7 @@ Modify, organize, and maintain your existing alerts to keep monitoring relevant 
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>You can also manage project alerts via RESTful APIs. For details, refer to <a href="/reference/restful/update-alert-rule-v2">Update Alert Rule</a> and <a href="/reference/restful/delete-alert-rule-v2">Delete Alert Rule</a>.</p>
+You can also manage project alerts via RESTful APIs. For details, refer to [Update Alert Rule](/reference/restful/update-alert-rule-v2) and [Delete Alert Rule](/reference/restful/delete-alert-rule-v2).
 
 </Admonition>
 
@@ -221,7 +221,7 @@ Remove obsolete or redundant monitoring rules.
 
 <Admonition type="danger" icon="🚧" title="Warning">
 
-<p>Alert deletion is permanent and cannot be undone. Ensure you no longer need the alert before proceeding.</p>
+Alert deletion is permanent and cannot be undone. Ensure you no longer need the alert before proceeding.
 
 </Admonition>
 

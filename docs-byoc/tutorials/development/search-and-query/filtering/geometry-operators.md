@@ -50,57 +50,20 @@ The following table lists the geometry operators available in Zilliz Cloud.
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Operator names must be <strong>all uppercase</strong> or <strong>all lowercase</strong>. Do not mix cases within the same operator name.</p>
+Operator names must be **all uppercase** or **all lowercase**. Do not mix cases within the same operator name.
 
 </Admonition>
 
-<table>
-   <tr>
-     <th><p>Operator</p></th>
-     <th><p>Description</p></th>
-     <th><p>Example</p></th>
-   </tr>
-   <tr>
-     <td><p><code>ST_EQUALS(A, B)</code> / <code>st_equals(A, B)</code></p></td>
-     <td><p>Returns TRUE if two geometries are spatially identical, meaning they have the same set of points and dimension.</p></td>
-     <td><p>Are two geometries (A and B) exactly the same in space?</p></td>
-   </tr>
-   <tr>
-     <td><p><code>ST_CONTAINS(A, B)</code> / <code>st_contains(A, B)</code></p></td>
-     <td><p>Returns TRUE if geometry A completely contains geometry B, with their interiors having at least one point in common.</p></td>
-     <td><p>Is a city boundary (A) containing a specific park (B)?</p></td>
-   </tr>
-   <tr>
-     <td><p><code>ST_CROSSES(A, B)</code> / <code>st_crosses(A, B)</code></p></td>
-     <td><p>Returns TRUE if geometries A and B partially intersect but do not fully contain each other.</p></td>
-     <td><p>Do two roads (A and B) cross at an intersection?</p></td>
-   </tr>
-   <tr>
-     <td><p><code>ST_INTERSECTS(A, B)</code> / <code>st_intersects(A, B)</code></p></td>
-     <td><p>Returns TRUE if geometries A and B have at least one common point. This is the most general and widely used spatial query.</p></td>
-     <td><p>Does a search area (A) intersect with any of the store locations (B)?</p></td>
-   </tr>
-   <tr>
-     <td><p><code>ST_OVERLAPS(A, B)</code> / <code>st_overlaps(A, B)</code></p></td>
-     <td><p>Returns TRUE if geometries A and B are of the same dimension, partially overlap, and neither fully contains the other.</p></td>
-     <td><p>Do two land plots (A and B) overlap?</p></td>
-   </tr>
-   <tr>
-     <td><p><code>ST_TOUCHES(A, B)</code> / <code>st_touches(A, B)</code></p></td>
-     <td><p>Returns TRUE if geometries A and B share a common boundary but their interiors do not intersect.</p></td>
-     <td><p>Do two neighboring properties (A and B) share a border?</p></td>
-   </tr>
-   <tr>
-     <td><p><code>ST_WITHIN(A, B)</code> / <code>st_within(A, B)</code></p></td>
-     <td><p>Returns TRUE if geometry A is completely contained within geometry B, with their interiors having at least one point in common. It's the inverse of <code>ST_Contains(B, A)</code>.</p></td>
-     <td><p>Is a specific point of interest (A) within a defined search radius (B)?</p></td>
-   </tr>
-   <tr>
-     <td><p><code>ST_DWITHIN(A, B, distance)</code> / <code>st_dwithin(A, B, distance)</code></p></td>
-     <td><p>Returns TRUE if the distance between geometry A and geometry B is less than or equal to the specified distance.</p><p><strong>Note</strong>: Geometry B currently only supports points. The distance unit is meters.</p></td>
-     <td><p>Find all points within 5000 meters of a specific point (B).</p></td>
-   </tr>
-</table>
+| Operator | Description | Example |
+| --- | --- | --- |
+| `ST_EQUALS(A, B)` / `st_equals(A, B)` | Returns TRUE if two geometries are spatially identical, meaning they have the same set of points and dimension. | Are two geometries (A and B) exactly the same in space? |
+| `ST_CONTAINS(A, B)` / `st_contains(A, B)` | Returns TRUE if geometry A completely contains geometry B, with their interiors having at least one point in common. | Is a city boundary (A) containing a specific park (B)? |
+| `ST_CROSSES(A, B)` / `st_crosses(A, B)` | Returns TRUE if geometries A and B partially intersect but do not fully contain each other. | Do two roads (A and B) cross at an intersection? |
+| `ST_INTERSECTS(A, B)` / `st_intersects(A, B)` | Returns TRUE if geometries A and B have at least one common point. This is the most general and widely used spatial query. | Does a search area (A) intersect with any of the store locations (B)? |
+| `ST_OVERLAPS(A, B)` / `st_overlaps(A, B)` | Returns TRUE if geometries A and B are of the same dimension, partially overlap, and neither fully contains the other. | Do two land plots (A and B) overlap? |
+| `ST_TOUCHES(A, B)` / `st_touches(A, B)` | Returns TRUE if geometries A and B share a common boundary but their interiors do not intersect. | Do two neighboring properties (A and B) share a border? |
+| `ST_WITHIN(A, B)` / `st_within(A, B)` | Returns TRUE if geometry A is completely contained within geometry B, with their interiors having at least one point in common. It's the inverse of `ST_Contains(B, A)`. | Is a specific point of interest (A) within a defined search radius (B)? |
+| `ST_DWITHIN(A, B, distance)` / `st_dwithin(A, B, distance)` | Returns TRUE if the distance between geometry A and geometry B is less than or equal to the specified distance.<br/>**Note**: Geometry B currently only supports points. The distance unit is meters. | Find all points within 5000 meters of a specific point (B). |
 
 ## ST_EQUALS / st_equals\{#stequals-stequals}
 

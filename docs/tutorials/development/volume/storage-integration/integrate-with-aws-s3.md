@@ -54,20 +54,10 @@ Zilliz Cloud allows you to integrate with Amazon Simple Storage Service (Amazon 
 
     - **Bucket Permission**: Select the level of access Zilliz Cloud has to your S3 bucket. The following table explains the options.
 
-        <table>
-           <tr>
-             <th><p><strong>Permission</strong></p></th>
-             <th><p><strong>Description</strong></p></th>
-           </tr>
-           <tr>
-             <td><p>Read only</p></td>
-             <td><p>Zilliz Cloud can only read files from the bucket. Use for <a href="./external-volume">external volumes</a> that back external collections.</p></td>
-           </tr>
-           <tr>
-             <td><p>Read write</p></td>
-             <td><p>Zilliz Cloud can both read from and write to the bucket. Use for <a href="./export-backup-files">backup export</a>, <a href="./audit-logs">audit log forwarding</a>, or <a href="./configure-access-logs">access log forwarding</a>.</p></td>
-           </tr>
-        </table>
+        | **Permission** | **Description** |
+        | --- | --- |
+        | Read only | Zilliz Cloud can only read files from the bucket. Use for [external volumes](./external-volume) that back external collections. |
+        | Read write | Zilliz Cloud can both read from and write to the bucket. Use for [backup export](./export-backup-files), [audit log forwarding](./audit-logs), or [access log forwarding](./configure-access-logs). |
 
 1. Click **Next**. You'll be redirected to the **Create Amazon S3 Bucket** step:
 
@@ -87,10 +77,9 @@ Zilliz Cloud allows you to integrate with Amazon Simple Storage Service (Amazon 
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    <ul>
-    <li><p>The AWS region to create a bucket should be consistent with the region where your Zilliz Cloud cluster or external volume resides. For Zilliz Cloud-supported regions, refer to <a href="./cloud-providers-and-regions">Cloud Providers & Regions</a>.</p></li>
-    <li><p>For clusters running in different regions, create separate integrations for each region to ensure backup files or audit logs can be exported properly.</p></li>
-    </ul>
+    - The AWS region to create a bucket should be consistent with the region where your Zilliz Cloud cluster or external volume resides. For Zilliz Cloud-supported regions, refer to [Cloud Providers & Regions](./cloud-providers-and-regions).
+    
+    - For clusters running in different regions, create separate integrations for each region to ensure backup files or audit logs can be exported properly.
 
     </Admonition>
 
@@ -154,8 +143,8 @@ For simplicity, create a policy using the JSON editor.
                     "s3:GetBucketLocation"
                 ],
                 "Resource": [
-                    "arn:aws:s3:::<bucket>",
-                    "arn:aws:s3:::<bucket>/*"
+                    "arn:aws:s3:::&lt;bucket&gt;",
+                    "arn:aws:s3:::&lt;bucket&gt;/*"
                 ]
             }
         ]
@@ -178,8 +167,8 @@ For simplicity, create a policy using the JSON editor.
                     "s3:GetBucketLocation"
                 ],
                 "Resource": [
-                    "arn:aws:s3:::<bucket>",
-                    "arn:aws:s3:::<bucket>/*"
+                    "arn:aws:s3:::&lt;bucket&gt;",
+                    "arn:aws:s3:::&lt;bucket&gt;/*"
                 ]
             },
             {
@@ -188,7 +177,7 @@ For simplicity, create a policy using the JSON editor.
                 "Action": [
                     "kms:GenerateDataKey"
                 ],
-                "Resource": "arn:aws:kms:<region>:<account_id>:key/<key_id>"
+                "Resource": "arn:aws:kms:&lt;region&gt;:&lt;account_id&gt;:key/&lt;key_id&gt;"
             }
         ]
     }
@@ -196,10 +185,9 @@ For simplicity, create a policy using the JSON editor.
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    <ul>
-    <li><p><code>&lt;bucket&gt;</code> should be replaced with the actual name of your S3 bucket.</p></li>
-    <li><p><code>&lt;region&gt;</code>, <code>&lt;account_id&gt;</code>, and <code>&lt;key_id&gt;</code> should be replaced with their actual values. For details, refer to <a href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id">Key identifiers</a> in AWS docs.</p></li>
-    </ul>
+    - `<bucket>` should be replaced with the actual name of your S3 bucket.
+    
+    - `<region>`, `<account_id>`, and `<key_id>` should be replaced with their actual values. For details, refer to [Key identifiers](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id) in AWS docs.
 
     </Admonition>
 
@@ -259,7 +247,7 @@ Once that's done, do the following to create an IAM role:
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    <p><code>965570967084</code> and <code>my-external-id</code> should be replaced with the actual AWS account ID and external ID shown in the <strong>Create IAM Role</strong> step on the Zilliz Cloud console.</p>
+    `965570967084` and `my-external-id` should be replaced with the actual AWS account ID and external ID shown in the **Create IAM Role** step on the Zilliz Cloud console.
 
     </Admonition>
 

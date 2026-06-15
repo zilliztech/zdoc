@@ -24,8 +24,9 @@ Before importing data, it's important to understand the supported cloud storage 
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Zilliz Cloud now allows you to import data from any object storage service to any Zilliz Cloud cluster, regardless of the cloud provider hosting the clusters. For instance, you can import data from an AWS S3 bucket to a Zilliz Cloud cluster deployed on GCP.</p>
-<p>You are advised to use a bucket or a blob container from the same provider and in the same region as the target cluster to ensure a low-latency, stable experience.</p>
+Zilliz Cloud now allows you to import data from any object storage service to any Zilliz Cloud cluster, regardless of the cloud provider hosting the clusters. For instance, you can import data from an AWS S3 bucket to a Zilliz Cloud cluster deployed on GCP.
+
+You are advised to use a bucket or a blob container from the same provider and in the same region as the target cluster to ensure a low-latency, stable experience.
 
 </Admonition>
 
@@ -40,15 +41,15 @@ Before importing data, it's important to understand the supported cloud storage 
        </tr>
        <tr>
          <td><p><strong>AWS Object URL, virtual-hosted–style</strong></p></td>
-         <td><ul><li><p><strong>File</strong>: <i>http</i>s://\<bucket_name>.s3.\<region-code>.amazonaws.com/\<object_name></p></li><li><p><strong>Folder</strong>: <i>http</i>s://\<bucket_name>.s3.\<region-code>.amazonaws.com/\<folder_name>/</p></li></ul></td>
+         <td><ul><li><p><strong>File</strong>: <i>http</i>s://&lt;bucket_name&gt;.s3.&lt;region-code&gt;.amazonaws.com/&lt;object_name&gt;</p></li><li><p><strong>Folder</strong>: <i>http</i>s://&lt;bucket_name&gt;.s3.&lt;region-code&gt;.amazonaws.com/&lt;folder_name&gt;/</p></li></ul></td>
        </tr>
        <tr>
          <td><p><strong>AWS Object URL, path-style</strong></p></td>
-         <td><ul><li><p><strong>File</strong>: <i>http</i>s://s3.\<region-code>.amazonaws.com/\<bucket_name>/\<object_name></p></li><li><p><strong>Folder</strong>: <i>http</i>s://s3.\<region-code>.amazonaws.com/\<bucket_name>/\<folder_name>/</p></li></ul></td>
+         <td><ul><li><p><strong>File</strong>: <i>http</i>s://s3.&lt;region-code&gt;.amazonaws.com/&lt;bucket_name&gt;/&lt;object_name&gt;</p></li><li><p><strong>Folder</strong>: <i>http</i>s://s3.&lt;region-code&gt;.amazonaws.com/&lt;bucket_name&gt;/&lt;folder_name&gt;/</p></li></ul></td>
        </tr>
        <tr>
          <td><p><strong>AWS S3 URI</strong></p></td>
-         <td><ul><li><p><strong>File</strong>: s3://\<bucket_name>/\<object_name></p></li><li><p><strong>Folder</strong>: s3://\<bucket_name>/\<folder_name>/</p></li></ul></td>
+         <td><ul><li><p><strong>File</strong>: s3://&lt;bucket_name&gt;/&lt;object_name&gt;</p></li><li><p><strong>Folder</strong>: s3://&lt;bucket_name&gt;/&lt;folder_name&gt;/</p></li></ul></td>
        </tr>
     </table>
 
@@ -66,7 +67,7 @@ Before importing data, it's important to understand the supported cloud storage 
 
         <Admonition type="info" icon="📘" title="Notes">
 
-        <p>If your bucket or specific items in the bucket are encrypted with a custom KMS ID, you must provide decryption permissions for that KMS ID along with the authentication credentials.</p>
+        If your bucket or specific items in the bucket are encrypted with a custom KMS ID, you must provide decryption permissions for that KMS ID along with the authentication credentials.
 
         </Admonition>
 
@@ -89,11 +90,11 @@ Before importing data, it's important to understand the supported cloud storage 
        </tr>
        <tr>
          <td><p><strong>GSC public URL</strong></p></td>
-         <td><ul><li><p><strong>File</strong>: <i>http</i>s://storage.cloud.google.com/\<bucket_name>/\<object_name></p></li><li><p><strong>Folder</strong>: <i>http</i>s://storage.cloud.google.com/\<bucket_name>/\<folder_name>/</p></li></ul></td>
+         <td><ul><li><p><strong>File</strong>: <i>http</i>s://storage.cloud.google.com/&lt;bucket_name&gt;/&lt;object_name&gt;</p></li><li><p><strong>Folder</strong>: <i>http</i>s://storage.cloud.google.com/&lt;bucket_name&gt;/&lt;folder_name&gt;/</p></li></ul></td>
        </tr>
        <tr>
          <td><p><strong>GSC gsutil URI</strong></p></td>
-         <td><ul><li><p><strong>File</strong>: gs://\<bucket_name>/\<object_name></p></li><li><p><strong>Folder</strong>: gs://\<bucket_name>/\<folder_name>/</p></li></ul></td>
+         <td><ul><li><p><strong>File</strong>: gs://&lt;bucket_name&gt;/&lt;object_name&gt;</p></li><li><p><strong>Folder</strong>: gs://&lt;bucket_name&gt;/&lt;folder_name&gt;/</p></li></ul></td>
        </tr>
     </table>
 
@@ -124,7 +125,7 @@ Before importing data, it's important to understand the supported cloud storage 
        </tr>
        <tr>
          <td><p><strong>Azure storage blob URI</strong></p></td>
-         <td><ul><li><p><strong>File</strong>: <i>http</i>s://\<storage_account>.blob.core.windows.net/\<container>/\<blob></p></li><li><p><strong>Folder</strong>: <i>http</i>s://\<storage_account>.blob.core.windows.net/\<container>/\<folder>/</p></li></ul></td>
+         <td><ul><li><p><strong>File</strong>: <i>http</i>s://&lt;storage_account&gt;.blob.core.windows.net/&lt;container&gt;/&lt;blob&gt;</p></li><li><p><strong>Folder</strong>: <i>http</i>s://&lt;storage_account&gt;.blob.core.windows.net/&lt;container&gt;/&lt;folder&gt;/</p></li></ul></td>
        </tr>
     </table>
 

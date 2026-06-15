@@ -27,7 +27,7 @@ After your global cluster is running, connect to it using an endpoint and an aut
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This feature is available only to <strong>Dedicated</strong> clusters in a <strong>Business Critical</strong> project.</p>
+This feature is available only to **Dedicated** clusters in a **Business Critical** project.
 
 </Admonition>
 
@@ -41,42 +41,17 @@ A global cluster provides two ways to connect:
 
 The following table compares the two connection endpoints.
 
-<table>
-   <tr>
-     <th></th>
-     <th><p><strong>Global endpoint</strong></p></th>
-     <th><p><strong>The endpoint of a primary or secondary cluster</strong></p></th>
-   </tr>
-   <tr>
-     <td><p><strong>Write routing</strong></p></td>
-     <td><p>Automatically routed to the primary cluster</p></td>
-     <td><p>Only the primary's public endpoint accepts writes</p></td>
-   </tr>
-   <tr>
-     <td><p><strong>Read routing</strong></p></td>
-     <td><p>Routed to the primary cluster</p><p>(Intelligent routing to the nearest available cluster based on latency will be supported soon.)</p></td>
-     <td><p>Reads go to the specific cluster you connect to</p></td>
-   </tr>
-   <tr>
-     <td><p><strong>Switchover / Failover</strong></p></td>
-     <td><p>Re-routes automatically — no code changes</p></td>
-     <td><p>You must update your connection to point to the new primary</p></td>
-   </tr>
-   <tr>
-     <td><p><strong>Private Link</strong></p></td>
-     <td><p>Not supported (requires public internet)</p></td>
-     <td><p>Supported.</p></td>
-   </tr>
-   <tr>
-     <td><p><strong>Best for</strong></p></td>
-     <td><p>Production applications that need automatic failover and latency-based routing</p></td>
-     <td><p>Direct access to a specific cluster (e.g., environment replication, testing, debugging)</p></td>
-   </tr>
-</table>
+|  | **Global endpoint** | **The endpoint of a primary or secondary cluster** |
+| --- | --- | --- |
+| **Write routing** | Automatically routed to the primary cluster | Only the primary's public endpoint accepts writes |
+| **Read routing** | Routed to the primary cluster<br/>(Intelligent routing to the nearest available cluster based on latency will be supported soon.) | Reads go to the specific cluster you connect to |
+| **Switchover / Failover** | Re-routes automatically — no code changes | You must update your connection to point to the new primary |
+| **Private Link** | Not supported (requires public internet) | Supported. |
+| **Best for** | Production applications that need automatic failover and latency-based routing | Direct access to a specific cluster (e.g., environment replication, testing, debugging) |
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>It is recommended to use the global endpoint for production workloads. It eliminates the need to handle endpoint changes in your application code during switchover or failover.</p>
+It is recommended to use the global endpoint for production workloads. It eliminates the need to handle endpoint changes in your application code during switchover or failover.
 
 </Admonition>
 
@@ -102,28 +77,12 @@ The following table compares the two connection endpoints.
 
 Ensure you have [installed](./install-sdks) SDKs. Before connecting to a global cluster, ensure your SDK meets the minimum version requirement.
 
-<table>
-   <tr>
-     <th><p>SDK</p></th>
-     <th><p>Minimum Version</p></th>
-   </tr>
-   <tr>
-     <td><p>Python</p></td>
-     <td><p><code>2.6.9</code></p></td>
-   </tr>
-   <tr>
-     <td><p>Node.js</p></td>
-     <td><p><code>2.6.10</code></p></td>
-   </tr>
-   <tr>
-     <td><p>Java</p></td>
-     <td><p><code>2.6.14</code></p></td>
-   </tr>
-   <tr>
-     <td><p>Go</p></td>
-     <td><p><code>2.6.2</code></p></td>
-   </tr>
-</table>
+| SDK | Minimum Version |
+| --- | --- |
+| Python | `2.6.9` |
+| Node.js | `2.6.10` |
+| Java | `2.6.14` |
+| Go | `2.6.2` |
 
 ## Connect using the global endpoint\{#connect-using-the-global-endpoint}
 
@@ -257,7 +216,7 @@ client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>When using public endpoints, only the primary cluster's public endpoint accepts write operations. Writing to a secondary cluster's public endpoint will fail.</p>
+When using public endpoints, only the primary cluster's public endpoint accepts write operations. Writing to a secondary cluster's public endpoint will fail.
 
 </Admonition>
 
@@ -265,48 +224,18 @@ client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
 
 ### During normal operation\{#during-normal-operation}
 
-<table>
-   <tr>
-     <th><p><strong>Request type</strong></p></th>
-     <th><p><strong>Global endpoint</strong></p></th>
-     <th><p><strong>Public endpoint</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>Write (insert, upsert, delete)</p></td>
-     <td><p>Routed to the primary cluster</p></td>
-     <td><p>Only accepted on the primary cluster's endpoint</p></td>
-   </tr>
-   <tr>
-     <td><p>Read (search, query)</p></td>
-     <td><p>Routed to the primary cluster</p><p>(Intelligent routing to the nearest available cluster based on latency will be supported soon.)</p></td>
-     <td><p>Served by the specific cluster you connect to</p></td>
-   </tr>
-</table>
+| **Request type** | **Global endpoint** | **Public endpoint** |
+| --- | --- | --- |
+| Write (insert, upsert, delete) | Routed to the primary cluster | Only accepted on the primary cluster's endpoint |
+| Read (search, query) | Routed to the primary cluster<br/>(Intelligent routing to the nearest available cluster based on latency will be supported soon.) | Served by the specific cluster you connect to |
 
 ### During and after switchover / failover\{#during-and-after-switchover-failover}
 
-<table>
-   <tr>
-     <th><p><strong>Scenario</strong></p></th>
-     <th><p><strong>Global endpoint</strong></p></th>
-     <th><p><strong>Public endpoint</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>Switchover in progress</p></td>
-     <td><p>Writes briefly paused, then resume on the new primary. Reads continue.</p></td>
-     <td><p>No change to endpoints. Old primary becomes secondary.</p></td>
-   </tr>
-   <tr>
-     <td><p>Failover in progress</p></td>
-     <td><p>Writes unavailable until new primary is promoted. Reads continue on secondaries.</p></td>
-     <td><p>Old primary's endpoint becomes unreachable.</p></td>
-   </tr>
-   <tr>
-     <td><p>After completion</p></td>
-     <td><p>Automatically routes to the new primary. No code changes.</p></td>
-     <td><p>Update your code to use the new primary's public endpoint for writes.</p></td>
-   </tr>
-</table>
+| **Scenario** | **Global endpoint** | **Public endpoint** |
+| --- | --- | --- |
+| Switchover in progress | Writes briefly paused, then resume on the new primary. Reads continue. | No change to endpoints. Old primary becomes secondary. |
+| Failover in progress | Writes unavailable until new primary is promoted. Reads continue on secondaries. | Old primary's endpoint becomes unreachable. |
+| After completion | Automatically routes to the new primary. No code changes. | Update your code to use the new primary's public endpoint for writes. |
 
 ### SDK automatic reconnection\{#sdk-automatic-reconnection}
 

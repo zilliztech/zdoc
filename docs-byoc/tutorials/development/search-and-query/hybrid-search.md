@@ -327,6 +327,30 @@ export schema='{
 </TabItem>
 </Tabs>
 
+```c++
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+milvus::FunctionPtr function = std::make_shared<milvus::Function>("text_bm25_emb", milvus::FunctionType::BM25, "text bm25 function");
+function->AddInputFieldName("text");
+function->AddOutputFieldName("text_sparse");
+
+milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>();
+schema->AddField({"id", milvus::DataType::INT64, "", true, false});
+schema->AddField(milvus::FieldSchema("text", milvus::DataType::VARCHAR).WithMaxLength(1000).EnableAnalyzer(true));
+schema->AddField(milvus::FieldSchema("text_dense", milvus::DataType::FLOAT_VECTOR).WithDimension(768));
+schema->AddField(milvus::FieldSchema("text_dense", milvus::DataType::FLOAT_VECTOR).WithDimension(768));
+schema->AddField({"text_sparse", milvus::DataType::SPARSE_FLOAT_VECTOR});
+schema->AddField(milvus::FieldSchema("image_dense", milvus::DataType::FLOAT_VECTOR).WithDimension(512));
+```
+
 ### Create index\{#create-index}
 
 After defining the collection schema, the next step is to configure the vector indexes and specify the similarity metrics. In the given example:
@@ -478,6 +502,14 @@ export indexParams='[
 </TabItem>
 </Tabs>
 
+```c++
+std::vector<milvus::IndexDesc> indexes = {
+    milvus::IndexDesc("text_dense", "text_dense_index", milvus::IndexType::AUTOINDEX, milvus::MetricType::IP),
+    milvus::IndexDesc("text_sparse", "text_sparse_index", milvus::IndexType::SPARSE_INVERTED_INDEX, milvus::MetricType::BM25),
+    milvus::IndexDesc("image_dense", "image_dense_index", milvus::IndexType::AUTOINDEX, milvus::MetricType::IP),
+};
+```
+
 ### Create collection\{#create-collection}
 
 Create a collection named `demo` with the collection schema and indexes configured in the previous two steps.
@@ -555,6 +587,16 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
+```c++
+auto status = client->CreateCollection(milvus::CreateCollectionRequest()
+                                        .WithCollectionName("my_collection")
+                                        .WithCollectionSchema(schema)
+                                        .WithIndexes(std::move(indexes));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
 ## Insert data\{#insert-data}
 
 This section inserts data into the `my_collection` collection based on the schema defined earlier. During insert, ensure all fields, except those with auto-generated values, are provided with data in the correct format. In this example:
@@ -606,7 +648,6 @@ res = client.insert(
     collection_name="my_collection",
     data=data
 )
-
 ```
 
 </TabItem>
@@ -716,6 +757,37 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
+```c++
+#include <random>
+
+std::vector<float>
+GenerateFloatVector(int dimension) {
+    std::random_device rd;
+    std::mt19937 ran(rd());
+    std::uniform_real_distribution<float> float_gen(0.0, 1.0);
+    std::vector<float> vector(dimension);
+    for (auto d = 0; d < dimension; ++d) {
+        vector[d] = float_gen(ran);
+    }
+    return vector;
+}
+
+milvus::EntityRows data = {
+    {{"id", 0}, {"text", "Red cotton t-shirt with round neck"}, {"text_dense", GenerateFloatVector(768)}, {"image_dense", GenerateFloatVector(512)}},
+    {{"id", 0}, {"text", "Wireless noise-cancelling over-ear headphones"}, {"text_dense", GenerateFloatVector(768)}, {"image_dense", GenerateFloatVector(512)}},
+    {{"id", 0}, {"text", "Stainless steel water bottle, 500ml"}, {"text_dense", GenerateFloatVector(768)}, {"image_dense", GenerateFloatVector(512)}}
+};
+
+milvus::InsertResponse response;
+auto status = client->Insert(milvus::InsertRequest()
+                                .WithCollectionName("my_collection")
+                                .WithRowsData(std::move(data))
+                                , response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
 ## Perform Hybrid Search\{#perform-hybrid-search}
 
 ### Step 1: Create multiple AnnSearchRequest instances\{#step-1-create-multiple-annsearchrequest-instances}
@@ -726,7 +798,7 @@ In addition, by configuring the `expr` parameter in an `AnnSearchRequest`, you c
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>In Hybrid Search, each <code>AnnSearchRequest</code> supports only one query data.</p>
+In Hybrid Search, each `AnnSearchRequest` supports only one query data.
 
 </Admonition>
 
@@ -773,7 +845,6 @@ search_param_3 = {
 request_3 = AnnSearchRequest(**search_param_3)
 
 reqs = [request_1, request_2, request_3]
-
 ```
 
 </TabItem>
@@ -888,6 +959,27 @@ export req='[
 </TabItem>
 </Tabs>
 
+```c++
+auto query_text = "white headphones, quiet and comfortable";
+auto query_dense_vector = generate_dense_vector(768);
+auto query_multimodal_vector = generate_dense_vector(512);
+
+auto sub_req1 = milvus::SubSearchRequest()
+                    .AddFloatVector(query_dense_vector)
+                    .WithAnnsField("text_dense")
+                    .WithLimit(2);
+
+auto sub_req2 = milvus::SubSearchRequest()
+                    .AddEmbeddedText(query_text)
+                    .WithAnnsField("text_sparse")
+                    .WithLimit(2);
+                    
+auto sub_req3 = milvus::SubSearchRequest()
+                    .AddEmbeddedText(query_multimodal_vector)
+                    .WithAnnsField("image_dense")
+                    .WithLimit(2);
+```
+
 Given that the parameter `limit` is set to 2, each `AnnSearchRequest` returns 2 search results. In this example, 3 `AnnSearchRequest` instances are created, resulting in a total of 6 search results.
 
 ### Step 2: Configure a reranking strategy\{#step-2-configure-a-reranking-strategy}
@@ -979,11 +1071,14 @@ export ranker='{
         }
     ]
 }'
-
 ```
 
 </TabItem>
 </Tabs>
+
+```c++
+auto ranker = std::make_shared<milvus::RRFRerank>(100);
+```
 
 ### Step 3: Perform a Hybrid Search\{#step-3-perform-a-hybrid-search}
 
@@ -1091,6 +1186,31 @@ curl --request POST \
 
 </TabItem>
 </Tabs>
+
+```c++
+auto request = milvus::HybridSearchRequest()
+                .WithCollectionName("my_collection")
+                .AddSubRequest(std::make_shared<milvus::SubSearchRequest>(std::move(sub_req1)))
+                .AddSubRequest(std::make_shared<milvus::SubSearchRequest>(std::move(sub_req2)))
+                .AddSubRequest(std::make_shared<milvus::SubSearchRequest>(std::move(sub_req3)))
+                .WithRerank(ranker)
+                .WithLimit(2);
+                
+milvus::SearchResponse response;
+auto status = client->HybridSearch(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+for (auto& result : response.Results().Results()) {
+    std::cout << "TopK results:" << std::endl;
+    milvus::EntityRows output_rows;
+    status = result.OutputRows(output_rows);
+    for (const auto& row : output_rows) {
+        std::cout << "\t" << row << std::endl;
+    }
+}
+```
 
 The following is the output:
 

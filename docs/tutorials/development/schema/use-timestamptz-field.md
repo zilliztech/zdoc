@@ -53,11 +53,11 @@ A `TIMESTAMPTZ` field is a schema-defined data type (`DataType.TIMESTAMPTZ`) in 
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<ul>
-<li><p>You can set <code>nullable=True</code> for <code>TIMESTAMPTZ</code> fields to allow missing values.</p></li>
-<li><p>You can specify a default timestamp value using the <code>default_value</code> attribute in <a href="https://en.wikipedia.org/wiki/ISO_8601">ISO 8601</a> format.</p></li>
-</ul>
-<p>See <a href="./nullable-fields">Nullable & Default</a> for details.</p>
+- You can set `nullable=True` for `TIMESTAMPTZ` fields to allow missing values.
+
+- You can specify a default timestamp value using the `default_value` attribute in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format.
+
+See [Nullable & Default](./nullable-fields) for details.
 
 </Admonition>
 
@@ -227,6 +227,31 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
+```c++
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>();
+schema->AddField({"id", milvus::DataType::INT64, "", true});
+schema->AddField(milvus::FieldSchema("tsz", milvus::DataType::TIMESTAMPTZ));
+schema->AddField(milvus::FieldSchema("vec", milvus::DataType::FLOAT_VECTOR).WithDimension(4));
+
+const std::string collection_name = "timestamptz_test123";
+auto status = client->CreateCollection(milvus::CreateCollectionRequest()
+                                        .WithCollectionName(collection_name)
+                                        .WithCollectionSchema(schema));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
 ### Step 2: Insert data\{#step-2-insert-data}
 
 Insert entities containing ISO 8601 strings with time zone offsets.
@@ -376,6 +401,41 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
+```c++
+std::string
+pad(int num, int width) {
+    std::ostringstream oss;
+    oss << std::setw(width) << std::setfill('0') << num;
+    return oss.str();
+}
+
+std::string
+formatDateWithTimezone(int year, int month, int day, int hour, int minute, int second,
+                       std::string timezoneOffset = "+08:00") {
+    std::string ts = std::to_string(year) + "-" + pad(month, 2) + "-" + pad(day, 2) + "T" + pad(hour, 2) + ":" +
+                     pad(minute, 2) + ":" + pad(second, 2) + timezoneOffset;
+    return ts;
+}
+
+milvus::EntityRows rows;
+for (auto i = 0; i < 10; i++) {
+    milvus::EntityRow row;
+    row["id"] = i;
+    row["vec"] = std::vector<float>{i/10, (i+1)/10, (i+2)/10, (i+3)/10};
+    std::string ts = formatDateWithTimezone(2025, 01, i + 1, 0, 0, 0);
+    row["tsz"] = ts;
+    rows.emplace_back(std::move(row));
+}
+
+auto status = client->Insert(milvus::InsertRequest()
+                                .WithCollectionName(collection_name)
+                                .WithRowsData(std::move(data)).
+                             response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
 ### Step 3: Filtering operations\{#step-3-filtering-operations}
 
 `TIMESTAMPTZ` supports scalar comparisons, interval arithmetic, and extraction of time components.
@@ -475,6 +535,21 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
+```c++
+milvus::IndexDesc index_vector("vec", "", milvus::IndexType::AUTOINDEX, milvus::MetricType::COSINE);
+auto status = client->CreateIndex(milvus::CreateIndexRequest()
+                                    .WithCollectionName(collection_name)
+                                    .AddIndex(std::move(index_vector)));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+status = client->LoadCollection(milvus::LoadCollectionRequest().WithCollectionName(collection_name));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
 </details>
 
 #### Query with timestamp filtering\{#query-with-timestamp-filtering}
@@ -483,8 +558,9 @@ Use arithmetic operators like `==`, `!=`, `<`, `>`, `<=`, `>=`. For a full list 
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Chained range expressions (for example, <code>lower_bound &lt; tsz &lt; upper_bound</code>) are not supported.</p>
-<p>Use logical conjunction instead: <code>tsz &gt; lower_bound AND tsz &lt; upper_bound</code>.</p>
+Chained range expressions (for example, `lower_bound < tsz < upper_bound`) are not supported.
+
+Use logical conjunction instead: `tsz > lower_bound AND tsz < upper_bound`.
 
 </Admonition>
 
@@ -577,6 +653,28 @@ curl --request POST \
 
 </TabItem>
 </Tabs>
+
+```c++
+std::string filter = "tsz != ISO '2025-01-03T00:00:00+08:00'";
+auto request = milvus::QueryRequest()
+                       .WithCollectionName(collection_name)
+                       .WithFilter(filter)
+                       .AddOutputField("id")
+                       .AddOutputField("tsz")
+                       .WithLimit(10);
+
+milvus::QueryResponse response;
+auto status = client->Query(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+milvus::EntityRows output_rows;
+status = query_results.OutputRows(output_rows);
+for (const auto& row : output_rows) {
+    std::cout << "\t" << row << std::endl;
+}
+```
 
 In the example above,
 
@@ -671,19 +769,43 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
+```c++
+std::string filter = "tsz + INTERVAL 'P0D' != ISO '2025-01-03T00:00:00+08:00'";
+auto request = milvus::QueryRequest()
+                       .WithCollectionName(collection_name)
+                       .WithFilter(filter)
+                       .AddOutputField("id")
+                       .AddOutputField("tsz")
+                       .WithLimit(10);
+
+milvus::QueryResponse response;
+auto status = client->Query(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+milvus::EntityRows output_rows;
+status = query_results.OutputRows(output_rows);
+for (const auto& row : output_rows) {
+    std::cout << "\t" << row << std::endl;
+}
+```
+
 <Admonition type="info" icon="📘" title="Notes">
 
-<p><code>INTERVAL</code> values follow the <a href="https://www.w3.org/TR/xmlschema-2/#duration">ISO 8601 duration syntax</a>. For example:</p>
-<ul>
-<li><p><code>P1D</code> → 1 day</p></li>
-<li><p><code>PT3H</code> → 3 hours</p></li>
-<li><p><code>P2DT6H</code> → 2 days and 6 hours</p></li>
-</ul>
-<p>You can use <code>INTERVAL</code> arithmetic directly in filter expressions, such as:</p>
-<ul>
-<li><p><code>tsz + INTERVAL 'P3D'</code> → Adds 3 days</p></li>
-<li><p><code>tsz - INTERVAL 'PT2H'</code> → Subtracts 2 hours</p></li>
-</ul>
+`INTERVAL` values follow the [ISO 8601 duration syntax](https://www.w3.org/TR/xmlschema-2/#duration). For example:
+
+- `P1D` → 1 day
+
+- `PT3H` → 3 hours
+
+- `P2DT6H` → 2 days and 6 hours
+
+You can use `INTERVAL` arithmetic directly in filter expressions, such as:
+
+- `tsz + INTERVAL 'P3D'` → Adds 3 days
+
+- `tsz - INTERVAL 'PT2H'` → Subtracts 2 hours
 
 </Admonition>
 
@@ -778,9 +900,36 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
+```c++
+std::string filter = "tsz > ISO '2025-01-05T00:00:00+08:00'";
+std::vector<float> query_vector = {0.1, 0.2, 0.3, 0.4};
+auto request = milvus::SearchRequest()
+                   .WithCollectionName(collection_name)
+                   .WithFilter(filter)
+                   .WithLimit(5)
+                   .AddOutputField("id")
+                   .AddOutputField("tsz")
+                   .AddFloatVector(query_vector);
+
+milvus::SearchResponse response;
+auto status = client->Search(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+auto search_results = response.Results();
+for (auto& result : search_results.Results()) {
+    milvus::EntityRows output_rows;
+    status = result.OutputRows(output_rows);
+    for (const auto& row : output_rows) {
+        std::cout << "\t" << row << std::endl;
+    }
+}
+```
+
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>If your collection has two or more vector fields, you can perform hybrid search operations with timestamp filtering. For details, refer to <a href="./hybrid-search">Multi-Vector Hybrid Search</a>.</p>
+If your collection has two or more vector fields, you can perform hybrid search operations with timestamp filtering. For details, refer to [Multi-Vector Hybrid Search](./hybrid-search).
 
 </Admonition>
 
@@ -792,26 +941,10 @@ For advanced usage, you can manage time zones at different levels (e.g. database
 
 You can control the time zone for `TIMESTAMPTZ` fields at the **collection** or **query/search** level.
 
-<table>
-   <tr>
-     <th><p>Level</p></th>
-     <th><p>Parameter</p></th>
-     <th><p>Scope</p></th>
-     <th><p>Priority</p></th>
-   </tr>
-   <tr>
-     <td><p>Collection</p></td>
-     <td><p><code>timezone</code></p></td>
-     <td><p>Overrides the database default time zone setting for that collection</p></td>
-     <td><p>Medium</p></td>
-   </tr>
-   <tr>
-     <td><p>Query/search/hybrid search</p></td>
-     <td><p><code>timezone</code></p></td>
-     <td><p>Temporary overrides for one specific operation</p></td>
-     <td><p>Highest</p></td>
-   </tr>
-</table>
+| Level | Parameter | Scope | Priority |
+| --- | --- | --- | --- |
+| Collection | `timezone` | Overrides the database default time zone setting for that collection | Medium |
+| Query/search/hybrid search | `timezone` | Temporary overrides for one specific operation | Highest |
 
 For step-by-step instructions and code samples, refer to the dedicated pages:
 

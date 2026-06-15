@@ -60,7 +60,7 @@ As the SP, Zilliz Cloud provides the **Entity ID** and **ACS URL** required when
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    <p>Alternatively, you can copy the <strong>SSO URL</strong> and <strong>Certificate</strong> here. In this case, you need to configure IdP details in Manual mode in <a href="./single-sign-on-with-google-workspace#step-3-configure-idp-settings-in-zilliz-cloud-console">Step 3</a>.</p>
+    Alternatively, you can copy the **SSO URL** and **Certificate** here. In this case, you need to configure IdP details in Manual mode in [Step 3](./single-sign-on-with-google-workspace#step-3-configure-idp-settings-in-zilliz-cloud-console).
 
     </Admonition>
 
@@ -86,7 +86,7 @@ In this step, you configure Google Workspace (the IdP) with the SP details obtai
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    <p>Alternatively, get your <strong>SSO URL</strong>, <strong>Entity ID</strong>, <strong>Certificate</strong> from <strong>Option 2: Copy the SSO URL, entity ID, and certificate</strong>, respectively. These will be required in Zilliz Cloud console if the <strong>Manual</strong> mode is selected in <a href="./single-sign-on-with-google-workspace#step-3-configure-idp-settings-in-zilliz-cloud-console">Step 3</a>.</p>
+    Alternatively, get your **SSO URL**, **Entity ID**, **Certificate** from **Option 2: Copy the SSO URL, entity ID, and certificate**, respectively. These will be required in Zilliz Cloud console if the **Manual** mode is selected in [Step 3](./single-sign-on-with-google-workspace#step-3-configure-idp-settings-in-zilliz-cloud-console).
 
     </Admonition>
 
@@ -122,11 +122,11 @@ In this step, you provide Google Workspace’s IdP details back to Zilliz Cloud 
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    <p>Alternatively, if you select the <strong>Manual</strong> mode for IdP detail configuration, configure:</p>
-    <ul>
-    <li><p><strong>SSO URL</strong>: Paste the <strong>SSO URL</strong> you copied in <a href="./single-sign-on-with-google-workspace#step-2-create-a-custom-saml-app-in-google-admin-console">Step 2</a> here.</p></li>
-    <li><p><strong>Certificate</strong>: Paste the <strong>Certificate</strong> you copied in <a href="./single-sign-on-with-google-workspace#step-2-create-a-custom-saml-app-in-google-admin-console">Step 2</a> here.</p></li>
-    </ul>
+    Alternatively, if you select the **Manual** mode for IdP detail configuration, configure:
+    
+    - **SSO URL**: Paste the **SSO URL** you copied in [Step 2](./single-sign-on-with-google-workspace#step-2-create-a-custom-saml-app-in-google-admin-console) here.
+    
+    - **Certificate**: Paste the **Certificate** you copied in [Step 2](./single-sign-on-with-google-workspace#step-2-create-a-custom-saml-app-in-google-admin-console) here.
 
     </Admonition>
 
@@ -185,7 +185,7 @@ After your SSO connection is fully configured and tested, you can optionally ena
 
 <Admonition type="danger" icon="🚧" title="Warning">
 
-<p>Enabling this feature will immediately log out all members who are currently signed in with a password and block non-SSO login methods.</p>
+Enabling this feature will immediately log out all members who are currently signed in with a password and block non-SSO login methods.
 
 </Admonition>
 

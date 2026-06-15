@@ -26,7 +26,7 @@ You can update your payment method when your organization needs to replace an ex
 
 <Admonition type="info" icon="📘" title="Note">
 
-<p>To manage payment method, you must be an <strong>Organization Owner</strong> or <strong>Organization Billing Admin</strong>.</p>
+To manage payment method, you must be an **Organization Owner** or **Organization Billing Admin**.
 
 </Admonition>
 
@@ -34,33 +34,12 @@ You can update your payment method when your organization needs to replace an ex
 
 Zilliz Cloud supports the following payment method changes.
 
-<table>
-   <tr>
-     <th><p><strong>From</strong></p></th>
-     <th><p><strong>To</strong></p></th>
-     <th><p><strong>How to update</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>Credit card</p></td>
-     <td><p>Credit card</p></td>
-     <td><p>Replace the added credit card in the Zilliz Cloud console.</p></td>
-   </tr>
-   <tr>
-     <td><p>Credit card</p></td>
-     <td><p>Marketplace subscription</p></td>
-     <td><p>Subscribe to Zilliz Cloud through the target marketplace and link the subscription to your Zilliz Cloud organization. </p><p>After the subscription is linked, the payment method is updated automatically. The marketplace subscription automatically replaces the credit card information.</p></td>
-   </tr>
-   <tr>
-     <td><p>Marketplace subscription</p></td>
-     <td><p>Credit card</p></td>
-     <td><p>Cancel the current marketplace subscription, and then add a credit card in the Zilliz Cloud console.</p></td>
-   </tr>
-   <tr>
-     <td><p>Marketplace subscription</p></td>
-     <td><p>Marketplace subscription</p></td>
-     <td><p>Cancel the current marketplace subscription, subscribe through the new marketplace account, and link the new subscription to your Zilliz Cloud organization.</p></td>
-   </tr>
-</table>
+| **From** | **To** | **How to update** |
+| --- | --- | --- |
+| Credit card | Credit card | Replace the added credit card in the Zilliz Cloud console. |
+| Credit card | Marketplace subscription | Subscribe to Zilliz Cloud through the target marketplace and link the subscription to your Zilliz Cloud organization.<br/>After the subscription is linked, the payment method is updated automatically. The marketplace subscription automatically replaces the credit card information. |
+| Marketplace subscription | Credit card | Cancel the current marketplace subscription, and then add a credit card in the Zilliz Cloud console. |
+| Marketplace subscription | Marketplace subscription | Cancel the current marketplace subscription, subscribe through the new marketplace account, and link the new subscription to your Zilliz Cloud organization. |
 
 ## Replace a credit card\{#replace-a-credit-card}
 
@@ -110,24 +89,11 @@ You can switch between marketplace subscriptions when you need to change the mar
 
 The required steps depend on the type of change.
 
-<table>
-   <tr>
-     <th><p><strong>Scenario</strong></p></th>
-     <th><p><strong>What to do</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>Change the marketplace account used for billing</p></td>
-     <td><p>Cancel the current marketplace subscription, subscribe again with the new marketplace account, and link the new subscription to your Zilliz Cloud organization.</p></td>
-   </tr>
-   <tr>
-     <td><p>Upgrade AWS Marketplace free trial</p></td>
-     <td><p>Upgrade or subscribe from the AWS Marketplace offer page, and then link the paid subscription to your Zilliz Cloud organization.</p></td>
-   </tr>
-   <tr>
-     <td><p>Switch from public offer to private offer</p></td>
-     <td><p>Accept the private offer. The private offer replaces the previous public offer. You still need to link the new offer to your Zilliz Cloud organization.</p></td>
-   </tr>
-</table>
+| **Scenario** | **What to do** |
+| --- | --- |
+| Change the marketplace account used for billing | Cancel the current marketplace subscription, subscribe again with the new marketplace account, and link the new subscription to your Zilliz Cloud organization. |
+| Upgrade AWS Marketplace free trial | Upgrade or subscribe from the AWS Marketplace offer page, and then link the paid subscription to your Zilliz Cloud organization. |
+| Switch from public offer to private offer | Accept the private offer. The private offer replaces the previous public offer. You still need to link the new offer to your Zilliz Cloud organization. |
 
 ### Change Marketplace account\{#change-marketplace-account}
 
@@ -135,7 +101,7 @@ The following example shows how to change the AWS Marketplace account used for b
 
 <Admonition type="info" icon="📘" title="Note">
 
-<p>We recommend completing the operations within 1 hour to avoid service interruption.</p>
+We recommend completing the operations within 1 hour to avoid service interruption.
 
 </Admonition>
 
@@ -147,7 +113,7 @@ The following example shows how to change the AWS Marketplace account used for b
 
     <Admonition type="info" icon="📘" title="Note">
 
-    <p>Please rest assured that canceling the subscription will not delete your Zilliz Cloud data.</p>
+    Please rest assured that canceling the subscription will not delete your Zilliz Cloud data.
 
     </Admonition>
 
@@ -161,7 +127,7 @@ The following example shows how to change the AWS Marketplace account used for b
 
     <Admonition type="info" icon="📘" title="Note">
 
-    <p>When updating AWS Marketplace subscription, you must click the <strong>Set up your account</strong> button to link your new subscription with Zilliz Cloud organization.</p>
+    When updating AWS Marketplace subscription, you must click the **Set up your account** button to link your new subscription with Zilliz Cloud organization.
 
     </Admonition>
 

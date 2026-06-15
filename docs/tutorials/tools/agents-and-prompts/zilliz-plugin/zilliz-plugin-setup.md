@@ -1,6 +1,6 @@
 ---
 title: "Zilliz Claude Code Plugin Setup | Cloud"
-slug: /zilliz-plugin-setup
+slug: /agents/zilliz-plugin-setup
 sidebar_label: "Setup"
 beta: FALSE
 added_since: FALSE
@@ -11,7 +11,16 @@ description: "This guide explains how to install and set up the Zilliz Plugin in
 type: origin
 token: UDxnwONhSidaQikY6NGcRdmOnUh
 sidebar_position: 1
-displayed_sidebar: default
+keywords: 
+  - zilliz
+  - vector database
+  - ai-agents
+  - decision matrix
+  - skill
+  - claude
+  - zilliz cli
+  - setup
+displayed_sidebar: agentsSidebar
 
 ---
 
@@ -136,7 +145,7 @@ The wizard will guide you through:
     Configure your default cluster connection:
 
     ```bash
-    zilliz context set --cluster-id <your-cluster-id>
+    zilliz context set --cluster-id &lt;your-cluster-id&gt;
     ```
 
     Or let the plugin help you select from available clusters.
@@ -199,7 +208,7 @@ The plugin should display your Zilliz Cloud clusters.
     **Solution**: Set a default cluster:
 
     ```bash
-    zilliz context set --cluster-id <cluster-id>
+    zilliz context set --cluster-id &lt;cluster-id&gt;
     ```
 
 ## Next Steps\{#next-steps}

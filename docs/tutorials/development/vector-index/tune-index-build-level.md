@@ -26,12 +26,13 @@ Zilliz Cloud introduces a parameter called `build_level`, which allows users to 
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This feature is currently in <strong>PUBLIC REVIEW</strong> and applies to dedicated clusters only if:</p>
-<ul>
-<li><p>The clusters are <strong>Performance-optimized</strong>, <strong>Capacity-optimized</strong>, and <strong>Tiered-storage</strong> type, and</p></li>
-<li><p>The clusters are compatible with <strong>Milvus v2.6.x</strong>.</p></li>
-</ul>
-<p>You can upgrade your clusters to test this feature, and contact us if you encounter anything that needs further clarification.</p>
+This feature is currently in **PUBLIC REVIEW** and applies to dedicated clusters only if:
+
+- The clusters are **Performance-optimized**, **Capacity-optimized**, and **Tiered-storage** type, and
+
+- The clusters are compatible with **Milvus v2.6.x**.
+
+You can upgrade your clusters to test this feature, and contact us if you encounter anything that needs further clarification.
 
 </Admonition>
 
@@ -59,63 +60,21 @@ As shown in an internal benchmark test, the default option increases the storage
 
 The following table compares the capacity, QPS, and recall rate of a performance-optimized cluster before and after introducing `build_level`. You can see that the default option maintains the recall rate and increases both QPS and storage capacity.
 
-<table>
-   <tr>
-     <th><p>Build Level Option</p></th>
-     <th><p>Capacity</p></th>
-     <th><p>QPS</p></th>
-     <th><p>Recall</p></th>
-   </tr>
-   <tr>
-     <td><p>Capacity-first (0)</p></td>
-     <td><p>2.1 million 768-dim vectors</p></td>
-     <td><p>&#126; 2,850</p></td>
-     <td><p>90% - 95%</p></td>
-   </tr>
-   <tr>
-     <td><p>Balanced (1)</p></td>
-     <td><p>1.5 million 768-dim vectors</p></td>
-     <td><p>&#126; 3,500</p></td>
-     <td><p>91% - 97%</p></td>
-   </tr>
-   <tr>
-     <td><p>Precison-first (2)</p></td>
-     <td><p>1 million 768-dim vectors</p></td>
-     <td><p>&#126; 3,000</p></td>
-     <td><p>92% - 98% (↑)</p></td>
-   </tr>
-</table>
+| Build Level Option | Capacity | QPS | Recall |
+| --- | --- | --- | --- |
+| Capacity-first (0) | 2.1 million 768-dim vectors | &#126; 2,850 | 90% - 95% |
+| Balanced (1) | 1.5 million 768-dim vectors | &#126; 3,500 | 91% - 97% |
+| Precison-first (2) | 1 million 768-dim vectors | &#126; 3,000 | 92% - 98% (↑) |
 
 ### Capacity-optimized clusters\{#capacity-optimized-clusters}
 
 The following table compares the capacity, QPS, and recall rate of a capacity-optimized cluster before and after introducing `build_level`. You can see that the default option maintains the recall rate and increases both QPS and storage capacity.
 
-<table>
-   <tr>
-     <th><p>Build Level Option</p></th>
-     <th><p>Capacity</p></th>
-     <th><p>QPS</p></th>
-     <th><p>Recall</p></th>
-   </tr>
-   <tr>
-     <td><p>Capacity-first (0)</p></td>
-     <td><p>7 million 768-dim vectors</p></td>
-     <td><p>&#126; 300</p></td>
-     <td><p>89% - 97%</p></td>
-   </tr>
-   <tr>
-     <td><p>Balanced (1)</p></td>
-     <td><p>5 million 768-dim vectors</p></td>
-     <td><p>&#126; 350</p></td>
-     <td><p>93% - 98%</p></td>
-   </tr>
-   <tr>
-     <td><p>Precision-first (2)</p></td>
-     <td><p>3 million 768-dim vectors</p></td>
-     <td><p>&#126; 345</p></td>
-     <td><p>94% - 98%</p></td>
-   </tr>
-</table>
+| Build Level Option | Capacity | QPS | Recall |
+| --- | --- | --- | --- |
+| Capacity-first (0) | 7 million 768-dim vectors | &#126; 300 | 89% - 97% |
+| Balanced (1) | 5 million 768-dim vectors | &#126; 350 | 93% - 98% |
+| Precision-first (2) | 3 million 768-dim vectors | &#126; 345 | 94% - 98% |
 
 ### Tiered-storage clusters\{#tiered-storage-clusters}
 

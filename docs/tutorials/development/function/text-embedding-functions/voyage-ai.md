@@ -27,74 +27,18 @@ This topic describes how to configure and use Voyage AI embedding functions in M
 
 Milvus supports embedding models provided by Voyage AI. Below are the currently available embedding models for quick reference:
 
-<table>
-   <tr>
-     <th><p>Model Name</p></th>
-     <th><p>Dimensions</p></th>
-     <th><p>Max Tokens</p></th>
-     <th><p>Description</p></th>
-   </tr>
-   <tr>
-     <td><p><code>voyage-4-large</code></p></td>
-     <td><p>1024 (default), 256, 512, 2048</p></td>
-     <td><p>32,000</p></td>
-     <td><p>The best general-purpose and multilingual retrieval quality. All embeddings created with the 4 series are compatible with each other. See <a href="https://blog.voyageai.com/2026/01/15/voyage-4/">blog post</a> for details.</p></td>
-   </tr>
-   <tr>
-     <td><p><code>voyage-4</code></p></td>
-     <td><p>1024 (default), 256, 512, 2048</p></td>
-     <td><p>32,000</p></td>
-     <td><p>Optimized for general-purpose and multilingual retrieval quality. All embeddings created with the 4 series are compatible with each other. See <a href="https://blog.voyageai.com/2026/01/15/voyage-4/">blog post</a> for details.</p></td>
-   </tr>
-   <tr>
-     <td><p><code>voyage-4-lite</code></p></td>
-     <td><p>1024 (default), 256, 512, 2048</p></td>
-     <td><p>32,000</p></td>
-     <td><p>Optimized for latency and cost. All embeddings created with the 4 series are compatible with each other. See <a href="https://blog.voyageai.com/2026/01/15/voyage-4/">blog post</a> for details.</p></td>
-   </tr>
-   <tr>
-     <td><p>voyage-3-large</p></td>
-     <td><p>1,024 (default), 256, 512, 2,048</p></td>
-     <td><p>32,000</p></td>
-     <td><p>The best general-purpose and multilingual retrieval quality.</p></td>
-   </tr>
-   <tr>
-     <td><p>voyage-3</p></td>
-     <td><p>1,024</p></td>
-     <td><p>32,000</p></td>
-     <td><p>Optimized for general-purpose and multilingual retrieval quality. Refer to <a href="https://blog.voyageai.com/2024/09/18/voyage-3/">blog post</a> for details.</p></td>
-   </tr>
-   <tr>
-     <td><p>voyage-3-lite</p></td>
-     <td><p>512</p></td>
-     <td><p>32,000</p></td>
-     <td><p>Optimized for latency and cost. Refer to <a href="https://blog.voyageai.com/2024/09/18/voyage-3/">blog post</a> for details.</p></td>
-   </tr>
-   <tr>
-     <td><p>voyage-code-3</p></td>
-     <td><p>1,024 (default), 256, 512, 2,048</p></td>
-     <td><p>32,000</p></td>
-     <td><p>Optimized for code retrieval. Refer to <a href="https://blog.voyageai.com/2024/12/04/voyage-code-3/">blog post</a> for details.</p></td>
-   </tr>
-   <tr>
-     <td><p>voyage-finance-2</p></td>
-     <td><p>1,024</p></td>
-     <td><p>32,000</p></td>
-     <td><p>Optimized for finance retrieval and RAG. Refer to <a href="https://blog.voyageai.com/2024/06/03/domain-specific-embeddings-finance-edition-voyage-finance-2/">blog post</a> for details.</p></td>
-   </tr>
-   <tr>
-     <td><p>voyage-law-2</p></td>
-     <td><p>1,024</p></td>
-     <td><p>16,000</p></td>
-     <td><p>Optimized for legal retrieval and RAG. Also improved performance across all domains. Refer to <a href="https://blog.voyageai.com/2024/04/15/domain-specific-embeddings-and-retrieval-legal-edition-voyage-law-2/">blog post</a> for details.</p></td>
-   </tr>
-   <tr>
-     <td><p>voyage-code-2</p></td>
-     <td><p>1,536</p></td>
-     <td><p>16,000</p></td>
-     <td><p>Optimized for code retrieval (17% better than alternatives) / Previous generation of code embeddings. Refer to <a href="https://blog.voyageai.com/2024/01/23/voyage-code-2-elevate-your-code-retrieval/">blog post</a> for details.</p></td>
-   </tr>
-</table>
+| Model Name | Dimensions | Max Tokens | Description |
+| --- | --- | --- | --- |
+| `voyage-4-large` | 1024 (default), 256, 512, 2048 | 32,000 | The best general-purpose and multilingual retrieval quality. All embeddings created with the 4 series are compatible with each other. See [blog post](https://blog.voyageai.com/2026/01/15/voyage-4/) for details. |
+| `voyage-4` | 1024 (default), 256, 512, 2048 | 32,000 | Optimized for general-purpose and multilingual retrieval quality. All embeddings created with the 4 series are compatible with each other. See [blog post](https://blog.voyageai.com/2026/01/15/voyage-4/) for details. |
+| `voyage-4-lite` | 1024 (default), 256, 512, 2048 | 32,000 | Optimized for latency and cost. All embeddings created with the 4 series are compatible with each other. See [blog post](https://blog.voyageai.com/2026/01/15/voyage-4/) for details. |
+| voyage-3-large | 1,024 (default), 256, 512, 2,048 | 32,000 | The best general-purpose and multilingual retrieval quality. |
+| voyage-3 | 1,024 | 32,000 | Optimized for general-purpose and multilingual retrieval quality. Refer to [blog post](https://blog.voyageai.com/2024/09/18/voyage-3/) for details. |
+| voyage-3-lite | 512 | 32,000 | Optimized for latency and cost. Refer to [blog post](https://blog.voyageai.com/2024/09/18/voyage-3/) for details. |
+| voyage-code-3 | 1,024 (default), 256, 512, 2,048 | 32,000 | Optimized for code retrieval. Refer to [blog post](https://blog.voyageai.com/2024/12/04/voyage-code-3/) for details. |
+| voyage-finance-2 | 1,024 | 32,000 | Optimized for finance retrieval and RAG. Refer to [blog post](https://blog.voyageai.com/2024/06/03/domain-specific-embeddings-finance-edition-voyage-finance-2/) for details. |
+| voyage-law-2 | 1,024 | 16,000 | Optimized for legal retrieval and RAG. Also improved performance across all domains. Refer to [blog post](https://blog.voyageai.com/2024/04/15/domain-specific-embeddings-and-retrieval-legal-edition-voyage-law-2/) for details. |
+| voyage-code-2 | 1,536 | 16,000 | Optimized for code retrieval (17% better than alternatives) / Previous generation of code embeddings. Refer to [blog post](https://blog.voyageai.com/2024/01/23/voyage-code-2-elevate-your-code-retrieval/) for details. |
 
 For details, refer to [Text embedding models](https://docs.voyageai.com/reference/embeddings-api).
 
@@ -136,7 +80,7 @@ To use an embedding function, create a collection with a specific schema. This s
 
 The following example defines a schema with one `VARCHAR` field `"document"` for storing text data and one vector field `"dense"` for storing dense embeddings to be generated by the text embedding function. Remember to set the vector dimension (`dim`) to match the output of your chosen embedding model.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -230,6 +174,27 @@ schema.addField(AddFieldReq.builder()
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>();
+schema->AddField({"id", milvus::DataType::INT64, "", true, false});
+schema->AddField(milvus::FieldSchema("document", milvus::DataType::VARCHAR).WithMaxLength(9000));
+schema->AddField(milvus::FieldSchema("dense", milvus::DataType::FLOAT_VECTOR).WithDimension(1024));
+```
+
+</TabItem>
 </Tabs>
 
 ### Define the text embedding function\{#define-the-text-embedding-function}
@@ -240,7 +205,7 @@ The example below adds a Function module (`voya`) that converts the scalar field
 
 Once you have defined your embedding function, add it to your collection schema. This instructs Milvus to use the specified embedding function to process and store embeddings from your text data.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -312,13 +277,29 @@ schema.addFunction(function);
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+milvus::FunctionPtr function = std::make_shared<milvus::Function>("voya", milvus::FunctionType::TEXTEMBEDDING);
+function->AddInputFieldName("document");
+function->AddOutputFieldName("dense");
+function->AddParam("provider", "voyageai");
+function->AddParam("model_name", "voyage-3-large");
+
+function->AddParam("integration_id", "YOUR_INTEGRATION_ID");
+
+collection_schema->AddFunction(function);
+```
+
+</TabItem>
 </Tabs>
 
 ### Configure the index\{#configure-the-index}
 
 After defining the schema with necessary fields and the built-in function, set up the index for your collection. To simplify this process, use `AUTOINDEX` as the `index_type`, an option that allows Zilliz Cloud to choose and configure the most suitable index type based on the structure of your data.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -373,13 +354,23 @@ indexes.add(IndexParam.builder()
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+std::vector<milvus::IndexDesc> indexes = {
+    milvus::IndexDesc("dense", "", milvus::IndexType::AUTOINDEX, milvus::MetricType::COSINE)
+}
+```
+
+</TabItem>
 </Tabs>
 
 ### Create the collection\{#create-the-collection}
 
 Now create the collection using the schema and index parameters defined.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -431,13 +422,27 @@ client.createCollection(requestCreate);
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+auto status = client->CreateCollection(milvus::CreateCollectionRequest()
+                                    .WithCollectionName("demo")
+                                    .WithIndexes(std::move(indexes))
+                                    .WithCollectionSchema(schema));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
 </Tabs>
 
 ## Step 2: Insert data\{#step-2-insert-data}
 
 After setting up your collection and index, you're ready to insert your raw data. In this process, you need only to provide the raw text. The Function module we defined earlier automatically generates the corresponding sparse vector for each text entry.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -496,13 +501,34 @@ client.insert(InsertReq.builder()
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+milvus::EntityRows data = {
+    {{"id", 1}, {"document", "Milvus simplifies semantic search through embeddings."}},
+    {{"id", 2}, {"document", "Vector embeddings convert text into searchable numeric data."}},
+    {{"id", 3}, {"document", "Semantic search helps users find relevant information quickly."}}
+};
+
+milvus::InsertResponse response;
+auto status = client->Insert(milvus::InsertRequest()
+                                .WithCollectionName("demo")
+                                .WithRowsData(std::move(data))
+                                , response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
 </Tabs>
 
 ## Step 3: Search with text\{#step-3-search-with-text}
 
 After data insertion, perform a semantic search using raw query text. Milvus automatically converts your query into an embedding vector, retrieves relevant documents based on similarity, and returns the top-matching results.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -566,5 +592,23 @@ for (List<SearchResp.SearchResult> results : searchResults) {
 ```
 
 </TabItem>
-</Tabs>
 
+<TabItem value='c++'>
+
+```c++
+auto request = milvus::SearchRequest()
+                   .WithCollectionName("demo")
+                   .AddEmbeddedText("How does Milvus handle semantic search?")
+                   .WithLimit(1)
+                   .WithAnnsField("dense")
+                   .AddOutputField("document");
+
+milvus::SearchResponse response;
+auto status = client->Search(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+</Tabs>

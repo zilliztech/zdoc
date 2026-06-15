@@ -102,11 +102,11 @@ In this step, you configure Okta (the IdP) with the SP details obtained from Zil
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    <p>Alternatively, click <strong>More details</strong> to get the following details:</p>
-    <ul>
-    <li><p><strong>Sign on URL</strong>: Copy the URL. It will be required in Zilliz Cloud console if the <strong>Manual</strong> mode is selected in <a href="./single-sign-on-with-okta#step-3-configure-idp-settings-in-zilliz-cloud-console">Step 3</a>.</p></li>
-    <li><p><strong>Signing Certificate</strong>: Click <strong>Download</strong> to save the certificate to your local computer. It will be required in Zilliz Cloud console if the <strong>Manual</strong> mode is selected in <a href="./single-sign-on-with-okta#step-3-configure-idp-settings-in-zilliz-cloud-console">Step 3</a>.</p></li>
-    </ul>
+    Alternatively, click **More details** to get the following details:
+    
+    - **Sign on URL**: Copy the URL. It will be required in Zilliz Cloud console if the **Manual** mode is selected in [Step 3](./single-sign-on-with-okta#step-3-configure-idp-settings-in-zilliz-cloud-console).
+    
+    - **Signing Certificate**: Click **Download** to save the certificate to your local computer. It will be required in Zilliz Cloud console if the **Manual** mode is selected in [Step 3](./single-sign-on-with-okta#step-3-configure-idp-settings-in-zilliz-cloud-console).
 
     </Admonition>
 
@@ -126,11 +126,11 @@ In this step, you provide Okta’s IdP details back to Zilliz Cloud to complete 
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    <p>Alternatively, if you select the <strong>Manual</strong> mode for IdP detail configuration, configure:</p>
-    <ul>
-    <li><p><strong>Sign On URL</strong>: Paste the <strong>Sign on URL</strong> you copied from Okta Admin Console in <a href="./single-sign-on-with-okta#step-2-create-a-saml-app-in-okta-admin-console">Step 2</a> here.</p></li>
-    <li><p><strong>Signing Certificate</strong>: Upload the certificate you downloaded from Okta Admin Console in <a href="./single-sign-on-with-okta#step-2-create-a-saml-app-in-okta-admin-console">Step 2</a> here. Make sure the entire certificate content, including the lines beginning with <code>-----BEGIN CERTIFICATE-----</code> and ending with <code>-----END CERTIFICATE-----</code>, is provided.</p></li>
-    </ul>
+    Alternatively, if you select the **Manual** mode for IdP detail configuration, configure:
+    
+    - **Sign On URL**: Paste the **Sign on URL** you copied from Okta Admin Console in [Step 2](./single-sign-on-with-okta#step-2-create-a-saml-app-in-okta-admin-console) here.
+    
+    - **Signing Certificate**: Upload the certificate you downloaded from Okta Admin Console in [Step 2](./single-sign-on-with-okta#step-2-create-a-saml-app-in-okta-admin-console) here. Make sure the entire certificate content, including the lines beginning with `-----BEGIN CERTIFICATE-----` and ending with `-----END CERTIFICATE-----`, is provided.
 
     </Admonition>
 
@@ -178,7 +178,7 @@ After your SSO connection is fully configured and tested, you can optionally ena
 
 <Admonition type="danger" icon="🚧" title="Warning">
 
-<p>Enabling this feature will immediately log out all members who are currently signed in with a password and block non-SSO login methods.</p>
+Enabling this feature will immediately log out all members who are currently signed in with a password and block non-SSO login methods.
 
 </Admonition>
 

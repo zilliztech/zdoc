@@ -24,7 +24,7 @@ This page lists the IAM policies required during the deployment of Zilliz BYOC d
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Zilliz BYOC is currently available in <strong>General Availability</strong>. For access and implementation details, please contact <a href="https://zilliz.com/contact-sales">Zilliz Cloud sales</a>.</p>
+Zilliz BYOC is currently available in **General Availability**. For access and implementation details, please contact [Zilliz Cloud sales](https://zilliz.com/contact-sales).
 
 </Admonition>
 
@@ -34,23 +34,10 @@ You should create a Cloud Storage bucket and a storage service account so that Z
 
 The following table lists the roles that should be assigned to the storage service account.
 
-<table>
-   <tr>
-     <th><p>Role</p></th>
-     <th><p>Description</p></th>
-     <th><p>Condition</p></th>
-   </tr>
-   <tr>
-     <td><p><a href="https://cloud.google.com/iam/docs/roles-permissions/storage#storage.objectAdmin">Storage Object Admin</a></p></td>
-     <td><p>Grants full control of objects, including listing, creating, viewing, and deleting objects.</p></td>
-     <td><p>Name of the target bucket</p></td>
-   </tr>
-   <tr>
-     <td><p><a href="https://cloud.google.com/iam/docs/roles-permissions/storage#storage.objectAdmin">Storage Bucket Viewer</a></p></td>
-     <td><p>Grants permission to view buckets and their metadata, excluding IAM policies.</p></td>
-     <td><p>Name of the target bucket</p></td>
-   </tr>
-</table>
+| Role | Description | Condition |
+| --- | --- | --- |
+| [Storage Object Admin](https://cloud.google.com/iam/docs/roles-permissions/storage#storage.objectAdmin) | Grants full control of objects, including listing, creating, viewing, and deleting objects. | Name of the target bucket |
+| [Storage Bucket Viewer](https://cloud.google.com/iam/docs/roles-permissions/storage#storage.objectAdmin) | Grants permission to view buckets and their metadata, excluding IAM policies. | Name of the target bucket |
 
 ## GKE service account\{#gke-service-account}
 
@@ -58,18 +45,9 @@ You should create a GKE service account so that Zilliz Cloud can assume this ser
 
 The following table lists the roles that should be assigned to the GKE service account.
 
-<table>
-   <tr>
-     <th><p>Role</p></th>
-     <th><p>Description</p></th>
-     <th><p>Condition</p></th>
-   </tr>
-   <tr>
-     <td><p><a href="https://cloud.google.com/iam/docs/roles-permissions/container#container.defaultNodeServiceAccount">Kubernetes Engine Default Node Service Account</a></p></td>
-     <td><p>Minimal set of permissions required by a GKE node to support standard capabilities such as logging and monitoring.</p></td>
-     <td><p>--</p></td>
-   </tr>
-</table>
+| Role | Description | Condition |
+| --- | --- | --- |
+| [Kubernetes Engine Default Node Service Account](https://cloud.google.com/iam/docs/roles-permissions/container#container.defaultNodeServiceAccount) | Minimal set of permissions required by a GKE node to support standard capabilities such as logging and monitoring. | -- |
 
 ## Cross-account service account\{#cross-account-service-account}
 

@@ -28,53 +28,21 @@ Before starting your PostgreSQL to Zilliz Cloud migration, ensure you meet these
 
 ### PostgreSQL requirements\{#postgresql-requirements}
 
-<table>
-   <tr>
-     <th><p>Requirement</p></th>
-     <th><p>Details</p></th>
-   </tr>
-   <tr>
-     <td><p>Network access</p></td>
-     <td><p>Source PostgreSQL database must be accessible from the public internet</p></td>
-   </tr>
-   <tr>
-     <td><p>Database access</p></td>
-     <td><p>Valid database endpoint, username, and password with necessary permissions</p></td>
-   </tr>
-   <tr>
-     <td><p>pgvector extension</p></td>
-     <td><p>Tables must use pgvector extension for vector data storage</p></td>
-   </tr>
-   <tr>
-     <td><p>Vector field requirement</p></td>
-     <td><p>Each source table must contain at least one vector field, and vector fields cannot contain null values.</p></td>
-   </tr>
-   <tr>
-     <td><p>Data availability</p></td>
-     <td><p>Source tables must contain data. Empty tables cannot be migrated.</p></td>
-   </tr>
-</table>
+| Requirement | Details |
+| --- | --- |
+| Network access | Source PostgreSQL database must be accessible from the public internet |
+| Database access | Valid database endpoint, username, and password with necessary permissions |
+| pgvector extension | Tables must use pgvector extension for vector data storage |
+| Vector field requirement | Each source table must contain at least one vector field, and vector fields cannot contain null values. |
+| Data availability | Source tables must contain data. Empty tables cannot be migrated. |
 
 ### Zilliz Cloud requirements\{#zilliz-cloud-requirements}
 
-<table>
-   <tr>
-     <th><p>Requirement</p></th>
-     <th><p>Details</p></th>
-   </tr>
-   <tr>
-     <td><p>User role</p></td>
-     <td><p>Organization Owner or Project Admin</p></td>
-   </tr>
-   <tr>
-     <td><p>Cluster capacity</p></td>
-     <td><p>Sufficient storage and compute resources (use the <a href="https://zilliz.com/pricing#calculator">CU calculator</a> to estimate CU size)</p></td>
-   </tr>
-   <tr>
-     <td><p>Network access</p></td>
-     <td><p>Add <a href="./zilliz-cloud-ips">Zilliz Cloud IPs</a> to allowlists if using network restrictions</p></td>
-   </tr>
-</table>
+| Requirement | Details |
+| --- | --- |
+| User role | Organization Owner or Project Admin |
+| Cluster capacity | Sufficient storage and compute resources (use the [CU calculator](https://zilliz.com/pricing#calculator) to estimate CU size) |
+| Network access | Add [Zilliz Cloud IPs](./zilliz-cloud-ips) to allowlists if using network restrictions |
 
 ## Data type mapping\{#data-type-mapping}
 
@@ -149,48 +117,18 @@ Understanding how PostgreSQL data types map to Zilliz Cloud is crucial for plann
 
 PostgreSQL table names are transferred to Zilliz Cloud with the following considerations:
 
-<table>
-   <tr>
-     <th><p>Scenario</p></th>
-     <th><p>Impact</p></th>
-     <th><p>Solution</p></th>
-   </tr>
-   <tr>
-     <td><p><strong>Default naming</strong></p></td>
-     <td><p>Collection names match source table names exactly</p></td>
-     <td><p>Names are preserved as-is from PostgreSQL</p></td>
-   </tr>
-   <tr>
-     <td><p><strong>Naming conflicts</strong></p></td>
-     <td><p>Cannot submit job if a collection with the same name already exists</p></td>
-     <td><p>Delete existing collection, choose a different database, or rename during migration configuration</p></td>
-   </tr>
-   <tr>
-     <td><p><strong>Collection name modification</strong></p></td>
-     <td><p>Supported during migration</p></td>
-     <td><p>You can rename collections during the migration configuration process</p></td>
-   </tr>
-</table>
+| Scenario | Impact | Solution |
+| --- | --- | --- |
+| **Default naming** | Collection names match source table names exactly | Names are preserved as-is from PostgreSQL |
+| **Naming conflicts** | Cannot submit job if a collection with the same name already exists | Delete existing collection, choose a different database, or rename during migration configuration |
+| **Collection name modification** | Supported during migration | You can rename collections during the migration configuration process |
 
 ### Migration considerations\{#migration-considerations}
 
 The following features are **not supported** for PostgreSQL migration:
 
-<table>
-   <tr>
-     <th><p>Limitation</p></th>
-     <th><p>Impact</p></th>
-     <th><p>Alternative</p></th>
-   </tr>
-   <tr>
-     <td><p>Dynamic to fixed field conversion</p></td>
-     <td><p>Cannot convert existing dynamic fields to fixed types</p></td>
-     <td><p>Fields maintain their original dynamic nature</p></td>
-   </tr>
-   <tr>
-     <td><p>Add more fields</p></td>
-     <td><p>Cannot add new fields during migration</p></td>
-     <td><p>Only existing Elasticsearch fields are migrated</p></td>
-   </tr>
-</table>
+| Limitation | Impact | Alternative |
+| --- | --- | --- |
+| Dynamic to fixed field conversion | Cannot convert existing dynamic fields to fixed types | Fields maintain their original dynamic nature |
+| Add more fields | Cannot add new fields during migration | Only existing Elasticsearch fields are migrated |
 

@@ -29,7 +29,7 @@ Depending on your payment method, invoices may be issued by Zilliz Cloud or by t
 
 <Admonition type="info" icon="📘" title="Note">
 
-<p>To manage invoices, you must be an <strong>Organization Owner</strong> or <strong>Organization Billing Admin</strong>.</p>
+To manage invoices, you must be an **Organization Owner** or **Organization Billing Admin**.
 
 </Admonition>
 
@@ -55,7 +55,7 @@ Depending on your payment method, invoices may be issued by Zilliz Cloud or by t
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>The List Invoices RESTful API is currently in public preview. To use this API, please <a href="http://support.zilliz.com">contact us</a>.</p>
+The List Invoices RESTful API is currently in public preview. To use this API, please [contact us](http://support.zilliz.com).
 
 </Admonition>
 
@@ -99,7 +99,7 @@ curl --request GET \
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>In the results returned by the API, all amounts are in cents.</p>
+In the results returned by the API, all amounts are in cents.
 
 </Admonition>
 
@@ -131,7 +131,7 @@ curl --request GET \
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>The Describe Invoice RESTful API is currently in public preview. To use this API, please <a href="http://support.zilliz.com">contact us</a>.</p>
+The Describe Invoice RESTful API is currently in public preview. To use this API, please [contact us](http://support.zilliz.com).
 
 </Admonition>
 
@@ -174,7 +174,7 @@ In the command above,
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>In the results returned by the API, all amounts are in cents.</p>
+In the results returned by the API, all amounts are in cents.
 
 </Admonition>
 

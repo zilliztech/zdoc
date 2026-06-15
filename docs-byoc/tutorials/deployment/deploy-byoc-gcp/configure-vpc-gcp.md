@@ -30,7 +30,7 @@ This page enumerates the minimum requirements for hosting a Zilliz Cloud BYOC pr
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Zilliz BYOC is currently available in <strong>General Availability</strong>. For access and implementation details, please contact <a href="https://zilliz.com/contact-sales">Zilliz Cloud sales</a>.</p>
+Zilliz BYOC is currently available in **General Availability**. For access and implementation details, please contact [Zilliz Cloud sales](https://zilliz.com/contact-sales).
 
 </Admonition>
 
@@ -56,16 +56,9 @@ Your VPC must meet the requirements enumerated in this section to host a Zilliz 
 
 The following table lists the Google Cloud Platform (GCP) regions the Zilliz Cloud BYOC solution supports. If you cannot find your cloud regions on the Zilliz Cloud console, please contact us at support@zilliz.com.
 
-<table>
-   <tr>
-     <th><p>GCP Region</p></th>
-     <th><p>Location</p></th>
-   </tr>
-   <tr>
-     <td><p>us-west1</p></td>
-     <td><p>Oregon</p></td>
-   </tr>
-</table>
+| GCP Region | Location |
+| --- | --- |
+| us-west1 | Oregon |
 
 ### VPC IP address ranges\{#vpc-ip-address-ranges}
 
@@ -73,7 +66,7 @@ Zilliz Cloud recommends using the **/18** netmask in IPv4 CIDR settings for the 
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Zilliz Cloud currently supports only IPv4 CIDR blocks.</p>
+Zilliz Cloud currently supports only IPv4 CIDR blocks.
 
 </Admonition>
 
@@ -247,53 +240,21 @@ The steps to add these firewall rules are as follows:
 
     - The firewall rule for health checks against BYOC clusters.
 
-        <table>
-           <tr>
-             <th><p><strong>Name</strong></p></th>
-             <th><p>ingress-rule-for-health-checks</p></th>
-           </tr>
-           <tr>
-             <td><p><strong>Targets</strong></p></td>
-             <td><p>All instances in the network</p></td>
-           </tr>
-           <tr>
-             <td><p><strong>Source IPv4 ranges</strong></p></td>
-             <td><p><code>130.211.0.0/22</code>, <code>35.191.0.0/16</code></p></td>
-           </tr>
-           <tr>
-             <td><p><strong>Protocols and ports</strong></p></td>
-             <td><p>Specified protocols and ports</p></td>
-           </tr>
-           <tr>
-             <td><p><strong>TCP</strong></p></td>
-             <td><p><code>19530</code></p></td>
-           </tr>
-        </table>
+        | **Name** | ingress-rule-for-health-checks |
+        | --- | --- |
+        | **Targets** | All instances in the network |
+        | **Source IPv4 ranges** | `130.211.0.0/22`, `35.191.0.0/16` |
+        | **Protocols and ports** | Specified protocols and ports |
+        | **TCP** | `19530` |
 
     - The firewall rule for local traffic between tagged VMs on the VPC network
 
-        <table>
-           <tr>
-             <th><p><strong>Name</strong></p></th>
-             <th><p>ingress-rule-for-local-traffic</p></th>
-           </tr>
-           <tr>
-             <td><p><strong>Targets</strong></p></td>
-             <td><p>Specified target tags</p></td>
-           </tr>
-           <tr>
-             <td><p><strong>Target tags</strong></p></td>
-             <td><p><code>zilliz-byoc</code></p></td>
-           </tr>
-           <tr>
-             <td><p><strong>Source IPv4 ranges</strong></p></td>
-             <td><p><code>10.7.0.0/18</code> (or use your planned one by referring to step 5 in <a href="./configure-vpc-gcp#step-1-create-a-vpc-network-and-add-the-primary-subnet">this section</a>.)</p></td>
-           </tr>
-           <tr>
-             <td><p><strong>Protocols and ports</strong></p></td>
-             <td><p>Allow all</p></td>
-           </tr>
-        </table>
+        | **Name** | ingress-rule-for-local-traffic |
+        | --- | --- |
+        | **Targets** | Specified target tags |
+        | **Target tags** | `zilliz-byoc` |
+        | **Source IPv4 ranges** | `10.7.0.0/18` (or use your planned one by referring to step 5 in [this section](./configure-vpc-gcp#step-1-create-a-vpc-network-and-add-the-primary-subnet).) |
+        | **Protocols and ports** | Allow all |
 
 </Procedures>
 
@@ -319,16 +280,9 @@ The steps for creating the PSC endpoint are as follows:
 
     The following table lists the service attachment ID specific to each available cloud regions.
 
-    <table>
-       <tr>
-         <th><p>Region</p></th>
-         <th><p>Service Attachment ID</p></th>
-       </tr>
-       <tr>
-         <td><p>us-west1</p></td>
-         <td><p><code>projects/vdc-prod/regions/us-west1/serviceAttachments/zilliz-byoc-psc-service</code></p></td>
-       </tr>
-    </table>
+    | Region | Service Attachment ID |
+    | --- | --- |
+    | us-west1 | `projects/vdc-prod/regions/us-west1/serviceAttachments/zilliz-byoc-psc-service` |
 
 1. Set a name for the endpoint service.
 

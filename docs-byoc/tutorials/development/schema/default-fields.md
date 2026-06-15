@@ -130,7 +130,6 @@ client.createCollection(CreateCollectionReq.builder()
         .collectionSchema(schema)
         .indexParams(indexParams)
         .build());
-
 ```
 
 </TabItem>
@@ -181,7 +180,6 @@ await client.createCollection({
     metric_type: 'L2',
   },
 });
-
 ```
 
 </TabItem>
@@ -243,7 +241,6 @@ if err != nil {
 if err := loadTask.Await(ctx); err != nil {
 	log.Fatal(err)
 }
-
 ```
 
 </TabItem>
@@ -307,7 +304,6 @@ curl --request POST \
   --data '{
     "collectionName": "my_collection"
   }'
-
 ```
 
 </TabItem>
@@ -385,7 +381,6 @@ client.insert(InsertReq.builder()
         .collectionName(collectionName)
         .data(data)
         .build());
-
 ```
 
 </TabItem>
@@ -408,7 +403,6 @@ await client.insert({
   collection_name: collectionName,
   fields_data: data,
 });
-
 ```
 
 </TabItem>
@@ -452,7 +446,6 @@ _, err = client.Insert(ctx, milvusclient.NewColumnBasedInsertOption(collectionNa
 if err != nil {
 	log.Fatal(err)
 }
-
 ```
 
 </TabItem>
@@ -491,7 +484,6 @@ curl --request POST \
       }
     ]
   }'
-
 ```
 
 </TabItem>
@@ -552,7 +544,6 @@ for (SearchResp.SearchResult hit : searchResp.getSearchResults().get(0)) {
             hit.getEntity().get("age"),
             hit.getEntity().get("status"));
 }
-
 ```
 
 </TabItem>
@@ -575,7 +566,6 @@ console.log('Search results (age == 18):');
 for (const hit of searchResults.results) {
   console.log(`  id: ${hit.id}, age: ${hit.age}, status: ${hit.status}`);
 }
-
 ```
 
 </TabItem>
@@ -604,7 +594,6 @@ fmt.Println("Search results (age == 18):")
 for _, resultSet := range searchResults {
 	fmt.Println(resultSet.Fields)
 }
-
 ```
 
 </TabItem>
@@ -630,7 +619,6 @@ curl --request POST \
     "outputFields": ["id", "age", "status"],
     "consistencyLevel": "Strong"
   }'
-
 ```
 
 </TabItem>
@@ -720,7 +708,6 @@ for (QueryResp.QueryResult row : defaultStatusResults.getQueryResults()) {
             row.getEntity().get("age"),
             row.getEntity().get("status"));
 }
-
 ```
 
 </TabItem>
@@ -753,7 +740,6 @@ console.log("\nQuery results (status == 'active'):");
 for (const row of defaultStatusResults.data) {
   console.log(`  id: ${row.id}, age: ${row.age}, status: ${row.status}`);
 }
-
 ```
 
 </TabItem>
@@ -784,7 +770,6 @@ if err != nil {
 
 fmt.Println("\nQuery results (status == 'active'):")
 fmt.Println(defaultStatusResults.Fields)
-
 ```
 
 </TabItem>
@@ -813,7 +798,6 @@ curl --request POST \
     "outputFields": ["id", "age", "status"],
     "consistencyLevel": "Strong"
   }'
-
 ```
 
 </TabItem>
@@ -839,44 +823,13 @@ Query results (status == 'active'):
 
 When both `nullable` and `default_value` are configured for a field, the following rules determine how Zilliz Cloud handles NULL input or missing field values during insertion.
 
-<table>
-   <tr>
-     <th><p>Nullable</p></th>
-     <th><p>Default Value</p></th>
-     <th><p>User Input</p></th>
-     <th><p>Result</p></th>
-   </tr>
-   <tr>
-     <td><p>✅</p></td>
-     <td><p>✅ (non-NULL)</p></td>
-     <td><p>NULL or omitted</p></td>
-     <td><p>Uses the default value</p></td>
-   </tr>
-   <tr>
-     <td><p>✅</p></td>
-     <td><p>❌</p></td>
-     <td><p>NULL or omitted</p></td>
-     <td><p>Stored as NULL</p></td>
-   </tr>
-   <tr>
-     <td><p>❌</p></td>
-     <td><p>✅ (non-NULL)</p></td>
-     <td><p>NULL or omitted</p></td>
-     <td><p>Uses the default value</p></td>
-   </tr>
-   <tr>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-     <td><p>NULL or omitted</p></td>
-     <td><p>Throws an error</p></td>
-   </tr>
-   <tr>
-     <td><p>❌</p></td>
-     <td><p>✅ (NULL)</p></td>
-     <td><p>NULL or omitted</p></td>
-     <td><p>Throws an error</p></td>
-   </tr>
-</table>
+| Nullable | Default Value | User Input | Result |
+| --- | --- | --- | --- |
+| ✅ | ✅ (non-NULL) | NULL or omitted | Uses the default value |
+| ✅ | ❌ | NULL or omitted | Stored as NULL |
+| ❌ | ✅ (non-NULL) | NULL or omitted | Uses the default value |
+| ❌ | ❌ | NULL or omitted | Throws an error |
+| ❌ | ✅ (NULL) | NULL or omitted | Throws an error |
 
 **Key takeaways:**
 

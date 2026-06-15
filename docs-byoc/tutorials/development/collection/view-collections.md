@@ -27,7 +27,7 @@ You can obtain the name list of all the collections in the currently connected d
 
 The following example demonstrates how to obtain the name list of all collections in the currently connected database.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -129,6 +129,28 @@ curl --request POST \
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+milvus::ListCollectionsResponse response;
+status = client->ListCollections(milvus::ListCollectionsRequest(), response);
+for (auto& name : response.CollectionNames()) {
+    std::cout << "\t" << name << std::endl;
+}
+```
+
+</TabItem>
 </Tabs>
 
 If you have already created a collection named `quick_setup`, the result of the above example should be similar to the following.
@@ -141,7 +163,7 @@ If you have already created a collection named `quick_setup`, the result of the 
 
 You can also obtain the details of a specific collection. The following example assumes that you have already created a collection named quick_setup.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -206,6 +228,23 @@ curl --request POST \
 -d '{
     "collectionName": "quick_setup"
 }'
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+milvus::DescribeCollectionResponse response;
+auto status = client->DescribeCollection(milvus::DescribeCollectionRequest()
+                                            .WithCollectionName("quick_setup"),
+                                         response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+std::cout << "Collection name: " << response.Desc().CollectionName() << std::endl;
+std::cout << "Collection ID: " << response.Desc().ID() << std::endl;
 ```
 
 </TabItem>

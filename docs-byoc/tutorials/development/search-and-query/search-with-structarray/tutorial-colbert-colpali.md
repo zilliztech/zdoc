@@ -1,16 +1,16 @@
 ---
-title: "Search with Embedding Lists | Cloud"
-slug: /search-with-embeddinglist
-sidebar_label: "Embedding Lists"
+title: "Search with EmbeddingLists: ColBERT and ColPali | BYOC"
+slug: /tutorial-colbert-colpali
+sidebar_label: "ColBERT and ColPali"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "This page explains how to set up a ColBERT text retrieval system and a ColPali text retrieval system using the array of structs in Zilliz Cloud, which enables you to store a document along with its vectorized chunks in embedding lists. | Cloud"
+description: "This tutorial shows how to build ColBERT-style and ColPali-style retrieval systems with EmbeddingList search on StructArray vector subfields in Zilliz Cloud. Use it when your query and stored data are both represented as lists of vectors and you want entity-level late-interaction retrieval with `MAXSIM` metrics. | BYOC"
 type: origin
 token: Mf7GwGwgQiLCcykOi69cvaD8ncz
-sidebar_position: 17
+sidebar_position: 6
 displayed_sidebar: default
 
 ---
@@ -18,9 +18,11 @@ displayed_sidebar: default
 import Admonition from '@theme/Admonition';
 
 
-# Search with Embedding Lists
+# Search with EmbeddingLists: ColBERT and ColPali
 
-This page explains how to set up a ColBERT text retrieval system and a ColPali text retrieval system using the array of structs in Zilliz Cloud, which enables you to store a document along with its vectorized chunks in embedding lists. 
+This tutorial shows how to build ColBERT-style and ColPali-style retrieval systems with EmbeddingList search on StructArray vector subfields in Zilliz Cloud. Use it when your query and stored data are both represented as lists of vectors and you want entity-level late-interaction retrieval with `MAX_SIM*` metrics.
+
+For the StructArray basics behind this tutorial, see [Create a StructArray Field](./create-struct-array), [Index StructArray Fields](./index-struct-array), and [Basic Vector Search with StructArray](./search-with-struct-array). This tutorial focuses on the ColBERT and ColPali workflows rather than general StructArray syntax.
 
 ## Overview\{#overview}
 
@@ -58,8 +60,9 @@ As shown in the diagram above, the query contains two tokens, namely `machine` a
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>When implementing a ColBERT-like text retrieval system in Milvus, you are not limited to splitting documents into tokens. </p>
-<p>Instead, you can divide the documents into segments of any appropriate size, embed each segment to create an embedding list, and store the document along with its embedded segments in an entity.</p>
+When implementing a ColBERT-like text retrieval system in Milvus, you are not limited to splitting documents into tokens. 
+
+Instead, you can divide the documents into segments of any appropriate size, embed each segment to create an embedding list, and store the document along with its embedded segments in an entity.
 
 </Admonition>
 
@@ -77,7 +80,7 @@ During data ingestion, a document page, represented as a raw image, is divided i
 
 ## ColBERT text retrieval system\{#colbert-text-retrieval-system}
 
-In this section, we are going to set up a ColBERT text retrieval system using Milvus' Array of Structs. Before that, set up a , obtain a Cohere access token.
+In this section, we are going to set up a ColBERT text retrieval system using StructArray. Before that, set up a Zilliz Cloud cluster compatible with Milvus v2.6.x, and obtain a Cohere access token.
 
 ### Step 1: Install the dependencies\{#step-1-install-the-dependencies}
 
@@ -104,32 +107,13 @@ docs = load_dataset(
 
 Running the above scripts will download the dataset if it is not available locally. Each record in the dataset is a paragraph from a Wikipedia page. The following table shows the structure of this dataset.
 
-<table>
-   <tr>
-     <th><p>Column Name</p></th>
-     <th><p>Description</p></th>
-   </tr>
-   <tr>
-     <td><p><code>_id</code></p></td>
-     <td><p>A record ID</p></td>
-   </tr>
-   <tr>
-     <td><p><code>url</code></p></td>
-     <td><p>The URL of the current record.</p></td>
-   </tr>
-   <tr>
-     <td><p><code>title</code></p></td>
-     <td><p>The title of the source document.</p></td>
-   </tr>
-   <tr>
-     <td><p><code>text</code></p></td>
-     <td><p>A paragraph from the source document.</p></td>
-   </tr>
-   <tr>
-     <td><p><code>emb</code></p></td>
-     <td><p>Embeddings of the text from the source document.</p></td>
-   </tr>
-</table>
+| Column Name | Description |
+| --- | --- |
+| `_id` | A record ID |
+| `url` | The URL of the current record. |
+| `title` | The title of the source document. |
+| `text` | A paragraph from the source document. |
+| `emb` | Embeddings of the text from the source document. |
 
 ### Step 3: Group paragraphs by title\{#step-3-group-paragraphs-by-title}
 
@@ -155,7 +139,7 @@ In this code, we store the grouped paragraphs as documents and include them in t
 
 ### Step 4: Create a collection for the Cohere dataset\{#step-4-create-a-collection-for-the-cohere-dataset}
 
-Once the data is ready, we will create a collection. In the collection, there is a field named `paragraphs`, which is an Array of Structs.
+Once the data is ready, we will create a collection. In the collection, `paragraphs` is a StructArray field. For a general explanation of StructArray schemas, see [Create a StructArray Field](./create-struct-array).
 
 ```python
 from pymilvus import MilvusClient, DataType
@@ -274,11 +258,11 @@ The output of the above code is similar to the following:
 # Document Computer science: 1.9460
 ```
 
-The cosine similarity score ranges from `-1` to `1`, and the similarity scores in the above output clearly demonstrate the sum of multiple token-level similarity scores.
+Each pairwise cosine similarity score ranges from `-1` to `1`. The final `MAX_SIM_COSINE` score can be greater than `1` because it aggregates multiple token-level maximum similarity scores.
 
-## ColPali text retrieval system\{#colpali-text-retrieval-system}
+## ColPali document retrieval system\{#colpali-document-retrieval-system}
 
-In this section, we will set up a ColPali-based text retrieval system using Milvus' Array of Structs. Before that, set up a .
+In this section, we will set up a ColPali-based document retrieval system using StructArray. Before that, set up a Zilliz Cloud cluster compatible with Milvus v2.6.x.
 
 ### Step 1: Install the dependencies\{#step-1-install-the-dependencies}
 
@@ -299,32 +283,16 @@ df = ds['test'].to_pandas()
 
 Running the above scripts will download the dataset if it is not available locally. Each record in the dataset is a page from a financial report. The following table shows the structure of this dataset.
 
-<table>
-   <tr>
-     <th><p>Column Name</p></th>
-     <th><p>Description</p></th>
-   </tr>
-   <tr>
-     <td><p><code>corpus_id</code></p></td>
-     <td><p>A record in the corpus</p></td>
-   </tr>
-   <tr>
-     <td><p><code>image</code></p></td>
-     <td><p>The page image in bytes.</p></td>
-   </tr>
-   <tr>
-     <td><p><code>doc_id</code></p></td>
-     <td><p>The descriptive document ID.</p></td>
-   </tr>
-   <tr>
-     <td><p><code>page_number_in_doc</code></p></td>
-     <td><p>The page number of the current page in the doc.</p></td>
-   </tr>
-</table>
+| Column Name | Description |
+| --- | --- |
+| `corpus_id` | A record in the corpus |
+| `image` | The page image in bytes. |
+| `doc_id` | The descriptive document ID. |
+| `page_number_in_doc` | The page number of the current page in the doc. |
 
 ### Step 3: Generate embeddings for the page images\{#step-3-generate-embeddings-for-the-page-images}
 
-As illustrated in the [Overview](./search-with-embeddinglist#colpali-extension) section, the ColPali model is a VLM that projects images into the vector space of a text model. In this step, we will use the latest ColPali model **vidore/colpali-v1.3**. You can find details about this model on [this page](https://huggingface.co/vidore/colpali-v1.3). 
+As illustrated in the [Overview](./tutorial-colbert-colpali#colpali-extension) section, the ColPali model is a VLM that projects images into the vector space of a text model. In this step, we will use the latest ColPali model **vidore/colpali-v1.3**. You can find details about this model on [this page](https://huggingface.co/vidore/colpali-v1.3). 
 
 ```python
 import torch
@@ -348,15 +316,17 @@ Once the model is ready, you can try to generate patches for a specific image as
 from PIL import Image
 from io import BytesIO
 
-# Use the iterrow() generator to get the first row
+# Use the iterrows() generator to get the first row.
 row = next(df.iterrows())[1]
 
-# Include the image in the above row in a list
-images = [ Image.open(row['image']['bytes'] ]
-patches = processor.process_images(images).to(model.device)
-patches_embeddings = model(**patches_in_pixels)[0]
+# Decode the image bytes and generate patch embeddings.
+images = [Image.open(BytesIO(row["image"]["bytes"]))]
+batch_images = processor.process_images(images).to(model.device)
 
-# Check the shape of the embeddings generated for the patches
+with torch.no_grad():
+    patches_embeddings = model(**batch_images)[0]
+
+# Check the shape of the embeddings generated for the patches.
 print(patches_embeddings.shape)
 
 # [1031, 128]
@@ -369,35 +339,37 @@ You can generate embeddings for all the images using a loop as follows:
 ```python
 data = []
 
-for index, row in df.iterrows():
-  row = next(df.iterrows())[1]
-  corpus_id = row['corpus_id']
-  
-  images = [Image.open(BytesIO(row['image']['bytes']))]
-  batch_images = processor.process_images(images).to(model.device)
-  patches = model(**batch_images)[0]
+for _, row in df.iterrows():
+    corpus_id = row["corpus_id"]
+    images = [Image.open(BytesIO(row["image"]["bytes"]))]
+    batch_images = processor.process_images(images).to(model.device)
 
-  doc_id = row['doc_id']
-  markdown = row['markdown']
-  page_number_in_doc = row['page_number_in_doc']
+    with torch.no_grad():
+        patches = model(**batch_images)[0]
 
-  data.append({
-      "corpus_id": corpus_id,
-      "patches": [ {"emb": emb} for emb in patches ],
-      "doc_id": markdown,
-      "page_number_in_doc": row['page_number_in_doc']
-  })
+    doc_id = row["doc_id"]
+    page_number_in_doc = row["page_number_in_doc"]
+
+    data.append({
+        "corpus_id": corpus_id,
+        "patches": [
+            {"emb": emb.float().cpu().tolist()}
+            for emb in patches
+        ],
+        "doc_id": doc_id,
+        "page_number_in_doc": page_number_in_doc,
+    })
 ```
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This step is relatively time-consuming due to the large amount of data that needs to be embedded.</p>
+This step is relatively time-consuming due to the large amount of data that needs to be embedded.
 
 </Admonition>
 
 ### Step 4: Create a collection for the financial reports dataset\{#step-4-create-a-collection-for-the-financial-reports-dataset}
 
-Once the data is ready, we will create a collection. In the collection, a field named `patches` is an Array of Structs.
+Once the data is ready, we will create a collection. In the collection, `patches` is a StructArray field. Each Struct element stores one patch embedding. For index requirements on StructArray vector subfields, see [Index StructArray Fields](./index-struct-array).
 
 ```python
 from pymilvus import MilvusClient, DataType
@@ -468,6 +440,12 @@ client.insert(
 )
 ```
 
+<Admonition type="info" icon="📘" title="Notes">
+
+Inserting the financial reports can take a long time. Each page can contain more than one thousand patch vectors, and each vector is stored inside the `patches` StructArray field. For larger datasets, split `data` into smaller batches and insert one batch at a time.
+
+</Admonition>
+
 From the output, you can find that all pages from the Vidore dataset are inserted.
 
 ### Step 6: Search within the financial reports\{#step-6-search-within-the-financial-reports}
@@ -484,10 +462,10 @@ queries = [
 batch_queries = processor.process_queries(queries).to(model.device)
 
 with torch.no_grad():
-  query_embeddings = model(**batch_queries)
+    query_embeddings = model(**batch_queries)
 
 query_emb_list = EmbeddingList()
-query_emb_list.add_batch(query_embeddings[0].cpu())
+query_emb_list.add_batch(query_embeddings[0].float().cpu().tolist())
 
 results = client.search(
     collection_name="financial_reports",
@@ -496,5 +474,4 @@ results = client.search(
     limit=10,
     output_fields=["doc_id", "page_number_in_doc"]
 )
-
 ```

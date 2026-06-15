@@ -58,7 +58,7 @@ An excessively high value wastes memory, and you'll need to do some calculations
 
 Indexing is mandatory for vector fields, including both the vector fields in a collection and those defined in a Struct. For vector fields in a Struct, you should use `AUTOINDEX` as the index type and `MAX_SIM` series as the metric type.
 
-For details on all applicable limits, refer to [the limits](./use-array-of-structs#limits).
+For details on all applicable limits, refer to [the limits](./undefined).
 
 ## A real-world example: Modeling the CoVLA dataset for autonomous driving\{#a-real-world-example-modeling-the-covla-dataset-for-autonomous-driving}
 
@@ -295,7 +295,7 @@ To start, we need to initialize the schema for a caption Struct, a front_cars St
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    <p>Although a front car does not involve vector embeddings, you still need to include it as an array of Struct because the data size exceeds the maximum for a JSON field.</p>
+    Although a front car does not involve vector embeddings, you still need to include it as an array of Struct because the data size exceeds the maximum for a JSON field.
 
     </Admonition>
 

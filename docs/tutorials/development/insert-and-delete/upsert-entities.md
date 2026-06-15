@@ -310,6 +310,33 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
+```c++
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+milvus::EntityRows data = {
+    {{"id", 0}, {"vector", std::vector<float>{-0.619954382375778, 0.4479436794798608, -0.17493894838751745, -0.4248030059917294, -0.8648452746018911}}, {"title", "Artificial Intelligence in Real Life"}, {"issue", "vol.12"}},
+    {{"id", 1}, {"vector", std::vector<float>{0.4762662251462588, -0.6942502138717026, -0.4490002642657902, -0.628696575798281, 0.9660395877041965}}, {"title", "Hollow Man"}, {"issue", "vol.19"}},
+    {{"id", 2}, {"vector", std::vector<float>{-0.8864122635045097, 0.9260170474445351, 0.801326976181461, 0.6383943392381306, 0.7563037341572827}}, {"title", "Treasure Hunt in Missouri"}, {"issue", "vol.12"}}
+};
+
+milvus::UpsertResponse resp_upsert;
+status = client->Upsert(milvus::UpsertRequest()
+                            .WithCollectionName("my_collection")
+                            .WithRowsData(std::move(data)),
+                        resp_upsert);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
 ## Upsert entities in a partition\{#upsert-entities-in-a-partition}
 
 You can also upsert entities into a specified partition. The following code snippets assume that you have a partition named **PartitionA** in your collection.
@@ -477,6 +504,24 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
+```c++
+milvus::EntityRows data = {
+    {{"id", 10}, {"vector", std::vector<float>{0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592}}, {"title", "Layour Design Reference"}, {"issue", "vol.34"}},
+    {{"id", 11}, {"vector", std::vector<float>{0.19886812562848388, 0.06023560599112088, 0.6976963061752597, 0.2614474506242501, 0.838729485096104}}, {"title", "Doraemon and His Friends"}, {"issue", "vol.2"}},
+    {{"id", 12}, {"vector", std::vector<float>{0.43742130801983836, -0.5597502546264526, 0.6457887650909682, 0.7894058910881185, 0.20785793220625592}}, {"title", "Pikkachu and Pokemon"}, {"issue", "vol.12"}}
+};
+
+milvus::UpsertResponse resp_upsert;
+auto status = client->Upsert(milvus::UpsertRequest()
+                                .WithCollectionName("my_collection")
+                                .WithPartitionName("partitionA")
+                                .WithRowsData(std::move(data)),
+                            resp_upsert);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
 ## Upsert entities in merge mode\{#upsert-entities-in-merge-mode}
 
 The following code example demonstrates how to upsert entities with partial updates. Provide only the fields needing updates and their new values, along with the explicit partial update flag.
@@ -485,7 +530,7 @@ In the following example, the `issue` field of the entities specified in the ups
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>When performing an upsert in merge mode, ensure that the entities involved in the request have the same set of fields. Suppose there are two or more entities to be upserted, as shown in the following code snippet, it is important that they include identical fields to prevent errors and maintain data integrity.</p>
+When performing an upsert in merge mode, ensure that the entities involved in the request have the same set of fields. Suppose there are two or more entities to be upserted, as shown in the following code snippet, it is important that they include identical fields to prevent errors and maintain data integrity.
 
 </Admonition>
 
@@ -638,6 +683,19 @@ curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/entities/upsert" \
 </TabItem>
 </Tabs>
 
+```c++
+milvus::EntityRows data = {{{"id", 1}, {"issue", "vol.14"}},
+                           {{"id", 2}, {"issue", "vol.7"}}};
+auto status = client->Upsert(milvus::UpsertRequest()
+                                .WithCollectionName("my_collection")
+                                .WithRowsData(std::move(data))
+                                .WithPartialUpdate(true),
+                             resp_upsert);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
 ## Upsert ARRAY fields with partial-update operators\{#upsert-array-fields-with-partial-update-operators}
 
 Before introducing partial-update operators (`ARRAY_APPEND` and `ARRAY_REMOVE`), updating part of an `ARRAY` field required a client-side read-modify-write flow: query the existing array, change it in application code, and upsert the full replacement value. Partial-update operators let you send only the elements to append or remove, which reduces client-side logic and avoids the extra read before the upsert.
@@ -738,7 +796,6 @@ client.upsert(UpsertReq.builder()
         .fieldOps(Collections.singletonList(appendTags))
         // highlight-end
         .build());
-
 ```
 
 </TabItem>
@@ -770,7 +827,7 @@ client.upsert(UpsertReq.builder()
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Attaching either operator to a field via <code>field_ops</code> implicitly enables partial-update semantics.  Therefore, you do <strong>not</strong> need to pass <code>partial_update=True</code> alongside <code>field_ops</code>.</p>
+Attaching either operator to a field via `field_ops` implicitly enables partial-update semantics.  Therefore, you do **not** need to pass `partial_update=True` alongside `field_ops`.
 
 </Admonition>
 
@@ -1025,7 +1082,6 @@ System.out.println(res);
 //   {"pk": 1, "tags": ["premium", "vip"]},
 //   {"pk": 2, "tags": ["new", "premium"]}
 // ]
-
 ```
 
 </TabItem>

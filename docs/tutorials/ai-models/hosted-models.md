@@ -34,7 +34,7 @@ Currently, Zilliz Cloud supports the following regions, instance types, and mode
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>If you have specific requirements for hosted models, please <a href="http://support.zilliz.com">contact us</a>.</p>
+If you have specific requirements for hosted models, please [contact us](http://support.zilliz.com).
 
 </Admonition>
 
@@ -42,16 +42,9 @@ Currently, Zilliz Cloud supports the following regions, instance types, and mode
 
 The model deployment region should be consistent with your cluster region. Available options include:
 
-<table>
-   <tr>
-     <th><p><strong>Region</strong></p></th>
-     <th><p><strong>Location</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>aws-us-west-2</p></td>
-     <td><p>Oregon, USA</p></td>
-   </tr>
-</table>
+| **Region** | **Location** |
+| --- | --- |
+| aws-us-west-2 | Oregon, USA |
 
 ### Supported instance type\{#supported-instance-type}
 
@@ -63,7 +56,7 @@ The instance type determines the available compute resources. Available options 
      <th><p><strong>Resources</strong></p></th>
    </tr>
    <tr>
-     <td><p>g6.xlarge </p></td>
+     <td><p>g6.xlarge</p></td>
      <td><ul><li><p>1 Nvidia L4 GPU</p></li><li><p>8 vCPU</p></li><li><p>32 GB RAM</p></li></ul></td>
    </tr>
 </table>
@@ -212,7 +205,6 @@ Once you have the **deployment ID**, you can create collections that use the dep
     ]
     
     insert_result = milvus_client.insert(collection_name, rows, progress_bar=True)
-    
     ```
 
 1. Conduct a similarity search with raw text data.

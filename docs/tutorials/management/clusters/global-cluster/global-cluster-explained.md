@@ -26,7 +26,7 @@ This feature is designed for globally distributed, mission-critical applications
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This feature is available only to <strong>Dedicated</strong> clusters in a <strong>Business Critical</strong> project.</p>
+This feature is available only to **Dedicated** clusters in a **Business Critical** project.
 
 </Admonition>
 
@@ -92,7 +92,7 @@ For detailed list prices, see [Zilliz Cloud List Price](https://zilliz.com/prici
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Discarded clusters in the recycle bin after a <a href="./switchover-and-failover#perform-a-failover">failover</a> are billed for <strong>storage</strong> only.</p>
+Discarded clusters in the recycle bin after a [failover](./switchover-and-failover#perform-a-failover) are billed for **storage** only.
 
 </Admonition>
 
@@ -116,80 +116,19 @@ For detailed list prices, see [Zilliz Cloud List Price](https://zilliz.com/prici
 
     Not all cluster operations are available on both primary and secondary clusters. The following table summarizes what is supported on each.
 
-    <table>
-       <tr>
-         <th><p><strong>Operation</strong></p></th>
-         <th><p><strong>Primary</strong></p></th>
-         <th><p><strong>Secondary</strong></p></th>
-         <th><p><strong>Notes</strong></p></th>
-       </tr>
-       <tr>
-         <td><p>Read (search, query)</p></td>
-         <td><p>Yes</p></td>
-         <td><p>Yes</p></td>
-         <td><p>--</p></td>
-       </tr>
-       <tr>
-         <td><p>Write (insert, upsert, delete)</p></td>
-         <td><p>Yes</p></td>
-         <td><p>No</p></td>
-         <td><p>Only the primary cluster accepts write operations. Writing to a secondary cluster will fail.</p></td>
-       </tr>
-       <tr>
-         <td><p>Query CU scaling</p></td>
-         <td><p>Yes</p></td>
-         <td><p>No</p></td>
-         <td><p>Query CU changes are applied to the primary; secondaries follow automatically.</p></td>
-       </tr>
-       <tr>
-         <td><p>Replica scaling</p></td>
-         <td><p>Yes</p></td>
-         <td><p>Yes</p></td>
-         <td><p>Each cluster controls its own replica count. Dynamic scaling and schedule scaling configurations are also independent.</p></td>
-       </tr>
-       <tr>
-         <td><p>Import</p></td>
-         <td><p>No</p></td>
-         <td><p>No</p></td>
-         <td><p>Will be supported soon.</p></td>
-       </tr>
-       <tr>
-         <td><p>Migration</p></td>
-         <td><p>Yes</p></td>
-         <td><p>No</p></td>
-         <td><p>Migration is only supported on the primary cluster. All data migrated to the primary cluster will be replicated to secondary clusters.</p></td>
-       </tr>
-       <tr>
-         <td><p>Backup</p></td>
-         <td><p>Yes</p></td>
-         <td><p>No</p></td>
-         <td><p>You can only create backups for a primary cluster.</p><p>Automatic backup policies also run on the primary only.</p></td>
-       </tr>
-       <tr>
-         <td><p>Restore</p></td>
-         <td><p>No</p></td>
-         <td><p>No</p></td>
-         <td><p>Will be supported soon.</p></td>
-       </tr>
-       <tr>
-         <td><p>Suspend / Resume</p></td>
-         <td><p>No</p></td>
-         <td><p>No</p></td>
-         <td><p>All primary and secondary clusters cannot be suspended.</p></td>
-       </tr>
-       <tr>
-         <td><p>Switchover</p></td>
-         <td><p>Yes</p></td>
-         <td><p>—</p></td>
-         <td><p>Can only be triggered when all of the primary and secondary clusters are RUNNING.</p></td>
-       </tr>
-       <tr>
-         <td><p>Failover</p></td>
-         <td><p>Yes</p></td>
-         <td><p>—</p></td>
-         <td><p>Can be triggered anytime. This is a high-risk emergency operation.</p></td>
-       </tr>
-    </table>
+    | **Operation** | **Primary** | **Secondary** | **Notes** |
+    | --- | --- | --- | --- |
+    | Read (search, query) | Yes | Yes | -- |
+    | Write (insert, upsert, delete) | Yes | No | Only the primary cluster accepts write operations. Writing to a secondary cluster will fail. |
+    | Query CU scaling | Yes | No | Query CU changes are applied to the primary; secondaries follow automatically. |
+    | Replica scaling | Yes | Yes | Each cluster controls its own replica count. Dynamic scaling and schedule scaling configurations are also independent. |
+    | Import | No | No | Will be supported soon. |
+    | Migration | Yes | No | Migration is only supported on the primary cluster. All data migrated to the primary cluster will be replicated to secondary clusters. |
+    | Backup | Yes | No | You can only create backups for a primary cluster.<br/>Automatic backup policies also run on the primary only. |
+    | Restore | No | No | Will be supported soon. |
+    | Suspend / Resume | No | No | All primary and secondary clusters cannot be suspended. |
+    | Switchover | Yes | — | Can only be triggered when all of the primary and secondary clusters are RUNNING. |
+    | Failover | Yes | — | Can be triggered anytime. This is a high-risk emergency operation. |
 
 - **Unsupported features**
 

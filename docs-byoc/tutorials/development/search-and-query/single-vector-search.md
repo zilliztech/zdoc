@@ -25,7 +25,7 @@ Based on an index file recording the sorted order of vector embeddings, the Appr
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>If you add new fields after the collection has been created, searches that include these fields return the defined default values or <code>NULL</code> for entities that have not explicitly set values. For details, refer to <a href="./add-fields-to-an-existing-collection">Alter Collection Schema</a>.</p>
+If you add new fields after the collection has been created, searches that include these fields return the defined default values or `NULL` for entities that have not explicitly set values. For details, refer to [Alter Collection Schema](./add-fields-to-an-existing-collection).
 
 </Admonition>
 
@@ -65,7 +65,7 @@ In this section, you will learn how to conduct a single-vector search. The searc
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Use a colon-separated username and password of the target cluster, like <code>username:password</code>, as the authentication token when calling data-plane RESTful API endpoints.</p>
+Use a colon-separated username and password of the target cluster, like `username:password`, as the authentication token when calling data-plane RESTful API endpoints.
 
 </Admonition>
 
@@ -202,7 +202,6 @@ for _, resultSet := range resultSets {
     fmt.Println("IDs: ", resultSet.IDs.FieldData().GetScalars())
     fmt.Println("Scores: ", resultSet.Scores)
 }
-
 ```
 
 </TabItem>
@@ -278,42 +277,51 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
+```c++
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+std::vector<float> query_vector = {0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592};
+auto request = milvus::SearchRequest()
+                   .WithCollectionName("quick_setup")
+                   .WithLimit(3)
+                   .WithAnnsField("vector")
+                   .AddFloatVector(query_vector);
+
+milvus::SearchResponse response;
+status = client->Search(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+for (auto& result : response.Results().Results()) {
+    std::cout << "TopK results:" << std::endl;
+    milvus::EntityRows output_rows;
+    status = result.OutputRows(output_rows);
+    for (const auto& row : output_rows) {
+        std::cout << "\t" << row << std::endl;
+    }
+}
+```
+
 Milvus ranks the search results by their similarity scores to the query vector in descending order. The similarity score is also termed the distance to the query vector, and its value ranges vary with the metric types in use.
 
 The following table lists the applicable metric types and the corresponding distance ranges.
 
-<table>
-   <tr>
-     <th><p>Metric Type</p></th>
-     <th><p>Characteristics</p></th>
-     <th><p>Distance Range</p></th>
-   </tr>
-   <tr>
-     <td><p><code>L2</code></p></td>
-     <td><p>A smaller value indicates a higher similarity.</p></td>
-     <td><p>[0, ∞)</p></td>
-   </tr>
-   <tr>
-     <td><p><code>IP</code></p></td>
-     <td><p>A greater value indicates a higher similarity.</p></td>
-     <td><p>[-1, 1]</p></td>
-   </tr>
-   <tr>
-     <td><p><code>COSINE</code></p></td>
-     <td><p>A greater value indicates a higher similarity.</p></td>
-     <td><p>[-1, 1]</p></td>
-   </tr>
-   <tr>
-     <td><p><code>JACCARD</code></p></td>
-     <td><p>A smaller value indicates a higher similarity.</p></td>
-     <td><p>[0, 1]</p></td>
-   </tr>
-   <tr>
-     <td><p><code>HAMMING</code></p></td>
-     <td><p>A smaller value indicates a higher similarity.</p></td>
-     <td><p>[0, dim(vector)]</p></td>
-   </tr>
-</table>
+| Metric Type | Characteristics | Distance Range |
+| --- | --- | --- |
+| `L2` | A smaller value indicates a higher similarity. | [0, ∞) |
+| `IP` | A greater value indicates a higher similarity. | [-1, 1] |
+| `COSINE` | A greater value indicates a higher similarity. | [-1, 1] |
+| `JACCARD` | A smaller value indicates a higher similarity. | [0, 1] |
+| `HAMMING` | A smaller value indicates a higher similarity. | [0, dim(vector)] |
 
 ## Bulk-Vector Search\{#bulk-vector-search}
 
@@ -380,7 +388,6 @@ for hits in res:
 #         }
 #     ]
 # ]
-
 ```
 
 </TabItem>
@@ -547,6 +554,33 @@ curl --request POST \
 
 </TabItem>
 </Tabs>
+
+```c++
+std::vector<std::vector<float>> query_vectors = {
+    {0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592},
+    {0.19886812562848388, 0.06023560599112088, 0.6976963061752597, 0.2614474506242501, 0.838729485096104}
+};
+auto request = milvus::SearchRequest()
+                   .WithCollectionName("quick_setup")
+                   .WithLimit(3)
+                   .WithAnnsField("vector")
+                   .WithFloatVector(std::move(query_vectors));
+
+milvus::SearchResponse response;
+auto status = client->Search(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+for (auto& result : response.Results().Results()) {
+    std::cout << "TopK results:" << std::endl;
+    milvus::EntityRows output_rows;
+    status = result.OutputRows(output_rows);
+    for (const auto& row : output_rows) {
+        std::cout << "\t" << row << std::endl;
+    }
+}
+```
 
 ## Primary-Key Search\{#primary-key-search}
 
@@ -791,6 +825,31 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
+```c++
+std::vector<float> query_vector = {0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592};
+auto request = milvus::SearchRequest()
+                   .WithCollectionName("quick_setup")
+                   .AddPartitionName("partitionA")
+                   .WithLimit(3)
+                   .WithAnnsField("vector")
+                   .AddFloatVector(query_vector);
+
+milvus::SearchResponse response;
+auto status = client->Search(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+for (auto& result : response.Results().Results()) {
+    std::cout << "TopK results:" << std::endl;
+    milvus::EntityRows output_rows;
+    status = result.OutputRows(output_rows);
+    for (const auto& row : output_rows) {
+        std::cout << "\t" << row << std::endl;
+    }
+}
+```
+
 ## Use Output Fields\{#use-output-fields}
 
 In a search result, Zilliz Cloud includes the primary field values and similarity distances/scores of the entities that contain the top-K vector embeddings by default. You can include the names of the target fields, including both the vector and scalar fields, in a search request as the output fields to make the search results carry the values from other fields in these entities.
@@ -973,6 +1032,31 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
+```c++
+std::vector<float> query_vector = {0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592};
+auto request = milvus::SearchRequest()
+                   .WithCollectionName("quick_setup")
+                   .WithLimit(3)
+                   .WithAnnsField("vector")
+                   .AddOutputField("color")
+                   .AddFloatVector(query_vector);
+
+milvus::SearchResponse response;
+auto status = client->Search(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+for (auto& result : response.Results().Results()) {
+    std::cout << "TopK results:" << std::endl;
+    milvus::EntityRows output_rows;
+    status = result.OutputRows(output_rows);
+    for (const auto& row : output_rows) {
+        std::cout << "\t" << row << std::endl;
+    }
+}
+```
+
 ## Sort Search Results by Scalar Fields | PRIVATE\{#sort-search-results-by-scalar-fields}
 
 By default, Zilliz Cloud orders search results by their similarity score to the query vector. If you want the returned entities to follow a scalar field order, add `order_by_fields` to the search request.
@@ -981,7 +1065,7 @@ Each item in `order_by_fields` specifies a scalar field and a sort direction. Us
 
 The following example sorts search results by `price` from low to high. Include the sort field in `output_fields` if you want to inspect the field value in the response.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1032,11 +1116,19 @@ res = client.search(
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// cpp
+```
+
+</TabItem>
 </Tabs>
 
 You can also sort by multiple scalar fields. Zilliz Cloud applies the fields in the order that you specify. In the following example, Zilliz Cloud sorts results by `price` in ascending order. For entities with the same `price`, Zilliz Cloud then sorts by `rating` in descending order.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1088,6 +1180,14 @@ res = client.search(
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// cpp
+```
+
+</TabItem>
 </Tabs>
 
 For entities with the same values in all specified order-by fields, Zilliz Cloud keeps the original similarity-score order.
@@ -1100,33 +1200,12 @@ If you wish to perform paginated queries, you can use a loop to send multiple Se
 
 The table below outlines how to set the **Limit** and **Offset** parameters for paginated queries when returning 100 Entities at a time.
 
-<table>
-   <tr>
-     <th><p>Queries</p></th>
-     <th><p>Entities to return per query</p></th>
-     <th><p>Entities already been returned in total</p></th>
-   </tr>
-   <tr>
-     <td><p>The <strong>1st</strong> query</p></td>
-     <td><p>100</p></td>
-     <td><p>0</p></td>
-   </tr>
-   <tr>
-     <td><p>The <strong>2nd</strong> query</p></td>
-     <td><p>100</p></td>
-     <td><p>100</p></td>
-   </tr>
-   <tr>
-     <td><p>The <strong>3rd</strong> query</p></td>
-     <td><p>100</p></td>
-     <td><p>200</p></td>
-   </tr>
-   <tr>
-     <td><p>The <strong>nth</strong> query</p></td>
-     <td><p>100</p></td>
-     <td><p>100 x (n-1)</p></td>
-   </tr>
-</table>
+| Queries | Entities to return per query | Entities already been returned in total |
+| --- | --- | --- |
+| The **1st** query | 100 | 0 |
+| The **2nd** query | 100 | 100 |
+| The **3rd** query | 100 | 200 |
+| The **nth** query | 100 | 100 x (n-1) |
 
 Note that, the sum of `limit` and `offset` in a single ANN search should be less than 16,384.
 
@@ -1251,6 +1330,31 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
+```c++
+std::vector<float> query_vector = {0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592};
+auto request = milvus::SearchRequest()
+                   .WithCollectionName("quick_setup")
+                   .WithLimit(3)
+                   .WithAnnsField("vector")
+                   .WithOffset(10)
+                   .AddFloatVector(query_vector);
+
+milvus::SearchResponse response;
+auto status = client->Search(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+for (auto& result : response.Results().Results()) {
+    std::cout << "TopK results:" << std::endl;
+    milvus::EntityRows output_rows;
+    status = result.OutputRows(output_rows);
+    for (const auto& row : output_rows) {
+        std::cout << "\t" << row << std::endl;
+    }
+}
+```
+
 ## Use Level\{#use-level}
 
 To optimize ANN searches, Zilliz Cloud provides a parameter named `level` to control the search precision with simplified search optimization.
@@ -1259,7 +1363,7 @@ This parameter ranges from `1` to `10` and defaults to `1`. Increasing the value
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>The <code>level</code>  parameter is still in <strong>Public Preview</strong>. If you cannot set it to a value greater than <code>5</code>, your cluster may not fully support this feature. As a workaround, you can set it to a value within the range from <code>1</code> to <code>5</code> instead, or contact <a href="https://zilliz.com/contact-sales">Zilliz Cloud support</a>.</p>
+The `level`  parameter is still in **Public Preview**. If you cannot set it to a value greater than `5`, your cluster may not fully support this feature. As a workaround, you can set it to a value within the range from `1` to `5` instead, or contact [Zilliz Cloud support](https://zilliz.com/contact-sales).
 
 </Admonition>
 
@@ -1397,13 +1501,38 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
+```c++
+std::vector<float> query_vector = {0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592};
+auto request = milvus::SearchRequest()
+                   .WithCollectionName("quick_setup")
+                   .WithLimit(3)
+                   .WithAnnsField("vector")
+                   .AddFloatVector(query_vector)
+                   .AddExtraParam("level", "10");
+
+milvus::SearchResponse response;
+auto status = client->Search(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+for (auto& result : response.Results().Results()) {
+    std::cout << "TopK results:" << std::endl;
+    milvus::EntityRows output_rows;
+    status = result.OutputRows(output_rows);
+    for (const auto& row : output_rows) {
+        std::cout << "\t" << row << std::endl;
+    }
+}
+```
+
 ## Get Recall Rate\{#get-recall-rate}
 
 You can set `enable_recall_calculation` to `true`when you tweek the `level` parameter so that you can evaluate the precisions of your search with different `level` values.
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>The <code>enable_recall_calculation</code>  parameter is still in <strong>Public Preview</strong>, and you might not be able to use it due to compatibility issues. For any assistance, please contact us at <a href="https://zilliz.com/contact-sales">Zilliz Cloud support</a>.</p>
+The `enable_recall_calculation`  parameter is still in **Public Preview**, and you might not be able to use it due to compatibility issues. For any assistance, please contact us at [Zilliz Cloud support](https://zilliz.com/contact-sales).
 
 </Admonition>
 
@@ -1545,6 +1674,32 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
+```c++
+std::vector<float> query_vector = {0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592};
+auto request = milvus::SearchRequest()
+                   .WithCollectionName("quick_setup")
+                   .WithLimit(3)
+                   .WithAnnsField("vector")
+                   .AddFloatVector(query_vector)
+                   .AddExtraParam("level", "10")
+                   .AddExtraParam("enable_recall_calculation", "true");
+
+milvus::SearchResponse response;
+auto status = client->Search(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+for (auto& result : response.Results().Results()) {
+    std::cout << "TopK results:" << std::endl;
+    milvus::EntityRows output_rows;
+    status = result.OutputRows(output_rows);
+    for (const auto& row : output_rows) {
+        std::cout << "\t" << row << std::endl;
+    }
+}
+```
+
 ## Temporarily set a timezone for a search\{#temporarily-set-a-timezone-for-a-search}
 
 If your collection has a `TIMESTAMPTZ` field, you can temporarily override the database or collection default timezone for a single operation by setting the `timezone` parameter in the search call. This controls how `TIMESTAMPTZ` values are displayed and compared during the operation.
@@ -1615,6 +1770,23 @@ curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/entities/search" \
 
 </TabItem>
 </Tabs>
+
+```c++
+std::vector<float> query_vector = {0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592};
+auto request = milvus::SearchRequest()
+                   .WithCollectionName("quick_setup")
+                   .WithLimit(3)
+                   .WithAnnsField("vector")
+                   .AddFloatVector(query_vector)
+                   .WithMetricType(milvus::MetricType::IP)
+                   .WithTimezone("America/Havana");
+
+milvus::SearchResponse response;
+auto status = client->Search(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
 
 ## Enhancing ANN Search\{#enhancing-ann-search}
 

@@ -60,7 +60,7 @@ You can use the Zilliz Cloud Terraform Provider to create and manage clusters of
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>When using the Terraform Provider with BYOC, only dedicated and BYOC cluster types are supported. Free and Serverless cluster creation is not available in BYOC projects.</p>
+When using the Terraform Provider with BYOC, only dedicated and BYOC cluster types are supported. Free and Serverless cluster creation is not available in BYOC projects.
 
 </Admonition>
 

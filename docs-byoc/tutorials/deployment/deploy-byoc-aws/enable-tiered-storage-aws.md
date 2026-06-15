@@ -122,20 +122,10 @@ terraform plan
 
 Expected plan output:
 
-<table>
-   <tr>
-     <th><p><strong>Scenario</strong></p></th>
-     <th><p><strong>Expected Result</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>Tiered storage <strong>not enabled</strong></p></td>
-     <td><p>No new resources (enable_tiered = false, count = 0)</p></td>
-   </tr>
-   <tr>
-     <td><p>Tiered storage <strong>enabled</strong></p></td>
-     <td><p>aws_eks_node_group.tiered[0] will be created (1 to add)</p></td>
-   </tr>
-</table>
+| **Scenario** | **Expected Result** |
+| --- | --- |
+| Tiered storage **not enabled** | No new resources (enable_tiered = false, count = 0) |
+| Tiered storage **enabled** | aws_eks_node_group.tiered[0] will be created (1 to add) |
 
 Existing resources should show **no destroy or recreate** actions.
 

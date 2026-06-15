@@ -24,7 +24,7 @@ Data transfer can be traffic coming into Zilliz Cloud, leaving Zilliz Cloud out 
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Each organization receives a &#36;10 monthly data transfer discount, covering the first 100 GB.</p>
+Each organization receives a &#36;10 monthly data transfer discount, covering the first 100 GB.
 
 </Admonition>
 
@@ -69,8 +69,9 @@ You will be billed for data transfer in the following scenarios:
 
 <Admonition type="info" icon="📘" title="Note">
 
-<p>If the data transfer occurs within the same cloud region, the cost may be &#36;0.</p>
-<p>If you use a private endpoint to conduct operations like search or query, no data transfer cost will incur.</p>
+If the data transfer occurs within the same cloud region, the cost may be &#36;0.
+
+If you use a private endpoint to conduct operations like search or query, no data transfer cost will incur.
 
 </Admonition>
 

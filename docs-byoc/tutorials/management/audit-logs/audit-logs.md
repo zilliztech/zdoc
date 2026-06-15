@@ -24,11 +24,11 @@ Audit logging allows administrators to track and monitor user-driven operations 
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<ul>
-<li><p>Audit logging is available only for <strong>Dedicated</strong> clusters in <strong>Enterprise</strong> projects or higher plan tiers.</p></li>
-<li><p>Audit logging is supported only for Zilliz Cloud clusters running Milvus 2.5.x or later.</p></li>
-<li><p>In BYOC deployments, VDB audit logs are written directly to the log bucket configured in your data plane's local object storage (S3/Azure Blob Storage/GCS), ensuring no data leaves your infrastructure. To enable and configure audit logging, please <a href="https://support.zilliz.com/hc/en-us">contact us</a>.</p></li>
-</ul>
+- Audit logging is available only for **Dedicated** clusters in **Enterprise** projects or higher plan tiers.
+
+- Audit logging is supported only for Zilliz Cloud clusters running Milvus 2.5.x or later.
+
+- In BYOC deployments, VDB audit logs are written directly to the log bucket configured in your data plane's local object storage (S3/Azure Blob Storage/GCS), ensuring no data leaves your infrastructure. To enable and configure audit logging, please [contact us](https://support.zilliz.com/hc/en-us).
 
 </Admonition>
 
@@ -44,7 +44,7 @@ Audit logging tracks a wide range of operations on the data plane, including:
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Cluster-level data jobs such as migration, backup, and restore do not generate audit logs. To view these activity records, refer to <a href="./view-activities">View Activities</a>.</p>
+Cluster-level data jobs such as migration, backup, and restore do not generate audit logs. To view these activity records, refer to [View Activities](./view-activities).
 
 </Admonition>
 
@@ -121,8 +121,9 @@ Refer to the [Audit Log Reference](./audit-logs-ref) for a detailed list of supp
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Audit logging will be directly forwarded to the object storage bucket configured during the data plane deployment.</p>
-<p>To export the logs to your logging system for further analysis, <a href="https://support.zilliz.com/hc/en-us/requests/new">contact us</a>.</p>
+Audit logging will be directly forwarded to the object storage bucket configured during the data plane deployment.
+
+To export the logs to your logging system for further analysis, [contact us](https://support.zilliz.com/hc/en-us/requests/new).
 
 </Admonition>
 

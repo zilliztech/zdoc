@@ -27,7 +27,7 @@ This guide walks you through how to create a role, grant built-in privilege grou
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This feature is exclusively available to Dedicated clusters.</p>
+This feature is exclusively available to Dedicated clusters.
 
 </Admonition>
 
@@ -44,7 +44,6 @@ The role name must start with a letter and can only include uppercase or lowerca
 from pymilvus import MilvusClient
 
 client.create_role(role_name="role_a")
-
 ```
 
 </TabItem>
@@ -153,10 +152,9 @@ In Zilliz Cloud, you can grant the followings to a role:
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<ul>
-<li><p>If you need to grant custom privilege groups to a role, please <a href="http://support.zilliz.com">create a support ticket</a> so that we can enable this feature for you.</p></li>
-<li><p>For clusters running Milvus 2.5.x or later, individual privileges are no longer supported.</p></li>
-</ul>
+- If you need to grant custom privilege groups to a role, please [create a support ticket](http://support.zilliz.com) so that we can enable this feature for you.
+
+- For clusters running Milvus 2.5.x or later, individual privileges are no longer supported.
 
 </Admonition>
 
@@ -295,7 +293,6 @@ curl --request POST \
     "collectionName": "*",
     "dbName":"*"
 }'
-
 ```
 
 </TabItem>
@@ -533,7 +530,6 @@ curl --request POST \
     "collectionName": "*",
     "dbName":"*"
 }'
-
 ```
 
 </TabItem>
@@ -545,7 +541,7 @@ The following example demonstrates how to drop the role `role_a`.
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>The built-in role <code>admin</code> cannot be dropped.</p>
+The built-in role `admin` cannot be dropped.
 
 </Admonition>
 

@@ -30,43 +30,14 @@ External migration simplifies the process of moving your vector databases and se
 
 Zilliz Cloud supports migration from leading vector databases and search platforms:
 
-<table>
-   <tr>
-     <th><p>Data Source</p></th>
-     <th><p>Type</p></th>
-     <th><p>Key Features</p></th>
-   </tr>
-   <tr>
-     <td><p><a href="./migrate-from-pinecone">Pinecone</a></p></td>
-     <td><p>Vector database</p></td>
-     <td><p>Serverless indexes with similarity search</p></td>
-   </tr>
-   <tr>
-     <td><p><a href="./migrate-from-qdrant">Qdrant</a></p></td>
-     <td><p>Vector database</p></td>
-     <td><p>Open-source engine, cloud and self-hosted</p></td>
-   </tr>
-   <tr>
-     <td><p><a href="./migrate-from-elasticsearch">Elasticsearch</a></p></td>
-     <td><p>Search engine</p></td>
-     <td><p>Dense vector support with full-text search</p></td>
-   </tr>
-   <tr>
-     <td><p><a href="./migrate-from-pgvector">PostgreSQL</a></p></td>
-     <td><p>Relational database</p></td>
-     <td><p>Vector extension (pgvector) support</p></td>
-   </tr>
-   <tr>
-     <td><p><a href="./migrate-from-tencent-cloud">Tencent Cloud VectorDB</a></p></td>
-     <td><p>Managed service</p></td>
-     <td><p>Managed vector database service</p></td>
-   </tr>
-   <tr>
-     <td><p><a href="./migrate-from-opensearch">OpenSearch</a></p></td>
-     <td><p>Search platform</p></td>
-     <td><p>KNN plugin with vector capabilities</p></td>
-   </tr>
-</table>
+| Data Source | Type | Key Features |
+| --- | --- | --- |
+| [Pinecone](./migrate-from-pinecone) | Vector database | Serverless indexes with similarity search |
+| [Qdrant](./migrate-from-qdrant) | Vector database | Open-source engine, cloud and self-hosted |
+| [Elasticsearch](./migrate-from-elasticsearch) | Search engine | Dense vector support with full-text search |
+| [PostgreSQL](./migrate-from-pgvector) | Relational database | Vector extension (pgvector) support |
+| [Tencent Cloud VectorDB](./migrate-from-tencent-cloud) | Managed service | Managed vector database service |
+| [OpenSearch](./migrate-from-opensearch) | Search platform | KNN plugin with vector capabilities |
 
 ## Core capabilities\{#core-capabilities}
 
@@ -181,33 +152,12 @@ Once configuration is complete, execute the migration and track progress:
 
 Before starting your migration, be aware of these common limitations that apply across all supported data sources:
 
-<table>
-   <tr>
-     <th><p>Consideration</p></th>
-     <th><p>Impact</p></th>
-     <th><p>Solution</p></th>
-   </tr>
-   <tr>
-     <td><p>No automatic indexing or loading</p></td>
-     <td><p>Collections not queryable immediately</p></td>
-     <td><p>Manually create indexes and load the collections post-migration. For detailed steps, refer to Index Vector Fields and <a href="./load-release-collections">Load & Release</a>.</p></td>
-   </tr>
-   <tr>
-     <td><p>Empty source data</p></td>
-     <td><p>Cannot select empty indexes/tables</p></td>
-     <td><p>Ensure source contains data before migrating</p></td>
-   </tr>
-   <tr>
-     <td><p>Vector field requirements</p></td>
-     <td><p>Collections must contain vector data</p></td>
-     <td><p>Verify your source has vector fields before migration</p></td>
-   </tr>
-   <tr>
-     <td><p>Unsupported data types</p></td>
-     <td><p>Some specialized data types may not transfer</p></td>
-     <td><p>Review platform-specific guides for data type mappings</p></td>
-   </tr>
-</table>
+| Consideration | Impact | Solution |
+| --- | --- | --- |
+| No automatic indexing or loading | Collections not queryable immediately | Manually create indexes and load the collections post-migration. For detailed steps, refer to Index Vector Fields and [Load & Release](./load-release-collections). |
+| Empty source data | Cannot select empty indexes/tables | Ensure source contains data before migrating |
+| Vector field requirements | Collections must contain vector data | Verify your source has vector fields before migration |
+| Unsupported data types | Some specialized data types may not transfer | Review platform-specific guides for data type mappings |
 
 ## Getting started\{#getting-started}
 

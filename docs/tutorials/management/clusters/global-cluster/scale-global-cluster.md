@@ -26,7 +26,7 @@ This page explains the scaling behavior for global clusters and how to scale eac
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This feature is available only to <strong>Dedicated</strong> clusters in a <strong>Business Critical</strong> project.</p>
+This feature is available only to **Dedicated** clusters in a **Business Critical** project.
 
 </Admonition>
 
@@ -38,23 +38,10 @@ This page explains the scaling behavior for global clusters and how to scale eac
 
 The following table provides an overview of the supported scaling behavior on a global cluster.
 
-<table>
-   <tr>
-     <th><p><strong>Resource</strong></p></th>
-     <th><p><strong>Primary Cluster</strong></p></th>
-     <th><p><strong>Secondary cluster</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>Query CU</p></td>
-     <td><p>Supported. </p><p>All scaling methods (manual, dynamic, scheduled) available.</p></td>
-     <td><p>Auto-follows primary. Cannot be scaled independently.</p></td>
-   </tr>
-   <tr>
-     <td><p>Replica</p></td>
-     <td><p>Supported. </p><p>All scaling methods (manual, dynamic, scheduled) available.</p></td>
-     <td><p>Supported. </p><p>All scaling methods (manual, dynamic, scheduled) available.</p><p>Configured independently per cluster.</p></td>
-   </tr>
-</table>
+| **Resource** | **Primary Cluster** | **Secondary cluster** |
+| --- | --- | --- |
+| Query CU | Supported.<br/>All scaling methods (manual, dynamic, scheduled) available. | Auto-follows primary. Cannot be scaled independently. |
+| Replica | Supported.<br/>All scaling methods (manual, dynamic, scheduled) available. | Supported.<br/>All scaling methods (manual, dynamic, scheduled) available.<br/>Configured independently per cluster. |
 
 ## Scale query CUs\{#scale-query-cus}
 
@@ -76,32 +63,11 @@ Replica scaling is controlled independently per cluster. Each cluster in the glo
 
 The following is an example of configuration replicas for each cluster.
 
-<table>
-   <tr>
-     <th><p><strong>Cluster</strong></p></th>
-     <th><p><strong>Region</strong></p></th>
-     <th><p><strong>Replica</strong></p></th>
-     <th><p><strong>Reason</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>Primary</p></td>
-     <td><p>us-west-2</p></td>
-     <td><p>2</p></td>
-     <td><p>Moderate read + all write traffic</p></td>
-   </tr>
-   <tr>
-     <td><p>Secondary_01</p></td>
-     <td><p>eu-west-1</p></td>
-     <td><p>4</p></td>
-     <td><p>High European read traffic</p></td>
-   </tr>
-   <tr>
-     <td><p>Secondary_02</p></td>
-     <td><p>ap-southeast-1</p></td>
-     <td><p>1</p></td>
-     <td><p>Low traffic, disaster recovery standby only</p></td>
-   </tr>
-</table>
+| **Cluster** | **Region** | **Replica** | **Reason** |
+| --- | --- | --- | --- |
+| Primary | us-west-2 | 2 | Moderate read + all write traffic |
+| Secondary_01 | eu-west-1 | 4 | High European read traffic |
+| Secondary_02 | ap-southeast-1 | 1 | Low traffic, disaster recovery standby only |
 
 Scaling the replica of a primary or secondary cluster follows the same procedure as a regular Dedicated cluster. For details, see [Scale Replica](./manage-replica).
 

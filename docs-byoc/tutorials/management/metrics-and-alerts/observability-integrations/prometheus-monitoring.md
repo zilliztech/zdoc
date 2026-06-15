@@ -57,44 +57,19 @@ To monitor Zilliz Cloud clusters with Prometheus, follow these steps:
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    <p>The cluster must contain no more than 10,000 collections. Clusters exceeding this limit may experience incomplete or degraded metrics export.</p>
+    The cluster must contain no more than 10,000 collections. Clusters exceeding this limit may experience incomplete or degraded metrics export.
 
     </Admonition>
 
-    <table>
-       <tr>
-         <th><p>Parameter</p></th>
-         <th><p>Description</p></th>
-       </tr>
-       <tr>
-         <td><p><code>job_name</code></p></td>
-         <td><p>Human-readable label assigned to scraped metrics.</p></td>
-       </tr>
-       <tr>
-         <td><p><code>scheme</code></p></td>
-         <td><p>The protocol scheme used to scrape metrics from the Zilliz Cloud endpoints, which is set to <code>https</code>.</p></td>
-       </tr>
-       <tr>
-         <td><p><code>metrics_path</code></p></td>
-         <td><p>The path on the target service that provides the metric data.</p></td>
-       </tr>
-       <tr>
-         <td><p><code>scrape_interval</code></p></td>
-         <td><p>How frequently to scrape the target. The minimum supported value is <code>60s</code>. Lower values are not accepted by the endpoint.</p></td>
-       </tr>
-       <tr>
-         <td><p><code>authorization.type</code></p></td>
-         <td><p>The authentication type used to access the Zilliz Cloud metrics. Set the value to <code>Bearer</code>.</p></td>
-       </tr>
-       <tr>
-         <td><p><code>authorization.credentials</code></p></td>
-         <td><p>The API key used for authorization to access the Zilliz Cloud metrics endpoints.</p></td>
-       </tr>
-       <tr>
-         <td><p><code>static_configs.targets</code></p></td>
-         <td><p>The static target that Prometheus will scrape, which should be configured by Zilliz Cloud for you upon requests. For details, please contact <a href="https://support.zilliz.com/hc/en-us">Zilliz Technical Support</a>..</p></td>
-       </tr>
-    </table>
+    | Parameter | Description |
+    | --- | --- |
+    | `job_name` | Human-readable label assigned to scraped metrics. |
+    | `scheme` | The protocol scheme used to scrape metrics from the Zilliz Cloud endpoints, which is set to `https`. |
+    | `metrics_path` | The path on the target service that provides the metric data. |
+    | `scrape_interval` | How frequently to scrape the target. The minimum supported value is `60s`. Lower values are not accepted by the endpoint. |
+    | `authorization.type` | The authentication type used to access the Zilliz Cloud metrics. Set the value to `Bearer`. |
+    | `authorization.credentials` | The API key used for authorization to access the Zilliz Cloud metrics endpoints. |
+    | `static_configs.targets` | The static target that Prometheus will scrape, which should be configured by Zilliz Cloud for you upon requests. For details, please contact [Zilliz Technical Support](https://support.zilliz.com/hc/en-us).. |
 
 1. Save the changes to the `Prometheus.yml` file.
 
@@ -145,133 +120,34 @@ zilliz_storage_bytes 8.9342782E7
 
 The metrics exposed by Zilliz Cloud are labeled with the following identifiers.
 
-<table>
-   <tr>
-     <th><p>Label Name</p></th>
-     <th><p>Description</p></th>
-     <th><p>Values</p></th>
-   </tr>
-   <tr>
-     <td><p><code>cluster_id</code></p></td>
-     <td><p>The ID of the Zilliz Cloud cluster that the metrics are from.</p></td>
-     <td><p>-</p></td>
-   </tr>
-   <tr>
-     <td><p><code>org_id</code></p></td>
-     <td><p>The ID of the organization that owns the Zilliz Cloud cluster.</p></td>
-     <td><p>-</p></td>
-   </tr>
-   <tr>
-     <td><p><code>project_id</code></p></td>
-     <td><p>The ID of the project within the organization that the cluster belongs to.</p></td>
-     <td><p>-</p></td>
-   </tr>
-   <tr>
-     <td><p><code>collection_name</code></p></td>
-     <td><p>The name of the collection. Present on all per-collection metrics, including request metrics (<code>zilliz_requests_total</code>, <code>zilliz_request_vectors_total</code>, <code>zilliz_request_duration_seconds_bucket</code>) and data metrics (<code>zilliz_entities</code>, <code>zilliz_loaded_entities</code>).</p></td>
-     <td><p>-</p></td>
-   </tr>
-   <tr>
-     <td><p><code>db_name</code></p></td>
-     <td><p>The name of the database the collection belongs to. Present on all per-collection metrics alongside <code>collection_name</code>. Use this label to disambiguate collections with the same name across different databases.</p></td>
-     <td><p>Defaults to <code>default</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>request_type</code></p></td>
-     <td><p>The type of operation performed on the data.</p></td>
-     <td><p><code>insert</code>, <code>upsert</code>, <code>delete</code>, <code>bulk_insert</code>, <code>flush</code>, <code>search</code>, <code>query</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>status</code></p></td>
-     <td><p>The outcome of the data operation.</p></td>
-     <td><p><code>success</code>, <code>fail</code></p></td>
-   </tr>
-</table>
+| Label Name | Description | Values |
+| --- | --- | --- |
+| `cluster_id` | The ID of the Zilliz Cloud cluster that the metrics are from. | - |
+| `org_id` | The ID of the organization that owns the Zilliz Cloud cluster. | - |
+| `project_id` | The ID of the project within the organization that the cluster belongs to. | - |
+| `collection_name` | The name of the collection. Present on all per-collection metrics, including request metrics (`zilliz_requests_total`, `zilliz_request_vectors_total`, `zilliz_request_duration_seconds_bucket`) and data metrics (`zilliz_entities`, `zilliz_loaded_entities`). | - |
+| `db_name` | The name of the database the collection belongs to. Present on all per-collection metrics alongside `collection_name`. Use this label to disambiguate collections with the same name across different databases. | Defaults to `default` |
+| `request_type` | The type of operation performed on the data. | `insert`, `upsert`, `delete`, `bulk_insert`, `flush`, `search`, `query` |
+| `status` | The outcome of the data operation. | `success`, `fail` |
 
 ## Available metrics\{#available-metrics}
 
 The following table lists the metrics available for Zilliz Cloud, along with their types, descriptions, and associated labels. Per-collection metrics are returned with `collection_name` and `db_name` labels, producing separate time series for each collection. Cluster-only metrics are returned as a single series per cluster.
 
-<table>
-   <tr>
-     <th><p>Metric Name</p></th>
-     <th><p>Type</p></th>
-     <th><p>Description</p></th>
-     <th><p>Labels</p></th>
-   </tr>
-   <tr>
-     <td><p><code>zilliz_cluster_computation</code></p></td>
-     <td><p>Gauge</p></td>
-     <td><p>The current computation capacity utilization.</p></td>
-     <td><p><code>cluster_id</code>, <code>org_id</code>, <code>project_id</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>zilliz_cluster_capacity</code></p></td>
-     <td><p>Gauge</p></td>
-     <td><p>The current storage capacity utilization.</p></td>
-     <td><p><code>cluster_id</code>, <code>org_id</code>, <code>project_id</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>zilliz_storage_bytes</code></p></td>
-     <td><p>Gauge</p></td>
-     <td><p>The total storage space used.</p></td>
-     <td><p><code>cluster_id</code>, <code>org_id</code>, <code>project_id</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>zilliz_cluster_write_capacity</code></p></td>
-     <td><p>Gauge</p></td>
-     <td><p>The current write throughput.</p></td>
-     <td><p><code>cluster_id</code>, <code>org_id</code>, <code>project_id</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>zilliz_requests_total</code></p></td>
-     <td><p>Counter</p></td>
-     <td><p>The total number of requests processed.</p></td>
-     <td><p><code>cluster_id</code>, <code>org_id</code>, <code>project_id</code>, <code>request_type</code>, <code>status</code>, <code>collection_name</code>, <code>db_name</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>zilliz_request_vectors_total</code></p></td>
-     <td><p>Counter</p></td>
-     <td><p>The total number of vectors manipulated across all requests.</p></td>
-     <td><p><code>cluster_id</code>, <code>org_id</code>, <code>project_id</code>, <code>request_type</code>, <code>collection_name</code>, <code>db_name</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>zilliz_request_duration_seconds_bucket</code></p></td>
-     <td><p>Histogram</p></td>
-     <td><p>The latency distribution of requests processed.</p></td>
-     <td><p><code>cluster_id</code>, <code>org_id</code>, <code>project_id</code>, <code>request_type</code>, <code>collection_name</code>, <code>db_name</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>zilliz_slow_queries_total</code></p></td>
-     <td><p>Counter</p></td>
-     <td><p>The number of queries exceeding the latency threshold.</p></td>
-     <td><p><code>cluster_id</code>, <code>org_id</code>, <code>project_id</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>zilliz_entities</code></p></td>
-     <td><p>Gauge</p></td>
-     <td><p>The total number of entities stored.</p></td>
-     <td><p><code>cluster_id</code>, <code>org_id</code>, <code>project_id</code>, <code>collection_name</code>, <code>db_name</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>zilliz_loaded_entities</code></p></td>
-     <td><p>Gauge</p></td>
-     <td><p>The number of entities currently loaded in memory.</p></td>
-     <td><p><code>cluster_id</code>, <code>org_id</code>, <code>project_id</code>, <code>collection_name</code>, <code>db_name</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>zilliz_collections</code></p></td>
-     <td><p>Gauge</p></td>
-     <td><p>The total number of collections.</p></td>
-     <td><p><code>cluster_id</code>, <code>org_id</code>, <code>project_id</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>zilliz_unloaded_collections</code></p></td>
-     <td><p>Gauge</p></td>
-     <td><p>The number of unloaded collections.</p></td>
-     <td><p><code>cluster_id</code>, <code>org_id</code>, <code>project_id</code></p></td>
-   </tr>
-</table>
+| Metric Name | Type | Description | Labels |
+| --- | --- | --- | --- |
+| `zilliz_cluster_computation` | Gauge | The current computation capacity utilization. | `cluster_id`, `org_id`, `project_id` |
+| `zilliz_cluster_capacity` | Gauge | The current storage capacity utilization. | `cluster_id`, `org_id`, `project_id` |
+| `zilliz_storage_bytes` | Gauge | The total storage space used. | `cluster_id`, `org_id`, `project_id` |
+| `zilliz_cluster_write_capacity` | Gauge | The current write throughput. | `cluster_id`, `org_id`, `project_id` |
+| `zilliz_requests_total` | Counter | The total number of requests processed. | `cluster_id`, `org_id`, `project_id`, `request_type`, `status`, `collection_name`, `db_name` |
+| `zilliz_request_vectors_total` | Counter | The total number of vectors manipulated across all requests. | `cluster_id`, `org_id`, `project_id`, `request_type`, `collection_name`, `db_name` |
+| `zilliz_request_duration_seconds_bucket` | Histogram | The latency distribution of requests processed. | `cluster_id`, `org_id`, `project_id`, `request_type`, `collection_name`, `db_name` |
+| `zilliz_slow_queries_total` | Counter | The number of queries exceeding the latency threshold. | `cluster_id`, `org_id`, `project_id` |
+| `zilliz_entities` | Gauge | The total number of entities stored. | `cluster_id`, `org_id`, `project_id`, `collection_name`, `db_name` |
+| `zilliz_loaded_entities` | Gauge | The number of entities currently loaded in memory. | `cluster_id`, `org_id`, `project_id`, `collection_name`, `db_name` |
+| `zilliz_collections` | Gauge | The total number of collections. | `cluster_id`, `org_id`, `project_id` |
+| `zilliz_unloaded_collections` | Gauge | The number of unloaded collections. | `cluster_id`, `org_id`, `project_id` |
 
 ## Example Prometheus queries\{#example-prometheus-queries}
 

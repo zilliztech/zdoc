@@ -30,7 +30,7 @@ Zilliz Cloud supports multi-tenancy at four levels: **Database**, **Collection**
 
 ### Database-level multi-tenancy\{#database-level-multi-tenancy}
 
-With database-level multi-tenancy, each tenant receives a corresponding [database](./database) containing one or more collections. 
+With database-level multi-tenancy, each tenant receives a corresponding database containing one or more collections. 
 
 ![NVV9w0w49hZJ61bNzG4cdi9gn6C](https://zdoc-images.s3.us-west-2.amazonaws.com/NVV9w0w49hZJ61bNzG4cdi9gn6C.png)
 
@@ -88,71 +88,16 @@ With this strategy, all tenants share a single collection and schema, but each t
 
 The table below offers a comprehensive comparison between the four levels of multi-tenancy strategies.
 
-<table>
-   <tr>
-     <th></th>
-     <th><p><strong>Database-level</strong></p></th>
-     <th><p><strong>Collection-level</strong></p></th>
-     <th><p><strong>Partition-level</strong></p></th>
-     <th><p><strong>Partition key-level</strong></p></th>
-   </tr>
-   <tr>
-     <td><p><strong>Cluster deployment option</strong></p></td>
-     <td><p>Dedicated only</p></td>
-     <td><p>All deployment options</p></td>
-     <td><p>All deployment options</p></td>
-     <td><p>All deployment options</p></td>
-   </tr>
-   <tr>
-     <td><p><strong>Data Isolation</strong></p></td>
-     <td><p>Physical</p></td>
-     <td><p>Physical</p></td>
-     <td><p>Physical</p></td>
-     <td><p>Physical + Logical</p></td>
-   </tr>
-   <tr>
-     <td><p><strong>Max. number of tenants</strong></p></td>
-     <td><p>1024</p></td>
-     <td><p>Up to 16,384 depending on the cluster deployment option and project plan. </p><p>See <a href="./limits#collections">Zilliz Cloud Limits</a></p></td>
-     <td><p>Up to 1,024 per collection depending on the cluster deployment option and project plan. </p><p>See <a href="./limits">Zilliz Cloud Limits</a></p></td>
-     <td><p>Millions</p></td>
-   </tr>
-   <tr>
-     <td><p><strong>Data schema flexibility</strong></p></td>
-     <td><p>High</p></td>
-     <td><p>Medium</p></td>
-     <td><p>Low</p></td>
-     <td><p>Low</p></td>
-   </tr>
-   <tr>
-     <td><p><strong>RBAC support</strong></p></td>
-     <td><p>Yes</p></td>
-     <td><p>Yes</p></td>
-     <td><p>No</p></td>
-     <td><p>No</p></td>
-   </tr>
-   <tr>
-     <td><p><strong>Search performance</strong></p></td>
-     <td><p>Strong</p></td>
-     <td><p>Strong</p></td>
-     <td><p>Medium</p></td>
-     <td><p>Medium</p></td>
-   </tr>
-   <tr>
-     <td><p><strong>Cross-tenant search support</strong></p></td>
-     <td><p>No</p></td>
-     <td><p>No</p></td>
-     <td><p>Yes</p></td>
-     <td><p>Yes</p></td>
-   </tr>
-   <tr>
-     <td><p><strong>Support for effective handling of hot and cold data</strong></p></td>
-     <td><p>Yes</p></td>
-     <td><p>Yes</p></td>
-     <td><p>Yes</p></td>
-     <td><p>No</p><p>Currently, not supported for the partition key-level strategy. But if you have massive tenants and require effective handling of hot and cold data, please <a href="https://zilliz.com/contact-sales">contact us</a>.</p></td>
-   </tr>
-</table>
+|  | **Database-level** | **Collection-level** | **Partition-level** | **Partition key-level** |
+| --- | --- | --- | --- | --- |
+| **Cluster deployment option** | Dedicated only | All deployment options | All deployment options | All deployment options |
+| **Data Isolation** | Physical | Physical | Physical | Physical + Logical |
+| **Max. number of tenants** | 1024 | Up to 16,384 depending on the cluster deployment option and project plan.<br/>See [Zilliz Cloud Limits](./limits#collections) | Up to 1,024 per collection depending on the cluster deployment option and project plan.<br/>See [Zilliz Cloud Limits](./limits) | Millions |
+| **Data schema flexibility** | High | Medium | Low | Low |
+| **RBAC support** | Yes | Yes | No | No |
+| **Search performance** | Strong | Strong | Medium | Medium |
+| **Cross-tenant search support** | No | No | Yes | Yes |
+| **Support for effective handling of hot and cold data** | Yes | Yes | Yes | No<br/>Currently, not supported for the partition key-level strategy. But if you have massive tenants and require effective handling of hot and cold data, please [contact us](https://zilliz.com/contact-sales). |
 
 There are several factors to consider when you choose the multi-tenancy strategy in Zilliz Cloud.
 

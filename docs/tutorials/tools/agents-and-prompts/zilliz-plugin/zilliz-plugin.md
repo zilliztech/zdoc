@@ -1,6 +1,6 @@
 ---
 title: "Zilliz Claude Code Plugin | Cloud"
-slug: /zilliz-plugin
+slug: /agents/zilliz-plugin
 sidebar_label: "Claude Code Plugin"
 beta: FALSE
 added_since: FALSE
@@ -11,7 +11,15 @@ description: "The Zilliz Cloud plugin for Claude Code is a natural language inte
 type: origin
 token: LFepwAKeGiURJUksNA4cqYPYnIb
 sidebar_position: 2
-displayed_sidebar: default
+keywords: 
+  - zilliz
+  - vector database
+  - ai-agents
+  - decision matrix
+  - skill
+  - claude
+  - zilliz cli
+displayed_sidebar: agentsSidebar
 
 ---
 

@@ -26,7 +26,7 @@ To access invoices, you must have either **Organization Owner** or **Organizatio
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>If you subscribe on Marketplace, you will receive invoices for your Zilliz Cloud usage through the Marketplace. </p>
+If you subscribe on Marketplace, you will receive invoices for your Zilliz Cloud usage through the Marketplace. 
 
 </Admonition>
 
@@ -54,32 +54,13 @@ The billing cycle, displayed at the top of your invoice, shows the period during
 
 In Zilliz Cloud, invoice statuses represent different stages in the payment process. The following table explains each possible status:
 
-<table>
-   <tr>
-     <th><p><strong>Status</strong></p></th>
-     <th><p><strong>Definition</strong></p></th>
-   </tr>
-   <tr>
-     <td><p><strong>Unbilled</strong></p></td>
-     <td><p>Transactions that occur after the billing cycle but before the statement is generated. These amounts are not immediately due but will be included in the next billing cycle.</p></td>
-   </tr>
-   <tr>
-     <td><p><strong>Unpaid</strong></p></td>
-     <td><p>The invoice is billed and is within the due timeframe.</p></td>
-   </tr>
-   <tr>
-     <td><p><strong>Overdue</strong></p></td>
-     <td><p>The invoice is billed but not paid within the due timeframe.</p></td>
-   </tr>
-   <tr>
-     <td><p><strong>Paid</strong></p></td>
-     <td><p>Payment has been completed with no outstanding amounts.</p></td>
-   </tr>
-   <tr>
-     <td><p><strong>Free</strong></p></td>
-     <td><p>All amounts due are paid with credits.</p></td>
-   </tr>
-</table>
+| **Status** | **Definition** |
+| --- | --- |
+| **Unbilled** | Transactions that occur after the billing cycle but before the statement is generated. These amounts are not immediately due but will be included in the next billing cycle. |
+| **Unpaid** | The invoice is billed and is within the due timeframe. |
+| **Overdue** | The invoice is billed but not paid within the due timeframe. |
+| **Paid** | Payment has been completed with no outstanding amounts. |
+| **Free** | All amounts due are paid with credits. |
 
 ## Invoice summary\{#invoice-summary}
 
@@ -107,7 +88,7 @@ Zilliz Cloud offers three cluster types: Free, Serverless, and Dedicated. Charge
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    <p>For Dedicated cluster cost, runtime is defined as the period during which the cluster status is "<strong>Running</strong>", "<strong>Modifying</strong>", "<strong>Frozen</strong>", etc. Cluster under the following four statuses is not charged: "<strong>Creating</strong>", "<strong>Suspending</strong>", "<strong>Resuming</strong>", or "<strong>Suspended</strong>." </p>
+    For Dedicated cluster cost, runtime is defined as the period during which the cluster status is "**Running**", "**Modifying**", "**Frozen**", etc. Cluster under the following four statuses is not charged: "**Creating**", "**Suspending**", "**Resuming**", or "**Suspended**." 
 
     </Admonition>
 
@@ -121,7 +102,7 @@ Additional charges include:
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    <p>For storage cost, runtime is defined as the period during which the cluster status is "<strong>Running</strong>", "<strong>Modifying</strong>", "<strong>Frozen</strong>", etc. Cluster under the following status is not charged: "<strong>Creating</strong>".</p>
+    For storage cost, runtime is defined as the period during which the cluster status is "**Running**", "**Modifying**", "**Frozen**", etc. Cluster under the following status is not charged: "**Creating**".
 
     </Admonition>
 

@@ -53,7 +53,7 @@ You can create a project via the Zilliz Cloud web console or RESTful API.
     export TOKEN="YOUR_API_KEY"
     
     curl --request POST \
-         --url "https://${BASE_URL}/v2/projects" \
+         --url "<i>http</i>s://${BASE_URL}/v2/projects" \
          --header "Authorization: Bearer ${TOKEN}" \
          --header "Accept: application/json" \
          --header "Content-type: application/json" \
@@ -63,7 +63,6 @@ You can create a project via the Zilliz Cloud web console or RESTful API.
             "projectType": "Regional",
             "regions": ["aws-us-west-2"]
           }'
-    
     ```
 
     The following is an example output.
@@ -93,28 +92,12 @@ You can create a project via the Zilliz Cloud web console or RESTful API.
 
         The following table describes each parameter used when creating a project.
 
-        <table>
-           <tr>
-             <th><p><strong>Parameter</strong></p></th>
-             <th><p><strong>Description</strong></p></th>
-           </tr>
-           <tr>
-             <td><p>Plan</p></td>
-             <td><p>Select a project plan that best suits your needs. The plan determines available features and the billing. For details about the pricing, plan differences, and how to select a right plan, see <a href="./select-zilliz-cloud-service-plans">Detailed Plan Comparison</a>.</p></td>
-           </tr>
-           <tr>
-             <td><p>Name</p></td>
-             <td><p>Enter the name of the project to create.</p></td>
-           </tr>
-           <tr>
-             <td><p>Region</p></td>
-             <td><p>Choose a cloud region to deploy your workload. All resources within the project (eg. clusters, volumes, etc.) are deployed in this region. The region cannot be changed once the project is created. For available regions, see <a href="./cloud-providers-and-regions">Cloud Providers & Regions</a>.</p></td>
-           </tr>
-           <tr>
-             <td><p>Multi-region (optional)</p></td>
-             <td><p>Available only for <strong>Business Critical</strong> projects. When enabled, you can deploy resources across multiple cloud regions within the same project. This is required if you plan to use the Global Cluster feature. Multi-region can be enabled later when the project is created.</p></td>
-           </tr>
-        </table>
+        | **Parameter** | **Description** |
+        | --- | --- |
+        | Plan | Select a project plan that best suits your needs. The plan determines available features and the billing. For details about the pricing, plan differences, and how to select a right plan, see [Detailed Plan Comparison](./select-zilliz-cloud-service-plans). |
+        | Name | Enter the name of the project to create. |
+        | Region | Choose a cloud region to deploy your workload. All resources within the project (eg. clusters, volumes, etc.) are deployed in this region. The region cannot be changed once the project is created. For available regions, see [Cloud Providers & Regions](./cloud-providers-and-regions). |
+        | Multi-region (optional) | Available only for **Business Critical** projects. When enabled, you can deploy resources across multiple cloud regions within the same project. This is required if you plan to use the Global Cluster feature. Multi-region can be enabled later when the project is created. |
 
     </Procedures>
 
@@ -129,14 +112,13 @@ If your project is on the **Business Critical** plan, you can add more regions t
     export TOKEN="YOUR_API_KEY"
     
     curl --request POST \
-         --url "https://${BASE_URL}/v2/projects/proj-a0195d6acacaf2bb985173/regions" \
+         --url "<i>http</i>s://${BASE_URL}/v2/projects/proj-a0195d6acacaf2bb985173/regions" \
          --header "Authorization: Bearer ${TOKEN}" \
          --header "Accept: application/json" \
          --header "Content-Type: application/json" \
          --data-raw '{
             "regions": ["gcp-us-west1"]
           }'
-    
     ```
 
     The following is an example output.
@@ -149,7 +131,6 @@ If your project is on the **Business Critical** plan, you can add more regions t
         "regions": ["aws-us-west-2", "gcp-us-west1"]
       }
     }
-    
     ```
 
 - **Via web console**
@@ -173,7 +154,7 @@ If you need to upgrade a project to the **Business Critical** or **BYOC** plan, 
     export projectId="proj-xx"
     
     curl --request PATCH \
-    --url "${BASE_URL}/v2/projects/${projectId}/plan" \
+    --url "$\{BASE_URL\}/v2/projects/${projectId}/plan" \
     --header "Authorization: Bearer ${TOKEN}" \
     --header "Content-Type: application/json" \
     -d '{
@@ -242,7 +223,6 @@ You can view the list of all projects in your permission scope in the organizati
         }
       ]
     }
-    
     ```
 
 - **Via web console**
@@ -262,7 +242,7 @@ You can also check the details of a certain project.
     export projectId="proj-xx"
     
     curl --request GET \
-    --url "${BASE_URL}/v2/projects/${projectId}" \
+    --url "$\{BASE_URL\}/v2/projects/${projectId}" \
     --header "Authorization: Bearer ${TOKEN}" \
     --header "Content-Type: application/json"
     ```
@@ -308,7 +288,7 @@ Once a project is deleted, all its associated data and resources will be irrever
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>The default project cannot be deleted.</p>
+The default project cannot be deleted.
 
 </Admonition>
 

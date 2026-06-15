@@ -28,7 +28,7 @@ AWS Key Management Service (KMS) is an AWS-managed service that makes it easy fo
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This feature is available only to <strong>Dedicated</strong> clusters in a <strong>Business Critical</strong> project.</p>
+This feature is available only to **Dedicated** clusters in a **Business Critical** project.
 
 </Admonition>
 
@@ -84,9 +84,11 @@ If the drop-down list in **Select AWS IAM Role** on the **Existing IAM Role** ta
 
         <Admonition type="info" icon="📘" title="Notes">
 
-        <p>After you back up an encrypted Zilliz Cloud cluster from one cloud region to another, you must use the same key that encrypted the original cluster to decrypt the backup in the target region. </p>
-        <p>In this case, you can replicate the key to the region hosting the backup and submit it to Zilliz Cloud using an existing IAM role.</p>
-        <p>For details on creating multi-region replica keys, read <a href="https://docs.aws.amazon.com/kms/latest/developerguide/multi-region-keys-replicate.html">this page</a> in the AWS documentation.</p>
+        After you back up an encrypted Zilliz Cloud cluster from one cloud region to another, you must use the same key that encrypted the original cluster to decrypt the backup in the target region. 
+        
+        In this case, you can replicate the key to the region hosting the backup and submit it to Zilliz Cloud using an existing IAM role.
+        
+        For details on creating multi-region replica keys, read [this page](https://docs.aws.amazon.com/kms/latest/developerguide/multi-region-keys-replicate.html) in the AWS documentation.
 
         </Admonition>
 
@@ -194,7 +196,7 @@ If the drop-down list in **Select AWS IAM Role** on the **Existing IAM Role** ta
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>When you use a KMS key to encrypt a Zilliz Cloud cluster, the cluster checks the key's availability every 10 minutes. It becomes available only after it detects that the key is available.</p>
+When you use a KMS key to encrypt a Zilliz Cloud cluster, the cluster checks the key's availability every 10 minutes. It becomes available only after it detects that the key is available.
 
 </Admonition>
 

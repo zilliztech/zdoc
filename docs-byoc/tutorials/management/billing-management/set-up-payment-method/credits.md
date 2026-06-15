@@ -26,7 +26,7 @@ Credits help you try Zilliz Cloud or run evaluation workloads before setting up 
 
 <Admonition type="info" icon="📘" title="Note">
 
-<p>To manage credits and payment method, you must be an <strong>Organization Owner</strong> or <strong>Organization Billing Admin</strong>.</p>
+To manage credits and payment method, you must be an **Organization Owner** or **Organization Billing Admin**.
 
 </Admonition>
 

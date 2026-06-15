@@ -66,7 +66,7 @@ You can follow the detailed step-by-step guide below to subscribe to a Private O
 
     <Admonition type="info" icon="📘" title="Note">
 
-    <p>You must accept the offer before its expiration date. If the offer has expired, contact your account executive.</p>
+    You must accept the offer before its expiration date. If the offer has expired, contact your account executive.
 
     </Admonition>
 
@@ -82,7 +82,7 @@ You can follow the detailed step-by-step guide below to subscribe to a Private O
 
     <Admonition type="info" icon="📘" title="Note">
 
-    <p>You must complete this step. Otherwise, your private offer subscription is not linked to any Zilliz Cloud organization.</p>
+    You must complete this step. Otherwise, your private offer subscription is not linked to any Zilliz Cloud organization.
 
     </Admonition>
 
@@ -116,7 +116,7 @@ When your private offer is close to expiration, Zilliz will send you a new priva
 
 <Admonition type="info" icon="📘" title="Note">
 
-<p>For Google Cloud Marketplace, renewal is handled on the existing private offer order. After the renewal takes effect, it continues from the current private offer subscription, so you do not need to link the subscription to your Zilliz Cloud organization again.</p>
+For Google Cloud Marketplace, renewal is handled on the existing private offer order. After the renewal takes effect, it continues from the current private offer subscription, so you do not need to link the subscription to your Zilliz Cloud organization again.
 
 </Admonition>
 
@@ -166,7 +166,7 @@ You can cancel your private offer subscription from Google Cloud Marketplace.
 
 <Admonition type="info" icon="📘" title="Note">
 
-<p>After you cancel the subscription, your organization loses access to advanced Zilliz Cloud features. If your organization has no remaining credits, or if all credits have expired, it is frozen immediately.</p>
+After you cancel the subscription, your organization loses access to advanced Zilliz Cloud features. If your organization has no remaining credits, or if all credits have expired, it is frozen immediately.
 
 </Admonition>
 

@@ -26,7 +26,7 @@ Failed payments can affect your organization’s billing status and access to pa
 
 <Admonition type="info" icon="📘" title="**Note**">
 
-<p>To manage payment and billing settings, you must be an <strong>Organization Owner</strong> or <strong>Organization Billing Admin</strong>.</p>
+To manage payment and billing settings, you must be an **Organization Owner** or **Organization Billing Admin**.
 
 </Admonition>
 

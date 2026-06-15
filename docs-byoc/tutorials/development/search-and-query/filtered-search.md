@@ -74,7 +74,7 @@ This section demonstrates how to conduct a filtered search. Code snippets in thi
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>If the query vectors already exist in the target collection, consider using <code>ids</code> instead of retrieving them before searches. For details, refer to <a href="./primary-key-search">Primary-Key Search</a>.</p>
+If the query vectors already exist in the target collection, consider using `ids` instead of retrieving them before searches. For details, refer to [Primary-Key Search](./primary-key-search).
 
 </Admonition>
 
@@ -202,7 +202,6 @@ for _, resultSet := range resultSets {
     fmt.Println("color: ", resultSet.GetColumn("color").FieldData().GetScalars())
     fmt.Println("likes: ", resultSet.GetColumn("likes").FieldData().GetScalars())
 }
-
 ```
 
 </TabItem>
@@ -257,6 +256,43 @@ curl --request POST \
 
 </TabItem>
 </Tabs>
+
+```c++
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+std::vector<float> query_vector = {0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592};
+auto request = milvus::SearchRequest()
+                   .WithCollectionName("my_collection")
+                   .AddFloatVector(query_vector)
+                   .WithLimit(5)
+                   .WithAnnsField("vector")
+                   .WithFilter(R"("color like "red%" and likes > 50")")
+                   .AddOutputField("color")
+                   .AddOutputField("likes");
+
+milvus::SearchResponse response;
+status = client->Search(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+for (auto& result : response.Results().Results()) {
+    std::cout << "TopK results:" << std::endl;
+    milvus::EntityRows output_rows;
+    status = result.OutputRows(output_rows);
+    for (const auto& row : output_rows) {
+        std::cout << "\t" << row << std::endl;
+    }
+}
+```
 
 The filtering condition carried in the search request reads `color like "red%" and likes > 50`. It uses the and operator to include two conditions: the first one asks for entities that have a value starting with `red` in the `color` field, and the other asks for entities with a value greater than `50` in the `likes` field. There are only two entities meeting these requirements. With the top-K set to `3`, Zilliz Cloud will calculate the distance between these two entities to the query vector and return them as the search results.
 
@@ -414,7 +450,6 @@ for _, resultSet := range resultSets {
     fmt.Println("color: ", resultSet.GetColumn("color").FieldData().GetScalars())
     fmt.Println("likes: ", resultSet.GetColumn("likes").FieldData().GetScalars())
 }
-
 ```
 
 </TabItem>
@@ -472,3 +507,40 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
+```c++
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+std::vector<float> query_vector = {0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592};
+auto request = milvus::SearchRequest()
+                   .WithCollectionName("my_collection")
+                   .AddFloatVector(query_vector)
+                   .WithLimit(5)
+                   .WithAnnsField("vector")
+                   .WithFilter(R"("color like "red%" and likes > 50")")
+                   .AddExtraParam("hints", "iterative_filter")
+                   .AddOutputField("color")
+                   .AddOutputField("likes");
+
+milvus::SearchResponse response;
+status = client->Search(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+for (auto& result : response.Results().Results()) {
+    std::cout << "TopK results:" << std::endl;
+    milvus::EntityRows output_rows;
+    status = result.OutputRows(output_rows);
+    for (const auto& row : output_rows) {
+        std::cout << "\t" << row << std::endl;
+    }
+}
+```

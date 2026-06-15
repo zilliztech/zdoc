@@ -50,18 +50,17 @@ You are advised to use [the BulkWriter tool](./use-bulkwriter) to prepare your r
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<ul>
-<li><strong>Whether to enable AutoID</strong></li>
-</ul>
-<p>The <strong>id</strong> field serves as the primary field of the collection. To make the primary field automatically increment, you can enable <strong>AutoID</strong> in the schema. In this case, you should exclude the <strong>id</strong> field from each row in the source data.</p>
-<ul>
-<li><strong>Whether to enable dynamic fields</strong></li>
-</ul>
-<p>When the target collection enables dynamic fields, if you need to store fields that are not included in the pre-defined schema, you can specify the <strong>&#36;meta</strong> column during the write operation and provide the corresponding key-value data.</p>
-<ul>
-<li><strong>Case-sensitive</strong></li>
-</ul>
-<p>Dictionary keys and collection field names are case-sensitive. Ensure that the dictionary keys in your data exactly match the field names in the target collection. If there is a field named <strong>id</strong> in the target collection, each entity dictionary should have a key named <strong>id.</strong> Using <strong>ID</strong> or <strong>Id</strong> results in errors. </p>
+- **Whether to enable AutoID**
+
+    The **id** field serves as the primary field of the collection. To make the primary field automatically increment, you can enable **AutoID** in the schema. In this case, you should exclude the **id** field from each row in the source data.
+
+- **Whether to enable dynamic fields**
+
+    When the target collection enables dynamic fields, if you need to store fields that are not included in the pre-defined schema, you can specify the **&#36;meta** column during the write operation and provide the corresponding key-value data.
+
+- **Case-sensitive**
+
+    Dictionary keys and collection field names are case-sensitive. Ensure that the dictionary keys in your data exactly match the field names in the target collection. If there is a field named **id** in the target collection, each entity dictionary should have a key named **id.** Using **ID** or **Id** results in errors. 
 
 </Admonition>
 
@@ -87,7 +86,7 @@ Once your data is ready, you can use either of the following methods to import t
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>If your files are relatively small, it is recommended to use the folder or multiple-path method to import them all at once. This approach allows for internal optimizations during the import process, which helps reduce resource consumption later.</p>
+If your files are relatively small, it is recommended to use the folder or multiple-path method to import them all at once. This approach allows for internal optimizations during the import process, which helps reduce resource consumption later.
 
 </Admonition>
 
@@ -141,7 +140,7 @@ curl --request POST \
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>If the folder contains multiple formats of files, the request will fail.</p>
+If the folder contains multiple formats of files, the request will fail.
 
 </Admonition>
 
@@ -171,24 +170,11 @@ curl --request POST \
 
 Zilliz Cloud supports data import from your cloud storage. The table below lists the possible storage paths for your data files.
 
-<table>
-   <tr>
-     <th><p><strong>Cloud</strong></p></th>
-     <th><p><strong>Quick Examples</strong></p></th>
-   </tr>
-   <tr>
-     <td><p><strong>AWS S3</strong></p></td>
-     <td><p>s3://<em>bucket-name</em>/<em>json-folder</em>/</p><p>s3://<em>bucket-name</em>/<em>json-folder</em>/<em>data.json</em></p></td>
-   </tr>
-   <tr>
-     <td><p><strong>Google Cloud Storage</strong></p></td>
-     <td><p>gs://<em>bucket-name</em>/<em>json-folder</em>/</p><p>gs://<em>bucket-name</em>/<em>json-folder</em>/<em>data.json</em></p></td>
-   </tr>
-   <tr>
-     <td><p><strong>Azure Bolb</strong></p></td>
-     <td><p><em>https:</em>//myaccount.blob.core.windows.net/bucket-name/json-folder/</p><p><em>https:</em>//myaccount.blob.core.windows.net/bucket-name/json-folder/data.json</p></td>
-   </tr>
-</table>
+| **Cloud** | **Quick Examples** |
+| --- | --- |
+| **AWS S3** | s3://*bucket-name*/*json-folder*/<br/>s3://*bucket-name*/*json-folder*/*data.json* |
+| **Google Cloud Storage** | gs://*bucket-name*/*json-folder*/<br/>gs://*bucket-name*/*json-folder*/*data.json* |
+| **Azure Bolb** | *https:*//myaccount.blob.core.windows.net/bucket-name/json-folder/<br/>*https:*//myaccount.blob.core.windows.net/bucket-name/json-folder/data.json |
 
 ## Limits\{#limits}
 
@@ -196,30 +182,14 @@ There are some limits you need to observe when you import data in a local JSON f
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>A valid JSON file has a root key named <strong>rows</strong>, the corresponding value of which is a list of dictionaries, each representing an entity that matches the schema of the target collection.</p>
+A valid JSON file has a root key named **rows**, the corresponding value of which is a list of dictionaries, each representing an entity that matches the schema of the target collection.
 
 </Admonition>
 
-<table>
-   <tr>
-     <th><p><strong>Import Method</strong></p></th>
-     <th><p><strong>Max Files per Import</strong></p></th>
-     <th><p><strong>Max File Size</strong></p></th>
-     <th><p><strong>Max Total Import Size</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>From local file</p></td>
-     <td><p>1 File</p></td>
-     <td><p>1 GB</p></td>
-     <td><p>1 GB</p></td>
-   </tr>
-   <tr>
-     <td><p>From object storage</p></td>
-     <td><p>1,000 Files</p></td>
-     <td><p>10 GB</p></td>
-     <td><p>1 TB</p></td>
-   </tr>
-</table>
+| **Import Method** | **Max Files per Import** | **Max File Size** | **Max Total Import Size** |
+| --- | --- | --- | --- |
+| From local file | 1 File | 1 GB | 1 GB |
+| From object storage | 1,000 Files | 10 GB | 1 TB |
 
 You can either rebuild your data on your own by referring to [Prepare the data file](https://milvus.io/docs/bulk_insert.md#Prepare-the-data-file) or use [the BulkWriter tool](./use-bulkwriter) to generate the source data file. [Click here to download the prepared sample data based on the schema in the above diagram](https://assets.zilliz.com/prepared_json_data.json).
 

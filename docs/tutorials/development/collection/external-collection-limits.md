@@ -34,8 +34,6 @@ Compared with managed collections, external collections have the following limit
 
 - You cannot define functions in the schema.
 
-- You cannot modify the schema of an external collection after it is created.
-
 - You cannot use text match with BM25.
 
 - To make external data queryable, you must first create an index and then manually trigger `RefreshExternalCollection` so that Zilliz Cloud can build metadata and indexes for the data.
@@ -134,7 +132,7 @@ The following table compares the operations supported by external collections an
      <td rowspan="2"><p><strong>Schema</strong></p></td>
      <td><p><strong>AddField</strong></p></td>
      <td><p>✅</p></td>
-     <td><p>❌</p></td>
+     <td><p>✅</p></td>
      <td><p>✅</p></td>
    </tr>
    <tr>

@@ -36,38 +36,13 @@ Closely mimicking real-world production environments, VectorDBBench has set up d
 
 ## Benchmark metrics\{#benchmark-metrics}
 
-<table>
-   <tr>
-     <th><p><strong>Metric</strong></p></th>
-     <th><p><strong>Description</strong></p></th>
-     <th><p><strong>Test Scenario</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>Max_load_count</p></td>
-     <td><p>The capacity of a vector database. VectorDBBench will keep inserting vector data into the vector database until the database fails or reject the insertion request over 10 times and keep a record of the maximum number of inserted entities.</p><p>Higher Max_load_count values indicate better vector database performance.</p></td>
-     <td><p>Insertion</p></td>
-   </tr>
-   <tr>
-     <td><p>QPS</p></td>
-     <td><p>The capability of a vector database to handle concurrent queries per second. VectorDBBench uses top-100 searches in multiple times and selects the highest QPS value as the final result.</p><p>Higher QPS values indicate better vector database performance.</p></td>
-     <td><p>Search & filtered search</p></td>
-   </tr>
-   <tr>
-     <td><p>Recall</p></td>
-     <td><p>The measure of search accuracy by comparing search results with ground truth.</p><p>Higher recall values indicate better vector database performance.</p></td>
-     <td><p>Search & filtered search</p></td>
-   </tr>
-   <tr>
-     <td><p>Load_duration</p></td>
-     <td><p>The time it takes for Zilliz Cloud to complete the process of inserting entities and building indexes.</p><p>Lower Load_duration values indicate better vector database performance.</p></td>
-     <td><p>Search & filtered search</p></td>
-   </tr>
-   <tr>
-     <td><p>Serial_latancy_p99</p></td>
-     <td><p>The time that 99% of queries take to complete. VectorDBBench records the search latency of each top-100 searches and uses the 99th percentile average as the final result.</p><p>Lower Serial_latancy_p99 values indicate better vector database performance.</p></td>
-     <td><p>Search & filtered search</p></td>
-   </tr>
-</table>
+| **Metric** | **Description** | **Test Scenario** |
+| --- | --- | --- |
+| Max_load_count | The capacity of a vector database. VectorDBBench will keep inserting vector data into the vector database until the database fails or reject the insertion request over 10 times and keep a record of the maximum number of inserted entities.<br/>Higher Max_load_count values indicate better vector database performance. | Insertion |
+| QPS | The capability of a vector database to handle concurrent queries per second. VectorDBBench uses top-100 searches in multiple times and selects the highest QPS value as the final result.<br/>Higher QPS values indicate better vector database performance. | Search & filtered search |
+| Recall | The measure of search accuracy by comparing search results with ground truth.<br/>Higher recall values indicate better vector database performance. | Search & filtered search |
+| Load_duration | The time it takes for Zilliz Cloud to complete the process of inserting entities and building indexes.<br/>Lower Load_duration values indicate better vector database performance. | Search & filtered search |
+| Serial_latancy_p99 | The time that 99% of queries take to complete. VectorDBBench records the search latency of each top-100 searches and uses the 99th percentile average as the final result.<br/>Lower Serial_latancy_p99 values indicate better vector database performance. | Search & filtered search |
 
 ## Prerequisites\{#prerequisites}
 
@@ -104,7 +79,6 @@ $ init_bench
 Below is an example output. You will obtain a local URL in the output. Use it to open the web user interface of VectorDBBench.
 
 ```python
-
       👋 Welcome to Streamlit!
 
       If you’d like to receive helpful onboarding emails, news, offers, promotions,
@@ -151,7 +125,7 @@ Optionally, you can set up the **DB Filter** and **Case Filter** in the left nav
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>The databases are named in the format of [database<em>name]-[db</em>label]. </p>
+The databases are named in the format of [database_name]-[db_label]. 
 
 </Admonition>
 

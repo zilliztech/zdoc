@@ -28,7 +28,7 @@ This page explains how to add and delete secondary clusters, convert a global cl
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This feature is available only to <strong>Dedicated</strong> clusters in a <strong>Business Critical</strong> project.</p>
+This feature is available only to **Dedicated** clusters in a **Business Critical** project.
 
 </Admonition>
 
@@ -44,7 +44,7 @@ To improve regional coverage, you can add additional secondary clusters in diffe
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>A global cluster can only have up to 5 secondary clusters.</p>
+A global cluster can only have up to 5 secondary clusters.
 
 </Admonition>
 
@@ -86,36 +86,14 @@ To convert a global cluster to a regular cluster, you need to:
 
 Once the global endpoint is removed, any application connected via the global endpoint will be disconnected immediately. Please ensure to update the connection endpoint in your application code. The following table shows what happens after the conversion.
 
-<table>
-   <tr>
-     <th><p><strong>Item</strong></p></th>
-     <th><p><strong>Behavior</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>Global endpoint</p></td>
-     <td><p>Deleted immediately. Clients using it are disconnected.</p></td>
-   </tr>
-   <tr>
-     <td><p>Primary cluster</p></td>
-     <td><p>Becomes a regular Dedicated cluster. Continues running with all data intact.</p></td>
-   </tr>
-   <tr>
-     <td><p>Data replication</p></td>
-     <td><p>Stopped. Data replication metrics are removed.</p></td>
-   </tr>
-   <tr>
-     <td><p>Global cluster metadata</p></td>
-     <td><p>Cleared (global cluster ID, topology).</p></td>
-   </tr>
-   <tr>
-     <td><p>Backup policy</p></td>
-     <td><p>Remains on the former primary cluster, unchanged.</p></td>
-   </tr>
-   <tr>
-     <td><p>Billing</p></td>
-     <td><p>Data transfer charges stop. The remaining cluster is billed as a regular Dedicated cluster.</p></td>
-   </tr>
-</table>
+| **Item** | **Behavior** |
+| --- | --- |
+| Global endpoint | Deleted immediately. Clients using it are disconnected. |
+| Primary cluster | Becomes a regular Dedicated cluster. Continues running with all data intact. |
+| Data replication | Stopped. Data replication metrics are removed. |
+| Global cluster metadata | Cleared (global cluster ID, topology). |
+| Backup policy | Remains on the former primary cluster, unchanged. |
+| Billing | Data transfer charges stop. The remaining cluster is billed as a regular Dedicated cluster. |
 
 ## Drop global cluster\{#drop-global-cluster}
 

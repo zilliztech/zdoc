@@ -38,7 +38,7 @@ Make sure the following prerequisites are met:
 
         <Admonition type="info" icon="📘" title="Notes">
 
-        <p>You are advised to use a bucket or a blob container from the same provider and in the same region as the target cluster to ensure a low-latency, stable experience.</p>
+        You are advised to use a bucket or a blob container from the same provider and in the same region as the target cluster to ensure a low-latency, stable experience.
 
         </Admonition>
 
@@ -100,10 +100,9 @@ To prepare migration data for Milvus 2.x,
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    <ul>
-    <li><p>For a Milvus instance installed using Docker Compose, <code>minio.bucketName</code> defaults to <code>a-bucket</code> and <code>rootPath</code> defaults to <code>files</code>.</p></li>
-    <li><p>For a Milvus instance installed on Kubernetes, <code>minio.bucketName</code> defaults to <code>milvus-bucket</code> and <code>rootPath</code> defaults to <code>file</code>.</p></li>
-    </ul>
+    - For a Milvus instance installed using Docker Compose, `minio.bucketName` defaults to `a-bucket` and `rootPath` defaults to `files`.
+    
+    - For a Milvus instance installed on Kubernetes, `minio.bucketName` defaults to `milvus-bucket` and `rootPath` defaults to `file`.
 
     </Admonition>
 
@@ -131,13 +130,13 @@ To prepare migration data for Milvus 2.x,
 
             ```plaintext
             # configure a Minio host
-            mc alias set my_minio https://<minio_endpoint> <accessKey> <secretKey>
+            mc alias set my_minio <i>http</i>s://&lt;minio_endpoint&gt; <accessKey> <secretKey>
             
             # List the available buckets
             mc ls my_minio
             
             # Download a file from the bucket
-            mc cp --recursive my_minio/<your-bucket-path> <local_dir_path>
+            mc cp --recursive my_minio/&lt;your-bucket-path&gt; &lt;local_dir_path&gt;
             ```
 
 1. Decompress the downloaded archive and upload only the content of the **backup** folder to Zilliz Cloud.
@@ -152,7 +151,7 @@ With backup files ready, you can migrate the data from local files, an object st
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>If full text search is already enabled for the source collection, Zilliz Cloud will preserve its Function settings in the target collection after migration. These inherited settings cannot be modified.</p>
+If full text search is already enabled for the source collection, Zilliz Cloud will preserve its Function settings in the target collection after migration. These inherited settings cannot be modified.
 
 </Admonition>
 
@@ -164,7 +163,7 @@ Once you click **Migrate**, a migration job will be generated. You can check the
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>After migration, verify that the number of collections and entities in the target cluster matches the data source. If discrepancies are found, delete the collections with missing entities and re-migrate them.</p>
+After migration, verify that the number of collections and entities in the target cluster matches the data source. If discrepancies are found, delete the collections with missing entities and re-migrate them.
 
 </Admonition>
 
@@ -202,27 +201,27 @@ If the migration process encounters any issues, you can take the following steps
        <tr>
          <td rowspan="3"><p><strong>Amazon S3</strong></p></td>
          <td><p>AWS Object URL, virtual-hosted–style</p></td>
-         <td><p><i>http</i>s://\<bucket_name>.s3.\<region-code>.amazonaws.com/\<folder_name>/</p></td>
+         <td><p><i>http</i>s://&lt;bucket_name&gt;.s3.&lt;region-code&gt;.amazonaws.com/&lt;folder_name&gt;/</p></td>
        </tr>
        <tr>
          <td><p>AWS Object URL, path-style</p></td>
-         <td><p><i>http</i>s://s3.\<region-code>.amazonaws.com/\<bucket_name>/\<folder_name>/</p></td>
+         <td><p><i>http</i>s://s3.&lt;region-code&gt;.amazonaws.com/&lt;bucket_name&gt;/&lt;folder_name&gt;/</p></td>
        </tr>
        <tr>
          <td><p>Amazon S3 URI</p></td>
-         <td><p>s3://\<bucket_name>/\<folder_name>/</p></td>
+         <td><p>s3://&lt;bucket_name&gt;/&lt;folder_name&gt;/</p></td>
        </tr>
        <tr>
          <td rowspan="2"><p><strong>Google Cloud Storage</strong></p></td>
          <td><p>GSC public URL</p></td>
-         <td><p><i>http</i>s://storage.cloud.google.com/\<bucket_name>/\<folder_name>/</p></td>
+         <td><p><i>http</i>s://storage.cloud.google.com/&lt;bucket_name&gt;/&lt;folder_name&gt;/</p></td>
        </tr>
        <tr>
          <td><p>GSC gsutil URI</p></td>
-         <td><p>gs://\<bucket_name>/\<folder_name>/</p></td>
+         <td><p>gs://&lt;bucket_name&gt;/&lt;folder_name&gt;/</p></td>
        </tr>
        <tr>
          <td colspan="2"><p><strong>Azure Blob Storage</strong></p></td>
-         <td><p><i>http</i>s://\<storage_account>.blob.core.windows.net/\<container>/\<folder>/</p></td>
+         <td><p><i>http</i>s://&lt;storage_account&gt;.blob.core.windows.net/&lt;container&gt;/&lt;folder&gt;/</p></td>
        </tr>
     </table>

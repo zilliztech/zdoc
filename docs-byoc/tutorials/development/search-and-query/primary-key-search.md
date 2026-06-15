@@ -51,7 +51,7 @@ The following examples assume that all provided Int64 IDs are available in the t
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>The primary keys are not used for filtering; they are used only for vector retrieval.</p>
+The primary keys are not used for filtering; they are used only for vector retrieval.
 
 </Admonition>
 

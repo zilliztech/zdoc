@@ -30,53 +30,21 @@ For vector fields, **AUTOINDEX** offers a significant performance advantage over
 
 For scalar fields, **AUTOINDEX** provides an efficient mapping between field types and the most suitable scalar index types.
 
-<table>
-   <tr>
-     <th><p>Field Type</p></th>
-     <th><p>AUTOINDEX Resolves to</p></th>
-     <th><p>Description</p></th>
-   </tr>
-   <tr>
-     <td><p><code>VARCHAR</code></p></td>
-     <td><p><strong>BITMAP</strong> (C&ast; &lt; 100) / <strong>INVERTED</strong> ( C ≥ 100)</p></td>
-     <td><p>String data type. For details, refer to <a href="./use-string-field">String Field</a>.</p></td>
-   </tr>
-   <tr>
-     <td><p><code>INT8</code>, <code>INT16</code>, <code>INT32</code>, <code>INT64</code></p></td>
-     <td><p><strong>BITMAP</strong> (C &lt; 100) / <strong>STL_SORT</strong> (C ≥ 100)</p></td>
-     <td><p>Integer. For details, refer to <a href="./use-number-field">Boolean & Number</a>.</p></td>
-   </tr>
-   <tr>
-     <td><p><code>FLOAT</code>, <code>DOUBLE</code></p></td>
-     <td><p><strong>BITMAP</strong> (C&ast; &lt; 100) / <strong>INVERTED</strong> ( C ≥ 100)</p></td>
-     <td><p>Floating point. For details, refer to <a href="./use-number-field">Boolean & Number</a>.</p></td>
-   </tr>
-   <tr>
-     <td><p><code>BOOL</code></p></td>
-     <td><p><strong>BITMAP</strong></p></td>
-     <td><p>Boolean. For details, refer to <a href="./use-number-field">Boolean & Number</a>.</p></td>
-   </tr>
-   <tr>
-     <td><p><code>ARRAY</code></p></td>
-     <td><p><strong>BITMAP</strong> (C&ast; &lt; 100) / <strong>INVERTED</strong> ( C ≥ 100)</p></td>
-     <td><p>Homogeneous array of scalar values. For details, refer to <a href="./use-array-fields">Array Field</a>.</p></td>
-   </tr>
-   <tr>
-     <td><p><code>GEOMETRY</code></p></td>
-     <td><p><strong>RTREE</strong></p></td>
-     <td><p>Geometric data that stores spatial information. For details, refer to <a href="./use-geometry-field">Geometry Field</a>.</p></td>
-   </tr>
-   <tr>
-     <td><p><code>TIMESTAMPTZ</code></p></td>
-     <td><p><strong>STL_SORT</strong></p></td>
-     <td><p>time zone-aware ISO 8601 inputs, stored as UTC for consistent filtering and ordering across time zones. For details, refer to <a href="./use-timestamptz-field">TIMESTAMPTZ Field</a>.</p></td>
-   </tr>
-</table>
+| Field Type | AUTOINDEX Resolves to | Description |
+| --- | --- | --- |
+| `VARCHAR` | **BITMAP** (C* < 100) / **INVERTED** ( C ≥ 100) | String data type. For details, refer to [String Field](./use-string-field). |
+| `INT8`, `INT16`, `INT32`, `INT64` | **BITMAP** (C < 100) / **STL_SORT** (C ≥ 100) | Integer. For details, refer to [Boolean & Number](./use-number-field). |
+| `FLOAT`, `DOUBLE` | **BITMAP** (C* < 100) / **INVERTED** ( C ≥ 100) | Floating point. For details, refer to [Boolean & Number](./use-number-field). |
+| `BOOL` | **BITMAP** | Boolean. For details, refer to [Boolean & Number](./use-number-field). |
+| `ARRAY` | **BITMAP** (C* < 100) / **INVERTED** ( C ≥ 100) | Homogeneous array of scalar values. For details, refer to [Array Field](./use-array-fields). |
+| `GEOMETRY` | **RTREE** | Geometric data that stores spatial information. For details, refer to [Geometry Field](./use-geometry-field). |
+| `TIMESTAMPTZ` | **STL_SORT** | time zone-aware ISO 8601 inputs, stored as UTC for consistent filtering and ordering across time zones. For details, refer to [TIMESTAMPTZ Field](./use-timestamptz-field). |
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Cardinality (C in the above table) shows the number of unique values in a field across a whole collection. For example, the cardinality of a float field is the number of distinct float values in that field.</p>
-<p>For an array field, the cardinality is the number of <strong>distinct element values</strong> across all arrays in the segment. For example:</p>
+Cardinality (C in the above table) shows the number of unique values in a field across a whole collection. For example, the cardinality of a float field is the number of distinct float values in that field.
+
+For an array field, the cardinality is the number of **distinct element values** across all arrays in the segment. For example:
 
 ```plaintext
 [1, 2, 3]
@@ -84,7 +52,7 @@ For scalar fields, **AUTOINDEX** provides an efficient mapping between field typ
 [1, 4, 5]
 ```
 
-<p>The distinct element values are <code>\{1, 2, 3, 4, 5\}</code> → cardinality = <strong>5</strong>. It flattens all elements from all arrays, then counts unique values — not the number of distinct arrays, nor the array lengths.</p>
+The distinct element values are `{1, 2, 3, 4, 5}` → cardinality = **5**. It flattens all elements from all arrays, then counts unique values — not the number of distinct arrays, nor the array lengths.
 
 </Admonition>
 
@@ -108,7 +76,7 @@ Choosing query parameters requires a lot of domain-specific knowledge, which gre
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>When migrating your Milvus codebase to Zilliz Cloud, you do not need to change the index type used manually. Zilliz Cloud automatically applies AUTOINDEX when creating indexes.</p>
+When migrating your Milvus codebase to Zilliz Cloud, you do not need to change the index type used manually. Zilliz Cloud automatically applies AUTOINDEX when creating indexes.
 
 </Admonition>
 
@@ -177,7 +145,7 @@ You can also set `enable_recall_calculation` to `true`when you tweek the `level`
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>The <code>level</code> and <code>enable_recall_calculation</code> parameters are still in <strong>Public Preview</strong>, and you might not be able to fully use them due to compatibility issues. For any assistance, please contact us at support@zilliz.com.</p>
+The `level` and `enable_recall_calculation` parameters are still in **Public Preview**, and you might not be able to fully use them due to compatibility issues. For any assistance, please contact us at support@zilliz.com.
 
 </Admonition>
 

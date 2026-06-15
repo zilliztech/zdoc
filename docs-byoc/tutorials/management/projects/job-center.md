@@ -116,7 +116,7 @@ Currently, you can only cancel the following types of jobs that  are in the stat
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>To cancel a job, you must be an <strong>Organization Owner</strong> or a <strong>Project Admin</strong>.</p>
+To cancel a job, you must be an **Organization Owner** or a **Project Admin**.
 
 </Admonition>
 
@@ -126,8 +126,9 @@ Currently, you can only cancel the following types of jobs that  are in the stat
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Currently, you can only retry failed import jobs.</p>
-<p>To retry a failed job, you must be an <strong>Organization Owner</strong> or a <strong>Project Admin</strong>.</p>
+Currently, you can only retry failed import jobs.
+
+To retry a failed job, you must be an **Organization Owner** or a **Project Admin**.
 
 </Admonition>
 

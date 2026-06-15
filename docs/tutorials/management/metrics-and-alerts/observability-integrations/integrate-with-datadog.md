@@ -26,7 +26,7 @@ import Procedures from '@site/src/components/Procedures';
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This feature is available only to <strong>Dedicated</strong> clusters in an <strong>Enterprise</strong> project.</p>
+This feature is available only to **Dedicated** clusters in an **Enterprise** project.
 
 </Admonition>
 
@@ -58,44 +58,13 @@ import Procedures from '@site/src/components/Procedures';
 
         1. In **Datadog Site**, select your Datadog site. Zilliz Cloud supports the following Datadog sites:
 
-            <table>
-               <tr>
-                 <th><p>Site</p></th>
-                 <th><p>Site URL</p></th>
-                 <th><p>Site Parameter</p></th>
-                 <th><p>Location</p></th>
-               </tr>
-               <tr>
-                 <td><p><code>US1</code></p></td>
-                 <td><p><code><i>http</i>s://app.datadoghq.com</code></p></td>
-                 <td><p><code>datadoghq.com</code></p></td>
-                 <td><p>US</p></td>
-               </tr>
-               <tr>
-                 <td><p><code>US3</code></p></td>
-                 <td><p><code><i>http</i>s://us3.datadoghq.com</code></p></td>
-                 <td><p><code>us3.datadoghq.com</code></p></td>
-                 <td><p>US</p></td>
-               </tr>
-               <tr>
-                 <td><p><code>US5</code></p></td>
-                 <td><p><code><i>http</i>s://us5.datadoghq.com</code></p></td>
-                 <td><p><code>us5.datadoghq.com</code></p></td>
-                 <td><p>US</p></td>
-               </tr>
-               <tr>
-                 <td><p><code>EU1</code></p></td>
-                 <td><p><code><i>http</i>s://app.datadoghq.eu</code></p></td>
-                 <td><p><code>datadoghq.eu</code></p></td>
-                 <td><p>EU (Germany)</p></td>
-               </tr>
-               <tr>
-                 <td><p><code>AP1</code></p></td>
-                 <td><p><code><i>http</i>s://ap1.datadoghq.com</code></p></td>
-                 <td><p><code>ap1.datadoghq.com</code></p></td>
-                 <td><p>Japan</p></td>
-               </tr>
-            </table>
+            | Site | Site URL | Site Parameter | Location |
+            | --- | --- | --- | --- |
+            | `US1` | `https://app.datadoghq.com` | `datadoghq.com` | US |
+            | `US3` | `https://us3.datadoghq.com` | `us3.datadoghq.com` | US |
+            | `US5` | `https://us5.datadoghq.com` | `us5.datadoghq.com` | US |
+            | `EU1` | `https://app.datadoghq.eu` | `datadoghq.eu` | EU (Germany) |
+            | `AP1` | `https://ap1.datadoghq.com` | `ap1.datadoghq.com` | Japan |
 
             For details on Datadog sites, refer to [Access Datadog Sites](https://docs.datadoghq.com/getting_started/site/#access-the-datadog-site). 
 
@@ -105,7 +74,7 @@ import Procedures from '@site/src/components/Procedures';
 
         <Admonition type="info" icon="📘" title="Notes">
 
-        <p>Only clusters of the <strong>Dedicated-Enterprise</strong> plan tier can be selected.</p>
+        Only clusters of the **Dedicated-Enterprise** plan tier can be selected.
 
         </Admonition>
 
@@ -137,121 +106,39 @@ To manage your Datadog integration, use the **Actions** column:
 
 ### Resource\{#resource}
 
-<table>
-   <tr>
-     <th><p>Metric Name</p></th>
-     <th><p>Metric Type</p></th>
-     <th><p>Description</p></th>
-   </tr>
-   <tr>
-     <td><p>CU Computation</p><p>(<code>zilliz.cluster.cu.computation.current</code>)</p></td>
-     <td><p>Gauge</p></td>
-     <td><p>A measure of the used capacity relative to the total capacity of the CU. Range from 0 to 1.</p></td>
-   </tr>
-   <tr>
-     <td><p>CU Capacity</p><p>(<code>zilliz.cluster.cu.capacity.current</code>)</p></td>
-     <td><p>Gauge</p></td>
-     <td><p>A measure of the utilized computational power relative to the total computational capacity of the CU. Range from 0 to 1.</p></td>
-   </tr>
-   <tr>
-     <td><p>Storage</p><p>(<code>zilliz.cluster.storage.bytes.current</code>)</p></td>
-     <td><p>Gauge</p></td>
-     <td><p>The total amount of persistent storage consumed by data and indexes.</p></td>
-   </tr>
-</table>
+| Metric Name | Metric Type | Description |
+| --- | --- | --- |
+| CU Computation<br/>(`zilliz.cluster.cu.computation.current`) | Gauge | A measure of the used capacity relative to the total capacity of the CU. Range from 0 to 1. |
+| CU Capacity<br/>(`zilliz.cluster.cu.capacity.current`) | Gauge | A measure of the utilized computational power relative to the total computational capacity of the CU. Range from 0 to 1. |
+| Storage<br/>(`zilliz.cluster.storage.bytes.current`) | Gauge | The total amount of persistent storage consumed by data and indexes. |
 
 ### Performance\{#performance}
 
-<table>
-   <tr>
-     <th><p>Metric Name</p></th>
-     <th><p>Metric Type</p></th>
-     <th><p>Description</p></th>
-   </tr>
-   <tr>
-     <td><p>Cluster Write Performance Capacity</p><p>(<code>zilliz.cluster.write.performance.capacity.current</code>)</p></td>
-     <td><p>Gauge</p></td>
-     <td><p>A measure of the current rate of write operation relative to the write rate limit. Range from 0 to 1.</p></td>
-   </tr>
-   <tr>
-     <td><p>Slow Query Count</p><p>(<code>zilliz.request.slow.queries.total</code>)</p></td>
-     <td><p>Count</p></td>
-     <td><p>The total number of slow query requests.</p></td>
-   </tr>
-   <tr>
-     <td><p>QPS, Request Failure Rate, Number of Flush Operations</p><p>(<code>zilliz.requests.total</code>)</p></td>
-     <td><p>Count</p></td>
-     <td><p>The total number of requests processed.</p></td>
-   </tr>
-   <tr>
-     <td><p>VPS</p><p>(<code>zilliz.request.vectors.total</code>)</p></td>
-     <td><p>Count</p></td>
-     <td><p>The total number of vectors manipulated across all requests.</p></td>
-   </tr>
-   <tr>
-     <td><p>Latency</p><p>(<code>zilliz.request.latency.milliseconds.average</code>, <code>zilliz.request.latency.milliseconds.p99</code>)</p></td>
-     <td><p>Gauge</p></td>
-     <td><p>The average/P99 latency of requests processed.</p></td>
-   </tr>
-</table>
+| Metric Name | Metric Type | Description |
+| --- | --- | --- |
+| Cluster Write Performance Capacity<br/>(`zilliz.cluster.write.performance.capacity.current`) | Gauge | A measure of the current rate of write operation relative to the write rate limit. Range from 0 to 1. |
+| Slow Query Count<br/>(`zilliz.request.slow.queries.total`) | Count | The total number of slow query requests. |
+| QPS, Request Failure Rate, Number of Flush Operations<br/>(`zilliz.requests.total`) | Count | The total number of requests processed. |
+| VPS<br/>(`zilliz.request.vectors.total`) | Count | The total number of vectors manipulated across all requests. |
+| Latency<br/>(`zilliz.request.latency.milliseconds.average`, `zilliz.request.latency.milliseconds.p99`) | Gauge | The average/P99 latency of requests processed. |
 
 ### Data\{#data}
 
-<table>
-   <tr>
-     <th><p>Metric Name</p></th>
-     <th><p>Metric Type</p></th>
-     <th><p>Description</p></th>
-   </tr>
-   <tr>
-     <td><p>Entity Count</p><p>(<code>zilliz.entities.current</code>)</p></td>
-     <td><p>Gauge</p></td>
-     <td><p>The number of entities.</p></td>
-   </tr>
-   <tr>
-     <td><p>Loaded Entities</p><p>(<code>zilliz.loaded.entities.current</code>)</p></td>
-     <td><p>Gauge</p></td>
-     <td><p>The number of loaded entities.</p></td>
-   </tr>
-   <tr>
-     <td><p>Collection Count</p><p>(<code>zilliz.collections.current</code>)</p></td>
-     <td><p>Gauge</p></td>
-     <td><p>The number of collections.</p></td>
-   </tr>
-   <tr>
-     <td><p>Number of Unloaded Collections</p><p>(<code>zilliz.unloaded.collections.current</code>)</p></td>
-     <td><p>Gauge</p></td>
-     <td><p>The number of unloaded collections.</p></td>
-   </tr>
-</table>
+| Metric Name | Metric Type | Description |
+| --- | --- | --- |
+| Entity Count<br/>(`zilliz.entities.current`) | Gauge | The number of entities. |
+| Loaded Entities<br/>(`zilliz.loaded.entities.current`) | Gauge | The number of loaded entities. |
+| Collection Count<br/>(`zilliz.collections.current`) | Gauge | The number of collections. |
+| Number of Unloaded Collections<br/>(`zilliz.unloaded.collections.current`) | Gauge | The number of unloaded collections. |
 
 ## Tags available to Datadog\{#tags-available-to-datadog}
 
 Datadog sends the following tags on certain metrics to help you better understand, organize, and identify resources.
 
-<table>
-   <tr>
-     <th><p>Tag Name</p></th>
-     <th><p>Description</p></th>
-   </tr>
-   <tr>
-     <td><p><code>org_id</code></p></td>
-     <td><p>The ID of the Zilliz Cloud organization associated with the metric.</p></td>
-   </tr>
-   <tr>
-     <td><p><code>project_id</code></p></td>
-     <td><p>The ID of the Zilliz Cloud project associated with the metric.</p></td>
-   </tr>
-   <tr>
-     <td><p><code>cluster_id</code></p></td>
-     <td><p>The ID of the Zilliz Cloud cluster associated with the metric.</p></td>
-   </tr>
-   <tr>
-     <td><p><code>request_type</code></p></td>
-     <td><p>The type of operation that is  being monitored. Possible values: <code>insert</code>, <code>upsert</code>, <code>delete</code>, <code>bulk_insert</code>, <code>flush</code>, <code>search</code>, <code>query</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>status</code></p></td>
-     <td><p>The outcome of the operation. Possible values: <code>success</code>, <code>fail</code></p></td>
-   </tr>
-</table>
+| Tag Name | Description |
+| --- | --- |
+| `org_id` | The ID of the Zilliz Cloud organization associated with the metric. |
+| `project_id` | The ID of the Zilliz Cloud project associated with the metric. |
+| `cluster_id` | The ID of the Zilliz Cloud cluster associated with the metric. |
+| `request_type` | The type of operation that is  being monitored. Possible values: `insert`, `upsert`, `delete`, `bulk_insert`, `flush`, `search`, `query` |
+| `status` | The outcome of the operation. Possible values: `success`, `fail` |

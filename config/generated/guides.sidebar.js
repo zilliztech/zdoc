@@ -2,371 +2,487 @@ module.exports = [
   {
     "type": "category",
     "label": "Get Started",
+    "key": "category:tutorials/get-started",
     "items": [
       {
         "type": "doc",
         "id": "tutorials/get-started/register-with-zilliz-cloud",
-        "label": "Register with Zilliz Cloud"
+        "label": "Register with Zilliz Cloud",
+        "key": "doc:tutorials/get-started/register-with-zilliz-cloud"
       },
       {
         "type": "doc",
         "id": "tutorials/get-started/free-trials",
-        "label": "Try Zilliz Cloud For Free"
+        "label": "Try Zilliz Cloud For Free",
+        "key": "doc:tutorials/get-started/free-trials"
       },
       {
         "type": "category",
         "label": "Quickstarts",
+        "key": "category:tutorials/get-started/quickstarts",
         "items": [
           {
             "type": "doc",
             "id": "tutorials/get-started/quickstarts/cli-and-agent-integration-guide",
-            "label": "Quickstart to CLI & Agent Integration"
+            "label": "Quickstart to CLI & Agent Integration",
+            "key": "doc:tutorials/get-started/quickstarts/cli-and-agent-integration-guide"
           },
           {
             "type": "doc",
             "id": "tutorials/get-started/quickstarts/quick-start",
-            "label": "Quickstart to Serving Cluster"
+            "label": "Quickstart to Serving Cluster",
+            "key": "doc:tutorials/get-started/quickstarts/quick-start"
           },
           {
             "type": "doc",
             "id": "tutorials/get-started/quickstarts/quick-start-to-on-demand-search",
-            "label": "Quickstart to On-Demand Search"
+            "label": "Quickstart to On-Demand Search",
+            "key": "doc:tutorials/get-started/quickstarts/quick-start-to-on-demand-search"
           },
           {
             "type": "doc",
             "id": "tutorials/get-started/quickstarts/quick-start-to-external-data-lake-search",
-            "label": "Quickstart to External Data Lake Search"
+            "label": "Quickstart to External Data Lake Search",
+            "key": "doc:tutorials/get-started/quickstarts/quick-start-to-external-data-lake-search"
           }
         ]
       },
       {
         "type": "doc",
         "id": "tutorials/get-started/select-zilliz-cloud-service-plans",
-        "label": "Plan Comparison"
+        "label": "Plan Comparison",
+        "key": "doc:tutorials/get-started/select-zilliz-cloud-service-plans"
       },
       {
         "type": "doc",
         "id": "tutorials/get-started/cu-types-explained",
-        "label": "Cluster Types"
+        "label": "Cluster Types",
+        "key": "doc:tutorials/get-started/cu-types-explained"
       },
       {
         "type": "doc",
         "id": "tutorials/get-started/cloud-providers-and-regions",
-        "label": "Cloud Providers & Regions"
+        "label": "Cloud Providers & Regions",
+        "key": "doc:tutorials/get-started/cloud-providers-and-regions"
       }
     ]
   },
   {
     "type": "category",
     "label": "Development",
+    "key": "category:tutorials/development",
     "items": [
+      {
+        "type": "doc",
+        "id": "tutorials/development/connect-to-serving-cluster",
+        "label": "Connect to Serving Clusters",
+        "key": "doc:tutorials/development/connect-to-serving-cluster"
+      },
+      {
+        "type": "doc",
+        "id": "tutorials/development/connect-for-on-demand-search",
+        "label": "Connect for On-Demand Search",
+        "key": "doc:tutorials/development/connect-for-on-demand-search"
+      },
       {
         "type": "category",
         "label": "Search & Query",
+        "key": "category:tutorials/development/search-and-query",
         "items": [
           {
             "type": "doc",
             "id": "tutorials/development/search-and-query/single-vector-search",
-            "label": "Basic Vector Search"
+            "label": "Basic Vector Search",
+            "key": "doc:tutorials/development/search-and-query/single-vector-search"
           },
           {
             "type": "doc",
             "id": "tutorials/development/search-and-query/dql-sessions-external-collection",
-            "label": "DQL sessions"
+            "label": "DQL sessions",
+            "key": "doc:tutorials/development/search-and-query/dql-sessions-external-collection"
           },
           {
             "type": "doc",
             "id": "tutorials/development/search-and-query/tune-recall-rate",
-            "label": "Tune Recall Rate"
+            "label": "Tune Recall Rate",
+            "key": "doc:tutorials/development/search-and-query/tune-recall-rate"
           },
           {
             "type": "doc",
             "id": "tutorials/development/search-and-query/filtered-search",
-            "label": "Filtered Search"
+            "label": "Filtered Search",
+            "key": "doc:tutorials/development/search-and-query/filtered-search"
           },
           {
             "type": "doc",
             "id": "tutorials/development/search-and-query/range-search",
-            "label": "Range Search"
+            "label": "Range Search",
+            "key": "doc:tutorials/development/search-and-query/range-search"
           },
           {
             "type": "doc",
             "id": "tutorials/development/search-and-query/grouping-search",
-            "label": "Grouping Search"
+            "label": "Grouping Search",
+            "key": "doc:tutorials/development/search-and-query/grouping-search"
           },
           {
             "type": "doc",
             "id": "tutorials/development/search-and-query/primary-key-search",
-            "label": "Primary-Key Search"
+            "label": "Primary-Key Search",
+            "key": "doc:tutorials/development/search-and-query/primary-key-search"
           },
           {
             "type": "doc",
             "id": "tutorials/development/search-and-query/hybrid-search",
-            "label": "Hybrid Search"
+            "label": "Hybrid Search",
+            "key": "doc:tutorials/development/search-and-query/hybrid-search"
           },
           {
             "type": "doc",
             "id": "tutorials/development/search-and-query/get-and-scalar-query",
-            "label": "Query"
+            "label": "Query",
+            "key": "doc:tutorials/development/search-and-query/get-and-scalar-query"
           },
           {
             "type": "category",
             "label": "Filtering",
+            "key": "category:tutorials/development/search-and-query/filtering",
             "items": [
               {
                 "type": "doc",
                 "id": "tutorials/development/search-and-query/filtering/filtering-overview",
-                "label": "Overview"
+                "label": "Overview",
+                "key": "doc:tutorials/development/search-and-query/filtering/filtering-overview"
               },
               {
                 "type": "doc",
                 "id": "tutorials/development/search-and-query/filtering/basic-filtering-operators",
-                "label": "Basic"
+                "label": "Basic",
+                "key": "doc:tutorials/development/search-and-query/filtering/basic-filtering-operators"
               },
               {
                 "type": "doc",
                 "id": "tutorials/development/search-and-query/filtering/pattern-match",
-                "label": "Pattern Matching"
+                "label": "Pattern Matching",
+                "key": "doc:tutorials/development/search-and-query/filtering/pattern-match"
               },
               {
                 "type": "doc",
                 "id": "tutorials/development/search-and-query/filtering/filtering-templating",
-                "label": "Template"
+                "label": "Template",
+                "key": "doc:tutorials/development/search-and-query/filtering/filtering-templating"
               },
               {
                 "type": "doc",
                 "id": "tutorials/development/search-and-query/filtering/json-filtering-operators",
-                "label": "JSON"
+                "label": "JSON",
+                "key": "doc:tutorials/development/search-and-query/filtering/json-filtering-operators"
               },
               {
                 "type": "doc",
                 "id": "tutorials/development/search-and-query/filtering/array-filtering-operators",
-                "label": "Array"
+                "label": "Array",
+                "key": "doc:tutorials/development/search-and-query/filtering/array-filtering-operators"
               },
               {
                 "type": "doc",
                 "id": "tutorials/development/search-and-query/filtering/struct-array-filtering",
-                "label": "StructArray"
+                "label": "StructArray",
+                "key": "doc:tutorials/development/search-and-query/filtering/struct-array-filtering"
               },
               {
                 "type": "doc",
                 "id": "tutorials/development/search-and-query/filtering/ramdom-sampling",
-                "label": "Random Sampling"
+                "label": "Random Sampling",
+                "key": "doc:tutorials/development/search-and-query/filtering/ramdom-sampling"
               },
               {
                 "type": "doc",
                 "id": "tutorials/development/search-and-query/filtering/geometry-operators",
-                "label": "Geometry"
+                "label": "Geometry",
+                "key": "doc:tutorials/development/search-and-query/filtering/geometry-operators"
               }
             ]
           },
           {
             "type": "doc",
             "id": "tutorials/development/search-and-query/full-text-search",
-            "label": "Full Text Search"
+            "label": "Full Text Search",
+            "key": "doc:tutorials/development/search-and-query/full-text-search"
           },
           {
             "type": "doc",
             "id": "tutorials/development/search-and-query/text-match",
-            "label": "Text Match"
+            "label": "Text Match",
+            "key": "doc:tutorials/development/search-and-query/text-match"
           },
           {
             "type": "doc",
             "id": "tutorials/development/search-and-query/text-highlighter",
-            "label": "Lexical Highlighter"
+            "label": "Lexical Highlighter",
+            "key": "doc:tutorials/development/search-and-query/text-highlighter"
           },
           {
             "type": "doc",
             "id": "tutorials/development/search-and-query/semantic-highlighter",
-            "label": "Semantic Highlighter"
+            "label": "Semantic Highlighter",
+            "key": "doc:tutorials/development/search-and-query/semantic-highlighter"
           },
           {
             "type": "doc",
             "id": "tutorials/development/search-and-query/phrase-match",
-            "label": "Phrase Match"
+            "label": "Phrase Match",
+            "key": "doc:tutorials/development/search-and-query/phrase-match"
           },
           {
-            "type": "doc",
-            "id": "tutorials/development/search-and-query/search-with-structarray",
-            "label": "Search with StructArray"
-          },
-          {
-            "type": "doc",
-            "id": "tutorials/development/search-and-query/search-with-embeddinglist",
-            "label": "Embedding Lists"
+            "type": "category",
+            "label": "Search with StructArray",
+            "key": "category:tutorials/development/search-and-query/search-with-structarray",
+            "items": [
+              {
+                "type": "doc",
+                "id": "tutorials/development/search-and-query/search-with-structarray/search-with-struct-array",
+                "label": "Basic Vector Search",
+                "key": "doc:tutorials/development/search-and-query/search-with-structarray/search-with-struct-array"
+              },
+              {
+                "type": "doc",
+                "id": "tutorials/development/search-and-query/search-with-structarray/filtered-search-with-struct-arrays",
+                "label": "Filtered Search",
+                "key": "doc:tutorials/development/search-and-query/search-with-structarray/filtered-search-with-struct-arrays"
+              },
+              {
+                "type": "doc",
+                "id": "tutorials/development/search-and-query/search-with-structarray/range-search-with-struct-arrays",
+                "label": "Range Search",
+                "key": "doc:tutorials/development/search-and-query/search-with-structarray/range-search-with-struct-arrays"
+              },
+              {
+                "type": "doc",
+                "id": "tutorials/development/search-and-query/search-with-structarray/grouping-search-with-struct-array",
+                "label": "Grouping Search",
+                "key": "doc:tutorials/development/search-and-query/search-with-structarray/grouping-search-with-struct-array"
+              },
+              {
+                "type": "doc",
+                "id": "tutorials/development/search-and-query/search-with-structarray/hybrid-search-with-struct-array",
+                "label": "Hybrid Search",
+                "key": "doc:tutorials/development/search-and-query/search-with-structarray/hybrid-search-with-struct-array"
+              },
+              {
+                "type": "doc",
+                "id": "tutorials/development/search-and-query/search-with-structarray/tutorial-colbert-colpali",
+                "label": "ColBERT and ColPali",
+                "key": "doc:tutorials/development/search-and-query/search-with-structarray/tutorial-colbert-colpali"
+              }
+            ]
           },
           {
             "type": "doc",
             "id": "tutorials/development/search-and-query/elasticsearch-queries-to-milvus",
-            "label": "Elasticsearch Queries to Milvus"
+            "label": "Elasticsearch Queries to Milvus",
+            "key": "doc:tutorials/development/search-and-query/elasticsearch-queries-to-milvus"
           },
           {
             "type": "doc",
             "id": "tutorials/development/search-and-query/with-iterators",
-            "label": "Search Iterator"
+            "label": "Search Iterator",
+            "key": "doc:tutorials/development/search-and-query/with-iterators"
           },
           {
             "type": "doc",
             "id": "tutorials/development/search-and-query/use-partition-key",
-            "label": "Partition Key (Namespace)"
+            "label": "Partition Key (Namespace)",
+            "key": "doc:tutorials/development/search-and-query/use-partition-key"
           },
           {
             "type": "doc",
             "id": "tutorials/development/search-and-query/use-mmap",
-            "label": "Use mmap"
+            "label": "Use mmap",
+            "key": "doc:tutorials/development/search-and-query/use-mmap"
           },
           {
             "type": "doc",
             "id": "tutorials/development/search-and-query/consistency-level",
-            "label": "Consistency Level"
+            "label": "Consistency Level",
+            "key": "doc:tutorials/development/search-and-query/consistency-level"
           },
           {
             "type": "doc",
             "id": "tutorials/development/search-and-query/search-metrics-explained",
-            "label": "Metric Types"
+            "label": "Metric Types",
+            "key": "doc:tutorials/development/search-and-query/search-metrics-explained"
           }
         ]
       },
       {
         "type": "category",
         "label": "Database",
+        "key": "category:tutorials/development/database",
         "items": [
           {
             "type": "doc",
             "id": "tutorials/development/database/database-concept",
-            "label": "Database Explained"
+            "label": "Database Explained",
+            "key": "doc:tutorials/development/database/database-concept"
           },
           {
             "type": "doc",
             "id": "tutorials/development/database/database",
-            "label": "Database"
+            "label": "Database in Serving Clusters",
+            "key": "doc:tutorials/development/database/database"
           },
           {
             "type": "doc",
             "id": "tutorials/development/database/on-demand-database",
-            "label": "Database"
+            "label": "Database for On-Demand Search",
+            "key": "doc:tutorials/development/database/on-demand-database"
           }
         ]
       },
       {
         "type": "category",
         "label": "Collection",
+        "key": "category:tutorials/development/collection",
         "items": [
           {
             "type": "doc",
             "id": "tutorials/development/collection/manage-collections",
-            "label": "Overview"
+            "label": "Overview",
+            "key": "doc:tutorials/development/collection/manage-collections"
           },
           {
             "type": "doc",
             "id": "tutorials/development/collection/manage-collections-sdks",
-            "label": "Create"
+            "label": "Create",
+            "key": "doc:tutorials/development/collection/manage-collections-sdks"
           },
           {
             "type": "doc",
             "id": "tutorials/development/collection/create-external-collection",
-            "label": "Create an External Collection"
+            "label": "Create an External Collection",
+            "key": "doc:tutorials/development/collection/create-external-collection"
           },
           {
             "type": "doc",
             "id": "tutorials/development/collection/view-collections",
-            "label": "View"
+            "label": "View",
+            "key": "doc:tutorials/development/collection/view-collections"
           },
           {
             "type": "doc",
             "id": "tutorials/development/collection/modify-collections",
-            "label": "Modify"
+            "label": "Modify",
+            "key": "doc:tutorials/development/collection/modify-collections"
           },
           {
             "type": "doc",
             "id": "tutorials/development/collection/set-collection-ttl",
-            "label": "TTL"
+            "label": "TTL",
+            "key": "doc:tutorials/development/collection/set-collection-ttl"
           },
           {
             "type": "doc",
             "id": "tutorials/development/collection/use-large-topk",
-            "label": "Large TopK"
+            "label": "Large TopK",
+            "key": "doc:tutorials/development/collection/use-large-topk"
           },
           {
             "type": "doc",
             "id": "tutorials/development/collection/load-release-collections",
-            "label": "Load & Release"
+            "label": "Load & Release",
+            "key": "doc:tutorials/development/collection/load-release-collections"
           },
           {
             "type": "doc",
             "id": "tutorials/development/collection/manage-partitions",
-            "label": "Partitions"
+            "label": "Partitions",
+            "key": "doc:tutorials/development/collection/manage-partitions"
           },
           {
             "type": "doc",
             "id": "tutorials/development/collection/manage-aliases",
-            "label": "Aliases"
+            "label": "Aliases",
+            "key": "doc:tutorials/development/collection/manage-aliases"
           },
           {
             "type": "doc",
             "id": "tutorials/development/collection/truncate-collection",
-            "label": "Truncate Collection"
+            "label": "Truncate Collection",
+            "key": "doc:tutorials/development/collection/truncate-collection"
           },
           {
             "type": "doc",
             "id": "tutorials/development/collection/drop-collection",
-            "label": "Drop"
+            "label": "Drop",
+            "key": "doc:tutorials/development/collection/drop-collection"
           },
           {
             "type": "category",
             "label": "Manage Collection on Console",
+            "key": "category:tutorials/development/collection/manage-collection-on-console",
             "items": [
               {
                 "type": "doc",
                 "id": "tutorials/development/collection/manage-collection-on-console/manage-collections-console",
-                "label": "On Console"
+                "label": "On Console",
+                "key": "doc:tutorials/development/collection/manage-collection-on-console/manage-collections-console"
               },
               {
                 "type": "doc",
                 "id": "tutorials/development/collection/manage-collection-on-console/manage-external-collections-console",
-                "label": "On Console"
+                "label": "On Console",
+                "key": "doc:tutorials/development/collection/manage-collection-on-console/manage-external-collections-console"
               }
             ]
           },
           {
             "type": "doc",
             "id": "tutorials/development/collection/external-collection-limits",
-            "label": "External Collection Limits"
+            "label": "External Collection Limits",
+            "key": "doc:tutorials/development/collection/external-collection-limits"
           }
         ]
       },
       {
         "type": "category",
         "label": "Volume",
+        "key": "category:tutorials/development/volume",
         "items": [
           {
             "type": "doc",
             "id": "tutorials/development/volume/managed-volume",
-            "label": "Managed Volumes"
+            "label": "Managed Volumes",
+            "key": "doc:tutorials/development/volume/managed-volume"
           },
           {
             "type": "doc",
             "id": "tutorials/development/volume/external-volume",
-            "label": "External Volumes"
+            "label": "External Volumes",
+            "key": "doc:tutorials/development/volume/external-volume"
           },
           {
             "type": "category",
             "label": "Storage Integration",
+            "key": "category:tutorials/development/volume/storage-integration",
             "items": [
               {
                 "type": "doc",
                 "id": "tutorials/development/volume/storage-integration/integrate-with-aws-s3",
-                "label": "AWS S3"
+                "label": "AWS S3",
+                "key": "doc:tutorials/development/volume/storage-integration/integrate-with-aws-s3"
               },
               {
                 "type": "doc",
                 "id": "tutorials/development/volume/storage-integration/integrate-with-gcp",
-                "label": "Google Cloud Storage"
+                "label": "Google Cloud Storage",
+                "key": "doc:tutorials/development/volume/storage-integration/integrate-with-gcp"
               },
               {
                 "type": "doc",
                 "id": "tutorials/development/volume/storage-integration/integrate-with-azure-blob-storage",
-                "label": "Azure Blob Storage"
+                "label": "Azure Blob Storage",
+                "key": "doc:tutorials/development/volume/storage-integration/integrate-with-azure-blob-storage"
               }
             ]
           }
@@ -375,126 +491,182 @@ module.exports = [
       {
         "type": "category",
         "label": "Schema",
+        "key": "category:tutorials/development/schema",
         "items": [
           {
             "type": "doc",
             "id": "tutorials/development/schema/schema-explained",
-            "label": "Overview"
+            "label": "Overview",
+            "key": "doc:tutorials/development/schema/schema-explained"
           },
           {
             "type": "doc",
             "id": "tutorials/development/schema/primary-field-auto-id",
-            "label": "Primary Field"
+            "label": "Primary Field",
+            "key": "doc:tutorials/development/schema/primary-field-auto-id"
           },
           {
             "type": "doc",
             "id": "tutorials/development/schema/use-dense-vector",
-            "label": "Dense Vector"
+            "label": "Dense Vector",
+            "key": "doc:tutorials/development/schema/use-dense-vector"
           },
           {
             "type": "doc",
             "id": "tutorials/development/schema/use-binary-vector",
-            "label": "Binary Vector"
+            "label": "Binary Vector",
+            "key": "doc:tutorials/development/schema/use-binary-vector"
           },
           {
             "type": "doc",
             "id": "tutorials/development/schema/use-sparse-vector",
-            "label": "Sparse Vector"
+            "label": "Sparse Vector",
+            "key": "doc:tutorials/development/schema/use-sparse-vector"
           },
           {
             "type": "doc",
             "id": "tutorials/development/schema/use-string-field",
-            "label": "VarChar"
+            "label": "VarChar",
+            "key": "doc:tutorials/development/schema/use-string-field"
           },
           {
             "type": "doc",
             "id": "tutorials/development/schema/use-text-field",
-            "label": "Text Field"
+            "label": "Text Field",
+            "key": "doc:tutorials/development/schema/use-text-field"
           },
           {
             "type": "doc",
             "id": "tutorials/development/schema/use-number-field",
-            "label": "Boolean & Number"
+            "label": "Boolean & Number",
+            "key": "doc:tutorials/development/schema/use-number-field"
           },
           {
             "type": "category",
-            "label": "JSON",
+            "label": "JSON Field",
+            "key": "category:tutorials/development/schema/json-field",
             "items": [
               {
                 "type": "doc",
-                "id": "tutorials/development/schema/use-json-fields/json-field-overview",
-                "label": "Overview"
+                "id": "tutorials/development/schema/json-field/json-field-overview",
+                "label": "Overview",
+                "key": "doc:tutorials/development/schema/json-field/json-field-overview"
               },
               {
                 "type": "doc",
-                "id": "tutorials/development/schema/use-json-fields/json-indexing",
-                "label": "Indexing"
+                "id": "tutorials/development/schema/json-field/json-indexing",
+                "label": "Indexing",
+                "key": "doc:tutorials/development/schema/json-field/json-indexing"
               },
               {
                 "type": "doc",
-                "id": "tutorials/development/schema/use-json-fields/json-shredding",
-                "label": "Shredding"
+                "id": "tutorials/development/schema/json-field/json-shredding",
+                "label": "Shredding",
+                "key": "doc:tutorials/development/schema/json-field/json-shredding"
               }
             ]
           },
           {
             "type": "doc",
             "id": "tutorials/development/schema/use-array-fields",
-            "label": "Array"
+            "label": "Array",
+            "key": "doc:tutorials/development/schema/use-array-fields"
           },
           {
-            "type": "doc",
-            "id": "tutorials/development/schema/use-array-of-structs",
-            "label": "Structs"
+            "type": "category",
+            "label": "StructArray",
+            "key": "category:tutorials/development/schema/structarray",
+            "items": [
+              {
+                "type": "doc",
+                "id": "tutorials/development/schema/structarray/use-array-of-structs",
+                "label": "Overview",
+                "key": "doc:tutorials/development/schema/structarray/use-array-of-structs"
+              },
+              {
+                "type": "doc",
+                "id": "tutorials/development/schema/structarray/create-struct-array",
+                "label": "Create a StructArray Field",
+                "key": "doc:tutorials/development/schema/structarray/create-struct-array"
+              },
+              {
+                "type": "doc",
+                "id": "tutorials/development/schema/structarray/insert-struct-array",
+                "label": "Insert Data into StructArray Fields",
+                "key": "doc:tutorials/development/schema/structarray/insert-struct-array"
+              },
+              {
+                "type": "doc",
+                "id": "tutorials/development/schema/structarray/index-struct-array",
+                "label": "Index StructArray Fields",
+                "key": "doc:tutorials/development/schema/structarray/index-struct-array"
+              },
+              {
+                "type": "doc",
+                "id": "tutorials/development/schema/structarray/struct-array-limits",
+                "label": "StructArray Limits",
+                "key": "doc:tutorials/development/schema/structarray/struct-array-limits"
+              }
+            ]
           },
           {
             "type": "doc",
             "id": "tutorials/development/schema/use-geometry-field",
-            "label": "Geometry"
+            "label": "Geometry",
+            "key": "doc:tutorials/development/schema/use-geometry-field"
           },
           {
             "type": "doc",
             "id": "tutorials/development/schema/use-timestamptz-field",
-            "label": "TIMSTAMPTZ"
+            "label": "TIMSTAMPTZ",
+            "key": "doc:tutorials/development/schema/use-timestamptz-field"
           },
           {
             "type": "doc",
             "id": "tutorials/development/schema/enable-dynamic-field",
-            "label": "Dynamic Field"
+            "label": "Dynamic Field",
+            "key": "doc:tutorials/development/schema/enable-dynamic-field"
           },
           {
             "type": "doc",
             "id": "tutorials/development/schema/nullable-fields",
-            "label": "Nullable Fields"
+            "label": "Nullable Fields",
+            "key": "doc:tutorials/development/schema/nullable-fields"
           },
           {
             "type": "doc",
             "id": "tutorials/development/schema/default-fields",
-            "label": "Default Values"
+            "label": "Default Values",
+            "key": "doc:tutorials/development/schema/default-fields"
           },
           {
             "type": "doc",
             "id": "tutorials/development/schema/alter-collection-field",
-            "label": "Alter Field"
+            "label": "Alter Field",
+            "key": "doc:tutorials/development/schema/alter-collection-field"
           },
           {
             "type": "doc",
             "id": "tutorials/development/schema/add-fields-to-an-existing-collection",
-            "label": "Add Fields"
+            "label": "Alter Schema",
+            "key": "doc:tutorials/development/schema/add-fields-to-an-existing-collection"
           },
           {
             "type": "category",
             "label": "Best Practices",
+            "key": "category:tutorials/development/schema/schema-best-practices",
             "items": [
               {
                 "type": "doc",
                 "id": "tutorials/development/schema/schema-best-practices/schema-design-hands-on",
-                "label": "Data Model Design"
+                "label": "Data Model Design",
+                "key": "doc:tutorials/development/schema/schema-best-practices/schema-design-hands-on"
               },
               {
                 "type": "doc",
                 "id": "tutorials/development/schema/schema-best-practices/schema-design-with-structs",
-                "label": "Data Model with Structs"
+                "label": "Data Model with Structs",
+                "key": "doc:tutorials/development/schema/schema-best-practices/schema-design-with-structs"
               }
             ]
           }
@@ -503,263 +675,314 @@ module.exports = [
       {
         "type": "category",
         "label": "Vector Index",
+        "key": "category:tutorials/development/vector-index",
         "items": [
           {
             "type": "doc",
             "id": "tutorials/development/vector-index/autoindex-explained",
-            "label": "AUTOINDEX"
+            "label": "AUTOINDEX",
+            "key": "doc:tutorials/development/vector-index/autoindex-explained"
           },
           {
             "type": "doc",
             "id": "tutorials/development/vector-index/minhash-lsh",
-            "label": "MINHASH_LSH"
+            "label": "MINHASH_LSH",
+            "key": "doc:tutorials/development/vector-index/minhash-lsh"
           },
           {
             "type": "doc",
             "id": "tutorials/development/vector-index/tune-index-build-level",
-            "label": "Tune Build Level"
+            "label": "Tune Build Level",
+            "key": "doc:tutorials/development/vector-index/tune-index-build-level"
           }
         ]
       },
       {
         "type": "category",
         "label": "Scalar Index",
+        "key": "category:tutorials/development/scalar-index",
         "items": [
           {
             "type": "doc",
             "id": "tutorials/development/scalar-index/bitmap-index-type",
-            "label": "BITMAP"
+            "label": "BITMAP",
+            "key": "doc:tutorials/development/scalar-index/bitmap-index-type"
           },
           {
             "type": "doc",
             "id": "tutorials/development/scalar-index/inverted-index-type",
-            "label": "INVERTED"
+            "label": "INVERTED",
+            "key": "doc:tutorials/development/scalar-index/inverted-index-type"
           },
           {
             "type": "doc",
             "id": "tutorials/development/scalar-index/ngram-index-type",
-            "label": "NGRAM"
+            "label": "NGRAM",
+            "key": "doc:tutorials/development/scalar-index/ngram-index-type"
           },
           {
             "type": "doc",
             "id": "tutorials/development/scalar-index/rtree-index-type",
-            "label": "RTREE"
+            "label": "RTREE",
+            "key": "doc:tutorials/development/scalar-index/rtree-index-type"
           },
           {
             "type": "doc",
             "id": "tutorials/development/scalar-index/slt-sort-index-type",
-            "label": "STL_SORT"
+            "label": "STL_SORT",
+            "key": "doc:tutorials/development/scalar-index/slt-sort-index-type"
           }
         ]
       },
       {
         "type": "category",
         "label": "Insert & Delete",
+        "key": "category:tutorials/development/insert-and-delete",
         "items": [
           {
             "type": "doc",
             "id": "tutorials/development/insert-and-delete/insert-entities",
-            "label": "Insert"
+            "label": "Insert",
+            "key": "doc:tutorials/development/insert-and-delete/insert-entities"
           },
           {
             "type": "doc",
             "id": "tutorials/development/insert-and-delete/upsert-entities",
-            "label": "Upsert"
+            "label": "Upsert",
+            "key": "doc:tutorials/development/insert-and-delete/upsert-entities"
           },
           {
             "type": "doc",
             "id": "tutorials/development/insert-and-delete/count-entities",
-            "label": "Count"
+            "label": "Count",
+            "key": "doc:tutorials/development/insert-and-delete/count-entities"
           },
           {
             "type": "doc",
             "id": "tutorials/development/insert-and-delete/delete-entities",
-            "label": "Delete"
+            "label": "Delete",
+            "key": "doc:tutorials/development/insert-and-delete/delete-entities"
           }
         ]
       },
       {
         "type": "category",
         "label": "Data Import",
+        "key": "category:tutorials/development/data-import",
         "items": [
           {
             "type": "doc",
             "id": "tutorials/development/data-import/data-import-storage-options",
-            "label": "Storage Options"
+            "label": "Storage Options",
+            "key": "doc:tutorials/development/data-import/data-import-storage-options"
           },
           {
             "type": "category",
             "label": "Format Options",
+            "key": "category:tutorials/development/data-import/data-import-format-options",
             "items": [
               {
                 "type": "doc",
                 "id": "tutorials/development/data-import/data-import-format-options/data-import-parquet",
-                "label": "Parquet (Recommended)"
+                "label": "Parquet (Recommended)",
+                "key": "doc:tutorials/development/data-import/data-import-format-options/data-import-parquet"
               },
               {
                 "type": "doc",
                 "id": "tutorials/development/data-import/data-import-format-options/data-import-json",
-                "label": "JSON/JSON Line"
+                "label": "JSON/JSON Line",
+                "key": "doc:tutorials/development/data-import/data-import-format-options/data-import-json"
               },
               {
                 "type": "doc",
                 "id": "tutorials/development/data-import/data-import-format-options/data-import-numpy",
-                "label": "NumPy"
+                "label": "NumPy",
+                "key": "doc:tutorials/development/data-import/data-import-format-options/data-import-numpy"
               }
             ]
           },
           {
             "type": "category",
             "label": "Convert Your Data",
+            "key": "category:tutorials/development/data-import/prepare-data-import",
             "items": [
               {
                 "type": "doc",
                 "id": "tutorials/development/data-import/prepare-data-import/use-bulkwriter",
-                "label": "Use BulkWriter"
+                "label": "Use BulkWriter",
+                "key": "doc:tutorials/development/data-import/prepare-data-import/use-bulkwriter"
               }
             ]
           },
           {
             "type": "category",
             "label": "Import Data",
+            "key": "category:tutorials/development/data-import/import-data",
             "items": [
               {
                 "type": "doc",
                 "id": "tutorials/development/data-import/import-data/import-data-on-web-ui",
-                "label": "Console"
+                "label": "Console",
+                "key": "doc:tutorials/development/data-import/import-data/import-data-on-web-ui"
               },
               {
                 "type": "doc",
                 "id": "tutorials/development/data-import/import-data/import-data-via-restful-api",
-                "label": "RESTful API"
+                "label": "RESTful API",
+                "key": "doc:tutorials/development/data-import/import-data/import-data-via-restful-api"
               },
               {
                 "type": "doc",
                 "id": "tutorials/development/data-import/import-data/import-data-via-sdks",
-                "label": "SDKs"
+                "label": "SDKs",
+                "key": "doc:tutorials/development/data-import/import-data/import-data-via-sdks"
               }
             ]
           },
           {
             "type": "doc",
             "id": "tutorials/development/data-import/data-import-zero-to-hero",
-            "label": "Zero to Hero"
+            "label": "Zero to Hero",
+            "key": "doc:tutorials/development/data-import/data-import-zero-to-hero"
           }
         ]
       },
       {
         "type": "category",
         "label": "Data Export",
+        "key": "category:tutorials/development/data-export",
         "items": [
           {
             "type": "doc",
             "id": "tutorials/development/data-export/export-data-iterators",
-            "label": "Using Iterators"
+            "label": "Using Iterators",
+            "key": "doc:tutorials/development/data-export/export-data-iterators"
           }
         ]
       },
       {
         "type": "category",
         "label": "Function",
+        "key": "category:tutorials/development/function",
         "items": [
           {
             "type": "doc",
             "id": "tutorials/development/function/function-and-model-inference-overview",
-            "label": "Overview"
+            "label": "Overview",
+            "key": "doc:tutorials/development/function/function-and-model-inference-overview"
           },
           {
             "type": "doc",
             "id": "tutorials/development/function/bm25-function",
-            "label": "BM25 Function"
+            "label": "BM25 Function",
+            "key": "doc:tutorials/development/function/bm25-function"
           },
           {
             "type": "category",
             "label": "Text Embedding Functions",
+            "key": "category:tutorials/development/function/text-embedding-functions",
             "items": [
               {
                 "type": "doc",
                 "id": "tutorials/development/function/text-embedding-functions/text-embedding-overview",
-                "label": "Text Embedding Function Overview"
+                "label": "Text Embedding Function Overview",
+                "key": "doc:tutorials/development/function/text-embedding-functions/text-embedding-overview"
               },
               {
                 "type": "doc",
                 "id": "tutorials/development/function/text-embedding-functions/openai",
-                "label": "OpenAI"
+                "label": "OpenAI",
+                "key": "doc:tutorials/development/function/text-embedding-functions/openai"
               },
               {
                 "type": "doc",
                 "id": "tutorials/development/function/text-embedding-functions/voyage-ai",
-                "label": "Voyage AI"
+                "label": "Voyage AI",
+                "key": "doc:tutorials/development/function/text-embedding-functions/voyage-ai"
               },
               {
                 "type": "doc",
                 "id": "tutorials/development/function/text-embedding-functions/cohere",
-                "label": "Cohere"
+                "label": "Cohere",
+                "key": "doc:tutorials/development/function/text-embedding-functions/cohere"
               }
             ]
           },
           {
             "type": "doc",
             "id": "tutorials/development/function/minhash-function",
-            "label": "MinHash Function"
+            "label": "MinHash Function",
+            "key": "doc:tutorials/development/function/minhash-function"
           },
           {
             "type": "category",
             "label": "Reranking Functions",
+            "key": "category:tutorials/development/function/reranking-functions",
             "items": [
               {
                 "type": "category",
                 "label": "Hybrid Search Rerankers",
+                "key": "category:tutorials/development/function/reranking-functions/hybrid-search-rerankers",
                 "items": [
                   {
                     "type": "doc",
                     "id": "tutorials/development/function/reranking-functions/hybrid-search-rerankers/reranking-weighted-reranker",
-                    "label": "Weighted Ranker"
+                    "label": "Weighted Ranker",
+                    "key": "doc:tutorials/development/function/reranking-functions/hybrid-search-rerankers/reranking-weighted-reranker"
                   },
                   {
                     "type": "doc",
                     "id": "tutorials/development/function/reranking-functions/hybrid-search-rerankers/reranking-rrf",
-                    "label": "RRF Ranker"
+                    "label": "RRF Ranker",
+                    "key": "doc:tutorials/development/function/reranking-functions/hybrid-search-rerankers/reranking-rrf"
                   }
                 ]
               },
               {
                 "type": "category",
                 "label": "Rule-based Rerankers",
+                "key": "category:tutorials/development/function/reranking-functions/rule-based-rerankers",
                 "items": [
                   {
                     "type": "doc",
                     "id": "tutorials/development/function/reranking-functions/rule-based-rerankers/boost-ranker",
-                    "label": "Boost Ranker"
+                    "label": "Boost Ranker",
+                    "key": "doc:tutorials/development/function/reranking-functions/rule-based-rerankers/boost-ranker"
                   },
                   {
                     "type": "category",
                     "label": "Decay Rankers",
+                    "key": "category:tutorials/development/function/reranking-functions/rule-based-rerankers/decay-rankers",
                     "items": [
                       {
                         "type": "doc",
                         "id": "tutorials/development/function/reranking-functions/rule-based-rerankers/decay-rankers/decay-ranker-oveview",
-                        "label": "Decay Ranker Overview"
+                        "label": "Decay Ranker Overview",
+                        "key": "doc:tutorials/development/function/reranking-functions/rule-based-rerankers/decay-rankers/decay-ranker-oveview"
                       },
                       {
                         "type": "doc",
                         "id": "tutorials/development/function/reranking-functions/rule-based-rerankers/decay-rankers/gaussian-decay",
-                        "label": "Gaussian Decay"
+                        "label": "Gaussian Decay",
+                        "key": "doc:tutorials/development/function/reranking-functions/rule-based-rerankers/decay-rankers/gaussian-decay"
                       },
                       {
                         "type": "doc",
                         "id": "tutorials/development/function/reranking-functions/rule-based-rerankers/decay-rankers/exponential-decay",
-                        "label": "Exponential Decay"
+                        "label": "Exponential Decay",
+                        "key": "doc:tutorials/development/function/reranking-functions/rule-based-rerankers/decay-rankers/exponential-decay"
                       },
                       {
                         "type": "doc",
                         "id": "tutorials/development/function/reranking-functions/rule-based-rerankers/decay-rankers/linear-decay",
-                        "label": "Linear Decay"
+                        "label": "Linear Decay",
+                        "key": "doc:tutorials/development/function/reranking-functions/rule-based-rerankers/decay-rankers/linear-decay"
                       },
                       {
                         "type": "doc",
                         "id": "tutorials/development/function/reranking-functions/rule-based-rerankers/decay-rankers/tutorial-implement-time-based-ranking",
-                        "label": "Tutorial: Implement Time-based Ranking"
+                        "label": "Tutorial: Implement Time-based Ranking",
+                        "key": "doc:tutorials/development/function/reranking-functions/rule-based-rerankers/decay-rankers/tutorial-implement-time-based-ranking"
                       }
                     ]
                   }
@@ -768,16 +991,19 @@ module.exports = [
               {
                 "type": "category",
                 "label": "Model-based Rerankers",
+                "key": "category:tutorials/development/function/reranking-functions/model-based-rerankers",
                 "items": [
                   {
                     "type": "doc",
                     "id": "tutorials/development/function/reranking-functions/model-based-rerankers/cohere-model-ranker",
-                    "label": "Cohere Ranker"
+                    "label": "Cohere Ranker",
+                    "key": "doc:tutorials/development/function/reranking-functions/model-based-rerankers/cohere-model-ranker"
                   },
                   {
                     "type": "doc",
                     "id": "tutorials/development/function/reranking-functions/model-based-rerankers/voyage-ai-model-ranker",
-                    "label": "Voyage AI Ranker"
+                    "label": "Voyage AI Ranker",
+                    "key": "doc:tutorials/development/function/reranking-functions/model-based-rerankers/voyage-ai-model-ranker"
                   }
                 ]
               }
@@ -788,150 +1014,179 @@ module.exports = [
       {
         "type": "category",
         "label": "Analyzer",
+        "key": "category:tutorials/development/analyzer",
         "items": [
           {
             "type": "doc",
             "id": "tutorials/development/analyzer/analyzer-overview",
-            "label": "Overview"
+            "label": "Overview",
+            "key": "doc:tutorials/development/analyzer/analyzer-overview"
           },
           {
             "type": "category",
             "label": "Built-in Analyzer",
+            "key": "category:tutorials/development/analyzer/built-in-analyzer",
             "items": [
               {
                 "type": "doc",
                 "id": "tutorials/development/analyzer/built-in-analyzer/standard-analyzer",
-                "label": "Standard"
+                "label": "Standard",
+                "key": "doc:tutorials/development/analyzer/built-in-analyzer/standard-analyzer"
               },
               {
                 "type": "doc",
                 "id": "tutorials/development/analyzer/built-in-analyzer/english-analyzer",
-                "label": "English"
+                "label": "English",
+                "key": "doc:tutorials/development/analyzer/built-in-analyzer/english-analyzer"
               },
               {
                 "type": "doc",
                 "id": "tutorials/development/analyzer/built-in-analyzer/chinese-analyzer",
-                "label": "Chinese"
+                "label": "Chinese",
+                "key": "doc:tutorials/development/analyzer/built-in-analyzer/chinese-analyzer"
               }
             ]
           },
           {
             "type": "category",
             "label": "Tokenizer",
+            "key": "category:tutorials/development/analyzer/tokenizers",
             "items": [
               {
                 "type": "doc",
                 "id": "tutorials/development/analyzer/tokenizers/standard-tokenizer",
-                "label": "Standard"
+                "label": "Standard",
+                "key": "doc:tutorials/development/analyzer/tokenizers/standard-tokenizer"
               },
               {
                 "type": "doc",
                 "id": "tutorials/development/analyzer/tokenizers/whitespace-tokenizer",
-                "label": "Whitespace"
+                "label": "Whitespace",
+                "key": "doc:tutorials/development/analyzer/tokenizers/whitespace-tokenizer"
               },
               {
                 "type": "doc",
                 "id": "tutorials/development/analyzer/tokenizers/jieba-tokenizer",
-                "label": "Jieba"
+                "label": "Jieba",
+                "key": "doc:tutorials/development/analyzer/tokenizers/jieba-tokenizer"
               },
               {
                 "type": "doc",
                 "id": "tutorials/development/analyzer/tokenizers/lindera-tokenizer",
-                "label": "Lindera"
+                "label": "Lindera",
+                "key": "doc:tutorials/development/analyzer/tokenizers/lindera-tokenizer"
               },
               {
                 "type": "doc",
                 "id": "tutorials/development/analyzer/tokenizers/icu-tokenizer",
-                "label": "ICU"
+                "label": "ICU",
+                "key": "doc:tutorials/development/analyzer/tokenizers/icu-tokenizer"
               },
               {
                 "type": "doc",
                 "id": "tutorials/development/analyzer/tokenizers/language-identifier-tokenizer",
-                "label": "Language Identifier"
+                "label": "Language Identifier",
+                "key": "doc:tutorials/development/analyzer/tokenizers/language-identifier-tokenizer"
               }
             ]
           },
           {
             "type": "category",
             "label": "Analyzer Filters",
+            "key": "category:tutorials/development/analyzer/analyzer-filters",
             "items": [
               {
                 "type": "doc",
                 "id": "tutorials/development/analyzer/analyzer-filters/lowercase-filter",
-                "label": "Lowercase"
+                "label": "Lowercase",
+                "key": "doc:tutorials/development/analyzer/analyzer-filters/lowercase-filter"
               },
               {
                 "type": "doc",
                 "id": "tutorials/development/analyzer/analyzer-filters/ascii-folding-filter",
-                "label": "ASCII folding"
+                "label": "ASCII folding",
+                "key": "doc:tutorials/development/analyzer/analyzer-filters/ascii-folding-filter"
               },
               {
                 "type": "doc",
                 "id": "tutorials/development/analyzer/analyzer-filters/alphanumonly-filter",
-                "label": "Alphanumonly"
+                "label": "Alphanumonly",
+                "key": "doc:tutorials/development/analyzer/analyzer-filters/alphanumonly-filter"
               },
               {
                 "type": "doc",
                 "id": "tutorials/development/analyzer/analyzer-filters/cnalphanumonly-filter",
-                "label": "Cnalphanumonly"
+                "label": "Cnalphanumonly",
+                "key": "doc:tutorials/development/analyzer/analyzer-filters/cnalphanumonly-filter"
               },
               {
                 "type": "doc",
                 "id": "tutorials/development/analyzer/analyzer-filters/cncharonly-filter",
-                "label": "Cncharonly"
+                "label": "Cncharonly",
+                "key": "doc:tutorials/development/analyzer/analyzer-filters/cncharonly-filter"
               },
               {
                 "type": "doc",
                 "id": "tutorials/development/analyzer/analyzer-filters/length-filter",
-                "label": "Length"
+                "label": "Length",
+                "key": "doc:tutorials/development/analyzer/analyzer-filters/length-filter"
               },
               {
                 "type": "doc",
                 "id": "tutorials/development/analyzer/analyzer-filters/stop-filter",
-                "label": "Stop"
+                "label": "Stop",
+                "key": "doc:tutorials/development/analyzer/analyzer-filters/stop-filter"
               },
               {
                 "type": "doc",
                 "id": "tutorials/development/analyzer/analyzer-filters/decompounder-filter",
-                "label": "Decompounder"
+                "label": "Decompounder",
+                "key": "doc:tutorials/development/analyzer/analyzer-filters/decompounder-filter"
               },
               {
                 "type": "doc",
                 "id": "tutorials/development/analyzer/analyzer-filters/stemmer-filter",
-                "label": "Stemmer"
+                "label": "Stemmer",
+                "key": "doc:tutorials/development/analyzer/analyzer-filters/stemmer-filter"
               },
               {
                 "type": "doc",
                 "id": "tutorials/development/analyzer/analyzer-filters/remove-punct-filter",
-                "label": "Remove Punct"
+                "label": "Remove Punct",
+                "key": "doc:tutorials/development/analyzer/analyzer-filters/remove-punct-filter"
               },
               {
                 "type": "doc",
                 "id": "tutorials/development/analyzer/analyzer-filters/regex-filter",
-                "label": "Regex"
+                "label": "Regex",
+                "key": "doc:tutorials/development/analyzer/analyzer-filters/regex-filter"
               },
               {
                 "type": "doc",
                 "id": "tutorials/development/analyzer/analyzer-filters/synonym-filter",
-                "label": "Synonym"
+                "label": "Synonym",
+                "key": "doc:tutorials/development/analyzer/analyzer-filters/synonym-filter"
               }
             ]
           },
           {
             "type": "doc",
             "id": "tutorials/development/analyzer/multi-language-analyzers",
-            "label": "Multi-language Analyzers"
+            "label": "Multi-language Analyzers",
+            "key": "doc:tutorials/development/analyzer/multi-language-analyzers"
           },
           {
             "type": "doc",
             "id": "tutorials/development/analyzer/choose-the-right-analyzer-for-your-use-case",
-            "label": "Best Practice"
+            "label": "Best Practice",
+            "key": "doc:tutorials/development/analyzer/choose-the-right-analyzer-for-your-use-case"
           }
         ]
       },
       {
         "type": "category",
         "label": "Snapshots",
+        "key": "category:tutorials/development/snapshots",
         "link": {
           "type": "doc",
           "id": "tutorials/development/snapshots/snapshots"
@@ -940,7 +1195,8 @@ module.exports = [
           {
             "type": "doc",
             "id": "tutorials/development/snapshots/manage-snapshots",
-            "label": "Manage Snapshots"
+            "label": "Manage Snapshots",
+            "key": "doc:tutorials/development/snapshots/manage-snapshots"
           }
         ]
       }
@@ -949,75 +1205,96 @@ module.exports = [
   {
     "type": "category",
     "label": "Management",
+    "key": "category:tutorials/management",
     "items": [
       {
         "type": "category",
         "label": "Organizations",
+        "key": "category:tutorials/management/organizations",
         "items": [
           {
             "type": "doc",
             "id": "tutorials/management/organizations/organization-users",
-            "label": "Organization Users"
+            "label": "Organization Users",
+            "key": "doc:tutorials/management/organizations/organization-users"
           },
           {
             "type": "doc",
             "id": "tutorials/management/organizations/organization-settings",
-            "label": "Organization Settings"
+            "label": "Organization Settings",
+            "key": "doc:tutorials/management/organizations/organization-settings"
           },
           {
             "type": "doc",
             "id": "tutorials/management/organizations/use-recycle-bin",
-            "label": "Use Recycle Bin"
+            "label": "Use Recycle Bin",
+            "key": "doc:tutorials/management/organizations/use-recycle-bin"
           }
         ]
       },
       {
         "type": "category",
         "label": "Projects",
+        "key": "category:tutorials/management/projects",
         "items": [
           {
             "type": "doc",
             "id": "tutorials/management/projects/manage-projects",
-            "label": "Projects"
+            "label": "Projects",
+            "key": "doc:tutorials/management/projects/manage-projects"
           },
           {
             "type": "doc",
             "id": "tutorials/management/projects/project-users",
-            "label": "Project Users"
+            "label": "Project Users",
+            "key": "doc:tutorials/management/projects/project-users"
           },
           {
             "type": "doc",
             "id": "tutorials/management/projects/job-center",
-            "label": "Project Jobs"
+            "label": "Project Jobs",
+            "key": "doc:tutorials/management/projects/job-center"
           }
         ]
       },
       {
         "type": "category",
         "label": "Clusters",
+        "key": "category:tutorials/management/clusters",
         "items": [
+          {
+            "type": "doc",
+            "id": "tutorials/management/clusters/free-and-serverless-clusters",
+            "label": "Free & Serverless Clusters",
+            "key": "doc:tutorials/management/clusters/free-and-serverless-clusters"
+          },
           {
             "type": "category",
             "label": "Dedicated Cluster",
+            "key": "category:tutorials/management/clusters/dedicated-cluster",
             "items": [
               {
                 "type": "doc",
                 "id": "tutorials/management/clusters/dedicated-cluster/create-cluster",
-                "label": "Create Cluster"
+                "label": "Create Cluster",
+                "key": "doc:tutorials/management/clusters/dedicated-cluster/create-cluster"
               },
               {
                 "type": "doc",
-                "id": "tutorials/management/clusters/dedicated-cluster/connect-to-cluster",
-                "label": "Connect to Cluster"
+                "id": "tutorials/management/clusters/dedicated-cluster/connect-to-clusters",
+                "label": "Connect to Clusters",
+                "key": "doc:tutorials/management/clusters/dedicated-cluster/connect-to-clusters"
               },
               {
                 "type": "doc",
                 "id": "tutorials/management/clusters/dedicated-cluster/manage-cluster",
-                "label": "Manage Cluster"
+                "label": "Manage Cluster",
+                "key": "doc:tutorials/management/clusters/dedicated-cluster/manage-cluster"
               },
               {
                 "type": "category",
                 "label": "Scale Cluster",
+                "key": "category:tutorials/management/clusters/dedicated-cluster/scale-cluster",
                 "link": {
                   "type": "doc",
                   "id": "tutorials/management/clusters/dedicated-cluster/scale-cluster/scale-cluster"
@@ -1026,71 +1303,108 @@ module.exports = [
                   {
                     "type": "doc",
                     "id": "tutorials/management/clusters/dedicated-cluster/scale-cluster/scale-query-cu",
-                    "label": "Scale Query CU"
+                    "label": "Scale Query CU",
+                    "key": "doc:tutorials/management/clusters/dedicated-cluster/scale-cluster/scale-query-cu"
                   },
                   {
                     "type": "doc",
                     "id": "tutorials/management/clusters/dedicated-cluster/scale-cluster/manage-replica",
-                    "label": "Scale Replica"
+                    "label": "Scale Replica",
+                    "key": "doc:tutorials/management/clusters/dedicated-cluster/scale-cluster/manage-replica"
                   },
                   {
                     "type": "doc",
                     "id": "tutorials/management/clusters/dedicated-cluster/scale-cluster/cron-expression",
-                    "label": "Cron Expression"
+                    "label": "Cron Expression",
+                    "key": "doc:tutorials/management/clusters/dedicated-cluster/scale-cluster/cron-expression"
                   }
                 ]
+              },
+              {
+                "type": "ref",
+                "id": "tutorials/development/database/database",
+                "label": "Database in Serving Clusters",
+                "key": "ref:tutorials/management/clusters/dedicated-cluster/database"
               }
             ]
           },
           {
             "type": "category",
             "label": "On-Demand Cluster",
+            "key": "category:tutorials/management/clusters/on-demand-cluster",
             "items": [
               {
                 "type": "doc",
                 "id": "tutorials/management/clusters/on-demand-cluster/on-demand-cluster",
-                "label": "Cluster"
+                "label": "Create Cluster",
+                "key": "doc:tutorials/management/clusters/on-demand-cluster/on-demand-cluster"
+              },
+              {
+                "type": "ref",
+                "id": "tutorials/development/connect-for-on-demand-search",
+                "label": "Connect for On-Demand Search",
+                "key": "ref:tutorials/management/clusters/on-demand-cluster/connect-for-on-demand-search"
+              },
+              {
+                "type": "doc",
+                "id": "tutorials/management/clusters/on-demand-cluster/manage-on-demand-clusters",
+                "label": "Manage Cluster",
+                "key": "doc:tutorials/management/clusters/on-demand-cluster/manage-on-demand-clusters"
+              },
+              {
+                "type": "ref",
+                "id": "tutorials/development/database/on-demand-database",
+                "label": "Database for On-Demand Search",
+                "key": "ref:tutorials/management/clusters/on-demand-cluster/on-demand-database"
               }
             ]
           },
           {
             "type": "category",
             "label": "Global Cluster",
+            "key": "category:tutorials/management/clusters/global-cluster",
             "items": [
               {
                 "type": "doc",
                 "id": "tutorials/management/clusters/global-cluster/global-cluster-explained",
-                "label": "Global Cluster Explained"
+                "label": "Global Cluster Explained",
+                "key": "doc:tutorials/management/clusters/global-cluster/global-cluster-explained"
               },
               {
                 "type": "doc",
                 "id": "tutorials/management/clusters/global-cluster/create-global-cluster",
-                "label": "Create Global Cluster"
+                "label": "Create Global Cluster",
+                "key": "doc:tutorials/management/clusters/global-cluster/create-global-cluster"
               },
               {
                 "type": "doc",
                 "id": "tutorials/management/clusters/global-cluster/connect-to-global-cluster",
-                "label": "Connect to Global Cluster"
+                "label": "Connect to Global Cluster",
+                "key": "doc:tutorials/management/clusters/global-cluster/connect-to-global-cluster"
               },
               {
                 "type": "doc",
                 "id": "tutorials/management/clusters/global-cluster/switchover-and-failover",
-                "label": "Switchover and Failover"
+                "label": "Switchover and Failover",
+                "key": "doc:tutorials/management/clusters/global-cluster/switchover-and-failover"
               },
               {
                 "type": "doc",
                 "id": "tutorials/management/clusters/global-cluster/scale-global-cluster",
-                "label": "Scale Global Cluster"
+                "label": "Scale Global Cluster",
+                "key": "doc:tutorials/management/clusters/global-cluster/scale-global-cluster"
               },
               {
                 "type": "doc",
                 "id": "tutorials/management/clusters/global-cluster/monitor-global-cluster",
-                "label": "Monitor Global Cluster"
+                "label": "Monitor Global Cluster",
+                "key": "doc:tutorials/management/clusters/global-cluster/monitor-global-cluster"
               },
               {
                 "type": "doc",
                 "id": "tutorials/management/clusters/global-cluster/manage-global-cluster",
-                "label": "Manage Global Cluster"
+                "label": "Manage Global Cluster",
+                "key": "doc:tutorials/management/clusters/global-cluster/manage-global-cluster"
               }
             ]
           }
@@ -1099,35 +1413,42 @@ module.exports = [
       {
         "type": "category",
         "label": "Volume",
+        "key": "category:tutorials/management/volume",
         "items": [
           {
             "type": "ref",
             "id": "tutorials/development/volume/managed-volume",
-            "label": "Managed Volumes"
+            "label": "Managed Volumes",
+            "key": "ref:tutorials/management/volume/managed-volume"
           },
           {
             "type": "ref",
             "id": "tutorials/development/volume/external-volume",
-            "label": "External Volumes"
+            "label": "External Volumes",
+            "key": "ref:tutorials/management/volume/external-volume"
           },
           {
             "type": "category",
             "label": "Storage Integrations",
+            "key": "category:tutorials/management/volume/storage-integrations",
             "items": [
               {
                 "type": "ref",
                 "id": "tutorials/development/volume/storage-integration/integrate-with-aws-s3",
-                "label": "AWS S3"
+                "label": "AWS S3",
+                "key": "ref:tutorials/management/volume/storage-integrations/integrate-with-aws-s3"
               },
               {
                 "type": "ref",
                 "id": "tutorials/development/volume/storage-integration/integrate-with-gcp",
-                "label": "Google Cloud Storage"
+                "label": "Google Cloud Storage",
+                "key": "ref:tutorials/management/volume/storage-integrations/integrate-with-gcp"
               },
               {
                 "type": "ref",
                 "id": "tutorials/development/volume/storage-integration/integrate-with-azure-blob-storage",
-                "label": "Azure Blob Storage"
+                "label": "Azure Blob Storage",
+                "key": "ref:tutorials/management/volume/storage-integrations/integrate-with-azure-blob-storage"
               }
             ]
           }
@@ -1136,57 +1457,68 @@ module.exports = [
       {
         "type": "category",
         "label": "Backup & Restore",
+        "key": "category:tutorials/management/backup-and-restore",
         "items": [
           {
             "type": "doc",
             "id": "tutorials/management/backup-and-restore/create-backup",
-            "label": "Create Backup"
+            "label": "Create Backup",
+            "key": "doc:tutorials/management/backup-and-restore/create-backup"
           },
           {
             "type": "doc",
             "id": "tutorials/management/backup-and-restore/schedule-automatic-backups",
-            "label": "Schedule Automatic Backups"
+            "label": "Schedule Automatic Backups",
+            "key": "doc:tutorials/management/backup-and-restore/schedule-automatic-backups"
           },
           {
             "type": "doc",
             "id": "tutorials/management/backup-and-restore/backup-to-other-regions",
-            "label": "Cross-Region Backup"
+            "label": "Cross-Region Backup",
+            "key": "doc:tutorials/management/backup-and-restore/backup-to-other-regions"
           },
           {
             "type": "doc",
             "id": "tutorials/management/backup-and-restore/restore-from-backup-files",
-            "label": "Restore from Backup Files"
+            "label": "Restore from Backup Files",
+            "key": "doc:tutorials/management/backup-and-restore/restore-from-backup-files"
           },
           {
             "type": "doc",
             "id": "tutorials/management/backup-and-restore/export-backup-files",
-            "label": "Export Backup Files"
+            "label": "Export Backup Files",
+            "key": "doc:tutorials/management/backup-and-restore/export-backup-files"
           },
           {
             "type": "doc",
             "id": "tutorials/management/backup-and-restore/manage-backup-files",
-            "label": "Manage Backup Files"
+            "label": "Manage Backup Files",
+            "key": "doc:tutorials/management/backup-and-restore/manage-backup-files"
           }
         ]
       },
       {
         "type": "category",
         "label": "Migrations",
+        "key": "category:tutorials/management/migrations",
         "items": [
           {
             "type": "category",
             "label": "Zilliz to Zilliz Migrations",
+            "key": "category:tutorials/management/migrations/migrate-between-clusters",
             "items": [
               {
                 "type": "doc",
                 "id": "tutorials/management/migrations/migrate-between-clusters/offline-migration",
-                "label": "Offline Migration"
+                "label": "Offline Migration",
+                "key": "doc:tutorials/management/migrations/migrate-between-clusters/offline-migration"
               }
             ]
           },
           {
             "type": "category",
             "label": "Migrate from Milvus",
+            "key": "category:tutorials/management/migrations/migrate-from-milvus",
             "link": {
               "type": "doc",
               "id": "tutorials/management/migrations/migrate-from-milvus/migrate-from-milvus"
@@ -1195,63 +1527,75 @@ module.exports = [
               {
                 "type": "doc",
                 "id": "tutorials/management/migrations/migrate-from-milvus/via-endpoint",
-                "label": "Via Endpoint"
+                "label": "Via Endpoint",
+                "key": "doc:tutorials/management/migrations/migrate-from-milvus/via-endpoint"
               },
               {
                 "type": "doc",
                 "id": "tutorials/management/migrations/migrate-from-milvus/via-backup-files",
-                "label": "Via Backup Files"
+                "label": "Via Backup Files",
+                "key": "doc:tutorials/management/migrations/migrate-from-milvus/via-backup-files"
               },
               {
                 "type": "doc",
                 "id": "tutorials/management/migrations/migrate-from-milvus/via-stage",
-                "label": "Via Backup Tool"
+                "label": "Via Backup Tool",
+                "key": "doc:tutorials/management/migrations/migrate-from-milvus/via-stage"
               }
             ]
           },
           {
             "type": "category",
             "label": "Migration from External Sources",
+            "key": "category:tutorials/management/migrations/migration-from-external-sources",
             "items": [
               {
                 "type": "doc",
                 "id": "tutorials/management/migrations/migration-from-external-sources/external-migration-basics",
-                "label": "External Migration Basics"
+                "label": "External Migration Basics",
+                "key": "doc:tutorials/management/migrations/migration-from-external-sources/external-migration-basics"
               },
               {
                 "type": "doc",
                 "id": "tutorials/management/migrations/migration-from-external-sources/migrate-from-pinecone",
-                "label": "Pinecone"
+                "label": "Pinecone",
+                "key": "doc:tutorials/management/migrations/migration-from-external-sources/migrate-from-pinecone"
               },
               {
                 "type": "doc",
                 "id": "tutorials/management/migrations/migration-from-external-sources/migrate-from-qdrant",
-                "label": "Qdrant"
+                "label": "Qdrant",
+                "key": "doc:tutorials/management/migrations/migration-from-external-sources/migrate-from-qdrant"
               },
               {
                 "type": "doc",
                 "id": "tutorials/management/migrations/migration-from-external-sources/migrate-from-elasticsearch",
-                "label": "Elasticsearch"
+                "label": "Elasticsearch",
+                "key": "doc:tutorials/management/migrations/migration-from-external-sources/migrate-from-elasticsearch"
               },
               {
                 "type": "doc",
                 "id": "tutorials/management/migrations/migration-from-external-sources/migrate-from-pgvector",
-                "label": "PostgreSQL"
+                "label": "PostgreSQL",
+                "key": "doc:tutorials/management/migrations/migration-from-external-sources/migrate-from-pgvector"
               },
               {
                 "type": "doc",
                 "id": "tutorials/management/migrations/migration-from-external-sources/migrate-from-tencent-cloud",
-                "label": "Tencent Cloud VectorDB"
+                "label": "Tencent Cloud VectorDB",
+                "key": "doc:tutorials/management/migrations/migration-from-external-sources/migrate-from-tencent-cloud"
               },
               {
                 "type": "doc",
                 "id": "tutorials/management/migrations/migration-from-external-sources/migrate-from-opensearch",
-                "label": "OpenSearch"
+                "label": "OpenSearch",
+                "key": "doc:tutorials/management/migrations/migration-from-external-sources/migrate-from-opensearch"
               },
               {
                 "type": "doc",
                 "id": "tutorials/management/migrations/migration-from-external-sources/zilliz-cloud-ips",
-                "label": "Zilliz Cloud IP Addresses"
+                "label": "Zilliz Cloud IP Addresses",
+                "key": "doc:tutorials/management/migrations/migration-from-external-sources/zilliz-cloud-ips"
               }
             ]
           }
@@ -1260,45 +1604,54 @@ module.exports = [
       {
         "type": "category",
         "label": "Metrics & Alerts",
+        "key": "category:tutorials/management/metrics-and-alerts",
         "items": [
           {
             "type": "doc",
             "id": "tutorials/management/metrics-and-alerts/metrics-alerts-reference",
-            "label": "Metrics Reference"
+            "label": "Metrics Reference",
+            "key": "doc:tutorials/management/metrics-and-alerts/metrics-alerts-reference"
           },
           {
             "type": "doc",
             "id": "tutorials/management/metrics-and-alerts/view-cluster-metric-charts",
-            "label": "View Metric Charts"
+            "label": "View Metric Charts",
+            "key": "doc:tutorials/management/metrics-and-alerts/view-cluster-metric-charts"
           },
           {
             "type": "doc",
             "id": "tutorials/management/metrics-and-alerts/manage-organization-alerts",
-            "label": "Manage Organization Alerts"
+            "label": "Manage Organization Alerts",
+            "key": "doc:tutorials/management/metrics-and-alerts/manage-organization-alerts"
           },
           {
             "type": "doc",
             "id": "tutorials/management/metrics-and-alerts/manage-project-alerts",
-            "label": "Manage Project Alerts"
+            "label": "Manage Project Alerts",
+            "key": "doc:tutorials/management/metrics-and-alerts/manage-project-alerts"
           },
           {
             "type": "doc",
             "id": "tutorials/management/metrics-and-alerts/manage-notification-channels",
-            "label": "Manage Notification Channels"
+            "label": "Manage Notification Channels",
+            "key": "doc:tutorials/management/metrics-and-alerts/manage-notification-channels"
           },
           {
             "type": "category",
             "label": "Observability Integrations",
+            "key": "category:tutorials/management/metrics-and-alerts/observability-integrations",
             "items": [
               {
                 "type": "doc",
                 "id": "tutorials/management/metrics-and-alerts/observability-integrations/prometheus-monitoring",
-                "label": "Prometheus"
+                "label": "Prometheus",
+                "key": "doc:tutorials/management/metrics-and-alerts/observability-integrations/prometheus-monitoring"
               },
               {
                 "type": "doc",
                 "id": "tutorials/management/metrics-and-alerts/observability-integrations/integrate-with-datadog",
-                "label": "Datadog"
+                "label": "Datadog",
+                "key": "doc:tutorials/management/metrics-and-alerts/observability-integrations/integrate-with-datadog"
               }
             ]
           }
@@ -1307,76 +1660,91 @@ module.exports = [
       {
         "type": "category",
         "label": "Access Control",
+        "key": "category:tutorials/management/access-control",
         "items": [
           {
             "type": "doc",
             "id": "tutorials/management/access-control/access-control-overview",
-            "label": "Access Control Explained"
+            "label": "Access Control Explained",
+            "key": "doc:tutorials/management/access-control/access-control-overview"
           },
           {
             "type": "ref",
             "id": "tutorials/management/organizations/organization-users",
-            "label": "Organization Users"
+            "label": "Organization Users",
+            "key": "ref:tutorials/management/access-control/organization-users"
           },
           {
             "type": "ref",
             "id": "tutorials/management/projects/project-users",
-            "label": "Project Users"
+            "label": "Project Users",
+            "key": "ref:tutorials/management/access-control/project-users"
           },
           {
             "type": "doc",
             "id": "tutorials/management/access-control/cluster-users",
-            "label": "Manage Cluster Users (Console)"
+            "label": "Manage Cluster Users (Console)",
+            "key": "doc:tutorials/management/access-control/cluster-users"
           },
           {
             "type": "doc",
             "id": "tutorials/management/access-control/cluster-users-sdk",
-            "label": "Manage Cluster User (SDK)"
+            "label": "Manage Cluster User (SDK)",
+            "key": "doc:tutorials/management/access-control/cluster-users-sdk"
           },
           {
             "type": "doc",
             "id": "tutorials/management/access-control/cluster-roles",
-            "label": "Manage Cluster Roles (Console)"
+            "label": "Manage Cluster Roles (Console)",
+            "key": "doc:tutorials/management/access-control/cluster-roles"
           },
           {
             "type": "doc",
             "id": "tutorials/management/access-control/cluster-roles-sdk",
-            "label": "Manage Cluster Roles (SDK)"
+            "label": "Manage Cluster Roles (SDK)",
+            "key": "doc:tutorials/management/access-control/cluster-roles-sdk"
           },
           {
             "type": "doc",
             "id": "tutorials/management/access-control/cluster-privileges",
-            "label": "Privileges & Privilege Groups"
+            "label": "Privileges & Privilege Groups",
+            "key": "doc:tutorials/management/access-control/cluster-privileges"
           }
         ]
       },
       {
         "type": "category",
         "label": "Authentication",
+        "key": "category:tutorials/management/authentication",
         "items": [
           {
             "type": "doc",
             "id": "tutorials/management/authentication/email-accounts",
-            "label": "Email Accounts"
+            "label": "Email Accounts",
+            "key": "doc:tutorials/management/authentication/email-accounts"
           },
           {
             "type": "doc",
             "id": "tutorials/management/authentication/manage-api-keys",
-            "label": "API Keys"
+            "label": "API Keys",
+            "key": "doc:tutorials/management/authentication/manage-api-keys"
           },
           {
             "type": "doc",
             "id": "tutorials/management/authentication/cluster-credentials",
-            "label": "Cluster Credentials"
+            "label": "Cluster Credentials",
+            "key": "doc:tutorials/management/authentication/cluster-credentials"
           },
           {
             "type": "doc",
             "id": "tutorials/management/authentication/multi-factor-auth",
-            "label": "MFA"
+            "label": "MFA",
+            "key": "doc:tutorials/management/authentication/multi-factor-auth"
           },
           {
             "type": "category",
             "label": "Single Sign-on (SSO)",
+            "key": "category:tutorials/management/authentication/single-sign-on",
             "link": {
               "type": "doc",
               "id": "tutorials/management/authentication/single-sign-on/single-sign-on"
@@ -1385,32 +1753,38 @@ module.exports = [
               {
                 "type": "doc",
                 "id": "tutorials/management/authentication/single-sign-on/openid-connect",
-                "label": "Okta (OIDC)"
+                "label": "Okta (OIDC)",
+                "key": "doc:tutorials/management/authentication/single-sign-on/openid-connect"
               },
               {
                 "type": "doc",
                 "id": "tutorials/management/authentication/single-sign-on/single-sign-on-with-okta",
-                "label": "Okta (SAML 2.0)"
+                "label": "Okta (SAML 2.0)",
+                "key": "doc:tutorials/management/authentication/single-sign-on/single-sign-on-with-okta"
               },
               {
                 "type": "doc",
                 "id": "tutorials/management/authentication/single-sign-on/single-sign-on-with-google-workspace",
-                "label": "Google Workspace (SAML 2.0)"
+                "label": "Google Workspace (SAML 2.0)",
+                "key": "doc:tutorials/management/authentication/single-sign-on/single-sign-on-with-google-workspace"
               },
               {
                 "type": "doc",
                 "id": "tutorials/management/authentication/single-sign-on/single-sign-on-with-microsoft-entra",
-                "label": "Microsoft Entra (SAML 2.0)"
+                "label": "Microsoft Entra (SAML 2.0)",
+                "key": "doc:tutorials/management/authentication/single-sign-on/single-sign-on-with-microsoft-entra"
               },
               {
                 "type": "doc",
                 "id": "tutorials/management/authentication/single-sign-on/single-sign-on-with-other-idp",
-                "label": "Other IdP (SAML 2.0)"
+                "label": "Other IdP (SAML 2.0)",
+                "key": "doc:tutorials/management/authentication/single-sign-on/single-sign-on-with-other-idp"
               },
               {
                 "type": "doc",
                 "id": "tutorials/management/authentication/single-sign-on/enforce-sso-in-your-organization",
-                "label": "Enforce SSO in Your Organization"
+                "label": "Enforce SSO in Your Organization",
+                "key": "doc:tutorials/management/authentication/single-sign-on/enforce-sso-in-your-organization"
               }
             ]
           }
@@ -1419,43 +1793,51 @@ module.exports = [
       {
         "type": "category",
         "label": "IP Allowlists",
+        "key": "category:tutorials/management/ip-allowlists",
         "items": [
           {
             "type": "doc",
             "id": "tutorials/management/ip-allowlists/setup-console-ip-allowlist",
-            "label": "Set Up Console IP Allowlist"
+            "label": "Set Up Console IP Allowlist",
+            "key": "doc:tutorials/management/ip-allowlists/setup-console-ip-allowlist"
           },
           {
             "type": "doc",
             "id": "tutorials/management/ip-allowlists/setup-whitelist",
-            "label": "Set up Cluster IP Allowlist"
+            "label": "Set up Cluster IP Allowlist",
+            "key": "doc:tutorials/management/ip-allowlists/setup-whitelist"
           }
         ]
       },
       {
         "type": "category",
         "label": "Private Endpoint",
+        "key": "category:tutorials/management/private-endpoint",
         "items": [
           {
             "type": "doc",
             "id": "tutorials/management/private-endpoint/setup-a-private-link-aws",
-            "label": "Set up a PrivateLink (AWS)"
+            "label": "Set up a PrivateLink (AWS)",
+            "key": "doc:tutorials/management/private-endpoint/setup-a-private-link-aws"
           },
           {
             "type": "doc",
             "id": "tutorials/management/private-endpoint/setup-a-private-link-gcp",
-            "label": "Set up a Private Service Connect (GCP)"
+            "label": "Set up a Private Service Connect (GCP)",
+            "key": "doc:tutorials/management/private-endpoint/setup-a-private-link-gcp"
           },
           {
             "type": "doc",
             "id": "tutorials/management/private-endpoint/setup-a-private-link-azure",
-            "label": "Set up a Private Link (Azure)"
+            "label": "Set up a Private Link (Azure)",
+            "key": "doc:tutorials/management/private-endpoint/setup-a-private-link-azure"
           }
         ]
       },
       {
         "type": "category",
         "label": "CMEK",
+        "key": "category:tutorials/management/cmek",
         "link": {
           "type": "doc",
           "id": "tutorials/management/cmek/cmek"
@@ -1464,113 +1846,135 @@ module.exports = [
           {
             "type": "doc",
             "id": "tutorials/management/cmek/aws-kms",
-            "label": "AWS KMS"
+            "label": "AWS KMS",
+            "key": "doc:tutorials/management/cmek/aws-kms"
           }
         ]
       },
       {
         "type": "category",
         "label": "Audit Logs",
+        "key": "category:tutorials/management/audit-logs",
         "items": [
           {
             "type": "doc",
             "id": "tutorials/management/audit-logs/audit-logs",
-            "label": "VectorDB Audit Logs"
+            "label": "VectorDB Audit Logs",
+            "key": "doc:tutorials/management/audit-logs/audit-logs"
           },
           {
             "type": "doc",
             "id": "tutorials/management/audit-logs/audit-logs-ref",
-            "label": "VectorDB Audit Logs Reference"
+            "label": "VectorDB Audit Logs Reference",
+            "key": "doc:tutorials/management/audit-logs/audit-logs-ref"
           },
           {
             "type": "doc",
             "id": "tutorials/management/audit-logs/view-activities",
-            "label": "View Platform Audit Logs"
+            "label": "View Platform Audit Logs",
+            "key": "doc:tutorials/management/audit-logs/view-activities"
           }
         ]
       },
       {
         "type": "category",
         "label": "Access Logs",
+        "key": "category:tutorials/management/access-logs",
         "items": [
           {
             "type": "doc",
             "id": "tutorials/management/access-logs/access-log-overview",
-            "label": "Access Logs Overview"
+            "label": "Access Logs Overview",
+            "key": "doc:tutorials/management/access-logs/access-log-overview"
           },
           {
             "type": "doc",
             "id": "tutorials/management/access-logs/configure-access-logs",
-            "label": "Configure Access Logs"
+            "label": "Configure Access Logs",
+            "key": "doc:tutorials/management/access-logs/configure-access-logs"
           },
           {
             "type": "doc",
             "id": "tutorials/management/access-logs/access-log-reference",
-            "label": "Access Log Reference"
+            "label": "Access Log Reference",
+            "key": "doc:tutorials/management/access-logs/access-log-reference"
           }
         ]
       },
       {
         "type": "category",
         "label": "Billing Management",
+        "key": "category:tutorials/management/billing-management",
         "items": [
           {
             "type": "doc",
             "id": "tutorials/management/billing-management/payment-billing",
-            "label": "Payment and Billing Overview"
+            "label": "Payment and Billing Overview",
+            "key": "doc:tutorials/management/billing-management/payment-billing"
           },
           {
             "type": "category",
             "label": "Set Up Payment Method",
+            "key": "category:tutorials/management/billing-management/set-up-payment-method",
             "items": [
               {
                 "type": "doc",
                 "id": "tutorials/management/billing-management/set-up-payment-method/credits",
-                "label": "Credits"
+                "label": "Credits",
+                "key": "doc:tutorials/management/billing-management/set-up-payment-method/credits"
               },
               {
                 "type": "doc",
                 "id": "tutorials/management/billing-management/set-up-payment-method/subscribe-by-adding-credit-card",
-                "label": "Credit Card"
+                "label": "Credit Card",
+                "key": "doc:tutorials/management/billing-management/set-up-payment-method/subscribe-by-adding-credit-card"
               },
               {
                 "type": "doc",
                 "id": "tutorials/management/billing-management/set-up-payment-method/advance-pay",
-                "label": "Advance Pay"
+                "label": "Advance Pay",
+                "key": "doc:tutorials/management/billing-management/set-up-payment-method/advance-pay"
               },
               {
                 "type": "category",
                 "label": "Marketplace Subscription",
+                "key": "category:tutorials/management/billing-management/set-up-payment-method/marketplace-subscription",
                 "items": [
                   {
                     "type": "doc",
                     "id": "tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-aws-marketplace-free-trial",
-                    "label": "AWS Marketplace (Free Trial)"
+                    "label": "AWS Marketplace (Free Trial)",
+                    "key": "doc:tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-aws-marketplace-free-trial"
                   },
                   {
                     "type": "doc",
                     "id": "tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-aws-marketplace",
-                    "label": "AWS Marketplace (Public Offer)"
+                    "label": "AWS Marketplace (Public Offer)",
+                    "key": "doc:tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-aws-marketplace"
                   },
                   {
                     "type": "doc",
                     "id": "tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-aws-marketplace-private-offer",
-                    "label": "AWS Marketplace (Private Offer)"
+                    "label": "AWS Marketplace (Private Offer)",
+                    "key": "doc:tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-aws-marketplace-private-offer"
                   },
                   {
                     "type": "doc",
                     "id": "tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-gcp-marketplace",
-                    "label": "Google Cloud Marketplace (Public Offer)"
+                    "label": "Google Cloud Marketplace (Public Offer)",
+                    "key": "doc:tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-gcp-marketplace"
                   },
                   {
                     "type": "doc",
                     "id": "tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-gcp-marketplace-private-offer",
-                    "label": "Google Cloud Marketplace (Private Offer)"
+                    "label": "Google Cloud Marketplace (Private Offer)",
+                    "key": "doc:tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-gcp-marketplace-private-offer"
                   },
                   {
                     "type": "doc",
                     "id": "tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-azure-marketplace",
-                    "label": "Microsoft Marketplace (Public Offer)"
+                    "label": "Microsoft Marketplace (Public Offer)",
+                    "key": "doc:tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-azure-marketplace"
                   }
                 ]
               }
@@ -1579,111 +1983,132 @@ module.exports = [
           {
             "type": "doc",
             "id": "tutorials/management/billing-management/update-payment-method",
-            "label": "Update Payment Method"
+            "label": "Update Payment Method",
+            "key": "doc:tutorials/management/billing-management/update-payment-method"
           },
           {
             "type": "doc",
             "id": "tutorials/management/billing-management/update-billing-profile",
-            "label": "Update Billing Profile"
+            "label": "Update Billing Profile",
+            "key": "doc:tutorials/management/billing-management/update-billing-profile"
           },
           {
             "type": "doc",
             "id": "tutorials/management/billing-management/view-invoice",
-            "label": "Understand Invoices"
+            "label": "Understand Invoices",
+            "key": "doc:tutorials/management/billing-management/view-invoice"
           },
           {
             "type": "doc",
             "id": "tutorials/management/billing-management/manage-invoice",
-            "label": "Manage Invoices"
+            "label": "Manage Invoices",
+            "key": "doc:tutorials/management/billing-management/manage-invoice"
           },
           {
             "type": "doc",
             "id": "tutorials/management/billing-management/failed-payments-organization-recovery",
-            "label": "Failed Payments and Organization Recovery"
+            "label": "Failed Payments and Organization Recovery",
+            "key": "doc:tutorials/management/billing-management/failed-payments-organization-recovery"
           },
           {
             "type": "category",
             "label": "Separate Billing by Marketplace Account",
+            "key": "category:tutorials/management/billing-management/separate-billing-by-marketplace-account",
             "items": [
               {
                 "type": "doc",
                 "id": "tutorials/management/billing-management/separate-billing-by-marketplace-account/separate-zilliz-cloud-billing-on-aws-marketplace",
-                "label": "AWS Marketplace"
+                "label": "AWS Marketplace",
+                "key": "doc:tutorials/management/billing-management/separate-billing-by-marketplace-account/separate-zilliz-cloud-billing-on-aws-marketplace"
               },
               {
                 "type": "doc",
                 "id": "tutorials/management/billing-management/separate-billing-by-marketplace-account/separate-zilliz-cloud-billing-on-azure-marketplace",
-                "label": "Microsoft Marketplace"
+                "label": "Microsoft Marketplace",
+                "key": "doc:tutorials/management/billing-management/separate-billing-by-marketplace-account/separate-zilliz-cloud-billing-on-azure-marketplace"
               }
             ]
           },
           {
             "type": "doc",
             "id": "tutorials/management/billing-management/monitor-billing-alerts",
-            "label": "Monitor Billing Alerts"
+            "label": "Monitor Billing Alerts",
+            "key": "doc:tutorials/management/billing-management/monitor-billing-alerts"
           }
         ]
       },
       {
         "type": "category",
         "label": "Cost Management",
+        "key": "category:tutorials/management/cost-management",
         "items": [
           {
             "type": "category",
             "label": "Understand Cost",
+            "key": "category:tutorials/management/cost-management/understand-cost",
             "items": [
               {
                 "type": "doc",
                 "id": "tutorials/management/cost-management/understand-cost/on-demand-compute-cost",
-                "label": "On-Demand Compute"
+                "label": "On-Demand Compute",
+                "key": "doc:tutorials/management/cost-management/understand-cost/on-demand-compute-cost"
               },
               {
                 "type": "doc",
                 "id": "tutorials/management/cost-management/understand-cost/dedicated-cluster-cost",
-                "label": "Dedicated Cluster"
+                "label": "Dedicated Cluster",
+                "key": "doc:tutorials/management/cost-management/understand-cost/dedicated-cluster-cost"
               },
               {
                 "type": "doc",
                 "id": "tutorials/management/cost-management/understand-cost/serverless-cluster-cost",
-                "label": "Serverless Cluster"
+                "label": "Serverless Cluster",
+                "key": "doc:tutorials/management/cost-management/understand-cost/serverless-cluster-cost"
               },
               {
                 "type": "doc",
                 "id": "tutorials/management/cost-management/understand-cost/storage-cost",
-                "label": "Storage"
+                "label": "Storage",
+                "key": "doc:tutorials/management/cost-management/understand-cost/storage-cost"
               },
               {
                 "type": "doc",
                 "id": "tutorials/management/cost-management/understand-cost/storage-request-cost",
-                "label": "Storage Request"
+                "label": "Storage Request",
+                "key": "doc:tutorials/management/cost-management/understand-cost/storage-request-cost"
               },
               {
                 "type": "doc",
                 "id": "tutorials/management/cost-management/understand-cost/data-transfer-cost",
-                "label": "Data Transfer"
+                "label": "Data Transfer",
+                "key": "doc:tutorials/management/cost-management/understand-cost/data-transfer-cost"
               },
               {
                 "type": "doc",
                 "id": "tutorials/management/cost-management/understand-cost/audit-log-cost",
-                "label": "Audit Logs"
+                "label": "Audit Logs",
+                "key": "doc:tutorials/management/cost-management/understand-cost/audit-log-cost"
               }
             ]
           },
           {
             "type": "doc",
             "id": "tutorials/management/cost-management/analyze-cost",
-            "label": "Analyze Cost"
+            "label": "Analyze Cost",
+            "key": "doc:tutorials/management/cost-management/analyze-cost"
           },
           {
             "type": "doc",
             "id": "tutorials/management/cost-management/cost-optimization",
-            "label": "Cost Optimization"
+            "label": "Cost Optimization",
+            "key": "doc:tutorials/management/cost-management/cost-optimization"
           }
         ]
       },
       {
         "type": "category",
         "label": "Zilliz Cloud Limits",
+        "key": "category:tutorials/management/limits",
         "link": {
           "type": "doc",
           "id": "tutorials/management/limits/limits"
@@ -1692,7 +2117,8 @@ module.exports = [
           {
             "type": "doc",
             "id": "tutorials/management/limits/api-comparison",
-            "label": "API Availability"
+            "label": "API Availability",
+            "key": "doc:tutorials/management/limits/api-comparison"
           }
         ]
       }
@@ -1701,51 +2127,61 @@ module.exports = [
   {
     "type": "category",
     "label": "Client Libraries",
+    "key": "category:tutorials/client-libraries",
     "items": [
       {
         "type": "doc",
         "id": "tutorials/client-libraries/install-sdks",
-        "label": "Install SDKs"
+        "label": "Install SDKs",
+        "key": "doc:tutorials/client-libraries/install-sdks"
       },
       {
         "type": "link",
         "href": "/reference/restful",
-        "label": "RESTful API"
+        "label": "RESTful API",
+        "key": "link:tutorials/client-libraries/restful-api"
       },
       {
         "type": "link",
         "href": "/reference/python",
-        "label": "Python"
+        "label": "Python",
+        "key": "link:tutorials/client-libraries/python"
       },
       {
         "type": "link",
         "href": "/reference/java",
-        "label": "Java"
+        "label": "Java",
+        "key": "link:tutorials/client-libraries/java"
       },
       {
         "type": "link",
         "href": "/reference/go",
-        "label": "Go"
+        "label": "Go",
+        "key": "link:tutorials/client-libraries/go"
       },
       {
         "type": "link",
         "href": "/reference/nodejs",
-        "label": "Node.js"
+        "label": "Node.js",
+        "key": "link:tutorials/client-libraries/nodejs"
       },
       {
         "type": "link",
         "href": "/reference/cpp",
-        "label": "C++"
+        "label": "C++",
+        "key": "link:tutorials/client-libraries/cpp"
       }
     ]
   },
   {
     "type": "category",
     "label": "Tools",
+    "key": "category:tutorials/tools",
     "items": [
       {
         "type": "category",
         "label": "Agents & Prompts",
+        "key": "category:tutorials/tools/agents-and-prompts",
         "link": {
           "type": "doc",
           "id": "tutorials/tools/agents-and-prompts/agents-and-prompts"
@@ -1754,11 +2190,13 @@ module.exports = [
           {
             "type": "doc",
             "id": "tutorials/tools/agents-and-prompts/zilliz-skill",
-            "label": "Zilliz Skill"
+            "label": "Zilliz Skill",
+            "key": "doc:tutorials/tools/agents-and-prompts/zilliz-skill"
           },
           {
             "type": "category",
             "label": "Claude Code Plugin",
+            "key": "category:tutorials/tools/agents-and-prompts/zilliz-plugin",
             "link": {
               "type": "doc",
               "id": "tutorials/tools/agents-and-prompts/zilliz-plugin/zilliz-plugin"
@@ -1767,28 +2205,33 @@ module.exports = [
               {
                 "type": "doc",
                 "id": "tutorials/tools/agents-and-prompts/zilliz-plugin/zilliz-plugin-setup",
-                "label": "Setup"
+                "label": "Setup",
+                "key": "doc:tutorials/tools/agents-and-prompts/zilliz-plugin/zilliz-plugin-setup"
               },
               {
                 "type": "doc",
                 "id": "tutorials/tools/agents-and-prompts/zilliz-plugin/zilliz-plugin-capabilities",
-                "label": "Core Capabilities"
+                "label": "Core Capabilities",
+                "key": "doc:tutorials/tools/agents-and-prompts/zilliz-plugin/zilliz-plugin-capabilities"
               },
               {
                 "type": "doc",
                 "id": "tutorials/tools/agents-and-prompts/zilliz-plugin/zilliz-plugin-examples",
-                "label": "More Examples"
+                "label": "More Examples",
+                "key": "doc:tutorials/tools/agents-and-prompts/zilliz-plugin/zilliz-plugin-examples"
               }
             ]
           },
           {
             "type": "doc",
             "id": "tutorials/tools/agents-and-prompts/zilliz-gemini-extension",
-            "label": "Gemini CLI Extension"
+            "label": "Gemini CLI Extension",
+            "key": "doc:tutorials/tools/agents-and-prompts/zilliz-gemini-extension"
           },
           {
             "type": "category",
             "label": "AI Prompts",
+            "key": "category:tutorials/tools/agents-and-prompts/zilliz-ai-prompts",
             "link": {
               "type": "doc",
               "id": "tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-ai-prompts"
@@ -1797,72 +2240,86 @@ module.exports = [
               {
                 "type": "doc",
                 "id": "tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-base-prompts",
-                "label": "Base Prompt"
+                "label": "Base Prompt",
+                "key": "doc:tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-base-prompts"
               },
               {
                 "type": "doc",
                 "id": "tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-resource-planning-prompts",
-                "label": "Resource Planning"
+                "label": "Resource Planning",
+                "key": "doc:tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-resource-planning-prompts"
               },
               {
                 "type": "doc",
                 "id": "tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-pricing-prompts",
-                "label": "Pricing"
+                "label": "Pricing",
+                "key": "doc:tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-pricing-prompts"
               },
               {
                 "type": "doc",
                 "id": "tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-cluster-connection-prompts",
-                "label": "Cluster Connection"
+                "label": "Cluster Connection",
+                "key": "doc:tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-cluster-connection-prompts"
               },
               {
                 "type": "doc",
                 "id": "tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-schema-design-prompts",
-                "label": "Schema Design"
+                "label": "Schema Design",
+                "key": "doc:tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-schema-design-prompts"
               },
               {
                 "type": "doc",
                 "id": "tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-search-prompts",
-                "label": "Search"
+                "label": "Search",
+                "key": "doc:tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-search-prompts"
               },
               {
                 "type": "doc",
                 "id": "tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-import-prompts",
-                "label": "Import"
+                "label": "Import",
+                "key": "doc:tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-import-prompts"
               },
               {
                 "type": "doc",
                 "id": "tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-migration-prompts",
-                "label": "Migration"
+                "label": "Migration",
+                "key": "doc:tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-migration-prompts"
               },
               {
                 "type": "doc",
                 "id": "tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-access-control-prompts",
-                "label": "Access Control"
+                "label": "Access Control",
+                "key": "doc:tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-access-control-prompts"
               },
               {
                 "type": "doc",
                 "id": "tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-integrations-prompts",
-                "label": "Integrations"
+                "label": "Integrations",
+                "key": "doc:tutorials/tools/agents-and-prompts/zilliz-ai-prompts/zilliz-integrations-prompts"
               },
               {
                 "type": "doc",
                 "id": "tutorials/tools/agents-and-prompts/zilliz-ai-prompts/on-demand-search",
-                "label": "On-Demand Search"
+                "label": "On-Demand Search",
+                "key": "doc:tutorials/tools/agents-and-prompts/zilliz-ai-prompts/on-demand-search"
               },
               {
                 "type": "doc",
                 "id": "tutorials/tools/agents-and-prompts/zilliz-ai-prompts/backfill-and-schema-iteration",
-                "label": "Backfill and Schema Iteration"
+                "label": "Backfill and Schema Iteration",
+                "key": "doc:tutorials/tools/agents-and-prompts/zilliz-ai-prompts/backfill-and-schema-iteration"
               },
               {
                 "type": "doc",
                 "id": "tutorials/tools/agents-and-prompts/zilliz-ai-prompts/indexes",
-                "label": "Indexes"
+                "label": "Indexes",
+                "key": "doc:tutorials/tools/agents-and-prompts/zilliz-ai-prompts/indexes"
               },
               {
                 "type": "doc",
                 "id": "tutorials/tools/agents-and-prompts/zilliz-ai-prompts/agent-plugins-and-extensions",
-                "label": "Agent Plugins and Extensions"
+                "label": "Agent Plugins and Extensions",
+                "key": "doc:tutorials/tools/agents-and-prompts/zilliz-ai-prompts/agent-plugins-and-extensions"
               }
             ]
           }
@@ -1871,100 +2328,119 @@ module.exports = [
       {
         "type": "doc",
         "id": "tutorials/tools/terraform-provider",
-        "label": "Terraform Provider"
+        "label": "Terraform Provider",
+        "key": "doc:tutorials/tools/terraform-provider"
       },
       {
         "type": "link",
         "href": "/reference/cli/overview",
-        "label": "Zilliz CLI"
+        "label": "Zilliz CLI",
+        "key": "link:tutorials/tools/zilliz-cli"
       }
     ]
   },
   {
     "type": "category",
     "label": "AI Models",
+    "key": "category:tutorials/ai-models",
     "items": [
       {
         "type": "doc",
         "id": "tutorials/ai-models/integrate-with-model-providers",
-        "label": "Model Providers"
+        "label": "Model Providers",
+        "key": "doc:tutorials/ai-models/integrate-with-model-providers"
       },
       {
         "type": "category",
         "label": "Text Embedding Models",
+        "key": "category:tutorials/ai-models/text-embedding-models",
         "items": [
           {
             "type": "ref",
             "id": "tutorials/development/function/text-embedding-functions/openai",
-            "label": "OpenAI"
+            "label": "OpenAI",
+            "key": "ref:tutorials/ai-models/text-embedding-models/openai"
           },
           {
             "type": "ref",
             "id": "tutorials/development/function/text-embedding-functions/voyage-ai",
-            "label": "Voyage AI"
+            "label": "Voyage AI",
+            "key": "ref:tutorials/ai-models/text-embedding-models/voyage-ai"
           },
           {
             "type": "ref",
             "id": "tutorials/development/function/text-embedding-functions/cohere",
-            "label": "Cohere"
+            "label": "Cohere",
+            "key": "ref:tutorials/ai-models/text-embedding-models/cohere"
           }
         ]
       },
       {
         "type": "category",
         "label": "Reranking Models",
+        "key": "category:tutorials/ai-models/reranking-models",
         "items": [
           {
             "type": "ref",
             "id": "tutorials/development/function/reranking-functions/model-based-rerankers/cohere-model-ranker",
-            "label": "Cohere Ranker"
+            "label": "Cohere Ranker",
+            "key": "ref:tutorials/ai-models/reranking-models/cohere-model-ranker"
           },
           {
             "type": "ref",
             "id": "tutorials/development/function/reranking-functions/model-based-rerankers/voyage-ai-model-ranker",
-            "label": "Voyage AI Ranker"
+            "label": "Voyage AI Ranker",
+            "key": "ref:tutorials/ai-models/reranking-models/voyage-ai-model-ranker"
           }
         ]
       },
       {
         "type": "doc",
         "id": "tutorials/ai-models/hosted-models",
-        "label": "Hosted Models"
+        "label": "Hosted Models",
+        "key": "doc:tutorials/ai-models/hosted-models"
       }
     ]
   },
   {
     "type": "category",
     "label": "Architecture",
+    "key": "category:tutorials/architecture",
     "items": [
       {
         "type": "doc",
         "id": "tutorials/architecture/data-resilience",
-        "label": "Data Resilience"
+        "label": "Data Resilience",
+        "key": "doc:tutorials/architecture/data-resilience"
       },
       {
         "type": "doc",
         "id": "tutorials/architecture/data-security",
-        "label": "Data Security"
+        "label": "Data Security",
+        "key": "doc:tutorials/architecture/data-security"
       },
       {
         "type": "category",
         "label": "Best Practices",
+        "key": "category:tutorials/architecture/best-practices",
         "items": [
           {
             "type": "doc",
             "id": "tutorials/architecture/best-practices/multi-tenancy",
-            "label": "Implement Multi-tenancy"
+            "label": "Implement Multi-tenancy",
+            "key": "doc:tutorials/architecture/best-practices/multi-tenancy"
           },
           {
             "type": "doc",
             "id": "tutorials/architecture/best-practices/environment-isolation",
-            "label": "Environment Isolation"
+            "label": "Environment Isolation",
+            "key": "doc:tutorials/architecture/best-practices/environment-isolation"
           },
           {
             "type": "doc",
             "id": "tutorials/architecture/best-practices/perf-benchmark-vectordb",
-            "label": "Performance Benchmarking with VectorDBBench"
+            "label": "Performance Benchmarking with VectorDBBench",
+            "key": "doc:tutorials/architecture/best-practices/perf-benchmark-vectordb"
           }
         ]
       }

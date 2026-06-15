@@ -52,12 +52,13 @@ The following demo shows how to configure replicas on the Zilliz Cloud web conso
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>When clicking <strong>Save</strong> in the <strong>Scale Cluster Replicas</strong> dialog box, you will be prompted to check the resource quota for your project. If the resources are sufficient, the dialog box will disappear after the check is complete, otherwise, you can </p>
-<ul>
-<li><p>Click <strong>Go To Project Resource Settings</strong> to edit resource settings for the project, or</p></li>
-<li><p>Click <strong>Back to Last Step</strong> to change your cluster settings.</p></li>
-</ul>
-<p>During the process, some additional resources will be required for rolling; these resources will be released after use.</p>
+When clicking **Save** in the **Scale Cluster Replicas** dialog box, you will be prompted to check the resource quota for your project. If the resources are sufficient, the dialog box will disappear after the check is complete, otherwise, you can 
+
+- Click **Go To Project Resource Settings** to edit resource settings for the project, or
+
+- Click **Back to Last Step** to change your cluster settings.
+
+During the process, some additional resources will be required for rolling; these resources will be released after use.
 
 </Admonition>
 
@@ -126,10 +127,9 @@ When setting up dynamic scaling, you can configure the following bounds:
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<ul>
-<li><p>Selecting a maximum replica below the current value triggers an immediate scale-in.</p></li>
-<li><p>Selecting a minimum replica above the current value triggers an immediate scale-out.</p></li>
-</ul>
+- Selecting a maximum replica below the current value triggers an immediate scale-in.
+
+- Selecting a minimum replica above the current value triggers an immediate scale-out.
 
 </Admonition>
 
@@ -147,28 +147,12 @@ The following formula explains how Zilliz Cloud calculates the target replica co
 Target Replica Count = Current Replica Count × (Current Metric Value / Target Metric Value) 
 ```
 
-<table>
-   <tr>
-     <th><p>Variable Name</p></th>
-     <th><p>Description</p></th>
-   </tr>
-   <tr>
-     <td><p>Target Replica Count</p></td>
-     <td><p>The new replica count that the system aims to scale to.</p></td>
-   </tr>
-   <tr>
-     <td><p>Current Replica Count</p></td>
-     <td><p>The current replica count of the cluster.</p></td>
-   </tr>
-   <tr>
-     <td><p>Current Metric Value</p></td>
-     <td><p>The current measured value of the CU computation metric.</p></td>
-   </tr>
-   <tr>
-     <td><p>Target Metric Value</p></td>
-     <td><p>Expected CU compuation value after scaling, which is 50%.</p></td>
-   </tr>
-</table>
+| Variable Name | Description |
+| --- | --- |
+| Target Replica Count | The new replica count that the system aims to scale to. |
+| Current Replica Count | The current replica count of the cluster. |
+| Current Metric Value | The current measured value of the CU computation metric. |
+| Target Metric Value | Expected CU compuation value after scaling, which is 50%. |
 
 For example, if replica dynamic scaling is enabled and the following conditions are met:
 

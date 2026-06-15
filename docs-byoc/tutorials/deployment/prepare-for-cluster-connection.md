@@ -31,50 +31,14 @@ All BYOC clusters are hosted entirely on your own virtual networks (AWS VPC, GCP
 
 This guide applies to all BYOC clusters, regardless of the cloud provider. To address terminology differences and simplify descriptions, the terms used in the guide are listed below, along with their mappings to those used by different providers.
 
-<table>
-   <tr>
-     <th><p>Terms</p></th>
-     <th><p>AWS</p></th>
-     <th><p>GCP</p></th>
-     <th><p>Azure</p></th>
-   </tr>
-   <tr>
-     <td><p><strong>Virtual network</strong></p></td>
-     <td><p>VPC</p></td>
-     <td><p>VPC</p></td>
-     <td><p>VNet</p></td>
-   </tr>
-   <tr>
-     <td><p><strong>Security group</strong></p></td>
-     <td><p>Security group</p></td>
-     <td><p>Firewall rules</p></td>
-     <td><p>Network Security Group (NSG)</p></td>
-   </tr>
-   <tr>
-     <td><p><strong>Load balancer</strong></p></td>
-     <td><p>Network Load Balancer (NLB)</p></td>
-     <td><p>Cloud Load Balancer</p></td>
-     <td><p>Load Balancer</p></td>
-   </tr>
-   <tr>
-     <td><p><strong>Private endpoint</strong></p></td>
-     <td><p>PrivateLink</p></td>
-     <td><p>Private Service Connect (PSC)</p></td>
-     <td><p>Private Link</p></td>
-   </tr>
-   <tr>
-     <td><p><strong>Virtual network endpoint</strong></p></td>
-     <td><p>VPC Endpoint</p></td>
-     <td><p>PSC Endpoint</p></td>
-     <td><p>Private Endpoint</p></td>
-   </tr>
-   <tr>
-     <td><p><strong>Virtual network endpoint service</strong></p></td>
-     <td><p>VPC Endpoint Service</p></td>
-     <td><p>PSC Publishing</p></td>
-     <td><p>Private Link Service</p></td>
-   </tr>
-</table>
+| Terms | AWS | GCP | Azure |
+| --- | --- | --- | --- |
+| **Virtual network** | VPC | VPC | VNet |
+| **Security group** | Security group | Firewall rules | Network Security Group (NSG) |
+| **Load balancer** | Network Load Balancer (NLB) | Cloud Load Balancer | Load Balancer |
+| **Private endpoint** | PrivateLink | Private Service Connect (PSC) | Private Link |
+| **Virtual network endpoint** | VPC Endpoint | PSC Endpoint | Private Endpoint |
+| **Virtual network endpoint service** | VPC Endpoint Service | PSC Publishing | Private Link Service |
 
 </details>
 
@@ -96,43 +60,14 @@ You can connect to your BYOC clusters in either of the following modes:
 
 The following table compares these two modes in terms of setup complexity, availability, per-cluster access control, cross-account support, and multi-virtual-network scalability.
 
-<table>
-   <tr>
-     <th></th>
-     <th><p><strong>Mode 1: Direct VPC Access</strong></p></th>
-     <th><p><strong>Mode 2: PrivateLink Access</strong></p></th>
-   </tr>
-   <tr>
-     <td><p><strong>Best for</strong></p></td>
-     <td><p>Clients in the same VPC as the data plane</p></td>
-     <td><p>Clients in multiple VPCs or different accounts</p></td>
-   </tr>
-   <tr>
-     <td><p><strong>Setup complexity</strong></p></td>
-     <td><p>Low — works by default after deployment</p></td>
-     <td><p>One-time setup; simpler to scale as new clusters are added, automatically accessible via wildcard DNS</p></td>
-   </tr>
-   <tr>
-     <td><p><strong>Availability</strong></p></td>
-     <td><p>Default for all BYOC deployments</p></td>
-     <td><p>Currently requires contacting Zilliz Support to enable (self-service coming soon)</p></td>
-   </tr>
-   <tr>
-     <td><p><strong>Per-cluster access control</strong></p></td>
-     <td><p>Security Group per cluster load balancer</p></td>
-     <td><p>Kubernetes Envoy Gateway SecurityPolicy</p></td>
-   </tr>
-   <tr>
-     <td><p><strong>Cross-account support</strong></p></td>
-     <td><p>No</p></td>
-     <td><p>Yes</p></td>
-   </tr>
-   <tr>
-     <td><p><strong>Multi-virtual-network scalability</strong></p></td>
-     <td><p>Low — each new client VPC requires a separate VPC Peering and routing configurations.</p></td>
-     <td><p>High — new client VPCs connect via a single Endpoint Service; new clusters are reachable immediately.</p></td>
-   </tr>
-</table>
+|  | **Mode 1: Direct VPC Access** | **Mode 2: PrivateLink Access** |
+| --- | --- | --- |
+| **Best for** | Clients in the same VPC as the data plane | Clients in multiple VPCs or different accounts |
+| **Setup complexity** | Low — works by default after deployment | One-time setup; simpler to scale as new clusters are added, automatically accessible via wildcard DNS |
+| **Availability** | Default for all BYOC deployments | Currently requires contacting Zilliz Support to enable (self-service coming soon) |
+| **Per-cluster access control** | Security Group per cluster load balancer | Kubernetes Envoy Gateway SecurityPolicy |
+| **Cross-account support** | No | Yes |
+| **Multi-virtual-network scalability** | Low — each new client VPC requires a separate VPC Peering and routing configurations. | High — new client VPCs connect via a single Endpoint Service; new clusters are reachable immediately. |
 
 ## Direct VPC access\{#direct-vpc-access}
 
@@ -164,7 +99,7 @@ The diagram above illustrates the traffic flow from your client application to B
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    <p>For those BYOC clusters deployed using Terraform, you can also retrieve their endpoints from the Terraform output.</p>
+    For those BYOC clusters deployed using Terraform, you can also retrieve their endpoints from the Terraform output.
 
     </Admonition>
 
@@ -172,7 +107,7 @@ The diagram above illustrates the traffic flow from your client application to B
 
 ### Step 2: Connect to the cluster\{#step-2-connect-to-the-cluster}
 
-Then you can connect the cluster with the copied cluster endpoint and credentials. For details, refer to [Connect to Cluster](./connect-to-cluster).
+Then you can connect the cluster with the copied cluster endpoint and credentials. For details, refer to Connect to Cluster.
 
 ## Private endpoint access\{#private-endpoint-access}
 
@@ -188,7 +123,7 @@ The cluster endpoint (`*.${region}.byoc.vectordb.zillizcloud.com`) resolves to a
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>If you deselect the private endpoint option during the data plane deployment and require private endpoint access, <a href="https://support.zilliz.com/hc/en-us/requests/new">contact us</a> so that we can enable the gateway deployment in your data plane. </p>
+If you deselect the private endpoint option during the data plane deployment and require private endpoint access, [contact us](https://support.zilliz.com/hc/en-us/requests/new) so that we can enable the gateway deployment in your data plane. 
 
 </Admonition>
 
@@ -532,37 +467,16 @@ resource "aws_route53_zone_association" "additional_vpc" {
 
 ### Step 4: Connect to the cluster\{#step-4-connect-to-the-cluster}
 
-Then you can connect the cluster with the copied cluster endpoint and credentials. For details, refer to [Connect to Cluster](./connect-to-cluster).
+Then you can connect the cluster with the copied cluster endpoint and credentials. For details, refer to Connect to Cluster.
 
 ## Troubshootings\{#troubshootings}
 
 The following table lists common issues you may encounter during preparation. 
 
-<table>
-   <tr>
-     <th><p><strong>Symptom</strong></p></th>
-     <th><p><strong>Likely cause</strong></p></th>
-     <th><p><strong>Resolution</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>Connection timeout (Mode 1)</p></td>
-     <td><p>Security group blocking port 19530</p></td>
-     <td><p>Add an inbound rule on port 19530 in the data plane security group, or an outbound rule in the client security group.</p></td>
-   </tr>
-   <tr>
-     <td><p>Connection timeout (Mode 2)</p></td>
-     <td><p>DNS not overridden, or VPC Endpoint not ready</p></td>
-     <td><p>Verify the hosted zone is associated with the correct VPC; confirm the endpoint status is Available</p></td>
-   </tr>
-   <tr>
-     <td><p>DNS resolves to an incorrect IP address (Mode 2)</p></td>
-     <td><p>Private hosted zone not associated with client VPC</p></td>
-     <td><p>Associate the Route 53 hosted zone with all client VPCs</p></td>
-   </tr>
-   <tr>
-     <td><p>TLS error</p></td>
-     <td><p><code>secure=True</code> / HTTPS not specified in SDK</p></td>
-     <td><p>Ensure the endpoint URI starts with <code><i>http</i>s://</code></p></td>
-   </tr>
-</table>
+| **Symptom** | **Likely cause** | **Resolution** |
+| --- | --- | --- |
+| Connection timeout (Mode 1) | Security group blocking port 19530 | Add an inbound rule on port 19530 in the data plane security group, or an outbound rule in the client security group. |
+| Connection timeout (Mode 2) | DNS not overridden, or VPC Endpoint not ready | Verify the hosted zone is associated with the correct VPC; confirm the endpoint status is Available |
+| DNS resolves to an incorrect IP address (Mode 2) | Private hosted zone not associated with client VPC | Associate the Route 53 hosted zone with all client VPCs |
+| TLS error | `secure=True` / HTTPS not specified in SDK | Ensure the endpoint URI starts with `https://` |
 

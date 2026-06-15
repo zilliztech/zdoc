@@ -64,7 +64,7 @@ Before finalizing the results, Milvus processes these candidates with the Boost 
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Boost Ranker cannot be used in multi-vector hybrid search.</p>
+Boost Ranker cannot be used in multi-vector hybrid search.
 
 </Admonition>
 
@@ -76,323 +76,68 @@ The following example illustrates the use of a Boost Ranker in a single-vector s
 
     The following table assumes Milvus distributes entities into two segments (**0001** and **0002**), with each segment returning five candidates.
 
-    <table>
-       <tr>
-         <th><p>ID</p></th>
-         <th><p>DocType</p></th>
-         <th><p>Score</p></th>
-         <th><p>Rank</p></th>
-         <th><p>segment</p></th>
-       </tr>
-       <tr>
-         <td><p>117</p></td>
-         <td><p>abstract</p></td>
-         <td><p>0.344</p></td>
-         <td><p>1</p></td>
-         <td><p>0001</p></td>
-       </tr>
-       <tr>
-         <td><p>89</p></td>
-         <td><p>abstract</p></td>
-         <td><p>0.456</p></td>
-         <td><p>2</p></td>
-         <td><p>0001</p></td>
-       </tr>
-       <tr>
-         <td><p>257</p></td>
-         <td><p>body</p></td>
-         <td><p>0.578</p></td>
-         <td><p>3</p></td>
-         <td><p>0001</p></td>
-       </tr>
-       <tr>
-         <td><p>358</p></td>
-         <td><p>title</p></td>
-         <td><p>0.788</p></td>
-         <td><p>4</p></td>
-         <td><p>0001</p></td>
-       </tr>
-       <tr>
-         <td><p>168</p></td>
-         <td><p>body</p></td>
-         <td><p>0.899</p></td>
-         <td><p>5</p></td>
-         <td><p>0001</p></td>
-       </tr>
-       <tr>
-         <td><p>46</p></td>
-         <td><p>body</p></td>
-         <td><p>0.189</p></td>
-         <td><p>1</p></td>
-         <td><p>0002</p></td>
-       </tr>
-       <tr>
-         <td><p>48</p></td>
-         <td><p>body</p></td>
-         <td><p>0265</p></td>
-         <td><p>2</p></td>
-         <td><p>0002</p></td>
-       </tr>
-       <tr>
-         <td><p>561</p></td>
-         <td><p>abstract</p></td>
-         <td><p>0.366</p></td>
-         <td><p>3</p></td>
-         <td><p>0002</p></td>
-       </tr>
-       <tr>
-         <td><p>344</p></td>
-         <td><p>abstract</p></td>
-         <td><p>0.444</p></td>
-         <td><p>4</p></td>
-         <td><p>0002</p></td>
-       </tr>
-       <tr>
-         <td><p>276</p></td>
-         <td><p>abstract</p></td>
-         <td><p>0.845</p></td>
-         <td><p>5</p></td>
-         <td><p>0002</p></td>
-       </tr>
-    </table>
+    | ID | DocType | Score | Rank | segment |
+    | --- | --- | --- | --- | --- |
+    | 117 | abstract | 0.344 | 1 | 0001 |
+    | 89 | abstract | 0.456 | 2 | 0001 |
+    | 257 | body | 0.578 | 3 | 0001 |
+    | 358 | title | 0.788 | 4 | 0001 |
+    | 168 | body | 0.899 | 5 | 0001 |
+    | 46 | body | 0.189 | 1 | 0002 |
+    | 48 | body | 0265 | 2 | 0002 |
+    | 561 | abstract | 0.366 | 3 | 0002 |
+    | 344 | abstract | 0.444 | 4 | 0002 |
+    | 276 | abstract | 0.845 | 5 | 0002 |
 
 1. **Apply the filtering expression specified in the Boost Ranker** (`doctype='abstract'`).
 
     As denoted by the `DocType` field in the following table, Milvus will mark all entities with their `doctype` set to `abstract` for further processing.
 
-    <table>
-       <tr>
-         <th><p>ID</p></th>
-         <th><p>DocType</p></th>
-         <th><p>Score</p></th>
-         <th><p>Rank</p></th>
-         <th><p>segment</p></th>
-       </tr>
-       <tr>
-         <td><p><strong>117</strong></p></td>
-         <td><p><strong>abstract</strong></p></td>
-         <td><p><strong>0.344</strong></p></td>
-         <td><p><strong>1</strong></p></td>
-         <td><p><strong>0001</strong></p></td>
-       </tr>
-       <tr>
-         <td><p><strong>89</strong></p></td>
-         <td><p><strong>abstract</strong></p></td>
-         <td><p><strong>0.456</strong></p></td>
-         <td><p><strong>2</strong></p></td>
-         <td><p><strong>0001</strong></p></td>
-       </tr>
-       <tr>
-         <td><p>257</p></td>
-         <td><p>body</p></td>
-         <td><p>0.578</p></td>
-         <td><p>3</p></td>
-         <td><p>0001</p></td>
-       </tr>
-       <tr>
-         <td><p>358</p></td>
-         <td><p>title</p></td>
-         <td><p>0.788</p></td>
-         <td><p>4</p></td>
-         <td><p>0001</p></td>
-       </tr>
-       <tr>
-         <td><p>168</p></td>
-         <td><p>body</p></td>
-         <td><p>0.899</p></td>
-         <td><p>5</p></td>
-         <td><p>0001</p></td>
-       </tr>
-       <tr>
-         <td><p>46</p></td>
-         <td><p>body</p></td>
-         <td><p>0.189</p></td>
-         <td><p>1</p></td>
-         <td><p>0002</p></td>
-       </tr>
-       <tr>
-         <td><p>48</p></td>
-         <td><p>body</p></td>
-         <td><p>0265</p></td>
-         <td><p>2</p></td>
-         <td><p>0002</p></td>
-       </tr>
-       <tr>
-         <td><p><strong>561</strong></p></td>
-         <td><p><strong>abstract</strong></p></td>
-         <td><p><strong>0.366</strong></p></td>
-         <td><p><strong>3</strong></p></td>
-         <td><p><strong>0002</strong></p></td>
-       </tr>
-       <tr>
-         <td><p><strong>344</strong></p></td>
-         <td><p><strong>abstract</strong></p></td>
-         <td><p><strong>0.444</strong></p></td>
-         <td><p><strong>4</strong></p></td>
-         <td><p><strong>0002</strong></p></td>
-       </tr>
-       <tr>
-         <td><p><strong>276</strong></p></td>
-         <td><p><strong>abstract</strong></p></td>
-         <td><p><strong>0.845</strong></p></td>
-         <td><p><strong>5</strong></p></td>
-         <td><p><strong>0002</strong></p></td>
-       </tr>
-    </table>
+    | ID | DocType | Score | Rank | segment |
+    | --- | --- | --- | --- | --- |
+    | **117** | **abstract** | **0.344** | **1** | **0001** |
+    | **89** | **abstract** | **0.456** | **2** | **0001** |
+    | 257 | body | 0.578 | 3 | 0001 |
+    | 358 | title | 0.788 | 4 | 0001 |
+    | 168 | body | 0.899 | 5 | 0001 |
+    | 46 | body | 0.189 | 1 | 0002 |
+    | 48 | body | 0265 | 2 | 0002 |
+    | **561** | **abstract** | **0.366** | **3** | **0002** |
+    | **344** | **abstract** | **0.444** | **4** | **0002** |
+    | **276** | **abstract** | **0.845** | **5** | **0002** |
 
 1. **Apply the weight specified in the Boost Ranker** (`weight=0.5`).
 
     All identified entities in the previous step will be multiplied by the weight specified in the Boost Ranker, resulting in changes in their ranks. 
 
-    <table>
-       <tr>
-         <th><p>ID</p></th>
-         <th><p>DocType</p></th>
-         <th><p>Score</p></th>
-         <th><p>Weighted Score </p><p>(= score x weight)</p></th>
-         <th><p>Rank</p></th>
-         <th><p>segment</p></th>
-       </tr>
-       <tr>
-         <td><p><strong>117</strong></p></td>
-         <td><p><strong>abstract</strong></p></td>
-         <td><p><strong>0.344</strong></p></td>
-         <td><p><strong>0.172</strong></p></td>
-         <td><p><strong>1</strong></p></td>
-         <td><p><strong>0001</strong></p></td>
-       </tr>
-       <tr>
-         <td><p><strong>89</strong></p></td>
-         <td><p><strong>abstract</strong></p></td>
-         <td><p><strong>0.456</strong></p></td>
-         <td><p><strong>0.228</strong></p></td>
-         <td><p><strong>2</strong></p></td>
-         <td><p><strong>0001</strong></p></td>
-       </tr>
-       <tr>
-         <td><p>257</p></td>
-         <td><p>body</p></td>
-         <td><p>0.578</p></td>
-         <td><p>0.578</p></td>
-         <td><p>3</p></td>
-         <td><p>0001</p></td>
-       </tr>
-       <tr>
-         <td><p>358</p></td>
-         <td><p>title</p></td>
-         <td><p>0.788</p></td>
-         <td><p>0.788</p></td>
-         <td><p>4</p></td>
-         <td><p>0001</p></td>
-       </tr>
-       <tr>
-         <td><p>168</p></td>
-         <td><p>body</p></td>
-         <td><p>0.899</p></td>
-         <td><p>0.899</p></td>
-         <td><p>5</p></td>
-         <td><p>0001</p></td>
-       </tr>
-       <tr>
-         <td><p><strong>561</strong></p></td>
-         <td><p><strong>abstract</strong></p></td>
-         <td><p><strong>0.366</strong></p></td>
-         <td><p><strong>0.183</strong></p></td>
-         <td><p><strong>1</strong></p></td>
-         <td><p><strong>0002</strong></p></td>
-       </tr>
-       <tr>
-         <td><p>46</p></td>
-         <td><p>body</p></td>
-         <td><p>0.189</p></td>
-         <td><p>0.189</p></td>
-         <td><p>2</p></td>
-         <td><p>0002</p></td>
-       </tr>
-       <tr>
-         <td><p><strong>344</strong></p></td>
-         <td><p><strong>abstract</strong></p></td>
-         <td><p><strong>0.444</strong></p></td>
-         <td><p><strong>0.222</strong></p></td>
-         <td><p><strong>3</strong></p></td>
-         <td><p><strong>0002</strong></p></td>
-       </tr>
-       <tr>
-         <td><p>48</p></td>
-         <td><p>body</p></td>
-         <td><p>0.265</p></td>
-         <td><p>0.265</p></td>
-         <td><p>4</p></td>
-         <td><p>0002</p></td>
-       </tr>
-       <tr>
-         <td><p><strong>276</strong></p></td>
-         <td><p><strong>abstract</strong></p></td>
-         <td><p><strong>0.845</strong></p></td>
-         <td><p><strong>0.423</strong></p></td>
-         <td><p><strong>5</strong></p></td>
-         <td><p><strong>0002</strong></p></td>
-       </tr>
-    </table>
+    | ID | DocType | Score | Weighted Score<br/>(= score x weight) | Rank | segment |
+    | --- | --- | --- | --- | --- | --- |
+    | **117** | **abstract** | **0.344** | **0.172** | **1** | **0001** |
+    | **89** | **abstract** | **0.456** | **0.228** | **2** | **0001** |
+    | 257 | body | 0.578 | 0.578 | 3 | 0001 |
+    | 358 | title | 0.788 | 0.788 | 4 | 0001 |
+    | 168 | body | 0.899 | 0.899 | 5 | 0001 |
+    | **561** | **abstract** | **0.366** | **0.183** | **1** | **0002** |
+    | 46 | body | 0.189 | 0.189 | 2 | 0002 |
+    | **344** | **abstract** | **0.444** | **0.222** | **3** | **0002** |
+    | 48 | body | 0.265 | 0.265 | 4 | 0002 |
+    | **276** | **abstract** | **0.845** | **0.423** | **5** | **0002** |
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    <p>The weight must be a floating-point number that you choose. In cases like the above example, where a smaller score indicates greater relevance, use a weight less than <strong>1</strong>. Otherwise, use a weight greater than <strong>1</strong>.</p>
+    The weight must be a floating-point number that you choose. In cases like the above example, where a smaller score indicates greater relevance, use a weight less than **1**. Otherwise, use a weight greater than **1**.
 
     </Admonition>
 
 1. **Aggregate the candidates from all segments based on the weighted scores to finalize the results.**
 
-    <table>
-       <tr>
-         <th><p>ID</p></th>
-         <th><p>DocType</p></th>
-         <th><p>Score</p></th>
-         <th><p>Weighted Score</p></th>
-         <th><p>Rank</p></th>
-         <th><p>segment</p></th>
-       </tr>
-       <tr>
-         <td><p><strong>117</strong></p></td>
-         <td><p><strong>abstract</strong></p></td>
-         <td><p><strong>0.344</strong></p></td>
-         <td><p><strong>0.172</strong></p></td>
-         <td><p><strong>1</strong></p></td>
-         <td><p><strong>0001</strong></p></td>
-       </tr>
-       <tr>
-         <td><p><strong>561</strong></p></td>
-         <td><p><strong>abstract</strong></p></td>
-         <td><p><strong>0.366</strong></p></td>
-         <td><p><strong>0.183</strong></p></td>
-         <td><p><strong>2</strong></p></td>
-         <td><p><strong>0002</strong></p></td>
-       </tr>
-       <tr>
-         <td><p>46</p></td>
-         <td><p>body</p></td>
-         <td><p>0.189</p></td>
-         <td><p>0.189</p></td>
-         <td><p>3</p></td>
-         <td><p>0002</p></td>
-       </tr>
-       <tr>
-         <td><p><strong>344</strong></p></td>
-         <td><p><strong>abstract</strong></p></td>
-         <td><p><strong>0.444</strong></p></td>
-         <td><p><strong>0.222</strong></p></td>
-         <td><p><strong>4</strong></p></td>
-         <td><p><strong>0002</strong></p></td>
-       </tr>
-       <tr>
-         <td><p><strong>89</strong></p></td>
-         <td><p><strong>abstract</strong></p></td>
-         <td><p><strong>0.456</strong></p></td>
-         <td><p><strong>0.228</strong></p></td>
-         <td><p><strong>5</strong></p></td>
-         <td><p><strong>0001</strong></p></td>
-       </tr>
-    </table>
+    | ID | DocType | Score | Weighted Score | Rank | segment |
+    | --- | --- | --- | --- | --- | --- |
+    | **117** | **abstract** | **0.344** | **0.172** | **1** | **0001** |
+    | **561** | **abstract** | **0.366** | **0.183** | **2** | **0002** |
+    | 46 | body | 0.189 | 0.189 | 3 | 0002 |
+    | **344** | **abstract** | **0.444** | **0.222** | **4** | **0002** |
+    | **89** | **abstract** | **0.456** | **0.228** | **5** | **0001** |
 
 ## Usage of Boost Ranker\{#usage-of-boost-ranker}
 
@@ -402,7 +147,7 @@ In this section, you will see examples of how to use Boost Ranker to influence t
 
 Before passing a Boost Ranker as the reranker of a search request, you should properly define the Boost Ranker as a reranking function as follows:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -469,7 +214,6 @@ const rerank = {
     weight: 0.5,
   },
 };
-
 ```
 
 </TabItem>
@@ -478,6 +222,18 @@ const rerank = {
 
 ```bash
 # restful
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+auto rerank = std::make_shared<milvus::BoostRerank>("boost");
+rerank->SetFilter("doctype == 'abstract'");
+rerank->SetWeight(0.5);
+rerank->SetRandomScoreField("id");
+rerank->SetRandomScoreSeed(126);
 ```
 
 </TabItem>
@@ -538,7 +294,7 @@ const rerank = {
 
 Once the Boost Ranker function is ready, you can reference it in a search request. The following example assumes that you have already created a collection that has the following fields: **id**, **vector**, and **doctype**.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -635,6 +391,39 @@ console.log('Search results:', searchResults);
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+auto function_score = std::make_shared<milvus::FunctionScore>();
+function_score->AddFunction(rerank);
+
+std::vector<float> query_vector = {-0.619954382375778, 0.4479436794798608, -0.17493894838751745, -0.4248030059917294, -0.8648452746018911};
+auto request = milvus::SearchRequest()
+                   .WithCollectionName("my_collection")
+                   .WithAnnsField("vector")
+                   .WithRerank(function_score)
+                   .AddOutputField("doctype")
+                   .AddFloatVector(query_vector);
+
+milvus::SearchResponse response;
+status = client->Search(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
 </Tabs>
 
 ### Search with multiple Boost Rankers\{#search-with-multiple-boost-rankers}
@@ -643,7 +432,7 @@ You can combine multiple Boost Rankers in a single search to influence the searc
 
 The following example shows how to modify the scores of all identified entities by applying a weight between **0.8** and **1.2**. 
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -793,7 +582,6 @@ await client.search({
   output_field: ["doctype"],
   ranker: ranker
 });
-
 ```
 
 </TabItem>
@@ -802,6 +590,38 @@ await client.search({
 
 ```bash
 # restful
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+auto fix_weight_ranker = std::make_shared<milvus::BoostRerank>("boost");
+fix_weight_ranker->SetWeight(0.8);
+
+auto random_weight_ranker = std::make_shared<milvus::BoostRerank>("boost");
+random_weight_ranker->SetWeight(0.4);
+random_weight_ranker->SetRandomScoreSeed(126);
+
+auto function_score = std::make_shared<milvus::FunctionScore>();
+function_score->AddFunction(fix_weight_ranker);
+function_score->AddFunction(random_weight_ranker);
+
+std::vector<float> query_vector = {-0.619954382375778, 0.4479436794798608, -0.17493894838751745, -0.4248030059917294, -0.8648452746018911};
+auto request = milvus::SearchRequest()
+                   .WithCollectionName("my_collection")
+                   .WithAnnsField("vector")
+                   .WithLimit(10)
+                   .WithRerank(function_score)
+                   .AddOutputField("doctype")
+                   .AddFloatVector(query_vector);
+
+milvus::SearchResponse response;
+auto status = client->Search(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
 ```
 
 </TabItem>

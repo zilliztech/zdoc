@@ -45,7 +45,7 @@ Before creating a snapshot, you are advised to stop writing data to the target c
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Calling <code>flush()</code> is not mandatory but highly recommended to avoid data loss. If you skip this, the snapshot contains only the data that has already been flushed.</p>
+Calling `flush()` is not mandatory but highly recommended to avoid data loss. If you skip this, the snapshot contains only the data that has already been flushed.
 
 </Admonition>
 

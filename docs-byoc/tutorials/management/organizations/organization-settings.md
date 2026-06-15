@@ -68,7 +68,7 @@ The following demo shows how to edit the preferred maintenance window.
 
 <Admonition type="info" icon="📘" title="Note">
 
-<p>If maintenance runs past your preferred window, it will continue until completion.</p>
+If maintenance runs past your preferred window, it will continue until completion.
 
 </Admonition>
 
@@ -114,7 +114,7 @@ To delete an organization:
 
 <Admonition type="caution" icon="🚧" title="Warning">
 
-<p>The action of deleting an organization cannot be undone. Please take extra caution with this action.</p>
+The action of deleting an organization cannot be undone. Please take extra caution with this action.
 
 </Admonition>
 

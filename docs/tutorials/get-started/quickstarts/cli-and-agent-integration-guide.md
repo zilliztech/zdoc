@@ -137,103 +137,32 @@ Use these tools when you need to:
 
 The Claude Code Plugin, Zilliz Skill, and Zilliz CLI should cover the same main capabilities. Choose based on workflow, not feature scope.
 
-<table>
-   <tr>
-     <th></th>
-     <th><p><strong>Claude Code Plugin</strong></p></th>
-     <th><p><strong>Zilliz Skill</strong></p></th>
-     <th><p><strong>Zilliz CLI</strong></p></th>
-   </tr>
-   <tr>
-     <td><p><strong>Best for</strong></p></td>
-     <td><p>Claude Code natural-language workflows</p></td>
-     <td><p>Skill-compatible coding agents</p></td>
-     <td><p>Terminal use, scripts, and CI</p></td>
-   </tr>
-   <tr>
-     <td><p><strong>Setup</strong></p></td>
-     <td><p><code>/zilliz:quickstart</code></p></td>
-     <td><p><code>npx skills add zilliztech/zilliz-skill</code></p></td>
-     <td><p>Install script + <code>zilliz login</code></p></td>
-   </tr>
-   <tr>
-     <td><p><strong>Natural language</strong></p></td>
-     <td><p>Yes</p></td>
-     <td><p>Yes</p></td>
-     <td><p>No</p></td>
-   </tr>
-   <tr>
-     <td><p><strong>Automation</strong></p></td>
-     <td><p>Agent-assisted</p></td>
-     <td><p>Agent-assisted</p></td>
-     <td><p>Script-first</p></td>
-   </tr>
-   <tr>
-     <td><p><strong>Structured output</strong></p></td>
-     <td><p>Agent-readable responses</p></td>
-     <td><p>Agent-readable responses</p></td>
-     <td><p><code>--output json</code> for scripts</p></td>
-   </tr>
-</table>
+|  | **Claude Code Plugin** | **Zilliz Skill** | **Zilliz CLI** |
+| --- | --- | --- | --- |
+| **Best for** | Claude Code natural-language workflows | Skill-compatible coding agents | Terminal use, scripts, and CI |
+| **Setup** | `/zilliz:quickstart` | `npx skills add zilliztech/zilliz-skill` | Install script + `zilliz login` |
+| **Natural language** | Yes | Yes | No |
+| **Automation** | Agent-assisted | Agent-assisted | Script-first |
+| **Structured output** | Agent-readable responses | Agent-readable responses | `--output json` for scripts |
 
 ### Supported capabilities\{#supported-capabilities}
 
 The following table explains the capabilities of the CLI, Plugin and Skill.
 
-<table>
-   <tr>
-     <th><p>Area</p></th>
-     <th><p>What You Can Do</p></th>
-   </tr>
-   <tr>
-     <td><p>Clusters</p></td>
-     <td><p>Create, delete, suspend, resume, modify</p></td>
-   </tr>
-   <tr>
-     <td><p>Collections</p></td>
-     <td><p>Create with custom schema, load, release, rename, drop</p></td>
-   </tr>
-   <tr>
-     <td><p>Vectors</p></td>
-     <td><p>Search, query, insert, upsert, delete, hybrid search</p></td>
-   </tr>
-   <tr>
-     <td><p>Indexes</p></td>
-     <td><p>Create (AUTOINDEX), list, describe, drop</p></td>
-   </tr>
-   <tr>
-     <td><p>Databases</p></td>
-     <td><p>Create, list, describe, drop</p></td>
-   </tr>
-   <tr>
-     <td><p>Users & Roles</p></td>
-     <td><p>RBAC setup, privilege management</p></td>
-   </tr>
-   <tr>
-     <td><p>Backups</p></td>
-     <td><p>Create, restore, export, policy management</p></td>
-   </tr>
-   <tr>
-     <td><p>Import</p></td>
-     <td><p>Bulk data import from S3/GCS/Azure Blob Storage</p></td>
-   </tr>
-   <tr>
-     <td><p>Partitions</p></td>
-     <td><p>Create, load, release, manage</p></td>
-   </tr>
-   <tr>
-     <td><p>Monitoring</p></td>
-     <td><p>Cluster status, collection stats, load states</p></td>
-   </tr>
-   <tr>
-     <td><p>Projects</p></td>
-     <td><p>Project and region management</p></td>
-   </tr>
-   <tr>
-     <td><p>Billing</p></td>
-     <td><p>Usage queries, invoices</p></td>
-   </tr>
-</table>
+| Area | What You Can Do |
+| --- | --- |
+| Clusters | Create, delete, suspend, resume, modify |
+| Collections | Create with custom schema, load, release, rename, drop |
+| Vectors | Search, query, insert, upsert, delete, hybrid search |
+| Indexes | Create (AUTOINDEX), list, describe, drop |
+| Databases | Create, list, describe, drop |
+| Users & Roles | RBAC setup, privilege management |
+| Backups | Create, restore, export, policy management |
+| Import | Bulk data import from S3/GCS/Azure Blob Storage |
+| Partitions | Create, load, release, manage |
+| Monitoring | Cluster status, collection stats, load states |
+| Projects | Project and region management |
+| Billing | Usage queries, invoices |
 
 ## What you can ask your agent to do\{#what-you-can-ask-your-agent-to-do}
 
@@ -261,7 +190,7 @@ After installation, describe the task directly. Your agent should translate the 
     Expected CLI command:
 
     ```bash
-    zilliz import start --cluster-id <cluster-id> --collection product_embeddings --body '{"files": [["s3://bucket/path/data.json"]]}'
+    zilliz import start --cluster-id &lt;cluster-id&gt; --collection product_embeddings --body '{"files": [["s3://bucket/path/data.json"]]}'
     ```
 
 - **Create a backup for my production cluster.**
@@ -269,7 +198,7 @@ After installation, describe the task directly. Your agent should translate the 
     Expected CLI command:
 
     ```bash
-    zilliz backup create --cluster-id <cluster-id>
+    zilliz backup create --cluster-id &lt;cluster-id&gt;
     ```
 
 - **Search my collection with a metadata filter and return the top 10 results.**

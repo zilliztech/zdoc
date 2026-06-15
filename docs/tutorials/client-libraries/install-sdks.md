@@ -24,10 +24,9 @@ Zilliz Cloud offers a managed Milvus vector database as a service. Four SDK opti
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<ul>
-<li><p>Zilliz Cloud consistently upgrades clusters to ensure version compatibility. For details, visit the <a href="./organization-settings">Manage Organization Settings</a> page. If connection issues arise due to SDK version discrepancies, heed the provided prompts to revert to a compatible SDK version. We'll notify you post-maintenance, post which you can upgrade your SDK without concerns.</p></li>
-<li><p>All SDKs below offer both a stable version and a beta version. The stable version is intended for common clusters, while the beta version corresponds to beta clusters. If you have upgraded your clusters to the beta version, ensure that you also upgraded your SDKs to the beta version.</p></li>
-</ul>
+- Zilliz Cloud consistently upgrades clusters to ensure version compatibility. For details, visit the [Manage Organization Settings](./organization-settings) page. If connection issues arise due to SDK version discrepancies, heed the provided prompts to revert to a compatible SDK version. We'll notify you post-maintenance, post which you can upgrade your SDK without concerns.
+
+- All SDKs below offer both a stable version and a beta version. The stable version is intended for common clusters, while the beta version corresponds to beta clusters. If you have upgraded your clusters to the beta version, ensure that you also upgraded your SDKs to the beta version.
 
 </Admonition>
 
@@ -35,29 +34,10 @@ Zilliz Cloud offers a managed Milvus vector database as a service. Four SDK opti
 
 The following table lists the compatible SDK versions of each Milvus version.
 
-<table>
-   <tr>
-     <th><p><strong>Milvus Version</strong></p></th>
-     <th><p><strong>Python SDK</strong></p></th>
-     <th><p><strong>Node.js SDK</strong></p></th>
-     <th><p><strong>Java SDK</strong></p></th>
-     <th><p><strong>Go SDK</strong></p></th>
-   </tr>
-   <tr>
-     <td><p><code>2.6.x</code></p></td>
-     <td><p><code>2.6.9</code></p></td>
-     <td><p><code>2.6.10</code></p></td>
-     <td><p><code>2.6.14</code></p></td>
-     <td><p><code>2.6.2</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>2.5.x</code></p></td>
-     <td><p><code>2.5.18</code></p></td>
-     <td><p><code>2.5.13</code></p></td>
-     <td><p><code>2.5.15</code></p></td>
-     <td><p><code>2.5.6</code></p></td>
-   </tr>
-</table>
+| **Milvus Version** | **Python SDK** | **Node.js SDK** | **Java SDK** | **Go SDK** |
+| --- | --- | --- | --- | --- |
+| `2.6.x` | `2.6.9` | `2.6.10` | `2.6.14` | `2.6.2` |
+| `2.5.x` | `2.5.18` | `2.5.13` | `2.5.15` | `2.5.6` |
 
 ## Install PyMilvus: Python SDK\{#install-pymilvus-python-sdk}
 
@@ -65,7 +45,7 @@ PyMilvus is Milvus's Python SDK. Access its [source code on GitHub](https://gith
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Ensure your <strong>Python</strong> version exceeds <strong>3.8</strong> prior to installation.</p>
+Ensure your **Python** version exceeds **3.8** prior to installation.
 
 </Admonition>
 
@@ -88,7 +68,7 @@ For Milvus's Node.js SDK, employ **npm** or **yarn**. Access its [source code on
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Ensure your <strong>Node.js</strong> version is <strong>14</strong> or above prior to installation.</p>
+Ensure your **Node.js** version is **14** or above prior to installation.
 
 </Admonition>
 
@@ -129,11 +109,11 @@ Use Apache Maven or Gradle/Grails to obtain the SDK. Access the [source code on 
 
     ```xml
     <!-- Install Java SDK compatible with Milvus v2.5.x -->
-    <dependency>
+    &lt;dependency&gt;
          <groupId>io.milvus</groupId>
          <artifactId>milvus-sdk-java</artifactId>
-         <version>2.5.15</version>
-     </dependency>
+         &lt;version&gt;2.5.15&lt;/version&gt;
+     &lt;/dependency&gt;
     ```
 
 - For Gradle/Grails, execute:

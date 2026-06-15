@@ -24,7 +24,7 @@ Zilliz Cloud encrypts data at rest on disk/object storage using the 256-bit Adva
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This feature is available only to <strong>Dedicated</strong> clusters in a <strong>Business Critical</strong> project.</p>
+This feature is available only to **Dedicated** clusters in a **Business Critical** project.
 
 </Admonition>
 
@@ -66,7 +66,7 @@ All data-related files stored in the following locations are encrypted:
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Currently, CMEK is available only in AWS regions. For other regions, please <a href="https://support.zilliz.com/hc/en-us">contact us</a>.</p>
+Currently, CMEK is available only in AWS regions. For other regions, please [contact us](https://support.zilliz.com/hc/en-us).
 
 </Admonition>
 

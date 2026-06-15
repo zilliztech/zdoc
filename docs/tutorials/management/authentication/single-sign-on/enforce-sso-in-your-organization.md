@@ -100,49 +100,12 @@ The exemption logic follows these rules:
 
 The following table illustrates the exemption behavior for users across multiple organizations:
 
-<table>
-   <tr>
-     <th><p><strong>User</strong></p></th>
-     <th><p><strong>Org A (SSO enforced)</strong></p></th>
-     <th><p><strong>Org B (SSO enforced)</strong></p></th>
-     <th><p><strong>Org C (no enforcement)</strong></p></th>
-     <th><p><strong>Exempt?</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>User X</p></td>
-     <td><p>Org Owner</p></td>
-     <td><p>Org Owner</p></td>
-     <td><p>Any role</p></td>
-     <td><p>Yes</p></td>
-   </tr>
-   <tr>
-     <td><p>User Y1</p></td>
-     <td><p>Org Owner</p></td>
-     <td><p>Org Member</p></td>
-     <td><p>Org Owner</p></td>
-     <td><p><strong>No</strong></p></td>
-   </tr>
-   <tr>
-     <td><p>User Y2</p></td>
-     <td><p>Org Owner</p></td>
-     <td><p>Org Member</p></td>
-     <td><p>Org Member</p></td>
-     <td><p><strong>No</strong></p></td>
-   </tr>
-   <tr>
-     <td><p>User Y3</p></td>
-     <td><p>Org Member</p></td>
-     <td><p>Org Member</p></td>
-     <td><p>Org Owner</p></td>
-     <td><p><strong>No</strong></p></td>
-   </tr>
-   <tr>
-     <td><p>User Z</p></td>
-     <td><p>Org Member</p></td>
-     <td><p>Org Member</p></td>
-     <td><p>Org Member</p></td>
-     <td><p>No</p></td>
-   </tr>
-</table>
+| **User** | **Org A (SSO enforced)** | **Org B (SSO enforced)** | **Org C (no enforcement)** | **Exempt?** |
+| --- | --- | --- | --- | --- |
+| User X | Org Owner | Org Owner | Any role | Yes |
+| User Y1 | Org Owner | Org Member | Org Owner | **No** |
+| User Y2 | Org Owner | Org Member | Org Member | **No** |
+| User Y3 | Org Member | Org Member | Org Owner | **No** |
+| User Z | Org Member | Org Member | Org Member | No |
 
 In summary, a user is only exempt if they hold the Organization Owner role in **all** organizations that have SSO enforcement enabled. Being an Organization Owner in a non-enforced organization does not grant exemption.

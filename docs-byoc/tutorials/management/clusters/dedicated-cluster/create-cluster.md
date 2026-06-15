@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "This topic describes how to create a cluster. | BYOC"
+description: "A Dedicated cluster provides isolated, reserved environments for production workloads that demand consistent and predictable performance. This option is ideal for sustained high-throughput and latency-sensitive applications. | BYOC"
 type: origin
 token: KrbjwFhy3iojF3k97XmcvvXMnW7
 sidebar_position: 1
@@ -21,13 +21,27 @@ import TabItem from '@theme/TabItem';
 
 # Create Cluster
 
-This topic describes how to create a cluster.
+A Dedicated cluster provides isolated, reserved environments for production workloads that demand consistent and predictable performance. This option is ideal for sustained high-throughput and latency-sensitive applications.
+
+<Admonition type="info" icon="📘" title="Notes">
+
+This topic describes how to create a Dedicated cluster. To create a Free or Serverless cluster, see [Free & Serverless Clusters](./free-and-serverless-clusters).
+
+</Admonition>
 
 ## Prerequisites\{#prerequisites}
 
 Ensure:
 
-- A BYOC project. Refer to [Deploy BYOC on AWS](./deploy-byoc-aws) for instructions.
+- A BYOC project. For details, refer to the following pages:
+
+    - [Deploy BYOC on AWS](./deploy-byoc-aws)
+
+    - [Deploy BYOC-I on AWS](./deploy-byoc-i-aws)
+
+    - [Deploy BYOC on GCP](./deploy-byoc-gcp)
+
+    - [Deploy BYOC-I on Microsoft Azure](./deploy-byoc-i-azure)
 
 - Ownership of the organization or project where the cluster is to be established. For details on roles and permissions, see Access Control.
 
@@ -81,7 +95,7 @@ Ensure:
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    <p>Some additional resources will be required for rolling; these resources will be released after use.</p>
+    Some additional resources will be required for rolling; these resources will be released after use.
 
     </Admonition>
 

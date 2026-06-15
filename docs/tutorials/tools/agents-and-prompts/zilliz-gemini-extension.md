@@ -1,6 +1,6 @@
 ---
 title: "Zilliz Gemini CLI Extension | Cloud"
-slug: /zilliz-gemini-extension
+slug: /agents/zilliz-gemini-extension
 sidebar_label: "Gemini CLI Extension"
 beta: FALSE
 added_since: FALSE
@@ -11,7 +11,15 @@ description: "The Zilliz Cloud extension for Gemini CLI is a natural language in
 type: origin
 token: FDwgwyDbMi98nckzPxkc2qWynW4
 sidebar_position: 3
-displayed_sidebar: default
+keywords: 
+  - zilliz
+  - vector database
+  - ai-agents
+  - decision matrix
+  - skill
+  - gemini
+  - zilliz cli
+displayed_sidebar: agentsSidebar
 
 ---
 
@@ -108,7 +116,7 @@ The wizard will guide you through:
     Configure your default cluster connection:
 
     ```bash
-    zilliz context set --cluster-id <your-cluster-id>
+    zilliz context set --cluster-id &lt;your-cluster-id&gt;
     ```
 
     Or let the plugin help you select from available clusters.
@@ -171,7 +179,7 @@ The plugin should display your Zilliz Cloud clusters.
     **Solution**: Set a default cluster:
 
     ```bash
-    zilliz context set --cluster-id <cluster-id>
+    zilliz context set --cluster-id &lt;cluster-id&gt;
     ```
 
 ## Next Step\{#next-step}

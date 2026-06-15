@@ -24,8 +24,9 @@ In Zilliz Cloud, a **query CU** is a set of hardware resources used to serve ind
 
 <Admonition type="info" icon="📘" title="Note">
 
-<p>The scaling options described in this article only apply to <strong>serving clusters</strong>. </p>
-<p><strong>On-demand clusters</strong> scale automatically — they spin up when a request arrives and scale back to zero when idle, with no manual intervention required.</p>
+The scaling options described in this article only apply to **serving clusters**. 
+
+**On-demand clusters** scale automatically — they spin up when a request arrives and scale back to zero when idle, with no manual intervention required.
 
 </Admonition>
 

@@ -26,100 +26,39 @@ This page provides information about limits on the Zilliz Cloud platform. [Submi
 
 The following table lists the limits on the maximum number of orgsanizations and projects allowed for a single user.
 
-<table>
-   <tr>
-     <th><p><strong>Item</strong></p></th>
-     <th><p><strong>Max Number</strong></p></th>
-     <th><p><strong>Remarks</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>Organization</p></td>
-     <td><p>1</p></td>
-     <td><p>Zilliz Cloud automatically creates 1 organization upon successful account registration. If you need more organizations, please <a href="http://support.zilliz.com">create a support ticket</a>. A user can join multiple organizations.</p></td>
-   </tr>
-   <tr>
-     <td><p>Project</p></td>
-     <td><p>100</p></td>
-     <td><p>Each user can create up to 100 projects in 1 organization.</p></td>
-   </tr>
-</table>
+| **Item** | **Max Number** | **Remarks** |
+| --- | --- | --- |
+| Organization | 1 | Zilliz Cloud automatically creates 1 organization upon successful account registration. If you need more organizations, please [create a support ticket](http://support.zilliz.com). A user can join multiple organizations. |
+| Project | 100 | Each user can create up to 100 projects in 1 organization. |
 
 ## Users & Roles\{#users-and-roles}
 
 The following table lists the limits on the maximum number of users and roles allowed in Zilliz Cloud.
 
-<table>
-   <tr>
-     <th><p><strong>Item</strong></p></th>
-     <th><p><strong>Max Number</strong></p></th>
-     <th><p><strong>Remarks</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>Organization User</p></td>
-     <td><p>100</p></td>
-     <td><p>An organization can have up to 100 organization users in total.</p></td>
-   </tr>
-   <tr>
-     <td><p>Cluster User</p></td>
-     <td><p>500</p></td>
-     <td><p>A cluster can have up to 500 users in total.</p></td>
-   </tr>
-   <tr>
-     <td><p>Cluster Custom Role</p></td>
-     <td><p>500</p></td>
-     <td><p>A cluster can have up to 500 custom roles in total. <a href="http://support.zilliz.com">Contact us</a> to remove this limit.</p></td>
-   </tr>
-</table>
+| **Item** | **Max Number** | **Remarks** |
+| --- | --- | --- |
+| Organization User | 100 | An organization can have up to 100 organization users in total. |
+| Cluster User | 500 | A cluster can have up to 500 users in total. |
+| Cluster Custom Role | 500 | A cluster can have up to 500 custom roles in total. [Contact us](http://support.zilliz.com) to remove this limit. |
 
 ## API Keys\{#api-keys}
 
-<table>
-   <tr>
-     <th><p><strong>Item</strong></p></th>
-     <th><p><strong>Max Number</strong></p></th>
-     <th><p><strong>Remarks</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>API Key</p></td>
-     <td><p>100</p></td>
-     <td><p>Each organization can contain a maximum of 100 customized API keys for optimal resource utilization and security.</p></td>
-   </tr>
-</table>
+| **Item** | **Max Number** | **Remarks** |
+| --- | --- | --- |
+| API Key | 100 | Each organization can contain a maximum of 100 customized API keys for optimal resource utilization and security. |
 
 ## Console IP Allowlist\{#console-ip-allowlist}
 
-<table>
-   <tr>
-     <th><p><strong>Item</strong></p></th>
-     <th><p><strong>Max Number</strong></p></th>
-     <th><p><strong>Remarks</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>IPs in the organization console IP allowlist</p></td>
-     <td><p>100</p></td>
-     <td><p>Each organization console IP allowlist can contain a maximum of 100 IPs or CIDR blocks.</p></td>
-   </tr>
-</table>
+| **Item** | **Max Number** | **Remarks** |
+| --- | --- | --- |
+| IPs in the organization console IP allowlist | 100 | Each organization console IP allowlist can contain a maximum of 100 IPs or CIDR blocks. |
 
 ## Volumes\{#volumes}
 
-<table>
-   <tr>
-     <th><p><strong>Item</strong></p></th>
-     <th><p><strong>Max Number</strong></p></th>
-     <th><p><strong>Remarks</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>Managed volume</p></td>
-     <td><p>100</p></td>
-     <td><p>Each organization can contain a maximum of 100 managed volumes.</p></td>
-   </tr>
-   <tr>
-     <td><p>External volume</p></td>
-     <td><p>100</p></td>
-     <td><p>Each organization can contain a maximum of 100 external volumes.</p></td>
-   </tr>
-</table>
+| **Item** | **Max Number** | **Remarks** |
+| --- | --- | --- |
+| Managed volume | 100 | Each organization can contain a maximum of 100 managed volumes. |
+| External volume | 100 | Each organization can contain a maximum of 100 external volumes. |
 
 ## Clusters\{#clusters}
 
@@ -129,80 +68,29 @@ The maximum number of clusters varies with your payment method and deployment op
 
 - **Without a valid payment method**
 
-    <table>
-       <tr>
-         <th><p><strong>Cluster Deployment Option</strong></p></th>
-         <th><p><strong>Max Number</strong></p></th>
-         <th><p><strong>Remarks</strong></p></th>
-       </tr>
-       <tr>
-         <td><p>Free</p></td>
-         <td><p>1</p></td>
-         <td><p>Only 1 Free cluster is allowed in each organization. You can drop an existing Free cluster and replace it with a new one if required.</p></td>
-       </tr>
-       <tr>
-         <td><p>Serverless/Dedicated</p></td>
-         <td><p>1</p></td>
-         <td><p>You can only created 1 Serverless/Dedicated cluster during the free trial. If you would like additional clusters, please add a payment method.</p></td>
-       </tr>
-    </table>
+    | **Cluster Deployment Option** | **Max Number** | **Remarks** |
+    | --- | --- | --- |
+    | Free | 1 | Only 1 Free cluster is allowed in each organization. You can drop an existing Free cluster and replace it with a new one if required. |
+    | Serverless/Dedicated | 1 | You can only created 1 Serverless/Dedicated cluster during the free trial. If you would like additional clusters, please add a payment method. |
 
 - **With a valid payment method**
 
-    <table>
-       <tr>
-         <th><p><strong>Cluster Deployment Option</strong></p></th>
-         <th><p><strong>Max Number</strong></p></th>
-         <th><p><strong>Remarks</strong></p></th>
-       </tr>
-       <tr>
-         <td><p>Serving - Free</p></td>
-         <td><p>1</p></td>
-         <td><p>Only 1 Free cluster is allowed in each organization. You can drop an existing Free cluster and replace it with a new one if required.</p></td>
-       </tr>
-       <tr>
-         <td><p>Serving - Serverless</p></td>
-         <td><p>100</p></td>
-         <td><p>You can only create up to 100 Serverless clusters in each project.</p></td>
-       </tr>
-       <tr>
-         <td><p>Serving - Dedicated</p></td>
-         <td><p>100</p></td>
-         <td><p>You can only create up to 100 Dedicated clusters in each project.</p></td>
-       </tr>
-       <tr>
-         <td><p>On-demand</p></td>
-         <td><p>20</p></td>
-         <td><p>You can only create up to 20 on-demand clusters in each project.</p></td>
-       </tr>
-    </table>
+    | **Cluster Deployment Option** | **Max Number** | **Remarks** |
+    | --- | --- | --- |
+    | Serving - Free | 1 | Only 1 Free cluster is allowed in each organization. You can drop an existing Free cluster and replace it with a new one if required. |
+    | Serving - Serverless | 100 | You can only create up to 100 Serverless clusters in each project. |
+    | Serving - Dedicated | 100 | You can only create up to 100 Dedicated clusters in each project. |
+    | On-demand | 20 | You can only create up to 20 on-demand clusters in each project. |
 
 ### CUs\{#cus}
 
 A CU is the basic unit of compute resources used for parallel processing of data, and different CU types comprise varying combinations of CPU, memory, and storage. The concept of CU only applies to Dedicated clusters.
 
-<table>
-   <tr>
-     <th><p><strong>Project Plan & Cluster Deployment Option</strong></p></th>
-     <th><p><strong>Limits</strong></p></th>
-     <th><p><strong>Remarks</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>Dedicated serving cluster in a Standard project</p></td>
-     <td><p>CU size &lt;=32</p></td>
-     <td><p>On the console, you can create up to 32 CUs for a single cluster.</p></td>
-   </tr>
-   <tr>
-     <td><p>Dedicated serving cluster in an Enterprise project</p></td>
-     <td><p>CU size x Replica Count &lt;=10,240</p></td>
-     <td><p>On the console, you can create up to 1,024 CUs for a single cluster.</p><p>However, the limit is CU size x Replica Count &lt;=10,240 if replicas are added.</p></td>
-   </tr>
-   <tr>
-     <td><p>On-demand cluster in an Enterprise project</p></td>
-     <td><p>8&lt;= CU size &lt;= 256</p></td>
-     <td><p>On the console, a single on-demand cluster supports 8 to 256 CUs. </p><p>Every 8 CU enables searches across up to 3 TB of data.</p></td>
-   </tr>
-</table>
+| **Project Plan & Cluster Deployment Option** | **Limits** | **Remarks** |
+| --- | --- | --- |
+| Dedicated serving cluster in a Standard project | CU size &lt;=32 | On the console, you can create up to 32 CUs for a single cluster. |
+| Dedicated serving cluster in an Enterprise project | CU size x Replica Count &lt;=10,240 | On the console, you can create up to 1,024 CUs for a single cluster.<br/>However, the limit is CU size x Replica Count &lt;=10,240 if replicas are added. |
+| On-demand cluster in an Enterprise project | 8&lt;= CU size &lt;= 256 | On the console, a single on-demand cluster supports 8 to 256 CUs.<br/>Every 8 CU enables searches across up to 3 TB of data. |
 
 You are welcome to [contact us](https://support.zilliz.com/hc/en-us) 
 
@@ -214,47 +102,24 @@ You are welcome to [contact us](https://support.zilliz.com/hc/en-us)
 
 A virtual compute unit (vCU) is used to measure the resources consumed by read operations (such as search and query) and write operations (such as insert, upsert, and delete). The concept of vCU only applies to Free and Serverless clusters.
 
-<table>
-   <tr>
-     <th><p><strong>Cluster Plan</strong></p></th>
-     <th><p><strong>Limits</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>Free</p></td>
-     <td><p>2.5 million vCUs per month</p></td>
-   </tr>
-   <tr>
-     <td><p>Serverless</p></td>
-     <td><p>N/A</p></td>
-   </tr>
-</table>
+| **Cluster Plan** | **Limits** |
+| --- | --- |
+| Free | 2.5 million vCUs per month |
+| Serverless | N/A |
 
 ### Capacity\{#capacity}
 
 The following table lists the limits on the capacity of each type of cluster plan.
 
-<table>
-   <tr>
-     <th><p><strong>Cluster Plan</strong></p></th>
-     <th><p><strong>Limits</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>Free</p></td>
-     <td><p>5 GB per cluster (equivalent to 1 million 768-dim vectors per cluster)</p></td>
-   </tr>
-   <tr>
-     <td><p>Serverless</p></td>
-     <td><p>Serverless clusters in Zilliz Cloud have no capacity limits.</p></td>
-   </tr>
-   <tr>
-     <td><p>Dedicated (per CU)</p></td>
-     <td><p>Dedicated clusters in Zilliz Cloud have no capacity limits.</p></td>
-   </tr>
-</table>
+| **Cluster Plan** | **Limits** |
+| --- | --- |
+| Free | 5 GB per cluster (equivalent to 1 million 768-dim vectors per cluster) |
+| Serverless | Serverless clusters in Zilliz Cloud have no capacity limits. |
+| Dedicated (per CU) | Dedicated clusters in Zilliz Cloud have no capacity limits. |
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>The upper limits for dedicated cluster capacity depend on the CU type and size used. If your cluster's capacity is not enough, consider adjusting the CU type and size. For details, see <a href="./scale-query-cu">Scale Cluster</a>.</p>
+The upper limits for dedicated cluster capacity depend on the CU type and size used. If your cluster's capacity is not enough, consider adjusting the CU type and size. For details, see [Scale Cluster](./scale-query-cu).
 
 </Admonition>
 
@@ -262,23 +127,10 @@ The following table lists the limits on the capacity of each type of cluster pla
 
 To add replicas, the cluster needs to have **12 CUs or more**. The following limit applies as well.
 
-<table>
-   <tr>
-     <th><p><strong>Item</strong></p></th>
-     <th><p><strong>Limits</strong></p></th>
-     <th><p><strong>Remarks</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>Replica</p></td>
-     <td><p>10</p></td>
-     <td><p>You can create a maximum of 10 replicas.</p></td>
-   </tr>
-   <tr>
-     <td><p>Query CU x Replica Count</p></td>
-     <td><p>10,240</p></td>
-     <td><p>The cluster replica x query CU should not exceed 10,240.</p></td>
-   </tr>
-</table>
+| **Item** | **Limits** | **Remarks** |
+| --- | --- | --- |
+| Replica | 10 | You can create a maximum of 10 replicas. |
+| Query CU x Replica Count | 10,240 | The cluster replica x query CU should not exceed 10,240. |
 
 ## Databases\{#databases}
 
@@ -304,11 +156,11 @@ You can create a maximum of **1,024** collections or **4,096** partitions per CU
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>For <strong>Free</strong> and <strong>Serverless</strong> clusters, the following limits apply instead:</p>
-<ul>
-<li><p>A <strong>Free</strong> cluster allows a maximum of <strong>5</strong> collections, while</p></li>
-<li><p>A <strong>Serverless</strong> cluster supports up to <strong>100</strong> collections.</p></li>
-</ul>
+For **Free** and **Serverless** clusters, the following limits apply instead:
+
+- A **Free** cluster allows a maximum of **5** collections, while
+
+- A **Serverless** cluster supports up to **100** collections.
 
 </Admonition>
 
@@ -377,20 +229,10 @@ The maximum number of shards allowed depends on the cluster plan and cluster CU 
 
 Zilliz Cloud also imposes rate limits on collection and partition data definition language (DDL) operations, including creating, loading, releasing, and dropping collections. The following rate limit applies to collections in both Serverless and Dedicated clusters.
 
-<table>
-   <tr>
-     <th></th>
-     <th><p><strong>Rate Limit</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>Collection DDL Operation </p><p>(create, load, release, drop)</p></td>
-     <td><p>20 req/s per cluster</p></td>
-   </tr>
-   <tr>
-     <td><p>Partition DDL Operation</p><p>(create, load, release, drop)</p></td>
-     <td><p>20 req/s per cluster</p></td>
-   </tr>
-</table>
+|  | **Rate Limit** |
+| --- | --- |
+| Collection DDL Operation<br/>(create, load, release, drop) | 20 req/s per cluster |
+| Partition DDL Operation<br/>(create, load, release, drop) | 20 req/s per cluster |
 
 ## Operations\{#operations}
 
@@ -400,24 +242,11 @@ This section focuses on the rate limit for common data operations in Zilliz Clou
 
 The rate limit for insert and upsert operations depends on the cluster deployment option and the number of CUs in use. 
 
-<table>
-   <tr>
-     <th></th>
-     <th><p>Maximum Insert and Upsert Rate Limits</p></th>
-   </tr>
-   <tr>
-     <td><p>Free cluster</p></td>
-     <td><p>2 MB/s</p></td>
-   </tr>
-   <tr>
-     <td><p>Serverless cluster</p></td>
-     <td><p>10 MB/s</p></td>
-   </tr>
-   <tr>
-     <td><p>Dedicated cluster</p></td>
-     <td><p>16 MB/s + 1 MB/s × CU</p><p>Up to 256 MB/s at most.</p></td>
-   </tr>
-</table>
+|  | Maximum Insert and Upsert Rate Limits |
+| --- | --- |
+| Free cluster | 2 MB/s |
+| Serverless cluster | 10 MB/s |
+| Dedicated cluster | 16 MB/s + 1 MB/s × CU<br/>Up to 256 MB/s at most. |
 
 Examples:
 
@@ -445,33 +274,12 @@ In addition, the following extra limits apply:
 
 Index types vary with field types. The following table lists the indexable field types and the corresponding index types.
 
-<table>
-   <tr>
-     <th><p><strong>Field Type</strong></p></th>
-     <th><p><strong>Index Type</strong></p></th>
-     <th><p><strong>Metric Type</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>Vector Field</p></td>
-     <td><p>AUTOINDEX</p></td>
-     <td><p>L2, IP, and COSINE</p></td>
-   </tr>
-   <tr>
-     <td><p>VarChar Field</p></td>
-     <td><p>TRIE</p></td>
-     <td><p>N/A</p></td>
-   </tr>
-   <tr>
-     <td><p>Int8/16/32/64</p></td>
-     <td><p>STL_SORT</p></td>
-     <td><p>N/A</p></td>
-   </tr>
-   <tr>
-     <td><p>Float32/64</p></td>
-     <td><p>STL_SORT</p></td>
-     <td><p>N/A</p></td>
-   </tr>
-</table>
+| **Field Type** | **Index Type** | **Metric Type** |
+| --- | --- | --- |
+| Vector Field | AUTOINDEX | L2, IP, and COSINE |
+| VarChar Field | TRIE | N/A |
+| Int8/16/32/64 | STL_SORT | N/A |
+| Float32/64 | STL_SORT | N/A |
 
 ### Flush\{#flush}
 
@@ -483,7 +291,7 @@ The rate limit for flush requests is 0.1 requests per second, imposed at the col
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>You are not advised to perform flush operations manually. Zilliz Cloud clusters handle it gracefully for you.</p>
+You are not advised to perform flush operations manually. Zilliz Cloud clusters handle it gracefully for you.
 
 </Admonition>
 
@@ -493,7 +301,7 @@ The rate limit for load requests is **20** req/s per cluster.
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>You do not need to perform the load collection for collections that are already loaded, even if new data is coming into these collections.</p>
+You do not need to perform the load collection for collections that are already loaded, even if new data is coming into these collections.
 
 </Admonition>
 
@@ -535,28 +343,11 @@ You can have up to **10,000** running or pending import jobs in a collection.
 
 Zilliz Cloud also imposes limits on the files to import on the web console.
 
-<table>
-   <tr>
-     <th><p>File Type</p></th>
-     <th><p>Local upload</p></th>
-     <th><p>From Object Storage</p></th>
-   </tr>
-   <tr>
-     <td><p>JSON</p></td>
-     <td><p>1 GB</p></td>
-     <td><p><strong>Free</strong>: Each import request can import up to 1 GB of data, with a maximum of 1 GB per file, and no more than 1,000 files per import.</p><p><strong>Serverless & Dedicated</strong>: The maximum total import size is 1 TB and the maximum size of each file is 10 GB with up to 1,000 files.</p></td>
-   </tr>
-   <tr>
-     <td><p>Parquet</p></td>
-     <td><p>1 GB</p></td>
-     <td><p><strong>Free</strong>: Each import request can import up to 1 GB of data, with a maximum of 1 GB per file, and no more than 1,000 files per import.</p><p><strong>Serverless & Dedicated</strong>: The maximum total import size is 1 TB and the maximum size of each file is 10 GB with up to 1,000 files.</p></td>
-   </tr>
-   <tr>
-     <td><p>Numpy</p></td>
-     <td><p>Not support</p></td>
-     <td><p><strong>Free</strong>: Each import request can import up to 1 GB of data, with a maximum of 1 GB per subdirectory, and no more than 1,000 subdirectories per import.</p><p><strong>Serverless & Dedicated</strong>: The maximum total import size is 1 TB and the maximum size of each subdirectory is 10 GB with up to 1,000 subdirectories.</p></td>
-   </tr>
-</table>
+| File Type | Local upload | From Object Storage |
+| --- | --- | --- |
+| JSON | 1 GB | **Free**: Each import request can import up to 1 GB of data, with a maximum of 1 GB per file, and no more than 1,000 files per import.<br/>**Serverless & Dedicated**: The maximum total import size is 1 TB and the maximum size of each file is 10 GB with up to 1,000 files. |
+| Parquet | 1 GB | **Free**: Each import request can import up to 1 GB of data, with a maximum of 1 GB per file, and no more than 1,000 files per import.<br/>**Serverless & Dedicated**: The maximum total import size is 1 TB and the maximum size of each file is 10 GB with up to 1,000 files. |
+| Numpy | Not support | **Free**: Each import request can import up to 1 GB of data, with a maximum of 1 GB per subdirectory, and no more than 1,000 subdirectories per import.<br/>**Serverless & Dedicated**: The maximum total import size is 1 TB and the maximum size of each subdirectory is 10 GB with up to 1,000 subdirectories. |
 
 For details, refer to [Storage Options](./data-import-storage-options) and [Format Options](./data-import-format-options).
 
@@ -572,42 +363,19 @@ You can restore a backup file in the same region as the original cluster of the 
 
 ## IP Access List\{#ip-access-list}
 
-<table>
-   <tr>
-     <th><p><strong>Item</strong></p></th>
-     <th><p><strong>Max Number</strong></p></th>
-     <th><p><strong>Remarks</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>Console IP Access</p></td>
-     <td><p>100</p></td>
-     <td><p>You can add up to 100 IP addresses to the console IP allowlist.</p></td>
-   </tr>
-   <tr>
-     <td><p>Cluster IP Access</p></td>
-     <td><p>100</p></td>
-     <td><p>You can add up to 100 IP addresses to the cluster IP allowlist.</p></td>
-   </tr>
-</table>
+| **Item** | **Max Number** | **Remarks** |
+| --- | --- | --- |
+| Console IP Access | 100 | You can add up to 100 IP addresses to the console IP allowlist. |
+| Cluster IP Access | 100 | You can add up to 100 IP addresses to the cluster IP allowlist. |
 
 ## Migration\{#migration}
 
 You can migrate data from other vendors to your Zilliz Cloud cluster, and the maximum number of collections per migration varies with the subscription plan for your Zilliz Cloud cluster.
 
-<table>
-   <tr>
-     <th><p>Subscription Plan of the Target Cluster</p></th>
-     <th><p>Maximum Number of Collections Per Migration</p></th>
-   </tr>
-   <tr>
-     <td><p>Free</p></td>
-     <td><p>5</p></td>
-   </tr>
-   <tr>
-     <td><p>Serverless / Dedicated</p></td>
-     <td><p>10</p></td>
-   </tr>
-</table>
+| Subscription Plan of the Target Cluster | Maximum Number of Collections Per Migration |
+| --- | --- |
+| Free | 5 |
+| Serverless / Dedicated | 10 |
 
 
 

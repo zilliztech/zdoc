@@ -108,7 +108,7 @@ In addition to highlighting search terms, you can highlight terms used in text-b
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Currently, only the <code>TEXT_MATCH</code> filtering condition is supported for query term highlighting. To learn more, refer to <a href="./text-match">Text Match</a>.</p>
+Currently, only the `TEXT_MATCH` filtering condition is supported for query term highlighting. To learn more, refer to [Text Match](./text-match).
 
 </Admonition>
 

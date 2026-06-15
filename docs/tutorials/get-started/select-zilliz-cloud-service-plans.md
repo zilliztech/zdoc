@@ -69,7 +69,7 @@ The following section compares the plans and deployment options, detailing the s
      <td><p>User's VPC</p></td>
    </tr>
    <tr>
-     <td><p>Query CU number </p></td>
+     <td><p>Query CU number</p></td>
      <td><p>Single query CU</p></td>
      <td><p>Auto-scale. No configuration required</p></td>
      <td><ul><li><p>Up to 32 query CUs. (You can directly create cluster of 32 query CUs or less on the web UI. For larger query CUs, please <a href="https://zilliz.com/contact-sales">contact sales</a>.</p></li><li><p>Increments: 1, 2, 4, 8, 12, 16, 20, 24, 28, 32.</p></li></ul></td>
@@ -117,375 +117,65 @@ The following section compares the plans and deployment options, detailing the s
 
 ### High availability\{#high-availability}
 
-<table>
-   <tr>
-     <th></th>
-     <th><p><strong>Free</strong></p></th>
-     <th><p><strong>Serverless</strong></p></th>
-     <th><p><strong>Dedicated (Standard)</strong></p></th>
-     <th><p><strong>Dedicated (Enterprise)</strong></p></th>
-     <th><p><strong>Dedicated (Business Critical)</strong></p></th>
-     <th><p><strong>Bring Your Own Cloud (BYOC)</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>Availability zone</p></td>
-     <td></td>
-     <td><p>Single</p></td>
-     <td><p>Single</p></td>
-     <td><p>Multiple</p></td>
-     <td><p>Multiple</p></td>
-     <td><p>Multiple</p></td>
-   </tr>
-   <tr>
-     <td><p><a href="./manage-replica">Replica</a></p></td>
-     <td></td>
-     <td></td>
-     <td></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-   </tr>
-   <tr>
-     <td><p>Snapshot</p></td>
-     <td></td>
-     <td></td>
-     <td></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-   </tr>
-   <tr>
-     <td><p>Global Cluster</p></td>
-     <td></td>
-     <td></td>
-     <td></td>
-     <td></td>
-     <td><p>✔</p></td>
-     <td></td>
-   </tr>
-</table>
+|  | **Free** | **Serverless** | **Dedicated (Standard)** | **Dedicated (Enterprise)** | **Dedicated (Business Critical)** | **Bring Your Own Cloud (BYOC)** |
+| --- | --- | --- | --- | --- | --- | --- |
+| Availability zone |  | Single | Single | Multiple | Multiple | Multiple |
+| [Replica](./manage-replica) |  |  |  | ✔ | ✔ | ✔ |
+| Snapshot |  |  |  | ✔ | ✔ | ✔ |
+| Global Cluster |  |  |  |  | ✔ |  |
 
 ### Data managment\{#data-managment}
 
-<table>
-   <tr>
-     <th></th>
-     <th><p><strong>Free</strong></p></th>
-     <th><p><strong>Serverless</strong></p></th>
-     <th><p><strong>Dedicated (Standard)</strong></p></th>
-     <th><p><strong>Dedicated (Enterprise)</strong></p></th>
-     <th><p><strong>Dedicated (Business Critical)</strong></p></th>
-     <th><p><strong>Bring Your Own Cloud (BYOC)</strong></p></th>
-   </tr>
-   <tr>
-     <td><p><a href="./offline-migration">Cross-cluster migration</a></p></td>
-     <td></td>
-     <td><p>From Free cluster</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-   </tr>
-   <tr>
-     <td><p><a href="./undefined">Migration from external sources</a></p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-   </tr>
-   <tr>
-     <td><p>Stage</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-   </tr>
-   <tr>
-     <td><p><a href="./import-data">High speed data import</a></p></td>
-     <td></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-   </tr>
-   <tr>
-     <td><p><a href="./use-recycle-bin">Recycle bin</a></p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-   </tr>
-</table>
+|  | **Free** | **Serverless** | **Dedicated (Standard)** | **Dedicated (Enterprise)** | **Dedicated (Business Critical)** | **Bring Your Own Cloud (BYOC)** |
+| --- | --- | --- | --- | --- | --- | --- |
+| [Cross-cluster migration](./offline-migration) |  | From Free cluster | ✔ | ✔ | ✔ | ✔ |
+| [Migration from external sources](./undefined) | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
+| Stage | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
+| [High speed data import](./import-data) |  | ✔ | ✔ | ✔ | ✔ | ✔ |
+| [Recycle bin](./use-recycle-bin) | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
 
 ### Data security and compliance\{#data-security-and-compliance}
 
-<table>
-   <tr>
-     <th></th>
-     <th><p><strong>Free</strong></p></th>
-     <th><p><strong>Serverless</strong></p></th>
-     <th><p><strong>Dedicated (Standard)</strong></p></th>
-     <th><p><strong>Dedicated (Enterprise)</strong></p></th>
-     <th><p><strong>Dedicated (Business Critical)</strong></p></th>
-     <th><p><strong>Bring Your Own Cloud (BYOC)</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>OAuth 2.0</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-   </tr>
-   <tr>
-     <td><p><a href="./single-sign-on">Enterprise SSO</a></p></td>
-     <td></td>
-     <td></td>
-     <td></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-   </tr>
-   <tr>
-     <td><p>Customer managed encryption keys (CMEK)</p></td>
-     <td></td>
-     <td></td>
-     <td></td>
-     <td></td>
-     <td><p>✔</p></td>
-     <td></td>
-   </tr>
-   <tr>
-     <td><p><a href="./multi-factor-auth">MFA</a></p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-   </tr>
-   <tr>
-     <td><p><a href="./undefined">Auditing</a></p></td>
-     <td></td>
-     <td></td>
-     <td></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-   </tr>
-   <tr>
-     <td><p><a href="./manage-api-keys">API key management</a></p></td>
-     <td></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-   </tr>
-   <tr>
-     <td><p><a href="./data-security#data-encryption">Data encryption in transit and at rest</a></p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-   </tr>
-   <tr>
-     <td><p><a href="./undefined">Backup and restore</a></p></td>
-     <td></td>
-     <td></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-   </tr>
-   <tr>
-     <td><p><a href="./backup-to-other-regions">Cross-region backup</a></p></td>
-     <td></td>
-     <td></td>
-     <td></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-   </tr>
-   <tr>
-     <td><p><a href="./setup-whitelist">IP address access control</a></p></td>
-     <td></td>
-     <td></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-   </tr>
-   <tr>
-     <td><p><a href="./undefined">Private networking</a></p></td>
-     <td></td>
-     <td></td>
-     <td></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-   </tr>
-   <tr>
-     <td><p><a href="https://zilliz.com/trust-center">SOC 2 Type II and ISO/ICE 27001 compliant, GDPR ready</a></p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-   </tr>
-   <tr>
-     <td><p><a href="https://zilliz.com/trust-center">HIPPA ready</a></p></td>
-     <td></td>
-     <td></td>
-     <td></td>
-     <td></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-   </tr>
-</table>
+|  | **Free** | **Serverless** | **Dedicated (Standard)** | **Dedicated (Enterprise)** | **Dedicated (Business Critical)** | **Bring Your Own Cloud (BYOC)** |
+| --- | --- | --- | --- | --- | --- | --- |
+| OAuth 2.0 | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
+| [Enterprise SSO](./single-sign-on) |  |  |  | ✔ | ✔ | ✔ |
+| Customer managed encryption keys (CMEK) |  |  |  |  | ✔ |  |
+| [MFA](./multi-factor-auth) | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
+| [Auditing](./undefined) |  |  |  | ✔ | ✔ | ✔ |
+| [API key management](./manage-api-keys) |  | ✔ | ✔ | ✔ | ✔ | ✔ |
+| [Data encryption in transit and at rest](./data-security#data-encryption) | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
+| [Backup and restore](./undefined) |  |  | ✔ | ✔ | ✔ | ✔ |
+| [Cross-region backup](./backup-to-other-regions) |  |  |  | ✔ | ✔ | ✔ |
+| [IP address access control](./setup-whitelist) |  |  | ✔ | ✔ | ✔ | ✔ |
+| [Private networking](./undefined) |  |  |  | ✔ | ✔ | ✔ |
+| [SOC 2 Type II and ISO/ICE 27001 compliant, GDPR ready](https://zilliz.com/trust-center) | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
+| [HIPPA ready](https://zilliz.com/trust-center) |  |  |  |  | ✔ | ✔ |
 
 ### Observability\{#observability}
 
-<table>
-   <tr>
-     <th></th>
-     <th><p><strong>Free</strong></p></th>
-     <th><p><strong>Serverless</strong></p></th>
-     <th><p><strong>Dedicated (Standard)</strong></p></th>
-     <th><p><strong>Dedicated (Enterprise)</strong></p></th>
-     <th><p><strong>Dedicated (Business Critical)</strong></p></th>
-     <th><p><strong>Bring Your Own Cloud (BYOC)</strong></p></th>
-   </tr>
-   <tr>
-     <td><p><a href="./view-cluster-metric-charts">Fine-grained metrics with real-time monitoring dashboard</a></p></td>
-     <td></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-   </tr>
-   <tr>
-     <td><p><a href="./manage-project-alerts">Alerts</a></p></td>
-     <td></td>
-     <td></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-   </tr>
-   <tr>
-     <td><p>Alerting and monitoring integrations</p></td>
-     <td></td>
-     <td></td>
-     <td></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-   </tr>
-   <tr>
-     <td><p><a href="./job-center">Job Center</a></p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-   </tr>
-</table>
+|  | **Free** | **Serverless** | **Dedicated (Standard)** | **Dedicated (Enterprise)** | **Dedicated (Business Critical)** | **Bring Your Own Cloud (BYOC)** |
+| --- | --- | --- | --- | --- | --- | --- |
+| [Fine-grained metrics with real-time monitoring dashboard](./view-cluster-metric-charts) |  | ✔ | ✔ | ✔ | ✔ | ✔ |
+| [Alerts](./manage-project-alerts) |  |  | ✔ | ✔ | ✔ | ✔ |
+| Alerting and monitoring integrations |  |  |  | ✔ | ✔ | ✔ |
+| [Job Center](./job-center) | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
 
 ### Role-based access control\{#role-based-access-control}
 
-<table>
-   <tr>
-     <th></th>
-     <th><p><strong>Free</strong></p></th>
-     <th><p><strong>Serverless</strong></p></th>
-     <th><p><strong>Dedicated (Standard)</strong></p></th>
-     <th><p><strong>Dedicated (Enterprise)</strong></p></th>
-     <th><p><strong>Dedicated (Business Critical)</strong></p></th>
-     <th><p><strong>Bring Your Own Cloud (BYOC)</strong></p></th>
-   </tr>
-   <tr>
-     <td><p><a href="./access-control-overview">Organization and project RBAC</a></p></td>
-     <td></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-   </tr>
-   <tr>
-     <td><p>Data plane RBAC</p></td>
-     <td></td>
-     <td></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-   </tr>
-</table>
+|  | **Free** | **Serverless** | **Dedicated (Standard)** | **Dedicated (Enterprise)** | **Dedicated (Business Critical)** | **Bring Your Own Cloud (BYOC)** |
+| --- | --- | --- | --- | --- | --- | --- |
+| [Organization and project RBAC](./access-control-overview) |  | ✔ | ✔ | ✔ | ✔ | ✔ |
+| Data plane RBAC |  |  | ✔ | ✔ | ✔ | ✔ |
 
 ### Integrations and tools\{#integrations-and-tools}
 
-<table>
-   <tr>
-     <th></th>
-     <th><p><strong>Free</strong></p></th>
-     <th><p><strong>Serverless</strong></p></th>
-     <th><p><strong>Dedicated (Standard)</strong></p></th>
-     <th><p><strong>Dedicated (Enterprise)</strong></p></th>
-     <th><p><strong>Dedicated (Business Critical)</strong></p></th>
-     <th><p><strong>Bring Your Own Cloud (BYOC)</strong></p></th>
-   </tr>
-   <tr>
-     <td><p><a href="/reference/restful">Intuitive RESTful APIs for control and data plane operations</a></p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-   </tr>
-   <tr>
-     <td><p><a href="/reference/python">User-friendly SDKs in multiple programming languages</a> (Python, Java, Go, and Node.js SDKs)</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-   </tr>
-   <tr>
-     <td><p><a href="https://zilliz.com/vector-transport-service">VTS (Vector Transport Service)</a></p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-   </tr>
-   <tr>
-     <td><p><a href="https://zilliz.com/vdbbench-leaderboard">VectorDBBench</a></p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-   </tr>
-</table>
+|  | **Free** | **Serverless** | **Dedicated (Standard)** | **Dedicated (Enterprise)** | **Dedicated (Business Critical)** | **Bring Your Own Cloud (BYOC)** |
+| --- | --- | --- | --- | --- | --- | --- |
+| [Intuitive RESTful APIs for control and data plane operations](/reference/restful) | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
+| [User-friendly SDKs in multiple programming languages](/reference/python) (Python, Java, Go, and Node.js SDKs) | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
+| [VTS (Vector Transport Service)](https://zilliz.com/vector-transport-service) | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
+| [VectorDBBench](https://zilliz.com/vdbbench-leaderboard) | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
 
 ### Technical support\{#technical-support}
 

@@ -101,57 +101,16 @@ Let's see decay ranking in a practical scenario—searching for **"AI research p
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>In this example, decay scores reflect how relevance diminishes with time—newer papers receive scores closer to 1.0, older papers receive lower scores. These values are calculated using a specific decay ranker. For details, refer to <a href="./decay-ranker-oveview#choose-the-right-decay-ranker">Choose the right decay ranker</a>.</p>
+In this example, decay scores reflect how relevance diminishes with time—newer papers receive scores closer to 1.0, older papers receive lower scores. These values are calculated using a specific decay ranker. For details, refer to [Choose the right decay ranker](./decay-ranker-oveview#choose-the-right-decay-ranker).
 
 </Admonition>
 
-<table>
-   <tr>
-     <th><p>Paper</p></th>
-     <th><p>Vector Similarity</p></th>
-     <th><p>Normalized Similarity Score</p></th>
-     <th><p>Publication Date</p></th>
-     <th><p>Decay Score</p></th>
-     <th><p>Final Score</p></th>
-     <th><p>Final Rank</p></th>
-   </tr>
-   <tr>
-     <td><p>Paper A</p></td>
-     <td><p>High</p></td>
-     <td><p>0.85 (<code>COSINE</code>)</p></td>
-     <td><p>2 weeks ago</p></td>
-     <td><p>0.80</p></td>
-     <td><p>0.68</p></td>
-     <td><h1 id="2">2</h1></td>
-   </tr>
-   <tr>
-     <td><p>Paper B</p></td>
-     <td><p>Very High</p></td>
-     <td><p>0.92 (<code>COSINE</code>)</p></td>
-     <td><p>6 months ago</p></td>
-     <td><p>0.45</p></td>
-     <td><p>0.41</p></td>
-     <td><h1 id="3">3</h1></td>
-   </tr>
-   <tr>
-     <td><p>Paper C</p></td>
-     <td><p>Medium</p></td>
-     <td><p>0.75 (<code>COSINE</code>)</p></td>
-     <td><p>1 day ago</p></td>
-     <td><p>0.98</p></td>
-     <td><p>0.74</p></td>
-     <td><h1 id="1">1</h1></td>
-   </tr>
-   <tr>
-     <td><p>Paper D</p></td>
-     <td><p>Medium-High</p></td>
-     <td><p>0.76 (<code>COSINE</code>)</p></td>
-     <td><p>3 weeks ago</p></td>
-     <td><p>0.70</p></td>
-     <td><p>0.53</p></td>
-     <td><h1 id="4">4</h1></td>
-   </tr>
-</table>
+| Paper | Vector Similarity | Normalized Similarity Score | Publication Date | Decay Score | Final Score | Final Rank |
+| --- | --- | --- | --- | --- | --- | --- |
+| Paper A | High | 0.85 (`COSINE`) | 2 weeks ago | 0.80 | 0.68 | #2 |
+| Paper B | Very High | 0.92 (`COSINE`) | 6 months ago | 0.45 | 0.41 | #3 |
+| Paper C | Medium | 0.75 (`COSINE`) | 1 day ago | 0.98 | 0.74 | #1 |
+| Paper D | Medium-High | 0.76 (`COSINE`) | 3 weeks ago | 0.70 | 0.53 | #4 |
 
 Without decay reranking, Paper B would rank highest based on pure vector similarity (0.92). However, with decay reranking applied:
 
@@ -206,7 +165,7 @@ Decay rankers can be applied to both standard vector search and hybrid search op
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Before using decay functions, you must first create a collection with appropriate numeric fields (like timestamps, distances, etc.) that will be used for decay calculations. For complete working examples including collection setup, schema definition, and data insertion, refer to <a href="./tutorial-implement-time-based-ranking">Tutorial: Implement Time-based Ranking in Milvus</a>.</p>
+Before using decay functions, you must first create a collection with appropriate numeric fields (like timestamps, distances, etc.) that will be used for decay calculations. For complete working examples including collection setup, schema definition, and data insertion, refer to [Tutorial: Implement Time-based Ranking in Milvus](./tutorial-implement-time-based-ranking).
 
 </Admonition>
 
@@ -214,7 +173,7 @@ Decay rankers can be applied to both standard vector search and hybrid search op
 
 To implement decay ranking, first define a `Function` object with the appropriate configuration:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -258,7 +217,6 @@ DecayRanker rerank = DecayRanker.builder()
         .offset(24 * 60 * 60)
         .decay(0.5)
         .build();
-
 ```
 
 </TabItem>
@@ -266,7 +224,6 @@ DecayRanker rerank = DecayRanker.builder()
 <TabItem value='javascript'>
 
 ```javascript
-
 import {FunctionType } from "@zilliz/milvus2-sdk-node";
 
 const rerank = {
@@ -282,7 +239,6 @@ const rerank = {
     decay: 0.5,
   },
 };
-
 ```
 
 </TabItem>
@@ -299,6 +255,20 @@ const rerank = {
 
 ```bash
 # restful
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+auto rerank = std::make_shared<milvus::DecayRerank>("time_decay");
+rerank->AddInputFieldName("timestamp");
+rerank->SetFunction("gauss");
+rerank->SetOrigin(1735689600);
+rerank->SetScale(7 * 24 * 60 * 60);
+rerank->SetOffset(24 * 60 * 60);
+rerank->SetDecay(0.5);
 ```
 
 </TabItem>
@@ -371,7 +341,7 @@ const rerank = {
 
 After defining your decay ranker, you can apply it during search operations by passing it to the `ranker` parameter:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -443,5 +413,27 @@ const result = await milvusClient.search({
 ```
 
 </TabItem>
-</Tabs>
 
+<TabItem value='c++'>
+
+```c++
+auto function_score = std::make_shared<milvus::FunctionScore>();
+function_score->AddFunction(rerank);
+
+auto request = milvus::SearchRequest()
+                   .WithCollectionName(collection_name)
+                   .WithAnnsField("dense")
+                   .WithRerank(function_score)
+                   .AddOutputField("document")
+                   .AddOutputField("timestamp")
+                   .AddFloatVector(your_query_vector);
+
+milvus::SearchResponse response;
+auto status = client->Search(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+</Tabs>

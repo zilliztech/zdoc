@@ -28,246 +28,64 @@ Before starting your OpenSearch to Zilliz Cloud migration, ensure you meet these
 
 ### OpenSearch requirements\{#opensearch-requirements}
 
-<table>
-   <tr>
-     <th><p>Requirement</p></th>
-     <th><p>Details</p></th>
-   </tr>
-   <tr>
-     <td><p>Network access</p></td>
-     <td><p>Source OpenSearch cluster must be accessible from the public internet</p></td>
-   </tr>
-   <tr>
-     <td><p>Authentication</p></td>
-     <td><p>Valid cluster endpoint, username, and password with necessary permissions</p></td>
-   </tr>
-   <tr>
-     <td><p>Vector field requirement</p></td>
-     <td><p>Each source index must contain at least one k-NN vector field</p></td>
-   </tr>
-   <tr>
-     <td><p>Data availability</p></td>
-     <td><p>Source indexes must contain data. Empty indexes cannot be migrated.</p></td>
-   </tr>
-</table>
+| Requirement | Details |
+| --- | --- |
+| Network access | Source OpenSearch cluster must be accessible from the public internet |
+| Authentication | Valid cluster endpoint, username, and password with necessary permissions |
+| Vector field requirement | Each source index must contain at least one k-NN vector field |
+| Data availability | Source indexes must contain data. Empty indexes cannot be migrated. |
 
 ### Zilliz Cloud requirements\{#zilliz-cloud-requirements}
 
-<table>
-   <tr>
-     <th><p>Requirement</p></th>
-     <th><p>Details</p></th>
-   </tr>
-   <tr>
-     <td><p>User role</p></td>
-     <td><p>Organization Owner or Project Admin</p></td>
-   </tr>
-   <tr>
-     <td><p>Cluster capacity</p></td>
-     <td><p>Sufficient storage and compute resources (use the <a href="https://zilliz.com/pricing#calculator">CU calculator</a> to estimate CU size)</p></td>
-   </tr>
-   <tr>
-     <td><p>Network access</p></td>
-     <td><p>Add <a href="./zilliz-cloud-ips">Zilliz Cloud IPs</a> to allowlists if using network restrictions</p></td>
-   </tr>
-</table>
+| Requirement | Details |
+| --- | --- |
+| User role | Organization Owner or Project Admin |
+| Cluster capacity | Sufficient storage and compute resources (use the [CU calculator](https://zilliz.com/pricing#calculator) to estimate CU size) |
+| Network access | Add [Zilliz Cloud IPs](./zilliz-cloud-ips) to allowlists if using network restrictions |
 
 ## Data type mapping\{#data-type-mapping}
 
 The following table summarizes how field types in OpenSearch are mapped to Zilliz Cloud field types, along with details on any customization options.
 
-<table>
-   <tr>
-     <th><p><strong>OpenSearch Field Type</strong></p></th>
-     <th><p><strong>Zilliz Cloud Field Type</strong></p></th>
-     <th><p><strong>Description</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>Primary key</p></td>
-     <td><p>Primary key</p></td>
-     <td><p>OpenSearch's primary key (<a href="https://opensearch.org/docs/latest/field-types/metadata-fields/id/">_id</a>) is automatically mapped as the primary key in Zilliz Cloud.</p><p>When migrating data, you can enable Auto ID. However, if you do so, the original primary key values from your source table will be discarded.</p></td>
-   </tr>
-   <tr>
-     <td><p><a href="https://opensearch.org/docs/latest/field-types/supported-field-types/knn-vector/">k-NN vector</a></p></td>
-     <td><p>FLOAT_VECTOR</p></td>
-     <td><p>The <code>float</code> vector type from OpenSearch is mapped to <code>FLOAT_VECTOR</code> on Zilliz Cloud. Byte/Binary vectors from OpenSearch are not supported for migration.</p><p>Vector dimensions remain unchanged.</p></td>
-   </tr>
-   <tr>
-     <td><p><a href="https://opensearch.org/docs/latest/field-types/supported-field-types/alias/">Alias</a></p></td>
-     <td><p>Not supported</p></td>
-     <td><p>Alias fields are not supported.</p></td>
-   </tr>
-   <tr>
-     <td><p><a href="https://opensearch.org/docs/latest/field-types/supported-field-types/binary/">Binary</a></p></td>
-     <td><p>VARCHAR</p></td>
-     <td><p>Binary data is stored as a string on Zilliz Cloud.</p></td>
-   </tr>
-   <tr>
-     <td><p><a href="https://opensearch.org/docs/latest/field-types/supported-field-types/numeric/">Numeric</a></p></td>
-     <td></td>
-     <td></td>
-   </tr>
-   <tr>
-     <td><p><code>byte</code></p></td>
-     <td><p>INT8</p></td>
-     <td><p>Directly mapped.</p></td>
-   </tr>
-   <tr>
-     <td><p><code>double</code></p></td>
-     <td><p>DOUBLE</p></td>
-     <td><p>Directly mapped.</p></td>
-   </tr>
-   <tr>
-     <td><p><code>float</code></p></td>
-     <td><p>FLOAT</p></td>
-     <td><p>Directly mapped.</p></td>
-   </tr>
-   <tr>
-     <td><p><code>half_float</code></p></td>
-     <td><p>FLOAT</p></td>
-     <td><p>Mapped to <code>FLOAT</code>.</p></td>
-   </tr>
-   <tr>
-     <td><p><code>integer</code></p></td>
-     <td><p>INT32</p></td>
-     <td><p>Directly mapped.</p></td>
-   </tr>
-   <tr>
-     <td><p><code>long</code></p></td>
-     <td><p>INT64</p></td>
-     <td><p>Directly mapped.</p></td>
-   </tr>
-   <tr>
-     <td><p><code>short</code></p></td>
-     <td><p>INT16</p></td>
-     <td><p>Directly mapped.</p></td>
-   </tr>
-   <tr>
-     <td><p><code>unsigned_long</code></p></td>
-     <td><p>Not supported</p></td>
-     <td><p>Not supported on Zilliz Cloud.</p></td>
-   </tr>
-   <tr>
-     <td><p><code>scaled_float</code></p></td>
-     <td><p>Not supported</p></td>
-     <td><p>Not supported on Zilliz Cloud.</p></td>
-   </tr>
-   <tr>
-     <td><p><a href="https://opensearch.org/docs/latest/field-types/supported-field-types/boolean/">Boolean</a></p></td>
-     <td><p>BOOL</p></td>
-     <td><p>Stores <code>true</code> or <code>false</code>.</p></td>
-   </tr>
-   <tr>
-     <td><p><a href="https://opensearch.org/docs/latest/field-types/supported-field-types/dates/">Date</a></p></td>
-     <td><p>VARCHAR</p></td>
-     <td><p>Stored as a string. Ensure correct format conversion.</p></td>
-   </tr>
-   <tr>
-     <td><p><a href="https://opensearch.org/docs/latest/field-types/supported-field-types/ip/">IP address</a></p></td>
-     <td><p>VARCHAR</p></td>
-     <td><p>Stored as a string.</p></td>
-   </tr>
-   <tr>
-     <td><p><a href="https://opensearch.org/docs/latest/field-types/supported-field-types/range/">Range</a></p></td>
-     <td><p>JSON</p></td>
-     <td><p>Stored in JSON format.</p></td>
-   </tr>
-   <tr>
-     <td><p><a href="https://opensearch.org/docs/latest/field-types/supported-field-types/object-fields/">Object</a></p></td>
-     <td></td>
-     <td></td>
-   </tr>
-   <tr>
-     <td><p><code>object</code></p></td>
-     <td><p>JSON</p></td>
-     <td><p>Stored in JSON format.</p></td>
-   </tr>
-   <tr>
-     <td><p><code>nested</code></p></td>
-     <td><p>JSON</p></td>
-     <td><p>Stored in JSON format.</p></td>
-   </tr>
-   <tr>
-     <td><p><code>flat_object</code></p></td>
-     <td><p>JSON</p></td>
-     <td><p>Stored in JSON format.</p></td>
-   </tr>
-   <tr>
-     <td><p><code>join</code></p></td>
-     <td><p>VARCHAR</p></td>
-     <td><p>Stored as a string.</p></td>
-   </tr>
-   <tr>
-     <td><p><a href="https://opensearch.org/docs/latest/field-types/supported-field-types/string/">String</a></p></td>
-     <td></td>
-     <td></td>
-   </tr>
-   <tr>
-     <td><p><code>keyword</code></p></td>
-     <td><p>VARCHAR</p></td>
-     <td><p>Stored as a string.</p></td>
-   </tr>
-   <tr>
-     <td><p><code>text</code></p></td>
-     <td><p>VARCHAR</p></td>
-     <td><p>Mapped to <code>VARCHAR</code> .</p></td>
-   </tr>
-   <tr>
-     <td><p><code>match_only_text</code></p></td>
-     <td><p>VARCHAR</p></td>
-     <td><p>Stored as a string.</p></td>
-   </tr>
-   <tr>
-     <td><p><code>token_count</code></p></td>
-     <td><p>INT32</p></td>
-     <td><p>Stored as INT32.</p></td>
-   </tr>
-   <tr>
-     <td><p><code>wildcard</code></p></td>
-     <td><p>Not supported</p></td>
-     <td><p>Not supported on Zilliz Cloud.</p></td>
-   </tr>
-   <tr>
-     <td><p><a href="https://opensearch.org/docs/latest/field-types/supported-field-types/autocomplete/">Autocomplete</a></p></td>
-     <td><p>VARCHAR</p></td>
-     <td><p>Stored as a string.</p></td>
-   </tr>
-   <tr>
-     <td><p><a href="https://opensearch.org/docs/latest/field-types/supported-field-types/geographic/">Geographic</a></p></td>
-     <td><p>VARCHAR</p></td>
-     <td><p>Stored as a string.</p></td>
-   </tr>
-   <tr>
-     <td><p><a href="https://opensearch.org/docs/latest/field-types/supported-field-types/rank/">Rank</a></p></td>
-     <td><p>VARCHAR</p></td>
-     <td><p>Stored as a string.</p></td>
-   </tr>
-   <tr>
-     <td><p><a href="https://opensearch.org/docs/latest/field-types/supported-field-types/percolator/">Percolator</a></p></td>
-     <td><p>VARCHAR</p></td>
-     <td><p>Stored as a string.</p></td>
-   </tr>
-   <tr>
-     <td><p><a href="https://opensearch.org/docs/latest/field-types/supported-field-types/derived/">Derived</a></p></td>
-     <td><p>Not supported</p></td>
-     <td><p>Derived fields are not supported on Zilliz Cloud.</p></td>
-   </tr>
-   <tr>
-     <td><p><a href="https://opensearch.org/docs/latest/field-types/supported-field-types/star-tree/">Star-tree</a></p></td>
-     <td><p>Not supported</p></td>
-     <td><p>Star-tree fields are not supported on Zilliz Cloud.</p></td>
-   </tr>
-   <tr>
-     <td><p><a href="https://docs.opensearch.org/docs/latest/field-types/supported-field-types/index/#arrays">Arrays</a></p></td>
-     <td><p>Not supported</p></td>
-     <td><p>Arrays are not supported for migration.</p></td>
-   </tr>
-   <tr>
-     <td><p><a href="https://docs.opensearch.org/docs/latest/field-types/supported-field-types/index/#multifields">Multifields</a></p></td>
-     <td><p>Not supported</p></td>
-     <td><p>Multifields are not supported for migration.</p></td>
-   </tr>
-</table>
+| **OpenSearch Field Type** | **Zilliz Cloud Field Type** | **Description** |
+| --- | --- | --- |
+| Primary key | Primary key | OpenSearch's primary key ([_id](https://opensearch.org/docs/latest/field-types/metadata-fields/id/)) is automatically mapped as the primary key in Zilliz Cloud.<br/>When migrating data, you can enable Auto ID. However, if you do so, the original primary key values from your source table will be discarded. |
+| [k-NN vector](https://opensearch.org/docs/latest/field-types/supported-field-types/knn-vector/) | FLOAT_VECTOR | The `float` vector type from OpenSearch is mapped to `FLOAT_VECTOR` on Zilliz Cloud. Byte/Binary vectors from OpenSearch are not supported for migration.<br/>Vector dimensions remain unchanged. |
+| [Alias](https://opensearch.org/docs/latest/field-types/supported-field-types/alias/) | Not supported | Alias fields are not supported. |
+| [Binary](https://opensearch.org/docs/latest/field-types/supported-field-types/binary/) | VARCHAR | Binary data is stored as a string on Zilliz Cloud. |
+| [Numeric](https://opensearch.org/docs/latest/field-types/supported-field-types/numeric/) |  |  |
+| `byte` | INT8 | Directly mapped. |
+| `double` | DOUBLE | Directly mapped. |
+| `float` | FLOAT | Directly mapped. |
+| `half_float` | FLOAT | Mapped to `FLOAT`. |
+| `integer` | INT32 | Directly mapped. |
+| `long` | INT64 | Directly mapped. |
+| `short` | INT16 | Directly mapped. |
+| `unsigned_long` | Not supported | Not supported on Zilliz Cloud. |
+| `scaled_float` | Not supported | Not supported on Zilliz Cloud. |
+| [Boolean](https://opensearch.org/docs/latest/field-types/supported-field-types/boolean/) | BOOL | Stores `true` or `false`. |
+| [Date](https://opensearch.org/docs/latest/field-types/supported-field-types/dates/) | VARCHAR | Stored as a string. Ensure correct format conversion. |
+| [IP address](https://opensearch.org/docs/latest/field-types/supported-field-types/ip/) | VARCHAR | Stored as a string. |
+| [Range](https://opensearch.org/docs/latest/field-types/supported-field-types/range/) | JSON | Stored in JSON format. |
+| [Object](https://opensearch.org/docs/latest/field-types/supported-field-types/object-fields/) |  |  |
+| `object` | JSON | Stored in JSON format. |
+| `nested` | JSON | Stored in JSON format. |
+| `flat_object` | JSON | Stored in JSON format. |
+| `join` | VARCHAR | Stored as a string. |
+| [String](https://opensearch.org/docs/latest/field-types/supported-field-types/string/) |  |  |
+| `keyword` | VARCHAR | Stored as a string. |
+| `text` | VARCHAR | Mapped to `VARCHAR` . |
+| `match_only_text` | VARCHAR | Stored as a string. |
+| `token_count` | INT32 | Stored as INT32. |
+| `wildcard` | Not supported | Not supported on Zilliz Cloud. |
+| [Autocomplete](https://opensearch.org/docs/latest/field-types/supported-field-types/autocomplete/) | VARCHAR | Stored as a string. |
+| [Geographic](https://opensearch.org/docs/latest/field-types/supported-field-types/geographic/) | VARCHAR | Stored as a string. |
+| [Rank](https://opensearch.org/docs/latest/field-types/supported-field-types/rank/) | VARCHAR | Stored as a string. |
+| [Percolator](https://opensearch.org/docs/latest/field-types/supported-field-types/percolator/) | VARCHAR | Stored as a string. |
+| [Derived](https://opensearch.org/docs/latest/field-types/supported-field-types/derived/) | Not supported | Derived fields are not supported on Zilliz Cloud. |
+| [Star-tree](https://opensearch.org/docs/latest/field-types/supported-field-types/star-tree/) | Not supported | Star-tree fields are not supported on Zilliz Cloud. |
+| [Arrays](https://docs.opensearch.org/docs/latest/field-types/supported-field-types/index/#arrays) | Not supported | Arrays are not supported for migration. |
+| [Multifields](https://docs.opensearch.org/docs/latest/field-types/supported-field-types/index/#multifields) | Not supported | Multifields are not supported for migration. |
 
 ## OpenSearch-specific handling rules\{#opensearch-specific-handling-rules}
 
@@ -275,52 +93,18 @@ The following table summarizes how field types in OpenSearch are mapped to Zilli
 
 OpenSearch index names are transferred to Zilliz Cloud with the following considerations:
 
-<table>
-   <tr>
-     <th><p>Scenario</p></th>
-     <th><p>Impact</p></th>
-     <th><p>Solution</p></th>
-   </tr>
-   <tr>
-     <td><p>Default naming</p></td>
-     <td><p>Collection names match source index names exactly</p></td>
-     <td><p>Names are preserved as-is from OpenSearch</p></td>
-   </tr>
-   <tr>
-     <td><p>Special characters</p></td>
-     <td><p>Index names with hyphens (-) or dots (.) will cause errors and prevent job submission</p></td>
-     <td><p>Manually rename indexes to use underscores or other valid characters</p></td>
-   </tr>
-   <tr>
-     <td><p>Naming conflicts</p></td>
-     <td><p>Cannot submit job if a collection with the same name already exists</p></td>
-     <td><p>Delete existing collection, choose a different database, or rename during migration configuration</p></td>
-   </tr>
-</table>
+| Scenario | Impact | Solution |
+| --- | --- | --- |
+| Default naming | Collection names match source index names exactly | Names are preserved as-is from OpenSearch |
+| Special characters | Index names with hyphens (-) or dots (.) will cause errors and prevent job submission | Manually rename indexes to use underscores or other valid characters |
+| Naming conflicts | Cannot submit job if a collection with the same name already exists | Delete existing collection, choose a different database, or rename during migration configuration |
 
 ### Migration considerations\{#migration-considerations}
 
 The following features are **not supported** for OpenSearch migration:
 
-<table>
-   <tr>
-     <th><p>Limitation</p></th>
-     <th><p>Impact</p></th>
-     <th><p>Alternative</p></th>
-   </tr>
-   <tr>
-     <td><p>Dynamic to fixed field conversion</p></td>
-     <td><p>Cannot convert existing dynamic fields to fixed types</p></td>
-     <td><p>Fields maintain their original dynamic nature</p></td>
-   </tr>
-   <tr>
-     <td><p>Add more fields</p></td>
-     <td><p>Cannot add new fields during migration</p></td>
-     <td><p>Only existing Elasticsearch fields are migrated</p></td>
-   </tr>
-   <tr>
-     <td><p>Sparse vectors</p></td>
-     <td><p>Not supported in current release</p></td>
-     <td><p>Consider dense vector alternatives or contact support for roadmap</p></td>
-   </tr>
-</table>
+| Limitation | Impact | Alternative |
+| --- | --- | --- |
+| Dynamic to fixed field conversion | Cannot convert existing dynamic fields to fixed types | Fields maintain their original dynamic nature |
+| Add more fields | Cannot add new fields during migration | Only existing Elasticsearch fields are migrated |
+| Sparse vectors | Not supported in current release | Consider dense vector alternatives or contact support for roadmap |

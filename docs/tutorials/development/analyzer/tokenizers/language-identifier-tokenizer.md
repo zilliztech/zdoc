@@ -52,29 +52,10 @@ Zilliz Cloud offers a choice between two language detection engines:
 
 The selection depends on the specific performance and accuracy requirements of your application.
 
-<table>
-   <tr>
-     <th><p>Engine</p></th>
-     <th><p>Speed</p></th>
-     <th><p>Accuracy</p></th>
-     <th><p>Output Format</p></th>
-     <th><p>Best For</p></th>
-   </tr>
-   <tr>
-     <td><p><code>whatlang</code></p></td>
-     <td><p>Fast</p></td>
-     <td><p>Good for most languages</p></td>
-     <td><p>Language names (e.g., <code>"English"</code>,  <code>"Mandarin"</code>, <code>"Japanese"</code>)</p><p><strong>Reference:</strong> <a href="https://github.com/greyblake/whatlang-rs/blob/master/SUPPORTED_LANGUAGES.md">Language column in supported languages table</a></p></td>
-     <td><p>Real-time applications where speed is critical</p></td>
-   </tr>
-   <tr>
-     <td><p><code>lingua</code></p></td>
-     <td><p>Slower</p></td>
-     <td><p>Higher precision, especially for short texts</p></td>
-     <td><p>English language names (e.g., <code>"English"</code>, <code>"Chinese"</code>, <code>"Japanese"</code>)</p><p><strong>Reference:</strong> <a href="https://github.com/pemistahl/lingua?tab=readme-ov-file#3-which-languages-are-supported">Supported languages list</a></p></td>
-     <td><p>Applications where accuracy is more important than speed</p></td>
-   </tr>
-</table>
+| Engine | Speed | Accuracy | Output Format | Best For |
+| --- | --- | --- | --- | --- |
+| `whatlang` | Fast | Good for most languages | Language names (e.g., `"English"`,  `"Mandarin"`, `"Japanese"`)<br/>**Reference:** [Language column in supported languages table](https://github.com/greyblake/whatlang-rs/blob/master/SUPPORTED_LANGUAGES.md) | Real-time applications where speed is critical |
+| `lingua` | Slower | Higher precision, especially for short texts | English language names (e.g., `"English"`, `"Chinese"`, `"Japanese"`)<br/>**Reference:** [Supported languages list](https://github.com/pemistahl/lingua?tab=readme-ov-file#3-which-languages-are-supported) | Applications where accuracy is more important than speed |
 
 A critical consideration is the engine's naming convention. While both engines return language names in English, they use different terms for some languages (e.g., `whatlang` returns `Mandarin`, while `lingua` returns `Chinese`). The analyzer's key must be an exact match to the name returned by the chosen detection engine.
 
@@ -88,41 +69,20 @@ The core of setting up the `language_identifier` is tailoring your analyzers to 
 
 Below is a recommended mapping of languages to suitable Zilliz Cloud analyzers. This table serves as a bridge between the output of the language detection engine and the best tool for the job.
 
-<table>
-   <tr>
-     <th><p>Language (Detector Output)</p></th>
-     <th><p>Recommended Analyzer</p></th>
-     <th><p>Description</p></th>
-   </tr>
-   <tr>
-     <td><p><code>English</code></p></td>
-     <td><p><code>type: english</code></p></td>
-     <td><p>Standard English tokenization with stemming and stop-word filtering.</p></td>
-   </tr>
-   <tr>
-     <td><p><code>Mandarin</code> (via whatlang) or <code>Chinese</code> (via lingua)</p></td>
-     <td><p><code>tokenizer: jieba</code></p></td>
-     <td><p>Chinese word segmentation for non-space-delimited text.</p></td>
-   </tr>
-   <tr>
-     <td><p><code>Japanese</code></p></td>
-     <td><p><code>tokenizer: icu</code></p></td>
-     <td><p>A robust tokenizer for complex scripts, including Japanese.</p></td>
-   </tr>
-   <tr>
-     <td><p><code>French</code></p></td>
-     <td><p><code>type: standard</code>, <code>filter: ["lowercase", "asciifolding"]</code></p></td>
-     <td><p>A custom configuration that handles French accents and characters.</p></td>
-   </tr>
-</table>
+| Language (Detector Output) | Recommended Analyzer | Description |
+| --- | --- | --- |
+| `English` | `type: english` | Standard English tokenization with stemming and stop-word filtering. |
+| `Mandarin` (via whatlang) or `Chinese` (via lingua) | `tokenizer: jieba` | Chinese word segmentation for non-space-delimited text. |
+| `Japanese` | `tokenizer: icu` | A robust tokenizer for complex scripts, including Japanese. |
+| `French` | `type: standard`, `filter: ["lowercase", "asciifolding"]` | A custom configuration that handles French accents and characters. |
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<ul>
-<li><p><strong>Matching is Key:</strong> The name of your analyzer <strong>must exactly match</strong> the language output of the detection engine. For instance, if you're using <code>whatlang</code>, the key for Chinese text must be <code>Mandarin</code>.</p></li>
-<li><p><strong>Best practices:</strong> The table above provides recommended configurations for a few common languages, but it is not an exhaustive list. For a more comprehensive guide on choosing analyzers, refer to <a href="./choose-the-right-analyzer-for-your-use-case">Choose the Right Analyzer for Your Use Case</a>.</p></li>
-<li><p><strong>Detector output</strong>: For a complete list of language names returned by the detection engines, refer to <a href="https://github.com/greyblake/whatlang-rs">Whatlang supported languages table</a> and the <a href="https://github.com/pemistahl/lingua-rs">Lingua supported languages list</a>.</p></li>
-</ul>
+- **Matching is Key:** The name of your analyzer **must exactly match** the language output of the detection engine. For instance, if you're using `whatlang`, the key for Chinese text must be `Mandarin`.
+
+- **Best practices:** The table above provides recommended configurations for a few common languages, but it is not an exhaustive list. For a more comprehensive guide on choosing analyzers, refer to [Choose the Right Analyzer for Your Use Case](./choose-the-right-analyzer-for-your-use-case).
+
+- **Detector output**: For a complete list of language names returned by the detection engines, refer to [Whatlang supported languages table](https://github.com/greyblake/whatlang-rs) and the [Lingua supported languages list](https://github.com/pemistahl/lingua-rs).
 
 </Admonition>
 

@@ -371,7 +371,7 @@ The following example demonstrates how to drop the user `user_1`.
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>The <code>root</code> user cannot be dropped.</p>
+The `root` user cannot be dropped.
 
 </Admonition>
 

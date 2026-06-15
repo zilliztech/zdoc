@@ -32,45 +32,19 @@ Before starting your Milvus to Zilliz Cloud migration, ensure you meet these req
 
 ### Milvus requirements\{#milvus-requirements}
 
-<table>
-   <tr>
-     <th><p>Requirement</p></th>
-     <th><p>Details</p></th>
-   </tr>
-   <tr>
-     <td><p>Version compatibility</p></td>
-     <td><p>Milvus 2.3.6 or later</p></td>
-   </tr>
-   <tr>
-     <td><p>Network access</p></td>
-     <td><p>Source Milvus instance must be accessible from the public internet</p></td>
-   </tr>
-   <tr>
-     <td><p>Authentication credentials</p></td>
-     <td><p>Username and password if authentication is enabled (refer to <a href="https://milvus.io/docs/authenticate.md?tab=docker#Authenticate-User-Access">Authenticate User Access</a>)</p></td>
-   </tr>
-</table>
+| Requirement | Details |
+| --- | --- |
+| Version compatibility | Milvus 2.3.6 or later |
+| Network access | Source Milvus instance must be accessible from the public internet |
+| Authentication credentials | Username and password if authentication is enabled (refer to [Authenticate User Access](https://milvus.io/docs/authenticate.md?tab=docker#Authenticate-User-Access)) |
 
 ### Zilliz Cloud requirements\{#zilliz-cloud-requirements}
 
-<table>
-   <tr>
-     <th><p>Requirement</p></th>
-     <th><p>Details</p></th>
-   </tr>
-   <tr>
-     <td><p>User role</p></td>
-     <td><p>Organization Owner or Project Admin</p></td>
-   </tr>
-   <tr>
-     <td><p>Cluster capacity</p></td>
-     <td><p>Sufficient storage and compute resources (use the <a href="https://zilliz.com/pricing#calculator">CU calculator</a> to estimate CU size)</p></td>
-   </tr>
-   <tr>
-     <td><p>Network access</p></td>
-     <td><p>Add <a href="./zilliz-cloud-ips">Zilliz Cloud IPs</a> to allowlists if using network restrictions</p></td>
-   </tr>
-</table>
+| Requirement | Details |
+| --- | --- |
+| User role | Organization Owner or Project Admin |
+| Cluster capacity | Sufficient storage and compute resources (use the [CU calculator](https://zilliz.com/pricing#calculator) to estimate CU size) |
+| Network access | Add [Zilliz Cloud IPs](./zilliz-cloud-ips) to allowlists if using network restrictions |
 
 ## Getting started\{#getting-started}
 
@@ -80,10 +54,9 @@ The following demo walks you through how to start migrating from Milvus via endp
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<ul>
-<li><p>If full text search is already enabled for the source collection, Zilliz Cloud will preserve its Function settings in the target collection after migration. These inherited settings cannot be modified.</p></li>
-<li><p>You can also enable full text search for other VARCHAR fields during migration. For details, refer to <a href="./full-text-search">Full Text Search</a>.</p></li>
-</ul>
+- If full text search is already enabled for the source collection, Zilliz Cloud will preserve its Function settings in the target collection after migration. These inherited settings cannot be modified.
+
+- You can also enable full text search for other VARCHAR fields during migration. For details, refer to [Full Text Search](./full-text-search).
 
 </Admonition>
 
@@ -103,7 +76,7 @@ After the migration job is completed, note the following:
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Once your collection is loaded, verify that the number of collections and entities in the target cluster matches the data source. If discrepancies are found, delete the collections with missing entities and re-migrate them.</p>
+Once your collection is loaded, verify that the number of collections and entities in the target cluster matches the data source. If discrepancies are found, delete the collections with missing entities and re-migrate them.
 
 </Admonition>
 

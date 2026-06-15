@@ -25,17 +25,15 @@ import Supademo from '@site/src/components/Supademo';
 
 This guide describes the lifecycle of a cluster so that you can make full use of your Zilliz Cloud console to achieve your goals.
 
-## Manage serving cluster\{#manage-serving-cluster}
+You can perform the following operations on a Dedicated cluster.
 
-You can perform the following operations on a serving cluster.
-
-### Rename\{#rename}
+## Rename\{#rename}
 
 Navigate to the **Cluster Details** page of your target cluster and then follow the instructions below to rename your cluster.
 
 <Supademo id="cm9tp57ye0ri911m7ljrn1yg6" title=""  />
 
-### Suspend\{#suspend}
+## Suspend\{#suspend}
 
 For a running Dedicated cluster, you are billed for both CU and storage. To reduce costs, consider suspending the cluster. Only storage charges apply when a Dedicated cluster is suspended.
 
@@ -89,13 +87,9 @@ For details, refer to [Suspend Cluster](/reference/restful/suspend-cluster-v2).
 
 Once the suspend operation is successful, a job record will be generated. You can check the progress on the [Jobs](./job-center) page.
 
-### Resume\{#resume}
+## Resume\{#resume}
 
-**Free clusters** are automatically suspended after **7 consecutive days of inactivity**, but can be resumed at any time. Inactivity means there are no web console actions or API operations on the cluster, including searches, queries, inserts, deletes, or SDK, RESTful API, or gRPC requests. Any interaction with the cluster resets the 7-day timer and keeps it active.
-
-**Serverless clusters** do not support suspend and resume operations.
-
-**Suspended Dedicated clusters** can also be resumed manually when needed.
+**Suspended Dedicated clusters** can be resumed manually when needed.
 
 Please note that during resuming, you cannot perform other actions on the cluster.
 
@@ -147,46 +141,19 @@ For details, refer to [Resume Cluster](/reference/restful/resume-cluster-v2).
 
 Once the resume operation is successful, a job record will be generated. You can check the progress on the [Jobs](./job-center) page.
 
-### Upgrade deployment option\{#upgrade-deployment-option}
-
-Some of the features are only limited to Dedicated clusters, to use these features, it is recommended to upgrade your cluster deployment option. 
-
-<table>
-   <tr>
-     <th><p><strong>Deployment Option Upgrade</strong></p></th>
-     <th><p><strong>Notes</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>Free to Serverless</p></td>
-     <td><p>Your Free cluster will be upgraded to the Serverless deployment option. Once the cluster is upgraded, you cannot downgrade it.</p></td>
-   </tr>
-   <tr>
-     <td><p>Free to Dedicated</p></td>
-     <td><p>A new Dedicated cluster will be created, and data from your existing Free cluster will be automatically migrated. The Free cluster will remain intact.</p><p>Remember to update the cluster endpoint in your application code.</p></td>
-   </tr>
-   <tr>
-     <td><p>Serverless to Dedicated</p></td>
-     <td><p>A new Dedicated cluster will be created, and data from your existing Serverless cluster will be automatically migrated. The Serverless cluster will remain intact.</p><p>Remember to update the cluster endpoint in your application code.</p></td>
-   </tr>
-</table>
-
-The following demo illustrates how to upgrade the deployment option of a cluster, using the Free to Dedicated upgrade as an example.
-
-<Supademo id="cmfnfgviq0il71d3n2up3lci1?utm_source=link" title=""  />
-
-### Upgrade cluster for preview features\{#upgrade-cluster-for-preview-features}
+## Upgrade cluster for preview features\{#upgrade-cluster-for-preview-features}
 
 To try the latest preview features, you need to upgrade the compatible Milvus version of your dedicated cluster.
 
 ![upgrade-to-preview-version](https://zdoc-images.s3.us-west-2.amazonaws.com/upgrade-to-preview-version.png "upgrade-to-preview-version")
 
-### Convert to a global cluster\{#convert-to-a-global-cluster}
+## Convert to a global cluster\{#convert-to-a-global-cluster}
 
 If you need to convert an existing Dedicated cluster to a [global cluster](./global-cluster-explained), follow the steps below.
 
 <Supademo id="cmm5p53sh3hogdtfhemesjhv0" title=""  />
 
-### Drop\{#drop}
+## Drop\{#drop}
 
 When a cluster is no longer needed, you can drop it. You can drop a cluster via the web console or programatically.
 
@@ -217,7 +184,7 @@ curl --request POST \
 #     "code": 0,
 #     "data": {
 #         "clusterId": "inxx-xxxxxxxxxxxxxxx",
-#         "prompt": "The cluster has been deleted. If you consider this action to be an error, you have the option to restore the deleted cluster from the recycle bin within a 30-day period. Kindly note, this recovery feature does not apply to free clusters."
+#         "prompt": "The cluster has been deleted. If you consider this action to be an error, you have the option to restore the deleted cluster from the recycle bin within a 30-day period."
 #     }
 # }     
 ```
@@ -233,21 +200,4 @@ For details, refer to [Drop Cluster](/reference/restful/drop-cluster-v2).
 </TabItem>
 
 </Tabs>
-
-## Manage on-demand cluster ｜PUBLIC\{#manage-on-demand-cluster-public}
-
-You can perform the following operations on an on-demand cluster.
-
-### Drop\{#drop}
-
-- **Via RESTful API**
-
-    ```bash
-    curl --request DELETE \
-         --url "https://${BASE_URL}/v2/clusters/onDemandClusters/inxx-xxxxxxxxxxxxxxx" \
-         --header "Authorization: Bearer ${API_KEY}" \
-         --header "Accept: application/json"
-    ```
-
-- **Via web console**
 

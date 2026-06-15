@@ -24,42 +24,20 @@ This page lists the Google Cloud Platform (GCP) API services required to create 
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Zilliz BYOC is currently available in <strong>General Availability</strong>. For access and implementation details, please contact <a href="https://zilliz.com/contact-sales">Zilliz Cloud sales</a>.</p>
+Zilliz BYOC is currently available in **General Availability**. For access and implementation details, please contact [Zilliz Cloud sales](https://zilliz.com/contact-sales).
 
 </Admonition>
 
 ## Required API services\{#required-api-services}
 
-<table>
-   <tr>
-     <th><p>API Services</p></th>
-     <th><p>Purpose</p></th>
-   </tr>
-   <tr>
-     <td><p><a href="http://compute.googleapis.com">compute.googleapis.com</a></p></td>
-     <td><p>VPC, subnets, and networking resources</p></td>
-   </tr>
-   <tr>
-     <td><p><a href="http://container.googleapis.com">container.googleapis.com</a></p></td>
-     <td><p>GKE cluster management</p></td>
-   </tr>
-   <tr>
-     <td><p><a href="http://storage.googleapis.com">storage.googleapis.com</a></p></td>
-     <td><p>GCS bucket operations</p></td>
-   </tr>
-   <tr>
-     <td><p><a href="http://iam.googleapis.com">iam.googleapis.com</a></p></td>
-     <td><p>Service accounts and IAM roles</p></td>
-   </tr>
-   <tr>
-     <td><p><a href="http://servicenetworking.googleapis.com">servicenetworking.googleapis.com</a></p></td>
-     <td><p>Private Service Connect and VPC peering</p></td>
-   </tr>
-   <tr>
-     <td><p><a href="http://cloudresourcemanager.googleapis.com">cloudresourcemanager.googleapis.com</a></p></td>
-     <td><p>Project-level permissions and IAM</p></td>
-   </tr>
-</table>
+| API Services | Purpose |
+| --- | --- |
+| [compute.googleapis.com](http://compute.googleapis.com) | VPC, subnets, and networking resources |
+| [container.googleapis.com](http://container.googleapis.com) | GKE cluster management |
+| [storage.googleapis.com](http://storage.googleapis.com) | GCS bucket operations |
+| [iam.googleapis.com](http://iam.googleapis.com) | Service accounts and IAM roles |
+| [servicenetworking.googleapis.com](http://servicenetworking.googleapis.com) | Private Service Connect and VPC peering |
+| [cloudresourcemanager.googleapis.com](http://cloudresourcemanager.googleapis.com) | Project-level permissions and IAM |
 
 ## Enable required API services\{#enable-required-api-services}
 
@@ -78,10 +56,9 @@ gcloud services enable \
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<ul>
-<li><p>Before running the above command, ensure you have sufficient permissions to enable these services. Otherwise, ask a security admin in your GCP project first.</p></li>
-<li><p>You must replace <code>PROJECT_ID</code> in the above command with your GCP project ID.</p></li>
-</ul>
+- Before running the above command, ensure you have sufficient permissions to enable these services. Otherwise, ask a security admin in your GCP project first.
+
+- You must replace `PROJECT_ID` in the above command with your GCP project ID.
 
 </Admonition>
 
@@ -105,7 +82,7 @@ gcloud services list --enabled --project=PROJECT_ID
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>You must replace <code>PROJECT_ID</code> in the above command with your GCP project ID.</p>
+You must replace `PROJECT_ID` in the above command with your GCP project ID.
 
 </Admonition>
 

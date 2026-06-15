@@ -112,24 +112,11 @@ You can identify the problem by following these steps:
 
 1. Check if the port in your cluster endpoint URI is correct. Make sure you copy the endpoint URI from the Zilliz Cloud web console. The following table lists the port of clusters deployed on different cloud providers.
 
-    <table>
-       <tr>
-         <th><p><strong>Cloud Provider</strong></p></th>
-         <th><p><strong>Port</strong></p></th>
-       </tr>
-       <tr>
-         <td><p>AWS</p></td>
-         <td><p>19530 - 19550</p></td>
-       </tr>
-       <tr>
-         <td><p>Google Cloud</p></td>
-         <td><p>443</p></td>
-       </tr>
-       <tr>
-         <td><p>Azure</p></td>
-         <td><p>19530</p></td>
-       </tr>
-    </table>
+    | **Cloud Provider** | **Port** |
+    | --- | --- |
+    | AWS | 19530 - 19550 |
+    | Google Cloud | 443 |
+    | Azure | 19530 |
 
 1. Test the connectivity of the port by running `telnet in01-(uuid).(region).vectordb.zillizcloud.com port-number`.
 
@@ -151,24 +138,11 @@ If you fail to connect to Zilliz Cloud with the Node.js SDK, please try the foll
 
 1. Check if the port in your cluster endpoint URI is correct. Make sure you copy the endpoint URI from the Zilliz Cloud web console. The following table lists the port of clusters deployed on different cloud providers.
 
-    <table>
-       <tr>
-         <th><p><strong>Cloud Provider</strong></p></th>
-         <th><p><strong>Port</strong></p></th>
-       </tr>
-       <tr>
-         <td><p>AWS</p></td>
-         <td><p>19530 - 19550</p></td>
-       </tr>
-       <tr>
-         <td><p>Google Cloud</p></td>
-         <td><p>443</p></td>
-       </tr>
-       <tr>
-         <td><p>Azure</p></td>
-         <td><p>19530</p></td>
-       </tr>
-    </table>
+    | **Cloud Provider** | **Port** |
+    | --- | --- |
+    | AWS | 19530 - 19550 |
+    | Google Cloud | 443 |
+    | Azure | 19530 |
 
 1. Your IP address must be whitelisted in your cluster settings.
 

@@ -10,7 +10,7 @@ notebook: FALSE
 description: "The ANN Search has a maximum limit on the number of entities that can be recalled in a single query, and simply using basic ANN Search may not meet the demands of large-scale retrieval. For ANN Search requests where topK exceeds 16,384, it is advisable to consider using the SearchIterator. This section will introduce how to use the SearchIterator and related considerations. | Cloud"
 type: origin
 token: QVTnwVz2aifvSAkgomAc9KWRnHb
-sidebar_position: 19
+sidebar_position: 18
 displayed_sidebar: default
 
 ---
@@ -39,7 +39,7 @@ Specifically, you can use the SearchIterators as follows:
 
 The following code snippet demonstrates how to create a SearchIterator.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -131,7 +131,6 @@ iter, err := c.SearchIterator(ctx, milvusclient.NewSearchIteratorOption("iterato
 if err != nil {
     // handle error
 }
-
 ```
 
 </TabItem>
@@ -171,6 +170,39 @@ const iterator = milvusClient.searchIterator({
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+milvus::SearchIteratorRequest request;
+request.SetCollectionName("iterator_collection");
+request.SetBatchSize(50);
+request.SetLimit(20000);
+request.SetAnnsField("vector");
+request.AddOutputField("color");
+request.SetMetricType(milvus::MetricType::L2);
+
+std::vector<float> vector = {0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592};
+request.AddFloatVector(vector);
+
+milvus::SearchIteratorPtr iterator;
+auto status = client->SearchIterator(request, iterator);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
 </Tabs>
 
 In the above examples, you have set the number of entities to return per search (**batch_size**/**batchSize**) to 50, and the total number of entities to return (**topK**) to 20,000.
@@ -179,7 +211,7 @@ In the above examples, you have set the number of entities to return per search 
 
 Once the SearchIterator is ready, you can call its next() method to get the search results in a paginated manner.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -249,6 +281,32 @@ for await (const result of iterator) {
 
 ```bash
 # restful
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+while (true) {
+    milvus::SingleResult batch_results;
+    auto status = iterator->Next(batch_results);
+    if (!status.IsOk()) {
+        std::cout << status.Message() << std::endl;
+        break;
+    }
+
+    if (batch_results.GetRowCount() == 0) {
+        std::cout << "search iteration finished" << std::endl;
+        break;
+    }
+
+    milvus::EntityRows rows;
+    status = batch_results.OutputRows(rows);
+    for (const auto& row : rows) {
+        std::cout << row.dump() << std::endl;
+    }
+}
 ```
 
 </TabItem>

@@ -94,11 +94,11 @@ In this step, you configure Microsoft Entra (the IdP) with the SP details obtain
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    <p>Alternatively, get the following details:</p>
-    <ul>
-    <li><p>In the <strong>SAML Certificates</strong> section, click <strong>Download</strong> to save <strong>Certificate (Base64)</strong>. It will be required in Zilliz Cloud console if the <strong>Manual</strong> mode is selected in <a href="./single-sign-on-with-microsoft-entra#step-3-configure-idp-settings-in-zilliz-cloud-console">Step 3</a>.</p></li>
-    <li><p>In the <strong>Set up zilliz</strong> section, copy the <strong>Login URL</strong>. It will be required in Zilliz Cloud console if the <strong>Manual</strong> mode is selected in <a href="./single-sign-on-with-microsoft-entra#step-3-configure-idp-settings-in-zilliz-cloud-console">Step 3</a>.</p></li>
-    </ul>
+    Alternatively, get the following details:
+    
+    - In the **SAML Certificates** section, click **Download** to save **Certificate (Base64)**. It will be required in Zilliz Cloud console if the **Manual** mode is selected in [Step 3](./single-sign-on-with-microsoft-entra#step-3-configure-idp-settings-in-zilliz-cloud-console).
+    
+    - In the **Set up zilliz** section, copy the **Login URL**. It will be required in Zilliz Cloud console if the **Manual** mode is selected in [Step 3](./single-sign-on-with-microsoft-entra#step-3-configure-idp-settings-in-zilliz-cloud-console).
 
     </Admonition>
 
@@ -118,11 +118,11 @@ In this step, you provide Microsoft Entra’s IdP details back to Zilliz Cloud t
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    <p>Alternatively, if you select the <strong>Manual</strong> mode for IdP detail configuration, configure:</p>
-    <ul>
-    <li><p><strong>Login URL</strong>: Paste the Login URL you copied from Microsoft Entra admin center in <a href="./single-sign-on-with-microsoft-entra#step-2-set-up-an-application-in-microsoft-entra-admin-center">Step 2</a> here.</p></li>
-    <li><p><strong>Certificate (Base64)</strong>: Upload the certificate you downloaded from Microsoft Entra admin center in <a href="./single-sign-on-with-microsoft-entra#step-2-set-up-an-application-in-microsoft-entra-admin-center">Step 2</a> here. Make sure the entire certificate content, including the lines beginning with <code>-----BEGIN CERTIFICATE-----</code> and ending with <code>-----END CERTIFICATE-----</code>, is provided.</p></li>
-    </ul>
+    Alternatively, if you select the **Manual** mode for IdP detail configuration, configure:
+    
+    - **Login URL**: Paste the Login URL you copied from Microsoft Entra admin center in [Step 2](./single-sign-on-with-microsoft-entra#step-2-set-up-an-application-in-microsoft-entra-admin-center) here.
+    
+    - **Certificate (Base64)**: Upload the certificate you downloaded from Microsoft Entra admin center in [Step 2](./single-sign-on-with-microsoft-entra#step-2-set-up-an-application-in-microsoft-entra-admin-center) here. Make sure the entire certificate content, including the lines beginning with `-----BEGIN CERTIFICATE-----` and ending with `-----END CERTIFICATE-----`, is provided.
 
     </Admonition>
 
@@ -166,7 +166,7 @@ After your SSO connection is fully configured and tested, you can optionally ena
 
 <Admonition type="danger" icon="🚧" title="Warning">
 
-<p>Enabling this feature will immediately log out all members who are currently signed in with a password and block non-SSO login methods.</p>
+Enabling this feature will immediately log out all members who are currently signed in with a password and block non-SSO login methods.
 
 </Admonition>
 

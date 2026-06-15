@@ -104,44 +104,13 @@ Output: ['the', 'milvus', 'vector', 'database', 'is', 'built', 'for', 'scale']
 
 Use this table to quickly determine if the default [`standard`](./standard-analyzer)[ analyzer](./standard-analyzer) meets your needs. If it doesn't, you'll need to [choose a different path](./choose-the-right-analyzer-for-your-use-case#step-3-choose-your-path).
 
-<table>
-   <tr>
-     <th><p>Your Content</p></th>
-     <th><p>Standard Analyzer OK?</p></th>
-     <th><p>Why</p></th>
-     <th><p>What You Need</p></th>
-   </tr>
-   <tr>
-     <td><p>English blog posts</p></td>
-     <td><p>✅ Yes</p></td>
-     <td><p>Default behavior is sufficient.</p></td>
-     <td><p>Use the default (no configuration needed).</p></td>
-   </tr>
-   <tr>
-     <td><p>Chinese documents</p></td>
-     <td><p>❌ No</p></td>
-     <td><p>Chinese words have no spaces and will be treated as one token.</p></td>
-     <td><p>Use a built-in <a href="./chinese-analyzer"><code>chinese</code></a> analyzer.</p></td>
-   </tr>
-   <tr>
-     <td><p>Technical documentation</p></td>
-     <td><p>❌ No</p></td>
-     <td><p>Punctuation is stripped from terms like <code>C++</code>.</p></td>
-     <td><p>Create a custom analyzer with a <a href="./whitespace-tokenizer"><code>whitespace</code></a> tokenizer and an <a href="./alphanumonly-filter"><code>alphanumonly</code></a> filter.</p></td>
-   </tr>
-   <tr>
-     <td><p>Space-separated languages such as French/Spanish text</p></td>
-     <td><p>⚠️ Maybe</p></td>
-     <td><p>Accented characters (<code>café</code> vs. <code>cafe</code>) may not match.</p></td>
-     <td><p>A custom analyzer with the <a href="./ascii-folding-filter"><code>asciifolding</code></a> is recommended for better results.</p></td>
-   </tr>
-   <tr>
-     <td><p>Multilingual or unknown languages</p></td>
-     <td><p>❌ No</p></td>
-     <td><p>The <code>standard</code> analyzer lacks the language-specific logic needed to handle different character sets and tokenization rules.</p></td>
-     <td><p>Use a custom analyzer with the <a href="./icu-tokenizer"><code>icu</code></a> tokenizer for unicode-aware tokenization. </p><p>Alternatively, consider configuring <a href="./multi-language-analyzers">multi-language analyzers</a> or a <a href="./language-identifier-tokenizer">language identifier</a> for more precise handling of multilingual content.</p></td>
-   </tr>
-</table>
+| Your Content | Standard Analyzer OK? | Why | What You Need |
+| --- | --- | --- | --- |
+| English blog posts | ✅ Yes | Default behavior is sufficient. | Use the default (no configuration needed). |
+| Chinese documents | ❌ No | Chinese words have no spaces and will be treated as one token. | Use a built-in [`chinese`](./chinese-analyzer) analyzer. |
+| Technical documentation | ❌ No | Punctuation is stripped from terms like `C++`. | Create a custom analyzer with a [`whitespace`](./whitespace-tokenizer) tokenizer and an [`alphanumonly`](./alphanumonly-filter) filter. |
+| Space-separated languages such as French/Spanish text | ⚠️ Maybe | Accented characters (`café` vs. `cafe`) may not match. | A custom analyzer with the [`asciifolding`](./ascii-folding-filter) is recommended for better results. |
+| Multilingual or unknown languages | ❌ No | The `standard` analyzer lacks the language-specific logic needed to handle different character sets and tokenization rules. | Use a custom analyzer with the [`icu`](./icu-tokenizer) tokenizer for unicode-aware tokenization.<br/>Alternatively, consider configuring [multi-language analyzers](./multi-language-analyzers) or a [language identifier](./language-identifier-tokenizer) for more precise handling of multilingual content. |
 
 ## Step 3: Choose your path\{#step-3-choose-your-path}
 
@@ -207,7 +176,7 @@ schema.add_field(
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>For detailed usage, refer to <a href="./full-text-search">Full Text Search</a>, <a href="./text-match">Text Match</a>, or <a href="./phrase-match">Phrase Match</a>.</p>
+For detailed usage, refer to [Full Text Search](./full-text-search), [Text Match](./text-match), or [Phrase Match](./phrase-match).
 
 </Admonition>
 
@@ -363,7 +332,7 @@ These filters are essential for most space-separated language configurations (En
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>For East Asian languages (Chinese, Japanese, Korean, etc.), focus on <a href="./choose-the-right-analyzer-for-your-use-case#language-specific-filters">language-specific filters</a> instead. These languages typically use different approaches for text processing and may not benefit significantly from stemming.</p>
+For East Asian languages (Chinese, Japanese, Korean, etc.), focus on [language-specific filters](./choose-the-right-analyzer-for-your-use-case#language-specific-filters) instead. These languages typically use different approaches for text processing and may not benefit significantly from stemming.
 
 </Admonition>
 
@@ -505,7 +474,7 @@ This section provides recommended tokenizer and filter configurations for common
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Before applying an analyzer to your collection, we recommend you use <a href="https://milvus.io/api-reference/pymilvus/v2.6.x/MilvusClient/CollectionSchema/run_analyzer.md"><code>run_analyzer</code></a> to test and validate text analysis performance.</p>
+Before applying an analyzer to your collection, we recommend you use [`run_analyzer`](https://milvus.io/api-reference/pymilvus/v2.6.x/MilvusClient/CollectionSchema/run_analyzer.md) to test and validate text analysis performance.
 
 </Admonition>
 

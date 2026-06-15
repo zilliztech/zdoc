@@ -24,7 +24,7 @@ A Zilliz Cloud collection allows you to retrieve up to 16,384 entities in a sear
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This feature is available for Zilliz Cloud clusters that are compatible with Milvus v2.6.x. If you would like to try this feature, please <a href="https://support.zilliz.com/hc/en-us">get in touch with us</a>.</p>
+This feature is available for Zilliz Cloud clusters that are compatible with Milvus v2.6.x. If you would like to try this feature, please [get in touch with us](https://support.zilliz.com/hc/en-us).
 
 </Admonition>
 
@@ -77,7 +77,6 @@ client.create_collection(
     index_params=index_params,
     properties={"query_mode": "large_topk"}
 )
-
 ```
 
 ### On an existing collection\{#on-an-existing-collection}
@@ -89,7 +88,6 @@ client.alter_collection_properties(
     collection_name="scenarios_corpus",
     properties={"query_mode": "large_topk"}
 )
-
 ```
 
 For an existing collection **with** a vector index, you must first drop the index, then enable the mode, and finally recreate the index:
@@ -111,7 +109,6 @@ client.create_index(
     index_params=index_params
 )
 client.load_collection(collection_name="scenarios_corpus")
-
 ```
 
 ### Check current query mode\{#check-current-query-mode}
@@ -119,7 +116,6 @@ client.load_collection(collection_name="scenarios_corpus")
 ```python
 info = client.describe_collection(collection_name="scenarios_corpus")
 query_mode = info["properties"].get("query_mode")  # None means default mode
-
 ```
 
 ### Disable Large TopK\{#disable-large-topk}
@@ -131,7 +127,6 @@ client.drop_collection_properties(
     collection_name="scenarios_corpus",
     property_keys=["query_mode"]
 )
-
 ```
 
 ## Perform a Large TopK search\{#perform-a-large-topk-search}
@@ -146,7 +141,6 @@ results = client.search(
     data=[query_vector],
     limit=500000
 )
-
 ```
 
 ### Offline search (On-demand Compute)\{#offline-search-on-demand-compute}
@@ -157,7 +151,6 @@ results = client.search(
     data=[query_vector],
     limit=500000
 )
-
 ```
 
 ## Export search results\{#export-search-results}
@@ -194,50 +187,20 @@ volume_file_manager.upload_file_to_volume(
     source_file_path="/tmp/results.parquet",
     target_volume_path="results/batch.parquet"
 )
-
 ```
 
 ## Performance expectations\{#performance-expectations}
 
 The following table summarizes the performance characteristics of Large TopK queries:
 
-<table>
-   <tr>
-     <th><p>Metric</p></th>
-     <th><p>Default mode</p></th>
-     <th><p>Large TopK mode</p></th>
-   </tr>
-   <tr>
-     <td><p>TopK limit</p></td>
-     <td><p>16,384</p></td>
-     <td><p>1,000,000</p></td>
-   </tr>
-   <tr>
-     <td><p>Small-K latency</p></td>
-     <td><p>Milliseconds</p></td>
-     <td><p>Higher (degraded)</p></td>
-   </tr>
-   <tr>
-     <td><p>Large-K latency</p></td>
-     <td><p>Not supported</p></td>
-     <td><p>Seconds to minutes</p></td>
-   </tr>
-   <tr>
-     <td><p>Memory per query</p></td>
-     <td><p>Low</p></td>
-     <td><p>Up to several GB</p></td>
-   </tr>
-   <tr>
-     <td><p>Concurrency</p></td>
-     <td><p>High</p></td>
-     <td><p>Limited (queued)</p></td>
-   </tr>
-   <tr>
-     <td><p>Best for</p></td>
-     <td><p>Online interaction</p></td>
-     <td><p>Batch, data mining</p></td>
-   </tr>
-</table>
+| Metric | Default mode | Large TopK mode |
+| --- | --- | --- |
+| TopK limit | 16,384 | 1,000,000 |
+| Small-K latency | Milliseconds | Higher (degraded) |
+| Large-K latency | Not supported | Seconds to minutes |
+| Memory per query | Low | Up to several GB |
+| Concurrency | High | Limited (queued) |
+| Best for | Online interaction | Batch, data mining |
 
 Zilliz Cloud applies concurrency control to Large TopK queries to prevent resource exhaustion. Requests that exceed the concurrency limit are queued and processed when resources become available.
 

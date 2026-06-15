@@ -28,10 +28,9 @@ This guide provides comprehensive instructions on how to add a payment credit ca
 
 <Admonition type="info" icon="📘" title="Note">
 
-<ul>
-<li><p><strong>Taxation:</strong> Taxes on the invoices are calculated based on the billing address you provide. For companies that require to enter VAT or GST ID, please <a href="http://support.zilliz.com">contact us</a>.</p></li>
-<li><p><strong>Access Control</strong>: To manage payment method, you must be an <strong>Organization Owner</strong> or <strong>Organization Billing Admin</strong>.</p></li>
-</ul>
+- **Taxation:** Taxes on the invoices are calculated based on the billing address you provide. For companies that require to enter VAT or GST ID, please [contact us](http://support.zilliz.com).
+
+- **Access Control**: To manage payment method, you must be an **Organization Owner** or **Organization Billing Admin**.
 
 </Admonition>
 
@@ -117,7 +116,7 @@ Upon successful subscription, your existing credit card information will be auto
 
 <Admonition type="info" icon="📘" title="Note">
 
-<p>Please allow a few minutes for the billing overview to reflect the chnges.</p>
+Please allow a few minutes for the billing overview to reflect the chnges.
 
 </Admonition>
 

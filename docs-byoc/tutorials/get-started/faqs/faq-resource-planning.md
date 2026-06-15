@@ -1,0 +1,55 @@
+---
+title: "FAQ: Resource Planning | BYOC"
+slug: /faq-resource-planning
+sidebar_label: "FAQ: Resource Planning"
+beta: FALSE
+notebook: FALSE
+description: "This topic lists the possible issues that you may encounter while planning your resources on Zilliz Cloud and the corresponding solution. | BYOC"
+type: origin
+token: EV41wG08BiOWW8kbo9xcTGoPnKd
+sidebar_position: 6
+displayed_sidebar: default
+
+---
+
+# FAQ: Resource Planning
+
+This topic lists the possible issues that you may encounter while planning your resources on Zilliz Cloud and the corresponding solution.
+
+## Contents
+
+- [What is a Compute Unit (CU)?](#what-is-a-compute-unit-cu)
+- [How can I avoid expenses on unused clusters?](#how-can-i-avoid-expenses-on-unused-clusters)
+- [How many query CUs do I need for a given collection?](#how-many-query-cus-do-i-need-for-a-given-collection)
+- [Which type of cluster should I pick?](#which-type-of-cluster-should-i-pick)
+
+## FAQs
+
+
+
+
+### What is a Compute Unit (CU)?{#what-is-a-compute-unit-cu}
+
+A compute unit (CU) is a group of hardware resources for serving your indexes and search requests. You can simply consider a CU as a fully-managed physical node for deploying search service.
+
+For more details, see [Select the Right CU](./cu-types-explained).
+
+### How can I avoid expenses on unused clusters?{#how-can-i-avoid-expenses-on-unused-clusters}
+
+We recommend suspending unused clusters to save computing costs. You can resume them later when necessary.
+
+### How many query CUs do I need for a given collection?{#how-many-query-cus-do-i-need-for-a-given-collection}
+
+- Performance-optimized: Supports up to 2 million 768-dimensional vectors.
+
+- Capacity-optimized: Supports up to 8 million 768-dimensional vectors.
+
+- Tiered-storage: Supports up to 40 million 768-dimensional vectors.
+
+These estimates are based on vectors with primary keys only. Additional scalar fields like IDs or labels may reduce capacity. We recommend conducting your own tests for accurate assessment.
+
+### Which type of cluster should I pick?{#which-type-of-cluster-should-i-pick}
+
+Select the Performance-optimized if you instant search results and high concurrent traffic for real-time applications.
+Choose the Capacity-optimized if you need to handle large vector datasets while maintaining reliable search speeds.
+Opt for the Tiered-storage cluster if you need to handle ultra-large-scale, cost-sensitive workloads. To select a Tiered-storage cluster, your cluster must have at least 8 query CUs.

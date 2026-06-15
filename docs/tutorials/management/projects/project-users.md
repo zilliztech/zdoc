@@ -42,7 +42,7 @@ Once the user joins the project, they automatically become an Organization Membe
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Each time, you can invite one or more users with the same role to join the project.</p>
+Each time, you can invite one or more users with the same role to join the project.
 
 </Admonition>
 
@@ -94,646 +94,146 @@ The following tables provide a quick comparison of the privileges of different p
 
 **Cluster operations**
 
-<table>
-   <tr>
-     <th><p><strong>Operation</strong></p></th>
-     <th><p><strong>Project Admin</strong></p></th>
-     <th><p><strong>Cluster Admin</strong></p></th>
-     <th><p><strong>Project Read-Write</strong></p></th>
-     <th><p><strong>Project Read-Only</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>Create Cluster</p></td>
-     <td><p>✅</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-   <tr>
-     <td><p>Drop Cluster</p></td>
-     <td><p>✅</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-   <tr>
-     <td><p>Scale Cluster Query CU</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-   <tr>
-     <td><p>Scale Cluster Replica</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-   <tr>
-     <td><p>Suspend Cluster</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-   <tr>
-     <td><p>Resume Cluster</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-   <tr>
-     <td><p>View Cluster List</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-   </tr>
-   <tr>
-     <td><p>View Cluster Details</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-   </tr>
-   <tr>
-     <td><p>View Cluster Metrics</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-   </tr>
-</table>
+| **Operation** | **Project Admin** | **Cluster Admin** | **Project Read-Write** | **Project Read-Only** |
+| --- | --- | --- | --- | --- |
+| Create Cluster | ✅ | ❌ | ❌ | ❌ |
+| Drop Cluster | ✅ | ❌ | ❌ | ❌ |
+| Scale Cluster Query CU | ✅ | ✅ | ❌ | ❌ |
+| Scale Cluster Replica | ✅ | ✅ | ❌ | ❌ |
+| Suspend Cluster | ✅ | ✅ | ❌ | ❌ |
+| Resume Cluster | ✅ | ✅ | ❌ | ❌ |
+| View Cluster List | ✅ | ✅ | ✅ | ✅ |
+| View Cluster Details | ✅ | ✅ | ✅ | ✅ |
+| View Cluster Metrics | ✅ | ✅ | ✅ | ✅ |
 
 **Cluster users**
 
-<table>
-   <tr>
-     <th><p><strong>Operation</strong></p></th>
-     <th><p><strong>Project Admin</strong></p></th>
-     <th><p><strong>Cluster Admin</strong></p></th>
-     <th><p><strong>Project Read-Write</strong></p></th>
-     <th><p><strong>Project Read-Only</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>View Cluster User List</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-   </tr>
-   <tr>
-     <td><p>Create Cluster User</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-   <tr>
-     <td><p>Reset the Password of a Cluster User</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-   <tr>
-     <td><p>Delete Cluster User</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-</table>
+| **Operation** | **Project Admin** | **Cluster Admin** | **Project Read-Write** | **Project Read-Only** |
+| --- | --- | --- | --- | --- |
+| View Cluster User List | ✅ | ✅ | ✅ | ✅ |
+| Create Cluster User | ✅ | ✅ | ❌ | ❌ |
+| Reset the Password of a Cluster User | ✅ | ✅ | ❌ | ❌ |
+| Delete Cluster User | ✅ | ✅ | ❌ | ❌ |
 
 **Audit logs**
 
-<table>
-   <tr>
-     <th><p><strong>Operation</strong></p></th>
-     <th><p><strong>Project Admin</strong></p></th>
-     <th><p><strong>Cluster Admin</strong></p></th>
-     <th><p><strong>Project Read-Write</strong></p></th>
-     <th><p><strong>Project Read-Only</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>Enable Audit Logs</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-   <tr>
-     <td><p>Edit Audit Logs Configuration</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-   <tr>
-     <td><p>Disable Audit Logs</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-   <tr>
-     <td><p>View the Status of Audit Logs</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-   </tr>
-</table>
+| **Operation** | **Project Admin** | **Cluster Admin** | **Project Read-Write** | **Project Read-Only** |
+| --- | --- | --- | --- | --- |
+| Enable Audit Logs | ✅ | ✅ | ❌ | ❌ |
+| Edit Audit Logs Configuration | ✅ | ✅ | ❌ | ❌ |
+| Disable Audit Logs | ✅ | ✅ | ❌ | ❌ |
+| View the Status of Audit Logs | ✅ | ✅ | ✅ | ✅ |
 
 **Data plane operations**
 
-<table>
-   <tr>
-     <th><p><strong>Operation</strong></p></th>
-     <th><p><strong>Project Admin</strong></p></th>
-     <th><p><strong>Cluster Admin</strong></p></th>
-     <th><p><strong>Project Read-Write</strong></p></th>
-     <th><p><strong>Project Read-Only</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>Create Collection</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>❌</p></td>
-   </tr>
-   <tr>
-     <td><p>Drop Collection</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>❌</p></td>
-   </tr>
-   <tr>
-     <td><p>List/Describe Collection</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-   </tr>
-   <tr>
-     <td><p>Insert/Upsert</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>❌</p></td>
-   </tr>
-   <tr>
-     <td><p>Delete</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>❌</p></td>
-   </tr>
-   <tr>
-     <td><p>Query/Search/Get</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-   </tr>
-   <tr>
-     <td><p>Bulk Import</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>❌</p></td>
-   </tr>
-   <tr>
-     <td><p>All other RESTful operations</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>Depends</p></td>
-   </tr>
-</table>
+| **Operation** | **Project Admin** | **Cluster Admin** | **Project Read-Write** | **Project Read-Only** |
+| --- | --- | --- | --- | --- |
+| Create Collection | ✅ | ✅ | ✅ | ❌ |
+| Drop Collection | ✅ | ✅ | ✅ | ❌ |
+| List/Describe Collection | ✅ | ✅ | ✅ | ✅ |
+| Insert/Upsert | ✅ | ✅ | ✅ | ❌ |
+| Delete | ✅ | ✅ | ✅ | ❌ |
+| Query/Search/Get | ✅ | ✅ | ✅ | ✅ |
+| Bulk Import | ✅ | ✅ | ✅ | ❌ |
+| All other RESTful operations | ✅ | ✅ | ✅ | Depends |
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Both the Cluster Admin and the Project Read-Write roles share the same data plane privileges.       </p>
+Both the Cluster Admin and the Project Read-Write roles share the same data plane privileges.       
 
 </Admonition>
 
 **Backup and restore**
 
-<table>
-   <tr>
-     <th><p><strong>Operation</strong></p></th>
-     <th><p><strong>Project Admin</strong></p></th>
-     <th><p><strong>Cluster Admin</strong></p></th>
-     <th><p><strong>Project Read-Write</strong></p></th>
-     <th><p><strong>Project Read-Only</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>View Backup List</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-   </tr>
-   <tr>
-     <td><p>Create Backup</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-   <tr>
-     <td><p>Restore a cluster backup file to a new cluster</p></td>
-     <td><p>✅</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-   <tr>
-     <td><p>Restore a collection backup file to an existing cluster</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-   <tr>
-     <td><p>Delete cluster backup</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-</table>
+| **Operation** | **Project Admin** | **Cluster Admin** | **Project Read-Write** | **Project Read-Only** |
+| --- | --- | --- | --- | --- |
+| View Backup List | ✅ | ✅ | ✅ | ✅ |
+| Create Backup | ✅ | ✅ | ❌ | ❌ |
+| Restore a cluster backup file to a new cluster | ✅ | ❌ | ❌ | ❌ |
+| Restore a collection backup file to an existing cluster | ✅ | ✅ | ❌ | ❌ |
+| Delete cluster backup | ✅ | ✅ | ❌ | ❌ |
 
 **Volume**
 
-<table>
-   <tr>
-     <th><p><strong>Operation</strong></p></th>
-     <th><p><strong>Project Admin</strong></p></th>
-     <th><p><strong>Cluster Admin</strong></p></th>
-     <th><p><strong>Project Read-Write</strong></p></th>
-     <th><p><strong>Project Read-Only</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>View Volume List</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-   </tr>
-   <tr>
-     <td><p>Create Volume</p></td>
-     <td><p>✅</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-   <tr>
-     <td><p>Delete Volume</p></td>
-     <td><p>✅</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-</table>
+| **Operation** | **Project Admin** | **Cluster Admin** | **Project Read-Write** | **Project Read-Only** |
+| --- | --- | --- | --- | --- |
+| View Volume List | ✅ | ✅ | ✅ | ✅ |
+| Create Volume | ✅ | ❌ | ❌ | ❌ |
+| Delete Volume | ✅ | ❌ | ❌ | ❌ |
 
 **Migration**
 
-<table>
-   <tr>
-     <th><p><strong>Operation</strong></p></th>
-     <th><p><strong>Project Admin</strong></p></th>
-     <th><p><strong>Cluster Admin</strong></p></th>
-     <th><p><strong>Project Read-Write</strong></p></th>
-     <th><p><strong>Project Read-Only</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>View Migration Jobs</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-   </tr>
-   <tr>
-     <td><p>Create Migration Job</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-   <tr>
-     <td><p>Cancel a Migration Job</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-   <tr>
-     <td><p>View the Details of a Migration Job (View Migrated Collections/Databases)</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-   </tr>
-</table>
+| **Operation** | **Project Admin** | **Cluster Admin** | **Project Read-Write** | **Project Read-Only** |
+| --- | --- | --- | --- | --- |
+| View Migration Jobs | ✅ | ✅ | ✅ | ✅ |
+| Create Migration Job | ✅ | ✅ | ❌ | ❌ |
+| Cancel a Migration Job | ✅ | ✅ | ❌ | ❌ |
+| View the Details of a Migration Job (View Migrated Collections/Databases) | ✅ | ✅ | ✅ | ✅ |
 
 **Jobs**
 
-<table>
-   <tr>
-     <th><p><strong>Operation</strong></p></th>
-     <th><p><strong>Project Admin</strong></p></th>
-     <th><p><strong>Cluster Admin</strong></p></th>
-     <th><p><strong>Project Read-Write</strong></p></th>
-     <th><p><strong>Project Read-Only</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>View Job List</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-   </tr>
-   <tr>
-     <td><p>View Job Details</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-   </tr>
-   <tr>
-     <td><p>Cancel Job</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-   <tr>
-     <td><p>Retry Job</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-</table>
+| **Operation** | **Project Admin** | **Cluster Admin** | **Project Read-Write** | **Project Read-Only** |
+| --- | --- | --- | --- | --- |
+| View Job List | ✅ | ✅ | ✅ | ✅ |
+| View Job Details | ✅ | ✅ | ✅ | ✅ |
+| Cancel Job | ✅ | ✅ | ❌ | ❌ |
+| Retry Job | ✅ | ✅ | ❌ | ❌ |
 
 **Project alerts**
 
-<table>
-   <tr>
-     <th><p><strong>Operation</strong></p></th>
-     <th><p><strong>Project Admin</strong></p></th>
-     <th><p><strong>Cluster Admin</strong></p></th>
-     <th><p><strong>Project Read-Write</strong></p></th>
-     <th><p><strong>Project Read-Only</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>View Alert List</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-   </tr>
-   <tr>
-     <td><p>Create Alert</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-   </tr>
-   <tr>
-     <td><p>Edit Alert</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-   </tr>
-   <tr>
-     <td><p>Delete Alert</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-   </tr>
-   <tr>
-     <td><p>View Alert History</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-   </tr>
-</table>
+| **Operation** | **Project Admin** | **Cluster Admin** | **Project Read-Write** | **Project Read-Only** |
+| --- | --- | --- | --- | --- |
+| View Alert List | ✅ | ✅ | ✅ | ✅ |
+| Create Alert | ✅ | ✅ | ✅ | ✅ |
+| Edit Alert | ✅ | ✅ | ✅ | ✅ |
+| Delete Alert | ✅ | ✅ | ✅ | ✅ |
+| View Alert History | ✅ | ✅ | ✅ | ✅ |
 
 **Collaborators**
 
-<table>
-   <tr>
-     <th><p><strong>Operation</strong></p></th>
-     <th><p><strong>Project Admin</strong></p></th>
-     <th><p><strong>Cluster Admin</strong></p></th>
-     <th><p><strong>Project Read-Write</strong></p></th>
-     <th><p><strong>Project Read-Only</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>Invite Project Collaborator</p></td>
-     <td><p>✅</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-   <tr>
-     <td><p>Edit the Role of a Project Collaborator</p></td>
-     <td><p>✅</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-   <tr>
-     <td><p>Remove Project Collaborator</p></td>
-     <td><p>✅</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-</table>
+| **Operation** | **Project Admin** | **Cluster Admin** | **Project Read-Write** | **Project Read-Only** |
+| --- | --- | --- | --- | --- |
+| Invite Project Collaborator | ✅ | ❌ | ❌ | ❌ |
+| Edit the Role of a Project Collaborator | ✅ | ❌ | ❌ | ❌ |
+| Remove Project Collaborator | ✅ | ❌ | ❌ | ❌ |
 
 **Cluster IP allowlist**
 
-<table>
-   <tr>
-     <th><p><strong>Operation</strong></p></th>
-     <th><p><strong>Project Admin</strong></p></th>
-     <th><p><strong>Cluster Admin</strong></p></th>
-     <th><p><strong>Project Read-Write</strong></p></th>
-     <th><p><strong>Project Read-Only</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>View Cluster IP Allowlist</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-   </tr>
-   <tr>
-     <td><p>Add IP Address to the Cluster IP Allowlist</p></td>
-     <td><p>✅</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-   <tr>
-     <td><p>Modify IP Address in the Cluster IP Allowlist</p></td>
-     <td><p>✅</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-   <tr>
-     <td><p>Delete IP Address from the Cluster IP Allowlist</p></td>
-     <td><p>✅</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-</table>
+| **Operation** | **Project Admin** | **Cluster Admin** | **Project Read-Write** | **Project Read-Only** |
+| --- | --- | --- | --- | --- |
+| View Cluster IP Allowlist | ✅ | ✅ | ✅ | ✅ |
+| Add IP Address to the Cluster IP Allowlist | ✅ | ❌ | ❌ | ❌ |
+| Modify IP Address in the Cluster IP Allowlist | ✅ | ❌ | ❌ | ❌ |
+| Delete IP Address from the Cluster IP Allowlist | ✅ | ❌ | ❌ | ❌ |
 
 **Private endpoints**
 
-<table>
-   <tr>
-     <th><p><strong>Operation</strong></p></th>
-     <th><p><strong>Project Admin</strong></p></th>
-     <th><p><strong>Cluster Admin</strong></p></th>
-     <th><p><strong>Project Read-Write</strong></p></th>
-     <th><p><strong>Project Read-Only</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>View Private Endpoint List</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-   </tr>
-   <tr>
-     <td><p>Create Private Endpoint</p></td>
-     <td><p>✅</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-   <tr>
-     <td><p>Delete Private Endpoint</p></td>
-     <td><p>✅</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-</table>
+| **Operation** | **Project Admin** | **Cluster Admin** | **Project Read-Write** | **Project Read-Only** |
+| --- | --- | --- | --- | --- |
+| View Private Endpoint List | ✅ | ✅ | ✅ | ✅ |
+| Create Private Endpoint | ✅ | ❌ | ❌ | ❌ |
+| Delete Private Endpoint | ✅ | ❌ | ❌ | ❌ |
 
 **CMEK**
 
-<table>
-   <tr>
-     <th><p><strong>Operation</strong></p></th>
-     <th><p><strong>Project Admin</strong></p></th>
-     <th><p><strong>Cluster Admin</strong></p></th>
-     <th><p><strong>Project Read-Write</strong></p></th>
-     <th><p><strong>Project Read-Only</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>View CMEK List</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-   </tr>
-   <tr>
-     <td><p>Add CMEK</p></td>
-     <td><p>✅</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-   <tr>
-     <td><p>Delete CMEK</p></td>
-     <td><p>✅</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-</table>
+| **Operation** | **Project Admin** | **Cluster Admin** | **Project Read-Write** | **Project Read-Only** |
+| --- | --- | --- | --- | --- |
+| View CMEK List | ✅ | ✅ | ✅ | ✅ |
+| Add CMEK | ✅ | ❌ | ❌ | ❌ |
+| Delete CMEK | ✅ | ❌ | ❌ | ❌ |
 
 **Integrations**
 
-<table>
-   <tr>
-     <th><p><strong>Operation</strong></p></th>
-     <th><p><strong>Project Admin</strong></p></th>
-     <th><p><strong>Cluster Admin</strong></p></th>
-     <th><p><strong>Project Read-Write</strong></p></th>
-     <th><p><strong>Project Read-Only</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>View Integrations List</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-   </tr>
-   <tr>
-     <td><p>View Datadog Integration</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-   </tr>
-   <tr>
-     <td><p>Create Datadog Integration</p></td>
-     <td><p>✅</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-   <tr>
-     <td><p>Edit Datadog Integration Configuration</p></td>
-     <td><p>✅</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-   <tr>
-     <td><p>Delete Datadog Integration</p></td>
-     <td><p>✅</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-   <tr>
-     <td><p>View Storage Integration</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-     <td><p>✅</p></td>
-   </tr>
-   <tr>
-     <td><p>Create Storage Integration</p></td>
-     <td><p>✅</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-   <tr>
-     <td><p>Delete Storage Integration</p></td>
-     <td><p>✅</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-</table>
+| **Operation** | **Project Admin** | **Cluster Admin** | **Project Read-Write** | **Project Read-Only** |
+| --- | --- | --- | --- | --- |
+| View Integrations List | ✅ | ✅ | ✅ | ✅ |
+| View Datadog Integration | ✅ | ✅ | ✅ | ✅ |
+| Create Datadog Integration | ✅ | ❌ | ❌ | ❌ |
+| Edit Datadog Integration Configuration | ✅ | ❌ | ❌ | ❌ |
+| Delete Datadog Integration | ✅ | ❌ | ❌ | ❌ |
+| View Storage Integration | ✅ | ✅ | ✅ | ✅ |
+| Create Storage Integration | ✅ | ❌ | ❌ | ❌ |
+| Delete Storage Integration | ✅ | ❌ | ❌ | ❌ |
 
 ## Revoke or resend an invitation\{#revoke-or-resend-an-invitation}
 
@@ -745,7 +245,7 @@ To revoke or resend the invitation, you must be an **Organization Owner** or a *
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>You can revoke or resend an invitation before the user accepts it.</p>
+You can revoke or resend an invitation before the user accepts it.
 
 </Admonition>
 
@@ -773,7 +273,7 @@ Note that if you are the only admin of a project, you cannot leave it as each pr
 
 <Admonition type="caution" icon="🚧" title="Warning">
 
-<p>Once you leave a project, your access to the project and associated resources will be revoked.</p>
+Once you leave a project, your access to the project and associated resources will be revoked.
 
 </Admonition>
 

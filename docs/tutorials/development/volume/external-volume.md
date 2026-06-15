@@ -149,36 +149,14 @@ Before creating an external volume, you need to integrate your [AWS S3 bucket](.
 
     The following table describes the parameters.
 
-    <table>
-       <tr>
-         <th><p><strong>Parameter</strong></p></th>
-         <th><p><strong>Description</strong></p></th>
-       </tr>
-       <tr>
-         <td><p><code>projectId</code></p></td>
-         <td><p>The ID of the project in which you want to create the volume.</p></td>
-       </tr>
-       <tr>
-         <td><p><code>regionId</code></p></td>
-         <td><p>The region of the volume to create must match the cloud provider and region of the target cluster you plan to import or migrate data into.</p></td>
-       </tr>
-       <tr>
-         <td><p><code>volumeName</code></p></td>
-         <td><p>The name of the volume to create must be unique across the organization, no longer than 64 characters, start with a letter or underscore, and contain only letters, digits, hyphens, and underscores.</p></td>
-       </tr>
-       <tr>
-         <td><p><code>type</code></p></td>
-         <td><p>Set the parameter to <code>EXTERNAL</code> to create an external volume. Defaults to <code>MANAGED</code>.</p></td>
-       </tr>
-       <tr>
-         <td><p><code>storageIntegrationId</code></p></td>
-         <td><p>The ID of the storage integration to reference. Required when <code>type=EXTERNAL</code>. The storage integration you select must belong to the same org and region as the external volume you want to create.</p></td>
-       </tr>
-       <tr>
-         <td><p><code>path</code></p></td>
-         <td><p>The storage path. Required when <code>type=EXTERNAL</code>.</p></td>
-       </tr>
-    </table>
+    | **Parameter** | **Description** |
+    | --- | --- |
+    | `projectId` | The ID of the project in which you want to create the volume. |
+    | `regionId` | The region of the volume to create must match the cloud provider and region of the target cluster you plan to import or migrate data into. |
+    | `volumeName` | The name of the volume to create must be unique across the organization, no longer than 64 characters, start with a letter or underscore, and contain only letters, digits, hyphens, and underscores. |
+    | `type` | Set the parameter to `EXTERNAL` to create an external volume. Defaults to `MANAGED`. |
+    | `storageIntegrationId` | The ID of the storage integration to reference. Required when `type=EXTERNAL`. The storage integration you select must belong to the same org and region as the external volume you want to create. |
+    | `path` | The storage path. Required when `type=EXTERNAL`. |
 
 - **Via web console**
 
@@ -194,32 +172,13 @@ Before creating an external volume, you need to integrate your [AWS S3 bucket](.
 
         The following table describes each parameter used when creating an external volume.
 
-        <table>
-           <tr>
-             <th><p><strong>Parameter</strong></p></th>
-             <th><p><strong>Description</strong></p></th>
-           </tr>
-           <tr>
-             <td><p>Name</p></td>
-             <td><p>The volume name must be unique across the organization, no longer than 64 characters, start with a letter or underscore, and contain only letters, digits, hyphens, and underscores.</p></td>
-           </tr>
-           <tr>
-             <td><p>Description</p></td>
-             <td><p>This parameter is optional.</p></td>
-           </tr>
-           <tr>
-             <td><p>Volume Type</p></td>
-             <td><p>Select "External" as the volume type.</p></td>
-           </tr>
-           <tr>
-             <td><p>Cloud Provider & Region</p></td>
-             <td><p>The volume cloud provider and region must match the cloud provider and region of the target cluster you plan to import or migrate data into.</p></td>
-           </tr>
-           <tr>
-             <td><p>Storage Integration & Path</p></td>
-             <td><p>Storage integration (<a href="./integrate-with-aws-s3">AWS S3 bucket</a> or <a href="./integrate-with-gcp">Google GCS bucket</a>) is the credential object that encapsulates the access configuration for your cloud storage.</p><p>Path is a pointer to where your data is placed. (Eg. <code>folder/</code>)</p></td>
-           </tr>
-        </table>
+        | **Parameter** | **Description** |
+        | --- | --- |
+        | Name | The volume name must be unique across the organization, no longer than 64 characters, start with a letter or underscore, and contain only letters, digits, hyphens, and underscores. |
+        | Description | This parameter is optional. |
+        | Volume Type | Select "External" as the volume type. |
+        | Cloud Provider & Region | The volume cloud provider and region must match the cloud provider and region of the target cluster you plan to import or migrate data into. |
+        | Storage Integration & Path | Storage integration ([AWS S3 bucket](./integrate-with-aws-s3) or [Google GCS bucket](./integrate-with-gcp)) is the credential object that encapsulates the access configuration for your cloud storage.<br/>Path is a pointer to where your data is placed. (Eg. `folder/`) |
 
     1. Click on **Create**.
 
@@ -438,7 +397,7 @@ You can check the details of a specific volume.
     export TOKEN="YOUR_API_KEY"
     
     curl --request GET \
-    --url "${BASE_URL}/v2/volumes/${VOLUME_NAME}" \
+    --url "$\{BASE_URL\}/v2/volumes/${VOLUME_NAME}" \
     --header "Authorization: Bearer ${TOKEN}" \
     --header "Content-Type: application/json"
     
@@ -533,7 +492,7 @@ Deleting an external volume removes only the volume metadata from Zilliz Cloud; 
     export VOLUME_NAME="external_volume"
     
     curl --request DELETE \
-    --url "${BASE_URL}/v2/volumes/${VOLUME_NAME}" \
+    --url "$\{BASE_URL\}/v2/volumes/${VOLUME_NAME}" \
     --header "Authorization: Bearer ${TOKEN}" \
     --header "Content-Type: application/json"
     
@@ -600,22 +559,9 @@ No. External volumes must be in the same cloud provider and region as your clust
 
 The following table lists the possible volume statuses.
 
-<table>
-   <tr>
-     <th><p><strong>Status</strong></p></th>
-     <th><p><strong>Description</strong></p></th>
-   </tr>
-   <tr>
-     <td><p><strong>Available</strong></p></td>
-     <td><p>The volume is active and usable.</p></td>
-   </tr>
-   <tr>
-     <td><p><strong>Frozen</strong></p></td>
-     <td><p>The organization is frozen due to overdue <a href="./view-invoice">invoices</a>. The volume cannot be used for new operations. Please pay your bill to continue using volumes.</p></td>
-   </tr>
-   <tr>
-     <td><p><strong>Error</strong></p></td>
-     <td><p>The <a href="./undefined">storage integration</a> validation failed. Check the configuration and retry.</p></td>
-   </tr>
-</table>
+| **Status** | **Description** |
+| --- | --- |
+| **Available** | The volume is active and usable. |
+| **Frozen** | The organization is frozen due to overdue [invoices](./view-invoice). The volume cannot be used for new operations. Please pay your bill to continue using volumes. |
+| **Error** | The [storage integration](./undefined) validation failed. Check the configuration and retry. |
 

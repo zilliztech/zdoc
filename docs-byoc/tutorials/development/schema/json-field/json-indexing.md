@@ -44,48 +44,15 @@ Before choosing an index type, identify the **cast type** for the JSON path. The
 
 Choose the cast type that matches the values stored at the path. To check whether a cast type works with a specific index type, see [Compatibility reference](./json-indexing#compatibility-reference).
 
-<table>
-   <tr>
-     <th><p>Cast type</p></th>
-     <th><p>Use when the path value is…</p></th>
-     <th><p>Example value</p></th>
-   </tr>
-   <tr>
-     <td><p><code>BOOL</code></p></td>
-     <td><p>A Boolean value</p></td>
-     <td><p><code>true</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>DOUBLE</code></p></td>
-     <td><p>A numeric value</p></td>
-     <td><p><code>99.99</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>VARCHAR</code></p></td>
-     <td><p>A string value</p></td>
-     <td><p><code>"electronics"</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>ARRAY_BOOL</code></p></td>
-     <td><p>An array of Boolean values</p></td>
-     <td><p><code>[true, false]</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>ARRAY_DOUBLE</code></p></td>
-     <td><p>An array of numeric values</p></td>
-     <td><p><code>[1.2, 3.14]</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>ARRAY_VARCHAR</code></p></td>
-     <td><p>An array of string values</p></td>
-     <td><p><code>["tag1", "tag2"]</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>JSON</code></p></td>
-     <td><p>An entire JSON object or sub-object</p></td>
-     <td><p><code>\{"supplier": \{"country": "USA"\}\}</code></p></td>
-   </tr>
-</table>
+| Cast type | Use when the path value is... | Example value |
+| --- | --- | --- |
+| `BOOL` | A Boolean value | `true` |
+| `DOUBLE` | A numeric value | `99.99` |
+| `VARCHAR` | A string value | `"electronics"` |
+| `ARRAY_BOOL` | An array of Boolean values | `[true, false]` |
+| `ARRAY_DOUBLE` | An array of numeric values | `[1.2, 3.14]` |
+| `ARRAY_VARCHAR` | An array of string values | `["tag1", "tag2"]` |
+| `JSON` | An entire JSON object or sub-object | `{"supplier": {"country": "USA"}}` |
 
 If values at the same path have inconsistent types, only values that match the cast type are indexed. For example, if `metadata["price"]` contains both `99.99` and `"99.99"`, an index of the `DOUBLE` cast type includes the numeric value and skips the string value. To convert string values during indexing, use `json_cast_function`; see [Example 5: Convert data type at index time](./json-indexing#example-5-convert-data-type-at-index-time).
 
@@ -93,44 +60,13 @@ If values at the same path have inconsistent types, only values that match the c
 
 After you choose a cast type, choose the index type according to your query pattern.
 
-<table>
-   <tr>
-     <th><p>Query pattern</p></th>
-     <th><p>Recommended index type</p></th>
-     <th><p>Cast type requirement</p></th>
-     <th><p>Notes</p></th>
-   </tr>
-   <tr>
-     <td><p>Mixed equality and range filters on scalar values</p></td>
-     <td><p><code>AUTOINDEX</code></p></td>
-     <td><p>Use <code>BOOL</code>, <code>DOUBLE</code>, or <code>VARCHAR</code>.</p></td>
-     <td><p>Lets Zilliz Cloud choose the internal index layout based on value cardinality.</p></td>
-   </tr>
-   <tr>
-     <td><p>Filters on values inside JSON arrays</p></td>
-     <td><p><code>INVERTED</code></p></td>
-     <td><p>Use <code>ARRAY_BOOL</code>, <code>ARRAY_DOUBLE</code>, or <code>ARRAY_VARCHAR</code>.</p></td>
-     <td><p>Required for all array cast types.</p></td>
-   </tr>
-   <tr>
-     <td><p>Whole-object or sub-object indexing</p></td>
-     <td><p><code>INVERTED</code> or <code>AUTOINDEX</code></p></td>
-     <td><p>Use <code>JSON</code>.</p></td>
-     <td><p><code>AUTOINDEX</code> uses <code>INVERTED</code> instead of cardinality-based selection for <code>JSON</code> cast type.</p></td>
-   </tr>
-   <tr>
-     <td><p>Range filters on numbers or sortable strings</p></td>
-     <td><p><code>STL_SORT</code> or <code>AUTOINDEX</code></p></td>
-     <td><p>Use <code>DOUBLE</code> or <code>VARCHAR</code>.</p></td>
-     <td><p>Use <code>STL_SORT</code> to force a sorted layout; use <code>AUTOINDEX</code> when you want automatic selection.</p></td>
-   </tr>
-   <tr>
-     <td><p>Equality or <code>IN</code> filters on low-cardinality values</p></td>
-     <td><p><code>BITMAP</code> or <code>AUTOINDEX</code></p></td>
-     <td><p>Use <code>BOOL</code> or <code>VARCHAR</code>.</p></td>
-     <td><p>Use <code>BITMAP</code> to force a bitmap layout. For numeric values, use <code>AUTOINDEX</code> or <code>STL_SORT</code>.</p></td>
-   </tr>
-</table>
+| Query pattern | Recommended index type | Cast type requirement | Notes |
+| --- | --- | --- | --- |
+| Mixed equality and range filters on scalar values | `AUTOINDEX` | Use `BOOL`, `DOUBLE`, or `VARCHAR`. | Lets Zilliz Cloud choose the internal index layout based on value cardinality. |
+| Filters on values inside JSON arrays | `INVERTED` | Use `ARRAY_BOOL`, `ARRAY_DOUBLE`, or `ARRAY_VARCHAR`. | Required for all array cast types. |
+| Whole-object or sub-object indexing | `INVERTED` or `AUTOINDEX` | Use `JSON`. | `AUTOINDEX` uses `INVERTED` instead of cardinality-based selection for `JSON` cast type. |
+| Range filters on numbers or sortable strings | `STL_SORT` or `AUTOINDEX` | Use `DOUBLE` or `VARCHAR`. | Use `STL_SORT` to force a sorted layout; use `AUTOINDEX` when you want automatic selection. |
+| Equality or `IN` filters on low-cardinality values | `BITMAP` or `AUTOINDEX` | Use `BOOL` or `VARCHAR`. | Use `BITMAP` to force a bitmap layout. For numeric values, use `AUTOINDEX` or `STL_SORT`. |
 
 When in doubt, start with `AUTOINDEX` for scalar paths. Use `INVERTED` explicitly for array cast types and text-match queries. For whole-object JSON indexing, use either `INVERTED` or `AUTOINDEX`.
 
@@ -138,24 +74,11 @@ When in doubt, start with `AUTOINDEX` for scalar paths. Use `INVERTED` explicitl
 
 `AUTOINDEX` behavior depends on the `json_cast_type` you specify. 
 
-<table>
-   <tr>
-     <th><p>Cast type</p></th>
-     <th><p><code>AUTOINDEX</code> behavior</p></th>
-   </tr>
-   <tr>
-     <td><p><code>BOOL</code>, <code>DOUBLE</code>, <code>VARCHAR</code></p></td>
-     <td><p>Chooses between <code>BITMAP</code> and <code>STL_SORT</code> based on value cardinality.</p></td>
-   </tr>
-   <tr>
-     <td><p><code>ARRAY_BOOL</code>, <code>ARRAY_DOUBLE</code>, <code>ARRAY_VARCHAR</code></p></td>
-     <td><p>Not supported. Use <code>INVERTED</code> explicitly as the index type.</p></td>
-   </tr>
-   <tr>
-     <td><p><code>JSON</code></p></td>
-     <td><p>Uses <code>INVERTED</code> for whole-object or sub-object indexing.</p></td>
-   </tr>
-</table>
+| Cast type | `AUTOINDEX` behavior |
+| --- | --- |
+| `BOOL`, `DOUBLE`, `VARCHAR` | Chooses between `BITMAP` and `STL_SORT` based on value cardinality. |
+| `ARRAY_BOOL`, `ARRAY_DOUBLE`, `ARRAY_VARCHAR` | Not supported. Use `INVERTED` explicitly as the index type. |
+| `JSON` | Uses `INVERTED` for whole-object or sub-object indexing. |
 
 For scalar cast types (`BOOL`, `DOUBLE`, and `VARCHAR`), `AUTOINDEX` is the recommended starting point when you want Zilliz Cloud to choose the internal index layout. During index build, Zilliz Cloud measures the **cardinality** of the values at the JSON path. Cardinality means the number of distinct values at that path.
 
@@ -219,80 +142,15 @@ For details, see [BITMAP](./bitmap-index-type).
 
 Use the following matrix as a quick reference for supported `(cast type, index type)` combinations.
 
-<table>
-   <tr>
-     <th><p>Cast type</p></th>
-     <th><p>Description</p></th>
-     <th><p>Example value</p></th>
-     <th><p>AUTOINDEX</p></th>
-     <th><p>INVERTED</p></th>
-     <th><p>STL_SORT</p></th>
-     <th><p>BITMAP</p></th>
-   </tr>
-   <tr>
-     <td><p><code>BOOL</code></p></td>
-     <td><p>Boolean values (<code>true</code>/<code>false</code>).</p></td>
-     <td><p><code>true</code></p></td>
-     <td><p>✓</p></td>
-     <td><p>✓</p></td>
-     <td><p>—</p></td>
-     <td><p>✓</p></td>
-   </tr>
-   <tr>
-     <td><p><code>DOUBLE</code></p></td>
-     <td><p>Numeric values (integers or floats).</p></td>
-     <td><p><code>99.99</code></p></td>
-     <td><p>✓</p></td>
-     <td><p>✓</p></td>
-     <td><p>✓</p></td>
-     <td><p>—</p></td>
-   </tr>
-   <tr>
-     <td><p><code>VARCHAR</code></p></td>
-     <td><p>String values.</p></td>
-     <td><p><code>"electronics"</code></p></td>
-     <td><p>✓</p></td>
-     <td><p>✓</p></td>
-     <td><p>✓</p></td>
-     <td><p>✓</p></td>
-   </tr>
-   <tr>
-     <td><p><code>ARRAY_BOOL</code></p></td>
-     <td><p>Array of booleans.</p></td>
-     <td><p><code>[true, false]</code></p></td>
-     <td><p>—</p></td>
-     <td><p>✓</p></td>
-     <td><p>—</p></td>
-     <td><p>—</p></td>
-   </tr>
-   <tr>
-     <td><p><code>ARRAY_DOUBLE</code></p></td>
-     <td><p>Array of numbers.</p></td>
-     <td><p><code>[1.2, 3.14]</code></p></td>
-     <td><p>—</p></td>
-     <td><p>✓</p></td>
-     <td><p>—</p></td>
-     <td><p>—</p></td>
-   </tr>
-   <tr>
-     <td><p><code>ARRAY_VARCHAR</code></p></td>
-     <td><p>Array of strings.</p></td>
-     <td><p><code>["tag1", "tag2"]</code></p></td>
-     <td><p>—</p></td>
-     <td><p>✓</p></td>
-     <td><p>—</p></td>
-     <td><p>—</p></td>
-   </tr>
-   <tr>
-     <td><p><code>JSON</code></p></td>
-     <td><p>An entire JSON object or sub-object with automatic type inference and flattening.</p></td>
-     <td><p>any nested object</p></td>
-     <td><p>✓</p></td>
-     <td><p>✓</p></td>
-     <td><p>—</p></td>
-     <td><p>—</p></td>
-   </tr>
-</table>
+| Cast type | Description | Example value | AUTOINDEX | INVERTED | STL_SORT | BITMAP |
+| --- | --- | --- | --- | --- | --- | --- |
+| `BOOL` | Boolean values (`true`/`false`). | `true` | ✓ | ✓ | — | ✓ |
+| `DOUBLE` | Numeric values (integers or floats). | `99.99` | ✓ | ✓ | ✓ | — |
+| `VARCHAR` | String values. | `"electronics"` | ✓ | ✓ | ✓ | ✓ |
+| `ARRAY_BOOL` | Array of booleans. | `[true, false]` | — | ✓ | — | — |
+| `ARRAY_DOUBLE` | Array of numbers. | `[1.2, 3.14]` | — | ✓ | — | — |
+| `ARRAY_VARCHAR` | Array of strings. | `["tag1", "tag2"]` | — | ✓ | — | — |
+| `JSON` | An entire JSON object or sub-object with automatic type inference and flattening. | any nested object | ✓ | ✓ | — | — |
 
 For cells marked `—`, Zilliz Cloud rejects the request at index-creation time. For array cast types, use `INVERTED` explicitly (`AUTOINDEX` does not cover arrays).
 

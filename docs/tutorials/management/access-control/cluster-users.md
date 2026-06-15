@@ -28,7 +28,7 @@ To manage cluster users, you must be an **Organization Owner** or a **Project Ad
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This feature is available only to <strong>Dedicated</strong> clusters.</p>
+This feature is available only to **Dedicated** clusters.
 
 </Admonition>
 
@@ -46,7 +46,7 @@ When creating a cluster user, you need to:
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Each cluster can have up to 500 cluster users.</p>
+Each cluster can have up to 500 cluster users.
 
 </Admonition>
 
@@ -58,7 +58,7 @@ When creating a cluster user, you need to:
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>The default user <strong>db_admin</strong> cannot be dropped.</p>
+The default user **db_admin** cannot be dropped.
 
 </Admonition>
 

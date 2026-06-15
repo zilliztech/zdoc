@@ -118,38 +118,12 @@ Curated prompt library for AI-powered IDEs to help AI assistants implement Zilli
 
 ## Decision Matrix\{#decision-matrix}
 
-<table>
-   <tr>
-     <th><p>Tool</p></th>
-     <th><p>Use When</p></th>
-     <th><p>Installation</p></th>
-     <th><p>Natural Language</p></th>
-   </tr>
-   <tr>
-     <td><p><strong>Zilliz Skill</strong></p></td>
-     <td><p>Working in any Skill-compatible AI tool</p></td>
-     <td><p><code>npx skills add</code></p></td>
-     <td><p>✅ Full support</p></td>
-   </tr>
-   <tr>
-     <td><p><strong>Zilliz Plugin</strong></p></td>
-     <td><p>Working in Claude Code IDE</p></td>
-     <td><p>Plugin marketplace</p></td>
-     <td><p>✅ Full support</p></td>
-   </tr>
-   <tr>
-     <td><p><strong>AI Prompts</strong></p></td>
-     <td><p>Want consistent AI guidance</p></td>
-     <td><p>Copy to project files</p></td>
-     <td><p>✅ Guides AI behavior</p></td>
-   </tr>
-   <tr>
-     <td><p><strong>CLI</strong></p></td>
-     <td><p>Scripting and automation</p></td>
-     <td><p>pip install</p></td>
-     <td><p>❌ Command-line only</p></td>
-   </tr>
-</table>
+| Tool | Use When | Installation | Natural Language |
+| --- | --- | --- | --- |
+| **Zilliz Skill** | Working in any Skill-compatible AI tool | `npx skills add` | ✅ Full support |
+| **Zilliz Plugin** | Working in Claude Code IDE | Plugin marketplace | ✅ Full support |
+| **AI Prompts** | Want consistent AI guidance | Copy to project files | ✅ Guides AI behavior |
+| **CLI** | Scripting and automation | pip install | ❌ Command-line only |
 
 ## Related Tools\{#related-tools}
 

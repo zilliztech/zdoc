@@ -30,7 +30,7 @@ You will be billed for storage in the following scenarios:
 
 - Serverless cluster: data stored in your Serverless cluster.
 
-- [Database](./on-demand-database): data stored in your databases used for on-demand search.
+- Database: data stored in your databases used for on-demand search.
 
     - Data and indexes in your managed collections.
 

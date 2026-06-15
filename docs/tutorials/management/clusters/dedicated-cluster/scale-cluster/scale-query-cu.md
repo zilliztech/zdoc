@@ -34,7 +34,7 @@ The content on this page applies to serving clusters only.  On-demand clusters s
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This feature is available only to <strong>Dedicated</strong> clusters.</p>
+This feature is available only to **Dedicated** clusters.
 
 </Admonition>
 
@@ -100,7 +100,7 @@ curl --request POST \
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This feature is available only to <strong>Dedicated</strong> clusters in an <strong>Enterprise</strong> project.</p>
+This feature is available only to **Dedicated** clusters in an **Enterprise** project.
 
 </Admonition>
 
@@ -139,7 +139,7 @@ curl --request POST \
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This feature is available only to <strong>Dedicated</strong> clusters in an <strong>Enterprise</strong> project.</p>
+This feature is available only to **Dedicated** clusters in an **Enterprise** project.
 
 </Admonition>
 
@@ -153,10 +153,9 @@ When setting up dynamic scaling, you can configure the following bounds:
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<ul>
-<li><p>Selecting a maximum query CU below the current value triggers an immediate scale-down.</p></li>
-<li><p>Selecting a minimum query CU above the current value triggers an immediate scale-up.</p></li>
-</ul>
+- Selecting a maximum query CU below the current value triggers an immediate scale-down.
+
+- Selecting a minimum query CU above the current value triggers an immediate scale-up.
 
 </Admonition>
 
@@ -176,28 +175,12 @@ The following formula explains how Zilliz Cloud calculates the target number of 
 Target Query CU Number = Current Query CU Number × (Current Metric Value / Target Metric Value) 
 ```
 
-<table>
-   <tr>
-     <th><p>Variable Name</p></th>
-     <th><p>Description</p></th>
-   </tr>
-   <tr>
-     <td><p>Target Query CU Number</p></td>
-     <td><p>The new size the system aims to scale the cluster to.</p></td>
-   </tr>
-   <tr>
-     <td><p>Current Query CU Number</p></td>
-     <td><p>The current query CU number of the cluster.</p></td>
-   </tr>
-   <tr>
-     <td><p>Current Metric Value</p></td>
-     <td><p>The current measured value of the CU capacity metric.</p></td>
-   </tr>
-   <tr>
-     <td><p>Target Metric Value</p></td>
-     <td><p>Expected CU capacity value after scaling, which is 70.</p></td>
-   </tr>
-</table>
+| Variable Name | Description |
+| --- | --- |
+| Target Query CU Number | The new size the system aims to scale the cluster to. |
+| Current Query CU Number | The current query CU number of the cluster. |
+| Current Metric Value | The current measured value of the CU capacity metric. |
+| Target Metric Value | Expected CU capacity value after scaling, which is 70. |
 
 For example, if query CU dynamic scaling is enabled and the following conditions are met:
 

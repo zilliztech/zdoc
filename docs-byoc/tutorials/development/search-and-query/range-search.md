@@ -39,38 +39,13 @@ The above diagram shows that a range search request carries two parameters: **ra
 
 The way to set **radius** and **range_filter** varies with the metric type of the search. The following table lists the requirements for setting these two parameters with different metric types.
 
-<table>
-   <tr>
-     <th><p>Metric Type</p></th>
-     <th><p>Denotations</p></th>
-     <th><p>Requirements for Setting radius and range_filter</p></th>
-   </tr>
-   <tr>
-     <td><p><code>L2</code></p></td>
-     <td><p>A smaller L2 distance indicates a higher similarity.</p></td>
-     <td><p>To ignore the most similar vector embeddings, ensure that</p><p><code>range_filter</code> &lt;= distance &lt; <code>radius</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>IP</code></p></td>
-     <td><p>A greater IP distance indicates a higher similarity.</p></td>
-     <td><p>To ignore the most similar vector embeddings, ensure that</p><p><code>radius</code> &lt; distance &lt;= <code>range_filter</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>COSINE</code></p></td>
-     <td><p>A greater COSINE distance indicates a higher similarity.</p></td>
-     <td><p>To ignore the most similar vector embeddings, ensure that</p><p><code>radius</code> &lt; distance &lt;= <code>range_filter</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>JACCARD</code></p></td>
-     <td><p>A smaller Jaccard distance indicates a higher similarity.</p></td>
-     <td><p>To ignore the most similar vector embeddings, ensure that</p><p><code>range_filter</code> &lt;= distance &lt; <code>radius</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>HAMMING</code></p></td>
-     <td><p>A smaller Hamming distance indicates a higher similarity.</p></td>
-     <td><p>To ignore the most similar vector embeddings, ensure that</p><p><code>range_filter</code> &lt;= distance &lt; <code>radius</code></p></td>
-   </tr>
-</table>
+| Metric Type | Denotations | Requirements for Setting radius and range_filter |
+| --- | --- | --- |
+| `L2` | A smaller L2 distance indicates a higher similarity. | To ignore the most similar vector embeddings, ensure that<br/>`range_filter` &lt;= distance < `radius` |
+| `IP` | A greater IP distance indicates a higher similarity. | To ignore the most similar vector embeddings, ensure that<br/>`radius` < distance &lt;= `range_filter` |
+| `COSINE` | A greater COSINE distance indicates a higher similarity. | To ignore the most similar vector embeddings, ensure that<br/>`radius` < distance &lt;= `range_filter` |
+| `JACCARD` | A smaller Jaccard distance indicates a higher similarity. | To ignore the most similar vector embeddings, ensure that<br/>`range_filter` &lt;= distance < `radius` |
+| `HAMMING` | A smaller Hamming distance indicates a higher similarity. | To ignore the most similar vector embeddings, ensure that<br/>`range_filter` &lt;= distance < `radius` |
 
 ## Examples\{#examples}
 
@@ -263,8 +238,44 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
+```c++
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+std::vector<float> query_vector = {0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592};
+auto request = milvus::SearchRequest()
+                   .WithCollectionName("my_collection")
+                   .AddFloatVector(query_vector)
+                   .WithLimit(5)
+                   .WithAnnsField("vector")
+                   .WithRadius(0.4)
+                   .WithRangeFilter(0.6);
+
+milvus::SearchResponse response;
+auto status = client->Search(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+for (auto& result : response.Results().Results()) {
+    std::cout << "TopK results:" << std::endl;
+    milvus::EntityRows output_rows;
+    status = result.OutputRows(output_rows);
+    for (const auto& row : output_rows) {
+        std::cout << "\t" << row << std::endl;
+    }
+}
+```
+
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>If the query vectors already exist in the target collection, consider using <code>ids</code> instead of retrieving them before searches. For details, refer to <a href="./primary-key-search">Primary-Key Search</a>.</p>
+If the query vectors already exist in the target collection, consider using `ids` instead of retrieving them before searches. For details, refer to [Primary-Key Search](./primary-key-search).
 
 </Admonition>

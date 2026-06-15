@@ -28,7 +28,7 @@ Credits help you try Zilliz Cloud or run evaluation workloads before setting up 
 
 <Admonition type="info" icon="📘" title="Note">
 
-<p>To manage credits and payment method, you must be an <strong>Organization Owner</strong> or <strong>Organization Billing Admin</strong>.</p>
+To manage credits and payment method, you must be an **Organization Owner** or **Organization Billing Admin**.
 
 </Admonition>
 
@@ -102,21 +102,8 @@ To view your credit balance:
 
 Zilliz Cloud provides billing alerts that help you monitor credits and payment health.
 
-<table>
-   <tr>
-     <th><p><strong>Metric</strong></p></th>
-     <th><p><strong>Description</strong></p></th>
-     <th><p><strong>Recommended action</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>Credit Validity (days)</p></td>
-     <td><p>Number of days before free credits expire.</p></td>
-     <td><p>Use eligible credits before expiry or contact <a href="http://zilliz.com/contact-sales">Zilliz sales</a> if you need to extend the credit expiration to fully complete your PoC.</p></td>
-   </tr>
-   <tr>
-     <td><p>Remaining Credits ($)</p></td>
-     <td><p>Remaining credit balance.</p></td>
-     <td><p>Add or configure another payment method before credits run out. You can contact <a href="http://zilliz.com/contact-sales">Zilliz sales</a> for more PoC credits.</p></td>
-   </tr>
-</table>
+| **Metric** | **Description** | **Recommended action** |
+| --- | --- | --- |
+| Credit Validity (days) | Number of days before free credits expire. | Use eligible credits before expiry or contact [Zilliz sales](http://zilliz.com/contact-sales) if you need to extend the credit expiration to fully complete your PoC. |
+| Remaining Credits ($) | Remaining credit balance. | Add or configure another payment method before credits run out. You can contact [Zilliz sales](http://zilliz.com/contact-sales) for more PoC credits. |
 

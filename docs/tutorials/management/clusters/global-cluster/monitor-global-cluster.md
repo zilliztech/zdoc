@@ -24,7 +24,7 @@ This page explains how to monitor the health, replication status, and performanc
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This feature is available only to <strong>Dedicated</strong> clusters in a <strong>Business Critical</strong> project.</p>
+This feature is available only to **Dedicated** clusters in a **Business Critical** project.
 
 </Admonition>
 
@@ -48,33 +48,12 @@ Use this view to verify that all secondary clusters are synchronized and healthy
 
 Each individual cluster in a global cluster reports one of the following statuses:
 
-<table>
-   <tr>
-     <th><p><strong>Status</strong></p></th>
-     <th><p><strong>Description</strong></p></th>
-     <th><p><strong>Action</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>CREATING</p></td>
-     <td><p>The cluster is being provisioned. Also applies to secondary clusters being rebuilt or auto-recreated after a failover.</p></td>
-     <td><p>Wait for provisioning to complete.</p></td>
-   </tr>
-   <tr>
-     <td><p>RUNNING</p></td>
-     <td><p>The cluster is operating normally.</p></td>
-     <td><p>None.</p></td>
-   </tr>
-   <tr>
-     <td><p>ABNORMAL</p></td>
-     <td><p>An issue has been detected with the primary cluster.</p></td>
-     <td><p>Investigate the issue. If the primary is unreachable, consider initiating a <a href="./switchover-and-failover">failover</a>. <a href="http://support.zilliz.com/">Contact support</a> if needed.</p></td>
-   </tr>
-   <tr>
-     <td><p>SWITCHING</p></td>
-     <td><p>A switchover or failover is in progress. The primary role is being transferred.</p></td>
-     <td><p>Wait for the operation to complete. Do not initiate additional switchovers.</p></td>
-   </tr>
-</table>
+| **Status** | **Description** | **Action** |
+| --- | --- | --- |
+| CREATING | The cluster is being provisioned. Also applies to secondary clusters being rebuilt or auto-recreated after a failover. | Wait for provisioning to complete. |
+| RUNNING | The cluster is operating normally. | None. |
+| ABNORMAL | An issue has been detected with the primary cluster. | Investigate the issue. If the primary is unreachable, consider initiating a [failover](./switchover-and-failover). [Contact support](http://support.zilliz.com/) if needed. |
+| SWITCHING | A switchover or failover is in progress. The primary role is being transferred. | Wait for the operation to complete. Do not initiate additional switchovers. |
 
 ## Synchronization lag\{#synchronization-lag}
 
@@ -86,28 +65,12 @@ Synchronization lag measures the delay between a write committed on the primary 
 
 The following table explains Synchronization lag levels and recommended actions.
 
-<table>
-   <tr>
-     <th><p><strong>Synchronization lag</strong></p></th>
-     <th><p><strong>Implication</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>&lt; 5 seconds</p></td>
-     <td><p>Normal. Secondary clusters are nearly up to date.</p></td>
-   </tr>
-   <tr>
-     <td><p>5–30 seconds</p></td>
-     <td><p>Elevated. <a href="./switchover-and-failover#perform-a-switchover">Switchover</a> is still permitted. Monitor for sustained increases.</p></td>
-   </tr>
-   <tr>
-     <td><blockquote>  <p>30 seconds</p></blockquote></td>
-     <td><p><a href="./switchover-and-failover#perform-a-switchover">Switchover</a> is blocked. Investigate write load or secondary cluster health. Resolves the root cause before attempting a switchover.</p></td>
-   </tr>
-   <tr>
-     <td><blockquote>  <p>180 seconds</p></blockquote></td>
-     <td><p>Critical. <a href="./switchover-and-failover#perform-a-failover">Failover</a> RPO risk is significant. Immediate investigation required.</p></td>
-   </tr>
-</table>
+| **Synchronization lag** | **Implication** |
+| --- | --- |
+| < 5 seconds | Normal. Secondary clusters are nearly up to date. |
+| 5–30 seconds | Elevated. [Switchover](./switchover-and-failover#perform-a-switchover) is still permitted. Monitor for sustained increases. |
+| > 30 seconds | [Switchover](./switchover-and-failover#perform-a-switchover) is blocked. Investigate write load or secondary cluster health. Resolves the root cause before attempting a switchover. |
+| > 180 seconds | Critical. [Failover](./switchover-and-failover#perform-a-failover) RPO risk is significant. Immediate investigation required. |
 
 If you perform a [failover](./switchover-and-failover#perform-a-failover) while synchronization lag is high, the new primary cluster may be missing recent writes. The amount of potential data loss (RPO) equals the synchronization lag at the time of failover.
 

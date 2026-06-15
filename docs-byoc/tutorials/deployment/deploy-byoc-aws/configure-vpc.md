@@ -28,7 +28,7 @@ This page enumerates the minimum requirements for you to host a Zilliz Cloud BYO
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Zilliz BYOC is currently available in <strong>General Availability</strong>. For access and implementation details, please contact <a href="https://zilliz.com/contact-sales">Zilliz Cloud sales</a>.</p>
+Zilliz BYOC is currently available in **General Availability**. For access and implementation details, please contact [Zilliz Cloud sales](https://zilliz.com/contact-sales).
 
 </Admonition>
 
@@ -56,20 +56,10 @@ Your VPC must meet the requirements enumerated in this section to host a Zilliz 
 
 The following table lists the AWS cloud regions the Zilliz Cloud BYOC solution supports. If you cannot find your cloud regions on the Zilliz Cloud console, please contact us at support@zilliz.com.
 
-<table>
-   <tr>
-     <th><p>AWS Region</p></th>
-     <th><p>Location</p></th>
-   </tr>
-   <tr>
-     <td><p>us-west-2</p></td>
-     <td><p>Oregon</p></td>
-   </tr>
-   <tr>
-     <td><p>eu-central-1</p></td>
-     <td><p>Frankfurt</p></td>
-   </tr>
-</table>
+| AWS Region | Location |
+| --- | --- |
+| us-west-2 | Oregon |
+| eu-central-1 | Frankfurt |
 
 ### VPC IP address ranges\{#vpc-ip-address-ranges}
 
@@ -77,7 +67,7 @@ Zilliz Cloud recommends using the **/16** netmask in IPv4 CIDR settings for the 
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Zilliz Cloud currently supports only IPv4 CIDR blocks.</p>
+Zilliz Cloud currently supports only IPv4 CIDR blocks.
 
 </Admonition>
 
@@ -207,7 +197,7 @@ VPC endpoint ensures secure cluster connectivity relay and enables private calls
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>The VPC endpoint created in this section is used to set up an AWS PrivateLink. Once the VPC endpoint is ready, you must create a hosted zone and add some DNS records. For details, refer to <a href="./setup-a-private-link-aws">Set up a PrivateLink (AWS)</a>.</p>
+The VPC endpoint created in this section is used to set up an AWS PrivateLink. Once the VPC endpoint is ready, you must create a hosted zone and add some DNS records. For details, refer to [Set up a PrivateLink (AWS)](./setup-a-private-link-aws).
 
 </Admonition>
 
@@ -225,23 +215,10 @@ VPC endpoint ensures secure cluster connectivity relay and enables private calls
 
     The following table lists the cloud regions currently available. If your cloud region is not listed in the table, please contact us at support@zilliz.com.
 
-    <table>
-       <tr>
-         <th><p>AWS Region</p></th>
-         <th><p>Location</p></th>
-         <th><p>Zilliz Cloud VPC endpoint</p></th>
-       </tr>
-       <tr>
-         <td><p>us-west-2</p></td>
-         <td><p>Oregon</p></td>
-         <td><p><code>com.amazonaws.vpce.us-west-2.vpce-svc-0654fb016640c364a</code></p></td>
-       </tr>
-       <tr>
-         <td><p>eu-central-1</p></td>
-         <td><p>Frankfurt</p></td>
-         <td><p><code>com.amazonaws.vpce.eu-central-1.vpce-svc-0d5ce1ec4decbc7df</code></p></td>
-       </tr>
-    </table>
+    | AWS Region | Location | Zilliz Cloud VPC endpoint |
+    | --- | --- | --- |
+    | us-west-2 | Oregon | `com.amazonaws.vpce.us-west-2.vpce-svc-0654fb016640c364a` |
+    | eu-central-1 | Frankfurt | `com.amazonaws.vpce.eu-central-1.vpce-svc-0d5ce1ec4decbc7df` |
 
     ![VYLlboU8fofvUPx6NYUcGztpn3s](https://zdoc-images.s3.us-west-2.amazonaws.com/vyllbou8fofvupx6nyucgztpn3s.png "VYLlboU8fofvUPx6NYUcGztpn3s")
 

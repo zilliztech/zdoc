@@ -30,10 +30,9 @@ Once data files are ready, you can import them directly from your local drive or
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<ul>
-<li><p>You can have up to 10,000 running or pending import jobs in a collection.</p></li>
-<li><p>The web console supports uploading a local JSON or Parquet file of up to 1 GB. For larger files, it is recommended to <a href="./import-data-on-web-ui#remote-files-from-an-object-storage-bucket">upload from an object storage</a> instead. If you have any difficulties with data import, please <a href="https://support.zilliz.com/hc/en-us">create a support ticket</a>.</p></li>
-</ul>
+- You can have up to 10,000 running or pending import jobs in a collection.
+
+- The web console supports uploading a local JSON or Parquet file of up to 1 GB. For larger files, it is recommended to [upload from an object storage](./import-data-on-web-ui#remote-files-from-an-object-storage-bucket) instead. If you have any difficulties with data import, please [create a support ticket](https://support.zilliz.com/hc/en-us).
 
 </Admonition>
 
@@ -65,8 +64,9 @@ For more information about using short-term tokens, refer to [this FAQ](/docs/fa
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Zilliz Cloud now allows you to import data from any object storage service to any Zilliz Cloud cluster, regardless of the cloud provider hosting the clusters. For instance, you can import data from an AWS S3 bucket to a Zilliz Cloud cluster deployed on GCP.</p>
-<p>You are advised to use a bucket or a blob container from the same provider and in the same region as the target cluster to ensure a low-latency, stable experience.</p>
+Zilliz Cloud now allows you to import data from any object storage service to any Zilliz Cloud cluster, regardless of the cloud provider hosting the clusters. For instance, you can import data from an AWS S3 bucket to a Zilliz Cloud cluster deployed on GCP.
+
+You are advised to use a bucket or a blob container from the same provider and in the same region as the target cluster to ensure a low-latency, stable experience.
 
 </Admonition>
 

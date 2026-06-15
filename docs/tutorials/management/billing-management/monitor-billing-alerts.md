@@ -26,7 +26,7 @@ This guide explains billing-related alerts. To learn how to configure billing al
 
 <Admonition type="info" icon="📘" title="**Note**">
 
-<p>To view or manage billing alerts, you must be an <strong>Organization Owner</strong> or <strong>Organization Billing Admin</strong>.</p>
+To view or manage billing alerts, you must be an **Organization Owner** or **Organization Billing Admin**.
 
 </Admonition>
 
@@ -34,38 +34,13 @@ This guide explains billing-related alerts. To learn how to configure billing al
 
 Zilliz Cloud provides the following billing alert metrics.
 
-<table>
-   <tr>
-     <th><p><strong>Metric</strong></p></th>
-     <th><p><strong>Description</strong></p></th>
-     <th><p><strong>Recommended action</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>Usage Amount in the Past Day ($)</p></td>
-     <td><p>Cumulative usage charges over the past day.</p></td>
-     <td><p>Compare usage against your budget. If usage is higher than expected, review recent activity and optimize workloads or adjust the budget as needed.</p></td>
-   </tr>
-   <tr>
-     <td><p>Credit Validity (days)</p></td>
-     <td><p>Number of days before free credits expire.</p></td>
-     <td><p>Use eligible credits before they expire, or <a href="http://zilliz.com/contact-sales">contact sales</a> if you need help with credit validity.</p></td>
-   </tr>
-   <tr>
-     <td><p>Remaining Credits ($)</p></td>
-     <td><p>Remaining balance of free credits.</p></td>
-     <td><p><a href="./undefined">Set up another payment method</a> before credits run out to avoid service interruption.</p></td>
-   </tr>
-   <tr>
-     <td><p>Credit Card Validity (days)</p></td>
-     <td><p>Number of days before the saved credit card expires.</p></td>
-     <td><p><a href="./subscribe-by-adding-credit-card#replace-a-credit-card">Replace the credit card</a> before expiry to avoid payment failures.</p></td>
-   </tr>
-   <tr>
-     <td><p>Advance Pay Balance ($)</p></td>
-     <td><p>Remaining prepaid Advance Pay balance.</p></td>
-     <td><p><a href="./advance-pay#add-funds-to-advance-pay">Add funds</a> when the balance is low to prevent payment issues or service interruption.</p></td>
-   </tr>
-</table>
+| **Metric** | **Description** | **Recommended action** |
+| --- | --- | --- |
+| Usage Amount in the Past Day ($) | Cumulative usage charges over the past day. | Compare usage against your budget. If usage is higher than expected, review recent activity and optimize workloads or adjust the budget as needed. |
+| Credit Validity (days) | Number of days before free credits expire. | Use eligible credits before they expire, or [contact sales](http://zilliz.com/contact-sales) if you need help with credit validity. |
+| Remaining Credits ($) | Remaining balance of free credits. | [Set up another payment method](./undefined) before credits run out to avoid service interruption. |
+| Credit Card Validity (days) | Number of days before the saved credit card expires. | [Replace the credit card](./subscribe-by-adding-credit-card#replace-a-credit-card) before expiry to avoid payment failures. |
+| Advance Pay Balance ($) | Remaining prepaid Advance Pay balance. | [Add funds](./advance-pay#add-funds-to-advance-pay) when the balance is low to prevent payment issues or service interruption. |
 
 ## **Recommended alerts**\{#recommended-alerts}
 

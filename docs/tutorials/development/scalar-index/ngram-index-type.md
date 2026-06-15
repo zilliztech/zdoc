@@ -36,7 +36,7 @@ Use it when you need fast prefix, suffix, infix, wildcard, or eligible regex fil
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>For details on <code>LIKE</code> and regex filter expression syntax, refer to <a href="./pattern-match">Pattern Matching</a>.</p>
+For details on `LIKE` and regex filter expression syntax, refer to [Pattern Matching](./pattern-match).
 
 </Admonition>
 
@@ -252,7 +252,7 @@ Use the `drop_index()` method to remove an existing index from a collection.
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>In your cluster compatible with <strong>Milvus v2.6.x</strong>, you can drop a scalar index directly once it’s no longer needed—no need to release the collection first.</p>
+In your cluster compatible with **Milvus v2.6.x**, you can drop a scalar index directly once it’s no longer needed—no need to release the collection first.
 
 </Admonition>
 

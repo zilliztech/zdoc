@@ -24,7 +24,7 @@ You can export backup files to object storage using the Zilliz Cloud console.
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This feature is in <strong>Private Preview</strong> for <strong>Dedicated</strong> clusters in <strong>Enterprise</strong> projects. To enable this feature or learn about the associated costs, contact <a href="https://support.zilliz.com/hc/en-us">Zilliz Cloud support</a>.</p>
+This feature is in **Private Preview** for **Dedicated** clusters in **Enterprise** projects. To enable this feature or learn about the associated costs, contact [Zilliz Cloud support](https://support.zilliz.com/hc/en-us).
 
 </Admonition>
 
@@ -48,7 +48,7 @@ You can export backup files from Zilliz Cloud either via the Zilliz Cloud consol
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    <p>Only backup files in the <strong>Available</strong> status can be exported.</p>
+    Only backup files in the **Available** status can be exported.
 
     </Admonition>
 
@@ -119,7 +119,7 @@ If your job remains in the **IN PROGRESS** status and you decide not to proceed,
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Canceling midway will not remove data already uploaded to your bucket.</p>
+Canceling midway will not remove data already uploaded to your bucket.
 
 </Admonition>
 

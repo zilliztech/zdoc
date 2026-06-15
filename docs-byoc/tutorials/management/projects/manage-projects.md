@@ -72,7 +72,6 @@ You can view the list of all projects in your permission scope in the organizati
         }
       ]
     }
-    
     ```
 
 - **Via web console**
@@ -92,7 +91,7 @@ You can also check the details of a certain project.
     export projectId="proj-xx"
     
     curl --request GET \
-    --url "${BASE_URL}/v2/projects/${projectId}" \
+    --url "$\{BASE_URL\}/v2/projects/${projectId}" \
     --header "Authorization: Bearer ${TOKEN}" \
     --header "Content-Type: application/json"
     ```
@@ -138,7 +137,7 @@ Once a project is deleted, all its associated data and resources will be irrever
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>The default project cannot be deleted.</p>
+The default project cannot be deleted.
 
 </Admonition>
 

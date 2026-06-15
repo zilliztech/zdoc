@@ -1,6 +1,6 @@
 ---
 title: "Zilliz Skill | Cloud"
-slug: /zilliz-skill
+slug: /agents/zilliz-skill
 sidebar_label: "Zilliz Skill"
 beta: FALSE
 added_since: FALSE
@@ -11,7 +11,16 @@ description: "Zilliz Skills are reusable skill modules for Claude Code that prov
 type: origin
 token: EXj3wKsw8ijsqJk8uYPcmfXWn3g
 sidebar_position: 1
-displayed_sidebar: default
+keywords: 
+  - zilliz
+  - vector database
+  - ai-agents
+  - skill
+  - opencode
+  - gemini cli
+  - qwen code
+  - zilliz cli
+displayed_sidebar: agentsSidebar
 
 ---
 
@@ -38,60 +47,20 @@ This command will guide you in choosing the target tools and determining the ins
 
 ## Available Skills\{#available-skills}
 
-<table>
-   <tr>
-     <th><p>Area</p></th>
-     <th><p>What You Can Do</p></th>
-   </tr>
-   <tr>
-     <td><p>Clusters</p></td>
-     <td><p>Create, delete, suspend, resume, modify</p></td>
-   </tr>
-   <tr>
-     <td><p>Collections</p></td>
-     <td><p>Create with custom schema, load, release, rename, drop</p></td>
-   </tr>
-   <tr>
-     <td><p>Vectors</p></td>
-     <td><p>Search, query, insert, upsert, delete, hybrid search</p></td>
-   </tr>
-   <tr>
-     <td><p>Indexes</p></td>
-     <td><p>Create (AUTOINDEX), list, describe, drop</p></td>
-   </tr>
-   <tr>
-     <td><p>Databases</p></td>
-     <td><p>Create, list, describe, drop</p></td>
-   </tr>
-   <tr>
-     <td><p>Users & Roles</p></td>
-     <td><p>RBAC setup, privilege management</p></td>
-   </tr>
-   <tr>
-     <td><p>Backups</p></td>
-     <td><p>Create, restore, export, policy management</p></td>
-   </tr>
-   <tr>
-     <td><p>Import</p></td>
-     <td><p>Bulk data import from S3/GCS/Azure Blob Storage</p></td>
-   </tr>
-   <tr>
-     <td><p>Partitions</p></td>
-     <td><p>Create, load, release, manage</p></td>
-   </tr>
-   <tr>
-     <td><p>Monitoring</p></td>
-     <td><p>Cluster status, collection stats, load states</p></td>
-   </tr>
-   <tr>
-     <td><p>Projects</p></td>
-     <td><p>Project and region management</p></td>
-   </tr>
-   <tr>
-     <td><p>Billing</p></td>
-     <td><p>Usage queries, invoices</p></td>
-   </tr>
-</table>
+| Area | What You Can Do |
+| --- | --- |
+| Clusters | Create, delete, suspend, resume, modify |
+| Collections | Create with custom schema, load, release, rename, drop |
+| Vectors | Search, query, insert, upsert, delete, hybrid search |
+| Indexes | Create (AUTOINDEX), list, describe, drop |
+| Databases | Create, list, describe, drop |
+| Users & Roles | RBAC setup, privilege management |
+| Backups | Create, restore, export, policy management |
+| Import | Bulk data import from S3/GCS/Azure Blob Storage |
+| Partitions | Create, load, release, manage |
+| Monitoring | Cluster status, collection stats, load states |
+| Projects | Project and region management |
+| Billing | Usage queries, invoices |
 
 ## How to Use\{#how-to-use}
 

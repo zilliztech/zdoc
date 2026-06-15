@@ -56,33 +56,12 @@ The table below provides a quick reference chart of vCU usage and costs for writ
 
 For larger datasets, simply scale the vCU usage and cost proportionately. For example, writing 10 million 768-dimensional vectors would use approximately 7.5 million vCUs and cost around &#36;30.
 
-<table>
-   <tr>
-     <th><p><strong>Data Size (&ast;)</strong></p></th>
-     <th><p><strong>Write vCU usage (million)</strong></p></th>
-     <th><p><strong>Write Cost</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>1 million 128-dim vectors</p></td>
-     <td><p>0.125</p></td>
-     <td><p>&#36;0.5</p></td>
-   </tr>
-   <tr>
-     <td><p>1 million 768-dim vectors</p></td>
-     <td><p>0.75</p></td>
-     <td><p>&#36;3</p></td>
-   </tr>
-   <tr>
-     <td><p>1 million 1536-dim vectors</p></td>
-     <td><p>1.5</p></td>
-     <td><p>&#36;6</p></td>
-   </tr>
-   <tr>
-     <td><p>1 million 2560-dim vectors</p></td>
-     <td><p>2.5</p></td>
-     <td><p>&#36;10</p></td>
-   </tr>
-</table>
+| **Data Size (&ast;)** | **Write vCU usage (million)** | **Write Cost** |
+| --- | --- | --- |
+| 1 million 128-dim vectors | 0.125 | &#36;0.5 |
+| 1 million 768-dim vectors | 0.75 | &#36;3 |
+| 1 million 1536-dim vectors | 1.5 | &#36;6 |
+| 1 million 2560-dim vectors | 2.5 | &#36;10 |
 
 *&ast;The data size in the table above excludes scalars.*
 
@@ -90,24 +69,11 @@ For larger datasets, simply scale the vCU usage and cost proportionately. For ex
 
 For a precise calculation of the write vCU usage and cost, please refer to the following metrics:
 
-<table>
-   <tr>
-     <th><p><strong>Operation</strong></p></th>
-     <th><p><strong>vCU Usage</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>Insert</p></td>
-     <td><p>1 KB of inserted data = 0.25 vCU</p></td>
-   </tr>
-   <tr>
-     <td><p>Delete</p></td>
-     <td><p>1 deleted entity = 1 vCU</p><p>Deleting a non-existent entity will also consume 1 vCU.</p></td>
-   </tr>
-   <tr>
-     <td><p>Upsert</p></td>
-     <td><p>Calculated based on the size of the data updated and the number of entities deleted.</p><p>Deleting a non-existent entity will also consume 1 vCU.</p></td>
-   </tr>
-</table>
+| **Operation** | **vCU Usage** |
+| --- | --- |
+| Insert | 1 KB of inserted data = 0.25 vCU |
+| Delete | 1 deleted entity = 1 vCU<br/>Deleting a non-existent entity will also consume 1 vCU. |
+| Upsert | Calculated based on the size of the data updated and the number of entities deleted.<br/>Deleting a non-existent entity will also consume 1 vCU. |
 
 Suppose you inserted 3 GB (3,145,728 KB) of entities into a Serverless cluster and then deleted 100,000 entities.
 
@@ -143,7 +109,7 @@ Vector Database Cost (Read) = vCU Unit Price x Read vCU Usage
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    <p>Each read operation will cost a minimum of 6 vCUs.</p>
+    Each read operation will cost a minimum of 6 vCUs.
 
     </Admonition>
 
@@ -151,58 +117,17 @@ Vector Database Cost (Read) = vCU Unit Price x Read vCU Usage
 
 The table below provides examples of vCU usage and costs for 1 million read requests on varying amounts of data:
 
-<table>
-   <tr>
-     <th><p><strong>Scan Data Size (&ast;)</strong></p></th>
-     <th><p><strong>Read vCU Usage (million)</strong></p></th>
-     <th><p><strong>Read Cost</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>1 million 128-dim vectors</p></td>
-     <td><p>5</p></td>
-     <td><p>&#36;20</p></td>
-   </tr>
-   <tr>
-     <td><p>1 million 768-dim vectors</p></td>
-     <td><p>15</p></td>
-     <td><p>&#36;60</p></td>
-   </tr>
-   <tr>
-     <td><p>5 million 768-dim vectors</p></td>
-     <td><p>35</p></td>
-     <td><p>&#36;140</p></td>
-   </tr>
-   <tr>
-     <td><p>10 million 768-dim vectors</p></td>
-     <td><p>55</p></td>
-     <td><p>&#36;220</p></td>
-   </tr>
-   <tr>
-     <td><p>1 million 1536-dim vectors</p></td>
-     <td><p>25</p></td>
-     <td><p>&#36;100</p></td>
-   </tr>
-   <tr>
-     <td><p>10 million 1536-dim vectors</p></td>
-     <td><p>75</p></td>
-     <td><p>&#36;300</p></td>
-   </tr>
-   <tr>
-     <td><p>100 million 1536-dim vectors</p></td>
-     <td><p>290</p></td>
-     <td><p>&#36;1160</p></td>
-   </tr>
-   <tr>
-     <td><p>10 billion 1536-dim vectors</p></td>
-     <td><p>1,495</p></td>
-     <td><p>&#36;5980</p></td>
-   </tr>
-   <tr>
-     <td><p>1 million 2560-dim vectors</p></td>
-     <td><p>30</p></td>
-     <td><p>&#36;120</p></td>
-   </tr>
-</table>
+| **Scan Data Size (&ast;)** | **Read vCU Usage (million)** | **Read Cost** |
+| --- | --- | --- |
+| 1 million 128-dim vectors | 5 | &#36;20 |
+| 1 million 768-dim vectors | 15 | &#36;60 |
+| 5 million 768-dim vectors | 35 | &#36;140 |
+| 10 million 768-dim vectors | 55 | &#36;220 |
+| 1 million 1536-dim vectors | 25 | &#36;100 |
+| 10 million 1536-dim vectors | 75 | &#36;300 |
+| 100 million 1536-dim vectors | 290 | &#36;1160 |
+| 10 billion 1536-dim vectors | 1,495 | &#36;5980 |
+| 1 million 2560-dim vectors | 30 | &#36;120 |
 
 *&ast;The data size in the table above excludes scalars.* 
 

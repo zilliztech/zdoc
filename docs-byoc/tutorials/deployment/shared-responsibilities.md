@@ -24,136 +24,43 @@ This page outlines the responsibilities of Zilliz Cloud and BYOC users to clarif
 
 ## Cloud Management\{#cloud-management}
 
-<table>
-   <tr>
-     <th><p>Task</p></th>
-     <th><p>Zilliz BYOC</p></th>
-     <th><p>Customer</p></th>
-   </tr>
-   <tr>
-     <td><p>Set up VPC</p></td>
-     <td></td>
-     <td><p>✔</p></td>
-   </tr>
-   <tr>
-     <td><p>Manage EC2 instances</p></td>
-     <td><p>✔</p></td>
-     <td></td>
-   </tr>
-   <tr>
-     <td><p>Manage Kubernetes cluster</p></td>
-     <td><p>✔</p></td>
-     <td></td>
-   </tr>
-   <tr>
-     <td><p>Manage S3 bucket</p></td>
-     <td></td>
-     <td><p>✔</p></td>
-   </tr>
-   <tr>
-     <td><p>Provision Milvus instance</p></td>
-     <td><p>✔</p></td>
-     <td></td>
-   </tr>
-</table>
+| Task | Zilliz BYOC | Customer |
+| --- | --- | --- |
+| Set up VPC |  | ✔ |
+| Manage EC2 instances | ✔ |  |
+| Manage Kubernetes cluster | ✔ |  |
+| Manage S3 bucket |  | ✔ |
+| Provision Milvus instance | ✔ |  |
 
 ## Upgrade and security\{#upgrade-and-security}
 
-<table>
-   <tr>
-     <th><p>Task</p></th>
-     <th><p>Zilliz BYOC</p></th>
-     <th><p>Customer</p></th>
-   </tr>
-   <tr>
-     <td><p>Upgrade Milvus instance</p></td>
-     <td><p>✔</p></td>
-     <td></td>
-   </tr>
-   <tr>
-     <td><p>Patch software vulnerabilities</p></td>
-     <td><p>✔</p></td>
-     <td></td>
-   </tr>
-   <tr>
-     <td><p>Patch infrastructure vulnerabilities</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-   </tr>
-   <tr>
-     <td><p>Scale resoures</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-   </tr>
-</table>
+| Task | Zilliz BYOC | Customer |
+| --- | --- | --- |
+| Upgrade Milvus instance | ✔ |  |
+| Patch software vulnerabilities | ✔ |  |
+| Patch infrastructure vulnerabilities | ✔ | ✔ |
+| Scale resoures | ✔ | ✔ |
 
 ## Access control\{#access-control}
 
-<table>
-   <tr>
-     <th><p>Task</p></th>
-     <th><p>Zilliz BYOC</p></th>
-     <th><p>Customer</p></th>
-   </tr>
-   <tr>
-     <td><p>Manage IAM roles and service accounts</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-   </tr>
-   <tr>
-     <td><p>Implement access control & auditing</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-   </tr>
-</table>
+| Task | Zilliz BYOC | Customer |
+| --- | --- | --- |
+| Manage IAM roles and service accounts | ✔ | ✔ |
+| Implement access control & auditing | ✔ | ✔ |
 
 ## Service availability\{#service-availability}
 
-<table>
-   <tr>
-     <th><p>Task</p></th>
-     <th><p>Zilliz BYOC</p></th>
-     <th><p>Customer</p></th>
-   </tr>
-   <tr>
-     <td><p>Disaster recovery (DR)</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-   </tr>
-   <tr>
-     <td><p>Service level agreement (SLA)</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-   </tr>
-</table>
+| Task | Zilliz BYOC | Customer |
+| --- | --- | --- |
+| Disaster recovery (DR) | ✔ | ✔ |
+| Service level agreement (SLA) | ✔ | ✔ |
 
 ## Technical support\{#technical-support}
 
-<table>
-   <tr>
-     <th><p>Task</p></th>
-     <th><p>Zilliz BYOC</p></th>
-     <th><p>Customer</p></th>
-   </tr>
-   <tr>
-     <td><p>Logging</p></td>
-     <td></td>
-     <td><p>✔</p></td>
-   </tr>
-   <tr>
-     <td><p>Audit logging</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-   </tr>
-   <tr>
-     <td><p>Monitoring</p></td>
-     <td><p>✔</p></td>
-     <td></td>
-   </tr>
-   <tr>
-     <td><p>Break-glass access</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-   </tr>
-</table>
+| Task | Zilliz BYOC | Customer |
+| --- | --- | --- |
+| Logging |  | ✔ |
+| Audit logging | ✔ | ✔ |
+| Monitoring | ✔ |  |
+| Break-glass access | ✔ | ✔ |
 

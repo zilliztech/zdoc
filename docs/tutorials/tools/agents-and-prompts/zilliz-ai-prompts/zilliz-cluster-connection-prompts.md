@@ -1,6 +1,6 @@
 ---
 title: "Cluster Connection | Cloud"
-slug: /zilliz-cluster-connection-prompts
+slug: /agents/zilliz-cluster-connection-prompts
 sidebar_label: "Cluster Connection"
 beta: FALSE
 added_since: FALSE
@@ -11,7 +11,14 @@ description: "You can use this prompt for AI-powered IDEs, helping AI assistants
 type: origin
 token: XgbAwy9ZUimC1Pk7kBtcEKsIn7d
 sidebar_position: 4
-displayed_sidebar: default
+keywords: 
+  - zilliz
+  - vector database
+  - ai-agents
+  - decision matrix
+  - prompts
+  - cluster connection
+displayed_sidebar: agentsSidebar
 
 ---
 
@@ -26,37 +33,16 @@ You can use this prompt for AI-powered IDEs, helping AI assistants implement Zil
 
 Save the Zilliz Cloud prompt to a file in your repo, then include it in your AI tool when chatting. The table below demonstrates where to place the prompt in different tools.
 
-<table>
-   <tr>
-     <th><p><strong>Tool</strong></p></th>
-     <th><p><strong>Where to place the prompt</strong></p></th>
-     <th><p><strong>Reference</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>Claude Code</p></td>
-     <td><p>Include the prompt in your <code>CLAUDE.md</code> file.</p></td>
-     <td><p><a href="https://code.claude.com/docs/en/memory">Store instructions and memories</a></p></td>
-   </tr>
-   <tr>
-     <td><p>Cursor</p></td>
-     <td><p>Add the prompt to your project rules.</p></td>
-     <td><p><a href="https://docs.cursor.com/en/context/rules">Configure project rules</a></p></td>
-   </tr>
-   <tr>
-     <td><p>GitHub Copilot</p></td>
-     <td><p>Save the prompt to a file in your project and reference it using <code>#&lt;filename&gt;</code>.</p></td>
-     <td><p><a href="https://code.visualstudio.com/docs/copilot/copilot-customization#_custom-instructions">Custom instructions in Copilot</a></p></td>
-   </tr>
-   <tr>
-     <td><p>Gemini CLI</p></td>
-     <td><p>Include the prompt in your <code>GEMINI.md</code> file.</p></td>
-     <td><p><a href="https://codelabs.developers.google.com/gemini-cli-hands-on">Gemini CLI codelab</a></p></td>
-   </tr>
-</table>
+| **Tool** | **Where to place the prompt** | **Reference** |
+| --- | --- | --- |
+| Claude Code | Include the prompt in your `CLAUDE.md` file. | [Store instructions and memories](https://code.claude.com/docs/en/memory) |
+| Cursor | Add the prompt to your project rules. | [Configure project rules](https://docs.cursor.com/en/context/rules) |
+| GitHub Copilot | Save the prompt to a file in your project and reference it using `#<filename>`. | [Custom instructions in Copilot](https://code.visualstudio.com/docs/copilot/copilot-customization#_custom-instructions) |
+| Gemini CLI | Include the prompt in your `GEMINI.md` file. | [Gemini CLI codelab](https://codelabs.developers.google.com/gemini-cli-hands-on) |
 
 ## Prompt\{#prompt}
 
-```plaintext
+````plaintext
   Help me connect to Zilliz Cloud correctly.
 
   You are an expert Zilliz Cloud assistant. Use official Zilliz Cloud connection concepts and avoid generic Milvus advice unless it applies directly.
@@ -297,4 +283,4 @@ Save the Zilliz Cloud prompt to a file in your repo, then include it in your AI 
   - For a global cluster, prefer the `global endpoint` for production workloads.
   - For private networking, use the `private endpoint` / private link after setup and DNS mapping.
   - The `global endpoint` does not support Private Link.
-```
+````

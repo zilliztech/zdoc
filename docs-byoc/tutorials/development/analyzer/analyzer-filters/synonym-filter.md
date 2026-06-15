@@ -87,28 +87,11 @@ analyzer_params = {
 
 The `synonym` filter accepts the following parameters.
 
-<table>
-   <tr>
-     <th><p><strong>Parameter</strong></p></th>
-     <th><p><strong>Description</strong></p></th>
-     <th><p><strong>Default</strong></p></th>
-   </tr>
-   <tr>
-     <td><p><code>synonyms</code></p></td>
-     <td><p>An inline array of rule strings. Each string uses the dictionary format described above. Suitable for small dictionaries (up to a few dozen rules).</p></td>
-     <td><p>—</p></td>
-   </tr>
-   <tr>
-     <td><p><code>synonyms_file</code></p></td>
-     <td><p>A reference to a <a href="./undefined">file resource</a> that stores synonym rules, one per line. Use for larger dictionaries. See <a href="./synonym-filter#external-dictionary-file">External dictionary file</a> below.</p></td>
-     <td><p>—</p></td>
-   </tr>
-   <tr>
-     <td><p><code>expand</code></p></td>
-     <td><p>A boolean flag that controls how rules apply. true preserves the original token and emits synonyms alongside it; false rewrites tokens to their canonical form (the right-hand side of a mapping, or the first token of an equivalence group).</p></td>
-     <td><p>false</p></td>
-   </tr>
-</table>
+| **Parameter** | **Description** | **Default** |
+| --- | --- | --- |
+| `synonyms` | An inline array of rule strings. Each string uses the dictionary format described above. Suitable for small dictionaries (up to a few dozen rules). | — |
+| `synonyms_file` | A reference to a [file resource](./undefined) that stores synonym rules, one per line. Use for larger dictionaries. See [External dictionary file](./synonym-filter#external-dictionary-file) below. | — |
+| `expand` | A boolean flag that controls how rules apply. true preserves the original token and emits synonyms alongside it; false rewrites tokens to their canonical form (the right-hand side of a mapping, or the first token of an equivalence group). | false |
 
 You can specify `synonyms`, `synonyms_file`, or both. When both are present, the filter merges the two sources. The filter operates on tokens produced by the tokenizer; it must therefore be combined with a tokenizer such as the [standard](./standard-tokenizer) tokenizer.
 

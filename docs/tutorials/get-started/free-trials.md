@@ -74,7 +74,7 @@ To view your credit balance:
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>To avoid unintentional usage of your credits, you are recommended to manually suspend clusters that are not in use.</p>
+To avoid unintentional usage of your credits, you are recommended to manually suspend clusters that are not in use.
 
 </Admonition>
 

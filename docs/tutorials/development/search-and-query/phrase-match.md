@@ -57,7 +57,7 @@ To enable phrase matching, configure your collection schema by setting both `ena
 
 To enable phrase match for a specific `VARCHAR` field, set both `enable_analyzer` and `enable_match` to `True` when defining your field schema.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -180,7 +180,6 @@ const schema = {
     },
   ],
 };
-
 ```
 
 </TabItem>
@@ -248,6 +247,29 @@ export schema="{
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include "milvus/MilvusClientV2.h"
+
+const std::string address = "YOUR_CLUSTER_ENDPOINT";
+const std::string token = "YOUR_CLUSTER_TOKEN";
+
+auto client = milvus::MilvusClientV2::Create();
+
+milvus::ConnectParam connect_param{address, token};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>();
+schema->AddField(milvus::FieldSchema("id", milvus::DataType::VARCHAR, "", true, true).WithMaxLength(100));
+schema->AddField(milvus::FieldSchema("dense_vector", milvus::DataType::FLOAT_VECTOR).WithDimension(4));
+```
+
+</TabItem>
 </Tabs>
 
 By default, Zilliz Cloud uses the [standard](./standard-analyzer) [analyzer](./standard-analyzer), which tokenizes text by whitespace and punctuation and converts text to lowercase.
@@ -260,7 +282,7 @@ See the [Analyzer Overview](./analyzer-overview) for details.
 
 Oncet the necessary fields are defined, use the following code to create the collection:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -364,6 +386,27 @@ curl --request POST \
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+const auto collection_name = "tech_articles";
+
+milvus::HasCollectionResponse response;
+auto status = client->HasCollection(milvus::HasCollectionRequest().WithCollectionName(collection_name), response);
+if (response.Has()) {
+    status = client->DropCollection(milvus::DropCollectionRequest().WithCollectionName(collection_name));
+}
+
+status = client->CreateCollection(milvus::CreateCollectionRequest()
+                                    .WithCollectionName(collection_name)
+                                    .WithCollectionSchema(schema));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
 </Tabs>
 
 After the collection is created, make sure the following necessary steps are performed before [using pharse match](./phrase-match#use-phrase-match):
@@ -378,7 +421,7 @@ After the collection is created, make sure the following necessary steps are per
 
 <summary>Show example code</summary>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -583,6 +626,42 @@ curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/load" \
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+milvus::EntityRows data = {
+    {{"text", "Machine learning is a subset of artificial intelligence that focuses on algorithms."}, {"embeddings", std::vector<float>{0.1, 0.2, 0.3, 0.4, 0.5}}},
+    {{"text", "Deep learning machine algorithms require large datasets for training."}, {"embeddings", std::vector<float>{0.2, 0.3, 0.4, 0.5, 0.6}}},
+    {{"text", "The machine learning model showed excellent performance on the test set.", std::vector<float>{0.3, 0.4, 0.5, 0.6, 0.7}}},
+    {{"text", "Natural language processing and machine learning go hand in hand."}, {"embeddings", std::vector<float>{0.4, 0.5, 0.6, 0.7, 0.8}}},
+    {{"text", "This article discusses various learning machine techniques and applications."}, {"embeddings", std::vector<float>{0.5, 0.6, 0.7, 0.8, 0.9}}}
+};
+
+milvus::InsertResponse response;
+auto status = client->Insert(milvus::InsertRequest()
+                                .WithCollectionName(collection_name)
+                                .WithRowsData(std::move(data))
+                                , response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+milvus::IndexDesc index_vector("embeddings", "embeddings_index", milvus::IndexType::AUTOINDEX, milvus::MetricType::COSINE);
+status = client->CreateIndex(milvus::CreateIndexRequest()
+                                    .WithCollectionName(collection_name)
+                                    .AddIndex(std::move(index_vector)));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+status = client->LoadCollection(milvus::LoadCollectionRequest().WithCollectionName(collection_name));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
 </Tabs>
 
 </details>
@@ -593,7 +672,7 @@ Once you've enabled match for a `VARCHAR` field in your collection schema, you c
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>The <code>PHRASE_MATCH</code> expression is case-insensitive. You can use either <code>PHRASE_MATCH</code> or <code>phrase_match</code>.</p>
+The `PHRASE_MATCH` expression is case-insensitive. You can use either `PHRASE_MATCH` or `phrase_match`.
 
 </Admonition>
 
@@ -601,7 +680,7 @@ Once you've enabled match for a `VARCHAR` field in your collection schema, you c
 
 Use the `PHRASE_MATCH` expression to specify the field, phrase, and optional flexibility (`slop`) when searching. The syntax is:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -642,6 +721,14 @@ export filter = "PHRASE_MATCH(field_name, phrase, slop)"
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+const auto filter = R"(PHRASE_MATCH(text, 'machine learning'))";
+```
+
+</TabItem>
 </Tabs>
 
 - `field_name`**:** The name of the `VARCHAR` field on which you perform phrase matches.
@@ -664,7 +751,7 @@ When using the `query()` method, **PHRASE_MATCH** acts as a scalar filter. Only 
 
 This example returns documents containing the exact phrase **"machine learning"** without any extra tokens in between.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -741,6 +828,27 @@ curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/entities/query" \
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+const auto filter = R"(PHRASE_MATCH(text, 'machine learning'))";
+
+auto request = milvus::QueryRequest()
+                       .WithCollectionName(collection_name)
+                       .WithFilter(filter)
+                       .AddOutputField("id")
+                       .AddOutputField("text")
+                       .WithLimit(100);
+
+milvus::QueryResponse response;
+auto status = client->Query(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
 </Tabs>
 
 ### Search with phrase match\{#search-with-phrase-match}
@@ -751,7 +859,7 @@ In search operations, **PHRASE_MATCH** is used to pre-filter documents before ap
 
 Here, we allow a slop of 1. The filter is applied to documents that contain the phrase **"learning machine"** with slight flexibility.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -814,7 +922,6 @@ const result_slop1 = await client.search({
   limit: 10,
   output_fields: ["id", "text"],
 });
-
 ```
 
 </TabItem>
@@ -853,13 +960,37 @@ curl -X POST "http://${MILVUS_HOST}/v2/vectordb/entities/search" \
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+const auto filter = R"(PHRASE_MATCH(text, 'learning machine', 1))";
+
+std::vector<float> query_vector = {0.1, 0.2, 0.3, 0.4, 0.5};
+auto request = milvus::SearchRequest()
+                   .WithCollectionName(collection_name)
+                   .WithAnnsField("embeddings")
+                   .WithFilter(filter)
+                   .WithLimit(10)
+                   .AddOutputField("id")
+                   .AddOutputField("text")
+                   .AddFloatVector(query_vector);
+
+milvus::SearchResponse response;
+auto status = client->Search(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
 </Tabs>
 
 #### Example: slop = 2\{#example-slop-2}
 
 This example allows a slop of 2, meaning that up to two extra tokens (or reversed terms) are allowed between the words **"machine"** and **"learning"**.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -922,7 +1053,6 @@ const result_slop2 = await client.search({
   limit: 10,
   output_fields: ["id", "text"],
 });
-
 ```
 
 </TabItem>
@@ -955,13 +1085,37 @@ curl -X POST "http://${MILVUS_HOST}/v2/vectordb/entities/search" \
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+const auto filter = R"(PHRASE_MATCH(text, 'machine learning', 2))";
+
+std::vector<float> query_vector = {0.1, 0.2, 0.3, 0.4, 0.5};
+auto request = milvus::SearchRequest()
+                   .WithCollectionName(collection_name)
+                   .WithAnnsField("embeddings")
+                   .WithFilter(filter)
+                   .WithLimit(10)
+                   .AddOutputField("id")
+                   .AddOutputField("text")
+                   .AddFloatVector(query_vector);
+
+milvus::SearchResponse response;
+auto status = client->Search(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
 </Tabs>
 
 #### Example: slop = 3\{#example-slop-3}
 
 In this example, a slop of 3 provides even more flexibility. The filter searches for **"machine learning"** with up to three token positions allowed between the words.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1052,6 +1206,30 @@ curl -X POST "http://${MILVUS_HOST}/v2/vectordb/entities/search" \
     \"limit\": 10,
     \"outputFields\": [\"id\", \"text\"]
   }"
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+const auto filter = R"(PHRASE_MATCH(text, 'machine learning', 3))";
+
+std::vector<float> query_vector = {0.1, 0.2, 0.3, 0.4, 0.5};
+auto request = milvus::SearchRequest()
+                   .WithCollectionName(collection_name)
+                   .WithAnnsField("embeddings")
+                   .WithFilter(filter)
+                   .WithLimit(10)
+                   .AddOutputField("id")
+                   .AddOutputField("text")
+                   .AddFloatVector(query_vector);
+
+milvus::SearchResponse response;
+auto status = client->Search(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
 ```
 
 </TabItem>

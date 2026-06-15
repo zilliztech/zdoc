@@ -27,10 +27,9 @@ This page covers field property changes, not schema-shape changes such as adding
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<ul>
-<li><p>Each collection consists of only one primary field. Once set during collection creation, you cannot change the primary field or alter its properties.</p></li>
-<li><p>Each collection can have only one partition key. Once set during collection creation, you cannot change the partition key.</p></li>
-</ul>
+- Each collection consists of only one primary field. Once set during collection creation, you cannot change the primary field or alter its properties.
+
+- Each collection can have only one partition key. Once set during collection creation, you cannot change the partition key.
 
 </Admonition>
 
@@ -153,6 +152,26 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
+```c++
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+status = client->AlterCollectionFieldProperties(milvus::AlterCollectionFieldPropertiesRequest()
+                    .WithCollectionName("my_collection")
+                    .WithFieldName("varchar")
+                    .AddProperty("max_length", "1024"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
 ## Alter ARRAY field\{#alter-array-field}
 
 An array field has two properties, namely `element_type` and `max_capacity`. The former determines the data type of the elements in an array, while the latter constrains the maximum number of elements in the array. You can change the `max_capacity` property only.
@@ -234,6 +253,16 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
+```c++
+auto status = client->AlterCollectionFieldProperties(milvus::AlterCollectionFieldPropertiesRequest()
+                                                .WithCollectionName("my_collection")
+                                                .WithFieldName("array")
+                                                .AddProperty("max_capacity", "64"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
 ## Alter field-level mmap settings\{#alter-field-level-mmap-settings}
 
 Memory mapping (Mmap) enables direct memory access to large files on disk, allowing Zilliz Cloud to store indexes and data in both memory and hard drives. This approach helps optimize data placement policy based on access frequency, expanding storage capacity for collections without impacting search performance.
@@ -313,3 +342,12 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
+```c++
+auto status = client->AlterCollectionFieldProperties(milvus::AlterCollectionFieldPropertiesRequest()
+                                                    .WithCollectionName("my_collection")
+                                                    .WithFieldName("doc_chunk")
+                                                    .AddProperty("mmap.enabled", "true"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```

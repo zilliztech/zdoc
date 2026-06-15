@@ -51,7 +51,7 @@ Zilliz Cloud provides two ways for you to count entities in a collection.
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Both methods mentioned above count entities with the same primary key as separate entities. </p>
+Both methods mentioned above count entities with the same primary key as separate entities. 
 
 </Admonition>
 
@@ -153,7 +153,6 @@ if err != nil {
 }
 
 fmt.Println("count: ", resultSet.GetColumn("count").FieldData().GetScalars())
-
 ```
 
 </TabItem>
@@ -185,7 +184,6 @@ res = await client.query({
 console.log(res.data[0]['count(*)'])
 // Output
 // 20
-
 ```
 
 </TabItem>
@@ -211,6 +209,49 @@ curl --request POST \
 
 </TabItem>
 </Tabs>
+
+```c++
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+auto request = milvus::QueryRequest()
+                       .WithCollectionName("test_collection")
+                       .AddOutputField("count(*)");
+
+milvus::QueryResponse response;
+status = client->Query(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+request = milvus::QueryRequest()
+                   .WithCollectionName("test_collection")
+                   .AddOutputField("count(*)")
+                   .WithConsistencyLevel(milvus::ConsistencyLevel::STRONG);
+
+status = client->Query(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+request = milvus::QueryRequest()
+                   .WithCollectionName("test_collection")
+                   .AddOutputField("count(*)")
+                   .AddPartitionName("_default");
+
+status = client->Query(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+std::cout << response.Results().GetRowCount() << std::endl;
+```
 
 ## Use `get_collection_stats()`\{#use-getcollectionstats}
 
@@ -328,6 +369,35 @@ milvusClient.getCollectionStats({
 
 </TabItem>
 </Tabs>
+
+```c++
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+milvus::GetCollectionStatsResponse response;
+status = client->GetCollectionStats(milvus::GetCollectionStatsRequest()
+                                    .WithCollectionName("test_collection")
+                                    , response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+status = client->GetCollectionStats(milvus::GetCollectionStatsRequest()
+                                    .WithCollectionName("test_collection")
+                                    .WithPartitionName("_default")
+                                    , response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+std::cout << response.Stats().RowCount() << std::endl;
+```
 
 ## Entity counts on the Zilliz Cloud console\{#entity-counts-on-the-zilliz-cloud-console}
 

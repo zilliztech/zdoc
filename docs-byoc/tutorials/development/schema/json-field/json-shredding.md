@@ -1,5 +1,5 @@
 ---
-title: "JSON Shredding | Cloud"
+title: "JSON Shredding | BYOC"
 slug: /json-shredding
 sidebar_label: "Shredding"
 beta: FALSE
@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "JSON shredding accelerates JSON queries by converting traditional row-based storage into optimized columnar storage. While maintaining JSON's flexibility for data modeling, Zilliz Cloud performs behind-the-scenes columnar optimization that dramatically improves access and query efficiency. | Cloud"
+description: "JSON shredding accelerates JSON queries by converting traditional row-based storage into optimized columnar storage. While maintaining JSON's flexibility for data modeling, Zilliz Cloud performs behind-the-scenes columnar optimization that dramatically improves access and query efficiency. | BYOC"
 type: origin
 token: Dh8MwFuZliYf9Wkhee3c1FhUnGd
 sidebar_position: 3
@@ -42,24 +42,11 @@ Based on these statistics, JSON keys are categorized into the following for opti
 
 #### Categories of JSON keys\{#categories-of-json-keys}
 
-<table>
-   <tr>
-     <th><p>Key Type</p></th>
-     <th><p>Description</p></th>
-   </tr>
-   <tr>
-     <td><p>Typed keys</p></td>
-     <td><p>Keys that exist in most documents and always have the same data type (e.g., all integers or all strings).</p></td>
-   </tr>
-   <tr>
-     <td><p>Dynamic keys</p></td>
-     <td><p>Keys that appear frequently but have a mixed data type (e.g., sometimes a string, sometimes an integer).</p></td>
-   </tr>
-   <tr>
-     <td><p>Shared keys</p></td>
-     <td><p>Infrequently appearing or nested keys that fall below a configurable frequency threshold<strong>.</strong></p></td>
-   </tr>
-</table>
+| Key Type | Description |
+| --- | --- |
+| Typed keys | Keys that exist in most documents and always have the same data type (e.g., all integers or all strings). |
+| Dynamic keys | Keys that appear frequently but have a mixed data type (e.g., sometimes a string, sometimes an integer). |
+| Shared keys | Infrequently appearing or nested keys that fall below a configurable frequency threshold**.** |
 
 #### Example classification\{#example-classification}
 
@@ -117,57 +104,19 @@ Our testing demonstrates significant performance improvements across different J
 
 This test measured performance when querying a key present in most documents.
 
-<table>
-   <tr>
-     <th><p>Query Expression</p></th>
-     <th><p>Key Value Type</p></th>
-     <th><p>QPS (without shredding)</p></th>
-     <th><p>QPS (with shredding)</p></th>
-     <th><p>Performance Boost</p></th>
-   </tr>
-   <tr>
-     <td><p><code>json['time_us'] &gt; 0</code></p></td>
-     <td><p>Integer</p></td>
-     <td><p>8.69</p></td>
-     <td><p>287.50</p></td>
-     <td><p>33x</p></td>
-   </tr>
-   <tr>
-     <td><p><code>json['kind'] == 'commit'</code></p></td>
-     <td><p>String</p></td>
-     <td><p>8.42</p></td>
-     <td><p>126.1</p></td>
-     <td><p>14.9x</p></td>
-   </tr>
-</table>
+| Query Expression | Key Value Type | QPS (without shredding) | QPS (with shredding) | Performance Boost |
+| --- | --- | --- | --- | --- |
+| `json['time_us'] > 0` | Integer | 8.69 | 287.50 | 33x |
+| `json['kind'] == 'commit'` | String | 8.42 | 126.1 | 14.9x |
 
 ### Results: shared keys\{#results-shared-keys}
 
 This test focused on querying sparse, nested keys that fall into the "shared" category.
 
-<table>
-   <tr>
-     <th><p>Query Expression</p></th>
-     <th><p>Key Value Type</p></th>
-     <th><p>QPS (without shredding)</p></th>
-     <th><p>QPS (with shredding)</p></th>
-     <th><p>Performance Boost</p></th>
-   </tr>
-   <tr>
-     <td><p><code>json['identity']['seq'] &gt; 0</code></p></td>
-     <td><p>Nested Integer</p></td>
-     <td><p>4.33</p></td>
-     <td><p>385</p></td>
-     <td><p>88.9x</p></td>
-   </tr>
-   <tr>
-     <td><p><code>json['identity']['did'] == 'xxxxx'</code></p></td>
-     <td><p>Nested String</p></td>
-     <td><p>7.6</p></td>
-     <td><p>352</p></td>
-     <td><p>46.3x</p></td>
-   </tr>
-</table>
+| Query Expression | Key Value Type | QPS (without shredding) | QPS (with shredding) | Performance Boost |
+| --- | --- | --- | --- | --- |
+| `json['identity']['seq'] > 0` | Nested Integer | 4.33 | 385 | 88.9x |
+| `json['identity']['did'] == 'xxxxx'` | Nested String | 7.6 | 352 | 46.3x |
 
 ### Key insights\{#key-insights}
 

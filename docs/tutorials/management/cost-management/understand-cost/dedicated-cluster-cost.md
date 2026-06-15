@@ -62,7 +62,7 @@ Vector Database Cost = Query CU Unit Price x Total Number of Query CU x Cluster 
 
     <Admonition type="info" icon="📘" title="Note">
 
-    <p>During a <a href="./scale-cluster">scaling</a> job, Zilliz Cloud continues to bill the cluster based on its previous configuration. The new configuration is used for billing only after the scaling job is completed successfully. This applies to both scale-up and scale-down operations. While the job is still in progress, the cluster continues to serve with the previous available configuration.</p>
+    During a [scaling](./scale-cluster) job, Zilliz Cloud continues to bill the cluster based on its previous configuration. The new configuration is used for billing only after the scaling job is completed successfully. This applies to both scale-up and scale-down operations. While the job is still in progress, the cluster continues to serve with the previous available configuration.
 
     </Admonition>
 

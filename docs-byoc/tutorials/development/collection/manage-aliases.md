@@ -51,7 +51,7 @@ Your application continues to send requests to the alias `prod_data`, experienci
 
 The following code snippet demonstrates how to create an alias for a collection.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -228,13 +228,43 @@ curl --request POST \
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+status = client->CreateAlias(milvus::CreateAliasRequest()
+                                .WithCollectionName("my_collection_1")
+                                .WithAlias("bob"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+status = client->CreateAlias(milvus::CreateAliasRequest()
+                                .WithCollectionName("my_collection_1")
+                                .WithAlias("alice"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
 </Tabs>
 
 ## List Aliases\{#list-aliases}
 
 The following code snippet demonstrates the procedure to list the aliases allocated to a specific collection.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -334,13 +364,30 @@ curl --request POST \
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+milvus::ListAliasesResponse response;
+auto status = client->ListAliases(milvus::ListAliasesRequest()
+                                    .WithCollectionName("my_collection_1"),
+                                  response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+for (auto alias : response.Aliases()) {
+    std::cout << "\t" << alias << std::endl;
+}
+```
+
+</TabItem>
 </Tabs>
 
 ## Describe Alias\{#describe-alias}
 
 The following code snippet describes a specific alias in detail, including the name of the collection to which it has been allocated.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -453,13 +500,28 @@ curl --request POST \
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+milvus::DescribeAliasResponse response;
+auto status = client->DescribeAlias(milvus::DescribeAliasRequest().WithAlias("bob"),
+                                    response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+std::cout << "Collection name: " << response.Desc().CollectionName() << std::endl;
+std::cout << "Database name: " << response.Desc().DatabaseName() << std::endl;
+```
+
+</TabItem>
 </Tabs>
 
 ## Alter Alias\{#alter-alias}
 
 You can reallocate the alias already allocated to a specific collection to another.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -576,7 +638,6 @@ console.log(res.aliases)
 // 
 // [ 'bob' ]
 // 
-
 ```
 
 </TabItem>
@@ -666,13 +727,49 @@ curl --request POST \
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+auto status = client->AlterAlias(milvus::AlterAliasRequest()
+                                    .WithAlias("alice")
+                                    .WithCollectionName("my_collection_2"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+milvus::ListAliasesResponse response;
+status = client->ListAliases(milvus::ListAliasesRequest()
+                                .WithCollectionName("my_collection_2"),
+                             response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+std::cout << "aliases of my_collection_2" << std::endl;
+for (auto alias : response.Aliases()) {
+    std::cout << "\t" << alias << std::endl;
+}
+
+status = client->ListAliases(milvus::ListAliasesRequest()
+                                .WithCollectionName("my_collection_1"),
+                             response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+std::cout << "aliases of my_collection_1" << std::endl;
+for (auto alias : response.Aliases()) {
+    std::cout << "\t" << alias << std::endl;
+}
+```
+
+</TabItem>
 </Tabs>
 
 ## Drop Alias\{#drop-alias}
 
 The following code snippet demonstrates the procedure to drop an alias.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -792,5 +889,20 @@ curl --request POST \
 ```
 
 </TabItem>
-</Tabs>
 
+<TabItem value='c++'>
+
+```c++
+auto status = client->DropAlias(milvus::DropAliasRequest().WithAlias("bob"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+status = client->DropAlias(milvus::DropAliasRequest().WithAlias("alice"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+</Tabs>

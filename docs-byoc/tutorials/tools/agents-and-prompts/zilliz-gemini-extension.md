@@ -108,7 +108,7 @@ The wizard will guide you through:
     Configure your default cluster connection:
 
     ```bash
-    zilliz context set --cluster-id <your-cluster-id>
+    zilliz context set --cluster-id &lt;your-cluster-id&gt;
     ```
 
     Or let the plugin help you select from available clusters.
@@ -171,7 +171,7 @@ The plugin should display your Zilliz Cloud clusters.
     **Solution**: Set a default cluster:
 
     ```bash
-    zilliz context set --cluster-id <cluster-id>
+    zilliz context set --cluster-id &lt;cluster-id&gt;
     ```
 
 ## Next Step\{#next-step}

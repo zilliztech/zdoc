@@ -35,33 +35,12 @@ Linear decay uniquely creates a definitive endpoint, making it particularly effe
 
 Linear decay is particularly effective for:
 
-<table>
-   <tr>
-     <th><p>Use Case</p></th>
-     <th><p>Example</p></th>
-     <th><p>Why Linear Works Well</p></th>
-   </tr>
-   <tr>
-     <td><p>Event listings</p></td>
-     <td><p>Concert ticket platforms</p></td>
-     <td><p>Creates a clear cutoff for events too far in the future</p></td>
-   </tr>
-   <tr>
-     <td><p>Limited-time offers</p></td>
-     <td><p>Flash sales, promotions</p></td>
-     <td><p>Ensures expired or soon-to-expire offers don't appear</p></td>
-   </tr>
-   <tr>
-     <td><p>Delivery radius</p></td>
-     <td><p>Food delivery, courier services</p></td>
-     <td><p>Enforces hard geographical boundaries</p></td>
-   </tr>
-   <tr>
-     <td><p>Age-restricted content</p></td>
-     <td><p>Dating platforms, media services</p></td>
-     <td><p>Establishes firm age thresholds</p></td>
-   </tr>
-</table>
+| Use Case | Example | Why Linear Works Well |
+| --- | --- | --- |
+| Event listings | Concert ticket platforms | Creates a clear cutoff for events too far in the future |
+| Limited-time offers | Flash sales, promotions | Ensures expired or soon-to-expire offers don't appear |
+| Delivery radius | Food delivery, courier services | Enforces hard geographical boundaries |
+| Age-restricted content | Dating platforms, media services | Establishes firm age thresholds |
 
 Choose linear decay when:
 
@@ -79,7 +58,7 @@ Linear decay creates a straight-line drop that decreases at a constant rate unti
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>All time parameters (<code>origin</code>, <code>offset</code>, <code>scale</code>) must use the same unit as the collection data. If your collection stores timestamps in a different unit (milliseconds, microseconds), adjust all parameters accordingly.</p>
+All time parameters (`origin`, `offset`, `scale`) must use the same unit as the collection data. If your collection stores timestamps in a different unit (milliseconds, microseconds), adjust all parameters accordingly.
 
 </Admonition>
 
@@ -133,7 +112,7 @@ Linear decay can be applied to both standard vector search and hybrid search ope
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Before using decay functions, you must first create a collection with appropriate numeric fields (like timestamps, distances, etc.) that will be used for decay calculations. For complete working examples including collection setup, schema definition, and data insertion, refer to <a href="./tutorial-implement-time-based-ranking">Decay Ranker Tutorial</a>.</p>
+Before using decay functions, you must first create a collection with appropriate numeric fields (like timestamps, distances, etc.) that will be used for decay calculations. For complete working examples including collection setup, schema definition, and data insertion, refer to [Decay Ranker Tutorial](./tutorial-implement-time-based-ranking).
 
 </Admonition>
 
@@ -143,11 +122,11 @@ After your collection is set up with a numeric field (in this example, `event_da
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p><strong>Time unit consistency</strong>: When using time-based decay, ensure that <code>origin</code>, <code>scale</code>, and <code>offset</code> parameters use the same time unit as your collection data. If your collection stores timestamps in seconds, use seconds for all parameters. If it uses milliseconds, use milliseconds for all parameters.</p>
+**Time unit consistency**: When using time-based decay, ensure that `origin`, `scale`, and `offset` parameters use the same time unit as your collection data. If your collection stores timestamps in seconds, use seconds for all parameters. If it uses milliseconds, use milliseconds for all parameters.
 
 </Admonition>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -190,7 +169,6 @@ DecayRanker rerank = DecayRanker.builder()
         .decay(0.5)
         .scale(7 * 24 * 60 * 60)
         .build();
-
 ```
 
 </TabItem>
@@ -232,13 +210,27 @@ const rerank = {
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+auto rerank = std::make_shared<milvus::DecayRerank>("event_relevance");
+rerank->AddInputFieldName("event_date");
+rerank->SetFunction("exp");
+rerank->SetOrigin(1736870400);
+rerank->SetScale(7 * 24 * 60 * 60);
+rerank->SetOffset(12 * 60 * 60);
+rerank->SetDecay(0.5);
+```
+
+</TabItem>
 </Tabs>
 
 ### Apply to standard vector search\{#apply-to-standard-vector-search}
 
 After defining your decay ranker, you can apply it during search operations by passing it to the `ranker` parameter:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -293,7 +285,6 @@ const result = await milvusClient.search({
   rerank: rerank,
   consistency_level: "Strong",
 });
-
 ```
 
 </TabItem>
@@ -313,5 +304,30 @@ const result = await milvusClient.search({
 ```
 
 </TabItem>
-</Tabs>
 
+<TabItem value='c++'>
+
+```c++
+auto function_score = std::make_shared<milvus::FunctionScore>();
+function_score->AddFunction(rerank);
+
+auto request = milvus::SearchRequest()
+                   .WithCollectionName(collection_name)
+                   .WithAnnsField("dense")
+                   .WithRerank(function_score)
+                   .WithLimit(10)
+                   .AddOutputField("title")
+                   .AddOutputField("venue")
+                   .AddOutputField("event_date")
+                   .AddFloatVector(your_query_vector)
+                   .WithConsistencyLevel(milvus::ConsistencyLevel::BOUNDED);
+
+milvus::SearchResponse response;
+auto status = client->Search(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
+</Tabs>

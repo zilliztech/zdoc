@@ -27,7 +27,6 @@ Zilliz Cloud provides the `TEXT` scalar field type for storing long source text 
 To define a `TEXT` field in a collection schema, set `datatype` to `DataType.TEXT`.
 
 ```python
-
 schema.add_field(
     field_name="content",
     # highlight-next-line
@@ -39,7 +38,7 @@ After the field is defined, each entity can include a string value in that field
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>TEXT fields support null values and default values. To enable these features, set nullable to True and default_value to a string value. For details, refer to <a href="./nullable-fields">Nullable Fields</a> and <a href="./default-fields">Default Values</a>.</p>
+TEXT fields support null values and default values. To enable these features, set nullable to True and default_value to a string value. For details, refer to [Nullable Fields](./nullable-fields) and [Default Values](./default-fields).
 
 </Admonition>
 
@@ -59,38 +58,13 @@ After the field is defined, each entity can include a string value in that field
 
 `TEXT` and `VARCHAR` both store string values, but they support different application needs. Use `VARCHAR` for short, bounded metadata that identifies, categorizes, or filters entities. Use `TEXT` for longer source content that gives an LLM or agent enough context to read, cite, summarize, or build a prompt.
 
-<table>
-   <tr>
-     <th><p><strong>Aspect</strong></p></th>
-     <th><p><strong>VARCHAR</strong></p></th>
-     <th><p><strong>TEXT</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>Best for</p></td>
-     <td><p>Short metadata used to identify, categorize, or filter entities, such as <code>title</code>, <code>tag</code>, <code>category</code>, <code>external_id</code>.</p></td>
-     <td><p>Longer source content used by LLM or agent workflows, such as <code>content</code>, <code>passage</code>, <code>article_body</code>, <code>log_message</code>.</p></td>
-   </tr>
-   <tr>
-     <td><p>Length setting</p></td>
-     <td><p>Requires <code>max_length</code>, which defines the maximum number of bytes the field can store. The maximum value is 65,535 bytes.  If a value may exceed this limit, use <code>TEXT</code>.</p></td>
-     <td><p>Does not require <code>max_length</code>, so the schema does not need a fixed byte limit for the text value.</p></td>
-   </tr>
-   <tr>
-     <td><p>Storage behavior</p></td>
-     <td><p>Stores each value within the field's configured <code>max_length</code>.</p></td>
-     <td><p>Uses automatic storage selection for larger text values..</p></td>
-   </tr>
-   <tr>
-     <td><p>Primary field support</p></td>
-     <td><p>Can be used as a primary field.</p></td>
-     <td><p>Cannot be used as a primary field.</p></td>
-   </tr>
-   <tr>
-     <td><p>Filtering</p></td>
-     <td><p>Use for short string metadata that needs to appear in filter expressions, such as <code>category == "news"</code> or <code>tag in ["ai", "database"]</code>.</p></td>
-     <td><p>Not intended for regular metadata filtering.</p></td>
-   </tr>
-</table>
+| **Aspect** | **VARCHAR** | **TEXT** |
+| --- | --- | --- |
+| Best for | Short metadata used to identify, categorize, or filter entities, such as `title`, `tag`, `category`, `external_id`. | Longer source content used by LLM or agent workflows, such as `content`, `passage`, `article_body`, `log_message`. |
+| Length setting | Requires `max_length`, which defines the maximum number of bytes the field can store. The maximum value is 65,535 bytes.  If a value may exceed this limit, use `TEXT`. | Does not require `max_length`, so the schema does not need a fixed byte limit for the text value. |
+| Storage behavior | Stores each value within the field's configured `max_length`. | Uses automatic storage selection for larger text values.. |
+| Primary field support | Can be used as a primary field. | Cannot be used as a primary field. |
+| Filtering | Use for short string metadata that needs to appear in filter expressions, such as `category == "news"` or `tag in ["ai", "database"]`. | Not intended for regular metadata filtering. |
 
 For details about `VARCHAR` fields, refer to [VARCHAR Field](https://milvus.io/docs/string.md).
 

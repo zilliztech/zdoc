@@ -31,7 +31,7 @@ There are two TTL modes:
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This feature applies only to managed collections.</p>
+This feature applies only to managed collections.
 
 </Admonition>
 
@@ -73,7 +73,7 @@ Typical scenarios:
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Expired entities will not appear in any search or query results. However, they may stay in the storage until the subsequent data compaction, which should be carried out within the next 24 hours.</p>
+Expired entities will not appear in any search or query results. However, they may stay in the storage until the subsequent data compaction, which should be carried out within the next 24 hours.
 
 </Admonition>
 
@@ -89,40 +89,15 @@ A collection uses **one** mode at a time — the two are mutually exclusive. Swi
 
 Use this table to pick a mode:
 
-<table>
-   <tr>
-     <th><p><strong>If your situation is…</strong></p></th>
-     <th><p><strong>Use</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>Every entity in the collection should follow the same retention window</p></td>
-     <td><p>Collection-level TTL</p></td>
-   </tr>
-   <tr>
-     <td><p>Retention is "from the moment of insert, keep N seconds"</p></td>
-     <td><p>Collection-level TTL</p></td>
-   </tr>
-   <tr>
-     <td><p>Different entities need different lifetimes in the same collection (per-tenant, hot/cold, per-document)</p></td>
-     <td><p>Entity-level TTL</p></td>
-   </tr>
-   <tr>
-     <td><p>Retention is an absolute wall-clock time (for example, 2027-01-01T00:00:00Z)</p></td>
-     <td><p>Entity-level TTL</p></td>
-   </tr>
-   <tr>
-     <td><p>Retention is driven by a business timestamp, not the insert timestamp</p></td>
-     <td><p>Entity-level TTL</p></td>
-   </tr>
-   <tr>
-     <td><p>You want to refresh or extend an entity's lifetime after insert</p></td>
-     <td><p>Entity-level TTL</p></td>
-   </tr>
-   <tr>
-     <td><p>Some entities should never expire while others should</p></td>
-     <td><p>Entity-level TTL (use NULL for the immortal ones)</p></td>
-   </tr>
-</table>
+| **If your situation is…** | **Use** |
+| --- | --- |
+| Every entity in the collection should follow the same retention window | Collection-level TTL |
+| Retention is "from the moment of insert, keep N seconds" | Collection-level TTL |
+| Different entities need different lifetimes in the same collection (per-tenant, hot/cold, per-document) | Entity-level TTL |
+| Retention is an absolute wall-clock time (for example, 2027-01-01T00:00:00Z) | Entity-level TTL |
+| Retention is driven by a business timestamp, not the insert timestamp | Entity-level TTL |
+| You want to refresh or extend an entity's lifetime after insert | Entity-level TTL |
+| Some entities should never expire while others should | Entity-level TTL (use NULL for the immortal ones) |
 
 </details>
 
@@ -134,7 +109,7 @@ Use collection-level TTL when every entity in the collection should follow the s
 
 Pass `collection.ttl.seconds` (integer, in seconds) through the `properties` map at creation time.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -270,13 +245,27 @@ curl --request POST \
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+auto status = client->CreateCollection(milvus::CreateCollectionRequest()
+                                        .WithCollectionName("my_collection")
+                                        .WithCollectionSchema(schema)
+                                        .AddProperty(milvus::COLLECTION_TTL_SECONDS, "1209600"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
 </Tabs>
 
 ### Enable on an existing collection\{#enable-on-an-existing-collection}
 
 Call `alter_collection_properties` with `collection.ttl.seconds` in the `properties` map to apply TTL to a collection that is already in use.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -388,13 +377,26 @@ curl --request POST \
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+auto status = client->AlterCollectionProperties(milvus::AlterCollectionPropertiesRequest()
+                                                   .WithCollectionName("my_collection")
+                                                   .AddProperty(milvus::COLLECTION_TTL_SECONDS, "1209600"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
 </Tabs>
 
 ### Drop the TTL setting\{#drop-the-ttl-setting}
 
 If you decide to keep the data in a collection indefinitely, you can simply drop the TTL setting from that collection.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -481,6 +483,19 @@ curl --request POST \
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+auto status = client->DropCollectionProperties(milvus::DropCollectionPropertiesRequest()
+                                                  .WithCollectionName("my_collection")
+                                                  .AddPropertyKey(milvus::COLLECTION_TTL_SECONDS));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
 </Tabs>
 
 ## Set entity-level TTL | PRIVATE\{#set-entity-level-ttl}
@@ -491,7 +506,7 @@ Entity-level TTL lets each entity carry its own absolute expiration time. The ti
 
 Enabling entity-level TTL at creation time takes two additions in the same `create_collection` call: a `TIMESTAMPTZ` field in the schema, and the `ttl_field` property pointing to that field.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -606,11 +621,19 @@ await client.createCollection({
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// cpp
+```
+
+</TabItem>
 </Tabs>
 
 Once the collection exists, insert entities with [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) timestamp strings.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -740,11 +763,19 @@ await client.insert({
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// cpp
+```
+
+</TabItem>
 </Tabs>
 
 On every query and vector search, the server auto-injects the TTL filter — you never write one yourself, and expired entities never appear in the results:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -839,13 +870,21 @@ console.log(results.data);
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// cpp
+```
+
+</TabItem>
 </Tabs>
 
 The same auto-filter applies to `client.search()`.
 
 To extend an entity's lifetime before compaction physically removes it, upsert with a later expiration timestamp — or `None` — to return the entity to the queryable set.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -940,13 +979,21 @@ await client.upsert({
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// cpp
+```
+
+</TabItem>
 </Tabs>
 
 ### Enable on an existing collection\{#enable-on-an-existing-collection}
 
 If the collection already exists and does not have `collection.ttl.seconds` set, add a `TIMESTAMPTZ` column with `add_collection_field`, then mark it as the TTL field with `alter_collection_properties`. Optionally upsert historical rows to backfill their expiration timestamps — rows you do not backfill keep `NULL` and never expire.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1091,13 +1138,21 @@ await client.upsert({
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// cpp
+```
+
+</TabItem>
 </Tabs>
 
 ### Drop the TTL setting\{#drop-the-ttl-setting}
 
 Call `drop_collection_properties` with `ttl_field` in `property_keys` to stop per-entity expiration. The `TIMESTAMPTZ` column itself remains on the schema — you can still query on it as a regular field.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1170,6 +1225,14 @@ await client.dropCollectionProperties({
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// cpp
+```
+
+</TabItem>
 </Tabs>
 
 Dropping `ttl_field` disables the automatic filter for future queries, but entities that had already expired are not automatically surfaced again. To make a previously-expired entity visible, upsert it with a `None` or future expiration timestamp — that is the only way to restore access to expired rows within the same load session.
@@ -1182,7 +1245,7 @@ The two TTL modes are mutually exclusive, so switching between them is a multi-s
 
 If your collection was created with `collection.ttl.seconds` and you want to switch to per-entity expiration, follow these four steps. Skipping Step 1 causes Step 3 to fail with `collection TTL is already set, cannot be set ttl field`.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1316,6 +1379,14 @@ client.upsert(UpsertReq.builder()
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// cpp
+```
+
+</TabItem>
 </Tabs>
 
 Historical entities for which you do not backfill `expire_at` will have `NULL` in that column, meaning they never expire. Backfill only the rows that should have a finite lifetime.
@@ -1324,7 +1395,7 @@ Historical entities for which you do not backfill `expire_at` will have `NULL` i
 
 To move in the other direction, drop `ttl_field` and set `collection.ttl.seconds`:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1401,6 +1472,14 @@ client.alterCollectionProperties(AlterCollectionPropertiesReq.builder()
 
 ```bash
 # restful
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// cpp
 ```
 
 </TabItem>

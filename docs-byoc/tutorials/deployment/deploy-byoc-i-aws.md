@@ -26,10 +26,9 @@ This page explains how to deploy a Bring-Your-Own-Cloud (BYOC) data plane with a
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<ul>
-<li><p>Zilliz BYOC is currently available in <strong>General Availability</strong>. For access and implementation details, please contact <a href="https://zilliz.com/contact-sales">Zilliz Cloud support</a>.</p></li>
-<li><p>This guide demonstrates how to create the necessary resources on the AWS console step-by-step. If you prefer to use a Terraform script to provision the infrastructure,  see <a href="./terraform-provider">Terraform Provider</a>. </p></li>
-</ul>
+- Zilliz BYOC is currently available in **General Availability**. For access and implementation details, please contact [Zilliz Cloud support](https://zilliz.com/contact-sales).
+
+- This guide demonstrates how to create the necessary resources on the AWS console step-by-step. If you prefer to use a Terraform script to provision the infrastructure,  see [Terraform Provider](./terraform-provider). 
 
 </Admonition>
 
@@ -152,12 +151,13 @@ The project is created at the end of this step, and you will be redirected to th
 
         <Admonition type="info" icon="📘" title="Notes">
 
-        <ul>
-        <li><p>Your choice in <strong>Project Size</strong> does not affect the settings in <strong>Tiered Storage Node</strong>.</p></li>
-        <li><p>If <strong>Auto-scaling</strong> is disabled, the sum of the <strong>Default Query Node</strong> count and the <strong>Tiered Query Node</strong> count should be a positive integer.</p></li>
-        <li><p>If <strong>Auto-scaling</strong> is enabled, the sum of the <strong>Min</strong> values of both the <strong>Default Query Node</strong> and the <strong>Tiered Query Node</strong> should be a positive integer.</p></li>
-        <li><p>For clusters created before Tiered Storage becomes available for BYOC, you can manually enable Tiered Storage. For details, refer to  <a href="./enable-tiered-storage-aws">Enable Tiered Storage for Exisiting Clusters</a>.</p></li>
-        </ul>
+        - Your choice in **Project Size** does not affect the settings in **Tiered Storage Node**.
+        
+        - If **Auto-scaling** is disabled, the sum of the **Default Query Node** count and the **Tiered Query Node** count should be a positive integer.
+        
+        - If **Auto-scaling** is enabled, the sum of the **Min** values of both the **Default Query Node** and the **Tiered Query Node** should be a positive integer.
+        
+        - For clusters created before Tiered Storage becomes available for BYOC, you can manually enable Tiered Storage. For details, refer to  [Enable Tiered Storage for Exisiting Clusters](./enable-tiered-storage-aws).
 
         </Admonition>
 

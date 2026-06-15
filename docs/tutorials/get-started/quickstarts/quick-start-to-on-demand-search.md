@@ -31,14 +31,13 @@ Before working on a database, connect to the project endpoint. You can obtain th
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<ul>
-<li><p>Managed collection operations require an <strong>API key</strong> for authentication. This flow does not support <code>username:password</code> authentication.</p></li>
-<li><p>Managed collections in databases for on-demand compute do not require load operations.</p></li>
-</ul>
+- Managed collection operations require an **API key** for authentication. This flow does not support `username:password` authentication.
+
+- Managed collections in databases for on-demand compute do not require load operations.
 
 </Admonition>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -104,13 +103,29 @@ export PROJECT_ENDPOINT="https://{project-id}.{region}.api.zillizcloud.com"
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include <milvus/MilvusClientV2.h>
+
+auto client = milvus::MilvusClientV2::Create();
+milvus::ConnectParam connect_param(
+    "https://{project-id}.{region}.api.zillizcloud.com",
+    "YOUR_API_KEY"
+);
+
+auto status = client->Connect(connect_param);
+```
+
+</TabItem>
 </Tabs>
 
 ## Step 2: (Optional) Create a database.\{#step-2-optional-create-a-database}
 
 Zilliz Cloud ships with a default database. If you choose that, skip this step. You can also create a database as follows.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Shell","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -167,11 +182,26 @@ curl --request POST \
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='shell'>
 
 ```shell
 zilliz database create --name my_database
 ```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+milvus::CreateDatabaseRequest request;
+request.WithDatabaseName("my_database");
+
+auto status = client->CreateDatabase(request);
+```
+
+</TabItem>
+</Tabs>
 
 ## Step 3: Create a managed collection.\{#step-3-create-a-managed-collection}
 
@@ -179,7 +209,7 @@ Once the database is ready, you can create managed collections in it. Unlike an 
 
 The following example demonstrates how to set up the collection schema and create a collection.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Shell","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -313,7 +343,8 @@ export schema='{
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='shell'>
 
 ```shell
 cat > schema.json <<'JSON'
@@ -343,9 +374,27 @@ cat > schema.json <<'JSON'
 JSON
 ```
 
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+auto schema = std::make_shared<milvus::CollectionSchema>();
+
+schema->AddField(milvus::FieldSchema("product_id", milvus::DataType::INT64)
+    .WithPrimaryKey(true));
+schema->AddField(milvus::FieldSchema("product_name", milvus::DataType::VARCHAR)
+    .WithMaxLength(512));
+schema->AddField(milvus::FieldSchema("embedding", milvus::DataType::FLOAT_VECTOR)
+    .WithDimension(768));
+```
+
+</TabItem>
+</Tabs>
+
 Then you can create a collection with the above schema. If you decide to use the default database, you can safely skip the `db_name` parameter.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Shell","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -421,7 +470,8 @@ curl --request POST \
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='shell'>
 
 ```shell
 zilliz collection create \
@@ -430,11 +480,28 @@ zilliz collection create \
   --body file://schema.json
 ```
 
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+auto status = client->UseDatabase("my_database");
+
+milvus::CreateCollectionRequest request;
+request.WithCollectionName("prod_collection")
+       .WithCollectionSchema(schema);
+
+status = client->CreateCollection(request);
+```
+
+</TabItem>
+</Tabs>
+
 ## Step 4: Create indexes.\{#step-4-create-indexes}
 
 You need to create indexes for all vector fields and, optionally, for selected scalar fields.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Shell","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -568,7 +635,8 @@ curl --request POST \
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='shell'>
 
 ```shell
 zilliz index create \
@@ -577,13 +645,37 @@ zilliz index create \
   --body '{"indexParams":[{"fieldName":"embedding","metricType":"COSINE","indexName":"embedding","indexType":"AUTOINDEX"},{"fieldName":"product_name","indexName":"product_name","indexType":"AUTOINDEX"}]}'
 ```
 
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+milvus::CreateIndexRequest request;
+request.WithDatabaseName("my_database")
+       .WithCollectionName("prod_collection")
+       .AddIndex(milvus::IndexDesc(
+           "embedding",
+           "embedding",
+           milvus::IndexType::AUTOINDEX,
+           milvus::MetricType::COSINE))
+       .AddIndex(milvus::IndexDesc(
+           "product_name",
+           "product_name",
+           milvus::IndexType::AUTOINDEX));
+
+auto status = client->CreateIndex(request);
+```
+
+</TabItem>
+</Tabs>
+
 ## Step 5: Import data.\{#step-5-import-data}
 
 Once everything is set up, you can import the processed data. The following example assumes that you have stored the processed data in an external storage bucket.
 
 For the data format in your bucket or storage integrations, refer to [Format Options](./data-import-format-options).
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Shell","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -696,7 +788,8 @@ curl --request POST \
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='shell'>
 
 ```shell
 zilliz import start \
@@ -707,9 +800,12 @@ zilliz import start \
 # job-xxxxxxxxxxxxxxxxxxxxx
 ```
 
+</TabItem>
+</Tabs>
+
 With the returned job ID, you can monitor its progress.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Shell","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -785,13 +881,17 @@ console.log(JSON.stringify(resp, null, 2));
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='shell'>
 
 ```shell
 zilliz import status \
   --cluster-id inxx-xxxxxxxxxxxxxxxxxxx \
   --job-id job-xxxxxxxxxxxxxxxxxxxxx
 ```
+
+</TabItem>
+</Tabs>
 
 ## Step 6: Create an on-demand cluster\{#step-6-create-an-on-demand-cluster}
 
@@ -821,7 +921,7 @@ By default, the cluster automatically suspends for 60 seconds after the last req
 
 When you need to conduct searches, queries, or hybrid searches, you can attach to the on-demand cluster created in the previous step through a session.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Shell","value":"shell"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
 
 ```python
@@ -946,7 +1046,8 @@ curl --request POST \
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='shell'>
 
 ```shell
 zilliz context set --cluster-id inxx-xxxxxxxxxxxxxxx
@@ -973,6 +1074,9 @@ zilliz vector search \
   --limit 3 \
   --output-fields '["product_id","product_name"]'
 ```
+
+</TabItem>
+</Tabs>
 
 Then, you can explore your data and find the most valuable subset. Then you can connect to a serving cluster, import the data into it, and serve it for production.
 

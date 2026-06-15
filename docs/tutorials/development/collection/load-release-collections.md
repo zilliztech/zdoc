@@ -35,23 +35,10 @@ Before loading a collection, verify the following:
 
 Although the same load request applies to both external and managed collections, the strategy for loading external collections depends on the target architecture:
 
-<table>
-   <tr>
-     <th><p>Environment</p></th>
-     <th><p>Memory Behavior</p></th>
-     <th><p>Execution Detail</p></th>
-   </tr>
-   <tr>
-     <td><p>Managed collections in serving clusters</p></td>
-     <td><p>Full load</p></td>
-     <td><p>Loads all indexes and data (vector and scalar fields) directly into memory for high-performance access.</p></td>
-   </tr>
-   <tr>
-     <td><p>External collections in standalone databases</p></td>
-     <td><p>Index-only Load</p></td>
-     <td><p>Loads only the indexes into memory. Raw data is retrieved from disk on demand during active searches or queries.</p></td>
-   </tr>
-</table>
+| Environment | Memory Behavior | Execution Detail |
+| --- | --- | --- |
+| Managed collections in serving clusters | Full load | Loads all indexes and data (vector and scalar fields) directly into memory for high-performance access. |
+| External collections in standalone databases | Index-only Load | Loads only the indexes into memory. Raw data is retrieved from disk on demand during active searches or queries. |
 
 ## Load Collection\{#load-collection}
 
@@ -59,7 +46,7 @@ When you load a collection, Zilliz Cloud loads the index files and the raw data 
 
 The following code snippets demonstrate how to load a collection.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -250,6 +237,37 @@ curl --request POST \
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+status = client->LoadCollection(milvus::LoadCollectionRequest()
+                                    .WithCollectionName("my_collection"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+milvus::GetLoadStateResponse response;
+status = client->GetLoadState(milvus::GetLoadStateRequest()
+                                .WithCollectionName("my_collection"),
+                              response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+std::cout << std::to_string(response.State()) << std::endl;
+```
+
+</TabItem>
 </Tabs>
 
 ## Load Specific Fields\{#load-specific-fields}
@@ -258,7 +276,7 @@ Zilliz Cloud can load only the fields involved in searches and queries, reducing
 
 The following code snippet assumes that you have created a collection named **my_collection**, and there are two fields named **my_id** and **my_vector** in the collection.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -360,6 +378,30 @@ fmt.Println(state)
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+auto status = client->LoadCollection(milvus::LoadCollectionRequest()
+                                        .WithCollectionName("my_collection")
+                                        .AddLoadField("my_id")
+                                        .AddLoadField("my_vector")
+                                        .WithSkipDynamicField(true));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+milvus::GetLoadStateResponse response;
+status = client->GetLoadState(milvus::GetLoadStateRequest()
+                                .WithCollectionName("my_collection"),
+                              response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+std::cout << std::to_string(response.State()) << std::endl;
+```
+
+</TabItem>
 </Tabs>
 
 If you choose to load specific fields, it is worth noting that only the fields included in `load_fields` can be used as filters and output fields in searches and queries. You should always include the names of the primary field and at least one vector field in `load_fields`.
@@ -374,7 +416,7 @@ Searches and queries are memory-intensive operations. To save the cost, you are 
 
 The following code snippet demonstrates how to release a collection.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -507,6 +549,27 @@ curl --request POST \
 #         "message": ""
 #     }
 # }
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+auto status = client->ReleaseCollection(milvus::ReleaseCollectionRequest()
+                                            .WithCollectionName("my_collection"));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+milvus::GetLoadStateResponse response;
+status = client->GetLoadState(milvus::GetLoadStateRequest()
+                                .WithCollectionName("my_collection"),
+                              response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+std::cout << std::to_string(response.State()) << std::endl;
 ```
 
 </TabItem>

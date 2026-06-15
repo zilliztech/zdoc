@@ -43,7 +43,7 @@ Truncation is ideal for use cases that require rapid, complete dataset resets, s
 
 The following code examples assume that you already have a collection named `my_collection`.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -131,7 +131,6 @@ func main() {
 <TabItem value='javascript'>
 
 ```javascript
-
 const milvusClient = new MilvusClient({ 
     address: 'YOUR_CLUSTER_ENDPOINT', 
     token: 'YOUR_CLUSTER_TOKEN'
@@ -162,5 +161,12 @@ curl -X POST "${CLUSTER_ENDPOINT}/v2/vectordb/collections/truncate" \
 ```
 
 </TabItem>
-</Tabs>
 
+<TabItem value='c++'>
+
+```c++
+// C++
+```
+
+</TabItem>
+</Tabs>

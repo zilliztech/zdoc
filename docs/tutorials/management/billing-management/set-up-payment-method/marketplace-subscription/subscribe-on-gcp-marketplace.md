@@ -26,7 +26,7 @@ This guide provides a step-by-step walkthrough of the subscription process and o
 
 <Admonition type="info" icon="📘" title="Note">
 
-<p>Once subscribed, you can pay for the usage of Google Cloud clusters via Google Cloud Marketplace. If you have clusters deployed on other cloud providers, you can also use Google Cloud Marketplace to pay.</p>
+Once subscribed, you can pay for the usage of Google Cloud clusters via Google Cloud Marketplace. If you have clusters deployed on other cloud providers, you can also use Google Cloud Marketplace to pay.
 
 </Admonition>
 
@@ -70,7 +70,7 @@ Visit [GCP](https://console.cloud.google.com/marketplace)[ Marketplace](https://
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    <p>If you are unable to complete the signup process, you can retry by navigating to <strong><a href="https://console.cloud.google.com/marketplace/orders">Your Orders</a></strong> page in the GCP Marketplace.</p>
+    If you are unable to complete the signup process, you can retry by navigating to **[Your Orders](https://console.cloud.google.com/marketplace/orders)** page in the GCP Marketplace.
 
     </Admonition>
 
@@ -108,7 +108,7 @@ For details, see [Update Payment Method](./update-payment-method)
 
 <Admonition type="info" icon="📘" title="Note">
 
-<p>After you cancel the subscription, your organization loses access to advanced Zilliz Cloud features. If your organization has no remaining credits, or if all credits have expired, it is frozen immediately.</p>
+After you cancel the subscription, your organization loses access to advanced Zilliz Cloud features. If your organization has no remaining credits, or if all credits have expired, it is frozen immediately.
 
 </Admonition>
 

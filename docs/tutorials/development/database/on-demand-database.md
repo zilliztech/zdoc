@@ -1,15 +1,15 @@
 ---
-title: "Database | Cloud"
+title: "Database for On-Demand Search | Cloud"
 slug: /on-demand-database
-sidebar_label: "Database"
+sidebar_label: "Database for On-Demand Search"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "A database in on-demand compute is managed by the platform and does not require you to provision or maintain a cluster for it. You specify on-demand compute to perform query search on data in this type of database. For details, see Database Explained. | Cloud"
+description: "A database for on-demand search is a project-level database managed by Zilliz Cloud. It is not tied to a serving cluster. Use this page to create, view, and drop databases through a project endpoint. | Cloud"
 type: origin
-token: Dln4wglKhi0ijkkHtCQcLGQpnnc
+token: KTWtw4V6SiTpDMkeGMQc8lChn8b
 sidebar_position: 3
 displayed_sidebar: default
 
@@ -20,109 +20,110 @@ import Admonition from '@theme/Admonition';
 
 import Procedures from '@site/src/components/Procedures';
 
-# Database
+# Database for On-Demand Search
 
-A database in on-demand compute is managed by the platform and does not require you to provision or maintain a cluster for it. You specify on-demand compute to perform query search on data in this type of database. For details, see [Database Explained](./database-concept).
+A database for on-demand search is a project-level database managed by Zilliz Cloud. It is not tied to a serving cluster. Use this page to create, view, and drop databases through a project endpoint.
 
-This guide explains how to manage a database in on-demand compute.
+<Admonition type="info" icon="📘" title="Notes">
 
-<Admonition type="info" icon="📘" title="Note">
+- This page is for project-level databases used by on-demand search. For databases hosted by serving clusters, see [Database in Serving Clusters](./database). For a comparison of database models, see [Database Explained](./database-concept).
 
-<p>This feature is only available to <strong>Enterprise</strong> projects.</p>
+- This feature is only available to Enterprise projects.
 
 </Admonition>
 
-## Limitations\{#limitations}
+## Before you begin\{#before-you-begin}
 
-- To manage databases in on-demand compute, you need to be a **Project Admin**.
+Ensure that:
 
-- You can create up to 100 on-demand compute databases in each project.
+- You have **Project Admin** access.
 
-- All collections ([managed](./manage-collections-sdks) or [external](./external-volume)) in an on-demand database do not support dropping indexes.
+- You have the project endpoint, for example `<i>http</i>s://{project-id}.{region}.api.zillizcloud.com`.
+
+- You have an API key with access to the project.
+
+You can create up to 100 databases for on-demand search in each project.
+
+## Supported operations\{#supported-operations}
+
+| Operation | Supported |
+| --- | --- |
+| Create/drop database | Yes |
+| Create/drop collection | Yes |
+| Load/release collection | No need |
+| Search/query | Yes |
+| Import | Yes |
+| Insert/upsert/delete | No |
+
+All collections, including managed collections and external collections, in an on-demand database do not support dropping indexes.
 
 ## Create database\{#create-database}
 
-This type of database is project-level resource shared by all on-demand clusters in the project.
+This database is a project-level resource shared by on-demand compute in the project.
 
-- **Via RESTful API**
+```plaintext
+curl --request POST \
+  --url "YOUR_PROJECT_ENDPOINT/v2/vectordb/databases/create" \
+  --header "Authorization: Bearer YOUR_API_KEY" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "dbName": "my_database"
+  }'
+```
 
-    ```bash
-    export PROJECT_ENDPOINT="https://{project-id}.{region}.api.zillizcloud.com"
-    export TOKEN="YOUR_CLUSTER_TOKEN"
-    
-    curl --request POST \
-    --url "${PROJECT_ENDPOINT}/v2/vectordb/databases/create" \
-    --header "Authorization: Bearer ${TOKEN}" \
-    --header "Content-Type: application/json" \
-    -d '{
-        "dbName": "my_database"
-    }'
-    ```
+You can also create a database from the Zilliz Cloud console:
 
-- **Via web console**
+<Procedures>
 
-    ![OisSw2P8QhBiYqbInlbc8lpKnHc](https://zdoc-images.s3.us-west-2.amazonaws.com/OisSw2P8QhBiYqbInlbc8lpKnHc.png)
+1. Navigate to your project.
 
-    <Procedures>
+1. Click **On-demand**.
 
-    1. Navigate to your project and click **On-demand**.
+1. Click **Databases**.
 
-    1. Then click **Databases**.
+1. Click **Create Database**.
 
-    1. Click **Create Database**.
+1. Enter a database name.
 
-    1. Enter a database name.
+1. Click **Create**.
 
-    1. Click **Create**.
-
-    </Procedures>
-
-
+</Procedures>
 
 ## View databases\{#view-databases}
 
-- **Via RESTful API**
+```plaintext
+curl --request POST \
+  --url "YOUR_PROJECT_ENDPOINT/v2/vectordb/databases/list" \
+  --header "Authorization: Bearer YOUR_API_KEY" \
+  --header "Content-Type: application/json" \
+  --data '{}'
+```
 
-    ```bash
-    export PROJECT_ENDPOINT="https://{project-id}.{region}.api.zillizcloud.com"
-    export TOKEN="YOUR_API_KEY"
-    
-    curl --request POST \
-    --url "${PROJECT_ENDPOINT}/v2/vectordb/databases/list" \
-    --header "Authorization: Bearer ${TOKEN}" \
-    --header "Content-Type: application/json" \
-    -d '{}'
-    ```
-
-- **Via web console**
-
-    ![LBPOwbowXhS1e4b7dxxcAIxVnue](https://zdoc-images.s3.us-west-2.amazonaws.com/LBPOwbowXhS1e4b7dxxcAIxVnue.png)
+To view databases in the Zilliz Cloud console, navigate to your project, click **On-demand**, and then click **Databases**.
 
 ## Drop database\{#drop-database}
 
-<Admonition type="danger" icon="🚧" title="Warning">
-
-<p>Once you drop a database, it is removed immediately and cannot be recovered. This action cannot be undone.</p>
+<Admonition type="danger" icon="🚧" title="Once you drop a database, it is removed immediately and cannot be recovered. This action cannot be undone.">
 
 </Admonition>
 
-- **Via RESTful API**
+Before dropping a database, drop all collections in the database first.
 
-    ```bash
-    export PROJECT_ENDPOINT="https://{project-id}.{region}.api.zillizcloud.com"
-    export TOKEN="YOUR_API_KEY"
-    
-    curl --request POST \
-    --url "${PROJECT_ENDPOINT}/v2/vectordb/databases/drop" \
-    --header "Authorization: Bearer ${TOKEN}" \
-    --header "Content-Type: application/json" \
-    -d '{
-        "dbName": "my_database"
-    }'
-    ```
+```plaintext
+curl --request POST \
+  --url "YOUR_PROJECT_ENDPOINT/v2/vectordb/databases/drop" \
+  --header "Authorization: Bearer YOUR_API_KEY" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "dbName": "my_database"
+  }'
+```
 
-- **Via web console**
+To drop a database from the Zilliz Cloud console, navigate to your project, click **On-demand**, click **Databases**, and drop the target database.
 
-    ![MR8pwmkRoh1cnvbcSPfcEiwan4g](https://zdoc-images.s3.us-west-2.amazonaws.com/MR8pwmkRoh1cnvbcSPfcEiwan4g.png)
+## Next steps\{#next-steps}
 
-    
+- [Database Explained](./database-concept)
+
+- [Database in Serving Clusters](./database)
+

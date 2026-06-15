@@ -10,7 +10,7 @@ notebook: FALSE
 description: "Elasticsearch, built on Apache Lucene, is a leading open-source search engine. However, it faces challenges in modern AI applications, including high update costs, poor real-time performance, inefficient shard management, a non-cloud-native design, and excessive resource demands. As a cloud-native vector database, Milvus overcomes these issues with decoupled storage and computing, efficient indexing for high-dimensional data, and seamless integration with modern infrastructures. It offers superior performance and scalability for AI workloads. | Cloud"
 type: origin
 token: OFl9wHXpriM8aEkoONScpU1lnIf
-sidebar_position: 18
+sidebar_position: 17
 displayed_sidebar: default
 
 ---
@@ -112,7 +112,6 @@ resp = client.search(
         }
     },
 )
-
 ```
 
 Milvus provides the same capability through the full-text search feature. You can convert the above Elasticsearch query into Milvus as follows:
@@ -194,7 +193,6 @@ resp = client.search(
         }
     },
 )
-
 ```
 
 In Milvus, you can find the entities whose values start with the specified prefix as follows:
@@ -228,7 +226,6 @@ resp = client.search(
         }
     },
 )
-
 ```
 
 In Milvus, you can find the entities whose values in a specific field are within a provided range as follows:
@@ -261,7 +258,6 @@ resp = client.search(
         }
     },
 )
-
 ```
 
 In Milvus, you can find the entities whose values in the specified field are exactly the specified term as follows:
@@ -303,7 +299,6 @@ resp = client.search(
         }
     }
 )
-
 ```
 
 Milvus does not have a complete equivalence of this one. However, you can find the entities whose values in the specified field are one of the specified terms as follows:
@@ -344,7 +339,6 @@ resp = client.search(
         }
     },
 )
-
 ```
 
 Milvus does not support wildcard in its filtering conditions. However, you can use the `like` operator to achieve the similar effect as follows:
@@ -382,7 +376,6 @@ resp = client.search(
         }
     },
 )
-
 ```
 
 In Milvus, you can do the similar thing as follows:
@@ -423,7 +416,6 @@ resp = client.search(
         }
     },
 )
-
 ```
 
 Milvus, as a specialized vector database, uses index types to optimize vector searches. Typically, it prioritizes approximate nearest neighbor (ANN) search for high-dimensional vector data. While brute-force kNN search with the FLAT index type delivers precise results, it is both time-consuming and resource-intensive. In contrast, ANN search using AUTOINDEX or other index types balances speed and accuracy, offering significantly faster and more resource-efficient performance than kNN. For details on index types and AUTOINDEX, you can read Manage Indexes and [AUTOINDEX Explained](./autoindex-explained).

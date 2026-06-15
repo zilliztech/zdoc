@@ -156,7 +156,7 @@ After being invited to a project, the **Organization** **Owner** can share the Z
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>If SSO enforcement is enabled for the organization, direct member invitation at the organization level is disabled. You should provision users through your IdP instead. When inviting members at the project level, only existing organization members can be invited.</p>
+If SSO enforcement is enabled for the organization, direct member invitation at the organization level is disabled. You should provision users through your IdP instead. When inviting members at the project level, only existing organization members can be invited.
 
 </Admonition>
 
@@ -168,7 +168,7 @@ After your SSO connection is fully configured and tested, you can optionally ena
 
 <Admonition type="danger" icon="🚧" title="Warning">
 
-<p>Enabling this feature will immediately log out all members who are currently signed in with a password and block non-SSO login methods.</p>
+Enabling this feature will immediately log out all members who are currently signed in with a password and block non-SSO login methods.
 
 </Admonition>
 

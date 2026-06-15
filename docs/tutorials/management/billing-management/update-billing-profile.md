@@ -26,7 +26,7 @@ The billing profile contains the organization and contact information used for b
 
 <Admonition type="info" icon="📘" title="**Note**">
 
-<p>To manage billing profile, you must be an <strong>Organization Owner</strong> or <strong>Organization Billing Admin</strong>.</p>
+To manage billing profile, you must be an **Organization Owner** or **Organization Billing Admin**.
 
 </Admonition>
 

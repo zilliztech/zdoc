@@ -37,70 +37,24 @@ A cron expression has five time and date fields separated by a blank.
 └────────── minute
 ```
 
-<table>
-   <tr>
-     <th><p><strong>Field</strong></p></th>
-     <th><p><strong>Valid Value Range</strong></p></th>
-     <th><p><strong>Notes</strong></p></th>
-   </tr>
-   <tr>
-     <td><p><code>minute</code></p></td>
-     <td><p>[0 - 59]</p></td>
-     <td><p>--</p></td>
-   </tr>
-   <tr>
-     <td><p><code>hour</code></p></td>
-     <td><p>[0 - 23]</p></td>
-     <td><p>24-hour clock.</p><p>If the <code>hour</code> field of a CRON expression has a value of <code>17</code>, the field matches any time between <code>5:00 PM</code> and <code>5:59 PM</code>.</p></td>
-   </tr>
-   <tr>
-     <td><p><code>day of month</code></p></td>
-     <td><p>[1 - 31]</p></td>
-     <td><p>Not all months have 31 days. If you schedule <code>31</code> in a month that has fewer days, the scheduled scaling task will not run in that month.</p></td>
-   </tr>
-   <tr>
-     <td><p><code>month</code></p></td>
-     <td><p>[1 -12]</p></td>
-     <td><p>--</p></td>
-   </tr>
-   <tr>
-     <td><p><code>day of week</code></p></td>
-     <td><p>[0 - 6]</p></td>
-     <td><p><code>0</code> represents <code>Sunday</code>, <code>1</code> represents <code>Monday</code>,  <code>2</code> represents <code>Tuesday</code>, and so on.</p></td>
-   </tr>
-</table>
+| **Field** | **Valid Value Range** | **Notes** |
+| --- | --- | --- |
+| `minute` | [0 - 59] | -- |
+| `hour` | [0 - 23] | 24-hour clock.<br/>If the `hour` field of a CRON expression has a value of `17`, the field matches any time between `5:00 PM` and `5:59 PM`. |
+| `day of month` | [1 - 31] | Not all months have 31 days. If you schedule `31` in a month that has fewer days, the scheduled scaling task will not run in that month. |
+| `month` | [1 -12] | -- |
+| `day of week` | [0 - 6] | `0` represents `Sunday`, `1` represents `Monday`,  `2` represents `Tuesday`, and so on. |
 
 ## Special characters and operators\{#special-characters-and-operators}
 
 These operators can be used in most fields:
 
-<table>
-   <tr>
-     <th><p><strong>Operator</strong></p></th>
-     <th><p><strong>Meaning</strong></p></th>
-     <th><p><strong>Example</strong></p></th>
-   </tr>
-   <tr>
-     <td><p><code>&ast;</code></p></td>
-     <td><p>any value</p></td>
-     <td><p><code>&ast; &ast; &ast; &ast; &ast;</code> runs every minute.</p></td>
-   </tr>
-   <tr>
-     <td><p><code>,</code></p></td>
-     <td><p>list of values</p></td>
-     <td><p><code>0 9,17 &ast; &ast; &ast;</code> runs at 09:00 and 17:00 every day.</p></td>
-   </tr>
-   <tr>
-     <td><p><code>-</code></p></td>
-     <td><p>range of values</p></td>
-     <td><p><code>0 9-17 &ast; &ast; &ast;</code> runs hourly from 09:00 through 17:00.</p></td>
-   </tr>
-   <tr>
-     <td><p><code>/</code></p></td>
-     <td><p>step values (every N units)</p><p>Notes: You can also combine ranges with steps.</p></td>
-     <td><p><code>&ast;/5 &ast; &ast; &ast; &ast;</code> runs every 5 minutes.</p><p><code>10-50/10 &ast; &ast; &ast; &ast;</code> runs at minutes 10, 20, 30, 40, 50 of every hour.</p></td>
-   </tr>
-</table>
+| **Operator** | **Meaning** | **Example** |
+| --- | --- | --- |
+| `*` | any value | `* * * * *` runs every minute. |
+| `,` | list of values | `0 9,17 * * *` runs at 09:00 and 17:00 every day. |
+| `-` | range of values | `0 9-17 * * *` runs hourly from 09:00 through 17:00. |
+| `/` | step values (every N units)<br/>Notes: You can also combine ranges with steps. | `*/5 * * * *` runs every 5 minutes.<br/>`10-50/10 * * * *` runs at minutes 10, 20, 30, 40, 50 of every hour. |
 
 ## Examples\{#examples}
 
@@ -108,53 +62,16 @@ This section provides some [simple templates](./cron-expression#simple-templates
 
 ### Simple templates\{#simple-templates}
 
-<table>
-   <tr>
-     <th><p><strong>Use case</strong></p></th>
-     <th><p><strong>Cron expression</strong></p></th>
-     <th><p><strong>Meaning</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>Every minute</p></td>
-     <td><p><code>&ast; &ast; &ast; &ast; &ast;</code></p></td>
-     <td><p>Runs every minute</p></td>
-   </tr>
-   <tr>
-     <td><p>Every 5 minutes</p></td>
-     <td><p><code>&ast;/5 &ast; &ast; &ast; &ast;</code></p></td>
-     <td><p>Runs every 5 minutes</p></td>
-   </tr>
-   <tr>
-     <td><p>Every hour</p></td>
-     <td><p><code>0 &ast; &ast; &ast; &ast;</code></p></td>
-     <td><p>Runs at the start of every hour</p></td>
-   </tr>
-   <tr>
-     <td><p>Daily at 09:30</p></td>
-     <td><p><code>30 9 &ast; &ast; &ast;</code></p></td>
-     <td><p>Runs at 09:30 every day</p></td>
-   </tr>
-   <tr>
-     <td><p>Weekdays at 09:00</p></td>
-     <td><p><code>0 9 &ast; &ast; 1-5</code></p></td>
-     <td><p>Runs 09:00 Mon–Fri</p></td>
-   </tr>
-   <tr>
-     <td><p>Monthly on the 1st at 09:00</p></td>
-     <td><p><code>0 9 1 &ast; &ast;</code></p></td>
-     <td><p>Runs at 09:00 on the 1st of every month</p></td>
-   </tr>
-   <tr>
-     <td><p>Every Sunday at 09:00</p></td>
-     <td><p><code>0 9 &ast; &ast; 0</code></p></td>
-     <td><p>Runs 09:00 every Sunday</p></td>
-   </tr>
-   <tr>
-     <td><p>Twice daily</p></td>
-     <td><p><code>0 9,21 &ast; &ast; &ast;</code></p></td>
-     <td><p>Runs at 09:00 and 21:00 daily</p></td>
-   </tr>
-</table>
+| **Use case** | **Cron expression** | **Meaning** |
+| --- | --- | --- |
+| Every minute | `* * * * *` | Runs every minute |
+| Every 5 minutes | `*/5 * * * *` | Runs every 5 minutes |
+| Every hour | `0 * * * *` | Runs at the start of every hour |
+| Daily at 09:30 | `30 9 * * *` | Runs at 09:30 every day |
+| Weekdays at 09:00 | `0 9 * * 1-5` | Runs 09:00 Mon–Fri |
+| Monthly on the 1st at 09:00 | `0 9 1 * *` | Runs at 09:00 on the 1st of every month |
+| Every Sunday at 09:00 | `0 9 * * 0` | Runs 09:00 every Sunday |
+| Twice daily | `0 9,21 * * *` | Runs at 09:00 and 21:00 daily |
 
 ### Common scenarios\{#common-scenarios}
 

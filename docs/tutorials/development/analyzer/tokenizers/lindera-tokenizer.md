@@ -25,7 +25,7 @@ The `lindera` tokenizer performs dictionary-based morphological analysis. It is 
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p><strong>For Chinese text</strong>: While <code>lindera</code> supports Chinese via the <code>cc-cedict</code> dictionary, we recommend using the <a href="./jieba-tokenizer"><code>jieba</code></a> tokenizer instead. Jieba is specifically designed for Chinese word segmentation and provides better results.</p>
+**For Chinese text**: While `lindera` supports Chinese via the `cc-cedict` dictionary, we recommend using the [`jieba`](./jieba-tokenizer) tokenizer instead. Jieba is specifically designed for Chinese word segmentation and provides better results.
 
 </Admonition>
 
@@ -358,7 +358,6 @@ const sample_text = "서울에서 맛있는 음식을 먹었습니다";
 
 const result = await client.run_analyzer(sample_text, analyzer_params);
 console.log("Analyzer output:", result);
-
 ```
 
 </TabItem>
@@ -431,7 +430,6 @@ print("Analyzer output:", result)
 <TabItem value='javascript'>
 
 ```javascript
-
 import { MilvusClient } from "@zilliz/milvus2-sdk-node";
 
 const client = new MilvusClient({

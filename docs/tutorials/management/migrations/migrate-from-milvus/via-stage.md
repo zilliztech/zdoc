@@ -67,7 +67,7 @@ In this procedure, you will use Milvus Backup to prepare the backup files, uploa
         ...
         cloud:
           address: https://api.cloud.zilliz.com
-          apikey: <your-api-key>
+          apikey: &lt;your-api-key&gt;
         ...
         ```
 
@@ -104,10 +104,9 @@ In this procedure, you will use Milvus Backup to prepare the backup files, uploa
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    <ul>
-    <li><p>For a Milvus instance installed using Docker Compose, <code>minio.bucketName</code> defaults to <code>a-bucket</code> and <code>rootPath</code> defaults to <code>files</code>.</p></li>
-    <li><p>For a Milvus instance installed on Kubernetes, <code>minio.bucketName</code> defaults to <code>milvus-bucket</code> and <code>rootPath</code> defaults to <code>file</code>.</p></li>
-    </ul>
+    - For a Milvus instance installed using Docker Compose, `minio.bucketName` defaults to `a-bucket` and `rootPath` defaults to `files`.
+    
+    - For a Milvus instance installed on Kubernetes, `minio.bucketName` defaults to `milvus-bucket` and `rootPath` defaults to `file`.
 
     </Admonition>
 
@@ -137,7 +136,7 @@ In this procedure, you will use Milvus Backup to prepare the backup files, uploa
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    <p>The backup files uploaded to the Zilliz Cloud platform will be retained for <strong>3</strong> days after the upload and will then be deleted.</p>
+    The backup files uploaded to the Zilliz Cloud platform will be retained for **3** days after the upload and will then be deleted.
 
     </Admonition>
 
@@ -149,7 +148,7 @@ Once you click **Migrate**, a migration job will be generated. You can check the
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>After migration, verify that the number of collections and entities in the target cluster matches the data source. If discrepancies are found, delete the collections with missing entities and re-migrate them.</p>
+After migration, verify that the number of collections and entities in the target cluster matches the data source. If discrepancies are found, delete the collections with missing entities and re-migrate them.
 
 </Admonition>
 

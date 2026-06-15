@@ -57,11 +57,11 @@ The nullable attribute is supported for both **scalar and vector fields** in a c
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Nullability determines whether a field value may be missing; it does not define what value is used when a field is missing.</p>
-<ul>
-<li><p>If a nullable field is configured without a default value, omitting the field results in a stored NULL value.</p></li>
-<li><p>If a default value is configured, Zilliz Cloud may store the default value instead. For details, see <a href="./default-fields">Default Values</a>.</p></li>
-</ul>
+Nullability determines whether a field value may be missing; it does not define what value is used when a field is missing.
+
+- If a nullable field is configured without a default value, omitting the field results in a stored NULL value.
+
+- If a default value is configured, Zilliz Cloud may store the default value instead. For details, see [Default Values](./default-fields).
 
 </Admonition>
 
@@ -135,7 +135,6 @@ client.createCollection(CreateCollectionReq.builder()
         .collectionName("my_collection")
         .collectionSchema(schema)
         .build());
-
 ```
 
 </TabItem>
@@ -167,7 +166,6 @@ await client.createCollection({
     }
   ]
 });
-
 ```
 
 </TabItem>
@@ -215,7 +213,6 @@ if err != nil {
     fmt.Println(err.Error())
     // handle error
 }
-
 ```
 
 </TabItem>
@@ -248,7 +245,6 @@ curl --request POST \
       ]
     }
   }'
-
 ```
 
 </TabItem>
@@ -293,7 +289,6 @@ schema.addField(AddFieldReq.builder()
         // highlight-next-line
         .isNullable(true)
         .build());
-
 ```
 
 </TabItem>
@@ -307,7 +302,6 @@ const ageField = {
   // highlight-next-line
   nullable: true
 };
-
 ```
 
 </TabItem>
@@ -321,7 +315,6 @@ schema.WithField(entity.NewField().
     // highlight-next-line
     WithNullable(true),
 )
-
 ```
 
 </TabItem>
@@ -334,7 +327,6 @@ schema.WithField(entity.NewField().
   "dataType": "Int64",
   "nullable": true
 }
-
 ```
 
 </TabItem>
@@ -404,7 +396,6 @@ client.insert(InsertReq.builder()
         .collectionName("my_collection")
         .data(data)
         .build());
-
 ```
 
 </TabItem>
@@ -430,7 +421,6 @@ await client.insert({
   collection_name: 'my_collection',
   data
 });
-
 ```
 
 </TabItem>
@@ -465,7 +455,6 @@ if err != nil {
     fmt.Println(err.Error())
     // handle error
 }
-
 ```
 
 </TabItem>
@@ -493,7 +482,6 @@ curl --request POST \
       }
     ]
   }'
-
 ```
 
 </TabItem>
@@ -565,7 +553,6 @@ client.createIndex(CreateIndexReq.builder()
 client.loadCollection(LoadCollectionReq.builder()
         .collectionName("my_collection")
         .build());
-
 ```
 
 </TabItem>
@@ -583,7 +570,6 @@ await client.createIndex({
 await client.loadCollection({
   collection_name: 'my_collection'
 });
-
 ```
 
 </TabItem>
@@ -626,7 +612,6 @@ if err != nil {
     fmt.Println(err.Error())
     // handle error
 }
-
 ```
 
 </TabItem>
@@ -657,7 +642,6 @@ curl --request POST \
   --data '{
     "collectionName": "my_collection"
   }'
-
 ```
 
 </TabItem>
@@ -719,7 +703,6 @@ SearchResp res = client.search(SearchReq.builder()
         .build());
 
 System.out.println(res);
-
 ```
 
 </TabItem>
@@ -736,7 +719,6 @@ const res = await client.search({
 });
 
 console.log(res);
-
 ```
 
 </TabItem>
@@ -764,7 +746,6 @@ if err != nil {
 }
 
 fmt.Println(resultSets)
-
 ```
 
 </TabItem>
@@ -783,7 +764,6 @@ curl --request POST \
     "limit": 3,
     "outputFields": ["embedding"]
   }'
-
 ```
 
 </TabItem>
@@ -818,7 +798,6 @@ expr = "age > 18"
 
 ```java
 String filter = "age > 18";
-
 ```
 
 </TabItem>
@@ -827,7 +806,6 @@ String filter = "age > 18";
 
 ```javascript
 const filter = 'age > 18';
-
 ```
 
 </TabItem>
@@ -836,7 +814,6 @@ const filter = 'age > 18';
 
 ```go
 filter := "age > 18"
-
 ```
 
 </TabItem>
@@ -845,7 +822,6 @@ filter := "age > 18"
 
 ```bash
 "filter": "age > 18"
-
 ```
 
 </TabItem>
@@ -868,7 +844,6 @@ expr = "status == \"active\""
 
 ```java
 String filter = "status == \"active\"";
-
 ```
 
 </TabItem>
@@ -877,7 +852,6 @@ String filter = "status == \"active\"";
 
 ```javascript
 const filter = 'status == "active"';
-
 ```
 
 </TabItem>
@@ -886,7 +860,6 @@ const filter = 'status == "active"';
 
 ```go
 filter := `status == "active"`
-
 ```
 
 </TabItem>
@@ -895,7 +868,6 @@ filter := `status == "active"`
 
 ```bash
 "filter": "status == \"active\""
-
 ```
 
 </TabItem>
@@ -907,44 +879,13 @@ Entities where `status` is NULL are excluded from the results.
 
 When both `nullable` and `default_value` are configured for a field, the following rules determine how Zilliz Cloud handles NULL input or missing field values during insertion.
 
-<table>
-   <tr>
-     <th><p>Nullable</p></th>
-     <th><p>Default Value</p></th>
-     <th><p>User Input</p></th>
-     <th><p>Result</p></th>
-   </tr>
-   <tr>
-     <td><p>✅</p></td>
-     <td><p>✅ (non-NULL)</p></td>
-     <td><p>NULL or omitted</p></td>
-     <td><p>Uses the default value</p></td>
-   </tr>
-   <tr>
-     <td><p>✅</p></td>
-     <td><p>❌</p></td>
-     <td><p>NULL or omitted</p></td>
-     <td><p>Stored as NULL</p></td>
-   </tr>
-   <tr>
-     <td><p>❌</p></td>
-     <td><p>✅ (non-NULL)</p></td>
-     <td><p>NULL or omitted</p></td>
-     <td><p>Uses the default value</p></td>
-   </tr>
-   <tr>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-     <td><p>NULL or omitted</p></td>
-     <td><p>Throws an error</p></td>
-   </tr>
-   <tr>
-     <td><p>❌</p></td>
-     <td><p>✅ (NULL)</p></td>
-     <td><p>NULL or omitted</p></td>
-     <td><p>Throws an error</p></td>
-   </tr>
-</table>
+| Nullable | Default Value | User Input | Result |
+| --- | --- | --- | --- |
+| ✅ | ✅ (non-NULL) | NULL or omitted | Uses the default value |
+| ✅ | ❌ | NULL or omitted | Stored as NULL |
+| ❌ | ✅ (non-NULL) | NULL or omitted | Uses the default value |
+| ❌ | ❌ | NULL or omitted | Throws an error |
+| ❌ | ✅ (NULL) | NULL or omitted | Throws an error |
 
 **Key takeaways:**
 

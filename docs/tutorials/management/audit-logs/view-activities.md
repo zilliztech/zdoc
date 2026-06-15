@@ -38,7 +38,7 @@ To enhance your control and ease in navigating through the platform audit logs, 
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    <p>Ensure that the time span between your chosen start date and end date does not exceed 30 days.</p>
+    Ensure that the time span between your chosen start date and end date does not exceed 30 days.
 
     </Admonition>
 
@@ -48,24 +48,11 @@ To enhance your control and ease in navigating through the platform audit logs, 
 
     Select your preferred log type from the list. Zilliz Cloud categorizes platform audit logs into three types: **Info**, **Warning**, and **Error**.
 
-    <table>
-       <tr>
-         <th><p><strong>Activity Type</strong></p></th>
-         <th><p><strong>Description</strong></p></th>
-       </tr>
-       <tr>
-         <td><p>Info</p></td>
-         <td><p>General information related to clusters, access, or billing. </p><p>Eg. Cluster inxx-xxxxxxxxxxxxxxx was created.</p></td>
-       </tr>
-       <tr>
-         <td><p>Warning</p></td>
-         <td><p>Updates regarding resource states that necessitate your attention.</p><p>E.g., "Cluster inxx-xxxxxxxxxxxxxxx was deleted."</p></td>
-       </tr>
-       <tr>
-         <td><p>Error</p></td>
-         <td><p>Notifications of payment failures or other system malfunctions requiring immediate attention or action. </p><p>E.g., "The payment for the invoice invo-xxxxxxxxxxxxxxxxxxxxxxxx has failed."</p></td>
-       </tr>
-    </table>
+    | **Activity Type** | **Description** |
+    | --- | --- |
+    | Info | General information related to clusters, access, or billing.<br/>Eg. Cluster inxx-xxxxxxxxxxxxxxx was created. |
+    | Warning | Updates regarding resource states that necessitate your attention.<br/>E.g., "Cluster inxx-xxxxxxxxxxxxxxx was deleted." |
+    | Error | Notifications of payment failures or other system malfunctions requiring immediate attention or action.<br/>E.g., "The payment for the invoice invo-xxxxxxxxxxxxxxxxxxxxxxxx has failed." |
 
     ![filter-by-activity-type](https://zdoc-images.s3.us-west-2.amazonaws.com/filter-by-activity-type.png "filter-by-activity-type")
 

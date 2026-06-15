@@ -88,7 +88,7 @@ The following example assumes that you have already created an on-demand cluster
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>For RESTful requests, instead of creating a session, you should pass the cluster ID as a query parameter to DQL calls.</p>
+For RESTful requests, instead of creating a session, you should pass the cluster ID as a query parameter to DQL calls.
 
 </Admonition>
 
@@ -198,7 +198,7 @@ Once your on-demand computing tasks are complete, you can close the session. A c
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>RESTful calls do not need this.</p>
+RESTful calls do not need this.
 
 </Admonition>
 

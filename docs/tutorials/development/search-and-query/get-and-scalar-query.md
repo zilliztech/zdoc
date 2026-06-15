@@ -25,7 +25,7 @@ In addition to ANN searches, MilvusZilliz Cloud also supports metadata filtering
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>If you add new fields after the collection has been created, queries that include these fields return the defined default values or <code>NULL</code> for entities that have not explicitly set values. For details, refer to <a href="./add-fields-to-an-existing-collection">Alter Collection Schema</a>.</p>
+If you add new fields after the collection has been created, queries that include these fields return the defined default values or `NULL` for entities that have not explicitly set values. For details, refer to [Alter Collection Schema](./add-fields-to-an-existing-collection).
 
 </Admonition>
 
@@ -235,6 +235,31 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
+```c++
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+std::vector<int64_t> ids = {0, 1, 2};
+auto request = milvus::GetRequest()
+                   .WithCollectionName("my_collection")
+                   .WithIDs(std::move(ids))
+                   .AddOutputField("color")
+                   .AddOutputField("vector");
+                   
+milvus::GetResponse response;
+status = client->Get(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
 ## Use Query\{#use-query}
 
 ### Basic Query\{#basic-query}
@@ -304,7 +329,6 @@ if err != nil {
 fmt.Println("id: ", resultSet.GetColumn("id").FieldData().GetScalars())
 fmt.Println("vector: ", resultSet.GetColumn("vector").FieldData().GetVectors())
 fmt.Println("color: ", resultSet.GetColumn("color").FieldData().GetScalars())
-
 ```
 
 </TabItem>
@@ -351,6 +375,31 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
+```c++
+ #include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+auto request = milvus::QueryRequest()
+                   .WithCollectionName("my_collection")
+                   .WithFilter(R"(color like "red%")")
+                   .WithLimit(3)
+                   .AddOutputField("vector")
+                   .AddOutputField("color");
+
+milvus::QueryResponse response;
+status = client->Query(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
 ### Sort Query Results | PRIVATE\{#sort-query-results}
 
 By default, Query returns results in an unspecified order. Use the `order_by` parameter to sort results by one or more scalar fields. When using `order_by`, note that:
@@ -365,7 +414,7 @@ By default, Query returns results in an unspecified order. Use the `order_by` pa
 
 Pass a list of `"field_name:direction"` strings to the `order_by` parameter, where `direction` is either `asc` (ascending) or `desc` (descending). Note that `asc` and `desc` are case-sensitive.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -421,7 +470,6 @@ QueryResp queryResp = client.query(queryReq);
 for (QueryResp.QueryResult result : queryResp.getQueryResults()) {
     System.out.println(result.getEntity());
 }
-
 ```
 
 </TabItem>
@@ -453,7 +501,6 @@ const res = await client.query({
 });
 
 console.log(res.data);
-
 ```
 
 </TabItem>
@@ -465,13 +512,21 @@ console.log(res.data);
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// c++
+```
+
+</TabItem>
 </Tabs>
 
 #### Multi-field Sort\{#multi-field-sort}
 
 You can sort by multiple fields at once. Results are first ordered by the first field in the list. When two rows have the same value in that field, the second field determines their order, and so on.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -507,7 +562,6 @@ QueryResp queryResp = client.query(queryReq);
 for (QueryResp.QueryResult result : queryResp.getQueryResults()) {
     System.out.println(result.getEntity());
 }
-
 ```
 
 </TabItem>
@@ -533,7 +587,6 @@ const res = await client.query({
 });
 
 console.log(res.data);
-
 ```
 
 </TabItem>
@@ -545,13 +598,21 @@ console.log(res.data);
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// c++
+```
+
+</TabItem>
 </Tabs>
 
 #### Pagination with Sort\{#pagination-with-sort}
 
 Use `order_by` together with `limit` and `offset` to paginate through sorted results. For example, to display a product list sorted by price across multiple pages, each page shows the next batch of items in the correct price order without duplicates or gaps.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -614,7 +675,6 @@ QueryResp page2 = client.query(page2Req);
 for (QueryResp.QueryResult result : page2.getQueryResults()) {
     System.out.println(result.getEntity());
 }
-
 ```
 
 </TabItem>
@@ -653,7 +713,6 @@ const page2 = await client.query({
 });
 
 console.log(page2.data);
-
 ```
 
 </TabItem>
@@ -662,6 +721,14 @@ console.log(page2.data);
 
 ```bash
 # restful
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// c++
 ```
 
 </TabItem>
@@ -681,7 +748,7 @@ To enable aggregation, pass `group_by_fields` to `query()` and add aggregation e
 
 The following example groups entities by the `color` field and returns the number of entities in each color group:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -748,7 +815,6 @@ for (QueryResp.QueryResult result : queryResp.getQueryResults()) {
 // {color=yellow, count(*)=10}
 // {color=green, count(*)=10}
 // {color=blue, count(*)=10}
-
 ```
 
 </TabItem>
@@ -776,11 +842,19 @@ for (QueryResp.QueryResult result : queryResp.getQueryResults()) {
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// cpp
+```
+
+</TabItem>
 </Tabs>
 
 You can request several aggregation expressions in a single call. The following example groups by `color` and returns the row count, average price, and maximum rating for each group:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -827,7 +901,6 @@ for (QueryResp.QueryResult result : queryResp.getQueryResults()) {
 // {color=yellow, count(*)=10, avg(price)=64.15, max(rating)=3}
 // {color=green, count(*)=10, avg(price)=58.28, max(rating)=5}
 // {color=blue, count(*)=10, avg(price)=50.20, max(rating)=5}
-
 ```
 
 </TabItem>
@@ -855,11 +928,19 @@ for (QueryResp.QueryResult result : queryResp.getQueryResults()) {
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// cpp
+```
+
+</TabItem>
 </Tabs>
 
 Pass more than one field to `group_by_fields` to compute composite groups. The following example groups by `(color, rating)` and computes the price range in each bucket:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -908,7 +989,6 @@ for (QueryResp.QueryResult result : queryResp.getQueryResults()) {
 // {color=green, rating=1, min(price)=18.35, max(price)=59.53}
 // {color=blue, rating=4, min(price)=21.23, max(price)=82.45}
 // ...
-
 ```
 
 </TabItem>
@@ -936,11 +1016,19 @@ for (QueryResp.QueryResult result : queryResp.getQueryResults()) {
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// cpp
+```
+
+</TabItem>
 </Tabs>
 
 You can also combine `group_by_fields` with `limit` to cap how many groups come back — useful when a field has high cardinality and you only need a sample of buckets:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -988,7 +1076,6 @@ for (QueryResp.QueryResult result : queryResp.getQueryResults()) {
 // {color=yellow, avg(price)=64.15, count(*)=10}
 // {color=green, avg(price)=58.28, count(*)=10}
 // {color=blue, avg(price)=50.20, count(*)=10}
-
 ```
 
 </TabItem>
@@ -1013,6 +1100,14 @@ for (QueryResp.QueryResult result : queryResp.getQueryResults()) {
 
 ```bash
 # restful
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// cpp
 ```
 
 </TabItem>
@@ -1121,6 +1216,39 @@ for await (const value of iterator) {
 </TabItem>
 </Tabs>
 
+```c++
+milvus::QueryIteratorRequest request;
+request.SetCollectionName("my_collection");
+request.SetBatchSize(10);
+request.SetFilter(R"(color like "red%")");
+request.AddOutputField("color");
+
+milvus::QueryIteratorPtr iterator;
+auto status = client->QueryIterator(request, iterator);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+while (true) {
+    milvus::QueryResults batch_results;
+    status = iterator->Next(batch_results);
+    if (!status.IsOk()) {
+        std::cout << status.Message() << std::endl;
+        break;
+    }
+
+    milvus::EntityRows rows;
+    status = batch_results.OutputRows(rows);
+    if (!status.IsOk()) {
+        std::cout << status.Message() << std::endl;
+        break;
+    }
+    for (const auto& row : rows) {
+        std::cout << row.dump() << std::endl;
+    }
+}
+```
+
 ## Queries in Partitions\{#queries-in-partitions}
 
 You can also perform queries within one or multiple partitions by including the partition names in the Get, Query, or QueryIterator request. The following code examples assume that there is a partition named **PartitionA** in the collection.
@@ -1164,7 +1292,6 @@ while True:
 
     print(result)
     results += result
-
 ```
 
 </TabItem>
@@ -1314,13 +1441,84 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
+```c++
+// Use get
+{
+    std::vector<int64_t> ids = {10, 11, 12};
+    auto request = milvus::GetRequest()
+                       .WithCollectionName("my_collection")
+                       .AddPartitionName("partitionA")
+                       .WithIDs(std::move(ids))
+                       .AddOutputField("color")
+                       .AddOutputField("vector");
+                       
+    milvus::GetResponse response;
+    status = client->Get(request, response);
+    if (!status.IsOk()) {
+        std::cout << status.Message() << std::endl;
+    }
+}
+
+// Use query
+{
+    auto request = milvus::QueryRequest()
+                       .WithCollectionName("my_collection")
+                       .AddPartitionName("partitionA")
+                       .WithFilter(R"(color like "red%")")
+                       .WithLimit(3)
+                       .AddOutputField("vector")
+                       .AddOutputField("color");
+    
+    milvus::QueryResponse response;
+    status = client->Query(request, response);
+    if (!status.IsOk()) {
+        std::cout << status.Message() << std::endl;
+    }
+}
+
+// Use queryiterator
+{
+    milvus::QueryIteratorRequest request;
+    request.SetCollectionName("my_collection");
+    request.AddPartitionName("partitionA")
+    request.SetBatchSize(10);
+    request.SetFilter(R"(color like "red%")");
+    request.AddOutputField("color");
+    
+    milvus::QueryIteratorPtr iterator;
+    auto status = client->QueryIterator(request, iterator);
+    if (!status.IsOk()) {
+        std::cout << status.Message() << std::endl;
+    }
+    
+    while (true) {
+        milvus::QueryResults batch_results;
+        status = iterator->Next(batch_results);
+        if (!status.IsOk()) {
+            std::cout << status.Message() << std::endl;
+            break;
+        }
+    
+        milvus::EntityRows rows;
+        status = batch_results.OutputRows(rows);
+        if (!status.IsOk()) {
+            std::cout << status.Message() << std::endl;
+            break;
+        }
+        for (const auto& row : rows) {
+            std::cout << row.dump() << std::endl;
+        }
+    }
+}
+```
+
 ## Random Sampling with Query\{#random-sampling-with-query}
 
 To extract a representative subset of data from your collection for data exploration or development testing, use the `RANDOM_SAMPLE(sampling_factor)` expression, where the `sampling_factor` is a float between 0 and 1 representing the percentage of data to sample.
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>For detailed usage, advanced examples, and best practices, refer to <a href="./ramdom-sampling">Random Sampling</a>.</p>
+For detailed usage, advanced examples, and best practices, refer to [Random Sampling](./ramdom-sampling).
 
 </Admonition>
 
@@ -1434,6 +1632,26 @@ if err != nil {
 </TabItem>
 </Tabs>
 
+```c++
+auto request = milvus::QueryRequest()
+                   .WithCollectionName("my_collection")
+                   .WithFilter("RANDOM_SAMPLE(0.01)")
+                   .AddOutputField("vector")
+                   .AddOutputField("color");
+
+milvus::QueryResponse response;
+status = client->Query(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+request.SetFilter(R"(color like "red%" AND RANDOM_SAMPLE(0.005))")
+status = client->Query(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
 ## Temporarily Set a Timezone for a Query\{#temporarily-set-a-timezone-for-a-query}
 
 If your collection has a `TIMESTAMPTZ` field, you can temporarily override the database or collection default timezone for a single operation by setting the `timezone` parameter in the query call. This controls how `TIMESTAMPTZ` values are displayed and compared during the operation.
@@ -1491,4 +1709,21 @@ results = client.query(
 
 </TabItem>
 </Tabs>
+
+```c++
+auto request = milvus::QueryRequest()
+                   .WithCollectionName("my_collection")
+                   .WithFilter("id <= 10")
+                   .WithLimit(2)
+                   .AddOutputField("id")
+                   .AddOutputField("tsz")
+                   .AddOutputField("vec")
+                   .WithTimezone("America/Havana");
+
+milvus::QueryResponse response;
+status = client->Query(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
 

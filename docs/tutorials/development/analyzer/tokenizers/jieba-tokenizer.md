@@ -25,7 +25,7 @@ The `jieba` tokenizer processes Chinese text by breaking it down into its compon
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>The <code>jieba</code> tokenizer preserves punctuation marks as separate tokens in the output. For example, <code>"你好！世界。"</code> becomes <code>["你好", "！", "世界", "。"]</code>. To remove these standalone punctuation tokens, use the <a href="./remove-punct-filter"><code>removepunct</code></a> filter.</p>
+The `jieba` tokenizer preserves punctuation marks as separate tokens in the output. For example, `"你好！世界。"` becomes `["你好", "！", "世界", "。"]`. To remove these standalone punctuation tokens, use the [`removepunct`](./remove-punct-filter) filter.
 
 </Admonition>
 
@@ -88,6 +88,12 @@ analyzerParams='{
 </TabItem>
 </Tabs>
 
+```c++
+nlohmann::json analyzer_params = {
+    {"tokenizer", "jieba"}
+};
+```
+
 This simple configuration is equivalent to the following custom configuration:
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
@@ -142,6 +148,15 @@ analyzerParams = map[string]any{"type": "jieba", "dict": []any{"_default_"}, "mo
 </TabItem>
 </Tabs>
 
+```c++
+nlohmann::json analyzer_params = {
+    {"tokenizer", "jieba"},
+    {"dict", {"_default_"}},
+    {"mode", "search"},
+    {"hmm", true}
+};
+```
+
 For details on parameters, refer to [Custom configuration](./jieba-tokenizer#custom-configuration).
 
 ### Custom configuration\{#custom-configuration}
@@ -175,7 +190,6 @@ analyzerParams.put("tokenizer", new HashMap<String, Object>() {{
   put("mode", "exact");
   put("hmm", false);
 }});
-
 ```
 
 </TabItem>
@@ -211,6 +225,17 @@ analyzerParams := map[string]interface{}{
 
 </TabItem>
 </Tabs>
+
+```c++
+nlohmann::json analyzerParams = {                                                                                              
+  {"tokenizer", {                          
+      {"type", "jieba"},                                                                                                     
+      {"dict", {"customDictionary"}},                         
+      {"mode", "exact"},                                                                                                     
+      {"hmm", false}                                          
+  }}
+};
+```
 
 <table>
    <tr>
@@ -250,14 +275,14 @@ For large custom vocabularies — domain glossaries, product terminology, or pro
 
 The file is plain UTF‑8 text with one term per line. For example:
 
-```plaintext
+````plaintext
 结巴分词器
 向量数据库
 ```
 
 Upload the file to the object store that your Milvus cluster is configured to use, then register it:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -305,11 +330,19 @@ client.add_file_resource(
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// cpp
+```
+
+</TabItem>
 </Tabs>
 
 Reference the registered resource in the tokenizer via `extra_dict_file`:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -364,36 +397,31 @@ client.run_analyzer(["milvus结巴分词器中文测试"], analyzer_params)
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+// cpp
+```
+
+</TabItem>
 </Tabs>
 
 The `extra_dict_file` parameter accepts an object with the following fields:
 
-<table>
-   <tr>
-     <th><p>Field</p></th>
-     <th><p>Description</p></th>
-   </tr>
-   <tr>
-     <td><p><code>type</code></p></td>
-     <td><p>The resource type. Use <code>"remote"</code> for a file registered via <code>add_file_resource</code>. For the <code>"local"</code> variant used in self-hosted deployments, refer to <a href="./undefined">Manage File Resources</a>.</p></td>
-   </tr>
-   <tr>
-     <td><p><code>resource_name</code></p></td>
-     <td><p>The name used when the file was registered with <code>add_file_resource</code>.</p></td>
-   </tr>
-   <tr>
-     <td><p><code>file_name</code></p></td>
-     <td><p>The filename portion of the registered resource's object-store path (for example, <code>"zh_terms.txt"</code> if the resource was registered with <code>path="file/zh_terms.txt"</code>).</p></td>
-   </tr>
-</table>
+| Field | Description |
+| --- | --- |
+| `type` | The resource type. Use `"remote"` for a file registered via `add_file_resource`. For the `"local"` variant used in self-hosted deployments, refer to [Manage File Resources](./undefined). |
+| `resource_name` | The name used when the file was registered with `add_file_resource`. |
+| `file_name` | The filename portion of the registered resource's object-store path (for example, `"zh_terms.txt"` if the resource was registered with `path="file/zh_terms.txt"`). |
 
 Words added via `extra_dict_file` are merged with the built-in dictionary, so jieba's segmentation algorithm sees them alongside existing entries. Whether any specific term surfaces as a standalone token depends on jieba's probability-weighted DAG selection — a long custom term such as `向量数据库` may still be split into `向量` + `数据库` if those shorter entries have higher frequencies in the built-in dictionary.
 
-## Examples\{#examples}
+## Examples{#examples}
 
 Before applying the analyzer configuration to your collection schema, verify its behavior using the `run_analyzer` method.
 
-### Analyzer configuration\{#analyzer-configuration}
+### Analyzer configuration{#analyzer-configuration}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -457,7 +485,18 @@ analyzerParams := map[string]interface{}{
 </TabItem>
 </Tabs>
 
-### Verification using `run_analyzer`\{#verification-using-runanalyzer}
+```c++
+nlohmann::json analyzerParams = {
+  {"tokenizer", {
+      {"type", "jieba"},
+      {"dict", {"结巴分词器"}},
+      {"mode", "exact"},
+      {"hmm", false}
+  }}
+};
+```
+
+### Verification using `run_analyzer`{#verification-using-runanalyzer}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -559,9 +598,32 @@ if err != nil {
 </TabItem>
 </Tabs>
 
-### Expected output\{#expected-output}
+```c++
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+std::string text = "milvus结巴分词器中文测试";
+auto request = milvus::RunAnalyzerRequest()
+                       .AddText(text)
+                       .WithAnalyzerParams(analyzer_params);
+
+milvus::RunAnalyzerResponse response;
+status = client->RunAnalyzer(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+### Expected output{#expected-output}
 
 ```python
 ['milvus', '结巴分词器', '中', '文', '测', '试']
-```
+````
 

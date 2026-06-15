@@ -26,7 +26,7 @@ This guide walks you through how to view, rename, and delete existing backup fil
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This feature is available only to <strong>Dedicated</strong> clusters.</p>
+This feature is available only to **Dedicated** clusters.
 
 </Admonition>
 
@@ -65,7 +65,7 @@ The following is an example output.
 
     ```bash
     curl --request GET \
-         --url "${BASE_URL}/v2/clusters/${CLUSTER_ID}/backups/${BACKUP_ID}" \
+         --url "$\{BASE_URL\}/v2/clusters/${CLUSTER_ID}/backups/${BACKUP_ID}" \
          --header "Authorization: Bearer ${TOKEN}" \
          --header "Accept: application/json"
     ```

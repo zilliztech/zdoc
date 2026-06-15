@@ -210,7 +210,7 @@ The `IS NULL` and `IS NOT NULL` operators are used to filter fields based on whe
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>The operators are case-insensitive, so you can use <code>IS NULL</code> or <code>is null</code>, and <code>IS NOT NULL</code> or <code>is not null</code>.</p>
+The operators are case-insensitive, so you can use `IS NULL` or `is null`, and `IS NOT NULL` or `is not null`.
 
 </Admonition>
 
@@ -220,7 +220,7 @@ Zilliz Cloud allows filtering on regular scalar fields, such as strings or numbe
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>An empty string <code>""</code> is not treated as a null value for a <code>VARCHAR</code> field.</p>
+An empty string `""` is not treated as a null value for a `VARCHAR` field.
 
 </Admonition>
 
@@ -252,7 +252,7 @@ Zilliz Cloud allows filtering on JSON fields that contain null values. A JSON fi
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>If some elements within a JSON object are null (e.g. individual keys), the field is still considered non-null. For example, <code>\{"metadata": \{"category": None, "price": 99.99\}\}</code> is not treated as null, even though the <code>category</code> key is null.</p>
+If some elements within a JSON object are null (e.g. individual keys), the field is still considered non-null. For example, `\{"metadata": \{"category": None, "price": 99.99}}` is not treated as null, even though the `category` key is null.
 
 </Admonition>
 
@@ -320,7 +320,7 @@ Zilliz Cloud allows filtering on ARRAY fields that contain null values. An ARRAY
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>An ARRAY field cannot contain partial null values as all elements in an ARRAY field must have the same data type. For details, refer to <a href="./use-array-fields">Array Field</a>.</p>
+An ARRAY field cannot contain partial null values as all elements in an ARRAY field must have the same data type. For details, refer to [Array Field](./use-array-fields).
 
 </Admonition>
 

@@ -106,7 +106,7 @@ Each of the above keys and values would be stored inside the `$meta` field.
 
 To use the dynamic field feature, set `enable_dynamic_field=True` when creating the collection schema:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -197,7 +197,6 @@ const res = await client.createCollection({
    ],
    enable_dynamic_field: true
 });
-
 ```
 
 </TabItem>
@@ -281,7 +280,34 @@ curl --request POST \
   \"collectionName\": \"my_collection\",
   \"schema\": $schema
 }"
+```
 
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>();
+schema->SetEnableDynamicField(true);
+schema->AddField({"my_id", milvus::DataType::INT64, "", true, false});
+schema->AddField(milvus::FieldSchema("my_vector", milvus::DataType::FLOAT_VECTOR).WithDimension(5));
+
+status = client->CreateCollection(milvus::CreateCollectionRequest()
+                                    .WithCollectionName("my_collection")
+                                    .WithCollectionSchema(schema));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
 ```
 
 </TabItem>
@@ -291,7 +317,7 @@ curl --request POST \
 
 The dynamic field allows you to insert extra fields not defined in the schema. These fields will be stored automatically in `$meta`.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -352,7 +378,6 @@ client.insert(InsertReq.builder()
 <TabItem value='javascript'>
 
 ```javascript
-
 const entities = [
   {
     my_id: 1,
@@ -433,6 +458,36 @@ curl --request POST \
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+milvus::EntityRows data = {
+    {
+        {"my_id", 1},
+        {"my_vector", std::vector<float>{0.1, 0.2, 0.3, 0.4, 0.5}},
+        {"overview", "Great product"},
+        {"words", 150},
+        {"dynamic_json", {
+                {"varchar", "some text"},
+                {"nested", {"value", 42.5}},
+                {"string_price", "99.99"},
+            }
+        }
+    }
+};
+
+milvus::InsertResponse response;
+auto status = client->Insert(milvus::InsertRequest()
+                                .WithCollectionName("my_collection")
+                                .WithRowsData(std::move(data)),
+                             response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
 </Tabs>
 
 ## Index keys in the dynamic field\{#index-keys-in-the-dynamic-field}
@@ -441,7 +496,7 @@ Zilliz Cloud allows you to use **JSON path indexing** to create indexes on speci
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Indexing dynamic field keys is <strong>optional</strong>. You can still query or filter by dynamic field keys without an index, but it may result in slower performance due to brute-force search.</p>
+Indexing dynamic field keys is **optional**. You can still query or filter by dynamic field keys without an index, but it may result in slower performance due to brute-force search.
 
 </Admonition>
 
@@ -459,7 +514,7 @@ To create a JSON path index, specify:
 
     - This type must match the actual data type of the field being indexed.
 
-    - For a complete list, refer to [Supported JSON cast types](./use-json-fields).
+    - For a complete list, refer to [Supported JSON cast types](./undefined).
 
 ### Use JSON path to index dynamic field keys\{#use-json-path-to-index-dynamic-field-keys}
 
@@ -471,7 +526,7 @@ Since the dynamic field is a JSON field, you can index any key within it using J
 
 - For nested keys: `dynamic_json['varchar']`, `dynamic_json['nested']['value']`
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -709,13 +764,40 @@ export nestedIndex='{
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+milvus::IndexDesc overview_index("overview", "overview_index", milvus::IndexType::AUTOINDEX);
+overview_index.AddExtraParam("json_cast_type", "varchar");
+overview_index.AddExtraParam("json_path", "overview");
+
+milvus::IndexDesc words_index("words", "words_index", milvus::IndexType::AUTOINDEX);
+words_index.AddExtraParam("json_cast_type", "double");
+words_index.AddExtraParam("json_path", "words");
+
+milvus::IndexDesc json_nested_index("dynamic_json", "json_nested_index", milvus::IndexType::AUTOINDEX);
+json_nested_index.AddExtraParam("json_cast_type", "double");
+json_nested_index.AddExtraParam("json_path", "dynamic_json['nested']['value']");
+
+auto status = client->CreateIndex(milvus::CreateIndexRequest()
+                                     .WithCollectionName(collection_name)
+                                     .AddIndex(std::move(overview_index))
+                                     .AddIndex(std::move(words_index))
+                                     .AddIndex(std::move(json_nested_index)));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
 </Tabs>
 
 ### Use JSON cast functions for type conversion\{#use-json-cast-functions-for-type-conversion}
 
 If a dynamic field key contains values in an incorrect format, (e.g. numbers stored as strings), you can use a cast function to convert it:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -796,7 +878,17 @@ export stringPriceIndex='{
     "json_cast_function": "STRING_TO_DOUBLE"
   }
 }'
+```
 
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+milvus::IndexDesc string_price_index("dynamic_json", "json_string_price_index", milvus::IndexType::AUTOINDEX);
+string_price_index.AddExtraParam("json_cast_type", "double");
+string_price_index.AddExtraParam("json_path", "dynamic_json['string_price']");
+string_price_index.AddExtraParam("json_cast_function", "STRING_TO_DOUBLE");
 ```
 
 </TabItem>
@@ -804,10 +896,9 @@ export stringPriceIndex='{
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<ul>
-<li><p>If type conversion fails (e.g. value <code>"not_a_number"</code> cannot be converted to a number), the value is skipped and unindexed.</p></li>
-<li><p>For details on cast function parameters, refer to <a href="./use-json-fields">JSON Field</a>.</p></li>
-</ul>
+- If type conversion fails (e.g. value `"not_a_number"` cannot be converted to a number), the value is skipped and unindexed.
+
+- For details on cast function parameters, refer to [JSON Field](./undefined).
 
 </Admonition>
 
@@ -815,7 +906,7 @@ export stringPriceIndex='{
 
 After defining the index parameters, you can apply them to the collection using `create_index()`:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -896,7 +987,22 @@ curl --request POST \
   \"collectionName\": \"my_collection\",
   \"indexParams\": $indexParams
 }"
+```
 
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+auto status = client->CreateIndex(milvus::CreateIndexRequest()
+                                     .WithCollectionName(collection_name)
+                                     .AddIndex(std::move(overview_index))
+                                     .AddIndex(std::move(words_index))
+                                     .AddIndex(std::move(json_nested_index))
+                                     .AddIndex(std::move(string_price_index)));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
 ```
 
 </TabItem>
@@ -912,7 +1018,7 @@ After inserting entities with dynamic field keys, you can filter them using stan
 
 Based on [the ](./enable-dynamic-field#insert-entities-to-the-collection)[example entity](./enable-dynamic-field#insert-entities-to-the-collection) from the previous section, valid filter expressions include:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -963,11 +1069,21 @@ export filter='dynamic_json["nested"]["value"] < 50'
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+std::string filter = R"(overview == "Great product")";
+std::string filter = R"(words >= 100)";
+std::string filter = R"(dynamic_json["nested"]["value"] < 50)";
+```
+
+</TabItem>
 </Tabs>
 
 **Retrieving dynamic field keys**: To return dynamic field keys in search or query results, you must explicitly specify them in the `output_fields` parameter using the same JSON path syntax as filtering:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1108,11 +1224,42 @@ curl --request POST \
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+std::vector<float> query_vector = {0.1, 0.2, 0.3, 0.4, 0.5};
+auto request = milvus::SearchRequest()
+                   .WithCollectionName("my_collection")
+                   .WithAnnsField("my_vector")
+                   .WithLimit(5)
+                   .WithFilter(filter)
+                   .AddOutputField("overview")
+                   .AddOutputField("dynamic_json")
+                   .AddFloatVector(query_vector);
+
+milvus::SearchResponse response;
+auto status = client->Search(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+auto search_results = response.Results();
+for (auto& result : search_results.Results()) {
+    milvus::EntityRows output_rows;
+    status = result.OutputRows(output_rows);
+    for (const auto& row : output_rows) {
+        std::cout << "\t" << row << std::endl;
+    }
+}
+```
+
+</TabItem>
 </Tabs>
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Dynamic field keys are not included in results by default and must be explicitly requested.</p>
+Dynamic field keys are not included in results by default and must be explicitly requested.
 
 </Admonition>
 

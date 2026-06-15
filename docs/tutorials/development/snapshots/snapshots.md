@@ -24,8 +24,9 @@ A snapshot is a point-in-time image of a Milvus collection, ideal for quick roll
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Snapshots are quick, point-in-time images of data, suitable for fast rollbacks or testing (<strong>days to weeks</strong>). At the same time, backups are independent, complete copies stored separately for long-term disaster recovery (<strong>weeks to years</strong>) and for better protection against total storage failure. </p>
-<p>To create backups, refer to <a href="./undefined">Backup & Restore</a>.</p>
+Snapshots are quick, point-in-time images of data, suitable for fast rollbacks or testing (**days to weeks**). At the same time, backups are independent, complete copies stored separately for long-term disaster recovery (**weeks to years**) and for better protection against total storage failure. 
+
+To create backups, refer to [Backup & Restore](./undefined).
 
 </Admonition>
 

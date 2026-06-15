@@ -34,7 +34,7 @@ This page explains when to use each operation, how to perform them, and what to 
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This feature is available only to <strong>Dedicated</strong> clusters in a <strong>Business Critical</strong> project.</p>
+This feature is available only to **Dedicated** clusters in a **Business Critical** project.
 
 </Admonition>
 
@@ -189,7 +189,7 @@ The following demo shows how to perform a failover.
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>If the failover fails, the cluster remains in ABNORMAL status. You can retry the failover operation or <a href="http://support.zilliz.com">create a support ticket</a>.</p>
+If the failover fails, the cluster remains in ABNORMAL status. You can retry the failover operation or [create a support ticket](http://support.zilliz.com).
 
 </Admonition>
 
@@ -234,25 +234,8 @@ The following table summarizes how the global endpoint and public endpoints beha
 
 The following table summarizes how in-progress tasks are handled during switchover and failover.
 
-<table>
-   <tr>
-     <th><p><strong>Task</strong></p></th>
-     <th><p><strong>During switchover</strong></p></th>
-     <th><p><strong>During failover</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>Backup</p></td>
-     <td><p>Task fails. Automatically retried on the new primary after the switchover completes.</p></td>
-     <td><p>Task fails. Automatically retried on the new primary after the failover completes.</p></td>
-   </tr>
-   <tr>
-     <td><p>Query CU scaling</p></td>
-     <td><p>Switchover is blocked while scaling is in progress.</p></td>
-     <td><p>Task fails. Retried after failover completes.</p></td>
-   </tr>
-   <tr>
-     <td><p>Replica scaling</p></td>
-     <td><p>Switchover is blocked while scaling is in progress.</p></td>
-     <td><p>Task fails. Retried after failover completes.</p></td>
-   </tr>
-</table>
+| **Task** | **During switchover** | **During failover** |
+| --- | --- | --- |
+| Backup | Task fails. Automatically retried on the new primary after the switchover completes. | Task fails. Automatically retried on the new primary after the failover completes. |
+| Query CU scaling | Switchover is blocked while scaling is in progress. | Task fails. Retried after failover completes. |
+| Replica scaling | Switchover is blocked while scaling is in progress. | Task fails. Retried after failover completes. |

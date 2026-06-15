@@ -26,38 +26,13 @@ As data scales and query volumes rise, cost control becomes critical. This guide
 
 Before optimizing, identify where your costs originate. Zilliz Cloud fees consist of five components:
 
-<table>
-    <tr>
-        <th><p>Item</p></th>
-        <th><p>Description</p></th>
-        <th><p>Optimizable?</p></th>
-    </tr>
-    <tr>
-        <td><p><a href="https://zilliverse.feishu.cn/wiki/J2prwh2KLis9oqkqNIAcU1d6nsd">Compute (CU)</a></p></td>
-        <td><p>Hourly billing for Dedicated clusters based on Compute Units.</p></td>
-        <td><p>Selection + Scaling</p></td>
-    </tr>
-    <tr>
-        <td><p><a href="https://zilliverse.feishu.cn/wiki/Uk0Nw1ZdbiOEBtkAOKacLTf8nGe">Read/Write Operations</a></p></td>
-        <td><p>Pay-per-use billing for Serverless clusters.</p></td>
-        <td><p>Query Optimization</p></td>
-    </tr>
-    <tr>
-        <td><p><a href="https://zilliverse.feishu.cn/wiki/PNj2w5fY9ifr82kbX8ucKgXAn0r">Storage</a></p></td>
-        <td><p>Data and backup storage (regardless of cluster status).</p></td>
-        <td><p>Build Level + Data Cleanup</p></td>
-    </tr>
-    <tr>
-        <td><p><a href="https://zilliverse.feishu.cn/wiki/BClgwKlHaiushBkPPssclTkYnef">Data Transfer</a></p></td>
-        <td><p>Ingress, egress, and cross-region transfer.</p></td>
-        <td><p>Architecture Planning</p></td>
-    </tr>
-    <tr>
-        <td><p><a href="https://zilliverse.feishu.cn/wiki/GBfswoqhviHfTVk2qhHc4eGXnfh">Audit Logs</a></p></td>
-        <td><p>Resource consumption for audit logging.</p></td>
-        <td><p>Enable as needed</p></td>
-    </tr>
-</table>
+| Item | Description | Optimizable? |
+| --- | --- | --- |
+| [Compute (CU)](https://zilliverse.feishu.cn/wiki/J2prwh2KLis9oqkqNIAcU1d6nsd) | Hourly billing for Dedicated clusters based on Compute Units. | Selection + Scaling |
+| [Read/Write Operations](https://zilliverse.feishu.cn/wiki/Uk0Nw1ZdbiOEBtkAOKacLTf8nGe) | Pay-per-use billing for Serverless clusters. | Query Optimization |
+| [Storage](https://zilliverse.feishu.cn/wiki/PNj2w5fY9ifr82kbX8ucKgXAn0r) | Data and backup storage (regardless of cluster status). | Build Level + Data Cleanup |
+| [Data Transfer](https://zilliverse.feishu.cn/wiki/BClgwKlHaiushBkPPssclTkYnef) | Ingress, egress, and cross-region transfer. | Architecture Planning |
+| [Audit Logs](https://zilliverse.feishu.cn/wiki/GBfswoqhviHfTVk2qhHc4eGXnfh) | Resource consumption for audit logging. | Enable as needed |
 
 For most users, over 70% of costs come from **Compute**, which also offers the greatest optimization potential.
 
@@ -69,64 +44,14 @@ Choosing the right deployment method is your most impactful decision. Selecting 
 
 ### Deployment methods at a glance\{#deployment-methods-at-a-glance}
 
-<table>
-    <tr>
-        <th><p>Type</p></th>
-        <th><p>Price Ref (768-dim)</p></th>
-        <th><p>Capacity/CU</p></th>
-        <th><p>Search QPS</p></th>
-        <th><p>Latency</p></th>
-        <th><p>Use Case</p></th>
-    </tr>
-    <tr>
-        <td><p>Free</p></td>
-        <td><p>0</p></td>
-        <td><p>5 GB, ≤5 colls</p></td>
-        <td><p>—</p></td>
-        <td><p>—</p></td>
-        <td><p>Learning, Prototyping</p></td>
-    </tr>
-    <tr>
-        <td><p>Serverless</p></td>
-        <td><p>Pay-per-RU</p></td>
-        <td><p>Auto-scaling</p></td>
-        <td><p>Auto</p></td>
-        <td><p>Medium</p></td>
-        <td><p>Unstable traffic, Dev/Test</p></td>
-    </tr>
-    <tr>
-        <td><p>Dedicated (Performance-optimized)</p></td>
-        <td><p>~&#36;65/M vectors/mo</p></td>
-        <td><p>2M/CU</p></td>
-        <td><p>500–1,500</p></td>
-        <td><p>Low (&lt;10ms p99)</p></td>
-        <td><p>Latency-critical production</p></td>
-    </tr>
-    <tr>
-        <td><p>Dedicated (Capacity-optimized)</p></td>
-        <td><p>~&#36;20/M vectors/mo</p></td>
-        <td><p>8M/CU</p></td>
-        <td><p>100–300</p></td>
-        <td><p>Medium</p></td>
-        <td><p>Large-scale, cost-sensitive</p></td>
-    </tr>
-    <tr>
-        <td><p>Dedicated (Tiered-storage)</p></td>
-        <td><p>~&#36;7/M vectors/mo</p></td>
-        <td><p>40M/CU (≥8 CU)</p></td>
-        <td><p>100–150 (Hot)</p></td>
-        <td><p>Higher</p></td>
-        <td><p>Massive data, cold/hot split</p></td>
-    </tr>
-    <tr>
-        <td><p>BYOC</p></td>
-        <td><p>Custom</p></td>
-        <td><p>Custom</p></td>
-        <td><p>Custom</p></td>
-        <td><p>Custom</p></td>
-        <td><p>Compliance, Cloud discounts</p></td>
-    </tr>
-</table>
+| Type | Price Ref (768-dim) | Capacity/CU | Search QPS | Latency | Use Case |
+| --- | --- | --- | --- | --- | --- |
+| Free | 0 | 5 GB, ≤5 colls | — | — | Learning, Prototyping |
+| Serverless | Pay-per-RU | Auto-scaling | Auto | Medium | Unstable traffic, Dev/Test |
+| Dedicated (Performance-optimized) | &#126;&#36;65/M vectors/mo | 2M/CU | 500–1,500 | Low (&lt;10ms p99) | Latency-critical production |
+| Dedicated (Capacity-optimized) | &#126;&#36;20/M vectors/mo | 8M/CU | 100–300 | Medium | Large-scale, cost-sensitive |
+| Dedicated (Tiered-storage) | &#126;&#36;7/M vectors/mo | 40M/CU (≥8 CU) | 100–150 (Hot) | Higher | Massive data, cold/hot split |
+| BYOC | Custom | Custom | Custom | Custom | Compliance, Cloud discounts |
 
 ### Selection decision tree\{#selection-decision-tree}
 
@@ -160,56 +85,15 @@ While traditional vector databases keep all indexes and raw data in memory, trad
 
 Zilliz Cloud offers several plans that affect features and scaling limits:
 
-<table>
-    <tr>
-        <th><p>Feature</p></th>
-        <th><p>Standard</p></th>
-        <th><p>Enterprise</p></th>
-        <th><p>Business Critical</p></th>
-    </tr>
-    <tr>
-        <td><p>Max CU</p></td>
-        <td><p>32 CU</p></td>
-        <td><p>256 CU</p></td>
-        <td><p>512 CU</p></td>
-    </tr>
-    <tr>
-        <td><p>Replica Limit</p></td>
-        <td><p>Query CU × Repl ≤ 32</p></td>
-        <td><p>Query CU × Repl ≤ 256</p></td>
-        <td><p>Query CU × Repl ≤ 512</p></td>
-    </tr>
-    <tr>
-        <td><p>SLA</p></td>
-        <td><p>0.999</p></td>
-        <td><p>0.9995</p></td>
-        <td><p>0.9999</p></td>
-    </tr>
-    <tr>
-        <td><p>Multi-AZ</p></td>
-        <td><p>Single AZ</p></td>
-        <td><p>Optional</p></td>
-        <td><p>Enabled by Default</p></td>
-    </tr>
-    <tr>
-        <td><p>RBAC</p></td>
-        <td><p>Basic</p></td>
-        <td><p>Custom Roles + Audit</p></td>
-        <td><p>Full + SOC2/HIPAA</p></td>
-    </tr>
-    <tr>
-        <td><p>BYOC</p></td>
-        <td><p>Not Supported</p></td>
-        <td><p>Supported</p></td>
-        <td><p>Supported</p></td>
-    </tr>
-    <tr>
-        <td><p>Support</p></td>
-        <td><p>Ticket</p></td>
-        <td><p>SA + Slack</p></td>
-        <td><p>24/7 + 15m Response</p></td>
-    </tr>
-</table>
+| Feature | Standard | Enterprise | Business Critical |
+| --- | --- | --- | --- |
+| Max CU | 32 CU | 256 CU | 512 CU |
+| Replica Limit | Query CU × Repl ≤ 32 | Query CU × Repl ≤ 256 | Query CU × Repl ≤ 512 |
+| SLA | 0.999 | 0.9995 | 0.9999 |
+| Multi-AZ | Single AZ | Optional | Enabled by Default |
+| RBAC | Basic | Custom Roles + Audit | Full + SOC2/HIPAA |
+| BYOC | Not Supported | Supported | Supported |
+| Support | Ticket | SA + Slack | 24/7 + 15m Response |
 
 For details, see [Detailed Plan Comparison](./select-zilliz-cloud-service-plans).
 
@@ -233,75 +117,25 @@ The [`build_level`](./tune-index-build-level)[ parameter ](./tune-index-build-le
 
 - **Performance-optimized cluster (768-dim, per CU):**
 
-    <table>
-        <tr>
-            <th><p>Build Level</p></th>
-            <th><p>Capacity</p></th>
-            <th><p>Increase</p></th>
-            <th><p>Recall</p></th>
-            <th><p>QPS</p></th>
-        </tr>
-        <tr>
-            <td><p>Capacity-first (0)</p></td>
-            <td><p>2.1M</p></td>
-            <td><p>0.4</p></td>
-            <td><p>90–95%</p></td>
-            <td><p>~2,850</p></td>
-        </tr>
-        <tr>
-            <td><p>Balanced (1) Default</p></td>
-            <td><p>1.5M</p></td>
-            <td><p>Baseline</p></td>
-            <td><p>91–97%</p></td>
-            <td><p>~3,500</p></td>
-        </tr>
-        <tr>
-            <td><p>Precision-first (2)</p></td>
-            <td><p>1.0M</p></td>
-            <td><p>-0.33</p></td>
-            <td><p>92–98%</p></td>
-            <td><p>~3,000</p></td>
-        </tr>
-    </table>
+    | Build Level | Capacity | Increase | Recall | QPS |
+    | --- | --- | --- | --- | --- |
+    | Capacity-first (0) | 2.1M | 0.4 | 90–95% | &#126;2,850 |
+    | Balanced (1) Default | 1.5M | Baseline | 91–97% | &#126;3,500 |
+    | Precision-first (2) | 1.0M | -0.33 | 92–98% | &#126;3,000 |
 
 - **Capacity-optimized cluster (768-dim, per CU):**
 
-    <table>
-        <tr>
-            <th><p>Build Level</p></th>
-            <th><p>Capacity</p></th>
-            <th><p>Increase</p></th>
-            <th><p>Recall</p></th>
-            <th><p>QPS</p></th>
-        </tr>
-        <tr>
-            <td><p>Capacity-first (0)</p></td>
-            <td><p>7M</p></td>
-            <td><p>0.4</p></td>
-            <td><p>89–97%</p></td>
-            <td><p>~300</p></td>
-        </tr>
-        <tr>
-            <td><p>Balanced (1) Default</p></td>
-            <td><p>5M</p></td>
-            <td><p>Baseline</p></td>
-            <td><p>93–98%</p></td>
-            <td><p>~350</p></td>
-        </tr>
-        <tr>
-            <td><p>Precision-first (2)</p></td>
-            <td><p>3M</p></td>
-            <td><p>-0.4</p></td>
-            <td><p>94–98%</p></td>
-            <td><p>~345</p></td>
-        </tr>
-    </table>
+    | Build Level | Capacity | Increase | Recall | QPS |
+    | --- | --- | --- | --- | --- |
+    | Capacity-first (0) | 7M | 0.4 | 89–97% | &#126;300 |
+    | Balanced (1) Default | 5M | Baseline | 93–98% | &#126;350 |
+    | Precision-first (2) | 3M | -0.4 | 94–98% | &#126;345 |
 
 **Case Study:** A 16 CU capacity-optimized cluster holds 80M vectors by default. Switching to `Capacity-first` increases this to 112M, or allows the same 80M vectors to fit in 12 CUs—**saving 25% in CU costs**.
 
 <Admonition type="info" icon="📘" title="**Note**">
 
-<p>The <code>build_level</code> parameter cannot be modified once set. Changing it requires dropping and recreating the index. We recommend evaluating your requirements before creating a collection. This parameter only supports floating-point vector types (FLOAT<em>VECTOR, FLOAT16</em>VECTOR, and BFLOAT16_VECTOR).</p>
+The `build_level` parameter cannot be modified once set. Changing it requires dropping and recreating the index. We recommend evaluating your requirements before creating a collection. This parameter only supports floating-point vector types (FLOAT_VECTOR, FLOAT16_VECTOR, and BFLOAT16_VECTOR).
 
 </Admonition>
 
@@ -321,28 +155,11 @@ The [`level`](./tune-recall-rate)[ parameter](./tune-recall-rate) (1–10) contr
 
 [Memory Mapping (mmap)](./use-mmap) offloads data from memory to disk.
 
-<table>
-    <tr>
-        <th><p>Cluster Type</p></th>
-        <th><p>Default MMAP Policy</p></th>
-        <th><p>Effect</p></th>
-    </tr>
-    <tr>
-        <td><p>Dedicated (Performance-optimized)</p></td>
-        <td><p>Raw vector data only uses mmap; scalar data and all indexes remain in memory</p></td>
-        <td><p>Guarantees low latency</p></td>
-    </tr>
-    <tr>
-        <td><p>Dedicated (Capacity-optimized)</p></td>
-        <td><p>Scalar indexes + all raw data use mmap; only vector indexes remain in memory</p></td>
-        <td><p>Maximizes capacity</p></td>
-    </tr>
-    <tr>
-        <td><p>Free / Serverless</p></td>
-        <td><p>All fields and indexes use mmap</p></td>
-        <td><p>Relies on system cache</p></td>
-    </tr>
-</table>
+| Cluster Type | Default MMAP Policy | Effect |
+| --- | --- | --- |
+| Dedicated (Performance-optimized) | Raw vector data only uses mmap; scalar data and all indexes remain in memory | Guarantees low latency |
+| Dedicated (Capacity-optimized) | Scalar indexes + all raw data use mmap; only vector indexes remain in memory | Maximizes capacity |
+| Free / Serverless | All fields and indexes use mmap | Relies on system cache |
 
 **Optimization recommendations:**
 
@@ -352,7 +169,7 @@ The [`level`](./tune-recall-rate)[ parameter](./tune-recall-rate) (1–10) contr
 
 <Admonition type="info" icon="📘" title="**Note**">
 
-<p>The Collection must be released before modifying mmap settings, then reloaded afterward. Misconfiguration may cause performance degradation or OOM errors — validate in a test environment first.</p>
+The Collection must be released before modifying mmap settings, then reloaded afterward. Misconfiguration may cause performance degradation or OOM errors — validate in a test environment first.
 
 </Admonition>
 
@@ -387,38 +204,12 @@ collection.create_index(
 
 [TopK](./single-vector-search) directly affects compute and network overhead. 
 
-<table>
-    <tr>
-        <th><p>TopK</p></th>
-        <th><p>Relative Latency</p></th>
-        <th><p>Relative RU Cost (Serverless)</p></th>
-        <th><p>Typical Use Case</p></th>
-    </tr>
-    <tr>
-        <td><p>1–10</p></td>
-        <td><p>Baseline</p></td>
-        <td><p>1x</p></td>
-        <td><p>RAG (typically 3–5 context chunks)</p></td>
-    </tr>
-    <tr>
-        <td><p>10–50</p></td>
-        <td><p>1.2–1.5x</p></td>
-        <td><p>1.5–2x</p></td>
-        <td><p>Recommendation systems, search result pages</p></td>
-    </tr>
-    <tr>
-        <td><p>50–200</p></td>
-        <td><p>1.5–3x</p></td>
-        <td><p>2–4x</p></td>
-        <td><p>Candidate set generation, reranking input</p></td>
-    </tr>
-    <tr>
-        <td><p>200–1000</p></td>
-        <td><p>3–10x</p></td>
-        <td><p>4–10x</p></td>
-        <td><p>Batch analysis, clustering</p></td>
-    </tr>
-</table>
+| TopK | Relative Latency | Relative RU Cost (Serverless) | Typical Use Case |
+| --- | --- | --- | --- |
+| 1–10 | Baseline | 1x | RAG (typically 3–5 context chunks) |
+| 10–50 | 1.2–1.5x | 1.5–2x | Recommendation systems, search result pages |
+| 50–200 | 1.5–3x | 2–4x | Candidate set generation, reranking input |
+| 200–1000 | 3–10x | 4–10x | Batch analysis, clustering |
 
 - **RAG:** Use TopK 3–10. More context rarely improves LLM quality and wastes tokens and RU.
 
@@ -525,54 +316,20 @@ Beyond technical optimization, taking full advantage of Zilliz's promotional pro
 
 ### Credits\{#credits}
 
-<table>
-    <tr>
-        <th><p>Channel</p></th>
-        <th><p>Credits</p></th>
-        <th><p>Validity</p></th>
-        <th><p>Notes</p></th>
-    </tr>
-    <tr>
-        <td><p>New user registration</p></td>
-        <td><p>&#36;100 credits</p></td>
-        <td><p>30 days</p></td>
-        <td><p>Ready to use immediately, no credit card required</p></td>
-    </tr>
-    <tr>
-        <td><p>Add a payment method</p></td>
-        <td><p>—</p></td>
-        <td><p>Extended to 1 year</p></td>
-        <td><p>Any unused credits are automatically extended upon adding a payment method</p></td>
-    </tr>
-    <tr>
-        <td><p>Recycle Bin</p></td>
-        <td><p>Free</p></td>
-        <td><p>—</p></td>
-        <td><p>Deleted data incurs no charges while in the Recycle Bin</p></td>
-    </tr>
-</table>
+| Channel | Credits | Validity | Notes |
+| --- | --- | --- | --- |
+| New user registration | &#36;100 credits | 30 days | Ready to use immediately, no credit card required |
+| Add a payment method | — | Extended to 1 year | Any unused credits are automatically extended upon adding a payment method |
+| Recycle Bin | Free | — | Deleted data incurs no charges while in the Recycle Bin |
 
 **Recommendation:** Add a payment method as soon as possible after your initial registration to extend the validity of your &#36;100 credits from 30 days to 1 year, giving you ample time for technical evaluation.
 
 ### Dedicated programs\{#dedicated-programs}
 
-<table>
-    <tr>
-        <th><p>Program</p></th>
-        <th><p>Target Audience</p></th>
-        <th><p>How to Apply</p></th>
-    </tr>
-    <tr>
-        <td><p>Zilliz AI Startup Program</p></td>
-        <td><p>Early-stage startups</p></td>
-        <td><p>Apply through the <a href="https://zilliz.com/zilliz-for-startups">official website</a> to receive additional credits and technical support</p></td>
-    </tr>
-    <tr>
-        <td><p>AI Agent Program</p></td>
-        <td><p>AI Agent developers</p></td>
-        <td><p>Exclusive credits for developers building AI Agent applications. Coming soon.</p></td>
-    </tr>
-</table>
+| Program | Target Audience | How to Apply |
+| --- | --- | --- |
+| Zilliz AI Startup Program | Early-stage startups | Apply through the [official website](https://zilliz.com/zilliz-for-startups) to receive additional credits and technical support |
+| AI Agent Program | AI Agent developers | Exclusive credits for developers building AI Agent applications. Coming soon. |
 
 ### Enterprise customers\{#enterprise-customers}
 
@@ -590,32 +347,13 @@ Optimization is not a one-time effort. Zilliz Cloud provides multi-dimensional c
 
 On the **Billing > Usage** page, you can break down your bill across five dimensions:
 
-<table>
-   <tr>
-     <th><p><strong>Dimension</strong></p></th>
-     <th><p><strong>Purpose</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>Project</p></td>
-     <td><p>Compare usage across different business lines or departments</p></td>
-   </tr>
-   <tr>
-     <td><p>Cluster</p></td>
-     <td><p>Identify which cluster is the primary cost driver</p></td>
-   </tr>
-   <tr>
-     <td><p>Time Period</p></td>
-     <td><p>View day-level trends and detect abnormal fluctuations</p></td>
-   </tr>
-   <tr>
-     <td><p>Cost Type</p></td>
-     <td><p>Break down charges by billing category</p></td>
-   </tr>
-   <tr>
-     <td><p>Cloud Region</p></td>
-     <td><p>Compare costs across regions in multi-region deployments</p></td>
-   </tr>
-</table>
+| **Dimension** | **Purpose** |
+| --- | --- |
+| Project | Compare usage across different business lines or departments |
+| Cluster | Identify which cluster is the primary cost driver |
+| Time Period | View day-level trends and detect abnormal fluctuations |
+| Cost Type | Break down charges by billing category |
+| Cloud Region | Compare costs across regions in multi-region deployments |
 
 Multiple dimensions can be combined as filters. For example, selecting CU costs for a specific project over the last 7 days gives you a precise view of that business line's compute cost trend.
 

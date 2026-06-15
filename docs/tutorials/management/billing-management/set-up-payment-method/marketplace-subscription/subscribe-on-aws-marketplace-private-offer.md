@@ -64,7 +64,7 @@ You can follow the detailed step-by-step guide below to subscribe to a Private O
 
         <Admonition type="info" icon="📘" title="Note">
 
-        <p>You must accept the offer before its expiration date. If the offer has expired, contact your account executive.</p>
+        You must accept the offer before its expiration date. If the offer has expired, contact your account executive.
 
         </Admonition>
 
@@ -90,7 +90,7 @@ You can follow the detailed step-by-step guide below to subscribe to a Private O
 
     <Admonition type="info" icon="📘" title="Note">
 
-    <p>You must complete this step. Otherwise, your private offer subscription is not linked to any Zilliz Cloud organization.</p>
+    You must complete this step. Otherwise, your private offer subscription is not linked to any Zilliz Cloud organization.
 
     </Admonition>
 
@@ -124,7 +124,7 @@ When your private offer is close to expiration, Zilliz will send you a new priva
 
 <Admonition type="info" icon="📘" title="Note">
 
-<p>For AWS Marketplace, renewal works as accepting a new private offer. After you accept it, the new offer automatically replaces the previous one. You still need to link the new offer to your Zilliz Cloud organization again.</p>
+For AWS Marketplace, renewal works as accepting a new private offer. After you accept it, the new offer automatically replaces the previous one. You still need to link the new offer to your Zilliz Cloud organization again.
 
 </Admonition>
 
@@ -164,8 +164,9 @@ You can follow the detailed step-by-step guide below to subscribe to a Private O
 
     <Admonition type="info" icon="📘" title="Note">
 
-    <p>Do <strong>not</strong> click "Set up your account" at this point. Please wait until the request is complete.</p>
-    <p>If you click it before the request is complete, you may see "No organization available" when linking the offer to a Zilliz Cloud organization. This happens because the previous private offer has not been unlinked yet.</p>
+    Do **not** click "Set up your account" at this point. Please wait until the request is complete.
+    
+    If you click it before the request is complete, you may see "No organization available" when linking the offer to a Zilliz Cloud organization. This happens because the previous private offer has not been unlinked yet.
 
     </Admonition>
 
@@ -177,7 +178,7 @@ You can follow the detailed step-by-step guide below to subscribe to a Private O
 
     <Admonition type="info" icon="📘" title="Note">
 
-    <p>You must complete this step. Otherwise, your private offer subscription is not linked to any Zilliz Cloud organization.</p>
+    You must complete this step. Otherwise, your private offer subscription is not linked to any Zilliz Cloud organization.
 
     </Admonition>
 
@@ -215,7 +216,7 @@ You can cancel your private offer subscription from AWS Marketplace.
 
 <Admonition type="info" icon="📘" title="Note">
 
-<p>After you cancel the subscription, your organization loses access to advanced Zilliz Cloud features. If your organization has no remaining credits, or if all credits have expired, it is frozen immediately.</p>
+After you cancel the subscription, your organization loses access to advanced Zilliz Cloud features. If your organization has no remaining credits, or if all credits have expired, it is frozen immediately.
 
 </Admonition>
 

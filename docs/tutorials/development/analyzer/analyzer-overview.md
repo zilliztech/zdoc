@@ -29,11 +29,11 @@ In Zilliz Cloud, analyzers are configured during collection creation when you ad
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>The use of analyzers may impact performance:</p>
-<ul>
-<li><p><strong>Full text search:</strong> For full text search, <strong>DataNode</strong> and <strong>QueryNode</strong> channels consume data more slowly because they must wait for tokenization to complete. As a result, newly ingested data takes longer to become available for search.</p></li>
-<li><p><strong>Keyword match:</strong> For keyword matching, index creation is also slower since tokenization needs to finish before an index can be built.</p></li>
-</ul>
+The use of analyzers may impact performance:
+
+- **Full text search:** For full text search, **DataNode** and **QueryNode** channels consume data more slowly because they must wait for tokenization to complete. As a result, newly ingested data takes longer to become available for search.
+
+- **Keyword match:** For keyword matching, index creation is also slower since tokenization needs to finish before an index can be built.
 
 </Admonition>
 
@@ -47,7 +47,7 @@ An analyzer in Zilliz Cloud consists of exactly one **tokenizer** and **zero or 
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Tokenizers support only UTF-8 format. Support for other formats will be added in future releases.</p>
+Tokenizers support only UTF-8 format. Support for other formats will be added in future releases.
 
 </Admonition>
 
@@ -65,10 +65,9 @@ Zilliz Cloud provides two types of analyzers to meet different text processing n
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<ul>
-<li><p>If you omit analyzer configurations during collection creation, Zilliz Cloud uses the <code>standard</code> analyzer for all text processing by default. For details, refer to <a href="./standard-analyzer">Standard</a>.</p></li>
-<li><p>For optimal search and query performance, choose an analyzer that matches the language of your text data. For instance, while the <code>standard</code> analyzer is versatile, it may not be the best choice for languages with unique grammatical structures, such as Chinese, Japanese, or Korean. In such cases, using a language-specific analyzer like <a href="./chinese-analyzer"><code>chinese</code></a> or custom analyzers with specialized tokenizers (such as <a href="./lindera-tokenizer"><code>lindera</code></a>, <a href="./icu-tokenizer"><code>icu</code></a>) and filters is highly recommended to ensure accurate tokenization and better search results.</p></li>
-</ul>
+- If you omit analyzer configurations during collection creation, Zilliz Cloud uses the `standard` analyzer for all text processing by default. For details, refer to [Standard](./standard-analyzer).
+
+- For optimal search and query performance, choose an analyzer that matches the language of your text data. For instance, while the `standard` analyzer is versatile, it may not be the best choice for languages with unique grammatical structures, such as Chinese, Japanese, or Korean. In such cases, using a language-specific analyzer like [`chinese`](./chinese-analyzer) or custom analyzers with specialized tokenizers (such as [`lindera`](./lindera-tokenizer), [`icu`](./icu-tokenizer)) and filters is highly recommended to ensure accurate tokenization and better search results.
 
 </Admonition>
 
@@ -78,7 +77,7 @@ Built-in analyzers in Zilliz Cloud clusters are pre-configured with specific tok
 
 For example, to use the `standard` built-in analyzer, simply specify its name `standard` as the `type` and optionally include extra configurations specific to this analyzer type, such as `stop_words`:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -129,11 +128,22 @@ export analyzerParams='{
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+nlohmann::json analyzer_params = {
+    {"type", "standard"},
+    {"stop_words",  {"a", "an", "for"}},
+};
+```
+
+</TabItem>
 </Tabs>
 
 To check the execution result of an analyzer, use the `run_analyzer` method:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -223,6 +233,24 @@ curl -X POST "http://${MILVUS_HOST}/v2/vectordb/common/run_analyzer" \
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+std::string text = "An efficient system relies on a robust analyzer to correctly process text for various applications.";
+
+auto request = milvus::RunAnalyzerRequest()
+                       .AddText(text)
+                       .WithAnalyzerParams(analyzer_params);
+
+milvus::RunAnalyzerResponse response;
+auto status = client->RunAnalyzer(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
 </Tabs>
 
 The output will be:
@@ -235,7 +263,7 @@ This demonstrates that the analyzer properly tokenizes the input text by filteri
 
 The configuration of the `standard` built-in analyzer above is equivalent to setting up a [custom analyzer](./analyzer-overview#custom-analyzer) with the following parameters, where `tokenizer` and `filter` options are explicitly defined to achieve similar functionality:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -313,6 +341,17 @@ export analyzerParams='{
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+nlohmann::json analyzer_params = {
+    {"type", "standard"},
+    {"filter", {"lowercase", {{"type", "stop"}, {"stop_words", {"a", "an", "for"}}}}},
+};
+```
+
+</TabItem>
 </Tabs>
 
 Zilliz Cloud offers the following built-in analyzers, each designed for specific text processing needs:
@@ -339,7 +378,7 @@ For example, a tokenizer would convert text `"Vector Database Built for Scale"` 
 
 **Example of specifying a tokenizer**:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -383,6 +422,16 @@ analyzerParams = map[string]any{"tokenizer": "whitespace"}
 export analyzerParams='{
        "type": "whitespace"
     }'
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+nlohmann::json analyzer_params = {
+    {"type", "whitespace"}
+};
 ```
 
 </TabItem>
@@ -465,6 +514,13 @@ Filters in a custom analyzer can be either **built-in** or **custom**, depending
 
     </TabItem>
     </Tabs>
+
+```c++
+nlohmann::json analyzer_params = {
+    {"type", "standard"},
+    {"filter", {"lowercase"}},
+};
+```
 
 - **Custom filters**: Custom filters allow for specialized configurations. You can define a custom filter by choosing a valid filter type (`filter.type`) and adding specific settings for each filter type. Examples of filter types that support customization:
 
@@ -577,7 +633,7 @@ Before incorporating these configurations into your collection, you'll verify ea
 
 Begin by setting up the Milvus client and creating a new schema.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -686,6 +742,25 @@ curl -X POST "http://${MILVUS_HOST}/v2/vectordb/collections/create" \
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>();
+schema->SetEnableDynamicField(false);
+```
+
+</TabItem>
 </Tabs>
 
 ### Step 2: Define and verify analyzer configurations\{#step-2-define-and-verify-analyzer-configurations}
@@ -721,14 +796,14 @@ curl -X POST "http://${MILVUS_HOST}/v2/vectordb/collections/create" \
     Map<String, Object> analyzerParamsBuiltin = new HashMap<>();
     analyzerParamsBuiltin.put("type", "english");
     
-    List<String> texts = new ArrayList<>();
+    List&lt;String&gt; texts = new ArrayList<>();
     texts.add("Milvus simplifies text analysis for search.");
     
     RunAnalyzerResp resp = client.runAnalyzer(RunAnalyzerReq.builder()
             .texts(texts)
             .analyzerParams(analyzerParamsBuiltin)
             .build());
-    List<RunAnalyzerResp.AnalyzerResult> results = resp.getResults();
+    List&lt;RunAnalyzerResp.AnalyzerResult&gt; results = resp.getResults();
     ```
 
     </TabItem>
@@ -775,7 +850,7 @@ curl -X POST "http://${MILVUS_HOST}/v2/vectordb/collections/create" \
     # restful
     export MILVUS_HOST="YOUR_CLUSTER_ENDPOINT"
     export SAMPLE_TEXT="Milvus simplifies text analysis for search."
-    curl -X POST "http://${MILVUS_HOST}/v2/vectordb/common/run_analyzer" \
+    curl -X POST "<i>http</i>://${MILVUS_HOST}/v2/vectordb/common/run_analyzer" \
       -H "Content-Type: application/json" \
       -H "Request-Timeout: 10" \
       -d '{
@@ -786,6 +861,23 @@ curl -X POST "http://${MILVUS_HOST}/v2/vectordb/collections/create" \
 
     </TabItem>
     </Tabs>
+
+```c++
+nlohmann::json analyzer_params_built_in = {
+        {"type", "standard"}
+};
+
+std::string sample_text = "Milvus simplifies text analysis for search.";
+auto request = milvus::RunAnalyzerRequest()
+                   .AddText(sample_text)
+                   .WithAnalyzerParams(analyzer_params_built_in);
+
+milvus::RunAnalyzerResponse response;
+auto status = client->RunAnalyzer(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
 
 1. **Configure and verify a custom analyzer:**
 
@@ -843,14 +935,14 @@ curl -X POST "http://${MILVUS_HOST}/v2/vectordb/collections/create" \
             )
     );
     
-    List<String> texts = new ArrayList<>();
+    List&lt;String&gt; texts = new ArrayList<>();
     texts.add("Milvus provides flexible, customizable analyzers for robust text processing.");
     
     RunAnalyzerResp resp = client.runAnalyzer(RunAnalyzerReq.builder()
             .texts(texts)
             .analyzerParams(analyzerParamsCustom)
             .build());
-    List<RunAnalyzerResp.AnalyzerResult> results = resp.getResults();
+    List&lt;RunAnalyzerResp.AnalyzerResult&gt; results = resp.getResults();
     ```
 
     </TabItem>
@@ -917,7 +1009,7 @@ curl -X POST "http://${MILVUS_HOST}/v2/vectordb/collections/create" \
     export SAMPLE_TEXT="Milvus provides flexible, customizable analyzers for robust text processing."
     
     # 使用自定义分析器配置
-    curl -X POST "http://${MILVUS_HOST}/v2/vectordb/common/run_analyzer" \
+    curl -X POST "<i>http</i>://${MILVUS_HOST}/v2/vectordb/common/run_analyzer" \
       -H "Content-Type: application/json" \
       -H "Request-Timeout: 10" \
       -d '{
@@ -929,11 +1021,36 @@ curl -X POST "http://${MILVUS_HOST}/v2/vectordb/collections/create" \
     </TabItem>
     </Tabs>
 
+```c++
+nlohmann::json analyzer_params_custom = {
+    {"tokenizer", "standard"},
+    {"filter", {
+        "lowercase", 
+        {{"type", "length"}, {"max", 40}},
+        {{"type", "stop"}, {"stop_words", {"of", "to"}}}
+    }},
+};
+
+const std::vector<std::string> texts = {
+        "Milvus provides flexible, customizable analyzers for robust text processing."
+};
+
+auto request = milvus::RunAnalyzerRequest()
+                       .WithTexts(text_content)
+                       .WithAnalyzerParams(analyzer_params_custom);
+
+milvus::RunAnalyzerResponse response;
+auto status = client->RunAnalyzer(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
 ### Step 3: Add analyzer to schema field\{#step-3-add-analyzer-to-schema-field}
 
 Now that you have verified your analyzer configurations, add them to your schema fields:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1116,7 +1233,19 @@ export SCHEMA_CONFIG='{
     }
   ]
 }'
+```
 
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+schema->AddField({"id", milvus::DataType::INT64, "", true, false});
+schema->AddField(milvus::FieldSchema("title_en", milvus::DataType::VARCHAR).WithMaxLength(1000)
+                    .EnableAnalyzer(true).EnableMatch(true).WithAnalyzerParams(analyzer_params_built_in));
+schema->AddField(milvus::FieldSchema("title", milvus::DataType::VARCHAR).WithMaxLength(1000)
+                    .EnableAnalyzer(true).EnableMatch(true).WithAnalyzerParams(analyzer_params_custom));
+schema->AddField(milvus::FieldSchema("embedding", milvus::DataType::FLOAT_VECTOR).WithDimension(3));
 ```
 
 </TabItem>
@@ -1124,7 +1253,7 @@ export SCHEMA_CONFIG='{
 
 ### Step 4: Prepare index parameters and create the collection\{#step-4-prepare-index-parameters-and-create-the-collection}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1221,6 +1350,24 @@ curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/create" \
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+std::vector<milvus::IndexDesc> indexes = {
+    milvus::IndexDesc("embedding", "", milvus::IndexType::AUTOINDEX, milvus::MetricType::COSINE)
+}
+
+auto status = client->CreateCollection(milvus::CreateCollectionRequest()
+                                    .WithCollectionName("my_collection")
+                                    .WithIndexes(std::move(indexes))
+                                    .WithCollectionSchema(schema));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+```
+
+</TabItem>
 </Tabs>
 
 ## Example use on the Zilliz Cloud console\{#example-use-on-the-zilliz-cloud-console}
@@ -1231,7 +1378,7 @@ You can also use the Zilliz Cloud console to perform the above operations. For d
 
 <Admonition type="info" icon="📘" title="**Note**">
 
-<p>Analyzer configurations are immutable after collection creation. To change the analyzer configuration, create a new collection with the desired settings and <a href="./migrate-between-clusters">migrate</a> your data.</p>
+Analyzer configurations are immutable after collection creation. To change the analyzer configuration, create a new collection with the desired settings and [migrate](./migrate-between-clusters) your data.
 
 </Admonition>
 

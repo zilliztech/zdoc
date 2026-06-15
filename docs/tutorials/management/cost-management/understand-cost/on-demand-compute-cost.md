@@ -76,7 +76,7 @@ Indexing CU Cost = Indexing CU Unit Price × Number of Indexing CU x Time
 
 <Admonition type="info" icon="📘" title="**Note**">
 
-<p>On the Usage and <a href="./view-invoice">Invoice</a> pages, indexing CU costs are shown as totals by database rather than by individual job.  </p>
+On the Usage and [Invoice](./view-invoice) pages, indexing CU costs are shown as totals by database rather than by individual job.  
 
 </Admonition>
 

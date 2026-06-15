@@ -28,92 +28,38 @@ Before starting your Pinecone to Zilliz Cloud migration, ensure you meet these r
 
 ### Pinecone requirements\{#pinecone-requirements}
 
-<table>
-   <tr>
-     <th><p>Requirement</p></th>
-     <th><p>Details</p></th>
-   </tr>
-   <tr>
-     <td><p>Index type</p></td>
-     <td><p>Supports migrating from Pinecone Serverless indexes only</p></td>
-   </tr>
-   <tr>
-     <td><p>API access</p></td>
-     <td><p>Pinecone API key with access permissions</p></td>
-   </tr>
-   <tr>
-     <td><p>Data availability</p></td>
-     <td><p>Source indexes from Pinecone must contain data. Empty indexes cannot be migrated.</p></td>
-   </tr>
-   <tr>
-     <td><p>Vector dimension</p></td>
-     <td><p>Dimension must be &gt; 1. Single-dimension vectors will cause migration failure</p></td>
-   </tr>
-</table>
+| Requirement | Details |
+| --- | --- |
+| Index type | Supports migrating from Pinecone Serverless indexes only |
+| API access | Pinecone API key with access permissions |
+| Data availability | Source indexes from Pinecone must contain data. Empty indexes cannot be migrated. |
+| Vector dimension | Dimension must be > 1. Single-dimension vectors will cause migration failure |
 
 ### Zilliz Cloud requirements\{#zilliz-cloud-requirements}
 
-<table>
-   <tr>
-     <th><p>Requirement</p></th>
-     <th><p>Details</p></th>
-   </tr>
-   <tr>
-     <td><p>User role</p></td>
-     <td><p>Organization Owner or Project Admin</p></td>
-   </tr>
-   <tr>
-     <td><p>Cluster capacity</p></td>
-     <td><p>Sufficient storage and compute resources (use the <a href="https://zilliz.com/pricing#calculator">CU calculator</a> to estimate CU size)</p></td>
-   </tr>
-   <tr>
-     <td><p>Network access</p></td>
-     <td><p>Add <a href="./zilliz-cloud-ips">Zilliz Cloud IPs</a> to allowlists if using network restrictions</p></td>
-   </tr>
-</table>
+| Requirement | Details |
+| --- | --- |
+| User role | Organization Owner or Project Admin |
+| Cluster capacity | Sufficient storage and compute resources (use the [CU calculator](https://zilliz.com/pricing#calculator) to estimate CU size) |
+| Network access | Add [Zilliz Cloud IPs](./zilliz-cloud-ips) to allowlists if using network restrictions |
 
 ## Data type mapping\{#data-type-mapping}
 
 Understanding how Pinecone data types map to Zilliz Cloud is crucial for planning your migration:
 
-<table>
-   <tr>
-     <th><p>Pinecone Field Type</p></th>
-     <th><p>Zilliz Cloud Field Type</p></th>
-     <th><p>Notes</p></th>
-   </tr>
-   <tr>
-     <td><p>Primary key</p></td>
-     <td><p>VARCHAR (primary key)</p></td>
-     <td><p>Automatically mapped. Enable Auto ID to generate new IDs (original values will be discarded).</p></td>
-   </tr>
-   <tr>
-     <td><p>Dense vector</p></td>
-     <td><p>FLOAT_VECTOR</p></td>
-     <td><p>Dimensions preserved exactly, no modifications needed</p></td>
-   </tr>
-   <tr>
-     <td><p>Sparse vector</p></td>
-     <td><p>SPARSE_FLOAT_VECTOR</p></td>
-     <td><p>Only mapped if non-empty in sample data.</p></td>
-   </tr>
-   <tr>
-     <td><p>Metadata</p></td>
-     <td><p>Dynamic fields</p></td>
-     <td><p>Mapped as dynamic schema by default; can be converted to fixed fields.</p><p>Refer to <a href="./enable-dynamic-field">Dynamic Field</a> for more details.</p></td>
-   </tr>
-   <tr>
-     <td><p>Namespace</p></td>
-     <td><p>Partition key / partition</p></td>
-     <td><p>Recommended for performance optimization.</p><p>Refer to <a href="./migrate-from-pinecone#namespace-processing">Namespace processing</a> for more details.</p></td>
-   </tr>
-</table>
+| Pinecone Field Type | Zilliz Cloud Field Type | Notes |
+| --- | --- | --- |
+| Primary key | VARCHAR (primary key) | Automatically mapped. Enable Auto ID to generate new IDs (original values will be discarded). |
+| Dense vector | FLOAT_VECTOR | Dimensions preserved exactly, no modifications needed |
+| Sparse vector | SPARSE_FLOAT_VECTOR | Only mapped if non-empty in sample data. |
+| Metadata | Dynamic fields | Mapped as dynamic schema by default; can be converted to fixed fields.<br/>Refer to [Dynamic Field](./enable-dynamic-field) for more details. |
+| Namespace | Partition key / partition | Recommended for performance optimization.<br/>Refer to [Namespace processing](./migrate-from-pinecone#namespace-processing) for more details. |
 
 ## Metadata field conversion\{#metadata-field-conversion}
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Zilliz Cloud samples 100 rows to detect metadata schema. You can manually add additional fields if needed.</p>
+Zilliz Cloud samples 100 rows to detect metadata schema. You can manually add additional fields if needed.
 
 </Admonition>
 
@@ -127,33 +73,12 @@ Pinecone metadata is initially mapped to Zilliz Cloud's dynamic schema for maxim
 
 When converting metadata to fixed fields:
 
-<table>
-   <tr>
-     <th><p>Pinecone Metadata Type</p></th>
-     <th><p>Zilliz Fixed Field Type</p></th>
-     <th><p>Notes</p></th>
-   </tr>
-   <tr>
-     <td><p>String</p></td>
-     <td><p>VARCHAR</p></td>
-     <td><p>Maximum 65,535 bytes supported</p></td>
-   </tr>
-   <tr>
-     <td><p>Number (int/float)</p></td>
-     <td><p>DOUBLE</p></td>
-     <td><p>All numeric types become DOUBLE</p></td>
-   </tr>
-   <tr>
-     <td><p>Boolean</p></td>
-     <td><p>BOOL</p></td>
-     <td><p>Direct mapping</p></td>
-   </tr>
-   <tr>
-     <td><p>List of strings</p></td>
-     <td><p>ARRAY&lt;VARCHAR&gt;</p></td>
-     <td><p>Nested arrays supported</p></td>
-   </tr>
-</table>
+| Pinecone Metadata Type | Zilliz Fixed Field Type | Notes |
+| --- | --- | --- |
+| String | VARCHAR | Maximum 65,535 bytes supported |
+| Number (int/float) | DOUBLE | All numeric types become DOUBLE |
+| Boolean | BOOL | Direct mapping |
+| List of strings | ARRAY&lt;VARCHAR&gt; | Nested arrays supported |
 
 For metadata fields converted to fixed fields, you can configure additional attributes:
 
@@ -167,35 +92,20 @@ For metadata fields converted to fixed fields, you can configure additional attr
 
 Pinecone namespaces can be migrated using two strategies:
 
-<table>
-   <tr>
-     <th><p>Strategy</p></th>
-     <th><p>Implementation</p></th>
-     <th><p>Performance Impact</p></th>
-     <th><p>Use Case</p></th>
-   </tr>
-   <tr>
-     <td><p><strong>Namespace as Partition Key</strong> <em>(Recommended)</em></p></td>
-     <td><p>Namespaces become values in a partition key field</p></td>
-     <td><p>Automatic optimization for search performance</p></td>
-     <td><p>Most scenarios with multiple namespaces</p></td>
-   </tr>
-   <tr>
-     <td><p><strong>Namespace as Partition</strong></p></td>
-     <td><p>Each namespace becomes a separate partition</p></td>
-     <td><p>Manual partition management required</p></td>
-     <td><p>Simple scenarios with few, stable namespaces</p></td>
-   </tr>
-</table>
+| Strategy | Implementation | Performance Impact | Use Case |
+| --- | --- | --- | --- |
+| **Namespace as Partition Key** *(Recommended)* | Namespaces become values in a partition key field | Automatic optimization for search performance | Most scenarios with multiple namespaces |
+| **Namespace as Partition** | Each namespace becomes a separate partition | Manual partition management required | Simple scenarios with few, stable namespaces |
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Pinecone's <code>default</code> namespace handling:</p>
-<ul>
-<li><p><strong>As Partition</strong>: Becomes <code>_default</code> partition in Zilliz Cloud</p></li>
-<li><p><strong>As Partition Key</strong>: Becomes empty string <code>""</code> value</p></li>
-</ul>
-<p>For more information on partition and partition key concepts, refer to <a href="./manage-partitions">Manage Partitions</a> and <a href="./use-partition-key">Use Partition Key</a>.</p>
+Pinecone's `default` namespace handling:
+
+- **As Partition**: Becomes `_default` partition in Zilliz Cloud
+
+- **As Partition Key**: Becomes empty string `""` value
+
+For more information on partition and partition key concepts, refer to [Manage Partitions](./manage-partitions) and [Use Partition Key](./use-partition-key).
 
 </Admonition>
 
@@ -203,23 +113,10 @@ Pinecone namespaces can be migrated using two strategies:
 
 Pinecone index names are automatically processed for Zilliz Cloud compatibility:
 
-<table>
-   <tr>
-     <th><p>Pinecone Index Name</p></th>
-     <th><p>Zilliz Cloud Collection Name</p></th>
-     <th><p>Rule Applied</p></th>
-   </tr>
-   <tr>
-     <td><p><code>my-vector-index</code></p></td>
-     <td><p><code>my_vector_index</code></p></td>
-     <td><p>Hyphens (<code>-</code>) converted to underscores (<code>_</code>) to comply with Zilliz Cloud collection naming conventions</p></td>
-   </tr>
-   <tr>
-     <td><p><code>product_search</code></p></td>
-     <td><p><code>product_search</code></p></td>
-     <td><p>No change needed</p></td>
-   </tr>
-</table>
+| Pinecone Index Name | Zilliz Cloud Collection Name | Rule Applied |
+| --- | --- | --- |
+| `my-vector-index` | `my_vector_index` | Hyphens (`-`) converted to underscores (`_`) to comply with Zilliz Cloud collection naming conventions |
+| `product_search` | `product_search` | No change needed |
 
 **Naming conflicts**: If a collection with the same name already exists in the target database, you must:
 

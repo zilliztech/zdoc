@@ -31,8 +31,9 @@ This is a fast-track course to help you quickly start importing data on Zilliz C
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Zilliz Cloud now allows you to import data from any object storage service to any Zilliz Cloud cluster, regardless of the cloud provider hosting the clusters. For instance, you can import data from an AWS S3 bucket to a Zilliz Cloud cluster deployed on GCP.</p>
-<p>You are advised to use a bucket or a blob container from the same provider and in the same region as the target cluster to ensure a low-latency, stable experience.</p>
+Zilliz Cloud now allows you to import data from any object storage service to any Zilliz Cloud cluster, regardless of the cloud provider hosting the clusters. For instance, you can import data from an AWS S3 bucket to a Zilliz Cloud cluster deployed on GCP.
+
+You are advised to use a bucket or a blob container from the same provider and in the same region as the target cluster to ensure a low-latency, stable experience.
 
 </Admonition>
 
@@ -469,7 +470,6 @@ Once the schema is ready, you can use the schema to create a **RemoteBulkWriter*
 <TabItem value='python'>
 
 ```python
-
 from pymilvus.bulk_writer import RemoteBulkWriter, BulkFileType
 # Use `from pymilvus import RemoteBulkWriter, BulkFileType`
 # if your pymilvus version is earlier than 2.4.2 
@@ -482,7 +482,6 @@ conn = RemoteBulkWriter.S3ConnectParam(
     bucket_name=BUCKET_NAME, 
     secure=True
 )
-
 ```
 
 </TabItem>
@@ -520,7 +519,6 @@ conn = RemoteBulkWriter.AzureConnectParam(
 <TabItem value='java'>
 
 ```java
-
 import io.milvus.bulkwriter.connect.S3ConnectParam;
 import io.milvus.bulkwriter.connect.StorageConnectParam;
 
@@ -531,7 +529,6 @@ StorageConnectParam storageConnectParam = S3ConnectParam.newBuilder()
         .withAccessKey(ACCESS_KEY)
         .withSecretKey(SECRET_KEY)
         .build();
-
 ```
 
 </TabItem>
@@ -557,14 +554,17 @@ StorageConnectParam storageConnectParam = AzureConnectParam.newBuilder()
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>The <strong>endpoint</strong> parameter refers to the storage service URI of your cloud provider. </p>
-<p>For an S3-compatible storage service, possible URIs are as follows:</p>
-<ul>
-<li><p><code>s3.amazonaws.com</code>(AWS S3)</p></li>
-<li><p><code>storage.googleapis.com</code> (GCS)</p></li>
-</ul>
-<p>For an Azure blob storage container, you should use <a href="https://learn.microsoft.com/en-us/azure/storage/common/storage-account-keys-manage#view-account-access-keys">a valid connection string</a> similar to the following:</p>
-<p><code>DefaultEndpointsProtocol=https;AccountName=&lt;accountName&gt;;AccountKey=&lt;accountKey&gt;;EndpointSuffix=core.windows.net</code></p>
+The **endpoint** parameter refers to the storage service URI of your cloud provider. 
+
+For an S3-compatible storage service, possible URIs are as follows:
+
+- `s3.amazonaws.com`(AWS S3)
+
+- `storage.googleapis.com` (GCS)
+
+For an Azure blob storage container, you should use [a valid connection string](https://learn.microsoft.com/en-us/azure/storage/common/storage-account-keys-manage#view-account-access-keys) similar to the following:
+
+`DefaultEndpointsProtocol=https;AccountName=<accountName>;AccountKey=<accountKey>;EndpointSuffix=core.windows.net`
 
 </Admonition>
 
@@ -944,7 +944,7 @@ System.out.println(batchFiles);
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p><strong>BulkWriter</strong> generates a UUID, creates a sub-folder using the UUID in the provided output directory, and places all generated files in the sub-folder.</p>
+**BulkWriter** generates a UUID, creates a sub-folder using the UUID in the provided output directory, and places all generated files in the sub-folder.
 
 </Admonition>
 
@@ -1017,8 +1017,9 @@ System.out.println(jobId);
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>The <strong>object_url</strong> should be a valid URL to a file or folder in the remote bucket. In the code provided, the <strong>format()</strong> method is used to combine the bucket name and the data path returned by the writer to create a valid object URL.</p>
-<p>If the data and target collection are hosted by AWS, the object URL should be similar to <strong>s3://remote-bucket/file-path</strong>.  For applicable URI to prefix the data path returned by the writer, please refer to <a href="./data-import-storage-options">Storage Options</a>.</p>
+The **object_url** should be a valid URL to a file or folder in the remote bucket. In the code provided, the **format()** method is used to combine the bucket name and the data path returned by the writer to create a valid object URL.
+
+If the data and target collection are hosted by AWS, the object URL should be similar to **s3://remote-bucket/file-path**.  For applicable URI to prefix the data path returned by the writer, please refer to [Storage Options](./data-import-storage-options).
 
 </Admonition>
 
@@ -1104,7 +1105,7 @@ while (true) {
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Replace <strong>url</strong> in the <strong>get<em>import</em>progress()</strong> with the one corresponding to the cloud region of the target collection.</p>
+Replace **url** in the **get_import_progress()** with the one corresponding to the cloud region of the target collection.
 
 </Admonition>
 

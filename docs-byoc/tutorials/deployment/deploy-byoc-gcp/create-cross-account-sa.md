@@ -28,7 +28,7 @@ This page describes how to create and configure a cross-account service account 
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Zilliz BYOC is currently available in <strong>General Availability</strong>. For access and implementation details, please contact <a href="https://zilliz.com/contact-sales">Zilliz Cloud sales</a>.</p>
+Zilliz BYOC is currently available in **General Availability**. For access and implementation details, please contact [Zilliz Cloud sales](https://zilliz.com/contact-sales).
 
 </Admonition>
 
@@ -130,54 +130,34 @@ The steps for creating a service account are as follows:
 
     The following table lists the roles to be assigned to the service account.
 
-    <table>
-       <tr>
-         <th><p>Role</p></th>
-         <th><p>Type</p></th>
-         <th><p>Condition</p></th>
-       </tr>
-       <tr>
-         <td><p><a href="./create-cross-account-sa">Instance group manager custom role</a></p></td>
-         <td><p>Custom</p></td>
-         <td><p><code>resource.name.extract("projects/&lt;name&gt;").startsWith("PROJECT_ID") &&resource.name.extract("zones/&lt;name&gt;").startsWith("REGION") &&resource.name.extract("instanceGroupManagers/&lt;name&gt;").startsWith("gke-CLUSTER_NAME")</code></p></td>
-       </tr>
-       <tr>
-         <td><p><a href="./create-cross-account-sa">IAM custom role</a></p></td>
-         <td><p>Custom</p></td>
-         <td><p><code>api.getAttribute("iam.googleapis.com/modifiedGrantsByRole", []).hasOnly(["roles/iam.workloadIdentityUser"])</code></p></td>
-       </tr>
-       <tr>
-         <td><p>Kubernetes Engine Admin</p></td>
-         <td><p>GCP-managed</p></td>
-         <td><p>N/A</p></td>
-       </tr>
-       <tr>
-         <td><p>Storage Object Viewer</p></td>
-         <td><p>GCP-managed</p></td>
-         <td><p><code>resource.name.startsWith("projects/_/buckets/YOUR_BUCKET_NAME")</code></p></td>
-       </tr>
-    </table>
+    | Role | Type | Condition |
+    | --- | --- | --- |
+    | [Instance group manager custom role](./create-cross-account-sa) | Custom | `resource.name.extract("projects/<name>").startsWith("PROJECT_ID") &&resource.name.extract("zones/<name>").startsWith("REGION") &&resource.name.extract("instanceGroupManagers/<name>").startsWith("gke-CLUSTER_NAME")` |
+    | [IAM custom role](./create-cross-account-sa) | Custom | `api.getAttribute("iam.googleapis.com/modifiedGrantsByRole", []).hasOnly(["roles/iam.workloadIdentityUser"])` |
+    | Kubernetes Engine Admin | GCP-managed | N/A |
+    | Storage Object Viewer | GCP-managed | `resource.name.startsWith("projects/_/buckets/YOUR_BUCKET_NAME")` |
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    <p>You need to replace the three placeholders in the above expression with actual values:</p>
-    <ul>
-    <li><code>PROJECT_ID</code></li>
-    </ul>
-    <p>This should be your GCP project ID.</p>
-    <ul>
-    <li><code>REGION</code></li>
-    </ul>
-    <p>This should be the cloud region of your BYOC project.</p>
-    <ul>
-    <li><code>CLUSTER_NAME</code></li>
-    </ul>
-    <p>This should be the name of the GKE cluster that Zilliz Cloud will create on your behalf. </p>
-    <p>Note that Google Cloud will add a prefix <code>gke-</code> in front of your cluster name. Therefore, you should keep the <code>gke-</code> prefix in the condition, and just replace <code>CLUSTER_NAME</code> with the actual name.</p>
-    <ul>
-    <li><code>YOUR_BUCKET_NAME</code> </li>
-    </ul>
-    <p>This should be the name of the bucket created in the previous step.</p>
+    You need to replace the three placeholders in the above expression with actual values:
+    
+    - `PROJECT_ID`
+    
+        This should be your GCP project ID.
+    
+    - `REGION`
+    
+        This should be the cloud region of your BYOC project.
+    
+    - `CLUSTER_NAME`
+    
+        This should be the name of the GKE cluster that Zilliz Cloud will create on your behalf. 
+    
+        Note that Google Cloud will add a prefix `gke-` in front of your cluster name. Therefore, you should keep the `gke-` prefix in the condition, and just replace `CLUSTER_NAME` with the actual name.
+    
+    - `YOUR_BUCKET_NAME` 
+    
+        This should be the name of the bucket created in the previous step.
 
     </Admonition>
 
@@ -199,21 +179,15 @@ Follow the steps below to grant the cross-account service account access to thes
 
 1. Find and click the following service accounts in the list.
 
-    <table>
-       <tr>
-         <th></th>
-         <th><p>Description</p></th>
-       </tr>
-       <tr>
-         <td><p><code>PROJECT_NUMBER-compute@developer.gserviceaccount.com</code></p></td>
-         <td><p>This service account is automatically created when you enable the Compute Engine API.</p></td>
-       </tr>
-    </table>
+    |  | Description |
+    | --- | --- |
+    | `PROJECT_NUMBER-compute@developer.gserviceaccount.com` | This service account is automatically created when you enable the Compute Engine API. |
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    <p>A GCP project has a project ID and a project number: A project ID is a string you have entered when you create the project on the GCP console, while a project number is a string that GCP allocates to the project upon its creation.</p>
-    <p>You need to replace <code>PROJECT_NUMBER</code> with your own GCP project number.</p>
+    A GCP project has a project ID and a project number: A project ID is a string you have entered when you create the project on the GCP console, while a project number is a string that GCP allocates to the project upon its creation.
+    
+    You need to replace `PROJECT_NUMBER` with your own GCP project number.
 
     </Admonition>
 

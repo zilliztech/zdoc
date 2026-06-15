@@ -1,5 +1,5 @@
 ---
-title: "JSON Field Overview | BYOC"
+title: "JSON Field Overview | Cloud"
 slug: /json-field-overview
 sidebar_label: "Overview"
 beta: FALSE
@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "When building applications like product catalogs, content management systems, or user preference engines, you often need to store flexible metadata alongside your vector embeddings. Product attributes vary by category, user preferences evolve over time, and document properties have complex nested structures. JSON fields in Zilliz Cloud solve this challenge by allowing you to store and query flexible structured data without sacrificing performance. | BYOC"
+description: "When building applications like product catalogs, content management systems, or user preference engines, you often need to store flexible metadata alongside your vector embeddings. Product attributes vary by category, user preferences evolve over time, and document properties have complex nested structures. JSON fields in Zilliz Cloud solve this challenge by allowing you to store and query flexible structured data without sacrificing performance. | Cloud"
 type: origin
 token: Neq4wR0EdiXokRkhXwbcMPfanCd
 sidebar_position: 1
@@ -54,7 +54,7 @@ In this example, `metadata` is a single JSON field that contains a mix of flat v
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p><strong>Naming convention:</strong> Use only letters, numbers, and underscores in JSON keys. Avoid special characters, spaces, or dots as they may cause parsing issues in queries.</p>
+**Naming convention:** Use only letters, numbers, and underscores in JSON keys. Avoid special characters, spaces, or dots as they may cause parsing issues in queries.
 
 </Admonition>
 
@@ -64,33 +64,12 @@ A common point of confusion is the difference between a JSON field and the [dyna
 
 The table below summarizes the key differences between a JSON field and the dynamic field:
 
-<table>
-   <tr>
-     <th><p>Feature</p></th>
-     <th><p>JSON Field</p></th>
-     <th><p>Dynamic Field</p></th>
-   </tr>
-   <tr>
-     <td><p>Schema definition</p></td>
-     <td><p>A scalar field that must be explicitly declared in the collection schema with the <code>DataType.JSON</code> type.</p></td>
-     <td><p>A hidden JSON field (named <code>$meta</code>) that automatically stores undeclared fields.</p></td>
-   </tr>
-   <tr>
-     <td><p>Use case</p></td>
-     <td><p>Stores structured data where the schema is known and consistent.</p></td>
-     <td><p>Stores flexible, evolving, or semi-structured data that doesn't fit a fixed schema.</p></td>
-   </tr>
-   <tr>
-     <td><p>Control</p></td>
-     <td><p>You control the field name and structure.</p></td>
-     <td><p>System-managed for undefined fields.</p></td>
-   </tr>
-   <tr>
-     <td><p>Querying</p></td>
-     <td><p>Query using your field name or target key inside the JSON field: <code>metadata["key"]</code>.</p></td>
-     <td><p>Query directly using the dynamic field key: <code>"dynamic_key"</code> or via <code>$meta</code>: <code>$meta["dynamic_key"]</code></p></td>
-   </tr>
-</table>
+| Feature | JSON Field | Dynamic Field |
+| --- | --- | --- |
+| Schema definition | A scalar field that must be explicitly declared in the collection schema with the `DataType.JSON` type. | A hidden JSON field (named `$meta`) that automatically stores undeclared fields. |
+| Use case | Stores structured data where the schema is known and consistent. | Stores flexible, evolving, or semi-structured data that doesn't fit a fixed schema. |
+| Control | You control the field name and structure. | System-managed for undefined fields. |
+| Querying | Query using your field name or target key inside the JSON field: `metadata["key"]`. | Query directly using the dynamic field key: `"dynamic_key"` or via `$meta`: `$meta["dynamic_key"]` |
 
 ## Basic operations\{#basic-operations}
 
@@ -167,7 +146,7 @@ client.create_collection(
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>In this example, the JSON field defined in the collection schema allows null values with <code>nullable=True</code>. For details, refer to <a href="./nullable-fields">Nullable & Default</a>.</p>
+In this example, the JSON field defined in the collection schema allows null values with `nullable=True`. For details, refer to [Nullable & Default](./nullable-fields).
 
 </Admonition>
 
@@ -554,32 +533,11 @@ By default, queries on JSON fields without acceleration will perform a full scan
 
 The table below summarizes their differences and best-use scenarios:
 
-<table>
-   <tr>
-     <th><p>Technique</p></th>
-     <th><p>Best For</p></th>
-     <th><p>Arrays Acceleration</p></th>
-     <th><p>Notes</p></th>
-   </tr>
-   <tr>
-     <td><p>JSON Indexing</p></td>
-     <td><p>Small set of frequently accessed keys, arrays on a specific array key</p></td>
-     <td><p>Yes (on indexed array key)</p></td>
-     <td><p>Must preselect keys, maintenance needed if schema evolves</p></td>
-   </tr>
-   <tr>
-     <td><p>JSON Shredding</p></td>
-     <td><p>General speed-up across many keys, flexible for varied queries</p></td>
-     <td><p>Yes (slightly accelerates array values compared to brute-force queries)</p></td>
-     <td><p>Extra storage config, arrays still need per-key index</p></td>
-   </tr>
-   <tr>
-     <td><p>NGRAM Index</p></td>
-     <td><p>Wildcard searches, substring matching in text fields</p></td>
-     <td><p>N/A</p></td>
-     <td><p>Not for numeric/range filters</p></td>
-   </tr>
-</table>
+| Technique | Best For | Arrays Acceleration | Notes |
+| --- | --- | --- | --- |
+| JSON Indexing | Small set of frequently accessed keys, arrays on a specific array key | Yes (on indexed array key) | Must preselect keys, maintenance needed if schema evolves |
+| JSON Shredding | General speed-up across many keys, flexible for varied queries | Yes (slightly accelerates array values compared to brute-force queries) | Extra storage config, arrays still need per-key index |
+| NGRAM Index | Wildcard searches, substring matching in text fields | N/A | Not for numeric/range filters |
 
 **Tip:** You can combine these approaches—for example, use JSON shredding for broad query acceleration, JSON indexing for high-frequency array keys, and NGRAM indexing for flexible text search.
 
@@ -619,7 +577,7 @@ Zilliz Cloud stores string values exactly as they appear in the JSON input—wit
 
 **Examples of valid strings**:
 
-```plaintext
+````plaintext
 "a\"b", "a'b", "a\\b"
 ```
 
@@ -627,5 +585,5 @@ Zilliz Cloud stores string values exactly as they appear in the JSON input—wit
 
 ```plaintext
 'a"b', 'a\'b'
-```
+````
 

@@ -24,7 +24,7 @@ Zilliz Cloud accepts advance pay (bank transfer) as the payment method in altern
 
 <Admonition type="info" icon="📘" title="Note">
 
-<p>To manage payment method, you must be an <strong>Organization Owner</strong> or <strong>Organization Billing Admin</strong>.</p>
+To manage payment method, you must be an **Organization Owner** or **Organization Billing Admin**.
 
 </Admonition>
 

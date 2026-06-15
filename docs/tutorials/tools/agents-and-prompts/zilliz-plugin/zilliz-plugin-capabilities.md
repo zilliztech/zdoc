@@ -1,6 +1,6 @@
 ---
 title: "Zilliz Claude Code Plugin Capabilities | Cloud"
-slug: /zilliz-plugin-capabilities
+slug: /agents/zilliz-plugin-capabilities
 sidebar_label: "Core Capabilities"
 beta: FALSE
 added_since: FALSE
@@ -11,7 +11,19 @@ description: "The Zilliz Plugin offers capabilities across various areas for man
 type: origin
 token: A6q4wqxGViorDmkD5iKcoDBOnRh
 sidebar_position: 2
-displayed_sidebar: default
+keywords: 
+  - zilliz
+  - vector database
+  - ai-agents
+  - decision matrix
+  - skill
+  - claude
+  - zilliz cli
+  - capabilities
+  - vector operations
+  - cluster management
+  - collection management
+displayed_sidebar: agentsSidebar
 
 ---
 

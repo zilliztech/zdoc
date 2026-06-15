@@ -39,7 +39,7 @@ Zilliz Cloud offers a total of 9 built-in privilege groups on the collection, da
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>The three levels of built-in privilege groups do not have a cascading relationship. Setting a privilege group at the cluster level does not automatically set permissions for all databases and collections under that instance. Privileges at the database and collection levels need to be set manually.</p>
+The three levels of built-in privilege groups do not have a cascading relationship. Setting a privilege group at the cluster level does not automatically set permissions for all databases and collections under that instance. Privileges at the database and collection levels need to be set manually.
 
 </Admonition>
 
@@ -53,182 +53,36 @@ Zilliz Cloud offers a total of 9 built-in privilege groups on the collection, da
 
 The table below lists the specific privileges included in the three built-in privilege groups at the collection level:
 
-<table>
-   <tr>
-     <th><p><strong>Privilege</strong></p></th>
-     <th><p><strong>CollectionReadOnly</strong></p></th>
-     <th><p><strong>CollectionReadWrite</strong></p></th>
-     <th><p><strong>CollectionAdmin</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>Query</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
-   </tr>
-   <tr>
-     <td><p>Search</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
-   </tr>
-   <tr>
-     <td><p>IndexDetail</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
-   </tr>
-   <tr>
-     <td><p>GetFlushState</p></td>
-     <td><p>❌</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
-   </tr>
-   <tr>
-     <td><p>GetLoadState</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
-   </tr>
-   <tr>
-     <td><p>GetLoadingProgress</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
-   </tr>
-   <tr>
-     <td><p>HasPartition</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
-   </tr>
-   <tr>
-     <td><p>ShowPartitions</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
-   </tr>
-   <tr>
-     <td><p>ListAliases</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
-   </tr>
-   <tr>
-     <td><p>DescribeCollection</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
-   </tr>
-   <tr>
-     <td><p>DescribeAlias</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
-   </tr>
-   <tr>
-     <td><p>GetStatistics</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
-   </tr>
-   <tr>
-     <td><p>CreateIndex</p></td>
-     <td><p>❌</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
-   </tr>
-   <tr>
-     <td><p>DropIndex</p></td>
-     <td><p>❌</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
-   </tr>
-   <tr>
-     <td><p>CreatePartition</p></td>
-     <td><p>❌</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
-   </tr>
-   <tr>
-     <td><p>DropPartition</p></td>
-     <td><p>❌</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
-   </tr>
-   <tr>
-     <td><p>Load</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
-   </tr>
-   <tr>
-     <td><p>Release</p></td>
-     <td><p>❌</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
-   </tr>
-   <tr>
-     <td><p>Insert</p></td>
-     <td><p>❌</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
-   </tr>
-   <tr>
-     <td><p>Delete</p></td>
-     <td><p>❌</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
-   </tr>
-   <tr>
-     <td><p>Upsert</p></td>
-     <td><p>❌</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
-   </tr>
-   <tr>
-     <td><p>Import</p></td>
-     <td><p>❌</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
-   </tr>
-   <tr>
-     <td><p>Flush</p></td>
-     <td><p>❌</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
-   </tr>
-   <tr>
-     <td><p>Compaction</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-     <td><p>✔️</p></td>
-   </tr>
-   <tr>
-     <td><p>LoadBalance</p></td>
-     <td><p>❌</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
-   </tr>
-   <tr>
-     <td><p>CreateAlias</p></td>
-     <td><p>❌</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
-   </tr>
-   <tr>
-     <td><p>DropAlias</p></td>
-     <td><p>❌</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
-   </tr>
-   <tr>
-     <td><p>AddCollectionField</p></td>
-     <td><p>❌</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
-   </tr>
-</table>
+| **Privilege** | **CollectionReadOnly** | **CollectionReadWrite** | **CollectionAdmin** |
+| --- | --- | --- | --- |
+| Query | ✔️ | ✔️ | ✔️ |
+| Search | ✔️ | ✔️ | ✔️ |
+| IndexDetail | ✔️ | ✔️ | ✔️ |
+| GetFlushState | ❌ | ✔️ | ✔️ |
+| GetLoadState | ✔️ | ✔️ | ✔️ |
+| GetLoadingProgress | ✔️ | ✔️ | ✔️ |
+| HasPartition | ✔️ | ✔️ | ✔️ |
+| ShowPartitions | ✔️ | ✔️ | ✔️ |
+| ListAliases | ✔️ | ✔️ | ✔️ |
+| DescribeCollection | ✔️ | ✔️ | ✔️ |
+| DescribeAlias | ✔️ | ✔️ | ✔️ |
+| GetStatistics | ✔️ | ✔️ | ✔️ |
+| CreateIndex | ❌ | ✔️ | ✔️ |
+| DropIndex | ❌ | ✔️ | ✔️ |
+| CreatePartition | ❌ | ✔️ | ✔️ |
+| DropPartition | ❌ | ✔️ | ✔️ |
+| Load | ✔️ | ✔️ | ✔️ |
+| Release | ❌ | ✔️ | ✔️ |
+| Insert | ❌ | ✔️ | ✔️ |
+| Delete | ❌ | ✔️ | ✔️ |
+| Upsert | ❌ | ✔️ | ✔️ |
+| Import | ❌ | ✔️ | ✔️ |
+| Flush | ❌ | ✔️ | ✔️ |
+| Compaction | ❌ | ❌ | ✔️ |
+| LoadBalance | ❌ | ✔️ | ✔️ |
+| CreateAlias | ❌ | ✔️ | ✔️ |
+| DropAlias | ❌ | ✔️ | ✔️ |
+| AddCollectionField | ❌ | ✔️ | ✔️ |
 
 #### Database level privilege groups\{#database-level-privilege-groups}
 
@@ -240,44 +94,13 @@ The table below lists the specific privileges included in the three built-in pri
 
 The table below lists the specific privileges included in the three built-in privilege groups at the database level:
 
-<table>
-   <tr>
-     <th><p><strong>Privilege</strong></p></th>
-     <th><p><strong>DatabaseReadOnly</strong></p></th>
-     <th><p><strong>DatabaseReadWrite</strong></p></th>
-     <th><p><strong>DatabaseAdmin</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>ShowCollections</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
-   </tr>
-   <tr>
-     <td><p>DescribeDatabase</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
-   </tr>
-   <tr>
-     <td><p>CreateCollection</p></td>
-     <td><p>❌</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
-   </tr>
-   <tr>
-     <td><p>DropCollection</p></td>
-     <td><p>❌</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
-   </tr>
-   <tr>
-     <td><p>AlterDatabase</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-</table>
+| **Privilege** | **DatabaseReadOnly** | **DatabaseReadWrite** | **DatabaseAdmin** |
+| --- | --- | --- | --- |
+| ShowCollections | ✔️ | ✔️ | ✔️ |
+| DescribeDatabase | ✔️ | ✔️ | ✔️ |
+| CreateCollection | ❌ | ✔️ | ✔️ |
+| DropCollection | ❌ | ✔️ | ✔️ |
+| AlterDatabase | ❌ | ❌ | ❌ |
 
 #### Cluster level privilege groups\{#cluster-level-privilege-groups}
 
@@ -289,158 +112,32 @@ The table below lists the specific privileges included in the three built-in pri
 
 The table below lists the specific privileges included in the three built-in privilege groups at the cluster level:
 
-<table>
-   <tr>
-     <th><p><strong>Privilege</strong></p></th>
-     <th><p><strong>ClusterReadOnly</strong></p></th>
-     <th><p><strong>ClusterReadWrite</strong></p></th>
-     <th><p><strong>ClusterAdmin</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>ListDatabases</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
-   </tr>
-   <tr>
-     <td><p>RenameCollection</p></td>
-     <td><p>❌</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
-   </tr>
-   <tr>
-     <td><p>CreateOwnership</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-     <td><p>✔️</p></td>
-   </tr>
-   <tr>
-     <td><p>UpdateUser</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-     <td><p>✔️</p></td>
-   </tr>
-   <tr>
-     <td><p>DropOwnership</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-     <td><p>✔️</p></td>
-   </tr>
-   <tr>
-     <td><p>SelectOwnership</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-     <td><p>✔️</p></td>
-   </tr>
-   <tr>
-     <td><p>ManageOwnership</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-     <td><p>✔️</p></td>
-   </tr>
-   <tr>
-     <td><p>SelectUser</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-     <td><p>✔️</p></td>
-   </tr>
-   <tr>
-     <td><p>BackupRBAC</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-   <tr>
-     <td><p>RestoreRBAC</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-   <tr>
-     <td><p>CreateResourceGroup</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-   <tr>
-     <td><p>DropResourceGroup</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-   <tr>
-     <td><p>UpdateResourceGroups</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-   <tr>
-     <td><p>DescribeResourceGroup</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-   <tr>
-     <td><p>ListResourceGroups</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-   <tr>
-     <td><p>TransferNode</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-   <tr>
-     <td><p>TransferReplica</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-   <tr>
-     <td><p>CreateDatabase</p></td>
-     <td><p>❌</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
-   </tr>
-   <tr>
-     <td><p>DropDatabase</p></td>
-     <td><p>❌</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
-   </tr>
-   <tr>
-     <td><p>FlushAll</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-   <tr>
-     <td><p>CreatePrivilegeGroup</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-   <tr>
-     <td><p>DropPrivilegeGroup</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-   <tr>
-     <td><p>ListPrivilegeGroups</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
-   </tr>
-   <tr>
-     <td><p>OperatePrivilegeGroup</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
-   </tr>
-</table>
+| **Privilege** | **ClusterReadOnly** | **ClusterReadWrite** | **ClusterAdmin** |
+| --- | --- | --- | --- |
+| ListDatabases | ✔️ | ✔️ | ✔️ |
+| RenameCollection | ❌ | ✔️ | ✔️ |
+| CreateOwnership | ❌ | ❌ | ✔️ |
+| UpdateUser | ❌ | ❌ | ✔️ |
+| DropOwnership | ❌ | ❌ | ✔️ |
+| SelectOwnership | ❌ | ❌ | ✔️ |
+| ManageOwnership | ❌ | ❌ | ✔️ |
+| SelectUser | ❌ | ❌ | ✔️ |
+| BackupRBAC | ❌ | ❌ | ❌ |
+| RestoreRBAC | ❌ | ❌ | ❌ |
+| CreateResourceGroup | ❌ | ❌ | ❌ |
+| DropResourceGroup | ❌ | ❌ | ❌ |
+| UpdateResourceGroups | ❌ | ❌ | ❌ |
+| DescribeResourceGroup | ❌ | ❌ | ❌ |
+| ListResourceGroups | ❌ | ❌ | ❌ |
+| TransferNode | ❌ | ❌ | ❌ |
+| TransferReplica | ❌ | ❌ | ❌ |
+| CreateDatabase | ❌ | ✔️ | ✔️ |
+| DropDatabase | ❌ | ✔️ | ✔️ |
+| FlushAll | ❌ | ❌ | ❌ |
+| CreatePrivilegeGroup | ❌ | ❌ | ❌ |
+| DropPrivilegeGroup | ❌ | ❌ | ❌ |
+| ListPrivilegeGroups | ✔️ | ✔️ | ✔️ |
+| OperatePrivilegeGroup | ❌ | ❌ | ❌ |
 
 ### Custom privilege groups | PRIVATE\{#custom-privilege-groups}
 
@@ -448,7 +145,7 @@ If the built-in privileges do not meet your needs, you can create custom privile
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This is a feature in <strong>Private Preview</strong>. To request this feature, <a href="http://support.zilliz.com">create a support ticket</a> so we can enable it for you.</p>
+This is a feature in **Private Preview**. To request this feature, [create a support ticket](http://support.zilliz.com) so we can enable it for you.
 
 </Admonition>
 
@@ -568,7 +265,6 @@ await client.addPrivilegesToGroup({
   group_name: privilege_group_1,
   privileges: ['Query', 'Search'],
 });
-
 ```
 
 </TabItem>
@@ -799,292 +495,93 @@ If you need to create your own privilege group with the privileges listed below 
 
 ### Database privileges\{#database-privileges}
 
-<table>
-   <tr>
-     <th><p><strong>Privilege</strong></p></th>
-     <th><p><strong>Description</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>ListDatabases</p></td>
-     <td><p>View all databases in the current instance</p></td>
-   </tr>
-   <tr>
-     <td><p>DescribeDatabase</p></td>
-     <td><p>View the details of a database</p></td>
-   </tr>
-   <tr>
-     <td><p>CreateDatabase</p></td>
-     <td><p>Create a database</p></td>
-   </tr>
-   <tr>
-     <td><p>DropDatabase</p></td>
-     <td><p>Drop a database</p></td>
-   </tr>
-   <tr>
-     <td><p>AlterDatabase</p></td>
-     <td><p>Modify the properties of a database</p></td>
-   </tr>
-</table>
+| **Privilege** | **Description** |
+| --- | --- |
+| ListDatabases | View all databases in the current instance |
+| DescribeDatabase | View the details of a database |
+| CreateDatabase | Create a database |
+| DropDatabase | Drop a database |
+| AlterDatabase | Modify the properties of a database |
 
 ### Collection privileges\{#collection-privileges}
 
-<table>
-   <tr>
-     <th><p><strong>Privilege</strong></p></th>
-     <th><p><strong>Description</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>GetFlushState</p></td>
-     <td><p>Check the status of the collection flush operation</p></td>
-   </tr>
-   <tr>
-     <td><p>GetLoadState</p></td>
-     <td><p>Check the load status of a collection</p></td>
-   </tr>
-   <tr>
-     <td><p>GetLoadingProgress</p></td>
-     <td><p>Check the loading progress of a collection</p></td>
-   </tr>
-   <tr>
-     <td><p>ShowCollections</p></td>
-     <td><p>View all collections with collection privileges</p></td>
-   </tr>
-   <tr>
-     <td><p>ListAliases</p></td>
-     <td><p>View all aliases of a collection</p></td>
-   </tr>
-   <tr>
-     <td><p>DescribeCollection</p></td>
-     <td><p>View the details of a collection</p></td>
-   </tr>
-   <tr>
-     <td><p>DescribeAlias</p></td>
-     <td><p>View the details of an alias</p></td>
-   </tr>
-   <tr>
-     <td><p>GetStatistics</p></td>
-     <td><p>Obtain the statistics of a collection (eg. The number of entities in a collection)</p></td>
-   </tr>
-   <tr>
-     <td><p>CreateCollection</p></td>
-     <td><p>Create a collection</p></td>
-   </tr>
-   <tr>
-     <td><p>DropCollection</p></td>
-     <td><p>Drop a collection</p></td>
-   </tr>
-   <tr>
-     <td><p>Load</p></td>
-     <td><p>Load a collection</p></td>
-   </tr>
-   <tr>
-     <td><p>Release</p></td>
-     <td><p>Release a collection</p></td>
-   </tr>
-   <tr>
-     <td><p>Flush</p></td>
-     <td><p>Persist all entities in a collection to a sealed segment. Any entity inserted after the flush operation will be stored in a new segment.</p></td>
-   </tr>
-   <tr>
-     <td><p>Compaction</p></td>
-     <td><p>Manually trigger compaction</p></td>
-   </tr>
-   <tr>
-     <td><p>RenameCollection</p></td>
-     <td><p>Rename a collection</p></td>
-   </tr>
-   <tr>
-     <td><p>CreateAlias</p></td>
-     <td><p>Create an alias for a collection</p></td>
-   </tr>
-   <tr>
-     <td><p>DropAlias</p></td>
-     <td><p>Drop the alias of a collection</p></td>
-   </tr>
-   <tr>
-     <td><p>FlushAll</p></td>
-     <td><p>Flush all collections in a database</p></td>
-   </tr>
-   <tr>
-     <td><p>AddCollectionField</p></td>
-     <td><p>Add a field to an existing collection</p></td>
-   </tr>
-</table>
+| **Privilege** | **Description** |
+| --- | --- |
+| GetFlushState | Check the status of the collection flush operation |
+| GetLoadState | Check the load status of a collection |
+| GetLoadingProgress | Check the loading progress of a collection |
+| ShowCollections | View all collections with collection privileges |
+| ListAliases | View all aliases of a collection |
+| DescribeCollection | View the details of a collection |
+| DescribeAlias | View the details of an alias |
+| GetStatistics | Obtain the statistics of a collection (eg. The number of entities in a collection) |
+| CreateCollection | Create a collection |
+| DropCollection | Drop a collection |
+| Load | Load a collection |
+| Release | Release a collection |
+| Flush | Persist all entities in a collection to a sealed segment. Any entity inserted after the flush operation will be stored in a new segment. |
+| Compaction | Manually trigger compaction |
+| RenameCollection | Rename a collection |
+| CreateAlias | Create an alias for a collection |
+| DropAlias | Drop the alias of a collection |
+| FlushAll | Flush all collections in a database |
+| AddCollectionField | Add a field to an existing collection |
 
 ### Partition privileges\{#partition-privileges}
 
-<table>
-   <tr>
-     <th><p><strong>Privilege</strong></p></th>
-     <th><p><strong>Description</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>HasPartition</p></td>
-     <td><p>Check whether a partition exists</p></td>
-   </tr>
-   <tr>
-     <td><p>ShowPartitions</p></td>
-     <td><p>View all partitions in a collection</p></td>
-   </tr>
-   <tr>
-     <td><p>CreatePartition</p></td>
-     <td><p>Create a partition</p></td>
-   </tr>
-   <tr>
-     <td><p>DropPartition</p></td>
-     <td><p>Drop a partition</p></td>
-   </tr>
-</table>
+| **Privilege** | **Description** |
+| --- | --- |
+| HasPartition | Check whether a partition exists |
+| ShowPartitions | View all partitions in a collection |
+| CreatePartition | Create a partition |
+| DropPartition | Drop a partition |
 
 ### Index privileges\{#index-privileges}
 
-<table>
-   <tr>
-     <th><p><strong>Privilege</strong></p></th>
-     <th><p><strong>Description</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>IndexDetail</p></td>
-     <td><p>View the details of an index</p></td>
-   </tr>
-   <tr>
-     <td><p>CreateIndex</p></td>
-     <td><p>Create an index</p></td>
-   </tr>
-   <tr>
-     <td><p>DropIndex</p></td>
-     <td><p>Drop an index</p></td>
-   </tr>
-</table>
+| **Privilege** | **Description** |
+| --- | --- |
+| IndexDetail | View the details of an index |
+| CreateIndex | Create an index |
+| DropIndex | Drop an index |
 
 ### Resource management privileges\{#resource-management-privileges}
 
-<table>
-   <tr>
-     <th><p><strong>Privilege</strong></p></th>
-     <th><p><strong>Description</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>LoadBalance</p></td>
-     <td><p>Achieve load balance</p></td>
-   </tr>
-   <tr>
-     <td><p>CreateResourceGroup</p></td>
-     <td><p>Create a resource group</p></td>
-   </tr>
-   <tr>
-     <td><p>DropResourceGroup</p></td>
-     <td><p>Drop a resource group</p></td>
-   </tr>
-   <tr>
-     <td><p>UpdateResourceGroups</p></td>
-     <td><p>Update a resource group</p></td>
-   </tr>
-   <tr>
-     <td><p>DescribeResourceGroup</p></td>
-     <td><p>View the details of a resource group</p></td>
-   </tr>
-   <tr>
-     <td><p>ListResourceGroups</p></td>
-     <td><p>View all resource groups of the current instance</p></td>
-   </tr>
-   <tr>
-     <td><p>TransferNode</p></td>
-     <td><p>Transfer nodes between resource groups</p></td>
-   </tr>
-   <tr>
-     <td><p>TransferReplica</p></td>
-     <td><p>Transfer replicas between resource groups</p></td>
-   </tr>
-   <tr>
-     <td><p>BackupRBAC</p></td>
-     <td><p>Create a backup for all RBAC related operations in the current instance</p></td>
-   </tr>
-   <tr>
-     <td><p>RestoreRBAC</p></td>
-     <td><p>Restore a backup of all RBAC related operations in the current instance</p></td>
-   </tr>
-</table>
+| **Privilege** | **Description** |
+| --- | --- |
+| LoadBalance | Achieve load balance |
+| CreateResourceGroup | Create a resource group |
+| DropResourceGroup | Drop a resource group |
+| UpdateResourceGroups | Update a resource group |
+| DescribeResourceGroup | View the details of a resource group |
+| ListResourceGroups | View all resource groups of the current instance |
+| TransferNode | Transfer nodes between resource groups |
+| TransferReplica | Transfer replicas between resource groups |
+| BackupRBAC | Create a backup for all RBAC related operations in the current instance |
+| RestoreRBAC | Restore a backup of all RBAC related operations in the current instance |
 
 ### Entity privileges\{#entity-privileges}
 
-<table>
-   <tr>
-     <th><p><strong>Privilege</strong></p></th>
-     <th><p><strong>Description</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>Query</p></td>
-     <td><p>Conduct a query</p></td>
-   </tr>
-   <tr>
-     <td><p>Search</p></td>
-     <td><p>Conduct a search</p></td>
-   </tr>
-   <tr>
-     <td><p>Insert</p></td>
-     <td><p>Insert entities</p></td>
-   </tr>
-   <tr>
-     <td><p>Delete</p></td>
-     <td><p>Delete entities</p></td>
-   </tr>
-   <tr>
-     <td><p>Upsert</p></td>
-     <td><p>Upsert entities</p></td>
-   </tr>
-   <tr>
-     <td><p>Import</p></td>
-     <td><p>Bulk insert or import entities</p></td>
-   </tr>
-</table>
+| **Privilege** | **Description** |
+| --- | --- |
+| Query | Conduct a query |
+| Search | Conduct a search |
+| Insert | Insert entities |
+| Delete | Delete entities |
+| Upsert | Upsert entities |
+| Import | Bulk insert or import entities |
 
 ### RBAC privileges\{#rbac-privileges}
 
-<table>
-   <tr>
-     <th><p><strong>Privilege</strong></p></th>
-     <th><p><strong>Description</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>CreateOwnership</p></td>
-     <td><p>Create a user or a role</p></td>
-   </tr>
-   <tr>
-     <td><p>UpdateUser</p></td>
-     <td><p>Update the password of a user</p></td>
-   </tr>
-   <tr>
-     <td><p>DropOwnership</p></td>
-     <td><p>Drop a user password or a role</p></td>
-   </tr>
-   <tr>
-     <td><p>SelectOwnership</p></td>
-     <td><p>View all users that are granted a specific role</p></td>
-   </tr>
-   <tr>
-     <td><p>ManageOwnership</p></td>
-     <td><p>Manage a user or a role or grant a role to a user</p></td>
-   </tr>
-   <tr>
-     <td><p>SelectUser</p></td>
-     <td><p>View all roles granted to a user</p></td>
-   </tr>
-   <tr>
-     <td><p>CreatePrivilegeGroup</p></td>
-     <td><p>Create a privilege group</p></td>
-   </tr>
-   <tr>
-     <td><p>DropPrivilegeGroup</p></td>
-     <td><p>Drop a privilege group</p></td>
-   </tr>
-   <tr>
-     <td><p>ListPrivilegeGroups</p></td>
-     <td><p>View all privilege groups in the current instance</p></td>
-   </tr>
-   <tr>
-     <td><p>OperatePrivilegeGroup</p></td>
-     <td><p>Add privileges to or remove privileges from a privilege group</p></td>
-   </tr>
-</table>
+| **Privilege** | **Description** |
+| --- | --- |
+| CreateOwnership | Create a user or a role |
+| UpdateUser | Update the password of a user |
+| DropOwnership | Drop a user password or a role |
+| SelectOwnership | View all users that are granted a specific role |
+| ManageOwnership | Manage a user or a role or grant a role to a user |
+| SelectUser | View all roles granted to a user |
+| CreatePrivilegeGroup | Create a privilege group |
+| DropPrivilegeGroup | Drop a privilege group |
+| ListPrivilegeGroups | View all privilege groups in the current instance |
+| OperatePrivilegeGroup | Add privileges to or remove privileges from a privilege group |
 

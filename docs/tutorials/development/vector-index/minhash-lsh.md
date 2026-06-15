@@ -72,7 +72,7 @@ You can see the entire process illustrated below:
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>The number of hash functions used determines the dimensionality of the MinHash signature. Higher dimensions provide better approximation accuracy, at the cost of increased storage and computation.</p>
+The number of hash functions used determines the dimensionality of the MinHash signature. Higher dimensions provide better approximation accuracy, at the cost of increased storage and computation.
 
 </Admonition>
 
@@ -100,14 +100,17 @@ The process involves:
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Why it works?</p>
-<p>Mathematically, if two signatures have Jaccard similarity $s$,</p>
-<ul>
-<li><p>The probability they are identical in one row (hash position) is $s$</p></li>
-<li><p>The probability they match in all $r$ rows of a band is $s^r$</p></li>
-<li><p>The probability that they match in <strong>at least one band</strong> is &#36;1 - (1 - s^r)^b$</p></li>
-</ul>
-<p>For details, refer to <a href="https://en.wikipedia.org/wiki/Locality-sensitive_hashing">Locality-sensitive hashing</a>.</p>
+Why it works?
+
+Mathematically, if two signatures have Jaccard similarity $s$,
+
+- The probability they are identical in one row (hash position) is $s$
+
+- The probability they match in all $r$ rows of a band is $s^r$
+
+- The probability that they match in **at least one band** is &#36;1 - (1 - s^r)^b$
+
+For details, refer to [Locality-sensitive hashing](https://en.wikipedia.org/wiki/Locality-sensitive_hashing).
 
 </Admonition>
 
@@ -125,7 +128,7 @@ Then, each band is hashed into different buckets using a hash function. Document
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>The number of bands is controlled by the <code>mh_lsh_band</code> parameter. For more information, refer to <a href="./minhash-lsh#index-building-params">Index building params</a>.</p>
+The number of bands is controlled by the `mh_lsh_band` parameter. For more information, refer to [Index building params](./minhash-lsh#index-building-params).
 
 </Admonition>
 
@@ -173,11 +176,11 @@ Before using MinHash LSH in Zilliz Cloud, you must first generate **MinHash sign
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>You can prepare MinHash signatures for the <code>MINHASH_LSH</code> index in two ways:</p>
-<ul>
-<li><p>Generate signatures yourself using external tools and insert them into a BINARY_VECTOR field, or</p></li>
-<li><p>Use the built-in MinHash function to automatically generate compatible binary vectors from text. For the end-to-end workflow and configuration options of the MinHash function, see <a href="./minhash-function">MinHash Function</a>.</p></li>
-</ul>
+You can prepare MinHash signatures for the `MINHASH_LSH` index in two ways:
+
+- Generate signatures yourself using external tools and insert them into a BINARY_VECTOR field, or
+
+- Use the built-in MinHash function to automatically generate compatible binary vectors from text. For the end-to-end workflow and configuration options of the MinHash function, see [MinHash Function](./minhash-function).
 
 </Admonition>
 
@@ -414,72 +417,20 @@ This section provides an overview of the parameters used for building an index a
 
 The following table lists the parameters that can be configured in `params` when [building an index](./minhash-lsh#build-index-parameters-and-create-collection).
 
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Value Range</p></th>
-     <th><p>Tuning Suggestion</p></th>
-   </tr>
-   <tr>
-     <td><p><code>mh_element_bit_width</code></p></td>
-     <td><p>Bit width of each hash value in the MinHash signature. Must be divisible by 8.</p></td>
-     <td><p>8, 16, 32, 64</p></td>
-     <td><p>Use <code>32</code> for balanced performance and accuracy. Use <code>64</code> for higher precision with larger datasets. Use <code>16</code> to save memory with acceptable accuracy loss.</p></td>
-   </tr>
-   <tr>
-     <td><p><code>mh_lsh_band</code></p></td>
-     <td><p>Number of bands to divide the MinHash signature for LSH. Controls the recall-performance tradeoff.</p></td>
-     <td><p>[1, <em>signature_length</em>]</p></td>
-     <td><p>For 128-dim signatures: start with 32 bands (4 values/band). Increase to 64 for higher recall, decrease to 16 for better performance. Must divide signature length evenly.</p></td>
-   </tr>
-   <tr>
-     <td><p><code>mh_lsh_code_in_mem</code></p></td>
-     <td><p>Whether to store LSH hash codes in anonymous memory (<code>true</code>) or use memory mapping (<code>false</code>).</p></td>
-     <td><p>true, false</p></td>
-     <td><p>Use <code>false</code> for large datasets (&gt;1M sets) to reduce memory usage. Use <code>true</code> for smaller datasets requiring maximum search speed.</p></td>
-   </tr>
-   <tr>
-     <td><p><code>with_raw_data</code></p></td>
-     <td><p>Whether to store original MinHash signatures alongside LSH codes for refinement.</p></td>
-     <td><p>true, false</p></td>
-     <td><p>Use <code>true</code> when high precision is required and storage cost is acceptable. Use <code>false</code> to minimize storage overhead with slight accuracy reduction.</p></td>
-   </tr>
-   <tr>
-     <td><p><code>mh_lsh_bloom_false_positive_prob</code></p></td>
-     <td><p>False positive probability for Bloom filter used in LSH bucket optimization.</p></td>
-     <td><p>[0.001, 0.1]</p></td>
-     <td><p>Use <code>0.01</code> for balanced memory usage and accuracy. Lower values (<code>0.001</code>) reduce false positives but increase memory. Higher values (<code>0.05</code>) save memory but may reduce precision.</p></td>
-   </tr>
-</table>
+| Parameter | Description | Value Range | Tuning Suggestion |
+| --- | --- | --- | --- |
+| `mh_element_bit_width` | Bit width of each hash value in the MinHash signature. Must be divisible by 8. | 8, 16, 32, 64 | Use `32` for balanced performance and accuracy. Use `64` for higher precision with larger datasets. Use `16` to save memory with acceptable accuracy loss. |
+| `mh_lsh_band` | Number of bands to divide the MinHash signature for LSH. Controls the recall-performance tradeoff. | [1, *signature_length*] | For 128-dim signatures: start with 32 bands (4 values/band). Increase to 64 for higher recall, decrease to 16 for better performance. Must divide signature length evenly. |
+| `mh_lsh_code_in_mem` | Whether to store LSH hash codes in anonymous memory (`true`) or use memory mapping (`false`). | true, false | Use `false` for large datasets (>1M sets) to reduce memory usage. Use `true` for smaller datasets requiring maximum search speed. |
+| `with_raw_data` | Whether to store original MinHash signatures alongside LSH codes for refinement. | true, false | Use `true` when high precision is required and storage cost is acceptable. Use `false` to minimize storage overhead with slight accuracy reduction. |
+| `mh_lsh_bloom_false_positive_prob` | False positive probability for Bloom filter used in LSH bucket optimization. | [0.001, 0.1] | Use `0.01` for balanced memory usage and accuracy. Lower values (`0.001`) reduce false positives but increase memory. Higher values (`0.05`) save memory but may reduce precision. |
 
 ### Index-specific search params\{#index-specific-search-params}
 
 The following table lists the parameters that can be configured in `search_params.params` when [searching on the index](./minhash-lsh#perform-similarity-search).
 
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Value Range</p></th>
-     <th><p>Tuning Suggestion</p></th>
-   </tr>
-   <tr>
-     <td><p><code>mh_search_with_jaccard</code></p></td>
-     <td><p>Whether to perform exact Jaccard similarity computation on candidate results for refinement.</p></td>
-     <td><p>true, false</p></td>
-     <td><p>Use <code>true</code> for applications requiring high precision (e.g., deduplication). Use <code>false</code> for faster approximate search when slight accuracy loss is acceptable.</p></td>
-   </tr>
-   <tr>
-     <td><p><code>refine_k</code></p></td>
-     <td><p>Number of candidates to retrieve before Jaccard refinement. Only effective when <code>mh_search_with_jaccard</code> is <code>true</code>.</p></td>
-     <td><p>[<em>top_k</em>, <em>top_k &ast; 10</em>]</p></td>
-     <td><p>Set to 2-5x the desired <em>top_k</em> for good recall-performance balance. Higher values improve recall but increase computation cost.</p></td>
-   </tr>
-   <tr>
-     <td><p><code>mh_lsh_batch_search</code></p></td>
-     <td><p>Whether to enable batch optimization for multiple simultaneous queries.</p></td>
-     <td><p>true, false</p></td>
-     <td><p>Use <code>true</code> when searching with multiple queries simultaneously for better throughput. Use <code>false</code> for single-query scenarios to reduce memory overhead.</p></td>
-   </tr>
-</table>
+| Parameter | Description | Value Range | Tuning Suggestion |
+| --- | --- | --- | --- |
+| `mh_search_with_jaccard` | Whether to perform exact Jaccard similarity computation on candidate results for refinement. | true, false | Use `true` for applications requiring high precision (e.g., deduplication). Use `false` for faster approximate search when slight accuracy loss is acceptable. |
+| `refine_k` | Number of candidates to retrieve before Jaccard refinement. Only effective when `mh_search_with_jaccard` is `true`. | [*top_k*, *top_k &ast; 10*] | Set to 2-5x the desired *top_k* for good recall-performance balance. Higher values improve recall but increase computation cost. |
+| `mh_lsh_batch_search` | Whether to enable batch optimization for multiple simultaneous queries. | true, false | Use `true` when searching with multiple queries simultaneously for better throughput. Use `false` for single-query scenarios to reduce memory overhead. |

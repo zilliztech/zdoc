@@ -59,7 +59,7 @@ The following is an example output.
 
     ```bash
     curl --request GET \
-         --url "${BASE_URL}/v2/clusters/${CLUSTER_ID}/backups/${BACKUP_ID}" \
+         --url "$\{BASE_URL\}/v2/clusters/${CLUSTER_ID}/backups/${BACKUP_ID}" \
          --header "Authorization: Bearer ${TOKEN}" \
          --header "Accept: application/json"
     ```

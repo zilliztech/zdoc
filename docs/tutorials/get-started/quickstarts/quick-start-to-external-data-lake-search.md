@@ -41,7 +41,7 @@ Before working on a database, connect to the project endpoint. You can obtain th
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>External collection operations require an <strong>API key</strong> for authentication. This flow does not support <code>username:password</code> authentication.</p>
+External collection operations require an **API key** for authentication. This flow does not support `username:password` authentication.
 
 </Admonition>
 

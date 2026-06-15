@@ -24,7 +24,7 @@ Zilliz Cloud provides powerful operators to query array fields, allowing you to 
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>All elements within an array must be the same type, and nested structures within arrays are treated as plain strings. Therefore, when working with ARRAY fields, it is advisable to avoid excessively deep nesting and ensure that your data structures are as flat as possible for optimal performance.</p>
+All elements within an array must be the same type, and nested structures within arrays are treated as plain strings. Therefore, when working with ARRAY fields, it is advisable to avoid excessively deep nesting and ensure that your data structures are as flat as possible for optimal performance.
 
 </Admonition>
 

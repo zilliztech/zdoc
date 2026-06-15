@@ -68,26 +68,10 @@ Different Pre-search Functions generate different types of embeddings, which dir
 
 The table below summarizes the available Pre-search Functions:
 
-<table>
-   <tr>
-     <th><p>Function Type</p></th>
-     <th><p>Vector Type</p></th>
-     <th><p>Description</p></th>
-     <th><p>Typical Scenarios</p></th>
-   </tr>
-   <tr>
-     <td><p>BM25 Function</p></td>
-     <td><p>Sparse embeddings</p></td>
-     <td><p>Computes lexical relevance based on term matching, term frequency, and document length normalization.</p><p>Executes entirely within the database engine as a local mechanism; <strong>no <a href="./function-and-model-inference-overview">model inference</a> required</strong>.</p></td>
-     <td><p>Keyword-driven full text search, documentation and code search, and workloads where term matching, low latency, and deterministic behavior are critical.</p></td>
-   </tr>
-   <tr>
-     <td><p>Model-based Embedding Functions</p></td>
-     <td><p>Dense embeddings</p></td>
-     <td><p>Encodes the semantic meaning of text using machine learning models, enabling similarity-based retrieval beyond exact keywords.</p><p><strong>Requires <a href="./function-and-model-inference-overview">model inference</a></strong> via hosted models or third-party model services.</p></td>
-     <td><p>Semantic search, natural-language queries, Q&A and RAG pipelines, and use cases where conceptual similarity matters more than literal term overlap.</p></td>
-   </tr>
-</table>
+| Function Type | Vector Type | Description | Typical Scenarios |
+| --- | --- | --- | --- |
+| BM25 Function | Sparse embeddings | Computes lexical relevance based on term matching, term frequency, and document length normalization.<br/>Executes entirely within the database engine as a local mechanism; **no [model inference](./function-and-model-inference-overview) required**. | Keyword-driven full text search, documentation and code search, and workloads where term matching, low latency, and deterministic behavior are critical. |
+| Model-based Embedding Functions | Dense embeddings | Encodes the semantic meaning of text using machine learning models, enabling similarity-based retrieval beyond exact keywords.<br/>**Requires [model inference](./function-and-model-inference-overview)** via hosted models or third-party model services. | Semantic search, natural-language queries, Q&A and RAG pipelines, and use cases where conceptual similarity matters more than literal term overlap. |
 
 All Pre-search Functions are applied consistently to both document data and query text, ensuring retrieval is performed within the same representation space.
 
@@ -99,31 +83,10 @@ These functions operate exclusively on the results returned by the search stage 
 
 The table below summarizes the available Post-search Functions:
 
-<table>
-   <tr>
-     <th><p>Function Type</p></th>
-     <th><p>Operates On</p></th>
-     <th><p>Description</p></th>
-     <th><p>Typical Scenarios</p></th>
-   </tr>
-   <tr>
-     <td><p>Hybrid Search Rankers</p></td>
-     <td><p>Multiple result sets retrieved from hybrid search</p></td>
-     <td><p>Combine and rebalance results retrieved from different retrieval strategies using methods such as weighted ranking or reciprocal rank fusion (RRF).</p></td>
-     <td><p>Hybrid search scenarios that combine semantic and lexical retrieval and require balanced result fusion.</p></td>
-   </tr>
-   <tr>
-     <td><p>Rule-based Rankers</p></td>
-     <td><p>Candidate results from single-vector or hybrid search</p></td>
-     <td><p>Adjust ranking based on predefined rules or numeric signals, such as boosting or decay-based scoring.</p></td>
-     <td><p>Business-driven ranking logic, recency or popularity boosts, and scenarios requiring predictable, non-ML reranking.</p></td>
-   </tr>
-   <tr>
-     <td><p>Model-based Rankers</p></td>
-     <td><p>Candidate results from single-vector or hybrid search</p></td>
-     <td><p>Use machine learning models to evaluate relevance and reorder results based on learned or semantic signals.</p></td>
-     <td><p>Intelligent reranking, relevance refinement using semantic understanding, and LLM-based relevance evaluation.</p></td>
-   </tr>
-</table>
+| Function Type | Operates On | Description | Typical Scenarios |
+| --- | --- | --- | --- |
+| Hybrid Search Rankers | Multiple result sets retrieved from hybrid search | Combine and rebalance results retrieved from different retrieval strategies using methods such as weighted ranking or reciprocal rank fusion (RRF). | Hybrid search scenarios that combine semantic and lexical retrieval and require balanced result fusion. |
+| Rule-based Rankers | Candidate results from single-vector or hybrid search | Adjust ranking based on predefined rules or numeric signals, such as boosting or decay-based scoring. | Business-driven ranking logic, recency or popularity boosts, and scenarios requiring predictable, non-ML reranking. |
+| Model-based Rankers | Candidate results from single-vector or hybrid search | Use machine learning models to evaluate relevance and reorder results based on learned or semantic signals. | Intelligent reranking, relevance refinement using semantic understanding, and LLM-based relevance evaluation. |
 
 Because Post-search Functions operate only on retrieved candidates, they are refinement steps that affect result order but not retrieval scope.

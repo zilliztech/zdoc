@@ -39,7 +39,7 @@ You can make use of these APIs to export certain or all of the entities from a Z
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This feature is available for the Zilliz Cloud clusters that are compatible with Milvus 2.3.x and above.</p>
+This feature is available for the Zilliz Cloud clusters that are compatible with Milvus 2.3.x and above.
 
 </Admonition>
 

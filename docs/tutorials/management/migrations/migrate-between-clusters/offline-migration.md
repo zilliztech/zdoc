@@ -26,7 +26,7 @@ Offline Migration transfers all existing data from a source Zilliz Cloud cluster
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>If your application keeps writing to the source cluster during cutover, the target cluster might miss new entities, especially entities inserted after the migration job completes. To keep the target data complete, schedule a cutover window, pause writes to the source cluster, wait for the migration job to complete, validate the target cluster, and then resume writes on the target cluster only.</p>
+If your application keeps writing to the source cluster during cutover, the target cluster might miss new entities, especially entities inserted after the migration job completes. To keep the target data complete, schedule a cutover window, pause writes to the source cluster, wait for the migration job to complete, validate the target cluster, and then resume writes on the target cluster only.
 
 </Admonition>
 
@@ -49,8 +49,8 @@ The following table outlines the migration capabilities and constraints between 
    <tr>
      <td><p>Free cluster</p></td>
      <td><p>Not supported</p></td>
-     <td><p>Not supported</p><p>(You can only upgrade a Free cluster to a Serverless cluster. Refer to <a href="./manage-cluster#upgrade-deployment-option">Manage Cluster</a> for more details.)</p></td>
-     <td><p>Supported</p><p>(You can also upgrade a Free cluster to a dedicated cluster. Refer to <a href="./manage-cluster#upgrade-deployment-option">Manage Cluster</a> for more details.)</p></td>
+     <td><p>Not supported</p><p>(You can only upgrade a Free cluster to a Serverless cluster. Refer to <a href="./manage-cluster">Manage Cluster</a> for more details.)</p></td>
+     <td><p>Supported</p><p>(You can also upgrade a Free cluster to a dedicated cluster. Refer to <a href="./manage-cluster">Manage Cluster</a> for more details.)</p></td>
    </tr>
    <tr>
      <td><p>Serverless cluster</p></td>
@@ -68,23 +68,10 @@ The following table outlines the migration capabilities and constraints between 
 
 ### Migration scope options\{#migration-scope-options}
 
-<table>
-   <tr>
-     <th><p>Migration Type</p></th>
-     <th><p>Description</p></th>
-     <th><p>Use Cases</p></th>
-   </tr>
-   <tr>
-     <td><p>Within same project</p></td>
-     <td><p>Migrate between existing clusters in the same Zilliz Cloud project</p></td>
-     <td><p>Cluster upgrades, performance optimization, data consolidation</p></td>
-   </tr>
-   <tr>
-     <td><p>Cross-project or organization</p></td>
-     <td><p>Migrate between existing clusters in different Zilliz Cloud projects or organizations</p></td>
-     <td><p>Company mergers, department transfers, multi-tenant scenarios</p></td>
-   </tr>
-</table>
+| Migration Type | Description | Use Cases |
+| --- | --- | --- |
+| Within same project | Migrate between existing clusters in the same Zilliz Cloud project | Cluster upgrades, performance optimization, data consolidation |
+| Cross-project or organization | Migrate between existing clusters in different Zilliz Cloud projects or organizations | Company mergers, department transfers, multi-tenant scenarios |
 
 ### Direct data transfer\{#direct-data-transfer}
 
@@ -104,41 +91,18 @@ Before starting your offline migration, ensure you meet these requirements:
 
 ### General requirements\{#general-requirements}
 
-<table>
-   <tr>
-     <th><p>Requirement</p></th>
-     <th><p>Details</p></th>
-   </tr>
-   <tr>
-     <td><p>User permissions</p></td>
-     <td><p>Organization Owner or Project Admin role</p></td>
-   </tr>
-   <tr>
-     <td><p>Source cluster access</p></td>
-     <td><p>Source cluster must be accessible from the public internet</p></td>
-   </tr>
-   <tr>
-     <td><p>Target cluster capacity</p></td>
-     <td><p>Sufficient CU size to accommodate source data (use the <a href="https://zilliz.com/pricing#calculator">CU calculator</a>)</p></td>
-   </tr>
-</table>
+| Requirement | Details |
+| --- | --- |
+| User permissions | Organization Owner or Project Admin role |
+| Source cluster access | Source cluster must be accessible from the public internet |
+| Target cluster capacity | Sufficient CU size to accommodate source data (use the [CU calculator](https://zilliz.com/pricing#calculator)) |
 
 ### Cross-project or organization migration requirements\{#cross-project-or-organization-migration-requirements}
 
-<table>
-   <tr>
-     <th><p>Requirement</p></th>
-     <th><p>Details</p></th>
-   </tr>
-   <tr>
-     <td><p>Connection credentials</p></td>
-     <td><p>Public endpoint, API key, or cluster username and password for source cluster</p></td>
-   </tr>
-   <tr>
-     <td><p>Network access</p></td>
-     <td><p>Ability to connect to source cluster from target organization</p></td>
-   </tr>
-</table>
+| Requirement | Details |
+| --- | --- |
+| Connection credentials | Public endpoint, API key, or cluster username and password for source cluster |
+| Network access | Ability to connect to source cluster from target organization |
 
 ### Plan the cutover\{#plan-the-cutover}
 
@@ -164,7 +128,7 @@ The following demo walks you through the complete offline migration process:
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>The migrated collections are not immediately available for search or query operations. You must manually load the collections in Zilliz Cloud to enable search and query functionalities. For details, refer to <a href="./load-release-collections">Load & Release</a>.</p>
+The migrated collections are not immediately available for search or query operations. You must manually load the collections in Zilliz Cloud to enable search and query functionalities. For details, refer to [Load & Release](./load-release-collections).
 
 </Admonition>
 

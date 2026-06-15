@@ -71,32 +71,16 @@ AWS Organizations management account / consolidated bill
 
 <Admonition type="info" icon="📘" title="Note">
 
-<p>If you only need internal usage separation, a simpler alternative is to use one organization with multiple projects. In that model, Azure Marketplace charges remain combined under one subscription, and the usage split is visible only through Zilliz Cloud usage analysis.</p>
+If you only need internal usage separation, a simpler alternative is to use one organization with multiple projects. In that model, Azure Marketplace charges remain combined under one subscription, and the usage split is visible only through Zilliz Cloud usage analysis.
 
 </Admonition>
 
 ### Comparison\{#comparison}
 
-<table>
-   <tr>
-     <th><p>Model</p></th>
-     <th><p>Separates AWS Marketplace charges</p></th>
-     <th><p>Separates Zilliz usage by project or team</p></th>
-     <th><p>Best for</p></th>
-   </tr>
-   <tr>
-     <td><p>One organization per business unit</p></td>
-     <td><p>Yes</p></td>
-     <td><p>Yes</p></td>
-     <td><p>Teams that need AWS-side cost separation by member account.</p></td>
-   </tr>
-   <tr>
-     <td><p>One organization with multiple projects</p></td>
-     <td><p>No</p></td>
-     <td><p>Yes</p></td>
-     <td><p>Internal usage split only</p></td>
-   </tr>
-</table>
+| Model | Separates AWS Marketplace charges | Separates Zilliz usage by project or team | Best for |
+| --- | --- | --- | --- |
+| One organization per business unit | Yes | Yes | Teams that need AWS-side cost separation by member account. |
+| One organization with multiple projects | No | Yes | Internal usage split only |
 
 ## Multi-organization setup\{#multi-organization-setup}
 
@@ -160,11 +144,11 @@ For each business unit:
 
 <Admonition type="info" icon="📘" title="Note">
 
-<ul>
-<li><p>Each Marketplace subscription can be linked to only one Zilliz Cloud organization.</p></li>
-<li><p>To bind a Marketplace subscription to a Zilliz Cloud organization, you must be an Organization Owner or Organization Billing Admin in that organization.</p></li>
-<li><p>The AWS user or role that completes the purchase must have permission to subscribe to AWS Marketplace products. AWS provides Marketplace managed policies such as <a href="https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AWSMarketplaceManageSubscriptions.html"><code>AWSMarketplaceManageSubscriptions</code></a> and <a href="https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AWSMarketplaceFullAccess.html"><code>AWSMarketplaceFullAccess</code></a>.</p></li>
-</ul>
+- Each Marketplace subscription can be linked to only one Zilliz Cloud organization.
+
+- To bind a Marketplace subscription to a Zilliz Cloud organization, you must be an Organization Owner or Organization Billing Admin in that organization.
+
+- The AWS user or role that completes the purchase must have permission to subscribe to AWS Marketplace products. AWS provides Marketplace managed policies such as [`AWSMarketplaceManageSubscriptions`](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AWSMarketplaceManageSubscriptions.html) and [`AWSMarketplaceFullAccess`](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AWSMarketplaceFullAccess.html).
 
 </Admonition>
 
@@ -202,10 +186,9 @@ This provides the detailed usage view that AWS billing does not show.
 
 <Admonition type="info" icon="📘" title="Note">
 
-<ul>
-<li><p>Use AWS Billing and Cost Management for billed Marketplace charges and invoices.</p></li>
-<li><p>Use Zilliz Cloud Usage page for project-level and cluster-level usage inside each organization.</p></li>
-</ul>
+- Use AWS Billing and Cost Management for billed Marketplace charges and invoices.
+
+- Use Zilliz Cloud Usage page for project-level and cluster-level usage inside each organization.
 
 </Admonition>
 

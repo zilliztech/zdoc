@@ -24,7 +24,7 @@ This page lists all IAM permissions that Zilliz Cloud requires to perform operat
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Zilliz BYOC is currently available in <strong>General Availability</strong>. For access and implementation details, please contact <a href="https://zilliz.com/contact-sales">Zilliz Cloud sales</a>.</p>
+Zilliz BYOC is currently available in **General Availability**. For access and implementation details, please contact [Zilliz Cloud sales](https://zilliz.com/contact-sales).
 
 </Admonition>
 
@@ -32,33 +32,12 @@ This page lists all IAM permissions that Zilliz Cloud requires to perform operat
 
 You have created an S3 bucket and a storage role. Zilliz Cloud assumes this role with the following permissions during control plane setup.
 
-<table>
-   <tr>
-     <th><p>AWS IAM permission</p></th>
-     <th><p>AWS resource</p></th>
-     <th><p>Purpose</p></th>
-   </tr>
-   <tr>
-     <td><p>s3:ListBucket</p></td>
-     <td><p>Bucket</p></td>
-     <td><p>Checks whether the bucket exists.</p></td>
-   </tr>
-   <tr>
-     <td><p>s3:GetObject</p></td>
-     <td><p>Bucket object</p></td>
-     <td><p>Allows Milvus read data from S3 bucket</p></td>
-   </tr>
-   <tr>
-     <td><p>s3:PutObject</p></td>
-     <td><p>Bucket object</p></td>
-     <td><p>Allows Milvus write data to bucket</p></td>
-   </tr>
-   <tr>
-     <td><p>s3:DeleteObject</p></td>
-     <td><p>Bucket object</p></td>
-     <td><p>Allows Milvus delete data</p></td>
-   </tr>
-</table>
+| AWS IAM permission | AWS resource | Purpose |
+| --- | --- | --- |
+| s3:ListBucket | Bucket | Checks whether the bucket exists. |
+| s3:GetObject | Bucket object | Allows Milvus read data from S3 bucket |
+| s3:PutObject | Bucket object | Allows Milvus write data to bucket |
+| s3:DeleteObject | Bucket object | Allows Milvus delete data |
 
 ## EKS role permissions\{#eks-role-permissions}
 
@@ -68,38 +47,13 @@ You have created an EKS role with the following permissions for Zilliz Cloud to 
 
 These permissions are managed by AWS and you can attach them to the EKS role. For details on each of these permissions, you can click the item in the **Permissions** column to learn more.
 
-<table>
-   <tr>
-     <th><p>Permissions</p></th>
-     <th><p>Managed by</p></th>
-     <th><p>Description</p></th>
-   </tr>
-   <tr>
-     <td><p><a href="https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEC2ContainerRegistryReadOnly.html">AmazonEC2ContainerRegistryReadOnly</a></p></td>
-     <td><p>AWS</p></td>
-     <td><p>Provides read-only access to Amazon EC2 Container Registry repositories.</p></td>
-   </tr>
-   <tr>
-     <td><p><a href="https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKS_CNI_Policy.html">AmazonEKS_CNI_Policy</a></p></td>
-     <td><p>AWS</p></td>
-     <td><p>Provides the Amazon VPC CNI Plugin (amazon-vpc-cni-k8s) the permissions it requires to modify the IP address configuration on your EKS worker nodes.</p></td>
-   </tr>
-   <tr>
-     <td><p><a href="https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKSWorkerNodePolicy.html">AmazonEKSWorkerNodePolicy</a></p></td>
-     <td><p>AWS</p></td>
-     <td><p>Allows Amazon EKS worker nodes to connect to Amazon EKS Clusters.</p></td>
-   </tr>
-   <tr>
-     <td><p><a href="https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKSClusterPolicy.html">AmazonEKSClusterPolicy</a></p></td>
-     <td><p>AWS</p></td>
-     <td><p>Provides Kubernetes the permissions it requires to manage resources on your behalf.</p></td>
-   </tr>
-   <tr>
-     <td><p><a href="https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKSVPCResourceController.html">AmazonEKSVPCResourceController</a></p></td>
-     <td><p>AWS</p></td>
-     <td><p>Allows VPC Resource Controller to manage ENI and IPs for worker nodes.</p></td>
-   </tr>
-</table>
+| Permissions | Managed by | Description |
+| --- | --- | --- |
+| [AmazonEC2ContainerRegistryReadOnly](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEC2ContainerRegistryReadOnly.html) | AWS | Provides read-only access to Amazon EC2 Container Registry repositories. |
+| [AmazonEKS_CNI_Policy](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKS_CNI_Policy.html) | AWS | Provides the Amazon VPC CNI Plugin (amazon-vpc-cni-k8s) the permissions it requires to modify the IP address configuration on your EKS worker nodes. |
+| [AmazonEKSWorkerNodePolicy](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKSWorkerNodePolicy.html) | AWS | Allows Amazon EKS worker nodes to connect to Amazon EKS Clusters. |
+| [AmazonEKSClusterPolicy](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKSClusterPolicy.html) | AWS | Provides Kubernetes the permissions it requires to manage resources on your behalf. |
+| [AmazonEKSVPCResourceController](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKSVPCResourceController.html) | AWS | Allows VPC Resource Controller to manage ENI and IPs for worker nodes. |
 
 ### Permissions from Kubernetes SIGs\{#permissions-from-kubernetes-sigs}
 
@@ -107,287 +61,65 @@ These permissions are managed by contributors in the [Kubernetes SIGs](https://g
 
 The following tables list the specific sets of permissions. For details on each of these permissions, you can click the item in the **Permissions** column to learn more.
 
-<table>
-   <tr>
-     <th><p>Permissions</p></th>
-     <th><p>Managed by</p></th>
-     <th><p>Description</p></th>
-   </tr>
-   <tr>
-     <td><p><a href="https://github.com/kubernetes-sigs/aws-load-balancer-controller/blob/main/docs/install/iam_policy.json">AWS Load Balancer Controller</a></p></td>
-     <td><p>Kubernetes SIGs</p></td>
-     <td><p>AWS Load Balancer Controller is a controller to help manage Elastic Load Balancers for a Kubernetes cluster.</p><p>For details on the AWS Load Balancer Controller repository, refer to the <a href="https://github.com/kubernetes-sigs/aws-load-balancer-controller/tree/main">README</a> file.</p></td>
-   </tr>
-   <tr>
-     <td><p><a href="https://github.com/kubernetes-sigs/aws-ebs-csi-driver/blob/master/docs/example-iam-policy.json">Amazon EBS CSI driver</a></p></td>
-     <td><p>Kubernetes SIGs</p></td>
-     <td><p>The Amazon Elastic Block Store Container Storage Interface (CSI) Driver provides a CSI interface used by Container Orchestrators to manage the lifecycle of Amazon EBS volumes.</p><p>For details on the Amazon EBS CSI driver, refer to the <a href="https://github.com/kubernetes-sigs/aws-ebs-csi-driver">README</a> file.</p></td>
-   </tr>
-   <tr>
-     <td><p><a href="https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/cloudprovider/aws/README.md#full-cluster-autoscaler-features-policy-recommended">Cluster AutoScaler</a></p></td>
-     <td><p>Kubernetes SIGs</p></td>
-     <td><p>The Cluster AutoScaler is a component that automatically adjusts the size of a Kubernetes Cluster so that all pods have a place to run and there are no unneeded nodes.</p><p>For details on the Cluster AutoScaler on AWS, refer to the <a href="https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/cloudprovider/aws/README.md">README</a> file.</p></td>
-   </tr>
-</table>
+| Permissions | Managed by | Description |
+| --- | --- | --- |
+| [AWS Load Balancer Controller](https://github.com/kubernetes-sigs/aws-load-balancer-controller/blob/main/docs/install/iam_policy.json) | Kubernetes SIGs | AWS Load Balancer Controller is a controller to help manage Elastic Load Balancers for a Kubernetes cluster.<br/>For details on the AWS Load Balancer Controller repository, refer to the [README](https://github.com/kubernetes-sigs/aws-load-balancer-controller/tree/main) file. |
+| [Amazon EBS CSI driver](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/blob/master/docs/example-iam-policy.json) | Kubernetes SIGs | The Amazon Elastic Block Store Container Storage Interface (CSI) Driver provides a CSI interface used by Container Orchestrators to manage the lifecycle of Amazon EBS volumes.<br/>For details on the Amazon EBS CSI driver, refer to the [README](https://github.com/kubernetes-sigs/aws-ebs-csi-driver) file. |
+| [Cluster AutoScaler](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/cloudprovider/aws/README.md#full-cluster-autoscaler-features-policy-recommended) | Kubernetes SIGs | The Cluster AutoScaler is a component that automatically adjusts the size of a Kubernetes Cluster so that all pods have a place to run and there are no unneeded nodes.<br/>For details on the Cluster AutoScaler on AWS, refer to the [README](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/cloudprovider/aws/README.md) file. |
 
 ## Cross-account role permissions\{#cross-account-role-permissions}
 
 You have created a cross-account role with the following permissions for Zilliz Cloud to set up the BYOC control plane in your EKS cluster.
 
-<table>
-   <tr>
-     <th><p>AWS IAM permission</p></th>
-     <th><p>AWS resource</p></th>
-     <th><p>Purpose</p></th>
-   </tr>
-   <tr>
-     <td><p>iam:GetRole</p></td>
-     <td><p>Role</p></td>
-     <td><p>Read dependent roles when creating an EKS.</p></td>
-   </tr>
-   <tr>
-     <td><p>iam:ListAttachedRolePolicies</p></td>
-     <td><p>Policy</p></td>
-     <td><p>Get the policies of dependent roles.</p></td>
-   </tr>
-   <tr>
-     <td><p>iam:PassRole</p></td>
-     <td><p>Role</p></td>
-     <td><p>Allow EKS use the role.</p></td>
-   </tr>
-   <tr>
-     <td><p>iam:UpdateAssumeRolePolicy</p></td>
-     <td><p>IAM Role</p></td>
-     <td><p>Update trust policies for EKS OIDC provider.</p></td>
-   </tr>
-   <tr>
-     <td><p>ec2:CreateLaunchTemplate</p></td>
-     <td><p>Launch Template</p></td>
-     <td><p>Create launch template of EKS nodegroup.</p></td>
-   </tr>
-   <tr>
-     <td><p>ec2:RunInstances</p></td>
-     <td><p>Instance</p></td>
-     <td><p>Launches AWS instances of EKS nodegroup.</p></td>
-   </tr>
-   <tr>
-     <td><p>ec2:DeleteLaunchTemplate</p></td>
-     <td><p>Launch Template</p></td>
-     <td><p>Delete launch tempalte.</p></td>
-   </tr>
-   <tr>
-     <td><p>ec2:CreateLaunchTemplateVersion</p></td>
-     <td><p>Launch Template</p></td>
-     <td><p>Create Launch Template version.</p></td>
-   </tr>
-   <tr>
-     <td><p>ec2:CreateTags</p></td>
-     <td><p>Tags</p></td>
-     <td><p>Add tags to all zilliz byoc resources</p></td>
-   </tr>
-   <tr>
-     <td><p>ec2:DescribeAccountAttributes</p></td>
-     <td><p>Account</p></td>
-     <td><p>Confirm account ID when using the role.</p></td>
-   </tr>
-   <tr>
-     <td><p>ec2:DescribeInstanceTypes</p></td>
-     <td><p>Instance</p></td>
-     <td><p>Get instance type of instance.</p></td>
-   </tr>
-   <tr>
-     <td><p>ec2:DescribeLaunchTemplateVersions</p></td>
-     <td><p>Launch Template</p></td>
-     <td><p>Get version of Launch Template.</p></td>
-   </tr>
-   <tr>
-     <td><p>ec2:DescribeLaunchTemplates</p></td>
-     <td><p>Launch Template</p></td>
-     <td><p>Confirms that launch template are created correctly.</p></td>
-   </tr>
-   <tr>
-     <td><p>ec2:DescribeSubnets</p></td>
-     <td><p>Subnets</p></td>
-     <td><p>Confirms that Subnets exists in the VPC.</p></td>
-   </tr>
-   <tr>
-     <td><p>ec2:DescribeVpcs</p></td>
-     <td><p>VPC</p></td>
-     <td><p>Confirms that VPC exists.</p></td>
-   </tr>
-   <tr>
-     <td><p>eks:CreateCluster</p></td>
-     <td><p>EKS cluster</p></td>
-     <td><p>Create EKS cluster.</p></td>
-   </tr>
-   <tr>
-     <td><p>eks:CreateNodegroup</p></td>
-     <td><p>EKS nodegroup</p></td>
-     <td><p>Create EKS nodegroup.</p></td>
-   </tr>
-   <tr>
-     <td><p>eks:CreateAddon</p></td>
-     <td><p>EKS addons</p></td>
-     <td><p>Create EKS addons.</p></td>
-   </tr>
-   <tr>
-     <td><p>eks:CreateAccessEntry</p></td>
-     <td><p>EKS AccessEntry</p></td>
-     <td><p>An access entry allows an IAM principal to access your cluster.</p></td>
-   </tr>
-   <tr>
-     <td><p>eks:CreatePodIdentityAssociation</p></td>
-     <td><p>EKS PodIdentityAssociation</p></td>
-     <td><p>Allow pod assume AWS IAM roles.</p></td>
-   </tr>
-   <tr>
-     <td><p>eks:AssociateAccessPolicy</p></td>
-     <td><p>Policy</p></td>
-     <td><p>Associates an access policy and its scope to an access entry.</p></td>
-   </tr>
-   <tr>
-     <td><p>eks:UpdateAccessEntry</p></td>
-     <td><p>EKS AccessEntry</p></td>
-     <td><p>Update the EKS AccessEntry.</p></td>
-   </tr>
-   <tr>
-     <td><p>eks:UpdateAddon</p></td>
-     <td><p>EKS addons</p></td>
-     <td><p>Update the EKS addons.</p></td>
-   </tr>
-   <tr>
-     <td><p>eks:UpdateClusterConfig</p></td>
-     <td><p>EKS cluster</p></td>
-     <td><p>Update EKS' config.</p></td>
-   </tr>
-   <tr>
-     <td><p>eks:UpdateClusterVersion</p></td>
-     <td><p>EKS cluster</p></td>
-     <td><p>Update EKS EKS' version.</p></td>
-   </tr>
-   <tr>
-     <td><p>eks:UpdateNodegroupConfig</p></td>
-     <td><p>EKS nodegroup</p></td>
-     <td><p>Update EKS nodegroup's config.</p></td>
-   </tr>
-   <tr>
-     <td><p>eks:UpdateNodegroupVersion</p></td>
-     <td><p>EKS nodegroup</p></td>
-     <td><p>Update EKS nodegroup's version.</p></td>
-   </tr>
-   <tr>
-     <td><p>eks:UpdatePodIdentityAssociation</p></td>
-     <td><p>Pod identity</p></td>
-     <td><p>Update EKS pod identity.</p></td>
-   </tr>
-   <tr>
-     <td><p>eks:TagResource</p></td>
-     <td><p>Tags</p></td>
-     <td><p>Tags all eks resources.</p></td>
-   </tr>
-   <tr>
-     <td><p>eks:DescribeCluster</p></td>
-     <td><p>EKS cluster</p></td>
-     <td><p>Confirms that EKS cluster is created correctly.</p></td>
-   </tr>
-   <tr>
-     <td><p>eks:DescribeNodegroup</p></td>
-     <td><p>EKS nodegroup</p></td>
-     <td><p>Confirms that EKS nodegroup is created correctly.</p></td>
-   </tr>
-   <tr>
-     <td><p>eks:DescribeAccessEntry</p></td>
-     <td><p>EKS AccessEntry</p></td>
-     <td><p>Confirms that EKS accessentry is created correctly.</p></td>
-   </tr>
-   <tr>
-     <td><p>eks:DescribeAddon</p></td>
-     <td><p>EKS Addon</p></td>
-     <td><p>Confirms that EKS cluster is created correctly.</p></td>
-   </tr>
-   <tr>
-     <td><p>eks:DescribeAddonConfiguration</p></td>
-     <td><p>EKS addons</p></td>
-     <td><p>Confirms that EKS cluster is created correctly.</p></td>
-   </tr>
-   <tr>
-     <td><p>eks:DescribeAddonVersions</p></td>
-     <td><p>EKS addons</p></td>
-     <td><p>Confirms that EKS cluster is created correctly.</p></td>
-   </tr>
-   <tr>
-     <td><p>eks:DescribePodIdentityAssociation</p></td>
-     <td><p>Pod identity</p></td>
-     <td><p>Confirms that EKS cluster is created correctly.</p></td>
-   </tr>
-   <tr>
-     <td><p>eks:ListAccessEntries</p></td>
-     <td><p>EKS accessentry</p></td>
-     <td><p>Get EKS access entries of EKS created by Zilliz.</p></td>
-   </tr>
-   <tr>
-     <td><p>eks:ListAccessPolicies</p></td>
-     <td><p>EKS access policy</p></td>
-     <td><p>Get EKS access policies of EKS created by Zilliz.</p></td>
-   </tr>
-   <tr>
-     <td><p>eks:ListAddons</p></td>
-     <td><p>EKS addons</p></td>
-     <td><p>Get EKS addons created by Zilliz.</p></td>
-   </tr>
-   <tr>
-     <td><p>eks:ListNodegroups</p></td>
-     <td><p>EKS node group</p></td>
-     <td><p>Get EKS node groups created by Zilliz.</p></td>
-   </tr>
-   <tr>
-     <td><p>eks:ListUpdates</p></td>
-     <td><p>EKS</p></td>
-     <td><p>Get EKS updates created by Zilliz.</p></td>
-   </tr>
-   <tr>
-     <td><p>eks:ListPodIdentityAssociations</p></td>
-     <td><p>Pod identity</p></td>
-     <td><p>Get pod identity associations created by Zilliz.</p></td>
-   </tr>
-   <tr>
-     <td><p>eks:ListTagsForResource</p></td>
-     <td><p>Tags</p></td>
-     <td><p>Get resource tags created by Zilliz</p></td>
-   </tr>
-   <tr>
-     <td><p>eks:DeleteAccessEntry</p></td>
-     <td><p>EKS Accessentry</p></td>
-     <td><p>Delete EKS access entries created by Zilliz.</p></td>
-   </tr>
-   <tr>
-     <td><p>eks:DeleteAddon</p></td>
-     <td><p>EKS addons</p></td>
-     <td><p>Delete EKS addons created by Zilliz.</p></td>
-   </tr>
-   <tr>
-     <td><p>eks:DeleteCluster</p></td>
-     <td><p>EKS cluster</p></td>
-     <td><p>Delete EKS cluster created by Zilliz.</p></td>
-   </tr>
-   <tr>
-     <td><p>eks:DeleteFargateProfile</p></td>
-     <td><p>EKS</p></td>
-     <td><p>Delete EKS fargate profile created by Zilliz.</p></td>
-   </tr>
-   <tr>
-     <td><p>eks:DeleteNodegroup</p></td>
-     <td><p>EKS nodegroup</p></td>
-     <td><p>Delete EKS  nodegroup created by Zilliz.</p></td>
-   </tr>
-   <tr>
-     <td><p>eks:DeletePodIdentityAssociation</p></td>
-     <td><p>EKS</p></td>
-     <td><p>Delete EKS pod identity created by Zilliz.</p></td>
-   </tr>
-   <tr>
-     <td><p>s3:GetBucketLocation</p></td>
-     <td><p>Bucket</p></td>
-     <td><p>Confirms that S3 Bucket location  correct.</p></td>
-   </tr>
-</table>
+| AWS IAM permission | AWS resource | Purpose |
+| --- | --- | --- |
+| iam:GetRole | Role | Read dependent roles when creating an EKS. |
+| iam:ListAttachedRolePolicies | Policy | Get the policies of dependent roles. |
+| iam:PassRole | Role | Allow EKS use the role. |
+| iam:UpdateAssumeRolePolicy | IAM Role | Update trust policies for EKS OIDC provider. |
+| ec2:CreateLaunchTemplate | Launch Template | Create launch template of EKS nodegroup. |
+| ec2:RunInstances | Instance | Launches AWS instances of EKS nodegroup. |
+| ec2:DeleteLaunchTemplate | Launch Template | Delete launch tempalte. |
+| ec2:CreateLaunchTemplateVersion | Launch Template | Create Launch Template version. |
+| ec2:CreateTags | Tags | Add tags to all zilliz byoc resources |
+| ec2:DescribeAccountAttributes | Account | Confirm account ID when using the role. |
+| ec2:DescribeInstanceTypes | Instance | Get instance type of instance. |
+| ec2:DescribeLaunchTemplateVersions | Launch Template | Get version of Launch Template. |
+| ec2:DescribeLaunchTemplates | Launch Template | Confirms that launch template are created correctly. |
+| ec2:DescribeSubnets | Subnets | Confirms that Subnets exists in the VPC. |
+| ec2:DescribeVpcs | VPC | Confirms that VPC exists. |
+| eks:CreateCluster | EKS cluster | Create EKS cluster. |
+| eks:CreateNodegroup | EKS nodegroup | Create EKS nodegroup. |
+| eks:CreateAddon | EKS addons | Create EKS addons. |
+| eks:CreateAccessEntry | EKS AccessEntry | An access entry allows an IAM principal to access your cluster. |
+| eks:CreatePodIdentityAssociation | EKS PodIdentityAssociation | Allow pod assume AWS IAM roles. |
+| eks:AssociateAccessPolicy | Policy | Associates an access policy and its scope to an access entry. |
+| eks:UpdateAccessEntry | EKS AccessEntry | Update the EKS AccessEntry. |
+| eks:UpdateAddon | EKS addons | Update the EKS addons. |
+| eks:UpdateClusterConfig | EKS cluster | Update EKS' config. |
+| eks:UpdateClusterVersion | EKS cluster | Update EKS EKS' version. |
+| eks:UpdateNodegroupConfig | EKS nodegroup | Update EKS nodegroup's config. |
+| eks:UpdateNodegroupVersion | EKS nodegroup | Update EKS nodegroup's version. |
+| eks:UpdatePodIdentityAssociation | Pod identity | Update EKS pod identity. |
+| eks:TagResource | Tags | Tags all eks resources. |
+| eks:DescribeCluster | EKS cluster | Confirms that EKS cluster is created correctly. |
+| eks:DescribeNodegroup | EKS nodegroup | Confirms that EKS nodegroup is created correctly. |
+| eks:DescribeAccessEntry | EKS AccessEntry | Confirms that EKS accessentry is created correctly. |
+| eks:DescribeAddon | EKS Addon | Confirms that EKS cluster is created correctly. |
+| eks:DescribeAddonConfiguration | EKS addons | Confirms that EKS cluster is created correctly. |
+| eks:DescribeAddonVersions | EKS addons | Confirms that EKS cluster is created correctly. |
+| eks:DescribePodIdentityAssociation | Pod identity | Confirms that EKS cluster is created correctly. |
+| eks:ListAccessEntries | EKS accessentry | Get EKS access entries of EKS created by Zilliz. |
+| eks:ListAccessPolicies | EKS access policy | Get EKS access policies of EKS created by Zilliz. |
+| eks:ListAddons | EKS addons | Get EKS addons created by Zilliz. |
+| eks:ListNodegroups | EKS node group | Get EKS node groups created by Zilliz. |
+| eks:ListUpdates | EKS | Get EKS updates created by Zilliz. |
+| eks:ListPodIdentityAssociations | Pod identity | Get pod identity associations created by Zilliz. |
+| eks:ListTagsForResource | Tags | Get resource tags created by Zilliz |
+| eks:DeleteAccessEntry | EKS Accessentry | Delete EKS access entries created by Zilliz. |
+| eks:DeleteAddon | EKS addons | Delete EKS addons created by Zilliz. |
+| eks:DeleteCluster | EKS cluster | Delete EKS cluster created by Zilliz. |
+| eks:DeleteFargateProfile | EKS | Delete EKS fargate profile created by Zilliz. |
+| eks:DeleteNodegroup | EKS nodegroup | Delete EKS  nodegroup created by Zilliz. |
+| eks:DeletePodIdentityAssociation | EKS | Delete EKS pod identity created by Zilliz. |
+| s3:GetBucketLocation | Bucket | Confirms that S3 Bucket location  correct. |
