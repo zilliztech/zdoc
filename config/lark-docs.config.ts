@@ -386,26 +386,6 @@ const gov230: Manual = {
     },
 }
 
-const cli01: Manual = {
-    root: 'PPuBfnEIWltim9dw8hxcC3EDnwb',
-    base: 'OAK4bJaNuac501sX6Y1cS3OGnzf',
-    sourceType: 'drive',
-    version: 'v0.1.x',
-    displayedSidebar: 'cliSidebar',
-    docSourceDir: './plugins/lark-docs/meta/sources/cli/v0.1.x',
-    sidebarPath: './config/generated/cli.sidebar.js',
-    overridePath: './config/sidebar-overrides/cli.json',
-    contentRoot: 'reference',
-    targets: {
-        zilliz: {
-            outputDir: 'reference/api/cli/cli',
-            imageDir: 'static/img',
-        },
-    },
-}
-
-const cliv01 = cli01
-
 const cliv13: Manual = {
     root: 'QBLKf6CCPloK0cddw6gcXUZqnob',
     base: 'Rr4lbWr8baQj5psICV9cEFa2nYe',
@@ -413,7 +393,6 @@ const cliv13: Manual = {
     version: 'v1.3.x',
     displayedSidebar: 'cliSidebar',
     docSourceDir: './plugins/lark-docs/meta/sources/cli/v1.3.x',
-    fallbackSourceDir: './plugins/lark-docs/meta/sources/cli/v0.1.x',
     sidebarPath: './config/generated/cli.sidebar.js',
     overridePath: './config/sidebar-overrides/cli.json',
     contentRoot: 'reference',
@@ -444,7 +423,5 @@ export default {
     gov1,
     gov226,
     gov230,
-    cli01,
-    cliv01,
     cliv13
 }
