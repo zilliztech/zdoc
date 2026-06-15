@@ -179,7 +179,11 @@ module.exports = function (context, options) {
                         if (opts.docTitle === undefined && !opts.faq && !opts.postProcess) {
                             try {
                                 console.log('Fetching docs from Feishu...')
-                                utils.pre_process_file_paths(outputDir)
+                                if (targetConfig.preserveOutput) {
+                                    console.log(`Preserving existing output files in ${outputDir}`)
+                                } else {
+                                    utils.pre_process_file_paths(outputDir)
+                                }
 
                                 if (!opts.skipSourceDown) {
                                     fs.rmSync(docSourceDir, { recursive: true })

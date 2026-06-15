@@ -3,6 +3,7 @@ interface TargetConfig {
     imageDir: string;
     sidebarPath?: string;
     overridePath?: string;
+    preserveOutput?: boolean;
 }
 
 interface Targets { [key: string]: TargetConfig | { [key: string]: TargetConfig } }
@@ -62,6 +63,7 @@ const agents: Manual = {
             // /docs/agents/* routes via displayedSidebar slug prefixing.
             outputDir: 'docs/tutorials/tools',
             imageDir: 'static/img',
+            preserveOutput: true,
         },
     },
 }
