@@ -1065,7 +1065,7 @@ class larkDocWriter {
         const description = this.__extract_description(markdown)
 
         // Auto-detect release notes and assign them to the releases sidebar
-        const isReleaseNote = path.includes('release-notes') || slug.includes('release-notes')
+        const isReleaseNote = String(path || '').includes('release-notes') || String(slug || '').includes('release-notes')
         const displayedSidebar = isReleaseNote ? 'releasesSidebar' : this.displayedSidebar
 
         let front_matter = this.__front_matters(title, suffix, slug, beta, notebook, type, token, sidebar_position, sidebar_label, keywords, displayedSidebar, description)
