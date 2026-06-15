@@ -17,46 +17,33 @@
 
 /* ── Trigger button ─────────────────────────────────────────────────────────── */
 
+/* Split pill: [icon + label] | chevron */
 .trigger {
+  position: relative;
   display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 12px;
+  align-items: stretch;
   background: #fff;
   border: 1px solid #e0e4ea;
-  border-radius: 8px;
+  border-radius: 999px;
   color: #444c56;
   font-size: 13px;
   font-weight: 500;
   line-height: 1;
-  cursor: pointer;
   white-space: nowrap;
-  transition: background 0.15s, border-color 0.15s, color 0.15s;
+  transition: border-color 0.15s, background 0.15s;
+  border-radius: 10px;
 }
 
-.trigger:hover:not(:disabled) {
-  background: #f6f8fa;
-  border-color: #c8cdd4;
-}
-
-.trigger:active:not(:disabled) {
-  background: #eef0f3;
-}
-
-.trigger:focus-visible {
-  outline: 2px solid #175fff;
-  outline-offset: 2px;
-}
-
-.trigger:disabled {
-  opacity: 0.65;
-  cursor: not-allowed;
-}
-
+/* Copied state — chrome unchanged (same stroke + width); the left part keeps the
+   hover background, and the check uses the current ink colour (no green). */
 .trigger.success {
-  background: #dafbe1;
-  border-color: #2da44e;
-  color: #1a7f37;
+  background: #fff;
+  border-color: #e0e4ea;
+  color: #444c56;
+}
+
+.trigger.success .triggerMain {
+  background: #eeeeee;
 }
 
 .trigger.errored {
@@ -65,19 +52,118 @@
   color: #cf222e;
 }
 
-/* ── Trigger internals ────────────────────────────────────────────────────── */
+.triggerMain {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 10px 7px 14px;
+  background: transparent;
+  border: 0;
+  border-radius: 10px 0 0 10px;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.triggerMain:hover:not(:disabled) { background: #eeeeee; }
+.triggerMain:disabled { cursor: default; }
+
+.triggerDivider {
+  width: 1px;
+  align-self: stretch;
+  flex-shrink: 0;
+  margin: 0;
+  background: #e0e4ea;
+}
+
+.triggerChevron {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 11px;
+  background: transparent;
+  border: 0;
+  border-radius: 0 10px 10px 0;
+  color: inherit;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.triggerChevron:hover:not(:disabled) { background: #eeeeee; }
+.triggerChevron:disabled { cursor: default; }
+
+.triggerMain:focus-visible,
+.triggerChevron:focus-visible {
+  outline: 2px solid #175fff;
+  outline-offset: -2px;
+}
 
 .triggerIcon {
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  width: 16px;
-  height: 16px;
+  width: 14px;
+  height: 14px;
+}
+
+.triggerIcon svg {
+  width: 13px;
+  height: 13px;
 }
 
 .triggerLabel {
-  /* nothing needed */
+  /* inline-block so min-width actually applies — keeps the button from jittering
+     as the label swaps "Copy page" → "Copying…" → "Copied!" */
+  display: inline-block;
+  min-width: 66px;
+  text-align: left;
+}
+
+/* Hover tooltip on the copy action */
+.triggerTooltip {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  right: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 9px;
+  background: #fff;
+  color: #24292f;
+  border: 1px solid #e0e4ea;
+  border-radius: 9px;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  box-shadow: 0 8px 22px rgba(15, 23, 42, 0.12);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(3px);
+  transition: opacity 0.14s ease, transform 0.14s ease;
+  z-index: 1001;
+}
+
+.triggerMain:hover ~ .triggerTooltip {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.triggerTooltip kbd {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 17px;
+  height: 17px;
+  padding: 0 4px;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 500;
+  color: #6e7781;
+  background: #f3f4f6;
+  border: 1px solid #e0e4ea;
+  border-radius: 5px;
 }
 
 /* ── Error toast ─────────────────────────────────────────────────────────── */
@@ -103,15 +189,19 @@
 .menu {
   position: absolute;
   top: calc(100% + 6px);
+  bottom: auto;
   right: 0;
   min-width: 268px;
   background: #fff;
   border: 1px solid #e0e4ea;
   border-radius: 10px;
   box-shadow: 0 8px 24px rgba(0,0,0,0.10);
-  padding: 6px 0;
+  padding: 6px;
   z-index: 1000;
   animation: fadeSlide 0.15s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
 /* ── Menu item ──────────────────────────────────────────────────────────── */
@@ -120,7 +210,8 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 9px 14px;
+  padding: 8px 10px;
+  border-radius: 7px;
   cursor: pointer;
   color: #24292f;
   user-select: none;
@@ -128,11 +219,11 @@
 }
 
 .menuItem:hover {
-  background: #f6f8fa;
+  background: #eeeeee;
 }
 
 .menuItem:active {
-  background: #eef0f3;
+  background: #e5e5e5;
 }
 
 .menuItem:focus-visible {
@@ -146,12 +237,19 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  width: 34px;
-  height: 34px;
-  background: #f6f8fa;
-  border: 1px solid #e0e4ea;
-  border-radius: 8px;
+  width: 28px;
+  height: 28px;
+  background: #fff;
+  border: 1px solid #e8e8ec;
+  border-radius: 7px;
   color: #444c56;
+}
+
+.menuArrow {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  color: #24292f;
 }
 
 .menuCaption {
@@ -161,6 +259,9 @@
 }
 
 .menuTitle {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
   font-size: 13px;
   font-weight: 500;
   line-height: 1.4;

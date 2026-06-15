@@ -1,5 +1,13 @@
 import React, {type ReactNode} from 'react';
-import {useNavbarSecondaryMenu} from '@docusaurus/theme-common/internal';
+import {useNavbarSecondaryMenu, useNavbarMobileSidebar} from '@docusaurus/theme-common/internal';
+
+function IconBolt() {
+  return (
+    <svg width="13" height="13" viewBox="0 0 8 14" fill="none" aria-hidden="true">
+      <path d="M0 8.55556L5.6 0L4.8 5.64912H8L1.6 14L3.2 8.55556H0Z" fill="currentColor" />
+    </svg>
+  );
+}
 
 function IconSearch() {
   return (
@@ -29,17 +37,6 @@ function IconLogIn() {
   );
 }
 
-function IconSignUp() {
-  return (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
-      <circle cx="9" cy="7" r="4" />
-      <line x1="19" y1="8" x2="19" y2="14" />
-      <line x1="22" y1="11" x2="16" y2="11" />
-    </svg>
-  );
-}
-
 function MobileActionToolbar() {
   function openSearch() {
     document.dispatchEvent(new CustomEvent('open-mobile-search'));
@@ -60,16 +57,19 @@ function MobileActionToolbar() {
 }
 
 function MobileActionLinks() {
+  const mobileSidebar = useNavbarMobileSidebar();
   return (
     <div className="mobile-action-links">
-      <a
-        href="https://support.zilliz.com/hc/en-us"
+      <button
+        type="button"
         className="mobile-action-link"
-        target="_blank"
-        rel="noopener noreferrer">
-        <IconSupport />
-        Support
-      </a>
+        onClick={() => {
+          mobileSidebar.toggle();
+          document.dispatchEvent(new CustomEvent('toggle-chat'));
+        }}>
+        <IconBolt />
+        Ask AI
+      </button>
       <a
         href="https://cloud.zilliz.com/login"
         className="mobile-action-link"
@@ -79,12 +79,12 @@ function MobileActionLinks() {
         Log In
       </a>
       <a
-        href="https://cloud.zilliz.com/signup"
-        className="mobile-action-link mobile-action-link--primary"
+        href="https://support.zilliz.com/hc/en-us"
+        className="mobile-action-link"
         target="_blank"
         rel="noopener noreferrer">
-        <IconSignUp />
-        Sign Up Free
+        <IconSupport />
+        Support
       </a>
     </div>
   );

@@ -1,0 +1,50 @@
+/* Rounded backing area for doc images. Hugs the image once loaded; shows a
+   full-width shimmer skeleton while loading. */
+.frame {
+  display: block;
+  position: relative;
+  width: fit-content;
+  max-width: 100%;
+  margin: 1.25rem 0;
+  border-radius: 10px;
+  background: #f4f4f6;
+  overflow: hidden;
+}
+
+/* Before load: reserve a 16:9 full-width skeleton so the loading state is
+   visible even for images that ship no intrinsic dimensions. */
+.frame:not(.loaded) {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+}
+
+.frame:not(.loaded)::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(100deg, #eeeef1 25%, #f8f8fa 45%, #eeeef1 65%);
+  background-size: 220% 100%;
+  animation: imgShimmer 1.25s ease-in-out infinite;
+}
+
+.img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+  opacity: 0;
+  filter: blur(14px);
+  transform: scale(1.03);
+  transition: opacity 0.5s ease, filter 0.6s ease, transform 0.6s ease;
+}
+
+.loaded .img {
+  opacity: 1;
+  filter: blur(0);
+  transform: none;
+}
+
+@keyframes imgShimmer {
+  from { background-position: 220% 0; }
+  to { background-position: -220% 0; }
+}

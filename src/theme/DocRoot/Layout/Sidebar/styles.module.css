@@ -1,18 +1,8 @@
 :root {
-  --doc-sidebar-width: 32.5rem;
+  /* Two-column sidebar = 8.5rem section labels + 13rem page list. Fixed so the
+     layout is identical at every desktop size (no icon/label switch). */
+  --doc-sidebar-width: 21.5rem;
   --doc-sidebar-hidden-width: 52px;
-}
-
-@media (min-width: 997px) and (max-width: 1280px) {
-  :root {
-    --doc-sidebar-width: 23rem;
-  }
-}
-
-@media (min-width: 1281px) and (max-width: 1440px) {
-  :global(.docs-chat-open) {
-    --doc-sidebar-width: 23rem;
-  }
 }
 
 /* Hide on mobile, the sidebar is in the mobile hamburger menu */
@@ -28,7 +18,7 @@
     flex-shrink: 0;
     min-height: 0;
     position: relative;
-    background: #ffffff;
+    background: #fdfdfd;
     overflow: visible;
   }
 
@@ -40,11 +30,13 @@
   .sidebarViewport {
     display: flex;
     flex-direction: column;
-    position: static;
+    position: fixed;
+    top: var(--ifm-navbar-height);
+    left: 0;
     width: var(--doc-sidebar-width);
-    height: 100%;
+    height: calc(100vh - var(--ifm-navbar-height));
     z-index: 10;
-    background: #fff;
+    background: #fdfdfd;
     border-right: 1px solid var(--ifm-toc-border-color);
     min-height: 0;
     overflow: hidden;

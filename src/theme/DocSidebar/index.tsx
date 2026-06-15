@@ -1,4 +1,4 @@
-import React, {type ReactNode, useEffect, useMemo, useState} from 'react';
+import React, {type ReactNode, useEffect, useMemo, useRef, useState} from 'react';
 import {useLocation, useHistory} from '@docusaurus/router';
 import {useWindowSize} from '@docusaurus/theme-common';
 import DocSidebar from '@theme-original/DocSidebar';
@@ -39,6 +39,7 @@ import {
   User,
   Bookmark,
   ChevronRight,
+  ChevronDown,
   Home,
   BookOpen,
   Lightbulb,
@@ -49,16 +50,6 @@ import {
 } from 'lucide-react';
 import IconButton from '../../components/IconButton';
 import SidebarIconVisibilityContext from '../DocSidebarItem/iconVisibility';
-import {
-  clearManualReferenceOrigin,
-  getDefaultManualReferenceOrigin,
-  getManualReferenceTarget,
-  getReferenceNavigationHref,
-  readManualReferenceOrigin,
-  shouldClearManualReferenceOrigin,
-  writeManualReferenceOrigin,
-  type ManualReferenceOrigin,
-} from './manualReferenceSidebar';
 
 import styles from './styles.module.css';
 
@@ -66,6 +57,11 @@ import styles from './styles.module.css';
 let hasEverExpanded = false;
 
 type Props = WrapperProps<typeof DocSidebarType>;
+type SidebarTooltipState = {
+  label: string;
+  top: number;
+  left: number;
+};
 
 /** All known sidebar section icon keys → icon element.
  *  New section icons should be added here as they appear in sidebar customProps.
@@ -212,6 +208,22 @@ function normalizePath(path: string): string {
   return path.replace(/\/$/, '');
 }
 
+/** When inside a language/protocol sub-reference, the gray title shown atop the
+ *  page list (e.g. /reference/java → "Java"). */
+const REF_SUBNAV_LABELS: Record<string, string> = {
+  restful: 'RESTful API',
+  python: 'Python',
+  java: 'Java',
+  go: 'Go',
+  nodejs: 'Node.js',
+  cpp: 'C++',
+};
+
+function getRefSubnavLabel(pathname: string): string | null {
+  const m = pathname.match(/^\/reference\/([^/]+)/);
+  return m ? REF_SUBNAV_LABELS[m[1]] ?? null : null;
+}
+
 function getItemHref(item: PropSidebarItem): string | undefined {
   if (item.type === 'link') return item.href;
   if (item.type === 'category') return item.href || findFirstSidebarItemLink(item);
@@ -230,157 +242,267 @@ function itemContainsPath(item: PropSidebarItem, pathname: string): boolean {
   return false;
 }
 
+/** Collapsed/merged state: narrow viewport (≤1100px) OR the AI chat panel open. */
+function useMergedMode(): boolean {
+  const [merged, setMerged] = useState(false);
+  useEffect(() => {
+    const compute = () => {
+      const narrow = window.innerWidth <= 1100;
+      const chatOpen = !!document.querySelector('.docs-chat-open');
+      setMerged(narrow || chatOpen);
+    };
+    compute();
+    window.addEventListener('resize', compute);
+    const wrapper = document.querySelector('[class*="docsWrapper"]');
+    const mo = new MutationObserver(compute);
+    if (wrapper) mo.observe(wrapper, {attributes: true, attributeFilter: ['class']});
+    return () => {
+      window.removeEventListener('resize', compute);
+      mo.disconnect();
+    };
+  }, []);
+  return merged;
+}
+
 function TwoLevelSidebar(props: Props): ReactNode {
   const {pathname} = useLocation();
   const history = useHistory();
-  const referenceTarget = getManualReferenceTarget(pathname);
-  const [manualReferenceOrigin, setManualReferenceOrigin] = useState<ManualReferenceOrigin | undefined>(() => {
-    const origin = readManualReferenceOrigin();
-    if (origin && referenceTarget) return origin;
-    return referenceTarget ? getDefaultManualReferenceOrigin(referenceTarget) : undefined;
-  });
-
-  useEffect(() => {
-    setManualReferenceOrigin(current => {
-      if (!current && referenceTarget) {
-        const origin = getDefaultManualReferenceOrigin(referenceTarget);
-        writeManualReferenceOrigin(origin);
-        return origin;
-      }
-
-      if (shouldClearManualReferenceOrigin(pathname, current)) {
-        clearManualReferenceOrigin();
-        return undefined;
-      }
-      return current;
-    });
-  }, [pathname, referenceTarget]);
-
-  const isManualReferenceMode = Boolean(manualReferenceOrigin && referenceTarget);
-  const primarySidebar = isManualReferenceMode ? manualReferenceOrigin!.sidebar : props.sidebar;
-
+  const [tooltip, setTooltip] = useState<SidebarTooltipState | null>(null);
+  const merged = useMergedMode();
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const activeIndex = useMemo(() => {
-    if (isManualReferenceMode) {
-      const found = primarySidebar.findIndex(
-        item => 'label' in item && item.label === manualReferenceOrigin!.selectedLabel,
-      );
-      return found >= 0 ? found : 0;
-    }
-
-    const found = primarySidebar.findIndex(item => itemContainsPath(item, pathname));
+    const found = props.sidebar.findIndex(item => itemContainsPath(item, pathname));
     return found >= 0 ? found : 0;
-  }, [isManualReferenceMode, manualReferenceOrigin, pathname, primarySidebar]);
+  }, [pathname, props.sidebar]);
   const [selectedIndex, setSelectedIndex] = useState(activeIndex);
 
+  // Follow the active page on navigation — but if the currently-selected section
+  // STILL contains the active page (same page duplicated across sections), keep
+  // the user's section instead of jumping to the first match (no surprise jumps).
   useEffect(() => {
-    setSelectedIndex(activeIndex);
-  }, [activeIndex]);
+    setSelectedIndex(prev => {
+      const cur = props.sidebar[prev];
+      if (cur && itemContainsPath(cur, pathname)) return prev;
+      return activeIndex;
+    });
+  }, [pathname, activeIndex, props.sidebar]);
 
-  const selectedItem = primarySidebar[selectedIndex] ?? primarySidebar[0];
-  const secondarySidebar = isManualReferenceMode
-    ? props.sidebar
-    : selectedItem?.type === 'category'
-      ? selectedItem.items
-      : selectedItem
-        ? [selectedItem]
-        : [];
+  const selectedItem = props.sidebar[selectedIndex] ?? props.sidebar[0];
+  const secondarySidebar = selectedItem?.type === 'category' ? selectedItem.items : selectedItem ? [selectedItem] : [];
+  // Inside a language/protocol reference (Python, Java, …) the primary rail gets
+  // a "back to Client Libraries" link + the language title on top; the tree
+  // splits into the normal two-level (primary rail + secondary panel).
+  const subnavLabel = getRefSubnavLabel(pathname);
+  // RESTful is a flat, one-level reference → render it as a single column (the
+  // earlier small-title style), not the two-level split.
+  const isRestfulRef = /^\/reference\/restful(\/|$)/.test(pathname);
+  // Only open a secondary panel when the selected primary item has children, so
+  // flat leaf entries like "Overview" stay one-level (no empty second panel).
+  const selectedHasChildren = selectedItem?.type === 'category' && selectedItem.items.length > 0;
 
-  return (
-    <div className={styles.twoLevelSidebar}>
-      <nav className={styles.primaryRail} aria-label="Documentation sections">
-        {primarySidebar.map((item, index) => {
-          const label = 'label' in item ? item.label : `Section ${index + 1}`;
-          const isActive = index === selectedIndex;
-          const icon = getSidebarSectionIcon(item, label);
-          return (
-            <button
-              key={`${label}-${index}`}
-              type="button"
-              className={`${styles.primaryRailItem} ${isActive ? styles.primaryRailItemActive : ''}`}
-              title={label}
-              data-label={label}
-              onClick={() => {
-                if (isManualReferenceMode) {
-                  const href = label === manualReferenceOrigin!.selectedLabel
-                    ? manualReferenceOrigin!.backHref
-                    : getItemHref(item);
-                  clearManualReferenceOrigin();
-                  setManualReferenceOrigin(undefined);
-                  if (href) history.push(href);
-                  return;
-                }
+  useEffect(() => { setDropdownOpen(false); }, [pathname]);
+  useEffect(() => {
+    if (!dropdownOpen) return;
+    const onClick = (e: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) setDropdownOpen(false);
+    };
+    document.addEventListener('mousedown', onClick);
+    return () => document.removeEventListener('mousedown', onClick);
+  }, [dropdownOpen]);
 
-                if (item.type === 'category' && item.items.length > 0) {
-                  setSelectedIndex(index);
-                  return;
-                }
-                const href = getItemHref(item);
-                if (href) history.push(href);
-              }}
-              aria-current={isActive ? 'true' : undefined}>
-              <span className={styles.primaryRailIcon} aria-hidden="true">
-                {icon}
-              </span>
-              <span className={styles.primaryRailLabel}>
-                {label}
-              </span>
-            </button>
-          );
-        })}
-      </nav>
-
-      <section
-        className={styles.secondaryPane}
-        aria-label="Documentation pages"
-        onClickCapture={event => {
-          if (isManualReferenceMode) return;
-          const target = event.target as HTMLElement | null;
-          const link = target?.closest('a[href^="/reference/"]') as HTMLAnchorElement | null;
-          if (!link) return;
-          const href = link.getAttribute('href') ?? '';
-          if (!getManualReferenceTarget(href)) return;
-
-          const selectedLabel = selectedItem && 'label' in selectedItem ? selectedItem.label : 'Documentation';
-          const origin: ManualReferenceOrigin = {
-            backHref: selectedItem ? getItemHref(selectedItem) ?? pathname : pathname,
-            backLabel: selectedLabel,
-            selectedLabel,
-            sidebar: primarySidebar,
-          };
-          writeManualReferenceOrigin(origin);
-          setManualReferenceOrigin(origin);
-          const navigationHref = getReferenceNavigationHref(href);
-          if (navigationHref !== href) {
-            event.preventDefault();
-            history.push(navigationHref);
-          }
-        }}>
+  // RESTful → single column (one level): back link + title + the full tree, with
+  // its categories acting as small section headings.
+  if (isRestfulRef) {
+    return (
+      <div className={styles.refSidebar}>
+        <div className={styles.refHeader}>
+          <a className={styles.refBack} href="/docs/install-sdks">
+            <svg width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M13 8H3.5M7.5 4L3.5 8l4 4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+            Client Libraries
+          </a>
+          <div className={styles.refTitle}>{subnavLabel}</div>
+        </div>
         <div className={styles.sidebarScroll}>
           <div className={styles.secondarySidebarContent}>
-            {isManualReferenceMode && manualReferenceOrigin && (
-              <button
-                type="button"
-                className={styles.backToManualButton}
-                onClick={() => {
-                  clearManualReferenceOrigin();
-                  setManualReferenceOrigin(undefined);
-                  history.push(manualReferenceOrigin.backHref);
-                }}>
-                Back to {manualReferenceOrigin.backLabel}
-              </button>
-            )}
             <SidebarIconVisibilityContext.Provider value={false}>
-              <DocSidebar {...props} sidebar={secondarySidebar} />
+              <DocSidebar {...props} sidebar={props.sidebar} />
             </SidebarIconVisibilityContext.Provider>
           </div>
         </div>
-      </section>
+      </div>
+    );
+  }
+
+  // Merged single-layer: section picker dropdown on top, current section's pages below.
+  if (merged) {
+    const selectedLabel = selectedItem && 'label' in selectedItem ? (selectedItem as {label: string}).label : 'Section';
+    return (
+      <div className={styles.mergedSidebar}>
+        <div className={styles.sectionDropdown} ref={dropdownRef}>
+          <button
+            type="button"
+            className={styles.sectionDropdownTrigger}
+            onClick={() => setDropdownOpen(o => !o)}
+            aria-expanded={dropdownOpen}
+            aria-haspopup="listbox">
+            <span className={styles.sectionDropdownText}>{selectedLabel}</span>
+            <ChevronDown size={16} className={dropdownOpen ? styles.sectionDropdownCaretOpen : styles.sectionDropdownCaret} />
+          </button>
+          {dropdownOpen && (
+            <div className={styles.sectionDropdownMenu} role="listbox">
+              {props.sidebar.map((item, index) => {
+                const label = 'label' in item ? item.label : `Section ${index + 1}`;
+                const isActive = index === selectedIndex;
+                return (
+                  <button
+                    key={`${label}-${index}`}
+                    type="button"
+                    role="option"
+                    aria-selected={isActive}
+                    className={`${styles.sectionDropdownItem} ${isActive ? styles.sectionDropdownItemActive : ''}`}
+                    onClick={() => {
+                      setSelectedIndex(index);
+                      setDropdownOpen(false);
+                      if (item.type === 'category' && item.items.length > 0) return;
+                      const href = getItemHref(item);
+                      if (href) history.push(href);
+                    }}>
+                    <span>{label}</span>
+                  </button>
+                );
+              })}
+            </div>
+          )}
+        </div>
+        <section className={styles.secondaryPane} aria-label="Documentation pages">
+          {subnavLabel && <div className={styles.subnavTitle}>{subnavLabel}</div>}
+          <div className={styles.sidebarScroll}>
+            <div className={styles.secondarySidebarContent}>
+              <SidebarIconVisibilityContext.Provider value={false}>
+                <DocSidebar key={selectedIndex} {...props} sidebar={secondarySidebar} />
+              </SidebarIconVisibilityContext.Provider>
+            </div>
+          </div>
+        </section>
+      </div>
+    );
+  }
+
+  const showTooltipForTarget = (target: EventTarget | null) => {
+    if (!(target instanceof HTMLElement)) return;
+    const tooltipTarget = target.closest<HTMLElement>('[data-sidebar-tooltip]');
+    if (!tooltipTarget) return;
+
+    const labelTarget = tooltipTarget.querySelector<HTMLElement>('[data-sidebar-tooltip-label]') ?? tooltipTarget;
+    if (labelTarget.offsetWidth <= 1 && labelTarget.offsetHeight <= 1) {
+      setTooltip(null);
+      return;
+    }
+    if (labelTarget.scrollWidth <= labelTarget.clientWidth + 1) {
+      setTooltip(null);
+      return;
+    }
+
+    const label = tooltipTarget.dataset.sidebarTooltip;
+    if (!label) return;
+
+    const rect = tooltipTarget.getBoundingClientRect();
+    setTooltip({
+      label,
+      top: rect.top + rect.height / 2,
+      left: rect.right + 8,
+    });
+  };
+  const hideTooltip = () => setTooltip(null);
+
+  return (
+    <div
+      className={styles.twoLevelSidebar}
+      onMouseOver={(event) => showTooltipForTarget(event.target)}
+      onFocus={(event) => showTooltipForTarget(event.target)}
+      onMouseOut={(event) => {
+        const tooltipTarget = (event.target as HTMLElement).closest?.('[data-sidebar-tooltip]');
+        if (tooltipTarget?.contains(event.relatedTarget as Node | null)) return;
+        hideTooltip();
+      }}
+      onBlur={hideTooltip}>
+      {subnavLabel && (
+        <div className={styles.refHeaderBar}>
+          <a className={styles.refBack} href="/docs/install-sdks">
+            <svg width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M13 8H3.5M7.5 4L3.5 8l4 4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+            Client Libraries
+          </a>
+          <div className={styles.refTitle}>{subnavLabel}</div>
+        </div>
+      )}
+
+      <div className={styles.twoLevelBody}>
+        <nav
+          className={`${styles.primaryRail}${selectedHasChildren ? '' : ' ' + styles.primaryRailWide}`}
+          aria-label="Documentation sections">
+          {props.sidebar.map((item, index) => {
+            const label = 'label' in item ? item.label : `Section ${index + 1}`;
+            const isActive = index === selectedIndex;
+            const icon = getSidebarSectionIcon(item, label);
+            return (
+              <button
+                key={`${label}-${index}`}
+                type="button"
+                className={`${styles.primaryRailItem} ${isActive ? styles.primaryRailItemActive : ''}`}
+                data-label={label}
+                data-sidebar-tooltip={label}
+                onClick={() => {
+                  // Always update the rail selection — even for a leaf whose page
+                  // is already open (history.push would be a no-op), so clicking
+                  // e.g. "Overview" after another section always re-selects it.
+                  setSelectedIndex(index);
+                  if (item.type === 'category' && item.items.length > 0) return;
+                  const href = getItemHref(item);
+                  if (href) history.push(href);
+                }}
+                aria-current={isActive ? 'true' : undefined}>
+                <span className={styles.primaryRailIcon} aria-hidden="true">
+                  {icon}
+                </span>
+                <span className={styles.primaryRailLabel} data-sidebar-tooltip-label>
+                  {label}
+                </span>
+              </button>
+            );
+          })}
+        </nav>
+
+        {selectedHasChildren && (
+          <section className={styles.secondaryPane} aria-label="Documentation pages">
+            <div className={styles.sidebarScroll}>
+              <div className={styles.secondarySidebarContent}>
+                <SidebarIconVisibilityContext.Provider value={false}>
+                  <DocSidebar key={selectedIndex} {...props} sidebar={secondarySidebar} />
+                </SidebarIconVisibilityContext.Provider>
+              </div>
+            </div>
+          </section>
+        )}
+      </div>
+      {tooltip && (
+        <div
+          className={styles.sidebarTooltip}
+          style={{top: tooltip.top, left: tooltip.left}}>
+          {tooltip.label}
+        </div>
+      )}
     </div>
   );
 }
 
 export default function DocSidebarWrapper(props: Props): ReactNode {
   const windowSize = useWindowSize();
+  const {pathname} = useLocation();
   const isMobile = windowSize === 'mobile';
 
   // On mobile the sidebar renders inside the hamburger menu —
@@ -393,10 +515,23 @@ export default function DocSidebarWrapper(props: Props): ReactNode {
     return <TwoLevelSidebar {...props} />;
   }
 
+  // Inside a language/protocol reference on mobile, offer a way back to the
+  // Client Libraries index (the desktop two-level layout's back link is absent here).
+  const mobileSubnav = getRefSubnavLabel(pathname);
   return (
     <>
+      {mobileSubnav && (
+        <a className={styles.refBack} href="/docs/install-sdks" style={{padding: '12px 16px 4px'}}>
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M13 8H3.5M7.5 4L3.5 8l4 4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+          Client Libraries
+        </a>
+      )}
       <div className={styles.sidebarScroll}>
-        <DocSidebar {...props} />
+        <SidebarIconVisibilityContext.Provider value={false}>
+          <DocSidebar {...props} />
+        </SidebarIconVisibilityContext.Provider>
       </div>
     </>
   );

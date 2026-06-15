@@ -1,5 +1,4 @@
 import React, {type ReactNode} from 'react';
-import {Sparkles} from 'lucide-react';
 import ResultItem from './ResultItem';
 import RecentSearches from './RecentSearches';
 import type {ResultItemData} from './ResultItem';
@@ -54,7 +53,9 @@ export default function SearchResults({
           className={`${styles.searchResultItem} ${styles.askAiRow} ${activeIndex === askAiIndex ? styles.searchResultActive : ''}`}
           onClick={onAskAi}
           onMouseEnter={() => onSetActive(askAiIndex)}>
-          <Sparkles size={16} />
+          <svg width="10" height="16" viewBox="0 0 8 14" fill="none" aria-hidden="true" style={{flexShrink: 0}}>
+            <path d="M0 8.55556L5.6 0L4.8 5.64912H8L1.6 14L3.2 8.55556H0Z" fill="currentColor" />
+          </svg>
           <span>Ask AI: &ldquo;{trimmedQuery}&rdquo;</span>
         </button>
       )}
@@ -83,18 +84,6 @@ export default function SearchResults({
           );
         })}
 
-      <div className={styles.searchFooter}>
-        <span>
-          <kbd>Enter</kbd> to select
-        </span>
-        <span>
-          <kbd>&uarr;</kbd>
-          <kbd>&darr;</kbd> to navigate
-        </span>
-        <span>
-          <kbd>ESC</kbd> to close
-        </span>
-      </div>
     </div>
   );
 }

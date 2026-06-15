@@ -65,7 +65,7 @@ const config: Config = {
     chatEndpoint: process.env.CHAT_ENDPOINT || '/api/chat',
     chatDebug: process.env.CHAT_DEBUG === 'true',
     secondaryNavbar: [
-      { label: 'Cloud Guides', href: '/docs/home',            prefix: '/docs',       icon: 'cloud'  },
+      { label: 'Cloud Guides', href: '/docs/register-with-zilliz-cloud', prefix: '/docs',       icon: 'cloud'  },
       { label: 'BYOC Guides',  href: '/docs/byoc/byoc-intro', prefix: '/docs/byoc',  icon: 'server' },
       {
         label: 'API & SDK',
@@ -80,7 +80,7 @@ const config: Config = {
         ],
       },
       { label: 'CLI',      href: '/reference/cli/cli/overview', prefix: '/reference/cli', icon: 'terminal' },
-      { label: 'Releases', href: '/docs/changelogs', prefix: '/docs/changelogs', icon: 'tag'      },
+      { label: 'Releases', href: '/docs/byoc/changelogs', prefix: '/docs/byoc/changelogs', icon: 'tag'      },
     ],
   },
 
@@ -184,7 +184,7 @@ const config: Config = {
       tagName: 'link',
       attributes: {
         rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap',
+        href: 'https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap',
       },
     },
   ],
@@ -198,7 +198,7 @@ const config: Config = {
       title: '',
       logo: {
         alt: 'Zilliz Logo',
-        src: 'img/logo.svg',
+        src: '/img/logo.svg',
       },
       items: [
         {

@@ -2,20 +2,36 @@
   position: fixed;
   top: var(--ifm-navbar-height);
   left: 0;
-  right: 0;
+  right: auto;
+  width: 100vw;
   height: var(--zd-secondary-navbar-height);
   border-bottom: 1px solid var(--ifm-toc-border-color);
-  background: #ffffff;
+  background: #fdfdfd;
   display: flex;
   align-items: center;
   padding: 0 1rem;
   z-index: 100;
 }
 
+.topbarNav {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  margin-left: 20px;
+  /* On narrow desktop the tabs scroll horizontally instead of clipping into
+     the search box — keeps a single fluid desktop layout (no extra breakpoint). */
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.topbarNav::-webkit-scrollbar {
+  display: none;
+}
+
 .items {
   display: flex;
   align-items: center;
-  gap: 0.25rem;
+  gap: 4px;
   flex-shrink: 0; /* Prevent items from collapsing — parent scrolls instead */
 }
 
@@ -23,34 +39,37 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.375rem 0.75rem;
-  border-radius: 0.5rem;
-  font-size: 0.875rem;
-  color: var(--zd-gray-600);
+  height: 32px;
+  padding: 0 12px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 32px;
+  color: var(--zd-nav-muted);
   text-decoration: none !important;
   white-space: nowrap;
-  transition: background-color 0.15s ease, color 0.15s ease;
+  transition: background-color 0.15s linear, color 0.15s linear;
 }
 
 .item:hover {
-  background: var(--ifm-background-color);
-  color: var(--zd-gray-900);
+  background: #eeeeee;
+  color: var(--zd-linear-signup-ink);
 }
 
 .item:focus-visible {
-  outline: 2px solid var(--ifm-color-primary);
+  outline: 2px solid var(--zd-linear-signup-ink);
   outline-offset: -2px;
 }
 
 .itemActive {
-  background: var(--ifm-menu-color-background-active);
-  color: var(--ifm-menu-color-active);
+  background: #eeeeee;
+  color: var(--zd-linear-signup-ink);
   font-weight: 500;
 }
 
 .itemActive:hover {
-  background: var(--ifm-menu-color-background-active);
-  color: var(--ifm-menu-color-active);
+  background: #e5e5e5;
+  color: var(--zd-linear-signup-ink);
 }
 
 /* ── Dropdown ──────────────────────────────────────────────────────────────── */
@@ -65,52 +84,65 @@
   cursor: pointer;
 }
 
-.chevron {
-  display: flex;
-  align-items: center;
-  margin-left: 0.125rem;
-  opacity: 0.6;
+/* The dropdown button's `background: none` was overriding .itemActive — restore
+   the active highlight (e.g. "API & SDK" on any /reference/* page). */
+.dropdownButton.itemActive {
+  background: #eeeeee;
+}
+
+.dropdownButton.itemActive:hover {
+  background: #e5e5e5;
 }
 
 .dropdownPanel {
-  position: absolute;
-  top: calc(100% + 6px);
-  left: 0;
-  background: #ffffff;
+  position: fixed;
+  background: #fdfdfd;
   border: 1px solid var(--ifm-toc-border-color);
   border-radius: 0.5rem;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
   padding: 0.375rem;
   min-width: 160px;
   z-index: 200;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
 .dropdownPanelItem {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.5rem 0.75rem;
-  border-radius: 0.375rem;
-  font-size: 0.875rem;
+  height: 32px;
+  padding: 0 12px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 32px;
   color: var(--zd-gray-700);
   text-decoration: none !important;
-  transition: background-color 0.15s ease, color 0.15s ease;
+  transition: background-color 0.15s linear, color 0.15s linear;
   white-space: nowrap;
 }
 
 .dropdownPanelItem:hover {
-  background: var(--ifm-background-color);
-  color: var(--zd-gray-900);
+  background: #eeeeee;
+  color: var(--zd-linear-signup-ink);
 }
 
 .dropdownPanelItem:focus-visible {
-  outline: 2px solid var(--ifm-color-primary);
+  outline: 2px solid var(--zd-linear-signup-ink);
   outline-offset: -2px;
-  background: var(--ifm-background-color);
+  background: #eeeeee;
 }
 
 .dropdownPanelItemActive {
-  background: var(--ifm-menu-color-background-active);
-  color: var(--ifm-menu-color-active);
-  font-weight: 500;
+  background: #eeeeee;
+  color: var(--zd-linear-signup-ink);
+  font-weight: 400;
+}
+
+@media (max-width: 996px) {
+  .topbarNav {
+    display: none;
+  }
 }

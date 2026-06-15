@@ -1,51 +1,26 @@
 import React, {type ReactNode, useState, useEffect} from 'react';
-import {
-  useThemeConfig,
-  ErrorCauseBoundary,
-} from '@docusaurus/theme-common';
-import {
-  splitNavbarItems,
-  useNavbarMobileSidebar,
-} from '@docusaurus/theme-common/internal';
-import NavbarItem, {type Props as NavbarItemConfig} from '@theme/NavbarItem';
+import {useLocation} from '@docusaurus/router';
+import {useNavbarMobileSidebar} from '@docusaurus/theme-common/internal';
 import NavbarMobileSidebarToggle from '@theme/Navbar/MobileSidebar/Toggle';
 import NavbarLogo from '@theme/Navbar/Logo';
-import {Search, CircleHelp, LogIn, UserPlus} from 'lucide-react';
+import {Search} from 'lucide-react';
+import SecondaryNavbar from '@site/src/components/SecondaryNavbar';
 import SearchModal from '../../../theme/Search';
 import styles from './styles.module.css';
-
-function useNavbarItems() {
-  return useThemeConfig().navbar.items as NavbarItemConfig[];
-}
-
-function NavbarItems({items}: {items: NavbarItemConfig[]}): ReactNode {
-  return (
-    <>
-      {items.map((item, i) => (
-        <ErrorCauseBoundary
-          key={i}
-          onError={(error) =>
-            new Error(
-              `A theme navbar item failed to render.\nPlease double-check the following navbar item (themeConfig.navbar.items) of your Docusaurus config:\n${JSON.stringify(item, null, 2)}`,
-              {cause: error},
-            )
-          }>
-          <NavbarItem {...item} />
-        </ErrorCauseBoundary>
-      ))}
-    </>
-  );
-}
 
 function isMac() {
   return typeof navigator !== 'undefined' && /Mac|iPod|iPhone|iPad/.test(navigator.platform);
 }
 
+function getDocsHomePath(pathname: string) {
+  return pathname.startsWith('/ja-JP/') ? '/ja-JP/docs/home' : '/docs/home';
+}
+
 export default function NavbarContent(): ReactNode {
   const mobileSidebar = useNavbarMobileSidebar();
-  const items = useNavbarItems();
-  const [, rightItems] = splitNavbarItems(items);
+  const {pathname} = useLocation();
   const [searchOpen, setSearchOpen] = useState(false);
+  const mod = isMac() ? '⌘' : 'Ctrl';
 
   useEffect(() => {
     const handler = () => setSearchOpen(true);
@@ -67,32 +42,44 @@ export default function NavbarContent(): ReactNode {
 
   return (
     <div className={styles.navbarInner}>
-      {/* Left: logo */}
       <div className={styles.navbarLeft}>
         <NavbarLogo />
+        <span className={styles.brandDivider} aria-hidden="true" />
+        <a className={styles.docsLink} href={getDocsHomePath(pathname)}>Docs</a>
+        <SecondaryNavbar variant="topbar" />
       </div>
 
-      {/* Center: search */}
-      <div className={styles.navbarCenter}>
-        <button className={styles.searchBtn} onClick={() => setSearchOpen(true)} type="button">
-          <Search size={15} />
-          <span>Search documentation...</span>
-          <span className={styles.searchShortcut}>{isMac() ? '⌘K' : 'Ctrl+K'}</span>
-        </button>
-      </div>
-
-      {/* Right: nav items with icons + mobile toggle */}
       <div className={styles.navbarRight}>
-        <a href="https://support.zilliz.com/hc/en-us" className="navbar-support-link" target="_blank" rel="noopener noreferrer">
-          <CircleHelp size={14} aria-hidden="true" />
-          Support
-        </a>
+        <span className={`${styles.navTipWrap} navbar-search-wrap`}>
+          <button
+            className={styles.searchBtn}
+            onClick={() => setSearchOpen(true)}
+            type="button"
+            aria-label="Search documentation">
+            <Search size={14} aria-hidden="true" />
+            <span>Search</span>
+          </button>
+          <span className={styles.navTip} role="tooltip"><kbd>{mod}</kbd><kbd>K</kbd></span>
+        </span>
+
+        <span className={styles.navTipWrap}>
+          <button
+            type="button"
+            className="navbar-ask-ai-btn"
+            onClick={() => document.dispatchEvent(new CustomEvent('toggle-chat'))}
+            aria-label="Ask AI">
+            <svg width="8" height="14" viewBox="0 0 8 14" fill="none" aria-hidden="true">
+              <path d="M0 8.55556L5.6 0L4.8 5.64912H8L1.6 14L3.2 8.55556H0Z" fill="currentColor" />
+            </svg>
+            <span>Ask AI</span>
+          </button>
+          <span className={styles.navTip} role="tooltip"><kbd>{mod}</kbd><kbd>I</kbd></span>
+        </span>
+
         <a href="https://cloud.zilliz.com/login" className="navbar-login-link" target="_blank" rel="noopener noreferrer">
-          <LogIn size={14} aria-hidden="true" />
           Log In
         </a>
         <a href="https://cloud.zilliz.com/signup" className="navbar-signup-btn" target="_blank" rel="noopener noreferrer">
-          <UserPlus size={14} aria-hidden="true" />
           Sign Up Free
         </a>
         {!mobileSidebar.disabled && <NavbarMobileSidebarToggle />}

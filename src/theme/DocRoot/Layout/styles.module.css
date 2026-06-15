@@ -1,10 +1,10 @@
 .docsWrapper {
   display: flex;
   flex-direction: column;
-  margin-top: var(--zd-secondary-navbar-height);
-  height: calc(100vh - var(--ifm-navbar-height) - var(--zd-secondary-navbar-height));
+  margin-top: var(--ifm-navbar-height);
+  height: calc(100vh - var(--ifm-navbar-height));
   overflow: hidden;
-  background: var(--ifm-background-color);
+  background: #fdfdfd;
 }
 
 .docRoot {
@@ -14,19 +14,72 @@
   overflow: hidden;
 }
 
+@keyframes chatPaneExpand {
+  from { width: 0; flex-basis: 0; opacity: 0.3; }
+  to { width: clamp(24rem, 30vw, 34rem); flex-basis: clamp(24rem, 30vw, 34rem); opacity: 1; }
+}
+
 .chatPane {
   position: relative;
-  flex: 0 0 clamp(20rem, 27vw, 26rem);
-  width: clamp(20rem, 27vw, 26rem);
-  min-width: 20rem;
-  max-width: 26rem;
+  flex: 0 0 clamp(24rem, 30vw, 34rem);
+  width: clamp(24rem, 30vw, 34rem);
+  min-width: 0;
+  max-width: 44rem;
   display: flex;
   flex-direction: column;
   min-height: 0;
-  background: #ffffff;
+  overflow: hidden;
+  background: #f9f9f9;
   border-left: 1px solid var(--ifm-toc-border-color);
-  box-shadow: -10px 0 24px rgba(15, 23, 42, 0.06);
   z-index: 1;
+  animation: chatPaneExpand 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Slide-out (mirror of chatPaneExpand) while the pane is closing. */
+@keyframes chatPaneCollapse {
+  from { width: clamp(24rem, 30vw, 34rem); flex-basis: clamp(24rem, 30vw, 34rem); opacity: 1; }
+  to { width: 0; flex-basis: 0; opacity: 0.2; }
+}
+
+.chatPaneClosing {
+  animation: chatPaneCollapse 0.3s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  pointer-events: none;
+}
+
+@keyframes chatPaneSlideUp {
+  from { transform: translateY(100%); opacity: 0.4; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes chatPaneSlideDown {
+  from { transform: translateY(0); opacity: 1; }
+  to { transform: translateY(100%); opacity: 0.4; }
+}
+
+/* Drag handle on the pane's left edge */
+.chatResizer {
+  position: absolute;
+  left: -3px;
+  top: 0;
+  bottom: 0;
+  width: 8px;
+  z-index: 6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: col-resize;
+}
+
+.chatResizerGrip {
+  width: 4px;
+  height: 34px;
+  border-radius: 4px;
+  background: transparent;
+  transition: background 0.15s ease;
+}
+
+.chatResizer:hover .chatResizerGrip {
+  background: var(--zd-gray-400);
 }
 
 .chatOverlay {
@@ -34,101 +87,195 @@
   left: 0;
   right: 0;
   bottom: 0;
-  top: calc(var(--ifm-navbar-height) + var(--zd-secondary-navbar-height));
+  top: var(--ifm-navbar-height);
   z-index: 1001;
   background: #ffffff;
   display: flex;
   flex-direction: column;
 }
 
+/* Docked near the bottom of the content column — a solid 2-row composer:
+   text on top, ⌘I + send pinned bottom-right. */
 .floatingChatInput {
   position: fixed;
-  left: 50%;
-  bottom: 2rem;
+  left: 0;
+  right: 0;
+  bottom: 30px;
   z-index: 400;
   display: flex;
-  align-items: center;
-  gap: 0.625rem;
-  width: min(42rem, calc(100vw - 2rem));
-  min-height: 3.25rem;
-  padding: 0.5rem 0.5rem 0.5rem 1rem;
-  transform: translateX(-50%);
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.25rem;
+  min-height: 6.5rem;
+  padding: 0.875rem 0.75rem 0.625rem 1rem;
   color: var(--zd-gray-600);
+  background: #f4f4f4;
+  border: 1px solid #e3e3e3;
+  border-radius: 1.5rem;
+  transition: border-color 0.15s ease;
+}
+
+.floatingChatInput:focus-within {
+  border-color: #dad9d9;
+}
+
+/* White backdrop BEHIND the input (lower z-index than the form) — covers
+   scrolling content from ~18px above the box down to the viewport floor, while
+   leaving the input's own border fully visible on top. */
+.floatingChatBackdrop {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: calc(6.5rem + 30px);
+  z-index: 399;
   background: #ffffff;
-  border: 1px solid var(--zd-gray-200);
-  border-radius: 1rem;
-  box-shadow: 0 16px 38px rgba(15, 23, 42, 0.14);
-  opacity: 0.85;
-  transition: opacity 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+  pointer-events: none;
 }
 
-.floatingChatInput:hover,
-.floatingChatInput:focus-within {
-  opacity: 1;
-}
-
-.floatingChatInput:focus-within {
-  border-color: var(--ifm-color-primary);
-  box-shadow: 0 18px 42px rgba(15, 23, 42, 0.16), 0 0 0 3px var(--zd-primary-alpha-8);
-}
+/* (hover ring removed) */
 
 .floatingChatInput input {
-  flex: 1;
+  flex: 0 0 auto;
+  width: 100%;
   min-width: 0;
   border: 0;
   outline: 0;
+  padding: 0;
   background: transparent;
-  color: var(--zd-gray-900);
+  color: var(--zd-linear-signup-ink);
   font-size: 0.9375rem;
   line-height: 1.4;
 }
 
 .floatingChatInput input::placeholder {
-  color: var(--zd-gray-400);
+  color: #9b9b9b;
+}
+
+/* Footer pinned to the bottom-right: ⌘I hint + send button */
+.floatingFooter {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+/* Shortcut hint — plain text (override Infima's <kbd> border/bg/shadow),
+   hidden once the input is focused */
+.chatKbd {
+  flex-shrink: 0;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  color: #9b9b9b;
+  line-height: 1;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.floatingChatInput:focus-within .chatKbd {
+  display: none;
 }
 
 .floatingChatInput button {
-  width: 2.25rem;
-  height: 2.25rem;
+  width: 1.875rem;
+  height: 1.875rem;
   flex-shrink: 0;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   color: #ffffff;
-  background: var(--ifm-color-primary);
+  background: #b6b6b6;
   border: 0;
-  border-radius: 0.75rem;
+  border-radius: 50%;
   cursor: pointer;
-  transition: background-color 0.15s ease, opacity 0.15s ease;
+  transition: background 0.15s ease, color 0.15s ease;
 }
 
-.floatingChatInput button:hover {
-  background: var(--ifm-color-primary-dark);
+/* Once there is text to send, the box darkens; arrow stays white */
+.floatingChatInput button:not(:disabled) {
+  background: #1a1a1a;
+  color: #ffffff;
 }
 
-.floatingChatInput button:disabled,
-.floatingChatInput input:disabled {
-  opacity: 0.45;
+.floatingChatInput button:disabled {
   cursor: default;
 }
 
-@media (min-width: 997px) {
-  .floatingChatInput {
-    left: calc(var(--doc-sidebar-width) + ((100vw - var(--doc-sidebar-width)) / 2));
-    width: min(42rem, calc(100vw - var(--doc-sidebar-width) - 5rem));
-  }
+.floatingChatInput input:disabled {
+  opacity: 0.5;
+}
 
-  .floatingChatInputSidebarCollapsed {
-    left: calc(var(--doc-sidebar-hidden-width) + ((100vw - var(--doc-sidebar-hidden-width)) / 2));
-    width: min(42rem, calc(100vw - var(--doc-sidebar-hidden-width) - 5rem));
+/* Floating "Ask AI" button shown above a text selection in the doc */
+.selectionAskAi {
+  position: fixed;
+  z-index: 500;
+  transform: translate(-50%, calc(-100% - 8px));
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 30px;
+  padding: 0 12px;
+  font-family: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #1a1a1a;
+  background: #ffffff;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.12);
+  cursor: pointer;
+  animation: selectionAskAiIn 0.12s ease;
+}
+
+.selectionAskAi:hover {
+  background: #f4f4f4;
+  border-color: #d6d6d6;
+}
+
+.selectionAskAi svg {
+  color: currentColor;
+}
+
+@keyframes selectionAskAiIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, calc(-100% - 2px));
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, calc(-100% - 8px));
   }
 }
 
-@media (max-width: 1200px) {
-  .chatPane {
-    flex-basis: 18rem;
-    width: 18rem;
-    min-width: 18rem;
+@media (min-width: 997px) {
+  .floatingChatInput,
+  .floatingChatBackdrop {
+    left: calc(var(--doc-sidebar-width) + 2rem);
+    right: auto;
+    /* -6rem (not 4): 2rem TOC-side gap + the docMainContainer's 2rem padding-right,
+       so the box right edge lines up with the content text column at every width. */
+    width: min(56rem, calc(100vw - var(--doc-sidebar-width) - 14rem - 6rem));
+  }
+
+  .floatingChatInputSidebarCollapsed {
+    left: calc(var(--doc-sidebar-hidden-width) + 2rem);
+    width: min(56rem, calc(100vw - var(--doc-sidebar-hidden-width) - 14rem - 6rem));
+  }
+}
+
+/* 997–1100px: the sidebar is force-shrunk to 13.5rem (merged mode), but
+   --doc-sidebar-width stays 21.5rem outside the sidebar container — so the input
+   would align to a 21.5rem sidebar. Pin it to the real 13.5rem width here. */
+@media (min-width: 997px) and (max-width: 1100px) {
+  .floatingChatInput,
+  .floatingChatBackdrop,
+  .floatingChatInputSidebarCollapsed {
+    left: calc(13.5rem + 2rem) !important;
+    width: min(56rem, calc(100vw - 13.5rem - 14rem - 6rem)) !important;
   }
 }
 
@@ -139,25 +286,59 @@
   }
 
   .docRoot {
+    flex-direction: column;
     overflow: visible;
   }
 
+  /* Chat open → fixed-height 50/50 split: doc scrolls on top, chat docked bottom */
+  .docsWrapper:global(.docs-chat-open) {
+    height: calc(100dvh - var(--ifm-navbar-height));
+    overflow: hidden;
+  }
+
+  .docsWrapper:global(.docs-chat-open) .docRoot {
+    overflow: hidden;
+  }
+
+  .docsWrapper:global(.docs-chat-open) .docRoot main {
+    flex: 1 1 0;
+    min-height: 0;
+    overflow-y: auto;
+  }
+
   .chatPane {
-    position: fixed;
-    top: calc(var(--ifm-navbar-height) + var(--zd-secondary-navbar-height));
-    right: 0;
-    bottom: 0;
-    z-index: 20;
-    width: min(100vw, 26rem);
+    position: static;
+    flex: 0 0 50%;
+    width: 100%;
+    max-width: none;
     min-width: 0;
-    border-left: 1px solid var(--ifm-toc-border-color);
+    height: auto;
+    border-left: none;
+    border-top: 1px solid var(--ifm-toc-border-color);
+    animation: chatPaneSlideUp 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .chatPaneClosing {
+    animation: chatPaneSlideDown 0.3s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+
+  .chatResizer {
+    display: none;
   }
 
   .floatingChatInput {
-    left: 50%;
-    bottom: 1.25rem;
-    width: calc(100vw - 1.25rem);
-    min-height: 3rem;
+    left: calc(1rem - 1px);
+    right: calc(1rem - 1px);
+    bottom: 1rem;
+    width: auto;
+  }
+
+  /* Backdrop matches the input box (top-aligned, same width) — no full-bleed white */
+  .floatingChatBackdrop {
+    left: calc(1rem - 1px);
+    right: calc(1rem - 1px);
+    width: auto;
+    height: calc(6.5rem + 1rem);
     border-radius: 0.875rem;
   }
 }

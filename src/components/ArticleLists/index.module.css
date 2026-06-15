@@ -141,7 +141,7 @@
 }
 
 .articleText > div > a {
-    color: #000000;
+    color: var(--zd-linear-signup-ink);
     font-weight: 500;
     text-decoration: none;
 }

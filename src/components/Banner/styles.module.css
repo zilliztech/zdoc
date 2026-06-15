@@ -2,7 +2,7 @@
   display: block;
   width: 100%;
   max-width: 996px;
-  margin: 1.25rem auto;
+  margin: 80px auto 40px;
   padding: 0 1.25rem;
 }
 
@@ -11,7 +11,7 @@
   justify-content: space-between;
   align-items: center;
   gap: 1.25rem;
-  background: var(--zd-gradient-banner);
+  background: var(--zd-linear-signup-ink);
   border-radius: 0.75rem;
   padding: 1.5rem 2rem;
   color: #ffffff;
@@ -32,7 +32,7 @@
   gap: 0.625rem;
   background: transparent;
   color: inherit;
-  border: 1px solid rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.64);
   border-radius: 0.5rem;
   padding: 0.75rem 2.5rem;
   font-size: 0.9375rem;
@@ -48,7 +48,7 @@
 }
 
 .bannerLink:hover {
-  background-color: rgba(255, 255, 255, 0.15);
+  background-color: rgba(255, 255, 255, 0.14);
   border-color: rgba(255, 255, 255, 0.9);
 }
 

@@ -74,11 +74,16 @@ export default function SearchModal({onClose}: Props): ReactNode {
   // Focus input and handle Escape
   useEffect(() => {
     inputRef.current?.focus();
+    // Hide the floating "Ask a question" dock while the search modal is open.
+    document.body.classList.add('zd-search-open');
     const handler = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
     };
     document.addEventListener('keydown', handler);
-    return () => document.removeEventListener('keydown', handler);
+    return () => {
+      document.removeEventListener('keydown', handler);
+      document.body.classList.remove('zd-search-open');
+    };
   }, [onClose]);
 
   const handleKeyDown = useCallback(

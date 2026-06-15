@@ -2,7 +2,7 @@
     display: block;
     width: 100%;
     max-width: 996px;
-    margin: 10px auto;
+    margin: 80px auto 0;
     padding: 0 20px;
 }
 
@@ -10,7 +10,7 @@
     font-size: 11px !important;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: #175fff !important;
+    color: #6b6b6b !important;
     font-weight: 600 !important;
     margin: 0 0 8px !important;
     line-height: 1 !important;
@@ -35,8 +35,8 @@
     padding: 32px;
     box-shadow: 0px 2px 4px 0px #0000001A;
     border-radius: 14px;
-    border: 1px solid #D0D6DF;
-    background-color: #FFFFFF;
+    border: 1px solid #e5e5e5;
+    background-color: #ffffff;
     cursor: pointer;
     transition: box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
 }
@@ -47,18 +47,18 @@
 }
 
 .item h3 {
-    color: #000000 !important;
+    color: var(--zd-linear-signup-ink) !important;
 }
 
 .item:hover {
-    border-color: #175fff;
-    box-shadow: 0 8px 24px rgba(23, 95, 255, 0.10), 0 2px 6px rgba(0, 0, 0, 0.04);
+    border-color: var(--zd-linear-signup-ink);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08), 0 2px 6px rgba(0, 0, 0, 0.04);
     transform: translateY(-2px);
 }
 
 .item:hover .iconContainer {
-    background-color: rgba(23, 95, 255, 0.08);
-    border-color: rgba(23, 95, 255, 0.2);
+    background-color: #eeeeee;
+    border-color: #d8d8d8;
 }
 
 .iconContainer {
@@ -68,8 +68,8 @@
     width: 64px;
     height: 64px;
     border-radius: 10px;
-    background-color: rgba(23, 95, 255, 0.05);
-    border: 1px solid rgba(23, 95, 255, 0.12);
+    background-color: #f3f3f3;
+    border: 1px solid #e5e5e5;
     transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
@@ -173,17 +173,17 @@
     line-height: 22px;
     font-weight: 600 !important;
     margin: 0 !important;
-    color: #0a0a0a !important;
+    color: var(--zd-linear-signup-ink) !important;
 }
 
 .item p {
     font-size: 16px !important;
     line-height: 22px;
-    color: #475467;
+    color: #6b6b6b;
     margin: 0 !important;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 996px) {
     .items {
         flex-direction: column;
         gap: 10px;
