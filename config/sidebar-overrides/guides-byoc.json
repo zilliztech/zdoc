@@ -1,85 +1,16 @@
 {
-  "override": {
-    "tutorials/byoc-intro": { "customProps": { "icon": "home" } }
-  },
-  "hide": [
-    "tutorials/dataframe-api",
-    "tutorials/collection-api/index-scalar-fields/trie-index-type",
-    "tutorials/resources/faqs/faqs"
-  ],
-  "hideCategories": [
-    "Release Notes"
-  ],
-  "inject": [
-    {
-      "into": "Resources",
-      "afterSibling": "Limits & Restrictions",
-      "item": {
-        "type": "category",
-        "label": "FAQs",
-        "items": [
-          { "type": "doc", "id": "tutorials/resources/faqs/faq-get-started" },
-          { "type": "doc", "id": "tutorials/resources/faqs/faq-collection" },
-          { "type": "doc", "id": "tutorials/resources/faqs/faq-data-import" },
-          { "type": "doc", "id": "tutorials/resources/faqs/faq-cluster" },
-          { "type": "doc", "id": "tutorials/resources/faqs/faq-backup-and-restore" },
-          { "type": "doc", "id": "tutorials/resources/faqs/faq-migration" },
-          { "type": "doc", "id": "tutorials/resources/faqs/faq-monitors-and-metrics" },
-          { "type": "doc", "id": "tutorials/resources/faqs/faq-resource-planning" },
-          { "type": "doc", "id": "tutorials/resources/faqs/faq-security" },
-          { "type": "doc", "id": "tutorials/resources/faqs/faq-authentication" },
-          { "type": "doc", "id": "tutorials/resources/faqs/faq-users-and-roles" },
-          { "type": "doc", "id": "tutorials/resources/faqs/faq-integrations" }
-        ],
-        "collapsed": true,
-        "customProps": { "icon": "faqs" }
-      }
-    }
-  ],
-  "moveCategory": [
-    {
-      "label": "Deploy BYOC",
-      "afterDoc": "tutorials/byoc-intro",
-      "collapsed": true
-    },
-    {
-      "label": "Quickstarts",
-      "afterCategory": "Deploy BYOC",
-      "collapsed": true
-    }
-  ],
   "overrideCategories": {
-    "Deploy BYOC":    { "customProps": { "icon": "deploy-byoc" }, "collapsed": true },
-    "Quickstarts":    { "customProps": { "icon": "quickstarts" }, "collapsed": true },
-    "Collection API": { "customProps": { "icon": "collection-api" }, "collapsed": true },
-    "Platform":       { "customProps": { "icon": "platform" }, "collapsed": true },
-    "Resources":      { "customProps": { "icon": "resources" }, "collapsed": true },
+    "Deployment": { "customProps": { "icon": "deploy-byoc" }, "collapsed": true },
+    "Quickstarts": { "customProps": { "icon": "quickstarts" }, "collapsed": true },
     "Search & Query": { "customProps": { "icon": "search" } },
-    "Collection":     { "customProps": { "icon": "collection" } },
-    "Schema":         { "customProps": { "icon": "schema" } },
-    "Resources/Best Practices": { "customProps": { "icon": "overview" } },
-    "Data Import & Export": { "customProps": { "icon": "import-ref" } },
-    "Vector Index":   { "customProps": { "icon": "vector-ref" } },
-    "Scalar Index":   { "customProps": { "icon": "indexes" } },
-    "Function":       { "customProps": { "icon": "client-code" } },
-    "Analyzer":       { "customProps": { "icon": "analyzer" } },
-    "Snapshots":      { "customProps": { "icon": "snapshots" } },
-    "Organizations & Projects": { "customProps": { "icon": "rest-user" } },
-    "Data Management": { "customProps": { "icon": "db-ref" } },
-    "Compute Resource Management": { "customProps": { "icon": "cloud-ctrl" } },
-    "RBAC":           { "customProps": { "icon": "rest-role" } },
-    "Security & Compliance": { "customProps": { "icon": "security" } },
-    "Migrations":     { "customProps": { "icon": "rest-migrate" } },
+    "Collection": { "customProps": { "icon": "collection" } },
+    "Schema": { "customProps": { "icon": "schema" } },
+    "Vector Index": { "customProps": { "icon": "vector-ref" } },
+    "Scalar Index": { "customProps": { "icon": "indexes" } },
+    "Function": { "customProps": { "icon": "client-code" } },
+    "Analyzer": { "customProps": { "icon": "analyzer" } },
+    "Migrations": { "customProps": { "icon": "rest-migrate" } },
     "Backup & Restore": { "customProps": { "icon": "rest-backup" } },
-    "Metrics & Alerts": { "customProps": { "icon": "rest-metrics" } },
-    "Resource Planning": { "customProps": { "icon": "rest-job" } },
-    "Limits & Restrictions": { "customProps": { "icon": "limits-restrictions" } }
-  },
-  "sectionGroupers": [
-    "Collection API",
-    "Platform",
-    "Resources",
-    "Release Notes",
-    "FAQs"
-  ]
+    "Metrics & Alerts": { "customProps": { "icon": "rest-metrics" } }
+  }
 }
