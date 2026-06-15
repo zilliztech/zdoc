@@ -9,10 +9,26 @@
 .twoLevelSidebar {
   --doc-section-padding: 12px;
   display: flex;
+  flex-direction: column;
   width: 100%;
   height: 100%;
   min-height: 0;
   background: #ffffff;
+}
+
+/* The primary rail + secondary panel row (sits below the reference header bar) */
+.twoLevelBody {
+  display: flex;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+/* Reference header: back link + language title, spanning BOTH columns, with a
+   divider; the primary/secondary split lives below it. */
+.refHeaderBar {
+  flex-shrink: 0;
+  padding: 10px 12px 0;
+  border-bottom: 1px solid var(--zd-gray-200);
 }
 
 .primaryRail {

@@ -42,7 +42,13 @@ function MDXTable(props: ComponentProps<'table'>) {
     }
     return child;
   });
-  return <table {...rest}>{wrapped}</table>;
+  // Wrap in a horizontal-scroll container so wide tables scroll instead of
+  // squeezing cell text down to 2–3 words per line.
+  return (
+    <div className="zd-table-scroll">
+      <table {...rest}>{wrapped}</table>
+    </div>
+  );
 }
 
 const MDXComponents: MDXComponentsObject = {

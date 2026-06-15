@@ -364,14 +364,11 @@ function TwoLevelSidebar(props: Props): ReactNode {
                     aria-selected={isActive}
                     className={`${styles.sectionDropdownItem} ${isActive ? styles.sectionDropdownItemActive : ''}`}
                     onClick={() => {
-                      if (item.type === 'category' && item.items.length > 0) {
-                        setSelectedIndex(index);
-                        setDropdownOpen(false);
-                        return;
-                      }
+                      setSelectedIndex(index);
+                      setDropdownOpen(false);
+                      if (item.type === 'category' && item.items.length > 0) return;
                       const href = getItemHref(item);
                       if (href) history.push(href);
-                      setDropdownOpen(false);
                     }}>
                     <span>{label}</span>
                   </button>
@@ -432,62 +429,66 @@ function TwoLevelSidebar(props: Props): ReactNode {
         hideTooltip();
       }}
       onBlur={hideTooltip}>
-      <nav
-        className={`${styles.primaryRail}${selectedHasChildren ? '' : ' ' + styles.primaryRailWide}`}
-        aria-label="Documentation sections">
-        {subnavLabel && (
-          <div className={styles.refHeader}>
-            <a className={styles.refBack} href="/docs/install-sdks">
-              <svg width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                <path d="M13 8H3.5M7.5 4L3.5 8l4 4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-              Client Libraries
-            </a>
-            <div className={styles.refTitle}>{subnavLabel}</div>
-          </div>
-        )}
-        {props.sidebar.map((item, index) => {
-          const label = 'label' in item ? item.label : `Section ${index + 1}`;
-          const isActive = index === selectedIndex;
-          const icon = getSidebarSectionIcon(item, label);
-          return (
-            <button
-              key={`${label}-${index}`}
-              type="button"
-              className={`${styles.primaryRailItem} ${isActive ? styles.primaryRailItemActive : ''}`}
-              data-label={label}
-              data-sidebar-tooltip={label}
-              onClick={() => {
-                if (item.type === 'category' && item.items.length > 0) {
-                  setSelectedIndex(index);
-                  return;
-                }
-                const href = getItemHref(item);
-                if (href) history.push(href);
-              }}
-              aria-current={isActive ? 'true' : undefined}>
-              <span className={styles.primaryRailIcon} aria-hidden="true">
-                {icon}
-              </span>
-              <span className={styles.primaryRailLabel} data-sidebar-tooltip-label>
-                {label}
-              </span>
-            </button>
-          );
-        })}
-      </nav>
-
-      {selectedHasChildren && (
-        <section className={styles.secondaryPane} aria-label="Documentation pages">
-          <div className={styles.sidebarScroll}>
-            <div className={styles.secondarySidebarContent}>
-              <SidebarIconVisibilityContext.Provider value={false}>
-                <DocSidebar key={selectedIndex} {...props} sidebar={secondarySidebar} />
-              </SidebarIconVisibilityContext.Provider>
-            </div>
-          </div>
-        </section>
+      {subnavLabel && (
+        <div className={styles.refHeaderBar}>
+          <a className={styles.refBack} href="/docs/install-sdks">
+            <svg width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M13 8H3.5M7.5 4L3.5 8l4 4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+            Client Libraries
+          </a>
+          <div className={styles.refTitle}>{subnavLabel}</div>
+        </div>
       )}
+
+      <div className={styles.twoLevelBody}>
+        <nav
+          className={`${styles.primaryRail}${selectedHasChildren ? '' : ' ' + styles.primaryRailWide}`}
+          aria-label="Documentation sections">
+          {props.sidebar.map((item, index) => {
+            const label = 'label' in item ? item.label : `Section ${index + 1}`;
+            const isActive = index === selectedIndex;
+            const icon = getSidebarSectionIcon(item, label);
+            return (
+              <button
+                key={`${label}-${index}`}
+                type="button"
+                className={`${styles.primaryRailItem} ${isActive ? styles.primaryRailItemActive : ''}`}
+                data-label={label}
+                data-sidebar-tooltip={label}
+                onClick={() => {
+                  // Always update the rail selection — even for a leaf whose page
+                  // is already open (history.push would be a no-op), so clicking
+                  // e.g. "Overview" after another section always re-selects it.
+                  setSelectedIndex(index);
+                  if (item.type === 'category' && item.items.length > 0) return;
+                  const href = getItemHref(item);
+                  if (href) history.push(href);
+                }}
+                aria-current={isActive ? 'true' : undefined}>
+                <span className={styles.primaryRailIcon} aria-hidden="true">
+                  {icon}
+                </span>
+                <span className={styles.primaryRailLabel} data-sidebar-tooltip-label>
+                  {label}
+                </span>
+              </button>
+            );
+          })}
+        </nav>
+
+        {selectedHasChildren && (
+          <section className={styles.secondaryPane} aria-label="Documentation pages">
+            <div className={styles.sidebarScroll}>
+              <div className={styles.secondarySidebarContent}>
+                <SidebarIconVisibilityContext.Provider value={false}>
+                  <DocSidebar key={selectedIndex} {...props} sidebar={secondarySidebar} />
+                </SidebarIconVisibilityContext.Provider>
+              </div>
+            </div>
+          </section>
+        )}
+      </div>
       {tooltip && (
         <div
           className={styles.sidebarTooltip}

@@ -267,6 +267,18 @@
   }
 }
 
+/* 997–1100px: the sidebar is force-shrunk to 13.5rem (merged mode), but
+   --doc-sidebar-width stays 21.5rem outside the sidebar container — so the input
+   would align to a 21.5rem sidebar. Pin it to the real 13.5rem width here. */
+@media (min-width: 997px) and (max-width: 1100px) {
+  .floatingChatInput,
+  .floatingChatBackdrop,
+  .floatingChatInputSidebarCollapsed {
+    left: calc(13.5rem + 2rem) !important;
+    width: min(56rem, calc(100vw - 13.5rem - 14rem - 6rem)) !important;
+  }
+}
+
 @media (max-width: 996px) {
   .docsWrapper {
     height: auto;
