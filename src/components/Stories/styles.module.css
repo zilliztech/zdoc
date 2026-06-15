@@ -2,7 +2,7 @@
     display: block;
     width: 100%;
     max-width: 996px;
-    margin: 60px auto;
+    margin: 80px auto 0;
     padding: 0 20px;
 }
 
@@ -10,7 +10,7 @@
     font-size: 11px !important;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: #175fff !important;
+    color: #6b6b6b !important;
     font-weight: 600 !important;
     margin: 0 0 8px !important;
     line-height: 1 !important;
@@ -29,7 +29,7 @@
     align-items: center;
     gap: 28px;
     flex-wrap: nowrap;
-    border-bottom: 1px solid #D0D6DF;
+    border-bottom: 1px solid #e5e5e5;
     overflow: visible;
     padding: 0 !important;
     padding-left: 0 !important;
@@ -45,7 +45,7 @@
     font-size: 15px !important;
     line-height: 22px !important;
     font-weight: 600 !important;
-    color: #475467;
+    color: #6b6b6b;
     padding-bottom: 12px;
     margin-bottom: -1px;
     position: relative;
@@ -54,11 +54,11 @@
 }
 
 .storiesList li:hover {
-    color: #1d2939;
+    color: var(--zd-linear-signup-ink);
 }
 
 .active {
-    color: #175fff !important;
+    color: var(--zd-linear-signup-ink) !important;
 }
 
 .active::after {
@@ -68,7 +68,7 @@
     left: 0;
     right: 0;
     height: 2px;
-    background: #175fff;
+    background: var(--zd-linear-signup-ink);
     border-radius: 1px;
     animation: activeUnderline 0.25s ease-out;
 }
@@ -88,7 +88,7 @@
     }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 996px) {
     .storiesList {
         display: none;
     }
@@ -108,8 +108,8 @@
         transform: translateY(-50%);
         width: 7px;
         height: 7px;
-        border-right: 1.5px solid #175fff;
-        border-bottom: 1.5px solid #175fff;
+        border-right: 1.5px solid var(--zd-linear-signup-ink);
+        border-bottom: 1.5px solid var(--zd-linear-signup-ink);
         transform: translateY(-60%) rotate(45deg);
         pointer-events: none;
     }
@@ -118,11 +118,11 @@
         width: 100%;
         padding: 12px 40px 12px 16px;
         border-radius: 10px;
-        border: 1.5px solid #d0d6df;
+        border: 1.5px solid #e5e5e5;
         background: #ffffff;
         font-size: 15px;
         font-weight: 600;
-        color: #0f172a;
+        color: var(--zd-linear-signup-ink);
         cursor: pointer;
         appearance: none;
         -webkit-appearance: none;
@@ -132,12 +132,12 @@
     }
 
     .dropdown:hover {
-        border-color: #a0b4d8;
-        box-shadow: 0 2px 6px rgba(23, 95, 255, 0.08);
+        border-color: #b8b8b8;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
     }
 
     .dropdown:focus {
-        border-color: #175fff;
-        box-shadow: 0 0 0 3px rgba(23, 95, 255, 0.12);
+        border-color: var(--zd-linear-signup-ink);
+        box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.12);
     }
 }

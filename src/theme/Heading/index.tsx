@@ -4,7 +4,6 @@ import type HeadingType from '@theme/Heading';
 import type { WrapperProps } from '@docusaurus/types';
 import { useLocation } from '@docusaurus/router';
 import DocTag from '@site/src/components/DocTag';
-import CopyPageButton from './CopyPageButton';
 import DocMetaTags from './DocMetaTags';
 import styles from './styles.module.css';
 
@@ -65,9 +64,10 @@ export default function HeadingWrapper(props: Props): ReactNode {
           <Heading as={Tag} id={id} {...rest}>
             {children}
           </Heading>
-          <CopyPageButton />
         </div>
-        {beta && <DocTag type={beta} link={link} />}
+        {/* CONTACT SALES is rendered as a button under "Copy page" in the TOC column
+            (see DocItem/Layout) — keep other beta tags inline next to the title. */}
+        {beta && beta !== 'CONTACT SALES' && <DocTag type={beta} link={link} />}
         {isReference && <DocMetaTags frontMatter={frontMatter} />}
       </div>
     );

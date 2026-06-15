@@ -7,6 +7,7 @@
 }
 
 .twoLevelSidebar {
+  --doc-section-padding: 12px;
   display: flex;
   width: 100%;
   height: 100%;
@@ -15,12 +16,22 @@
 }
 
 .primaryRail {
-  width: 13.5rem;
+  box-sizing: border-box;
+  width: fit-content;
+  max-width: 12rem;
   flex-shrink: 0;
-  padding: 1rem 0;
-  background: var(--zd-gray-50);
-  border-right: 1px solid var(--ifm-toc-border-color);
+  padding: var(--doc-section-padding);
+  background: #ffffff;
+  border-right: 1px solid #f6f6f6;
   overflow-y: auto;
+}
+
+/* When there's no secondary panel (one-level entries like "Overview"), the rail
+   becomes the single full-width column instead of a narrow strip + empty space. */
+.primaryRailWide {
+  width: 100%;
+  max-width: none;
+  border-right: none;
 }
 
 .primaryRailItem {
@@ -28,19 +39,21 @@
   display: flex;
   align-items: center;
   width: 100%;
-  min-height: 3rem;
-  padding: 0.625rem 1rem 0.625rem 1.25rem;
-  color: var(--zd-gray-700);
+  min-height: 32px;
+  margin: 0 0 0.375rem;
+  padding: 0.375rem 0.75rem;
+  color: var(--zd-nav-muted);
   background: transparent;
   border: 0;
-  border-left: 4px solid transparent;
-  font-size: 0.8125rem;
-  font-weight: 700;
+  border-radius: 10px;
+  font-family: var(--ifm-font-family-base);
+  font-size: 13px;
+  font-weight: 500;
   line-height: 1.25;
   text-align: left;
-  text-transform: uppercase;
+  text-transform: capitalize;
   cursor: pointer;
-  transition: background-color 0.12s ease, border-color 0.12s ease, color 0.12s ease;
+  transition: background-color 0.15s linear, color 0.15s linear;
 }
 
 .primaryRailIcon {
@@ -49,11 +62,14 @@
 
 .primaryRailLabel {
   min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .primaryRailItem:hover {
-  color: var(--zd-gray-900);
-  background: var(--zd-gray-100);
+  color: var(--zd-linear-signup-ink);
+  background: #eeeeee;
 }
 
 .primaryRailItem:focus-visible {
@@ -62,23 +78,93 @@
 }
 
 .primaryRailItemActive {
-  color: var(--ifm-color-primary);
-  background: var(--ifm-menu-color-background-active);
-  border-left-color: var(--ifm-color-primary);
+  width: 100%;
+  margin-right: 0;
+  color: var(--zd-linear-signup-ink);
+  background: #eeeeee;
+  border-radius: 10px;
 }
 
 .secondaryPane {
-  width: 19rem;
+  box-sizing: border-box;
+  flex: 1 1 0;
   min-width: 0;
-  flex-shrink: 0;
   display: flex;
   flex-direction: column;
   min-height: 0;
   background: #ffffff;
 }
 
+/* Merged single-layer: the page list fills the (narrower) container width */
+.mergedSidebar .secondaryPane {
+  width: 100%;
+  min-width: 0;
+}
+
 .secondaryPane > .sidebarScroll {
-  padding-top: 1rem;
+  padding: var(--doc-section-padding);
+}
+
+/* ── Single-column API reference sidebar (RESTful, Python, Java, …) ── */
+.refSidebar {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  padding: 0.75rem 0.75rem 0;
+  background: #ffffff;
+}
+
+/* Reference header on top of the primary rail: back link + language title + divider */
+.refHeader {
+  margin-bottom: 6px;
+  border-bottom: 1px solid var(--zd-gray-200);
+}
+
+.refBack {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  width: fit-content;
+  padding: 2px 0.75rem 6px;
+  margin: 0;
+  color: var(--zd-nav-muted);
+  font-family: var(--ifm-font-family-base);
+  font-size: 12px;
+  font-weight: 500;
+  text-decoration: none !important;
+  transition: color 0.12s ease;
+}
+
+.refBack:hover {
+  background: transparent;
+  color: var(--zd-linear-signup-ink);
+}
+
+/* Aligns its text with the back arrow above and the rail items below (24px inset) */
+.refTitle {
+  padding: 0 0.75rem 8px;
+  font-family: var(--ifm-font-family-base);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--zd-linear-signup-ink);
+}
+
+.refSidebar > .sidebarScroll {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+/* Gray section title shown atop the page list when inside a sub-reference */
+.subnavTitle {
+  flex-shrink: 0;
+  padding: 14px 12px 4px;
+  font-family: var(--ifm-font-family-base);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--zd-gray-400);
 }
 
 .secondarySidebarContent {
@@ -89,7 +175,7 @@
 .secondarySidebarContent > :global(*) {
   box-sizing: border-box;
   width: 100% !important;
-  max-width: 100%;
+  max-width: none;
   min-width: 0;
 }
 
@@ -100,216 +186,109 @@
 .secondarySidebarContent :global(.menu__list-item-collapsible),
 .secondarySidebarContent :global(.menu__link) {
   box-sizing: border-box;
-  max-width: 100%;
+  max-width: none;
+}
+
+.secondarySidebarContent :global(nav.menu) {
+  padding: 0;
 }
 
 .secondarySidebarContent :global(.sidebar),
 .secondarySidebarContent :global(nav.menu),
-.secondarySidebarContent :global(.theme-doc-sidebar-menu),
+.secondarySidebarContent :global(.theme-doc-sidebar-menu) {
+  width: 100% !important;
+  min-width: 0;
+}
+
+.secondarySidebarContent :global(.menu__list),
+.secondarySidebarContent :global(.menu__list-item),
 .secondarySidebarContent :global(.menu__list-item-collapsible),
 .secondarySidebarContent :global(.menu__link) {
   width: 100% !important;
+  min-width: 0;
 }
 
-.backToManualButton {
-  display: flex;
-  align-items: center;
-  width: calc(100% - 2rem);
-  min-height: 2.25rem;
-  margin: 0 1rem 0.75rem;
-  padding: 0.375rem 0.5rem;
-  color: var(--ifm-color-primary);
+.secondarySidebarContent :global(.menu__link) {
+  min-height: 32px;
+  padding: 0.375rem 0.75rem;
+  color: var(--zd-nav-muted);
+  font-family: var(--ifm-font-family-base);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.25;
+  border-radius: 10px;
+  white-space: nowrap;
+  overflow-wrap: normal;
+}
+
+.secondarySidebarContent :global(.theme-doc-sidebar-item-link-level-3 .menu__link),
+.secondarySidebarContent :global(.theme-doc-sidebar-item-category-level-3 > .menu__list-item-collapsible > .menu__link) {
+  padding-left: 1.5rem;
+}
+
+.secondarySidebarContent :global(.theme-doc-sidebar-item-link-level-4 .menu__link),
+.secondarySidebarContent :global(.theme-doc-sidebar-item-category-level-4 > .menu__list-item-collapsible > .menu__link) {
+  padding-left: 2.25rem;
+}
+
+.secondarySidebarContent :global(.theme-doc-sidebar-item-link-level-5 .menu__link),
+.secondarySidebarContent :global(.theme-doc-sidebar-item-category-level-5 > .menu__list-item-collapsible > .menu__link) {
+  padding-left: 3rem;
+}
+
+.secondarySidebarContent :global(.theme-doc-sidebar-item-category .menu__list .menu__link) {
+  padding-left: 1.5rem;
+}
+
+.secondarySidebarContent :global(.theme-doc-sidebar-item-category .menu__list .theme-doc-sidebar-item-category .menu__list .menu__link) {
+  padding-left: 2.25rem;
+}
+
+.secondarySidebarContent :global(.theme-doc-sidebar-item-category .menu__list .theme-doc-sidebar-item-category .menu__list .theme-doc-sidebar-item-category .menu__list .menu__link) {
+  padding-left: 3rem;
+}
+
+.secondarySidebarContent :global(.menu__list-item-collapsible) {
+  min-height: 32px;
+  border-radius: 10px;
+}
+
+.secondarySidebarContent :global(.theme-doc-sidebar-item-category > .menu__list-item-collapsible:has(> .menu__link--active)) {
   background: transparent;
-  border: 0;
-  border-bottom: 1px solid var(--ifm-toc-border-color);
-  font-size: 0.8125rem;
-  font-weight: 600;
-  line-height: 1.2;
-  text-align: left;
-  cursor: pointer;
 }
 
-.backToManualButton:hover {
-  color: var(--ifm-color-primary-dark);
-  background: var(--ifm-menu-color-background-hover);
+.secondarySidebarContent :global(.theme-doc-sidebar-item-category > .menu__list-item-collapsible--active:has(> .menu__link--active)) {
+  background: #eeeeee;
 }
 
-.backToManualButton:focus-visible {
-  outline: 2px solid var(--ifm-color-primary);
-  outline-offset: 2px;
+.secondarySidebarContent :global(.theme-doc-sidebar-item-category > .menu__list) {
+  margin: 2px 0 0;
+  padding-left: 0;
+  will-change: height;
 }
 
-@media (min-width: 997px) and (max-width: 1280px) {
-  .primaryRail {
-    width: 4rem;
-    padding: 0.5rem 0;
-    overflow: visible;
-  }
-
-  .primaryRailItem {
-    justify-content: center;
-    min-height: 3.25rem;
-    padding: 0.625rem 0;
-    border-left-width: 3px;
-  }
-
-  .primaryRailItem::after {
-    content: attr(data-label);
-    position: absolute;
-    left: calc(100% + 0.5rem);
-    top: 50%;
-    z-index: 30;
-    min-width: max-content;
-    max-width: 14rem;
-    padding: 0.375rem 0.625rem;
-    color: #ffffff;
-    background: var(--zd-gray-900);
-    border-radius: 0.375rem;
-    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.18);
-    font-size: 0.75rem;
-    font-weight: 600;
-    line-height: 1;
-    text-transform: none;
-    white-space: nowrap;
-    pointer-events: none;
-    opacity: 0;
-    transform: translateY(-50%) translateX(-0.25rem);
-    transition: opacity 0.12s ease, transform 0.12s ease;
-  }
-
-  .primaryRailItem::before {
-    content: '';
-    position: absolute;
-    left: calc(100% + 0.125rem);
-    top: 50%;
-    z-index: 31;
-    border: 5px solid transparent;
-    border-right-color: var(--zd-gray-900);
-    pointer-events: none;
-    opacity: 0;
-    transform: translateY(-50%) translateX(-0.25rem);
-    transition: opacity 0.12s ease, transform 0.12s ease;
-  }
-
-  .primaryRailItem:hover::after,
-  .primaryRailItem:focus-visible::after,
-  .primaryRailItem:hover::before,
-  .primaryRailItem:focus-visible::before {
-    opacity: 1;
-    transform: translateY(-50%) translateX(0);
-  }
-
-  .primaryRailIcon {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 2.25rem;
-    height: 2.25rem;
-    color: currentColor;
-  }
-
-  .primaryRailIcon svg {
-    display: block;
-  }
-
-  .primaryRailLabel {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border: 0;
-  }
+.secondarySidebarContent :global(.theme-doc-sidebar-item-category .menu__list .menu__list-item) {
+  margin-top: 2px;
 }
 
-@media (min-width: 1281px) and (max-width: 1440px) {
-  :global(.docs-chat-open) .primaryRail {
-    width: 4rem;
-    padding: 0.5rem 0;
-    overflow: visible;
-  }
-
-  :global(.docs-chat-open) .primaryRailItem {
-    justify-content: center;
-    min-height: 3.25rem;
-    padding: 0.625rem 0;
-    border-left-width: 3px;
-  }
-
-  :global(.docs-chat-open) .primaryRailItem::after {
-    content: attr(data-label);
-    position: absolute;
-    left: calc(100% + 0.5rem);
-    top: 50%;
-    z-index: 30;
-    min-width: max-content;
-    max-width: 14rem;
-    padding: 0.375rem 0.625rem;
-    color: #ffffff;
-    background: var(--zd-gray-900);
-    border-radius: 0.375rem;
-    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.18);
-    font-size: 0.75rem;
-    font-weight: 600;
-    line-height: 1;
-    text-transform: none;
-    white-space: nowrap;
-    pointer-events: none;
-    opacity: 0;
-    transform: translateY(-50%) translateX(-0.25rem);
-    transition: opacity 0.12s ease, transform 0.12s ease;
-  }
-
-  :global(.docs-chat-open) .primaryRailItem::before {
-    content: '';
-    position: absolute;
-    left: calc(100% + 0.125rem);
-    top: 50%;
-    z-index: 31;
-    border: 5px solid transparent;
-    border-right-color: var(--zd-gray-900);
-    pointer-events: none;
-    opacity: 0;
-    transform: translateY(-50%) translateX(-0.25rem);
-    transition: opacity 0.12s ease, transform 0.12s ease;
-  }
-
-  :global(.docs-chat-open) .primaryRailItem:hover::after,
-  :global(.docs-chat-open) .primaryRailItem:focus-visible::after,
-  :global(.docs-chat-open) .primaryRailItem:hover::before,
-  :global(.docs-chat-open) .primaryRailItem:focus-visible::before {
-    opacity: 1;
-    transform: translateY(-50%) translateX(0);
-  }
-
-  :global(.docs-chat-open) .primaryRailIcon {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 2.25rem;
-    height: 2.25rem;
-    color: currentColor;
-  }
-
-  :global(.docs-chat-open) .primaryRailIcon svg {
-    display: block;
-  }
-
-  :global(.docs-chat-open) .primaryRailLabel {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border: 0;
-  }
+.sidebarTooltip {
+  position: fixed;
+  z-index: 1000;
+  max-width: 18rem;
+  padding: 0.375rem 0.625rem;
+  color: #ffffff;
+  background: var(--zd-linear-signup-ink);
+  border-radius: 6px;
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.18);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16px;
+  white-space: normal;
+  pointer-events: none;
+  transform: translateY(-50%);
 }
+
+/* No arrow — matches the right TOC tooltip */
 
 /* ── Collapsed icon column ── */
 .collapsedColumn {
@@ -344,7 +323,6 @@
   border-radius: 0.375rem;
   white-space: nowrap;
   pointer-events: none;
-  animation: bounceRight 1s ease-in-out infinite;
   box-shadow: 0 2px 8px rgba(23, 95, 255, 0.3);
 }
 
@@ -359,11 +337,6 @@
   border-right-color: var(--ifm-color-primary);
 }
 
-@keyframes bounceRight {
-  0%, 100% { transform: translateY(-50%) translateX(0); }
-  50% { transform: translateY(-50%) translateX(6px); }
-}
-
 .collapsedIcons {
   display: flex;
   flex-direction: column;
@@ -371,4 +344,121 @@
   gap: 0.25rem;
   width: 100%;
   padding: 0 0.25rem;
+}
+
+/* ── Merged single-layer sidebar (narrow ≤1100px or chat open) ── */
+.mergedSidebar {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  padding: 0.75rem;
+  gap: 0.625rem;
+}
+
+.sectionDropdown {
+  position: relative;
+  flex-shrink: 0;
+  align-self: stretch;
+}
+
+.sectionDropdownTrigger {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  height: 36px;
+  padding: 0 0.5rem 0 0.75rem;
+  background: #fdfdfd;
+  border: 1px solid var(--zd-gray-200);
+  border-radius: 10px;
+  color: var(--zd-linear-signup-ink);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.12s, border-color 0.12s;
+}
+
+.sectionDropdownTrigger:hover {
+  background: #eeeeee;
+}
+
+.sectionDropdownIcon {
+  display: inline-flex;
+  align-items: center;
+  color: var(--zd-gray-600);
+  flex-shrink: 0;
+}
+
+.sectionDropdownText {
+  flex: 1;
+  min-width: 0;
+  text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sectionDropdownCaret,
+.sectionDropdownCaretOpen {
+  flex-shrink: 0;
+  color: var(--zd-gray-500);
+  transition: transform 0.15s ease;
+}
+
+.sectionDropdownCaretOpen {
+  transform: rotate(180deg);
+}
+
+.sectionDropdownMenu {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  min-width: 0;
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  background: #ffffff;
+  border: 1px solid var(--zd-gray-200);
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12);
+  padding: 4px;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.sectionDropdownItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.45rem 0.5rem;
+  background: transparent;
+  border: 0;
+  border-radius: 7px;
+  color: var(--zd-nav-muted);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.1s, color 0.1s;
+}
+
+.sectionDropdownItem:hover {
+  background: #f3f4f6;
+  color: var(--zd-linear-signup-ink);
+}
+
+.sectionDropdownItemActive {
+  background: #eeeeee;
+  color: var(--zd-linear-signup-ink);
+}
+
+.sectionDropdownItemIcon {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  color: var(--zd-gray-500);
 }

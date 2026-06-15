@@ -10,7 +10,7 @@
     font-size: 11px !important;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: #175fff !important;
+    color: #6b6b6b !important;
     font-weight: 600 !important;
     margin: 0 0 8px !important;
     line-height: 1 !important;
@@ -34,8 +34,8 @@
     padding: 24px;
     box-shadow: 0px 2px 4px 0px #0000001A;
     border-radius: 12px;
-    border: 1px solid #D0D6DF;
-    background-color: #FFFFFF;
+    border: 1px solid #e5e5e5;
+    background-color: #ffffff;
     cursor: pointer;
     transition: box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
 }
@@ -43,11 +43,11 @@
 .item:link,
 .item:visited {
     text-decoration: none !important;
-    color: #000000;
+    color: var(--zd-linear-signup-ink);
 }
 
 .item:hover {
-    border-color: #000000;
+    border-color: var(--zd-linear-signup-ink);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     transform: translateY(-2px);
 }
@@ -104,7 +104,7 @@
     background-repeat: no-repeat;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 996px) {
     .items {
         flex-direction: column;
         gap: 10px;

@@ -3,14 +3,16 @@ import React, {
   type ReactNode,
   useContext,
   useEffect,
+  useLayoutEffect,
   useMemo,
+  useRef,
+  useState,
 } from 'react';
 import clsx from 'clsx';
 import {
   ThemeClassNames,
   useThemeConfig,
   usePrevious,
-  Collapsible,
   useCollapsible,
 } from '@docusaurus/theme-common';
 import {isSamePath} from '@docusaurus/theme-common/internal';
@@ -80,6 +82,9 @@ import styles from './styles.module.css';
 import SidebarIconVisibilityContext from '../iconVisibility';
 
 // ─── Icon map ────────────────────────────────────────────────────────────────
+
+const useBrowserLayoutEffect =
+  typeof window !== 'undefined' ? useLayoutEffect : useEffect;
 
 export const CATEGORY_ICONS: Record<string, React.ComponentType<LucideProps>> = {
   // Guides sidebar
@@ -205,9 +210,23 @@ function CollapseButton({
       }
       aria-expanded={!collapsed}
       type="button"
-      className="clean-btn menu__caret"
-      onClick={onClick}
-    />
+      className={clsx('clean-btn', styles.collapseCaretButton)}
+      onClick={onClick}>
+      <CategoryCaret collapsed={collapsed} />
+    </button>
+  );
+}
+
+function CategoryCaret({collapsed}: {collapsed?: boolean}) {
+  return (
+    <span className={styles.childCaret} aria-hidden="true" data-collapsed={collapsed}>
+      <svg
+        className={styles.childCaretIcon}
+        viewBox="0 0 16 16"
+        focusable="false">
+        <path d="M4.25 6L8 9.75L11.75 6" />
+      </svg>
+    </span>
   );
 }
 
@@ -229,12 +248,10 @@ function CategoryLinkLabel({
           <IconComponent size={20} />
         </span>
       )}
-      <span title={label} className={styles.categoryLinkLabel}>
+      <span className={styles.categoryLinkLabel} data-sidebar-tooltip-label>
         {label}
       </span>
-      {showChildCaret && (
-        <span className={styles.childCaret} aria-hidden="true" data-collapsed={collapsed} />
-      )}
+      {showChildCaret && <CategoryCaret collapsed={collapsed} />}
     </>
   );
 }
@@ -285,6 +302,8 @@ function DocSidebarItemCategoryCollapsible({
   const hrefWithSSRFallback = useCategoryHrefWithSSRFallback(item);
   const isActive = isActiveSidebarItem(item, activePath);
   const isCurrentPage = isSamePath(href, activePath);
+  const childrenListRef = useRef<HTMLUListElement>(null);
+  const [childrenHeight, setChildrenHeight] = useState(0);
 
   const {collapsed, setCollapsed} = useCollapsible({
     initialState: () => {
@@ -321,8 +340,36 @@ function DocSidebarItemCategoryCollapsible({
       }
     }
   };
-  const categoryLink = (item as PropSidebarItemCategory & {link?: unknown}).link;
-  const showChildCaret = !showSidebarIcons && !href && !categoryLink && items.length > 0;
+  const handleCategoryButtonClick: ComponentProps<'button'>['onClick'] = () => {
+    onItemClick?.(item);
+    updateCollapsed();
+  };
+  const showChildCaret = !href && !item.link && items.length > 0;
+  const isButtonCategory = collapsible && !href;
+
+  useBrowserLayoutEffect(() => {
+    const node = childrenListRef.current;
+    if (!node) {
+      return undefined;
+    }
+
+    const updateHeight = () => {
+      setChildrenHeight(node.scrollHeight);
+    };
+
+    updateHeight();
+
+    if (typeof ResizeObserver === 'undefined') {
+      return undefined;
+    }
+
+    const resizeObserver = new ResizeObserver(updateHeight);
+    resizeObserver.observe(node);
+
+    return () => {
+      resizeObserver.disconnect();
+    };
+  }, [items]);
 
   return (
     <li
@@ -337,25 +384,43 @@ function DocSidebarItemCategoryCollapsible({
         className={clsx('menu__list-item-collapsible', {
           'menu__list-item-collapsible--active': isCurrentPage,
         })}>
-        <Link
-          className={clsx(styles.categoryLink, 'menu__link', {
-            'menu__link--sublist': collapsible,
-            'menu__link--sublist-caret': !href && collapsible && showSidebarIcons,
-            'menu__link--active': isActive,
-          })}
-          onClick={handleItemClick}
-          aria-current={isCurrentPage ? 'page' : undefined}
-          role={collapsible && !href ? 'button' : undefined}
-          aria-expanded={collapsible && !href ? !collapsed : undefined}
-          href={collapsible ? hrefWithSSRFallback ?? '#' : hrefWithSSRFallback}
-          {...props}>
-          <CategoryLinkLabel
-            label={label}
-            IconComponent={IconComponent}
-            showChildCaret={showChildCaret}
-            collapsed={collapsible ? collapsed : false}
-          />
-        </Link>
+        {isButtonCategory ? (
+          <button
+            type="button"
+            {...(props as ComponentProps<'button'>)}
+            className={clsx(styles.categoryLink, styles.categoryButton, 'clean-btn', 'menu__link', {
+              'menu__link--sublist': collapsible,
+              'menu__link--active': isActive,
+            })}
+            onClick={handleCategoryButtonClick}
+            data-sidebar-tooltip={label}
+            aria-expanded={!collapsed}>
+            <CategoryLinkLabel
+              label={label}
+              IconComponent={IconComponent}
+              showChildCaret={showChildCaret}
+              collapsed={collapsed}
+            />
+          </button>
+        ) : (
+          <Link
+            className={clsx(styles.categoryLink, 'menu__link', {
+              'menu__link--sublist': collapsible,
+              'menu__link--active': isActive,
+            })}
+            onClick={handleItemClick}
+            aria-current={isCurrentPage ? 'page' : undefined}
+            data-sidebar-tooltip={label}
+            href={collapsible ? hrefWithSSRFallback ?? '#' : hrefWithSSRFallback}
+            {...props}>
+            <CategoryLinkLabel
+              label={label}
+              IconComponent={IconComponent}
+              showChildCaret={showChildCaret}
+              collapsed={collapsible ? collapsed : false}
+            />
+          </Link>
+        )}
         {href && collapsible && (
           <CollapseButton
             collapsed={collapsed}
@@ -368,15 +433,23 @@ function DocSidebarItemCategoryCollapsible({
         )}
       </div>
 
-      <Collapsible lazy as="ul" className="menu__list" collapsed={collapsed}>
-        <DocSidebarItems
-          items={items}
-          tabIndex={collapsed ? -1 : 0}
-          onItemClick={onItemClick}
-          activePath={activePath}
-          level={level + 1}
-        />
-      </Collapsible>
+      <div
+        className={styles.categoryChildrenFrame}
+        data-collapsed={collapsed}
+        aria-hidden={collapsed || undefined}
+        style={{'--sidebar-collapsible-height': `${childrenHeight}px`} as React.CSSProperties}>
+        <ul
+          ref={childrenListRef}
+          className={clsx('menu__list', styles.categoryChildrenList)}>
+          <DocSidebarItems
+            items={items}
+            tabIndex={collapsed ? -1 : 0}
+            onItemClick={onItemClick}
+            activePath={activePath}
+            level={level + 1}
+          />
+        </ul>
+      </div>
     </li>
   );
 }

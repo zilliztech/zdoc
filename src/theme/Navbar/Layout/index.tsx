@@ -9,8 +9,6 @@ import {translate} from '@docusaurus/Translate';
 import NavbarMobileSidebar from '@theme/Navbar/MobileSidebar';
 import type {Props} from '@theme/Navbar/Layout';
 
-import styles from './styles.module.css';
-
 function NavbarBackdrop(props: ComponentProps<'div'>) {
   return (
     <div
@@ -23,10 +21,10 @@ function NavbarBackdrop(props: ComponentProps<'div'>) {
 
 export default function NavbarLayout({children}: Props): ReactNode {
   const {
-    navbar: {hideOnScroll, style},
+    navbar: {style},
   } = useThemeConfig();
   const mobileSidebar = useNavbarMobileSidebar();
-  const {navbarRef, isNavbarVisible} = useHideableNavbar(hideOnScroll);
+  const {navbarRef} = useHideableNavbar(false);
   return (
     <nav
       ref={navbarRef}
@@ -39,10 +37,6 @@ export default function NavbarLayout({children}: Props): ReactNode {
         ThemeClassNames.layout.navbar.container,
         'navbar',
         'navbar--fixed-top',
-        hideOnScroll && [
-          styles.navbarHideable,
-          !isNavbarVisible && styles.navbarHidden,
-        ],
         {
           'navbar--dark': style === 'dark',
           'navbar--primary': style === 'primary',

@@ -13,7 +13,7 @@ interface Props {
 export default function SearchInput({inputRef, value, onChange, onKeyDown, onClose}: Props): ReactNode {
   return (
     <div className={styles.searchInputRow}>
-      <Search className={styles.searchIcon} size={18} />
+      <Search className={styles.searchIcon} size={16} />
       <input
         ref={inputRef}
         type="text"

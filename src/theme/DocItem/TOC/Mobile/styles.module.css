@@ -77,6 +77,6 @@
 
 .tocLink:hover {
   background: #f9fafb;
-  color: #111827;
+  color: var(--zd-linear-signup-ink);
   text-decoration: none;
 }

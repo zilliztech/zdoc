@@ -73,10 +73,10 @@
 }
 
 .heading {
-  font-family: 'Plus Jakarta Sans', var(--ifm-font-family-base, Inter, sans-serif);
+  font-family: var(--ifm-heading-font-family);
   font-size: 1.75rem;
   font-weight: 700;
-  color: var(--zd-gray-900);
+  color: var(--zd-linear-signup-ink);
   margin: 0 0 0.375rem;
   text-align: center;
 }
@@ -112,7 +112,7 @@
   border: none;
   outline: none;
   background: transparent;
-  color: var(--zd-gray-900);
+  color: var(--zd-linear-signup-ink);
   line-height: 1.5;
   padding: 0.25rem 0;
   min-width: 0;
@@ -185,7 +185,7 @@
 .suggestionBtn:hover {
   background: var(--zd-gray-100);
   border-color: var(--zd-gray-300);
-  color: var(--zd-gray-900);
+  color: var(--zd-linear-signup-ink);
 }
 
 .suggestionBtn:hover svg {
@@ -269,7 +269,7 @@
 .assistantMessage {
   align-self: flex-start;
   background: var(--zd-gray-100);
-  color: var(--zd-gray-900);
+  color: var(--zd-linear-signup-ink);
   max-width: 92%;
 }
 
@@ -299,7 +299,7 @@
 .markdownContent pre {
   margin: 0.5em 0;
   padding: 0.5rem 0.625rem;
-  background: var(--zd-gray-900);
+  background: var(--zd-linear-signup-ink);
   color: #e5e7eb;
   border-radius: 6px;
   overflow-x: auto;

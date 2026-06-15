@@ -3,6 +3,14 @@ import {useLocation} from '@docusaurus/router';
 import type {Source, ChatMessage, ChatHistoryEntry, AgentType, ConfidenceLevel, GroundingCitation} from './types';
 export type {Source, FeedbackRating, ChatMessage, ChatHistoryEntry, AgentType, ConfidenceLevel, GroundingCitation} from './types';
 
+export interface ContextChip {
+  id: string;
+  kind: 'text' | 'code';
+  label: string;
+  content: string;
+  lang?: string;
+}
+
 export interface ChatContextValue {
   messages: ChatMessage[];
   setMessages: React.Dispatch<React.SetStateAction<ChatMessage[]>>;
@@ -16,6 +24,8 @@ export interface ChatContextValue {
   activeChatId: string | null;
   loadChat: (id: string) => void;
   deleteChat: (id: string) => void;
+  contextChips: ContextChip[];
+  removeContextChip: (id: string) => void;
 }
 
 const ChatContext = createContext<ChatContextValue | null>(null);
@@ -112,6 +122,9 @@ export function ChatProvider({chatEndpoint, debugDefault = false, children}: {ch
   const [isStreaming, setIsStreaming] = useState(false);
   const [chatHistory, setChatHistory] = useState<ChatHistoryEntry[]>(() => loadHistory());
   const [activeChatId, setActiveChatId] = useState<string | null>(null);
+  const [contextChips, setContextChips] = useState<ContextChip[]>([]);
+  const contextChipsRef = useRef<ContextChip[]>([]);
+  contextChipsRef.current = contextChips;
   const abortRef = useRef<AbortController | null>(null);
   const sessionIdRef = useRef<string | null>(null);
   const messagesRef = useRef(messages);
@@ -161,10 +174,44 @@ export function ChatProvider({chatEndpoint, debugDefault = false, children}: {ch
     } catch { /* quota exceeded */ }
   }, [chatHistory]);
 
+  const removeContextChip = useCallback((id: string) => {
+    setContextChips(prev => prev.filter(c => c.id !== id));
+  }, []);
+
+  // Snippets pushed in from the doc (text selection / code block "Ask AI").
+  useEffect(() => {
+    const handler = (e: Event) => {
+      const d = (e as CustomEvent).detail || {};
+      if (!d.content) return;
+      const chip: ContextChip = {
+        id: uuid(),
+        kind: d.kind === 'code' ? 'code' : 'text',
+        label: String(d.label || d.content).replace(/\s+/g, ' ').trim(),
+        content: String(d.content),
+        lang: d.lang ? String(d.lang) : undefined,
+      };
+      setContextChips(prev =>
+        prev.some(c => c.content === chip.content && c.kind === chip.kind) ? prev : [...prev, chip],
+      );
+    };
+    document.addEventListener('ask-ai-context', handler);
+    return () => document.removeEventListener('ask-ai-context', handler);
+  }, []);
+
   const send = useCallback(async (text: string) => {
     if (!text.trim() || abortRef.current) return;
 
-    const userMessage: ChatMessage = {role: 'user', text};
+    // Fold any pending context chips into the outgoing message, then clear them.
+    const chips = contextChipsRef.current;
+    const contextPrefix = chips.length
+      ? chips
+          .map(c => (c.kind === 'code' ? `\`\`\`${c.lang || ''}\n${c.content}\n\`\`\`` : `> ${c.content}`))
+          .join('\n\n') + '\n\n'
+      : '';
+    if (chips.length) setContextChips([]);
+    const outgoing = contextPrefix + text;
+
+    const userMessage: ChatMessage = {role: 'user', text: outgoing};
     const updatedMessages = [...messagesRef.current, userMessage, {role: 'assistant' as const, text: ''}];
     setMessages(updatedMessages);
     setInput('');
@@ -482,7 +529,7 @@ export function ChatProvider({chatEndpoint, debugDefault = false, children}: {ch
   }, []);
 
   return (
-    <ChatContext.Provider value={{messages, setMessages, input, setInput, isStreaming, send, newChat, rateFeedback, chatHistory, activeChatId, loadChat, deleteChat}}>
+    <ChatContext.Provider value={{messages, setMessages, input, setInput, isStreaming, send, newChat, rateFeedback, chatHistory, activeChatId, loadChat, deleteChat, contextChips, removeContextChip}}>
       {children}
     </ChatContext.Provider>
   );

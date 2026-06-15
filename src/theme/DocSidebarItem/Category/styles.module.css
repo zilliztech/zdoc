@@ -1,21 +1,25 @@
 .categoryLink {
   display: flex !important;
   align-items: center;
+  width: 100%;
   overflow: hidden;
 }
 
-:global(.menu__link--sublist-caret)::after {
-  margin-left: var(--ifm-menu-link-padding-vertical);
+.categoryButton {
+  justify-content: flex-start;
+  border: 0;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
 }
 
 .categoryLinkLabel {
   flex: 1;
   min-width: 0;
   overflow: hidden;
-  display: -webkit-box;
-  line-clamp: 2;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
+  display: block;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .categoryIcon {
@@ -31,17 +35,107 @@
 }
 
 .childCaret {
-  display: inline-block;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   flex-shrink: 0;
-  width: 20px;
-  height: 20px;
-  margin-left: 0.5rem;
-  background: var(--ifm-menu-link-sublist-icon) 50% / 1.1rem 1.1rem no-repeat;
-  transform: rotate(90deg);
-  transform-origin: center;
-  transition: transform var(--ifm-transition-fast) linear;
+  width: 15px;
+  height: 15px;
+  margin-left: auto;
+  color: #b6b8bd;
+  opacity: 1;
+  transform: translateZ(0);
+  transition: color 0.12s linear;
 }
 
-.childCaret[data-collapsed='false'] {
+.childCaretIcon {
+  display: block;
+  width: 15px;
+  height: 15px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transform: rotate(-90deg);
+  transform-origin: 8px 8px;
+  transition: transform 160ms cubic-bezier(0.2, 0, 0, 1);
+  will-change: transform;
+}
+
+.childCaret[data-collapsed='false'] .childCaretIcon {
   transform: rotate(0deg);
+}
+
+.categoryLink:hover .childCaret,
+.categoryLink:focus-visible .childCaret,
+.collapseCaretButton:hover .childCaret,
+.collapseCaretButton:focus-visible .childCaret {
+  color: #8f9299;
+}
+
+.collapseCaretButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+  flex-shrink: 0;
+  width: 39px;
+  min-height: 32px;
+  padding: 0;
+  border: 0;
+  border-radius: 0 10px 10px 0;
+  color: inherit;
+  cursor: pointer;
+}
+
+.collapseCaretButton .childCaret {
+  margin-left: 0;
+}
+
+.categoryChildrenFrame {
+  height: var(--sidebar-collapsible-height, 0);
+  margin-top: 2px;
+  overflow: hidden;
+  transition:
+    height 260ms cubic-bezier(0.33, 1, 0.68, 1),
+    margin-top 260ms cubic-bezier(0.33, 1, 0.68, 1);
+  will-change: height;
+}
+
+.categoryChildrenFrame[data-collapsed='true'] {
+  height: 0;
+  margin-top: 0;
+  pointer-events: none;
+}
+
+.categoryChildrenList {
+  min-height: 0;
+  margin: 0 !important;
+  padding-left: 0 !important;
+  overflow: visible !important;
+  opacity: 1;
+  transform: translateY(0);
+  transition:
+    opacity 200ms ease,
+    transform 260ms cubic-bezier(0.33, 1, 0.68, 1);
+  will-change: opacity, transform;
+}
+
+.categoryChildrenFrame[data-collapsed='true'] .categoryChildrenList {
+  opacity: 0;
+  transform: translateY(-2px);
+}
+
+/* Squared right-arrow on language/protocol entries that drill into a sub-reference */
+.subnavArrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 15px;
+  height: 15px;
+  margin-left: auto;
+  color: #b6b8bd;
 }

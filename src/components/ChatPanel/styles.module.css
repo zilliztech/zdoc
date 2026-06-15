@@ -4,7 +4,7 @@
   flex: 1;
   min-height: 0;
   position: relative;
-  background: #ffffff;
+  background: #f9f9f9;
 }
 
 .chatHeader {
@@ -13,7 +13,6 @@
   align-items: center;
   justify-content: space-between;
   padding: 0 0.625rem 0 0.75rem;
-  border-bottom: 1px solid var(--ifm-toc-border-color);
   flex-shrink: 0;
 }
 
@@ -24,23 +23,68 @@
   gap: 0.5rem;
 }
 
+.chatClose {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border: none;
+  background: transparent;
+  border-radius: 7px;
+  color: var(--zd-gray-500);
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.chatClose:hover {
+  background: var(--zd-gray-100);
+  color: var(--zd-linear-signup-ink);
+}
+
 /* Gradient circle avatar */
 .chatAvatar {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  background: var(--zd-gradient-avatar);
+  width: 20px;
+  height: 20px;
+  border-radius: 0;
+  background: transparent;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #ffffff;
   flex-shrink: 0;
 }
 
 .chatTitle {
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   font-weight: 600;
-  color: var(--zd-gray-900);
+  color: var(--zd-linear-signup-ink);
+}
+
+/* "Tip: open and close with ⌘I" line under the suggestions */
+.chatTip {
+  margin: 1.1rem 0 0;
+  font-size: 12.5px;
+  color: var(--zd-gray-500);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-wrap: wrap;
+  line-height: 1.5;
+}
+
+.chatTip kbd {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
+  font-family: inherit;
+  font-size: 11px;
+  color: var(--zd-gray-600);
+  background: var(--zd-gray-100);
+  border: 1px solid var(--zd-gray-200);
+  border-radius: 5px;
 }
 
 /* Green online indicator dot */
@@ -65,10 +109,14 @@
   min-height: 0;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 1.5rem 1.25rem;
+  padding: 0;
+}
+
+.emptyBody {
+  flex: 1;
+  min-height: 0;
   overflow-y: auto;
+  padding: 1.25rem 1.25rem 0.5rem;
 }
 
 /* Two-line large greeting */
@@ -88,7 +136,7 @@
 .greetingLineAccent {
   font-size: 1.25rem !important;
   font-weight: 700 !important;
-  color: var(--zd-gray-900);
+  color: var(--zd-linear-signup-ink);
   line-height: 1.35 !important;
   margin: 0 !important;
 }
@@ -102,68 +150,153 @@
 }
 
 /* Pill-shaped row containing the text input + round send button */
-.inputRow {
+/* Bordered cream composer — chips + text on top, ⌘I + send pinned bottom-right */
+.inputBox {
   display: flex;
-  align-items: center;
-  gap: 0.375rem;
-  border: 1px solid var(--zd-gray-200);
-  border-radius: 9999px;
-  padding: 0.375rem 0.375rem 0.375rem 1rem;
-  background: #ffffff;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  flex-direction: column;
+  min-height: 5.5rem;
+  padding: 0.75rem 0.75rem 0.625rem 1rem;
+  border: 1px solid #e3e3e3;
+  border-radius: 1.5rem;
+  background: #f4f4f4;
+  transition: border-color 0.15s ease;
 }
 
-.inputRow:focus-within {
-  border-color: var(--ifm-color-primary);
-  box-shadow: 0 0 0 3px var(--zd-primary-alpha-8);
+.inputBox:focus-within {
+  border-color: #dad9d9;
+}
+
+.inputFooter {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  padding-top: 0.5rem;
+}
+
+.inputKbd {
+  flex-shrink: 0;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  color: #9b9b9b;
+  line-height: 1;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.inputBox:focus-within .inputKbd {
+  display: none;
+}
+
+/* Context chips (text selection / code snippet) inside the input box */
+.chipRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  /* left 0 → chip aligns with the placeholder text; smaller top inset; larger
+     gap below so the chip sits clear of the input line */
+  padding: 2px 8px 10px 0;
+}
+
+.contextChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  max-width: 100%;
+  padding: 3px 4px 3px 7px;
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 7px;
+  font-size: 12px;
+  color: #4b4b4b;
+}
+
+.contextChipIcon {
+  display: inline-flex;
+  flex-shrink: 0;
+  color: #8a8a8a;
+}
+
+.contextChipLabel {
+  min-width: 0;
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.contextChipClose {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  padding: 0;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: #8a8275;
+  cursor: pointer;
+  transition: background 0.12s ease, color 0.12s ease;
+}
+
+.contextChipClose:hover {
+  background: rgba(0, 0, 0, 0.06);
+  color: #1a1a1a;
 }
 
 .input {
-  flex: 1;
-  font-size: 0.8125rem;
+  flex: 0 0 auto;
+  width: 100%;
+  font-size: 0.875rem;
   border: none;
   outline: none;
   background: transparent;
-  color: var(--zd-gray-900);
+  color: var(--zd-linear-signup-ink);
   line-height: 1.5;
-  padding: 0.25rem 0;
+  padding: 0;
   min-width: 0;
 }
 
 .input::placeholder {
-  color: var(--zd-gray-400);
+  color: #9b9b9b;
 }
 
-/* Round blue send button — lives inside the pill */
+/* Round send button — beige-gray box, white arrow (matches the doc composer) */
 .sendRound {
   flex-shrink: 0;
-  width: 32px;
-  height: 32px;
+  width: 1.875rem;
+  height: 1.875rem;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: var(--ifm-color-primary);
+  background: #b6b6b6;
   color: #ffffff;
   border: none;
   border-radius: 9999px;
   cursor: pointer;
-  transition: background-color 0.15s ease, opacity 0.15s ease;
+  transition: background-color 0.15s ease, color 0.15s ease;
 }
 
-.sendRound:hover {
-  background: var(--ifm-color-primary-dark);
+.sendRound:not(:disabled) {
+  background: #1a1a1a;
+  color: #ffffff;
 }
 
 .sendRound:disabled {
-  opacity: 0.35;
   cursor: default;
 }
 
-/* Suggestion cards */
+/* Suggestion list — plain text, default gray → black on hover, tight spacing */
 .suggestions {
   display: flex;
   flex-direction: column;
-  gap: 0.375rem;
+  gap: 0;
+  padding: 0 0.875rem 0.5rem;
 }
 
 .suggestionsLabel {
@@ -176,40 +309,22 @@
 }
 
 .suggestionBtn {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.5rem;
-  padding: 0.5rem 0.625rem 0.5rem 0.75rem;
-  font-size: 0.75rem;
+  display: block;
+  width: 100%;
+  padding: 0.2rem 0;
+  font-size: 0.8125rem;
   text-align: left;
-  color: var(--zd-gray-700);
-  background: var(--zd-gray-50);
-  border: 1px solid var(--zd-gray-200);
-  border-radius: 0.5rem;
+  color: var(--zd-gray-500);
+  background: transparent;
+  border: none;
+  border-radius: 0;
   cursor: pointer;
-  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
-  line-height: 1.4;
-}
-
-.suggestionBtn span {
-  flex: 1;
-  min-width: 0;
-}
-
-.suggestionBtn svg {
-  flex-shrink: 0;
-  color: var(--zd-gray-400);
+  transition: color 0.15s ease;
+  line-height: 1.5;
 }
 
 .suggestionBtn:hover {
-  background: var(--zd-gray-100);
-  border-color: var(--zd-gray-300);
-  color: var(--zd-gray-900);
-}
-
-.suggestionBtn:hover svg {
-  color: var(--zd-gray-500);
+  color: #1a1a1a;
 }
 
 /* Conversation state */
@@ -229,14 +344,11 @@
   gap: 0.625rem;
 }
 
-/* Message bubble — shared base */
+/* Message bubble — shared base (user keeps a bubble; assistant has none) */
 .messageBubble {
   max-width: 88%;
-  border-radius: 0.625rem;
-  padding: 0.5rem 0.75rem;
   display: flex;
-  align-items: flex-start;
-  gap: 0.5rem;
+  flex-direction: column;
 }
 
 .messageBubble p {
@@ -261,24 +373,28 @@
 
 .userMessage {
   align-self: flex-end;
-  background: var(--ifm-color-primary);
-  color: #ffffff;
+  max-width: 85%;
+  padding: 0.5rem 0.75rem;
+  background: #ececec;
+  color: var(--zd-linear-signup-ink);
+  /* bottom-right corner squared off */
+  border-radius: 0.875rem 0.875rem 0 0.875rem;
 }
 
 .userMessage p {
-  color: #ffffff;
+  color: var(--zd-linear-signup-ink);
 }
 
+/* Assistant replies — no bubble frame */
 .assistantMessage {
-  align-self: flex-start;
-  background: var(--zd-gray-100);
-  color: var(--zd-gray-900);
-  max-width: 92%;
+  align-self: stretch;
+  max-width: 100%;
+  background: transparent;
+  color: var(--zd-linear-signup-ink);
 }
 
 .bottomInput {
   padding: 0.75rem;
-  border-top: 1px solid var(--zd-gray-200);
 }
 
 /* ── Expanded two-column layout ── */
@@ -289,7 +405,7 @@
   flex: 1;
   min-height: 0;
   position: relative;
-  background: #ffffff;
+  background: #f9f9f9;
 }
 
 .expandedWrapper {
@@ -358,7 +474,7 @@
   border: 1px solid var(--zd-gray-200);
   border-radius: 0.375rem;
   background: #ffffff;
-  color: var(--zd-gray-900);
+  color: var(--zd-linear-signup-ink);
   outline: none;
   transition: border-color 0.15s ease;
 }
@@ -419,13 +535,13 @@
 
 .chatHistoryItem:hover {
   background: var(--zd-gray-100);
-  color: var(--zd-gray-900);
+  color: var(--zd-linear-signup-ink);
 }
 
 .chatHistoryItemActive {
   border-left-color: var(--ifm-color-primary);
   background: rgba(23, 95, 255, 0.06);
-  color: var(--zd-gray-900);
+  color: var(--zd-linear-signup-ink);
 }
 
 .chatHistoryItemIcon {
@@ -549,12 +665,26 @@
   font-size: 0.8125rem;
 }
 
-/* Breathing "thinking..." text */
+/* Scramble "thinking…" text — gray, monospace */
 .thinkingText {
-  font-size: 0.8125rem;
-  color: var(--zd-gray-400);
-  font-style: italic;
-  animation: thinkingBreathe 2s ease-in-out infinite;
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #757575;
+}
+
+/* Streaming/thinking indicator row — leading bolt (matches topbar Ask AI) + text */
+.thinkingRow {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.thinkingBolt {
+  display: inline-flex;
+  align-items: center;
+  color: #757575;
 }
 
 @keyframes thinkingBreathe {
@@ -588,7 +718,7 @@
 .markdownContent pre {
   margin: 0.5em 0;
   padding: 0.5rem 0.625rem;
-  background: var(--zd-gray-900);
+  background: var(--zd-linear-signup-ink);
   color: #e5e7eb;
   border-radius: 6px;
   overflow-x: auto;
@@ -725,37 +855,35 @@
 .feedbackRow {
   display: flex;
   align-items: center;
-  gap: 0.125rem;
-  margin-top: 0.375rem;
+  gap: 4px;
+  margin-top: 0.5rem;
 }
 
 .feedbackBtn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 24px;
-  height: 24px;
+  width: 26px;
+  height: 26px;
   padding: 0;
   border: none;
-  border-radius: 4px;
+  border-radius: 7px;
   background: transparent;
-  color: var(--zd-gray-400);
+  color: var(--zd-gray-500);
   cursor: pointer;
   transition: color 0.15s ease, background-color 0.15s ease;
 }
 
 .feedbackBtn:hover {
-  color: var(--zd-gray-600);
-  background: rgba(0, 0, 0, 0.04);
+  color: var(--zd-linear-signup-ink);
+  background: #eeeeee;
 }
 
-.feedbackBtnActive {
-  color: var(--ifm-color-primary);
-}
-
+/* Selected feedback — fixed dark chip, white icon */
+.feedbackBtnActive,
 .feedbackBtnActive:hover {
-  color: var(--ifm-color-primary-dark);
-  background: rgba(23, 95, 255, 0.06);
+  color: #ffffff;
+  background: #1a1a1a;
 }
 
 .markdownContent table {
@@ -782,7 +910,7 @@
 }
 
 /* ── Mobile: hide sidebar in expanded mode ── */
-@media (max-width: 768px) {
+@media (max-width: 996px) {
   .chatSidebar {
     display: none;
   }
