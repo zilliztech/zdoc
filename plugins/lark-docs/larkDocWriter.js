@@ -120,6 +120,16 @@ class larkDocWriter {
         return this.__sidebar_items(outputDir, contentRoot, this.root_token)
     }
 
+    __sidebar_key(type, currentPath, contentRoot, slug, fallback='') {
+        const rawSlug = slug || fallback || 'item'
+        const safeSlug = slugify(String(rawSlug), { lower: true, strict: true }) || 'item'
+        const keyPath = node_path.join(currentPath, safeSlug)
+            .replace(/\\/g, '/')
+            .replace(new RegExp(`^${contentRoot}/`), '')
+            .replace(/^\/+/, '')
+        return `${type}:${keyPath}`
+    }
+
     __has_renderable_page(source) {
         const page = source?.blocks?.items?.find(block => block.block_type === 1)
         return !!(page?.children && page.children.length > 0)
@@ -146,7 +156,12 @@ class larkDocWriter {
                     console.warn(`[sidebar] Cannot resolve link target for "${child.title}" (${childSource.node_token})`)
                     continue
                 }
-                items.push({ type: 'link', href, label: meta.labels || child.title })
+                items.push({
+                    type: 'link',
+                    href,
+                    label: meta.labels || child.title,
+                    key: this.__sidebar_key('link', currentPath, contentRoot, child.slug, child.title),
+                })
                 continue
             }
 
@@ -158,7 +173,12 @@ class larkDocWriter {
                     console.warn(`[sidebar] Cannot resolve ref target for "${child.title}" (${childSource.node_token})`)
                     continue
                 }
-                items.push({ type: 'ref', id: refId, label: meta.labels || child.title })
+                items.push({
+                    type: 'ref',
+                    id: refId,
+                    label: meta.labels || child.title,
+                    key: this.__sidebar_key('ref', currentPath, contentRoot, child.slug, child.title),
+                })
                 continue
             }
 
@@ -176,9 +196,20 @@ class larkDocWriter {
                     const docId = node_path.join(currentPath, slug, slug)
                         .replace(/\\/g, '/')
                         .replace(new RegExp(`^${contentRoot}/`), '')
-                    items.push({ type: 'category', label, link: { type: 'doc', id: docId }, items: childItems })
+                    items.push({
+                        type: 'category',
+                        label,
+                        key: this.__sidebar_key('category', currentPath, contentRoot, slug, label),
+                        link: { type: 'doc', id: docId },
+                        items: childItems,
+                    })
                 } else if (childItems.length > 0) {
-                    items.push({ type: 'category', label, items: childItems })
+                    items.push({
+                        type: 'category',
+                        label,
+                        key: this.__sidebar_key('category', currentPath, contentRoot, slug, label),
+                        items: childItems,
+                    })
                 }
             } else if (child.slug !== 'faqs') {
                 let childSource = null
@@ -187,7 +218,12 @@ class larkDocWriter {
                 const docId = node_path.join(currentPath, slug)
                     .replace(/\\/g, '/')
                     .replace(new RegExp(`^${contentRoot}/`), '')
-                items.push({ type: 'doc', id: docId, label })
+                items.push({
+                    type: 'doc',
+                    id: docId,
+                    label,
+                    key: this.__sidebar_key('doc', currentPath, contentRoot, slug, label),
+                })
             }
         }
 

@@ -1,0 +1,98 @@
+name: "translate docs with Codex agents"
+
+on:
+  workflow_run:
+    workflows:
+      - "fetch lark docs (auto)"
+      - "fetch lark docs (manual)"
+    types: [completed]
+  workflow_dispatch:
+    inputs:
+      max_files:
+        description: "Maximum files to translate in this run. 0 means no limit."
+        required: false
+        default: "0"
+      include_reference:
+        description: "Translate API reference docs as well as guide docs."
+        required: false
+        default: "false"
+
+concurrency:
+  group: translate-codex
+
+jobs:
+  translate:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' }}
+    steps:
+    - name: checkout feat/zdoc-redesign branch
+      uses: actions/checkout@v4
+      with:
+        ref: feat/zdoc-redesign
+
+    - uses: pnpm/action-setup@v4
+      with:
+        version: 9
+
+    - name: set up Node
+      uses: actions/setup-node@v4.0.1
+      with:
+        node-version: lts/*
+        cache: 'pnpm'
+
+    - name: install dependencies
+      run: pnpm install --frozen-lockfile
+
+    - name: build translation manifest
+      id: manifest
+      run: |
+        node scripts/translation/manifest.js \
+          --locale ja-JP \
+          --output tmp/translation-manifest.json \
+          --max-files "${TRANSLATION_MAX_FILES:-0}" \
+          --include-reference "${TRANSLATE_REFERENCE:-false}"
+        COUNT=$(node -e "const m=require('./tmp/translation-manifest.json'); console.log(m.items.length)")
+        echo "count=${COUNT}" >> "$GITHUB_OUTPUT"
+        echo "Pending translation files: ${COUNT}"
+      env:
+        TRANSLATION_MAX_FILES: ${{ github.event.inputs.max_files || vars.TRANSLATION_MAX_FILES }}
+        TRANSLATE_REFERENCE: ${{ github.event.inputs.include_reference || vars.TRANSLATE_REFERENCE }}
+
+    - name: run Codex translation agents
+      if: steps.manifest.outputs.count != '0'
+      run: node scripts/translation/agentRunner.js --manifest tmp/translation-manifest.json --report tmp/translation-report.json
+      env:
+        TRANSLATION_AGENT_BASE_URL: ${{ vars.TRANSLATION_AGENT_BASE_URL }}
+        TRANSLATION_AGENT_API_KEY: ${{ secrets.TRANSLATION_AGENT_API_KEY }}
+        TRANSLATION_AGENT_MODEL: ${{ vars.TRANSLATION_AGENT_MODEL }}
+        REVIEW_AGENT_BASE_URL: ${{ vars.REVIEW_AGENT_BASE_URL }}
+        REVIEW_AGENT_API_KEY: ${{ secrets.REVIEW_AGENT_API_KEY }}
+        REVIEW_AGENT_MODEL: ${{ vars.REVIEW_AGENT_MODEL }}
+        TRANSLATION_MAX_REVIEW_ROUNDS: ${{ vars.TRANSLATION_MAX_REVIEW_ROUNDS }}
+
+    - name: validate translated MDX
+      if: steps.manifest.outputs.count != '0'
+      run: |
+        if [ -d i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials ]; then
+          npx docusaurus mdx-parse -d i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials
+        fi
+        if [ -d i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials ]; then
+          npx docusaurus mdx-parse -d i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials
+        fi
+        if [ -d i18n/ja-JP/docusaurus-plugin-content-docs-reference/current ]; then
+          npx docusaurus mdx-parse -d i18n/ja-JP/docusaurus-plugin-content-docs-reference/current
+        fi
+        pnpm run build
+
+    - name: commit translations
+      if: steps.manifest.outputs.count != '0'
+      uses: stefanzweifel/git-auto-commit-action@v5
+      with:
+        branch: feat/zdoc-redesign
+        commit_message: "chore: update Japanese translations"
+        file_pattern: "i18n .translation-cache"
+        push_options: --force
+
+    - name: no translation changes
+      if: steps.manifest.outputs.count == '0'
+      run: echo "No changed docs require translation."

@@ -1,0 +1,128 @@
+'use strict'
+
+const fs = require('node:fs')
+const path = require('node:path')
+const crypto = require('node:crypto')
+
+function hashContent(text) {
+  return crypto.createHash('sha256').update(text, 'utf8').digest('hex')
+}
+
+function walkMarkdown(root) {
+  if (!fs.existsSync(root)) return []
+  const files = []
+  for (const entry of fs.readdirSync(root, { withFileTypes: true })) {
+    const fullPath = path.join(root, entry.name)
+    if (entry.isDirectory()) {
+      files.push(...walkMarkdown(fullPath))
+    } else if (/\.(md|mdx)$/.test(entry.name)) {
+      files.push(fullPath)
+    }
+  }
+  return files.sort()
+}
+
+function cachePathForLocale(siteDir, locale) {
+  return path.join(siteDir, '.translation-cache', `${locale}.json`)
+}
+
+function readCache(siteDir, locale) {
+  const cachePath = cachePathForLocale(siteDir, locale)
+  if (!fs.existsSync(cachePath)) return { files: {} }
+  try {
+    const parsed = JSON.parse(fs.readFileSync(cachePath, 'utf8'))
+    return parsed && typeof parsed === 'object' && parsed.files ? parsed : { files: {} }
+  } catch {
+    return { files: {} }
+  }
+}
+
+function writeCache(siteDir, locale, cache) {
+  const cachePath = cachePathForLocale(siteDir, locale)
+  fs.mkdirSync(path.dirname(cachePath), { recursive: true })
+  fs.writeFileSync(cachePath, JSON.stringify(cache, null, 2) + '\n', 'utf8')
+}
+
+function sourceMappingsForLocale(locale, { includeReference = false } = {}) {
+  const mappings = [
+    {
+      type: 'docs',
+      sourceRoot: 'docs/tutorials',
+      targetRoot: `i18n/${locale}/docusaurus-plugin-content-docs/current/tutorials`,
+    },
+    {
+      type: 'byoc',
+      sourceRoot: 'docs-byoc/tutorials',
+      targetRoot: `i18n/${locale}/docusaurus-plugin-content-docs-byoc/current/tutorials`,
+    },
+  ]
+  if (includeReference) {
+    mappings.push({
+      type: 'reference',
+      sourceRoot: 'reference',
+      targetRoot: `i18n/${locale}/docusaurus-plugin-content-docs-reference/current`,
+    })
+  }
+  return mappings
+}
+
+function buildManifest({ siteDir, locale = 'ja-JP', includeReference = false, maxFiles = 0 }) {
+  const cache = readCache(siteDir, locale)
+  const items = []
+
+  for (const mapping of sourceMappingsForLocale(locale, { includeReference })) {
+    const absSourceRoot = path.join(siteDir, mapping.sourceRoot)
+    for (const absSourcePath of walkMarkdown(absSourceRoot)) {
+      const relativeToRoot = path.relative(absSourceRoot, absSourcePath)
+      const sourcePath = path.join(mapping.sourceRoot, relativeToRoot).replace(/\\/g, '/')
+      const targetPath = path.join(mapping.targetRoot, relativeToRoot).replace(/\\/g, '/')
+      const sourceContent = fs.readFileSync(absSourcePath, 'utf8')
+      const sourceHash = hashContent(sourceContent)
+      const cached = cache.files[sourcePath]
+      const targetExists = fs.existsSync(path.join(siteDir, targetPath))
+
+      if (targetExists && cached?.sourceHash === sourceHash) continue
+
+      items.push({
+        sourcePath,
+        targetPath,
+        sourceHash,
+        locale,
+        type: mapping.type,
+      })
+      if (maxFiles > 0 && items.length >= maxFiles) {
+        return { locale, generatedAt: new Date().toISOString(), items }
+      }
+    }
+  }
+
+  return { locale, generatedAt: new Date().toISOString(), items }
+}
+
+function main() {
+  const args = new Map()
+  for (let i = 2; i < process.argv.length; i += 2) {
+    args.set(process.argv[i], process.argv[i + 1])
+  }
+  const siteDir = process.cwd()
+  const locale = args.get('--locale') || process.env.TRANSLATION_LOCALE || 'ja-JP'
+  const output = args.get('--output') || 'tmp/translation-manifest.json'
+  const includeReference = process.env.TRANSLATE_REFERENCE === 'true' || args.get('--include-reference') === 'true'
+  const maxFiles = Number(args.get('--max-files') || process.env.TRANSLATION_MAX_FILES || 0)
+  const manifest = buildManifest({ siteDir, locale, includeReference, maxFiles })
+  fs.mkdirSync(path.dirname(path.join(siteDir, output)), { recursive: true })
+  fs.writeFileSync(path.join(siteDir, output), JSON.stringify(manifest, null, 2) + '\n', 'utf8')
+  console.log(`[translation-manifest] ${manifest.items.length} file(s) pending -> ${output}`)
+}
+
+if (require.main === module) main()
+
+module.exports = {
+  buildManifest,
+  cachePathForLocale,
+  hashContent,
+  readCache,
+  sourceMappingsForLocale,
+  walkMarkdown,
+  writeCache,
+}

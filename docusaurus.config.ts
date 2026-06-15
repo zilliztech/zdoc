@@ -2,7 +2,6 @@ import {themes as prismThemes} from 'prism-react-renderer';
 import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 import larkDocsConfig from './config/lark-docs.config';
-import i18nTranslatorConfig from './config/i18n-translator.config';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 import {visit} from 'unist-util-visit';
@@ -113,7 +112,6 @@ const config: Config = {
       },
     ],
     ['./plugins/lark-docs', larkDocsConfig],
-    ['./plugins/i18n-translator', i18nTranslatorConfig],
     './plugins/apifox-docs',
     './plugins/link-checks',
     ['./plugins/embed-markdown', {

@@ -64,11 +64,6 @@ jobs:
         IMAGE_BED_URL: ${{ vars.IMAGE_BED_URL }}
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-    - name: restore japanese translations from dev
-      run: |
-        git fetch origin dev 2>/dev/null || true
-        rm -rf i18n/
-        git checkout origin/dev -- i18n/ 2>/dev/null || true
     - name: build docsite
       run: |
         pnpm run build
