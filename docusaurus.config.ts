@@ -21,6 +21,103 @@ function remarkMathFix() {
     });
   };
 }
+
+// Rehype plugin: wrap every <table> in a horizontal-scroll container so wide
+// tables scroll left/right instead of overflowing into the TOC. Works at the
+// HAST level, so it catches BOTH markdown pipe tables and raw-HTML <table>
+// elements (the latter bypass MDXComponents entirely).
+function rehypeWrapTables() {
+  // Markdown pipe tables become hast `element` nodes (tagName 'table'); raw-HTML
+  // tables in MDX become `mdxJsxFlowElement` nodes (name 'table'). Wrap both.
+  const isTable = (n: any) =>
+    (n.type === 'element' && n.tagName === 'table') ||
+    (n.type === 'mdxJsxFlowElement' && n.name === 'table');
+  const wrap = (node: any) => {
+    if (!node || !Array.isArray(node.children)) return;
+    for (let i = 0; i < node.children.length; i++) {
+      const child = node.children[i];
+      if (!child) continue;
+      if (isTable(child)) {
+        const parentClasses = ([] as any[]).concat(node.properties?.className || []);
+        const alreadyWrapped =
+          node.type === 'element' && node.tagName === 'div' && parentClasses.includes('zd-table-scroll');
+        wrap(child); // descend first (handles any nested tables)
+        if (!alreadyWrapped) {
+          node.children[i] = {
+            type: 'element',
+            tagName: 'div',
+            properties: {className: ['zd-table-scroll']},
+            children: [child],
+          };
+        }
+        continue;
+      }
+      wrap(child);
+    }
+  };
+  return (tree: any) => wrap(tree);
+}
+
+// Rehype plugin: replace check/cross emoji (✅ ✔ ✓ ☑ / ❌ ✖ ✗ ✘) in text with
+// clean inline SVG marks — green check / red cross — so doc tables read crisply
+// instead of using OS-dependent emoji glyphs. Skips code/pre.
+function rehypeEmojiMarks() {
+  const isCheck = (c: string) => c === '✅' || c === '✔' || c === '✓' || c === '☑';
+  const isCross = (c: string) => c === '❌' || c === '✖' || c === '✗' || c === '✘';
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const svgChildren = (kind: string): any[] =>
+    kind === 'check'
+      ? [{type: 'element', tagName: 'path', properties: {d: 'M20 6 9 17l-5-5'}, children: []}]
+      : [
+          {type: 'element', tagName: 'path', properties: {d: 'M18 6 6 18'}, children: []},
+          {type: 'element', tagName: 'path', properties: {d: 'm6 6 12 12'}, children: []},
+        ];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const mark = (kind: string): any => ({
+    type: 'element',
+    tagName: 'span',
+    properties: {className: ['zd-mark', kind === 'check' ? 'zd-mark--check' : 'zd-mark--cross']},
+    children: [
+      {
+        type: 'element',
+        tagName: 'svg',
+        properties: {
+          viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor',
+          strokeWidth: 3, strokeLinecap: 'round', strokeLinejoin: 'round', 'aria-hidden': 'true',
+        },
+        children: svgChildren(kind),
+      },
+    ],
+  });
+  const re = /[✅✔✓☑❌✖✗✘]/;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const walk = (node: any) => {
+    if (!node || !Array.isArray(node.children)) return;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const out: any[] = [];
+    let changed = false;
+    for (const child of node.children) {
+      if (child && child.type === 'text' && re.test(child.value)) {
+        changed = true;
+        let buf = '';
+        for (const ch of child.value as string) {
+          if (isCheck(ch)) { if (buf) { out.push({type: 'text', value: buf}); buf = ''; } out.push(mark('check')); }
+          else if (isCross(ch)) { if (buf) { out.push({type: 'text', value: buf}); buf = ''; } out.push(mark('cross')); }
+          else if (ch === '️') { /* drop emoji variation selector */ }
+          else buf += ch;
+        }
+        if (buf) out.push({type: 'text', value: buf});
+      } else {
+        if (!(child && child.type === 'element' && (child.tagName === 'code' || child.tagName === 'pre'))) {
+          walk(child);
+        }
+        out.push(child);
+      }
+    }
+    if (changed) node.children = out;
+  };
+  return (tree: any) => walk(tree);
+}
 import 'dotenv/config';
 
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
@@ -97,7 +194,7 @@ const config: Config = {
         sidebarPath: './sidebarsByoc.ts',
         breadcrumbs: false,
         remarkPlugins: [remarkMath, remarkMathFix],
-        rehypePlugins: [rehypeKatex],
+        rehypePlugins: [rehypeKatex, rehypeWrapTables, rehypeEmojiMarks],
       },
     ],
     [
@@ -109,7 +206,7 @@ const config: Config = {
         sidebarPath: './sidebarsReference.ts',
         breadcrumbs: false,
         remarkPlugins: [remarkMath, remarkMathFix],
-        rehypePlugins: [rehypeKatex],
+        rehypePlugins: [rehypeKatex, rehypeWrapTables, rehypeEmojiMarks],
       },
     ],
     ['./plugins/lark-docs', larkDocsConfig],
@@ -155,7 +252,7 @@ const config: Config = {
           sidebarPath: './sidebarsTutorial.ts',
           breadcrumbs: false,
           remarkPlugins: [remarkMath, remarkMathFix],
-          rehypePlugins: [rehypeKatex],
+          rehypePlugins: [rehypeKatex, rehypeWrapTables, rehypeEmojiMarks],
         },
         blog: false,
         theme: {

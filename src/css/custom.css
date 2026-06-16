@@ -238,6 +238,32 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 13px;
 }
 
+/* Leaf nav with no secondary pane (e.g. CLI → "Overview"): collapse the whole
+   sidebar column down to the first-level rail width, so there's no empty blank
+   column beside the rail (the doc content takes the freed space). Scoped tightly:
+   only matches a two-level sidebar that currently has NO secondary pane. */
+.theme-doc-sidebar-container:has([class*='twoLevelSidebar']):not(:has([class*='secondaryPane'])) {
+  /* collapse to the first-level rail width (12rem) — flex:0 0 so it holds that
+     width and the doc content takes the rest (no blank column) */
+  flex: 0 0 12rem !important;
+  width: 12rem !important;
+  min-width: 0 !important;
+  overflow-x: hidden !important;
+}
+.theme-doc-sidebar-container:has([class*='twoLevelSidebar']):not(:has([class*='secondaryPane'])) [class*='sidebarViewport'],
+.theme-doc-sidebar-container:has([class*='twoLevelSidebar']):not(:has([class*='secondaryPane'])) [class*='twoLevelSidebar'],
+.theme-doc-sidebar-container:has([class*='twoLevelSidebar']):not(:has([class*='secondaryPane'])) [class*='twoLevelBody'] {
+  width: 12rem !important;
+  max-width: 12rem !important;
+  min-width: 0 !important;
+}
+/* rail grows to fill the collapsed 12rem column (no leftover gap to its right) */
+.theme-doc-sidebar-container:has([class*='twoLevelSidebar']):not(:has([class*='secondaryPane'])) [class*='primaryRail'] {
+  flex: 1 1 auto !important;
+  width: auto !important;
+  max-width: none !important;
+}
+
 /* Remove the 56px top padding Docusaurus adds to the sidebar div for sticky
    navbar clearance — we handle height/scroll ourselves in our 3-pane layout. */
 .theme-doc-sidebar-container .sidebar_node_modules-\@docusaurus-theme-classic-lib-theme-DocSidebar-Desktop-Content-styles-module,
@@ -581,13 +607,15 @@ pre {
   color: var(--zd-gray-700) !important;
 }
 
-/* Active — underline rather than pill */
+/* Active — keep the SAME font-weight as inactive (500) so switching doesn't
+   reflow the strip. The underline is drawn by a single SLIDING indicator (see
+   src/theme/Tabs) — so the per-tab active border is transparent here. */
 .tabs__item--active {
   background: transparent !important;
   color: var(--zd-linear-signup-ink) !important;
-  font-weight: 600 !important;
+  font-weight: 500 !important;
   box-shadow: none !important;
-  border-bottom: 2px solid var(--zd-linear-signup-ink) !important;
+  border-bottom: 2px solid transparent !important;
 }
 
 /* Merge the tab strip into the code title bar ONLY when the active tab's panel is
@@ -681,16 +709,64 @@ body.zd-search-open [class*='floatingChatBackdrop'] {
   z-index: 420;
 }
 
-/* Pagination */
+/* Pagination — neutral cards (no blue): gray "Previous/Next" + arrows, black
+   title, light-gray fill on hover (matches the reference image). */
 .pagination-nav__link {
-  border-color: #e5e7eb;
-  border-radius: 0.5rem;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  border: 1px solid #e8e8ea;
+  border-radius: 10px;
+  background: transparent;
+  transition: background 0.15s ease, border-color 0.15s ease;
 }
 
 .pagination-nav__link:hover {
-  border-color: #175fff;
-  box-shadow: 0 0 0 3px rgba(23, 95, 255, 0.1);
+  border-color: #e0e0e2;
+  background: #f5f5f6;
+  box-shadow: none;
+}
+
+/* "Previous" / "Next" → muted gray, with a single-chevron SVG beside it */
+.pagination-nav__sublabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--zd-nav-muted);
+  font-weight: 500;
+}
+
+/* The page title → black, slightly heavier */
+.pagination-nav__label {
+  color: var(--zd-linear-signup-ink);
+  font-weight: 600;
+}
+
+/* Drop Infima's « » double-chevrons on the label */
+.pagination-nav__link--prev .pagination-nav__label::before,
+.pagination-nav__link--next .pagination-nav__label::after {
+  content: none !important;
+}
+
+/* Single chevron beside "Previous" (left) / "Next" (right), same gray as the text */
+.pagination-nav__link--prev .pagination-nav__sublabel::before,
+.pagination-nav__link--next .pagination-nav__sublabel::after {
+  content: '';
+  width: 13px;
+  height: 13px;
+  flex-shrink: 0;
+  background-color: currentColor;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+.pagination-nav__link--prev .pagination-nav__sublabel::before {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m15 18-6-6 6-6'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m15 18-6-6 6-6'/%3E%3C/svg%3E");
+}
+.pagination-nav__link--next .pagination-nav__sublabel::after {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m9 18 6-6-6-6'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m9 18 6-6-6-6'/%3E%3C/svg%3E");
 }
 
 /* Table of Contents */
@@ -870,15 +946,15 @@ body.zd-search-open [class*='floatingChatBackdrop'] {
 .prism-code .token.variable { color: #37352f; }
 .prism-code .token.deleted { color: #e5484d; }
 
-/* Heading anchor — a small grey link icon instead of "#" */
+/* Heading anchor — a small dark chain-link icon instead of "#" (per reference) */
 .hash-link {
-  color: var(--zd-gray-400);
+  color: #71717a;
   opacity: 0;
   transition: opacity 0.15s ease, color 0.15s ease;
 }
 .hash-link:hover,
 .hash-link:focus-visible {
-  color: var(--zd-gray-600);
+  color: #3f3f46;
   text-decoration: none;
 }
 *:hover > .hash-link,
@@ -892,8 +968,8 @@ body.zd-search-open [class*='floatingChatBackdrop'] {
   height: 0.62em;
   vertical-align: -0.02em;
   background-color: currentColor;
-  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71'/%3E%3Cpath d='M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71'/%3E%3C/svg%3E") center / contain no-repeat;
-  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71'/%3E%3Cpath d='M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71'/%3E%3C/svg%3E") center / contain no-repeat;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 17H7A5 5 0 0 1 7 7h2'/%3E%3Cpath d='M15 7h2a5 5 0 1 1 0 10h-2'/%3E%3Cline x1='8' x2='16' y1='12' y2='12'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 17H7A5 5 0 0 1 7 7h2'/%3E%3Cpath d='M15 7h2a5 5 0 1 1 0 10h-2'/%3E%3Cline x1='8' x2='16' y1='12' y2='12'/%3E%3C/svg%3E") center / contain no-repeat;
 }
 
 /* Mobile secondary menu — flex column so toolbar pins to bottom */
@@ -924,14 +1000,19 @@ body.zd-search-open [class*='floatingChatBackdrop'] {
    Anchored under the navbar, full width, slides down from the top.
    Sits BELOW the navbar in the stacking order so the bar stays visible. */
 .navbar-sidebar {
-  /* full-width panels + correct primary↔secondary slide distance */
-  --ifm-navbar-sidebar-width: 100vw;
+  /* Each slider panel is `width: calc(var(--ifm-navbar-sidebar-width))`. Use 100%
+     (NOT 100vw): 100vw includes the vertical scrollbar, making panels wider than
+     the visible viewport — which pushed items off the right edge and made the
+     menu jitter on resize. 100% resolves against the sidebar's own (scrollbar-
+     excluded) width, so panels match the viewport and the slide stays exact. */
+  --ifm-navbar-sidebar-width: 100%;
   top: var(--ifm-navbar-height) !important;
   left: 0 !important;
   right: 0 !important;
   bottom: 0 !important;
   width: 100% !important;
   max-width: 100% !important;
+  overflow-x: hidden !important;
   /* Fill the whole screen below the topbar */
   height: calc(100dvh - var(--ifm-navbar-height)) !important;
   max-height: calc(100dvh - var(--ifm-navbar-height)) !important;
@@ -1023,14 +1104,20 @@ body.zd-search-open [class*='floatingChatBackdrop'] {
 }
 
 /* Inset each row's hover/selected highlight to line up with the search box's
-   0.75rem side spacing above. */
+   0.75rem side spacing above. Cap the width to (100% − both margins) so the rows
+   actually fit the panel: the items are full-width, so the bare margins used to
+   push their right edge ~12px past the viewport (clipped, but cut off). */
 .navbar-sidebar .menu__link,
 .navbar-sidebar .menu__list-item-collapsible {
+  box-sizing: border-box;
+  max-width: calc(100% - 1.5rem);
   margin-left: 0.75rem;
   margin-right: 0.75rem;
 }
 
+/* Inner collapsible link fills its (already-inset) row so the caret stays put. */
 .navbar-sidebar .menu__list-item-collapsible .menu__link {
+  max-width: 100%;
   margin-left: 0;
   margin-right: 0;
 }
@@ -1270,10 +1357,11 @@ html.docs-doc-id-tutorials\/home #copy-page-btn {
   --ifm-alert-border-color: #9ca3af;
 }
 
-/* info / Notes (alert--info) — soft gray-beige box, faint stroke, no title row */
+/* info / Notes (alert--info) — beige box, faint stroke, no title row. Slightly
+   deeper beige bg/stroke; body text in deep beige-yellow. */
 .alert--info {
-  --ifm-alert-background-color: #f4f2ea;
-  --ifm-alert-border-color: #e6e1d2;
+  --ifm-alert-background-color: #efe9d7;
+  --ifm-alert-border-color: #e0d9c3;
   --ifm-alert-border-width: 1px;
   --ifm-alert-border-left-width: 1px;
 }
@@ -1281,7 +1369,12 @@ html.docs-doc-id-tutorials\/home #copy-page-btn {
   display: none;
 }
 .alert--info [class*="admonitionContent"] {
-  color: #1f2937;
+  color: #8a7437;
+}
+/* links in beige notes → deep gold (matches the deep-beige text), keep underline */
+.alert--info [class*="admonitionContent"] a {
+  color: #846a1c;
+  text-decoration-color: rgba(132, 106, 28, 0.4);
 }
 
 /* tip (alert--success) — cold emerald green */
@@ -1298,32 +1391,126 @@ html.docs-doc-id-tutorials\/home #copy-page-btn {
   --ifm-alert-border-color: #d97706;
 }
 
-/* danger (alert--danger) — red */
+/* danger (alert--danger) — soft red box matching the beige Note style: gentle
+   red bg + stroke, a lighter "Warning" label on top, a clean warning-triangle
+   icon (replacing the 🚧 emoji), deep-red body text. */
 .alert--danger {
-  --ifm-alert-background-color: #fef2f2;
-  --ifm-alert-foreground-color: #991b1b;
-  --ifm-alert-border-color: #dc2626;
+  --ifm-alert-background-color: #fcf1f1;
+  --ifm-alert-foreground-color: #9b2c2c;
+  --ifm-alert-border-color: #f0d8d8;
+  --ifm-alert-border-width: 1px;
+  --ifm-alert-border-left-width: 1px;
+}
+/* "Warning" label — lighter than the body text */
+.alert--danger [class*="admonitionHeading"] {
+  color: #cc6a6a;
+  text-transform: none;
+}
+.alert--danger [class*="admonitionContent"] {
+  color: #9b2c2c;
+}
+/* swap the 🚧 emoji for a warning-triangle SVG */
+.alert--danger [class*="admonitionIcon"] {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0; /* hides the emoji glyph */
+}
+.alert--danger [class*="admonitionIcon"]::before {
+  content: '';
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  background-color: #cc6a6a;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z'/%3E%3Cpath d='M12 9v4'/%3E%3Cpath d='M12 17h.01'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z'/%3E%3Cpath d='M12 9v4'/%3E%3Cpath d='M12 17h.01'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+/* Collapsible <details> disclosure arrow → small linear black chevron (was a
+   solid beige/amber triangle inheriting the alert decoration color). The theme's
+   open-state rule still rotates it 90° (right → down). */
+.markdown details > summary::before {
+  border: 0 !important;
+  top: 0.3em;
+  width: 0.62em;
+  height: 0.62em;
+  background-color: #18181b;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m9 6 6 6-6 6'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m9 6 6 6-6 6'/%3E%3C/svg%3E") center / contain no-repeat;
+  transform-origin: 50% 50%;
+}
+
+/* Inline code inside headings sat flush against adjacent "( )" — give it a touch
+   of breathing room (e.g. "Filtering with Equal To (==)"). */
+.markdown :is(h1, h2, h3, h4, h5, h6) code {
+  margin: 0 0.2em;
+}
+
+/* A note / code block / table directly under a bullet had no gap — restore the
+   same spacing used elsewhere between body content and code. */
+.markdown li > .alert,
+.markdown li > .tabs-container,
+.markdown li > .zd-table-scroll,
+.markdown li > [class*="windowFrame"],
+.markdown li > .theme-code-block {
+  margin-top: 0.75rem;
+}
+/* Notes and code-tab blocks need a top margin too (only had margin-bottom) so the
+   gap above them matches the gap below — consistent everywhere incl. after bullets. */
+.alert {
+  margin-top: 1.25rem;
+}
+.tabs-container {
+  margin-top: 1.25rem;
+}
+
+/* Green check / red cross marks — emoji (✅ ❌ ✔ ✘ ✓ ✗) are swapped for inline
+   SVG at build time by the rehypeEmojiMarks plugin. */
+.zd-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: -0.16em;
+  line-height: 1;
+}
+.zd-mark svg {
+  width: 1.05em;
+  height: 1.05em;
+}
+.zd-mark--check {
+  color: #16a34a;
+}
+.zd-mark--cross {
+  color: #dc2626;
 }
 
 /* Horizontal-scroll wrapper around every doc table (keeps wide tables inside the
-   content column — they scroll left/right instead of overflowing or squeezing). */
+   content column — they scroll left/right instead of overflowing into the TOC).
+   display:block + width:100% pins the wrapper to the content column width so
+   overflow-x actually clips; generous top/bottom margin gives tables room. */
 .zd-table-scroll {
+  display: block;
+  width: 100%;
   max-width: 100%;
-  margin: 1.25rem 0;
+  margin: 2rem 0;
   overflow-x: auto;
+  overflow-y: hidden;
 }
 
 /* ── Content tables — flat (no zebra), uniform 15px, light borders ── */
 .markdown table {
   display: table;
-  width: 100%;
+  /* fit the content (long nowrap cells grow the table) but never shrink below
+     the wrapper — the wrapper then scrolls instead of the table overflowing. */
+  width: max-content;
+  min-width: 100%;
+  max-width: none;
   margin: 0;
-  border: 1px solid #d4d4d9;
-  /* separate (not collapse) so the outer border-radius actually rounds corners */
-  border-collapse: separate;
-  border-radius: 8px;
-  border-spacing: 0;
-  overflow: hidden;
+  /* Clean horizontal-rule style (per reference): no outer box, no shadow, no
+     vertical lines — just a header underline + light row dividers. */
+  border: none;
+  box-shadow: none;
+  border-collapse: collapse;
+  border-radius: 0;
   font-size: 15px;
   line-height: 1.5;
 }
@@ -1332,9 +1519,9 @@ html.docs-doc-id-tutorials\/home #copy-page-btn {
 .markdown table td {
   padding: 9px 14px;
   font-size: 15px;
+  /* horizontal rule only — no vertical column lines; light row divider */
   border: none;
-  border-bottom: 1px solid #dcdce1;
-  border-right: 1px solid #dcdce1;
+  border-bottom: 1px solid #ebebee;
   text-align: left;
   vertical-align: top;
   /* don't wrap long text down to 2–3 words — let the table grow and the wrapper
@@ -1347,21 +1534,43 @@ html.docs-doc-id-tutorials\/home #copy-page-btn {
   border-right: none;
 }
 
-.markdown table thead th {
-  font-weight: 600;
+/* Target every <th> (not just thead th): raw-HTML tables put their header row in
+   a bare <tr> with no <thead>, so a `thead th` rule would skip them entirely.
+   No fill; the header underline is a touch deeper than the row dividers. */
+.markdown table th {
+  font-weight: 500;
   color: var(--zd-linear-signup-ink);
-  background: #f6f5f2;
-  border-bottom: 1px solid #cdcdd3;
+  background: transparent;
+  border-bottom: 1px solid #cfcfd5;
+}
+
+/* Infima puts a border-top on <thead> (and a 2px thead-tr border-bottom) — kill
+   both so there's no line above the header row; the header underline is the th
+   border-bottom above. */
+.markdown table thead,
+.markdown table thead tr {
+  border: none;
+}
+
+/* Body cells: uniform weight (some non-link cells like "OAuth 2.0" / "CMEK"
+   read heavier than others — normalize so link vs non-link cells match). */
+.markdown table td {
+  font-weight: 400;
+}
+
+/* Cells wrap their text in <p> (raw-HTML tables) whose default margins made the
+   top/bottom padding look uneven — zero them so the 9px cell padding is even. */
+.markdown table th > p,
+.markdown table td > p,
+.markdown table th > p:first-child,
+.markdown table td > p:last-child {
+  margin: 0;
 }
 
 /* Kill the default zebra striping */
 .markdown table tr:nth-child(2n),
 .markdown table tbody tr:nth-child(2n) {
   background-color: transparent;
-}
-
-.markdown table tbody tr:last-child td {
-  border-bottom: none;
 }
 
 .markdown table tbody tr:hover {

@@ -42,13 +42,9 @@ function MDXTable(props: ComponentProps<'table'>) {
     }
     return child;
   });
-  // Wrap in a horizontal-scroll container so wide tables scroll instead of
-  // squeezing cell text down to 2–3 words per line.
-  return (
-    <div className="zd-table-scroll">
-      <table {...rest}>{wrapped}</table>
-    </div>
-  );
+  // The horizontal-scroll wrapper (.zd-table-scroll) is added at build time by the
+  // rehypeWrapTables plugin so raw-HTML tables get it too — don't double-wrap here.
+  return <table {...rest}>{wrapped}</table>;
 }
 
 const MDXComponents: MDXComponentsObject = {

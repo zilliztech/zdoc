@@ -38,26 +38,5 @@
   ],
   "hideCategories": ["V2", "V1"],
   "flattenCategories": ["Control Plane (V2)", "Data Plane (V2)"],
-  "sectionGroupers": [
-    "Cloud Meta (V2)",
-    "Import (V2)",
-    "ETL (V2)",
-    "Volume (V2)",
-    "Project (V2)",
-    "Cluster (V2)",
-    "Cloud Migration (V2)",
-    "Backup & Restore (V2)",
-    "Metrics & Alerts (V2)",
-    "Cloud Job (V2)",
-    "Invoices (V2)",
-    "Usage (V2)",
-    "Vector (V2)",
-    "Collection (V2)",
-    "Database (V2)",
-    "Index (V2)",
-    "Partition (V2)",
-    "Role (V2)",
-    "Alias (V2)",
-    "User (V2)"
-  ]
+  "sectionGroupers": []
 }

@@ -5,7 +5,9 @@ import DocSidebar from '@theme-original/DocSidebar';
 import type DocSidebarType from '@theme/DocSidebar';
 import type {WrapperProps} from '@docusaurus/types';
 import type {PropSidebarItem, PropSidebarItemCategory} from '@docusaurus/plugin-content-docs';
-import {findFirstSidebarItemLink} from '@docusaurus/plugin-content-docs/client';
+import {findFirstSidebarItemLink, useAllDocsData} from '@docusaurus/plugin-content-docs/client';
+// @ts-expect-error — generated CJS sidebar module, no type declarations
+import guidesSidebarRaw from '@site/config/generated/guides.sidebar';
 import {
   Rocket,
   Database,
@@ -230,6 +232,40 @@ function getItemHref(item: PropSidebarItem): string | undefined {
   return undefined;
 }
 
+// ── Guides primary rail on client-library reference pages ──
+// The /reference/* languages live in a SEPARATE docs plugin, so its full sidebar
+// tree isn't available on those pages. We import the guides sidebar config (top
+// sections + structure) and resolve each section's landing URL from the guides
+// plugin's doc list (id → path), so the left primary rail can stay fixed (with
+// "Client Libraries" active) while a language's pages fill the secondary column.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const RAW_GUIDES: any[] = Array.isArray(guidesSidebarRaw)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  ? guidesSidebarRaw : (((guidesSidebarRaw as any)?.default) ?? []);
+
+type RailSection = {label: string; href: string | undefined};
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function resolveFirstHref(item: any, docPath: Record<string, string>): string | undefined {
+  if (!item) return undefined;
+  if (item.type === 'link' && item.href) return item.href;
+  if (item.type === 'doc' && item.id) return docPath[item.id];
+  if (item.type === 'category') {
+    if (item.href) return item.href;
+    for (const child of item.items ?? []) {
+      const h = resolveFirstHref(child, docPath);
+      if (h) return h;
+    }
+  }
+  return undefined;
+}
+
+function buildGuidesRail(docPath: Record<string, string>): RailSection[] {
+  return RAW_GUIDES
+    .filter(it => it && (it.type === 'category' || it.type === 'link') && typeof it.label === 'string')
+    .map(it => ({label: it.label as string, href: resolveFirstHref(it, docPath)}));
+}
+
 function itemContainsPath(item: PropSidebarItem, pathname: string): boolean {
   const normalizedPathname = normalizePath(pathname);
   const href = getItemHref(item);
@@ -294,9 +330,19 @@ function TwoLevelSidebar(props: Props): ReactNode {
   // a "back to Client Libraries" link + the language title on top; the tree
   // splits into the normal two-level (primary rail + secondary panel).
   const subnavLabel = getRefSubnavLabel(pathname);
-  // RESTful is a flat, one-level reference → render it as a single column (the
-  // earlier small-title style), not the two-level split.
-  const isRestfulRef = /^\/reference\/restful(\/|$)/.test(pathname);
+  // Guides primary rail for client-library reference pages: resolve each guides
+  // section's landing URL from the guides plugin's doc list (id → path). Plain,
+  // non-throwing hooks so the sidebar never crashes if the data is absent.
+  const allDocsData = useAllDocsData();
+  const guidesRail = useMemo<RailSection[]>(() => {
+    const guides = allDocsData?.default;
+    if (!guides) return [];
+    const latest = guides.versions.find(v => v.isLast) ?? guides.versions[0];
+    const docPath: Record<string, string> = {};
+    for (const d of latest?.docs ?? []) docPath[d.id] = d.path;
+    return buildGuidesRail(docPath);
+  }, [allDocsData]);
+  const clientLibsIndex = guidesRail.findIndex(s => s.label === 'Client Libraries');
   // Only open a secondary panel when the selected primary item has children, so
   // flat leaf entries like "Overview" stay one-level (no empty second panel).
   const selectedHasChildren = selectedItem?.type === 'category' && selectedItem.items.length > 0;
@@ -310,31 +356,6 @@ function TwoLevelSidebar(props: Props): ReactNode {
     document.addEventListener('mousedown', onClick);
     return () => document.removeEventListener('mousedown', onClick);
   }, [dropdownOpen]);
-
-  // RESTful → single column (one level): back link + title + the full tree, with
-  // its categories acting as small section headings.
-  if (isRestfulRef) {
-    return (
-      <div className={styles.refSidebar}>
-        <div className={styles.refHeader}>
-          <a className={styles.refBack} href="/docs/install-sdks">
-            <svg width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-              <path d="M13 8H3.5M7.5 4L3.5 8l4 4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-            Client Libraries
-          </a>
-          <div className={styles.refTitle}>{subnavLabel}</div>
-        </div>
-        <div className={styles.sidebarScroll}>
-          <div className={styles.secondarySidebarContent}>
-            <SidebarIconVisibilityContext.Provider value={false}>
-              <DocSidebar {...props} sidebar={props.sidebar} />
-            </SidebarIconVisibilityContext.Provider>
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   // Merged single-layer: section picker dropdown on top, current section's pages below.
   if (merged) {
@@ -418,6 +439,75 @@ function TwoLevelSidebar(props: Props): ReactNode {
   };
   const hideTooltip = () => setTooltip(null);
 
+  // Client-library reference (desktop): the guides sections stay as the fixed
+  // left rail (Client Libraries active); the language's own page tree fills the
+  // secondary column under a back-link + language-title header (matches fig 4 —
+  // the left primary nav doesn't move when drilling into a language).
+  if (subnavLabel && guidesRail.length > 0) {
+    return (
+      <div
+        className={styles.twoLevelSidebar}
+        onMouseOver={(event) => showTooltipForTarget(event.target)}
+        onFocus={(event) => showTooltipForTarget(event.target)}
+        onMouseOut={(event) => {
+          const tooltipTarget = (event.target as HTMLElement).closest?.('[data-sidebar-tooltip]');
+          if (tooltipTarget?.contains(event.relatedTarget as Node | null)) return;
+          hideTooltip();
+        }}
+        onBlur={hideTooltip}>
+        <div className={styles.twoLevelBody}>
+          <nav className={styles.primaryRail} aria-label="Documentation sections">
+            {guidesRail.map((section, index) => {
+              const isActive = index === clientLibsIndex;
+              return (
+                <button
+                  key={`${section.label}-${index}`}
+                  type="button"
+                  className={`${styles.primaryRailItem} ${isActive ? styles.primaryRailItemActive : ''}`}
+                  data-label={section.label}
+                  data-sidebar-tooltip={section.label}
+                  onClick={() => {
+                    if (section.href) history.push(section.href);
+                  }}
+                  aria-current={isActive ? 'true' : undefined}>
+                  <span className={styles.primaryRailLabel} data-sidebar-tooltip-label>
+                    {section.label}
+                  </span>
+                </button>
+              );
+            })}
+          </nav>
+
+          <section className={styles.secondaryPane} aria-label="Documentation pages">
+            <div className={styles.refHeader}>
+              <a className={styles.refBack} href="/docs/install-sdks">
+                <svg width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <path d="M13 8H3.5M7 4.5L3.5 8l3.5 3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="square" strokeLinejoin="miter" />
+                </svg>
+                Client Libraries
+              </a>
+              <div className={styles.refTitle}>{subnavLabel}</div>
+            </div>
+            <div className={styles.sidebarScroll}>
+              <div className={styles.secondarySidebarContent}>
+                <SidebarIconVisibilityContext.Provider value={false}>
+                  <DocSidebar {...props} sidebar={props.sidebar} />
+                </SidebarIconVisibilityContext.Provider>
+              </div>
+            </div>
+          </section>
+        </div>
+        {tooltip && (
+          <div
+            className={styles.sidebarTooltip}
+            style={{top: tooltip.top, left: tooltip.left}}>
+            {tooltip.label}
+          </div>
+        )}
+      </div>
+    );
+  }
+
   return (
     <div
       className={styles.twoLevelSidebar}
@@ -433,7 +523,7 @@ function TwoLevelSidebar(props: Props): ReactNode {
         <div className={styles.refHeaderBar}>
           <a className={styles.refBack} href="/docs/install-sdks">
             <svg width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-              <path d="M13 8H3.5M7.5 4L3.5 8l4 4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+              <path d="M13 8H3.5M7 4.5L3.5 8l3.5 3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="square" strokeLinejoin="miter" />
             </svg>
             Client Libraries
           </a>
@@ -443,7 +533,7 @@ function TwoLevelSidebar(props: Props): ReactNode {
 
       <div className={styles.twoLevelBody}>
         <nav
-          className={`${styles.primaryRail}${selectedHasChildren ? '' : ' ' + styles.primaryRailWide}`}
+          className={styles.primaryRail}
           aria-label="Documentation sections">
           {props.sidebar.map((item, index) => {
             const label = 'label' in item ? item.label : `Section ${index + 1}`;
@@ -523,7 +613,7 @@ export default function DocSidebarWrapper(props: Props): ReactNode {
       {mobileSubnav && (
         <a className={styles.refBack} href="/docs/install-sdks" style={{padding: '12px 16px 4px'}}>
           <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-            <path d="M13 8H3.5M7.5 4L3.5 8l4 4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M13 8H3.5M7 4.5L3.5 8l3.5 3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="square" strokeLinejoin="miter" />
           </svg>
           Client Libraries
         </a>

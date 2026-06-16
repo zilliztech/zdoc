@@ -131,8 +131,10 @@
   background: #ffffff;
 }
 
-/* Reference header on top of the primary rail: back link + language title + divider */
+/* Reference header on top of the primary rail: back link + language title + divider.
+   Top padding gives breathing room below the navbar's bottom border. */
 .refHeader {
+  padding-top: 14px;
   margin-bottom: 6px;
   border-bottom: 1px solid var(--zd-gray-200);
 }
@@ -142,7 +144,8 @@
   align-items: center;
   gap: 4px;
   width: fit-content;
-  padding: 2px 0.75rem 6px;
+  /* left inset 1.5rem so the arrow lines up with the language title + page links */
+  padding: 2px 0.75rem 6px 1.5rem;
   margin: 0;
   color: var(--zd-nav-muted);
   font-family: var(--ifm-font-family-base);
@@ -157,11 +160,12 @@
   color: var(--zd-linear-signup-ink);
 }
 
-/* Aligns its text with the back arrow above and the rail items below (24px inset) */
+/* Smaller language title, left-aligned with the page links below it. The page
+   links sit at 24px (12px scroll padding + 12px link padding); match that inset. */
 .refTitle {
-  padding: 0 0.75rem 8px;
+  padding: 0 0.75rem 8px 1.5rem;
   font-family: var(--ifm-font-family-base);
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 600;
   color: var(--zd-linear-signup-ink);
 }
