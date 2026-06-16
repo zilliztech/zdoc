@@ -99,7 +99,7 @@ The following table lists the AWS cloud regions the Zilliz Cloud BYOC solution s
      <td><p>Ireland</p></td>
    </tr>
    <tr>
-     <td rowspan="3"><p>Asia</p></td>
+     <td rowspan="4"><p>Asia</p></td>
      <td><p>ap-northeast-1</p></td>
      <td><p>Tokyo, Japan</p></td>
    </tr>
@@ -110,6 +110,10 @@ The following table lists the AWS cloud regions the Zilliz Cloud BYOC solution s
    <tr>
      <td><p>ap-northeast-2</p></td>
      <td><p>Seoul, Korea</p></td>
+   </tr>
+   <tr>
+     <td><p>ap-east-1</p></td>
+     <td><p>Hong Kong</p></td>
    </tr>
    <tr>
      <td><p>Oceania</p></td>
