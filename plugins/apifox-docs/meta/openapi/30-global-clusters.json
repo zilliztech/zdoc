@@ -19,6 +19,154 @@
     }
   ],
   "paths": {
+    "/v2/globalClusters/availableRegions": {
+      "get": {
+        "summary": "List Available Global Cluster Regions",
+        "description": "Returns region groups that can be used together in a Global Cluster. Use this API before creating a Global Cluster or adding secondary clusters.",
+        "tags": [
+          "Global Clusters (V2)"
+        ],
+        "x-i18n": {
+          "zh-CN": {
+            "summary": "列出可用全球集群地域",
+            "description": "返回可在同一个全球集群中配合使用的地域组。创建全球集群或添加从集群前可调用此接口。"
+          }
+        },
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "The authentication token should be an API key with appropriate privileges.",
+            "required": true,
+            "example": "Bearer {{TOKEN}}",
+            "schema": {
+              "type": "string"
+            },
+            "x-i18n": {
+              "zh-CN": {
+                "description": "认证令牌，应为具备适当权限的 API 密钥。"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns available Global Cluster region groups.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "返回可用全球集群地域组。"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "x-tab-label": "success",
+                      "type": "object",
+                      "properties": {
+                        "regionGroups": {
+                          "type": "array",
+                          "description": "Region groups where member regions can communicate with each other for Global Cluster usage. An empty array means no available region combination is currently exposed for the organization.",
+                          "x-i18n": {
+                            "zh-CN": {
+                              "description": "可用于全球集群且成员地域之间可互通的地域组。空数组表示当前组织没有可用的地域组合。"
+                            }
+                          },
+                          "items": {
+                            "type": "array",
+                            "items": {
+                              "type": "string",
+                              "example": "aws-us-west-2"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "x-tab-label": "failure",
+                      "type": "object",
+                      "description": "Returns an error message.",
+                      "x-i18n": {
+                        "zh-CN": {
+                          "description": "返回错误消息。"
+                        }
+                      },
+                      "properties": {
+                        "code": {
+                          "type": "integer",
+                          "description": "Response code.",
+                          "x-i18n": {
+                            "zh-CN": {
+                              "description": "响应码。"
+                            }
+                          },
+                          "example": 400
+                        },
+                        "message": {
+                          "type": "string",
+                          "description": "Error message.",
+                          "x-i18n": {
+                            "zh-CN": {
+                              "description": "错误描述。"
+                            }
+                          },
+                          "example": "Invalid request parameters."
+                        }
+                      }
+                    }
+                  ]
+                },
+                "examples": {
+                  "1": {
+                    "summary": "success",
+                    "x-target-response": "OPTION 1",
+                    "x-target-lang": "en-US",
+                    "value": {
+                      "regionGroups": [
+                        [
+                          "aws-us-west-2",
+                          "aws-us-east-1"
+                        ],
+                        [
+                          "aws-eu-central-1",
+                          "aws-eu-west-1"
+                        ]
+                      ]
+                    }
+                  },
+                  "2": {
+                    "summary": "success",
+                    "x-target-response": "OPTION 1",
+                    "x-target-lang": "zh-CN",
+                    "value": {
+                      "regionGroups": [
+                        [
+                          "ali-cn-hangzhou",
+                          "ali-cn-beijing"
+                        ],
+                        [
+                          "ali-cn-shanghai",
+                          "ali-cn-shenzhen"
+                        ]
+                      ]
+                    }
+                  },
+                  "3": {
+                    "summary": "failure",
+                    "x-target-response": "OPTION 2",
+                    "value": {
+                      "code": 400,
+                      "message": "Invalid request parameters."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v2/globalClusters": {
       "get": {
         "summary": "List Global Clusters",
@@ -935,6 +1083,7 @@
                   "1": {
                     "summary": "success",
                     "x-target-response": "OPTION 1",
+                    "x-target-lang": "en-US",
                     "value": {
                       "globalClusterId": "glo-xxxxxxxxxxxxxxx",
                       "globalClusterName": "my-global-cluster",
@@ -966,6 +1115,40 @@
                     }
                   },
                   "2": {
+                    "summary": "success",
+                    "x-target-response": "OPTION 1",
+                    "x-target-lang": "zh-CN",
+                    "value": {
+                      "globalClusterId": "glo-xxxxxxxxxxxxxxx",
+                      "globalClusterName": "my-global-cluster",
+                      "projectId": "proj-xxxxxxxxxxxxxxx",
+                      "regionIds": [
+                        "ali-cn-hangzhou",
+                        "ali-cn-beijing"
+                      ],
+                      "cuType": "Performance-optimized",
+                      "cuSize": 4,
+                      "connectAddress": "https://glo-xxxxxxxx.global-cluster.vectordb.cloud.zilliz.com.cn",
+                      "createTime": "2026-06-04T10:00:00Z",
+                      "clusters": [
+                        {
+                          "clusterId": "in01-primary",
+                          "clusterName": "primary-cluster",
+                          "regionId": "ali-cn-hangzhou",
+                          "role": "PRIMARY",
+                          "status": "RUNNING"
+                        },
+                        {
+                          "clusterId": "in01-secondary",
+                          "clusterName": "secondary-cluster",
+                          "regionId": "ali-cn-beijing",
+                          "role": "SECONDARY",
+                          "status": "RUNNING"
+                        }
+                      ]
+                    }
+                  },
+                  "3": {
                     "summary": "failure",
                     "x-target-response": "OPTION 2",
                     "value": {
@@ -2096,16 +2279,6 @@
                                     }
                                   },
                                   "example": 8
-                                },
-                                "timezone": {
-                                  "type": "string",
-                                  "description": "Schedule timezone.",
-                                  "x-i18n": {
-                                    "zh-CN": {
-                                      "description": "定时规则时区。"
-                                    }
-                                  },
-                                  "example": "UTC"
                                 }
                               },
                               "required": [
@@ -2376,136 +2549,6 @@
         }
       }
     },
-    "/v2/globalClusters/availableRegions": {
-      "get": {
-        "summary": "List Available Global Cluster Regions",
-        "description": "Returns region groups that can be used together in a Global Cluster. Use this API before creating a Global Cluster or adding secondary clusters.",
-        "tags": [
-          "Global Clusters (V2)"
-        ],
-        "x-i18n": {
-          "zh-CN": {
-            "summary": "列出可用全球集群地域",
-            "description": "返回可在同一个全球集群中配合使用的地域组。创建全球集群或添加从集群前可调用此接口。"
-          }
-        },
-        "parameters": [
-          {
-            "name": "Authorization",
-            "in": "header",
-            "description": "The authentication token should be an API key with appropriate privileges.",
-            "required": true,
-            "example": "Bearer {{TOKEN}}",
-            "schema": {
-              "type": "string"
-            },
-            "x-i18n": {
-              "zh-CN": {
-                "description": "认证令牌，应为具备适当权限的 API 密钥。"
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Returns available Global Cluster region groups.",
-            "x-i18n": {
-              "zh-CN": {
-                "description": "返回可用全球集群地域组。"
-              }
-            },
-            "content": {
-              "application/json": {
-                "schema": {
-                  "oneOf": [
-                    {
-                      "x-tab-label": "success",
-                      "type": "object",
-                      "properties": {
-                        "regionGroups": {
-                          "type": "array",
-                          "description": "Region groups where member regions can communicate with each other for Global Cluster usage. An empty array means no available region combination is currently exposed for the organization.",
-                          "x-i18n": {
-                            "zh-CN": {
-                              "description": "可用于全球集群且成员地域之间可互通的地域组。空数组表示当前组织没有可用的地域组合。"
-                            }
-                          },
-                          "items": {
-                            "type": "array",
-                            "items": {
-                              "type": "string",
-                              "example": "aws-us-west-2"
-                            }
-                          }
-                        }
-                      }
-                    },
-                    {
-                      "x-tab-label": "failure",
-                      "type": "object",
-                      "description": "Returns an error message.",
-                      "x-i18n": {
-                        "zh-CN": {
-                          "description": "返回错误消息。"
-                        }
-                      },
-                      "properties": {
-                        "code": {
-                          "type": "integer",
-                          "description": "Response code.",
-                          "x-i18n": {
-                            "zh-CN": {
-                              "description": "响应码。"
-                            }
-                          },
-                          "example": 400
-                        },
-                        "message": {
-                          "type": "string",
-                          "description": "Error message.",
-                          "x-i18n": {
-                            "zh-CN": {
-                              "description": "错误描述。"
-                            }
-                          },
-                          "example": "Invalid request parameters."
-                        }
-                      }
-                    }
-                  ]
-                },
-                "examples": {
-                  "1": {
-                    "summary": "success",
-                    "x-target-response": "OPTION 1",
-                    "value": {
-                      "regionGroups": [
-                        [
-                          "aws-us-west-2",
-                          "aws-us-east-1"
-                        ],
-                        [
-                          "aws-eu-central-1",
-                          "aws-eu-west-1"
-                        ]
-                      ]
-                    }
-                  },
-                  "2": {
-                    "summary": "failure",
-                    "x-target-response": "OPTION 2",
-                    "value": {
-                      "code": 400,
-                      "message": "Invalid request parameters."
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/v2/globalClusters/convert": {
       "post": {
         "summary": "Convert Cluster to Global Cluster",
@@ -2619,6 +2662,7 @@
                 "1": {
                   "summary": "example",
                   "x-target-response": "OPTION 1",
+                  "x-target-lang": "en-US",
                   "value": {
                     "clusterId": "in01-xxxxxxxxxxxxxxx",
                     "globalClusterName": "my-global-cluster",
@@ -2626,6 +2670,21 @@
                       {
                         "clusterName": "secondary-cluster-us-east",
                         "regionId": "aws-us-east-1"
+                      }
+                    ]
+                  }
+                },
+                "2": {
+                  "summary": "example",
+                  "x-target-response": "OPTION 1",
+                  "x-target-lang": "zh-CN",
+                  "value": {
+                    "clusterId": "in01-xxxxxxxxxxxxxxx",
+                    "globalClusterName": "my-global-cluster",
+                    "secondaryClusters": [
+                      {
+                        "clusterName": "secondary-cluster",
+                        "regionId": "ali-cn-hangzhou"
                       }
                     ]
                   }

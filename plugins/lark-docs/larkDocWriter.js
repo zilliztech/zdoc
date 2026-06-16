@@ -1540,9 +1540,10 @@ export const method = "${method}"`
         const root = this.upload_to_s3 ? IMAGE_BED_URL : `/${this.imageDir.replace(/^static\//g, '')}`
         const caption = image.caption?.content ? image.caption.content.trim() : image.token;
         const slug = slugify(caption, {lower: true, strict: true})
+        const imageUrl = this.__markdown_image_url(`${root}/${slug}.png`);
 
         if (this.skip_image_download) {
-            return `![${caption}](${root}/${slug}.png "${caption}")`;
+            return `![${caption}](${imageUrl} "${caption}")`;
         }
 
         try {
@@ -1556,14 +1557,44 @@ export const method = "${method}"`
             console.error(`Image ${image.token} error [${error.constructor.name}]: ${error.message}`)
         }
 
-        return `![${caption}](${root}/${slug}.png "${caption}")`;
+        return `![${caption}](${imageUrl} "${caption}")`;
+    }
+
+    __markdown_image_url(url) {
+        const encodePath = path => path.split('/').map(part => {
+            if (part === '') {
+                return part;
+            }
+            try {
+                return encodeURIComponent(decodeURIComponent(part));
+            } catch (_error) {
+                return encodeURIComponent(part);
+            }
+        }).join('/');
+
+        try {
+            const parsed = new URL(url);
+            parsed.pathname = encodePath(parsed.pathname);
+            return parsed.toString();
+        } catch (_error) {
+            return encodePath(url);
+        }
+    }
+
+    __is_empty_table_cell(cell_text) {
+        return this.__filter_content(cell_text || '', this.targets)
+            .replace(/<br\/?>/g, '')
+            .replace(/&nbsp;/g, '')
+            .replace(/<[^>]*>/g, '')
+            .trim() === '';
     }
 
     async __board(board, indent) {
         const root = this.upload_to_s3 ? IMAGE_BED_URL : `/${ this.imageDir.replace(/^static\//g, '')}`
+        const boardUrl = this.__markdown_image_url(`${root}/${board["token"]}.png`);
 
         if (this.skip_image_download) {
-            return ' '.repeat(indent) + `![${board.token}](${root}/${board["token"]}.png)`;
+            return ' '.repeat(indent) + `![${board.token}](${boardUrl})`;
         }
 
         try {
@@ -1584,7 +1615,7 @@ export const method = "${method}"`
             console.error(`Board ${board.token} error [${error.constructor.name}]: ${error.message}`)
         }
 
-        return ' '.repeat(indent) + `![${board.token}](${root}/${board["token"]}.png)`;
+        return ' '.repeat(indent) + `![${board.token}](${boardUrl})`;
     }
 
     async __trim_white_borders(image) {
@@ -1640,7 +1671,7 @@ export const method = "${method}"`
                 block_id,
                 caption
             })
-            return `![${caption}](${root}/${caption}.png "${caption}")`;
+            return `![${caption}](${this.__markdown_image_url(`${root}/${caption}.png`)} "${caption}")`;
         } else {
             try {
                 const url = new URL(decodeURIComponent(iframe.component.url))
@@ -1660,7 +1691,7 @@ export const method = "${method}"`
                     })
                 }
 
-                return `![${caption}](${root}/${caption}.png "${caption}")`;
+                return `![${caption}](${this.__markdown_image_url(`${root}/${caption}.png`)} "${caption}")`;
             } catch (error) {
                 console.log(error)
                 console.log("-------------- A retry is needed -----------------");
@@ -1699,10 +1730,29 @@ export const method = "${method}"`
             return merge
         })      
 
+        const empty_columns = new Set();
+        for (var col = 0; col < column_size; col++) {
+            var is_empty_column = true;
+            for (var row = 0; row < row_size; row++) {
+                const cell_idx = row * column_size + col;
+                const merge = merge_info[cell_idx];
+                if (!merge || merge.col_span !== 1 || merge.row_span !== 1 || !this.__is_empty_table_cell(cell_texts[cell_idx])) {
+                    is_empty_column = false;
+                    break;
+                }
+            }
+            if (is_empty_column) {
+                empty_columns.add(col);
+            }
+        }
+
         var html = ' '.repeat(indent) + '<table>\n';
         for (var i = 0; i < row_size; i++) {
             html += ' '.repeat(indent) +'   <tr>\n';
             for (var j = 0; j < column_size; j++) {
+                if (empty_columns.has(j)) {
+                    continue;
+                }
                 const cell_idx = i * column_size + j;
                 const merge = merge_info[cell_idx];
 
