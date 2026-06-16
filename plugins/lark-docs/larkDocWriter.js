@@ -2047,9 +2047,10 @@ class larkDocWriter {
         const root = this.upload_to_s3 ? IMAGE_BED_URL : `/${this.imageDir.replace(/^static\//g, '')}`
         const caption = image.caption?.content ? image.caption.content.trim() : image.token;
         const slug = slugify(caption, {lower: true, strict: true})
+        const imageUrl = this.__markdown_image_url(`${root}/${slug}.png`);
 
         if (this.skip_image_download) {
-            return `![${caption}](${root}/${slug}.png "${caption}")`;
+            return `![${caption}](${imageUrl} "${caption}")`;
         }
 
         try {
@@ -2075,14 +2076,44 @@ class larkDocWriter {
             return await this.__image(image)
         }
 
-        return `![${caption}](${root}/${slug}.png "${caption}")`;
+        return `![${caption}](${imageUrl} "${caption}")`;
+    }
+
+    __markdown_image_url(url) {
+        const encodePath = path => path.split('/').map(part => {
+            if (part === '') {
+                return part;
+            }
+            try {
+                return encodeURIComponent(decodeURIComponent(part));
+            } catch (_error) {
+                return encodeURIComponent(part);
+            }
+        }).join('/');
+
+        try {
+            const parsed = new URL(url);
+            parsed.pathname = encodePath(parsed.pathname);
+            return parsed.toString();
+        } catch (_error) {
+            return encodePath(url);
+        }
+    }
+
+    __is_empty_table_cell(cell_text) {
+        return this.__filter_content(cell_text || '', this.targets)
+            .replace(/<br\/?>/g, '')
+            .replace(/&nbsp;/g, '')
+            .replace(/<[^>]*>/g, '')
+            .trim() === '';
     }
 
     async __board(board, indent) {
         const root = this.upload_to_s3 ? IMAGE_BED_URL : `/${ this.imageDir.replace(/^static\//g, '')}`
+        const boardUrl = this.__markdown_image_url(`${root}/${board["token"]}.png`);
 
         if (this.skip_image_download) {
-            return ' '.repeat(indent) + `![${board.token}](${root}/${board["token"]}.png)`;
+            return ' '.repeat(indent) + `![${board.token}](${boardUrl})`;
         }
 
         console.log(`[board] downloading preview for ${board.token}`)
@@ -2110,7 +2141,7 @@ class larkDocWriter {
             });
         });
 
-        return ' '.repeat(indent) + `![${board.token}](${root}/${board["token"]}.png)`;
+        return ' '.repeat(indent) + `![${board.token}](${boardUrl})`;
     }
 
     async __trim_white_borders(image) {
@@ -2147,7 +2178,7 @@ class larkDocWriter {
         const iframe = block['iframe'];
         const existing_iframe = this.iframes.find(x => x.block_id === block_id)
         if (existing_iframe) {
-            return `![${existing_iframe.caption}](${root}/${existing_iframe.caption}.png "${existing_iframe.caption}")`;
+            return `![${existing_iframe.caption}](${this.__markdown_image_url(`${root}/${existing_iframe.caption}.png`)} "${existing_iframe.caption}")`;
         }
 
         if (iframe['component']['iframe_type'] !== 8) {
@@ -2161,7 +2192,7 @@ class larkDocWriter {
                 block_id,
                 caption
             })
-            return `![${caption}](${root}/${caption}.png "${caption}")`;
+            return `![${caption}](${this.__markdown_image_url(`${root}/${caption}.png`)} "${caption}")`;
         } else {
             try {
                 const url = new URL(decodeURIComponent(iframe.component.url))
@@ -2181,7 +2212,7 @@ class larkDocWriter {
                     })
                 }
 
-                return `![${caption}](${root}/${caption}.png "${caption}")`;
+                return `![${caption}](${this.__markdown_image_url(`${root}/${caption}.png`)} "${caption}")`;
             } catch (error) {
                 console.log(error)
                 console.log("-------------- A retry is needed -----------------");
@@ -2301,11 +2332,33 @@ class larkDocWriter {
             ? table['property']['merge_info']
             : Array.from({ length: row_size * column_size }, () => ({ col_span: 1, row_span: 1 }));
         const hasMerges = this.__tableMergeInfoHasMerges(merge_info);
+        const empty_columns = new Set();
+
+        for (var col = 0; col < column_size; col++) {
+            var is_empty_column = true;
+            for (var row = 0; row < row_size; row++) {
+                const cell_idx = row * column_size + col;
+                const merge = merge_info[cell_idx];
+                if (!merge || merge.col_span !== 1 || merge.row_span !== 1 || !this.__is_empty_table_cell(cell_texts[cell_idx])) {
+                    is_empty_column = false;
+                    break;
+                }
+            }
+            if (is_empty_column) {
+                empty_columns.add(col);
+            }
+        }
 
         if (!hasMerges && cell_texts.every(cell => this.__isMarkdownTableSafeCell(cell))) {
             const rows = [];
             for (var rowIdx = 0; rowIdx < row_size; rowIdx++) {
-                rows.push(cell_texts.slice(rowIdx * column_size, (rowIdx + 1) * column_size));
+                const row = [];
+                for (var colIdx = 0; colIdx < column_size; colIdx++) {
+                    if (!empty_columns.has(colIdx)) {
+                        row.push(cell_texts[rowIdx * column_size + colIdx]);
+                    }
+                }
+                rows.push(row);
             }
 
             return this.__markdownTable(rows, indent);
@@ -2332,6 +2385,9 @@ class larkDocWriter {
         for (var i = 0; i < row_size; i++) {
             html += ' '.repeat(indent) +'   <tr>\n';
             for (var j = 0; j < column_size; j++) {
+                if (empty_columns.has(j)) {
+                    continue;
+                }
                 const cell_idx = i * column_size + j;
                 const merge = merge_info[cell_idx];
 

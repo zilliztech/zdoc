@@ -131,7 +131,8 @@ export const chooseParamExample = (param, lang, target) => {
 
 export const isControlPlane = (endpoint, target = 'zilliz', planeConfig) => {
     const keywords = planeConfig?.controlPlaneKeywords?.[target] || planeConfig?.controlPlaneKeywords?.zilliz || []
-    return keywords.some(k => endpoint.includes(k))
+    const normalizedEndpoint = endpoint.toLowerCase()
+    return keywords.some(k => normalizedEndpoint.includes(k.toLowerCase()))
 }
 
 export const isBeta = (endpoint) => {
@@ -139,5 +140,5 @@ export const isBeta = (endpoint) => {
         endpoint.includes('stage') ||
         endpoint.includes('usage') ||
         endpoint.includes('invoice')
-        
-}      
+
+}

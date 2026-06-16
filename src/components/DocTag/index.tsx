@@ -14,6 +14,7 @@ const TAG_REGISTRY: Record<string, TagDef> = {
   // Future-proofing entries (match zdoc)
   PUBLIC:           { caption: 'Public Beta',     color: '#175fff' },
   BYOC:             { caption: 'BYOC',            color: '#00897B' },
+  ONDEMAND:         { caption: 'On-Demand Only',  color: '#00A870' },
   DEPRECATED:       { caption: 'Deprecated',      color: '#9E9E9E' },
 };
 
