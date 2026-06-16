@@ -669,6 +669,7 @@ class larkDocScraper {
         source.base_targets = (record.fields.Targets || record.fields['Publish Targets'] || [])
         source.base_status = record.fields.Status || record.fields.Progress || null
         source.base_labels = record.fields.Labels || null
+        source.base_beta = record.fields.Beta || record.fields.beta || null
         source.base_ref_target_doc = record.fields['Ref Target Doc'] || null
         return source
     }

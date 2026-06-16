@@ -888,6 +888,7 @@ class larkDocWriter {
                         publish: this.__base_nav_source_is_publishable(baseSource),
                         title: baseSource.title || title,
                         slug,
+                        beta: this.__plain_value(baseSource.base_beta) || null,
                         labels: this.__plain_value(baseSource.base_labels) || baseSource.title || title,
                     }
                 }
@@ -896,6 +897,7 @@ class larkDocWriter {
                         publish: this.__base_nav_source_is_publishable(baseSource),
                         title: baseSource.title || title,
                         slug,
+                        beta: this.__plain_value(baseSource.base_beta) || null,
                         labels: this.__plain_value(baseSource.base_labels) || baseSource.title || title,
                     }
                 }
@@ -906,6 +908,7 @@ class larkDocWriter {
                             : !!baseSource.has_child,
                         title: baseSource.title || title,
                         slug,
+                        beta: this.__plain_value(baseSource.base_beta) || null,
                         labels: this.__plain_value(baseSource.base_labels) || baseSource.title || title,
                     }
                 }
@@ -914,6 +917,7 @@ class larkDocWriter {
                         publish: this.__base_source_is_publishable(baseSource),
                         title: baseSource.title || title,
                         slug,
+                        beta: this.__plain_value(baseSource.base_beta) || null,
                         labels: this.__plain_value(baseSource.base_labels) || baseSource.title || title,
                     }
                 }
