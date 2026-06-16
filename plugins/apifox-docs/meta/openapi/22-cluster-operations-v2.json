@@ -3698,8 +3698,39 @@
                   "replica"
                 ]
               },
-              "example": {
-                "replica": 2
+              "examples": {
+                "1": {
+                  "summary": "Manual Scaling",
+                  "value": {
+                    "replica": 2
+                  }
+                },
+                "2": {
+                  "summary": "Dynamic Scaling",
+                  "value": {
+                    "autoscaling": {
+                      "replica": {
+                        "min": 1,
+                        "max": 2
+                      }
+                    }
+                  }
+                },
+                "3": {
+                  "summary": "Scheduled Scaling",
+                  "value": {
+                    "autoscaling": {
+                      "replica": {
+                        "schedules": [
+                          {
+                            "cron": "10 0 0 0 0 ?",
+                            "target": 2
+                          }
+                        ]
+                      }
+                    }
+                  }
+                }
               }
             }
           }
