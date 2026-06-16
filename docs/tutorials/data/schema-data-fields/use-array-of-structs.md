@@ -1157,7 +1157,7 @@ The output would be a list of the three most similar entities for each embedding
 
 In the above code example, `embeddingList1` is an embedding list of one vector, while `embeddingList2` contains two vectors. Each triggers a separate search request and expects a list of top-K similar entities.
 
-## Scalar filtering in a StructArray field | PRIVATE\{#scalar-filtering-in-a-structarray-field}
+## Scalar filtering in a StructArray field | ONDEMAND\{#scalar-filtering-in-a-structarray-field}
 
 You can use **element filters** and **operators in the match family** to conduct scalar filtering against a scalar sub-field in a StructArray. For more details and examples on the two operator types above, refer to [Array of Structs Operators](./struct-array-filtering).
 
