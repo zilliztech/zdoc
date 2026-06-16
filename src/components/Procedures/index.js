@@ -1,16 +1,10 @@
 import React from 'react';
 import styles from './styles.module.css';
 
-// True if a step's description contains an image / visual media (markdown images
-// carry a `src` prop; supademo demos use a container class).
-function hasMedia(node) {
-    if (!node) return false;
-    if (Array.isArray(node)) return node.some(hasMedia);
-    if (typeof node !== 'object') return false;
-    const p = node.props || {};
-    if (node.type === 'img' || p.src != null || p.mdxType === 'img') return true;
-    if (typeof p.className === 'string' && p.className.includes('supademo')) return true;
-    return hasMedia(p.children);
+// True if a step has any body content below its title (text, code, image, …).
+// The connector line runs alongside that content down to the next step number.
+function hasContent(description) {
+    return Array.isArray(description) ? description.length > 0 : Boolean(description);
 }
 
 export default function Procedures({ children, active = true }) {
@@ -45,7 +39,7 @@ export default function Procedures({ children, active = true }) {
                 <div key={index} className={styles.step}>
                     <div className={styles.stepNumber}>
                         <span>{index + 1}</span>
-                        {index < steps.length - 1 && hasMedia(step.description) && <div className={styles.connector}></div>}
+                        {index < steps.length - 1 && hasContent(step.description) && <div className={styles.connector}></div>}
                     </div>
                     <div className={styles.stepContent}>
                         <h3>{step.title}</h3>

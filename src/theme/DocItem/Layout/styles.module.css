@@ -70,10 +70,10 @@
   width: 147px;
   height: 30px;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 6px;
   margin-top: 0.625rem;
-  padding: 0 12px;
+  padding: 0 14px;
   font-family: var(--ifm-font-family-base);
   font-size: 13px;
   font-weight: 500;
@@ -153,5 +153,22 @@
 @media (max-width: 996px) {
   .docItemCol {
     padding: 1.25rem 1rem 5rem;
+  }
+}
+
+/* ── Very large screens: widen the reading column a touch, and center the
+   content + TOC block instead of letting a big empty gap pile up on the right
+   (matches MongoDB / Linear docs). Self-gating: below ~1440px the max-widths
+   don't bind, so narrower viewports are unaffected. Only rows that actually
+   have a TOC are capped — TOC-less pages keep their left-aligned fill. */
+@media (min-width: 1440px) {
+  .docItemCol {
+    max-width: 68rem;
+  }
+
+  .docItemRow:not(:has(.docItemColCentered)) {
+    max-width: 82rem;
+    margin-left: auto;
+    margin-right: auto;
   }
 }

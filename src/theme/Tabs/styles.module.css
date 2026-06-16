@@ -1,0 +1,15 @@
+/* Wrapper that hosts the sliding tab underline */
+.tabsSlide {
+  position: relative;
+}
+
+/* Single underline that slides between tabs (replaces the per-tab border). */
+.tabIndicator {
+  position: absolute;
+  height: 2px;
+  background: var(--zd-linear-signup-ink);
+  border-radius: 1px;
+  pointer-events: none;
+  z-index: 3;
+  transition: left 0.25s ease, width 0.25s ease;
+}

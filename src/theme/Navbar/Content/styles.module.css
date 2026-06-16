@@ -126,7 +126,8 @@
   display: inline-flex;
   align-items: center;
   gap: 3px;
-  padding: 5px 9px;
+  /* equal padding all sides: kbd→edge (L/R) matches kbd→top */
+  padding: 5px;
   background: #ffffff;
   color: #24292f;
   border: 1px solid var(--zd-gray-200);
@@ -151,12 +152,14 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 16px;
-  height: 16px;
-  padding: 0 3px;
+  box-sizing: border-box;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 2px;
   font-family: inherit;
   font-size: 11px;
   font-weight: 500;
+  line-height: 1;
   color: #6e7781;
   background: var(--zd-gray-100);
   border: 1px solid #ebebef;

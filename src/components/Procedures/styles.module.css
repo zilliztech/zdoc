@@ -20,7 +20,7 @@
 .stepNumber span {
     display: flex;
     border: 1px solid #e5e5e5;
-    border-radius: 8px;
+    border-radius: 50%;
     width: 30px;
     height: 30px;
     font-size: 14px;
@@ -47,7 +47,7 @@
     flex: 1;
     min-width: 0;
     gap: 5px;
-    padding-bottom: 32px;
+    padding-bottom: 18px;
 }
 
 .stepContent h3 {

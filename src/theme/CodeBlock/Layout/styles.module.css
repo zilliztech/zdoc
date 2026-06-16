@@ -1,10 +1,11 @@
 /* ── Window frame ── */
 .windowFrame {
-  border-radius: 10px !important;
+  border-radius: 6px !important;
   overflow: hidden !important;
   box-shadow:
-    0 0 0 1px rgba(0, 0, 0, 0.10) !important;
-  margin-bottom: 1.5rem !important;
+    0 0 0 1px rgba(0, 0, 0, 0.065) !important;
+  margin-top: 1.25rem !important;
+  margin-bottom: 1.25rem !important;
   padding: 0 !important;
 }
 
@@ -15,8 +16,8 @@
   justify-content: flex-end;
   height: 40px;
   padding: 0 0.5rem 0 0.875rem;
-  background: #f0f0f1;
-  border-bottom: 1px solid #e4e4e6;
+  background: #f6f6f7;
+  border-bottom: 1px solid #ededef;
   gap: 0.75rem;
   flex-shrink: 0;
 }
@@ -167,5 +168,5 @@
 }
 
 .codeContent {
-  background: #f6f6f8;
+  background: #f9f9fa;
 }
