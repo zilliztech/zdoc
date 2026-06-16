@@ -50,6 +50,45 @@ Ensure that
 
 - You have been granted the permissions listed in [Required permissions](./deploy-byoc-i-aws#required-permissions).
 
+## Applicable regions\{#applicable-regions}
+
+The following table lists the AWS cloud regions the Zilliz Cloud BYOC solution supports. If you cannot find your cloud regions on the Zilliz Cloud console, please contact us at support@zilliz.com.
+
+<table>
+   <tr>
+     <th><p><strong>Continent</strong></p></th>
+     <th><p><strong>Region</strong></p></th>
+     <th><p><strong>Location</strong></p></th>
+   </tr>
+   <tr>
+     <td rowspan="3"><p>North America</p></td>
+     <td><p>East US</p></td>
+     <td><p>Virginia, USA</p></td>
+   </tr>
+   <tr>
+     <td><p>East US 2</p></td>
+     <td><p>Virginia, USA</p></td>
+   </tr>
+   <tr>
+     <td><p>Central US</p></td>
+     <td><p>Iowa, USA</p></td>
+   </tr>
+   <tr>
+     <td rowspan="2"><p>Europe</p></td>
+     <td><p>Germany West Central</p></td>
+     <td><p>Frankfurt, Germany</p></td>
+   </tr>
+   <tr>
+     <td><p>North Europe</p></td>
+     <td><p>Ireland</p></td>
+   </tr>
+   <tr>
+     <td><p>Asia</p></td>
+     <td><p>Central India</p></td>
+     <td><p>Pune, India</p></td>
+   </tr>
+</table>
+
 ## Procedures\{#procedures}
 
 ### Step 1: Prepare the deployment environment\{#step-1-prepare-the-deployment-environment}
@@ -180,28 +219,28 @@ The project is created at the end of this step, and you will be redirected to th
            <tr>
              <td><p>Small</p></td>
              <td><p>3 clusters with 8 to 16 CUs</p></td>
-             <td><p>20 Million - 40 Million</p></td>
+             <td><p>16 Million - 32 Million</p></td>
              <td><p>64 Million - 128 Million</p></td>
              <td><p>320 Million - 640 Million</p></td>
            </tr>
            <tr>
              <td><p>Medium</p></td>
              <td><p>7 clusters with 16 to 64 CUs</p></td>
-             <td><p>40 Million - 160 Million</p></td>
+             <td><p>32 Million - 128 Million</p></td>
              <td><p>128 Million - 512 Million</p></td>
              <td><p>640 Million - 2.6 Billion</p></td>
            </tr>
            <tr>
              <td><p>Large</p></td>
              <td><p>12 clusters with 64 to 192 CUs</p></td>
-             <td><p>160 Million - 480 Million</p></td>
+             <td><p>128 Million - 384 Million</p></td>
              <td><p>512 Million - 1.5 Billion</p></td>
              <td><p>2.6 Billion - 7.7 Billion</p></td>
            </tr>
            <tr>
              <td><p>X-Large</p></td>
              <td><p>17 clusters with 192 to 576 CUs</p></td>
-             <td><p>480 Million - 1.44 Billion</p></td>
+             <td><p>384 Million - 1.2 Billion</p></td>
              <td><p>1.5 Billion -  4.6 Billion</p></td>
              <td><p>7.7 Billion - 23 Billion</p></td>
            </tr>
@@ -217,11 +256,11 @@ The project is created at the end of this step, and you will be redirected to th
 
         <Admonition type="info" icon="📘" title="Notes">
 
-        <ul>
-        <li><p>Your choice in <strong>Project Size</strong> does not affect the settings in <strong>Tiered Storage Node</strong>.</p></li>
-        <li><p>If <strong>Auto-scaling</strong> is disabled, the sum of the <strong>Default Query Node</strong> count and the <strong>Tiered Query Node</strong> count should be a positive integer.</p></li>
-        <li><p>If <strong>Auto-scaling</strong> is enabled, the sum of the <strong>Min</strong> values of both the <strong>Default Query Node</strong> and the <strong>Tiered Query Node</strong> should be a positive integer.</p></li>
-        </ul>
+        - Your choice in **Project Size** does not affect the settings in **Tiered Storage Node**.
+
+        - If **Auto-scaling** is disabled, the sum of the **Default Query Node** count and the **Tiered Query Node** count should be a positive integer.
+
+        - If **Auto-scaling** is enabled, the sum of the **Min** values of both the **Default Query Node** and the **Tiered Query Node** should be a positive integer.
 
         </Admonition>
 

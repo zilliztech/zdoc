@@ -6,7 +6,7 @@ sidebar_label: "MinHash Function"
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
-beta: PRIVATE
+beta: ONDEMAND
 notebook: FALSE
 description: "The MinHash function converts raw text into binary vectors that approximate Jaccard similarity between documents. It applies text shingling and multiple hash functions to produce fixed-length signature vectors, enabling fast near-duplicate detection and document deduplication at scale. | Cloud"
 type: origin

@@ -40,28 +40,24 @@ The following table offers a quick comparison of the three cluster types in diff
      <th><p>Search QPS</p></th>
      <th><p>Search Latency</p></th>
      <th><p>Per Query CU Capacity</p></th>
-     <th><p>Cost per Million Vectors</p></th>
    </tr>
    <tr>
      <td><p><strong>Performance-optimized</strong></p></td>
      <td><p>500-1500</p></td>
      <td><p>10 ms</p></td>
      <td><p>2 million 768-dim vectors</p></td>
-     <td><p>from &#36;63/mo.</p></td>
    </tr>
    <tr>
      <td><p><strong>Capacity-optimized</strong></p></td>
      <td><p>100-300</p></td>
      <td><p>50-100 ms</p></td>
      <td><p>8 million 768-dim vectors</p></td>
-     <td><p>from &#36;16/mo.</p></td>
    </tr>
    <tr>
      <td><p><strong>Tiered-storage</strong></p></td>
      <td><p>10-50</p></td>
      <td><p>100-1000 ms</p></td>
      <td><p>40 million 768-dim vectors</p></td>
-     <td><p>from &#36;5/mo.</p></td>
    </tr>
 </table>
 
@@ -172,4 +168,3 @@ To select the right cluster type and query CU for this requirement, follow these
 1. **Check Throughput**: With a `top-k` setting of 100, the Performance-optimized cluster can achieve a QPS of 440. To sustain a consistent 1,000 QPS, you would need to triple the number of replicas.
 
 In conclusion, for this scenario, the Performance-optimized cluster is your best bet. A configuration of 3 replicas, with each replica consisting of 4 query CUs, should serve you perfectly.
-

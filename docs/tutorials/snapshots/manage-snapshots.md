@@ -6,7 +6,7 @@ sidebar_label: "Manage Snapshots"
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
-beta: PRIVATE
+beta: ONDEMAND
 notebook: FALSE
 description: "In this guide, you will learn how to create and manage snapshots, including | Cloud"
 type: origin

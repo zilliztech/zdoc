@@ -490,7 +490,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Set entity-level TTL | PRIVATE\{#set-entity-level-ttl}
+## Set entity-level TTL | ONDEMAND\{#set-entity-level-ttl}
 
 Entity-level TTL lets each entity carry its own absolute expiration time. The time is stored in a dedicated `TIMESTAMPTZ` column that you declare in the schema, and you mark that column as the TTL field through the `ttl_field` collection property.
 
@@ -1181,7 +1181,7 @@ await client.dropCollectionProperties({
 
 Dropping `ttl_field` disables the automatic filter for future queries, but entities that had already expired are not automatically surfaced again. To make a previously-expired entity visible, upsert it with a `None` or future expiration timestamp — that is the only way to restore access to expired rows within the same load session.
 
-## Migrate between the two modes | PRIVATE\{#migrate-between-the-two-modes}
+## Migrate between the two modes | ONDEMAND\{#migrate-between-the-two-modes}
 
 The two TTL modes are mutually exclusive, so switching between them is a multi-step operation.
 

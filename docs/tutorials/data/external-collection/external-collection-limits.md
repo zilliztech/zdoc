@@ -6,7 +6,7 @@ sidebar_label: "Limits"
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
-beta: PUBLIC
+beta: ONDEMAND
 notebook: FALSE
 description: "Because Zilliz Cloud does not store raw data for external collections and only maintains metadata and mappings to the external data source, external collections are read-only. As a result, you cannot perform write or maintenance operations from the Zilliz Cloud side, including `insert`, `upsert`, `delete`, `import`, `flush`, and `compact`. | Cloud"
 type: origin

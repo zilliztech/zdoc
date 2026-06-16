@@ -420,7 +420,7 @@ In the example above:
 
 For additional parameter details, refer to [search](/reference/python/python/Vector-search).
 
-## Order groups by a scalar field | PRIVATE\{#order-groups-by-a-scalar-field}
+## Order groups by a scalar field | ONDEMAND\{#order-groups-by-a-scalar-field}
 
 You can combine Grouping Search with `order_by_fields` to order groups by a scalar field. This is useful when you want diverse results across groups, but still want the groups to follow a business-relevant order such as price or rating.
 

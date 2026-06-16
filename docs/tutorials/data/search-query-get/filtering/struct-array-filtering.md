@@ -6,7 +6,7 @@ sidebar_label: "StructArray"
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
-beta: PRIVATE
+beta: ONDEMAND
 notebook: FALSE
 description: "The Array of Structs, or StructArray, in an entity stores an ordered set of Struct elements. Each Struct in the Array shares the same predefined schema, which comprises multiple vectors and scalar fields. When a scalar sub-field in a Struct is indexed, you can use element filters and operators in the match family to perform scalar filtering on it. | Cloud"
 type: origin

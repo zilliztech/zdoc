@@ -6,7 +6,7 @@ sidebar_label: "External Collection"
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
-beta: PUBLIC
+beta: ONDEMAND
 notebook: FALSE
 description: "Everything you need to know about managing external collections. | Cloud"
 type: origin

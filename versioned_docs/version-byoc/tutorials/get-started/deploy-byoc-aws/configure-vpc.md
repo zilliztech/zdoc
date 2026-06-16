@@ -68,16 +68,53 @@ The following table lists the AWS cloud regions the Zilliz Cloud BYOC solution s
 
 <table>
    <tr>
-     <th><p>AWS Region</p></th>
-     <th><p>Location</p></th>
+     <th><p><strong>Continent</strong></p></th>
+     <th><p><strong>Region</strong></p></th>
+     <th><p><strong>Location</strong></p></th>
    </tr>
    <tr>
+     <td rowspan="4"><p>North America</p></td>
      <td><p>us-west-2</p></td>
-     <td><p>Oregon</p></td>
+     <td><p>Oregon, USA</p></td>
    </tr>
    <tr>
+     <td><p>us-east-1</p></td>
+     <td><p>N. Virginia, USA</p></td>
+   </tr>
+   <tr>
+     <td><p>us-east-2</p></td>
+     <td><p>Ohio, USA</p></td>
+   </tr>
+   <tr>
+     <td><p>ca-central-1</p></td>
+     <td><p>Canada (Central)</p></td>
+   </tr>
+   <tr>
+     <td rowspan="2"><p>Europe</p></td>
      <td><p>eu-central-1</p></td>
-     <td><p>Frankfurt</p></td>
+     <td><p>Frankfurt, Germany</p></td>
+   </tr>
+   <tr>
+     <td><p>eu-west-1</p></td>
+     <td><p>Ireland</p></td>
+   </tr>
+   <tr>
+     <td rowspan="3"><p>Asia</p></td>
+     <td><p>ap-northeast-1</p></td>
+     <td><p>Tokyo, Japan</p></td>
+   </tr>
+   <tr>
+     <td><p>ap-southeast-1</p></td>
+     <td><p>Singapore</p></td>
+   </tr>
+   <tr>
+     <td><p>ap-northeast-2</p></td>
+     <td><p>Seoul, Korea</p></td>
+   </tr>
+   <tr>
+     <td><p>Oceania</p></td>
+     <td><p>ap-southeast-2</p></td>
+     <td><p>Sydney, Australia</p></td>
    </tr>
 </table>
 

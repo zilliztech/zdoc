@@ -67,12 +67,32 @@ The following table lists the Google Cloud Platform (GCP) regions the Zilliz Clo
 
 <table>
    <tr>
-     <th><p>GCP Region</p></th>
-     <th><p>Location</p></th>
+     <th><p><strong>Continent</strong></p></th>
+     <th><p><strong>Region</strong></p></th>
+     <th><p><strong>Location</strong></p></th>
    </tr>
    <tr>
+     <td rowspan="3"><p>North America</p></td>
      <td><p>us-west1</p></td>
-     <td><p>Oregon</p></td>
+     <td><p>Oregon, USA</p></td>
+   </tr>
+   <tr>
+     <td><p>us-east4</p></td>
+     <td><p>Virginia, USA</p></td>
+   </tr>
+   <tr>
+     <td><p>us-central1</p></td>
+     <td><p>Iowa, USA</p></td>
+   </tr>
+   <tr>
+     <td><p>Europe</p></td>
+     <td><p>europe-west3</p></td>
+     <td><p>Frankfurt, Germany</p></td>
+   </tr>
+   <tr>
+     <td><p>Asia</p></td>
+     <td><p>asia-southeast1</p></td>
+     <td><p>Singapore</p></td>
    </tr>
 </table>
 

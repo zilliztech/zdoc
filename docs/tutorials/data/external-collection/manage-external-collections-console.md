@@ -6,7 +6,7 @@ sidebar_label: "On Console"
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
-beta: PUBLIC
+beta: ONDEMAND
 notebook: FALSE
 description: "This page covers how to manage an external collection via the Zilliz Cloud web console. | Cloud"
 type: origin

@@ -6,7 +6,7 @@ sidebar_label: "DQL sessions"
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
-beta: PUBLIC
+beta: ONDEMAND
 notebook: FALSE
 description: "DQL operations in collections for on-demand computing, such as search, query, get, and hybrid search, require attaching compute resources from an on-demand cluster. Zilliz Cloud allows you to create a session to meet your on-demand compute needs. | Cloud"
 type: origin

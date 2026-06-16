@@ -31,7 +31,7 @@ Zilliz Cloud offers a license for your Bring Your Own Cloud (BYOC) organization.
 
 Zilliz Cloud offers a **Usage** dashboard to provide detailed information on your license usage.
 
-![Group 427326000](https://zdoc-images.s3.us-west-2.amazonaws.com/Group 427326000.png "Group 427326000")
+![Group 427326000](https://zdoc-images.s3.us-west-2.amazonaws.com/Group%20427326000.png "Group 427326000")
 
 On the dashboard, you can find:
 
@@ -55,7 +55,7 @@ Zilliz Cloud then deducts the summed amount from the **Total Capacity** to deter
 
 - When current usage exceeds **Total Capacity**, the progress bar turns red, and an alert appears at the top of the **Usage** dashboard. You will also receive an email stating that your licensed capacity has been exceeded. In that case, [contact us](https://zilliz.com/contact-sales) to increase your licensed capacity.
 
-    ![Group 427326002](https://zdoc-images.s3.us-west-2.amazonaws.com/Group 427326002.png "Group 427326002")
+    ![Group 427326002](https://zdoc-images.s3.us-west-2.amazonaws.com/Group%20427326002.png "Group 427326002")
 
 ## License status\{#license-status}
 
@@ -90,4 +90,3 @@ In the breakdown, you will see vCPU usage and Running CU for each project.
 - **Running CU**
 
     Indicates the total number of CUs used by the clusters in each project in real time.
-
