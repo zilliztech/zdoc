@@ -6,7 +6,7 @@ sidebar_label: "Quickstart to External Data Lake Search"
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
-beta: PUBLIC
+beta: ONDEMAND
 notebook: FALSE
 description: "External data lake search lets you search massive datasets with zero-copy access to data in external storage or imported into Zilliz Cloud, without keeping compute resources running continuously. You can create collections from external volumes or imported files, build indexes and refresh metadata via the project data plane endpoint, and start an on-demand cluster only when you need to run search or query workloads. | Cloud"
 type: origin
