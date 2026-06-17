@@ -8,10 +8,10 @@ last_modified: FALSE
 deprecate_since: FALSE
 beta: FALSE
 notebook: FALSE
-description: "Last updated June 3, 2026 | Cloud"
+description: "Last updated June 17, 2026 | Cloud"
 type: origin
 token: MUL3wkn7Yi3YoFkYk59csf8bnNc
-sidebar_position: 0
+sidebar_position: 1
 keywords: 
   - zilliz
   - vector database
@@ -27,7 +27,7 @@ import Grid from '@site/src/components/Grid';
 
 # Changelogs
 
-**Last updated:** June 3, 2026
+**Last updated:** June 17, 2026
 
 <Grid columnSize="2" widthRatios="25,74">
 
@@ -46,6 +46,22 @@ import Grid from '@site/src/components/Grid';
 </Grid>
 
 ## 2026\{#2026}
+
+<Grid columnSize="2" widthRatios="25,74">
+
+    <div>
+
+        **[June 17, 2026](./release-notes-2606#enhancements)**
+
+    </div>
+
+    <div>
+
+        - 💾 You can now specify the compatible Milvus version when you restore a cluster. For details, see [Restore from Backup Files](./restore-from-backup-files) and [Use Recycle Bin](./use-recycle-bin).
+
+    </div>
+
+</Grid>
 
 <Grid columnSize="2" widthRatios="25,74">
 
@@ -95,7 +111,7 @@ import Grid from '@site/src/components/Grid';
 
             - [External data lake search](./external-collection)
 
-        - 🐦 Milvus v3.0.x enters Public Review in Zilliz Cloud with the following features:
+        - 🐦 Milvus v3.0.x enters Private Review for on-demand compute in Zilliz Cloud with the following features:
 
             - [External collections and backfill](./external-collection)
 
@@ -105,7 +121,7 @@ import Grid from '@site/src/components/Grid';
 
             - [MinHash function](./minhash-function)
 
-            - Order by for [searches](./single-vector-search#sort-search-results-by-scalar-fields) and [queries](./get-and-scalar-query#sort-query-results),
+            - Order by for [searches](./single-vector-search#sort-search-results-by-scalar-fields-or-private) and [queries](./get-and-scalar-query#sort-query-results-or-private),
 
             - [Snapshots](./snapshots),
 
@@ -667,7 +683,7 @@ import Grid from '@site/src/components/Grid';
 
             - [Multi-vector hybrid search](./hybrid-search)
 
-            - [Inverted index](./index-scalar-fields) and [fuzzy match](./basic-filtering-operators#example-2-using-like-for-pattern-matching)
+            - [Inverted index](./index-scalar-fields) and [fuzzy match](./basic-filtering-operators)
 
             - [Grouping search](./grouping-search)
 

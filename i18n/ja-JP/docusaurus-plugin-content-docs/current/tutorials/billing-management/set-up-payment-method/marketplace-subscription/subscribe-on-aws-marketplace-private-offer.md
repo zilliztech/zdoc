@@ -33,17 +33,19 @@ AWS Marketplace の Private Offer は、Zilliz が組織向けに作成するカ
 
 割引価格、コミット済み利用額、エンタープライズ調達条件、特定の AWS account ID に紐付いた契約など、組織がカスタムの商用条件を必要とする場合は Private Offer を使用します。Private Offer は、Zilliz がオファーに含めた AWS account ID にのみ表示されます。
 
-Zilliz Cloud の Private Offer が必要な場合は、[Zilliz 営業チームにお問い合わせ](https://zilliz.com/contact-sales) ください。オファーを受け取る AWS account ID、想定契約期間、利用要件、組織が含める必要のある調達または請求要件をお知らせください。
+Zilliz Cloud の Private Offer が必要な場合は、[担当の Zilliz アカウントエグゼクティブにお問い合わせ](https://zilliz.com/contact-sales)ください。オファーを受け取る AWS account ID、想定契約期間、利用要件、組織が含める必要のある調達または請求要件をお知らせください。
 
 ## 開始前の準備\{#before-you-start}
 
-AWS Marketplace で Private Offer にサブスクライブする前に、次のものがあることを確認してください。
+AWS Marketplace で Private Offer にサブスクライブする前に、次のことを確認してください。
 
-- Zilliz Cloud アカウントと [組織](./organizations)。
+- Zilliz Cloud アカウントと [組織](./organizations)があること。
 
-- Private Offer を受け取り、承諾するための [AWS account ID](https://docs.aws.amazon.com/IAM/latest/UserGuide/console-account-id.html)。
+- Private Offer を受け取り、承諾するための [AWS account ID](https://docs.aws.amazon.com/IAM/latest/UserGuide/console-account-id.html)があること。
 
-- `AWSMarketplaceManageSubscriptions` マネージドポリシーなど、AWS Marketplace 製品にサブスクライブする権限。
+- `AWSMarketplaceManageSubscriptions` マネージドポリシーなど、AWS Marketplace 製品にサブスクライブする権限があること。
+
+- Zilliz Cloud で Organization Owner または Organization Billing Admin であること。Marketplace サブスクリプションを Zilliz Cloud 組織にリンクするには、これらの権限が必要です。
 
 ## Private Offer にサブスクライブする\{#subscribe-to-a-private-offer}
 
@@ -55,9 +57,9 @@ AWS Marketplace で Private Offer にサブスクライブする前に、次の�
 
 <Procedures>
 
-1.  Private Offer について営業チームに問い合わせます。
+1.  Private Offer について担当の Zilliz アカウントエグゼクティブに問い合わせます。
 
-    [営業チームに問い合わせる](https://zilliz.com/contact-sales) 際は、Private Offer を受け取るための AWS account ID を提供する必要があります。
+    [担当の Zilliz アカウントエグゼクティブに問い合わせる](https://zilliz.com/contact-sales)際は、Private Offer を受け取るための AWS account ID を提供する必要があります。
 
 1. メールの受信トレイを確認します。
 
@@ -129,7 +131,7 @@ Private Offer の有効期限が近づくと、Zilliz は更新用の新しい P
 
 <Admonition type="info" icon="📘" title="Note">
 
-実際には、更新は新しい Private Offer を承諾することと同じように機能します。承諾すると、新しいオファーが以前のオファーを自動的に置き換えます。それでも、新しいオファーを Zilliz Cloud 組織に再度リンクする必要があります。
+AWS Marketplace では、更新は新しい Private Offer を承諾することと同じように機能します。承諾すると、新しいオファーが以前のオファーを自動的に置き換えます。それでも、新しいオファーを Zilliz Cloud 組織に再度リンクする必要があります。
 
 </Admonition>
 
@@ -267,13 +269,9 @@ Private Offer の有効期限が切れて更新されない場合、AWS Marketpl
 
     この場合は、次のように対応できます。
 
-    - 既存の Marketplace サブスクリプションを更新する必要がある場合は、まず組織の現在のサブスクリプションを [リンク解除](./subscribe-on-aws-marketplace#cancel-public-offer-subscription) してから、新しいサブスクリプションを設定してください。
+    - 既存の Marketplace サブスクリプションを更新する必要がある場合は、まず組織の現在のサブスクリプションをリンク解除してから、新しいサブスクリプションを設定してください。
 
-    - 異なる Marketplace サブスクリプション用に複数の組織が必要な場合は、次のいずれかを行えます。
-
-        - 新しい Zilliz Cloud アカウントを [登録](./register-with-zilliz-cloud) して新しい組織を作成します。次に、その組織オーナーを新しい組織に [招待](./organization-users#invite-a-user-to-your-organization) します。この組織オーナーは複数の組織に所属することになり、各組織に異なる Marketplace サブスクリプションを設定できます。
-
-        - [サポートチケットを作成](http://support.zilliz.com) してください。当社が新しい組織を作成します。現在、Zilliz Cloud はユーザーによる組織の手動作成をサポートしていません。
+    - 異なる Marketplace サブスクリプション用に複数の組織が必要な場合は、[組織を作成](./organization-settings#create-an-organization)できます。
 
 - **リストに組織がない**
 
@@ -283,8 +281,6 @@ Private Offer の有効期限が切れて更新されない場合、AWS Marketpl
 
     この場合は、次のように対応できます。
 
-    - 新しい組織を作成します。
+    - [新しい組織を作成](./organization-settings#create-an-organization)します。
 
     - 他のユーザーに、その組織へあなたを [招待](./organization-users#invite-a-user-to-your-organization) し、Organization Owner のロールを付与するよう依頼します。
-
-    - [サポートチケットを作成](https://support.zilliz.com/hc/en-us) してください。当社が新しい組織を作成します。

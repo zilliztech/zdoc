@@ -38,15 +38,27 @@ This guide walks you through how to restore a full or partial cluster from backu
 
 ## Restore a full cluster\{#restore-a-full-cluster}
 
-You can restore an entire cluster—including all databases and collections—to a **new cluster**. This is useful for cloning environments for testing or recovery. To restore an entire cluster, the backup file must be a cluster backup.
+You can restore an entire cluster, including all databases and collections, to a **new** cluster. This is useful for cloning environments for testing or recovery. To restore an entire cluster, the backup file must be a cluster backup.
 
-During restoration, you may choose whether to include RBAC settings. 
+During restoration, you may also configure the following:
 
-<Admonition type="info" icon="📘" title="Notes">
+- Choose whether to include RBAC settings.
 
-<p>RBAC restoration is currently supported only via the web console; the RESTful API does not support it yet.</p>
+- Select the Milvus version of the restored new cluster.
 
-</Admonition>
+    - For backup files created within the last 30 days, if the original cluster used an earlier Milvus GA version than the latest available GA version, you can choose the Milvus version for the restored cluster. By default, Zilliz Cloud restores the cluster to the latest GA Milvus version.
+
+    - For backup files created more than 30 days ago, or backup files already using the latest Milvus GA version, the target Milvus version cannot be changed.
+
+    For example, suppose the latest available Milvus GA version is 2.6.x.
+
+    - If you restore from a 2.5.x backup file created within the last 30 days, Zilliz Cloud restores the new cluster to 2.6.x by default, but you can choose to restore it to 2.5.x.
+
+    - If you restore from a 2.5.x backup file created more than 30 days ago, Zilliz Cloud restores the new cluster to 2.6.x by default, and you cannot change the target Milvus version.
+
+    - If you restore from a 2.6.x backup file, Zilliz Cloud restores the new cluster to 2.6.x, and you cannot change the target Milvus version.
+
+- Select whether to enable encryption at rest with CMEK. For details, see [Customer-Managed Encryption Keys](./cmek).
 
 After the restore, **a new password** is generated for the `db_admin` user. Use this password to connect to the restored cluster.
 
@@ -74,9 +86,39 @@ curl --request POST \
         "targetProjectId": "proj-20e13e974c7d659a83xxxx",
         "clusterName": "Dedicated-01-backup",
         "cuSize": 1,
-        "collectionStatus": "KEEP"
+        "collectionStatus": "KEEP",
+        "restoreVersionPolicy": "ORIGINAL"
       }'
 ```
+
+The following table explains the parameters.
+
+<table>
+   <tr>
+     <th><p><strong>Parameter</strong></p></th>
+     <th><p><strong>Description</strong></p></th>
+   </tr>
+   <tr>
+     <td><p><code>targetProjectId</code></p></td>
+     <td><p>ID of the target project where the restored cluster will be created.</p></td>
+   </tr>
+   <tr>
+     <td><p><code>clusterName</code></p></td>
+     <td><p>Name of the restored cluster.</p></td>
+   </tr>
+   <tr>
+     <td><p><code>cuSize</code></p></td>
+     <td><p>Query CU size of the restored cluster.</p></td>
+   </tr>
+   <tr>
+     <td><p><code>collectionStatus</code></p></td>
+     <td><p>Whether to keep the collection load status after restore. Available options include:</p><ul><li><p><code>KEEP</code>: keeps the original collection status.</p></li><li><p><code>RELEASE</code>: releases all collections</p></li></ul></td>
+   </tr>
+   <tr>
+     <td><p><code>restoreVersionPolicy</code></p></td>
+     <td><p>The compatible Milvus version of the restored cluster. Available options include:</p><ul><li><p><code>ORIGINAL</code>: restores the cluster to its original compatible Milvus version.</p></li><li><p><code>LATEST</code>: restores the cluster to the latest GA Milvus version available.</p></li></ul></td>
+   </tr>
+</table>
 
 The following is an example output. A restore job is generated and you can check the progress in the [project job center](./job-center).
 
@@ -142,4 +184,16 @@ The following is an example output. A restore job is generated and you can check
 
 **What Milvus version will a restored cluster run?**
 
-The restored cluster runs the latest Milvus version supported by Zilliz Cloud at the time of restoration, regardless of the version used when the backup was created. For example, if you back up a Milvus 2.5.x cluster and restore it after the platform has upgraded to 2.6.x, the restored cluster will run Milvus 2.6.x. Backup files contain data only — the cluster version is determined by the platform.           
+By default, a full-cluster restore creates the target cluster with the latest GA major version supported by Zilliz Cloud.
+
+- For backup files created within the last 30 days, if the original cluster used an earlier Milvus GA version than the latest available GA version, you can choose the Milvus version for the restored cluster. By default, Zilliz Cloud restores the cluster to the latest GA Milvus version.
+
+- For backup files created more than 30 days ago, or backup files already using the latest Milvus GA version, the target Milvus version cannot be changed.
+
+For example, suppose the latest available Milvus GA version is 2.6.x.
+
+- If you restore from a 2.5.x backup file created within the last 30 days, Zilliz Cloud restores the new cluster to 2.6.x by default, but you can choose to restore it to 2.5.x.
+
+- If you restore from a 2.5.x backup file created more than 30 days ago, Zilliz Cloud restores the new cluster to 2.6.x by default, and you cannot change the target Milvus version.
+
+- If you restore from a 2.6.x backup file, Zilliz Cloud restores the new cluster to 2.6.x, and you cannot change the target Milvus version.

@@ -33,7 +33,7 @@ This guide provides a step-by-step walkthrough of the subscription process and o
 
 <Admonition type="info" icon="📘" title="Note">
 
-Once subscribed, you can pay for the usage of Google Cloud clusters via Google Cloud Marketplace. If you have clusters deployed on other cloud providers, you can also use Google Cloud Marketplace to pay.
+<p>Once subscribed, you can pay for the usage of Google Cloud clusters via Google Cloud Marketplace. If you have clusters deployed on other cloud providers, you can also use Google Cloud Marketplace to pay.</p>
 
 </Admonition>
 
@@ -77,7 +77,7 @@ Visit [GCP](https://console.cloud.google.com/marketplace)[ Marketplace](https://
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    If you are unable to complete the signup process, you can retry by navigating to **[Your Orders](https://console.cloud.google.com/marketplace/orders)** page in the GCP Marketplace.
+    <p>If you are unable to complete the signup process, you can retry by navigating to <strong><a href="https://console.cloud.google.com/marketplace/orders">Your Orders</a></strong> page in the GCP Marketplace.</p>
 
     </Admonition>
 
@@ -113,7 +113,25 @@ For details, see [Update Payment Method](./update-payment-method)
 
 ## Cancel GCP Marketplace subscription\{#cancel-gcp-marketplace-subscription}
 
-To cancel your GCP Marketplace subscription, you need to open the GCP Marketplace console and follow the instructions [here](https://cloud.google.com/marketplace/docs/manage-billing#cancel).
+<Admonition type="info" icon="📘" title="Note">
+
+<p>After you cancel the subscription, your organization loses access to advanced Zilliz Cloud features. If your organization has no remaining credits, or if all credits have expired, it is frozen immediately.</p>
+
+</Admonition>
+
+<Procedures>
+
+1. Go to [Google Cloud Orders](https://console.cloud.google.com/marketplace/orders) page.
+
+1. Select the product with the plan you want to cancel.
+
+1. Click **Actions available to manage your orders**.
+
+1. Select **Cancel purchase** or **Cancel subscription**.
+
+</Procedures>
+
+For details, refer to [Canceling your plan](https://docs.cloud.google.com/marketplace/docs/manage-billing#saas-products).
 
 ## Troubleshooting\{#troubleshooting}
 
@@ -137,13 +155,9 @@ There could be several reasons.
 
     In this case,
 
-    - If you need to update an existing marketplace subscription, please [unlink](./subscribe-on-aws-marketplace#cancel-public-offer-subscription) the current subscription of the organization first and then set up a new subscription.
+    - If you need to update an existing marketplace subscription, please unlink the current subscription of the organization first and then set up a new subscription.
 
-    - If you need multiple organizations for different Marketplace subscription, you can:
-
-        - [Register](./register-with-zilliz-cloud) a new Zilliz Cloud account to create a new organization. Then, [invite](./organization-users#invite-a-user-to-your-organization) the organization owner to the new organization. This organization owner will then belong to multiple organizations and can setup different marketplace subscriptions for each organization.
-
-        - [Create a support ticket](http://support.zilliz.com) so that we will create new organizations for you. Currently, Zilliz Cloud does not support manually creating organizations by users.
+    - If you need multiple organizations for different Marketplace subscription, you can [create an organization](./organization-settings#create-an-organization).
 
 - **No organizations in the list**
 
@@ -153,9 +167,7 @@ There could be several reasons.
 
     In this case, you can:
 
-    - Create a new organization.
+    - [Create a new organization](./organization-settings#create-an-organization).
 
     - Ask other users to [invite](./organization-users#invite-a-user-to-your-organization) you to their organizations and grant you the role of an Organization Owner.
-
-    - [Create a support ticket](https://support.zilliz.com/hc/en-us) and we will create a new organization for you.
 

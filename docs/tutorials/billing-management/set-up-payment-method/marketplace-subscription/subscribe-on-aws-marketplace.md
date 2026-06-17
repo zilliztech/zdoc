@@ -35,7 +35,7 @@ This guide provides a step-by-step walkthrough of the subscription process and o
 
 <Admonition type="info" icon="📘" title="Note">
 
-Once subscribed, you can pay for the usage of AWS clusters via AWS Marketplace. If you have clusters deployed on other cloud providers, you can also use AWS Marketplace to pay.
+<p>Once subscribed, you can pay for the usage of AWS clusters via AWS Marketplace. If you have clusters deployed on other cloud providers, you can also use AWS Marketplace to pay.</p>
 
 </Admonition>
 
@@ -79,7 +79,7 @@ Visit [AWS Marketplace](https://aws.amazon.com/marketplace) and start subscribin
 
         <Admonition type="info" icon="📘" title="Notes">
 
-        AWS Marketplace uses query strings in the URL to pass your identity information to Zilliz Cloud. Any sign-up failures may result in the loss of these query strings. As a result, Zilliz Cloud may fail to associate your AWS identity with your account registered with us. If this happens, simply return to AWS Marketplace and click <b>Set up your account</b> again.
+        <p>AWS Marketplace uses query strings in the URL to pass your identity information to Zilliz Cloud. Any sign-up failures may result in the loss of these query strings. As a result, Zilliz Cloud may fail to associate your AWS identity with your account registered with us. If this happens, simply return to AWS Marketplace and click <b>Set up your account</b> again.</p>
 
         </Admonition>
 
@@ -115,7 +115,7 @@ For details, see [Subscribe to a Private Offer on AWS Marketplace](./subscribe-o
 
 <Admonition type="info" icon="📘" title="Note">
 
-After you cancel the subscription, your organization loses access to advanced Zilliz Cloud features. If your organization has no remaining credits, or if all credits have expired, it is frozen immediately.
+<p>After you cancel the subscription, your organization loses access to advanced Zilliz Cloud features. If your organization has no remaining credits, or if all credits have expired, it is frozen immediately.</p>
 
 </Admonition>
 
@@ -157,13 +157,9 @@ There could be several reasons.
 
     In this case,
 
-    - If you need to update an existing marketplace subscription, please [unlink](./subscribe-on-aws-marketplace#cancel-public-offer-subscription) the current subscription of the organization first and then set up a new subscription.
+    - If you need to update an existing marketplace subscription, please unlink the current subscription of the organization first and then set up a new subscription.
 
-    - If you need multiple organizations for different Marketplace subscription, you can:
-
-        - [Register](./register-with-zilliz-cloud) a new Zilliz Cloud account to create a new organization. Then, [invite](./organization-users#invite-a-user-to-your-organization) the organization owner to the new organization. This organization owner will then belong to multiple organizations and can setup different marketplace subscriptions for each organization.
-
-        - [Create a support ticket](http://support.zilliz.com) so that we will create new organizations for you. Currently, Zilliz Cloud does not support manually creating organizations by users.
+    - If you need multiple organizations for different Marketplace subscription, you can [create an organization](./organization-settings#create-an-organization).
 
 - **No organizations in the list**
 
@@ -173,9 +169,7 @@ There could be several reasons.
 
     In this case, you can:
 
-    - Create a new organization.
+    - [Create a new organization](./organization-settings#create-an-organization).
 
     - Ask other users to [invite](./organization-users#invite-a-user-to-your-organization) you to their organizations and grant you the role of an Organization Owner.
-
-    - [Create a support ticket](https://support.zilliz.com/hc/en-us) and we will create a new organization for you.
 

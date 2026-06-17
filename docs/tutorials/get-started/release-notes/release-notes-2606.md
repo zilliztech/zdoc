@@ -11,7 +11,7 @@ notebook: FALSE
 description: "June 2026 Release Notes | Cloud"
 type: origin
 token: OZtawoDUci0CKokf9RlchvInnMf
-sidebar_position: 1
+sidebar_position: 2
 keywords: 
   - zilliz
   - vector database
@@ -26,6 +26,28 @@ import Admonition from '@theme/Admonition';
 import Grid from '@site/src/components/Grid';
 
 # June 2026 Release Notes
+
+<Grid columnSize="2" widthRatios="15,84">
+
+    <div>
+
+        **2026-06-17**
+
+    </div>
+
+    <div>
+
+        ## Enhancements\{#enhancements}
+
+        - **Restore to a specific major version** — When restoring a cluster from a backup created within the last 30 days, you can now choose which Milvus major version to restore to. For example, restore a 2.5.x backup to a new 2.5.x cluster instead of being forced to upgrade to 2.6.x — critical for disaster recovery scenarios where version consistency matters. For details, refer to [Restore from Backup Files](./restore-from-backup-files) and [Use Recycle Bin](./use-recycle-bin).
+
+        - **Description field for clusters, projects, and API keys** — You can now add and update a description for your clusters, projects, and API keys via RESTful API, making it easier to organize and identify resources at scale.
+
+        - **Multi-vector search in the Console** — The Search page in the Zilliz Cloud Console now supports multi-vector search, allowing you to run hybrid searches across multiple vector fields directly from the UI.
+
+    </div>
+
+</Grid>
 
 <Grid columnSize="2" widthRatios="14,85">
 

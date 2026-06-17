@@ -30,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 <Admonition type="info" icon="📘" title="Note">
 
-支払い方法とサブスクリプションを管理するには、**Organization Owner** または **Organization Billing Admin** である必要があります。
+<p>支払い方法とサブスクリプションを管理するには、<strong>Organization Owner</strong> または <strong>Organization Billing Admin</strong> である必要があります。</p>
 
 </Admonition>
 

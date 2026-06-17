@@ -30,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 <Admonition type="info" icon="📘" title="Note">
 
-支払い方法とサブスクリプションを管理するには、**Organization Owner** または **Organization Billing Admin** である必要があります。
+<p>支払い方法とサブスクリプションを管理するには、<strong>Organization Owner</strong> または <strong>Organization Billing Admin</strong> である必要があります。</p>
 
 </Admonition>
 
@@ -87,9 +87,8 @@ Zilliz Cloud は、次の Marketplace を通じたサブスクリプションを
 
 <Admonition type="info" icon="📘" title="**Note**">
 
-AWS Marketplace Free Trial は AWS Marketplace で開始および管理されます。トライアル後にアップグレードすると、それ以降の料金は AWS Marketplace 経由で請求されます。このオプションは、AWS Marketplace 経由で調達と請求を行いたいチームに適しています。
-
-Zilliz Cloud Free Trial は Zilliz Cloud コンソールから直接開始され、Zilliz Cloud 内で管理されます。トライアル後は、サポートされている[支払い方法](./set-up-payment-method)を追加できます。このオプションは、外部請求を設定する前に Zilliz Cloud を直接試したいユーザーに適しています。
+<p>AWS Marketplace Free Trial は AWS Marketplace で開始および管理されます。トライアル後にアップグレードすると、それ以降の料金は AWS Marketplace 経由で請求されます。このオプションは、AWS Marketplace 経由で調達と請求を行いたいチームに適しています。</p>
+<p>Zilliz Cloud Free Trial は Zilliz Cloud コンソールから直接開始され、Zilliz Cloud 内で管理されます。トライアル後は、サポートされている<a href="./set-up-payment-method">支払い方法</a>を追加できます。このオプションは、外部請求を設定する前に Zilliz Cloud を直接試したいユーザーに適しています。</p>
 
 </Admonition>
 

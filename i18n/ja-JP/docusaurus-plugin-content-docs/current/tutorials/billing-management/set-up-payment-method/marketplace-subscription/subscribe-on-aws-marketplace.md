@@ -219,13 +219,9 @@ AWS Marketplace の購読をキャンセルするには、AWS Marketplace コン
 
     この場合、
 
-    - 既存のマーケットプレイス購読を更新する必要がある場合は、まず組織の現在の購読を [解除](./subscribe-on-aws-marketplace#cancel-public-offer-subscription) してから、新しい購読を設定してください。
+    - 既存のマーケットプレイス購読を更新する必要がある場合は、まず組織の現在の購読をリンク解除してから、新しい購読を設定してください。
 
-    - 異なる Marketplace 購読用に複数の組織が必要な場合は、以下の方法があります：
-
-        - 新しい Zilliz Cloud アカウントを [登録](./register-with-zilliz-cloud) して新しい組織を作成してください。次に、組織オーナーを新しい組織に [招待](./organization-users#invite-a-user-to-your-organization) してください。この組織オーナーは複数の組織に所属し、各組織に異なるマーケットプレイス購読を設定できます。
-
-        - [サポートチケットを作成](http://support.zilliz.com) してください。当社が新しい組織を作成いたします。現在、Zilliz Cloud はユーザーによる手動での組織作成をサポートしていません。
+    - 異なる Marketplace 購読用に複数の組織が必要な場合は、[組織を作成](./organization-settings#create-an-organization)できます。
 
 - **リストに組織がない**
 
@@ -235,11 +231,9 @@ AWS Marketplace の購読をキャンセルするには、AWS Marketplace コン
 
     この場合、以下の方法があります：
 
-    - 新しい組織を作成する。
+    - [新しい組織を作成](./organization-settings#create-an-organization)する。
 
     - 他のユーザーに [招待](./organization-users#invite-a-user-to-your-organization) を依頼し、組織オーナーのロールを付与してもらう。
-
-    - [サポートチケットを送信](https://support.zilliz.com/hc/en-us) していただければ、当社が新しい組織を作成いたします。
 
 ## 関連トピック\{#related-topics}
 

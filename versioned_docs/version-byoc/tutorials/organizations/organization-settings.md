@@ -44,6 +44,12 @@ For a quick view of all the organizations you've joined, just click **All Organi
 
 ![view-organizations](https://zdoc-images.s3.us-west-2.amazonaws.com/view-organizations.png "view-organizations")
 
+## Create an organization\{#create-an-organization}
+
+If you need multiple organizations, please [submit a support ticket](http://support.zilliz.com) so that we can enable the multi-organization feature for you. Once the feature is enabled, you can create new organizations on your own.
+
+![SJ2xw2rO4h2LJTblDpmcgHh0nHg](https://zdoc-images.s3.us-west-2.amazonaws.com/SJ2xw2rO4h2LJTblDpmcgHh0nHg.png)
+
 ## Rename an organization\{#rename-an-organization}
 
 To rename an organization, you must be an [Organization Owner](./organization-users).

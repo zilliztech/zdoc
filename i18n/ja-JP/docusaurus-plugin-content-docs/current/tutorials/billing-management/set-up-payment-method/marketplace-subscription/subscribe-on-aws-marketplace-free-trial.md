@@ -177,13 +177,9 @@ Free Trial の期間中、**Billing Overview** ページの AWS Marketplace Subs
 
     この場合は、次のように対応できます。
 
-    - 既存の Marketplace サブスクリプションを更新する必要がある場合は、まず組織の現在のサブスクリプションを [リンク解除](./subscribe-on-aws-marketplace#cancel-public-offer-subscription) してから、新しいサブスクリプションを設定してください。
+    - 既存の Marketplace サブスクリプションを更新する必要がある場合は、まず組織の現在のサブスクリプションをリンク解除してから、新しいサブスクリプションを設定してください。
 
-    - 異なる Marketplace サブスクリプション用に複数の組織が必要な場合は、次のいずれかを行えます。
-
-        - 新しい Zilliz Cloud アカウントを [登録](./register-with-zilliz-cloud) して新しい組織を作成します。次に、その組織オーナーを新しい組織に [招待](./organization-users#invite-a-user-to-your-organization) します。この組織オーナーは複数の組織に所属することになり、各組織に異なる Marketplace サブスクリプションを設定できます。
-
-        - [サポートチケットを作成](http://support.zilliz.com) してください。当社が新しい組織を作成します。現在、Zilliz Cloud はユーザーによる組織の手動作成をサポートしていません。
+    - 異なる Marketplace サブスクリプション用に複数の組織が必要な場合は、[組織を作成](./organization-settings#create-an-organization)できます。
 
 - **リストに組織がない**
 
@@ -193,8 +189,6 @@ Free Trial の期間中、**Billing Overview** ページの AWS Marketplace Subs
 
     この場合は、次のように対応できます。
 
-    - 新しい組織を作成します。
+    - [新しい組織を作成](./organization-settings#create-an-organization)します。
 
     - 他のユーザーに、その組織へあなたを [招待](./organization-users#invite-a-user-to-your-organization) し、Organization Owner のロールを付与するよう依頼します。
-
-    - [サポートチケットを作成](https://support.zilliz.com/hc/en-us) してください。当社が新しい組織を作成します。

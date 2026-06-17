@@ -245,11 +245,7 @@ There could be several reasons.
 
     - If you need to update an existing marketplace subscription, please unlink the current subscription of the organization first and then set up a new subscription.
 
-    - If you need multiple organizations for different Marketplace subscription, you can:
-
-        - [Register](./register-with-zilliz-cloud) a new Zilliz Cloud account to create a new organization. Then, [invite](./organization-users#invite-a-user-to-your-organization) the organization owner to the new organization. This organization owner will then belong to multiple organizations and can setup different marketplace subscriptions for each organization.
-
-        - [Create a support ticket](http://support.zilliz.com) so that we will create new organizations for you. Currently, Zilliz Cloud does not support manually creating organizations by users.
+    - If you need multiple organizations for different Marketplace subscription, you can [create an organization](./organization-settings#create-an-organization).
 
 - **No organizations in the list**
 
@@ -259,9 +255,7 @@ There could be several reasons.
 
     In this case, you can:
 
-    - Create a new organization.
+    - [Create a new organization](./organization-settings#create-an-organization).
 
     - Ask other users to [invite](./organization-users#invite-a-user-to-your-organization) you to their organizations and grant you the role of an Organization Owner.
-
-    - [Create a support ticket](https://support.zilliz.com/hc/en-us) and we will create a new organization for you.
 

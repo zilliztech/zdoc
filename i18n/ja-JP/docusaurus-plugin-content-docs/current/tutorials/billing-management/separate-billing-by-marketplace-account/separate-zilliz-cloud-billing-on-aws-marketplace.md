@@ -118,13 +118,9 @@ AWS Organizations management account / consolidated bill
 
 <Procedures>
 
-1. 別々の会社メールアカウントで Zilliz Cloud アカウントを個別に[登録](./register-with-zilliz-cloud)するか、追加の組織を準備するために [Zilliz Cloud サポート](http://support.zilliz.com)チームにお問い合わせください。
+1. マルチ組織機能を有効にできるよう、[サポートチケットを送信](http://support.zilliz.com)してください。
 
-1. 各事業部が独自の Zilliz Cloud 組織を持っていることを確認します。
-
-1. 必要なユーザーを各組織に[招待](./organization-users)します。
-
-1. 各対象組織で、請求担当者を [Organization Owner](./organization-users#organization-owner) または [Organization Billing Admin](./organization-users#organization-billing-admin) として割り当てます。
+1. 機能が有効になると、手動で[新しい組織を作成](./organization-settings#create-an-organization)できます。
 
 </Procedures>
 

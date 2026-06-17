@@ -45,13 +45,15 @@ To restore a cluster in the recycle bin, you need to [add a payment method](/doc
 
 1. Access the **Recycle Bin** via the left navigation menu or the top navigation icon.
 
-1. Locate the cluster to restore. From the **Actions** dropdown, select **Restore Cluster**.
+1. Locate the cluster to restore. From the **Actions** dropdown, select **Restore Full Cluster**.
 
 1. Configure the restored cluster.
 
     1. You can restore the cluster to a different project under this organization, but not in a different cloud region.
 
     1. You can rename the cluster and reset its number of query CUs.
+
+    1. Depending on how the deleted cluster was retained, the restore page may allow you to choose a different target Milvus version. If the version selector is available, select the Milvus version for the restored cluster. If the version selector is not available, the restored cluster uses the original cluster version and the target version cannot be changed.
 
     <Admonition type="info" icon="📘" title="Notes">
 

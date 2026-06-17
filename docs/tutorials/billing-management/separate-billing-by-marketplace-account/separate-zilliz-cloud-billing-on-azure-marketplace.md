@@ -72,7 +72,7 @@ The following is an example of separating the billing for 3 different teams.
 
 <Admonition type="info" icon="📘" title="Note">
 
-If you only need internal usage separation, a simpler alternative is to use one organization with multiple projects. In that model, Microsoft Marketplace charges remain combined under one subscription, and the usage split is visible only through Zilliz Cloud usage analysis.
+<p>If you only need internal usage separation, a simpler alternative is to use one organization with multiple projects. In that model, Microsoft Marketplace charges remain combined under one subscription, and the usage split is visible only through Zilliz Cloud usage analysis.</p>
 
 </Admonition>
 
@@ -111,13 +111,9 @@ To prepare multiple organizations:
 
 <Procedures>
 
-1. [Register](./register-with-zilliz-cloud) separate Zilliz Cloud accounts with separate company email accounts, or contact [Zilliz Cloud support](http://support.zilliz.com) team to prepare additional organizations.
+1. [Submit a support ticket](http://support.zilliz.com) so that we can enable the multi-organization feature for you.
 
-1. Confirm that each business unit has its own Zilliz Cloud organization.
-
-1. [Invite](./organization-users) the required users into each organization.
-
-1. Assign the billing operator as [Organization Owner](./organization-users#organization-owner) or [Organization Billing Admin](./organization-users#organization-billing-admin) in each target organization.
+1. Once the feature is enabled, you can manually [create new organizations](./organization-settings#create-an-organization).
 
 </Procedures>
 
@@ -159,9 +155,10 @@ For each business unit:
 
 <Admonition type="info" icon="📘" title="Note">
 
-- Each Marketplace subscription can be linked to only one Zilliz Cloud organization.
-
-- To bind a Marketplace subscription to a Zilliz Cloud organization, you must be an Organization Owner or Organization Billing Admin in that organization.
+<ul>
+<li><p>Each Marketplace subscription can be linked to only one Zilliz Cloud organization.</p></li>
+<li><p>To bind a Marketplace subscription to a Zilliz Cloud organization, you must be an Organization Owner or Organization Billing Admin in that organization.</p></li>
+</ul>
 
 </Admonition>
 
@@ -195,9 +192,10 @@ This provides the detailed usage view that Microsoft billing does not show.
 
 <Admonition type="info" icon="📘" title="Note">
 
-- Use Microsoft Cost Management for billed Marketplace charges and invoices.
-
-- Use Zilliz Cloud Usage page for project-level and cluster-level usage inside each organization.
+<ul>
+<li><p>Use Microsoft Cost Management for billed Marketplace charges and invoices.</p></li>
+<li><p>Use Zilliz Cloud Usage page for project-level and cluster-level usage inside each organization.</p></li>
+</ul>
 
 </Admonition>
 

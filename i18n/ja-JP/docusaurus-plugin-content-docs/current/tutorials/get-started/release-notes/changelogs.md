@@ -5,7 +5,7 @@ sidebar_key: changelogs
 sidebar_label: "変更履歴"
 beta: FALSE
 notebook: FALSE
-description: "最終更新日: 2026年6月3日 | Cloud"
+description: "最終更新日: 2026年6月17日 | Cloud"
 type: origin
 token: MUL3wkn7Yi3YoFkYk59csf8bnNc
 sidebar_position: 0
@@ -24,7 +24,7 @@ import Grid from '@site/src/components/Grid';
 
 # 変更履歴
 
-**最終更新日:** 2026年6月3日
+**最終更新日:** 2026年6月17日
 
 <Grid columnSize="2" widthRatios="25,74">
 
@@ -43,6 +43,22 @@ import Grid from '@site/src/components/Grid';
 </Grid>
 
 ## 2026\{#2026}
+
+<Grid columnSize="2" widthRatios="25,74">
+
+    <div>
+
+        **[2026年6月17日](./release-notes-2606#enhancements)**
+
+    </div>
+
+    <div>
+
+        - 💾 クラスターを復元するときに、互換性のある Milvus バージョンを指定できるようになりました。詳細については、[バックアップファイルからの復元](./restore-from-backup-files)および[ごみ箱を使用](./use-recycle-bin)を参照してください。
+
+    </div>
+
+</Grid>
 
 <Grid columnSize="2" widthRatios="25,74">
 
@@ -92,7 +108,7 @@ import Grid from '@site/src/components/Grid';
 
             - [外部データレイク検索](./external-collection)
 
-        - 🐦 Milvus v3.0.x が Zilliz Cloud でパブリックレビューに入り、以下の機能が利用可能になりました。
+        - 🐦 Milvus v3.0.x が Zilliz Cloud のオンデマンドコンピュート向けに Private Review に入り、以下の機能が利用可能になりました。
 
             - [External Collection と Backfill](./external-collection)
 
@@ -102,7 +118,7 @@ import Grid from '@site/src/components/Grid';
 
             - [MinHash Function](./minhash-function)
 
-            - [検索](./single-vector-search#sort-search-results-by-scalar-fields)および[クエリ](./get-and-scalar-query#sort-query-results)での Order by
+            - [検索](./single-vector-search#sort-search-results-by-scalar-fields-or-private)および[クエリ](./get-and-scalar-query#sort-query-results-or-private)での Order by
 
             - [Snapshots](./snapshots)
 
@@ -664,7 +680,7 @@ import Grid from '@site/src/components/Grid';
 
             - [マルチベクトルハイブリッド検索](./hybrid-search)
 
-            - [転置インデックス](./index-scalar-fields)と[ファジーマッチ](./basic-filtering-operators#example-2-using-like-for-pattern-matching)
+            - [転置インデックス](./index-scalar-fields)と[ファジーマッチ](./basic-filtering-operators)
 
             - [グルーピング検索](./grouping-search)
 

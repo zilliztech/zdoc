@@ -8,7 +8,7 @@ last_modified: FALSE
 deprecate_since: FALSE
 beta: FALSE
 notebook: FALSE
-description: "Zilliz Cloud is a cloud-based service that offers vector database clusters on public clouds. With our service, you can easily create and manage your own vector database clusters on the public cloud platform of your choice. | Cloud"
+description: "Zilliz Cloud supports multiple cloud providers and regions across AWS, Google Cloud, and Microsoft Azure. | Cloud"
 type: origin
 token: CPLrwghdWiSvGBkdeEecGjgLnSb
 sidebar_position: 5
@@ -26,204 +26,257 @@ import Admonition from '@theme/Admonition';
 
 # Cloud Providers & Regions
 
-Zilliz Cloud is a cloud-based service that offers vector database clusters on public clouds. With our service, you can easily create and manage your own vector database clusters on the public cloud platform of your choice.
+Zilliz Cloud supports multiple cloud providers and regions across AWS, Google Cloud, and Microsoft Azure.
 
-Zilliz Cloud provides clusters across various regions on Amazon Web Services (AWS), Google Cloud Platform (GCP), and Microsoft Azure. To request a new region, feel free to [contact us](https://zilliz.com/cloud-region-request?).
+Region support can vary by workload type, deployment option, and feature. Use this page to choose a region before [creating projects](./manage-projects#create-a-project).
 
-## AWS\{#aws}
+## How to choose a cloud region\{#how-to-choose-a-cloud-region}
 
-Zilliz Cloud supports deploying free, serverless, and dedicated clusters on AWS.
+- Choose a region close to your application or users.
+
+- Consider data residency and compliance requirements.
+
+- Consider latency and cross-region data transfer implications.
+
+- Check whether your desired feature is supported in the target region.
+
+- [Contact us](http://zilliz.com/contact-sales) if the required region or feature is unavailable.
+
+## Supported regions\{#supported-regions}
+
+### AWS\{#aws}
 
 <table>
    <tr>
      <th><p><strong>Continent</strong></p></th>
      <th><p><strong>Region</strong></p></th>
      <th><p><strong>Location</strong></p></th>
-     <th><p><strong>Free & Serverless Cluster</strong></p></th>
-     <th><p><strong>Dedicated Cluster</strong></p></th>
-     <th><p><strong>On-demand Cluster</strong></p></th>
    </tr>
    <tr>
      <td rowspan="4"><p>North America</p></td>
      <td><p>us-west-2</p></td>
      <td><p>Oregon, USA</p></td>
-     <td><p>No</p></td>
-     <td><p>Yes</p></td>
-     <td><p>Yes</p></td>
    </tr>
    <tr>
      <td><p>us-east-1</p></td>
      <td><p>N. Virginia, USA</p></td>
-     <td><p>No</p></td>
-     <td><p>Yes</p></td>
-     <td rowspan="9"><p><a href="http://zilliz.com/contact-sales">Contact us</a></p></td>
    </tr>
    <tr>
      <td><p>us-east-2</p></td>
      <td><p>Ohio, USA</p></td>
-     <td><p>No</p></td>
-     <td><p>Yes</p></td>
    </tr>
    <tr>
      <td><p>ca-central-1</p></td>
      <td><p>Canada (Central)</p></td>
-     <td><p>No</p></td>
-     <td><p>Yes</p></td>
    </tr>
    <tr>
      <td rowspan="2"><p>Europe</p></td>
      <td><p>eu-central-1</p></td>
      <td><p>Frankfurt, Germany</p></td>
-     <td><p>Yes</p></td>
-     <td><p>Yes</p></td>
    </tr>
    <tr>
      <td><p>eu-west-1</p></td>
      <td><p>Ireland</p></td>
-     <td><p>Yes</p></td>
-     <td><p>Yes</p></td>
    </tr>
    <tr>
      <td rowspan="3"><p>Asia</p></td>
      <td><p>ap-northeast-1</p></td>
      <td><p>Tokyo, Japan</p></td>
-     <td><p>No</p></td>
-     <td><p>Yes</p></td>
    </tr>
    <tr>
      <td><p>ap-southeast-1</p></td>
      <td><p>Singapore</p></td>
-     <td><p>No</p></td>
-     <td><p>Yes</p></td>
    </tr>
    <tr>
      <td><p>ap-northeast-2</p></td>
      <td><p>Seoul, Korea</p></td>
-     <td><p>No</p></td>
-     <td><p>Yes</p></td>
    </tr>
    <tr>
      <td><p>Oceania</p></td>
      <td><p>ap-southeast-2</p></td>
      <td><p>Sydney, Australia</p></td>
-     <td><p>No</p></td>
-     <td><p>Yes</p></td>
    </tr>
 </table>
 
-For more information on cluster types, see [Select Cluster Plans](./select-zilliz-cloud-service-plans).
-
-## GCP\{#gcp}
-
-Free, serverless, and dedicated clusters can be deployed on GCP.
+### Google Cloud\{#google-cloud}
 
 <table>
    <tr>
      <th><p><strong>Continent</strong></p></th>
      <th><p><strong>Region</strong></p></th>
      <th><p><strong>Location</strong></p></th>
-     <th><p><strong>Free & Serverless Cluster</strong></p></th>
-     <th><p><strong>Dedicated Cluster</strong></p></th>
-     <th><p><strong>On-demand Cluster</strong></p></th>
    </tr>
    <tr>
      <td rowspan="3"><p>North America</p></td>
      <td><p>us-west1</p></td>
      <td><p>Oregon, USA</p></td>
-     <td><p>Yes</p></td>
-     <td><p>Yes</p></td>
-     <td rowspan="5"><p><a href="http://zilliz.com/contact-sales">Contact us</a></p></td>
    </tr>
    <tr>
      <td><p>us-east4</p></td>
      <td><p>Virginia, USA</p></td>
-     <td><p>No</p></td>
-     <td><p>Yes</p></td>
    </tr>
    <tr>
      <td><p>us-central1</p></td>
      <td><p>Iowa, USA</p></td>
-     <td><p>No</p></td>
-     <td><p>Yes</p></td>
    </tr>
    <tr>
      <td><p>Europe</p></td>
      <td><p>europe-west3</p></td>
      <td><p>Frankfurt, Germany</p></td>
-     <td><p>No</p></td>
-     <td><p>Yes</p></td>
    </tr>
    <tr>
      <td><p>Asia</p></td>
      <td><p>asia-southeast1</p></td>
      <td><p>Singapore</p></td>
-     <td><p>No</p></td>
-     <td><p>Yes</p></td>
    </tr>
 </table>
 
-For more information on cluster types, see [Select Cluster Plans](./select-zilliz-cloud-service-plans).
-
-## Microsoft Azure\{#microsoft-azure}
-
-Zilliz Cloud supports deploying dedicated clusters on Microsoft Azure.
+### Azure\{#azure}
 
 <table>
    <tr>
      <th><p><strong>Continent</strong></p></th>
      <th><p><strong>Region</strong></p></th>
      <th><p><strong>Location</strong></p></th>
-     <th><p><strong>Free & Severless Cluster</strong></p></th>
-     <th><p><strong>Dedicated Cluster</strong></p></th>
-     <th><p><strong>On-demand Cluster</strong></p></th>
    </tr>
    <tr>
      <td rowspan="3"><p>North America</p></td>
      <td><p>East US</p></td>
      <td><p>Virginia, USA</p></td>
-     <td><p>No</p></td>
-     <td><p>Yes</p></td>
-     <td rowspan="6"><p><a href="http://zilliz.com/contact-sales">Contact us</a></p></td>
    </tr>
    <tr>
      <td><p>East US 2</p></td>
      <td><p>Virginia, USA</p></td>
-     <td><p>No</p></td>
-     <td><p>Yes</p></td>
    </tr>
    <tr>
      <td><p>Central US</p></td>
      <td><p>Iowa, USA</p></td>
-     <td><p>No</p></td>
-     <td><p>Yes</p></td>
    </tr>
    <tr>
      <td rowspan="2"><p>Europe</p></td>
      <td><p>Germany West Central</p></td>
      <td><p>Frankfurt, Germany</p></td>
-     <td><p>No</p></td>
-     <td><p>Yes</p></td>
    </tr>
    <tr>
      <td><p>North Europe</p></td>
      <td><p>Ireland</p></td>
-     <td><p>No</p></td>
-     <td><p>Yes</p></td>
    </tr>
    <tr>
      <td><p>Asia</p></td>
      <td><p>Central India</p></td>
      <td><p>Pune, India</p></td>
-     <td><p>No</p></td>
-     <td><p>Yes</p></td>
    </tr>
 </table>
 
-For more information on cluster plans, see [Select the Right Cluster Plan](./select-zilliz-cloud-service-plans).
+## Feature support by cloud region\{#feature-support-by-cloud-region}
 
-## Related topics\{#related-topics}
+### Compute type support\{#compute-type-support}
 
-- [Select the Right Cluster Plan](./select-zilliz-cloud-service-plans)
+<table>
+   <tr>
+     <th><p><strong>Compute type</strong></p></th>
+     <th><p><strong>AWS</strong></p></th>
+     <th><p><strong>Google Cloud</strong></p></th>
+     <th><p><strong>Microsoft Azure</strong></p></th>
+   </tr>
+   <tr>
+     <td><p>Always-on compute (<a href="./cluster">Serving cluster</a>)</p></td>
+     <td><p>✅ All regions</p></td>
+     <td><p>✅ All regions</p></td>
+     <td><p>✅ All regions</p></td>
+   </tr>
+   <tr>
+     <td><p><a href="./on-demand-compute">On-demand compute</a></p></td>
+     <td><p>ℹ️  Part of the regions:</p><ul><li>us-west-2</li></ul></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
+   </tr>
+</table>
 
-- [Select the Right CU](./cu-types-explained)
+<Admonition type="info" icon="📘" title="Note">
 
+<p><a href="http://zilliz.com/contact-sales">Contact us</a> if you need on-demand compute in a region that is not listed.</p>
+
+</Admonition>
+
+### Deployment option support\{#deployment-option-support}
+
+<table>
+   <tr>
+     <th><p><strong>Deployment option</strong></p></th>
+     <th><p><strong>AWS</strong></p></th>
+     <th><p><strong>Google Cloud</strong></p></th>
+     <th><p><strong>Microsoft Azure</strong></p></th>
+   </tr>
+   <tr>
+     <td><p>SaaS (Free & Serverless)</p></td>
+     <td><p>ℹ️  Part of the regions:</p><ul><li><p>eu-central-1</p></li><li><p>eu-west-1</p></li></ul></td>
+     <td><p>ℹ️   Part of the regions:</p><ul><li>us-west1</li></ul></td>
+     <td><p>❌</p></td>
+   </tr>
+   <tr>
+     <td><p>SaaS (Dedicated)</p></td>
+     <td><p>✅ All regions</p></td>
+     <td><p>✅ All regions</p></td>
+     <td><p>✅ All regions</p></td>
+   </tr>
+   <tr>
+     <td><p>BYOC</p></td>
+     <td><p>✅ All regions</p><p>Plus ap-east-1 (Hong Kong SAR)</p></td>
+     <td><p>✅ All regions</p></td>
+     <td><p>✅ All regions</p></td>
+   </tr>
+</table>
+
+<Admonition type="info" icon="📘" title="Note">
+
+<p><a href="http://zilliz.com/contact-sales">Contact us</a> if you need BYOC deployment.</p>
+
+</Admonition>
+
+### Feature support\{#feature-support}
+
+<table>
+   <tr>
+     <th><p><strong>Feature</strong></p></th>
+     <th><p><strong>AWS</strong></p></th>
+     <th><p><strong>Google Cloud</strong></p></th>
+     <th><p><strong>Microsoft Azure</strong></p></th>
+   </tr>
+   <tr>
+     <td><p><a href="./volume">Volume</a></p></td>
+     <td><p>✅ All regions</p></td>
+     <td><p>✅ All regions</p></td>
+     <td><p>❌</p></td>
+   </tr>
+   <tr>
+     <td><p><a href="./external-collection">External collection</a></p></td>
+     <td><p>✅ All regions</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
+   </tr>
+   <tr>
+     <td><p><a href="./global-cluster-explained">Global cluster</a></p></td>
+     <td><p>✅ All regions</p></td>
+     <td><p>ℹ️   Part of the regions:</p><ul><li><p>gcp-us-central1</p></li><li><p>gcp-us-east4</p></li></ul></td>
+     <td><p>❌</p></td>
+   </tr>
+   <tr>
+     <td><p><a href="./backup-to-other-regions">Cross-region backup </a></p></td>
+     <td><p>✅ All regions</p></td>
+     <td><p>✅ All regions</p></td>
+     <td><p>❌</p></td>
+   </tr>
+   <tr>
+     <td><p><a href="./cmek">CMEK</a></p></td>
+     <td><p>✅ All regions</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
+   </tr>
+</table>
+
+<Admonition type="info" icon="📘" title="Note">
+
+<p>Some features depend on additional configuration, project plan, or deployment mode. For details, see <a href="./select-zilliz-cloud-service-plans">Deployment and Plan Comparison</a>.</p>
+
+</Admonition>

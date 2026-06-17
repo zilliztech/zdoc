@@ -33,17 +33,19 @@ A private offer on AWS Marketplace is a custom purchasing option created for you
 
 Use a private offer when your organization needs custom commercial terms, such as discounted pricing, committed spend, enterprise procurement terms, or a contract that is tied to a specific AWS account. Private offers are only visible to the AWS account IDs that Zilliz includes in the offer.
 
-If you need a private offer for Zilliz Cloud, [contact the Zilliz sales team](https://zilliz.com/contact-sales). Provide the AWS account ID that should receive the offer, your expected contract term, usage requirements, and any procurement or billing requirements your organization needs to include.
+If you need a private offer for Zilliz Cloud, [contact your Zilliz account executive](https://zilliz.com/contact-sales). Provide the AWS account ID that should receive the offer, your expected contract term, usage requirements, and any procurement or billing requirements your organization needs to include.
 
 ## Before you start\{#before-you-start}
 
-Before you subscribe to a private offer on AWS Marketplace, make sure you have the following:
+Before you subscribe to a private offer on AWS Marketplace, make sure:
 
-- A Zilliz Cloud account and [organization](./organizations).
+- You have a Zilliz Cloud account and [organization](./organizations).
 
-- An [AWS account ID](https://docs.aws.amazon.com/IAM/latest/UserGuide/console-account-id.html) that should receive and accept the private offer.
+- You have an [AWS account ID](https://docs.aws.amazon.com/IAM/latest/UserGuide/console-account-id.html) that should receive and accept the private offer.
 
-- Permission to subscribe to AWS Marketplace products, such as the `AWSMarketplaceManageSubscriptions` managed policy.
+- You have the permission to subscribe to AWS Marketplace products, such as the `AWSMarketplaceManageSubscriptions` managed policy.
+
+- You are an Organization Owner or Organization Billing Admin on Zilliz Cloud. These permissions are required to link a Marketplace subscription to a Zilliz Cloud organization.
 
 ## Subscribe to a private offer\{#subscribe-to-a-private-offer}
 
@@ -55,9 +57,9 @@ You can follow the detailed step-by-step guide below to subscribe to a Private O
 
 <Procedures>
 
-1.  Contact sales for the private offer.
+1.  Contact your Zilliz account executive for the private offer.
 
-    While [contacting sales](https://zilliz.com/contact-sales), you need to provide your AWS account ID to receive the private offer. 
+    While [contacting your Zilliz account executive](https://zilliz.com/contact-sales), you need to provide your AWS account ID to receive the private offer.
 
 1. Check your email inbox.
 
@@ -69,7 +71,7 @@ You can follow the detailed step-by-step guide below to subscribe to a Private O
 
         <Admonition type="info" icon="📘" title="Note">
 
-        You must accept the offer before its expiration date. If the offer has expired, contact your account executive.
+        <p>You must accept the offer before its expiration date. If the offer has expired, contact your account executive.</p>
 
         </Admonition>
 
@@ -95,7 +97,7 @@ You can follow the detailed step-by-step guide below to subscribe to a Private O
 
     <Admonition type="info" icon="📘" title="Note">
 
-    You must complete this step. Otherwise, your private offer subscription is not linked to any Zilliz Cloud organization.
+    <p>You must complete this step. Otherwise, your private offer subscription is not linked to any Zilliz Cloud organization.</p>
 
     </Admonition>
 
@@ -129,7 +131,7 @@ When your private offer is close to expiration, Zilliz will send you a new priva
 
 <Admonition type="info" icon="📘" title="Note">
 
-In fact, renewal works as accepting a new private offer. After you accept it, the new offer automatically replaces the previous one. You still need to link the new offer to your Zilliz Cloud organization again.
+<p>For AWS Marketplace, renewal works as accepting a new private offer. After you accept it, the new offer automatically replaces the previous one. You still need to link the new offer to your Zilliz Cloud organization again.</p>
 
 </Admonition>
 
@@ -169,9 +171,8 @@ You can follow the detailed step-by-step guide below to subscribe to a Private O
 
     <Admonition type="info" icon="📘" title="Note">
 
-    Do **not** click "Set up your account" at this point. Please wait until the request is complete.
-
-    If you click it before the request is complete, you may see "No organization available" when linking the offer to a Zilliz Cloud organization. This happens because the previous private offer has not been unlinked yet.
+    <p>Do <strong>not</strong> click "Set up your account" at this point. Please wait until the request is complete.</p>
+    <p>If you click it before the request is complete, you may see "No organization available" when linking the offer to a Zilliz Cloud organization. This happens because the previous private offer has not been unlinked yet.</p>
 
     </Admonition>
 
@@ -183,7 +184,7 @@ You can follow the detailed step-by-step guide below to subscribe to a Private O
 
     <Admonition type="info" icon="📘" title="Note">
 
-    You must complete this step. Otherwise, your private offer subscription is not linked to any Zilliz Cloud organization.
+    <p>You must complete this step. Otherwise, your private offer subscription is not linked to any Zilliz Cloud organization.</p>
 
     </Admonition>
 
@@ -221,7 +222,7 @@ You can cancel your private offer subscription from AWS Marketplace.
 
 <Admonition type="info" icon="📘" title="Note">
 
-After you cancel the subscription, your organization loses access to advanced Zilliz Cloud features. If your organization has no remaining credits, or if all credits have expired, it is frozen immediately.
+<p>After you cancel the subscription, your organization loses access to advanced Zilliz Cloud features. If your organization has no remaining credits, or if all credits have expired, it is frozen immediately.</p>
 
 </Admonition>
 
@@ -269,11 +270,7 @@ There could be several reasons.
 
     - If you need to update an existing marketplace subscription, please unlink the current subscription of the organization first and then set up a new subscription.
 
-    - If you need multiple organizations for different Marketplace subscription, you can:
-
-        - [Register](./register-with-zilliz-cloud) a new Zilliz Cloud account to create a new organization. Then, [invite](./organization-users#invite-a-user-to-your-organization) the organization owner to the new organization. This organization owner will then belong to multiple organizations and can setup different marketplace subscriptions for each organization.
-
-        - [Create a support ticket](http://support.zilliz.com) so that we will create new organizations for you. Currently, Zilliz Cloud does not support manually creating organizations by users.
+    - If you need multiple organizations for different Marketplace subscription, you can [create an organization](./organization-settings#create-an-organization).
 
 - **No organizations in the list**
 
@@ -283,9 +280,6 @@ There could be several reasons.
 
     In this case, you can:
 
-    - Create a new organization.
+    - [Create a new organization](./organization-settings#create-an-organization).
 
     - Ask other users to [invite](./organization-users#invite-a-user-to-your-organization) you to their organizations and grant you the role of an Organization Owner.
-
-    - [Create a support ticket](https://support.zilliz.com/hc/en-us) and we will create a new organization for you.
-

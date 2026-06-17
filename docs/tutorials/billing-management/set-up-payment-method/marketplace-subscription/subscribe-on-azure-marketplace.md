@@ -11,7 +11,7 @@ notebook: FALSE
 description: "This guide provides a step-by-step walkthrough of the subscription process and outlines the pricing terms of Zilliz Cloud on Azure Marketplace. | Cloud"
 type: origin
 token: LbFXwpruviFWWokwtkhcVmnhnFh
-sidebar_position: 5
+sidebar_position: 6
 keywords: 
   - zilliz
   - vector database
@@ -38,9 +38,10 @@ This guide provides a step-by-step walkthrough of the subscription process and o
 
 <Admonition type="info" icon="📘" title="Note">
 
-- Once subscribed, you can pay for the usage of Azure clusters via Azure Marketplace. If you have clusters deployed on other cloud providers, you can also use Azure Marketplace to pay.
-
-- If you need to separate Azure Marketplace billing across different teams or business units, see [Separate Zilliz Cloud Billing on Azure Marketplace](./separate-zilliz-cloud-billing-on-azure-marketplace)
+<ul>
+<li><p>Once subscribed, you can pay for the usage of Azure clusters via Azure Marketplace. If you have clusters deployed on other cloud providers, you can also use Azure Marketplace to pay.</p></li>
+<li><p>If you need to separate Azure Marketplace billing across different teams or business units, see <a href="./separate-zilliz-cloud-billing-on-azure-marketplace">Separate Zilliz Cloud Billing on Azure Marketplace</a></p></li>
+</ul>
 
 </Admonition>
 
@@ -260,7 +261,7 @@ Visit [Azure Marketplace](https://azuremarketplace.microsoft.com/en-us) and star
 
             <Admonition type="info" icon="📘" title="Note">
 
-            When auto-renew is on, you will be automatically subscribed to Zilliz Cloud on Azure at the end of the contract duration. When auto-renew is off, your subscription will end at the end of the contract duration and your Zilliz Cloud organization and account will be automatically unlinked from this Azure Marketplace subscription.
+            <p>When auto-renew is on, you will be automatically subscribed to Zilliz Cloud on Azure at the end of the contract duration. When auto-renew is off, your subscription will end at the end of the contract duration and your Zilliz Cloud organization and account will be automatically unlinked from this Azure Marketplace subscription.</p>
 
             </Admonition>
 
@@ -320,7 +321,7 @@ For more information about how to cancel subscription on Azure Marketplace, see 
 
 ## Troubleshooting\{#troubleshooting}
 
-**Why do I see “No plans are available for market '&lt;country_code&gt;'” when subscribing via Azure Marketplace?**
+**Why do I see “No plans are available for market '\<country_code>'” when subscribing via Azure Marketplace?**
 
 This message appears because Zilliz Cloud is not yet available in the Azure Marketplace for your billing country or region. For details, see [supported markets](./subscribe-on-azure-marketplace#before-you-start). Please [contact support](http://support.zilliz.com) and provide a screenshot of the error message along with the market code. We may be able to provide alternative solutions or update availability.
 
@@ -344,13 +345,9 @@ There could be several reasons.
 
     In this case,
 
-    - If you need to update an existing marketplace subscription, please [unlink](./subscribe-on-aws-marketplace#cancel-public-offer-subscription) the current subscription of the organization first and then set up a new subscription.
+    - If you need to update an existing marketplace subscription, please unlink the current subscription of the organization first and then set up a new subscription.
 
-    - If you need multiple organizations for different Marketplace subscription, you can:
-
-        - [Register](./register-with-zilliz-cloud) a new Zilliz Cloud account to create a new organization. Then, [invite](./organization-users#invite-a-user-to-your-organization) the organization owner to the new organization. This organization owner will then belong to multiple organizations and can setup different marketplace subscriptions for each organization.
-
-        - [Create a support ticket](http://support.zilliz.com) so that we will create new organizations for you. Currently, Zilliz Cloud does not support manually creating organizations by users.
+    - If you need multiple organizations for different Marketplace subscription, you can [create an organization](./organization-settings#create-an-organization).
 
 - **No organizations in the list**
 
@@ -360,9 +357,7 @@ There could be several reasons.
 
     In this case, you can:
 
-    - Create a new organization.
+    - [Create a new organization](./organization-settings#create-an-organization).
 
     - Ask other users to [invite](./organization-users#invite-a-user-to-your-organization) you to their organizations and grant you the role of an Organization Owner.
-
-    - [Create a support ticket](https://support.zilliz.com/hc/en-us) and we will create a new organization for you.
 

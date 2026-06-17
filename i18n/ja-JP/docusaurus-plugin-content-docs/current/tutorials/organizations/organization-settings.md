@@ -33,13 +33,19 @@ import Procedures from '@site/src/components/Procedures';
 
 ## 組織の表示\{#view-organizations}
 
-Zilliz Cloud にサインアップすると、デフォルトの組織が自動的に作成されます。新しい組織を作成することはできませんが、他のユーザーの招待によって他の組織に参加することができます。
+Zilliz Cloud にサインアップすると、デフォルトの組織が自動的に作成されます。複数の組織が必要な場合は、マルチ組織機能を有効にできるよう[サポートチケットを送信](http://support.zilliz.com)してください。機能が有効になると、自分で新しい組織を作成できます。
 
 [Zilliz Cloud コンソール](https://cloud.zilliz.com/login) にログインすると、自分が所属する組織の一覧が表示されるページに移動します。これらの組織を確認して、組織に入ることができます。
 
 参加しているすべての組織をすばやく表示するには、左上隅の **すべての組織** をクリックするだけです。
 
 ![view-organizations](https://zdoc-images.s3.us-west-2.amazonaws.com/view-organizations.png "view-organizations")
+
+## 組織の作成\{#create-an-organization}
+
+複数の組織が必要な場合は、マルチ組織機能を有効にできるよう[サポートチケットを送信](http://support.zilliz.com)してください。機能が有効になると、自分で新しい組織を作成できます。
+
+![SJ2xw2rO4h2LJTblDpmcgHh0nHg](https://zdoc-images.s3.us-west-2.amazonaws.com/SJ2xw2rO4h2LJTblDpmcgHh0nHg.png)
 
 ## 組織名の変更\{#rename-an-organization}
 

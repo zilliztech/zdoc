@@ -163,7 +163,25 @@ GCP Marketplace からの購読が成功した後、いつでも適切なタイ�
 
 ## GCP Marketplace 購読のキャンセル\{#cancel-gcp-marketplace-subscription}
 
-GCP Marketplace の購読をキャンセルするには、GCP Marketplace コンソールを開き、[こちら](https://cloud.google.com/marketplace/docs/manage-billing#cancel) の手順に従ってください。
+<Admonition type="info" icon="📘" title="Note">
+
+<p>サブスクリプションをキャンセルすると、組織は Zilliz Cloud の高度な機能にアクセスできなくなります。組織に残りのクレジットがない場合、またはすべてのクレジットが期限切れの場合、組織はすぐに凍結されます。</p>
+
+</Admonition>
+
+<Procedures>
+
+1. [Google Cloud Orders](https://console.cloud.google.com/marketplace/orders) ページに移動します。
+
+1. キャンセルするプランの製品を選択します。
+
+1. **Actions available to manage your orders** をクリックします。
+
+1. **Cancel purchase** または **Cancel subscription** を選択します。
+
+</Procedures>
+
+詳細については、[プランのキャンセル](https://docs.cloud.google.com/marketplace/docs/manage-billing#saas-products)を参照してください。
 
 ## GCP Marketplace の価格設定規約\{#gcp-marketplace-pricing-terms}
 
@@ -191,13 +209,9 @@ GCP Marketplace の購読をキャンセルするには、GCP Marketplace コン
 
     この場合、
 
-    - 既存の Marketplace の購読を更新する必要がある場合は、まず組織の現在の購読を [リンク解除](./subscribe-on-aws-marketplace#cancel-public-offer-subscription) してから、新しい購読を設定してください。
+    - 既存の Marketplace の購読を更新する必要がある場合は、まず組織の現在の購読をリンク解除してから、新しい購読を設定してください。
 
-    - 異なる Marketplace の購読用に複数の組織が必要な場合は、以下の方法があります：
-
-        - 新しい Zilliz Cloud アカウントを [登録](./register-with-zilliz-cloud) して新しい組織を作成します。次に、組織オーナーを新しい組織に [招待](./organization-users#invite-a-user-to-your-organization) します。この組織オーナーは複数の組織に所属し、各組織に異なる Marketplace の購読を設定できます。
-
-        - [サポートチケットを作成](http://support.zilliz.com) してください。新しい組織を作成いたします。現在、Zilliz Cloud はユーザーによる手動での組織作成をサポートしていません。
+    - 異なる Marketplace の購読用に複数の組織が必要な場合は、[組織を作成](./organization-settings#create-an-organization)できます。
 
 - **リストに組織がない**
 
@@ -207,11 +221,9 @@ GCP Marketplace の購読をキャンセルするには、GCP Marketplace コン
 
     この場合、以下の方法があります：
 
-    - 新しい組織を作成します。
+    - [新しい組織を作成](./organization-settings#create-an-organization)します。
 
     - 他のユーザーに自分を組織に [招待](./organization-users#invite-a-user-to-your-organization) してもらい、組織オーナーのロールを付与してもらいます。
-
-    - [サポートチケットを作成](https://support.zilliz.com/hc/en-us) してください。新しい組織を作成いたします。
 
 ## 関連トピック\{#related-topics}
 

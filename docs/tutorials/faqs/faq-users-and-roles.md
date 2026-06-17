@@ -55,4 +55,4 @@ Additionally, Zilliz Cloud also supports inviting users to projects. If you are 
 
 ### Can I create a role with specific privileges or custom privilege groups?{#can-i-create-a-role-with-specific-privileges-or-custom-privilege-groups}
 
-Yes. You need to [create a support ticket](http://support.zilliz.com) first so that we can enable this feature for you. Once this feature is enabled, you can then use the SDKs to complete this task. For details, refer to [Privileges & Privilege Groups](./cluster-privileges#custom-privilege-groups).
+Yes. You need to [create a support ticket](http://support.zilliz.com) first so that we can enable this feature for you. Once this feature is enabled, you can then use the SDKs to complete this task. For details, refer to [Privileges & Privilege Groups](./cluster-privileges#custom-privilege-groups-or-private).

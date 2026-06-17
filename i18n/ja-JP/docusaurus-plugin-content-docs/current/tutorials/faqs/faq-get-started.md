@@ -90,7 +90,7 @@ sidebar_position: 1
 
 ### Marketplace 上の Zilliz Cloud の価格はどうなっていますか？\{#what-is-the-pricing-of-zilliz-cloud-on-marketplaces}
 
-Marketplace の価格条件については、[支払いと請求](./payment-billing#marketplace-pricing-terms)を参照してください。
+Marketplace の価格条件については、[支払いと請求](./billing-management)を参照してください。
 
 ### 追加の Credits を申請できますか？\{#can-i-apply-for-more-credits}
 
@@ -98,7 +98,7 @@ Marketplace の価格条件については、[支払いと請求](./payment-bill
 
 ### 無料トライアルを延長できますか？\{#can-i-extend-my-free-trial}
 
-はい、できます。Zilliz Cloud に登録すると、30 日間有効な &#36;100 Credits を受け取ります。[支払い方法を追加](./payment-billing)することで、これらの Credits の有効期限を 1 年に延長できます。
+はい、できます。Zilliz Cloud に登録すると、30 日間有効な &#36;100 Credits を受け取ります。[支払い方法を追加](./billing-management)することで、これらの Credits の有効期限を 1 年に延長できます。
 
 ### さらに技術サポートを受けるにはどうすればよいですか？\{#how-can-i-get-further-technical-support}
 

@@ -90,7 +90,7 @@ Once the free trial ends, you can still access your free clusters. However, all 
 
 ### What is the pricing of Zilliz Cloud on Marketplaces?{#what-is-the-pricing-of-zilliz-cloud-on-marketplaces}
 
-Please refer to [Billing Management](./payment-billing) for more about Marketplace pricing terms.
+Please refer to [Payment & Billing](./billing-management) for more about Marketplace pricing terms.
 
 ### Can I apply for more credits?{#can-i-apply-for-more-credits}
 
@@ -98,7 +98,7 @@ When you register on Zilliz Cloud with a work email you’ll receive $100 in fre
 
 ### Can I extend my free trial?{#can-i-extend-my-free-trial}
 
-Yes, you can. When you register on Zilliz Cloud, you receive $100 in credits valid for 30 days. By [adding a payment method](./payment-billing), you can extend the validity of these credits to 1 year.
+Yes, you can. When you register on Zilliz Cloud, you receive $100 in credits valid for 30 days. By [adding a payment method](./billing-management), you can extend the validity of these credits to 1 year.
 
 ### How can I get further technical support?{#how-can-i-get-further-technical-support}
 

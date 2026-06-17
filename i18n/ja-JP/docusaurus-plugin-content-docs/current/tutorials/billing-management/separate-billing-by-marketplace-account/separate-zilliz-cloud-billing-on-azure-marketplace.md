@@ -110,13 +110,9 @@ To prepare multiple organizations:
 
 <Procedures>
 
-1. [Register](./register-with-zilliz-cloud) separate Zilliz Cloud accounts with separate company email accounts, or contact [Zilliz Cloud support](http://support.zilliz.com) team to prepare additional organizations.
+1. マルチ組織機能を有効にできるよう、[サポートチケットを送信](http://support.zilliz.com)してください。
 
-1. Confirm that each business unit has its own Zilliz Cloud organization.
-
-1. [Invite](./organization-users) the required users into each organization.
-
-1. Assign the billing operator as [Organization Owner](./organization-users#organization-owner) or [Organization Billing Admin](./organization-users#organization-billing-admin) in each target organization.
+1. 機能が有効になると、手動で[新しい組織を作成](./organization-settings#create-an-organization)できます。
 
 </Procedures>
 
@@ -225,4 +221,3 @@ Use the following components to reconcile the Azure billing view and the Zilliz 
 - Separate Azure invoice PDFs depend on the Azure billing account type and are not guaranteed by Zilliz Cloud architecture alone.
 
 - Commercial terms such as committed spend, private offers, or shared commitments across multiple Marketplace subscriptions should be confirmed with Microsoft Azure Sales or Marketplace Operations.
-

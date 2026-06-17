@@ -1,10 +1,10 @@
 ---
-title: "FAQ: ユーザーとロール | CLOUD"
+title: "FAQ: ユーザーとロール | BYOC"
 slug: /faq-users-and-roles
 sidebar_label: "FAQ: ユーザーとロール"
 beta: FALSE
 notebook: FALSE
-description: "このトピックでは、Zilliz Cloud でユーザー、ロール、アクセスに関して発生する可能性のある問題と、それに対応する解決策を一覧で紹介します。 | CLOUD"
+description: "このトピックでは、Zilliz Cloud でユーザー、ロール、アクセスに関して発生する可能性のある問題と、それに対応する解決策を一覧で紹介します。 | BYOC"
 type: origin
 token: EV41wG08BiOWW8kbo9xcTGoPnKd
 sidebar_position: 8

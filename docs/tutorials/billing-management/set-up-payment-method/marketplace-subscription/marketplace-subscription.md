@@ -33,7 +33,7 @@ You can subscribe to Zilliz Cloud through supported cloud marketplaces and recei
 
 <Admonition type="info" icon="📘" title="Note">
 
-To manage payment method and subscriptions, you must be an **Organization Owner** or **Organization Billing Admin**.
+<p>To manage payment method and subscriptions, you must be an <strong>Organization Owner</strong> or <strong>Organization Billing Admin</strong>.</p>
 
 </Admonition>
 
@@ -90,9 +90,8 @@ The following table compares the subscription options.
 
 <Admonition type="info" icon="📘" title="**Note**">
 
-An AWS Marketplace Free Trial is started and managed through AWS Marketplace.If you upgrade after the trial, future charges are billed through AWS Marketplace. This option is suitable for teams that want procurement and billing through AWS Marketplace.
-
-A Zilliz Cloud Free Trial is started directly from the Zilliz Cloud console and is managed within Zilliz Cloud. After the trial, you can choose to add a supported [payment method](./set-up-payment-method). This option is suitable for users who want to try Zilliz Cloud directly before setting up external billing.
+<p>An AWS Marketplace Free Trial is started and managed through AWS Marketplace.If you upgrade after the trial, future charges are billed through AWS Marketplace. This option is suitable for teams that want procurement and billing through AWS Marketplace.</p>
+<p>A Zilliz Cloud Free Trial is started directly from the Zilliz Cloud console and is managed within Zilliz Cloud. After the trial, you can choose to add a supported <a href="./set-up-payment-method">payment method</a>. This option is suitable for users who want to try Zilliz Cloud directly before setting up external billing.</p>
 
 </Admonition>
 

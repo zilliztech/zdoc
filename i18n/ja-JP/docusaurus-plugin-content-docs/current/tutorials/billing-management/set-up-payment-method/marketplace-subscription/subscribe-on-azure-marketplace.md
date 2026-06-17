@@ -8,7 +8,7 @@ notebook: FALSE
 description: "このガイドでは、Azure Marketplace での Zilliz Cloud の購読プロセスをステップバイステップで説明し、料金条件についても解説します。"
 type: origin
 token: LbFXwpruviFWWokwtkhcVmnhnFh
-sidebar_position: 5
+sidebar_position: 6
 keywords: 
   - zilliz
   - ベクトルデータベース
@@ -361,13 +361,9 @@ Azure Marketplace でのサブスクリプションキャンセルについて�
 
         この場合、
 
-        - 既存のマーケットプレイスサブスクリプションを更新する必要がある場合は、まず組織の現在のサブスクリプションを[リンク解除](./subscribe-on-aws-marketplace#cancel-public-offer-subscription) してから、新しいサブスクリプションを設定してください。
+        - 既存のマーケットプレイスサブスクリプションを更新する必要がある場合は、まず組織の現在のサブスクリプションをリンク解除してから、新しいサブスクリプションを設定してください。
 
-        - 異なるマーケットプレイスサブスクリプション用に複数の組織が必要な場合は、以下の方法があります：
-
-            - 新しい Zilliz Cloud アカウントを[登録](./register-with-zilliz-cloud) して新しい組織を作成します。次に、組織オーナーを新しい組織に[招待](./organization-users#invite-a-user-to-your-organization) します。この組織オーナーは複数の組織に所属することになり、各組織に異なるマーケットプレイスサブスクリプションを設定できます。
-
-            - [サポートチケットを作成](http://support.zilliz.com) していただければ、新しい組織を作成いたします。現在、Zilliz Cloud はユーザーによる手動での組織作成をサポートしていません。
+        - 異なるマーケットプレイスサブスクリプション用に複数の組織が必要な場合は、[組織を作成](./organization-settings#create-an-organization)できます。
 
     - **リストに組織がない**
 
@@ -377,11 +373,9 @@ Azure Marketplace でのサブスクリプションキャンセルについて�
 
         この場合、以下の方法があります：
 
-        - 新しい組織を作成します。
+        - [新しい組織を作成](./organization-settings#create-an-organization)します。
 
         - 他のユーザーに[招待](./organization-users#invite-a-user-to-your-organization) を依頼し、組織オーナーのロールを付与してもらいます。
-
-        - [サポートチケットを作成](https://support.zilliz.com/hc/en-us) していただければ、新しい組織を作成いたします。
 
 ## 関連トピック\{#related-topics}
 
