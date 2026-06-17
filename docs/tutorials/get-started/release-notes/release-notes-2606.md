@@ -11,7 +11,7 @@ notebook: FALSE
 description: "June 2026 Release Notes | Cloud"
 type: origin
 token: OZtawoDUci0CKokf9RlchvInnMf
-sidebar_position: 2
+sidebar_position: 1
 keywords: 
   - zilliz
   - vector database
@@ -27,7 +27,7 @@ import Grid from '@site/src/components/Grid';
 
 # June 2026 Release Notes
 
-<Grid columnSize="2" widthRatios="15,84">
+<Grid columnSize="2" widthRatios="14,85">
 
     <div>
 
