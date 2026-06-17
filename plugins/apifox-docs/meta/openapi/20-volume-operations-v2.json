@@ -189,6 +189,15 @@
                                       }
                                     }
                                   },
+                                  "description": {
+                                    "type": "string",
+                                    "description": "Description of the volume.",
+                                    "x-i18n": {
+                                      "zh-CN": {
+                                        "description": "Volume 描述。"
+                                      }
+                                    }
+                                  },
                                   "type": {
                                     "type": "string",
                                     "description": "The category of the volume.",
@@ -344,6 +353,17 @@
                     "x-i18n": {
                       "zh-CN": {
                         "description": "Volume 名称。"
+                      }
+                    }
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "Description of the volume.",
+                    "example": "Raw import data for recommendation workloads",
+                    "x-i18n": {
+                      "zh-CN": {
+                        "description": "Volume 描述。",
+                        "example": "Raw import data for recommendation workloads"
                       }
                     }
                   },
@@ -626,6 +646,15 @@
                               "x-i18n": {
                                 "zh-CN": {
                                   "description": "Volume 名称。"
+                                }
+                              }
+                            },
+                            "description": {
+                              "type": "string",
+                              "description": "Description of the volume.",
+                              "x-i18n": {
+                                "zh-CN": {
+                                  "description": "Volume 描述。"
                                 }
                               }
                             },

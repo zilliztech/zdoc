@@ -131,6 +131,15 @@
                                   }
                                 }
                               },
+                              "description": {
+                                "type": "string",
+                                "description": "Description of the project.",
+                                "x-i18n": {
+                                  "zh-CN": {
+                                    "description": "项目描述。"
+                                  }
+                                }
+                              },
                               "instanceCount": {
                                 "type": "string",
                                 "description": "Number of clusters in the projects.",
@@ -323,6 +332,17 @@
                     "x-i18n": {
                       "zh-CN": {
                         "description": "待创建项目的名称。"
+                      }
+                    }
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "The description of the project.",
+                    "example": "Production search workloads",
+                    "x-i18n": {
+                      "zh-CN": {
+                        "description": "项目描述。",
+                        "example": "Production search workloads"
                       }
                     }
                   },
@@ -792,6 +812,15 @@
                               "x-i18n": {
                                 "zh-CN": {
                                   "description": "项目名称。"
+                                }
+                              }
+                            },
+                            "description": {
+                              "type": "string",
+                              "description": "Description of the project.",
+                              "x-i18n": {
+                                "zh-CN": {
+                                  "description": "项目描述。"
                                 }
                               }
                             },

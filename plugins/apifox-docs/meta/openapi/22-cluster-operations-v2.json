@@ -584,6 +584,17 @@
                       }
                     }
                   },
+                  "description": {
+                    "type": "string",
+                    "description": "Description of the cluster.",
+                    "example": "Production vector search cluster",
+                    "x-i18n": {
+                      "zh-CN": {
+                        "description": "集群描述。",
+                        "example": "Production vector search cluster"
+                      }
+                    }
+                  },
                   "projectId": {
                     "type": "string",
                     "description": "ID of the project to which the cluster belongs.",
@@ -905,6 +916,17 @@
                       }
                     }
                   },
+                  "description": {
+                    "type": "string",
+                    "description": "Description of the cluster.",
+                    "example": "Production vector search cluster",
+                    "x-i18n": {
+                      "zh-CN": {
+                        "description": "集群描述。",
+                        "example": "Production vector search cluster"
+                      }
+                    }
+                  },
                   "projectId": {
                     "type": "string",
                     "description": "ID of the project to which the cluster belongs.",
@@ -1150,6 +1172,17 @@
                       "zh-CN": "待创建集群名称。"
                     }
                   },
+                  "description": {
+                    "type": "string",
+                    "description": "Description of the on-demand cluster.",
+                    "example": "Ad hoc analytics query cluster",
+                    "x-i18n": {
+                      "zh-CN": {
+                        "description": "按需集群描述。",
+                        "example": "Ad hoc analytics query cluster"
+                      }
+                    }
+                  },
                   "autoSuspend": {
                     "type": "integer",
                     "description": "Auto-suspend idle window. The cluster will be automatically suspended if there is no request within the specified period. The value should be an integer representing the number of seconds. For example, `300` means 5 minutes.",
@@ -1381,6 +1414,17 @@
                     "x-i18n": {
                       "zh-CN": {
                         "description": "待创建集群名称。"
+                      }
+                    }
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "Description of the cluster.",
+                    "example": "Production vector search cluster",
+                    "x-i18n": {
+                      "zh-CN": {
+                        "description": "集群描述。",
+                        "example": "Production vector search cluster"
                       }
                     }
                   },
@@ -1698,6 +1742,15 @@
                                 "x-i18n": {
                                   "zh-CN": {
                                     "description": "集群名称。"
+                                  }
+                                }
+                              },
+                              "description": {
+                                "type": "string",
+                                "description": "Description of the on-demand cluster.",
+                                "x-i18n": {
+                                  "zh-CN": {
+                                    "description": "按需集群描述。"
                                   }
                                 }
                               },
@@ -2172,6 +2225,15 @@
                               "description": "Name of the cluster.",
                               "x-i18n": {
                                 "zh-CN": "集群名称。"
+                              }
+                            },
+                            "description": {
+                              "type": "string",
+                              "description": "Description of the on-demand cluster.",
+                              "x-i18n": {
+                                "zh-CN": {
+                                  "description": "按需集群描述。"
+                                }
                               }
                             },
                             "regionId": {
