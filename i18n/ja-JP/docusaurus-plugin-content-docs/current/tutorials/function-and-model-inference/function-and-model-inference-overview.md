@@ -175,7 +175,7 @@ Zilliz Cloud は 2 つのモデル推論のソースをサポートしていま�
    </tr>
    <tr>
      <td><p><strong>How access is set up</strong></p></td>
-     <td><p>See <a href="./hosted-models">Hosted Models</a></p></td>
+     <td><p>Zilliz Cloud サポート経由</p></td>
      <td><p>Through <a href="./integrate-with-model-providers">モデルプロバイダー連携</a> on your own</p></td>
    </tr>
    <tr>
@@ -245,4 +245,3 @@ Zilliz Cloud は、異なる機能を提供する主要なモデルプロバイ�
      <td><p><a href="https://docs.cohere.com/docs/rerank">Yes</a></p></td>
    </tr>
 </table>
-

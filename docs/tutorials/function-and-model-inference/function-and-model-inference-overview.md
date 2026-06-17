@@ -178,7 +178,7 @@ Zilliz Cloud supports two sources of model inference. Both provide model-based c
    </tr>
    <tr>
      <td><p><strong>How access is set up</strong></p></td>
-     <td><p>See <a href="./hosted-models">Hosted Models</a></p></td>
+     <td><p>Through Zilliz Cloud support</p></td>
      <td><p>Through <a href="./integrate-with-model-providers">model provider integration</a> on your own</p></td>
    </tr>
    <tr>
@@ -248,4 +248,3 @@ Zilliz Cloud integrates with leading model providers that offer different capabi
      <td><p><a href="https://docs.cohere.com/docs/rerank">Yes</a></p></td>
    </tr>
 </table>
-

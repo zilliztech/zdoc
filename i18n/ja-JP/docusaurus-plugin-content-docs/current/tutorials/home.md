@@ -825,7 +825,7 @@ curl --request POST \
 
 1. モデルプロバイダー連携を設定するか、ホストモデルをデプロイする。
 
-    サードパーティのモデルプロバイダーの認証情報を保存するために、[AWS](./integrate-with-aws-s3)、[GCP](./integrate-with-gcp)、または [Azure](./integrate-with-azure-blob-storage) のストレージ連携を作成します。または、[ホストモデルをデプロイ](./hosted-models) することもできます。
+    サードパーティのモデルプロバイダーの認証情報を保存するために、[AWS](./integrate-with-aws-s3)、[GCP](./integrate-with-gcp)、または [Azure](./integrate-with-azure-blob-storage) のストレージ連携を作成します。
 
 1. コレクションを作成し、埋め込み機能を設定する。
 
@@ -914,4 +914,3 @@ curl --request POST \
 </Blocks>
 
 <Banner bannerText="Can't find what you're looking for?" bannerLinkText="Try Ask AI" />
-

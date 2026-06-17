@@ -823,7 +823,7 @@ Select a project [plan](./select-zilliz-cloud-service-plans) and create clusters
 
 1. Set up a model provider integration or deploy a hosted model.
 
-    [Create an AWS](./integrate-with-aws-s3), [GCP](./integrate-with-gcp), or [Azure](./integrate-with-azure-blob-storage) storage integration to store credentials for your third-party model provider. Or you can [deploy](./hosted-models) a hosted model.
+    [Create an AWS](./integrate-with-aws-s3), [GCP](./integrate-with-gcp), or [Azure](./integrate-with-azure-blob-storage) storage integration to store credentials for your third-party model provider.
 
 1. Create a collection and configure the embedding function.
 
@@ -912,4 +912,3 @@ Select a project [plan](./select-zilliz-cloud-service-plans) and create clusters
 </Blocks>
 
 <Banner bannerText="Can't find what you're looking for?" bannerLinkText="Try Ask AI" />
-

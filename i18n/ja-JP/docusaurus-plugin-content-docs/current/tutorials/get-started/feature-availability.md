@@ -76,8 +76,6 @@ import Admonition from '@theme/Admonition';
 
 - [バックアップファイルのエクスポート](./export-backup-files)
 
-- [ホストモデル](./hosted-models)
-
 <Admonition type="info" icon="📘" title="Notes">
 
 <p>これらの機能へのアクセスをリクエストするには、<a href="http://support.zilliz.com">Zilliz サポート</a>に連絡してください。 </p>
@@ -115,4 +113,3 @@ import Admonition from '@theme/Admonition';
 ### 非推奨\{#deprecated}
 
 - Pipelines
-

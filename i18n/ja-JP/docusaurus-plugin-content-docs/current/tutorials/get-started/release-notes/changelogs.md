@@ -118,7 +118,7 @@ import Grid from '@site/src/components/Grid';
 
             - [MinHash Function](./minhash-function)
 
-            - [検索](./single-vector-search#sort-search-results-by-scalar-fields-or-private)および[クエリ](./get-and-scalar-query#sort-query-results-or-private)での Order by
+            - [検索](./single-vector-search#sort-search-results-by-scalar-fields)および[クエリ](./get-and-scalar-query#sort-query-results)での Order by
 
             - [Snapshots](./snapshots)
 
@@ -258,7 +258,7 @@ import Grid from '@site/src/components/Grid';
 
         - 🤖 [モデルベースの埋め込み](./model-based-functions)および[リランキング機能](./model-ranker)がパブリックプレビューで利用可能になりました。
 
-        - 🤖 [ホストモデル](./hosted-models)がプライベートプレビューで利用可能になりました。
+        - 🤖 ホストモデルがプライベートプレビューで利用可能になりました。
 
         - 🛠️ インテリジェンスを備えた[動的レプリカの自動スケーリング](./manage-replica#dynamic-scaling)。
 

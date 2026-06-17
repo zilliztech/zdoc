@@ -50,7 +50,7 @@ Instead of sending the entire 75-word document to your LLM, you get just the 16-
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This feature relies on a hosted highlight model on Zilliz Cloud. For more information, see <a href="./hosted-models#supported-models">Hosted Models</a>.</p>
+<p>This feature relies on a hosted highlight model on Zilliz Cloud.</p>
 
 </Admonition>
 
@@ -98,7 +98,7 @@ You can also use your own external embedding service to generate embeddings, the
 
 ### Stage 2: Semantic highlighting\{#stage-2-semantic-highlighting}
 
-The highlighting stage is powered by a hosted [highlight model](./hosted-models#supported-models) deployed on Zilliz Cloud. This model processes the retrieved documents and identifies text segments that are semantically relevant to your query:
+The highlighting stage is powered by a hosted highlight model deployed on Zilliz Cloud. This model processes the retrieved documents and identifies text segments that are semantically relevant to your query:
 
 - **Score text segments**: The highlight model analyzes text content in each document and computes a confidence score (0.0‒1.0) for each segment. Higher scores indicate stronger semantic relevance to the query.
 
@@ -320,7 +320,7 @@ Before using Semantic Highlighter, ensure you have the following configured:
 
     - Obtain the `model_deployment_id` for use in the `SemanticHighlighter` configuration.
 
-    See [Hosted Models](./hosted-models) for available highlight models and deployment instructions.
+    Contact Zilliz Cloud support for available highlight models and deployment instructions.
 
 - **Embedding model for semantic search**
 
@@ -332,7 +332,7 @@ Before using Semantic Highlighter, ensure you have the following configured:
 
     - **Third-party model provider**: Integrate with a third-party model service provider such as OpenAI, VoyageAI, or Cohere and obtain its `integration_id` from the Zilliz Cloud console. See [Integrate with Model Providers](./integrate-with-model-providers) for setup instructions.
 
-    - **Hosted embedding model**: Deploy a hosted embedding model via Zilliz Cloud and obtain its `model_deployment_id`. See [Hosted Models](./hosted-models) for available models and deployment instructions.
+    - **Hosted embedding model**: Deploy a hosted embedding model via Zilliz Cloud and obtain its `model_deployment_id`. Contact Zilliz Cloud support for available models and deployment instructions.
 
     **Option 2: External embedding model**
 

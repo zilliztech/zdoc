@@ -79,8 +79,6 @@ The availability phase of each feature is indicated in the Zilliz Cloud document
 
 - [Export backup files](./export-backup-files)
 
-- [Hosted models](./hosted-models)
-
 <Admonition type="info" icon="📘" title="Notes">
 
 <p>Contact <a href="http://support.zilliz.com">Zilliz Support</a> to request access to these features. </p>
@@ -118,4 +116,3 @@ The availability phase of each feature is indicated in the Zilliz Cloud document
 ### Deprecated\{#deprecated}
 
 - Pipelines
-

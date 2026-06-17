@@ -121,7 +121,7 @@ import Grid from '@site/src/components/Grid';
 
             - [MinHash function](./minhash-function)
 
-            - Order by for [searches](./single-vector-search#sort-search-results-by-scalar-fields-or-private) and [queries](./get-and-scalar-query#sort-query-results-or-private),
+            - Order by for [searches](./single-vector-search#sort-search-results-by-scalar-fields) and [queries](./get-and-scalar-query#sort-query-results),
 
             - [Snapshots](./snapshots),
 
@@ -261,7 +261,7 @@ import Grid from '@site/src/components/Grid';
 
         - 🤖 [Model-based embedding](./model-based-functions) and [reranking functions](./model-ranker) for public preview.
 
-        - 🤖 [Hosted models](./hosted-models) for private preview.
+        - 🤖 Hosted models for private preview.
 
         - 🛠️ [Dynamic replica autoscaling](./manage-replica#dynamic-scaling) with intelligence.
 
@@ -1162,4 +1162,3 @@ import Grid from '@site/src/components/Grid';
     </div>
 
 </Grid>
-

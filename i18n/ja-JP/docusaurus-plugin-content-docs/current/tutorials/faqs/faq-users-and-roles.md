@@ -55,4 +55,4 @@ sidebar_position: 8
 
 ### 特定の権限を持つロールやカスタム権限グループを作成できますか？\{#can-i-create-a-role-with-specific-privileges-or-custom-privilege-groups}
 
-はい。まず[サポートチケットを作成](http://support.zilliz.com)して、この機能を有効にする必要があります。機能が有効になると、SDK を使用してこのタスクを完了できます。詳細については、[権限と権限グループ](./cluster-privileges#custom-privilege-groups-or-private)を参照してください。
+はい。まず[サポートチケットを作成](http://support.zilliz.com)して、この機能を有効にする必要があります。機能が有効になると、SDK を使用してこのタスクを完了できます。詳細については、[権限と権限グループ](./cluster-privileges#custom-privilege-groups)を参照してください。
