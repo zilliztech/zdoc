@@ -249,7 +249,8 @@
                           "instanceCount": 2,
                           "createTime": "2023-08-16T07:34:06Z",
                           "plan": "Enterprise",
-                          "orgType": "SAAS"
+                          "orgType": "SAAS",
+                          "description": "A project for organizing clusters and resources."
                         }
                       ]
                     }
@@ -270,7 +271,8 @@
                           "instanceCount": 2,
                           "createTime": "2023-08-16T07:34:06Z",
                           "plan": "Enterprise",
-                          "orgType": "SAAS"
+                          "orgType": "SAAS",
+                          "description": "用于组织集群和资源的项目描述。"
                         }
                       ]
                     }
@@ -385,7 +387,8 @@
                 "plan": "Enterprise",
                 "regionIds": [
                   "aws-us-east-1"
-                ]
+                ],
+                "description": "A project for organizing clusters and resources."
               }
             }
           }
@@ -924,7 +927,8 @@
                         "instanceCount": 2,
                         "createTime": "2023-08-16T07:34:06Z",
                         "plan": "Enterprise",
-                        "orgType": "SAAS"
+                        "orgType": "SAAS",
+                        "description": "A project for organizing clusters and resources."
                       }
                     }
                   },

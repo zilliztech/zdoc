@@ -697,7 +697,8 @@
                     "regionId": "ali-cn-beijing",
                     "plan": "Standard",
                     "cuType": "Performance-optimized",
-                    "cuSize": 1
+                    "cuSize": 1,
+                    "description": "用于向量搜索工作负载的集群描述。"
                   }
                 },
                 "2": {
@@ -709,7 +710,8 @@
                     "regionId": "aws-us-west-2",
                     "plan": "Standard",
                     "cuType": "Performance-optimized",
-                    "cuSize": 1
+                    "cuSize": 1,
+                    "description": "A cluster for vector search workloads."
                   }
                 }
               }
@@ -951,7 +953,8 @@
                   "value": {
                     "clusterName": "Free-01",
                     "projectId": "proj-xxxxxxxxxxxxxxxxxxxxxx",
-                    "regionId": "gcp-us-west1"
+                    "regionId": "gcp-us-west1",
+                    "description": "A cluster for vector search workloads."
                   }
                 },
                 "2": {
@@ -960,7 +963,8 @@
                   "value": {
                     "clusterName": "Free-01",
                     "projectId": "proj-xxxxxxxxxxxxxxxxxxxxxx",
-                    "regionId": "ali-cn-hangzhou"
+                    "regionId": "ali-cn-hangzhou",
+                    "description": "用于向量搜索工作负载的集群描述。"
                   }
                 }
               }
@@ -1207,7 +1211,8 @@
                     "regionId": "aws-us-west-2",
                     "clusterName": "my-on-demand",
                     "cuSize": 8,
-                    "autoSuspend": 60
+                    "autoSuspend": 60,
+                    "description": "A cluster for vector search workloads."
                   }
                 },
                 "2": {
@@ -1218,7 +1223,8 @@
                     "regionId": "ali-cn-beijing",
                     "clusterName": "my-on-demand",
                     "cuSize": 8,
-                    "autoSuspend": 60
+                    "autoSuspend": 60,
+                    "description": "用于向量搜索工作负载的集群描述。"
                   }
                 }
               }
@@ -1452,7 +1458,8 @@
                   "value": {
                     "clusterName": "Serverless-05",
                     "projectId": "proj-xxxxxxxxxxxxxxxxxxxxxxx",
-                    "regionId": "gcp-us-west1"
+                    "regionId": "gcp-us-west1",
+                    "description": "A cluster for vector search workloads."
                   }
                 },
                 "2": {
@@ -1461,7 +1468,8 @@
                   "value": {
                     "clusterName": "Serverless-05",
                     "projectId": "proj-xxxxxxxxxxxxxxxxxxxxxxx",
-                    "regionId": "ali-cn-hangzhou"
+                    "regionId": "ali-cn-hangzhou",
+                    "description": "用于向量搜索工作负载的集群描述。"
                   }
                 }
               }
@@ -1869,7 +1877,8 @@
                             "privateLink": "",
                             "createdBy": "john.doe@zilliz.com",
                             "createTime": "2024-04-21T10:15:15Z",
-                            "autoSuspend": 60
+                            "autoSuspend": 60,
+                            "description": "An on-demand cluster for vector search workloads."
                           },
                           {
                             "projectId": "proj-xxxxxxxxxxxxxxx",
@@ -1882,7 +1891,8 @@
                             "privateLink": "",
                             "createdBy": "john.doe@zilliz.com",
                             "createTime": "2024-04-21T10:15:16Z",
-                            "autoSuspend": 60
+                            "autoSuspend": 60,
+                            "description": "An on-demand cluster for vector search workloads."
                           }
                         ]
                       }
@@ -1907,7 +1917,8 @@
                             "privateLink": "",
                             "createdBy": "john.doe@zilliz.com",
                             "createTime": "2024-04-21T10:15:15Z",
-                            "autoSuspend": 60
+                            "autoSuspend": 60,
+                            "description": "用于按需向量搜索工作负载的集群描述。"
                           },
                           {
                             "projectId": "proj-xxxxxxxxxxxxxxx",
@@ -1920,7 +1931,8 @@
                             "privateLink": "",
                             "createdBy": "john.doe@zilliz.com",
                             "createTime": "2024-04-21T10:15:16Z",
-                            "autoSuspend": 60
+                            "autoSuspend": 60,
+                            "description": "用于按需向量搜索工作负载的集群描述。"
                           }
                         ]
                       }
