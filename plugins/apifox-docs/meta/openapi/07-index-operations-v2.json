@@ -706,7 +706,7 @@
                         }
                       ]
                     }
-                  },                  
+                  },
                   "3": {
                     "summary": "failure",
                     "x-target-response": "OPTION 2",

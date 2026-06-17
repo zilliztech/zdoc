@@ -1,8 +1,12 @@
 const nunjucks = require("nunjucks")
 const fs = require('node:fs')
+const path = require('node:path')
 const { resolveRefs } = require('./specLoader')
 
-const planeConfig = JSON.parse(fs.readFileSync('plugins/apifox-docs/meta/plane-config.json', 'utf-8'))
+const META_DIR = path.join(__dirname, 'meta')
+const TEMPLATES_DIR = path.join(__dirname, 'templates')
+
+const planeConfig = JSON.parse(fs.readFileSync(path.join(META_DIR, 'plane-config.json'), 'utf-8'))
 
 const CONFIG = {
   controlPlaneKeywords: planeConfig.controlPlaneKeywords,
@@ -22,18 +26,18 @@ class refGen {
       this.options.parents.push(this.options.specifications.tags[x].name)
     }
 
-    this.descriptions = JSON.parse(fs.readFileSync('plugins/apifox-docs/meta/descriptions.json', 'utf-8'))
+    this.descriptions = JSON.parse(fs.readFileSync(path.join(META_DIR, 'descriptions.json'), 'utf-8'))
 
     this.positions = { tags: {}, endpoints: {} }
     try {
-      this.positions = JSON.parse(fs.readFileSync('plugins/apifox-docs/meta/positions.json', 'utf-8'))
+      this.positions = JSON.parse(fs.readFileSync(path.join(META_DIR, 'positions.json'), 'utf-8'))
     } catch (err) {
       // Optional file — leave defaults empty
     }
 
     this.admonitions = {}
     try {
-      this.admonitions = JSON.parse(fs.readFileSync('plugins/apifox-docs/meta/admonitions.json', 'utf-8'))
+      this.admonitions = JSON.parse(fs.readFileSync(path.join(META_DIR, 'admonitions.json'), 'utf-8'))
     } catch (err) {
       // Optional file — leave defaults empty
     }
@@ -76,6 +80,16 @@ class refGen {
     return CONFIG.betaDefaults[version] || 'FALSE'
   }
 
+  shouldIncludeByLang(entity) {
+    const includeLangs = entity?.['x-include-langs']
+    if (!includeLangs) {
+      return true
+    }
+
+    const langs = Array.isArray(includeLangs) ? includeLangs : [includeLangs]
+    return langs.includes(this.options.lang)
+  }
+
   lookupDescription(slug, specDescription) {
     const entry = this.descriptions.find(x => x.name === slug)
     if (!entry) {
@@ -98,7 +112,7 @@ class refGen {
     const { lang, target, parents, specifications } = this.options
 
     const env = new nunjucks.Environment(
-      new nunjucks.FileSystemLoader(`plugins/apifox-docs/templates`),
+      new nunjucks.FileSystemLoader(TEMPLATES_DIR),
       {
         autoescape: false,
       }
@@ -113,14 +127,22 @@ class refGen {
         if (specification?.["x-include-target"] && !specification["x-include-target"].includes(target)) {
           continue
         }
+        if (!this.shouldIncludeByLang(specification)) {
+          continue
+        }
 
         const tagObj = specifications.tags.find(t => t.name === specification.tags?.[0])
         if (tagObj?.["x-include-target"] && !tagObj["x-include-target"].includes(target)) {
           continue
         }
+        if (!this.shouldIncludeByLang(tagObj)) {
+          continue
+        }
 
-        const page_title = lang === "zh-CN" ? specification["x-i18n"][lang].summary : specification.summary
-        const page_excerpt = this.__filter_content(lang === "zh-CN" ? specification["x-i18n"][lang].description : specification.description, target).split('<')[0]
+        const i18n = specification?.["x-i18n"]?.[lang]
+        const page_title = lang === "zh-CN" ? (i18n?.summary || specification.summary) : specification.summary
+        const rawDescription = lang === "zh-CN" ? (i18n?.description || specification.description) : specification.description
+        const page_excerpt = this.__filter_content(rawDescription ?? '', target).split('<')[0]
         var page_parent = parents.filter(x => x === specification.tags[0])[0]
         if (!page_parent) {
           console.warn(`Warning: No matching parent tag for "${specification.tags?.[0]}" in ${method.toUpperCase()} ${page_url}, skipping`)
@@ -256,7 +278,7 @@ class refGen {
   make_groups() {
     const { specifications, target, target_path } = this.options
     const env = new nunjucks.Environment(
-      new nunjucks.FileSystemLoader(`plugins/apifox-docs/templates`),
+      new nunjucks.FileSystemLoader(TEMPLATES_DIR),
       { autoescape: false }
     )
 
@@ -264,6 +286,7 @@ class refGen {
 
     for (const group of Object.keys(specifications.tags)) {
       if (specifications.tags[group]['x-include-target'] && !(specifications.tags[group]['x-include-target']?.includes(target))) continue;
+      if (!this.shouldIncludeByLang(specifications.tags[group])) continue;
 
       const slug = this.toSlug(specifications.tags[group].name)
       const version = slug.includes('v2') ? 'v2' : 'v1'
@@ -344,7 +367,7 @@ class refGen {
     var page_slug = 0
     const { lang } = this.options
     if (lang == 'zh-CN') {
-      const titles = JSON.parse(fs.readFileSync(`plugins/apifox-docs/meta/titles.json`, 'utf-8'))
+      const titles = JSON.parse(fs.readFileSync(path.join(META_DIR, 'titles.json'), 'utf-8'))
       page_slug = titles[page_title]
       if (!page_slug) {
         throw new Error(`Missing Chinese title mapping for: "${page_title}" in titles.json`)
@@ -354,7 +377,7 @@ class refGen {
     }
 
     if (target === 'milvus') {
-      const ruleSet = JSON.parse(fs.readFileSync('plugins/apifox-docs/meta/fileNameRuleSet.json', 'utf-8'))
+      const ruleSet = JSON.parse(fs.readFileSync(path.join(META_DIR, 'fileNameRuleSet.json'), 'utf-8'))
       var slug = undefined
       for (let rule of ruleSet) {
         switch (rule.match) {
@@ -386,6 +409,10 @@ class refGen {
   }
 
   __filter_content (markdown, targets) {
+    if (typeof markdown !== 'string') {
+      return ''
+    }
+
     const matches = this.__match_filter_tags(markdown)
 
     if (matches.length > 0) {
