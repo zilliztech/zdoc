@@ -2,6 +2,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
+const matter = require('gray-matter');
 
 const larkDocWriter = require('./larkDocWriter');
 const larkDocScraper = require('./larkDocScraper');
@@ -160,6 +161,28 @@ async function testBoardImageUrlUsesEscapedMarkdownUrl() {
   assert.equal(markdown, '  ![board token](/img/board%20token.png)');
 }
 
+function testFrontMatterEscapesYamlDoubleQuotedBackslashes() {
+  const writer = new larkDocWriter('', '', 'javaSidebar', '/tmp');
+  const frontMatter = writer.__front_matters(
+    'createRole()',
+    'Java | v2',
+    'java/v2-Authentication-createRole',
+    false,
+    false,
+    'docx',
+    'WJCAdWmpIolcU1x3T3fcZ1J2nWb',
+    3,
+    'createRole()',
+    '',
+    'javaSidebar',
+    '# createRole()\\{#createrole}'
+  );
+
+  const parsed = matter(`${frontMatter}\n\n# createRole()`);
+
+  assert.equal(parsed.data.description, '# createRole()\\{#createrole} | Java | v2');
+}
+
 async function run() {
   await testConvertLinkResolvesWikiByNodeTokenWhenOriginMissing();
   await testConvertLinkResolvesWikiByOriginTokenForBackwardCompatibility();
@@ -167,6 +190,7 @@ async function run() {
   await testTableDropsColumnsThatAreEmptyInEveryRow();
   await testIframeImageUrlEscapesSpacesInGeneratedMarkdown();
   await testBoardImageUrlUsesEscapedMarkdownUrl();
+  testFrontMatterEscapesYamlDoubleQuotedBackslashes();
   console.log('lark-docs regression tests passed');
 }
 
