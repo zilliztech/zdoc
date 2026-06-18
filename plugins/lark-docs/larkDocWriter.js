@@ -1169,7 +1169,7 @@ class larkDocWriter {
         }
 
         if (description) {
-            description = description.trim().replace('\n', '|').replace(/\[(.*)\]\(.*\)/g, '$1').replace(':', '').replace(/\*+|_+/g, '').replace(/\"/g, "\\\"")
+            description = description.trim().replace('\n', '|').replace(/\[(.*)\]\(.*\)/g, '$1').replace(':', '').replace(/\*+|_+/g, '')
             description = description.replace(/<\/?[^>]+>/g, '').trim()
             if (description.length === 0) {
                 description = title
@@ -1182,12 +1182,12 @@ class larkDocWriter {
         }
 
         let front_matter = '---\n' + 
-        `title: "${title} | ${suffix}"` + '\n' +
+        `title: ${this.__yaml_string(`${title} | ${suffix}`)}` + '\n' +
         `slug: /${slug}` + '\n' +
-        `sidebar_label: "${sidebar_label ? sidebar_label : title}"` + '\n' +
+        `sidebar_label: ${this.__yaml_string(sidebar_label ? sidebar_label : title)}` + '\n' +
         `beta: ${beta ? beta : 'FALSE'}` + '\n' +
         `notebook: ${notebook ? notebook : 'FALSE'}` + '\n' +
-        `description: "${description} | ${suffix}"` + '\n' +
+        `description: ${this.__yaml_string(`${description} | ${suffix}`)}` + '\n' +
         `type: ${type}` + '\n' +
         `token: ${token}` + '\n' +
         `sidebar_position: ${sidebar_position}` + '\n' +
@@ -1198,6 +1198,10 @@ class larkDocWriter {
         '---'
 
         return front_matter
+    }
+
+    __yaml_string(value) {
+        return JSON.stringify(String(value ?? '').replace(/\r?\n/g, '|'))
     }
 
     __imports (cond=null) {
