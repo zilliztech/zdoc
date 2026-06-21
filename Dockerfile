@@ -21,4 +21,6 @@ RUN pnpm run build
 FROM nginx:alpine
 COPY --from=build /app/build /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY docker-entrypoint.d/40-zdoc-env.sh /docker-entrypoint.d/40-zdoc-env.sh
+RUN chmod +x /docker-entrypoint.d/40-zdoc-env.sh
 EXPOSE 80

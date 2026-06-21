@@ -18,6 +18,14 @@ type InkeepPluginOptions = {
   };
 };
 
+declare global {
+  interface Window {
+    __ZDOC_ENV__?: {
+      INKEEP_API_KEY?: string;
+    };
+  }
+}
+
 function isMac() {
   return typeof navigator !== 'undefined' && /Mac|iPod|iPhone|iPad/.test(navigator.platform);
 }
@@ -31,6 +39,7 @@ export default function NavbarContent(): ReactNode {
   const {siteConfig} = useDocusaurusContext();
   const {pathname} = useLocation();
   const [searchOpen, setSearchOpen] = useState(false);
+  const [runtimeApiKey, setRuntimeApiKey] = useState<string | undefined>();
   const mod = isMac() ? '⌘' : 'Ctrl';
   const inkeepPlugin = siteConfig.plugins.find(plugin =>
     Array.isArray(plugin) && plugin[0] === '@inkeep/cxkit-docusaurus'
@@ -38,7 +47,7 @@ export default function NavbarContent(): ReactNode {
   const inkeepPluginOptions = Array.isArray(inkeepPlugin)
     ? inkeepPlugin[1] as InkeepPluginOptions
     : undefined;
-  const apiKey = inkeepPluginOptions?.SearchBar?.baseSettings?.apiKey;
+  const apiKey = inkeepPluginOptions?.SearchBar?.baseSettings?.apiKey || runtimeApiKey;
 
   const handleOpenChange = useCallback((isOpen: boolean) => {
     setSearchOpen(isOpen);
@@ -60,6 +69,10 @@ export default function NavbarContent(): ReactNode {
     const handler = () => setSearchOpen(true);
     document.addEventListener('open-mobile-search', handler);
     return () => document.removeEventListener('open-mobile-search', handler);
+  }, []);
+
+  useEffect(() => {
+    setRuntimeApiKey(window.__ZDOC_ENV__?.INKEEP_API_KEY);
   }, []);
 
   // Cmd+K / Ctrl+K to open search

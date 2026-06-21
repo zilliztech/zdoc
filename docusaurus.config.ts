@@ -285,6 +285,10 @@ const config: Config = {
 
   headTags: [
     {
+      tagName: 'script',
+      attributes: {src: '/env.js'},
+    },
+    {
       tagName: 'link',
       attributes: {rel: 'preconnect', href: 'https://fonts.googleapis.com'},
     },
