@@ -1,12 +1,22 @@
-import React, {type ReactNode, useState, useEffect} from 'react';
+import React, {type ReactNode, useState, useEffect, useCallback, useMemo} from 'react';
 import {useLocation} from '@docusaurus/router';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {useNavbarMobileSidebar} from '@docusaurus/theme-common/internal';
 import NavbarMobileSidebarToggle from '@theme/Navbar/MobileSidebar/Toggle';
 import NavbarLogo from '@theme/Navbar/Logo';
+import {InkeepModalSearch} from '@inkeep/cxkit-react';
 import {Search} from 'lucide-react';
 import SecondaryNavbar from '@site/src/components/SecondaryNavbar';
-import SearchModal from '../../../theme/Search';
+import {inkeepSettings} from '../../../../config/inkeep.config';
 import styles from './styles.module.css';
+
+type InkeepPluginOptions = {
+  SearchBar?: {
+    baseSettings?: {
+      apiKey?: string;
+    };
+  };
+};
 
 function isMac() {
   return typeof navigator !== 'undefined' && /Mac|iPod|iPhone|iPad/.test(navigator.platform);
@@ -18,9 +28,33 @@ function getDocsHomePath(pathname: string) {
 
 export default function NavbarContent(): ReactNode {
   const mobileSidebar = useNavbarMobileSidebar();
+  const {siteConfig} = useDocusaurusContext();
   const {pathname} = useLocation();
   const [searchOpen, setSearchOpen] = useState(false);
   const mod = isMac() ? '⌘' : 'Ctrl';
+  const inkeepPlugin = siteConfig.plugins.find(plugin =>
+    Array.isArray(plugin) && plugin[0] === '@inkeep/cxkit-docusaurus'
+  );
+  const inkeepPluginOptions = Array.isArray(inkeepPlugin)
+    ? inkeepPlugin[1] as InkeepPluginOptions
+    : undefined;
+  const apiKey = inkeepPluginOptions?.SearchBar?.baseSettings?.apiKey;
+
+  const handleOpenChange = useCallback((isOpen: boolean) => {
+    setSearchOpen(isOpen);
+  }, []);
+
+  const inkeepSearchConfig = useMemo(() => ({
+    ...inkeepSettings,
+    baseSettings: {
+      ...inkeepSettings.baseSettings,
+      apiKey,
+    },
+    modalSettings: {
+      isOpen: searchOpen,
+      onOpenChange: handleOpenChange,
+    },
+  }), [apiKey, handleOpenChange, searchOpen]);
 
   useEffect(() => {
     const handler = () => setSearchOpen(true);
@@ -85,7 +119,7 @@ export default function NavbarContent(): ReactNode {
         {!mobileSidebar.disabled && <NavbarMobileSidebarToggle />}
       </div>
 
-      {searchOpen && <SearchModal onClose={() => setSearchOpen(false)} />}
+      {apiKey && <InkeepModalSearch {...inkeepSearchConfig} />}
     </div>
   );
 }

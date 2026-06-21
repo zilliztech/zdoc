@@ -211,6 +211,21 @@ const config: Config = {
     ['./plugins/lark-docs', larkDocsConfig],
     './plugins/apifox-docs',
     './plugins/link-checks',
+    [
+      '@inkeep/cxkit-docusaurus',
+      {
+        SearchBar: {
+          baseSettings: {
+            apiKey: process.env.INKEEP_API_KEY,
+          },
+        },
+        ChatButton: {
+          baseSettings: {
+            apiKey: process.env.INKEEP_API_KEY,
+          },
+        },
+      },
+    ],
     ['./plugins/embed-markdown', {
       sources: [
         { folder: 'docs',      route: '/docs'     },
