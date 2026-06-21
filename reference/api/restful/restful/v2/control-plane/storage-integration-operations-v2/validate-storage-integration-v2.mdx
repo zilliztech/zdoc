@@ -1,0 +1,29 @@
+---
+displayed_sidebar: restfulSidebar
+sidebar_position: 4
+slug: /restful/validate-storage-integration-v2
+beta: FALSE
+title: "Validate Storage Integration (V2) | RESTful"
+description: "This operation validates whether the supplied storage credential can access the target bucket or container without creating an integration record. | RESTful"
+hide_table_of_contents: true
+sidebar_label: "Validate Storage Integration (V2)"
+sidebar_custom_props: { badges: ['post']}
+keywords: 
+  - zilliz cloud
+  - zilliz
+  - cloud
+  - "Validate Storage Integration (V2)"
+  - "post"
+  - RESTful
+  - API
+---
+
+# Validate Storage Integration (V2)
+
+import RestSpecs from '@site/src/components/RestSpecs';
+
+<RestSpecs specs={specs} endpoint={endpoint} method={method} target="zilliz" lang="en-US" />
+
+export const specs = {"summary":"Validate Storage Integration","deprecated":false,"description":"This operation validates whether the supplied storage credential can access the target bucket or container without creating an integration record.","x-i18n":{"zh-CN":{"summary":"校验 Storage Integration","description":"本接口用于校验提供的存储凭证是否可以访问目标 bucket 或容器，不会创建集成记录。"}},"tags":["Storage Integration Operations (V2)"],"parameters":[{"name":"Authorization","in":"header","description":"The authentication token should be an API key with appropriate privileges.","required":true,"example":"Bearer {{TOKEN}}","schema":{"type":"string"},"x-i18n":{"zh-CN":{"description":"认证令牌，应为具备适当权限的 API 密钥。"}}}],"requestBody":{"content":{"application/json":{"schema":{"type":"object","required":["projectId","regionId","bucketName"],"properties":{"projectId":{"type":"string","description":"The ID of the project.","x-i18n":{"zh-CN":{"description":"项目 ID。"}}},"regionId":{"type":"string","description":"The ID of the region. The server uses this field to derive the cloud provider.","x-i18n":{"zh-CN":{"description":"地域 ID。服务器会根据该字段推断云厂商。"}}},"bucketName":{"type":"string","description":"The bucket, container, or storage name to validate.","x-i18n":{"zh-CN":{"description":"需要校验的 bucket、容器或存储名称。"}}},"externalCred":{"allOf":[{"type":"object","description":"Provider-specific credential fields for the storage integration. Only fields relevant to the target cloud are required.","x-i18n":{"zh-CN":{"description":"Storage Integration 的云厂商凭证字段。仅目标云厂商相关字段为必需。"}},"properties":{"roleArn":{"type":"string","description":"The AWS IAM role ARN or Alibaba Cloud RAM role ARN.","x-i18n":{"zh-CN":{"description":"AWS IAM 角色 ARN 或阿里云 RAM 角色 ARN。"}}},"externalId":{"type":"string","description":"The external ID for AWS or Alibaba Cloud role assumption.","x-i18n":{"zh-CN":{"description":"AWS 或阿里云角色扮演使用的 external ID。"}}},"accountName":{"type":"string","description":"The Azure storage account name.","x-i18n":{"zh-CN":{"description":"Azure 存储账号名称。"}}},"clientId":{"type":"string","description":"The Azure federated identity client ID.","x-i18n":{"zh-CN":{"description":"Azure 联合身份客户端 ID。"}}},"tenantId":{"type":"string","description":"The Azure tenant ID.","x-i18n":{"zh-CN":{"description":"Azure 租户 ID。"}}},"gcpProjectId":{"type":"string","description":"The customer GCP project ID.","x-i18n":{"zh-CN":{"description":"用户侧 GCP 项目 ID。"}}},"serviceAccountEmail":{"type":"string","description":"The customer-created GCP service account email that grants bucket access.","x-i18n":{"zh-CN":{"description":"用户创建的 GCP 服务账号邮箱，用于授予 bucket 访问权限。"}}}}}],"description":"Provider-specific credential fields.","x-i18n":{"zh-CN":{"description":"云厂商相关的凭证字段。"}}}}},"examples":{"1":{"summary":"AWS S3","value":{"projectId":"proj-xxxxxxxxxxxxxxxxxxxxxx","regionId":"aws-us-west-2","bucketName":"my-bucket","externalCred":{"roleArn":"arn:aws:iam::123456789012:role/zilliz-bucket-role","externalId":"zilliz-external-AbCdEf12345678"}},"x-target-lang":"en-US"},"2":{"summary":"Alibaba Cloud OSS","x-target-lang":"zh-CN","value":{"projectId":"proj-xxxxxxxxxxxxxxxxxxxxxx","regionId":"ali-cn-hangzhou","bucketName":"my-oss-bucket","externalCred":{"roleArn":"acs:ram::1234567890123456:role/zilliz-bucket-role","externalId":"zilliz-external-AbCdEf12345678"}}}}}}},"responses":{"200":{"description":"Returns the validation result.","x-i18n":{"zh-CN":{"description":"返回校验结果。"}},"content":{"application/json":{"schema":{"anyOf":[{"x-tab-label":"success","description":"A success response.","x-i18n":{"zh-CN":{"description":"成功响应。"}},"type":"object","properties":{"code":{"type":"integer","description":"Response code.","x-i18n":{"zh-CN":{"description":"响应码。"}},"example":0},"data":{"type":"object","properties":{"success":{"type":"boolean","description":"Whether the credential can access the target storage.","x-i18n":{"zh-CN":{"description":"凭证是否可以访问目标存储。"}}},"message":{"type":"string","description":"The failure reason when validation fails. This field is empty when validation succeeds.","x-i18n":{"zh-CN":{"description":"校验失败时的原因。校验成功时为空字符串。"}}}}}}},{"x-tab-label":"failure","description":"A failure response.","x-i18n":{"zh-CN":{"description":"失败响应。"}},"type":"object","properties":{"code":{"type":"integer","description":"Response code.","x-i18n":{"zh-CN":{"description":"响应码。"}},"example":1800},"message":{"type":"string","description":"Error message.","x-i18n":{"zh-CN":{"description":"错误信息。"}},"example":"User hasn't authenticated"}}}]},"examples":{"1":{"summary":"Success","value":{"code":0,"data":{"success":true,"message":""}}},"2":{"summary":"Validation failure","value":{"code":0,"data":{"success":false,"message":"try assume role failed"}}},"3":{"summary":"failure","value":{"code":1800,"message":"User hasn't authenticated"}}}}}}}}
+export const endpoint = "/v2/storageIntegrations/validate"
+export const method = "post"
