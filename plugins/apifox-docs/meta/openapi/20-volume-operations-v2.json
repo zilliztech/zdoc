@@ -189,6 +189,15 @@
                                       }
                                     }
                                   },
+                                  "description": {
+                                    "type": "string",
+                                    "description": "Description of the volume.",
+                                    "x-i18n": {
+                                      "zh-CN": {
+                                        "description": "Volume 描述。"
+                                      }
+                                    }
+                                  },
                                   "type": {
                                     "type": "string",
                                     "description": "The category of the volume.",
@@ -253,15 +262,18 @@
                         "volumes": [
                           {
                             "volumeName": "my_volume_1",
-                            "type": "MANAGED"
+                            "type": "MANAGED",
+                            "description": "A volume for storing collection data."
                           },
                           {
                             "volumeName": "my_volume_2",
-                            "type": "EXTERNAL"
+                            "type": "EXTERNAL",
+                            "description": "A volume for storing collection data."
                           },
                           {
                             "volumeName": "my_volume_3",
-                            "type": "MANAGED"
+                            "type": "MANAGED",
+                            "description": "A volume for storing collection data."
                           }
                         ]
                       }
@@ -347,6 +359,17 @@
                       }
                     }
                   },
+                  "description": {
+                    "type": "string",
+                    "description": "Description of the volume.",
+                    "example": "Raw import data for recommendation workloads",
+                    "x-i18n": {
+                      "zh-CN": {
+                        "description": "Volume 描述。",
+                        "example": "Raw import data for recommendation workloads"
+                      }
+                    }
+                  },
                   "type": {
                     "type": "string",
                     "description": "The category of the volume. Valid values are `MANAGED` and `EXTERNAL`. Defaults to `MANAGED`.",
@@ -389,7 +412,8 @@
                   "value": {
                     "projectId": "proj-xxxxxxxxxxxxxxxxxxxxxxx",
                     "regionId": "aws-us-west-2",
-                    "volumeName": "my_volume"
+                    "volumeName": "my_volume",
+                    "description": "A volume for storing collection data."
                   }
                 },
                 "2": {
@@ -399,7 +423,8 @@
                   "value": {
                     "projectId": "proj-xxxxxxxxxxxxxxxxxxxxxxx",
                     "regionId": "ali-cn-hangzhou",
-                    "volumeName": "my_volume"
+                    "volumeName": "my_volume",
+                    "description": "用于存储集合数据的卷描述。"
                   }
                 },
                 "3": {
@@ -412,7 +437,8 @@
                     "volumeName": "my_external_volume",
                     "type": "EXTERNAL",
                     "storageIntegrationId": "integ-xxxxxxxxxxxxxxxxxxx",
-                    "path": "data/"
+                    "path": "data/",
+                    "description": "A volume for storing collection data."
                   }
                 },
                 "4": {
@@ -425,7 +451,8 @@
                     "volumeName": "my_external_volume",
                     "type": "EXTERNAL",
                     "storageIntegrationId": "integ-xxxxxxxxxxxxxxxxxxx",
-                    "path": "data/"
+                    "path": "data/",
+                    "description": "用于存储集合数据的卷描述。"
                   }
                 }
               }
@@ -629,6 +656,15 @@
                                 }
                               }
                             },
+                            "description": {
+                              "type": "string",
+                              "description": "Description of the volume.",
+                              "x-i18n": {
+                                "zh-CN": {
+                                  "description": "Volume 描述。"
+                                }
+                              }
+                            },
                             "type": {
                               "type": "string",
                               "description": "The category of the volume.",
@@ -734,7 +770,8 @@
                         "type": "MANAGED",
                         "regionId": "aws-us-west-2",
                         "status": "RUNNING",
-                        "createTime": "2026-05-06T03:50:35Z"
+                        "createTime": "2026-05-06T03:50:35Z",
+                        "description": "A volume for storing collection data."
                       }
                     }
                   },
@@ -751,7 +788,8 @@
                         "storageIntegrationId": "integ-xxxxxxxxxxxxxxxxxxx",
                         "path": "data/",
                         "status": "RUNNING",
-                        "createTime": "2026-05-06T03:50:35Z"
+                        "createTime": "2026-05-06T03:50:35Z",
+                        "description": "A volume for storing collection data."
                       }
                     }
                   },
@@ -774,7 +812,8 @@
                         "type": "MANAGED",
                         "regionId": "ali-cn-hangzhou",
                         "status": "RUNNING",
-                        "createTime": "2026-05-06T03:50:35Z"
+                        "createTime": "2026-05-06T03:50:35Z",
+                        "description": "用于存储集合数据的卷描述。"
                       }
                     }
                   },
@@ -791,7 +830,8 @@
                         "storageIntegrationId": "integ-xxxxxxxxxxxxxxxxxxx",
                         "path": "data/",
                         "status": "RUNNING",
-                        "createTime": "2026-05-06T03:50:35Z"
+                        "createTime": "2026-05-06T03:50:35Z",
+                        "description": "用于存储集合数据的卷描述。"
                       }
                     }
                   }

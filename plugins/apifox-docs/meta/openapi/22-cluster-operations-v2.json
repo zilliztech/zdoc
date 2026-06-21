@@ -584,6 +584,17 @@
                       }
                     }
                   },
+                  "description": {
+                    "type": "string",
+                    "description": "Description of the cluster.",
+                    "example": "Production vector search cluster",
+                    "x-i18n": {
+                      "zh-CN": {
+                        "description": "集群描述。",
+                        "example": "Production vector search cluster"
+                      }
+                    }
+                  },
                   "projectId": {
                     "type": "string",
                     "description": "ID of the project to which the cluster belongs.",
@@ -686,7 +697,8 @@
                     "regionId": "ali-cn-beijing",
                     "plan": "Standard",
                     "cuType": "Performance-optimized",
-                    "cuSize": 1
+                    "cuSize": 1,
+                    "description": "用于向量搜索工作负载的集群描述。"
                   }
                 },
                 "2": {
@@ -698,7 +710,8 @@
                     "regionId": "aws-us-west-2",
                     "plan": "Standard",
                     "cuType": "Performance-optimized",
-                    "cuSize": 1
+                    "cuSize": 1,
+                    "description": "A cluster for vector search workloads."
                   }
                 }
               }
@@ -905,6 +918,17 @@
                       }
                     }
                   },
+                  "description": {
+                    "type": "string",
+                    "description": "Description of the cluster.",
+                    "example": "Production vector search cluster",
+                    "x-i18n": {
+                      "zh-CN": {
+                        "description": "集群描述。",
+                        "example": "Production vector search cluster"
+                      }
+                    }
+                  },
                   "projectId": {
                     "type": "string",
                     "description": "ID of the project to which the cluster belongs.",
@@ -929,7 +953,8 @@
                   "value": {
                     "clusterName": "Free-01",
                     "projectId": "proj-xxxxxxxxxxxxxxxxxxxxxx",
-                    "regionId": "gcp-us-west1"
+                    "regionId": "gcp-us-west1",
+                    "description": "A cluster for vector search workloads."
                   }
                 },
                 "2": {
@@ -938,7 +963,8 @@
                   "value": {
                     "clusterName": "Free-01",
                     "projectId": "proj-xxxxxxxxxxxxxxxxxxxxxx",
-                    "regionId": "ali-cn-hangzhou"
+                    "regionId": "ali-cn-hangzhou",
+                    "description": "用于向量搜索工作负载的集群描述。"
                   }
                 }
               }
@@ -1150,6 +1176,17 @@
                       "zh-CN": "待创建集群名称。"
                     }
                   },
+                  "description": {
+                    "type": "string",
+                    "description": "Description of the on-demand cluster.",
+                    "example": "Ad hoc analytics query cluster",
+                    "x-i18n": {
+                      "zh-CN": {
+                        "description": "按需集群描述。",
+                        "example": "Ad hoc analytics query cluster"
+                      }
+                    }
+                  },
                   "autoSuspend": {
                     "type": "integer",
                     "description": "Auto-suspend idle window. The cluster will be automatically suspended if there is no request within the specified period. The value should be an integer representing the number of seconds. For example, `300` means 5 minutes.",
@@ -1174,7 +1211,8 @@
                     "regionId": "aws-us-west-2",
                     "clusterName": "my-on-demand",
                     "cuSize": 8,
-                    "autoSuspend": 60
+                    "autoSuspend": 60,
+                    "description": "A cluster for vector search workloads."
                   }
                 },
                 "2": {
@@ -1185,7 +1223,8 @@
                     "regionId": "ali-cn-beijing",
                     "clusterName": "my-on-demand",
                     "cuSize": 8,
-                    "autoSuspend": 60
+                    "autoSuspend": 60,
+                    "description": "用于向量搜索工作负载的集群描述。"
                   }
                 }
               }
@@ -1384,6 +1423,17 @@
                       }
                     }
                   },
+                  "description": {
+                    "type": "string",
+                    "description": "Description of the cluster.",
+                    "example": "Production vector search cluster",
+                    "x-i18n": {
+                      "zh-CN": {
+                        "description": "集群描述。",
+                        "example": "Production vector search cluster"
+                      }
+                    }
+                  },
                   "projectId": {
                     "type": "string",
                     "description": "ID of the project to which the cluster belongs.",
@@ -1408,7 +1458,8 @@
                   "value": {
                     "clusterName": "Serverless-05",
                     "projectId": "proj-xxxxxxxxxxxxxxxxxxxxxxx",
-                    "regionId": "gcp-us-west1"
+                    "regionId": "gcp-us-west1",
+                    "description": "A cluster for vector search workloads."
                   }
                 },
                 "2": {
@@ -1417,7 +1468,8 @@
                   "value": {
                     "clusterName": "Serverless-05",
                     "projectId": "proj-xxxxxxxxxxxxxxxxxxxxxxx",
-                    "regionId": "ali-cn-hangzhou"
+                    "regionId": "ali-cn-hangzhou",
+                    "description": "用于向量搜索工作负载的集群描述。"
                   }
                 }
               }
@@ -1701,6 +1753,15 @@
                                   }
                                 }
                               },
+                              "description": {
+                                "type": "string",
+                                "description": "Description of the on-demand cluster.",
+                                "x-i18n": {
+                                  "zh-CN": {
+                                    "description": "按需集群描述。"
+                                  }
+                                }
+                              },
                               "regionId": {
                                 "type": "string",
                                 "description": "Cloud region where the cluster is located.",
@@ -1816,7 +1877,8 @@
                             "privateLink": "",
                             "createdBy": "john.doe@zilliz.com",
                             "createTime": "2024-04-21T10:15:15Z",
-                            "autoSuspend": 60
+                            "autoSuspend": 60,
+                            "description": "An on-demand cluster for vector search workloads."
                           },
                           {
                             "projectId": "proj-xxxxxxxxxxxxxxx",
@@ -1829,7 +1891,8 @@
                             "privateLink": "",
                             "createdBy": "john.doe@zilliz.com",
                             "createTime": "2024-04-21T10:15:16Z",
-                            "autoSuspend": 60
+                            "autoSuspend": 60,
+                            "description": "An on-demand cluster for vector search workloads."
                           }
                         ]
                       }
@@ -1854,7 +1917,8 @@
                             "privateLink": "",
                             "createdBy": "john.doe@zilliz.com",
                             "createTime": "2024-04-21T10:15:15Z",
-                            "autoSuspend": 60
+                            "autoSuspend": 60,
+                            "description": "用于按需向量搜索工作负载的集群描述。"
                           },
                           {
                             "projectId": "proj-xxxxxxxxxxxxxxx",
@@ -1867,7 +1931,8 @@
                             "privateLink": "",
                             "createdBy": "john.doe@zilliz.com",
                             "createTime": "2024-04-21T10:15:16Z",
-                            "autoSuspend": 60
+                            "autoSuspend": 60,
+                            "description": "用于按需向量搜索工作负载的集群描述。"
                           }
                         ]
                       }
@@ -2172,6 +2237,15 @@
                               "description": "Name of the cluster.",
                               "x-i18n": {
                                 "zh-CN": "集群名称。"
+                              }
+                            },
+                            "description": {
+                              "type": "string",
+                              "description": "Description of the on-demand cluster.",
+                              "x-i18n": {
+                                "zh-CN": {
+                                  "description": "按需集群描述。"
+                                }
                               }
                             },
                             "regionId": {
@@ -2510,6 +2584,238 @@
           }
         },
         "security": []
+      }
+    },
+    "/v2/clusters/onDemandClusters/{CLUSTER_ID}/modify": {
+      "post": {
+        "summary": "Modify On-Demand Cluster",
+        "deprecated": false,
+        "description": "Modify the auto-suspend idle window of an on-demand cluster.",
+        "x-i18n": {
+          "zh-CN": {
+            "summary": "修改按需集群",
+            "description": "修改按需集群的自动挂起空闲时间。"
+          }
+        },
+        "tags": [
+          "Cluster Operations (V2)"
+        ],
+        "x-beta": "PUBLIC",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "The authentication token should be an API key with appropriate privileges.",
+            "required": true,
+            "example": "Bearer {{TOKEN}}",
+            "schema": {
+              "type": "string"
+            },
+            "x-i18n": {
+              "zh-CN": {
+                "description": "认证令牌，应为具备适当权限的 API 密钥。"
+              }
+            }
+          },
+          {
+            "name": "CLUSTER_ID",
+            "in": "path",
+            "description": "The ID of the on-demand cluster to modify.",
+            "required": true,
+            "example": "inxx-xxxxxxxxxxxxxxx",
+            "schema": {
+              "type": "string"
+            },
+            "x-i18n": {
+              "zh-CN": {
+                "description": "待修改按需集群的 ID。"
+              }
+            }
+          },
+          {
+            "name": "Accept",
+            "in": "header",
+            "description": "Use `application/json`.",
+            "required": false,
+            "example": "application/json",
+            "schema": {
+              "type": "string"
+            },
+            "x-i18n": {
+              "zh-CN": {
+                "description": "使用 `application/json`。"
+              }
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "projectId": {
+                    "type": "string",
+                    "description": "The ID of the project to which the on-demand cluster belongs.",
+                    "x-i18n": {
+                      "zh-CN": {
+                        "description": "按需集群所属项目的 ID。"
+                      }
+                    }
+                  },
+                  "regionId": {
+                    "type": "string",
+                    "description": "The ID of the cloud region where the on-demand cluster is deployed.",
+                    "example": "aws-us-west-2",
+                    "x-i18n": {
+                      "zh-CN": {
+                        "description": "按需集群所在云地域的 ID。",
+                        "example": "ali-cn-hangzhou"
+                      }
+                    }
+                  },
+                  "autoSuspend": {
+                    "type": "string",
+                    "description": "Auto-suspend idle window. The value must use the `<number><s|m|h>` format, such as `60s`, `5m`, or `1h`, and must be at least 60 seconds.",
+                    "example": "5m",
+                    "x-i18n": {
+                      "zh-CN": {
+                        "description": "自动挂起空闲时间。该值必须使用 `<number><s|m|h>` 格式，例如 `60s`、`5m` 或 `1h`，且至少为 60 秒。",
+                        "example": "5m"
+                      }
+                    }
+                  }
+                },
+                "required": [
+                  "projectId",
+                  "regionId",
+                  "autoSuspend"
+                ]
+              },
+              "examples": {
+                "1": {
+                  "summary": "example",
+                  "x-target-lang": "en-US",
+                  "value": {
+                    "projectId": "proj-xxxxxxxxxxxxxxxxxxx",
+                    "regionId": "aws-us-west-2",
+                    "autoSuspend": "5m"
+                  }
+                },
+                "2": {
+                  "summary": "example",
+                  "x-target-lang": "zh-CN",
+                  "value": {
+                    "projectId": "proj-xxxxxxxxxxxxxxxxxxx",
+                    "regionId": "ali-cn-hangzhou",
+                    "autoSuspend": "5m"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Returns a success response.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "返回成功响应。"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "x-tab-label": "success",
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "integer",
+                          "description": "Response code.",
+                          "x-i18n": {
+                            "zh-CN": {
+                              "description": "响应码。"
+                            }
+                          }
+                        },
+                        "data": {
+                          "type": "string",
+                          "description": "A string 'success' indicating the on-demand cluster has been modified.",
+                          "x-i18n": {
+                            "zh-CN": {
+                              "description": "字符串 'success'，表示按需集群已修改。"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "x-tab-label": "failure",
+                      "description": "Returns an error message.",
+                      "x-i18n": {
+                        "zh-CN": {
+                          "description": "返回错误消息。"
+                        }
+                      },
+                      "x-i18n-langs": [
+                        "zh-CN"
+                      ],
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "integer",
+                          "description": "Response code.",
+                          "x-i18n": {
+                            "zh-CN": {
+                              "description": "响应码。"
+                            }
+                          }
+                        },
+                        "message": {
+                          "type": "string",
+                          "description": "Error message.",
+                          "x-i18n": {
+                            "zh-CN": {
+                              "description": "错误描述。"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                },
+                "examples": {
+                  "1": {
+                    "summary": "success",
+                    "x-target-lang": "en-US",
+                    "value": {
+                      "code": 0,
+                      "data": "success"
+                    }
+                  },
+                  "2": {
+                    "summary": "failure",
+                    "x-target-lang": "en-US",
+                    "value": {
+                      "code": 1801,
+                      "message": "Auto-suspend idle window must be at least 60 seconds."
+                    }
+                  },
+                  "3": {
+                    "summary": "failure",
+                    "x-target-lang": "zh-CN",
+                    "value": {
+                      "code": 1801,
+                      "message": "自动挂起空闲时间必须至少为 60 秒。"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/v2/clusters/{CLUSTER_ID}": {

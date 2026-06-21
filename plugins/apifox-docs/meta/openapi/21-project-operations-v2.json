@@ -131,6 +131,15 @@
                                   }
                                 }
                               },
+                              "description": {
+                                "type": "string",
+                                "description": "Description of the project.",
+                                "x-i18n": {
+                                  "zh-CN": {
+                                    "description": "项目描述。"
+                                  }
+                                }
+                              },
                               "instanceCount": {
                                 "type": "string",
                                 "description": "Number of clusters in the projects.",
@@ -240,7 +249,8 @@
                           "instanceCount": 2,
                           "createTime": "2023-08-16T07:34:06Z",
                           "plan": "Enterprise",
-                          "orgType": "SAAS"
+                          "orgType": "SAAS",
+                          "description": "A project for organizing clusters and resources."
                         }
                       ]
                     }
@@ -261,7 +271,8 @@
                           "instanceCount": 2,
                           "createTime": "2023-08-16T07:34:06Z",
                           "plan": "Enterprise",
-                          "orgType": "SAAS"
+                          "orgType": "SAAS",
+                          "description": "用于组织集群和资源的项目描述。"
                         }
                       ]
                     }
@@ -298,7 +309,7 @@
           {
             "name": "Authorization",
             "in": "header",
-            "description": "The authentication token should be an API key with appropriate privileges",
+            "description": "The authentication token should be an API key with appropriate privileges.",
             "required": true,
             "example": "Bearer {{TOKEN}}",
             "schema": {
@@ -323,6 +334,17 @@
                     "x-i18n": {
                       "zh-CN": {
                         "description": "待创建项目的名称。"
+                      }
+                    }
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "The description of the project.",
+                    "example": "Production search workloads",
+                    "x-i18n": {
+                      "zh-CN": {
+                        "description": "项目描述。",
+                        "example": "Production search workloads"
                       }
                     }
                   },
@@ -365,7 +387,8 @@
                 "plan": "Enterprise",
                 "regionIds": [
                   "aws-us-east-1"
-                ]
+                ],
+                "description": "A project for organizing clusters and resources."
               }
             }
           }
@@ -693,7 +716,7 @@
           {
             "name": "Authorization",
             "in": "header",
-            "description": "The authentication token should be <include target=\"zilliz\">an API key with appropriate privileges.</include>",
+            "description": "The authentication token should be an API key with appropriate privileges.",
             "required": true,
             "example": "Bearer {{TOKEN}}",
             "schema": {
@@ -701,7 +724,7 @@
             },
             "x-i18n": {
               "zh-CN": {
-                "description": "认证令牌，应为<include target=\"zilliz\">具备适当权限的 API 密钥。</include>"
+                "description": "认证令牌，应为具备适当权限的 API 密钥。"
               }
             }
           },
@@ -792,6 +815,15 @@
                               "x-i18n": {
                                 "zh-CN": {
                                   "description": "项目名称。"
+                                }
+                              }
+                            },
+                            "description": {
+                              "type": "string",
+                              "description": "Description of the project.",
+                              "x-i18n": {
+                                "zh-CN": {
+                                  "description": "项目描述。"
                                 }
                               }
                             },
@@ -895,7 +927,8 @@
                         "instanceCount": 2,
                         "createTime": "2023-08-16T07:34:06Z",
                         "plan": "Enterprise",
-                        "orgType": "SAAS"
+                        "orgType": "SAAS",
+                        "description": "A project for organizing clusters and resources."
                       }
                     }
                   },

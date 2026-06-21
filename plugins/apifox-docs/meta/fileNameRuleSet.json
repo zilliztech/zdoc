@@ -14,7 +14,7 @@
         "name": "Delete",
         "match": "endsWith"
     },
-    {
+    {   
         "path": "get",
         "name": "Get",
         "match": "endsWith"
@@ -88,7 +88,7 @@
         "path": "-user",
         "name": "-",
         "match": "removeAndCapitalize"
-    },
+    },    
     {
         "path": "-to-role",
         "name": "-",
@@ -143,7 +143,7 @@
         "path": "-databases",
         "name": "-",
         "match": "removeAndCapitalize"
-    },
+    },    
     {
         "path": "-resource-group",
         "name": "-",
