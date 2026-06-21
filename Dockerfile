@@ -19,6 +19,12 @@ ENV INKEEP_ORGANIZATION_ID=${INKEEP_ORGANIZATION_ID}
 RUN pnpm run build
 
 FROM nginx:alpine
+ARG INKEEP_API_KEY
+ARG INKEEP_INTEGRATION_ID
+ARG INKEEP_ORGANIZATION_ID
+ENV INKEEP_API_KEY=${INKEEP_API_KEY}
+ENV INKEEP_INTEGRATION_ID=${INKEEP_INTEGRATION_ID}
+ENV INKEEP_ORGANIZATION_ID=${INKEEP_ORGANIZATION_ID}
 COPY --from=build /app/build /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 COPY docker-entrypoint.d/40-zdoc-env.sh /docker-entrypoint.d/40-zdoc-env.sh
