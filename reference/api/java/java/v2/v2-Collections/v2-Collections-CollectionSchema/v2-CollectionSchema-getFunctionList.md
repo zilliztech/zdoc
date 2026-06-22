@@ -39,7 +39,7 @@ public List<CreateCollectionReq.Function> getFunctionList()
 
 **RETURNS:**
 
-*List\<CreateCollectionReq.Function\>*
+*List&lt;CreateCollectionReq.Function&gt;*
 
 **EXCEPTIONS:**
 

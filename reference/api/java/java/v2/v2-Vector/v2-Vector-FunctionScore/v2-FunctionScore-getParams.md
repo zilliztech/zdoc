@@ -39,7 +39,7 @@ public Map<String, String> getParams()
 
 **RETURNS:**
 
-*Map\<String, String\>*
+*Map&lt;String, String&gt;*
 
 **EXCEPTIONS:**
 

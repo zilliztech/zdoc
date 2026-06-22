@@ -9,6 +9,7 @@ const LarkDocWriter = require('../lark-docs/larkDocWriter');
 const failingCodeSpan = '<p><code><i>http</i>s://{cluster-id}.serverless.{region}.vectordb.zillizcloud.com</code></p>';
 const normalizedCodeSpan = '<p><code>https://\\{cluster-id\\}.serverless.\\{region\\}.vectordb.zillizcloud.com</code></p>';
 const placeholderUrl = 'https://<bucket-name>.oss-cn-hangzhou.aliyuncs.com/milvus-data';
+const backslashedJavaTypes = '- **getResults** (*List\\<QueryResp.QueryResult\\>*)\n\n- **fields** (*Map\\<String,Object\\>*)';
 
 async function compileToString(content) {
     const { compile } = await import('@mdx-js/mdx');
@@ -56,6 +57,23 @@ async function testLarkDocWriterUsesSharedNormalization() {
     assert.equal(patched, normalizedCodeSpan);
 }
 
+async function testApplyMdxPatchesConvertsBackslashedJavaTypesToEntities() {
+    const patched = await applyMdxPatches(backslashedJavaTypes);
+    assert.ok(patched.includes('List&lt;QueryResp.QueryResult&gt;'));
+    assert.ok(patched.includes('Map&lt;String,Object&gt;'));
+    assert.ok(!patched.includes('\\<QueryResp.QueryResult\\>'));
+    assert.ok(!patched.includes('\\<String,Object\\>'));
+}
+
+async function testLarkDocWriterConvertsBackslashedJavaTypesToEntities() {
+    const writer = new LarkDocWriter('', '', 'javaSidebar');
+    const patched = await writer.__mdx_patches(backslashedJavaTypes);
+    assert.ok(patched.includes('List&lt;QueryResp.QueryResult&gt;'));
+    assert.ok(patched.includes('Map&lt;String,Object&gt;'));
+    assert.ok(!patched.includes('\\<QueryResp.QueryResult\\>'));
+    assert.ok(!patched.includes('\\<String,Object\\>'));
+}
+
 async function testLarkDocWriterKeepsExampleUrlsUndecorated() {
     const writer = new LarkDocWriter('', '', 'pythonSidebar');
     const input = `download from ${placeholderUrl}`;
@@ -79,6 +97,8 @@ async function run() {
     await testApplyMdxPatchesAvoidsRuntimeExpressions();
     await testValidationGuardFlagsUnnormalizedCodeTags();
     await testLarkDocWriterUsesSharedNormalization();
+    await testApplyMdxPatchesConvertsBackslashedJavaTypesToEntities();
+    await testLarkDocWriterConvertsBackslashedJavaTypesToEntities();
     await testLarkDocWriterKeepsExampleUrlsUndecorated();
     await testLarkDocWriterDoesNotTouchFencedCodeUrls();
     console.log('mdxPatcher regression tests passed');
