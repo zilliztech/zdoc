@@ -23,7 +23,7 @@ This method conducts a similarity search.
 func (c *GrpcClient) Search(ctx context.Context, collName string, partitions []string, expr string, outputFields []string, vectors []entity.Vector, vectorField string, metricType entity.MetricType, topK int, sp entity.SearchParam, opts ...SearchQueryOptionFunc) ([]SearchResult, error)
 ```
 
-## Request Parameters{#request-parameters}
+## Request Parameters\{#request-parameters}
 
 <table>
    <tr>
@@ -88,7 +88,7 @@ func (c *GrpcClient) Search(ctx context.Context, collName string, partitions []s
    </tr>
 </table>
 
-## entity.Vector{#entityvector}
+## entity.Vector\{#entityvector}
 
 This interface type defines a set of method signatures as follows.
 
@@ -125,7 +125,7 @@ type Vector interface {
 
 For details on the types that implement the above method signatures, refer to [Vectors](./v1-Collection-Vectors).
 
-## entity.MetricType{#entitymetrictype}
+## entity.MetricType\{#entitymetrictype}
 
 ```go
 const (
@@ -140,7 +140,7 @@ const (
 )
 ```
 
-## entity.SearchParam{#entitysearchparam}
+## entity.SearchParam\{#entitysearchparam}
 
 This interface type defines a set of method signatures as follows.
 
@@ -176,7 +176,7 @@ This interface type defines a set of method signatures as follows.
 
 For details on the types that implement the above method signatures, refer to [SearchParams](./v1-Collection-SearchParams).
 
-## client.SearchQueryOptionFunc{#clientsearchqueryoptionfunc}
+## client.SearchQueryOptionFunc\{#clientsearchqueryoptionfunc}
 
 Each of the following methods instantiates a `client.SearchQueryOptionFunc` type.
 
@@ -213,11 +213,11 @@ Each of the following methods instantiates a `client.SearchQueryOptionFunc` type
 
 You can include one or multiple of the above methods in the search request if you see fit.
 
-## Return{#return}
+## Return\{#return}
 
 This method returns a `client.SearchResult` slice. 
 
-### client.SearchResult{#clientsearchresult}
+### client.SearchResult\{#clientsearchresult}
 
 A `client.SearchResult` is a struct type defined as follows:
 
@@ -232,7 +232,7 @@ type SearchResult struct {
 }
 ```
 
-## Errors{#errors}
+## Errors\{#errors}
 
 Any error in the execution of the request. Possible errors are as follows:
 
@@ -242,7 +242,7 @@ Any error in the execution of the request. Possible errors are as follows:
 
 - The call to this API fails.
 
-## Example{#example}
+## Example\{#example}
 
 - Default search
 

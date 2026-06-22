@@ -1062,11 +1062,11 @@ func NewColumnInt32(name string, values []int32) *ColumnInt32
    </tr>
 </table>
 
-## column.ColumnInt32Array{#columncolumnint32array}
+## column.ColumnInt32Array\{#columncolumnint32array}
 
 This is a struct type. You can use the `NewColumnInt32Array` method to implement an **Array** field with elements of the **Int32** type.
 
-### NewColumnInt32Array{#newcolumnint32array}
+### NewColumnInt32Array\{#newcolumnint32array}
 
 This method creates an **Array** field with elements of the **Int32** type. The signature of this method is as follows:
 
@@ -1092,11 +1092,11 @@ func NewColumnInt32Array(fieldName string, data [][]int32) *ColumnInt32Array
    </tr>
 </table>
 
-## column.ColumnInt64{#columncolumnint64}
+## column.ColumnInt64\{#columncolumnint64}
 
 This is a struct type. You can use the `NewColumnInt64` method to implement an **Int64** field.
 
-### NewColumnInt64{#newcolumnint64}
+### NewColumnInt64\{#newcolumnint64}
 
 This method creates an **Int64** field. The signature of this method is as follows:
 
@@ -1122,11 +1122,11 @@ func NewColumnInt64(name string, values []int16) *ColumnInt64
    </tr>
 </table>
 
-## column.ColumnInt64Array{#columncolumnint64array}
+## column.ColumnInt64Array\{#columncolumnint64array}
 
 This is a struct type. You can use the `NewColumnInt64Array` method to implement an **Array** field with elements of the **Int64** type.
 
-### NewColumnInt64Array{#newcolumnint64array}
+### NewColumnInt64Array\{#newcolumnint64array}
 
 This method creates an **Array** field with elements of the **Int64** type. The signature of this method is as follows:
 
@@ -1152,11 +1152,11 @@ func NewColumnInt64Array(fieldName string, data [][]int64) *ColumnInt64Array
    </tr>
 </table>
 
-## column.ColumnInt8{#columncolumnint8}
+## column.ColumnInt8\{#columncolumnint8}
 
 This is a struct type. You can use the `NewColumnInt8` method to implement an **Int8** field.
 
-### NewColumnInt8{#newcolumnint8}
+### NewColumnInt8\{#newcolumnint8}
 
 This method creates an **Int8** field. The signature of this method is as follows:
 
@@ -1182,11 +1182,11 @@ func NewColumnInt8(name string, values []int8) *ColumnInt8
    </tr>
 </table>
 
-## column.ColumnInt8Array{#columncolumnint8array}
+## column.ColumnInt8Array\{#columncolumnint8array}
 
 This is a struct type. You can use the `NewColumnInt8Array` method to implement an **Array** field with elements of the **Int8** type.
 
-### NewColumnInt8Array{#newcolumnint8array}
+### NewColumnInt8Array\{#newcolumnint8array}
 
 This method creates an **Array** field with elements of the **Int8** type. The signature of this method is as follows:
 
@@ -1212,11 +1212,11 @@ func NewColumnInt8Array(fieldName string, data [][]int8) *ColumnInt8Array
    </tr>
 </table>
 
-## column.ColumnJSONBytes{#columncolumnjsonbytes}
+## column.ColumnJSONBytes\{#columncolumnjsonbytes}
 
 This is a struct type. You can use the `NewColumnJSONBytes` method to implement a **JSON** field.
 
-### NewColumnJSONBytes{#newcolumnjsonbytes}
+### NewColumnJSONBytes\{#newcolumnjsonbytes}
 
 This method creates a **JSON** field. The signature of this method is as follows:
 
@@ -1242,11 +1242,11 @@ func NewColumnJSONBytes(name string, values [][]byte) *ColumnJSONBytes
    </tr>
 </table>
 
-## column.ColumnSparseFloatVector{#columncolumnsparsefloatvector}
+## column.ColumnSparseFloatVector\{#columncolumnsparsefloatvector}
 
 This is a struct type. You can use the `NewColumnSparseVectors` method to implement a **SparseFloatVector** field.
 
-### NewColumnSparseVectors{#newcolumnsparsevectors}
+### NewColumnSparseVectors\{#newcolumnsparsevectors}
 
 This method creates a **SparseFloatVector** field with a list of byte sublists as data. The signature of this method is as follows:
 
@@ -1272,11 +1272,11 @@ func NewColumnSparseVectors(name string, values []entity.SparseEmbedding) *Colum
    </tr>
 </table>
 
-## column.ColumnVarChar{#columncolumnvarchar}
+## column.ColumnVarChar\{#columncolumnvarchar}
 
 This is a struct type. You can use the `NewColumnVarChar` method to implement a **VarChar** field.
 
-### NewColumnVarChar{#newcolumnvarchar}
+### NewColumnVarChar\{#newcolumnvarchar}
 
 This method creates a **VarChar** field. The signature of this method is as follows:
 
@@ -1302,11 +1302,11 @@ func NewColumnVarChar(name string, values []string) *ColumnVarChar
    </tr>
 </table>
 
-## column.ColumnVarCharArray{#columncolumnvarchararray}
+## column.ColumnVarCharArray\{#columncolumnvarchararray}
 
 This is a struct type. You can use the `NewColumnVarCharArray` method to implement an **Array** field with elements of the **VarChar** type.
 
-### NewColumnVarCharArray{#newcolumnvarchararray}
+### NewColumnVarCharArray\{#newcolumnvarchararray}
 
 This method creates an **Array** field with elements of the **VarChar** type. The signature of this method is as follows:
 
@@ -1332,11 +1332,11 @@ func NewColumnVarCharArray(fieldName string, data [][]string) *ColumnVarCharArra
    </tr>
 </table>
 
-## column.NullableColumnCreateFunc{#columnnullablecolumncreatefunc}
+## column.NullableColumnCreateFunc\{#columnnullablecolumncreatefunc}
 
 This is an interface type. The `NullableColumnCreator` struct type implements this interface type. You can use `NewNullableColumnCreator()` method to get the concrete implementation.
 
-### NewNullableColumnCreator{#newnullablecolumncreator}
+### NewNullableColumnCreator\{#newnullablecolumncreator}
 
 The signature of this method is as follows:
 
@@ -1369,7 +1369,7 @@ You can chain the following methods to get a nullable column.
 
 - [New()](./v2-Vector-Insert#new)
 
-### New{#new}
+### New\{#new}
 
 The signature of this method is as follows:
 
@@ -1400,11 +1400,11 @@ func (c NullableColumnCreator[col, T]) New(name string, values []T, validData []
    </tr>
 </table>
 
-## entity.SparseEmbedding{#entitysparseembedding}
+## entity.SparseEmbedding\{#entitysparseembedding}
 
 This is an interface type. You can use the `NewSliceSparseEmbedding` function to get the concrete implementation.
 
-### NewSliceSparseEmbedding{#newslicesparseembedding}
+### NewSliceSparseEmbedding\{#newslicesparseembedding}
 
 The signature is as follows:
 
@@ -1430,7 +1430,7 @@ func NewSliceSparseEmbedding(positions []uint32, values []float32) (SparseEmbedd
    </tr>
 </table>
 
-## InsertResult{#insertresult}
+## InsertResult\{#insertresult}
 
 The `InsertResult` struct type is as follows:
 
@@ -1441,11 +1441,11 @@ type InsertResult struct {
 }
 ```
 
-## Return{#return}
+## Return\{#return}
 
 `InsertResult`
 
-## Example{#example}
+## Example\{#example}
 
 ```plaintext
 resp, err := cli.Insert(ctx, milvusclient.NewColumnBasedInsertOption("quick_setup").

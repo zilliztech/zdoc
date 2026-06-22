@@ -23,7 +23,7 @@ A MilvusClient interface. This method lists all the collections*.*
 R<ListCollectionsResponse> listCollections(ListCollectionsParam requestParam);
 ```
 
-#### ListCollectionsParam{#listcollectionsparam}
+#### ListCollectionsParam\{#listcollectionsparam}
 
 Use the `ListCollectionsParam.Builder` to construct a `ListCollectionsParam` object.
 
@@ -51,7 +51,7 @@ The `ListCollectionsParam.Builder.build()` can throw the following exceptions:
 
 - ParamException: error if the parameter is invalid.
 
-#### Returns{#returns}
+#### Returns\{#returns}
 
 This method catches all the exceptions and returns an `R<ListCollectionsResponse>` object.
 
@@ -61,7 +61,7 @@ This method catches all the exceptions and returns an `R<ListCollectionsResponse
 
 - If the API succeeds, it returns a valid `ListCollectionsResponse` held by the `R` template.
 
-#### Example{#example}
+#### Example\{#example}
 
 ```java
 import io.milvus.param.highlevel.collection.*;

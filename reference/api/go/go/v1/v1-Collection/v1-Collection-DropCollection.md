@@ -23,7 +23,7 @@ This method drops the specified collection and the entities within.
 func (c *GrpcClient) DropCollection(ctx context.Context, collName string) error
 ```
 
-## Request Parameters{#request-parameters}
+## Request Parameters\{#request-parameters}
 
 <table>
    <tr>
@@ -43,11 +43,11 @@ func (c *GrpcClient) DropCollection(ctx context.Context, collName string) error
    </tr>
 </table>
 
-## Return{#return}
+## Return\{#return}
 
 Null
 
-## Errors{#errors}
+## Errors\{#errors}
 
 Any error in the execution of the request. Possible errors are as follows:
 
@@ -57,7 +57,7 @@ Any error in the execution of the request. Possible errors are as follows:
 
 - The call to this API fails.
 
-## Example{#example}
+## Example\{#example}
 
 ```go
 // drop collection

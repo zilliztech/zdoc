@@ -84,7 +84,7 @@ Methods of MilvusClient for connection:
    </tr>
 </table>
 
-#### PoolConfig{#poolconfig}
+#### PoolConfig\{#poolconfig}
 
 Use the PoolConfig.PoolConfigBuilder to construct a PoolConfig.
 
@@ -153,7 +153,7 @@ Methods of PoolConfig.PoolConfigBuilder:
     </tr>
 </table>
 
-#### Example{#example}
+#### Example\{#example}
 
 ```java
 import io.milvus.param.ConnectParam

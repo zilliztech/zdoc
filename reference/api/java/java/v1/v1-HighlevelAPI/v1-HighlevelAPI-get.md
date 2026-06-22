@@ -23,7 +23,7 @@ The MilvusClient interface. This method gets entity(s) based on the primary fiel
 R<GetResponse> get(GetIdsParam requestParam);
 ```
 
-#### GetIdsParam{#getidsparam}
+#### GetIdsParam\{#getidsparam}
 
 Use the `GetIdsParam.Builder` to construct a `GetIdsParam` object.
 
@@ -76,7 +76,7 @@ The `GetIdsParam.Builder.build()` can throw the following exceptions:
 
 - ParamException: error if the parameter is invalid.
 
-#### Returns{#returns}
+#### Returns\{#returns}
 
 This method catches all the exceptions and returns an `R<GetResponse>` object.
 
@@ -86,7 +86,7 @@ This method catches all the exceptions and returns an `R<GetResponse>` object.
 
 - If the API succeeds, it returns a valid `GetResponse` held by the `R` template.
 
-#### Example{#example}
+#### Example\{#example}
 
 ```java
 import io.milvus.param.*;

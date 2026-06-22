@@ -23,7 +23,7 @@ The MilvusClient interface. This method queries entity(s) based on scalar field(
 R<QueryResponse> query(QuerySimpleParam requestParam);
 ```
 
-#### QuerySimpleParam{#querysimpleparam}
+#### QuerySimpleParam\{#querysimpleparam}
 
 Use the `QuerySimpleParam.Builder` to construct a `QuerySimpleParam` object.
 
@@ -81,7 +81,7 @@ The `QuerySimpleParam.Builder.build()` can throw the following exceptions:
 
 - ParamException: error if the parameter is invalid.
 
-#### Returns{#returns}
+#### Returns\{#returns}
 
 This method catches all the exceptions and returns an `R<QueryResponse>` object.
 
@@ -91,7 +91,7 @@ This method catches all the exceptions and returns an `R<QueryResponse>` object.
 
 - If the API succeeds, it returns valid `QueryResponse` held by the `R` template.
 
-#### Example{#example}
+#### Example\{#example}
 
 ```java
 import io.milvus.param.*;

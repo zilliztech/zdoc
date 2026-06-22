@@ -23,7 +23,7 @@ The MilvusClient interface. This method conducts an approximate nearest neighbor
 R<SearchResults> search(SearchParam requestParam);
 ```
 
-#### SearchParam{#searchparam}
+#### SearchParam\{#searchparam}
 
 Use the `SearchParam.Builder` to construct a `SearchParam` object.
 
@@ -156,7 +156,7 @@ The `SearchParam.Builder.build()` can throw the following exceptions:
 
 - ParamException: error if the parameter is invalid.
 
-#### Returns{#returns}
+#### Returns\{#returns}
 
 This method catches all the exceptions and returns an `R<SearchResults>` object.
 
@@ -166,7 +166,7 @@ This method catches all the exceptions and returns an `R<SearchResults>` object.
 
 - If the API succeeds, it returns valid `SearchResults` held by the `R` template. You can use `SearchResultsWrapper` to get the results.
 
-#### SearchResultsWrapper{#searchresultswrapper}
+#### SearchResultsWrapper\{#searchresultswrapper}
 
 A tool class to encapsulate the `SearchResults`. 
 
@@ -204,7 +204,7 @@ Methods of `SearchResultsWrapper`:
    </tr>
 </table>
 
-#### IDScore{#idscore}
+#### IDScore\{#idscore}
 
 A tool class to hold a pair of ID and distance, along with values of the output fields.
 
@@ -238,7 +238,7 @@ Methods of `SearchResultsWrapper.IDScore`:
    </tr>
 </table>
 
-#### Example{#example}
+#### Example\{#example}
 
 ```java
 import io.milvus.param.dml.*;

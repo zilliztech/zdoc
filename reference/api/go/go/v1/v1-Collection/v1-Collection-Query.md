@@ -61,11 +61,11 @@ func (c *GrpcClient) Query(ctx context.Context, collectionName string, partition
    </tr>
 </table>
 
-## Return{#return}
+## Return\{#return}
 
 A `client.ResultSet`, which is a slice of `entity.Column`. 
 
-### client.ResultSet{#clientresultset}
+### client.ResultSet\{#clientresultset}
 
 The `client.ResultSet` provides the following methods for you to manipulate the query results.
 
@@ -92,7 +92,7 @@ The `client.ResultSet` provides the following methods for you to manipulate the 
    </tr>
 </table>
 
-## Errors{#errors}
+## Errors\{#errors}
 
 Any error in the execution of the request. Possible errors are as follows:
 
@@ -102,7 +102,7 @@ Any error in the execution of the request. Possible errors are as follows:
 
 - The call to this API fails.
 
-## Example{#example}
+## Example\{#example}
 
 ```go
 // query

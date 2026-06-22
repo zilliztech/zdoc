@@ -51,7 +51,7 @@ func (c *GrpcClient) Get(ctx context.Context, collectionName string, ids entity.
    </tr>
 </table>
 
-### client.GetOption{#clientgetoption}
+### client.GetOption\{#clientgetoption}
 
 You can add extra settings to the `Get()` request using the following methods.
 
@@ -72,7 +72,7 @@ You can add extra settings to the `Get()` request using the following methods.
 
 A `client.ResultSet`, which is a slice of `entity.Column`. 
 
-### client.ResultSet{#clientresultset}
+### client.ResultSet\{#clientresultset}
 
 The `client.ResultSet` provides the following methods for you to manipulate the query results.
 
@@ -99,7 +99,7 @@ The `client.ResultSet` provides the following methods for you to manipulate the 
    </tr>
 </table>
 
-## Errors{#errors}
+## Errors\{#errors}
 
 Any error in the execution of the request. Possible errors are as follows:
 
@@ -109,7 +109,7 @@ Any error in the execution of the request. Possible errors are as follows:
 
 - The call to this API fails.
 
-## Example{#example}
+## Example\{#example}
 
 ```go
 // get

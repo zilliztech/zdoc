@@ -30,7 +30,7 @@ This topic lists the possible issues that you may encounter while you use Zilliz
 
 
 
-### What can I do if I receive the error "quota exceeded\[reason=disk quota exceeded, please allocate more resources"?{#what-can-i-do-if-i-receive-the-error-quota-exceededreasondisk-quota-exceeded-please-allocate-more-resources}
+### What can I do if I receive the error "quota exceeded\[reason=disk quota exceeded, please allocate more resources"?\{#what-can-i-do-if-i-receive-the-error-quota-exceededreasondisk-quota-exceeded-please-allocate-more-resources}
 
 When inserting or upserting data, you will receive this error because your data exceeds the serving cluster CU capacity.  The capacity of a cluster depends on its [cluster type and CU size](./cu-types-explained#assess-capacity).
 
@@ -38,11 +38,11 @@ To address this issue, you can follow the instructions below.
 
 In such a case, you are advised to  [scale up your serving cluster](./scale-query-cu) by increasing the query CUs.
 
-### How can I scale down the query CUs of my serving cluster?{#how-can-i-scale-down-the-query-cus-of-my-serving-cluster}
+### How can I scale down the query CUs of my serving cluster?\{#how-can-i-scale-down-the-query-cus-of-my-serving-cluster}
 
 If you need to scale down your cluster, please[ submit a request](https://support.zilliz.com/hc/en-us).
 
-### How can I deal with a connection timeout error when I attempt to connect to Zilliz Cloud?{#how-can-i-deal-with-a-connection-timeout-error-when-i-attempt-to-connect-to-zilliz-cloud}
+### How can I deal with a connection timeout error when I attempt to connect to Zilliz Cloud?\{#how-can-i-deal-with-a-connection-timeout-error-when-i-attempt-to-connect-to-zilliz-cloud}
 
 To establish a connection to a Zilliz Cloud cluster, you will need to provide several relevant parameters. For instance, the PyMilvus SDK's connect method can be used as shown below:
 
@@ -74,7 +74,7 @@ A connection timeout error may occur in the following scenarios:
 
     If you experience connection timeouts, check your VPC security group rules to ensure the source IP is allowed.
 
-### Why can’t I connect to the cluster after the cluster is created?{#why-cant-i-connect-to-the-cluster-after-the-cluster-is-created}
+### Why can’t I connect to the cluster after the cluster is created?\{#why-cant-i-connect-to-the-cluster-after-the-cluster-is-created}
 
 You can identify the problem by following these steps:
 
@@ -94,7 +94,7 @@ You can identify the problem by following these steps:
 
 If the issue persists after all above steps are tried, please[ submit a request](https://support.zilliz.com/hc/en-us).
 
-### What can I do if I cannot connect to Zilliz Cloud with Node.js SDK?{#what-can-i-do-if-i-cannot-connect-to-zilliz-cloud-with-nodejs-sdk}
+### What can I do if I cannot connect to Zilliz Cloud with Node.js SDK?\{#what-can-i-do-if-i-cannot-connect-to-zilliz-cloud-with-nodejs-sdk}
 
 If you fail to connect to Zilliz Cloud with the Node.js SDK, please try the following:
 
@@ -118,6 +118,6 @@ If you fail to connect to Zilliz Cloud with the Node.js SDK, please try the foll
 
 1. Your IP address must be whitelisted in your cluster settings.
 
-### Will I be charged if I suspend my cluster?{#will-i-be-charged-if-i-suspend-my-cluster}
+### Will I be charged if I suspend my cluster?\{#will-i-be-charged-if-i-suspend-my-cluster}
 
 When your cluster is suspended, you will only be charged for storage, not computing. For more details about storage costs, see [Pricing](https://zilliz.com/pricing).

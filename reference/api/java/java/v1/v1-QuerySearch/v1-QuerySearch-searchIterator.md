@@ -23,7 +23,7 @@ MilvusClient interface. This method returns a Python iterator for you to iterate
 R<SearchIterator> searchIterator(SearchIteratorParam requestParam);
 ```
 
-#### SearchIteratorParam{#searchiteratorparam}
+#### SearchIteratorParam\{#searchiteratorparam}
 
 Use the `SearchIteratorParam.Builder` to construct a `SearchIteratorParam` object.
 
@@ -156,7 +156,7 @@ The `SearchIteratorParam.Builder.build()` can throw the following exceptions:
 
 - ParamException: error if the parameter is invalid.
 
-#### Returns{#returns}
+#### Returns\{#returns}
 
 This method catches all the exceptions and returns an `R<SearchIterator>` object.
 
@@ -166,7 +166,7 @@ This method catches all the exceptions and returns an `R<SearchIterator>` object
 
 - If the API succeeds, it returns a valid `SearchIterator` held by the `R` template.
 
-#### SearchIterator{#searchiterator}
+#### SearchIterator\{#searchiterator}
 
 Methods of `SearchIterator`:
 
@@ -191,7 +191,7 @@ Methods of `SearchIterator`:
    </tr>
 </table>
 
-#### Example{#example}
+#### Example\{#example}
 
 ```java
 import io.milvus.param.dml.*;

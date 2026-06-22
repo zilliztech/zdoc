@@ -61,7 +61,7 @@ func (c *GrpcClient) CreateIndex(ctx context.Context, collName string, fieldName
    </tr>
 </table>
 
-### entity.Index{#entityindex}
+### entity.Index\{#entityindex}
 
 This interface type defines a set of method signatures as follows.
 
@@ -98,7 +98,7 @@ type Index interface {
 
 For details on the struct types that implement the above method signatures and applicable index types, refer to [Indexes](./v1-Index-Indexes).
 
-## client.IndexOption{#clientindexoption}
+## client.IndexOption\{#clientindexoption}
 
 This type provides methods to modify index settings when you create, describe, or drop indexes. The following methods return `client.IndexOption`.
 
@@ -117,11 +117,11 @@ This type provides methods to modify index settings when you create, describe, o
    </tr>
 </table>
 
-## Return{#return}
+## Return\{#return}
 
 Null
 
-## Errors{#errors}
+## Errors\{#errors}
 
 Any error in the execution of the request. Possible errors are as follows:
 
@@ -131,7 +131,7 @@ Any error in the execution of the request. Possible errors are as follows:
 
 - The call to this API fails.
 
-## Example{#example}
+## Example\{#example}
 
 ```go
 // create index

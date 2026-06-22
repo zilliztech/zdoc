@@ -57,7 +57,7 @@ curl --request POST \
     }'
 ```
 
-### Create a Serverless cluster{#create-a-serverless-cluster}
+### Create a Serverless cluster\{#create-a-serverless-cluster}
 
 ```plaintext
 curl --request POST \
@@ -79,7 +79,7 @@ curl --request POST \
 | `projectId` | ID of the project where the cluster will be created. |
 | `regionId` | ID of the cloud region where the cluster will be created. |
 
-## Connect{#connect}
+## Connect\{#connect}
 
 Free and Serverless clusters use the following serving endpoint pattern:
 
@@ -149,7 +149,7 @@ collections = client.list_collections()
 print(collections)
 ```
 
-## Manage{#manage}
+## Manage\{#manage}
 
 You can manage Free and Serverless clusters from the cluster details page.
 
@@ -162,7 +162,7 @@ You can manage Free and Serverless clusters from the cluster details page.
 
 When an upgrade creates a new Dedicated cluster, remember to update the cluster endpoint in your application code.
 
-## Drop{#drop}
+## Drop\{#drop}
 
 To drop a cluster programmatically, call the drop cluster API with the cluster ID.
 

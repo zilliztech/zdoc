@@ -23,7 +23,7 @@ This method returns the details of a specific collection.
 func (c *GrpcClient) DescribeCollection(ctx context.Context, collName string) (*entity.Collection, error)
 ```
 
-## Request Parameters{#request-parameters}
+## Request Parameters\{#request-parameters}
 
 <table>
    <tr>
@@ -43,7 +43,7 @@ func (c *GrpcClient) DescribeCollection(ctx context.Context, collName string) (*
    </tr>
 </table>
 
-## Return{#return}
+## Return\{#return}
 
 An `entity.Collection` struct.
 
@@ -61,11 +61,11 @@ type Collection struct {
 }
 ```
 
-## Errors{#errors}
+## Errors\{#errors}
 
 Any error in the execution of the request. Possible errors are as follows:
 
-## Example{#example}
+## Example\{#example}
 
 ```go
 // describe collection

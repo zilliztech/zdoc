@@ -23,7 +23,7 @@ A MilvusClient interface. This method gets loading collection progress.
 R<GetLoadingProgressResponse> getLoadingProgress(GetLoadingProgressParam requestParam);
 ```
 
-#### GetLoadingProgressParam{#getloadingprogressparam}
+#### GetLoadingProgressParam\{#getloadingprogressparam}
 
 Use the `GetLoadingProgressParam.Builder` to construct a `GetLoadingProgressParam` object.
 
@@ -71,7 +71,7 @@ The `GetLoadingProgressParam.Builder.build()` can throw the following exceptions
 
 - ParamException: error if the parameter is invalid.
 
-#### Returns{#returns}
+#### Returns\{#returns}
 
 This method catches all the exceptions and returns an `R<GetLoadingProgressResponse>` object.
 
@@ -81,7 +81,7 @@ This method catches all the exceptions and returns an `R<GetLoadingProgressRespo
 
 - If the API succeeds, it returns `R.Status.Success`.
 
-#### Example{#example}
+#### Example\{#example}
 
 ```java
 import io.milvus.param.*;

@@ -25,7 +25,7 @@ ListenableFuture<R<QueryResults>> queryAsync(QueryParam requestParam);
 
 This method uses the same parameter as `query()`, it invokes RPC interface and returns a ListenableFuture object immediately.
 
-#### Example{#example}
+#### Example\{#example}
 
 ```java
 import io.milvus.param.dml.*;

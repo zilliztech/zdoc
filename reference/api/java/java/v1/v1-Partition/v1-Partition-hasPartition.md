@@ -23,7 +23,7 @@ MilvusClient interface. This method checks if a partition exists in the specifie
 R<Boolean> hasPartition(HasPartitionParam requestParam);
 ```
 
-#### HasPartitionParam{#haspartitionparam}
+#### HasPartitionParam\{#haspartitionparam}
 
 Use the `HasPartitionParam.Builder` to construct a `HasPartitionParam` object.
 
@@ -66,7 +66,7 @@ The `HasPartitionParam.Builder.build()` can throw the following exceptions:
 
 - ParamException: error if the parameter is invalid.
 
-#### Returns{#returns}
+#### Returns\{#returns}
 
 This method catches all the exceptions and returns an `R<Boolean>` object.
 
@@ -76,7 +76,7 @@ This method catches all the exceptions and returns an `R<Boolean>` object.
 
 - If the API succeeds, it returns `R.Status.Success`.
 
-#### Example{#example}
+#### Example\{#example}
 
 ```java
 import io.milvus.param.*;

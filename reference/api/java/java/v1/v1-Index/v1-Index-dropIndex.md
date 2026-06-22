@@ -23,7 +23,7 @@ MilvusClient interface. This method drops an index of a field for the specified 
 R<RpcStatus> dropIndex(DropIndexParam requestParam);
 ```
 
-#### DropIndexParam{#dropindexparam}
+#### DropIndexParam\{#dropindexparam}
 
 Use the `DropIndexParam.Builder` to construct a `DropIndexParam` object.
 
@@ -66,7 +66,7 @@ The `DropIndexParam.Builder.build()` can throw the following exceptions:
 
 - ParamException: error if the parameter is invalid.
 
-#### Returns{#returns}
+#### Returns\{#returns}
 
 This method catches all the exceptions and returns an `R<RpcStatus>` object.
 
@@ -76,7 +76,7 @@ This method catches all the exceptions and returns an `R<RpcStatus>` object.
 
 - If the API succeeds, it returns `R.Status.Success`.
 
-#### Example{#example}
+#### Example\{#example}
 
 ```java
 import io.milvus.param.*;

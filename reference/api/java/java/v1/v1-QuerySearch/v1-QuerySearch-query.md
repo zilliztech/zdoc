@@ -23,7 +23,7 @@ The MilvusClient interface. This method queries entity(s) based on scalar field(
 R<QueryResults> query(QueryParam requestParam);
 ```
 
-#### QueryParam{#queryparam}
+#### QueryParam\{#queryparam}
 
 Use the `QueryParam.Builder` to construct a `QueryParam` object.
 
@@ -106,7 +106,7 @@ The `QueryParam.Builder.build()` can throw the following exceptions:
 
 - ParamException: error if the parameter is invalid.
 
-#### Returns{#returns}
+#### Returns\{#returns}
 
 This method catches all the exceptions and returns an `R<QueryResults>` object.
 
@@ -116,7 +116,7 @@ This method catches all the exceptions and returns an `R<QueryResults>` object.
 
 - If the API succeeds, it returns valid `QueryResults` held by the `R` template. You can use `QueryResultsWrapper` to get the query results.
 
-#### QueryResultsWrapper{#queryresultswrapper}
+#### QueryResultsWrapper\{#queryresultswrapper}
 
 A tool class to encapsulate the `QueryResults`. 
 
@@ -154,7 +154,7 @@ Methods of `QueryResultsWrapper`:
    </tr>
 </table>
 
-#### FieldDataWrapper{#fielddatawrapper}
+#### FieldDataWrapper\{#fielddatawrapper}
 
 A tool class to encapsulate column data returned by `query()` API. 
 
@@ -198,7 +198,7 @@ Methods of `FieldDataWrapper`:
    </tr>
 </table>
 
-#### QueryResultsWrapper.RowRecord{#queryresultswrapperrowrecord}
+#### QueryResultsWrapper.RowRecord\{#queryresultswrapperrowrecord}
 
 A tool class to hold the data of a single row in key-value format.
 
@@ -222,7 +222,7 @@ Methods of `RowRecord`:
    </tr>
 </table>
 
-#### Example{#example}
+#### Example\{#example}
 
 ```java
 import io.milvus.param.dml.*;

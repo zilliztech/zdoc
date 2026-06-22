@@ -23,7 +23,7 @@ MilvusClient interface. This method shows all partitions in the specified collec
 R<ShowPartitionsResponse> showPartitions(ShowPartitionsParam requestParam);
 ```
 
-#### ShowPartitionsParam{#showpartitionsparam}
+#### ShowPartitionsParam\{#showpartitionsparam}
 
 Use the `ShowPartitionsParam.Builder` to construct a `ShowPartitionsParam` object.
 
@@ -71,7 +71,7 @@ The `ShowPartitionsParam.Builder.build()` can throw the following exceptions:
 
 - ParamException: error if the parameter is invalid.
 
-#### Returns{#returns}
+#### Returns\{#returns}
 
 This method catches all the exceptions and returns an `R<ShowPartitionsResponse>` object.
 
@@ -81,7 +81,7 @@ This method catches all the exceptions and returns an `R<ShowPartitionsResponse>
 
 - If the API succeeds, it returns a valid `ShowPartitionsResponse` held by the `R` template. You can use ShowPartResponseWrapper to get information easily.
 
-#### ShowPartResponseWrapper{#showpartresponsewrapper}
+#### ShowPartResponseWrapper\{#showpartresponsewrapper}
 
 A tool class to encapsulate the `ShowPartitionsResponse`. 
 
@@ -113,7 +113,7 @@ Methods of `ShowPartitionsResponse`:
    </tr>
 </table>
 
-#### PartitionInfo{#partitioninfo}
+#### PartitionInfo\{#partitioninfo}
 
 A tool class to hold information of a partition.
 
@@ -142,7 +142,7 @@ Methods of `ShowPartitionsResponse.PartitionInfo`
    </tr>
 </table>
 
-#### Example{#example}
+#### Example\{#example}
 
 ```java
 import io.milvus.param.*;

@@ -23,7 +23,7 @@ This method lists collections within the connected database.
 func (c *GrpcClient) ListCollections(ctx context.Context, opts ...ListCollectionOption) ([]*entity.Collection, error)
 ```
 
-## Request Parameters{#request-parameters}
+## Request Parameters\{#request-parameters}
 
 <table>
    <tr>
@@ -43,7 +43,7 @@ func (c *GrpcClient) ListCollections(ctx context.Context, opts ...ListCollection
    </tr>
 </table>
 
-### client.ListCollectionOption{#clientlistcollectionoption}
+### client.ListCollectionOption\{#clientlistcollectionoption}
 
 You can add extra settings to the `ListCollections()` request using the following methods.
 
@@ -58,7 +58,7 @@ You can add extra settings to the `ListCollections()` request using the followin
    </tr>
 </table>
 
-## Return{#return}
+## Return\{#return}
 
 A list of `entity.Collection` structs. An `entity.Collection` struct is as follows:
 
@@ -82,7 +82,7 @@ type Collection struct {
 
 </Admonition>
 
-## Errors{#errors}
+## Errors\{#errors}
 
 Any error in the execution of the request. Possible errors are as follows:
 
@@ -90,7 +90,7 @@ Any error in the execution of the request. Possible errors are as follows:
 
 - The call to this API fails.
 
-## Example{#example}
+## Example\{#example}
 
 ```go
 // list collections

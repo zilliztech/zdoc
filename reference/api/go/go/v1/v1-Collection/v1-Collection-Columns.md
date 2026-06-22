@@ -19,7 +19,7 @@ import Admonition from '@theme/Admonition';
 
 The struct types on this page implement the method signatures of the `entity.Column` interface.
 
-## entity.ColumnBool{#entitycolumnbool}
+## entity.ColumnBool\{#entitycolumnbool}
 
 This struct type defines a boolean column. You can use `entity.NewColumnBool()` to create one for the `insert()` request as follows:
 
@@ -59,7 +59,7 @@ This struct type does not implement the following methods:
 
 - `GetAsInt64()`
 
-## entity.ColumnBoolArray{#entitycolumnboolarray}
+## entity.ColumnBoolArray\{#entitycolumnboolarray}
 
 This struct type defines a boolean array column. You can use `entity.NewColumnBoolArray()` to create one for the `insert()` request as follows:
 
@@ -101,7 +101,7 @@ This struct type does not implement the following methods:
 
 - `GetAsInt64()`
 
-## entity.ColumnDouble{#entitycolumndouble}
+## entity.ColumnDouble\{#entitycolumndouble}
 
 This struct type defines a double column. You can use `entity.NewColumnDouble()` to create one for the `insert()` request as follows:
 
@@ -141,7 +141,7 @@ This struct type does not implement the following methods:
 
 - `GetAsInt64()`
 
-## entity.ColumnDoubleArray{#entitycolumndoublearray}
+## entity.ColumnDoubleArray\{#entitycolumndoublearray}
 
 This struct type defines a double array column. You can use `entity.NewColumnDoubleArray()` to create one for the `insert()` request as follows:
 
@@ -183,7 +183,7 @@ This struct type does not implement the following methods:
 
 - `GetAsInt64()`
 
-## entity.ColumnFloat{#entitycolumnfloat}
+## entity.ColumnFloat\{#entitycolumnfloat}
 
 This struct type defines a float column. You can use `entity.NewColumnFloat()` to create one for the `insert()` request as follows:
 
@@ -223,7 +223,7 @@ This struct type does not implement the following methods:
 
 - `GetAsInt64()`
 
-## entity.ColumnFloatArray{#entitycolumnfloatarray}
+## entity.ColumnFloatArray\{#entitycolumnfloatarray}
 
 This struct type defines a float array column. You can use `entity.NewColumnFloatArray()` to create one for the `insert()` request as follows:
 
@@ -265,7 +265,7 @@ This struct type does not implement the following methods:
 
 - `GetAsInt64()`
 
-## entity.ColumnInt8{#entitycolumnint8}
+## entity.ColumnInt8\{#entitycolumnint8}
 
 This struct type defines an Int8 column. You can use `entity.NewColumnInt8()` to create one for the `insert()` request as follows:
 
@@ -305,7 +305,7 @@ This struct type does not implement the following methods:
 
 - `GetAsString()`
 
-## entity.ColumnInt8Array{#entitycolumnint8array}
+## entity.ColumnInt8Array\{#entitycolumnint8array}
 
 This struct type defines an Int8 array column. You can use `entity.NewColumnInt8Array()` to create one for the `insert()` request as follows:
 
@@ -347,7 +347,7 @@ This struct type does not implement the following methods:
 
 - `GetAsInt64()`
 
-## entity.ColumnInt16{#entitycolumnint16}
+## entity.ColumnInt16\{#entitycolumnint16}
 
 This struct type defines an Int16 column. You can use `entity.NewColumnInt16()` to create one for the `insert()` request as follows:
 
@@ -387,7 +387,7 @@ This struct type does not implement the following methods:
 
 - `GetAsString()`
 
-## entity.ColumnInt16Array{#entitycolumnint16array}
+## entity.ColumnInt16Array\{#entitycolumnint16array}
 
 This struct type defines an Int16 array column. You can use `entity.NewColumnInt16Array()` to create one for the `insert()` request as follows:
 
@@ -429,7 +429,7 @@ This struct type does not implement the following methods:
 
 - `GetAsInt64()`
 
-## entity.ColumnInt32{#entitycolumnint32}
+## entity.ColumnInt32\{#entitycolumnint32}
 
 This struct type defines an Int32 column. You can use `entity.NewColumnInt32()` to create one for the `insert()` request as follows:
 
@@ -469,7 +469,7 @@ This struct type does not implement the following methods:
 
 - `GetAsString()`
 
-## entity.ColumnInt32Array{#entitycolumnint32array}
+## entity.ColumnInt32Array\{#entitycolumnint32array}
 
 This struct type defines an Int32 array column. You can use `entity.NewColumnInt32Array()` to create one for the `insert()` request as follows:
 
@@ -511,7 +511,7 @@ This struct type does not implement the following methods:
 
 - `GetAsInt64()`
 
-## entity.ColumnInt64{#entitycolumnint64}
+## entity.ColumnInt64\{#entitycolumnint64}
 
 This struct type defines an Int64 column. You can use `entity.NewColumnInt64()` to create one for the `insert()` request as follows:
 
@@ -551,7 +551,7 @@ This struct type does not implement the following methods:
 
 - `GetAsString()`
 
-## entity.ColumnInt64Array{#entitycolumnint64array}
+## entity.ColumnInt64Array\{#entitycolumnint64array}
 
 This struct type defines an Int64 array column. You can use `entity.NewColumnInt64Array()` to create one for the `insert()` request as follows:
 
@@ -593,7 +593,7 @@ This struct type does not implement the following methods:
 
 - `GetAsInt64()`
 
-## entity.ColumnJSONBytes{#entitycolumnjsonbytes}
+## entity.ColumnJSONBytes\{#entitycolumnjsonbytes}
 
 This struct type defines a JSONBytes column. You can use `entity.NewColumnJSONBytes()` to create one for the `insert()` request as follows:
 
@@ -638,7 +638,7 @@ This struct type does not implement the following methods:
 
 - `GetAsInt64()`
 
-## entity.ColumnVarChar{#entitycolumnvarchar}
+## entity.ColumnVarChar\{#entitycolumnvarchar}
 
 This struct type defines a VarChar column. You can use `entity.NewColumnVarChar()` to create one for the `insert()` request as follows:
 
@@ -678,7 +678,7 @@ This struct type does not implement the following methods:
 
 - `GetAsInt64()`
 
-## entity.ColumnVarCharArray{#entitycolumnvarchararray}
+## entity.ColumnVarCharArray\{#entitycolumnvarchararray}
 
 This struct type defines a VarChar array column. You can use `entity.NewColumnVarCharArray()` to create one for the `insert()` request as follows:
 
@@ -720,7 +720,7 @@ This struct type does not implement the following methods:
 
 - `GetAsInt64()`
 
-## entity.ColumnBFloat16Vector{#entitycolumnbfloat16vector}
+## entity.ColumnBFloat16Vector\{#entitycolumnbfloat16vector}
 
 This struct type defines a binary float16 vector column. You can use `entity.NewColumnBFloat16Vector()` to create one for the `insert()` request as follows:
 
@@ -762,7 +762,7 @@ This struct type does not implement the following methods:
 
 - `GetAsInt64()`
 
-## entity.ColumnBinaryVector{#entitycolumnbinaryvector}
+## entity.ColumnBinaryVector\{#entitycolumnbinaryvector}
 
 This struct type defines a binary vector column. You can use `entity.NewColumnBinaryVector()` to create one for the `insert()` request as follows:
 
@@ -804,7 +804,7 @@ This struct type does not implement the following methods:
 
 - `GetAsInt64()`
 
-## entity.ColumnFloat16Vector{#entitycolumnfloat16vector}
+## entity.ColumnFloat16Vector\{#entitycolumnfloat16vector}
 
 This struct type defines a binary float16 vector column. You can use `entity.NewColumnBFloat16Vector()` to create one for the `insert()` request as follows:
 
@@ -846,7 +846,7 @@ This struct type does not implement the following methods:
 
 - `GetAsInt64()`
 
-## entity.ColumnFloatVector{#entitycolumnfloatvector}
+## entity.ColumnFloatVector\{#entitycolumnfloatvector}
 
 This struct type defines a float vector column. You can use `entity.NewColumnFloatVector()` to create one for the `insert()` request as follows:
 
@@ -888,7 +888,7 @@ This struct type does not implement the following methods:
 
 - `GetAsInt64()`
 
-## entity.ColumnSparseFloatVector{#entitycolumnsparsefloatvector}
+## entity.ColumnSparseFloatVector\{#entitycolumnsparsefloatvector}
 
 This struct type defines a sparse float vector column. You can use `entity.NewColumnSparseFloatVector()` to create one for the `insert()` request as follows:
 
@@ -930,7 +930,7 @@ This struct type does not implement the following methods:
 
 - `GetAsInt64()`
 
-### entity.SparseEmbedding{#entitysparseembedding}
+### entity.SparseEmbedding\{#entitysparseembedding}
 
 This interface type defines a set of signatures as follows:
 

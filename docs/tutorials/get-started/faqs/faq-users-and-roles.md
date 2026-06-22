@@ -28,13 +28,13 @@ This topic lists the possible issues about users, roles, and access that you may
 
 
 
-### Can I leave my organization?{#can-i-leave-my-organization}
+### Can I leave my organization?\{#can-i-leave-my-organization}
 
 If you are an organization member, you can freely leave the organization. 
 
 If you are an organization owner, you can only leave the organization when you are not the last owner in the organization. An organization has to have at least one owner and the only owner in the organization cannot leave it.
 
-### How can I edit my organization name?{#how-can-i-edit-my-organization-name}
+### How can I edit my organization name?\{#how-can-i-edit-my-organization-name}
 
 1. Select the organization.
 
@@ -46,7 +46,7 @@ If you are an organization owner, you can only leave the organization when you a
 
 1. You will receive a message that your organization name has been successfully changed.
 
-### How can I invite a colleague or teammate to collaborate?{#how-can-i-invite-a-colleague-or-teammate-to-collaborate}
+### How can I invite a colleague or teammate to collaborate?\{#how-can-i-invite-a-colleague-or-teammate-to-collaborate}
 
 If you are an organization owner, you can invite users to your organization. Refer to [Manage Organization Users](./organization-users) for more detailed instructions.
 
@@ -54,6 +54,6 @@ If you are an organization member, you can contact your organization owner to in
 
 Additionally, Zilliz Cloud also supports inviting users to projects. If you are a project admin, you can invite other project users to your project. Refer to [Manage Project Users](./project-users) for more detailed instructions.
 
-### Can I create a role with specific privileges or custom privilege groups?{#can-i-create-a-role-with-specific-privileges-or-custom-privilege-groups}
+### Can I create a role with specific privileges or custom privilege groups?\{#can-i-create-a-role-with-specific-privileges-or-custom-privilege-groups}
 
 Yes. You need to [create a support ticket](http://support.zilliz.com) first so that we can enable this feature for you. Once this feature is enabled, you can then use the SDKs to complete this task. For details, refer to [Privileges & Privilege Groups](./cluster-privileges#custom-privilege-groups-or-private).

@@ -23,7 +23,7 @@ This method loads the specified collection to memory (for search and query).
 func (c *GrpcClient) LoadCollection(ctx context.Context, collName string, async bool, opts ...LoadCollectionOption) error
 ```
 
-## Request Parameters{#request-parameters}
+## Request Parameters\{#request-parameters}
 
 <table>
    <tr>
@@ -53,7 +53,7 @@ func (c *GrpcClient) LoadCollection(ctx context.Context, collName string, async 
    </tr>
 </table>
 
-### client.LoadCollectionOption{#clientloadcollectionoption}
+### client.LoadCollectionOption\{#clientloadcollectionoption}
 
 You can add extra settings to the `LoadCollection()` request using the following methods.
 
@@ -72,11 +72,11 @@ You can add extra settings to the `LoadCollection()` request using the following
    </tr>
 </table>
 
-## Return{#return}
+## Return\{#return}
 
 Null
 
-## Errors{#errors}
+## Errors\{#errors}
 
 Any error in the execution of the request. Possible errors are as follows:
 
@@ -86,7 +86,7 @@ Any error in the execution of the request. Possible errors are as follows:
 
 - The call to this API fails.
 
-## Example{#example}
+## Example\{#example}
 
 ```go
 // load collection

@@ -23,7 +23,7 @@ The MilvusClient interface. This method conducts an approximate nearest neighbor
 R<SearchResults> hybridSearch(HybridSearchParam requestParam);
 ```
 
-#### HybridSearchParam{#hybridsearchparam}
+#### HybridSearchParam\{#hybridsearchparam}
 
 Use the `HybridSearchParam.Builder` to construct a `HybridSearchParam` object.
 
@@ -106,7 +106,7 @@ The `HybridSearchParam.Builder.build()` can throw the following exceptions:
 
 - ParamException: error if the parameter is invalid.
 
-#### AnnSearchParam{#annsearchparam}
+#### AnnSearchParam\{#annsearchparam}
 
 The sub-request of `hybridSearch()`.
 
@@ -182,7 +182,7 @@ Methods of `AnnSearchParam.Builder`:
     </tr>
 </table>
 
-#### RRFRanker{#rrfranker}
+#### RRFRanker\{#rrfranker}
 
 The RRF reranking strategy, which merges results from multiple searches, favoring items that consistently appear.
 
@@ -213,7 +213,7 @@ Methods of `RRFRanker.Builder`:
     </tr>
 </table>
 
-#### WeightedRanker{#weightedranker}
+#### WeightedRanker\{#weightedranker}
 
 The average weighted scoring reranking strategy, which prioritizes vectors based on relevance, averaging their significance.
 
@@ -244,7 +244,7 @@ Methods of `WeightedRanker.Builder`:
     </tr>
 </table>
 
-#### Returns{#returns}
+#### Returns\{#returns}
 
 This method catches all the exceptions and returns an `R<SearchResults>` object.
 
@@ -254,7 +254,7 @@ This method catches all the exceptions and returns an `R<SearchResults>` object.
 
 - If the API succeeds, it returns valid `SearchResults` held by the `R` template. You can use `SearchResultsWrapper` to get the results.
 
-#### Example{#example}
+#### Example\{#example}
 
 ```java
 import io.milvus.param.dml.*;

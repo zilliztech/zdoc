@@ -23,7 +23,7 @@ A MilvusClient interface. This method inserts entities into a specified collecti
 R<MutationResult> insert(InsertParam requestParam);
 ```
 
-#### InsertParam{#insertparam}
+#### InsertParam\{#insertparam}
 
 Use the `InsertParam.Builder` to construct an `InsertParam` object.
 
@@ -82,7 +82,7 @@ The `InsertParam.Builder.build()` can throw the following exceptions:
 
 - ParamException: error if the parameter is invalid.
 
-#### Field{#field}
+#### Field\{#field}
 
 A tool class to hold a data field.
 
@@ -101,7 +101,7 @@ Methods of `InsertParam.Field`:
    </tr>
 </table>
 
-#### Returns{#returns}
+#### Returns\{#returns}
 
 This method catches all the exceptions and returns an `R<MutationResult>` object.
 
@@ -111,7 +111,7 @@ This method catches all the exceptions and returns an `R<MutationResult>` object
 
 - If the API succeeds, it returns a valid `MutationResult` held by the `R` template. You can use `MutationResultWrapper` to get the returned information.
 
-#### MutationResultWrapper{#mutationresultwrapper}
+#### MutationResultWrapper\{#mutationresultwrapper}
 
 A tool class to encapsulate the MutationResult. 
 
@@ -155,7 +155,7 @@ Methods of `MutationResultWrapper`:
    </tr>
 </table>
 
-#### Example{#example}
+#### Example\{#example}
 
 ```java
 import io.milvus.param.*;

@@ -25,6 +25,6 @@ This topic lists the possible issues about integrations with other software, too
 
 
 
-### Does Zilliz Cloud support LangChain?{#does-zilliz-cloud-support-langchain}
+### Does Zilliz Cloud support LangChain?\{#does-zilliz-cloud-support-langchain}
 
 Yes. Zilliz Cloud supports integration with LangChain. Please refer to Zilliz Cloud [Notebook Gallery](https://zilliz.com/learn/milvus-notebooks) for more information.

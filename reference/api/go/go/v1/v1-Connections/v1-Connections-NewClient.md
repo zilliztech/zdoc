@@ -23,7 +23,7 @@ This method creates a Milvus client that connects to a specific Milvus deploymen
 func NewClient(ctx context.Context, config Config) (Client, error)
 ```
 
-## Request Parameter{#request-parameter}
+## Request Parameter\{#request-parameter}
 
 <table>
    <tr>
@@ -43,7 +43,7 @@ func NewClient(ctx context.Context, config Config) (Client, error)
    </tr>
 </table>
 
-### client.Config{#clientconfig}
+### client.Config\{#clientconfig}
 
 This struct type defines all possible client configuration items as follows:
 
@@ -67,7 +67,7 @@ type Config struct {
 }
 ```
 
-### client.RetryRateLimit{#clientretryratelimit}
+### client.RetryRateLimit\{#clientretryratelimit}
 
 This struct type defines the retry options for the connection.
 
@@ -78,11 +78,11 @@ type RetryRateLimitOption struct {
 }
 ```
 
-## Return{#return}
+## Return\{#return}
 
 A `client.Client`.
 
-## Errors{#errors}
+## Errors\{#errors}
 
 Any error in the execution of the request. Possible errors are as follows:
 
@@ -90,7 +90,7 @@ Any error in the execution of the request. Possible errors are as follows:
 
 - The call to this API fails.
 
-## Example{#example}
+## Example\{#example}
 
 ```go
 import (

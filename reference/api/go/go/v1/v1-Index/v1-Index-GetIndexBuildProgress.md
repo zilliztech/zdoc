@@ -23,7 +23,7 @@ This method returns the building progress of a specific index.
 func (c *GrpcClient) GetIndexBuildProgress(ctx context.Context, collName string, fieldName string, opts ...IndexOption) (total, indexed int64, err error)
 ```
 
-## Request Parameters{#request-parameters}
+## Request Parameters\{#request-parameters}
 
 <table>
    <tr>
@@ -53,7 +53,7 @@ func (c *GrpcClient) GetIndexBuildProgress(ctx context.Context, collName string,
    </tr>
 </table>
 
-## Return{#return}
+## Return\{#return}
 
 The total number of rows to index and the number of rows already indexed, or an error.
 
@@ -75,7 +75,7 @@ The total number of rows to index and the number of rows already indexed, or an 
    </tr>
 </table>
 
-## Errors{#errors}
+## Errors\{#errors}
 
 Any error in the execution of the request. Possible errors are as follows:
 
@@ -87,7 +87,7 @@ Any error in the execution of the request. Possible errors are as follows:
 
 - The call to this API fails.
 
-## Example{#example}
+## Example\{#example}
 
 ```go
 

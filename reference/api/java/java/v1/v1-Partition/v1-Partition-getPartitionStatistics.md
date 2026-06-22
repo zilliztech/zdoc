@@ -23,7 +23,7 @@ MilvusClient interface. This method shows the statistical information of a parti
 R<GetPartitionStatisticsResponse> getPartitionStatistics(GetPartitionStatisticsParam requestParam);
 ```
 
-#### GetPartitionStatisticsParam{#getpartitionstatisticsparam}
+#### GetPartitionStatisticsParam\{#getpartitionstatisticsparam}
 
 Use the `GetPartitionStatisticsParam.Builder` to construct a `GetPartitionStatisticsParam` object.
 
@@ -71,7 +71,7 @@ The `GetPartitionStatisticsParam.Builder.build()` can throw the following except
 
 - ParamException: error if the parameter is invalid.
 
-#### Returns{#returns}
+#### Returns\{#returns}
 
 This method catches all the exceptions and returns an `R<GetPartitionStatisticsResponse>` object.
 
@@ -81,7 +81,7 @@ This method catches all the exceptions and returns an `R<GetPartitionStatisticsR
 
 - If the API succeeds, it returns a valid `GetPartitionStatisticsResponse` held by the `R` template. You can use `GetPartStatResponseWrapper` to get statistics easily.
 
-#### GetPartStatResponseWrapper{#getpartstatresponsewrapper}
+#### GetPartStatResponseWrapper\{#getpartstatresponsewrapper}
 
 A tool class to encapsulate the `GetPartitionStatisticsResponse`. 
 
@@ -105,7 +105,7 @@ Methods of `GetPartStatResponseWrapper`:
    </tr>
 </table>
 
-#### Example{#example}
+#### Example\{#example}
 
 ```java
 import io.milvus.param.*;

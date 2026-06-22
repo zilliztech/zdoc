@@ -23,7 +23,7 @@ This method creates a collection in a Zilliz Cloud cluster.
 func (c *GrpcClient) NewCollection(ctx context.Context, collName string, dimension int64, opts ...CreateCollectionOption) error
 ```
 
-## Request Parameters{#request-parameters}
+## Request Parameters\{#request-parameters}
 
 <table>
    <tr>
@@ -53,7 +53,7 @@ func (c *GrpcClient) NewCollection(ctx context.Context, collName string, dimensi
    </tr>
 </table>
 
-## entity.CreateCollectionOption{#entitycreatecollectionoption}
+## entity.CreateCollectionOption\{#entitycreatecollectionoption}
 
 You can add extra collection settings to the `NewCollection()` request using the following methods.
 
@@ -88,11 +88,11 @@ You can add extra collection settings to the `NewCollection()` request using the
    </tr>
 </table>
 
-## Return{#return}
+## Return\{#return}
 
 Null
 
-## Errors{#errors}
+## Errors\{#errors}
 
 Any error in the execution of the request. Possible errors are as follows:
 
@@ -102,7 +102,7 @@ Any error in the execution of the request. Possible errors are as follows:
 
 - The call to this API fails.
 
-## Example{#example}
+## Example\{#example}
 
 ```go
 var collectionName = "test_01"

@@ -99,7 +99,7 @@ collections = client.list_collections()
 print(collections)
 ```
 
-## Connect to Dedicated clusters{#connect-to-dedicated-clusters}
+## Connect to Dedicated clusters\{#connect-to-dedicated-clusters}
 
 Use the cluster endpoint and token consistently across SDKs. `YOUR_CLUSTER_ENDPOINT` is the public endpoint copied from the cluster **Connect** card, and `YOUR_CLUSTER_TOKEN` is either an API key with access to the target cluster or a cluster credential in `username:password` format.
 
@@ -156,7 +156,7 @@ curl --request POST \
   --data '{"dbName": "default"}'
 ```
 
-## Verify the connection{#verify-the-connection}
+## Verify the connection\{#verify-the-connection}
 
 After connecting with an SDK, run a lightweight operation such as listing collections.
 

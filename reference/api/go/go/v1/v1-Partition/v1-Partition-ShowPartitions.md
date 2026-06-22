@@ -23,7 +23,7 @@ This method returns a list of partitions within a specific collection.
 func (c *GrpcClient) ShowPartitions(ctx context.Context, collName string) ([]*entity.Partition, error)
 ```
 
-## Request Parameters{#request-parameters}
+## Request Parameters\{#request-parameters}
 
 <table>
    <tr>
@@ -43,11 +43,11 @@ func (c *GrpcClient) ShowPartitions(ctx context.Context, collName string) ([]*en
    </tr>
 </table>
 
-## Return{#return}
+## Return\{#return}
 
 A list of `entity.Partition` or an error.
 
-### entity.Partition{#entitypartition}
+### entity.Partition\{#entitypartition}
 
 This struct type defines the fields to include in the partition details.
 
@@ -59,7 +59,7 @@ type Partition struct {
 }
 ```
 
-## Errors{#errors}
+## Errors\{#errors}
 
 Any error in the execution of the request. Possible errors are as follows:
 
@@ -69,7 +69,7 @@ Any error in the execution of the request. Possible errors are as follows:
 
 - The call to this API fails.
 
-## Example{#example}
+## Example\{#example}
 
 ```go
 // show partitions

@@ -23,7 +23,7 @@ A MilvusClient interface. This method lists all the collections or gets the coll
 R<ShowCollectionsResponse> showCollections(ShowCollectionsParam requestParam);
 ```
 
-#### ShowCollectionsParam{#showcollectionsparam}
+#### ShowCollectionsParam\{#showcollectionsparam}
 
 Use the `ShowCollectionsParam.Builder` to construct a `ShowCollectionsParam` object.
 
@@ -66,7 +66,7 @@ The `ShowCollectionsParam.Builder.build()` can throw the following exceptions:
 
 - ParamException: error if the parameter is invalid.
 
-#### Returns{#returns}
+#### Returns\{#returns}
 
 This method catches all the exceptions and returns an `R<ShowCollectionsResponse>` object.
 
@@ -76,7 +76,7 @@ This method catches all the exceptions and returns an `R<ShowCollectionsResponse
 
 - If the API succeeds, it returns a valid `ShowCollectionsResponse` held by the `R` template. You can use `ShowCollResponseWrapper` to get the information.
 
-#### ShowCollResponseWrapper{#showcollresponsewrapper}
+#### ShowCollResponseWrapper\{#showcollresponsewrapper}
 
 A tool class to encapsulate the ShowCollectionsResponse. 
 
@@ -108,7 +108,7 @@ Methods of `ShowCollResponseWrapper`:
    </tr>
 </table>
 
-#### CollectionInfo{#collectioninfo}
+#### CollectionInfo\{#collectioninfo}
 
 A tool class to store a collection's information.
 
@@ -142,7 +142,7 @@ Methods of `ShowCollResponseWrapper.CollectionInfo`:
    </tr>
 </table>
 
-#### Example{#example}
+#### Example\{#example}
 
 ```java
 import io.milvus.param.*;

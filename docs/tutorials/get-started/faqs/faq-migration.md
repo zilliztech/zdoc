@@ -26,10 +26,10 @@ This topic lists the possible issues that you may encounter while you migrate da
 
 
 
-### How to migrate data from Elasticsearch to Zilliz Cloud?{#how-to-migrate-data-from-elasticsearch-to-zilliz-cloud}
+### How to migrate data from Elasticsearch to Zilliz Cloud?\{#how-to-migrate-data-from-elasticsearch-to-zilliz-cloud}
 
 You can easily migrate data from Elasticsearch on the Zilliz Cloud via the Zilliz Cloud web console. For more information, see [Migrate from Elasticsearch](./migrate-from-elasticsearch) .
 
-### Can I upgrade a free cluster to a Serverless or Dedicated cluster?{#can-i-upgrade-a-free-cluster-to-a-serverless-or-dedicated-cluster}
+### Can I upgrade a free cluster to a Serverless or Dedicated cluster?\{#can-i-upgrade-a-free-cluster-to-a-serverless-or-dedicated-cluster}
 
 Yes. For more information , please refer to [Manage Cluster](./manage-cluster).

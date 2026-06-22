@@ -48,7 +48,7 @@ Methods of `LocalBulkWriter`:
     </tr>
 </table>
 
-#### LocalBulkWriterParam{#localbulkwriterparam}
+#### LocalBulkWriterParam\{#localbulkwriterparam}
 
 Use the `LocalBulkWriterParam.Builder` to construct a `LocalBulkWriterParam` object.
 
@@ -92,7 +92,7 @@ Methods of `LocalBulkWriterParam.Builder`:
     </tr>
 </table>
 
-#### Example{#example}
+#### Example\{#example}
 
 ```java
 import io.milvus.bulkwriter.*;

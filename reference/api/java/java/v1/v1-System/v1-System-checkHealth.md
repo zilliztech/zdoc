@@ -23,7 +23,7 @@ MilvusClient interface. This method checks milvus server health.
 R<CheckHealthResponse> checkHealth();
 ```
 
-#### Returns{#returns}
+#### Returns\{#returns}
 
 This method catches all the exceptions and returns an `R<CheckHealthResponse>` object.
 
@@ -33,7 +33,7 @@ This method catches all the exceptions and returns an `R<CheckHealthResponse>` o
 
 - If the API succeeds, it returns a valid `CheckHealthResponse` held by the `R` template. You can use `CheckHealthResponse` to get resource group information.
 
-#### Example{#example}
+#### Example\{#example}
 
 ```java
 

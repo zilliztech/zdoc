@@ -27,7 +27,7 @@ This topic lists the possible issues about monitors and metrics that you may enc
 
 
 
-### Why does the cluster’s CU capacity and storage usage increase temporarily during frequent insert and delete operations?{#why-does-the-clusters-cu-capacity-and-storage-usage-increase-temporarily-during-frequent-insert-and-delete-operations}
+### Why does the cluster’s CU capacity and storage usage increase temporarily during frequent insert and delete operations?\{#why-does-the-clusters-cu-capacity-and-storage-usage-increase-temporarily-during-frequent-insert-and-delete-operations}
 
 Frequent insert and delete operations trigger an internal process called *[compaction](https://milvus.io/blog/2022-2-21-compact.md)*.
 
@@ -39,7 +39,7 @@ During compaction, new segments are temporarily created, which may lead to a sho
 
 This behavior is normal and does not impact system performance.
 
-### What can I do if my cluster memory quota has been exhausted and I cannot insert data as a result?{#what-can-i-do-if-my-cluster-memory-quota-has-been-exhausted-and-i-cannot-insert-data-as-a-result}
+### What can I do if my cluster memory quota has been exhausted and I cannot insert data as a result?\{#what-can-i-do-if-my-cluster-memory-quota-has-been-exhausted-and-i-cannot-insert-data-as-a-result}
 
 You can try the following two methods.
 
@@ -47,6 +47,6 @@ You can try the following two methods.
 
 1. Release loaded collections that are not frequently used to save memory usage.
 
-### Why doesn't the memory consumption decrease even if I dropped a collection?{#why-doesnt-the-memory-consumption-decrease-even-if-i-dropped-a-collection}
+### Why doesn't the memory consumption decrease even if I dropped a collection?\{#why-doesnt-the-memory-consumption-decrease-even-if-i-dropped-a-collection}
 
 Data in dropped collections are cleaned after 24 hours. Please [submit a request](https://support.zilliz.com/hc/en-us) if your memory consumption still does not drop after 24 hours.

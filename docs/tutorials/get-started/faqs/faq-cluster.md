@@ -36,13 +36,13 @@ This topic lists the possible issues that you may encounter while you use Zilliz
 
 
 
-### What is the capacity of a free cluster?{#what-is-the-capacity-of-a-free-cluster}
+### What is the capacity of a free cluster?\{#what-is-the-capacity-of-a-free-cluster}
 
 Generally, a free cluster can handle 1 million 768-dimensional vectors. However, the actual capacity depends on your schema. 
 
 If your data exceeds the maximum capacity of a free cluster, please [upgrade](./select-zilliz-cloud-service-plans) to the Serverless or Dedicated deployment option to create a new cluster and [migrate your data](./offline-migration) there. For more information about the capacity of a  cluster, please refer to [Select the Right CU](./cu-types-explained#assess-capacity)
 
-### What can I do if I receive the error "quota exceeded\[reason=disk quota exceeded, please allocate more resources"?{#what-can-i-do-if-i-receive-the-error-quota-exceededreasondisk-quota-exceeded-please-allocate-more-resources}
+### What can I do if I receive the error "quota exceeded\[reason=disk quota exceeded, please allocate more resources"?\{#what-can-i-do-if-i-receive-the-error-quota-exceededreasondisk-quota-exceeded-please-allocate-more-resources}
 
 When inserting or upserting data, you will receive this error because your data exceeds the serving cluster CU capacity. A free cluster can handle 1 million 768-dimensional vectors. The capacity of a dedicated cluster depends on its [cluster type and CU size](./cu-types-explained#assess-capacity).
 
@@ -52,7 +52,7 @@ To address this issue, you can follow the instructions below.
 
 - If you are using a Dedicated cluster, please [scale up your cluster](./scale-query-cu) by increasing the CU size.
 
-### Can I change the cluster type after my dedicated cluster is created?{#can-i-change-the-cluster-type-after-my-dedicated-cluster-is-created}
+### Can I change the cluster type after my dedicated cluster is created?\{#can-i-change-the-cluster-type-after-my-dedicated-cluster-is-created}
 
 Yes. To change the cluster type, you need to follow the steps below.
 
@@ -60,17 +60,17 @@ Yes. To change the cluster type, you need to follow the steps below.
 
 1. [Migrate](./offline-migration) the data from the current serving cluster to the new cluster you just created. Alternatively, you can also [contact us](https://support.zilliz.com/hc/en-us) to handle the data migration between clusters for you. Please specify your source cluster and target cluster when reaching out to us.
 
-### Can I change the cloud region of my project after it is created?{#can-i-change-the-cloud-region-of-my-project-after-it-is-created}
+### Can I change the cloud region of my project after it is created?\{#can-i-change-the-cloud-region-of-my-project-after-it-is-created}
 
 No. The project region cannot be changed once the project is created. To use a different region, create a new project. For details, see Manage Projects.
 
-### How can I scale down the query CUs of my serving cluster?{#how-can-i-scale-down-the-query-cus-of-my-serving-cluster}
+### How can I scale down the query CUs of my serving cluster?\{#how-can-i-scale-down-the-query-cus-of-my-serving-cluster}
 
 Yes. To scale down your the query CU of your serving cluster,  go to the **Summary** section in the [Zilliz Cloud console](https://cloud.zilliz.com/signup) and click **Scale** next to the **Query CU**. This will open the scaling page where you can increase or decrease the amount of query CUs. Before scaling down your serving cluster, make sure the new number query CUs can accommodate your data volume and workload capacity.
 
 For more information, refer to [Scale Cluster](./scale-query-cu).
 
-### How can I deal with a connection timeout error when I attempt to connect to Zilliz Cloud?{#how-can-i-deal-with-a-connection-timeout-error-when-i-attempt-to-connect-to-zilliz-cloud}
+### How can I deal with a connection timeout error when I attempt to connect to Zilliz Cloud?\{#how-can-i-deal-with-a-connection-timeout-error-when-i-attempt-to-connect-to-zilliz-cloud}
 
 To establish a connection to a Zilliz Cloud cluster, you will need to provide several relevant parameters. For instance, the PyMilvus SDK's connect method can be used as shown below:
 
@@ -102,7 +102,7 @@ A connection timeout error may occur in the following scenarios:
 
     If you are attempting to connect to your cluster, you also need to ensure that you have turned off any VPN/Proxy connections, obtained your public IP address (private IP addresses simply do not work), and added that IP address to the whitelist for the clusters you want to connect to.
 
-### Why can’t I connect to the cluster after the cluster is created?{#why-cant-i-connect-to-the-cluster-after-the-cluster-is-created}
+### Why can’t I connect to the cluster after the cluster is created?\{#why-cant-i-connect-to-the-cluster-after-the-cluster-is-created}
 
 You can identify the problem by following these steps:
 
@@ -122,7 +122,7 @@ You can identify the problem by following these steps:
 
 If the issue persists after all above steps are tried, please[ submit a request](https://support.zilliz.com/hc/en-us).
 
-### What can I do if I cannot connect to Zilliz Cloud with Node.js SDK?{#what-can-i-do-if-i-cannot-connect-to-zilliz-cloud-with-nodejs-sdk}
+### What can I do if I cannot connect to Zilliz Cloud with Node.js SDK?\{#what-can-i-do-if-i-cannot-connect-to-zilliz-cloud-with-nodejs-sdk}
 
 If you fail to connect to Zilliz Cloud with the Node.js SDK, please try the following:
 
@@ -146,18 +146,18 @@ If you fail to connect to Zilliz Cloud with the Node.js SDK, please try the foll
 
 1. Your IP address must be whitelisted in your cluster settings.
 
-### What happens to my inactive clusters?{#what-happens-to-my-inactive-clusters}
+### What happens to my inactive clusters?\{#what-happens-to-my-inactive-clusters}
 
 Your free clusters are automatically suspended with notice after 7 days of inactivity. You can always resume the clusters when necessary. However, your dedicated clusters will not be automatically suspended due to prolonged inactivity. To save costs, we advise you to manually suspend your dedicated clusters.
 
-### Will I be charged if I suspend my cluster?{#will-i-be-charged-if-i-suspend-my-cluster}
+### Will I be charged if I suspend my cluster?\{#will-i-be-charged-if-i-suspend-my-cluster}
 
 When your cluster is suspended, you will only be charged for storage, not computing. For more details about storage costs, see [Pricing](https://zilliz.com/pricing).
 
-### How to obtain a connection endpoint?{#how-to-obtain-a-connection-endpoint}
+### How to obtain a connection endpoint?\{#how-to-obtain-a-connection-endpoint}
 
 You can obtain the endpoints from the Zilliz Cloud web console. For details about which type of endpoints to use, refer to [Access: Connection Endpionts](./undefined).
 
-### Can I connect Zilliz Cloud to Attu?{#can-i-connect-zilliz-cloud-to-attu}
+### Can I connect Zilliz Cloud to Attu?\{#can-i-connect-zilliz-cloud-to-attu}
 
 Yes. [Attu](https://github.com/zilliztech/attu) is an open-source visual management tool for Milvus and Zilliz Cloud. You can run it as a Docker container or desktop app. To connect, provide your Zilliz Cloud **public endpoint** and **API key** (or cluster credentials in username:password format) on the Attu login page.

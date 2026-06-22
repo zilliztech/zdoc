@@ -23,7 +23,7 @@ This method inserts entities organized in rows into the specified collection.
 func (c *GrpcClient) InsertRows(ctx context.Context, collName string, partitionName string, rows []interface{}) (entity.Column, error)
 ```
 
-## Request Parameters{#request-parameters}
+## Request Parameters\{#request-parameters}
 
 <table>
    <tr>
@@ -53,11 +53,11 @@ func (c *GrpcClient) InsertRows(ctx context.Context, collName string, partitionN
    </tr>
 </table>
 
-## Return{#return}
+## Return\{#return}
 
 `entity.Column`
 
-## Errors{#errors}
+## Errors\{#errors}
 
 Any error in the execution of the request. Possible errors are as follows:
 
@@ -69,7 +69,7 @@ Any error in the execution of the request. Possible errors are as follows:
 
 - The call to this API fails.
 
-## Example{#example}
+## Example\{#example}
 
 - InsertRows with struct
 

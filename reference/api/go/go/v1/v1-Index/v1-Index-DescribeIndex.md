@@ -23,7 +23,7 @@ This method returns the index details.
 func (c *GrpcClient) DescribeIndex(ctx context.Context, collName string, fieldName string, opts ...IndexOption) ([]entity.Index, error)
 ```
 
-## Request Parameters{#request-parameters}
+## Request Parameters\{#request-parameters}
 
 <table>
    <tr>
@@ -53,11 +53,11 @@ func (c *GrpcClient) DescribeIndex(ctx context.Context, collName string, fieldNa
    </tr>
 </table>
 
-## Return{#return}
+## Return\{#return}
 
 A list of `entity.Index` or an error.
 
-## Errors{#errors}
+## Errors\{#errors}
 
 Any error in the execution of the request. Possible errors are as follows:
 
@@ -69,7 +69,7 @@ Any error in the execution of the request. Possible errors are as follows:
 
 - The call to this API fails.
 
-## Example{#example}
+## Example\{#example}
 
 ```go
 // describe index

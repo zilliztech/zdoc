@@ -23,7 +23,7 @@ Milvus Java SDK is an open-source project and its source code is hosted on [GitH
   The Java SDK v1 API (legacy `io.milvus` package) is deprecated. Please use [Java SDK v2](./v2) for new development.
 </Admonition>
 
-## **Compatibility**{#compatibility}
+## **Compatibility**\{#compatibility}
 
 <table>
     <tr>
@@ -64,7 +64,7 @@ Milvus Java SDK is an open-source project and its source code is hosted on [GitH
     </tr>
 </table>
 
-## **Installation**{#installation}
+## **Installation**\{#installation}
 
 You can use **[Apache Maven](https://maven.apache.org/install.html)** or **[Gradle](https://gradle.org/install/)** to download the SDK.
 
@@ -90,6 +90,6 @@ implementation 'io.milvus:milvus-sdk-java:2.6.18'
 implementation("io.milvus:milvus-sdk-java:2.6.18")
 ```
 
-## **Contributing**{#contributing}
+## **Contributing**\{#contributing}
 
 We are committed to building a collaborative, exuberant open-source community for Milvus. Therefore, contributions to Milvus Java SDK are welcome from everyone. Refer to [Contributing Guideline](https://github.com/milvus-io/milvus-sdk-java/blob/master/CONTRIBUTING.md) before making contributions to this project. You can [file an issue](https://github.com/milvus-io/milvus-sdk-java/issues/new) if you need any assistance or want to propose your ideas

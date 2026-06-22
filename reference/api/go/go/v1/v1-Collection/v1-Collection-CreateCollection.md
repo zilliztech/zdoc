@@ -23,7 +23,7 @@ This method creates a collection with the specified schema.
 func (c *GrpcClient) CreateCollection(ctx context.Context, collSchema *entity.Schema, shardNum int32, opts ...CreateCollectionOption) error
 ```
 
-## Request Parameters{#request-parameters}
+## Request Parameters\{#request-parameters}
 
 <table>
    <tr>
@@ -55,7 +55,7 @@ func (c *GrpcClient) CreateCollection(ctx context.Context, collSchema *entity.Sc
 
 A schema specifies the properties of a collection and the fields within it. For details, refer to Schema for more information.
 
-### entity.Schema{#entityschema}
+### entity.Schema\{#entityschema}
 
 You can create a schema using the `entity.NewSchema()` method as follows:
 
@@ -95,7 +95,7 @@ schema := entity.NewSchema().
    </tr>
 </table>
 
-### entity.Field{#entityfield}
+### entity.Field\{#entityfield}
 
 You can create a field using the `entity.NewField()` method as follows:
 
@@ -169,7 +169,7 @@ field := entity.NewField().
    </tr>
 </table>
 
-### entity.FieldType{#entityfieldtype}
+### entity.FieldType\{#entityfieldtype}
 
 ```go
 const (
@@ -210,7 +210,7 @@ const (
 )
 ```
 
-### entity.CreateCollectionOption{#entitycreatecollectionoption}
+### entity.CreateCollectionOption\{#entitycreatecollectionoption}
 
 You can add extra collection settings to the `CreateCollection()` request using the following methods.
 
@@ -237,11 +237,11 @@ You can add extra collection settings to the `CreateCollection()` request using 
    </tr>
 </table>
 
-## Return{#return}
+## Return\{#return}
 
 Null
 
-## Errors{#errors}
+## Errors\{#errors}
 
 Any error in the execution of the request. Possible errors are as follows:
 
@@ -251,7 +251,7 @@ Any error in the execution of the request. Possible errors are as follows:
 
 - The call to this API fails.
 
-## Example{#example}
+## Example\{#example}
 
 - default
 

@@ -26,11 +26,11 @@ This topic lists the possible issues that you may encounter while backing up and
 
 
 
-### Is the backup feature available in the Standard plan?{#is-the-backup-feature-available-in-the-standard-plan}
+### Is the backup feature available in the Standard plan?\{#is-the-backup-feature-available-in-the-standard-plan}
 
 Yes. Creating backups is available to **Dedicated** clusters in a **Standard** project.
 
-### Can I choose the Milvus version when restoring a cluster backup?{#can-i-choose-the-milvus-version-when-restoring-a-cluster-backup}
+### Can I choose the Milvus version when restoring a cluster backup?\{#can-i-choose-the-milvus-version-when-restoring-a-cluster-backup}
 
 - For backup files created within the last 30 days, if the original cluster used an earlier Milvus GA version than the latest available GA version, you can choose the Milvus version for the restored cluster. By default, Zilliz Cloud restores the cluster to the latest GA Milvus version.
 

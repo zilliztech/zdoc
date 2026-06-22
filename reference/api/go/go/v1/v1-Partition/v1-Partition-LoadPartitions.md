@@ -23,7 +23,7 @@ This method loads the data of specific partitions into memory.
 func (c *GrpcClient) LoadPartitions(ctx context.Context, collName string, partitionNames []string, async bool) error
 ```
 
-## Request Parameters{#request-parameters}
+## Request Parameters\{#request-parameters}
 
 <table>
    <tr>
@@ -53,11 +53,11 @@ func (c *GrpcClient) LoadPartitions(ctx context.Context, collName string, partit
    </tr>
 </table>
 
-## Return{#return}
+## Return\{#return}
 
 Null
 
-## Errors{#errors}
+## Errors\{#errors}
 
 Any error in the execution of the request. Possible errors are as follows:
 
@@ -69,7 +69,7 @@ Any error in the execution of the request. Possible errors are as follows:
 
 - The call to this API fails.
 
-## Example{#example}
+## Example\{#example}
 
 ```go
 // load partitions

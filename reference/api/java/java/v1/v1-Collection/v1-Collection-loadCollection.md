@@ -23,7 +23,7 @@ A MilvusClient interface. This method loads the specified collection and all the
 R<RpcStatus> loadCollection(LoadCollectionParam requestParam);
 ```
 
-#### LoadCollectionParam{#loadcollectionparam}
+#### LoadCollectionParam\{#loadcollectionparam}
 
 Use the `LoadCollectionParam.Builder` to construct a `LoadCollectionParam` object.
 
@@ -86,7 +86,7 @@ The `LoadCollectionParam.Builder.build()` can throw the following exceptions:
 
 - ParamException: error if the parameter is invalid.
 
-#### Returns{#returns}
+#### Returns\{#returns}
 
 This method catches all the exceptions and returns an `R<RpcStatus>` object.
 
@@ -96,7 +96,7 @@ This method catches all the exceptions and returns an `R<RpcStatus>` object.
 
 - If the API succeeds, it returns `R.Status.Success`.
 
-#### Example{#example}
+#### Example\{#example}
 
 ```java
 import io.milvus.param.*;

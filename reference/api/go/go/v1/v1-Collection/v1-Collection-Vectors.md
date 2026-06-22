@@ -19,7 +19,7 @@ import Admonition from '@theme/Admonition';
 
 The types on this page implemented the method signatures of the [entity.Vector](./v1-Collection-Search#entityvector) interface.
 
-## entity.BFloat16Vector{#entitybfloat16vector}
+## entity.BFloat16Vector\{#entitybfloat16vector}
 
 This byte slice type serves as a wrapper for BFloat16 vector embeddings. You can instantiate an `entity.BFloat16Vector` as follows:
 
@@ -53,7 +53,7 @@ for i := 0; i < 5; i++ {
 }
 ```
 
-## entity.BinaryVector{#entitybinaryvector}
+## entity.BinaryVector\{#entitybinaryvector}
 
 This byte slice type serves as a wrapper for binary vector embeddings. You can instantiate an `entity.BinaryVector` as follows:
 
@@ -75,7 +75,7 @@ for i := 0; i < 5; i++ {
 }
 ```
 
-## entity.Float16Vector{#entityfloat16vector}
+## entity.Float16Vector\{#entityfloat16vector}
 
 This byte slice type serves as a wrapper for Float16 vector embeddings. You can instantiate an `entity.Float16Vector` as follows:
 
@@ -103,7 +103,7 @@ for i := 0; i < 5; i++ {
 }
 ```
 
-## entity.FloatVector{#entityfloatvector}
+## entity.FloatVector\{#entityfloatvector}
 
 This float32 slice type serves as a wrapper for float vector embeddings. You can instantiate an `entity.FloatVector` as follows:
 
@@ -128,7 +128,7 @@ for i := 0; i < 5; i++ {
 }
 ```
 
-## entity.SparseEmbedding{#entitysparseembedding}
+## entity.SparseEmbedding\{#entitysparseembedding}
 
 This interface defines the method signatures as follows:
 

@@ -23,7 +23,7 @@ A MilvusClient interface. This method creates a collection with simple parameter
 R<RpcStatus> createCollection(CreateSimpleCollectionParam requestParam);
 ```
 
-#### CreateSimpleCollectionParam{#createsimplecollectionparam}
+#### CreateSimpleCollectionParam\{#createsimplecollectionparam}
 
 Use the `CreateSimpleCollectionParam.Builder` to construct a `CreateSimpleCollectionParam` object.
 
@@ -106,7 +106,7 @@ The `CreateSimpleCollectionParam.Builder.build()` can throw the following except
 
 - ParamException: error if the parameter is invalid.
 
-#### Returns{#returns}
+#### Returns\{#returns}
 
 This method catches all the exceptions and returns an `R<RpcStatus>` object.
 
@@ -116,7 +116,7 @@ This method catches all the exceptions and returns an `R<RpcStatus>` object.
 
 - If the API succeeds, it returns `R.Status.Success`.
 
-#### Example{#example}
+#### Example\{#example}
 
 ```java
 import io.milvus.param.highlevel.collection.*;

@@ -23,7 +23,7 @@ This method creates a partition in a specific collection.
 func (c *GrpcClient) CreatePartition(ctx context.Context, collName string, partitionName string) error
 ```
 
-## Request Parameters{#request-parameters}
+## Request Parameters\{#request-parameters}
 
 <table>
    <tr>
@@ -48,11 +48,11 @@ func (c *GrpcClient) CreatePartition(ctx context.Context, collName string, parti
    </tr>
 </table>
 
-## Return{#return}
+## Return\{#return}
 
 Null
 
-## Errors{#errors}
+## Errors\{#errors}
 
 Any error in the execution of the request. Possible errors are as follows:
 
@@ -64,7 +64,7 @@ Any error in the execution of the request. Possible errors are as follows:
 
 - The call to this API fails.
 
-## Example{#example}
+## Example\{#example}
 
 ```go
 // create partition

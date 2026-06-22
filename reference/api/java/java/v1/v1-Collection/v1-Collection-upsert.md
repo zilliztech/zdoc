@@ -23,7 +23,7 @@ A MilvusClient interface. This method inserts new entities into a specified coll
 R<MutationResult> upsert(UpsertParam requestParam);
 ```
 
-#### UpsertParam{#upsertparam}
+#### UpsertParam\{#upsertparam}
 
 Use the `UpsertParam.Builder` to construct an `UpsertParam` object.
 
@@ -82,7 +82,7 @@ The `UpsertParam.Builder.build()` can throw the following exceptions:
 
 - ParamException: error if the parameter is invalid.
 
-#### Returns{#returns}
+#### Returns\{#returns}
 
 - If the API fails on the server side, it returns the error code and message from the server.
 
@@ -90,7 +90,7 @@ The `UpsertParam.Builder.build()` can throw the following exceptions:
 
 - If the API succeeds, it returns a valid `MutationResult` held by the `R` template. You can use `MutationResultWrapper` to get the returned information.
 
-#### Example{#example}
+#### Example\{#example}
 
 ```java
 import io.milvus.param.*;

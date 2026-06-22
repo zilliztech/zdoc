@@ -23,7 +23,7 @@ This method checks whether a specific partition exists.
 func (c *GrpcClient) HasPartition(ctx context.Context, collName string, partitionName string) (bool, error)
 ```
 
-## Request Parameters{#request-parameters}
+## Request Parameters\{#request-parameters}
 
 <table>
    <tr>
@@ -48,11 +48,11 @@ func (c *GrpcClient) HasPartition(ctx context.Context, collName string, partitio
    </tr>
 </table>
 
-## Return{#return}
+## Return\{#return}
 
  A boolean value indicating whether the specified partition exists.
 
-## Errors{#errors}
+## Errors\{#errors}
 
 Any error in the execution of the request. Possible errors are as follows:
 
@@ -64,7 +64,7 @@ Any error in the execution of the request. Possible errors are as follows:
 
 - The call to this API fails.
 
-## Example{#example}
+## Example\{#example}
 
 ```go
 // has partition

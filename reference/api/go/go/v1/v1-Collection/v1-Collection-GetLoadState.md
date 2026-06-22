@@ -46,11 +46,11 @@ func (c *GrpcClient) GetLoadState(ctx context.Context, collName string, partitio
    </tr>
 </table>
 
-## Return{#return}
+## Return\{#return}
 
 An `entity.LoadState` or an error.
 
-### entity.LoadState{#entityloadstate}
+### entity.LoadState\{#entityloadstate}
 
 This int32 type offers the numeric representation of all possible load states.
 
@@ -63,7 +63,7 @@ const (
 )
 ```
 
-## Errors{#errors}
+## Errors\{#errors}
 
 Any error in the execution of the request. Possible errors are as follows:
 
@@ -73,7 +73,7 @@ Any error in the execution of the request. Possible errors are as follows:
 
 - The call to this API fails.
 
-## Example{#example}
+## Example\{#example}
 
 ```go
 errLoad := mc.LoadCollection(context.Background(), collectionName, true)

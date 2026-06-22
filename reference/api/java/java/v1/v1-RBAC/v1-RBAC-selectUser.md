@@ -23,7 +23,7 @@ MilvusClient interface. This method gets all roles the user has.
 R<SelectUserResponse> selectUser(SelectUserParam requestParam);
 ```
 
-#### SelectUserParam{#selectuserparam}
+#### SelectUserParam\{#selectuserparam}
 
 Use the `SelectUserParam.Builder` to construct a `SelectUserParam` object.
 
@@ -61,7 +61,7 @@ The `SelectUserParam.Builder.build()` can throw the following exceptions:
 
 - ParamException: error if the parameter is invalid.
 
-#### Returns{#returns}
+#### Returns\{#returns}
 
 This method catches all the exceptions and returns an `R<SelectUserResponse>` object.
 
@@ -71,7 +71,7 @@ This method catches all the exceptions and returns an `R<SelectUserResponse>` ob
 
 - If the API succeeds, it returns a valid `SelectUserResponse` held by the `R` template. You can use `SelectUserResponse` to get the user information.
 
-#### Example{#example}
+#### Example\{#example}
 
 ```java
 import io.milvus.param.SelectUserParam;

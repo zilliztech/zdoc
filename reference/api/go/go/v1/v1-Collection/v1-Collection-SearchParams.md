@@ -19,7 +19,7 @@ import Admonition from '@theme/Admonition';
 
 The types on this page implemented the method signatures of the [entity.SearchParam](./v1-Collection-Search#entitysearchparam) interface.
 
-## IndexAUTOINDEXSearchParam{#indexautoindexsearchparam}
+## IndexAUTOINDEXSearchParam\{#indexautoindexsearchparam}
 
 This struct type defines the search parameters of a similarity search within a collection indexed with AUTOINDEX. 
 
@@ -44,7 +44,7 @@ searchParams := entity.NewIndexAUTOINDEXSearchParam(level int)
    </tr>
 </table>
 
-## IndexBinFlatSearchParam{#indexbinflatsearchparam}
+## IndexBinFlatSearchParam\{#indexbinflatsearchparam}
 
 This struct type defines the search parameters of a similarity search within a collection indexed with BIN_FLAT.
 
@@ -71,7 +71,7 @@ searchParams := entity.NewIndexBinFlatSearchParam(nprobe int)
    </tr>
 </table>
 
-## IndexDISKANNSearchParam{#indexdiskannsearchparam}
+## IndexDISKANNSearchParam\{#indexdiskannsearchparam}
 
 This struct type defines the search parameters of a similarity search within a collection indexed with DiskANN.
 
@@ -96,7 +96,7 @@ searchParams := entity.NewIndexDISKANNSearchParam(search_list int)
    </tr>
 </table>
 
-## IndexFlatSearchParam{#indexflatsearchparam}
+## IndexFlatSearchParam\{#indexflatsearchparam}
 
 This struct type defines the search parameters of a similarity search within a collection indexed with FLAT.
 
@@ -106,7 +106,7 @@ You can use the `entity.NewIndexFlatSearchParam()` method to instantiate this ty
 searchParams := entity.NewIndexFlatSearchParam()
 ```
 
-## IndexGPUBruteForceSearchParam{#indexgpubruteforcesearchparam}
+## IndexGPUBruteForceSearchParam\{#indexgpubruteforcesearchparam}
 
 This struct type defines the search parameters of a similarity search within a collection indexed with GPU_BRUTE_FORCE.
 
@@ -116,7 +116,7 @@ You can use the `entity.NewIndexGPUBruteForceSearchParam()` method to instantiat
 searchParams := entity.NewIndexGPUBruteForceSearchParam()
 ```
 
-## IndexGPUCagraSearchParam{#indexgpucagrasearchparam}
+## IndexGPUCagraSearchParam\{#indexgpucagrasearchparam}
 
 This struct type defines the search parameters of a similarity search within a collection indexed with GPU_CAGRA.
 
@@ -169,7 +169,7 @@ searchParams := entity.NewIndexGPUCagraSearchParam(
    </tr>
 </table>
 
-## IndexGPUIvfFlatSearchParam{#indexgpuivfflatsearchparam}
+## IndexGPUIvfFlatSearchParam\{#indexgpuivfflatsearchparam}
 
 This struct type defines the search parameters of a similarity search within a collection indexed with GPU_IVF_FLAT.
 
@@ -196,7 +196,7 @@ searchParams := entity.NewIndexGPUIvfFlatSearchParam(nprobe int)
    </tr>
 </table>
 
-## IndexGPUIvfPQSearchParam{#indexgpuivfpqsearchparam}
+## IndexGPUIvfPQSearchParam\{#indexgpuivfpqsearchparam}
 
 This struct type defines the search parameters of a similarity search within a collection indexed with GPU_IVF_PQ.
 
@@ -223,7 +223,7 @@ searchParams := entity.NewIndexGPUIvfPQSearchParam(nprobe int)
    </tr>
 </table>
 
-## IndexHNSWSearchParam{#indexhnswsearchparam}
+## IndexHNSWSearchParam\{#indexhnswsearchparam}
 
 This struct type defines the search parameters of a similarity search within a collection indexed with HNSW.
 
@@ -248,7 +248,7 @@ searchParams := entity.NewIndexHNSWSearchParam(ef int)
    </tr>
 </table>
 
-## IndexIvfFlatSearchParam{#indexivfflatsearchparam}
+## IndexIvfFlatSearchParam\{#indexivfflatsearchparam}
 
 This struct type defines the search parameters of a similarity search within a collection indexed with IVF_FLAT.
 
@@ -275,7 +275,7 @@ searchParams := entity.NewIndexIvfFlatSearchParam(nprobe int)
    </tr>
 </table>
 
-## IndexIvfPQSearchParam{#indexivfpqsearchparam}
+## IndexIvfPQSearchParam\{#indexivfpqsearchparam}
 
 This struct type defines the search parameters of a similarity search within a collection indexed with IVF_PQ.
 
@@ -302,7 +302,7 @@ searchParams := entity.NewIndexIvfPQSearchParam(nprobe int)
    </tr>
 </table>
 
-## IndexIvfSQ8SearchParam{#indexivfsq8searchparam}
+## IndexIvfSQ8SearchParam\{#indexivfsq8searchparam}
 
 This struct type defines the search parameters of a similarity search within a collection indexed with IVF_SQ8.
 
@@ -329,7 +329,7 @@ searchParams := entity.NewIndexIvfSQ8SearchParam(nprobe int)
    </tr>
 </table>
 
-## IndexSCANNSearchParam{#indexscannsearchparam}
+## IndexSCANNSearchParam\{#indexscannsearchparam}
 
 This struct type defines the search parameters of a similarity search within a collection indexed with SCANN.
 
@@ -360,7 +360,7 @@ searchParams := entity.NewIndexSCANNSearchParam(nprobe int, reorder_k int)
    </tr>
 </table>
 
-## IndexSparseInvertedSearchParam{#indexsparseinvertedsearchparam}
+## IndexSparseInvertedSearchParam\{#indexsparseinvertedsearchparam}
 
 This struct type defines the search parameters of a similarity search within a collection indexed with SPARSE_INVERTED_INDEX.
 
@@ -385,7 +385,7 @@ searchParams := entity.NewIndexSparseInvertedSearchParam(dropRatio int)
    </tr>
 </table>
 
-## IndexSparseWANDSearchParam{#indexsparsewandsearchparam}
+## IndexSparseWANDSearchParam\{#indexsparsewandsearchparam}
 
 This struct type defines the search parameters of a similarity search within a collection indexed with SPARSE_WAND.
 

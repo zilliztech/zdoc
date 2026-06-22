@@ -23,7 +23,7 @@ A MilvusClient interface. This method releases the specified collection and all 
 R<RpcStatus> releaseCollection(ReleaseCollectionParam requestParam);
 ```
 
-#### ReleaseCollectionParam{#releasecollectionparam}
+#### ReleaseCollectionParam\{#releasecollectionparam}
 
 Use the `ReleaseCollectionParam.Builder` to construct a `ReleaseCollectionParam` object.
 
@@ -61,7 +61,7 @@ The `ReleaseCollectionParam.Builder.build()` can throw the following exceptions:
 
 - ParamException: error if the parameter is invalid.
 
-#### Returns{#returns}
+#### Returns\{#returns}
 
 This method catches all the exceptions and returns an `R<RpcStatus>` object.
 
@@ -71,7 +71,7 @@ This method catches all the exceptions and returns an `R<RpcStatus>` object.
 
 - If the API succeeds, it returns `R.Status.Success`.
 
-#### Example{#example}
+#### Example\{#example}
 
 ```java
 import io.milvus.param.*;

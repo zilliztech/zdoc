@@ -1098,7 +1098,7 @@ func (f *Field) WithTypeParams(key string, value string) *Field
 
 You can use the `entity.NewFunction` method to get the concrete implementation of the `entity.Funtion` struct type.
 
-### entity.NewFunction{#entitynewfunction}
+### entity.NewFunction\{#entitynewfunction}
 
 This method creates an empty function. You can chain the following methods to append corresponding parameters to the created field schema.
 
@@ -1112,7 +1112,7 @@ This method creates an empty function. You can chain the following methods to ap
 
 - [WithType](./v2-Collection-CreateCollection#entitytype)
 
-### entity.WithInputFields{#entitywithinputfields}
+### entity.WithInputFields\{#entitywithinputfields}
 
 This method specifies the input field names. The data contained in the specified input field requires conversion to vector representation.
 
@@ -1133,7 +1133,7 @@ func (f *Function) WithInputFields(inputFields ...string) *Function
    </tr>
 </table>
 
-### entity.Name{#entityname}
+### entity.Name\{#entityname}
 
 This method specifies the name of the function.
 
@@ -1154,7 +1154,7 @@ func (f *Function) WithName(name string) *Function
    </tr>
 </table>
 
-### entity.WithOutputFields{#entitywithoutputfields}
+### entity.WithOutputFields\{#entitywithoutputfields}
 
 This method specifies the output field name. Milvus calls the function to create the output field and insert the vector representation of the data in the specified input field.
 
@@ -1175,7 +1175,7 @@ func (f *Function) WithOutputFields(outputFields ...string) *Function
    </tr>
 </table>
 
-### entity.WithParam{#entitywithparam}
+### entity.WithParam\{#entitywithparam}
 
 This method adds an additional parameter to the current function.
 
@@ -1201,7 +1201,7 @@ func (f *Function) WithParam(key string, value any) *Function
    </tr>
 </table>
 
-### entity.Type{#entitytype}
+### entity.Type\{#entitytype}
 
 This method specifies the type of the current function.
 
@@ -1222,7 +1222,7 @@ func (f *Function) WithType(funcType FunctionType) *Function
    </tr>
 </table>
 
-## entity.ConsistencyLevel{#entityconsistencylevel}
+## entity.ConsistencyLevel\{#entityconsistencylevel}
 
 This is a private type that has the following possible values.
 
@@ -1236,7 +1236,7 @@ const (
 )
 ```
 
-## entity.MetricType{#entitymetrictype}
+## entity.MetricType\{#entitymetrictype}
 
 This is a string type that has the following possible values:
 
@@ -1255,7 +1255,7 @@ const (
 )
 ```
 
-## entity.FunctionType{#entityfunctiontype}
+## entity.FunctionType\{#entityfunctiontype}
 
 This is a private type that has the following possible values.
 
@@ -1268,11 +1268,11 @@ const (
 )
 ```
 
-## Return{#return}
+## Return\{#return}
 
 Null
 
-## Example{#example}
+## Example\{#example}
 
 - Quick setup
 

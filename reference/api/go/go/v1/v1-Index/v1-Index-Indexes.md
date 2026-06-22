@@ -19,7 +19,7 @@ import Admonition from '@theme/Admonition';
 
 The struct types on this page implement the method signatures of the `entity.Index` interface.
 
-## entity.GenericIndex{#entitygenericindex}
+## entity.GenericIndex\{#entitygenericindex}
 
 This struct type applies to general purposes without any constraint on the index type. You can use `entity.NewGenericIndex()` to create one for the `client.CreateIndex()` request as follows:
 
@@ -50,7 +50,7 @@ index := entity.NewGenericIndex(name string, it entity.IndexType, params map[str
    </tr>
 </table>
 
-## entity.IndexAUTOINDEX{#entityindexautoindex}
+## entity.IndexAUTOINDEX\{#entityindexautoindex}
 
 This struct type creates an AUTOINDEX for the specified field. You can use `entity.NewIndexAUTOINDEX()` to create one for the `client.CreateIndex()` request as follows:
 
@@ -71,7 +71,7 @@ index := entity.NewIndexAUTOINDEX(metricType MetricType)
    </tr>
 </table>
 
-## entity.IndexBinFlat{#entityindexbinflat}
+## entity.IndexBinFlat\{#entityindexbinflat}
 
 This struct type creates a BIN_FLAT index for the specified field. You can use `entity.NewIndexBinFlat()` to create one for the `client.CreateIndex()` request as follows:
 
@@ -100,7 +100,7 @@ index := entity.NewIndexBinFlat(metricType MetricType, nlist int)
    </tr>
 </table>
 
-## entity.IndexBinIvfFlat{#entityindexbinivfflat}
+## entity.IndexBinIvfFlat\{#entityindexbinivfflat}
 
 This struct type creates a BIN_IVF_FLAT index for the specified field. You can use `entity.NewIndexBinIvfFlat()` to create one for the `client.CreateIndex()` request as follows:
 
@@ -129,7 +129,7 @@ index := entity.NewIndexBinIvfFlat(metricType MetricType, nlist int)
    </tr>
 </table>
 
-## entity.IndexDISKANN{#entityindexdiskann}
+## entity.IndexDISKANN\{#entityindexdiskann}
 
 This struct type creates a DiskANN index for the specified field. You can use `entity.NewIndexDISKANN()` to create one for the `client.CreateIndex()` request as follows:
 
@@ -150,7 +150,7 @@ index := entity.NewIndexDISKANN(metricType MetricType)
    </tr>
 </table>
 
-## entity.IndexFlat{#entityindexflat}
+## entity.IndexFlat\{#entityindexflat}
 
 This struct type creates a FLAT index for the specified field. You can use `entity.NewIndexIvfFlat()` to create one for the `client.CreateIndex()` request as follows:
 
@@ -171,7 +171,7 @@ index := entity.NewIndexFlat(metricType MetricType)
    </tr>
 </table>
 
-## entity.IndexGPUBruteForce{#entityindexgpubruteforce}
+## entity.IndexGPUBruteForce\{#entityindexgpubruteforce}
 
 This struct type creates a GPU_BRUTE_FORCE index for the specified field. You can use `entity.NewIndexGPUBruteForce()` to create one for the `client.CreateIndex()` request as follows:
 
@@ -192,7 +192,7 @@ index := entity.NewIndexGPUBruteForce(metricType MetricType)
    </tr>
 </table>
 
-## entity.IndexGPUCagra{#entityindexgpucagra}
+## entity.IndexGPUCagra\{#entityindexgpucagra}
 
 This struct type creates a GPU_CAGRA index for the specified field. You can use `entity.NewIndexGPUCagra()` to create one for the `client.CreateIndex()` request as follows:
 
@@ -227,7 +227,7 @@ index := entity.NewIndexBinIvfFlat(metricType MetricType, intermediateGraphDegre
    </tr>
 </table>
 
-## entity.IndexGPUIvfFlat{#entityindexgpuivfflat}
+## entity.IndexGPUIvfFlat\{#entityindexgpuivfflat}
 
 This struct type creates a GPU_IVF_FLAT index for the specified field. You can use `entity.NewIndexGPUIvfFlat()` to create one for the `client.CreateIndex()` request as follows:
 
@@ -256,7 +256,7 @@ index := entity.NewIndexGPUIvfFlat(metricType MetricType, nlist int)
    </tr>
 </table>
 
-## entity.IndexGPUIvfPQ{#entityindexgpuivfpq}
+## entity.IndexGPUIvfPQ\{#entityindexgpuivfpq}
 
 This struct type creates a GPU_IVF_PQ index for the specified field. You can use `entity.NewIndexGPUIvfPQ()` to create one for the `client.CreateIndex()` request as follows:
 
@@ -297,7 +297,7 @@ index := entity.NewIndexGPUIvfPQ(metricType MetricType, nlist int, m int, nbits 
    </tr>
 </table>
 
-## entity.IndexHNSW{#entityindexhnsw}
+## entity.IndexHNSW\{#entityindexhnsw}
 
 This struct type creates an HNSW index for the specified field. You can use `entity.NewIndexHNSW()` to create one for the `client.CreateIndex()` request as follows:
 
@@ -332,7 +332,7 @@ index := entity.NewIndexHNSW(metricType MetricType, M int, efConstruction int)
    </tr>
 </table>
 
-## entity.IndexIvfFlat{#entityindexivfflat}
+## entity.IndexIvfFlat\{#entityindexivfflat}
 
 This struct type creates an IVF_FLAT index for the specified field. You can use `entity.NewIndexIvfFlat()` to create one for the `client.CreateIndex()` request as follows:
 
@@ -376,7 +376,7 @@ In addition to the methods defined in the `entity.Index` interface, this struct 
    </tr>
 </table>
 
-## entity.IndexIvfPQ{#entityindexivfpq}
+## entity.IndexIvfPQ\{#entityindexivfpq}
 
 This struct type creates an IVF_PQ index for the specified field. You can use `entity.NewIndexGPUIvfPQ()` to create one for the `client.CreateIndex()` request as follows:
 
@@ -417,7 +417,7 @@ index := entity.NewIndexIvfPQ(metricType MetricType, nlist int, m int, nbits int
    </tr>
 </table>
 
-## entity.IndexIvfSQ8{#entityindexivfsq8}
+## entity.IndexIvfSQ8\{#entityindexivfsq8}
 
 This struct type creates an IVF_SQ8 index for the specified field. You can use `entity.NewIndexIvfSQ8()` to create one for the `client.CreateIndex()` request as follows:
 
@@ -446,7 +446,7 @@ index := entity.NewIndexIvfSQ8(metricType MetricType, nlist int)
    </tr>
 </table>
 
-## entity.IndexSCANN{#entityindexscann}
+## entity.IndexSCANN\{#entityindexscann}
 
 This struct type creates a SCANN index for the specified field. You can use `entity.NewIndexSCANN()` to create one for the `client.CreateIndex()` request as follows:
 
@@ -481,7 +481,7 @@ index := entity.NewIndexSCANN(metricType MetricType, nlist int, with_raw_data bo
    </tr>
 </table>
 
-## entity.IndexSparseInverted{#entityindexsparseinverted}
+## entity.IndexSparseInverted\{#entityindexsparseinverted}
 
 This struct type creates a SPARSE_INVERTED_INDEX index for the specified field. You can use `entity.NewIndexSparseInverted()` to create one for the `client.CreateIndex()` request as follows:
 
@@ -510,7 +510,7 @@ index := entity.NewIndexSparseInverted(metricType MetricType, dropRatio float64)
    </tr>
 </table>
 
-## entity.IndexSparseWAND{#entityindexsparsewand}
+## entity.IndexSparseWAND\{#entityindexsparsewand}
 
 This struct type creates a SPARSE_WAND index for the specified field. You can use `entity.NewIndexSparseWAND()` to create one for the `client.CreateIndex()` request as follows:
 
@@ -539,7 +539,7 @@ index := entity.NewIndexSparseWAND(metricType MetricType, dropRatio float64)
    </tr>
 </table>
 
-## entity.IndexType{#entityindextype}
+## entity.IndexType\{#entityindextype}
 
 This string type defines all applicable index types.
 

@@ -23,7 +23,7 @@ A MilvusClient interface. This method deletes entity(s) based on the primary key
 R<DeleteResponse> delete(DeleteIdsParam requestParam);
 ```
 
-#### DeleteIdsParam{#deleteidsparam}
+#### DeleteIdsParam\{#deleteidsparam}
 
 Use the `DeleteIdsParam.Builder` to construct a `DeleteIdsParam` object.
 
@@ -71,7 +71,7 @@ The `DeleteIdsParam.Builder.build()` can throw the following exceptions:
 
 - ParamException: error if the parameter is invalid.
 
-#### Returns{#returns}
+#### Returns\{#returns}
 
 This method catches all the exceptions and returns an `R<DeleteResponse>` object.
 
@@ -81,7 +81,7 @@ This method catches all the exceptions and returns an `R<DeleteResponse>` object
 
 - If the API succeeds, it returns a valid `DeleteResponse` held by the `R` template.
 
-#### Example{#example}
+#### Example\{#example}
 
 ```java
 import io.milvus.param.highlevel.*;

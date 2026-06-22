@@ -23,7 +23,7 @@ The MilvusClient interface. This method conducts an approximate nearest neighbor
 R<SearchResponse> search(SearchSimpleParam requestParam);
 ```
 
-#### SearchSimpleParam{#searchsimpleparam}
+#### SearchSimpleParam\{#searchsimpleparam}
 
 Use the `SearchSimpleParam.Builder` to construct a `SearchSimpleParam` object.
 
@@ -86,7 +86,7 @@ The `SearchSimpleParam.Builder.build()` can throw the following exceptions:
 
 - ParamException: error if the parameter is invalid.
 
-#### Returns{#returns}
+#### Returns\{#returns}
 
 This method catches all the exceptions and returns an `R<SearchResponse>` object.
 
@@ -96,7 +96,7 @@ This method catches all the exceptions and returns an `R<SearchResponse>` object
 
 - If the API succeeds, it returns a valid `SearchResponse` held by the `R` template.
 
-#### Example{#example}
+#### Example\{#example}
 
 ```java
 import io.milvus.param.*;

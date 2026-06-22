@@ -23,7 +23,7 @@ A MilvusClient interface. This method renames the specified collection.
 R<RpcStatus> renameCollection(RenameCollectionParam requestParam)
 ```
 
-#### RenameCollectionParam{#renamecollectionparam}
+#### RenameCollectionParam\{#renamecollectionparam}
 
 Use the `RenameCollectionParam.Builder` to construct a `RenameCollectionParam` object.
 
@@ -71,7 +71,7 @@ The `RenameCollectionParam.Builder.build()` can throw the following exceptions:
 
 - ParamException: error if the parameter is invalid.
 
-#### Returns{#returns}
+#### Returns\{#returns}
 
 This method catches all the exceptions and returns an `R<RpcStatus>` object.
 
@@ -81,7 +81,7 @@ This method catches all the exceptions and returns an `R<RpcStatus>` object.
 
 - If the API succeeds, it returns `R.Status.Success`.
 
-#### Example{#example}
+#### Example\{#example}
 
 ```java
 import io.milvus.param.*;

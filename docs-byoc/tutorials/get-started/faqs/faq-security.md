@@ -29,17 +29,17 @@ This topic covers potential issues related to data security on the Zilliz Cloud 
 
 
 
-### What is the certificate authority for Zilliz Cloud cluster endpoints?{#what-is-the-certificate-authority-for-zilliz-cloud-cluster-endpoints}
+### What is the certificate authority for Zilliz Cloud cluster endpoints?\{#what-is-the-certificate-authority-for-zilliz-cloud-cluster-endpoints}
 
 Zilliz Cloud uses **Let's Encrypt** to issue and sign the certificates for Zilliz Cloud clusters hosted on AWS, Google Cloud Platform (GCP), and Microsoft Azure. 
 
 Additionally, Zilliz Cloud employs **AWS Certificate Manager (ACM)** to issue and rotate certificates for Zilliz Cloud clusters on AWS.
 
-### What is the certificate validity period for my Zilliz Cloud cluster?{#what-is-the-certificate-validity-period-for-my-zilliz-cloud-cluster}
+### What is the certificate validity period for my Zilliz Cloud cluster?\{#what-is-the-certificate-validity-period-for-my-zilliz-cloud-cluster}
 
 The certificate issued for any of your Zilliz Cloud clusters will be valid for **90 days** from the date of issue and will be automatically rotated **30 days** before the expiration date.
 
-### How can I check whether a certificate expires?{#how-can-i-check-whether-a-certificate-expires}
+### How can I check whether a certificate expires?\{#how-can-i-check-whether-a-certificate-expires}
 
 You can run the following command to check whether a Zilliz Cloud cluster's certificate expires. 
 
@@ -55,10 +55,10 @@ The command output would be similar to the following:
 notAfter=Jul  7 06:58:17 2025 GMT
 ```
 
-### Which TLS versions are supported on Zilliz Cloud?{#which-tls-versions-are-supported-on-zilliz-cloud}
+### Which TLS versions are supported on Zilliz Cloud?\{#which-tls-versions-are-supported-on-zilliz-cloud}
 
 For security reasons, Zilliz Cloud supports only **TLS 1.2** and **TLS 1.2+**. TLS 1.0 and TLS 1.1 are not supported.
 
-### Does Zilliz Cloud support mTLS?{#does-zilliz-cloud-support-mtls}
+### Does Zilliz Cloud support mTLS?\{#does-zilliz-cloud-support-mtls}
 
 Zilliz Cloud currently supports only one-way TLS authentication and does not support two-way TLS authentication.

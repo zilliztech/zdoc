@@ -23,7 +23,7 @@ MilvusClient interface. This method returns an iterator for you to iterate over 
 R<QueryIterator> queryIterator(QueryIteratorParam requestParam);
 ```
 
-#### QueryIteratorParam{#queryiteratorparam}
+#### QueryIteratorParam\{#queryiteratorparam}
 
 Use the `QueryIteratorParam.Builder` to construct a `QueryIteratorParam` object.
 
@@ -111,7 +111,7 @@ The `QueryIteratorParam.Builder.build()` can throw the following exceptions:
 
 - ParamException: error if the parameter is invalid.
 
-#### Returns{#returns}
+#### Returns\{#returns}
 
 This method catches all the exceptions and returns an `R<QueryIterator>` object.
 
@@ -121,7 +121,7 @@ This method catches all the exceptions and returns an `R<QueryIterator>` object.
 
 - If the API succeeds, it returns a valid `QueryIterator` held by the `R` template.
 
-#### QueryIterator{#queryiterator}
+#### QueryIterator\{#queryiterator}
 
 Methods of `QueryIterator`:
 
@@ -146,7 +146,7 @@ Methods of `QueryIterator`:
    </tr>
 </table>
 
-#### Example{#example}
+#### Example\{#example}
 
 ```java
 import io.milvus.param.dml.*;

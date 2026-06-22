@@ -23,7 +23,7 @@ This method synchronously stores entities from memory to storage and returns whe
 func (c *GrpcClient) Flush(ctx context.Context, collName string, async bool, opts ...FlushOption) error
 ```
 
-## Request Parameters{#request-parameters}
+## Request Parameters\{#request-parameters}
 
 <table>
    <tr>
@@ -48,11 +48,11 @@ func (c *GrpcClient) Flush(ctx context.Context, collName string, async bool, opt
    </tr>
 </table>
 
-## Return{#return}
+## Return\{#return}
 
 Null
 
-## Errors{#errors}
+## Errors\{#errors}
 
 Any error in the execution of the request. Possible errors are as follows:
 
@@ -62,7 +62,7 @@ Any error in the execution of the request. Possible errors are as follows:
 
 - The call to this API fails.
 
-## Example{#example}
+## Example\{#example}
 
 ```go
 // flush

@@ -23,7 +23,7 @@ MilvusClient interface. This method drops a partition. Note that this method dro
 R<RpcStatus> dropPartition(DropPartitionParam requestParam);
 ```
 
-#### DropPartitionParam{#droppartitionparam}
+#### DropPartitionParam\{#droppartitionparam}
 
 Use the `DropPartitionParam.Builder` to construct a `DropPartitionParam` object.
 
@@ -66,7 +66,7 @@ The `DropPartitionParam.Builder.build()` can throw the following exceptions:
 
 - ParamException: error if the parameter is invalid.
 
-#### Returns{#returns}
+#### Returns\{#returns}
 
 This method catches all the exceptions and returns an `R<RpcStatus>` object.
 
@@ -76,7 +76,7 @@ This method catches all the exceptions and returns an `R<RpcStatus>` object.
 
 - If the API succeeds, it returns `R.Status.Success`.
 
-#### Example{#example}
+#### Example\{#example}
 
 ```java
 import io.milvus.param.*;

@@ -23,7 +23,7 @@ A MilvusClient interface. This method deletes the credentials of a corresponding
 R<RpcStatus> deleteCredential(DeleteCredentialParam requestParam);
 ```
 
-#### DeleteCredentialParam{#deletecredentialparam}
+#### DeleteCredentialParam\{#deletecredentialparam}
 
 Use the `DeleteCredentialParam.Builder` to construct a `DeleteCredentialParam` object.
 
@@ -56,7 +56,7 @@ The `DeleteCredentialParam.Builder.build()` can throw the following exceptions:
 
 - ParamException: error if the parameter is invalid.
 
-#### Returns{#returns}
+#### Returns\{#returns}
 
 This method catches all the exceptions and returns an `R<RpcStatus>` object.
 
@@ -66,7 +66,7 @@ This method catches all the exceptions and returns an `R<RpcStatus>` object.
 
 - If the API succeeds, it returns `R.Status.Success`.
 
-#### Example{#example}
+#### Example\{#example}
 
 ```java
 import io.milvus.param.*;

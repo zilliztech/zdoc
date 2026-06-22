@@ -417,11 +417,11 @@ The `extra_dict_file` parameter accepts an object with the following fields:
 
 Words added via `extra_dict_file` are merged with the built-in dictionary, so jieba's segmentation algorithm sees them alongside existing entries. Whether any specific term surfaces as a standalone token depends on jieba's probability-weighted DAG selection — a long custom term such as `向量数据库` may still be split into `向量` + `数据库` if those shorter entries have higher frequencies in the built-in dictionary.
 
-## Examples{#examples}
+## Examples\{#examples}
 
 Before applying the analyzer configuration to your collection schema, verify its behavior using the `run_analyzer` method.
 
-### Analyzer configuration{#analyzer-configuration}
+### Analyzer configuration\{#analyzer-configuration}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -496,7 +496,7 @@ nlohmann::json analyzerParams = {
 };
 ```
 
-### Verification using `run_analyzer`{#verification-using-runanalyzer}
+### Verification using `run_analyzer`\{#verification-using-runanalyzer}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -621,7 +621,7 @@ if (!status.IsOk()) {
 }
 ```
 
-### Expected output{#expected-output}
+### Expected output\{#expected-output}
 
 ```python
 ['milvus', '结巴分词器', '中', '文', '测', '试']

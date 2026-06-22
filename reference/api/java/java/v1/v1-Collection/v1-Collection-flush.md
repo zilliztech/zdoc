@@ -29,7 +29,7 @@ A MilvusClient interface. This method triggers a flush action in which all growi
 R<FlushResponse> flush(FlushParam requestParam);
 ```
 
-#### FlushParam{#flushparam}
+#### FlushParam\{#flushparam}
 
 Use the `FlushParam.Builder` to construct a `FlushParam` object.
 
@@ -87,7 +87,7 @@ The `FlushParam.Builder.build()` can throw the following exceptions:
 
 - ParamException: error if the parameter is invalid.
 
-#### Returns{#returns}
+#### Returns\{#returns}
 
 This method catches all the exceptions and returns an `R<FlushResponse>` object.
 
@@ -97,7 +97,7 @@ This method catches all the exceptions and returns an `R<FlushResponse>` object.
 
 - If the API succeeds, it returns a valid `FlushResponse` held by the `R` template. The `FlushResponse` contains a map of the collection name and a corresponding list of flushed segments. The map is internally used by other SDK methods such as `createIndex()`.
 
-#### Example{#example}
+#### Example\{#example}
 
 ```java
 import io.milvus.param.*;
