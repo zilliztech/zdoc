@@ -5,6 +5,7 @@ const {
     escapeMathBraces,
     escapeHtmlElementBraces,
     normalizeNestedPlaintextFences,
+    escapeNonHtmlTags,
     createFenceTracker,
     getFencedCodeRanges,
     createFencedCodeBlock,
@@ -1477,7 +1478,7 @@ class larkDocWriter {
             patchedContent = removeTabsHallucinations(patchedContent);
             patchedContent = unescapeKnownJsxTags(patchedContent);
             patchedContent = this.__escape_currency_dollars(patchedContent);
-            patchedContent = this.__escape_non_html_tags(patchedContent);
+            patchedContent = escapeNonHtmlTags(patchedContent);
             patchedContent = escapeMathBraces(patchedContent);
             patchedContent = escapeHtmlElementBraces(patchedContent);
             let maxIterations = 50; // Prevent infinite loops

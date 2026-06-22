@@ -39,7 +39,7 @@ public List<CreateCollectionReq.StructFieldSchema> getStructFields()
 
 **RETURNS:**
 
-*List\<CreateCollectionReq.StructFieldSchema\>*
+*List&lt;CreateCollectionReq.StructFieldSchema&gt;*
 
 **EXCEPTIONS:**
 
