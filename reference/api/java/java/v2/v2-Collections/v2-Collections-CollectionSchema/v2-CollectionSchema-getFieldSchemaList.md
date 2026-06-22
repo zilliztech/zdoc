@@ -39,7 +39,7 @@ public List<CreateCollectionReq.FieldSchema> getFieldSchemaList()
 
 **RETURNS:**
 
-*List\<CreateCollectionReq.FieldSchema\>*
+*List&lt;CreateCollectionReq.FieldSchema&gt;*
 
 **EXCEPTIONS:**
 
