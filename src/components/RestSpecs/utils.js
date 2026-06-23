@@ -129,6 +129,20 @@ export const chooseParamExample = (param, lang, target) => {
     return param
 }
 
+export const filterSchemaOptions = (arr, lang, target) => {
+    return arr
+        .map((item, originalIndex) => ({ item, originalIndex }))
+        .filter(({ item }) => {
+            const langMatch = !item?.["x-target-lang"] || item["x-target-lang"] === lang
+            const targetMatch = !item?.["x-include-target"] || item["x-include-target"].includes(target)
+            return langMatch && targetMatch
+        })
+}
+
+export const getExampleLabel = (example, key) => {
+    return example?.summary || example?.["x-tab-label"] || `OPTION ${key}`
+}
+
 export const isControlPlane = (endpoint, target = 'zilliz', planeConfig) => {
     const keywords = planeConfig?.controlPlaneKeywords?.[target] || planeConfig?.controlPlaneKeywords?.zilliz || []
     const normalizedEndpoint = endpoint.toLowerCase()
