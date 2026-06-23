@@ -5,6 +5,7 @@ const {
     escapeMathBraces,
     escapeHtmlElementBraces,
     normalizeNestedPlaintextFences,
+    normalizeCodeTagContent,
     escapeNonHtmlTags,
     createFenceTracker,
     getFencedCodeRanges,
@@ -734,7 +735,8 @@ class larkDocWriter {
             const markdown = `${front_matter}\n\n# ${title}` + "\n\nimport DocCardList from '@theme/DocCardList';\n\n<DocCardList />"
             fs.writeFileSync(`${path}/${slug}.md`, markdown)
 
-            sub_pages.forEach((sub_page, index) => {
+            for (let index = 0; index < sub_pages.length; index++) {
+                let sub_page = sub_pages[index]
                 let title = sub_page[0].indexOf('{/') > 0 ? sub_page[0].split('{/')[0].split('## ')[1] : sub_page[0].replace(/^## /g, '').replace(/{#[\w-]+}/g, '').trim()
                 let short_description = sub_page.filter(line => line.length > 0)[1]
                 let slug = sub_page[0].indexOf('{/') > 0 ? /{\/([\w-]+)}/.exec(sub_page[0])[1] : slugify(title, {lower: true, strict: true})
@@ -756,9 +758,10 @@ class larkDocWriter {
                     return line
                 })
 
-                const markdown = `${front_matter}\n\n# ${title}\n\n${short_description}\n\n## Contents\n\n${links.join('\n')}\n\n## FAQs\n\n${sub_page.slice(1).join('\n')}`    
+                let markdown = `${front_matter}\n\n# ${title}\n\n${short_description}\n\n## Contents\n\n${links.join('\n')}\n\n## FAQs\n\n${sub_page.slice(1).join('\n')}`
+                markdown = await this.__mdx_patches(markdown)
                 fs.writeFileSync(`${path}/${slug}.md`, markdown)
-            })
+            }
         }
     }
 
@@ -1304,11 +1307,18 @@ class larkDocWriter {
             return codeBlocks.some(block => pos >= block.start && pos < block.end);
         }
 
+        const codeSpanRegex = /`[^`\n]+`/g;
+        let match;
+        while ((match = codeSpanRegex.exec(content)) !== null) {
+            if (!isInCodeBlock(match.index)) {
+                codeBlocks.push({ start: match.index, end: match.index + match[0].length });
+            }
+        }
+
         // Match URLs, including those containing <, >, [, ], {, }
         const urlRegex = /https?:\/\/[^\s'")]+/g;
         let result = '';
         let lastIndex = 0;
-        let match;
 
         // Find all URLs and process those outside code blocks
         while ((match = urlRegex.exec(content)) !== null) {
@@ -1319,12 +1329,8 @@ class larkDocWriter {
             result += content.slice(lastIndex, urlStart);
 
             if (!isInCodeBlock(urlStart)) {
-                // If the url contains <, [, or {, treat it as an example and encode it
-                if (/[<\[\{]/.test(match[0])) {
-                    result += match[0].replace('http', '<i>http</i>')
-                } else {
-                    result += match[0];
-                }
+                // Keep example URLs intact and let MDX patching handle escaping/safety.
+                result += match[0];
             } else {
                 // Inside code block, leave as is
                 result += match[0];
@@ -1477,6 +1483,7 @@ class larkDocWriter {
             let patchedContent = normalizeNestedPlaintextFences(content);
             patchedContent = removeTabsHallucinations(patchedContent);
             patchedContent = unescapeKnownJsxTags(patchedContent);
+            patchedContent = normalizeCodeTagContent(patchedContent);
             patchedContent = this.__escape_currency_dollars(patchedContent);
             patchedContent = escapeNonHtmlTags(patchedContent);
             patchedContent = escapeMathBraces(patchedContent);

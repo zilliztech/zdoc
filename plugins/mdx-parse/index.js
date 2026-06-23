@@ -21,7 +21,7 @@ module.exports = function (context, options) {
           const { applyMdxPatches } = require('./mdxPatcher');
           
           if (opts.directory) {
-            // Process all MDX files in the specified directory
+            // Process all MDX files in the specified directory recursively
             const fs = require('fs');
             const path = require('path');
             
@@ -29,16 +29,29 @@ module.exports = function (context, options) {
               console.error(`Directory does not exist: ${opts.directory}`);
               process.exit(1);
             }
-            
-            const mdxFiles = fs.readdirSync(opts.directory).filter(file => 
-              path.extname(file) === '.md' || path.extname(file) === '.mdx'
-            );
-            
+
+            function walkDir(dir) {
+              const entries = fs.readdirSync(dir, { withFileTypes: true });
+              const files = [];
+              for (const entry of entries) {
+                const full = path.join(dir, entry.name);
+                if (entry.isDirectory()) {
+                  files.push(...walkDir(full));
+                } else if (entry.isFile() && (entry.name.endsWith('.md') || entry.name.endsWith('.mdx'))) {
+                  files.push(full);
+                }
+              }
+              return files;
+            }
+
+            const mdxFiles = walkDir(opts.directory);
             console.log(`Found ${mdxFiles.length} MDX files in ${opts.directory}`);
-            
-            for (const file of mdxFiles) {
-              const filePath = path.join(opts.directory, file);
-              console.log(`Processing ${filePath}...`);
+
+            let patchedCount = 0;
+            for (const filePath of mdxFiles) {
+              if (opts.verbose) {
+                console.log(`Processing ${filePath}...`);
+              }
               
               const originalContent = fs.readFileSync(filePath, 'utf8');
               const patchedContent = await applyMdxPatches(originalContent);
@@ -46,6 +59,7 @@ module.exports = function (context, options) {
               if (originalContent !== patchedContent) {
                 fs.writeFileSync(filePath, patchedContent);
                 console.log(`Patched: ${filePath}`);
+                patchedCount++;
               } else {
                 if (opts.verbose) {
                   console.log(`No changes needed: ${filePath}`);
@@ -53,7 +67,7 @@ module.exports = function (context, options) {
               }
             }
             
-            console.log('MDX-PARSE directory processing completed.');
+            console.log(`MDX-PARSE directory processing completed. ${patchedCount}/${mdxFiles.length} files patched.`);
             return;
           }
           

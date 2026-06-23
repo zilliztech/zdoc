@@ -89,6 +89,46 @@ function createFencedCodeBlock(content, lang = '', indent = 0) {
     return `${pad}${fence}${lang || ''}\n${body}\n${pad}${fence}\n`;
 }
 
+function transformOutsideFencedCodeBlocks(content, transform) {
+    const lines = content.split('\n');
+    const result = [];
+    let pending = [];
+    const fence = createFenceTracker();
+
+    const flushPending = () => {
+        if (pending.length > 0) {
+            result.push(transform(pending.join('\n')));
+            pending = [];
+        }
+    };
+
+    for (const line of lines) {
+        const before = fence.inCodeBlock;
+        const changed = fence.update(line);
+        const after = fence.inCodeBlock;
+
+        if (changed && !before && after) {
+            flushPending();
+            result.push(line);
+            continue;
+        }
+
+        if (changed && before && !after) {
+            result.push(line);
+            continue;
+        }
+
+        if (fence.inCodeBlock) {
+            result.push(line);
+        } else {
+            pending.push(line);
+        }
+    }
+
+    flushPending();
+    return result.join('\n');
+}
+
 /**
  * Prompt docs sometimes store an entire prompt in a plaintext code block, and the
  * prompt itself contains Markdown examples with ``` fences. A three-backtick
@@ -286,6 +326,52 @@ function escapeMathBraces(content) {
     }
 
     return result.join('\n');
+}
+
+function stripTagsFromCodeContent(inner) {
+    return inner.replace(/<\/?[A-Za-z][^>]*>/g, '');
+}
+
+function escapeCodeContentBraces(inner) {
+    return inner.replace(/(?<!\\)([{}])/g, '\\$1');
+}
+
+function normalizeSingleCodeTag(_match, attrs = '', inner) {
+    const stripped = stripTagsFromCodeContent(inner);
+    const escaped = escapeCodeContentBraces(stripped);
+    return `<code${attrs}>${escaped}</code>`;
+}
+
+function normalizeCodeTagContent(content) {
+    return transformOutsideFencedCodeBlocks(content, segment => {
+        return segment.replace(/<code(\s[^>]*)?>([\s\S]*?)<\/code>/g, normalizeSingleCodeTag);
+    });
+}
+
+function findUnnormalizedCodeTags(content) {
+    const findings = [];
+
+    transformOutsideFencedCodeBlocks(content, segment => {
+        segment.replace(/<code(\s[^>]*)?>([\s\S]*?)<\/code>/g, (match, _attrs = '', inner) => {
+            const stripped = stripTagsFromCodeContent(inner);
+            const hasNestedTags = stripped !== inner;
+            const hasUnescapedBraces = /(?<!\\)[{}]/.test(stripped);
+
+            if (hasNestedTags || hasUnescapedBraces) {
+                findings.push({
+                    snippet: match.replace(/\s+/g, ' ').slice(0, 120),
+                    hasNestedTags,
+                    hasUnescapedBraces,
+                });
+            }
+
+            return match;
+        });
+
+        return segment;
+    });
+
+    return findings;
 }
 
 function escapeBackslashedAngleText(part) {
@@ -509,7 +595,15 @@ function validateMdxStructure(content) {
         errors.push('unrestored XTAG translation placeholders found (placeholder restore failed)');
     }
 
-    // Check 4: tag balance for <Tabs> and <TabItem> (outside code blocks)
+    // Check 4: JSX <code> spans must render literal code text.
+    // MDX treats {placeholder} inside JSX children as JavaScript expressions,
+    // and nested formatting tags like <i> split code text into JSX children.
+    const unnormalizedCodeTags = findUnnormalizedCodeTags(content);
+    if (unnormalizedCodeTags.length > 0) {
+        errors.push(`unnormalized JSX <code> tag(s) found (${unnormalizedCodeTags.length} span(s) with nested tags or unescaped braces)`);
+    }
+
+    // Check 5: tag balance for <Tabs> and <TabItem> (outside code blocks)
     const lines = content.split('\n');
     const fence = createFenceTracker();
     const delta = { Tabs: 0, TabItem: 0 };
@@ -544,6 +638,7 @@ async function applyMdxPatches(content) {
         let patchedContent = normalizeNestedPlaintextFences(content);
         patchedContent = removeTabsHallucinations(patchedContent);
         patchedContent = unescapeKnownJsxTags(patchedContent);
+        patchedContent = normalizeCodeTagContent(patchedContent);
         patchedContent = escapeCurrencyDollars(patchedContent);
         patchedContent = escapeNonHtmlTags(patchedContent);
         patchedContent = escapeMathBraces(patchedContent);
@@ -709,6 +804,8 @@ module.exports = {
     selectCodeFence,
     removeTabsHallucinations,
     unescapeKnownJsxTags,
+    normalizeCodeTagContent,
+    findUnnormalizedCodeTags,
     escapeMathBraces,
     escapeHtmlElementBraces,
     escapeNonHtmlTags,

@@ -211,6 +211,7 @@ const config: Config = {
     ['./plugins/lark-docs', larkDocsConfig],
     './plugins/apifox-docs',
     './plugins/link-checks',
+    './plugins/mdx-parse',
     [
       '@inkeep/cxkit-docusaurus',
       {
