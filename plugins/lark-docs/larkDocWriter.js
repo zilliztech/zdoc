@@ -151,7 +151,7 @@ class larkDocWriter {
             try { childSource = this.__fetch_doc_source('node_token', child.node_token, child.slug) } catch (e) {}
 
             if (childSource?.base_nav_link) {
-                const meta = await this.__is_to_publish(child.title, child.slug)
+                const meta = await this.__is_to_publish(child.title, child.slug, child.node_token)
                 if (!meta.publish) continue
                 const href = childSource.base_nav_link_href
                 if (!href) {
@@ -168,7 +168,7 @@ class larkDocWriter {
             }
 
             if (childSource?.base_nav_ref) {
-                const meta = await this.__is_to_publish(child.title, child.slug)
+                const meta = await this.__is_to_publish(child.title, child.slug, child.node_token)
                 if (!meta.publish) continue
                 const refId = this.__doc_id_for_token(childSource.base_nav_ref_target_token, contentRoot)
                 if (!refId) {
@@ -184,7 +184,7 @@ class larkDocWriter {
                 continue
             }
 
-            const meta = await this.__is_to_publish(child.title, child.slug)
+            const meta = await this.__is_to_publish(child.title, child.slug, child.node_token)
             if (!meta.publish) continue
 
             const slug = child.slug
@@ -260,11 +260,18 @@ class larkDocWriter {
         return this.__base_source_is_publishable(source)
     }
 
-    __fetch_base_source_meta(title, slug) {
+    __fetch_base_source_meta(title, slug, token=null) {
         if (!slug || !fs.existsSync(this.docSourceDir)) return null
         const files = fs.readdirSync(this.docSourceDir).filter(file => file.endsWith('.json'))
-        for (const file of files) {
-            const source = JSON.parse(fs.readFileSync(`${this.docSourceDir}/${file}`, 'utf8'))
+        const sources = files.map(file => JSON.parse(fs.readFileSync(`${this.docSourceDir}/${file}`, 'utf8')))
+        if (token) {
+            const tokenMatch = sources.find(source =>
+                (source.base_record_id || source.base_nav_virtual) &&
+                (source.node_token === token || source.origin_node_token === token || source.token === token)
+            )
+            if (tokenMatch) return tokenMatch
+        }
+        for (const source of sources) {
             if (
                 (source.base_record_id || source.base_nav_virtual) &&
                 source.slug === slug &&
@@ -460,7 +467,7 @@ class larkDocWriter {
             const children = node.children.filter(child => child.obj_type != 'bitable' && child != undefined)
             await forEachAsync(children, async (child, index) => {
                 if (child.has_child) {
-                    const meta = await this.__is_to_publish(child.title, child.slug)
+                    const meta = await this.__is_to_publish(child.title, child.slug, child.node_token)
                     if (meta['publish']) {
                         const token = child.node_token
                         const type = child.node_type
@@ -509,7 +516,7 @@ class larkDocWriter {
                     if (child.base_nav_ref || child.base_nav_link) {
                         return
                     }
-                    const meta = await this.__is_to_publish(child.title, child.slug)
+                    const meta = await this.__is_to_publish(child.title, child.slug, child.node_token)
                     switch (child.slug) {
                         case 'faqs':
                             if (meta['publish']) {
@@ -885,8 +892,17 @@ class larkDocWriter {
 
     async __is_to_publish (title, slug, token=null) {
         if (slug && fs.existsSync(this.docSourceDir)) {
-            const baseSource = this.__fetch_base_source_meta(title, slug)
+            const baseSource = this.__fetch_base_source_meta(title, slug, token)
             if (baseSource) {
+                if (baseSource.base_placement_type === 'section') {
+                    return {
+                        publish: !!baseSource.has_child,
+                        title: baseSource.title || title,
+                        slug,
+                        beta: null,
+                        labels: baseSource.title || title,
+                    }
+                }
                 if (baseSource.base_nav_ref) {
                     return {
                         publish: this.__base_nav_source_is_publishable(baseSource),

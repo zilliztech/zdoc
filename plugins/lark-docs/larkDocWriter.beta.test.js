@@ -81,8 +81,113 @@ function testScraperCopiesBetaToBaseSourceMeta() {
     assert.deepEqual(source.base_beta, ['PRIVATE'])
 }
 
+function testScraperOmitsPublishMetaForSections() {
+    const scraper = new LarkDocScraper('root', 'base:*', 'wiki', 'unused')
+    const source = scraper.__source_base_meta({}, {
+        record_id: 'recSection',
+        base_table_id: 'tblManagement',
+        base_table_name: 'Management',
+        base_record_index: 2,
+        fields: {
+            Docs: '[Scale Cluster](http://Scale Cluster)',
+            'Placement Type': 'section',
+            Progress: 'Deprecated',
+            Targets: ['Zilliz.SaaS'],
+            Beta: ['PUBLIC'],
+        },
+    })
+
+    assert.equal(source.base_placement_type, 'section')
+    assert.equal(Object.prototype.hasOwnProperty.call(source, 'base_status'), false)
+    assert.equal(Object.prototype.hasOwnProperty.call(source, 'base_targets'), false)
+    assert.equal(Object.prototype.hasOwnProperty.call(source, 'base_beta'), false)
+}
+
+async function testScraperKeepsRecordsHiddenBySelectedView() {
+    const scraper = new LarkDocScraper('root', 'base:*', 'wiki', 'unused')
+    scraper.base_app_token = 'baseToken'
+    scraper.__base_view_id = async () => 'viewA'
+
+    scraper.__base_record_page = async (_token, _table, viewId = null) => {
+        const items = viewId
+            ? [{ record_id: 'recCanonical', fields: { Docs: 'Canonical' } }]
+            : [
+                { record_id: 'recCanonical', fields: { Docs: 'Canonical' } },
+                { record_id: 'recSection', fields: { Docs: 'Section', 'Placement Type': 'section' } },
+            ]
+        return items.map((record, index) => ({
+            ...record,
+            base_table_id: 'tblManagement',
+            base_table_name: 'Management',
+            base_table_index: 0,
+            base_record_index: index,
+        }))
+    }
+
+    const records = await scraper.__base_records('token', {
+        table_id: 'tblManagement',
+        name: 'Management',
+        index: 0,
+    })
+
+    assert.deepEqual(records.map(record => record.record_id), ['recCanonical', 'recSection'])
+    assert.equal(records[0].base_record_index, 0)
+    assert.equal(records[1].base_record_index, 1)
+}
+
+async function testSectionSourceWinsOverDeprecatedCanonicalWithSameSlug() {
+    await withTempDir(async dir => {
+        fs.writeFileSync(path.join(dir, 'canonical.json'), JSON.stringify({
+            title: 'Scale Cluster',
+            name: 'Scale Cluster',
+            slug: 'scale-cluster',
+            node_token: 'canonical-token',
+            base_record_id: 'recCanonical',
+            base_targets: ['Zilliz.SaaS'],
+            base_status: 'Deprecated',
+        }, null, 2))
+        fs.writeFileSync(path.join(dir, 'section.json'), JSON.stringify({
+            title: 'Scale Cluster',
+            name: 'Scale Cluster',
+            slug: 'scale-cluster',
+            node_token: 'base:tblManagement:recSection',
+            origin_node_token: 'base:tblManagement:recSection',
+            base_record_id: 'recSection',
+            base_placement_type: 'section',
+            has_child: true,
+        }, null, 2))
+
+        const writer = new LarkDocWriter(
+            'root',
+            'base:*',
+            'default',
+            dir,
+            path.join(dir, 'images'),
+            'zilliz.saas',
+            true,
+            false,
+        )
+
+        try {
+            const meta = await writer.__is_to_publish(
+                'Scale Cluster',
+                'scale-cluster',
+                'base:tblManagement:recSection',
+            )
+
+            assert.equal(meta.publish, true)
+            assert.equal(meta.title, 'Scale Cluster')
+        } finally {
+            writer.destroy()
+        }
+    })
+}
+
 async function run() {
     testScraperCopiesBetaToBaseSourceMeta()
+    testScraperOmitsPublishMetaForSections()
+    await testScraperKeepsRecordsHiddenBySelectedView()
+    await testSectionSourceWinsOverDeprecatedCanonicalWithSameSlug()
     await testBaseSourceMetaPreservesBeta()
     console.log('larkDocWriter beta tests passed')
 }

@@ -421,9 +421,8 @@ class larkDocScraper {
         return selectedView?.view_id || selectedView?.id || null
     }
 
-    async __base_records(token, table) {
+    async __base_record_page(token, table, viewId=null) {
         const records = []
-        const viewId = await this.__base_view_id(token, table)
         let pageToken = null
         do {
             const pageTokenExpr = pageToken ? `&page_token=${pageToken}` : ''
@@ -453,6 +452,32 @@ class larkDocScraper {
             pageToken = jres.data?.has_more ? jres.data.page_token : null
         } while (pageToken)
         return records
+    }
+
+    async __base_records(token, table) {
+        const viewId = await this.__base_view_id(token, table)
+        const allRecords = await this.__base_record_page(token, table)
+        if (!viewId) return allRecords
+
+        const viewRecords = await this.__base_record_page(token, table, viewId)
+        const allById = new Map(allRecords.map(record => [record.record_id, record]))
+        const orderedRecords = []
+        const seen = new Set()
+
+        for (const viewRecord of viewRecords) {
+            const fullRecord = allById.get(viewRecord.record_id) || viewRecord
+            fullRecord.base_record_index = orderedRecords.length
+            orderedRecords.push(fullRecord)
+            seen.add(viewRecord.record_id)
+        }
+
+        for (const record of allRecords) {
+            if (seen.has(record.record_id)) continue
+            record.base_record_index = orderedRecords.length
+            orderedRecords.push(record)
+        }
+
+        return orderedRecords
     }
 
     async __base({ tableFilter=null, force=false } = {}) {
@@ -661,11 +686,13 @@ class larkDocScraper {
     }
 
     __source_base_meta(source, record) {
+        const placementType = this.__placement_type(record)
         source.base_record_id = record.record_id
         source.base_table_id = record.base_table_id
         source.base_table_name = record.base_table_name
         source.base_record_index = record.base_record_index
-        source.base_placement_type = this.__placement_type(record)
+        source.base_placement_type = placementType
+        if (placementType === 'section') return source
         source.base_targets = (record.fields.Targets || record.fields['Publish Targets'] || [])
         source.base_status = record.fields.Status || record.fields.Progress || null
         source.base_labels = record.fields.Labels || null
