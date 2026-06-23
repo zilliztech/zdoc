@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import RestHeader from '../RestHeader';
 import Admonition from '@theme/Admonition'
 import CodeBlock from '@theme/CodeBlock'
-import { textFilter, getBaseUrl, getRandomString, chooseParamExample, isControlPlane } from './utils'
+import { textFilter, getBaseUrl, getRandomString, chooseParamExample, filterSchemaOptions, getExampleLabel, isControlPlane } from './utils'
 import { i18n } from './i18n'
 import styles from'./index.module.css';
 import { cond, set } from 'lodash';
@@ -364,6 +364,7 @@ const Tab = ({ name, id, content, lang, target, selected, setSelected, optionVal
 const AnyOf = ({ name, description, arr, required, lang, target, onValueChange, x_i18n }) => {
     const r = getRandomString(5)
     const translatedDescription = x_i18n?.[lang]?.description ? x_i18n[lang].description : description
+    const validItems = filterSchemaOptions(arr, lang, target)
 
     // Map tab labels to option values for responses and requestBody
     const getOptionValue = (label, index) => {
@@ -374,8 +375,21 @@ const AnyOf = ({ name, description, arr, required, lang, target, onValueChange, 
         return (label ? label : `${i18n[lang]["tab.option"]} ${index + 1}`).toUpperCase()
     }
 
-    const defaultValue = getOptionValue(arr[0].label, 0)
+    const defaultValue = validItems.length > 0 ? getOptionValue(validItems[0].item.label, validItems[0].originalIndex) : ''
     const [ selected, setSelected ] = useState(defaultValue)
+
+    useEffect(() => {
+        if (defaultValue && selected !== defaultValue) {
+            setSelected(defaultValue)
+        }
+        if (onValueChange && defaultValue) {
+            onValueChange(defaultValue)
+        }
+    }, [defaultValue])
+
+    if (validItems.length === 0) {
+        return null
+    }
 
     const setSelectedOption = (value) => {
         setSelected(value)
@@ -395,12 +409,12 @@ const AnyOf = ({ name, description, arr, required, lang, target, onValueChange, 
         </div> }
         <div style={{ margin: (name && name !== 'responses' && name !== 'requestBody') ? '0 0 0 2rem' : '0' }}>
             <div className={styles.tabs} style={{ marginTop: '1rem' }}>
-                {arr.map((item, index) => {
-                    const optionValue = getOptionValue(item.label, index)
+                {validItems.map(({ item, originalIndex }) => {
+                    const optionValue = getOptionValue(item.label, originalIndex)
                     return (
-                        <Tab key={index} 
+                        <Tab key={originalIndex}
                             name={`${name}-${r}`} 
-                            id={index+1} 
+                            id={originalIndex+1}
                             content={item} 
                             lang={lang} 
                             target={target}
@@ -417,6 +431,7 @@ const AnyOf = ({ name, description, arr, required, lang, target, onValueChange, 
 const OneOf = ({ name, description, arr, required, lang, target, onValueChange, x_i18n }) => {
     const r = getRandomString(5)
     const translatedDescription = x_i18n?.[lang]?.description ? x_i18n[lang].description : description
+    const validItems = filterSchemaOptions(arr, lang, target)
 
     // Map tab labels to option values for responses and requestBody
     const getOptionValue = (label, index) => {
@@ -427,8 +442,21 @@ const OneOf = ({ name, description, arr, required, lang, target, onValueChange, 
         return (label ? label : `${i18n[lang]["tab.option"]} ${index + 1}`).toUpperCase()
     }
 
-    const defaultValue = getOptionValue(arr[0].label, 0)
+    const defaultValue = validItems.length > 0 ? getOptionValue(validItems[0].item.label, validItems[0].originalIndex) : ''
     const [ selected, setSelected ] = useState(defaultValue)
+
+    useEffect(() => {
+        if (defaultValue && selected !== defaultValue) {
+            setSelected(defaultValue)
+        }
+        if (onValueChange && defaultValue) {
+            onValueChange(defaultValue)
+        }
+    }, [defaultValue])
+
+    if (validItems.length === 0) {
+        return null
+    }
 
     const setSelectedOption = (value) => {
         setSelected(value)
@@ -448,12 +476,12 @@ const OneOf = ({ name, description, arr, required, lang, target, onValueChange, 
         </div> }
         <div style={{ margin: (name && name !== 'responses' && name !== 'requestBody') ? '0 0 0 2rem' : '0' }}>
             <div className={styles.tabs} style={{ marginTop: '1rem' }}>
-                {arr.map((item, index) => {
-                    const optionValue = getOptionValue(item.label, index)
+                {validItems.map(({ item, originalIndex }) => {
+                    const optionValue = getOptionValue(item.label, originalIndex)
                     return (
-                        <Tab key={index} 
+                        <Tab key={originalIndex}
                             name={`${name}-${r}`} 
-                            id={index+1} 
+                            id={originalIndex+1}
                             content={item} 
                             lang={lang} 
                             target={target}
@@ -489,8 +517,8 @@ const ExampleResponses = ({ examples, lang, target, selectedResponse }) => {
     })
 
     // Handle case where no valid keys are found
-    const defaultValue = validKeys.length > 0 ? (examples[validKeys[0]].summary).toUpperCase() : ''
-    const availableLabels = validKeys.map(key => examples[key].summary.toUpperCase())
+    const defaultValue = validKeys.length > 0 ? getExampleLabel(examples[validKeys[0]], validKeys[0]).toUpperCase() : ''
+    const availableLabels = validKeys.map(key => getExampleLabel(examples[key], key).toUpperCase())
     const [ selected, setSelected ] = useState(defaultValue)
 
     // Only update selection if there are available labels and current selection is invalid
@@ -505,7 +533,7 @@ const ExampleResponses = ({ examples, lang, target, selectedResponse }) => {
                     <Tab key={index} 
                         name={"resExamples" + '-' + r} 
                         id={parseInt(key)} 
-                        content={{ type: 'code', label: examples[key].summary, value: examples[key].value }}
+                        content={{ type: 'code', label: getExampleLabel(examples[key], key), value: examples[key].value }}
                         lang={lang}
                         target={target}
                         selected={selected}
@@ -561,8 +589,8 @@ const ExampleRequests = ({ endpoint, method, headersExample, pathExample, queryE
         })
 
         // Handle case where no valid keys are found
-        const defaultValue = validKeys.length > 0 ? (examples[validKeys[0]].summary).toUpperCase() : ''
-        const availableLabels = validKeys.map(key => examples[key].summary.toUpperCase())
+        const defaultValue = validKeys.length > 0 ? getExampleLabel(examples[validKeys[0]], validKeys[0]).toUpperCase() : ''
+        const availableLabels = validKeys.map(key => getExampleLabel(examples[key], key).toUpperCase())
         const [ selected, setSelected ] = useState(defaultValue)
 
         // Only update selection if there are available labels and current selection is invalid
@@ -572,13 +600,12 @@ const ExampleRequests = ({ endpoint, method, headersExample, pathExample, queryE
 
         return (
             <div className={styles.tabs} style={{ marginTop: '1rem' }}>
-                {validKeys.length === 1 && <CodeBlock className="language-bash" children={`${req} \\\n-d '${JSON.stringify(examples[validKeys[0]].value, null, 4)}'`} /> }
-                {validKeys.length > 1 && validKeys.map((key, index) => {
+                {validKeys.map((key, index) => {
                     return (
-                        <Tab key={index} 
+                        <Tab key={index}
                             name={"reqExamples" + '-' + r}
-                            id={parseInt(key)} 
-                            content={{ type: 'reqs', label: examples[key].summary, value: `${req} \\\n-d '${JSON.stringify(examples[key].value, null, 4)}'` }}
+                            id={parseInt(key)}
+                            content={{ type: 'reqs', label: getExampleLabel(examples[key], key), value: `${req} \\\n-d '${JSON.stringify(examples[key].value, null, 4)}'` }}
                             lang={lang}
                             target={target}
                             selected={selected}
