@@ -272,7 +272,6 @@
                 "oneOf": [
                   {
                     "x-tab-label": "AWS S3",
-                    "x-target-lang": "en-US",
                     "$ref": "#/components/schemas/CreateStorageIntegrationRequestAWS"
                   },
                   {
@@ -341,6 +340,22 @@
                   "x-target-lang": "en-US"
                 },
                 "4": {
+                  "x-tab-label": "Amazon S3",
+                  "x-target-request": "OPTION 1",
+                  "value": {
+                    "projectId": "proj-xxxxxxxxxxxxxxxxxxxxxx",
+                    "name": "analytics-s3",
+                    "description": "S3 bucket for external tables",
+                    "regionId": "aws-cn-northwest-1",
+                    "bucketName": "my-bucket",
+                    "externalCred": {
+                      "roleArn": "arn:aws:iam::123456789012:role/zilliz-bucket-role",
+                      "externalId": "zilliz-external-AbCdEf12345678"
+                    }
+                  },
+                  "x-target-lang": "zh-CN"
+                },
+                "5": {
                   "summary": "Alibaba Cloud OSS",
                   "x-target-request": "OPTION 4",
                   "value": {
@@ -1057,6 +1072,15 @@
                   "x-target-lang": "en-US"
                 },
                 "4": {
+                  "summary": "Amazon S3",
+                  "value": {
+                    "projectId": "proj-xxxxxxxxxxxxxxxxxxxxxx",
+                    "regionId": "aws-cn-northwest-1",
+                    "bucketName": "my-bucket"
+                  },
+                  "x-target-lang": "zh-CN"
+                },
+                "5": {
                   "summary": "Alibaba Cloud OSS",
                   "x-target-lang": "zh-CN",
                   "value": {
@@ -1083,7 +1107,6 @@
                   "anyOf": [
                     {
                       "x-tab-label": "AWS S3",
-                      "x-target-lang": "en-US",
                       "description": "A success response for AWS S3.",
                       "x-i18n": {
                         "zh-CN": {
@@ -1257,8 +1280,7 @@
                         "zillizAccount": "306787409409",
                         "externalId": "zilliz-external-AbCdEf12345678"
                       }
-                    },
-                    "x-target-lang": "en-US"
+                    }
                   },
                   "2": {
                     "summary": "GCP GCS",
