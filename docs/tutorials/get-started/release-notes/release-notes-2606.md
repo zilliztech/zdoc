@@ -31,6 +31,30 @@ import Grid from '@site/src/components/Grid';
 
     <div>
 
+        **2026-06-24**
+
+    </div>
+
+    <div>
+
+        ## Enhancements\{#enhancements}
+
+        We have upgraded our backup system to orchestrate highly customized backup cycles. You can now define backup policies using advanced scheduling options tailored to your business needs.
+
+        - **Multi-Schedule Logic**: Configure and layer multiple independent schedules within a single policy. This allows you to combine different backup frequencies (e.g., hourly during peak times, daily off-peak) to optimize your Recovery Point Objective (RPO).
+
+        - **Advanced Cron Scheduling**: Move beyond basic daily routines. Utilize industry-standard Cron syntax (e.g., `0 9 * * 1-5`) to define intricate backup policies, such as executing backups exclusively at month-end.
+
+        For details, refer to [Schedual Automatic Backups](./schedule-automatic-backups).
+
+    </div>
+
+</Grid>
+
+<Grid columnSize="2" widthRatios="14,85">
+
+    <div>
+
         **2026-06-17**
 
     </div>

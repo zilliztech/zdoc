@@ -26,6 +26,8 @@ import Admonition from '@theme/Admonition';
 
 import Supademo from '@site/src/components/Supademo';
 
+import Procedures from '@site/src/components/Procedures';
+
 # Schedule Automatic Backups
 
 Zilliz Cloud allows you to enable **automatic backups** for your clusters, helping ensure data recovery in case of unexpected issues. Automatic backups apply to the **entire cluster**—backing up individual collections automatically is not supported.
@@ -68,19 +70,33 @@ If you need to copy your backup file to other cloud regions for disaster recover
 
 ### Via web console\{#via-web-console}
 
-When you enable automatic backup on the web console, Zilliz Cloud is configured to the followings by default:
-
-- **Frequency:** Create a backup daily
-
-- **Backup Time:** Between 8 a.m. and 10 a.m. (UTC +08:00)
-
-- **Retention Period:** Retain each backup for 7 days
-
-You can adjust these settings to fit your needs. 
-
 The following demo shows how to enable and configure automatic backups:
 
-<Supademo id="cmcsqvpfk0gns9st8bd3faaje?utm_source=link" title=""  />
+<Supademo id="cmcsqvpfk0gns9st8bd3faaje" title=""  />
+
+<Procedures>
+
+1. Navigate to your target cluster.
+
+1. Click the **Backups** tab.
+
+1. Turn on the switch on the **Backup Policy** card.
+
+1. Configure the backup schedule.
+
+    - **Timezone**: The timezone used to trigger scheduled backup events.
+
+    - **Schedule**: Choose one of the following modes to define the schedule:
+
+        - **Basic**: Select a frequency (weekly or monthly), then choose the day and time.
+
+        - **Advanced**: Define the schedule by entering a cron expression. For details, see [Cron Expression](./cron-expression).
+
+1. (Optional) You can choose to enable the [cross-region backup](./backup-to-other-regions) feature.
+
+1. Click **Save**.
+
+</Procedures>
 
 ### Via RESTful API\{#via-restful-api}
 

@@ -199,7 +199,7 @@ You need to configure the following information of the Dedicated cluster.
 
     - **Query CU**: Select the number of query CUs of the cluster. For organizations created with a personal email address, the maximum query CU size for a Dedicated cluster is 32, even if a payment method is configured.
 
-- (Optional) **Backup Policy**: Decide the backup frequency for the cluster to create. Once enabled, Zilliz Cloud will create a backup immediately after the cluster is created. Subsequent backups will follow the specified schedule.
+- (Optional) **Backup Policy**: Decide the automatic backup policy for the cluster to create. For more details about the backup policy, see [Schedual Automatic Backups](./schedule-automatic-backups).
 
 While the cluster is being created, you need to save the cluster credentials (user and password) which will be shown only once. 
 

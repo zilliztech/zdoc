@@ -73,7 +73,7 @@ Ensure:
 
             - **Data Node**: Handles data mutations and log-to-snapshot conversions for persistence.
 
-    - (Optional) **Backup Policy**: Decide the backup frequency for the cluster to create. Zilliz Cloud will create a backup immediately after the cluster is created. Subsequent backups will follow the specified schedule.
+    - (Optional) **Backup Policy**: Decide the automatic backup policy for the cluster to create. For more details about the backup policy, see [Schedual Automatic Backups](./schedule-automatic-backups).
 
 1. Click **Create Cluster**. 
 

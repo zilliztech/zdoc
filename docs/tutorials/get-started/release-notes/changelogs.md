@@ -8,7 +8,7 @@ last_modified: FALSE
 deprecate_since: FALSE
 beta: FALSE
 notebook: FALSE
-description: "Last updated June 17, 2026 | Cloud"
+description: "Last updated June 24, 2026 | Cloud"
 type: origin
 token: MUL3wkn7Yi3YoFkYk59csf8bnNc
 sidebar_position: 0
@@ -27,7 +27,7 @@ import Grid from '@site/src/components/Grid';
 
 # Changelogs
 
-**Last updated:** June 17, 2026
+**Last updated:** June 24, 2026
 
 <Grid columnSize="2" widthRatios="25,74">
 
@@ -46,6 +46,22 @@ import Grid from '@site/src/components/Grid';
 </Grid>
 
 ## 2026\{#2026}
+
+<Grid columnSize="2" widthRatios="25,74">
+
+    <div>
+
+        **[June 24, 2026](./release-notes-2606#enhancements)**
+
+    </div>
+
+    <div>
+
+        - 💾 You can now orchestrate highly customized backup cycles. For details, see [Schedual Automatic Backups](./schedule-automatic-backups).
+
+    </div>
+
+</Grid>
 
 <Grid columnSize="2" widthRatios="25,74">
 
