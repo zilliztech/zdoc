@@ -348,6 +348,17 @@ function normalizeCodeTagContent(content) {
     });
 }
 
+function htmlCommentToMdxComment(_match, inner) {
+    const safeInner = inner.replace(/\*\//g, '* /');
+    return `{/*${safeInner}*/}`;
+}
+
+function convertHtmlCommentsToMdx(content) {
+    return transformOutsideFencedCodeBlocks(content, segment => {
+        return segment.replace(/<!--([\s\S]*?)-->/g, htmlCommentToMdxComment);
+    });
+}
+
 function findUnnormalizedCodeTags(content) {
     const findings = [];
 
@@ -670,6 +681,7 @@ async function applyMdxPatches(content) {
         patchedContent = removeTabsHallucinations(patchedContent);
         patchedContent = unescapeKnownJsxTags(patchedContent);
         patchedContent = normalizeCodeTagContent(patchedContent);
+        patchedContent = convertHtmlCommentsToMdx(patchedContent);
         patchedContent = escapeCurrencyDollars(patchedContent);
         patchedContent = escapeNonHtmlTags(patchedContent);
         patchedContent = escapeMathBraces(patchedContent);
@@ -836,6 +848,7 @@ module.exports = {
     removeTabsHallucinations,
     unescapeKnownJsxTags,
     normalizeCodeTagContent,
+    convertHtmlCommentsToMdx,
     findUnnormalizedCodeTags,
     findMalformedProceduresBlocks,
     escapeMathBraces,

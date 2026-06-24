@@ -3,6 +3,7 @@ const {
     applyMdxPatches,
     validateMdxStructure,
     normalizeCodeTagContent,
+    convertHtmlCommentsToMdx,
     findMalformedProceduresBlocks,
 } = require('./mdxPatcher');
 const LarkDocWriter = require('../lark-docs/larkDocWriter');
@@ -11,6 +12,7 @@ const failingCodeSpan = '<p><code><i>http</i>s://{cluster-id}.serverless.{region
 const normalizedCodeSpan = '<p><code>https://\\{cluster-id\\}.serverless.\\{region\\}.vectordb.zillizcloud.com</code></p>';
 const backslashedJavaTypes = '- **getResults** (*List\\<QueryResp.QueryResult\\>*)\n\n- **fields** (*Map\\<String,Object\\>*)';
 const faqHeading = '### Can I leave my organization?{#can-i-leave-my-organization}';
+const sdkMetadataComment = '<!-- category: Authentication; action: CREATE; addedSince: v3.0.x -->';
 
 async function compileToString(content) {
     const { compile } = await import('@mdx-js/mdx');
@@ -42,6 +44,29 @@ async function testApplyMdxPatchesAvoidsRuntimeExpressions() {
     assert.ok(!compiled.includes('cluster - id'));
     assert.ok(!compiled.includes(' region,'));
     assert.ok(compiled.includes('https://{cluster-id}.serverless.{region}.vectordb.zillizcloud.com'));
+}
+
+async function testConvertHtmlCommentsToMdx() {
+    assert.equal(
+        convertHtmlCommentsToMdx(sdkMetadataComment),
+        '{/* category: Authentication; action: CREATE; addedSince: v3.0.x */}',
+    );
+}
+
+async function testConvertHtmlCommentsPreservesFencedCodeBlocks() {
+    const fenced = [
+        '```html',
+        sdkMetadataComment,
+        '```',
+    ].join('\n');
+
+    assert.equal(convertHtmlCommentsToMdx(fenced), fenced);
+}
+
+async function testApplyMdxPatchesConvertsSdkMetadataComments() {
+    const patched = await applyMdxPatches(sdkMetadataComment);
+    assert.equal(patched, '{/* category: Authentication; action: CREATE; addedSince: v3.0.x */}');
+    await compileToString(patched);
 }
 
 async function testValidationGuardFlagsUnnormalizedCodeTags() {
@@ -82,6 +107,13 @@ async function testLarkDocWriterUsesSharedNormalization() {
     assert.equal(patched, normalizedCodeSpan);
 }
 
+async function testLarkDocWriterConvertsSdkMetadataComments() {
+    const writer = new LarkDocWriter('', '', 'javaSidebar');
+    const patched = await writer.__mdx_patches(sdkMetadataComment);
+    assert.equal(patched, '{/* category: Authentication; action: CREATE; addedSince: v3.0.x */}');
+    await compileToString(patched);
+}
+
 async function testApplyMdxPatchesConvertsBackslashedJavaTypesToEntities() {
     const patched = await applyMdxPatches(backslashedJavaTypes);
     assert.ok(patched.includes('List&lt;QueryResp.QueryResult&gt;'));
@@ -109,9 +141,13 @@ async function run() {
     await testNormalizeCodeTagContent();
     await testNormalizationPreservesFencedCodeBlocks();
     await testApplyMdxPatchesAvoidsRuntimeExpressions();
+    await testConvertHtmlCommentsToMdx();
+    await testConvertHtmlCommentsPreservesFencedCodeBlocks();
+    await testApplyMdxPatchesConvertsSdkMetadataComments();
     await testValidationGuardFlagsUnnormalizedCodeTags();
     await testValidationGuardFlagsMalformedProceduresBlocks();
     await testLarkDocWriterUsesSharedNormalization();
+    await testLarkDocWriterConvertsSdkMetadataComments();
     await testApplyMdxPatchesConvertsBackslashedJavaTypesToEntities();
     await testLarkDocWriterConvertsBackslashedJavaTypesToEntities();
     await testFaqHeadingsArePatchable();

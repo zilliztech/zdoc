@@ -6,6 +6,7 @@ const {
     escapeHtmlElementBraces,
     normalizeNestedPlaintextFences,
     normalizeCodeTagContent,
+    convertHtmlCommentsToMdx,
     escapeNonHtmlTags,
     createFenceTracker,
     getFencedCodeRanges,
@@ -1511,6 +1512,7 @@ class larkDocWriter {
             patchedContent = removeTabsHallucinations(patchedContent);
             patchedContent = unescapeKnownJsxTags(patchedContent);
             patchedContent = normalizeCodeTagContent(patchedContent);
+            patchedContent = convertHtmlCommentsToMdx(patchedContent);
             patchedContent = this.__escape_currency_dollars(patchedContent);
             patchedContent = escapeNonHtmlTags(patchedContent);
             patchedContent = escapeMathBraces(patchedContent);
