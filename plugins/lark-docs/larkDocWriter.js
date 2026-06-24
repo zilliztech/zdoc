@@ -170,6 +170,17 @@ class larkDocWriter {
             if (childSource?.base_nav_ref) {
                 const meta = await this.__is_to_publish(child.title, child.slug, child.node_token)
                 if (!meta.publish) continue
+                const targetSource = this.__fetch_doc_source_by_any_token(childSource.base_nav_ref_target_token)
+                if (!targetSource) {
+                    console.warn(`[sidebar] Cannot resolve ref target for "${child.title}" (${childSource.node_token})`)
+                    continue
+                }
+                const targetMeta = await this.__is_to_publish(
+                    targetSource.title || targetSource.name,
+                    targetSource.slug,
+                    targetSource.node_token || targetSource.origin_node_token || targetSource.token,
+                )
+                if (!targetMeta.publish) continue
                 const refId = this.__doc_id_for_token(childSource.base_nav_ref_target_token, contentRoot)
                 if (!refId) {
                     console.warn(`[sidebar] Cannot resolve ref target for "${child.title}" (${childSource.node_token})`)

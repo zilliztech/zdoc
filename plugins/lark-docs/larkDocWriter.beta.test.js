@@ -183,11 +183,75 @@ async function testSectionSourceWinsOverDeprecatedCanonicalWithSameSlug() {
     })
 }
 
+async function testSidebarSkipsRefToTargetFilteredOutForCurrentTarget() {
+    await withTempDir(async dir => {
+        fs.writeFileSync(path.join(dir, 'root.json'), JSON.stringify({
+            title: 'Root',
+            slug: 'root',
+            node_token: 'root',
+            has_child: true,
+            children: [
+                {
+                    title: 'Connect for On-Demand Search',
+                    slug: 'connect-for-on-demand-search',
+                    node_token: 'ref-token',
+                    has_child: false,
+                },
+            ],
+        }, null, 2))
+        fs.writeFileSync(path.join(dir, 'ref.json'), JSON.stringify({
+            title: 'Connect for On-Demand Search',
+            name: 'Connect for On-Demand Search',
+            slug: 'connect-for-on-demand-search',
+            node_token: 'ref-token',
+            base_record_id: 'recRef',
+            base_nav_ref: true,
+            base_nav_ref_target_token: 'target-token',
+            base_targets: ['Zilliz.PaaS'],
+            base_status: 'Draft',
+        }, null, 2))
+        fs.writeFileSync(path.join(dir, 'target.json'), JSON.stringify({
+            title: 'Connect for On-Demand Search',
+            name: 'Connect for On-Demand Search',
+            slug: 'connect-for-on-demand-search',
+            node_token: 'target-token',
+            base_record_id: 'recTarget',
+            base_targets: ['Zilliz.SaaS'],
+            base_status: 'Draft',
+            blocks: {
+                items: [
+                    { block_type: 1, page: {}, children: ['text-block'] },
+                    { block_id: 'text-block', block_type: 2, text: { elements: [{ text_run: { content: 'body' } }] } },
+                ],
+            },
+        }, null, 2))
+
+        const writer = new LarkDocWriter(
+            'root',
+            'base:*',
+            'default',
+            dir,
+            path.join(dir, 'images'),
+            'zilliz.paas',
+            true,
+            false,
+        )
+
+        try {
+            const items = await writer.generate_sidebar('docs-byoc/tutorials', 'docs-byoc')
+            assert.deepEqual(items, [])
+        } finally {
+            writer.destroy()
+        }
+    })
+}
+
 async function run() {
     testScraperCopiesBetaToBaseSourceMeta()
     testScraperOmitsPublishMetaForSections()
     await testScraperKeepsRecordsHiddenBySelectedView()
     await testSectionSourceWinsOverDeprecatedCanonicalWithSameSlug()
+    await testSidebarSkipsRefToTargetFilteredOutForCurrentTarget()
     await testBaseSourceMetaPreservesBeta()
     console.log('larkDocWriter beta tests passed')
 }
