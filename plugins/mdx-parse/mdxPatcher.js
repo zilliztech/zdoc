@@ -374,6 +374,28 @@ function findUnnormalizedCodeTags(content) {
     return findings;
 }
 
+function findMalformedProceduresBlocks(content) {
+    const findings = [];
+
+    transformOutsideFencedCodeBlocks(content, segment => {
+        const blockPattern = /<Procedures(?:\s[^>]*)?>\s*\n([\s\S]*?)\n\s*<\/Procedures>/g;
+        let match;
+        while ((match = blockPattern.exec(segment)) !== null) {
+            const body = match[1];
+            const firstContentLine = body.split('\n').find(line => line.trim() !== '');
+            if (!firstContentLine || !/^\s*1\.\s+/.test(firstContentLine)) {
+                findings.push({
+                    snippet: body.trim().split('\n').slice(0, 3).join(' ').slice(0, 120),
+                });
+            }
+        }
+
+        return segment;
+    });
+
+    return findings;
+}
+
 function escapeBackslashedAngleText(part) {
     // Markdown-style escapes such as List\<QueryResp.QueryResult\> can still be
     // parsed as MDX JSX by Docusaurus. Convert Java/C# type-looking spans to
@@ -566,6 +588,7 @@ function escapeHtmlElementBraces(content) {
  *   1. Prose inserted between </TabItem> and <TabItem>/<\/Tabs> (LLM hallucination)
  *   2. Unbalanced <Tabs>/<\/Tabs> or <TabItem>/<\/TabItem> tags (LLM dropped closing tags)
  *   3. Backslash-escaped known JSX tags (e.g. \<Tabs> → compile succeeds but SSG crashes)
+ *   4. <Procedures> blocks whose first real child is not an ordered list
  *
  * @param {string} content
  * @returns {string[]} array of error descriptions; empty array = structurally valid
@@ -603,7 +626,15 @@ function validateMdxStructure(content) {
         errors.push(`unnormalized JSX <code> tag(s) found (${unnormalizedCodeTags.length} span(s) with nested tags or unescaped braces)`);
     }
 
-    // Check 5: tag balance for <Tabs> and <TabItem> (outside code blocks)
+    // Check 5: <Procedures> must wrap an ordered list. The React component can
+    // tolerate MDX whitespace wrappers, but prose before the list still breaks
+    // the intended procedure layout and should be retranslated/repaired.
+    const malformedProceduresBlocks = findMalformedProceduresBlocks(content);
+    if (malformedProceduresBlocks.length > 0) {
+        errors.push(`<Procedures> block(s) without a leading ordered list found (${malformedProceduresBlocks.length} block(s))`);
+    }
+
+    // Check 6: tag balance for <Tabs> and <TabItem> (outside code blocks)
     const lines = content.split('\n');
     const fence = createFenceTracker();
     const delta = { Tabs: 0, TabItem: 0 };
@@ -806,6 +837,7 @@ module.exports = {
     unescapeKnownJsxTags,
     normalizeCodeTagContent,
     findUnnormalizedCodeTags,
+    findMalformedProceduresBlocks,
     escapeMathBraces,
     escapeHtmlElementBraces,
     escapeNonHtmlTags,

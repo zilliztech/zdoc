@@ -3,6 +3,7 @@ const {
     applyMdxPatches,
     validateMdxStructure,
     normalizeCodeTagContent,
+    findMalformedProceduresBlocks,
 } = require('./mdxPatcher');
 const LarkDocWriter = require('../lark-docs/larkDocWriter');
 
@@ -51,6 +52,30 @@ async function testValidationGuardFlagsUnnormalizedCodeTags() {
     assert.ok(!normalizedErrors.some(error => error.includes('unnormalized JSX <code> tag')));
 }
 
+async function testValidationGuardFlagsMalformedProceduresBlocks() {
+    const malformed = [
+        '<Procedures>',
+        '',
+        'Intro text that should not be inside Procedures.',
+        '',
+        '1. Do the thing.',
+        '',
+        '</Procedures>',
+    ].join('\n');
+    const valid = [
+        '<Procedures>',
+        '',
+        '1. Do the thing.',
+        '',
+        '</Procedures>',
+    ].join('\n');
+
+    assert.equal(findMalformedProceduresBlocks(malformed).length, 1);
+    assert.equal(findMalformedProceduresBlocks(valid).length, 0);
+    assert.ok(validateMdxStructure(malformed).some(error => error.includes('<Procedures> block')));
+    assert.ok(!validateMdxStructure(valid).some(error => error.includes('<Procedures> block')));
+}
+
 async function testLarkDocWriterUsesSharedNormalization() {
     const writer = new LarkDocWriter('', '', 'pythonSidebar');
     const patched = await writer.__mdx_patches(failingCodeSpan);
@@ -85,6 +110,7 @@ async function run() {
     await testNormalizationPreservesFencedCodeBlocks();
     await testApplyMdxPatchesAvoidsRuntimeExpressions();
     await testValidationGuardFlagsUnnormalizedCodeTags();
+    await testValidationGuardFlagsMalformedProceduresBlocks();
     await testLarkDocWriterUsesSharedNormalization();
     await testApplyMdxPatchesConvertsBackslashedJavaTypesToEntities();
     await testLarkDocWriterConvertsBackslashedJavaTypesToEntities();

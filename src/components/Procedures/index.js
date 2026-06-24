@@ -8,11 +8,12 @@ function hasContent(description) {
 }
 
 export default function Procedures({ children, active = true }) {
-    if (children.type !== 'ol') throw new Error('Procedures component must have ordered list as children');
+    children = React.Children.toArray(children).find((child) => React.isValidElement(child) && child.type === 'ol');
+    if (!children) throw new Error('Procedures component must have ordered list as children');
 
-    children = children.props.children.filter((child) => child !== '\n');
+    children = React.Children.toArray(children.props.children).filter((child) => React.isValidElement(child) && child.type === 'li');
     const steps = children.map((child) => {
-        const stepChildren = child.props.children.filter((step) => step !== '\n');
+        const stepChildren = React.Children.toArray(child.props.children);
 
         // Extract title from the first paragraph element
         let title = '';
