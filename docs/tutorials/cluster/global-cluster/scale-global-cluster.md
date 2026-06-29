@@ -35,7 +35,7 @@ This page explains the scaling behavior for global clusters and how to scale eac
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This feature is available only to <strong>Dedicated</strong> clusters in a <strong>Business Critical</strong> project.</p>
+This feature is available only to **Dedicated** clusters in a **Business Critical** project.
 
 </Admonition>
 
@@ -69,15 +69,7 @@ The following table provides an overview of the supported scaling behavior on a 
 
 Query CU scaling is controlled at the primary cluster level. When you change the number of query CU on the primary, Zilliz Cloud automatically applies the new query CU count to all secondary clusters. You cannot scale a secondary cluster's query CU independently — it always matches the primary.
 
-Scaling the query CU of a primary cluster follows the same procedure as a regular Dedicated cluster. For details, see:
-
-- Manual Scaling (web console)
-
-- Dynamic Scaling(web console)
-
-- Scheduled Scaling(web console)
-
--  [Modify Global Cluster CU](/reference/restful/modify-global-cluster-cu-v2) (RESTful API)
+Scaling the query CU of a primary cluster follows the same procedure as a regular Dedicated cluster. For details, see [Scale Query CU](./scale-query-cu).
 
 ### Considerations\{#considerations}
 
@@ -120,15 +112,7 @@ The following is an example of configuration replicas for each cluster.
    </tr>
 </table>
 
-Scaling the replica of a primary or secondary cluster follows the same procedure as a regular Dedicated cluster. For details, see:
-
-- Manual Scaling (web console)
-
-- Dynamic Scaling (web console)
-
-- Scheduled Scaling (web console)
-
-- [Modify Cluster Replica](/reference/restful/modify-cluster-replica-v2) (RESTful API)
+Scaling the replica of a primary or secondary cluster follows the same procedure as a regular Dedicated cluster. For details, see [Scale Replica](./manage-replica).
 
 ### Considerations\{#considerations}
 
