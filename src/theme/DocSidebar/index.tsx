@@ -6,7 +6,6 @@ import type DocSidebarType from '@theme/DocSidebar';
 import type {WrapperProps} from '@docusaurus/types';
 import type {PropSidebarItem, PropSidebarItemCategory} from '@docusaurus/plugin-content-docs';
 import {findFirstSidebarItemLink, useAllDocsData} from '@docusaurus/plugin-content-docs/client';
-// @ts-expect-error — generated CJS sidebar module, no type declarations
 import guidesSidebarRaw from '@site/config/generated/guides.sidebar';
 import {
   Rocket,

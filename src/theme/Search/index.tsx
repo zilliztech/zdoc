@@ -6,6 +6,7 @@ import SearchResults from './SearchResults';
 import {useSearch} from './useSearch';
 import {useRecentSearches} from './useRecentSearches';
 import {highlightMatches, groupBySection, type SearchResult} from './utils';
+import {DEFAULT_CHAT_ENDPOINT, getSearchEndpoint} from '../../components/ChatPanel/endpoints';
 import styles from './styles.module.css';
 
 interface Props {
@@ -25,8 +26,8 @@ export default function SearchModal({onClose}: Props): ReactNode {
   const {siteConfig} = useDocusaurusContext();
   const location = useLocation();
 
-  const chatEndpoint = (siteConfig.customFields?.chatEndpoint as string) || '/api/chat';
-  const searchEndpoint = chatEndpoint.replace(/\/$/, '').replace(/\/chat$/, '') + '/search';
+  const chatEndpoint = (siteConfig.customFields?.chatEndpoint as string) || DEFAULT_CHAT_ENDPOINT;
+  const searchEndpoint = getSearchEndpoint(chatEndpoint);
 
   const {query, setQuery, results, loading} = useSearch(searchEndpoint);
   const {recent, add: addRecent, remove: removeRecent, clear: clearRecent} = useRecentSearches();

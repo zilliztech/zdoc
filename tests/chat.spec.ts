@@ -1,10 +1,10 @@
 import {expect, test} from '@playwright/test';
 
 const requestIdPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-const expectedSseEvents = ['session', 'agent', 'tool-call', 'delta', 'confidence', 'sources', 'grounding', 'done'];
+const expectedSseEvents = ['connected', 'session_id', 'chunk', 'stream_event', 'completed', 'done'];
 
-function sse(events: Array<{event: string; data: unknown}>): string {
-  return events.map(({event, data}) => `event: ${event}\ndata: ${JSON.stringify(data)}\n\n`).join('');
+function sse(events: unknown[]): string {
+  return events.map(data => `data: ${typeof data === 'string' ? data : JSON.stringify(data)}\n\n`).join('');
 }
 
 test('streams a correlated chat response with safe console debug logs', async ({page}) => {
@@ -30,7 +30,7 @@ test('streams a correlated chat response with safe console debug logs', async ({
     });
   });
 
-  await page.route('**/api/chat', async route => {
+  await page.route('**/api/chat/stream', async route => {
     chatRequestCount++;
     const request = route.request();
     capturedRequestId = request.headers()['x-request-id'];
@@ -38,13 +38,11 @@ test('streams a correlated chat response with safe console debug logs', async ({
 
     expect(capturedRequestId).toMatch(requestIdPattern);
     expect(capturedBody).toMatchObject({
-      messages: [{role: 'user', content: prompt}],
-      pageUrl: '/docs/home',
-      userId: expect.any(String),
+      message: prompt,
+      agent_config: {agent_config_code: 'zilliz-website-assistant'},
+      streaming_mode: 'token',
+      user_id: expect.any(String),
     });
-    if (capturedBody.pageContext !== undefined) {
-      expect(typeof capturedBody.pageContext).toBe('string');
-    }
 
     await route.fulfill({
       status: 200,
@@ -53,14 +51,14 @@ test('streams a correlated chat response with safe console debug logs', async ({
         'X-Request-ID': capturedRequestId!,
       },
       body: sse([
-        {event: 'session', data: {sessionId: serverSessionId, requestId: capturedRequestId}},
-        {event: 'agent', data: {type: 'general', name: 'Docs Agent'}},
-        {event: 'tool-call', data: {tool: 'search_knowledge', count: 1}},
-        {event: 'delta', data: {text: assistantAnswer}},
-        {event: 'confidence', data: {level: 'high', retrieval_score: 0.98}},
-        {event: 'sources', data: {sources: [{title: 'Deterministic Source', url: '/docs/home', section: 'Guide', score: 0.98}]}},
-        {event: 'grounding', data: {citations: [{paragraphIndex: 0, sourceIndices: [0]}]}},
-        {event: 'done', data: {stop_reason: 'end_turn'}},
+        {type: 'connected', session_id: 'pending_1779357600.123456', permission_mode: 'bypassPermissions'},
+        {type: 'session_id', session_id: serverSessionId, timestamp: '2026-05-21T10:00:00.000000'},
+        {type: 'chunk', data: {type: 'tool_use', id: 'toolu_abc123', name: 'mcp__inkeep-mcp__search', input: {query: 'Zilliz Cloud pricing'}}},
+        {type: 'stream_event', event_type: 'block_start', block_index: 0, block_type: 'text', delta: null},
+        {type: 'stream_event', event_type: 'delta', block_index: 0, block_type: null, delta: assistantAnswer},
+        {type: 'stream_event', event_type: 'block_stop', block_index: 0, block_type: null, delta: null},
+        {type: 'completed', session_id: serverSessionId, timestamp: '2026-05-21T10:00:02.000000'},
+        '[DONE]',
       ]),
     });
   });
@@ -73,7 +71,6 @@ test('streams a correlated chat response with safe console debug logs', async ({
 
   await expect(page.getByText(prompt)).toBeVisible();
   await expect(page.getByText(assistantAnswer)).toBeVisible();
-  await expect(page.getByText('Deterministic Source')).toBeVisible();
   await expect(page.getByRole('button', {name: 'Helpful', exact: true})).toBeVisible();
   await expect(page.getByRole('button', {name: 'Not helpful', exact: true})).toBeVisible();
 
@@ -94,7 +91,7 @@ test('streams a correlated chat response with safe console debug logs', async ({
   const completedDebug = debugPayloads.find(payload => payload.event === 'chat.client.completed');
   const eventCounts = completedDebug?.eventCounts as Record<string, number>;
   for (const eventName of expectedSseEvents) {
-    expect(eventCounts[eventName]).toBe(1);
+    expect(eventCounts[eventName]).toBeGreaterThanOrEqual(1);
   }
 
   const allDebugValues = await Promise.all(debugMessagePromises);
@@ -104,6 +101,6 @@ test('streams a correlated chat response with safe console debug logs', async ({
   expect(serializedDebug).toContain('chat.client.sse.event');
   expect(serializedDebug).not.toContain(prompt);
   expect(serializedDebug).not.toContain(assistantAnswer);
-  expect(serializedDebug).not.toContain(capturedBody!.userId as string);
+  expect(serializedDebug).not.toContain(capturedBody!.user_id as string);
   expect(serializedDebug).not.toContain(serverSessionId);
 });

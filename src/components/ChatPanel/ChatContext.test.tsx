@@ -8,12 +8,12 @@ vi.mock('@docusaurus/router', () => ({
 
 import {ChatProvider, useChatContext} from './ChatContext';
 
-function sseResponse(events: Array<{event: string; data: unknown}>): Response {
+function sseResponse(events: unknown[]): Response {
   const encoder = new TextEncoder();
   const stream = new ReadableStream({
     start(controller) {
-      for (const evt of events) {
-        controller.enqueue(encoder.encode(`event: ${evt.event}\ndata: ${JSON.stringify(evt.data)}\n\n`));
+      for (const data of events) {
+        controller.enqueue(encoder.encode(`data: ${typeof data === 'string' ? data : JSON.stringify(data)}\n\n`));
       }
       controller.close();
     },
@@ -26,7 +26,7 @@ function sseResponse(events: Array<{event: string; data: unknown}>): Response {
 
 function wrapper(debugDefault = false) {
   return function Wrapper({children}: {children: React.ReactNode}) {
-    return <ChatProvider chatEndpoint="/api/chat" debugDefault={debugDefault}>{children}</ChatProvider>;
+    return <ChatProvider chatEndpoint="/api/chat/stream" debugDefault={debugDefault}>{children}</ChatProvider>;
   };
 }
 
@@ -42,11 +42,14 @@ describe('ChatProvider request debugging', () => {
       getRandomValues: (arr: Uint8Array) => arr.fill(1),
     });
     vi.stubGlobal('fetch', vi.fn(() => Promise.resolve(sseResponse([
-      {event: 'session', data: {sessionId: 'server-session-1', requestId: 'client-request-1'}},
-      {event: 'notice', data: 'short secret notice'},
-      {event: 'metadata', data: {detail: 'nested secret payload'}},
-      {event: 'delta', data: {text: 'assistant secret answer'}},
-      {event: 'done', data: {stop_reason: 'end_turn'}},
+      {type: 'connected', session_id: 'pending_1', permission_mode: 'bypassPermissions'},
+      {type: 'session_id', session_id: 'server-session-1', timestamp: '2026-05-21T10:00:00.000000'},
+      {type: 'chunk', data: {type: 'tool_use', id: 'toolu_1', name: 'mcp__inkeep-mcp__search', input: {query: 'short secret notice'}}},
+      {type: 'stream_event', event_type: 'block_start', block_index: 0, block_type: 'text', delta: null},
+      {type: 'stream_event', event_type: 'delta', block_index: 0, block_type: null, delta: 'assistant secret answer'},
+      {type: 'stream_event', event_type: 'block_stop', block_index: 0, block_type: null, delta: null},
+      {type: 'completed', session_id: 'server-session-1', timestamp: '2026-05-21T10:00:01.000000'},
+      '[DONE]',
     ]))));
   });
 
@@ -64,10 +67,12 @@ describe('ChatProvider request debugging', () => {
     });
 
     const [, init] = vi.mocked(fetch).mock.calls[0];
-    expect((init as RequestInit).headers).toMatchObject({'Content-Type': 'application/json', 'X-Request-ID': 'client-request-1'});
+    expect((init as RequestInit).headers).toMatchObject({'Content-Type': 'application/json', 'Accept': 'text/event-stream', 'X-Request-ID': 'client-request-1'});
     expect(JSON.parse((init as RequestInit).body as string)).toMatchObject({
-      messages: [{role: 'user', content: 'secret user prompt'}],
-      pageUrl: '/docs/home',
+      message: 'secret user prompt',
+      agent_config: {agent_config_code: 'zilliz-website-assistant'},
+      streaming_mode: 'token',
+      user_id: 'client-user-1',
     });
   });
 

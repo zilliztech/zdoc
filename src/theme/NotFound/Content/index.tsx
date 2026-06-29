@@ -6,6 +6,7 @@ import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import {Send, ChevronRight, ThumbsUp, ThumbsDown, FileText, ArrowLeft} from 'lucide-react';
 import {ChatProvider, useChatContext} from '@site/src/components/ChatPanel/ChatContext';
+import {DEFAULT_CHAT_ENDPOINT} from '@site/src/components/ChatPanel/endpoints';
 import styles from '../styles.module.css';
 
 function BgDecor() {
@@ -236,7 +237,7 @@ function FallbackCard() {
 
 export default function NotFoundContent(): React.ReactElement {
   const {siteConfig} = useDocusaurusContext();
-  const chatEndpoint = (siteConfig.customFields?.chatEndpoint as string) || '/api/chat';
+  const chatEndpoint = (siteConfig.customFields?.chatEndpoint as string) || DEFAULT_CHAT_ENDPOINT;
   const chatDebug = Boolean(siteConfig.customFields?.chatDebug);
 
   return (

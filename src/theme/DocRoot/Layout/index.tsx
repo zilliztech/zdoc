@@ -8,6 +8,7 @@ import DocRootLayoutMain from '@theme/DocRoot/Layout/Main';
 import type {Props} from '@theme/DocRoot/Layout';
 import ChatPanel, {ChatProvider} from '@site/src/components/ChatPanel';
 import {useChatContext} from '@site/src/components/ChatPanel/ChatContext';
+import {DEFAULT_CHAT_ENDPOINT} from '@site/src/components/ChatPanel/endpoints';
 import {ArrowUp} from 'lucide-react';
 
 import styles from './styles.module.css';
@@ -312,7 +313,7 @@ function DocRootLayoutInner({children}: Props): ReactNode {
 
 export default function DocRootLayout(props: Props): ReactNode {
   const {siteConfig} = useDocusaurusContext();
-  const chatEndpoint = (siteConfig.customFields?.chatEndpoint as string) || '/api/chat';
+  const chatEndpoint = (siteConfig.customFields?.chatEndpoint as string) || DEFAULT_CHAT_ENDPOINT;
   const chatDebug = Boolean(siteConfig.customFields?.chatDebug);
 
   return (

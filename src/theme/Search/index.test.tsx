@@ -6,7 +6,7 @@ vi.mock('@docusaurus/useDocusaurusContext', () => ({
   default: () => ({
     siteConfig: {
       customFields: {
-        chatEndpoint: '/api/chat',
+        chatEndpoint: '/api/chat/stream',
       },
     },
   }),
