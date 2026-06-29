@@ -1,7 +1,7 @@
 import React, {createContext, useContext, useState, useRef, useCallback, useEffect} from 'react';
 import {useLocation} from '@docusaurus/router';
 import type {Source, ChatMessage, ChatHistoryEntry, AgentType, ConfidenceLevel, GroundingCitation} from './types';
-import {getFeedbackEndpoint} from './endpoints';
+import {getChatStreamEndpoint, getFeedbackEndpoint} from './endpoints';
 export type {Source, FeedbackRating, ChatMessage, ChatHistoryEntry, AgentType, ConfidenceLevel, GroundingCitation} from './types';
 
 export interface ContextChip {
@@ -254,6 +254,7 @@ export function ChatProvider({chatEndpoint, debugDefault = false, children}: {ch
     try {
       abortRef.current = new AbortController();
       const userId = getUserId();
+      const chatStreamEndpoint = getChatStreamEndpoint(chatEndpoint);
       const requestBody = {
         message: outgoing,
         ...(sessionIdRef.current ? {session_id: sessionIdRef.current} : {}),
@@ -265,13 +266,13 @@ export function ChatProvider({chatEndpoint, debugDefault = false, children}: {ch
       };
       chatDebug('chat.client.fetch.started', {
         requestId,
-        endpointPath: chatEndpoint,
+        endpointPath: chatStreamEndpoint,
         pagePath: location.pathname,
         hasMessage: Boolean(outgoing.trim()),
         hasSessionId: Boolean(sessionIdRef.current),
         hasUserId: Boolean(userId),
       });
-      const res = await fetch(chatEndpoint, {
+      const res = await fetch(chatStreamEndpoint, {
         method: 'POST',
         headers: {'Content-Type': 'application/json', 'Accept': 'text/event-stream', 'X-Request-ID': requestId},
         body: JSON.stringify(requestBody),

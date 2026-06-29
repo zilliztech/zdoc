@@ -26,7 +26,7 @@ function sseResponse(events: unknown[]): Response {
 
 function wrapper(debugDefault = false) {
   return function Wrapper({children}: {children: React.ReactNode}) {
-    return <ChatProvider chatEndpoint="/api/chat/stream" debugDefault={debugDefault}>{children}</ChatProvider>;
+    return <ChatProvider chatEndpoint="/api/chat" debugDefault={debugDefault}>{children}</ChatProvider>;
   };
 }
 
@@ -66,7 +66,8 @@ describe('ChatProvider request debugging', () => {
       await result.current.send('secret user prompt');
     });
 
-    const [, init] = vi.mocked(fetch).mock.calls[0];
+    const [url, init] = vi.mocked(fetch).mock.calls[0];
+    expect(url).toBe('/api/chat/stream');
     expect((init as RequestInit).headers).toMatchObject({'Content-Type': 'application/json', 'Accept': 'text/event-stream', 'X-Request-ID': 'client-request-1'});
     expect(JSON.parse((init as RequestInit).body as string)).toMatchObject({
       message: 'secret user prompt',
