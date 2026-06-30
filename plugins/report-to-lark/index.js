@@ -11,6 +11,58 @@ require('dotenv/config')
 
 const CARD_STATE_FILE = '.build-card-state.json'
 const EMOJI = { pending: '⬜', running: '⏳', done: '✅', fail: '❌' }
+const FEISHU_RETRY_ATTEMPTS = 3
+const FEISHU_RETRY_DELAY_MS = 1000
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms))
+}
+
+function shortError(err) {
+  return err?.stack || err?.message || String(err)
+}
+
+function shouldRetryStatus(status) {
+  return status === 429 || status >= 500
+}
+
+async function fetchJsonWithRetry(url, options, label) {
+  let lastError
+
+  for (let attempt = 1; attempt <= FEISHU_RETRY_ATTEMPTS; attempt++) {
+    try {
+      const res = await fetch(url, {
+        compress: false,
+        ...options,
+        headers: {
+          'Accept-Encoding': 'identity',
+          ...(options.headers || {}),
+        },
+      })
+      const text = await res.text()
+      const data = text ? JSON.parse(text) : {}
+
+      if (!res.ok && shouldRetryStatus(res.status)) {
+        throw new Error(`HTTP ${res.status}: ${text.slice(0, 300)}`)
+      }
+
+      return data
+    } catch (err) {
+      lastError = err
+      if (attempt === FEISHU_RETRY_ATTEMPTS) break
+
+      process.stderr.write(
+        `[report-to-lark] ${label} failed on attempt ${attempt}/${FEISHU_RETRY_ATTEMPTS}: ${shortError(err)}\n`
+      )
+      await sleep(FEISHU_RETRY_DELAY_MS * attempt)
+    }
+  }
+
+  process.stderr.write(
+    `[report-to-lark] ${label} failed after ${FEISHU_RETRY_ATTEMPTS} attempts; skipping Lark report: ${shortError(lastError)}\n`
+  )
+  return null
+}
 
 function buildCardContent(state) {
   const stageLines = state.stages.map((name, i) => {
@@ -40,7 +92,7 @@ function buildCardContent(state) {
   })
 
   return JSON.stringify({
-    config: { wide_screen_mode: true },
+    config: { wide_screen_mode: true, update_multi: true },
     header: { title: { tag: 'plain_text', content: state.title }, template },
     elements,
   })
@@ -57,12 +109,16 @@ function saveState(siteDir, state) {
 }
 
 async function patchCard(token, messageId, state, feishuHost) {
-  const res = await fetch(`${feishuHost}/open-apis/im/v1/messages/${messageId}`, {
+  if (!messageId) {
+    process.stderr.write('[report-to-lark] no message id — skipping card update\n')
+    return null
+  }
+
+  return fetchJsonWithRetry(`${feishuHost}/open-apis/im/v1/messages/${messageId}`, {
     method: 'PATCH',
     headers: { 'Content-Type': 'application/json; charset=utf-8', Authorization: `Bearer ${token}` },
     body: JSON.stringify({ content: buildCardContent(state) }),
-  })
-  return res.json()
+  }, 'card update')
 }
 
 // ---------------------------------------------------------------------------
@@ -103,8 +159,18 @@ module.exports = function (context) {
             : (opts.note || null)
 
           const fetcher = new tokenFetcher()
-          await fetcher.fetchToken()
-          const token = await fetcher.token()
+          let token
+          try {
+            await fetcher.fetchToken()
+            token = await fetcher.token()
+          } catch (err) {
+            process.stderr.write(`[report-to-lark] token fetch failed; skipping Lark report: ${shortError(err)}\n`)
+            return
+          }
+          if (!token) {
+            process.stderr.write('[report-to-lark] token fetch returned no token; skipping Lark report\n')
+            return
+          }
 
           // ----------------------------------------------------------------
           // --card-create  POST a new card, persist state, export card_id
@@ -119,7 +185,7 @@ module.exports = function (context) {
               notes: [],
               startedAt: new Date().toISOString(),
             }
-            const res = await fetch(`${FEISHU_HOST}/open-apis/im/v1/messages?receive_id_type=chat_id`, {
+            const data = await fetchJsonWithRetry(`${FEISHU_HOST}/open-apis/im/v1/messages?receive_id_type=chat_id`, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json; charset=utf-8', Authorization: `Bearer ${token}` },
               body: JSON.stringify({
@@ -128,9 +194,8 @@ module.exports = function (context) {
                 content: buildCardContent(state),
                 uuid: uuidv4(),
               }),
-            })
-            const data = await res.json()
-            const messageId = data.data?.message_id
+            }, 'card create')
+            const messageId = data?.data?.message_id
             if (messageId) {
               state.messageId = messageId
               saveState(context.siteDir, state)
@@ -212,7 +277,7 @@ module.exports = function (context) {
             ? { text: opts.msg }
             : { template_id: opts.cardId, template_version_name: opts.cardVersion }
 
-          const res = await fetch(`${FEISHU_HOST}/open-apis/im/v1/messages?receive_id_type=chat_id`, {
+          const data = await fetchJsonWithRetry(`${FEISHU_HOST}/open-apis/im/v1/messages?receive_id_type=chat_id`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json; charset=utf-8', Authorization: `Bearer ${token}` },
             body: JSON.stringify({
@@ -221,8 +286,8 @@ module.exports = function (context) {
               content: JSON.stringify(content),
               uuid: uuidv4(),
             }),
-          })
-          console.log((await res.json()).msg)
+          }, 'message send')
+          console.log(data?.msg)
         })
     },
   }

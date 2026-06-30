@@ -1,10 +1,11 @@
 const larkTokenFetcher = require('./larkTokenFetcher.js')
-const { removeTabsHallucinations, unescapeKnownJsxTags, normalizeCodeTagContent } = require('../mdx-parse/mdxPatcher')
+const { removeTabsHallucinations, unescapeKnownJsxTags, normalizeCodeTagContent, escapeNonHtmlTags } = require('../mdx-parse/mdxPatcher')
 const Downloader = require('./larkImageDownloader.js')
 const slugify = require('slugify')
 const fs = require('node:fs')
 const { URL } = require('node:url')
 const fetch = require('node-fetch')
+const { fetchFeishuJsonWithRetry } = require('./feishuFetch.js')
 const node_path = require('node:path')
 const cheerio = require('cheerio')
 const showdown = require('showdown')
@@ -374,22 +375,20 @@ class larkDocWriter {
     async __listed_docs() {
         const token = await this.tokenFetcher.token()
         let url = `${process.env.FEISHU_HOST}/open-apis/bitable/v1/apps/${this.base_token}/tables`
-        const table_id = (await (await fetch(url, {
+        const table_id = (await fetchFeishuJsonWithRetry(url, {
             method: "get",
             headers: {
-                'Content-Type': 'application/json; charset=utf-8',
                 'Authorization': `Bearer ${token}`
             }
-        })).json()).data.items[0].table_id
+        }, 'writer list bitable tables')).data.items[0].table_id
 
         url = `${process.env.FEISHU_HOST}/open-apis/bitable/v1/apps/${this.base_token}/tables/${table_id}/records?page_size=500`
-        this.records = (await (await fetch(url, {
+        this.records = (await fetchFeishuJsonWithRetry(url, {
             method: "get",
             headers: {
-                'Content-Type': 'application/json; charset=utf-8',
                 'Authorization': `Bearer ${token}`
             }
-        })).json()).data.items
+        }, 'writer list bitable records')).data.items
     }
 
     async __is_to_publish (title, slug, token=null) {
@@ -636,17 +635,17 @@ class larkDocWriter {
         const specs = recordData
         const method = (specs.method || 'get').toLowerCase()
         const endpoint = specs.endpoint || ''
-        const description = (specs.summary || title || '').replace(/"/g, '\\"')
+        const description = specs.summary || title || ''
 
         const frontMatter = `---
 displayed_sidebar: restfulSidebar
 sidebar_position: ${sidebar_position || 1}
 slug: /restful/${slug}
 beta: ${beta ? 'TRUE' : 'FALSE'}
-title: "${title || specs.summary || 'API'} | RESTful"
-description: "${description} | RESTful"
+title: ${this.__yaml_string(`${title || specs.summary || 'API'} | RESTful`)}
+description: ${this.__yaml_string(`${description} | RESTful`)}
 hide_table_of_contents: true
-sidebar_label: "${sidebar_label || title || specs.summary || 'API'}"
+sidebar_label: ${this.__yaml_string(sidebar_label || title || specs.summary || 'API')}
 sidebar_custom_props: { badges: ['${method}'] }
 ${keywords ? 'keywords: \n  - ' + keywords.split(',').map(k => k.trim()).join('\n  - ') + '\n' : ''}---`
 
@@ -664,6 +663,10 @@ export const method = "${method}"`
         const file_path = `${path}/${slug}.mdx`
         fs.writeFileSync(file_path, frontMatter + '\n\n' + mdxBody)
         console.log(`Generated API doc: ${file_path}`)
+    }
+
+    __yaml_string(value) {
+        return JSON.stringify(String(value ?? '').replace(/\r?\n/g, '|'))
     }
 
     __front_matters (title, suffix, slug, beta, notebook, type, token, sidebar_position=undefined, sidebar_label="", keywords="", displayed_sidebar=this.displayedSidebar, description="") {
@@ -685,7 +688,7 @@ export const method = "${method}"`
         }
 
         if (description) {
-            description = description.trim().replace('\n', '|').replace(/\[(.*)\]\(.*\)/g, '$1').replace(':', '').replace(/\*+|_+/g, '').replace(/\"/g, "\\\"")
+            description = description.trim().replace('\n', '|').replace(/\[(.*)\]\(.*\)/g, '$1').replace(':', '').replace(/\*+|_+/g, '')
             description = description.replace(/<\/?[^>]+>/g, '').trim()
             if (description.length === 0) {
                 description = title
@@ -698,12 +701,12 @@ export const method = "${method}"`
         }
 
         let front_matter = '---\n' + 
-        `title: "${title} | ${suffix}"` + '\n' +
+        `title: ${this.__yaml_string(`${title} | ${suffix}`)}` + '\n' +
         `slug: /${slug}` + '\n' +
-        `sidebar_label: "${sidebar_label !== "" ? sidebar_label : title}"` + '\n' +
+        `sidebar_label: ${this.__yaml_string(sidebar_label !== "" ? sidebar_label : title)}` + '\n' +
         `beta: ${beta ? beta : 'FALSE'}` + '\n' +
         `notebook: ${notebook ? notebook : 'FALSE'}` + '\n' +
-        `description: "${description} | ${suffix}"` + '\n' +
+        `description: ${this.__yaml_string(`${description} | ${suffix}`)}` + '\n' +
         `type: ${type}` + '\n' +
         `token: ${token}` + '\n' +
         `sidebar_position: ${sidebar_position}` + '\n' +
@@ -819,6 +822,13 @@ export const method = "${method}"`
         // Helper to check if a position is inside any code block
         function isInCodeBlock(pos) {
             return codeBlocks.some(block => pos >= block.start && pos < block.end);
+        }
+
+        const codeSpanRegex = /`[^`\n]+`/g;
+        while ((match = codeSpanRegex.exec(content)) !== null) {
+            if (!isInCodeBlock(match.index)) {
+                codeBlocks.push({ start: match.index, end: match.index + match[0].length });
+            }
         }
 
         // Match URLs, including those containing <, >, [, ], {, }
@@ -957,7 +967,8 @@ export const method = "${method}"`
                         // Escape non-HTML lowercase placeholder tags (e.g. <bucket_name>, <region-code>).
                         // Tags with attributes won't match because the regex only allows \s*\/?>
                         part = part.replace(/(?<!\\)<\/?([a-z][a-z0-9]*(?:[_-][a-z0-9]+)*)\s*\/?>/g, (match, tagName) => {
-                            return KNOWN_TAGS.has(tagName) ? match : '\\' + match;
+                            if (KNOWN_TAGS.has(tagName)) return match;
+                            return match.replace(/^\\/, '').replace(/</g, '&lt;').replace(/>/g, '&gt;');
                         });
                         // Escape uppercase/PascalCase tags not identified as real JSX components.
                         // Uses HTML entities so the angle brackets render correctly in the output.
@@ -995,7 +1006,7 @@ export const method = "${method}"`
             patchedContent = unescapeKnownJsxTags(patchedContent);
             patchedContent = normalizeCodeTagContent(patchedContent);
             patchedContent = this.__escape_currency_dollars(patchedContent);
-            patchedContent = this.__escape_non_html_tags(patchedContent);
+            patchedContent = escapeNonHtmlTags(patchedContent);
             let maxIterations = 50; // Prevent infinite loops
             let iteration = 0;
             const seenHashes = new Set();
@@ -1330,11 +1341,12 @@ export const method = "${method}"`
                 break; 
         }               
         
-        const converter = new showdown.Converter()
-        let html = converter.makeHtml(children.slice(1).map(line => line.replace(/^\s*/g, '')).join('\n'))
-        html = this.__showdownToMdxSafe(html);
+        let body = children.slice(1)
+        while (body.length && body[0].trim() === '') body.shift()
+        while (body.length && body[body.length - 1].trim() === '') body.pop()
+        body = body.join('\n')
 
-        const raw = ' '.repeat(indent) + type + '\n\n' + ' '.repeat(indent) + html.split('\n').join('\n' + ' '.repeat(indent)) + '\n\n' + ' '.repeat(indent) + '</Admonition>';
+        const raw = ' '.repeat(indent) + type + '\n\n' + body + '\n\n' + ' '.repeat(indent) + '</Admonition>';
         return raw.replace(/(\s*\n){3,}/g, `\n${' '.repeat(indent)}\n`);
     }
 
@@ -1347,7 +1359,7 @@ export const method = "${method}"`
             return content
         }))).join('') 
 
-        if (lang === 'C++') return; // to be removed once c++ is supported
+        // if (lang === 'C++') return; // to be removed once c++ is supported
 
         if (valid_langs.includes(lang)) {
             const prev_type = prev ? this.block_types[prev['block_type']-1] : null;
@@ -1517,13 +1529,13 @@ export const method = "${method}"`
         }
 
         type = `<Admonition type="${type.split(' ')[0]}" icon="${type.split(' ')[1]}" title="${type.split(' ')[2]}">`;
-        res.splice(1, 0, "");
 
-        const converter = new showdown.Converter()
-        let html = converter.makeHtml(res.slice(1).map(line => line.replace(/^\s*/g, '')).join('\n'))
-        html = this.__showdownToMdxSafe(html);
+        let body = res.slice(1)
+        while (body.length && body[0].trim() === '') body.shift()
+        while (body.length && body[body.length - 1].trim() === '') body.pop()
+        body = body.join('\n')
 
-        const raw = ' '.repeat(indent) + type + '\n\n' + ' '.repeat(indent) + html.split('\n').join('\n' + ' '.repeat(indent)) + '\n\n' + ' '.repeat(indent) + '</Admonition>';
+        const raw = ' '.repeat(indent) + type + '\n\n' + body + '\n\n' + ' '.repeat(indent) + '</Admonition>';
         return raw.replace(/(\s*\n){3,}/g, '\n\n');
     }
     
@@ -2076,13 +2088,7 @@ export const method = "${method}"`
                 let newUrl = `./${slug}`;
 
                 if (header) {
-                    let headerBlock;
-
-                    try {
-                        headerBlock = page['blocks']['items'].filter(x => x['block_id'] === header)[0];
-                    } catch (error) {
-                        throw new Error(`Header block ${header} not found in page ${title}, and the page token is ${token}`);
-                    }
+                    const headerBlock = page['blocks']['items'].filter(x => x['block_id'] === header)[0];
 
                     if (headerBlock) {
                         const blockType = this.block_types[headerBlock['block_type'] - 1];
