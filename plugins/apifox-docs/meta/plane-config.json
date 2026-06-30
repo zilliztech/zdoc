@@ -17,6 +17,7 @@
       "region",
       "migration",
       "job",
+      "spark",
       "alert",
       "etl",
       "stage",
