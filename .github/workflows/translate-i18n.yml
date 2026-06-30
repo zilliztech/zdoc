@@ -252,7 +252,7 @@ jobs:
   failure:
     needs: translate
     runs-on: ubuntu-latest
-    if: failure()
+    if: ${{ needs.translate.result == 'failure' || needs.translate.result == 'cancelled' }}
     steps:
     - name: set up Environment
       uses: actions/setup-node@v4.0.1
@@ -270,7 +270,7 @@ jobs:
   success:
     needs: translate
     runs-on: ubuntu-latest
-    if: success()
+    if: ${{ needs.translate.result == 'success' }}
     steps:
     - name: set up Environment
       uses: actions/setup-node@v4.0.1

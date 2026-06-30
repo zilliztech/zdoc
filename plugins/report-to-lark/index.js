@@ -108,6 +108,22 @@ function saveState(siteDir, state) {
   fs.writeFileSync(path.join(siteDir, CARD_STATE_FILE), JSON.stringify(state, null, 2))
 }
 
+function finishStatuses(stages, success, existingStatuses=null) {
+  if (success) {
+    return stages.map(() => 'done')
+  }
+
+  if (existingStatuses) {
+    const failedIndex = existingStatuses.findIndex(s => s === 'running' || s === 'pending')
+    if (failedIndex === -1) {
+      return existingStatuses.map((s, i) => i === existingStatuses.length - 1 ? 'fail' : s)
+    }
+    return existingStatuses.map((s, i) => i === failedIndex ? 'fail' : s)
+  }
+
+  return stages.map((_, i) => i === 0 ? 'fail' : 'pending')
+}
+
 async function patchCard(token, messageId, state, feishuHost) {
   if (!messageId) {
     process.stderr.write('[report-to-lark] no message id — skipping card update\n')
@@ -252,18 +268,17 @@ module.exports = function (context) {
             const state = loadState(context.siteDir) || {
               title: opts.title || 'Build',
               stages: passedStages || [success ? 'Build succeeded' : 'Build failed'],
-              statuses: passedStages
-                ? passedStages.map(() => success ? 'done' : 'fail')
-                : [success ? 'done' : 'fail'],
+              statuses: finishStatuses(
+                passedStages || [success ? 'Build succeeded' : 'Build failed'],
+                success
+              ),
               currentIndex: 0,
               notes: noteText ? [noteText] : [],
               startedAt: opts.startedAt || new Date().toISOString(),
             }
             if (loadState(context.siteDir)) {
               // State file present (same runner reused): apply final status
-              state.statuses = success
-                ? state.stages.map(() => 'done')
-                : state.statuses.map(s => s === 'running' ? 'fail' : s)
+              state.statuses = finishStatuses(state.stages, success, state.statuses)
               if (noteText) state.notes.push(noteText)
             }
             await patchCard(token, messageId, state, FEISHU_HOST)
