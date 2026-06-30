@@ -2590,11 +2590,11 @@
       "post": {
         "summary": "Modify On-Demand Cluster",
         "deprecated": false,
-        "description": "Modify the auto-suspend idle window of an on-demand cluster.",
+        "description": "Modify the settings of an on-demand cluster. You can update the auto-suspend idle window, cluster name, description, or any combination of these settings.",
         "x-i18n": {
           "zh-CN": {
             "summary": "修改按需集群",
-            "description": "修改按需集群的自动挂起空闲时间。"
+            "description": "修改按需集群的设置。你可以更新自动挂起空闲时间、集群名称、描述，或同时更新这些设置。"
           }
         },
         "tags": [
@@ -2654,29 +2654,10 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "projectId": {
-                    "type": "string",
-                    "description": "The ID of the project to which the on-demand cluster belongs.",
-                    "x-i18n": {
-                      "zh-CN": {
-                        "description": "按需集群所属项目的 ID。"
-                      }
-                    }
-                  },
-                  "regionId": {
-                    "type": "string",
-                    "description": "The ID of the cloud region where the on-demand cluster is deployed.",
-                    "example": "aws-us-west-2",
-                    "x-i18n": {
-                      "zh-CN": {
-                        "description": "按需集群所在云地域的 ID。",
-                        "example": "ali-cn-hangzhou"
-                      }
-                    }
-                  },
                   "autoSuspend": {
                     "type": "string",
                     "description": "Auto-suspend idle window. The value must use the `<number><s|m|h>` format, such as `60s`, `5m`, or `1h`, and must be at least 60 seconds.",
+                    "pattern": "^\\d+[smh]$",
                     "example": "5m",
                     "x-i18n": {
                       "zh-CN": {
@@ -2684,31 +2665,57 @@
                         "example": "5m"
                       }
                     }
+                  },
+                  "clusterName": {
+                    "type": "string",
+                    "description": "The new name of the on-demand cluster. The name can contain letters, digits, spaces, underscores, hyphens, or Chinese characters.",
+                    "minLength": 1,
+                    "maxLength": 64,
+                    "example": "My On-Demand Cluster",
+                    "x-i18n": {
+                      "zh-CN": {
+                        "description": "按需集群的新名称。名称可以包含字母、数字、空格、下划线、连字符或中文字符。",
+                        "example": "我的按需集群"
+                      }
+                    }
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "The new description of the on-demand cluster. The description must be shorter than 255 characters.",
+                    "maxLength": 255,
+                    "example": "Query cluster for production search workloads.",
+                    "x-i18n": {
+                      "zh-CN": {
+                        "description": "按需集群的新描述。描述必须少于 255 个字符。",
+                        "example": "用于生产搜索工作负载的 Query Cluster。"
+                      }
+                    }
                   }
                 },
-                "required": [
-                  "projectId",
-                  "regionId",
-                  "autoSuspend"
-                ]
+                "description": "Request payload for modifying an on-demand cluster. Specify at least one of `autoSuspend`, `clusterName`, or `description`.",
+                "x-i18n": {
+                  "zh-CN": {
+                    "description": "修改按需集群的请求负载。请至少指定 `autoSuspend`、`clusterName` 或 `description` 中的一个。"
+                  }
+                }
               },
               "examples": {
                 "1": {
-                  "summary": "example",
+                  "summary": "Modify settings",
                   "x-target-lang": "en-US",
                   "value": {
-                    "projectId": "proj-xxxxxxxxxxxxxxxxxxx",
-                    "regionId": "aws-us-west-2",
-                    "autoSuspend": "5m"
+                    "autoSuspend": "5m",
+                    "clusterName": "My On-Demand Cluster",
+                    "description": "Query cluster for production search workloads."
                   }
                 },
                 "2": {
-                  "summary": "example",
+                  "summary": "修改设置",
                   "x-target-lang": "zh-CN",
                   "value": {
-                    "projectId": "proj-xxxxxxxxxxxxxxxxxxx",
-                    "regionId": "ali-cn-hangzhou",
-                    "autoSuspend": "5m"
+                    "autoSuspend": "5m",
+                    "clusterName": "我的按需集群",
+                    "description": "用于生产搜索工作负载的 Query Cluster。"
                   }
                 }
               }
@@ -2800,7 +2807,7 @@
                     "x-target-lang": "en-US",
                     "value": {
                       "code": 1801,
-                      "message": "Auto-suspend idle window must be at least 60 seconds."
+                      "message": "At least one of autoSuspend, clusterName or description must be specified."
                     }
                   },
                   "3": {
@@ -2808,7 +2815,7 @@
                     "x-target-lang": "zh-CN",
                     "value": {
                       "code": 1801,
-                      "message": "自动挂起空闲时间必须至少为 60 秒。"
+                      "message": "必须指定 autoSuspend、clusterName 或 description 中的至少一个。"
                     }
                   }
                 }
