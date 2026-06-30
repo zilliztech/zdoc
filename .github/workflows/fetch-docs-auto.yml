@@ -163,7 +163,7 @@ jobs:
   failure:
     needs: fetch
     runs-on: ubuntu-latest
-    if: failure()
+    if: ${{ needs.fetch.result == 'failure' || needs.fetch.result == 'cancelled' }}
     steps:
     - name: checkout repo
       uses: actions/checkout@v4
@@ -186,7 +186,7 @@ jobs:
   success:
     needs: fetch
     runs-on: ubuntu-latest
-    if: success()
+    if: ${{ needs.fetch.result == 'success' }}
     steps:
     - name: checkout repo
       uses: actions/checkout@v4
