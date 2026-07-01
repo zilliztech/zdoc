@@ -13,10 +13,10 @@ type: docx
 token: TwTnduPOioywHDx8hPQc80tRnKg
 sidebar_position: 6
 keywords: 
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - what is milvus
+  - milvus database
+  - milvus lite
+  - milvus benchmark
   - zilliz
   - zilliz cloud
   - cloud
@@ -114,7 +114,7 @@ client.describe_user(user_name="user_1")
 
 ## Related methods\{#related-methods}
 
-- [create_user()](./utility-create_user)
+- [create_user()](./Authentication-create_user)
 
 - [drop_user()](./Authentication-drop_user)
 

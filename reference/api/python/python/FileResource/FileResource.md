@@ -12,10 +12,10 @@ token: PWyVfD7HUl1x3ydji7RcraKin1g
 sidebar_position: 2
 sidebar_label: "FileResource"
 keywords: 
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
   - zilliz
   - zilliz cloud
   - cloud

@@ -13,10 +13,10 @@ type: docx
 token: Vjd7dE5OyoGvYaxd7OCcubBWnLd
 sidebar_position: 4
 keywords: 
-  - ANNS
   - Vector search
   - knn algorithm
   - HNSW
+  - What is unstructured data
   - zilliz
   - zilliz cloud
   - cloud

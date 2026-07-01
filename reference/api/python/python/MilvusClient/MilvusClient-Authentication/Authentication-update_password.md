@@ -13,10 +13,10 @@ type: docx
 token: B4MWdXervo5cC0xBUaVcSiTgnMg
 sidebar_position: 20
 keywords: 
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - nn search
   - zilliz
   - zilliz cloud
   - cloud
@@ -118,7 +118,7 @@ client.update_password(
 
 ## Related methods\{#related-methods}
 
-- [create_user()](./utility-create_user)
+- [create_user()](./Authentication-create_user)
 
 - [describe_user()](./Authentication-describe_user)
 

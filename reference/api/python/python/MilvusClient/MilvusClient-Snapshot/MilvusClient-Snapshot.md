@@ -12,10 +12,10 @@ token: RoBzflamplZFzYd1ZSWccuVfnnc
 sidebar_position: 14
 sidebar_label: "Snapshot"
 keywords: 
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - nn search
   - zilliz
   - zilliz cloud
   - cloud

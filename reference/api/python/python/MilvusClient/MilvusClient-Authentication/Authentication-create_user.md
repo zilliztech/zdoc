@@ -1,26 +1,26 @@
 ---
-title: "drop_user() | Python | MilvusClient"
-slug: /python/python/Authentication-drop_user
-sidebar_key: python/Authentication-drop_user
-sidebar_label: "drop_user()"
+title: "create_user() | Python | MilvusClient"
+slug: /python/python/Authentication-create_user
+sidebar_key: python/Authentication-create_user
+sidebar_label: "create_user()"
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 beta: false
 notebook: false
-description: "This operation drops a user. | Python | MilvusClient"
+description: "This operation creates a user. | Python | MilvusClient"
 type: docx
-token: WtyZdeFKMoSv5exaYRxcPLCSndg
-sidebar_position: 9
+token: EglSdm1jkozDSlxq6SEc4CRonVe
+sidebar_position: 4
 keywords: 
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
   - zilliz
   - zilliz cloud
   - cloud
-  - drop_user()
+  - create_user()
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
@@ -29,15 +29,16 @@ displayed_sidebar: pythonSidebar
 import Admonition from '@theme/Admonition';
 
 
-# drop_user()
+# create_user()
 
-This operation drops a user.
+This operation creates a user.
 
 ## Request syntax\{#request-syntax}
 
 ```python
-drop_user(
+create_user(
     user_name: str,
+    password: str,
     timeout: Optional[float] = None
 )
 ```
@@ -48,7 +49,13 @@ drop_user(
 
     **[REQUIRED]**
 
-    The name of the user to drop.
+    The name of the user to create.
+
+- **password** (*str*) -
+
+    **[REQUIRED]**
+
+    The password of the user to create.
 
 - **timeout** (*float* | *None*)  
 
@@ -87,18 +94,5 @@ client = MilvusClient(
 
 # 2. Create a user
 client.create_user(user_name="user_1", password="P@ssw0rd")
-
-# 3. Drop the user
-client.drop_user(user_name="user_1")
 ```
-
-## Related methods\{#related-methods}
-
-- [create_user()](./Authentication-create_user)
-
-- [describe_user()](./Authentication-describe_user)
-
-- [list_users()](./Authentication-list_users)
-
-- [update_password()](./Authentication-update_password)
 

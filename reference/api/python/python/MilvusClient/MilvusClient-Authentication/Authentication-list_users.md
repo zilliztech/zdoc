@@ -13,10 +13,10 @@ type: docx
 token: EZ2YdBHoDoRTlxx91tscffm1nSb
 sidebar_position: 15
 keywords: 
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
   - zilliz
   - zilliz cloud
   - cloud
@@ -89,7 +89,7 @@ client.list_users()
 
 ## Related methods\{#related-methods}
 
-- [create_user()](./utility-create_user)
+- [create_user()](./Authentication-create_user)
 
 - [describe_user()](./Authentication-describe_user)
 

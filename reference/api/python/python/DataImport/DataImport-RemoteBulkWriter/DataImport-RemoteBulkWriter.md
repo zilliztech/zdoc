@@ -13,10 +13,10 @@ type: docx
 token: BDP4dew9to9tQoxNEMPcBR5xnZb
 sidebar_position: 4
 keywords: 
-  - vector similarity search
   - approximate nearest neighbor search
   - DiskANN
   - Sparse vector
+  - Vector Dimension
   - zilliz
   - zilliz cloud
   - cloud

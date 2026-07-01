@@ -12,10 +12,10 @@ token: KpOtfu1TplkyiadlfQxcTa5vnFe
 sidebar_position: 2
 sidebar_label: "BulkImport"
 keywords: 
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
   - zilliz
   - zilliz cloud
   - cloud

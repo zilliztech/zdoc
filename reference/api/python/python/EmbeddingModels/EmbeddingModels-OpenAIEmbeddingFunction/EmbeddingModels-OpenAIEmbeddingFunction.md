@@ -13,10 +13,10 @@ type: docx
 token: QPcodlsnAoSMvIxEFmlcMNPbntd
 sidebar_position: 3
 keywords: 
+  - Unstructured Data
   - vector database
   - IVF
   - knn
-  - Image Search
   - zilliz
   - zilliz cloud
   - cloud
