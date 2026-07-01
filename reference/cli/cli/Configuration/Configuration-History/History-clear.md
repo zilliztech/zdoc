@@ -13,15 +13,15 @@ type: docx
 token: I7fKd8mPNoKYEAxmKpxcgaH8nsb
 sidebar_position: 1
 keywords: 
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
   - zilliz
   - zilliz cloud
   - cloud
   - clear
-  - cliv13
+  - cliv14
 displayed_sidebar: cliSidebar
 
 ---

@@ -13,15 +13,15 @@ type: docx
 token: EJO8dhKSYoWk3AxksTrcGCzdnxf
 sidebar_position: 3
 keywords: 
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
   - zilliz
   - zilliz cloud
   - cloud
   - drop
-  - cliv13
+  - cliv14
 displayed_sidebar: cliSidebar
 
 ---

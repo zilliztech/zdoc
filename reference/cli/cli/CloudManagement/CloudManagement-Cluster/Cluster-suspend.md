@@ -13,15 +13,15 @@ type: docx
 token: RjlQdGJyzolWm0xZVyUc6yAdnyc
 sidebar_position: 10
 keywords: 
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
   - zilliz
   - zilliz cloud
   - cloud
   - suspend
-  - cliv13
+  - cliv14
 displayed_sidebar: cliSidebar
 
 ---

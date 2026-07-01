@@ -12,15 +12,15 @@ token: PXOyfwEUtlY8xWdzQ62cXQeenOd
 sidebar_position: 3
 sidebar_label: "Cluster"
 keywords: 
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
-  - knn algorithm
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - Cluster
-  - cliv13
+  - cliv14
 displayed_sidebar: cliSidebar
 ---
 

@@ -12,15 +12,15 @@ token: Bzxxffu0ClU5hkdrkmlchrXenrb
 sidebar_position: 5
 sidebar_label: "Partition"
 keywords: 
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
   - zilliz
   - zilliz cloud
   - cloud
   - Partition
-  - cliv13
+  - cliv14
 displayed_sidebar: cliSidebar
 ---
 

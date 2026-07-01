@@ -4,24 +4,24 @@ slug: /cli/cli/Context-set
 sidebar_key: cli/Context-set
 sidebar_label: "set"
 added_since: v0.1.x
-last_modified: false
+last_modified: v1.4.x
 deprecate_since: false
 beta: false
 notebook: false
-description: "This operation sets the current cluster context. | Cloud"
+description: "This operation selects the default cluster endpoint and database that later data-plane commands use. Set a context before running collection, vector, index, partition, user, role, or alias commands. | Cloud"
 type: docx
-token: Mbj7dQ8OmojO2fxa3PPcr8V8n4c
+token: WF1JdhGAgodzpExXO1hcPjADn8b
 sidebar_position: 3
 keywords: 
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
   - zilliz
   - zilliz cloud
   - cloud
   - set
-  - cliv13
+  - cliv14
 displayed_sidebar: cliSidebar
 
 ---
@@ -31,7 +31,11 @@ import Admonition from '@theme/Admonition';
 
 # set
 
-This operation sets the current cluster context.
+This operation selects the default cluster endpoint and database that later data-plane commands use. Set a context before running collection, vector, index, partition, user, role, or alias commands.
+
+## Description\{#description}
+
+Sets the default cluster endpoint and database that later data-plane commands use. Set a context before running collection, vector, index, partition, user, role, or alias commands.
 
 ## Synopsis\{#synopsis}
 
@@ -40,24 +44,36 @@ zilliz context set
 [--cluster-id <value>]
 [--endpoint <value>]
 [--database <value>]
+[--on-demand]
 ```
 
 ## Options\{#options}
 
 - **--cluster-id** (*string*) -
 
-    Indicates a cluster ID. Once set, the specified cluster always applies unless otherwise specified.
+    Specifies the cluster to use for subsequent data-plane commands. If you omit --endpoint, the CLI resolves the cluster endpoint from this cluster ID.
 
 - **--endpoint** (*string*) -
 
-    Indicates a cluster endpoint URL. This is optional, and will be auto-resolved from the specified cluster ID.
+    Specifies the cluster endpoint directly. Use this when you already know the endpoint or do not want the CLI to resolve it from a cluster ID.
 
 - **--database** (*string*) -
 
-    Indicates a database name in the specified cluster.
+    Specifies the default database for subsequent data-plane commands in the current context. This does not create a database.
+
+- **--on-demand** (*boolean*) -
+
+    Resolves cluster details for an on-demand cluster. Use this when the cluster ID belongs to an on-demand cluster.
 
 ## Example\{#example}
 
 ```bash
-zilliz context set --cluster-id inxx-xxxxx
+# Set context to a standard cluster
+zilliz context set --cluster-id in01-xxxxxxxxxxxx
+
+# Set context to an on-demand cluster
+zilliz context set --cluster-id in-xxxxxxxxxxxx --on-demand
+
+# Update the database for the current context
+zilliz context set --database my_db
 ```

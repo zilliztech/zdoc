@@ -8,19 +8,19 @@ last_modified: false
 deprecate_since: false
 description: "This chapter contains the commands related to Zilliz CLI configurations | Cloud"
 type: folder
-token: EGSzfJvZplcqb5dWwzkcksiQn5d
+token: DGm8fFP8plvHz5d6sErcKcoLnRh
 sidebar_position: 2
 sidebar_label: "Configuration"
 keywords: 
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
   - zilliz
   - zilliz cloud
   - cloud
   - Configuration
-  - cliv13
+  - cliv14
 displayed_sidebar: cliSidebar
 ---
 

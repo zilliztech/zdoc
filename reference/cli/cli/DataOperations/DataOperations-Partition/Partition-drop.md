@@ -13,15 +13,15 @@ type: docx
 token: DT7Jduvj2osqF0xVhwMcU2t7nmd
 sidebar_position: 2
 keywords: 
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
   - zilliz
   - zilliz cloud
   - cloud
   - drop
-  - cliv13
+  - cliv14
 displayed_sidebar: cliSidebar
 
 ---

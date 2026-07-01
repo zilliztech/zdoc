@@ -8,19 +8,19 @@ last_modified: false
 deprecate_since: false
 description: "This chapter contains the commands related to cloud management. | Cloud"
 type: folder
-token: CRpLfHplvlPKBDdxyCqcPFqWncd
+token: QMg2fBP94l5N7VdSwbucwMffnje
 sidebar_position: 1
 sidebar_label: "Cloud Management"
 keywords: 
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
   - zilliz
   - zilliz cloud
   - cloud
   - Cloud Management
-  - cliv13
+  - cliv14
 displayed_sidebar: cliSidebar
 ---
 

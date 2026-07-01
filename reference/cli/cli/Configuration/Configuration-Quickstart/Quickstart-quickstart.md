@@ -13,15 +13,15 @@ type: docx
 token: Aio6dbDToo45XdxkSX1cp9tKnkl
 sidebar_position: 1
 keywords: 
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
   - zilliz
   - zilliz cloud
   - cloud
   - quickstart
-  - cliv13
+  - cliv14
 displayed_sidebar: cliSidebar
 
 ---

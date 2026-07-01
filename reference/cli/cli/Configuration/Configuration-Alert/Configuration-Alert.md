@@ -12,15 +12,15 @@ token: DC00fqL8UlOSaJdNqeJcCEHYnFW
 sidebar_position: 1
 sidebar_label: "Alert"
 keywords: 
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
   - zilliz
   - zilliz cloud
   - cloud
   - Alert
-  - cliv13
+  - cliv14
 displayed_sidebar: cliSidebar
 ---
 

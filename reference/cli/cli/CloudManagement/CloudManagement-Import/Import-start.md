@@ -13,15 +13,15 @@ type: docx
 token: KXgLdSiiZoMou6xEvnQcdVe3n25
 sidebar_position: 2
 keywords: 
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - start
-  - cliv13
+  - cliv14
 displayed_sidebar: cliSidebar
 
 ---

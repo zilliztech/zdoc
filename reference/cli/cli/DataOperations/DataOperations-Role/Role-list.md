@@ -13,15 +13,15 @@ type: docx
 token: BNH0dujcioUq4Px0EmncEqlOnVe
 sidebar_position: 5
 keywords: 
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
   - Dense embedding
   - Faiss vector database
+  - Chroma vector database
+  - nlp search
   - zilliz
   - zilliz cloud
   - cloud
   - list
-  - cliv13
+  - cliv14
 displayed_sidebar: cliSidebar
 
 ---
@@ -35,7 +35,7 @@ This operation lists all roles.
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This command is available for Dedicated clusters only. You can run <code>zilliz context set</code> to switch among clusters.</p>
+This command is available for Dedicated clusters only. You can run `zilliz context set` to switch among clusters.
 
 </Admonition>
 

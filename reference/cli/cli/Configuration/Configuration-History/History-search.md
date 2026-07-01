@@ -13,15 +13,15 @@ type: docx
 token: FVmwd1ishoRaqUxQQNNch019nOf
 sidebar_position: 3
 keywords: 
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
   - zilliz
   - zilliz cloud
   - cloud
   - search
-  - cliv13
+  - cliv14
 displayed_sidebar: cliSidebar
 
 ---

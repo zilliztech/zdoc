@@ -13,15 +13,15 @@ type: docx
 token: RriNdfGjjofQL4x8XlhcHug6nvd
 sidebar_position: 1
 keywords: 
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
   - zilliz
   - zilliz cloud
   - cloud
   - create
-  - cliv13
+  - cliv14
 displayed_sidebar: cliSidebar
 
 ---
@@ -43,7 +43,7 @@ Backup creation incurs additional charges, with pricing based on the cloud regio
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This feature is available only to <strong>Dedicated</strong> clusters.</p>
+This feature is available only to **Dedicated** clusters.
 
 </Admonition>
 

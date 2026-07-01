@@ -13,15 +13,15 @@ type: docx
 token: E1lydJB5BorHaExspUKcwQ2ande
 sidebar_position: 2
 keywords: 
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
   - zilliz
   - zilliz cloud
   - cloud
   - current
-  - cliv13
+  - cliv14
 displayed_sidebar: cliSidebar
 
 ---

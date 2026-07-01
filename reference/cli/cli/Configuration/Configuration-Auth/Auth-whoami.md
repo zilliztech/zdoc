@@ -13,15 +13,15 @@ type: docx
 token: LrKvdmIVCoeSGfxmyf6cdJ5TnFe
 sidebar_position: 5
 keywords: 
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
   - zilliz
   - zilliz cloud
   - cloud
   - whoami
-  - cliv13
+  - cliv14
 displayed_sidebar: cliSidebar
 
 ---

@@ -13,15 +13,15 @@ type: docx
 token: S7Hkd5HAfob60uxILjIcdng7nXe
 sidebar_position: 3
 keywords: 
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
   - zilliz
   - zilliz cloud
   - cloud
   - list
-  - cliv13
+  - cliv14
 displayed_sidebar: cliSidebar
 
 ---

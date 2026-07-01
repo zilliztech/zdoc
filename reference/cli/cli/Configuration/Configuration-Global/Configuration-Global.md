@@ -8,19 +8,19 @@ last_modified: false
 deprecate_since: false
 description: "This chapter contains the commands related to system management. | Cloud"
 type: folder
-token: OFtRfQzb0luqK8d7zV1cskGKnYd
+token: NYgzfcJMylBEqqd8UBMcuEWKnga
 sidebar_position: 6
 sidebar_label: "Global"
 keywords: 
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
   - zilliz
   - zilliz cloud
   - cloud
   - Global
-  - cliv13
+  - cliv14
 displayed_sidebar: cliSidebar
 ---
 

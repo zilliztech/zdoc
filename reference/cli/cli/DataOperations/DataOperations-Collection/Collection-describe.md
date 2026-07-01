@@ -13,15 +13,15 @@ type: docx
 token: A2rOdHew3oMHWNx6ngFc4nAbnyg
 sidebar_position: 3
 keywords: 
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
   - zilliz
   - zilliz cloud
   - cloud
   - describe
-  - cliv13
+  - cliv14
 displayed_sidebar: cliSidebar
 
 ---

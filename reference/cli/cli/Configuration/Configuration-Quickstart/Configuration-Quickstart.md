@@ -12,15 +12,15 @@ token: CLbTfXENAlL9T5dPoG8cmgGPnxP
 sidebar_position: 8
 sidebar_label: "Quickstart"
 keywords: 
-  - lexical search
-  - nearest neighbor search
   - Agentic RAG
   - rag llm architecture
+  - private llms
+  - nn search
   - zilliz
   - zilliz cloud
   - cloud
   - Quickstart
-  - cliv13
+  - cliv14
 displayed_sidebar: cliSidebar
 ---
 

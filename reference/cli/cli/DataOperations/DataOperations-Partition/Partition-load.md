@@ -13,15 +13,15 @@ type: docx
 token: GYyKdrbkvozJxVx6uGhcpMfonoe
 sidebar_position: 6
 keywords: 
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
   - zilliz
   - zilliz cloud
   - cloud
   - load
-  - cliv13
+  - cliv14
 displayed_sidebar: cliSidebar
 
 ---

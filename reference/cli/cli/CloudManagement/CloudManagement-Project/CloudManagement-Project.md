@@ -8,19 +8,19 @@ last_modified: false
 deprecate_since: false
 description: "This chapter contains the commands related to project management. | Cloud"
 type: folder
-token: RMdtf53TElufWpdluDgc5veVnqc
+token: ECvTfFzKElW00pdSugdcqakXnep
 sidebar_position: 7
 sidebar_label: "Project"
 keywords: 
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
   - zilliz
   - zilliz cloud
   - cloud
   - Project
-  - cliv13
+  - cliv14
 displayed_sidebar: cliSidebar
 ---
 

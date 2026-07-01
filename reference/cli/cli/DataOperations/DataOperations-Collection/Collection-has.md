@@ -13,15 +13,15 @@ type: docx
 token: CidCduwW8oIywtxiHMQc8v2XnBe
 sidebar_position: 8
 keywords: 
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
   - zilliz
   - zilliz cloud
   - cloud
   - has
-  - cliv13
+  - cliv14
 displayed_sidebar: cliSidebar
 
 ---

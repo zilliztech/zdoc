@@ -13,15 +13,15 @@ type: docx
 token: Jp9VdKpVoooz9ix1vYMcAun4nwe
 sidebar_position: 4
 keywords: 
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
   - zilliz
   - zilliz cloud
   - cloud
   - set
-  - cliv13
+  - cliv14
 displayed_sidebar: cliSidebar
 
 ---
@@ -35,7 +35,7 @@ This operation sets a configuration value.
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>You can also run <code>zilliz configure</code> instead, and follow the interactive guidance. Setting <code>api_key</code> can be used as an alternative to <code>zilliz login</code>.</p>
+You can also run `zilliz configure` instead, and follow the interactive guidance. Setting `api_key` can be used as an alternative to `zilliz login`.
 
 </Admonition>
 

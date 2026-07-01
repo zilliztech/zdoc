@@ -12,15 +12,15 @@ token: CcKQfofa1lkWPhdqzZ3cg3FAnDb
 sidebar_position: 3
 sidebar_label: "Database"
 keywords: 
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
   - how do vector databases work
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
   - zilliz
   - zilliz cloud
   - cloud
   - Database
-  - cliv13
+  - cliv14
 displayed_sidebar: cliSidebar
 ---
 

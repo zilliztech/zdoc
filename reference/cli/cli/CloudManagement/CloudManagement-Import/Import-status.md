@@ -13,15 +13,15 @@ type: docx
 token: Lu5EdzR9So5gUCxL71YcX30Enkh
 sidebar_position: 3
 keywords: 
-  - IVF
-  - knn
-  - Image Search
   - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
   - zilliz
   - zilliz cloud
   - cloud
   - status
-  - cliv13
+  - cliv14
 displayed_sidebar: cliSidebar
 
 ---

@@ -8,19 +8,19 @@ last_modified: false
 deprecate_since: false
 description: "This chapter contains the commands related to the management of Zilliz CLI context. | Cloud"
 type: folder
-token: FewAfDseeli62CdqFcBc7Lh2ncD
+token: UwkgfNHjflzvCXdn9CkcXWrInHd
 sidebar_position: 5
 sidebar_label: "Context"
 keywords: 
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
   - zilliz
   - zilliz cloud
   - cloud
   - Context
-  - cliv13
+  - cliv14
 displayed_sidebar: cliSidebar
 ---
 

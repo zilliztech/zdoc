@@ -13,15 +13,15 @@ type: docx
 token: RnGZdWUpmojfvHxReFicTHYEnwd
 sidebar_position: 2
 keywords: 
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
   - zilliz
   - zilliz cloud
   - cloud
   - download-invoice
-  - cliv13
+  - cliv14
 displayed_sidebar: cliSidebar
 
 ---

@@ -13,15 +13,15 @@ type: docx
 token: IyKzdBU2zoXcNUxvmhvcJCISnJe
 sidebar_position: 4
 keywords: 
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
   - zilliz
   - zilliz cloud
   - cloud
   - insert
-  - cliv13
+  - cliv14
 displayed_sidebar: cliSidebar
 
 ---

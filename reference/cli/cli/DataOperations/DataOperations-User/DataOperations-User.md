@@ -12,15 +12,15 @@ token: MLhsf6VLElWmWudpYZXcamShn0e
 sidebar_position: 7
 sidebar_label: "User"
 keywords: 
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
   - zilliz
   - zilliz cloud
   - cloud
   - User
-  - cliv13
+  - cliv14
 displayed_sidebar: cliSidebar
 ---
 

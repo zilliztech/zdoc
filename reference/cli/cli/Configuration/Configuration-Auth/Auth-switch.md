@@ -13,15 +13,15 @@ type: docx
 token: WVn4dXc9FocqhRxmuwlcFcTynBg
 sidebar_position: 4
 keywords: 
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
   - zilliz
   - zilliz cloud
   - cloud
   - switch
-  - cliv13
+  - cliv14
 displayed_sidebar: cliSidebar
 
 ---

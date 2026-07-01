@@ -13,15 +13,15 @@ type: docx
 token: CgVKdrm2YoAiM8xBvFacmxpWnrb
 sidebar_position: 2
 keywords: 
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
   - zilliz
   - zilliz cloud
   - cloud
   - delete
-  - cliv13
+  - cliv14
 displayed_sidebar: cliSidebar
 
 ---

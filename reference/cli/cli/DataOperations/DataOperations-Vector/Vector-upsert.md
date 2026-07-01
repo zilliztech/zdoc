@@ -13,15 +13,15 @@ type: docx
 token: PdMmdJQS6o1rVbxtD49cO62Onad
 sidebar_position: 7
 keywords: 
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
   - zilliz
   - zilliz cloud
   - cloud
   - upsert
-  - cliv13
+  - cliv14
 displayed_sidebar: cliSidebar
 
 ---

@@ -13,15 +13,15 @@ type: docx
 token: QcWcdXbgxooJO4xuwADc9YqAn8c
 sidebar_position: 6
 keywords: 
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
   - zilliz
   - zilliz cloud
   - cloud
   - search
-  - cliv13
+  - cliv14
 displayed_sidebar: cliSidebar
 
 ---

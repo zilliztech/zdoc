@@ -13,15 +13,15 @@ type: docx
 token: MLrJdT9TdojvcJxhauic8s9anBf
 sidebar_position: 4
 keywords: 
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
   - zilliz
   - zilliz cloud
   - cloud
   - enable
-  - cliv13
+  - cliv14
 displayed_sidebar: cliSidebar
 
 ---

@@ -13,15 +13,15 @@ type: docx
 token: Pw8Xd2yoGolKYZxsg1ZcJ0Odnmb
 sidebar_position: 3
 keywords: 
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
   - zilliz
   - zilliz cloud
   - cloud
   - invoices
-  - cliv13
+  - cliv14
 displayed_sidebar: cliSidebar
 
 ---
@@ -41,7 +41,7 @@ Running this command without any options triggers a set of interactive prompts.
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Taxes on the invoices are calculated based on the billing address you provide. For companies that require an entry of VAT or GST ID, please <a href="http://support.zilliz.com">contact us</a>.</p>
+Taxes on the invoices are calculated based on the billing address you provide. For companies that require an entry of VAT or GST ID, please [contact us](http://support.zilliz.com).
 
 </Admonition>
 

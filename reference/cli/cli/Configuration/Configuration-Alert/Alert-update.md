@@ -13,15 +13,15 @@ type: docx
 token: FxUedhePWogwX4xRxFucLvaqnGg
 sidebar_position: 6
 keywords: 
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
   - zilliz
   - zilliz cloud
   - cloud
   - update
-  - cliv13
+  - cliv14
 displayed_sidebar: cliSidebar
 
 ---

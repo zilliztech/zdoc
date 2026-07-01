@@ -13,15 +13,15 @@ type: docx
 token: AYlXdnqMKoQOzRxSbWScn0A5nqf
 sidebar_position: 6
 keywords: 
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
   - zilliz
   - zilliz cloud
   - cloud
   - modify
-  - cliv13
+  - cliv14
 displayed_sidebar: cliSidebar
 
 ---

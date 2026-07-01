@@ -13,15 +13,15 @@ type: docx
 token: DIVvdqJlOoneFwxqs0xcG313nmg
 sidebar_position: 5
 keywords: 
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
   - zilliz
   - zilliz cloud
   - cloud
   - flush
-  - cliv13
+  - cliv14
 displayed_sidebar: cliSidebar
 
 ---

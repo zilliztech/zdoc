@@ -13,15 +13,15 @@ type: docx
 token: FpDzdA1nSo6sOHxYxAhcTPCLn5d
 sidebar_position: 4
 keywords: 
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
   - zilliz
   - zilliz cloud
   - cloud
   - usage
-  - cliv13
+  - cliv14
 displayed_sidebar: cliSidebar
 
 ---

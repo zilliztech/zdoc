@@ -13,15 +13,15 @@ type: docx
 token: DaK3dvUJpoKOLTxy1iRc4YZAnjf
 sidebar_position: 1
 keywords: 
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
   - zilliz
   - zilliz cloud
   - cloud
   - create
-  - cliv13
+  - cliv14
 displayed_sidebar: cliSidebar
 
 ---
@@ -39,7 +39,7 @@ In Zilliz Cloud, a database serves as a logical unit for organizing and managing
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This command applies to Dedicated clusters.</p>
+This command applies to Dedicated clusters.
 
 </Admonition>
 

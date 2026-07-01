@@ -13,15 +13,15 @@ type: docx
 token: T0VYdnnlIo0VwAxLaBjcryM1n7b
 sidebar_position: 2
 keywords: 
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
   - zilliz
   - zilliz cloud
   - cloud
   - describe
-  - cliv13
+  - cliv14
 displayed_sidebar: cliSidebar
 
 ---

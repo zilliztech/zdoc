@@ -12,15 +12,15 @@ token: CQeKfK0rYlSpjTd0uFlcAZrYnZb
 sidebar_position: 6
 sidebar_label: "Role"
 keywords: 
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
   - zilliz
   - zilliz cloud
   - cloud
   - Role
-  - cliv13
+  - cliv14
 displayed_sidebar: cliSidebar
 ---
 

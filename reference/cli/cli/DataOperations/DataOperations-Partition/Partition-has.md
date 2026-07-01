@@ -21,7 +21,7 @@ keywords:
   - zilliz cloud
   - cloud
   - has
-  - cliv13
+  - cliv14
 displayed_sidebar: cliSidebar
 
 ---

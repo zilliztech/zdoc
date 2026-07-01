@@ -8,19 +8,19 @@ last_modified: false
 deprecate_since: false
 description: "This chapter contains the commands related to authentication. | Cloud"
 type: folder
-token: CcG3fA4kslvDAzdAfK6cYC3unvb
+token: NORefWujnlbXKSdmo1tclDHdn6g
 sidebar_position: 2
 sidebar_label: "Auth"
 keywords: 
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
   - zilliz
   - zilliz cloud
   - cloud
   - Auth
-  - cliv13
+  - cliv14
 displayed_sidebar: cliSidebar
 ---
 

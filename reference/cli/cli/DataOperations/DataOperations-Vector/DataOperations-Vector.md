@@ -12,15 +12,15 @@ token: QJJjfOjoGlLqVmdEtiJcriX2nWh
 sidebar_position: 8
 sidebar_label: "Vector"
 keywords: 
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
   - zilliz
   - zilliz cloud
   - cloud
   - Vector
-  - cliv13
+  - cliv14
 displayed_sidebar: cliSidebar
 ---
 

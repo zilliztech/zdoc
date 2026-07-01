@@ -13,15 +13,15 @@ type: docx
 token: G453dm4ZWo1e0Ux55b3czXwnnId
 sidebar_position: 1
 keywords: 
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
-  - knn algorithm
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
   - zilliz
   - zilliz cloud
   - cloud
   - bind-card
-  - cliv13
+  - cliv14
 displayed_sidebar: cliSidebar
 
 ---

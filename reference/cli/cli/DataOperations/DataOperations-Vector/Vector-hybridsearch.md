@@ -13,15 +13,15 @@ type: docx
 token: EiCXdUuf2oTB3HxiL20clnSPn8g
 sidebar_position: 3
 keywords: 
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
   - zilliz
   - zilliz cloud
   - cloud
   - hybrid-search
-  - cliv13
+  - cliv14
 displayed_sidebar: cliSidebar
 
 ---

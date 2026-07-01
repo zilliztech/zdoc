@@ -13,15 +13,15 @@ type: docx
 token: QIhWdtFpNotKksx7KmxcTdwXnEh
 sidebar_position: 4
 keywords: 
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
   - zilliz
   - zilliz cloud
   - cloud
   - upgrade
-  - cliv13
+  - cliv14
 displayed_sidebar: cliSidebar
 
 ---

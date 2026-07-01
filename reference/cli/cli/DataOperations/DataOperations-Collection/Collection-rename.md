@@ -13,15 +13,15 @@ type: docx
 token: N1uadJS98ojQhixbOQacLOwknke
 sidebar_position: 13
 keywords: 
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
-  - knn algorithm
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
   - zilliz
   - zilliz cloud
   - cloud
   - rename
-  - cliv13
+  - cliv14
 displayed_sidebar: cliSidebar
 
 ---

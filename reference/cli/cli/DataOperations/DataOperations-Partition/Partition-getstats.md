@@ -13,15 +13,15 @@ type: docx
 token: VEEzdJ5tyoaFVbxG6JvcDpULnMg
 sidebar_position: 3
 keywords: 
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
   - zilliz
   - zilliz cloud
   - cloud
   - get-stats
-  - cliv13
+  - cliv14
 displayed_sidebar: cliSidebar
 
 ---

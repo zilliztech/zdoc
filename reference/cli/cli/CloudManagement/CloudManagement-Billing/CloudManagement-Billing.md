@@ -12,15 +12,15 @@ token: VQMkfU9xUl3ywPdBTJRcoP5Vnkb
 sidebar_position: 2
 sidebar_label: "Billing"
 keywords: 
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
   - zilliz
   - zilliz cloud
   - cloud
   - Billing
-  - cliv13
+  - cliv14
 displayed_sidebar: cliSidebar
 ---
 

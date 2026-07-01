@@ -21,7 +21,7 @@ keywords:
   - zilliz cloud
   - cloud
   - create
-  - cliv13
+  - cliv14
 displayed_sidebar: cliSidebar
 
 ---
@@ -34,14 +34,6 @@ import Admonition from '@theme/Admonition';
 This operation creates a new cluster.
 
 ## Description\{#description}
-
-Zilliz Cloud provides various serving cluster deployment options to accommodate the distinct business needs. 
-
-- **Free**: provides a starting point for learning and personal projects with limitations on storage, vCU consumption, and the number of collections.
-
-- **Serverless**: provides a shared environment that automatically scales to match your workload - no need to provision resources. This option delivers excellent cost efficiency and elasticity for unpredictable or spiky traffic.
-
-- **Dedicated**: provides isolated, reserved environments for production workloads that demand consistent and predictable performance. This option is ideal for sustained high-throughput and latency-sensitive applications.
 
 Regarding dedicated clusters, Zilliz Cloud offers the following cluster types: **Performance-optimized, Capacity-optimized**, and **Tiered-storage.**
 
@@ -67,7 +59,7 @@ Running this command without any options triggers a set of interactive prompts.
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Tiered-storage clusters are unavailable in BYOC projects.</p>
+Tiered-storage clusters are unavailable in BYOC projects.
 
 </Admonition>
 
@@ -159,7 +151,7 @@ zilliz cluster create
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    <p>For available regions in your BYOC project, consult with your organization owner.</p>
+    For available regions in your BYOC project, consult with your organization owner.
 
     </Admonition>
 

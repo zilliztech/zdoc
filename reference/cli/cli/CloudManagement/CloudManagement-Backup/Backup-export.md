@@ -13,15 +13,15 @@ type: docx
 token: MqCqdE8mqotzaXxk8nfcOvHinX0
 sidebar_position: 5
 keywords: 
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
   - zilliz
   - zilliz cloud
   - cloud
   - export
-  - cliv13
+  - cliv14
 displayed_sidebar: cliSidebar
 
 ---
@@ -41,7 +41,7 @@ You can export backup files to an integrated storage service identified by its i
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This feature is available only to <strong>Dedicated</strong> clusters.</p>
+This feature is available only to **Dedicated** clusters.
 
 </Admonition>
 

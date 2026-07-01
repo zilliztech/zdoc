@@ -8,19 +8,19 @@ last_modified: false
 deprecate_since: false
 description: "This chapter contains the commands related to volume management. | Cloud"
 type: folder
-token: YJ0WfaSiClY9p5d6Jykcba2anbc
+token: WabafQZw0l0BDUdRbsZcK8SOnqc
 sidebar_position: 8
 sidebar_label: "Volume"
 keywords: 
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
   - zilliz
   - zilliz cloud
   - cloud
   - Volume
-  - cliv13
+  - cliv14
 displayed_sidebar: cliSidebar
 ---
 

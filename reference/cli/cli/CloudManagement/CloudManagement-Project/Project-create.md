@@ -4,24 +4,24 @@ slug: /cli/cli/Project-create
 sidebar_key: cli/Project-create
 sidebar_label: "create"
 added_since: v0.1.x
-last_modified: false
+last_modified: v1.4.x
 deprecate_since: false
 beta: false
 notebook: false
 description: "This operation creates a new project. | Cloud"
 type: docx
-token: L9ZddLvZLojYiTxECVgcBEXqnUd
+token: GXhEdTZt9or6nix81GtcENu9n0f
 sidebar_position: 1
 keywords: 
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
   - zilliz
   - zilliz cloud
   - cloud
   - create
-  - cliv13
+  - cliv14
 displayed_sidebar: cliSidebar
 
 ---
@@ -33,15 +33,18 @@ import Admonition from '@theme/Admonition';
 
 This operation creates a new project.
 
+## Description\{#description}
+
+Creates a new Zilliz Cloud project. Use `--region` one or more times when you want to bind regions during project creation.
+
 ## Synopsis\{#synopsis}
 
 ```bash
 zilliz project create
 --name <value>
 --plan <value>
-[--output <value>]
-[--query <value>]
-[--no-header]
+[--region <value>]
+[--api-key <value>]
 ```
 
 ## Options\{#options}
@@ -50,54 +53,28 @@ zilliz project create
 
     **[REQUIRED]**
 
-    Indicates a project name.
-
-    The value should be a string of no more than **50** characters.
+    Specifies the project name.
 
 - **--plan** (*string*) -
 
     **[REQUIRED]**
 
-    Indicates the subscription plan. 
+    Specifies the subscription plan. Choices: `Standard`, `Enterprise`, `BusinessCritical`.
 
-    Possible values: 
+- **--region** (*array*) -
 
-    <exclude lang="zh-CN">
+    Specifies the region IDs to bind (repeatable, e.g. `--region aws-us-east-1 --region gcp-us-west1`).
 
-    - `Free`,
+- **--api-key** (string) -
 
-    - `Serverless`,
-
-    - `Standard`,
-
-    </exclude>
-
-    - `Enterprise`.
-
-- **--output, -o** (*string*) -
-
-    Indicates the output format. Possible values:
-
-    - `json`,
-
-    - `table`,
-
-    - `text`,
-
-    - `yaml`,
-
-    - `csv`.
-
-- **--no-header** (*boolean*) -
-
-    Indicates whether to omit the header row when output is set to `table` or `csv`.
-
-- **--query, -q** (*string*) -
-
-    Indicates a JMESPath expression to filter output.
+    Specifies an API key for this command. This value overrides the environment or configured API key.
 
 ## Example\{#example}
 
 ```bash
+# Create a project without regions
 zilliz project create --name my-project --plan Standard
+
+# Create a project with multiple regions
+zilliz project create --name my-project --plan Standard --region aws-us-east-1 --region gcp-us-west1
 ```

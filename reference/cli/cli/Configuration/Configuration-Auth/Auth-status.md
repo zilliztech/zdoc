@@ -13,15 +13,15 @@ type: docx
 token: CGY6dYpcfoZr3cxbXT5cis6UnZf
 sidebar_position: 3
 keywords: 
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
   - zilliz
   - zilliz cloud
   - cloud
   - status
-  - cliv13
+  - cliv14
 displayed_sidebar: cliSidebar
 
 ---

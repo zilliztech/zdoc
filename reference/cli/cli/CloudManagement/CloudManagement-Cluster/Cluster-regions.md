@@ -13,15 +13,15 @@ type: docx
 token: YHtudYo81oBKruxujL5cw0yZnxd
 sidebar_position: 8
 keywords: 
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
   - zilliz
   - zilliz cloud
   - cloud
   - regions
-  - cliv13
+  - cliv14
 displayed_sidebar: cliSidebar
 
 ---

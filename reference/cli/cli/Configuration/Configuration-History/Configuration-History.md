@@ -12,15 +12,15 @@ token: R8pjfCQvPlA4IEdzRUPcc8eAnxc
 sidebar_position: 7
 sidebar_label: "History"
 keywords: 
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
   - zilliz
   - zilliz cloud
   - cloud
   - History
-  - cliv13
+  - cliv14
 displayed_sidebar: cliSidebar
 ---
 

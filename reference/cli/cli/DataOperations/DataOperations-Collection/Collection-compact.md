@@ -13,15 +13,15 @@ type: docx
 token: PgZ0dL39ho6wLbxJKANcm0jyn9b
 sidebar_position: 1
 keywords: 
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
   - zilliz
   - zilliz cloud
   - cloud
   - compact
-  - cliv13
+  - cliv14
 displayed_sidebar: cliSidebar
 
 ---
