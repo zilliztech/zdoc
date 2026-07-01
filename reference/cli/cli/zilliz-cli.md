@@ -70,7 +70,7 @@ zilliz cluster create --name my-cluster --type serverless
 - [Configure](/reference/cli/Configuration-Configure) - Set and get configuration values
 - [Context](/reference/cli/Configuration-Context) - Manage CLI contexts
 - [Alert](/reference/cli/Configuration-Alert) - Create and manage alerts
-- [Completion](/reference/cli/Configuration-Completion) - Shell completion setup
+- [Completion](/reference/cli/cli/Global-version#shell-completion) - Shell completion setup
 
 ### Data Operations
 - [Collection](/reference/cli/DataOperations-Collection) - Create, describe, and manage collections

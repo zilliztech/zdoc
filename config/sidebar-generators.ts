@@ -161,12 +161,12 @@ export async function tutorialsItemsGenerator({
                     {
                         type: 'link',
                         label: '組織の役割',
-                        href: '/ja-JP/docs/organization-users#invite-a-user-to-your-organization'
+                        href: '/docs/organization-users#invite-a-user-to-your-organization'
                     },
                     {
                         type: 'link',
                         label: 'プロジェクトの役割',
-                        href: '/ja-JP/docs/project-users#invite-a-user-to-a-project'
+                        href: '/docs/project-users#invite-a-user-to-a-project'
                     },
                 ])
 
