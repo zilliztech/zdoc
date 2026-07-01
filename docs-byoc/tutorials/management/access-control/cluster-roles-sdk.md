@@ -1,17 +1,25 @@
 ---
 title: "Manage Cluster Roles (SDK) | BYOC"
 slug: /cluster-roles-sdk
+sidebar_key: cluster-roles-sdk
 sidebar_label: "Manage Cluster Roles (SDK)"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "A cluster role defines the privileges that a user has within the cluster. More specifically, the cluster role controls a cluster user's privileges on the cluster, database, and collection level. | BYOC"
 type: origin
 token: PBZwwNqWjiikeYkXgHPcGhLznTh
-sidebar_position: 7
-displayed_sidebar: default
+sidebar_position: 5
+keywords:
+  - zilliz
+  - vector database
+  - cloud
+  - cluster
+  - access control
+  - rbac
+  - roles
 
 ---
 
@@ -33,7 +41,7 @@ This feature is exclusively available to Dedicated clusters.
 
 ## Create a role\{#create-a-role}
 
-The following example demonstrates how to create a role named `role_a`. 
+The following example demonstrates how to create a role named `role_a`.
 
 The role name must start with a letter and can only include uppercase or lowercase letters, numbers, and underscores.
 
@@ -43,7 +51,8 @@ The role name must start with a letter and can only include uppercase or lowerca
 ```python
 from pymilvus import MilvusClient
 
-client.create_role(role_name="role_a")
+client.create_role(role_name="role_a", description="a cluster read only role")
+
 ```
 
 </TabItem>
@@ -54,8 +63,9 @@ client.create_role(role_name="role_a")
 import io.milvus.v2.service.rbac.request.CreateRoleReq;
 CreateRoleReq createRoleReq = CreateRoleReq.builder()
         .roleName("role_a")
+        .description("a cluster read only role")
         .build();
-       
+
 ```
 
 </TabItem>
@@ -81,7 +91,8 @@ curl --request POST \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 -d '{
-    "roleName": "role_a"
+    "roleName": "role_a",
+    "description": "a cluster read only role"
 }'
 ```
 
@@ -293,6 +304,7 @@ curl --request POST \
     "collectionName": "*",
     "dbName":"*"
 }'
+
 ```
 
 </TabItem>
@@ -304,7 +316,7 @@ The following are the parameters and corresponding explanations.
 
 - **privilege**: The privilege group to grant to the role. For the available options, see [Privileges & Privilege Groups](./cluster-privileges)
 
-- **Resource**: The target resource of a privilege group, which can be a specific cluster, database, or collection. 
+- **Resource**: The target resource of a privilege group, which can be a specific cluster, database, or collection.
 
     The following table explains how to specify the resource.
 
@@ -410,11 +422,12 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-Below is an example output. 
+Below is an example output.
 
 ```python
 {
      "role": "role_a",
+     "descripton": "a cluster read only role",
      "privilege": "ClusterReadOnly"
 }
 ```
@@ -530,6 +543,7 @@ curl --request POST \
     "collectionName": "*",
     "dbName":"*"
 }'
+
 ```
 
 </TabItem>
@@ -596,7 +610,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-Once the role is dropped, you can list all existing roles to check if the drop operation is successful. 
+Once the role is dropped, you can list all existing roles to check if the drop operation is successful.
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -647,4 +661,3 @@ Below is an example output. There is no `role_a` in the list. The drop operation
 ```bash
 ['admin']
 ```
-

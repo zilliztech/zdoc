@@ -1,17 +1,23 @@
 ---
 title: "Restore from Backup Files | Cloud"
-slug: /restore-from-backup-files
+slug: /restore-from-snapshot
+sidebar_key: restore-from-snapshot
 sidebar_label: "Restore from Backup Files"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "The restore feature in Zilliz Cloud lets you recover data from backup files in cases of accidental loss, corruption, or system failure—ensuring business continuity. It is a reliable way to recover from incidents, revert unintended changes, or clone a cluster for testing with minimal disruption. | Cloud"
 type: origin
 token: Dd6jwYIGiiz6HWkEPJqcpMA3n6g
 sidebar_position: 4
-displayed_sidebar: default
+keywords:
+  - zilliz
+  - vector database
+  - cloud
+  - backup
+  - restore
 
 ---
 
@@ -38,27 +44,15 @@ This feature is available only to **Dedicated** clusters.
 
 ## Restore a full cluster\{#restore-a-full-cluster}
 
-You can restore an entire cluster, including all databases and collections, to a **new** cluster. This is useful for cloning environments for testing or recovery. To restore an entire cluster, the backup file must be a cluster backup.
+You can restore an entire cluster—including all databases and collections—to a **new cluster**. This is useful for cloning environments for testing or recovery. To restore an entire cluster, the backup file must be a cluster backup.
 
-During restoration, you may also configure the followings:
+During restoration, you may choose whether to include RBAC settings.
 
-- Choose whether to include RBAC settings.
+<Admonition type="info" icon="📘" title="Notes">
 
-- Select the Milvus version of the restored new cluster.
+RBAC restoration is currently supported only via the web console; the RESTful API does not support it yet.
 
-    - For backup files created within the last 30 days, if the original cluster used an earlier Milvus GA version than the latest available GA version, you can choose the Milvus version for the restored cluster. By default, Zilliz Cloud restores the cluster to the latest GA Milvus version.
-
-    - For backup files created more than 30 days ago, or backup files already using the latest Milvus GA version, the target Milvus version cannot be changed.
-
-    For example, suppose the latest available Milvus GA version is 2.6.x.
-
-    - If you restore from a 2.5.x backup file created within the last 30 days, Zilliz Cloud restores the new cluster to 2.6.x by default, but you can choose to restore it to 2.5.x.
-
-    - If you restore from a 2.5.x backup file created more than 30 days ago, Zilliz Cloud restores the new cluster to 2.6.x by default, and you cannot change the target Milvus version.
-
-    - If you restore from a 2.6.x backup file, Zilliz Cloud restores the new cluster to 2.6.x, and you cannot change the target Milvus version.
-
-- Select whether to enable encryption at rest with CMEK. For details, see [Customer-Managed Encryption Keys](./cmek).
+</Admonition>
 
 After the restore, **a new password** is generated for the `db_admin` user. Use this password to connect to the restored cluster.
 
@@ -116,7 +110,7 @@ The following demo shows how to restore specific databases and collections in a 
 
 ### Via RESTful API\{#via-restful-api}
 
-The following example restores a collection from backup file to an existing cluster `inxx-xxxxxxxxxxxxxxx`. For details about the RESTful API, see [Restore Collection Backup](/reference/restful/restore-collection-backup-v2).
+The following example restores a collection from backup file to an existing cluster `in01-3e5ad8adc38xxxx`. For details about the RESTful API, see [Restore Collection Backup](/reference/restful/restore-collection-backup-v2).
 
 ```bash
 curl --request POST \
@@ -124,7 +118,7 @@ curl --request POST \
 --header "Authorization: Bearer ${API_KEY}" \
 --header "Content-Type: application/json" \
 -d '{
-    "destClusterId": "inxx-xxxxxxxxxxxxxxx",
+    "destClusterId": "in01-xxxxxxxxxxxxxx",
     "dbCollections": [
         {
             "collections": [
@@ -152,7 +146,7 @@ The following is an example output. A restore job is generated and you can check
 
 ## Restore from an encrypted backup file\{#restore-from-an-encrypted-backup-file}
 
-When you restore an encrypted backup to a new cluster, Zilliz Cloud will use the KMS key associated with the backup file to decrypt the data before restoration. Therefore, you can restore the backup to a new cluster with or without encryption. 
+When you restore an encrypted backup to a new cluster, Zilliz Cloud will use the KMS key associated with the backup file to decrypt the data before restoration. Therefore, you can restore the backup to a new cluster with or without encryption.
 
 <Admonition type="info" icon="📘" title="Notes">
 
@@ -174,17 +168,4 @@ The restoration procedure from an encrypted backup is almost the same as a norma
 
 **What Milvus version will a restored cluster run?**
 
-By default, a full-cluster restore creates the target cluster with the latest GA major version supported by Zilliz Cloud.
-
-- For backup files created within the last 30 days, if the original cluster used an earlier Milvus GA version than the latest available GA version, you can choose the Milvus version for the restored cluster. By default, Zilliz Cloud restores the cluster to the latest GA Milvus version.
-
-- For backup files created more than 30 days ago, or backup files already using the latest Milvus GA version, the target Milvus version cannot be changed.
-
-For example, suppose the latest available Milvus GA version is 2.6.x.
-
-- If you restore from a 2.5.x backup file created within the last 30 days, Zilliz Cloud restores the new cluster to 2.6.x by default, but you can choose to restore it to 2.5.x.
-
-- If you restore from a 2.5.x backup file created more than 30 days ago, Zilliz Cloud restores the new cluster to 2.6.x by default, and you cannot change the target Milvus version.
-
-- If you restore from a 2.6.x backup file, Zilliz Cloud restores the new cluster to 2.6.x, and you cannot change the target Milvus version.
-
+The restored cluster runs the latest Milvus version supported by Zilliz Cloud at the time of restoration, regardless of the version used when the backup was created. For example, if you back up a Milvus 2.5.x cluster and restore it after the platform has upgraded to 2.6.x, the restored cluster will run Milvus 2.6.x. Backup files contain data only — the cluster version is determined by the platform.

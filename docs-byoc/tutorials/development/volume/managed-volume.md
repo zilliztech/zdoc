@@ -156,18 +156,16 @@ You can create a volume on the web console or via SDK.
     <TabItem value='bash'>
 
     ```bash
-    export BASE_URL="https://api.cloud.zilliz.com"
-    export TOKEN="YOUR_API_KEY"
-    
     curl --request POST \
     --url "${BASE_URL}/v2/volumes/create" \
     --header "Authorization: Bearer ${TOKEN}" \
+    --header "Request-Timeout: 5" \
     --header "Content-Type: application/json" \
     -d '{
         "projectId": "proj-xxxxxxxxxxxxxxxxxxxxxxx",
-        "regionId": "aws-us-west-1",
-        "volumeName": "managed_volume",
-        "type": "MANAGED"
+        "regionId": "aws-us-west-2",
+        "volumeName": "my_volume",
+        "description": "A volume for storing collection data."
     }'
     
     # {
@@ -189,6 +187,7 @@ You can create a volume on the web console or via SDK.
     | `regionId` | The region of the volume to create must match the cloud provider and region of the target cluster you plan to import or migrate data into. |
     | `volumeName` | The name of the volume to create must be unique across the organization, no longer than 64 characters, start with a letter or underscore, and contain only letters, digits, hyphens, and underscores. |
     | `type`(optional) | Options: `MANAGED`, `EXTERNAL`<br/>If this parameter is omitted, a managed cluster will be created by default. |
+    | `description`(optional) | The description of the volume to create. Up to 255 characters. |
 
 - **Via web console**
 
@@ -214,8 +213,8 @@ You can create a volume on the web console or via SDK.
              <td><p>The volume name must be unique across the organization, no longer than 64 characters, start with a letter or underscore, and contain only letters, digits, hyphens, and underscores.</p></td>
            </tr>
            <tr>
-             <td><p>Description</p></td>
-             <td><p>This parameter is optional.</p></td>
+             <td><p>Description (optional)</p></td>
+             <td><p>This parameter is optional. Up to 255 characters.</p></td>
            </tr>
            <tr>
              <td><p>Volume Type</p></td>
@@ -337,17 +336,28 @@ You can view all existing volumes in a project.
     --header "Content-Type: application/json"
     
     # {
-    #     "code": 0,
-    #     "data": {
-    #         "volumes": [
-    #            {
-    #                "volumeName": "external_volume",
-    #                "type": "EXTERNAL"
-    #            }
-    #        ],
-    #        "count": 1,
+    #    "code": 200,
+    #    "data": {
+    #        "count": 3,
     #        "currentPage": 1,
-    #        "pageSize": 10
+    #        "pageSize": 10,
+    #        "volumes": [
+    #            {
+    #                "volumeName": "my_volume_1",
+    #                "type": "MANAGED",
+    #                "description": "A volume for storing collection data."
+    #            },
+    #            {
+    #                "volumeName": "my_volume_2",
+    #                "type": "EXTERNAL",
+    #                "description": "A volume for storing collection data."
+    #            },
+    #            {
+    #                "volumeName": "my_volume_3",
+    #                "type": "MANAGED",
+    #                "description": "A volume for storing collection data."
+    #            }
+    #        ]
     #    }
     #}
     ```
@@ -432,7 +442,6 @@ You can also check the details of a specific managed volume.
     ```
 
     </TabItem>
-
     <TabItem value='bash'>
 
     ```bash
@@ -795,5 +804,4 @@ The following table lists the possible volume statuses.
 | **Status** | **Description** |
 | --- | --- |
 | **Available** | The volume is active and usable. |
-| **Frozen** | The organization is frozen due to overdue [invoices](./view-invoice). The volume cannot be used for new operations. Please pay your bill to continue using volumes. |
-
+| **Frozen** | The organization is frozen due to overdue [invoices](null). The volume cannot be used for new operations. Please pay your bill to continue using volumes. |

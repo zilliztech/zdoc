@@ -50,33 +50,27 @@ You can view the list of all projects in your permission scope in the organizati
 
     ```bash
     {
-      "code": 0,
-      "data": [
-        {
-          "projectName": "project1",
-          "projectId": "proj-a0195d6acacaf2bb985173",
-          "instanceCount": 3,
-          "createTime": "2023-12-07T03:21:32Z",
-          "plan": "Standard",
-          "projectType": "Regional",
-          "regions": ["aws-us-west-2"]
-        },
-        {
-          "projectName": "Default Project",
-          "projectId": "proj-412e874430bfa02e857247",
-          "instanceCount": 0,
-          "createTime": "2023-08-16T07:34:06Z",
-          "plan": "Enterprise",
-          "projectType": "Legacy",
-          "regions": []
-        }
-      ]
+        "code": 0,
+        "data": [
+            {
+                "projectName": "Default Project",
+                "projectId": "proj-xxxxxxxxxxxxxxxxxxxxxxx",
+                "regionIds": [
+                    "aws-us-east-1"
+                ],
+                "instanceCount": 2,
+                "createTime": "2023-08-16T07:34:06Z",
+                "plan": "Enterprise",
+                "orgType": "SAAS",
+                "description": "A project for organizing clusters and resources."
+            }
+        ]
     }
     ```
 
 - **Via web console**
 
-    ![view-projects-byoc](https://zdoc-images.s3.us-west-2.amazonaws.com/view-projects-byoc.png "view-projects-byoc")
+    ![VnLHwjlDbhA62GbPXsYcIl6CnKb](https://zdoc-images.s3.us-west-2.amazonaws.com/VnLHwjlDbhA62GbPXsYcIl6CnKb.png)
 
 ## View project details\{#view-project-details}
 
@@ -100,18 +94,19 @@ You can also check the details of a certain project.
 
     ```json
     {
-      "code": 0,
-      "data": [
-        {
-          "projectName": "project1",
-          "projectId": "proj-a0195d6acacaf2bb985173",
-          "instanceCount": 3,
-          "createTime": "2023-12-07T03:21:32Z",
-          "plan": "Standard",
-          "projectType": "Regional",
-          "regions": ["aws-us-west-2"]
+        "code": 0,
+        "data": {
+            "projectId": "proj-x",
+            "projectName": "My Project",
+            "regionIds": [
+                "aws-us-east-1"
+            ],
+            "instanceCount": 2,
+            "createTime": "2023-08-16T07:34:06Z",
+            "plan": "Enterprise",
+            "orgType": "SAAS",
+            "description": "A project for organizing clusters and resources."
         }
-      ]
     }
     ```
 
@@ -119,11 +114,11 @@ You can also check the details of a certain project.
 
     You can check the project name, plan, creation time, and the number of clusters within the project on the **Projects** page. You can further click on a certain project to view its clusters.
 
-    ![KgjvbAvUkopKWsxnGXycOZEynZd](https://zdoc-images.s3.us-west-2.amazonaws.com/kgjvbavukopkwsxngxycozeynzd.png "KgjvbAvUkopKWsxnGXycOZEynZd")
+    ![HhfsbgOXco1fdGxoEYxc6QXBnpc](https://zdoc-images.s3.us-west-2.amazonaws.com/hhfsbgoxco1fdgxoeyxc6qxbnpc.png "HhfsbgOXco1fdGxoEYxc6QXBnpc")
 
-## Rename a project\{#rename-a-project}
+## Edit project details\{#edit-project-details}
 
-To rename a project, you must be an [Organization Owner](./organization-users). You can rename a project via the web console.
+To rename a project or edit the description of a project, you must be an [Organization Owner](./organization-users). You can edit project details via the web console.
 
 ![rename-project-byoc](https://zdoc-images.s3.us-west-2.amazonaws.com/rename-project-byoc.png "rename-project-byoc")
 

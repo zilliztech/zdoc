@@ -1,17 +1,23 @@
 ---
 title: "Manage Cluster | BYOC"
 slug: /manage-cluster
+sidebar_key: manage-cluster
 sidebar_label: "Manage Cluster"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "This guide describes the lifecycle of a cluster so that you can make full use of your Zilliz Cloud console to achieve your goals. | BYOC"
 type: origin
 token: PharwAysCiBzvgkuqqecmNzunQf
 sidebar_position: 3
-displayed_sidebar: default
+keywords:
+  - zilliz
+  - vector database
+  - cloud
+  - cluster
+  - manage
 
 ---
 
@@ -21,6 +27,8 @@ import TabItem from '@theme/TabItem';
 
 import Supademo from '@site/src/components/Supademo';
 
+import Procedures from '@site/src/components/Procedures';
+
 # Manage Cluster
 
 This guide describes the lifecycle of a cluster so that you can make full use of your Zilliz Cloud console to achieve your goals.
@@ -29,9 +37,35 @@ You can perform the following operations on a Dedicated cluster.
 
 ## Rename\{#rename}
 
-Navigate to the **Cluster Details** page of your target cluster and then follow the instructions below to rename your cluster.
+<Procedures>
 
-<Supademo id="cm9tp57ye0ri911m7ljrn1yg6" title=""  />
+1. Navigate to the **Cluster Details** page of your target cluster.
+
+1. Click on **Actions** and then select **Rename**.
+
+    ![XR4QbJtm1o1My7xPp5ecuwnonAf](https://zdoc-images.s3.us-west-2.amazonaws.com/xr4qbjtm1o1my7xpp5ecuwnonaf.png "XR4QbJtm1o1My7xPp5ecuwnonAf")
+
+1. Enter the new name of the cluster and click on **Save**.
+
+    ![KmiAbYLuRonF7jxvYfsczx2cns8](https://zdoc-images.s3.us-west-2.amazonaws.com/kmiabyluronf7jxvyfsczx2cns8.png "KmiAbYLuRonF7jxvYfsczx2cns8")
+
+</Procedures>
+
+## Edit description\{#edit-description}
+
+<Procedures>
+
+1. Navigate to the **Cluster Details** page of your target cluster.
+
+1. Hover on the cluster description and click on the **Edit** **description** icon.
+
+    ![VVDNbEWIcoEiWrxUtYbcfy5snRg](https://zdoc-images.s3.us-west-2.amazonaws.com/vvdnbewicoeiwrxutybcfy5snrg.png "VVDNbEWIcoEiWrxUtYbcfy5snRg")
+
+1. Enter the new description of the cluster and click on **Save**.
+
+    ![ZfXqb3NGOoEm1gxmJGkcAxU2nke](https://zdoc-images.s3.us-west-2.amazonaws.com/zfxqb3ngooem1gxmjgkcaxu2nke.png "ZfXqb3NGOoEm1gxmJGkcAxU2nke")
+
+</Procedures>
 
 ## Suspend\{#suspend}
 
@@ -66,7 +100,7 @@ curl --request POST \
 #         "clusterId": "inxx-xxxxxxxxxxxxxxx",
 #         "prompt": "Successfully Submitted. The cluster will not incur any computing costs when suspended. You will only be billed for the storage costs during this time."
 #     }
-# }     
+# }
 ```
 
 In the command above,
@@ -99,7 +133,7 @@ Navigate to the **Cluster Details** page of your target cluster and then follow 
 
 <Admonition type="info" icon="📘" title="Notes">
 
-When clicking **Resume** in the **Resume Cluster** dialog box, you will be prompted to check the resource quota for your project. If the resources are sufficient, the dialog box will disappear after the check is complete, otherwise, you can 
+When clicking **Resume** in the **Resume Cluster** dialog box, you will be prompted to check the resource quota for your project. If the resources are sufficient, the dialog box will disappear after the check is complete, otherwise, you can
 
 - Click **Go To Project Resource Settings** to edit resource settings for the project, or
 
@@ -130,7 +164,7 @@ curl --request POST \
 #         "clusterId": "inxx-xxxxxxxxxxxxxxx",
 #         "prompt": "successfully Submitted. Cluster is being resumed, which is expected to takes several minutes. You can access data about the creation progress and status of your cluster by DescribeCluster API. Once the cluster status is RUNNING, you may access your vector database using the SDK."
 #     }
-# }     
+# }
 ```
 
 In the command above,
@@ -180,7 +214,7 @@ curl --request POST \
 #         "clusterId": "inxx-xxxxxxxxxxxxxxx",
 #         "prompt": "The cluster has been deleted. If you consider this action to be an error, you have the option to restore the deleted cluster from the recycle bin within a 30-day period."
 #     }
-# }     
+# }
 ```
 
 In the command above,
@@ -194,4 +228,3 @@ For details, refer to [Drop Cluster](/reference/restful/drop-cluster-v2).
 </TabItem>
 
 </Tabs>
-

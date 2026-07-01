@@ -1,17 +1,22 @@
 ---
 title: "External Volumes | Cloud"
 slug: /external-volume
+sidebar_key: external-volume
 sidebar_label: "External Volumes"
-beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
+beta: FALSE
 notebook: FALSE
 description: "An external volume is a read-only reference to a bucket or path in your own cloud object storage (such as AWS S3 or Google Cloud Storage), allowing Zilliz Cloud to access your data in place without copying or moving it. | Cloud"
 type: origin
 token: JaLdw76LPiX003kLpKHcA0n8n2d
 sidebar_position: 2
-displayed_sidebar: default
+keywords:
+  - zilliz
+  - vector database
+  - cloud
+  - volume
 
 ---
 
@@ -25,9 +30,9 @@ import Procedures from '@site/src/components/Procedures';
 
 # External Volumes
 
-An external volume is a read-only reference to a bucket or path in your own cloud object storage (such as AWS S3 or Google Cloud Storage), allowing Zilliz Cloud to access your data in place without copying or moving it. 
+An external volume is a read-only reference to a bucket or path in your own cloud object storage (such as AWS S3 or Google Cloud Storage), allowing Zilliz Cloud to access your data in place without copying or moving it.
 
-This page explains how to create and delete external volumes via the web console and SDKs.                      
+This page explains how to create and delete external volumes via the web console and SDKs.
 
 ## Considerations\{#considerations}
 
@@ -59,24 +64,24 @@ Before creating an external volume, you need to integrate your [AWS S3 bucket](.
     ```python
     # Initiate a volume manager
     from pymilvus.bulk_writer.volume_manager import VolumeManager
-    
+
     volume_manager = VolumeManager(
         cloud_endpoint="https://api.cloud.zilliz.com",
         api_key="YOUR_API_KEY"
     )
-    
+
     # Create a volume
     volume_manager.create_volume(
-        project_id="proj-xxxxxxxxxxxxxxxxxxxxxxx", 
-        region_id="aws-us-west-2", 
+        project_id="proj-xxxxxxxxxxxxxxxxxxxxxxx",
+        region_id="aws-us-west-2",
         volume_name="external_volume",
         volume_type="EXTERNAL",
         storage_integration_id="integ-xxxx",
         path="data/",
     )
-    
+
     print(f"\nVolume external_volume created")
-    
+
     # Volume external_volume created
     ```
 
@@ -88,17 +93,17 @@ Before creating an external volume, you need to integrate your [AWS S3 bucket](.
     // Initiate a volume manager
     import io.milvus.bulkwriter.VolumeManager;
     import io.milvus.bulkwriter.VolumeManagerParam;
-    
+
     VolumeManagerParam volumeManagerParam = VolumeManagerParam.newBuilder()
         .withCloudEndpoint("https://api.cloud.zilliz.com")
         .withApiKey("YOUR_API_KEY")
         .build();
-            
+
     VolumeManager volumeManager = new VolumeManager(volumeManagerParam);
-    
+
     // Create a EXTERNAL volume
     import io.milvus.bulkwriter.request.volume.CreateVolumeRequest;
-    
+
     CreateVolumeRequest request = CreateVolumeRequest.builder()
         .projectId("proj-xxxxxxxxxxxxxxxxxxxxxxx")
         .regionId("aws-us-west-2")
@@ -107,11 +112,11 @@ Before creating an external volume, you need to integrate your [AWS S3 bucket](.
         .storageIntegrationId("integ-xxxx")
         .path("data/")
         .build();
-    
+
     volumeManager.createVolume(request);
-    
+
     System.out.printf("\nVolume %s created%n", "external_volume");
-    
+
     // Volume external_volume created
     ```
 
@@ -120,22 +125,21 @@ Before creating an external volume, you need to integrate your [AWS S3 bucket](.
     <TabItem value='bash'>
 
     ```bash
-    export BASE_URL="https://api.cloud.zilliz.com"
-    export TOKEN="YOUR_API_KEY"
-    
     curl --request POST \
     --url "${BASE_URL}/v2/volumes/create" \
     --header "Authorization: Bearer ${TOKEN}" \
+    --header "Request-Timeout: 5" \
     --header "Content-Type: application/json" \
     -d '{
-        "projectId": "proj-xxxx",
+        "projectId": "proj-xxxxxxxxxxxxxxxxxxxxxxx",
         "regionId": "aws-us-west-2",
-        "volumeName": "external_volume",
+        "volumeName": "my_external_volume",
         "type": "EXTERNAL",
-        "storageIntegrationId": "integ-xxxx",
-        "path": "/data/"
+        "storageIntegrationId": "integ-xxxxxxxxxxxxxxxxxxx",
+        "path": "data/",
+        "description": "A volume for storing collection data."
     }'
-    
+
     # {
     #     "code": 0,
     #     "data": {
@@ -149,14 +153,40 @@ Before creating an external volume, you need to integrate your [AWS S3 bucket](.
 
     The following table describes the parameters.
 
-    | **Parameter** | **Description** |
-    | --- | --- |
-    | `projectId` | The ID of the project in which you want to create the volume. |
-    | `regionId` | The region of the volume to create must match the cloud provider and region of the target cluster you plan to import or migrate data into. |
-    | `volumeName` | The name of the volume to create must be unique across the organization, no longer than 64 characters, start with a letter or underscore, and contain only letters, digits, hyphens, and underscores. |
-    | `type` | Set the parameter to `EXTERNAL` to create an external volume. Defaults to `MANAGED`. |
-    | `storageIntegrationId` | The ID of the storage integration to reference. Required when `type=EXTERNAL`. The storage integration you select must belong to the same org and region as the external volume you want to create. |
-    | `path` | The storage path. Required when `type=EXTERNAL`. |
+    <table>
+       <tr>
+         <th><p><strong>Parameter</strong></p></th>
+         <th><p><strong>Description</strong></p></th>
+       </tr>
+       <tr>
+         <td><p><code>projectId</code></p></td>
+         <td><p>The ID of the project in which you want to create the volume.</p></td>
+       </tr>
+       <tr>
+         <td><p><code>regionId</code></p></td>
+         <td><p>The region of the volume to create must match the cloud provider and region of the target cluster you plan to import or migrate data into.</p></td>
+       </tr>
+       <tr>
+         <td><p><code>volumeName</code></p></td>
+         <td><p>The name of the volume to create must be unique across the organization, no longer than 64 characters, start with a letter or underscore, and contain only letters, digits, hyphens, and underscores.</p></td>
+       </tr>
+       <tr>
+         <td><p><code>type</code></p></td>
+         <td><p>Set the parameter to <code>EXTERNAL</code> to create an external volume. Defaults to <code>MANAGED</code>.</p></td>
+       </tr>
+       <tr>
+         <td><p><code>storageIntegrationId</code></p></td>
+         <td><p>The ID of the storage integration to reference. Required when <code>type=EXTERNAL</code>. The storage integration you select must belong to the same org and region as the external volume you want to create.</p></td>
+       </tr>
+       <tr>
+         <td><p><code>path</code></p></td>
+         <td><p>The storage path. Required when <code>type=EXTERNAL</code>.</p></td>
+       </tr>
+       <tr>
+         <td><p><code>description</code>(optional)</p></td>
+         <td><p>The description of the volume to create. Up to 255 characters.</p></td>
+       </tr>
+    </table>
 
 - **Via web console**
 
@@ -172,19 +202,38 @@ Before creating an external volume, you need to integrate your [AWS S3 bucket](.
 
         The following table describes each parameter used when creating an external volume.
 
-        | **Parameter** | **Description** |
-        | --- | --- |
-        | Name | The volume name must be unique across the organization, no longer than 64 characters, start with a letter or underscore, and contain only letters, digits, hyphens, and underscores. |
-        | Description | This parameter is optional. |
-        | Volume Type | Select "External" as the volume type. |
-        | Cloud Provider & Region | The volume cloud provider and region must match the cloud provider and region of the target cluster you plan to import or migrate data into. |
-        | Storage Integration & Path | Storage integration ([AWS S3 bucket](./integrate-with-aws-s3) or [Google GCS bucket](./integrate-with-gcp)) is the credential object that encapsulates the access configuration for your cloud storage.<br/>Path is a pointer to where your data is placed. (Eg. `folder/`) |
+        <table>
+           <tr>
+             <th><p><strong>Parameter</strong></p></th>
+             <th><p><strong>Description</strong></p></th>
+           </tr>
+           <tr>
+             <td><p>Name</p></td>
+             <td><p>The volume name must be unique across the organization, no longer than 64 characters, start with a letter or underscore, and contain only letters, digits, hyphens, and underscores.</p></td>
+           </tr>
+           <tr>
+             <td><p>Description</p></td>
+             <td><p>This parameter is optional. Up to 255 characters.</p></td>
+           </tr>
+           <tr>
+             <td><p>Volume Type</p></td>
+             <td><p>Select "External" as the volume type.</p></td>
+           </tr>
+           <tr>
+             <td><p>Cloud Provider & Region</p></td>
+             <td><p>The volume cloud provider and region must match the cloud provider and region of the target cluster you plan to import or migrate data into.</p></td>
+           </tr>
+           <tr>
+             <td><p>Storage Integration & Path</p></td>
+             <td><p>Storage integration (<a href="./integrate-with-aws-s3">AWS S3 bucket</a> or <a href="./integrate-with-gcp">Google GCS bucket</a>) is the credential object that encapsulates the access configuration for your cloud storage.</p><p>Path is a pointer to where your data is placed. (Eg. <code>folder/</code>)</p></td>
+           </tr>
+        </table>
 
     1. Click on **Create**.
 
     </Procedures>
 
-## List external volumes\{#list-external-volumes}
+## List volumes\{#list-volumes}
 
 You can view all existing volumes in a project.
 
@@ -196,23 +245,23 @@ You can view all existing volumes in a project.
     ```python
     # Initiate a volume manager
     from pymilvus.bulk_writer.volume_manager import VolumeManager
-    
+
     volume_manager = VolumeManager(
         cloud_endpoint="https://api.cloud.zilliz.com",
         api_key="YOUR_API_KEY"
     )
-    
+
     # View volumes
     volume_list = volume_manager.list_volumes(
         project_id="proj-xxxxxxxxxxxxxxxxxxxxxxx",
-        current_page=1, 
+        current_page=1,
         page_size=10
     )
-    
+
     print(f"\nlistVolumes results: \n", volume_list.json()['data'])
-    
-    # listVolumes results: 
-    # 
+
+    # listVolumes results:
+    #
     # {
     #     "count": 1,
     #     "currentPage": 1,
@@ -221,7 +270,7 @@ You can view all existing volumes in a project.
     #         {
     #             "volumeName": "external_volume"
     #             "type":"EXTERNAL"
-    #         }        
+    #         }
     #     ]
     # }
     ```
@@ -234,31 +283,31 @@ You can view all existing volumes in a project.
     // Initiate a volume manager
     import io.milvus.bulkwriter.VolumeManager;
     import io.milvus.bulkwriter.VolumeManagerParam;
-    
+
     VolumeManagerParam volumeManagerParam = VolumeManagerParam.newBuilder()
         .withCloudEndpoint("https://api.cloud.zilliz.com")
         .withApiKey("YOUR_API_KEY")
         .build();
-            
+
     VolumeManager volumeManager = new VolumeManager(volumeManagerParam);
-    
+
     // View volumes
     import com.google.gson.Gson;
     import io.milvus.bulkwriter.request.volume.ListVolumesRequest;
     import io.milvus.bulkwriter.response.volume.ListVolumesResponse;
-    
+
     ListVolumesRequest request = ListVolumesRequest.builder()
         .projectId("proj-xxxxxxxxxxxxxxxxxxxxxxx")
         .currentPage(1)
         .pageSize(10)
         .build();
-        
+
     ListVolumesResponse listVolumesResponse = volumeManager.listVolumes(request);
-    
+
     System.out.println("\nlistVolumes results: " + new Gson().toJson(listVolumesResponse));
-    
-    // listVolumes results: 
-    // 
+
+    // listVolumes results:
+    //
     // {
     //     "count": 1,
     //     "currentPage": 1,
@@ -267,7 +316,7 @@ You can view all existing volumes in a project.
     //         {
     //             "volumeName": "external_volume",
     //             "type":"EXTERNAL"
-    //         }        
+    //         }
     //     ]
     // }
     ```
@@ -279,24 +328,35 @@ You can view all existing volumes in a project.
     ```bash
     export BASE_URL="https://api.cloud.zilliz.com"
     export TOKEN="YOUR_API_KEY"
-    
+
     curl --request GET \
     --url "${BASE_URL}/v2/volumes?projectId=proj-xxxxxxxxxxxxxxxxx" \
     --header "Authorization: Bearer ${TOKEN}" \
     --header "Content-Type: application/json"
-    
+
     # {
-    #     "code": 0,
-    #     "data": {
-    #         "volumes": [
-    #            {
-    #                "volumeName": "external_volume",
-    #                "type": "EXTERNAL"
-    #            }
-    #        ],
-    #        "count": 1,
+    #    "code": 200,
+    #    "data": {
+    #        "count": 3,
     #        "currentPage": 1,
-    #        "pageSize": 10
+    #        "pageSize": 10,
+    #        "volumes": [
+    #            {
+    #                "volumeName": "my_volume_1",
+    #                "type": "MANAGED",
+    #                "description": "A volume for storing collection data."
+    #            },
+    #            {
+    #                "volumeName": "my_volume_2",
+    #                "type": "EXTERNAL",
+    #                "description": "A volume for storing collection data."
+    #            },
+    #            {
+    #                "volumeName": "my_volume_3",
+    #                "type": "MANAGED",
+    #                "description": "A volume for storing collection data."
+    #            }
+    #        ]
     #    }
     #}
     ```
@@ -320,21 +380,21 @@ You can check the details of a specific volume.
     ```python
     # Initiate a volume manager
     from pymilvus.bulk_writer.volume_manager import VolumeManager
-    
+
     volume_manager = VolumeManager(
         cloud_endpoint="https://api.cloud.zilliz.com",
         api_key="YOUR_API_KEY"
     )
-    
+
     # View volumes
     volume_list = volume_manager.describe_volume(
             volume_name="external_volume"
     )
-    
+
     print(f"\ndescVolume results: \n", volume_list.json()['data'])
-    
-    # descVolume results: 
-    # 
+
+    # descVolume results:
+    #
     # {
     #    "volumeName": "external_volume",
     #    "type": "EXTERNAL",
@@ -354,29 +414,29 @@ You can check the details of a specific volume.
     // Initiate a volume manager
     import io.milvus.bulkwriter.VolumeManager;
     import io.milvus.bulkwriter.VolumeManagerParam;
-    
+
     VolumeManagerParam volumeManagerParam = VolumeManagerParam.newBuilder()
         .withCloudEndpoint("https://api.cloud.zilliz.com")
         .withApiKey("YOUR_API_KEY")
         .build();
-            
+
     VolumeManager volumeManager = new VolumeManager(volumeManagerParam);
-    
+
     // View volumes
     import com.google.gson.Gson;
     import io.milvus.bulkwriter.request.volume.DescribeVolumeRequest;
     import io.milvus.bulkwriter.response.volume.VolumeInfo;
-    
+
     DescribeVolumeRequest request = DescribeVolumeRequest.builder()
         .volumeName("descVolume")
         .build();
-        
+
     VolumeInfo volumeInfo = volumeManager.describeVolume(request);
-    
+
     System.out.println("\ndescVolume results: " + new Gson().toJson(volumeInfo));
-    
-    // descVolume results: 
-    // 
+
+    // descVolume results:
+    //
     //{
     //    "volumeName": "volume-22222lentitude",
     //    "type": "EXTERNAL",
@@ -395,12 +455,12 @@ You can check the details of a specific volume.
     ```bash
     export BASE_URL="https://api.cloud.zilliz.com"
     export TOKEN="YOUR_API_KEY"
-    
+
     curl --request GET \
-    --url "$\{BASE_URL\}/v2/volumes/${VOLUME_NAME}" \
+    --url "${BASE_URL}/v2/volumes/${VOLUME_NAME}" \
     --header "Authorization: Bearer ${TOKEN}" \
     --header "Content-Type: application/json"
-    
+
     # {
     #    "code": 0,
     #    "data": {
@@ -426,7 +486,7 @@ You can check the details of a specific volume.
 
 You can delete an external volume at any time if it is no longer needed.
 
-Deleting an external volume removes only the volume metadata from Zilliz Cloud; your data remains intact in your cloud object storage. 
+Deleting an external volume removes only the volume metadata from Zilliz Cloud; your data remains intact in your cloud object storage.
 
 - **Via SDKs**
 
@@ -436,19 +496,19 @@ Deleting an external volume removes only the volume metadata from Zilliz Cloud; 
     ```python
     # Initiate a volume manager
     from pymilvus.bulk_writer.volume_manager import VolumeManager
-    
+
     volume_manager = VolumeManager(
         cloud_endpoint="https://api.cloud.zilliz.com",
         api_key="YOUR_API_KEY"
     )
-    
+
     # Delete a volume
     volume_manager.delete_volume(
         volume_name="external_volume"
     )
-    
+
     print(f"\nVolume external_volume deleted")
-    
+
     # Volume external_volume deleted
     ```
 
@@ -460,25 +520,25 @@ Deleting an external volume removes only the volume metadata from Zilliz Cloud; 
     // Initiate a volume manager
     import io.milvus.bulkwriter.VolumeManager;
     import io.milvus.bulkwriter.VolumeManagerParam;
-    
+
     VolumeManagerParam volumeManagerParam = VolumeManagerParam.newBuilder()
         .withCloudEndpoint("https://api.cloud.zilliz.com")
         .withApiKey("YOUR_API_KEY")
         .build();
-            
+
     VolumeManager volumeManager = new VolumeManager(volumeManagerParam);
-    
+
     // Delete a volume
     import io.milvus.bulkwriter.request.volume.DeleteVolumeRequest;
-    
+
     DeleteVolumeRequest request = DeleteVolumeRequest.builder()
         .volumeName("external_volume")
         .build();
-    
+
     volumeManager.deleteVolume(request);
-    
+
     System.out.printf("\nVolume %s deleted%n", "external_volume");
-    
+
     // Volume external_volume deleted
     ```
 
@@ -490,12 +550,12 @@ Deleting an external volume removes only the volume metadata from Zilliz Cloud; 
     export BASE_URL="https://api.cloud.zilliz.com"
     export TOKEN="YOUR_API_KEY"
     export VOLUME_NAME="external_volume"
-    
+
     curl --request DELETE \
-    --url "$\{BASE_URL\}/v2/volumes/${VOLUME_NAME}" \
+    --url "${BASE_URL}/v2/volumes/${VOLUME_NAME}" \
     --header "Authorization: Bearer ${TOKEN}" \
     --header "Content-Type: application/json"
-    
+
     # {
     #     "code": 0,
     #     "data": {
@@ -559,9 +619,22 @@ No. External volumes must be in the same cloud provider and region as your clust
 
 The following table lists the possible volume statuses.
 
-| **Status** | **Description** |
-| --- | --- |
-| **Available** | The volume is active and usable. |
-| **Frozen** | The organization is frozen due to overdue [invoices](./view-invoice). The volume cannot be used for new operations. Please pay your bill to continue using volumes. |
-| **Error** | The [storage integration](./undefined) validation failed. Check the configuration and retry. |
+<table>
+   <tr>
+     <th><p><strong>Status</strong></p></th>
+     <th><p><strong>Description</strong></p></th>
+   </tr>
+   <tr>
+     <td><p><strong>Available</strong></p></td>
+     <td><p>The volume is active and usable.</p></td>
+   </tr>
+   <tr>
+     <td><p><strong>Frozen</strong></p></td>
+     <td><p>The organization is frozen due to overdue <a href="null">invoices</a>. The volume cannot be used for new operations. Please pay your bill to continue using volumes.</p></td>
+   </tr>
+   <tr>
+     <td><p><strong>Error</strong></p></td>
+     <td><p>The <a href="null">storage integration</a> validation failed. Check the configuration and retry.</p></td>
+   </tr>
+</table>
 
