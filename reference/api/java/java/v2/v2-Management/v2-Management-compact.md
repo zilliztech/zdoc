@@ -4,19 +4,19 @@ slug: /java/java/v2-Management-compact
 sidebar_key: java/v2-Management-compact
 sidebar_label: "compact()"
 added_since: v2.4.x
-last_modified: v2.6.x
+last_modified: v3.0.x
 deprecate_since: false
 beta: false
 notebook: false
 description: "This operation compacts the collection by merging small segments into larger ones. It is recommended to call this operation after inserting a large amount of data into a collection. | Java | v2"
 type: docx
-token: FSTVdf6Yuovg9CxQf5acldFWnsb
+token: LDQsdzUJQotV2GxWGaqcFkDenuq
 sidebar_position: 2
 keywords: 
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
   - zilliz
   - zilliz cloud
   - cloud
@@ -44,23 +44,28 @@ compact(CompactReq.builder()
     .databaseName(String databaseName)
     .collectionName(String collectionName)
     .isClustering(Boolean isClustering)
+    .isL0(Boolean isL0)
     .build()
 );
 ```
 
 **BUILDER METHODS:**
 
-- `databaseName(String databaseName)` -
+- `databaseName(String databaseName)`
 
     The name of the database. Defaults to the current database if not specified.
 
-- `collectionName(String collectionName)` -
+- `collectionName(String collectionName)`
 
     The name of the target collection.
 
-- `isClustering(Boolean isClustering)` -
+- `isClustering(Boolean isClustering)`
 
     Whether to perform clustering compaction. Defaults to `Boolean.FALSE`.
+
+- `isL0(Boolean isL0)`
+
+    Whether to request L0 compaction. Defaults to `Boolean.FALSE` and is independent from clustering compaction.
 
 **RETURNS:**
 

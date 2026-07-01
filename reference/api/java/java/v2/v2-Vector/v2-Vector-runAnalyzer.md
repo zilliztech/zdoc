@@ -13,10 +13,10 @@ type: docx
 token: AXt2dvFmQoP04wx9zlVciuitnQf
 sidebar_position: 10
 keywords: 
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
   - zilliz
   - zilliz cloud
   - cloud
@@ -42,7 +42,7 @@ public RunAnalyzerResp runAnalyzer(RunAnalyzerReq request)
 ```java
 runAnalyzer(RunAnalyzerReq.builder()
     .texts(List<String> texts)
-    .analyzerParams(Map<String, Object> analyzerParams)
+    .analyzerParams(Map<String, Object> analzyerParams)
     .withDetail(Boolean withDetail)
     .withHash(Boolean withHash)
     .databaseName(String databaseName)
@@ -50,54 +50,72 @@ runAnalyzer(RunAnalyzerReq.builder()
     .fieldName(String fieldName)
     .analyzerNames(List<String> analyzerNames)
     .build()
-);
+)
 ```
 
 **BUILDER METHODS:**
 
-- `texts(List<String> texts)` -
+- `texts(List<String> texts)`
 
-    A list of text strings to analyze.
+    The input text or a list of texts to be analyzed.
 
-- `analyzerParams(Map<String, Object> analyzerParams)` -
+- `analyzerParams(Map<String, Object> analzyerParams)`
 
-    A map of analyzer parameters.
+    The parameters for the analyzer. If left unspecified, defaults to an empty dictionary.
 
-- `withDetail(Boolean withDetail)` -
+- `withDetail(Boolean withDetail)`
 
-    Whether to include detailed token information.
+    An optional flag indicating whether to return detailed analysis output.
 
-- `withHash(Boolean withHash)` -
+- `withHash(Boolean withHash)`
 
-    Whether to include hash values in the output.
+    An optional flag indicating whether to include hash-based processing.
 
-- `databaseName(String databaseName)` -
-
-    The name of the database. Defaults to the current database if not specified.
-
-- `collectionName(String collectionName)` -
-
-    The name of the target collection.
-
-- `fieldName(String fieldName)` -
-
-    The name of the target field.
-
-- `analyzerNames(List<String> analyzerNames)` -
-
-    A list of analyzer names to use.
-
-**RETURNS:**
+**RETURN TYPE:**
 
 *RunAnalyzerResp*
 
+**RETURNS:**
+
 A **RunAnalyzerResp** contains a list of **AnalyzerResult** objects, each of which is a list of **AnalyzerToken** objects. 
 
-**EXCEPTIONS:**
+```java
+├── RunAnalyzerResp
+│       ├── AnalyzerResult_00
+│       │       ├── AnalyzerToken_00   
+│       │       ├── AnalyzerToken_01
+│       │       ├── ...
+│       │       └── AnalyzerToken_0x
+│       ├── AnalyzerResult_01
+│       ├── ...
+│       └── AnalyzerResult_0x
+```
 
-- **MilvusClientException**
+An **AnalyzerToken** has the following attributes:
 
-    This exception will be raised when any error occurs during this operation.
+- **token** (*String*) -
+
+    An analyzed token string
+
+- **startOffset** (*Long*) -
+
+    The offset of the above token's first character in the analyzed text.
+
+- **endOffset** (*Long*) -
+
+    The offset of the above token's last character in the analyzed text.
+
+- **position** (*Long*) -
+
+    The position of the above token in the analyzed text.
+
+- **positionLength** (*Long*) -
+
+    The length of the above token.
+
+- **hash** (*Long*) - 
+
+    The hash value of the above token.
 
 ## Example\{#example}
 

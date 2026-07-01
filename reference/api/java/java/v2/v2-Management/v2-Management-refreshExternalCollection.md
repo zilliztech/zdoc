@@ -11,12 +11,12 @@ notebook: false
 description: "This operation triggers a refresh job that pulls data from an external source into a Milvus collection. Returns a job ID that can be passed to `getRefreshExternalCollectionProgress()` to track progress. | Java | v2"
 type: docx
 token: G8JydoIzPoKb2MxASemcW2spnbe
-sidebar_position: 27
+sidebar_position: 29
 keywords: 
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
   - zilliz
   - zilliz cloud
   - cloud

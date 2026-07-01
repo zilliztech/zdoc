@@ -13,10 +13,10 @@ type: docx
 token: A6dgdXJdRoxwKAxGB1hctKXvnZg
 sidebar_position: 33
 keywords: 
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
   - zilliz
   - zilliz cloud
   - cloud

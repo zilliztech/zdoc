@@ -4,19 +4,19 @@ slug: /java/java/v2-Vector-searchIterator
 sidebar_key: java/v2-Vector-searchIterator
 sidebar_label: "searchIterator()"
 added_since: v2.4.x
-last_modified: v2.6.x
+last_modified: v3.0.x
 deprecate_since: false
 beta: false
 notebook: false
-description: "This method returns a search iterator to iterate search results. | Java | v2"
+description: "# searchIterator()\\{#searchiterator} | Java | v2"
 type: docx
-token: NYIqdKnfWobgPrxOmxFcbi3JnSd
+token: X7Ybdk6yRoVRPZxeHklct1i2n8c
 sidebar_position: 8
 keywords: 
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,6 +31,8 @@ import Admonition from '@theme/Admonition';
 
 # searchIterator()
 
+# searchIterator()\{#searchiterator}
+
 This method returns a search iterator to iterate search results.
 
 ```java
@@ -43,6 +45,7 @@ public SearchIterator searchIterator(SearchIteratorReq request)
 searchIterator(SearchIteratorReq.builder()
     .databaseName(String databaseName)
     .collectionName(String collectionName)
+    .clusterId(String clusterId)
     .partitionNames(List<String> partitionNames)
     .vectorFieldName(String vectorFieldName)
     .topK(int topK)
@@ -62,63 +65,67 @@ searchIterator(SearchIteratorReq.builder()
 
 **BUILDER METHODS:**
 
-- `databaseName(String databaseName)` -
+- `databaseName(String databaseName)`
 
     The name of the database. Defaults to the current database if not specified.
 
-- `collectionName(String collectionName)` -
+- `collectionName(String collectionName)`
 
     The name of the target collection.
 
-- `partitionNames(List<String> partitionNames)` -
+- `clusterId(String clusterId)`
+
+    The target cluster ID for this vector read request. Use `session(String clusterId)` when multiple requests should share the same cluster ID.
+
+- `partitionNames(List<String> partitionNames)`
 
     A list of partition names to target.
 
-- `vectorFieldName(String vectorFieldName)` -
+- `vectorFieldName(String vectorFieldName)`
 
     The name of the vector field.
 
-- `topK(int topK)` -
+- `topK(int topK)`
 
     The number of top results to return.
 
-- `limit(long limit)` -
+- `limit(long limit)`
 
     The maximum number of results to return.
 
-- `expr(String expr)` -
+- `expr(String expr)`
 
     A boolean expression to filter results.
 
-- `outputFields(List<String> outputFields)` -
+- `outputFields(List<String> outputFields)`
 
     A list of field names to include in the output.
 
-- `vectors(List<BaseVector> vectors)` -
+- `vectors(List<BaseVector> vectors)`
 
     A list of vectors to search with.
 
-- `roundDecimal(int roundDecimal)` -
+- `roundDecimal(int roundDecimal)`
 
     The number of decimal places for distance/score rounding.
 
-- `params(String params)` -
+- `params(String params)`
 
     Additional search parameters as a JSON string.
 
-- `consistencyLevel(ConsistencyLevel consistencyLevel)` -
+- `consistencyLevel(ConsistencyLevel consistencyLevel)`
 
     The consistency level for the operation.
 
-- `ignoreGrowing(boolean ignoreGrowing)` -
+- `ignoreGrowing(boolean ignoreGrowing)`
 
     Whether to ignore growing segments during the operation.
 
-- `groupByFieldName(String groupByFieldName)` -
+- `groupByFieldName(String groupByFieldName)`
 
     The field name to group search results by.
 
-- `batchSize(long batchSize)` -
+- `batchSize(long batchSize)`
 
     The batch size for iterator operations.
 

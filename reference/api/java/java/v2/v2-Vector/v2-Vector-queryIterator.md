@@ -4,19 +4,19 @@ slug: /java/java/v2-Vector-queryIterator
 sidebar_key: java/v2-Vector-queryIterator
 sidebar_label: "queryIterator()"
 added_since: v2.4.x
-last_modified: v2.6.x
+last_modified: v3.0.x
 deprecate_since: false
 beta: false
 notebook: false
 description: "This method returns a query iterator to iterate data. | Java | v2"
 type: docx
-token: A0I6dpXMsofjaVxE0RLcOW3nnWe
+token: HnxQdhvGQotpwfxgo4pcviKNn4g
 sidebar_position: 6
 keywords: 
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
   - zilliz
   - zilliz cloud
   - cloud

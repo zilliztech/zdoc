@@ -11,12 +11,12 @@ notebook: false
 description: "This operation returns the progress and current state of a previously started external collection refresh job. | Java | v2"
 type: docx
 token: FzEydqTwRoajhnxZOftcKxKpndg
-sidebar_position: 25
+sidebar_position: 27
 keywords: 
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
   - zilliz
   - zilliz cloud
   - cloud

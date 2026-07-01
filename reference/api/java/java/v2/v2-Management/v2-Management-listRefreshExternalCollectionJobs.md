@@ -11,12 +11,12 @@ notebook: false
 description: "This operation lists all external-collection refresh jobs, optionally filtered by collection name. | Java | v2"
 type: docx
 token: P9MFdEHMKoAfshxQhamcWrGknWg
-sidebar_position: 26
+sidebar_position: 28
 keywords: 
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
   - zilliz
   - zilliz cloud
   - cloud

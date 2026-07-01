@@ -13,10 +13,10 @@ type: docx
 token: DCszdG9rCoZxhfxfAuOcNsXRnOc
 sidebar_position: 8
 keywords: 
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
   - zilliz
   - zilliz cloud
   - cloud
@@ -39,7 +39,7 @@ io.milvus.v2.service.collection.request.CreateCollectionReq.StructFieldSchema
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This class cannot be explicitly instantiated. You need to describe a collection with an Array of Structs field to view its instances.</p>
+This class cannot be explicitly instantiated. You need to describe a collection with an Array of Structs field to view its instances.
 
 </Admonition>
 

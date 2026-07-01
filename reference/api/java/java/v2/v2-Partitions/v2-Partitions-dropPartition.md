@@ -13,10 +13,10 @@ type: docx
 token: CSaVdr3zao9zFpxaJBgcCTCYnPd
 sidebar_position: 2
 keywords: 
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
   - zilliz
   - zilliz cloud
   - cloud
@@ -43,7 +43,6 @@ public void dropPartition(DropPartitionReq request)
 
 ```java
 dropPartition(DropPartitionReq.builder()
-    .databaseName(String databaseName)
     .collectionName(String collectionName)
     .partitionName(String partitionName)
     .build()
@@ -51,10 +50,6 @@ dropPartition(DropPartitionReq.builder()
 ```
 
 **BUILDER METHODS:**
-
-- `databaseName(String databaseName)`
-
-    The name of the database to which the target collection belongs.
 
 - `collectionName(String collectionName)`
 

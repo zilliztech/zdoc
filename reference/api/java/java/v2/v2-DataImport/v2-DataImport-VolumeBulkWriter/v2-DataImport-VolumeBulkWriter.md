@@ -13,10 +13,10 @@ type: docx
 token: NtxedWgOpof2Qtx8BU2ckktunWc
 sidebar_position: 7
 keywords: 
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
   - zilliz
   - zilliz cloud
   - cloud
@@ -43,7 +43,7 @@ Constructs a **VolumeBulkWriter** instance by schema, output path, segment size,
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>A <strong>VolumeBulkWriter</strong> object intends to rewrite your raw data to a Zilliz Cloud Volume in a format that Milvus understands.</p>
+A **VolumeBulkWriter** object intends to rewrite your raw data to a Zilliz Cloud Volume in a format that Milvus understands.
 
 </Admonition>
 
@@ -92,8 +92,9 @@ VolumeBulkWriterParam.newBuilder()
 
     <Admonition type="info" icon="📘" title="**How does BulkWriter segment my data?**">
 
-    <p>The way BulkWriter segments your data varies with the target file type.</p>
-    <p>If the generated file exceeds the specified segment size, BulkWriter creates multiple files and names them in sequence numbers, each no larger than the segment size.</p>
+    The way BulkWriter segments your data varies with the target file type.
+
+    If the generated file exceeds the specified segment size, BulkWriter creates multiple files and names them in sequence numbers, each no larger than the segment size.
 
     </Admonition>
 

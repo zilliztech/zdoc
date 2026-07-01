@@ -12,10 +12,10 @@ token: EVpQfxDmQloZX4dVW63c5h9mnHd
 sidebar_position: 5
 sidebar_label: "Management"
 keywords: 
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
   - zilliz
   - zilliz cloud
   - cloud

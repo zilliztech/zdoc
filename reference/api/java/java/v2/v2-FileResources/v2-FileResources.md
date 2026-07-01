@@ -9,13 +9,13 @@ deprecate_since: false
 description: "Methods related to file resource management. | Java | v2"
 type: folder
 token: W5gwfoADilawLFd64CWcpuFMn0g
-sidebar_position: 11
+sidebar_position: 12
 sidebar_label: "File Resources"
 keywords: 
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
   - zilliz
   - zilliz cloud
   - cloud

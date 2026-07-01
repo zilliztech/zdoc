@@ -8,14 +8,14 @@ last_modified: false
 deprecate_since: false
 description: "Methods related to CRUD operations within a collection. | Java | v2"
 type: folder
-token: XkwkfO0XUlwfQzd6cficDg8enoh
+token: ZfBtfDoOplTRNfdOiq9cNxIvn8e
 sidebar_position: 8
 sidebar_label: "Vector"
 keywords: 
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
   - zilliz
   - zilliz cloud
   - cloud

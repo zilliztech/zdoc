@@ -13,10 +13,10 @@ type: docx
 token: Fv8EdYIt4oThstxgpzqcm7C0nug
 sidebar_position: 1
 keywords: 
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
   - zilliz
   - zilliz cloud
   - cloud
@@ -42,7 +42,6 @@ public void alterAlias(AlterAliasReq request)
 ```java
 alterAlias(AlterAliasReq.builder()
     .alias(String alias)
-    .databaseName(String databaseName)
     .collectionName(String collectionName)
     .build()
 )
@@ -56,25 +55,25 @@ alterAlias(AlterAliasReq.builder()
 
     <Admonition type="info" icon="📘" title="What is a collection alias?">
 
-    <p>A collection alias is an additional name for a collection. Collection aliases are useful when you want to switch your application to a new collection without any changes to your code. </p>
-    <p>On Zilliz Cloud, a collection alias is a globally unique identifier. One alias can only be assigned to exactly one collection. Conversely, a collection can have multiple aliases.</p>
-    <p>Below is an example of reassigning the alias of one collection to another:</p>
-    <p>Suppose there are two collections: <code>collection_1</code> and <code>collection_2</code>. There is also a collection alias named <code>bob</code>, which was originally assigned to <code>collection_1</code>:</p>
-    <ul>
-    <li><p><code>collection_1</code>'s alias = ["bob"]</p></li>
-    <li><p><code>collection_2</code>'s alias = []</p></li>
-    </ul>
-    <p>After calling the <code>alterAlias</code> function with the parameters <code>collection_2</code> and <code>bob</code>:</p>
-    <ul>
-    <li><p><code>collection_1</code>'s alias = []</p></li>
-    <li><p><code>collection_2</code>'s alias = ["bob"]</p></li>
-    </ul>
+    A collection alias is an additional name for a collection. Collection aliases are useful when you want to switch your application to a new collection without any changes to your code. 
+
+    On Zilliz Cloud, a collection alias is a globally unique identifier. One alias can only be assigned to exactly one collection. Conversely, a collection can have multiple aliases.
+
+    Below is an example of reassigning the alias of one collection to another:
+
+    Suppose there are two collections: `collection_1` and `collection_2`. There is also a collection alias named `bob`, which was originally assigned to `collection_1`:
+
+    - `collection_1`'s alias = ["bob"]
+
+    - `collection_2`'s alias = []
+
+    After calling the `alterAlias` function with the parameters `collection_2` and `bob`:
+
+    - `collection_1`'s alias = []
+
+    - `collection_2`'s alias = ["bob"]
 
     </Admonition>
-
-- `databaseName(String databaseName)`
-
-    The name of the database to which the target collection belongs.
 
 - `collectionName(String collectionName)`
 

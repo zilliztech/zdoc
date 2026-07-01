@@ -12,10 +12,10 @@ token: K6akf7IbXl5Jj1dFV8Fca62Inkd
 sidebar_position: 3
 sidebar_label: "Collections"
 keywords: 
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
   - zilliz
   - zilliz cloud
   - cloud

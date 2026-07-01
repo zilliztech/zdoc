@@ -4,19 +4,19 @@ slug: /java/java/v2-Collections-renameCollection
 sidebar_key: java/v2-Collections-renameCollection
 sidebar_label: "renameCollection()"
 added_since: v2.3.x
-last_modified: v2.6.x
+last_modified: v3.0.x
 deprecate_since: false
 beta: false
 notebook: false
-description: "This operation renames an existing collection. | Java | v2"
+description: "# renameCollection()\\{#renamecollection} | Java | v2"
 type: docx
-token: EZw8dwHXzoggBsxB0SWc0MANnud
+token: U7Ipdm0FTo8FCVxaxbZcwMygnWd
 sidebar_position: 21
 keywords: 
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,6 +31,8 @@ import Admonition from '@theme/Admonition';
 
 # renameCollection()
 
+# renameCollection()\{#renamecollection}
+
 This operation renames an existing collection.
 
 ```java
@@ -44,6 +46,7 @@ renameCollection(RenameCollectionReq.builder()
     .databaseName(String databaseName)
     .collectionName(String collectionName)
     .newCollectionName(String newCollectionName)
+    .targetDbName(String targetDbName)
     .build()
 );
 ```
@@ -61,6 +64,10 @@ renameCollection(RenameCollectionReq.builder()
 - `newCollectionName(String newCollectionName)` -
 
     The new name for the collection.
+
+- `targetDbName(String targetDbName)` -
+
+    The name of the target database. Set this when the renamed collection should be moved into another database.
 
 **RETURNS:**
 

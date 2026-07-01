@@ -12,10 +12,10 @@ token: JNwTf1Enil3jErdNcSQc04LKnRd
 sidebar_position: 9
 sidebar_label: "Data Import"
 keywords: 
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
   - zilliz
   - zilliz cloud
   - cloud
