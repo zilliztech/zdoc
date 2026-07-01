@@ -13,10 +13,10 @@ type: docx
 token: IquldHhyGo9s4IxF3cicOXGnnNf
 sidebar_position: 20
 keywords: 
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
   - zilliz
   - zilliz cloud
   - cloud
@@ -35,13 +35,13 @@ This operation adds a new scalar field to an existing collection without recreat
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>If the collection has dynamic field enabled and you add a static field with the same name as an existing dynamic field key, the static field will mask the dynamic field key. The original dynamic values remain accessible via <code>$meta['field_name']</code> syntax.</p>
+If the collection has dynamic field enabled and you add a static field with the same name as an existing dynamic field key, the static field will mask the dynamic field key. The original dynamic values remain accessible via `$meta['field_name']` syntax.
 
 </Admonition>
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This does not apply to external collections.</p>
+This does not apply to external collections.
 
 </Admonition>
 

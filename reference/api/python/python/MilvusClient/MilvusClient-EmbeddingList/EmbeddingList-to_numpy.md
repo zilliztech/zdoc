@@ -13,10 +13,10 @@ type: docx
 token: XQAQd2tPKon4JgxKEoAc0CCHnUg
 sidebar_position: 6
 keywords: 
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
   - zilliz
   - zilliz cloud
   - cloud

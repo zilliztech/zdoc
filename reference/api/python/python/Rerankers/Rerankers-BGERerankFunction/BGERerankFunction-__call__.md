@@ -1,5 +1,5 @@
 ---
-title: "\_\_call\_\_() | Python"
+title: "\\_\\_call\\_\\_() | Python"
 slug: /python/python/BGERerankFunction-__call__
 sidebar_key: python/BGERerankFunction-__call__
 sidebar_label: "__call__()"
@@ -13,10 +13,10 @@ type: docx
 token: C2AbdIReZos7HwxiZXIcyW8nnm1
 sidebar_position: 2
 keywords: 
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
   - zilliz
   - zilliz cloud
   - cloud

@@ -13,10 +13,10 @@ type: docx
 token: Fr3rdPTuXoC0Lzx7urIcwBqWnDb
 sidebar_position: 1
 keywords: 
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
   - zilliz
   - zilliz cloud
   - cloud
@@ -32,6 +32,12 @@ import Admonition from '@theme/Admonition';
 # upload_file_to_volume()
 
 This operation uploads the local file at the specified source path to the target file path within the specified managed volume.
+
+<Admonition type="info" icon="📘" title="Notes">
+
+This applies only to managed volumes. External volumes are read-only.
+
+</Admonition>
 
 ## Request Syntax\{#request-syntax}
 

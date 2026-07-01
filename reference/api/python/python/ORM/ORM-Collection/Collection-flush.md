@@ -13,10 +13,10 @@ type: docx
 token: VdiwdqQ9iofbkoxcc8Kcqk5gnhZ
 sidebar_position: 11
 keywords: 
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
-  - knn algorithm
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
   - zilliz
   - zilliz cloud
   - cloud
@@ -43,9 +43,11 @@ flush(
 
 <Admonition type="info" icon="📘" title="Can I call `flush()` after every data insertion?">
 
-<p>When new data is inserted, it is written into a growing segment. Once the size of a growing segment reaches its upper limit, Zilliz Cloud automatically seals the segment. </p>
-<p>Continuously calling this operation results in many sealed segments of small sizes, which can gradually degrade search performance. </p>
-<p>It is recommended that you wait for Zilliz Cloud to seal all segments before conducting any searches.</p>
+When new data is inserted, it is written into a growing segment. Once the size of a growing segment reaches its upper limit, Zilliz Cloud automatically seals the segment. 
+
+Continuously calling this operation results in many sealed segments of small sizes, which can gradually degrade search performance. 
+
+It is recommended that you wait for Zilliz Cloud to seal all segments before conducting any searches.
 
 </Admonition>
 

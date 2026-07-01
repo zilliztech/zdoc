@@ -13,10 +13,10 @@ type: docx
 token: SvCrdEJIdosGQYxQZhrc2OAXnpd
 sidebar_position: 21
 keywords: 
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
   - zilliz
   - zilliz cloud
   - cloud

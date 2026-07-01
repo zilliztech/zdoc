@@ -4,19 +4,19 @@ slug: /python/python/Collections-DataType
 sidebar_key: python/Collections-DataType
 sidebar_label: "DataType"
 added_since: Inherit
-last_modified: v2.6.x
+last_modified: v3.0.x
 deprecate_since: false
 beta: false
 notebook: false
 description: "This is an enumeration that provides the following constants. | Python | MilvusClient"
 type: docx
-token: KvNsd3aV4ocRNJxrZN2cg1zenqb
+token: MKrAdumLvohQfDxgpMwcEB8dnqb
 sidebar_position: 7
 keywords: 
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
   - zilliz
   - zilliz cloud
   - cloud
@@ -66,6 +66,10 @@ This is an enumeration that provides the following constants.
 - VARCHAR
 
     Sets the data type to **Varchar**.
+
+- TEXT
+
+    Sets the data type to **TEXT**. Use this scalar type to store long text content such as documents, passages, tickets, or logs. Unlike **VARCHAR**, TEXT does not require `max_length`.
 
 - ARRAY
 

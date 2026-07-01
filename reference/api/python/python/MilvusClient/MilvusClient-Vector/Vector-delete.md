@@ -13,10 +13,10 @@ type: docx
 token: DWLXdSCYnoPT4ExktRKceEqLnAd
 sidebar_position: 1
 keywords: 
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
   - zilliz
   - zilliz cloud
   - cloud
@@ -35,7 +35,7 @@ This operation deletes entities by their IDs or with a boolean expression.
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>External collections do not support this operation.</p>
+External collections do not support this operation.
 
 </Admonition>
 
@@ -84,7 +84,7 @@ delete(
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    <p>When using filter expressions to delete entities, ensure the collection has been loaded. Otherwise, Zilliz Cloud will return an error.</p>
+    When using filter expressions to delete entities, ensure the collection has been loaded. Otherwise, Zilliz Cloud will return an error.
 
     </Admonition>
 

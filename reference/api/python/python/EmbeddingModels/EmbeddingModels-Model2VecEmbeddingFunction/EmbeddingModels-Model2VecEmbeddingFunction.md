@@ -13,10 +13,10 @@ type: docx
 token: WiT4dJ1SJod0fdx4z23cwFbAn7c
 sidebar_position: 3
 keywords: 
+  - NLP
   - Neural Network
   - Deep Learning
   - Knowledge base
-  - natural language processing
   - zilliz
   - zilliz cloud
   - cloud

@@ -13,10 +13,10 @@ type: docx
 token: WgmLdM6nUogd7LxGtmfc5dBKnku
 sidebar_position: 6
 keywords: 
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
   - zilliz
   - zilliz cloud
   - cloud

@@ -8,15 +8,15 @@ last_modified: false
 deprecate_since: false
 beta: false
 notebook: false
-description: "This operation describes a specific volume within a specific project in a paginated manner. | Python"
+description: "This function retrieves detailed metadata for a specific volume. | Python"
 type: docx
-token: WuCpdRKfloXSTqxrLehcqkXfnFd
+token: MwfQdhukeoxOh0xPLySc0wJjn5f
 sidebar_position: 3
 keywords: 
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,27 +31,28 @@ import Admonition from '@theme/Admonition';
 
 # describe_volume()
 
-This operation describes a specific volume within a specific project in a paginated manner.
+This function retrieves detailed metadata for a specific volume.
 
 ## Request Syntax\{#request-syntax}
 
 ```python
-list_volumes(
-    volume_name: str
+volume_manager.describe_volume(
+    volume_name: str,
 )
 ```
 
-**PARAMETERS**
+**PARAMETERS:**
 
 - **volume_name** (*str*) -
 
     The name of the volume to describe.
 
-**RETURN TYPE**
+**RETURN TYPE:**
+*requests.Response*
 
-An object.
+Returns volume details, including status and storage configuration.
 
-**RETURNS**
+**EXCEPTIONS:**
 
 An object with the following data structure:
 
@@ -76,7 +77,7 @@ An object with the following data structure:
 
 **PARAMETERS**
 
-- **count** (*int*) -
+- **MilvusException**
 
     The total number of volumes found.
 
@@ -122,39 +123,17 @@ An object with the following data structure:
 
         The time at which the volume is created.
 
-## Example\{#example}
+## Examples\{#examples}
 
 ```python
-from pymilvus.bulk_writer.volume_manager import VolumeManager
+from pymilvus.bulk_writer import VolumeManager
 
 volume_manager = VolumeManager(
     cloud_endpoint="https://api.cloud.zilliz.com",
-    api_key="YOUR_API_KEY"
+    api_key="YOUR_API_KEY",
 )
 
-volume_list = volume_manager.describe_volumes(
-    volume_name="volume-xxxx"
-)
-
-print(f"\ndescribeVolumes results: \n", volume_list.json()['data'])
-
-# listVolumes results: 
-# 
-# {
-#     "count": 1,
-#     "currentPage": 1,
-#     "pageSize": 10,
-#     "volumes": [
-#         {
-#            "volumeName": "my_volume",
-#             "type": "EXTERNAL",
-#             "regionId": "aws-us-west-2",
-#             "storageIntegrationId": "integ-xxx",
-#             "path": "data/",
-#             "status": "RUNNING",
-#             "createTime": "2024-04-15T12:00:00Z"
-#         }        
-#     ]
-# }
+resp = volume_manager.describe_volume(volume_name="books-volume")
+print(resp.json())
 ```
 

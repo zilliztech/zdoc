@@ -13,10 +13,10 @@ type: docx
 token: HkOFdhgbOoz1wlxJIgWcU7EonWc
 sidebar_position: 2
 keywords: 
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
   - zilliz
   - zilliz cloud
   - cloud
@@ -35,7 +35,13 @@ This operation drops a specified partition from the current collection.
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Before dropping a partition, you must first release it.</p>
+Before dropping a partition, you must first release it.
+
+</Admonition>
+
+<Admonition type="info" icon="📘" title="Notes">
+
+This only applies to managed collections.
 
 </Admonition>
 

@@ -8,15 +8,15 @@ last_modified: false
 deprecate_since: false
 beta: false
 notebook: false
-description: "This operation creates a volume. | Python"
+description: "This operation creates a volume in the specified project and region. | Python"
 type: docx
-token: HWYXdlaGIoTNVUx34GycfwjAnrb
+token: GtNKdyeDCoPxQXxvohIcYQ47nee
 sidebar_position: 1
 keywords: 
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # create_volume()
 
-This operation creates a volume.
+This operation creates a volume in the specified project and region.
 
 ## Request Syntax\{#request-syntax}
 
@@ -39,68 +39,57 @@ This operation creates a volume.
 create_volume(
     project_id: str,
     region_id: str,
-    volume_name: str
+    volume_name: str,
 )
 ```
 
-**PARAMETERS**
+**PARAMETERS:**
 
 - **project_id** (*str*) -
 
     **[REQUIRED]**
 
-    The ID of the project to which the volume to be created belongs.
+    Project ID that owns the volume.
 
 - **region_id** (*str*) -
 
     **[REQUIRED]**
 
-    The ID of the cloud region in which the volume will be created. You can use [List Cloud Regions](/reference/restful/list-cloud-regions-v2) to view possible values. The region must be bound to the specified project.
+    Region ID where the volume is created.
 
 - **volume_name** (*str*) -
 
     **[REQUIRED]**
 
-    The name of the volume to create.
+    Name of the volume.
 
-- **volume_type** (*str*) -
+**RETURN TYPE:**
 
-    The type of the volume to create. Possible values are `MANAGED` and `EXTERNAL`.
+*requests.Response*
 
-- **storage_integration_id** (*str*) -
+HTTP response from the create volume API.
 
-    The storage integration from which the volume is to create. You can refer to [AWS](/docs/integrate-with-aws-s3), [GCS](/docs/integrate-with-gcp), and [Azure](/docs/integrate-with-azure-blob-storage) guides for this. This is required when you create an external volume.
+**EXCEPTIONS:**
 
-- **path** (*str*) -
+- **MilvusException**
 
-    The path in the integrated storage. Note that the value should end with a forward slash (`/`).
+    Raised when volume creation fails.
 
-**RETURN TYPE**
-
-*None*
-
-**RETURNS**
-
-None
-
-## Example\{#example}
+## Examples\{#examples}
 
 ```python
-from pymilvus.bulk_writer.volume_manager import VolumeManager
+from pymilvus.bulk_writer import VolumeManager
 
-volume_manager = VolumeManager(
+vm = VolumeManager(
     cloud_endpoint="https://api.cloud.zilliz.com",
-    api_key="YOUR_API_KEY"
+    api_key="YOUR_API_KEY",
 )
 
-volume_manager.create_volume(
-    project_id="proj-xxxxxxxxxxxxxxxxxxxxxxx", 
-    region_id="aws-us-west-1", 
-    volume_name="my_volume"
+resp = vm.create_volume(
+    project_id="proj-xxx",
+    region_id="aws-us-west-2",
+    volume_name="books-volume",
 )
 
-print(f"\Volume my_volume created")
-
-# Volume my_volume created
+print(resp.json())
 ```
-

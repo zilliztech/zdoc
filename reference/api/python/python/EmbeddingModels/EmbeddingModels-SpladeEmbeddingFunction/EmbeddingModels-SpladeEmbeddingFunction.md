@@ -13,10 +13,10 @@ type: docx
 token: UdeRd0YVhoDBeVxrQaBcoikVnAI
 sidebar_position: 3
 keywords: 
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
   - zilliz
   - zilliz cloud
   - cloud

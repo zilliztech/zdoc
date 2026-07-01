@@ -13,10 +13,10 @@ type: docx
 token: N9d9df9IIojLZDxft1HcU0mkn0b
 sidebar_position: 22
 keywords: 
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
   - zilliz
   - zilliz cloud
   - cloud
@@ -35,7 +35,7 @@ This operation alters an existing function in the collection by replacing it wit
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This does not apply to external collections.</p>
+This does not apply to external collections.
 
 </Admonition>
 

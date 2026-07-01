@@ -13,10 +13,10 @@ type: docx
 token: LrvhdFR5Vo1ZnExohgicdi58njc
 sidebar_position: 2
 keywords: 
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
   - zilliz
   - zilliz cloud
   - cloud

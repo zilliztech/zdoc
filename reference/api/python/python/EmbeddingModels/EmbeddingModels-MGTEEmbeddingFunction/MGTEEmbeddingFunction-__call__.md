@@ -1,5 +1,5 @@
 ---
-title: "\_\_call\_\_() | Python"
+title: "\\_\\_call\\_\\_() | Python"
 slug: /python/python/MGTEEmbeddingFunction-__call__
 sidebar_key: python/MGTEEmbeddingFunction-__call__
 sidebar_label: "__call__()"
@@ -13,10 +13,10 @@ type: docx
 token: L4PUdEhrpoS1Q5xN3m2chVVEnWg
 sidebar_position: 4
 keywords: 
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
   - zilliz
   - zilliz cloud
   - cloud

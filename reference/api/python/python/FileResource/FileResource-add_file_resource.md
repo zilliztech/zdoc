@@ -13,10 +13,10 @@ type: docx
 token: F9CHd2o4po3VC2xX3zHczWVan2c
 sidebar_position: 1
 keywords: 
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
   - zilliz
   - zilliz cloud
   - cloud

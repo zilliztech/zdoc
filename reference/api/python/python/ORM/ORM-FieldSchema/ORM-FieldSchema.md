@@ -13,10 +13,10 @@ type: docx
 token: EVKhdy0vwoSLSux2RW2c660unjh
 sidebar_position: 2
 keywords: 
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
   - zilliz
   - zilliz cloud
   - cloud
@@ -101,9 +101,11 @@ FieldSchema(
 
         <Admonition type="info" icon="📘" title="What is a partition key?">
 
-        <p>Once a field is designated as the partition key, Zilliz Cloud automatically creates a partition for each unique value in this field and saves entities in these partitions accordingly.</p>
-        <p>This is particularly useful when implementing data separation based on a specific key, such as partition-oriented multi-tenancy.</p>
-        <p>As an alternative, you can set <strong>partition<em>key</em>field</strong> when creating a <strong><a href="./MilvusClient-CollectionSchema">CollectionSchema</a></strong> object.</p>
+        Once a field is designated as the partition key, Zilliz Cloud automatically creates a partition for each unique value in this field and saves entities in these partitions accordingly.
+
+        This is particularly useful when implementing data separation based on a specific key, such as partition-oriented multi-tenancy.
+
+        As an alternative, you can set **partition_key_field** when creating a **[CollectionSchema](./MilvusClient-CollectionSchema)** object.
 
         </Admonition>
 

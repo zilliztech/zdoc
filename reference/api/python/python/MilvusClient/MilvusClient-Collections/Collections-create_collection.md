@@ -13,10 +13,10 @@ type: docx
 token: NbYidGUPcokra9xJ6IAcUNLEn9f
 sidebar_position: 5
 keywords: 
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
   - zilliz
   - zilliz cloud
   - cloud
@@ -35,20 +35,21 @@ This operation supports creating a collection in two distinct ways: quick setup 
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This method applies to dedicated serving clusters and on-demand compute. </p>
-<ul>
-<li><p>For a collection in a serving cluster, please create <strong>MilvusClient</strong> with the cluster endpoint.</p></li>
-<li><p><strong>Free & Serverless</strong></p></li>
-</ul>
-<p><code>https://\{cluster-id\}.serverless.\{region\}.vectordb.zillizcloud.com</code></p>
-<ul>
-<li><strong>Dedicated</strong></li>
-</ul>
-<p><code>https://\{cluster-id\}.\{region\}.vectordb.zillizcloud.com:19530</code></p>
-<ul>
-<li>For a collection in on-demand compute, create <strong>MilvusClient</strong> with the project endpoints.</li>
-</ul>
-<p><code>https://\{project-id\}.\{region\}.api.zillizcloud.com</code></p>
+This method applies to dedicated serving clusters and on-demand compute. 
+
+- For a collection in a serving cluster, please create **[MilvusClient](./Client-MilvusClient)** with the cluster endpoint.
+
+    - **Free & Serverless**
+
+        `https://{cluster-id}.serverless.{region}.vectordb.zillizcloud.com`
+
+    - **Dedicated**
+
+        `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
+
+- For a collection in on-demand compute, create **[MilvusClient](./Client-MilvusClient)** with the project endpoints.
+
+    `https://{project-id}.{region}.api.zillizcloud.com`
 
 </Admonition>
 
@@ -162,8 +163,9 @@ create_collection(
 
         <Admonition type="info" icon="📘" title="What is sharding?">
 
-        <p>Sharding refers to distributing write operations to different nodes to make the most of the parallel computing potential of a Milvus cluster for writing data.</p>
-        <p>By default, a collection contains one shard.</p>
+        Sharding refers to distributing write operations to different nodes to make the most of the parallel computing potential of a Milvus cluster for writing data.
+
+        By default, a collection contains one shard.
 
         </Admonition>
 
@@ -175,9 +177,11 @@ create_collection(
 
         <Admonition type="info" icon="📘" title="What is the partition key?">
 
-        <p>To facilitate partition-oriented multi-tenancy, you can set a field as the partition key field so that Zilliz Cloud hashes the field values and distributes entities among the specified number of partitions accordingly.</p>
-        <p>When retrieving entities, ensure that the partition key field is used in the boolean expression to filter out entities of a specific field value.</p>
-        <p>For details, refer to <a href="/docs/use-partition-key">Use Partition Key</a> and <a href="https://milvus.io/docs/multi_tenancy.md">Multi-tenancy</a>.</p>
+        To facilitate partition-oriented multi-tenancy, you can set a field as the partition key field so that Zilliz Cloud hashes the field values and distributes entities among the specified number of partitions accordingly.
+
+        When retrieving entities, ensure that the partition key field is used in the boolean expression to filter out entities of a specific field value.
+
+        For details, refer to [Use Partition Key](/docs/use-partition-key) and [Multi-tenancy](https://milvus.io/docs/multi_tenancy.md).
 
         </Admonition>
 
@@ -199,9 +203,11 @@ create_collection(
 
         <Admonition type="info" icon="📘" title="What is the consistency level?">
 
-        <p>Consistency in a distributed database specifically refers to the property that ensures every node or replica has the same view of data when writing or reading data at a given time.</p>
-        <p>Zilliz Cloud provides three consistency levels: <strong>Strong</strong>, <strong>Bounded Staleness</strong>, and <strong>Eventually</strong>, with <strong>Bounded Staleness</strong> set as the default.</p>
-        <p>You can easily tune the consistency level when conducting a vector similarity search or query to make it best suit your application.</p>
+        Consistency in a distributed database specifically refers to the property that ensures every node or replica has the same view of data when writing or reading data at a given time.
+
+        Zilliz Cloud provides three consistency levels: **Strong**, **Bounded Staleness**, and **Eventually**, with **Bounded Staleness** set as the default.
+
+        You can easily tune the consistency level when conducting a vector similarity search or query to make it best suit your application.
 
         </Admonition>
 

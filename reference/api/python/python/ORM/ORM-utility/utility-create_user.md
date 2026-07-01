@@ -4,7 +4,7 @@ slug: /python/python/utility-create_user
 sidebar_key: python/utility-create_user
 sidebar_label: "create_user()"
 added_since: Inherit
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 beta: NEAR DEPRECATE
 notebook: false
@@ -13,10 +13,10 @@ type: docx
 token: N44ndTSrgoEBx7xCID5cXRS7n1c
 sidebar_position: 5
 keywords: 
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
   - zilliz
   - zilliz cloud
   - cloud

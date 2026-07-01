@@ -13,10 +13,10 @@ type: docx
 token: RcvXdmCVBog9M8xNyUFcwefnneh
 sidebar_position: 3
 keywords: 
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
   - zilliz
   - zilliz cloud
   - cloud
@@ -43,7 +43,7 @@ Constructs a LocalBulkWriter object by schema, output path, segment size, and fi
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>A <strong>LocalBulkWriter</strong> object intends to rewrite your raw data locally in a format that Zilliz Cloud understands.</p>
+A **LocalBulkWriter** object intends to rewrite your raw data locally in a format that Zilliz Cloud understands.
 
 </Admonition>
 
@@ -83,8 +83,9 @@ writer = LocalBulkWriter(
 
     <Admonition type="info" icon="📘" title="How does BulkWriter segment my data?">
 
-    <p>The way <strong>BulkWriter</strong> segments your data varies with the target file type.</p>
-    <p>If the generated file exceeds the specified segment size, <strong>BulkWriter</strong> creates multiple files and names them in sequence numbers, each no larger than the segment size.</p>
+    The way **BulkWriter** segments your data varies with the target file type.
+
+    If the generated file exceeds the specified segment size, **BulkWriter** creates multiple files and names them in sequence numbers, each no larger than the segment size.
 
     </Admonition>
 

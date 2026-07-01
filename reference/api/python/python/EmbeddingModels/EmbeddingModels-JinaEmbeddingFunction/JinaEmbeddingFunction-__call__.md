@@ -1,5 +1,5 @@
 ---
-title: "\_\_call\_\_() | Python"
+title: "\\_\\_call\\_\\_() | Python"
 slug: /python/python/JinaEmbeddingFunction-__call__
 sidebar_key: python/JinaEmbeddingFunction-__call__
 sidebar_label: "__call__()"
@@ -13,10 +13,10 @@ type: docx
 token: Yf9GddNheoKrFCxcUeYc7NHjnVb
 sidebar_position: 4
 keywords: 
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
   - zilliz
   - zilliz cloud
   - cloud

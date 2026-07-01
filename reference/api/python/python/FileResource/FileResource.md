@@ -9,13 +9,13 @@ deprecate_since: false
 description: "Methods related to external file resources management. | Python"
 type: folder
 token: PWyVfD7HUl1x3ydji7RcraKin1g
-sidebar_position: 7
+sidebar_position: 2
 sidebar_label: "FileResource"
 keywords: 
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
   - zilliz
   - zilliz cloud
   - cloud

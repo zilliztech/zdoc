@@ -13,10 +13,10 @@ type: docx
 token: SptWdOyFqoGM5VxVS16cofqfnDg
 sidebar_position: 2
 keywords: 
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
   - zilliz
   - zilliz cloud
   - cloud

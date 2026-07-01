@@ -1,5 +1,5 @@
 ---
-title: "\_\_call()\_\_ | Python"
+title: "\\_\\_call()\\_\\_ | Python"
 slug: /python/python/CohereEmbeddingFunction-__call__
 sidebar_key: python/CohereEmbeddingFunction-__call__
 sidebar_label: "__call__()"
@@ -13,10 +13,10 @@ type: docx
 token: P2n8d2wQtoK8YqxnccocmNwRnKb
 sidebar_position: 4
 keywords: 
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
   - zilliz
   - zilliz cloud
   - cloud

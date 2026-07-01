@@ -13,10 +13,10 @@ type: docx
 token: VfaldXzLUocBrJxffw6cJHPinlh
 sidebar_position: 13
 keywords: 
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
   - zilliz
   - zilliz cloud
   - cloud
@@ -35,20 +35,21 @@ This operation lists the statistics collected on a specific collection.
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This method applies only to dedicated serving clusters and on-demand compute. </p>
-<ul>
-<li><p>For a managed collection in serving clusters, please create <strong>MilvusClient</strong> with the cluster endpoint.</p></li>
-<li><p><strong>Free & Serverless</strong></p></li>
-</ul>
-<p><code>https://\{cluster-id\}.serverless.\{region\}.vectordb.zillizcloud.com</code></p>
-<ul>
-<li><strong>Dedicated</strong></li>
-</ul>
-<p><code>https://\{cluster-id\}.\{region\}.vectordb.zillizcloud.com:19530</code></p>
-<ul>
-<li>For an external collection for on-demand compute, create <strong>MilvusClient</strong> with the project endpoints.</li>
-</ul>
-<p><code>https://\{project-id\}.\{region\}.api.zillizcloud.com</code></p>
+This method applies to dedicated serving clusters and on-demand compute. 
+
+- For a collection in a serving cluster, please create **[MilvusClient](./Client-MilvusClient)** with the cluster endpoint.
+
+    - **Free & Serverless**
+
+        `https://{cluster-id}.serverless.{region}.vectordb.zillizcloud.com`
+
+    - **Dedicated**
+
+        `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
+
+- For a collection in on-demand compute, create **[MilvusClient](./Client-MilvusClient)** with the project endpoints.
+
+    `https://{project-id}.{region}.api.zillizcloud.com`
 
 </Admonition>
 
@@ -94,8 +95,9 @@ A dictionary containing collected statistics on the specified collection.
 
 <Admonition type="info" icon="📘" title="Why doesn't the row count match the number of entities inserted?">
 
-<p>The data you insert will undergo processing before it is finally saved. Initially, it will arrive as data streams. Then, it will be stored in segments as entities. Milvus will select an appropriate growing segment to store data in streams until it reaches its upper limit and becomes sealed.</p>
-<p>However, note that the displayed row count may not match the number of records inserted, as stream data is not included.</p>
+The data you insert will undergo processing before it is finally saved. Initially, it will arrive as data streams. Then, it will be stored in segments as entities. Milvus will select an appropriate growing segment to store data in streams until it reaches its upper limit and becomes sealed.
+
+However, note that the displayed row count may not match the number of records inserted, as stream data is not included.
 
 </Admonition>
 

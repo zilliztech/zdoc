@@ -9,13 +9,13 @@ deprecate_since: false
 description: "Methods related to snapshot management. | Python | MilvusClient"
 type: folder
 token: RoBzflamplZFzYd1ZSWccuVfnnc
-sidebar_position: 15
+sidebar_position: 14
 sidebar_label: "Snapshot"
 keywords: 
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
   - zilliz
   - zilliz cloud
   - cloud

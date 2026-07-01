@@ -13,10 +13,10 @@ type: docx
 token: Dxgqdvlk5o2VScxqmL1ctc1Inqb
 sidebar_position: 5
 keywords: 
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
   - zilliz
   - zilliz cloud
   - cloud
@@ -32,6 +32,12 @@ import Admonition from '@theme/Admonition';
 # list_partitions()
 
 This operation lists the partitions in a specified collection.
+
+<Admonition type="info" icon="📘" title="Notes">
+
+This only applies to managed collections.
+
+</Admonition>
 
 ## Request syntax\{#request-syntax}
 

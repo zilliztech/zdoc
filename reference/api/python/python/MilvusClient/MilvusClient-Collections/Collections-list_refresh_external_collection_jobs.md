@@ -13,10 +13,10 @@ type: docx
 token: VkBFdLHwao9hVMxzRurcBYIynFh
 sidebar_position: 28
 keywords: 
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
   - zilliz
   - zilliz cloud
   - cloud
@@ -35,8 +35,9 @@ This operation lists the external collection refresh jobs of all or specified co
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This requires a MilvusClient set up using the project endpoint as follows:</p>
-<p><code>https://\{project-id\}.\{region\}.api.zillizcloud.com</code></p>
+This requires a MilvusClient set up using the project endpoint as follows:
+
+`https://{project-id}.{region}.api.zillizcloud.com`
 
 </Admonition>
 

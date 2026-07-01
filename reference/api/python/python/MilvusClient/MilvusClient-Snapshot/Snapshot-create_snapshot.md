@@ -13,10 +13,10 @@ type: docx
 token: C8vld732kopQNMxbHyLcrORNnze
 sidebar_position: 1
 keywords: 
-  - Sparse vs Dense
   - Dense vector
   - Hierarchical Navigable Small Worlds
   - Dense embedding
+  - Faiss vector database
   - zilliz
   - zilliz cloud
   - cloud

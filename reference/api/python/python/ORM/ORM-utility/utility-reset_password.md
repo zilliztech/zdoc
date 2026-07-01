@@ -13,10 +13,10 @@ type: docx
 token: K1Npdj5Ddod6UWxRN2ecf6K4nxf
 sidebar_position: 38
 keywords: 
-  - milvus vector database
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
   - zilliz
   - zilliz cloud
   - cloud
@@ -35,7 +35,7 @@ This operation resets the password for a specific user.
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This operation differs from <strong>update_password()</strong> in that this operation also resets the current connection using the newly set credentials.</p>
+This operation differs from **update_password()** in that this operation also resets the current connection using the newly set credentials.
 
 </Admonition>
 

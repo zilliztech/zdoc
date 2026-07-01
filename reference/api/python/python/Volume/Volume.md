@@ -8,14 +8,14 @@ last_modified: false
 deprecate_since: false
 description: "Classes and methods related to Zilliz Cloud's Volume service. | Python"
 type: folder
-token: UJtvfGYb4lKoF1dy7iicFwcAnWr
-sidebar_position: 6
+token: Ih8RfZaaqlEGsudD31DcOpwvn2b
+sidebar_position: 7
 sidebar_label: "Volume"
 keywords: 
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
   - zilliz
   - zilliz cloud
   - cloud

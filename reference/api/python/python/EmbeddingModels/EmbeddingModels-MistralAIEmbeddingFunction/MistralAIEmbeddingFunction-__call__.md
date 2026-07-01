@@ -1,5 +1,5 @@
 ---
-title: "\_\_call\_\_() | Python"
+title: "\\_\\_call\\_\\_() | Python"
 slug: /python/python/MistralAIEmbeddingFunction-__call__
 sidebar_key: python/MistralAIEmbeddingFunction-__call__
 sidebar_label: "__call__()"
@@ -13,10 +13,10 @@ type: docx
 token: Z23IddhHhom7AyxDMXecLORVnDh
 sidebar_position: 4
 keywords: 
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
   - zilliz
   - zilliz cloud
   - cloud

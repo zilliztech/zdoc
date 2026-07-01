@@ -13,10 +13,10 @@ type: docx
 token: LXASdPs6KoRfCJx11A1cl2Ssngg
 sidebar_position: 9
 keywords: 
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
   - zilliz
   - zilliz cloud
   - cloud
@@ -32,25 +32,6 @@ import Admonition from '@theme/Admonition';
 # describe_collection()
 
 This operation lists detailed information about a specific collection.
-
-<Admonition type="info" icon="📘" title="Notes">
-
-<p>This method applies only to dedicated serving clusters and on-demand compute. </p>
-<ul>
-<li><p>For a managed collection in serving clusters, please create <strong>MilvusClient</strong> with the cluster endpoint.</p></li>
-<li><p><strong>Free & Serverless</strong></p></li>
-</ul>
-<p><code>https://\{cluster-id\}.serverless.\{region\}.vectordb.zillizcloud.com</code></p>
-<ul>
-<li><strong>Dedicated</strong></li>
-</ul>
-<p><code>https://\{cluster-id\}.\{region\}.vectordb.zillizcloud.com:19530</code></p>
-<ul>
-<li>For an external collection for on-demand compute, create <strong>MilvusClient</strong> with the project endpoints.</li>
-</ul>
-<p><code>https://\{project-id\}.\{region\}.api.zillizcloud.com</code></p>
-
-</Admonition>
 
 ## Request Syntax\{#request-syntax}
 
@@ -114,8 +95,6 @@ A dictionary that contains detailed information about the specified collection.
               'element_type': 0
           }
      ],
-     'externalSource': '',
-     'externalSpecs': '',
      'functions': [],
      'aliases': [],
      'collection_id': 446738261026541332,
@@ -146,14 +125,6 @@ A dictionary that contains detailed information about the specified collection.
 
     The description of the current collection.
 
-- **external_source** (*str*) -
-
-    The external source of the collection. This applies only to external collections. 
-
-- **external_specs** (*str*) -
-
-    The external specifications of the collection. This applies only to external collections.
-
 - **fields** (*list*) -
 
     A list of fields in the current collection.
@@ -172,7 +143,7 @@ A dictionary that contains detailed information about the specified collection.
 
     - **type** (*int*) -
 
-        The type of the current field. For details, refer to [DataType](./Collections-DataType).
+        The type of the current field. For details, refer to DataType.
 
     - **params** (*dict*) -
 
@@ -180,19 +151,13 @@ A dictionary that contains detailed information about the specified collection.
 
         - For **VARCHAR** fields, **max_length** (*int*) is a possible attribute, which determines the number of characters in the value of the current field.
 
-        - For vector fields, **dim** (*int*) is a possible attribute, which determines the number of vector embeddings in the value of the current field.
-
-        - For **ARRAY** fields, **max_capacity** (*int*) is a possible attribute, which determines the maximum number of elements in the field of an entity.
-
-        - For the fields that has mmap configured, **mmap_enabled** (*bool*) is a possible attribute, which specifies whether mmap is enabled or disabled for the current field.
+        - For **FLOAT_VECTOR** fields, **dim** (*int*) is a possible attribute, which determines the number of vector embeddings in the value of the current field.
 
     - **element_type** (*int*) -
 
-        The data type of the elements in the field values. This is displayed if the current field is an ARRAY field.
+        The data type of the elements in the field values. 
 
-    - **struct_fields** (*List[Field]*) -
-
-        A list of fields added to the struct element in an array of structs field. For details on the possible field types, refer to [Array of Structs](/docs/use-array-of-structs).
+        This always equals **0** if the current field is not an **ARRAY** field.
 
     - **is_primary** (*bool*) -
 
@@ -221,10 +186,6 @@ A dictionary that contains detailed information about the specified collection.
     - **collection.ttl.seconds** (*int*) -
 
         The time-to-live (TTL) of a collection in seconds.
-
-    - **collection.timezone** (*str*) -
-
-        The timezone configured for the collection. The default value is UTC.
 
 - **num_partitions** (*int*) -
 
@@ -307,4 +268,22 @@ client.describe_collection(collection_name="test_collection")
 #      'updated_timestamp': 461643298319106049
 # }
 ```
+
+## Related methods\{#related-methods}
+
+- [create_collection()](./Collections-create_collection)
+
+- [create_schema()](./Collections-create_schema)
+
+- [drop_collection()](./Collections-drop_collection)
+
+- [get_collection_stats()](./Collections-get_collection_stats)
+
+- [has_collection()](./Collections-has_collection)
+
+- [list_collections()](./Collections-list_collections)
+
+- [rename_collection()](./Collections-rename_collection)
+
+- [DataType](./Collections-DataType)
 

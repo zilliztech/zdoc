@@ -13,10 +13,10 @@ type: docx
 token: EZ2YdBHoDoRTlxx91tscffm1nSb
 sidebar_position: 15
 keywords: 
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
   - zilliz
   - zilliz cloud
   - cloud
@@ -89,7 +89,7 @@ client.list_users()
 
 ## Related methods\{#related-methods}
 
-- [create_user()](./Authentication-create_user)
+- [create_user()](./utility-create_user)
 
 - [describe_user()](./Authentication-describe_user)
 

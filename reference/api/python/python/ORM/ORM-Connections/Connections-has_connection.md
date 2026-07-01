@@ -13,10 +13,10 @@ type: docx
 token: XeZwdeK64oGD8rx9DA3ciqNinnh
 sidebar_position: 6
 keywords: 
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
   - zilliz
   - zilliz cloud
   - cloud
@@ -57,8 +57,9 @@ A Boolean value indicating whether the connection exists.
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>An existing connection alias does not necessarily indicates that the corresponding connection has been established.</p>
-<p>This operation evaluates to <strong>True</strong> only if the connection alias exists and the corresponding connection has been established.</p>
+An existing connection alias does not necessarily indicates that the corresponding connection has been established.
+
+This operation evaluates to **True** only if the connection alias exists and the corresponding connection has been established.
 
 </Admonition>
 

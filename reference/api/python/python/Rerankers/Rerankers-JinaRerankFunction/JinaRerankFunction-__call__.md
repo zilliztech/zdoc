@@ -1,5 +1,5 @@
 ---
-title: "\_\_call\_\_() | Python"
+title: "\\_\\_call\\_\\_() | Python"
 slug: /python/python/JinaRerankFunction-__call__
 sidebar_key: python/JinaRerankFunction-__call__
 sidebar_label: "__call__()"
@@ -13,10 +13,10 @@ type: docx
 token: R3gEdUOSfo6JzMxwUsTcevNHn9g
 sidebar_position: 2
 keywords: 
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
   - zilliz
   - zilliz cloud
   - cloud

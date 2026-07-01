@@ -13,10 +13,10 @@ type: docx
 token: PfJNdkuMDoCqqcxm6S2cDD6TnFh
 sidebar_position: 12
 keywords: 
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
   - zilliz
   - zilliz cloud
   - cloud

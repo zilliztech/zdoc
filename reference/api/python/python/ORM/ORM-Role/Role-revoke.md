@@ -13,10 +13,10 @@ type: docx
 token: UUJWdoEnjoXx69xahsScdMVSnzf
 sidebar_position: 10
 keywords: 
-  - Natural language search
-  - Similarity Search
   - multimodal RAG
   - llm hallucinations
+  - hybrid search
+  - lexical search
   - zilliz
   - zilliz cloud
   - cloud
@@ -72,10 +72,9 @@ revoke(
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    <ul>
-    <li><p>To grant all privileges to a kind of object, like <strong><a href="./ORM-Collection">Collection</a></strong>, <strong>Global</strong>, <strong>User</strong>, use <code>*</code> for privilege name.</p></li>
-    <li><p>When <code>object</code> is set to <code>Global</code>, setting <code>privilege</code> to <code>\*</code> is not equivalent to setting it to <code>All</code>. The <code>All</code> privilege includes all permissions, including any collection and user object.</p></li>
-    </ul>
+    - To grant all privileges to a kind of object, like **[Collection](./ORM-Collection)**, **Global**, **User**, use `*` for privilege name.
+
+    - When `object` is set to `Global`, setting `privilege` to `\*` is not equivalent to setting it to `All`. The `All` privilege includes all permissions, including any collection and user object.
 
     </Admonition>
 

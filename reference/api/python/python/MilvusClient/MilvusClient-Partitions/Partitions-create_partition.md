@@ -13,10 +13,10 @@ type: docx
 token: I6hvdlYUuoUaw3xWqSnce4Fin9g
 sidebar_position: 1
 keywords: 
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
   - zilliz
   - zilliz cloud
   - cloud
@@ -32,6 +32,12 @@ import Admonition from '@theme/Admonition';
 # create_partition()
 
 This operation creates a partition in the target collection.
+
+<Admonition type="info" icon="📘" title="Notes">
+
+This only applies to managed collections.
+
+</Admonition>
 
 ## Request syntax\{#request-syntax}
 

@@ -13,10 +13,10 @@ type: docx
 token: FbzLd0f5ToAPRdxa8XWcWfUwnwe
 sidebar_position: 2
 keywords: 
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
   - zilliz
   - zilliz cloud
   - cloud

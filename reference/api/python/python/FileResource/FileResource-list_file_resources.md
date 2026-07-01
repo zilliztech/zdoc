@@ -13,10 +13,10 @@ type: docx
 token: VWCwdHpnbofX9pxw4D1chAghnJg
 sidebar_position: 2
 keywords: 
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
   - zilliz
   - zilliz cloud
   - cloud

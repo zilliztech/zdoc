@@ -13,10 +13,10 @@ type: docx
 token: HVwRdVSbAo2jUexpxmdczdqPnzh
 sidebar_position: 1
 keywords: 
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
   - zilliz
   - zilliz cloud
   - cloud
@@ -50,10 +50,10 @@ bulk_import(
     token: str = "",
     volume_name: str = "",
     data_paths: list[list[str]] | None = None,
-
+    
     project_id: str = "",
     region_id: str = "",
-
+    
     verify: bool | str = True,
     cert: str | tuple | None = None,
     **kwargs,
@@ -116,7 +116,7 @@ bulk_import(
 
 - **project_id** (*str*) -
 
-    A valid Zilliz Cloud project ID.
+    A valid Zilliz Cloud project ID. 
 
     This applies when you bulk import into a database for on-demand compute.
 

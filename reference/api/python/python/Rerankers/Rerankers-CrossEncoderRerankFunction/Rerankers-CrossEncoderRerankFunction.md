@@ -13,10 +13,10 @@ type: docx
 token: HVGNdMYOvojQoXxvDmEcnHYanMh
 sidebar_position: 1
 keywords: 
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
   - zilliz
   - zilliz cloud
   - cloud

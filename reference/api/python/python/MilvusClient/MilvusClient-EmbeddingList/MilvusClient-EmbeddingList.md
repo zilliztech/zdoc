@@ -13,10 +13,10 @@ type: docx
 token: Ve2WdUAfwoz456xwBIJcGvltn6b
 sidebar_position: 4
 keywords: 
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
   - zilliz
   - zilliz cloud
   - cloud

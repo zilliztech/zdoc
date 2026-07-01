@@ -12,10 +12,10 @@ token: KrK5fBnFDlG6CedvqyHcfZLynre
 sidebar_position: 5
 sidebar_label: "Management"
 keywords: 
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
   - zilliz
   - zilliz cloud
   - cloud

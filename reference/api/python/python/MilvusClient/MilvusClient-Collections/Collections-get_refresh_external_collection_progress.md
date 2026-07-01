@@ -13,10 +13,10 @@ type: docx
 token: HITBdKb0HotcK0xCKsycEeuqnXe
 sidebar_position: 27
 keywords: 
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
   - zilliz
   - zilliz cloud
   - cloud
@@ -35,8 +35,9 @@ This operation returns the progress of a specified external collection refresh j
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This requires a MilvusClient set up using the project endpoint as follows:</p>
-<p><code>https://\{project-id\}.\{region\}.api.zillizcloud.com</code></p>
+This requires a MilvusClient set up using the project endpoint as follows:
+
+`https://{project-id}.{region}.api.zillizcloud.com`
 
 </Admonition>
 

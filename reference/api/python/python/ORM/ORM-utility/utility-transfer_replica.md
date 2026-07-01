@@ -13,10 +13,10 @@ type: docx
 token: SuePdciB0o4du5xtpIhcMVyYnPb
 sidebar_position: 40
 keywords: 
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
   - zilliz
   - zilliz cloud
   - cloud
@@ -72,9 +72,11 @@ transfer_replica(
 
     <Admonition type="info" icon="📘" title="What is a replica?">
 
-    <p>With replicas, Zilliz Cloud can load the same segments on multiple query nodes. If one query node has failed or is busy with a current search request when another arrives, the system can send new requests to an idle query node that has a replication of the same segment. </p>
-    <p>Replicas are organized as replica groups. Each replica group contains <a href="https://milvus.io/docs/v2.1.x/glossary.md#Sharding">shard</a> replicas. Each shard replica has a streaming replica and a historical replica that correspond to the growing and sealed <a href="https://milvus.io/docs/v2.1.x/glossary.md#Segment">segments</a> in the shard.</p>
-    <p>Shards can be regarded as DML channels for distributed data write operations among multiple nodes to make the most of the parallel computing potential out of a Zilliz Cloud cluster.</p>
+    With replicas, Zilliz Cloud can load the same segments on multiple query nodes. If one query node has failed or is busy with a current search request when another arrives, the system can send new requests to an idle query node that has a replication of the same segment. 
+
+    Replicas are organized as replica groups. Each replica group contains [shard](https://milvus.io/docs/v2.1.x/glossary.md#Sharding) replicas. Each shard replica has a streaming replica and a historical replica that correspond to the growing and sealed [segments](https://milvus.io/docs/v2.1.x/glossary.md#Segment) in the shard.
+
+    Shards can be regarded as DML channels for distributed data write operations among multiple nodes to make the most of the parallel computing potential out of a Zilliz Cloud cluster.
 
     </Admonition>
 

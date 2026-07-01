@@ -1,5 +1,5 @@
 ---
-title: "\_\_call\_\_() | Python"
+title: "\\_\\_call\\_\\_() | Python"
 slug: /python/python/GeminiEmbeddingFunction-__call__
 sidebar_key: python/GeminiEmbeddingFunction-__call__
 sidebar_label: "__call__()"
@@ -13,10 +13,10 @@ type: docx
 token: Pvdhdb8IrozdCgx3N4fcTWdWnPg
 sidebar_position: 4
 keywords: 
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
   - zilliz
   - zilliz cloud
   - cloud

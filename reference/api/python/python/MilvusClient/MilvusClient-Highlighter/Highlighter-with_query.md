@@ -13,10 +13,10 @@ type: docx
 token: KdiQdpHp3oEQwNx2hd5chqQKn2D
 sidebar_position: 3
 keywords: 
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
   - zilliz
   - zilliz cloud
   - cloud

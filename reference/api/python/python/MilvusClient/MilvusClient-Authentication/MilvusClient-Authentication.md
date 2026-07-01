@@ -4,18 +4,18 @@ slug: /python/MilvusClient-Authentication
 beta: false
 notebook: false
 added_since: v2.3.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 description: "Methods related to implement role-based access control to your resources. | Python | MilvusClient"
 type: folder
-token: Tjnufe7LvlX9wtddOfEctVJ6nKB
+token: VWo0fuUollpgQ5dnvPkcc92Mntf
 sidebar_position: 1
 sidebar_label: "Authentication"
 keywords: 
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
   - zilliz
   - zilliz cloud
   - cloud

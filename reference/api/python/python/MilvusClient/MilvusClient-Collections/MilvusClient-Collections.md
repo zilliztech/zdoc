@@ -12,10 +12,10 @@ token: WidffJPNIlfIlZdHlU8cMiGOnpg
 sidebar_position: 3
 sidebar_label: "Collections"
 keywords: 
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
+  - vector database
+  - IVF
+  - knn
+  - Image Search
   - zilliz
   - zilliz cloud
   - cloud

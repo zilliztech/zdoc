@@ -12,10 +12,10 @@ token: BBPZfcRbOlWEnjdbIJgc3wgynsg
 sidebar_position: 3
 sidebar_label: "MilvusClient"
 keywords: 
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
   - zilliz
   - zilliz cloud
   - cloud

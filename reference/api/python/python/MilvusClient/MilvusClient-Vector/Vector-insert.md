@@ -13,10 +13,10 @@ type: docx
 token: QI87dhVnioL9JLxnNKxcM8jWnkh
 sidebar_position: 3
 keywords: 
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
   - zilliz
   - zilliz cloud
   - cloud
@@ -35,7 +35,7 @@ This operation inserts data into a specific collection.
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>External collections do not support this operation.</p>
+External collections do not support this operation.
 
 </Admonition>
 

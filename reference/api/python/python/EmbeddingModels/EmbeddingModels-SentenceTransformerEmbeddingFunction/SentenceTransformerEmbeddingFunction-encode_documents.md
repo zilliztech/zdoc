@@ -13,10 +13,10 @@ type: docx
 token: MOPzdeyjzoO8DlxAlL0clX00nBc
 sidebar_position: 1
 keywords: 
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
   - zilliz
   - zilliz cloud
   - cloud

@@ -4,18 +4,18 @@ slug: /python/DataImport-BulkImport
 beta: false
 notebook: false
 added_since: Inherit
-last_modified: false
+last_modified: v2.6.x
 deprecate_since: false
 description: "Functions related to bulk import data into Zilliz Cloud clusters. | Python"
 type: folder
-token: ODiwfm3z9lpSIZdyCjtcTQXgnfb
+token: KpOtfu1TplkyiadlfQxcTa5vnFe
 sidebar_position: 2
 sidebar_label: "BulkImport"
 keywords: 
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
   - zilliz
   - zilliz cloud
   - cloud

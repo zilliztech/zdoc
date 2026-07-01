@@ -13,10 +13,10 @@ type: docx
 token: Px9Ydg6KSoNFV2xBumpcGBNqn8d
 sidebar_position: 2
 keywords: 
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
   - zilliz
   - zilliz cloud
   - cloud

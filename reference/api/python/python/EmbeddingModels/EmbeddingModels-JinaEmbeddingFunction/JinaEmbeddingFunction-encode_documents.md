@@ -13,10 +13,10 @@ type: docx
 token: ZMs1dJJOGobyBjxRo7icXtE8nPe
 sidebar_position: 1
 keywords: 
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
   - zilliz
   - zilliz cloud
   - cloud

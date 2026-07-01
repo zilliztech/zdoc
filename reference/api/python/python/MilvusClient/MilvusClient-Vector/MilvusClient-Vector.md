@@ -12,10 +12,10 @@ token: KSDYfo9pCl89wKdRNGccbzT2nid
 sidebar_position: 7
 sidebar_label: "Vector"
 keywords: 
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
   - zilliz
   - zilliz cloud
   - cloud

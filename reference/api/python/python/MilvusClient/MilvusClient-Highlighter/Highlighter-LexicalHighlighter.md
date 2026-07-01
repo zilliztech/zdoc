@@ -13,10 +13,10 @@ type: docx
 token: DXTJdXSquo8NutxCqfBccO7pnWw
 sidebar_position: 1
 keywords: 
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
   - zilliz
   - zilliz cloud
   - cloud

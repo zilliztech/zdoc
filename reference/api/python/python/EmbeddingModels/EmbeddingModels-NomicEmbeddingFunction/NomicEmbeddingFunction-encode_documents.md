@@ -13,10 +13,10 @@ type: docx
 token: H8ncdzr6roh9G6xQm8BcJFamnhf
 sidebar_position: 1
 keywords: 
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
   - zilliz
   - zilliz cloud
   - cloud

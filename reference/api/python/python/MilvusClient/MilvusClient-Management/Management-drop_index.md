@@ -13,10 +13,10 @@ type: docx
 token: NPnQdZCJ7oF002xTntecdI2ini8
 sidebar_position: 5
 keywords: 
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
   - zilliz
   - zilliz cloud
   - cloud
@@ -35,20 +35,7 @@ This operation drops an index from a specific collection.
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This method applies only to dedicated serving clusters and on-demand compute. </p>
-<ul>
-<li><p>For this operation in a collection of a serving cluster, please create <strong>MilvusClient</strong> with the cluster endpoint.</p></li>
-<li><p><strong>Free & Serverless</strong></p></li>
-</ul>
-<p><code>https://\{cluster-id\}.serverless.\{region\}.vectordb.zillizcloud.com</code></p>
-<ul>
-<li><strong>Dedicated</strong></li>
-</ul>
-<p><code>https://\{cluster-id\}.\{region\}.vectordb.zillizcloud.com:19530</code></p>
-<ul>
-<li>For this operation in a collection for on-demand compute, create <strong>MilvusClient</strong> with the project endpoints, and then create a session to attach to an on-demand cluster for searches.</li>
-</ul>
-<p><code>https://\{project-id\}.\{region\}.api.zillizcloud.com</code></p>
+Collections for on-demand compute do not support this operation.
 
 </Admonition>
 

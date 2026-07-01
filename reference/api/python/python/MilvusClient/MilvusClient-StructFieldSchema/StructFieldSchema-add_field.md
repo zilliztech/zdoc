@@ -13,10 +13,10 @@ type: docx
 token: Up73d8d78oPM2FxkvlIcuxeBn9g
 sidebar_position: 1
 keywords: 
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
   - zilliz
   - zilliz cloud
   - cloud

@@ -13,10 +13,10 @@ type: docx
 token: RwmUdNd0WoQ75zxrCndcal6HnXT
 sidebar_position: 2
 keywords: 
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
   - zilliz
   - zilliz cloud
   - cloud

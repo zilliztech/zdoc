@@ -13,10 +13,10 @@ type: docx
 token: Qe3GdWZa9oAxjrx85tkct8ManRe
 sidebar_position: 21
 keywords: 
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
   - zilliz
   - zilliz cloud
   - cloud
@@ -35,7 +35,7 @@ This operation adds a new function to the collection. Functions allow you to def
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This does not apply to external collections.</p>
+This does not apply to external collections.
 
 </Admonition>
 

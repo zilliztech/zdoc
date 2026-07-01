@@ -13,10 +13,10 @@ type: docx
 token: HCWBdorQdoONw2xaawacJWQkn1e
 sidebar_position: 1
 keywords: 
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
   - zilliz
   - zilliz cloud
   - cloud
@@ -35,7 +35,7 @@ This operation modifies the properties of the specified database.
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This method applies only to dedicated clusters.</p>
+This method applies only to dedicated clusters.
 
 </Admonition>
 

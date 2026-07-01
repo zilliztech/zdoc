@@ -13,10 +13,10 @@ type: docx
 token: WhsHdyIgyoFlsQxNJt9cFCTxnDe
 sidebar_position: 4
 keywords: 
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
   - zilliz
   - zilliz cloud
   - cloud
@@ -35,20 +35,21 @@ This operation describes a specific index.
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This method applies only to dedicated serving clusters and on-demand compute. </p>
-<ul>
-<li><p>For this operation in a collection of a serving cluster, please create <strong>MilvusClient</strong> with the cluster endpoint.</p></li>
-<li><p><strong>Free & Serverless</strong></p></li>
-</ul>
-<p><code>https://\{cluster-id\}.serverless.\{region\}.vectordb.zillizcloud.com</code></p>
-<ul>
-<li><strong>Dedicated</strong></li>
-</ul>
-<p><code>https://\{cluster-id\}.\{region\}.vectordb.zillizcloud.com:19530</code></p>
-<ul>
-<li>For this operation in a collection for on-demand compute, create <strong>MilvusClient</strong> with the project endpoints, and then create a session to attach to an on-demand cluster for searches.</li>
-</ul>
-<p><code>https://\{project-id\}.\{region\}.api.zillizcloud.com</code></p>
+This method applies only to dedicated serving clusters and on-demand compute. 
+
+- For this operation in a collection of a serving cluster, please create **[MilvusClient](./Client-MilvusClient)** with the cluster endpoint.
+
+    - **Free & Serverless**
+
+        `https://{cluster-id}.serverless.{region}.vectordb.zillizcloud.com`
+
+    - **Dedicated**
+
+        `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
+
+- For this operation in a collection for on-demand compute, create **[MilvusClient](./Client-MilvusClient)** with the project endpoints, and then create a session to attach to an on-demand cluster for searches.
+
+    `https://{project-id}.{region}.api.zillizcloud.com`
 
 </Admonition>
 

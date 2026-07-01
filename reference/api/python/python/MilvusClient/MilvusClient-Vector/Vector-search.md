@@ -5,18 +5,18 @@ sidebar_key: python/Vector-search
 sidebar_label: "search()"
 added_since: v2.3.x
 last_modified: v3.0.x
-deprecate_since: FALSE
-beta: FALSE
-notebook: FALSE
+deprecate_since: false
+beta: false
+notebook: false
 description: "This operation conducts a vector similarity search with an optional scalar filtering expression. | Python | MilvusClient"
 type: docx
 token: DvaZdhYnyoo7lOxNIBwc5eKEn7d
 sidebar_position: 6
 keywords: 
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
   - zilliz
   - zilliz cloud
   - cloud
@@ -35,20 +35,21 @@ This operation conducts a vector similarity search with an optional scalar filte
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This method applies only to dedicated serving clusters and on-demand compute. </p>
-<ul>
-<li><p>For this operation in a collection of a serving cluster, please create <strong>MilvusClient</strong> with the cluster endpoint.</p></li>
-<li><p><strong>Free & Serverless</strong></p></li>
-</ul>
-<p><code>https://\{cluster-id\}.serverless.\{region\}.vectordb.zillizcloud.com</code></p>
-<ul>
-<li><strong>Dedicated</strong></li>
-</ul>
-<p><code>https://\{cluster-id\}.\{region\}.vectordb.zillizcloud.com:19530</code></p>
-<ul>
-<li>For this operation in a collection for on-demand compute, create <strong>MilvusClient</strong> with the project endpoints, and then create a session to attach to an on-demand cluster for searches.</li>
-</ul>
-<p><code>https://\{project-id\}.\{region\}.api.zillizcloud.com</code></p>
+This method applies only to dedicated serving clusters and on-demand compute. 
+
+- For this operation in a collection of a serving cluster, please create **[MilvusClient](./Client-MilvusClient)** with the cluster endpoint.
+
+    - **Free & Serverless**
+
+        `https://{cluster-id}.serverless.{region}.vectordb.zillizcloud.com`
+
+    - **Dedicated**
+
+        `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
+
+- For this operation in a collection for on-demand compute, create **[MilvusClient](./Client-MilvusClient)** with the project endpoints, and then create a session to attach to an on-demand cluster for searches.
+
+    `https://{project-id}.{region}.api.zillizcloud.com`
 
 </Admonition>
 
@@ -130,7 +131,7 @@ search(
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    <p>When <code>group_by</code> is specified for search aggregation, do not explicitly set <code>limit</code>. Use the root <code>GroupBy.size</code> value to control the number of top-level buckets to return.</p>
+    When `group_by` is specified for search aggregation, do not explicitly set `limit`. Use the root `GroupBy.size` value to control the number of top-level buckets to return.
 
     </Admonition>
 
@@ -170,7 +171,7 @@ search(
 
         <Admonition type="info" icon="📘" title="Notes">
 
-        <p>All additional parameters are moved to the upper <code>search_params</code>, and the <code>params</code> argument will be deprecated soon.</p>
+        All additional parameters are moved to the upper `search_params`, and the `params` argument will be deprecated soon.
 
         </Admonition>
 
@@ -222,7 +223,7 @@ search(
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    <p>Search aggregation metrics are computed over ANN-retrieved entities, not over the full collection. Bucket counts, metrics, and metric-based ordering are approximate.</p>
+    Search aggregation metrics are computed over ANN-retrieved entities, not over the full collection. Bucket counts, metrics, and metric-based ordering are approximate.
 
     </Admonition>
 

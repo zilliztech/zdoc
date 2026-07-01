@@ -33,6 +33,12 @@ import Admonition from '@theme/Admonition';
 
 This operation loads a specific set of partitions in a specified collection into memory.
 
+<Admonition type="info" icon="📘" title="Notes">
+
+This only applies to managed collections.
+
+</Admonition>
+
 ## Request syntax\{#request-syntax}
 
 ```python
@@ -75,7 +81,7 @@ None
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>A collection is in the loaded state only if any or all of its partitions are loaded.</p>
+A collection is in the loaded state only if any or all of its partitions are loaded.
 
 </Admonition>
 

@@ -13,10 +13,10 @@ type: docx
 token: FgbjdQHBEoITxgxk7NMc1NzpnAc
 sidebar_position: 2
 keywords: 
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
   - zilliz
   - zilliz cloud
   - cloud

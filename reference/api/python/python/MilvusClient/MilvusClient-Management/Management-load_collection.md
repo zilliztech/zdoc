@@ -13,10 +13,10 @@ type: docx
 token: YtiQdxTYzoCaYDxEMZcc8TEenQb
 sidebar_position: 10
 keywords: 
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
   - zilliz
   - zilliz cloud
   - cloud
@@ -32,6 +32,12 @@ import Admonition from '@theme/Admonition';
 # load_collection()
 
 This operation loads the data of a specific collection into memory.
+
+<Admonition type="info" icon="📘" title="Notes">
+
+This only applies to managed collections.
+
+</Admonition>
 
 ## Request syntax\{#request-syntax}
 

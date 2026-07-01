@@ -13,10 +13,10 @@ type: docx
 token: S278drWUVoRZ5fx8XkfcWaZfnwh
 sidebar_position: 2
 keywords: 
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
   - zilliz
   - zilliz cloud
   - cloud
@@ -35,20 +35,21 @@ This operation creates a database.
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This method applies only to dedicated serving clusters and on-demand compute. </p>
-<ul>
-<li><p>For a database in dedicated serving clusters, please create <strong>MilvusClient</strong> with the cluster endpoint.</p></li>
-<li><p><strong>Free & Serverless</strong></p></li>
-</ul>
-<p><code>https://\{cluster-id\}.serverless.\{region\}.vectordb.zillizcloud.com</code></p>
-<ul>
-<li><strong>Dedicated</strong></li>
-</ul>
-<p><code>https://\{cluster-id\}.\{region\}.vectordb.zillizcloud.com:19530</code></p>
-<ul>
-<li>For a database for on-demand compute, create <strong>MilvusClient</strong> with the project endpoints.</li>
-</ul>
-<p><code>https://\{project-id\}.\{region\}.api.zillizcloud.com</code></p>
+This method applies only to dedicated serving clusters and on-demand compute. 
+
+- For a database in a dedicated serving clusters, create **[MilvusClient](./Client-MilvusClient)** with the cluster endpoint.
+
+    - **Free & Serverless**
+
+        `https://{cluster-id}.serverless.{region}.vectordb.zillizcloud.com`
+
+    - **Dedicated**
+
+        `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
+
+- For a database for on-demand compute, create **[MilvusClient](./Client-MilvusClient)** with the project endpoints.
+
+    `https://{project-id}.{region}.api.zillizcloud.com`
 
 </Admonition>
 
@@ -73,7 +74,7 @@ create_database(
 
 - **properties** (*dict* | *None*) -
 
-    <Admonition type="info" icon="📘" title="This does not apply to database for on-demand compute.">
+    <Admonition type="info" icon="📘" title="This does not apply to databases for on-demand compute.">
     
     </Admonition>
 

@@ -13,10 +13,10 @@ type: docx
 token: TWxddf6iboyM15xK4Kzc8ASknRb
 sidebar_position: 6
 keywords: 
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
   - zilliz
   - zilliz cloud
   - cloud
@@ -35,7 +35,7 @@ This operation loads the data of the current partition into memory.
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Using the <strong>partition_names</strong> parameter in the <strong>load()</strong> method of a <strong><a href="./ORM-Collection">Collection</a></strong> object is equivalent to using the <strong>load()</strong> method of corresponding <strong><a href="./ORM-Partition">Partition</a></strong> objects.</p>
+Using the **partition_names** parameter in the **load()** method of a **[Collection](./ORM-Collection)** object is equivalent to using the **load()** method of corresponding **[Partition](./ORM-Partition)** objects.
 
 </Admonition>
 

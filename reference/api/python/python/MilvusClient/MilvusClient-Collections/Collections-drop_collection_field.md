@@ -13,10 +13,10 @@ type: docx
 token: SpmqdHRBjoRKQuxTibQcx0zMnnb
 sidebar_position: 26
 keywords: 
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
   - zilliz
   - zilliz cloud
   - cloud

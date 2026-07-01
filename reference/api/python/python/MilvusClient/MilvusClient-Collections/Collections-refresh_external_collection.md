@@ -13,10 +13,10 @@ type: docx
 token: ZVs4dDpvmoXI0OxOnKhc9numnJd
 sidebar_position: 29
 keywords: 
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
   - zilliz
   - zilliz cloud
   - cloud
@@ -35,8 +35,9 @@ This operation scans the data files in the schema-defined external storage and g
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This requires a MilvusClient set up using the project endpoint as follows:</p>
-<p><code>https://\{project-id\}.\{region\}.api.zillizcloud.com</code></p>
+This requires a MilvusClient set up using the project endpoint as follows:
+
+`https://{project-id}.{region}.api.zillizcloud.com`
 
 </Admonition>
 

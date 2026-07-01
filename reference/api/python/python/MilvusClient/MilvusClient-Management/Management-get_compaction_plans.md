@@ -13,10 +13,10 @@ type: docx
 token: Qa8ZdRkOKocH60xujcLcOxuBnkh
 sidebar_position: 17
 keywords: 
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
   - zilliz
   - zilliz cloud
   - cloud
@@ -32,6 +32,12 @@ import Admonition from '@theme/Admonition';
 # get_compaction_plans()
 
 This operation returns the compaction plans for a specific compaction job, including the merge plans showing which segments will be combined.
+
+<Admonition type="info" icon="📘" title="Notes">
+
+This only applies to managed collections.
+
+</Admonition>
 
 ## Request syntax\{#request-syntax}
 

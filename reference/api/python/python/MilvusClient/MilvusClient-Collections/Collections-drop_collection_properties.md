@@ -13,10 +13,10 @@ type: docx
 token: HTnvdQ8SbodURtxPEv5cURL0n5b
 sidebar_position: 12
 keywords: 
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
   - zilliz
   - zilliz cloud
   - cloud
@@ -35,7 +35,7 @@ This operation drops the specified collection properties.
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This does not apply to external collections.</p>
+This does not apply to external collections.
 
 </Admonition>
 

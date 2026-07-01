@@ -13,10 +13,10 @@ type: docx
 token: HQDndiGwloWKIexgPCUcEZGenOh
 sidebar_position: 20
 keywords: 
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
   - zilliz
   - zilliz cloud
   - cloud
@@ -45,7 +45,7 @@ load(
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This operation is non-blocking. You can call <code>utility.wait_for_loading_complete()</code> to block the current process.</p>
+This operation is non-blocking. You can call `utility.wait_for_loading_complete()` to block the current process.
 
 </Admonition>
 
@@ -75,7 +75,7 @@ load(
 
 <Admonition type="danger" icon="🚧" title="Warning">
 
-<p>If you try to load a collection that is not indexed, you will receive a <strong>MilvusException</strong>.</p>
+If you try to load a collection that is not indexed, you will receive a **MilvusException**.
 
 </Admonition>
 

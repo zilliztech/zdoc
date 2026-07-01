@@ -11,12 +11,12 @@ notebook: false
 description: "This operation lists all currently loaded segments for a collection, including information about row count, sort status, storage level, and memory size. | Python | MilvusClient"
 type: docx
 token: QWlfd7SO1ojpdHxM968coTYQnYg
-sidebar_position: 21
+sidebar_position: 22
 keywords: 
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
   - zilliz
   - zilliz cloud
   - cloud
@@ -32,6 +32,12 @@ import Admonition from '@theme/Admonition';
 # list_loaded_segments()
 
 This operation lists all currently loaded segments for a collection, including information about row count, sort status, storage level, and memory size.
+
+<Admonition type="info" icon="📘" title="Notes">
+
+This only applies to managed collections.
+
+</Admonition>
 
 ## Request syntax\{#request-syntax}
 

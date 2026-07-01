@@ -13,10 +13,10 @@ type: docx
 token: N3Fbd0ZZVoFo8DxJ9r8cNgcCnOd
 sidebar_position: 1
 keywords: 
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
   - zilliz
   - zilliz cloud
   - cloud
@@ -79,6 +79,8 @@ add_field(
 
         - **DataType.VARCHAR**,
 
+        - **DataType.TEXT**
+
     - Composite fields: Choose from a variety of options, including 
 
         - **DataType.JSON**
@@ -95,10 +97,9 @@ add_field(
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    <ul>
-    <li><p>Each collection has only one primary field.</p></li>
-    <li><p>A primary field should be of either the <strong>DataType.INT64</strong> type or the <strong>DataType.VARCHAR</strong> type.</p></li>
-    </ul>
+    - Each collection has only one primary field.
+
+    - A primary field should be of either the **DataType.INT64** type or the **DataType.VARCHAR** type.
 
     </Admonition>
 
@@ -106,7 +107,7 @@ add_field(
 
     The maximum byte length for strings allowed to be inserted. Note that multibyte characters (e.g., Unicode characters) may occupy more than one byte each, so ensure the byte length of inserted strings does not exceed the specified limit. Value range: [1, 65,535].
 
-    This is mandatory for a **DataType.VARCHAR** field.
+    This is mandatory for a DataType.VARCHAR field. Omit this parameter for a DataType.TEXT field.
 
 - **element_type** (*str*) -
 
@@ -134,9 +135,11 @@ add_field(
 
     <Admonition type="info" icon="📘" title="What is the partition key?">
 
-    <p>To facilitate partition-oriented multi-tenancy, you can set a field as the partition key field so that Zilliz Cloud hashes the field values and distributes entities among the specified number of partitions accordingly.</p>
-    <p>When retrieving entities, ensure that the partition key field is used in the boolean expression to filter out entities of a specific field value.</p>
-    <p>For details, refer to <a href="/docs/use-partition-key">Use Partition Key</a> and <a href="https://milvus.io/docs/multi_tenancy.md">Multi-tenancy</a>.</p>
+    To facilitate partition-oriented multi-tenancy, you can set a field as the partition key field so that Zilliz Cloud hashes the field values and distributes entities among the specified number of partitions accordingly.
+
+    When retrieving entities, ensure that the partition key field is used in the boolean expression to filter out entities of a specific field value.
+
+    For details, refer to [Use Partition Key](/docs/use-partition-key) and [Multi-tenancy](https://milvus.io/docs/multi_tenancy.md).
 
     </Admonition>
 
@@ -181,6 +184,13 @@ schema.add_field(
 schema.add_field(
     field_name="scalar_01",
     datatype=DataType.INT32
+)
+
+# Add a TEXT field for long source content
+schema.add_field(
+    field_name="content",
+    datatype=DataType.TEXT,
+    enable_analyzer=True
 )
 
 # {

@@ -11,12 +11,12 @@ notebook: false
 description: "This operation lists all persistent (flushed) segments for a collection, including information about row count, sort status, and storage level. | Python | MilvusClient"
 type: docx
 token: QsGNdp1t3oHaunxgIZGc3PdSnof
-sidebar_position: 22
+sidebar_position: 23
 keywords: 
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
   - zilliz
   - zilliz cloud
   - cloud
@@ -32,6 +32,12 @@ import Admonition from '@theme/Admonition';
 # list_persistent_segments()
 
 This operation lists all persistent (flushed) segments for a collection, including information about row count, sort status, and storage level.
+
+<Admonition type="info" icon="📘" title="Notes">
+
+This only applies to managed collections.
+
+</Admonition>
 
 ## Request syntax\{#request-syntax}
 

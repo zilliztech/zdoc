@@ -13,10 +13,10 @@ type: docx
 token: SJ1FdUQQnohtObxhNgpcHalMnUc
 sidebar_position: 3
 keywords: 
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
   - zilliz
   - zilliz cloud
   - cloud
@@ -35,7 +35,7 @@ This operation alters the specified collection properties.
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This does not apply to external collections.</p>
+This does not apply to external collections.
 
 </Admonition>
 

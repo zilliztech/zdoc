@@ -12,10 +12,10 @@ token: SIN6f7FuAlseoDdllIXck663nBg
 sidebar_position: 1
 sidebar_label: "DataImport"
 keywords: 
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
   - zilliz
   - zilliz cloud
   - cloud

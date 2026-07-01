@@ -13,10 +13,10 @@ type: docx
 token: UjjpdBwaooRDdlxFHScc6dKwnTg
 sidebar_position: 8
 keywords: 
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
   - zilliz
   - zilliz cloud
   - cloud
@@ -33,12 +33,6 @@ import Admonition from '@theme/Admonition';
 
 This operation inserts or updates data in a specific collection.
 
-<Admonition type="info" icon="📘" title="Notes">
-
-<p>External collections do not support this operation.</p>
-
-</Admonition>
-
 ## Request syntax\{#request-syntax}
 
 ```python
@@ -46,7 +40,6 @@ upsert(
     collection_name: str,
     data: Union[Dict, List[Dict]],
     timeout: Optional[float] = None,
-    partial_update: Optional[bool] = False,
     partition_name: Optional[str] = "",
 ) -> List[Union[str, int]]
 ```
@@ -67,9 +60,7 @@ upsert(
 
     The data to insert or update should be a dictionary that matches the schema of the current collection or a list of such dictionaries. 
 
-    To perform an update, you are advised first to retrieve the target entity from the collection, modify the values of any relevant fields, and then save it back to the collection. 
-
-    The following code assumes that the schema of the current collection has three fields named **id**, **vector** ,and **color**. The `id` field is the primary field, the `vector` field is a field to hold 5-dimensional vector embeddings, and the `color` field is a scalar field holding strings.
+    The following code assumes that the schema of the current collection has two fields named **id** and **vector**. The former is the primary field and the latter is a field to hold 5-dimensional vector embeddings.
 
     ```python
     # A dictionary, or
@@ -81,8 +72,7 @@ upsert(
             0.848608119657156,
             0.9287046808231654,
             -0.42215796530168403
-        ],
-        'color': 'green'
+        ]
     }
     
     # A list of dictionaries
@@ -95,8 +85,7 @@ upsert(
                 0.9197526367693833,
                 0.49519396415367245,
                 -0.558567588166478
-            ],
-            'color': 'brown'
+            ]
         },
         {
             'id': 2,
@@ -106,8 +95,7 @@ upsert(
                 -0.8344432775467099,
                 0.9797361846081416,
                 0.6294256393761057
-            ],
-            'color': 'purple'
+            ]
         }
     ]
     ```
@@ -131,10 +119,7 @@ upsert(
 A dictionary contains information about the number of inserted or updated entities.
 
 ```python
-{
-    'upsert_count': int,
-    'primary_Keys': List[id | str]
-}
+{'upsert_count': 10}
 ```
 
 **EXCEPTIONS:**
@@ -169,8 +154,7 @@ res = client.insert(
                 -0.8344432775467099,
                 0.9797361846081416,
                 0.6294256393761057
-            ],
-            'color': 'green'
+            ]
         },
         {
             'id': 1,
@@ -180,8 +164,7 @@ res = client.insert(
                 0.9197526367693833,
                 0.49519396415367245,
                 -0.558567588166478
-            ],
-            'color': 'brown'
+            ]
         },
         {
             'id': 2,
@@ -191,16 +174,15 @@ res = client.insert(
                 -0.8344432775467099,
                 0.9797361846081416,
                 0.6294256393761057
-            ],
-            'color': 'purple'
+            ]
         }
     ]
 )
 
-# {'insert_count': 3, ids: [0, 1, 2]}
+# {'insert_count': 3}
 
 # 4. Upsert a record
-res = client.upsert(
+res = client.insert(
     collection_name="test_collection",
     data={
         'id': 0,
@@ -210,12 +192,11 @@ res = client.upsert(
             0.848608119657156,
             0.9287046808231654,
             -0.42215796530168403
-        ],
-        'color': 'grass-green'
+        ]
     }
 )
 
-# {'upsert_count': 1, 'primary_keys': [0]}
+# {'upsert_count': 1}
 
 # 4. Upsert multiple records
 res = client.upsert(
@@ -229,8 +210,7 @@ res = client.upsert(
                  0.9123948134344333,
                  0.49519396415367245,
                  -0.558567588166478
-             ],
-             'color': 'mud-brown'
+             ]
        },
        {
            'id': 2,
@@ -240,30 +220,23 @@ res = client.upsert(
                -0.8344432775467099,
                0.675761846081416,
                0.57094256393761057
-           ],
-           'color': 'violet-purple'
+           ]
        }
    ]
 )
 
-# {'upsert_count': 2, primary_keys: [1, 2]}
-
-# 5. Upsert with partial update
-res = client.upsert(
-    collection_name="test_collection",
-    data=[
-        {
-            'id': 1,
-            'color': 'cesped-green'
-        },
-        {
-            'id': 2,
-            'color': 'manganese-purple'
-        }
-    ],
-    partial_update=True
-)
-
-# {'upsert_count': 2: primary_keys: [1, 2]}
+# {'upsert_count': 2}
 ```
+
+## Related methods\{#related-methods}
+
+- [delete()](./Vector-delete)
+
+- [get()](./Vector-get)
+
+- [insert()](./Vector-insert)
+
+- [query()](./Vector-query)
+
+- [search()](./Vector-search)
 

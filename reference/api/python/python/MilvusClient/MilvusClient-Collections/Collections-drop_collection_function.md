@@ -13,10 +13,10 @@ type: docx
 token: F1mJdDLyzoMTrxxarPMcqPkqnqg
 sidebar_position: 24
 keywords: 
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
   - zilliz
   - zilliz cloud
   - cloud
@@ -35,7 +35,7 @@ This operation drops an existing function from the collection.
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This does not apply to external collections.</p>
+This does not apply to external collections.
 
 </Admonition>
 

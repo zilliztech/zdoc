@@ -13,10 +13,10 @@ type: docx
 token: HZByd7LqQoiorTxCgyrcu3VUnof
 sidebar_position: 11
 keywords: 
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
   - zilliz
   - zilliz cloud
   - cloud
@@ -33,33 +33,10 @@ import Admonition from '@theme/Admonition';
 
 This operation drops a collection.
 
-<Admonition type="info" icon="📘" title="Notes">
-
-<p>This method applies only to dedicated serving clusters and on-demand compute. </p>
-<ul>
-<li><p>For a managed collection in serving clusters, please create <strong>MilvusClient</strong> with the cluster endpoint.</p></li>
-<li><p><strong>Free & Serverless</strong></p></li>
-</ul>
-<p><code>https://\{cluster-id\}.serverless.\{region\}.vectordb.zillizcloud.com</code></p>
-<ul>
-<li><strong>Dedicated</strong></li>
-</ul>
-<p><code>https://\{cluster-id\}.\{region\}.vectordb.zillizcloud.com:19530</code></p>
-<ul>
-<li>For an external collection for on-demand compute, create <strong>MilvusClient</strong> with the project endpoints.</li>
-</ul>
-<p><code>https://\{project-id\}.\{region\}.api.zillizcloud.com</code></p>
-
-</Admonition>
-
 ## Request syntax\{#request-syntax}
 
 ```python
-drop_collection(
-    collection_name: str,
-    timeout: Optional[float] = None,
-    **kwargs,
-) -> None
+drop_collection(collection_name: str) -> None
 ```
 
 **PARAMETERS:**
@@ -70,48 +47,52 @@ drop_collection(
 
     The name of an existing collection.
 
-- **timeout** (*Optional[float]*) -
-
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
-
-**RETURN TYPE:**
-
-*NoneType*
-
-**RETURNS:**
-
-None
-
-**EXCEPTIONS:**
-
-- **MilvusException**
-
-    This exception will be raised when any error occurs during this operation.
-
 ## Examples\{#examples}
 
 ```python
 from pymilvus import MilvusClient
 
+# 1. Set up a milvus client
 client = MilvusClient(
-    uri="YOUR_CLUSTER_ENDPOINT",
-    token="YOUR_CLUSTER_TOKEN"
+    uri="https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
+    token="user:password"
 )
 
-# Create a collection
+# 2. Create a collection
 client.create_collection(
     collection_name="test_collection",
     dimension=5
 )
 
-# List collections
-res = client.list_collections()
+# 3. List collections
+res = client.list_collections() 
+
 # ['test_collection']
 
-# Drop the collection
+# 4. Drop the collection
 client.drop_collection(collection_name="test_collection")
 
-# Verify
-res = client.list_collections()
+# 5. List collections
+res = client.list_collections() 
+
 # []
 ```
+
+## Related methods\{#related-methods}
+
+- [create_collection()](./Collections-create_collection)
+
+- [create_schema()](./Collections-create_schema)
+
+- [describe_collection()](./Collections-describe_collection)
+
+- [get_collection_stats()](./Collections-get_collection_stats)
+
+- [has_collection()](./Collections-has_collection)
+
+- [list_collections()](./Collections-list_collections)
+
+- [rename_collection()](./Collections-rename_collection)
+
+- [DataType](./Collections-DataType)
+

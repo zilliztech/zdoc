@@ -13,10 +13,10 @@ type: docx
 token: UASmdlcqvojCe4xNY94cz9Wznyh
 sidebar_position: 4
 keywords: 
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
   - zilliz
   - zilliz cloud
   - cloud
@@ -35,7 +35,7 @@ This operation creates a lightweight DQL session bound to a specific on-demand c
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This method applies only to on-demand compute. Create <code>MilvusClient</code> with the project endpoint, for example <code>https://\{project-id\}.\{region\}.api.zillizcloud.com</code>, and pass the target on-demand cluster ID to <code>session()</code>.</p>
+This method applies only to on-demand compute. Create `MilvusClient` with the project endpoint, for example `https://{project-id}.{region}.api.zillizcloud.com`, and pass the target on-demand cluster ID to `session()`.
 
 </Admonition>
 

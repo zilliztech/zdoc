@@ -13,10 +13,10 @@ type: docx
 token: WtyZdeFKMoSv5exaYRxcPLCSndg
 sidebar_position: 9
 keywords: 
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
   - zilliz
   - zilliz cloud
   - cloud
@@ -94,7 +94,7 @@ client.drop_user(user_name="user_1")
 
 ## Related methods\{#related-methods}
 
-- [create_user()](./Authentication-create_user)
+- [create_user()](./utility-create_user)
 
 - [describe_user()](./Authentication-describe_user)
 

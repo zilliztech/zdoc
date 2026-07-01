@@ -4,19 +4,19 @@ slug: /python/python/Vector-search_iterator
 sidebar_key: python/Vector-search_iterator
 sidebar_label: "search_iterator()"
 added_since: v2.5.x
-last_modified: FALSE
-deprecate_since: FALSE
-beta: FALSE
-notebook: FALSE
+last_modified: false
+deprecate_since: false
+beta: false
+notebook: false
 description: "This operation conducts a vector similarity search with an optional scalar filtering expression in an iterative manner. | Python | MilvusClient"
 type: docx
 token: T9KhdDJQColJEuxZ7YOcV2zdnlb
 sidebar_position: 7
 keywords: 
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
   - zilliz
   - zilliz cloud
   - cloud
@@ -35,7 +35,7 @@ This operation conducts a vector similarity search with an optional scalar filte
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>External collections do not support this operation.</p>
+External collections do not support this operation.
 
 </Admonition>
 

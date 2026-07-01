@@ -13,10 +13,10 @@ type: docx
 token: ZnKKd2PsyoRc1MxtC1BcJQjgnBh
 sidebar_position: 3
 keywords: 
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
   - zilliz
   - zilliz cloud
   - cloud
@@ -64,7 +64,7 @@ CollectionSchema(
 
     <Admonition type="info" icon="📘" title="What is a field schema?">
 
-    <p>A field schema represents and contains metadata for a single field, while <strong>StructFieldSchema</strong> ties together a list of <strong><a href="./ORM-FieldSchema">FieldSchema</a></strong> objects to define the schema of a struct in an array of structs field.</p>
+    A field schema represents and contains metadata for a single field, while **StructFieldSchema** ties together a list of **[FieldSchema](./ORM-FieldSchema)** objects to define the schema of a struct in an array of structs field.
 
     </Admonition>
 

@@ -13,10 +13,10 @@ type: docx
 token: Er8vdVepxoqhPFxVyZUcxSHMnqe
 sidebar_position: 6
 keywords: 
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
   - zilliz
   - zilliz cloud
   - cloud
@@ -41,7 +41,7 @@ MilvusClient.create_schema(**kwargs) -> CollectionSchema
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This is a class method. You should call this method like this: <code>MilvusClient.create_schema()</code>.</p>
+This is a class method. You should call this method like this: `MilvusClient.create_schema()`.
 
 </Admonition>
 
@@ -63,7 +63,7 @@ MilvusClient.create_schema(**kwargs) -> CollectionSchema
 
         <Admonition type="info" icon="📘" title="What is a dynamic field?">
 
-        <p>If the data being inserted into the target collection includes fields that are not defined in the collection's schema, those fields will be saved in a reserved dynamic field named <strong>&#36;meta</strong> as key-value pairs.</p>
+        If the data being inserted into the target collection includes fields that are not defined in the collection's schema, those fields will be saved in a reserved dynamic field named **&#36;meta** as key-value pairs.
 
         </Admonition>
 
@@ -79,8 +79,9 @@ MilvusClient.create_schema(**kwargs) -> CollectionSchema
 
         <Admonition type="info" icon="📘" title="What is a partition key?">
 
-        <p>Once a field is designated as the partition key, Zilliz Cloud calculates a hash based on the partition key value of each inserted entity and saves entities in the partitions of the target collection accordingly.</p>
-        <p>This is particularly useful when implementing data separation based on a specific key, such as partition-oriented multi-tenancy.</p>
+        Once a field is designated as the partition key, Zilliz Cloud calculates a hash based on the partition key value of each inserted entity and saves entities in the partitions of the target collection accordingly.
+
+        This is particularly useful when implementing data separation based on a specific key, such as partition-oriented multi-tenancy.
 
         </Admonition>
 

@@ -13,10 +13,10 @@ type: docx
 token: KeoHdMDBCo3PByxKbWncifFMn9e
 sidebar_position: 2
 keywords: 
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
   - zilliz
   - zilliz cloud
   - cloud

@@ -13,10 +13,10 @@ type: docx
 token: FIyedc51So0onWxtPAjcHFkmnHe
 sidebar_position: 2
 keywords: 
+  - What are vector embeddings
+  - vector database tutorial
   - how do vector databases work
   - vector db comparison
-  - openai vector db
-  - natural language processing database
   - zilliz
   - zilliz cloud
   - cloud

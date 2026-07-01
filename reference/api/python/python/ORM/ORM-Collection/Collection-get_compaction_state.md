@@ -13,10 +13,10 @@ type: docx
 token: AXcMd0xiOovIX6xR4ZrcKA15nwh
 sidebar_position: 13
 keywords: 
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
   - zilliz
   - zilliz cloud
   - cloud

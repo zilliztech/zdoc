@@ -12,10 +12,10 @@ token: JT0gfXjE3lCqEAdn6jPcFbHgnnd
 sidebar_position: 8
 sidebar_label: "Database"
 keywords: 
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
   - zilliz
   - zilliz cloud
   - cloud

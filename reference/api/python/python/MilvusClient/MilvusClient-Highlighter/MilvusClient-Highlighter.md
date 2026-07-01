@@ -12,10 +12,10 @@ token: O7mqfZp5fleHncduy7HcWkdTnPb
 sidebar_position: 13
 sidebar_label: "Highlighter"
 keywords: 
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
   - zilliz
   - zilliz cloud
   - cloud

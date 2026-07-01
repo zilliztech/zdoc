@@ -12,10 +12,10 @@ token: E2Zlf8PdXlx097dT2sNchgqpnbF
 sidebar_position: 4
 sidebar_label: "db"
 keywords: 
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
   - zilliz
   - zilliz cloud
   - cloud

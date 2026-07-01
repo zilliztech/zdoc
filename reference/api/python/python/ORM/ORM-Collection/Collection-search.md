@@ -13,10 +13,10 @@ type: docx
 token: OaM5dkbPjohKhNxHvKNcfnYMnVb
 sidebar_position: 25
 keywords: 
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
   - zilliz
   - zilliz cloud
   - cloud
@@ -176,8 +176,9 @@ A **SearchResult** object that contains a list of **Hits** objects.
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    <p>A <strong>SearchResult</strong> object contains a list of <strong>Hits</strong> objects, each corresponding to a query vector in the search request. </p>
-    <p>A <strong>Hits</strong> object contains a list of <strong>Hit</strong> objects, each corresponding to an entity hit by the search.</p>
+    A **SearchResult** object contains a list of **Hits** objects, each corresponding to a query vector in the search request. 
+
+    A **Hits** object contains a list of **Hit** objects, each corresponding to an entity hit by the search.
 
     </Admonition>
 

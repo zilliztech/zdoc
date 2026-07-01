@@ -13,10 +13,10 @@ type: docx
 token: EBAFdcmoKoNJISxM8i1cqXzRn9H
 sidebar_position: 19
 keywords: 
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
   - zilliz
   - zilliz cloud
   - cloud

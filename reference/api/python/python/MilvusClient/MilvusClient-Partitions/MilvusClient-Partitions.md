@@ -12,10 +12,10 @@ token: Snf8fZZTklTziidxXP2cL4cRnOf
 sidebar_position: 6
 sidebar_label: "Partitions"
 keywords: 
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
   - zilliz
   - zilliz cloud
   - cloud

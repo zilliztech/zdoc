@@ -13,10 +13,10 @@ type: docx
 token: M0qRdF1cLokrxvxyrXScJ64FnEe
 sidebar_position: 37
 keywords: 
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
   - zilliz
   - zilliz cloud
   - cloud
@@ -35,7 +35,7 @@ This operation renames an existing collection and optionally moves the collectio
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Aliases created for the target collection remain intact after this operation.</p>
+Aliases created for the target collection remain intact after this operation.
 
 </Admonition>
 

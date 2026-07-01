@@ -13,10 +13,10 @@ type: docx
 token: VblKdUEU4o4t31xcFiicIGtjn9g
 sidebar_position: 7
 keywords: 
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
   - zilliz
   - zilliz cloud
   - cloud
@@ -32,6 +32,12 @@ import Admonition from '@theme/Admonition';
 # release_partitions()
 
 This operation releases the partitions in a specified collection from memory.
+
+<Admonition type="info" icon="📘" title="Notes">
+
+This only applies to managed collections.
+
+</Admonition>
 
 ## Request syntax\{#request-syntax}
 
@@ -73,7 +79,7 @@ None
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>A collection is in the loaded state only if any or all of its partitions are loaded.</p>
+A collection is in the loaded state only if any or all of its partitions are loaded.
 
 </Admonition>
 

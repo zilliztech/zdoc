@@ -10,13 +10,13 @@ beta: false
 notebook: false
 description: "A `VolumeManager` instance maintains a connection to Zilliz Cloud's Volume service. Before creating, listing, or deleting volumes, you need to initiate a `VolumeManager` instance. | Python"
 type: docx
-token: XdZ6dFzA3oUu4dxWh7Kcz4dhnQg
+token: G5c6dxWkno5FRAxeDMycR6AVntf
 sidebar_position: 5
 keywords: 
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
   - zilliz
   - zilliz cloud
   - cloud
@@ -39,7 +39,7 @@ class pymilvus.bulk_writer.volume_manager import VolumeManager
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>A volume is an intermediate storage spot where you can hold your data for further processing, such as data merging, migration, or importing. For details, refer to <a href="/docs/volume">Volume</a>.</p>
+A volume is an intermediate storage spot where you can hold your data for further processing, such as data merging, migration, or importing. For details, refer to [Volume](/docs/volume).
 
 </Admonition>
 

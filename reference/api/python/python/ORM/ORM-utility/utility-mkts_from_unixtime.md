@@ -13,10 +13,10 @@ type: docx
 token: ZdKEd2ua6o9AHHxKq25ctNSdncb
 sidebar_position: 36
 keywords: 
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
   - zilliz
   - zilliz cloud
   - cloud

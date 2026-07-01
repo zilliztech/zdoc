@@ -10,13 +10,13 @@ beta: false
 notebook: false
 description: "This operation updates the password of a specific user. | Python | MilvusClient"
 type: docx
-token: WGDod7Qehou4GWx4Co2cJ34VnKb
+token: B4MWdXervo5cC0xBUaVcSiTgnMg
 sidebar_position: 20
 keywords: 
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
   - zilliz
   - zilliz cloud
   - cloud
@@ -118,7 +118,7 @@ client.update_password(
 
 ## Related methods\{#related-methods}
 
-- [create_user()](./Authentication-create_user)
+- [create_user()](./utility-create_user)
 
 - [describe_user()](./Authentication-describe_user)
 

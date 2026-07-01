@@ -13,10 +13,10 @@ type: docx
 token: V9BidASNqoWYrmxo11ecuN99neg
 sidebar_position: 1
 keywords: 
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
   - zilliz
   - zilliz cloud
   - cloud
@@ -35,7 +35,7 @@ This operation deletes entities from a partition with a boolean expression.
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Using the <strong>partition_name</strong> parameter in the <strong>delete()</strong> method of a <strong><a href="./ORM-Collection">Collection</a></strong> object is equivalent to using the <strong>delete()</strong> method of a <strong><a href="./ORM-Partition">Partition</a></strong> object.</p>
+Using the **partition_name** parameter in the **delete()** method of a **[Collection](./ORM-Collection)** object is equivalent to using the **delete()** method of a **[Partition](./ORM-Partition)** object.
 
 </Admonition>
 

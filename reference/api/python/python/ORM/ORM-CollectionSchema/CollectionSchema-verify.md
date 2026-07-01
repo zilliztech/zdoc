@@ -13,10 +13,10 @@ type: docx
 token: KSECdBDcUoIkL7xI4KOc29Ukn1g
 sidebar_position: 5
 keywords: 
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
   - zilliz
   - zilliz cloud
   - cloud

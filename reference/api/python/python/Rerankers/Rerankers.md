@@ -9,13 +9,13 @@ deprecate_since: false
 description: "Reranking models for a sophisticated evaluation and refinement on retrieved results. | Python"
 type: folder
 token: Ph7xfldrplFoihdiSAkciCuenyh
-sidebar_position: 5
+sidebar_position: 6
 sidebar_label: "Rerankers"
 keywords: 
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
   - zilliz
   - zilliz cloud
   - cloud

@@ -13,10 +13,10 @@ type: docx
 token: ZkWBdbMZkoBjT1xe4qDcTBOHnGx
 sidebar_position: 2
 keywords: 
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
   - zilliz
   - zilliz cloud
   - cloud

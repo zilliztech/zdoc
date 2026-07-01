@@ -5,18 +5,18 @@ sidebar_key: python/Vector-hybrid_search
 sidebar_label: "hybrid_search()"
 added_since: v2.5.x
 last_modified: v2.6.x
-deprecate_since: FALSE
-beta: FALSE
-notebook: FALSE
+deprecate_since: false
+beta: false
+notebook: false
 description: "This operation performs multi-vector search on a collection and returns search results after reranking. | Python | MilvusClient"
 type: docx
 token: Iv1PdIVxYoDOMax47xDcLnbEnXb
 sidebar_position: 9
 keywords: 
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
   - zilliz
   - zilliz cloud
   - cloud
@@ -33,32 +33,13 @@ import Admonition from '@theme/Admonition';
 
 This operation performs multi-vector search on a collection and returns search results after reranking.
 
-<Admonition type="info" icon="📘" title="Notes">
-
-<p>This method applies only to dedicated serving clusters and on-demand compute. </p>
-<ul>
-<li><p>For this operation in a collection of a serving cluster, please create <strong>MilvusClient</strong> with the cluster endpoint.</p></li>
-<li><p><strong>Free & Serverless</strong></p></li>
-</ul>
-<p><code>https://\{cluster-id\}.serverless.\{region\}.vectordb.zillizcloud.com</code></p>
-<ul>
-<li><strong>Dedicated</strong></li>
-</ul>
-<p><code>https://\{cluster-id\}.\{region\}.vectordb.zillizcloud.com:19530</code></p>
-<ul>
-<li>For this operation in a collection for on-demand compute, create <strong>MilvusClient</strong> with the project endpoints, and then create a session to attach to an on-demand cluster for searches.</li>
-</ul>
-<p><code>https://\{project-id\}.\{region\}.api.zillizcloud.com</code></p>
-
-</Admonition>
-
 ## Request Syntax\{#request-syntax}
 
 ```python
 hybrid_search(
     collection_name: str,
     reqs: List[AnnSearchRequest],
-    ranker: Union[BaseRanker, Function],
+    ranker: BaseRanker,
     limit: int = 10,   
     output_fields: Optional[List[str]] = None,
     timeout: Optional[float] = None,
@@ -92,7 +73,7 @@ hybrid_search(
 
         - **anns_field** (*str*): The vector field to use in the request.
 
-        - **param** (*dict*): A dictionary of search parameters for the request. For details, refer to the settings in search().
+        - **param** (*dict*): A dictionary of search parameters for the request. For details, refer to the settings in [search()](./Vector-search).
 
         - **limit** (*int*): The maximum number of results to return in the request. When performing a hybrid search with multiple ANN search requests, the top results defined by **limit** from each request will be combined and re-ranked before returning the final search results.
 
@@ -102,11 +83,13 @@ hybrid_search(
 
             If you choose to use placeholders in `expr` as stated in [Filtering Templating](/docs/filtering-templating), then you can specify the actual values for these placeholders as key-value pairs as the value of this parameter.
 
-- **ranker** (*Union[BaseRanker, Function]*) -
+- **ranker** (*BaseRanker*) -
 
-    The reranking strategy to use for hybrid search.
+    The reranking strategy to use for hybrid search. Valid values: `WeightedRanker` and `RRFRanker`.
 
-    For details, refer to [Weighted Ranker](/docs/reranking-weighted-reranker), [RRF Ranker](/docs/reranking-rrf) and .
+    - `WeightedRanker`: The Average Weighted Scoring reranking strategy, which prioritizes vectors based on relevance, averaging their significance.
+
+    - `RRFRanker`: The RRF reranking strategy, which merges results from multiple searches, favoring items that consistently appear.
 
 - **limit** (*int*) -
 
@@ -162,8 +145,9 @@ A **SearchResult** object that contains a list of **Hits** objects.
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    <p>A <strong>SearchResult</strong> object contains a list of <strong>Hits</strong> objects, each corresponding to a query vector in the search request. </p>
-    <p>A <strong>Hits</strong> object contains a list of <strong>Hit</strong> objects, each corresponding to an entity hit by the search.</p>
+    A **SearchResult** object contains a list of **Hits** objects, each corresponding to a query vector in the search request. 
+
+    A **Hits** object contains a list of **Hit** objects, each corresponding to an entity hit by the search.
 
     </Admonition>
 
@@ -222,118 +206,56 @@ A **SearchResult** object that contains a list of **Hits** objects.
 
 ## Examples\{#examples}
 
-- Hybrid search in a serving cluster
+```python
+from pymilvus import AnnSearchRequest, MilvusClient, WeightedRanker
 
-    ```python
-    from pymilvus import AnnSearchRequest, MilvusClient, WeightedRanker
-    
-    # Connect to Milvus server
-    client = MilvusClient(
-        uri="https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530",
-        token="YOUR_API_KEY"
-    )
-    
-    # Create AnnSearchRequests
-    
-    query_dense_vector = [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592]
-    
-    search_param_1 = {
-        "data": [query_dense_vector],
-        "anns_field": "dense",
-        "param": {
-            "params": {"nprobe": 10}
-        },
-        "limit": 2
-    }
-    request_1 = AnnSearchRequest(**search_param_1)
-    
-    query_sparse_vector = {3573: 0.34701499565746674}, {5263: 0.2639375518635271}
-    search_param_2 = {
-        "data": [query_sparse_vector],
-        "anns_field": "sparse",
-        "param": {
-            "params": {}
-        },
-        "limit": 2
-    }
-    request_2 = AnnSearchRequest(**search_param_2)
-    
-    reqs = [request_1, request_2]
-    
-    # Configure reranking strategy
-    
-    ranker = WeightedRanker(0.8, 0.3) 
-    
-    # perform hybrid search
-    
-    res = client.hybrid_search(
-        collection_name="hybrid_search_collection",
-        reqs=reqs,
-        ranker=ranker,
-        limit=2
-    )
-    for hits in res:
-        print("TopK results:")
-        for hit in hits:
-            print(hit)
-    ```
+# Connect to Milvus server
 
-- Hybrid search for on-demand compute
+client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
 
-    ```python
-    from pymilvus import AnnSearchRequest, MilvusClient, WeightedRanker
-    
-    # Connect to Milvus server
-    client = MilvusClient(
-        uri="https://{project-id}.{region}.api.zillizcloud.com",
-        token="YOUR_API_KEY"
-    )
-    
-    # Create a session
-    session = client.session(cluster_id="inxx-xxxxxxxxxxxx")
-    
-    # Create AnnSearchRequests
-    
-    query_dense_vector = [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592]
-    
-    search_param_1 = {
-        "data": [query_dense_vector],
-        "anns_field": "dense",
-        "param": {
-            "params": {"nprobe": 10}
-        },
-        "limit": 2
-    }
-    request_1 = AnnSearchRequest(**search_param_1)
-    
-    query_sparse_vector = {3573: 0.34701499565746674}, {5263: 0.2639375518635271}
-    search_param_2 = {
-        "data": [query_sparse_vector],
-        "anns_field": "sparse",
-        "param": {
-            "params": {}
-        },
-        "limit": 2
-    }
-    request_2 = AnnSearchRequest(**search_param_2)
-    
-    reqs = [request_1, request_2]
-    
-    # Configure reranking strategy
-    
-    ranker = WeightedRanker(0.8, 0.3) 
-    
-    # perform hybrid search
-    
-    res = client.hybrid_search(
-        collection_name="hybrid_search_collection",
-        reqs=reqs,
-        ranker=ranker,
-        limit=2
-    )
-    for hits in res:
-        print("TopK results:")
-        for hit in hits:
-            print(hit)
-    ```
+# Create AnnSearchRequests
 
+query_dense_vector = [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592]
+
+search_param_1 = {
+    "data": [query_dense_vector],
+    "anns_field": "dense",
+    "param": {
+        "metric_type": "IP",
+        "params": {"nprobe": 10}
+    },
+    "limit": 2
+}
+request_1 = AnnSearchRequest(**search_param_1)
+
+query_sparse_vector = {3573: 0.34701499565746674}, {5263: 0.2639375518635271}
+search_param_2 = {
+    "data": [query_sparse_vector],
+    "anns_field": "sparse",
+    "param": {
+        "metric_type": "IP",
+        "params": {}
+    },
+    "limit": 2
+}
+request_2 = AnnSearchRequest(**search_param_2)
+
+reqs = [request_1, request_2]
+
+# Configure reranking strategy
+
+ranker = WeightedRanker(0.8, 0.3) 
+
+# perform hybrid search
+
+res = client.hybrid_search(
+    collection_name="hybrid_search_collection",
+    reqs=reqs,
+    ranker=ranker,
+    limit=2
+)
+for hits in res:
+    print("TopK results:")
+    for hit in hits:
+        print(hit)
+```
