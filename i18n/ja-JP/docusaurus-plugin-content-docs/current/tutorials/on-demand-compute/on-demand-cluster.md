@@ -53,7 +53,6 @@ import Procedures from '@site/src/components/Procedures';
     ```bash
     export BASE_URL="https://api.cloud.zilliz.com"
     export TOKEN="YOUR_API_KEY"
-    
     curl --request POST \
          --url "${BASE_URL}/v2/clusters/createOnDemandCluster" \
          --header "Authorization: Bearer ${TOKEN}" \
@@ -64,7 +63,8 @@ import Procedures from '@site/src/components/Procedures';
             "regionId": "aws-us-west-2",
             "clusterName": "my-on-demand",
             "cuSize": 8,
-            "autoSuspend": 120
+            "autoSuspend": 120,
+            "description": "A cluster for vector search workloads."
           }'
          
     # {
@@ -104,6 +104,10 @@ import Procedures from '@site/src/components/Procedures';
          <td><p><code>auto一時停止</code></p></td>
          <td><p>クラスターが自動的に一時停止するまでのアイドルタイムアウト。この期間内にリクエストを受信しない場合、クラスターはコンピュートコストの発生を停止するために一時停止します。</p><ul><li><p>値の型: 整数</p></li><li><p>単位: 秒</p></li><li><p>最小値: 60</p></li><li><p>デフォルト: 60</p></li></ul></td>
        </tr>
+       <tr>
+         <td><p><code>description</code></p></td>
+         <td><p>作成するオンデマンドクラスターの説明です。最大 255 文字です。</p></td>
+       </tr>
     </table>
 
 - **ウェブコンソール経由**
@@ -132,6 +136,10 @@ import Procedures from '@site/src/components/Procedures';
              <td><p>作成するクラスターの名前。</p></td>
            </tr>
            <tr>
+             <td><p>クラスターの説明</p></td>
+             <td><p>作成するオンデマンドクラスターの説明です。最大 255 文字です。</p></td>
+           </tr>
+           <tr>
              <td><p>Query CU</p></td>
              <td><p>割り当てるクエリーCUの数。クラスターはワークロードに基づいてゼロからこの値の間で自動的にスケールします — リクエストが到着すると指定されたCUサイズまでスピンアップし、アイドル時にはゼロまでスケールダウンします。</p><p>最小は8 CU、最大は256 CUで、サイズは8ずつ増加します（例：8、16、24）。8 CUを超えるクラスターには支払い方法が必要です。</p><p>この値は作成後に固定され、変更できません。</p></td>
            </tr>
@@ -154,7 +162,6 @@ import Procedures from '@site/src/components/Procedures';
     ```bash
     export BASE_URL="https://api.cloud.zilliz.com"
     export TOKEN="YOUR_API_KEY"
-    
     curl --request GET \
          --url "{BASE_URL}/v2/clusters/onDemandClusters?projectId={PROJECT_ID}&regionId=aws-us-west-2" \
          --header "Authorization: Bearer ${TOKEN}" \
@@ -265,5 +272,3 @@ import Procedures from '@site/src/components/Procedures';
 - **ウェブコンソール経由**
 
     ![Vu38wTpLDhmRqYbmYFVcbjK5nVx](https://zdoc-images.s3.us-west-2.amazonaws.com/Vu38wTpLDhmRqYbmYFVcbjK5nVx.png)
-
-    

@@ -57,6 +57,8 @@ Ensure:
 
     - **Cluster Name**: Assign a unique identifier for your cluster.
 
+    - (Optional) **Cluster Description**: Enter the description of your cluster.
+
     - **Cluster Settings**:
 
         - **Cluster Type**: Select a cluster type that aligns with your cluster's performance requirements. For more information, refer to [Select the Right CU](./cu-types-explained).
@@ -73,7 +75,7 @@ Ensure:
 
             - **Data Node**: Handles data mutations and log-to-snapshot conversions for persistence.
 
-    - (Optional) **Backup Policy**: Decide the automatic backup policy for the cluster to create. For more details about the backup policy, see [Schedual Automatic Backups](./schedule-automatic-backups).
+    - (Optional) **Backup Policy**: Decide the automatic backup policy for the cluster to create. For more details about the backup policy, see [Schedule Automatic Backups](./schedule-automatic-backups).
 
 1. Click **Create Cluster**. 
 
@@ -87,7 +89,7 @@ Ensure:
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    <p>Some additional resources will be required for rolling; these resources will be released after use.</p>
+    Some additional resources will be required for rolling; these resources will be released after use.
 
     </Admonition>
 
@@ -97,34 +99,24 @@ Ensure:
 
 <TabItem value="Bash">
 
-Your request should resemble the following example, where  `{API_KEY}` is your API key used for authentication.
-
-The following `POST` request takes a request body and creates a Performance-optimized  cluster named `cluster-02` with one query [CU](./cu-types-explained).
+Your request should resemble the following example, where  `{API_KEY}` is your API key used for authentication. For further details, see [Create Dedicated Cluster](/reference/restful/create-dedicated-cluster-v2).
 
 ```bash
 curl --request POST \
-     --url "https://api.cloud.zilliz.com/v2/clusters/createDedicated" \
-     --header "Authorization: Bearer ${API_KEY}" \
-     --header "Accept: application/json" \
-     --header "Content-Type: application/json" \
-     --data-raw '{
-        "clusterName": "Cluster-02",
-        "projectId": "proj-xxxxxxxxxxxxxxxxxxxxxx",
-        "regionId": "aws-us-west-2",
-        "plan": "Standard",
-        "cuType": "Performance-optimized",
-        "cuSize": 1
-    }'
-     
-# {
-#     "code": 0,
-#     "data": {
-#         "clusterId": "inxx-xxxxxxxxxxxxxxx",
-#         "username": "db_admin",
-#         "password": "****************",
-#         "prompt": "successfully submitted, cluster is being created. You can access data about the creation progress and status of your cluster by DescribeCluster API. Once the cluster status is RUNNING, you may access your vector database using the SDK with the admin account and the initial password you specified."
-#     }
-# }
+--url "${BASE_URL}/v2/clusters/createDedicated" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Accept: application/json" \
+--header "Request-Timeout: 5" \
+--header "Content-Type: application/json" \
+-d '{
+    "clusterName": "Cluster-05",
+    "projectId": "proj-xxxxxxxxxxxxxxxxxxxxxx",
+    "regionId": "aws-us-west-2",
+    "plan": "Standard",
+    "cuType": "Performance-optimized",
+    "cuSize": 1,
+    "description": "A cluster for vector search workloads."
+}'
 ```
 
 In the command above,
@@ -141,7 +133,21 @@ In the command above,
 
 - `cuSize`: The number of query CUs used for the cluster. Value range: 1 to 256.
 
-For further details, see [Create Dedicated Cluster](/reference/restful/create-dedicated-cluster-v2).
+- `description` (optional): Description of the cluster.
+
+The following is an example output.
+
+```json
+{
+    "code": 0,
+    "data": {
+        "clusterId": "inxx-xxxxxxxxxxxxxxx",
+        "username": "db_admin",
+        "password": "****************",
+        "prompt": "successfully submitted, cluster is being created. You can access data about the creation progress and status of your cluster by DescribeCluster API. Once the cluster status is RUNNING, you may access your vector database using the SDK with the admin account and the initial password you specified."
+    }
+}
+```
 
 </TabItem>
 

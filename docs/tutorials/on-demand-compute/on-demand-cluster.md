@@ -67,7 +67,8 @@ This topic describes how to create an **on-demand** cluster.
             "regionId": "aws-us-west-2",
             "clusterName": "my-on-demand",
             "cuSize": 8,
-            "autoSuspend": 120
+            "autoSuspend": 120,
+            "description": "A cluster for vector search workloads."
           }'
          
     # {
@@ -107,6 +108,10 @@ This topic describes how to create an **on-demand** cluster.
          <td><p><code>autoSuspend</code></p></td>
          <td><p>Idle timeout before the cluster auto-suspends. When no requests are received within this period, the cluster suspends to stop incurring compute costs.  </p><ul><li><p>Value type: Integer</p></li><li><p>Unit: Seconds</p></li><li><p>Minimum: 60</p></li><li><p>Default: 60</p></li></ul></td>
        </tr>
+       <tr>
+         <td><p><code>description</code></p></td>
+         <td><p>Description of the on-demand cluster to create, up to 255 characters.</p></td>
+       </tr>
     </table>
 
 - **Via web console**
@@ -133,6 +138,10 @@ This topic describes how to create an **on-demand** cluster.
            <tr>
              <td><p>Cluster Name</p></td>
              <td><p>The name of the cluster to create.</p></td>
+           </tr>
+           <tr>
+             <td><p>Cluster Description</p></td>
+             <td><p>Description of the on-demand cluster to create, up to 255 characters.</p></td>
            </tr>
            <tr>
              <td><p>Query CU</p></td>

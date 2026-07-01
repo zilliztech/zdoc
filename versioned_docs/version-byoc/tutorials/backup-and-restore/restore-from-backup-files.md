@@ -40,7 +40,7 @@ This guide walks you through how to restore a full or partial cluster from backu
 
 You can restore an entire cluster, including all databases and collections, to a **new** cluster. This is useful for cloning environments for testing or recovery. To restore an entire cluster, the backup file must be a cluster backup.
 
-During restoration, you may also configure the following:
+During restoration, you may also configure the followings:
 
 - Choose whether to include RBAC settings.
 

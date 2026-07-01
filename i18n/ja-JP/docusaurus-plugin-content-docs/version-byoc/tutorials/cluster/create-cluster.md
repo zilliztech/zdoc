@@ -54,6 +54,8 @@ import TabItem from '@theme/TabItem';
 
     - **クラスター名**: クラスターの一意の識別子を割り当てます。
 
+    - （オプション）**クラスターの説明**: クラスターの説明を入力します。
+
     - **クラスター設定**:
 
         - **クラスタータイプ**: クラスターのパフォーマンス要件に合わせたクラスタータイプを選択します。詳細については、[適切な CU の選択](./cu-types-explained) を参照してください。
@@ -70,7 +72,7 @@ import TabItem from '@theme/TabItem';
 
             - **データ Node**: データ変更とログからスナップショットへの変換を処理し、永続化を行います。
 
-    - (オプション) **Backup Policy**: 作成するクラスターのバックアップ頻度を決定します。Zilliz Cloud は、クラスター作成直後にバックアップを作成します。その後のバックアップは、指定されたスケジュールに従って実行されます。
+    - (オプション) **Backup Policy**: 作成するクラスターの自動バックアップポリシーを決定します。バックアップポリシーの詳細については、[自動バックアップのスケジュール](./schedule-automatic-backups) を参照してください。
 
 1. **Create Cluster** をクリックします。
 
@@ -84,7 +86,7 @@ import TabItem from '@theme/TabItem';
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    <p>ローリングには追加のリソースが必要です。これらのリソースは使用後に解放されます。</p>
+    ローリングには追加のリソースが必要です。これらのリソースは使用後に解放されます。
 
     </Admonition>
 
@@ -94,34 +96,24 @@ import TabItem from '@theme/TabItem';
 
 <TabItem value="Bash">
 
-リクエストは、認証に使用する API キーが `{API_KEY}` である以下の例のようになります。
-
-以下の `POST` リクエストは、リクエストボディを受け取り、1 つのクエリ [CU](./cu-types-explained) を持つ `cluster-02` という名前の パフォーマンス最適化済み クラスターを作成します。
+リクエストは、認証に使用する API キーが `{API_KEY}` である以下の例のようになります。詳細については、[Dedicated クラスターの作成](/reference/restful/create-dedicated-cluster-v2) を参照してください。
 
 ```bash
 curl --request POST \
-     --url "https://api.cloud.zilliz.com/v2/clusters/createDedicated" \
-     --header "Authorization: Bearer ${API_KEY}" \
-     --header "Accept: application/json" \
-     --header "Content-Type: application/json" \
-     --data-raw '{
-        "clusterName": "Cluster-02",
-        "projectId": "proj-xxxxxxxxxxxxxxxxxxxxxx",
-        "regionId": "aws-us-west-2",
-        "plan": "Standard",
-        "cuType": "Performance-optimized",
-        "cuSize": 1
-    }'
-     
-# {
-#     "code": 0,
-#     "data": {
-#         "clusterId": "inxx-xxxxxxxxxxxxxxx",
-#         "username": "db_admin",
-#         "password": "****************",
-#         "prompt": "successfully submitted, cluster is being created. You can access data about the creation progress and status of your cluster by DescribeCluster API. Once the cluster status is RUNNING, you may access your vector database using the SDK with the admin account and the initial password you specified."
-#     }
-# }
+--url "${BASE_URL}/v2/clusters/createDedicated" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Accept: application/json" \
+--header "Request-Timeout: 5" \
+--header "Content-Type: application/json" \
+-d '{
+    "clusterName": "Cluster-05",
+    "projectId": "proj-xxxxxxxxxxxxxxxxxxxxxx",
+    "regionId": "aws-us-west-2",
+    "plan": "Standard",
+    "cuType": "Performance-optimized",
+    "cuSize": 1,
+    "description": "A cluster for vector search workloads."
+}'
 ```
 
 上記のコマンドでは、
@@ -138,7 +130,21 @@ curl --request POST \
 
 - `cuSize`: クラスターに使用されるクエリ CU の数です。値の範囲: 1 から 256。
 
-詳細については、[専用クラスターの作成](/reference/restful/create-dedicated-cluster-v2) を参照してください。
+- `description`（オプション）: クラスターの説明です。
+
+以下は出力例です。
+
+```json
+{
+    "code": 0,
+    "data": {
+        "clusterId": "inxx-xxxxxxxxxxxxxxx",
+        "username": "db_admin",
+        "password": "****************",
+        "prompt": "successfully submitted, cluster is being created. You can access data about the creation progress and status of your cluster by DescribeCluster API. Once the cluster status is RUNNING, you may access your vector database using the SDK with the admin account and the initial password you specified."
+    }
+}
+```
 
 </TabItem>
 

@@ -161,18 +161,16 @@ You can create a volume on the web console or via SDK.
     <TabItem value='bash'>
 
     ```bash
-    export BASE_URL="https://api.cloud.zilliz.com"
-    export TOKEN="YOUR_API_KEY"
-    
     curl --request POST \
     --url "${BASE_URL}/v2/volumes/create" \
     --header "Authorization: Bearer ${TOKEN}" \
+    --header "Request-Timeout: 5" \
     --header "Content-Type: application/json" \
     -d '{
         "projectId": "proj-xxxxxxxxxxxxxxxxxxxxxxx",
-        "regionId": "aws-us-west-1",
-        "volumeName": "managed_volume",
-        "type": "MANAGED"
+        "regionId": "aws-us-west-2",
+        "volumeName": "my_volume",
+        "description": "A volume for storing collection data."
     }'
     
     # {
@@ -209,6 +207,10 @@ You can create a volume on the web console or via SDK.
          <td><p><code>type</code>(optional)</p></td>
          <td><p>Options: <code>MANAGED</code>, <code>EXTERNAL</code></p><p>If this parameter is omitted, a managed cluster will be created by default.</p></td>
        </tr>
+       <tr>
+         <td><p><code>description</code>(optional)</p></td>
+         <td><p>The description of the volume to create. Up to 255 characters.</p></td>
+       </tr>
     </table>
 
 - **Via web console**
@@ -235,8 +237,8 @@ You can create a volume on the web console or via SDK.
              <td><p>The volume name must be unique across the organization, no longer than 64 characters, start with a letter or underscore, and contain only letters, digits, hyphens, and underscores.</p></td>
            </tr>
            <tr>
-             <td><p>Description</p></td>
-             <td><p>This parameter is optional.</p></td>
+             <td><p>Description (optional)</p></td>
+             <td><p>This parameter is optional. Up to 255 characters.</p></td>
            </tr>
            <tr>
              <td><p>Volume Type</p></td>
@@ -358,17 +360,28 @@ You can view all existing volumes in a project.
     --header "Content-Type: application/json"
     
     # {
-    #     "code": 0,
-    #     "data": {
-    #         "volumes": [
-    #            {
-    #                "volumeName": "external_volume",
-    #                "type": "EXTERNAL"
-    #            }
-    #        ],
-    #        "count": 1,
+    #    "code": 200,
+    #    "data": {
+    #        "count": 3,
     #        "currentPage": 1,
-    #        "pageSize": 10
+    #        "pageSize": 10,
+    #        "volumes": [
+    #            {
+    #                "volumeName": "my_volume_1",
+    #                "type": "MANAGED",
+    #                "description": "A volume for storing collection data."
+    #            },
+    #            {
+    #                "volumeName": "my_volume_2",
+    #                "type": "EXTERNAL",
+    #                "description": "A volume for storing collection data."
+    #            },
+    #            {
+    #                "volumeName": "my_volume_3",
+    #                "type": "MANAGED",
+    #                "description": "A volume for storing collection data."
+    #            }
+    #        ]
     #    }
     #}
     ```
@@ -386,7 +399,7 @@ You can also check the details of a specific managed volume.
 
 - **Via SDKs**
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
 
     ```python
@@ -453,7 +466,8 @@ You can also check the details of a specific managed volume.
     ```
 
     </TabItem>
-    </Tabs>
+
+    <TabItem value='bash'>
 
     ```bash
     export BASE_URL="https://api.cloud.zilliz.com"
@@ -475,6 +489,9 @@ You can also check the details of a specific managed volume.
     #    }
     #}
     ```
+
+    </TabItem>
+    </Tabs>
 
 - **Via web console**
 
@@ -637,7 +654,7 @@ Deleting data from a managed volume may take several minutes, depending on the s
 
 <Admonition type="caution" icon="🚧" title="Warning">
 
-<p>Deleted files and folders <strong>cannot be recovered</strong>. Proceed with caution.</p>
+ Deleted files and folders **cannot be recovered**. Proceed with caution.
 
 </Admonition>
 
@@ -663,7 +680,7 @@ Deleting a managed volume removes **all its files and folders** as well.
 
 <Admonition type="caution" icon="🚧" title="Warning">
 
-<p>Deleted volumes <strong>cannot be recovered</strong>. Proceed with caution.</p>
+ Deleted volumes **cannot be recovered**. Proceed with caution.
 
 </Admonition>
 
@@ -808,11 +825,11 @@ When you create a managed volume, you can choose either a **free trial** or **pa
 
 - Using a pay-as-you-go volume incurs charges.
 
-    - You will only be charged when the managed volume is running.
+    - You will only be charged when the managed volume is available.
 
     - For list prices, see [Pricing Guide](http://zilliz.com/pricing/pricing-guide).
 
-    - To understand how volume charges are calculated, see [Storage Cost](./storage-cost).
+    - To understand how volume charges are calculated, see Storage Cost.
 
 ## FAQs\{#faqs}
 
@@ -841,7 +858,7 @@ The following table lists the possible volume statuses.
    </tr>
    <tr>
      <td><p><strong>Frozen</strong></p></td>
-     <td><p>The organization is frozen due to overdue <a href="./view-invoice">invoices</a>. The volume cannot be used for new operations. Please pay your bill to continue using volumes.</p></td>
+     <td><p>The organization is frozen due to overdue <a href="null">invoices</a>. The volume cannot be used for new operations. Please pay your bill to continue using volumes.</p></td>
    </tr>
 </table>
 

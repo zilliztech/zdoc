@@ -90,8 +90,9 @@ Zilliz Cloud は、ベクトルデータベースシステムで一般的に必�
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>この機能は Dedicated クラスター専用です。</p>
-<p>現在、Zilliz Cloud は Web コンソール上で組み込み特権グループを持つカスタムロールの作成のみをサポートしています。特定の特権またはカスタム特権グループを持つカスタムロールを作成する必要がある場合は、まず <a href="http://support.zilliz.com">サポートチケットを作成</a> して、この機能を有効化していただく必要があります。機能が有効化されたら、SDK を使用して <a href="./cluster-privileges#custom-privilege-groups">カスタム特権グループを作成</a> できます。</p>
+この機能は Dedicated クラスター専用です。
+
+現在、Zilliz Cloud は Web コンソール上で組み込み特権グループを持つカスタムロールの作成のみをサポートしています。特定の特権またはカスタム特権グループを持つカスタムロールを作成する必要がある場合は、まず [サポートチケットを作成](http://support.zilliz.com) して、この機能を有効化していただく必要があります。機能が有効化されたら、SDK を使用して [カスタム特権グループを作成](./cluster-privileges#custom-privilege-groups-or-private) できます。
 
 </Admonition>
 
@@ -103,7 +104,7 @@ Zilliz Cloud は、ベクトルデータベースシステムで一般的に必�
 
     ![add-cluster-role](https://zdoc-images.s3.us-west-2.amazonaws.com/add-cluster-role.png "add-cluster-role")
 
-1. ロール名を入力します。
+1. ロール名と説明（オプション）を入力します。
 
 1. コレクション、データベース、およびクラスターレベルで特権を設定します。組み込み特権グループを選択し、対象のリソースを選択します。
 
@@ -117,13 +118,13 @@ Zilliz Cloud は、ベクトルデータベースシステムで一般的に必�
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    <p>3つのレベルの組み込み特権グループにはカスケード関係はありません。インスタンスレベルで組み込み特権グループを設定しても、そのインスタンス配下のすべてのデータベースとコレクションに対する権限が自動的に設定されるわけではありません。データベースおよびコレクションレベルの特権は手動で設定する必要があります。</p>
+    3つのレベルの組み込み特権グループにはカスケード関係はありません。インスタンスレベルで組み込み特権グループを設定しても、そのインスタンス配下のすべてのデータベースとコレクションに対する権限が自動的に設定されるわけではありません。データベースおよびコレクションレベルの特権は手動で設定する必要があります。
 
     </Admonition>
 
     各組み込み特権グループに含まれる具体的な特権の詳細については、[特権と特権グループ](./cluster-privileges#built-in-privilege-groups) を参照してください。
 
-    ![add-cluster-role-form](https://zdoc-images.s3.us-west-2.amazonaws.com/add-cluster-role-form.png "add-cluster-role-form")
+    ![CWALbSrKOo56DPxID45c7Jjgn9c](https://zdoc-images.s3.us-west-2.amazonaws.com/cwalbsrkoo56dpxid45c7jjgn9c.png "CWALbSrKOo56DPxID45c7Jjgn9c")
 
 1. **作成** をクリックします。各クラスターは最大500個のカスタムクラスターロールを持つことができます。
 
@@ -131,13 +132,13 @@ Zilliz Cloud は、ベクトルデータベースシステムで一般的に必�
 
 ## ユーザーへのロール付与\{#grant-a-role-to-a-user}
 
-クラスターロールが作成されたら、ユーザーに付与できます。ユーザー タブに移動し、[新しいクラスター ユーザーの作成](./cluster-users#create-a-cluster-user) 時または [既存のクラスター ユーザーのロール編集](./cluster-users#edit-the-role-of-a-cluster-user) 時にロールを付与します。
+クラスターロールが作成されたら、ユーザーに付与できます。ユーザー タブに移動し、[新しいクラスター ユーザーの作成](./cluster-users#create-a-cluster-user) 時または [既存のクラスター ユーザーのロール編集](./cluster-users#edit-the-role-or-desrciption-of-a-cluster-user) 時にロールを付与します。
 
 ![grant-role-to-user](https://zdoc-images.s3.us-west-2.amazonaws.com/grant-role-to-user.png "grant-role-to-user")
 
 ## ユーザーからのロール取り消し\{#revoke-a-role-from-a-user}
 
-クラスターロールがユーザーに適合しなくなった場合、ロールを取り消すことができます。ユーザー タブに移動し、対象のユーザーを見つけて [ロールを編集](./cluster-users#edit-the-role-of-a-cluster-user) をクリックします。ダイアログボックスで別のロールを選択します。
+クラスターロールがユーザーに適合しなくなった場合、ロールを取り消すことができます。ユーザー タブに移動し、対象のユーザーを見つけて [ロールを編集](./cluster-users#edit-the-role-or-desrciption-of-a-cluster-user) をクリックします。ダイアログボックスで別のロールを選択します。
 
 ![revoke-role-from-user](https://zdoc-images.s3.us-west-2.amazonaws.com/revoke-role-from-user.png "revoke-role-from-user")
 

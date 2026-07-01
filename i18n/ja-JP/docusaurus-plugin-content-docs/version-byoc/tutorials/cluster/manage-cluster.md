@@ -24,21 +24,47 @@ import TabItem from '@theme/TabItem';
 
 import Supademo from '@site/src/components/Supademo';
 
+import Procedures from '@site/src/components/Procedures';
+
 # クラスターの管理
 
 このガイドでは、クラスターのライフサイクルについて説明し、Zilliz Cloud コンソールを最大限に活用して目標を達成する方法を示します。
 
-## 稼働中のクラスターの管理\{#manage-serving-cluster}
+Dedicated クラスターに対して、以下の操作を実行できます。
 
-稼働中のクラスターに対して、以下の操作を実行できます。
+## 名前の変更\{#rename}
 
-### 名前の変更\{#rename}
+<Procedures>
 
-対象のクラスターの**クラスターの詳細**ページに移動し、以下の手順に従ってクラスターの名前を変更します。
+1. 対象クラスターの **クラスターの詳細** ページに移動します。
 
-<Supademo id="cm9tp57ye0ri911m7ljrn1yg6" title=""  />
+1. **Actions** をクリックし、**Rename** を選択します。
 
-### 一時停止\{#suspend}
+    ![XR4QbJtm1o1My7xPp5ecuwnonAf](https://zdoc-images.s3.us-west-2.amazonaws.com/xr4qbjtm1o1my7xpp5ecuwnonaf.png "XR4QbJtm1o1My7xPp5ecuwnonAf")
+
+1. クラスターの新しい名前を入力し、**Save** をクリックします。
+
+    ![KmiAbYLuRonF7jxvYfsczx2cns8](https://zdoc-images.s3.us-west-2.amazonaws.com/kmiabyluronf7jxvyfsczx2cns8.png "KmiAbYLuRonF7jxvYfsczx2cns8")
+
+</Procedures>
+
+## 説明の編集\{#edit-description}
+
+<Procedures>
+
+1. 対象クラスターの **クラスターの詳細** ページに移動します。
+
+1. クラスターの説明にマウスを合わせ、**Edit** **description** アイコンをクリックします。
+
+    ![VVDNbEWIcoEiWrxUtYbcfy5snRg](https://zdoc-images.s3.us-west-2.amazonaws.com/vvdnbewicoeiwrxutybcfy5snrg.png "VVDNbEWIcoEiWrxUtYbcfy5snRg")
+
+1. クラスターの新しい説明を入力し、**Save** をクリックします。
+
+    ![ZfXqb3NGOoEm1gxmJGkcAxU2nke](https://zdoc-images.s3.us-west-2.amazonaws.com/zfxqb3ngooem1gxmjgkcaxu2nke.png "ZfXqb3NGOoEm1gxmJGkcAxU2nke")
+
+</Procedures>
+
+## 一時停止\{#suspend}
 
 Web コンソールまたはプログラム経由でクラスターを一時停止できます。
 
@@ -88,7 +114,7 @@ curl --request POST \
 
 一時停止操作が成功すると、ジョブレコードが生成されます。進捗状況は [ジョブ](./job-center) ページで確認できます。
 
-### 再開\{#resume}
+## 再開\{#resume}
 
 再開中は、クラスターに対して他のアクションを実行できないことに注意してください。
 
@@ -104,12 +130,13 @@ curl --request POST \
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p><strong>クラスターの再開</strong> ダイアログボックスで <strong>再開</strong> をクリックすると、プロジェクトのリソースクォータを確認するよう求められます。リソースが十分であれば、確認が完了後にダイアログボックスが消えます。そうでない場合は、</p>
-<ul>
-<li><p><strong>プロジェクトのリソース設定に移動</strong> をクリックしてプロジェクトのリソース設定を編集するか、</p></li>
-<li><p><strong>前のステップに戻る</strong> をクリックしてクラスター設定を変更してください。</p></li>
-</ul>
-<p>このプロセス中、ローリングに追加のリソースが必要になります。これらのリソースは使用後に解放されます。</p>
+**クラスターの再開** ダイアログボックスで **再開** をクリックすると、プロジェクトのリソースクォータを確認するよう求められます。リソースが十分であれば、確認が完了後にダイアログボックスが消えます。そうでない場合は、
+
+- **プロジェクトのリソース設定に移動** をクリックしてプロジェクトのリソース設定を編集するか、
+
+- **前のステップに戻る** をクリックしてクラスター設定を変更してください。
+
+このプロセス中、ローリングに追加のリソースが必要になります。これらのリソースは使用後に解放されます。
 
 </Admonition>
 
@@ -151,7 +178,7 @@ curl --request POST \
 
 再開操作が成功すると、ジョブレコードが生成されます。進捗状況は [ジョブ](./job-center) ページで確認できます。
 
-### 削除\{#drop}
+## 削除\{#drop}
 
 クラスターが不要になった場合、削除することができます。クラスターは Web コンソールまたはプログラムで削除できます。
 
@@ -182,7 +209,7 @@ curl --request POST \
 #     "code": 0,
 #     "data": {
 #         "clusterId": "inxx-xxxxxxxxxxxxxxx",
-#         "prompt": "The cluster has been deleted. If you consider this action to be an error, you have the option to restore the deleted cluster from the recycle bin within a 30-day period. Kindly note, this recovery feature does not apply to free clusters."
+#         "prompt": "The cluster has been deleted. If you consider this action to be an error, you have the option to restore the deleted cluster from the recycle bin within a 30-day period."
 #     }
 # }     
 ```
@@ -198,21 +225,3 @@ curl --request POST \
 </TabItem>
 
 </Tabs>
-
-## オンデマンドクラスターの管理 ｜PUBLIC\{#manage-on-demand-cluster-public}
-
-オンデマンドクラスターに対して、以下の操作を実行できます。
-
-### 削除\{#drop}
-
-- **RESTful API経由**
-
-    ```bash
-    curl --request DELETE \
-         --url "https://${BASE_URL}/v2/clusters/onDemandClusters/in07-7d6ac8697204a6a" \
-         --header "Authorization: Bearer ${API_KEY}" \
-         --header "Accept: application/json"
-    ```
-
-- **ウェブコンソール経由**
-

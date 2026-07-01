@@ -27,21 +27,47 @@ import TabItem from '@theme/TabItem';
 
 import Supademo from '@site/src/components/Supademo';
 
+import Procedures from '@site/src/components/Procedures';
+
 # Manage Cluster
 
 This guide describes the lifecycle of a cluster so that you can make full use of your Zilliz Cloud console to achieve your goals.
 
-## Manage serving cluster\{#manage-serving-cluster}
+You can perform the following operations on a Dedicated cluster.
 
-You can perform the following operations on a serving cluster.
+## Rename\{#rename}
 
-### Rename\{#rename}
+<Procedures>
 
-Navigate to the **Cluster Details** page of your target cluster and then follow the instructions below to rename your cluster.
+1. Navigate to the **Cluster Details** page of your target cluster.
 
-<Supademo id="cm9tp57ye0ri911m7ljrn1yg6" title=""  />
+1. Click on **Actions** and then select **Rename**.
 
-### Suspend\{#suspend}
+    ![XR4QbJtm1o1My7xPp5ecuwnonAf](https://zdoc-images.s3.us-west-2.amazonaws.com/xr4qbjtm1o1my7xpp5ecuwnonaf.png "XR4QbJtm1o1My7xPp5ecuwnonAf")
+
+1. Enter the new name of the cluster and click on **Save**.
+
+    ![KmiAbYLuRonF7jxvYfsczx2cns8](https://zdoc-images.s3.us-west-2.amazonaws.com/kmiabyluronf7jxvyfsczx2cns8.png "KmiAbYLuRonF7jxvYfsczx2cns8")
+
+</Procedures>
+
+## Edit description\{#edit-description}
+
+<Procedures>
+
+1. Navigate to the **Cluster Details** page of your target cluster.
+
+1. Hover on the cluster description and click on the **Edit** **description** icon.
+
+    ![VVDNbEWIcoEiWrxUtYbcfy5snRg](https://zdoc-images.s3.us-west-2.amazonaws.com/vvdnbewicoeiwrxutybcfy5snrg.png "VVDNbEWIcoEiWrxUtYbcfy5snRg")
+
+1. Enter the new description of the cluster and click on **Save**.
+
+    ![ZfXqb3NGOoEm1gxmJGkcAxU2nke](https://zdoc-images.s3.us-west-2.amazonaws.com/zfxqb3ngooem1gxmjgkcaxu2nke.png "ZfXqb3NGOoEm1gxmJGkcAxU2nke")
+
+</Procedures>
+
+## Suspend\{#suspend}
 
 You can suspend a cluster via the web console or programmatically.
 
@@ -91,7 +117,7 @@ For details, refer to [Suspend Cluster](/reference/restful/suspend-cluster-v2).
 
 Once the suspend operation is successful, a job record will be generated. You can check the progress on the [Jobs](./job-center) page.
 
-### Resume\{#resume}
+## Resume\{#resume}
 
 Please note that during resuming, you cannot perform other actions on the cluster.
 
@@ -107,12 +133,13 @@ Navigate to the **Cluster Details** page of your target cluster and then follow 
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>When clicking <strong>Resume</strong> in the <strong>Resume Cluster</strong> dialog box, you will be prompted to check the resource quota for your project. If the resources are sufficient, the dialog box will disappear after the check is complete, otherwise, you can </p>
-<ul>
-<li><p>Click <strong>Go To Project Resource Settings</strong> to edit resource settings for the project, or</p></li>
-<li><p>Click <strong>Back to Last Step</strong> to change your cluster settings.</p></li>
-</ul>
-<p>During the process, some additional resources will be required for rolling; these resources will be released after use.</p>
+When clicking **Resume** in the **Resume Cluster** dialog box, you will be prompted to check the resource quota for your project. If the resources are sufficient, the dialog box will disappear after the check is complete, otherwise, you can
+
+- Click **Go To Project Resource Settings** to edit resource settings for the project, or
+
+- Click **Back to Last Step** to change your cluster settings.
+
+During the process, some additional resources will be required for rolling; these resources will be released after use.
 
 </Admonition>
 
@@ -154,7 +181,7 @@ For details, refer to [Resume Cluster](/reference/restful/resume-cluster-v2).
 
 Once the resume operation is successful, a job record will be generated. You can check the progress on the [Jobs](./job-center) page.
 
-### Drop\{#drop}
+## Drop\{#drop}
 
 When a cluster is no longer needed, you can drop it. You can drop a cluster via the web console or programatically.
 
@@ -185,7 +212,7 @@ curl --request POST \
 #     "code": 0,
 #     "data": {
 #         "clusterId": "inxx-xxxxxxxxxxxxxxx",
-#         "prompt": "The cluster has been deleted. If you consider this action to be an error, you have the option to restore the deleted cluster from the recycle bin within a 30-day period. Kindly note, this recovery feature does not apply to free clusters."
+#         "prompt": "The cluster has been deleted. If you consider this action to be an error, you have the option to restore the deleted cluster from the recycle bin within a 30-day period."
 #     }
 # }     
 ```
@@ -201,21 +228,3 @@ For details, refer to [Drop Cluster](/reference/restful/drop-cluster-v2).
 </TabItem>
 
 </Tabs>
-
-## Manage on-demand cluster ｜PUBLIC\{#manage-on-demand-cluster-public}
-
-You can perform the following operations on an on-demand cluster.
-
-### Drop\{#drop}
-
-- **Via RESTful API**
-
-    ```bash
-    curl --request DELETE \
-         --url "https://${BASE_URL}/v2/clusters/onDemandClusters/inxx-xxxxxxxxxxxxxxx" \
-         --header "Authorization: Bearer ${API_KEY}" \
-         --header "Accept: application/json"
-    ```
-
-- **Via web console**
-

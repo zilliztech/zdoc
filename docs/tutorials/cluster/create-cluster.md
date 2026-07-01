@@ -187,56 +187,63 @@ For further details, see [Create Serverless Cluster](/reference/restful/create-s
 
 The following demo shows how to create a **Dedicated** cluster.
 
-<Supademo id="cmhixsdvu030hxj0imafwl2av?utm_source=link" title=""  />
+<Supademo id="cmhixsdvu030hxj0imafwl2av" title=""  />
 
 You need to configure the following information of the Dedicated cluster.
 
-- **Cluster Name**: Assign a unique identifier for your cluster.
-
-- **Cluster Settings**:
-
-    - **Cluster Type**: Select a cluster type that aligns with your cluster's performance requirements. For more information, refer to [Select the Right Cluster Type](./cu-types-explained). To select a Tiered-storage cluster, your cluster must have at least 8 query CUs.
-
-    - **Query CU**: Select the number of query CUs of the cluster. For organizations created with a personal email address, the maximum query CU size for a Dedicated cluster is 32, even if a payment method is configured.
-
-- (Optional) **Backup Policy**: Decide the automatic backup policy for the cluster to create. For more details about the backup policy, see [Schedual Automatic Backups](./schedule-automatic-backups).
+<table>
+   <tr>
+     <th><p><strong>Parameter</strong></p></th>
+     <th><p><strong>Description</strong></p></th>
+   </tr>
+   <tr>
+     <td><p><strong>Cluster Name</strong></p></td>
+     <td><p>Assign a unique identifier for your cluster.</p></td>
+   </tr>
+   <tr>
+     <td><p><strong>Cluster Description (optional)</strong></p></td>
+     <td><p>Enter the description of your cluster, up to 255 characters.</p></td>
+   </tr>
+   <tr>
+     <td><p><strong>Cluster Type</strong></p></td>
+     <td><p>Select a cluster type that aligns with your cluster's performance requirements. For more information, refer to <a href="./cu-types-explained">Select the Right Cluster Type</a>. To select a Tiered-storage cluster, your cluster must have at least 8 query CUs.</p></td>
+   </tr>
+   <tr>
+     <td><p><strong>Query CU</strong></p></td>
+     <td><p>Select the number of query CUs of the cluster. For organizations created with a personal email address, the maximum query CU size for a Dedicated cluster is 32, even if a payment method is configured.</p></td>
+   </tr>
+   <tr>
+     <td><p><strong>Backup Policy (optional)</strong></p></td>
+     <td><p>Decide the automatic backup policy for the cluster to create. For more details about the backup policy, see <a href="./schedule-automatic-backups">Schedule Automatic Backups</a>.</p></td>
+   </tr>
+</table>
 
 While the cluster is being created, you need to save the cluster credentials (user and password) which will be shown only once. 
 
-When the cluster status turns into "Running", the cluster is created successfully. You can then copy the cluster endpoint and token and use them to [connect](./connect-to-cluster) to the cluster.
+When the cluster status turns into "Running", the cluster is created successfully. You can then copy the cluster endpoint and token and use them to [connect](null) to the cluster.
 
 </TabItem>
 
 <TabItem value="Bash">
 
-Your request should resemble the following example, where  `{API_KEY}` is your API key used for authentication.
-
-The following `POST` request takes a request body and creates a dedicated Performance-optimized  cluster named `cluster-02` with one query [CU](./cu-types-explained).
+Your request should resemble the following example, where  `{API_KEY}` is your API key used for authentication. For further details, see [Create Dedicated Cluster](/reference/restful/create-dedicated-cluster-v2).
 
 ```bash
 curl --request POST \
-     --url "https://api.cloud.zilliz.com/v2/clusters/createDedicated" \
-     --header "Authorization: Bearer ${API_KEY}" \
-     --header "Accept: application/json" \
-     --header "Content-Type: application/json" \
-     --data-raw '{
-        "clusterName": "Cluster-02",
-        "projectId": "proj-xxxxxxxxxxxxxxxxxxxxxx",
-        "regionId": "aws-us-west-2",
-        "plan": "Standard",
-        "cuType": "Performance-optimized",
-        "cuSize": 1
-    }'
-     
-# {
-#     "code": 0,
-#     "data": {
-#         "clusterId": "inxx-xxxxxxxxxxxxxxx",
-#         "username": "db_admin",
-#         "password": "****************",
-#         "prompt": "successfully submitted, cluster is being created. You can access data about the creation progress and status of your cluster by DescribeCluster API. Once the cluster status is RUNNING, you may access your vector database using the SDK with the admin account and the initial password you specified."
-#     }
-# }
+--url "${BASE_URL}/v2/clusters/createDedicated" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Accept: application/json" \
+--header "Request-Timeout: 5" \
+--header "Content-Type: application/json" \
+-d '{
+    "clusterName": "Cluster-05",
+    "projectId": "proj-xxxxxxxxxxxxxxxxxxxxxx",
+    "regionId": "aws-us-west-2",
+    "plan": "Standard",
+    "cuType": "Performance-optimized",
+    "cuSize": 1,
+    "description": "A cluster for vector search workloads."
+}'
 ```
 
 In the command above,
@@ -253,7 +260,21 @@ In the command above,
 
 - `cuSize`: The number of query CUs used for the cluster. Value range: 1 to 256. For organizations created with a personal email address, the maximum query CU size for a Dedicated cluster is 32, even if a payment method is configured.
 
-For further details, see [Create Dedicated Cluster](/reference/restful/create-dedicated-cluster-v2).
+- `description` (optional): Description of the cluster.
+
+The following is an example output.
+
+```json
+{
+    "code": 0,
+    "data": {
+        "clusterId": "inxx-xxxxxxxxxxxxxxx",
+        "username": "db_admin",
+        "password": "****************",
+        "prompt": "successfully submitted, cluster is being created. You can access data about the creation progress and status of your cluster by DescribeCluster API. Once the cluster status is RUNNING, you may access your vector database using the SDK with the admin account and the initial password you specified."
+    }
+}
+```
 
 </TabItem>
 
@@ -265,7 +286,7 @@ To create an encrypted cluster, you need to add at least a customer-managed encr
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This feature is available only to <strong>Dedicated</strong> clusters in a <strong>Business Critical</strong> project.</p>
+This feature is available only to **Dedicated** clusters in a **Business Critical** project.
 
 </Admonition>
 

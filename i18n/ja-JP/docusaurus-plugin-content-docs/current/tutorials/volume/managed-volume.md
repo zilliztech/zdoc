@@ -158,18 +158,16 @@ Web コンソールまたは SDK を使用してボリュームを作成でき�
     <TabItem value='java'>
 
     ```bash
-    export BASE_URL="https://api.cloud.zilliz.com"
-    export TOKEN="YOUR_API_KEY"
-    
     curl --request POST \
     --url "${BASE_URL}/v2/volumes/create" \
     --header "Authorization: Bearer ${TOKEN}" \
+    --header "Request-Timeout: 5" \
     --header "Content-Type: application/json" \
     -d '{
         "projectId": "proj-xxxxxxxxxxxxxxxxxxxxxxx",
-        "regionId": "aws-us-west-1",
-        "volumeName": "managed_volume",
-        "type": "MANAGED"
+        "regionId": "aws-us-west-2",
+        "volumeName": "my_volume",
+        "description": "A volume for storing collection data."
     }'
     
     # {
@@ -206,6 +204,10 @@ Web コンソールまたは SDK を使用してボリュームを作成でき�
          <td><p><code>type</code>（オプション）</p></td>
          <td><p>オプション: <code>MANAGED</code>、<code>EXTERNAL</code></p><p>このパラメータを省略した場合、デフォルトでマネージドクラスターが作成されます。</p></td>
        </tr>
+       <tr>
+         <td><p><code>description</code>（オプション）</p></td>
+         <td><p>作成するボリュームの説明です。最大 255 文字です。</p></td>
+       </tr>
     </table>
 
 - **ウェブコンソール経由**
@@ -232,8 +234,8 @@ Web コンソールまたは SDK を使用してボリュームを作成でき�
              <td><p>ボリューム名は、組織全体で一意である必要があり、64文字以内で、文字またはアンダースコアで始まり、文字、数字、ハイフン、アンダースコアのみを含む必要があります。</p></td>
            </tr>
            <tr>
-             <td><p>Description</p></td>
-             <td><p>このパラメータはオプションです。</p></td>
+             <td><p>Description（オプション）</p></td>
+             <td><p>このパラメータはオプションです。最大 255 文字です。</p></td>
            </tr>
            <tr>
              <td><p>ボリューム Type</p></td>
@@ -355,17 +357,28 @@ Web コンソールまたは SDK を使用してボリュームを作成でき�
     --header "Content-Type: application/json"
     
     # {
-    #     "code": 0,
-    #     "data": {
-    #         "volumes": [
-    #            {
-    #                "volumeName": "external_volume",
-    #                "type": "EXTERNAL"
-    #            }
-    #        ],
-    #        "count": 1,
+    #    "code": 200,
+    #    "data": {
+    #        "count": 3,
     #        "currentPage": 1,
-    #        "pageSize": 10
+    #        "pageSize": 10,
+    #        "volumes": [
+    #            {
+    #                "volumeName": "my_volume_1",
+    #                "type": "MANAGED",
+    #                "description": "A volume for storing collection data."
+    #            },
+    #            {
+    #                "volumeName": "my_volume_2",
+    #                "type": "EXTERNAL",
+    #                "description": "A volume for storing collection data."
+    #            },
+    #            {
+    #                "volumeName": "my_volume_3",
+    #                "type": "MANAGED",
+    #                "description": "A volume for storing collection data."
+    #            }
+    #        ]
     #    }
     #}
     ```
@@ -383,7 +396,7 @@ Web コンソールまたは SDK を使用してボリュームを作成でき�
 
 - **Via SDKs**
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
 
     ```python
@@ -450,7 +463,7 @@ Web コンソールまたは SDK を使用してボリュームを作成でき�
     ```
 
     </TabItem>
-    </Tabs>
+    <TabItem value='bash'>
 
     ```bash
     export BASE_URL="https://api.cloud.zilliz.com"
@@ -472,6 +485,9 @@ Web コンソールまたは SDK を使用してボリュームを作成でき�
     #    }
     #}
     ```
+
+    </TabItem>
+    </Tabs>
 
 - **ウェブコンソール経由**
 
@@ -634,7 +650,7 @@ Web コンソールまたは SDK を使用してボリュームを作成でき�
 
 <Admonition type="caution" icon="🚧" title="Warning">
 
-<p>削除されたファイルとフォルダーは<strong>復元できません</strong>。慎重に進めてください。</p>
+ 削除されたファイルとフォルダーは**復元できません**。慎重に進めてください。
 
 </Admonition>
 
@@ -660,7 +676,7 @@ Web コンソールまたは SDK を使用してボリュームを作成でき�
 
 <Admonition type="caution" icon="🚧" title="Warning">
 
-<p>削除されたボリュームは<strong>復元できません</strong>。慎重に進めてください。</p>
+ 削除されたボリュームは**復元できません**。慎重に進めてください。
 
 </Admonition>
 
@@ -805,11 +821,11 @@ Web コンソールまたは SDK を使用してボリュームを作成でき�
 
 - 従量課金ボリュームの使用には料金が発生します。
 
-    - マネージドボリュームが実行中の場合のみ課金されます。
+    - マネージドボリュームが利用可能な場合のみ課金されます。
 
     - 料金の詳細については、[料金ガイド](http://zilliz.com/pricing/pricing-guide) を参照してください。
 
-    - ボリュームの料金計算方法については、[ストレージコスト](./storage-cost) を参照してください。
+    - ボリュームの料金計算方法については、Storage Cost を参照してください。
 
 ## FAQs\{#faqs}
 
@@ -838,7 +854,6 @@ Web コンソールまたは SDK を使用してボリュームを作成でき�
    </tr>
    <tr>
      <td><p><strong>Frozen</strong></p></td>
-     <td><p>組織が未払いの<a href="./view-invoice">請求書</a>により凍結されています。ボリュームは新しい操作には使用できません。ボリュームの使用を継続するには、請求書をお支払いください。</p></td>
+     <td><p>組織が未払いの<a href="null">請求書</a>により凍結されています。ボリュームは新しい操作には使用できません。ボリュームの使用を継続するには、請求書をお支払いください。</p></td>
    </tr>
 </table>
-

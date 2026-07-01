@@ -35,7 +35,7 @@ This guide walks you through how to create a role, grant built-in privilege grou
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This feature is exclusively available to Dedicated clusters.</p>
+This feature is exclusively available to Dedicated clusters.
 
 </Admonition>
 
@@ -51,7 +51,7 @@ The role name must start with a letter and can only include uppercase or lowerca
 ```python
 from pymilvus import MilvusClient
 
-client.create_role(role_name="role_a")
+client.create_role(role_name="role_a", description="a cluster read only role")
 
 ```
 
@@ -63,6 +63,7 @@ client.create_role(role_name="role_a")
 import io.milvus.v2.service.rbac.request.CreateRoleReq;
 CreateRoleReq createRoleReq = CreateRoleReq.builder()
         .roleName("role_a")
+        .description("a cluster read only role")
         .build();
        
 ```
@@ -90,7 +91,8 @@ curl --request POST \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 -d '{
-    "roleName": "role_a"
+    "roleName": "role_a",
+    "description": "a cluster read only role"
 }'
 ```
 
@@ -151,23 +153,23 @@ Below is an example output. `role_a` is the new role that is just created.
 ['role_a']
 ```
 
-## Grant a privilege or a privilege group to a role\{#grant-a-privilege-or-a-privilege-group-to-a-role}
+## Grant a privilege group to a role\{#grant-a-privilege-group-to-a-role}
 
 In Zilliz Cloud, you can grant the followings to a role:
 
-- **Privileges:** Zilliz Cloud provides various types of privileges. For details, refer to [All privileges](./cluster-privileges#all-privileges).
-
 - **Built-in privilege groups:** Zilliz Cloud offers 9 built-in privilege groups. For details about the specific privileges included in each built-in privilege group, refer to [Built-in privilege groups](./cluster-privileges#built-in-privilege-groups).
 
-- **Custom privilege groups:** If the built-in privileges do not meet your needs, you can combine different privileges to create your own custom privilege groups. For details, refer to [Custom privilege groups](./cluster-privileges#custom-privilege-groups).
+- **Custom privilege groups:** If the built-in privileges do not meet your needs, you can combine different privileges to create your own custom privilege groups. For details, refer to [Custom privilege groups](./cluster-privileges#custom-privilege-groups-or-private).
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>If you need to grant specific privileges and custom privilege groups to a role, please <a href="http://support.zilliz.com">create a support ticket</a> first so that we can enable this feature for you.</p>
+- If you need to grant custom privilege groups to a role, please [create a support ticket](http://support.zilliz.com) so that we can enable this feature for you.
+
+- For clusters running Milvus 2.5.x or later, individual privileges are no longer supported.
 
 </Admonition>
 
-The following example demonstrates how to grant the privilege `PrivilegeSearch` on `collection_01` under the `default` database as well as a custom privilege group named `privilege_group_1` to the role `role_a`.
+The following example demonstrates how to grant a custom privilege group named `privilege_group_1` and a built-in privilege group `ClusterReadOnly` to the role `role_a`.
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -175,13 +177,6 @@ The following example demonstrates how to grant the privilege `PrivilegeSearch` 
 ```python
 from pymilvus import MilvusClient
 
-client.grant_privilege_v2(
-    role_name="role_a",
-    privilege="Search",
-    collection_name='collection_01',
-    db_name='default',
-)
-    
 client.grant_privilege_v2(
     role_name="role_a",
     privilege="privilege_group_1",
@@ -203,13 +198,6 @@ client.grant_privilege_v2(
 
 ```java
 import io.milvus.v2.service.rbac.request.GrantPrivilegeReqV2
-
-client.grantPrivilegeV2(GrantPrivilegeReqV2.builder()
-        .roleName("role_a")
-        .privilege("Search")
-        .collectionName("collection_01")
-        .dbName("default")
-        .build());
 
 client.grantPrivilegeV2(GrantPrivilegeReqV2.builder()
         .roleName("role_a")
@@ -251,12 +239,6 @@ if err != nil {
 }
 defer client.Close(ctx)
 
-err = client.GrantV2(ctx, milvusclient.NewGrantV2Option("role_a", "Search", "default", "collection_01"))
-if err != nil {
-    fmt.Println(err.Error())
-    // handle error
-}
-
 err = client.GrantV2(ctx, milvusclient.NewGrantV2Option("role_a", "privilege_group_1", "default", "collection_01"))
 if err != nil {
     fmt.Println(err.Error())
@@ -283,13 +265,6 @@ const client = new MilvusClient({address, token});
 
 await client.grantPrivilegeV2({
     role: "role_a",
-    privilege: "Search"
-    collection_name: 'collection_01'
-    db_name: 'default',
-});
-    
-await client.grantPrivilegeV2({
-    role: "role_a",
     privilege: "privilege_group_1"
     collection_name: 'collection_01'
     db_name: 'default',
@@ -308,17 +283,6 @@ await client.grantPrivilegeV2({
 <TabItem value='bash'>
 
 ```bash
-curl --request POST \
---url "${CLUSTER_ENDPOINT}/v2/vectordb/roles/grant_privilege_v2" \
---header "Authorization: Bearer ${TOKEN}" \
---header "Content-Type: application/json" \
--d '{
-    "roleName": "role_a",
-    "privilege": "Search",
-    "collectionName": "collection_01",
-    "dbName":"default"
-}'
-
 curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/roles/grant_privilege_v2" \
 --header "Authorization: Bearer ${TOKEN}" \
@@ -345,6 +309,53 @@ curl --request POST \
 
 </TabItem>
 </Tabs>
+
+The following are the parameters and corresponding explanations.
+
+- **role_name:** The name of the target role to which privilege group(s) need to be granted.
+
+- **privilege**: The privilege group to grant to the role. For the available options, see [Privileges & Privilege Groups](./cluster-privileges)
+
+- **Resource**: The target resource of a privilege group, which can be a specific cluster, database, or collection.
+
+    The following table explains how to specify the resource.
+
+    <table>
+       <tr>
+         <th><p><strong>Level</strong></p></th>
+         <th><p><strong>Resource</strong></p></th>
+         <th><p><strong>Grant Method</strong></p></th>
+         <th><p><strong>Notes</strong></p></th>
+       </tr>
+       <tr>
+         <td rowspan="2"><p><strong>Collection</strong></p></td>
+         <td><p>A specific collection</p></td>
+         <td><pre><code class="python language-python"> client.grant_privilege_v2(     role_name="roleA",      privilege="CollectionAdmin",     collection_name="col1",      db_name="db1" )</code></pre></td>
+         <td><p>Input the name of your target collection and the name of the database to which the target collection belongs.</p></td>
+       </tr>
+       <tr>
+         <td><p>All collections under a specific database</p></td>
+         <td><pre><code class="python language-python"> client.grant_privilege_v2(     role_name="roleA",      privilege="CollectionAdmin",     collection_name="&ast;",      db_name="db1" )</code></pre></td>
+         <td><p>Input the name of your target database and a wildcard <code>&ast;</code> as the collection name.</p></td>
+       </tr>
+       <tr>
+         <td rowspan="2"><p><strong>Database</strong></p></td>
+         <td><p>A specific database</p></td>
+         <td><pre><code class="python language-python"> client.grant_privilege_v2(     role_name="roleA",      privilege="DatabaseAdmin",      collection_name="&ast;",      db_name="db1" )</code></pre></td>
+         <td><p>Input the name of your target database and a wildcard <code>&ast;</code> as the collection name.</p></td>
+       </tr>
+       <tr>
+         <td><p>All databases under the current instance</p></td>
+         <td><pre><code class="python language-python"> client.grant_privilege_v2(     role_name="roleA",      privilege="DatabaseAdmin",      collection_name="&ast;",      db_name="&ast;" )</code></pre></td>
+         <td><p>Input <code>&ast;</code> as the database name and <code>&ast;</code> as the collection name.</p></td>
+       </tr>
+       <tr>
+         <td><p><strong>Instance</strong></p></td>
+         <td><p>The current instance</p></td>
+         <td><pre><code class="python language-python"> client.grant_privilege_v2(     role_name="roleA",      privilege="ClusterAdmin",      collection_name="&ast;",      db_name="&ast;" )</code></pre></td>
+         <td><p>Input <code>&ast;</code> as the database name and <code>&ast;</code> as the collection name.</p></td>
+       </tr>
+    </table>
 
 ## Describe a role\{#describe-a-role}
 
@@ -416,27 +427,19 @@ Below is an example output.
 ```python
 {
      "role": "role_a",
-     "privileges": [
-         "Search"
-     ]
+     "descripton": "a cluster read only role",
+     "privilege": "ClusterReadOnly"
 }
 ```
 
-## Revoke a privilege or a privilege group from a role\{#revoke-a-privilege-or-a-privilege-group-from-a-role}
+## Revoke a privilege group from a role\{#revoke-a-privilege-group-from-a-role}
 
-The following example demonstrates how to revoke the privilege `PrivilegeSearch` on `collection_01` under the `default` database as well as the privilege group `privilege_group_1` that have been granted to the role `role_a`.
+The following example demonstrates how to revoke the customprivilege group `privilege_group_1` and the built-in privilege group `ClusterReadOnly` that have been granted to the role `role_a`.
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
-client.revoke_privilege_v2(
-    role_name="role_a",
-    privilege="Search",
-    collection_name='collection_01',
-    db_name='default',
-)
-    
 client.revoke_privilege_v2(
     role_name="role_a",
     privilege="privilege_group_1",
@@ -461,13 +464,6 @@ import io.milvus.v2.service.rbac.request.RevokePrivilegeReqV2
 
 client.revokePrivilegeV2(RevokePrivilegeReqV2.builder()
         .roleName("role_a")
-        .privilege("Search")
-        .collectionName("collection_01")
-        .dbName("default")
-        .build());
-
-client.revokePrivilegeV2(RevokePrivilegeReqV2.builder()
-        .roleName("role_a")
         .privilege("privilege_group_1")
         .collectionName("collection_01")
         .dbName("default")
@@ -486,13 +482,6 @@ client.revokePrivilegeV2(RevokePrivilegeReqV2.builder()
 <TabItem value='go'>
 
 ```go
-err = client.RevokePrivilegeV2(ctx, milvusclient.NewRevokePrivilegeV2Option("role_a", "Search", "collection_01").
-        WithDbName("default"))
-if err != nil {
-    fmt.Println(err.Error())
-    // handle error
-}
-
 err = client.RevokePrivilegeV2(ctx, milvusclient.NewRevokePrivilegeV2Option("role_a", "privilege_group_1", "collection_01").
     WithDbName("default"))
 if err != nil {
@@ -513,13 +502,6 @@ if err != nil {
 <TabItem value='javascript'>
 
 ```javascript
-await client.revokePrivilegeV2({
-    role: 'role_a',
-    privilege: 'Search',
-    collection_name: 'collection_01',
-    db_name: 'default'
-});
-
 await client.revokePrivilegeV2({
     role: 'role_a',
     collection_name: 'collection_01',
@@ -557,17 +539,6 @@ curl --request POST \
 --header "Content-Type: application/json" \
 -d '{
     "roleName": "role_a",
-    "privilege": "Search",
-    "collectionName": "collection_01",
-    "dbName":"default"
-}'
-
-curl --request POST \
---url "${CLUSTER_ENDPOINT}/v2/vectordb/roles/revoke_privilege_v2" \
---header "Authorization: Bearer ${TOKEN}" \
---header "Content-Type: application/json" \
--d '{
-    "roleName": "role_a",
     "privilege": "ClusterReadOnly",
     "collectionName": "*",
     "dbName":"*"
@@ -584,7 +555,7 @@ The following example demonstrates how to drop the role `role_a`.
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>The built-in role <code>admin</code> cannot be dropped.</p>
+The built-in role `admin` cannot be dropped.
 
 </Admonition>
 
@@ -690,4 +661,3 @@ Below is an example output. There is no `role_a` in the list. The drop operation
 ```bash
 ['admin']
 ```
-

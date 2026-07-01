@@ -49,7 +49,7 @@ Zilliz Cloudは、多様なユーザーの要件を満たすために、2種類�
 
 ![Ec7wwrAnFhGIZFbJTWwc57bVn0f](https://zdoc-images.s3.us-west-2.amazonaws.com/Ec7wwrAnFhGIZFbJTWwc57bVn0f.png)
 
-以下の表は、割り当てられたロールに基づくAPIキーのアクセス範囲の詳細を示しています。ロールと権限の詳細については、[アクセス制御](./access-control)を参照してください。
+以下の表は、割り当てられたロールに基づくAPIキーのアクセス範囲の詳細を示しています。ロールと権限の詳細については、[アクセス制御の説明](./access-control-overview)を参照してください。
 
 <table>
    <tr>
@@ -250,9 +250,11 @@ Zilliz Cloudが各組織ユーザーに対して自動生成する個人キー�
 
 1. **APIキー名**を入力し、**APIキーアクセス**を設定します。
 
-    ![Nwd5bLDAuolLrUxo8nWcAHU5nub](https://zdoc-images.s3.us-west-2.amazonaws.com/nwd5bldauollruxo8nwcahu5nub.png "Nwd5bLDAuolLrUxo8nWcAHU5nub")
+    ![Td6mboU99oiRhVxvbYecZJf1nGC](https://zdoc-images.s3.us-west-2.amazonaws.com/td6mbou99oirhvxvbyeczjf1ngc.png "Td6mboU99oiRhVxvbYecZJf1nGC")
 
     - **APIキー名**: 名前は64文字を超えてはいけません。
+
+    - **APIキーの説明（オプション）**: 作成するAPIキーの説明です。最大 255 文字です。
 
     - **APIキーアクセス**: 適切な組織およびプロジェクトのロールを割り当てることで、現在のカスタマイズされたAPIキーのアクセス範囲を定義します。より細かいアクセス制御を行うには、**特定のクラスターとボリュームへのアクセスを制限**をチェックして、キーがアクセスできるクラスターとボリュームを制限できます。
 
@@ -349,4 +351,3 @@ Zilliz Cloudが各組織ユーザーに対して自動生成する個人キー�
 いいえ。**個人APIキー**は個々のユーザーアカウントに紐付いており、ユーザーが組織を離れると自動的に削除されます。キー所有者のアカウントが削除されると、そのキーに依存しているアプリケーションやサービスは、直ちにZilliz Cloudリソースへのアクセスを失います。
 
 本番環境では、代わりに**カスタマイズされたAPIキー**を使用してください。カスタマイズされたキーは個々のユーザーアカウントから独立しており、チームメンバーが組織を離れてもサービスの継続性を確保します。    
-

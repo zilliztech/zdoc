@@ -109,7 +109,7 @@ client.grant_role(user_name="user_1", role_name="db_ro")
 # 4. Describe the user
 client.describe_user(user_name="user_1")
 
-# {'user_name': 'user_1', 'roles': ('db_ro',)}
+# {'user_name': 'user_1', 'roles': ('db_ro',), 'description': ""}
 ```
 
 ## Related methods\{#related-methods}

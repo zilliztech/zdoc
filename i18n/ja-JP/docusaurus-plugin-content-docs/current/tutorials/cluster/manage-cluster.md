@@ -24,21 +24,47 @@ import TabItem from '@theme/TabItem';
 
 import Supademo from '@site/src/components/Supademo';
 
+import Procedures from '@site/src/components/Procedures';
+
 # クラスターの管理
 
 このガイドでは、クラスターのライフサイクルについて説明し、Zilliz Cloud コンソールを最大限に活用して目標を達成する方法を示します。
 
-## 稼働中のクラスターの管理\{#manage-serving-cluster}
-
 稼働中のクラスターに対して、以下の操作を実行できます。
 
-### 名前の変更\{#rename}
+## 名前の変更\{#rename}
 
-対象のクラスターの**クラスターの詳細**ページに移動し、以下の手順に従ってクラスターの名前を変更します。
+<Procedures>
 
-<Supademo id="cm9tp57ye0ri911m7ljrn1yg6" title=""  />
+1. 対象クラスターの **クラスターの詳細** ページに移動します。
 
-### 一時停止\{#suspend}
+1. **Actions** をクリックし、**Rename** を選択します。
+
+    ![XR4QbJtm1o1My7xPp5ecuwnonAf](https://zdoc-images.s3.us-west-2.amazonaws.com/xr4qbjtm1o1my7xpp5ecuwnonaf.png "XR4QbJtm1o1My7xPp5ecuwnonAf")
+
+1. クラスターの新しい名前を入力し、**Save** をクリックします。
+
+    ![KmiAbYLuRonF7jxvYfsczx2cns8](https://zdoc-images.s3.us-west-2.amazonaws.com/kmiabyluronf7jxvyfsczx2cns8.png "KmiAbYLuRonF7jxvYfsczx2cns8")
+
+</Procedures>
+
+## 説明の編集\{#edit-description}
+
+<Procedures>
+
+1. 対象クラスターの **クラスターの詳細** ページに移動します。
+
+1. クラスターの説明にマウスを合わせ、**Edit** **description** アイコンをクリックします。
+
+    ![VVDNbEWIcoEiWrxUtYbcfy5snRg](https://zdoc-images.s3.us-west-2.amazonaws.com/vvdnbewicoeiwrxutybcfy5snrg.png "VVDNbEWIcoEiWrxUtYbcfy5snRg")
+
+1. クラスターの新しい説明を入力し、**Save** をクリックします。
+
+    ![ZfXqb3NGOoEm1gxmJGkcAxU2nke](https://zdoc-images.s3.us-west-2.amazonaws.com/zfxqb3ngooem1gxmjgkcaxu2nke.png "ZfXqb3NGOoEm1gxmJGkcAxU2nke")
+
+</Procedures>
+
+## 一時停止\{#suspend}
 
 実行中の Dedicated クラスターの場合、CU とストレージの両方に対して課金されます。コストを削減するには、クラスターの一時停止を検討してください。Dedicated クラスターが一時停止されている間は、ストレージ料金のみが発生します。
 
@@ -253,4 +279,3 @@ curl --request POST \
     ```
 
 - **ウェブコンソール経由**
-

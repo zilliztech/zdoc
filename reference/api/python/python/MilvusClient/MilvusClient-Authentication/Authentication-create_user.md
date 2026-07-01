@@ -57,6 +57,10 @@ create_user(
 
     The password of the user to create.
 
+- **description** (*str*) -
+
+    An optional description of the user.
+
 - **timeout** (*float* | *None*)  
 
     The timeout duration for this operation. 

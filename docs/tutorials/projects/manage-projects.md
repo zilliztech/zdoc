@@ -51,24 +51,22 @@ You can create a project via the Zilliz Cloud web console or RESTful API.
 
 - **Via RESTful API**
 
-    The following example shows how to create an `Enterprise` project deployed on `gcp-us-west1` in the current organization. For details, see [Create Project](/reference/restful/create-project-v2).
+    The following example shows how to create a project. For details, see [Create Project](/reference/restful/create-project-v2).
 
     ```bash
-    export BASE_URL="https://api.cloud.zilliz.com"
-    export TOKEN="YOUR_API_KEY"
-    
     curl --request POST \
-         --url "https://${BASE_URL}/v2/projects" \
-         --header "Authorization: Bearer ${TOKEN}" \
-         --header "Accept: application/json" \
-         --header "Content-type: application/json" \
-         --data-raw '{
-            "projectName": "project-05",
-            "plan": "Enterprise",
-            "projectType": "Regional",
-            "regions": ["aws-us-west-2"]
-          }'
-    
+    --url "${BASE_URL}/v2/projects" \
+    --header "Authorization: Bearer ${TOKEN}" \
+    --header "Request-Timeout: 5" \
+    --header "Content-Type: application/json" \
+    -d '{
+        "projectName": "My Project",
+        "plan": "Enterprise",
+        "regionIds": [
+            "aws-us-east-1"
+        ],
+        "description": "A project for organizing clusters and resources."
+    }'
     ```
 
     The following is an example output.
@@ -112,12 +110,16 @@ You can create a project via the Zilliz Cloud web console or RESTful API.
              <td><p>Enter the name of the project to create.</p></td>
            </tr>
            <tr>
+             <td><p>Description (optional)</p></td>
+             <td><p>Enter the description to the project to create, up to 255 characters.</p></td>
+           </tr>
+           <tr>
              <td><p>Region</p></td>
              <td><p>Choose a cloud region to deploy your workload. All resources within the project (eg. clusters, volumes, etc.) are deployed in this region. The region cannot be changed once the project is created. For available regions, see <a href="./cloud-providers-and-regions">Cloud Providers & Regions</a>.</p></td>
            </tr>
            <tr>
              <td><p>Multi-region (optional)</p></td>
-             <td><p>Available only for <strong>Business Critical</strong> projects. When enabled, you can deploy resources across multiple cloud regions within the same project. This is required if you plan to use the Global Cluster feature. Multi-region can be enabled later when the project is created.</p></td>
+             <td><p>Available only for <strong>Business Critical</strong> projects. When enabled, you can deploy resources across multiple cloud regions within the same project. This is required if you plan to use the <a href="./global-cluster-explained">Global Cluster Explained</a> feature. Multi-region can be enabled later when the project is created.</p></td>
            </tr>
         </table>
 
@@ -125,7 +127,7 @@ You can create a project via the Zilliz Cloud web console or RESTful API.
 
 ## Add project regions\{#add-project-regions}
 
-If your project is on the **Business Critical** plan, you can add more regions to your project. Your project must be a multi-regional one if you need to use the [Global Cluster](./global-cluster) feature.
+If your project is on the **Business Critical** plan, you can add more regions to your project. Your project must be a multi-regional one if you need to use the [Global Cluster](./global-cluster-explained) feature.
 
 - **Via RESTful API**
 
@@ -225,29 +227,22 @@ You can view the list of all projects in your permission scope in the organizati
 
     ```bash
     {
-      "code": 0,
-      "data": [
-        {
-          "projectName": "project1",
-          "projectId": "proj-a0195d6acacaf2bb985173",
-          "instanceCount": 3,
-          "createTime": "2023-12-07T03:21:32Z",
-          "plan": "Standard",
-          "projectType": "Regional",
-          "regions": ["aws-us-west-2"]
-        },
-        {
-          "projectName": "Default Project",
-          "projectId": "proj-412e874430bfa02e857247",
-          "instanceCount": 0,
-          "createTime": "2023-08-16T07:34:06Z",
-          "plan": "Enterprise",
-          "projectType": "Legacy",
-          "regions": []
-        }
-      ]
+        "code": 0,
+        "data": [
+            {
+                "projectName": "Default Project",
+                "projectId": "proj-xxxxxxxxxxxxxxxxxxxxxxx",
+                "regionIds": [
+                    "aws-us-east-1"
+                ],
+                "instanceCount": 2,
+                "createTime": "2023-08-16T07:34:06Z",
+                "plan": "Enterprise",
+                "orgType": "SAAS",
+                "description": "A project for organizing clusters and resources."
+            }
+        ]
     }
-    
     ```
 
 - **Via web console**
@@ -276,18 +271,19 @@ You can also check the details of a certain project.
 
     ```json
     {
-      "code": 0,
-      "data": [
-        {
-          "projectName": "project1",
-          "projectId": "proj-a0195d6acacaf2bb985173",
-          "instanceCount": 3,
-          "createTime": "2023-12-07T03:21:32Z",
-          "plan": "Standard",
-          "projectType": "Regional",
-          "regions": ["aws-us-west-2"]
+        "code": 0,
+        "data": {
+            "projectId": "proj-x",
+            "projectName": "My Project",
+            "regionIds": [
+                "aws-us-east-1"
+            ],
+            "instanceCount": 2,
+            "createTime": "2023-08-16T07:34:06Z",
+            "plan": "Enterprise",
+            "orgType": "SAAS",
+            "description": "A project for organizing clusters and resources."
         }
-      ]
     }
     ```
 
@@ -295,25 +291,25 @@ You can also check the details of a certain project.
 
     You can check the project name, plan, creation time, and the number of clusters within the project on the **Projects** page. You can further click on a certain project to view its clusters.
 
-    ![KgjvbAvUkopKWsxnGXycOZEynZd](https://zdoc-images.s3.us-west-2.amazonaws.com/kgjvbavukopkwsxngxycozeynzd.png "KgjvbAvUkopKWsxnGXycOZEynZd")
+    ![HhfsbgOXco1fdGxoEYxc6QXBnpc](https://zdoc-images.s3.us-west-2.amazonaws.com/hhfsbgoxco1fdgxoeyxc6qxbnpc.png "HhfsbgOXco1fdGxoEYxc6QXBnpc")
 
-## Rename a project\{#rename-a-project}
+## Edit project details\{#edit-project-details}
 
-To rename a project, you must be an [Organization Owner](./organization-users). You can rename a project via the web console.
+To rename a project or edit the description of a project, you must be an [Organization Owner](./organization-users). You can edit project details via the web console.
 
-<Supademo id="cmhiwa69y5zk2fatiw4ou24k6?utm_source=link" title=""  />
+<Supademo id="cmhiwa69y5zk2fatiw4ou24k6" title=""  />
 
 ## Delete a project\{#delete-a-project}
 
 To delete a project, you must be an [Organization Owner](./organization-users). 
 
-Before you delete a project, you must drop all [clusters](./manage-cluster#drop) and [volumes](./volume) within the project.
+Before you delete a project, you must drop all [clusters](./manage-cluster#drop) and [volumes](./managed-volume) within the project.
 
 Once a project is deleted, all its associated data and resources will be irreversibly cleaned as well.
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>The default project cannot be deleted.</p>
+The default project cannot be deleted.
 
 </Admonition>
 

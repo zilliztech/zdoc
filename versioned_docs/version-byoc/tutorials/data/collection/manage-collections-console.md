@@ -35,8 +35,9 @@ This guide walks you through the collection creation and management operations o
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>If you need strong data isolation and manage only a small number of tenants, you can create a separate collection for each tenant.</p>
-<p>However, you can only create a maximum of 16,384 collections depending on your <a href="./limits">cluster plan</a>. Therefore, for large-scale multi-tenancy, consider using alternative strategies such as partition-based or partition-key-based multi-tenancy, depending on your use case. For details, see <a href="./multi-tenancy">Implement Multi-tenancy</a>.</p>
+If you need strong data isolation and manage only a small number of tenants, you can create a separate collection for each tenant.
+
+However, you can only create a maximum of 16,384 collections depending on your [cluster plan](./limits). Therefore, for large-scale multi-tenancy, consider using alternative strategies such as partition-based or partition-key-based multi-tenancy, depending on your use case. For details, see [Implement Multi-tenancy](./multi-tenancy).
 
 </Admonition>
 
@@ -64,9 +65,9 @@ The metadata of a collection contains:
 
 - Collection name
 
-- (Optional) Collection description
+- (Optional) Collection description. Up to 1024 (in UTF-8 bytes).
 
-- The database to which the collection belongs. A [database](./database) is a layer between clusters and collections and serves as a logical container to manage and organize collections. You can group relevant collections under the same database.
+- The database to which the collection belongs. A [database](./database-concept) is a layer between clusters and collections and serves as a logical container to manage and organize collections. You can group relevant collections under the same database.
 
 ### Collection schema\{#collection-schema}
 
@@ -84,7 +85,7 @@ A schema defines the data structure of your collection and must include:
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Most of the schema configurations cannot be modified once the collection is created. Design your schema carefully to ensure it meets current and future business needs. For best practices, see <a href="./schema-explained">Schema Explained</a>.</p>
+Most of the schema configurations cannot be modified once the collection is created. Design your schema carefully to ensure it meets current and future business needs. For best practices, see [Schema Explained](./schema-explained).
 
 </Admonition>
 
@@ -98,7 +99,7 @@ An index is a data structure that organizes data to accelerate searches and quer
 
 - **Scalar index**: By default, Zilliz Cloud does not automatically create indexes for scalar fields. However, you can manually create indexes on scalar fields that are commonly used for filtering to accelerate searches and queries.
 
-You can skip creating indexes during collection creation and add indexes later. For details, see [Manage Indexes](./manage-indexes).
+You can skip creating indexes during collection creation and add indexes later. For details, see Indexes.
 
 ### Functions\{#functions}
 
@@ -112,7 +113,7 @@ Functions fall into two main categories based on when they are applied:
 
     Examples of Pre-search Functions include the BM25 function, model-based functions.
 
-    For a conceptual overview of how Pre-search Functions work, see [Function & Model Inference Overview](./function-and-model-inference-overview).
+    For a conceptual overview of how Pre-search Functions work, see Function Overview.
 
     <Supademo id="cmjm7ydhy01ouxy0ibvzvne7r" title="" isShowcase />
 
@@ -122,7 +123,7 @@ Functions fall into two main categories based on when they are applied:
 
     Post-search Functions do not affect indexing or candidate retrieval.
 
-    For a conceptual overview of how Post-search Functions work, see [Function & Model Inference Overview](./function-and-model-inference-overview).
+    For a conceptual overview of how Post-search Functions work, see Function Overview.
 
 ### Partition & partition key\{#partition-and-partition-key}
 
@@ -132,12 +133,13 @@ Functions fall into two main categories based on when they are applied:
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>To decide whether you need to create partitions or use partition key, you can consider the following factors:</p>
-<ul>
-<li><p><strong>Multi-tenancy strategies:</strong> If you need to support millions of tenants, please use partition key. If you need strong physical data isolation between tenants, please use partitions. For details, refer to <a href="./multi-tenancy">Implement Multi-tenancy</a>.</p></li>
-<li><p><strong>Resource management:</strong> If you prefer creating and managing partitions on you own, you can choose to use partitions. If you need automatic creation and management of partitions, please use partitions keys.</p></li>
-<li><p><strong>Hot and cold data management:</strong> If you need efficient handling of hot and cold data, please use partition key. To use partition key for hot and cold data management in Dedicated clusters, please <a href="http://support.zilliz.com">contact us</a>.</p></li>
-</ul>
+To decide whether you need to create partitions or use partition key, you can consider the following factors:
+
+- **Multi-tenancy strategies:** If you need to support millions of tenants, please use partition key. If you need strong physical data isolation between tenants, please use partitions. For details, refer to [Implement Multi-tenancy](./multi-tenancy).
+
+- **Resource management:** If you prefer creating and managing partitions on you own, you can choose to use partitions. If you need automatic creation and management of partitions, please use partitions keys.
+
+- **Hot and cold data management:** If you need efficient handling of hot and cold data, please use partition key. To use partition key for hot and cold data management in Dedicated clusters, please [contact us](http://support.zilliz.com).
 
 </Admonition>
 
@@ -155,7 +157,7 @@ During collection creation, you can optionally configure mmap settings at the **
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Please be cautious with mmap settings. Changing the default mmap settings may cause performance degradation or load failures due to out-of-memory (OOM) issues. For best practices, see <a href="./use-mmap#collection-specific-mmap-settings">Use mmap</a>.</p>
+Please be cautious with mmap settings. Changing the default mmap settings may cause performance degradation or load failures due to out-of-memory (OOM) issues. For best practices, see [Use mmap](./use-mmap#collection-specific-mmap-settings).
 
 </Admonition>
 
@@ -194,6 +196,10 @@ Zilliz Cloud supports the following management operations on created collections
 <Supademo id="cmaqjykyn002myh0irk72q332" title="" isShowcase />
 
 - **Rename a collection:** You can change the name of an existing collection.
+
+- **Edit collection description:** You can change the description of an existing collection.
+
+    ![SBlWwPqMPhqspYbR7pxct59xnle](https://zdoc-images.s3.us-west-2.amazonaws.com/SBlWwPqMPhqspYbR7pxct59xnle.png)
 
 - **Edit collection schema and settings:** Currently, Zilliz Cloud only supports editing the following schema and settings.
 

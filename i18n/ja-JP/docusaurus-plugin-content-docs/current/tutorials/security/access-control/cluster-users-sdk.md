@@ -38,6 +38,8 @@ Zilliz Cloud では、クラスターユーザーを作成し、クラスター�
 
 - パスワード: 8〜64文字の長さが必要であり、以下のうち3つを含める必要があります: 大文字、小文字、数字、および特殊文字。
 
+- （オプション）説明: 最大 1024（UTF-8 バイト）です。
+
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
@@ -49,7 +51,7 @@ client = MilvusClient(
     token="YOUR_CLUSTER_TOKEN"
 )
 
-client.create_user(user_name="user_1", password="P@ssw0rd")
+client.create_user(user_name="user_1", password="P@ssw0rd", description="a new user in the developers team")
 ```
 
 </TabItem>
@@ -71,6 +73,7 @@ MilvusClientV2 client = new MilvusClientV2(connectConfig);
 CreateUserReq createUserReq = CreateUserReq.builder()
         .userName("user_1")
         .password("P@ssw0rd")
+        .description("a new user in the developers team")
         .build();
         
 client.createUser(createUserReq);
@@ -108,6 +111,7 @@ curl --request POST \
 -d '{
     "userName": "user_1",
     "password": "P@ssw0rd"
+    "description": "a new user in the developers team"
 }'
 ```
 
@@ -307,7 +311,7 @@ curl --request POST \
 以下は出力例です。
 
 ```bash
-{'user_name': 'user_1', 'roles': 'role_a'}
+{'user_name': 'user_1', 'description':'a new user in the developers team', 'roles': 'role_a'}
 ```
 
 ## Revoke a role\{#revoke-a-role}
@@ -376,7 +380,7 @@ curl --request POST \
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p><code>root</code> ユーザーは削除できません。</p>
+`root` ユーザーは削除できません。
 
 </Admonition>
 
@@ -504,4 +508,3 @@ curl --request POST \
 ```bash
 ['root']
 ```
-

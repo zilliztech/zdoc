@@ -31,7 +31,7 @@ Zilliz Cloud の復元機能を使用すると、誤ったデータの消失や�
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>この機能は <strong>Dedicated</strong> クラスターでのみ利用可能です。</p>
+この機能は **Dedicated** クラスターでのみ利用可能です。
 
 </Admonition>
 
@@ -189,7 +189,7 @@ curl --request POST \
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>この機能は、<strong>ビジネスクリティカル</strong> プロジェクトの <strong>Dedicated</strong> クラスターでのみ利用可能です。</p>
+この機能は、**ビジネスクリティカル** プロジェクトの **Dedicated** クラスターでのみ利用可能です。
 
 </Admonition>
 

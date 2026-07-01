@@ -48,24 +48,22 @@ Zilliz Cloud では、プロジェクトは組織内の論理的なコンテナ�
 
 - **RESTful API経由**
 
-    以下の例は、現在の組織内で `gcp-us-west1` にデプロイされた `Enterprise` プロジェクトを作成する方法を示しています。詳細については、[プロジェクトの作成](/reference/restful/create-project-v2) を参照してください。
+    以下の例は、プロジェクトを作成する方法を示しています。詳細については、[プロジェクトの作成](/reference/restful/create-project-v2) を参照してください。
 
     ```bash
-    export BASE_URL="https://api.cloud.zilliz.com"
-    export TOKEN="YOUR_API_KEY"
-    
     curl --request POST \
-         --url "https://${BASE_URL}/v2/projects" \
-         --header "Authorization: Bearer ${TOKEN}" \
-         --header "Accept: application/json" \
-         --header "Content-type: application/json" \
-         --data-raw '{
-            "projectName": "project-05",
-            "plan": "Enterprise",
-            "projectType": "Regional",
-            "regions": ["aws-us-west-2"]
-          }'
-    
+    --url "${BASE_URL}/v2/projects" \
+    --header "Authorization: Bearer ${TOKEN}" \
+    --header "Request-Timeout: 5" \
+    --header "Content-Type: application/json" \
+    -d '{
+        "projectName": "My Project",
+        "plan": "Enterprise",
+        "regionIds": [
+            "aws-us-east-1"
+        ],
+        "description": "A project for organizing clusters and resources."
+    }'
     ```
 
     以下は出力例です。
@@ -109,12 +107,16 @@ Zilliz Cloud では、プロジェクトは組織内の論理的なコンテナ�
              <td><p>作成するプロジェクトの名前を入力します。</p></td>
            </tr>
            <tr>
+             <td><p>説明（オプション）</p></td>
+             <td><p>作成するプロジェクトの説明を入力します。最大 255 文字です。</p></td>
+           </tr>
+           <tr>
              <td><p>リージョン</p></td>
              <td><p>ワークロードをデプロイするクラウドリージョンを選択します。プロジェクト内のすべてのリソース（クラスター、ボリュームなど）は、このリージョンにデプロイされます。プロジェクト作成後はリージョンを変更できません。利用可能なリージョンについては、<a href="./cloud-providers-and-regions">クラウドプロバイダーとリージョン</a> を参照してください。</p></td>
            </tr>
            <tr>
              <td><p>マルチリージョン（オプション）</p></td>
-             <td><p><strong>ビジネスクリティカル</strong> プロジェクトでのみ利用可能です。有効にすると、同じプロジェクト内で複数のクラウドリージョンにリソースをデプロイできます。これは、グローバルクラスター機能を使用する場合に必要です。マルチリージョンは、プロジェクト作成後に有効にすることもできます。</p></td>
+             <td><p><strong>ビジネスクリティカル</strong> プロジェクトでのみ利用可能です。有効にすると、同じプロジェクト内で複数のクラウドリージョンにリソースをデプロイできます。これは、<a href="./global-cluster-explained">グローバルクラスターの説明</a> 機能を使用する場合に必要です。マルチリージョンは、プロジェクト作成後に有効にすることもできます。</p></td>
            </tr>
         </table>
 
@@ -122,7 +124,7 @@ Zilliz Cloud では、プロジェクトは組織内の論理的なコンテナ�
 
 ## プロジェクトリージョンの追加\{#add-project-regions}
 
-プロジェクトが **ビジネスクリティカル** プランの場合、プロジェクトにさらにリージョンを追加できます。[グローバルクラスター](./global-cluster) 機能を使用する必要がある場合、プロジェクトはマルチリージョンである必要があります。
+プロジェクトが **ビジネスクリティカル** プランの場合、プロジェクトにさらにリージョンを追加できます。[グローバルクラスター](./global-cluster-explained) 機能を使用する必要がある場合、プロジェクトはマルチリージョンである必要があります。
 
 - **RESTful API経由**
 
@@ -222,29 +224,22 @@ Zilliz Cloud では、プロジェクトは組織内の論理的なコンテナ�
 
     ```bash
     {
-      "code": 0,
-      "data": [
-        {
-          "projectName": "project1",
-          "projectId": "proj-a0195d6acacaf2bb985173",
-          "instanceCount": 3,
-          "createTime": "2023-12-07T03:21:32Z",
-          "plan": "Standard",
-          "projectType": "Regional",
-          "regions": ["aws-us-west-2"]
-        },
-        {
-          "projectName": "Default Project",
-          "projectId": "proj-412e874430bfa02e857247",
-          "instanceCount": 0,
-          "createTime": "2023-08-16T07:34:06Z",
-          "plan": "Enterprise",
-          "projectType": "Legacy",
-          "regions": []
-        }
-      ]
+        "code": 0,
+        "data": [
+            {
+                "projectName": "Default Project",
+                "projectId": "proj-xxxxxxxxxxxxxxxxxxxxxxx",
+                "regionIds": [
+                    "aws-us-east-1"
+                ],
+                "instanceCount": 2,
+                "createTime": "2023-08-16T07:34:06Z",
+                "plan": "Enterprise",
+                "orgType": "SAAS",
+                "description": "A project for organizing clusters and resources."
+            }
+        ]
     }
-    
     ```
 
 - **ウェブコンソール経由**
@@ -273,18 +268,19 @@ Zilliz Cloud では、プロジェクトは組織内の論理的なコンテナ�
 
     ```json
     {
-      "code": 0,
-      "data": [
-        {
-          "projectName": "project1",
-          "projectId": "proj-a0195d6acacaf2bb985173",
-          "instanceCount": 3,
-          "createTime": "2023-12-07T03:21:32Z",
-          "plan": "Standard",
-          "projectType": "Regional",
-          "regions": ["aws-us-west-2"]
+        "code": 0,
+        "data": {
+            "projectId": "proj-x",
+            "projectName": "My Project",
+            "regionIds": [
+                "aws-us-east-1"
+            ],
+            "instanceCount": 2,
+            "createTime": "2023-08-16T07:34:06Z",
+            "plan": "Enterprise",
+            "orgType": "SAAS",
+            "description": "A project for organizing clusters and resources."
         }
-      ]
     }
     ```
 
@@ -292,25 +288,25 @@ Zilliz Cloud では、プロジェクトは組織内の論理的なコンテナ�
 
     **プロジェクト** ページで、プロジェクト名、プラン、作成時間、およびプロジェクト内のクラスター数を確認できます。さらに、特定のプロジェクトをクリックして、そのクラスターを表示できます。
 
-    ![KgjvbAvUkopKWsxnGXycOZEynZd](https://zdoc-images.s3.us-west-2.amazonaws.com/kgjvbavukopkwsxngxycozeynzd.png "KgjvbAvUkopKWsxnGXycOZEynZd")
+    ![HhfsbgOXco1fdGxoEYxc6QXBnpc](https://zdoc-images.s3.us-west-2.amazonaws.com/hhfsbgoxco1fdgxoeyxc6qxbnpc.png "HhfsbgOXco1fdGxoEYxc6QXBnpc")
 
-## プロジェクトの名前変更\{#rename-a-project}
+## プロジェクト詳細の編集\{#edit-project-details}
 
-プロジェクトの名前を変更するには、[組織オーナー](./organization-users) である必要があります。ウェブコンソール経由でプロジェクトの名前を変更できます。
+プロジェクト名を変更したり、プロジェクトの説明を編集したりするには、[組織オーナー](./organization-users) である必要があります。ウェブコンソール経由でプロジェクト詳細を編集できます。
 
-<Supademo id="cmhiwa69y5zk2fatiw4ou24k6?utm_source=link" title=""  />
+<Supademo id="cmhiwa69y5zk2fatiw4ou24k6" title=""  />
 
 ## プロジェクトの削除\{#delete-a-project}
 
 プロジェクトを削除するには、[組織オーナー](./organization-users) である必要があります。
 
-プロジェクトを削除する前に、プロジェクト内のすべての [クラスター](./manage-cluster#drop) と [ボリューム](./volume) を削除する必要があります。
+プロジェクトを削除する前に、プロジェクト内のすべての [クラスター](./manage-cluster#drop) と [ボリューム](./managed-volume) を削除する必要があります。
 
 プロジェクトが削除されると、関連するすべてのデータとリソースも不可逆的に削除されます。
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>デフォルトのプロジェクトは削除できません。</p>
+デフォルトのプロジェクトは削除できません。
 
 </Admonition>
 
@@ -323,4 +319,3 @@ Zilliz Cloud では、プロジェクトは組織内の論理的なコンテナ�
 **プロジェクトのプランをダウングレードできますか？**
 
 プランの直接ダウングレードはサポートされていません。より低いプランに切り替えるには、希望のプランで新しいプロジェクトを作成し、データを [移行](./offline-migration) してください。
-

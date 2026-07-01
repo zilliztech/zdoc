@@ -34,7 +34,7 @@ This guide walks you through how to restore a full or partial cluster from backu
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This feature is available only to <strong>Dedicated</strong> clusters.</p>
+This feature is available only to **Dedicated** clusters.
 
 </Admonition>
 
@@ -46,7 +46,7 @@ This guide walks you through how to restore a full or partial cluster from backu
 
 You can restore an entire cluster, including all databases and collections, to a **new** cluster. This is useful for cloning environments for testing or recovery. To restore an entire cluster, the backup file must be a cluster backup.
 
-During restoration, you may also configure the following:
+During restoration, you may also configure the followings:
 
 - Choose whether to include RBAC settings.
 
@@ -192,7 +192,7 @@ When you restore an encrypted backup to a new cluster, Zilliz Cloud will use the
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This feature is available only to <strong>Dedicated</strong> clusters in a <strong>Business Critical</strong> project.</p>
+This feature is available only to **Dedicated** clusters in a **Business Critical** project.
 
 </Admonition>
 

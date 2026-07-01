@@ -125,20 +125,19 @@ Before creating an external volume, you need to integrate your [AWS S3 bucket](.
     <TabItem value='bash'>
 
     ```bash
-    export BASE_URL="https://api.cloud.zilliz.com"
-    export TOKEN="YOUR_API_KEY"
-    
     curl --request POST \
     --url "${BASE_URL}/v2/volumes/create" \
     --header "Authorization: Bearer ${TOKEN}" \
+    --header "Request-Timeout: 5" \
     --header "Content-Type: application/json" \
     -d '{
-        "projectId": "proj-xxxx",
+        "projectId": "proj-xxxxxxxxxxxxxxxxxxxxxxx",
         "regionId": "aws-us-west-2",
-        "volumeName": "external_volume",
+        "volumeName": "my_external_volume",
         "type": "EXTERNAL",
-        "storageIntegrationId": "integ-xxxx",
-        "path": "/data/"
+        "storageIntegrationId": "integ-xxxxxxxxxxxxxxxxxxx",
+        "path": "data/",
+        "description": "A volume for storing collection data."
     }'
     
     # {
@@ -183,6 +182,10 @@ Before creating an external volume, you need to integrate your [AWS S3 bucket](.
          <td><p><code>path</code></p></td>
          <td><p>The storage path. Required when <code>type=EXTERNAL</code>.</p></td>
        </tr>
+       <tr>
+         <td><p><code>description</code>(optional)</p></td>
+         <td><p>The description of the volume to create. Up to 255 characters.</p></td>
+       </tr>
     </table>
 
 - **Via web console**
@@ -210,7 +213,7 @@ Before creating an external volume, you need to integrate your [AWS S3 bucket](.
            </tr>
            <tr>
              <td><p>Description</p></td>
-             <td><p>This parameter is optional.</p></td>
+             <td><p>This parameter is optional. Up to 255 characters.</p></td>
            </tr>
            <tr>
              <td><p>Volume Type</p></td>
@@ -230,7 +233,7 @@ Before creating an external volume, you need to integrate your [AWS S3 bucket](.
 
     </Procedures>
 
-## List external volumes\{#list-external-volumes}
+## List volumes\{#list-volumes}
 
 You can view all existing volumes in a project.
 
@@ -332,17 +335,28 @@ You can view all existing volumes in a project.
     --header "Content-Type: application/json"
     
     # {
-    #     "code": 0,
-    #     "data": {
-    #         "volumes": [
-    #            {
-    #                "volumeName": "external_volume",
-    #                "type": "EXTERNAL"
-    #            }
-    #        ],
-    #        "count": 1,
+    #    "code": 200,
+    #    "data": {
+    #        "count": 3,
     #        "currentPage": 1,
-    #        "pageSize": 10
+    #        "pageSize": 10,
+    #        "volumes": [
+    #            {
+    #                "volumeName": "my_volume_1",
+    #                "type": "MANAGED",
+    #                "description": "A volume for storing collection data."
+    #            },
+    #            {
+    #                "volumeName": "my_volume_2",
+    #                "type": "EXTERNAL",
+    #                "description": "A volume for storing collection data."
+    #            },
+    #            {
+    #                "volumeName": "my_volume_3",
+    #                "type": "MANAGED",
+    #                "description": "A volume for storing collection data."
+    #            }
+    #        ]
     #    }
     #}
     ```
@@ -616,7 +630,7 @@ The following table lists the possible volume statuses.
    </tr>
    <tr>
      <td><p><strong>Frozen</strong></p></td>
-     <td><p>The organization is frozen due to overdue <a href="./view-invoice">invoices</a>. The volume cannot be used for new operations. Please pay your bill to continue using volumes.</p></td>
+     <td><p>The organization is frozen due to overdue <a href="null">invoices</a>. The volume cannot be used for new operations. Please pay your bill to continue using volumes.</p></td>
    </tr>
    <tr>
      <td><p><strong>Error</strong></p></td>

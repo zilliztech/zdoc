@@ -93,8 +93,9 @@ For collection-level access control, it is recommended to create custom roles.
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This feature is exclusively available to Dedicated clusters.</p>
-<p>Currently, Zilliz Cloud only supports creating custom roles with built-in privilege groups on the web console. If you need to create custom roles with specific privileges or custom privilege groups, please <a href="http://support.zilliz.com">create a support ticket</a> first so that we can enable this feature for you. Once the feature is enabled, you can use the SDKs to <a href="./cluster-privileges#custom-privilege-groups">create custom privilege groups</a>.</p>
+This feature is exclusively available to Dedicated clusters.
+
+Currently, Zilliz Cloud only supports creating custom roles with built-in privilege groups on the web console. If you need to create custom roles with specific privileges or custom privilege groups, please [create a support ticket](http://support.zilliz.com) first so that we can enable this feature for you. Once the feature is enabled, you can use the SDKs to [create custom privilege groups](./cluster-privileges#custom-privilege-groups-or-private).
 
 </Admonition>
 
@@ -106,7 +107,7 @@ For collection-level access control, it is recommended to create custom roles.
 
     ![add-cluster-role](https://zdoc-images.s3.us-west-2.amazonaws.com/add-cluster-role.png "add-cluster-role")
 
-1. Enter the role name.
+1. Enter the role name and description (optional).
 
 1. Configure the privileges on the collection, database, and cluster level.  Select a built-in privilege group and then select the target resource. 
 
@@ -120,13 +121,13 @@ For collection-level access control, it is recommended to create custom roles.
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    <p>The three levels of built-in privilege groups do not have a cascading relationship. Setting a built-in privilege group at the instance level does not automatically set permissions for all databases and collections under that instance. Privileges at the database and collection levels need to be set manually.</p>
+    The three levels of built-in privilege groups do not have a cascading relationship. Setting a built-in privilege group at the instance level does not automatically set permissions for all databases and collections under that instance. Privileges at the database and collection levels need to be set manually.
 
     </Admonition>
 
     For details about the specific privileges in each built-in privilege group, refer to [Privileges & Privilege Groups](./cluster-privileges#built-in-privilege-groups).
 
-    ![add-cluster-role-form](https://zdoc-images.s3.us-west-2.amazonaws.com/add-cluster-role-form.png "add-cluster-role-form")
+    ![CWALbSrKOo56DPxID45c7Jjgn9c](https://zdoc-images.s3.us-west-2.amazonaws.com/cwalbsrkoo56dpxid45c7jjgn9c.png "CWALbSrKOo56DPxID45c7Jjgn9c")
 
 1. Click **Create**. Each cluster can have up to 500 custom cluster roles.
 
@@ -134,13 +135,13 @@ For collection-level access control, it is recommended to create custom roles.
 
 ## Grant a role to a user\{#grant-a-role-to-a-user}
 
-Once a cluster role is created, you can grant it to users. Navigate to the Users tab, grant the role either when you [create a new cluster user](./cluster-users#create-a-cluster-user) or when you [edit the role of an existing cluster user](./cluster-users#edit-the-role-of-a-cluster-user).
+Once a cluster role is created, you can grant it to users. Navigate to the Users tab, grant the role either when you [create a new cluster user](./cluster-users#create-a-cluster-user) or when you [edit the role of an existing cluster user](./cluster-users#edit-the-role-or-desrciption-of-a-cluster-user).
 
 ![grant-role-to-user](https://zdoc-images.s3.us-west-2.amazonaws.com/grant-role-to-user.png "grant-role-to-user")
 
 ## Revoke a role from a user\{#revoke-a-role-from-a-user}
 
-When a cluster role is no longer fit for a user, you can revoke the role. Navigate to the Users tab, find the target user, and click [edit role](./cluster-users#edit-the-role-of-a-cluster-user). Select a different role in the dialog box. 
+When a cluster role is no longer fit for a user, you can revoke the role. Navigate to the Users tab, find the target user, and click [edit role](./cluster-users#edit-the-role-or-desrciption-of-a-cluster-user). Select a different role in the dialog box.
 
 ![revoke-role-from-user](https://zdoc-images.s3.us-west-2.amazonaws.com/revoke-role-from-user.png "revoke-role-from-user")
 
@@ -157,4 +158,3 @@ When a role is no longer necessary, you can delete a custom cluster role.
 Roles that have been granted to users cannot be delete. You need to first identify the users who are granted the target role, and then assign them a different role. 
 
 ![delete-cluster-role](https://zdoc-images.s3.us-west-2.amazonaws.com/delete-cluster-role.png "delete-cluster-role")
-

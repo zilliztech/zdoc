@@ -27,6 +27,8 @@ import TabItem from '@theme/TabItem';
 
 import Supademo from '@site/src/components/Supademo';
 
+import Procedures from '@site/src/components/Procedures';
+
 # Manage Cluster
 
 This guide describes the lifecycle of a cluster so that you can make full use of your Zilliz Cloud console to achieve your goals.
@@ -35,13 +37,39 @@ This guide describes the lifecycle of a cluster so that you can make full use of
 
 You can perform the following operations on a serving cluster.
 
-### Rename\{#rename}
+## Rename\{#rename}
 
-Navigate to the **Cluster Details** page of your target cluster and then follow the instructions below to rename your cluster.
+<Procedures>
 
-<Supademo id="cm9tp57ye0ri911m7ljrn1yg6" title=""  />
+1. Navigate to the **Cluster Details** page of your target cluster.
 
-### Suspend\{#suspend}
+1. Click on **Actions** and then select **Rename**.
+
+    ![XR4QbJtm1o1My7xPp5ecuwnonAf](https://zdoc-images.s3.us-west-2.amazonaws.com/xr4qbjtm1o1my7xpp5ecuwnonaf.png "XR4QbJtm1o1My7xPp5ecuwnonAf")
+
+1. Enter the new name of the cluster and click on **Save**.
+
+    ![KmiAbYLuRonF7jxvYfsczx2cns8](https://zdoc-images.s3.us-west-2.amazonaws.com/kmiabyluronf7jxvyfsczx2cns8.png "KmiAbYLuRonF7jxvYfsczx2cns8")
+
+</Procedures>
+
+## Edit description\{#edit-description}
+
+<Procedures>
+
+1. Navigate to the **Cluster Details** page of your target cluster.
+
+1. Hover on the cluster description and click on the **Edit** **description** icon.
+
+    ![VVDNbEWIcoEiWrxUtYbcfy5snRg](https://zdoc-images.s3.us-west-2.amazonaws.com/vvdnbewicoeiwrxutybcfy5snrg.png "VVDNbEWIcoEiWrxUtYbcfy5snRg")
+
+1. Enter the new description of the cluster and click on **Save**.
+
+    ![ZfXqb3NGOoEm1gxmJGkcAxU2nke](https://zdoc-images.s3.us-west-2.amazonaws.com/zfxqb3ngooem1gxmjgkcaxu2nke.png "ZfXqb3NGOoEm1gxmJGkcAxU2nke")
+
+</Procedures>
+
+## Suspend\{#suspend}
 
 For a running Dedicated cluster, you are billed for both CU and storage. To reduce costs, consider suspending the cluster. Only storage charges apply when a Dedicated cluster is suspended.
 

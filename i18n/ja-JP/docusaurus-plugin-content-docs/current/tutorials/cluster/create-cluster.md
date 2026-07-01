@@ -184,56 +184,63 @@ curl --request POST \
 
 以下のデモでは、**Dedicated** クラスターの作成方法を示します。
 
-<Supademo id="cmhixsdvu030hxj0imafwl2av?utm_source=link" title=""  />
+<Supademo id="cmhixsdvu030hxj0imafwl2av" title=""  />
 
 Dedicated クラスターの以下の情報を設定する必要があります。
 
-- **クラスター名**: クラスターの一意の識別子を割り当てます。
-
-- **クラスター設定**:
-
-    - **クラスタータイプ**: クラスターのパフォーマンス要件に合致するクラスタータイプを選択します。詳細については、[適切なクラスタータイプの選択](./cu-types-explained) を参照してください。階層型ストレージ クラスターを選択するには、クラスターに少なくとも 8 つのクエリー CU が必要です。
-
-    - **クエリー CU**: クラスターのクエリー CU 数を選択します。
-
-- (オプション) **バックアップポリシー**: 作成するクラスターのバックアップ頻度を決定します。有効にすると、Zilliz Cloud はクラスター作成直後にバックアップを作成します。その後のバックアップは指定されたスケジュールに従って実行されます。
+<table>
+   <tr>
+     <th><p><strong>パラメーター</strong></p></th>
+     <th><p><strong>説明</strong></p></th>
+   </tr>
+   <tr>
+     <td><p><strong>クラスター名</strong></p></td>
+     <td><p>クラスターの一意の識別子を割り当てます。</p></td>
+   </tr>
+   <tr>
+     <td><p><strong>クラスターの説明（オプション）</strong></p></td>
+     <td><p>クラスターの説明を入力します。最大 255 文字です。</p></td>
+   </tr>
+   <tr>
+     <td><p><strong>クラスタータイプ</strong></p></td>
+     <td><p>クラスターのパフォーマンス要件に合致するクラスタータイプを選択します。詳細については、<a href="./cu-types-explained">適切なクラスタータイプの選択</a> を参照してください。階層型ストレージクラスターを選択するには、クラスターに少なくとも 8 つのクエリー CU が必要です。</p></td>
+   </tr>
+   <tr>
+     <td><p><strong>クエリー CU</strong></p></td>
+     <td><p>クラスターのクエリー CU 数を選択します。個人用メールアドレスで作成された組織では、支払い方法が設定されている場合でも、Dedicated クラスターの最大クエリー CU サイズは 32 です。</p></td>
+   </tr>
+   <tr>
+     <td><p><strong>バックアップポリシー（オプション）</strong></p></td>
+     <td><p>作成するクラスターの自動バックアップポリシーを決定します。バックアップポリシーの詳細については、<a href="./schedule-automatic-backups">自動バックアップのスケジュール</a> を参照してください。</p></td>
+   </tr>
+</table>
 
 クラスターが作成されている間、クラスター認証情報（ユーザーとパスワード）を保存する必要があります。これは一度だけ表示されます。
 
-クラスターステータスが「Running」に変わると、クラスターの作成は成功です。その後、クラスターエンドポイントとトークンをコピーして、[接続](./connect-to-cluster) に使用できます。
+クラスターステータスが「Running」に変わると、クラスターの作成は成功です。その後、クラスターエンドポイントとトークンをコピーして、[接続](null) に使用できます。
 
 </TabItem>
 
 <TabItem value="Bash">
 
-リクエストは以下の例のようになるはずです。ここで `{API_KEY}` は認証に使用される API キーです。
-
-以下の `POST` リクエストはリクエストボディを受け取り、1 つのクエリー [CU](./cu-types-explained) を持つ `cluster-02` という名前の Dedicated パフォーマンス最適化済み クラスターを作成します。
+リクエストは以下の例のようになるはずです。ここで `{API_KEY}` は認証に使用される API キーです。詳細については、[Dedicated クラスターの作成](/reference/restful/create-dedicated-cluster-v2) を参照してください。
 
 ```bash
 curl --request POST \
-     --url "https://api.cloud.zilliz.com/v2/clusters/createDedicated" \
-     --header "Authorization: Bearer ${API_KEY}" \
-     --header "Accept: application/json" \
-     --header "Content-Type: application/json" \
-     --data-raw '{
-        "clusterName": "Cluster-02",
-        "projectId": "proj-xxxxxxxxxxxxxxxxxxxxxx",
-        "regionId": "aws-us-west-2",
-        "plan": "Standard",
-        "cuType": "Performance-optimized",
-        "cuSize": 1
-    }'
-     
-# {
-#     "code": 0,
-#     "data": {
-#         "clusterId": "inxx-xxxxxxxxxxxxxxx",
-#         "username": "db_admin",
-#         "password": "****************",
-#         "prompt": "successfully submitted, cluster is being created. You can access data about the creation progress and status of your cluster by DescribeCluster API. Once the cluster status is RUNNING, you may access your vector database using the SDK with the admin account and the initial password you specified."
-#     }
-# }
+--url "${BASE_URL}/v2/clusters/createDedicated" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Accept: application/json" \
+--header "Request-Timeout: 5" \
+--header "Content-Type: application/json" \
+-d '{
+    "clusterName": "Cluster-05",
+    "projectId": "proj-xxxxxxxxxxxxxxxxxxxxxx",
+    "regionId": "aws-us-west-2",
+    "plan": "Standard",
+    "cuType": "Performance-optimized",
+    "cuSize": 1,
+    "description": "A cluster for vector search workloads."
+}'
 ```
 
 上記のコマンドでは、
@@ -248,9 +255,23 @@ curl --request POST \
 
 - `cuType`: クラスターのタイプです。有効な値: パフォーマンス最適化済み、容量最適化済み、および Tiered-storage です。
 
-- `cuSize`: クラスターに使用されるクエリ CU の数です。値の範囲: 1 から 256 まで。
+- `cuSize`: クラスターに使用されるクエリ CU の数です。値の範囲: 1 から 256 まで。個人用メールアドレスで作成された組織では、支払い方法が設定されている場合でも、Dedicated クラスターの最大クエリー CU サイズは 32 です。
 
-詳細については、[専用クラスターの作成](/reference/restful/create-dedicated-cluster-v2) を参照してください。
+- `description`（オプション）: クラスターの説明です。
+
+以下は出力例です。
+
+```json
+{
+    "code": 0,
+    "data": {
+        "clusterId": "inxx-xxxxxxxxxxxxxxx",
+        "username": "db_admin",
+        "password": "****************",
+        "prompt": "successfully submitted, cluster is being created. You can access data about the creation progress and status of your cluster by DescribeCluster API. Once the cluster status is RUNNING, you may access your vector database using the SDK with the admin account and the initial password you specified."
+    }
+}
+```
 
 </TabItem>
 
@@ -262,7 +283,7 @@ curl --request POST \
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>この機能は、<strong>ビジネスクリティカル</strong> プロジェクトの <strong>Dedicated</strong> クラスターでのみ利用可能です。</p>
+この機能は、**ビジネスクリティカル** プロジェクトの **Dedicated** クラスターでのみ利用可能です。
 
 </Admonition>
 

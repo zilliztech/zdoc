@@ -52,34 +52,27 @@ BYOC デプロイメントでは、各プロジェクトは1つのリージョ�
 
     ```bash
     {
-      "code": 0,
-      "data": [
-        {
-          "projectName": "project1",
-          "projectId": "proj-a0195d6acacaf2bb985173",
-          "instanceCount": 3,
-          "createTime": "2023-12-07T03:21:32Z",
-          "plan": "Standard",
-          "projectType": "Regional",
-          "regions": ["aws-us-west-2"]
-        },
-        {
-          "projectName": "Default Project",
-          "projectId": "proj-412e874430bfa02e857247",
-          "instanceCount": 0,
-          "createTime": "2023-08-16T07:34:06Z",
-          "plan": "Enterprise",
-          "projectType": "Legacy",
-          "regions": []
-        }
-      ]
+        "code": 0,
+        "data": [
+            {
+                "projectName": "Default Project",
+                "projectId": "proj-xxxxxxxxxxxxxxxxxxxxxxx",
+                "regionIds": [
+                    "aws-us-east-1"
+                ],
+                "instanceCount": 2,
+                "createTime": "2023-08-16T07:34:06Z",
+                "plan": "Enterprise",
+                "orgType": "SAAS",
+                "description": "A project for organizing clusters and resources."
+            }
+        ]
     }
-    
     ```
 
 - **ウェブコンソール経由**
 
-    ![view-projects-byoc](https://zdoc-images.s3.us-west-2.amazonaws.com/view-projects-byoc.png "view-projects-byoc")
+    ![VnLHwjlDbhA62GbPXsYcIl6CnKb](https://zdoc-images.s3.us-west-2.amazonaws.com/VnLHwjlDbhA62GbPXsYcIl6CnKb.png)
 
 ## View project details\{#view-project-details}
 
@@ -103,18 +96,19 @@ BYOC デプロイメントでは、各プロジェクトは1つのリージョ�
 
     ```json
     {
-      "code": 0,
-      "data": [
-        {
-          "projectName": "project1",
-          "projectId": "proj-a0195d6acacaf2bb985173",
-          "instanceCount": 3,
-          "createTime": "2023-12-07T03:21:32Z",
-          "plan": "Standard",
-          "projectType": "Regional",
-          "regions": ["aws-us-west-2"]
+        "code": 0,
+        "data": {
+            "projectId": "proj-x",
+            "projectName": "My Project",
+            "regionIds": [
+                "aws-us-east-1"
+            ],
+            "instanceCount": 2,
+            "createTime": "2023-08-16T07:34:06Z",
+            "plan": "Enterprise",
+            "orgType": "SAAS",
+            "description": "A project for organizing clusters and resources."
         }
-      ]
     }
     ```
 
@@ -122,11 +116,11 @@ BYOC デプロイメントでは、各プロジェクトは1つのリージョ�
 
     **プロジェクト** ページでは、プロジェクト名、プラン、作成時間、およびプロジェクト内のクラスター数を確認できます。さらに、特定のプロジェクトをクリックして、そのクラスターを表示できます。
 
-    ![KgjvbAvUkopKWsxnGXycOZEynZd](https://zdoc-images.s3.us-west-2.amazonaws.com/kgjvbavukopkwsxngxycozeynzd.png "KgjvbAvUkopKWsxnGXycOZEynZd")
+    ![HhfsbgOXco1fdGxoEYxc6QXBnpc](https://zdoc-images.s3.us-west-2.amazonaws.com/hhfsbgoxco1fdgxoeyxc6qxbnpc.png "HhfsbgOXco1fdGxoEYxc6QXBnpc")
 
-## Rename a project\{#rename-a-project}
+## プロジェクト詳細の編集\{#edit-project-details}
 
-プロジェクトの名前を変更するには、[組織オーナー](./organization-users) である必要があります。ウェブコンソール経由でプロジェクトの名前を変更できます。
+プロジェクト名を変更したり、プロジェクトの説明を編集したりするには、[組織オーナー](./organization-users) である必要があります。ウェブコンソール経由でプロジェクト詳細を編集できます。
 
 ![rename-project-byoc](https://zdoc-images.s3.us-west-2.amazonaws.com/rename-project-byoc.png "rename-project-byoc")
 
@@ -140,11 +134,10 @@ BYOC デプロイメントでは、各プロジェクトは1つのリージョ�
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>デフォルトのプロジェクトは削除できません。</p>
+デフォルトのプロジェクトは削除できません。
 
 </Admonition>
 
 ウェブコンソール経由でプロジェクトを削除できます。
 
 ![delete-project-byoc](https://zdoc-images.s3.us-west-2.amazonaws.com/delete-project-byoc.png "delete-project-byoc")
-

@@ -122,20 +122,19 @@ import Procedures from '@site/src/components/Procedures';
     <TabItem value='java'>
 
     ```bash
-    export BASE_URL="https://api.cloud.zilliz.com"
-    export TOKEN="YOUR_API_KEY"
-    
     curl --request POST \
     --url "${BASE_URL}/v2/volumes/create" \
     --header "Authorization: Bearer ${TOKEN}" \
+    --header "Request-Timeout: 5" \
     --header "Content-Type: application/json" \
     -d '{
-        "projectId": "proj-xxxx",
+        "projectId": "proj-xxxxxxxxxxxxxxxxxxxxxxx",
         "regionId": "aws-us-west-2",
-        "volumeName": "external_volume",
+        "volumeName": "my_external_volume",
         "type": "EXTERNAL",
-        "storageIntegrationId": "integ-xxxx",
-        "path": "/data/"
+        "storageIntegrationId": "integ-xxxxxxxxxxxxxxxxxxx",
+        "path": "data/",
+        "description": "A volume for storing collection data."
     }'
     
     # {
@@ -180,6 +179,10 @@ import Procedures from '@site/src/components/Procedures';
          <td><p><code>path</code></p></td>
          <td><p>ストレージパス。<code>type=EXTERNAL</code> の場合に必須です。</p></td>
        </tr>
+       <tr>
+         <td><p><code>description</code>（オプション）</p></td>
+         <td><p>作成するボリュームの説明です。最大 255 文字です。</p></td>
+       </tr>
     </table>
 
 - **ウェブコンソール経由**
@@ -207,7 +210,7 @@ import Procedures from '@site/src/components/Procedures';
            </tr>
            <tr>
              <td><p>Description</p></td>
-             <td><p>このパラメーターはオプションです。</p></td>
+             <td><p>このパラメーターはオプションです。最大 255 文字です。</p></td>
            </tr>
            <tr>
              <td><p>ボリューム Type</p></td>
@@ -227,7 +230,7 @@ import Procedures from '@site/src/components/Procedures';
 
     </Procedures>
 
-## List external volumes\{#list-external-volumes}
+## ボリュームの一覧表示\{#list-volumes}
 
 プロジェクト内のすべての既存ボリュームを表示できます。
 
@@ -329,17 +332,28 @@ import Procedures from '@site/src/components/Procedures';
     --header "Content-Type: application/json"
     
     # {
-    #     "code": 0,
-    #     "data": {
-    #         "volumes": [
-    #            {
-    #                "volumeName": "external_volume",
-    #                "type": "EXTERNAL"
-    #            }
-    #        ],
-    #        "count": 1,
+    #    "code": 200,
+    #    "data": {
+    #        "count": 3,
     #        "currentPage": 1,
-    #        "pageSize": 10
+    #        "pageSize": 10,
+    #        "volumes": [
+    #            {
+    #                "volumeName": "my_volume_1",
+    #                "type": "MANAGED",
+    #                "description": "A volume for storing collection data."
+    #            },
+    #            {
+    #                "volumeName": "my_volume_2",
+    #                "type": "EXTERNAL",
+    #                "description": "A volume for storing collection data."
+    #            },
+    #            {
+    #                "volumeName": "my_volume_3",
+    #                "type": "MANAGED",
+    #                "description": "A volume for storing collection data."
+    #            }
+    #        ]
     #    }
     #}
     ```
@@ -613,11 +627,10 @@ import Procedures from '@site/src/components/Procedures';
    </tr>
    <tr>
      <td><p><strong>Frozen</strong></p></td>
-     <td><p>The organization is frozen due to overdue <a href="./view-invoice">invoices</a>. The volume cannot be used for new operations. Please pay your bill to continue using volumes.</p></td>
+     <td><p>The organization is frozen due to overdue <a href="null">invoices</a>. The volume cannot be used for new operations. Please pay your bill to continue using volumes.</p></td>
    </tr>
    <tr>
      <td><p><strong>Error</strong></p></td>
      <td><p>The <a href="null">storage integration</a> validation failed. Check the configuration and retry.</p></td>
    </tr>
 </table>
-

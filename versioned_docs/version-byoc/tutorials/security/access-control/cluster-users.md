@@ -41,27 +41,29 @@ When creating a cluster user, you need to:
 
 - Input the name of the user.
 
+- (Optional) Enter the description of the user.
+
 - Grant this user either a built-in cluster role or [a custom cluster role](./cluster-roles).
 
 - Set the password for this cluster user. This password will be used for [authentication](./cluster-credentials).
 
-![add-cluster-user](https://zdoc-images.s3.us-west-2.amazonaws.com/add-cluster-user.png "add-cluster-user")
+![X8A2bdNuTopfLWxt53Ich1FHntf](https://zdoc-images.s3.us-west-2.amazonaws.com/x8a2bdnutopflwxt53ich1fhntf.png "X8A2bdNuTopfLWxt53Ich1FHntf")
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Each cluster can have up to 500 cluster users.</p>
+Each cluster can have up to 500 cluster users.
 
 </Admonition>
 
-## Edit the role of a cluster user\{#edit-the-role-of-a-cluster-user}
+## Edit the role or desrciption of a cluster user\{#edit-the-role-or-desrciption-of-a-cluster-user}
 
-![edit-cluster-user-role](https://zdoc-images.s3.us-west-2.amazonaws.com/edit-cluster-user-role.png "edit-cluster-user-role")
+![V1PkbqpnZoGkmQxu2kbcNIH2neb](https://zdoc-images.s3.us-west-2.amazonaws.com/v1pkbqpnzogkmqxu2kbcnih2neb.png "V1PkbqpnZoGkmQxu2kbcNIH2neb")
 
 ## Drop a cluster user\{#drop-a-cluster-user}
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>The default user <strong>db_admin</strong> cannot be dropped.</p>
+The default user **db_admin** cannot be dropped.
 
 </Admonition>
 

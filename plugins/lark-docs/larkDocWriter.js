@@ -1974,8 +1974,6 @@ export const method = "${method}"`
             }
 
             if ('link' in style) {
-                const url = await this.__convert_link(decodeURIComponent(style['link']['url']))
-
                 var prefix = [...content.matchAll(/(^\*\*|^\*|^~~)/g)]
                 var suffix = [...content.matchAll(/(\*\*$|\*$|~~$)/g)]
 
@@ -1991,7 +1989,10 @@ export const method = "${method}"`
                     suffix = ''
                 }
 
-                content = `${prefix}[${content.replace(prefix, '').replace(suffix, '')}](${url})${suffix}`;
+                const linkText = content.replace(prefix, '').replace(suffix, '')
+                const url = await this.__convert_link(decodeURIComponent(style['link']['url']), linkText)
+
+                content = `${prefix}[${linkText}](${url})${suffix}`;
             }
         }
 
@@ -2039,7 +2040,7 @@ export const method = "${method}"`
 
     async __mention_doc(element) {
         let title = element['mention_doc']['title'];
-        let url = await this.__convert_link(decodeURIComponent(element['mention_doc']['url']));
+        let url = await this.__convert_link(decodeURIComponent(element['mention_doc']['url']), title);
         if (url) {
             return `[${title}](${url})`;
         } else {

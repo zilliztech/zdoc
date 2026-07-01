@@ -41,6 +41,8 @@ The following example shows how to create a user with the username `user_1` and 
 
 - Password: Must be 8-64 characters long and must include three of the following: uppercase letters, lowercase letters, numbers, and special characters.
 
+- (Optional) Description: Up to 1024 (in UTF-8 bytes).
+
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
@@ -52,7 +54,7 @@ client = MilvusClient(
     token="YOUR_CLUSTER_TOKEN"
 )
 
-client.create_user(user_name="user_1", password="P@ssw0rd")
+client.create_user(user_name="user_1", password="P@ssw0rd", description="a new user in the developers team")
 ```
 
 </TabItem>
@@ -74,6 +76,7 @@ MilvusClientV2 client = new MilvusClientV2(connectConfig);
 CreateUserReq createUserReq = CreateUserReq.builder()
         .userName("user_1")
         .password("P@ssw0rd")
+        .description("a new user in the developers team")
         .build();
         
 client.createUser(createUserReq);
@@ -111,6 +114,7 @@ curl --request POST \
 -d '{
     "userName": "user_1",
     "password": "P@ssw0rd"
+    "description": "a new user in the developers team"
 }'
 ```
 
@@ -310,7 +314,7 @@ curl --request POST \
 Below is an example output.
 
 ```bash
-{'user_name': 'user_1', 'roles': 'role_a'}
+{'user_name': 'user_1', 'description':'a new user in the developers team', 'roles': 'role_a'}
 ```
 
 ## Revoke a role\{#revoke-a-role}
@@ -379,7 +383,7 @@ The following example demonstrates how to drop the user `user_1`.
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>The <code>root</code> user cannot be dropped.</p>
+The `root` user cannot be dropped.
 
 </Admonition>
 

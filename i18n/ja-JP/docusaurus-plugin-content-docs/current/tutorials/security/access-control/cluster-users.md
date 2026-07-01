@@ -34,7 +34,7 @@ Zilliz Cloud では、クラスターユーザーを作成し、クラスター�
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>この機能は <strong>Dedicated</strong> クラスターでのみ利用可能です。</p>
+この機能は **Dedicated** クラスターでのみ利用可能です。
 
 </Admonition>
 
@@ -44,27 +44,29 @@ Zilliz Cloud では、クラスターユーザーを作成し、クラスター�
 
 - ユーザー名を入力する。
 
+- （オプション）ユーザーの説明を入力する。
+
 - このユーザーに組み込みのクラスターロールまたは[カスタムクラスターロール](./cluster-roles)を付与する。
 
 - このクラスターユーザーのパスワードを設定する。このパスワードは[認証](./cluster-credentials)に使用されます。
 
-![add-cluster-user](https://zdoc-images.s3.us-west-2.amazonaws.com/add-cluster-user.png "add-cluster-user")
+![X8A2bdNuTopfLWxt53Ich1FHntf](https://zdoc-images.s3.us-west-2.amazonaws.com/x8a2bdnutopflwxt53ich1fhntf.png "X8A2bdNuTopfLWxt53Ich1FHntf")
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>各クラスターには最大 500 人のクラスターユーザーを作成できます。</p>
+各クラスターには最大 500 人のクラスターユーザーを作成できます。
 
 </Admonition>
 
-## クラスターユーザーのロールの編集\{#edit-the-role-of-a-cluster-user}
+## クラスターユーザーのロールまたは説明の編集\{#edit-the-role-or-desrciption-of-a-cluster-user}
 
-![edit-cluster-user-role](https://zdoc-images.s3.us-west-2.amazonaws.com/edit-cluster-user-role.png "edit-cluster-user-role")
+![V1PkbqpnZoGkmQxu2kbcNIH2neb](https://zdoc-images.s3.us-west-2.amazonaws.com/v1pkbqpnzogkmqxu2kbcnih2neb.png "V1PkbqpnZoGkmQxu2kbcNIH2neb")
 
 ## クラスターユーザーの削除\{#drop-a-cluster-user}
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>デフォルトのユーザー <strong>db_admin</strong> は削除できません。</p>
+デフォルトのユーザー **db_admin** は削除できません。
 
 </Admonition>
 
