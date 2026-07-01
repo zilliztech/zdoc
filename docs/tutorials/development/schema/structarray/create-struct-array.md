@@ -213,7 +213,7 @@ schema.add_field(
 )
 ```
 
-<Admonition type="info" icon="📘" title="Warning">
+<Admonition type="warning" icon="📘" title="Warning">
 
 Nullable StructArray fields are available only in clusters compatible with Milvus v3.0.x. For a nullable StructArray field, an entity can provide a valid StructArray value or set the whole field to `null`. When inserting a valid StructArray value, all subfields should either be null or have valid values. Inserting an entity with some subfields set to null and others set to valid values results in an error. For details, see [StructArray Limits](./struct-array-limits).
 

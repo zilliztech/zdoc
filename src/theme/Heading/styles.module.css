@@ -12,12 +12,14 @@
 .h1Row {
   display: flex;
   align-items: center;
+  gap: 12px;
   width: 100%;
+  flex-wrap: wrap;
 }
 
 /* Strip h1 margin — spacing is owned by .h1Container */
 .h1Row :global(h1) {
-  flex: 1;
+  flex: 0 1 auto;
   margin-bottom: 0 !important;
 }
 
@@ -31,7 +33,7 @@
 .headingContainer {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
   flex-wrap: wrap;
   scroll-margin-top: 112px;
 }

@@ -14,7 +14,7 @@
   background: #fdfdfd;
 }
 
-@media (min-width: 997px) {
+@media (min-width: 768px) {
   .docMainContainer {
     flex-grow: 1;
     /* Sidebar aside is always 52px; expanded sidebar floats over content */

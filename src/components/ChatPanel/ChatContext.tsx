@@ -19,6 +19,7 @@ export interface ChatContextValue {
   setInput: React.Dispatch<React.SetStateAction<string>>;
   isStreaming: boolean;
   send: (text: string) => Promise<void>;
+  stop: () => void;
   newChat: () => void;
   rateFeedback: (messageIndex: number, rating: 'up' | 'down') => void;
   chatHistory: ChatHistoryEntry[];
@@ -251,8 +252,10 @@ export function ChatProvider({chatEndpoint, debugDefault = false, children}: {ch
       pageContext,
     });
 
+    let controller: AbortController | null = null;
     try {
-      abortRef.current = new AbortController();
+      controller = new AbortController();
+      abortRef.current = controller;
       const userId = getUserId();
       const chatStreamEndpoint = getChatStreamEndpoint(chatEndpoint);
       const requestBody = {
@@ -276,7 +279,7 @@ export function ChatProvider({chatEndpoint, debugDefault = false, children}: {ch
         method: 'POST',
         headers: {'Content-Type': 'application/json', 'Accept': 'text/event-stream', 'X-Request-ID': requestId},
         body: JSON.stringify(requestBody),
-        signal: abortRef.current.signal,
+        signal: controller.signal,
       });
       chatDebug('chat.client.fetch.response', {
         requestId,
@@ -470,7 +473,9 @@ export function ChatProvider({chatEndpoint, debugDefault = false, children}: {ch
       }
     } finally {
       setIsStreaming(false);
-      abortRef.current = null;
+      if (abortRef.current === controller) {
+        abortRef.current = null;
+      }
     }
   }, [chatDebug, chatEndpoint, location.pathname]);
 
@@ -498,6 +503,14 @@ export function ChatProvider({chatEndpoint, debugDefault = false, children}: {ch
       return updated;
     });
   }, [chatEndpoint, location.pathname]);
+
+  const stop = useCallback(() => {
+    if (abortRef.current) {
+      abortRef.current.abort();
+      abortRef.current = null;
+    }
+    setIsStreaming(false);
+  }, []);
 
   const newChat = useCallback(() => {
     if (abortRef.current) abortRef.current.abort();
@@ -544,7 +557,7 @@ export function ChatProvider({chatEndpoint, debugDefault = false, children}: {ch
   }, []);
 
   return (
-    <ChatContext.Provider value={{messages, setMessages, input, setInput, isStreaming, send, newChat, rateFeedback, chatHistory, activeChatId, loadChat, deleteChat, contextChips, removeContextChip}}>
+    <ChatContext.Provider value={{messages, setMessages, input, setInput, isStreaming, send, stop, newChat, rateFeedback, chatHistory, activeChatId, loadChat, deleteChat, contextChips, removeContextChip}}>
       {children}
     </ChatContext.Provider>
   );

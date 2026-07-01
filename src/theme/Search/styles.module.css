@@ -9,6 +9,30 @@
   align-items: flex-start;
   justify-content: center;
   padding-top: 5rem;
+  /* ease the blur/dim in instead of snapping */
+  animation: zd-search-overlay-in 0.22s ease;
+}
+
+@keyframes zd-search-overlay-in {
+  from {
+    opacity: 0;
+    backdrop-filter: blur(0);
+    -webkit-backdrop-filter: blur(0);
+  }
+  to {
+    opacity: 1;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+}
+
+.searchModal {
+  animation: zd-search-modal-in 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes zd-search-modal-in {
+  from { opacity: 0; transform: translateY(-8px) scale(0.98); }
+  to { opacity: 1; transform: none; }
 }
 
 .searchModal {
@@ -89,7 +113,7 @@
   border: none;
   border-radius: 0.375rem;
   cursor: pointer;
-  transition: background-color 0.1s ease;
+  transition: background-color 0.2s ease;
 }
 
 .searchResultItem:hover,

@@ -140,7 +140,7 @@ If you have already linked your Zilliz Cloud account with a third-party account 
 
 ## Close your account\{#close-your-account}
 
-<Admonition type="caution" icon="🚧" title="Warning">
+<Admonition type="warning" icon="🚧" title="Warning">
 
 Once the account is closed, you cannot use it to log into Zilliz Cloud. If you change your mind and need to reopen the account, please create a support ticket at the [Zilliz Cloud Support Portal](https://support.zilliz.com/hc/en-us). After 30 days, all data in this account will be cleaned.
 

@@ -149,7 +149,7 @@ When a request arrives for a suspended on-demand cluster, Zilliz Cloud spins up 
 
 ## Drop an on-demand cluster\{#drop-an-on-demand-cluster}
 
-<Admonition type="danger" icon="🚧" title="Warning">
+<Admonition type="warning" icon="🚧" title="Warning">
 
 Once you drop an on-demand cluster, it is removed immediately and cannot be recovered. This action cannot be undone.
 

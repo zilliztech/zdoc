@@ -125,7 +125,7 @@ for hits in results:
 
 In this example, the top-level predicate `category == "search"` selects candidate entities, and `element_filter` restricts element-level vector search to chunks where `section`, `quality_score`, and `has_code` all match in the same Struct element.
 
-<Admonition type="info" icon="📘" title="Warning">
+<Admonition type="warning" icon="📘" title="Warning">
 
 When you combine a top-level predicate with `element_filter`, place `element_filter` at the end of the expression. A filter expression can contain only one `element_filter`, and you cannot nest `element_filter` or `MATCH_*` inside another StructArray operator.
 

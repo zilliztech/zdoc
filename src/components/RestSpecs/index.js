@@ -25,7 +25,7 @@ const BaseURL = ({ endpoint, lang, target, baseUrls, onBaseUrlChange }) => {
                 </section>
                 <div style={{margin: '1rem 0'}}>
                     <p>{i18n[lang]['base.url.format.prompt']}</p>
-                    <p className={styles.paramName} style={{ fontSize: '0.9rem' }}>{server}</p>
+                    <p className={styles.codeText}>{server}</p>
                 </div>
                 { prompt && <Admonition type="info" icon="📘" title={i18n[lang]["admonition.title"]}>
                     <div dangerouslySetInnerHTML={{__html: prompt}} />
@@ -67,7 +67,7 @@ const BaseURL = ({ endpoint, lang, target, baseUrls, onBaseUrlChange }) => {
                                     }
                                 }}
                             />
-                            <label className={styles.tabLabel} htmlFor={`baseurl-tab-${index}`}>
+                            <label className={styles.tabLabel} htmlFor={`baseurl-tab-${index}`} data-label={item["x-i18n"]?.[lang]?.label ?? item.label}>
                                 {item["x-i18n"]?.[lang]?.label ?? item.label}
                             </label>
                         </React.Fragment>
@@ -77,7 +77,7 @@ const BaseURL = ({ endpoint, lang, target, baseUrls, onBaseUrlChange }) => {
 
             <div style={{margin: '1rem 0'}}>
                 <p>{i18n[lang]['base.url.format.prompt']}</p>
-                <p className={styles.paramName} style={{ fontSize: '0.9rem' }}>{resolvedUrl}</p>
+                <p className={styles.codeText}>{resolvedUrl}</p>
             </div>
             { (defaultPrompt || resolvedPrompt) && <Admonition type="info" icon="📘" title={i18n[lang]["admonition.title"]}>
                 { resolvedPrompt && (
@@ -313,8 +313,8 @@ const Enums = ({ enums, defaultValue, lang, target }) => {
     return (
         <div className={styles.description} style={{ display: 'flex', gap: '0.5rem', marginTop: '0.5rem', alignItems: 'center' }}>
             <label htmlFor="enumSelect" className={styles.paramExample}>{i18n[lang]['label.possible.values']}</label>
-            <div>
-                <select id="enumSelect" value={enumItem} onChange={handleEnumChange}>
+            <div className={styles.enumSelectWrapper}>
+                <select id="enumSelect" className={styles.enumSelect} value={enumItem} onChange={handleEnumChange}>
                     {enums.map((enumValue) => textFilter(enumValue, target))
                         .filter(enumValue => enumValue !== '').map((enumValue, index) => {
                             enumValue = enumValue.replace(/<\/?p>/g, "").replace(/<\/?em>/g, "_")
@@ -334,8 +334,9 @@ const Tab = ({ name, id, content, lang, target, selected, setSelected, optionVal
         return null
     }
     
-    const value = optionValue || (content.label ? content.label : `${i18n[lang]["tab.option"]} ${id}`).toUpperCase()
-    const label = (content?.['x-tab-label'] ? content['x-tab-label'] : value).toUpperCase()
+    const fallbackLabel = content.label ? content.label : `${i18n[lang]["tab.option"]} ${id}`
+    const value = optionValue || fallbackLabel.toUpperCase()
+    const label = content?.['x-tab-label'] ? content['x-tab-label'] : fallbackLabel
     
     // Handle x-i18n for content description
     const translatedDescription = content?.["x-i18n"]?.[lang]?.description ? content["x-i18n"][lang].description : content?.description
@@ -349,7 +350,13 @@ const Tab = ({ name, id, content, lang, target, selected, setSelected, optionVal
                 checked={selected === value}
                 value={value}
                 onChange={e => { setSelected(e.target.value) }} />
-            <label className={styles.tabLabel} htmlFor={`${name}-tab${id}`}>{label}</label>
+            <label
+                className={styles.tabLabel}
+                htmlFor={`${name}-tab${id}`}
+                data-label={label}
+                onMouseDown={e => e.preventDefault()}>
+                {label}
+            </label>
             <div className={styles.tabPanel}>
                 { content?.type === 'object' && <Properties description={translatedDescription} properties={content.properties} requiredFields={content.required} lang={lang} target={target} /> }
                 { content?.type === 'array' && <Items description={translatedDescription} obj={content.items} required={content.items.required} lang={lang} target={target} /> }
@@ -677,16 +684,18 @@ export default function RestSpecs(props) {
         <>
             <div>
                 <div className={styles.specLayout}>
-                    <div>
+                    <div className={styles.introBlock}>
                         <Admonitions admonitions={admonitions} lang={lang} />
                         { deprecated && <Admonition type="danger" title={i18n[lang]["admonition.title"]}>
                             <div dangerouslySetInnerHTML={{ __html: i18n[lang]["admonition.deprecated"] }} />
                         </Admonition> }
                         <div style={{ marginBottom: '1rem' }} dangerouslySetInnerHTML={{__html: short}} />
-                        <RestHeader
-                            method={props.method}
-                            endpoint={props.endpoint}
-                        />
+                        <div className={styles.introEndpoint}>
+                            <RestHeader
+                                method={props.method}
+                                endpoint={props.endpoint}
+                            />
+                        </div>
                     </div>
                 </div>
                 <div className={styles.specLayout}>
@@ -752,9 +761,9 @@ export default function RestSpecs(props) {
                             </section>}
                             { requestBody && <section>
                                 <section>
-                                    <div className={styles.sectionHeader} style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+                                    <div className={styles.sectionHeader}>
                                         <span>{i18n[lang]['section.request.body']}</span>
-                                        { Object.keys(requestBody.content).includes('application/json') && <span style={{ color: 'rgb(74, 83, 104)', fontSize: '0.8rem', fontFamily: 'monospace' }}>
+                                        { Object.keys(requestBody.content).includes('application/json') && <span className={styles.sectionMeta}>
                                             application/json</span>}
                                     </div>
                                     <div style={{ margin: '1rem' }} />
@@ -807,9 +816,9 @@ export default function RestSpecs(props) {
                 
                 { responses && <div className={styles.specLayout}>
                     <section>
-                        <div className={styles.sectionHeader} style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+                        <div className={styles.sectionHeader}>
                             <span>{i18n[lang]['section.responses']}</span>
-                            { Object.keys(responses).includes('200') && <span style={{ color: 'rgb(74, 83, 104)', fontSize: '0.8rem', fontFamily: 'monospace' }}>
+                            { Object.keys(responses).includes('200') && <span className={styles.sectionMeta}>
                                 200 { Object.keys(responses['200'].content).includes('application/json') && ' - application/json' }
                             </span>}
                         </div>

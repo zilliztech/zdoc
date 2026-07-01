@@ -6,9 +6,11 @@
   width: fit-content;
   max-width: 100%;
   margin: 1.25rem 0;
-  border-radius: 10px;
+  border-radius: var(--zd-doc-image-radius);
   background: #f4f4f6;
   overflow: hidden;
+  line-height: 0;
+  box-shadow: 0 0 0 1px var(--zd-doc-image-stroke);
 }
 
 /* Before load: reserve a 16:9 full-width skeleton so the loading state is
@@ -22,6 +24,7 @@
   content: '';
   position: absolute;
   inset: 0;
+  border-radius: inherit;
   background: linear-gradient(100deg, #eeeef1 25%, #f8f8fa 45%, #eeeef1 65%);
   background-size: 220% 100%;
   animation: imgShimmer 1.25s ease-in-out infinite;
@@ -31,17 +34,20 @@
   display: block;
   max-width: 100%;
   height: auto;
-  border-radius: 10px;
+  border-radius: 0;
+  border: 0 !important;
+  box-shadow: none !important;
   opacity: 0;
   filter: blur(14px);
   transform: scale(1.03);
+  transform-origin: center;
   transition: opacity 0.5s ease, filter 0.6s ease, transform 0.6s ease;
 }
 
 .loaded .img {
   opacity: 1;
   filter: blur(0);
-  transform: none;
+  transform: scale(1.006);
 }
 
 @keyframes imgShimmer {

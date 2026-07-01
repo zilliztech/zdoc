@@ -263,7 +263,7 @@ export default function TOCItems(props: Props): JSX.Element {
             overflow: 'visible',
           }}
         >
-          <path d={rail.path} style={{ stroke: 'var(--zd-gray-200)' }} strokeWidth="1.5" fill="none" strokeLinecap="round" />
+          <path d={rail.path} style={{ stroke: 'var(--zd-gray-200)' }} strokeWidth="1" fill="none" strokeLinecap="round" />
           {rail.activeY >= 0 && rail.activeH > 0 && (
             <>
               <defs>

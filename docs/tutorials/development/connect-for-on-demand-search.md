@@ -20,6 +20,20 @@ import Admonition from '@theme/Admonition';
 
 # Connect for On-Demand Search
 
+{/* Feature Availability banner — hidden for now, kept here as a usage reference.
+    Remove the surrounding comment to show it. Write plain Markdown inside; only
+    list the parts that apply (plans and/or regions).
+
+<FeatureNote>
+
+- On-demand search is generally available on the [Standard](/docs/pricing#standard) and [Enterprise](/docs/pricing#enterprise) plans.
+- Currently supported in [AWS us-west-2](/docs/regions#aws-us-west-2), [AWS us-east-1](/docs/regions#aws-us-east-1), and [GCP us-central1](/docs/regions#gcp-us-central1); additional regions are rolling out.
+- Project endpoints require a **Serverless** or **Dedicated** cluster in the same region.
+
+</FeatureNote>
+
+*/}
+
 Use a project endpoint when you want to run on-demand search or query workloads with compute from an on-demand cluster.
 
 <Admonition type="info" icon="📘" title="Note">

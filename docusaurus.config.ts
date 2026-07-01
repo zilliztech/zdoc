@@ -127,6 +127,8 @@ const config: Config = {
   favicon: 'icons/favicon.svg',
   trailingSlash: false,
 
+  clientModules: [require.resolve('./src/clientModules/tableRowHeaders.js')],
+
   future: {
     v4: true,
     faster: {
@@ -162,8 +164,8 @@ const config: Config = {
     chatEndpoint: process.env.CHAT_ENDPOINT || '/api/chat/stream',
     chatDebug: process.env.CHAT_DEBUG === 'true',
     secondaryNavbar: [
-      { label: 'Cloud Guides', href: '/docs/register-with-zilliz-cloud', prefix: '/docs',       icon: 'cloud'  },
-      { label: 'BYOC Guides',  href: '/docs/byoc/byoc-intro', prefix: '/docs/byoc',  icon: 'server' },
+      { label: 'Zilliz-Managed Cloud', href: '/docs/register-with-zilliz-cloud', prefix: '/docs',       icon: 'cloud'  },
+      { label: 'Bring Your Own Cloud', href: '/docs/byoc/byoc-intro', prefix: '/docs/byoc',  icon: 'server' },
       {
         label: 'API & SDK',
         prefix: '/reference',
@@ -290,6 +292,10 @@ const config: Config = {
       attributes: {src: '/env.js'},
     },
     {
+      tagName: 'script',
+      attributes: {src: '/inkeep-runtime-config.js'},
+    },
+    {
       tagName: 'link',
       attributes: {rel: 'preconnect', href: 'https://fonts.googleapis.com'},
     },
@@ -301,7 +307,7 @@ const config: Config = {
       tagName: 'link',
       attributes: {
         rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap',
+        href: 'https://fonts.googleapis.com/css2?family=Geist:wght@400..800&family=Geist+Mono:wght@100..900&display=swap',
       },
     },
   ],

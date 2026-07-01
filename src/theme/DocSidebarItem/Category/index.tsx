@@ -249,7 +249,10 @@ function CategoryLinkLabel({
         </span>
       )}
       <span className={styles.categoryLinkLabel} data-sidebar-tooltip-label>
-        {label}
+        <span className={styles.categoryLinkLabelSizer} aria-hidden="true">
+          {label}
+        </span>
+        <span className={styles.categoryLinkLabelText}>{label}</span>
       </span>
       {showChildCaret && <CategoryCaret collapsed={collapsed} />}
     </>
@@ -344,8 +347,7 @@ function DocSidebarItemCategoryCollapsible({
     onItemClick?.(item);
     updateCollapsed();
   };
-  const categoryLink = (item as PropSidebarItemCategory & {link?: unknown}).link;
-  const showChildCaret = !href && !categoryLink && items.length > 0;
+  const showChildCaret = !href && !(item as {link?: unknown}).link && items.length > 0;
   const isButtonCategory = collapsible && !href;
 
   useBrowserLayoutEffect(() => {
@@ -355,6 +357,11 @@ function DocSidebarItemCategoryCollapsible({
     }
 
     const updateHeight = () => {
+      // scrollHeight measures the full content height reliably and stays correct
+      // while collapsed (it reports content regardless of the frame's clipping).
+      // The collapse frame's overflow:hidden used to shave the last item flush at
+      // its edge — the list now carries a small padding-bottom (styles.module.css)
+      // so there is always slack below the last item, and scrollHeight includes it.
       setChildrenHeight(node.scrollHeight);
     };
 

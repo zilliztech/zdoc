@@ -4,7 +4,6 @@ import type HeadingType from '@theme/Heading';
 import type { WrapperProps } from '@docusaurus/types';
 import { useLocation } from '@docusaurus/router';
 import DocTag from '@site/src/components/DocTag';
-import DocMetaTags from './DocMetaTags';
 import styles from './styles.module.css';
 
 type Props = WrapperProps<typeof HeadingType>;
@@ -51,7 +50,6 @@ export default function HeadingWrapper(props: Props): ReactNode {
   // ── h1: BYOC docs always get "CONTACT SALES"; others read frontmatter beta ─
   if (Tag === 'h1') {
     const isByoc = pathname.startsWith('/docs/byoc');
-    const isReference = pathname.startsWith('/reference');
     const betaRaw = frontMatter.beta as string | undefined;
     const beta = isByoc
       ? 'CONTACT SALES'
@@ -64,11 +62,10 @@ export default function HeadingWrapper(props: Props): ReactNode {
           <Heading as={Tag} id={id} {...rest}>
             {children}
           </Heading>
+          {/* CONTACT SALES is rendered as a button under "Copy page" in the TOC column
+              (see DocItem/Layout) — keep other beta tags inline next to the title. */}
+          {beta && beta !== 'CONTACT SALES' && <DocTag type={beta} link={link} />}
         </div>
-        {/* CONTACT SALES is rendered as a button under "Copy page" in the TOC column
-            (see DocItem/Layout) — keep other beta tags inline next to the title. */}
-        {beta && beta !== 'CONTACT SALES' && <DocTag type={beta} link={link} />}
-        {isReference && <DocMetaTags frontMatter={frontMatter} />}
       </div>
     );
   }

@@ -17,7 +17,8 @@
   display: flex;
   align-items: center;
   min-width: 0;
-  margin-left: 20px;
+  /* shifted 8px left (36→28) */
+  margin-left: 28px;
   /* On narrow desktop the tabs scroll horizontally instead of clipping into
      the search box — keeps a single fluid desktop layout (no extra breakpoint). */
   overflow-x: auto;
@@ -31,7 +32,7 @@
 .items {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 20px;
   flex-shrink: 0; /* Prevent items from collapsing — parent scrolls instead */
 }
 
@@ -40,20 +41,29 @@
   align-items: center;
   gap: 0.5rem;
   height: 32px;
-  padding: 0 12px;
-  border-radius: 10px;
+  padding: 0;
+  /* inherit the page font so the <button> tabs (e.g. "API & SDK") render the same
+     weight/shape as the <a> tabs — buttons don't inherit font-family by default. */
+  font-family: inherit;
   font-size: 13px;
-  font-weight: 500;
+  font-weight: 500 !important;
+  font-variation-settings: 'wght' 500 !important;
   line-height: 32px;
-  color: var(--zd-nav-muted);
+  /* inactive tabs share the one muted-gray token (breadcrumb + TOC use it too) */
+  color: var(--zd-muted-text);
+  border-radius: 0;
+  background: transparent;
   text-decoration: none !important;
   white-space: nowrap;
-  transition: background-color 0.15s linear, color 0.15s linear;
+  transition:
+    background-color var(--zd-hover-duration) var(--zd-hover-ease),
+    color var(--zd-hover-duration) var(--zd-hover-ease),
+    font-weight var(--zd-hover-duration) var(--zd-hover-ease);
 }
 
 .item:hover {
-  background: #eeeeee;
-  color: var(--zd-linear-signup-ink);
+  background: transparent;
+  color: #171717;
 }
 
 .item:focus-visible {
@@ -62,14 +72,47 @@
 }
 
 .itemActive {
-  background: #eeeeee;
-  color: var(--zd-linear-signup-ink);
-  font-weight: 500;
+  background: transparent;
+  color: #171717;
+  font-weight: 500 !important;
 }
 
 .itemActive:hover {
-  background: #e5e5e5;
-  color: var(--zd-linear-signup-ink);
+  background: transparent;
+  color: #1f1f1f;
+}
+
+.stableLabel {
+  display: inline-grid;
+  align-items: center;
+}
+
+.stableLabelSizer,
+.stableLabelText {
+  grid-area: 1 / 1;
+  white-space: nowrap;
+}
+
+.stableLabelSizer {
+  font-weight: 500 !important;
+  font-variation-settings: 'wght' 500 !important;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.stableLabelText {
+  font-weight: 500 !important;
+  font-variation-settings: 'wght' 500 !important;
+  transition:
+    color var(--zd-hover-duration) var(--zd-hover-ease),
+    font-weight var(--zd-hover-duration) var(--zd-hover-ease),
+    font-variation-settings var(--zd-hover-duration) var(--zd-hover-ease);
+}
+
+.item:hover .stableLabelText,
+.itemActive .stableLabelText {
+  font-weight: 500 !important;
+  font-variation-settings: 'wght' 500 !important;
 }
 
 /* ── Dropdown ──────────────────────────────────────────────────────────────── */
@@ -79,19 +122,79 @@
 }
 
 .dropdownButton {
+  gap: 4px;
   background: none;
   border: none;
   cursor: pointer;
 }
 
+.dropdownChevron {
+  flex: 0 0 auto;
+  color: #bcc1c7;
+  transform: translateY(1px);
+  transform-origin: 50% 50%;
+  transition:
+    color var(--zd-hover-duration) var(--zd-hover-ease),
+    transform var(--zd-hover-duration) var(--zd-hover-ease);
+}
+
+.dropdownButton:hover .dropdownChevron {
+  color: #949ca4;
+  transform: translateY(1px) rotate(18deg);
+}
+
+.dropdownButton[aria-expanded='true'] .dropdownChevron {
+  color: #949ca4;
+  transform: translateY(1px) rotate(180deg);
+}
+
 /* The dropdown button's `background: none` was overriding .itemActive — restore
    the active highlight (e.g. "API & SDK" on any /reference/* page). */
 .dropdownButton.itemActive {
-  background: #eeeeee;
+  background: transparent;
 }
 
 .dropdownButton.itemActive:hover {
-  background: #e5e5e5;
+  background: transparent;
+}
+
+/* Collapsed-topbar trigger: tighter gap between the active label and its caret. */
+.collapsedTrigger {
+  gap: 4px;
+  padding: 0 10px;
+  border-radius: 10px;
+  transition:
+    background-color var(--zd-hover-duration) var(--zd-hover-ease),
+    color var(--zd-hover-duration) var(--zd-hover-ease);
+}
+
+.collapsedTrigger:hover,
+.collapsedTrigger[aria-expanded='true'] {
+  background: #eeeeee;
+  color: #171717;
+}
+
+.dropdownButton.itemActive.collapsedTrigger:hover,
+.dropdownButton.itemActive.collapsedTrigger[aria-expanded='true'] {
+  background: #eeeeee;
+  color: #171717;
+}
+
+/* Divider between each top-level product in the collapsed dropdown. */
+.collapsedGroup + .collapsedGroup {
+  margin-top: 4px;
+  padding-top: 4px;
+  border-top: 1px solid var(--zd-gray-100);
+}
+
+/* Group label inside the collapsed dropdown (e.g. "API & SDK" above its SDKs). */
+.collapsedGroupLabel {
+  padding: 6px 12px 2px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--zd-gray-400);
 }
 
 .dropdownPanel {
@@ -116,32 +219,50 @@
   padding: 0 12px;
   border-radius: 10px;
   font-size: 13px;
-  font-weight: 500;
+  font-weight: 500 !important;
+  font-variation-settings: 'wght' 500 !important;
   line-height: 32px;
-  color: var(--zd-gray-700);
+  color: #171717;
   text-decoration: none !important;
-  transition: background-color 0.15s linear, color 0.15s linear;
+  transition:
+    background-color var(--zd-hover-duration) var(--zd-hover-ease),
+    color var(--zd-hover-duration) var(--zd-hover-ease),
+    font-weight var(--zd-hover-duration) var(--zd-hover-ease),
+    font-variation-settings var(--zd-hover-duration) var(--zd-hover-ease);
   white-space: nowrap;
 }
 
 .dropdownPanelItem:hover {
-  background: #eeeeee;
-  color: var(--zd-linear-signup-ink);
+  background: var(--zd-nav-hover-bg);
+  color: #171717;
+  font-weight: 500 !important;
+  font-variation-settings: 'wght' 500 !important;
 }
 
 .dropdownPanelItem:focus-visible {
   outline: 2px solid var(--zd-linear-signup-ink);
   outline-offset: -2px;
-  background: #eeeeee;
+  background: var(--zd-nav-hover-bg);
 }
 
 .dropdownPanelItemActive {
-  background: #eeeeee;
-  color: var(--zd-linear-signup-ink);
-  font-weight: 400;
+  background: var(--zd-nav-active-bg);
+  color: #171717;
+  font-weight: 500 !important;
+  font-variation-settings: 'wght' 500 !important;
 }
 
-@media (max-width: 996px) {
+/* The selected item keeps its active surface on hover — no hover state (same
+   logic as the inline .itemActive:hover tab). Placed after :hover so it wins
+   the equal-specificity tie. */
+.dropdownPanelItemActive:hover {
+  background: var(--zd-nav-active-bg);
+  color: #171717;
+  font-weight: 500 !important;
+  font-variation-settings: 'wght' 500 !important;
+}
+
+@media (max-width: 767px) {
   .topbarNav {
     display: none;
   }

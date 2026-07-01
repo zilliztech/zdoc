@@ -155,7 +155,7 @@ When you no longer belong to an organization, you have the option to leave it.
 
 Each organization must have at least one organization owner. If you are the only owner of an organization, you cannot leave it.
 
-<Admonition type="caution" icon="🚧" title="Warning">
+<Admonition type="warning" icon="🚧" title="Warning">
 
 Once you leave an organization, you will no longer be able to access the organization and associated resources.
 

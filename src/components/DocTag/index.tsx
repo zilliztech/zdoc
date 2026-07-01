@@ -8,13 +8,12 @@ interface TagDef {
 }
 
 const TAG_REGISTRY: Record<string, TagDef> = {
-  PRIVATE:          { caption: 'Private Beta',    color: '#FF6B6B' },
+  PRIVATE:          { caption: 'Private Beta',    color: '#d07a78' },
   'NEAR DEPRECATE': { caption: 'Near Deprecation', color: '#FF9500' },
   'CONTACT SALES':  { caption: 'Contact Sales',   color: '#9C27B0' },
   // Future-proofing entries (match zdoc)
   PUBLIC:           { caption: 'Public Beta',     color: '#175fff' },
   BYOC:             { caption: 'BYOC',            color: '#00897B' },
-  ONDEMAND:         { caption: 'On-Demand Only',  color: '#00A870' },
   DEPRECATED:       { caption: 'Deprecated',      color: '#9E9E9E' },
 };
 

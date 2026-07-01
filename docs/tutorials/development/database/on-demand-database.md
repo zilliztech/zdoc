@@ -103,8 +103,9 @@ To view databases in the Zilliz Cloud console, navigate to your project, click *
 
 ## Drop database\{#drop-database}
 
-<Admonition type="danger" icon="🚧" title="Once you drop a database, it is removed immediately and cannot be recovered. This action cannot be undone.">
+<Admonition type="danger" icon="🚧" title="Danger">
 
+Once you drop a database, it is removed immediately and cannot be recovered. This action cannot be undone.
 </Admonition>
 
 Before dropping a database, drop all collections in the database first.
@@ -126,4 +127,3 @@ To drop a database from the Zilliz Cloud console, navigate to your project, clic
 - [Database Explained](./database-concept)
 
 - [Database in Serving Clusters](./database)
-

@@ -304,10 +304,10 @@ There are two types of **BulkWriter**s available.
 
     Instead of committing appended data to a local file, a **RemoteBulkWriter** commits them to a remote bucket. Therefore, you should set up a **ConnectParam** object before creating a **RemoteBulkWriter**.
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
-    <TabItem value='python'>
+    <Tabs groupId="storage" defaultValue='aws' values={[{"label":"AWS S3/GCS","value":"aws"},{"label":"Azure Blob Storage","value":"azure"}]}>
+    <TabItem value='aws'>
 
-    <Tabs groupId="python" defaultValue='python' values={[{"label":"AWS S3/GCS","value":"python"},{"label":"Azure Blog Storage","value":"python_1"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
     <TabItem value='python'>
 
     ```python
@@ -346,7 +346,40 @@ There are two types of **BulkWriter**s available.
     ```
 
     </TabItem>
-    <TabItem value='python_1'>
+    <TabItem value='java'>
+
+    ```java
+    import io.milvus.bulkwriter.connect.S3ConnectParam;
+    import io.milvus.bulkwriter.connect.StorageConnectParam;
+    
+    // Configs for remote bucket
+    String ACCESS_KEY = "";
+    String SECRET_KEY = "";
+    String BUCKET_NAME = "";
+    
+    // Enumeration can refer to CloudStorage
+    String CLOUD_NAME = "";
+    String REGION_NAME = "";
+    
+    // Create a remote bucket writer.
+    StorageConnectParam storageConnectParam = S3ConnectParam.newBuilder()
+            .withEndpoint("storage.googleapis.com")
+            .withBucketName(BUCKET_NAME)
+            .withAccessKey(ACCESS_KEY)
+            .withSecretKey(SECRET_KEY)
+            .withCloudName(CLOUD_NAME)
+            .withRegion(REGION_NAME)
+            .build();
+    ```
+
+    </TabItem>
+    </Tabs>
+
+    </TabItem>
+    <TabItem value='azure'>
+
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+    <TabItem value='python'>
 
     ```python
     from pymilvus.bulk_writer import RemoteBulkWriter
@@ -375,40 +408,7 @@ There are two types of **BulkWriter**s available.
     ```
 
     </TabItem>
-    </Tabs>
-    </TabItem>
-
     <TabItem value='java'>
-
-    <Tabs groupId="java" defaultValue='java' values={[{"label":"AWS S3/GCS","value":"java"},{"label":"Microsoft Azure","value":"java_1"}]}>
-    <TabItem value='java'>
-
-    ```java
-    import io.milvus.bulkwriter.connect.S3ConnectParam;
-    import io.milvus.bulkwriter.connect.StorageConnectParam;
-    
-    // Configs for remote bucket
-    String ACCESS_KEY = "";
-    String SECRET_KEY = "";
-    String BUCKET_NAME = "";
-    
-    // Enumeration can refer to CloudStorage
-    String CLOUD_NAME = "";
-    String REGION_NAME = "";
-    
-    // Create a remote bucket writer.
-    StorageConnectParam storageConnectParam = S3ConnectParam.newBuilder()
-            .withEndpoint("storage.googleapis.com")
-            .withBucketName(BUCKET_NAME)
-            .withAccessKey(ACCESS_KEY)
-            .withSecretKey(SECRET_KEY)
-            .withCloudName(CLOUD_NAME)
-            .withRegion(REGION_NAME)
-            .build();
-    ```
-
-    </TabItem>
-    <TabItem value='java_1'>
 
     ```java
     import io.milvus.bulkwriter.connect.AzureConnectParam;
@@ -425,6 +425,7 @@ There are two types of **BulkWriter**s available.
 
     </TabItem>
     </Tabs>
+
     </TabItem>
     </Tabs>
 

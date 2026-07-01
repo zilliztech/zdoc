@@ -14,35 +14,45 @@
   overflow: hidden;
 }
 
-@keyframes chatPaneExpand {
-  from { width: 0; flex-basis: 0; opacity: 0.3; }
-  to { width: clamp(24rem, 30vw, 34rem); flex-basis: clamp(24rem, 30vw, 34rem); opacity: 1; }
-}
-
+/* Full-height fixed right column (top → bottom, above the navbar) so the topbar
+   is compressed to its left. Width = the resizable --chat-pane-w (default clamp). */
 .chatPane {
-  position: relative;
-  flex: 0 0 clamp(24rem, 30vw, 34rem);
-  width: clamp(24rem, 30vw, 34rem);
-  min-width: 0;
-  max-width: 44rem;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: var(--chat-pane-w, clamp(24rem, 30vw, 34rem));
+  max-width: 50vw;
   display: flex;
   flex-direction: column;
   min-height: 0;
   overflow: hidden;
-  background: #f9f9f9;
-  border-left: 1px solid var(--ifm-toc-border-color);
-  z-index: 1;
-  animation: chatPaneExpand 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+  background: #ffffff;
+  border-left: 1px solid #e5e7eb;
+  z-index: 1000;
+  transform: translateX(0);
+  will-change: transform;
+  transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* Slide-out (mirror of chatPaneExpand) while the pane is closing. */
-@keyframes chatPaneCollapse {
-  from { width: clamp(24rem, 30vw, 34rem); flex-basis: clamp(24rem, 30vw, 34rem); opacity: 1; }
-  to { width: 0; flex-basis: 0; opacity: 0.2; }
+.chatPaneIdle {
+  transform: translateX(100%);
+  pointer-events: none;
+}
+
+@keyframes chatPaneSlideInX {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+/* Slide-out (mirror) while the pane is closing. */
+@keyframes chatPaneSlideOutX {
+  from { transform: translateX(0); }
+  to { transform: translateX(100%); }
 }
 
 .chatPaneClosing {
-  animation: chatPaneCollapse 0.3s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  transform: translateX(100%);
   pointer-events: none;
 }
 
@@ -70,16 +80,58 @@
   cursor: col-resize;
 }
 
+/* Grip line hidden — the 8px resizer zone stays draggable, just no visible bar. */
 .chatResizerGrip {
-  width: 4px;
-  height: 34px;
-  border-radius: 4px;
-  background: transparent;
-  transition: background 0.15s ease;
+  display: none;
 }
 
-.chatResizer:hover .chatResizerGrip {
-  background: var(--zd-gray-400);
+/* The pane is fixed (out of flow), so reserve its width on the doc area. */
+@media (min-width: 768px) {
+  .docsWrapper:global(.docs-chat-open) .docRoot {
+    padding-right: var(--chat-pane-w, clamp(24rem, 30vw, 34rem));
+    transition: padding-right 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  :global(body.docs-nav-mobile) .docsWrapper:global(.docs-chat-open) {
+    height: calc(100dvh - var(--ifm-navbar-height));
+    overflow: hidden;
+  }
+
+  :global(body.docs-nav-mobile) .docsWrapper:global(.docs-chat-open) .docRoot {
+    flex-direction: column;
+    padding-right: 0;
+    overflow: hidden;
+  }
+
+  :global(body.docs-nav-mobile) .docsWrapper:global(.docs-chat-open) .docRoot main {
+    flex: 1 1 0;
+    min-height: 0;
+    overflow-y: auto;
+  }
+
+  :global(body.docs-nav-mobile) .chatPane {
+    position: static;
+    flex: 0 0 50%;
+    width: 100%;
+    max-width: none;
+    min-width: 0;
+    height: auto;
+    border-left: none;
+    border-top: 1px solid var(--ifm-toc-border-color);
+    animation: chatPaneSlideUp 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  :global(body.docs-nav-mobile) .chatPaneIdle {
+    display: none;
+  }
+
+  :global(body.docs-nav-mobile) .chatPaneClosing {
+    animation: chatPaneSlideDown 0.3s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+
+  :global(body.docs-nav-mobile) .chatResizer {
+    display: none;
+  }
 }
 
 .chatOverlay {
@@ -106,17 +158,66 @@
   flex-direction: column;
   align-items: stretch;
   gap: 0.25rem;
-  min-height: 6.5rem;
+  min-height: 4.33rem;
   padding: 0.875rem 0.75rem 0.625rem 1rem;
   color: var(--zd-gray-600);
-  background: #f4f4f4;
-  border: 1px solid #e3e3e3;
+  background: #ffffff;
+  border: 1px solid #dfe5e5;
   border-radius: 1.5rem;
-  transition: border-color 0.15s ease;
+  transition: border-color var(--zd-hover-duration) var(--zd-hover-ease);
+  /* Whole box is a click-to-type hot zone, so the text caret over the entire
+     area (the send button overrides with pointer). */
+  cursor: text;
 }
 
+.floatingChatInput::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  padding: 8px;
+  border-radius: inherit;
+  background: linear-gradient(166deg, #DFE3FF 0%, #EBFFFB 60%, #FFEAD0 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    inset 0.22s cubic-bezier(0.22, 1, 0.36, 1),
+    border-radius 0.22s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.18s ease;
+}
+
+.floatingChatInput:hover::before {
+  inset: -8px;
+  border-radius: calc(1.5rem + 8px);
+  opacity: 1;
+}
+
+/* Focus inner stroke: selected state gets the blue/cyan 1.5px gradient. */
+.floatingChatInput::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  padding: 1px;
+  border-radius: inherit;
+  background: linear-gradient(196.6deg, #3FA5A3 0%, #5B77DA 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--zd-hover-duration) var(--zd-hover-ease);
+}
+
+.floatingChatInput:hover::after,
+.floatingChatInput:focus-within::after {
+  opacity: 1;
+}
+
+.floatingChatInput:hover,
 .floatingChatInput:focus-within {
-  border-color: #dad9d9;
+  border-color: transparent;
 }
 
 /* White backdrop BEHIND the input (lower z-index than the form) — covers
@@ -127,10 +228,13 @@
   left: 0;
   right: 0;
   bottom: 0;
-  height: calc(6.5rem + 30px);
+  height: calc(4.33rem + 30px);
   z-index: 399;
   background: #ffffff;
   pointer-events: none;
+  /* top corners rounded to match the input box radius (1.5rem) */
+  border-top-left-radius: 1.5rem;
+  border-top-right-radius: 1.5rem;
 }
 
 /* (hover ring removed) */
@@ -144,12 +248,13 @@
   padding: 0;
   background: transparent;
   color: var(--zd-linear-signup-ink);
-  font-size: 0.9375rem;
+  font-size: 14px;
   line-height: 1.4;
 }
 
 .floatingChatInput input::placeholder {
-  color: #9b9b9b;
+  font-size: 14px;
+  color: #a4a4a4;
 }
 
 /* Footer pinned to the bottom-right: ⌘I hint + send button */
@@ -192,7 +297,9 @@
   border: 0;
   border-radius: 50%;
   cursor: pointer;
-  transition: background 0.15s ease, color 0.15s ease;
+  transition:
+    background var(--zd-hover-duration) var(--zd-hover-ease),
+    color var(--zd-hover-duration) var(--zd-hover-ease);
 }
 
 /* Once there is text to send, the box darkens; arrow stays white */
@@ -251,7 +358,7 @@
   }
 }
 
-@media (min-width: 997px) {
+@media (min-width: 768px) {
   .floatingChatInput,
   .floatingChatBackdrop {
     left: calc(var(--doc-sidebar-width) + 2rem);
@@ -267,19 +374,19 @@
   }
 }
 
-/* 997–1100px: the sidebar is force-shrunk to 13.5rem (merged mode), but
-   --doc-sidebar-width stays 21.5rem outside the sidebar container — so the input
-   would align to a 21.5rem sidebar. Pin it to the real 13.5rem width here. */
-@media (min-width: 997px) and (max-width: 1100px) {
+/* 768–1220px: the sidebar is force-shrunk to 13.5rem (merged mode), but
+   --doc-sidebar-width stays full outside the sidebar container — so the input
+   would align to the wide sidebar. Pin it to the real 13.5rem width here. */
+@media (min-width: 768px) and (max-width: 1220px) {
   .floatingChatInput,
   .floatingChatBackdrop,
   .floatingChatInputSidebarCollapsed {
-    left: calc(13.5rem + 2rem) !important;
-    width: min(56rem, calc(100vw - 13.5rem - 14rem - 6rem)) !important;
+    left: calc(13.5rem + 2rem);
+    width: min(56rem, calc(100vw - 13.5rem - 14rem - 6rem));
   }
 }
 
-@media (max-width: 996px) {
+@media (max-width: 767px) {
   .docsWrapper {
     height: auto;
     overflow: visible;
@@ -318,6 +425,10 @@
     animation: chatPaneSlideUp 0.3s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
+  .chatPaneIdle {
+    display: none;
+  }
+
   .chatPaneClosing {
     animation: chatPaneSlideDown 0.3s cubic-bezier(0.22, 1, 0.36, 1) forwards;
   }
@@ -338,7 +449,7 @@
     left: calc(1rem - 1px);
     right: calc(1rem - 1px);
     width: auto;
-    height: calc(6.5rem + 1rem);
+    height: calc(4.33rem + 1rem);
     border-radius: 0.875rem;
   }
 }

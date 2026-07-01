@@ -131,7 +131,7 @@ Use the following matrix to choose the right StructArray path.
 
 </Grid>
 
-<Admonition type="info" icon="📘" title="Warning">
+<Admonition type="warning" icon="📘" title="Warning">
 
 If your collection needs both EmbeddingList search and element-level search, use two separate vector subfields. A vector field or vector subfield accepts only one index, and the two search modes require different metric families.
 

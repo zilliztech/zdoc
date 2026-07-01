@@ -29,10 +29,23 @@ const DeprecatedIcon = () => (
 // ── Config ───────────────────────────────────────────────────────────────────
 
 const META_DEFS = [
-  { key: 'added_since',    label: 'Added',      Icon: AddedIcon,      className: styles.added      },
-  { key: 'last_modified',  label: 'Modified',   Icon: ModifiedIcon,   className: styles.modified   },
-  { key: 'deprecate_since',label: 'Deprecated', Icon: DeprecatedIcon, className: styles.deprecated },
+  { key: 'added_since',    label: 'Added',      Icon: AddedIcon,      state: 'added'      },
+  { key: 'last_modified',  label: 'Modified',   Icon: ModifiedIcon,   state: 'modified'   },
+  { key: 'deprecate_since',label: 'Deprecated', Icon: DeprecatedIcon, state: 'deprecated' },
 ] as const;
+
+function isVisibleValue(value: unknown): boolean {
+  if (value === undefined || value === null || value === false) return false;
+  const text = String(value).trim().toLowerCase();
+  return text !== '' && text !== 'false' && text !== 'undefined' && text !== 'null';
+}
+
+function versionRank(value: unknown): number {
+  const match = String(value).match(/^v?(\d+)(?:\.(\d+))?(?:\.(\d+))?/i);
+  if (!match) return -1;
+  const [, major = '0', minor = '0', patch = '0'] = match;
+  return Number(major) * 10000 + Number(minor) * 100 + Number(patch);
+}
 
 // ── Component ────────────────────────────────────────────────────────────────
 
@@ -41,24 +54,38 @@ interface Props {
 }
 
 export default function DocMetaTags({ frontMatter }: Props): React.ReactElement | null {
-  const entries = META_DEFS.filter(({ key }) => {
-    const v = frontMatter[key];
-    return v && v !== 'false' && v !== false;
-  });
+  const entries = META_DEFS
+    .filter(({ key }) => isVisibleValue(frontMatter[key]))
+    .map((meta, index) => ({
+      ...meta,
+      value: String(frontMatter[meta.key]),
+      rank: versionRank(frontMatter[meta.key]),
+      sourceIndex: index,
+    }))
+    .sort((a, b) => {
+      if (b.rank !== a.rank) return b.rank - a.rank;
+      return a.sourceIndex - b.sourceIndex;
+    });
 
   if (entries.length === 0) return null;
 
   return (
-    <div className={styles.row}>
-      {entries.map(({ key, label, Icon, className }) => (
-        <span key={key} className={styles.tag}>
-          <span className={`${styles.pill} ${className}`}>
-            <Icon />
-            {label}
-          </span>
-          <span className={styles.value}>{String(frontMatter[key])}</span>
-        </span>
-      ))}
-    </div>
+    <section className={styles.panel} aria-label="Version information">
+      <div className={styles.heading}>Version info</div>
+      <div className={styles.list}>
+        {entries.map(({ key, label, Icon, state, value }, index) => (
+          <div key={key} className={styles.item} data-state={state}>
+            <span className={styles.value}>
+              {value}
+              {index === 0 && <span className={styles.latest}>Latest</span>}
+            </span>
+            <span className={styles.label}>
+              <Icon />
+              {label}
+            </span>
+          </div>
+        ))}
+      </div>
+    </section>
   );
 }

@@ -126,7 +126,7 @@ To delete an organization:
 
 </Procedures>
 
-<Admonition type="caution" icon="🚧" title="Warning">
+<Admonition type="warning" icon="🚧" title="Warning">
 
 The action of deleting an organization cannot be undone. Please take extra caution with this action.
 

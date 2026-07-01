@@ -35,7 +35,7 @@ Make sure the collection schema, data, and indexes are already prepared.
 | Create a `MAX_SIM*` index on `chunks[emb_list_vector]` for EmbeddingList search. | [Index StructArray Fields](./index-struct-array) |
 | Create a regular vector-metric index on `chunks[emb]` for element-level search. | [Index StructArray Fields](./index-struct-array) |
 
-<Admonition type="info" icon="📘" title="Warning">
+<Admonition type="warning" icon="📘" title="Warning">
 
 A vector field or vector subfield accepts only one index. If you need both EmbeddingList search and element-level search, create two separate vector subfields. In this page, `chunks[emb_list_vector]` is indexed for EmbeddingList search, and `chunks[emb]` is indexed for element-level search.
 

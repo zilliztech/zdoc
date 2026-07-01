@@ -17,8 +17,14 @@ const validSupportSignalTypes = supportSignalType.options.map(
   option => option.value
 );
 
+function getRuntimeInkeepApiKey() {
+  return typeof window !== 'undefined' ? window.__ZDOC_ENV__?.INKEEP_API_KEY : undefined;
+}
+
 export const inkeepSettings ={
   baseSettings: {
+    apiKey: getRuntimeInkeepApiKey(),
+    aiApiBaseUrl: "/inkeep",
     primaryBrandColor: "#175fff",
     organizationDisplayName: "Zilliz",
     theme: {
@@ -32,31 +38,37 @@ export const inkeepSettings ={
     },
     transformSource: (source, type) => {
         const tabs = source.tabs || [];
+        const url = source.url || '';
+        const breadcrumbs = Array.isArray(source.breadcrumbs)
+          ? source.breadcrumbs.join(' ')
+          : String(source.breadcrumbs || '');
+        const title = String(source.title || '');
 
         if (type === 'searchResultItem') {
-            console.log('source', source)
-            console.log('type', type)
-            if (source.url.includes('/docs/byoc')) {
+            if (url.includes('/docs/byoc')) {
                 tabs.push('BYOC')
-            } else if (source.url.includes('/docs')) {
+            } else if (url.includes('/docs')) {
                 tabs.push('Guides')
-            } else if (source.breadcrumbs.includes('Reference')) {
+            } else if (breadcrumbs.includes('Reference')) {
                 tabs.push('Reference')
-            } else if (source.url.startsWith('https://support.zilliz.com')) {
+            } else if (url.startsWith('https://support.zilliz.com')) {
                 tabs.push('Support')
-            } else if (source.breadcrumbs.includes('Partners')) {
+            } else if (breadcrumbs.includes('Partners')) {
                 tabs.push('Partners')
-            } else if (source.breadcrumbs.includes('Event')) {
+            } else if (breadcrumbs.includes('Event')) {
                 tabs.push('Event')
-            } else if (source.breadcrumbs.includes('Glossary')) {
+            } else if (breadcrumbs.includes('Glossary')) {
                 tabs.push('Glossary')
             } 
                 
             return {
                 ...source,
-                title: `${source.title.split('Contact')[0].split(' | ')[0]}`
+                tabs,
+                title: `${title.split('Contact')[0].split(' | ')[0]}`
             }
         }
+
+        return source;
     }            
   },
   aiChatSettings: {
@@ -178,7 +190,8 @@ export const inkeepSettings ={
     ]
   },
   searchSettings: {
-    placeholder: 'What are you looking for?',
+    placeholder: 'Search or ask a question...',
+    debounceTimeMs: 200,
     tabs: ['All', 'Guides', 'BYOC', 'Reference', 'Support', 'Partners', 'Event', 'Glossary']        
   }
 };

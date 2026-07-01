@@ -271,7 +271,7 @@ In addition to removing a collaborator from a project, you can also remove yours
 
 Note that if you are the only admin of a project, you cannot leave it as each project must have at least one Project Admin at all times.
 
-<Admonition type="caution" icon="🚧" title="Warning">
+<Admonition type="warning" icon="🚧" title="Warning">
 
 Once you leave a project, your access to the project and associated resources will be revoked.
 

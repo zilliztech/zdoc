@@ -33,7 +33,7 @@ This page uses the `tech_articles` collection from [Create a StructArray Field](
 | Multiple element-level subfields under the same StructArray field | Element level | Final candidates are keyed by primary key plus Struct element offset. | Do not use. |
 | Element-level subfields under different StructArray fields | Entity level | Element offsets do not share identity, so each StructArray element-level `AnnSearchRequest` is collapsed before reranking. | Optional collapse config on each StructArray element-level `AnnSearchRequest`. |
 
-<Admonition type="info" icon="📘" title="Warning">
+<Admonition type="warning" icon="📘" title="Warning">
 
 Use `element_scope` only to configure collapse for StructArray element-level `AnnSearchRequest` objects in non same-struct element-level hybrid search. Do not use it for EmbeddingList requests, collection-level vector requests, or same-StructArray element-level hybrid search.
 

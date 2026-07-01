@@ -3,90 +3,77 @@
   align-items: center;
   gap: 0.75rem;
   padding: 12px 16px;
-  border: 1px solid var(--ifm-color-emphasis-300);
+  /* unified with the code-block window frame: same 8px radius + #eaeaea border,
+     and the frame's title-bar off-white tint as a subtle background. */
+  border: 1px solid #eaeaea;
   border-radius: 8px;
-  background-color: var(--ifm-background-surface-color);
+  background-color: #fcfcfb;
 }
 
 .badge {
   display: inline-flex;
   align-items: center;
   flex-shrink: 0;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.06em;
+  /* small tag — synced with the nav method tags: NO fill, faint colored stroke
+     (a low-opacity tint of the method colour). Size/font left as-is. */
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.03em;
   text-transform: uppercase;
-  border-radius: 3px;
-  padding: 4px 8px;
-  line-height: 1;
-  border: 1px solid transparent;
+  border-radius: 5px;
+  padding: 1px 6px;
+  line-height: 1.4;
+  background: none;
+  border: 1px solid color-mix(in srgb, currentColor 26%, transparent);
   font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
 }
 
 .badgeGet {
-  background-color: rgba(5, 150, 105, 0.11);
-  color: #047857;
-  border-color: rgba(5, 150, 105, 0.20);
+  color: #1a7f4b;
 }
 
 .badgePost {
-  background-color: rgba(23, 95, 255, 0.11);
-  color: #134fd4;
-  border-color: rgba(23, 95, 255, 0.20);
+  color: #2f5fe0;
 }
 
 .badgePut {
-  background-color: rgba(124, 58, 237, 0.11);
-  color: #6d28d9;
-  border-color: rgba(124, 58, 237, 0.20);
+  color: #b5730a;
 }
 
 .badgeDelete {
-  background-color: rgba(220, 38, 38, 0.11);
-  color: #b91c1c;
-  border-color: rgba(220, 38, 38, 0.20);
+  color: #c0362c;
 }
 
 .badgePatch {
-  background-color: rgba(217, 119, 6, 0.11);
-  color: #b45309;
-  border-color: rgba(217, 119, 6, 0.20);
+  color: #b5730a;
 }
 
 .endpoint {
-  font-size: 0.85rem;
+  /* match the code INSIDE code blocks: Geist Mono, 13px / 20px, weight 450, #262b33 */
+  font-size: 13px;
+  line-height: 20px;
   font-family: var(--ifm-font-family-monospace), 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
-  color: var(--ifm-color-emphasis-800);
-  font-weight: 600;
+  color: #262b33;
+  font-weight: 450;
   word-break: break-all;
 }
 
 [data-theme='dark'] .badgeGet {
-  background-color: rgba(52, 211, 153, 0.12);
   color: #34d399;
-  border-color: rgba(52, 211, 153, 0.25);
 }
 
 [data-theme='dark'] .badgePost {
-  background-color: rgba(96, 165, 250, 0.12);
   color: #60a5fa;
-  border-color: rgba(96, 165, 250, 0.25);
 }
 
 [data-theme='dark'] .badgePut {
-  background-color: rgba(167, 139, 250, 0.12);
   color: #a78bfa;
-  border-color: rgba(167, 139, 250, 0.25);
 }
 
 [data-theme='dark'] .badgeDelete {
-  background-color: rgba(248, 113, 113, 0.12);
   color: #f87171;
-  border-color: rgba(248, 113, 113, 0.25);
 }
 
 [data-theme='dark'] .badgePatch {
-  background-color: rgba(251, 191, 36, 0.12);
   color: #fbbf24;
-  border-color: rgba(251, 191, 36, 0.25);
 }

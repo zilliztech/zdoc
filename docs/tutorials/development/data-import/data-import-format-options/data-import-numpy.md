@@ -22,7 +22,7 @@ import Admonition from '@theme/Admonition';
 
 The `.npy` format is [NumPy's standard binary format](https://numpy.org/devdocs/reference/generated/numpy.lib.format.html) for saving a single array, including its shape and dtype information, ensuring it can be correctly reconstructed on different machines.  You are advised to use [the BulkWriter tool](./use-bulkwriter) to prepare your raw data into Parquet files. The following figure demonstrates how your raw data can be mapped into a set of `.npy` file.
 
-<Admonition type="danger" icon="🚧" title="Caution">
+<Admonition type="warning" icon="🚧" title="Caution">
 
 This feature has been deprecated. You are not recommended to use it in production.
 

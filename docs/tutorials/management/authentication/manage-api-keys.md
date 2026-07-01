@@ -305,7 +305,7 @@ The instructions below explains how to edit a customized API key.
 
 If you believe a personal or customized API key is compromised, you should immediately reset it. 
 
-<Admonition type="caution" icon="🚧" title="Warning">
+<Admonition type="warning" icon="🚧" title="Warning">
 
 This operation will reset and invalidate the current API key. Any application code using this key will stop functioning until you update the relevant code with the new key value.
 
@@ -329,7 +329,7 @@ Personal key cannot be manually deleted. However, they will be automatically inv
 
 The following screenshots demonstrate how to delete a customized API key.
 
-<Admonition type="caution" icon="🚧" title="Warning">
+<Admonition type="warning" icon="🚧" title="Warning">
 
 Deleting an API key will irreversibly terminate access to Zilliz Cloud resources for any services using that key.
 
