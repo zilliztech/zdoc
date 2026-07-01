@@ -1822,9 +1822,10 @@ export const method = "${method}"`
         const values = sheet.values.data.valueRange.values;
         var result = ' '.repeat(indent) + "<table>" + "\n";
 
-        values.forEach((row, ridx) => {
+        for (const [ridx, row] of values.entries()) {
             result += ' '.repeat(indent) + '    ' + "<tr>" + "\n";
-            row.forEach((cell, cidx) => {
+            for (const [cidx, rawCell] of row.entries()) {
+                let cell = rawCell
                 var colspan = "";
                 var rowspan = "";
                 if (merges) {
@@ -1840,7 +1841,7 @@ export const method = "${method}"`
                 }
 
                 if (typeof cell === 'object') {
-                    cell = this.__sheet_cell(cell)
+                    cell = await this.__sheet_cell(cell)
                 } 
 
                 if (typeof cell === 'number') {
@@ -1854,26 +1855,28 @@ export const method = "${method}"`
                 } else {
                     result += `${' '.repeat(indent) + '    '.repeat(2)}<td${colspan ? " " + colspan : ""}${rowspan ? " " + rowspan : ""}>${converter.makeHtml(cell).replace(/\n/g, '')}</td>\n`
                 }
-            })
+            }
             result += ' '.repeat(indent) + '    ' + "</tr>" + "\n"
-        });
+        }
 
         result += ' '.repeat(indent) + "</table>" + "\n";
 
         return result.replace('"{', '"\\{');
     }    
 
-    __sheet_cell(cell) {
+    async __sheet_cell(cell) {
         if (cell instanceof Array) {
-            return cell.map(block => {
+            const blocks = await Promise.all(cell.map(async block => {
                 if (block['type'] === 'text') {
                     return block['text']
                 }
     
                 if (block['type'] === 'url') {
-                    return `<a href="${block['link']}">${block['text']}</a>`
+                    const link = await this.__convert_link(block['link'])
+                    return `<a href="${link || block['link']}">${block['text']}</a>`
                 }
-            }).join('')
+            }))
+            return blocks.join('')
         } else {
             console.log(cell)
             return ''

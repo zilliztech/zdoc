@@ -225,10 +225,23 @@ class larkDocScraper {
         // fs.writeFileSync(`records.json`, JSON.stringify(this.records, null, 2))
 
         const slugs = {}
+        const recordsBySeqId = new Map(records.map(record => [record.fields['Seq. ID'], record]))
+        const recordsByRecordId = new Map(records.map(record => [record.record_id, record]))
         if (records.length > 0) {
             for (let record of records) {
                 if (record.fields.Slug) {
-                    slugs[record.fields.Docs.link.split('/').pop()] = { slug: record.fields.Slug, title: record.fields.Docs.text }
+                    const parentSeqId = record.fields.Parent?.[0]?.text || null
+                    const parentRecordId = record.fields['父记录']?.[0]?.record_ids?.[0] || record.fields.Parent?.[0]?.record_ids?.[0] || null
+                    const parentRecord = parentRecordId
+                        ? recordsByRecordId.get(parentRecordId)
+                        : parentSeqId
+                            ? recordsBySeqId.get(parentSeqId)
+                            : null
+                    slugs[record.fields.Docs.link.split('/').pop()] = {
+                        slug: record.fields.Slug,
+                        title: record.fields.Docs.text,
+                        parent_token: parentRecord?.fields?.Docs?.link?.split('/').pop() || null,
+                    }
                 } else {
                     throw new Error(`Slug field not found for record ${record.fields['Seq. ID']}`)
                 }
@@ -244,6 +257,10 @@ class larkDocScraper {
             } else {
                 slugs[s].slug = slugs_arr[i]
             }
+        })
+
+        slug_keys.forEach(s => {
+            slugs[s].parent_slug = slugs[s].parent_token ? this.__slug_value(slugs[slugs[s].parent_token]?.slug) : null
         })
 
         this.slugs = slugs
@@ -266,7 +283,24 @@ class larkDocScraper {
         return seen
     }
 
-    async __slugify(token, title=null) {
+    __slug_value(slug) {
+        if (slug instanceof Array && slug[0] instanceof Object) {
+            return slug[0][slug[0].type]
+        }
+
+        return slug
+    }
+
+    __slug_contexts(preferredSlugPrefix) {
+        const contexts = [preferredSlugPrefix].filter(Boolean)
+        if (preferredSlugPrefix && preferredSlugPrefix.includes('-')) {
+            contexts.push(preferredSlugPrefix.split('-').pop())
+        }
+
+        return contexts
+    }
+
+    async __slugify(token, title=null, preferredSlugPrefix=null) {
         if (!this.slugs) {
             await this.__base(this.base)
         }
@@ -278,9 +312,43 @@ class larkDocScraper {
             if (records.length === 1) {
                 slug = this.slugs[records[0]] 
             } else if (records.length > 1) {
+                const exactSlugRecords = records.filter(key => this.__slug_value(this.slugs[key].slug) === title)
+                if (exactSlugRecords.length === 1) {
+                    slug = this.slugs[exactSlugRecords[0]]
+                }
+            }
+
+            if (!slug && records.length > 1) {
+                if (preferredSlugPrefix) {
+                    const contexts = this.__slug_contexts(preferredSlugPrefix)
+                    let contextualRecords = records.filter(key => {
+                        const parentSlug = this.slugs[key].parent_slug
+                        return parentSlug && contexts.some(context => parentSlug === context)
+                    })
+
+                    if (contextualRecords.length !== 1) {
+                        contextualRecords = records.filter(key => {
+                            const parentSlug = this.slugs[key].parent_slug
+                            return parentSlug && contexts.some(context => parentSlug.endsWith(`-${context}`))
+                        })
+                    }
+
+                    if (contextualRecords.length !== 1) {
+                        contextualRecords = records.filter(key => {
+                            const value = this.__slug_value(this.slugs[key].slug)
+                            return contexts.some(context => value === context || value.startsWith(`${context}-`))
+                        })
+                    }
+
+                    if (contextualRecords.length === 1) {
+                        slug = this.slugs[contextualRecords[0]]
+                    }
+                }
+            }
+
+            if (!slug && records.length > 1) {
                 const matches = records.map(key => {
-                    const value = this.slugs[key].slug
-                    const matchSlug = value instanceof Array && value[0] instanceof Object ? value[0][value[0].type] : value
+                    const matchSlug = this.__slug_value(this.slugs[key].slug)
                     return `${key}=>${matchSlug}`
                 }).join(', ')
                 throw new Error(`Ambiguous slug metadata for title "${title}" and token "${token}". Matching records: ${matches}`)
@@ -291,13 +359,7 @@ class larkDocScraper {
             slug = slug.slug
         }
 
-        if (slug instanceof Array) {
-            if (slug[0] instanceof Object) {
-                return slug[0][slug[0].type]
-            }
-        }
-
-        return slug
+        return this.__slug_value(slug)
     }
 
     async __split_one_pager(node) {
@@ -454,7 +516,7 @@ class larkDocScraper {
         }
     }
 
-    async __fetch_drive_children(folder_token, page_token=null, recursive=false) {
+    async __fetch_drive_children(folder_token, page_token=null, recursive=false, preferredSlugPrefix=null) {
         var page_token_expr = page_token ? `&page_token=${page_token}` : ''
 
         let url = `${FEISHU_HOST}/open-apis/drive/v1/files?folder_token=${folder_token}${page_token_expr}`
@@ -473,10 +535,11 @@ class larkDocScraper {
                 return 0;
             })
             
-            this.docs.slug = await this.__slugify(this.docs.token, this.docs.name)
+            const resolvedDocSlug = await this.__slugify(this.docs.token, this.docs.name, preferredSlugPrefix)
+            this.docs.slug = resolvedDocSlug || this.docs.slug
 
             if (jres.has_more) {
-                await this.__fetch_drive_children(folder_token, jres.data.next_page_token, recursive)
+                await this.__fetch_drive_children(folder_token, jres.data.next_page_token, recursive, preferredSlugPrefix)
             }
 
             if (!this.slugs) {
@@ -494,16 +557,20 @@ class larkDocScraper {
             console.log(`3. Fetched ${folder_token}.json`)
 
             if (recursive) {
-                for (let child of this.docs.children) {
+                const currentDoc = this.docs
+                for (let child of currentDoc.children) {
                     if (child.type == 'folder') {
+                        const parentSlug = currentDoc.slug
                         this.docs = child
-                        this.docs.slug = await this.__slugify(this.docs.token, this.docs.name)
-                        await this.__fetch_drive_children(child.token, null, recursive)
+                        const childSlug = await this.__slugify(this.docs.token, this.docs.name, parentSlug)
+                        this.docs.slug = childSlug
+                        await this.__fetch_drive_children(child.token, null, recursive, childSlug)
+                        this.docs = currentDoc
                     }
     
                     if (child.type == 'docx') {
                         await this.__fetch_blocks(child)
-                        child.slug = await this.__slugify(child.token, child.name)
+                        child.slug = await this.__slugify(child.token, child.name, currentDoc.slug)
                         fs.writeFileSync(`${this.doc_source_dir}/${child.token}.json`, JSON.stringify(child, null, 2))
                         console.log(`4. Fetched ${child.token}.json`)
                     }

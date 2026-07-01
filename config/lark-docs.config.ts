@@ -414,6 +414,22 @@ const cliv13 : Manual = {
     }
 }
 
+const cliv14 : Manual = {
+    root: 'LF1Kf54jFllUBydVk7hcha30nUh',
+    base: 'Lx1bbCdpMaSmJXs8wz5cjsDengf',
+    sourceType: 'drive',
+    version: '1.4.x',
+    displayedSidebar: 'cliSidebar',
+    docSourceDir: './plugins/lark-docs/meta/sources/cli/v1.4.x',
+    fallbackSourceDir: './plugins/lark-docs/meta/sources/cli/v1.3.x',
+    targets: {
+        zilliz: {
+            outputDir: 'reference/cli/cli',
+            imageDir: 'static/img',
+        }
+    }
+}
+
 export default {
     guides,
     agents,
@@ -434,5 +450,6 @@ export default {
     gov226,
     gov230,
     cliv01,
-    cliv13
+    cliv13,
+    cliv14
 }
