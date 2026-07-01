@@ -156,7 +156,7 @@ Zilliz Cloud では、ロールに以下を付与できます。
 
 - **組み込み特権グループ:** Zilliz Cloud では、9 つの組み込み特権グループが提供されています。各組み込み特権グループに含まれる具体的な特権の詳細については、[組み込み特権グループ](./cluster-privileges#built-in-privilege-groups) を参照してください。
 
-- **カスタム特権グループ:** 組み込みの特権が要件を満たさない場合は、異なる特権を組み合わせて独自のカスタム特権グループを作成できます。詳細については、[カスタム特権グループ](./cluster-privileges#custom-privilege-groups-or-private) を参照してください。
+- **カスタム特権グループ:** 組み込みの特権が要件を満たさない場合は、異なる特権を組み合わせて独自のカスタム特権グループを作成できます。詳細については、[カスタム特権グループ](./cluster-privileges#custom-privilege-groups) を参照してください。
 
 <Admonition type="info" icon="📘" title="Notes">
 

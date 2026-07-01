@@ -67,7 +67,7 @@ The metadata of a collection contains:
 
 - (Optional) Collection description. Up to 1024 (in UTF-8 bytes).
 
-- The database to which the collection belongs. A [database](./database-concept) is a layer between clusters and collections and serves as a logical container to manage and organize collections. You can group relevant collections under the same database.
+- The database to which the collection belongs. A [database](./database) is a layer between clusters and collections and serves as a logical container to manage and organize collections. You can group relevant collections under the same database.
 
 ### Collection schema\{#collection-schema}
 

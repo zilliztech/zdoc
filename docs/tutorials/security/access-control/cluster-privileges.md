@@ -597,7 +597,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-Once the privileges are added to a privilege group, you can grant the privilege group to a role. For details, refer to [Manage Cluster Roles (SDK)](./cluster-roles-sdk#grant-a-privilege-or-a-privilege-group-to-a-role).
+Once the privileges are added to a privilege group, you can grant the privilege group to a role. For details, refer to [Manage Cluster Roles (SDK)](./cluster-roles-sdk#grant-a-privilege-group-to-a-role).
 
 #### Remove privileges from a custom privilege group\{#remove-privileges-from-a-custom-privilege-group}
 

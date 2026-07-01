@@ -220,7 +220,7 @@ You need to configure the following information of the Dedicated cluster.
 
 While the cluster is being created, you need to save the cluster credentials (user and password) which will be shown only once. 
 
-When the cluster status turns into "Running", the cluster is created successfully. You can then copy the cluster endpoint and token and use them to [connect](null) to the cluster.
+When the cluster status turns into "Running", the cluster is created successfully. You can then copy the cluster endpoint and token and use them to [connect](connect-to-cluster) to the cluster.
 
 </TabItem>
 

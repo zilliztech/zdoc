@@ -594,7 +594,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-特権が特権グループに追加されたら、その特権グループをロールに付与できます。詳細については、[クラスターロールの管理 (SDK)](./cluster-roles-sdk#grant-a-privilege-or-a-privilege-group-to-a-role) を参照してください。
+特権が特権グループに追加されたら、その特権グループをロールに付与できます。詳細については、[クラスターロールの管理 (SDK)](./cluster-roles-sdk#grant-a-privilege-group-to-a-role) を参照してください。
 
 #### カスタム特権グループからの特権の削除\{#remove-privileges-from-a-custom-privilege-group}
 

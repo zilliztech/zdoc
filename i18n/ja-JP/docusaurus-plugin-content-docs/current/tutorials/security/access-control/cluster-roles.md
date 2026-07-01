@@ -92,7 +92,7 @@ Zilliz Cloud は、ベクトルデータベースシステムで一般的に必�
 
 この機能は Dedicated クラスター専用です。
 
-現在、Zilliz Cloud は Web コンソール上で組み込み特権グループを持つカスタムロールの作成のみをサポートしています。特定の特権またはカスタム特権グループを持つカスタムロールを作成する必要がある場合は、まず [サポートチケットを作成](http://support.zilliz.com) して、この機能を有効化していただく必要があります。機能が有効化されたら、SDK を使用して [カスタム特権グループを作成](./cluster-privileges#custom-privilege-groups-or-private) できます。
+現在、Zilliz Cloud は Web コンソール上で組み込み特権グループを持つカスタムロールの作成のみをサポートしています。特定の特権またはカスタム特権グループを持つカスタムロールを作成する必要がある場合は、まず [サポートチケットを作成](http://support.zilliz.com) して、この機能を有効化していただく必要があります。機能が有効化されたら、SDK を使用して [カスタム特権グループを作成](./cluster-privileges#custom-privilege-groups) できます。
 
 </Admonition>
 

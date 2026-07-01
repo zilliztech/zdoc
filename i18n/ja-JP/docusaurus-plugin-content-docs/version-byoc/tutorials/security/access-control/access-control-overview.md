@@ -86,7 +86,7 @@ Zilliz Cloud は、2 つのプレーン内でリソースを整理し、両方�
 
 1. **（オプション）特権グループの作成と権限の追加:** 複数の [権限](./cluster-privileges) を 1 つの特権グループに結合して、ロールへの権限付与プロセスを簡素化できます。Zilliz Cloud が提供する組み込みの特権グループに加えて、[SDK](./cluster-privileges#custom-privilege-groups) を使用して独自のカスタマイズされた特権グループを作成することもできます。
 
-1. **権限または特権グループをロールに付与:** 権限または特権グループをロールに付与することで、ロールの機能を定義します。現在、[Web コンソール](./cluster-roles#create-a-custom-cluster-role) では、組み込みの特権グループのみをロールに付与できます。特定の権限またはカスタマイズされた特権グループをロールに付与するには、[サポートチケットを作成](http://support.zilliz.com) し、代わりに [SDK](./cluster-roles-sdk#grant-a-privilege-or-a-privilege-group-to-a-role) を使用してください。
+1. **権限または特権グループをロールに付与:** 権限または特権グループをロールに付与することで、ロールの機能を定義します。現在、[Web コンソール](./cluster-roles#create-a-custom-cluster-role) では、組み込みの特権グループのみをロールに付与できます。特定の権限またはカスタマイズされた特権グループをロールに付与するには、[サポートチケットを作成](http://support.zilliz.com) し、代わりに [SDK](./cluster-roles-sdk#grant-a-privilege-group-to-a-role) を使用してください。
 
-1. **ユーザーにロールを付与:** 特定の権限を持つロールをユーザーに付与することで、ユーザーはそのロールの権限を得られます。単一のロールを複数のユーザーに付与できます。このステップは、[Web コンソール](./cluster-users#edit-the-role-of-a-cluster-user) を使用するか、[SDK](./cluster-users-sdk#grant-a-role-to-a-user) を使用して完了できます。
+1. **ユーザーにロールを付与:** 特定の権限を持つロールをユーザーに付与することで、ユーザーはそのロールの権限を得られます。単一のロールを複数のユーザーに付与できます。このステップは、[Web コンソール](./cluster-users#edit-the-role-or-desrciption-of-a-cluster-user) を使用するか、[SDK](./cluster-users-sdk#grant-a-role-to-a-user) を使用して完了できます。
 
