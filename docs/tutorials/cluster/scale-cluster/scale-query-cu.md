@@ -42,7 +42,7 @@ The content on this page applies to serving clusters only.  On-demand clusters s
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This feature is available only to <strong>Dedicated</strong> clusters.</p>
+This feature is available only to **Dedicated** clusters.
 
 </Admonition>
 
@@ -108,7 +108,7 @@ curl --request POST \
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This feature is available only to <strong>Dedicated</strong> clusters in an <strong>Enterprise</strong> project.</p>
+This feature is available only to **Dedicated** clusters in an **Enterprise** project.
 
 </Admonition>
 
@@ -145,7 +145,11 @@ curl --request POST \
 
 ## Dynamic scaling\{#dynamic-scaling}
 
-https://zilliverse.feishu.cn/sync/EaQKd6kURsSBc1bD8Loc4RsjnCg
+<Admonition type="info" icon="📘" title="Notes">
+
+This feature is available only to **Dedicated** clusters in an **Enterprise** project.
+
+</Admonition>
 
 Zilliz Cloud supports dynamic scaling to help you maintain performance while eliminating manual intervention. When enabled, the system automatically adjusts the **query CU** resources based on the real-time **CU capacity** metric, ensuring your workload is served efficiently without service disruption.
 
@@ -157,10 +161,9 @@ When setting up dynamic scaling, you can configure the following bounds:
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<ul>
-<li><p>Selecting a maximum query CU below the current value triggers an immediate scale-down.</p></li>
-<li><p>Selecting a minimum query CU above the current value triggers an immediate scale-up.</p></li>
-</ul>
+- Selecting a maximum query CU below the current value triggers an immediate scale-down.
+
+- Selecting a minimum query CU above the current value triggers an immediate scale-up.
 
 </Admonition>
 

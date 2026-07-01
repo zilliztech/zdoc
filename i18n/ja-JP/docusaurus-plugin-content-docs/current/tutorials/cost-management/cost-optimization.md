@@ -39,27 +39,27 @@ import Admonition from '@theme/Admonition';
         <th><p>最適化可能か</p></th>
     </tr>
     <tr>
-        <td><p><a href="https://zilliverse.feishu.cn/wiki/J2prwh2KLis9oqkqNIAcU1d6nsd">Compute (CU)</a></p></td>
+        <td><p><a href="./dedicated-cluster-cost">Compute (CU)</a></p></td>
         <td><p>Compute Units に基づく Dedicated クラスターの時間単位課金。</p></td>
         <td><p>選択 + スケーリング</p></td>
     </tr>
     <tr>
-        <td><p><a href="https://zilliverse.feishu.cn/wiki/Uk0Nw1ZdbiOEBtkAOKacLTf8nGe">Read/Write Operations</a></p></td>
+        <td><p><a href="./serverless-cluster-cost">Read/Write Operations</a></p></td>
         <td><p>Serverless クラスターの従量課金。</p></td>
         <td><p>クエリ最適化</p></td>
     </tr>
     <tr>
-        <td><p><a href="https://zilliverse.feishu.cn/wiki/PNj2w5fY9ifr82kbX8ucKgXAn0r">Storage</a></p></td>
+        <td><p><a href="./storage-cost">Storage</a></p></td>
         <td><p>データとバックアップのストレージ（クラスターの状態に関係なく発生）。</p></td>
         <td><p>Build Level + データクリーンアップ</p></td>
     </tr>
     <tr>
-        <td><p><a href="https://zilliverse.feishu.cn/wiki/BClgwKlHaiushBkPPssclTkYnef">Data Transfer</a></p></td>
+        <td><p><a href="./data-transfer-cost">Data Transfer</a></p></td>
         <td><p>受信、送信、リージョン間転送。</p></td>
         <td><p>アーキテクチャ計画</p></td>
     </tr>
     <tr>
-        <td><p><a href="https://zilliverse.feishu.cn/wiki/GBfswoqhviHfTVk2qhHc4eGXnfh">Audit Logs</a></p></td>
+        <td><p><a href="./audit-log-cost">Audit Logs</a></p></td>
         <td><p>監査ログ記録によるリソース消費。</p></td>
         <td><p>必要に応じて有効化</p></td>
     </tr>

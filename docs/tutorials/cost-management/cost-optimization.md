@@ -39,27 +39,27 @@ Before optimizing, identify where your costs originate. Zilliz Cloud fees consis
         <th><p>Optimizable?</p></th>
     </tr>
     <tr>
-        <td><p><a href="https://zilliverse.feishu.cn/wiki/J2prwh2KLis9oqkqNIAcU1d6nsd">Compute (CU)</a></p></td>
+        <td><p><a href="./dedicated-cluster-cost">Compute (CU)</a></p></td>
         <td><p>Hourly billing for Dedicated clusters based on Compute Units.</p></td>
         <td><p>Selection + Scaling</p></td>
     </tr>
     <tr>
-        <td><p><a href="https://zilliverse.feishu.cn/wiki/Uk0Nw1ZdbiOEBtkAOKacLTf8nGe">Read/Write Operations</a></p></td>
+        <td><p><a href="./serverless-cluster-cost">Read/Write Operations</a></p></td>
         <td><p>Pay-per-use billing for Serverless clusters.</p></td>
         <td><p>Query Optimization</p></td>
     </tr>
     <tr>
-        <td><p><a href="https://zilliverse.feishu.cn/wiki/PNj2w5fY9ifr82kbX8ucKgXAn0r">Storage</a></p></td>
+        <td><p><a href="./storage-cost">Storage</a></p></td>
         <td><p>Data and backup storage (regardless of cluster status).</p></td>
         <td><p>Build Level + Data Cleanup</p></td>
     </tr>
     <tr>
-        <td><p><a href="https://zilliverse.feishu.cn/wiki/BClgwKlHaiushBkPPssclTkYnef">Data Transfer</a></p></td>
+        <td><p><a href="./data-transfer-cost">Data Transfer</a></p></td>
         <td><p>Ingress, egress, and cross-region transfer.</p></td>
         <td><p>Architecture Planning</p></td>
     </tr>
     <tr>
-        <td><p><a href="https://zilliverse.feishu.cn/wiki/GBfswoqhviHfTVk2qhHc4eGXnfh">Audit Logs</a></p></td>
+        <td><p><a href="./audit-log-cost">Audit Logs</a></p></td>
         <td><p>Resource consumption for audit logging.</p></td>
         <td><p>Enable as needed</p></td>
     </tr>

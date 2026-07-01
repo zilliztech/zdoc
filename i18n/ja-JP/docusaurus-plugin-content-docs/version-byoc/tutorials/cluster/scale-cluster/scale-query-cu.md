@@ -3,6 +3,9 @@ title: "クエリCUのスケーリング | BYOC"
 slug: /scale-query-cu
 sidebar_key: scale-query-cu
 sidebar_label: "クエリCUのスケーリング"
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 beta: FALSE
 notebook: FALSE
 description: "ワークロードの増加やデータの書き込み量が多くなると、サービングクラスターが容量上限に達する可能性があります。このような場合、読み取り操作は引き続き機能しますが、新しい書き込み操作が失敗する可能性があります。 | BYOC"
@@ -77,12 +80,13 @@ Zilliz Cloud コンソールまたは RESTful API を使用して、クラスタ
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p><strong>Scale Query Node CU</strong> ダイアログボックスで <strong>Save</strong> をクリックすると、プロジェクトのリソースクォータを確認するよう求められます。リソースが十分であれば、確認完了後にダイアログボックスが消えます。そうでない場合は、</p>
-<ul>
-<li><p><strong>Go To Project リソース設定</strong> をクリックしてプロジェクトのリソース設定を編集するか、</p></li>
-<li><p><strong>前のステップに戻る</strong> をクリックしてクラスター設定を変更してください。</p></li>
-</ul>
-<p>このプロセス中、ローリングのために追加のリソースが必要になります。これらのリソースは使用後に解放されます。</p>
+**Scale Query Node CU** ダイアログボックスで **Save** をクリックすると、プロジェクトのリソースクォータを確認するよう求められます。リソースが十分であれば確認完了後にダイアログボックスが消えます。十分でない場合は、次のいずれかを実行できます。
+
+- **Go To Project Resource Settings** をクリックして、プロジェクトのリソース設定を編集する。
+
+- **Back to Last Step** をクリックして、クラスター設定を変更する。
+
+このプロセス中、ローリングのために追加のリソースが必要になります。これらのリソースは使用後に解放されます。
 
 </Admonition>
 

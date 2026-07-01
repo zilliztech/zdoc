@@ -3,6 +3,9 @@ title: "クエリCUのスケーリング | Cloud"
 slug: /scale-query-cu
 sidebar_key: scale-query-cu
 sidebar_label: "クエリCUをスケーリング"
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 beta: FALSE
 notebook: FALSE
 description: "ワークロードの増加やデータの書き込み量が多くなると、サービングクラスターが容量上限に達する可能性があります。このような場合、読み取り操作は引き続き機能しますが、新しい書き込み操作が失敗する可能性があります。"
@@ -39,7 +42,7 @@ import Supademo from '@site/src/components/Supademo';
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>この機能は <strong>Dedicated</strong> クラスターでのみ利用可能です。</p>
+この機能は **Dedicated** クラスターでのみ利用可能です。
 
 </Admonition>
 
@@ -101,11 +104,11 @@ curl --request POST \
 }'
 ```
 
-## Scheduled scaling\{#scheduled-scaling}
+## スケジュールスケーリング\{#scheduled-scaling}
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>この機能は、<strong>Enterprise</strong> プロジェクトの <strong>Dedicated</strong> クラスターでのみ利用可能です。</p>
+この機能は、**Enterprise** プロジェクトの **Dedicated** クラスターでのみ利用可能です。
 
 </Admonition>
 
@@ -140,9 +143,13 @@ curl --request POST \
 }'
 ```
 
-## Dynamic scaling\{#dynamic-scaling}
+## 動的スケーリング\{#dynamic-scaling}
 
-https://zilliverse.feishu.cn/sync/EaQKd6kURsSBc1bD8Loc4RsjnCg
+<Admonition type="info" icon="📘" title="Notes">
+
+この機能は、**Enterprise** プロジェクトの **Dedicated** クラスターでのみ利用可能です。
+
+</Admonition>
 
 Zilliz Cloud は、パフォーマンスを維持しつつ手動介入を不要にするための動的スケーリングをサポートしています。有効にすると、システムはリアルタイムの CU 容量メトリクスに基づいて**クエリ CU**リソースを自動的に調整し、サービス中断なくワークロードを効率的に処理します。
 
@@ -154,14 +161,13 @@ Zilliz Cloud は、パフォーマンスを維持しつつ手動介入を不要�
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<ul>
-<li><p>現在の値よりも低い最大クエリ CU を選択すると、即座にスケールダウンがトリガーされます。</p></li>
-<li><p>現在の値よりも高い最小クエリ CU を選択すると、即座にスケールアップがトリガーされます。</p></li>
-</ul>
+- 現在の値よりも低い最大クエリ CU を選択すると、即座にスケールダウンがトリガーされます。
+
+- 現在の値よりも高い最小クエリ CU を選択すると、即座にスケールアップがトリガーされます。
 
 </Admonition>
 
-### Trigger conditions\{#trigger-conditions}
+### トリガー条件\{#trigger-conditions}
 
 - スケールアップ: CU 容量が 10 分間 80% を超えた場合にトリガーされます。または、CU 容量が 100% に達すると、即座にスケールアップがトリガーされます。
 
@@ -169,7 +175,7 @@ Zilliz Cloud は、パフォーマンスを維持しつつ手動介入を不要�
 
 - スケールアップイベントの間には 10 分間のクールダウン期間が適用され、スケールダウンイベントの間には 30 分間のクールダウン期間が適用されます。スケールダウンは、目標メトリクス値に達するまでサイズごとに実行されます。
 
-### Scaling size calculation\{#scaling-size-calculation}
+### スケーリングサイズの計算\{#scaling-size-calculation}
 
 以下の数式は、動的スケーリングイベントにおける目標クエリ CU 数を Zilliz Cloud がどのように計算するかを説明しています。動的スケーリングの数式は、CU 容量を目標値である 70% に維持することを目的としています。
 
