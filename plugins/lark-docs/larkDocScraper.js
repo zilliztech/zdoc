@@ -498,7 +498,7 @@ class larkDocScraper {
         this.records = recordsByTable
         this.base_tables = tables
 
-        const slugs = {}
+        const slugEntries = []
         const recordsBySeqId = new Map(this.records.map(record => [record.fields['Seq. ID'], record]))
         const recordsByRecordId = new Map(this.records.map(record => [record.record_id, record]))
         if (this.records.length > 0) {
@@ -513,15 +513,37 @@ class larkDocScraper {
                         : parentSeqId
                             ? recordsBySeqId.get(parentSeqId)
                             : null
-                    slugs[docToken] = {
+                    slugEntries.push({
+                        key: docToken,
+                        token: docToken,
                         slug: record.fields.Slug,
                         title: this.__doc_title(docField),
                         parent_token: this.__doc_token(this.__doc_field(parentRecord?.fields || {})) || null,
-                    }
+                        record_id: record.record_id,
+                        seq_id: record.fields['Seq. ID'],
+                    })
                 }
             }
         }
 
+        const tokenCounts = new Map()
+        slugEntries.forEach(entry => {
+            tokenCounts.set(entry.token, (tokenCounts.get(entry.token) || 0) + 1)
+        })
+
+        const slugs = {}
+        slugEntries.forEach(entry => {
+            const key = tokenCounts.get(entry.token) > 1
+                ? `${entry.token}#${entry.record_id || entry.seq_id || Object.keys(slugs).length}`
+                : entry.token
+            slugs[key] = {
+                token: entry.token,
+                slug: entry.slug,
+                title: entry.title,
+                parent_token: entry.parent_token,
+            }
+        })
+        
         const slugs_arr = this.__uniquify(Object.values(slugs).map(s => s.slug instanceof Array ? s.slug[0][s.slug[0].type] : s.slug))
         const slug_keys = Object.keys(slugs)
 
@@ -580,7 +602,9 @@ class larkDocScraper {
         var slug = this.slugs[token]
          
         if (!slug && title != null) {
-            const records = Object.keys(this.slugs).filter(key => this.slugs[key].title == title)
+            const tokenRecords = Object.keys(this.slugs).filter(key => key === token || this.slugs[key].token === token)
+            const records = (tokenRecords.length > 0 ? tokenRecords : Object.keys(this.slugs))
+                .filter(key => this.slugs[key].title == title)
             if (records.length === 1) {
                 slug = this.slugs[records[0]] 
             } else if (records.length > 1) {
