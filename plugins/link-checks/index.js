@@ -6,12 +6,63 @@ const path = require('node:path')
 const _ = require('lodash')
 const dotenv = require('dotenv')
 
+const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms))
+
+function normalizeUrl (value) {
+    return value.replace(/\/+$/, '') + '/'
+}
+
+async function fetchTextWithRetries (url, options = {}, retries = 3) {
+    var lastError
+
+    for (let attempt = 1; attempt <= retries; attempt++) {
+        try {
+            const response = await fetch(url, options)
+
+            if (!response.ok) {
+                throw new Error(`Request failed with HTTP ${response.status}`)
+            }
+
+            return await response.text()
+        } catch (error) {
+            lastError = error
+
+            if (attempt < retries) {
+                const delay = attempt * 1000
+                console.warn(`Failed to fetch ${url} (${error.message}). Retrying in ${delay}ms...`)
+                await sleep(delay)
+            }
+        }
+    }
+
+    throw new Error(`Failed to fetch ${url} after ${retries} attempts: ${lastError.message}`)
+}
+
+async function listUrls (baseUrl) {
+    var oSitemap;
+    if (baseUrl.startsWith('http://') || baseUrl.startsWith('https://')) {
+        const sitemapUrl = baseUrl.endsWith('.xml') ? baseUrl : normalizeUrl(baseUrl) + 'sitemap.xml'
+        oSitemap = await fetchTextWithRetries(sitemapUrl, {
+            headers: {
+                'Accept-Encoding': 'identity',
+            },
+            compress: false,
+        })
+    } else if (fs.existsSync(baseUrl)) {
+        oSitemap = fs.readFileSync(baseUrl, 'utf8')
+    } else {
+        throw new Error(`baseUrl is not either a valid URL or a local file path: ${baseUrl}`)
+    }
+
+    const parser = new xml2js.Parser()
+    const sitemap = await parser.parseStringPromise(oSitemap)
+    const urls = sitemap.urlset.url.map(url => new URL(url.loc[0]).href)
+
+    return urls
+}
+
 module.exports = function (context, options) {
     dotenv.config({ path: path.join(context.siteDir, '.env') })
-
-    function normalizeUrl (value) {
-        return value.replace(/\/+$/, '') + '/'
-    }
 
     function resolveRemoteSitemapSource () {
         if (process.env.LINK_CHECKS_REMOTE_SITEMAP) {
@@ -24,24 +75,6 @@ module.exports = function (context, options) {
 
     function resolveLocalSitemapSource () {
         return process.env.LINK_CHECKS_LOCAL_SITEMAP || path.join(context.siteDir, 'build', 'sitemap.xml')
-    }
-
-    async function listUrls (baseUrl) {
-        var oSitemap;
-        if (baseUrl.startsWith('http://') || baseUrl.startsWith('https://')) {
-            const sitemapUrl = baseUrl.endsWith('.xml') ? baseUrl : normalizeUrl(baseUrl) + 'sitemap.xml'
-            oSitemap = await (await fetch(sitemapUrl)).text()
-        } else if (fs.existsSync(baseUrl)) {
-            oSitemap = fs.readFileSync(baseUrl, 'utf8')
-        } else {
-            throw new Error(`baseUrl is not either a valid URL or a local file path: ${baseUrl}`)
-        }
-
-        const parser = new xml2js.Parser()
-        const sitemap = await parser.parseStringPromise(oSitemap)
-        const urls = sitemap.urlset.url.map(url => new URL(url.loc[0]).href)
-
-        return urls
     }
 
     return {
@@ -107,4 +140,9 @@ module.exports = function (context, options) {
                  })
         }
     }
+}
+
+module.exports._test = {
+    fetchTextWithRetries,
+    listUrls,
 }
