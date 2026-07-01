@@ -6,24 +6,57 @@ const node_path = require('path')
 const _ = require('lodash')
 require('dotenv/config')
 
-module.exports = function (context, options) {
+const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms))
 
-    async function listUrls (baseUrl) {
-        var oSitemap;
-        if (baseUrl.startsWith('http://') || baseUrl.startsWith('https://')) {
-            oSitemap = await (await fetch(baseUrl + 'sitemap.xml')).text()
-        } else if (fs.existsSync(baseUrl)) {
-            oSitemap = fs.readFileSync(baseUrl, 'utf8')
-        } else {
-            throw new Error('baseUrl is not either a valid URL or a local file path')
+async function fetchTextWithRetries (url, options = {}, retries = 3) {
+    var lastError
+
+    for (let attempt = 1; attempt <= retries; attempt++) {
+        try {
+            const response = await fetch(url, options)
+
+            if (!response.ok) {
+                throw new Error(`Request failed with HTTP ${response.status}`)
+            }
+
+            return await response.text()
+        } catch (error) {
+            lastError = error
+
+            if (attempt < retries) {
+                const delay = attempt * 1000
+                console.warn(`Failed to fetch ${url} (${error.message}). Retrying in ${delay}ms...`)
+                await sleep(delay)
+            }
         }
-
-        const parser = new xml2js.Parser()
-        const sitemap = await parser.parseStringPromise(oSitemap)
-        const urls = sitemap.urlset.url.map(url => new URL(url.loc[0]).href)
-
-        return urls
     }
+
+    throw new Error(`Failed to fetch ${url} after ${retries} attempts: ${lastError.message}`)
+}
+
+async function listUrls (baseUrl) {
+    var oSitemap;
+    if (baseUrl.startsWith('http://') || baseUrl.startsWith('https://')) {
+        oSitemap = await fetchTextWithRetries(`${baseUrl}sitemap.xml`, {
+            headers: {
+                'Accept-Encoding': 'identity',
+            },
+            compress: false,
+        })
+    } else if (fs.existsSync(baseUrl)) {
+        oSitemap = fs.readFileSync(baseUrl, 'utf8')
+    } else {
+        throw new Error('baseUrl is not either a valid URL or a local file path')
+    }
+
+    const parser = new xml2js.Parser()
+    const sitemap = await parser.parseStringPromise(oSitemap)
+    const urls = sitemap.urlset.url.map(url => new URL(url.loc[0]).href)
+
+    return urls
+}
+
+module.exports = function (context, options) {
 
     return {
         name: "check external links",
@@ -88,4 +121,9 @@ module.exports = function (context, options) {
                  })
         }
     }
+}
+
+module.exports._test = {
+    fetchTextWithRetries,
+    listUrls,
 }
