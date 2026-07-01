@@ -542,10 +542,17 @@ class larkDocScraper {
 
         var slug = this.slugs[token]
          
-        if (!slug) {
-            const record = Object.keys(this.slugs).filter(key => this.slugs[key].title == title)
-            if (record.length > 0) {
-                slug = this.slugs[record[0]] 
+        if (!slug && title != null) {
+            const records = Object.keys(this.slugs).filter(key => this.slugs[key].title == title)
+            if (records.length === 1) {
+                slug = this.slugs[records[0]] 
+            } else if (records.length > 1) {
+                const matches = records.map(key => {
+                    const value = this.slugs[key].slug
+                    const matchSlug = value instanceof Array && value[0] instanceof Object ? value[0][value[0].type] : value
+                    return `${key}=>${matchSlug}`
+                }).join(', ')
+                throw new Error(`Ambiguous slug metadata for title "${title}" and token "${token}". Matching records: ${matches}`)
             }
         }
 
