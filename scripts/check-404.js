@@ -27,7 +27,7 @@ fs.readFile(nginxConfigPath, 'utf8', (err, fileContents) => {
 			console.error(`stderr: ${stderr}`);
 			return;
 		}
-		const deletedSlugs = getDeletedSlugs(stdout);
+		const deletedSlugs = getDeletedSlugs(stdout, true);
 		validateChangedFiles(deletedSlugs, redirects);
 		console.info(`***** 🎉 check-404.js completed successfully *****\n`);
 	});

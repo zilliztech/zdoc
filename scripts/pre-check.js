@@ -27,7 +27,7 @@ fs.readFile(nginxConfigPath, "utf8", (err, fileContents) => {
 			console.error(`stderr: ${stderr}`);
 			return;
 		}
-		const deletedSlugs = getDeletedSlugs(stdout, true); // Enable check for slugs existing elsewhere in docs/
+		const deletedSlugs = getDeletedSlugs(stdout, true);
 		validateChangedFiles(deletedSlugs, redirects);
 		console.info(`***** 🎉 pre-check.js completed successfully *****\n`);
 	});

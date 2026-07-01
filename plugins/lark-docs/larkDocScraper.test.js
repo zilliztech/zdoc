@@ -220,6 +220,77 @@ async function testBaseCapturesRecordIdParentMetadata() {
   );
 }
 
+async function testBasePreservesDuplicateDocTokenSlugsByParentContext() {
+  const larkDocScraper = require('./larkDocScraper');
+  const scraper = new larkDocScraper('', 'base-token', 'wiki', '/tmp');
+
+  scraper.__fetchFeishuJson = async (url) => {
+    if (url.endsWith('/tables')) {
+      return {
+        data: {
+          items: [{ table_id: 'table-token' }],
+        },
+      };
+    }
+
+    if (url.includes('/records')) {
+      return {
+        data: {
+          items: [
+            {
+              record_id: 'orm-parent-record',
+              fields: {
+                'Seq. ID': '1',
+                Docs: { text: 'utility', link: 'https://example.feishu.cn/docx/orm-parent-token' },
+                Slug: 'ORM-utility',
+              },
+            },
+            {
+              record_id: 'client-parent-record',
+              fields: {
+                'Seq. ID': '2',
+                Docs: { text: 'Authentication', link: 'https://example.feishu.cn/docx/client-parent-token' },
+                Slug: 'MilvusClient-Authentication',
+              },
+            },
+            {
+              record_id: 'orm-create-user-record',
+              fields: {
+                'Seq. ID': '3',
+                Docs: { text: 'create_user()', link: 'https://example.feishu.cn/docx/shared-create-user-token' },
+                Slug: 'utility-create_user',
+                '父记录': [{ record_ids: ['orm-parent-record'] }],
+              },
+            },
+            {
+              record_id: 'client-create-user-record',
+              fields: {
+                'Seq. ID': '4',
+                Docs: { text: 'create_user()', link: 'https://example.feishu.cn/docx/shared-create-user-token' },
+                Slug: 'Authentication-create_user',
+                '父记录': [{ record_ids: ['client-parent-record'] }],
+              },
+            },
+          ],
+        },
+      };
+    }
+
+    throw new Error(`Unexpected URL: ${url}`);
+  };
+
+  await scraper.__base();
+
+  assert.equal(
+    await scraper.__slugify('shared-create-user-token', 'create_user()', 'MilvusClient-Authentication'),
+    'Authentication-create_user'
+  );
+  assert.equal(
+    await scraper.__slugify('shared-create-user-token', 'create_user()', 'ORM-utility'),
+    'utility-create_user'
+  );
+}
+
 async function testDriveFolderSlugifyUsesParentContext() {
   const larkDocScraper = require('./larkDocScraper');
   const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'lark-doc-scraper-'));
@@ -368,6 +439,7 @@ async function run() {
   await testSlugifyResolvesAmbiguousTitleWithBitableParentMetadata();
   await testSlugifyPrefersExactSlugForAmbiguousSectionTitle();
   await testBaseCapturesRecordIdParentMetadata();
+  await testBasePreservesDuplicateDocTokenSlugsByParentContext();
   await testDriveFolderSlugifyUsesParentContext();
   await testDriveFolderRecursionKeepsSiblingParentContext();
   await testDriveDocSlugifyUsesCompositeParentContext();

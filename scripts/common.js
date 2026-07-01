@@ -9,7 +9,9 @@ const IGNORE_SLUG = "\\s*(.*)/gm;";
  * @param {string[]} directories - Array of directory paths to search
  * @returns {Object} Object mapping directory names to Sets of slugs
  */
-const getAllSlugsInDocs = (directories = ['docs', 'versioned_docs']) => {
+const DOC_DIRECTORIES = ['docs', 'versioned_docs', 'reference/api'];
+
+const getAllSlugsInDocs = (directories = DOC_DIRECTORIES) => {
 	const slugsByDir = {};
 
 	directories.forEach(docsPath => {
@@ -53,14 +55,15 @@ const getAllSlugsInDocs = (directories = ['docs', 'versioned_docs']) => {
 };
 
 /**
- * Filters deleted slugs by checking if they still exist elsewhere in docs/
+ * Filters deleted slugs by checking if they still exist elsewhere in the docs tree
  * @param {string[]} deletedSlugs - Array of deleted slugs
  * @returns {Object} Object with filtered array and info about existing slugs
  */
 const filterSlugsThatExistInDocs = (deletedSlugs) => {
-	const slugsByDir = getAllSlugsInDocs(['docs', 'versioned_docs']);
+	const slugsByDir = getAllSlugsInDocs();
 	const docsSlugs = slugsByDir['docs'] || new Set();
 	const versionedSlugs = slugsByDir['versioned_docs'] || new Set();
+	const referenceSlugs = slugsByDir['reference/api'] || new Set();
 
 	// Get unique deleted slugs
 	const uniqueSlugs = [...new Set(deletedSlugs)];
@@ -68,19 +71,24 @@ const filterSlugsThatExistInDocs = (deletedSlugs) => {
 	// Check each unique slug and track where it exists
 	const onlyInDocs = [];
 	const onlyInVersioned = [];
+	const onlyInReference = [];
 	const inBoth = [];
 	const trulyDeleted = [];
 
 	uniqueSlugs.forEach(slug => {
 		const inDocs = docsSlugs.has(slug);
 		const inVersioned = versionedSlugs.has(slug);
+		const inReference = referenceSlugs.has(slug);
+		const existingDirsCount = [inDocs, inVersioned, inReference].filter(Boolean).length;
 
-		if (inDocs && inVersioned) {
+		if (existingDirsCount > 1) {
 			inBoth.push(slug);
 		} else if (inDocs) {
 			onlyInDocs.push(slug);
 		} else if (inVersioned) {
 			onlyInVersioned.push(slug);
+		} else if (inReference) {
+			onlyInReference.push(slug);
 		} else {
 			trulyDeleted.push(slug);
 		}
@@ -93,20 +101,24 @@ const filterSlugsThatExistInDocs = (deletedSlugs) => {
 	if (onlyInVersioned.length > 0) {
 		console.log("\x1b[36m%s\x1b[0m", `slugs existing only in versioned_docs/ (filtered out): `, onlyInVersioned);
 	}
+	if (onlyInReference.length > 0) {
+		console.log("\x1b[36m%s\x1b[0m", `slugs existing only in reference/api/ (filtered out): `, onlyInReference);
+	}
 	if (inBoth.length > 0) {
-		console.log("\x1b[36m%s\x1b[0m", `slugs existing in both docs/ and versioned_docs/ (filtered out): `, inBoth);
+		console.log("\x1b[36m%s\x1b[0m", `slugs existing in multiple docs directories (filtered out): `, inBoth);
 	}
 
-	const totalFiltered = onlyInDocs.length + onlyInVersioned.length + inBoth.length;
+	const totalFiltered = onlyInDocs.length + onlyInVersioned.length + onlyInReference.length + inBoth.length;
 	if (totalFiltered > 0) {
 		console.log("\x1b[90m%s\x1b[0m", `total slugs filtered: ${totalFiltered} (from ${deletedSlugs.length} total deletions)`);
 	}
 
 	return {
 		filtered: trulyDeleted,
-		existingElsewhere: [...onlyInDocs, ...onlyInVersioned, ...inBoth],
+		existingElsewhere: [...onlyInDocs, ...onlyInVersioned, ...onlyInReference, ...inBoth],
 		onlyInDocs: onlyInDocs,
 		onlyInVersioned: onlyInVersioned,
+		onlyInReference: onlyInReference,
 		inBoth: inBoth
 	};
 };
@@ -187,6 +199,7 @@ module.exports = {
   getNginxRedirects,
   validateChangedFiles,
   getDeletedSlugs,
+  DOC_DIRECTORIES,
   getAllSlugsInDocs,
   filterSlugsThatExistInDocs,
 };
