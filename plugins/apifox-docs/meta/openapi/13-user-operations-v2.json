@@ -750,12 +750,12 @@
     },
     "/v2/vectordb/users/update_password": {
       "post": {
-        "summary": "Update User Password",
+        "summary": "Update User",
         "deprecated": false,
         "description": "This operation updates the password or description of a specified user.",
         "x-i18n": {
           "zh-CN": {
-            "summary": "更新用户密码",
+            "summary": "更新用户",
             "description": "本操作可更新指定用户的密码或描述。"
           }
         },
