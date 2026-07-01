@@ -2455,15 +2455,15 @@ class larkDocWriter {
         const converter = new showdown.Converter({ underline: true })
         const merges = sheet.meta?.data.sheet.merges;
         const values = sheet.values.data.valueRange.values;
-        const markdownRows = values.map(row => {
-            return row.map(cell => {
+        const markdownRows = await Promise.all(values.map(async row => {
+            return Promise.all(row.map(async cell => {
                 if (cell && typeof cell === 'object') {
                     return this.__sheet_cell(cell, { markdown: true })
                 }
 
                 return String(cell ?? '')
-            })
-        })
+            }))
+        }))
 
         if (!this.__sheetHasMerges(merges) && markdownRows.every(row => row.every(cell => this.__isMarkdownTableSafeCell(cell)))) {
             return this.__markdownTable(markdownRows, indent);
@@ -2471,9 +2471,10 @@ class larkDocWriter {
 
         var result = ' '.repeat(indent) + "<table>" + "\n";
 
-        values.forEach((row, ridx) => {
+        for (const [ridx, row] of values.entries()) {
             result += ' '.repeat(indent) + '    ' + "<tr>" + "\n";
-            row.forEach((cell, cidx) => {
+            for (const [cidx, rawCell] of row.entries()) {
+                let cell = rawCell
                 var colspan = "";
                 var rowspan = "";
                 if (merges) {
@@ -2489,7 +2490,7 @@ class larkDocWriter {
                 }
 
                 if (cell && typeof cell === 'object') {
-                    cell = this.__sheet_cell(cell)
+                    cell = await this.__sheet_cell(cell)
                 } 
 
                 if (typeof cell === 'number') {
@@ -2503,30 +2504,33 @@ class larkDocWriter {
                 } else {
                     result += `${' '.repeat(indent) + '    '.repeat(2)}<td${colspan ? " " + colspan : ""}${rowspan ? " " + rowspan : ""}>${converter.makeHtml(cell).replace(/\n/g, '')}</td>\n`
                 }
-            })
+            }
             result += ' '.repeat(indent) + '    ' + "</tr>" + "\n"
-        });
+        }
 
         result += ' '.repeat(indent) + "</table>" + "\n";
 
         return result.replace('"{', '"\\{');
     }    
 
-    __sheet_cell(cell, options={}) {
+    async __sheet_cell(cell, options={}) {
         if (cell instanceof Array) {
-            return cell.map(block => {
+            const blocks = await Promise.all(cell.map(async block => {
                 if (block['type'] === 'text') {
                     return block['text']
                 }
     
                 if (block['type'] === 'url') {
+                    const link = await this.__convert_link(block['link'])
+                    const href = link || block['link']
                     if (options.markdown) {
-                        return `[${String(block['text']).replace(/\]/g, '\\]')}](${block['link']})`
+                        return `[${String(block['text']).replace(/\]/g, '\\]')}](${href})`
                     }
 
-                    return `<a href="${block['link']}">${block['text']}</a>`
+                    return `<a href="${href}">${block['text']}</a>`
                 }
-            }).join('')
+            }))
+            return blocks.join('')
         } else {
             console.log(cell)
             return ''

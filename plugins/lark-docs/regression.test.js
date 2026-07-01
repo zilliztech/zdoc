@@ -121,6 +121,41 @@ async function testTableDropsColumnsThatAreEmptyInEveryRow() {
   assert.equal((table.match(/\|/g) || []).length, 6);
 }
 
+async function testSheetCellConvertsFeishuWikiUrl() {
+  await withTempDir(async dir => {
+    const token = 'SheetLinkedWikiToken';
+    fs.writeFileSync(path.join(dir, `${token}.json`), JSON.stringify({
+      node_token: token,
+      origin_node_token: token,
+      slug: 'dedicated-cluster-cost',
+      title: 'Dedicated Cluster Cost',
+      blocks: { items: [] },
+    }, null, 2));
+
+    const writer = new larkDocWriter('', '', '', dir);
+    const html = await writer.__sheet({
+      meta: { data: { sheet: {} } },
+      values: {
+        data: {
+          valueRange: {
+            values: [
+              ['Item'],
+              [[{
+                link: `https://zilliverse.feishu.cn/wiki/${token}`,
+                text: 'Compute (CU)',
+                type: 'url',
+              }]],
+            ],
+          },
+        },
+      },
+    }, 0);
+
+    assert.match(html, /\[Compute \(CU\)\]\(\.\/dedicated-cluster-cost\)/);
+    assert.doesNotMatch(html, /zilliverse\.feishu\.cn/);
+  });
+}
+
 async function testIframeImageUrlEscapesSpacesInGeneratedMarkdown() {
   const writer = new larkDocWriter('', '', '', '/tmp', 'static/img', 'zilliz.saas', true, true);
   writer.downloader = {
@@ -163,6 +198,7 @@ async function run() {
   await testConvertLinkResolvesWikiByOriginTokenForBackwardCompatibility();
   testWikiSourceFileTokenFallback();
   await testTableDropsColumnsThatAreEmptyInEveryRow();
+  await testSheetCellConvertsFeishuWikiUrl();
   await testIframeImageUrlEscapesSpacesInGeneratedMarkdown();
   await testBoardImageUrlUsesEscapedMarkdownUrl();
   console.log('lark-docs regression tests passed');

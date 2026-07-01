@@ -113,7 +113,8 @@ jobs:
         npx docusaurus fetch-lark-docs -man gov226 -src-only
         npx docusaurus fetch-lark-docs -man gov230 -tar zilliz -s3
         npx docusaurus fetch-lark-docs -man gov230 -tar zilliz -post
-        npx docusaurus fetch-lark-docs -man cliv13 -tar zilliz -s3
+        npx docusaurus fetch-lark-docs -man cliv13 -src-only
+        npx docusaurus fetch-lark-docs -man cliv14 -tar zilliz -s3
         npx docusaurus fetch-apifox-docs -s plugins/apifox-docs/meta/openapi/
         npx docusaurus report-to-lark --card-advance
       env:
