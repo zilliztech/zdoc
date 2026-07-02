@@ -1,8 +1,8 @@
-const fetch = require('node-fetch')
 const path = require('node:path')
 const fs = require('node:fs')
 const { v4: uuidv4 } = require('uuid')
 const tokenFetcher = require('../lark-docs/larkTokenFetcher')
+const { fetchFeishuJsonWithRetry } = require('../lark-docs/feishuFetch')
 require('dotenv/config')
 
 // ---------------------------------------------------------------------------
@@ -73,12 +73,11 @@ function finishStatuses(stages, success, existingStatuses=null) {
 }
 
 async function patchCard(token, messageId, state, feishuHost) {
-  const res = await fetch(`${feishuHost}/open-apis/im/v1/messages/${messageId}`, {
+  return fetchFeishuJsonWithRetry(`${feishuHost}/open-apis/im/v1/messages/${messageId}`, {
     method: 'PATCH',
     headers: { 'Content-Type': 'application/json; charset=utf-8', Authorization: `Bearer ${token}` },
     body: JSON.stringify({ content: buildCardContent(state) }),
-  })
-  return res.json()
+  }, 'report-to-lark patch card')
 }
 
 // ---------------------------------------------------------------------------
@@ -136,7 +135,7 @@ module.exports = function (context) {
               notes: [],
               startedAt: new Date().toISOString(),
             }
-            const res = await fetch(`${FEISHU_HOST}/open-apis/im/v1/messages?receive_id_type=chat_id`, {
+            const data = await fetchFeishuJsonWithRetry(`${FEISHU_HOST}/open-apis/im/v1/messages?receive_id_type=chat_id`, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json; charset=utf-8', Authorization: `Bearer ${token}` },
               body: JSON.stringify({
@@ -145,8 +144,7 @@ module.exports = function (context) {
                 content: buildCardContent(state),
                 uuid: uuidv4(),
               }),
-            })
-            const data = await res.json()
+            }, 'report-to-lark create card')
             const messageId = data.data?.message_id
             if (messageId) {
               state.messageId = messageId
@@ -244,7 +242,7 @@ module.exports = function (context) {
             ? { text: opts.msg }
             : { template_id: opts.cardId, template_version_name: opts.cardVersion }
 
-          const res = await fetch(`${FEISHU_HOST}/open-apis/im/v1/messages?receive_id_type=chat_id`, {
+          const data = await fetchFeishuJsonWithRetry(`${FEISHU_HOST}/open-apis/im/v1/messages?receive_id_type=chat_id`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json; charset=utf-8', Authorization: `Bearer ${token}` },
             body: JSON.stringify({
@@ -253,8 +251,8 @@ module.exports = function (context) {
               content: JSON.stringify(content),
               uuid: uuidv4(),
             }),
-          })
-          console.log((await res.json()).msg)
+          }, 'report-to-lark send message')
+          console.log(data.msg)
         })
     },
   }
