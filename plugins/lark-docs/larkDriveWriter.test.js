@@ -89,10 +89,53 @@ async function testConvertLinkUsesCurrentParentSlugContext() {
   );
 }
 
+async function testSidebarItemsUseParentSlugContext() {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'lark-drive-writer-'));
+  const writer = new larkDriveWriter('', '', 'pythonSidebar', dir, '/tmp', 'zilliz', true, false, 'pymilvus30');
+  writer.__is_to_publish = async (name) => ({publish: true, labels: name});
+
+  writeJson(dir, 'parent.json', {
+    token: 'parent',
+    name: 'Authentication',
+    type: 'folder',
+    slug: 'MilvusClient-Authentication',
+    children: [
+      { token: 'EglSdm1jkozDSlxq6SEc4CRonVe', name: 'create_user()', type: 'docx' },
+    ],
+  });
+  writeJson(dir, 'EglSdm1jkozDSlxq6SEc4CRonVe.json', {
+    token: 'EglSdm1jkozDSlxq6SEc4CRonVe',
+    name: 'create_user()',
+    type: 'docx',
+    slug: 'utility-create_user',
+    blocks: { items: [] },
+  });
+  writeJson(dir, 'S5rRdLq3moeQ7XxY89bcjJOAn1d.json', {
+    token: 'EglSdm1jkozDSlxq6SEc4CRonVe',
+    name: 'create_user()',
+    type: 'docx',
+    slug: 'Authentication-create_user',
+    blocks: { items: [] },
+  });
+
+  const items = await writer.__sidebar_items(
+    'reference/api/python/python/MilvusClient/MilvusClient-Authentication',
+    'reference',
+    'parent'
+  );
+
+  assert.deepEqual(items, [{
+    type: 'doc',
+    id: 'api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-create_user',
+    label: 'create_user()',
+  }]);
+}
+
 async function run() {
   testDuplicateTokenSourceUsesParentSlugContext();
   testDuplicateTokenSourceUsesUtilityParentContext();
   await testConvertLinkUsesCurrentParentSlugContext();
+  await testSidebarItemsUseParentSlugContext();
   console.log('larkDriveWriter tests passed');
 }
 

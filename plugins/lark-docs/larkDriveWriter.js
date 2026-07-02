@@ -283,10 +283,9 @@ class larkDriveWriter extends larkDocWriter {
 
         for (let i = 0; i < node.children.length; i++) {
             const child = node.children[i]
-            const sourceFile = fs.readdirSync(this.docSourceDir).find(f => f === `${child.token}.json`)
-            if (!sourceFile) continue
+            const source = this.__drive_source_for_child(child, node.slug)
+            if (!source) continue
 
-            const source = JSON.parse(fs.readFileSync(node_path.join(this.docSourceDir, sourceFile), 'utf8'))
             const meta = await this.__is_to_publish(source.name, source.slug, source.token)
             if (!meta.publish) continue
 
