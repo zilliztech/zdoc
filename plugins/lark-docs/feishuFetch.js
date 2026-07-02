@@ -50,6 +50,24 @@ function requestOptions(options={}) {
     }
 }
 
+function responsePreview(body) {
+    if (typeof body === 'string') {
+        return body ? `: ${body.slice(0, 300)}` : ''
+    }
+
+    if (body && typeof body === 'object') {
+        const details = []
+        if (body.code !== undefined) details.push(`code=${body.code}`)
+        if (body.status !== undefined) details.push(`status=${body.status}`)
+        if (body.msg !== undefined) details.push(`msg=${body.msg}`)
+        if (body.message !== undefined && body.message !== body.msg) details.push(`message=${body.message}`)
+        if (details.length > 0) return `: ${details.join(' ')}`
+        return `: ${JSON.stringify(body).slice(0, 300)}`
+    }
+
+    return ''
+}
+
 async function retryFetchBody(url, options, label, readBody, shouldRetryResult=() => false) {
     let lastError
 
@@ -58,8 +76,7 @@ async function retryFetchBody(url, options, label, readBody, shouldRetryResult=(
             const res = await fetch(url, requestOptions(options))
             const body = await readBody(res)
             if (res.status === 429 || res.status >= 500 || shouldRetryResult(res, body)) {
-                const preview = typeof body === 'string' ? `: ${body.slice(0, 300)}` : ''
-                const err = new Error(`retryable response ${res.status}${preview}`)
+                const err = new Error(`retryable response ${res.status}${responsePreview(body)}`)
                 err.retryDelayMs = retryAfterMs(res, attempt)
                 throw err
             }

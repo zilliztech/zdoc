@@ -122,10 +122,48 @@ async function testFetchTextRetriesPrematureCloseWhileReadingBody() {
   });
 }
 
+async function testFetchJsonRetryLogIncludesParsedResponseDetails() {
+  let attempts = 0;
+  const stderrWrite = process.stderr.write;
+  const logs = [];
+  process.stderr.write = (message) => {
+    logs.push(String(message));
+    return true;
+  };
+
+  try {
+    await withMockedFetch(async () => {
+      attempts += 1;
+      return {
+        status: 400,
+        headers: { get: () => null },
+        text: async () => JSON.stringify({
+          code: 99991400,
+          msg: 'Too many requests',
+          status: 429,
+        }),
+      };
+    }, async ({ fetchFeishuJsonWithRetry }) => {
+      await assert.rejects(
+        () => fetchFeishuJsonWithRetry('https://open.feishu.cn/wiki', {}, 'get wiki node token'),
+        /retryable response 400/
+      );
+
+      assert.equal(attempts, 5);
+      assert.match(logs.join(''), /code=99991400/);
+      assert.match(logs.join(''), /status=429/);
+      assert.match(logs.join(''), /msg=Too many requests/);
+    });
+  } finally {
+    process.stderr.write = stderrWrite;
+  }
+}
+
 async function run() {
   await testFetchFeishuBufferRetriesPrematureCloseWhileReadingBody();
   await testFetchJsonRetriesPrematureCloseWhileReadingBody();
   await testFetchTextRetriesPrematureCloseWhileReadingBody();
+  await testFetchJsonRetryLogIncludesParsedResponseDetails();
   console.log('feishuFetch tests passed');
 }
 
