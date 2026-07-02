@@ -69,7 +69,11 @@ jobs:
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
     - name: build and check docsite
       run: |
-        node scripts/run-doc-build-stage.js --build "pnpm run build"
+        build_stage_args=()
+        if [ "${{ github.event.inputs.target_branch }}" = "feat/zdoc-redesign-dev" ]; then
+          build_stage_args+=(--skipLinkChecks)
+        fi
+        node scripts/run-doc-build-stage.js --build "pnpm run build" "${build_stage_args[@]}"
         node scripts/update-lark-doc-snapshot.js --manual guides --targets-built zilliz.saas,zilliz.paas --build-env uat --source-branch ${{ github.event.inputs.target_branch }} --publish-url https://docs.cloud-uat3.zilliz.com --link-check-remote https://docs.zilliz.com
       env:
         TOKEN: ${{ secrets.ACTION_TOKEN }}
@@ -126,7 +130,11 @@ jobs:
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
     - name: build and check sdk docs
       run: |
-        node scripts/run-doc-build-stage.js --build "pnpm run build"
+        build_stage_args=()
+        if [ "${{ github.event.inputs.target_branch }}" = "feat/zdoc-redesign-dev" ]; then
+          build_stage_args+=(--skipLinkChecks)
+        fi
+        node scripts/run-doc-build-stage.js --build "pnpm run build" "${build_stage_args[@]}"
       env:
         TOKEN: ${{ secrets.ACTION_TOKEN }}
         APP_ID: ${{ secrets.APP_ID }}

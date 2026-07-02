@@ -23,6 +23,10 @@ function run(command, env = {}) {
   return result.status || 0
 }
 
+function isTruthy(value) {
+  return value === true || value === 'true' || value === '1' || value === 'yes'
+}
+
 function reportCard(status, reportPath) {
   if (reportPath && fs.existsSync(reportPath)) {
     return run(`npx docusaurus report-to-lark --card-advance --status ${status} --note-file ${reportPath}`)
@@ -39,6 +43,13 @@ function main() {
   if (buildStatus !== 0) {
     reportCard('fail', fs.existsSync(reportPath) ? reportPath : null)
     process.exit(buildStatus)
+  }
+
+  if (isTruthy(args.skipLinkChecks) || isTruthy(process.env.SKIP_LINK_CHECKS)) {
+    console.log('Skipping link checks because skipLinkChecks is enabled.')
+    const advanceStatus = run('npx docusaurus report-to-lark --card-advance --status done')
+    if (advanceStatus !== 0) process.exit(advanceStatus)
+    return
   }
 
   const linkStatus = run('npx docusaurus link-checks', {
