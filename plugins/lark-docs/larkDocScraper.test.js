@@ -49,6 +49,82 @@ async function testFeishuJsonFetchesAreThrottled() {
   delete require.cache[require.resolve('./larkTokenFetcher.js')];
 }
 
+async function testWikiRootFetchRetriesPrematureClose() {
+  const originalLoad = Module._load;
+  const originalRetryDelay = process.env.FEISHU_RETRY_DELAY_MS;
+  process.env.FEISHU_RETRY_DELAY_MS = '1';
+
+  let attempts = 0;
+  Module._load = function patchedLoad(request, parent, isMain) {
+    if (request === 'node-fetch') {
+      return async function mockedFetch() {
+        attempts += 1;
+        if (attempts === 1) {
+          const err = new Error('Premature close');
+          err.code = 'ERR_STREAM_PREMATURE_CLOSE';
+          err.type = 'system';
+          throw err;
+        }
+
+        return {
+          status: 200,
+          headers: { get: () => null },
+          text: async () => JSON.stringify({
+            code: 0,
+            data: {
+              node: {
+                node_token: 'root-token',
+                node_type: 'origin',
+                obj_type: 'folder',
+                title: 'Root',
+                has_child: false,
+              },
+            },
+          }),
+        };
+      };
+    }
+
+    return originalLoad.apply(this, arguments);
+  };
+
+  delete require.cache[require.resolve('./larkDocScraper')];
+  delete require.cache[require.resolve('./feishuFetch')];
+  const larkDocScraper = require('./larkDocScraper');
+  const tokenFetcher = require('./larkTokenFetcher.js');
+  Module._load = originalLoad;
+
+  const originalFetchToken = tokenFetcher.prototype.fetchToken;
+  const originalToken = tokenFetcher.prototype.token;
+  tokenFetcher.prototype.fetchToken = async function fetchToken() {
+    this.tenantAccessToken = 'tenant-token';
+  };
+  tokenFetcher.prototype.token = async () => 'tenant-token';
+
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'wiki-root-retry-'));
+  try {
+    const scraper = new larkDocScraper('root-token', '', 'wiki', tempDir);
+    scraper.__slugify = async () => 'root';
+    await scraper.fetch(false);
+
+    assert.equal(attempts, 2);
+    assert.equal(scraper.docs.node_token, 'root-token');
+    assert.equal(fs.existsSync(path.join(tempDir, 'root-token.json')), true);
+  } finally {
+    tokenFetcher.prototype.fetchToken = originalFetchToken;
+    tokenFetcher.prototype.token = originalToken;
+    fs.rmSync(tempDir, { recursive: true, force: true });
+    if (originalRetryDelay === undefined) {
+      delete process.env.FEISHU_RETRY_DELAY_MS;
+    } else {
+      process.env.FEISHU_RETRY_DELAY_MS = originalRetryDelay;
+    }
+    delete require.cache[require.resolve('./larkDocScraper')];
+    delete require.cache[require.resolve('./feishuFetch')];
+    delete require.cache[require.resolve('./larkTokenFetcher.js')];
+  }
+}
+
 async function testSlugifyRejectsAmbiguousTitleFallback() {
   const larkDocScraper = require('./larkDocScraper');
   const scraper = new larkDocScraper('', '', 'wiki', '/tmp');
@@ -650,6 +726,7 @@ async function testFetchWikiNodeMetadataResolvesShortcutRevisionFields() {
 
 async function run() {
   await testFeishuJsonFetchesAreThrottled();
+  await testWikiRootFetchRetriesPrematureClose();
   await testSlugifyRejectsAmbiguousTitleFallback();
   await testSlugifyResolvesAmbiguousTitleWithParentContext();
   await testSlugifyResolvesAmbiguousTitleWithCompositeParentContext();

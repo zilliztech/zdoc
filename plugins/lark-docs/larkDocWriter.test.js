@@ -1,4 +1,5 @@
 const assert = require('node:assert/strict');
+const Module = require('node:module');
 const LarkDocWriter = require('./larkDocWriter');
 
 function textRun(content, style = {}) {
@@ -162,6 +163,67 @@ async function testQuotePreservesMarkdownBody() {
   await assertMdxCompiles(markdown);
 }
 
+async function testBaseTablesRetriesPrematureClose() {
+  const originalLoad = Module._load;
+  const originalRetryDelay = process.env.FEISHU_RETRY_DELAY_MS;
+  process.env.FEISHU_RETRY_DELAY_MS = '1';
+  process.env.FEISHU_HOST = 'https://open.feishu.cn';
+
+  let attempts = 0;
+  Module._load = function patchedLoad(request, parent, isMain) {
+    if (request === 'node-fetch') {
+      return async function mockedFetch() {
+        attempts += 1;
+        if (attempts === 1) {
+          const err = new Error('Premature close');
+          err.code = 'ERR_STREAM_PREMATURE_CLOSE';
+          err.type = 'system';
+          throw err;
+        }
+
+        return {
+          status: 200,
+          headers: { get: () => null },
+          text: async () => JSON.stringify({
+            code: 0,
+            data: {
+              items: [{ table_id: 'tbl', name: 'Docs' }],
+              has_more: false,
+            },
+          }),
+        };
+      };
+    }
+
+    return originalLoad.apply(this, arguments);
+  };
+
+  delete require.cache[require.resolve('./larkDocWriter')];
+  delete require.cache[require.resolve('./feishuFetch')];
+
+  try {
+    const WriterWithMockedFetch = require('./larkDocWriter');
+    const writer = new WriterWithMockedFetch('', 'base:*', 'default');
+    try {
+      const tables = await writer.__base_tables('tenant-token');
+
+      assert.equal(attempts, 2);
+      assert.deepEqual(tables.map(table => table.table_id), ['tbl']);
+    } finally {
+      writer.destroy();
+    }
+  } finally {
+    Module._load = originalLoad;
+    if (originalRetryDelay === undefined) {
+      delete process.env.FEISHU_RETRY_DELAY_MS;
+    } else {
+      process.env.FEISHU_RETRY_DELAY_MS = originalRetryDelay;
+    }
+    delete require.cache[require.resolve('./larkDocWriter')];
+    delete require.cache[require.resolve('./feishuFetch')];
+  }
+}
+
 async function run() {
   testExampleHttpUrlsPreservesRawExampleUrls();
   testExampleHttpUrlsSkipsInlineCodeSpans();
@@ -169,6 +231,7 @@ async function run() {
   testKeywordPickerUsesStableSeed();
   await testCalloutPreservesMarkdownBody();
   await testQuotePreservesMarkdownBody();
+  await testBaseTablesRetriesPrematureClose();
   console.log('larkDocWriter tests passed');
 }
 

@@ -38,41 +38,33 @@ async function wait(duration) {
     })
 }
 
-async function fetchFeishuJsonWithRetry(url, options={}, label=url) {
+function requestOptions(options={}) {
+    return {
+        compress: false,
+        ...options,
+        headers: {
+            // Avoid node-fetch Gunzip failures from truncated compressed responses.
+            'Accept-Encoding': 'identity',
+            ...options.headers,
+        },
+    }
+}
+
+async function retryFetchBody(url, options, label, readBody, shouldRetryResult=() => false) {
     let lastError
 
     for (let attempt = 1; attempt <= FEISHU_RETRY_ATTEMPTS; attempt++) {
         try {
-            const res = await fetch(url, {
-                compress: false,
-                ...options,
-                headers: {
-                    'Content-Type': 'application/json; charset=utf-8',
-                    // Avoid node-fetch Gunzip failures from truncated compressed Feishu responses.
-                    'Accept-Encoding': 'identity',
-                    ...options.headers,
-                },
-            })
-            const text = await res.text()
-            let json = {}
-
-            if (text) {
-                try {
-                    json = JSON.parse(text)
-                } catch (parseError) {
-                    if (!shouldRetryJsonResponse(res, null)) {
-                        throw parseError
-                    }
-                }
-            }
-
-            if (shouldRetryJsonResponse(res, json)) {
-                const err = new Error(`retryable Feishu response ${res.status}: ${text.slice(0, 300)}`)
+            const res = await fetch(url, requestOptions(options))
+            const body = await readBody(res)
+            if (res.status === 429 || res.status >= 500 || shouldRetryResult(res, body)) {
+                const preview = typeof body === 'string' ? `: ${body.slice(0, 300)}` : ''
+                const err = new Error(`retryable response ${res.status}${preview}`)
                 err.retryDelayMs = retryAfterMs(res, attempt)
                 throw err
             }
 
-            return json
+            return body
         } catch (err) {
             lastError = err
             const retryable = err.retryDelayMs || isRetryableFetchError(err)
@@ -92,7 +84,49 @@ async function fetchFeishuJsonWithRetry(url, options={}, label=url) {
     throw lastError
 }
 
+async function fetchTextWithRetry(url, options={}, label=url) {
+    return await retryFetchBody(url, options, label, async (res) => await res.text())
+}
+
+async function fetchJsonWithRetry(url, options={}, label=url, shouldRetryJson=shouldRetryJsonResponse) {
+    return await retryFetchBody(url, options, label, async (res) => {
+        const text = await res.text()
+        if (!text) return {}
+
+        try {
+            return JSON.parse(text)
+        } catch (parseError) {
+            if (!shouldRetryJsonResponse(res, null)) {
+                throw parseError
+            }
+            return {}
+        }
+    }, shouldRetryJson)
+}
+
+async function fetchBufferWithRetry(url, options={}, label=url) {
+    return await retryFetchBody(url, options, label, async (res) => await res.buffer())
+}
+
+async function fetchFeishuJsonWithRetry(url, options={}, label=url) {
+    return await fetchJsonWithRetry(url, {
+        ...options,
+        headers: {
+            'Content-Type': 'application/json; charset=utf-8',
+            ...options.headers,
+        },
+    }, label, shouldRetryJsonResponse)
+}
+
+async function fetchFeishuBufferWithRetry(url, options={}, label=url) {
+    return await fetchBufferWithRetry(url, options, label)
+}
+
 module.exports = {
+    fetchBufferWithRetry,
+    fetchFeishuBufferWithRetry,
     fetchFeishuJsonWithRetry,
+    fetchJsonWithRetry,
+    fetchTextWithRetry,
     isRetryableFetchError,
 }

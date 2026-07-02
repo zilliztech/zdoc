@@ -1,12 +1,12 @@
 const utils = require('./larkUtils.js')
 const tokenFetcher = require('./larkTokenFetcher.js')
 const https = require('node:https')
-const fetch = require('node-fetch')
 const Bottleneck = require('bottleneck')
 const process = require('node:process')
 const crypto = require('node:crypto')
 const { S3Client, PutObjectCommand, HeadObjectCommand, PutObjectAclCommand } = require('@aws-sdk/client-s3');
 const { NodeHttpHandler } = require('@smithy/node-http-handler');
+const { fetchBufferWithRetry, fetchFeishuBufferWithRetry, fetchJsonWithRetry } = require('./feishuFetch.js')
 
 require('dotenv/config')
 
@@ -89,11 +89,11 @@ class larkImageDownloader {
             const controller = new AbortController()
             const timeout = setTimeout(() => controller.abort(), 30000)
             try {
-                const res = await fetch(
+                return await fetchFeishuBufferWithRetry(
                     `${process.env.FEISHU_HOST}/open-apis/drive/v1/medias/${image_token}/download`,
-                    { method: 'GET', headers: { Authorization: `Bearer ${token}` }, signal: controller.signal }
+                    { method: 'GET', headers: { Authorization: `Bearer ${token}` }, signal: controller.signal },
+                    `download image ${image_token}`
                 )
-                return res
             } finally {
                 clearTimeout(timeout)
             }
@@ -110,11 +110,11 @@ class larkImageDownloader {
             const controller = new AbortController()
             const timeout = setTimeout(() => controller.abort(), 30000)
             try {
-                const res = await fetch(
+                return await fetchFeishuBufferWithRetry(
                     `${process.env.FEISHU_HOST}/open-apis/board/v1/whiteboards/${board_token}/download_as_image`,
-                    { method: 'GET', headers: { Authorization: `Bearer ${token}` }, signal: controller.signal }
+                    { method: 'GET', headers: { Authorization: `Bearer ${token}` }, signal: controller.signal },
+                    `download board preview ${board_token}`
                 )
-                return res
             } finally {
                 clearTimeout(timeout)
             }
@@ -131,42 +131,31 @@ class larkImageDownloader {
             },
         }
 
-        const res = await fetch(`https://api.figma.com/v1/files/${key}/nodes?ids=${node}`, req)
-
-        if (res.status === 429) {
-            await this.__wait(60000)
-            return await this.__fetchCaption(key, node)
-        }
-
-        return res.json()
+        return await fetchJsonWithRetry(
+            `https://api.figma.com/v1/files/${key}/nodes?ids=${node}`,
+            req,
+            `fetch Figma caption ${key}:${node}`
+        )
     }
 
     async __downloadIframe(key, node) {
         console.log(`ImageReq: ${key} ${node}`)
-        let res = await fetch(`https://api.figma.com/v1/images/${key}?ids=${node}&format=png&scale=3`, {
+        const imageJson = await fetchJsonWithRetry(`https://api.figma.com/v1/images/${key}?ids=${node}&format=png&scale=3`, {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',
                 'X-Figma-Token': process.env.FIGMA_API_KEY                
             }
-        })
-
-        let url = (await res.json()).images[node]
-        res = await fetch(url, {
+        }, `fetch Figma image URL ${key}:${node}`)
+        const url = imageJson.images[node]
+        return await fetchBufferWithRetry(url, {
             method: 'GET',
             headers: {
                 'Connection': 'keep-alive',
                 'X-Figma-Token': process.env.FIGMA_API_KEY                
             },
             agent: new https.Agent({ keepAlive: true, maxSockets: 10 })
-        })
-
-        if (res.status === 429) {
-            await this.__wait(60000) 
-            return await this.__fetchCaption(key, node)
-        }
-
-        return res
+        }, `download Figma image ${key}:${node}`)
     }
 
     destroy() {

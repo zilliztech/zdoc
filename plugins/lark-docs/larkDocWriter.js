@@ -16,11 +16,11 @@ const Downloader = require('./larkImageDownloader.js')
 const slugify = require('slugify')
 const fs = require('node:fs')
 const { URL } = require('node:url')
-const fetch = require('node-fetch')
 const node_path = require('node:path')
 const cheerio = require('cheerio')
 const showdown = require('showdown')
 const _ = require('lodash')
+const { fetchFeishuJsonWithRetry, fetchTextWithRetry } = require('./feishuFetch.js')
 // MDX compilation will be loaded dynamically as it's an ES module
 
 const IMAGE_BED_URL = process.env.IMAGE_BED_URL || 'https://zdoc-images.s3.us-west-2.amazonaws.com'
@@ -838,13 +838,12 @@ class larkDocWriter {
         do {
             const pageTokenExpr = pageToken ? `&page_token=${pageToken}` : ''
             const url = `${process.env.FEISHU_HOST}/open-apis/bitable/v1/apps/${this.base_app_token}/tables?page_size=100${pageTokenExpr}`
-            const jres = await (await fetch(url, {
+            const jres = await fetchFeishuJsonWithRetry(url, {
                 method: "get",
                 headers: {
-                    'Content-Type': 'application/json; charset=utf-8',
                     'Authorization': `Bearer ${token}`
                 }
-            })).json()
+            }, `writer list bitable tables ${this.base_app_token}`)
             if (jres.code !== 0) {
                 throw new Error(`[base] Failed to list tables for ${this.base_app_token}: ${JSON.stringify(jres)}`)
             }
@@ -872,13 +871,12 @@ class larkDocWriter {
         do {
             const pageTokenExpr = pageToken ? `&page_token=${pageToken}` : ''
             const url = `${process.env.FEISHU_HOST}/open-apis/bitable/v1/apps/${this.base_app_token}/tables/${table.table_id}/records?page_size=500${pageTokenExpr}`
-            const jres = await (await fetch(url, {
+            const jres = await fetchFeishuJsonWithRetry(url, {
                 method: "get",
                 headers: {
-                    'Content-Type': 'application/json; charset=utf-8',
                     'Authorization': `Bearer ${token}`
                 }
-            })).json()
+            }, `writer list bitable records ${table.name || table.table_id}`)
             if (jres.code !== 0) {
                 throw new Error(`[base] Failed to list records for ${table.name || table.table_id}: ${JSON.stringify(jres)}`)
             }
@@ -2096,17 +2094,14 @@ class larkDocWriter {
 
         try {
             console.log(`[image] downloading ${image.token} → ${slug}.png`)
-            const result = await this.downloader.__downloadImage(image.token)
-            console.log(`[image] download response status: ${result.status} for ${image.token}`)
-            console.log(`[image] reading buffer for ${image.token}`)
-            const buffer = await result.buffer();
+            const buffer = await this.downloader.__downloadImage(image.token)
             console.log(`[image] buffer ready (${buffer.length} bytes) for ${image.token}`)
             if (this.upload_to_s3) {
                 console.log(`[image] uploading ${slug}.png to S3`)
                 await this.downloader.__uploadToS3(buffer, `${slug}.png`);
                 console.log(`[image] S3 upload done for ${slug}.png`)
             } else {
-                result.body.pipe(fs.createWriteStream(`${this.downloader.target_path}/${slug}.png`));
+                fs.writeFileSync(`${this.downloader.target_path}/${slug}.png`, buffer);
                 console.log(`[image] written to disk: ${slug}.png`)
             }
         } catch (error) {
@@ -2158,29 +2153,17 @@ class larkDocWriter {
         }
 
         console.log(`[board] downloading preview for ${board.token}`)
-        const result = await this.downloader.__downloadBoardPreview(board.token)
-        console.log(`[board] download response status: ${result.status} for ${board.token}`)
-        await new Promise((resolve, reject) => {
-            const buffers = [];
-            result.body.on('data', (chunk) => buffers.push(chunk));
-            result.body.on('error', reject);
-            result.body.on('end', async () => {
-                try {
-                    const buffer = Buffer.concat(buffers);
-                    console.log(`[board] buffer ready (${buffer.length} bytes) for ${board.token}`)
-                    const trimmedBuffer = await this.__trim_white_borders(buffer);
-                    if (this.upload_to_s3) {
-                        console.log(`[board] uploading ${board.token}.png to S3`)
-                        await this.downloader.__uploadToS3(trimmedBuffer, `${board["token"]}.png`);
-                        console.log(`[board] S3 upload done for ${board.token}.png`)
-                    } else {
-                        fs.writeFileSync(`${this.downloader.target_path}/${board["token"]}.png`, trimmedBuffer);
-                        console.log(`[board] written to disk: ${board.token}.png`)
-                    }
-                    resolve()
-                } catch (err) { reject(err) }
-            });
-        });
+        const buffer = await this.downloader.__downloadBoardPreview(board.token)
+        console.log(`[board] buffer ready (${buffer.length} bytes) for ${board.token}`)
+        const trimmedBuffer = await this.__trim_white_borders(buffer);
+        if (this.upload_to_s3) {
+            console.log(`[board] uploading ${board.token}.png to S3`)
+            await this.downloader.__uploadToS3(trimmedBuffer, `${board["token"]}.png`);
+            console.log(`[board] S3 upload done for ${board.token}.png`)
+        } else {
+            fs.writeFileSync(`${this.downloader.target_path}/${board["token"]}.png`, trimmedBuffer);
+            console.log(`[board] written to disk: ${board.token}.png`)
+        }
 
         return ' '.repeat(indent) + `![${board.token}](${boardUrl})`;
     }
@@ -2240,12 +2223,11 @@ class larkDocWriter {
                 const key = url.pathname.split('/')[2]
                 const node = url.searchParams.get('node-id').split('-').join(":") 
                 const caption = (await this.downloader.__fetchCaption(key, node)).nodes[node].document.name;
-                const result = await this.downloader.__downloadIframe(key, node);
-                const buffer = await result.buffer();
+                const buffer = await this.downloader.__downloadIframe(key, node);
                 if (this.upload_to_s3) {
                     await this.downloader.__uploadToS3(buffer, `${caption}.png`);
                 } else if (!fs.existsSync(`${this.downloader.target_path}/${caption}.png`)) {
-                    result.body.pipe(fs.createWriteStream(`${this.downloader.target_path}/${caption}.png`));
+                    fs.writeFileSync(`${this.downloader.target_path}/${caption}.png`, buffer);
 
                     this.iframes.push({
                         block_id,
@@ -2821,8 +2803,8 @@ class larkDocWriter {
 
         for (let key in sdks) {
             if (sdks[key]) {
-                const res = await fetch(sdks[key])
-                const $ = cheerio.load(await res.text())
+                const html = await fetchTextWithRetry(sdks[key], {}, `fetch SDK releases ${key}`)
+                const $ = cheerio.load(html)
                 const version = $('section > h2').first().text().match(/\d+\.\d+\.\d+/)[0]
                 const released = $('section').first().find('relative-time').attr('datetime')
                 sdks[key] = {

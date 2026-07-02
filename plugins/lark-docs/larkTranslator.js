@@ -1,10 +1,14 @@
-const fetch = require('node-fetch')
 const Bottleneck = require('bottleneck')
 const larkTokenFetcher = require('./larkTokenFetcher.js')
+const { fetchFeishuJsonWithRetry } = require('./feishuFetch.js')
 require('dotenv').config()
 
 const FEISHU_HOST = process.env.FEISHU_HOST
 
+/**
+ * @deprecated This translation helper is not used by the lark-docs fetch/write flow.
+ * Keep it only for legacy callers until it can be removed cleanly.
+ */
 class larkTranslator {
     constructor(source, target, cache) {
         this.source = source
@@ -19,7 +23,7 @@ class larkTranslator {
 
     async translate(text) {
         if (!this.token) {
-            const fetcher = new tokenFetcher()
+            const fetcher = new larkTokenFetcher()
             await fetcher.fetchToken()
             this.token = await fetcher.token()
         }
@@ -42,13 +46,11 @@ class larkTranslator {
             text: text
         }
 
-        const response = await fetch(url, {
+        const data = await fetchFeishuJsonWithRetry(url, {
             method: 'POST',
             headers: headers,
             body: JSON.stringify(body)
-        })
-
-        const data = await response.json()
+        }, 'translate text')
 
         if (data.code !== 0) {
             throw new Error(`Lark translation error: ${data.msg}`)
