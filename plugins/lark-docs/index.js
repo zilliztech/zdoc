@@ -1,8 +1,12 @@
 const docScraper = require('./larkDocScraper.js')
 const docWriter = require('./larkDocWriter.js')
 const driveWriter = require('./larkDriveWriter.js')
+const { runCanonicalLinkAudit } = require('./canonicalLinkAuditor')
+const { planIncrementalFetch, writeIncrementalFetchPlanReports } = require('./incrementalFetchPlanner')
+const { readSnapshot } = require('./sourceSnapshot')
 const Utils = require('./larkUtils.js')
 const fs = require('node:fs')
+const path = require('node:path')
 const inquirer = require('inquirer')
 require('dotenv/config');
 
@@ -29,6 +33,15 @@ module.exports = function (context, options) {
                 .option('--skipLinkValidation', 'Skip content link validation report generation')
                 .option('--failOnBrokenContentLinks', 'Fail when content link validation finds missing canonical records')
                 .option('--linkShim <path>', 'Apply approved Feishu doc link replacements from a shim JSON file during export')
+                .option('--auditCanonicalLinks', 'Write file-centric canonical mention_doc and Feishu link audit reports')
+                .option('--canonicalLinkReportPrefix <path>', 'Output prefix for canonical link audit reports')
+                .option('--failOnBrokenCanonicalLinks', 'Fail when canonical link audit finds links or mention_docs outside the current Base')
+                .option('--incremental', 'Fetch only changed Base docs and cross-reference neighbors when a last-success snapshot exists')
+                .option('--incrementalPlanOnly', 'Write the incremental fetch plan and exit without fetching')
+                .option('--incrementalMaxReferenceDepth <n>', 'Reference expansion depth for --incremental', '1')
+                .option('--snapshotPath <path>', 'Override last-success snapshot path')
+                .option('--buildEnv <env>', 'Build environment for snapshot scoping: uat or production', process.env.DOCS_BUILD_ENV || 'local')
+                .option('--forceFullFetch', 'Ignore incremental planning and force a full source fetch')
                 .action(async (opts) => {
                     try {
                         process.env.REPO_BRANCH = fs.readFileSync('.git/HEAD', 'utf8').split(': ')[1].trim().split('/').slice(-1)[0]
@@ -77,8 +90,89 @@ module.exports = function (context, options) {
                         })
                     }
 
+                    const auditCanonicalLinks = async ({ fresh=false } = {}) => {
+                        if (!opts.auditCanonicalLinks && !opts.failOnBrokenCanonicalLinks) return null
+                        const auditScraper = fresh ? new docScraper(root, base, sourceType, docSourceDir) : scraper
+                        if (!auditScraper.records) {
+                            await auditScraper.__base()
+                        }
+                        const prefix = opts.canonicalLinkReportPrefix ||
+                            `./plugins/lark-docs/meta/reports/${manualName}-canonical-link-audit`
+                        const { report, paths } = runCanonicalLinkAudit({
+                            manualName,
+                            docSourceDir,
+                            records: auditScraper.records,
+                            target: opts.pubTarget || null,
+                            outputPrefix: prefix,
+                            failOnBroken: !!opts.failOnBrokenCanonicalLinks,
+                        })
+                        console.log(`[canonical-links] Report written to ${paths.markdownPath}`)
+                        return report
+                    }
+
+                    const fullSourceFetch = async () => {
+                        fs.rmSync(docSourceDir, { recursive: true })
+                        fs.mkdirSync(docSourceDir, { recursive: true })
+                        await scraper.fetch(true)
+                        if (fallbackSourceDir !== undefined) {
+                            utils.fetch_fallback_sources(docSourceDir, fallbackSourceDir, sourceType, root)
+                        }
+                    }
+
+                    const planIncrementalSourceFetch = async () => {
+                        if (!scraper.records) await scraper.__base()
+                        const snapshotEnv = opts.buildEnv || 'local'
+                        const snapshotPath = opts.snapshotPath ||
+                            path.join('.', 'plugins', 'lark-docs', 'meta', 'snapshots', `${manualName}-${snapshotEnv}-last-success.json`)
+                        const plan = planIncrementalFetch({
+                            manualName,
+                            docSourceDir,
+                            records: scraper.records,
+                            previousSnapshot: readSnapshot(snapshotPath),
+                            buildEnv: snapshotEnv,
+                            maxReferenceDepth: Number(opts.incrementalMaxReferenceDepth || 1),
+                            forceFull: !!opts.forceFullFetch,
+                            currentNodeMetadataByToken: await scraper.fetch_wiki_node_metadata(scraper.records),
+                        })
+                        const prefix = path.join('.', 'plugins', 'lark-docs', 'meta', 'reports', `${manualName}-incremental-fetch-plan`)
+                        const paths = writeIncrementalFetchPlanReports(plan, prefix)
+                        console.log(`[incremental-fetch] Plan written to ${paths.markdownPath}`)
+                        return plan
+                    }
+
+                    const fetchSources = async () => {
+                        if (opts.incremental || opts.incrementalPlanOnly) {
+                            if (sourceType !== 'wiki' || !base.endsWith(':*')) {
+                                console.warn('[incremental-fetch] Incremental fetch is only supported for wiki manuals backed by all Base tables. Falling back to full fetch.')
+                                if (opts.incrementalPlanOnly) return
+                                await fullSourceFetch()
+                                return
+                            }
+                            const plan = await planIncrementalSourceFetch()
+                            if (opts.incrementalPlanOnly) return
+                            if (plan.mode === 'incremental') {
+                                await scraper.fetch_source_tokens(plan.expanded_tokens)
+                                if (fallbackSourceDir !== undefined) {
+                                    utils.fetch_fallback_sources(docSourceDir, fallbackSourceDir, sourceType, root)
+                                }
+                                return
+                            }
+                        }
+                        await fullSourceFetch()
+                    }
+
                     if (opts.validateLinks && opts.pubTarget === undefined && !opts.sourceOnly && opts.docToken === undefined) {
                         await validateContentLinks({ force: true })
+                        return
+                    }
+
+                    if (opts.incrementalPlanOnly && opts.pubTarget === undefined && !opts.sourceOnly && opts.docToken === undefined) {
+                        await planIncrementalSourceFetch()
+                        return
+                    }
+
+                    if ((opts.auditCanonicalLinks || opts.failOnBrokenCanonicalLinks) && opts.pubTarget === undefined && !opts.sourceOnly && opts.docToken === undefined) {
+                        await auditCanonicalLinks()
                         return
                     }
 
@@ -87,6 +181,7 @@ module.exports = function (context, options) {
                         if (opts.validateLinks) {
                             await validateContentLinks({ force: true })
                         }
+                        await auditCanonicalLinks()
                         const targetConfig = resolveTarget(targets, opts.pubTarget) ?? resolveTarget(targets, utils.list_valid_targets(targets)[0])
                         const { outputDir } = targetConfig
                         const effectiveSidebarPath = targetConfig.sidebarPath ?? sidebarPath
@@ -112,15 +207,13 @@ module.exports = function (context, options) {
                                 }
                                 await scraper.fetch_base_table_sources(opts.table)
                                 await validateContentLinks({ force: !!opts.validateLinks, fresh: true })
+                                await auditCanonicalLinks()
                             } else {
                                 // const scraper = new docScraper(root, base, sourceType, docSourceDir)
-                                fs.rmSync(docSourceDir, { recursive: true })
-                                fs.mkdirSync(docSourceDir, { recursive: true })
-                                await scraper.fetch(true)
-                                if (fallbackSourceDir !== undefined) {
-                                    utils.fetch_fallback_sources(docSourceDir, fallbackSourceDir, sourceType, root)
-                                }
+                                await fetchSources()
+                                if (opts.incrementalPlanOnly) return
                                 await validateContentLinks({ force: !!opts.validateLinks })
+                                await auditCanonicalLinks()
                             }
                         // Pull specific source file from Feishu
                         } else if (opts.docToken !== undefined) {
@@ -186,17 +279,18 @@ module.exports = function (context, options) {
                                 }
 
                                 if (!opts.skipSourceDown) {
-                                    fs.rmSync(docSourceDir, { recursive: true })
-                                    fs.mkdirSync(docSourceDir, { recursive: true })
-                                    await scraper.fetch(true)
-                                    if (fallbackSourceDir !== undefined) {
-                                        utils.fetch_fallback_sources(docSourceDir, fallbackSourceDir, sourceType, root)
+                                    await fetchSources()
+                                    if (opts.incrementalPlanOnly) {
+                                        writerCleanup()
+                                        return
                                     }
                                 }
 
                                 if (!opts.skipSourceDown || opts.validateLinks) {
                                     await validateContentLinks({ force: !!opts.validateLinks })
                                 }
+
+                                await auditCanonicalLinks()
 
                                 if (opts.sourceOnly) {
                                     writerCleanup()

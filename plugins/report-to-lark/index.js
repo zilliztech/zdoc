@@ -110,6 +110,7 @@ module.exports = function (context) {
         .option('--status <status>', 'Stage status: done (default) | fail | success')
         .option('--note <note>', 'Optional note to append to the card')
         .option('--note-file <path>', 'Read note text from a file (supports multiline; overrides --note)')
+        .option('--card-note-file <path>', 'Append a note file to the current progress card without advancing the stage')
         .option('--message-id <id>', 'Card message ID for cross-job --card-finish')
         .option('--started-at <iso>', 'startedAt ISO string passed from card-create job output')
         .action(async (opts) => {
@@ -164,6 +165,22 @@ module.exports = function (context) {
             } else {
               process.stderr.write(`[report-to-lark] card-create failed: ${JSON.stringify(data)}\n`)
             }
+            return
+          }
+
+          // ----------------------------------------------------------------
+          // --card-note-file  Append a note without advancing the stage
+          // ----------------------------------------------------------------
+          if (opts.cardNoteFile) {
+            const state = loadState(context.siteDir)
+            if (!state) {
+              process.stderr.write('[report-to-lark] no card state — skipping note update\n')
+              return
+            }
+            const note = fs.readFileSync(opts.cardNoteFile, 'utf8').trim()
+            if (note) state.notes.push(note)
+            saveState(context.siteDir, state)
+            await patchCard(token, state.messageId, state, FEISHU_HOST)
             return
           }
 

@@ -1,6 +1,7 @@
 const fetch = require('node-fetch')
 const tokenFetcher = require('./larkTokenFetcher.js')
 const { fetchFeishuJsonWithRetry } = require('./feishuFetch.js')
+const { auditCanonicalLinks, canonicalRecordsFrom } = require('./canonicalLinkAuditor')
 const fs = require('fs')
 const node_path = require('path')
 const _ = require('lodash')
@@ -40,6 +41,84 @@ class larkDocScraper {
                 ...options.headers,
             },
         }, label))
+    }
+
+    async __ensure_token() {
+        if (this.token) return
+        const fetcher = new tokenFetcher()
+        await fetcher.fetchToken()
+        this.token = await fetcher.token()
+    }
+
+    async fetch_wiki_node(token, objType=null) {
+        await this.__ensure_token()
+        const objTypeExpr = objType ? `&obj_type=${encodeURIComponent(objType)}` : ''
+        const url = `${FEISHU_HOST}/open-apis/wiki/v2/spaces/get_node?token=${encodeURIComponent(token)}${objTypeExpr}`
+        const jres = await this.__fetchFeishuJson(url, { method: 'get' }, `get wiki node ${token}`)
+        if (jres.code !== 0) {
+            throw new Error(`[wiki-node] Failed to resolve ${token}: ${JSON.stringify(jres)}`)
+        }
+        return jres.data.node
+    }
+
+    __wiki_obj_type_from_link(link) {
+        if (!link) return null
+        try {
+            const firstSegment = new URL(link).pathname.split('/').filter(Boolean)[0]
+            const aliases = {
+                wiki: null,
+                doc: 'doc',
+                docs: 'doc',
+                docx: 'docx',
+                sheet: 'sheet',
+                sheets: 'sheet',
+                mindnote: 'mindnote',
+                bitable: 'bitable',
+                base: 'bitable',
+                slides: 'slides',
+                file: 'file',
+            }
+            return Object.prototype.hasOwnProperty.call(aliases, firstSegment) ? aliases[firstSegment] : null
+        } catch (_) {
+            return null
+        }
+    }
+
+    async fetch_wiki_node_metadata(records) {
+        const metadataByToken = new Map()
+        for (const record of canonicalRecordsFrom(records || this.records || [])) {
+            try {
+                const objType = this.__wiki_obj_type_from_link(record.doc_link)
+                let node = await this.fetch_wiki_node(record.doc_token, objType)
+                const requestedNodeToken = node.node_token || record.doc_token
+                if (node.node_type === 'shortcut' && node.origin_node_token) {
+                    node = await this.fetch_wiki_node(node.origin_node_token)
+                }
+                metadataByToken.set(record.doc_token, {
+                    requested_token: record.doc_token,
+                    requested_node_token: requestedNodeToken,
+                    node_token: node.node_token || null,
+                    origin_node_token: node.origin_node_token || null,
+                    obj_token: node.obj_token || null,
+                    obj_type: node.obj_type || null,
+                    node_type: node.node_type || null,
+                    title: node.title || null,
+                    space_id: node.space_id || null,
+                    parent_node_token: node.parent_node_token || null,
+                    node_create_time: node.node_create_time || null,
+                    obj_create_time: node.obj_create_time || null,
+                    obj_edit_time: node.obj_edit_time || null,
+                    revision_id: node.revision_id || node.revision || null,
+                })
+            } catch (error) {
+                console.warn(`[wiki-node] ${error.message}`)
+                metadataByToken.set(record.doc_token, {
+                    requested_token: record.doc_token,
+                    fetch_error: error.message,
+                })
+            }
+        }
+        return metadataByToken
     }
 
     __write_source(node, filename) {
@@ -947,50 +1026,45 @@ class larkDocScraper {
             await this.__base()
         }
 
-        const { canonicalByToken } = this.__record_graph()
-        const files = fs.existsSync(this.doc_source_dir)
-            ? fs.readdirSync(this.doc_source_dir).filter(file => file.endsWith('.json'))
-            : []
-        const contentLinks = []
+        const canonicalReport = auditCanonicalLinks({
+            manualName: 'legacy',
+            docSourceDir: this.doc_source_dir,
+            records: this.records,
+            target: null,
+        })
+
         const brokenContentLinks = []
-        let scannedSources = 0
-        let skippedNonCanonicalSources = 0
-
-        for (const file of files) {
-            const source = JSON.parse(fs.readFileSync(`${this.doc_source_dir}/${file}`, 'utf8'))
-            if (!source.blocks?.items) continue
-            const isCanonicalSource = this.__source_token_aliases(source)
-                .some(token => canonicalByToken.has(token))
-            if (!isCanonicalSource) {
-                skippedNonCanonicalSources++
-                continue
-            }
-            scannedSources++
-
-            const links = this.__content_links_for_source(source)
-            for (const link of links) {
-                contentLinks.push(link)
-                if (!canonicalByToken.has(link.token)) {
-                    brokenContentLinks.push({
-                        reason: 'missing canonical',
-                        source_file: file,
-                        ...link,
-                    })
-                }
+        for (const file of canonicalReport.files) {
+            for (const reference of file.broken_references) {
+                brokenContentLinks.push({
+                    reason: 'missing canonical',
+                    source_file: file.source_file,
+                    source_type: reference.source_type,
+                    source_token: reference.source_token,
+                    source_title: reference.source_title,
+                    source_slug: reference.source_slug,
+                    block_id: reference.block_id,
+                    link_text: reference.link_text,
+                    raw_url: reference.raw_url,
+                    url: reference.url,
+                    token: reference.token,
+                    kind: reference.kind,
+                    anchor: reference.anchor,
+                })
             }
         }
 
         const report = {
-            generated_at: new Date().toISOString(),
+            generated_at: canonicalReport.generated_at,
             source_dir: this.doc_source_dir,
             base_app_token: this.base_app_token,
             base_table_id: this.base_table_id,
             summary: {
-                canonical_tokens: canonicalByToken.size,
-                scanned_sources: scannedSources,
-                skipped_noncanonical_sources: skippedNonCanonicalSources,
-                content_links: contentLinks.length,
-                broken_content_links: brokenContentLinks.length,
+                canonical_tokens: canonicalReport.summary.canonical_records,
+                scanned_sources: canonicalReport.summary.scanned_sources,
+                skipped_noncanonical_sources: canonicalReport.summary.skipped_noncanonical_sources,
+                content_links: canonicalReport.summary.internal_references,
+                broken_content_links: canonicalReport.summary.broken_references,
             },
             broken_content_links: brokenContentLinks,
         }
@@ -1172,6 +1246,16 @@ class larkDocScraper {
         this.token = await fetcher.token()
         await this.__base({ tableFilter, force: true })
         await this.__apply_base_navigation({ partialTables: true })
+    }
+
+    async fetch_source_tokens(tokens) {
+        const uniqueTokens = [...new Set((tokens || []).filter(Boolean))]
+        for (const token of uniqueTokens) {
+            await this.fetch(false, token)
+        }
+        if (this.use_all_base_tables) {
+            await this.__apply_base_navigation({ partialTables: true })
+        }
     }
 
     async __split_one_pager(node) {

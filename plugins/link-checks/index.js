@@ -5,8 +5,10 @@ const xml2js = require('xml2js')
 const path = require('node:path')
 const _ = require('lodash')
 const dotenv = require('dotenv')
+const { buildLinkCheckReport, renderLinkCheckMarkdown } = require('./linkCheckReporter')
 
 const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms))
+const PRODUCTION_DOCS_URL = 'https://docs.zilliz.com/'
 
 function normalizeUrl (value) {
     return value.replace(/\/+$/, '') + '/'
@@ -61,6 +63,42 @@ async function listUrls (baseUrl) {
     return urls
 }
 
+function htmlPagesUnder(siteDir, dir) {
+    const absoluteDir = path.join(siteDir, dir)
+    if (!fs.existsSync(absoluteDir)) return []
+    return fs.readdirSync(absoluteDir)
+        .filter(file => file.endsWith('.html'))
+        .map(file => path.join(dir, file))
+}
+
+function collectExternalLinkEntries(siteDir) {
+    const pages = [
+        ...htmlPagesUnder(siteDir, 'build/docs'),
+        ...htmlPagesUnder(siteDir, 'build/reference'),
+    ]
+    const entries = []
+    for (const page of pages) {
+        const content = fs.readFileSync(path.join(siteDir, page), 'utf8')
+        for (const match of content.matchAll(/<a .* href="([^"]+)"/g)) {
+            const url = match[1]
+            if (url.startsWith('http')) {
+                entries.push({ url, page: page.replace(/^build\//, '') })
+            }
+        }
+    }
+    return entries
+}
+
+function uniqueLinkEntries(entries) {
+    const byUrl = new Map()
+    for (const entry of entries) {
+        const existing = byUrl.get(entry.url) || { url: entry.url, pages: [] }
+        if (entry.page && !existing.pages.includes(entry.page)) existing.pages.push(entry.page)
+        byUrl.set(entry.url, existing)
+    }
+    return [...byUrl.values()]
+}
+
 module.exports = function (context, options) {
     dotenv.config({ path: path.join(context.siteDir, '.env') })
 
@@ -69,7 +107,7 @@ module.exports = function (context, options) {
             return process.env.LINK_CHECKS_REMOTE_SITEMAP
         }
 
-        const remoteBaseUrl = process.env.LINK_CHECKS_REMOTE_BASE_URL || (context.siteConfig.url + context.siteConfig.baseUrl)
+        const remoteBaseUrl = process.env.LINK_CHECKS_REMOTE_BASE_URL || PRODUCTION_DOCS_URL
         return normalizeUrl(remoteBaseUrl)
     }
 
@@ -84,10 +122,12 @@ module.exports = function (context, options) {
                 .command('link-checks')
                 .description('check external links in markdown files')
                 .action(async (opts) => {
-                    const remote = await listUrls(resolveRemoteSitemapSource())
-                    const local = await listUrls(resolveLocalSitemapSource())
+                    const remoteSitemapSource = resolveRemoteSitemapSource()
+                    const localSitemapSource = resolveLocalSitemapSource()
+                    const remote = await listUrls(remoteSitemapSource)
+                    const local = await listUrls(localSitemapSource)
 
-                    const deleted =remote.filter(url =>!local.includes(url))
+                    const deleted = remote.filter(url =>!local.includes(url))
                     const added = local.filter(url =>!remote.includes(url))
 
                     console.log(`Deleted links: ${deleted.length}`)
@@ -101,34 +141,20 @@ module.exports = function (context, options) {
                         console.log(added)
                     }
 
-                    const docPages = fs.readdirSync('build/docs').filter(file => file.endsWith('.html'))
-                    const referencePages = fs.readdirSync('build/reference').filter(file => file.endsWith('.html'))
-                    var externalLinks = []
                     var brokenLinks = []
-
-                    for (const page of docPages) {
-                        const content = fs.readFileSync(`build/docs/${page}`, 'utf8')
-                        externalLinks = externalLinks.concat([...content.matchAll(/<a .* href="([^"]+)"/g)].map(match => match[1]).filter(link => link.startsWith('http')))
-                    }
-
-                    for (const page of referencePages) {
-                        const content = fs.readFileSync(`build/reference/${page}`, 'utf8')
-                        externalLinks = externalLinks.concat([...content.matchAll(/<a .* href="([^"]+)"/g)].map(match => match[1]).filter(link => link.startsWith('http')))
-                    }
-
-                    externalLinks = Array.from(new Set(externalLinks))
+                    const externalLinks = uniqueLinkEntries(collectExternalLinkEntries(context.siteDir))
 
                     console.log(`Total external links: ${externalLinks.length}`)
 
                     await Promise.all(externalLinks.map(async (link) => {
                         try {
-                            const response = await fetch(link.split('|')[0], { method: 'HEAD'})
+                            const response = await fetch(link.url.split('|')[0], { method: 'HEAD'})
 
                             if (response.status >= 400) {
-                                brokenLinks.push(link)
+                                brokenLinks.push({ ...link, status: response.status })
                             }
                         } catch (error) {
-                            brokenLinks.push(link)
+                            brokenLinks.push({ ...link, error: error.message })
                         }
                     }))
 
@@ -136,6 +162,32 @@ module.exports = function (context, options) {
                     if (brokenLinks.length > 0) {
                         console.log('Broken links:')
                         console.log(brokenLinks)
+                    }
+
+                    const report = buildLinkCheckReport({
+                        remoteSitemapSource,
+                        localSitemapSource,
+                        remoteUrls: remote,
+                        localUrls: local,
+                        checkedExternalLinks: externalLinks,
+                        externalLinks: brokenLinks,
+                    })
+
+                    const reportsDir = path.join(context.siteDir, 'plugins/link-checks/meta/reports')
+                    fs.mkdirSync(reportsDir, { recursive: true })
+                    const stamp = Date.now()
+                    const json = JSON.stringify(report, null, 2)
+                    const markdown = renderLinkCheckMarkdown(report)
+                    const latestJson = path.join(reportsDir, 'latest.json')
+                    const latestMd = path.join(reportsDir, 'latest.md')
+                    fs.writeFileSync(latestJson, json)
+                    fs.writeFileSync(latestMd, markdown)
+                    fs.writeFileSync(path.join(reportsDir, `report_${stamp}.json`), json)
+                    fs.writeFileSync(path.join(reportsDir, `report_${stamp}.md`), markdown)
+                    console.log(`Link-check report written to ${latestMd}`)
+
+                    if (report.summary.deleted_links > 0 || report.summary.broken_external_links > 0) {
+                        process.exitCode = 1
                     }
                  })
         }
@@ -145,4 +197,5 @@ module.exports = function (context, options) {
 module.exports._test = {
     fetchTextWithRetries,
     listUrls,
+    collectExternalLinkEntries,
 }

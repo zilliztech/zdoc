@@ -5,11 +5,15 @@ on:
       target_branch:
         description: 'Target branch to commit changes to'
         required: true
-        default: 'feat/zdoc-redesign'
+        default: 'dev'
 
 jobs:
   fetch:
     runs-on: ubuntu-latest
+    env:
+      DOCS_BUILD_ENV: uat
+      DOCS_PUBLISH_URL: https://docs.cloud-uat3.zilliz.com
+      LINK_CHECKS_REMOTE_BASE_URL: https://docs.zilliz.com
     outputs:
       card_id: ${{ steps.card.outputs.card_id }}
       card_started_at: ${{ steps.card.outputs.card_started_at }}
@@ -35,7 +39,7 @@ jobs:
         pnpm install --frozen-lockfile
         npx docusaurus report-to-lark --card-create \
           --title "Global Docs Build" \
-          --stages "Fetch EN docs,Build EN docs,Check EN links,Fetch SDK refs,Build SDK docs,Check SDK links"
+          --stages "Fetch EN docs,Build and check EN docs,Fetch SDK refs,Build and check SDK docs"
       env:
         APP_ID: ${{ secrets.APP_ID }}
         APP_SECRET: ${{ secrets.APP_SECRET }}
@@ -43,10 +47,10 @@ jobs:
     - name: fetch english docs
       id: fetch_en_docs
       run: |
-        npx docusaurus fetch-lark-docs -man guides -tar zilliz.saas -s3
-        npx docusaurus fetch-lark-docs -man guides -tar zilliz.saas -post
+        npx docusaurus fetch-lark-docs -man guides -tar zilliz.saas -s3 --incremental --buildEnv uat --auditCanonicalLinks
+        npx docusaurus fetch-lark-docs -man guides -tar zilliz.saas -post -skipS
         npx docusaurus fetch-lark-docs -man guides -tar zilliz.paas -s3 -skipS
-        npx docusaurus fetch-lark-docs -man guides -tar zilliz.paas -post
+        npx docusaurus fetch-lark-docs -man guides -tar zilliz.paas -post -skipS
         npx docusaurus fetch-lark-docs -man agents -tar zilliz -s3
         npx docusaurus report-to-lark --card-advance
       env:
@@ -63,18 +67,10 @@ jobs:
         IMAGE_BED_URL: ${{ vars.IMAGE_BED_URL }}
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-    - name: build docsite
+    - name: build and check docsite
       run: |
-        pnpm run build
-        npx docusaurus report-to-lark --card-advance
-      env:
-        APP_ID: ${{ secrets.APP_ID }}
-        APP_SECRET: ${{ secrets.APP_SECRET }}
-        FEISHU_HOST: ${{ vars.FEISHU_HOST }}
-        MODEL_API_BASE_URL: ${{ vars.MODEL_API_BASE_URL }}
-        MODEL_API_KEY: ${{ secrets.MODEL_API_KEY }}
-        MODEL_ID: ${{ vars.MODEL_ID }}
-    - name: link checks
+        node scripts/run-doc-build-stage.js --build "pnpm run build"
+        node scripts/update-lark-doc-snapshot.js --manual guides --targets-built zilliz.saas,zilliz.paas --build-env uat --source-branch ${{ github.event.inputs.target_branch }} --publish-url https://docs.cloud-uat3.zilliz.com --link-check-remote https://docs.zilliz.com
       env:
         TOKEN: ${{ secrets.ACTION_TOKEN }}
         APP_ID: ${{ secrets.APP_ID }}
@@ -83,10 +79,7 @@ jobs:
         MODEL_API_BASE_URL: ${{ vars.MODEL_API_BASE_URL }}
         MODEL_API_KEY: ${{ secrets.MODEL_API_KEY }}
         MODEL_ID: ${{ vars.MODEL_ID }}
-      run: |
-        npx docusaurus link-checks
-        npx docusaurus report-to-lark --card-advance
-    - name: commit to feat/zdoc-redesign
+    - name: commit docs source changes
       uses: stefanzweifel/git-auto-commit-action@v5
       with:
         branch: ${{ github.event.inputs.target_branch }}
@@ -131,18 +124,9 @@ jobs:
         IMAGE_BED_URL: ${{ vars.IMAGE_BED_URL }}
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-    - name: build docsite
+    - name: build and check sdk docs
       run: |
-        pnpm run build
-        npx docusaurus report-to-lark --card-advance
-      env:
-        APP_ID: ${{ secrets.APP_ID }}
-        APP_SECRET: ${{ secrets.APP_SECRET }}
-        FEISHU_HOST: ${{ vars.FEISHU_HOST }}
-        MODEL_API_BASE_URL: ${{ vars.MODEL_API_BASE_URL }}
-        MODEL_API_KEY: ${{ secrets.MODEL_API_KEY }}
-        MODEL_ID: ${{ vars.MODEL_ID }}
-    - name: link checks
+        node scripts/run-doc-build-stage.js --build "pnpm run build"
       env:
         TOKEN: ${{ secrets.ACTION_TOKEN }}
         APP_ID: ${{ secrets.APP_ID }}
@@ -151,10 +135,7 @@ jobs:
         MODEL_API_BASE_URL: ${{ vars.MODEL_API_BASE_URL }}
         MODEL_API_KEY: ${{ secrets.MODEL_API_KEY }}
         MODEL_ID: ${{ vars.MODEL_ID }}
-      run: |
-        npx docusaurus link-checks
-        npx docusaurus report-to-lark --card-advance
-    - name: commit to feat/zdoc-redesign
+    - name: commit sdk source changes
       uses: stefanzweifel/git-auto-commit-action@v5
       with:
         branch: ${{ github.event.inputs.target_branch }}

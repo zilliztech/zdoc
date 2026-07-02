@@ -1,0 +1,187 @@
+const assert = require('node:assert/strict')
+const fs = require('node:fs')
+const os = require('node:os')
+const path = require('node:path')
+const { test } = require('node:test')
+const { planIncrementalFetch } = require('./incrementalFetchPlanner')
+const { sourceFilesByToken } = require('./sourceSnapshot')
+
+function writeSource(dir, token, outgoingTokens = []) {
+  fs.writeFileSync(path.join(dir, `${token}.json`), JSON.stringify({
+    title: token,
+    slug: token,
+    node_token: token,
+    base_record_id: `rec-${token}`,
+    base_placement_type: 'canonical',
+    blocks: { items: outgoingTokens.map((target, index) => ({
+      block_id: `b${index}`,
+      text: { elements: [{ mention_doc: { title: target, url: `https://zilliverse.feishu.cn/wiki/${target}` } }] },
+    })) },
+  }))
+}
+
+function record(token, title = token) {
+  return {
+    record_id: `rec-${token}`,
+    base_table_id: 'tbl',
+    base_table_name: 'Guides',
+    fields: {
+      Docs: { text: title, link: `https://zilliverse.feishu.cn/wiki/${token}` },
+      Slug: token,
+      'Placement Type': 'canonical',
+    },
+  }
+}
+
+test('planIncrementalFetch detects changed title and expands incoming and outgoing refs', () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'planner-'))
+  writeSource(dir, 'a', ['b'])
+  writeSource(dir, 'b')
+  writeSource(dir, 'c', ['a'])
+  const sources = sourceFilesByToken(dir)
+
+  const previousSnapshot = {
+    schema_version: 2,
+    manual: 'guides',
+    records: [
+      { record_id: 'rec-a', doc_token: 'a', title: 'Old A', slug: 'a', source_hash: sources.get('a').__source_hash },
+      { record_id: 'rec-b', doc_token: 'b', title: 'b', slug: 'b', source_hash: sources.get('b').__source_hash },
+      { record_id: 'rec-c', doc_token: 'c', title: 'c', slug: 'c', source_hash: sources.get('c').__source_hash },
+    ],
+  }
+
+  const plan = planIncrementalFetch({
+    manualName: 'guides',
+    docSourceDir: dir,
+    records: [record('a', 'New A'), record('b'), record('c')],
+    previousSnapshot,
+    maxReferenceDepth: 1,
+  })
+
+  assert.equal(plan.mode, 'incremental')
+  assert.deepEqual(plan.changed_tokens, ['a'])
+  assert.deepEqual(new Set(plan.expanded_tokens), new Set(['a', 'b', 'c']))
+  assert.match(plan.reasons_by_token.a.join(' '), /title changed/)
+  assert.match(plan.reasons_by_token.b.join(' '), /outgoing reference/)
+  assert.match(plan.reasons_by_token.c.join(' '), /incoming reference/)
+})
+
+test('planIncrementalFetch detects source content hash changes', () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'planner-'))
+  writeSource(dir, 'a')
+  const sources = sourceFilesByToken(dir)
+
+  const plan = planIncrementalFetch({
+    manualName: 'guides',
+    docSourceDir: dir,
+    records: [record('a')],
+    previousSnapshot: {
+      schema_version: 2,
+      manual: 'guides',
+      records: [
+        { record_id: 'rec-a', doc_token: 'a', title: 'a', slug: 'a', source_hash: `old-${sources.get('a').__source_hash}` },
+      ],
+    },
+    maxReferenceDepth: 1,
+  })
+
+  assert.equal(plan.mode, 'incremental')
+  assert.deepEqual(plan.changed_tokens, ['a'])
+  assert.match(plan.reasons_by_token.a.join(' '), /source content changed/)
+})
+
+test('planIncrementalFetch detects wiki node revision changes', () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'planner-'))
+  writeSource(dir, 'a')
+  const sources = sourceFilesByToken(dir)
+
+  const plan = planIncrementalFetch({
+    manualName: 'guides',
+    docSourceDir: dir,
+    records: [record('a')],
+    previousSnapshot: {
+      schema_version: 2,
+      manual: 'guides',
+      records: [
+        {
+          record_id: 'rec-a',
+          doc_token: 'a',
+          title: 'a',
+          slug: 'a',
+          source_hash: sources.get('a').__source_hash,
+          node_metadata: { revision_id: 'rev-1', obj_edit_time: '100' },
+        },
+      ],
+    },
+    currentNodeMetadataByToken: new Map([['a', { revision_id: 'rev-2', obj_edit_time: '100' }]]),
+    maxReferenceDepth: 1,
+  })
+
+  assert.equal(plan.mode, 'incremental')
+  assert.deepEqual(plan.changed_tokens, ['a'])
+  assert.match(plan.reasons_by_token.a.join(' '), /wiki node revision changed/)
+})
+
+test('planIncrementalFetch falls back to full when previous snapshot lacks node metadata', () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'planner-'))
+  writeSource(dir, 'a')
+
+  const plan = planIncrementalFetch({
+    manualName: 'guides',
+    docSourceDir: dir,
+    records: [record('a')],
+    previousSnapshot: {
+      schema_version: 1,
+      manual: 'guides',
+      records: [
+        { record_id: 'rec-a', doc_token: 'a', title: 'a', slug: 'a' },
+      ],
+    },
+    currentNodeMetadataByToken: new Map([['a', { revision_id: 'rev-1', obj_edit_time: '100' }]]),
+  })
+
+  assert.equal(plan.mode, 'full')
+  assert.match(plan.warnings.join(' '), /does not include wiki node metadata/)
+})
+
+test('planIncrementalFetch includes docs when wiki node metadata fetch fails', () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'planner-'))
+  writeSource(dir, 'a')
+  const sources = sourceFilesByToken(dir)
+
+  const plan = planIncrementalFetch({
+    manualName: 'guides',
+    docSourceDir: dir,
+    records: [record('a')],
+    previousSnapshot: {
+      schema_version: 2,
+      manual: 'guides',
+      records: [
+        {
+          record_id: 'rec-a',
+          doc_token: 'a',
+          title: 'a',
+          slug: 'a',
+          source_hash: sources.get('a').__source_hash,
+          node_metadata: { revision_id: 'rev-1', obj_edit_time: '100' },
+        },
+      ],
+    },
+    currentNodeMetadataByToken: new Map([['a', { fetch_error: 'permission denied' }]]),
+  })
+
+  assert.equal(plan.mode, 'incremental')
+  assert.deepEqual(plan.changed_tokens, ['a'])
+  assert.match(plan.reasons_by_token.a.join(' '), /metadata fetch failed/)
+})
+
+test('planIncrementalFetch falls back to full without previous snapshot', () => {
+  const plan = planIncrementalFetch({
+    manualName: 'guides',
+    docSourceDir: '/missing',
+    records: [record('a')],
+    previousSnapshot: null,
+  })
+  assert.equal(plan.mode, 'full')
+  assert.match(plan.warnings.join(' '), /No previous snapshot/)
+})

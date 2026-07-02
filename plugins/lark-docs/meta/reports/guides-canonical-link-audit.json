@@ -1,0 +1,545 @@
+{
+  "generated_at": "2026-07-02T02:30:43.291Z",
+  "manual": "guides",
+  "target": null,
+  "source_dir": "./plugins/lark-docs/meta/sources/guides",
+  "summary": {
+    "canonical_records": 333,
+    "scanned_sources": 332,
+    "skipped_noncanonical_sources": 143,
+    "internal_references": 1748,
+    "valid_references": 1738,
+    "broken_references": 10
+  },
+  "files": [
+    {
+      "source_file": "AAqUwQW3qia3akkjfDNc0kwanlh.json",
+      "source_title": "Manage Organization Settings",
+      "source_token": "AAqUwQW3qia3akkjfDNc0kwanlh",
+      "source_slug": "organization-settings",
+      "source_doc_url": "https://zilliverse.feishu.cn/wiki/AAqUwQW3qia3akkjfDNc0kwanlh",
+      "broken_references": [
+        {
+          "source_type": "href_link",
+          "source_token": "AAqUwQW3qia3akkjfDNc0kwanlh",
+          "source_title": "Manage Organization Settings",
+          "source_slug": "organization-settings",
+          "block_id": "IGZydu8e6os0p1xRqK7cL1G0nKh",
+          "json_path": "$.blocks.items[59].bullet.elements[1].text_run.text_element_style.link",
+          "link_text": "marketplace subscription needs to be cancelled",
+          "raw_url": "https://zilliverse.feishu.cn/wiki/QIc3w79ZKigOO0kKLpOctbLKn9g",
+          "url": "https://zilliverse.feishu.cn/wiki/QIc3w79ZKigOO0kKLpOctbLKn9g",
+          "token": "QIc3w79ZKigOO0kKLpOctbLKn9g",
+          "kind": "wiki",
+          "anchor": null,
+          "source_file": "AAqUwQW3qia3akkjfDNc0kwanlh.json",
+          "target_source": {
+            "title": "Marketplace Subscription",
+            "slug": ""
+          },
+          "candidates": [
+            {
+              "record_id": "recvlW22dFcBHg",
+              "table_id": "tblZMzoITXNsyKmQ",
+              "table_name": "Management",
+              "title": "Marketplace Subscription",
+              "labels": "",
+              "slug": "",
+              "doc_token": "OFjswbvuoit64pk5eGqc9Yx3nGg",
+              "doc_link": "https://zilliverse.feishu.cn/wiki/OFjswbvuoit64pk5eGqc9Yx3nGg",
+              "score": 100,
+              "priority": 44,
+              "reason": "exact title",
+              "query": "Marketplace Subscription",
+              "confidence": "exact"
+            }
+          ],
+          "recommended_action": "Edit the hyperlink URL to https://zilliverse.feishu.cn/wiki/OFjswbvuoit64pk5eGqc9Yx3nGg."
+        }
+      ]
+    },
+    {
+      "source_file": "BaGlwzDmyiyVvVk6NurcFclInCd.json",
+      "source_title": "Basic Vector Search",
+      "source_token": "BaGlwzDmyiyVvVk6NurcFclInCd",
+      "source_slug": "single-vector-search",
+      "source_doc_url": "https://zilliverse.feishu.cn/wiki/BaGlwzDmyiyVvVk6NurcFclInCd",
+      "broken_references": [
+        {
+          "source_type": "mention_doc",
+          "source_token": "BaGlwzDmyiyVvVk6NurcFclInCd",
+          "source_title": "Basic Vector Search",
+          "source_slug": "single-vector-search",
+          "block_id": "CjvydTW1toRAhMxRqG6c3EHIn7e",
+          "json_path": "$.blocks.items[244].text.elements[1].mention_doc",
+          "link_text": "Use mmap",
+          "raw_url": "https://zilliverse.feishu.cn/wiki/LXElwsutZil3jWkJZWEcAWAVnqh?from=space_search",
+          "url": "https://zilliverse.feishu.cn/wiki/LXElwsutZil3jWkJZWEcAWAVnqh?from=space_search",
+          "token": "LXElwsutZil3jWkJZWEcAWAVnqh",
+          "kind": "wiki",
+          "anchor": null,
+          "source_file": "BaGlwzDmyiyVvVk6NurcFclInCd.json",
+          "target_source": null,
+          "candidates": [
+            {
+              "record_id": "recvlPriYLnOoh",
+              "table_id": "tblWv7PjNDsexddH",
+              "table_name": "Development",
+              "title": "Use mmap",
+              "labels": "Use mmap",
+              "slug": "use-mmap",
+              "doc_token": "P3wrwSMNNihy8Vkf9p6cTsWYnTb",
+              "doc_link": "https://zilliverse.feishu.cn/wiki/P3wrwSMNNihy8Vkf9p6cTsWYnTb",
+              "score": 100,
+              "priority": 29,
+              "reason": "exact title",
+              "query": "Use mmap",
+              "confidence": "exact"
+            }
+          ],
+          "recommended_action": "Replace the mention_doc with a new Feishu document mention for \"Use mmap\" (https://zilliverse.feishu.cn/wiki/P3wrwSMNNihy8Vkf9p6cTsWYnTb)."
+        },
+        {
+          "source_type": "mention_doc",
+          "source_token": "BaGlwzDmyiyVvVk6NurcFclInCd",
+          "source_title": "Basic Vector Search",
+          "source_slug": "single-vector-search",
+          "block_id": "F3LIdbCFKoh1Kfx8GLPc73pGnJg",
+          "json_path": "$.blocks.items[246].text.elements[1].mention_doc",
+          "link_text": "Clustering Compaction",
+          "raw_url": "https://zilliverse.feishu.cn/wiki/RKZcwPCqKiMCjEkqlFRcJwAWnPa",
+          "url": "https://zilliverse.feishu.cn/wiki/RKZcwPCqKiMCjEkqlFRcJwAWnPa",
+          "token": "RKZcwPCqKiMCjEkqlFRcJwAWnPa",
+          "kind": "wiki",
+          "anchor": null,
+          "source_file": "BaGlwzDmyiyVvVk6NurcFclInCd.json",
+          "target_source": {
+            "title": "Clustering Compaction",
+            "slug": ""
+          },
+          "candidates": [
+            {
+              "record_id": "recvlW4YPQjhY7",
+              "table_id": "tblm1SbEPZaZrGZQ",
+              "table_name": "Tools",
+              "title": "Cluster Connection",
+              "labels": "Cluster Connection",
+              "slug": "zilliz-cluster-connection-prompts",
+              "doc_token": "XgbAwy9ZUimC1Pk7kBtcEKsIn7d",
+              "doc_link": "https://zilliverse.feishu.cn/wiki/XgbAwy9ZUimC1Pk7kBtcEKsIn7d",
+              "score": 50,
+              "priority": 44,
+              "reason": "similar title",
+              "query": "Clustering Compaction",
+              "confidence": "weak"
+            }
+          ],
+          "recommended_action": "Replace the mention_doc with a new Feishu document mention for \"Cluster Connection\" (https://zilliverse.feishu.cn/wiki/XgbAwy9ZUimC1Pk7kBtcEKsIn7d)."
+        }
+      ]
+    },
+    {
+      "source_file": "EV41wG08BiOWW8kbo9xcTGoPnKd.json",
+      "source_title": "FAQs",
+      "source_token": "EV41wG08BiOWW8kbo9xcTGoPnKd",
+      "source_slug": "faqs",
+      "source_doc_url": "https://zilliverse.feishu.cn/wiki/EV41wG08BiOWW8kbo9xcTGoPnKd",
+      "broken_references": [
+        {
+          "source_type": "mention_doc",
+          "source_token": "EV41wG08BiOWW8kbo9xcTGoPnKd",
+          "source_title": "FAQs",
+          "source_slug": "faqs",
+          "block_id": "MOWFdUwYDooKfKx6M1ZcsmNunIf",
+          "json_path": "$.blocks.items[64].text.elements[3].mention_doc",
+          "link_text": "Understand BYOC Billing",
+          "raw_url": "https://zilliverse.feishu.cn/wiki/Cc70wW8HwiSGR9kOdqQcvNbKnOd",
+          "url": "https://zilliverse.feishu.cn/wiki/Cc70wW8HwiSGR9kOdqQcvNbKnOd",
+          "token": "Cc70wW8HwiSGR9kOdqQcvNbKnOd",
+          "kind": "wiki",
+          "anchor": null,
+          "source_file": "EV41wG08BiOWW8kbo9xcTGoPnKd.json",
+          "target_source": null,
+          "candidates": [
+            {
+              "record_id": "recvoaZ4IIbWVp",
+              "table_id": "tblZMzoITXNsyKmQ",
+              "table_name": "Management",
+              "title": "Understand BYOC Billing",
+              "labels": "",
+              "slug": "understand-byoc-billing",
+              "doc_token": "VsLcwDK6SiGs0CkJ7i0cmRYWnof",
+              "doc_link": "https://zilliverse.feishu.cn/wiki/VsLcwDK6SiGs0CkJ7i0cmRYWnof",
+              "score": 100,
+              "priority": 29,
+              "reason": "exact title",
+              "query": "Understand BYOC Billing",
+              "confidence": "exact"
+            }
+          ],
+          "recommended_action": "Replace the mention_doc with a new Feishu document mention for \"Understand BYOC Billing\" (https://zilliverse.feishu.cn/wiki/VsLcwDK6SiGs0CkJ7i0cmRYWnof)."
+        }
+      ]
+    },
+    {
+      "source_file": "IhEbw9V3SicIU9kx3HxcmJRSncb.json",
+      "source_title": "Credit Card",
+      "source_token": "IhEbw9V3SicIU9kx3HxcmJRSncb",
+      "source_slug": "subscribe-by-adding-credit-card",
+      "source_doc_url": "https://zilliverse.feishu.cn/wiki/IhEbw9V3SicIU9kx3HxcmJRSncb",
+      "broken_references": [
+        {
+          "source_type": "href_link",
+          "source_token": "IhEbw9V3SicIU9kx3HxcmJRSncb",
+          "source_title": "Credit Card",
+          "source_slug": "subscribe-by-adding-credit-card",
+          "block_id": "doxcnp11pEGbSXgXfLT8AtUTz4f",
+          "json_path": "$.blocks.items[31].text.elements[1].text_run.text_element_style.link",
+          "link_text": "Marketplace subscription",
+          "raw_url": "https://zilliverse.feishu.cn/wiki/QIc3w79ZKigOO0kKLpOctbLKn9g",
+          "url": "https://zilliverse.feishu.cn/wiki/QIc3w79ZKigOO0kKLpOctbLKn9g",
+          "token": "QIc3w79ZKigOO0kKLpOctbLKn9g",
+          "kind": "wiki",
+          "anchor": null,
+          "source_file": "IhEbw9V3SicIU9kx3HxcmJRSncb.json",
+          "target_source": {
+            "title": "Marketplace Subscription",
+            "slug": ""
+          },
+          "candidates": [
+            {
+              "record_id": "recvlW22dFcBHg",
+              "table_id": "tblZMzoITXNsyKmQ",
+              "table_name": "Management",
+              "title": "Marketplace Subscription",
+              "labels": "",
+              "slug": "",
+              "doc_token": "OFjswbvuoit64pk5eGqc9Yx3nGg",
+              "doc_link": "https://zilliverse.feishu.cn/wiki/OFjswbvuoit64pk5eGqc9Yx3nGg",
+              "score": 100,
+              "priority": 44,
+              "reason": "exact title",
+              "query": "Marketplace Subscription",
+              "confidence": "exact"
+            }
+          ],
+          "recommended_action": "Edit the hyperlink URL to https://zilliverse.feishu.cn/wiki/OFjswbvuoit64pk5eGqc9Yx3nGg."
+        },
+        {
+          "source_type": "mention_doc",
+          "source_token": "IhEbw9V3SicIU9kx3HxcmJRSncb",
+          "source_title": "Credit Card",
+          "source_slug": "subscribe-by-adding-credit-card",
+          "block_id": "doxcnFHu9sWzQRF75uDV6ztQPHh",
+          "json_path": "$.blocks.items[49].text.elements[1].mention_doc",
+          "link_text": "Marketplace Subscription",
+          "raw_url": "https://zilliverse.feishu.cn/wiki/QIc3w79ZKigOO0kKLpOctbLKn9g",
+          "url": "https://zilliverse.feishu.cn/wiki/QIc3w79ZKigOO0kKLpOctbLKn9g",
+          "token": "QIc3w79ZKigOO0kKLpOctbLKn9g",
+          "kind": "wiki",
+          "anchor": null,
+          "source_file": "IhEbw9V3SicIU9kx3HxcmJRSncb.json",
+          "target_source": {
+            "title": "Marketplace Subscription",
+            "slug": ""
+          },
+          "candidates": [
+            {
+              "record_id": "recvlW22dFcBHg",
+              "table_id": "tblZMzoITXNsyKmQ",
+              "table_name": "Management",
+              "title": "Marketplace Subscription",
+              "labels": "",
+              "slug": "",
+              "doc_token": "OFjswbvuoit64pk5eGqc9Yx3nGg",
+              "doc_link": "https://zilliverse.feishu.cn/wiki/OFjswbvuoit64pk5eGqc9Yx3nGg",
+              "score": 100,
+              "priority": 44,
+              "reason": "exact title",
+              "query": "Marketplace Subscription",
+              "confidence": "exact"
+            }
+          ],
+          "recommended_action": "Replace the mention_doc with a new Feishu document mention for \"Marketplace Subscription\" (https://zilliverse.feishu.cn/wiki/OFjswbvuoit64pk5eGqc9Yx3nGg)."
+        }
+      ]
+    },
+    {
+      "source_file": "Uj3wwkysGiBhfqk8jsMckyiTnBb.json",
+      "source_title": "Storage Cost",
+      "source_token": "Uj3wwkysGiBhfqk8jsMckyiTnBb",
+      "source_slug": "storage-cost",
+      "source_doc_url": "https://zilliverse.feishu.cn/wiki/Uj3wwkysGiBhfqk8jsMckyiTnBb",
+      "broken_references": [
+        {
+          "source_type": "href_link",
+          "source_token": "Uj3wwkysGiBhfqk8jsMckyiTnBb",
+          "source_title": "Storage Cost",
+          "source_slug": "storage-cost",
+          "block_id": "doxcnlUezLObimelSWdUihhbnjf",
+          "json_path": "$.blocks.items[9].bullet.elements[0].text_run.text_element_style.link",
+          "link_text": "Backup",
+          "raw_url": "https://zilliverse.feishu.cn/wiki/CI3EwZTshiohUskNtyecPGhGnoh",
+          "url": "https://zilliverse.feishu.cn/wiki/CI3EwZTshiohUskNtyecPGhGnoh",
+          "token": "CI3EwZTshiohUskNtyecPGhGnoh",
+          "kind": "wiki",
+          "anchor": null,
+          "source_file": "Uj3wwkysGiBhfqk8jsMckyiTnBb.json",
+          "target_source": null,
+          "candidates": [
+            {
+              "record_id": "recvlVVZCZr8lP",
+              "table_id": "tblZMzoITXNsyKmQ",
+              "table_name": "Management",
+              "title": "Create Backup",
+              "labels": "Create Backup",
+              "slug": "create-backup",
+              "doc_token": "HHXewT7wTiM1zqkySjHcMNX5n9b",
+              "doc_link": "https://zilliverse.feishu.cn/wiki/HHXewT7wTiM1zqkySjHcMNX5n9b",
+              "score": 86,
+              "priority": 29,
+              "reason": "substring title",
+              "query": "Backup",
+              "confidence": "strong"
+            },
+            {
+              "record_id": "recvlVWa2ZEEkX",
+              "table_id": "tblZMzoITXNsyKmQ",
+              "table_name": "Management",
+              "title": "Cross-Region Backup",
+              "labels": "Cross-Region Backup",
+              "slug": "backup-to-other-regions",
+              "doc_token": "ESVGwTkn8iLfUakSSrkc5dWJnye",
+              "doc_link": "https://zilliverse.feishu.cn/wiki/ESVGwTkn8iLfUakSSrkc5dWJnye",
+              "score": 86,
+              "priority": 29,
+              "reason": "substring title",
+              "query": "Backup",
+              "confidence": "strong"
+            },
+            {
+              "record_id": "recvlVWd7SWHbe",
+              "table_id": "tblZMzoITXNsyKmQ",
+              "table_name": "Management",
+              "title": "Export Backup Files",
+              "labels": "Export Backup Files",
+              "slug": "export-backup-files",
+              "doc_token": "QUTDwkbTTiA2UlkWYDlc796ensf",
+              "doc_link": "https://zilliverse.feishu.cn/wiki/QUTDwkbTTiA2UlkWYDlc796ensf",
+              "score": 86,
+              "priority": 29,
+              "reason": "substring title",
+              "query": "Backup",
+              "confidence": "strong"
+            },
+            {
+              "record_id": "recvlVWf0C2jG7",
+              "table_id": "tblZMzoITXNsyKmQ",
+              "table_name": "Management",
+              "title": "Manage Backup Files",
+              "labels": "Manage Backup Files",
+              "slug": "manage-backup-files",
+              "doc_token": "Ml6dwBPTfiQOY9koK24cT1Sznge",
+              "doc_link": "https://zilliverse.feishu.cn/wiki/Ml6dwBPTfiQOY9koK24cT1Sznge",
+              "score": 86,
+              "priority": 29,
+              "reason": "substring title",
+              "query": "Backup",
+              "confidence": "strong"
+            },
+            {
+              "record_id": "recvm10eCrSmx8",
+              "table_id": "tblZMzoITXNsyKmQ",
+              "table_name": "Management",
+              "title": "Migrate from Milvus to Zilliz Cloud Via Backup Files",
+              "labels": "Via Backup Files",
+              "slug": "via-backup-files",
+              "doc_token": "IO4fwm5fJiroaoktKeIcbdkDnRb",
+              "doc_link": "https://zilliverse.feishu.cn/wiki/IO4fwm5fJiroaoktKeIcbdkDnRb",
+              "score": 86,
+              "priority": 29,
+              "reason": "substring title",
+              "query": "Backup",
+              "confidence": "strong"
+            },
+            {
+              "record_id": "recvm10eKnXUKF",
+              "table_id": "tblZMzoITXNsyKmQ",
+              "table_name": "Management",
+              "title": "Migrate from Milvus to Zilliz Cloud Via Backup Tool",
+              "labels": "Via Backup Tool",
+              "slug": "via-stage",
+              "doc_token": "IxO5wZ1meiYrTckUPkQca9JOnbS",
+              "doc_link": "https://zilliverse.feishu.cn/wiki/IxO5wZ1meiYrTckUPkQca9JOnbS",
+              "score": 86,
+              "priority": 29,
+              "reason": "substring title",
+              "query": "Backup",
+              "confidence": "strong"
+            },
+            {
+              "record_id": "recvlVWbzPeqAs",
+              "table_id": "tblZMzoITXNsyKmQ",
+              "table_name": "Management",
+              "title": "Restore from Backup Files",
+              "labels": "Restore from Backup Files",
+              "slug": "restore-from-backup-files",
+              "doc_token": "Dd6jwYIGiiz6HWkEPJqcpMA3n6g",
+              "doc_link": "https://zilliverse.feishu.cn/wiki/Dd6jwYIGiiz6HWkEPJqcpMA3n6g",
+              "score": 86,
+              "priority": 29,
+              "reason": "substring title",
+              "query": "Backup",
+              "confidence": "strong"
+            },
+            {
+              "record_id": "recvlVW8qzzuLi",
+              "table_id": "tblZMzoITXNsyKmQ",
+              "table_name": "Management",
+              "title": "Schedule Automatic Backups",
+              "labels": "Schedule Automatic Backups",
+              "slug": "schedule-automatic-backups",
+              "doc_token": "HDmKwGeGLi2P67kGdNXcigXDn3e",
+              "doc_link": "https://zilliverse.feishu.cn/wiki/HDmKwGeGLi2P67kGdNXcigXDn3e",
+              "score": 86,
+              "priority": 29,
+              "reason": "substring title",
+              "query": "Backup",
+              "confidence": "strong"
+            }
+          ],
+          "recommended_action": "Edit the hyperlink URL to https://zilliverse.feishu.cn/wiki/HHXewT7wTiM1zqkySjHcMNX5n9b."
+        }
+      ]
+    },
+    {
+      "source_file": "WRqxwgS87iW7xck7iX4crRmBnXb.json",
+      "source_title": "Failed Payments and Organization Recovery",
+      "source_token": "WRqxwgS87iW7xck7iX4crRmBnXb",
+      "source_slug": "failed-payments-organization-recovery",
+      "source_doc_url": "https://zilliverse.feishu.cn/wiki/WRqxwgS87iW7xck7iX4crRmBnXb",
+      "broken_references": [
+        {
+          "source_type": "href_link",
+          "source_token": "WRqxwgS87iW7xck7iX4crRmBnXb",
+          "source_title": "Failed Payments and Organization Recovery",
+          "source_slug": "failed-payments-organization-recovery",
+          "block_id": "doxcnLd5vvEMVmEK3ji4noQOyMf",
+          "json_path": "$.blocks.items[25].ordered.elements[3].text_run.text_element_style.link",
+          "link_text": "Marketplace subscription",
+          "raw_url": "https://zilliverse.feishu.cn/wiki/QIc3w79ZKigOO0kKLpOctbLKn9g",
+          "url": "https://zilliverse.feishu.cn/wiki/QIc3w79ZKigOO0kKLpOctbLKn9g",
+          "token": "QIc3w79ZKigOO0kKLpOctbLKn9g",
+          "kind": "wiki",
+          "anchor": null,
+          "source_file": "WRqxwgS87iW7xck7iX4crRmBnXb.json",
+          "target_source": {
+            "title": "Marketplace Subscription",
+            "slug": ""
+          },
+          "candidates": [
+            {
+              "record_id": "recvlW22dFcBHg",
+              "table_id": "tblZMzoITXNsyKmQ",
+              "table_name": "Management",
+              "title": "Marketplace Subscription",
+              "labels": "",
+              "slug": "",
+              "doc_token": "OFjswbvuoit64pk5eGqc9Yx3nGg",
+              "doc_link": "https://zilliverse.feishu.cn/wiki/OFjswbvuoit64pk5eGqc9Yx3nGg",
+              "score": 100,
+              "priority": 44,
+              "reason": "exact title",
+              "query": "Marketplace Subscription",
+              "confidence": "exact"
+            }
+          ],
+          "recommended_action": "Edit the hyperlink URL to https://zilliverse.feishu.cn/wiki/OFjswbvuoit64pk5eGqc9Yx3nGg."
+        },
+        {
+          "source_type": "href_link",
+          "source_token": "WRqxwgS87iW7xck7iX4crRmBnXb",
+          "source_title": "Failed Payments and Organization Recovery",
+          "source_slug": "failed-payments-organization-recovery",
+          "block_id": "doxcn5yfNdJFW2GDScAqH6wKvfb",
+          "json_path": "$.blocks.items[63].bullet.elements[1].text_run.text_element_style.link",
+          "link_text": "Marketplace subscription",
+          "raw_url": "https://zilliverse.feishu.cn/wiki/QIc3w79ZKigOO0kKLpOctbLKn9g",
+          "url": "https://zilliverse.feishu.cn/wiki/QIc3w79ZKigOO0kKLpOctbLKn9g",
+          "token": "QIc3w79ZKigOO0kKLpOctbLKn9g",
+          "kind": "wiki",
+          "anchor": null,
+          "source_file": "WRqxwgS87iW7xck7iX4crRmBnXb.json",
+          "target_source": {
+            "title": "Marketplace Subscription",
+            "slug": ""
+          },
+          "candidates": [
+            {
+              "record_id": "recvlW22dFcBHg",
+              "table_id": "tblZMzoITXNsyKmQ",
+              "table_name": "Management",
+              "title": "Marketplace Subscription",
+              "labels": "",
+              "slug": "",
+              "doc_token": "OFjswbvuoit64pk5eGqc9Yx3nGg",
+              "doc_link": "https://zilliverse.feishu.cn/wiki/OFjswbvuoit64pk5eGqc9Yx3nGg",
+              "score": 100,
+              "priority": 44,
+              "reason": "exact title",
+              "query": "Marketplace Subscription",
+              "confidence": "exact"
+            }
+          ],
+          "recommended_action": "Edit the hyperlink URL to https://zilliverse.feishu.cn/wiki/OFjswbvuoit64pk5eGqc9Yx3nGg."
+        }
+      ]
+    },
+    {
+      "source_file": "Z9AMwNkVLiog0jkXxNscuMpJnjL.json",
+      "source_title": "Collection Explained",
+      "source_token": "Z9AMwNkVLiog0jkXxNscuMpJnjL",
+      "source_slug": "manage-collections",
+      "source_doc_url": "https://zilliverse.feishu.cn/wiki/Z9AMwNkVLiog0jkXxNscuMpJnjL",
+      "broken_references": [
+        {
+          "source_type": "mention_doc",
+          "source_token": "Z9AMwNkVLiog0jkXxNscuMpJnjL",
+          "source_title": "Collection Explained",
+          "source_slug": "manage-collections",
+          "block_id": "AEMjdVEuUoa0E6xn2cscolEOn0b",
+          "json_path": "$.blocks.items[52].bullet.elements[0].mention_doc",
+          "link_text": "Clustering Compaction",
+          "raw_url": "https://zilliverse.feishu.cn/wiki/RKZcwPCqKiMCjEkqlFRcJwAWnPa",
+          "url": "https://zilliverse.feishu.cn/wiki/RKZcwPCqKiMCjEkqlFRcJwAWnPa",
+          "token": "RKZcwPCqKiMCjEkqlFRcJwAWnPa",
+          "kind": "wiki",
+          "anchor": null,
+          "source_file": "Z9AMwNkVLiog0jkXxNscuMpJnjL.json",
+          "target_source": {
+            "title": "Clustering Compaction",
+            "slug": ""
+          },
+          "candidates": [
+            {
+              "record_id": "recvlW4YPQjhY7",
+              "table_id": "tblm1SbEPZaZrGZQ",
+              "table_name": "Tools",
+              "title": "Cluster Connection",
+              "labels": "Cluster Connection",
+              "slug": "zilliz-cluster-connection-prompts",
+              "doc_token": "XgbAwy9ZUimC1Pk7kBtcEKsIn7d",
+              "doc_link": "https://zilliverse.feishu.cn/wiki/XgbAwy9ZUimC1Pk7kBtcEKsIn7d",
+              "score": 50,
+              "priority": 44,
+              "reason": "similar title",
+              "query": "Clustering Compaction",
+              "confidence": "weak"
+            }
+          ],
+          "recommended_action": "Replace the mention_doc with a new Feishu document mention for \"Cluster Connection\" (https://zilliverse.feishu.cn/wiki/XgbAwy9ZUimC1Pk7kBtcEKsIn7d)."
+        }
+      ]
+    }
+  ]
+}

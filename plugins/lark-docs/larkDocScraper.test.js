@@ -250,7 +250,15 @@ async function testBaseCapturesRecordIdParentMetadata() {
 
 async function testBasePreservesDuplicateDocTokenSlugsByParentContext() {
   const larkDocScraper = require('./larkDocScraper');
+  const tokenFetcher = require('./larkTokenFetcher.js');
   const scraper = new larkDocScraper('', 'base-token', 'wiki', '/tmp');
+  const originalFetchToken = tokenFetcher.prototype.fetchToken;
+  const originalToken = tokenFetcher.prototype.token;
+
+  tokenFetcher.prototype.fetchToken = async function fetchToken() {
+    this.tenantAccessToken = 'tenant-token';
+  };
+  tokenFetcher.prototype.token = async () => 'tenant-token';
 
   scraper.__fetchFeishuJson = async (url) => {
     if (url.includes('/tables?page_size=100')) {
@@ -318,7 +326,12 @@ async function testBasePreservesDuplicateDocTokenSlugsByParentContext() {
     throw new Error(`Unexpected URL: ${url}`);
   };
 
-  await scraper.__base();
+  try {
+    await scraper.__base();
+  } finally {
+    tokenFetcher.prototype.fetchToken = originalFetchToken;
+    tokenFetcher.prototype.token = originalToken;
+  }
 
   assert.equal(
     await scraper.__slugify('shared-create-user-token', 'create_user()', 'MilvusClient-Authentication'),
@@ -472,6 +485,169 @@ async function testDriveDocSlugifyUsesCompositeParentContext() {
   assert.equal(hybridSearch.slug, 'Vector-hybrid_search');
 }
 
+async function testValidateContentLinksPreservesLegacyReportShape() {
+  const larkDocScraper = require('./larkDocScraper');
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'legacy-content-links-'));
+  fs.writeFileSync(path.join(tempDir, 'source-token.json'), JSON.stringify({
+    title: 'Source Doc',
+    slug: 'source-doc',
+    node_token: 'source-token',
+    blocks: {
+      items: [
+        {
+          block_id: 'block-1',
+          block_type: 2,
+          text: {
+            elements: [
+              {
+                mention_doc: {
+                  title: 'Missing Doc',
+                  url: 'https://zilliverse.feishu.cn/wiki/missing-token',
+                },
+              },
+            ],
+          },
+        },
+      ],
+    },
+  }, null, 2));
+
+  const scraper = new larkDocScraper('root-token', 'base-token:*', 'wiki', tempDir);
+  scraper.records = [
+    {
+      record_id: 'rec-source',
+      base_table_id: 'tbl',
+      base_table_name: 'Guides',
+      fields: {
+        Docs: { text: 'Source Doc', link: 'https://zilliverse.feishu.cn/wiki/source-token' },
+        Slug: 'source-doc',
+        Status: 'Published',
+        'Publish Targets': ['zilliz.saas'],
+      },
+    },
+  ];
+  scraper.base_tables = [{ table_id: 'tbl', name: 'Guides', index: 0 }];
+
+  const reportPath = path.join(tempDir, 'legacy-report.json');
+  const report = await scraper.validate_content_links({ reportPath });
+  assert.equal(report.summary.broken_content_links, 1);
+  assert.equal(report.broken_content_links.length, 1);
+  assert.equal(report.broken_content_links[0].source_file, 'source-token.json');
+}
+
+async function testFetchSourceTokensFetchesSelectedTokensWithoutClearingSources() {
+  const larkDocScraper = require('./larkDocScraper');
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'lark-doc-scraper-'));
+  fs.writeFileSync(path.join(tempDir, 'existing.json'), JSON.stringify({ token: 'existing' }));
+  const scraper = new larkDocScraper('root-token', 'base-token:*', 'wiki', tempDir);
+  scraper.use_all_base_tables = true;
+
+  const fetched = [];
+  let navigationRewrites = 0;
+  scraper.fetch = async (recursive, token) => {
+    fetched.push({ recursive, token });
+  };
+  scraper.__apply_base_navigation = async (opts) => {
+    navigationRewrites++;
+    assert.deepEqual(opts, { partialTables: true });
+  };
+
+  await scraper.fetch_source_tokens(['a', 'b', 'a']);
+
+  assert.deepEqual(fetched, [
+    { recursive: false, token: 'a' },
+    { recursive: false, token: 'b' },
+  ]);
+  assert.equal(navigationRewrites, 1);
+  assert.equal(fs.existsSync(path.join(tempDir, 'existing.json')), true);
+}
+
+async function testFetchWikiNodeMetadataResolvesShortcutRevisionFields() {
+  const larkDocScraper = require('./larkDocScraper');
+  const scraper = new larkDocScraper('root-token', 'base-token:*', 'wiki', '/tmp');
+  scraper.token = 'tenant-token';
+  const fetched = [];
+
+  scraper.__fetchFeishuJson = async (url) => {
+    fetched.push(url);
+    if (url.includes('shortcut-token')) {
+      return {
+        code: 0,
+        data: {
+          node: {
+            node_token: 'shortcut-token',
+            node_type: 'shortcut',
+            origin_node_token: 'origin-token',
+            obj_type: 'docx',
+          },
+        },
+      };
+    }
+    if (url.includes('raw-docx-token')) {
+      return {
+        code: 0,
+        data: {
+          node: {
+            node_token: 'wiki-for-docx-token',
+            node_type: 'origin',
+            obj_token: 'raw-docx-token',
+            obj_type: 'docx',
+            title: 'Docx Source',
+            obj_edit_time: '1800000001',
+            revision_id: 'rev-docx',
+          },
+        },
+      };
+    }
+    return {
+      code: 0,
+      data: {
+        node: {
+          node_token: 'origin-token',
+          node_type: 'origin',
+          obj_token: 'docx-token',
+          obj_type: 'docx',
+          title: 'Source',
+          obj_edit_time: '1800000000',
+          revision_id: 'rev-2',
+        },
+      },
+    };
+  };
+
+  const metadata = await scraper.fetch_wiki_node_metadata([
+    {
+      record_id: 'rec-source',
+      base_table_id: 'tbl',
+      base_table_name: 'Guides',
+      fields: {
+        Docs: { text: 'Source', link: 'https://zilliverse.feishu.cn/wiki/shortcut-token' },
+        Slug: 'source',
+        'Placement Type': 'canonical',
+      },
+    },
+    {
+      record_id: 'rec-docx',
+      base_table_id: 'tbl',
+      base_table_name: 'Guides',
+      fields: {
+        Docs: { text: 'Docx Source', link: 'https://zilliverse.feishu.cn/docx/raw-docx-token' },
+        Slug: 'docx-source',
+        'Placement Type': 'canonical',
+      },
+    },
+  ]);
+
+  assert.equal(fetched.length, 3);
+  assert.equal(fetched.some(url => url.includes('raw-docx-token') && url.includes('obj_type=docx')), true);
+  assert.equal(metadata.get('shortcut-token').node_token, 'origin-token');
+  assert.equal(metadata.get('shortcut-token').requested_node_token, 'shortcut-token');
+  assert.equal(metadata.get('shortcut-token').obj_edit_time, '1800000000');
+  assert.equal(metadata.get('shortcut-token').revision_id, 'rev-2');
+  assert.equal(metadata.get('raw-docx-token').obj_type, 'docx');
+  assert.equal(metadata.get('raw-docx-token').revision_id, 'rev-docx');
+}
+
 async function run() {
   await testFeishuJsonFetchesAreThrottled();
   await testSlugifyRejectsAmbiguousTitleFallback();
@@ -484,6 +660,9 @@ async function run() {
   await testDriveFolderSlugifyUsesParentContext();
   await testDriveFolderRecursionKeepsSiblingParentContext();
   await testDriveDocSlugifyUsesCompositeParentContext();
+  await testValidateContentLinksPreservesLegacyReportShape();
+  await testFetchSourceTokensFetchesSelectedTokensWithoutClearingSources();
+  await testFetchWikiNodeMetadataResolvesShortcutRevisionFields();
   console.log('lark-docs scraper tests passed');
 }
 
