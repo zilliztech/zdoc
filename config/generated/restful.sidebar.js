@@ -698,8 +698,8 @@ module.exports = [
               },
               {
                 "type": "doc",
-                "id": "api/restful/restful/v2/data-plane/user-operations-v2/update-user-password-v2",
-                "label": "Update User Password (V2)"
+                "id": "api/restful/restful/v2/data-plane/user-operations-v2/update-user-v2",
+                "label": "Update User (V2)"
               },
               {
                 "type": "doc",
