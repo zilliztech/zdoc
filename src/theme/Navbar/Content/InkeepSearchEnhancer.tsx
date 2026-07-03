@@ -11,11 +11,55 @@ type RecentItem = {
 };
 
 const SUGGESTED = [
-  {title: 'Getting Started', section: 'Docs', href: '/docs/create-cluster'},
-  {title: 'Search Guide', section: 'Docs', href: '/docs/single-vector-search'},
-  {title: 'API Reference', section: 'Reference', href: '/reference/restful'},
-  {title: 'Python SDK', section: 'Reference', href: '/reference/python'},
+  {title: 'Getting Started', meta: 'Zilliz-Managed Cloud / Quick Start', href: '/docs/create-cluster'},
+  {title: 'Search Guide', meta: 'Zilliz-Managed Cloud / Search', href: '/docs/single-vector-search'},
+  {title: 'API Reference', meta: 'API & SDK / REST API', href: '/reference/restful'},
+  {title: 'Python SDK', meta: 'API & SDK / Python SDK', href: '/reference/python'},
 ];
+
+const CATEGORY_META = new Set(['docs', 'guides', 'byoc', 'reference', 'support', 'partners', 'event', 'glossary', 'cloud']);
+
+function normalizeHref(value: unknown) {
+  if (typeof value !== 'string') return undefined;
+  const href = value.trim();
+  if (!href) return undefined;
+  try {
+    return new URL(href, window.location.origin).pathname.replace(/\/$/, '') || '/';
+  } catch {
+    return href.replace(/\/$/, '') || '/';
+  }
+}
+
+// A single top-level section tag (Docs / Reference) shown as a small chip in
+// place of the full breadcrumb path.
+function sectionTag(href?: string): string | undefined {
+  const path = normalizeHref(href);
+  if (!path) return undefined;
+  if (path.startsWith('/reference')) return 'Reference';
+  if (path.startsWith('/docs')) return 'Docs';
+  return undefined;
+}
+
+function inferBreadcrumbMeta(title: string, href?: string) {
+  const path = normalizeHref(href);
+  const suggested = SUGGESTED.find(item =>
+    item.title.toLowerCase() === title.toLowerCase() ||
+    normalizeHref(item.href) === path
+  );
+  if (suggested) return suggested.meta;
+
+  if (!path) return undefined;
+  if (path.startsWith('/reference/restful')) return 'API & SDK / REST API';
+  if (path.startsWith('/reference/python')) return 'API & SDK / Python SDK';
+  if (path.startsWith('/reference/java')) return 'API & SDK / Java SDK';
+  if (path.startsWith('/reference/go')) return 'API & SDK / Go SDK';
+  if (path.startsWith('/reference/node')) return 'API & SDK / Node SDK';
+  if (path.startsWith('/reference')) return 'API & SDK';
+  if (path.startsWith('/docs/byoc')) return 'Bring Your Own Cloud';
+  if (path.includes('/search') || title.toLowerCase().includes('search')) return 'Zilliz-Managed Cloud / Search';
+  if (path.startsWith('/docs')) return 'Zilliz-Managed Cloud';
+  return undefined;
+}
 
 function normalizeRecentItem(item: unknown): RecentItem | null {
   if (typeof item === 'string') {
@@ -26,11 +70,15 @@ function normalizeRecentItem(item: unknown): RecentItem | null {
   const record = item as Partial<RecentItem>;
   const title = typeof record.title === 'string' ? record.title.trim() : '';
   if (!title) return null;
+  const href = typeof record.href === 'string' ? record.href.trim() : undefined;
+  // Re-infer from the href first so renamed sections (e.g. Cloud Guides →
+  // Zilliz-Managed Cloud) update; fall back to any stored meta only if we can't.
+  const meta = inferBreadcrumbMeta(title, href) || normalizeBreadcrumbMeta(record.meta);
   return {
     title,
     query: typeof record.query === 'string' ? record.query.trim() : undefined,
-    href: typeof record.href === 'string' ? record.href.trim() : undefined,
-    meta: typeof record.meta === 'string' ? record.meta.trim() : undefined,
+    href,
+    meta,
     kind: record.kind === 'doc' || record.kind === 'section' || record.kind === 'blog' || record.kind === 'query'
       ? record.kind
       : undefined,
@@ -155,6 +203,30 @@ function itemIcon(kind: 'doc' | 'section' | 'blog' | 'query') {
   return '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 5.5h6.2c1 0 1.8.8 1.8 1.8v11.2c0-1.1-.9-2-2-2H4V5.5Z" stroke="currentColor" stroke-width="1.35" stroke-linejoin="round"/><path d="M20 5.5h-6.2c-1 0-1.8.8-1.8 1.8v11.2c0-1.1.9-2 2-2h6V5.5Z" stroke="currentColor" stroke-width="1.35" stroke-linejoin="round"/></svg>';
 }
 
+function normalizeBreadcrumbMeta(value: unknown) {
+  const meta = typeof value === 'string' ? value.replace(/\s+/g, ' ').trim() : '';
+  if (!meta) return undefined;
+  if (CATEGORY_META.has(meta.toLowerCase())) return undefined;
+  return meta;
+}
+
+function getResultBreadcrumbMeta(item: HTMLElement) {
+  const breadcrumbs = normalizeBreadcrumbMeta(
+    item.querySelector<HTMLElement>('.ikp-ai-search-results__item-breadcrumbs')?.textContent,
+  );
+  if (breadcrumbs) return breadcrumbs;
+
+  const description = item.querySelector<HTMLElement>('.ikp-ai-search-results__item-description');
+  const rawDescription = description?.textContent?.replace(/\s+/g, ' ').trim() || '';
+  const parts = rawDescription.split(/\s+\|\s+/).map(part => part.trim()).filter(Boolean);
+  if (description && parts.length > 1) {
+    description.textContent = parts[0];
+    return normalizeBreadcrumbMeta(parts.slice(1).join(' / '));
+  }
+
+  return undefined;
+}
+
 function createItem(root: ShadowRoot, options: {
   title: string;
   meta?: string;
@@ -166,10 +238,13 @@ function createItem(root: ShadowRoot, options: {
   const item = root.ownerDocument.createElement('button');
   item.type = 'button';
   item.className = `zdoc-empty-search-item${options.recent ? ' zdoc-empty-search-item--recent' : ''}`;
+  const tag = options.recent ? undefined : sectionTag(options.href);
+  const meta = options.recent ? options.meta : undefined;
   item.innerHTML = `
     <span class="zdoc-empty-search-icon">${itemIcon(options.kind)}</span>
     <span class="zdoc-empty-search-title">${options.title}</span>
-    ${options.meta ? `<span class="zdoc-empty-search-meta">${options.meta}</span>` : ''}
+    ${meta ? `<span class="zdoc-empty-search-meta">${meta}</span>` : ''}
+    ${tag ? `<span class="zdoc-empty-search-tag">${tag}</span>` : ''}
   `;
   item.addEventListener('click', () => {
     if (options.href) {
@@ -216,7 +291,7 @@ function buildEmptyState(root: ShadowRoot, extraClassName = '') {
   suggested.innerHTML = '<p class="zdoc-empty-search-heading">Suggested</p>';
   SUGGESTED.forEach(item => suggested.appendChild(createItem(root, {
     title: item.title,
-    meta: item.section,
+    meta: item.meta,
     href: item.href,
     kind: 'doc',
   })));
@@ -230,6 +305,84 @@ function ensureStyles(root: ShadowRoot) {
   const style = root.ownerDocument.createElement('style');
   style.id = 'zdoc-empty-search-styles';
   style.textContent = `
+    .ikp-ai-search-root[data-zdoc-search-has-query='true']:not([data-zdoc-search-loading='true']):not([data-zdoc-search-awaiting='true']) .ikp-ai-search-content,
+    .ikp-ai-search-root[data-zdoc-search-has-query='true']:not([data-zdoc-search-loading='true']):not([data-zdoc-search-awaiting='true']) .ikp-ai-search-results,
+    .ikp-ai-search-root[data-zdoc-search-has-query='true']:not([data-zdoc-search-loading='true']):not([data-zdoc-search-awaiting='true']) .ikp-ai-search-results__scroll-area,
+    .ikp-ai-search-root[data-zdoc-search-has-query='true']:not([data-zdoc-search-loading='true']):not([data-zdoc-search-awaiting='true']) .ikp-ai-search-results__list {
+      flex: 0 1 auto !important;
+      height: auto !important;
+      min-height: 0 !important;
+    }
+    .ikp-ai-search-root[data-zdoc-search-has-query='true']:not([data-zdoc-search-loading='true']):not([data-zdoc-search-awaiting='true']) .ikp-ai-search-results {
+      max-height: 414px !important;
+      overflow-y: auto !important;
+    }
+    .ikp-ai-search-root[data-zdoc-search-has-query='true'][data-zdoc-search-has-results='false']:not([data-zdoc-search-loading='true']):not([data-zdoc-search-awaiting='true']) .ikp-ai-search-results {
+      display: none !important;
+      padding: 0 !important;
+    }
+    .ikp-ai-search-root:has(.zdoc-ask-ai-query):not([data-zdoc-search-loading='true']):not([data-zdoc-search-awaiting='true']) .ikp-ai-search-content,
+    .ikp-ai-search-root:has(.zdoc-ask-ai-query):not([data-zdoc-search-loading='true']):not([data-zdoc-search-awaiting='true']) .ikp-ai-search-results,
+    .ikp-ai-search-root:has(.zdoc-ask-ai-query):not([data-zdoc-search-loading='true']):not([data-zdoc-search-awaiting='true']) .ikp-ai-search-results__scroll-area,
+    .ikp-ai-search-root:has(.zdoc-ask-ai-query):not([data-zdoc-search-loading='true']):not([data-zdoc-search-awaiting='true']) .ikp-ai-search-results__list {
+      flex: 0 1 auto !important;
+      height: auto !important;
+      min-height: 0 !important;
+    }
+    .ikp-ai-search-root:has(.zdoc-ask-ai-query):not([data-zdoc-search-loading='true']):not([data-zdoc-search-awaiting='true']) .ikp-ai-search-results {
+      max-height: 414px !important;
+      overflow-y: auto !important;
+    }
+    .ikp-ai-search-root:has(.zdoc-ask-ai-query):not([data-zdoc-search-loading='true']):not([data-zdoc-search-awaiting='true']) .ikp-ai-search-results:not(:has(.ikp-ai-search-results__item)) {
+      display: none !important;
+      padding: 0 !important;
+    }
+    .ikp-ai-search-root:has(.zdoc-ask-ai-query):not([data-zdoc-search-loading='true']):not([data-zdoc-search-awaiting='true']) .ikp-ai-ask-ai-trigger {
+      display: flex !important;
+      align-items: center !important;
+      gap: 10px !important;
+      height: 42px !important;
+      min-height: 42px !important;
+      width: calc(100% - 24px) !important;
+      margin: 8px 12px 0 !important;
+      padding: 9px 14px !important;
+      border: 0 !important;
+      border-radius: 12px !important;
+      background: #e5faf8 !important;
+      color: #111827 !important;
+      box-shadow: none !important;
+      opacity: 1 !important;
+      visibility: visible !important;
+    }
+    .ikp-ai-search-root:has(.zdoc-ask-ai-query):not([data-zdoc-search-loading='true']):not([data-zdoc-search-awaiting='true']) .ikp-ai-ask-ai-trigger:hover {
+      background: #d9f5f2 !important;
+    }
+    .ikp-ai-search-root:has(.zdoc-ask-ai-query):not([data-zdoc-search-loading='true']):not([data-zdoc-search-awaiting='true']) .ikp-ai-ask-ai-trigger::before {
+      content: "" !important;
+      display: inline-block !important;
+      width: 8px !important;
+      height: 14px !important;
+      flex: 0 0 auto !important;
+      background: #111827 !important;
+      mask: url("data:image/svg+xml,%3Csvg%20width='8'%20height='14'%20viewBox='0%200%208%2014'%20fill='none'%20xmlns='http://www.w3.org/2000/svg'%3E%3Cpath%20d='M0%208.55556L5.6%200L4.8%205.64912H8L1.6%2014L3.2%208.55556H0Z'%20fill='black'/%3E%3C/svg%3E") center / contain no-repeat !important;
+      -webkit-mask: url("data:image/svg+xml,%3Csvg%20width='8'%20height='14'%20viewBox='0%200%208%2014'%20fill='none'%20xmlns='http://www.w3.org/2000/svg'%3E%3Cpath%20d='M0%208.55556L5.6%200L4.8%205.64912H8L1.6%2014L3.2%208.55556H0Z'%20fill='black'/%3E%3C/svg%3E") center / contain no-repeat !important;
+    }
+    .ikp-ai-search-root:has(.zdoc-ask-ai-query):not([data-zdoc-search-loading='true']):not([data-zdoc-search-awaiting='true']) .ikp-ai-ask-ai-trigger__icon,
+    .ikp-ai-search-root:has(.zdoc-ask-ai-query):not([data-zdoc-search-loading='true']):not([data-zdoc-search-awaiting='true']) .ikp-ai-ask-ai-trigger__indicator,
+    .ikp-ai-search-root:has(.zdoc-ask-ai-query):not([data-zdoc-search-loading='true']):not([data-zdoc-search-awaiting='true']) .ikp-ai-ask-ai-trigger__indicator-text {
+      display: none !important;
+    }
+    .ikp-ai-search-root:has(.zdoc-ask-ai-query):not([data-zdoc-search-loading='true']):not([data-zdoc-search-awaiting='true']) .ikp-ai-ask-ai-trigger__label,
+    .ikp-ai-search-root:has(.zdoc-ask-ai-query):not([data-zdoc-search-loading='true']):not([data-zdoc-search-awaiting='true']) .ikp-ai-ask-ai-trigger__label * {
+      color: #111827 !important;
+      background: transparent !important;
+      font-size: 14px !important;
+      line-height: 20px !important;
+      font-weight: 500 !important;
+    }
+    .ikp-ai-search-root:has(.zdoc-ask-ai-query):not([data-zdoc-search-loading='true']):not([data-zdoc-search-awaiting='true']) .ikp-ai-ask-ai-trigger__label .zdoc-ask-ai-query {
+      font-weight: 600 !important;
+    }
     .zdoc-empty-search {
       box-sizing: border-box;
       width: 100%;
@@ -246,7 +399,7 @@ function ensureStyles(root: ShadowRoot) {
     .zdoc-empty-search-heading {
       margin: 0 0 7px;
       padding: 0 4px;
-      color: #8a8a8a;
+      color: var(--zd-gray-500);
       font-size: 13px;
       line-height: 18px;
       font-weight: 400;
@@ -257,27 +410,27 @@ function ensureStyles(root: ShadowRoot) {
       display: grid;
       grid-template-columns: 18px minmax(0, max-content) minmax(0, 1fr);
       align-items: center;
-      column-gap: 12px;
+      column-gap: 10px;
       width: 100%;
       min-height: 34px;
       padding: 6px 9px;
       border: 0;
       border-radius: 9px;
       background: transparent;
-      color: #555;
+      color: var(--zd-muted-text);
       cursor: pointer;
       text-align: left;
       transition: background-color 160ms ease, color 160ms ease;
     }
     .zdoc-empty-search-item:hover,
     .zdoc-empty-search-item:focus-visible {
-      background: #eeeeef;
-      color: #2f3747;
+      background: var(--zd-nav-hover-bg);
+      color: var(--zd-page-ink);
       outline: none;
     }
     .zdoc-empty-search-item:hover .zdoc-empty-search-title,
     .zdoc-empty-search-item:focus-visible .zdoc-empty-search-title {
-      color: #2f3747;
+      color: var(--zd-page-ink);
     }
     .zdoc-empty-search-icon {
       display: inline-flex;
@@ -285,7 +438,7 @@ function ensureStyles(root: ShadowRoot) {
       justify-content: center;
       width: 18px;
       height: 18px;
-      color: #6f7785;
+      color: var(--zd-gray-500);
     }
     .zdoc-empty-search-icon svg {
       width: 17px;
@@ -298,10 +451,24 @@ function ensureStyles(root: ShadowRoot) {
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
-      color: #1f1f1f;
+      color: var(--zd-page-ink);
       font-size: 14px;
       line-height: 20px;
       font-weight: 500;
+    }
+    .zdoc-empty-search-tag {
+      justify-self: start;
+      display: inline-flex;
+      align-items: center;
+      padding: 0 6px;
+      border-radius: 6px;
+      background: transparent;
+      border: 1px solid var(--zd-surface-border-strong);
+      color: var(--zd-muted-text);
+      font-size: 12px;
+      line-height: 18px;
+      font-weight: 500;
+      white-space: nowrap;
     }
     .zdoc-empty-search-meta {
       justify-self: start;
@@ -310,40 +477,14 @@ function ensureStyles(root: ShadowRoot) {
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
-      color: #777;
+      color: var(--zd-muted-text);
       font-size: 13px;
-      line-height: 17px;
+      line-height: 18px;
       font-weight: 400;
-      padding: 0 6px;
-      border: 1px solid #e0e3e8;
-      border-radius: 7px;
-      background: #ffffff;
-    }
-    .zdoc-empty-search-item--recent {
-      grid-template-columns: 18px minmax(0, max-content) minmax(0, 1fr);
-      grid-template-areas:
-        "icon title meta";
-    }
-    .zdoc-empty-search-item--recent .zdoc-empty-search-icon {
-      grid-area: icon;
-      align-self: start;
-      margin-top: 1px;
-    }
-    .zdoc-empty-search-item--recent .zdoc-empty-search-title {
-      grid-area: title;
-      max-width: none;
-    }
-    .zdoc-empty-search-item--recent .zdoc-empty-search-meta {
-      grid-area: meta;
-      justify-self: start;
-      max-width: none;
       padding: 0;
       border: 0;
       border-radius: 0;
       background: transparent;
-      font-size: 13px;
-      line-height: 18px;
-      color: #666;
     }
   `;
   root.appendChild(style);
@@ -404,8 +545,12 @@ function syncLoadingState(root: ShadowRoot) {
   const isAwaiting = input.dataset.zdocSearchAwaiting === 'true';
   inputGroup.dataset.zdocSearchLoading = String(isLoading);
   inputGroup.dataset.zdocSearchAwaiting = String(isAwaiting);
-  if (searchRoot) searchRoot.dataset.zdocSearchLoading = String(isLoading);
-  if (searchRoot) searchRoot.dataset.zdocSearchAwaiting = String(isAwaiting);
+  if (searchRoot) {
+    searchRoot.dataset.zdocSearchHasQuery = String(Boolean(input.value.trim()));
+    searchRoot.dataset.zdocSearchHasResults = String(hasResults);
+    searchRoot.dataset.zdocSearchLoading = String(isLoading);
+    searchRoot.dataset.zdocSearchAwaiting = String(isAwaiting);
+  }
 }
 
 function getResultKind(item: HTMLElement): 'doc' | 'section' | 'blog' {
@@ -433,23 +578,41 @@ function getResultKind(item: HTMLElement): 'doc' | 'section' | 'blog' {
 function syncResultKinds(root: ShadowRoot) {
   root.querySelectorAll<HTMLElement>('.ikp-ai-search-results__item').forEach(item => {
     item.dataset.zdocResultKind = getResultKind(item);
+    getResultBreadcrumbMeta(item);
   });
+}
+
+function syncSearchLayoutState(root: ShadowRoot) {
+  const input = root.querySelector<HTMLInputElement>('.ikp-ai-search-input');
+  const searchRoot = root.querySelector<HTMLElement>('.ikp-ai-search-root');
+  if (!input || !searchRoot) return;
+  searchRoot.dataset.zdocSearchHasQuery = String(Boolean(input.value.trim()));
+  searchRoot.dataset.zdocSearchHasResults = String(root.querySelectorAll('.ikp-ai-search-results__item').length > 0);
 }
 
 function syncAskAiTrigger(root: ShadowRoot) {
   const input = root.querySelector<HTMLInputElement>('.ikp-ai-search-input');
   if (!input) return;
+  syncSearchLayoutState(root);
+  const trigger = root.querySelector<HTMLElement>('.ikp-ai-ask-ai-trigger');
+  const results = root.querySelector<HTMLElement>('.ikp-ai-search-results');
+  if (trigger && results && trigger.nextElementSibling === results) {
+    results.insertAdjacentElement('afterend', trigger);
+  }
   root.querySelectorAll<HTMLElement>('.ikp-ai-ask-ai-trigger__label').forEach(label => {
     const query = input.value.trim();
     if (!query) return;
     label.textContent = '';
     const prefix = root.ownerDocument.createElement('span');
     prefix.className = 'zdoc-ask-ai-prefix';
-    prefix.textContent = 'Ask AI ';
+    prefix.textContent = 'Can you tell me about ';
     const queryText = root.ownerDocument.createElement('span');
     queryText.className = 'zdoc-ask-ai-query';
-    queryText.textContent = `“${query}”`;
-    label.append(prefix, queryText);
+    queryText.textContent = query;
+    const suffix = root.ownerDocument.createElement('span');
+    suffix.className = 'zdoc-ask-ai-suffix';
+    suffix.textContent = '?';
+    label.append(prefix, queryText, suffix);
   });
 }
 
@@ -492,12 +655,10 @@ function getResultRecentItem(item: HTMLElement): RecentItem | null {
       || item.closest<HTMLAnchorElement>('a[href]')?.href
       || undefined;
   if (!href) return null;
-  const breadcrumbs = item.querySelector<HTMLElement>('.ikp-ai-search-results__item-breadcrumbs')?.textContent?.replace(/\s+/g, ' ').trim();
-  const description = item.querySelector<HTMLElement>('.ikp-ai-search-results__item-description')?.textContent?.replace(/\s+/g, ' ').trim();
   return {
     title,
     href,
-    meta: breadcrumbs || description,
+    meta: getResultBreadcrumbMeta(item),
     kind: getResultKind(item),
   };
 }
@@ -536,43 +697,37 @@ function enhanceSearchRoots() {
     if (input && !input.dataset.zdocEmptyEnhanced) {
       input.dataset.zdocEmptyEnhanced = 'true';
       input.addEventListener('input', event => {
-        if (forwardedInputEvents.has(event)) {
-          syncEmptyState(root);
-          syncLoadingState(root);
-          syncAskAiTrigger(root);
-          return;
-        }
-        event.stopImmediatePropagation();
-        if ((event as InputEvent).isComposing || input.dataset.zdocImeComposing === 'true') {
-          input.dataset.zdocSearchPending = 'true';
-          syncEmptyState(root);
-          syncLoadingState(root);
-          return;
-        }
-        scheduleSearch(root, input);
+        forwardedInputEvents.delete(event);
+        clearPendingSearch(input);
+        delete input.dataset.zdocSearchPending;
+        delete input.dataset.zdocSearchAwaiting;
+        if (!(event as InputEvent).isComposing) delete input.dataset.zdocImeComposing;
+        syncEmptyState(root);
+        syncLoadingState(root);
+        syncAskAiTrigger(root);
       }, true);
       input.addEventListener('compositionstart', () => {
         input.dataset.zdocImeComposing = 'true';
-        input.dataset.zdocSearchPending = 'true';
         syncEmptyState(root);
         syncLoadingState(root);
       });
       input.addEventListener('compositionend', () => {
         delete input.dataset.zdocImeComposing;
-        scheduleSearch(root, input, IME_SEARCH_TRIGGER_DELAY_MS);
+        syncEmptyState(root);
+        syncLoadingState(root);
+        syncAskAiTrigger(root);
       });
       input.addEventListener('keydown', event => {
-        if (event.key === 'Enter' && input.dataset.zdocImeComposing !== 'true') {
-          flushPendingSearch(root, input);
-        }
+        if (event.key !== 'Enter' || input.dataset.zdocImeComposing === 'true') return;
+        syncEmptyState(root);
+        syncLoadingState(root);
+        syncAskAiTrigger(root);
       });
       input.addEventListener('blur', () => {
-        if (input.dataset.zdocSearchPending === 'true' && input.dataset.zdocImeComposing !== 'true') {
-          flushPendingSearch(root, input);
-        }
-      });
-      input.addEventListener('input', event => {
-        if (!forwardedInputEvents.has(event)) return;
+        if (input.dataset.zdocImeComposing === 'true') return;
+        clearPendingSearch(input);
+        delete input.dataset.zdocSearchPending;
+        delete input.dataset.zdocSearchAwaiting;
         syncEmptyState(root);
         syncLoadingState(root);
       });

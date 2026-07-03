@@ -8,6 +8,7 @@
 }
 
 .chatHeader {
+  position: relative;
   height: var(--ifm-navbar-height);
   display: flex;
   align-items: center;
@@ -47,27 +48,74 @@
   color: var(--zd-linear-signup-ink);
 }
 
-/* Gradient circle avatar */
-.chatAvatar {
-  display: flex;
+.chatClear svg {
+  width: 14px;
+  height: 14px;
+}
+
+.chatAvatarWrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+}
+
+.chatAvatarButton {
+  display: inline-flex;
   width: 24px;
   height: 24px;
   border-radius: 0;
+  border: 0;
   background: transparent;
   align-items: center;
   justify-content: center;
+  padding: 0;
+  color: var(--zd-page-ink);
+  cursor: default;
   flex-shrink: 0;
 }
 
-.chatAvatar svg {
+.chatAvatarButton svg {
   width: 24px;
   height: 24px;
+}
+
+.chatAvatarTooltip {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%) translateY(3px);
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 7px;
+  background: #ffffff;
+  color: var(--zd-page-ink);
+  border: 1px solid var(--zd-gray-200);
+  border-radius: 9px;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1;
+  white-space: nowrap;
+  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.08);
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity var(--zd-hover-duration) var(--zd-hover-ease),
+    transform var(--zd-hover-duration) var(--zd-hover-ease);
+  z-index: 5;
+}
+
+.chatAvatarWrap:hover .chatAvatarTooltip,
+.chatAvatarWrap:focus-within .chatAvatarTooltip {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
 }
 
 .chatTitle {
   font-size: 14px;
   line-height: 1.25;
-  font-weight: 600;
+  font-weight: 500;
   color: var(--zd-linear-signup-ink);
 }
 
@@ -134,15 +182,15 @@
 }
 
 .emptyBolt {
-  width: 118px;
-  height: 204px;
+  width: 106px;
+  height: 184px;
   display: flex;
   align-items: center;
   justify-content: center;
   opacity: 1;
   transform: translateY(4px);
-  -webkit-mask-image: linear-gradient(to bottom, #000 45%, rgba(0, 0, 0, 0.45) 78%, transparent 100%);
-  mask-image: linear-gradient(to bottom, #000 45%, rgba(0, 0, 0, 0.45) 78%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, #000 34%, rgba(0, 0, 0, 0.45) 68%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 34%, rgba(0, 0, 0, 0.45) 68%, transparent 100%);
 }
 
 .emptyBolt svg {
@@ -189,7 +237,7 @@
   flex-direction: column;
   min-height: 6.67rem;
   padding: 0.75rem 0.75rem 0.625rem 0.875rem;
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--zd-surface-border);
   border-radius: 18px;
   background: #ffffff;
   cursor: text;
@@ -256,7 +304,7 @@
   font-family: inherit;
   font-size: 12px;
   font-weight: 500;
-  color: #9b9b9b;
+  color: var(--zd-gray-400);
   line-height: 1;
   border: 0;
   background: transparent;
@@ -284,7 +332,7 @@
   max-width: 100%;
   padding: 3px 4px 3px 7px;
   background: #ffffff;
-  border: 1px solid #e0e0e0;
+  border: 1px solid var(--zd-surface-border);
   border-radius: 7px;
   font-size: 12px;
   color: #4b4b4b;
@@ -293,7 +341,7 @@
 .contextChipIcon {
   display: inline-flex;
   flex-shrink: 0;
-  color: #8a8a8a;
+  color: var(--zd-gray-500);
 }
 
 .contextChipLabel {
@@ -322,13 +370,13 @@
 
 .contextChipClose:hover {
   background: rgba(0, 0, 0, 0.06);
-  color: #1a1a1a;
+  color: var(--zd-page-ink);
 }
 
 .input {
   flex: 0 0 auto;
   width: 100%;
-  font-size: 14px;
+  font-size: 14px !important;
   font-weight: 400;
   border: none;
   outline: none;
@@ -344,8 +392,8 @@
 }
 
 .input::placeholder {
-  font-size: 14px;
-  color: #8f8f8f;
+  font-size: 14px !important;
+  color: var(--zd-gray-500);
 }
 
 /* Round send button — beige-gray box, white arrow (matches the doc composer) */
@@ -366,7 +414,7 @@
 }
 
 .sendRound:not(:disabled) {
-  background: #1a1a1a;
+  background: var(--zd-page-ink);
   color: #ffffff;
 }
 
@@ -381,7 +429,7 @@
   height: 32px;
   padding: 0 13px;
   border-radius: 9px;
-  background: #3f3f3f;
+  background: var(--zd-page-ink);
   color: #ffffff;
   font-family: inherit;
   font-size: 14px;
@@ -391,7 +439,7 @@
 }
 
 .stopRound:hover {
-  background: #303030;
+  background: var(--zd-page-ink);
 }
 
 .stopIcon {
@@ -438,7 +486,7 @@
   padding: 0.2rem 0;
   font-size: 14px;
   text-align: left;
-  color: #666666;
+  color: var(--zd-muted-text);
   background: transparent;
   border: none;
   border-radius: 0;
@@ -448,7 +496,7 @@
 }
 
 .suggestionBtn:hover {
-  color: #171717;
+  color: var(--zd-page-ink);
 }
 
 /* Conversation state */
@@ -512,7 +560,7 @@
   align-self: flex-end;
   max-width: 85%;
   padding: 7px 11px;
-  background: #f0efec;
+  background: var(--zd-surface-2);
   color: var(--zd-linear-signup-ink);
   /* bottom-right corner squared off */
   border-radius: 12px 12px 3px 12px;
@@ -526,7 +574,11 @@
 .assistantMessage {
   align-self: stretch;
   max-width: 100%;
-  overflow-x: hidden;
+  /* clip on X (not hidden) so overflow-y stays visible — a hidden X-axis silently
+     turns overflow-y into `auto`, trapping the reply in its own scrollbox instead of
+     flowing into the scrollable .messages list. */
+  overflow-x: clip;
+  overflow-y: visible;
   background: transparent;
   color: var(--zd-linear-signup-ink);
 }
@@ -548,7 +600,7 @@
   flex: 1;
   min-height: 0;
   position: relative;
-  background: #f9f9f9;
+  background: var(--zd-surface-1);
 }
 
 .expandedWrapper {
@@ -803,7 +855,7 @@
 }
 
 .chatInnerExpanded .input {
-  font-size: 14px;
+  font-size: 14px !important;
   line-height: 22px;
 }
 
@@ -831,7 +883,7 @@
       100deg,
       #6f665d 0%,
       #6f665d 35%,
-      #3f3933 48%,
+      var(--zd-page-ink) 48%,
       #6f665d 62%,
       #6f665d 100%
     );
@@ -956,11 +1008,15 @@
   flex: 1;
   min-width: 0;
   max-width: 100%;
-  overflow-x: hidden;
+  /* clip (not hidden) on X so overflow-y is NOT forced to `auto` — otherwise the
+     whole reply gets trapped in a short internal scrollbox instead of flowing in the
+     .messages list. Vertical content flows naturally; the .messages list scrolls. */
+  overflow-x: clip;
+  overflow-y: visible;
   font-size: 14px;
   font-weight: 400;
   line-height: 24px;
-  color: #222222;
+  color: var(--zd-page-ink);
 }
 
 .markdownContent p {
@@ -972,23 +1028,25 @@
   margin-bottom: 0;
 }
 
-.markdownContent code {
+.markdownContent :not(pre) > code {
   font-family: var(--ifm-font-family-monospace);
-  font-size: 12.5px;
-  font-weight: 500;
-  color: #3b3b4f;
-  background: transparent;
-  border: 1px solid #d6d6df;
-  padding: 0.1em 0.38em;
-  border-radius: 5px;
+  font-size: var(--zd-inline-code-font-size);
+  font-weight: var(--zd-inline-code-font-weight);
+  line-height: var(--zd-inline-code-line-height);
+  color: var(--zd-inline-code-color);
+  background: var(--zd-inline-code-bg);
+  border: 1px solid var(--zd-inline-code-border);
+  padding: var(--zd-inline-code-padding);
+  border-radius: var(--zd-inline-code-radius);
+  letter-spacing: normal;
 }
 
 .markdownContent pre {
   margin: 12px 0;
   padding: 12px 14px;
-  background: #fbfbfc;
-  color: #37352f;
-  border: 1px solid #e5e7eb;
+  background: var(--zd-doc-panel-bg);
+  color: var(--zd-page-ink);
+  border: 1px solid var(--zd-surface-border);
   border-radius: 8px;
   overflow-x: auto;
   font-size: 12.5px;
@@ -1028,13 +1086,13 @@
   font-size: 15px;
   line-height: 22px;
   font-weight: 600;
-  color: #171717;
+  color: var(--zd-page-ink);
 }
 
 .markdownContent hr {
   height: 1px;
   margin: 16px 0;
-  background: #eeeeee;
+  background: var(--zd-surface-2);
   border: 0;
 }
 
@@ -1043,25 +1101,27 @@
   font-weight: 590;
   text-decoration-line: underline;
   text-decoration-thickness: 1px;
-  text-decoration-color: #9ca3af;
+  text-decoration-color: var(--zd-gray-400);
   text-underline-offset: 4px;
   transition:
-    color 0.18s ease,
-    text-decoration-color 0.18s ease,
-    text-decoration-thickness 0.18s ease;
+    color var(--zd-hover-duration, 0.36s) var(--zd-hover-ease, cubic-bezier(0.16, 1, 0.3, 1)),
+    text-decoration-color var(--zd-hover-duration, 0.36s) var(--zd-hover-ease, cubic-bezier(0.16, 1, 0.3, 1)),
+    text-decoration-thickness var(--zd-hover-duration, 0.36s) var(--zd-hover-ease, cubic-bezier(0.16, 1, 0.3, 1)),
+    text-underline-offset var(--zd-hover-duration, 0.36s) var(--zd-hover-ease, cubic-bezier(0.16, 1, 0.3, 1));
 }
 
 .markdownContent a:hover {
   color: var(--zd-linear-signup-ink);
   text-decoration-color: var(--zd-linear-signup-ink);
   text-decoration-thickness: 2px;
+  text-underline-offset: 5px;
 }
 
 /* Source citations */
 .sourcesSection {
   margin-top: 14px;
   padding-top: 10px;
-  border-top: 1px solid #ededed;
+  border-top: 1px solid var(--zd-surface-border-subtle);
 }
 
 .sourcesLabel {
@@ -1096,9 +1156,16 @@
   font-weight: 400;
   line-height: 20px;
   color: var(--ifm-color-primary);
-  text-decoration: none;
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-decoration-color: transparent;
+  text-underline-offset: 4px;
   padding: 0.125rem 0;
-  transition: color 0.15s ease;
+  transition:
+    color var(--zd-hover-duration, 0.36s) var(--zd-hover-ease, cubic-bezier(0.16, 1, 0.3, 1)),
+    text-decoration-color var(--zd-hover-duration, 0.36s) var(--zd-hover-ease, cubic-bezier(0.16, 1, 0.3, 1)),
+    text-decoration-thickness var(--zd-hover-duration, 0.36s) var(--zd-hover-ease, cubic-bezier(0.16, 1, 0.3, 1)),
+    text-underline-offset var(--zd-hover-duration, 0.36s) var(--zd-hover-ease, cubic-bezier(0.16, 1, 0.3, 1));
 }
 
 .sourceIndex {
@@ -1123,7 +1190,9 @@
 
 .sourceLink:hover {
   color: var(--ifm-color-primary-dark, #1248cc);
-  text-decoration: underline;
+  text-decoration-color: currentColor;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 5px;
 }
 
 .sourceLink span {
@@ -1173,14 +1242,14 @@
 
 .feedbackBtn:hover {
   color: var(--zd-linear-signup-ink);
-  background: #eeeeee;
+  background: var(--zd-surface-2);
 }
 
 /* Selected feedback — fixed dark chip, white icon */
 .feedbackBtnActive,
 .feedbackBtnActive:hover {
   color: #ffffff;
-  background: #1a1a1a;
+  background: var(--zd-page-ink);
 }
 
 .markdownContent table {
@@ -1192,8 +1261,8 @@
   margin: 14px 0;
   font-size: 13px;
   line-height: 20px;
-  color: #222222;
-  border: 1px solid #eeeeee;
+  color: var(--zd-page-ink);
+  border: 1px solid var(--zd-surface-2);
   border-radius: 10px;
   overflow: hidden;
 }
@@ -1211,7 +1280,7 @@
 .markdownContent th,
 .markdownContent td {
   border: 0;
-  border-bottom: 1px solid #eeeeee;
+  border-bottom: 1px solid var(--zd-surface-2);
   padding: 14px 16px;
   text-align: left;
   vertical-align: top;
@@ -1219,7 +1288,7 @@
 
 .markdownContent th {
   background: #ffffff;
-  color: #171717;
+  color: var(--zd-page-ink);
   font-weight: 600;
 }
 
@@ -1228,7 +1297,7 @@
 }
 
 .markdownContent tbody td:first-child {
-  color: #222222;
+  color: var(--zd-page-ink);
   font-weight: 500;
 }
 
@@ -1243,7 +1312,12 @@
 }
 
 .markdownContent table code {
-  font-size: 12px;
+  font-size: var(--zd-inline-code-font-size);
+  font-weight: var(--zd-inline-code-font-weight);
+  line-height: var(--zd-inline-code-line-height);
+  color: var(--zd-inline-code-color);
+  background: var(--zd-inline-code-bg);
+  border-color: var(--zd-inline-code-border);
   white-space: nowrap;
 }
 
@@ -1252,4 +1326,39 @@
   .chatSidebar {
     display: none;
   }
+}
+
+/* "Jump to latest" — a text pill that appears above the input once the user
+   scrolls up in the conversation. Deliberately a TEXT button so it's not confused
+   with the round arrow send button. */
+.jumpToLatest {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% - 6px);
+  transform: translateX(-50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 12px 5px 9px;
+  font-family: inherit;
+  font-size: 12.5px;
+  font-weight: 500;
+  line-height: 1;
+  color: var(--zd-page-ink);
+  background: #ffffff;
+  border: 1px solid var(--zd-surface-border);
+  border-radius: 999px;
+  box-shadow: 0 4px 14px rgba(23, 23, 23, 0.1);
+  cursor: pointer;
+  white-space: nowrap;
+  z-index: 4;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+.jumpToLatest:hover {
+  background: var(--zd-surface-1);
+  border-color: var(--zd-surface-border-strong);
+}
+.jumpToLatest svg {
+  flex-shrink: 0;
+  color: var(--zd-muted-text);
 }

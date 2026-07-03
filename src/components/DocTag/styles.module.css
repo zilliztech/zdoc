@@ -10,3 +10,7 @@
   white-space: nowrap;
   flex-shrink: 0;
 }
+
+.tag[data-tag-type='PRIVATE'] {
+  margin-left: -12px;
+}

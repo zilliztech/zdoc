@@ -14,6 +14,9 @@ function tagTableRowHeaders() {
     // only complex grouped tables (a position rule already covers simple ones)
     if (!table.querySelector('td[rowspan]')) return;
     const rows = table.rows;
+    table.querySelectorAll('.zd-rowspan-ends-at-table-bottom').forEach((cell) => {
+      cell.classList.remove('zd-rowspan-ends-at-table-bottom');
+    });
     const occupied = []; // occupied[r][c] = true when covered by a span
     for (let r = 0; r < rows.length; r++) {
       const cells = rows[r].cells;
@@ -25,6 +28,9 @@ function tagTableRowHeaders() {
         const cs = cell.colSpan || 1;
         if (col === 0 && cell.tagName === 'TD') {
           cell.classList.add('zd-rowgroup-head');
+        }
+        if (cell.tagName === 'TD' && rs > 1 && r + rs >= rows.length) {
+          cell.classList.add('zd-rowspan-ends-at-table-bottom');
         }
         for (let dr = 0; dr < rs; dr++) {
           for (let dc = 0; dc < cs; dc++) {
@@ -223,16 +229,182 @@ function openFaqFromHash() {
   setTimeout(() => item.scrollIntoView({ block: 'start', behavior: 'smooth' }), 30);
 }
 
+function clamp(n, min, max) {
+  return Math.max(min, Math.min(max, n));
+}
+
+function getLogicalColumnCount(table) {
+  let cols = 0;
+  Array.from(table.rows || []).forEach((row) => {
+    const count = Array.from(row.cells || []).reduce((sum, cell) => sum + (cell.colSpan || 1), 0);
+    cols = Math.max(cols, count);
+  });
+  return cols;
+}
+
+function isSimpleTable(table) {
+  const rows = Array.from(table.rows || []);
+  if (!rows.length) return false;
+  const cols = getLogicalColumnCount(table);
+  if (cols < 2 || cols > 8) return false;
+  if (table.querySelector('td[rowspan], th[rowspan], td[colspan], th[colspan]')) return false;
+  if (table.querySelector('ul, ol, pre, table, img, video, iframe, details, .alert')) return false;
+
+  return Array.from(table.querySelectorAll('th, td')).every((cell) => {
+    const text = (cell.textContent || '').replace(/\s+/g, ' ').trim();
+    if (text.length > 88) return false;
+    const blockChildren = Array.from(cell.children).filter((child) =>
+      /^(P|DIV|SECTION|ARTICLE|BLOCKQUOTE)$/i.test(child.tagName) &&
+      (child.textContent || '').replace(/\s+/g, ' ').trim()
+    );
+    return blockChildren.length <= 1;
+  });
+}
+
+function tagTableComplexity() {
+  if (typeof document === 'undefined') return;
+  document.querySelectorAll('.markdown table').forEach((table) => {
+    const simple = isSimpleTable(table);
+    table.dataset.zdocTable = simple ? 'simple' : 'complex';
+    const wrapper = table.closest('.zd-table-scroll');
+    if (wrapper) wrapper.dataset.zdocTable = simple ? 'simple' : 'complex';
+  });
+}
+
+function estimateReadableTableWidth(table) {
+  const cols = getLogicalColumnCount(table);
+  if (cols < 2) return 0;
+
+  let hasReadablePressure = cols >= 4;
+  let hasLongTwoColumnProse = false;
+  const colWidths = Array.from({length: cols}, (_, index) => {
+    if (index === 0) return cols <= 3 ? 170 : 190;
+    if (cols === 2) return 280;
+    if (cols === 3) return index === 1 ? 210 : 280;
+    if (cols === 4) return 220;
+    return 150;
+  });
+  Array.from(table.rows || []).forEach((row, rowIndex) => {
+    let col = 0;
+    Array.from(row.cells || []).forEach((cell) => {
+      const span = cell.colSpan || 1;
+      const text = (cell.textContent || '').replace(/\s+/g, ' ').trim();
+      const words = text.split(/\s+/).filter(Boolean);
+      const longestWord = words.reduce((max, word) => Math.max(max, word.length), 0);
+      const isHeader = rowIndex === 0 || cell.tagName === 'TH';
+      const hasCode = !!cell.querySelector('code');
+      const hasList = !!cell.querySelector('li');
+      if (cols === 2 && text.length >= 110) {
+        hasLongTwoColumnProse = true;
+      }
+      if (
+        hasCode ||
+        hasList ||
+        longestWord >= 16 ||
+        (cols === 2 && text.length >= 110) ||
+        (cols >= 3 && (text.length >= 72 || (isHeader && text.length >= 18)))
+      ) {
+        hasReadablePressure = true;
+      }
+      const base = col === 0 ? (cols <= 3 ? 170 : 190) : (cols === 2 ? 280 : cols === 3 ? 210 : 150);
+      const contentBase = cols === 4 && col > 0 ? 220 : base;
+      const contentCap = (() => {
+        if (col === 0) return cols <= 3 ? 240 : 230;
+        if (cols === 2) return hasCode || longestWord >= 24 ? 520 : 420;
+        if (cols === 3) return hasCode || hasList || text.length >= 72 ? 420 : 320;
+        if (cols === 4) return 340;
+        return hasCode || hasList ? 300 : 220;
+      })();
+      const byText = isHeader
+        ? clamp(text.length * 7.2 + 34, contentBase, Math.max(contentBase, Math.min(contentCap, 360)))
+        : clamp(
+            Math.max(
+              (hasCode ? Math.min(text.length, 58) * 7.6 : longestWord * 7.2) + 42,
+              hasList ? 300 : 0,
+              cols >= 3 && text.length >= 72 ? 320 : 0
+            ),
+            contentBase,
+            contentCap
+          );
+      const perCol = Math.ceil(byText / span);
+      for (let i = 0; i < span && col + i < cols; i++) {
+        colWidths[col + i] = Math.max(colWidths[col + i], perCol);
+      }
+      col += span;
+    });
+  });
+
+  const totalWidth = colWidths.reduce((sum, width) => sum + width, 0);
+  if (hasLongTwoColumnProse) return Math.max(totalWidth, 860);
+  return hasReadablePressure ? totalWidth : 0;
+}
+
+function getRenderedCompressionWidth(table, readableWidth) {
+  const cols = getLogicalColumnCount(table);
+  if (cols < 2) return 0;
+
+  let compressed = false;
+  Array.from(table.rows || []).forEach((row) => {
+    Array.from(row.cells || []).forEach((cell) => {
+      const rect = cell.getBoundingClientRect();
+      const text = (cell.textContent || '').replace(/\s+/g, ' ').trim();
+      if (!text) return;
+      const lineHeight = parseFloat(getComputedStyle(cell).lineHeight) || 21;
+      const lines = Math.round(cell.scrollHeight / lineHeight);
+      const hasCode = !!cell.querySelector('code');
+      const hasList = !!cell.querySelector('li');
+      const longestWord = text.split(/\s+/).reduce((max, word) => Math.max(max, word.length), 0);
+      if (
+        (cols === 2 && rect.width < 440 && lines >= 6) ||
+        (cols >= 3 && rect.width < 150 && lines >= 3) ||
+        (cols >= 3 && lines >= 5) ||
+        (hasCode && rect.width < 220 && longestWord >= 14) ||
+        (hasList && rect.width < 240 && lines >= 4)
+      ) {
+        compressed = true;
+      }
+    });
+  });
+
+  if (!compressed) return 0;
+  return readableWidth || Math.ceil(table.parentElement?.clientWidth || 0) + (cols === 2 ? 120 : 180);
+}
+
+function syncTableScrollEdge(w) {
+  const overflow = w.scrollWidth > w.clientWidth + 1;
+  const atEnd = !overflow || w.scrollLeft + w.clientWidth >= w.scrollWidth - 1;
+  w.classList.toggle('zd-table-scroll--overflow', overflow);
+  w.classList.toggle('zd-table-scroll--at-end', atEnd);
+}
+
 /**
  * A table wider than its viewport scrolls horizontally — its right edge is a
  * "content continues" cut, not the table's end. Tag those wrappers so CSS can drop
  * the frame's right border + rounded corners there.
+ *
+ * Some comparison tables can technically fit by crushing columns until headers and
+ * row labels wrap every word. Treat those as overflow too by assigning a computed
+ * readable min-width before measuring.
  */
 function markScrollableTables() {
   if (typeof document === 'undefined') return;
   document.querySelectorAll('.zd-table-scroll').forEach((w) => {
-    const overflow = w.scrollWidth > w.clientWidth + 1;
-    w.classList.toggle('zd-table-scroll--overflow', overflow);
+    const table = w.querySelector('table');
+    const readableWidth = table ? estimateReadableTableWidth(table) : 0;
+    const compressionWidth = table ? getRenderedCompressionWidth(table, readableWidth) : 0;
+    const targetWidth = Math.max(readableWidth, compressionWidth);
+    if (table && targetWidth > w.clientWidth + 1) {
+      w.style.setProperty('--zd-table-readable-min', `${Math.ceil(targetWidth)}px`);
+      w.classList.add('zd-table-scroll--readable');
+    } else {
+      w.style.removeProperty('--zd-table-readable-min');
+      w.classList.remove('zd-table-scroll--readable');
+    }
+    syncTableScrollEdge(w);
+    if (!w.__zdTableScrollEdgeListener) {
+      w.__zdTableScrollEdgeListener = true;
+      w.addEventListener('scroll', () => syncTableScrollEdge(w), { passive: true });
+    }
   });
 }
 
@@ -277,6 +449,7 @@ function enableFullRowDetails() {
 }
 
 function enhance() {
+  tagTableComplexity();
   tagTableRowHeaders();
   buildFaqAccordions();
   reHideFaqSources();

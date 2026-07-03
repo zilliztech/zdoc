@@ -198,25 +198,82 @@ function DropdownItem({item, activePrefixes}: {item: NavItem; activePrefixes: Se
 
 // ── Collapsed topbar (medium widths) ───────────────────────────────────────────
 
-/** True on desktop/medium widths where the full tab row would start colliding
- *  with the right-hand controls (Search → Releases). Below 768 the mobile
- *  hamburger owns the nav, so this only applies in the [768, breakpoint] band. */
-function useTopbarCollapsed(enabled: boolean): boolean {
+const TOPBAR_COLLAPSE_GAP_PX = 4;
+
+/** True when the full tab row is within TOPBAR_COLLAPSE_GAP_PX of Search.
+ *  Below 768 the mobile hamburger owns the nav, so this only applies on desktop. */
+function useTopbarCollapsed(
+  enabled: boolean,
+  topbarRef: React.RefObject<HTMLDivElement>,
+  measureRef: React.RefObject<HTMLDivElement>,
+): boolean {
   const [collapsed, setCollapsed] = useState(false);
   useEffect(() => {
-    if (!enabled || typeof window === 'undefined' || !window.matchMedia) return undefined;
-    const mq = window.matchMedia('(min-width: 768px) and (max-width: 1220px)');
-    const update = () => setCollapsed(mq.matches || document.body.classList.contains('docs-nav-compact'));
+    if (!enabled || typeof window === 'undefined') return undefined;
+
+    let raf: number | null = null;
+    const update = () => {
+      if (raf !== null) window.cancelAnimationFrame(raf);
+      raf = window.requestAnimationFrame(() => {
+        raf = null;
+        if (window.innerWidth < 768) {
+          setCollapsed(false);
+          return;
+        }
+        // Collapse the topbar tabs at the SAME breakpoint as the right-hand
+        // navbar (docs-nav-compact). Previously a separate "tabs don't fit"
+        // measurement folded the left side earlier than the right — so keep a
+        // single breakpoint and let both sides collapse together.
+        setCollapsed(document.body.classList.contains('docs-nav-compact'));
+      });
+    };
+
     const mo = new MutationObserver(update);
     update();
-    mq.addEventListener('change', update);
+    window.addEventListener('resize', update);
     mo.observe(document.body, {attributes: true, attributeFilter: ['class']});
+    const ro = typeof ResizeObserver !== 'undefined' ? new ResizeObserver(update) : null;
+    if (ro) {
+      if (topbarRef.current) ro.observe(topbarRef.current);
+      if (measureRef.current) ro.observe(measureRef.current);
+      const searchWrap = document.querySelector<HTMLElement>('.navbar-search-wrap');
+      if (searchWrap) ro.observe(searchWrap);
+    }
     return () => {
-      mq.removeEventListener('change', update);
+      if (raf !== null) window.cancelAnimationFrame(raf);
+      window.removeEventListener('resize', update);
       mo.disconnect();
+      ro?.disconnect();
     };
-  }, [enabled]);
+  }, [enabled, topbarRef, measureRef]);
   return collapsed;
+}
+
+function FullItemsMeasure({
+  items,
+  activePrefixes,
+  measureRef,
+}: {
+  items: NavItem[];
+  activePrefixes: Set<string>;
+  measureRef: React.RefObject<HTMLDivElement>;
+}): React.ReactElement {
+  return (
+    <div ref={measureRef} className={`${styles.items} ${styles.measurementItems}`} aria-hidden="true">
+      {items.map(item => {
+        const isActive =
+          (!!item.prefix && activePrefixes.has(item.prefix)) ||
+          (item.items?.some(child => child.prefix && activePrefixes.has(child.prefix)) ?? false);
+        const className = `${styles.item} ${item.items?.length ? styles.dropdownButton : ''} ${isActive ? styles.itemActive : ''}`;
+        return (
+          <span key={`measure-${item.href ?? item.label}`} className={className}>
+            <StableNavLabel>{item.label}</StableNavLabel>
+            {item.items?.length ? <DropdownChevron /> : null}
+          </span>
+        );
+      })}
+    </div>
+  );
 }
 
 /** A single dropdown that stands in for the whole tab row when space is tight,
@@ -307,18 +364,21 @@ export default function SecondaryNavbar({variant = 'bar'}: {variant?: 'bar' | 't
 
   const visibleItems = navItems.filter(item => !item.hidden);
   const activePrefixes = findActivePrefixes(navItems, pathname);
-  const collapsed = useTopbarCollapsed(variant === 'topbar');
+  const topbarRef = useRef<HTMLDivElement>(null);
+  const measureRef = useRef<HTMLDivElement>(null);
+  const collapsed = useTopbarCollapsed(variant === 'topbar', topbarRef, measureRef);
 
   if (collapsed) {
     return (
-      <div className={styles.topbarNav}>
+      <div ref={topbarRef} className={styles.topbarNav}>
         <CollapsedTopbar items={visibleItems} activePrefixes={activePrefixes} />
+        <FullItemsMeasure items={visibleItems} activePrefixes={activePrefixes} measureRef={measureRef} />
       </div>
     );
   }
 
   return (
-    <div className={variant === 'topbar' ? styles.topbarNav : styles.secondaryNavbar}>
+    <div ref={variant === 'topbar' ? topbarRef : undefined} className={variant === 'topbar' ? styles.topbarNav : styles.secondaryNavbar}>
       <div className={styles.items}>
         {visibleItems.map(item => {
           if (item.items?.length) {
@@ -339,6 +399,9 @@ export default function SecondaryNavbar({variant = 'bar'}: {variant?: 'bar' | 't
           );
         })}
       </div>
+      {variant === 'topbar' ? (
+        <FullItemsMeasure items={visibleItems} activePrefixes={activePrefixes} measureRef={measureRef} />
+      ) : null}
     </div>
   );
 }

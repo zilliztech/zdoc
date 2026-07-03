@@ -161,7 +161,7 @@ const config: Config = {
 
   customFields: {
     planeConfig,
-    chatEndpoint: process.env.CHAT_ENDPOINT || '/api/chat/stream',
+    chatEndpoint: process.env.CHAT_ENDPOINT || '/api/chat',
     chatDebug: process.env.CHAT_DEBUG === 'true',
     secondaryNavbar: [
       { label: 'Zilliz-Managed Cloud', href: '/docs/register-with-zilliz-cloud', prefix: '/docs',       icon: 'cloud'  },
@@ -220,11 +220,15 @@ const config: Config = {
         SearchBar: {
           baseSettings: {
             apiKey: process.env.INKEEP_API_KEY,
+            integrationId: process.env.INKEEP_INTEGRATION_ID,
+            organizationId: process.env.INKEEP_ORGANIZATION_ID,
           },
         },
         ChatButton: {
           baseSettings: {
             apiKey: process.env.INKEEP_API_KEY,
+            integrationId: process.env.INKEEP_INTEGRATION_ID,
+            organizationId: process.env.INKEEP_ORGANIZATION_ID,
           },
         },
       },
@@ -322,6 +326,7 @@ const config: Config = {
       logo: {
         alt: 'Zilliz Logo',
         src: '/img/logo.svg',
+        href: 'https://zilliz.com',
       },
       items: [
         {

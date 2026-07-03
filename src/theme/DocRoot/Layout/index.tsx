@@ -15,8 +15,8 @@ import styles from './styles.module.css';
 
 let persistedHiddenContainer = false;
 let persistedHidden = false;
-const NAV_COMPACT_ENTER_WIDTH = 1220;
-const NAV_COMPACT_EXIT_WIDTH = 1260;
+const NAV_COMPACT_ENTER_WIDTH = 1260;
+const NAV_COMPACT_EXIT_WIDTH = 1300;
 const NAV_MOBILE_ENTER_WIDTH = 760;
 const NAV_MOBILE_EXIT_WIDTH = 800;
 const CHAT_MIN_WIDTH = 320;
@@ -132,7 +132,7 @@ function FloatingChatInput({
         <div className={styles.floatingFooter}>
           <kbd className={styles.chatKbd}>{isMacPlatform() ? '⌘I' : 'Ctrl I'}</kbd>
           <button type="submit" disabled={!query.trim() || isStreaming} aria-label="Send question">
-            <ArrowUp size={16} strokeWidth={2.5} />
+            <ArrowUp size={14} strokeWidth={2.4} />
           </button>
         </div>
       </form>
@@ -270,7 +270,8 @@ function DocRootLayoutInner({children}: Props): ReactNode {
     if (isChatOpen) closeChat();
     else openChat();
   }, [closeChat, isChatOpen, openChat]);
-  const isChatLayoutReserved = isChatOpen || chatClosing;
+  const isChatVisible = isChatOpen || chatClosing;
+  const isChatLayoutReserved = isChatOpen;
 
   useEffect(() => () => clearChatCloseTimer(), [clearChatCloseTimer]);
 
@@ -280,30 +281,38 @@ function DocRootLayoutInner({children}: Props): ReactNode {
     document.body.classList.toggle('docs-chat-open', isChatLayoutReserved);
     return () => document.body.classList.remove('docs-chat-open');
   }, [isChatLayoutReserved]);
-  useBrowserLayoutEffect(() => {
-    const updateNavCompact = () => {
-      const viewportWidth = window.innerWidth;
-      const paneWidth = isChatLayoutReserved ? (chatWidth ?? getDefaultChatPaneWidth(viewportWidth)) : 0;
-      const availableWidth = viewportWidth - paneWidth;
-      const next = navCompactRef.current
-        ? availableWidth < NAV_COMPACT_EXIT_WIDTH
-        : availableWidth <= NAV_COMPACT_ENTER_WIDTH;
-      const nextMobile = navMobileRef.current
-        ? isChatLayoutReserved && viewportWidth < NAV_MOBILE_EXIT_WIDTH
-        : isChatLayoutReserved && viewportWidth <= NAV_MOBILE_ENTER_WIDTH;
-      navCompactRef.current = next;
-      navMobileRef.current = nextMobile;
-      document.body.classList.toggle('docs-nav-compact', next);
-      document.body.classList.toggle('docs-nav-mobile', nextMobile);
-    };
-    updateNavCompact();
-    window.addEventListener('resize', updateNavCompact);
-    return () => {
-      window.removeEventListener('resize', updateNavCompact);
-      document.body.classList.remove('docs-nav-compact');
-      document.body.classList.remove('docs-nav-mobile');
-    };
+  const updateNavCompact = useCallback((paneWidthOverride?: number) => {
+    const viewportWidth = window.innerWidth;
+    const paneWidth = isChatLayoutReserved
+      ? (paneWidthOverride ?? chatWidth ?? getDefaultChatPaneWidth(viewportWidth))
+      : 0;
+    const availableWidth = viewportWidth - paneWidth;
+    const next = navCompactRef.current
+      ? availableWidth < NAV_COMPACT_EXIT_WIDTH
+      : availableWidth <= NAV_COMPACT_ENTER_WIDTH;
+    const nextMobile = navMobileRef.current
+      ? isChatLayoutReserved && viewportWidth < NAV_MOBILE_EXIT_WIDTH
+      : isChatLayoutReserved && viewportWidth <= NAV_MOBILE_ENTER_WIDTH;
+    navCompactRef.current = next;
+    navMobileRef.current = nextMobile;
+    document.body.classList.toggle('docs-nav-compact', next);
+    document.body.classList.toggle('docs-nav-mobile', nextMobile);
   }, [chatWidth, isChatLayoutReserved]);
+  useBrowserLayoutEffect(() => {
+    const updateIfNotResizing = () => {
+      if (document.body.classList.contains('docs-chat-resizing')) return;
+      updateNavCompact();
+    };
+    updateIfNotResizing();
+    window.addEventListener('resize', updateIfNotResizing);
+    return () => {
+      window.removeEventListener('resize', updateIfNotResizing);
+    };
+  }, [updateNavCompact]);
+  useEffect(() => () => {
+    document.body.classList.remove('docs-nav-compact');
+    document.body.classList.remove('docs-nav-mobile');
+  }, []);
   useEffect(() => {
     const root = document.documentElement;
     if (chatWidth) root.style.setProperty('--chat-pane-w', `${chatWidth}px`);
@@ -323,18 +332,33 @@ function DocRootLayoutInner({children}: Props): ReactNode {
 
   const startChatResize = (e: React.MouseEvent) => {
     e.preventDefault();
+    const root = document.documentElement;
+    const navbarRight = document.querySelector<HTMLElement>('[class*="navbarRight"]');
+    const navbarRightRect = navbarRight?.getBoundingClientRect();
+    if (navbarRightRect) {
+      root.style.setProperty('--navbar-right-freeze-left', `${navbarRightRect.left}px`);
+      root.style.setProperty('--navbar-right-freeze-top', `${navbarRightRect.top}px`);
+      root.style.setProperty('--navbar-right-freeze-width', `${navbarRightRect.width}px`);
+      root.style.setProperty('--navbar-right-freeze-height', `${navbarRightRect.height}px`);
+    }
     document.body.classList.add('docs-chat-resizing');
     const pane = (e.currentTarget as HTMLElement).parentElement;
     if (!pane) {
       document.body.classList.remove('docs-chat-resizing');
+      root.style.removeProperty('--navbar-right-freeze-left');
+      root.style.removeProperty('--navbar-right-freeze-top');
+      root.style.removeProperty('--navbar-right-freeze-width');
+      root.style.removeProperty('--navbar-right-freeze-height');
       return;
     }
     const startX = e.clientX;
     const startWidth = pane.getBoundingClientRect().width;
+    let lastWidth = startWidth;
     const onMove = (ev: MouseEvent) => {
       // dragging left widens the panel
       const maxWidth = getMaxChatPaneWidth(window.innerWidth);
       const next = Math.min(maxWidth, Math.max(CHAT_MIN_WIDTH, startWidth + (startX - ev.clientX)));
+      lastWidth = next;
       setChatWidth(next);
     };
     const onUp = () => {
@@ -342,6 +366,11 @@ function DocRootLayoutInner({children}: Props): ReactNode {
       document.removeEventListener('mouseup', onUp);
       document.body.style.userSelect = '';
       document.body.classList.remove('docs-chat-resizing');
+      root.style.removeProperty('--navbar-right-freeze-left');
+      root.style.removeProperty('--navbar-right-freeze-top');
+      root.style.removeProperty('--navbar-right-freeze-width');
+      root.style.removeProperty('--navbar-right-freeze-height');
+      updateNavCompact(lastWidth);
     };
     document.addEventListener('mousemove', onMove);
     document.addEventListener('mouseup', onUp);
@@ -440,11 +469,11 @@ function DocRootLayoutInner({children}: Props): ReactNode {
           <aside
             className={[
               styles.chatPane,
-              !isChatLayoutReserved ? styles.chatPaneIdle : '',
+              !isChatVisible ? styles.chatPaneIdle : '',
               chatClosing ? styles.chatPaneClosing : '',
             ].filter(Boolean).join(' ')}
             aria-label="Zilliz Copilot"
-            aria-hidden={!isChatLayoutReserved}>
+            aria-hidden={!isChatVisible}>
             <div className={styles.chatResizer} onMouseDown={startChatResize} role="separator" aria-orientation="vertical">
               <span className={styles.chatResizerGrip} />
             </div>
@@ -466,7 +495,7 @@ function DocRootLayoutInner({children}: Props): ReactNode {
         </div>
       )}
 
-      {!isChatLayoutReserved && (
+      {!isChatVisible && (
         <FloatingChatInput
           onOpen={openChat}
           sidebarCollapsed={hiddenSidebarContainer || !sidebar}

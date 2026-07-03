@@ -15,6 +15,8 @@ type InkeepPluginOptions = {
   SearchBar?: {
     baseSettings?: {
       apiKey?: string;
+      integrationId?: string;
+      organizationId?: string;
     };
   };
 };
@@ -23,6 +25,8 @@ declare global {
   interface Window {
     __ZDOC_ENV__?: {
       INKEEP_API_KEY?: string;
+      INKEEP_INTEGRATION_ID?: string;
+      INKEEP_ORGANIZATION_ID?: string;
     };
   }
 }
@@ -89,7 +93,11 @@ export default function NavbarContent(): ReactNode {
   const {siteConfig} = useDocusaurusContext();
   const {pathname} = useLocation();
   const [searchOpen, setSearchOpen] = useState(false);
-  const [runtimeApiKey, setRuntimeApiKey] = useState<string | undefined>();
+  const [runtimeInkeep, setRuntimeInkeep] = useState<{
+    apiKey?: string;
+    integrationId?: string;
+    organizationId?: string;
+  }>({});
   const mod = isMac() ? '⌘' : 'Ctrl';
   const inkeepPlugin = siteConfig.plugins.find(plugin =>
     Array.isArray(plugin) && plugin[0] === '@inkeep/cxkit-docusaurus'
@@ -97,7 +105,10 @@ export default function NavbarContent(): ReactNode {
   const inkeepPluginOptions = Array.isArray(inkeepPlugin)
     ? inkeepPlugin[1] as InkeepPluginOptions
     : undefined;
-  const apiKey = inkeepPluginOptions?.SearchBar?.baseSettings?.apiKey || runtimeApiKey;
+  const pluginBaseSettings = inkeepPluginOptions?.SearchBar?.baseSettings;
+  const apiKey = pluginBaseSettings?.apiKey || runtimeInkeep.apiKey;
+  const integrationId = pluginBaseSettings?.integrationId || runtimeInkeep.integrationId;
+  const organizationId = pluginBaseSettings?.organizationId || runtimeInkeep.organizationId;
 
   const resetSearchInput = useCallback(() => {
     document.dispatchEvent(new CustomEvent('zdoc-search-reset'));
@@ -107,6 +118,10 @@ export default function NavbarContent(): ReactNode {
     resetSearchInput();
     setSearchOpen(true);
   }, [resetSearchInput]);
+
+  const openAskAi = useCallback(() => {
+    document.dispatchEvent(new CustomEvent('toggle-chat'));
+  }, []);
 
   const handleOpenChange = useCallback((isOpen: boolean) => {
     setSearchOpen(isOpen);
@@ -118,12 +133,14 @@ export default function NavbarContent(): ReactNode {
     baseSettings: {
       ...inkeepSettings.baseSettings,
       apiKey,
+      integrationId,
+      organizationId,
     },
     modalSettings: {
       isOpen: searchOpen,
       onOpenChange: handleOpenChange,
     },
-  }), [apiKey, handleOpenChange, searchOpen]);
+  }), [apiKey, handleOpenChange, integrationId, organizationId, searchOpen]);
 
   useEffect(() => {
     const handler = () => openSearch();
@@ -138,7 +155,11 @@ export default function NavbarContent(): ReactNode {
   }, []);
 
   useEffect(() => {
-    setRuntimeApiKey(window.__ZDOC_ENV__?.INKEEP_API_KEY);
+    setRuntimeInkeep({
+      apiKey: window.__ZDOC_ENV__?.INKEEP_API_KEY,
+      integrationId: window.__ZDOC_ENV__?.INKEEP_INTEGRATION_ID,
+      organizationId: window.__ZDOC_ENV__?.INKEEP_ORGANIZATION_ID,
+    });
   }, []);
 
   useBrowserLayoutEffect(() => {
@@ -189,13 +210,20 @@ export default function NavbarContent(): ReactNode {
     const timers = [0, 16, 80, 180, 360, 720, 1000].map(delay => window.setTimeout(ensureOpen, delay));
     const removeForceVisible = window.setTimeout(() => {
       document.documentElement.classList.remove('zdoc-mobile-nav-keep-visible');
+      document.documentElement.classList.remove('zdoc-mobile-nav-route-guard');
+      document.getElementById('zdoc-mobile-nav-route-guard')?.remove();
     }, 1200);
+    const removeRouteGuard = window.setTimeout(() => {
+      document.documentElement.classList.remove('zdoc-mobile-nav-route-guard');
+      document.getElementById('zdoc-mobile-nav-route-guard')?.remove();
+    }, 420);
     const removeDrillClass = window.setTimeout(() => {
       document.documentElement.classList.remove('zdoc-mobile-nav-drill-forward', 'zdoc-mobile-nav-drill-back');
     }, 280);
     return () => {
       timers.forEach(timer => window.clearTimeout(timer));
       window.clearTimeout(removeForceVisible);
+      window.clearTimeout(removeRouteGuard);
       window.clearTimeout(removeDrillClass);
     };
   }, [pathname, mobileSidebar]);
@@ -218,7 +246,6 @@ export default function NavbarContent(): ReactNode {
     <div className={styles.navbarInner}>
       <div className={styles.navbarLeft}>
         <NavbarLogo />
-        <span className={styles.brandDivider} aria-hidden="true" />
         <a className={styles.docsLink} href={getDocsHomePath(pathname)}>Docs</a>
         <SecondaryNavbar variant="topbar" />
       </div>
@@ -240,7 +267,7 @@ export default function NavbarContent(): ReactNode {
           <button
             type="button"
             className="navbar-ask-ai-btn"
-            onClick={() => document.dispatchEvent(new CustomEvent('toggle-chat'))}
+            onClick={openAskAi}
             aria-label="Ask AI">
             <BoltIcon />
             <span>Ask AI</span>
@@ -252,9 +279,9 @@ export default function NavbarContent(): ReactNode {
           <button
             type="button"
             className={`${styles.mediumAskAi} navbar-medium-askai-btn`}
-            onClick={() => document.dispatchEvent(new CustomEvent('toggle-chat'))}
+            onClick={openAskAi}
             aria-label="Ask AI">
-            <BoltIcon width={8.5} height={14.9} />
+            <BoltIcon width={9} height={16} />
           </button>
           <span className={styles.navTip} role="tooltip"><span className={styles.navTipLabel}>Ask AI</span><kbd>{mod}</kbd><kbd>I</kbd></span>
         </span>

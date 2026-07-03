@@ -20,7 +20,7 @@ keywords:
   - claude
   - zilliz cli
   - setup
-displayed_sidebar: agentsSidebar
+displayed_sidebar: default
 
 ---
 

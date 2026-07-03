@@ -1,7 +1,7 @@
 import React, {createContext, useContext, useState, useRef, useCallback, useEffect} from 'react';
 import {useLocation} from '@docusaurus/router';
 import type {Source, ChatMessage, ChatHistoryEntry, AgentType, ConfidenceLevel, GroundingCitation} from './types';
-import {getChatStreamEndpoint, getFeedbackEndpoint} from './endpoints';
+import {getFeedbackEndpoint} from './endpoints';
 export type {Source, FeedbackRating, ChatMessage, ChatHistoryEntry, AgentType, ConfidenceLevel, GroundingCitation} from './types';
 
 export interface ContextChip {
@@ -107,27 +107,6 @@ function resolveChatDebugEnabled(defaultEnabled: boolean): boolean {
     if (stored === '0') return false;
   } catch {}
   return defaultEnabled;
-}
-
-type WebsiteAssistantSseEvent =
-  | {type: 'connected'; session_id?: string}
-  | {type: 'session_id'; session_id?: string}
-  | {type: 'stream_event'; event_type?: string; block_index?: number; block_type?: string | null; delta?: string | null}
-  | {type: 'chunk'; data?: {type?: string; text?: string; thinking?: string; id?: string; name?: string; is_error?: boolean; content?: unknown}}
-  | {type: 'completed'; session_id?: string}
-  | {type: 'error'; content?: string; error?: string}
-  | {type?: string; [key: string]: any};
-
-function parseSseData(record: string): string | null {
-  const dataLines = record
-    .split(/\r?\n/)
-    .filter(line => line.startsWith('data:'))
-    .map(line => line.slice(5).replace(/^ /, ''));
-  return dataLines.length ? dataLines.join('\n') : null;
-}
-
-function isInactiveSessionError(errorText: string): boolean {
-  return /^Session not found or inactive:/i.test(errorText.trim());
 }
 
 function loadHistory(): ChatHistoryEntry[] {
@@ -256,28 +235,33 @@ export function ChatProvider({chatEndpoint, debugDefault = false, children}: {ch
     try {
       controller = new AbortController();
       abortRef.current = controller;
+      const apiMessages = updatedMessages
+        .filter(m => m.role === 'user' || (m.role === 'assistant' && m.text))
+        .map(m => {
+          const content = m.hookAppend ? m.text.replace(m.hookAppend, '') : m.text;
+          return {role: m.role, content};
+        });
       const userId = getUserId();
-      const chatStreamEndpoint = getChatStreamEndpoint(chatEndpoint);
       const requestBody = {
-        message: outgoing,
-        ...(sessionIdRef.current ? {session_id: sessionIdRef.current} : {}),
-        agent_config: {
-          agent_config_code: 'zilliz-website-assistant',
-        },
-        streaming_mode: 'token',
-        user_id: userId,
+        messages: apiMessages,
+        pageContext,
+        pageUrl: location.pathname,
+        sessionId: sessionIdRef.current,
+        userId,
+        screenResolution: `${screen.width}x${screen.height}`,
       };
       chatDebug('chat.client.fetch.started', {
         requestId,
-        endpointPath: chatStreamEndpoint,
+        endpointPath: chatEndpoint,
         pagePath: location.pathname,
-        hasMessage: Boolean(outgoing.trim()),
+        messageCount: apiMessages.length,
         hasSessionId: Boolean(sessionIdRef.current),
         hasUserId: Boolean(userId),
+        screenResolution: `${screen.width}x${screen.height}`,
       });
-      const res = await fetch(chatStreamEndpoint, {
+      const res = await fetch(chatEndpoint, {
         method: 'POST',
-        headers: {'Content-Type': 'application/json', 'Accept': 'text/event-stream', 'X-Request-ID': requestId},
+        headers: {'Content-Type': 'application/json', 'X-Request-ID': requestId},
         body: JSON.stringify(requestBody),
         signal: controller.signal,
       });
@@ -314,9 +298,7 @@ export function ChatProvider({chatEndpoint, debugDefault = false, children}: {ch
       let pendingGrounding: GroundingCitation[] | undefined;
       let pendingConfidence: ConfidenceLevel | undefined;
       let pendingAgent: {type: AgentType; name: string} | undefined;
-      let completed = false;
-      const blockTypes = new Map<number, string | null>();
-      let toolCallCount = 0;
+      let currentEvent = '';
 
       const updateLastAssistant = (patch: Partial<ChatMessage>) => {
         setMessages(prev => {
@@ -329,109 +311,87 @@ export function ChatProvider({chatEndpoint, debugDefault = false, children}: {ch
         });
       };
 
-      const applyAssistantText = (nextText: string) => {
-        assistantText = nextText;
-        updateLastAssistant({text: assistantText});
-      };
-
-      const appendAssistantText = (delta: string) => {
-        if (!delta) return;
-        assistantText += delta;
-        chatDebug('chat.client.delta.applied', {requestId, deltaChars: delta.length, assistantChars: assistantText.length});
-        updateLastAssistant({text: assistantText});
-      };
-
-      const handleEvent = (rawData: string) => {
-        if (rawData === '[DONE]') {
-          eventCounts.done = (eventCounts.done || 0) + 1;
-          chatDebug('chat.client.sse.event', {requestId, sseEvent: 'done', payload: rawData});
-          return;
-        }
-
-        let parsed: WebsiteAssistantSseEvent;
-        try {
-          parsed = JSON.parse(rawData) as WebsiteAssistantSseEvent;
-        } catch {
-          chatDebug('chat.client.sse.event', {requestId, sseEvent: 'malformed', payload: rawData});
-          return;
-        }
-
-        const eventType = parsed.type || 'unknown';
-        eventCounts[eventType] = (eventCounts[eventType] || 0) + 1;
-        chatDebug('chat.client.sse.event', {requestId, sseEvent: eventType, payload: parsed});
-
-        if (parsed.type === 'session_id') {
-          if (parsed.session_id) sessionIdRef.current = parsed.session_id;
-          return;
-        }
-
-        if (parsed.type === 'stream_event') {
-          if (typeof parsed.block_index !== 'number') return;
-          if (parsed.event_type === 'block_start') {
-            blockTypes.set(parsed.block_index, parsed.block_type ?? null);
-            return;
-          }
-          if (parsed.event_type === 'delta') {
-            const blockType = blockTypes.get(parsed.block_index);
-            if (blockType === 'thinking') return;
-            appendAssistantText(parsed.delta ?? '');
-          }
-          if (parsed.event_type === 'block_stop') {
-            blockTypes.delete(parsed.block_index);
-          }
-          return;
-        }
-
-        if (parsed.type === 'chunk') {
-          const chunk = parsed.data;
-          if (!chunk?.type) return;
-          if (chunk.type === 'tool_use') {
-            toolCallCount += 1;
-            updateLastAssistant({toolCallCount});
-            pendingAgent = {type: 'general' as AgentType, name: 'Docs Agent'};
-            updateLastAssistant({agent: pendingAgent.name, agentType: pendingAgent.type});
-            return;
-          }
-          if (chunk.type === 'text' && typeof chunk.text === 'string') {
-            appendAssistantText(chunk.text);
-            return;
-          }
-          if (chunk.type === 'tool_result' && chunk.is_error) {
-            chatDebug('chat.client.tool.error', {requestId, content: chunk.content});
-          }
-          return;
-        }
-
-        if (parsed.type === 'completed') {
-          completed = true;
-          if (parsed.session_id) sessionIdRef.current = parsed.session_id;
-          return;
-        }
-
-        if (parsed.type === 'error') {
-          const errorText = parsed.content || parsed.error || 'Something went wrong';
-          if (isInactiveSessionError(errorText)) sessionIdRef.current = null;
-          applyAssistantText(errorText);
-        }
-      };
-
       while (true) {
         const {done, value} = await reader.read();
         if (done) {
           if (buffer.trim()) {
-            buffer += '\n\n';
+            buffer += '\n';
           }
         } else {
           buffer += decoder.decode(value, {stream: true});
           chatDebug('chat.client.sse.chunk', {requestId, bytes: value.byteLength, bufferChars: buffer.length});
         }
 
-        const records = buffer.split(/\r?\n\r?\n/);
-        buffer = done ? '' : (records.pop() || '');
+        const lines = buffer.split('\n');
+        buffer = done ? '' : (lines.pop() || '');
 
-        for (const record of records) {
-          const data = parseSseData(record);
-          if (data !== null) handleEvent(data);
+        for (const line of lines) {
+          if (line.startsWith('event: ')) {
+            currentEvent = line.slice(7);
+          } else if (line.startsWith('data: ')) {
+            const data = line.slice(6);
+            eventCounts[currentEvent] = (eventCounts[currentEvent] || 0) + 1;
+            let parsedForDebug: unknown = data;
+            try { parsedForDebug = JSON.parse(data); } catch {}
+            chatDebug('chat.client.sse.event', {requestId, sseEvent: currentEvent, payload: parsedForDebug});
+            if (currentEvent === 'session') {
+              try {
+                const parsed = JSON.parse(data) as {sessionId: string};
+                sessionIdRef.current = parsed.sessionId;
+              } catch { /* skip */ }
+            } else if (currentEvent === 'agent') {
+              try {
+                pendingAgent = JSON.parse(data) as {type: AgentType; name: string};
+                updateLastAssistant({agent: pendingAgent.name, agentType: pendingAgent.type});
+              } catch { /* skip */ }
+            } else if (currentEvent === 'tool-call') {
+              try {
+                const parsed = JSON.parse(data) as {tool: string; count: number};
+                updateLastAssistant({toolCallCount: parsed.count});
+              } catch { /* skip */ }
+            } else if (currentEvent === 'delta') {
+              try {
+                const parsed = JSON.parse(data) as {text: string};
+                assistantText += parsed.text;
+                chatDebug('chat.client.delta.applied', {requestId, deltaChars: parsed.text.length, assistantChars: assistantText.length});
+                updateLastAssistant({text: assistantText});
+              } catch { /* skip malformed chunk */ }
+            } else if (currentEvent === 'sources') {
+              try {
+                const parsed = JSON.parse(data) as {sources: Source[]};
+                pendingSources = parsed.sources;
+              } catch { /* skip */ }
+            } else if (currentEvent === 'grounding') {
+              try {
+                const parsed = JSON.parse(data) as {citations: GroundingCitation[]};
+                pendingGrounding = parsed.citations;
+              } catch { /* skip */ }
+            } else if (currentEvent === 'confidence') {
+              try {
+                const parsed = JSON.parse(data) as {level: ConfidenceLevel; retrieval_score: number};
+                pendingConfidence = parsed.level;
+              } catch { /* skip */ }
+            } else if (currentEvent === 'hook-append') {
+              try {
+                const parsed = JSON.parse(data) as {text: string};
+                assistantText += parsed.text;
+                setMessages(prev => {
+                  const updated = [...prev];
+                  const last = updated[updated.length - 1];
+                  if (last && last.role === 'assistant') {
+                    updated[updated.length - 1] = {...last, text: assistantText, hookAppend: (last.hookAppend || '') + parsed.text};
+                  }
+                  return updated;
+                });
+              } catch { /* skip */ }
+            } else if (currentEvent === 'error') {
+              try {
+                const parsed = JSON.parse(data) as {error: string};
+                assistantText = parsed.error;
+                updateLastAssistant({text: assistantText});
+              } catch { /* skip */ }
+            }
+          }
         }
 
         if (done) break;
@@ -442,7 +402,6 @@ export function ChatProvider({chatEndpoint, debugDefault = false, children}: {ch
         durationMs: Date.now() - startedAt,
         eventCounts,
         assistantText,
-        completed,
         sourceCount: pendingSources?.length ?? 0,
         confidence: pendingConfidence,
         agentType: pendingAgent?.type,
@@ -492,11 +451,11 @@ export function ChatProvider({chatEndpoint, debugDefault = false, children}: {ch
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
-          session_id: sessionIdRef.current,
+          sessionId: sessionIdRef.current,
           messageIndex,
           rating: newRating || rating,
           pageUrl: location.pathname,
-          user_id: getUserId(),
+          userId: getUserId(),
         }),
       }).catch(() => {});
 

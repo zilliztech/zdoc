@@ -7,7 +7,7 @@
 .tabIndicator {
   position: absolute;
   height: 2px;
-  background: #1a1a1a;
+  background: var(--zd-page-ink);
   border-radius: 1px;
   pointer-events: none;
   z-index: 3;

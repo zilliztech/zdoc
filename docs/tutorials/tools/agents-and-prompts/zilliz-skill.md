@@ -20,7 +20,7 @@ keywords:
   - gemini cli
   - qwen code
   - zilliz cli
-displayed_sidebar: agentsSidebar
+displayed_sidebar: default
 
 ---
 

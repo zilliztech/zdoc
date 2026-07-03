@@ -10,7 +10,7 @@
     font-size: 11px !important;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: #6b6b6b !important;
+    color: var(--zd-muted-text) !important;
     font-weight: 600 !important;
     margin: 0 0 8px !important;
     line-height: 1 !important;
@@ -29,7 +29,7 @@
     align-items: center;
     gap: 28px;
     flex-wrap: nowrap;
-    border-bottom: 1px solid #e5e5e5;
+    border-bottom: 1px solid var(--zd-surface-border);
     overflow: visible;
     padding: 0 !important;
     padding-left: 0 !important;
@@ -45,7 +45,7 @@
     font-size: 15px !important;
     line-height: 22px !important;
     font-weight: 600 !important;
-    color: #6b6b6b;
+    color: var(--zd-muted-text);
     padding-bottom: 12px;
     margin-bottom: -1px;
     position: relative;
@@ -118,7 +118,7 @@
         width: 100%;
         padding: 12px 40px 12px 16px;
         border-radius: 10px;
-        border: 1.5px solid #e5e5e5;
+        border: 1.5px solid var(--zd-surface-border);
         background: #ffffff;
         font-size: 15px;
         font-weight: 600;

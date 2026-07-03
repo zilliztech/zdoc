@@ -22,7 +22,7 @@ keywords:
   - examples
   - rbac
   - migration
-displayed_sidebar: agentsSidebar
+displayed_sidebar: default
 
 ---
 
@@ -90,4 +90,4 @@ You: "Create a user alice@company.com and assign the analyst role"
 Plugin: Creates user and assigns role
 ```
 
-For more examples, you can read the [Zilliz CLI reference](/reference/cli/overview) docs.
+For more examples, you can read the [Zilliz CLI reference](/reference/cli/cli/overview) docs.

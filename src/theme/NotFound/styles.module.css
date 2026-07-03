@@ -300,7 +300,7 @@
   margin: 0.5em 0;
   padding: 0.5rem 0.625rem;
   background: var(--zd-linear-signup-ink);
-  color: #e5e7eb;
+  color: var(--zd-surface-border);
   border-radius: 6px;
   overflow-x: auto;
   font-size: 0.8125rem;
@@ -334,11 +334,21 @@
 
 .markdownContent a {
   color: var(--ifm-color-primary);
-  text-decoration: none;
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-decoration-color: transparent;
+  text-underline-offset: 4px;
+  transition:
+    color var(--zd-hover-duration, 0.36s) var(--zd-hover-ease, cubic-bezier(0.16, 1, 0.3, 1)),
+    text-decoration-color var(--zd-hover-duration, 0.36s) var(--zd-hover-ease, cubic-bezier(0.16, 1, 0.3, 1)),
+    text-decoration-thickness var(--zd-hover-duration, 0.36s) var(--zd-hover-ease, cubic-bezier(0.16, 1, 0.3, 1)),
+    text-underline-offset var(--zd-hover-duration, 0.36s) var(--zd-hover-ease, cubic-bezier(0.16, 1, 0.3, 1));
 }
 
 .markdownContent a:hover {
-  text-decoration: underline;
+  text-decoration-color: currentColor;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 5px;
 }
 
 .markdownContent table {

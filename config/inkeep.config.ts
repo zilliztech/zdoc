@@ -21,9 +21,19 @@ function getRuntimeInkeepApiKey() {
   return typeof window !== 'undefined' ? window.__ZDOC_ENV__?.INKEEP_API_KEY : undefined;
 }
 
+function getRuntimeInkeepIntegrationId() {
+  return typeof window !== 'undefined' ? window.__ZDOC_ENV__?.INKEEP_INTEGRATION_ID : undefined;
+}
+
+function getRuntimeInkeepOrganizationId() {
+  return typeof window !== 'undefined' ? window.__ZDOC_ENV__?.INKEEP_ORGANIZATION_ID : undefined;
+}
+
 export const inkeepSettings ={
   baseSettings: {
     apiKey: getRuntimeInkeepApiKey(),
+    integrationId: getRuntimeInkeepIntegrationId(),
+    organizationId: getRuntimeInkeepOrganizationId(),
     aiApiBaseUrl: "/inkeep",
     primaryBrandColor: "#175fff",
     organizationDisplayName: "Zilliz",

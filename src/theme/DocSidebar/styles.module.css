@@ -34,11 +34,11 @@
 .primaryRail {
   box-sizing: border-box;
   width: fit-content;
-  max-width: 12rem;
+  max-width: 10rem;
   flex-shrink: 0;
   padding: var(--doc-section-padding);
   background: #ffffff;
-  border-right: 1px solid #fafafa;
+  border-right: 1px solid var(--zd-surface-border-subtle);
   overflow-y: auto;
 }
 
@@ -57,6 +57,7 @@
   width: 100%;
   min-height: 32px;
   margin: 0 0 var(--zd-nav-gap);
+  box-sizing: border-box;
   padding: 0.375rem 0.75rem;
   color: var(--zd-linear-signup-ink);
   background: transparent;
@@ -98,28 +99,29 @@
 .primaryRailLabelSizer {
   font-weight: var(--zd-nav-hover-weight);
   font-variation-settings: 'wght' var(--zd-nav-hover-weight);
-  visibility: hidden;
+  opacity: 0;
   pointer-events: none;
+  transition: none;
 }
 
 .primaryRailLabelText {
   font-weight: var(--zd-structure-nav-weight);
   font-variation-settings: 'wght' var(--zd-structure-nav-weight);
-  transition:
-    font-weight var(--zd-hover-duration) var(--zd-hover-ease),
-    font-variation-settings var(--zd-hover-duration) var(--zd-hover-ease);
+  transition: none;
 }
 
 .primaryRailItem:hover {
-  color: var(--zd-nav-active-ink);
+  color: var(--zd-linear-signup-ink);
   background: var(--zd-nav-hover-bg);
 }
 
-/* Only the SELECTED rail item changes weight (and it eases via the transition on
-   .primaryRailLabelText); hovering must NOT change weight. */
+/* Active uses the pre-rendered 500 layer instead of animating one text node's weight. */
+.primaryRailItemActive .primaryRailLabelSizer {
+  opacity: 1;
+}
+
 .primaryRailItemActive .primaryRailLabelText {
-  font-weight: var(--zd-nav-hover-weight);
-  font-variation-settings: 'wght' var(--zd-nav-hover-weight);
+  opacity: 0;
 }
 
 .primaryRailItem:focus-visible {
@@ -130,25 +132,25 @@
 .primaryRailItemActive {
   width: 100%;
   margin-right: 0;
-  color: var(--zd-nav-active-ink);
+  color: var(--zd-sidebar-active-ink);
   background: var(--zd-nav-hover-bg);
   border-radius: 10px;
 }
 
 /* selected first-level item has no hover effect */
 .primaryRailItemActive:hover {
-  color: var(--zd-nav-active-ink);
+  color: var(--zd-sidebar-active-ink);
   background: var(--zd-nav-hover-bg);
 }
 
 .secondaryPane {
   box-sizing: border-box;
-  flex: 1 1 0;
+  flex: 1 1 17rem;
   min-width: 0;
   display: flex;
   flex-direction: column;
   min-height: 0;
-  background: #ffffff;
+  background: var(--zd-sidebar-bg);
 }
 
 .mergedCaret {
@@ -282,6 +284,11 @@
   min-width: 0;
 }
 
+.mergedSidebar .refEnter,
+.mergedSidebar .backEnter {
+  animation: none;
+}
+
 .secondaryPane > .sidebarScroll {
   padding: var(--doc-section-padding);
 }
@@ -332,7 +339,7 @@
   margin: 0;
   /* text + arrow share one neutral gray (#626262); the arrow SVG inherits this via
      currentColor, so both read the same and darken together on hover. */
-  color: #626262;
+  color: var(--zd-muted-text);
   font-family: var(--ifm-font-family-base);
   font-size: 13px;
   font-weight: var(--zd-structure-nav-weight);
@@ -359,6 +366,47 @@
   color: var(--zd-linear-signup-ink);
 }
 
+/* One-row reference header (desktop drill): the whole row is the back link —
+   arrow pinned left, language title centred, full-row hover like a nav item. */
+.refHeaderRow {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 34px;
+  margin: 10px 8px 8px;
+  padding: 6px 12px;
+  color: var(--zd-linear-signup-ink);
+  border-radius: 10px;
+  text-decoration: none !important;
+  transition: background-color 0.12s ease;
+}
+.refHeaderRow:hover {
+  background: var(--zd-nav-hover-bg);
+}
+.refHeaderRow::after {
+  content: '';
+  position: absolute;
+  left: 0.25rem;
+  right: 0.25rem;
+  bottom: -10px;
+  height: 1px;
+  background: var(--zd-gray-100);
+}
+.refHeaderRowArrow {
+  position: absolute;
+  left: 12px;
+  flex-shrink: 0;
+  color: var(--zd-linear-signup-ink);
+}
+.refHeaderRowTitle {
+  margin-left: 20px;
+  font-family: var(--ifm-font-family-base);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--zd-linear-signup-ink);
+}
+
 /* Merged single-layer sits inside the mergedSidebar's 12px padding — no extra
    inset needed on the back link / title / divider. */
 .mergedSidebar .refBack,
@@ -368,6 +416,17 @@
 
 .mergedSidebar .refHeader::after {
   left: 0;
+}
+
+/* Merged view: the drill header row spans the full list width (like the nav
+   items below it), and its top gap matches the gap under it. */
+.mergedSidebar .refHeaderRow {
+  margin: 0 0 10px;
+}
+.mergedSidebar .refHeaderRow::after {
+  left: 0;
+  right: 0;
+  bottom: -10px;
 }
 
 .refSidebar > .sidebarScroll {
@@ -429,7 +488,7 @@
 }
 
 .secondarySidebarContent :global(.menu__link) {
-  /* item box height matches the topbar tab (32px); row pitch kept via the
+  /* item box height is 32px; row pitch kept via the
      +sibling margin below. */
   min-height: 32px;
   padding: 0.375rem 0.75rem;
@@ -475,7 +534,14 @@
 /* Active page link: black (matches the all-black left-nav text). */
 .secondarySidebarContent :global(.menu__link--active) {
   color: var(--zd-nav-active-ink);
-  font-weight: var(--zd-structure-nav-weight) !important;
+  font-weight: var(--zd-nav-hover-weight) !important;
+  font-variation-settings: 'wght' var(--zd-nav-hover-weight) !important;
+}
+
+.secondarySidebarContent :global(.menu__link--active[data-sidebar-fit='connect-global-cluster'] [class*='categoryLinkLabel']),
+.secondarySidebarContent :global(.menu__link--active[data-sidebar-fit='connect-global-cluster'] [class*='categoryLinkLabelSizer']),
+.secondarySidebarContent :global(.menu__link--active[data-sidebar-fit='connect-global-cluster'] [class*='categoryLinkLabelText']) {
+  font-size: 13.7px;
 }
 
 .secondarySidebarContent :global(.menu__list-item-collapsible) {
@@ -503,7 +569,7 @@
    header. (Within-item wrapped lines are tighter still, via .menu__link
    line-height, so 2-line items still read as one block.) */
 .secondarySidebarContent :global(.menu__list-item + .menu__list-item) {
-  /* shares --zd-nav-gap with the primary rail → both levels = 37px pitch */
+  /* shares --zd-nav-gap with the primary rail → both levels = 33px pitch */
   margin-top: var(--zd-nav-gap);
 }
 
@@ -513,7 +579,7 @@
   max-width: 18rem;
   padding: 0.375rem 0.625rem;
   color: #ffffff;
-  background: #171717;
+  background: var(--zd-page-ink);
   border-radius: 6px;
   box-shadow: 0 8px 20px rgba(15, 23, 42, 0.18);
   font-size: 12px;
@@ -590,6 +656,7 @@
   min-height: 0;
   padding: 0.75rem;
   gap: 0.625rem;
+  background: var(--zd-sidebar-bg);
 }
 
 .sectionDropdown {
@@ -605,7 +672,7 @@
   width: 100%;
   height: 36px;
   padding: 0 0.5rem 0 0.75rem;
-  background: #fdfdfd;
+  background: var(--zd-page-bg);
   border: 1px solid var(--zd-gray-200);
   border-radius: 10px;
   color: var(--zd-linear-signup-ink);
@@ -618,7 +685,13 @@
 
 .sectionDropdownTrigger:hover {
   background: var(--zd-nav-hover-bg);
+  border-color: var(--zd-surface-border);
   color: var(--zd-nav-active-ink);
+}
+
+.sectionDropdownTrigger[aria-expanded='true'] {
+  background: var(--zd-nav-hover-bg);
+  border-color: var(--zd-surface-border);
 }
 
 .sectionDropdownIcon {

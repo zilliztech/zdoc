@@ -19,7 +19,7 @@ keywords:
   - skill
   - gemini
   - zilliz cli
-displayed_sidebar: agentsSidebar
+displayed_sidebar: default
 
 ---
 

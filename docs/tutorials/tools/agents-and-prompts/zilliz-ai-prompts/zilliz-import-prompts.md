@@ -18,7 +18,7 @@ keywords:
   - decision matrix
   - prompts
   - data import
-displayed_sidebar: agentsSidebar
+displayed_sidebar: default
 
 ---
 

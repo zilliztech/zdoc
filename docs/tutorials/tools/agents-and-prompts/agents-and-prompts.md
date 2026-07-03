@@ -20,7 +20,7 @@ keywords:
   - plugin
   - mcp
   - prompts
-displayed_sidebar: agentsSidebar
+displayed_sidebar: default
 
 ---
 
@@ -136,7 +136,7 @@ Curated prompt library for AI-powered IDEs to help AI assistants implement Zilli
 
 ## Related Tools\{#related-tools}
 
-- **Zilliz CLI**: Command-line interface for scripting and automation. For details, refer to [Zilliz CLI Reference](/reference/cli/overview).
+- **Zilliz CLI**: Command-line interface for scripting and automation. For details, refer to [Zilliz CLI Reference](/reference/cli/cli/overview).
 
 - **SDKs**: Python, Java, Node.js, Go for programmatic access. For details, refer to 
 

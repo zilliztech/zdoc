@@ -31,16 +31,28 @@ body.zdoc-docs-page {
   --ifm-color-primary-lighter: #417cff;
   --ifm-color-primary-lightest: #6a99ff;
 
-  --ifm-background-color: #fdfdfd;
-  --ifm-navbar-background-color: #fdfdfd;
-  --ifm-navbar-height: 74px;
-  --ifm-navbar-shadow: 0 1px 0 0 #f4f4f4;
-  /* App "canvas" background — a soft, light neutral-cyan gray. The topbar, left
-     nav and surrounds sit on this; the doc content is a white card on top. */
+  --zd-page-bg: #fdfdfd;
+  --zd-surface-0: #fcfcfb;
+  --zd-surface-1: #f7f7f5;
+  --zd-surface-2: #f1f1ee;
+  --zd-surface-3: #e9e9e4;
+  --zd-surface-border-subtle: #eeeeea;
+  --zd-surface-border: #e3e3dd;
+  --zd-surface-border-strong: #d6d6cf;
+
+  --ifm-background-color: var(--zd-page-bg);
+  --ifm-navbar-background-color: var(--zd-sidebar-bg);
+  --ifm-navbar-height: 68px;
+  --ifm-navbar-shadow: none;
+  /* App canvas stays white; the left docs nav has a separate subtle panel tint. */
   --zd-app-bg: #ffffff;
+  --zd-sidebar-bg: #ffffff;
+  --zd-doc-panel-bg: #ffffff;
 
   --ifm-font-family-base: 'Geist', system-ui, -apple-system, sans-serif;
   --ifm-heading-font-family: 'Geist', system-ui, -apple-system, sans-serif;
+  --ifm-font-color-base: var(--zd-page-ink);
+  --ifm-heading-color: var(--zd-page-ink);
   --ifm-font-size-base: 16px;
   --ifm-line-height-base: 1.6;
   --ifm-code-font-size: 14px;
@@ -49,56 +61,86 @@ body.zdoc-docs-page {
   --ifm-heading-font-weight: 700;
   --ifm-font-weight-semibold: 600;
 
-  --ifm-toc-border-color: #f4f4f4;
-  --ifm-hr-border-color: #e5e7eb;
+  --ifm-toc-border-color: var(--zd-surface-border-subtle);
+  --ifm-hr-border-color: var(--zd-surface-border);
+  --ifm-color-emphasis-900: var(--zd-page-ink);
+  --ifm-color-emphasis-800: var(--zd-page-ink);
 
-  --ifm-menu-color: #6b7280;
+  --ifm-menu-color: var(--zd-gray-500);
   --ifm-menu-color-active: #175fff;
   --ifm-menu-color-background-active: rgba(23, 95, 255, 0.06);
-  --ifm-menu-color-background-hover: #f3f4f6;
+  --ifm-menu-color-background-hover: var(--zd-surface-1);
 
   --ifm-breadcrumb-color-active: #175fff;
-  --ifm-breadcrumb-separator-color: #9ca3af;
+  --ifm-breadcrumb-separator-color: var(--zd-gray-400);
 
   --ifm-list-left-padding: 1.5rem;
   --ifm-paragraph-margin-bottom: 0.75rem;
 
   /* ── Custom design tokens ────────────────────────────────────────────────── */
 
+  --zd-page-ink: #1D2939;
+
   /* Neutral gray scale (Tailwind-compatible values) */
-  --zd-gray-900: #111827;
-  --zd-gray-800: #1f2937;
+  --zd-gray-900: var(--zd-page-ink);
+  --zd-gray-800: var(--zd-page-ink);
   --zd-gray-700: #374151;
   --zd-gray-600: #4b5563;
   --zd-gray-500: #6b7280;
   --zd-gray-400: #9ca3af;
-  --zd-gray-300: #d1d5db;
-  --zd-gray-200: #e5e7eb;
-  --zd-gray-100: #f3f4f6;
-  --zd-gray-50:  #f7f7f7;
+  --zd-gray-300: var(--zd-surface-border-strong);
+  --zd-gray-200: var(--zd-surface-border);
+  --zd-gray-100: var(--zd-surface-1);
+  --zd-gray-50:  var(--zd-surface-0);
 
   /* Linear docs sign-up button colors. The "ink" is the site's one black token —
-     set to Vercel/Geist gray-1000 (#171717). */
-  --zd-linear-signup-ink: #171717;
+     set to Vercel/Geist gray-1000 (var(--zd-page-ink)). */
+  --zd-linear-signup-ink: var(--zd-page-ink);
   --zd-linear-signup-bg: #e5e5e6;
-  --zd-linear-dark-border: #171717;
+  --zd-linear-dark-border: var(--zd-page-ink);
   --zd-nav-muted: #71717a;
   /* One muted-gray text token (Vercel/Geist neutral gray) shared by the secondary
      navbar tabs, the page breadcrumb crumbs, and the right-hand TOC links. */
   --zd-muted-text: #626262;
   --zd-selection-bg: #6066FD;
   --zd-selection-fg: #ffffff;
+  --zd-breadcrumb-link: #333AA1;
+  --zd-breadcrumb-link-hover: #282f8f;
+  --zd-breadcrumb-current: var(--zd-page-ink);
+  --zd-breadcrumb-separator: rgba(184, 184, 184, 0.5);
   /* Nav hover/active surface — a warm beige-gray (visibly yellow-tinted) used by
      the topbar tabs/search and the left-sidebar items (one shared token). */
   /* nav surfaces (per reference image): hover = lighter gray, selected = darker gray */
-  --zd-nav-hover-bg: #f4f4f4;
-  /* selected surface — pale cyan/mint */
-  --zd-nav-active-bg: #e4fbf9;
-  --zd-sidebar-active-bg: #e4fbf9;
-  /* selected nav item TEXT → black */
-  --zd-nav-active-ink: #171717;
+  --zd-nav-hover-bg: var(--zd-surface-2);
+  /* selected navigation surface */
+  --zd-nav-active-bg: var(--zd-sidebar-active-bg);
+  --zd-sidebar-active-bg: #f6f5fc;
+  --zd-sidebar-active-bg-sub: var(--zd-note-bg);
+  --zd-sidebar-hover-bg: #f6f5fc;
+  --zd-sidebar-hover-bg-sub: #f6f5fc;
+  --zd-sidebar-active-ink: var(--zd-page-ink);
+  --zd-sidebar-active-weight: 500;
+  --zd-banner-nav-bg: #f0eff8;
+  --zd-banner-nav-ink: #474375;
+  --zd-banner-nav-line: #ddd9ef;
+  --zd-banner-nav-line-strong: #d2cde8;
+  --zd-banner-nav-nested-bg: #ebe9f5;
+  --zd-note-bg: var(--zd-banner-nav-bg);
+  --zd-note-bg-hover: var(--zd-banner-nav-nested-bg);
+  --zd-note-ink: var(--zd-banner-nav-ink);
+  --zd-note-line: var(--zd-banner-nav-line);
+  --zd-note-line-strong: var(--zd-banner-nav-line-strong);
+  --zd-note-nested-bg: var(--zd-banner-nav-nested-bg);
+  --zd-tip-bg: #eef6f5;
+  --zd-tip-bg-hover: #e7f1f0;
+  --zd-tip-ink: #2f5758;
+  --zd-tip-line: #d8e6e5;
+  --zd-tip-line-strong: #cadbda;
+  --zd-tip-nested-bg: #e3eeee;
+  /* selected navigation text */
+  --zd-nav-active-ink: var(--zd-sidebar-active-ink);
   /* unselected nav text → black */
-  --zd-nav-ink: #171717;
+  --zd-nav-ink: var(--zd-page-ink);
   /* one knob for default nav text weight (sidebar + action nav + mobile) */
   --zd-nav-weight: 400;
   /* active/selected nav text weight */
@@ -109,12 +151,12 @@ body.zdoc-docs-page {
   --zd-nav-size: 13px;
   /* Left sidebar text size — kept as its own knob (decoupled from the topbar's
      --zd-nav-size), currently 13px to match the topbar. */
-  --zd-sidebar-size: 13px;
+  --zd-sidebar-size: 14px;
   /* left-nav text weight — uniform 450 across default/active/hover */
   --zd-structure-nav-weight: 450;
   --zd-nav-hover-weight: 500;
-  /* inter-item gap for the left sidebar — 一级 rail + 二级 tree share it; 32px item + 5px = 37px pitch */
-  --zd-nav-gap: 5px;
+  /* inter-item gap for the left sidebar — 一级 rail + 二级 tree share it */
+  --zd-nav-gap: 2px;
   /* Doc input hover-ring gradient — per reference SVG: periwinkle → blue → teal */
   --zd-ai-gradient:
     linear-gradient(110deg, #6871f1 0%, #74baff 49%, #43c4c7 100%);
@@ -137,9 +179,44 @@ body.zdoc-docs-page {
 
   /* Document media */
   --zd-doc-image-radius: 10px;
-  --zd-doc-image-stroke: #e8eeee;
-  --zd-hover-duration: 0.32s;
+  --zd-table-frame: #e8e8e4;
+  --zd-table-divider: #eeeeea;
+  --zd-doc-image-stroke: var(--zd-table-divider);
+  --zd-inline-code-font-size: 12px;
+  --zd-inline-code-font-weight: 500;
+  --zd-inline-code-line-height: 18px;
+  --zd-inline-code-color: var(--zd-page-ink);
+  --zd-inline-code-bg: var(--zd-surface-1);
+  --zd-inline-code-border: var(--zd-surface-border-strong);
+  --zd-inline-code-radius: 5px;
+  --zd-inline-code-padding: 0.1em 0.38em;
+  --zd-hover-duration: 0.36s;
   --zd-hover-ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+body.zdoc-docs-page :where(
+  a,
+  button,
+  summary,
+  [role='button'],
+  [role='menuitem'],
+  .menu__link,
+  .menu__list-item-collapsible,
+  .tabs__item,
+  .pagination-nav__link,
+  .table-of-contents__link,
+  .breadcrumbs__link
+) {
+  transition:
+    background-color var(--zd-hover-duration) var(--zd-hover-ease),
+    border-color var(--zd-hover-duration) var(--zd-hover-ease),
+    color var(--zd-hover-duration) var(--zd-hover-ease),
+    text-decoration-color var(--zd-hover-duration) var(--zd-hover-ease),
+    text-decoration-thickness var(--zd-hover-duration) var(--zd-hover-ease),
+    text-underline-offset var(--zd-hover-duration) var(--zd-hover-ease),
+    box-shadow var(--zd-hover-duration) var(--zd-hover-ease),
+    opacity var(--zd-hover-duration) var(--zd-hover-ease),
+    transform var(--zd-hover-duration) var(--zd-hover-ease);
 }
 
 ::selection {
@@ -184,14 +261,14 @@ body.zdoc-docs-page {
   right: auto;
   width: 100vw;
   padding: 0;
-  background: #fdfdfd;
+  background: var(--zd-page-bg);
   height: var(--ifm-navbar-height);
   min-height: var(--ifm-navbar-height);
 }
 
 .navbar__inner {
   padding: 0;
-  background: #fdfdfd;
+  background: var(--zd-page-bg);
 }
 
 /* Hide external link icons on navbar items */
@@ -209,7 +286,7 @@ body.zdoc-docs-page {
   gap: 6px;
   height: 32px;
   font-size: var(--zd-nav-size) !important;
-  font-weight: 600 !important;
+  font-weight: 400 !important;
   line-height: 32px;
   /* unselected nav text → slightly gray (icon follows via currentColor) */
   color: var(--zd-nav-ink) !important;
@@ -252,7 +329,7 @@ body.zdoc-docs-page {
   width: 1px;
   min-width: 1px;
   height: 16px;
-  background: #e5e5e5;
+  background: var(--zd-surface-border);
   flex-shrink: 0;
 }
 
@@ -265,7 +342,7 @@ body.zdoc-docs-page {
   min-width: 109px;
   max-width: 109px;
   font-size: var(--zd-nav-size) !important;
-  font-weight: 500 !important;
+  font-weight: 400 !important;
   line-height: 24px;
   color: #ffffff !important;
   background: var(--zd-linear-signup-ink) !important;
@@ -284,8 +361,8 @@ body.zdoc-docs-page {
 }
 
 .navbar-signup-btn:hover {
-  background: #3f3f46 !important;
-  border-color: #3f3f46;
+  background: var(--zd-page-ink) !important;
+  border-color: var(--zd-page-ink);
   color: #ffffff !important;
   text-decoration: none !important;
 }
@@ -304,17 +381,17 @@ body.zdoc-docs-page {
   gap: 6px;
   height: 32px;
   font-size: var(--zd-nav-size);
-  font-weight: 500;
+  font-weight: 400;
   /* match the site font (buttons don't inherit font-family → was rendering Arial) */
   font-family: inherit;
   line-height: 1;
   /* text + bolt color per reference SVG */
-  color: #171717;
+  color: var(--zd-page-ink);
   /* tighter horizontal padding (Vercel-style), matches the other nav buttons */
   padding: 0 15px;
-  /* default stroke matches the Search button (#ededed); on hover it shifts to the
+  /* default stroke matches the Search button; on hover it shifts to the
      periwinkle #d7d8ff (reference SVG 3902-922). */
-  border: 1px solid #ededed;
+  border: 1px solid var(--zd-surface-border-subtle);
   border-radius: 10px;
   overflow: hidden;
   /* "Fusion" teal→cyan→blue mesh (paler) replicating the cyan edge gradient of the
@@ -336,7 +413,7 @@ body.zdoc-docs-page {
 }
 
 .navbar-ask-ai-btn::before {
-  content: '';
+  content: none;
   position: absolute;
   inset: 0;
   z-index: 0;
@@ -358,8 +435,8 @@ body.zdoc-docs-page {
 /* One-way white shine: only the hover state carries the transition, so the band
    sweeps left → right once and never animates in reverse. */
 .navbar-ask-ai-btn:hover::before {
-  transform: translateX(120%);
-  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: none;
+  transition: none;
 }
 
 .navbar-ask-ai-btn svg,
@@ -370,11 +447,14 @@ body.zdoc-docs-page {
 
 .navbar-ask-ai-btn svg {
   display: block !important;
-  color: #171717;
+  color: var(--zd-page-ink);
   flex-shrink: 0;
 }
 
 .navbar-ask-ai-btn:hover {
+  background:
+    linear-gradient(234deg, rgba(204, 207, 255, 0.82) 0%, rgba(248, 248, 255, 0.82) 36.5%, rgba(202, 250, 250, 0.82) 100%),
+    #ffffff;
   border-color: #d7d8ff;
 }
 
@@ -400,6 +480,19 @@ body.zdoc-docs-page {
   margin-left: 0 !important;
 }
 
+.navbar-search-wrap button,
+.navbar-ask-ai-btn,
+.navbar-ask-ai-btn *,
+.navbar-support-link,
+.navbar-support-link *,
+.navbar-login-link,
+.navbar-login-link *,
+.navbar-signup-btn,
+.navbar-signup-btn * {
+  font-weight: 500 !important;
+  font-variation-settings: 'wght' 500 !important;
+}
+
 /* Sidebar */
 .theme-doc-sidebar-container {
   font-size: 13px;
@@ -415,12 +508,47 @@ body {
 
 .navbar,
 .navbar__inner,
-[class*='navbarInner'],
-[class*='docsWrapper'],
-[class*='docMainContainer'],
-[class*='docItemWrapper'],
-[class*='docSidebarContainer'] {
+[class*='navbarInner'] {
+  background: var(--zd-sidebar-bg) !important;
+  box-shadow: none !important;
+}
+
+.navbar {
+  border-bottom: 1px solid var(--zd-surface-border-subtle) !important;
+}
+
+.navbar__inner,
+[class*='navbarInner'] {
+  border-bottom: 0 !important;
+}
+
+[class*='docsWrapper'] {
   background: var(--zd-app-bg) !important;
+}
+
+[class*='docMainContainer'],
+[class*='docItemWrapper'] {
+  background: var(--zd-doc-panel-bg) !important;
+}
+
+[class*='docMainContainer'] {
+  border: 0;
+  border-radius: 0;
+  box-sizing: border-box;
+  margin-right: 0;
+  min-width: 0;
+}
+
+@media (min-width: 768px) {
+  .docs-chat-open [class*='docMainContainer'] {
+    border-right: 0;
+    border-radius: 0;
+  }
+}
+
+.theme-doc-sidebar-container,
+[class*='docSidebarContainer'] {
+  background: var(--zd-sidebar-bg) !important;
 }
 
 /* Left nav sits directly on the canvas — transparent, no card, no dividers. */
@@ -431,16 +559,15 @@ body {
   background: transparent !important;
 }
 
-/* Keep the vertical divider between the left nav and the content. */
 [class*='sidebarViewport'] {
-  border-right: 1px solid #f4f4f4 !important;
+  border-right: 1px solid var(--zd-surface-border-subtle) !important;
 }
 
 /* Divider between the first-level rail and the second-level panel — scoped to the
    rail <nav> only (NOT the nested primaryRail* spans/buttons, which a bare
    [class*='primaryRail'] also matched, drawing stray border lines). Weaker color. */
 [class*='twoLevelSidebar'] nav[class*='primaryRail'] {
-  border-right: 1px solid #f7f7f7 !important;
+  border-right: 1px solid rgba(238, 238, 234, 0.55) !important;
 }
 
 /* Trim each nav column's horizontal padding by 2px (12 → 10) so the left-nav
@@ -455,15 +582,13 @@ body {
 /* The whole right block (doc content + right TOC) floats as one white rounded
    card on the gray canvas. */
 [class*='docItemContainer'] {
-  background: #ffffff !important;
-  border-radius: 20px;
-  /* equal 64px gaps on both sides of the content card. Constrain the width
-     explicitly (the card otherwise sizes to its content and ignores the right
-     margin) so the inner content shrinks to fit instead of overflowing. */
+  background: var(--zd-doc-panel-bg) !important;
+  border: 0;
+  border-radius: 0;
   box-sizing: border-box;
-  width: calc(100% - 64px) !important;
+  width: 100% !important;
   min-width: 0;
-  margin: 32px 32px 16px 32px;
+  margin: 0;
 }
 
 /* Constrain the inner content row to the card so the doc column shrinks to fit
@@ -476,15 +601,13 @@ body {
 
 [class*='docItemContainer'] [class*='docItemCol'] {
   min-width: 0 !important;
-  /* Remove the content column's inset ring — the card margin already provides
-     the gap, so the inner padding only adds dead space. */
-  padding: 0 !important;
+  padding: 32px 32px 5rem !important;
 }
 
-/* Re-add the gap between content and the right TOC (it used to come from the
-   content column's right padding, now zeroed). */
+/* Keep the right TOC as content, not as a separated rail. */
 [class*='docItemContainer'] [class*='tocCol'] {
-  padding-left: 32px !important;
+  padding-left: 0 !important;
+  border-left: none !important;
 }
 
 /* Infima gives docMainContainer an asymmetric 2rem padding-right (0 left), which
@@ -500,21 +623,20 @@ body {
   background: transparent !important;
 }
 
-/* The LEFT SIDEBAR (desktop + mobile drawer) re-points the shared active-surface
-   var to the cool blue-gray (青灰), so every sidebar hover/selected rule that reads
-   --zd-nav-active-bg follows — while the topbar keeps the warm surface. */
+/* The LEFT SIDEBAR (desktop + mobile drawer) shares the topbar navigation
+   active/hover tokens, while Note/info banners keep their own palette above. */
 .theme-doc-sidebar-container,
 .navbar-sidebar {
   --zd-structure-nav-weight: 400;
-  --zd-nav-hover-weight: 400;
+  --zd-nav-hover-weight: 500;
   --zd-nav-active-bg: var(--zd-sidebar-active-bg);
-  /* sidebar hover surface → pale cyan */
-  --zd-nav-hover-bg: #f3f9f9;
+  --zd-nav-hover-bg: var(--zd-sidebar-hover-bg);
   --zd-nav-weight: var(--zd-structure-nav-weight);
-  --zd-nav-weight-active: var(--zd-structure-nav-weight);
+  --zd-nav-weight-active: var(--zd-nav-hover-weight);
   --zd-nav-weight-sub: var(--zd-structure-nav-weight);
-  /* sidebar nav text is black in every state */
-  --zd-linear-signup-ink: #171717;
+  --zd-sidebar-active-ink: var(--zd-linear-signup-ink);
+  /* default sidebar action ink stays tied to the page ink */
+  --zd-linear-signup-ink: var(--zd-page-ink);
 }
 
 /* Expanded children (any nested sublist) render one weight tier lighter than the
@@ -525,31 +647,58 @@ body {
   --zd-nav-weight: var(--zd-nav-weight-sub);
 }
 
-/* Selected nav item TEXT → blue-gray (青灰), on the gray selected surface. Covers
+/* Selected nav item text uses the shared Note/info ink. Covers
    the doc-tree, primary rail, topbar tabs, and both medium-size dropdowns. */
 .menu__link--active,
 [class*='primaryRailItemActive'],
 [class*='dropdownPanelItemActive'],
 [class*='sectionDropdownItemActive'] {
   color: var(--zd-nav-active-ink) !important;
-  font-weight: var(--zd-structure-nav-weight) !important;
+  font-weight: var(--zd-nav-hover-weight) !important;
 }
 
 .theme-doc-sidebar-container [class*='primaryRailItemActive'] {
-  background: var(--zd-nav-hover-bg) !important;
+  background: var(--zd-nav-active-bg) !important;
 }
 
-/* Left sidebar selected items (rail + leaf) → dark teal text */
+.theme-doc-sidebar-container [class*='primaryRailItem']:not([class*='primaryRailItemActive']):hover {
+  background: var(--zd-sidebar-hover-bg) !important;
+}
+
+.theme-doc-sidebar-container [class*='primaryRailItem'],
+.theme-doc-sidebar-container [class*='secondarySidebarContent'] .menu__link,
+.theme-doc-sidebar-container [class*='secondarySidebarContent'] .menu__list-item-collapsible {
+  min-height: 32px !important;
+}
+
+.theme-doc-sidebar-container .theme-doc-sidebar-item-link-level-2 .menu__link--active,
+.theme-doc-sidebar-container .theme-doc-sidebar-item-category-level-2 > .menu__list-item-collapsible > .menu__link--active,
+.theme-doc-sidebar-container [class*='secondarySidebarContent'] .menu__link--active,
+.theme-doc-sidebar-container [class*='secondarySidebarContent'] .theme-doc-sidebar-item-link > .menu__link--active {
+  background: var(--zd-sidebar-active-bg-sub) !important;
+}
+
+/* Left sidebar selected items (rail + leaf): keep text color, only increase weight. */
 .theme-doc-sidebar-container .menu__link--active,
 .theme-doc-sidebar-container [class*='primaryRailItemActive'],
 .theme-doc-sidebar-container .menu__list-item-collapsible > .menu__link--active {
-  color: #171717 !important;
+  color: var(--zd-sidebar-active-ink) !important;
+  font-size: 13.7px !important;
+  font-weight: var(--zd-sidebar-active-weight) !important;
+  font-variation-settings: 'wght' var(--zd-sidebar-active-weight) !important;
 }
 
 /* Selected items have no hover effect (keep their selected look on hover) */
 .theme-doc-sidebar-container .menu__link--active:hover {
   background: var(--zd-nav-active-bg) !important;
-  color: #171717 !important;
+  color: var(--zd-sidebar-active-ink) !important;
+}
+
+.theme-doc-sidebar-container .theme-doc-sidebar-item-link-level-2 .menu__link--active:hover,
+.theme-doc-sidebar-container .theme-doc-sidebar-item-category-level-2 > .menu__list-item-collapsible > .menu__link--active:hover,
+.theme-doc-sidebar-container [class*='secondarySidebarContent'] .menu__link--active:hover,
+.theme-doc-sidebar-container [class*='secondarySidebarContent'] .theme-doc-sidebar-item-link > .menu__link--active:hover {
+  background: var(--zd-sidebar-active-bg-sub) !important;
 }
 
 /* Leaf nav with no secondary pane (e.g. CLI → "Overview"): collapse the whole
@@ -565,10 +714,7 @@ body {
   width: max-content !important;
   min-width: 0 !important;
   overflow: visible !important;
-  /* The container spans the full sidebar height, so the rail→content divider
-     lives here (the inner rail/viewport borders below stop at the rail's short
-     content height). */
-  border-right: 1px solid #f4f4f4 !important;
+  border-right: 1px solid var(--zd-surface-border-subtle) !important;
 }
 .theme-doc-sidebar-container:has([class*='twoLevelSidebar']):not(:has([class*='secondaryPane'])) [class*='sidebarViewport'],
 .theme-doc-sidebar-container:has([class*='twoLevelSidebar']):not(:has([class*='secondaryPane'])) [class*='twoLevelSidebar'],
@@ -586,15 +732,15 @@ body {
 .theme-doc-sidebar-container:has([class*='twoLevelSidebar']):not(:has([class*='secondaryPane'])) [class*='sidebarViewport'] {
   position: static !important;
   height: auto !important;
-  border-right: none !important;
+  border-right: 1px solid var(--zd-surface-border-subtle) !important;
 }
 /* rail keeps its natural .primaryRail width (fit-content, max 12rem) so its items
    + hover/selected highlight match the other sections and Cloud Guides — NOT
    stretched to fill, which made "Overview" wider than the rest. Drop its scroll
    (the sticky sidebar scrolls with the page) so its width propagates upward. */
-.theme-doc-sidebar-container:has([class*='twoLevelSidebar']):not(:has([class*='secondaryPane'])) [class*='primaryRail'] {
+.theme-doc-sidebar-container:has([class*='twoLevelSidebar']):not(:has([class*='secondaryPane'])) nav[class*='primaryRail'] {
   overflow: visible !important;
-  border-right: none !important;
+  border-right: 1px solid var(--zd-surface-border-subtle) !important;
 }
 
 /* Remove the 56px top padding Docusaurus adds to the sidebar div for sticky
@@ -617,28 +763,34 @@ body {
   color: var(--zd-linear-signup-ink);
   background: transparent;
   border-radius: 10px;
+  min-height: 32px;
+  box-sizing: border-box;
   padding: 0.375rem 0.625rem;
   text-transform: capitalize;
   transition:
     background-color var(--zd-hover-duration) var(--zd-hover-ease),
-    color var(--zd-hover-duration) var(--zd-hover-ease),
-    font-weight var(--zd-hover-duration) var(--zd-hover-ease),
-    font-variation-settings var(--zd-hover-duration) var(--zd-hover-ease);
+    color var(--zd-hover-duration) var(--zd-hover-ease);
   overflow-wrap: anywhere;
 }
 
-/* Hover changes only color + background — never weight. */
+/* Hover changes only background — never text color or weight. */
 .menu__link:hover {
-  color: var(--zd-nav-active-ink) !important;
+  color: inherit !important;
   background: var(--zd-nav-hover-bg);
+}
+
+.theme-doc-sidebar-container .theme-doc-sidebar-item-link-level-2 .menu__link:hover,
+.theme-doc-sidebar-container .theme-doc-sidebar-item-category-level-2 > .menu__list-item-collapsible > .menu__link:hover,
+.theme-doc-sidebar-container [class*='secondarySidebarContent'] .menu__link:hover {
+  background: var(--zd-sidebar-hover-bg-sub) !important;
 }
 
 /* Active (clicked) link — full rounded highlight; text weight stays 400 (the
    selected item is distinguished by the highlight, not by a heavier weight). */
 .menu__link--active {
   color: var(--zd-nav-active-ink) !important;
-  font-weight: var(--zd-structure-nav-weight);
-  font-variation-settings: 'wght' var(--zd-structure-nav-weight);
+  font-weight: var(--zd-nav-hover-weight);
+  font-variation-settings: 'wght' var(--zd-nav-hover-weight);
   background: var(--zd-nav-active-bg) !important;
 }
 
@@ -668,24 +820,64 @@ body {
 
 .menu__list-item-collapsible > .menu__link--active {
   color: var(--zd-nav-active-ink) !important;
-  font-weight: var(--zd-structure-nav-weight) !important;
+  font-weight: var(--zd-nav-hover-weight) !important;
 }
 
-/* Selected item text weight stays 400 — overrides the module rules (which set
-   the active label to --zd-nav-hover-weight) so nothing bolds on selection. */
+.theme-doc-sidebar-container [class*='categoryLinkLabelSizer'],
+.theme-doc-sidebar-container [class*='primaryRailLabelSizer'] {
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  font-variation-settings: 'wght' 500 !important;
+  opacity: 0 !important;
+}
+
+.theme-doc-sidebar-container [class*='categoryLinkLabelText'],
+.theme-doc-sidebar-container [class*='primaryRailLabelText'] {
+  font-size: 14px !important;
+  font-weight: 400 !important;
+  font-variation-settings: 'wght' 400 !important;
+  opacity: 1 !important;
+}
+
+/* Active sidebar labels match topbar logic: keep the hidden sizer for width,
+   and render the visible text slightly smaller/heavier. */
+.theme-doc-sidebar-container .menu__link--active [class*='categoryLinkLabelSizer'],
+.theme-doc-sidebar-container [class*='primaryRailItemActive'] [class*='primaryRailLabelSizer'] {
+  opacity: 0 !important;
+}
+
 .theme-doc-sidebar-container .menu__link--active [class*='categoryLinkLabelText'],
 .theme-doc-sidebar-container [class*='primaryRailItemActive'] [class*='primaryRailLabelText'] {
-  font-weight: var(--zd-structure-nav-weight) !important;
-  font-variation-settings: 'wght' var(--zd-structure-nav-weight) !important;
+  font-size: 13.7px !important;
+  font-weight: 500 !important;
+  font-variation-settings: 'wght' 500 !important;
+  opacity: 1 !important;
+}
+
+.theme-doc-sidebar-container .menu__link--active [class*='categoryLinkLabelSizer'],
+.theme-doc-sidebar-container [class*='primaryRailItemActive'] [class*='primaryRailLabelSizer'],
+.theme-doc-sidebar-container .menu__link--active [class*='categoryLinkLabelText'],
+.theme-doc-sidebar-container [class*='primaryRailItemActive'] [class*='primaryRailLabelText'] {
+  color: var(--zd-sidebar-active-ink) !important;
 }
 
 .theme-doc-sidebar-container a.menu__link--active {
-  font-weight: var(--zd-structure-nav-weight);
-  font-variation-settings: 'wght' var(--zd-structure-nav-weight);
+  font-weight: var(--zd-nav-hover-weight);
+  font-variation-settings: 'wght' var(--zd-nav-hover-weight);
 }
 
 .menu__list-item-collapsible:has(> .menu__link--active) {
   background: var(--zd-nav-active-bg);
+}
+
+.theme-doc-sidebar-container [class*='secondarySidebarContent'] .theme-doc-sidebar-item-category > .menu__list-item-collapsible,
+.theme-doc-sidebar-container [class*='secondarySidebarContent'] .theme-doc-sidebar-item-category > .menu__list-item-collapsible:has(> .menu__link--active),
+.theme-doc-sidebar-container [class*='secondarySidebarContent'] .theme-doc-sidebar-item-category > .menu__list-item-collapsible--active:has(> .menu__link--active) {
+  background: transparent !important;
+}
+
+.theme-doc-sidebar-container [class*='secondarySidebarContent'] .theme-doc-sidebar-item-category > .menu__list-item-collapsible:not(:has(> .menu__link--active)):hover {
+  background: var(--zd-sidebar-hover-bg-sub) !important;
 }
 
 .menu__list-item-collapsible:has(> .menu__link--active) .menu__caret::before {
@@ -713,7 +905,7 @@ body {
 /* ── First-level category headers ── */
 .theme-doc-sidebar-item-category-level-1,
 .theme-doc-sidebar-item-link-level-1 {
-  margin-top: 0.375rem;
+  margin-top: 4px;
 }
 
 .theme-doc-sidebar-item-category-level-1:first-child,
@@ -732,19 +924,19 @@ body {
 
 .theme-doc-sidebar-item-category-level-1 > .menu__list-item-collapsible > .menu__link:hover,
 .theme-doc-sidebar-item-link-level-1 > .menu__link:hover {
-  color: var(--zd-nav-active-ink) !important;
+  color: var(--zd-linear-signup-ink) !important;
 }
 
 /* Child links (level 2+) — align text with category label (2.5rem target − 0.75rem list indent = 1.75rem) */
 .theme-doc-sidebar-item-link-level-2,
 .theme-doc-sidebar-item-category-level-2 {
-  margin-top: 0.375rem;
+  margin-top: 4px;
 }
 
 .theme-doc-sidebar-item-link-level-2 .menu__link,
 .theme-doc-sidebar-item-category-level-2 > .menu__list-item-collapsible > .menu__link {
+  min-height: 32px;
   padding: 0.375rem 0.625rem;
-  min-height: unset;
   font-weight: var(--zd-nav-weight);
   color: var(--zd-linear-signup-ink);
 }
@@ -752,8 +944,8 @@ body {
 /* Level-3 items — deeper indent */
 .theme-doc-sidebar-item-link-level-3 .menu__link,
 .theme-doc-sidebar-item-category-level-3 > .menu__list-item-collapsible > .menu__link {
+  min-height: 32px;
   padding: 0.375rem 0.625rem;
-  min-height: unset;
   font-weight: var(--zd-nav-weight);
   color: var(--zd-linear-signup-ink);
 }
@@ -761,19 +953,19 @@ body {
 /* Level-3 items — zero out margin */
 .theme-doc-sidebar-item-link-level-3,
 .theme-doc-sidebar-item-category-level-3 {
-  margin-top: 0.375rem;
+  margin-top: 4px;
 }
 
 /* Level-4+ items — deepest indent */
 .theme-doc-sidebar-item-link-level-4,
 .theme-doc-sidebar-item-category-level-4 {
-  margin-top: 0.375rem;
+  margin-top: 4px;
 }
 
 .theme-doc-sidebar-item-link-level-4 .menu__link,
 .theme-doc-sidebar-item-category-level-4 > .menu__list-item-collapsible > .menu__link {
+  min-height: 32px;
   padding: 0.375rem 0.625rem;
-  min-height: unset;
   font-weight: var(--zd-nav-weight);
   color: var(--zd-linear-signup-ink);
 }
@@ -784,8 +976,8 @@ body {
   /* 16/26 (ratio ≈1.625) — comfortable leading without the tightest 24/1.5. */
   line-height: 26px;
   letter-spacing: 0;
-  /* near-black body text — matches Vercel's ≈#171717 (was the grayer #3f3f46). */
-  color: #171717;
+  /* near-black body text — matches Vercel's ≈var(--zd-page-ink) (was the grayer var(--zd-page-ink)). */
+  color: var(--zd-page-ink);
   text-align: left;
 }
 
@@ -896,7 +1088,7 @@ body {
    native disc at a 15px marker font; the UA disc is browser-drawn (font-agnostic),
    so 15px here is pixel-identical to Linear's bullet. */
 .markdown ul li::marker {
-  color: #1a1a1a;
+  color: var(--zd-page-ink);
   font-size: 15px;
 }
 
@@ -963,7 +1155,7 @@ body {
   width: 0.5px;
   /* li height + next item margin-top - marker height */
   height: calc(100% + 20px - 24px);
-  background: #d4d4d8;
+  background: var(--zd-surface-border-strong);
   transform: translateX(-50%);
 }
 /* nested / in-banner / in-table ordered lists keep plain numbering (no stepper) */
@@ -1084,15 +1276,21 @@ html.docs-wrapper :where(
   font-weight: 550;
   text-decoration-line: underline;
   text-decoration-thickness: 1px;
-  text-decoration-color: #9ca3af;
+  text-decoration-color: var(--zd-gray-400);
   text-underline-offset: 4px;
-  transition: color 0.18s ease, text-decoration-color 0.18s ease, text-decoration-thickness 0.18s ease;
+  /* Only animate color — text-decoration-thickness / text-underline-offset are
+     rasterized in whole device pixels and step (not interpolate) mid-transition,
+     which reads as a stutter. Let them switch instantly instead. */
+  transition:
+    color var(--zd-hover-duration) var(--zd-hover-ease),
+    text-decoration-color var(--zd-hover-duration) var(--zd-hover-ease);
 }
 
 .markdown :where(p, li, td, th) a:hover {
   color: var(--zd-linear-signup-ink) !important;
   text-decoration-color: var(--zd-linear-signup-ink);
   text-decoration-thickness: 2px;
+  text-underline-offset: 5px;
 }
 
 /* Code blocks */
@@ -1241,7 +1439,7 @@ pre {
   border-radius: 999px !important;
   font-size: 14px !important;
   font-weight: 400 !important;
-  background: #f5f5f5 !important;
+  background: var(--zd-surface-1) !important;
   color: var(--zd-linear-signup-ink) !important;
   line-height: 1.5;
   transition: background 0.15s ease, color 0.15s ease;
@@ -1252,18 +1450,18 @@ pre {
   display: none !important;
 }
 .tabs-container:is(:not(:has([role="tabpanel"] > [class*="windowFrame"]:first-child)), :has(.tabs-container)) > .tabs > .tabs__item:hover:not(.tabs__item--active) {
-  background: #ececec !important;
+  background: var(--zd-surface-2) !important;
   color: var(--zd-linear-signup-ink) !important;
 }
 /* the active chip is not interactive — keep its fill on hover, default cursor */
 .tabs-container:is(:not(:has([role="tabpanel"] > [class*="windowFrame"]:first-child)), :has(.tabs-container)) > .tabs > .tabs__item--active:hover {
-  background: #383431 !important;
+  background: var(--zd-page-ink) !important;
   cursor: default;
 }
 
 /* active chip → dark gray-coffee fill, white text */
 .tabs-container:is(:not(:has([role="tabpanel"] > [class*="windowFrame"]:first-child)), :has(.tabs-container)) > .tabs > .tabs__item--active {
-  background: #383431 !important;
+  background: var(--zd-page-ink) !important;
   color: #ffffff !important;
   font-weight: 500 !important;
   border: none !important;
@@ -1289,7 +1487,7 @@ pre {
 /* ── Doc content scrollbar — slim + light ── */
 [class*='docMainContainer'] {
   scrollbar-width: thin;
-  scrollbar-color: #dcdce0 transparent;
+  scrollbar-color: var(--zd-surface-border-strong) transparent;
 }
 
 [class*='docMainContainer']::-webkit-scrollbar {
@@ -1302,14 +1500,14 @@ pre {
 }
 
 [class*='docMainContainer']::-webkit-scrollbar-thumb {
-  background: #e0e0e4;
+  background: var(--zd-surface-border);
   border: 3px solid transparent;
   border-radius: 9px;
   background-clip: padding-box;
 }
 
 [class*='docMainContainer']::-webkit-scrollbar-thumb:hover {
-  background: #ccccd2;
+  background: var(--zd-surface-border-strong);
   background-clip: padding-box;
 }
 
@@ -1318,7 +1516,7 @@ pre {
 @media (min-width: 768px) {
   body.docs-chat-open .navbar {
     width: calc(100vw - var(--chat-pane-w, clamp(24rem, 30vw, 34rem))) !important;
-    transition: width 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+    transition: none;
   }
 
   body.docs-nav-mobile.docs-chat-open .navbar {
@@ -1327,9 +1525,33 @@ pre {
   }
 }
 
-/* ── Merged sidebar at the 768–1220px breakpoint only (opening the chat no
+.navbar-medium-askai-wrap {
+  width: 32px !important;
+  min-width: 32px !important;
+  max-width: 32px !important;
+  height: 32px !important;
+  flex-basis: 32px !important;
+}
+
+.navbar-medium-askai-btn {
+  width: 32px !important;
+  min-width: 32px !important;
+  max-width: 32px !important;
+  height: 32px !important;
+  flex-basis: 32px !important;
+}
+
+.navbar-medium-askai-btn svg {
+  width: 9px !important;
+  min-width: 9px !important;
+  max-width: 9px !important;
+  height: 16px !important;
+  flex-basis: 9px !important;
+}
+
+/* ── Merged sidebar at the 768–1320px breakpoint only (opening the chat no
    longer shrinks the nav — it keeps its full two-level width). ── */
-@media (min-width: 768px) and (max-width: 1220px) {
+@media (min-width: 768px) and (max-width: 1320px) {
   .theme-doc-sidebar-container {
     --doc-sidebar-width: calc(13.5rem + 10px);
     width: calc(13.5rem + 10px) !important;
@@ -1367,10 +1589,17 @@ body.docs-chat-resizing [class*='topbarNav'] * {
 }
 
 body.docs-chat-resizing [class*='navbarRight'] {
-  width: max-content !important;
-  min-width: max-content !important;
+  position: fixed !important;
+  left: var(--navbar-right-freeze-left) !important;
+  top: var(--navbar-right-freeze-top) !important;
+  width: var(--navbar-right-freeze-width) !important;
+  min-width: var(--navbar-right-freeze-width) !important;
+  max-width: var(--navbar-right-freeze-width) !important;
+  height: var(--navbar-right-freeze-height) !important;
   flex: 0 0 auto !important;
+  justify-content: flex-start !important;
   transform: none !important;
+  z-index: 1101 !important;
 }
 
 body.docs-chat-resizing [class*='navbarRight'] > *,
@@ -1380,6 +1609,28 @@ body.docs-chat-resizing .navbar-login-link,
 body.docs-chat-resizing .navbar-signup-btn {
   flex: 0 0 auto !important;
   transform: none !important;
+}
+
+body.docs-chat-resizing.docs-nav-compact [class*='navbarRight'] {
+  gap: 8px !important;
+}
+
+body.docs-chat-resizing.docs-nav-compact .navbar-search-wrap,
+body.docs-chat-resizing.docs-nav-compact .navbar-search-wrap button,
+body.docs-chat-resizing.docs-nav-compact .navbar-medium-actions {
+  width: 32px !important;
+  min-width: 32px !important;
+  max-width: 32px !important;
+  flex: 0 0 32px !important;
+  flex-basis: 32px !important;
+}
+
+body.docs-chat-resizing.docs-nav-compact .navbar-signup-btn {
+  width: 109px !important;
+  min-width: 109px !important;
+  max-width: 109px !important;
+  flex: 0 0 109px !important;
+  flex-basis: 109px !important;
 }
 
 body.docs-chat-resizing .navbar-ask-ai-btn::before {
@@ -1403,6 +1654,13 @@ body.docs-nav-compact .navbar-action-divider {
   }
 
   .navbar__toggle {
+    display: none !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .navbar-sidebar,
+  .navbar-sidebar__backdrop {
     display: none !important;
   }
 }
@@ -1504,15 +1762,15 @@ body.zd-search-open [class*='floatingChatBackdrop'] {
 /* Pagination — neutral cards (no blue): gray "Previous/Next" + arrows, black
    title, light-gray fill on hover (matches the reference image). */
 .pagination-nav__link {
-  border: 1px solid #e8e8ea;
+  border: 1px solid var(--zd-surface-border);
   border-radius: 10px;
   background: transparent;
   transition: background 0.15s ease, border-color 0.15s ease;
 }
 
 .pagination-nav__link:hover {
-  border-color: #e0e0e2;
-  background: #f5f5f6;
+  border-color: var(--zd-surface-border-strong);
+  background: var(--zd-surface-1);
   box-shadow: none;
 }
 
@@ -1636,7 +1894,7 @@ body.zd-search-open [class*='floatingChatBackdrop'] {
 /* Footer */
 .footer {
   background: #f9fafb;
-  border-top: 1px solid #e5e7eb;
+  border-top: 1px solid var(--zd-surface-border);
 }
 
 #__docusaurus > .main-wrapper:has([class*='docsWrapper']) + .footer {
@@ -1645,8 +1903,23 @@ body.zd-search-open [class*='floatingChatBackdrop'] {
 
 /* Breadcrumbs */
 .breadcrumbs__link {
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 400;
+}
+
+.breadcrumbs__item:not(.breadcrumbs__item--active) .breadcrumbs__link {
+  color: var(--zd-breadcrumb-link) !important;
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-decoration-color: transparent;
+  text-underline-offset: 4px;
+}
+
+.breadcrumbs__item:not(.breadcrumbs__item--active) .breadcrumbs__link:hover {
+  color: var(--zd-breadcrumb-link-hover) !important;
+  text-decoration-color: currentColor;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 5px;
 }
 
 /* Last (current page) crumb: black text, no link/hover interaction */
@@ -1667,14 +1940,50 @@ body.zd-search-open [class*='floatingChatBackdrop'] {
    the last crumb (current page) is black and has no click/hover interaction. */
 nav[aria-label="Breadcrumb"] a,
 nav[aria-label="Breadcrumb"] span {
+  font-size: 14px;
   font-weight: 450 !important;
   color: var(--zd-muted-text);
 }
 
+nav[aria-label="Breadcrumb"] a {
+  color: var(--zd-breadcrumb-link) !important;
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-decoration-color: transparent;
+  text-underline-offset: 4px;
+}
+
+nav[aria-label="Breadcrumb"] a:hover {
+  color: var(--zd-breadcrumb-link-hover) !important;
+  text-decoration-color: currentColor;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 5px;
+}
+
+nav[aria-label="Breadcrumb"] a:nth-of-type(1) {
+  color: var(--zd-muted-text) !important;
+}
+
+nav[aria-label="Breadcrumb"] a:nth-of-type(1):hover {
+  color: var(--zd-page-ink) !important;
+}
+
+nav[aria-label="Breadcrumb"] a:nth-of-type(2) {
+  color: var(--zd-muted-text) !important;
+}
+
+nav[aria-label="Breadcrumb"] a:nth-of-type(2):hover {
+  color: var(--zd-page-ink) !important;
+}
+
 nav[aria-label="Breadcrumb"] > :last-child {
-  color: var(--zd-nav-active-ink) !important;
+  color: var(--zd-breadcrumb-current) !important;
   pointer-events: none;
   cursor: default;
+}
+
+nav[aria-label="Breadcrumb"] span[class*='pageBreadcrumbSeparator'] {
+  color: var(--zd-breadcrumb-separator) !important;
 }
 
 /* Match breadcrumb home icon height to TOC trigger button */
@@ -1730,7 +2039,7 @@ nav[aria-label="Breadcrumb"] > :last-child {
   background: #ffffff !important;
   /* base text + identifiers (variables, params, properties, consts) kept near-black,
      Vercel-style — only keyword/function/type/number/string get color. */
-  color: #262b33 !important;
+  color: var(--zd-page-ink) !important;
 }
 .prism-code .token.plain,
 .prism-code .token.punctuation,
@@ -1740,24 +2049,26 @@ nav[aria-label="Breadcrumb"] > :last-child {
 .prism-code .token.literal-property,
 .prism-code .token.property-access,
 .prism-code .token.constant,
-.prism-code .token.namespace { color: #262b33 !important; }
+.prism-code .token.namespace { color: var(--zd-page-ink) !important; }
 
 /* Inline code — subtle rounded chip (Linear-style) */
 .markdown :not(pre) > code,
 .markdown :not(pre) > a > code {
   font-family: var(--ifm-font-family-monospace);
-  font-size: 14px;
-  font-weight: 500;
-  color: #3b3b4f;
-  background: transparent;
-  border: 1px solid #d6d6df;
-  border-radius: 5px;
-  padding: 0.1em 0.38em;
+  font-size: var(--zd-inline-code-font-size);
+  font-weight: var(--zd-inline-code-font-weight);
+  line-height: var(--zd-inline-code-line-height);
+  letter-spacing: normal;
+  color: var(--zd-inline-code-color);
+  background: var(--zd-inline-code-bg);
+  border: 1px solid var(--zd-inline-code-border);
+  border-radius: var(--zd-inline-code-radius);
+  padding: var(--zd-inline-code-padding);
 }
 
 /* code-inside-a-link keeps the normal code color (not link blue) */
 .markdown :not(pre) > a > code {
-  color: #3b3b4f;
+  color: var(--zd-inline-code-color);
 }
 
 /* ── Syntax palette — harmonious, hue-separated, slightly muted (one distinct
@@ -1767,7 +2078,7 @@ nav[aria-label="Breadcrumb"] > :last-child {
 .prism-code .token.doctype,
 .prism-code .token.cdata {
   /* darker, more neutral gray (Vercel's comment is a dark neutral gray) */
-  color: #6b7280 !important;
+  color: var(--zd-gray-500) !important;
   font-style: italic;
 }
 .prism-code .token.keyword,
@@ -1778,7 +2089,7 @@ nav[aria-label="Breadcrumb"] > :last-child {
 .prism-code .token.function,
 .prism-code .token.class-name,
 .prism-code .token.maybe-class-name,
-.prism-code .token.attr-name { color: #7a4ddb !important; }
+.prism-code .token.attr-name { color: #4a4cb3 !important; }
 .prism-code .token.number,
 .prism-code .token.boolean,
 .prism-code .token.symbol { color: #2b6fe0 !important; }
@@ -1793,13 +2104,13 @@ nav[aria-label="Breadcrumb"] > :last-child {
 
 /* Heading anchor — a small dark chain-link icon instead of "#" (per reference) */
 .hash-link {
-  color: #71717a;
+  color: var(--zd-nav-muted);
   opacity: 0;
   transition: opacity 0.15s ease, color 0.15s ease;
 }
 .hash-link:hover,
 .hash-link:focus-visible {
-  color: #3f3f46;
+  color: var(--zd-page-ink);
   text-decoration: none;
 }
 *:hover > .hash-link,
@@ -1862,7 +2173,7 @@ nav[aria-label="Breadcrumb"] > :last-child {
   height: calc(100dvh - var(--ifm-navbar-height)) !important;
   max-height: calc(100dvh - var(--ifm-navbar-height)) !important;
   z-index: 2 !important;
-  background: #fdfdfd !important;
+  background: var(--zd-page-bg) !important;
   box-shadow: 0 18px 36px rgba(15, 23, 42, 0.14) !important;
   border-bottom: 1px solid var(--ifm-toc-border-color);
   /* Unfold downward from beneath the topbar (not a slide from the top) */
@@ -1897,6 +2208,80 @@ nav[aria-label="Breadcrumb"] > :last-child {
   z-index: 1299 !important;
 }
 
+@media (max-width: 996px) {
+  #zdoc-mobile-nav-route-guard {
+    position: fixed;
+    top: var(--ifm-navbar-height);
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1297;
+    pointer-events: none;
+    background: var(--zd-page-bg);
+  }
+
+  .zdoc-mobile-nav-route-guard-search {
+    position: absolute;
+    top: 0.75rem;
+    left: 0.75rem;
+    right: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-sizing: border-box;
+    height: 40px;
+    padding: 0 18px;
+    color: var(--zd-muted-text);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 40px;
+    text-align: left;
+    background-color: var(--zd-page-bg);
+    border: 1px solid var(--zd-surface-border-subtle);
+    border-radius: 10px;
+  }
+
+  .zdoc-mobile-nav-route-guard-search svg {
+    flex-shrink: 0;
+  }
+
+  html.zdoc-mobile-nav-route-guard::before {
+    content: '';
+    position: fixed;
+    top: var(--ifm-navbar-height);
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1297;
+    pointer-events: none;
+    background: var(--zd-page-bg);
+  }
+
+  html.zdoc-mobile-nav-route-guard::after {
+    content: 'Search documentation...';
+    position: fixed;
+    top: calc(var(--ifm-navbar-height) + 0.75rem);
+    left: 0.75rem;
+    right: 0.75rem;
+    z-index: 1298;
+    box-sizing: border-box;
+    height: 40px;
+    padding: 0 18px 0 48px;
+    pointer-events: none;
+    color: var(--zd-muted-text);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 40px;
+    text-align: left;
+    background-color: var(--zd-page-bg);
+    background-image: url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236b6b6b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: 18px center;
+    border: 1px solid var(--zd-surface-border-subtle);
+    border-radius: 10px;
+  }
+}
+
 /* Items track: let height follow content (it was 100% for a full-height drawer) */
 .navbar-sidebar .navbar-sidebar__items {
   height: 100% !important;
@@ -1923,7 +2308,7 @@ nav[aria-label="Breadcrumb"] > :last-child {
   flex-direction: column;
   height: 100%;
   min-height: 0;
-  background: #fdfdfd;
+  background: var(--zd-page-bg);
 }
 
 .mobile-secondary-menu-content {
@@ -1932,13 +2317,13 @@ nav[aria-label="Breadcrumb"] > :last-child {
   overflow-y: auto;
   overflow-x: hidden;
   position: relative;
-  background: #fdfdfd;
+  background: var(--zd-page-bg);
   overscroll-behavior: contain;
 }
 
 .mobile-secondary-menu-stage {
   min-height: 100%;
-  background: #fdfdfd;
+  background: var(--zd-page-bg);
   transform: translate3d(0, 0, 0);
   will-change: transform;
 }
@@ -2037,7 +2422,7 @@ nav[aria-label="Breadcrumb"] > :last-child {
   font-variation-settings: 'wght' var(--zd-nav-weight) !important;
 }
 
-.navbar-sidebar .menu__link:hover,
+.navbar-sidebar .menu__link:not(.menu__link--active):hover,
 .navbar-sidebar .menu__list-item-collapsible:hover {
   background: var(--zd-nav-hover-bg);
   color: var(--zd-linear-signup-ink) !important;
@@ -2076,12 +2461,12 @@ nav[aria-label="Breadcrumb"] > :last-child {
 
 /* Chevron a touch more visible */
 .navbar-sidebar [class*="childCaret"] {
-  color: #9ca3af;
+  color: var(--zd-gray-400);
 }
 
 /* Animated hamburger → X (two bars that rotate together) */
 .zd-burger {
-  color: #171717;
+  color: var(--zd-page-ink);
   position: relative;
   z-index: 3;
 }
@@ -2127,14 +2512,15 @@ nav[aria-label="Breadcrumb"] > :last-child {
 /* Mobile sidebar action toolbar — search at top, nav-style links at bottom */
 .mobile-action-toolbar {
   position: relative;
-  z-index: 2;
+  z-index: 3;
+  isolation: isolate;
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
-  background: #fdfdfd;
+  background: var(--zd-page-bg);
   transform: translateZ(0);
   backface-visibility: hidden;
-  contain: paint;
+  contain: layout paint;
 }
 
 /* Search row */
@@ -2149,9 +2535,9 @@ nav[aria-label="Breadcrumb"] > :last-child {
   font-size: 14px;
   font-weight: 400;
   line-height: 40px;
-  color: #6b6b6b;
-  background: #fdfdfd;
-  border: 1px solid #ededed;
+  color: var(--zd-muted-text);
+  background: var(--zd-page-bg);
+  border: 1px solid var(--zd-surface-border-subtle);
   border-radius: 10px;
   cursor: pointer;
   text-align: left;
@@ -2162,9 +2548,9 @@ nav[aria-label="Breadcrumb"] > :last-child {
 }
 
 .mobile-action-search:hover {
-  background: #f4f4f4;
-  border-color: #e2e2e2;
-  color: #6b6b6b;
+  background: var(--zd-nav-hover-bg);
+  border-color: var(--zd-surface-border);
+  color: var(--zd-muted-text);
 }
 
 .mobile-action-search:focus-visible {
@@ -2190,7 +2576,7 @@ nav[aria-label="Breadcrumb"] > :last-child {
   gap: 4px;
   width: fit-content;
   padding: 0;
-  color: var(--zd-gray-500);
+  color: var(--zd-muted-text);
   font-size: 13px;
   font-weight: var(--zd-nav-weight);
   text-decoration: none !important;
@@ -2218,7 +2604,7 @@ nav[aria-label="Breadcrumb"] > :last-child {
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
-  border-top: 1px solid #e5e7eb;
+  border-top: 1px solid var(--zd-surface-border);
 }
 
 .mobile-action-link {
@@ -2373,10 +2759,10 @@ html.docs-doc-id-tutorials\/home #copy-page-btn {
   --ifm-alert-shadow: none;
   border: 0 !important;
   --ifm-alert-padding-vertical: 0.875rem;
-  --ifm-alert-padding-horizontal: 1rem;
+  --ifm-alert-padding-horizontal: 0.75rem;
   margin-bottom: 1.25rem;
   /* banner text just under body size */
-  font-size: 14.5px;
+  font-size: 14px;
 }
 
 /* Even top/bottom spacing inside the box */
@@ -2399,15 +2785,15 @@ html.docs-doc-id-tutorials\/home #copy-page-btn {
 .alert [class*="admonitionHeading"] {
   display: flex;
   align-items: flex-start;
-  gap: 0.375rem;
+  gap: 10px;
   text-transform: capitalize;
   font-size: inherit;
   line-height: 1.45;
   color: inherit;
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: 0;
   font-family: var(--ifm-font-family-base);
-  margin-bottom: 0.375rem;
+  margin-bottom: 0.25rem;
 }
 
 /* Always render a clean SVG icon (hide the theme's emoji/default), colored by type.
@@ -2416,7 +2802,9 @@ html.docs-doc-id-tutorials\/home #copy-page-btn {
   display: inline-flex;
   align-items: center;
   flex-shrink: 0;
+  width: 17px;
   height: 21px; /* = the title's first-line height, so the icon centers on line 1 */
+  margin: 0 !important;
   font-size: 0; /* hide any emoji glyph */
   color: inherit;
 }
@@ -2426,8 +2814,9 @@ html.docs-doc-id-tutorials\/home #copy-page-btn {
 .alert [class*="admonitionIcon"]::before {
   content: '';
   display: inline-block;
-  width: 14px;
-  height: 14px;
+  width: 13.5px;
+  height: 13.5px;
+  transform: translateY(-1px);
   /* icon matches the heading text color exactly (no fade) */
   opacity: 1;
   background-color: currentColor;
@@ -2435,17 +2824,39 @@ html.docs-doc-id-tutorials\/home #copy-page-btn {
   mask: var(--zd-alert-icon) center / contain no-repeat;
 }
 
+.markdown .alert {
+  transition:
+    background-color var(--zd-hover-duration) var(--zd-hover-ease),
+    border-color var(--zd-hover-duration) var(--zd-hover-ease);
+}
+
+/* Title form: icon + title on the first row; body copy starts at the same x
+   position as the title text rather than under the icon. */
+.alert:not(details) [class*="admonitionContent"] {
+  margin-left: 27px;
+}
+
+/* unify banner body line spacing with the FeatureNote body (14px / 1.45) —
+   the markdown default (26px) is too airy inside the tinted box. */
+.alert [class*="admonitionContent"] :where(p, li) {
+  line-height: 1.5;
+}
+
 /* ── Light palette: tint bg + faint stroke + dark colored text/icon ── */
 
-/* note + info — merged (blue) */
+/* note + info — blue-purple */
 .alert--secondary,
 .alert--info {
-  /* slate-violet — body text darkened for readability; heading/icon keep the
-     lighter accent (#525099) for hierarchy. */
-  --ifm-alert-background-color: #f1f0fb;
-  --ifm-alert-foreground-color: #3a3870;
-  --ifm-alert-border-color: #dbe6fe;
-  --zd-alert-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Cpath d='M12 16v-4'/%3E%3Cpath d='M12 8h.01'/%3E%3C/svg%3E");
+  /* colors sampled from the reference note image */
+  --ifm-alert-background-color: var(--zd-note-bg);
+  --ifm-alert-foreground-color: #494592;
+  --ifm-alert-border-color: #dcd7f4;
+  --zd-alert-code-bg: var(--zd-note-nested-bg);
+  --zd-alert-code-border: var(--zd-note-line-strong);
+  --zd-banner-code-bg: var(--zd-alert-code-bg);
+  --zd-banner-code-border: var(--zd-alert-code-border);
+  --zd-banner-code-color: var(--ifm-alert-foreground-color);
+  --zd-alert-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.45' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Cpath d='M12 16v-4'/%3E%3Cpath d='M12 8h.01'/%3E%3C/svg%3E");
 }
 .alert--secondary [class*="admonitionHeading"],
 .alert--info [class*="admonitionHeading"] {
@@ -2453,11 +2864,17 @@ html.docs-doc-id-tutorials\/home #copy-page-btn {
   color: inherit;
 }
 
-/* tip — 米黄 cream */
+/* tip — soft cyan */
 .alert--success {
-  --ifm-alert-background-color: #faf5e8;
-  --ifm-alert-foreground-color: #6b5526;
-  --zd-alert-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Cpath d='m9 12 2 2 4-4'/%3E%3C/svg%3E");
+  --ifm-alert-background-color: var(--zd-tip-bg);
+  --ifm-alert-foreground-color: var(--zd-tip-ink);
+  --ifm-alert-border-color: var(--zd-tip-line);
+  --zd-alert-code-bg: var(--zd-tip-nested-bg);
+  --zd-alert-code-border: var(--zd-tip-line-strong);
+  --zd-banner-code-bg: var(--zd-alert-code-bg);
+  --zd-banner-code-border: var(--zd-alert-code-border);
+  --zd-banner-code-color: var(--ifm-alert-foreground-color);
+  --zd-alert-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.45' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Cpath d='m9 12 2 2 4-4'/%3E%3C/svg%3E");
 }
 .alert--success [class*="admonitionHeading"] {
   color: inherit;
@@ -2467,18 +2884,27 @@ html.docs-doc-id-tutorials\/home #copy-page-btn {
 .alert--warning {
   --ifm-alert-background-color: #faf5e8;
   --ifm-alert-foreground-color: #6b5526;
-  --zd-alert-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z'/%3E%3Cpath d='M12 9v4'/%3E%3Cpath d='M12 17h.01'/%3E%3C/svg%3E");
+  --zd-alert-code-bg: #f4ecd9;
+  --zd-alert-code-border: #e7d7b5;
+  --zd-banner-code-bg: var(--zd-alert-code-bg);
+  --zd-banner-code-border: var(--zd-alert-code-border);
+  --zd-banner-code-color: var(--ifm-alert-foreground-color);
+  --zd-alert-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.45' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z'/%3E%3Cpath d='M12 9v4'/%3E%3Cpath d='M12 17h.01'/%3E%3C/svg%3E");
 }
 .alert--warning [class*="admonitionHeading"] {
   color: inherit;
 }
 
-/* danger — red */
+/* danger — remapped to the warning cream/yellow scheme (no red banners) */
 .alert--danger {
-  --ifm-alert-background-color: #fef2f2;
-  --ifm-alert-foreground-color: #991b1b;
-  --ifm-alert-border-color: #f5cccc;
-  --zd-alert-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7.86 2h8.28L22 7.86v8.28L16.14 22H7.86L2 16.14V7.86z'/%3E%3Cpath d='M12 7v6'/%3E%3Cpath d='M12 17h.01'/%3E%3C/svg%3E");
+  --ifm-alert-background-color: #faf5e8;
+  --ifm-alert-foreground-color: #6b5526;
+  --zd-alert-code-bg: #f4ecd9;
+  --zd-alert-code-border: #e7d7b5;
+  --zd-banner-code-bg: var(--zd-alert-code-bg);
+  --zd-banner-code-border: var(--zd-alert-code-border);
+  --zd-banner-code-color: var(--ifm-alert-foreground-color);
+  --zd-alert-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.45' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z'/%3E%3Cpath d='M12 9v4'/%3E%3Cpath d='M12 17h.01'/%3E%3C/svg%3E");
 }
 .alert--danger [class*="admonitionHeading"] {
   color: inherit;
@@ -2491,15 +2917,62 @@ html.docs-doc-id-tutorials\/home #copy-page-btn {
 .markdown .alert [class*="admonitionContent"] :where(p, li, td, th) a {
   color: var(--ifm-alert-foreground-color) !important;
   text-decoration-line: underline;
+  text-decoration-thickness: 1px;
   text-decoration-color: currentColor !important;
-  text-underline-offset: 2px;
+  text-underline-offset: 4px;
+  /* animate colour only — thickness/offset step in whole pixels and stutter */
+  transition:
+    color var(--zd-hover-duration) var(--zd-hover-ease),
+    text-decoration-color var(--zd-hover-duration) var(--zd-hover-ease);
+}
+
+.markdown .alert [class*="admonitionContent"] a:hover,
+.markdown .alert [class*="admonitionContent"] :where(p, li, td, th) a:hover {
+  text-decoration-thickness: 2px;
+  text-underline-offset: 5px;
 }
 .alert :not(pre) > code {
+  font-family: var(--ifm-font-family-monospace);
+  background: var(--zd-alert-code-bg, var(--zd-inline-code-bg));
+  color: var(--ifm-alert-foreground-color);
+  /* code text metrics match the code block; stroke follows the alert context */
+  font-size: var(--zd-inline-code-font-size) !important;
+  font-weight: var(--zd-inline-code-font-weight) !important;
+  line-height: var(--zd-inline-code-line-height) !important;
+  letter-spacing: normal !important;
+  border-color: var(--zd-alert-code-border, var(--zd-inline-code-border));
+}
+
+.markdown .alert .zd-table-scroll {
+  border-color: var(--ifm-alert-border-color, var(--zd-alert-code-border, var(--zd-table-divider))) !important;
   background: transparent;
-  color: inherit;
-  /* 13px to match the table tags; darker stroke so the chip reads clearly */
-  font-size: 13px !important;
-  border-color: rgba(0, 0, 0, 0.28);
+}
+
+.markdown .alert table,
+.markdown .alert table thead,
+.markdown .alert table thead tr,
+.markdown .alert table thead th,
+.markdown .alert table tr,
+.markdown .alert table th,
+.markdown .alert table td {
+  background: transparent !important;
+}
+
+.markdown .alert table th,
+.markdown .alert table td {
+  color: var(--ifm-alert-foreground-color) !important;
+  border-color: var(--ifm-alert-border-color, var(--zd-alert-code-border, var(--zd-table-divider))) !important;
+}
+
+.markdown .alert table th,
+.markdown .alert table th a,
+.markdown .alert table th strong {
+  color: var(--ifm-alert-foreground-color) !important;
+  font-weight: 600;
+}
+
+.markdown .alert table th {
+  border-bottom-color: var(--zd-alert-code-border, var(--ifm-alert-border-color, var(--zd-table-divider))) !important;
 }
 
 /* ── API nav: colored HTTP-method tags before each endpoint (from frontmatter
@@ -2508,12 +2981,13 @@ html.docs-doc-id-tutorials\/home #copy-page-btn {
 .zd-method {
   flex-shrink: 0;
   display: inline-block;
-  align-self: flex-start;
-  margin-top: 2px;
+  align-self: center;
+  margin-top: 0;
+  transform: translateX(2px);
   /* pushed to the RIGHT edge of the nav item (Langfuse style); aligned to the first
      line when the path wraps. */
   margin-left: auto;
-  margin-right: 10px;
+  margin-right: 0;
   /* faint outline chip, NO fill — the stroke is a low-opacity tint of the method
      colour so each verb (green/blue/amber/red) reads harmoniously. */
   padding: 1px 4px;
@@ -2538,7 +3012,7 @@ html.docs-doc-id-tutorials\/home #copy-page-btn {
 /* ── FAQ accordion (built from a "## FAQ" section by the faqAccordion client
    module) — bordered container, divided rows, left chevron, smooth expand. ── */
 .zd-faq {
-  border: 1px solid #e6e6e9;
+  border: 1px solid var(--zd-surface-border);
   border-radius: 14px;
   overflow: hidden;
   margin: 1.5rem 0;
@@ -2550,7 +3024,7 @@ html.docs-doc-id-tutorials\/home #copy-page-btn {
   display: none !important;
 }
 .zd-faq-item + .zd-faq-item {
-  border-top: 1px solid #ececef;
+  border-top: 1px solid var(--zd-surface-border-subtle);
 }
 .zd-faq-q {
   display: flex;
@@ -2563,25 +3037,31 @@ html.docs-doc-id-tutorials\/home #copy-page-btn {
   cursor: pointer;
   text-align: left;
   font-family: var(--ifm-font-family-base);
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 500;
   line-height: 1.5;
   color: var(--zd-linear-signup-ink);
   transition: background-color 0.15s ease;
 }
 .zd-faq-q:hover {
-  background: #fafafa;
+  background: var(--zd-surface-1);
 }
 .zd-faq-chevron {
   flex-shrink: 0;
   width: 16px;
   height: 16px;
-  background-color: #8a8a92;
-  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23000' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 4.25L9.75 8L6 11.75'/%3E%3C/svg%3E") center / contain no-repeat;
-  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23000' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 4.25L9.75 8L6 11.75'/%3E%3C/svg%3E") center / contain no-repeat;
-  transition: transform 0.2s ease;
+  background-color: #928d86;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23000' stroke-width='1.35' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 4.25L9.75 8L6 11.75'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23000' stroke-width='1.35' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 4.25L9.75 8L6 11.75'/%3E%3C/svg%3E") center / contain no-repeat;
+  transition:
+    background-color var(--zd-hover-duration) var(--zd-hover-ease),
+    transform var(--zd-hover-duration) var(--zd-hover-ease);
+}
+.zd-faq-q:hover .zd-faq-chevron {
+  background-color: #7f7971;
 }
 .zd-faq-item.open .zd-faq-chevron {
+  background-color: #736b61;
   transform: rotate(90deg);
 }
 .zd-faq-a {
@@ -2595,9 +3075,14 @@ html.docs-doc-id-tutorials\/home #copy-page-btn {
 .zd-faq-a-inner {
   min-height: 0;
   overflow: hidden;
+  font-size: 14px;
+  line-height: 1.6;
 }
 .zd-faq-a-inner > div {
   padding: 0 20px 18px 48px;
+}
+.zd-faq-a-inner :where(p, li, a, strong, b) {
+  font-size: inherit;
 }
 .zd-faq-a-inner p:last-child {
   margin-bottom: 0;
@@ -2619,24 +3104,27 @@ html.docs-doc-id-tutorials\/home #copy-page-btn {
   box-sizing: border-box;
   margin: -14px -16px !important;
   padding: 14px 16px !important;
-  border-radius: 8px;
-  border-bottom-color: #dcdaf6 !important;
+  border-radius: var(--ifm-alert-border-radius, 16px);
+  border-bottom: 1px solid transparent !important;
   cursor: pointer;
-  transition: background-color 0.18s ease;
+  transition:
+    background-color var(--zd-hover-duration) var(--zd-hover-ease),
+    border-color var(--zd-hover-duration) var(--zd-hover-ease);
 }
 
 .markdown details > summary:hover {
-  background-color: #e9e7f8 !important;
+  background-color: var(--zd-details-bg-hover) !important;
   background-image: none !important;
 }
 
 .markdown details[open] > summary {
   margin-bottom: 0 !important;
-  border-radius: 8px 8px 0 0;
+  border-radius: var(--ifm-alert-border-radius, 16px) var(--ifm-alert-border-radius, 16px) 0 0;
+  border-bottom-color: var(--zd-details-line) !important;
 }
 
 .markdown details > summary + div > [class*='collapsibleContent'] {
-  border-top-color: #dcdaf6 !important;
+  border-top: 0 !important;
   margin-top: 0 !important;
   padding-left: 0 !important;
   padding-right: 0 !important;
@@ -2670,7 +3158,7 @@ html.docs-doc-id-tutorials\/home #copy-page-btn {
 /* Expanded content card headings: keep this scoped to headings inside a <details>
    banner so normal markdown h2/h3 hierarchy is untouched. */
 .markdown details :is(h2, h3, h4, h5, h6) {
-  color: #3a3870 !important;
+  color: var(--zd-details-ink) !important;
   font-size: 17px !important;
   line-height: 1.35;
   font-weight: 600 !important;
@@ -2726,7 +3214,7 @@ html.docs-doc-id-tutorials\/home #copy-page-btn {
 /* inside tables, the check marks read as black (not green), redrawn as a clean
    smaller rounded checkmark (replacing the plugin's default SVG). */
 .markdown table .zd-mark--check {
-  color: #171717;
+  color: var(--zd-page-ink);
 }
 .markdown table .zd-mark--check svg {
   display: none;
@@ -2794,11 +3282,8 @@ html.docs-doc-id-tutorials\/home #copy-page-btn {
   /* a touch more vertical breathing room for the framed grid tables (7 → 9) */
   padding: 9px 14px;
   font-size: 14px;
-  /* row divider — same #e6e6e9 as the vertical column dividers + frame so the grid
-     lines all read at one weight (was a lighter #f0f0f2, which mismatched at the
-     intersections). */
   border: none;
-  border-bottom: 1px solid #e6e6e9;
+  border-bottom: 1px solid var(--zd-table-divider);
   text-align: left;
   vertical-align: top;
   /* long values wrap inside a capped cell instead of stretching the table into a
@@ -2837,6 +3322,7 @@ html.docs-doc-id-tutorials\/home #copy-page-btn {
 .markdown table:has(td[rowspan]) th:first-child,
 .markdown table td[rowspan],
 .markdown table td.zd-rowgroup-head {
+  width: 190px !important;
   max-width: 190px !important;
   white-space: normal;
   overflow-wrap: break-word;
@@ -2851,8 +3337,8 @@ html.docs-doc-id-tutorials\/home #copy-page-btn {
 /* ALL tables get the full grid: outer frame + rounded corners on the scroll wrapper,
    plus vertical column dividers (previously only rowspan/list tables were framed). */
 .zd-table-scroll {
-  border: 1px solid #e6e6e9;
-  border-radius: 14px;
+  border: 1px solid var(--zd-table-frame);
+  border-radius: 6px;
   box-shadow: none;
 }
 
@@ -2864,11 +3350,57 @@ html.docs-doc-id-tutorials\/home #copy-page-btn {
   min-width: 100% !important;
 }
 
+.markdown .zd-table-scroll.zd-table-scroll--readable > table {
+  width: max-content !important;
+  min-width: var(--zd-table-readable-min) !important;
+}
+
+.markdown .zd-table-scroll.zd-table-scroll--readable > table :is(th, td) {
+  max-width: 360px !important;
+}
+
+.markdown .zd-table-scroll[data-zdoc-table='simple'] {
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.markdown .zd-table-scroll[data-zdoc-table='simple'] > table {
+  border: 0 !important;
+  border-radius: 0 !important;
+}
+
+.markdown table[data-zdoc-table='simple'] th,
+.markdown table[data-zdoc-table='simple'] td {
+  border-left: 0 !important;
+  border-right: 0 !important;
+  border-bottom: 1px solid var(--zd-table-divider) !important;
+  padding: 10px 14px;
+  vertical-align: middle;
+}
+
+.markdown table[data-zdoc-table='simple'] tr:first-child,
+.markdown table[data-zdoc-table='simple'] tr:first-child th,
+.markdown table[data-zdoc-table='simple'] tr:first-child td,
+.markdown table[data-zdoc-table='simple'] thead,
+.markdown table[data-zdoc-table='simple'] thead tr {
+  border-top: 0 !important;
+}
+
+.markdown table[data-zdoc-table='simple'] th {
+  border-bottom-color: #e1e1df !important;
+}
+
+.markdown .zd-table-scroll[data-zdoc-table='simple'] table tbody tr:last-of-type > :is(th, td),
+.markdown .zd-table-scroll[data-zdoc-table='simple'] table > tr:last-of-type > :is(th, td) {
+  border-bottom: 1px solid var(--zd-table-divider) !important;
+}
+
 /* When the table is wider than its viewport (scrolls horizontally), the right edge
    is a "content continues" cut — drop the frame's right border + rounded corners
    there so it doesn't imply the table ends. Toggled by markScrollableTables() in
    the tableRowHeaders client module. */
-.zd-table-scroll--overflow {
+.zd-table-scroll--overflow:not(.zd-table-scroll--at-end) {
   border-right: none;
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
@@ -2878,11 +3410,8 @@ html.docs-doc-id-tutorials\/home #copy-page-btn {
    breaks across the rowspan. border-collapse merges the doubled borders into one. */
 .markdown table th,
 .markdown table td {
-  /* #e6e6e9 (the frame colour) rather than the near-white #f0f0f2 — the lighter tint
-     was invisible where a column divider runs through an empty white header cell,
-     so the line looked like it didn't reach the top. */
-  border-right: 1px solid #e6e6e9;
-  border-left: 1px solid #e6e6e9;
+  border-right: 1px solid var(--zd-table-divider);
+  border-left: 1px solid var(--zd-table-divider);
 }
 .markdown table th:first-child,
 .markdown table td:first-child {
@@ -2904,6 +3433,13 @@ html.docs-doc-id-tutorials\/home #copy-page-btn {
 
 .markdown .zd-table-scroll table tbody tr:last-of-type > :is(th, td),
 .markdown .zd-table-scroll table > tr:last-of-type > :is(th, td) {
+  border-bottom: none !important;
+}
+
+/* A rowspan cell can visually end on the table's final row while not belonging to
+   the final DOM row. Drop that cell's own bottom border so it doesn't double with
+   the rounded scroll-frame border. */
+.markdown .zd-table-scroll table td.zd-rowspan-ends-at-table-bottom {
   border-bottom: none !important;
 }
 
@@ -2999,25 +3535,27 @@ html.docs-doc-id-tutorials\/home #copy-page-btn {
   margin-top: 0 !important;
 }
 
-/* Inline code in tables — 13px with a faint background wash. */
+/* Inline code in tables — compact with a faint background wash. */
 .markdown table :not(pre) > code {
-  font-size: 13px;
-  font-family: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-weight: 400;
+  font-size: var(--zd-inline-code-font-size);
+  font-family: var(--ifm-font-family-monospace);
+  font-weight: var(--zd-inline-code-font-weight);
+  line-height: var(--zd-inline-code-line-height);
+  letter-spacing: normal;
   /* faint neutral-gray chip with a very light stroke */
-  background: #f7f7f6;
-  color: #171717;
-  border-color: #e6e6e4;
+  background: var(--zd-inline-code-bg);
+  color: var(--zd-inline-code-color);
+  border-color: var(--zd-inline-code-border);
 }
 
 /* Code BLOCKS inside table cells: raw-HTML tables render a bare <pre><code>, not the
    React windowFrame component, so they defaulted to the Infima gray box. Unify them
    with the site code-block look — framed, small radius, Geist Mono 13px/20px — but
-   KEEP a fill using the code block's title-bar tint (#fcfcfb) so these small snippets
+   KEEP a fill using the code block's title-bar tint so these small snippets
    read as part of the code family instead of a plain gray box. */
 .markdown table pre {
-  background: #fcfcfb !important;
-  border: 1px solid #eaeaea !important;
+  background: var(--zd-doc-panel-bg) !important;
+  border: 1px solid var(--zd-surface-border-subtle) !important;
   border-radius: 8px !important;
   padding: 12px 14px !important;
   margin: 0 !important;
@@ -3028,21 +3566,27 @@ html.docs-doc-id-tutorials\/home #copy-page-btn {
   font-family: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, monospace !important;
   font-size: 13px !important;
   line-height: 20px !important;
-  color: #171717 !important;
+  color: var(--zd-page-ink) !important;
   padding: 0 !important;
 }
 
-/* Elements nested inside collapsible banners inherit the banner's purple palette.
+/* Elements nested inside collapsible banners inherit the banner's nav-selected palette.
    This is intentionally after the global table rules so framed grids inside
    details don't fall back to neutral gray/black. */
 .markdown details {
-  --zd-details-bg: #f1f0fb;
-  --zd-details-ink: #3a3870;
-  --zd-details-line: #dcdaf6;
-  --zd-details-line-strong: #d2d0ef;
-  --zd-details-nested-bg: #e9e7f8;
+  --zd-details-bg: var(--zd-note-bg);
+  --zd-details-bg-hover: var(--zd-note-bg-hover);
+  --zd-details-ink: var(--zd-note-ink);
+  --zd-details-line: var(--zd-note-line);
+  --zd-details-line-strong: var(--zd-note-line-strong);
+  --zd-details-nested-bg: var(--zd-note-nested-bg);
+  --zd-banner-code-bg: var(--zd-details-nested-bg);
+  --zd-banner-code-border: var(--zd-details-line-strong);
+  --zd-banner-code-color: var(--zd-details-ink);
+  background: var(--zd-details-bg) !important;
 }
 
+.markdown details > summary,
 .markdown details :where(p, li, td, th, strong, b, a) {
   color: var(--zd-details-ink) !important;
 }
@@ -3053,11 +3597,24 @@ html.docs-doc-id-tutorials\/home #copy-page-btn {
 .markdown details :where(p, li, td, th) a :where(strong, b) {
   color: var(--zd-details-ink) !important;
   text-decoration-color: currentColor !important;
+  transition:
+    color var(--zd-hover-duration) var(--zd-hover-ease),
+    text-decoration-color var(--zd-hover-duration) var(--zd-hover-ease),
+    text-decoration-thickness var(--zd-hover-duration) var(--zd-hover-ease),
+    text-underline-offset var(--zd-hover-duration) var(--zd-hover-ease);
 }
 
+.markdown details :where(p, li, td, th) a:hover,
+.markdown details :where(p, li, td, th) a:focus-visible {
+  text-decoration-thickness: 2px;
+  text-underline-offset: 5px;
+}
+
+.markdown details :not(pre) > code,
 .markdown details :not(pre) > a > code {
+  background: var(--zd-details-nested-bg) !important;
   color: var(--zd-details-ink) !important;
-  border-color: var(--zd-details-line) !important;
+  border-color: var(--zd-details-line-strong) !important;
 }
 
 .markdown details .zd-table-scroll {
@@ -3093,9 +3650,20 @@ html.docs-doc-id-tutorials\/home #copy-page-btn {
 }
 
 .markdown details table :not(pre) > code {
-  background: var(--zd-details-nested-bg);
-  color: var(--zd-details-ink);
-  border-color: var(--zd-details-line);
+  background: var(--zd-details-nested-bg) !important;
+  color: var(--zd-details-ink) !important;
+  border-color: var(--zd-details-line-strong) !important;
+}
+
+.markdown details .alert {
+  --ifm-alert-background-color: var(--zd-details-nested-bg);
+  --ifm-alert-foreground-color: var(--zd-details-ink);
+  --ifm-alert-border-color: var(--zd-details-line);
+  --zd-alert-code-bg: color-mix(in srgb, var(--zd-details-nested-bg) 78%, var(--zd-details-line-strong));
+  --zd-alert-code-border: var(--zd-details-line-strong);
+  --zd-banner-code-bg: var(--zd-alert-code-bg);
+  --zd-banner-code-border: var(--zd-alert-code-border);
+  --zd-banner-code-color: var(--zd-details-ink);
 }
 
 .markdown details .alert--secondary,
@@ -3105,39 +3673,91 @@ html.docs-doc-id-tutorials\/home #copy-page-btn {
   --ifm-alert-border-color: var(--zd-details-line);
 }
 
+/* Inline-code tags inside banners do not use the neutral document tag component.
+   They pick up the banner palette, including code inside links and tables. */
+.markdown :where(.alert, details) :not(pre) > code,
+.markdown :where(.alert, details) :not(pre) > a > code,
+.markdown :where(.alert, details) table :not(pre) > code {
+  font-family: var(--ifm-font-family-monospace) !important;
+  font-size: var(--zd-inline-code-font-size) !important;
+  font-weight: var(--zd-inline-code-font-weight) !important;
+  line-height: var(--zd-inline-code-line-height) !important;
+  letter-spacing: normal !important;
+  color: var(--zd-banner-code-color, var(--ifm-alert-foreground-color, var(--zd-details-ink))) !important;
+  background: var(--zd-banner-code-bg, var(--zd-alert-code-bg, var(--zd-details-nested-bg))) !important;
+  border: 1px solid var(--zd-banner-code-border, var(--zd-alert-code-border, var(--zd-details-line-strong))) !important;
+  border-radius: var(--zd-inline-code-radius) !important;
+  padding: var(--zd-inline-code-padding) !important;
+}
+
 /* ── Feature availability banner: a plan + region notice placed under a page title.
    Neutral framed card (matches the table frame) with a green "flag" icon chip, the
    note title, plan pills pushed to the right, and a bullet list of availability
-   notes. Distinct from the purple <details> and beige "Notes" admonitions. ── */
+   notes. Distinct from the nav-matched <details> and beige "Notes" admonitions. ── */
 .markdown .zd-feature-note {
   margin: 1.1rem 0 1.6rem;
-  padding: 13px 16px 14px;
-  /* whole banner is cyan-tinted: soft cyan fill + a slightly deeper cyan hairline. */
-  border: 1px solid #c7e9ef;
-  border-radius: 12px;
-  background: #e9f7fa;
+  padding: 14px 12px 15px;
+  border: 1px solid var(--zd-feature-line);
+  border-radius: 10px;
+  background: var(--zd-feature-bg);
+}
+.markdown .zd-feature-note + .zd-feature-note {
+  margin-top: -0.75rem;
+}
+.zd-feature-note--plan {
+  --zd-feature-bg: #f4f8ef;
+  --zd-feature-bg-strong: #eaf2df;
+  --zd-feature-line: #d8e6c7;
+  --zd-feature-line-strong: #c8dbaf;
+  --zd-feature-ink: #3f5529;
+  --zd-feature-icon: #668b2f;
+}
+.zd-feature-note--region {
+  --zd-feature-bg: #e9f7fa;
+  --zd-feature-bg-strong: #ddf1f5;
+  --zd-feature-line: #c7e9ef;
+  --zd-feature-line-strong: #afdce5;
+  --zd-feature-ink: #0d4650;
+  --zd-feature-icon: #0b7f8e;
 }
 .zd-feature-note__head {
   display: flex;
   align-items: center;
-  gap: 9px;
-  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 10px;
+  min-height: 22px;
 }
 .zd-feature-note__icon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  /* no chip — just the stroked flag SVG in a deeper cyan so it reads on the cyan bg. */
-  color: #0b7f8e;
+  color: var(--zd-feature-icon);
 }
-.zd-feature-note__title {
+.zd-feature-note__titleText,
+.zd-feature-note__titleLink {
+  color: var(--zd-feature-ink) !important;
   font-size: 14px;
-  /* match the admonition ("Note") heading weight — 650 read too heavy */
-  font-weight: 500;
-  /* text tints to the banner's cyan accent (deep teal ink), like the purple <details> */
-  color: #0d4650;
-  letter-spacing: -0.01em;
+  font-weight: 600;
+  line-height: 20px;
+  letter-spacing: 0;
+}
+.zd-feature-note__titleLink {
+  text-decoration-line: underline;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1px;
+  text-decoration-color: currentColor;
+  transition:
+    color var(--zd-hover-duration) var(--zd-hover-ease),
+    text-decoration-color var(--zd-hover-duration) var(--zd-hover-ease),
+    text-decoration-thickness var(--zd-hover-duration) var(--zd-hover-ease),
+    text-underline-offset var(--zd-hover-duration) var(--zd-hover-ease);
+}
+.zd-feature-note__titleLink:hover {
+  color: var(--zd-feature-ink) !important;
+  text-decoration-color: var(--zd-feature-ink);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 5px;
 }
 .zd-feature-note__plans {
   display: inline-flex;
@@ -3153,38 +3773,51 @@ html.docs-doc-id-tutorials\/home #copy-page-btn {
   padding: 2px 9px;
   border-radius: 999px;
   color: #4d5562;
-  background: #f4f4f4;
-  border: 1px solid #e6e6e9;
+  background: var(--zd-nav-hover-bg);
+  border: 1px solid var(--zd-surface-border);
   white-space: nowrap;
   line-height: 1.5;
 }
 /* Body holds Markdown authored inside <FeatureNote> — style the rendered ul/li/p
    directly (class-agnostic) so authors just write a normal bullet list. */
-.markdown .zd-feature-note__body { margin-top: 9px; }
+.markdown .zd-feature-note__body {
+  margin-top: 5px;
+  margin-left: 27px;
+}
 .markdown .zd-feature-note__body :where(ul, ol) {
   margin: 0 !important;
-  padding-left: 20px;
+  padding-left: 18px;
   list-style: disc;
 }
 .markdown .zd-feature-note__body li {
   font-size: 14px;
-  line-height: 1.55;
-  color: #1a545e;
+  line-height: 1.5;
+  color: var(--zd-feature-ink);
   margin: 4px 0 !important;
   padding-left: 0 !important;
 }
-.markdown .zd-feature-note__body li::marker { color: #6fb3bd; }
+.markdown .zd-feature-note__body li::marker { color: var(--zd-feature-icon); }
 .markdown .zd-feature-note__body li::before { content: none !important; }
 .markdown .zd-feature-note__body > p {
   font-size: 14px;
-  line-height: 1.55;
-  color: #1a545e;
+  line-height: 1.5;
+  color: var(--zd-feature-ink);
   margin: 0 !important;
 }
-.zd-feature-note__body strong { color: #0d4650; font-weight: 600; }
-/* links share the same deep teal as the bold text (Serverless / strong); the
-   content-link underline is what marks them as clickable. */
-.markdown .zd-feature-note a { color: #0d4650 !important; }
+.zd-feature-note__body strong { color: var(--zd-feature-ink); font-weight: 600; }
+.markdown .zd-feature-note__body a {
+  color: var(--zd-feature-ink) !important;
+  transition:
+    color var(--zd-hover-duration) var(--zd-hover-ease),
+    text-decoration-color var(--zd-hover-duration) var(--zd-hover-ease),
+    text-decoration-thickness var(--zd-hover-duration) var(--zd-hover-ease),
+    text-underline-offset var(--zd-hover-duration) var(--zd-hover-ease);
+}
+
+.markdown .zd-feature-note__body a:hover {
+  text-decoration-thickness: 2px;
+  text-underline-offset: 5px;
+}
 
 /* Feature banner footer: a primary "learn more" link (regions & editions detail page)
    + a hairline separator + a muted "contact Support to upgrade" note. */
@@ -3195,7 +3828,7 @@ html.docs-doc-id-tutorials\/home #copy-page-btn {
   gap: 4px;
   margin-top: 12px;
   padding-top: 11px;
-  border-top: 1px solid #ececef;
+  border-top: 1px solid var(--zd-surface-border-subtle);
   font-size: 13px;
   line-height: 1.5;
 }
@@ -3217,10 +3850,10 @@ html.docs-doc-id-tutorials\/home #copy-page-btn {
 .zd-feature-note__foot-sep {
   width: 1px;
   height: 13px;
-  background: #dcdce0;
+  background: var(--zd-surface-border-strong);
   flex-shrink: 0;
 }
-.zd-feature-note__foot-text { color: #6a707c; }
+.zd-feature-note__foot-text { color: var(--zd-gray-500); }
 .zd-feature-note__foot-text a {
   color: var(--ifm-link-color);
   font-weight: 500;

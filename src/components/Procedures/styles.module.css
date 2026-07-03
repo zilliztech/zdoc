@@ -3,7 +3,7 @@
     width: 100%;
     margin-top: 30px;
     position: relative;
-    --procedure-line-color: #d4d4d4;
+    --procedure-line-color: var(--zd-surface-border-strong);
 }
 
 .step {
@@ -40,7 +40,7 @@
     font-size: 14px;
     line-height: 20px;
     font-weight: 400;
-    color: #626262;
+    color: var(--zd-muted-text);
     justify-content: center;
     align-items: center;
     background: #ffffff;
@@ -67,7 +67,7 @@
     font-size: 15px !important;
     line-height: 24px !important;
     font-weight: 500 !important;
-    color: #1a1a1a !important;
+    color: var(--zd-page-ink) !important;
     /* margin-top 2px so the title's first-line center (2 + 24/2 = 14) lines up
        with the 28px circle's center (14) — circle and title sit on one line. */
     margin: 2px 0 !important;
@@ -95,10 +95,22 @@
 .stepContent a:link,
 .stepContent a:visited {
     color: var(--zd-linear-signup-ink) !important;
+    text-decoration-line: underline;
+    text-decoration-thickness: 1px;
+    text-decoration-color: var(--zd-gray-400);
+    text-underline-offset: 4px;
+    transition:
+        color var(--zd-hover-duration, 0.36s) var(--zd-hover-ease, cubic-bezier(0.16, 1, 0.3, 1)),
+        text-decoration-color var(--zd-hover-duration, 0.36s) var(--zd-hover-ease, cubic-bezier(0.16, 1, 0.3, 1)),
+        text-decoration-thickness var(--zd-hover-duration, 0.36s) var(--zd-hover-ease, cubic-bezier(0.16, 1, 0.3, 1)),
+        text-underline-offset var(--zd-hover-duration, 0.36s) var(--zd-hover-ease, cubic-bezier(0.16, 1, 0.3, 1));
 }
 
 .stepContent a:hover {
     color: var(--zd-linear-signup-ink) !important;
+    text-decoration-color: currentColor;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 5px;
 }
 
 .stepContent strong, .stepContent b {

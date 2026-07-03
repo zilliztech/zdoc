@@ -106,11 +106,24 @@
 }
 
 .ikp-modal__content:has(.ikp-ai-search-input:not(:placeholder-shown)):not(:has(.ikp-ai-search-input[data-zdoc-ime-composing='true'])):not(:has(.ikp-ai-search-input[data-zdoc-search-pending='true'])) {
-  height: min(calc(100vh - 112px), 543px) !important;
+  height: auto !important;
+  max-height: min(calc(100vh - 112px), 543px) !important;
 }
 
 .ikp-modal__content:has(.ikp-ai-search-input[data-zdoc-ime-composing='true']),
 .ikp-modal__content:has(.ikp-ai-search-input[data-zdoc-search-pending='true']) {
+  height: auto !important;
+  max-height: min(calc(100vh - 112px), 720px) !important;
+}
+
+.ikp-modal__content:has(.ikp-ai-search-root[data-zdoc-search-loading='true']),
+.ikp-modal__content:has(.ikp-ai-search-root[data-zdoc-search-awaiting='true']) {
+  height: auto !important;
+  max-height: min(calc(100vh - 112px), 720px) !important;
+}
+
+.ikp-modal__content:has(.ikp-ai-search-input:not(:placeholder-shown)):has(.ikp-ai-search-root[data-zdoc-search-loading='true']):not(:has(.ikp-ai-search-input[data-zdoc-ime-composing='true'])):not(:has(.ikp-ai-search-input[data-zdoc-search-pending='true'])),
+.ikp-modal__content:has(.ikp-ai-search-input:not(:placeholder-shown)):has(.ikp-ai-search-root[data-zdoc-search-awaiting='true']):not(:has(.ikp-ai-search-input[data-zdoc-ime-composing='true'])):not(:has(.ikp-ai-search-input[data-zdoc-search-pending='true'])) {
   height: auto !important;
   max-height: min(calc(100vh - 112px), 720px) !important;
 }
@@ -135,15 +148,29 @@
 }
 
 .ikp-modal__content:has(.ikp-ai-search-input:not(:placeholder-shown)):not(:has(.ikp-ai-search-input[data-zdoc-ime-composing='true'])):not(:has(.ikp-ai-search-input[data-zdoc-search-pending='true'])) .ikp-ai-search-wrapper {
-  height: 100% !important;
+  height: auto !important;
   border-bottom-right-radius: 17px !important;
   border-bottom-left-radius: 17px !important;
 }
 
 .ikp-modal__content:has(.ikp-ai-search-input:not(:placeholder-shown)):not(:has(.ikp-ai-search-input[data-zdoc-ime-composing='true'])):not(:has(.ikp-ai-search-input[data-zdoc-search-pending='true'])) .ikp-ai-search-root {
-  height: 100% !important;
+  height: auto !important;
   border-bottom-right-radius: 17px !important;
   border-bottom-left-radius: 17px !important;
+}
+
+.ikp-modal__content:has(.ikp-ai-search-root[data-zdoc-search-loading='true']) .ikp-ai-search-wrapper,
+.ikp-modal__content:has(.ikp-ai-search-root[data-zdoc-search-awaiting='true']) .ikp-ai-search-wrapper,
+.ikp-modal__content:has(.ikp-ai-search-root[data-zdoc-search-loading='true']) .ikp-ai-search-root,
+.ikp-modal__content:has(.ikp-ai-search-root[data-zdoc-search-awaiting='true']) .ikp-ai-search-root {
+  height: auto !important;
+}
+
+.ikp-modal__content:has(.ikp-ai-search-input:not(:placeholder-shown)):has(.ikp-ai-search-root[data-zdoc-search-loading='true']):not(:has(.ikp-ai-search-input[data-zdoc-ime-composing='true'])):not(:has(.ikp-ai-search-input[data-zdoc-search-pending='true'])) .ikp-ai-search-wrapper,
+.ikp-modal__content:has(.ikp-ai-search-input:not(:placeholder-shown)):has(.ikp-ai-search-root[data-zdoc-search-awaiting='true']):not(:has(.ikp-ai-search-input[data-zdoc-ime-composing='true'])):not(:has(.ikp-ai-search-input[data-zdoc-search-pending='true'])) .ikp-ai-search-wrapper,
+.ikp-modal__content:has(.ikp-ai-search-input:not(:placeholder-shown)):has(.ikp-ai-search-root[data-zdoc-search-loading='true']):not(:has(.ikp-ai-search-input[data-zdoc-ime-composing='true'])):not(:has(.ikp-ai-search-input[data-zdoc-search-pending='true'])) .ikp-ai-search-root,
+.ikp-modal__content:has(.ikp-ai-search-input:not(:placeholder-shown)):has(.ikp-ai-search-root[data-zdoc-search-awaiting='true']):not(:has(.ikp-ai-search-input[data-zdoc-ime-composing='true'])):not(:has(.ikp-ai-search-input[data-zdoc-search-pending='true'])) .ikp-ai-search-root {
+  height: auto !important;
 }
 
 .ikp-ai-search-input-group {
@@ -358,12 +385,18 @@
 }
 
 .ikp-ai-search-root:not(:has(.ikp-ai-search-input:placeholder-shown)):not(:has(.ikp-ai-search-input[data-zdoc-ime-composing='true'])):not(:has(.ikp-ai-search-input[data-zdoc-search-pending='true'])) .ikp-ai-search-content {
+  flex: 0 1 auto !important;
+  height: auto !important;
+  min-height: 0 !important;
   padding-top: 12px !important;
   overflow: hidden !important;
   max-height: 524px !important;
 }
 
 .ikp-ai-search-results {
+  flex: 0 1 auto !important;
+  height: auto !important;
+  min-height: 0 !important;
   max-height: 414px !important;
   padding: 0 12px 12px !important;
   overflow-y: auto !important;
@@ -371,6 +404,8 @@
 }
 
 .ikp-ai-search-results__scroll-area {
+  height: auto !important;
+  min-height: 0 !important;
   max-height: 414px !important;
   overflow: hidden !important;
 }
@@ -380,9 +415,16 @@
 }
 
 .ikp-ai-search-root:not(:has(.ikp-ai-search-input:placeholder-shown)) .ikp-ai-search-results__list {
+  height: auto !important;
+  min-height: 0 !important;
   width: 100% !important;
   align-items: stretch !important;
   gap: 0 !important;
+  padding: 0 !important;
+}
+
+.ikp-ai-search-root:not([data-zdoc-search-loading='true']):not([data-zdoc-search-awaiting='true']):not(:has(.ikp-ai-search-input:placeholder-shown)):not(:has(.ikp-ai-search-input[data-zdoc-search-pending='true'])) .ikp-ai-search-results:not(:has(.ikp-ai-search-results__item)):not(:has(.ikp-ai-search-results__loading)) {
+  display: none !important;
   padding: 0 !important;
 }
 
@@ -634,18 +676,6 @@
 }
 
 .ikp-ai-search-results__item-tag {
-  margin-left: 0 !important;
-  padding: 0 5px !important;
-  border: 1px solid #e5e7eb !important;
-  border-radius: 6px !important;
-  background: #f9fafb !important;
-  color: #666666 !important;
-  font-size: 14px !important;
-  line-height: 18px !important;
-  font-weight: 400 !important;
-}
-
-.ikp-ai-search-results__item-tag:empty {
   display: none !important;
 }
 
@@ -671,7 +701,7 @@
   height: 42px !important;
   min-height: 42px !important;
   width: calc(100% - 24px) !important;
-  margin: 0 12px !important;
+  margin: 8px 12px 12px !important;
   padding: 9px 14px !important;
   border: 0 !important;
   border-radius: 12px !important;
@@ -732,7 +762,7 @@
 }
 
 .ikp-ai-search-root:not(:has(.ikp-ai-search-input:placeholder-shown)) .ikp-ai-ask-ai-trigger__label .zdoc-ask-ai-query {
-  font-weight: 500 !important;
+  font-weight: 600 !important;
 }
 
 .ikp-ai-search-root:not(:has(.ikp-ai-search-input:placeholder-shown)) .ikp-ai-ask-ai-trigger__indicator-text,

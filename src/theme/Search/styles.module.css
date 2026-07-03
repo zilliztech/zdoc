@@ -37,7 +37,7 @@
 
 .searchModal {
   background: #ffffff;
-  border: 1px solid #e6e6e9;
+  border: 1px solid var(--zd-surface-border);
   border-radius: 0.875rem;
   box-shadow: none;
   width: 100%;
@@ -53,11 +53,11 @@
   align-items: center;
   gap: 0.75rem;
   padding: 1rem;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid var(--zd-surface-border);
 }
 
 .searchIcon {
-  color: #9ca3af;
+  color: var(--zd-gray-400);
   flex-shrink: 0;
 }
 
@@ -71,7 +71,7 @@
 }
 
 .searchInput::placeholder {
-  color: #9ca3af;
+  color: var(--zd-gray-400);
 }
 
 .searchClose {
@@ -79,9 +79,9 @@
   font-family: var(--ifm-font-family-base);
   font-size: 0.6875rem;
   font-weight: 500;
-  color: #8a8a8a;
-  background: #f4f4f4;
-  border: 1px solid #e3e3e3;
+  color: var(--zd-gray-500);
+  background: var(--zd-nav-hover-bg);
+  border: 1px solid var(--zd-surface-border);
   border-radius: 6px;
   cursor: pointer;
 }
@@ -95,7 +95,7 @@
 .searchSection {
   font-size: 0.6875rem;
   font-weight: 600;
-  color: #9ca3af;
+  color: var(--zd-gray-400);
   text-transform: uppercase;
   letter-spacing: 0.05em;
   padding: 0 0.375rem;
@@ -118,7 +118,7 @@
 
 .searchResultItem:hover,
 .searchResultActive {
-  background: #eeeeee;
+  background: var(--zd-surface-2);
 }
 
 .askAiRow {
@@ -129,7 +129,7 @@
   border: 1px solid #e6e1d2;
   margin-bottom: 0.5rem;
   font-weight: 500;
-  color: #1a1a1a;
+  color: var(--zd-page-ink);
 }
 
 .askAiRow:hover,
@@ -142,9 +142,9 @@
   margin-left: 0.5rem;
   font-size: 0.6875rem;
   font-weight: 500;
-  color: #8a8a8a;
+  color: var(--zd-gray-500);
   background: transparent;
-  border: 1px solid #e3e3e3;
+  border: 1px solid var(--zd-surface-border);
   padding: 0.125rem 0.4375rem;
   border-radius: 6px;
   vertical-align: middle;
@@ -152,7 +152,7 @@
 
 .searchResultSnippet {
   font-size: 0.75rem;
-  color: #6b7280;
+  color: var(--zd-gray-500);
   margin-top: 0.25rem;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -172,9 +172,9 @@
   align-items: center;
   gap: 1rem;
   padding: 0.5rem 0.75rem;
-  border-top: 1px solid #e5e7eb;
+  border-top: 1px solid var(--zd-surface-border);
   font-size: 0.6875rem;
-  color: #9ca3af;
+  color: var(--zd-gray-400);
 }
 
 .searchFooter kbd {
@@ -183,8 +183,8 @@
   font-family: inherit;
   font-size: 0.625rem;
   font-weight: 600;
-  background: #f3f4f6;
-  border: 1px solid #e5e7eb;
+  background: var(--zd-surface-1);
+  border: 1px solid var(--zd-surface-border);
   border-radius: 0.25rem;
   margin-right: 0.25rem;
 }
@@ -205,7 +205,7 @@
 }
 
 .recentSearchItem:hover {
-  background: #f3f4f6;
+  background: var(--zd-surface-1);
 }
 
 .recentSearchRemove {
@@ -213,7 +213,7 @@
   background: transparent;
   border: none;
   cursor: pointer;
-  color: #9ca3af;
+  color: var(--zd-gray-400);
   border-radius: 0.25rem;
   opacity: 0;
   transition: opacity 0.15s ease;
@@ -235,22 +235,33 @@
   cursor: pointer;
   padding: 0.25rem 0.375rem;
   margin-left: auto;
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-decoration-color: transparent;
+  text-underline-offset: 4px;
+  transition:
+    color var(--zd-hover-duration, 0.36s) var(--zd-hover-ease, cubic-bezier(0.16, 1, 0.3, 1)),
+    text-decoration-color var(--zd-hover-duration, 0.36s) var(--zd-hover-ease, cubic-bezier(0.16, 1, 0.3, 1)),
+    text-decoration-thickness var(--zd-hover-duration, 0.36s) var(--zd-hover-ease, cubic-bezier(0.16, 1, 0.3, 1)),
+    text-underline-offset var(--zd-hover-duration, 0.36s) var(--zd-hover-ease, cubic-bezier(0.16, 1, 0.3, 1));
 }
 
 .clearAll:hover {
-  text-decoration: underline;
+  text-decoration-color: currentColor;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 5px;
 }
 
 .searchLoading {
   font-size: 0.8125rem;
-  color: #9ca3af;
+  color: var(--zd-gray-400);
   padding: 0.5rem 0.375rem;
   margin: 0;
 }
 
 .noResults {
   font-size: 0.875rem;
-  color: #6b7280;
+  color: var(--zd-gray-500);
   padding: 0.5rem 0.375rem;
   margin: 0;
 }

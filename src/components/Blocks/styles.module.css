@@ -10,7 +10,7 @@
     font-size: 11px !important;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: #6b6b6b !important;
+    color: var(--zd-muted-text) !important;
     font-weight: 600 !important;
     margin: 0 0 8px !important;
     line-height: 1 !important;
@@ -32,9 +32,9 @@
     align-items: center;
     justify-content: center;
     padding: 24px;
-    box-shadow: 0px 2px 4px 0px #0000001A;
+    box-shadow: 0px 2px 4px 0px rgba(29, 41, 57, 0.1);
     border-radius: 12px;
-    border: 1px solid #e5e5e5;
+    border: 1px solid var(--zd-surface-border);
     background-color: #ffffff;
     cursor: pointer;
     transition: box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease;

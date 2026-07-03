@@ -17,7 +17,7 @@ keywords:
   - ai-agents
   - decision matrix
   - prompts
-displayed_sidebar: agentsSidebar
+displayed_sidebar: default
 
 ---
 

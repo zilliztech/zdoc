@@ -68,10 +68,20 @@ function AskAiCodeButton({code, label, lang}: {code: string; label?: string; lan
   );
 }
 
+function capitalizeDisplayLabel(value = ''): string {
+  return value.replace(/(^|[\s([/-])([a-z])/g, (_match, prefix: string, char: string) => `${prefix}${char.toUpperCase()}`);
+}
+
 export default function CodeBlockLayout({className}: {className?: string}): ReactNode {
   const {metadata} = useCodeBlockContext();
-  const rawName = typeof (metadata.title ?? metadata.language) === 'string'
-    ? (metadata.title ?? metadata.language) as string
+  const mergedClassName = clsx(className, metadata.className);
+  const isRestSpecExampleCode = mergedClassName.includes('rest-spec-example-code');
+  const restSpecExampleTag = isRestSpecExampleCode && typeof metadata.title === 'string'
+    ? metadata.title
+    : undefined;
+  const rawNameSource = isRestSpecExampleCode ? metadata.language : (metadata.title ?? metadata.language);
+  const rawName = typeof rawNameSource === 'string'
+    ? rawNameSource
     : undefined;
   const LANG_LABELS: Record<string, string> = {
     javascript: 'JavaScript', typescript: 'TypeScript', python: 'Python',
@@ -84,6 +94,13 @@ export default function CodeBlockLayout({className}: {className?: string}): Reac
   const displayName = rawName
     ? (LANG_LABELS[rawName.toLowerCase()] ?? rawName.charAt(0).toUpperCase() + rawName.slice(1))
     : undefined;
+  const normalizedRestSpecTag = (restSpecExampleTag || '').toLowerCase();
+  const restSpecExampleTagLabel = restSpecExampleTag ? capitalizeDisplayLabel(restSpecExampleTag) : undefined;
+  const restSpecExampleTagClassName = clsx(
+    styles.titleBarExampleTag,
+    (normalizedRestSpecTag.includes('success') || /^2\d\d/.test(normalizedRestSpecTag)) && styles.titleBarExampleTagSuccess,
+    (normalizedRestSpecTag.includes('failure') || normalizedRestSpecTag.includes('error') || /^[45]\d\d/.test(normalizedRestSpecTag)) && styles.titleBarExampleTagFailure,
+  );
 
   // Where to show the language label:
   //  - 'left'   : standalone code block (no tab) — label on the left.
@@ -99,6 +116,11 @@ export default function CodeBlockLayout({className}: {className?: string}): Reac
     if (!el) return undefined;
     let raf = 0;
     const compute = () => {
+      if (isRestSpecExampleCode) {
+        setLabelPos('right');
+        return;
+      }
+
       const container = el.closest('.tabs-container');
       const panel = el.closest('[role="tabpanel"]');
       const frame = el.closest('[class*="windowFrame"]');
@@ -130,11 +152,16 @@ export default function CodeBlockLayout({className}: {className?: string}): Reac
     };
     compute();
     return () => cancelAnimationFrame(raf);
-  }, [displayName, rawName]);
+  }, [displayName, isRestSpecExampleCode, rawName]);
 
   return (
-    <Container as="div" className={clsx(styles.windowFrame, className, metadata.className)}>
+    <Container as="div" className={clsx(styles.windowFrame, mergedClassName)}>
       <div className={styles.titleBar} ref={titleBarRef}>
+        {restSpecExampleTag && (
+          <span className={restSpecExampleTagClassName} title={restSpecExampleTag}>
+            {restSpecExampleTagLabel}
+          </span>
+        )}
         {rawName && labelPos === 'left' && <span className={styles.titleBarLabel}>{rawName}</span>}
         <div className={styles.titleBarRight}>
           {rawName && labelPos === 'right' && <span className={styles.titleBarLabelRight}>{rawName}</span>}

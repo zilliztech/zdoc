@@ -18,7 +18,7 @@ keywords:
   - decision matrix
   - prompts
   - cluster connection
-displayed_sidebar: agentsSidebar
+displayed_sidebar: default
 
 ---
 

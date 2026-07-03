@@ -5,8 +5,8 @@
   right: auto;
   width: 100vw;
   height: var(--zd-secondary-navbar-height);
-  border-bottom: 1px solid var(--ifm-toc-border-color);
-  background: #fdfdfd;
+  border-bottom: 0;
+  background: var(--zd-sidebar-bg);
   display: flex;
   align-items: center;
   padding: 0 1rem;
@@ -32,8 +32,17 @@
 .items {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 24px;
   flex-shrink: 0; /* Prevent items from collapsing — parent scrolls instead */
+}
+
+.measurementItems {
+  position: fixed;
+  left: -10000px;
+  top: -10000px;
+  visibility: hidden;
+  pointer-events: none;
+  contain: layout style;
 }
 
 .item {
@@ -45,25 +54,23 @@
   /* inherit the page font so the <button> tabs (e.g. "API & SDK") render the same
      weight/shape as the <a> tabs — buttons don't inherit font-family by default. */
   font-family: inherit;
-  font-size: 13px;
-  font-weight: 500 !important;
-  font-variation-settings: 'wght' 500 !important;
+  font-size: 14px;
+  font-weight: 450 !important;
+  font-variation-settings: 'wght' 450 !important;
   line-height: 32px;
-  /* inactive tabs share the one muted-gray token (breadcrumb + TOC use it too) */
-  color: var(--zd-muted-text);
+  color: #505050;
   border-radius: 0;
   background: transparent;
   text-decoration: none !important;
   white-space: nowrap;
   transition:
     background-color var(--zd-hover-duration) var(--zd-hover-ease),
-    color var(--zd-hover-duration) var(--zd-hover-ease),
-    font-weight var(--zd-hover-duration) var(--zd-hover-ease);
+    color var(--zd-hover-duration) var(--zd-hover-ease);
 }
 
 .item:hover {
   background: transparent;
-  color: #171717;
+  color: var(--zd-page-ink);
 }
 
 .item:focus-visible {
@@ -73,13 +80,26 @@
 
 .itemActive {
   background: transparent;
-  color: #171717;
-  font-weight: 500 !important;
+  color: var(--zd-page-ink);
+  font-weight: 450 !important;
+  font-variation-settings: 'wght' 450 !important;
 }
 
 .itemActive:hover {
   background: transparent;
-  color: #1f1f1f;
+  color: var(--zd-page-ink);
+}
+
+.topbarNav .item {
+  font-size: 14px;
+  font-weight: 400 !important;
+  font-variation-settings: 'wght' 400 !important;
+}
+
+.topbarNav .itemActive {
+  font-size: 13.7px;
+  font-weight: 500 !important;
+  font-variation-settings: 'wght' 500 !important;
 }
 
 .stableLabel {
@@ -94,28 +114,66 @@
 }
 
 .stableLabelSizer {
-  font-weight: 500 !important;
-  font-variation-settings: 'wght' 500 !important;
-  visibility: hidden;
+  font-weight: 450 !important;
+  font-variation-settings: 'wght' 450 !important;
+  opacity: 0;
   pointer-events: none;
+  transition: none;
 }
 
 .stableLabelText {
-  font-weight: 500 !important;
-  font-variation-settings: 'wght' 500 !important;
-  transition:
-    color var(--zd-hover-duration) var(--zd-hover-ease),
-    font-weight var(--zd-hover-duration) var(--zd-hover-ease),
-    font-variation-settings var(--zd-hover-duration) var(--zd-hover-ease);
+  font-weight: 450 !important;
+  font-variation-settings: 'wght' 450 !important;
+  transition: none;
 }
 
-.item:hover .stableLabelText,
+/* Keep the hidden sizer in the flow so active/inactive label changes do not
+   resize the tab row. */
+.itemActive .stableLabelSizer {
+  opacity: 0;
+}
+
 .itemActive .stableLabelText {
+  opacity: 1;
+}
+
+.topbarNav .stableLabelSizer {
+  font-size: 14px;
   font-weight: 500 !important;
   font-variation-settings: 'wght' 500 !important;
+}
+
+.topbarNav .stableLabelText {
+  font-size: 14px;
+  font-weight: 400 !important;
+  font-variation-settings: 'wght' 400 !important;
+}
+
+.topbarNav .itemActive .stableLabelText {
+  font-size: 13.7px;
+  font-weight: 500 !important;
+  font-variation-settings: 'wght' 500 !important;
+  animation: topbarActiveLabelBlurIn 320ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* ── Dropdown ──────────────────────────────────────────────────────────────── */
+
+@keyframes topbarActiveLabelBlurIn {
+  from {
+    filter: blur(0.28px);
+    opacity: 0.92;
+  }
+  to {
+    filter: blur(0);
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .topbarNav .itemActive .stableLabelText {
+    animation: none;
+  }
+}
 
 .dropdownWrapper {
   position: relative;
@@ -130,7 +188,7 @@
 
 .dropdownChevron {
   flex: 0 0 auto;
-  color: #bcc1c7;
+  color: var(--zd-gray-400);
   transform: translateY(1px);
   transform-origin: 50% 50%;
   transition:
@@ -139,12 +197,12 @@
 }
 
 .dropdownButton:hover .dropdownChevron {
-  color: #949ca4;
+  color: var(--zd-gray-500);
   transform: translateY(1px) rotate(18deg);
 }
 
 .dropdownButton[aria-expanded='true'] .dropdownChevron {
-  color: #949ca4;
+  color: var(--zd-gray-500);
   transform: translateY(1px) rotate(180deg);
 }
 
@@ -161,7 +219,7 @@
 /* Collapsed-topbar trigger: tighter gap between the active label and its caret. */
 .collapsedTrigger {
   gap: 4px;
-  padding: 0 10px;
+  padding: 0 10px 0 0;
   border-radius: 10px;
   transition:
     background-color var(--zd-hover-duration) var(--zd-hover-ease),
@@ -170,14 +228,14 @@
 
 .collapsedTrigger:hover,
 .collapsedTrigger[aria-expanded='true'] {
-  background: #eeeeee;
-  color: #171717;
+  background: var(--zd-surface-2);
+  color: var(--zd-page-ink);
 }
 
 .dropdownButton.itemActive.collapsedTrigger:hover,
 .dropdownButton.itemActive.collapsedTrigger[aria-expanded='true'] {
-  background: #eeeeee;
-  color: #171717;
+  background: var(--zd-surface-2);
+  color: var(--zd-page-ink);
 }
 
 /* Divider between each top-level product in the collapsed dropdown. */
@@ -199,7 +257,7 @@
 
 .dropdownPanel {
   position: fixed;
-  background: #fdfdfd;
+  background: var(--zd-page-bg);
   border: 1px solid var(--ifm-toc-border-color);
   border-radius: 0.5rem;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
@@ -222,19 +280,17 @@
   font-weight: 500 !important;
   font-variation-settings: 'wght' 500 !important;
   line-height: 32px;
-  color: #171717;
+  color: var(--zd-page-ink);
   text-decoration: none !important;
   transition:
     background-color var(--zd-hover-duration) var(--zd-hover-ease),
-    color var(--zd-hover-duration) var(--zd-hover-ease),
-    font-weight var(--zd-hover-duration) var(--zd-hover-ease),
-    font-variation-settings var(--zd-hover-duration) var(--zd-hover-ease);
+    color var(--zd-hover-duration) var(--zd-hover-ease);
   white-space: nowrap;
 }
 
 .dropdownPanelItem:hover {
   background: var(--zd-nav-hover-bg);
-  color: #171717;
+  color: var(--zd-page-ink);
   font-weight: 500 !important;
   font-variation-settings: 'wght' 500 !important;
 }
@@ -247,7 +303,7 @@
 
 .dropdownPanelItemActive {
   background: var(--zd-nav-active-bg);
-  color: #171717;
+  color: var(--zd-page-ink);
   font-weight: 500 !important;
   font-variation-settings: 'wght' 500 !important;
 }
@@ -257,7 +313,7 @@
    the equal-specificity tie. */
 .dropdownPanelItemActive:hover {
   background: var(--zd-nav-active-bg);
-  color: #171717;
+  color: var(--zd-page-ink);
   font-weight: 500 !important;
   font-variation-settings: 'wght' 500 !important;
 }

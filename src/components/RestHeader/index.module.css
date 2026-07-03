@@ -3,9 +3,9 @@
   align-items: center;
   gap: 0.75rem;
   padding: 12px 16px;
-  /* unified with the code-block window frame: same 8px radius + #eaeaea border,
+  /* unified with the code-block window frame: same 8px radius + subtle border,
      and the frame's title-bar off-white tint as a subtle background. */
-  border: 1px solid #eaeaea;
+  border: 1px solid var(--zd-surface-border-subtle);
   border-radius: 8px;
   background-color: #fcfcfb;
 }
@@ -49,11 +49,11 @@
 }
 
 .endpoint {
-  /* match the code INSIDE code blocks: Geist Mono, 13px / 20px, weight 450, #262b33 */
+  /* match the code INSIDE code blocks: Geist Mono, 13px / 20px, weight 450, var(--zd-page-ink) */
   font-size: 13px;
   line-height: 20px;
   font-family: var(--ifm-font-family-monospace), 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
-  color: #262b33;
+  color: var(--zd-page-ink);
   font-weight: 450;
   word-break: break-all;
 }

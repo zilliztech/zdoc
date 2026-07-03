@@ -331,12 +331,8 @@ function DocSidebarItemCategoryCollapsible({
     onItemClick?.(item);
     if (collapsible) {
       if (href) {
-        if (isCurrentPage) {
-          e.preventDefault();
-          updateCollapsed();
-        } else {
-          updateCollapsed(false);
-        }
+        e.preventDefault();
+        updateCollapsed();
       } else {
         e.preventDefault();
         updateCollapsed();
@@ -347,8 +343,9 @@ function DocSidebarItemCategoryCollapsible({
     onItemClick?.(item);
     updateCollapsed();
   };
-  const showChildCaret = !href && !(item as {link?: unknown}).link && items.length > 0;
-  const isButtonCategory = collapsible && !href;
+  const showChildCaret = items.length > 0;
+  const isButtonCategory = collapsible;
+  const fitKey = label === 'Connect to Global Cluster' ? 'connect-global-cluster' : undefined;
 
   useBrowserLayoutEffect(() => {
     const node = childrenListRef.current;
@@ -401,7 +398,8 @@ function DocSidebarItemCategoryCollapsible({
               'menu__link--active': isActive,
             })}
             onClick={handleCategoryButtonClick}
-            data-sidebar-tooltip={label}
+            data-sidebar-tooltip={isActive ? undefined : label}
+            data-sidebar-fit={fitKey}
             aria-expanded={!collapsed}>
             <CategoryLinkLabel
               label={label}
@@ -412,15 +410,16 @@ function DocSidebarItemCategoryCollapsible({
           </button>
         ) : (
           <Link
+            {...props}
             className={clsx(styles.categoryLink, 'menu__link', {
               'menu__link--sublist': collapsible,
               'menu__link--active': isActive,
             })}
             onClick={handleItemClick}
             aria-current={isCurrentPage ? 'page' : undefined}
-            data-sidebar-tooltip={label}
-            href={collapsible ? hrefWithSSRFallback ?? '#' : hrefWithSSRFallback}
-            {...props}>
+            data-sidebar-tooltip={isActive ? undefined : label}
+            data-sidebar-fit={fitKey}
+            href={collapsible ? hrefWithSSRFallback ?? '#' : hrefWithSSRFallback}>
             <CategoryLinkLabel
               label={label}
               IconComponent={IconComponent}
@@ -429,7 +428,7 @@ function DocSidebarItemCategoryCollapsible({
             />
           </Link>
         )}
-        {href && collapsible && (
+        {href && collapsible && !isButtonCategory && (
           <CollapseButton
             collapsed={collapsed}
             categoryLabel={label}

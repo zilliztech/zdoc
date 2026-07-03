@@ -2333,7 +2333,7 @@ module.exports = [
       },
       {
         "type": "link",
-        "href": "/reference/cli/overview",
+        "href": "/reference/cli/cli/overview",
         "label": "Zilliz CLI",
         "key": "link:tutorials/tools/zilliz-cli"
       }

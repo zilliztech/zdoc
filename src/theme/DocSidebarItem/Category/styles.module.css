@@ -33,22 +33,24 @@
 .categoryLinkLabelSizer {
   font-weight: var(--zd-nav-hover-weight);
   font-variation-settings: 'wght' var(--zd-nav-hover-weight);
-  visibility: hidden;
+  opacity: 0;
   pointer-events: none;
+  transition: none;
 }
 
 .categoryLinkLabelText {
   font-weight: var(--zd-structure-nav-weight);
   font-variation-settings: 'wght' var(--zd-structure-nav-weight);
-  transition:
-    font-weight var(--zd-hover-duration) var(--zd-hover-ease),
-    font-variation-settings var(--zd-hover-duration) var(--zd-hover-ease);
+  transition: none;
 }
 
-/* Only the SELECTED item bolds — hover must NOT change weight. */
+/* Active uses the pre-rendered 500 layer instead of animating one text node's weight. */
+:global(.menu__link--active) .categoryLinkLabelSizer {
+  opacity: 1;
+}
+
 :global(.menu__link--active) .categoryLinkLabelText {
-  font-weight: var(--zd-nav-hover-weight);
-  font-variation-settings: 'wght' var(--zd-nav-hover-weight);
+  opacity: 0;
 }
 
 .categoryIcon {
@@ -132,6 +134,7 @@
    push" lag. Level-1 and level-3/4 now animate identically. */
 .categoryChildrenFrame {
   display: grid;
+  overflow: hidden;
   /* minmax(0, …) forces the track min to 0 so the collapsed state is truly 0
      (the list's 6px padding-bottom would otherwise leave a sliver). */
   grid-template-rows: minmax(0, 1fr);

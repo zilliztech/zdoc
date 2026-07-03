@@ -6,53 +6,58 @@
   height: 100%;
   padding: 0 1.25rem;
   gap: 0.75rem;
-  background: #fdfdfd;
+  background: var(--zd-sidebar-bg);
 }
 
 .navbarLeft {
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  gap: 0.5rem;
+  gap: 6px;
   min-width: 0;
 }
 
 .navbarLeft :global(.navbar__brand) {
-  width: 73px;
-  height: 32px;
+  width: 84px;
+  height: 36px;
   margin: 0;
   min-width: 0;
   flex-shrink: 0;
 }
 
 .navbarLeft :global(.navbar__logo) {
-  width: 73px;
-  height: 30px;
+  width: 84px;
+  height: 35px;
   margin-right: 0;
 }
 
 .navbarLeft :global(.navbar__logo img) {
-  width: 73px;
-  height: 30px;
+  width: 84px;
+  height: 35px;
 }
 
 .brandDivider {
   width: 1px;
   height: 16px;
-  background: #e5e5e5;
+  background: var(--zd-surface-3);
   flex-shrink: 0;
 }
 
 .docsLink {
+  display: inline-block;
   /* default black, gray on hover */
-  color: #171717;
+  color: var(--zd-page-ink);
   /* brand label — one size smaller than before */
-  font-size: 1rem;
-  font-weight: 500;
+  font-size: 18px;
+  font-weight: 400;
+  font-stretch: normal;
+  font-variation-settings: normal;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
   line-height: 1;
   text-decoration: none !important;
   border-radius: 0.375rem;
   padding: 0.375rem 0;
+  letter-spacing: 0 !important;
   transform: translateY(-1px);
   transition: color var(--zd-hover-duration) var(--zd-hover-ease);
   white-space: nowrap;
@@ -90,12 +95,12 @@
   max-width: 132px;
   padding: 0 15px;
   background: transparent;
-  border: 1px solid #ededed;
+  border: 1px solid #e6e6e1;
   border-radius: 10px;
   cursor: pointer;
-  color: #6b6b6b;
+  color: var(--zd-muted-text);
   font-size: var(--zd-nav-size);
-  font-weight: 500;
+  font-weight: 400;
   line-height: 30px;
   white-space: nowrap;
   flex-shrink: 0;
@@ -115,7 +120,7 @@
    default gray (no color change). */
 .searchBtn:hover {
   background: var(--zd-nav-hover-bg);
-  border-color: #e2e2e2;
+  border-color: var(--zd-surface-border);
 }
 
 .searchBtn kbd {
@@ -123,7 +128,7 @@
   font-size: 11px;
   font-family: inherit;
   font-weight: 500;
-  color: #9ca3af;
+  color: var(--zd-gray-400);
   background: transparent;
   border: 0;
   box-shadow: none;
@@ -158,7 +163,7 @@
   /* equal padding all sides: kbd→edge (L/R) matches kbd→top */
   padding: 5px;
   background: #ffffff;
-  color: #24292f;
+  color: var(--zd-page-ink);
   border: 1px solid var(--zd-gray-200);
   border-radius: 9px;
   font-size: 12px;
@@ -196,9 +201,9 @@
   font-size: 11px;
   font-weight: 500;
   line-height: 1;
-  color: #6e7781;
+  color: var(--zd-gray-500);
   background: var(--zd-gray-100);
-  border: 1px solid #ebebef;
+  border: 1px solid var(--zd-surface-border-subtle);
   border-radius: 5px;
   box-shadow: none;
 }
@@ -215,9 +220,12 @@
 }
 
 .mediumAskAiWrap {
+  position: relative;
   display: none;
   width: 32px;
   flex-basis: 32px;
+  padding-left: 0;
+  justify-content: center;
 }
 
 .mediumAskAi {
@@ -228,14 +236,15 @@
   width: 32px;
   height: 32px;
   padding: 0;
-  color: #171717;
+  color: var(--zd-page-ink);
   background:
     linear-gradient(234deg, rgba(218, 220, 255, 0.7) 0%, rgba(255, 255, 255, 0.7) 36.5%, rgba(216, 255, 255, 0.7) 100%),
     #ffffff;
-  border: 1px solid #ededed;
+  border: 1px solid #e6e6e1;
   border-radius: 10px;
   cursor: pointer;
   flex: 0 0 32px;
+  margin: 0;
   overflow: hidden;
   transition:
     border-color var(--zd-hover-duration) var(--zd-hover-ease),
@@ -244,12 +253,23 @@
 }
 
 .mediumAskAi:hover {
+  background:
+    linear-gradient(234deg, rgba(204, 207, 255, 0.82) 0%, rgba(248, 248, 255, 0.82) 36.5%, rgba(202, 250, 250, 0.82) 100%),
+    #ffffff;
   border-color: #d7d8ff;
+}
+
+.mediumAskAi:focus-visible {
+  outline: 2px solid var(--ifm-color-primary);
+  outline-offset: 2px;
 }
 
 .mediumAskAi svg {
   display: block;
   flex: 0 0 auto;
+  width: 9px;
+  height: 16px;
+  color: var(--zd-page-ink);
 }
 
 .mediumActions::after {
@@ -272,9 +292,9 @@
   font-size: var(--zd-nav-size);
   font-weight: 500;
   line-height: 1;
-  color: #6b6b6b;
+  color: var(--zd-muted-text);
   background: #ffffff;
-  border: 1px solid #ededed;
+  border: 1px solid var(--zd-surface-border-subtle);
   border-radius: 10px;
   cursor: pointer;
   white-space: nowrap;
@@ -288,9 +308,9 @@
 
 .mediumActions:hover .mediumActionsTrigger,
 .mediumActions:focus-within .mediumActionsTrigger {
-  color: #171717;
+  color: var(--zd-page-ink);
   background: var(--zd-nav-hover-bg);
-  border-color: #e2e2e2;
+  border-color: var(--zd-surface-border);
 }
 
 .mediumActionsTrigger svg {
@@ -343,7 +363,7 @@
   font-family: inherit;
   font-size: 13px;
   font-weight: 500;
-  color: #171717;
+  color: var(--zd-page-ink);
   background: transparent;
   border: 0;
   border-radius: 10px;
@@ -356,7 +376,7 @@
 }
 
 .mediumActionsItem:hover {
-  color: #171717;
+  color: var(--zd-page-ink);
   background: var(--zd-nav-hover-bg);
 }
 

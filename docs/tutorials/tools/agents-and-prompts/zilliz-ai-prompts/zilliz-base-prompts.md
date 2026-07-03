@@ -18,7 +18,7 @@ keywords:
   - decision matrix
   - prompts
   - base prompts
-displayed_sidebar: agentsSidebar
+displayed_sidebar: default
 
 ---
 

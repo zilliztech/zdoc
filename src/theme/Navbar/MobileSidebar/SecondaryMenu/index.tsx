@@ -137,13 +137,51 @@ function seedMobileDrillDirection(direction: 'forward' | 'back') {
   }
 }
 
+function showMobileNavRouteGuard() {
+  if (typeof document === 'undefined') return;
+  let guard = document.getElementById('zdoc-mobile-nav-route-guard');
+  if (!guard) {
+    guard = document.createElement('div');
+    guard.id = 'zdoc-mobile-nav-route-guard';
+    guard.setAttribute('aria-hidden', 'true');
+    guard.innerHTML = `
+      <div class="zdoc-mobile-nav-route-guard-search">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <span>Search documentation…</span>
+      </div>`;
+    document.body.appendChild(guard);
+  }
+  const win = window as typeof window & {__zdocMobileNavRouteGuardTimer?: number};
+  if (win.__zdocMobileNavRouteGuardTimer) {
+    window.clearTimeout(win.__zdocMobileNavRouteGuardTimer);
+  }
+  win.__zdocMobileNavRouteGuardTimer = window.setTimeout(() => {
+    hideMobileNavRouteGuard();
+    win.__zdocMobileNavRouteGuardTimer = undefined;
+  }, 700);
+}
+
+function hideMobileNavRouteGuard() {
+  if (typeof document === 'undefined') return;
+  document.getElementById('zdoc-mobile-nav-route-guard')?.remove();
+}
+
+export function clearMobileNavRouteGuard() {
+  hideMobileNavRouteGuard();
+}
+
 function keepMobileNavOpenOnRouteChange(targetPath: string, direction: 'forward' | 'back' = 'forward') {
   if (typeof window === 'undefined' || window.innerWidth > 996) return;
   try {
     const target = new URL(targetPath, window.location.origin);
     window.sessionStorage.setItem('zdoc-mobile-nav-keep-open', target.pathname);
     seedMobileDrillDirection(direction);
+    showMobileNavRouteGuard();
     document.documentElement.classList.add('zdoc-mobile-nav-keep-visible');
+    document.documentElement.classList.add('zdoc-mobile-nav-route-guard');
     document.documentElement.classList.remove('zdoc-mobile-nav-drill-forward', 'zdoc-mobile-nav-drill-back');
     document.documentElement.classList.add(`zdoc-mobile-nav-drill-${direction}`);
   } catch {
@@ -174,6 +212,19 @@ function shouldKeepLinkInsideMobileNav(link: HTMLAnchorElement) {
   const normalized = normalizeMobileNavPath(link.href);
   if (!normalized) return null;
   return normalized.key.startsWith('/docs/') || normalized.key.startsWith('/reference/');
+}
+
+const MOBILE_SUBNAV_ENTRY_HREFS = new Set([
+  '/reference/restful',
+  '/reference/python',
+  '/reference/java',
+  '/reference/go',
+  '/reference/nodejs',
+  '/reference/cpp',
+]);
+
+function isMobileSubnavEntry(pathKey: string) {
+  return MOBILE_SUBNAV_ENTRY_HREFS.has(pathKey.replace(/\/$/, ''));
 }
 
 // Inside a client-library reference (Python, Java, …) the mobile doc nav gets a
@@ -210,6 +261,7 @@ function MobileRefHeader() {
 
 export default function NavbarMobileSidebarSecondaryMenu(): ReactNode {
   const secondaryMenu = useNavbarSecondaryMenu();
+  const mobileSidebar = useNavbarMobileSidebar();
   const history = useHistory();
   const drillDirection = useMobileDrillDirection();
 
@@ -220,6 +272,30 @@ export default function NavbarMobileSidebarSecondaryMenu(): ReactNode {
     if (!shouldKeep) return;
     const normalized = normalizeMobileNavPath(link.href);
     if (!normalized) return;
+
+    const shouldDrillInNav =
+      link.classList.contains('menu__link--sublist') || isMobileSubnavEntry(normalized.key);
+    if (!shouldDrillInNav) {
+      try {
+        window.sessionStorage.removeItem('zdoc-mobile-nav-keep-open');
+        window.sessionStorage.removeItem('zdoc-mobile-nav-drill-direction');
+      } catch {
+        // Ignore storage failures; the normal link navigation still works.
+      }
+      document.documentElement.classList.remove(
+        'zdoc-mobile-nav-keep-visible',
+        'zdoc-mobile-nav-route-guard',
+        'zdoc-mobile-nav-drill-forward',
+        'zdoc-mobile-nav-drill-back'
+      );
+      hideMobileNavRouteGuard();
+      window.setTimeout(() => {
+        if (document.querySelector('.navbar')?.classList.contains('navbar-sidebar--show')) {
+          mobileSidebar.toggle();
+        }
+      }, 0);
+      return;
+    }
 
     event.preventDefault();
     event.stopPropagation();

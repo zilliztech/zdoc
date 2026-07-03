@@ -91,6 +91,7 @@ export default function DocSidebarItemLink({
   const isActive = isActiveSidebarItem(item, activePath);
   const isInternalLink = isInternalUrl(href);
   const subnavEntry = isSubnavEntry(href);
+  const fitKey = label === 'Connect to Global Cluster' ? 'connect-global-cluster' : undefined;
 
   const handleInternalClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
     if (subnavEntry && typeof window !== 'undefined' && window.innerWidth <= 767) {
@@ -120,7 +121,8 @@ export default function DocSidebarItemLink({
         })}
         autoAddBaseUrl={autoAddBaseUrl}
         aria-current={isActive ? 'page' : undefined}
-        data-sidebar-tooltip={label}
+        data-sidebar-tooltip={isActive ? undefined : label}
+        data-sidebar-fit={fitKey}
         to={href}
         {...props}
         {...(isInternalLink && {

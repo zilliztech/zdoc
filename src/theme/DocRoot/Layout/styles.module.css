@@ -4,7 +4,7 @@
   margin-top: var(--ifm-navbar-height);
   height: calc(100vh - var(--ifm-navbar-height));
   overflow: hidden;
-  background: #fdfdfd;
+  background: var(--zd-page-bg);
 }
 
 .docRoot {
@@ -12,6 +12,8 @@
   flex: 1;
   min-height: 0;
   overflow: hidden;
+  padding-right: 0;
+  transition: padding-right 0.32s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 /* Full-height fixed right column (top → bottom, above the navbar) so the topbar
@@ -28,7 +30,8 @@
   min-height: 0;
   overflow: hidden;
   background: #ffffff;
-  border-left: 1px solid #e5e7eb;
+  border-left: 1px solid var(--zd-surface-border-subtle);
+  border-radius: 0;
   z-index: 1000;
   transform: translateX(0);
   will-change: transform;
@@ -89,7 +92,6 @@
 @media (min-width: 768px) {
   .docsWrapper:global(.docs-chat-open) .docRoot {
     padding-right: var(--chat-pane-w, clamp(24rem, 30vw, 34rem));
-    transition: padding-right 0.32s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   :global(body.docs-nav-mobile) .docsWrapper:global(.docs-chat-open) {
@@ -117,6 +119,7 @@
     min-width: 0;
     height: auto;
     border-left: none;
+    border-radius: 0;
     border-top: 1px solid var(--ifm-toc-border-color);
     animation: chatPaneSlideUp 0.3s cubic-bezier(0.22, 1, 0.36, 1);
   }
@@ -158,12 +161,12 @@
   flex-direction: column;
   align-items: stretch;
   gap: 0.25rem;
-  min-height: 4.33rem;
+  min-height: 89px;
   padding: 0.875rem 0.75rem 0.625rem 1rem;
   color: var(--zd-gray-600);
-  background: #ffffff;
-  border: 1px solid #dfe5e5;
-  border-radius: 1.5rem;
+  background: #FCFCFB;
+  border: 1px solid var(--zd-surface-border);
+  border-radius: 24px;
   transition: border-color var(--zd-hover-duration) var(--zd-hover-ease);
   /* Whole box is a click-to-type hot zone, so the text caret over the entire
      area (the send button overrides with pointer). */
@@ -176,32 +179,38 @@
   inset: 0;
   padding: 8px;
   border-radius: inherit;
-  background: linear-gradient(166deg, #DFE3FF 0%, #EBFFFB 60%, #FFEAD0 100%);
+  background: linear-gradient(169deg, #DFE3FF 0%, #EBFFFB 59.8732%, #FFEAD0 100%);
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
           mask-composite: exclude;
   opacity: 0;
   pointer-events: none;
   transition:
-    inset 0.22s cubic-bezier(0.22, 1, 0.36, 1),
-    border-radius 0.22s cubic-bezier(0.22, 1, 0.36, 1),
-    opacity 0.18s ease;
+    opacity 0.24s ease,
+    inset 0s linear 0.24s,
+    border-radius 0s linear 0.24s;
 }
 
 .floatingChatInput:hover::before {
   inset: -8px;
-  border-radius: calc(1.5rem + 8px);
+  border-radius: 32px;
   opacity: 1;
+  /* soften the outer edge so the colored ring fades out to white */
+  filter: blur(3.5px);
+  transition:
+    inset 0.36s cubic-bezier(0.22, 1, 0.36, 1),
+    border-radius 0.36s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.24s ease;
 }
 
-/* Focus inner stroke: selected state gets the blue/cyan 1.5px gradient. */
+/* 1px inner stroke: default gray border; hover/focus gets the green/blue gradient. */
 .floatingChatInput::after {
   content: '';
   position: absolute;
   inset: -1px;
   padding: 1px;
   border-radius: inherit;
-  background: linear-gradient(196.6deg, #3FA5A3 0%, #5B77DA 100%);
+  background: linear-gradient(to bottom right, #15A692 0%, #556CCA 100%);
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
           mask-composite: exclude;
@@ -228,13 +237,12 @@
   left: 0;
   right: 0;
   bottom: 0;
-  height: calc(4.33rem + 30px);
+  height: calc(89px + 30px + 24px);
   z-index: 399;
-  background: #ffffff;
+  /* Soft white fade over just the top ~16px (short gradient), then solid white —
+     more opaque white, a shorter transparent-fade zone. */
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0, #ffffff 16px);
   pointer-events: none;
-  /* top corners rounded to match the input box radius (1.5rem) */
-  border-top-left-radius: 1.5rem;
-  border-top-right-radius: 1.5rem;
 }
 
 /* (hover ring removed) */
@@ -248,12 +256,12 @@
   padding: 0;
   background: transparent;
   color: var(--zd-linear-signup-ink);
-  font-size: 14px;
+  font-size: 14px !important;
   line-height: 1.4;
 }
 
 .floatingChatInput input::placeholder {
-  font-size: 14px;
+  font-size: 14px !important;
   color: #a4a4a4;
 }
 
@@ -273,7 +281,7 @@
   font-family: inherit;
   font-size: 12px;
   font-weight: 500;
-  color: #9b9b9b;
+  color: var(--zd-gray-400);
   line-height: 1;
   padding: 0;
   border: 0;
@@ -286,8 +294,8 @@
 }
 
 .floatingChatInput button {
-  width: 1.875rem;
-  height: 1.875rem;
+  width: 1.75rem;
+  height: 1.75rem;
   flex-shrink: 0;
   display: inline-flex;
   align-items: center;
@@ -295,7 +303,7 @@
   color: #ffffff;
   background: #b6b6b6;
   border: 0;
-  border-radius: 50%;
+  border-radius: 12px;
   cursor: pointer;
   transition:
     background var(--zd-hover-duration) var(--zd-hover-ease),
@@ -304,7 +312,7 @@
 
 /* Once there is text to send, the box darkens; arrow stays white */
 .floatingChatInput button:not(:disabled) {
-  background: #1a1a1a;
+  background: var(--zd-page-ink);
   color: #ffffff;
 }
 
@@ -329,9 +337,9 @@
   font-family: inherit;
   font-size: 12.5px;
   font-weight: 600;
-  color: #1a1a1a;
+  color: var(--zd-page-ink);
   background: #ffffff;
-  border: 1px solid #e5e5e5;
+  border: 1px solid var(--zd-surface-border);
   border-radius: 8px;
   box-shadow: 0 4px 14px rgba(15, 23, 42, 0.12);
   cursor: pointer;
@@ -339,8 +347,8 @@
 }
 
 .selectionAskAi:hover {
-  background: #f4f4f4;
-  border-color: #d6d6d6;
+    background: var(--zd-nav-hover-bg);
+  border-color: var(--zd-surface-border-strong);
 }
 
 .selectionAskAi svg {

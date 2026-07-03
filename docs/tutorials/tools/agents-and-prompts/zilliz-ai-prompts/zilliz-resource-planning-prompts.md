@@ -18,7 +18,7 @@ keywords:
   - decision matrix
   - prompts
   - resource planning
-displayed_sidebar: agentsSidebar
+displayed_sidebar: default
 
 ---
 

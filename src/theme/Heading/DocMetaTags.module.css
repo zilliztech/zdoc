@@ -2,106 +2,31 @@
   box-sizing: border-box;
   width: 100%;
   max-width: 224px;
-  margin-top: 20px;
-  padding: 20px 0 0;
+  margin-top: 0;
+  padding: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
   color: var(--zd-muted-text);
-  border-top: 1px solid var(--ifm-toc-border-color);
 }
 
 .heading {
-  padding: 0 0 6px;
+  flex: 0 1 auto;
+  min-width: 0;
   font-size: 12px;
   font-weight: 500;
   line-height: 1.35;
-  color: #7a7a7a;
-}
-
-.list {
-  --timeline-x: 6px;
-  --timeline-icon-size: 13px;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-  padding-top: 0;
-  padding-left: 22px;
-}
-
-.list::before {
-  content: "";
-  position: absolute;
-  top: 17px;
-  bottom: 17px;
-  left: var(--timeline-x);
-  width: 1px;
-  background: #ededed;
-}
-
-.item {
-  position: relative;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: center;
-  gap: 12px;
-  min-height: 30px;
-  padding: 4px 0;
-}
-
-.label {
-  display: inline-flex;
-  align-items: center;
-  justify-content: flex-end;
-  min-width: 0;
-  font-size: 13px;
-  font-weight: 400;
-  line-height: 1.35;
-  color: #7a7a7a;
-}
-
-.label svg {
-  position: absolute;
-  left: calc(var(--timeline-x) - 22px - (var(--timeline-icon-size) / 2));
-  top: 50%;
-  display: block;
-  width: var(--timeline-icon-size);
-  height: var(--timeline-icon-size);
-  padding: 1px;
-  color: #a8a8a8;
-  background: #ffffff;
-  stroke-width: 1.6;
-  transform: translateY(-50%);
+  color: var(--zd-muted-text);
+  white-space: nowrap;
 }
 
 .value {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  min-width: 0;
+  flex: 0 0 auto;
   font-size: 13px;
-  font-weight: 500;
+  font-weight: 600;
   line-height: 1.35;
-  color: #171717;
+  color: var(--zd-page-ink);
   white-space: nowrap;
-}
-
-.latest {
-  display: inline-flex;
-  align-items: center;
-  height: 18px;
-  padding: 0 6px;
-  border-radius: 999px;
-  color: #171717;
-  background: var(--zd-nav-hover-bg);
-  font-size: 11px;
-  font-weight: 500;
-  line-height: 18px;
-}
-
-.item[data-state='deprecated'] .label,
-.item[data-state='deprecated'] .label svg {
-  color: #b95a57;
-}
-
-.item[data-state='deprecated'] .value {
-  color: #9f3f3c;
 }

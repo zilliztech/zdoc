@@ -18,7 +18,7 @@ keywords:
   - decision matrix
   - prompts
   - pricing
-displayed_sidebar: agentsSidebar
+displayed_sidebar: default
 
 ---
 

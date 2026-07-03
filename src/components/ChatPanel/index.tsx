@@ -16,6 +16,7 @@ import {
   Code,
   FileText,
   ArrowUp,
+  ArrowDown,
   Copy,
   Check,
 } from 'lucide-react';
@@ -86,12 +87,12 @@ function ZillizStarIcon() {
 
 function AskAiAvatarIcon() {
   return (
-    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-      <rect width="20" height="20" rx="8" fill="#1D2939" />
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <rect width="24" height="24" rx="10" fill="#252F58" />
       <path
-        d="M5.5 11.8889L11.8 1.5L10.9 8.35965H14.5L7.3 18.5L9.1 11.8889H5.5Z"
+        d="M7 14L14 3L13 10.2632H17L9 21L11 14H7Z"
         fill="#ffffff"
-        transform="translate(10 10) scale(0.9) translate(-10 -10)"
+        transform="translate(12 12) scale(0.9) translate(-12 -12)"
       />
     </svg>
   );
@@ -103,7 +104,7 @@ function EmptyBoltIcon() {
       <path
         d="M0.942375 43.7014L30.3424 0.280334L26.1424 30.5435H42.9424L9.34237 75.2803L17.7424 43.7014H0.942375Z"
         stroke="#E1DFD9"
-        strokeWidth="1"
+        strokeWidth="0.8"
         strokeLinejoin="miter"
         strokeLinecap="butt"
         vectorEffect="non-scaling-stroke"
@@ -139,13 +140,17 @@ function ChatHeader({onClose, onClear, showClear}: {onClose: () => void; onClear
   return (
     <div className={styles.chatHeader}>
       <div className={styles.chatTitleGroup}>
-        <span className={styles.chatAvatar}><AskAiAvatarIcon /></span>
+        <span className={styles.chatAvatarWrap}>
+          <span className={styles.chatAvatarButton} aria-hidden="true">
+            <AskAiAvatarIcon />
+          </span>
+        </span>
         <span className={styles.chatTitle}>Ask AI</span>
       </div>
       <div className={styles.chatHeaderActions}>
         {showClear && onClear && (
-          <button type="button" className={styles.chatClose} onClick={onClear} aria-label="Clear conversation" title="Clear conversation">
-            <Trash2 size={15} />
+          <button type="button" className={`${styles.chatClose} ${styles.chatClear}`} onClick={onClear} aria-label="Clear conversation" title="Clear conversation">
+            <Trash2 size={12} />
           </button>
         )}
         <button type="button" className={styles.chatClose} onClick={onClose} aria-label="Close chat">
@@ -263,6 +268,12 @@ export default function ChatPanel({onToggle, isExpanded, toggleMode = 'expand'}:
   const streamPauseTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [copiedIdx, setCopiedIdx] = useState<number | null>(null);
   const [showStreamPauseIndicator, setShowStreamPauseIndicator] = useState(false);
+  const [showJumpToLatest, setShowJumpToLatest] = useState(false);
+
+  const scrollToBottom = () => {
+    const el = conversationRef.current;
+    if (el) el.scrollTo({top: el.scrollHeight, behavior: 'smooth'});
+  };
 
   const copyMessage = (idx: number, text: string) => {
     navigator.clipboard.writeText(text).then(() => {
@@ -296,9 +307,23 @@ export default function ChatPanel({onToggle, isExpanded, toggleMode = 'expand'}:
     if (el) {
       requestAnimationFrame(() => {
         el.scrollTop = el.scrollHeight;
+        setShowJumpToLatest(false);
       });
     }
   }, [messages, isStreaming, showStreamPauseIndicator]);
+
+  // Show a "Jump to latest" button once the user scrolls away from the bottom.
+  useEffect(() => {
+    const el = conversationRef.current;
+    if (!el) return undefined;
+    const onScroll = () => {
+      const distanceFromBottom = el.scrollHeight - el.scrollTop - el.clientHeight;
+      setShowJumpToLatest(distanceFromBottom > 140);
+    };
+    el.addEventListener('scroll', onScroll, {passive: true});
+    onScroll();
+    return () => el.removeEventListener('scroll', onScroll);
+  }, [messages.length]);
 
   const hasMessages = messages.length > 0;
   const lastMessage = messages[messages.length - 1];
@@ -484,6 +509,15 @@ export default function ChatPanel({onToggle, isExpanded, toggleMode = 'expand'}:
             ))}
           </div>
           <div className={styles.bottomInput}>
+            {showJumpToLatest && (
+              <button
+                type="button"
+                className={styles.jumpToLatest}
+                onClick={scrollToBottom}>
+                <ArrowDown size={13} strokeWidth={2.4} />
+                Bottom
+              </button>
+            )}
             <div className={styles.inputBox} onMouseDown={event => focusInputFromBox(event, conversationInputRef)}>
               {chipRow}
               <input

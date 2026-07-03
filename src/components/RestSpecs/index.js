@@ -10,6 +10,8 @@ import { cond, set } from 'lodash';
 
 const primitiveConstants = ["boolean", "integer", "number", "string"]
 
+const capitalizeDisplayLabel = (value = '') => value.toString().replace(/(^|[\s([/-])([a-z])/g, (_match, prefix, char) => `${prefix}${char.toUpperCase()}`)
+
 const BaseURL = ({ endpoint, lang, target, baseUrls, onBaseUrlChange }) => {
     const [selectedBaseUrl, setSelectedBaseUrl] = useState(0)
     const { siteConfig } = useDocusaurusContext()
@@ -67,8 +69,8 @@ const BaseURL = ({ endpoint, lang, target, baseUrls, onBaseUrlChange }) => {
                                     }
                                 }}
                             />
-                            <label className={styles.tabLabel} htmlFor={`baseurl-tab-${index}`} data-label={item["x-i18n"]?.[lang]?.label ?? item.label}>
-                                {item["x-i18n"]?.[lang]?.label ?? item.label}
+                            <label className={styles.tabLabel} htmlFor={`baseurl-tab-${index}`} data-label={capitalizeDisplayLabel(item["x-i18n"]?.[lang]?.label ?? item.label)}>
+                                {capitalizeDisplayLabel(item["x-i18n"]?.[lang]?.label ?? item.label)}
                             </label>
                         </React.Fragment>
                     ))}
@@ -337,6 +339,7 @@ const Tab = ({ name, id, content, lang, target, selected, setSelected, optionVal
     const fallbackLabel = content.label ? content.label : `${i18n[lang]["tab.option"]} ${id}`
     const value = optionValue || fallbackLabel.toUpperCase()
     const label = content?.['x-tab-label'] ? content['x-tab-label'] : fallbackLabel
+    const displayLabel = capitalizeDisplayLabel(label)
     
     // Handle x-i18n for content description
     const translatedDescription = content?.["x-i18n"]?.[lang]?.description ? content["x-i18n"][lang].description : content?.description
@@ -353,9 +356,18 @@ const Tab = ({ name, id, content, lang, target, selected, setSelected, optionVal
             <label
                 className={styles.tabLabel}
                 htmlFor={`${name}-tab${id}`}
-                data-label={label}
-                onMouseDown={e => e.preventDefault()}>
-                {label}
+                data-label={displayLabel}
+                onMouseDown={e => e.preventDefault()}
+                onClick={e => {
+                    // Drive selection from the label click and cancel the native
+                    // label→radio activation. The radio is visually hidden with
+                    // `clip: rect(0,0,0,0)`, so letting it receive focus makes the
+                    // browser scroll it into view — yanking the page to a blank spot
+                    // on every tab switch. Keyboard users still get onChange below.
+                    e.preventDefault();
+                    setSelected(value);
+                }}>
+                {displayLabel}
             </label>
             <div className={styles.tabPanel}>
                 { content?.type === 'object' && <Properties description={translatedDescription} properties={content.properties} requiredFields={content.required} lang={lang} target={target} /> }
@@ -502,10 +514,22 @@ const OneOf = ({ name, description, arr, required, lang, target, onValueChange, 
     </>)
 }
 
-const ExampleResponses = ({ examples, lang, target, selectedResponse }) => {
-    const r = getRandomString(5)
+const normalizeExampleLabel = (value = '') => value.toString().trim().toLowerCase()
 
-    const validKeys = Object.keys(examples).filter(key => {
+const getSelectedResponseLabel = (schema, selectedResponse) => {
+    const options = schema?.anyOf || schema?.oneOf || []
+    const optionNumber = selectedResponse?.match(/^OPTION\s+(\d+)$/i)?.[1]
+    const selectedIndex = optionNumber ? Number(optionNumber) - 1 : -1
+    const selectedOption = selectedIndex >= 0 ? options[selectedIndex] : null
+
+    return selectedOption?.['x-tab-label'] || selectedOption?.label || selectedResponse
+}
+
+const ExampleResponses = ({ examples, schema, lang, target, selectedResponse }) => {
+    const r = getRandomString(5)
+    const selectedResponseLabel = getSelectedResponseLabel(schema, selectedResponse)
+
+    const baseValidKeys = Object.keys(examples).filter(key => {
         var condition = true
 
         if (Object.keys(examples[key]).includes('x-include-target')) {
@@ -522,6 +546,11 @@ const ExampleResponses = ({ examples, lang, target, selectedResponse }) => {
 
         return condition
     })
+    const matchingLabelKeys = baseValidKeys.filter(key =>
+        !Object.keys(examples[key]).includes('x-target-response') &&
+        normalizeExampleLabel(getExampleLabel(examples[key], key)) === normalizeExampleLabel(selectedResponseLabel)
+    )
+    const validKeys = matchingLabelKeys.length > 0 ? matchingLabelKeys : baseValidKeys
 
     // Handle case where no valid keys are found
     const defaultValue = validKeys.length > 0 ? getExampleLabel(examples[validKeys[0]], validKeys[0]).toUpperCase() : ''
@@ -531,6 +560,16 @@ const ExampleResponses = ({ examples, lang, target, selectedResponse }) => {
     // Only update selection if there are available labels and current selection is invalid
     if (availableLabels.length > 0 && !availableLabels.includes(selected)) {
         setSelected(availableLabels[0])
+    }
+
+    if (validKeys.length === 1) {
+        const key = validKeys[0]
+        const label = getExampleLabel(examples[key], key)
+        return (
+            <div className={styles.singleExample}>
+                <CodeBlock title={label} className="language-json rest-spec-example-code" children={JSON.stringify(examples[key].value, null, 4)} />
+            </div>
+        )
     }
 
     return (
@@ -603,6 +642,16 @@ const ExampleRequests = ({ endpoint, method, headersExample, pathExample, queryE
         // Only update selection if there are available labels and current selection is invalid
         if (availableLabels.length > 0 && !availableLabels.includes(selected)) {
             setSelected(availableLabels[0])
+        }
+
+        if (validKeys.length === 1) {
+            const key = validKeys[0]
+            const label = getExampleLabel(examples[key], key)
+            return (
+                <div className={styles.singleExample}>
+                    <CodeBlock title={label} className="language-bash rest-spec-example-code" children={`${req} \\\n-d '${JSON.stringify(examples[key].value, null, 4)}'`} />
+                </div>
+            )
         }
 
         return (
@@ -854,6 +903,7 @@ export default function RestSpecs(props) {
                     <section className={styles.exampleContainer}>
                         { responseExample && <ExampleResponses 
                             examples={responseExample} 
+                            schema={responses['200']?.content['application/json']?.schema}
                             lang={lang} 
                             target={target}
                             selectedResponse={selectedResponse} /> }

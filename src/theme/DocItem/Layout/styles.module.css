@@ -1,7 +1,7 @@
 .docItemContainer {
   width: 100%;
   padding: 0;
-  background: #fdfdfd;
+  background: var(--zd-doc-panel-bg);
 }
 
 .docItemRow {
@@ -15,7 +15,7 @@
   min-width: 0;
   max-width: 60rem;
   padding: 32px 32px 5rem;
-  background: #fdfdfd;
+  background: var(--zd-doc-panel-bg);
 }
 
 /* No TOC: keep content left-aligned and filling the column (consistent left
@@ -37,9 +37,10 @@
   /* widened to ~256px (16rem) to match Vercel's right TOC; with the 32px left
      gap the text column is ~224px so longer entries wrap less. */
   width: 16rem;
-  /* top 0 so the first TOC item aligns with the breadcrumb; right padding
-     removed so the TOC sits closer to the page edge */
-  padding: 0 0 24px 0;
+  box-sizing: border-box;
+  /* top 0 so the first TOC item aligns with the breadcrumb; keep 32px on the
+     right so the rail does not sit flush against the viewport edge. */
+  padding: 0 32px 24px 0;
   position: sticky;
   /* 32px = the content card's top margin: the TOC starts 32px below the scroll
      container top (aligned with the breadcrumb), so stick at 32px to pin it in
@@ -55,20 +56,31 @@
   z-index: 410;
 }
 
+.tocMeta {
+  flex: 0 0 auto;
+  margin-top: 0;
+  padding-top: 1px;
+  padding-bottom: calc(1rem - 1px);
+}
+
+/* Copy page sits above the right navigation. */
+.tocCopyPage {
+  flex: 0 0 auto;
+  margin-top: 1rem;
+  padding-bottom: 1.25rem;
+}
+
+.tocCopyPage:first-child {
+  margin-top: 0;
+}
+
 /* TOC fits its content; scrolls only if it would exceed the available height. */
 .tocScroll {
   flex: 0 1 auto;
   min-height: 0;
+  margin-top: 0.75rem;
   overflow-y: auto;
   scrollbar-width: thin;
-}
-
-/* Copy page follows directly beneath the TOC with a gap (not pinned to the floor). */
-.tocCopyPage {
-  flex: 0 0 auto;
-  margin-top: 1.25rem;
-  padding-top: 1.25rem;
-  border-top: 1px solid var(--ifm-toc-border-color);
 }
 
 /* Contact Sales CTA under "Copy page" — warm yellow, tuned to the site's neutral
@@ -86,9 +98,9 @@
   font-family: var(--ifm-font-family-base);
   font-size: 13px;
   font-weight: 450;
-  color: #72591d;
-  background: #fff8e8;
-  border: 1px solid #f2ead3;
+  color: #65460d;
+  background: #fffaf0;
+  border: 1px solid #e9dfc7;
   border-radius: 10px;
   text-decoration: none !important;
   transition: background 0.15s ease, border-color 0.15s ease;
@@ -99,9 +111,9 @@
 }
 
 .tocContactSales:hover {
-  background: #fff3d3;
-  border-color: #eadcb8;
-  color: #604914;
+  background: #fff5dc;
+  border-color: #ddd0ad;
+  color: #543806;
 }
 
 

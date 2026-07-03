@@ -10,7 +10,7 @@ import DocItemPaginator from '@theme/DocItem/Paginator';
 import DocItemContent from '@theme/DocItem/Content';
 import DocItemTOCDesktop from '@theme/DocItem/TOC/Desktop';
 import CopyPageButton from '@site/src/theme/Heading/CopyPageButton';
-import DocMetaTags from '@site/src/theme/Heading/DocMetaTags';
+import DocMetaTags, {hasDocMetaTags} from '@site/src/theme/Heading/DocMetaTags';
 import ContentVisibility from '@theme/ContentVisibility';
 import type {Props} from '@theme/DocItem/Layout';
 import styles from './styles.module.css';
@@ -50,6 +50,26 @@ function getTopNavBreadcrumb(pathname: string): BreadcrumbItem | null {
 
   if (normalizedPathname.startsWith('/reference/cli')) {
     return {label: 'CLI', href: withLocalePrefix(pathname, '/reference/cli/cli/overview')};
+  }
+
+  if (normalizedPathname.startsWith('/reference/python')) {
+    return {label: 'Python SDK', href: withLocalePrefix(pathname, '/reference/python')};
+  }
+
+  if (normalizedPathname.startsWith('/reference/java')) {
+    return {label: 'Java SDK', href: withLocalePrefix(pathname, '/reference/java')};
+  }
+
+  if (normalizedPathname.startsWith('/reference/node')) {
+    return {label: 'Node SDK', href: withLocalePrefix(pathname, '/reference/node')};
+  }
+
+  if (normalizedPathname.startsWith('/reference/go')) {
+    return {label: 'Go SDK', href: withLocalePrefix(pathname, '/reference/go')};
+  }
+
+  if (normalizedPathname.startsWith('/reference/restful')) {
+    return {label: 'RESTful API', href: withLocalePrefix(pathname, '/reference/restful')};
   }
 
   if (normalizedPathname.startsWith('/reference')) {
@@ -138,6 +158,7 @@ export default function DocItemLayout({children}: Props): ReactNode {
   const betaRaw = typeof beta === 'string' ? beta : undefined;
   const showContactSales = pathname.startsWith('/docs/byoc') || betaRaw === 'CONTACT SALES';
   const isReference = pathname.startsWith('/reference');
+  const showVersionInfo = isReference && hasDocMetaTags(frontMatter);
 
   return (
     <div className={styles.docItemContainer}>
@@ -155,12 +176,13 @@ export default function DocItemLayout({children}: Props): ReactNode {
         </div>
         {showDesktopTOC && (
           <div className={styles.tocCol}>
-            <div className={styles.tocScroll}>
-              <DocItemTOCDesktop />
-            </div>
+            {showVersionInfo && (
+              <div className={styles.tocMeta}>
+                <DocMetaTags frontMatter={frontMatter} />
+              </div>
+            )}
             <div className={styles.tocCopyPage}>
               <CopyPageButton />
-              {isReference && <DocMetaTags frontMatter={frontMatter} />}
               {showContactSales && (
                 <a
                   className={styles.tocContactSales}
@@ -173,6 +195,9 @@ export default function DocItemLayout({children}: Props): ReactNode {
                   Contact Sales
                 </a>
               )}
+            </div>
+            <div className={styles.tocScroll}>
+              <DocItemTOCDesktop />
             </div>
           </div>
         )}
