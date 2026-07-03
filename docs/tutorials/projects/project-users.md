@@ -47,7 +47,7 @@ Once the user joins the project, they automatically become an Organization Membe
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Each time, you can invite one or more users with the same role to join the project.</p>
+Each time, you can invite one or more users with the same role to join the project.
 
 </Admonition>
 
@@ -96,6 +96,88 @@ In addition to the privileges of a Project Read-Write role, a Cluster Admin can 
 ### Project role and access comparison\{#project-role-and-access-comparison}
 
 The following tables provide a quick comparison of the privileges of different project roles.
+
+**On-demand compute**
+
+<table>
+    <tr>
+        <th><p>Operation</p></th>
+        <th><p>Project Admin</p></th>
+        <th><p>Cluster Admin</p></th>
+        <th><p>Project Read/Write</p></th>
+        <th><p>Project Read-Only</p></th>
+    </tr>
+    <tr>
+        <td><p>Create On-Demand Cluster</p></td>
+        <td><p>✅</p></td>
+        <td><p>❌</p></td>
+        <td><p>❌</p></td>
+        <td><p>❌</p></td>
+    </tr>
+    <tr>
+        <td><p>View On-Demand Cluster List and Details</p></td>
+        <td><p>✅</p></td>
+        <td><p>✅</p></td>
+        <td><p>✅</p></td>
+        <td><p>✅</p></td>
+    </tr>
+    <tr>
+        <td><p>Modify, Rename, or Delete On-Demand Cluster</p></td>
+        <td><p>✅</p></td>
+        <td><p>❌</p></td>
+        <td><p>❌</p></td>
+        <td><p>❌</p></td>
+    </tr>
+    <tr>
+        <td><p>Create Database in On-demand Compute</p></td>
+        <td><p>✅</p></td>
+        <td><p>✅</p></td>
+        <td><p>✅</p></td>
+        <td><p>❌</p></td>
+    </tr>
+    <tr>
+        <td><p>View Database List in On-demand Compute</p></td>
+        <td><p>✅</p></td>
+        <td><p>✅</p></td>
+        <td><p>✅</p></td>
+        <td><p>❌</p></td>
+    </tr>
+    <tr>
+        <td><p>Delete Database in On-demand Compute</p></td>
+        <td><p>✅</p></td>
+        <td><p>❌</p></td>
+        <td><p>❌</p></td>
+        <td><p>❌</p></td>
+    </tr>
+    <tr>
+        <td><p>Create or Delete Collections in Database in On-demand Compute</p></td>
+        <td><p>✅</p></td>
+        <td><p>✅</p></td>
+        <td><p>✅</p></td>
+        <td><p>❌</p></td>
+    </tr>
+    <tr>
+        <td><p>Import Data into Collections in Database in On-demand Compute</p></td>
+        <td><p>✅</p></td>
+        <td><p>✅</p></td>
+        <td><p>✅</p></td>
+        <td><p>❌</p></td>
+    </tr>
+    <tr>
+        <td><p>Run Query, Search, or Get through On-Demand Cluster</p></td>
+        <td><p>✅</p></td>
+        <td><p>✅</p></td>
+        <td><p>✅</p></td>
+        <td><p>✅</p></td>
+    </tr>
+    <tr>
+        <td><p>Create Managed Volume or External Volume</p></td>
+        <td><p>✅</p></td>
+        <td><p>❌</p></td>
+        <td><p>❌</p></td>
+        <td><p>❌</p></td>
+    </tr>
+</table>
 
 **Cluster operations**
 
@@ -322,7 +404,7 @@ The following tables provide a quick comparison of the privileges of different p
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Both the Cluster Admin and the Project Read-Write roles share the same data plane privileges.       </p>
+Both the Cluster Admin and the Project Read-Write roles share the same data plane privileges.       
 
 </Admonition>
 
@@ -750,7 +832,7 @@ To revoke or resend the invitation, you must be an **Organization Owner** or a *
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>You can revoke or resend an invitation before the user accepts it.</p>
+You can revoke or resend an invitation before the user accepts it.
 
 </Admonition>
 
@@ -778,7 +860,7 @@ Note that if you are the only admin of a project, you cannot leave it as each pr
 
 <Admonition type="caution" icon="🚧" title="Warning">
 
-<p>Once you leave a project, your access to the project and associated resources will be revoked.</p>
+Once you leave a project, your access to the project and associated resources will be revoked.
 
 </Admonition>
 
