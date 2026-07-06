@@ -213,6 +213,15 @@ Follow the steps displayed in the dialog to deploy the data plane for the curren
 
 ![B6RbbG77do1gq7xqK1xc2BzAnYc](https://zdoc-images.s3.us-west-2.amazonaws.com/b6rbbg77do1gq7xqk1xc2bzanyc.png "B6RbbG77do1gq7xqK1xc2BzAnYc")
 
+When you run `terraform apply`, note that you need to append `-var="gcp_project_id=xxx"` to the end of the command as follows:
+
+```shell
+terraform apply \
+  -var="dataplane_id=zilliz-byoc-gcp-us-west1-74xxxx" \
+  -var="project_id=project-xxxxx" \
+  -var="gcp_project_id=YOUR_GCP_PROJECT_ID"
+```
+
 For details on running the above Terraform scripts, refer to the [Zilliz Cloud BYOC-I Project Setup Guide](https://registry.terraform.io/providers/zilliztech/zillizcloud/latest/docs/guides/create-a-byoc-i-project).
 
 Once you have deployed the project's data plane and created clusters, you can connect to these clusters either through direct VPC access or via GCP PSC. For details, refer to [Prepare for Cluster Connection](./prepare-for-cluster-connection).

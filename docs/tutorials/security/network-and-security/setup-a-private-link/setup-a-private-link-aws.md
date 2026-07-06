@@ -35,19 +35,15 @@ import Procedures from '@site/src/components/Procedures';
 
 This guide demonstrates the procedure for setting up a private link from a Zilliz Cloud cluster to your service hosted in different AWS VPCs.
 
-<Admonition type="info" icon="📘" title="Notes">
+A private link is set up at the project level and is effective for all **Dedicated** serving clusters and **on-demand** clusters deployed within the same cloud provider and region under this project.
 
-<p>This feature is available only to <strong>Dedicated</strong> clusters.</p>
+<Admonition type="info" icon="📘" title="Note">
 
-</Admonition>
-
-A private link is set up at the project level and is effective for all clusters deployed within the same cloud provider and region under this project.
-
-<Admonition type="info" icon="📘" title="Notes">
-
-<p>Zilliz Cloud does not charge you for creating and using private endpoints. However, your cloud provider may <a href="https://aws.amazon.com/privatelink/pricing/">charge you for each endpoint</a> that you create to access Zilliz Cloud.</p>
+You can create up to 10 private endpoints per project.
 
 </Admonition>
+
+Zilliz Cloud does not charge you for creating and using private endpoints. However, your cloud provider may [charge you for each endpoint](https://aws.amazon.com/privatelink/pricing/) that you create to access Zilliz Cloud.
 
 ## Before you start\{#before-you-start}
 
@@ -85,11 +81,11 @@ You need to complete this step on your cloud provider console using either the U
 
         <Admonition type="info" icon="📘" title="Notes">
 
-        <p>You should always use the region where your service that needs access to your Zilliz Cloud cluster is located.</p>
-        <ul>
-        <li><p>If your service runs in the same region as the one hosting your Zilliz Cloud cluster, use the region.</p></li>
-        <li><p>If your service runs in a different region than the one hosting your Zilliz Cloud cluster, use the region where your service runs.</p></li>
-        </ul>
+        You should always use the region where your service that needs access to your Zilliz Cloud cluster is located.
+
+        - If your service runs in the same region as the one hosting your Zilliz Cloud cluster, use the region.
+
+        - If your service runs in a different region than the one hosting your Zilliz Cloud cluster, use the region where your service runs.
 
         </Admonition>
 
@@ -99,19 +95,21 @@ You need to complete this step on your cloud provider console using either the U
 
         ![create_endpoint_type_gcp](https://zdoc-images.s3.us-west-2.amazonaws.com/create_endpoint_type_gcp.png "create_endpoint_type_gcp")
 
-    1. Switch to the AWS console. In **Service Settings**, paste the **Service Name** you copied from the Zilliz Cloud web console into the **Service Name** field. Then click **Verify service**.
+    1. In **Service Settings**, paste the **Service Name** you copied from the Zilliz Cloud web console into the **Service Name** field. Then click **Verify service**.
 
         ![enter_service_name_gcp](https://zdoc-images.s3.us-west-2.amazonaws.com/enter_service_name_gcp.png "enter_service_name_gcp")
 
         <Admonition type="info" icon="📘" title="Notes">
 
-        <p>If your service operates in a different region than where your Zilliz Cloud cluster is hosted, ensure you select <strong>Enable Cross Region endpoint</strong> and choose the region where your Zilliz Cloud cluster runs. Then click <strong>Verify service</strong>. </p>
-        <p>In the following diagram, your Zilliz Cloud cluster is assumed to be running in <strong>Europe (Frankfurt)</strong>, and your service is running in another region.</p>
-        <p><img src="https://zdoc-images.s3.us-west-2.amazonaws.com/nx2abfqbfokf1axbn4lchjfznqs.png" alt="NX2AbfqBfokf1axbn4LchJfZnqS" title="NX2AbfqBfokf1axbn4LchJfZnqS" /></p>
+        If your service operates in a different region than where your Zilliz Cloud cluster is hosted, ensure you select **Enable Cross Region endpoint** and choose the region where your Zilliz Cloud cluster runs. Then click **Verify service**. 
+
+        In the following diagram, your Zilliz Cloud cluster is assumed to be running in **Europe (Frankfurt)**, and your service is running in another region.
+
+        ![NX2AbfqBfokf1axbn4LchJfZnqS](https://zdoc-images.s3.us-west-2.amazonaws.com/nx2abfqbfokf1axbn4lchjfznqs.png "NX2AbfqBfokf1axbn4LchJfZnqS")
 
         </Admonition>
 
-    1. When the service name is verified, complete network settings, subnet, security groups, and click **Create**.
+    1. When the service name is verified, configure subnets, security groups first, and then click **Create**.
 
     1. When the endpoint is successfully created, copy the Endpoint ID (starting with "vpce-").
 
@@ -207,7 +205,7 @@ Before you can access your cluster via the private link allocated by Zilliz Clou
            </tr>
            <tr>
              <td><p><strong>Domain name</strong></p></td>
-             <td><p>Private Link allocated by Zilliz Cloud for the target cluster.</p></td>
+             <td><ul><li><p>Serving cluster: Private Link allocated by Zilliz Cloud for the target serving cluster.</p></li><li><p>On-demand compute: Project endpoint of the service.</p></li></ul></td>
            </tr>
            <tr>
              <td><p><strong>Description</strong></p></td>
@@ -239,7 +237,7 @@ Before you can access your cluster via the private link allocated by Zilliz Clou
 
         1. Select the cloud region in the second drop-down list.
 
-        1. Enter the name of the endpoint that has been created above.
+        1. Enter the DNS name of the VPC endpoint that has been created above.
 
     1. Click **Create records**.
 
@@ -265,10 +263,9 @@ To disable public endpoints:
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<ul>
-<li><p>Private endpoints only impact <a href="/reference/restful/data-plane-v2">data plane</a> access. <a href="/reference/restful/control-plane-v2">Control plane</a> can still be accessed over the public internet.</p></li>
-<li><p>After you re-enable the public endpoint, you may need to wait until the local DNS cache to expire before you can access the public endpoint.</p></li>
-</ul>
+- Private endpoints only impact [data plane](/reference/restful/data-plane-v2) access. [Control plane](/reference/restful/control-plane-v2) can still be accessed over the public internet.
+
+- After you re-enable the public endpoint, you may need to wait until the local DNS cache to expire before you can access the public endpoint.
 
 </Admonition>
 
@@ -288,7 +285,7 @@ A timeout usually occurs for the following reasons:
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    <p>If the IP address of the VPC endpoint has been resolved correctly in the output of the ping request, the DNS record works. </p>
+    If the IP address of the VPC endpoint has been resolved correctly in the output of the ping request, the DNS record works. 
 
     </Admonition>
 
@@ -310,7 +307,7 @@ A timeout usually occurs for the following reasons:
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    <p>Two security groups must be configured: one for the EC2 instance, which must allow traffic on the port associated with your private link, and another for the VPC endpoint, which must permit traffic from the IP address of the EC2 instance and target the specified port number.</p>
+    Two security groups must be configured: one for the EC2 instance, which must allow traffic on the port associated with your private link, and another for the VPC endpoint, which must permit traffic from the IP address of the EC2 instance and target the specified port number.
 
     </Admonition>
 

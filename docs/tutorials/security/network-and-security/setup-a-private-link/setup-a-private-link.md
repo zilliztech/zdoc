@@ -40,6 +40,12 @@ The following figure demonstrates how it works.
 
 This guide walks you through setting up a private endpoint for a cluster.
 
+<Admonition type="info" icon="📘" title="Note">
+
+You can create up to 10 private endpoints per project.
+
+</Admonition>
+
 import DocCardList from '@theme/DocCardList';
 
 <DocCardList />

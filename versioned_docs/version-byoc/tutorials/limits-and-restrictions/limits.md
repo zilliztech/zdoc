@@ -319,7 +319,7 @@ The rate limit for flush requests is 0.1 requests per second, imposed at the col
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>You are not advised to perform flush operations manually. Zilliz Cloud clusters handle it gracefully for you.</p>
+You are not advised to perform flush operations manually. Zilliz Cloud clusters handle it gracefully for you.
 
 </Admonition>
 
@@ -329,7 +329,7 @@ The rate limit for load requests is **20** req/s per cluster.
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>You do not need to perform the load collection for collections that are already loaded, even if new data is coming into these collections.</p>
+You do not need to perform the load collection for collections that are already loaded, even if new data is coming into these collections.
 
 </Admonition>
 
@@ -414,4 +414,19 @@ You can restore a backup file in the same region as the original cluster of the 
 ## Migration\{#migration}
 
 You can migrate data from other vendors to your Zilliz Cloud cluster, and the maximum number of collections per migration varies with your Zilliz Cloud cluster. You can migrate a maximum of **10** collections each time during the migrations.
+
+## Private Endpoints\{#private-endpoints}
+
+<table>
+   <tr>
+     <th><p><strong>Item</strong></p></th>
+     <th><p><strong>Max Number</strong></p></th>
+     <th><p><strong>Remarks</strong></p></th>
+   </tr>
+   <tr>
+     <td><p>Private Endpoint</p></td>
+     <td><p>10</p></td>
+     <td><p>You can create up to 10 private endpoints per project.</p></td>
+   </tr>
+</table>
 
