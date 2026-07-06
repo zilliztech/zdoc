@@ -2,7 +2,7 @@
 title: "Deploy BYOC-I on Microsoft Azure | BYOC"
 slug: /deploy-byoc-i-azure
 sidebar_label: "Deploy BYOC-I on Microsoft Azure"
-beta: FALSE
+beta: CONTACT SALES
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
@@ -39,6 +39,45 @@ Ensure that
 - You are the owner of a BYOC-I organization.
 
 - You have been granted the permissions listed in [Required permissions](./deploy-byoc-i-aws#required-permissions).
+
+## Applicable regions\{#applicable-regions}
+
+The following table lists the AWS cloud regions the Zilliz Cloud BYOC solution supports. If you cannot find your cloud regions on the Zilliz Cloud console, please contact us at support@zilliz.com.
+
+<table>
+   <tr>
+     <th><p><strong>Continent</strong></p></th>
+     <th><p><strong>Region</strong></p></th>
+     <th><p><strong>Location</strong></p></th>
+   </tr>
+   <tr>
+     <td rowspan="3"><p>North America</p></td>
+     <td><p>East US</p></td>
+     <td><p>Virginia, USA</p></td>
+   </tr>
+   <tr>
+     <td><p>East US 2</p></td>
+     <td><p>Virginia, USA</p></td>
+   </tr>
+   <tr>
+     <td><p>Central US</p></td>
+     <td><p>Iowa, USA</p></td>
+   </tr>
+   <tr>
+     <td rowspan="2"><p>Europe</p></td>
+     <td><p>Germany West Central</p></td>
+     <td><p>Frankfurt, Germany</p></td>
+   </tr>
+   <tr>
+     <td><p>North Europe</p></td>
+     <td><p>Ireland</p></td>
+   </tr>
+   <tr>
+     <td><p>Asia</p></td>
+     <td><p>Central India</p></td>
+     <td><p>Pune, India</p></td>
+   </tr>
+</table>
 
 ## Procedures\{#procedures}
 
@@ -118,7 +157,7 @@ The project is created at the end of this step, and you will be redirected to th
 
 ![Wc5KwW4BihKe17beYFccNdb3nCf](https://zdoc-images.s3.us-west-2.amazonaws.com/Wc5KwW4BihKe17beYFccNdb3nCf.png)
 
-### Step 3: Deploy the data plane\{#step-3-deploy-the-data-plane}
+### Step 3: Prepare the data plane\{#step-3-prepare-the-data-plane}
 
 <Procedures>
 
@@ -170,28 +209,28 @@ The project is created at the end of this step, and you will be redirected to th
            <tr>
              <td><p>Small</p></td>
              <td><p>3 clusters with 8 to 16 CUs</p></td>
-             <td><p>20 Million - 40 Million</p></td>
+             <td><p>16 Million - 32 Million</p></td>
              <td><p>64 Million - 128 Million</p></td>
              <td><p>320 Million - 640 Million</p></td>
            </tr>
            <tr>
              <td><p>Medium</p></td>
              <td><p>7 clusters with 16 to 64 CUs</p></td>
-             <td><p>40 Million - 160 Million</p></td>
+             <td><p>32 Million - 128 Million</p></td>
              <td><p>128 Million - 512 Million</p></td>
              <td><p>640 Million - 2.6 Billion</p></td>
            </tr>
            <tr>
              <td><p>Large</p></td>
              <td><p>12 clusters with 64 to 192 CUs</p></td>
-             <td><p>160 Million - 480 Million</p></td>
+             <td><p>128 Million - 384 Million</p></td>
              <td><p>512 Million - 1.5 Billion</p></td>
              <td><p>2.6 Billion - 7.7 Billion</p></td>
            </tr>
            <tr>
              <td><p>X-Large</p></td>
              <td><p>17 clusters with 192 to 576 CUs</p></td>
-             <td><p>480 Million - 1.44 Billion</p></td>
+             <td><p>384 Million - 1.2 Billion</p></td>
              <td><p>1.5 Billion -  4.6 Billion</p></td>
              <td><p>7.7 Billion - 23 Billion</p></td>
            </tr>

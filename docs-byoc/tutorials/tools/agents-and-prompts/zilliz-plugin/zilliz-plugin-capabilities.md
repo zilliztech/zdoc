@@ -115,4 +115,4 @@ zilliz vector query --collection users --filter "age > 25"
 zilliz vector delete --collection products --ids 1,2,3
 ```
 
-For more capabilities, you can read the [Zilliz CLI reference](/reference/cli/overview) docs.
+For more capabilities, you can read the [Zilliz CLI reference](/reference/cli/cli/overview) docs.

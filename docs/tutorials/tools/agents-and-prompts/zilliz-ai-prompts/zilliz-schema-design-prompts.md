@@ -1,6 +1,6 @@
 ---
 title: "Schema Design | Cloud"
-slug: /agents/zilliz-schema-design-prompts
+slug: /zilliz-schema-design-prompts
 sidebar_label: "Schema Design"
 beta: FALSE
 added_since: FALSE
@@ -18,7 +18,7 @@ keywords:
   - decision matrix
   - prompts
   - schema design
-displayed_sidebar: agentsSidebar
+displayed_sidebar: default
 
 ---
 

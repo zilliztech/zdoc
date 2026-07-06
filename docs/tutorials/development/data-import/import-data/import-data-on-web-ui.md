@@ -28,7 +28,7 @@ This page introduces how to import the prepared data on the Zilliz Cloud console
 
 Once data files are ready, you can import them directly from your local drive or upload them to an object storage bucket, such as AWS S3 or Google Cloud GCS, Azure Blob Storage for data imports.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="📘 Notes">
 
 - You can have up to 10,000 running or pending import jobs in a collection.
 
@@ -96,9 +96,9 @@ For applicable object paths, refer to [Storage Options](./data-import-storage-op
 
 Both allow you to import data from your own S3 or GCS bucket. The key differences are:
 
-- External volume requires you to integrate an [AWS S3 bucket](./integrate-with-aws-s3), a [Google Cloud Storage bucket](./integrate-with-gcp), or a [Microsoft Azure blob storage container](./integrate-with-azure-blob-storage) with Zilliz Cloud  for credential management. Credentials are set up once and reused across multiple volumes and operations. Data engineers do not need direct access to cloud storage keys.
+- External volume requires you to integrate an [AWS S3 bucket](./integrate-with-aws-s3), a [Google Cloud Storage bucket](./integrate-with-gcp), or a [Microsoft Azure blob storage container](./integrate-with-azure-blob-storage) with Zilliz Cloud for credential management. Credentials are set up once and reused across multiple volumes and operations. Data engineers do not need direct access to cloud storage keys.
 
-- Direct [external storage import](./import-data-on-web-ui#remote-files-from-an-object-storage-bucket) requires you to provide credentials (access key, secret key) inline with each import request. This is simpler for one-time imports but does not offer credential separation or reusability.
+- Direct [external storage import](./import-data-on-web-ui#remote-files-from-an-object-storage-bucket) requires you to provide credentials (access key and secret key) with each import request. This is simpler for one-time imports but does not offer credential separation or reusability.
 
 ## Related topics\{#related-topics}
 

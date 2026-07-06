@@ -2,7 +2,7 @@
 title: "Configure a Customer-Managed VPC on GCP | BYOC"
 slug: /configure-vpc-gcp
 sidebar_label: "Configure a Customer-Managed VPC on GCP"
-beta: FALSE
+beta: CONTACT SALES
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
@@ -56,9 +56,36 @@ Your VPC must meet the requirements enumerated in this section to host a Zilliz 
 
 The following table lists the Google Cloud Platform (GCP) regions the Zilliz Cloud BYOC solution supports. If you cannot find your cloud regions on the Zilliz Cloud console, please contact us at support@zilliz.com.
 
-| GCP Region | Location |
-| --- | --- |
-| us-west1 | Oregon |
+<table>
+   <tr>
+     <th><p><strong>Continent</strong></p></th>
+     <th><p><strong>Region</strong></p></th>
+     <th><p><strong>Location</strong></p></th>
+   </tr>
+   <tr>
+     <td rowspan="3"><p>North America</p></td>
+     <td><p>us-west1</p></td>
+     <td><p>Oregon, USA</p></td>
+   </tr>
+   <tr>
+     <td><p>us-east4</p></td>
+     <td><p>Virginia, USA</p></td>
+   </tr>
+   <tr>
+     <td><p>us-central1</p></td>
+     <td><p>Iowa, USA</p></td>
+   </tr>
+   <tr>
+     <td><p>Europe</p></td>
+     <td><p>europe-west3</p></td>
+     <td><p>Frankfurt, Germany</p></td>
+   </tr>
+   <tr>
+     <td><p>Asia</p></td>
+     <td><p>asia-southeast1</p></td>
+     <td><p>Singapore</p></td>
+   </tr>
+</table>
 
 ### VPC IP address ranges\{#vpc-ip-address-ranges}
 

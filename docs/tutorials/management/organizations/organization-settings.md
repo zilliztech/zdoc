@@ -38,6 +38,12 @@ For a quick view of all the organizations you've joined, just click **All Organi
 
 ![view-organizations](https://zdoc-images.s3.us-west-2.amazonaws.com/view-organizations.png "view-organizations")
 
+## Create an organization\{#create-an-organization}
+
+If you need multiple organizations, please [submit a support ticket](http://support.zilliz.com) so that we can enable the multi-organization feature for you. Once the feature is enabled, you can create new organizations on your own.
+
+![SJ2xw2rO4h2LJTblDpmcgHh0nHg](https://zdoc-images.s3.us-west-2.amazonaws.com/SJ2xw2rO4h2LJTblDpmcgHh0nHg.png)
+
 ## Rename an organization\{#rename-an-organization}
 
 To rename an organization, you must be an [Organization Owner](./organization-users).
@@ -100,15 +106,15 @@ Before you start, make sure the following conditions are met:
 
 - All clusters in the current organization are [deleted](./manage-cluster).
 
-- All volumes in the current organization are deleted.
+- All volumes in the current organization are [deleted](./managed-volume).
 
-- All organization [bills](./view-invoice) are paid.
+- All organization bills are paid.
 
 - You are granted the [Organization Owner](./organization-users) role in the target organization.
 
 - All remaining advance pay funds need to be refunded.
 
-- Third-party [marketplace subscription needs to be cancelled](./undefined).
+- Third-party marketplace subscription needs to be cancelled.
 
 To delete an organization: 
 
@@ -126,7 +132,7 @@ To delete an organization:
 
 </Procedures>
 
-<Admonition type="caution" icon="🚧" title="Warning">
+<Admonition type="danger" icon="🚧" title="🚧 Warning">
 
 The action of deleting an organization cannot be undone. Please take extra caution with this action.
 

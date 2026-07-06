@@ -9,7 +9,7 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "The Usage page in Zilliz Cloud provides you with a visualized cost analysis tool, enabling you to view and track Zilliz Cloud usage and expenses from multiple dimensions. | Cloud"
 type: origin
-token: OnipwPISWiGPz1kueugcwtcinoh
+token: LJplw7Q9Gi09GMkiy8PcbYp6nrg
 sidebar_position: 2
 displayed_sidebar: default
 
@@ -20,7 +20,7 @@ import Admonition from '@theme/Admonition';
 
 # Analyze Cost
 
-The **Usage** page in Zilliz Cloud provides you with a visualized cost analysis tool, enabling you to view and track Zilliz Cloud usage and expenses from multiple dimensions. 
+The **Usage** page in Zilliz Cloud provides you with a visualized cost analysis tool, enabling you to view and track Zilliz Cloud usage and expenses from multiple dimensions.
 
 If you subscribe through a marketplace and want to separate billing by marketplace account, see [Separate Billing by Marketplace Account](./undefined).
 
@@ -40,7 +40,7 @@ There are two ways to analyze costs on Zilliz Cloud.
 
 On the **Billing** page, switch to the **Usage** tab. You can monitor the usage and cost trends across various dimensions.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="📘 Notes">
 
 Usage data is updated on an hourly basis.
 
@@ -61,6 +61,8 @@ Usage data is updated on an hourly basis.
     If you have created multiple different clusters based on your business, you can filter and view the specific usage and cost of a particular cluster according to the clusters. 
 
     For example, if you have created two different clusters for user information and order information respectively, when you need to check the usage and cost of the cluster storing order information, you can select the corresponding cluster in the filter.
+
+&lt;include>
 
 - **By Time Period**
 
@@ -88,7 +90,7 @@ You can combine multiple filters based on your analysis needs to view visualized
 
 ### Via RESTful API\{#via-restful-api}
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="📘 Notes">
 
 The Query Daily Usage RESTful API is currently in public preview. To use this API, please [contact us](http://support.zilliz.com).
 
@@ -123,5 +125,4 @@ Zilliz Cloud calculates charges with a precision of **10 decimal places**, and a
 
 - **RESTful API**: All numeric values (e.g., Unit Price, Usage, Usage Amount) are always returned with exactly 10 decimal places. If the value has fewer than 10 decimal digits, trailing zeros are padded to reach 10 digits. For more information about how to use the RESTful API, see [Query Daily Usage](/reference/restful/query-daily-usage-v2).
 
-- **Web Console UI**: The displayed amounts are consistent with the API values, but trailing zeros are omitted for readability. For example, `0.1234000000` would be displayed as `0.1234` in the UI.
-
+- **Web Console UI**: The displayed amounts are consistent with the API values, but trailing zeros are omitted for readability. For example, `0.1234000000` would be displayed as `0.1234` i

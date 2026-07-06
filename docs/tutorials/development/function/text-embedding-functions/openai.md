@@ -10,7 +10,7 @@ notebook: FALSE
 description: "Use an OpenAI embedding model with Zilliz Cloud by choosing an embedding model and creating a collection with a text embedding function. | Cloud"
 type: origin
 token: IrQ2wm2oaiAWl4kqQhkc303Rnlg
-sidebar_position: 2
+sidebar_position: 1
 displayed_sidebar: default
 
 ---

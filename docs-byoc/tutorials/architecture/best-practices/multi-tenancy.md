@@ -30,7 +30,7 @@ Zilliz Cloud supports multi-tenancy at four levels: **Database**, **Collection**
 
 ### Database-level multi-tenancy\{#database-level-multi-tenancy}
 
-With database-level multi-tenancy, each tenant receives a corresponding database containing one or more collections. 
+With database-level multi-tenancy, each tenant receives a corresponding [database](./database-concept) containing one or more collections. 
 
 ![NVV9w0w49hZJ61bNzG4cdi9gn6C](https://zdoc-images.s3.us-west-2.amazonaws.com/NVV9w0w49hZJ61bNzG4cdi9gn6C.png)
 

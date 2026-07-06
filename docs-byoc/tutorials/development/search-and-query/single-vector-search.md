@@ -1057,7 +1057,7 @@ for (auto& result : response.Results().Results()) {
 }
 ```
 
-## Sort Search Results by Scalar Fields | PRIVATE\{#sort-search-results-by-scalar-fields}
+## Sort Search Results by Scalar Fields | ONDEMAND\{#sort-search-results-by-scalar-fields}
 
 By default, Zilliz Cloud orders search results by their similarity score to the query vector. If you want the returned entities to follow a scalar field order, add `order_by_fields` to the search request.
 
@@ -1796,7 +1796,7 @@ AUTOINDEX considerably flattens the learning curve of ANN searches. However, the
 
     You can include filtering conditions in a search request so that Zilliz Cloud conducts metadata filtering before conducting ANN searches, reducing the search scope from the whole collection to only the entities matching the specified filtering conditions.
 
-    For more about metadata filtering and filtering conditions, refer to [Filtered Search](./filtered-search) and [Filtering](./undefined).
+    For more about metadata filtering and filtering conditions, refer to [Filtered Search](./filtered-search) and [Filtering Explained](./filtering-overview).
 
 - Range Search
 

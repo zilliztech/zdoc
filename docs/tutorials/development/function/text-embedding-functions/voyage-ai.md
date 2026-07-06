@@ -10,7 +10,7 @@ notebook: FALSE
 description: "This topic describes how to configure and use Voyage AI embedding functions in Milvus. | Cloud"
 type: origin
 token: P4KNwDdqaivEZFk7RpOcYeyhn2N
-sidebar_position: 3
+sidebar_position: 2
 displayed_sidebar: default
 
 ---

@@ -36,9 +36,9 @@ An integration:
 
 You need to create a model provider integration **only when you want to use model-based capabilities** in Zilliz Cloud:
 
-- **Text Embedding Functions**: Convert raw text into dense vectors using external models. For details, refer to Text Embedding Functions.
+- **Text Embedding Functions**: Convert raw text into dense vectors using external models. For details, refer to [Function Overview](./function-and-model-inference-overview).
 
-- **Model-based Rankers**: Re-rank search results using external reranking models. For details, refer to Model-based Rankers.
+- **Model-based Rankers**: Re-rank search results using external reranking models. For details, refer to [Cohere Ranker](./cohere-model-ranker) and its sibling pages.
 
 Local features such as BM25, hybrid rankers, and rule-based rankers do **not** require a model provider integration.
 
@@ -126,7 +126,17 @@ After creating a model provider integration, you can:
 
 For detailed instructions, refer to:
 
-- Text Embedding Functions
+- [Function Overview](./function-and-model-inference-overview)
 
-- Reranking Functions
+- [Weighted Ranker](./reranking-weighted-reranker)
+
+- [RRF Ranker](./reranking-rrf)
+
+- [Boost Ranker](./boost-ranker)
+
+- [Decay Ranker Overview](./decay-ranker-oveview)
+
+- [Cohere Ranker](./cohere-model-ranker)
+
+- [Voyage AI Ranker](./voyage-ai-model-ranker)
 

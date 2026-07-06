@@ -2,7 +2,7 @@
 title: "Export Backup Files | Cloud"
 slug: /export-backup-files
 sidebar_label: "Export Backup Files"
-beta: FALSE
+beta: PRIVATE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE

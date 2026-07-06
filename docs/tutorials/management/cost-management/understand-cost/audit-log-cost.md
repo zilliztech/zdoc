@@ -9,7 +9,7 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "When you enable audit logs, Zilliz Cloud deploys a logging service. Collecting, processing, and forwarding these logs consumes additional system resources, which is why corresponding charges apply. | Cloud"
 type: origin
-token: ZuWZwz63QiQi2kkuNk6czyVdn2g
+token: GBfswoqhviHfTVk2qhHc4eGXnfh
 sidebar_position: 7
 displayed_sidebar: default
 
@@ -44,7 +44,7 @@ Audit Logs CU Cost = Audit Logs CU Unit Price x Total Number of Query CU x Audit
 
     For example, a cluster with 2 query CUs and 2 replicas has a total of 4 CUs.
 
-- **Audit Logs Runtime**: The total time the Audit Logs feature is enabled. Runtime is calculated as `Disable Time Point − Enable Time Point`. If the cluster is in a **Suspended** status, that time is excluded from the calculation because no compute resources are consumed by the audit logs feature during suspension. For an example of the calculation of runtime, see [Example](./audit-log-cost#example).
+- **Audit Logs Runtime**: The total time the Audit Logs feature is enabled. Runtime is calculated as `Disable Time Point − Enable Time Point`. If the cluster is in a **Suspended** status or your audit logging feature is in an **Abnormal** status, that time is excluded from the calculation because no compute resources are consumed by the audit logs feature during suspension. For an example of the calculation of runtime, see [Example](./audit-log-cost#example).
 
 ## Data transfer cost\{#data-transfer-cost}
 
@@ -52,7 +52,7 @@ Audit logs can be forwarded to an object storage bucket. Currently, Zilliz Cloud
 
 Intra-region data transfers currently incur no additional charges.
 
-For details on data transfer pricing, see Data Transfer.
+For details on data transfer pricing, see [Data Transfer](./data-transfer-cost).
 
 ## Example\{#example}
 
@@ -70,7 +70,7 @@ Suppose your cluster configuration is as follows:
 
 - **Audit Logs Runtime:** 
 
-    ![GGC7wCCbWhIfycbMOhAcMKk6nqb](https://zdoc-images.s3.us-west-2.amazonaws.com/GGC7wCCbWhIfycbMOhAcMKk6nqb.png)
+    ![JKGIwkjiyhRr2ebq4eKcUsZOn8d](https://zdoc-images.s3.us-west-2.amazonaws.com/JKGIwkjiyhRr2ebq4eKcUsZOn8d.png)
 
     As illustrated above, 
 

@@ -50,7 +50,7 @@ Account users are granted organization roles and project roles while cluster use
 
 - **On the project level**
 
-    - The Project Admin role includes all privileges of a specific project and privileges across all cluster.
+    - The Project Admin role includes all privileges of a specific project and privileges across all resources in the project.
 
     - The Project Read-Write role has the privileges to view a project and manage its resources.
 
@@ -84,5 +84,5 @@ The following diagram shows the complete workflow to implement RBAC in Zilliz Cl
 
 1. **Grant privileges or privilege groups to a role:** Define the capabilities of a role be granting privileges or privilege groups to this role. Currently you can only grant built-in privilege groups to a role on the [web console](./cluster-roles#create-a-custom-cluster-role). To grant specific privileges or customized privilege groups to a role, please [create a support ticket](http://support.zilliz.com) and then use the [SDKs](./cluster-roles-sdk#grant-a-privilege-group-to-a-role) instead.
 
-1. **Grant roles to users:** Grant roles with certain privileges to users so that users can have the privileges of a role. A single role can be granted to multiple users. You can complete this step either via the [web console](./cluster-users#edit-the-role-of-a-cluster-user) or using [SDKs](./cluster-users-sdk#grant-a-role-to-a-user).
+1. **Grant roles to users:** Grant roles with certain privileges to users so that users can have the privileges of a role. A single role can be granted to multiple users. You can complete this step either via the [web console](./cluster-users#edit-the-role-or-desrciption-of-a-cluster-user) or using [SDKs](./cluster-users-sdk#grant-a-role-to-a-user).
 

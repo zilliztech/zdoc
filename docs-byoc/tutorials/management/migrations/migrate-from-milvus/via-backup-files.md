@@ -92,7 +92,7 @@ To prepare migration data for Milvus 2.x,
       ...
     ```
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" icon="📘" title="📘 Notes">
 
     - For a Milvus instance installed using Docker Compose, `minio.bucketName` defaults to `a-bucket` and `rootPath` defaults to `files`.
     
@@ -124,7 +124,7 @@ To prepare migration data for Milvus 2.x,
 
             ```plaintext
             # configure a Minio host
-            mc alias set my_minio <i>http</i>s://&lt;minio_endpoint&gt; <accessKey> <secretKey>
+            mc alias set my_minio https://&lt;minio_endpoint&gt; <accessKey> <secretKey>
             
             # List the available buckets
             mc ls my_minio
@@ -195,11 +195,11 @@ If the migration process encounters any issues, you can take the following steps
        <tr>
          <td rowspan="3"><p><strong>Amazon S3</strong></p></td>
          <td><p>AWS Object URL, virtual-hosted–style</p></td>
-         <td><p><i>http</i>s://&lt;bucket_name&gt;.s3.&lt;region-code&gt;.amazonaws.com/&lt;folder_name&gt;/</p></td>
+         <td><p>https://&lt;bucket_name&gt;.s3.&lt;region-code&gt;.amazonaws.com/&lt;folder_name&gt;/</p></td>
        </tr>
        <tr>
          <td><p>AWS Object URL, path-style</p></td>
-         <td><p><i>http</i>s://s3.&lt;region-code&gt;.amazonaws.com/&lt;bucket_name&gt;/&lt;folder_name&gt;/</p></td>
+         <td><p>https://s3.&lt;region-code&gt;.amazonaws.com/&lt;bucket_name&gt;/&lt;folder_name&gt;/</p></td>
        </tr>
        <tr>
          <td><p>Amazon S3 URI</p></td>
@@ -208,7 +208,7 @@ If the migration process encounters any issues, you can take the following steps
        <tr>
          <td rowspan="2"><p><strong>Google Cloud Storage</strong></p></td>
          <td><p>GSC public URL</p></td>
-         <td><p><i>http</i>s://storage.cloud.google.com/&lt;bucket_name&gt;/&lt;folder_name&gt;/</p></td>
+         <td><p>https://storage.cloud.google.com/&lt;bucket_name&gt;/&lt;folder_name&gt;/</p></td>
        </tr>
        <tr>
          <td><p>GSC gsutil URI</p></td>
@@ -216,6 +216,6 @@ If the migration process encounters any issues, you can take the following steps
        </tr>
        <tr>
          <td colspan="2"><p><strong>Azure Blob Storage</strong></p></td>
-         <td><p><i>http</i>s://&lt;storage_account&gt;.blob.core.windows.net/&lt;container&gt;/&lt;folder&gt;/</p></td>
+         <td><p>https://&lt;storage_account&gt;.blob.core.windows.net/&lt;container&gt;/&lt;folder&gt;/</p></td>
        </tr>
     </table>

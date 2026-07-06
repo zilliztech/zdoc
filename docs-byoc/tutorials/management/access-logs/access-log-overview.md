@@ -2,7 +2,7 @@
 title: "Access Logs Overview | BYOC"
 slug: /access-log-overview
 sidebar_label: "Access Logs Overview"
-beta: FALSE
+beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE

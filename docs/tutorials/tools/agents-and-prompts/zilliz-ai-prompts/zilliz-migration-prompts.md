@@ -1,6 +1,6 @@
 ---
 title: "Migration | Cloud"
-slug: /agents/zilliz-migration-prompts
+slug: /zilliz-migration-prompts
 sidebar_label: "Migration"
 beta: FALSE
 added_since: FALSE
@@ -18,7 +18,7 @@ keywords:
   - decision matrix
   - prompts
   - migration
-displayed_sidebar: agentsSidebar
+displayed_sidebar: default
 
 ---
 

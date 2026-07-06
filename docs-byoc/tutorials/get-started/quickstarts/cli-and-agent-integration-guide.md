@@ -79,7 +79,7 @@ This command will prompt you to choose the target agent framework and installati
 
 ### Install Zilliz CLI\{#install-zilliz-cli}
 
-The [Zilliz CLI](/reference/cli/overview) is the base command-line tool used by the Plugin and Skill.
+The [Zilliz CLI](/reference/cli/cli/overview) is the base command-line tool used by the Plugin and Skill.
 
 <Procedures>
 

@@ -2,7 +2,7 @@
 title: "Shared Responsibilities | BYOC"
 slug: /shared-responsibilities
 sidebar_label: "Shared Responsibilities"
-beta: FALSE
+beta: CONTACT SALES
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE

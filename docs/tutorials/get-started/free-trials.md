@@ -38,7 +38,7 @@ If you need more resources or want to access advanced features, please use the [
 
 ## Free trial\{#free-trial}
 
-Zilliz Cloud offers free trial for clusters and vector database features. The following sections introduces the credit-based free trial for clusters. If you want to try the volume feature, an object store that holds either structured tables or collections of unstructured data files, please refer to Volume Explained.
+Zilliz Cloud offers a free trial for clusters and vector database features. The following sections introduce the credit-based free trial for clusters. If you want to try the volume feature, an object store that holds either structured tables or collections of unstructured data files, please refer to [Managed Volumes](./managed-volume) and [External Volumes](./external-volume).
 
 ### Use free trial\{#use-free-trial}
 
@@ -46,11 +46,11 @@ When you sign up for Zilliz Cloud with a work email, your organization will rece
 
 After the trial, your organization will be frozen. During this time, your Serverless and Dedicated clusters will be moved to the [recycle bin](./use-recycle-bin), and you won't have access to features exclusive to these clusters (e.g., Backup and restore, alerts, etc.).
 
-To unfreeze your organization, simply [add a payment method](./undefined). This will allow you to restore deleted data from the recycle bin. If you don't add a payment method within 30 days of freezing, your Serverless and Dedicated clusters will be permanently deleted, but your organization will still be preserved.
+To unfreeze your organization, simply add a payment method. This will allow you to restore deleted data from the recycle bin. If you don't add a payment method within 30 days of freezing, your Serverless and Dedicated clusters will be permanently deleted, but your organization will still be preserved.
 
 ### Earn credits and extend credit expiration\{#earn-credits-and-extend-credit-expiration}
 
-When you register with a work email, you’ll receive &#36;100 in free credits. You can earn an extra &#36;100 by [adding a payment method](./undefined) on Zilliz Cloud. Plus, adding a payment method extends the credit expiration to **1 year**.
+When you register with a work email, you’ll receive &#36;100 in free credits. You can earn an extra &#36;100 by adding a payment method on Zilliz Cloud. Plus, adding a payment method extends the credit expiration to **1 year**.
 
 If you need additional credits or want to extend your trial period, please [contact sales](https://zilliz.com/contact-sales).
 

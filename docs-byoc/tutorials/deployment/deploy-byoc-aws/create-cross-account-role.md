@@ -2,7 +2,7 @@
 title: "Create Cross-Account IAM Role | BYOC"
 slug: /create-cross-account-role
 sidebar_label: "Create Cross-Account IAM Role"
-beta: FALSE
+beta: CONTACT SALES
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE

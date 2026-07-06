@@ -219,7 +219,7 @@ Create similar alerts with minimal setup effort. Cloning copies all existing set
 
 Remove obsolete or redundant monitoring rules.
 
-<Admonition type="danger" icon="🚧" title="Warning">
+<Admonition type="danger" icon="🚧" title="Danger">
 
 Alert deletion is permanent and cannot be undone. Ensure you no longer need the alert before proceeding.
 

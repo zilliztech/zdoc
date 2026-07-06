@@ -995,7 +995,7 @@ for (auto& result : search_results.Results()) {
 
 By default, queries on `GEOMETRY` fields without an index will perform a full scan of all rows, which can be slow on large datasets. To accelerate geometric queries, create an `AUTOINDEX` index on your GEOMETRY field.
 
-For details, refer to Index Scalar Fields.
+For details, refer to [RTREE](./rtree-index-type).
 
 ## FAQ\{#faq}
 

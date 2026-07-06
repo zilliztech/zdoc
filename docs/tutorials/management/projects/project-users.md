@@ -40,7 +40,7 @@ Invitation recipients will receive an email invitation that must be accepted wit
 
 Once the user joins the project, they automatically become an Organization Member in the organization to which the project belongs.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="📘 Notes">
 
 Each time, you can invite one or more users with the same role to join the project.
 
@@ -92,6 +92,21 @@ In addition to the privileges of a Project Read-Write role, a Cluster Admin can 
 
 The following tables provide a quick comparison of the privileges of different project roles.
 
+**On-demand compute**
+
+| Operation | Project Admin | Cluster Admin | Project Read/Write | Project Read-Only |
+| --- | --- | --- | --- | --- |
+| Create On-Demand Cluster | ✅ | ❌ | ❌ | ❌ |
+| View On-Demand Cluster List and Details | ✅ | ✅ | ✅ | ✅ |
+| Modify, Rename, or Delete On-Demand Cluster | ✅ | ❌ | ❌ | ❌ |
+| Create Database in On-demand Compute | ✅ | ✅ | ✅ | ❌ |
+| View Database List in On-demand Compute | ✅ | ✅ | ✅ | ❌ |
+| Delete Database in On-demand Compute | ✅ | ❌ | ❌ | ❌ |
+| Create or Delete Collections in Database in On-demand Compute | ✅ | ✅ | ✅ | ❌ |
+| Import Data into Collections in Database in On-demand Compute | ✅ | ✅ | ✅ | ❌ |
+| Run Query, Search, or Get through On-Demand Cluster | ✅ | ✅ | ✅ | ✅ |
+| Create Managed Volume or External Volume | ✅ | ❌ | ❌ | ❌ |
+
 **Cluster operations**
 
 | **Operation** | **Project Admin** | **Cluster Admin** | **Project Read-Write** | **Project Read-Only** |
@@ -137,7 +152,7 @@ The following tables provide a quick comparison of the privileges of different p
 | Bulk Import | ✅ | ✅ | ✅ | ❌ |
 | All other RESTful operations | ✅ | ✅ | ✅ | Depends |
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="📘 Notes">
 
 Both the Cluster Admin and the Project Read-Write roles share the same data plane privileges.       
 
@@ -243,7 +258,7 @@ When you invite an existing organization member to a project within the same org
 
 To revoke or resend the invitation, you must be an **Organization Owner** or a **Project Admin**.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="📘 Notes">
 
 You can revoke or resend an invitation before the user accepts it.
 
@@ -271,7 +286,7 @@ In addition to removing a collaborator from a project, you can also remove yours
 
 Note that if you are the only admin of a project, you cannot leave it as each project must have at least one Project Admin at all times.
 
-<Admonition type="caution" icon="🚧" title="Warning">
+<Admonition type="info" icon="📘" title="🚧 Warning">
 
 Once you leave a project, your access to the project and associated resources will be revoked.
 

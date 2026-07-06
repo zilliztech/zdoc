@@ -2,7 +2,7 @@
 title: "Quickstart to External Data Lake Search | Cloud"
 slug: /quick-start-to-external-data-lake-search
 sidebar_label: "Quickstart to External Data Lake Search"
-beta: FALSE
+beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE

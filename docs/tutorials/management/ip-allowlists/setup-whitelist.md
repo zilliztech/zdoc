@@ -57,7 +57,7 @@ Ensure the following prerequisites are met before proceeding:
 
 </Procedures>
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="📘 Notes">
 
 - Without any entries in the allowlist, Zilliz Cloud allows access from any IP address.
 
@@ -75,5 +75,9 @@ Ensure the following prerequisites are met before proceeding:
 
 - [Cluster Credentials (Console)](./cluster-credentials)
 
-- [Set up a Private Link](./undefined)
+- [Set up a PrivateLink (AWS)](./setup-a-private-link-aws)
+
+- [Set up a Private Service Connect (GCP)](./setup-a-private-link-gcp)
+
+- [Set up a Private Link (Azure)](./setup-a-private-link-azure)
 

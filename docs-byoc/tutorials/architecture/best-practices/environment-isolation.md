@@ -32,7 +32,7 @@ This option is recommended for most enterprise-grade production deployments wher
 
 **Benefits:**
 
-- Fine-grained user access control at the project level
+- Fine-grained user access control at the [project](./manage-projects) level
 
 - Consolidated billing with per-environment usage tracking
 
@@ -52,11 +52,11 @@ This is the most agile and lightweight option.
 
 **Features:**
 
-- Multiple clusters under the same project
+- Multiple [clusters](./manage-cluster) under the same project
 
 - Each cluster has dedicated compute/storage resources for workload isolation
 
-- Centralized [monitoring](./undefined) for easier operation and management
+- Centralized [monitoring](./metrics-alerts-reference) for easier operation and management
 
 ## Choosing the right isolation strategy\{#choosing-the-right-isolation-strategy}
 

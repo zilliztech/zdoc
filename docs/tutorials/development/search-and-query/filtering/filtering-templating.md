@@ -22,9 +22,17 @@ import Admonition from '@theme/Admonition';
 
 In Zilliz Cloud, complex filter expressions with numerous elements, especially those involving non-ASCII characters like CJK characters, can significantly affect query performance. To address this, Zilliz Cloud introduces a filter expression templating mechanism designed to improve efficiency by reducing the time spent parsing complex expressions. This page explains using filter expression templating in search, query, and delete operations.
 
+<Admonition type="info" icon="📘" title="Notes">
+
+The literal on the left-hand side of a filtering expression can either be a collection field name, such as `age`, `city`, etc., used in examples below, or the name of a StructArray subfield at a specific element index, as in `filter = 'struct[0][subfield] > {var}'`. 
+
+For details on scalar filtering in a StructArray field, refer to [StructArray Operators](./struct-array-filtering).
+
+</Admonition>
+
 ## Overview\{#overview}
 
-Filter expression templating allows you to create filter expressions with placeholders, which can be dynamically substituted with values during query execution. Using templating, you avoid embedding large arrays or complex expressions directly into the filter, reducing parsing time and improving query performance.
+Filter expression templating allows you to create filter expressions with placeholders that are dynamically substituted with values during query execution. Using templating, you avoid embedding large arrays or complex expressions directly into the filter, reducing parsing time and improving query performance.
 
 Let's say you have a filter expression involving two fields, `age` and `city`, and you want to find all people whose age is greater than 25 and who live in either "北京" (Beijing) or "上海" (Shanghai). Instead of directly embedding the values in the filter expression, you can use a template:
 

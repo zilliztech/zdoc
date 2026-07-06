@@ -102,7 +102,7 @@ In this procedure, you will use Milvus Backup to prepare the backup files, uploa
           ...
         ```
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" icon="📘" title="📘 Notes">
 
     - For a Milvus instance installed using Docker Compose, `minio.bucketName` defaults to `a-bucket` and `rootPath` defaults to `files`.
     

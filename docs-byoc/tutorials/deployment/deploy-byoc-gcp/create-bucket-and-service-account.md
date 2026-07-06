@@ -2,7 +2,7 @@
 title: "Create Cloud Storage Bucket and Service Account | BYOC"
 slug: /create-bucket-and-service-account
 sidebar_label: "Create Cloud Storage Bucket and Service Account"
-beta: FALSE
+beta: CONTACT SALES
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE

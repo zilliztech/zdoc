@@ -490,7 +490,7 @@ if (!status.IsOk()) {
 </TabItem>
 </Tabs>
 
-## Set entity-level TTL | PRIVATE\{#set-entity-level-ttl}
+## Set entity-level TTL | ONDEMAND\{#set-entity-level-ttl}
 
 Entity-level TTL lets each entity carry its own absolute expiration time. The time is stored in a dedicated `TIMESTAMPTZ` column that you declare in the schema, and you mark that column as the TTL field through the `ttl_field` collection property.
 

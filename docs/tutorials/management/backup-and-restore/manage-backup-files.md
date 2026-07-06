@@ -76,19 +76,41 @@ The following is an example output.
     {
       "code": 0,
       "data": {
-        "clusterId": "inxx-xxxxxxxxxxxxxxx",
-        "clusterName": "Dedicated-01",
-        "regionId": "aws-us-west-2",
-        "projectId": "proj-20e13e974c7d659a83xxxx",
-        "backupId": "backup1_0b9d15a0ddexxxx",
-        "backupName": "Dedicated-01_backup3",
-        "backupType": "CLUSTER",
-        "creationMethod": "AUTO",
+        "clusterId": "in01-31a6b840e50b72d",
+        "clusterName": "Dediacted-01",
+        "projectId": "proj-b44a39b0c51cf21791a841",
+        "backupId": "backup0_1e3c0988ecb7f0d",
+        "backupName": "Dedicated-01_backup1",
+        "backupType": "CLUSTER", // cluster/collection
+        "creationMethod": "MANUAL", // auto/manual
         "status": "AVAILABLE",
-        "size": 0,
-        "collections": [],
-        "createTime": "2024-08-26T02:27:51Z",
-        "expireTime": "2024-09-02T02:27:51Z"
+        "size": 112, // unit: B
+        "regionId": "aws-us-west-2",
+        "expireTime": "2024-08-30T16:49:50Z",
+        "collections": [
+           {
+               "collectionName": "medium_articles",
+               "description": "Sample collection",
+               "status": "LOADED" // LOADED/UNLOADED
+           }
+         ],     
+         "dbCollections": [
+            {
+              "dbName": "",
+              "collections": [
+               {
+                   "collectionName": "medium_articles",
+                   "description": "Sample collection",
+                   "status": "LOADED" // LOADED/UNLOADED
+               }
+               ]
+            }
+         ],
+        "createTime": "2024-07-30T16:49:50Z",
+        "restoreNewInstancePolicies": [
+                "LATEST",
+                "ORIGINAL"
+             ]
       }
     }
     ```
@@ -138,4 +160,3 @@ The following is an example output.
   }
 }
 ```
-

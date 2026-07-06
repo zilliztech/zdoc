@@ -1,6 +1,6 @@
 ---
 title: "Pricing | Cloud"
-slug: /agents/zilliz-pricing-prompts
+slug: /zilliz-pricing-prompts
 sidebar_label: "Pricing"
 beta: FALSE
 added_since: FALSE
@@ -18,7 +18,7 @@ keywords:
   - decision matrix
   - prompts
   - pricing
-displayed_sidebar: agentsSidebar
+displayed_sidebar: default
 
 ---
 

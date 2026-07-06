@@ -1,6 +1,6 @@
 ---
 title: "Zilliz Claude Code Plugin Capabilities | Cloud"
-slug: /agents/zilliz-plugin-capabilities
+slug: /zilliz-plugin-capabilities
 sidebar_label: "Core Capabilities"
 beta: FALSE
 added_since: FALSE
@@ -23,7 +23,7 @@ keywords:
   - vector operations
   - cluster management
   - collection management
-displayed_sidebar: agentsSidebar
+displayed_sidebar: default
 
 ---
 
@@ -127,4 +127,4 @@ zilliz vector query --collection users --filter "age > 25"
 zilliz vector delete --collection products --ids 1,2,3
 ```
 
-For more capabilities, you can read the [Zilliz CLI reference](/reference/cli/overview) docs.
+For more capabilities, you can read the [Zilliz CLI reference](/reference/cli/cli/overview) docs.

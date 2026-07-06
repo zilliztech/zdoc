@@ -85,8 +85,8 @@ The table below summarizes the available Post-search Functions:
 
 | Function Type | Operates On | Description | Typical Scenarios |
 | --- | --- | --- | --- |
-| Hybrid Search Rankers | Multiple result sets retrieved from hybrid search | Combine and rebalance results retrieved from different retrieval strategies using methods such as weighted ranking or reciprocal rank fusion (RRF). | Hybrid search scenarios that combine semantic and lexical retrieval and require balanced result fusion. |
-| Rule-based Rankers | Candidate results from single-vector or hybrid search | Adjust ranking based on predefined rules or numeric signals, such as boosting or decay-based scoring. | Business-driven ranking logic, recency or popularity boosts, and scenarios requiring predictable, non-ML reranking. |
+| Hybrid Search Rankers | Multiple result sets retrieved from hybrid search | Combine and rebalance results retrieved from different retrieval strategies using methods such as [weighted ranking](./reranking-weighted-reranker) or [reciprocal rank fusion](./reranking-rrf) (RRF). | Hybrid search scenarios that combine semantic and lexical retrieval and require balanced result fusion. |
+| Rule-based Rankers | Candidate results from single-vector or hybrid search | Adjust ranking based on predefined rules or numeric signals, such as [boosting](./boost-ranker) or [decay-based](./decay-ranker-oveview) scoring. | Business-driven ranking logic, recency or popularity boosts, and scenarios requiring predictable, non-ML reranking. |
 | Model-based Rankers | Candidate results from single-vector or hybrid search | Use machine learning models to evaluate relevance and reorder results based on learned or semantic signals. | Intelligent reranking, relevance refinement using semantic understanding, and LLM-based relevance evaluation. |
 
 Because Post-search Functions operate only on retrieved candidates, they are refinement steps that affect result order but not retrieval scope.

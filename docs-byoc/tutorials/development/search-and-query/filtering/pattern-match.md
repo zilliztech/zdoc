@@ -2,7 +2,7 @@
 title: "Pattern Matching | BYOC"
 slug: /pattern-match
 sidebar_label: "Pattern Matching"
-beta: FALSE
+beta: PRIVATE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
@@ -40,6 +40,14 @@ res = client.query(
 ```
 
 The examples on this page focus on the expression assigned to `filter`. You can use the same filter expression syntax in Zilliz Cloud operations that accept a scalar filter, such as `query`, `search`, and hybrid search.
+
+<Admonition type="info" icon="📘" title="Notes">
+
+The literal on the left-hand side of a filtering expression can either be a collection field name, such as `message`, `email`, etc., used in examples below, or the name of a StructArray subfield at a specific element index, as in `filter = 'struct[0][subfield] =~ "E[0-9]{4}"'`. 
+
+For details on scalar filtering in a StructArray field, refer to [StructArray Operators](./struct-array-filtering).
+
+</Admonition>
 
 ## Supported field types\{#supported-field-types}
 
@@ -96,6 +104,18 @@ Use `LIKE` for prefix, suffix, contains, and fixed-position single-character mat
 
 Use `==` for exact full-string equality. Use `LIKE` only when the filter needs wildcard matching.
 
+### Escaping wildcards in a LIKE pattern\{#escaping-wildcards-in-a-like-pattern}
+
+In a `LIKE` patterns, `%` matches any number of characters and `_` matches one character. To match `%`, `_`, or `\` literally, escape the character with a backslash (`\`):
+
+- `name LIKE r"\%"` matches the literal value `%`.
+
+- `name LIKE r"\_%"` matches values that start with a literal `_`.
+
+- `name LIKE r"\\%"` matches values that start with a literal backslash.
+
+Raw string literals, written as `r"..."` or `r'...'`, keep backslashes verbatim in Zilliz Cloud filter expressions. They are recommended for `LIKE` and regex patterns that contain backslashes. Without a raw string, ordinary string literals still process escape sequences before the pattern is evaluated, so more backslashes may be required.
+
 ## Use regex\{#use-regex}
 
 Use regex filters when the pattern requires regular expression features such as character classes, repetition, alternation, anchors, or case-insensitive matching. Zilliz Cloud applies an [RE2](https://github.com/google/re2/wiki/syntax) regular expression to a string value.
@@ -106,6 +126,20 @@ The right side of `=~` or `!~` must be a string literal.
 | --- | --- | --- |
 | `=&#126;` | Matches values that satisfy the regex pattern. | `filter = 'message =&#126; "E[0-9]{4}"'` |
 | `!&#126;` | Excludes values that satisfy the regex pattern. | `filter = 'message !&#126; "^DEBUG"'` |
+
+### Using raw string literals\{#using-raw-string-literals}
+
+Raw string literals are recommended for regex patterns that contain backslashes. In a raw string, written as `r"..."` or `r'...'`, backslashes are passed to the regex engine verbatim. This avoids the extra escaping required by ordinary string literals.
+
+For example:
+
+```python
+filter = 'message =~ r"\d{4}-\d{2}-\d{2}"'
+```
+
+This matches strings that contain a date-like value such as `2026-07-01`.
+
+Without a raw string, ordinary string literals process escape sequences before the regex pattern is evaluated, so patterns such as `\d`, `\s`, or escaped literal characters may require additional backslashes.
 
 ### Common regex patterns\{#common-regex-patterns}
 

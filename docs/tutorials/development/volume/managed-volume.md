@@ -1,22 +1,17 @@
 ---
 title: "Managed Volumes | Cloud"
 slug: /managed-volume
-sidebar_key: managed-volume
 sidebar_label: "Managed Volumes"
+beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
-beta: FALSE
 notebook: FALSE
 description: "A managed volume is a Zilliz Cloud-hosted object store for holding data files used in import and migration. This page explains how to create, manage, and delete managed volumes via the web console and SDKs. | Cloud"
 type: origin
 token: A33MwQX84iXyQNkzopece3oenye
 sidebar_position: 1
-keywords:
-  - zilliz
-  - vector database
-  - cloud
-  - volume
+displayed_sidebar: default
 
 ---
 
@@ -30,7 +25,7 @@ import Procedures from '@site/src/components/Procedures';
 
 # Managed Volumes
 
-A managed volume is a Zilliz Cloud-hosted object store for holding data files used in import and migration. This page explains how to create, manage, and delete managed volumes via the web console and SDKs.
+A managed volume is a Zilliz Cloud-hosted object store for holding data files used in import and migration. This page explains how to create, manage, and delete managed volumes via the web console and SDKs. 
 
 ## Considerations\{#considerations}
 
@@ -50,7 +45,7 @@ A managed volume is a Zilliz Cloud-hosted object store for holding data files us
 
 If you need to create and manage volumes via SDK, you need to initiate a volume manager first.
 
-A volume manager maintains the connection to Zilliz Cloud's volume service. You need to initiate a volume manager before managing volumes.
+A volume manager maintains the connection to Zilliz Cloud's volume service. You need to initiate a volume manager before managing volumes. 
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -76,7 +71,7 @@ VolumeManagerParam volumeManagerParam = VolumeManagerParam.newBuilder()
     .withCloudEndpoint("https://api.cloud.zilliz.com")
     .withApiKey("YOUR_API_KEY")
     .build();
-
+        
 VolumeManager volumeManager = new VolumeManager(volumeManagerParam);
 ```
 
@@ -106,21 +101,21 @@ You can create a volume on the web console or via SDK.
     ```python
     # Initiate a volume manager
     from pymilvus.bulk_writer.volume_manager import VolumeManager
-
+    
     volume_manager = VolumeManager(
         cloud_endpoint="https://api.cloud.zilliz.com",
         api_key="YOUR_API_KEY"
     )
-
+    
     # Create a managed volume
     volume_manager.create_volume(
-        project_id="proj-xxxxxxxxxxxxxxxxxxxxxxx",
-        region_id="aws-us-west-2",
+        project_id="proj-xxxxxxxxxxxxxxxxxxxxxxx", 
+        region_id="aws-us-west-2", 
         volume_name="managed_volume"
     )
-
+    
     print(f"\nVolume managed_volume created")
-
+    
     # Volume managed_volume created
     ```
 
@@ -132,27 +127,27 @@ You can create a volume on the web console or via SDK.
     // Initiate a volume manager
     import io.milvus.bulkwriter.VolumeManager;
     import io.milvus.bulkwriter.VolumeManagerParam;
-
+    
     VolumeManagerParam volumeManagerParam = VolumeManagerParam.newBuilder()
         .withCloudEndpoint("https://api.cloud.zilliz.com")
         .withApiKey("YOUR_API_KEY")
         .build();
-
+            
     VolumeManager volumeManager = new VolumeManager(volumeManagerParam);
-
+    
     // Create a managed volume
     import io.milvus.bulkwriter.request.volume.CreateVolumeRequest;
-
+    
     CreateVolumeRequest request = CreateVolumeRequest.builder()
         .projectId("proj-xxxxxxxxxxxxxxxxxxxxxxx")
         .regionId("aws-us-west-2")
         .volumeName("managed_volume")
         .build();
-
+    
     volumeManager.createVolume(request);
-
+    
     System.out.printf("\nVolume %s created%n", "managed_volume");
-
+    
     // Volume managed_volume created
     ```
 
@@ -172,7 +167,7 @@ You can create a volume on the web console or via SDK.
         "volumeName": "my_volume",
         "description": "A volume for storing collection data."
     }'
-
+    
     # {
     #     "code": 0,
     #     "data": {
@@ -186,32 +181,13 @@ You can create a volume on the web console or via SDK.
 
     The following table describes the parameters.
 
-    <table>
-       <tr>
-         <th><p><strong>Parameter</strong></p></th>
-         <th><p><strong>Description</strong></p></th>
-       </tr>
-       <tr>
-         <td><p><code>projectId</code></p></td>
-         <td><p>The ID of the project in which you want to create the volume.</p></td>
-       </tr>
-       <tr>
-         <td><p><code>regionId</code></p></td>
-         <td><p>The region of the volume to create must match the cloud provider and region of the target cluster you plan to import or migrate data into.</p></td>
-       </tr>
-       <tr>
-         <td><p><code>volumeName</code></p></td>
-         <td><p>The name of the volume to create must be unique across the organization, no longer than 64 characters, start with a letter or underscore, and contain only letters, digits, hyphens, and underscores.</p></td>
-       </tr>
-       <tr>
-         <td><p><code>type</code>(optional)</p></td>
-         <td><p>Options: <code>MANAGED</code>, <code>EXTERNAL</code></p><p>If this parameter is omitted, a managed cluster will be created by default.</p></td>
-       </tr>
-       <tr>
-         <td><p><code>description</code>(optional)</p></td>
-         <td><p>The description of the volume to create. Up to 255 characters.</p></td>
-       </tr>
-    </table>
+    | **Parameter** | **Description** |
+    | --- | --- |
+    | `projectId` | The ID of the project in which you want to create the volume. |
+    | `regionId` | The region of the volume to create must match the cloud provider and region of the target cluster you plan to import or migrate data into. |
+    | `volumeName` | The name of the volume to create must be unique across the organization, no longer than 64 characters, start with a letter or underscore, and contain only letters, digits, hyphens, and underscores. |
+    | `type`(optional) | Options: `MANAGED`, `EXTERNAL`<br/>If this parameter is omitted, a managed cluster will be created by default. |
+    | `description`(optional) | The description of the volume to create. Up to 255 characters. |
 
 - **Via web console**
 
@@ -270,23 +246,23 @@ You can view all existing volumes in a project.
     ```python
     # Initiate a volume manager
     from pymilvus.bulk_writer.volume_manager import VolumeManager
-
+    
     volume_manager = VolumeManager(
         cloud_endpoint="https://api.cloud.zilliz.com",
         api_key="YOUR_API_KEY"
     )
-
+    
     # View volumes
     volume_list = volume_manager.list_volumes(
         project_id="proj-xxxxxxxxxxxxxxxxxxxxxxx",
-        current_page=1,
+        current_page=1, 
         page_size=10
     )
-
+    
     print(f"\nlistVolumes results: \n", volume_list.json()['data'])
-
-    # listVolumes results:
-    #
+    
+    # listVolumes results: 
+    # 
     # {
     #     "count": 1,
     #     "currentPage": 1,
@@ -295,7 +271,7 @@ You can view all existing volumes in a project.
     #         {
     #             "volumeName": "external_volume"
     #             "type":"EXTERNAL"
-    #         }
+    #         }        
     #     ]
     # }
     ```
@@ -308,31 +284,31 @@ You can view all existing volumes in a project.
     // Initiate a volume manager
     import io.milvus.bulkwriter.VolumeManager;
     import io.milvus.bulkwriter.VolumeManagerParam;
-
+    
     VolumeManagerParam volumeManagerParam = VolumeManagerParam.newBuilder()
         .withCloudEndpoint("https://api.cloud.zilliz.com")
         .withApiKey("YOUR_API_KEY")
         .build();
-
+            
     VolumeManager volumeManager = new VolumeManager(volumeManagerParam);
-
+    
     // View volumes
     import com.google.gson.Gson;
     import io.milvus.bulkwriter.request.volume.ListVolumesRequest;
     import io.milvus.bulkwriter.response.volume.ListVolumesResponse;
-
+    
     ListVolumesRequest request = ListVolumesRequest.builder()
         .projectId("proj-xxxxxxxxxxxxxxxxxxxxxxx")
         .currentPage(1)
         .pageSize(10)
         .build();
-
+        
     ListVolumesResponse listVolumesResponse = volumeManager.listVolumes(request);
-
+    
     System.out.println("\nlistVolumes results: " + new Gson().toJson(listVolumesResponse));
-
-    // listVolumes results:
-    //
+    
+    // listVolumes results: 
+    // 
     // {
     //     "count": 1,
     //     "currentPage": 1,
@@ -341,7 +317,7 @@ You can view all existing volumes in a project.
     //         {
     //             "volumeName": "external_volume",
     //             "type":"EXTERNAL"
-    //         }
+    //         }        
     //     ]
     // }
     ```
@@ -353,12 +329,12 @@ You can view all existing volumes in a project.
     ```bash
     export BASE_URL="https://api.cloud.zilliz.com"
     export TOKEN="YOUR_API_KEY"
-
+    
     curl --request GET \
     --url "${BASE_URL}/v2/volumes?projectId=proj-xxxxxxxxxxxxxxxxx" \
     --header "Authorization: Bearer ${TOKEN}" \
     --header "Content-Type: application/json"
-
+    
     # {
     #    "code": 200,
     #    "data": {
@@ -405,20 +381,20 @@ You can also check the details of a specific managed volume.
     ```python
     # Initiate a volume manager
     from pymilvus.bulk_writer.volume_manager import VolumeManager
-
+    
     volume_manager = VolumeManager(
         cloud_endpoint="https://api.cloud.zilliz.com",
         api_key="YOUR_API_KEY"
     )
-
+    
     # View volumes
     volume_list = volume_manager.describe_volume(
         volume_name="managed_volume",
     )
-
+    
     print(f"\ndescVolume result: \n", volume_list.json()['data'])
-
-    # describeVolume result:
+    
+    # describeVolume result: 
     # {
     #    "volumeName": "managed_volume",
     #    "type": "MANAGED",
@@ -436,26 +412,26 @@ You can also check the details of a specific managed volume.
     // Initiate a volume manager
     import io.milvus.bulkwriter.VolumeManager;
     import io.milvus.bulkwriter.VolumeManagerParam;
-
+    
     VolumeManagerParam volumeManagerParam = VolumeManagerParam.newBuilder()
         .withCloudEndpoint("https://api.cloud.zilliz.com")
         .withApiKey("YOUR_API_KEY")
         .build();
-
+            
     VolumeManager volumeManager = new VolumeManager(volumeManagerParam);
-
+    
     // View volumes
     import com.google.gson.Gson;
     import io.milvus.bulkwriter.request.volume.ListVolumesRequest;
     import io.milvus.bulkwriter.response.volume.ListVolumesResponse;
-
+    
     DescribeVolumeRequest request = DescribeVolumeRequest.builder()
             .volumeName("managed_volume")
             .build();
     VolumeInfo volumeInfo = volumeManager.describeVolume(request);
     System.out.println("\ndescribeVolume result: " + new Gson().toJson(volumeInfo));;
-
-    // describeVolume results:
+    
+    // describeVolume results: 
     //{
     //    "volumeName": "managed_volume",
     //    "type": "MANAGED",
@@ -472,12 +448,12 @@ You can also check the details of a specific managed volume.
     ```bash
     export BASE_URL="https://api.cloud.zilliz.com"
     export TOKEN="YOUR_API_KEY"
-
+    
     curl --request GET \
-    --url "${BASE_URL}/v2/volumes/${VOLUME_NAME}" \
+    --url "$\{BASE_URL\}/v2/volumes/${VOLUME_NAME}" \
     --header "Authorization: Bearer ${TOKEN}" \
     --header "Content-Type: application/json"
-
+    
     # {
     #    "code": 0,
     #    "data": {
@@ -512,7 +488,7 @@ Currently, you can only upload your data file or folder into a managed volume vi
 
     ```python
     from pymilvus.bulk_writer.volume_file_manager import VolumeFileManager
-
+    
     volume_file_manager = VolumeFileManager(
         cloud_endpoint='https://api.cloud.zilliz.com',
         api_key='YOUR_API_KEY',
@@ -527,13 +503,13 @@ Currently, you can only upload your data file or folder into a managed volume vi
     ```java
     import io.milvus.bulkwriter.VolumeFileManager;
     import io.milvus.bulkwriter.VolumeFileManagerParam;
-
+    
     VolumeFileManagerParam volumeFileManagerParam = VolumeFileManagerParam.newBuilder()
         .withCloudEndpoint("https://api.cloud.zilliz.com")
         .withApiKey("YOUR_API_KEY")
         .withVolumeName("managed_volume")
         .build();
-
+    
     VolumeFileManager volumeFileManager = new VolumeFileManager(volumeFileManagerParam);
     ```
 
@@ -542,7 +518,7 @@ Currently, you can only upload your data file or folder into a managed volume vi
 
 1. **Upload file or folder**
 
-    Once the volume file manager is ready, use it to upload file or folder to the specified managed volume.
+    Once the volume file manager is ready, use it to upload file or folder to the specified managed volume. 
 
     - **Upload a file**
 
@@ -553,14 +529,14 @@ Currently, you can only upload your data file or folder into a managed volume vi
 
         ```python
         result = volume_file_manager.upload_file_to_volume(
-            source_file_path="/path/to/your/local/data/file",
+            source_file_path="/path/to/your/local/data/file", 
             target_volume_path="data/"
         )
-
+        
         print(f"\nuploadFileToVolume results: {result}")
-
-        # uploadFileToVolume results:
-        #
+        
+        # uploadFileToVolume results: 
+        # 
         # {
         #     "volumeName": "managed_volume",
         #     "path": "data/"
@@ -575,18 +551,18 @@ Currently, you can only upload your data file or folder into a managed volume vi
         import com.google.gson.Gson;
         import io.milvus.bulkwriter.model.UploadFilesResult;
         import io.milvus.bulkwriter.request.volume.UploadFilesRequest;
-
+        
         UploadFilesRequest request = UploadFilesRequest.builder()
             .sourceFilePath("/path/to/your/local/data/file")
             .targetVolumePath("data/")
             .build();
-
+        
         UploadFilesResult result = volumeFileManager.uploadFilesAsync(request).get();
-
+        
         System.out.println("\nuploadFiles results: " + new Gson().toJson(result));
-
-        // uploadFileToVolume results:
-        //
+        
+        // uploadFileToVolume results: 
+        // 
         // {
         //     "volumeName": "managed_volume",
         //     "path": "data/"
@@ -605,14 +581,14 @@ Currently, you can only upload your data file or folder into a managed volume vi
 
         ```python
         result = volume_file_manager.upload_file_to_volume(
-            source_file_path="/path/to/your/local/data/folder/",
+            source_file_path="/path/to/your/local/data/folder/", 
             target_volume_path="data/"
         )
-
+        
         print(f"\nuploadFileToVolume results: {result}")
-
-        # uploadFileToVolume results:
-        #
+        
+        # uploadFileToVolume results: 
+        # 
         # {
         #     "volumeName": "managed_volume",
         #     "path": "data/"
@@ -627,18 +603,18 @@ Currently, you can only upload your data file or folder into a managed volume vi
         import com.google.gson.Gson;
         import io.milvus.bulkwriter.model.UploadFilesResult;
         import io.milvus.bulkwriter.request.volume.UploadFilesRequest;
-
+        
         UploadFilesRequest request = UploadFilesRequest.builder()
             .sourceFilePath("/path/to/your/local/data/folder/")
             .targetVolumePath("data/")
             .build();
-
+        
         UploadFilesResult result = volumeFileManager.uploadFilesAsync(request).get();
-
+        
         System.out.println("\nuploadFiles results: " + new Gson().toJson(result));
-
-        // uploadFileToVolume results:
-        //
+        
+        // uploadFileToVolume results: 
+        // 
         // {
         //     "volumeName": "managed_volume",
         //     "path": "data/"
@@ -652,9 +628,9 @@ Currently, you can only upload your data file or folder into a managed volume vi
 
 Deleting data from a managed volume may take several minutes, depending on the size of the file or folder.
 
-<Admonition type="caution" icon="🚧" title="Warning">
+<Admonition type="info" icon="📘" title="⚠️ Warning">
 
- Deleted files and folders **cannot be recovered**. Proceed with caution.
+Deleted files and folders **cannot be recovered**. Proceed with caution.
 
 </Admonition>
 
@@ -678,9 +654,9 @@ You can delete a managed volume at any time if it is no longer needed. Note that
 
 Deleting a managed volume removes **all its files and folders** as well.
 
-<Admonition type="caution" icon="🚧" title="Warning">
+<Admonition type="info" icon="📘" title="⚠️ Warning">
 
- Deleted volumes **cannot be recovered**. Proceed with caution.
+Deleted volumes **cannot be recovered**. Proceed with caution.
 
 </Admonition>
 
@@ -694,19 +670,19 @@ Deleting a managed volume removes **all its files and folders** as well.
     ```python
     # Initiate a volume manager
     from pymilvus.bulk_writer.volume_manager import VolumeManager
-
+    
     volume_manager = VolumeManager(
         cloud_endpoint="https://api.cloud.zilliz.com",
         api_key="YOUR_API_KEY"
     )
-
+    
     # Delete a volume
     volume_manager.delete_volume(
         volume_name="managed_volume"
     )
-
+    
     print(f"\nVolume managed_volume deleted")
-
+    
     # Volume managed_volume deleted
     ```
 
@@ -718,25 +694,25 @@ Deleting a managed volume removes **all its files and folders** as well.
     // Initiate a volume manager
     import io.milvus.bulkwriter.VolumeManager;
     import io.milvus.bulkwriter.VolumeManagerParam;
-
+    
     VolumeManagerParam volumeManagerParam = VolumeManagerParam.newBuilder()
         .withCloudEndpoint("https://api.cloud.zilliz.com")
         .withApiKey("YOUR_API_KEY")
         .build();
-
+            
     VolumeManager volumeManager = new VolumeManager(volumeManagerParam);
-
+    
     // Delete a volume
     import io.milvus.bulkwriter.request.volume.DeleteVolumeRequest;
-
+    
     DeleteVolumeRequest request = DeleteVolumeRequest.builder()
         .volumeName("managed_volume")
         .build();
-
+    
     volumeManager.deleteVolume(request);
-
+    
     System.out.printf("\nVolume %s deleted%n", "managed_volume");
-
+    
     // Volume managed_volume deleted
     ```
 
@@ -748,12 +724,12 @@ Deleting a managed volume removes **all its files and folders** as well.
     export BASE_URL="https://api.cloud.zilliz.com"
     export TOKEN="YOUR_API_KEY"
     export VOLUME_NAME="managed_volume"
-
+    
     curl --request DELETE \
-    --url "${BASE_URL}/v2/volumes/${VOLUME_NAME}" \
+    --url "$\{BASE_URL\}/v2/volumes/${VOLUME_NAME}" \
     --header "Authorization: Bearer ${TOKEN}" \
     --header "Content-Type: application/json"
-
+    
     # {
     #     "code": 0,
     #     "data": {
@@ -783,33 +759,12 @@ Deleting a managed volume removes **all its files and folders** as well.
 
 When you create a managed volume, you can choose either a **free trial** or **pay-as-you-go** plan. The table below compares their typical use cases and limits.
 
-<table>
-   <tr>
-     <th></th>
-     <th><p><strong>Free Trial</strong></p></th>
-     <th><p><strong>Pay-as-you-go</strong></p></th>
-   </tr>
-   <tr>
-     <td><p><strong>Use case</strong></p></td>
-     <td><p>For testing environments only.</p></td>
-     <td><p>For production usage.</p></td>
-   </tr>
-   <tr>
-     <td><p><strong>Capacity</strong></p></td>
-     <td><p>5 GB</p></td>
-     <td><p>Unlimited</p></td>
-   </tr>
-   <tr>
-     <td><p><strong>File size & amount per upload</strong></p></td>
-     <td><p>Up to 1 GB of data and no more than 1,000 files in each upload</p></td>
-     <td><p>Up to 100 GB of data and unlimited number of files in each upload</p></td>
-   </tr>
-   <tr>
-     <td><p><strong>Max. numbers volumes</strong></p></td>
-     <td><p>1</p></td>
-     <td><p>100</p></td>
-   </tr>
-</table>
+|  | **Free Trial** | **Pay-as-you-go** |
+| --- | --- | --- |
+| **Use case** | For testing environments only. | For production usage. |
+| **Capacity** | 5 GB | Unlimited |
+| **File size & amount per upload** | Up to 1 GB of data and no more than 1,000 files in each upload | Up to 100 GB of data and unlimited number of files in each upload |
+| **Max. numbers volumes** | 1 | 100 |
 
 **Free trial volume**
 
@@ -847,18 +802,8 @@ The free trial volume option is hidden once a free trial volume has been created
 
 The following table lists the possible volume statuses.
 
-<table>
-   <tr>
-     <th><p><strong>Status</strong></p></th>
-     <th><p><strong>Description</strong></p></th>
-   </tr>
-   <tr>
-     <td><p><strong>Available</strong></p></td>
-     <td><p>The volume is active and usable.</p></td>
-   </tr>
-   <tr>
-     <td><p><strong>Frozen</strong></p></td>
-     <td><p>The organization is frozen due to overdue <a href="null">invoices</a>. The volume cannot be used for new operations. Please pay your bill to continue using volumes.</p></td>
-   </tr>
-</table>
+| **Status** | **Description** |
+| --- | --- |
+| **Available** | The volume is active and usable. |
+| **Frozen** | The organization is frozen due to overdue invoices. The volume cannot be used for new operations. Please pay your bill to continue using volumes. |
 

@@ -2,7 +2,7 @@
 title: "Manage On-Demand Cluster | Cloud"
 slug: /manage-on-demand-clusters
 sidebar_label: "Manage Cluster"
-beta: FALSE
+beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
@@ -26,6 +26,8 @@ This guide describes how to view, inspect, and drop on-demand clusters in Zilliz
 
 On-demand clusters provide compute for on-demand search workloads. They spin up when requests arrive and scale back to zero when idle, based on the auto-suspend timeout configured when the cluster is created.
 
+For details about the roles and permissions, see [Manage Project Users](./project-users#project-role-and-access-comparison).
+
 <Admonition type="info" icon="📘" title="Note">
 
 To manage an on-demand cluster, you need to be a Project Admin in the target project.
@@ -39,9 +41,6 @@ Use this operation to list the on-demand clusters in a project and region.
 ### Via RESTful API\{#via-restful-api}
 
 ```plaintext
-export BASE_URL="https://api.cloud.zilliz.com"
-export TOKEN="YOUR_API_KEY"
-
 curl --request GET \
      --url "${BASE_URL}/v2/clusters/onDemandClusters?projectId=proj-xxxxxxxxxxxxxxx&regionId=aws-us-west-2" \
      --header "Authorization: Bearer ${TOKEN}" \
@@ -52,23 +51,40 @@ Example response:
 
 ```plaintext
 {
-  "code": 0,
-  "data": {
-    "count": 2,
-    "onDemandClusters": [
-      {
-        "clusterId": "inxx-xxxxxxxxxxxxxxx",
-        "clusterName": "my-on-demand",
-        "regionId": "aws-us-west-2",
-        "cuSize": 8,
-        "status": "SUSPENDED",
-        "endpoint": "https://proj-xxxxxxxxxxxxxxx.aws-us-west-2.api.zillizcloud.com",
-        "privateLink": "",
-        "createdBy": "admin@example.com",
-        "createTime": 1745396115000
-      }
-    ]
-  }
+    "code": 0,
+    "data": {
+        "count": 2,
+        "onDemandClusters": [
+            {
+                "projectId": "proj-xxxxxxxxxxxxxxx",
+                "clusterId": "inxx-xxxxxxxxxxxxxxx",
+                "clusterName": "Cluster-01",
+                "regionId": "aws-us-west-2",
+                "cuSize": 8,
+                "status": "RUNNING",
+                "endpoint": "https://proj-xxxxxxxxxxxxxxx.aws-us-west-2.api.zillizcloud.com",
+                "privateLink": "",
+                "createdBy": "john.doe@zilliz.com",
+                "createTime": "2024-04-21T10:15:15Z",
+                "autoSuspend": 60,
+                "description": "An on-demand cluster for vector search workloads."
+            },
+            {
+                "projectId": "proj-xxxxxxxxxxxxxxx",
+                "clusterId": "inxx-xxxxxxxxxxxxxxx",
+                "clusterName": "Cluster-02",
+                "regionId": "aws-us-west-2",
+                "status": "RUNNING",
+                "cuSize": 8,
+                "endpoint": "https://proj-xxxxxxxxxxxxxxx.aws-us-west-2.api.zillizcloud.com",
+                "privateLink": "",
+                "createdBy": "john.doe@zilliz.com",
+                "createTime": "2024-04-21T10:15:16Z",
+                "autoSuspend": 60,
+                "description": "An on-demand cluster for vector search workloads."
+            }
+        ]
+    }
 }
 ```
 
@@ -93,12 +109,9 @@ Use this operation to inspect one on-demand cluster by cluster ID.
 ### Via RESTful API\{#via-restful-api}
 
 ```plaintext
-export BASE_URL="https://api.cloud.zilliz.com"
-export TOKEN="YOUR_API_KEY"
-
 curl --request GET \
-     --url "${BASE_URL}/v2/clusters/onDemandClusters/inxx-xxxxxxxxxxxxxxx" \
-     --header "Authorization: Bearer ${TOKEN}" \
+     --url "https://${BASE_URL}/v2/on-demand-compute?projectId=proj-09ee1f4b1151d5dd1edbc5&regionId=aws-us-west-2" \
+     --header "Authorization: Bearer ${API_KEY}" \
      --header "Accept: application/json"
 ```
 
@@ -108,15 +121,9 @@ Example response:
 {
   "code": 0,
   "data": {
-    "clusterId": "inxx-xxxxxxxxxxxxxxx",
-    "clusterName": "my-on-demand",
+    "projectId": "proj-09ee1f4b1151d5dd1edbc5",
     "regionId": "aws-us-west-2",
-    "cuSize": 8,
-    "status": "RUNNING",
-    "endpoint": "https://proj-xxxxxxxxxxxxxxx.aws-us-west-2.api.zillizcloud.com",
-    "privateLink": "",
-    "createdBy": "admin@example.com",
-    "createTime": 1745396115000
+    "status": "enabled"
   }
 }
 ```
@@ -147,9 +154,99 @@ An on-demand cluster automatically changes status based on request activity.
 
 When a request arrives for a suspended on-demand cluster, Zilliz Cloud spins up compute resources for the workload. When no requests are received within the configured `autoSuspend` period, the cluster scales back to zero.
 
+## Rename an on-demand cluster\{#rename-an-on-demand-cluster}
+
+- **Via RESTful API**
+
+    The following example modifies the cluster name. For details, see [Update On-Demand Cluster Info](/reference/restful/update-on-demand-cluster-info-v2).
+
+    ```bash
+    curl --request PATCH \
+    --url "$\{BASE_URL\}/v2/clusters/onDemandClusters/${CLUSTER_ID}" \
+    --header "Authorization: Bearer ${TOKEN}" \
+    --header "OrgId: org-xxxxxxxxxxxxxxxxxxx" \
+    --header "Content-Type: application/json" \
+    -d '{
+        "clusterName": "New Cluster Name"
+    }'
+    ```
+
+    The following is an example output.
+
+    ```json
+    {
+        "code": 0,
+        "data": {
+            "clusterId": "inxx-xxxxxxxxxxxxxxx",
+            "prompt": "successfully submitted. Cluster is being upgraded, which is expected to take several minutes. You can access data about the creation progress and status of your cluster by DescribeCluster API. Once the cluster status is RUNNING, you may access your vector database using the SDK."
+        }
+    }
+    ```
+
+- **Via Web console**
+
+    <Procedures>
+
+    1. Navigate to your target on-demand cluster.
+
+    1. Click on **Actions** and then select **Rename**.
+
+        ![IvU4bhPSfo7u76xC67DcESHpnfg](https://zdoc-images.s3.us-west-2.amazonaws.com/ivu4bhpsfo7u76xc67dceshpnfg.png "IvU4bhPSfo7u76xC67DcESHpnfg")
+
+    1. Enter the new name of the cluster and click on **Save**.
+
+        ![GPBzb78W3ojP0HxalhHc6M4Zn6c](https://zdoc-images.s3.us-west-2.amazonaws.com/gpbzb78w3ojp0hxalhhc6m4zn6c.png "GPBzb78W3ojP0HxalhHc6M4Zn6c")
+
+    </Procedures>
+
+## Edit the description of an on-demand cluster\{#edit-the-description-of-an-on-demand-cluster}
+
+- **Via RESTful API**
+
+    The following example modifies the cluster description. For details, see [Update On-Demand Cluster Info](/reference/restful/update-on-demand-cluster-info-v2).
+
+    ```bash
+    curl --request PATCH \
+    --url "$\{BASE_URL\}/v2/clusters/onDemandClusters/${CLUSTER_ID}" \
+    --header "Authorization: Bearer ${TOKEN}" \
+    --header "OrgId: org-xxxxxxxxxxxxxxxxxxx" \
+    --header "Content-Type: application/json" \
+    -d '{
+        "description": ""
+    }'
+    ```
+
+    The following is an example output.
+
+    ```json
+    {
+        "code": 0,
+        "data": {
+            "clusterId": "inxx-xxxxxxxxxxxxxxx",
+            "prompt": "successfully submitted. Cluster is being upgraded, which is expected to take several minutes. You can access data about the creation progress and status of your cluster by DescribeCluster API. Once the cluster status is RUNNING, you may access your vector database using the SDK."
+        }
+    }
+    ```
+
+- **Via Web console**
+
+    <Procedures>
+
+    1. Navigate to your target on-demand cluster.
+
+    1. Hover on the description and click on the **Edit description** icon.
+
+        ![AbaibGQY5oI7hMx81F9cOBOlnAd](https://zdoc-images.s3.us-west-2.amazonaws.com/abaibgqy5oi7hmx81f9cobolnad.png "AbaibGQY5oI7hMx81F9cOBOlnAd")
+
+    1. Enter the new description of the cluster and click on **Save**.
+
+        ![HKlybJYCFo2uMHxmVZ0cBs7Gnid](https://zdoc-images.s3.us-west-2.amazonaws.com/hklybjycfo2umhxmvz0cbs7gnid.png "HKlybJYCFo2uMHxmVZ0cBs7Gnid")
+
+    </Procedures>
+
 ## Drop an on-demand cluster\{#drop-an-on-demand-cluster}
 
-<Admonition type="danger" icon="🚧" title="Warning">
+<Admonition type="danger" icon="🚧" title="Danger">
 
 Once you drop an on-demand cluster, it is removed immediately and cannot be recovered. This action cannot be undone.
 
@@ -158,9 +255,6 @@ Once you drop an on-demand cluster, it is removed immediately and cannot be reco
 ### Via RESTful API\{#via-restful-api}
 
 ```plaintext
-export BASE_URL="https://api.cloud.zilliz.com"
-export TOKEN="YOUR_API_KEY"
-
 curl --request DELETE \
      --url "${BASE_URL}/v2/clusters/onDemandClusters/inxx-xxxxxxxxxxxxxxx" \
      --header "Authorization: Bearer ${TOKEN}" \

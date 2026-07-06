@@ -9,7 +9,7 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "This guide provides comprehensive instructions on how to add a payment credit card for your organization on Zilliz Cloud. | Cloud"
 type: origin
-token: IhEbw9V3SicIU9kx3HxcmJRSncb
+token: TVnkwXupUiX3zDkzYPWcxKP3nvg
 sidebar_position: 2
 displayed_sidebar: default
 
@@ -26,7 +26,7 @@ import Procedures from '@site/src/components/Procedures';
 
 This guide provides comprehensive instructions on how to add a payment credit card for your organization on Zilliz Cloud.
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" icon="📘" title="📘 Note">
 
 - **Taxation:** Taxes on the invoices are calculated based on the billing address you provide. For companies that require to enter VAT or GST ID, please [contact us](http://support.zilliz.com).
 
@@ -114,7 +114,7 @@ If you want to transition from a credit card payment method to a Marketplace sub
 
 Upon successful subscription, your existing credit card information will be automatically replaced. You can verify the update in the **Payment Method** section on the **Billing Overview** page.
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" icon="📘" title="📘 Note">
 
 Please allow a few minutes for the billing overview to reflect the chnges.
 

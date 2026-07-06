@@ -2,7 +2,7 @@
 title: "Filtered Search with StructArray | BYOC"
 slug: /filtered-search-with-struct-arrays
 sidebar_label: "Filtered Search"
-beta: FALSE
+beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
@@ -59,10 +59,6 @@ results = client.search(
     collection_name="tech_articles",
     data=[query],
     anns_field="chunks[emb_list_vector]",
-    search_params={
-        "metric_type": "MAX_SIM_COSINE",
-        "params": {},
-    },
     filter='category == "search"',
     limit=3,
     output_fields=[
@@ -96,10 +92,6 @@ results = client.search(
     collection_name="tech_articles",
     data=[query_vector],
     anns_field="chunks[emb]",
-    search_params={
-        "metric_type": "COSINE",
-        "params": {},
-    },
     filter=filter_expr,
     limit=5,
     output_fields=[
@@ -125,7 +117,7 @@ for hits in results:
 
 In this example, the top-level predicate `category == "search"` selects candidate entities, and `element_filter` restricts element-level vector search to chunks where `section`, `quality_score`, and `has_code` all match in the same Struct element.
 
-<Admonition type="info" icon="📘" title="Warning">
+<Admonition type="warning" icon="🚧" title="Warning">
 
 When you combine a top-level predicate with `element_filter`, place `element_filter` at the end of the expression. A filter expression can contain only one `element_filter`, and you cannot nest `element_filter` or `MATCH_*` inside another StructArray operator.
 
@@ -153,10 +145,6 @@ results = client.search(
     collection_name="tech_articles",
     data=[query],
     anns_field="chunks[emb_list_vector]",
-    search_params={
-        "metric_type": "MAX_SIM_COSINE",
-        "params": {},
-    },
     filter=filter_expr,
     limit=3,
     output_fields=[
@@ -184,20 +172,12 @@ query_vector = [0.19, 0.24, 0.30, 0.37]
 title_req = AnnSearchRequest(
     data=[query_vector],
     anns_field="title_vector",
-    param={
-        "metric_type": "COSINE",
-        "params": {},
-    },
     limit=10,
 )
 
 chunk_req = AnnSearchRequest(
     data=[query_vector],
     anns_field="chunks[emb]",
-    param={
-        "metric_type": "COSINE",
-        "params": {},
-    },
     limit=10,
     expr='element_filter(chunks, $[section] == "index" && $[quality_score] > 0.9)',
 )

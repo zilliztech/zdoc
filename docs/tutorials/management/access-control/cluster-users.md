@@ -58,7 +58,7 @@ Each cluster can have up to 500 cluster users.
 
 ## Drop a cluster user\{#drop-a-cluster-user}
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="📘 Notes">
 
 The default user **db_admin** cannot be dropped.
 

@@ -46,7 +46,7 @@ Once you have [registered an account](./register-with-zilliz-cloud) with Zilliz 
 
 ![update_email_address](https://zdoc-images.s3.us-west-2.amazonaws.com/update_email_address.png "update_email_address")
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="📘 Notes">
 
 Updating the email address will not affect the receiver of billing invoices and alerts. Please update these information manually if necessary.
 
@@ -140,7 +140,7 @@ If you have already linked your Zilliz Cloud account with a third-party account 
 
 ## Close your account\{#close-your-account}
 
-<Admonition type="caution" icon="🚧" title="Warning">
+<Admonition type="info" icon="📘" title="🚧 Warning">
 
 Once the account is closed, you cannot use it to log into Zilliz Cloud. If you change your mind and need to reopen the account, please create a support ticket at the [Zilliz Cloud Support Portal](https://support.zilliz.com/hc/en-us). After 30 days, all data in this account will be cleaned.
 

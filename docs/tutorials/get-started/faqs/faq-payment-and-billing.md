@@ -48,7 +48,7 @@ Yes. If there are still remaining credits in your account and you have added a p
 
 ### Will my &#36;100 credits expire? How can I extend the expiration of the free credits?\{#will-my-and36100-credits-expire-how-can-i-extend-the-expiration-of-the-free-credits}
 
-When you register an account for the first time with a business email, you will receive $100 in credits to spend within 30 days. When the credits are going to expire, you can extend the expiration by adding a payment method. After that you will receive an extra of $100 in credits to spend within 1 year.
+When you register an account for the first time with a business email, you will receive &#36;100 in credits to spend within 30 days. When the credits are going to expire, you can extend the expiration by adding a payment method. After that you will receive an extra of &#36;100 in credits to spend within 1 year.
 
 ### Is data in the Recycle Bin charged?\{#is-data-in-the-recycle-bin-charged}
 

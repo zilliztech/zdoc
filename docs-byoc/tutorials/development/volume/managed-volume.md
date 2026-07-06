@@ -442,6 +442,7 @@ You can also check the details of a specific managed volume.
     ```
 
     </TabItem>
+
     <TabItem value='bash'>
 
     ```bash
@@ -627,7 +628,7 @@ Currently, you can only upload your data file or folder into a managed volume vi
 
 Deleting data from a managed volume may take several minutes, depending on the size of the file or folder.
 
-<Admonition type="caution" icon="🚧" title="Warning">
+<Admonition type="info" icon="📘" title="⚠️ Warning">
 
 Deleted files and folders **cannot be recovered**. Proceed with caution.
 
@@ -653,7 +654,7 @@ You can delete a managed volume at any time if it is no longer needed. Note that
 
 Deleting a managed volume removes **all its files and folders** as well.
 
-<Admonition type="caution" icon="🚧" title="Warning">
+<Admonition type="info" icon="📘" title="⚠️ Warning">
 
 Deleted volumes **cannot be recovered**. Proceed with caution.
 
@@ -804,4 +805,5 @@ The following table lists the possible volume statuses.
 | **Status** | **Description** |
 | --- | --- |
 | **Available** | The volume is active and usable. |
-| **Frozen** | The organization is frozen due to overdue [invoices](null). The volume cannot be used for new operations. Please pay your bill to continue using volumes. |
+| **Frozen** | The organization is frozen due to overdue invoices. The volume cannot be used for new operations. Please pay your bill to continue using volumes. |
+

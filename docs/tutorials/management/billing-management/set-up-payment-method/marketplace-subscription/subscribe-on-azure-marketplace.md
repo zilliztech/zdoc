@@ -9,7 +9,7 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "This guide provides a step-by-step walkthrough of the subscription process and outlines the pricing terms of Zilliz Cloud on Azure Marketplace. | Cloud"
 type: origin
-token: XHdswv9CWi0ZHjkzxTMcoHqpnzd
+token: LbFXwpruviFWWokwtkhcVmnhnFh
 sidebar_position: 6
 displayed_sidebar: default
 
@@ -28,7 +28,7 @@ import Procedures from '@site/src/components/Procedures';
 
 This guide provides a step-by-step walkthrough of the subscription process and outlines the pricing terms of Zilliz Cloud on Azure Marketplace.
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" icon="📘" title="📘 Note">
 
 - Once subscribed, you can pay for the usage of Azure clusters via Azure Marketplace. If you have clusters deployed on other cloud providers, you can also use Azure Marketplace to pay.
 
@@ -42,7 +42,7 @@ Ensure you have an [Azure Marketplace](https://learn.microsoft.com/en-us/marketp
 
 Also ensure your billing country or region is on the list of supported markets. Zilliz Cloud does not support certain markets in the Azure Marketplace due to tax and compliance reasons. If you attempt to subscribe from an unsupported market, you may receive an error message stating, `"No plans are available for market '<market_code>'."` If this occurs, please [contact support](http://support.zilliz.com/) and provide a screenshot of the error message along with the market code. We will discuss possible solutions with you.
 
-![KkPSbV6w8oECUoxMxKJcTtgAnSh](https://zdoc-images.s3.us-west-2.amazonaws.com/kkpsbv6w8oecuoxmxkjcttgansh.png "KkPSbV6w8oECUoxMxKJcTtgAnSh")
+![YaPcbHnQXovDLIxks0xcItOJnpf](https://zdoc-images.s3.us-west-2.amazonaws.com/yapcbhnqxovdlixks0xcitojnpf.png "YaPcbHnQXovDLIxks0xcItOJnpf")
 
 <details>
 
@@ -250,7 +250,7 @@ Visit [Azure Marketplace](https://azuremarketplace.microsoft.com/en-us) and star
 
         1. Configure **Auto-renew** settings.
 
-            <Admonition type="info" icon="📘" title="Note">
+            <Admonition type="info" icon="📘" title="📘 Note">
 
             When auto-renew is on, you will be automatically subscribed to Zilliz Cloud on Azure at the end of the contract duration. When auto-renew is off, your subscription will end at the end of the contract duration and your Zilliz Cloud organization and account will be automatically unlinked from this Azure Marketplace subscription.
 
@@ -290,7 +290,7 @@ More specifically, you can either:
 
 - Switch your payment method from Marketplace subscription to a credit card.
 
-For details, see [Update Payment Method](./update-payment-method)
+For details, see Update Payment Method.
 
 ## Cancel Azure Marketplace subscription\{#cancel-azure-marketplace-subscription}
 
@@ -338,11 +338,7 @@ There could be several reasons.
 
     - If you need to update an existing marketplace subscription, please unlink the current subscription of the organization first and then set up a new subscription.
 
-    - If you need multiple organizations for different Marketplace subscription, you can:
-
-        - [Register](./register-with-zilliz-cloud) a new Zilliz Cloud account to create a new organization. Then, [invite](./organization-users#invite-a-user-to-your-organization) the organization owner to the new organization. This organization owner will then belong to multiple organizations and can setup different marketplace subscriptions for each organization.
-
-        - [Create a support ticket](http://support.zilliz.com) so that we will create new organizations for you. Currently, Zilliz Cloud does not support manually creating organizations by users.
+    - If you need multiple organizations for different Marketplace subscription, you can [create an organization](./organization-settings#create-an-organization).
 
 - **No organizations in the list**
 
@@ -352,9 +348,7 @@ There could be several reasons.
 
     In this case, you can:
 
-    - Create a new organization.
+    - [Create a new organization](./organization-settings#create-an-organization).
 
     - Ask other users to [invite](./organization-users#invite-a-user-to-your-organization) you to their organizations and grant you the role of an Organization Owner.
-
-    - [Create a support ticket](https://support.zilliz.com/hc/en-us) and we will create a new organization for you.
 

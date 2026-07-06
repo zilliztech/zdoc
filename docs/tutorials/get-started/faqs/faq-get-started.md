@@ -70,15 +70,19 @@ Once the free trial ends, you can still access your free clusters. However, all 
 
 ### What is the pricing of Zilliz Cloud on Marketplaces?\{#what-is-the-pricing-of-zilliz-cloud-on-marketplaces}
 
-Please refer to [Payment & Billing](./undefined) for more about Marketplace pricing terms.
+The Marketplace price is the same as the list price on the [Zilliz Cloud Pricing](https://zilliz.com/pricing) page. 
+
+If you have negotiated a discount with your account executive, your negotiated price applies.
+
+For pricing questions, please [contact sales](http://zilliz.com/contact-sales).
 
 ### Can I apply for more credits?\{#can-i-apply-for-more-credits}
 
-When you register on Zilliz Cloud with a work email you’ll receive $100 in free credits. You can earn an extra $100 credits by subscribing to Zilliz Cloud on [Marketplaces](./subscribe-on-aws-marketplace). For extra credits and discounts, please [contact sales](https://zilliz.com/contact-sales).
+When you register on Zilliz Cloud with a work email you’ll receive &#36;100 in free credits. You can earn an extra &#36;100 credits by subscribing to Zilliz Cloud on Marketplaces. For extra credits and discounts, please [contact sales](https://zilliz.com/contact-sales).
 
 ### Can I extend my free trial?\{#can-i-extend-my-free-trial}
 
-Yes, you can. When you register on Zilliz Cloud, you receive $100 in credits valid for 30 days. By [adding a payment method](./undefined), you can extend the validity of these credits to 1 year.
+Yes, you can. When you register on Zilliz Cloud, you receive &#36;100 in credits valid for 30 days. By [adding a payment method](./payment-billing), you can extend the validity of these credits to 1 year.
 
 ### How can I get further technical support?\{#how-can-i-get-further-technical-support}
 

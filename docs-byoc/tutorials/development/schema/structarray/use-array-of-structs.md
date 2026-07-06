@@ -2,7 +2,7 @@
 title: "StructArray Overview | BYOC"
 slug: /use-array-of-structs
 sidebar_label: "Overview"
-beta: FALSE
+beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
@@ -131,7 +131,7 @@ Use the following matrix to choose the right StructArray path.
 
 </Grid>
 
-<Admonition type="info" icon="📘" title="Warning">
+<Admonition type="warning" icon="🚧" title="Warning">
 
 If your collection needs both EmbeddingList search and element-level search, use two separate vector subfields. A vector field or vector subfield accepts only one index, and the two search modes require different metric families.
 

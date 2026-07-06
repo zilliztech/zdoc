@@ -319,7 +319,7 @@ The filtering condition carried in the search request reads `color like "red%" a
 ]
 ```
 
-For more information on the operators you can use in metadata filtering, refer to [Filtering](./undefined).
+For more information on the operators you can use in metadata filtering, refer to [Filtering Explained](./filtering-overview).
 
 ### Search with iterative filtering\{#search-with-iterative-filtering}
 

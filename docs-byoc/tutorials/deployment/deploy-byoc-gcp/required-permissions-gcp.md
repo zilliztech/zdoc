@@ -2,7 +2,7 @@
 title: "Required Permissions | BYOC"
 slug: /required-permissions-gcp
 sidebar_label: "Required Permissions"
-beta: FALSE
+beta: CONTACT SALES
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE

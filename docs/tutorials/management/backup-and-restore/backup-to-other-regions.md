@@ -58,7 +58,7 @@ You can enable cross-region backup either when [creating a backup manually](./cr
 
 - **Scheduled backup:** If you choose cross-region backup during scheduled backups, you must configure a retention period for the copied backup file in each region.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="📘 Notes">
 
 - You can select regions only for the same cloud provider as the original region.
 

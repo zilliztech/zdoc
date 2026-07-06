@@ -33,6 +33,12 @@ The `chinese` analyzer consists of:
 
 The functionality of the `chinese` analyzer is equivalent to the following custom analyzer configuration:
 
+<Admonition type="info" icon="📘" title="Notes">
+
+The built-in `chinese` analyzer does not emit Pinyin tokens. To match Chinese text with Pinyin query terms, use a custom analyzer with the `jieba` tokenizer and the [Pinyin filter](./undefined).
+
+</Admonition>
+
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 

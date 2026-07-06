@@ -45,7 +45,7 @@ To perform a merge, set `partial_update` to `True` in the `upsert` request along
 
 Upon receiving such a request, Zilliz Cloud performs a query with strong consistency to retrieve the entity, updates the field values based on the data in the request, inserts the modified data, and then deletes the existing entity with the original primary key carried in the request.
 
-For `ARRAY` fields, merge mode supports two operators: `ARRAY_APPEND` and `ARRAY_REMOVE`. These operators let you append elements to or remove matching elements from an existing `ARRAY` field, without first querying the entity to retrieve its current value. For details, see [Upsert ARRAY fields with partial-update operators](./upsert-entities#upsert-array-fields-with-partial-update-operators).
+For `ARRAY` fields, merge mode supports two operators: `ARRAY_APPEND` and `ARRAY_REMOVE`. These operators let you append elements to or remove matching elements from an existing `ARRAY` field, without first querying the entity to retrieve its current value. For details, see [Upsert ARRAY fields with partial-update operators](./upsert-entities#upsert-array-fields-in-merge-mode).
 
 ### Update field values\{#update-field-values}
 
@@ -91,7 +91,13 @@ There are several special notes you should consider before using the merge featu
 
     - `ARRAY_REMOVE` removes every element from the existing array that matches a value in the request payload.
 
-    For operator syntax, supported element types, and other constraints, see [Upsert array fields with partial-update operators](./upsert-entities#upsert-array-fields-with-partial-update-operators).
+    For operator syntax, supported element types, and other constraints, see [Upsert array fields with partial-update operators](./upsert-entities#upsert-array-fields-in-merge-mode).
+
+- **Upsert a StructArray field.**
+
+    Upserting a StructArray field in an entity overwrites the field value. To do so, you need to provide a list of dictionaries, each of which contains all subfields defined in the struct schema, even when you perform the upsert in merge mode.
+
+    For details, refer to [Upsert StructArray field in merge mode](./upsert-entities#upsert-structarray-field-in-merge-mode).
 
 ### Limits & Restrictions\{#limits-and-restrictions}
 
@@ -696,7 +702,7 @@ if (!status.IsOk()) {
 }
 ```
 
-## Upsert ARRAY fields with partial-update operators\{#upsert-array-fields-with-partial-update-operators}
+## Upsert ARRAY fields in merge mode\{#upsert-array-fields-in-merge-mode}
 
 Before introducing partial-update operators (`ARRAY_APPEND` and `ARRAY_REMOVE`), updating part of an `ARRAY` field required a client-side read-modify-write flow: query the existing array, change it in application code, and upsert the full replacement value. Partial-update operators let you send only the elements to append or remove, which reduces client-side logic and avoids the extra read before the upsert.
 
@@ -1082,6 +1088,80 @@ System.out.println(res);
 //   {"pk": 1, "tags": ["premium", "vip"]},
 //   {"pk": 2, "tags": ["new", "premium"]}
 // ]
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// nodejs
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+```
+
+</TabItem>
+</Tabs>
+
+## Upsert StructArray field in merge mode\{#upsert-structarray-field-in-merge-mode}
+
+Upserting a StructArray field in an entity overwrites the field value. That means you need to include all subfields defined in the struct schema when you upsert a StructArray field.
+
+The following example demonstrates how to upsert the `chunks` field in merge mode, a StructArray field with 6 subfields. When the operation completes, the `chunks` field of the entity with id 1 is set to the array with the two-element structs provided in the request.
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
+client.upsert(
+    collection_name="books",
+    # highlight-start
+    data=[{
+        "id": 1,
+        "chunks": [
+            {
+              "text": "Use HNSW efSearch to trade recall for latency.",
+              "section": "index",
+              "page": 1,
+              "quality_score": 0.92,
+              "has_code": True,
+              "emb_list_vector": [0.11, 0.21, 0.31, 0.41]
+            },
+            {
+              "text": "Range search returns vectors within a distance boundary.",
+              "section": "search",
+              "page": 2,
+              "quality_score": 0.86,
+              "has_code": False,
+              "emb_list_vector": [0.18, 0.23, 0.29, 0.36]
+            }
+        ]
+    }],
+    # highlight-end
+    partial_update=True
+)
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// java
 ```
 
 </TabItem>

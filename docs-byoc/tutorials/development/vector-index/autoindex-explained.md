@@ -40,7 +40,7 @@ For scalar fields, **AUTOINDEX** provides an efficient mapping between field typ
 | `GEOMETRY` | **RTREE** | Geometric data that stores spatial information. For details, refer to [Geometry Field](./use-geometry-field). |
 | `TIMESTAMPTZ` | **STL_SORT** | time zone-aware ISO 8601 inputs, stored as UTC for consistent filtering and ordering across time zones. For details, refer to [TIMESTAMPTZ Field](./use-timestamptz-field). |
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="📘 Notes">
 
 Cardinality (C in the above table) shows the number of unique values in a field across a whole collection. For example, the cardinality of a float field is the number of distinct float values in that field.
 

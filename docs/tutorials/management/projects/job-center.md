@@ -57,11 +57,11 @@ The following job information is displayed:
          <td><p>Export a backup file to the specified object storage service</p></td>
        </tr>
        <tr>
-         <td><p><a href="./undefined">Migration</a></p></td>
+         <td><p><a href="./zilliz-migration-prompts">Migration</a></p></td>
          <td><p>Migrate data to a cluster.</p><ul><li><p>External Data Migration: </p><ul><li><p>From Milvus</p></li><li><p>From Pinecone</p></li><li><p>From Qdrant</p></li><li><p>From Elasticsearch</p></li><li><p>From OpenSearch</p></li><li><p>From PostgreSQL</p></li><li><p>From Tencent Cloud VectorDB</p></li></ul></li><li><p>Zilliz Cloud Cross-cluster migration:</p><ul><li><p>Cross-cluster migration within the same organization</p></li><li><p>Migration between clusters across organizations</p></li></ul></li></ul></td>
        </tr>
        <tr>
-         <td><p><a href="./undefined">Import</a></p></td>
+         <td><p><a href="./zilliz-import-prompts">Import</a></p></td>
          <td><p>Import data to a collection</p></td>
        </tr>
        <tr>
@@ -81,11 +81,11 @@ The following job information is displayed:
          <td><p>Manually resume a cluster</p></td>
        </tr>
        <tr>
-         <td><p><a href="./scale-query-cu">Scale Query CU</a></p></td>
+         <td><p><a href="./undefined">Scale Query CU</a></p></td>
          <td><p>Increase or decrease the number of query CUs of a cluster.</p></td>
        </tr>
        <tr>
-         <td><p><a href="./manage-replica">Scale Replica</a></p></td>
+         <td><p><a href="./undefined">Scale Replica</a></p></td>
          <td><p>Increase or decrease the number of replicas of a cluster.</p></td>
        </tr>
     </table>
@@ -114,7 +114,7 @@ Currently, you can only cancel the following types of jobs that  are in the stat
 
 - Export backup file jobs
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="📘 Notes">
 
 To cancel a job, you must be an **Organization Owner** or a **Project Admin**.
 
@@ -124,7 +124,7 @@ To cancel a job, you must be an **Organization Owner** or a **Project Admin**.
 
 ## Retry failed job\{#retry-failed-job}
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="📘 Notes">
 
 Currently, you can only retry failed import jobs.
 

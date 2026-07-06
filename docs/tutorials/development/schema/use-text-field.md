@@ -38,7 +38,7 @@ After the field is defined, each entity can include a string value in that field
 
 <Admonition type="info" icon="📘" title="Notes">
 
-TEXT fields support null values and default values. To enable these features, set nullable to True and default_value to a string value. For details, refer to [Nullable Fields](./nullable-fields) and [Default Values](./default-fields).
+TEXT fields support null values. To enable this feature, set nullable to True. For details, refer to [Nullable Fields](./nullable-fields).
 
 </Admonition>
 
@@ -47,6 +47,8 @@ TEXT fields support null values and default values. To enable these features, se
 - A `TEXT` field cannot be a primary field. Primary fields support `INT64` and `VARCHAR`.
 
 - `TEXT` fields do not support `PHRASE_MATCH`.
+
+- `TEXT` fields do not support default values.
 
 - `TEXT` fields do not support scalar indexes.
 

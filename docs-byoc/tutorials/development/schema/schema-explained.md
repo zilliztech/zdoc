@@ -622,7 +622,7 @@ In Milvus, a composite field is a field that can be divided into smaller sub-fie
 
 ### Add JSON fields\{#add-json-fields}
 
-A JSON field usually stores half-structured JSON data. For more on the JSON fields, refer to [JSON Field](./undefined).
+A JSON field usually stores half-structured JSON data. For more on the JSON fields, refer to [JSON Field Overview](./json-field-overview).
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>

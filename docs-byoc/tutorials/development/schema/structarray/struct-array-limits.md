@@ -2,7 +2,7 @@
 title: "StructArray Limits | BYOC"
 slug: /struct-array-limits
 sidebar_label: "StructArray Limits"
-beta: FALSE
+beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE

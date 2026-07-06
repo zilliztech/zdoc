@@ -154,7 +154,7 @@ Before starting your migration, be aware of these common limitations that apply 
 
 | Consideration | Impact | Solution |
 | --- | --- | --- |
-| No automatic indexing or loading | Collections not queryable immediately | Manually create indexes and load the collections post-migration. For detailed steps, refer to Index Vector Fields and [Load & Release](./load-release-collections). |
+| No automatic indexing or loading | Collections not queryable immediately | Manually create indexes and load the collections post-migration. For detailed steps, refer to [AUTOINDEX Explained](./autoindex-explained) and [Load & Release](./load-release-collections). |
 | Empty source data | Cannot select empty indexes/tables | Ensure source contains data before migrating |
 | Vector field requirements | Collections must contain vector data | Verify your source has vector fields before migration |
 | Unsupported data types | Some specialized data types may not transfer | Review platform-specific guides for data type mappings |

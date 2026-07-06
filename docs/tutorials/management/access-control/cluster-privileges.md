@@ -143,7 +143,7 @@ The table below lists the specific privileges included in the three built-in pri
 
 If the built-in privileges do not meet your needs, you can create custom privilege groups and add specified privileges to the privilege groups using the SDKs. 
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="📘 Notes">
 
 This is a feature in **Private Preview**. To request this feature, [create a support ticket](http://support.zilliz.com) so we can enable it for you.
 

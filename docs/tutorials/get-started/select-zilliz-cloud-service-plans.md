@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud provides a range of project plans to suit diverse requirements. Whether you're new to vector databases or require robust solutions for enterprise-level tasks, making the right choice ensures optimal performance, scalability, and cost-efficiency. This guide will help you make an informed decision. | Cloud"
+description: "Zilliz Cloud offers multiple deployment and project plan options to match different workload, reliability, compliance, data sovereignty, and infrastructure requirements. | Cloud"
 type: origin
 token: Ghq9wEiOOivgeIkmj2HcHC9onXe
 sidebar_position: 4
@@ -18,13 +18,32 @@ displayed_sidebar: default
 import Admonition from '@theme/Admonition';
 
 
-# Detailed Plan Comparison
+# Deployment and Plan Comparison
 
-Zilliz Cloud provides a range of project plans to suit diverse requirements. Whether you're new to vector databases or require robust solutions for enterprise-level tasks, making the right choice ensures optimal performance, scalability, and cost-efficiency. This guide will help you make an informed decision. 
+Zilliz Cloud offers multiple deployment and project plan options to match different workload, reliability, compliance, data sovereignty, and infrastructure requirements.
 
-## Plan overview\{#plan-overview}
+Before deploying any resources, you need to first decide whether to use **SaaS** or **BYOC**. This determines who operates the infrastructure and where the data-plane environment runs. 
 
-Zilliz Cloud categorizes its offerings into five distinct plans.
+- If you choose SaaS, you then select a project plan that defines the features, SLA, and compliance capabilities available to resources in that project.
+
+- If you choose BYOC, feature support aligns with the SaaS Business Critical plan.
+
+Use this guide to compare Zilliz Cloud plans and choose the right plan before [creating a project](./manage-projects#create-a-project).
+
+## Select Deployment (SaaS vs. BYOC)\{#select-deployment-saas-vs-byoc}
+
+| **Decision factor** | **Choose SaaS if...** | **Choose BYOC if...** |
+| --- | --- | --- |
+| Infrastructure ownership | You prefer Zilliz to operate the infrastructure. | Your organization must own the cloud account, VPC/VNet, and data-plane environment. |
+| Data sovereignty | Region-level control is enough. | Data must stay in your own cloud account. |
+| Networking | Public endpoint or standard private networking is acceptable. | You need customer VPC/VNet-local access and private endpoint patterns. |
+| Compliance | SaaS plan controls meet your requirements. | Your requirements demand customer-controlled infrastructure or stricter cloud governance. |
+| Cost model | You prefer packaged SaaS billing. | You want to combine Zilliz BYOC pricing with your own cloud-provider discounts and commitments. |
+| Operations | You want the lowest operational burden. | You can manage shared cloud, network, storage, and security responsibilities. |
+
+## Select Plan\{#select-plan}
+
+If you choose BYOC, you do not need to further choose the plan. The feature support for BYOC is the same as the SaaS Business Critical plan. If you choose SaaS deployment, you need to select a plan from the following options:
 
 - **Standard:** The Standard plan is tailored for non-critical workloads. It is best suited for prototypes and testing environments. See [Zilliz Cloud Pricing](https://zilliz.com/pricing) for details.
 
@@ -32,300 +51,144 @@ Zilliz Cloud categorizes its offerings into five distinct plans.
 
 - **Business Critical**: The Business Critical plan is regulated-ready with maximum resilience. It is best suited for healthcare, finance, mission-critical systems. To select the Business Critical plan, [contact sales](http://zilliz.com/contact-sales).
 
-- **Bring Your Own Cloud (BYOC):** The BYOC Plan is designed for organizations that prioritize custom infrastructure, enhanced data protection, and compliance. It provides the same features and experience as SaaS Dedicated clusters. To select the BYOC plan, [contact sales](http://zilliz.com/contact-sales).
-
-## Plan comparison\{#plan-comparison}
-
-The following section compares the plans and deployment options, detailing the specific features available in each plan.
-
-### Deployment\{#deployment}
-
 <table>
    <tr>
-     <th></th>
-     <th><p><strong>Free</strong></p></th>
-     <th><p><strong>Serverless</strong></p></th>
-     <th><p><strong>Dedicated (Standard)</strong></p></th>
-     <th><p><strong>Dedicated (Enterprise)</strong></p></th>
-     <th><p><strong>Dedicated (Business Critical)</strong></p></th>
-     <th><p><strong>Bring Your Own Cloud (BYOC)</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>Environment</p></td>
-     <td><p>Shared</p></td>
-     <td><p>Shared</p></td>
-     <td><p>Dedicated</p></td>
-     <td><p>Dedicated</p></td>
-     <td><p>Dedicated</p></td>
-     <td><p>Dedicated</p></td>
-   </tr>
-   <tr>
-     <td><p><a href="./cloud-providers-and-regions">Cloud provider & region</a></p></td>
-     <td><p>AWS, GCP</p></td>
-     <td><p>AWS, GCP</p></td>
-     <td><p>AWS, GCP, Azure</p><p>For details, refer to <a href="./cloud-providers-and-regions">Cloud Providers & Regions</a>.</p></td>
-     <td><p>AWS, GCP, Azure</p><p>For details, refer to <a href="./cloud-providers-and-regions">Cloud Providers & Regions</a>.</p></td>
-     <td><p>AWS, GCP, Azure</p><p>For details, refer to <a href="./cloud-providers-and-regions">Cloud Providers & Regions</a>.</p></td>
-     <td><p>User's VPC</p></td>
-   </tr>
-   <tr>
-     <td><p>Query CU number</p></td>
-     <td><p>Single query CU</p></td>
-     <td><p>Auto-scale. No configuration required</p></td>
-     <td><ul><li><p>Up to 32 query CUs. (You can directly create cluster of 32 query CUs or less on the web UI. For larger query CUs, please <a href="https://zilliz.com/contact-sales">contact sales</a>.</p></li><li><p>Increments: 1, 2, 4, 8, 12, 16, 20, 24, 28, 32.</p></li></ul></td>
-     <td><ul><li><p>Up to 1,024 query CUs. For larger query CUs, please <a href="https://zilliz.com/contact-sales">contact sales</a>.</p></li><li><p>Increments: 1, 2, 4, 8, 12, 16, 20, 24, 28, 32,…,64, 72, 80, 88,…,256, 272, 288, …,1024 <em>(Notes: When query CU is greater than 8, the increment increase becomes 4 CUs. When query CU is greater than 64, the increment increase becomes 8 CUs. When the query CU is greater than 256, the increment increase becomes 16 CUs. )</em></p></li></ul></td>
-     <td><ul><li><p>Up to 256 query CUs. For larger query CUs, please <a href="https://zilliz.com/contact-sales">contact sales</a>.</p></li><li><p>Increments: 1, 2, 4, 8, 12, 16, 20, 24, 28, 32,…,64, 72, 80, 88,…,256, 272, 288, …,1024 <em>(Notes: When query CU is greater than 8, the increment increase becomes 4 CUs. When query CU is greater than 64, the increment increase becomes 8 CUs. When the query CU is greater than 256, the increment increase becomes 16 CUs. )</em></p></li></ul></td>
-     <td><p>Customizable</p></td>
-   </tr>
-   <tr>
-     <td><p><a href="./scale-query-cu">Compute Scaling</a></p></td>
-     <td></td>
-     <td><p>System-managed auto-scaling</p><p>(No configuration required)</p></td>
-     <td><p>Manual scaling to</p><p>32 CUs</p></td>
-     <td><p>Configurable auto-scaling</p><p>Manual scaling to 1,024 CUs or more</p></td>
-     <td><p>Configurable auto-scaling</p><p>Manual scaling to 1,024 CUs or more</p></td>
-     <td><p>Configurable auto-scaling</p><p>Manual scaling to 1,024 CUs or more</p></td>
-   </tr>
-   <tr>
-     <td><p><a href="./cu-types-explained">Cluster type</a> options</p></td>
-     <td></td>
-     <td></td>
-     <td><p>3 Options:</p><ul><li><p>Performance-optimized CU</p></li><li><p>Capacity-optimized CU</p></li><li><p>Tiered-storage CU</p></li></ul></td>
-     <td><p>3 Options:</p><ul><li><p>Performance-optimized CU</p></li><li><p>Capacity-optimized CU</p></li><li><p>Tiered-storage CU</p></li></ul></td>
-     <td><p>3 Options:</p><ul><li><p>Performance-optimized CU</p></li><li><p>Capacity-optimized CU</p></li><li><p>Tiered-storage CU</p></li></ul></td>
-     <td><p>2 Options</p><ul><li><p>Performance-optimized CU</p></li><li><p>Capacity-optimized CU</p></li></ul></td>
-   </tr>
-   <tr>
-     <td><p>Max. collections</p></td>
-     <td><p>5 Collections</p></td>
-     <td><p>10 Collections per cluster.</p></td>
-     <td><p>For details, refer to <a href="./limits#collections">Zilliz Cloud Limits</a>.</p></td>
-     <td><p>For details, refer to <a href="./limits#collections">Zilliz Cloud Limits</a>.</p></td>
-     <td><p>For details, refer to <a href="./limits#collections">Zilliz Cloud Limits</a>.</p></td>
-     <td><p>Customizable</p></td>
+     <th><p><strong>Feature</strong></p></th>
+     <th><p><strong>Standard (SaaS)</strong></p></th>
+     <th><p><strong>Enterprise (SaaS)</strong></p></th>
+     <th><p><strong>Business Critical (SaaS) and BYOC</strong></p></th>
    </tr>
    <tr>
      <td><p>Uptime SLA</p></td>
-     <td></td>
-     <td></td>
-     <td></td>
+     <td><p>--</p></td>
      <td><p>99.95%</p></td>
-     <td><p>99.99% (If multi-replica is enabled)</p></td>
-     <td><p>99.95%</p></td>
-   </tr>
-</table>
-
-### High availability\{#high-availability}
-
-|  | **Free** | **Serverless** | **Dedicated (Standard)** | **Dedicated (Enterprise)** | **Dedicated (Business Critical)** | **Bring Your Own Cloud (BYOC)** |
-| --- | --- | --- | --- | --- | --- | --- |
-| Availability zone |  | Single | Single | Multiple | Multiple | Multiple |
-| [Replica](./manage-replica) |  |  |  | ✔ | ✔ | ✔ |
-| Snapshot |  |  |  | ✔ | ✔ | ✔ |
-| Global Cluster |  |  |  |  | ✔ |  |
-
-### Data managment\{#data-managment}
-
-|  | **Free** | **Serverless** | **Dedicated (Standard)** | **Dedicated (Enterprise)** | **Dedicated (Business Critical)** | **Bring Your Own Cloud (BYOC)** |
-| --- | --- | --- | --- | --- | --- | --- |
-| [Cross-cluster migration](./offline-migration) |  | From Free cluster | ✔ | ✔ | ✔ | ✔ |
-| [Migration from external sources](./undefined) | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
-| Stage | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
-| [High speed data import](./import-data) |  | ✔ | ✔ | ✔ | ✔ | ✔ |
-| [Recycle bin](./use-recycle-bin) | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
-
-### Data security and compliance\{#data-security-and-compliance}
-
-|  | **Free** | **Serverless** | **Dedicated (Standard)** | **Dedicated (Enterprise)** | **Dedicated (Business Critical)** | **Bring Your Own Cloud (BYOC)** |
-| --- | --- | --- | --- | --- | --- | --- |
-| OAuth 2.0 | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
-| [Enterprise SSO](./single-sign-on) |  |  |  | ✔ | ✔ | ✔ |
-| Customer managed encryption keys (CMEK) |  |  |  |  | ✔ |  |
-| [MFA](./multi-factor-auth) | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
-| [Auditing](./undefined) |  |  |  | ✔ | ✔ | ✔ |
-| [API key management](./manage-api-keys) |  | ✔ | ✔ | ✔ | ✔ | ✔ |
-| [Data encryption in transit and at rest](./data-security#data-encryption) | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
-| [Backup and restore](./undefined) |  |  | ✔ | ✔ | ✔ | ✔ |
-| [Cross-region backup](./backup-to-other-regions) |  |  |  | ✔ | ✔ | ✔ |
-| [IP address access control](./setup-whitelist) |  |  | ✔ | ✔ | ✔ | ✔ |
-| [Private networking](./undefined) |  |  |  | ✔ | ✔ | ✔ |
-| [SOC 2 Type II and ISO/ICE 27001 compliant, GDPR ready](https://zilliz.com/trust-center) | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
-| [HIPPA ready](https://zilliz.com/trust-center) |  |  |  |  | ✔ | ✔ |
-
-### Observability\{#observability}
-
-|  | **Free** | **Serverless** | **Dedicated (Standard)** | **Dedicated (Enterprise)** | **Dedicated (Business Critical)** | **Bring Your Own Cloud (BYOC)** |
-| --- | --- | --- | --- | --- | --- | --- |
-| [Fine-grained metrics with real-time monitoring dashboard](./view-cluster-metric-charts) |  | ✔ | ✔ | ✔ | ✔ | ✔ |
-| [Alerts](./manage-project-alerts) |  |  | ✔ | ✔ | ✔ | ✔ |
-| Alerting and monitoring integrations |  |  |  | ✔ | ✔ | ✔ |
-| [Job Center](./job-center) | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
-
-### Role-based access control\{#role-based-access-control}
-
-|  | **Free** | **Serverless** | **Dedicated (Standard)** | **Dedicated (Enterprise)** | **Dedicated (Business Critical)** | **Bring Your Own Cloud (BYOC)** |
-| --- | --- | --- | --- | --- | --- | --- |
-| [Organization and project RBAC](./access-control-overview) |  | ✔ | ✔ | ✔ | ✔ | ✔ |
-| Data plane RBAC |  |  | ✔ | ✔ | ✔ | ✔ |
-
-### Integrations and tools\{#integrations-and-tools}
-
-|  | **Free** | **Serverless** | **Dedicated (Standard)** | **Dedicated (Enterprise)** | **Dedicated (Business Critical)** | **Bring Your Own Cloud (BYOC)** |
-| --- | --- | --- | --- | --- | --- | --- |
-| [Intuitive RESTful APIs for control and data plane operations](/reference/restful) | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
-| [User-friendly SDKs in multiple programming languages](/reference/python) (Python, Java, Go, and Node.js SDKs) | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
-| [VTS (Vector Transport Service)](https://zilliz.com/vector-transport-service) | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
-| [VectorDBBench](https://zilliz.com/vdbbench-leaderboard) | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
-
-### Technical support\{#technical-support}
-
-<table>
-   <tr>
-     <th colspan="2"></th>
-     <th><p><strong>Free</strong></p></th>
-     <th><p><strong>Serverless</strong></p></th>
-     <th><p><strong>Dedicated (Standard)</strong></p></th>
-     <th><p><strong>Dedicated (Enterprise)</strong></p></th>
-     <th><p><strong>Dedicated (Business Critical)</strong></p></th>
-     <th><p><strong>Bring Your Own Cloud (BYOC)</strong></p></th>
+     <td><ul><li><p>Business Critical: 99.99% (If multi-replica is enabled)</p></li><li><p>BYOC: 99.95%</p></li></ul></td>
    </tr>
    <tr>
-     <td colspan="2"><p>On-call availability</p></td>
-     <td></td>
-     <td><p>Business hours</p></td>
-     <td><p>Business hours</p></td>
-     <td><p>24/7/365</p></td>
-     <td><p>24/7/365</p></td>
-     <td></td>
+     <td><p><a href="./undefined#manual-scaling">Manual scaling</a></p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
    </tr>
    <tr>
-     <td rowspan="4"><p>First response SLAs</p></td>
-     <td><p>Emergency</p></td>
-     <td></td>
-     <td></td>
-     <td></td>
-     <td></td>
-     <td><p>30 min on-call</p></td>
-     <td></td>
+     <td><p>Auto-scaling (including <a href="./undefined#scheduled-scaling">scheduled</a> and <a href="./undefined#dynamic-scaling">dynamic</a> scaling)</p></td>
+     <td><p>❌</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
    </tr>
    <tr>
-     <td><p>Urgent</p></td>
-     <td></td>
-     <td><p>4 hours</p></td>
-     <td><p>4 hours</p></td>
-     <td><p>1 hour</p></td>
-     <td><p>1 hour</p></td>
-     <td></td>
+     <td><p><a href="./undefined">Replica</a></p></td>
+     <td><p>❌</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
    </tr>
    <tr>
-     <td><p>High</p></td>
-     <td></td>
-     <td><p>1 business day</p></td>
-     <td><p>1 business day</p></td>
-     <td><p>4 hours</p></td>
-     <td><p>4 hours</p></td>
-     <td></td>
+     <td><p><a href="./global-cluster-explained">Global cluster</a></p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
+     <td><p>✅</p></td>
    </tr>
    <tr>
-     <td><p>Medium/Normal</p></td>
-     <td></td>
-     <td><p>2 business days</p></td>
-     <td><p>2 business days</p></td>
-     <td><p>1 business day</p></td>
-     <td><p>1 business day</p></td>
-     <td></td>
+     <td><p><a href="./on-demand-cluster">On-demand compute</a></p></td>
+     <td><p>❌</p></td>
+     <td><p>✅</p></td>
+     <td><ul><li><p>Business Critical: ✅</p></li><li><p>BYOC: ❌</p></li></ul></td>
    </tr>
    <tr>
-     <td rowspan="6"><p>Support Options</p></td>
-     <td><p>Community</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
+     <td><p><a href="./managed-volume">Volume</a></p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
    </tr>
    <tr>
-     <td><p>Support Bot</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
+     <td><p><a href="./zilliz-migration-prompts">Migration</a></p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
    </tr>
    <tr>
-     <td><p>Email/Ticket Portal</p></td>
-     <td></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
+     <td><p><a href="./metrics-alerts-reference">Metrics & alerts</a></p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
    </tr>
    <tr>
-     <td><p>Slack channel</p></td>
-     <td></td>
-     <td></td>
-     <td></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
+     <td><p>Observability integrations (<a href="./integrate-with-datadog">Datadog</a>, <a href="./prometheus-monitoring">Prometheus</a>)</p></td>
+     <td><p>❌</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
    </tr>
    <tr>
-     <td><p>Zoom/Meet/Teams</p></td>
-     <td></td>
-     <td></td>
-     <td></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
+     <td><p><a href="./manage-snapshots">Snapshot</a></p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
    </tr>
    <tr>
-     <td><p>Assigned support engineer</p></td>
-     <td></td>
-     <td></td>
-     <td></td>
-     <td></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
+     <td><p><a href="./create-backup">Basic backup & restore</a></p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
    </tr>
    <tr>
-     <td rowspan="4"><p>Architectural Guidance</p></td>
-     <td><p>General</p></td>
-     <td></td>
-     <td></td>
-     <td></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
+     <td><p><a href="./backup-to-other-regions">Cross-region backup</a></p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
+     <td><p>✅</p></td>
    </tr>
    <tr>
-     <td><p>Use-case specific</p></td>
-     <td></td>
-     <td></td>
-     <td></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
+     <td><p>Storage integrations (<a href="./integrate-with-aws-s3">AWS S3</a>, <a href="./integrate-with-gcp">Google Cloud Storage</a>, <a href="./integrate-with-azure-blob-storage">Azure Blob Storage</a>)</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><ul><li><p>Business Critical: ✅</p></li><li><p>BYOC: ❌</p></li></ul></td>
    </tr>
    <tr>
-     <td><p>Code reviews</p></td>
-     <td></td>
-     <td></td>
-     <td></td>
-     <td></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
+     <td><p><a href="./access-control-overview">Role-based access control (RBAC)</a></p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
    </tr>
    <tr>
-     <td><p>Live consultations</p></td>
-     <td></td>
-     <td></td>
-     <td></td>
-     <td></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
+     <td><p><a href="./single-sign-on">Single sign-on (SSO)</a></p></td>
+     <td><p>❌</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+   </tr>
+   <tr>
+     <td><p><a href="./setup-console-ip-allowlist">Console IP allowlist</a></p></td>
+     <td><p>❌</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+   </tr>
+   <tr>
+     <td><p><a href="./setup-whitelist">Cluster IP allowlist</a></p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+   </tr>
+   <tr>
+     <td><p><a href="./setup-a-private-link-aws">Private endpoints</a></p></td>
+     <td><p>❌</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+   </tr>
+   <tr>
+     <td><p><a href="./cmek">Customer-managed encryption key (CMEK)</a></p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
+     <td><p>✅</p></td>
+   </tr>
+   <tr>
+     <td><p><a href="./audit-logs">Audit logs</a></p></td>
+     <td><p>❌</p></td>
+     <td><p>✅</p></td>
+     <td><p>✅</p></td>
+   </tr>
+   <tr>
+     <td><p><a href="./access-log-overview">Access logs</a></p></td>
+     <td><p>❌</p></td>
+     <td><p>✅</p></td>
+     <td><ul><li><p>Business Critical: ✅</p></li><li><p>BYOC: ❌</p></li></ul></td>
    </tr>
 </table>
 

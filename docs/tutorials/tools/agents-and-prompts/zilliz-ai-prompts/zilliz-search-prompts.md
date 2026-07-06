@@ -1,6 +1,6 @@
 ---
 title: "Search | Cloud"
-slug: /agents/zilliz-search-prompts
+slug: /zilliz-search-prompts
 sidebar_label: "Search"
 beta: FALSE
 added_since: FALSE
@@ -18,7 +18,7 @@ keywords:
   - decision matrix
   - prompts
   - search
-displayed_sidebar: agentsSidebar
+displayed_sidebar: default
 
 ---
 

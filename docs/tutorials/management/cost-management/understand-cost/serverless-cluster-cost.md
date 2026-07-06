@@ -9,7 +9,7 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "Serverless clusters in Zilliz Cloud use a pay-per-operation model, where you are mainly charged for the resources consumed by your read and write operations. This ensures you only pay for the actual workload processed, without the need to provision fixed capacity in advance. | Cloud"
 type: origin
-token: Pdwcwv1lMicTR2kwwrickJmInNf
+token: Uk0Nw1ZdbiOEBtkAOKacLTf8nGe
 sidebar_position: 3
 displayed_sidebar: default
 
@@ -30,9 +30,9 @@ The total cost of a Serverless cluster is the sum of the following components:
 
 In addition to the two primary billing items above, the following optional add-on charges may apply:
 
-- Data transfer cost
+- [Data transfer cost](./data-transfer-cost)
 
-- Audit log cost
+- [Audit log cost](./audit-log-cost)
 
 ## Vector database costs (write)\{#vector-database-costs-write}
 
@@ -141,5 +141,5 @@ Storage costs are charged separately from vector database costs and depend on:
 
 - Storage usage
 
-For details, see Storage.
+For details, see [Storage](./storage-cost).
 

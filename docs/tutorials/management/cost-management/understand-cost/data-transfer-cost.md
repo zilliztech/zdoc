@@ -9,7 +9,7 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "Data transfer can be traffic coming into Zilliz Cloud, leaving Zilliz Cloud out into the internet, or in between two resources within Zilliz Cloud. Data transfer costs in Zilliz Cloud are billed based on the amount of data transferred. | Cloud"
 type: origin
-token: JNtPwA2dnioj5Fk7N1WcW5k9nMB
+token: BClgwKlHaiushBkPPssclTkYnef
 sidebar_position: 6
 displayed_sidebar: default
 
@@ -67,7 +67,7 @@ You will be billed for data transfer in the following scenarios:
 
 - Use third-party model providers for data ingestion, search, query, and reranking.
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" icon="📘" title="📘 Note">
 
 If the data transfer occurs within the same cloud region, the cost may be &#36;0.
 

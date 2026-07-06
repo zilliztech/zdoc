@@ -165,7 +165,7 @@ Once your data and collection are ready, you can import your data into a specifi
 
 ### Import data via volume\{#import-data-via-volume}
 
-To import data from a volume, first create a managed or external volume. For a managed volume, upload your data files to the volume. For an external volume, ensure the data files are in the mapped cloud storage bucket. Then import the data as follows:
+To import data from a volume, first create a [managed or external volume](./managed-volume). For a managed volume, upload your data files to the volume. For an external volume, ensure the data files are in the mapped cloud storage bucket. Then import the data as follows:
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
 <TabItem value='python'>
@@ -443,9 +443,9 @@ public static void main(String[] args) throws Exception {
 
 Both allow you to import data from your own S3 or GCS bucket. The key differences are:
 
-- External volume requires you to integrate an [AWS S3 bucket](./integrate-with-aws-s3), a [Google Cloud Storage bucket](./integrate-with-gcp), or a [Microsoft Azure blob storage container](./integrate-with-azure-blob-storage) with Zilliz Cloud  for credential management. Credentials are set up once and reused across multiple volumes and operations. Data engineers do not need direct access to cloud storage keys.
+- External volume requires you to integrate an [AWS S3 bucket](./integrate-with-aws-s3), a [Google Cloud Storage bucket](./integrate-with-gcp), or a [Microsoft Azure blob storage container](./integrate-with-azure-blob-storage) with Zilliz Cloud for credential management. Credentials are set up once and reused across multiple volumes and operations. Data engineers do not need direct access to cloud storage keys.
 
-- Direct [external storage import](./import-data-on-web-ui#remote-files-from-an-object-storage-bucket) requires you to provide credentials (access key, secret key) inline with each import request. This is simpler for one-time imports but does not offer credential separation or reusability.
+- Direct [external storage import](./import-data-on-web-ui#remote-files-from-an-object-storage-bucket) requires you to provide credentials (access key and secret key) with each import request. This is simpler for one-time imports but does not offer credential separation or reusability.
 
 ## Related topics\{#related-topics}
 

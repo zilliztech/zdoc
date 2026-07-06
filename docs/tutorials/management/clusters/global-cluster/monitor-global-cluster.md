@@ -20,13 +20,19 @@ import Admonition from '@theme/Admonition';
 
 # Monitor Global Cluster
 
+<FeatureNote variant="plan" titleHref="/docs/select-zilliz-cloud-service-plans">
+
+This feature is available only on Business Critical (SaaS) and BYOC deployments.
+
+</FeatureNote>
+
+<FeatureNote variant="region" titleHref="/docs/cloud-providers-and-regions">
+
+This feature is available in all AWS regions and in the following Google Cloud regions: gcp-us-central1 and gcp-us-east4. It is not available on Microsoft Azure.
+
+</FeatureNote>
+
 This page explains how to monitor the health, replication status, and performance of your global cluster.
-
-<Admonition type="info" icon="📘" title="Notes">
-
-This feature is available only to **Dedicated** clusters in a **Business Critical** project.
-
-</Admonition>
 
 ## Global topology\{#global-topology}
 
@@ -76,5 +82,5 @@ If you perform a [failover](./switchover-and-failover#perform-a-failover) while 
 
 ## Cluster metrics and alerts\{#cluster-metrics-and-alerts}
 
-Each cluster in a global cluster — both primary and secondary — exposes the same metrics as a regular Dedicated cluster. You can view these metrics on the cluster details page, create alerts for these metrics, or export them to an external monitoring system. For details, see [Metrics & Alerts](./undefined).
+Each cluster in a global cluster — both primary and secondary — exposes the same metrics as a regular Dedicated cluster. You can view these metrics on the cluster details page, create alerts for these metrics, or export them to an external monitoring system. For details, see [Metrics Reference](./metrics-alerts-reference).
 

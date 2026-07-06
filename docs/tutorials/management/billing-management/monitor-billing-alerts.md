@@ -9,8 +9,8 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "Monitor billing alerts to track recent usage, credit status, payment method validity, and prepaid balance for your Zilliz Cloud organization. These alerts help you detect unexpected spend and update payment methods in time to reduce the risk of service interruption. | Cloud"
 type: origin
-token: V7qxwH6n4irO3zkGABXcksTLnFc
-sidebar_position: 9
+token: XCZaw6aKbixxWIkMssEchOtOnlg
+sidebar_position: 10
 displayed_sidebar: default
 
 ---
@@ -36,7 +36,7 @@ Zilliz Cloud provides the following billing alert metrics.
 
 | **Metric** | **Description** | **Recommended action** |
 | --- | --- | --- |
-| Usage Amount in the Past Day ($) | Cumulative usage charges over the past day. | Compare usage against your budget. If usage is higher than expected, review recent activity and optimize workloads or adjust the budget as needed. |
+| Usage Amount in the Past Day ($) | Cumulative usage charges over the past day. | Compare usage against your budget. If usage is higher than expected, review recent activity and [optimize workloads](./cost-optimization) or adjust the budget as needed. |
 | Credit Validity (days) | Number of days before free credits expire. | Use eligible credits before they expire, or [contact sales](http://zilliz.com/contact-sales) if you need help with credit validity. |
 | Remaining Credits ($) | Remaining balance of free credits. | [Set up another payment method](./undefined) before credits run out to avoid service interruption. |
 | Credit Card Validity (days) | Number of days before the saved credit card expires. | [Replace the credit card](./subscribe-by-adding-credit-card#replace-a-credit-card) before expiry to avoid payment failures. |

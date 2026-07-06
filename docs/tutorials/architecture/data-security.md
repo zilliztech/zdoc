@@ -52,7 +52,7 @@ Zilliz Cloud utilizes OAuth0 for secure user authentication:
 
 - Provides cluster access through API keys and cluster credentials.
 
-For details, refer to [Authentication](./undefined).
+For details, refer to [Single Sign-on (SSO)](./single-sign-on), [MFA](./multi-factor-auth), and [Cluster Credentials](./cluster-credentials).
 
 ## Access Control\{#access-control}
 
@@ -64,7 +64,7 @@ Granular and role-based access control:
 
 - Both intuitive operations on the console and programmatic access from your app are available.
 
-For details, refer to Access Control.
+For details, refer to [Access Control Explained](./access-control-overview).
 
 ## Secure Network Access\{#secure-network-access}
 
@@ -76,7 +76,7 @@ Zilliz Cloud secures your network interactions through:
 
 - **Private Links:** Establish secure, private connections between your VPC and Zilliz Cloud control plane.
 
-For details, refer to [Set up Whitelist](./setup-whitelist) and [Set up a Private Endpoint](./undefined).
+For details, refer to [Set up Cluster IP Allowlist](./setup-whitelist), [Set up a PrivateLink (AWS)](./setup-a-private-link-aws), [Set up a Private Service Connect (GCP)](./setup-a-private-link-gcp), and [Set up a Private Link (Azure)](./setup-a-private-link-azure).
 
 ## Data Encryption\{#data-encryption}
 
@@ -100,7 +100,7 @@ Maintain visibility and accountability through audit logs:
 
 - Leverage third-party tools for log analysis.
 
-For details, refer to [Auditing](./undefined).
+For details, refer to [VectorDB Audit Logs](./audit-logs).
 
 ## Data Integrity and Backup\{#data-integrity-and-backup}
 
@@ -110,7 +110,7 @@ Ensure data availability and recovery:
 
 - Recycle bin functionality for data restoration (with defined retention).
 
-For details, refer to [Backup & Restore](./undefined) and [Use Recycle Bin](./use-recycle-bin).
+For details, refer to [Create Backup](./create-backup) and [Use Recycle Bin](./use-recycle-bin).
 
 ## Certificates and TLS\{#certificates-and-tls}
 

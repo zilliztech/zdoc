@@ -9,7 +9,7 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "This guide provides a step-by-step walkthrough of the subscription process and outlines the pricing terms of Zilliz Cloud on GCP Marketplace. | Cloud"
 type: origin
-token: PWixwTgmIiAe47kO8UOc6SHHnle
+token: MIqTw7iJ4iQAtVkYKiEc98a7nsh
 sidebar_position: 4
 displayed_sidebar: default
 
@@ -24,7 +24,7 @@ import Procedures from '@site/src/components/Procedures';
 
 This guide provides a step-by-step walkthrough of the subscription process and outlines the pricing terms of Zilliz Cloud on GCP Marketplace.
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" icon="📘" title="📘 Note">
 
 Once subscribed, you can pay for the usage of Google Cloud clusters via Google Cloud Marketplace. If you have clusters deployed on other cloud providers, you can also use Google Cloud Marketplace to pay.
 
@@ -102,7 +102,7 @@ More specifically, you can either:
 
 - Switch your payment method from Marketplace subscription to a credit card.
 
-For details, see [Update Payment Method](./update-payment-method)
+For details, see Update Payment Method.
 
 ## Cancel GCP Marketplace subscription\{#cancel-gcp-marketplace-subscription}
 
@@ -150,11 +150,7 @@ There could be several reasons.
 
     - If you need to update an existing marketplace subscription, please unlink the current subscription of the organization first and then set up a new subscription.
 
-    - If you need multiple organizations for different Marketplace subscription, you can:
-
-        - [Register](./register-with-zilliz-cloud) a new Zilliz Cloud account to create a new organization. Then, [invite](./organization-users#invite-a-user-to-your-organization) the organization owner to the new organization. This organization owner will then belong to multiple organizations and can setup different marketplace subscriptions for each organization.
-
-        - [Create a support ticket](http://support.zilliz.com) so that we will create new organizations for you. Currently, Zilliz Cloud does not support manually creating organizations by users.
+    - If you need multiple organizations for different Marketplace subscription, you can [create an organization](./organization-settings#create-an-organization).
 
 - **No organizations in the list**
 
@@ -164,9 +160,7 @@ There could be several reasons.
 
     In this case, you can:
 
-    - Create a new organization.
+    - [Create a new organization](./organization-settings#create-an-organization).
 
     - Ask other users to [invite](./organization-users#invite-a-user-to-your-organization) you to their organizations and grant you the role of an Organization Owner.
-
-    - [Create a support ticket](https://support.zilliz.com/hc/en-us) and we will create a new organization for you.
 

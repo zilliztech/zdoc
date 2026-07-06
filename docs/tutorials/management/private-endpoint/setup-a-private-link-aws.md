@@ -92,7 +92,7 @@ You need to complete this step on your cloud provider console using either the U
 
         ![enter_service_name_gcp](https://zdoc-images.s3.us-west-2.amazonaws.com/enter_service_name_gcp.png "enter_service_name_gcp")
 
-        <Admonition type="info" icon="📘" title="Notes">
+        <Admonition type="info" icon="📘" title="📘 Notes">
 
         If your service operates in a different region than where your Zilliz Cloud cluster is hosted, ensure you select **Enable Cross Region endpoint** and choose the region where your Zilliz Cloud cluster runs. Then click **Verify service**. 
         
@@ -254,7 +254,7 @@ To disable public endpoints:
 
 </Procedures>
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="📘 Notes">
 
 - Private endpoints only impact [data plane](/reference/restful/data-plane-v2) access. [Control plane](/reference/restful/control-plane-v2) can still be accessed over the public internet.
 

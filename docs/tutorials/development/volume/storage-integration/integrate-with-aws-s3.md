@@ -275,6 +275,132 @@ Once that's done, do the following to create an IAM role:
 
 You can now use this integration to export backup files or forward audit logs to your Amazon S3 bucket. For more information, refer to  [Export Backup Files](./export-backup-files) or [Audit Logging](./audit-logs).
 
+## Create storage integration programmatically\{#create-storage-integration-programmatically}
+
+As an alternative to working on Zilliz Cloud console, you can also programmatically create the storage integration.
+
+<Procedures>
+
+1. Create an S3 bucket.
+
+    For details, refer to [Create S3 bucket in AWS console](./integrate-with-aws-s3#step-2-create-s3-bucket-in-aws-console) above or the [CreateBucket](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucket.html) API doc.
+
+1. Generate authentication materials.
+
+    ```bash
+    export BASE_URL="https://api.cloud.zilliz.com"
+    export TOKEN="YOUR_API_KEY"
+    
+    curl --request POST \
+    --url "${BASE_URL}/v2/storageIntegrations/authorizationMaterials" \
+    --header "Authorization: Bearer ${TOKEN}" \
+    --header "Request-Timeout: 5" \
+    --header "Content-Type: application/json" \
+    -d '{
+        "projectId": "proj-xxxxxxxxxxxxxxxxxxxxxx",
+        "regionId": "aws-us-west-2",
+        "bucketName": "my-bucket"
+    }'
+    ```
+
+    The above request generates the necessary credentials for you to create permissions, policies and roles on the AWS console. 
+
+    A possible response is as follows:
+
+    ```bash
+    {
+      "code": 0,
+      "data": {
+        "readonly": "{...}",
+        "readwrite": "{...}",
+        "iamPolicy": "{...}",
+        "trustPolicy": "{...}",
+        "zillizAccount": "306787409409",
+        "externalId": "zilliz-external-AbCdEf12345678"
+      }
+    }
+    ```
+
+    For details on parameter descriptions, refer to [Generate Storage Integration Authorization Materials](/reference/restful/generate-storage-integration-authorization-materials-v2).
+
+1. Use the returned `readonly`, `readwrite`, `iamPolicy`, `trustPolicy`, and `zillizAccount` to create an IAM role that has sufficient permissions to operate the bucket. 
+
+    Write down the role ARN, which is similar to `arn:aws:iam::123456789012:role/zilliz-bucket-role`. For details on how to create a role, refer to [Create IAM policy in AWS console](./integrate-with-aws-s3#step-3-create-iam-policy-in-aws-console) and [Create IAM role](./integrate-with-aws-s3#step-4-create-iam-role) above.
+
+1. Validate the obtained credentials.
+
+    In the request, set `externalCred.roleArn` to the role ARN noted in the previous step, and `externalCred.externalId` to the one displayed in the obtained authentication materials.
+
+    ```bash
+    curl --request POST \
+    --url "${BASE_URL}/v2/storageIntegrations/validate" \
+    --header "Authorization: Bearer ${TOKEN}" \
+    --header "Request-Timeout: 5" \
+    --header "Content-Type: application/json" \
+    -d '{
+        "projectId": "proj-xxxxxxxxxxxxxxxxxxxxxx",
+        "regionId": "aws-us-west-2",
+        "bucketName": "my-bucket",
+        "externalCred": {
+            "roleArn": "arn:aws:iam::123456789012:role/zilliz-bucket-role",
+            "externalId": "zilliz-external-AbCdEf12345678"
+        }
+    }'
+    ```
+
+    A validation success response is as follows:
+
+    ```bash
+    {
+        "code": 0,
+        "data": {
+            "success": true,
+            "message": ""
+        }
+    }
+    ```
+
+    For details on parameter descriptions, refer to [Validate Storage Integration](/reference/restful/validate-storage-integration-v2).
+
+1. Create storage integration.
+
+    This request shares most parameters with the validation request, except for a description.
+
+    ```bash
+    curl --request POST \
+    --url "${BASE_URL}/v2/storageIntegrations" \
+    --header "Authorization: Bearer ${TOKEN}" \
+    --header "Request-Timeout: 5" \
+    --header "Content-Type: application/json" \
+    -d '{
+        "projectId": "proj-xxxxxxxxxxxxxxxxxxxxxx",
+        "name": "analytics-s3",
+        "description": "S3 bucket for external tables",
+        "regionId": "aws-us-west-2",
+        "bucketName": "my-bucket",
+        "externalCred": {
+            "roleArn": "arn:aws:iam::123456789012:role/zilliz-bucket-role",
+            "externalId": "zilliz-external-AbCdEf12345678"
+        }
+    }'
+    ```
+
+    The response is similar to the following:
+
+    ```bash
+    {
+        "code": 0,
+        "data": {
+            "integrationId": "integ-xxxxxxxxxxxxxxxxxxx",
+            "name": "analytics-s3"
+        }
+    }
+    ```
+
+    For details on parameter descriptions, refer to [Create Storage Integration](/reference/restful/create-storage-integration-v2).
+
+</Procedures>
+
 ## Manage integrations\{#manage-integrations}
 
 Once the integration is added, you can view its details or remove the integration as needed.
@@ -284,6 +410,109 @@ Once the integration is added, you can view its details or remove the integratio
 ### Obtain the integration ID\{#obtain-the-integration-id}
 
 If you need to use the RESTful API to export backup files to one of your AWS S3 buckets integrated with Zilliz Cloud, click **View Details** to display the details of an integration and copy its integration ID.
+
+Alternatively, you can obtain the integration ID by running the following command.
+
+```bash
+export TOKEN="YOUR_API_KEY"
+
+curl --request GET \
+--url "${BASE_URL}/v2/storageIntegrations?projectId=proj-xxxxxxxxxxxxxxxxxxxxxx" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Request-Timeout: 5" \
+--header "Content-Type: application/json"
+```
+
+The response is similar to the following:
+
+```bash
+{
+    "code": 0,
+    "data": {
+        "storageIntegrations": [
+            {
+                "integrationId": "integ-xxxxxxxxxxxxxxxxxxx",
+                "name": "analytics-s3",
+                "status": "ACTIVE",
+                "message": "",
+                "regionId": "aws-us-west-2",
+                "bucketName": "my-bucket"
+            }
+        ],
+        "count": 1,
+        "currentPage": 1,
+        "pageSize": 10
+    }
+}
+```
+
+For details on parameter descriptions, refer to [List Storage Integrations](/reference/restful/list-storage-integrations-v2).
+
+### View integration details\{#view-integration-details}
+
+You can use the following command to view integration details
+
+```bash
+export integrationId="integ-xxxxxxxxxxxxxxxxxxx"
+
+curl --request GET \
+--url "${BASE_URL}/v2/storageIntegrations/${integrationId}" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Request-Timeout: 5" \
+--header "Content-Type: application/json"
+```
+
+The response is similar to the following:
+
+```bash
+{
+    "code": 0,
+    "data": {
+        "integrationId": "integ-xxxxxxxxxxxxxxxxxxx",
+        "name": "analytics-s3",
+        "description": "S3 bucket for external tables",
+        "status": "ACTIVE",
+        "message": "",
+        "regionId": "aws-us-west-2",
+        "bucketName": "my-bucket",
+        "externalCred": {
+            "roleArn": "arn:aws:iam::123456789012:role/zilliz-bucket-role",
+            "externalId": "zilliz-external-AbCdEf12345678"
+        },
+        "createTime": "2024-07-30T16:49:50Z"
+    }
+}
+```
+
+For details on parameter descriptions, refer to [Describe Storage Integration](/reference/restful/describe-storage-integration-v2).
+
+### Delete storage integration\{#delete-storage-integration}
+
+As an alternative method for clicking **Remove** on the Zilliz Cloud console. You can use the following command to delete unnecessary storage integration.
+
+```bash
+export integrationId="integ-xxxxxxxxxxxxxxxxxxx"
+
+curl --request DELETE \
+--url "${BASE_URL}/v2/storageIntegrations/${integrationId}" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Request-Timeout: 5" \
+--header "Content-Type: application/json"
+```
+
+The response is similar to the following:
+
+```bash
+{
+    "code": 0,
+    "data": {
+        "integrationId": "integ-xxxxxxxxxxxxxxxxxxx",
+        "name": "analytics-s3"
+    }
+}
+```
+
+For details on parameter descriptions, refer to [Delete Storage Integration](/reference/restful/delete-storage-integration-v2).
 
 ## Troubleshooting\{#troubleshooting}
 

@@ -9,7 +9,7 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "If you need to separate Zilliz Cloud billing on Microsoft Marketplace by business unit, team, use case, application, or cost center, the recommended pattern is to use one Azure subcription, one Microsoft Marketplace subscription and one Zilliz Cloud organization per business unit. | Cloud"
 type: origin
-token: Jj3VwVVpciWR47ktWTTcuJE6n8b
+token: RLu1wO0FpiisJxkkViQcq039nff
 sidebar_position: 2
 displayed_sidebar: default
 
@@ -24,13 +24,13 @@ import Procedures from '@site/src/components/Procedures';
 
 If you need to separate Zilliz Cloud billing on [Microsoft Marketplace](https://marketplace.microsoft.com/en-us/) by business unit, team, use case, application, or cost center, the recommended pattern is to use one Azure subcription, one Microsoft Marketplace subscription and one Zilliz Cloud organization per business unit.
 
-Microsoft provides the billing view. Zilliz Cloud provides the usage view. For Microsoft-side billing separation, use one organization per business unit.
+Microsoft provides the billing view. Zilliz Cloud provides the [usage](./analyze-cost) view. For Microsoft-side billing separation, use one organization per business unit.
 
 ## Overview\{#overview}
 
 To separate Zilliz Cloud billing on Microsoft Marketplace, you should map each billing unit to one Microsoft subscription, one Microsoft Marketplace subscription for Zilliz Cloud, and one Zilliz Cloud organization.
 
-![CV7fwW9GzhaffBbBBkKcjuU3nhf](https://zdoc-images.s3.us-west-2.amazonaws.com/CV7fwW9GzhaffBbBBkKcjuU3nhf.png)
+![AaIlw5K0ThgXP7bBjGvczyIZnpg](https://zdoc-images.s3.us-west-2.amazonaws.com/AaIlw5K0ThgXP7bBjGvczyIZnpg.png)
 
 With this setup:
 
@@ -86,13 +86,9 @@ To prepare multiple organizations:
 
 <Procedures>
 
-1. [Register](./register-with-zilliz-cloud) separate Zilliz Cloud accounts with separate company email accounts, or contact [Zilliz Cloud support](http://support.zilliz.com) team to prepare additional organizations.
+1. [Submit a support ticket](http://support.zilliz.com) so that we can enable the multi-organization feature for you.
 
-1. Confirm that each business unit has its own Zilliz Cloud organization.
-
-1. [Invite](./organization-users) the required users into each organization.
-
-1. Assign the billing operator as [Organization Owner](./organization-users#organization-owner) or [Organization Billing Admin](./organization-users#organization-billing-admin) in each target organization.
+1. Once the feature is enabled, you can manually [create new organizations](./organization-settings#create-an-organization).
 
 </Procedures>
 
@@ -118,7 +114,7 @@ For each business unit:
 
 1. On the Zilliz Cloud Billing page, click **+ Add Payment Method**, and then select **Marketplace**. Click **Subscribe Now**.
 
-    ![MTa0wZg5chYeUjbtXDEcGk1InVh](https://zdoc-images.s3.us-west-2.amazonaws.com/MTa0wZg5chYeUjbtXDEcGk1InVh.png)
+    ![VI6ew0JUHh3u1Yb5lrRcLhrxn9b](https://zdoc-images.s3.us-west-2.amazonaws.com/VI6ew0JUHh3u1Yb5lrRcLhrxn9b.png)
 
 1. You will be redirected to Microsoft Marketplace. Complete your purchase there.
 
@@ -154,7 +150,7 @@ For each business unit:
 
 ### Check usage separately in each organization\{#check-usage-separately-in-each-organization}
 
-Inside each Zilliz Cloud organization, use Zilliz Cloud usage analysis to drill down by:
+Inside each Zilliz Cloud organization, use Zilliz Cloud [usage](./analyze-cost) analysis to drill down by:
 
 - Project
 

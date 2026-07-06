@@ -2,7 +2,7 @@
 title: "Manage External Collections (Console) | Cloud"
 slug: /manage-external-collections-console
 sidebar_label: "On Console"
-beta: FALSE
+beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE

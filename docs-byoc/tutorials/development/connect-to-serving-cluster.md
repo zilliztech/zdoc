@@ -32,8 +32,8 @@ Zilliz Cloud provides various serving cluster deployment options to accommodate 
 
 | Cluster type | Endpoint pattern | Notes |
 | --- | --- | --- |
-| Free/Serverless | `<i>http</i>s://{cluster-id}.serverless.{region}.vectordb.zillizcloud.com` | Free/Serverless clusters use the real-time serving endpoint without a dedicated port. |
-| Dedicated | `<i>http</i>s://{cluster-id}.{region}.vectordb.zillizcloud.com:19530` | Dedicated clusters use the real-time serving endpoint with port `19530`. |
+| Free/Serverless | `https://{cluster-id}.serverless.{region}.vectordb.zillizcloud.com` | Free/Serverless clusters use the real-time serving endpoint without a dedicated port. |
+| Dedicated | `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530` | Dedicated clusters use the real-time serving endpoint with port `19530`. |
 
 ## Connect to Free/Serverless clusters\{#connect-to-freeserverless-clusters}
 
@@ -99,7 +99,7 @@ collections = client.list_collections()
 print(collections)
 ```
 
-## Connect to Dedicated clusters\{#connect-to-dedicated-clusters}
+## Connect to Dedicated clusters{#connect-to-dedicated-clusters}
 
 Use the cluster endpoint and token consistently across SDKs. `YOUR_CLUSTER_ENDPOINT` is the public endpoint copied from the cluster **Connect** card, and `YOUR_CLUSTER_TOKEN` is either an API key with access to the target cluster or a cluster credential in `username:password` format.
 
@@ -156,7 +156,7 @@ curl --request POST \
   --data '{"dbName": "default"}'
 ```
 
-## Verify the connection\{#verify-the-connection}
+## Verify the connection{#verify-the-connection}
 
 After connecting with an SDK, run a lightweight operation such as listing collections.
 

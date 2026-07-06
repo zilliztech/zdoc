@@ -2,7 +2,7 @@
 title: "Search with EmbeddingLists: ColBERT and ColPali | Cloud"
 slug: /tutorial-colbert-colpali
 sidebar_label: "ColBERT and ColPali"
-beta: FALSE
+beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE

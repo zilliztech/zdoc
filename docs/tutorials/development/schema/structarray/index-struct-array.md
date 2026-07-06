@@ -2,7 +2,7 @@
 title: "Index StructArray Fields | Cloud"
 slug: /index-struct-array
 sidebar_label: "Index StructArray Fields"
-beta: FALSE
+beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
@@ -85,7 +85,7 @@ client.create_index(
 )
 ```
 
-<Admonition type="info" icon="📘" title="Warning">
+<Admonition type="warning" icon="🚧" title="Warning">
 
 Do not create a `MAX_SIM*` index and a regular vector-metric index on the same vector subfield. If both search modes are required, write vectors to two separate vector subfields and create one index on each subfield.
 
@@ -93,7 +93,7 @@ Do not create a `MAX_SIM*` index and a regular vector-metric index on the same v
 
 ## Create scalar indexes\{#create-scalar-indexes}
 
-Create scalar indexes on StructArray scalar subfields when you use them in filters. Use the same `structArray[subfield]` path syntax.
+Create scalar indexes on StructArray scalar subfields when you use them in filters. Use the same `structArray[subfield]` path syntax. Applicable index types are `INVERTED`, `BITMAP`, and `STL_SORT`.
 
 Use `AUTOINDEX` for StructArray scalar subfields.
 

@@ -1,6 +1,6 @@
 ---
 title: "Zilliz Gemini CLI Extension | Cloud"
-slug: /agents/zilliz-gemini-extension
+slug: /zilliz-gemini-extension
 sidebar_label: "Gemini CLI Extension"
 beta: FALSE
 added_since: FALSE
@@ -19,7 +19,7 @@ keywords:
   - skill
   - gemini
   - zilliz cli
-displayed_sidebar: agentsSidebar
+displayed_sidebar: default
 
 ---
 

@@ -130,7 +130,7 @@ Before you delete a project, you must drop all [clusters](./manage-cluster#drop)
 
 Once a project is deleted, all its associated data and resources will be irreversibly cleaned as well.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="📘 Notes">
 
 The default project cannot be deleted.
 

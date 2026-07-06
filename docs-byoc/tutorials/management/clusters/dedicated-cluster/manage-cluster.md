@@ -1,23 +1,17 @@
 ---
 title: "Manage Cluster | BYOC"
 slug: /manage-cluster
-sidebar_key: manage-cluster
 sidebar_label: "Manage Cluster"
+beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
-beta: FALSE
 notebook: FALSE
 description: "This guide describes the lifecycle of a cluster so that you can make full use of your Zilliz Cloud console to achieve your goals. | BYOC"
 type: origin
 token: PharwAysCiBzvgkuqqecmNzunQf
 sidebar_position: 3
-keywords:
-  - zilliz
-  - vector database
-  - cloud
-  - cluster
-  - manage
+displayed_sidebar: default
 
 ---
 
@@ -100,7 +94,7 @@ curl --request POST \
 #         "clusterId": "inxx-xxxxxxxxxxxxxxx",
 #         "prompt": "Successfully Submitted. The cluster will not incur any computing costs when suspended. You will only be billed for the storage costs during this time."
 #     }
-# }
+# }     
 ```
 
 In the command above,
@@ -133,7 +127,7 @@ Navigate to the **Cluster Details** page of your target cluster and then follow 
 
 <Admonition type="info" icon="📘" title="Notes">
 
-When clicking **Resume** in the **Resume Cluster** dialog box, you will be prompted to check the resource quota for your project. If the resources are sufficient, the dialog box will disappear after the check is complete, otherwise, you can
+When clicking **Resume** in the **Resume Cluster** dialog box, you will be prompted to check the resource quota for your project. If the resources are sufficient, the dialog box will disappear after the check is complete, otherwise, you can 
 
 - Click **Go To Project Resource Settings** to edit resource settings for the project, or
 
@@ -164,7 +158,7 @@ curl --request POST \
 #         "clusterId": "inxx-xxxxxxxxxxxxxxx",
 #         "prompt": "successfully Submitted. Cluster is being resumed, which is expected to takes several minutes. You can access data about the creation progress and status of your cluster by DescribeCluster API. Once the cluster status is RUNNING, you may access your vector database using the SDK."
 #     }
-# }
+# }     
 ```
 
 In the command above,
@@ -214,7 +208,7 @@ curl --request POST \
 #         "clusterId": "inxx-xxxxxxxxxxxxxxx",
 #         "prompt": "The cluster has been deleted. If you consider this action to be an error, you have the option to restore the deleted cluster from the recycle bin within a 30-day period."
 #     }
-# }
+# }     
 ```
 
 In the command above,
@@ -228,3 +222,4 @@ For details, refer to [Drop Cluster](/reference/restful/drop-cluster-v2).
 </TabItem>
 
 </Tabs>
+

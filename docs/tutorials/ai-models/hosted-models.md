@@ -2,7 +2,7 @@
 title: "Hosted Models | Cloud"
 slug: /hosted-models
 sidebar_label: "Hosted Models"
-beta: FALSE
+beta: PRIVATE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE

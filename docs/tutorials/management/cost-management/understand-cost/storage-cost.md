@@ -9,7 +9,7 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "In Zilliz Cloud, storage costs are incurred when you store data or backup files, regardless of whether your cluster is running. | Cloud"
 type: origin
-token: Uj3wwkysGiBhfqk8jsMckyiTnBb
+token: PNj2w5fY9ifr82kbX8ucKgXAn0r
 sidebar_position: 4
 displayed_sidebar: default
 

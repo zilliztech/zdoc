@@ -2,7 +2,7 @@
 title: "External Collection Limits | Cloud"
 slug: /external-collection-limits
 sidebar_label: "External Collection Limits"
-beta: FALSE
+beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE

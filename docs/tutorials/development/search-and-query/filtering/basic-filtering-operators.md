@@ -22,6 +22,14 @@ import Admonition from '@theme/Admonition';
 
 Zilliz Cloud provides a rich set of basic operators to help you filter and query data efficiently. These operators allow you to refine your search conditions based on scalar fields, numeric calculations, logical conditions, and more. Understanding how to use these operators is crucial for building precise queries and maximizing the efficiency of your searches.
 
+<Admonition type="info" icon="📘" title="Notes">
+
+The literal on the left-hand side of a filtering expression can either be a collection field name, such as `status`, `color`, etc., used in examples below, or the name of a StructArray subfield at a specific element index, as in `filter = 'struct[0][subfield] > 10'`. 
+
+For details on scalar filtering in a StructArray field, refer to [StructArray Operators](./struct-array-filtering).
+
+</Admonition>
+
 ## Comparison operators\{#comparison-operators}
 
 Comparison operators are used to filter data based on equality, inequality, or size. They are applicable to numeric and text fields.
@@ -128,7 +136,7 @@ To exclude entities whose `message` starts with `DEBUG`:
 filter = 'message !~ "^DEBUG"'
 ```
 
-For more details about choosing between `LIKE` and regex, supported field types, regex syntax, escaping rules, and performance, refer to [Pattern Matching](./pattern-match). Zilliz Cloud also allows you to build an `NGRAM` index on `VARCHAR` fields or JSON string paths to accelerate eligible pattern matching filters. For details, refer to NGRAM.
+For more details about choosing between `LIKE` and regex, supported field types, regex syntax, escaping rules, and performance, refer to [Pattern Matching](./pattern-match). Zilliz Cloud also allows you to build an `NGRAM` index on `VARCHAR` fields or JSON string paths to accelerate eligible pattern matching filters. For details, refer to [NGRAM](./ngram-index-type).
 
 ## Arithmetic Operators\{#arithmetic-operators}
 

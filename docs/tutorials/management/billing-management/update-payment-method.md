@@ -9,8 +9,8 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "You can update your payment method when your organization needs to replace an expired card, move billing to a cloud marketplace, switch between marketplace accounts, or return from marketplace billing to credit card billing. | Cloud"
 type: origin
-token: JUFpwiSk2iY661kIXiscZXyznAf
-sidebar_position: 3
+token: TfzMwdLsWibd0UkGpGAcLhuInvb
+sidebar_position: 4
 displayed_sidebar: default
 
 ---
@@ -24,7 +24,7 @@ import Procedures from '@site/src/components/Procedures';
 
 You can update your payment method when your organization needs to replace an expired card, move billing to a cloud marketplace, switch between marketplace accounts, or return from marketplace billing to credit card billing.
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" icon="📘" title="📘 Note">
 
 To manage payment method, you must be an **Organization Owner** or **Organization Billing Admin**.
 
@@ -99,7 +99,7 @@ The required steps depend on the type of change.
 
 The following example shows how to change the AWS Marketplace account used for billing. The same process applies to Google Cloud Marketplace and Microsoft Marketplace.
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" icon="📘" title="📘 Note">
 
 We recommend completing the operations within 1 hour to avoid service interruption.
 
@@ -111,7 +111,7 @@ We recommend completing the operations within 1 hour to avoid service interrupti
 
 1. Cancel your Zilliz Cloud subscription. Refer to [Cancel your product subscription](https://docs.aws.amazon.com/marketplace/latest/buyerguide/cancel-subscription.html#cancel-saas-subscription) for more details.
 
-    <Admonition type="info" icon="📘" title="Note">
+    <Admonition type="info" icon="📘" title="📘 Note">
 
     Please rest assured that canceling the subscription will not delete your Zilliz Cloud data.
 
@@ -125,7 +125,7 @@ We recommend completing the operations within 1 hour to avoid service interrupti
 
 1. Follow the steps in the [Subscribe on AWS Marketplace](./subscribe-on-aws-marketplace#subscribe-to-a-public-offer) section to complete your subscription to Zilliz Cloud with the new account.
 
-    <Admonition type="info" icon="📘" title="Note">
+    <Admonition type="info" icon="📘" title="📘 Note">
 
     When updating AWS Marketplace subscription, you must click the **Set up your account** button to link your new subscription with Zilliz Cloud organization.
 

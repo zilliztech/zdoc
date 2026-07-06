@@ -41,11 +41,11 @@ You are advised to use a bucket or a blob container from the same provider and i
        </tr>
        <tr>
          <td><p><strong>AWS Object URL, virtual-hosted–style</strong></p></td>
-         <td><ul><li><p><strong>File</strong>: <i>http</i>s://&lt;bucket_name&gt;.s3.&lt;region-code&gt;.amazonaws.com/&lt;object_name&gt;</p></li><li><p><strong>Folder</strong>: <i>http</i>s://&lt;bucket_name&gt;.s3.&lt;region-code&gt;.amazonaws.com/&lt;folder_name&gt;/</p></li></ul></td>
+         <td><ul><li><p><strong>File</strong>: https://&lt;bucket_name&gt;.s3.&lt;region-code&gt;.amazonaws.com/&lt;object_name&gt;</p></li><li><p><strong>Folder</strong>: https://&lt;bucket_name&gt;.s3.&lt;region-code&gt;.amazonaws.com/&lt;folder_name&gt;/</p></li></ul></td>
        </tr>
        <tr>
          <td><p><strong>AWS Object URL, path-style</strong></p></td>
-         <td><ul><li><p><strong>File</strong>: <i>http</i>s://s3.&lt;region-code&gt;.amazonaws.com/&lt;bucket_name&gt;/&lt;object_name&gt;</p></li><li><p><strong>Folder</strong>: <i>http</i>s://s3.&lt;region-code&gt;.amazonaws.com/&lt;bucket_name&gt;/&lt;folder_name&gt;/</p></li></ul></td>
+         <td><ul><li><p><strong>File</strong>: https://s3.&lt;region-code&gt;.amazonaws.com/&lt;bucket_name&gt;/&lt;object_name&gt;</p></li><li><p><strong>Folder</strong>: https://s3.&lt;region-code&gt;.amazonaws.com/&lt;bucket_name&gt;/&lt;folder_name&gt;/</p></li></ul></td>
        </tr>
        <tr>
          <td><p><strong>AWS S3 URI</strong></p></td>
@@ -90,7 +90,7 @@ You are advised to use a bucket or a blob container from the same provider and i
        </tr>
        <tr>
          <td><p><strong>GSC public URL</strong></p></td>
-         <td><ul><li><p><strong>File</strong>: <i>http</i>s://storage.cloud.google.com/&lt;bucket_name&gt;/&lt;object_name&gt;</p></li><li><p><strong>Folder</strong>: <i>http</i>s://storage.cloud.google.com/&lt;bucket_name&gt;/&lt;folder_name&gt;/</p></li></ul></td>
+         <td><ul><li><p><strong>File</strong>: https://storage.cloud.google.com/&lt;bucket_name&gt;/&lt;object_name&gt;</p></li><li><p><strong>Folder</strong>: https://storage.cloud.google.com/&lt;bucket_name&gt;/&lt;folder_name&gt;/</p></li></ul></td>
        </tr>
        <tr>
          <td><p><strong>GSC gsutil URI</strong></p></td>
@@ -125,7 +125,7 @@ You are advised to use a bucket or a blob container from the same provider and i
        </tr>
        <tr>
          <td><p><strong>Azure storage blob URI</strong></p></td>
-         <td><ul><li><p><strong>File</strong>: <i>http</i>s://&lt;storage_account&gt;.blob.core.windows.net/&lt;container&gt;/&lt;blob&gt;</p></li><li><p><strong>Folder</strong>: <i>http</i>s://&lt;storage_account&gt;.blob.core.windows.net/&lt;container&gt;/&lt;folder&gt;/</p></li></ul></td>
+         <td><ul><li><p><strong>File</strong>: https://&lt;storage_account&gt;.blob.core.windows.net/&lt;container&gt;/&lt;blob&gt;</p></li><li><p><strong>Folder</strong>: https://&lt;storage_account&gt;.blob.core.windows.net/&lt;container&gt;/&lt;folder&gt;/</p></li></ul></td>
        </tr>
     </table>
 

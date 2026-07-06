@@ -9,7 +9,7 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "If you need to separate Zilliz Cloud billing on AWS Marketplace by business unit, team, use case, application, or cost center, the recommended pattern is to use one AWS member account, one AWS Marketplace subscription, and one Zilliz Cloud organization per business unit. | Cloud"
 type: origin
-token: MMJIwQxHmiMWgCkIfQCc6EKCnPf
+token: V7nZwzmpFiOokGksfTqcAcjcnXh
 sidebar_position: 1
 displayed_sidebar: default
 
@@ -24,7 +24,7 @@ import Procedures from '@site/src/components/Procedures';
 
 If you need to separate Zilliz Cloud billing on AWS Marketplace by business unit, team, use case, application, or cost center, the recommended pattern is to use one AWS [member account](https://docs.aws.amazon.com/organizations/latest/userguide/orgs-manage_accounts_members.html), one AWS Marketplace subscription, and one Zilliz Cloud organization per business unit.
 
-AWS provides the billing view. Zilliz Cloud provides the usage view. For AWS-side billing separation, use one Zilliz Cloud organization per business unit and bind it to a Marketplace subscription purchased from the corresponding AWS member account.
+AWS provides the billing view. Zilliz Cloud provides the [usage](./analyze-cost) view. For AWS-side billing separation, use one Zilliz Cloud organization per business unit and bind it to a Marketplace subscription purchased from the corresponding AWS member account.
 
 ## Overview\{#overview}
 
@@ -32,7 +32,7 @@ To separate Zilliz Cloud billing on AWS Marketplace, you should map each billing
 
 With this setup, [AWS Billing and Cost Management](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/billing-what-is.html) shows Marketplace charges under the selected AWS member account. With consolidated billing, the organization receives **one bill** paid through the **management account**, while usage and costs remain trackable for each **member account**.
 
-![FOlIw8fo8hnDy5bVEVFcW15rncg](https://zdoc-images.s3.us-west-2.amazonaws.com/FOlIw8fo8hnDy5bVEVFcW15rncg.png)
+![GvudwMSj7hDpbQbdIrqcGBbrn7e](https://zdoc-images.s3.us-west-2.amazonaws.com/GvudwMSj7hDpbQbdIrqcGBbrn7e.png)
 
 With this setup:
 
@@ -94,13 +94,9 @@ To prepare multiple organizations:
 
 <Procedures>
 
-1. [Register](./register-with-zilliz-cloud) separate Zilliz Cloud accounts with separate company email accounts, or contact [Zilliz Cloud support](http://support.zilliz.com) team to prepare additional organizations.
+1. [Submit a support ticket](http://support.zilliz.com) so that we can enable the multi-organization feature for you.
 
-1. Confirm that each business unit has its own Zilliz Cloud organization.
-
-1. [Invite](./organization-users) the required users into each organization.
-
-1. Assign the billing operator as [Organization Owner](./organization-users#organization-owner) or [Organization Billing Admin](./organization-users#organization-billing-admin) in each target organization.
+1. Once the feature is enabled, you can manually [create new organizations](./organization-settings#create-an-organization).
 
 </Procedures>
 
@@ -128,7 +124,7 @@ For each business unit:
 
 1. On the Zilliz Cloud Billing page, click **+ Add Payment Method**, and then select **Marketplace**. Click **Subscribe Now**.
 
-    ![BSmuw4uf2hYlEJbL5tqcUd9innf](https://zdoc-images.s3.us-west-2.amazonaws.com/BSmuw4uf2hYlEJbL5tqcUd9innf.png)
+    ![NCUmwUABRht89lbl0NKcBZ7on1e](https://zdoc-images.s3.us-west-2.amazonaws.com/NCUmwUABRht89lbl0NKcBZ7on1e.png)
 
 1. You will be redirected to AWS Marketplace. Complete your purchase there.
 
@@ -170,7 +166,7 @@ For each business unit:
 
 ### Check usage separately in each organization\{#check-usage-separately-in-each-organization}
 
-Inside each Zilliz Cloud organization, use Zilliz Cloud usage analysis to drill down by:
+Inside each Zilliz Cloud organization, use Zilliz Cloud [usage](./analyze-cost) analysis to drill down by:
 
 - Project
 

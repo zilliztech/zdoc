@@ -9,7 +9,7 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "Credits can be used to cover Zilliz Cloud usage charges. You may receive credits when you register for Zilliz Cloud with a work email, participate in eligible Zilliz Cloud programs or events, or receive credits from Zilliz for a proof of concept (PoC). | Cloud"
 type: origin
-token: XDs8wYvLEi1Bz5kyGxVckBMInxc
+token: YWhwwvlxOiGk9gkTm0Pc2w00npe
 sidebar_position: 1
 displayed_sidebar: default
 
@@ -26,7 +26,7 @@ Credits can be used to cover Zilliz Cloud usage charges. You may receive credits
 
 Credits help you try Zilliz Cloud or run evaluation workloads before setting up a long-term payment method.
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" icon="📘" title="📘 Note">
 
 To manage credits and payment method, you must be an **Organization Owner** or **Organization Billing Admin**.
 
@@ -86,7 +86,7 @@ If you need more credits for PoC, please [contact sales](http://zilliz.com/conta
 
 To view your credit balance:
 
-![W83vwKaashAMKfbbLVCcxemcnAk](https://zdoc-images.s3.us-west-2.amazonaws.com/W83vwKaashAMKfbbLVCcxemcnAk.png)
+![FWMbwmjNKh6Qt3btRCyc4KKSnZf](https://zdoc-images.s3.us-west-2.amazonaws.com/FWMbwmjNKh6Qt3btRCyc4KKSnZf.png)
 
 <Procedures>
 

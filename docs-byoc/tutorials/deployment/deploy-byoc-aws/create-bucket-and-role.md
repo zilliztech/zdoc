@@ -2,7 +2,7 @@
 title: "Create S3 Bucket and IAM Role | BYOC"
 slug: /create-bucket-and-role
 sidebar_label: "Create S3 Bucket and IAM Role"
-beta: FALSE
+beta: CONTACT SALES
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE

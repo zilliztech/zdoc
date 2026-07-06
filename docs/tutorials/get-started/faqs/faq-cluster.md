@@ -50,7 +50,7 @@ To address this issue, you can follow the instructions below.
 
 - If you are using a free cluster, please [upgrade](./manage-cluster) to the Serverless or Dedicated deployment option .
 
-- If you are using a Dedicated cluster, please [scale up your cluster](./scale-query-cu) by increasing the CU size.
+- If you are using a Dedicated cluster, please [scale up your cluster](./undefined) by increasing the CU size.
 
 ### Can I change the cluster type after my dedicated cluster is created?\{#can-i-change-the-cluster-type-after-my-dedicated-cluster-is-created}
 
@@ -62,13 +62,13 @@ Yes. To change the cluster type, you need to follow the steps below.
 
 ### Can I change the cloud region of my project after it is created?\{#can-i-change-the-cloud-region-of-my-project-after-it-is-created}
 
-No. The project region cannot be changed once the project is created. To use a different region, create a new project. For details, see Manage Projects.
+No. The project region cannot be changed once the project is created. To use a different region, create a new project. For details, see [Manage Projects](./manage-projects).
 
 ### How can I scale down the query CUs of my serving cluster?\{#how-can-i-scale-down-the-query-cus-of-my-serving-cluster}
 
 Yes. To scale down your the query CU of your serving cluster,  go to the **Summary** section in the [Zilliz Cloud console](https://cloud.zilliz.com/signup) and click **Scale** next to the **Query CU**. This will open the scaling page where you can increase or decrease the amount of query CUs. Before scaling down your serving cluster, make sure the new number query CUs can accommodate your data volume and workload capacity.
 
-For more information, refer to [Scale Cluster](./scale-query-cu).
+For more information, refer to [Scale Cluster](./undefined).
 
 ### How can I deal with a connection timeout error when I attempt to connect to Zilliz Cloud?\{#how-can-i-deal-with-a-connection-timeout-error-when-i-attempt-to-connect-to-zilliz-cloud}
 
@@ -156,7 +156,7 @@ When your cluster is suspended, you will only be charged for storage, not comput
 
 ### How to obtain a connection endpoint?\{#how-to-obtain-a-connection-endpoint}
 
-You can obtain the endpoints from the Zilliz Cloud web console. For details about which type of endpoints to use, refer to [Access: Connection Endpionts](./undefined).
+You can obtain the endpoints from the Zilliz Cloud web console. For details about which type of endpoints to use, refer to [Connect to Serving Clusters](./connect-to-serving-cluster) and [Connect for On-Demand Search](./connect-for-on-demand-search).
 
 ### Can I connect Zilliz Cloud to Attu?\{#can-i-connect-zilliz-cloud-to-attu}
 

@@ -2,7 +2,7 @@
 title: "Create an External Collection | Cloud"
 slug: /create-external-collection
 sidebar_label: "Create an External Collection"
-beta: FALSE
+beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
@@ -53,7 +53,7 @@ As with creating a managed collection, you also need to create a schema before c
 
 - You have integrated your object storage bucket with Zilliz Cloud.
 
-    For details, refer to AWS, GCP, and Azure docs in Integrate with Third Parties.
+    For details, refer to [AWS](./integrate-with-aws-s3), [GCP](./integrate-with-gcp), and [Azure](./integrate-with-azure-blob-storage) docs.
 
 - You have created an external volume out of the bucket integration. Ensure that the volume contains the target data files.
 
@@ -657,7 +657,7 @@ The refresh operation is asynchronous, so you need to set up an iteration to mon
 
 ## Follow-ups\{#follow-ups}
 
-Once you have refreshed the external collection, you can  perform similarity searches and queries in the external collection as you would in any managed collection, except that collections in a database for on-demand computing must be attached to an on-demand cluster for searches and queries. For details, refer to On-Demand Compute.
+Once you have refreshed the external collection, you can  perform similarity searches and queries in the external collection as you would in any managed collection, except that collections in a database for on-demand computing must be attached to an on-demand cluster for searches and queries. For details, refer to [Create On-Demand Cluster](./on-demand-cluster) and its sibling pages.
 
-Before conducting DQL operations, such as search, query, get, and hybrid search, you need to create a session to attach the compute resources of an on-demand cluster. For details, refer to DQL Operations in External Collections.
+Before conducting DQL operations, such as search, query, get, and hybrid search, you need to create a session to attach the compute resources of an on-demand cluster. For details, refer to [On-Demand DQL Operations](./dql-sessions-external-collection).
 

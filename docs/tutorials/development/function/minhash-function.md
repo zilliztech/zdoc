@@ -2,7 +2,7 @@
 title: "MinHash Function | Cloud"
 slug: /minhash-function
 sidebar_label: "MinHash Function"
-beta: FALSE
+beta: PRIVATE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE

@@ -24,7 +24,7 @@ The `synonym` filter rewrites tokens according to a synonym dictionary, so that 
 
 - **Operation modes** — `expand` mode preserves the original token and emits additional synonyms alongside it; normalization mode (`expand: false`) rewrites tokens to a canonical form.
 
-- **Dictionary sources** — small dictionaries can be inlined into the filter configuration via the `synonyms` array; large dictionaries should be stored as a [file resource](./undefined) and referenced via `synonyms_file`.
+- **Dictionary sources** — small dictionaries can be inlined into the filter configuration via the `synonyms` array; large dictionaries should be stored as a [file resource](./manage-file-resources) and referenced via `synonyms_file`.
 
 ## Dictionary format\{#dictionary-format}
 
@@ -90,7 +90,7 @@ The `synonym` filter accepts the following parameters.
 | **Parameter** | **Description** | **Default** |
 | --- | --- | --- |
 | `synonyms` | An inline array of rule strings. Each string uses the dictionary format described above. Suitable for small dictionaries (up to a few dozen rules). | — |
-| `synonyms_file` | A reference to a [file resource](./undefined) that stores synonym rules, one per line. Use for larger dictionaries. See [External dictionary file](./synonym-filter#external-dictionary-file) below. | — |
+| `synonyms_file` | A reference to a [file resource](./manage-file-resources) that stores synonym rules, one per line. Use for larger dictionaries. See [External dictionary file](./synonym-filter#external-dictionary-file) below. | — |
 | `expand` | A boolean flag that controls how rules apply. true preserves the original token and emits synonyms alongside it; false rewrites tokens to their canonical form (the right-hand side of a mapping, or the first token of an equivalence group). | false |
 
 You can specify `synonyms`, `synonyms_file`, or both. When both are present, the filter merges the two sources. The filter operates on tokens produced by the tokenizer; it must therefore be combined with a tokenizer such as the [standard](./standard-tokenizer) tokenizer.

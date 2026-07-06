@@ -2,7 +2,7 @@
 title: "Grouping Search with StructArray | Cloud"
 slug: /grouping-search-with-struct-array
 sidebar_label: "Grouping Search"
-beta: FALSE
+beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
@@ -69,10 +69,6 @@ results = client.search(
     collection_name="tech_articles",
     data=[query_vector],
     anns_field="chunks[emb]",
-    search_params={
-        "metric_type": "COSINE",
-        "params": {},
-    },
     limit=5,
     group_by_field="doc_id",
     output_fields=[
@@ -113,10 +109,6 @@ results = client.search(
     collection_name="tech_articles",
     data=[query_vector],
     anns_field="chunks[emb]",
-    search_params={
-        "metric_type": "COSINE",
-        "params": {},
-    },
     filter=filter_expr,
     limit=5,
     group_by_field="doc_id",
@@ -145,10 +137,6 @@ from pymilvus import AnnSearchRequest, RRFRanker
 index_chunk_req = AnnSearchRequest(
     data=[query_vector],
     anns_field="chunks[emb]",
-    param={
-        "metric_type": "COSINE",
-        "params": {},
-    },
     limit=10,
     expr='element_filter(chunks, $[section] == "index")',
 )
@@ -156,10 +144,6 @@ index_chunk_req = AnnSearchRequest(
 code_chunk_req = AnnSearchRequest(
     data=[code_query_vector],
     anns_field="chunks[code_emb]",
-    param={
-        "metric_type": "COSINE",
-        "params": {},
-    },
     limit=10,
     expr='element_filter(chunks, $[has_code] == true)',
 )

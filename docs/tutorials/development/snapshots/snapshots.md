@@ -2,7 +2,7 @@
 title: "Snapshots | Cloud"
 slug: /snapshots
 sidebar_label: "Snapshots"
-beta: FALSE
+beta: PRIVATE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
@@ -26,7 +26,7 @@ A snapshot is a point-in-time image of a Milvus collection, ideal for quick roll
 
 Snapshots are quick, point-in-time images of data, suitable for fast rollbacks or testing (**days to weeks**). At the same time, backups are independent, complete copies stored separately for long-term disaster recovery (**weeks to years**) and for better protection against total storage failure. 
 
-To create backups, refer to [Backup & Restore](./undefined).
+To create backups, refer to [Create Backup](./create-backup) and its sibling pages.
 
 </Admonition>
 

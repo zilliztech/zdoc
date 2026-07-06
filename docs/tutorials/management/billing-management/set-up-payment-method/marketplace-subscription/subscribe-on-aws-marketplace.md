@@ -9,7 +9,7 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "This guide provides a step-by-step walkthrough of the subscription process and outlines the pricing terms of Zilliz Cloud on AWS Marketplace. | Cloud"
 type: origin
-token: UmVTwGKZviAvsokdOLAcUMY8n1f
+token: LDlOweEzmiLkdQkvPFec5lrcnbf
 sidebar_position: 2
 displayed_sidebar: default
 
@@ -26,7 +26,7 @@ import Procedures from '@site/src/components/Procedures';
 
 This guide provides a step-by-step walkthrough of the subscription process and outlines the pricing terms of Zilliz Cloud on AWS Marketplace. 
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" icon="📘" title="📘 Note">
 
 Once subscribed, you can pay for the usage of AWS clusters via AWS Marketplace. If you have clusters deployed on other cloud providers, you can also use AWS Marketplace to pay.
 
@@ -52,15 +52,15 @@ Visit [AWS Marketplace](https://aws.amazon.com/marketplace) and start subscribin
 
     Or you can directly visit [this page](https://aws.amazon.com/marketplace/pp/prodview-iqbidum7feuio?trk=8d276e92-b310-40ce-908f-23a198ca7ffc&sc_channel=el&source=zilliz). 
 
-    ![CMFeb5UekowYN8xCubacHNkxn5e](https://zdoc-images.s3.us-west-2.amazonaws.com/cmfeb5uekowyn8xcubachnkxn5e.png "CMFeb5UekowYN8xCubacHNkxn5e")
+    ![UNGcb105Oo319KxghYwciqeCntf](https://zdoc-images.s3.us-west-2.amazonaws.com/ungcb105oo319kxghywciqecntf.png "UNGcb105Oo319KxghYwciqeCntf")
 
 1. Click **View purchase options**.
 
-    ![K2NWb83u3oRZ5IxHRmIcH4o0nJe](https://zdoc-images.s3.us-west-2.amazonaws.com/k2nwb83u3orz5ixhrmich4o0nje.png "K2NWb83u3oRZ5IxHRmIcH4o0nJe")
+    ![UQ0Bbe7huojVMUxpjWccXT6enkb](https://zdoc-images.s3.us-west-2.amazonaws.com/uq0bbe7huojvmuxpjwccxt6enkb.png "UQ0Bbe7huojVMUxpjWccXT6enkb")
 
 1. Scroll down the page and click **Subscribe**. 
 
-    ![YQZXbCQNpokCdzxnD3Mc3dC8nmB](https://zdoc-images.s3.us-west-2.amazonaws.com/yqzxbcqnpokcdzxnd3mc3dc8nmb.png "YQZXbCQNpokCdzxnD3Mc3dC8nmB")
+    ![XAn8bszmeoIRJbxUml1cmXJQned](https://zdoc-images.s3.us-west-2.amazonaws.com/xan8bszmeoirjbxuml1cmxjqned.png "XAn8bszmeoIRJbxUml1cmXJQned")
 
 1. Follow the prompt to **Set up your account** on Zilliz Cloud.
 
@@ -98,7 +98,7 @@ More specifically, you can either:
 
 - Switch your payment method from Marketplace subscription to a credit card.
 
-For details, see [Update Payment Method](./update-payment-method)
+For details, see Update Payment Method.
 
 ## Switch to a private offer\{#switch-to-a-private-offer}
 
@@ -152,11 +152,7 @@ There could be several reasons.
 
     - If you need to update an existing marketplace subscription, please unlink the current subscription of the organization first and then set up a new subscription.
 
-    - If you need multiple organizations for different Marketplace subscription, you can:
-
-        - [Register](./register-with-zilliz-cloud) a new Zilliz Cloud account to create a new organization. Then, [invite](./organization-users#invite-a-user-to-your-organization) the organization owner to the new organization. This organization owner will then belong to multiple organizations and can setup different marketplace subscriptions for each organization.
-
-        - [Create a support ticket](http://support.zilliz.com) so that we will create new organizations for you. Currently, Zilliz Cloud does not support manually creating organizations by users.
+    - If you need multiple organizations for different Marketplace subscription, you can [create an organization](./organization-settings#create-an-organization).
 
 - **No organizations in the list**
 
@@ -166,9 +162,7 @@ There could be several reasons.
 
     In this case, you can:
 
-    - Create a new organization.
+    - [Create a new organization](./organization-settings#create-an-organization).
 
     - Ask other users to [invite](./organization-users#invite-a-user-to-your-organization) you to their organizations and grant you the role of an Organization Owner.
-
-    - [Create a support ticket](https://support.zilliz.com/hc/en-us) and we will create a new organization for you.
 

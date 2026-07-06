@@ -1188,4 +1188,4 @@ for (auto& result : search_results.Results()) {
 </TabItem>
 </Tabs>
 
-In this example, we first define a query vector and add a filter condition `25 <= age <= 35` during the search. This ensures that the search results are not only similar to the query vector but also meet the specified age range. For more information, refer to [Filtering](./undefined).
+In this example, we first define a query vector and add a filter condition `25 <= age <= 35` during the search. This ensures that the search results are not only similar to the query vector but also meet the specified age range. For more information, refer to [Filtering Explained](./filtering-overview).

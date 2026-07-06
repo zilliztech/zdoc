@@ -49,7 +49,7 @@ We recommend suspending unused clusters to save computing costs. You can resume 
 
 ### How can I estimate the cost of using Zilliz Cloud?\{#how-can-i-estimate-the-cost-of-using-zilliz-cloud}
 
-You can use our [calculator](https://zilliz.com/pricing) to get a cost estimate or refer to Understand Cost for details.
+You can use our [calculator](https://zilliz.com/pricing) to get a cost estimate or refer to Storage Cost for details.
 
 ### Does Zilliz Cloud support deployment on Azure?\{#does-zilliz-cloud-support-deployment-on-azure}
 

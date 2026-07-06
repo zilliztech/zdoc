@@ -24,6 +24,18 @@ import Procedures from '@site/src/components/Procedures';
 
 # Switchover and Failover
 
+<FeatureNote variant="plan" titleHref="/docs/select-zilliz-cloud-service-plans">
+
+This feature is available only on Business Critical (SaaS) and BYOC deployments.
+
+</FeatureNote>
+
+<FeatureNote variant="region" titleHref="/docs/cloud-providers-and-regions">
+
+This feature is available in all AWS regions and in the following Google Cloud regions: gcp-us-central1 and gcp-us-east4. It is not available on Microsoft Azure.
+
+</FeatureNote>
+
 A Zilliz Cloud global cluster supports two operations that change which region hosts the primary cluster:
 
 - **Switchover**: A planned, zero-data-loss operation that promotes a synchronized secondary cluster to primary.
@@ -31,12 +43,6 @@ A Zilliz Cloud global cluster supports two operations that change which region h
 - **Failover**: An emergency recovery operation that promotes a secondary cluster to primary after an outage in the primary region.
 
 This page explains when to use each operation, how to perform them, and what to expect during and after.
-
-<Admonition type="info" icon="📘" title="Notes">
-
-This feature is available only to **Dedicated** clusters in a **Business Critical** project.
-
-</Admonition>
 
 ## Overview\{#overview}
 
@@ -125,25 +131,55 @@ For planned regional rotation, you can perform a switchover to promote a seconda
 
 ### Procedures\{#procedures}
 
-The following demo shows how to perform a switchover.
+- **Via web console**
 
-<Supademo id="cmnpic07n84n2aburnc12drnr" title=""  />
+    The following demo shows how to perform a switchover.
 
-<Procedures>
+    <Supademo id="cmnpic07n84n2aburnc12drnr" title=""  />
 
-1. Navigate to the **Global Cluster** page.
+    <Procedures>
 
-1. Click **Switchover or Failover**.
+    1. Navigate to the **Global Cluster** page.
 
-1. Select the target secondary cluster to promote.
+    1. Click **Switchover or Failover**.
 
-1. Choose Switchover.
+    1. Select the target secondary cluster to promote.
 
-1. Confirm the operation in the dialog.
+    1. Choose Switchover.
 
-</Procedures>
+    1. Confirm the operation in the dialog.
 
-Once you initiate the switchover, Zilliz Cloud waits for the target secondary to fully synchronize with the current primary, then promotes it to the new primary. 
+    </Procedures>
+
+    Once you initiate the switchover, Zilliz Cloud waits for the target secondary to fully synchronize with the current primary, then promotes it to the new primary. 
+
+- **Via RESTful API**
+
+    The following example performs a switchover so that the cluster `in01-secondary` becomes the new primary cluster. For details about the API, see [Switchover Global Cluster](/reference/restful/switchover-global-cluster-v2).
+
+    ```bash
+    curl --request POST \
+    --url "$\{BASE_URL\}/v2/globalClusters/${globalClusterId}/switchover" \
+    --header "Authorization: Bearer ${TOKEN}" \
+    --header "Content-Type: application/json" \
+    -d '{
+        "newPrimaryClusterId": "in01-secondary"
+    }'
+    ```
+
+    The following is an example output.
+
+    ```bash
+    {
+      "code": 0,
+      "data": {
+        "globalClusterId": "glo-xxxxxxxxxxxxxxxx",
+        "oldPrimaryClusterId": "in01-primary",
+        "newPrimaryClusterId": "in01-secondary",
+        "jobId": "job-xxxxxxxxxxxxxxxx"
+      }
+    }
+    ```
 
 ### After the switchover\{#after-the-switchover}
 
@@ -169,29 +205,60 @@ Failover is an emergency operation. Unlike a switchover, it does not wait for fu
 
 ### Procedures\{#procedures}
 
-The following demo shows how to perform a failover.
+- **Via web console**
 
-<Supademo id="cmnpile4s01nlzz0j6ryixd11" title=""  />
+    The following demo shows how to perform a failover.
 
-<Procedures>
+    <Supademo id="cmnpile4s01nlzz0j6ryixd11" title=""  />
 
-1. Navigate to the **Global Cluster** page.
+    <Procedures>
 
-1. Click **Switchover or Failover**.
+    1. Navigate to the **Global Cluster** page.
 
-1. Select the target secondary cluster to promote.
+    1. Click **Switchover or Failover**.
 
-1. Choose Failover.
+    1. Select the target secondary cluster to promote.
 
-1. Confirm the operation in the dialog.
+    1. Choose Failover.
 
-</Procedures>
+    1. Confirm the operation in the dialog.
 
-<Admonition type="info" icon="📘" title="Notes">
+    </Procedures>
 
-If the failover fails, the cluster remains in ABNORMAL status. You can retry the failover operation or [create a support ticket](http://support.zilliz.com).
+    <Admonition type="info" icon="📘" title="Notes">
 
-</Admonition>
+    If the failover fails, the cluster remains in ABNORMAL status. You can retry the failover operation or [create a support ticket](http://support.zilliz.com).
+
+    </Admonition>
+
+- **Via RESTful API** 
+
+    The following example performs a failover so that the cluster `in01-secondary` was promoted to the primary by force. For details about the API , see [Failover Global Cluster](/reference/restful/failover-global-cluster-v2).
+
+    ```bash
+    curl --request POST \
+      --url "https://api.cloud.zilliz.com/v2/globalClusters/glo-xxxxxxxxxxxxxxxx/failover" \
+      --header "Authorization: Bearer ${API_KEY}" \
+      --header "Accept: application/json" \
+      --header "Content-Type: application/json" \
+      --data-raw '{
+        "newPrimaryClusterId": "in01-secondary"
+      }'
+    ```
+
+    The following is an example output.
+
+    ```bash
+    {
+      "code": 0,
+      "data": {
+        "globalClusterId": "glo-xxxxxxxxxxxxxxxx",
+        "oldPrimaryClusterId": "in01-primary",
+        "newPrimaryClusterId": "in01-secondary",
+        "jobId": "job-xxxxxxxxxxxxxxxx"
+      }
+    }
+    ```
 
 ### After the failover\{#after-the-failover}
 

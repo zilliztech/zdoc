@@ -173,7 +173,7 @@ res = client.query(
 )
 ```
 
-You can find the Elasticsearch example on [this page](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-ids-query.html). For details on query and get requests as well as the filter expressions in Milvus, refer to [Query](./get-and-scalar-query) and [Filtering](./undefined).
+You can find the Elasticsearch example on [this page](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-ids-query.html). For details on query and get requests as well as the filter expressions in Milvus, refer to [Query](./get-and-scalar-query) and [Filtering Explained](./filtering-overview).
 
 ### Prefix query\{#prefix-query}
 
@@ -418,7 +418,7 @@ resp = client.search(
 )
 ```
 
-Milvus, as a specialized vector database, uses index types to optimize vector searches. Typically, it prioritizes approximate nearest neighbor (ANN) search for high-dimensional vector data. While brute-force kNN search with the FLAT index type delivers precise results, it is both time-consuming and resource-intensive. In contrast, ANN search using AUTOINDEX or other index types balances speed and accuracy, offering significantly faster and more resource-efficient performance than kNN. For details on index types and AUTOINDEX, you can read Manage Indexes and [AUTOINDEX Explained](./autoindex-explained).
+Milvus, as a specialized vector database, uses index types to optimize vector searches. Typically, it prioritizes approximate nearest neighbor (ANN) search for high-dimensional vector data. While brute-force kNN search with the FLAT index type delivers precise results, it is both time-consuming and resource-intensive. In contrast, ANN search using AUTOINDEX or other index types balances speed and accuracy, offering significantly faster and more resource-efficient performance than kNN. For details on index types and AUTOINDEX, you can read [Indexes](./indexes) and [AUTOINDEX Explained](./autoindex-explained).
 
 A similar equivalence to the above vector query in Mlivus goes like this:
 
@@ -481,7 +481,7 @@ In this example, RRF combines results from two retrievers:
 
 Each retriever contributes up to 50 top matches, which are reranked by RRF, and the final top 10 results are returned.
 
-In Milvus, you can achieve a similar hybrid search by combining searches across multiple vector fields, applying a reranking strategy, and retrieving the top-K results from the combined list. Milvus supports both RRF and weighted reranker strategies. For more details, refer to Reranking.
+In Milvus, you can achieve a similar hybrid search by combining searches across multiple vector fields, applying a reranking strategy, and retrieving the top-K results from the combined list. Milvus supports both RRF and weighted reranker strategies. For more details, refer to [Weighted Ranker](./reranking-weighted-reranker) and its sibling pages.
 
 The following is a non-strict equivalence of the above Elasticsearch example in Milvus.
 

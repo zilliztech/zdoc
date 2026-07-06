@@ -22,7 +22,7 @@ import Admonition from '@theme/Admonition';
 
 Zilliz Cloud offers a managed Milvus vector database as a service. Four SDK options exist to facilitate cluster connections: [Python](./install-sdks#install-pymilvus-python-sdk), [Java](./install-sdks#install-java-sdk), [Go](./install-sdks#install-go-sdk), or [Node.js](./install-sdks#install-nodejs-sdk).
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="📘 Notes">
 
 - Zilliz Cloud consistently upgrades clusters to ensure version compatibility. For details, visit the [Manage Organization Settings](./organization-settings) page. If connection issues arise due to SDK version discrepancies, heed the provided prompts to revert to a compatible SDK version. We'll notify you post-maintenance, post which you can upgrade your SDK without concerns.
 
@@ -43,7 +43,7 @@ The following table lists the compatible SDK versions of each Milvus version.
 
 PyMilvus is Milvus's Python SDK. Access its [source code on GitHub](https://github.com/milvus-io/pymilvus).
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="📘 Notes">
 
 Ensure your **Python** version exceeds **3.8** prior to installation.
 
@@ -66,7 +66,7 @@ If your cluster is compatible with **Milvus v2.6.x (Public Preview),** please ch
 
 For Milvus's Node.js SDK, employ **npm** or **yarn**. Access its [source code on GitHub](https://github.com/milvus-io/milvus-sdk-node).
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="📘 Notes">
 
 Ensure your **Node.js** version is **14** or above prior to installation.
 
@@ -108,7 +108,7 @@ Use Apache Maven or Gradle/Grails to obtain the SDK. Access the [source code on 
 - For Apache Maven, append this to the `pom.xml` dependencies:
 
     ```xml
-    <!-- Install Java SDK compatible with Milvus v2.5.x -->
+    {/* Install Java SDK compatible with Milvus v2.5.x */}
     &lt;dependency&gt;
          <groupId>io.milvus</groupId>
          <artifactId>milvus-sdk-java</artifactId>

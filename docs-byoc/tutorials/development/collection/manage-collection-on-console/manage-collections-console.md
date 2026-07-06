@@ -1,24 +1,17 @@
 ---
 title: "Manage Collections (Console) | BYOC"
 slug: /manage-collections-console
-sidebar_key: manage-collections-console
 sidebar_label: "On Console"
+beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
-beta: FALSE
 notebook: FALSE
 description: "A collection is a two-dimensional table used to store vector embeddings and metadata. All entities in a collection share the same schema. You can create multiple collections for data management or multi-tenancy purposes. | BYOC"
 type: origin
 token: CmR5wFcybi3iMokOJBxcXDQcntg
-sidebar_position: 13
-keywords:
-  - zilliz
-  - vector database
-  - cloud
-  - collection
-  - manage
-  - console
+sidebar_position: 1
+displayed_sidebar: default
 
 ---
 
@@ -29,7 +22,7 @@ import Supademo from '@site/src/components/Supademo';
 
 # Manage Collections (Console)
 
-A collection is a two-dimensional table used to store vector embeddings and metadata. All entities in a collection share the same schema. You can create multiple collections for data management or multi-tenancy purposes.
+A collection is a two-dimensional table used to store vector embeddings and metadata. All entities in a collection share the same schema. You can create multiple collections for data management or multi-tenancy purposes. 
 
 This guide walks you through the collection creation and management operations on the web console. It is intended for users who prefer a visual interface. If you are familiar with SDKs, you can also create and manage collections through them. For details, see [Create Collection](./manage-collections-sdks).
 
@@ -93,13 +86,13 @@ Most of the schema configurations cannot be modified once the collection is crea
 
 An index is a data structure that organizes data to accelerate searches and queries. Zilliz Cloud supports two types of indexes:
 
-- **Vector index**: Automatically created using [AUTOINDEX](./autoindex-explained) to accelerate vector searches. If you have multiple vector fields in the schema, you can create a separate index for each vector field. In addition, you can also edit the [metric type](./search-metrics-explained) used to calculate the distance between vectors and the index build level that controls the underlying quantization strategy for tradeoffs between index cost, performance and capacity.
+- **Vector index**: Automatically created using [AUTOINDEX](./autoindex-explained) to accelerate vector searches. If you have multiple vector fields in the schema, you can create a separate index for each vector field. In addition, you can also edit the [metric type](./search-metrics-explained) used to calculate the distance between vectors and the index build level that controls the underlying quantization strategy for tradeoffs between index cost, performance and capacity. 
 
     <Supademo id="cmgk9ynaq290okrn90l496fq7?utm_source=link" title=""  />
 
 - **Scalar index**: By default, Zilliz Cloud does not automatically create indexes for scalar fields. However, you can manually create indexes on scalar fields that are commonly used for filtering to accelerate searches and queries.
 
-You can skip creating indexes during collection creation and add indexes later. For details, see Indexes.
+You can skip creating indexes during collection creation and add indexes later. For details, see [Indexes](./indexes).
 
 ### Functions\{#functions}
 
@@ -113,7 +106,7 @@ Functions fall into two main categories based on when they are applied:
 
     Examples of Pre-search Functions include the BM25 function, model-based functions.
 
-    For a conceptual overview of how Pre-search Functions work, see Function Overview.
+    For a conceptual overview of how Pre-search Functions work, see [Function Overview](./function-and-model-inference-overview).
 
     <Supademo id="cmjm7ydhy01ouxy0ibvzvne7r" title="" isShowcase />
 
@@ -123,7 +116,7 @@ Functions fall into two main categories based on when they are applied:
 
     Post-search Functions do not affect indexing or candidate retrieval.
 
-    For a conceptual overview of how Post-search Functions work, see Function Overview.
+    For a conceptual overview of how Post-search Functions work, see [Function Overview](./function-and-model-inference-overview).
 
 ### Partition & partition key\{#partition-and-partition-key}
 
@@ -149,7 +142,7 @@ Memory mapping (mmap) is a memory usage optimization that enables direct access 
 
 For details about the cluster-level default mmap settings, see [Use mmap](./use-mmap#global-mmap-strategy).
 
-During collection creation, you can optionally configure mmap settings at the **collection** or **field** level, depending on your use case. Settings at lower levels take precedence over higher levels: **Field > Collection > Cluster.**
+During collection creation, you can optionally configure mmap settings at the **collection** or **field** level, depending on your use case. Settings at lower levels take precedence over higher levels: **Field > Collection > Cluster.** 
 
 - **Collection-level mmap:** Enable mmap for raw data across the entire collection. This setting can be modified later, but requires releasing the collection first.
 
@@ -167,7 +160,7 @@ The demo below shows the entrance of this feature on the Zilliz Cloud web consol
 
 ### Shard\{#shard}
 
-A shard is a horizontal slice of a collection that corresponds to a data input channel. Every collection comes with one shard by default. You can add more shards to increase write throughput.
+A shard is a horizontal slice of a collection that corresponds to a data input channel. Every collection comes with one shard by default. You can add more shards to increase write throughput. 
 
 As a general guideline, consider adding 1 shard for every 100 million rows of data. The maximum number of shards allowed depends on the cluster plan and cluster CU size. For details, see [Zilliz Cloud Limits](./limits#shards).
 
@@ -197,7 +190,7 @@ Zilliz Cloud supports the following management operations on created collections
 
 - **Rename a collection:** You can change the name of an existing collection.
 
-- **Edit collection description:** You can change the description of an existing collection.
+- **Edit collection description:** You can change the description of an existing collection. 
 
     ![SBlWwPqMPhqspYbR7pxct59xnle](https://zdoc-images.s3.us-west-2.amazonaws.com/SBlWwPqMPhqspYbR7pxct59xnle.png)
 
@@ -239,7 +232,7 @@ Zilliz Cloud supports the following management operations on created collections
 
 ## Preview collection data\{#preview-collection-data}
 
-Use the **Data** tab to preview entities in a collection directly from the Zilliz Cloud console.
+Use the **Data** tab to preview entities in a collection directly from the Zilliz Cloud console. 
 
 You can define a filter expression, configure the `limit` parameter to control the number of entities displayed in preview (100 by default, up to 16,384), and query matching entities to inspect field values in a table.
 

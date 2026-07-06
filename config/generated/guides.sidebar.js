@@ -64,6 +64,235 @@ module.exports = [
         "id": "tutorials/get-started/cloud-providers-and-regions",
         "label": "Cloud Providers & Regions",
         "key": "doc:tutorials/get-started/cloud-providers-and-regions"
+      },
+      {
+        "type": "category",
+        "label": "Release notes",
+        "key": "category:tutorials/get-started/release-notes",
+        "items": [
+          {
+            "type": "doc",
+            "id": "tutorials/get-started/release-notes/changelogs",
+            "label": "Changelogs",
+            "key": "doc:tutorials/get-started/release-notes/changelogs"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/get-started/release-notes/release-notes-2606",
+            "label": "June, 2026",
+            "key": "doc:tutorials/get-started/release-notes/release-notes-2606"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/get-started/release-notes/release-notes-2605",
+            "label": "May, 2026",
+            "key": "doc:tutorials/get-started/release-notes/release-notes-2605"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/get-started/release-notes/release-notes-2604",
+            "label": "April, 2026",
+            "key": "doc:tutorials/get-started/release-notes/release-notes-2604"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/get-started/release-notes/release-notes-2602",
+            "label": "Februray, 2026",
+            "key": "doc:tutorials/get-started/release-notes/release-notes-2602"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/get-started/release-notes/release-notes-2601",
+            "label": "January, 2026",
+            "key": "doc:tutorials/get-started/release-notes/release-notes-2601"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/get-started/release-notes/release-notes-2512",
+            "label": "December, 2025",
+            "key": "doc:tutorials/get-started/release-notes/release-notes-2512"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/get-started/release-notes/release-notes-2511",
+            "label": "November, 2025",
+            "key": "doc:tutorials/get-started/release-notes/release-notes-2511"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/get-started/release-notes/release-notes-2510",
+            "label": "October, 2025",
+            "key": "doc:tutorials/get-started/release-notes/release-notes-2510"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/get-started/release-notes/release-notes-2508",
+            "label": "August, 2025",
+            "key": "doc:tutorials/get-started/release-notes/release-notes-2508"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/get-started/release-notes/release-notes-2180",
+            "label": "July 15, 2025",
+            "key": "doc:tutorials/get-started/release-notes/release-notes-2180"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/get-started/release-notes/release-notes-2170",
+            "label": "June 9, 2025",
+            "key": "doc:tutorials/get-started/release-notes/release-notes-2170"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/get-started/release-notes/release-notes-2150",
+            "label": "April 24, 2025",
+            "key": "doc:tutorials/get-started/release-notes/release-notes-2150"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/get-started/release-notes/release-notes-2140",
+            "label": "March 27, 2025",
+            "key": "doc:tutorials/get-started/release-notes/release-notes-2140"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/get-started/release-notes/release-notes-2130",
+            "label": "January 27, 2025",
+            "key": "doc:tutorials/get-started/release-notes/release-notes-2130"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/get-started/release-notes/release-notes-2120",
+            "label": "December 26, 2024",
+            "key": "doc:tutorials/get-started/release-notes/release-notes-2120"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/get-started/release-notes/release-notes-2110",
+            "label": "November 6, 2024",
+            "key": "doc:tutorials/get-started/release-notes/release-notes-2110"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/get-started/release-notes/release-notes-2102",
+            "label": "October 14, 2024",
+            "key": "doc:tutorials/get-started/release-notes/release-notes-2102"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/get-started/release-notes/release-notes-2100",
+            "label": "September 4, 2024",
+            "key": "doc:tutorials/get-started/release-notes/release-notes-2100"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/get-started/release-notes/release-notes-291",
+            "label": "July 23, 2024",
+            "key": "doc:tutorials/get-started/release-notes/release-notes-291"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/get-started/release-notes/release-notes-290",
+            "label": "June 18, 2024",
+            "key": "doc:tutorials/get-started/release-notes/release-notes-290"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/get-started/release-notes/release-notes-280",
+            "label": "May 15, 2024",
+            "key": "doc:tutorials/get-started/release-notes/release-notes-280"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/get-started/release-notes/release-notes-270",
+            "label": "April 3, 2024",
+            "key": "doc:tutorials/get-started/release-notes/release-notes-270"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/get-started/release-notes/release-notes-260",
+            "label": "March 13, 2024",
+            "key": "doc:tutorials/get-started/release-notes/release-notes-260"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/get-started/release-notes/release-notes-250",
+            "label": "January 18, 2024",
+            "key": "doc:tutorials/get-started/release-notes/release-notes-250"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/get-started/release-notes/release-notes-240",
+            "label": "December 11, 2023",
+            "key": "doc:tutorials/get-started/release-notes/release-notes-240"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/get-started/release-notes/release-notes-230",
+            "label": "October 17, 2023",
+            "key": "doc:tutorials/get-started/release-notes/release-notes-230"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/get-started/release-notes/release-notes-221",
+            "label": "September 27, 2023",
+            "key": "doc:tutorials/get-started/release-notes/release-notes-221"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/get-started/release-notes/release-notes-220",
+            "label": "September 13, 2023",
+            "key": "doc:tutorials/get-started/release-notes/release-notes-220"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/get-started/release-notes/release-notes-210",
+            "label": "August 16, 2023",
+            "key": "doc:tutorials/get-started/release-notes/release-notes-210"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/get-started/release-notes/release-notes-200",
+            "label": "June 11, 2023",
+            "key": "doc:tutorials/get-started/release-notes/release-notes-200"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/get-started/release-notes/release-notes-110",
+            "label": "April 6, 2023",
+            "key": "doc:tutorials/get-started/release-notes/release-notes-110"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/get-started/release-notes/release-notes-100",
+            "label": "March 6, 2023",
+            "key": "doc:tutorials/get-started/release-notes/release-notes-100"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/get-started/release-notes/release-notes-011",
+            "label": "Febuary 13, 2023",
+            "key": "doc:tutorials/get-started/release-notes/release-notes-011"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/get-started/release-notes/release-notes-010",
+            "label": "January 10, 2023",
+            "key": "doc:tutorials/get-started/release-notes/release-notes-010"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/get-started/release-notes/release-notes-009",
+            "label": "December 5, 2022",
+            "key": "doc:tutorials/get-started/release-notes/release-notes-009"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/get-started/release-notes/release-notes-008",
+            "label": "November 18, 2022",
+            "key": "doc:tutorials/get-started/release-notes/release-notes-008"
+          }
+        ]
       }
     ]
   },
@@ -648,8 +877,14 @@ module.exports = [
           {
             "type": "doc",
             "id": "tutorials/development/schema/add-fields-to-an-existing-collection",
-            "label": "Alter Schema",
+            "label": "Alter Schema (Managed Collection)",
             "key": "doc:tutorials/development/schema/add-fields-to-an-existing-collection"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/development/schema/alter-external-collection-schema",
+            "label": "Alter Schema (External Collection)",
+            "key": "doc:tutorials/development/schema/alter-external-collection-schema"
           },
           {
             "type": "category",
@@ -884,12 +1119,6 @@ module.exports = [
             "items": [
               {
                 "type": "doc",
-                "id": "tutorials/development/function/text-embedding-functions/text-embedding-overview",
-                "label": "Text Embedding Function Overview",
-                "key": "doc:tutorials/development/function/text-embedding-functions/text-embedding-overview"
-              },
-              {
-                "type": "doc",
                 "id": "tutorials/development/function/text-embedding-functions/openai",
                 "label": "OpenAI",
                 "key": "doc:tutorials/development/function/text-embedding-functions/openai"
@@ -1024,7 +1253,7 @@ module.exports = [
           },
           {
             "type": "category",
-            "label": "Built-in Analyzer",
+            "label": "Built-in Analyzers",
             "key": "category:tutorials/development/analyzer/built-in-analyzer",
             "items": [
               {
@@ -1049,7 +1278,7 @@ module.exports = [
           },
           {
             "type": "category",
-            "label": "Tokenizer",
+            "label": "Tokenizers",
             "key": "category:tutorials/development/analyzer/tokenizers",
             "items": [
               {
@@ -1180,6 +1409,12 @@ module.exports = [
             "id": "tutorials/development/analyzer/choose-the-right-analyzer-for-your-use-case",
             "label": "Best Practice",
             "key": "doc:tutorials/development/analyzer/choose-the-right-analyzer-for-your-use-case"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/development/analyzer/manage-file-resources",
+            "label": "Manage File Resources",
+            "key": "doc:tutorials/development/analyzer/manage-file-resources"
           }
         ]
       },
@@ -1295,28 +1530,47 @@ module.exports = [
                 "type": "category",
                 "label": "Scale Cluster",
                 "key": "category:tutorials/management/clusters/dedicated-cluster/scale-cluster",
-                "link": {
-                  "type": "doc",
-                  "id": "tutorials/management/clusters/dedicated-cluster/scale-cluster/scale-cluster"
-                },
                 "items": [
                   {
                     "type": "doc",
-                    "id": "tutorials/management/clusters/dedicated-cluster/scale-cluster/scale-query-cu",
-                    "label": "Scale Query CU",
-                    "key": "doc:tutorials/management/clusters/dedicated-cluster/scale-cluster/scale-query-cu"
+                    "id": "tutorials/management/clusters/dedicated-cluster/scale-cluster/plan-cluster-scaling",
+                    "label": "Plan Cluster Scaling",
+                    "key": "doc:tutorials/management/clusters/dedicated-cluster/scale-cluster/plan-cluster-scaling"
                   },
                   {
                     "type": "doc",
-                    "id": "tutorials/management/clusters/dedicated-cluster/scale-cluster/manage-replica",
-                    "label": "Scale Replica",
-                    "key": "doc:tutorials/management/clusters/dedicated-cluster/scale-cluster/manage-replica"
+                    "id": "tutorials/management/clusters/dedicated-cluster/scale-cluster/manual-scaling",
+                    "label": "Manual Scaling",
+                    "key": "doc:tutorials/management/clusters/dedicated-cluster/scale-cluster/manual-scaling"
                   },
                   {
                     "type": "doc",
-                    "id": "tutorials/management/clusters/dedicated-cluster/scale-cluster/cron-expression",
-                    "label": "Cron Expression",
-                    "key": "doc:tutorials/management/clusters/dedicated-cluster/scale-cluster/cron-expression"
+                    "id": "tutorials/management/clusters/dedicated-cluster/scale-cluster/auto-scaling",
+                    "label": "Auto-scaling",
+                    "key": "doc:tutorials/management/clusters/dedicated-cluster/scale-cluster/auto-scaling"
+                  },
+                  {
+                    "type": "category",
+                    "label": "Scheduled Scaling",
+                    "key": "category:tutorials/management/clusters/dedicated-cluster/scale-cluster/scheduled-scaling",
+                    "link": {
+                      "type": "doc",
+                      "id": "tutorials/management/clusters/dedicated-cluster/scale-cluster/scheduled-scaling/scheduled-scaling"
+                    },
+                    "items": [
+                      {
+                        "type": "doc",
+                        "id": "tutorials/management/clusters/dedicated-cluster/scale-cluster/scheduled-scaling/cron-expression",
+                        "label": "Cron Expression",
+                        "key": "doc:tutorials/management/clusters/dedicated-cluster/scale-cluster/scheduled-scaling/cron-expression"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "doc",
+                    "id": "tutorials/management/clusters/dedicated-cluster/scale-cluster/canary-upgrade",
+                    "label": "Canary Upgrade",
+                    "key": "doc:tutorials/management/clusters/dedicated-cluster/scale-cluster/canary-upgrade"
                   }
                 ]
               },
@@ -1435,19 +1689,19 @@ module.exports = [
               {
                 "type": "ref",
                 "id": "tutorials/development/volume/storage-integration/integrate-with-aws-s3",
-                "label": "AWS S3",
+                "label": "Integrate with AWS S3",
                 "key": "ref:tutorials/management/volume/storage-integrations/integrate-with-aws-s3"
               },
               {
                 "type": "ref",
                 "id": "tutorials/development/volume/storage-integration/integrate-with-gcp",
-                "label": "Google Cloud Storage",
+                "label": "Integrate with Google Cloud Storage",
                 "key": "ref:tutorials/management/volume/storage-integrations/integrate-with-gcp"
               },
               {
                 "type": "ref",
                 "id": "tutorials/development/volume/storage-integration/integrate-with-azure-blob-storage",
-                "label": "Azure Blob Storage",
+                "label": "Integrate with Azure Blob Storage",
                 "key": "ref:tutorials/management/volume/storage-integrations/integrate-with-azure-blob-storage"
               }
             ]
@@ -1638,7 +1892,7 @@ module.exports = [
           },
           {
             "type": "category",
-            "label": "Observability Integrations",
+            "label": "Monitor Integrations",
             "key": "category:tutorials/management/metrics-and-alerts/observability-integrations",
             "items": [
               {
@@ -1671,13 +1925,13 @@ module.exports = [
           {
             "type": "ref",
             "id": "tutorials/management/organizations/organization-users",
-            "label": "Organization Users",
+            "label": "Manage Organization Users",
             "key": "ref:tutorials/management/access-control/organization-users"
           },
           {
             "type": "ref",
             "id": "tutorials/management/projects/project-users",
-            "label": "Project Users",
+            "label": "Manage Project Users",
             "key": "ref:tutorials/management/access-control/project-users"
           },
           {
@@ -1854,25 +2108,25 @@ module.exports = [
       {
         "type": "category",
         "label": "Audit Logs",
-        "key": "category:tutorials/management/audit-logs",
+        "key": "category:tutorials/management/auditing",
         "items": [
           {
             "type": "doc",
-            "id": "tutorials/management/audit-logs/audit-logs",
+            "id": "tutorials/management/auditing/audit-logs",
             "label": "VectorDB Audit Logs",
-            "key": "doc:tutorials/management/audit-logs/audit-logs"
+            "key": "doc:tutorials/management/auditing/audit-logs"
           },
           {
             "type": "doc",
-            "id": "tutorials/management/audit-logs/audit-logs-ref",
+            "id": "tutorials/management/auditing/audit-logs-ref",
             "label": "VectorDB Audit Logs Reference",
-            "key": "doc:tutorials/management/audit-logs/audit-logs-ref"
+            "key": "doc:tutorials/management/auditing/audit-logs-ref"
           },
           {
             "type": "doc",
-            "id": "tutorials/management/audit-logs/view-activities",
+            "id": "tutorials/management/auditing/view-activities",
             "label": "View Platform Audit Logs",
-            "key": "doc:tutorials/management/audit-logs/view-activities"
+            "key": "doc:tutorials/management/auditing/view-activities"
           }
         ]
       },
@@ -1903,6 +2157,25 @@ module.exports = [
       },
       {
         "type": "category",
+        "label": "Slow Logs",
+        "key": "category:tutorials/management/slow-logs",
+        "items": [
+          {
+            "type": "doc",
+            "id": "tutorials/management/slow-logs/configure-slow-logs",
+            "label": "Configure Slow Logs",
+            "key": "doc:tutorials/management/slow-logs/configure-slow-logs"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/management/slow-logs/slow-log-reference",
+            "label": "Slow Logs Reference",
+            "key": "doc:tutorials/management/slow-logs/slow-log-reference"
+          }
+        ]
+      },
+      {
+        "type": "category",
         "label": "Billing Management",
         "key": "category:tutorials/management/billing-management",
         "items": [
@@ -1914,7 +2187,7 @@ module.exports = [
           },
           {
             "type": "category",
-            "label": "Set Up Payment Method",
+            "label": "Set up Payment Method",
             "key": "category:tutorials/management/billing-management/set-up-payment-method",
             "items": [
               {
@@ -2333,7 +2606,7 @@ module.exports = [
       },
       {
         "type": "link",
-        "href": "/reference/cli/overview",
+        "href": "/reference/cli/cli/overview",
         "label": "Zilliz CLI",
         "key": "link:tutorials/tools/zilliz-cli"
       }

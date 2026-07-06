@@ -459,6 +459,8 @@ Filters in a custom analyzer can be either **built-in** or **custom**, depending
 
     - `cncharonly`: Removes tokens that contain any non-Chinese characters. For details, refer to [Cncharonly](./cncharonly-filter).
 
+    - `pinyin`: Adds Pinyin token forms for Chinese tokens, enabling Pinyin-based matching for Chinese text. For details, refer to [Pinyin](./undefined).
+
     **Example of using a built-in filter:**
 
     <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
@@ -850,7 +852,7 @@ schema->SetEnableDynamicField(false);
     # restful
     export MILVUS_HOST="YOUR_CLUSTER_ENDPOINT"
     export SAMPLE_TEXT="Milvus simplifies text analysis for search."
-    curl -X POST "<i>http</i>://${MILVUS_HOST}/v2/vectordb/common/run_analyzer" \
+    curl -X POST "http://${MILVUS_HOST}/v2/vectordb/common/run_analyzer" \
       -H "Content-Type: application/json" \
       -H "Request-Timeout: 10" \
       -d '{
@@ -1009,7 +1011,7 @@ if (!status.IsOk()) {
     export SAMPLE_TEXT="Milvus provides flexible, customizable analyzers for robust text processing."
     
     # 使用自定义分析器配置
-    curl -X POST "<i>http</i>://${MILVUS_HOST}/v2/vectordb/common/run_analyzer" \
+    curl -X POST "http://${MILVUS_HOST}/v2/vectordb/common/run_analyzer" \
       -H "Content-Type: application/json" \
       -H "Request-Timeout: 10" \
       -d '{

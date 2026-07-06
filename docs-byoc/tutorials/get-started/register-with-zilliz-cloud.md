@@ -72,7 +72,7 @@ Follow the steps below to create a Zilliz Cloud account using your work email an
 
 </Procedures>
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="📘 Notes">
 
 On your first login, we will ask for more information to better tailor our services to your needs.
 
@@ -94,7 +94,7 @@ To link your Google account with Zilliz Cloud, follow the steps below.
 
 </Procedures>
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="📘 Notes">
 
 [Disable your Google-managed MFA](https://support.google.com/accounts/answer/1064203?hl=en&ref_topic=7189195&sjid=2449417013251062800-AP) before linking to ensure a smooth registration.
 
@@ -136,7 +136,7 @@ To link your GitHub account with us, follow the steps below.
 
 </Procedures>
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="📘 Notes">
 
 [Disable your GitHub-managed MFA](https://docs.github.com/en/authentication/securing-your-account-with-two-factor-authentication-2fa/disabling-two-factor-authentication-for-your-personal-account) before linking to ensure a smooth registration.
 

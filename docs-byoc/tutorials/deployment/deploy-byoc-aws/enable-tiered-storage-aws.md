@@ -2,7 +2,7 @@
 title: "Enable Tiered Storage for Exisiting Clusters | BYOC"
 slug: /enable-tiered-storage-aws
 sidebar_label: "Enable Tiered Storage for Exisiting Clusters"
-beta: FALSE
+beta: CONTACT SALES
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE

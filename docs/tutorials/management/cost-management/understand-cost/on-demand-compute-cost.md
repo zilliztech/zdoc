@@ -2,14 +2,14 @@
 title: "On-Demand Compute Cost | Cloud"
 slug: /on-demand-compute-cost
 sidebar_label: "On-Demand Compute"
-beta: FALSE
+beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
 description: "On-demand compute in Zilliz Cloud follows a usage-based billing model. You are charged for query compute and index-building compute consumed by your workloads. | Cloud"
 type: origin
-token: XOonwITB7idiV8kT3cpc8Bi5nrb
+token: O1qjwpv0Ri9afmkSUwWcU2aTn5f
 sidebar_position: 1
 displayed_sidebar: default
 
@@ -76,7 +76,7 @@ Indexing CU Cost = Indexing CU Unit Price × Number of Indexing CU x Time
 
 <Admonition type="info" icon="📘" title="**Note**">
 
-On the Usage and [Invoice](./view-invoice) pages, indexing CU costs are shown as totals by database rather than by individual job.  
+On the [Usage](./analyze-cost) and [Invoice](./view-invoice) pages, indexing CU costs are shown as totals by database rather than by individual job.  
 
 </Admonition>
 

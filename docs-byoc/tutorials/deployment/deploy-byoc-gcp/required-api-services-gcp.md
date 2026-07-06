@@ -2,7 +2,7 @@
 title: "Required GCP API Services | BYOC"
 slug: /required-api-services-gcp
 sidebar_label: "Required GCP API Services"
-beta: FALSE
+beta: CONTACT SALES
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE

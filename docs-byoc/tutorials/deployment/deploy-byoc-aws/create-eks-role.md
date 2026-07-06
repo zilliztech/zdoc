@@ -2,7 +2,7 @@
 title: "Create EKS IAM Role | BYOC"
 slug: /create-eks-role
 sidebar_label: "Create EKS IAM Role"
-beta: FALSE
+beta: CONTACT SALES
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE

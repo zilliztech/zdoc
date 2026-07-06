@@ -203,7 +203,7 @@ Zilliz Cloud uses a compute-storage disaggregated architecture with three data t
 
 - In extreme failover scenarios, data loss < 10 seconds
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="Notes:">
 
 **The roadmap for 2026:** Achieve **RPO = 0** with cross-region Woodpecker
 

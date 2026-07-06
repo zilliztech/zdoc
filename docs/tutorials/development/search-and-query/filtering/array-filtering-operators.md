@@ -40,6 +40,14 @@ The ARRAY operators allow for fine-grained querying of array fields in Zilliz Cl
 
 - [`ARRAY_LENGTH(identifier)`](./array-filtering-operators#arraylength): returns the number of elements in an array field and can be combined with comparison operators for filtering.
 
+<Admonition type="info" icon="📘" title="Notes">
+
+The `identifier` can either be the name of a flat array field or that of a StructArray subfield as in `struct[subfield]`.
+
+For details on scalar filtering in a StructArray field, refer to [StructArray Operators](./struct-array-filtering).
+
+</Admonition>
+
 ## ARRAY_CONTAINS\{#arraycontains}
 
 The `ARRAY_CONTAINS` operator checks if a specific element exists in an array field. It’s useful when you want to find entities where a given element is present in the array.

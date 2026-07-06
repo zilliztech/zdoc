@@ -43,7 +43,7 @@ Ensure:
 
     - [Deploy BYOC-I on Microsoft Azure](./deploy-byoc-i-azure)
 
-- Ownership of the organization or project where the cluster is to be established. For details on roles and permissions, see Access Control.
+- Ownership of the organization or project where the cluster is to be established. For details on roles and permissions, see [Access Control Explained](./access-control-overview).
 
 ## Create a cluster\{#create-a-cluster}
 

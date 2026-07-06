@@ -80,7 +80,7 @@ Use a Zilliz Cloud model-based embedding function that automatically handles vec
 
 - **During search**: The same embedding function converts your query text into a vector and searches against the vector index to return top K documents based on vector similarity
 
-This approach is used in all examples throughout this document. For more information, see Model-based Embedding Functions.
+This approach is used in all examples throughout this document. For more information, see [Function Overview](./function-and-model-inference-overview).
 
 **Option 2: External embedding model**
 

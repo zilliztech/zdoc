@@ -20,15 +20,21 @@ import Admonition from '@theme/Admonition';
 
 # Global Cluster Explained
 
+<FeatureNote variant="plan" titleHref="/docs/select-zilliz-cloud-service-plans">
+
+This feature is available only on Business Critical (SaaS) and BYOC deployments.
+
+</FeatureNote>
+
+<FeatureNote variant="region" titleHref="/docs/cloud-providers-and-regions">
+
+This feature is available in all AWS regions and in the following Google Cloud regions: gcp-us-central1 and gcp-us-east4. It is not available on Microsoft Azure.
+
+</FeatureNote>
+
 Zilliz Cloud **global cluster** lets you deploy a primary cluster and multiple read-only secondary clusters across multiple regions on the same cloud provider. 
 
 This feature is designed for globally distributed, mission-critical applications and helps you achieve resilience against regional outage and low-latency local reads for users around the world.
-
-<Admonition type="info" icon="📘" title="Notes">
-
-This feature is available only to **Dedicated** clusters in a **Business Critical** project.
-
-</Admonition>
 
 ## Overview\{#overview}
 

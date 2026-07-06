@@ -9,8 +9,8 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "This guide provides instructions on how to view, download, and track invoices for your Zilliz Cloud organization. | Cloud"
 type: origin
-token: DRJmwIMnbiuWz1kXPbsc6O3wnDg
-sidebar_position: 6
+token: A3YdwRQwoiDLfkkPbwOcEOr3nLe
+sidebar_position: 7
 displayed_sidebar: default
 
 ---
@@ -27,7 +27,7 @@ This guide provides instructions on how to view, download, and track invoices fo
 
 Depending on your payment method, invoices may be issued by Zilliz Cloud or by the cloud marketplace where you subscribed.
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" icon="📘" title="📘 Note">
 
 To manage invoices, you must be an **Organization Owner** or **Organization Billing Admin**.
 
@@ -52,12 +52,6 @@ To manage invoices, you must be an **Organization Owner** or **Organization Bill
 </TabItem>
 
 <TabItem value="Bash">
-
-<Admonition type="info" icon="📘" title="Notes">
-
-The List Invoices RESTful API is currently in public preview. To use this API, please [contact us](http://support.zilliz.com).
-
-</Admonition>
 
 Your request should resemble the following example, where `{TOKEN}` is your authentication API key with an [Organization Owner or Billing Admin role](./organization-users#invite-a-user-to-your-organization). The following `GET` request lists all invoices for your organization.
 
@@ -128,12 +122,6 @@ In the results returned by the API, all amounts are in cents.
 </TabItem>
 
 <TabItem value="Bash">
-
-<Admonition type="info" icon="📘" title="Notes">
-
-The Describe Invoice RESTful API is currently in public preview. To use this API, please [contact us](http://support.zilliz.com).
-
-</Admonition>
 
 Your request should resemble the following example, where `{TOKEN}` is your authentication API key with an [Organization Owner or Billing Admin role](./organization-users#invite-a-user-to-your-organization). The following `GET` request describes the specified invoice.
 

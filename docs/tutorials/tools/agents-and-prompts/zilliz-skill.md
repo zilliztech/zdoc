@@ -1,6 +1,6 @@
 ---
 title: "Zilliz Skill | Cloud"
-slug: /agents/zilliz-skill
+slug: /zilliz-skill
 sidebar_label: "Zilliz Skill"
 beta: FALSE
 added_since: FALSE
@@ -20,7 +20,7 @@ keywords:
   - gemini cli
   - qwen code
   - zilliz cli
-displayed_sidebar: agentsSidebar
+displayed_sidebar: default
 
 ---
 

@@ -133,7 +133,7 @@ Once a cluster role is created, you can grant it to users. Navigate to the Users
 
 ## Revoke a role from a user\{#revoke-a-role-from-a-user}
 
-When a cluster role is no longer fit for a user, you can revoke the role. Navigate to the Users tab, find the target user, and click [edit role](./cluster-users#edit-the-role-or-desrciption-of-a-cluster-user). Select a different role in the dialog box.
+When a cluster role is no longer fit for a user, you can revoke the role. Navigate to the Users tab, find the target user, and click [edit role](./cluster-users#edit-the-role-or-desrciption-of-a-cluster-user). Select a different role in the dialog box. 
 
 ![revoke-role-from-user](https://zdoc-images.s3.us-west-2.amazonaws.com/revoke-role-from-user.png "revoke-role-from-user")
 
@@ -150,3 +150,4 @@ When a role is no longer necessary, you can delete a custom cluster role.
 Roles that have been granted to users cannot be delete. You need to first identify the users who are granted the target role, and then assign them a different role. 
 
 ![delete-cluster-role](https://zdoc-images.s3.us-west-2.amazonaws.com/delete-cluster-role.png "delete-cluster-role")
+

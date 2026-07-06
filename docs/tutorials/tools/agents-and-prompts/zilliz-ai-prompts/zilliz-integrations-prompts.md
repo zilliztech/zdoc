@@ -1,6 +1,6 @@
 ---
 title: "Integrations | Cloud"
-slug: /agents/zilliz-integrations-prompts
+slug: /zilliz-integrations-prompts
 sidebar_label: "Integrations"
 beta: FALSE
 added_since: FALSE
@@ -18,7 +18,7 @@ keywords:
   - decision matrix
   - prompts
   - integrations
-displayed_sidebar: agentsSidebar
+displayed_sidebar: default
 
 ---
 

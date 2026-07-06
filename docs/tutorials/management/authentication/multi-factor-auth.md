@@ -30,7 +30,7 @@ With MFA enabled, you must provide two factors at login:
 
 - A TOTP (time-based one-time password) from an authenticator app (Eg. Google Authenticator, Microsoft Authenticator, etc.)
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="📘 Notes">
 
 Zilliz Cloud has upgraded MFA for enhanced account security. Starting **November 25, 2025**, email-based MFA is deprecated. Users who previously used email-based MFA must switch to a TOTP authenticator app.
 
@@ -54,7 +54,7 @@ The following demo shows how to enable MFA for your own account. The demo uses M
 
 ## Disable MFA\{#disable-mfa}
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="📘 Notes">
 
 If your organization has [MFA enforcement](./multi-factor-auth#enforce-mfa-for-all-organization-users) enabled, you cannot disable MFA for your account.
 
@@ -66,7 +66,7 @@ The following demo shows how to disable MFA for your own account.
 
 ## Enforce MFA for all organization users\{#enforce-mfa-for-all-organization-users}
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="📘 Notes">
 
 You must be an Organization Owner to access this feature.
 
@@ -88,7 +88,7 @@ The following demo shows how to enforce MFA for an organization.
 
 ## Disable MFA enforcement for organization\{#disable-mfa-enforcement-for-organization}
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="📘 Notes">
 
 You must be an Organization Owner to access this feature.
 

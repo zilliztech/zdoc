@@ -2,7 +2,7 @@
 title: "Hybrid Search with StructArray | BYOC"
 slug: /hybrid-search-with-struct-array
 sidebar_label: "Hybrid Search"
-beta: FALSE
+beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
@@ -33,9 +33,9 @@ This page uses the `tech_articles` collection from [Create a StructArray Field](
 | Multiple element-level subfields under the same StructArray field | Element level | Final candidates are keyed by primary key plus Struct element offset. | Do not use. |
 | Element-level subfields under different StructArray fields | Entity level | Element offsets do not share identity, so each StructArray element-level `AnnSearchRequest` is collapsed before reranking. | Optional collapse config on each StructArray element-level `AnnSearchRequest`. |
 
-<Admonition type="info" icon="📘" title="Warning">
+<Admonition type="warning" icon="🚧" title="Warning">
 
-Use `element_scope` only to configure collapse for StructArray element-level `AnnSearchRequest` objects in non same-struct element-level hybrid search. Do not use it for EmbeddingList requests, collection-level vector requests, or same-StructArray element-level hybrid search.
+Use `element_scope` only to configure collapse for StructArray element-level `AnnSearchRequest` objects in a non-same-struct element-level hybrid search. Do not use it for EmbeddingList requests, collection-level vector requests, or same-StructArray element-level hybrid search.
 
 </Admonition>
 
@@ -74,20 +74,12 @@ query_list.add([0.18, 0.23, 0.29, 0.36])
 title_req = AnnSearchRequest(
     data=[query_vector],
     anns_field="title_vector",
-    param={
-        "metric_type": "COSINE",
-        "params": {},
-    },
     limit=10,
 )
 
 chunk_list_req = AnnSearchRequest(
     data=[query_list],
     anns_field="chunks[emb_list_vector]",
-    param={
-        "metric_type": "MAX_SIM_COSINE",
-        "params": {},
-    },
     limit=10,
 )
 
@@ -118,10 +110,6 @@ The following example assumes the `chunks` StructArray field has two element-lev
 index_chunk_req = AnnSearchRequest(
     data=[query_vector],
     anns_field="chunks[emb]",
-    param={
-        "metric_type": "COSINE",
-        "params": {},
-    },
     limit=10,
     expr='element_filter(chunks, $[section] == "index")',
 )
@@ -129,10 +117,6 @@ index_chunk_req = AnnSearchRequest(
 code_chunk_req = AnnSearchRequest(
     data=[code_query_vector],
     anns_field="chunks[code_emb]",
-    param={
-        "metric_type": "COSINE",
-        "params": {},
-    },
     limit=10,
     expr='element_filter(chunks, $[has_code] == true)',
 )
@@ -173,10 +157,6 @@ Use `element_scope` inside the `params` of the StructArray element-level `AnnSea
 title_req = AnnSearchRequest(
     data=[query_vector],
     anns_field="title_vector",
-    param={
-        "metric_type": "COSINE",
-        "params": {},
-    },
     limit=10,
 )
 
@@ -184,7 +164,6 @@ chunk_req = AnnSearchRequest(
     data=[query_vector],
     anns_field="chunks[emb]",
     param={
-        "metric_type": "COSINE",
         "params": {
             "element_scope": {
                 "collapse": {

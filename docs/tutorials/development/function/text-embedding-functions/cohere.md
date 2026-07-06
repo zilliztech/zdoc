@@ -10,7 +10,7 @@ notebook: FALSE
 description: "This topic describes how to configure and use Cohere embedding functions in Milvus. | Cloud"
 type: origin
 token: WVaVw8J7UiYZ52kaqVUcktqAnAf
-sidebar_position: 4
+sidebar_position: 3
 displayed_sidebar: default
 
 ---

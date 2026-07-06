@@ -192,11 +192,11 @@ All the properties listed in this section apply only to managed collections.
    </tr>
    <tr>
      <td><p><code>ttl_field</code></p></td>
-     <td><p>Name of the <code>TIMESTAMPTZ</code> field that stores each entity's absolute expiration timestamp (<strong>entity-level TTL</strong>). Each entity expires exactly when wall-clock time reaches the value stored in this field; a <code>NULL</code> in the field means the entity never expires. Mutually exclusive with <code>collection.ttl.seconds</code>.</p><p>For details, refer to <a href="./set-collection-ttl#set-entity-level-ttl-or-private">Set entity-level TTL</a>.</p></td>
+     <td><p>Name of the <code>TIMESTAMPTZ</code> field that stores each entity's absolute expiration timestamp (<strong>entity-level TTL</strong>). Each entity expires exactly when wall-clock time reaches the value stored in this field; a <code>NULL</code> in the field means the entity never expires. Mutually exclusive with <code>collection.ttl.seconds</code>.</p><p>For details, refer to <a href="./set-collection-ttl#set-entity-level-ttl-or-ondemand">Set entity-level TTL</a>.</p></td>
    </tr>
    <tr>
      <td><p><code>mmap.enabled</code></p></td>
-     <td><p>Memory mapping (Mmap) enables direct memory access to large files on disk, allowing Zilliz Cloud to store indexes and data in both memory and hard drives. This approach helps optimize data placement policy based on access frequency, expanding storage capacity for collections without impacting search performance.</p><p>Zilliz Cloud implements <a href="./use-mmap#global-mmap-strategy">global mmap settings</a> for your clusters. You can change the settings on a specific field or its index.</p><p>For details, refer to Use mmap.</p></td>
+     <td><p>Memory mapping (Mmap) enables direct memory access to large files on disk, allowing Zilliz Cloud to store indexes and data in both memory and hard drives. This approach helps optimize data placement policy based on access frequency, expanding storage capacity for collections without impacting search performance.</p><p>Zilliz Cloud implements <a href="./use-mmap#global-mmap-strategy">global mmap settings</a> for your clusters. You can change the settings on a specific field or its index.</p><p>For details, refer to <a href="./use-mmap">Use mmap</a>.</p></td>
    </tr>
    <tr>
      <td><p><code>partitionkey.isolation</code></p></td>

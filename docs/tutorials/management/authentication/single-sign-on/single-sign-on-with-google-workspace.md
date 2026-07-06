@@ -183,7 +183,7 @@ If you encounter any issues during the setup or testing process, contact [Zilliz
 
 After your SSO connection is fully configured and tested, you can optionally enable **SSO enforcement** to require all organization members to log in exclusively through SSO. When enabled, members can no longer sign in using email/password or third-party accounts (Google, GitHub).
 
-<Admonition type="danger" icon="🚧" title="Warning">
+<Admonition type="warning" icon="🚧" title="Warning">
 
 Enabling this feature will immediately log out all members who are currently signed in with a password and block non-SSO login methods.
 

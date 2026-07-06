@@ -2,7 +2,7 @@
 title: "Deploy BYOC on AWS | BYOC"
 slug: /deploy-byoc-aws
 sidebar_label: "Deploy BYOC on AWS"
-beta: FALSE
+beta: CONTACT SALES
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
@@ -102,28 +102,28 @@ Set **Zilliz BYOC Project Name**, and click **Create and Next**.The project is c
            <tr>
              <td><p>Small</p></td>
              <td><p>3 clusters with 8 to 16 CUs</p></td>
-             <td><p>20 Million - 40 Million</p></td>
+             <td><p>16 Million - 32 Million</p></td>
              <td><p>64 Million - 128 Million</p></td>
              <td><p>320 Million - 640 Million</p></td>
            </tr>
            <tr>
              <td><p>Medium</p></td>
              <td><p>7 clusters with 16 to 64 CUs</p></td>
-             <td><p>40 Million - 160 Million</p></td>
+             <td><p>32 Million - 128 Million</p></td>
              <td><p>128 Million - 512 Million</p></td>
              <td><p>640 Million - 2.6 Billion</p></td>
            </tr>
            <tr>
              <td><p>Large</p></td>
              <td><p>12 clusters with 64 to 192 CUs</p></td>
-             <td><p>160 Million - 480 Million</p></td>
+             <td><p>128 Million - 384 Million</p></td>
              <td><p>512 Million - 1.5 Billion</p></td>
              <td><p>2.6 Billion - 7.7 Billion</p></td>
            </tr>
            <tr>
              <td><p>X-Large</p></td>
              <td><p>17 clusters with 192 to 576 CUs</p></td>
-             <td><p>480 Million - 1.44 Billion</p></td>
+             <td><p>384 Million - 1.2 Billion</p></td>
              <td><p>1.5 Billion -  4.6 Billion</p></td>
              <td><p>7.7 Billion - 23 Billion</p></td>
            </tr>

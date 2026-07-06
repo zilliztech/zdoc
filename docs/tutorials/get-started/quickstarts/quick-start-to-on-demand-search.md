@@ -2,7 +2,7 @@
 title: "Quickstart to On-Demand Search | Cloud"
 slug: /quick-start-to-on-demand-search
 sidebar_label: "Quickstart to On-Demand Search"
-beta: FALSE
+beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE

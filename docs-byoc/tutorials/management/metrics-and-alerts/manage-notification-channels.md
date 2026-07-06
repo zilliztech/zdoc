@@ -44,7 +44,7 @@ To set up email notifications,
 
 1. To modify an existing alert, select **Edit** from the **Actions** column next to the desired alert target. To create a new alert, click **+ Alert** in the upper-right corner.
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" icon="📘" title="📘 Notes">
 
     For organization alerts, you can only edit existing alert targets; creating new ones is not supported. For more information, refer to [Manage Organization Alerts](./manage-organization-alerts).
 
@@ -74,7 +74,7 @@ To integrate with a PagerDuty service,
 
     1. To modify an existing alert, select **Edit** from the **Actions** column next to the desired alert target. To create a new alert, click **+ Alert** in the upper-right corner.
 
-        <Admonition type="info" icon="📘" title="Notes">
+        <Admonition type="info" icon="📘" title="📘 Notes">
 
         For organization alerts, you can only edit existing alert targets; creating new ones is not supported. For more information, refer to [Manage Organization Alerts](./manage-organization-alerts).
 
@@ -104,7 +104,7 @@ To set up Slack integration,
 
     1. To modify an existing alert, select **Edit** from the **Actions** column next to the desired alert target. To create a new alert, click **+ Alert** in the upper-right corner.
 
-        <Admonition type="info" icon="📘" title="Notes">
+        <Admonition type="info" icon="📘" title="📘 Notes">
 
         For organization alerts, you can only edit existing alert targets; creating new ones is not supported. For more information, refer to [Manage Organization Alerts](./manage-organization-alerts).
 
@@ -140,7 +140,7 @@ To set up Opsgenie integration,
 
     1. To modify an existing alert, select **Edit** from the **Actions** column next to the desired alert target. To create a new alert, click **+ Alert** in the upper-right corner.
 
-        <Admonition type="info" icon="📘" title="Notes">
+        <Admonition type="info" icon="📘" title="📘 Notes">
 
         For organization alerts, you can only edit existing alert targets; creating new ones is not supported. For more information, refer to [Manage Organization Alerts](./manage-organization-alerts).
 
@@ -168,7 +168,7 @@ To set up Lark integration,
 
     1. To modify an existing alert, select **Edit** from the **Actions** column next to the desired alert target. To create a new alert, click **+ Alert** in the upper-right corner.
 
-        <Admonition type="info" icon="📘" title="Notes">
+        <Admonition type="info" icon="📘" title="📘 Notes">
 
         For organization alerts, you can only edit existing alert targets; creating new ones is not supported. For more information, refer to [Manage Organization Alerts](./manage-organization-alerts).
 
@@ -196,7 +196,7 @@ The **Webhook** option offered by Zilliz Cloud allows you to set up a custom not
 
     1. To modify an existing alert, select **Edit** from the **Actions** column next to the desired alert target. To create a new alert, click **+ Alert** in the upper-right corner.
 
-        <Admonition type="info" icon="📘" title="Notes">
+        <Admonition type="info" icon="📘" title="📘 Notes">
 
         For organization alerts, you can only edit existing alert targets; creating new ones is not supported. For more information, refer to [Manage Organization Alerts](./manage-organization-alerts).
 
@@ -230,7 +230,7 @@ To set up WeCom alert notifications, follow these steps:
 
 1. Create a group bot in your WeCom group. For detailed instructions, refer to [Group bot creation](https://open.work.weixin.qq.com/help2/pc/14931?person_id=1&searchData=#%E4%BA%8C%E3%80%81%E7%BE%A4%E6%9C%BA%E5%99%A8%E4%BA%BA%E6%B7%BB%E5%8A%A0%E5%85%A5%E5%8F%A3). 
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" icon="📘" title="📘 Notes">
 
     Due to WeCom settings, some groups may not be able to add group bots.
 
@@ -244,7 +244,7 @@ To set up WeCom alert notifications, follow these steps:
 
     1. To modify an existing alert, select **Edit** from the **Actions** column next to the desired alert target. To create a new alert, click **+ Alert** in the upper-right corner.
 
-        <Admonition type="info" icon="📘" title="Notes">
+        <Admonition type="info" icon="📘" title="📘 Notes">
 
         For organization alerts, you can only edit existing alert targets; creating new ones is not supported. For more information, refer to [Manage Organization Alerts](./manage-organization-alerts).
 
@@ -284,7 +284,7 @@ To set up DingTalk alert notifications, follow these steps:
 
     1. To modify an existing alert, select **Edit** from the **Actions** column next to the desired alert target. To create a new alert, click **+ Alert** in the upper-right corner.
 
-        <Admonition type="info" icon="📘" title="Notes">
+        <Admonition type="info" icon="📘" title="📘 Notes">
 
         For organization alerts, you can only edit existing alert targets; creating new ones is not supported. For more information, refer to [Manage Organization Alerts](./manage-organization-alerts).
 

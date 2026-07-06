@@ -1,6 +1,6 @@
 ---
 title: "Import | Cloud"
-slug: /agents/zilliz-import-prompts
+slug: /zilliz-import-prompts
 sidebar_label: "Import"
 beta: FALSE
 added_since: FALSE
@@ -18,7 +18,7 @@ keywords:
   - decision matrix
   - prompts
   - data import
-displayed_sidebar: agentsSidebar
+displayed_sidebar: default
 
 ---
 

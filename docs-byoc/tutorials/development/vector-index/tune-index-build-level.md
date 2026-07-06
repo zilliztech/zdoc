@@ -104,9 +104,9 @@ Zilliz Cloud allows you to set `build_level` either programmatically or on the Z
 
 ### Set build_level programmatically\{#set-buildlevel-programmatically}
 
-To set `build_level`, you need to do it when you index a vector field of floating types, such as **FLOAT_VECTOR**, **FLOAT16_VECTOR**, and **BFLOAT16_VECTOR**.
+To set `build_level`, you need to do it when you [index a vector field](./autoindex-explained) of floating types, such as **FLOAT_VECTOR**, **FLOAT16_VECTOR**, and **BFLOAT16_VECTOR**.
 
-The following example assumes that you have finished the steps in Preparations. Setting `build_level` to `1` indicates that the **Balanced** option applies.
+The following example assumes that you have already created a collection. Setting `build_level` to `1` indicates that the **Balanced** option applies.
 
 ```python
 # 4. Set up index

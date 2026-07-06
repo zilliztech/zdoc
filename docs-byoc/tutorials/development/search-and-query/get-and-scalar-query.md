@@ -72,7 +72,7 @@ A Collection can store various types of scalar fields. You can have Zilliz Cloud
    </tr>
 </table>
 
-For more on metadata filtering, refer to [Filtering](./undefined)[Filtering Explained](./filtering-overview).
+For more on metadata filtering, refer to [Filtering Explained](./filtering-overview)[Filtering Explained](./filtering-overview).
 
 ## Use Get\{#use-get}
 
@@ -400,7 +400,7 @@ if (!status.IsOk()) {
 }
 ```
 
-### Sort Query Results | PRIVATE\{#sort-query-results}
+### Sort Query Results | ONDEMAND\{#sort-query-results}
 
 By default, Query returns results in an unspecified order. Use the `order_by` parameter to sort results by one or more scalar fields. When using `order_by`, note that:
 
@@ -734,7 +734,7 @@ console.log(page2.data);
 </TabItem>
 </Tabs>
 
-### Aggregate Query Results | PRIVATE\{#aggregate-query-results}
+### Aggregate Query Results | ONDEMAND\{#aggregate-query-results}
 
 You can group query results by one or more scalar fields and compute aggregations per group. The supported aggregation operators are `count`, `min`, `max`, `sum`, and `avg`.
 

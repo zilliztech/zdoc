@@ -2,7 +2,7 @@
 title: "Prepare for Cluster Connection | BYOC"
 slug: /prepare-for-cluster-connection
 sidebar_label: "Prepare for Cluster Connection"
-beta: FALSE
+beta: CONTACT SALES
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
@@ -95,7 +95,7 @@ The diagram above illustrates the traffic flow from your client application to B
 
 1. On the **Cluster Details** page, locate the **Connect** card.
 
-1. Copy the **Cluster Endpoint** — it is in the format `<i>http</i>s://${cluster-id}-internal.${region}.byoc.vectordb.zillizcloud.com:19530`.
+1. Copy the **Cluster Endpoint** — it is in the format `https://${cluster-id}-internal.${region}.byoc.vectordb.zillizcloud.com:19530`.
 
     <Admonition type="info" icon="📘" title="Notes">
 
@@ -107,7 +107,7 @@ The diagram above illustrates the traffic flow from your client application to B
 
 ### Step 2: Connect to the cluster\{#step-2-connect-to-the-cluster}
 
-Then you can connect the cluster with the copied cluster endpoint and credentials. For details, refer to Connect to Cluster.
+Then you can connect the cluster with the copied cluster endpoint and credentials. For details, refer to [Connect to Clusters](./connect-to-clusters).
 
 ## Private endpoint access\{#private-endpoint-access}
 
@@ -467,7 +467,7 @@ resource "aws_route53_zone_association" "additional_vpc" {
 
 ### Step 4: Connect to the cluster\{#step-4-connect-to-the-cluster}
 
-Then you can connect the cluster with the copied cluster endpoint and credentials. For details, refer to Connect to Cluster.
+Then you can connect the cluster with the copied cluster endpoint and credentials. For details, refer to [Connect to Clusters](./connect-to-clusters).
 
 ## Troubshootings\{#troubshootings}
 

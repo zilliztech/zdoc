@@ -9,7 +9,7 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "As data scales and query volumes rise, cost control becomes critical. This guide systematically outlines cost optimization strategies for Zilliz Cloud across five dimensions deployment selection, index tuning, elastic scaling, discounts, and billing analysis. | Cloud"
 type: origin
-token: SqTUwWPAxit4MMkJeC6c1bvgnhf
+token: MYHwwhKtri4MMJku6BbcMjF4n1d
 sidebar_position: 3
 displayed_sidebar: default
 
@@ -28,11 +28,11 @@ Before optimizing, identify where your costs originate. Zilliz Cloud fees consis
 
 | Item | Description | Optimizable? |
 | --- | --- | --- |
-| [Compute (CU)](https://zilliverse.feishu.cn/wiki/J2prwh2KLis9oqkqNIAcU1d6nsd) | Hourly billing for Dedicated clusters based on Compute Units. | Selection + Scaling |
-| [Read/Write Operations](https://zilliverse.feishu.cn/wiki/Uk0Nw1ZdbiOEBtkAOKacLTf8nGe) | Pay-per-use billing for Serverless clusters. | Query Optimization |
-| [Storage](https://zilliverse.feishu.cn/wiki/PNj2w5fY9ifr82kbX8ucKgXAn0r) | Data and backup storage (regardless of cluster status). | Build Level + Data Cleanup |
-| [Data Transfer](https://zilliverse.feishu.cn/wiki/BClgwKlHaiushBkPPssclTkYnef) | Ingress, egress, and cross-region transfer. | Architecture Planning |
-| [Audit Logs](https://zilliverse.feishu.cn/wiki/GBfswoqhviHfTVk2qhHc4eGXnfh) | Resource consumption for audit logging. | Enable as needed |
+| [Compute (CU)](./dedicated-cluster-cost) | Hourly billing for Dedicated clusters based on Compute Units. | Selection + Scaling |
+| [Read/Write Operations](./serverless-cluster-cost) | Pay-per-use billing for Serverless clusters. | Query Optimization |
+| [Storage](./storage-cost) | Data and backup storage (regardless of cluster status). | Build Level + Data Cleanup |
+| [Data Transfer](./data-transfer-cost) | Ingress, egress, and cross-region transfer. | Architecture Planning |
+| [Audit Logs](./audit-log-cost) | Resource consumption for audit logging. | Enable as needed |
 
 For most users, over 70% of costs come from **Compute**, which also offers the greatest optimization potential.
 
@@ -276,7 +276,7 @@ Set a minimum and maximum CU value, and the system scales automatically based on
 
 **Typical scenario:** An e-commerce search service that needs 32 CU at daytime peak but only 8 CU overnight. Set min=8, max=32 in the dynamic scaling configuration, and the system automatically scales down to 8 CU during off-peak hours. Assuming 10 off-peak hours per day, monthly compute costs can be reduced by approximately 30–40%.
 
-For details, see [Dynamic Scaling](./scale-query-cu#dynamic-scaling).
+For details, see [Dynamic Scaling](./undefined#dynamic-scaling).
 
 ### Scheduled scaling\{#scheduled-scaling}
 
@@ -290,13 +290,13 @@ Suited for workloads with predictable traffic patterns. Supports Basic mode (sim
 
 - Pre-scale for end-of-month promotional periods
 
-For details, see [Scheduled Scaling](./scale-query-cu#scheduled-scaling).
+For details, see [Scheduled Scaling](./undefined#scheduled-scaling).
 
 ### Manual scaling\{#manual-scaling}
 
 Do not overlook the simplest option — when your workload enters a quiet period (e.g., between projects or during off-season), proactively reduce your CU configuration. Many users forget to scale down after a PoC and end up paying for weeks or even months of unnecessary capacity.
 
-For details, see [Manual Scaling](./scale-query-cu#manual-scaling).
+For details, see [Manual Scaling](./undefined#manual-scaling).
 
 ### Scaling constraints\{#scaling-constraints}
 
@@ -357,7 +357,7 @@ On the **Billing > Usage** page, you can break down your bill across five dimens
 
 Multiple dimensions can be combined as filters. For example, selecting CU costs for a specific project over the last 7 days gives you a precise view of that business line's compute cost trend.
 
-For details, see Analyze Cost.
+For details, see [Analyze Cost](./analyze-cost).
 
 ### RESTful API\{#restful-api}
 

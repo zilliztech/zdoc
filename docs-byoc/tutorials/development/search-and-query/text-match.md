@@ -37,7 +37,7 @@ Zilliz Cloud integrates [Tantivy](https://github.com/quickwit-oss/tantivy) to po
 
 1. [Analyzer](./analyzer-overview): The analyzer processes input text by tokenizing it into individual words, or tokens, and then applying filters as needed. This allows Zilliz Cloud to build an index based on these tokens.
 
-1. Indexing: After text analysis, Zilliz Cloud creates an inverted index that maps each unique token to the documents containing it.
+1. [Indexing](./indexes): After text analysis, Zilliz Cloud creates an inverted index that maps each unique token to the documents containing it.
 
 When a user performs a text match, the inverted index is used to quickly retrieve all documents containing the terms. This is much faster than scanning through each document individually.
 

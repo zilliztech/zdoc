@@ -80,9 +80,39 @@ curl --request POST \
         "targetProjectId": "proj-20e13e974c7d659a83xxxx",
         "clusterName": "Dedicated-01-backup",
         "cuSize": 1,
-        "collectionStatus": "KEEP"
+        "collectionStatus": "KEEP",
+        "restoreVersionPolicy": "ORIGINAL"
       }'
 ```
+
+The following table explains the parameters.
+
+<table>
+   <tr>
+     <th><p><strong>Parameter</strong></p></th>
+     <th><p><strong>Description</strong></p></th>
+   </tr>
+   <tr>
+     <td><p><code>targetProjectId</code></p></td>
+     <td><p>ID of the target project where the restored cluster will be created.</p></td>
+   </tr>
+   <tr>
+     <td><p><code>clusterName</code></p></td>
+     <td><p>Name of the restored cluster.</p></td>
+   </tr>
+   <tr>
+     <td><p><code>cuSize</code></p></td>
+     <td><p>Query CU size of the restored cluster.</p></td>
+   </tr>
+   <tr>
+     <td><p><code>collectionStatus</code></p></td>
+     <td><p>Whether to keep the collection load status after restore. Available options include:</p><ul><li><p><code>KEEP</code>: keeps the original collection status.</p></li><li><p><code>RELEASE</code>: releases all collections</p></li></ul></td>
+   </tr>
+   <tr>
+     <td><p><code>restoreVersionPolicy</code></p></td>
+     <td><p>The compatible Milvus version of the restored cluster. Available options include:</p><ul><li><p><code>ORIGINAL</code>: restores the cluster to its original compatible Milvus version.</p></li><li><p><code>LATEST</code>: restores the cluster to the latest GA Milvus version available.</p></li></ul></td>
+   </tr>
+</table>
 
 The following is an example output. A restore job is generated and you can check the progress in the [project job center](./job-center).
 

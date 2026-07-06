@@ -48,7 +48,7 @@ You can add an IPv4 address (eg. `192.168.0.0`) or a CIDR block (`192.168.0.0/24
 
 It is recommended to add your current IP and frequently used IPs to avoid lockouts. 
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="📘 Notes">
 
 `0.0.0.0/0` allows access from any IPs.
 
@@ -72,7 +72,7 @@ The following demo shows how to view IP addresses in the allowlist.
 
 You can remove an IP or CIDR  entry to deny console access from that source. If you delete all entries, the console becomes accessible from any IP.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="📘 Notes">
 
 Updates to the console IP allowlist take effect within 30 seconds.
 

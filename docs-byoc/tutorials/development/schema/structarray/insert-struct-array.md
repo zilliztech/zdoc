@@ -2,7 +2,7 @@
 title: "Insert Data into StructArray Fields | BYOC"
 slug: /insert-struct-array
 sidebar_label: "Insert Data into StructArray Fields"
-beta: FALSE
+beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
@@ -202,7 +202,7 @@ client.insert(
 
 When a nullable StructArray field contains a valid StructArray value, all subfields in that value should either be null or have valid values. Inserting an entity with some subfields set to null and others set to valid values results in an error.
 
-<Admonition type="info" icon="📘" title="Warning">
+<Admonition type="warning" icon="🚧" title="Warning">
 
 Nullable StructArray fields are available only in clusters compatible with Milvus v3.0.x. If you dynamically add a StructArray field to an existing collection, the added field must be nullable, and existing entities return `null` for the new field across all its subfields.
 

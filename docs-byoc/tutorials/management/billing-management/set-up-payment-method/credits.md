@@ -9,7 +9,7 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "Credits can be used to cover Zilliz Cloud usage charges. You may receive credits when you register for Zilliz Cloud with a work email, participate in eligible Zilliz Cloud programs or events, or receive credits from Zilliz for a proof of concept (PoC). | BYOC"
 type: origin
-token: XDs8wYvLEi1Bz5kyGxVckBMInxc
+token: YWhwwvlxOiGk9gkTm0Pc2w00npe
 sidebar_position: 1
 displayed_sidebar: default
 
@@ -18,13 +18,13 @@ displayed_sidebar: default
 import Admonition from '@theme/Admonition';
 
 
+import Procedures from '@site/src/components/Procedures';
+
 # Credits
 
 Credits can be used to cover Zilliz Cloud usage charges. You may receive credits when you register for Zilliz Cloud with a work email, participate in eligible Zilliz Cloud programs or events, or receive credits from Zilliz for a proof of concept (PoC).
 
-Credits help you try Zilliz Cloud or run evaluation workloads before setting up a long-term payment method.
-
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" icon="📘" title="📘 Note">
 
 To manage credits and payment method, you must be an **Organization Owner** or **Organization Billing Admin**.
 
@@ -40,7 +40,7 @@ If multiple payment methods or balances are available, Zilliz Cloud applies them
 
 1. Advance Pay balance
 
-1. Marketplace subscription
+1. Credit card or Marketplace subscription
 
 ## Credit validity\{#credit-validity}
 
@@ -66,11 +66,42 @@ However, credits are not a replacement for a long-term payment method. If your c
 
 To continue using Zilliz Cloud after credits are used, set up one of the following payment methods:
 
+- [Credit card](./subscribe-by-adding-credit-card)
+
 - [Advance Pay](./advance-pay)
 
-- [AWS Marketplace subscription](./subscribe-on-aws-marketplace-private-offer)
+- [AWS Marketplace subscription](./subscribe-on-aws-marketplace)
+
+- [Google Cloud Marketplace subscription](./subscribe-on-gcp-marketplace)
+
+- [Microsoft Marketplace subscription](./subscribe-on-azure-marketplace)
 
 ## Apply for credits\{#apply-for-credits}
 
 If you need more credits for PoC, please [contact sales](http://zilliz.com/contact-sales) or your account executive.
+
+## View credit balance\{#view-credit-balance}
+
+To view your credit balance:
+
+![FWMbwmjNKh6Qt3btRCyc4KKSnZf](https://zdoc-images.s3.us-west-2.amazonaws.com/FWMbwmjNKh6Qt3btRCyc4KKSnZf.png)
+
+<Procedures>
+
+1. Navigate to your organization on Zilliz Cloud .
+
+1. Go to **Billing**.
+
+1. Check the **Credits** section for your remaining balance.
+
+</Procedures>
+
+## Monitor credit alerts\{#monitor-credit-alerts}
+
+Zilliz Cloud provides billing alerts that help you monitor credits and payment health.
+
+| **Metric** | **Description** | **Recommended action** |
+| --- | --- | --- |
+| Credit Validity (days) | Number of days before free credits expire. | Use eligible credits before expiry or contact [Zilliz sales](http://zilliz.com/contact-sales) if you need to extend the credit expiration to fully complete your PoC. |
+| Remaining Credits ($) | Remaining credit balance. | Add or configure another payment method before credits run out. You can contact [Zilliz sales](http://zilliz.com/contact-sales) for more PoC credits. |
 

@@ -9,8 +9,8 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "This guide explains the payment methods available for Zilliz Cloud, how payment priority works, and what to consider when managing invoices and subscriptions. | Cloud"
 type: origin
-token: C0VRwRCs2iwEoUkgmq1cXCChnlh
-sidebar_position: 1
+token: Y6Qqw4a3XiWPlCkQYMqcLEORnAU
+sidebar_position: 2
 displayed_sidebar: default
 
 ---
@@ -22,7 +22,7 @@ import Admonition from '@theme/Admonition';
 
 This guide explains the payment methods available for Zilliz Cloud, how payment priority works, and what to consider when managing invoices and subscriptions.
 
-<Admonition type="info" icon="📘" title="Note">
+<Admonition type="info" icon="📘" title="📘 Note">
 
 To manage payment and billing settings, you must be an **Organization Owner** or **Organization Billing Admin**.
 
@@ -49,7 +49,7 @@ The following table explains the payment methods available on Zilliz Cloud and w
      <td colspan="2"><p>Credit card</p></td>
      <td><p>You are charged by credit card based on your Zilliz Cloud usage. Invoices are generated monthly.</p></td>
      <td><p>✅</p></td>
-     <td><p>❌</p></td>
+     <td><p>✅</p></td>
    </tr>
    <tr>
      <td colspan="2"><p>Advance Pay</p></td>
@@ -67,7 +67,7 @@ The following table explains the payment methods available on Zilliz Cloud and w
    <tr>
      <td><p>Public Offer</p></td>
      <td><p>✅</p></td>
-     <td><p>❌</p></td>
+     <td><p>✅</p></td>
    </tr>
    <tr>
      <td><p>Private Offer</p></td>
@@ -79,7 +79,7 @@ The following table explains the payment methods available on Zilliz Cloud and w
      <td><p>Public Offer</p></td>
      <td rowspan="2"><p>You receive invoices for Zilliz Cloud usage through Google Cloud Marketplace.</p></td>
      <td><p>✅</p></td>
-     <td><p>❌</p></td>
+     <td><p>✅</p></td>
    </tr>
    <tr>
      <td><p>Private Offer</p></td>
@@ -91,7 +91,7 @@ The following table explains the payment methods available on Zilliz Cloud and w
      <td><p>Public Offer</p></td>
      <td rowspan="2"><p>You receive invoices for Zilliz Cloud usage through Microsoft Marketplace.</p></td>
      <td><p>✅</p></td>
-     <td><p>❌</p></td>
+     <td><p>✅</p></td>
    </tr>
    <tr>
      <td><p>Private Offer</p></td>
@@ -176,7 +176,7 @@ Your organization’s billing status determines whether you can continue using p
 
     - Configure billing alerts to detect payment or usage risks early.
 
-If your organization is frozen or payment fails, update your payment method to restore access. For details, see [Failed Payments ](./failed-payments-organization-recovery)
+If your organization is frozen or payment fails, update your payment method to restore access. For details, see [Failed Payments ](./failed-payments-organization-recovery).
 
 ## Related topics\{#related-topics}
 

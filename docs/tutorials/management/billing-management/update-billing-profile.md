@@ -9,8 +9,8 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "The billing profile contains the organization and contact information used for billing, invoices, and tax records. Keep your billing profile up to date so invoices are issued with the correct company, address, and contact details. For details about a billing profile, refer to Understand Invoices. | Cloud"
 type: origin
-token: Lk7kwMmCxin65BkSkd6csubWncd
-sidebar_position: 4
+token: M6PLwhVqAipx7wkQNFscmuNPnWc
+sidebar_position: 5
 displayed_sidebar: default
 
 ---
@@ -32,7 +32,7 @@ To manage billing profile, you must be an **Organization Owner** or **Organizati
 
 ## Update billing profile\{#update-billing-profile}
 
-![KYajwzq36hJe8qb5HG8cEvQZndf](https://zdoc-images.s3.us-west-2.amazonaws.com/KYajwzq36hJe8qb5HG8cEvQZndf.png)
+![OyU3wocxShpyvAb18M6c7ymHnkF](https://zdoc-images.s3.us-west-2.amazonaws.com/OyU3wocxShpyvAb18M6c7ymHnkF.png)
 
 <Procedures>
 

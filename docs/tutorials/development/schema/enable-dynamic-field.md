@@ -514,7 +514,7 @@ To create a JSON path index, specify:
 
     - This type must match the actual data type of the field being indexed.
 
-    - For a complete list, refer to [Supported JSON cast types](./undefined).
+    - For a complete list, refer to [Supported JSON cast types](./json-field-overview).
 
 ### Use JSON path to index dynamic field keys\{#use-json-path-to-index-dynamic-field-keys}
 
@@ -898,7 +898,7 @@ string_price_index.AddExtraParam("json_cast_function", "STRING_TO_DOUBLE");
 
 - If type conversion fails (e.g. value `"not_a_number"` cannot be converted to a number), the value is skipped and unindexed.
 
-- For details on cast function parameters, refer to [JSON Field](./undefined).
+- For details on cast function parameters, refer to [JSON Field Overview](./json-field-overview).
 
 </Admonition>
 
@@ -1273,7 +1273,7 @@ To complete the workflow in a real-world application, you’ll also need to:
 
 - **Create an index on your vector field** (mandatory for each collection)  
 
-    Refer to Index Vector Fields
+    Refer to [AUTOINDEX Explained](./autoindex-explained) and its sibling pages
 
 - **Load the collection**
 

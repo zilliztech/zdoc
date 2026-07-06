@@ -2,7 +2,7 @@
 title: "Database for On-Demand Search | Cloud"
 slug: /on-demand-database
 sidebar_label: "Database for On-Demand Search"
-beta: FALSE
+beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
@@ -36,9 +36,9 @@ A database for on-demand search is a project-level database managed by Zilliz Cl
 
 Ensure that:
 
-- You have **Project Admin** access.
+- You have **Project Admin** access. For details about the roles and permissions, see [Manage Project Users](./project-users#project-role-and-access-comparison).
 
-- You have the project endpoint, for example `<i>http</i>s://{project-id}.{region}.api.zillizcloud.com`.
+- You have the project endpoint, for example `https://{project-id}.{region}.api.zillizcloud.com`.
 
 - You have an API key with access to the project.
 
@@ -103,7 +103,9 @@ To view databases in the Zilliz Cloud console, navigate to your project, click *
 
 ## Drop database\{#drop-database}
 
-<Admonition type="danger" icon="🚧" title="Once you drop a database, it is removed immediately and cannot be recovered. This action cannot be undone.">
+<Admonition type="danger" icon="🚧" title="Danger">
+
+Once you drop a database, it is removed immediately and cannot be recovered. This action cannot be undone.
 
 </Admonition>
 

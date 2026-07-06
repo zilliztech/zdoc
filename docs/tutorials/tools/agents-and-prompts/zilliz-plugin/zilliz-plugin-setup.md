@@ -1,6 +1,6 @@
 ---
 title: "Zilliz Claude Code Plugin Setup | Cloud"
-slug: /agents/zilliz-plugin-setup
+slug: /zilliz-plugin-setup
 sidebar_label: "Setup"
 beta: FALSE
 added_since: FALSE
@@ -20,7 +20,7 @@ keywords:
   - claude
   - zilliz cli
   - setup
-displayed_sidebar: agentsSidebar
+displayed_sidebar: default
 
 ---
 

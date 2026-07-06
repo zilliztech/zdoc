@@ -32,7 +32,7 @@ This page demonstrates how to connect to a Dedicated serving cluster. To connect
 
 | Cluster type | Endpoint pattern | Notes |
 | --- | --- | --- |
-| Dedicated | `<i>http</i>s://{cluster-id}.{region}.vectordb.zillizcloud.com:19530` | Dedicated clusters use the real-time serving endpoint with port `19530`. |
+| Dedicated | `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530` | Dedicated clusters use the real-time serving endpoint with port `19530`. |
 
 ## Before you begin\{#before-you-begin}
 

@@ -2,7 +2,7 @@
 title: "BYOC Overview | BYOC"
 slug: /byoc-intro
 sidebar_label: "BYOC Overview"
-beta: FALSE
+beta: CONTACT SALES
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE

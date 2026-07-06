@@ -30,7 +30,7 @@ To view cluster-wide metrics, navigate to your cluster in the [Zilliz Cloud cons
 
 Zilliz Cloud's metric charts provide performance data on resource usage, queries per second (QPS), request results, and data operations, offering granular analysis within a specific time range.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="📘 Notes">
 
 For free clusters, only read & write vCUs are available. To unlock a range of advanced metrics, [upgrade your plan tier](./manage-cluster).
 

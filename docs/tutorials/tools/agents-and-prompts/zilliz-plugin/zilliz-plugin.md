@@ -1,6 +1,6 @@
 ---
 title: "Zilliz Claude Code Plugin | Cloud"
-slug: /agents/zilliz-plugin
+slug: /zilliz-plugin
 sidebar_label: "Claude Code Plugin"
 beta: FALSE
 added_since: FALSE
@@ -19,7 +19,7 @@ keywords:
   - skill
   - claude
   - zilliz cli
-displayed_sidebar: agentsSidebar
+displayed_sidebar: default
 
 ---
 

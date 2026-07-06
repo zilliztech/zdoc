@@ -2,7 +2,7 @@
 title: "Create GKE Service Account | BYOC"
 slug: /create-gke-service-account
 sidebar_label: "Create GKE Service Account"
-beta: FALSE
+beta: CONTACT SALES
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE

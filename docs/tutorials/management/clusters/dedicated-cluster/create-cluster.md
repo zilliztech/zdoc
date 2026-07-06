@@ -39,7 +39,7 @@ Ensure:
 
 - Registration with Zilliz Cloud. Refer to [Register with Zilliz Cloud](./register-with-zilliz-cloud).
 
-- Ownership of the organization or project where the cluster is to be established. For details on roles and permissions, see Access Control.
+- Ownership of the organization or project where the cluster is to be established. For details on roles and permissions, see [Access Control Explained](./access-control-overview).
 
 ## Create a Dedicated cluster\{#create-a-dedicated-cluster}
 
@@ -49,56 +49,44 @@ Ensure:
 
 The following demo shows how to create a **Dedicated** cluster.
 
-<Supademo id="cmhixsdvu030hxj0imafwl2av?utm_source=link" title=""  />
+<Supademo id="cmhixsdvu030hxj0imafwl2av" title=""  />
 
 You need to configure the following information of the Dedicated cluster.
 
-- **Cluster Name**: Assign a unique identifier for your cluster.
-
-- **Cluster Settings**:
-
-    - **Cluster Type**: Select a cluster type that aligns with your cluster's performance requirements. For more information, refer to [Select the Right Cluster Type](./cu-types-explained). To select a Tiered-storage cluster, your cluster must have at least 8 query CUs.
-
-    - **Query CU**: Select the number of query CUs of the cluster. For organizations created with a personal email address, the maximum query CU size for a Dedicated cluster is 32, even if a payment method is configured.
-
-- (Optional) **Backup Policy**: Decide the backup frequency for the cluster to create. Once enabled, Zilliz Cloud will create a backup immediately after the cluster is created. Subsequent backups will follow the specified schedule.
+| **Parameter** | **Description** |
+| --- | --- |
+| **Cluster Name** | Assign a unique identifier for your cluster. |
+| **Cluster Description (optional)** | Enter the description of your cluster, up to 255 characters. |
+| **Cluster Type** | Select a cluster type that aligns with your cluster's performance requirements. For more information, refer to [Select the Right Cluster Type](./cu-types-explained). To select a Tiered-storage cluster, your cluster must have at least 8 query CUs. |
+| **Query CU** | Select the number of query CUs of the cluster. For organizations created with a personal email address, the maximum query CU size for a Dedicated cluster is 32, even if a payment method is configured. |
+| **Backup Policy (optional)** | Decide the automatic backup policy for the cluster to create. For more details about the backup policy, see [Schedule Automatic Backups](./schedule-automatic-backups). |
 
 While the cluster is being created, you need to save the cluster credentials (user and password) which will be shown only once. 
 
-When the cluster status turns into "Running", the cluster is created successfully. You can then copy the cluster endpoint and token and use them to connect to the cluster.
+When the cluster status turns into "Running", the cluster is created successfully. You can then copy the cluster endpoint and token and use them to [connect](./connect-to-clusters) to the cluster.
 
 </TabItem>
 
 <TabItem value="Bash">
 
-Your request should resemble the following example, where  `{API_KEY}` is your API key used for authentication.
-
-The following `POST` request takes a request body and creates a dedicated Performance-optimized  cluster named `cluster-02` with one query [CU](./cu-types-explained).
+Your request should resemble the following example, where  `{API_KEY}` is your API key used for authentication. For further details, see [Create Dedicated Cluster](/reference/restful/create-dedicated-cluster-v2).
 
 ```bash
 curl --request POST \
-     --url "https://api.cloud.zilliz.com/v2/clusters/createDedicated" \
-     --header "Authorization: Bearer ${API_KEY}" \
-     --header "Accept: application/json" \
-     --header "Content-Type: application/json" \
-     --data-raw '{
-        "clusterName": "Cluster-02",
-        "projectId": "proj-xxxxxxxxxxxxxxxxxxxxxx",
-        "regionId": "aws-us-west-2",
-        "plan": "Standard",
-        "cuType": "Performance-optimized",
-        "cuSize": 1
-    }'
-     
-# {
-#     "code": 0,
-#     "data": {
-#         "clusterId": "inxx-xxxxxxxxxxxxxxx",
-#         "username": "db_admin",
-#         "password": "****************",
-#         "prompt": "successfully submitted, cluster is being created. You can access data about the creation progress and status of your cluster by DescribeCluster API. Once the cluster status is RUNNING, you may access your vector database using the SDK with the admin account and the initial password you specified."
-#     }
-# }
+--url "${BASE_URL}/v2/clusters/createDedicated" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Accept: application/json" \
+--header "Request-Timeout: 5" \
+--header "Content-Type: application/json" \
+-d '{
+    "clusterName": "Cluster-05",
+    "projectId": "proj-xxxxxxxxxxxxxxxxxxxxxx",
+    "regionId": "aws-us-west-2",
+    "plan": "Standard",
+    "cuType": "Performance-optimized",
+    "cuSize": 1,
+    "description": "A cluster for vector search workloads."
+}'
 ```
 
 In the command above,
@@ -115,7 +103,21 @@ In the command above,
 
 - `cuSize`: The number of query CUs used for the cluster. Value range: 1 to 256. For organizations created with a personal email address, the maximum query CU size for a Dedicated cluster is 32, even if a payment method is configured.
 
-For further details, see [Create Dedicated Cluster](/reference/restful/create-dedicated-cluster-v2).
+- `description` (optional): Description of the cluster.
+
+The following is an example output.
+
+```json
+{
+    "code": 0,
+    "data": {
+        "clusterId": "inxx-xxxxxxxxxxxxxxx",
+        "username": "db_admin",
+        "password": "****************",
+        "prompt": "successfully submitted, cluster is being created. You can access data about the creation progress and status of your cluster by DescribeCluster API. Once the cluster status is RUNNING, you may access your vector database using the SDK with the admin account and the initial password you specified."
+    }
+}
+```
 
 </TabItem>
 

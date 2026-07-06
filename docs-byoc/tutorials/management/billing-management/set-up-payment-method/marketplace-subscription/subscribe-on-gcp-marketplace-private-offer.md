@@ -9,7 +9,7 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "A private offer on Google Cloud Marketplace is a custom purchasing option created for your organization by Zilliz. Unlike a public offer, which uses the standard pricing and terms shown on the Google Cloud Marketplace product page, a private offer can include negotiated pricing, custom contract terms, a specific contract duration, and a defined payment schedule. | BYOC"
 type: origin
-token: WNZhw0KCDioSi5kR5ACcgBwNn7f
+token: Fd8EwsD0JiIt98kmps4c5wGlnrh
 sidebar_position: 5
 displayed_sidebar: default
 
@@ -48,7 +48,7 @@ Before accepting a private offer, make sure that:
 
 The following is an overview of the subscription process.
 
-![F6gWwGieeh8PQ4bMMo5caoMfnVc](https://zdoc-images.s3.us-west-2.amazonaws.com/F6gWwGieeh8PQ4bMMo5caoMfnVc.png)
+![YSY9wG2TNhNlvMbFCZ9cLrIDnDh](https://zdoc-images.s3.us-west-2.amazonaws.com/YSY9wG2TNhNlvMbFCZ9cLrIDnDh.png)
 
 You can follow the detailed step-by-step guide below to subscribe to a Private Offer on Google Cloud Marketplace.
 
@@ -62,7 +62,7 @@ You can follow the detailed step-by-step guide below to subscribe to a Private O
 
     Look for an email from Google Cloud Marketplace with the subject **New Private Offer from Zilliz**. Click the **Review Offer** button in the email.
 
-    ![Ls4DwAV6sh9XWdbMIlXcIWFSnrc](https://zdoc-images.s3.us-west-2.amazonaws.com/Ls4DwAV6sh9XWdbMIlXcIWFSnrc.png)
+    ![Oawqwr3rDheYWibpPwQclqh0n3d](https://zdoc-images.s3.us-west-2.amazonaws.com/Oawqwr3rDheYWibpPwQclqh0n3d.png)
 
     <Admonition type="info" icon="📘" title="Note">
 
@@ -72,7 +72,7 @@ You can follow the detailed step-by-step guide below to subscribe to a Private O
 
 1. Review the offer details and accept the offer.
 
-    ![L0YOwwUFJhPuZVbkPAVcHQvOnlh](https://zdoc-images.s3.us-west-2.amazonaws.com/L0YOwwUFJhPuZVbkPAVcHQvOnlh.png)
+    ![NGJ1w2fVKh9ED1bMqK4cuzq2n5w](https://zdoc-images.s3.us-west-2.amazonaws.com/NGJ1w2fVKh9ED1bMqK4cuzq2n5w.png)
 
 1. Sign up with Zilliz.
 
@@ -86,27 +86,27 @@ You can follow the detailed step-by-step guide below to subscribe to a Private O
 
     </Admonition>
 
-    ![AuaOwLjB1hprGdbm97ScKy94n6f](https://zdoc-images.s3.us-west-2.amazonaws.com/AuaOwLjB1hprGdbm97ScKy94n6f.png)
+    ![IOkkwz2A6hexfnbiBBfcGGmNnxc](https://zdoc-images.s3.us-west-2.amazonaws.com/IOkkwz2A6hexfnbiBBfcGGmNnxc.png)
 
 1. Link Marketplace subscription to Zilliz Cloud organization.
 
     1. Log into your Zilliz Cloud account.
 
-        ![TvKlbjiSnoqJWAxFeYCcxP3LnJe](https://zdoc-images.s3.us-west-2.amazonaws.com/tvklbjisnoqjwaxfeyccxp3lnje.png "TvKlbjiSnoqJWAxFeYCcxP3LnJe")
+        ![WZuibFtHLofsE5xOfTPccb4Xnxe](https://zdoc-images.s3.us-west-2.amazonaws.com/wzuibfthlofse5xoftpccb4xnxe.png "WZuibFtHLofsE5xOfTPccb4Xnxe")
 
     1. Select a Zilliz Cloud organization to link to the Marketplace subscription.
 
         If no organization is available to select, or if you have any questions, contact [Zilliz Support](http://support.zilliz.com).
 
-        ![QtnbbCyQmomKb2xfesFcq1WVnNc](https://zdoc-images.s3.us-west-2.amazonaws.com/qtnbbcyqmomkb2xfesfcq1wvnnc.png "QtnbbCyQmomKb2xfesFcq1WVnNc")
+        ![EGjCbIHRGoDylPxCNQdc4YT6nTd](https://zdoc-images.s3.us-west-2.amazonaws.com/egjcbihrgodylpxcnqdc4yt6ntd.png "EGjCbIHRGoDylPxCNQdc4YT6nTd")
 
     1. When the process is complete, the following confirmation window appears.
 
-        ![ZjcPbVAZuo4mWhxmUV2cG08xnBe](https://zdoc-images.s3.us-west-2.amazonaws.com/zjcpbvazuo4mwhxmuv2cg08xnbe.png "ZjcPbVAZuo4mWhxmUV2cG08xnBe")
+        ![Hcy6bjddpoGiJfxszMBccAalnoe](https://zdoc-images.s3.us-west-2.amazonaws.com/hcy6bjddpogijfxszmbccaalnoe.png "Hcy6bjddpoGiJfxszMBccAalnoe")
 
     1. On the Zilliz Cloud **Billing** page, find the **Payment Method** section. You can verify your subscription by hovering on the ID icon.
 
-        ![W0hxbhstcoTKthxae30cMkXgnef](https://zdoc-images.s3.us-west-2.amazonaws.com/w0hxbhstcotkthxae30cmkxgnef.png "W0hxbhstcoTKthxae30cMkXgnef")
+        ![XoiTbm6HzoZMCMxCttVco12GnAn](https://zdoc-images.s3.us-west-2.amazonaws.com/xoitbm6hzozmcmxcttvco12gnan.png "XoiTbm6HzoZMCMxCttVco12GnAn")
 
 </Procedures>
 
@@ -122,7 +122,7 @@ For Google Cloud Marketplace, renewal is handled on the existing private offer o
 
 The following is an overview of the renewal process. 
 
-![OTbzwM0aah1qjHbev4uchOIlnGh](https://zdoc-images.s3.us-west-2.amazonaws.com/OTbzwM0aah1qjHbev4uchOIlnGh.png)
+![CbdUwGifPh2rvFbk0F4c1OVFnxh](https://zdoc-images.s3.us-west-2.amazonaws.com/CbdUwGifPh2rvFbk0F4c1OVFnxh.png)
 
 You can follow the detailed step-by-step guide below to subscribe to a Private Offer on Google Cloud Marketplace.
 
@@ -132,27 +132,27 @@ You can follow the detailed step-by-step guide below to subscribe to a Private O
 
     1. Look for an email from Google Cloud Marketplace with the subject **New Private Offer from Zilliz**. Click the **Review Offer** button in the email.
 
-        ![U2BZwkyfShLv3RbBvgNceRczn9d](https://zdoc-images.s3.us-west-2.amazonaws.com/U2BZwkyfShLv3RbBvgNceRczn9d.png)
+        ![DYogwUgizhEYNnbIks9cqZVcn1f](https://zdoc-images.s3.us-west-2.amazonaws.com/DYogwUgizhEYNnbIks9cqZVcn1f.png)
 
 1. Review the offer details and accept the offer.
 
-    ![TWkIw4yYJhBeYdbliADcFSgHnhh](https://zdoc-images.s3.us-west-2.amazonaws.com/TWkIw4yYJhBeYdbliADcFSgHnhh.png)
+    ![Y6cAwGfu0hBF5obUyWScaR63njf](https://zdoc-images.s3.us-west-2.amazonaws.com/Y6cAwGfu0hBF5obUyWScaR63njf.png)
 
 1. Your offer is successfully renewed.
 
     When you see the dialog box with the title **Amendment request sent to Zilliz**, the renewal process is complete on Zilliz Cloud.
 
-    ![EHCCw9kfYhFsTlbLD95ccI4snfS](https://zdoc-images.s3.us-west-2.amazonaws.com/EHCCw9kfYhFsTlbLD95ccI4snfS.png)
+    ![O7r8wYN4lhED5qbVkrScNkpAned](https://zdoc-images.s3.us-west-2.amazonaws.com/O7r8wYN4lhED5qbVkrScNkpAned.png)
 
 1. Verify the renewal.
 
     1. You can go to the [Google Cloud Orders](https://console.cloud.google.com/marketplace/orders) page. Select your billing account and then click on the order ID to view its details.
 
-        ![GiItwiaT3hJCx4bLVNjcyhABnCg](https://zdoc-images.s3.us-west-2.amazonaws.com/GiItwiaT3hJCx4bLVNjcyhABnCg.png)
+        ![A3piwyJD6hz3qwbzry0cAYSunRc](https://zdoc-images.s3.us-west-2.amazonaws.com/A3piwyJD6hz3qwbzry0cAYSunRc.png)
 
     1. In the **Key Events** section, you can verify that the existing order is successfully amended and your private offer is renewed with a new contract end date.
 
-        ![N0JkwIhJ5hjU3NbhtVvcq7u1nph](https://zdoc-images.s3.us-west-2.amazonaws.com/N0JkwIhJ5hjU3NbhtVvcq7u1nph.png)
+        ![SlGfwioVMhP8uqbFi0ucDEMOnmd](https://zdoc-images.s3.us-west-2.amazonaws.com/SlGfwioVMhP8uqbFi0ucDEMOnmd.png)
 
 </Procedures>
 
@@ -204,15 +204,15 @@ To complete the setup,
 
 1. go to **Google Cloud Marketplace > Your orders**, find the Zilliz Cloud order. Click on the product name.
 
-    ![AaJzwzQnzhaToGbBDVGcGhQTnbh](https://zdoc-images.s3.us-west-2.amazonaws.com/AaJzwzQnzhaToGbBDVGcGhQTnbh.png)
+    ![YgzQwi6xDh8eVFbgOSLcNElVnNh](https://zdoc-images.s3.us-west-2.amazonaws.com/YgzQwi6xDh8eVFbgOSLcNElVnNh.png)
 
 1. Click on **Manage on provider**.
 
-    ![JbGAw6wijhzm0ybT4spcz1XenHh](https://zdoc-images.s3.us-west-2.amazonaws.com/JbGAw6wijhzm0ybT4spcz1XenHh.png)
+    ![GO3bwCnjWhyzT0bZCk3cpyHonPH](https://zdoc-images.s3.us-west-2.amazonaws.com/GO3bwCnjWhyzT0bZCk3cpyHonPH.png)
 
 1. You will be redirected to Zilliz Cloud. Please complete the operations on Zilliz Cloud.
 
-    ![WlhGb6v3mowa8hxh5Y6clGsFnUd](https://zdoc-images.s3.us-west-2.amazonaws.com/wlhgb6v3mowa8hxh5y6clgsfnud.png "WlhGb6v3mowa8hxh5Y6clGsFnUd")
+    ![RYtsbHgYUoaFBuxOspXcxIlrn5b](https://zdoc-images.s3.us-west-2.amazonaws.com/rytsbhgyuoafbuxospxcxilrn5b.png "RYtsbHgYUoaFBuxOspXcxIlrn5b")
 
 </Procedures>
 
@@ -238,11 +238,7 @@ There could be several reasons.
 
     - If you need to update an existing marketplace subscription, please unlink the current subscription of the organization first and then set up a new subscription.
 
-    - If you need multiple organizations for different Marketplace subscription, you can:
-
-        - [Register](./register-with-zilliz-cloud) a new Zilliz Cloud account to create a new organization. Then, [invite](./organization-users#invite-a-user-to-your-organization) the organization owner to the new organization. This organization owner will then belong to multiple organizations and can setup different marketplace subscriptions for each organization.
-
-        - [Create a support ticket](http://support.zilliz.com) so that we will create new organizations for you. Currently, Zilliz Cloud does not support manually creating organizations by users.
+    - If you need multiple organizations for different Marketplace subscription, you can [create an organization](./organization-settings#create-an-organization).
 
 - **No organizations in the list**
 
@@ -252,9 +248,7 @@ There could be several reasons.
 
     In this case, you can:
 
-    - Create a new organization.
+    - [Create a new organization](./organization-settings#create-an-organization).
 
     - Ask other users to [invite](./organization-users#invite-a-user-to-your-organization) you to their organizations and grant you the role of an Organization Owner.
-
-    - [Create a support ticket](https://support.zilliz.com/hc/en-us) and we will create a new organization for you.
 

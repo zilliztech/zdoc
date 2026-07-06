@@ -2,7 +2,7 @@
 title: "Connect for On-Demand Search | Cloud"
 slug: /connect-for-on-demand-search
 sidebar_label: "Connect for On-Demand Search"
-beta: FALSE
+beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
@@ -32,7 +32,7 @@ This page is for connecting to a project endpoint for on-demand search. If you w
 
 | Endpoint type | Endpoint pattern | Use for |
 | --- | --- | --- |
-| Project endpoint | `<i>http</i>s://{project-id}.{region}.api.zillizcloud.com` | Data import, batch search, query, get, search, and hybrid search through an on-demand cluster. |
+| Project endpoint | `https://{project-id}.{region}.api.zillizcloud.com` | Data import, batch search, query, get, search, and hybrid search through an on-demand cluster. |
 
 ## Before you begin\{#before-you-begin}
 

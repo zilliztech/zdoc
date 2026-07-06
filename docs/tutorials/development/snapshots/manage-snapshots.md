@@ -2,7 +2,7 @@
 title: "Manage Snapshots | Cloud"
 slug: /manage-snapshots
 sidebar_label: "Manage Snapshots"
-beta: FALSE
+beta: PRIVATE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE

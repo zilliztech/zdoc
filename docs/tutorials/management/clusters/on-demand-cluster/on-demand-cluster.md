@@ -2,7 +2,7 @@
 title: "Create On-Demand Cluster | Cloud"
 slug: /on-demand-cluster
 sidebar_label: "Create Cluster"
-beta: FALSE
+beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
@@ -28,7 +28,7 @@ An on-demand cluster provides compute resources for on-demand search and query w
 
 <Admonition type="info" icon="📘" title="Note">
 
-This feature is available only to Enterprise projects. Currently, you can create on-demand clusters only in AWS us-west-2. To use on-demand clusters in other regions, contact Zilliz.
+This feature is available only to Enterprise projects. Currently, you can create on-demand clusters only in AWS us-west-2 and Azure East US regions. To use on-demand clusters in other regions, contact Zilliz.
 
 </Admonition>
 
@@ -36,7 +36,7 @@ This feature is available only to Enterprise projects. Currently, you can create
 
 Before you create an on-demand cluster, ensure that:
 
-- You are a **Project Admin** in the target project.
+- You are a **Project Admin** in the target project. For details about the roles and permissions, see [Manage Project Users](./project-users#project-role-and-access-comparison).
 
 - You have the project ID where the on-demand cluster will be created.
 
@@ -60,34 +60,25 @@ You can create an on-demand cluster from the Zilliz Cloud console or by calling 
 
 ### Via RESTful API\{#via-restful-api}
 
-The following example creates an on-demand cluster named `my-on-demand` in `aws-us-west-2`.
+The following example creates an on-demand cluster. For details, see [Create On-Demand Cluster](https://docs-test.cloud-uat3.zilliz.com/reference/restful/create-on-demand-cluster-v2).
 
 ```plaintext
-export BASE_URL="https://api.cloud.zilliz.com"
-export TOKEN="YOUR_API_KEY"
-
 curl --request POST \
-     --url "${BASE_URL}/v2/clusters/createOnDemandCluster" \
-     --header "Authorization: Bearer ${TOKEN}" \
-     --header "Accept: application/json" \
-     --header "Content-Type: application/json" \
-     --data-raw '{
-        "projectId": "proj-xxxxxxxxxxxxxxx",
-        "regionId": "aws-us-west-2",
-        "clusterName": "my-on-demand",
-        "cuSize": 8,
-        "autoSuspend": 120
-      }'
-
-# {
-#   "code": 0,
-#   "data": {
-#     "clusterId": "inxx-xxxxxxxxxxxxxxx",
-#     "regionId": "aws-us-west-2",
-#     "projectId": "proj-xxxxxxxxxxxxxxx"
-#   }
-# }
+--url "${BASE_URL}/v2/clusters/createOnDemandCluster" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Request-Timeout: 5" \
+--header "Content-Type: application/json" \
+-d '{
+    "projectId": "proj-xxxxxxxxxxxxxxxxxxx",
+    "regionId": "aws-us-west-2",
+    "clusterName": "my-on-demand",
+    "cuSize": 8,
+    "autoSuspend": 60,
+    "description": "A cluster for vector search workloads."
+}'
 ```
+
+The following table explains the parameters.
 
 | Parameter | Description |
 | --- | --- |
@@ -96,6 +87,19 @@ curl --request POST \
 | `clusterName` | Name of the on-demand cluster to create. |
 | `cuSize` | Number of query CUs to allocate. The cluster automatically scales between zero and this value based on workload. The minimum is 8 CUs, the maximum is 256 CUs, and values increase in increments of 8. This value is fixed after creation and cannot be changed. |
 | `autoSuspend` | Idle timeout, in seconds, before the cluster auto-suspends. When no requests are received within this period, the cluster suspends to stop incurring compute costs. The minimum value is 60 seconds, and the default is 60 seconds. |
+| `description`(optional) | Description of the on-demand cluster to create, up to 255 characters. |
+
+The following is an example output.
+
+```json
+{
+    "code": 0,
+    "data": {
+        "clusterId": "inxx-xxxxxxxxxxxxxxx",
+        "prompt": "Successfully submitted. The on-demand cluster is being created. Use the Describe On-Demand Cluster API to check its creation progress and status. Once the cluster status is RUNNING, use your API key to access the on-demand cluster."
+    }
+}
+```
 
 ### Via web console\{#via-web-console}
 
@@ -114,6 +118,7 @@ curl --request POST \
     | Parameter | Description |
     | --- | --- |
     | Cluster Name | Name of the on-demand cluster to create. |
+    | Cluster Description | Description of the on-demand cluster to create, up to 255 characters. |
     | Query CU | Number of query CUs to allocate. The cluster automatically scales between zero and this value. The minimum is 8 CUs, the maximum is 256 CUs, and values increase in increments of 8. This value is fixed after creation and cannot be changed. |
     | Auto suspend | Idle time, in seconds, before the cluster auto-suspends. The default is 1 minute. |
 

@@ -43,7 +43,7 @@ The following table lists the corresponding UI and API privileges of this organi
      <th><p><strong>Data Plane RESTful API (V2) Privileges</strong></p></th>
    </tr>
    <tr>
-     <td><ul><li><p>Manage all projects in the organization</p></li><li><p>Manage <a href="./undefined">payments & billing</a></p></li><li><p>Manage <a href="./manage-api-keys">API keys</a></p></li><li><p>Manage <a href="./organization-users">organization users</a></p></li><li><p>Manage <a href="./undefined">alerts</a></p></li><li><p>View <a href="./view-activities">activities</a></p></li><li><p>Manage <a href="./organization-settings">organization settings</a></p></li><li><p>Use <a href="./use-recycle-bin">recycle bin</a></p></li><li><p>Plus all the privileges of a <a href="./project-users#project-admin">Project Admin</a> and a <a href="./cluster-roles#built-in-cluster-roles">Cluster Admin</a> roles</p></li></ul></td>
+     <td><ul><li><p>Manage all projects in the organization</p></li><li><p>Manage <a href="./payment-billing">payments & billing</a></p></li><li><p>Manage <a href="./manage-api-keys">API keys</a></p></li><li><p>Manage <a href="./organization-users">organization users</a></p></li><li><p>Manage <a href="./metrics-alerts-reference">alerts</a></p></li><li><p>View <a href="./view-activities">activities</a></p></li><li><p>Manage <a href="./organization-settings">organization settings</a></p></li><li><p>Use <a href="./use-recycle-bin">recycle bin</a></p></li><li><p>Plus all the privileges of a <a href="./project-users#project-admin">Project Admin</a> and a <a href="./cluster-roles#built-in-cluster-roles">Cluster Admin</a> roles</p></li></ul></td>
      <td><p><a href="/reference/restful/control-plane-v2">All control plane operations</a></p></td>
      <td><p><a href="/reference/restful/data-plane-v2">All data plane operations</a></p></td>
    </tr>
@@ -62,7 +62,7 @@ The following table lists the corresponding UI and API privileges of this organi
      <th><p><strong>Data Plane RESTful API (V2) Privileges</strong></p></th>
    </tr>
    <tr>
-     <td><ul><li><p>Manage <a href="./undefined">payments & billing</a></p></li><li><p>View <a href="./manage-api-keys">API keys</a></p></li><li><p>Invite <a href="./organization-users">organization users</a></p></li><li><p>View <a href="./organization-settings">organization settings</a></p></li></ul></td>
+     <td><ul><li><p>Manage payments & billing</p></li><li><p>View <a href="./manage-api-keys">API keys</a></p></li><li><p>Invite <a href="./organization-users">organization users</a></p></li><li><p>View <a href="./organization-settings">organization settings</a></p></li></ul></td>
      <td><ul><li><p><a href="/reference/restful/list-invoices-v2">List Invoices</a></p></li><li><p><a href="/reference/restful/describe-invoice-v2">Describe Invoice</a></p></li><li><p><a href="/reference/restful/query-daily-usage-v2">Query Daily Usage</a></p></li></ul></td>
      <td><p>The data plan privileges are determined by project and cluster roles. However, a Billing Admin usually does not require data plane privileges.</p></td>
    </tr>
@@ -115,7 +115,7 @@ Note that if you are an **Organization Member** or an **Organization Billing Adm
 
 Invitation recipients will receive an email invitation that must be accepted within 48 hours to join the organization. Alternatively, you can copy the invitation link from the web console and share it with the invitees.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="📘 Notes">
 
 Each time, you can invite one or more users with the same role to the organization. Each organization can have up to 100 users.
 
@@ -141,7 +141,7 @@ If a user no longer belongs to your organization, you can remove the user.
 
 To remove an organization user, you must be an **Organization Owner**.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="danger" icon="🚧" title="Notes">
 
 Upon removing a member, the corresponding personal API key will be immediately revoked and access will be denied. To prevent service disruption, please ensure that any personal keys utilized in your environments are replaced prior to removal. This action cannot be undone.
 
@@ -155,7 +155,7 @@ When you no longer belong to an organization, you have the option to leave it.
 
 Each organization must have at least one organization owner. If you are the only owner of an organization, you cannot leave it.
 
-<Admonition type="caution" icon="🚧" title="Warning">
+<Admonition type="info" icon="📘" title="🚧 Warning">
 
 Once you leave an organization, you will no longer be able to access the organization and associated resources.
 

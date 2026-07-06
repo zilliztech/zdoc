@@ -66,7 +66,7 @@ Closely mimicking real-world production environments, VectorDBBench has set up d
 
     - Deploying the client in the same cloud provider and region as your Zilliz Cloud cluster.
 
-    - Configure your client so that it shares the same VPC with your Zilliz Cloud cluster. Compared to public Internet, VPC can have lower latency. Learn more at [Set up a Private Endpoint](./undefined).
+    - Configure your client so that it shares the same VPC with your Zilliz Cloud cluster. Compared to public Internet, VPC can have lower latency. Learn more at [Set up a PrivateLink (AWS)](./setup-a-private-link-aws) and its sibling pages.
 
 ### Install and start VectorDBBench\{#install-and-start-vectordbbench}
 
@@ -125,7 +125,7 @@ Click **Results** to view and analyze benchmarking results. Below are some examp
 
 Optionally, you can set up the **DB Filter** and **Case Filter** in the left navigation pane to compare the benchmarking results of pre-defined vector databases and cases.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="📘 Notes">
 
 The databases are named in the format of [database_name]-[db_label]. 
 

@@ -28,7 +28,7 @@ This page introduces how to import the prepared data on the Zilliz Cloud console
 
 Once data files are ready, you can upload them to an object storage bucket for data imports.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="📘 Notes">
 
 - You can have up to 10,000 running or pending import jobs in a collection.
 

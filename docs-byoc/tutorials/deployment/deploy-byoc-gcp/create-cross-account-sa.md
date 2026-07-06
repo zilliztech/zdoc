@@ -2,7 +2,7 @@
 title: "Create a Cross-Account Service Account | BYOC"
 slug: /create-cross-account-sa
 sidebar_label: "Create a Cross-Account Service Account"
-beta: FALSE
+beta: CONTACT SALES
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE

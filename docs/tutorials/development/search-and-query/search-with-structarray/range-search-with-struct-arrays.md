@@ -2,7 +2,7 @@
 title: "Range Search with StructArray | Cloud"
 slug: /range-search-with-struct-arrays
 sidebar_label: "Range Search"
-beta: FALSE
+beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
@@ -81,7 +81,6 @@ results = client.search(
     data=[query_vector],
     anns_field="chunks[emb]",
     search_params={
-        "metric_type": "COSINE",
         "params": {
             "radius": 0.80,
             "range_filter": 0.95,
@@ -127,7 +126,6 @@ results = client.search(
     data=[query_vector],
     anns_field="chunks[emb]",
     search_params={
-        "metric_type": "COSINE",
         "params": {
             "radius": 0.80,
             "range_filter": 0.95,
@@ -158,10 +156,6 @@ from pymilvus import AnnSearchRequest, RRFRanker
 title_req = AnnSearchRequest(
     data=[query_vector],
     anns_field="title_vector",
-    param={
-        "metric_type": "COSINE",
-        "params": {},
-    },
     limit=10,
 )
 
@@ -169,7 +163,6 @@ chunk_req = AnnSearchRequest(
     data=[query_vector],
     anns_field="chunks[emb]",
     param={
-        "metric_type": "COSINE",
         "params": {
             "radius": 0.80,
             "range_filter": 0.95,

@@ -2,7 +2,7 @@
 title: "Basic Vector Search with StructArray | Cloud"
 slug: /search-with-struct-array
 sidebar_label: "Basic Vector Search"
-beta: FALSE
+beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
@@ -22,7 +22,7 @@ import Admonition from '@theme/Admonition';
 
 Use this page to run vector search on vector subfields inside a StructArray field. StructArray supports two basic vector search modes: EmbeddingList search, which scores an embedding list stored in each entity, and element-level search, which searches each Struct element independently.
 
-This page uses the `tech_articles` collection from [Create a StructArray Field](./create-struct-array). The collection has a StructArray field named `chunks`. Each chunk contains text, scalar metadata, an EmbeddingList vector subfield named `emb_list_vector`, and an element-level vector subfield named `emb`.
+This page uses the `tech_articles` collection from [Create a StructArray Field](./create-struct-array). The collection has a StructArray field named `chunks`. Each chunk contains text, scalar metadata, a vector subfield named `emb_list_vector` with an index for EmbeddingList search, and a vector subfield named `emb` with an index for element-level search.
 
 ## Before you begin\{#before-you-begin}
 
@@ -35,7 +35,7 @@ Make sure the collection schema, data, and indexes are already prepared.
 | Create a `MAX_SIM*` index on `chunks[emb_list_vector]` for EmbeddingList search. | [Index StructArray Fields](./index-struct-array) |
 | Create a regular vector-metric index on `chunks[emb]` for element-level search. | [Index StructArray Fields](./index-struct-array) |
 
-<Admonition type="info" icon="📘" title="Warning">
+<Admonition type="warning" icon="🚧" title="Warning">
 
 A vector field or vector subfield accepts only one index. If you need both EmbeddingList search and element-level search, create two separate vector subfields. In this page, `chunks[emb_list_vector]` is indexed for EmbeddingList search, and `chunks[emb]` is indexed for element-level search.
 
@@ -74,10 +74,6 @@ results = client.search(
     collection_name="tech_articles",
     data=[query],
     anns_field="chunks[emb_list_vector]",
-    search_params={
-        "metric_type": "MAX_SIM_COSINE",
-        "params": {},
-    },
     limit=3,
     output_fields=[
         "doc_id",
@@ -112,10 +108,6 @@ results = client.search(
     collection_name="tech_articles",
     data=[query_vector],
     anns_field="chunks[emb]",
-    search_params={
-        "metric_type": "COSINE",
-        "params": {},
-    },
     limit=5,
     output_fields=[
         "doc_id",

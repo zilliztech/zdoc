@@ -29,4 +29,4 @@ In BYOC deployments, use a colon-separated username and password of the target c
 
 ### What can I do if I forget the password used to connect to my Zilliz Cloud cluster?\{#what-can-i-do-if-i-forget-the-password-used-to-connect-to-my-zilliz-cloud-cluster}
 
-If you forget your password, you can reset the password. However, if you forget the password of the default user, you can create a new user with a new password. Please refer to [Cluster Credentials (Console)](./cluster-credentials) and Cluster Credentials (SDK) for more details.
+If you forget your password, you can reset the password. However, if you forget the password of the default user, you can create a new user with a new password. Please refer to [Cluster Credentials (Console)](./cluster-credentials) and [Cluster Credentials (Console)](./cluster-credentials) for more details.

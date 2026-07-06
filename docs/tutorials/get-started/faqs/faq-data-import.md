@@ -49,7 +49,7 @@ Yes. Based on your data security requirements, you can use session tokens when i
 
 ### Can I bulk insert data into the Zilliz Cloud vector databases?\{#can-i-bulk-insert-data-into-the-zilliz-cloud-vector-databases}
 
-Yes. Please refer to [Data Import](./undefined) for more information.
+Yes. Please refer to [Import](./zilliz-import-prompts) for more information.
 
 ### What can I do if I receive ECONNRESET errors when importing data to or querying Zilliz Cloud clusters with Node.js SDK?\{#what-can-i-do-if-i-receive-econnreset-errors-when-importing-data-to-or-querying-zilliz-cloud-clusters-with-nodejs-sdk}
 

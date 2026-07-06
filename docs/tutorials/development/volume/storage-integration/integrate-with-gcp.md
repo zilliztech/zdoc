@@ -162,11 +162,245 @@ Once you grant access to the bucket, go back to the Zilliz Cloud console and do 
 
 Your Google Cloud Storage is now integrated with Zilliz Cloud for exporting audit logs or backup files. For more information, refer to [Audit Logging](./audit-logs) or [Export Backup Files](./export-backup-files).
 
+## Create storage integration programmatically\{#create-storage-integration-programmatically}
+
+As an alternative to working on Zilliz Cloud console, you can also programmatically create the storage integration.
+
+<Procedures>
+
+1. Create a bucket.
+
+    For details, refer to [Create a bucket in Google Admin Console](./integrate-with-gcp#step-3-create-a-bucket-in-google-admin-console) above or the [Create a bucket](https://docs.cloud.google.com/storage/docs/creating-buckets#console) API doc.
+
+1. Generate authentication materials.
+
+    ```bash
+    export BASE_URL="https://api.cloud.zilliz.com"
+    export TOKEN="YOUR_API_KEY"
+    
+    curl --request POST \
+    --url "${BASE_URL}/v2/storageIntegrations/authorizationMaterials" \
+    --header "Authorization: Bearer ${TOKEN}" \
+    --header "Request-Timeout: 5" \
+    --header "Content-Type: application/json" \
+    -d '{
+        "projectId": "proj-xxxxxxxxxxxxxxxxxxxxxx",
+        "regionId": "gcp-us-central1",
+        "bucketName": "my-bucket"
+    }'
+    ```
+
+    The above request generates the necessary credentials for you to create permissions and roles on the GCP admin console. 
+
+    A possible response is as follows:
+
+    ```bash
+    {
+        "code": 0,
+        "data": {
+            "permission": [
+                "storage.objects.get",
+                "storage.objects.create",
+                "storage.objects.list",
+                "storage.buckets.get"
+            ],
+            "googleCloudServiceAccount": "zilliz-xxxx@vdc-dev-test.iam.gserviceaccount.com"
+        }
+    }
+    ```
+
+    For details on parameter descriptions, refer to [Generate Storage Integration Authorization Materials](/reference/restful/generate-storage-integration-authorization-materials-v2).
+
+1. Use the returned `permission` and `googleCloudServiceAccount` to create a role that has sufficient permissions to operate the bucket. 
+
+    Note down the service account email of the created role for the next step. For details on how to create a role, refer to [Create a role in Google Admin console](./integrate-with-gcp#step-2-create-a-role-in-google-admin-console) above.
+
+1. Validate the obtained credentials.
+
+    In the request, set `externalCred.gcpProjectId` to the your GCP project ID, and `externalCred.serviceAccountEmail` to the one of the role created in the previous step.
+
+    ```bash
+    curl --request POST \
+    --url "${BASE_URL}/v2/storageIntegrations/validate" \
+    --header "Authorization: Bearer ${TOKEN}" \
+    --header "Request-Timeout: 5" \
+    --header "Content-Type: application/json" \
+    -d '{
+        "projectId": "proj-xxxxxxxxxxxxxxxxxxxxxx",
+        "regionId": "gcp-us-central1",
+        "bucketName": "my-bucket",
+        "externalCred": {
+            "gcpProjectId": "my-gcp-project",
+            "serviceAccountEmail": "bucket-access@my-gcp-project.iam.gserviceaccount.com"
+        }
+    }'
+    ```
+
+    A validation success response is as follows:
+
+    ```bash
+    {
+        "code": 0,
+        "data": {
+            "success": true,
+            "message": ""
+        }
+    }
+    ```
+
+    For details on parameter descriptions, refer to [Validate Storage Integration](/reference/restful/validate-storage-integration-v2).
+
+1. Create storage integration.
+
+    This request shares the most of the parameters as those of the validation request with an addition of `description`.
+
+    ```bash
+    curl --request POST \
+    --url "${BASE_URL}/v2/storageIntegrations" \
+    --header "Authorization: Bearer ${TOKEN}" \
+    --header "Request-Timeout: 5" \
+    --header "Content-Type: application/json" \
+    -d '{
+        "projectId": "proj-xxxxxxxxxxxxxxxxxxxxxx",
+        "name": "analytics-gcp",
+        "description": "GCP bucket for external tables",
+        "regionId": "gcp-us-central1",
+        "bucketName": "my-bucket",
+        "externalCred": {
+            "gcpProjectId": "my-gcp-project",
+            "serviceAccountEmail": "bucket-access@my-gcp-project.iam.gserviceaccount.com"
+        }
+    }'
+    ```
+
+    The response is similar to the following:
+
+    ```bash
+    {
+        "code": 0,
+        "data": {
+            "integrationId": "integ-xxxxxxxxxxxxxxxxxxx",
+            "name": "analytics-gcp"
+        }
+    }
+    ```
+
+    For details on parameter descriptions, refer to [Create Storage Integration](/reference/restful/create-storage-integration-v2).
+
+</Procedures>
+
 ## Manage integrations\{#manage-integrations}
 
 Once the integration is added, you can view its details or remove the integration as needed.
 
 ![FKLYbB02LoDDA9xENiYccBTun5e](https://zdoc-images.s3.us-west-2.amazonaws.com/fklybb02lodda9xeniyccbtun5e.png "FKLYbB02LoDDA9xENiYccBTun5e")
+
+### Obtain the integration ID\{#obtain-the-integration-id}
+
+If you need to use the RESTful API to export backup files to one of your AWS S3 buckets integrated with Zilliz Cloud, click **View Details** to display the details of an integration and copy its integration ID.
+
+Alternatively, you can obtain the integration ID by running the following command.
+
+```bash
+export TOKEN="YOUR_API_KEY"
+
+curl --request GET \
+--url "${BASE_URL}/v2/storageIntegrations?projectId=proj-xxxxxxxxxxxxxxxxxxxxxx" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Request-Timeout: 5" \
+--header "Content-Type: application/json"
+```
+
+The response is similar to the following:
+
+```bash
+{
+    "code": 0,
+    "data": {
+        "storageIntegrations": [
+            {
+                "integrationId": "integ-xxxxxxxxxxxxxxxxxxx",
+                "name": "analytics-gcp",
+                "status": "ACTIVE",
+                "message": "",
+                "regionId": "gcp-us-central1",
+                "bucketName": "my-bucket"
+            }
+        ],
+        "count": 1,
+        "currentPage": 1,
+        "pageSize": 10
+    }
+}
+```
+
+For details on parameter descriptions, refer to [List Storage Integrations](/reference/restful/list-storage-integrations-v2).
+
+### View integration details\{#view-integration-details}
+
+You can use the following command to view integration details
+
+```bash
+export integrationId="integ-xxxxxxxxxxxxxxxxxxx"
+
+curl --request GET \
+--url "${BASE_URL}/v2/storageIntegrations/${integrationId}" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Request-Timeout: 5" \
+--header "Content-Type: application/json"
+```
+
+The response is similar to the following:
+
+```bash
+{
+    "code": 0,
+    "data": {
+        "integrationId": "integ-xxxxxxxxxxxxxxxxxxx",
+        "name": "analytics-s3",
+        "description": "GCP bucket for external tables",
+        "status": "ACTIVE",
+        "message": "",
+        "regionId": "gcp-us-central1",
+        "bucketName": "my-bucket",
+        "externalCred": {
+            "roleArn": "arn:aws:iam::123456789012:role/zilliz-bucket-role",
+            "externalId": "zilliz-external-AbCdEf12345678"
+        },
+        "createTime": "2024-07-30T16:49:50Z"
+    }
+}
+```
+
+For details on parameter descriptions, refer to [Describe Storage Integration](/reference/restful/describe-storage-integration-v2).
+
+### Delete storage integration\{#delete-storage-integration}
+
+As an alternative method for clicking **Remove** on the Zilliz Cloud console. You can use the following command to delete unnecessary storage integration.
+
+```bash
+export integrationId="integ-xxxxxxxxxxxxxxxxxxx"
+
+curl --request DELETE \
+--url "${BASE_URL}/v2/storageIntegrations/${integrationId}" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Request-Timeout: 5" \
+--header "Content-Type: application/json"
+```
+
+The response is similar to the following:
+
+```bash
+{
+    "code": 0,
+    "data": {
+        "integrationId": "integ-xxxxxxxxxxxxxxxxxxx",
+        "name": "analytics-gcp"
+    }
+}
+```
+
+For details on parameter descriptions, refer to [Delete Storage Integration](/reference/restful/delete-storage-integration-v2).
 
 ## FAQ\{#faq}
 

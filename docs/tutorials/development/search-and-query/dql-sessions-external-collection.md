@@ -2,7 +2,7 @@
 title: "On-Demand DQL Operations | Cloud"
 slug: /dql-sessions-external-collection
 sidebar_label: "DQL sessions"
-beta: FALSE
+beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
@@ -23,7 +23,7 @@ import TabItem from '@theme/TabItem';
 
 DQL operations in collections for on-demand computing, such as search, query, get, and hybrid search, require attaching compute resources from an on-demand cluster. Zilliz Cloud allows you to create a session to meet your on-demand compute needs.
 
-This article assumes that you have created a collection in a database using the project endpoint. For details, refer to Create an External Collection.
+This article assumes that you have created a collection in a database using the project endpoint. For details, refer to [Create an External Collection](./create-external-collection).
 
 ## Connect to a project endpoint\{#connect-to-a-project-endpoint}
 

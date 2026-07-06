@@ -960,4 +960,4 @@ For step-by-step instructions and code samples, refer to the dedicated pages:
 
 By default, queries on `TIMESTAMPTZ` fields without an index will perform a full scan of all rows, which can be slow on large datasets. To accelerate timestamp queries, create an AUTOINDEX index on your `TIMESTAMPTZ` field.
 
-For details, refer to Index Scalar Fields.
+For details, refer to [STL_SORT](./slt-sort-index-type).

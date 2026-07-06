@@ -1,6 +1,6 @@
 ---
 title: "AI Prompts | Cloud"
-slug: /agents/zilliz-ai-prompts
+slug: /zilliz-ai-prompts
 sidebar_label: "AI Prompts"
 beta: FALSE
 added_since: FALSE
@@ -17,7 +17,7 @@ keywords:
   - ai-agents
   - decision matrix
   - prompts
-displayed_sidebar: agentsSidebar
+displayed_sidebar: default
 
 ---
 

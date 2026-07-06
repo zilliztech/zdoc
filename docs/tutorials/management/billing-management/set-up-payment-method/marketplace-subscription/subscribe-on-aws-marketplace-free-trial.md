@@ -9,7 +9,7 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "This guide provides a step-by-step walkthrough of the subscription process. | Cloud"
 type: origin
-token: Tkn3wjCg3ifangkRNk3cvawYnBy
+token: X6nAwrgYAiJ3Lzku8mBczdbXnuo
 sidebar_position: 1
 displayed_sidebar: default
 
@@ -48,17 +48,17 @@ Visit [AWS Marketplace](https://aws.amazon.com/marketplace) and start subscribin
 
     Or you can directly visit [this page](https://aws.amazon.com/marketplace/pp/prodview-iqbidum7feuio?trk=8d276e92-b310-40ce-908f-23a198ca7ffc&sc_channel=el&source=zilliz). 
 
-    ![O4MrbXZekoYa4VxjPUQchjb9nyg](https://zdoc-images.s3.us-west-2.amazonaws.com/o4mrbxzekoya4vxjpuqchjb9nyg.png "O4MrbXZekoYa4VxjPUQchjb9nyg")
+    ![CGffbQ9Jro826Rxupwvc42Vmn1c](https://zdoc-images.s3.us-west-2.amazonaws.com/cgffbq9jro826rxupwvc42vmn1c.png "CGffbQ9Jro826Rxupwvc42Vmn1c")
 
 1. Click **Try for free**. 
 
     This option is a 30-day free trial offered by AWS. Once the free trial ends, you need to [upgrade the subscription](./subscribe-on-aws-marketplace) to continue using Zilliz Cloud.
 
-    ![UezObKLiuoXCJHx4v8mcPs2Wncd](https://zdoc-images.s3.us-west-2.amazonaws.com/uezobkliuoxcjhx4v8mcps2wncd.png "UezObKLiuoXCJHx4v8mcPs2Wncd")
+    ![KCGqbey5monHEdxTouNcJkIVneg](https://zdoc-images.s3.us-west-2.amazonaws.com/kcgqbey5monhedxtouncjkivneg.png "KCGqbey5monHEdxTouNcJkIVneg")
 
 1. Scroll down the page and click **Subscribe**. 
 
-    ![CpyibfBOdoWUXKxoN5wc43can1g](https://zdoc-images.s3.us-west-2.amazonaws.com/cpyibfbodowuxkxon5wc43can1g.png "CpyibfBOdoWUXKxoN5wc43can1g")
+    ![PllVbyXrMo9ydWxOG2DcjHkZnGf](https://zdoc-images.s3.us-west-2.amazonaws.com/pllvbyxrmo9ydwxog2dcjhkzngf.png "PllVbyXrMo9ydWxOG2DcjHkZnGf")
 
 1. Follow the prompt to **Set up your account** on Zilliz Cloud.
 
@@ -94,7 +94,7 @@ During the free trial, a `Free Trial` tag will appear next to AWS Marketplace Su
 
 In addition, you can also view the trial details in the top banner.
 
-![IlgQbVRjroI0SaxyGOccBjIMnyd](https://zdoc-images.s3.us-west-2.amazonaws.com/ilgqbvrjroi0saxygoccbjimnyd.png "IlgQbVRjroI0SaxyGOccBjIMnyd")
+![OJtZbGmhAoKOC7xlpQsceYtDn0c](https://zdoc-images.s3.us-west-2.amazonaws.com/ojtzbgmhaokoc7xlpqsceytdn0c.png "OJtZbGmhAoKOC7xlpQsceYtDn0c")
 
 For more advanced features, you can upgrade to a paid AWS subscription anytime. To upgrade, simply [subscribe to a public offer](./subscribe-on-aws-marketplace). The new public offer subscription will automatically replace the previous free trial subscription.
 
@@ -172,11 +172,7 @@ There could be several reasons.
 
     - If you need to update an existing marketplace subscription, please unlink the current subscription of the organization first and then set up a new subscription.
 
-    - If you need multiple organizations for different Marketplace subscription, you can:
-
-        - [Register](./register-with-zilliz-cloud) a new Zilliz Cloud account to create a new organization. Then, [invite](./organization-users#invite-a-user-to-your-organization) the organization owner to the new organization. This organization owner will then belong to multiple organizations and can setup different marketplace subscriptions for each organization.
-
-        - [Create a support ticket](http://support.zilliz.com) so that we will create new organizations for you. Currently, Zilliz Cloud does not support manually creating organizations by users.
+    - If you need multiple organizations for different Marketplace subscription, you can [create an organization](./organization-settings#create-an-organization).
 
 - **No organizations in the list**
 
@@ -186,9 +182,7 @@ There could be several reasons.
 
     In this case, you can:
 
-    - Create a new organization.
+    - [Create a new organization](./organization-settings#create-an-organization).
 
     - Ask other users to [invite](./organization-users#invite-a-user-to-your-organization) you to their organizations and grant you the role of an Organization Owner.
-
-    - [Create a support ticket](https://support.zilliz.com/hc/en-us) and we will create a new organization for you.
 

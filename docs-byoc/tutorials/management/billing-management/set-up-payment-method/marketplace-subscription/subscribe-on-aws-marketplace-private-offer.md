@@ -9,7 +9,7 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "A private offer on AWS Marketplace is a custom purchasing option created for your organization by Zilliz. Unlike a public offer, which uses the standard pricing and terms shown on the AWS Marketplace product page, a private offer can include negotiated pricing, custom contract terms, a specific contract duration, and a defined payment schedule. | BYOC"
 type: origin
-token: UwFiwkAPciydBDktH1HcyR8ynEf
+token: QGVxwmnGTidbjtk1LcYcEfqbnOe
 sidebar_position: 3
 displayed_sidebar: default
 
@@ -44,7 +44,7 @@ Before you subscribe to a private offer on AWS Marketplace, make sure:
 
 The following is an overview of the subscription process.
 
-![YkOawvP3Ahilu0bl7MbcwYXAnMc](https://zdoc-images.s3.us-west-2.amazonaws.com/YkOawvP3Ahilu0bl7MbcwYXAnMc.png)
+![I0BNwWPPnhoWZrbMZWnccBE1nYe](https://zdoc-images.s3.us-west-2.amazonaws.com/I0BNwWPPnhoWZrbMZWnccBE1nYe.png)
 
 You can follow the detailed step-by-step guide below to subscribe to a Private Offer on AWS Marketplace.
 
@@ -60,7 +60,7 @@ You can follow the detailed step-by-step guide below to subscribe to a Private O
 
     1. Click the **AWS Marketplace console private offers page** link in the email. When prompted, sign in to AWS with the same account ID shown in the email. Otherwise, you may not be able to view the private offer.
 
-        ![W9SBw67eOhu6kMbX8H3c8OSanRd](https://zdoc-images.s3.us-west-2.amazonaws.com/W9SBw67eOhu6kMbX8H3c8OSanRd.png)
+        ![AAEEwdD8zhamcKbFjB8cr1j7nFc](https://zdoc-images.s3.us-west-2.amazonaws.com/AAEEwdD8zhamcKbFjB8cr1j7nFc.png)
 
         <Admonition type="info" icon="📘" title="Note">
 
@@ -74,13 +74,13 @@ You can follow the detailed step-by-step guide below to subscribe to a Private O
 
     Click **Accept offer**.
 
-    ![I7caw5EAvhN14cbIobGcYWIlnVh](https://zdoc-images.s3.us-west-2.amazonaws.com/I7caw5EAvhN14cbIobGcYWIlnVh.png)
+    ![Xn6qwEcmihhj0LbwOXicnRgMnCh](https://zdoc-images.s3.us-west-2.amazonaws.com/Xn6qwEcmihhj0LbwOXicnRgMnCh.png)
 
 1. Wait for the request to complete.
 
     AWS Marketplace displays a message "Y*our request is in progress, this will take a few minutes. Don't refresh or close this page. Meanwhile, you can set up your account on the vendor's website.*"
 
-    ![SmoBwp2KBhEiwSbnUBpcyZIAnMZ](https://zdoc-images.s3.us-west-2.amazonaws.com/SmoBwp2KBhEiwSbnUBpcyZIAnMZ.png)
+    ![TrnVwl8sHhW8yLbHI0bcVMO7ntf](https://zdoc-images.s3.us-west-2.amazonaws.com/TrnVwl8sHhW8yLbHI0bcVMO7ntf.png)
 
 1. Set up your account.
 
@@ -94,27 +94,27 @@ You can follow the detailed step-by-step guide below to subscribe to a Private O
 
     </Admonition>
 
-    ![Xi96wsQoChKl2ob1O4zcG0AXnCh](https://zdoc-images.s3.us-west-2.amazonaws.com/Xi96wsQoChKl2ob1O4zcG0AXnCh.png)
+    ![PJGGwBu6nh8lSQbZK1ac2wfhn0d](https://zdoc-images.s3.us-west-2.amazonaws.com/PJGGwBu6nh8lSQbZK1ac2wfhn0d.png)
 
 1. Link Marketplace subscription to Zilliz Cloud organization.
 
     1. Log into your Zilliz Cloud account.
 
-        ![KCUgb1PmNokHAvxJGdOcwzrBnye](https://zdoc-images.s3.us-west-2.amazonaws.com/kcugb1pmnokhavxjgdocwzrbnye.png "KCUgb1PmNokHAvxJGdOcwzrBnye")
+        ![Q6PDbtOwioM06kxe46ecIAKCnMh](https://zdoc-images.s3.us-west-2.amazonaws.com/q6pdbtowiom06kxe46eciakcnmh.png "Q6PDbtOwioM06kxe46ecIAKCnMh")
 
     1. Select a Zilliz Cloud organization to link to the Marketplace subscription.
 
         If no organization is available to select, or if you have any questions, contact [Zilliz Support](http://support.zilliz.com).
 
-        ![CBpUbHxGUo8BL9xL1lmcCd2Hnyh](https://zdoc-images.s3.us-west-2.amazonaws.com/cbpubhxguo8bl9xl1lmccd2hnyh.png "CBpUbHxGUo8BL9xL1lmcCd2Hnyh")
+        ![HvVkbNvp9oe5wIxkdWvcDMWJnNc](https://zdoc-images.s3.us-west-2.amazonaws.com/hvvkbnvp9oe5wixkdwvcdmwjnnc.png "HvVkbNvp9oe5wIxkdWvcDMWJnNc")
 
     1. When the process is complete, the following confirmation window appears.
 
-        ![DE3PbRSH8oGH4axcZjHcwWoGnhe](https://zdoc-images.s3.us-west-2.amazonaws.com/de3pbrsh8ogh4axczjhcwwognhe.png "DE3PbRSH8oGH4axcZjHcwWoGnhe")
+        ![REvibD9Nvog0X9xsNGMcwrvynTg](https://zdoc-images.s3.us-west-2.amazonaws.com/revibd9nvog0x9xsngmcwrvyntg.png "REvibD9Nvog0X9xsNGMcwrvynTg")
 
     1. On the Zilliz Cloud **Billing** page, find the **Payment Method** section. You can verify your subscription by hovering on the ID icon.
 
-        ![KqtwbbvUZoWU5ExRBVwc3815nfc](https://zdoc-images.s3.us-west-2.amazonaws.com/kqtwbbvuzowu5exrbvwc3815nfc.png "KqtwbbvUZoWU5ExRBVwc3815nfc")
+        ![NjQObiKEco940qxMYSpc8g0mnHb](https://zdoc-images.s3.us-west-2.amazonaws.com/njqobikeco940qxmyspc8g0mnhb.png "NjQObiKEco940qxMYSpc8g0mnHb")
 
 </Procedures>
 
@@ -130,7 +130,7 @@ For AWS Marketplace, renewal works as accepting a new private offer. After you a
 
 The following is an overview of the renewal process.
 
-![JxopwqDRIhe4xYbVnVMcumgonEh](https://zdoc-images.s3.us-west-2.amazonaws.com/JxopwqDRIhe4xYbVnVMcumgonEh.png)
+![GKcDwCIv4hVc12bEFPvcXshQniR](https://zdoc-images.s3.us-west-2.amazonaws.com/GKcDwCIv4hVc12bEFPvcXshQniR.png)
 
 You can follow the detailed step-by-step guide below to subscribe to a Private Offer on AWS Marketplace.
 
@@ -142,13 +142,13 @@ You can follow the detailed step-by-step guide below to subscribe to a Private O
 
     1. Click the **AWS Marketplace console private offers page** link in the email. When prompted, sign in to AWS with the same account ID shown in the email.
 
-        ![SGUBwGUMThGE94b4Vmhc657snLd](https://zdoc-images.s3.us-west-2.amazonaws.com/SGUBwGUMThGE94b4Vmhc657snLd.png)
+        ![GvHEwgn55hnE1fbRg1Mcg8UEnOc](https://zdoc-images.s3.us-west-2.amazonaws.com/GvHEwgn55hnE1fbRg1Mcg8UEnOc.png)
 
 1. On the AWS Marketplace page, go to the **Your offers** section and confirm that the correct offer is selected. The **Offer ID** should match the ID shown in the email.
 
     You will be prompted "**Accepting this offer replaces your current agreement**".
 
-    ![EMx2wlyV9hMhg9bEec7crTNVnlh](https://zdoc-images.s3.us-west-2.amazonaws.com/EMx2wlyV9hMhg9bEec7crTNVnlh.png)
+    ![NLAjwwr9ahgutebTFJKcVyntnxb](https://zdoc-images.s3.us-west-2.amazonaws.com/NLAjwwr9ahgutebTFJKcVyntnxb.png)
 
 1. Review the offer details and accept the offer.
 
@@ -156,7 +156,7 @@ You can follow the detailed step-by-step guide below to subscribe to a Private O
 
     Click **Accept offer**.
 
-    ![SCI0wLaaohG7q7bcvM1cnbirnQb](https://zdoc-images.s3.us-west-2.amazonaws.com/SCI0wLaaohG7q7bcvM1cnbirnQb.png)
+    ![YHQxwYXemhfrvubRftzcjBSPn7e](https://zdoc-images.s3.us-west-2.amazonaws.com/YHQxwYXemhfrvubRftzcjBSPn7e.png)
 
 1. Wait for the request to complete.
 
@@ -182,27 +182,27 @@ You can follow the detailed step-by-step guide below to subscribe to a Private O
 
     </Admonition>
 
-    ![ZuYRwsF0thnbSebZbwscGas4nNe](https://zdoc-images.s3.us-west-2.amazonaws.com/ZuYRwsF0thnbSebZbwscGas4nNe.png)
+    ![SEMzwPBZNh5ejWbOOdAcmPJunRf](https://zdoc-images.s3.us-west-2.amazonaws.com/SEMzwPBZNh5ejWbOOdAcmPJunRf.png)
 
 1. Link Marketplace subscription to Zilliz Cloud organization.
 
     1. Log into your Zilliz Cloud account.
 
-        ![JBhXbGEn1os1DVxloegcjFhonAe](https://zdoc-images.s3.us-west-2.amazonaws.com/jbhxbgen1os1dvxloegcjfhonae.png "JBhXbGEn1os1DVxloegcjFhonAe")
+        ![U3fHb1ZF1o9AWnxYyztcTcpBnXe](https://zdoc-images.s3.us-west-2.amazonaws.com/u3fhb1zf1o9awnxyyztctcpbnxe.png "U3fHb1ZF1o9AWnxYyztcTcpBnXe")
 
     1. Select a Zilliz Cloud organization to link to the Marketplace subscription.
 
         If no organization is available to select, or if you have any questions, contact [Zilliz Support](http://support.zilliz.com).
 
-        ![XSENb4hkvo5BSzx0ja7c5zKOnPM](https://zdoc-images.s3.us-west-2.amazonaws.com/xsenb4hkvo5bszx0ja7c5zkonpm.png "XSENb4hkvo5BSzx0ja7c5zKOnPM")
+        ![KgGJbyKCsoT15cxTzgDcsadWnHc](https://zdoc-images.s3.us-west-2.amazonaws.com/kggjbykcsot15cxtzgdcsadwnhc.png "KgGJbyKCsoT15cxTzgDcsadWnHc")
 
     1. When the process is complete, the following confirmation window appears.
 
-        ![GpDMbLHMboSBILxgU5Hc9Murn5c](https://zdoc-images.s3.us-west-2.amazonaws.com/gpdmblhmbosbilxgu5hc9murn5c.png "GpDMbLHMboSBILxgU5Hc9Murn5c")
+        ![Rbp1bcYjJoFfyjxf2s7cLO8KnQh](https://zdoc-images.s3.us-west-2.amazonaws.com/rbp1bcyjjoffyjxf2s7clo8knqh.png "Rbp1bcYjJoFfyjxf2s7cLO8KnQh")
 
     1. On the Zilliz Cloud **Billing** page, find the **Payment Method** section. You can verify your subscription by hovering on the ID icon.
 
-        ![Gb7LbzPJGotEzwxqDT7coVoqnob](https://zdoc-images.s3.us-west-2.amazonaws.com/gb7lbzpjgotezwxqdt7covoqnob.png "Gb7LbzPJGotEzwxqDT7coVoqnob")
+        ![G15cbgalfoDgRExOSBWcfbzlnxd](https://zdoc-images.s3.us-west-2.amazonaws.com/g15cbgalfodgrexosbwcfbzlnxd.png "G15cbgalfoDgRExOSBWcfbzlnxd")
 
 </Procedures>
 
@@ -264,11 +264,7 @@ There could be several reasons.
 
     - If you need to update an existing marketplace subscription, please unlink the current subscription of the organization first and then set up a new subscription.
 
-    - If you need multiple organizations for different Marketplace subscription, you can:
-
-        - [Register](./register-with-zilliz-cloud) a new Zilliz Cloud account to create a new organization. Then, [invite](./organization-users#invite-a-user-to-your-organization) the organization owner to the new organization. This organization owner will then belong to multiple organizations and can setup different marketplace subscriptions for each organization.
-
-        - [Create a support ticket](http://support.zilliz.com) so that we will create new organizations for you. Currently, Zilliz Cloud does not support manually creating organizations by users.
+    - If you need multiple organizations for different Marketplace subscription, you can [create an organization](./organization-settings#create-an-organization).
 
 - **No organizations in the list**
 
@@ -278,9 +274,7 @@ There could be several reasons.
 
     In this case, you can:
 
-    - Create a new organization.
+    - [Create a new organization](./organization-settings#create-an-organization).
 
     - Ask other users to [invite](./organization-users#invite-a-user-to-your-organization) you to their organizations and grant you the role of an Organization Owner.
-
-    - [Create a support ticket](https://support.zilliz.com/hc/en-us) and we will create a new organization for you.
 

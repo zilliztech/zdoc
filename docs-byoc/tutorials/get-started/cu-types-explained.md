@@ -28,11 +28,11 @@ Zilliz Cloud offers these cluster types: **Performance-optimized, Capacity-optim
 
 The following table offers a quick comparison of the three cluster types in different aspects. For a detailed comparison in terms of the capacity and performance among the cluster types, please proceed to [Select an optimal cluster type](./cu-types-explained#select-an-optimal-cluster-type).
 
-| Cluster Type | Search QPS | Search Latency | Per Query CU Capacity | Cost per Million Vectors |
-| --- | --- | --- | --- | --- |
-| **Performance-optimized** | 500-1500 | 10 ms | 2 million 768-dim vectors | from &#36;63/mo. |
-| **Capacity-optimized** | 100-300 | 50-100 ms | 8 million 768-dim vectors | from &#36;16/mo. |
-| **Tiered-storage** | 10-50 | 100-1000 ms | 40 million 768-dim vectors | from &#36;5/mo. |
+| Cluster Type | Search QPS | Search Latency | Per Query CU Capacity |
+| --- | --- | --- | --- |
+| **Performance-optimized** | 500-1500 | 10 ms | 2 million 768-dim vectors |
+| **Capacity-optimized** | 100-300 | 50-100 ms | 8 million 768-dim vectors |
+| **Tiered-storage** | 10-50 | 100-1000 ms | 40 million 768-dim vectors |
 
 ### Performance-optimized cluster\{#performance-optimized-cluster}
 

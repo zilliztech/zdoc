@@ -60,7 +60,7 @@ For more information about obtaining credentials, refer to:
 
 For more information about using session tokens, refer to [this FAQ](/docs/faq-data-import#can-i-use-short-term-credentials-when-importing-data-from-an-object-storage-service).
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="📘 Notes">
 
 For successful data import, ensure the target collection has less than 10,000 running or pending import jobs.
 

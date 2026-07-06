@@ -664,7 +664,7 @@ module.exports = [
           {
             "type": "doc",
             "id": "tutorials/development/schema/add-fields-to-an-existing-collection",
-            "label": "Alter Schema",
+            "label": "Alter Schema (Managed Collection)",
             "key": "doc:tutorials/development/schema/add-fields-to-an-existing-collection"
           },
           {
@@ -990,7 +990,7 @@ module.exports = [
           },
           {
             "type": "category",
-            "label": "Built-in Analyzer",
+            "label": "Built-in Analyzers",
             "key": "category:tutorials/development/analyzer/built-in-analyzer",
             "items": [
               {
@@ -1015,7 +1015,7 @@ module.exports = [
           },
           {
             "type": "category",
-            "label": "Tokenizer",
+            "label": "Tokenizers",
             "key": "category:tutorials/development/analyzer/tokenizers",
             "items": [
               {
@@ -1146,6 +1146,12 @@ module.exports = [
             "id": "tutorials/development/analyzer/choose-the-right-analyzer-for-your-use-case",
             "label": "Best Practice",
             "key": "doc:tutorials/development/analyzer/choose-the-right-analyzer-for-your-use-case"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/development/analyzer/manage-file-resources",
+            "label": "Manage File Resources",
+            "key": "doc:tutorials/development/analyzer/manage-file-resources"
           }
         ]
       }
@@ -1244,28 +1250,47 @@ module.exports = [
                 "type": "category",
                 "label": "Scale Cluster",
                 "key": "category:tutorials/management/clusters/dedicated-cluster/scale-cluster",
-                "link": {
-                  "type": "doc",
-                  "id": "tutorials/management/clusters/dedicated-cluster/scale-cluster/scale-cluster"
-                },
                 "items": [
                   {
                     "type": "doc",
-                    "id": "tutorials/management/clusters/dedicated-cluster/scale-cluster/scale-query-cu",
-                    "label": "Scale Query CU",
-                    "key": "doc:tutorials/management/clusters/dedicated-cluster/scale-cluster/scale-query-cu"
+                    "id": "tutorials/management/clusters/dedicated-cluster/scale-cluster/plan-cluster-scaling",
+                    "label": "Plan Cluster Scaling",
+                    "key": "doc:tutorials/management/clusters/dedicated-cluster/scale-cluster/plan-cluster-scaling"
                   },
                   {
                     "type": "doc",
-                    "id": "tutorials/management/clusters/dedicated-cluster/scale-cluster/manage-replica",
-                    "label": "Scale Replica",
-                    "key": "doc:tutorials/management/clusters/dedicated-cluster/scale-cluster/manage-replica"
+                    "id": "tutorials/management/clusters/dedicated-cluster/scale-cluster/manual-scaling",
+                    "label": "Manual Scaling",
+                    "key": "doc:tutorials/management/clusters/dedicated-cluster/scale-cluster/manual-scaling"
                   },
                   {
                     "type": "doc",
-                    "id": "tutorials/management/clusters/dedicated-cluster/scale-cluster/cron-expression",
-                    "label": "Cron Expression",
-                    "key": "doc:tutorials/management/clusters/dedicated-cluster/scale-cluster/cron-expression"
+                    "id": "tutorials/management/clusters/dedicated-cluster/scale-cluster/auto-scaling",
+                    "label": "Auto-scaling",
+                    "key": "doc:tutorials/management/clusters/dedicated-cluster/scale-cluster/auto-scaling"
+                  },
+                  {
+                    "type": "category",
+                    "label": "Scheduled Scaling",
+                    "key": "category:tutorials/management/clusters/dedicated-cluster/scale-cluster/scheduled-scaling",
+                    "link": {
+                      "type": "doc",
+                      "id": "tutorials/management/clusters/dedicated-cluster/scale-cluster/scheduled-scaling/scheduled-scaling"
+                    },
+                    "items": [
+                      {
+                        "type": "doc",
+                        "id": "tutorials/management/clusters/dedicated-cluster/scale-cluster/scheduled-scaling/cron-expression",
+                        "label": "Cron Expression",
+                        "key": "doc:tutorials/management/clusters/dedicated-cluster/scale-cluster/scheduled-scaling/cron-expression"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "doc",
+                    "id": "tutorials/management/clusters/dedicated-cluster/scale-cluster/canary-upgrade",
+                    "label": "Canary Upgrade",
+                    "key": "doc:tutorials/management/clusters/dedicated-cluster/scale-cluster/canary-upgrade"
                   }
                 ]
               },
@@ -1414,7 +1439,7 @@ module.exports = [
           },
           {
             "type": "category",
-            "label": "Observability Integrations",
+            "label": "Monitor Integrations",
             "key": "category:tutorials/management/metrics-and-alerts/observability-integrations",
             "items": [
               {
@@ -1441,13 +1466,13 @@ module.exports = [
           {
             "type": "ref",
             "id": "tutorials/management/organizations/organization-users",
-            "label": "Organization Users",
+            "label": "Manage Organization Users",
             "key": "ref:tutorials/management/access-control/organization-users"
           },
           {
             "type": "ref",
             "id": "tutorials/management/projects/project-users",
-            "label": "Project Users",
+            "label": "Manage Project Users",
             "key": "ref:tutorials/management/access-control/project-users"
           },
           {
@@ -1593,25 +1618,25 @@ module.exports = [
       {
         "type": "category",
         "label": "Audit Logs",
-        "key": "category:tutorials/management/audit-logs",
+        "key": "category:tutorials/management/auditing",
         "items": [
           {
             "type": "doc",
-            "id": "tutorials/management/audit-logs/audit-logs",
+            "id": "tutorials/management/auditing/audit-logs",
             "label": "VectorDB Audit Logs",
-            "key": "doc:tutorials/management/audit-logs/audit-logs"
+            "key": "doc:tutorials/management/auditing/audit-logs"
           },
           {
             "type": "doc",
-            "id": "tutorials/management/audit-logs/audit-logs-ref",
+            "id": "tutorials/management/auditing/audit-logs-ref",
             "label": "VectorDB Audit Logs Reference",
-            "key": "doc:tutorials/management/audit-logs/audit-logs-ref"
+            "key": "doc:tutorials/management/auditing/audit-logs-ref"
           },
           {
             "type": "doc",
-            "id": "tutorials/management/audit-logs/view-activities",
+            "id": "tutorials/management/auditing/view-activities",
             "label": "View Platform Audit Logs",
-            "key": "doc:tutorials/management/audit-logs/view-activities"
+            "key": "doc:tutorials/management/auditing/view-activities"
           }
         ]
       },
@@ -1642,9 +1667,34 @@ module.exports = [
       },
       {
         "type": "category",
+        "label": "Slow Logs",
+        "key": "category:tutorials/management/slow-logs",
+        "items": [
+          {
+            "type": "doc",
+            "id": "tutorials/management/slow-logs/configure-slow-logs",
+            "label": "Configure Slow Logs",
+            "key": "doc:tutorials/management/slow-logs/configure-slow-logs"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/management/slow-logs/slow-log-reference",
+            "label": "Slow Logs Reference",
+            "key": "doc:tutorials/management/slow-logs/slow-log-reference"
+          }
+        ]
+      },
+      {
+        "type": "category",
         "label": "Billing Management",
         "key": "category:tutorials/management/billing-management",
         "items": [
+          {
+            "type": "doc",
+            "id": "tutorials/management/billing-management/understand-byoc-billing",
+            "label": "Understand BYOC Billing",
+            "key": "doc:tutorials/management/billing-management/understand-byoc-billing"
+          },
           {
             "type": "doc",
             "id": "tutorials/management/billing-management/payment-billing",
@@ -1653,7 +1703,7 @@ module.exports = [
           },
           {
             "type": "category",
-            "label": "Set Up Payment Method",
+            "label": "Set up Payment Method",
             "key": "category:tutorials/management/billing-management/set-up-payment-method",
             "items": [
               {
@@ -1661,6 +1711,12 @@ module.exports = [
                 "id": "tutorials/management/billing-management/set-up-payment-method/credits",
                 "label": "Credits",
                 "key": "doc:tutorials/management/billing-management/set-up-payment-method/credits"
+              },
+              {
+                "type": "doc",
+                "id": "tutorials/management/billing-management/set-up-payment-method/subscribe-by-adding-credit-card",
+                "label": "Credit Card",
+                "key": "doc:tutorials/management/billing-management/set-up-payment-method/subscribe-by-adding-credit-card"
               },
               {
                 "type": "doc",
@@ -1675,19 +1731,74 @@ module.exports = [
                 "items": [
                   {
                     "type": "doc",
+                    "id": "tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-aws-marketplace",
+                    "label": "AWS Marketplace (Public Offer)",
+                    "key": "doc:tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-aws-marketplace"
+                  },
+                  {
+                    "type": "doc",
                     "id": "tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-aws-marketplace-private-offer",
                     "label": "AWS Marketplace (Private Offer)",
                     "key": "doc:tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-aws-marketplace-private-offer"
                   },
                   {
                     "type": "doc",
+                    "id": "tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-gcp-marketplace",
+                    "label": "Google Cloud Marketplace (Public Offer)",
+                    "key": "doc:tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-gcp-marketplace"
+                  },
+                  {
+                    "type": "doc",
                     "id": "tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-gcp-marketplace-private-offer",
                     "label": "Google Cloud Marketplace (Private Offer)",
                     "key": "doc:tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-gcp-marketplace-private-offer"
+                  },
+                  {
+                    "type": "doc",
+                    "id": "tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-azure-marketplace",
+                    "label": "Microsoft Marketplace (Public Offer)",
+                    "key": "doc:tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-azure-marketplace"
                   }
                 ]
               }
             ]
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/management/billing-management/update-payment-method",
+            "label": "Update Payment Method",
+            "key": "doc:tutorials/management/billing-management/update-payment-method"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/management/billing-management/update-billing-profile",
+            "label": "Update Billing Profile",
+            "key": "doc:tutorials/management/billing-management/update-billing-profile"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/management/billing-management/view-invoice",
+            "label": "Understand Invoices",
+            "key": "doc:tutorials/management/billing-management/view-invoice"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/management/billing-management/manage-invoice",
+            "label": "Manage Invoices",
+            "key": "doc:tutorials/management/billing-management/manage-invoice"
+          }
+        ]
+      },
+      {
+        "type": "category",
+        "label": "Cost Management",
+        "key": "category:tutorials/management/cost-management",
+        "items": [
+          {
+            "type": "doc",
+            "id": "tutorials/management/cost-management/analyze-cost",
+            "label": "Analyze Cost",
+            "key": "doc:tutorials/management/cost-management/analyze-cost"
           }
         ]
       },
@@ -1889,7 +2000,7 @@ module.exports = [
       },
       {
         "type": "link",
-        "href": "/reference/cli/overview",
+        "href": "/reference/cli/cli/overview",
         "label": "Zilliz CLI",
         "key": "link:tutorials/tools/zilliz-cli"
       }

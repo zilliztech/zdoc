@@ -206,7 +206,7 @@ To disable public endpoints:
 
 </Procedures>
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="📘 Notes">
 
 - Private endpoints only impact [data plane](/reference/restful/data-plane-v2) access. [Control plane](/reference/restful/control-plane-v2) can still be accessed over the public internet.
 

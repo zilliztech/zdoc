@@ -20,15 +20,21 @@ import Admonition from '@theme/Admonition';
 
 # Scale Global Cluster
 
+<FeatureNote variant="plan" titleHref="/docs/select-zilliz-cloud-service-plans">
+
+This feature is available only on Business Critical (SaaS) and BYOC deployments.
+
+</FeatureNote>
+
+<FeatureNote variant="region" titleHref="/docs/cloud-providers-and-regions">
+
+This feature is available in all AWS regions and in the following Google Cloud regions: gcp-us-central1 and gcp-us-east4. It is not available on Microsoft Azure.
+
+</FeatureNote>
+
 Scaling a global cluster works differently from scaling a regular Dedicated cluster. Some resource settings are controlled centrally from the primary cluster, while others are configured independently per cluster.
 
 This page explains the scaling behavior for global clusters and how to scale each resource type. 
-
-<Admonition type="info" icon="📘" title="Notes">
-
-This feature is available only to **Dedicated** clusters in a **Business Critical** project.
-
-</Admonition>
 
 ## Before you start\{#before-you-start}
 
@@ -47,7 +53,15 @@ The following table provides an overview of the supported scaling behavior on a 
 
 Query CU scaling is controlled at the primary cluster level. When you change the number of query CU on the primary, Zilliz Cloud automatically applies the new query CU count to all secondary clusters. You cannot scale a secondary cluster's query CU independently — it always matches the primary.
 
-Scaling the query CU of a primary cluster follows the same procedure as a regular Dedicated cluster. For details, see [Scale Query CU](./scale-query-cu).
+Scaling the query CU of a primary cluster follows the same procedure as a regular Dedicated cluster. For details, see:
+
+- [Manual Scaling](./manual-scaling#scale-query-cu-manually) (web console)
+
+- [Dynamic Scaling](./auto-scaling#via-web-console)(web console)
+
+- [Scheduled Scaling](./scheduled-scaling#query-cu-scheduled-scaling)(web console)
+
+-  [Modify Global Cluster CU](/reference/restful/modify-global-cluster-cu-v2) (RESTful API)
 
 ### Considerations\{#considerations}
 
@@ -69,7 +83,15 @@ The following is an example of configuration replicas for each cluster.
 | Secondary_01 | eu-west-1 | 4 | High European read traffic |
 | Secondary_02 | ap-southeast-1 | 1 | Low traffic, disaster recovery standby only |
 
-Scaling the replica of a primary or secondary cluster follows the same procedure as a regular Dedicated cluster. For details, see [Scale Replica](./manage-replica).
+Scaling the replica of a primary or secondary cluster follows the same procedure as a regular Dedicated cluster. For details, see:
+
+- [Manual Scaling](./manual-scaling#scale-replica-manually) (web console)
+
+- [Dynamic Scaling](./auto-scaling#via-web-console) (web console)
+
+- [Scheduled Scaling](./scheduled-scaling#replica-scheduled-scaling) (web console)
+
+- [Modify Cluster Replica](/reference/restful/modify-cluster-replica-v2) (RESTful API)
 
 ### Considerations\{#considerations}
 
@@ -79,7 +101,7 @@ Scaling the replica of a primary or secondary cluster follows the same procedure
 
     - Maximum 10 replicas
 
-    - CU × Replica ≤ 1,024
+    - CU × Replica ≤ 10,240
 
 - During replica scaling, [switchover](./switchover-and-failover#perform-a-switchover) is blocked on the global cluster.
 

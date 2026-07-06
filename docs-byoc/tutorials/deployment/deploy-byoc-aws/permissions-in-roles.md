@@ -2,7 +2,7 @@
 title: "Permissions in Roles | BYOC"
 slug: /permissions-in-roles
 sidebar_label: "Permissions in Roles"
-beta: FALSE
+beta: CONTACT SALES
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE

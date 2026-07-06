@@ -411,17 +411,17 @@ The `extra_dict_file` parameter accepts an object with the following fields:
 
 | Field | Description |
 | --- | --- |
-| `type` | The resource type. Use `"remote"` for a file registered via `add_file_resource`. For the `"local"` variant used in self-hosted deployments, refer to [Manage File Resources](./undefined). |
+| `type` | The resource type. Use `"remote"` for a file registered via `add_file_resource`. For the `"local"` variant used in self-hosted deployments, refer to [Manage File Resources](./manage-file-resources). |
 | `resource_name` | The name used when the file was registered with `add_file_resource`. |
 | `file_name` | The filename portion of the registered resource's object-store path (for example, `"zh_terms.txt"` if the resource was registered with `path="file/zh_terms.txt"`). |
 
 Words added via `extra_dict_file` are merged with the built-in dictionary, so jieba's segmentation algorithm sees them alongside existing entries. Whether any specific term surfaces as a standalone token depends on jieba's probability-weighted DAG selection — a long custom term such as `向量数据库` may still be split into `向量` + `数据库` if those shorter entries have higher frequencies in the built-in dictionary.
 
-## Examples\{#examples}
+## Examples{#examples}
 
 Before applying the analyzer configuration to your collection schema, verify its behavior using the `run_analyzer` method.
 
-### Analyzer configuration\{#analyzer-configuration}
+### Analyzer configuration{#analyzer-configuration}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -496,7 +496,7 @@ nlohmann::json analyzerParams = {
 };
 ```
 
-### Verification using `run_analyzer`\{#verification-using-runanalyzer}
+### Verification using `run_analyzer`{#verification-using-runanalyzer}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -621,7 +621,7 @@ if (!status.IsOk()) {
 }
 ```
 
-### Expected output\{#expected-output}
+### Expected output{#expected-output}
 
 ```python
 ['milvus', '结巴分词器', '中', '文', '测', '试']

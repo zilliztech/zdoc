@@ -84,7 +84,7 @@ You can also include metadata filtering within searches and queries to improve t
 
 For details on applicable metric types, refer to [Metric Types](./search-metrics-explained).
 
-For more information about searches and queries, refer to the articles in the Search & Rerank chapter, among which, basic features are:
+For more information about searches and queries, refer to the articles in the [Search](./zilliz-search-prompts) chapter, among which, basic features are:
 
 - [Basic ANN Search](./single-vector-search)
 
