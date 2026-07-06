@@ -15,8 +15,8 @@ import styles from './styles.module.css';
 
 let persistedHiddenContainer = false;
 let persistedHidden = false;
-const NAV_COMPACT_ENTER_WIDTH = 1030;
-const NAV_COMPACT_EXIT_WIDTH = 1070;
+const NAV_COMPACT_ENTER_WIDTH = 1275;
+const NAV_COMPACT_EXIT_WIDTH = 1315;
 const NAV_MOBILE_ENTER_WIDTH = 760;
 const NAV_MOBILE_EXIT_WIDTH = 800;
 const CHAT_MIN_WIDTH = 320;
@@ -321,7 +321,11 @@ function DocRootLayoutInner({children}: Props): ReactNode {
       window.removeEventListener('resize', updateIfNotResizing);
     };
   }, [updateNavCompact, pathname]);
-  useEffect(() => () => {
+  // Layout-effect (not passive) so the cleanup runs during the unmount commit,
+  // BEFORE the next route's DocRoot layout effect re-sets the class. As a passive
+  // effect this cleanup fired afterwards and clobbered the fresh value, dropping
+  // the compact/merged layout when navigating docs → /reference.
+  useBrowserLayoutEffect(() => () => {
     document.body.classList.remove('docs-nav-compact');
     document.body.classList.remove('docs-nav-mobile');
   }, []);
