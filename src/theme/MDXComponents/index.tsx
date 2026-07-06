@@ -10,6 +10,7 @@ import MDXLi from '@theme/MDXComponents/Li';
 import MDXImg from '@theme/MDXComponents/Img';
 import Admonition from '@theme/Admonition';
 import Mermaid from '@theme/Mermaid';
+import FeatureCardGrid, {FeatureCard} from '@site/src/components/FeatureCardGrid';
 import FeatureNote from '@site/src/components/FeatureNote';
 
 import type {MDXComponentsObject} from '@theme/MDXComponents';
@@ -67,6 +68,8 @@ const MDXComponents = {
   h6: Object.assign((props: any) => <MDXHeading as="h6" {...props} />, {mdxTag: 'h6'}),
   admonition: Admonition,
   mermaid: Mermaid,
+  FeatureCardGrid,
+  FeatureCard,
   FeatureNote,
   // Custom icons used in docs
   LniInfo,

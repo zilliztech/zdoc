@@ -32,7 +32,7 @@ const KNOWN_JSX_TAGS = new Set([
     'Admonition', 'Tabs', 'TabItem', 'DocCard', 'DocCardList',
     'Details', 'CodeBlock', 'ThemedImage', 'TOCInline', 'Highlight',
     'Banner', 'Bars', 'Blocks', 'Cards', 'Grid', 'Hero', 'Procedures',
-    'RestSpecs', 'Stories', 'Supademo', 'FeatureNote',
+    'RestSpecs', 'Stories', 'Supademo', 'FeatureNote', 'FeatureCardGrid', 'FeatureCard',
 ]);
 
 class larkDocWriter {
@@ -1174,6 +1174,10 @@ class larkDocWriter {
             imports = imports + "\n\nimport Grid from '@site/src/components/Grid';"
         }
 
+        if (markdown.match(/\<FeatureCardGrid/g)) {
+            imports = imports + "\n\nimport FeatureCardGrid, { FeatureCard } from '@site/src/components/FeatureCardGrid';"
+        }
+
         if (markdown.match(/\<Procedures/g)) {
             imports = imports + "\n\nimport Procedures from '@site/src/components/Procedures';"
         }
@@ -1268,6 +1272,7 @@ class larkDocWriter {
     async __markdown(blocks=null, indent=0) {
         const markdown = [];
         const idt = " ".repeat(indent);
+        let nextGridFeatureCardConfig = null;
         if (blocks === null) {
             blocks = this.blocks;
             markdown.push(await this.__page(this.page_blocks[0]['page']));
@@ -1279,12 +1284,14 @@ class larkDocWriter {
                 continue;
             }
             console.log(block['block_id'], this.block_types[block['block_type']-1], block['block_type']);
+            const blockType = this.block_types[block['block_type'] - 1];
             const prev_block = idx > 0 ? blocks[idx-1] : null;
             const next_block = idx < blocks.length-1 ? blocks[idx+1] : null;
 
-            if (this.block_types[block['block_type']-1] === undefined) {
+            if (blockType === undefined) {
+                nextGridFeatureCardConfig = null;
                 markdown.push('[Unsupported block type]');
-            } else if (this.block_types[block['block_type']-1] === 'text') {
+            } else if (blockType === 'text') {
                 let content = await this.__text(block['text']);
                 if (content.trim().indexOf('\n') > 0) {
                     content = content.split('\n').map(line => idt + line).join('\n');
@@ -1292,45 +1299,71 @@ class larkDocWriter {
                     content = idt + content;
                 }
 
+                const featureCardGridMarker = this.__parse_feature_card_grid_marker(content);
+                if (featureCardGridMarker) {
+                    nextGridFeatureCardConfig = featureCardGridMarker;
+                    continue;
+                }
+
+                if (content.trim() !== '') {
+                    nextGridFeatureCardConfig = null;
+                }
+
                 markdown.push(content);
-            } else if (this.block_types[block['block_type']-1].includes('heading')) {
-                const level = parseInt(this.block_types[block['block_type']-1].slice(-1));
+            } else if (blockType.includes('heading')) {
+                nextGridFeatureCardConfig = null;
+                const level = parseInt(blockType.slice(-1));
                 markdown.push(idt + await this.__heading(block[`heading${level}`], level));
-            } else if (this.block_types[block['block_type']-1] === 'bullet') {
+            } else if (blockType === 'bullet') {
+                nextGridFeatureCardConfig = null;
                 markdown.push(await this.__bullet(block, indent));
-            } else if (this.block_types[block['block_type']-1] === 'ordered') {
+            } else if (blockType === 'ordered') {
+                nextGridFeatureCardConfig = null;
                 markdown.push(await this.__ordered(block, indent));
-            } else if (this.block_types[block['block_type']-1] === 'code') {
+            } else if (blockType === 'code') {
+                nextGridFeatureCardConfig = null;
                 markdown.push(await this.__code(block['code'], indent, prev_block, next_block, blocks));
-            } else if (this.block_types[block['block_type']-1] === 'quote_container') {
+            } else if (blockType === 'quote_container') {
+                nextGridFeatureCardConfig = null;
                 markdown.push(await this.__quote(block, indent));
-            } else if (this.block_types[block['block_type']-1] === 'image') {
+            } else if (blockType === 'image') {
+                nextGridFeatureCardConfig = null;
                 markdown.push(idt + (await this.__image(block['image'])));
-            } else if (this.block_types[block['block_type']-1] === 'iframe') {
+            } else if (blockType === 'iframe') {
+                nextGridFeatureCardConfig = null;
                 markdown.push(idt + (await this.__iframe(block)));
-            } else if (this.block_types[block['block_type']-1] === 'table') {
+            } else if (blockType === 'table') {
+                nextGridFeatureCardConfig = null;
                 markdown.push(await this.__table(block['table'], indent));
-            } else if (this.block_types[block['block_type']-1] === 'sheet') {
+            } else if (blockType === 'sheet') {
+                nextGridFeatureCardConfig = null;
                 markdown.push(await this.__sheet(block['sheet'], indent));
-            } else if (this.block_types[block['block_type']-1] === 'callout') {
+            } else if (blockType === 'callout') {
+                nextGridFeatureCardConfig = null;
                 markdown.push(await this.__callout(block, indent));
-            } else if (this.block_types[block['block_type']-1] === 'board') {
+            } else if (blockType === 'board') {
+                nextGridFeatureCardConfig = null;
                 markdown.push(await this.__board(block['board'], indent));
-            } else if (this.block_types[block['block_type']-1] === 'grid') {
-                markdown.push(await this.__grid(block, indent));
-            } else if (this.block_types[block['block_type']-1] === 'add_ons') {
+            } else if (blockType === 'grid') {
+                markdown.push(await this.__grid(block, indent, nextGridFeatureCardConfig));
+                nextGridFeatureCardConfig = null;
+            } else if (blockType === 'add_ons') {
+                nextGridFeatureCardConfig = null;
                 // supademo add-ons
                 if (block['add_ons']['component_type_id'] === 'blk_682093ba9580c002363b9dc3') {
                     markdown.push(await this.__supademo(block['add_ons'], indent));
                 }
-            } else if (this.block_types[block['block_type']-1] === 'source_synced') {
+            } else if (blockType === 'source_synced') {
+                nextGridFeatureCardConfig = null;
                 markdown.push(await this.__source_synced(block, indent));
             } else if (block['block_type'] === 999 && block['children']) {
+                nextGridFeatureCardConfig = null;
                 const children = block['children'].map(child => {
                     return this.__retrieve_block_by_id(child)
                 })
                 markdown.push(await this.__markdown(children, indent));
             } else {
+                nextGridFeatureCardConfig = null;
                 console.log(`Unprocessed: ${block['block_id']}`);
             }
         }
@@ -2575,10 +2608,106 @@ class larkDocWriter {
         return ' '.repeat(indent) + `<Supademo id="${record['id']}" title="" ${record['isShowcase'] ? 'isShowcase' : ''} />`;
     }
 
-    async __grid(block, indent) {
+    __feature_card_icon_names() {
+        return new Set(['AlertTriangle', 'Archive', 'BadgeCheck', 'Scale', 'Sparkles', 'Workflow'])
+    }
+
+    __parse_feature_card_grid_marker(markdown) {
+        const text = String(markdown || '').trim()
+        const markerMatch = text.match(/^<!--\s*zdoc:feature-card-grid(?:\s+(.*?))?\s*-->$/)
+        if (!markerMatch) return null
+
+        const match = String(markerMatch[1] || '').match(/^icons=(.*?)$/)
+        if (!match) return { valid: false, pairs: [] }
+
+        if (!match[1].trim()) return { valid: false, pairs: [] }
+
+        const pairs = match[1].split(',').map(pair => {
+            const trimmed = pair.trim()
+            const separator = trimmed.lastIndexOf(':')
+            if (separator <= 0 || separator === trimmed.length - 1) return null
+            return {
+                title: trimmed.slice(0, separator).trim(),
+                icon: trimmed.slice(separator + 1).trim(),
+            }
+        })
+
+        if (pairs.length === 0 || pairs.some(pair => !pair)) return { valid: false, pairs: [] }
+        return { valid: true, pairs }
+    }
+
+    __is_heading_block(block) {
+        const type = this.block_types[block?.block_type - 1]
+        return typeof type === 'string' && type.startsWith('heading')
+    }
+
+    async __feature_card_title(titleBlock) {
+        const level = Number(this.block_types[titleBlock.block_type - 1].replace('heading', ''))
+        const rawTitle = await this.__heading(titleBlock[`heading${level}`], level)
+        return rawTitle.replace(/\\?\{#[^}]+\}/g, '').replace(/^#+\s*/, '').trim()
+    }
+
+    async __feature_card_grid_cards(columns, markerConfig) {
+        if (!Array.isArray(columns) || columns.length < 2 || columns.length > 4) return false
+        if (!markerConfig?.valid || !Array.isArray(markerConfig.pairs) || markerConfig.pairs.length !== columns.length) return false
+
+        const allowedIcons = this.__feature_card_icon_names()
+        const cards = []
+
+        for (let idx = 0; idx < columns.length; idx++) {
+            const column = columns[idx]
+            const children = (column.children || []).map(child => this.__retrieve_block_by_id(child)).filter(Boolean)
+            if (children.length < 2 || !this.__is_heading_block(children[0])) return false
+
+            const title = await this.__feature_card_title(children[0])
+            const pair = markerConfig.pairs[idx]
+            if (pair.title !== title || !allowedIcons.has(pair.icon)) return false
+
+            cards.push({
+                title,
+                icon: pair.icon,
+                bodyBlocks: children.slice(1),
+            })
+        }
+
+        return cards
+    }
+
+    async __feature_card_grid(cardsConfig, columnSize, indent) {
+        const pad = ' '.repeat(indent)
+        const cards = await Promise.all(cardsConfig.map(async card => {
+            let body = await this.__markdown(card.bodyBlocks, indent + 4)
+            body = body.replace(/({#[0-9a-z-]+})/g, "\\$1").trim()
+
+            return [
+                `${pad}  <FeatureCard icon="${card.icon}" title="${this.__escapeJsxAttribute(card.title)}">`,
+                '',
+                body ? body.split('\n').map(line => `${pad}    ${line}`).join('\n') : '',
+                '',
+                `${pad}  </FeatureCard>`,
+            ].join('\n')
+        }))
+
+        return [
+            `${pad}<FeatureCardGrid columns={${columnSize}}>`,
+            cards.join('\n\n'),
+            `${pad}</FeatureCardGrid>`,
+        ].join('\n')
+    }
+
+    async __grid(block, indent, featureCardGridConfig=null) {
         const grid_columns = block.children.map(child => this.__retrieve_block_by_id(child));
         const column_size = block.grid.column_size;
         const width_ratios = grid_columns.map(column => column.grid_column.width_ratio);
+
+        if (featureCardGridConfig) {
+            const cardsConfig = await this.__feature_card_grid_cards(grid_columns, featureCardGridConfig)
+            if (cardsConfig) {
+                return this.__feature_card_grid(cardsConfig, column_size, indent)
+            }
+
+            console.warn('[feature-card-grid] Marker found before grid, but grid columns, titles, or icons do not match the feature-card contract. Falling back to generic Grid.')
+        }
 
         // Await all columns' children markdown
         const columnsContent = await Promise.all(

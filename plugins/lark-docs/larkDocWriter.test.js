@@ -43,6 +43,37 @@ function bulletBlock(block_id, parent_id, elements, children = []) {
   };
 }
 
+function headingBlock(block_id, parent_id, level, elements) {
+  return {
+    block_id,
+    block_type: level + 2,
+    parent_id,
+    [`heading${level}`]: {
+      elements,
+      style: { align: 1, folded: false },
+    },
+  };
+}
+
+function gridBlock(block_id, children, columnSize = children.length) {
+  return {
+    block_id,
+    block_type: 24,
+    grid: { column_size: columnSize },
+    children,
+  };
+}
+
+function gridColumnBlock(block_id, parent_id, width_ratio, children) {
+  return {
+    block_id,
+    block_type: 25,
+    parent_id,
+    grid_column: { width_ratio },
+    children,
+  };
+}
+
 function createWriter(blocks) {
   const writer = new LarkDocWriter('', '', 'default');
   writer.page_blocks = blocks;
@@ -93,6 +124,21 @@ function testKeywordPickerUsesStableSeed() {
   assert.deepEqual(
     writer.keyword_picker('Authentication-create_user:create_user()'),
     writer.keyword_picker('Authentication-create_user:create_user()')
+  );
+}
+
+function testFeatureCardMarkerParserAcceptsReadableSpacing() {
+  const writer = createWriter([]);
+  assert.deepEqual(
+    writer.__parse_feature_card_grid_marker('<!-- zdoc:feature-card-grid icons=Quality-first:BadgeCheck, Balanced:Scale, Compressed:Sparkles -->'),
+    {
+      valid: true,
+      pairs: [
+        { title: 'Quality-first', icon: 'BadgeCheck' },
+        { title: 'Balanced', icon: 'Scale' },
+        { title: 'Compressed', icon: 'Sparkles' },
+      ],
+    }
   );
 }
 
@@ -222,6 +268,115 @@ async function testQuoteWarningUsesWarningType() {
   await assertMdxCompiles(markdown);
 }
 
+async function testGridWithHeadingColumnsRendersFeatureCards() {
+  const marker = textBlock('marker', 'page', [textRun('<!-- zdoc:feature-card-grid icons=Problem:AlertTriangle,Strategy:Workflow -->')]);
+  const grid = gridBlock('grid-cards', ['problem-col', 'strategy-col'], 2);
+  const blocks = [
+    marker,
+    grid,
+    gridColumnBlock('problem-col', 'grid-cards', 0.5, ['problem-title', 'problem-1', 'problem-2']),
+    headingBlock('problem-title', 'problem-col', 3, [textRun('Problem')]),
+    bulletBlock('problem-1', 'problem-col', [textRun('Each row may contain many vectors.')]),
+    bulletBlock('problem-2', 'problem-col', [textRun('Exact MaxSim over all rows is expensive.')]),
+    gridColumnBlock('strategy-col', 'grid-cards', 0.5, ['strategy-title', 'strategy-1']),
+    headingBlock('strategy-title', 'strategy-col', 3, [textRun('Strategy')]),
+    bulletBlock('strategy-1', 'strategy-col', [textRun('Use an approximate first-stage retrieval method.')]),
+  ];
+
+  const markdown = await createWriter(blocks).__markdown([marker, grid], 0);
+
+  assert.match(markdown, /<FeatureCardGrid columns=\{2\}>/);
+  assert.match(markdown, /<FeatureCard icon="AlertTriangle" title="Problem">/);
+  assert.match(markdown, /- Each row may contain many vectors\./);
+  assert.match(markdown, /<FeatureCard icon="Workflow" title="Strategy">/);
+  assert.doesNotMatch(markdown, /<Grid columnSize=/);
+  assert.doesNotMatch(markdown, /<h3|### Problem/);
+  assert.doesNotMatch(markdown, /zdoc:feature-card-grid/);
+  await assertMdxCompiles([
+    "import {FeatureCard} from '@site/src/components/FeatureCardGrid';",
+    "import FeatureCardGrid from '@site/src/components/FeatureCardGrid';",
+    markdown,
+  ].join('\n\n'));
+}
+
+async function testGridWithoutHeadingColumnKeepsGenericGrid() {
+  const grid = gridBlock('grid-generic', ['left-col', 'right-col'], 2);
+  const blocks = [
+    grid,
+    gridColumnBlock('left-col', 'grid-generic', 0.5, ['left-text']),
+    textBlock('left-text', 'left-col', [textRun('Plain left column.')]),
+    gridColumnBlock('right-col', 'grid-generic', 0.5, ['right-text']),
+    textBlock('right-text', 'right-col', [textRun('Plain right column.')]),
+  ];
+
+  const markdown = await createWriter(blocks).__grid(grid, 0);
+
+  assert.match(markdown, /<Grid columnSize="2" widthRatios="0.5,0.5">/);
+  assert.doesNotMatch(markdown, /<FeatureCardGrid/);
+}
+
+async function testMarkedGridWithoutHeadingFallsBackAndSuppressesMarker() {
+  const marker = textBlock('marker', 'page', [textRun('<!-- zdoc:feature-card-grid icons=Plain:Sparkles,Other:Workflow -->')]);
+  const grid = gridBlock('grid-generic', ['left-col', 'right-col'], 2);
+  const blocks = [
+    marker,
+    grid,
+    gridColumnBlock('left-col', 'grid-generic', 0.5, ['left-text']),
+    textBlock('left-text', 'left-col', [textRun('Plain left column.')]),
+    gridColumnBlock('right-col', 'grid-generic', 0.5, ['right-text']),
+    textBlock('right-text', 'right-col', [textRun('Plain right column.')]),
+  ];
+
+  const markdown = await createWriter(blocks).__markdown([marker, grid], 0);
+
+  assert.match(markdown, /<Grid columnSize="2" widthRatios="0.5,0.5">/);
+  assert.doesNotMatch(markdown, /<FeatureCardGrid/);
+  assert.doesNotMatch(markdown, /zdoc:feature-card-grid/);
+}
+
+async function testMarkedGridWithUnsupportedIconFallsBackAndSuppressesMarker() {
+  const marker = textBlock('marker', 'page', [textRun('<!-- zdoc:feature-card-grid icons=Problem:UnknownIcon,Strategy:Workflow -->')]);
+  const grid = gridBlock('grid-cards', ['problem-col', 'strategy-col'], 2);
+  const blocks = [
+    marker,
+    grid,
+    gridColumnBlock('problem-col', 'grid-cards', 0.5, ['problem-title', 'problem-1']),
+    headingBlock('problem-title', 'problem-col', 3, [textRun('Problem')]),
+    bulletBlock('problem-1', 'problem-col', [textRun('Each row may contain many vectors.')]),
+    gridColumnBlock('strategy-col', 'grid-cards', 0.5, ['strategy-title', 'strategy-1']),
+    headingBlock('strategy-title', 'strategy-col', 3, [textRun('Strategy')]),
+    bulletBlock('strategy-1', 'strategy-col', [textRun('Use an approximate first-stage retrieval method.')]),
+  ];
+
+  const markdown = await createWriter(blocks).__markdown([marker, grid], 0);
+
+  assert.match(markdown, /<Grid columnSize="2" widthRatios="0.5,0.5">/);
+  assert.doesNotMatch(markdown, /<FeatureCardGrid/);
+  assert.doesNotMatch(markdown, /UnknownIcon/);
+  assert.doesNotMatch(markdown, /zdoc:feature-card-grid/);
+}
+
+async function testFeatureCardMarkerWithoutIconsFallsBackAndSuppressesMarker() {
+  const marker = textBlock('marker', 'page', [textRun('<!-- zdoc:feature-card-grid -->')]);
+  const grid = gridBlock('grid-cards', ['problem-col', 'strategy-col'], 2);
+  const blocks = [
+    marker,
+    grid,
+    gridColumnBlock('problem-col', 'grid-cards', 0.5, ['problem-title', 'problem-1']),
+    headingBlock('problem-title', 'problem-col', 3, [textRun('Problem')]),
+    bulletBlock('problem-1', 'problem-col', [textRun('Each row may contain many vectors.')]),
+    gridColumnBlock('strategy-col', 'grid-cards', 0.5, ['strategy-title', 'strategy-1']),
+    headingBlock('strategy-title', 'strategy-col', 3, [textRun('Strategy')]),
+    bulletBlock('strategy-1', 'strategy-col', [textRun('Use an approximate first-stage retrieval method.')]),
+  ];
+
+  const markdown = await createWriter(blocks).__markdown([marker, grid], 0);
+
+  assert.match(markdown, /<Grid columnSize="2" widthRatios="0.5,0.5">/);
+  assert.doesNotMatch(markdown, /<FeatureCardGrid/);
+  assert.doesNotMatch(markdown, /zdoc:feature-card-grid/);
+}
+
 async function testBaseTablesRetriesPrematureClose() {
   const originalLoad = Module._load;
   const originalRetryDelay = process.env.FEISHU_RETRY_DELAY_MS;
@@ -288,11 +443,17 @@ async function run() {
   testExampleHttpUrlsSkipsInlineCodeSpans();
   testExampleHttpUrlsSkipsFencedCodeBlocks();
   testKeywordPickerUsesStableSeed();
+  testFeatureCardMarkerParserAcceptsReadableSpacing();
   await testCalloutPreservesMarkdownBody();
   await testQuotePreservesMarkdownBody();
   await testCalloutWarningUsesWarningType();
   await testCalloutDestructiveSentenceKeepsDangerAndMovesTitleToBody();
   await testQuoteWarningUsesWarningType();
+  await testGridWithHeadingColumnsRendersFeatureCards();
+  await testGridWithoutHeadingColumnKeepsGenericGrid();
+  await testMarkedGridWithoutHeadingFallsBackAndSuppressesMarker();
+  await testMarkedGridWithUnsupportedIconFallsBackAndSuppressesMarker();
+  await testFeatureCardMarkerWithoutIconsFallsBackAndSuppressesMarker();
   await testBaseTablesRetriesPrematureClose();
   console.log('larkDocWriter tests passed');
 }

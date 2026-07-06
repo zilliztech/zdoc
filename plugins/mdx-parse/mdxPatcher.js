@@ -8,7 +8,7 @@ const KNOWN_JSX_TAGS = new Set([
     'Admonition', 'Tabs', 'TabItem', 'DocCard', 'DocCardList',
     'Details', 'CodeBlock', 'ThemedImage', 'TOCInline', 'Highlight',
     'Banner', 'Bars', 'Blocks', 'Cards', 'Grid', 'Hero', 'Procedures',
-    'RestSpecs', 'Stories', 'Supademo', 'FeatureNote',
+    'RestSpecs', 'Stories', 'Supademo', 'FeatureNote', 'FeatureCardGrid', 'FeatureCard',
 ]);
 
 function createFenceTracker() {
@@ -464,7 +464,7 @@ function escapeNonHtmlTags(content) {
         'Admonition', 'Tabs', 'TabItem', 'DocCard', 'DocCardList',
         'Details', 'CodeBlock', 'ThemedImage', 'TOCInline', 'Highlight',
         // Custom site components
-        'Banner', 'Bars', 'Blocks', 'Cards', 'Grid', 'Hero', 'Procedures', 'RestSpecs', 'Stories', 'Supademo', 'FeatureNote',
+        'Banner', 'Bars', 'Blocks', 'Cards', 'Grid', 'Hero', 'Procedures', 'RestSpecs', 'Stories', 'Supademo', 'FeatureNote', 'FeatureCardGrid', 'FeatureCard',
     ]);
     const upperScanRegex = /[<]([A-Z][A-Za-z0-9]*)/g;
     let upperMatch;

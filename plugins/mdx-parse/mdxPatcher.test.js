@@ -20,6 +20,15 @@ const featureNote = [
     '',
     '</FeatureNote>',
 ].join('\n');
+const featureCardGrid = [
+    '<FeatureCardGrid columns={2}>',
+    '<FeatureCard icon="AlertTriangle" title="Problem">',
+    '',
+    '- Each row may contain many vectors.',
+    '',
+    '</FeatureCard>',
+    '</FeatureCardGrid>',
+].join('\n');
 
 async function compileToString(content) {
     const { compile } = await import('@mdx-js/mdx');
@@ -150,6 +159,12 @@ async function testFeatureNoteIsPreservedAsGlobalMdxComponent() {
     await compileToString(patched);
 }
 
+async function testFeatureCardGridIsPreservedAsGlobalMdxComponent() {
+    const patched = await applyMdxPatches(featureCardGrid);
+    assert.equal(patched, featureCardGrid);
+    await compileToString(patched);
+}
+
 async function run() {
     await testNormalizeCodeTagContent();
     await testNormalizationPreservesFencedCodeBlocks();
@@ -165,6 +180,7 @@ async function run() {
     await testLarkDocWriterConvertsBackslashedJavaTypesToEntities();
     await testFaqHeadingsArePatchable();
     await testFeatureNoteIsPreservedAsGlobalMdxComponent();
+    await testFeatureCardGridIsPreservedAsGlobalMdxComponent();
     console.log('mdxPatcher regression tests passed');
 }
 
