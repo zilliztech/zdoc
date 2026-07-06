@@ -15,8 +15,8 @@ import styles from './styles.module.css';
 
 let persistedHiddenContainer = false;
 let persistedHidden = false;
-const NAV_COMPACT_ENTER_WIDTH = 1320;
-const NAV_COMPACT_EXIT_WIDTH = 1360;
+const NAV_COMPACT_ENTER_WIDTH = 1030;
+const NAV_COMPACT_EXIT_WIDTH = 1070;
 const NAV_MOBILE_ENTER_WIDTH = 760;
 const NAV_MOBILE_EXIT_WIDTH = 800;
 const CHAT_MIN_WIDTH = 320;
@@ -311,11 +311,16 @@ function DocRootLayoutInner({children}: Props): ReactNode {
       updateNavCompact();
     };
     updateIfNotResizing();
+    // Recompute on the next frame too: after a client-side route change
+    // (e.g. drilling from a guides page into /reference/*), the layout may not
+    // be settled on the synchronous pass, leaving docs-nav-compact stale.
+    const raf = window.requestAnimationFrame(updateIfNotResizing);
     window.addEventListener('resize', updateIfNotResizing);
     return () => {
+      window.cancelAnimationFrame(raf);
       window.removeEventListener('resize', updateIfNotResizing);
     };
-  }, [updateNavCompact]);
+  }, [updateNavCompact, pathname]);
   useEffect(() => () => {
     document.body.classList.remove('docs-nav-compact');
     document.body.classList.remove('docs-nav-mobile');
