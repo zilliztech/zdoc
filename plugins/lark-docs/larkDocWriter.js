@@ -1851,6 +1851,57 @@ class larkDocWriter {
         ].join('\n').replace(/(\s*\n){3,}/g, `\n${pad}\n`)
     }
 
+    __normalize_admonition_title(rawTitle, bodyLines) {
+        const title = String(rawTitle || '').trim();
+        const body = Array.isArray(bodyLines) ? [...bodyLines] : [];
+        const titleLooksLikeSentence = title.length > 72 || /[.!?]$/.test(title) || /\[[^\]]+\]\([^)]+\)/.test(title) || /`/.test(title);
+
+        if (titleLooksLikeSentence) {
+            return {
+                title: '',
+                body: [title, ...body].filter(line => line !== undefined && line !== null),
+            };
+        }
+
+        return { title, body };
+    }
+
+    __is_destructive_admonition(text) {
+        return /cannot be undone|removed immediately|drop .*database|delete .*volume/i.test(String(text || ''));
+    }
+
+    __admonition_meta({ emoji, rawTitle, bodyLines }) {
+        const normalized = this.__normalize_admonition_title(rawTitle, bodyLines);
+        const titleText = normalized.title;
+        const combinedText = [titleText, ...normalized.body].join(' ');
+        const lowerTitle = titleText.toLowerCase();
+
+        if (this.__is_destructive_admonition(combinedText)) {
+            return {
+                type: 'danger',
+                icon: '🚧',
+                title: titleText && !['warning', 'warn', 'caution'].includes(lowerTitle) ? titleText : 'Danger',
+                body: normalized.body,
+            };
+        }
+
+        if (emoji === 'construction' || ['warning', 'warn', 'caution', '警告'].includes(lowerTitle)) {
+            return {
+                type: 'warning',
+                icon: '🚧',
+                title: titleText && !['warn'].includes(lowerTitle) ? titleText : 'Warning',
+                body: normalized.body,
+            };
+        }
+
+        return {
+            type: 'info',
+            icon: '📘',
+            title: titleText || 'Note',
+            body: normalized.body,
+        };
+    }
+
     async __callout(block, indent) {
         let children = []
         if (block.children) {
@@ -1864,31 +1915,19 @@ class larkDocWriter {
         }
 
         let emoji = block['callout']['emoji_id']
-        let type = 'info'
-        let icon = '📘'
-        let title = children[0]?.trim() || 'Notes'
 
-        switch (emoji) {
-            case 'blue_book':
-                type = 'info'
-                icon = '📘'
-                break;
-            case 'construction':
-                type = 'danger'
-                icon = '🚧'
-                break;
-            default:
-                type = 'info'
-                icon = '📘'
-                break;
-        }         
-        
-        return this.__admonitionMarkdown({
-            type,
-            icon,
-            title,
+        const meta = this.__admonition_meta({
+            emoji,
+            rawTitle: children[0],
             bodyLines: children.slice(1),
+        });
+
+        return this.__admonitionMarkdown({
             indent,
+            type: meta.type,
+            icon: meta.icon,
+            title: meta.title,
+            bodyLines: meta.body,
         })
     }
 
@@ -2059,26 +2098,18 @@ class larkDocWriter {
         });
         let res = (await this.__markdown(quotes, indent)).split('\n');
 
-        let type = 'info';
-        let icon = '📘';
-        let possible_titles = ['Notes', 'Note', '说明', 'ノート', 'Warning', 'Warn', '警告']
-        let title = possible_titles.find((x, i) => res[0].includes(x)) || 'Notes';
-
-
-        if (title && ['Warning', 'Warn', '警告'].indexOf(title) == -1) {
-            type = 'info';
-            icon = '📘';
-        } else {
-            type = 'caution';
-            icon = '🚧';
-        }
+        const meta = this.__admonition_meta({
+            emoji: '',
+            rawTitle: res[0],
+            bodyLines: res.slice(1),
+        });
 
         return this.__admonitionMarkdown({
-            type,
-            icon,
-            title,
-            bodyLines: res.slice(1),
             indent,
+            type: meta.type,
+            icon: meta.icon,
+            title: meta.title,
+            bodyLines: meta.body,
         })
     }
 

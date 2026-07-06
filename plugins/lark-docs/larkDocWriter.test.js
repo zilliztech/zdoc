@@ -163,6 +163,65 @@ async function testQuotePreservesMarkdownBody() {
   await assertMdxCompiles(markdown);
 }
 
+async function testCalloutWarningUsesWarningType() {
+  const callout = {
+    block_id: 'callout-warning',
+    block_type: 19,
+    callout: { emoji_id: 'construction' },
+    children: ['title', 'body'],
+  };
+  const blocks = [
+    callout,
+    textBlock('title', 'callout-warning', [textRun('Warning')]),
+    textBlock('body', 'callout-warning', [textRun('Nullable StructArray fields are available only in clusters compatible with Milvus v3.0.x.')]),
+  ];
+
+  const markdown = await createWriter(blocks).__callout(callout, 0);
+
+  assert.match(markdown, /<Admonition type="warning" icon="🚧" title="Warning">/);
+  assert.match(markdown, /Nullable StructArray fields are available only/);
+  await assertMdxCompiles(markdown);
+}
+
+async function testCalloutDestructiveSentenceKeepsDangerAndMovesTitleToBody() {
+  const callout = {
+    block_id: 'callout-danger',
+    block_type: 19,
+    callout: { emoji_id: 'construction' },
+    children: ['sentence'],
+  };
+  const blocks = [
+    callout,
+    textBlock('sentence', 'callout-danger', [textRun('Once you drop a database, it is removed immediately and cannot be recovered. This action cannot be undone.')]),
+  ];
+
+  const markdown = await createWriter(blocks).__callout(callout, 0);
+
+  assert.match(markdown, /<Admonition type="danger" icon="🚧" title="Danger">/);
+  assert.match(markdown, /Once you drop a database, it is removed immediately and cannot be recovered/);
+  assert.doesNotMatch(markdown, /title="Once you drop a database/);
+  await assertMdxCompiles(markdown);
+}
+
+async function testQuoteWarningUsesWarningType() {
+  const quote = {
+    block_id: 'quote-warning',
+    block_type: 34,
+    children: ['title', 'body'],
+  };
+  const blocks = [
+    quote,
+    textBlock('title', 'quote-warning', [textRun('Warning')]),
+    textBlock('body', 'quote-warning', [textRun('Deleted files and folders cannot be recovered.')]),
+  ];
+
+  const markdown = await createWriter(blocks).__quote(quote, 0);
+
+  assert.match(markdown, /<Admonition type="warning" icon="🚧" title="Warning">/);
+  assert.match(markdown, /Deleted files and folders cannot be recovered/);
+  await assertMdxCompiles(markdown);
+}
+
 async function testBaseTablesRetriesPrematureClose() {
   const originalLoad = Module._load;
   const originalRetryDelay = process.env.FEISHU_RETRY_DELAY_MS;
@@ -231,6 +290,9 @@ async function run() {
   testKeywordPickerUsesStableSeed();
   await testCalloutPreservesMarkdownBody();
   await testQuotePreservesMarkdownBody();
+  await testCalloutWarningUsesWarningType();
+  await testCalloutDestructiveSentenceKeepsDangerAndMovesTitleToBody();
+  await testQuoteWarningUsesWarningType();
   await testBaseTablesRetriesPrematureClose();
   console.log('larkDocWriter tests passed');
 }
