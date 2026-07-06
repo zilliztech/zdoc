@@ -207,7 +207,11 @@ function useTopbarCollapsed(
   topbarRef: React.RefObject<HTMLDivElement>,
   measureRef: React.RefObject<HTMLDivElement>,
 ): boolean {
-  const [collapsed, setCollapsed] = useState(false);
+  // Seed from the current class so a freshly-mounted topbar doesn't render the
+  // full tab row for one frame before collapsing (flash) on compact-width routes.
+  const [collapsed, setCollapsed] = useState(
+    () => typeof document !== 'undefined' && document.body.classList.contains('docs-nav-compact'),
+  );
   useEffect(() => {
     if (!enabled || typeof window === 'undefined') return undefined;
 

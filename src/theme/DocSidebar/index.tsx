@@ -298,7 +298,12 @@ function itemContainsPath(item: PropSidebarItem, pathname: string): boolean {
  *  signal so the sidebar and topbar switch to the compact form at the exact
  *  same breakpoint (and together while the AI panel is open). */
 function useMergedMode(): boolean {
-  const [merged, setMerged] = useState(false);
+  // Seed from the current class so the first render of a freshly-mounted sidebar
+  // (e.g. after navigating into /reference/*) is already in the right mode —
+  // otherwise it renders large for one frame, then flips to merged = a flash.
+  const [merged, setMerged] = useState(
+    () => typeof document !== 'undefined' && document.body.classList.contains('docs-nav-compact'),
+  );
   useEffect(() => {
     const compute = () => {
       const narrow = document.body.classList.contains('docs-nav-compact');
