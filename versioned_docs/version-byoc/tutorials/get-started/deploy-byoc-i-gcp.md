@@ -340,7 +340,7 @@ This service account is configured on the GKE node pool as the node VM service a
 
 #### Maintenance Service Account\{#maintenance-service-account}
 
-The maintenance service account is the customer-side service account that the Agent service is deployed in your GKE uses for maintenance operations, such as upgrades and scaling. Zilliz Cloud **neither impersonates this service account nor has access to your GKE unless you permit us to**.
+The maintenance service account is the customer-side service account that the Agent service deployed in your GKE uses for maintenance operations, such as upgrades and scaling. Zilliz Cloud **neither impersonates this service account nor has access to your GKE unless you permit us to**.
 
 The Terraform example grants it:
 
