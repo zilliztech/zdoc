@@ -4,23 +4,23 @@ slug: /java/java/v2-Vector-hybridSearch
 sidebar_label: "hybridSearch()"
 beta: false
 added_since: v2.4.x
-last_modified: v2.6.x
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation performs multi-vector search on a collection and returns search results after reranking. | Java | v2"
 type: docx
-token: BNDrdC8lToZe3ExOVGNcBX3Gnxc
+token: R1NDdFPnVo4wTuxvHjFcozc8nMa
 sidebar_position: 3
 keywords: 
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
   - zilliz
   - zilliz cloud
   - cloud
   - hybridSearch()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar
@@ -43,6 +43,7 @@ public SearchResp hybridSearch(HybridSearchReq request)
 hybridSearch(HybridSearchReq.builder()
     .databaseName(String databaseName)
     .collectionName(String collectionName)
+    .clusterId(String clusterId)
     .partitionNames(List<String> partitionNames)
     .searchRequests(List<AnnSearchReq> searchRequests)
     .topK(int topK)
@@ -61,59 +62,63 @@ hybridSearch(HybridSearchReq.builder()
 
 **BUILDER METHODS:**
 
-- `databaseName(String databaseName)` -
+- `databaseName(String databaseName)`
 
     The name of the database. Defaults to the current database if not specified.
 
-- `collectionName(String collectionName)` -
+- `collectionName(String collectionName)`
 
     The name of the target collection.
 
-- `partitionNames(List<String> partitionNames)` -
+- `clusterId(String clusterId)`
+
+    The target cluster ID for this vector read request. Use `session(String clusterId)` when multiple requests should share the same cluster ID.
+
+- `partitionNames(List<String> partitionNames)`
 
     A list of partition names to target.
 
-- `searchRequests(List<AnnSearchReq> searchRequests)` -
+- `searchRequests(List<AnnSearchReq> searchRequests)`
 
     A list of AnnSearchReq objects for hybrid search.
 
-- `topK(int topK)` -
+- `topK(int topK)`
 
     The number of top results to return.
 
-- `limit(long limit)` -
+- `limit(long limit)`
 
     The maximum number of results to return.
 
-- `outFields(List<String> outFields)` -
+- `outFields(List<String> outFields)`
 
     A list of field names to include in the output.
 
-- `offset(long offset)` -
+- `offset(long offset)`
 
     The number of results to skip before returning.
 
-- `roundDecimal(int roundDecimal)` -
+- `roundDecimal(int roundDecimal)`
 
     The number of decimal places for distance/score rounding.
 
-- `consistencyLevel(ConsistencyLevel consistencyLevel)` -
+- `consistencyLevel(ConsistencyLevel consistencyLevel)`
 
     The consistency level for the operation.
 
-- `groupByFieldName(String groupByFieldName)` -
+- `groupByFieldName(String groupByFieldName)`
 
     The field name to group search results by.
 
-- `groupSize(Integer groupSize)` -
+- `groupSize(Integer groupSize)`
 
     The number of results to return per group.
 
-- `strictGroupSize(Boolean strictGroupSize)` -
+- `strictGroupSize(Boolean strictGroupSize)`
 
     Whether to strictly enforce the group size.
 
-- `functionScore(FunctionScore functionScore)` -
+- `functionScore(FunctionScore functionScore)`
 
     A FunctionScore object for custom scoring.
 

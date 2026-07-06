@@ -12,15 +12,15 @@ type: docx
 token: Cde1dlUbDosa86xjuShcoKgQnvg
 sidebar_position: 3
 keywords: 
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
   - zilliz
   - zilliz cloud
   - cloud
   - listVolumes()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

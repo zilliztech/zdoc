@@ -1,18 +1,29 @@
 ---
 title: "UseDatabase() | Go | v2"
-slug: /go/v2-Database-UseDatabase
+slug: /go/go/v2-Database-UseDatabase
 sidebar_label: "UseDatabase()"
-beta: FALSE
-added_since: v2.5.x
-last_modified: FALSE
-deprecate_since: FALSE
-notebook: FALSE
-description: "This method disconnects the currently connected database and connects to the specified one. | Go | v2"
-type: origin
-token: MPbWwuPy4i0bOFkuCQqcjI6fnhc
-sidebar_position: 7
+beta: false
+added_since: v2.6.x
+last_modified: false
+deprecate_since: false
+notebook: false
+description: "This operation switches the active database for the current client connection. | Go | v2"
+type: docx
+token: GbIAdIuWsoumzoxHWpOcVjVbnle
+sidebar_position: 8
+keywords: 
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - UseDatabase()
+  - gov230
 displayed_sidebar: goSidebar
 
+displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -20,77 +31,48 @@ import Admonition from '@theme/Admonition';
 
 # UseDatabase()
 
-This method disconnects the currently connected database and connects to the specified one.
+This operation switches the active database for the current client connection.
 
 ```go
 func (c *Client) UseDatabase(ctx context.Context, option UseDatabaseOption) error
 ```
 
-## Request Parameters\{#request-parameters}
+**RETURN TYPE:**
 
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>ctx</code></p></td>
-     <td><p>Context for the current call to work.</p></td>
-     <td><p><code>context.Context</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>option</code></p></td>
-     <td><p>Optional parameters of the methods.</p></td>
-     <td><p><a href="./v2-Database-UseDatabase#usedatabaseoption"><code>UseDatabaseOption</code></a></p></td>
-   </tr>
-</table>
+*error*
 
-## UseDatabaseOption\{#usedatabaseoption}
+**RETURNS:**
 
-This is an interface type. The `useDatabaseNameOpt` struct type implements this interface type. 
+Returns nil on success, or an error describing what went wrong.
 
-You can use the `NewUseDatabaseOption()` function to get the concrete implementation.
+**EXCEPTIONS:**
 
-### NewUseDatabaseOption\{#newusedatabaseoption}
+- **error**
 
-The signature of this method is as follows:
-
-```go
-func NewUseDatabaseOption(dbName string) *useDatabaseNameOpt
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>dbName</code></p></td>
-     <td><p>Name of the database to use.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-</table>
-
-## Return\{#return}
-
-Null
+    Check `err != nil` for failure details.
 
 ## Example\{#example}
 
-```plaintext
-dbName := `test_db`
+```go
+import (
+	"context"
+
+	"github.com/milvus-io/milvus/client/v2/milvusclient"
+)
+
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
+
 cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-    Address: milvusAddr,
+	Address: "YOUR_CLUSTER_ENDPOINT",
 })
 if err != nil {
-    // handle err
+	// handle err
 }
+defer cli.Close(ctx)
 
-err = cli.UseDatabase(ctx, milvusclient.NewUseDatabaseOption(dbName))
+err = cli.UseDatabase(ctx, milvusclient.NewUseDatabaseOption("my_database"))
 if err != nil {
-    // handle err
+	// handle err
 }
 ```
-

@@ -12,15 +12,15 @@ type: docx
 token: UrjHd9KZKo1Rlfxfj8AcmXNinlg
 sidebar_position: 2
 keywords: 
-  - rag vector database
   - what is vector db
   - what are vector databases
   - vector databases comparison
+  - Faiss
   - zilliz
   - zilliz cloud
   - cloud
   - MilvusClientV2Pool
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

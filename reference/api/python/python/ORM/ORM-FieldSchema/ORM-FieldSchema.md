@@ -12,10 +12,10 @@ type: docx
 token: EVKhdy0vwoSLSux2RW2c660unjh
 sidebar_position: 2
 keywords: 
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
   - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
   - zilliz
   - zilliz cloud
   - cloud
@@ -99,11 +99,15 @@ FieldSchema(
 
         Setting this to **True** makes the current field serve as the partition key. In this case, Zilliz Cloud manages all partitions in the current collection.
 
-        <Admonition type="info" icon="📘" title="What is a partition key?">
+        <Admonition type="info" icon="📘" title="Note">
 
-        <p>Once a field is designated as the partition key, Zilliz Cloud automatically creates a partition for each unique value in this field and saves entities in these partitions accordingly.</p>
-        <p>This is particularly useful when implementing data separation based on a specific key, such as partition-oriented multi-tenancy.</p>
-        <p>As an alternative, you can set <strong>partition<em>key</em>field</strong> when creating a <strong><a href="./MilvusClient-CollectionSchema">CollectionSchema</a></strong> object.</p>
+        What is a partition key?
+        
+                Once a field is designated as the partition key, Zilliz Cloud automatically creates a partition for each unique value in this field and saves entities in these partitions accordingly.
+        
+                This is particularly useful when implementing data separation based on a specific key, such as partition-oriented multi-tenancy.
+        
+                As an alternative, you can set **partition_key_field** when creating a **[CollectionSchema](./MilvusClient-CollectionSchema)** object.
 
         </Admonition>
 

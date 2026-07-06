@@ -12,15 +12,15 @@ type: docx
 token: ARw0dIb0hojCNbxKkOacs1K7nQf
 sidebar_position: 13
 keywords: 
+  - Machine Learning
   - RAG
   - NLP
   - Neural Network
-  - Deep Learning
   - zilliz
   - zilliz cloud
   - cloud
   - dropAlias()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar
@@ -41,17 +41,12 @@ public void dropAlias(DropAliasReq request)
 
 ```java
 dropAlias(DropAliasReq.builder()
-    .databaseName(String databaseName)
     .alias(String alias)
     .build()
 )
 ```
 
 **BUILDER METHODS:**
-
-- `databaseName(String databaseName)`
-
-    The name of the database to which the target alias belongs.
 
 - `alias(String alias)`
 
@@ -86,8 +81,6 @@ MilvusClientV2 client = new MilvusClientV2(connectConfig);
 
 // 2. Drop alias "test_alias"
 DropAliasReq dropAliasReq = DropAliasReq.builder()
-        .databaseName("my_database")
-        .collectionName("my_collection")
         .alias("test_alias")
         .build();
 client.dropAlias(dropAliasReq);

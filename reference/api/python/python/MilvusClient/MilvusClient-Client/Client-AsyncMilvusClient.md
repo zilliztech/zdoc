@@ -4,7 +4,7 @@ slug: /python/python/Client-AsyncMilvusClient
 sidebar_label: "AsyncMilvusClient"
 beta: false
 added_since: v2.5.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "An AsyncMilvusClient instance represents an asynchronous Python client that connects to a specific Zilliz Cloud cluster. It provides the same parameter sets and behaviors as MilvusClient, and the only difference lies in the way you call them. | Python | MilvusClient"
@@ -12,10 +12,10 @@ type: docx
 token: MIKkdpGuuoEaGWx1m7Fcw52inKg
 sidebar_position: 3
 keywords: 
+  - semantic search
+  - Anomaly Detection
   - sentence transformers
   - Recommender systems
-  - information retrieval
-  - dimension reduction
   - zilliz
   - zilliz cloud
   - cloud
@@ -43,10 +43,9 @@ Constructs a client for common use cases.
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<ul>
-<li><p>This interface is still in its early stage and may change significantly in future releases. You are advised not to use it in production.</p></li>
-<li><p>To call <strong>AsyncMilvusClient</strong>, you need to get an event loop from asyncio to manage request handling. For details, refer to <a href="https://milvus.io/docs/use-async-milvus-client-with-asyncio.md#Tutorial-Use-AsyncMilvusClient-with-asyncio">Tutorial: Use AsyncMilvusClient with asyncio</a>.</p></li>
-</ul>
+- This interface is still in its early stage and may change significantly in future releases. You are advised not to use it in production.
+
+- To call **AsyncMilvusClient**, you need to get an event loop from asyncio to manage request handling. For details, refer to [Tutorial: Use AsyncMilvusClient with asyncio](https://milvus.io/docs/use-async-milvus-client-with-asyncio.md#Tutorial-Use-AsyncMilvusClient-with-asyncio).
 
 </Admonition>
 
@@ -68,9 +67,19 @@ AsyncMilvusClient(
 
     The URI of the Zilliz Cloud cluster. For example:
 
-    ```plaintext
-    https://inxx-xxxxxxxxxxxxxxxxx.aws-us-west-2.vectordb-uat3.zillizcloud.com:19540
-    ```
+    - **Cluster endpoint**
+
+        - **Free & Serverless**
+
+            `https://{cluster-id}.serverless.{region}.vectordb.zillizcloud.com`
+
+        - **Dedicated**
+
+            `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
+
+    - **Project Endpoint (On-Demand)**
+
+        `https://{project-id}.{region}.api.zillizcloud.com`
 
 - **user** (*string*) -
 
@@ -100,7 +109,7 @@ AsyncMilvusClient(
 
     - An [API key](/docs/manage-api-keys) with sufficient permissions, or
 
-    - A pair of [username and password ](/docs/cluster-credentials)used to access the target cluster, joined by a colon (:). For example, you can set this to `username:p@ssw0rd`.
+    - A pair of [username and password ](/docs/cluster-credentials)used to access the target cluster, joined by a colon (:). For example, you can set this to `username:p@ssw0rd`. This applies only when you use a cluster endpoint.
 
 - **timeout** (*float* | *None*)  
 
@@ -127,7 +136,7 @@ client = AsyncMilvusClient(
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Set <strong>uri</strong> to your cluster endpoint. The <strong>token</strong> parameter can be a Zilliz Cloud API key with sufficient permissions or the credentials of a cluster user in the format of <code>username:p@ssw0rd</code>.</p>
+Set **uri** to your cluster endpoint. The **token** parameter can be a Zilliz Cloud API key with sufficient permissions or the credentials of a cluster user in the format of `username:p@ssw0rd`.
 
 </Admonition>
 

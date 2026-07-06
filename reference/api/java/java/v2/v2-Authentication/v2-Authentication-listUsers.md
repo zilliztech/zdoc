@@ -12,15 +12,15 @@ type: docx
 token: EfM3drSXlo4Yzyxq2GpcmvoHnTm
 sidebar_position: 15
 keywords: 
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
   - zilliz
   - zilliz cloud
   - cloud
   - listUsers()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

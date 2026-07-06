@@ -12,10 +12,10 @@ type: docx
 token: Jjbsd2I8doQ9pBxBp57ckRdZnZd
 sidebar_position: 3
 keywords: 
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
   - zilliz
   - zilliz cloud
   - cloud
@@ -32,6 +32,12 @@ import Admonition from '@theme/Admonition';
 # get_partition_stats()
 
 This operation displays the statistics collected on a specific partition.
+
+<Admonition type="info" icon="📘" title="Notes">
+
+This only applies to managed collections.
+
+</Admonition>
 
 ## Request syntax\{#request-syntax}
 
@@ -79,8 +85,9 @@ A dictionary that contains the row count in the specified partition.
 
 <Admonition type="info" icon="📘" title="**Why doesn't the row count match the number of entities inserted?**">
 
-<p>The data that you insert will go through a process before it is finally saved. Initially, it will flow in as data streams. Then, it will be stored in segments as entities. Milvus will select an appropriate growing segment to store the data in streams until the segment reaches its upper limit and becomes sealed.</p>
-<p>However, it's important to note that the row count displayed may not match the number of records that were inserted because data in streams is not taken into account.</p>
+The data that you insert will go through a process before it is finally saved. Initially, it will flow in as data streams. Then, it will be stored in segments as entities. Milvus will select an appropriate growing segment to store the data in streams until the segment reaches its upper limit and becomes sealed.
+
+However, it's important to note that the row count displayed may not match the number of records that were inserted because data in streams is not taken into account.
 
 </Admonition>
 
@@ -136,7 +143,6 @@ client.get_partition_stats(
 )
 
 # { 'row_count': 0 }
-
 ```
 
 ## Related methods\{#related-methods}

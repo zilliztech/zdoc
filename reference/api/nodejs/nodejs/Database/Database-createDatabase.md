@@ -4,23 +4,23 @@ slug: /node/node/Database-createDatabase
 sidebar_label: "createDatabase()"
 beta: false
 added_since: v2.3.x
-last_modified: v2.5.x
+last_modified: v2.6.x
 deprecate_since: false
 notebook: false
 description: "This operation creates a database. | Node.js"
 type: docx
-token: JmlKdBz7Io91Ffx9rpKce3vUnMc
+token: UouKd4h01oL9Rqx73jjcHM3enSh
 sidebar_position: 2
 keywords: 
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
   - zilliz
   - zilliz cloud
   - cloud
   - createDatabase()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar
@@ -39,7 +39,7 @@ await milvusClient.createDatabase(data)
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This method applies only to dedicated clusters.</p>
+This method applies only to dedicated clusters.
 
 </Admonition>
 
@@ -128,5 +128,8 @@ const milvusClient = new MilvusClient({
     address: 'YOUR_CLUSTER_ENDPOINT',
     token: 'YOUR_CLUSTER_TOKEN',
 });
-const resStatus = await milvusClient.createDatabase({ db_name: 'new_db' });
+const resStatus = await milvusClient.createDatabase({
+    db_name: 'new_db',
+    properties: { 'database.resource_groups': 'rg1' },
+});
 ```

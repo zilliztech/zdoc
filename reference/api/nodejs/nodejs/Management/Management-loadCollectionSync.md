@@ -12,15 +12,15 @@ type: docx
 token: XXUAdI8T2oOmw2x7iITc8vJgnjm
 sidebar_position: 18
 keywords: 
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
   - zilliz
   - zilliz cloud
   - cloud
   - loadCollectionSync()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

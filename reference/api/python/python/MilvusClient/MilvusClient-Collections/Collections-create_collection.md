@@ -12,10 +12,10 @@ type: docx
 token: NbYidGUPcokra9xJ6IAcUNLEn9f
 sidebar_position: 5
 keywords: 
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,27 @@ import Admonition from '@theme/Admonition';
 
 # create_collection()
 
-This operation supports creating a collection in two distinct ways: quick setup or custom setup. 
+This operation supports creating a collection in two distinct ways: quick setup or custom setup.
+
+<Admonition type="info" icon="📘" title="Notes">
+
+This method applies to dedicated serving clusters and on-demand compute. 
+
+- For a collection in a serving cluster, please create **[MilvusClient](./Client-MilvusClient)** with the cluster endpoint.
+
+    - **Free & Serverless**
+
+        `https://{cluster-id}.serverless.{region}.vectordb.zillizcloud.com`
+
+    - **Dedicated**
+
+        `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
+
+- For a collection in on-demand compute, create **[MilvusClient](./Client-MilvusClient)** with the project endpoints.
+
+    `https://{project-id}.{region}.api.zillizcloud.com`
+
+</Admonition>
 
 ## Request syntax\{#request-syntax}
 
@@ -141,10 +161,13 @@ create_collection(
 
         The value defaults to **1**, indicating that one shard is to be created along with this collection.
 
-        <Admonition type="info" icon="📘" title="What is sharding?">
+        <Admonition type="info" icon="📘" title="Note">
 
-        <p>Sharding refers to distributing write operations to different nodes to make the most of the parallel computing potential of a Milvus cluster for writing data.</p>
-        <p>By default, a collection contains one shard.</p>
+        What is sharding?
+        
+                Sharding refers to distributing write operations to different nodes to make the most of the parallel computing potential of a Milvus cluster for writing data.
+        
+                By default, a collection contains one shard.
 
         </Admonition>
 
@@ -154,11 +177,15 @@ create_collection(
 
         This parameter is ignored if **schema** is not **None** and a field in the schema has its **is_parition_key** set to **True**.
 
-        <Admonition type="info" icon="📘" title="What is the partition key?">
+        <Admonition type="info" icon="📘" title="Note">
 
-        <p>To facilitate partition-oriented multi-tenancy, you can set a field as the partition key field so that Zilliz Cloud hashes the field values and distributes entities among the specified number of partitions accordingly.</p>
-        <p>When retrieving entities, ensure that the partition key field is used in the boolean expression to filter out entities of a specific field value.</p>
-        <p>For details, refer to <a href="/docs/use-partition-key">Use Partition Key</a> and <a href="https://milvus.io/docs/multi_tenancy.md">Multi-tenancy</a>.</p>
+        What is the partition key?
+        
+                To facilitate partition-oriented multi-tenancy, you can set a field as the partition key field so that Zilliz Cloud hashes the field values and distributes entities among the specified number of partitions accordingly.
+        
+                When retrieving entities, ensure that the partition key field is used in the boolean expression to filter out entities of a specific field value.
+        
+                For details, refer to [Use Partition Key](/docs/use-partition-key) and [Multi-tenancy](https://milvus.io/docs/multi_tenancy.md).
 
         </Admonition>
 
@@ -178,11 +205,15 @@ create_collection(
 
         The value defaults to **Bounded** (**2**) with options of **Strong** (**0**), **Session** (**1**), **Bounded** (**2**), and **Eventually** (**3**).
 
-        <Admonition type="info" icon="📘" title="What is the consistency level?">
+        <Admonition type="info" icon="📘" title="Note">
 
-        <p>Consistency in a distributed database specifically refers to the property that ensures every node or replica has the same view of data when writing or reading data at a given time.</p>
-        <p>Zilliz Cloud provides three consistency levels: <strong>Strong</strong>, <strong>Bounded Staleness</strong>, and <strong>Eventually</strong>, with <strong>Bounded Staleness</strong> set as the default.</p>
-        <p>You can easily tune the consistency level when conducting a vector similarity search or query to make it best suit your application.</p>
+        What is the consistency level?
+        
+                Consistency in a distributed database specifically refers to the property that ensures every node or replica has the same view of data when writing or reading data at a given time.
+        
+                Zilliz Cloud provides three consistency levels: **Strong**, **Bounded Staleness**, and **Eventually**, with **Bounded Staleness** set as the default.
+        
+                You can easily tune the consistency level when conducting a vector similarity search or query to make it best suit your application.
 
         </Admonition>
 
@@ -345,3 +376,83 @@ You can choose between a quick setup or a customized setup as follows:
     ```
 
     In the above code, the collection will also be created. However, without `index_param`, data in the collection will not be indexed and loaded into memory.
+
+- **Create an external collection**
+
+    ```python
+    from pymilvus import MilvusClient, DataType
+    
+    # connect the database
+    client = MilvusClient(
+        uri="https://{project-id}.{region}.api.zillizcloud.com",
+        token="YOUR_API_KEY"
+    )
+    
+    schema = MilvusClient.create_schema(
+        external_source='volume://my_volume/path/to/a/folder/',
+        external_spec='{"format": "parquet"}'
+    )
+    
+    schema.add_field(
+        field_name="product_id",
+        datatype=DataType.INT64,
+        # highlight-next
+        external_field="id" # field name in the external data file
+    )
+    schema.add_field(
+        field_name="product_name",
+        datatype=DataType.VARCHAR,
+        max_length=512,
+        # highlight-next
+        external_field="name"
+    )
+    schema.add_field(
+        field_name="embedding",
+        datatype=DataType.FLOAT_VECTOR,
+        dim=768,
+        # highlight-next
+        external_field="vector"
+    )
+    
+    client.use_database(
+        db_name="my_database"
+    )
+    # create the collection
+    client.create_collection(
+        collection_name="test_collection",
+        schema=schema
+    )
+    
+    index_params = client.prepare_index_params()
+    # Add indexes
+    index_params.add_index(
+        field_name="embedding",
+        index_type="AUTOINDEX",
+        metric_type="COSINE"
+    )
+    index_params.add_index(
+        field_name="product_name",
+        index_type="AUTOINDEX"
+    )
+    client.create_index(
+        db_name="my_database",
+        collection_name="test_collection",
+        index_params=index_params
+    )
+    
+    job_id = client.refresh_external_collection(
+        db_name="my_database",
+        collection_name="test_collection"
+    )
+    while True:
+        progress = client.get_refresh_external_collection_progress(job_id=job_id)
+        print(f"  {progress.state}: {progress.progress}%")
+        if progress.state == "RefreshCompleted":
+            elapsed = progress.end_time - progress.start_time
+            print(f"  Completed in {elapsed}ms")
+            break
+        elif progress.state == "RefreshFailed":
+            print(f"  Failed: {progress.reason}")
+            break
+        time.sleep(2)
+    ```

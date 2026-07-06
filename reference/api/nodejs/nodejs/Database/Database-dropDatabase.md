@@ -12,15 +12,15 @@ type: docx
 token: Ja99dnnaOoncwbx2zIPc4PjunXx
 sidebar_position: 3
 keywords: 
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
   - zilliz
   - zilliz cloud
   - cloud
   - dropDatabase()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar
@@ -39,7 +39,7 @@ await milvusClient.dropDatabase(data?)
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This method applies only to dedicated clusters.</p>
+This method applies only to dedicated clusters.
 
 </Admonition>
 

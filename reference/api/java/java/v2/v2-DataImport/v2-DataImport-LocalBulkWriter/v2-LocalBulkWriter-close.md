@@ -12,15 +12,15 @@ type: docx
 token: OEcUdoX1yoc94axfwpjcdA2jnEf
 sidebar_position: 2
 keywords: 
+  - nearest neighbor search
+  - Agentic RAG
   - rag llm architecture
   - private llms
-  - nn search
-  - llm eval
   - zilliz
   - zilliz cloud
   - cloud
   - close()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

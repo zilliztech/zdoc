@@ -12,10 +12,10 @@ type: docx
 token: ShzCdNgEGozKi3xa3lUcHpxQnaf
 sidebar_position: 4
 keywords: 
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
   - zilliz
   - zilliz cloud
   - cloud
@@ -32,6 +32,26 @@ import Admonition from '@theme/Admonition';
 # query()
 
 This operation conducts a scalar filtering with a specified boolean expression.
+
+<Admonition type="info" icon="📘" title="Notes">
+
+This method applies only to dedicated serving clusters and on-demand compute. 
+
+- For this operation in a collection of a serving cluster, please create **[MilvusClient](./Client-MilvusClient)** with the cluster endpoint.
+
+    - **Free & Serverless**
+
+        `https://{cluster-id}.serverless.{region}.vectordb.zillizcloud.com`
+
+    - **Dedicated**
+
+        `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
+
+- For this operation in a collection for on-demand compute, create **[MilvusClient](./Client-MilvusClient)** with the project endpoints, and then create a session to attach to an on-demand cluster for searches.
+
+    `https://{project-id}.{region}.api.zillizcloud.com`
+
+</Admonition>
 
 ## Request syntax\{#request-syntax}
 
@@ -70,10 +90,11 @@ query(
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    <ul>
-    <li><p>Setting this as <code>output_fields=["\*"]</code> outputs all fields.</p></li>
-    <li><p>Setting this as <code>output_fields=["count(\*)"]</code> outputs the loaded entities that match the conditions specified in the <strong>filter</strong> argument. </p></li>
-    </ul>
+    - Setting this as `output_fields=["\*"]` outputs all fields.
+    
+    - Setting this as `output_fields=["count(\*)"]` outputs the loaded entities that match the conditions specified in the **filter** argument.
+    
+    - When used with `group_by_fields`, this list also accepts aggregation expressions: `count(*)`, `count(<field>)`, `min(<field>)`, `max(<field>)`, `sum(<field>)`, and `avg(<field>)`. The aggregated values are computed per group and returned alongside the group keys.
 
     </Admonition>
 
@@ -95,11 +116,15 @@ query(
 
         The value defaults to the one specified when you create the current collection, with options of **Strong** (**0**), **Bounded** (**1**), **Session** (**2**), and **Eventually** (**3**).
 
-        <Admonition type="info" icon="📘" title="What is the consistency level?">
+        <Admonition type="info" icon="📘" title="Note">
 
-        <p>Consistency in a distributed database specifically refers to the property that ensures every node or replica has the same view of data when writing or reading data at a given time.</p>
-        <p>Zilliz Cloud provides three consistency levels: <strong>Strong</strong>, <strong>Bounded Staleness</strong>, and <strong>Eventually</strong>, with <strong>Bounded Staleness</strong> set as the default.</p>
-        <p>You can easily tune the consistency level when conducting a vector similarity search or query to make it best suit your application.</p>
+        What is the consistency level?
+        
+                Consistency in a distributed database specifically refers to the property that ensures every node or replica has the same view of data when writing or reading data at a given time.
+        
+                Zilliz Cloud provides three consistency levels: **Strong**, **Bounded Staleness**, and **Eventually**, with **Bounded Staleness** set as the default.
+        
+                You can easily tune the consistency level when conducting a vector similarity search or query to make it best suit your application.
 
         </Admonition>
 
@@ -111,7 +136,7 @@ query(
 
         <Admonition type="info" icon="📘" title="Notes">
 
-        <p>This parameter is valid when the default consistency level applies.</p>
+        This parameter is valid when the default consistency level applies.
 
         </Admonition>
 
@@ -123,7 +148,7 @@ query(
 
         <Admonition type="info" icon="📘" title="Notes">
 
-        <p>This parameter is valid when a consistency level other than the default one applies.</p>
+        This parameter is valid when a consistency level other than the default one applies.
 
         </Admonition>
 
@@ -143,6 +168,40 @@ query(
 
         The sum of this value and `offset` should be less than 16,384.
 
+    - **timezone** (*str*)
+
+        Temporarily override the collection or database default time zone for a single query by setting an [IANA identifier](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) (for example, **Asia/Shanghai**, **America/Chicago**, or **UTC**). This controls how `TIMESTAMPTZ` values are interpreted, displayed, and compared during that operation only; it does not modify stored data or collection settings.
+
+        For more information, refer to [TIMESTAMPZ Field](/docs/use-timestamptz-field).
+
+    - **time_fields** (*str*)
+
+        Extract specific time components from a `TIMESTAMPTZ` field during query or search operations. Use a comma-separated list to specify which elements to extract. Supported elements include: `year`, `month`, `day`, `hour`, `minute`, `second`, and `microsecond`.
+
+        For more information, refer to TIMESTAMPZ Field.
+
+    - **order_by** (*list[str]*)
+
+        A list of fields to sort the query results by. Each element follows the format `"field_name:direction"`, where direction is either `asc` (ascending) or `desc` (descending). Note that `asc` and `desc` are case-sensitive.
+
+        Supported field types: INT8, INT16, INT32, INT64, FLOAT, DOUBLE, and VARCHAR. Sorting by vector, JSON, or ARRAY fields is not supported.
+
+        This parameter must be used together with `limit`. When sorting nullable fields, NULL values are placed at the end for ascending sorts (NULLS LAST) and at the beginning for descending sorts (NULLS FIRST).
+
+    - **group_by_fields** (*list[str]*) -
+
+        A list of scalar fields to group the query results by. When set, `query()` returns one row per unique combination of the specified field values, and any aggregation expressions in `output_fields` (`count(*)`, `count(<f>)`, `min(<f>)`, `max(<f>)`, `sum(<f>)`, `avg(<f>)`) are computed per group.
+
+        Supported field types: INT8, INT16, INT32, INT64, FLOAT, DOUBLE, VARCHAR, and TIMESTAMPTZ. Grouping by vector, JSON, or Array fields returns an error.
+
+        Aggregation type rules:
+
+        - `sum` and `avg` are numeric only. Applying them to a `VarChar` field returns an error.
+
+        - `sum(int*)` returns `INT64`; `sum(float|double)` returns `DOUBLE`; `avg(...)` always returns `DOUBLE`; `count(...)` returns `INT64`; `min`/`max` preserve the column type.
+
+        You can combine `group_by_fields` with `limit` to cap the number of groups returned.
+
 **RETURN TYPE:**
 
 *list[dict]*
@@ -153,7 +212,7 @@ A list of dictionaries with each dictionary representing a queried entity.
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>If the number of returned entities is less than expected, duplicate entities may exist in your collection.</p>
+If the number of returned entities is less than expected, duplicate entities may exist in your collection.
 
 </Admonition>
 

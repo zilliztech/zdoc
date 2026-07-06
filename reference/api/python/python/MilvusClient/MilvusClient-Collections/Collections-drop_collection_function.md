@@ -12,10 +12,10 @@ type: docx
 token: F1mJdDLyzoMTrxxarPMcqPkqnqg
 sidebar_position: 24
 keywords: 
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
   - zilliz
   - zilliz cloud
   - cloud
@@ -32,6 +32,12 @@ import Admonition from '@theme/Admonition';
 # drop_collection_function()
 
 This operation drops an existing function from the collection.
+
+<Admonition type="info" icon="📘" title="Notes">
+
+This does not apply to external collections.
+
+</Admonition>
 
 ## Request syntax\{#request-syntax}
 

@@ -4,18 +4,18 @@ slug: /python/python/Management-compact
 sidebar_label: "compact()"
 beta: false
 added_since: v2.4.x
-last_modified: v2.6.x
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "This operation compacts the collection by merging small segments into larger ones. It is recommended to call this operation after inserting a large amount of data into a collection. | Python | MilvusClient"
+description: "This operation starts a compaction job that merges small segments in a collection to improve storage layout and query efficiency. | Python | MilvusClient"
 type: docx
-token: JRNidzqX4o6VtkxVB5RcNvmHnnb
+token: ZANCdUPeBoCis1xylRUcR90Pndb
 sidebar_position: 2
 keywords: 
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # compact()
 
-This operation compacts the collection by merging small segments into larger ones. It is recommended to call this operation after inserting a large amount of data into a collection.
+This operation starts a compaction job that merges small segments in a collection to improve storage layout and query efficiency.
 
 ## Request Syntax\{#request-syntax}
 
@@ -40,6 +40,8 @@ compact(
     collection_name: str,
     is_clustering: Optional[bool] = False,
     is_l0: Optional[bool] = False,
+    target_size: Optional[int] = None,
+    target_size_unit: str = "mb",
     timeout: Optional[float] = None,
     **kwargs,
 ) -> int
@@ -51,72 +53,60 @@ compact(
 
     **[REQUIRED]**
 
-    The name of the target collection.
+    Name of the collection to compact.
 
 - **is_clustering** (*bool*) -
 
-    Whether to perform a clustering compaction. Defaults to **False**.
+    Whether to trigger clustering compaction.
 
 - **is_l0** (*bool*) -
 
-    Whether to perform an L0 compaction, which specifically handles L0 segments by merging delete operations into existing data segments. Defaults to **False**.
+    Whether to trigger L0 compaction.
 
-- **target_size** *(str)* - 
+- **target_size** (*int*) -
 
-    Whether to perform a force merge compaction. Defaults to **0** or omitted.
+    Optional target segment size after compaction. Must be a positive integer.
 
-- **timeout** (*Optional[float]*) -
+- **target_size_unit** (*str*) -
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    Unit for `target_size`. Supported values are `"b"`, `"kb"`, `"mb"`, `"gb"`, `"tb"`, and `"pb"`.
+
+- **timeout** (*float*) -
+
+    Optional RPC timeout in seconds.
+
+- **kwargs** (*dict*) -
+
+    Optional request context parameters.
 
 **RETURN TYPE:**
 
 *int*
 
-**RETURNS:**
-
-A compaction job ID, which can be used to get the compaction status.
+Compaction job ID for follow-up status queries.
 
 **EXCEPTIONS:**
 
+- **ParamError**
+
+    Raised when `target_size` is not an integer or when `target_size_unit` is invalid.
+
 - **MilvusException**
 
-    This exception will be raised when any error occurs during this operation.
+    Raised when the server rejects the request or the compaction RPC fails.
 
 ## Examples\{#examples}
 
 ```python
 from pymilvus import MilvusClient
 
-client = MilvusClient(
-    uri="YOUR_CLUSTER_ENDPOINT",
-    token="YOUR_CLUSTER_TOKEN"
-)
-
-# Standard compaction
+client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT", token="YOUR_CLUSTER_TOKEN")
 job_id = client.compact(
-    collection_name="my_collection"
+    collection_name="book_catalog",
+    is_clustering=True,
+    target_size=512,
+    target_size_unit="mb",
 )
 
-# Clustering compaction
-job_id = client.compact(
-    collection_name="my_collection",
-    is_clustering=True
-)
-
-# L0 compaction
-job_id = client.compact(
-    collection_name="my_collection",
-    is_l0=True
-)
-
-#Force merge compaction
-job_id = client.compact(
-    collection_name="target_collection",
-    target_size="2048 MB"  
-)
-
-# Check compaction status
-state = client.get_compaction_state(job_id)
-print(state)
+print(job_id)
 ```

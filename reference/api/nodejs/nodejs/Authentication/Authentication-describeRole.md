@@ -4,7 +4,7 @@ slug: /node/node/Authentication-describeRole
 sidebar_label: "describeRole()"
 beta: false
 added_since: v2.3.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation describes a specific role. | Node.js"
@@ -12,15 +12,15 @@ type: docx
 token: ItZPd1o4uoodqtx1sxIcq38hn7e
 sidebar_position: 9
 keywords: 
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
   - zilliz
   - zilliz cloud
   - cloud
   - describeRole()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar
@@ -65,11 +65,11 @@ await milvusClient.describeRole({
 
     Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-**Returns** *Promise\<SelectRoleResponse>*
+**RETURNS** *Promise&lt;SelectRoleResponse&gt;*
 
 This method returns a promise that resolves to a **SelectRoleResponse** object.
 
-```javascript
+```typescript
 {
     results: RoleResult[],
     status:  ResStatus
@@ -78,55 +78,103 @@ This method returns a promise that resolves to a **SelectRoleResponse** object.
 
 **PARAMETERS:**
 
-- **RoleResult** *(RoleResult[]) -*
-
-    - **entities** (*GrantEntity[]*) -
-
-        - **db_name** (*string*) -
-
-            The name of the database(s) that the current role can access.
-
-        - **grantor** (*Grantor*) -
-
-            - **privilege** (*string*) -
-
-                The privileges of the grantor
-
-            - **user** (*string*) -
-
-                The name of grantor.
-
-        - **object** (*ObjectEntity*) -
-
-            - **name** (*RbacObjects*) -
-
-                The object of the role. Possible values include *Collection, Global, and User.*
-
-        - **object_name** (*string*) -
-
-            The name of the object.
-
-        - **role** (*RoleEntity*) -
-
-            - **name** (*string*) -
-
-                The name of the current role.
+- **results** (*RoleResult[]*) -
+A list of **RoleResult** objects. For `describeRole()`, this list contains a single entry describing the requested role.
 
     - **role** (*RoleEntity*) -
 
+        A **RoleEntity** object describing the role.
+
         - **name** (*string*) -
 
-            The name of the current role.
+        The role name.
+
+        - **name** (*string*) -
+
+            The role name.
 
     - **users** (*User[]*) -
 
+        A list of users that hold this role.
+
         - **name** (*string*) -
 
-            The name(s) of the user(s) with the specified role.
+        The username.
+
+        - **name** (*string*) -
+
+            The username.
+
+    - **entities** (*GrantEntity[]*) -
+
+        A list of grants attached to this role. Each entry includes the granted privilege, the target object, and the user who granted it.
+
+        - **role** (*RoleEntity*) -
+
+        The role to which the privilege is granted.
+
+        - **object** (*ObjectEntity*) -
+
+        The object type the privilege applies to (for example, **Collection**, **Global**, **User**).
+
+        - **object_name** (*string*) -
+
+        The specific object name to which the privilege applies. Use `*` for all objects.
+
+        - **grantor** (*Grantor*) -
+
+        The principal that granted this privilege.
+
+          - **user** (*User*) -
+
+          The user who granted the privilege.
+
+          - **privilege** (*PrivilegeEntity*) -
+
+          The privilege that was granted.
+
+        - **db_name** (*string*) -
+
+        The database the grant applies to. Use `*` for all databases.
+
+        - **role** (*RoleEntity*) -
+
+            The role to which the privilege is granted.
+
+        - **object** (*ObjectEntity*) -
+
+            The object type the privilege applies to (for example, **Collection**, **Global**, **User**).
+
+        - **object_name** (*string*) -
+
+            The specific object name to which the privilege applies. Use `*` for all objects.
+
+        - **grantor** (*Grantor*) -
+
+            The principal that granted this privilege.
+
+            - **user** (*User*) -
+
+            The user who granted the privilege.
+
+            - **privilege** (*PrivilegeEntity*) -
+
+            The privilege that was granted.
+
+            - **user** (*User*) -
+
+                The user who granted the privilege.
+
+            - **privilege** (*PrivilegeEntity*) -
+
+                The privilege that was granted.
+
+        - **db_name** (*string*) -
+
+            The database the grant applies to. Use `*` for all databases.
 
 - **ResStatus**
-
-    A **ResStatus** object.
+A **ResStatus** object.
 
     - **code** (*number*) -
 
@@ -134,9 +182,9 @@ This method returns a promise that resolves to a **SelectRoleResponse** object.
 
     - **error_code** (*string* | *number*) -
 
-        An error code that indicates an occurred error. It remains **Success** if this operation succeeds. 
+        An error code that indicates an occurred error. It remains **Success** if this operation succeeds.
 
-    - **reason** (*string*) - 
+    - **reason** (*string*) -
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 

@@ -12,10 +12,10 @@ type: docx
 token: DCLUdOpVjohl8HxPUx1cGjokngf
 sidebar_position: 1
 keywords: 
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
   - zilliz
   - zilliz cloud
   - cloud
@@ -43,8 +43,9 @@ construct_from_dict(
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This is a class method. You should call it from the class instead of an instance of the class as follows:</p>
-<p><code>FieldSchema.construct_from_dict()</code></p>
+This is a class method. You should call it from the class instead of an instance of the class as follows:
+
+`FieldSchema.construct_from_dict()`
 
 </Admonition>
 

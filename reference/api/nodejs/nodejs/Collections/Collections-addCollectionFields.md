@@ -12,15 +12,15 @@ type: docx
 token: FmG6dw3O1ouzgbxnl4jc5T7cnXf
 sidebar_position: 20
 keywords: 
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
   - zilliz
   - zilliz cloud
   - cloud
   - addCollectionFields()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar
@@ -39,7 +39,7 @@ await milvusClient.addCollectionFields(data: AddCollectionFieldReq)
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>If the collection has the dynamic field enabled and you add a static field with the same name as an existing dynamic field key, the static field will mask the dynamic field key. The original dynamic values remain accessible via the <code>$meta['field_name']</code> syntax.</p>
+If the collection has the dynamic field enabled and you add a static field with the same name as an existing dynamic field key, the static field will mask the dynamic field key. The original dynamic values remain accessible via the `$meta['field_name']` syntax.
 
 </Admonition>
 

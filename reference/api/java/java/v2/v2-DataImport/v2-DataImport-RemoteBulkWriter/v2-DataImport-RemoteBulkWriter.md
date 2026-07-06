@@ -12,15 +12,15 @@ type: docx
 token: XAIndF6XWoQzvRxDvpLcgEE1nEb
 sidebar_position: 5
 keywords: 
+  - Zilliz database
+  - Unstructured Data
+  - vector database
   - IVF
-  - knn
-  - Image Search
-  - LLMs
   - zilliz
   - zilliz cloud
   - cloud
   - RemoteBulkWriter
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar
@@ -43,7 +43,7 @@ Constructs a **RemoteBulkWriter** instance with a set of parameters, such as **s
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>A <strong>RemoteBulkWriter</strong> object intends to rewrite your raw data in a format that Milvus understands into an AWS-S3-compatible or a Microsoft Azure Blob Storage bucket.</p>
+A **RemoteBulkWriter** object intends to rewrite your raw data in a format that Milvus understands into an AWS-S3-compatible or a Microsoft Azure Blob Storage bucket.
 
 </Admonition>
 
@@ -94,8 +94,9 @@ RemoteBulkWriterParam.newBuilder()
 
     <Admonition type="info" icon="📘" title="**How does BulkWriter segment my data?**">
 
-    <p>The way BulkWriter segments your data varies with the target file type.</p>
-    <p>If the generated file exceeds the specified segment size, BulkWriter creates multiple files and names them in sequence numbers, each no larger than the segment size.</p>
+    The way BulkWriter segments your data varies with the target file type.
+    
+    If the generated file exceeds the specified segment size, BulkWriter creates multiple files and names them in sequence numbers, each no larger than the segment size.
 
     </Admonition>
 
@@ -144,7 +145,7 @@ AzureConnectParam.newBuilder()
 
 - `withAccountUrl(String accountUrl)`
 
-    A string in format like `<i>http</i>s://<storage-account>.blob.core.windows.net`. Read [this link](https://learn.microsoft.com/en-us/azure/storage/common/storage-account-overview) for more info.
+    A string in format like `https://<storage-account>.blob.core.windows.net`. Read [this link](https://learn.microsoft.com/en-us/azure/storage/common/storage-account-overview) for more info.
 
 - `withCredential(TokenCrendtial credential)`
 

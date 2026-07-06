@@ -12,15 +12,15 @@ type: docx
 token: G7F9dQ8DwoZsaVxExdnc7K6an3g
 sidebar_position: 5
 keywords: 
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
   - zilliz
   - zilliz cloud
   - cloud
   - LocalBulkWriter
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar
@@ -43,7 +43,7 @@ Constructs a **LocalBulkWriter** instance by schema, output path, segment size, 
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>A <strong>LocalBulkWriter</strong> object intends to rewrite your raw data locally in a format that Milvus understands.</p>
+A **LocalBulkWriter** object intends to rewrite your raw data locally in a format that Milvus understands.
 
 </Admonition>
 
@@ -89,8 +89,9 @@ LocalBulkWriterParam.newBuilder()
 
     <Admonition type="info" icon="📘" title="**How does BulkWriter segment my data?**">
 
-    <p>The way BulkWriter segments your data varies with the target file type.</p>
-    <p>If the generated file exceeds the specified segment size, BulkWriter creates multiple files and names them in sequence numbers, each no larger than the segment size.</p>
+    The way BulkWriter segments your data varies with the target file type.
+    
+    If the generated file exceeds the specified segment size, BulkWriter creates multiple files and names them in sequence numbers, each no larger than the segment size.
 
     </Admonition>
 

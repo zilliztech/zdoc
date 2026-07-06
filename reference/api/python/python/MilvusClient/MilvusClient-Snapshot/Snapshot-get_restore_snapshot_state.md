@@ -2,7 +2,7 @@
 title: "get_restore_snapshot_state() | Python | MilvusClient"
 slug: /python/python/Snapshot-get_restore_snapshot_state
 sidebar_label: "get_restore_snapshot_state()"
-beta: false
+beta: PRIVATE
 added_since: v3.0.x
 last_modified: false
 deprecate_since: false
@@ -12,10 +12,10 @@ type: docx
 token: Ky0pdpA6WorUvbxwN3ucwUjgnec
 sidebar_position: 4
 keywords: 
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
   - zilliz
   - zilliz cloud
   - cloud

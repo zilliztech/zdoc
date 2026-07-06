@@ -12,15 +12,15 @@ type: docx
 token: SI3Td00AroRtx8xXQcUce8i2nrb
 sidebar_position: 15
 keywords: 
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
   - zilliz
   - zilliz cloud
   - cloud
   - IndexType
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar
@@ -99,3 +99,15 @@ Sets the index type to Trie.
 - **BITMAP** = 'BITMAP'
 
     Sets the index type to BITMAP.
+
+- **IVF_RABITQ** = 'IVF_RABITQ',
+
+    Sets the index type to IVF_RABITQ.
+
+- **MINHASH_LSH** = 'MINHASH_LSH'
+
+    Sets the index type to MINHASH_LSH.
+
+- **RTREE** = 'RTREE'
+
+    Sets the index type to RTREE.

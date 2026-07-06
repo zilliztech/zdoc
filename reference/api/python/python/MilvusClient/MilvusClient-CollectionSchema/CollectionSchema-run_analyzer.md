@@ -12,10 +12,10 @@ type: docx
 token: TWzjdJ61ho613AxKSd7clQt9nrg
 sidebar_position: 6
 keywords: 
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
   - zilliz
   - zilliz cloud
   - cloud
@@ -35,7 +35,7 @@ This operation processes the input data and generates tokenized output.
 
 ## Request Syntax\{#request-syntax}
 
-```plaintext
+````plaintext
 run_analyzer(
     texts: Union[str, List[str]],
     analyzer_params: Union[str, Dict, None] = None,
@@ -83,7 +83,7 @@ A tuple containing:
 
 - `MilvusException` - Raised if any error occurs during this operation.
 
-## Examples\{#examples}
+## Examples{#examples}
 
 ```plaintext
 from pymilvus import MilvusClient
@@ -110,4 +110,4 @@ print(result)
 
 # Expected output:
 # ['efficient', 'system', 'relies', 'on', 'robust', 'analyzer', 'to', 'correctly', 'process', 'text', 'various', 'applications']
-```
+````

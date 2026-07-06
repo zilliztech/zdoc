@@ -1,5 +1,5 @@
 ---
-title: "\_\_call\_\_() | Python"
+title: "\\_\\_call\\_\\_() | Python"
 slug: /python/python/CohereRerankFunction-__call__
 sidebar_label: "__call__()"
 beta: false
@@ -12,10 +12,10 @@ type: docx
 token: M7pWdbu8foKkJAxY3uBcMfHrnrh
 sidebar_position: 2
 keywords: 
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
   - zilliz
   - zilliz cloud
   - cloud
@@ -69,7 +69,7 @@ cohere_rf(
 
 A list of `RerankResult` objects.
 
-```plaintext
+````plaintext
 ├── RerankResult
 |    └── text
 |    └── score
@@ -90,7 +90,7 @@ Each `RerankResult` object contains:
 
     This exception will be raised when the Cohere module is not installed.
 
-## Examples\{#examples}
+## Examples{#examples}
 
 ```python
 from pymilvus.model.reranker import CohereRerankFunction
@@ -116,4 +116,4 @@ cohere_rf(query, documents)
 #  RerankResult(text="The invention of the Logic Theorist by Allen Newell, Herbert A. Simon, and Cliff Shaw in 1955 marked the creation of the first true AI program, which was capable of solving logic problems, akin to proving mathematical theorems.", score=0.8578872, index=3),
 #  RerankResult(text='The invention of the Logic Theorist by Allen Newell, Herbert A. Simon, and Cliff Shaw in 1955 marked the creation of the first true AI program, which was capable of solving logic problems, akin to proving mathematical theorems.', score=0.006514905766152258, index=3),
 #  RerankResult(text='In 1951, British mathematician and computer scientist Alan Turing also developed the first program designed to play chess, demonstrating an early example of AI in game strategy.', score=0.3589146, index=0)]
-```
+````

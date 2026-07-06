@@ -4,7 +4,7 @@ slug: /node/node/Management-flushSync
 sidebar_label: "flushSync()"
 beta: false
 added_since: v2.4.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation manually seals a segment and persists the data on disk. It is recommended that this operation be called after all the data has been inserted into a collection. This is the synchronous function that ensures the flush operation is complete before the function returns. | Node.js"
@@ -12,15 +12,15 @@ type: docx
 token: QsTwdUbgyoZPV1xzCBxchX8Fnid
 sidebar_position: 8
 keywords: 
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
   - zilliz
   - zilliz cloud
   - cloud
   - flushSync()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar
@@ -39,7 +39,7 @@ await milvusClient.flushSync(data)
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Milvus automatically flushes data into persistent storage at intervals. You are advised to rely on this automatic data persistence mechnism.</p>
+Milvus automatically flushes data into persistent storage at intervals. You are advised to rely on this automatic data persistence mechnism.
 
 </Admonition>
 
@@ -71,28 +71,24 @@ await milvusClient.flushSync({
 
     Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-**RETURNS** *Promise\<GetFlushStateResponse>*
+**RETURNS** *Promise&lt;GetFlushStateResponse&gt;*
 
 This method returns a promise that resolves to a **GetFlushStateResponse** object.
 
-```javascript
+```typescript
 {
     flushed: boolean,
-    status: {
-        code: number,
-        error_code: string | number,
-        reason: string
-    }
+    status:  ResStatus
 }
 ```
 
 **PARAMETERS:**
 
 - **flushed** (*boolean*) -
+Whether all targeted segments are flushed to persistent storage. Because `flushSync()` blocks until the flush completes, this value is **true** on success.
 
-    Whether data is persisted into storage.
-
-- **status** (*ResStatus*) - 
+- **ResStatus**
+A **ResStatus** object.
 
     - **code** (*number*) -
 
@@ -100,9 +96,9 @@ This method returns a promise that resolves to a **GetFlushStateResponse** objec
 
     - **error_code** (*string* | *number*) -
 
-        An error code that indicates an occurred error. It remains **Success** if this operation succeeds. 
+        An error code that indicates an occurred error. It remains **Success** if this operation succeeds.
 
-    - **reason** (*string*) - 
+    - **reason** (*string*) -
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 

@@ -10,17 +10,17 @@ notebook: false
 description: "This operation gets the complete primary field schema of a collection. This is a convenient method that describes the collection and extracts the primary key field. | Node.js"
 type: docx
 token: LmnudtyV5owY2zx5D9WcENcsnFg
-sidebar_position: 24
+sidebar_position: 25
 keywords: 
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
   - zilliz
   - zilliz cloud
   - cloud
   - getPkField()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

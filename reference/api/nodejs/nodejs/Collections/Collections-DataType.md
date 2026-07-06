@@ -12,15 +12,15 @@ type: docx
 token: AtLEdt0ZWoUbHoxkfvHcq1ZunUg
 sidebar_position: 6
 keywords: 
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
   - zilliz
   - zilliz cloud
   - cloud
   - DataType
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar
@@ -35,61 +35,41 @@ This is an enumeration that provides the following constants.
 
 ## Constants\{#constants}
 
-- NONE = 0
-
-    Sets the data type to **NoneType**.
-
 - BOOL = 1
-
-    Sets the data type to **Boolean**.
+Sets the data type to **Boolean**.
 
 - INT8 = 2
-
-    Sets the data type to **Int8**.
+Sets the data type to **Int8**.
 
 - INT16 = 3
-
-    Sets the data type to **Int64**.
+Sets the data type to **Int64**.
 
 - INT32 = 4
-
-    Sets the data type to **Int32**.
+Sets the data type to **Int32**.
 
 - INT64 = 5
-
-    Sets the data type to **Int64**.
+Sets the data type to **Int64**.
 
 - FLOAT = 10
-
-    Sets the data type to **Float**.
+Sets the data type to **Float**.
 
 - DOUBLE = 11
-
-    Sets the data type to **Double**.
+Sets the data type to **Double**.
 
 - VARCHAR = 21
-
-    Sets the data type to **Varchar**.
+Sets the data type to **Varchar**.
 
 - ARRAY = 22
-
-    Sets the data type to **Array**.
+Sets the data type to **Array**.
 
 - JSON = 23
-
-    Sets the data type to **JSON**.
-
-- Geometry = 24
-
-    Sets the data type to **Geometry**.
+Sets the data type to **JSON**.
 
 - BinaryVector = 100
-
-    Sets the data type to **Binary Vector**.
+Sets the data type to **Binary Vector**.
 
 - FloatVector = 101
-
-    Sets the data type to **Float Vector**.
+Sets the data type to **Float Vector**.
 
 - Float16Vector = 102
 
@@ -105,9 +85,4 @@ This is an enumeration that provides the following constants.
 
 - Int8Vector = 105
 
-    Sets the data type to **Int8Vector**.
-
-- Struct = 201
-
-    Sets the data type to **Struct**. Note that this only applies to the elements in an **Array** field.
-
+    Sets the data type to **Int8 Vector**.

@@ -146,6 +146,16 @@ module.exports = [
       },
       {
         "type": "doc",
+        "id": "api/nodejs/nodejs/Client/Client-close",
+        "label": "close()"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Client/Client-session",
+        "label": "session()"
+      },
+      {
+        "type": "doc",
         "id": "api/nodejs/nodejs/Client/Client-getVersion",
         "label": "getVersion()"
       },
@@ -272,6 +282,11 @@ module.exports = [
       },
       {
         "type": "doc",
+        "id": "api/nodejs/nodejs/Collections/Collections-batchDescribeCollections",
+        "label": "batchDescribeCollections()"
+      },
+      {
+        "type": "doc",
         "id": "api/nodejs/nodejs/Collections/Collections-dropCollectionFunction",
         "label": "dropCollectionFunction()"
       },
@@ -289,6 +304,112 @@ module.exports = [
         "type": "doc",
         "id": "api/nodejs/nodejs/Collections/Collections-getPkFieldType",
         "label": "getPkFieldType()"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Collections/Collections-truncateCollection",
+        "label": "truncateCollection()"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Collections/Collections-getRefreshExternalCollectionProgress",
+        "label": "getRefreshExternalCollectionProgress()"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Collections/Collections-listRefreshExternalCollectionJobs",
+        "label": "listRefreshExternalCollectionJobs()"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Collections/Collections-refreshExternalCollection",
+        "label": "refreshExternalCollection()"
+      }
+    ]
+  },
+  {
+    "type": "category",
+    "label": "Data Import",
+    "items": [
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/DataImport/DataImport-createImportJobs",
+        "label": "createImportJobs()"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/DataImport/DataImport-HttpImportCreateReq",
+        "label": "HttpImportCreateReq"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/DataImport/DataImport-HttpImportCreateResponse",
+        "label": "HttpImportCreateResponse"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/DataImport/DataImport-HttpImportListResponse",
+        "label": "HttpImportListResponse"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/DataImport/DataImport-HttpImportProgressReq",
+        "label": "HttpImportProgressReq"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/DataImport/DataImport-HttpImportProgressResponse",
+        "label": "HttpImportProgressResponse"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/DataImport/DataImport-listImportJobs",
+        "label": "listImportJobs()"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/DataImport/DataImport-bulkInsert",
+        "label": "bulkInsert()"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/DataImport/DataImport-BulkWriter",
+        "label": "BulkWriter"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/DataImport/DataImport-BulkWriterOptions",
+        "label": "BulkWriterOptions"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/DataImport/DataImport-BulkWriterSchema",
+        "label": "BulkWriterSchema"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/DataImport/DataImport-FlushEvent",
+        "label": "FlushEvent"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/DataImport/DataImport-Formatter",
+        "label": "Formatter"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/DataImport/DataImport-listImportTasks",
+        "label": "listImportTasks()"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/DataImport/DataImport-Storage",
+        "label": "Storage"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/DataImport/DataImport-getImportState",
+        "label": "getImportState()"
       }
     ]
   },
@@ -449,6 +570,26 @@ module.exports = [
       },
       {
         "type": "doc",
+        "id": "api/nodejs/nodejs/Management/Management-flushAll",
+        "label": "flushAll()"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Management/Management-flushAllSync",
+        "label": "flushAllSync()"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Management/Management-getFlushAllState",
+        "label": "getFlushAllState()"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Management/Management-getReplicas",
+        "label": "getReplicas()"
+      },
+      {
+        "type": "doc",
         "id": "api/nodejs/nodejs/Management/Management-loadCollectionAsync",
         "label": "loadCollectionAsync()"
       }
@@ -553,6 +694,57 @@ module.exports = [
         "type": "doc",
         "id": "api/nodejs/nodejs/Vector/Vector-queryIterator",
         "label": "queryIterator()"
+      }
+    ]
+  },
+  {
+    "type": "category",
+    "label": "Snapshot",
+    "items": [
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Snapshot/Snapshot-createSnapshot",
+        "label": "createSnapshot()"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Snapshot/Snapshot-describeSnapshot",
+        "label": "describeSnapshot()"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Snapshot/Snapshot-dropSnapshot",
+        "label": "dropSnapshot()"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Snapshot/Snapshot-getRestoreSnapshotState",
+        "label": "getRestoreSnapshotState()"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Snapshot/Snapshot-listRestoreSnapshotJobs",
+        "label": "listRestoreSnapshotJobs()"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Snapshot/Snapshot-listSnapshots",
+        "label": "listSnapshots()"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Snapshot/Snapshot-pinSnapshotData",
+        "label": "pinSnapshotData()"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Snapshot/Snapshot-restoreSnapshot",
+        "label": "restoreSnapshot()"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Snapshot/Snapshot-unpinSnapshotData",
+        "label": "unpinSnapshotData()"
       }
     ]
   }

@@ -10,17 +10,17 @@ notebook: false
 description: "This operation removes all data from a collection while preserving the collection schema, indexes, and aliases. | Java | v2"
 type: docx
 token: JiLLdfLlPoKWL6xEgOAcdCU3nol
-sidebar_position: 38
+sidebar_position: 36
 keywords: 
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
   - zilliz
   - zilliz cloud
   - cloud
   - truncateCollection()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

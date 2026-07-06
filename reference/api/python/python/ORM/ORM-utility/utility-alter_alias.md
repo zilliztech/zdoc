@@ -12,10 +12,10 @@ type: docx
 token: MfTsdrbGcoO9JqxjgPtcMZTvncc
 sidebar_position: 1
 keywords: 
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
-  - Zilliz
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
   - zilliz
   - zilliz cloud
   - cloud
@@ -70,21 +70,27 @@ alter_alias(
 
     The alias of the collection. Note that the alias should exist beforehand.
 
-    <Admonition type="info" icon="📘" title="What is a[ collection](./ORM-Collection) alias?">
+    <Admonition type="info" icon="📘" title="Note">
 
-    <p>A<a href="./ORM-Collection"> collection</a> alias is an additional name for a collection. Collection aliases are useful when you want to switch your application to a new collection without any changes to your code. </p>
-    <p>In , a<a href="./ORM-Collection"> collection</a> alias is a globally unique identifier. One alias can only be assigned to exactly one collection. Conversely, a collection can have multiple aliases.</p>
-    <p>Below is an example of reassigning the alias of one collection to another:</p>
-    <p>Suppose there are two collections: <code>collection_1</code> and <code>collection_2</code>. There is also a collection alias named <code>bob</code>, which was originally assigned to <code>collection_1</code>:</p>
-    <ul>
-    <li><p><code>collection_1</code>'s alias = ["bob"]</p></li>
-    <li><p><code>collection_2</code>'s alias = []</p></li>
-    </ul>
-    <p>After calling <code>alter_alias("collection_2", "bob")</code>:</p>
-    <ul>
-    <li><p><code>collection_1</code>'s alias = []</p></li>
-    <li><p><code>collection_2</code>'s alias = ["bob"]</p></li>
-    </ul>
+    What is a[ collection](./ORM-Collection) alias?
+    
+        A[ collection](./ORM-Collection) alias is an additional name for a collection. Collection aliases are useful when you want to switch your application to a new collection without any changes to your code. 
+    
+        In , a[ collection](./ORM-Collection) alias is a globally unique identifier. One alias can only be assigned to exactly one collection. Conversely, a collection can have multiple aliases.
+    
+        Below is an example of reassigning the alias of one collection to another:
+    
+        Suppose there are two collections: `collection_1` and `collection_2`. There is also a collection alias named `bob`, which was originally assigned to `collection_1`:
+    
+        - `collection_1`'s alias = ["bob"]
+    
+        - `collection_2`'s alias = []
+    
+        After calling `alter_alias("collection_2", "bob")`:
+    
+        - `collection_1`'s alias = []
+    
+        - `collection_2`'s alias = ["bob"]
 
     </Admonition>
 

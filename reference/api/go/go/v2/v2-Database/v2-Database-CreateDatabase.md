@@ -1,18 +1,29 @@
 ---
 title: "CreateDatabase() | Go | v2"
-slug: /go/v2-Database-CreateDatabase
+slug: /go/go/v2-Database-CreateDatabase
 sidebar_label: "CreateDatabase()"
-beta: FALSE
-added_since: v2.5.x
-last_modified: FALSE
-deprecate_since: FALSE
-notebook: FALSE
-description: "This method creates a database. | Go | v2"
-type: origin
-token: SviiwG5mniOJAVk2NRocHm5pnUc
-sidebar_position: 3
+beta: false
+added_since: v2.6.x
+last_modified: false
+deprecate_since: false
+notebook: false
+description: "This operation creates a new database. | Go | v2"
+type: docx
+token: BMlVd8UFLor42pxDtr3cnobPnxe
+sidebar_position: 2
+keywords: 
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - CreateDatabase()
+  - gov230
 displayed_sidebar: goSidebar
 
+displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -20,81 +31,69 @@ import Admonition from '@theme/Admonition';
 
 # CreateDatabase()
 
-This method creates a database.
+This operation creates a new database.
 
 ```go
 func (c *Client) CreateDatabase(ctx context.Context, option CreateDatabaseOption, callOptions ...grpc.CallOption) error
 ```
 
-## Request Parameters\{#request-parameters}
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>ctx</code></p></td>
-     <td><p>Context for the current call to work.</p></td>
-     <td><p><code>context.Context</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>option</code></p></td>
-     <td><p>Optional parameters of the methods.</p></td>
-     <td><p><a href="./v2-Database-CreateDatabase#createdatabaseoption"><code>CreateDatabaseOption</code></a></p></td>
-   </tr>
-   <tr>
-     <td><p><code>callOpts</code></p></td>
-     <td><p>Optional parameters for calling the methods.</p></td>
-     <td><p><code>grpc.CallOption</code></p></td>
-   </tr>
-</table>
-
-## CreateDatabaseOption\{#createdatabaseoption}
-
-This is an interface type. The `createDatabaseOption` struct type implements this interface type. 
-
-You can use the `NewCreateDatabaseOption()` function to get the concrete implementation.
-
-### NewCreateDatabaseOption\{#newcreatedatabaseoption}
-
-The signature of this method is as follows:
+## Request Syntax\{#request-syntax}
 
 ```go
-func NewCreateDatabaseOption(dbName string) *createDatabaseOption
+option := milvusclient.NewCreateDatabaseOption(dbName).
+    WithProperty(key, val)
+
+err := client.CreateDatabase(ctx, option)
 ```
 
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>dbName</code></p></td>
-     <td><p>Name of the database to create.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-</table>
+**PARAMETERS:**
 
-## Return\{#return}
+- **dbName** (*string*)
 
-Null
+    The name of the database.
+
+**OPTION METHODS:**
+
+- `WithProperty(key string, val any)`
+
+    Sets a custom property key-value pair on the resource.
+
+**RETURN TYPE:**
+
+*error*
+
+**RETURNS:**
+
+Returns nil on success, or an error describing what went wrong.
+
+**EXCEPTIONS:**
+
+- **error**
+
+    Check `err != nil` for failure details.
 
 ## Example\{#example}
 
-```plaintext
+```go
+import (
+	"context"
+
+	"github.com/milvus-io/milvus/client/v2/milvusclient"
+)
+
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
+
 dbName := `test_db`
 cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-    Address: milvusAddr,
+	Address: milvusAddr,
 })
 if err != nil {
-    // handle err
+	// handle err
 }
 
 err = cli.CreateDatabase(ctx, milvusclient.NewCreateDatabaseOption(dbName))
 if err != nil {
-    // handle err
+	// handle err
 }
 ```

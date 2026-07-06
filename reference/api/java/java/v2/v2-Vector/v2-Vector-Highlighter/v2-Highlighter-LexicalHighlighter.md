@@ -12,15 +12,15 @@ type: docx
 token: Krd6dVuQbohTF5xFHGYcomHsnEg
 sidebar_position: 2
 keywords: 
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
   - zilliz
   - zilliz cloud
   - cloud
   - LexicalHighlighter
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar
@@ -65,12 +65,12 @@ LexicalHighlighter.builder()
     import java.util.List;
     
     LexicalHighter.HighlightQuery q = new LexicalHighlighter.HighlighterQuery(
-        "<QueryType>",
+        "&lt;QueryType&gt;",
         "<text field name>",
         "<terms to highlight>"
     )
     
-    List<LexicalHighter.HighlightQuery> queries = new ArrayList<>();
+    List&lt;LexicalHighter.HighlightQuery&gt; queries = new ArrayList<>();
     queries.add(q);
     ```
 

@@ -1,18 +1,29 @@
 ---
 title: "DropAlias() | Go | v2"
-slug: /go/v2-Collection-DropAlias
+slug: /go/go/v2-Collection-DropAlias
 sidebar_label: "DropAlias()"
-beta: FALSE
-added_since: v2.5.x
-last_modified: FALSE
-deprecate_since: FALSE
-notebook: FALSE
-description: "This method drops an alias. | Go | v2"
-type: origin
-token: L4pQwb5CRixHdvkff3Zc90eznbg
-sidebar_position: 13
+beta: false
+added_since: v2.6.x
+last_modified: false
+deprecate_since: false
+notebook: false
+description: "This operation removes a collection alias. | Go | v2"
+type: docx
+token: PLPKdFJ0aoNUyTxMj7Mc3tPVn5d
+sidebar_position: 12
+keywords: 
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - DropAlias()
+  - gov230
 displayed_sidebar: goSidebar
 
+displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -20,79 +31,63 @@ import Admonition from '@theme/Admonition';
 
 # DropAlias()
 
-This method drops an alias. 
+This operation removes a collection alias.
 
 ```go
 func (c *Client) DropAlias(ctx context.Context, option DropAliasOption, callOptions ...grpc.CallOption) error
 ```
 
-## Request Parameters\{#request-parameters}
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>ctx</code></p></td>
-     <td><p>Context for the current call to work.</p></td>
-     <td><p><code>context.Context</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>option</code></p></td>
-     <td><p>Optional parameters of the methods.</p></td>
-     <td><p><a href="./v2-Collection-DropAlias#dropaliasoption"><code>DropAliasOption</code></a></p></td>
-   </tr>
-   <tr>
-     <td><p><code>callOpts</code></p></td>
-     <td><p>Optional parameters for calling the methods.</p></td>
-     <td><p><code>grpc.CallOption</code></p></td>
-   </tr>
-</table>
-
-## DropAliasOption\{#dropaliasoption}
-
-This is an interface type. The `dropAliasOption` struct type implements this interface type. 
-
-You can use the `NewDropAliasOption()` function to get the concrete implementation.
-
-### NewDropCollectionOption\{#newdropcollectionoption}
-
-The signature of this method is as follows:
+## Request Syntax\{#request-syntax}
 
 ```go
-func NewDropAliasOption(alias string) *dropAliasOption
+option := milvusclient.NewDropAliasOption(alias)
+
+err := client.DropAlias(ctx, option)
 ```
 
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>alias</code></p></td>
-     <td><p>Name of the alias to drop.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-</table>
+**PARAMETERS:**
 
-## Return\{#return}
+- **[alias](./v2-Collection-Alias)** (*string*)
 
-Null
+    The alias name to assign.
+
+**RETURN TYPE:**
+
+*error*
+
+**RETURNS:**
+
+Returns nil on success, or an error describing what went wrong.
+
+**EXCEPTIONS:**
+
+- **error**
+
+    Check `err != nil` for failure details.
 
 ## Example\{#example}
 
 ```go
 import (
-        "context"
-        "github.com/milvus-io/milvus/client/v2/milvusclient"
+	"context"
+
+	"github.com/milvus-io/milvus/client/v2/milvusclient"
 )
+
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
+
+milvusAddr := "YOUR_CLUSTER_ENDPOINT"
+
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+	Address: milvusAddr,
+})
+if err != nil {
+	// handle error
+}
 
 err = cli.DropAlias(ctx, milvusclient.NewDropAliasOption("alice"))
 if err != nil {
-    // handle error
+	// handle error
 }
 ```
-

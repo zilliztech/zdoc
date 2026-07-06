@@ -4,23 +4,23 @@ slug: /java/java/v2-Client-ConnectConfig
 sidebar_label: "ConnectConfig"
 beta: false
 added_since: v2.6.x
-last_modified: v2.6.x
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "A ConnectConfig builder holds the connection configuration used when creating a `MilvusClientV2` instance. Use the builder pattern to configure all connection parameters, including authentication, TLS, timeouts, and keepalive settings. | Java | v2"
 type: docx
-token: KI2dd1HysodgqfxttlwcAjODnfe
+token: ErNidktYPodbDxxow0xcV5qHnof
 sidebar_position: 4
 keywords: 
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
   - zilliz
   - zilliz cloud
   - cloud
   - ConnectConfig
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar
@@ -54,6 +54,7 @@ ConnectConfig.builder()
     .serverPemPath(String serverPemPath)
     .serverName(String serverName)
     .proxyAddress(String proxyAddress)
+    .option(Map<String, String> option)
     .build()
 ```
 
@@ -63,7 +64,7 @@ ConnectConfig.builder()
 
     **[REQUIRED]**
 
-    The server endpoint URI. Accepts `http:*//*host:port` for a local Milvus instance or an HTTPS URL for Zilliz Cloud.
+    The server endpoint URI. Accepts `http://host:port` for a local Milvus instance or an HTTPS URL for Zilliz Cloud.
 
 - `token(String token)` -
 
@@ -136,6 +137,10 @@ ConnectConfig.builder()
 - `proxyAddress(String proxyAddress)` -
 
     HTTP proxy address for the gRPC connection. Default: `null`.
+
+- `option(Map<String, String> option)` -
+
+    Arbitrary key-value pairs that are forwarded to the server in the `ClientInfo.reserved` field on connect. Useful for passing client-side metadata or feature flags that the server understands. The default value is an empty map.
 
 ## Example\{#example}
 

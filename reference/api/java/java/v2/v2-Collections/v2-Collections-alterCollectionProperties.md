@@ -12,15 +12,15 @@ type: docx
 token: JQ4QdTaadoIDSPxDJRZcSDu3n5g
 sidebar_position: 3
 keywords: 
+  - Vector index
+  - vector database open source
   - open source vector db
   - vector database example
-  - rag vector database
-  - what is vector db
   - zilliz
   - zilliz cloud
   - cloud
   - alterCollectionProperties()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

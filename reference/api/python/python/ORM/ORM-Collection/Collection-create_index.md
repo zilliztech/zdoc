@@ -12,10 +12,10 @@ type: docx
 token: J76vdPHNgoyp2wxAiTcceIVJnOe
 sidebar_position: 4
 keywords: 
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
   - zilliz
   - zilliz cloud
   - cloud
@@ -35,7 +35,7 @@ This creates a named index for a target field, which can either be a vector fiel
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This operation is non-blocking. You can call <code>utility.wait_for_index_building_complete()</code> to block the current process.</p>
+This operation is non-blocking. You can call `utility.wait_for_index_building_complete()` to block the current process.
 
 </Admonition>
 

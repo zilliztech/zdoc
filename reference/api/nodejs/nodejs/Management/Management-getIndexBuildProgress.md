@@ -4,7 +4,7 @@ slug: /node/node/Management-getIndexBuildProgress
 sidebar_label: "getIndexBuildProgress()"
 beta: false
 added_since: v2.4.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation gets the build progress of the specified index. | Node.js"
@@ -12,15 +12,15 @@ type: docx
 token: G6CGdbM4QoNgr5xS1ZAc94lhnFd
 sidebar_position: 11
 keywords: 
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
   - zilliz
   - zilliz cloud
   - cloud
   - getIndexBuildProgress()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar
@@ -77,35 +77,28 @@ await milvusClient.getIndexBuildProgress({
 
     The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-**RETURNS** *Promise\<GetIndexBuildProgressResponse>*
+**RETURNS** *Promise&lt;GetIndexBuildProgressResponse&gt;*
 
 This method returns a promise that resolves to a **GetIndexBuildProgressResponse** object.
 
-```javascript
+```typescript
 {
     indexed_rows: number,
     total_rows: number,
-    status: {
-        code: number,
-        error_code: string | number,
-        reason: string
-    }
+    status:  ResStatus
 }
 ```
 
 **PARAMETERS:**
 
 - **indexed_rows** (*number*) -
-
-    The number of entities that have already been indexed.
+The number of rows that have been indexed so far.
 
 - **total_rows** (*number*) -
+The total number of rows the index covers. The build is complete when **indexed_rows** equals **total_rows**.
 
-    The number of entities that already persisted in the specified collection.
-
-- **status** (*ResStatus*) -  
-
-    The status of the response.
+- **ResStatus**
+A **ResStatus** object.
 
     - **code** (*number*) -
 
@@ -113,9 +106,9 @@ This method returns a promise that resolves to a **GetIndexBuildProgressResponse
 
     - **error_code** (*string* | *number*) -
 
-        An error code that indicates an occurred error. It remains **Success** if this operation succeeds. 
+        An error code that indicates an occurred error. It remains **Success** if this operation succeeds.
 
-    - **reason** (*string*) - 
+    - **reason** (*string*) -
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 

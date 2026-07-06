@@ -12,15 +12,15 @@ type: docx
 token: RZ8idPxaho5yMoxJzGdc7QAcnNf
 sidebar_position: 10
 keywords: 
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
   - zilliz
   - zilliz cloud
   - cloud
   - DataType
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar
@@ -105,7 +105,7 @@ This is an enumeration that provides the following constants.
 
 - SparseFloatVector(104)
 
-Sets the data type to **Sparse Vector**.
+    Sets the data type to **Sparse Vector**.
 
 - Inv8Vector(105)
 

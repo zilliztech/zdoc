@@ -12,10 +12,10 @@ type: docx
 token: DXTJdXSquo8NutxCqfBccO7pnWw
 sidebar_position: 1
 keywords: 
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
   - zilliz
   - zilliz cloud
   - cloud
@@ -59,7 +59,7 @@ Defines which query terms from text-based filters are highlighted. Each entry mu
 
     ```python
     [
-        {"type": "<QueryType>", "field": "<text field name>", "text": "<terms to highlight>"},
+        {"type": "&lt;QueryType&gt;", "field": "<text field name>", "text": "<terms to highlight>"},
         {...},
     ]
     ```

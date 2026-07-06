@@ -1,18 +1,29 @@
 ---
 title: "AlterDatabaseProperties() | Go | v2"
-slug: /go/v2-Database-AlterDatabaseProperties
+slug: /go/go/v2-Database-AlterDatabaseProperties
 sidebar_label: "AlterDatabaseProperties()"
-beta: FALSE
-added_since: v2.5.x
-last_modified: FALSE
-deprecate_since: FALSE
-notebook: FALSE
-description: "This method changes the specified properties of a database. | Go | v2"
-type: origin
-token: SoiHwQ73bi62u3kT9UychQU8nRd
+beta: false
+added_since: v2.6.x
+last_modified: false
+deprecate_since: false
+notebook: false
+description: "This operation modifies properties of an existing database. | Go | v2"
+type: docx
+token: TxGQdsN2noPbRixebWycWSe0nYt
 sidebar_position: 1
+keywords: 
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - AlterDatabaseProperties()
+  - gov230
 displayed_sidebar: goSidebar
 
+displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -20,74 +31,71 @@ import Admonition from '@theme/Admonition';
 
 # AlterDatabaseProperties()
 
-This method changes the specified properties of a database.
+This operation modifies properties of an existing database.
 
 ```go
-func (c *Client) AlterDatabaseProperies(ctx context.Context, option AlterDatabasePropertiesOption, callOptions ...grpc.CallOption) error
+func (c *Client) AlterDatabaseProperties(ctx context.Context, option AlterDatabasePropertiesOption, callOptions ...grpc.CallOption) error
 ```
 
-## Request Parameters\{#request-parameters}
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>ctx</code></p></td>
-     <td><p>Context for the current call to work.</p></td>
-     <td><p><code>context.Context</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>option</code></p></td>
-     <td><p>Optional parameters of the methods.</p></td>
-     <td><p><a href="./v2-Database-AlterDatabaseProperties#alterdatabasepropertiesoption"><code>AlterDatabasePropertiesOption</code></a></p></td>
-   </tr>
-   <tr>
-     <td><p><code>callOpts</code></p></td>
-     <td><p>Optional parameters for calling the methods.</p></td>
-     <td><p><code>grpc.CallOption</code></p></td>
-   </tr>
-</table>
-
-## AlterDatabasePropertiesOption\{#alterdatabasepropertiesoption}
-
-This is an interface type. The `alterDatabasePropertiesOption` struct type implements this interface type. 
-
-You can use the `NewAlterDatabasePropertiesOption()` function to get the concrete implementation.
-
-### NewAlterDatabasePropertiesOption\{#newalterdatabasepropertiesoption}
-
-The signature of this method is as follows:
+## Request Syntax\{#request-syntax}
 
 ```go
-func NewAlterDatabasePropertiesOption(dbName string) *alterDatabasePropertiesOption
+option := milvusclient.NewAlterDatabasePropertiesOption(dbName).
+    WithProperty(key, value)
+
+err := client.AlterDatabaseProperties(ctx, option)
 ```
 
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>dbName</code></p></td>
-     <td><p>Name of the target database.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-</table>
+**PARAMETERS:**
 
-## Return\{#return}
+- **dbName** (*string*)
 
-Null
+    The name of the database.
+
+**OPTION METHODS:**
+
+- `WithProperty(key string, value any)`
+
+    Sets a custom property key-value pair on the resource.
+
+**RETURN TYPE:**
+
+*error*
+
+**RETURNS:**
+
+Returns nil on success, or an error describing what went wrong.
+
+**EXCEPTIONS:**
+
+- **error**
+
+    Check `err != nil` for failure details.
 
 ## Example\{#example}
 
 ```go
-dbName := `test_db`
-err = cli.AlterDatabaseProperties(ctx, milvusclient.NewAlterDatabasePropertiesOption(dbName).WithProperty("database.replica.number", 2))
+import (
+	"context"
+
+	"github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/pkg/v2/common"
+)
+
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
+
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+	Address: "YOUR_CLUSTER_ENDPOINT",
+})
 if err != nil {
-    // handle err
+	// handle err
+}
+defer cli.Close(ctx)
+
+err = cli.AlterDatabaseProperties(ctx, milvusclient.NewAlterDatabasePropertiesOption("my_database").
+	WithProperty(common.DatabaseReplicaNumber, 2))
+if err != nil {
+	// handle err
 }
 ```

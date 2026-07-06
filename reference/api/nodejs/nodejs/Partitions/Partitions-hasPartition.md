@@ -4,7 +4,7 @@ slug: /node/node/Partitions-hasPartition
 sidebar_label: "hasPartition()"
 beta: false
 added_since: v2.3.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation checks whether the specified partition exists in the specified collection. | Node.js"
@@ -12,15 +12,15 @@ type: docx
 token: TVWPdTw2WoPAJYxsbGMc7MX6nEf
 sidebar_position: 4
 keywords: 
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
   - zilliz
   - zilliz cloud
   - cloud
   - hasPartition()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar
@@ -72,24 +72,24 @@ await milvusClient.hasPartition({
 
     Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-**RETURNS** *Promise\<BoolResponse>*
+**RETURNS** *Promise&lt;BoolResponse&gt;*
 
-This method returns a promise that resolves to a BoolResponse object.
+This method returns a promise that resolves to a **BoolResponse** object.
 
-```javascript
+```typescript
 {
     value: boolean,
-    status: object
+    status:  ResStatus
 }
 ```
 
 **PARAMETERS:**
 
-- **value** (*bool*) -
+- **value** (*boolean*) -
+A boolean that indicates whether the requested partition exists in the collection. It is **true** when the partition exists and **false** when it does not.
 
-    A boolean value indicating whether the partition exists.
-
-- **status** (*object*) -
+- **ResStatus**
+A **ResStatus** object.
 
     - **code** (*number*) -
 
@@ -97,9 +97,9 @@ This method returns a promise that resolves to a BoolResponse object.
 
     - **error_code** (*string* | *number*) -
 
-        An error code that indicates an occurred error. It remains **Success** if this operation succeeds. 
+        An error code that indicates an occurred error. It remains **Success** if this operation succeeds.
 
-    - **reason** (*string*) - 
+    - **reason** (*string*) -
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 

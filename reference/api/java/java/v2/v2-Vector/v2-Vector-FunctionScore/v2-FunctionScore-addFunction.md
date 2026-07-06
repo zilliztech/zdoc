@@ -12,15 +12,15 @@ type: docx
 token: HPs6dFV29ovzyBxpgUacXnnjngd
 sidebar_position: 1
 keywords: 
+  - hybrid vector search
   - Video deduplication
   - Video similarity search
   - Vector retrieval
-  - Audio similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - addFunction()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

@@ -12,10 +12,10 @@ type: docx
 token: QqOSdTDaLoOKGRxiKEtcuuiAnrf
 sidebar_position: 17
 keywords: 
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
   - zilliz
   - zilliz cloud
   - cloud
@@ -136,8 +136,9 @@ A **SearchResult** object that contains a list of **Hits** objects.
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    <p>A <strong>SearchResult</strong> object contains a list of <strong>Hits</strong> objects, each corresponding to a query vector in the search request. </p>
-    <p>A <strong>Hits</strong> object contains a list of <strong>Hit</strong> objects, each corresponding to an entity hit by the search.</p>
+    A **SearchResult** object contains a list of **Hits** objects, each corresponding to a query vector in the search request. 
+    
+    A **Hits** object contains a list of **Hit** objects, each corresponding to an entity hit by the search.
 
     </Admonition>
 

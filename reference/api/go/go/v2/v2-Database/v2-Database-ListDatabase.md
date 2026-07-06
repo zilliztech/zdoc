@@ -1,18 +1,29 @@
 ---
 title: "ListDatabase() | Go | v2"
-slug: /go/v2-Database-ListDatabase
+slug: /go/go/v2-Database-ListDatabase
 sidebar_label: "ListDatabase()"
-beta: FALSE
-added_since: v2.5.x
-last_modified: FALSE
-deprecate_since: FALSE
-notebook: FALSE
-description: "This method returns a list of database names. | Go | v2"
-type: origin
-token: ZyFDwfAiUiwqPEk1qoPcdxMKnDg
-sidebar_position: 6
+beta: false
+added_since: v2.6.x
+last_modified: false
+deprecate_since: false
+notebook: false
+description: "This operation lists all databases in the Milvus instance. | Go | v2"
+type: docx
+token: SV1KdmQUCoLh3nxArLzc9v6In1e
+sidebar_position: 7
+keywords: 
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - ListDatabase()
+  - gov230
 displayed_sidebar: goSidebar
 
+displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -20,70 +31,50 @@ import Admonition from '@theme/Admonition';
 
 # ListDatabase()
 
-This method returns a list of database names.
+This operation lists all databases in the Milvus instance.
 
 ```go
 func (c *Client) ListDatabase(ctx context.Context, option ListDatabaseOption, callOptions ...grpc.CallOption) (databaseNames []string, err error)
 ```
 
-## Request Parameters\{#request-parameters}
+**RETURN TYPE:**
 
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>ctx</code></p></td>
-     <td><p>Context for the current call to work.</p></td>
-     <td><p><code>context.Context</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>option</code></p></td>
-     <td><p>Optional parameters of the methods.</p></td>
-     <td><p><a href="./v2-Database-ListDatabase#listdatabaseoption"><code>ListDatabaseOption</code></a></p></td>
-   </tr>
-   <tr>
-     <td><p><code>callOpts</code></p></td>
-     <td><p>Optional parameters for calling the methods.</p></td>
-     <td><p><code>grpc.CallOption</code></p></td>
-   </tr>
-</table>
+*databaseNames []string, err error*
 
-## ListDatabaseOption\{#listdatabaseoption}
+**RETURNS:**
 
-This is an interface type. The `listDatabaseOption` struct type implements this interface type. 
+A list of names. Returns an error if the operation fails.
 
-You can use the `NewListDatabaseOption()` function to get the concrete implementation.
+**EXCEPTIONS:**
 
-### NewListDatabaseOption\{#newlistdatabaseoption}
+- **error**
 
-The signature of this method is as follows:
-
-```go
-func NewListDatabaseOption() *listDatabaseOption
-```
-
-The `entity.Database` struct type is as follows:
-
-```go
-type Database struct {
-    Name       string
-    Properties map[string]string
-}
-```
-
-## Return\{#return}
-
-`[]string`
+    Check `err != nil` for failure details.
 
 ## Example\{#example}
 
 ```go
-dbNames, err := cli.ListDatabase(ctx, milvusclient.NewListDatabaseOption())
+import (
+	"context"
+	"fmt"
+
+	"github.com/milvus-io/milvus/client/v2/milvusclient"
+)
+
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
+
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+	Address: "YOUR_CLUSTER_ENDPOINT",
+})
 if err != nil {
-    // handle err
+	// handle err
 }
-fmt.Println(dbNames)
+defer cli.Close(ctx)
+
+dbs, err := cli.ListDatabase(ctx, milvusclient.NewListDatabaseOption())
+if err != nil {
+	// handle err
+}
+fmt.Println(dbs)
 ```

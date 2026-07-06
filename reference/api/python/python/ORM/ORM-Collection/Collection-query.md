@@ -12,10 +12,10 @@ type: docx
 token: JzcYdBQ5zoU4KpxPqUHcPLQonKd
 sidebar_position: 22
 keywords: 
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
   - zilliz
   - zilliz cloud
   - cloud
@@ -81,11 +81,15 @@ query(
 
         The value defaults to the one specified when you create the current collection, with options of **Strong** (**0**), **Bounded** (**1**), **Session** (**2**), and **Eventually** (**3**).
 
-        <Admonition type="info" icon="📘" title="What is the consistency level?">
+        <Admonition type="info" icon="📘" title="Note">
 
-        <p>Consistency in a distributed database specifically refers to the property that ensures every node or replica has the same view of data when writing or reading data at a given time.</p>
-        <p>Zilliz Cloud provides three consistency levels: <strong>Strong</strong>, <strong>Bounded Staleness</strong>, and <strong>Eventually</strong>, with <strong>Bounded Staleness</strong> set as the default.</p>
-        <p>You can easily tune the consistency level when conducting a vector similarity search or query to make it best suit your application.</p>
+        What is the consistency level?
+        
+                Consistency in a distributed database specifically refers to the property that ensures every node or replica has the same view of data when writing or reading data at a given time.
+        
+                Zilliz Cloud provides three consistency levels: **Strong**, **Bounded Staleness**, and **Eventually**, with **Bounded Staleness** set as the default.
+        
+                You can easily tune the consistency level when conducting a vector similarity search or query to make it best suit your application.
 
         </Admonition>
 
@@ -97,7 +101,7 @@ query(
 
         <Admonition type="info" icon="📘" title="Notes">
 
-        <p>This parameter is valid when the default consistency level applies.</p>
+        This parameter is valid when the default consistency level applies.
 
         </Admonition>
 
@@ -109,7 +113,7 @@ query(
 
         <Admonition type="info" icon="📘" title="Notes">
 
-        <p>This parameter is valid when a consistency level other than the default one applies.</p>
+        This parameter is valid when a consistency level other than the default one applies.
 
         </Admonition>
 

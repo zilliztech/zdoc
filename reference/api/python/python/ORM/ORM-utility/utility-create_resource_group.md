@@ -12,10 +12,10 @@ type: docx
 token: X5qsdhFQ5oOhkcxOprzcOZq4nMc
 sidebar_position: 4
 keywords: 
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
   - zilliz
   - zilliz cloud
   - cloud
@@ -33,11 +33,15 @@ import Admonition from '@theme/Admonition';
 
 This operation creates a new resource group. 
 
-<Admonition type="info" icon="📘" title="What is a resource group?">
+<Admonition type="info" icon="📘" title="Note">
 
-<p>A resource group can hold several or all of the query nodes in a Zilliz Cloud cluster. When you load a collection by calling load(), Zilliz Cloud loads the data of the collection into certain query nodes.</p>
-<p>There is a default resource group named <strong>_<em>default</em>resource_group</strong> available in every Zilliz Cloud cluster that holds all its query nodes. </p>
-<p>Use <strong>describe<em>resource</em>group()</strong> to check the actual number. If there are multiple query nodes available, consider creating resource groups and distributing the query nodes among them.</p>
+What is a resource group?
+
+A resource group can hold several or all of the query nodes in a Zilliz Cloud cluster. When you load a collection by calling load(), Zilliz Cloud loads the data of the collection into certain query nodes.
+
+There is a default resource group named **__default_resource_group** available in every Zilliz Cloud cluster that holds all its query nodes. 
+
+Use **describe_resource_group()** to check the actual number. If there are multiple query nodes available, consider creating resource groups and distributing the query nodes among them.
 
 </Admonition>
 
@@ -141,7 +145,6 @@ try:
     print(f'Succeeded in creating resource group {name}.')
 except Exception:
     print(f'Failed to create resource group {name}.')
-
 ```
 
 ## Related operations\{#related-operations}

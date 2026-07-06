@@ -1,18 +1,29 @@
 ---
 title: "Delete() | Go | v2"
-slug: /go/v2-Vector-Delete
+slug: /go/go/v2-Vector-Delete
 sidebar_label: "Delete()"
-beta: FALSE
-added_since: v2.5.x
-last_modified: FALSE
-deprecate_since: FALSE
-notebook: FALSE
-description: "This method deletes data from a specific collection. | Go | v2"
-type: origin
-token: Nl51wq7jri12ark4Fh3cACY2n8g
-sidebar_position: 3
+beta: false
+added_since: v2.6.x
+last_modified: false
+deprecate_since: false
+notebook: false
+description: "This operation deletes entities from a collection by primary key values or filter expression. | Go | v2"
+type: docx
+token: ZIm2dVn5noFLpAxRkjbc6jiSnee
+sidebar_position: 2
+keywords: 
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - Delete()
+  - gov230
 displayed_sidebar: goSidebar
 
+displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -20,87 +31,89 @@ import Admonition from '@theme/Admonition';
 
 # Delete()
 
-This method deletes data from a specific collection.
+This operation deletes entities from a collection by primary key values or filter expression.
 
 ```go
 func (c *Client) Delete(ctx context.Context, option DeleteOption, callOptions ...grpc.CallOption) (DeleteResult, error)
 ```
 
-## Request Parameters\{#request-parameters}
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>ctx</code></p></td>
-     <td><p>Context for the current call to work.</p></td>
-     <td><p><code>context.Context</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>option</code></p></td>
-     <td><p>Optional parameters of the methods.</p></td>
-     <td><p><a href="./v2-Vector-Delete#deleteoption"><code>DeleteOption</code></a></p></td>
-   </tr>
-   <tr>
-     <td><p><code>callOptions</code></p></td>
-     <td><p>Optional parameters for calling the methods.</p></td>
-     <td><p><code>grpc.CallOption</code></p></td>
-   </tr>
-</table>
-
-## DeleteOption\{#deleteoption}
-
-This is an interface type. The `deleteOption` struct types implement this interface type. 
-
-You can use the `NewDeleteOption` function to get the concrete implementation.
-
-### NewDeleteOption\{#newdeleteoption}
-
-The signature of this method is as follows:
+## Request Syntax\{#request-syntax}
 
 ```go
-func NewDeleteOption(collectionName string) *deleteOption
+option := milvusclient.NewDeleteOption(collectionName).
+    WithExpr(expr).
+    WithInt64IDs(fieldName, ids).
+    WithStringIDs(fieldName, ids).
+    WithPartition(partitionName)
+
+result, err := client.Delete(ctx, option)
 ```
 
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>collectionName</code></p></td>
-     <td><p>Name of the target collection.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-</table>
+**PARAMETERS:**
 
-## DeleteResult\{#deleteresult}
+- **collectionName** (*string*)
 
-The `DeleteResult` struct type is as follows:
+    The name of the target collection.
 
-```go
-type DeleteResult struct {
-    DeleteCount int64
-}
-```
+**OPTION METHODS:**
 
-## Return\{#return}
+- `WithExpr(expr string)`
 
-`DeleteResult`
+    Sets the expr for the operation.
+
+- `WithInt64IDs(fieldName string, ids []int64)`
+
+    Sets the int64 i ds for the operation.
+
+- `WithStringIDs(fieldName string, ids []string)`
+
+    Sets the string i ds for the operation.
+
+- `WithPartition(partitionName string)`
+
+    Sets the partition for the operation.
+
+**RETURN TYPE:**
+
+*[DeleteResult](./v2-Vector-DeleteResult), error*
+
+**RETURNS:**
+
+The delete result. Returns an error if the operation fails.
+
+**EXCEPTIONS:**
+
+- **error**
+
+    Check `err != nil` for failure details.
 
 ## Example\{#example}
 
-```plaintext
-res, err := cli.Delete(ctx, milvusclient.NewDeleteOption("quick_setup").
-    WithInt64IDs("id", []int64{1, 2, 3}))
+```go
+import (
+	"context"
+	"fmt"
+
+	"github.com/milvus-io/milvus/client/v2/milvusclient"
+)
+
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
+
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+	Address: milvusAddr,
+})
 if err != nil {
-    // handle error
+	// handle error
+}
+
+defer cli.Close(ctx)
+
+res, err := cli.Delete(ctx, milvusclient.NewDeleteOption("quick_setup").
+	WithInt64IDs("id", []int64{1, 2, 3}))
+if err != nil {
+	// handle error
 }
 
 fmt.Println(res.DeleteCount)
 ```
-

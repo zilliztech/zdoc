@@ -4,7 +4,7 @@ slug: /node/node/Authentication-hasRole
 sidebar_label: "hasRole()"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation checks if a role exists in the Milvus cluster. | Node.js"
@@ -12,15 +12,15 @@ type: docx
 token: Beq1d1hDUoTzIsxJ6WTcVtlpnah
 sidebar_position: 29
 keywords: 
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - nn search
   - zilliz
   - zilliz cloud
   - cloud
   - hasRole()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar
@@ -58,17 +58,36 @@ await milvusClient.hasRole({
 
     RPC timeout in milliseconds. Optional.
 
-**RETURNS:**
+**RETURNS** *Promise&lt;HasRoleResponse&gt;*
 
-*Promise\<HasRoleResponse\>*
+This method returns a promise that resolves to a **HasRoleResponse** object.
 
-The response contains a `hasRole` boolean indicating whether the role exists.
+```typescript
+{
+    hasRole: boolean,
+    status:  ResStatus
+}
+```
 
-**EXCEPTIONS:**
+**PARAMETERS:**
 
-- **MilvusError**
+- **hasRole** (*boolean*) -
+A boolean that indicates whether the requested role exists. It is **true** when the role exists and **false** when it does not.
 
-    This exception will be raised when any error occurs during this operation.
+- **ResStatus**
+A **ResStatus** object.
+
+    - **code** (*number*) -
+
+        A code that indicates the operation result. It remains **0** if this operation succeeds.
+
+    - **error_code** (*string* | *number*) -
+
+        An error code that indicates an occurred error. It remains **Success** if this operation succeeds.
+
+    - **reason** (*string*) -
+
+        The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
 ## Example\{#example}
 

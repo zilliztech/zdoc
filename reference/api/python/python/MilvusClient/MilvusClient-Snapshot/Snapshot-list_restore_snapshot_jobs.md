@@ -2,7 +2,7 @@
 title: "list_restore_snapshot_jobs() | Python | MilvusClient"
 slug: /python/python/Snapshot-list_restore_snapshot_jobs
 sidebar_label: "list_restore_snapshot_jobs()"
-beta: false
+beta: PRIVATE
 added_since: v3.0.x
 last_modified: false
 deprecate_since: false
@@ -12,10 +12,10 @@ type: docx
 token: PtHQdGNfaoI4Mux05rbcRWTVnMp
 sidebar_position: 5
 keywords: 
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
   - zilliz
   - zilliz cloud
   - cloud

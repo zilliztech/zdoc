@@ -20,7 +20,7 @@ keywords:
   - zilliz cloud
   - cloud
   - FunctionScore
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

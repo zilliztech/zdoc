@@ -4,23 +4,23 @@ slug: /java/java/v2-Vector-query
 sidebar_label: "query()"
 beta: false
 added_since: v2.3.x
-last_modified: v2.6.x
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation conducts a scalar filtering with a specified boolean expression. | Java | v2"
 type: docx
-token: VXCddqVY5oholaxUlRNcYhOjndh
+token: U7eQdBzB0opJOXxRUcncnRDInSf
 sidebar_position: 5
 keywords: 
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
   - zilliz
   - zilliz cloud
   - cloud
   - query()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar
@@ -43,6 +43,7 @@ public QueryResp query(QueryReq request)
 query(QueryReq.builder()
     .databaseName(String databaseName)
     .collectionName(String collectionName)
+    .clusterId(String clusterId)
     .partitionNames(List<String> partitionNames)
     .outputFields(List<String> outputFields)
     .ids(List<Object> ids)
@@ -60,55 +61,59 @@ query(QueryReq.builder()
 
 **BUILDER METHODS:**
 
-- `databaseName(String databaseName)` -
+- `databaseName(String databaseName)`
 
     The name of the database. Defaults to the current database if not specified.
 
-- `collectionName(String collectionName)` -
+- `collectionName(String collectionName)`
 
     The name of the target collection.
 
-- `partitionNames(List<String> partitionNames)` -
+- `clusterId(String clusterId)`
+
+    The target cluster ID for this vector read request. Use `session(String clusterId)` when multiple requests should share the same cluster ID.
+
+- `partitionNames(List<String> partitionNames)`
 
     A list of partition names to target.
 
-- `outputFields(List<String> outputFields)` -
+- `outputFields(List<String> outputFields)`
 
     A list of field names to include in the output.
 
-- `ids(List<Object> ids)` -
+- `ids(List<Object> ids)`
 
     A list of primary key values to identify specific entities.
 
-- `filter(String filter)` -
+- `filter(String filter)`
 
     A boolean expression to filter results.
 
-- `consistencyLevel(ConsistencyLevel consistencyLevel)` -
+- `consistencyLevel(ConsistencyLevel consistencyLevel)`
 
     The consistency level for the operation.
 
-- `offset(long offset)` -
+- `offset(long offset)`
 
     The number of results to skip before returning.
 
-- `limit(long limit)` -
+- `limit(long limit)`
 
     The maximum number of results to return.
 
-- `ignoreGrowing(boolean ignoreGrowing)` -
+- `ignoreGrowing(boolean ignoreGrowing)`
 
     Whether to ignore growing segments during the operation.
 
-- `timezone(String timezone)` -
+- `timezone(String timezone)`
 
     The timezone string for time-related filters.
 
-- `queryParams(Map<String, Object> queryParams)` -
+- `queryParams(Map<String, Object> queryParams)`
 
     Additional query parameters as key-value pairs. Defaults to `new HashMap<>()`.
 
-- `filterTemplateValues(Map<String, Object> filterTemplateValues)` -
+- `filterTemplateValues(Map<String, Object> filterTemplateValues)`
 
     A map of template variable values for parameterized filters.
 
@@ -116,7 +121,7 @@ query(QueryReq.builder()
 
 *QueryResp*
 
-A **QueryResp object representing specific query results with the specified output fields
+A **QueryResp** object representing specific query results with the specified output fields
 
 **EXCEPTIONS:**
 

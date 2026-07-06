@@ -1,18 +1,29 @@
 ---
 title: "DropCollection() | Go | v2"
-slug: /go/v2-Collection-DropCollection
+slug: /go/go/v2-Collection-DropCollection
 sidebar_label: "DropCollection()"
-beta: FALSE
-added_since: v2.5.x
-last_modified: FALSE
-deprecate_since: FALSE
-notebook: FALSE
-description: "This method drops a collection. | Go | v2"
-type: origin
-token: KAzcwdwuFiDhdak0QiZcMrp0n4h
-sidebar_position: 12
+beta: false
+added_since: v2.6.x
+last_modified: false
+deprecate_since: false
+notebook: false
+description: "This operation drops a collection and all its data permanently. | Go | v2"
+type: docx
+token: LBTLd1W4UoAbUHxvv6xce1gHnqf
+sidebar_position: 13
+keywords: 
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - DropCollection()
+  - gov230
 displayed_sidebar: goSidebar
 
+displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -20,79 +31,66 @@ import Admonition from '@theme/Admonition';
 
 # DropCollection()
 
-This method drops a collection. 
+This operation drops a collection and all its data permanently.
 
 ```go
 func (c *Client) DropCollection(ctx context.Context, option DropCollectionOption, callOptions ...grpc.CallOption) error
 ```
 
-## Request Parameters\{#request-parameters}
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>ctx</code></p></td>
-     <td><p>Context for the current call to work.</p></td>
-     <td><p><code>context.Context</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>option</code></p></td>
-     <td><p>Optional parameters of the methods.</p></td>
-     <td><p><a href="./v2-Collection-DropCollection#dropcollectionoption"><code>DropCollectionOption</code></a></p></td>
-   </tr>
-   <tr>
-     <td><p><code>callOpts</code></p></td>
-     <td><p>Optional parameters for calling the methods.</p></td>
-     <td><p><code>grpc.CallOption</code></p></td>
-   </tr>
-</table>
-
-## DropCollectionOption\{#dropcollectionoption}
-
-This is an interface type. The `dropCollectionOption` struct type implements this interface type. 
-
-You can use the `NewDropCollectionOption()` function to get the concrete implementation.
-
-### NewDropCollectionOption\{#newdropcollectionoption}
-
-The signature of this method is as follows:
+## Request Syntax\{#request-syntax}
 
 ```go
-func NewDropCollectionOption(name string) *dropCollectionOption
+option := milvusclient.NewDropCollectionOption(name)
+
+err := client.DropCollection(ctx, option)
 ```
 
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>name</code></p></td>
-     <td><p>Name of the collection to drop.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-</table>
+**PARAMETERS:**
 
-## Return\{#return}
+- **name** (*string*)
 
-Null
+    The name of the target collection.
+
+**RETURN TYPE:**
+
+*error*
+
+**RETURNS:**
+
+Returns nil on success, or an error describing what went wrong.
+
+**EXCEPTIONS:**
+
+- **error**
+
+    Check `err != nil` for failure details.
 
 ## Example\{#example}
 
 ```go
 import (
-        "context"
-        "github.com/milvus-io/milvus/client/v2/milvusclient"
+	"context"
+	"log"
+
+	"github.com/milvus-io/milvus/client/v2/milvusclient"
 )
+
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
+
+milvusAddr := "YOUR_CLUSTER_ENDPOINT"
+
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+	Address: milvusAddr,
+})
+if err != nil {
+	log.Fatal("failed to connect to milvus server: ", err.Error())
+}
+
+defer cli.Close(ctx)
 
 err = cli.DropCollection(ctx, milvusclient.NewDropCollectionOption("customized_setup_2"))
 if err != nil {
-       // handle err
+	// handle err
 }
 ```
-

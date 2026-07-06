@@ -7,15 +7,15 @@ added_since: false
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "A `VolumeFileManager` instance maintains a connection to a specific Zilliz Cloud volume. Before uploading data files to a volume, you need to initiate a `VolumeFileManager` instance. | Python"
+description: "A `VolumeFileManager` instance maintains a connection to a specific Zilliz Cloud managed volume. Before uploading data files to a volume, you need to initiate a `VolumeFileManager` instance. | Python"
 type: docx
 token: IbWgdAwWOoTa1exF2LicP9henJJ
 sidebar_position: 2
 keywords: 
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # VolumeFileManager
 
-A `VolumeFileManager` instance maintains a connection to a specific Zilliz Cloud volume. Before uploading data files to a volume, you need to initiate a `VolumeFileManager` instance.
+A `VolumeFileManager` instance maintains a connection to a specific Zilliz Cloud managed volume. Before uploading data files to a volume, you need to initiate a `VolumeFileManager` instance.
 
 ```python
 class pymilvus.bulk_writer.volume_file_manager import VolumeFileManager
@@ -39,7 +39,7 @@ class pymilvus.bulk_writer.volume_file_manager import VolumeFileManager
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>A volume is an intermediate storage spot where you can hold your data for further processing, such as data merging, migration, or importing. For details, refer to <a href="/docs/volume">Volume</a>.</p>
+This method uploads files to managed volumes on Zilliz Cloud. It does not upload files to external volumes, which are read-only references to data in external object storage. For details, refer to [Volume](/docs/volume).
 
 </Admonition>
 

@@ -1,18 +1,29 @@
 ---
 title: "SearchIterator() | Go | v2"
-slug: /go/v2-Vector-SearchIterator
+slug: /go/go/v2-Vector-SearchIterator
 sidebar_label: "SearchIterator()"
-beta: FALSE
-added_since: v2.5.x
-last_modified: FALSE
-deprecate_since: FALSE
-notebook: FALSE
-description: "This method creates an iterator that walks through the search results. | Go | v2"
-type: origin
-token: QLNZwIL7DizTEAkIx1TcMaX6nqc
-sidebar_position: 9
+beta: false
+added_since: v2.6.x
+last_modified: false
+deprecate_since: false
+notebook: false
+description: "This operation creates an iterator for paginating through large search result sets. | Go | v2"
+type: docx
+token: K6obdWvXyoNLbMxNkggc9JyMnPd
+sidebar_position: 13
+keywords: 
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - SearchIterator()
+  - gov230
 displayed_sidebar: goSidebar
 
+displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -20,491 +31,167 @@ import Admonition from '@theme/Admonition';
 
 # SearchIterator()
 
-This method creates an iterator that walks through the search results.
+This operation creates an iterator for paginating through large search result sets.
 
 ```go
 func (c *Client) SearchIterator(ctx context.Context, option SearchIteratorOption, callOptions ...grpc.CallOption) (SearchIterator, error)
 ```
 
-## Request Parameters\{#request-parameters}
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>ctx</code></p></td>
-     <td><p>Context for the current call to work.</p></td>
-     <td><p><code>context.Context</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>option</code></p></td>
-     <td><p>Optional parameters of the methods.</p></td>
-     <td><p><a href="./v2-Vector-SearchIterator#searchiteratoroption"><code>SearchIteratorOption</code></a></p></td>
-   </tr>
-   <tr>
-     <td><p><code>callOptions</code></p></td>
-     <td><p>Optional parameters for calling the methods.</p></td>
-     <td><p><code>grpc.CallOption</code></p></td>
-   </tr>
-</table>
-
-## SearchIteratorOption\{#searchiteratoroption}
-
-This is an interface type. The `searchIteratorOption` struct type implements this interface.
-
-You can use the `NewSearchIteratorOption` method to get its concrete implementation.
-
-### NewSearchIteratorOption\{#newsearchiteratoroption}
-
-The signature of this method is as follows:
+## Request Syntax\{#request-syntax}
 
 ```go
-func NewSearchIteratorOption(collectionName string, vector entity.Vector) *searchIteratorOption
+option := milvusclient.NewSearchIteratorOption(collectionName, vector).
+    WithBatchSize(batchSize).
+    WithPartitions(partitionNames).
+    WithFilter(expr).
+    WithTemplateParam(key, val).
+    WithOffset(offset).
+    WithOutputFields(fieldNames).
+    WithConsistencyLevel(consistencyLevel).
+    WithANNSField(annsField).
+    WithGroupByField(groupByField).
+    WithGroupSize(groupSize).
+    WithStrictGroupSize(strictGroupSize).
+    WithIgnoreGrowing(ignoreGrowing).
+    WithAnnParam(ap).
+    WithSearchParam(key, value).
+    WithIteratorLimit(limit)
+
+result, err := client.SearchIterator(ctx, option)
 ```
 
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>collectionName</code></p></td>
-     <td><p>Name of the target collection.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>vectors</code></p></td>
-     <td><p>Query vectors</p></td>
-     <td><p><a href="./v2-Vector-Search"><code>[]entity.Vector</code></a></p></td>
-   </tr>
-</table>
+**PARAMETERS:**
 
-You can chain the following methods to append more parameters to the `searchIteratorOption` struct type.
+- **collectionName** (*string*)
 
-- [WithBatchSize](./v2-Vector-SearchIterator#withbatchsize)
+    The name of the target collection.
 
-- [WithPartitions](./v2-Vector-SearchIterator#withpartitions)
+- **[vector](./v2-Vector)** (*entity.Vector*)
 
-- [WithFilter](./v2-Vector-SearchIterator#withfilter)
+    The query vectors for similarity search.
 
-- [WIthTemplateParam](./v2-Vector-SearchIterator#withtemplateparam)
+**OPTION METHODS:**
 
-- [WithOffset](./v2-Vector-SearchIterator#withoffset)
-
-- [WIthOutputFields](./v2-Vector-SearchIterator#withoutputfields)
-
-- [WithConsistencyLevel](./v2-Vector-SearchIterator#withconsistencylevel)
-
-- [WithANNSField](./v2-Vector-SearchIterator#withannsfield)
-
-- [WithGroupByField](./v2-Vector-SearchIterator#withgroupbyfield)
-
-- [WithGroupSize](./v2-Vector-SearchIterator#withgroupsize)
-
-- [WithStrictGroupSize](./v2-Vector-SearchIterator#withstrictgroupsize)
-
-- [WithIgnoreGrowing](./v2-Vector-SearchIterator#withignoregrowing)
-
-- [WithAnnParam](./v2-Vector-SearchIterator#withannparam)
-
-- [WithSearchParam](./v2-Vector-SearchIterator#withsearchparam)
-
-- [WithIteratorLimit](./v2-Vector-SearchIterator#withiteratorlimit)
-
-### WithBatchSize\{#withbatchsize}
-
-This method appends the settings regarding the `batchSize` parameter to the `searchIteratorOption` struct. The signature of this method is as follows:
-
-```go
-func (opt *searchIteratorOption) WithBatchSize(batchSize int) *searchIteratorOption
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>batchSize</code></p></td>
-     <td><p>The number of entities to return in each iteration.</p></td>
-     <td><p><code>int</code></p></td>
-   </tr>
-</table>
-
-### WithPartitions\{#withpartitions}
-
-This method appends the settings regarding the `partitionNames` parameter to the `searchIteratorOption` struct. The signature of this method is as follows:
-
-```go
-func (opt *searchIteratorOption) WithPartitions(partitionNames ...string) *searchIteratorOption
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>partitionNames</code></p></td>
-     <td><p>The names of the target partitions</p></td>
-     <td><p><code>...string</code></p></td>
-   </tr>
-</table>
-
-### WithFilter\{#withfilter}
-
-This method appends the settings regarding the `expr` parameter to the `searchIteratorOption` struct. The signature of this method is as follows:
-
-```go
-func (opt *searchIteratorOption) WithFilter(expr string) *searchIteratorOption
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>expr</code></p></td>
-     <td><p>The filtering expression.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-</table>
-
-### WithTemplateParam\{#withtemplateparam}
-
-This method appends the settings regarding the arguments used in the `expr` parameter to the `searchIteratorOption` struct. The signature of this method is as follows:
-
-```go
-func (opt *searchIteratorOption) WithTemplateParam(key string, val any) *searchIteratorOption
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>key</code></p></td>
-     <td><p>The name of the argument used in the <code>expr</code> parameter</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>val</code></p></td>
-     <td><p>The value of the specified argument.</p></td>
-     <td><p><code>any</code></p></td>
-   </tr>
-</table>
-
-### WithOffset\{#withoffset}
-
-This method appends the settings regarding the `offset` parameter to the `searchIteratorOption` struct. The signature of this method is as follows:
-
-```go
-func (opt *searchIteratorOption) WithOffset(offset int) *searchIteratorOption
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>offset</code></p></td>
-     <td><p>The number of entities to skip before the search results are returned.</p></td>
-     <td><p><code>int</code></p></td>
-   </tr>
-</table>
-
-### WithOutputFields\{#withoutputfields}
-
-This method appends the settings regarding the `outputFields` parameter to the `searchIteratorOption` struct. The signature of this method is as follows:
-
-```go
-func (opt *searchIteratorOption) WithOutputFields(fieldNames ...string) *searchIteratorOption
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>outputFields</code></p></td>
-     <td><p>The names of fields to include in the search results</p></td>
-     <td><p><code>...string</code></p></td>
-   </tr>
-</table>
-
-### WithConsistencyLevel\{#withconsistencylevel}
-
-This method appends the settings regarding the `consistencyLevel` parameter to the `searchIteratorOption` struct. The signature of this method is as follows:
-
-```go
-func (opt *searchIteratorOption) WithConsistencyLevel(consistencyLevel entity.ConsistencyLevel) *searchIteratorOption
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>consistencyLevel</code></p></td>
-     <td><p>Consistency level for the search.</p><p>For details, refer to <a href="/docs/consistency-level">Consistency Level</a>.</p></td>
-     <td><p><code>entity.ConsistencyLevel</code></p></td>
-   </tr>
-</table>
-
-### WithANNSField\{#withannsfield}
-
-This method appends the settings regarding the `annsField` parameter to the `searchIteratorOption` struct. The signature of this method is as follows:
-
-```go
-func (opt *searchIteratorOption) WithANNSField(annsField string) *searchIteratorOption
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>annsField</code></p></td>
-     <td><p>The name of the target vector field in the current operation.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-</table>
-
-### WithGroupByField\{#withgroupbyfield}
-
-This method appends the settings regarding the `groupByField` parameter to the `searchIteratorOption` struct. The signature of this method is as follows:
-
-```go
-func (opt *searchIteratorOption) WithGroupByField(groupByField string) *searchIteratorOption
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>groupByField</code></p></td>
-     <td><p>The name of the field, according to which the search results are grouped, ensures diversity and avoids returning multiple results from the same group.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-</table>
-
-### WithGroupSize\{#withgroupsize}
-
-This method appends the settings regarding the `groupSize` parameter to the `searchIteratorOption` struct. The signature of this method is as follows:
-
-```go
-func (opt *searchIteratorOption) WithGroupSize(groupSize int) *searchIteratorOption
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>groupSize</code></p></td>
-     <td><p>The target number of entities to return within each group in a grouping search. </p><p>For example, setting <code>groupSize</code> to <code>2</code> instructs the system to return up to 2 of the most similar entities (e.g., document passages or vector representations) within each group. Without setting <code>groupSize</code>, the system defaults to returning only 1 entity per group.</p></td>
-     <td><p><code>int</code></p></td>
-   </tr>
-</table>
-
-### WithStrictGroupSize\{#withstrictgroupsize}
-
-This method appends the settings regarding the `strictGroupSize` parameter to the `searchIteratorOption` struct. The signature of this method is as follows:
-
-```go
-func (opt *searchIteratorOption) WithStrictGroupSize(strictGroupSize bool) *searchIteratorOption
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>strictGroupSize</code></p></td>
-     <td><p>This Boolean parameter dictates whether <code>groupSize</code> should be strictly enforced. </p><p>When you set it to <code>True</code>, the system will attempt to fill each group with exactly <code>groupSize</code> results, provided there is sufficient data within each group. If there is an insufficient number of entities in a group, it will return only the available entities, ensuring that groups with adequate data meet the specified <code>groupSize</code>.</p></td>
-     <td><p><code>bool</code></p></td>
-   </tr>
-</table>
-
-### WIthIgnoreGrowing\{#withignoregrowing}
-
-This method appends the settings regarding the `ignoreGrowing` parameter to the `searchIteratorOption` struct. The signature of this method is as follows:
-
-```go
-func (opt *searchIteratorOption) WithIgnoreGrowing(ignoreGrowing bool) *searchIteratorOption
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>ignoreGrowing</code></p></td>
-     <td><p>When set, this option instructs the search to exclude data from growing segments. Using this setting can enhance search performance by focusing on only indexed, fully processed data.</p></td>
-     <td><p><code>bool</code></p></td>
-   </tr>
-</table>
-
-### WithAnnParam\{#withannparam}
-
-This method appends the settings regarding the `ap` parameter to the `searchIteratorOption` struct. The signature of this method is as follows:
-
-```go
-func (opt *searchIteratorOption) WithAnnParam(ap index.AnnParam) *searchIteratorOption
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>ap</code></p></td>
-     <td><p>Specifies the parameters for the approximate nearest neighbor (ANN) search.</p></td>
-     <td><p><a href="./v2-Vector-Search"><code>index.AnnParam</code></a></p></td>
-   </tr>
-</table>
-
-### WithSearchParam\{#withsearchparam}
-
-This method appends the settings regarding the `searchParams` parameter to the `searchIteratorOption` struct. The signature of this method is as follows:
-
-```go
-func (opt *searchIteratorOption) WithSearchParam(key, value string) *searchIteratorOption
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>key</code></p></td>
-     <td><p>The name of the argument used in the <code>searchParams</code> parameter</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>value</code></p></td>
-     <td><p>The value of the specified argument.</p></td>
-     <td><p><code>any</code></p></td>
-   </tr>
-</table>
-
-### WithIteratorLimit\{#withiteratorlimit}
-
-This method appends the settings regarding the `limit` parameter to the `searchIteratorOption` struct. The signature of this method is as follows:
-
-```go
-func (opt *searchIteratorOption) WithIteratorLimit(limit int64) *searchIteratorOption
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>limit</code></p></td>
-     <td><p>When set, this option limits the total number of entities returned. </p><p>Setting this to a value less than <code>0</code> removes the limit and returns all entities that match the specified filter expressions.</p></td>
-     <td><p><code>bool</code></p></td>
-   </tr>
-</table>
-
-## SearchIterator\{#searchiterator}
-
-This is an interface type. The `searchIteratorV2` struct type implement this interface.
-
-You can use the `Next` method to retrieve search results iteratively.
-
-### Next\{#next}
-
-The signature of this method is as follows:
-
-```go
-func (it *searchIteratorV2) Next(ctx context.Context) (ResultSet, error)
-```
-
-Every time you call `Next()`, a [ResultSet](./v2-Vector-Search) will be returned.
-
-## Return\{#return}
-
-`SearchIterator`
+- `WithBatchSize(batchSize int)`
+
+    Sets the number of entities to fetch per iteration batch.
+
+- `WithPartitions(partitionNames ...string)`
+
+    Limits the operation to the specified partitions.
+
+- `WithFilter(expr string)`
+
+    Applies a boolean filter expression to narrow results.
+
+- `WithTemplateParam(key string, val any)`
+
+    Sets a template parameter for expression evaluation.
+
+- `WithOffset(offset int)`
+
+    Sets the number of results to skip before returning matches.
+
+- `WithOutputFields(fieldNames ...string)`
+
+    Specifies which fields to include in the returned results.
+
+- `WithConsistencyLevel(consistencyLevel [entity.ConsistencyLevel](./v2-Collection-ConsistencyLevel))`
+
+    Sets the consistency level for the operation (Strong, Bounded, Session, or Eventually).
+
+- `WithANNSField(annsField string)`
+
+    Specifies which vector field to search against.
+
+- `WithGroupByField(groupByField string)`
+
+    Groups search results by a scalar field value.
+
+- `WithGroupSize(groupSize int)`
+
+    Sets the number of results to return per group.
+
+- `WithStrictGroupSize(strictGroupSize bool)`
+
+    Enforces exact group size for each group in results.
+
+- `WithIgnoreGrowing(ignoreGrowing bool)`
+
+    Skips searching in growing segments for faster but potentially incomplete results.
+
+- `WithAnnParam(ap [index.AnnParam](./v2-Vector-AnnParam))`
+
+    Sets the approximate nearest neighbor search parameters (e.g., nprobe, ef).
+
+- `WithSearchParam(key, value string)`
+
+    Sets a custom search parameter key-value pair.
+
+- `WithIteratorLimit(limit int64)`
+
+    WithIteratorLimit sets the limit of entries to iterate if limit < 0, then it will be set to Unlimited
+
+**RETURN TYPE:**
+
+*[SearchIterator](./v2-Vector-SearchIterator), error*
+
+**RETURNS:**
+
+A SearchIterator for paginating through search results. Returns an error if the operation fails.
+
+**EXCEPTIONS:**
+
+- **error**
+
+    Check `err != nil` for failure details.
 
 ## Example\{#example}
 
 ```go
 import (
-    "context"
-    "errors"
-    "fmt"
-    "io"
-    "log"
-    "strings"
-    "time"
+	"context"
+	"fmt"
+	"io"
 
-    "golang.org/x/exp/rand"
-
-    "github.com/milvus-io/milvus/client/v2/entity"
-    "github.com/milvus-io/milvus/client/v2/index"
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
+	"github.com/milvus-io/milvus/client/v2/entity"
+	"github.com/milvus-io/milvus/client/v2/milvusclient"
 )
 
-c, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-    Address: milvusAddr,
-    APIKey:  "YOUR_CLUSTER_TOKEN",
-})
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
 
-vec := []float32{0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592}
-iter, err := c.SearchIterator(ctx, milvusclient.NewSearchIteratorOption(collectionName, entity.FloatVector(vec)).
-    WithANNSField("vector").
-    WithAnnParam(index.NewIvfAnnParam(16)).
-    WithBatchSize(50).
-    WithOutputFields("color").
-    WithIteratorLimit(20000))
+milvusAddr := "YOUR_CLUSTER_ENDPOINT"
+
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+	Address: milvusAddr,
+})
 if err != nil {
-    // handle error
+	// handle error
 }
 
-// use the iterator
+defer cli.Close(ctx)
+
+queryVector := []float32{0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592}
+
+iter, err := cli.SearchIterator(ctx, milvusclient.NewSearchIteratorOption(
+	"quick_setup",
+	entity.FloatVector(queryVector),
+).WithOutputFields("id", "color"))
+if err != nil {
+	// handle error
+}
+
 for {
-    rs, err := iter.Next(ctx)
-    // end of iterator
-    if errors.Is(err, io.EOF) {
-        break
-    }
-    if err != nil {
-        // handler error
-    }
-    fmt.Println(rs)
+	resultSet, err := iter.Next(ctx)
+	if err == io.EOF {
+		break
+	}
+	if err != nil {
+		// handle error
+	}
+	for i := 0; i < resultSet.Len(); i++ {
+		fmt.Println(resultSet.IDs, resultSet.Scores)
+	}
 }
 ```

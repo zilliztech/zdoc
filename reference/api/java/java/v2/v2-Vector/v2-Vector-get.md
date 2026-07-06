@@ -4,23 +4,23 @@ slug: /java/java/v2-Vector-get
 sidebar_label: "get()"
 beta: false
 added_since: v2.3.x
-last_modified: v2.6.x
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation gets specific entities by their IDs. | Java | v2"
 type: docx
-token: DDshdoIEoo7X1BxpciBc66Rlndd
+token: Xl3QdxmFxo3MNCxWlrxc9jFbnFc
 sidebar_position: 2
 keywords: 
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - get()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar
@@ -43,6 +43,7 @@ public GetResp get(GetReq request)
 get(GetReq.builder()
     .databaseName(String databaseName)
     .collectionName(String collectionName)
+    .clusterId(String clusterId)
     .partitionName(String partitionName)
     .ids(List<Object> ids)
     .outputFields(List<String> outputFields)
@@ -59,6 +60,10 @@ get(GetReq.builder()
 - `collectionName(String collectionName)`
 
     The name of an existing collection.
+
+- `clusterId(String clusterId)`
+
+    The target cluster ID for this vector read request. Use `session(String clusterId)` when multiple requests should share the same cluster ID.
 
 - `partitionName(String partitionName)`
 
@@ -82,11 +87,11 @@ A **GetResp** object representing one or more queried entities.
 
 **PARAMETERS:**
 
-- **getResults** (*List&lt;QueryResp.QueryResult&gt;*)
+- **getResults** (*List\\\&lt;QueryResp.QueryResult\\\&gt;*)
 
     A list of **QueryResp.QueryResult** objects.
 
-- **fields** (*Map&lt;String,Object&gt;*)
+- **fields** (*Map\\\&lt;String,Object\\\&gt;*)
 
     A map that contains key-value pairs of field names and their values.
 
@@ -119,4 +124,3 @@ GetReq getReq = GetReq.builder()
         .build();
 GetResp getResp = client.get(getReq);
 ```
-

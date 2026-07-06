@@ -4,23 +4,23 @@ slug: /java/java/v2-Collections-FieldSchema
 sidebar_label: "FieldSchema"
 beta: false
 added_since: v2.3.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "A FieldSchema instance defines the data type and related attributes of a specific field in a collection. | Java | v2"
 type: docx
-token: WeXmdv8bioJ7AEx9sEtct6kgnUd
+token: ZwKPdk2rzoQUU7xm4CHcPiZqnjh
 sidebar_position: 16
 keywords: 
+  - LLMs
+  - Machine Learning
+  - RAG
   - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
   - zilliz
   - zilliz cloud
   - cloud
   - FieldSchema
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar
@@ -43,71 +43,104 @@ Constructs the schema of a field by defining the field name, data type, and othe
 
 ```java
 CreateCollectionReq.FieldSchema.builder()
-    .name(String fieldName)
+    .name(String name)
     .description(String description)
     .dataType(DataType dataType)
-    .maxLength(int maxLength)
-    .dimension(int dimension)
-    .isPrimaryKey(boolean isPrimaryKey)
-    .isPartitionKey(boolean isPartitionKey)
-    .autoID(boolean autoID)
+    .maxLength(Integer maxLength)
+    .dimension(Integer dimension)
+    .isPrimaryKey(Boolean isPrimaryKey)
+    .isPartitionKey(Boolean isPartitionKey)
+    .isClusteringKey(Boolean isClusteringKey)
+    .autoID(Boolean autoID)
 
+    .isNullable(Boolean isNullable)
+    .defaultValue(Object defaultValue)
+    .enableAnalyzer(Boolean enableAnalyzer)
+    .analyzerParams(Map<String, Object> analyzerParams)
+    .enableMatch(Boolean enableMatch)
+    .typeParams(Map<String, String> typeParams)
+    .multiAnalyzerParams(Map<String, Object> multiAnalyzerParams)
+    .externalField(String externalField)
     .build();
 ```
 
 **BUILDER METHODS:**
 
-- `name(String fieldName)`
+- `name(String name)` -
 
     The name of the field.
 
-- `description(String description)`
+- `description(String description)` -
 
     The description of the field.
 
-- `dataType([DataType](./v2-Collections-DataType) dataType)`
+- `dataType(DataType dataType)` -
 
-    The data type of the field.
+    The data type of the field. You can choose from the following options when selecting a data type for different fields: primary key field — use **DataType.Int64** or **DataType.VarChar**; scalar fields — choose from **DataType.Bool**, **DataType.Int8**, **DataType.Int16**, **DataType.Int32**, **DataType.Int64**, **DataType.Float**, **DataType.Double**, **DataType.VarChar**, **DataType.JSON**, or **DataType.Array**; vector fields — select **DataType.BinaryVector** or **DataType.FloatVector**.
 
-    You can choose from the following options when selecting a data type for different fields:
+- `maxLength(Integer maxLength)` -
 
-    - Primary key field: Use **DataType.Int64** or **DataType.VarChar**.
+    The maximum number of characters a value should contain. This is required if **[dataType](./v2-Collections-DataType)** of this field is set to **DataType.VarChar**.
 
-    - Scalar fields: Choose from a variety of options, including **DataType.Bool**, **DataType.Int8**, **DataType.Int16**, **DataType.Int32**, **DataType.Int64**, **DataType.Float**, **DataType.Double**, **DataType.VarChar**, **DataType.JSON**.
+- `dimension(Integer dimension)` -
 
-    - Vector fields: Select **DataType.FloatVector**.
+    The number of dimensions a value should have. This is required if **[dataType](./v2-Collections-DataType)** of this field is set to **DataType.FloatVector**.
 
-- `maxLength(int maxLength)`
+- `isPrimaryKey(Boolean isPrimaryKey)` -
 
-    The maximum number of characters a value should contain.
+    Whether the current field is the primary field. Setting this to **True** makes the current field the primary field.
 
-    This is required if **[dataType](./v2-Collections-DataType)** of this field is set to **DataType.VarChar.**
+- `isPartitionKey(Boolean isPartitionKey)` -
 
-- `dimension(int dimension)`
+    Whether the current field is the partition-key field. Setting this to **True** makes the current field the partition key.
 
-    The number of dimensions a value should have.
+- `isClusteringKey(Boolean isClusteringKey)` -
 
-    This is required if **[dataType](./v2-Collections-DataType)** of this field is set to **DataType.FloatVector**.
+    Whether the current field is the clustering key. The clustering key controls on-disk segment grouping to accelerate queries that filter on this field.
 
-- `isPrimaryKey(boolean isPrimaryKey)`
+- `autoID(Boolean autoID)` -
 
-    Whether the current field is the primary field.
+    Whether allows the primary field to automatically increment. Setting this to **True** makes the primary field automatically increment. In this case, the primary field should not be included in the data to insert to avoid errors. Set this parameter in the field with **isPrimaryKey** set to **True**.
 
-    Setting this to **True** makes the current field the primary field.
+- `elementType(DataType elementType)` -
 
-- `isPartitionKey(boolean isPartitionKey)`
+    The data type of elements in array fields. This is required if **[dataType](./v2-Collections-DataType)** of this field is set to **DataType.Array**. 
 
-    Whether the current field is the partitionKey field.
+- `maxCapacity(Integer maxCapacity)` -
 
-    Setting this to **True** makes the current field the partition key.
+    The maximum number of elements that an array field can contain. This is required if **[dataType](./v2-Collections-DataType)** of this field is set to **DataType.Array**. 
 
-- `autoID(boolean autoID)`
+- `isNullable(Boolean isNullable)` -
 
-    Whether allows the primary field to automatically increment.
+    Allows `null` values for this field. Default: `false`. For more information, refer to Nullable & Default.
 
-    Setting this to **True** makes the primary field automatically increment. In this case, the primary field should not be included in the data to insert to avoid errors.
+- `defaultValue(Object defaultValue)` -
 
-    Set this parameter in the field with **isPrimaryKey** set to **True**.
+    Sets a default value for the field used when the field is absent from an insert. The runtime type must match `dataType`.
+
+- `enableAnalyzer(Boolean enableAnalyzer)` -
+
+    Whether to enable text analysis for the specified `VARCHAR` field. When set to `true`, Milvus uses a text analyzer that tokenizes and filters the text content of the field. Required for full-text search.
+
+- `analyzerParams(Map<String, Object> analyzerParams)` -
+
+    Per-field analyzer configuration (tokenizer, filters) for `DataType.VarChar` fields. Used together with `enableAnalyzer`.
+
+- `enableMatch(Boolean enableMatch)` -
+
+    Whether to enable keyword matching for the specified `VARCHAR` field. When `true`, Milvus creates an inverted index for the field, allowing for quick and efficient keyword lookups. `enableMatch` works in conjunction with `enableAnalyzer` to provide structured term-based text search.
+
+- `typeParams(Map<String, String> typeParams)` -
+
+    Generic per-type parameters not surfaced as dedicated builder methods. Once specified, values here override the corresponding parameter values set above.
+
+- `multiAnalyzerParams(Map<String, Object> multiAnalyzerParams)` -
+
+    A multi-language analyzer that allows you to configure multiple analyzers for a text field and store multilingual documents in this text field.
+
+- `externalField(String externalField)` -
+
+    Maps this Milvus field to a column in the external source identified on the schema's `externalSource`. Used for external collections.
 
 **RETURN TYPE:**
 

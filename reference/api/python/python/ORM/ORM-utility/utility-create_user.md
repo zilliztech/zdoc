@@ -4,7 +4,7 @@ slug: /python/python/utility-create_user
 sidebar_label: "create_user()"
 beta: NEAR DEPRECATE
 added_since: Inherit
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation creates a new user with a corresponding password. | Python | ORM"
@@ -12,10 +12,10 @@ type: docx
 token: N44ndTSrgoEBx7xCID5cXRS7n1c
 sidebar_position: 5
 keywords: 
-  - Similarity Search
-  - multimodal RAG
   - llm hallucinations
   - hybrid search
+  - lexical search
+  - nearest neighbor search
   - zilliz
   - zilliz cloud
   - cloud

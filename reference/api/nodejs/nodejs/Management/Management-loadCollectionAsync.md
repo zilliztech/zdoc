@@ -10,17 +10,17 @@ notebook: false
 description: "This operation loads collection data into query nodes, then you can do vector search on this collection. This is an async function — use `getLoadState()` or `getLoadingProgress()` to check loading status. | Node.js"
 type: docx
 token: SqSZdmSoVoBuiSxe1a1cdOuZnDd
-sidebar_position: 27
+sidebar_position: 30
 keywords: 
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
   - zilliz
   - zilliz cloud
   - cloud
   - loadCollectionAsync()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

@@ -2,7 +2,7 @@
 title: "GroupBy | Python | MilvusClient"
 slug: /python/python/Vector-GroupBy
 sidebar_label: "GroupBy"
-beta: false
+beta: PRIVATE
 added_since: v3.0.x
 last_modified: false
 deprecate_since: false
@@ -12,10 +12,10 @@ type: docx
 token: CFS4dOq2LowXPSxB124cBwQsn0c
 sidebar_position: 10
 keywords: 
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
   - zilliz
   - zilliz cloud
   - cloud

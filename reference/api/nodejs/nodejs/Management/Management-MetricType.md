@@ -12,15 +12,15 @@ type: docx
 token: KQDEdcccXozuKpxDg78cSmxYnQg
 sidebar_position: 21
 keywords: 
+  - Faiss
+  - Video search
   - AI Hallucination
   - AI Agent
-  - semantic search
-  - Anomaly Detection
   - zilliz
   - zilliz cloud
   - cloud
   - MetricType
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

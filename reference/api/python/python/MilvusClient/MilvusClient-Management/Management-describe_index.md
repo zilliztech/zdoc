@@ -12,10 +12,10 @@ type: docx
 token: WhsHdyIgyoFlsQxNJt9cFCTxnDe
 sidebar_position: 4
 keywords: 
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
   - zilliz
   - zilliz cloud
   - cloud
@@ -32,6 +32,26 @@ import Admonition from '@theme/Admonition';
 # describe_index()
 
 This operation describes a specific index.
+
+<Admonition type="info" icon="📘" title="Notes">
+
+This method applies only to dedicated serving clusters and on-demand compute. 
+
+- For this operation in a collection of a serving cluster, please create **[MilvusClient](./Client-MilvusClient)** with the cluster endpoint.
+
+    - **Free & Serverless**
+
+        `https://{cluster-id}.serverless.{region}.vectordb.zillizcloud.com`
+
+    - **Dedicated**
+
+        `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
+
+- For this operation in a collection for on-demand compute, create **[MilvusClient](./Client-MilvusClient)** with the project endpoints, and then create a session to attach to an on-demand cluster for searches.
+
+    `https://{project-id}.{region}.api.zillizcloud.com`
+
+</Admonition>
 
 ## Request syntax\{#request-syntax}
 
@@ -82,7 +102,7 @@ A dictionary that contains the details of the specified index.
     'total_rows': 0,
     'indexed_rows': 0,
     'pending_index_rows': 0,
-    'state': 3,
+    'state': 'Finished',
     'field_name': 'my_vector',
     'index_name': 'my_vector'
 }
@@ -114,9 +134,9 @@ A dictionary that contains the details of the specified index.
 
     The number of rows to be indexed in the specified field.
 
-- **state** (*int*) -
+- **state** (*str*) -
 
-    The state of the index-building process. Possible values are as follows:
+    The state of the index-building process.
 
 - **field_name** (*str*) -
 

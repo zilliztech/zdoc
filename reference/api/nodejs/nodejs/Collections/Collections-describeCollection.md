@@ -4,23 +4,23 @@ slug: /node/node/Collections-describeCollection
 sidebar_label: "describeCollection()"
 beta: false
 added_since: v2.3.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation lists detailed information about a specific collection. | Node.js"
 type: docx
-token: FEnwdB0eCotS7wxpPXmcwgQwn8g
+token: IuTYdjSHHoznXNx5f7jcKqvYnhr
 sidebar_position: 8
 keywords: 
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
   - zilliz
   - zilliz cloud
   - cloud
   - describeCollection()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar
@@ -34,13 +34,13 @@ import Admonition from '@theme/Admonition';
 This operation lists detailed information about a specific collection.
 
 ```javascript
-describeCollection(data): Promise<DescribeCollectionResponse>
+await milvusClient.describeCollection(data)
 ```
 
 ## Request Syntax\{#request-syntax}
 
 ```javascript
-milvusClient.describeCollection({ 
+await milvusClient.describeCollection({ 
     db_name: string,
     collection_name: string 
 })
@@ -72,21 +72,16 @@ This method returns a promise that resolves to a **DescribeCollectionResponse** 
 {
     aliases: string,
     collectionID: string,
-    collectionName: string,
     consistency_level: string,
     created_timestamp: string,
     created_utc_timestamp: string,
     db_name: string,
-    functions: FunctionObject[],
     num_partitions: string,
     physical_channel_names: string,
-    properties: KeyValuePair<string, string | number>[],
     schema: object,
     shards_num: int,
     start_positions: string,
     status: object,
-    update_timestamp: number,
-    update_timestamp_str: string,
     virtual_channel_names: string  
 }
 ```
@@ -100,10 +95,6 @@ This method returns a promise that resolves to a **DescribeCollectionResponse** 
 - **collectionID** (*string*)-
 
     The ID of the collection.
-
-- **collectionName** (*string*) -
-
-    The name of the collection.
 
 - **consistency_level** (*string*)-
 
@@ -121,10 +112,6 @@ This method returns a promise that resolves to a **DescribeCollectionResponse** 
 
     The name of the cluster to which the collection belongs.
 
-- **functions** (*FunctionObject[]*) -
-
-    The list of functions configured in the collection.
-
 - **num_partitions** (*string*)-
 
     The number of partitions in the collection.
@@ -132,10 +119,6 @@ This method returns a promise that resolves to a **DescribeCollectionResponse** 
 - **physical_channel_names** (*string*)-
 
     A list of the names of the physical channels in this collection.
-
-- **properties** (*KeyValuePair\<string, string | number>*) -
-
-    The collection properties in key-value pairs. 
 
 - **schema** (*object*)-
 
@@ -165,9 +148,9 @@ This method returns a promise that resolves to a **DescribeCollectionResponse** 
 
     The number of shards in the collection.
 
-- **start_positions** (*string[]*) -
+- **virtual_channel_names** (*string*)-
 
-    A list of start positions.
+A list of the names of the virtual channels in this collection.
 
 - **status** (*object*)-
 
@@ -183,22 +166,17 @@ This method returns a promise that resolves to a **DescribeCollectionResponse** 
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
-- **update_timestamp** (*number*) -
+- **shards_num** (*string*)-
 
-    The timestamp at which the collection has been updated.
-
-- **update_timestamp_str** (*string*) -
-
-    The update timestamp in string format.
-
-- **virtual_channel_names** (*string[]*) -
-
-    A list of the names of the virtual channels in this collection.
+    The number of shards in the collection.
 
 ## Example\{#example}
 
 ```java
-const milvusClient = new milvusClient(MILUVS_ADDRESS);
+const milvusClient = new MilvusClient({
+    address: 'YOUR_CLUSTER_ENDPOINT',
+    token: 'YOUR_CLUSTER_TOKEN',
+});
  const res = await milvusClient.describeCollection({ collection_name: 'my_collection' });
 ```
 

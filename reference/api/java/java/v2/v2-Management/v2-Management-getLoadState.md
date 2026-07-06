@@ -12,15 +12,15 @@ type: docx
 token: PAs7dwIIrop4OixCUr8ctHVLnXc
 sidebar_position: 9
 keywords: 
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
   - zilliz
   - zilliz cloud
   - cloud
   - getLoadState()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar
@@ -72,7 +72,7 @@ A Boolean value that indicates the status of the specified collection or partiti
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>A collection is in the loaded state if any or all of its partitions are loaded.</p>
+A collection is in the loaded state if any or all of its partitions are loaded.
 
 </Admonition>
 

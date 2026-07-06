@@ -12,10 +12,10 @@ type: docx
 token: QI87dhVnioL9JLxnNKxcM8jWnkh
 sidebar_position: 3
 keywords: 
-  - cosine distance
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
   - zilliz
   - zilliz cloud
   - cloud
@@ -32,6 +32,12 @@ import Admonition from '@theme/Admonition';
 # insert()
 
 This operation inserts data into a specific collection.
+
+<Admonition type="info" icon="📘" title="Notes">
+
+External collections do not support this operation.
+
+</Admonition>
 
 ## Request syntax\{#request-syntax}
 

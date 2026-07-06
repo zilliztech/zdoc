@@ -72,6 +72,16 @@ module.exports = [
         "type": "doc",
         "id": "api/java/java/v2/v2-Authentication/v2-Authentication-updatePassword",
         "label": "updatePassword()"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Authentication/v2-Authentication-alterRole",
+        "label": "alterRole()"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Authentication/v2-Authentication-updateUser",
+        "label": "updateUser()"
       }
     ]
   },
@@ -98,6 +108,11 @@ module.exports = [
         "type": "doc",
         "id": "api/java/java/v2/v2-Client/v2-Client-ConnectConfig",
         "label": "ConnectConfig"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Client/v2-Client-getServerVersionV2",
+        "label": "getServerVersionV2()"
       }
     ]
   },
@@ -359,16 +374,6 @@ module.exports = [
         ]
       },
       {
-        "type": "doc",
-        "id": "api/java/java/v2/v2-Collections/v2-Management-IndexParam",
-        "label": "IndexParam"
-      },
-      {
-        "type": "doc",
-        "id": "api/java/java/v2/v2-Collections/v2-Management-IndexType",
-        "label": "IndexType"
-      },
-      {
         "type": "category",
         "label": "StructFieldSchema",
         "items": [
@@ -413,6 +418,21 @@ module.exports = [
             "label": "StructFieldSchema"
           }
         ]
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Collections/v2-Collections-truncateCollection",
+        "label": "truncateCollection()"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Collections/v2-Collections-addCollectionStructField",
+        "label": "addCollectionStructField()"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Collections/v2-Collections-getLoadStateV2",
+        "label": "getLoadStateV2()"
       }
     ]
   },
@@ -508,6 +528,16 @@ module.exports = [
       },
       {
         "type": "doc",
+        "id": "api/java/java/v2/v2-Management/v2-Management-IndexParam",
+        "label": "IndexParam"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Management/v2-Management-IndexType",
+        "label": "IndexType"
+      },
+      {
+        "type": "doc",
         "id": "api/java/java/v2/v2-Management/v2-Management-listIndexes",
         "label": "listIndexes()"
       },
@@ -540,6 +570,31 @@ module.exports = [
         "type": "doc",
         "id": "api/java/java/v2/v2-Management/v2-Management-getServerVersion",
         "label": "getServerVersion()"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Management/v2-Management-flushAll",
+        "label": "flushAll()"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Management/v2-Management-getFlushAllState",
+        "label": "getFlushAllState()"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Management/v2-Management-getRefreshExternalCollectionProgress",
+        "label": "getRefreshExternalCollectionProgress()"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Management/v2-Management-listRefreshExternalCollectionJobs",
+        "label": "listRefreshExternalCollectionJobs()"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Management/v2-Management-refreshExternalCollection",
+        "label": "refreshExternalCollection()"
       }
     ]
   },
@@ -798,6 +853,47 @@ module.exports = [
             "label": "getTotalRowCount()"
           }
         ]
+      },
+      {
+        "type": "category",
+        "label": "VolumeBulkWriter",
+        "items": [
+          {
+            "type": "doc",
+            "id": "api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-VolumeBulkWriter-appendRow",
+            "label": "appendRow()"
+          },
+          {
+            "type": "doc",
+            "id": "api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-VolumeBulkWriter-close",
+            "label": "close()"
+          },
+          {
+            "type": "doc",
+            "id": "api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-VolumeBulkWriter-commit",
+            "label": "commit()"
+          },
+          {
+            "type": "doc",
+            "id": "api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-VolumeBulkWriter-getBatchFiles",
+            "label": "getBatchFiles()"
+          },
+          {
+            "type": "doc",
+            "id": "api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-VolumeBulkWriter-getTotalRowCount",
+            "label": "getTotalRowCount()"
+          },
+          {
+            "type": "doc",
+            "id": "api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-VolumeBulkWriter-getVolumeUploadResult",
+            "label": "getVolumeUploadResult()"
+          },
+          {
+            "type": "doc",
+            "id": "api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-DataImport-VolumeBulkWriter",
+            "label": "VolumeBulkWriter"
+          }
+        ]
       }
     ]
   },
@@ -851,6 +947,78 @@ module.exports = [
         "type": "doc",
         "id": "api/java/java/v2/v2-Volume/v2-VolumeFileManager-shutdownGracefully",
         "label": "shutdownGracefully()"
+      }
+    ]
+  },
+  {
+    "type": "category",
+    "label": "File Resources",
+    "items": [
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-FileResources/v2-FileResources-addFileResource",
+        "label": "addFileResource()"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-FileResources/v2-FileResources-listFileResources",
+        "label": "listFileResources()"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-FileResources/v2-FileResources-removeFileResource",
+        "label": "removeFileResource()"
+      }
+    ]
+  },
+  {
+    "type": "category",
+    "label": "Snapshots",
+    "items": [
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Snapshots/v2-Snapshots-createSnapshot",
+        "label": "createSnapshot()"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Snapshots/v2-Snapshots-describeSnapshot",
+        "label": "describeSnapshot()"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Snapshots/v2-Snapshots-dropSnapshot",
+        "label": "dropSnapshot()"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Snapshots/v2-Snapshots-getRestoreSnapshotState",
+        "label": "getRestoreSnapshotState()"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Snapshots/v2-Snapshots-listRestoreSnapshotJobs",
+        "label": "listRestoreSnapshotJobs()"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Snapshots/v2-Snapshots-listSnapshots",
+        "label": "listSnapshots()"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Snapshots/v2-Snapshots-pinSnapshotData",
+        "label": "pinSnapshotData()"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Snapshots/v2-Snapshots-restoreSnapshot",
+        "label": "restoreSnapshot()"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Snapshots/v2-Snapshots-unpinSnapshotData",
+        "label": "unpinSnapshotData()"
       }
     ]
   }

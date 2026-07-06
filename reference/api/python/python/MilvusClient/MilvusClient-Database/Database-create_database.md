@@ -12,10 +12,10 @@ type: docx
 token: S278drWUVoRZ5fx8XkfcWaZfnwh
 sidebar_position: 2
 keywords: 
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
   - zilliz
   - zilliz cloud
   - cloud
@@ -35,7 +35,21 @@ This operation creates a database.
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This method applies only to dedicated clusters.</p>
+This method applies only to dedicated serving clusters and on-demand compute. 
+
+- For a database in a dedicated serving clusters, create **[MilvusClient](./Client-MilvusClient)** with the cluster endpoint.
+
+    - **Free & Serverless**
+
+        `https://{cluster-id}.serverless.{region}.vectordb.zillizcloud.com`
+
+    - **Dedicated**
+
+        `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
+
+- For a database for on-demand compute, create **[MilvusClient](./Client-MilvusClient)** with the project endpoints.
+
+    `https://{project-id}.{region}.api.zillizcloud.com`
 
 </Admonition>
 
@@ -59,6 +73,12 @@ create_database(
     Name of the database to create.
 
 - **properties** (*dict* | *None*) -
+
+    <Admonition type="info" icon="📘" title="Note">
+
+    This does not apply to databases for on-demand compute.
+
+    </Admonition>
 
     Properties of the database to be created. Possible database properties are as follows:
 
@@ -110,10 +130,7 @@ from pymilvus import MilvusClient
 client = MilvusClient(uri, token) # db = "default" 
 
 client.create_database(
-    db_name="my_db"， 
-    properties={
-        "database.replica.number": 3
-    }
+    db_name="my_db"
 )
 ```
 

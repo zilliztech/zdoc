@@ -106,371 +106,22 @@ module.exports = [
   },
   {
     "type": "category",
-    "label": "EmbeddingModels",
+    "label": "FileResource",
     "items": [
       {
-        "type": "category",
-        "label": "BGEM3EmbeddingFunction",
-        "items": [
-          {
-            "type": "doc",
-            "id": "api/python/python/EmbeddingModels/EmbeddingModels-BGEM3EmbeddingFunction/EmbeddingModels-BGEM3EmbeddingFunction",
-            "label": "BGEM3EmbeddingFunction"
-          },
-          {
-            "type": "doc",
-            "id": "api/python/python/EmbeddingModels/EmbeddingModels-BGEM3EmbeddingFunction/BGEM3EmbeddingFunction-encode_documents",
-            "label": "encode_documents()"
-          },
-          {
-            "type": "doc",
-            "id": "api/python/python/EmbeddingModels/EmbeddingModels-BGEM3EmbeddingFunction/BGEM3EmbeddingFunction-encode_queries",
-            "label": "encode_queries()"
-          },
-          {
-            "type": "doc",
-            "id": "api/python/python/EmbeddingModels/EmbeddingModels-BGEM3EmbeddingFunction/BGEM3EmbeddingFunction-__call__",
-            "label": "__call__()"
-          }
-        ]
+        "type": "doc",
+        "id": "api/python/python/FileResource/FileResource-add_file_resource",
+        "label": "add_file_resource()"
       },
       {
-        "type": "category",
-        "label": "CohereEmbeddingFunction",
-        "items": [
-          {
-            "type": "doc",
-            "id": "api/python/python/EmbeddingModels/EmbeddingModels-CohereEmbeddingFunction/EmbeddingModels-CohereEmbeddingFunction",
-            "label": "CohereEmbeddingFunction"
-          },
-          {
-            "type": "doc",
-            "id": "api/python/python/EmbeddingModels/EmbeddingModels-CohereEmbeddingFunction/CohereEmbeddingFunction-encode_documents",
-            "label": "encode_documents()"
-          },
-          {
-            "type": "doc",
-            "id": "api/python/python/EmbeddingModels/EmbeddingModels-CohereEmbeddingFunction/CohereEmbeddingFunction-encode_queries",
-            "label": "encode_queries()"
-          },
-          {
-            "type": "doc",
-            "id": "api/python/python/EmbeddingModels/EmbeddingModels-CohereEmbeddingFunction/CohereEmbeddingFunction-__call__",
-            "label": "__call__()"
-          }
-        ]
+        "type": "doc",
+        "id": "api/python/python/FileResource/FileResource-list_file_resources",
+        "label": "list_file_resources()"
       },
       {
-        "type": "category",
-        "label": "InstructorEmbeddingFunction",
-        "items": [
-          {
-            "type": "doc",
-            "id": "api/python/python/EmbeddingModels/EmbeddingModels-InstructorEmbeddingFunction/InstructorEmbeddingFunction-encode_documents",
-            "label": "encode_documents()"
-          },
-          {
-            "type": "doc",
-            "id": "api/python/python/EmbeddingModels/EmbeddingModels-InstructorEmbeddingFunction/InstructorEmbeddingFunction-encode_queries",
-            "label": "encode_queries()"
-          },
-          {
-            "type": "doc",
-            "id": "api/python/python/EmbeddingModels/EmbeddingModels-InstructorEmbeddingFunction/EmbeddingModels-InstructorEmbeddingFunction",
-            "label": "InstructorEmbeddingFunction"
-          },
-          {
-            "type": "doc",
-            "id": "api/python/python/EmbeddingModels/EmbeddingModels-InstructorEmbeddingFunction/InstructorEmbeddingFunction-__call__",
-            "label": "__call__()"
-          }
-        ]
-      },
-      {
-        "type": "category",
-        "label": "JinaEmbeddingFunction",
-        "items": [
-          {
-            "type": "doc",
-            "id": "api/python/python/EmbeddingModels/EmbeddingModels-JinaEmbeddingFunction/JinaEmbeddingFunction-encode_documents",
-            "label": "encode_documents()"
-          },
-          {
-            "type": "doc",
-            "id": "api/python/python/EmbeddingModels/EmbeddingModels-JinaEmbeddingFunction/JinaEmbeddingFunction-encode_queries",
-            "label": "encode_queries()"
-          },
-          {
-            "type": "doc",
-            "id": "api/python/python/EmbeddingModels/EmbeddingModels-JinaEmbeddingFunction/EmbeddingModels-JinaEmbeddingFunction",
-            "label": "JinaEmbeddingFunction"
-          },
-          {
-            "type": "doc",
-            "id": "api/python/python/EmbeddingModels/EmbeddingModels-JinaEmbeddingFunction/JinaEmbeddingFunction-__call__",
-            "label": "__call__()"
-          }
-        ]
-      },
-      {
-        "type": "category",
-        "label": "MGTEEmbeddingFunction",
-        "items": [
-          {
-            "type": "doc",
-            "id": "api/python/python/EmbeddingModels/EmbeddingModels-MGTEEmbeddingFunction/MGTEEmbeddingFunction-encode_documents",
-            "label": "encode_documents()"
-          },
-          {
-            "type": "doc",
-            "id": "api/python/python/EmbeddingModels/EmbeddingModels-MGTEEmbeddingFunction/MGTEEmbeddingFunction-encode_queries",
-            "label": "encode_queries()"
-          },
-          {
-            "type": "doc",
-            "id": "api/python/python/EmbeddingModels/EmbeddingModels-MGTEEmbeddingFunction/EmbeddingModels-MGTEEmbeddingFunction",
-            "label": "MGTEEmbeddingFunction"
-          },
-          {
-            "type": "doc",
-            "id": "api/python/python/EmbeddingModels/EmbeddingModels-MGTEEmbeddingFunction/MGTEEmbeddingFunction-__call__",
-            "label": "__call__()"
-          }
-        ]
-      },
-      {
-        "type": "category",
-        "label": "MistralAIEmbeddingFunction",
-        "items": [
-          {
-            "type": "doc",
-            "id": "api/python/python/EmbeddingModels/EmbeddingModels-MistralAIEmbeddingFunction/MistralAIEmbeddingFunction-encode_documents",
-            "label": "encode_documents()"
-          },
-          {
-            "type": "doc",
-            "id": "api/python/python/EmbeddingModels/EmbeddingModels-MistralAIEmbeddingFunction/MistralAIEmbeddingFunction-encode_queries",
-            "label": "encode_queries()"
-          },
-          {
-            "type": "doc",
-            "id": "api/python/python/EmbeddingModels/EmbeddingModels-MistralAIEmbeddingFunction/EmbeddingModels-MistralAIEmbeddingFunction",
-            "label": "MistralAIEmbeddingFunction"
-          },
-          {
-            "type": "doc",
-            "id": "api/python/python/EmbeddingModels/EmbeddingModels-MistralAIEmbeddingFunction/MistralAIEmbeddingFunction-__call__",
-            "label": "__call__()"
-          }
-        ]
-      },
-      {
-        "type": "category",
-        "label": "NomicEmbeddingFunction",
-        "items": [
-          {
-            "type": "doc",
-            "id": "api/python/python/EmbeddingModels/EmbeddingModels-NomicEmbeddingFunction/NomicEmbeddingFunction-encode_documents",
-            "label": "encode_documents()"
-          },
-          {
-            "type": "doc",
-            "id": "api/python/python/EmbeddingModels/EmbeddingModels-NomicEmbeddingFunction/NomicEmbeddingFunction-encode_queries",
-            "label": "encode_queries()"
-          },
-          {
-            "type": "doc",
-            "id": "api/python/python/EmbeddingModels/EmbeddingModels-NomicEmbeddingFunction/EmbeddingModels-NomicEmbeddingFunction",
-            "label": "NomicEmbeddingFunction"
-          },
-          {
-            "type": "doc",
-            "id": "api/python/python/EmbeddingModels/EmbeddingModels-NomicEmbeddingFunction/NomicEmbeddingFunction-__call__",
-            "label": "__call__()"
-          }
-        ]
-      },
-      {
-        "type": "category",
-        "label": "OnnxEmbeddingFunction",
-        "items": [
-          {
-            "type": "doc",
-            "id": "api/python/python/EmbeddingModels/EmbeddingModels-OnnxEmbeddingFunction/OnnxEmbeddingFunction-encode_documents",
-            "label": "encode_documents()"
-          },
-          {
-            "type": "doc",
-            "id": "api/python/python/EmbeddingModels/EmbeddingModels-OnnxEmbeddingFunction/OnnxEmbeddingFunction-encode_queries",
-            "label": "encode_queries()"
-          },
-          {
-            "type": "doc",
-            "id": "api/python/python/EmbeddingModels/EmbeddingModels-OnnxEmbeddingFunction/EmbeddingModels-OnnxEmbeddingFunction",
-            "label": "OnnxEmbeddingFunction"
-          },
-          {
-            "type": "doc",
-            "id": "api/python/python/EmbeddingModels/EmbeddingModels-OnnxEmbeddingFunction/OnnxEmbeddingFunction-__call__",
-            "label": "__call__()"
-          }
-        ]
-      },
-      {
-        "type": "category",
-        "label": "OpenAIEmbeddingFunction",
-        "items": [
-          {
-            "type": "doc",
-            "id": "api/python/python/EmbeddingModels/EmbeddingModels-OpenAIEmbeddingFunction/OpenAIEmbeddingFunction-encode_documents",
-            "label": "encode_documents()"
-          },
-          {
-            "type": "doc",
-            "id": "api/python/python/EmbeddingModels/EmbeddingModels-OpenAIEmbeddingFunction/OpenAIEmbeddingFunction-encode_queries",
-            "label": "encode_queries()"
-          },
-          {
-            "type": "doc",
-            "id": "api/python/python/EmbeddingModels/EmbeddingModels-OpenAIEmbeddingFunction/EmbeddingModels-OpenAIEmbeddingFunction",
-            "label": "OpenAIEmbeddingFunction"
-          },
-          {
-            "type": "doc",
-            "id": "api/python/python/EmbeddingModels/EmbeddingModels-OpenAIEmbeddingFunction/OpenAIEmbeddingFunction-__call__",
-            "label": "__call__()"
-          }
-        ]
-      },
-      {
-        "type": "category",
-        "label": "SentenceTransformerEmbeddingFunction",
-        "items": [
-          {
-            "type": "doc",
-            "id": "api/python/python/EmbeddingModels/EmbeddingModels-SentenceTransformerEmbeddingFunction/SentenceTransformerEmbeddingFunction-encode_documents",
-            "label": "encode_documents()"
-          },
-          {
-            "type": "doc",
-            "id": "api/python/python/EmbeddingModels/EmbeddingModels-SentenceTransformerEmbeddingFunction/SentenceTransformerEmbeddingFunction-encode_queries",
-            "label": "encode_queries()"
-          },
-          {
-            "type": "doc",
-            "id": "api/python/python/EmbeddingModels/EmbeddingModels-SentenceTransformerEmbeddingFunction/EmbeddingModels-SentenceTransformerEmbeddingFunction",
-            "label": "SentenceTransformerEmbeddingFunction"
-          },
-          {
-            "type": "doc",
-            "id": "api/python/python/EmbeddingModels/EmbeddingModels-SentenceTransformerEmbeddingFunction/SentenceTransformerEmbeddingFunction-__call__",
-            "label": "__call__()"
-          }
-        ]
-      },
-      {
-        "type": "category",
-        "label": "SpladeEmbeddingFunction",
-        "items": [
-          {
-            "type": "doc",
-            "id": "api/python/python/EmbeddingModels/EmbeddingModels-SpladeEmbeddingFunction/SpladeEmbeddingFunction-encode_documents",
-            "label": "encode_documents()"
-          },
-          {
-            "type": "doc",
-            "id": "api/python/python/EmbeddingModels/EmbeddingModels-SpladeEmbeddingFunction/SpladeEmbeddingFunction-encode_queries",
-            "label": "encode_queries()"
-          },
-          {
-            "type": "doc",
-            "id": "api/python/python/EmbeddingModels/EmbeddingModels-SpladeEmbeddingFunction/EmbeddingModels-SpladeEmbeddingFunction",
-            "label": "SpladeEmbeddingFunction"
-          },
-          {
-            "type": "doc",
-            "id": "api/python/python/EmbeddingModels/EmbeddingModels-SpladeEmbeddingFunction/SpladeEmbeddingFunction-__call__",
-            "label": "__call__()"
-          }
-        ]
-      },
-      {
-        "type": "category",
-        "label": "VoyageEmbeddingFunction",
-        "items": [
-          {
-            "type": "doc",
-            "id": "api/python/python/EmbeddingModels/EmbeddingModels-VoyageEmbeddingFunction/VoyageEmbeddingFunction-encode_documents",
-            "label": "encode_documents()"
-          },
-          {
-            "type": "doc",
-            "id": "api/python/python/EmbeddingModels/EmbeddingModels-VoyageEmbeddingFunction/VoyageEmbeddingFunction-encode_queries",
-            "label": "encode_queries()"
-          },
-          {
-            "type": "doc",
-            "id": "api/python/python/EmbeddingModels/EmbeddingModels-VoyageEmbeddingFunction/EmbeddingModels-VoyageEmbeddingFunction",
-            "label": "VoyageEmbeddingFunction"
-          },
-          {
-            "type": "doc",
-            "id": "api/python/python/EmbeddingModels/EmbeddingModels-VoyageEmbeddingFunction/VoyageEmbeddingFunction-__call__",
-            "label": "__call__()"
-          }
-        ]
-      },
-      {
-        "type": "category",
-        "label": "GeminiEmbeddingFunction",
-        "items": [
-          {
-            "type": "doc",
-            "id": "api/python/python/EmbeddingModels/EmbeddingModels-GeminiEmbeddingFunction/GeminiEmbeddingFunction-encode_documents",
-            "label": "encode_documents()"
-          },
-          {
-            "type": "doc",
-            "id": "api/python/python/EmbeddingModels/EmbeddingModels-GeminiEmbeddingFunction/GeminiEmbeddingFunction-encode_queries",
-            "label": "encode_queries()"
-          },
-          {
-            "type": "doc",
-            "id": "api/python/python/EmbeddingModels/EmbeddingModels-GeminiEmbeddingFunction/EmbeddingModels-GeminiEmbeddingFunction",
-            "label": "GeminiEmbeddingFunction"
-          },
-          {
-            "type": "doc",
-            "id": "api/python/python/EmbeddingModels/EmbeddingModels-GeminiEmbeddingFunction/GeminiEmbeddingFunction-__call__",
-            "label": "__call__()"
-          }
-        ]
-      },
-      {
-        "type": "category",
-        "label": "Model2VecEmbeddingFunction",
-        "items": [
-          {
-            "type": "doc",
-            "id": "api/python/python/EmbeddingModels/EmbeddingModels-Model2VecEmbeddingFunction/Model2VecEmbeddingFunction-encode_documents",
-            "label": "encode_documents()"
-          },
-          {
-            "type": "doc",
-            "id": "api/python/python/EmbeddingModels/EmbeddingModels-Model2VecEmbeddingFunction/Model2VecEmbeddingFunction-encode_queries",
-            "label": "encode_queries()"
-          },
-          {
-            "type": "doc",
-            "id": "api/python/python/EmbeddingModels/EmbeddingModels-Model2VecEmbeddingFunction/EmbeddingModels-Model2VecEmbeddingFunction",
-            "label": "Model2VecEmbeddingFunction"
-          },
-          {
-            "type": "doc",
-            "id": "api/python/python/EmbeddingModels/EmbeddingModels-Model2VecEmbeddingFunction/Model2VecEmbeddingFunction-__call__",
-            "label": "__call__()"
-          }
-        ]
+        "type": "doc",
+        "id": "api/python/python/FileResource/FileResource-remove_file_resource",
+        "label": "remove_file_resource()"
       }
     ]
   },
@@ -572,6 +223,11 @@ module.exports = [
             "type": "doc",
             "id": "api/python/python/MilvusClient/MilvusClient-Client/Client-AsyncMilvusClient",
             "label": "AsyncMilvusClient"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-Client/Client-session",
+            "label": "session()"
           }
         ]
       },
@@ -696,6 +352,11 @@ module.exports = [
           },
           {
             "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-Collections/Collections-drop_collection_field",
+            "label": "drop_collection_field()"
+          },
+          {
+            "type": "doc",
             "id": "api/python/python/MilvusClient/MilvusClient-Collections/Collections-get_refresh_external_collection_progress",
             "label": "get_refresh_external_collection_progress()"
           },
@@ -717,7 +378,7 @@ module.exports = [
         "items": [
           {
             "type": "doc",
-            "id": "api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-add_field_1",
+            "id": "api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-add_field",
             "label": "add_field()"
           },
           {
@@ -727,17 +388,17 @@ module.exports = [
           },
           {
             "type": "doc",
-            "id": "api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-construct_from_dict_1",
+            "id": "api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-construct_from_dict",
             "label": "construct_from_dict()"
           },
           {
             "type": "doc",
-            "id": "api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-to_dict_1",
+            "id": "api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-to_dict",
             "label": "to_dict()"
           },
           {
             "type": "doc",
-            "id": "api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-verify_1",
+            "id": "api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-verify",
             "label": "verify()"
           },
           {
@@ -1140,8 +801,414 @@ module.exports = [
           },
           {
             "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-Snapshot/Snapshot-pin_snapshot_data",
+            "label": "pin_snapshot_data()"
+          },
+          {
+            "type": "doc",
             "id": "api/python/python/MilvusClient/MilvusClient-Snapshot/Snapshot-restore_snapshot",
             "label": "restore_snapshot()"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-Snapshot/Snapshot-unpin_snapshot_data",
+            "label": "unpin_snapshot_data()"
+          }
+        ]
+      },
+      {
+        "type": "category",
+        "label": "StructFieldSchema",
+        "items": [
+          {
+            "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-StructFieldSchema/StructFieldSchema-add_field",
+            "label": "add_field()"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-StructFieldSchema/StructFieldSchema-construct_from_dict",
+            "label": "construct_from_dict()"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-StructFieldSchema/MilvusClient-StructFieldSchema",
+            "label": "StructFieldSchema"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/MilvusClient/MilvusClient-StructFieldSchema/StructFieldSchema-to_dict",
+            "label": "to_dict()"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "category",
+    "label": "EmbeddingModels",
+    "items": [
+      {
+        "type": "category",
+        "label": "BGEM3EmbeddingFunction",
+        "items": [
+          {
+            "type": "doc",
+            "id": "api/python/python/EmbeddingModels/EmbeddingModels-BGEM3EmbeddingFunction/EmbeddingModels-BGEM3EmbeddingFunction",
+            "label": "BGEM3EmbeddingFunction"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/EmbeddingModels/EmbeddingModels-BGEM3EmbeddingFunction/BGEM3EmbeddingFunction-encode_documents",
+            "label": "encode_documents()"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/EmbeddingModels/EmbeddingModels-BGEM3EmbeddingFunction/BGEM3EmbeddingFunction-encode_queries",
+            "label": "encode_queries()"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/EmbeddingModels/EmbeddingModels-BGEM3EmbeddingFunction/BGEM3EmbeddingFunction-__call__",
+            "label": "__call__()"
+          }
+        ]
+      },
+      {
+        "type": "category",
+        "label": "CohereEmbeddingFunction",
+        "items": [
+          {
+            "type": "doc",
+            "id": "api/python/python/EmbeddingModels/EmbeddingModels-CohereEmbeddingFunction/EmbeddingModels-CohereEmbeddingFunction",
+            "label": "CohereEmbeddingFunction"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/EmbeddingModels/EmbeddingModels-CohereEmbeddingFunction/CohereEmbeddingFunction-encode_documents",
+            "label": "encode_documents()"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/EmbeddingModels/EmbeddingModels-CohereEmbeddingFunction/CohereEmbeddingFunction-encode_queries",
+            "label": "encode_queries()"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/EmbeddingModels/EmbeddingModels-CohereEmbeddingFunction/CohereEmbeddingFunction-__call__",
+            "label": "__call__()"
+          }
+        ]
+      },
+      {
+        "type": "category",
+        "label": "InstructorEmbeddingFunction",
+        "items": [
+          {
+            "type": "doc",
+            "id": "api/python/python/EmbeddingModels/EmbeddingModels-InstructorEmbeddingFunction/InstructorEmbeddingFunction-encode_documents",
+            "label": "encode_documents()"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/EmbeddingModels/EmbeddingModels-InstructorEmbeddingFunction/InstructorEmbeddingFunction-encode_queries",
+            "label": "encode_queries()"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/EmbeddingModels/EmbeddingModels-InstructorEmbeddingFunction/EmbeddingModels-InstructorEmbeddingFunction",
+            "label": "InstructorEmbeddingFunction"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/EmbeddingModels/EmbeddingModels-InstructorEmbeddingFunction/InstructorEmbeddingFunction-__call__",
+            "label": "__call__()"
+          }
+        ]
+      },
+      {
+        "type": "category",
+        "label": "JinaEmbeddingFunction",
+        "items": [
+          {
+            "type": "doc",
+            "id": "api/python/python/EmbeddingModels/EmbeddingModels-JinaEmbeddingFunction/JinaEmbeddingFunction-encode_documents",
+            "label": "encode_documents()"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/EmbeddingModels/EmbeddingModels-JinaEmbeddingFunction/JinaEmbeddingFunction-encode_queries",
+            "label": "encode_queries()"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/EmbeddingModels/EmbeddingModels-JinaEmbeddingFunction/EmbeddingModels-JinaEmbeddingFunction",
+            "label": "JinaEmbeddingFunction"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/EmbeddingModels/EmbeddingModels-JinaEmbeddingFunction/JinaEmbeddingFunction-__call__",
+            "label": "__call__()"
+          }
+        ]
+      },
+      {
+        "type": "category",
+        "label": "MGTEEmbeddingFunction",
+        "items": [
+          {
+            "type": "doc",
+            "id": "api/python/python/EmbeddingModels/EmbeddingModels-MGTEEmbeddingFunction/MGTEEmbeddingFunction-encode_documents",
+            "label": "encode_documents()"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/EmbeddingModels/EmbeddingModels-MGTEEmbeddingFunction/MGTEEmbeddingFunction-encode_queries",
+            "label": "encode_queries()"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/EmbeddingModels/EmbeddingModels-MGTEEmbeddingFunction/EmbeddingModels-MGTEEmbeddingFunction",
+            "label": "MGTEEmbeddingFunction"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/EmbeddingModels/EmbeddingModels-MGTEEmbeddingFunction/MGTEEmbeddingFunction-__call__",
+            "label": "__call__()"
+          }
+        ]
+      },
+      {
+        "type": "category",
+        "label": "MistralAIEmbeddingFunction",
+        "items": [
+          {
+            "type": "doc",
+            "id": "api/python/python/EmbeddingModels/EmbeddingModels-MistralAIEmbeddingFunction/MistralAIEmbeddingFunction-encode_documents",
+            "label": "encode_documents()"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/EmbeddingModels/EmbeddingModels-MistralAIEmbeddingFunction/MistralAIEmbeddingFunction-encode_queries",
+            "label": "encode_queries()"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/EmbeddingModels/EmbeddingModels-MistralAIEmbeddingFunction/EmbeddingModels-MistralAIEmbeddingFunction",
+            "label": "MistralAIEmbeddingFunction"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/EmbeddingModels/EmbeddingModels-MistralAIEmbeddingFunction/MistralAIEmbeddingFunction-__call__",
+            "label": "__call__()"
+          }
+        ]
+      },
+      {
+        "type": "category",
+        "label": "NomicEmbeddingFunction",
+        "items": [
+          {
+            "type": "doc",
+            "id": "api/python/python/EmbeddingModels/EmbeddingModels-NomicEmbeddingFunction/NomicEmbeddingFunction-encode_documents",
+            "label": "encode_documents()"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/EmbeddingModels/EmbeddingModels-NomicEmbeddingFunction/NomicEmbeddingFunction-encode_queries",
+            "label": "encode_queries()"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/EmbeddingModels/EmbeddingModels-NomicEmbeddingFunction/EmbeddingModels-NomicEmbeddingFunction",
+            "label": "NomicEmbeddingFunction"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/EmbeddingModels/EmbeddingModels-NomicEmbeddingFunction/NomicEmbeddingFunction-__call__",
+            "label": "__call__()"
+          }
+        ]
+      },
+      {
+        "type": "category",
+        "label": "OnnxEmbeddingFunction",
+        "items": [
+          {
+            "type": "doc",
+            "id": "api/python/python/EmbeddingModels/EmbeddingModels-OnnxEmbeddingFunction/OnnxEmbeddingFunction-encode_documents",
+            "label": "encode_documents()"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/EmbeddingModels/EmbeddingModels-OnnxEmbeddingFunction/OnnxEmbeddingFunction-encode_queries",
+            "label": "encode_queries()"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/EmbeddingModels/EmbeddingModels-OnnxEmbeddingFunction/EmbeddingModels-OnnxEmbeddingFunction",
+            "label": "OnnxEmbeddingFunction"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/EmbeddingModels/EmbeddingModels-OnnxEmbeddingFunction/OnnxEmbeddingFunction-__call__",
+            "label": "__call__()"
+          }
+        ]
+      },
+      {
+        "type": "category",
+        "label": "OpenAIEmbeddingFunction",
+        "items": [
+          {
+            "type": "doc",
+            "id": "api/python/python/EmbeddingModels/EmbeddingModels-OpenAIEmbeddingFunction/OpenAIEmbeddingFunction-encode_documents",
+            "label": "encode_documents()"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/EmbeddingModels/EmbeddingModels-OpenAIEmbeddingFunction/OpenAIEmbeddingFunction-encode_queries",
+            "label": "encode_queries()"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/EmbeddingModels/EmbeddingModels-OpenAIEmbeddingFunction/EmbeddingModels-OpenAIEmbeddingFunction",
+            "label": "OpenAIEmbeddingFunction"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/EmbeddingModels/EmbeddingModels-OpenAIEmbeddingFunction/OpenAIEmbeddingFunction-__call__",
+            "label": "__call__()"
+          }
+        ]
+      },
+      {
+        "type": "category",
+        "label": "SentenceTransformerEmbeddingFunction",
+        "items": [
+          {
+            "type": "doc",
+            "id": "api/python/python/EmbeddingModels/EmbeddingModels-SentenceTransformerEmbeddingFunction/SentenceTransformerEmbeddingFunction-encode_documents",
+            "label": "encode_documents()"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/EmbeddingModels/EmbeddingModels-SentenceTransformerEmbeddingFunction/SentenceTransformerEmbeddingFunction-encode_queries",
+            "label": "encode_queries()"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/EmbeddingModels/EmbeddingModels-SentenceTransformerEmbeddingFunction/EmbeddingModels-SentenceTransformerEmbeddingFunction",
+            "label": "SentenceTransformerEmbeddingFunction"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/EmbeddingModels/EmbeddingModels-SentenceTransformerEmbeddingFunction/SentenceTransformerEmbeddingFunction-__call__",
+            "label": "__call__()"
+          }
+        ]
+      },
+      {
+        "type": "category",
+        "label": "SpladeEmbeddingFunction",
+        "items": [
+          {
+            "type": "doc",
+            "id": "api/python/python/EmbeddingModels/EmbeddingModels-SpladeEmbeddingFunction/SpladeEmbeddingFunction-encode_documents",
+            "label": "encode_documents()"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/EmbeddingModels/EmbeddingModels-SpladeEmbeddingFunction/SpladeEmbeddingFunction-encode_queries",
+            "label": "encode_queries()"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/EmbeddingModels/EmbeddingModels-SpladeEmbeddingFunction/EmbeddingModels-SpladeEmbeddingFunction",
+            "label": "SpladeEmbeddingFunction"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/EmbeddingModels/EmbeddingModels-SpladeEmbeddingFunction/SpladeEmbeddingFunction-__call__",
+            "label": "__call__()"
+          }
+        ]
+      },
+      {
+        "type": "category",
+        "label": "VoyageEmbeddingFunction",
+        "items": [
+          {
+            "type": "doc",
+            "id": "api/python/python/EmbeddingModels/EmbeddingModels-VoyageEmbeddingFunction/VoyageEmbeddingFunction-encode_documents",
+            "label": "encode_documents()"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/EmbeddingModels/EmbeddingModels-VoyageEmbeddingFunction/VoyageEmbeddingFunction-encode_queries",
+            "label": "encode_queries()"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/EmbeddingModels/EmbeddingModels-VoyageEmbeddingFunction/EmbeddingModels-VoyageEmbeddingFunction",
+            "label": "VoyageEmbeddingFunction"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/EmbeddingModels/EmbeddingModels-VoyageEmbeddingFunction/VoyageEmbeddingFunction-__call__",
+            "label": "__call__()"
+          }
+        ]
+      },
+      {
+        "type": "category",
+        "label": "GeminiEmbeddingFunction",
+        "items": [
+          {
+            "type": "doc",
+            "id": "api/python/python/EmbeddingModels/EmbeddingModels-GeminiEmbeddingFunction/GeminiEmbeddingFunction-encode_documents",
+            "label": "encode_documents()"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/EmbeddingModels/EmbeddingModels-GeminiEmbeddingFunction/GeminiEmbeddingFunction-encode_queries",
+            "label": "encode_queries()"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/EmbeddingModels/EmbeddingModels-GeminiEmbeddingFunction/EmbeddingModels-GeminiEmbeddingFunction",
+            "label": "GeminiEmbeddingFunction"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/EmbeddingModels/EmbeddingModels-GeminiEmbeddingFunction/GeminiEmbeddingFunction-__call__",
+            "label": "__call__()"
+          }
+        ]
+      },
+      {
+        "type": "category",
+        "label": "Model2VecEmbeddingFunction",
+        "items": [
+          {
+            "type": "doc",
+            "id": "api/python/python/EmbeddingModels/EmbeddingModels-Model2VecEmbeddingFunction/Model2VecEmbeddingFunction-encode_documents",
+            "label": "encode_documents()"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/EmbeddingModels/EmbeddingModels-Model2VecEmbeddingFunction/Model2VecEmbeddingFunction-encode_queries",
+            "label": "encode_queries()"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/EmbeddingModels/EmbeddingModels-Model2VecEmbeddingFunction/EmbeddingModels-Model2VecEmbeddingFunction",
+            "label": "Model2VecEmbeddingFunction"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/EmbeddingModels/EmbeddingModels-Model2VecEmbeddingFunction/Model2VecEmbeddingFunction-__call__",
+            "label": "__call__()"
           }
         ]
       }
@@ -1308,27 +1375,22 @@ module.exports = [
         "items": [
           {
             "type": "doc",
-            "id": "api/python/python/ORM/ORM-CollectionSchema/CollectionSchema-add_field",
-            "label": "add_field()"
-          },
-          {
-            "type": "doc",
             "id": "api/python/python/ORM/ORM-CollectionSchema/ORM-CollectionSchema",
             "label": "CollectionSchema"
           },
           {
             "type": "doc",
-            "id": "api/python/python/ORM/ORM-CollectionSchema/CollectionSchema-construct_from_dict",
+            "id": "api/python/python/ORM/ORM-CollectionSchema/CollectionSchema-construct_from_dict_1",
             "label": "construct_from_dict()"
           },
           {
             "type": "doc",
-            "id": "api/python/python/ORM/ORM-CollectionSchema/CollectionSchema-to_dict",
+            "id": "api/python/python/ORM/ORM-CollectionSchema/CollectionSchema-to_dict_1",
             "label": "to_dict()"
           },
           {
             "type": "doc",
-            "id": "api/python/python/ORM/ORM-CollectionSchema/CollectionSchema-verify",
+            "id": "api/python/python/ORM/ORM-CollectionSchema/CollectionSchema-verify_1",
             "label": "verify()"
           }
         ]
@@ -1890,6 +1952,11 @@ module.exports = [
             "type": "doc",
             "id": "api/python/python/Volume/Volume-VolumeManager/VolumeManager-delete_volume",
             "label": "delete_volume()"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/Volume/Volume-VolumeManager/VolumeManager-describe_volume",
+            "label": "describe_volume()"
           },
           {
             "type": "doc",

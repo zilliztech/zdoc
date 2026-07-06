@@ -4,23 +4,23 @@ slug: /java/java/v2-Collections-addCollectionField
 sidebar_label: "addCollectionField()"
 beta: false
 added_since: v2.6.x
-last_modified: v2.6.x
+last_modified: v3.0.1
 deprecate_since: false
 notebook: false
-description: "This operation adds a scalar field to the schema of an existing collection. | Java | v2"
+description: "This operation adds a new scalar or vector field to an existing collection without recreating the collection. Existing rows do not have values for the new field, so added vector fields must be nullable. | Java | v2"
 type: docx
-token: V9rBdJEGzoCybDx9FIfcpqJbnlc
+token: LaHmdGNGZog0JbxA8amcblpsnDR
 sidebar_position: 23
 keywords: 
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
   - zilliz
   - zilliz cloud
   - cloud
   - addCollectionField()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # addCollectionField()
 
-This operation adds a scalar field to the schema of an existing collection.
+This operation adds a new scalar or vector field to an existing collection without recreating the collection. Existing rows do not have values for the new field, so added vector fields must be nullable.
 
 ```java
 public void addCollectionField(AddCollectionFieldReq request)
@@ -40,194 +40,134 @@ public void addCollectionField(AddCollectionFieldReq request)
 ## Request Syntax\{#request-syntax}
 
 ```java
-addCollectionField(AddCollectionFieldReq.builder()
+client.addCollectionField(AddCollectionFieldReq.builder()
     .collectionName(String collectionName)
     .databaseName(String databaseName)
     .fieldName(String fieldName)
     .description(String description)
     .dataType(DataType dataType)
     .maxLength(Integer maxLength)
-    .isPrimaryKey(Boolean isPrimaryKey)
-    .isPartitionKey(Boolean isPartitionKey)
-    .isClusteringKey(Boolean isClusteringKey)
-    .autoID(Boolean autoID)
     .dimension(Integer dimension)
     .elementType(DataType elementType)
     .maxCapacity(Integer maxCapacity)
     .isNullable(Boolean isNullable)
     .defaultValue(Object defaultValue)
     .enableAnalyzer(Boolean enableAnalyzer)
-    .analyzerParams(Map<String, String> analyzerParams)
+    .analyzerParams(Map<String, Object> analyzerParams)
     .enableMatch(Boolean enableMatch)
     .typeParams(Map<String, String> typeParams)
     .multiAnalyzerParams(Map<String, Object> multiAnalyzerParams)
-    .build();
-)
+    .structFields(List<CreateCollectionReq.FieldSchema> structFields)
+    .externalField(String externalField)
+    .build()
+);
 ```
 
-**BUILDER METHODS**
+**BUILDER METHODS:**
 
-- `collectionName(String collectionName)`
+- `collectionName(String collectionName)` -
 
-    The name of the target collection of this operation.
+    The name of the target collection.
 
-- `databaseName(String databaseName)`
+- `databaseName(String databaseName)` -
 
-    The name of the database to which the target collection belongs.
+    The name of the database. Defaults to the current database if not specified.
 
-- `fieldName(String fieldName)`
+- `fieldName(String fieldName)` -
 
-    The name of the field.
+    The name of the field to add.
 
-- `description(String description)`
+- `description(String description)` -
 
-    The description of the field.
+    A human-readable description for the field.
 
-- `dataType(DataType dataType)`
+- `dataType(DataType dataType)` -
 
-    The data type of the field.
+    The data type of the field. Scalar, vector, array, JSON, and struct-related field types follow the same `DataType` values used when creating a collection.
 
-    You can choose from the following options when selecting a data type for different fields:
+- `maxLength(Integer maxLength)` -
 
-    - Primary key field: Use **DataType.Int64** or **DataType.VarChar**.
+    The maximum number of characters for a `DataType.VarChar` field. This is required for VarChar fields unless the value is supplied through `typeParams`.
 
-    - Scalar fields: Choose from a variety of options, including **DataType.Bool**, **DataType.Int8**, **DataType.Int16**, **DataType.Int32**, **DataType.Int64**, **DataType.Float**, **DataType.Double**, **DataType.VarChar**, **DataType.JSON**, and **DataType.Array**.
+- `dimension(Integer dimension)` -
 
-    - Vector fields: Select **DataType.BinaryVector** or **DataType.FloatVector**.
+    The vector dimension. This is required for fixed-dimension vector fields such as `DataType.FloatVector`.
 
-- `maxLength(Integer maxLength)`
+- `elementType(DataType elementType)` -
 
-    The maximum number of characters a value should contain.
+    The element type for an array field.
 
-    This is required if **dataType** of this field is set to **DataType.VarChar.**
+- `maxCapacity(Integer maxCapacity)` -
 
-- `isPrimaryKey(Boolean isPrimaryKey)`
+    The maximum number of elements allowed in an array field.
 
-    Whether the current field is the primary field.
+- `isNullable(Boolean isNullable)` -
 
-    Setting this to **True** makes the current field the primary field.
+    Whether the added field accepts `null` values. For v3.0.1 and later, vector fields added to an existing collection must set this to `true`; otherwise the SDK raises `MilvusClientException`.
 
-- `isPartitionKey(Boolean isPartitionKey)`
+- `defaultValue(Object defaultValue)` -
 
-    Whether the current field is the partitionKey field.
+    The default value for the added field. The runtime type must match `dataType`.
 
-    Setting this to **True** makes the current field the partition key.
+- `enableAnalyzer(Boolean enableAnalyzer)` -
 
-- `autoID(Boolean autoID)`
+    Whether to enable text analysis for a `DataType.VarChar` field.
 
-    Whether allows the primary field to automatically increment.
+- `analyzerParams(Map<String, Object> analyzerParams)` -
 
-    Setting this to **True** makes the primary field automatically increment. In this case, the primary field should not be included in the data to insert to avoid errors.
+    Analyzer configuration for a VarChar field, such as tokenizer and filter settings.
 
-    Set this parameter in the field with **isPrimaryKey** set to **True**.
+- `enableMatch(Boolean enableMatch)` -
 
-- `dimension(int dimension)`
+    Whether to enable keyword matching for a VarChar field.
 
-    The dimensionality of a vector field. 
+- `typeParams(Map<String, String> typeParams)` -
 
-    The value should be greater than 1 and is usually determined by the embedding model in use.
+    Additional field type parameters. Dedicated builder methods such as `dimension` or `maxLength` override corresponding entries in this map.
 
-    This is required if **dataType** of this field is set to **DataType.FloatVector**.
+- `multiAnalyzerParams(Map<String, Object> multiAnalyzerParams)` -
 
-- `elementType(DataType elementType)`
+    Multi-language analyzer configuration for a text field.
 
-    The data type of elements in array fields.
+- `structFields(List<CreateCollectionReq.FieldSchema> structFields)` -
 
-    This is required if **dataType** of this field is set to **DataType.Array**.
+    Nested field schemas for a struct field.
 
-- `maxCapacity(Integer maxCapacity)`
+- `externalField(String externalField)` -
 
-    The maximum number of elements that an array field can contain.
-
-    This is required if **dataType** of this field is set to **DataType.Array**.
-
-- `isNullable(Boolean isNullable)`
-
-    A Boolean parameter that specifies whether the field can accept null values. Valid values:
-
-    - **True**: The field can contain null values, indicating that the field is optional, and missing data is permitted for entries.
-
-    - **False** (default): The field must contain a valid value for each entity; missing data is not allowed, making the field mandatory.
-
-    For more information, refer to [Nullable & Default](https://milvus.io/docs/nullable-and-default.md).
-
-- `defaultValue(DataType dataType)`
-
-    Sets a default value for a specific field in a collection schema when creating it. This is particularly useful when you want certain fields to have an initial value even if no value is explicitly provided during data insertion.
-
-- `enableAnalyzer(Boolean enableAnalyzer)`
-
-    Whether to enable text analysis for the specified `VARCHAR` field. When set to `true`, it instructs Milvus to use a text analyzer, which tokenizes and filters the text content of the field.
-
-- `enableMatch(Boolean enableMatch)`
-
-    Whether to enable keyword matching for the specified `VARCHAR` field. When set to `true`, Milvus creates an inverted index for the field, allowing for quick and efficient keyword lookups. `enableMatch` works in conjunction with `enableAnalyzer` to provide structured term-based text search, with `enableAnalyzer` handling tokenization and `enableMatch` handling the search operations on these tokens.
-
-- `analyzerParams(Map<String, Object>, analyzerParams)`
-
-    Configures the analyzer for text processing, specifically for `DataType.VarChar` fields. This parameter configures tokenizer and filter settings, particularly for text fields used in [keyword matching](https://milvus.io/docs/keyword-match.md) or [full text search](https://milvus.io/docs/full-text-search.md). Depending on the type of analyzer, it can be configured in either of the following methods:
-
-    - Built-in analyzer
-
-        ```java
-        Map<String, Object> analyzerParams = new HashMap<>();
-        analyzerParams.put("type", "english");
-        ```
-
-        - `type` (*String*) -
-
-            Pre-configured analyzer type built into Milvus, which can be used out-of-the-box by specifying its name. Possible values: `standard`, `english`, `chinese`. For more information, refer to [Standard Analyzer](https://milvus.io/docs/standard-analyzer.md), [English Analyzer](https://milvus.io/docs/english-analyzer.md), and [Chinese Analyzer](https://milvus.io/docs/chinese-analyzer.md).
-
-    - Custom analyzer
-
-        ```java
-        Map<String, Object> analyzerParams = new HashMap<>();
-        analyzerParams.put("tokenizer", "standard");
-        analyzerParams.put("filter", Collections.singletonList("lowercase"));
-        ```
-
-        - `tokenizer` (*String*) -
-
-            Defines the tokenizer type. Possible values: `standard` (default), `whitespace`, `jieba`. For more information, refer to [Standard Tokenizer](https://milvus.io/docs/standard-tokenizer.md), [Whitespace Tokenizer](https://milvus.io/docs/whitespace-tokenizer.md), and [Jieba Tokenizer](https://milvus.io/docs/jieba-tokenizer.md).
-
-        - `filter` (*List&lt;String&gt;*) -
-
-            Lists filters to refine tokens produced by the tokenizer, with options for built-in filters and custom filters. For more information, refer to [Alphanumonly Filter](https://milvus.io/docs/alphanumonly-filer.md) and others.
-
-- `typeParams(Map<String, String> typeParams)`
-
-    The parameters specific to the data type of the current field to add. For example, you can set `maxLength` for a `VarChar` field. Once specified, it overrides the corresponding parameter values specified above.
-
-- `multiAnalyzerParams(Map<String, Object> multiAnalyzerParams)`
-
-    A multi-language analyzer that allows you to configure multiple analyzers for a text field and store multilingual documents in this text field.
+    The external source field that maps to this Milvus field when the collection is backed by an external source.
 
 **RETURNS:**
 
-*voidƒ*
+*void*
 
 **EXCEPTIONS:**
 
-- **MilvusClientExceptions**
+- **MilvusClientException**
 
-    This exception will be raised when any error occurs during this operation.
+    This exception will be raised when any error occurs during this operation, including when a vector field is added with `isNullable(false)` or without setting `isNullable(true)`.
 
-## Examples\{#examples}
+## Example\{#example}
 
 ```java
-import io.milvus.v2.client.MilvusClientV2;
-import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.common.DataType;
 import io.milvus.v2.service.collection.request.AddCollectionFieldReq;
 
-ConnectConfig config = ConnectConfig.builder()
-        .uri("YOUR_CLUSTER_ENDPOINT")
-        .build();
-MilvusClientV2 client = new MilvusClientV2(config);
-
+// Add a nullable scalar field to an existing collection.
 client.addCollectionField(AddCollectionFieldReq.builder()
-        .collectionName("product_catalog")
-        .fieldName("created_timestamp")
-        .dataType(DataType.Int64)
+        .collectionName("my_collection")
+        .fieldName("text")
+        .dataType(DataType.VarChar)
+        .maxLength(100)
+        .isNullable(true)
+        .build());
+
+// Add a nullable vector field to an existing collection.
+client.addCollectionField(AddCollectionFieldReq.builder()
+        .collectionName("my_collection")
+        .fieldName("embedding_v2")
+        .dataType(DataType.FloatVector)
+        .dimension(128)
         .isNullable(true)
         .build());
 ```

@@ -1,18 +1,29 @@
 ---
 title: "GetCollectionStats() | Go | v2"
-slug: /go/v2-Collection-GetCollectionStats
+slug: /go/go/v2-Collection-GetCollectionStats
 sidebar_label: "GetCollectionStats()"
-beta: FALSE
-added_since: v2.5.x
-last_modified: FALSE
-deprecate_since: FALSE
-notebook: FALSE
-description: "This method collects the statistics on the specified collections. | Go | v2"
-type: origin
-token: CFBVw8mkOimkUzkZhwFclTjqnge
-sidebar_position: 17
+beta: false
+added_since: v2.6.x
+last_modified: false
+deprecate_since: false
+notebook: false
+description: "This operation returns statistics about a collection, such as row count. | Go | v2"
+type: docx
+token: L4CvdyBIVoFsMNx546qcBqrOnJd
+sidebar_position: 18
+keywords: 
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - GetCollectionStats()
+  - gov230
 displayed_sidebar: goSidebar
 
+displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -20,75 +31,53 @@ import Admonition from '@theme/Admonition';
 
 # GetCollectionStats()
 
-This method collects the statistics on the specified collections.
+This operation returns statistics about a collection, such as row count.
 
 ```go
 func (c *Client) GetCollectionStats(ctx context.Context, opt GetCollectionOption) (map[string]string, error)
 ```
 
-## Request Parameters\{#request-parameters}
+**RETURN TYPE:**
 
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>ctx</code></p></td>
-     <td><p>Context for the current call to work.</p></td>
-     <td><p><code>context.Context</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>opt</code></p></td>
-     <td><p>Optional parameters of the methods.</p></td>
-     <td><p><a href="./v2-Collection-GetCollectionStats#getcollectionoption"><code>GetCollectionOption</code></a></p></td>
-   </tr>
-</table>
+*map[string]string, error*
 
-## GetCollectionOption\{#getcollectionoption}
+**RETURNS:**
 
-This is an interface type. The `getCollectionStatsOption` struct type implements this interface type. 
+A map of statistics key-value pairs. Returns an error if the operation fails.
 
-You can use the `NewGetCollectionStatsOption()` function to get the concrete implementation.
+**EXCEPTIONS:**
 
-### NewGetCollectionStatsOption\{#newgetcollectionstatsoption}
+- **error**
 
-The signature of this method is as follows:
-
-```go
-func NewGetCollectionStatsOption(collectionName string) *getCollectionStatsOption
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>collectionName</code></p></td>
-     <td><p>Name of the target collection.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-</table>
-
-## Return\{#return}
-
-`map[string]string`
+    Check `err != nil` for failure details.
 
 ## Example\{#example}
 
 ```go
 import (
-        "context"
-        "github.com/milvus-io/milvus/client/v2/milvusclient"
+	"context"
+	"fmt"
+	"log"
+
+	"github.com/milvus-io/milvus/client/v2/milvusclient"
 )
+
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
+
+milvusAddr := "YOUR_CLUSTER_ENDPOINT"
+
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+	Address: milvusAddr,
+})
+if err != nil {
+	log.Fatal("failed to connect to milvus server: ", err.Error())
+}
+defer cli.Close(ctx)
 
 stats, err := cli.GetCollectionStats(ctx, milvusclient.NewGetCollectionStatsOption("quick_setup"))
 if err != nil {
-    // handle err
+	// handle error
 }
 fmt.Println(stats)
 ```
-

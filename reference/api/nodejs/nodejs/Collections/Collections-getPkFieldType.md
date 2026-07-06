@@ -10,17 +10,17 @@ notebook: false
 description: "This operation returns the primary key field's data type for a collection. This is a convenient method that describes the collection and extracts the primary key field type. | Node.js"
 type: docx
 token: AKpldMJPTo6MfuxxrpicBKRInCh
-sidebar_position: 26
+sidebar_position: 27
 keywords: 
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
   - zilliz
   - zilliz cloud
   - cloud
   - getPkFieldType()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar
@@ -78,3 +78,4 @@ const pkType = await client.getPkFieldType({
 });
 console.log(pkType); // e.g., "Int64"
 ```
+

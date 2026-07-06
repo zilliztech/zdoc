@@ -2,7 +2,7 @@
 title: "TopHits | Python | MilvusClient"
 slug: /python/python/Vector-TopHits
 sidebar_label: "TopHits"
-beta: false
+beta: PRIVATE
 added_since: v3.0.x
 last_modified: false
 deprecate_since: false
@@ -12,10 +12,10 @@ type: docx
 token: EgeGdZL4LoCuv2xVUfFc9eDAnkd
 sidebar_position: 11
 keywords: 
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
   - zilliz
   - zilliz cloud
   - cloud

@@ -12,10 +12,10 @@ type: docx
 token: VRGwdg75Ao7ZXQx7uANc9wzXnVb
 sidebar_position: 3
 keywords: 
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
   - zilliz
   - zilliz cloud
   - cloud
@@ -41,11 +41,15 @@ flush(
 )   
 ```
 
-<Admonition type="info" icon="📘" title="Can I call `flush()` after every data insertion?">
+<Admonition type="info" icon="📘" title="Note">
 
-<p>When new data is inserted, it is written into growing segments. Once the size of a growing segment reaches its upper limit, Zilliz Cloud automatically seals the segment. </p>
-<p>Continuously calling this operation results in many sealed segments of small sizes, which can gradually degrade search performance. </p>
-<p>It is recommended that you wait for Zilliz Cloud to seal all segments before conducting any searches.</p>
+Can I call `flush()` after every data insertion?
+
+When new data is inserted, it is written into growing segments. Once the size of a growing segment reaches its upper limit, Zilliz Cloud automatically seals the segment. 
+
+Continuously calling this operation results in many sealed segments of small sizes, which can gradually degrade search performance. 
+
+It is recommended that you wait for Zilliz Cloud to seal all segments before conducting any searches.
 
 </Admonition>
 

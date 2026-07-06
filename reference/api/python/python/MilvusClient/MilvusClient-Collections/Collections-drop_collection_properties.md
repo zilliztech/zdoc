@@ -12,10 +12,10 @@ type: docx
 token: HTnvdQ8SbodURtxPEv5cURL0n5b
 sidebar_position: 12
 keywords: 
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
   - zilliz
   - zilliz cloud
   - cloud
@@ -32,6 +32,12 @@ import Admonition from '@theme/Admonition';
 # drop_collection_properties()
 
 This operation drops the specified collection properties.
+
+<Admonition type="info" icon="📘" title="Notes">
+
+This does not apply to external collections.
+
+</Admonition>
 
 ## Request Syntax\{#request-syntax}
 

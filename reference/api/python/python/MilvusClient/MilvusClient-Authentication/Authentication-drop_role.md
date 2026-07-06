@@ -7,15 +7,15 @@ added_since: v2.3.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "This operation drops a custom role. | Python | MilvusClient"
+description: "- forcedrop (bool) - | Python | MilvusClient"
 type: docx
 token: KUAXdm3o3opQPex8N69cMlPbnTh
 sidebar_position: 8
 keywords: 
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
   - zilliz
   - zilliz cloud
   - cloud
@@ -30,6 +30,10 @@ import Admonition from '@theme/Admonition';
 
 
 # drop_role()
+
+- **force_drop** (*bool*) -
+
+    Whether to forcefully drop the role even if it has privileges or users assigned. Defaults to **False**.
 
 This operation drops a custom role.
 
@@ -52,13 +56,11 @@ drop_role(
 
     The name of the role to drop.
 
-- **force_drop** (*bool*) -
-
-    Whether to forcefully drop the role even if it has privileges or users assigned. Defaults to **False**.
-
 - **timeout** (*float* | *None*) -
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    The timeout duration for this operation. 
+
+    Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
 **RETURN TYPE:**
 
@@ -83,17 +85,18 @@ None
 ```python
 from pymilvus import MilvusClient
 
+# 1. Create a milvus client
 client = MilvusClient(
     uri="YOUR_CLUSTER_ENDPOINT",
     token="YOUR_CLUSTER_TOKEN"
 )
 
-# Create a role
+# 2. Create a role
 client.create_role(role_name="read_only")
 
-# Drop a role
+# 3. Drop a role
 client.drop_role(role_name="read_only")
 
-# Force drop a role with assigned privileges
+# 4. Force drop a role with assigned privileges
 client.drop_role(role_name="custom_role", force_drop=True)
 ```

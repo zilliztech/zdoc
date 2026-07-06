@@ -4,7 +4,7 @@ slug: /node/node/Authentication-listUsers
 sidebar_label: "listUsers()"
 beta: false
 added_since: v2.3.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation lists currently available users. | Node.js"
@@ -12,15 +12,15 @@ type: docx
 token: Z0EOd1PXooNeowx4SQgcq3synBc
 sidebar_position: 21
 keywords: 
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
   - zilliz
   - zilliz cloud
   - cloud
   - listUsers()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar
@@ -51,26 +51,24 @@ milvusClient.listUsers()
 
     Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-*Returns Promise\<ListCredUsersResponse>*
+**RETURNS** *Promise&lt;ListCredUsersResponse&gt;*
 
 This method returns a promise that resolves to a **ListCredUsersResponse** object.
 
-```javascript
+```typescript
 {
-    usernames: string
-    status: ResStatus
+    usernames: string[],
+    status:  ResStatus
 }
 ```
 
 **PARAMETERS:**
 
 - **usernames** (*string[]*) -
-
-    A list of user names.
+A list of usernames that exist in the current Milvus instance.
 
 - **ResStatus**
-
-    A **ResStatus object.
+A **ResStatus** object.
 
     - **code** (*number*) -
 
@@ -78,9 +76,9 @@ This method returns a promise that resolves to a **ListCredUsersResponse** objec
 
     - **error_code** (*string* | *number*) -
 
-        An error code that indicates an occurred error. It remains **Success** if this operation succeeds. 
+        An error code that indicates an occurred error. It remains **Success** if this operation succeeds.
 
-    - **reason** (*string*) - 
+    - **reason** (*string*) -
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 

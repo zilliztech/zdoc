@@ -4,7 +4,7 @@ slug: /node/node/Authentication-listGrants
 sidebar_label: "listGrants()"
 beta: false
 added_since: v2.3.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation lists the privileges granted to the specified role. | Node.js"
@@ -12,15 +12,15 @@ type: docx
 token: CJ9DdmU1ooquOnxcK5AciA3sn3g
 sidebar_position: 18
 keywords: 
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
   - zilliz
   - zilliz cloud
   - cloud
   - listGrants()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar
@@ -53,77 +53,24 @@ await milvusClient.listGrants(data)
 
     Setting this to the name of a non-existing role may result in errors.
 
-*Returns Promise\<SelectGrantResponse>*
+**RETURNS** *Promise&lt;SelectGrantResponse&gt;*
 
 This method returns a promise that resolves to a **SelectGrantResponse** object.
 
-```javascript
+```typescript
 {
-    "entities": [
-        {
-            db_name: string,
-            grantor: { privilege: { name: string }, user: { name: string } },
-            object: { name: string },
-            object_name: string,
-            role: { name: string }
-        }
-    ],
-    "status": ResStatus
+    entities: GrantEntity[],
+    status:  ResStatus
+}
 ```
 
 **PARAMETERS:**
 
 - **entities** (*GrantEntity[]*) -
+A list of grants attached to the requested role. Each entry pairs a privilege with the target object and the principal that granted it. For the full **GrantEntity** field reference, refer to the `describeRole()` doc.
 
-    A list of grant entities, each of which is shaped as follows:
-
-    - **db_name** (*string*) -
-
-        The name of the database in which the privilege has been granted.
-
-    - **grantor** (*Grantor*) -
-
-        A **Grantor** object that is shaped as follows:
-
-        - **privilege** (*PrivilegeEntity*) -
-
-            A **PrivilegeEntity** object that is shaped as follows:
-
-            - **name** (*string*) - 
-
-                The name of the granted privilege.
-
-        - **user** (*User*) - 
-
-            A **User** object that is shaped as follows:
-
-            - **name** (*string*) - 
-
-                The name of the user that grants the above privilege to the role. 
-
-    - **object** (*ObjectEntity*) -
-
-        An **ObjectEntity** object that is shaped as follows:
-
-        - **name** (*string*) - 
-
-            The name of the object entity.
-
-    - **object_name** (*string*) -
-
-        The name of a specific object within the above object entity.
-
-    - **role** (*RoleEntity*) -   
-
-        A **RoleEntity** object that is shaped as follows:
-
-        - **name** (*string*) - 
-
-            The name of the role to which the privilege has been granted.
-
-- **status** (*ResStatus*) -
-
-    A **ResStatus object.
+- **ResStatus**
+A **ResStatus** object.
 
     - **code** (*number*) -
 
@@ -131,9 +78,9 @@ This method returns a promise that resolves to a **SelectGrantResponse** object.
 
     - **error_code** (*string* | *number*) -
 
-        An error code that indicates an occurred error. It remains **Success** if this operation succeeds. 
+        An error code that indicates an occurred error. It remains **Success** if this operation succeeds.
 
-    - **reason** (*string*) - 
+    - **reason** (*string*) -
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 

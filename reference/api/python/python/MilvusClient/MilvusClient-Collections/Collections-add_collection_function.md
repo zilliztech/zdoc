@@ -12,10 +12,10 @@ type: docx
 token: Qe3GdWZa9oAxjrx85tkct8ManRe
 sidebar_position: 21
 keywords: 
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
   - zilliz
   - zilliz cloud
   - cloud
@@ -32,6 +32,12 @@ import Admonition from '@theme/Admonition';
 # add_collection_function()
 
 This operation adds a new function to the collection. Functions allow you to define custom processing logic such as BM25 scoring or embedding generation.
+
+<Admonition type="info" icon="📘" title="Notes">
+
+This does not apply to external collections.
+
+</Admonition>
 
 ## Request syntax\{#request-syntax}
 

@@ -4,23 +4,23 @@ slug: /node/node/Database-describeDatabase
 sidebar_label: "describeDatabase()"
 beta: false
 added_since: v2.6.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "This operation lists detailed information about the specified database. | Node.js"
+description: "This operation describes a database, returning details such as the database name, ID, creation timestamp, and properties. | Node.js"
 type: docx
 token: PzXldcfljoU9rOx9TFUcIoNknt6
 sidebar_position: 8
 keywords: 
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
   - zilliz
   - zilliz cloud
   - cloud
   - describeDatabase()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar
@@ -31,24 +31,18 @@ import Admonition from '@theme/Admonition';
 
 # describeDatabase()
 
-This operation lists detailed information about the specified database.
+This operation describes a database, returning details such as the database name, ID, creation timestamp, and properties.
 
 ```javascript
-describeDatabase(data): Promise<DescribeDatabaseResponse>
+await milvusClient.describeDatabase(data: DescribeDatabaseRequest)
 ```
-
-<Admonition type="info" icon="📘" title="Notes">
-
-<p>This method applies only to dedicated clusters.</p>
-
-</Admonition>
 
 ## Request Syntax\{#request-syntax}
 
 ```javascript
-milvusClient.describeDatabase({
+await milvusClient.describeDatabase({
     db_name: string,
-    timeout?: number
+    timeout?: number,
 })
 ```
 
@@ -56,82 +50,66 @@ milvusClient.describeDatabase({
 
 - **db_name** (*string*) -
 
-    The name of the database to describe.
+    **[REQUIRED]**
 
-    There should be a database with the specified name. Otherwise, exceptions will occur.
+    The name of the database to describe.
 
 - **timeout** (*number*) -
 
-    The timeout duration for this operation. 
+    RPC timeout in milliseconds. Optional.
 
-    Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
-
-**RETURNS** *Promise |&lt;DescribeDatabaseResponse&gt;*
+**RETURNS** *Promise&lt;DescribeDatabaseResponse&gt;*
 
 This method returns a promise that resolves to a **DescribeDatabaseResponse** object.
 
-```javascript
+```typescript
 {
     db_name: string,
     dbID: number,
     created_timestamp: number,
-    properties: KeyValuePair<string, string | number>[],
-    status: {
-        code: number
-        error_code: string | number,
-        reason: string   
-    }
+    properties: KeyValuePair[],
+    status:  ResStatus
 }
 ```
 
 **PARAMETERS:**
 
 - **db_name** (*string*) -
-
-    The name of the database.
+The database name.
 
 - **dbID** (*number*) -
-
-    The ID of the database.
+The internal database identifier.
 
 - **created_timestamp** (*number*) -
+The creation timestamp of the database, in milliseconds.
 
-    The time at which the database has been created.
+- **properties** (*KeyValuePair[]*) -
+Database-level properties (for example, **database.replica.number**, **database.resource_groups**) declared at creation or set via `alterDatabaseProperties()`.
 
-- **properties** (*KeyValuePair\<string, string | number>[]*) -
+- **ResStatus**
+A **ResStatus** object.
 
-    The database properties. Possible database properties are as follows:
+    - **code** (*number*) -
 
-    - **database.replica.number** (*int*) -
+        A code that indicates the operation result. It remains **0** if this operation succeeds.
 
-        Number of replicas for the database.
+    - **error_code** (*string* | *number*) -
 
-    - **database.resource_groups** (*[]str*) -
+        An error code that indicates an occurred error. It remains **Success** if this operation succeeds.
 
-        Resource groups dedicated to the database.
+    - **reason** (*string*) -
 
-    - **database.diskQuota.mb** (*int*) -
-
-        Disk quota allocated to the database in megabytes (**MB**).
-
-    - **database.max.collections** (*int*) -
-
-        Maximum number of collections allowed in the database.
-
-    - **database.force.deny.writing** (*bool*) -
-
-        Whether to deny all write operations in the database.
-
-    - **database.force.deny.reading** (*bool*) -
-
-        Whether to deny all read operations in the database.
+        The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
 ## Example\{#example}
 
-```python
-const milvusClient = new milvusClient(MILUVS_ADDRESS);
-const resStatus = await milvusClient.describeDatabase({ 
-    db_name: 'new_db',
-});
+```javascript
+import { MilvusClient } from '@zilliz/milvus2-sdk-node';
 
+const client = new MilvusClient({
+    address: 'YOUR_CLUSTER_ENDPOINT',
+    token: 'YOUR_CLUSTER_TOKEN',
+});
+const res = await client.describeDatabase({ db_name: 'default' });
+console.log(res.db_name, res.dbID, res.properties);
 ```

@@ -9,10 +9,10 @@
   "statuses": [
     "done",
     "done",
-    "running",
-    "pending"
+    "done",
+    "done"
   ],
-  "currentIndex": 2,
+  "currentIndex": 3,
   "notes": [],
   "startedAt": "2026-07-06T07:20:08.444Z",
   "messageId": "om_x100b6b813c41c898b4aabb3287d4ced"

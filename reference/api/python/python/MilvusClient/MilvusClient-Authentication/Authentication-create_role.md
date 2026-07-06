@@ -4,18 +4,18 @@ slug: /python/python/Authentication-create_role
 sidebar_label: "create_role()"
 beta: false
 added_since: v2.3.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "This operation creates a custom role. | Python | MilvusClient"
+description: "This operation creates a role for role-based access control. | Python | MilvusClient"
 type: docx
-token: OUz3drncZo1Er8xyITZcYz66nWE
+token: HRqudGOOnokInhxczclcADBDn8g
 sidebar_position: 3
 keywords: 
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - what is milvus
+  - milvus database
+  - milvus lite
+  - milvus benchmark
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # create_role()
 
-This operation creates a custom role.
+This operation creates a role for role-based access control.
 
-## Request syntax\{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```python
 create_role(
@@ -50,19 +50,15 @@ create_role(
 
     The name of the role to create.
 
-- **timeout** (*float* | *None*)  
+- **timeout** (*float*) -
 
-    The timeout duration for this operation. 
-
-    Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    The timeout duration for this operation.
 
 **RETURN TYPE:**
 
-*NoneType*
+*None*
 
-**RETURNS:**
-
-None
+This operation returns no value.
 
 **EXCEPTIONS:**
 
@@ -70,22 +66,12 @@ None
 
     This exception will be raised when any error occurs during this operation.
 
-- **BaseException**
+- **ParamError**
 
-    This exception will be raised when this operation fails.
+    This exception will be raised when a parameter value is invalid.
 
-## Example\{#example}
+## Examples\{#examples}
 
 ```python
-from pymilvus import MilvusClient
-
-# 1. Create a milvus client
-client = MilvusClient(
-    uri="YOUR_CLUSTER_ENDPOINT",
-    token="YOUR_CLUSTER_TOKEN"
-)
-
-# 2. Create a role
-client.create_role(role_name="read_only")
+client.create_role(role_name="analytics_reader")
 ```
-

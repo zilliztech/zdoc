@@ -1,18 +1,29 @@
 ---
 title: "BulkImport() | Go | v2"
-slug: /go/v2-DataImport-BulkImport
+slug: /go/go/v2-DataImport-BulkImport
 sidebar_label: "BulkImport()"
-beta: FALSE
-added_since: v2.5.x
-last_modified: FALSE
-deprecate_since: FALSE
-notebook: FALSE
-description: "This operation imports the prepared data files to Zilliz Cloud. To learn how to prepare your data files, read Prepare Data Import. | Go | v2"
-type: origin
-token: QTYswzGpriCygYkAgCkcYPCqnzb
+beta: false
+added_since: v2.6.x
+last_modified: false
+deprecate_since: false
+notebook: false
+description: "This function submits a bulk import job to a Milvus or Zilliz Cloud cluster via the RESTful import API. Use this when you need to load large datasets that have already been staged in object storage or are accessible by file path lists. The call returns immediately with a job ID; track the job's progress with `GetImportProgress()` and list outstanding jobs with `ListImportJobs()`. | Go | v2"
+type: docx
+token: KrkGdWfDqoZjS1xmQM5cA3xGnbE
 sidebar_position: 1
+keywords: 
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - BulkImport()
+  - gov230
 displayed_sidebar: goSidebar
 
+displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -20,193 +31,78 @@ import Admonition from '@theme/Admonition';
 
 # BulkImport()
 
-This operation imports the prepared data files to Zilliz Cloud. To learn how to prepare your data files, read [Prepare Data Import](/docs/prepare-data-import).
+This function submits a bulk import job to a Milvus or Zilliz Cloud cluster via the RESTful import API. Use this when you need to load large datasets that have already been staged in object storage or are accessible by file path lists. The call returns immediately with a job ID; track the job's progress with `GetImportProgress()` and list outstanding jobs with `ListImportJobs()`.
+
+<Admonition type="info" icon="📘" title="Notes">
+
+`BulkImport()` is a package-level function in `github.com/milvus-io/milvus/client/v2/bulkwriter`, not a method on `*milvusclient.Client`. It speaks the REST `/v2/vectordb/jobs/import/create` endpoint directly, so it works with both Milvus open-source clusters (use `NewBulkImportOption`) and Zilliz Cloud (use `NewCloudBulkImportOption`).
+
+</Admonition>
 
 ```go
 func BulkImport(ctx context.Context, option *BulkImportOption) (*BulkImportResponse, error)
 ```
 
-## Request Parameters\{#request-parameters}
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>ctx</code></p></td>
-     <td><p>Context for the current call to work.</p></td>
-     <td><p><code>context.Context</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>option</code></p></td>
-     <td><p>Optional parameters of the methods.</p></td>
-     <td><p><a href="./v2-DataImport-BulkImport#bulkimportoption"><code>BulkImportOption</code></a></p></td>
-   </tr>
-   <tr>
-     <td><p><code>callOpts</code></p></td>
-     <td><p>Optional parameters for calling the methods.</p></td>
-     <td><p><code>grpc.CallOption</code></p></td>
-   </tr>
-</table>
-
-## BulkImportOption\{#bulkimportoption}
-
-This is a struct type. You can use `NewCloudBulkImportOption()` to get its concrete implementation.
-
-### NewCloudBulkImportOption\{#newcloudbulkimportoption}
-
-The signature of `NewCloudBulkImportOption()` is as follows:
+## Request Syntax\{#request-syntax}
 
 ```go
-func NewCloudBulkImportOption(uri string, collectionName string, apiKey string, objectURL string, clusterID string, accessKey string, secretKey string, ) *BulkImportOption
+option := bulkwriter.NewBulkImportOption(uri, collectionName, files).
+    WithPartition(partitionName).
+    WithAPIKey(apiKey)
+
+resp, err := bulkwriter.BulkImport(ctx, option)
 ```
 
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>uri</code></p></td>
-     <td><p>The endpoint URL of the Zilliz Cloud Data Plane, which should be <code><i>http</i>s://api.cloud.zilliz.com</code>.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>collectionName</code></p></td>
-     <td><p>The name of a collection in the target cluster of this operation.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>apiKey</code></p></td>
-     <td><p>A valid Zilliz Cloud API key with sufficient permissions to manipulate the cluster.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>objectURL</code></p></td>
-     <td><p>The URL of your data files in one of your block storage buckets. The following are some examples of renowned block storage services:</p><ul><li><p>Google Cloud Storage</p><p><code>gs://&lt;bucket-name&gt;/&lt;object-path&gt;/</code></p></li><li><p>AWS S3</p><p><code>s3://&lt;bucket-name&gt;/&lt;object-path&gt;/</code></p><p>For details, refer to <a href="/docs/data-import-storage-options">Storage Options</a>.</p></li></ul></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>clusterID</code></p></td>
-     <td><p>The instance ID of the target cluster of this operation.</p><p>You can obtain the instance ID of a cluster from its details page in the Zilliz Cloud console.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>accessKey</code></p></td>
-     <td><p>The access key that is used to authenticate access to your data files.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>secretKey</code></p></td>
-     <td><p>The secret key that is used to authenticate access to your data files.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-</table>
+**PARAMETERS:**
 
-You can chain the following methods to append more parameters to the `BulkImportOption` struct.
+- **ctx** (*context.Context*) -
+The context for cancellation and deadlines. The HTTP request inherits this context, so canceling it aborts the in-flight call.
 
-- [WithAPIKey](./v2-DataImport-BulkImport#withapikey)
+- **option** (*BulkImportOption*) -
+The fully populated import option created with `NewBulkImportOption()` for self-hosted Milvus or `NewCloudBulkImportOption()` for Zilliz Cloud. Required.
 
-- [WithPartition](./v2-DataImport-BulkImport#withpartition)
+**RETURN TYPE:**
 
-- [WithOption](./v2-DataImport-BulkImport#withoption)
+*\*BulkImportResponse, error*
 
-### WithAPIKey\{#withapikey}
+**RETURNS:**
 
-This method appends your Zilliz Cloud API key to the `BulkImportOption` struct. The signature of the method is as follows:
+A `BulkImportResponse` containing the assigned job ID under `Data.JobID`. Returns an error if the request cannot be marshaled, the HTTP call fails, or the server returns a non-zero status.
 
-```go
-func (opt *BulkImportOption) WithAPIKey(key string) *BulkImportOption
-```
+**EXCEPTIONS:**
 
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>key</code></p></td>
-     <td><p>A valid Zilliz Cloud API key with sufficient permissions to manipulate the cluster.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-</table>
+- **error**
 
-### WithPartition\{#withpartition}
-
-This method specifies the name of the target partition to the `BulkImportOption` struct. The signature of the method is as follows:
-
-```go
-func (opt *BulkImportOption) WithPartition(partitionName string) *BulkImportOption
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>partitionName</code></p></td>
-     <td><p>The name of the target partition of this operation.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-</table>
-
-### WithOption\{#withoption}
-
-This method appends extra options in key-value pairs to the `BulkImportOption` struct. The signature of the method is as follows:
-
-```go
-func (opt *BulkImportOption) WithOption(key, value string) *BulkImportOption
-```
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>key</code></p></td>
-     <td><p>An extra <code>BulkImportOption</code> key</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>value</code></p></td>
-     <td><p>The value of the above extra key.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-</table>
-
-## grpc.CallOption\{#grpccalloption}
-
-This interface provided by the gRPC Go library allows you to specify additional options or configurations when making requests. For possible implementations of this interface, refer to [this file](https://github.com/grpc/grpc-go/blob/v1.69.4/rpc_util.go#L174).
-
-## BulkImportResponse\{#bulkimportresponse}
-
-The `BulkImportResponse` struct type is as follows:
-
-```go
-type BulkImportResponse struct {
-    Status  int    `json:"status"`
-    Message string `json:"message"`      
-    Data struct {
-        JobID string `json:"jobId"`
-    } `json:"data"`
-}
-```
-
-## Return\{#return}
-
-`*[BulkImportResponse`](./v2-DataImport-BulkImport#bulkimportresponse)
+    Check `err != nil` for failure details. Common failures include malformed option payloads, network errors, authentication rejection (when `WithAPIKey` is set incorrectly), and server-side validation errors surfaced through the response status.
 
 ## Example\{#example}
 
 ```go
+import (
+	"context"
+	"fmt"
+	"log"
 
+	"github.com/milvus-io/milvus/client/v2/bulkwriter"
+)
+
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
+
+milvusAddr := "http://YOUR_CLUSTER_ENDPOINT"
+collectionName := "quick_setup"
+files := [][]string{
+	{"data/part_001.json"},
+	{"data/part_002.json"},
+}
+
+option := bulkwriter.NewBulkImportOption(milvusAddr, collectionName, files).
+	WithAPIKey("YOUR_CLUSTER_TOKEN")
+
+resp, err := bulkwriter.BulkImport(ctx, option)
+if err != nil {
+	log.Fatal(err)
+}
+
+fmt.Println(resp.Data.JobID)
 ```
-

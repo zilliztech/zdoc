@@ -9,13 +9,13 @@ deprecate_since: false
 notebook: false
 description: "This operation describes a specific user. | Python | MilvusClient"
 type: docx
-token: Wz3HdtvPCoEquvxFY7PcDHxcnEe
+token: TwTnduPOioywHDx8hPQc80tRnKg
 sidebar_position: 6
 keywords: 
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - what is milvus
+  - milvus database
+  - milvus lite
+  - milvus benchmark
   - zilliz
   - zilliz cloud
   - cloud
@@ -109,7 +109,7 @@ client.grant_role(user_name="user_1", role_name="db_ro")
 # 4. Describe the user
 client.describe_user(user_name="user_1")
 
-# {'user_name': 'user_1', 'roles': ('db_ro',), 'description': ""}
+# {'user_name': 'user_1', 'roles': ('db_ro',)}
 ```
 
 ## Related methods\{#related-methods}

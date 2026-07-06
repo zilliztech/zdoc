@@ -12,10 +12,10 @@ type: docx
 token: XLepdUCcTow6rpx5vxxcbLXZnyb
 sidebar_position: 25
 keywords: 
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
   - zilliz
   - zilliz cloud
   - cloud
@@ -134,7 +134,6 @@ collection.create_index(
 utility.list_indexes(
     collection_name="test_collection"
 ) # ['_default_idx_101', '_default_idx_100']
-
 ```
 
 ## Related operations\{#related-operations}

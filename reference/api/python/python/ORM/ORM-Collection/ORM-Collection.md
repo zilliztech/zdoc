@@ -12,10 +12,10 @@ type: docx
 token: OSehdj15Ao3AUvxOIJucXzU8nWW
 sidebar_position: 1
 keywords: 
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
   - zilliz
   - zilliz cloud
   - cloud
@@ -63,9 +63,11 @@ Collection(
 
     The default value is **None**, indicating that a default schema is used.
 
-    <Admonition type="info" icon="📘" title="What is a schema?">
+    <Admonition type="info" icon="📘" title="Note">
 
-    <p>The schema is responsible for organizing data in the target collection. A valid schema should have multiple fields, which must include a primary key, a vector field, and several scalar fields.</p>
+    What is a schema?
+    
+        The schema is responsible for organizing data in the target collection. A valid schema should have multiple fields, which must include a primary key, a vector field, and several scalar fields.
 
     </Admonition>
 
@@ -81,10 +83,13 @@ Collection(
 
     The value defaults to **1**, indicating that one shard is to be created along with this collection.
 
-    <Admonition type="info" icon="📘" title="What is sharding?">
+    <Admonition type="info" icon="📘" title="Note">
 
-    <p>Sharding refers to distributing write operations to different nodes to make the most of the parallel computing potential of a Milvus cluster for writing data.</p>
-    <p>By default, a collection contains one shard.</p>
+    What is sharding?
+    
+        Sharding refers to distributing write operations to different nodes to make the most of the parallel computing potential of a Milvus cluster for writing data.
+    
+        By default, a collection contains one shard.
 
     </Admonition>
 
@@ -94,11 +99,15 @@ Collection(
 
     The value defaults to **Bounded** (**1**) with options of **Strong** (**0**), **Bounded** (**1**), **Session** (**2**), and **Eventually** (**3**).
 
-    <Admonition type="info" icon="📘" title="What is the consistency level?">
+    <Admonition type="info" icon="📘" title="Note">
 
-    <p>Consistency in a distributed database specifically refers to the property that ensures every node or replica has the same view of data when writing or reading data at a given time.</p>
-    <p>Zilliz Cloud provides three consistency levels: <strong>Strong</strong>, <strong>Bounded Staleness</strong>, and <strong>Eventually</strong>, with <strong>Bounded Staleness</strong> set as the default.</p>
-    <p>You can easily tune the consistency level when conducting a vector similarity search or query to make it best suit your application.</p>
+    What is the consistency level?
+    
+        Consistency in a distributed database specifically refers to the property that ensures every node or replica has the same view of data when writing or reading data at a given time.
+    
+        Zilliz Cloud provides three consistency levels: **Strong**, **Bounded Staleness**, and **Eventually**, with **Bounded Staleness** set as the default.
+    
+        You can easily tune the consistency level when conducting a vector similarity search or query to make it best suit your application.
 
     </Admonition>
 

@@ -4,23 +4,23 @@ slug: /java/java/v2-Vector-SearchIteratorV2
 sidebar_label: "SearchIteratorV2()"
 beta: false
 added_since: v2.5.x
-last_modified: v2.6.x
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation creates an iterator for you to iterate over the search results. It is useful, especially when the search result contains a large volume of data. | Java | v2"
 type: docx
-token: OvF4dFxpGoTSgkx68KQc9AdYnAf
+token: ZouQdklUsoSZEDxWkJvc90pvnmg
 sidebar_position: 11
 keywords: 
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
   - zilliz
   - zilliz cloud
   - cloud
   - SearchIteratorV2()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar
@@ -43,6 +43,7 @@ public SearchIteratorV2 searchIteratorV2(SearchIteratorReqV2 request)
 searchIteratorV2(SearchIteratorReqV2.builder()
     .databaseName(String databaseName)
     .collectionName(String collectionName)
+    .clusterId(String clusterId)
     .partitionNames(List<String> partitionNames)
     .vectorFieldName(String vectorFieldName)
     .topK(int topK)
@@ -64,71 +65,75 @@ searchIteratorV2(SearchIteratorReqV2.builder()
 
 **BUILDER METHODS:**
 
-- `databaseName(String databaseName)` -
+- `databaseName(String databaseName)`
 
     The name of the database. Defaults to the current database if not specified.
 
-- `collectionName(String collectionName)` -
+- `collectionName(String collectionName)`
 
     The name of the target collection.
 
-- `partitionNames(List<String> partitionNames)` -
+- `clusterId(String clusterId)`
+
+    The target cluster ID for this vector read request. Use `session(String clusterId)` when multiple requests should share the same cluster ID.
+
+- `partitionNames(List<String> partitionNames)`
 
     A list of partition names to target.
 
-- `vectorFieldName(String vectorFieldName)` -
+- `vectorFieldName(String vectorFieldName)`
 
     The name of the vector field to search.
 
-- `topK(int topK)` -
+- `topK(int topK)`
 
     The number of top results to return.
 
-- `limit(long limit)` -
+- `limit(long limit)`
 
     The maximum number of results to return.
 
-- `filter(String filter)` -
+- `filter(String filter)`
 
     A boolean expression to filter results.
 
-- `outputFields(List<String> outputFields)` -
+- `outputFields(List<String> outputFields)`
 
     A list of field names to include in the output.
 
-- `vectors(List<BaseVector> vectors)` -
+- `vectors(List<BaseVector> vectors)`
 
     A list of vectors to search with.
 
-- `roundDecimal(int roundDecimal)` -
+- `roundDecimal(int roundDecimal)`
 
     The number of decimal places for distance/score rounding.
 
-- `searchParams(Map<String, Object> searchParams)` -
+- `searchParams(Map<String, Object> searchParams)`
 
     Additional search parameters as key-value pairs.
 
-- `consistencyLevel(ConsistencyLevel consistencyLevel)` -
+- `consistencyLevel(ConsistencyLevel consistencyLevel)`
 
     The consistency level for the operation.
 
-- `ignoreGrowing(boolean ignoreGrowing)` -
+- `ignoreGrowing(boolean ignoreGrowing)`
 
     Whether to ignore growing segments during the operation.
 
-- `timezone(String timezone)` -
+- `timezone(String timezone)`
 
     The timezone string for time-related filters.
 
-- `groupByFieldName(String groupByFieldName)` -
+- `groupByFieldName(String groupByFieldName)`
 
     The field name to group search results by.
 
-- `batchSize(long batchSize)` -
+- `batchSize(long batchSize)`
 
     The batch size for iterator operations.
 
-- `filterTemplateValues(Map<String, Object> filterTemplateValues)` -
+- `filterTemplateValues(Map<String, Object> filterTemplateValues)`
 
     A map of template variable values for parameterized filters.
 

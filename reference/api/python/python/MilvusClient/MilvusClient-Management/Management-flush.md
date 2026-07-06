@@ -7,15 +7,15 @@ added_since: v2.4.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "This operation flushes the streaming data and seals segments. It is recommended to call this operation after all the data has been inserted into a collection. | Python | MilvusClient"
+description: "This operation flushes the streaming data and seals segments. It is not advised to call this operation after all the data has been inserted into a collection to avoid small segments, which may degrade search performance. | Python | MilvusClient"
 type: docx
 token: JnPrdOiPyo2e5gxzzFycbnvwnSd
 sidebar_position: 6
 keywords: 
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # flush()
 
-This operation flushes the streaming data and seals segments. It is recommended to call this operation after all the data has been inserted into a collection.
+This operation flushes the streaming data and seals segments. It is not advised to call this operation after all the data has been inserted into a collection to avoid small segments, which may degrade search performance.
+
+<Admonition type="info" icon="📘" title="Notes">
+
+This only applies to managed collections.
+
+</Admonition>
 
 ## Request Syntax\{#request-syntax}
 

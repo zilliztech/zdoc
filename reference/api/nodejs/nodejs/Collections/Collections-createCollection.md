@@ -4,23 +4,23 @@ slug: /node/node/Collections-createCollection
 sidebar_label: "createCollection()"
 beta: false
 added_since: v2.3.x
-last_modified: v2.6.x
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation creates a collection either with default or customized settings. | Node.js"
 type: docx
-token: Al8Pdbn4fomlIBxxYi0chTsgnWg
+token: KPZZd2TiAodSeWxUdlJciHGcnbg
 sidebar_position: 5
 keywords: 
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
   - zilliz
   - zilliz cloud
   - cloud
   - createCollection()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar
@@ -34,7 +34,7 @@ import Admonition from '@theme/Admonition';
 This operation creates a collection either with default or customized settings. 
 
 ```javascript
-await milvusClient.createCollection(data)
+createCollection(data): Promise<ResStatus>
 ```
 
 ## Request Syntax\{#request-syntax}
@@ -46,7 +46,7 @@ This method has the following alternatives.
 Using this request body, you can create a collection by simply setting the collection name and dimension of the vector field.
 
 ```javascript
-await milvusClient.createCollection({
+milvusClient.createCollection({
     db_name?: string
     collection_name: string;
     dimension: number;
@@ -93,11 +93,15 @@ await milvusClient.createCollection({
 
     The value defaults to **Bounded** with options of **Strong**, **Bounded**, **Session**,  **Eventually**, and **Customized**.
 
-    <Admonition type="info" icon="📘" title="What is the consistency level?">
+    <Admonition type="info" icon="📘" title="Note">
 
-    <p>Consistency in a distributed database specifically refers to the property that ensures every node or replica has the same view of data when writing or reading data at a given time.</p>
-    <p>Zilliz Cloud provides three consistency levels: <strong>Strong</strong>, <strong>Bounded Staleness</strong>, and <strong>Eventually</strong>, with <strong>Bounded Staleness</strong> set as the default.</p>
-    <p>You can easily tune the consistency level when conducting a vector similarity search or query to make it best suit your application.</p>
+    What is the consistency level?
+    
+        Consistency in a distributed database specifically refers to the property that ensures every node or replica has the same view of data when writing or reading data at a given time.
+    
+        Zilliz Cloud provides three consistency levels: **Strong**, **Bounded Staleness**, and **Eventually**, with **Bounded Staleness** set as the default.
+    
+        You can easily tune the consistency level when conducting a vector similarity search or query to make it best suit your application.
 
     </Admonition>
 
@@ -140,7 +144,7 @@ await milvusClient.createCollection({
 Using this request body, you can customize the schema settings of the collection.
 
 ```javascript
-await milvusClient.createCollection({
+milvusClient.createCollection({
    db_name?: string,
    collection_name: string,
    consistency_level: number | string,
@@ -162,7 +166,6 @@ await milvusClient.createCollection({
          analyzer_params: Record<String, any>,
          enable_analyzer: boolean,
          enable_match: boolean,
-         multi_analyzer_params: Record<String, any>,
          'mmap.enabled': boolean
        },
        autoID?: boolean,
@@ -206,11 +209,15 @@ await milvusClient.createCollection({
 
     The value defaults to **Bounded** with options of **Strong**, **Bounded**, **Session**,  **Eventually**, and **Customized**.
 
-    <Admonition type="info" icon="📘" title="What is the consistency level?">
+    <Admonition type="info" icon="📘" title="Note">
 
-    <p>Consistency in a distributed database specifically refers to the property that ensures every node or replica has the same view of data when writing or reading data at a given time.</p>
-    <p>Zilliz Cloud provides three consistency levels: <strong>Strong</strong>, <strong>Bounded Staleness</strong>, and <strong>Eventually</strong>, with <strong>Bounded Staleness</strong> set as the default.</p>
-    <p>You can easily tune the consistency level when conducting a vector similarity search or query to make it best suit your application.</p>
+    What is the consistency level?
+    
+        Consistency in a distributed database specifically refers to the property that ensures every node or replica has the same view of data when writing or reading data at a given time.
+    
+        Zilliz Cloud provides three consistency levels: **Strong**, **Bounded Staleness**, and **Eventually**, with **Bounded Staleness** set as the default.
+    
+        You can easily tune the consistency level when conducting a vector similarity search or query to make it best suit your application.
 
     </Admonition>
 
@@ -232,7 +239,7 @@ await milvusClient.createCollection({
 
     - **data_type** (*string)* -
 
-        The data type of the field. For an enumeration of all available data types, please see [DataType](./Collections-DataType).
+        The data type of the field. For an enumeration of all available data types, please see DataType.
 
     - **description** (*string)* -
 
@@ -319,27 +326,6 @@ await milvusClient.createCollection({
 
                     Lists filters to refine tokens produced by the tokenizer, with options for built-in filters and custom filters. For more information, refer to [Alphanumonly Filter](https://milvus.io/docs/alphanumonly-filer.md) and others.
 
-        - **multi_analyzer_params** (*object*) -
-
-            Configures multiple analyzers for text processing. The value of this parameter is a single JSON object that determines how Milvus selects the appropriate analyzer for each entity:
-
-            ```javascript
-            const multi_analyzer_params = {
-              // Define language-specific analyzers
-              // Each analyzer follows this format: <analyzer_name>: <analyzer_params>
-              "analyzers": {
-                "english": {"type": "english"},          // English-optimized analyzer
-                "chinese": {"type": "chinese"},          // Chinese-optimized analyzer
-                "default": {"tokenizer": "icu"}          // Required fallback analyzer
-              },
-              "by_field": "language",                    // Field determining analyzer selection
-              "alias": {
-                "cn": "chinese",                         // Use "cn" as shorthand for Chinese
-                "en": "english"                          // Use "en" as shorthand for English
-              }
-            }
-            ```
-
     - **autoID** (*boolean)* -
 
         Whether the primary field automatically increments upon data insertions into this collection.
@@ -390,9 +376,11 @@ await milvusClient.createCollection({
 
     The number of partitions to create in the collection.
 
-    <Admonition type="info" icon="📘" title="What is partitioning?">
+    <Admonition type="info" icon="📘" title="Note">
 
-    <p>Data partitioning is a technique used to organize data based on certain criteria. With data partitioning, you can create, load, release, and drop partitions separately, as well as conduct searches and queries within them.</p>
+    What is partitioning?
+    
+        Data partitioning is a technique used to organize data based on certain criteria. With data partitioning, you can create, load, release, and drop partitions separately, as well as conduct searches and queries within them.
 
     </Admonition>
 
@@ -400,9 +388,11 @@ await milvusClient.createCollection({
 
     The name of the field that serves as the partition key.
 
-    <Admonition type="info" icon="📘" title="What is a partition key?">
+    <Admonition type="info" icon="📘" title="Note">
 
-    <p>Partition key are used to store entities into different partitions based on their key values. In other words, a partition key groups entities with the same key together and irrelevant partitions can avoid being scanned when you filter by the key field. Partition keys can greatly speed up query performance compared to traditional filtering methods.</p>
+    What is a partition key?
+    
+        Partition key are used to store entities into different partitions based on their key values. In other words, a partition key groups entities with the same key together and irrelevant partitions can avoid being scanned when you filter by the key field. Partition keys can greatly speed up query performance compared to traditional filtering methods.
 
     </Admonition>
 
@@ -412,10 +402,13 @@ await milvusClient.createCollection({
 
     The value defaults to **1**, indicating that one shard is to be created along with this collection.
 
-    <Admonition type="info" icon="📘" title="What is sharding?">
+    <Admonition type="info" icon="📘" title="Note">
 
-    <p>Sharding refers to distributing write operations to different nodes to make the most of the parallel computing potential of a Milvus cluster for writing data.</p>
-    <p>By default, a collection contains one shard.</p>
+    What is sharding?
+    
+        Sharding refers to distributing write operations to different nodes to make the most of the parallel computing potential of a Milvus cluster for writing data.
+    
+        By default, a collection contains one shard.
 
     </Admonition>
 
@@ -452,7 +445,7 @@ await milvusClient.createCollection({
 Using this request body, you can customize the schema and index settings of the collection. Upon creation, the collection is automatically loaded.
 
 ```javascript
-await milvusClient.createCollection({
+milvusClient.createCollection({
    db_name?: string,
    collection_name: string,
    consistency_level: number | string,
@@ -474,7 +467,6 @@ await milvusClient.createCollection({
          analyzer_params: Record<String, any>,
          enable_analyzer: boolean,
          enable_match: boolean,
-         multi_analyzer_params: Record<String, any>,
          'mmap.enabled': boolean
        },
        nullable: boolean,
@@ -526,11 +518,15 @@ await milvusClient.createCollection({
 
     The value defaults to **Bounded** with options of **Strong**, **Bounded**, **Session**,  **Eventually**, and **Customized**.
 
-    <Admonition type="info" icon="📘" title="What is the consistency level?">
+    <Admonition type="info" icon="📘" title="Note">
 
-    <p>Consistency in a distributed database specifically refers to the property that ensures every node or replica has the same view of data when writing or reading data at a given time.</p>
-    <p>Zilliz Cloud provides three consistency levels: <strong>Strong</strong>, <strong>Bounded Staleness</strong>, and <strong>Eventually</strong>, with <strong>Bounded Staleness</strong> set as the default.</p>
-    <p>You can easily tune the consistency level when conducting a vector similarity search or query to make it best suit your application.</p>
+    What is the consistency level?
+    
+        Consistency in a distributed database specifically refers to the property that ensures every node or replica has the same view of data when writing or reading data at a given time.
+    
+        Zilliz Cloud provides three consistency levels: **Strong**, **Bounded Staleness**, and **Eventually**, with **Bounded Staleness** set as the default.
+    
+        You can easily tune the consistency level when conducting a vector similarity search or query to make it best suit your application.
 
     </Admonition>
 
@@ -552,7 +548,7 @@ await milvusClient.createCollection({
 
     - **data_type** (*string)* -
 
-        The data type of the field. For an enumeration of all available data types, please see [DataType](./Collections-DataType).
+        The data type of the field. For an enumeration of all available data types, please see DataType.
 
     - **description** (*string)* -
 
@@ -637,27 +633,6 @@ await milvusClient.createCollection({
 
                     Lists filters to refine tokens produced by the tokenizer, with options for built-in filters and custom filters. For more information, refer to [Alphanumonly Filter](https://milvus.io/docs/alphanumonly-filer.md) and others.
 
-        - **multi_analyzer_params** (*object*) -
-
-            Configures multiple analyzers for text processing. The value of this parameter is a single JSON object that determines how Milvus selects the appropriate analyzer for each entity:
-
-            ```javascript
-            const multi_analyzer_params = {
-              // Define language-specific analyzers
-              // Each analyzer follows this format: <analyzer_name>: <analyzer_params>
-              "analyzers": {
-                "english": {"type": "english"},          // English-optimized analyzer
-                "chinese": {"type": "chinese"},          // Chinese-optimized analyzer
-                "default": {"tokenizer": "icu"}          // Required fallback analyzer
-              },
-              "by_field": "language",                    // Field determining analyzer selection
-              "alias": {
-                "cn": "chinese",                         // Use "cn" as shorthand for Chinese
-                "en": "english"                          // Use "en" as shorthand for English
-              }
-            }
-            ```
-
     - **autoID** (*boolean)* -
 
         Whether the primary field automatically increments upon data insertions into this collection.
@@ -708,9 +683,11 @@ await milvusClient.createCollection({
 
     The number of partitions to create in the collection.
 
-    <Admonition type="info" icon="📘" title="What is partitioning?">
+    <Admonition type="info" icon="📘" title="Note">
 
-    <p>Data partitioning is a technique used to organize data based on certain criteria. With data partitioning, you can create, load, release, and drop partitions separately, as well as conduct searches and queries within them.</p>
+    What is partitioning?
+    
+        Data partitioning is a technique used to organize data based on certain criteria. With data partitioning, you can create, load, release, and drop partitions separately, as well as conduct searches and queries within them.
 
     </Admonition>
 
@@ -718,9 +695,11 @@ await milvusClient.createCollection({
 
     A boolean value indicating whether to enable partition key.
 
-    <Admonition type="info" icon="📘" title="What is a partition key?">
+    <Admonition type="info" icon="📘" title="Note">
 
-    <p>Partition key are used to store entities into different partitions based on their key values. In other words, a partition key groups entities with the same key together and irrelevant partitions can avoid being scanned when you filter by the key field. Partition keys can greatly speed up query performance compared to traditional filtering methods.</p>
+    What is a partition key?
+    
+        Partition key are used to store entities into different partitions based on their key values. In other words, a partition key groups entities with the same key together and irrelevant partitions can avoid being scanned when you filter by the key field. Partition keys can greatly speed up query performance compared to traditional filtering methods.
 
     </Admonition>
 
@@ -730,10 +709,13 @@ await milvusClient.createCollection({
 
     The value defaults to **1**, indicating that one shard is to be created along with this collection.
 
-    <Admonition type="info" icon="📘" title="What is sharding?">
+    <Admonition type="info" icon="📘" title="Note">
 
-    <p>Sharding refers to distributing write operations to different nodes to make the most of the parallel computing potential of a Milvus cluster for writing data.</p>
-    <p>By default, a collection contains one shard.</p>
+    What is sharding?
+    
+        Sharding refers to distributing write operations to different nodes to make the most of the parallel computing potential of a Milvus cluster for writing data.
+    
+        By default, a collection contains one shard.
 
     </Admonition>
 
@@ -818,10 +800,7 @@ This method returns a promise that resolves to a **ResStatus** object.
 ## Example\{#example}
 
 ```java
-const milvusClient = new MilvusClient({
-    address: 'YOUR_CLUSTER_ENDPOINT',
-    token: 'YOUR_CLUSTER_TOKEN',
-});
+const milvusClient = new milvusClient(MILUVS_ADDRESS);
  const resStatus = await milvusClient.createCollection({
    collection_name: 'my_collection',
    fields: [

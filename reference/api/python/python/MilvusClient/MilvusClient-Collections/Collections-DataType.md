@@ -4,18 +4,18 @@ slug: /python/python/Collections-DataType
 sidebar_label: "DataType"
 beta: false
 added_since: Inherit
-last_modified: v2.6.x
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This is an enumeration that provides the following constants. | Python | MilvusClient"
 type: docx
-token: KvNsd3aV4ocRNJxrZN2cg1zenqb
+token: MKrAdumLvohQfDxgpMwcEB8dnqb
 sidebar_position: 7
 keywords: 
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
   - zilliz
   - zilliz cloud
   - cloud
@@ -66,6 +66,10 @@ This is an enumeration that provides the following constants.
 - VARCHAR
 
     Sets the data type to **Varchar**.
+
+- TEXT
+
+    Sets the data type to **TEXT**. Use this scalar type to store long text content such as documents, passages, tickets, or logs. Unlike **VARCHAR**, TEXT does not require `max_length`.
 
 - ARRAY
 

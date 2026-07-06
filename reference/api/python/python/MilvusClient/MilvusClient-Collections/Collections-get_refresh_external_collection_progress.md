@@ -2,7 +2,7 @@
 title: "get_refresh_external_collection_progress() | Python | MilvusClient"
 slug: /python/python/Collections-get_refresh_external_collection_progress
 sidebar_label: "get_refresh_external_collection_progress()"
-beta: false
+beta: PUBLIC
 added_since: v3.0.x
 last_modified: false
 deprecate_since: false
@@ -10,12 +10,12 @@ notebook: false
 description: "This operation returns the progress of a specified external collection refresh job. | Python | MilvusClient"
 type: docx
 token: HITBdKb0HotcK0xCKsycEeuqnXe
-sidebar_position: 26
+sidebar_position: 27
 keywords: 
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
   - zilliz
   - zilliz cloud
   - cloud
@@ -32,6 +32,14 @@ import Admonition from '@theme/Admonition';
 # get_refresh_external_collection_progress()
 
 This operation returns the progress of a specified external collection refresh job.
+
+<Admonition type="info" icon="📘" title="Notes">
+
+This requires a MilvusClient set up using the project endpoint as follows:
+
+`https://{project-id}.{region}.api.zillizcloud.com`
+
+</Admonition>
 
 ## Request Syntax\{#request-syntax}
 
@@ -65,19 +73,6 @@ def get_refresh_external_collection_progress(
 
 A **RefreshExternalCollectionJobInfo** object that records the details of the specified external collection refresh job.
 
-```python
-{
-    'job_id': 4325693842392,
-    'collection_name': 'test_collection',
-    'state': 'RefreshPending',
-    'progress': 67,
-    'reason': ''
-    'external_source': 's3://s3.<region-id>.amazonaws.com/<bucket>/' 
-    'start_time': 1776470400000
-    'end_time': 1776470434567    
-}
-```
-
 **PARAMETERS:**
 
 - **job_id** (*int*) -
@@ -104,13 +99,17 @@ A **RefreshExternalCollectionJobInfo** object that records the details of the sp
 
     The current progress of the specified job. The value is an integer ranging from 0 to 100.
 
-- **external_source** (*string*) -
+- **external_source** (*str*) -
 
     The external source URI specified in `refresh_external_collection()`.
 
-- **reason** (*string*) -
+- **external_specs** (*str*) -
 
-     The error prompt if the refresh operation failed. It is an empty string in normal cases.
+    The external specs specified in `refresh_external_collection()`.
+
+- **reason** (*str*) -
+
+    The error prompt if the refresh operation failed. It is an empty string in normal cases.
 
 - **start_time** (*int*) -
 
@@ -127,8 +126,8 @@ from pymilvus import MilvusClient
 
 # 1. Set up a milvus client
 client = MilvusClient(
-    uri="YOUR_CLUSTER_ENDPOINT",
-    token="YOUR_CLUSTER_TOKEN"
+    uri="YOUR_PROJECT_ENDPOINT",
+    token="YOUR_API_KEY"
 )
 
 job_id = client.refresh_external_collection(
@@ -149,3 +148,4 @@ while True:
 
     time.sleep(2)
 ```
+

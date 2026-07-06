@@ -7,15 +7,15 @@ added_since: false
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "This operation creates a volume. | Python"
+description: "This operation creates a volume in the specified project and region. | Python"
 type: docx
-token: HWYXdlaGIoTNVUx34GycfwjAnrb
+token: GtNKdyeDCoPxQXxvohIcYQ47nee
 sidebar_position: 1
 keywords: 
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - vector database
+  - IVF
+  - knn
+  - Image Search
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # create_volume()
 
-This operation creates a volume.
+This operation creates a volume in the specified project and region.
 
 ## Request Syntax\{#request-syntax}
 
@@ -39,56 +39,57 @@ This operation creates a volume.
 create_volume(
     project_id: str,
     region_id: str,
-    volume_name: str
+    volume_name: str,
 )
 ```
 
-**PARAMETERS**
+**PARAMETERS:**
 
 - **project_id** (*str*) -
 
     **[REQUIRED]**
 
-    The ID of the project to which the volume to be created belongs.
+    Project ID that owns the volume.
 
 - **region_id** (*str*) -
 
     **[REQUIRED]**
 
-    The ID of the cloud region in which the volume will be created. You can use [List Cloud Regions](/reference/restful/list-cloud-regions-v2) to view possible values.
+    Region ID where the volume is created.
 
 - **volume_name** (*str*) -
 
     **[REQUIRED]**
 
-    The name of the volume to create.
+    Name of the volume.
 
-**RETURN TYPE**
+**RETURN TYPE:**
 
-*None*
+*requests.Response*
 
-**RETURNS**
+HTTP response from the create volume API.
 
-None
+**EXCEPTIONS:**
 
-## Example\{#example}
+- **MilvusException**
+
+    Raised when volume creation fails.
+
+## Examples\{#examples}
 
 ```python
-from pymilvus.bulk_writer.volume_manager import VolumeManager
+from pymilvus.bulk_writer import VolumeManager
 
-volume_manager = VolumeManager(
+vm = VolumeManager(
     cloud_endpoint="https://api.cloud.zilliz.com",
-    api_key="YOUR_API_KEY"
+    api_key="YOUR_API_KEY",
 )
 
-volume_manager.create_volume(
-    project_id="proj-xxxxxxxxxxxxxxxxxxxxxxx", 
-    region_id="aws-us-west-1", 
-    volume_name="my_volume"
+resp = vm.create_volume(
+    project_id="proj-xxx",
+    region_id="aws-us-west-2",
+    volume_name="books-volume",
 )
 
-print(f"\Volume my_volume created")
-
-# Volume my_volume created
+print(resp.json())
 ```
-

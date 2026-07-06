@@ -4,23 +4,23 @@ slug: /java/java/v2-Authentication-updatePassword
 sidebar_label: "updatePassword()"
 beta: false
 added_since: v2.3.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "This operation updates the password of a specific user. | Java | v2"
+description: "This operation updates a user password and can also update the user description. | Java | v2"
 type: docx
-token: GQH8dgqlPoRY1sxFhCRcLlgInNc
+token: AnuCd3jgDojhA8x2kNFcddCynLh
 sidebar_position: 20
 keywords: 
-  - cosine distance
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
   - zilliz
   - zilliz cloud
   - cloud
   - updatePassword()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # updatePassword()
 
-This operation updates the password of a specific user.
+This operation updates a user password and can also update the user description.
 
 ```java
 public void updatePassword(UpdatePasswordReq request)
@@ -40,58 +40,62 @@ public void updatePassword(UpdatePasswordReq request)
 ## Request Syntax\{#request-syntax}
 
 ```java
-updatePassword(UpdatePasswordReq.builder()
+client.updatePassword(UpdatePasswordReq.builder()
     .userName(String userName)
     .password(String password)
     .newPassword(String newPassword)
+    .resetConnection(Boolean resetConnection)
+    .description(String description)
     .build()
-)
+);
 ```
 
 **BUILDER METHODS:**
 
 - `userName(String userName)`
 
-    The name of an existing user.
+    **[REQUIRED]**
+
+    The name of the user to update.
 
 - `password(String password)`
 
-    The original password of the user.
+    The current password of the user. Provide this together with `newPassword` when changing the password.
 
 - `newPassword(String newPassword)`
 
-    The new password of the user.
+    The new password for the user. Provide this together with `password` when changing the password.
+
+- `resetConnection(Boolean resetConnection)`
+
+    Whether to reset the current client connection after the password is updated. Defaults to `false`.
+
+- `description(String description)`
+
+    An optional new description of the user. Defaults to an empty string.
 
 **RETURNS:**
 
 *void*
 
+This operation returns no value.
+
 **EXCEPTIONS:**
 
-- **MilvusClientExceptions**
+- **MilvusClientException**
 
     This exception will be raised when any error occurs during this operation.
 
 ## Example\{#example}
 
 ```java
-import io.milvus.v2.client.ConnectConfig;
-import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.rbac.request.UpdatePasswordReq;
 
-// 1. Set up a client
-ConnectConfig connectConfig = ConnectConfig.builder()
-        .uri("YOUR_CLUSTER_ENDPOINT")
-        .token("YOUR_CLUSTER_TOKEN")
-        .build();
-        
-MilvusClientV2 client = new MilvusClientV2(connectConfig);
-
-// 2. Reset password
-UpdatePasswordReq updatePasswordReq = UpdatePasswordReq.builder()
-        .userName("test")
-        .password("Zilliz@2023")
-        .newPassword("Zilliz@2024")
-        .build();
-client.updatePassword(updatePasswordReq);
+client.updatePassword(UpdatePasswordReq.builder()
+    .userName("analyst_user")
+    .password("P@ssw0rd!")
+    .newPassword("N3wP@ssw0rd!")
+    .resetConnection(true)
+    .description("Read-only analyst account")
+    .build());
 ```

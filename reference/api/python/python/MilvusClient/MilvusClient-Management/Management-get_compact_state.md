@@ -12,10 +12,10 @@ type: docx
 token: WEsjdspGLokueRxggM1cNFgknze
 sidebar_position: 7
 keywords: 
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
   - zilliz
   - zilliz cloud
   - cloud
@@ -35,7 +35,7 @@ This operation returns the status of the specified compaction job.
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This method is deprecated. For the latest equivalent, refer to <a href="./Management-get_compaction_state">get<em>compaction</em>state()</a>.</p>
+This method is deprecated. For the latest equivalent, refer to [get_compaction_state()](./Management-get_compaction_state).
 
 </Admonition>
 

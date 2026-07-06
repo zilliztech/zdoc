@@ -12,10 +12,10 @@ type: docx
 token: TJMVdi4U2oBFnAxO95jctzVAnzg
 sidebar_position: 6
 keywords: 
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
   - zilliz
   - zilliz cloud
   - cloud
@@ -143,7 +143,6 @@ collection.insert(
 
 # Delete two entities
 res = collection.delete("id in [ 0, 1 ]")
-
 ```
 
 ## Related operations\{#related-operations}

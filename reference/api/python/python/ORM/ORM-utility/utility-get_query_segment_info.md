@@ -12,10 +12,10 @@ type: docx
 token: CB9edh2ySoJyWhxBoLcchPj9nxg
 sidebar_position: 14
 keywords: 
+  - private llms
   - nn search
   - llm eval
   - Sparse vs Dense
-  - Dense vector
   - zilliz
   - zilliz cloud
   - cloud

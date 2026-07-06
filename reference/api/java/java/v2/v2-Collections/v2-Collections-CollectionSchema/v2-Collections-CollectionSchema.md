@@ -4,23 +4,23 @@ slug: /java/java/v2-Collections-CollectionSchema
 sidebar_label: "CollectionSchema"
 beta: false
 added_since: v2.3.x
-last_modified: v2.6.x
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "A CollectionSchema instance represents the schema of a collection. A schema sketches the structure of a collection. | Java | v2"
 type: docx
-token: FxUxdWGz2oUh1ixyquZcAndBnAf
+token: IXVHdXVncoEp64xD6vdcvUJwnlH
 sidebar_position: 2
 keywords: 
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
   - zilliz
   - zilliz cloud
   - cloud
   - CollectionSchema
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar
@@ -51,11 +51,13 @@ CreateCollectionReq.CollectionSchema.builder()
 
 - `fieldSchemaList(List<CreateCollectionReq.FieldSchema>)`
 
-    A list of **FieldSchema** objects that define the fields in the collection schema.
+    A list of **[FieldSchema](./v2-Collections-FieldSchema)** objects that define the fields in the collection schema.
 
-    <Admonition type="info" icon="📘" title="What is a field schema?">
+    <Admonition type="info" icon="📘" title="Note">
 
-    <p>A field schema represents and contains metadata for a single field, while <strong>CollectionSchema</strong> ties together a list of FieldSchema objects to define the full schema.</p>
+    What is a field schema?
+    
+        A field schema represents and contains metadata for a single field, while **CollectionSchema** ties together a list of FieldSchema objects to define the full schema.
 
     </Admonition>
 

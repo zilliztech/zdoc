@@ -7,15 +7,15 @@ added_since: false
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "This operation uploads the local file at the specified source path to the target file path within the specified volume. | Python"
+description: "This operation uploads the local file at the specified source path to the target file path within the specified managed volume. | Python"
 type: docx
 token: Fr3rdPTuXoC0Lzx7urIcwBqWnDb
 sidebar_position: 1
 keywords: 
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # upload_file_to_volume()
 
-This operation uploads the local file at the specified source path to the target file path within the specified volume.
+This operation uploads the local file at the specified source path to the target file path within the specified managed volume.
+
+<Admonition type="info" icon="📘" title="Notes">
+
+This applies only to managed volumes. External volumes are read-only.
+
+</Admonition>
 
 ## Request Syntax\{#request-syntax}
 

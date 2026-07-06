@@ -2,7 +2,7 @@
 title: "describe_snapshot() | Python | MilvusClient"
 slug: /python/python/Snapshot-describe_snapshot
 sidebar_label: "describe_snapshot()"
-beta: false
+beta: PRIVATE
 added_since: v3.0.x
 last_modified: false
 deprecate_since: false
@@ -12,10 +12,10 @@ type: docx
 token: GF0yd9S4RoImivxbIlPcicEynQb
 sidebar_position: 2
 keywords: 
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
   - zilliz
   - zilliz cloud
   - cloud

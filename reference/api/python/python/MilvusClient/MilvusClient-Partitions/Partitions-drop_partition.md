@@ -12,10 +12,10 @@ type: docx
 token: HkOFdhgbOoz1wlxJIgWcU7EonWc
 sidebar_position: 2
 keywords: 
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
   - zilliz
   - zilliz cloud
   - cloud
@@ -35,7 +35,13 @@ This operation drops a specified partition from the current collection.
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Before dropping a partition, you must first release it.</p>
+Before dropping a partition, you must first release it.
+
+</Admonition>
+
+<Admonition type="info" icon="📘" title="Notes">
+
+This only applies to managed collections.
 
 </Admonition>
 

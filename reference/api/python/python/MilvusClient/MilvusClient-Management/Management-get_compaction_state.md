@@ -12,10 +12,10 @@ type: docx
 token: MSDVdu103obklexX8GvcW5cWnCf
 sidebar_position: 18
 keywords: 
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
   - zilliz
   - zilliz cloud
   - cloud
@@ -35,7 +35,13 @@ This operation returns the current state of a compaction job. Use this after cal
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This method was previously named <code>get_compact_state()</code>. The behavior is identical.</p>
+This method was previously named `get_compact_state()`. The behavior is identical.
+
+</Admonition>
+
+<Admonition type="info" icon="📘" title="Notes">
+
+This only applies to managed collections.
 
 </Admonition>
 

@@ -12,10 +12,10 @@ type: docx
 token: DhZRdYbfMoYIBtxrudGcwWjrngd
 sidebar_position: 3
 keywords: 
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
   - zilliz
   - zilliz cloud
   - cloud
@@ -66,53 +66,21 @@ The API key for accessing the Gemini API.
 
     - The **output_dimensionality** can be specified to the number of resulting output embeddings.
 
-        <table>
-           <tr>
-             <th><p><strong>Model Name</strong></p></th>
-             <th><p><strong>Dimensions</strong></p></th>
-           </tr>
-           <tr>
-             <td><p>emini-embedding-exp-03-07</p></td>
-             <td><p>3072(<em>default</em>),1536,768</p></td>
-           </tr>
-           <tr>
-             <td><p>models/embedding-001</p></td>
-             <td><p>768</p></td>
-           </tr>
-           <tr>
-             <td><p>models/text-embedding-004</p></td>
-             <td><p>768</p></td>
-           </tr>
-        </table>
+        | **Model Name** | **Dimensions** |
+        | --- | --- |
+        | emini-embedding-exp-03-07 | 3072(*default*),1536,768 |
+        | models/embedding-001 | 768 |
+        | models/text-embedding-004 | 768 |
 
     - The **task_type** can be specified to generate optimized embeddings for specific tasks, saving you time and cost and improving performance. Only supported in the **gemini-embedding-exp-03-07** model.
 
-        <table>
-           <tr>
-             <th><p>Task Type</p></th>
-             <th><p>Description</p></th>
-           </tr>
-           <tr>
-             <td><p>SEMANTIC_SIMILARITY</p></td>
-             <td><p>Used to generate embeddings that are optimized to assess text similarity.</p></td>
-           </tr>
-           <tr>
-             <td><p>CLASSIFICATION</p></td>
-             <td><p>Used to generate embeddings that are optimized to classify texts according to preset labels.</p></td>
-           </tr>
-           <tr>
-             <td><p>CLUSTERING</p></td>
-             <td><p>Used to generate embeddings that are optimized to cluster texts based on their similarities.</p></td>
-           </tr>
-           <tr>
-             <td><p>RETRIEVAL_DOCUMENT, RETRIEVAL_QUERY, QUESTION_ANSWERING, and FACT_VERIFICATION</p></td>
-             <td><p>Used to generate embeddings that are optimized for document search or information retrieval.</p></td>
-           </tr>
-           <tr>
-             <td><p>CODE_RETRIEVAL_QUERY</p></td>
-             <td><p>Used to retrieve a code block based on a natural language query, such as sort an array or reverse a linked list. Embeddings of the code blocks are computed using RETRIEVAL_DOCUMENT.</p></td>
-           </tr>
-        </table>
+        | Task Type | Description |
+        | --- | --- |
+        | SEMANTIC_SIMILARITY | Used to generate embeddings that are optimized to assess text similarity. |
+        | CLASSIFICATION | Used to generate embeddings that are optimized to classify texts according to preset labels. |
+        | CLUSTERING | Used to generate embeddings that are optimized to cluster texts based on their similarities. |
+        | RETRIEVAL_DOCUMENT, RETRIEVAL_QUERY, QUESTION_ANSWERING, and FACT_VERIFICATION | Used to generate embeddings that are optimized for document search or information retrieval. |
+        | CODE_RETRIEVAL_QUERY | Used to retrieve a code block based on a natural language query, such as sort an array or reverse a linked list. Embeddings of the code blocks are computed using RETRIEVAL_DOCUMENT. |
 
 ## Examples\{#examples}
 

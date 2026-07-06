@@ -12,10 +12,10 @@ type: docx
 token: HQDndiGwloWKIexgPCUcEZGenOh
 sidebar_position: 20
 keywords: 
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
   - zilliz
   - zilliz cloud
   - cloud
@@ -45,7 +45,7 @@ load(
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This operation is non-blocking. You can call <code>utility.wait_for_loading_complete()</code> to block the current process.</p>
+This operation is non-blocking. You can call `utility.wait_for_loading_complete()` to block the current process.
 
 </Admonition>
 
@@ -73,9 +73,9 @@ load(
 
     This exception is to be raised when any error occurs during this operation.
 
-<Admonition type="danger" icon="🚧" title="Warning">
+<Admonition type="warning" icon="🚧" title="Warning">
 
-<p>If you try to load a collection that is not indexed, you will receive a <strong>MilvusException</strong>.</p>
+If you try to load a collection that is not indexed, you will receive a **MilvusException**.
 
 </Admonition>
 

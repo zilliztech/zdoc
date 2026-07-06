@@ -12,10 +12,10 @@ type: docx
 token: TMq5d6wFmoT8u3xwuruc8k6wnTg
 sidebar_position: 6
 keywords: 
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
   - zilliz
   - zilliz cloud
   - cloud
@@ -32,6 +32,12 @@ import Admonition from '@theme/Admonition';
 # load_partitions()
 
 This operation loads a specific set of partitions in a specified collection into memory.
+
+<Admonition type="info" icon="📘" title="Notes">
+
+This only applies to managed collections.
+
+</Admonition>
 
 ## Request syntax\{#request-syntax}
 
@@ -75,7 +81,7 @@ None
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>A collection is in the loaded state only if any or all of its partitions are loaded.</p>
+A collection is in the loaded state only if any or all of its partitions are loaded.
 
 </Admonition>
 

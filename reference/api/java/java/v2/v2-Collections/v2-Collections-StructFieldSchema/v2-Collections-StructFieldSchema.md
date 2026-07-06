@@ -12,15 +12,15 @@ type: docx
 token: DCszdG9rCoZxhfxfAuOcNsXRnOc
 sidebar_position: 8
 keywords: 
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
   - zilliz
   - zilliz cloud
   - cloud
   - StructFieldSchema
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar
@@ -39,7 +39,7 @@ io.milvus.v2.service.collection.request.CreateCollectionReq.StructFieldSchema
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This class cannot be explicitly instantiated. You need to describe a collection with an Array of Structs field to view its instances.</p>
+This class cannot be explicitly instantiated. You need to describe a collection with an Array of Structs field to view its instances.
 
 </Admonition>
 

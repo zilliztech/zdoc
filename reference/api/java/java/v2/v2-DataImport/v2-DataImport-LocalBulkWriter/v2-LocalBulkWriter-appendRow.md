@@ -12,15 +12,15 @@ type: docx
 token: OgXWdeRGhoxMYqxzNSrcSZAknIb
 sidebar_position: 6
 keywords: 
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
   - zilliz
   - zilliz cloud
   - cloud
   - appendRow()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar
@@ -48,6 +48,14 @@ public void appendRow(JsonObject rowData) throws IOException, InterruptedExcepti
 *void*
 
 **EXCEPTIONS:**
+
+- **IOException**
+
+    This is a checked exception thrown when any data-read or data-write errors occur during this operation.
+
+- **InterruptedException**
+
+    This is a checked exception thrown when a thread that is currently "blocking" (waiting, sleeping, or otherwise occupied) is interrupted by another thread using the `Thread.interrupt()` method.
 
 - **MilvusClientException**
 

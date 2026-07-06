@@ -4,23 +4,23 @@ slug: /node/node/Vector-query
 sidebar_label: "query()"
 beta: false
 added_since: v2.3.x
-last_modified: v2.5.x
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation conducts a scalar filtering with a specified boolean expression. | Node.js"
 type: docx
-token: P66Mdx2aaooL9px9CnQcS2eTnng
+token: Nle5dNFMuoy3MgxGIFGcJDWtnpg
 sidebar_position: 6
 keywords: 
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
   - zilliz
   - zilliz cloud
   - cloud
   - query()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar
@@ -108,11 +108,15 @@ await milvusClient.query(data)
 
     The value defaults to the one specified when you create the current collection, with options of **Strong** (**0**), **Bounded** (**1**), **Session** (**2**), and **Eventually** (**3**).
 
-    <Admonition type="info" icon="📘" title="What is the consistency level?">
+    <Admonition type="info" icon="📘" title="Note">
 
-    <p>Consistency in a distributed database specifically refers to the property that ensures every node or replica has the same view of data when writing or reading data at a given time.</p>
-    <p>Zilliz Cloud provides three consistency levels: <strong>Strong</strong>, <strong>Bounded Staleness</strong>, and <strong>Eventually</strong>, with <strong>Bounded Staleness</strong> set as the default.</p>
-    <p>You can easily tune the consistency level when conducting a vector similarity search or query to make it best suit your application.</p>
+    What is the consistency level?
+    
+        Consistency in a distributed database specifically refers to the property that ensures every node or replica has the same view of data when writing or reading data at a given time.
+    
+        Zilliz Cloud provides three consistency levels: **Strong**, **Bounded Staleness**, and **Eventually**, with **Bounded Staleness** set as the default.
+    
+        You can easily tune the consistency level when conducting a vector similarity search or query to make it best suit your application.
 
     </Admonition>
 
@@ -120,26 +124,32 @@ await milvusClient.query(data)
 
     The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-**RETURNS** *Promise\<QueryResults>*
+- **order_by_fields** (*OrderByFields*) -
+
+    The fields to order the query results by. Optional.
+
+- **order_by** (*OrderByFields*) -
+
+    Alias for order_by_fields. Optional.
+
+**RETURNS** *Promise&lt;QueryResults&gt;*
 
 This method returns a promise that resolves to a **QueryResults** object.
 
-```javascript
+```typescript
 {
-    data: {
-        [x: string]: any
-    },
-    status: object
+    data: Record<string, any>[],
+    status:  ResStatus
 }
 ```
 
 **PARAMETERS:**
 
-- **data** (*object*) -
+- **data** (*Record\<string, any>[]*) -
+The matched rows. Each entry is keyed by field name and carries the value for every requested **output_fields** entry plus the primary key. When **enable_dynamic_field** is **true** on the collection, dynamic-field values appear inline alongside declared fields.
 
-    The query results.
-
-- **status** (*object*) -
+- **ResStatus**
+A **ResStatus** object.
 
     - **code** (*number*) -
 
@@ -147,9 +157,9 @@ This method returns a promise that resolves to a **QueryResults** object.
 
     - **error_code** (*string* | *number*) -
 
-        An error code that indicates an occurred error. It remains **Success** if this operation succeeds. 
+        An error code that indicates an occurred error. It remains **Success** if this operation succeeds.
 
-    - **reason** (*string*) - 
+    - **reason** (*string*) -
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 

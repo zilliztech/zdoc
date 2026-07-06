@@ -10,17 +10,17 @@ notebook: false
 description: "This operation removes a custom function from an existing collection. | Node.js"
 type: docx
 token: T6xNdPPtsotGiYxL1WActF3qnxb
-sidebar_position: 23
+sidebar_position: 24
 keywords: 
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
   - zilliz
   - zilliz cloud
   - cloud
   - dropCollectionFunction()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

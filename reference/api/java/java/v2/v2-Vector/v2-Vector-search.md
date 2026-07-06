@@ -4,23 +4,23 @@ slug: /java/java/v2-Vector-search
 sidebar_label: "search()"
 beta: false
 added_since: v2.3.x
-last_modified: v2.6.x
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation conducts a vector similarity search with an optional scalar filtering expression. | Java | v2"
 type: docx
-token: PAP5dHUZZowH4PxBTxac1W4Jnlh
+token: ANw4d8gGEo46B4xxde3cC0xqndf
 sidebar_position: 7
 keywords: 
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
   - zilliz
   - zilliz cloud
   - cloud
   - search()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar
@@ -43,6 +43,7 @@ public SearchResp search(SearchReq request)
 search(SearchReq.builder()
     .databaseName(String databaseName)
     .collectionName(String collectionName)
+    .clusterId(String clusterId)
     .partitionNames(List<String> partitionNames)
     .annsField(String annsField)
     .topK(int topK)
@@ -71,99 +72,103 @@ search(SearchReq.builder()
 
 **BUILDER METHODS:**
 
-- `databaseName(String databaseName)` -
+- `databaseName(String databaseName)`
 
     The name of the database. Defaults to the current database if not specified.
 
-- `collectionName(String collectionName)` -
+- `collectionName(String collectionName)`
 
     The name of the target collection.
 
-- `partitionNames(List<String> partitionNames)` -
+- `clusterId(String clusterId)`
+
+    The target cluster ID for this vector read request. Use `session(String clusterId)` when multiple requests should share the same cluster ID.
+
+- `partitionNames(List<String> partitionNames)`
 
     A list of partition names to target.
 
-- `annsField(String annsField)` -
+- `annsField(String annsField)`
 
     The name of the vector field for approximate nearest neighbor search.
 
-- `topK(int topK)` -
+- `topK(int topK)`
 
     The number of top results to return.
 
-- `filter(String filter)` -
+- `filter(String filter)`
 
     A boolean expression to filter results.
 
-- `outputFields(List<String> outputFields)` -
+- `outputFields(List<String> outputFields)`
 
     A list of field names to include in the output.
 
-- `data(List<BaseVector> data)` -
+- `data(List<BaseVector> data)`
 
     A list of data rows to insert/upsert as JSON objects.
 
-- `ids(List<Object> ids)` -
+- `ids(List<Object> ids)`
 
     A list of primary key values to identify specific entities.
 
-- `offset(long offset)` -
+- `offset(long offset)`
 
     The number of results to skip before returning.
 
-- `limit(long limit)` -
+- `limit(long limit)`
 
     The maximum number of results to return.
 
-- `roundDecimal(int roundDecimal)` -
+- `roundDecimal(int roundDecimal)`
 
     The number of decimal places for distance/score rounding.
 
-- `searchParams(Map<String, Object> searchParams)` -
+- `searchParams(Map<String, Object> searchParams)`
 
     Additional search parameters as key-value pairs.
 
-- `guaranteeTimestamp(long guaranteeTimestamp)` -
+- `guaranteeTimestamp(long guaranteeTimestamp)`
 
     A timestamp guaranteeing that all operations before it are visible.
 
-- `gracefulTime(Long gracefulTime)` -
+- `gracefulTime(Long gracefulTime)`
 
     The graceful time in milliseconds for consistency.
 
-- `consistencyLevel(ConsistencyLevel consistencyLevel)` -
+- `consistencyLevel(ConsistencyLevel consistencyLevel)`
 
     The consistency level for the operation.
 
-- `ignoreGrowing(boolean ignoreGrowing)` -
+- `ignoreGrowing(boolean ignoreGrowing)`
 
     Whether to ignore growing segments during the operation.
 
-- `timezone(String timezone)` -
+- `timezone(String timezone)`
 
     The timezone string for time-related filters.
 
-- `groupByFieldName(String groupByFieldName)` -
+- `groupByFieldName(String groupByFieldName)`
 
     The field name to group search results by.
 
-- `groupSize(Integer groupSize)` -
+- `groupSize(Integer groupSize)`
 
     The number of results to return per group.
 
-- `strictGroupSize(Boolean strictGroupSize)` -
+- `strictGroupSize(Boolean strictGroupSize)`
 
     Whether to strictly enforce the group size.
 
-- `functionScore(FunctionScore functionScore)` -
+- `functionScore(FunctionScore functionScore)`
 
     A FunctionScore object for custom scoring.
 
-- `filterTemplateValues(Map<String, Object> filterTemplateValues)` -
+- `filterTemplateValues(Map<String, Object> filterTemplateValues)`
 
     A map of template variable values for parameterized filters.
 
-- `highlighter(Highlighter highlighter)` -
+- `highlighter(Highlighter highlighter)`
 
     A Highlighter object for text highlighting in search results.
 

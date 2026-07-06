@@ -4,23 +4,23 @@ slug: /java/java/v2-Vector-queryIterator
 sidebar_label: "queryIterator()"
 beta: false
 added_since: v2.4.x
-last_modified: v2.6.x
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This method returns a query iterator to iterate data. | Java | v2"
 type: docx
-token: A0I6dpXMsofjaVxE0RLcOW3nnWe
+token: HnxQdhvGQotpwfxgo4pcviKNn4g
 sidebar_position: 6
 keywords: 
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
   - zilliz
   - zilliz cloud
   - cloud
   - queryIterator()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

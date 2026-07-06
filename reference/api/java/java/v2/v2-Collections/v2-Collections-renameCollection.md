@@ -4,23 +4,23 @@ slug: /java/java/v2-Collections-renameCollection
 sidebar_label: "renameCollection()"
 beta: false
 added_since: v2.3.x
-last_modified: v2.6.x
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation renames an existing collection. | Java | v2"
 type: docx
-token: EZw8dwHXzoggBsxB0SWc0MANnud
+token: U7Ipdm0FTo8FCVxaxbZcwMygnWd
 sidebar_position: 21
 keywords: 
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
   - zilliz
   - zilliz cloud
   - cloud
   - renameCollection()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar
@@ -44,6 +44,7 @@ renameCollection(RenameCollectionReq.builder()
     .databaseName(String databaseName)
     .collectionName(String collectionName)
     .newCollectionName(String newCollectionName)
+    .targetDbName(String targetDbName)
     .build()
 );
 ```
@@ -61,6 +62,10 @@ renameCollection(RenameCollectionReq.builder()
 - `newCollectionName(String newCollectionName)` -
 
     The new name for the collection.
+
+- `targetDbName(String targetDbName)` -
+
+    The name of the target database. Set this when the renamed collection should be moved into another database.
 
 **RETURNS:**
 

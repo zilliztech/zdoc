@@ -4,7 +4,7 @@ slug: /node/node/Collections-runAnalyzer
 sidebar_label: "runAnalyzer()"
 beta: false
 added_since: v2.5.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation runs an analyzer on the provided text for test purposes. | Node.js"
@@ -12,15 +12,15 @@ type: docx
 token: LsMldPd8GodoVqxCAZUcWYjdnwh
 sidebar_position: 18
 keywords: 
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
   - zilliz
   - zilliz cloud
   - cloud
   - runAnalyzer()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar
@@ -66,28 +66,76 @@ milvusClient({
 
     Optional flag indicating whether to include hash-based processing.
 
-**RETURNS** *Promise*\<*RunAnalyzerResponse*>
+**RETURNS** *Promise&lt;RunAnalyzerResponse&gt;*
 
 This method returns a promise that resolves to a **RunAnalyzerResponse** object.
 
-```javascript
+```typescript
 {
     results: AnalyzerResult[],
-    status: ResStatus
+    status:  ResStatus
 }
 ```
 
 **PARAMETERS:**
 
 - **results** (*AnalyzerResult[]*) -
-
-    The results of this operation, containing a set of tokens generated based on the specified analyzer parameters.
+The tokenization output. When **text** is a single string, this list has one entry; when **text** is an array, the entries align with the input order.
 
     - **tokens** (*AnalyzerToken[]*) -
 
-        A list of analyzed tokens. 
+        The tokens produced by the analyzer.
 
-- **status** (*ResStatus*) -  
+        - **token** (*string*) -
+
+        The token text.
+
+        - **start_offset** (*number*) -
+
+        The zero-based character offset where the token begins in the input.
+
+        - **end_offset** (*number*) -
+
+        The zero-based character offset immediately after the token.
+
+        - **position** (*number*) -
+
+        The token position in the stream, used by phrase queries.
+
+        - **position_length** (*number*) -
+
+        The number of stream positions the token spans.
+
+        - **hash** (*number*) -
+
+        The token hash, populated when the request set **with_hash** to **true**.
+
+        - **token** (*string*) -
+
+            The token text.
+
+        - **start_offset** (*number*) -
+
+            The zero-based character offset where the token begins in the input.
+
+        - **end_offset** (*number*) -
+
+            The zero-based character offset immediately after the token.
+
+        - **position** (*number*) -
+
+            The token position in the stream, used by phrase queries.
+
+        - **position_length** (*number*) -
+
+            The number of stream positions the token spans.
+
+        - **hash** (*number*) -
+
+            The token hash, populated when the request set **with_hash** to **true**.
+
+- **ResStatus**
+A **ResStatus** object.
 
     - **code** (*number*) -
 
@@ -95,8 +143,8 @@ This method returns a promise that resolves to a **RunAnalyzerResponse** object.
 
     - **error_code** (*string* | *number*) -
 
-        An error code that indicates an occurred error. It remains **Success** if this operation succeeds. 
+        An error code that indicates an occurred error. It remains **Success** if this operation succeeds.
 
-    - **reason** (*string*) - 
+    - **reason** (*string*) -
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.

@@ -4,23 +4,23 @@ slug: /node/node/Vector-hybridSearch
 sidebar_label: "hybridSearch()"
 beta: false
 added_since: v2.4.x
-last_modified: v2.6.x
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation conducts a hybrid search across multiple vector fields with an optional scalar filtering expression and returns the merged, reranked results. | Node.js"
 type: docx
-token: PqPVdjCXXoBWywx7IOncvcxCnUh
+token: Ph9ldBswooKwebxKI9EcqSu4nlc
 sidebar_position: 4
 keywords: 
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
   - zilliz
   - zilliz cloud
   - cloud
   - hybridSearch()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar
@@ -49,7 +49,6 @@ await milvusClient.hybridSearch({
     filter?: string,
     rerank?: RerankerObj | FunctionObject | FunctionScore,
     partition_names?: string[],
-    metric_type?: string,
     consistency_level?: ConsistencyLevelEnum,
     ignore_growing?: boolean,
     group_by_field?: string,
@@ -101,10 +100,6 @@ await milvusClient.hybridSearch({
 
     The names of the partitions to search.
 
-- **metric_type** (*string*) -
-
-    The metric type used to measure similarity between vectors.
-
 - **consistency_level** (*ConsistencyLevelEnum*) -
 
     The consistency level of the target collection. Options: `Strong` (0), `Bounded` (1), `Session` (2), `Eventually` (3). Defaults to `Bounded`.
@@ -144,6 +139,10 @@ await milvusClient.hybridSearch({
 - **timeout** (*number*) -
 
     The timeout duration for this operation in milliseconds.
+
+- **order_by_fields** (*OrderByFields*) -
+
+    The fields to order the search results by. Optional.
 
 **RETURNS:**
 

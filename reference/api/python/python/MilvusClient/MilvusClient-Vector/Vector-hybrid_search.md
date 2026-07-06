@@ -12,10 +12,10 @@ type: docx
 token: Iv1PdIVxYoDOMax47xDcLnbEnXb
 sidebar_position: 9
 keywords: 
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
   - zilliz
   - zilliz cloud
   - cloud
@@ -39,7 +39,7 @@ This operation performs multi-vector search on a collection and returns search r
 hybrid_search(
     collection_name: str,
     reqs: List[AnnSearchRequest],
-    ranker: Union[BaseRanker, Function],
+    ranker: BaseRanker,
     limit: int = 10,   
     output_fields: Optional[List[str]] = None,
     timeout: Optional[float] = None,
@@ -83,11 +83,13 @@ hybrid_search(
 
             If you choose to use placeholders in `expr` as stated in [Filtering Templating](/docs/filtering-templating), then you can specify the actual values for these placeholders as key-value pairs as the value of this parameter.
 
-- **ranker** (*Union[BaseRanker, Function]*) -
+- **ranker** (*BaseRanker*) -
 
-    The reranking strategy to use for hybrid search.
+    The reranking strategy to use for hybrid search. Valid values: `WeightedRanker` and `RRFRanker`.
 
-    For details, refer to [Weighted Ranker](/docs/reranking-weighted-reranker), [RRF Ranker](/docs/reranking-rrf) and .
+    - `WeightedRanker`: The Average Weighted Scoring reranking strategy, which prioritizes vectors based on relevance, averaging their significance.
+
+    - `RRFRanker`: The RRF reranking strategy, which merges results from multiple searches, favoring items that consistently appear.
 
 - **limit** (*int*) -
 
@@ -143,8 +145,9 @@ A **SearchResult** object that contains a list of **Hits** objects.
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    <p>A <strong>SearchResult</strong> object contains a list of <strong>Hits</strong> objects, each corresponding to a query vector in the search request. </p>
-    <p>A <strong>Hits</strong> object contains a list of <strong>Hit</strong> objects, each corresponding to an entity hit by the search.</p>
+    A **SearchResult** object contains a list of **Hits** objects, each corresponding to a query vector in the search request. 
+    
+    A **Hits** object contains a list of **Hit** objects, each corresponding to an entity hit by the search.
 
     </Admonition>
 

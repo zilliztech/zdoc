@@ -4,7 +4,7 @@ slug: /node/node/Vector-count
 sidebar_label: "count()"
 beta: false
 added_since: v2.4.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation counts the number of entities that match the specified filtering expression. | Node.js"
@@ -12,15 +12,15 @@ type: docx
 token: NaOadUNSpo1EsIxPMSfc0R4Hnfb
 sidebar_position: 1
 keywords: 
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
   - zilliz
   - zilliz cloud
   - cloud
   - count()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar
@@ -70,28 +70,24 @@ await milvusClient.count({
 
     The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-**RETURNS** *Promise*\<*CountResult*>
+**RETURNS** *Promise&lt;CountResult&gt;*
 
 This method returns a promise that resolves to a **CountResult** object.
 
-```javascript
+```typescript
 {
     data: number,
-    status: {
-        code: number,
-        error_code: number | string,
-        reason: string
-    }
+    status:  ResStatus
 }
 ```
 
 **PARAMETERS:**
 
 - **data** (*number*) -
+The number of rows in the collection that match the supplied filter expression. When no expression is supplied, this is the total row count.
 
-    The number of entities that match the specified filtering expression.
-
-- **status** (*object*) -
+- **ResStatus**
+A **ResStatus** object.
 
     - **code** (*number*) -
 
@@ -99,9 +95,9 @@ This method returns a promise that resolves to a **CountResult** object.
 
     - **error_code** (*string* | *number*) -
 
-        An error code that indicates an occurred error. It remains **Success** if this operation succeeds. 
+        An error code that indicates an occurred error. It remains **Success** if this operation succeeds.
 
-    - **reason** (*string*) - 
+    - **reason** (*string*) -
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 

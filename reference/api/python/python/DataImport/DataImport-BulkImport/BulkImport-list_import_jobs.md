@@ -4,18 +4,18 @@ slug: /python/python/BulkImport-list_import_jobs
 sidebar_label: "list_import_jobs()"
 beta: false
 added_since: Inherit
-last_modified: false
+last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "This operation lists all bulk-import jobs of a specific cluster. | Python"
+description: "This function lists bulk import jobs with optional collection and pagination filters, including project/region filters for project databases. | Python"
 type: docx
-token: P0vxdEVBPoTNKLxkKIzcznlYnNc
+token: N13hd7jVjoA6B1xlgwic2GKRn5f
 sidebar_position: 3
 keywords: 
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,159 +31,115 @@ import Admonition from '@theme/Admonition';
 
 # list_import_jobs()
 
-This operation lists all bulk-import jobs of a specific cluster.
+This function lists bulk import jobs with optional collection and pagination filters, including project/region filters for project databases.
 
-## Request syntax\{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```python
 list_import_jobs(
     url: str,
-    api_key: str,
-    cluster_id: str,
-) -> requests.Response
+    collection_name: str = "",
+    db_name: str = "",
+    cluster_id: str = "",
+    project_id: str = "",
+    region_id: str = "",
+    api_key: str = "",
+    page_size: int = 10,
+    current_page: int = 1,
+    
+    project_id: str = "",
+    region_id: str = "",
+    
+    verify: bool | str = True,
+    cert: str | tuple | None = None,
+    **kwargs,
+)
 ```
 
 **PARAMETERS:**
 
-- **url** (*string*) -
+- **url** (*str*) -
 
     **[REQUIRED]**
 
-    The endpoint URL of your Zilliz Cloud cluster. 
+    Server endpoint for bulk import APIs.
 
-    For example, the endpoint URL should be in the following format:
+- **collection_name** (*str*) -
 
-    ```python
-    https://api.cloud.zilliz.com
-    ```
+    Optional collection filter.
 
-    Replace `cloud-region` with the ID of the region that accommodates your cluster. You can get the cloud region ID from the endpoint URL of your cluster.
+- **db_name** (*str*) -
 
-- **api_key** (*string*) -
+    Optional database filter.
 
-    **[REQUIRED]**
+- **cluster_id** (*str*) -
 
-    Possible values are:
+    Cloud cluster ID.
 
-    - A valid Zilliz Cloud API key with sufficient permissions to manipulate the cluster, or
+- **api_key** (*str*) -
 
-    - A pair of username and password of the target cluster joined by a colon(:).
+    API key for cloud authentication.
 
-- **cluster_id** (*string*) -
+- **page_size** (*int*) -
 
-    **[REQUIRED]**
+    Number of jobs returned per page.
 
-    The instance ID of the target cluster of this operation.
+- **current_page** (*int*) -
 
-    You can get the instance ID of a cluster on its details page from the Zilliz Cloud console.
+    Page number to query.
+
+- **project_id** (*str*) -
+
+    A valid Zilliz Cloud project ID. 
+
+    This applies when you bulk import into a database for on-demand compute.
+
+- **region_id** (*str*) -
+
+    A valid Zilliz Cloud region ID.
+
+    This applies when you bulk import into a database for on-demand compute.
+
+- **verify** (*bool | str*) -
+
+    TLS verification setting.
+
+- **cert** (*str | tuple*) -
+
+    Client certificate path or `(cert, key)` tuple.
+
+- **project_id** (*str*) -
+
+    Additional HTTP request options.
 
 **RETURN TYPE:**
+*requests.Response*
 
-*dict*
+Returns the paginated list of import jobs.
 
-**RETURNS:**
-
-- Response syntax
-
-    ```python
-    # {
-    #     "code": 0,
-    #     "data": {
-    #         "records": [
-    #             {
-    #                 "collectionName": "quick_setup",
-    #                 "jobId": "453240863839750922",
-    #                 "progress": 100,
-    #                 "state": "Completed"
-    #             }
-    #         ]
-    #     }
-    # }
-    ```
-
-- Response structure
-
-    - **records** (*list*) -
-
-        The list of import jobs.
-
-        - **collectionName** (*string*) -
-
-            The name of the target collection of this bulk-import job.
-
-        - **jobId** (*string*) -
-
-            The ID of this bulk-import job.
-
-        - **progress** (*string*) - 
-
-            The progress of the job.
-
-        - **state** (*string*) -
-
-            The state of this bulk-import job. Possible values are as follows:
-
-            - **Pending**: The tasks are awaiting scheduling and execution;
-
-            - **Importing**: The tasks are currently being executed;
-
-            - **Completed**: The tasks have been successfully completed;
-
-            - **Failed**: The tasks encountered a failure.
+HTTP response containing paged import job summaries.
 
 **EXCEPTIONS:**
 
-None
+- **MilvusException**
+
+    Raised when listing jobs fails.
 
 ## Examples\{#examples}
 
 ```python
-import json
 from pymilvus.bulk_writer import list_import_jobs
 
-## Zilliz Cloud constants
-CLOUD_API_ENDPOINT = "https://api.cloud.zilliz.com"
-CLUSTER_ID = "inxx-xxxxxxxxxxxxxxx"
-API_KEY = ""
-
-# List bulk-insert jobs
 resp = list_import_jobs(
-    api_key=API_KEY,
-    url=CLOUD_API_ENDPOINT,
-    cluster_id=CLUSTER_ID
+    url="https://api.cloud.zilliz.com",
+    api_key="YOUR_API_KEY",
+    project_id="proj-xxx",
+    region_id="aws-us-west-2",
+    collection_name="book_catalog",
+    page_size=20,
+    current_page=1,
 )
 
-print(json.dumps(resp.json(), indent=4))
-
-# Output
-#
-# {
-#     "code": 200,
-#     "data": {
-#         "tasks": [
-#             {
-#                 "collectionName": "medium_articles",
-#                 "jobId": "9d0bc230-6b99-4739-a872-0b91cfe2515a",
-#                 "state": "ImportCompleted"
-#             },
-#             {
-#                 "collectionName": "medium_articles",
-#                 "jobId": "53632e6c-c078-4476-b840-10c4793d9c08",
-#                 "state": "ImportCompleted"
-#             },
-#         ],
-#         "count": 2,
-#         "currentPage": 1,
-#         "pageSize": 10
-#     }
-# }
+print(resp.json())
 ```
-
-For details, refer to [Import Data (SDK)](/docs/import-data-via-sdks) in our user guides.
-
-## Related methods\{#related-methods}
-
-- [bulk_import()](./BulkImport-bulk_import)
-
-- [get_import_progress()](./BulkImport-get_import_progress)
 

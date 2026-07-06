@@ -2,7 +2,7 @@
 title: "restore_snapshot() | Python | MilvusClient"
 slug: /python/python/Snapshot-restore_snapshot
 sidebar_label: "restore_snapshot()"
-beta: false
+beta: PRIVATE
 added_since: v3.0.x
 last_modified: false
 deprecate_since: false
@@ -10,12 +10,12 @@ notebook: false
 description: "This operation restores a snapshot to a target collection. The restore runs asynchronously — use `getrestoresnapshotstate()` to monitor progress. | Python | MilvusClient"
 type: docx
 token: I2OZdk40IomugOx9MTqcooVcnEf
-sidebar_position: 7
+sidebar_position: 8
 keywords: 
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
   - zilliz
   - zilliz cloud
   - cloud

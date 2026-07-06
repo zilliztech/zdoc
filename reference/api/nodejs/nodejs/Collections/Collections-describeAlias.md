@@ -4,7 +4,7 @@ slug: /node/node/Collections-describeAlias
 sidebar_label: "describeAlias()"
 beta: false
 added_since: v2.3.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation describes a specific alias. | Node.js"
@@ -12,15 +12,15 @@ type: docx
 token: YCzNdg5yWoeZVrxj7jGcb1UXnBd
 sidebar_position: 7
 keywords: 
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
   - zilliz
   - zilliz cloud
   - cloud
   - describeAlias()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar
@@ -59,21 +59,27 @@ await milvusClient.describeAlias({
 
     The alias of a collection. Note that the alias should exist beforehand.
 
-    <Admonition type="info" icon="📘" title="What is a collection alias?">
+    <Admonition type="info" icon="📘" title="Note">
 
-    <p>A collection alias is an additional name for a collection. Collection aliases are useful when you want to switch your application to a new collection without any changes to your code. </p>
-    <p>On Zilliz Cloud, a collection alias is a globally unique identifier. One alias can only be assigned to exactly one collection. Conversely, a collection can have multiple aliases.</p>
-    <p>Below is an example of reassigning the alias of one collection to another:</p>
-    <p>Suppose there are two collections: <code>collection_1</code> and <code>collection_2</code>. There is also a collection alias named <code>bob</code>, which was originally assigned to <code>collection_1</code>:</p>
-    <ul>
-    <li><p><code>collection_1</code>'s alias = ["bob"]</p></li>
-    <li><p><code>collection_2</code>'s alias = []</p></li>
-    </ul>
-    <p>After calling <code>alter_alias("collection_2", "bob")</code>:</p>
-    <ul>
-    <li><p><code>collection_1</code>'s alias = []</p></li>
-    <li><p><code>collection_2</code>'s alias = ["bob"]</p></li>
-    </ul>
+    What is a collection alias?
+    
+        A collection alias is an additional name for a collection. Collection aliases are useful when you want to switch your application to a new collection without any changes to your code. 
+    
+        On Zilliz Cloud, a collection alias is a globally unique identifier. One alias can only be assigned to exactly one collection. Conversely, a collection can have multiple aliases.
+    
+        Below is an example of reassigning the alias of one collection to another:
+    
+        Suppose there are two collections: `collection_1` and `collection_2`. There is also a collection alias named `bob`, which was originally assigned to `collection_1`:
+    
+        - `collection_1`'s alias = ["bob"]
+    
+        - `collection_2`'s alias = []
+    
+        After calling `alter_alias("collection_2", "bob")`:
+    
+        - `collection_1`'s alias = []
+    
+        - `collection_2`'s alias = ["bob"]
 
     </Admonition>
 
@@ -83,34 +89,32 @@ await milvusClient.describeAlias({
 
     The name of the collection that has the specified alias.
 
-**RETURNS** *Promise\<DescribeAliasResponse>*
+**RETURNS** *Promise&lt;DescribeAliasResponse&gt;*
 
-This method returns a promise that resolves to a **ResStatus** object.
+This method returns a promise that resolves to a **DescribeAliasResponse** object.
 
-```javascript
+```typescript
 {
-    alias: string;
-    collection: string;
-    db_name: string;
-    status: ResStatus;
+    db_name: string,
+    alias: string,
+    collection: string,
+    status:  ResStatus
 }
 ```
 
 **PARAMETERS:**
 
-- **alias** (*string*) -
+- **db_name** (*string*) -
+The database that owns the alias.
 
-    The name of the specified alias.
+- **alias** (*string*) -
+The alias name.
 
 - **collection** (*string*) -
+The collection name to which the alias currently points.
 
-    The name of the specified collection.
-
-- **db_name** (*string*) -
-
-    The database that holds the above alias and collection.
-
-- **status** (*ResStatus*) -  
+- **ResStatus**
+A **ResStatus** object.
 
     - **code** (*number*) -
 
@@ -118,9 +122,9 @@ This method returns a promise that resolves to a **ResStatus** object.
 
     - **error_code** (*string* | *number*) -
 
-        An error code that indicates an occurred error. It remains **Success** if this operation succeeds. 
+        An error code that indicates an occurred error. It remains **Success** if this operation succeeds.
 
-    - **reason** (*string*) - 
+    - **reason** (*string*) -
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 

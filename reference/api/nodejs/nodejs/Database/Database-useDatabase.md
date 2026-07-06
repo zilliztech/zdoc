@@ -12,15 +12,15 @@ type: docx
 token: NDcldy9OLo62DLxw1a9cFSLsnYb
 sidebar_position: 6
 keywords: 
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
   - zilliz
   - zilliz cloud
   - cloud
   - useDatabase()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar
@@ -34,13 +34,13 @@ import Admonition from '@theme/Admonition';
 This operation sets the active database for the gRPC client.
 
 ```javascript
-await milvusClient.useDatabase(data?)
+useDatabase(data?): Promise<ResStatus>
 ```
 
 ## Request Syntax\{#request-syntax}
 
 ```javascript
-await milvusClient.useDatabase({
+milvusClient.useDatabase({
     db_name: string
 })
 ```
@@ -49,9 +49,9 @@ await milvusClient.useDatabase({
 
 - **db_name** (*string*) -
 
-    The name of the database to use.
+    The name of the database to create.
 
-    There should be a database with the specified name. Otherwise, exceptions will occur.
+    There should be a database that has the specified name. Otherwise, exceptions will occur.
 
 **RETURNS** *Promise |&lt;ResStatus&gt;*
 
@@ -82,9 +82,6 @@ This method returns a promise that resolves to a **ResStatus** object.
 ## Example\{#example}
 
 ```javascript
-const milvusClient = new MilvusClient({
-    address: 'YOUR_CLUSTER_ENDPOINT',
-    token: 'YOUR_CLUSTER_TOKEN',
-});
+const milvusClient = new milvusClient(MILUVS_ADDRESS);
 const resStatus = await milvusClient.useDatabase({ db_name: 'new_db' });
 ```

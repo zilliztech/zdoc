@@ -12,10 +12,10 @@ type: docx
 token: CmFKd9eG2oE6xmx9dIGcVPycnth
 sidebar_position: 2
 keywords: 
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
   - zilliz
   - zilliz cloud
   - cloud
@@ -56,9 +56,11 @@ CollectionSchema(
 
     A list of **FieldSchema** objects that define the fields in the collection schema.
 
-    <Admonition type="info" icon="📘" title="What is a field schema?">
+    <Admonition type="info" icon="📘" title="Note">
 
-    <p>A field schema represents and contains metadata for a single field, while <strong>CollectionSchema</strong> ties together a list of FieldSchema objects to define the full schema.</p>
+    What is a field schema?
+    
+        A field schema represents and contains metadata for a single field, while **CollectionSchema** ties together a list of FieldSchema objects to define the full schema.
 
     </Admonition>
 
@@ -82,9 +84,11 @@ CollectionSchema(
 
         When you set this to **True**,  and Zilliz Cloud will create a field called **&#36;meta** to store any undefined fields and their values from the data that is inserted.
 
-        <Admonition type="info" icon="📘" title="What is a dynamic field?">
+        <Admonition type="info" icon="📘" title="Note">
 
-        <p>If the data being inserted into the target collection includes fields that are not defined in the collection's schema, those fields will be saved in a dynamic field as key-value pairs.</p>
+        What is a dynamic field?
+        
+                If the data being inserted into the target collection includes fields that are not defined in the collection's schema, those fields will be saved in a dynamic field as key-value pairs.
 
         </Admonition>
 
@@ -106,11 +110,15 @@ CollectionSchema(
 
         As an alternative, you can set **is_partition_key** when creating a **FieldSchema** object.
 
-        <Admonition type="info" icon="📘" title="What is a partition key?">
+        <Admonition type="info" icon="📘" title="Note">
 
-        <p>Once a field is designated as the partition key, Zilliz Cloud automatically creates a partition for each unique value in this field and saves entities in these partitions accordingly.</p>
-        <p>This is particularly useful when implementing data separation based on a specific key, such as partition-oriented multi-tenancy.</p>
-        <p>As an alternative, you can set <strong>partition<em>key</em>field</strong> when creating a <strong>CollectionSchema</strong> object.</p>
+        What is a partition key?
+        
+                Once a field is designated as the partition key, Zilliz Cloud automatically creates a partition for each unique value in this field and saves entities in these partitions accordingly.
+        
+                This is particularly useful when implementing data separation based on a specific key, such as partition-oriented multi-tenancy.
+        
+                As an alternative, you can set **partition_key_field** when creating a **CollectionSchema** object.
 
         </Admonition>
 

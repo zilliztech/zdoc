@@ -1,18 +1,29 @@
 ---
 title: "Get() | Go | v2"
-slug: /go/v2-Vector-Get
+slug: /go/go/v2-Vector-Get
 sidebar_label: "Get()"
-beta: FALSE
-added_since: v2.5.x
-last_modified: FALSE
-deprecate_since: FALSE
-notebook: FALSE
-description: "This method gets entities by their IDs from a specific collection. | Go | v2"
-type: origin
-token: U3XqwG0MHiQf0tkvv24clUVxnhf
-sidebar_position: 5
+beta: false
+added_since: v2.6.x
+last_modified: false
+deprecate_since: false
+notebook: false
+description: "This operation retrieves entities by their primary key values. | Go | v2"
+type: docx
+token: FLBRdxZqWojjpXxuwJZc5APKncC
+sidebar_position: 4
+keywords: 
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - Get()
+  - gov230
 displayed_sidebar: goSidebar
 
+displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -20,102 +31,113 @@ import Admonition from '@theme/Admonition';
 
 # Get()
 
-This method gets entities by their IDs from a specific collection.
+This operation retrieves entities by their primary key values.
 
 ```go
 func (c *Client) Get(ctx context.Context, option QueryOption, callOptions ...grpc.CallOption) (ResultSet, error)
 ```
 
-## Request Parameters\{#request-parameters}
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>ctx</code></p></td>
-     <td><p>Context for the current call to work.</p></td>
-     <td><p><code>context.Context</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>option</code></p></td>
-     <td><p>Optional parameters of the methods.</p></td>
-     <td><p><a href="./v2-Vector-Get#queryoption"><code>QueryOption</code></a></p></td>
-   </tr>
-   <tr>
-     <td><p><code>callOptions</code></p></td>
-     <td><p>Optional parameters for calling the methods.</p></td>
-     <td><p><code>grpc.CallOption</code></p></td>
-   </tr>
-</table>
-
-## QueryOption\{#queryoption}
-
-This is an interface type. The `queryOption` struct types implement this interface type. 
-
-You can use the `NewQueryOption` function to get the concrete implementation.
-
-### NewQueryOption\{#newqueryoption}
-
-The signature of this method is as follows:
+## Request Syntax\{#request-syntax}
 
 ```go
-func NewQueryOption(collectionName string) *queryOption
+option := milvusclient.NewQueryOption(collectionName).
+    WithFilter(expr).
+    WithTemplateParam(key, val).
+    WithOffset(offset).
+    WithLimit(limit).
+    WithOutputFields(fieldNames).
+    WithConsistencyLevel(consistencyLevel).
+    WithPartitions(partitionNames).
+    WithIDs(ids)
+
+result, err := client.Get(ctx, option)
 ```
 
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>collectionName</code></p></td>
-     <td><p>Name of the target collection.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-</table>
+**PARAMETERS:**
 
-## ResultSet\{#resultset}
+- **collectionName** (*string*)
 
-This is a struct type. You can use the `GetColumn` method to get the result values in a specific field.
+    The name of the target collection.
 
-### GetColumn\{#getcolumn}
+**OPTION METHODS:**
 
-This method returns the query result in a specific column. The signature is as follows:
+- `WithFilter(expr string)`
 
-```go
-func (rs *ResultSet) GetColumn(fieldName string) column.Column
-```
+    Applies a boolean filter expression to narrow results.
 
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>fieldName</code></p></td>
-     <td><p>Name of the target field.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-</table>
+- `WithTemplateParam(key string, val any)`
 
-## Return\{#return}
+    Sets a template parameter for expression evaluation.
 
-`ResultSet`
+- `WithOffset(offset int)`
+
+    Sets the number of results to skip before returning matches.
+
+- `WithLimit(limit int)`
+
+    Sets the maximum number of results to return.
+
+- `WithOutputFields(fieldNames ...string)`
+
+    Specifies which fields to include in the returned results.
+
+- `WithConsistencyLevel(consistencyLevel [entity.ConsistencyLevel](./v2-Collection-ConsistencyLevel))`
+
+    Sets the consistency level for the operation (Strong, Bounded, Session, or Eventually).
+
+- `WithPartitions(partitionNames ...string)`
+
+    Limits the operation to the specified partitions.
+
+- `WithIDs(ids column.Column)`
+
+    Sets the i ds for the operation.
+
+**RETURN TYPE:**
+
+*[ResultSet](./v2-Vector-ResultSet), error*
+
+**RETURNS:**
+
+The search or query results containing matched entities with scores and fields. Returns an error if the operation fails.
+
+**EXCEPTIONS:**
+
+- **error**
+
+    Check `err != nil` for failure details.
 
 ## Example\{#example}
 
-```plaintext
-rs, err := cli.Get(ctx, milvusclient.NewQueryOption("quick_setup").
-        WithIDs(column.NewColumnInt64("id", []int64{1, 2, 3})))
+```go
+import (
+	"context"
+	"fmt"
+	"log"
+
+	"github.com/milvus-io/milvus/client/v2/column"
+	"github.com/milvus-io/milvus/client/v2/milvusclient"
+)
+
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
+
+milvusAddr := "YOUR_CLUSTER_ENDPOINT"
+
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+	Address: milvusAddr,
+})
 if err != nil {
-    // handle error
+	log.Fatal("failed to connect to milvus server: ", err.Error())
+}
+
+defer cli.Close(ctx)
+
+rs, err := cli.Get(ctx, milvusclient.NewQueryOption("quick_setup").
+	WithIDs(column.NewColumnInt64("id", []int64{1, 2, 3})))
+if err != nil {
+	// handle error
 }
 
 fmt.Println(rs.GetColumn("id"))
 ```
-

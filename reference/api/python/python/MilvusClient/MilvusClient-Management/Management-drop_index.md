@@ -12,10 +12,10 @@ type: docx
 token: NPnQdZCJ7oF002xTntecdI2ini8
 sidebar_position: 5
 keywords: 
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
   - zilliz
   - zilliz cloud
   - cloud
@@ -32,6 +32,12 @@ import Admonition from '@theme/Admonition';
 # drop_index()
 
 This operation drops an index from a specific collection.
+
+<Admonition type="info" icon="📘" title="Notes">
+
+Collections for on-demand compute do not support this operation.
+
+</Admonition>
 
 ## Request syntax\{#request-syntax}
 

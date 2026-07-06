@@ -9,13 +9,13 @@ deprecate_since: false
 notebook: false
 description: "This operation creates a user. | Python | MilvusClient"
 type: docx
-token: BDupd28JqoNY9HxVOTfcv86enRe
+token: EglSdm1jkozDSlxq6SEc4CRonVe
 sidebar_position: 4
 keywords: 
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
   - zilliz
   - zilliz cloud
   - cloud
@@ -56,10 +56,6 @@ create_user(
     **[REQUIRED]**
 
     The password of the user to create.
-
-- **description** (*str*) -
-
-    An optional description of the user.
 
 - **timeout** (*float* | *None*)  
 

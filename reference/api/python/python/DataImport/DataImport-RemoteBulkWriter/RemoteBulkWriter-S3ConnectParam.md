@@ -12,10 +12,10 @@ type: docx
 token: CSpOd0XgWoVAhzx5xbVcpCVfnPg
 sidebar_position: 5
 keywords: 
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
   - zilliz
   - zilliz cloud
   - cloud
@@ -43,8 +43,9 @@ Constructs an **S3ConnectParam** object by a set of parameters, such as **bucket
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>An <strong>S3ConnectParam</strong> object defines the parameters necessary for Zilliz Cloud to connect to an AWS-S3-compatible bucket.</p>
-<p>You need to create this object before initializing a <strong><a href="./DataImport-RemoteBulkWriter">RemoteBulkWriter</a></strong> object.</p>
+An **S3ConnectParam** object defines the parameters necessary for Zilliz Cloud to connect to an AWS-S3-compatible bucket.
+
+You need to create this object before initializing a **[RemoteBulkWriter](./DataImport-RemoteBulkWriter)** object.
 
 </Admonition>
 
@@ -78,20 +79,10 @@ connect_param = RemoteBulkWriter.S3ConnectParam(
 
     The value can be the URL of a MinIO service or that of any AWS S3 compatible public service.
 
-    <table>
-       <tr>
-         <th><p><strong>Service Name</strong></p></th>
-         <th><p><strong>Endpoint</strong></p></th>
-       </tr>
-       <tr>
-         <td><p><strong>AWS S3</strong></p></td>
-         <td><p>s3.amazonaws.com</p></td>
-       </tr>
-       <tr>
-         <td><p><strong>GCS</strong></p></td>
-         <td><p>storage.googleapis.com</p></td>
-       </tr>
-    </table>
+    | **Service Name** | **Endpoint** |
+    | --- | --- |
+    | **AWS S3** | s3.amazonaws.com |
+    | **GCS** | storage.googleapis.com |
 
 - **access_key** (*str*)
 

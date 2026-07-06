@@ -4,7 +4,7 @@ slug: /node/node/Management-getLoadingProgress
 sidebar_label: "getLoadingProgress()"
 beta: false
 added_since: v2.4.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation gets the loading progress of a specific collection. | Node.js"
@@ -12,15 +12,15 @@ type: docx
 token: DkImdRkJwoUmdqxzqn1cpQr9nhy
 sidebar_position: 13
 keywords: 
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
   - zilliz
   - zilliz cloud
   - cloud
   - getLoadingProgress()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar
@@ -68,34 +68,24 @@ await milvusClient.getLoadingProgress({
 
     The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-**RETURNS** *Promise\<GetLoadingProgressResponse>*
+**RETURNS** *Promise&lt;GetLoadingProgressResponse&gt;*
 
 This method returns a promise that resolves to a **GetLoadingProgressResponse** object.
 
-```javascript
+```typescript
 {
     progress: string,
-    status: {
-        code: number,
-        error_code: string | number,
-        reason: string
-    }
+    status:  ResStatus
 }
 ```
 
 **PARAMETERS:**
 
 - **progress** (*string*) -
+The completion percentage of the load operation as an integer between **"0"** and **"100"**. The collection is fully loaded once this value reaches **"100"**.
 
-    The loading progress in percentage.
-
-- **total_rows** (*number*) -
-
-    The number of entities that already persisted in the specified collection.
-
-- **status** (*ResStatus*) -  
-
-    The status of the response.
+- **ResStatus**
+A **ResStatus** object.
 
     - **code** (*number*) -
 
@@ -103,9 +93,9 @@ This method returns a promise that resolves to a **GetLoadingProgressResponse** 
 
     - **error_code** (*string* | *number*) -
 
-        An error code that indicates an occurred error. It remains **Success** if this operation succeeds. 
+        An error code that indicates an occurred error. It remains **Success** if this operation succeeds.
 
-    - **reason** (*string*) - 
+    - **reason** (*string*) -
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 

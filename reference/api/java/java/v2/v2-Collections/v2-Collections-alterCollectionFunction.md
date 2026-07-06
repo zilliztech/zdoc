@@ -12,15 +12,15 @@ type: docx
 token: A6Vld2dJToRXs8xhq0wcGdiRnDc
 sidebar_position: 31
 keywords: 
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
   - zilliz
   - zilliz cloud
   - cloud
   - alterCollectionFunction()
-  - javaV226
+  - javaV230
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

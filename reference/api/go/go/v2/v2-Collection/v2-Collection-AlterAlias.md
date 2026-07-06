@@ -1,18 +1,29 @@
 ---
 title: "AlterAlias() | Go | v2"
-slug: /go/v2-Collection-AlterAlias
+slug: /go/go/v2-Collection-AlterAlias
 sidebar_label: "AlterAlias()"
-beta: FALSE
-added_since: v2.5.x
-last_modified: FALSE
-deprecate_since: FALSE
-notebook: FALSE
-description: "This method changes the alias associated with the specified collection. | Go | v2"
-type: origin
-token: FjU9wBev7iBFUTkfdvecqCP8nYb
-sidebar_position: 1
+beta: false
+added_since: v2.6.x
+last_modified: false
+deprecate_since: false
+notebook: false
+description: "This operation reassigns an existing alias to a different collection. | Go | v2"
+type: docx
+token: GNQcdBgh2oMyS9xxJk0cvESGnfe
+sidebar_position: 3
+keywords: 
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - AlterAlias()
+  - gov230
 displayed_sidebar: goSidebar
 
+displayed_sidbar: goSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -20,90 +31,80 @@ import Admonition from '@theme/Admonition';
 
 # AlterAlias()
 
-This method changes the alias associated with the specified collection.
+This operation reassigns an existing alias to a different collection.
 
 ```go
 func (c *Client) AlterAlias(ctx context.Context, option AlterAliasOption, callOptions ...grpc.CallOption) error
 ```
 
-## Request Parameters\{#request-parameters}
-
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>ctx</code></p></td>
-     <td><p>Context for the current call to work.</p></td>
-     <td><p><code>context.Context</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>option</code></p></td>
-     <td><p>Optional parameters of the methods.</p></td>
-     <td><p><a href="./v2-Collection-AlterAlias#alteraliasoption"><code>AlterAliasOption</code></a></p></td>
-   </tr>
-   <tr>
-     <td><p><code>callOpts</code></p></td>
-     <td><p>Optional parameters for calling the methods.</p></td>
-     <td><p><code>grpc.CallOption</code></p></td>
-   </tr>
-</table>
-
-## AlterAliasOption\{#alteraliasoption}
-
-This is an interface type. The `alterAliasOption` struct type implements this interface type. 
-
-You can use the `NewAlterAliasOption()` function to get the concrete implementation.
-
-### NewAlterAliasOption\{#newalteraliasoption}
-
-The signature of this method is as follows:
+## Request Syntax\{#request-syntax}
 
 ```go
-func NewAlterAliasOption(alias, collectionName string) *alterAliasOption
+option := milvusclient.NewAlterAliasOption(alias, collectionName)
+
+err := client.AlterAlias(ctx, option)
 ```
 
-<table>
-   <tr>
-     <th><p>Parameter</p></th>
-     <th><p>Description</p></th>
-     <th><p>Type</p></th>
-   </tr>
-   <tr>
-     <td><p><code>alias</code></p></td>
-     <td><p>Alias to be assigned to the collection.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>collectionName</code></p></td>
-     <td><p>Name of the target collection.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-</table>
+**PARAMETERS:**
 
-## Return\{#return}
+- **[alias](./v2-Collection-Alias)** (*string*)
 
-Null
+    The alias name to assign.
+
+- **collectionName** (*string*)
+
+    The name of the target collection.
+
+**RETURN TYPE:**
+
+*error*
+
+**RETURNS:**
+
+Returns nil on success, or an error describing what went wrong.
+
+**EXCEPTIONS:**
+
+- **error**
+
+    Check `err != nil` for failure details.
 
 ## Example\{#example}
 
-```plaintext
+```go
+import (
+	"context"
+	"fmt"
+
+	"github.com/milvus-io/milvus/client/v2/milvusclient"
+)
+
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
+
+milvusAddr := "YOUR_CLUSTER_ENDPOINT"
+
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+	Address: milvusAddr,
+})
+if err != nil {
+	// handle error
+}
+
 err = cli.AlterAlias(ctx, milvusclient.NewAlterAliasOption("alice", "customized_setup_1"))
 if err != nil {
-    // handle error
+	// handle error
 }
 
 aliases, err := cli.ListAliases(ctx, milvusclient.NewListAliasesOption("customized_setup_1"))
 if err != nil {
-    // handle error
+	// handle error
 }
 fmt.Println(aliases)
 
 aliases, err = cli.ListAliases(ctx, milvusclient.NewListAliasesOption("customized_setup_2"))
 if err != nil {
-    // handle error
+	// handle error
 }
 fmt.Println(aliases)
 ```

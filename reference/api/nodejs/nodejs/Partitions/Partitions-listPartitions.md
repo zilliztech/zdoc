@@ -4,7 +4,7 @@ slug: /node/node/Partitions-listPartitions
 sidebar_label: "listPartitions()"
 beta: false
 added_since: v2.3.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation lists the partitions in a specified collection. | Node.js"
@@ -12,15 +12,15 @@ type: docx
 token: IvnLd6nXooRR6NxM9jdcDxCHnhh
 sidebar_position: 5
 keywords: 
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
   - zilliz
   - zilliz cloud
   - cloud
   - listPartitions()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar
@@ -34,17 +34,17 @@ import Admonition from '@theme/Admonition';
 This operation lists the partitions in a specified collection.
 
 ```javascript
-await milvusClient.listPartitions(data)
+listPartitions(data): Promise<ShowPartitionsResponse>
 ```
 
 ## Request Syntax\{#request-syntax}
 
 ```javascript
-await milvusClient.listPartitions({
+milvusClient.listPartitions({
     db_name: string,
     collection_name: string,
-    timeout?: number,
-    type?: ShowPartitionsType
+    type?: ShowPartitionsType,
+    timeout?: number
  })
 ```
 
@@ -60,21 +60,13 @@ await milvusClient.listPartitions({
 
     The name of an existing collection.
 
+- **type** (*ShowPartitionsType*) -
+
+     Whether to list all partitions or just the loaded one. Possible values are **All** and **Loaded**.
+
 - **timeout** (*number*)  
 
     The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
-
-- **type** (*ShowPartitionsType*) - 
-
-    Determines whether to list all partitions or only the loaded ones. A **ShowPartitionsType** has the following values:
-
-    - **All** = 0
-
-        Indicates that all partitions are to be listed.
-
-    - **Loaded** = 1
-
-        Indicates that only the loaded partitions are to be listed.
 
 **RETURNS** *Promise\<ShowPartitionsResponse>*
 
@@ -125,10 +117,7 @@ This method returns a promise that resolves to a **ShowPartitionsResponse** obje
 ## Example\{#example}
 
 ```java
-new MilvusClient({
-    address: 'YOUR_CLUSTER_ENDPOINT',
-    token: 'YOUR_CLUSTER_TOKEN',
-}).listPartitions({
+new milvusClient(MILUVS_ADDRESS).listPartitions({
     collection_name: 'my_collection',
  });
 ```

@@ -4,23 +4,23 @@ slug: /node/node/Vector-queryIterator
 sidebar_label: "queryIterator()"
 beta: false
 added_since: v2.4.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation conducts a scalar filtering query iteratively and returns results in batches. Use this instead of a single `query()` call when you need to process large result sets incrementally or when the total result count exceeds what a single query can return. | Node.js"
 type: docx
-token: MGCNdwG7RoaKHrxJZ5zcLLksnue
-sidebar_position: 13
+token: YZ3GdmklAolLnux8LRhcw7hxnvd
+sidebar_position: 11
 keywords: 
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
   - zilliz
   - zilliz cloud
   - cloud
   - queryIterator()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

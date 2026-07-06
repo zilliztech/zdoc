@@ -4,23 +4,23 @@ slug: /node/node/Vector-search
 sidebar_label: "search()"
 beta: false
 added_since: v2.3.x
-last_modified: v2.6.x
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation conducts a vector similarity search with an optional scalar filtering expression. | Node.js"
 type: docx
-token: C8kgdOn3pozkrtxCBMLcqcSTnTb
+token: HYv3d0NiRoc09Bx4rz0cIhqknb5
 sidebar_position: 7
 keywords: 
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
   - zilliz
   - zilliz cloud
   - cloud
   - search()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar
@@ -155,50 +155,14 @@ await milvusClient.search({
 
     The metric type used to measure similarity between vectors. The value varies with the vector field type. The following table lists the mapping between vector field types and their supported metric types.
 
-    <table>
-       <tr>
-         <th><p>Field Type</p></th>
-         <th><p>Dimension Range</p></th>
-         <th><p>Supported Metric Types</p></th>
-         <th><p>Default Metric Type</p></th>
-       </tr>
-       <tr>
-         <td><p><code>FLOAT_VECTOR</code></p></td>
-         <td><p>2-32,768</p></td>
-         <td><p><code>COSINE</code>, <code>L2</code>, <code>IP</code></p></td>
-         <td><p><code>COSINE</code></p></td>
-       </tr>
-       <tr>
-         <td><p><code>FLOAT16_VECTOR</code></p></td>
-         <td><p>2-32,768</p></td>
-         <td><p><code>COSINE</code>, <code>L2</code>, <code>IP</code></p></td>
-         <td><p><code>COSINE</code></p></td>
-       </tr>
-       <tr>
-         <td><p><code>BFLOAT16_VECTOR</code></p></td>
-         <td><p>2-32,768</p></td>
-         <td><p><code>COSINE</code>, <code>L2</code>, <code>IP</code></p></td>
-         <td><p><code>COSINE</code></p></td>
-       </tr>
-       <tr>
-         <td><p><code>INT8_VECTOR</code></p></td>
-         <td><p>2-32,768</p></td>
-         <td><p><code>COSINE</code>, <code>L2</code>, <code>IP</code></p></td>
-         <td><p><code>COSINE</code></p></td>
-       </tr>
-       <tr>
-         <td><p><code>SPARSE_FLOAT_VECTOR</code></p></td>
-         <td><p>No need to specify the dimension.</p></td>
-         <td><p><code>IP</code>, <code>BM25</code> (used only for full text search)</p></td>
-         <td><p><code>IP</code></p></td>
-       </tr>
-       <tr>
-         <td><p><code>BINARY_VECTOR</code></p></td>
-         <td><p>8-32,768&ast;8</p></td>
-         <td><p><code>HAMMING</code>, <code>JACCARD</code>, <code>MHJACCARD</code></p></td>
-         <td><p><code>HAMMING</code></p></td>
-       </tr>
-    </table>
+    | Field Type | Dimension Range | Supported Metric Types | Default Metric Type |
+    | --- | --- | --- | --- |
+    | `FLOAT_VECTOR` | 2-32,768 | `COSINE`, `L2`, `IP` | `COSINE` |
+    | `FLOAT16_VECTOR` | 2-32,768 | `COSINE`, `L2`, `IP` | `COSINE` |
+    | `BFLOAT16_VECTOR` | 2-32,768 | `COSINE`, `L2`, `IP` | `COSINE` |
+    | `INT8_VECTOR` | 2-32,768 | `COSINE`, `L2`, `IP` | `COSINE` |
+    | `SPARSE_FLOAT_VECTOR` | No need to specify the dimension. | `IP`, `BM25` (used only for full text search) | `IP` |
+    | `BINARY_VECTOR` | 8-32,768*8 | `HAMMING`, `JACCARD`, `MHJACCARD` | `HAMMING` |
 
 - **consistency_level** (*ConsistencyLevelEnum*) -
 

@@ -4,7 +4,7 @@ slug: /node/node/Management-listIndexes
 sidebar_label: "listIndexes()"
 beta: false
 added_since: v2.4.x
-last_modified: false
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
 description: "This operation lists the indexes of a specific collection | Node.js"
@@ -12,15 +12,15 @@ type: docx
 token: N1fldMqhtoWBJPxh8VccivqxnZd
 sidebar_position: 16
 keywords: 
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
   - zilliz
   - zilliz cloud
   - cloud
   - listIndexes()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar
@@ -73,24 +73,24 @@ await milvusClient.listIndexes({
 
     The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-**RETURNS** *Promise\<DescribeIndexResponse>*
+**RETURNS** *Promise&lt;ListIndexResponse&gt;*
 
-This method returns a promise that resolves to a **DescribeIndexResponse** object.
+This method returns a promise that resolves to a **ListIndexResponse** object.
 
-```javascript
+```typescript
 {
     indexes: string[],
-    status: object
+    status:  ResStatus
 }
 ```
 
 **PARAMETERS:**
 
 - **indexes** (*string[]*) -
+A list of index names defined on the requested collection.
 
-    A list of index names.
-
-- **status** (*object*) -
+- **ResStatus**
+A **ResStatus** object.
 
     - **code** (*number*) -
 
@@ -98,8 +98,8 @@ This method returns a promise that resolves to a **DescribeIndexResponse** objec
 
     - **error_code** (*string* | *number*) -
 
-        An error code that indicates an occurred error. It remains **Success** if this operation succeeds. 
+        An error code that indicates an occurred error. It remains **Success** if this operation succeeds.
 
-    - **reason** (*string*) - 
+    - **reason** (*string*) -
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.

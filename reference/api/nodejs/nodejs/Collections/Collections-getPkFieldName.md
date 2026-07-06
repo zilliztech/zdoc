@@ -10,17 +10,17 @@ notebook: false
 description: "This operation gets the primary key field name of a collection. This is a convenient method that describes the collection and extracts the primary key field name. | Node.js"
 type: docx
 token: WiVnd8VXooFQ9PxVgiyc7FkqnAg
-sidebar_position: 25
+sidebar_position: 26
 keywords: 
+  - how does milvus work
   - Zilliz vector database
   - Zilliz database
   - Unstructured Data
-  - vector database
   - zilliz
   - zilliz cloud
   - cloud
   - getPkFieldName()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar
