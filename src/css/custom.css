@@ -114,17 +114,17 @@ body.zdoc-docs-page {
   --zd-nav-hover-bg: var(--zd-surface-2);
   /* selected navigation surface */
   --zd-nav-active-bg: var(--zd-sidebar-active-bg);
-  --zd-sidebar-active-bg: #f6f5fc;
+  --zd-sidebar-active-bg: #f2f3ff;
   --zd-sidebar-active-bg-sub: var(--zd-note-bg);
-  --zd-sidebar-hover-bg: #f6f5fc;
-  --zd-sidebar-hover-bg-sub: #f6f5fc;
+  --zd-sidebar-hover-bg: #f2f3ff;
+  --zd-sidebar-hover-bg-sub: #f2f3ff;
   --zd-sidebar-active-ink: var(--zd-page-ink);
   --zd-sidebar-active-weight: 500;
-  --zd-banner-nav-bg: #f0eff8;
+  --zd-banner-nav-bg: #f0f1ff;
   --zd-banner-nav-ink: #474375;
-  --zd-banner-nav-line: #ddd9ef;
-  --zd-banner-nav-line-strong: #d2cde8;
-  --zd-banner-nav-nested-bg: #ebe9f5;
+  --zd-banner-nav-line: #d9dcf9;
+  --zd-banner-nav-line-strong: #ced2f0;
+  --zd-banner-nav-nested-bg: #ebedfd;
   --zd-note-bg: var(--zd-banner-nav-bg);
   --zd-note-bg-hover: var(--zd-banner-nav-nested-bg);
   --zd-note-ink: var(--zd-banner-nav-ink);
@@ -1551,19 +1551,6 @@ pre {
 
 /* ── Merged sidebar at the 768–1320px breakpoint only (opening the chat no
    longer shrinks the nav — it keeps its full two-level width). ── */
-@media (min-width: 768px) and (max-width: 1320px) {
-  .theme-doc-sidebar-container {
-    --doc-sidebar-width: calc(13.5rem + 10px);
-    width: calc(13.5rem + 10px) !important;
-    min-width: 0 !important;
-  }
-
-  .theme-doc-sidebar-container [class*='sidebarViewport'] {
-    width: calc(13.5rem + 10px) !important;
-    min-width: 0 !important;
-  }
-}
-
 @media (min-width: 768px) {
   body.docs-nav-compact .theme-doc-sidebar-container {
     --doc-sidebar-width: calc(13.5rem + 10px);
@@ -2847,10 +2834,10 @@ html.docs-doc-id-tutorials\/home #copy-page-btn {
 /* note + info — blue-purple */
 .alert--secondary,
 .alert--info {
-  /* colors sampled from the reference note image */
+  /* shares the nav-selected lavender token so note + left-nav stay one set */
   --ifm-alert-background-color: var(--zd-note-bg);
   --ifm-alert-foreground-color: #494592;
-  --ifm-alert-border-color: #dcd7f4;
+  --ifm-alert-border-color: var(--zd-note-line);
   --zd-alert-code-bg: var(--zd-note-nested-bg);
   --zd-alert-code-border: var(--zd-note-line-strong);
   --zd-banner-code-bg: var(--zd-alert-code-bg);

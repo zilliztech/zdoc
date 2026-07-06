@@ -294,13 +294,14 @@ function itemContainsPath(item: PropSidebarItem, pathname: string): boolean {
   return false;
 }
 
-/** Collapsed/merged state: narrow viewport breakpoint (≤1320px), or the same
- *  effective-width compact state used by the topbar while the AI panel is open. */
+/** Collapsed/merged state: driven solely by the topbar's `docs-nav-compact`
+ *  signal so the sidebar and topbar switch to the compact form at the exact
+ *  same breakpoint (and together while the AI panel is open). */
 function useMergedMode(): boolean {
   const [merged, setMerged] = useState(false);
   useEffect(() => {
     const compute = () => {
-      const narrow = window.innerWidth <= 1320 || document.body.classList.contains('docs-nav-compact');
+      const narrow = document.body.classList.contains('docs-nav-compact');
       setMerged(narrow);
     };
     compute();

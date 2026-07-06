@@ -15,8 +15,8 @@ import styles from './styles.module.css';
 
 let persistedHiddenContainer = false;
 let persistedHidden = false;
-const NAV_COMPACT_ENTER_WIDTH = 1260;
-const NAV_COMPACT_EXIT_WIDTH = 1300;
+const NAV_COMPACT_ENTER_WIDTH = 1320;
+const NAV_COMPACT_EXIT_WIDTH = 1360;
 const NAV_MOBILE_ENTER_WIDTH = 760;
 const NAV_MOBILE_EXIT_WIDTH = 800;
 const CHAT_MIN_WIDTH = 320;
@@ -213,13 +213,20 @@ function DocRootLayoutInner({children}: Props): ReactNode {
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [isChatExpanded, setIsChatExpanded] = useState(false);
   const [chatWidth, setChatWidth] = useState<number | null>(null);
-  const navCompactRef = useRef(false);
+  // Seed from the current <body> class so the compact hysteresis carries across
+  // a route remount (e.g. drilling from a guides page into /reference/*), instead
+  // of resetting to false and popping medium-width users back to the large layout.
+  const navCompactRef = useRef(
+    typeof document !== 'undefined' && document.body.classList.contains('docs-nav-compact'),
+  );
   const chatCloseTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   // Pre-mount the pane offscreen so opening only transitions transform instead
   // of waiting for the full chat tree to mount after the click.
   const [chatRender, setChatRender] = useState(false);
   const [chatClosing, setChatClosing] = useState(false);
-  const navMobileRef = useRef(false);
+  const navMobileRef = useRef(
+    typeof document !== 'undefined' && document.body.classList.contains('docs-nav-mobile'),
+  );
 
   useEffect(() => {
     setChatRender(true);
