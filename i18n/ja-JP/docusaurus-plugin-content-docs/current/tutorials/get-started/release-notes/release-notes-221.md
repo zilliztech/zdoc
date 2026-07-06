@@ -8,7 +8,7 @@ notebook: FALSE
 description: "Zilliz Cloud のローンチを発表できることを嬉しく思います。このリリースでは、新しい CU サイズオプションによる柔軟性の向上、前払いのサポート、さらに多くの AWS リージョンなど、さまざまな機能強化と新機能を導入しています。 | Cloud"
 type: origin
 token: YtxBwrPfBiuFDdk10GVcYY1DnGg
-sidebar_position: 27
+sidebar_position: 28
 keywords: 
   - zilliz
   - ベクトルデータベース

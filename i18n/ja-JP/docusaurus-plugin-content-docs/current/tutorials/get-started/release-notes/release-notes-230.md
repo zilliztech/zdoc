@@ -8,7 +8,7 @@ notebook: FALSE
 description: "AWS フランクフルトリージョン（EU）のローンチを発表いたします。この拡張に伴い、ベータ機能として Range Search、Upsert、およびコサイン メトリックタイプを導入し、検索機能とデータ管理の効率性を向上させました。その他の機能には、APIキーアクセス、生ベクトルの取得、JSONCONTAINS フィルター、およびエンティティ数が含まれます。また、RBAC、請求、料金計算、アカウント管理、およびサービス安定性の改善も実施し、ユーザー体験を向上させました。 | Cloud"
 type: origin
 token: MocQwCCItiHYEbkkJtOcROPTnod
-sidebar_position: 26
+sidebar_position: 27
 keywords: 
   - zilliz
   - ベクトルデータベース

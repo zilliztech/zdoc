@@ -8,7 +8,7 @@ notebook: FALSE
 description: "Zilliz Cloud のサービスが Azure で利用可能になりました。最初は East US リージョンから開始します。また、非構造化データをベクトル埋め込みに変換して取り込み・検索を行う Zilliz Cloud Pipelines (Beta) を導入しました。このリリースでは、クラスター内の RBAC と認証情報管理も改善され、ユーザー管理用に3つの事前定義ロール（admin、read-write、read-only）が用意されています。その他の更新として、エラーメッセージの内容強化と、より信頼性の高いサービスを実現する安定性の向上が含まれます。"
 type: origin
 token: A5lpwIZcZiTLqakdt6rcCmPcnEe
-sidebar_position: 25
+sidebar_position: 26
 keywords: 
   - zilliz
   - ベクトルデータベース

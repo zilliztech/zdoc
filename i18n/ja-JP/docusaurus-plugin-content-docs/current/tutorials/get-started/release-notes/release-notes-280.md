@@ -8,7 +8,7 @@ notebook: FALSE
 description: "今回の Zilliz Cloud のアップデートでは、Serverless プランが BETA として導入されました。このプランは、クエリ量が変動するアプリケーション向けに設計されており、最小限の構成でシームレスなスケーラビリティを提供します。本プランは GCP us-west1（オレゴン）で利用可能となり、BETA 期間中は無料トライアルも含まれています。また、専用クラスターの新しいリージョンとして、Azure の Germany West Central（フランクフルト）、GCP の europe-west3（フランクフルト）および us-east-4（バージニア）がサポートされました。このリリースでは、監視メトリクス、検索精度の制御、およびインポートジョブに関するいくつかの機能強化も導入されています。"
 type: origin
 token: EL8jwqHsPikz2okhYzXcuLscnhf
-sidebar_position: 21
+sidebar_position: 22
 keywords: 
   - zilliz
   - ベクトルデータベース

@@ -8,7 +8,7 @@ notebook: FALSE
 description: "Zilliz BYOC において、BYOC プロジェクトのインスタンス設定の構成やクラスターへの AWS PrivateLink の有効化など、いくつかの機能強化が導入されました。 | Cloud"
 type: origin
 token: JPNiwF6rPiNe0pkx460cr321nTc
-sidebar_position: 12
+sidebar_position: 13
 keywords: 
   - zilliz
   - ベクトルデータベース

@@ -8,7 +8,7 @@ notebook: FALSE
 description: "Zilliz Cloud の大幅なアップデートの一般提供を開始しました。このリリースでは、データプレビュー機能と、コンソール上のコレクションに簡単にインポートできるデモデータセットが追加されています。"
 type: origin
 token: UIaAwGay9iJHhlkxx8VcxfZ3nvb
-sidebar_position: 34
+sidebar_position: 35
 keywords: 
   - zilliz
   - ベクトルデータベース

@@ -8,7 +8,7 @@ notebook: FALSE
 description: "Zilliz Cloud が Milvus 2.5 をパブリックプレビューでサポートし、セマンティック検索を補完する全文検索を導入しました。BM25 メトリックと疎ベクトルを使用して効率的なストレージと取得を実現し、この機能によりユーザーはテキストを変換せずに直接クエリできます。また、BYOC デプロイメントが Private Link で強化され、セキュリティの向上、コンプライアンスの簡略化、ネットワーク構成の簡素化が図られています。さらに、AWS CloudFormation による自動デプロイメントがサポートされ、大規模な小ファイルのインポート処理が最適化され、より高速なデータ取り込みが可能になりました。 | Cloud"
 type: origin
 token: LRRVwYzxKioMiMk7cf6czQuhn7d
-sidebar_position: 14
+sidebar_position: 15
 keywords: 
   - zilliz
   - ベクトルデータベース

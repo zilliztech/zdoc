@@ -8,7 +8,7 @@ notebook: FALSE
 description: "このリリースでは、Zilliz Cloud の複数の機能において、より洗練され直感的なユーザー体験を提供します。再設計された移行コンソール、ポリシーベースのアラート、改善された mmap コントロールなど、ワークフローをより高速で柔軟かつ管理しやすくすることに焦点を当てています。新しい AI アシスタント機能と GCP 上の BYOC サポートにより、インフラストラクチャの管理、環境の監視、サポートの取得など、あらゆる場面でプラットフォームの機能性と使いやすさがさらに拡張されます。 | Cloud"
 type: origin
 token: DF8HwUTD6iScNQkVzs8cZTr8n8b
-sidebar_position: 11
+sidebar_position: 12
 keywords: 
   - zilliz
   - ベクトルデータベース

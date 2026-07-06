@@ -11,7 +11,7 @@ notebook: FALSE
 description: "We’re thrilled to share that Zilliz BYOC has introduced several enhancements, allowing you to configure instance settings for your BYOC project and enable AWS PrivateLink for your cluster. | Cloud"
 type: origin
 token: JPNiwF6rPiNe0pkx460cr321nTc
-sidebar_position: 12
+sidebar_position: 13
 keywords: 
   - zilliz
   - vector database

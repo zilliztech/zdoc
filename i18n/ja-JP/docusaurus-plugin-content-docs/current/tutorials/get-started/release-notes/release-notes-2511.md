@@ -8,7 +8,7 @@ notebook: FALSE
 description: "Zilliz Cloud 2025年11月のリリースノート。"
 type: origin
 token: CK0ewQWC2iz6lakP0kscqogbnGh
-sidebar_position: 7
+sidebar_position: 8
 keywords: 
   - zilliz
   - ベクトルデータベース

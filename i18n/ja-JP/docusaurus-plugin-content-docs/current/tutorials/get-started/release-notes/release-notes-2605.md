@@ -11,7 +11,7 @@ notebook: FALSE
 description: "Zilliz Cloud の2026年5月のリリースノートです。"
 type: origin
 token: NRF1wGr3AiWWC1kVfWucZD6Xneb
-sidebar_position: 2
+sidebar_position: 3
 keywords: 
   - zilliz
   - ベクトルデータベース

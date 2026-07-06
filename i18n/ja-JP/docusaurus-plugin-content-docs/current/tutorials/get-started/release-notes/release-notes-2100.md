@@ -8,7 +8,7 @@ notebook: FALSE
 description: "本リリースでは、Zilliz Cloud における複数の重要なアップデートを提供します。まず、自動スケーリングを提供し、最大50倍のコスト削減を実現する Zilliz Cloud Serverless の GA（一般提供）です。Milvus 2.4の機能も GA となり、疎ベクトル、マルチベクトルハイブリッド検索、およびあいまい一致を伴う転置インデックスなどの機能が導入されました。また、本リリースではマルチレプリカ機能がパブリックプレビューとして提供され、複数のアベイラビリティゾーン（AZ）のレプリカ間でワークロードを分散させることで、クエリのスループットと可用性を向上させることができます。さらに、Zilliz Cloud の新しい移行サービスは、オープンソースの Milvus、pgvector、Elasticsearch からの移行をサポートし、Zilliz Cloud 内での組織内および組織間のデータ移行も可能にします。バックアップ、リストア、移行、およびジョブ管理のための拡張された RESTful API により、ユーザーは自動化された運用ワークフローを構築できます。その他の機能強化には、プロジェクトの読み取り専用ロールのサポート、およびクラスターとスナップショットの名前変更機能が含まれます。 | Cloud"
 type: origin
 token: PJ4hwwD1DiVnv0kWPZBceLrdnSf
-sidebar_position: 18
+sidebar_position: 19
 keywords: 
   - zilliz
   - ベクトルデータベース

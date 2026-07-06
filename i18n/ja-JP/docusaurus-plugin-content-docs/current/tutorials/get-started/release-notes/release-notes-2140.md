@@ -8,7 +8,7 @@ notebook: FALSE
 description: "このリリースでは、PRIVATE PREVIEW で2つの新機能が導入されました。1つは BYOC-I と呼ばれる新しい BYOC デプロイメントオプションで、クロスアカウントの IAM 認可なしに完全なデータ主権を確保するように設計されています。もう1つはデータプレーン監査ログ機能で、データプレーンで実行されたアクションの詳細なログを提供することでデータセキュリティを強化することを目的としています。これらの機能のローンチに加えて、Zilliz Cloud はクレジット戦略も見直しました。 | Cloud"
 type: origin
 token: FSUqwEEIii9k2sklkcLcIFJJnbf
-sidebar_position: 13
+sidebar_position: 14
 keywords: 
   - zilliz
   - ベクトルデータベース

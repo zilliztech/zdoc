@@ -11,7 +11,7 @@ notebook: FALSE
 description: "This page explains how to deploy a Bring-Your-Own-Cloud (BYOC) data plane with a BYOC agent in your Microsoft Azure Virtual Network. | BYOC"
 type: origin
 token: QuBiwrIJdiDw3ckVDKBcPofinfe
-sidebar_position: 5
+sidebar_position: 7
 keywords: 
   - zilliz
   - byoc

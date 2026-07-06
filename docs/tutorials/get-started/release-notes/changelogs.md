@@ -8,7 +8,7 @@ last_modified: FALSE
 deprecate_since: FALSE
 beta: FALSE
 notebook: FALSE
-description: "Last updated June 24, 2026 | Cloud"
+description: "Last updated July 6, 2026 | Cloud"
 type: origin
 token: MUL3wkn7Yi3YoFkYk59csf8bnNc
 sidebar_position: 0
@@ -27,7 +27,7 @@ import Grid from '@site/src/components/Grid';
 
 # Changelogs
 
-**Last updated:** June 24, 2026
+**Last updated:** July 6, 2026
 
 <Grid columnSize="2" widthRatios="25,74">
 
@@ -46,6 +46,22 @@ import Grid from '@site/src/components/Grid';
 </Grid>
 
 ## 2026\{#2026}
+
+<Grid columnSize="2" widthRatios="25,74">
+
+    <div>
+
+        **[July 6, 2026](./release-notes-2607#byoc-i-now-available-on-gcp)**
+
+    </div>
+
+    <div>
+
+        - 🔒 Zilliz Cloud **Bring Your Own Cloud Infrastructure (BYOC-I)** now supports **Google Cloud Platform (GCP)**. For details, refer to [Deploy BYOC-I on GCP](/docs/byoc/deploy-byoc-i-gcp) for step-by-step manual guides, and [Terraform Provider](https://registry.terraform.io/providers/zilliztech/zillizcloud/latest/docs) for IaC automation.
+
+    </div>
+
+</Grid>
 
 <Grid columnSize="2" widthRatios="25,74">
 

@@ -8,7 +8,7 @@ notebook: FALSE
 description: "Zilliz Cloud の大幅なアップデートの一般提供を発表いたします。このリリースでは、メール通知機能と初心者向けのインラインガイドが追加されました。 | Cloud"
 type: origin
 token: E76ywex6GiUKUKkgbFAc95Q0nxe
-sidebar_position: 33
+sidebar_position: 34
 keywords: 
   - zilliz
   - ベクトルデータベース

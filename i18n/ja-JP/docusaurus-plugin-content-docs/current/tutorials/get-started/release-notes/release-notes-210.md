@@ -8,7 +8,7 @@ notebook: FALSE
 description: "Zilliz Cloud のローンチを発表できることを嬉しく思います。このリリースには、拡張されたリージョンサポートや、移行やサーバーレスインスタンス管理などの使いやすさを向上させる機能を含む、さまざまな機能強化と新機能が含まれています。また、RESTful API に Bulk-insert と Dedicated Cluster サポートを追加しました。 | Cloud"
 type: origin
 token: Ti5uwysf0iZhuyk4xvjcFmsSnhG
-sidebar_position: 29
+sidebar_position: 30
 keywords: 
   - zilliz
   - ベクトルデータベース

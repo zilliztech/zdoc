@@ -8,7 +8,7 @@ notebook: FALSE
 description: "Zilliz Cloud の大幅なアップデートの一般提供を発表いたします。このリリースでは、Zilliz Cloud サービスの新しいコンソール、新しいクラウドリージョンのサポート、およびプライベートリンクによる安全なクラスターアクセスが導入されました。 | Cloud"
 type: origin
 token: QZXVwFVH3i1p08kal8vcAmmxnie
-sidebar_position: 35
+sidebar_position: 36
 keywords: 
   - zilliz
   - ベクトルデータベース

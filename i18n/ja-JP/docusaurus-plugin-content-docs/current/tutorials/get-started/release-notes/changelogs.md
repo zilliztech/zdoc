@@ -5,7 +5,7 @@ sidebar_key: changelogs
 sidebar_label: "変更履歴"
 beta: FALSE
 notebook: FALSE
-description: "最終更新日: 2026年6月17日 | Cloud"
+description: "最終更新日: 2026年7月6日 | Cloud"
 type: origin
 token: MUL3wkn7Yi3YoFkYk59csf8bnNc
 sidebar_position: 0
@@ -24,7 +24,7 @@ import Grid from '@site/src/components/Grid';
 
 # 変更履歴
 
-**最終更新日:** 2026年6月17日
+**最終更新日:** 2026年7月6日
 
 <Grid columnSize="2" widthRatios="25,74">
 
@@ -43,6 +43,22 @@ import Grid from '@site/src/components/Grid';
 </Grid>
 
 ## 2026\{#2026}
+
+<Grid columnSize="2" widthRatios="25,74">
+
+    <div>
+
+        **[2026年7月6日](./release-notes-2607#byoc-i-now-available-on-gcp)**
+
+    </div>
+
+    <div>
+
+        - 🔒 Zilliz Cloud **Bring Your Own Cloud Infrastructure (BYOC-I)** が **Google Cloud Platform (GCP)** をサポートするようになりました。詳細については、手動でのステップバイステップ手順は [GCP 上で BYOC-I をデプロイ](/docs/byoc/deploy-byoc-i-gcp) を、IaC 自動化については [Terraform Provider](https://registry.terraform.io/providers/zilliztech/zillizcloud/latest/docs) を参照してください。
+
+    </div>
+
+</Grid>
 
 <Grid columnSize="2" widthRatios="25,74">
 

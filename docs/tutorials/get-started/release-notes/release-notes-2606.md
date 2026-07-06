@@ -11,7 +11,7 @@ notebook: FALSE
 description: "June 2026 Release Notes | Cloud"
 type: origin
 token: OZtawoDUci0CKokf9RlchvInnMf
-sidebar_position: 1
+sidebar_position: 2
 keywords: 
   - zilliz
   - vector database

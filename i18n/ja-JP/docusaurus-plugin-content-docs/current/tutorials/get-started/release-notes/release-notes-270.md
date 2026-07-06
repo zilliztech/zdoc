@@ -8,7 +8,7 @@ notebook: FALSE
 description: "今回のアップデートでは、Zilliz Cloud の強力なツールと機能強化が導入されました。オブジェクトストレージなどからの簡単なデータ取り込みを実現する新しい Connectors、検索の関連性を向上させる Rerankers、システム状態の詳細な分析を可能にする Metrics Monitoring API、および AWS S3、Google Cloud Storage、Azure Blob Storage からベクトルデータベースインスタンスへの直接インポートを可能にする Cross Cloud Data Import 機能です。これらの機能が組み合わさることで、データの取り込み、検索の精度、運用の可視性が向上し、クラウド上でのベクトルデータベースの管理が効率化されます。 | Cloud"
 type: origin
 token: S7PMwgqGOiURCpkTFT4cTnTjnAc
-sidebar_position: 22
+sidebar_position: 23
 keywords: 
   - zilliz
   - ベクトルデータベース

@@ -8,7 +8,7 @@ notebook: FALSE
 description: "本リリースでは、Zilliz Cloud が運用効率、柔軟性、およびユーザーエクスペリエンスの向上を目的とした複数の強力な機能強化を導入します。これらには、クラスターレベルのスケジュールされた自動スケーリングのサポート、新しい Merge Data API によるスキーマ進化、データ取り込みを効率化するクラウドネイティブなデータレイヤーである stage の導入、クロスデータベース選択を伴うクラスターレベルのバックアップからの部分リストア、および JSON Path インデックスの UI サポートが含まれます。これらの機能を組み合わせることで、ユーザーは複雑なワークロードをより効果的に管理し、メンテナンスのオーバーヘッドを削減し、GenAI 時代の開発サイクルを加速することができます。 | Cloud"
 type: origin
 token: WBONwyqFAi02DTkCG41c93wCn6e
-sidebar_position: 10
+sidebar_position: 11
 keywords: 
   - zilliz
   - ベクトルデータベース

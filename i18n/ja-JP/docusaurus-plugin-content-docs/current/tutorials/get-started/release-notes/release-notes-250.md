@@ -8,7 +8,7 @@ notebook: FALSE
 description: "Zilliz Cloud は、データインポート機能のユーザーエクスペリエンスを最適化し、階層的な権限を持つ API キーを改善し、メトリクスとアラートの仕組みを強化しました。 | Cloud"
 type: origin
 token: VbjiwU5RYi4bWdkC48Jceltnnpd
-sidebar_position: 24
+sidebar_position: 25
 keywords: 
   - zilliz
   - ベクトルデータベース

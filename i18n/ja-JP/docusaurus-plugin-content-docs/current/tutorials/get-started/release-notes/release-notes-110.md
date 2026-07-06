@@ -8,7 +8,7 @@ notebook: FALSE
 description: "Zilliz Cloud の最新アップデートを発表します。コスト見積もりのための料金計算ツール、データセキュリティ強化のためのデータバックアップと復元機能、グローバルユーザー向けのカスタマイズ可能なタイムゾーン設定、より良い整理のためのコレクション名変更ツール、制限なしの使用のためのストレージクォータの廃止、および非アクティブなデータベースのクレジット節約の改善などの機能を搭載しています。 | Cloud"
 type: origin
 token: ZvSOwB7zkir7PjkzrOPciC5WnTe
-sidebar_position: 31
+sidebar_position: 32
 keywords: 
   - zilliz
   - ベクトルデータベース

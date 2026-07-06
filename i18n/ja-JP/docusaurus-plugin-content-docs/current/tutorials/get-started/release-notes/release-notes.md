@@ -8,7 +8,7 @@ notebook: FALSE
 description: "これらのドキュメントで Zilliz Cloud のリリース履歴を確認できます。| Cloud"
 type: origin
 token: NOYvw884PigqIhk1gwLcw1OYnfe
-sidebar_position: 20
+sidebar_position: 38
 keywords: 
   - zilliz
   - ベクトルデータベース

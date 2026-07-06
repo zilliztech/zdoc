@@ -8,7 +8,7 @@ notebook: FALSE
 description: "Zilliz Cloud のリリースをお知らせします。Zilliz Cloud クラスター間および ElasticSearch からのデータ移行、新しいチケットシステムの稼働、強化されたデータインポート機能など、ユーザーエクスペリエンスを向上させる新機能を多数搭載しています。 | Cloud"
 type: origin
 token: GqyhwKVspiYRwDk8OaucNfgJnhd
-sidebar_position: 28
+sidebar_position: 29
 keywords: 
   - zilliz
   - ベクトルデータベース

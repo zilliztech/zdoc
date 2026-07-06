@@ -8,7 +8,7 @@ notebook: FALSE
 description: "Zilliz Cloud は最新リリースで2つの主要な機能強化を導入しました。まず、Pipelines が6つの最先端（SOTA）エンベディングモデルをサポートするようになり、データ処理能力が拡張されました。もう1つの主要な機能強化は、Collection Playground 機能の追加です。これにより、オンボーディング体験が簡略化されます。この機能を使用すると、Zilliz Cloud コンソールから直接基本的な作成、実行、更新、削除（CRUD）操作を簡単に実行できるため、データ操作プロセスがより効率化されます。これらの新機能を今すぐ試して、より効率的で効果的なワークフローを体験してください。 | Cloud"
 type: origin
 token: NmolwVTkCiQ2yZkXsJhcftyTnhc
-sidebar_position: 23
+sidebar_position: 24
 keywords: 
   - zilliz
   - ベクトルデータベース

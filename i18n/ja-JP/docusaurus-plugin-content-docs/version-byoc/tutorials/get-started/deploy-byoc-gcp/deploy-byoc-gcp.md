@@ -8,7 +8,7 @@ notebook: FALSE
 description: "このページでは、Zilliz Cloud コンソールとカスタム GCP 構成を使用して、Google Cloud Platform（GCP）Virtual Private Cloud（VPC）内に完全に管理された Bring-Your-Own-Cloud（BYOC）データプレーンを手動で作成する方法について説明します。 | BYOC"
 type: origin
 token: KmYgwHNOFiPQ9sk4bSDcMuIHnjC
-sidebar_position: 6
+sidebar_position: 5
 keywords: 
   - zilliz
   - byoc

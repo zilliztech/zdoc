@@ -8,7 +8,7 @@ notebook: FALSE
 description: "このリリースでは、新しい Web コンソールのユーザーインターフェース、Qdrant・Pinecone Serverless・Tencent VectorDB からのデータ移行サポート、よりスムーズな支払いプロセス、および詳細な支払い情報を備えた刷新された請求書ページが含まれています。 | Cloud"
 type: origin
 token: HwWfwN9SViqU0Ukcv68cufBAnBe
-sidebar_position: 16
+sidebar_position: 17
 keywords: 
   - zilliz
   - ベクトルデータベース

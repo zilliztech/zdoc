@@ -8,7 +8,7 @@ notebook: FALSE
 description: "このページでは、Microsoft Azure Virtual Network に BYOC エージェントを持つ Bring-Your-Own-Cloud (BYOC) データプレーンをデプロイする方法を説明します。 | BYOC"
 type: origin
 token: QuBiwrIJdiDw3ckVDKBcPofinfe
-sidebar_position: 5
+sidebar_position: 7
 keywords: 
   - zilliz
   - byoc

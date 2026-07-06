@@ -8,7 +8,7 @@ notebook: FALSE
 description: "Zilliz Cloud のメジャーアップデートの一般提供を開始し、招待なしで誰でも利用できるようになったことをお知らせします。このリリースでは、パフォーマンス向上のためにデータベースあたり最大32 CUまで対応した容量最適化型の Compute Unit (CU) を導入しました。また、ローカルファイルおよび AWS S3 バケットからのデータインポート、自動インデックス作成による簡略化、QPS とクエリレイテンシのリソースモニタリングも可能になりました。さらに、データベースの作成速度が5倍に向上し、ユーザーインターフェイスも最適化され、より優れた体験を提供します。 | Cloud"
 type: origin
 token: Q9ZcwPZieiYoU4kwEuOcFjewneP
-sidebar_position: 36
+sidebar_position: 37
 keywords: 
   - zilliz
   - ベクトルデータベース
