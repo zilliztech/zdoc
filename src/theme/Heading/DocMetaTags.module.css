@@ -1,48 +1,32 @@
-.row {
+.panel {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 224px;
+  margin-top: 0;
+  padding: 0;
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 12px;
+  align-items: baseline;
+  gap: 10px;
+  color: var(--zd-muted-text);
 }
 
-/* One meta entry: [pill] [value] */
-.tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 0.8125rem;
+.heading {
+  flex: 0 1 auto;
+  min-width: 0;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.35;
+  color: var(--zd-muted-text);
   white-space: nowrap;
 }
 
-/* Colored pill: icon + label */
-.pill {
+.value {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  padding: 2px 8px;
-  border: 1px solid currentColor;
-  border-radius: 4px;
-  font-size: 0.75rem;
-  font-weight: 500;
-  line-height: 1.4;
-}
-
-.value {
-  font-size: 0.8125rem;
+  flex: 0 0 auto;
+  font-size: 13px;
   font-weight: 600;
-  color: #24292f;
-}
-
-/* ── Variants ───────────────────────────────────────────────────────────── */
-
-.added {
-  color: #175fff;
-}
-
-.modified {
-  color: #6e7781;
-}
-
-.deprecated {
-  color: #dc3545;
+  line-height: 1.35;
+  color: var(--zd-page-ink);
+  white-space: nowrap;
 }

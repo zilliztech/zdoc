@@ -7,12 +7,12 @@ import type {Props} from '@theme/Navbar/MobileSidebar/Layout';
 // TODO Docusaurus v4: remove temporary inert workaround
 //  See https://github.com/facebook/react/issues/17157
 //  See https://github.com/radix-ui/themes/pull/509
-function inertProps(inert: boolean) {
+function inertProps(inert: boolean): React.HTMLAttributes<HTMLDivElement> {
   const isBeforeReact19 = parseInt(version!.split('.')[0]!, 10) < 19;
   if (isBeforeReact19) {
-    return {inert: inert ? '' : undefined};
+    return {inert: inert ? '' : undefined} as unknown as React.HTMLAttributes<HTMLDivElement>;
   }
-  return {inert};
+  return {inert} as React.HTMLAttributes<HTMLDivElement>;
 }
 
 function NavbarMobileSidebarPanel({

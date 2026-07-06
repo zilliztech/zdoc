@@ -53,14 +53,14 @@ const agents: Manual = {
     root: 'R8ZwwvHrJivIAyk8JkQchM0Anng',
     base: 'YxSibAMZ4aDqhjs5Ru4clmrun4f',
     sourceType: 'wiki',
-    displayedSidebar: 'agentsSidebar',
+    displayedSidebar: 'default',
     docSourceDir: './plugins/lark-docs/meta/sources/agents-and-prompts',
     sidebarPath: './config/generated/agents.sidebar.js',
     contentRoot: 'docs',
     targets: {
         zilliz: {
-            // Keep files in the Tools chapter, but keep master-compatible
-            // /docs/agents/* routes via displayedSidebar slug prefixing.
+            // Keep files in the Tools chapter while publishing pages under
+            // the default /docs sidebar and route namespace.
             outputDir: 'docs/tutorials/tools',
             imageDir: 'static/img',
             preserveOutput: true,

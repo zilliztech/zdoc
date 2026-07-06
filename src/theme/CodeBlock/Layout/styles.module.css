@@ -1,9 +1,11 @@
 /* ── Window frame ── */
 .windowFrame {
-  border-radius: 6px !important;
+/* Vercel-style: small radius, neutral light-gray border, tinted body */
+  border-radius: 8px !important;
   overflow: hidden !important;
-  box-shadow:
-    0 0 0 1px rgba(0, 0, 0, 0.065) !important;
+  background: #ffffff !important;
+  border: 1px solid var(--zd-surface-border-subtle) !important;
+  box-shadow: none !important;
   margin-top: 1.25rem !important;
   margin-bottom: 1.25rem !important;
   padding: 0 !important;
@@ -16,8 +18,9 @@
   justify-content: flex-end;
   height: 40px;
   padding: 0 0.5rem 0 0.875rem;
-  background: #f6f6f7;
-  border-bottom: 1px solid #ededef;
+  /* header tinted off-white; code area below stays pure white */
+  background: var(--zd-surface-0);
+  border-bottom: 1px solid var(--zd-surface-border-subtle);
   gap: 0.75rem;
   flex-shrink: 0;
 }
@@ -29,9 +32,10 @@
   flex-shrink: 0;
   margin-right: auto;
   font-family: var(--ifm-font-family-monospace);
-  font-size: 0.75rem;
-  font-weight: 500;
-  color: #6b7280;
+  font-size: 13px;
+  font-weight: 400;
+  /* darker blue-gray than #7b83ad so the language label reads clearly */
+  color: #5b6188;
   white-space: nowrap;
 }
 
@@ -40,11 +44,45 @@
 .titleBarLabelRight {
   flex-shrink: 0;
   margin-right: 4px;
-  font-family: var(--ifm-font-family-monospace);
-  font-size: 0.75rem;
-  font-weight: 500;
-  color: #6b7280;
+  font-family: var(--ifm-font-family-base);
+  font-size: 13px;
+  font-weight: 400;
+  color: #5b6188;
   white-space: nowrap;
+}
+
+.titleBarExampleTag {
+  display: inline-flex;
+  align-items: center;
+  flex: 0 1 auto;
+  min-width: 0;
+  max-width: min(60%, 360px);
+  min-height: 26px;
+  margin-right: auto;
+  padding: 3px 8px;
+  color: var(--zd-muted-text, #4b5563);
+  background: var(--zd-surface-2, #f7f7f5);
+  border: 1px solid var(--zd-surface-border, #e8e7e3);
+  border-radius: 6px;
+  font-family: var(--ifm-font-family-base);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 18px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.titleBarExampleTagSuccess {
+  color: #2f5758;
+  background: #eef6f5;
+  border-color: #d8e6e5;
+}
+
+.titleBarExampleTagFailure {
+  color: #9a2b24;
+  background: #fff1ef;
+  border-color: #e7c4bf;
 }
 
 /* ── Traffic lights ── */
@@ -70,7 +108,7 @@
   flex: 1;
   font-family: var(--ifm-font-family-monospace);
   font-size: 0.75rem;
-  color: #6b7280;
+  color: #3f4350;
   text-align: center;
   /* Optical centering: shift left by roughly the width of the traffic lights
      so the label appears centered in the full bar, not just in the flex remainder */
@@ -88,8 +126,7 @@
   gap: 6px;
 }
 
-/* Square icon buttons (Ask AI + Copy) — equal w/h, no bg, no stroke, tooltip */
-.askAiBtn,
+/* Copy: square icon button — equal w/h, no bg, no stroke, tooltip */
 .copyBtn {
   position: relative;
   display: inline-flex;
@@ -98,18 +135,40 @@
   width: 28px;
   height: 28px;
   padding: 0;
-  color: #6b7280;
+  color: #3f4350;
   background: transparent;
   border: none;
   border-radius: 6px;
   cursor: pointer;
-  transition: background-color 0.15s ease, color 0.15s ease;
+  transition: background-color 0.25s cubic-bezier(0.22, 1, 0.36, 1), color 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Ask AI: pill with icon + "Ask AI" label (text shown, so no tooltip). */
+.askAiBtn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 28px;
+  padding: 0 9px;
+  color: #3f4350;
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  font-family: var(--ifm-font-family-base);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color 0.25s cubic-bezier(0.22, 1, 0.36, 1), color 0.25s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .askAiBtn:hover,
 .copyBtn:hover {
-  background: rgba(0, 0, 0, 0.06);
-  color: var(--zd-linear-signup-ink);
+  /* a touch deeper than the faint-blue header; text/icon unchanged */
+  background: #e7ecf8;
+  color: #3f4350;
 }
 
 .askAiBtn svg,
@@ -118,16 +177,15 @@
 }
 
 /* Tooltip (matches the page's dark tooltip style) */
-.askAiBtn::after,
 .copyBtn::after {
   content: attr(data-tip);
   position: absolute;
   top: calc(100% + 6px);
   left: 50%;
   padding: 4px 8px;
-  background: var(--zd-linear-signup-ink);
+  background: var(--zd-page-ink);
   color: #fff;
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 500;
   line-height: 1.3;
   border-radius: 6px;
@@ -139,7 +197,6 @@
   z-index: 20;
 }
 
-.askAiBtn:hover::after,
 .copyBtn:hover::after {
   opacity: 1;
   transform: translateX(-50%) translateY(0);
@@ -165,8 +222,26 @@
   margin: 0 !important;
   box-shadow: none !important;
   background: transparent !important;
+  /* single layer of inner padding (the inner <code> padding is zeroed below) —
+     tighter, Vercel-like. */
+  padding: 14px 18px !important;
+}
+
+/* Kill the inner <code> padding so the left/top indent isn't doubled (was 16+16);
+   Vercel-comfortable line-height + normal letter-spacing. */
+.windowFrame pre code {
+  padding: 0 !important;
+  /* Match Vercel: Geist Mono 13px / 20px line-height (their tighter look comes
+     from the smaller size, not letter-spacing — both are `normal`). */
+  font-size: 13px !important;
+  line-height: 20px !important;
+  letter-spacing: normal !important;
 }
 
 .codeContent {
-  background: #f9f9fa;
+  /* pure-white code area (header above is the tinted #fcfcfb strip) */
+  background: #ffffff;
+  margin: 1px;
+  border-radius: 14px;
+  overflow: hidden;
 }

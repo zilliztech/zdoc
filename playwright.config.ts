@@ -20,7 +20,7 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: 'CHAT_ENDPOINT=/api/chat/stream npm run start -- --host 0.0.0.0',
+    command: 'CHAT_ENDPOINT=/api/chat npm run start -- --host 0.0.0.0',
     url: baseURL,
     reuseExistingServer: !process.env.CI,
   },

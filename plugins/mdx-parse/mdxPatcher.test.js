@@ -13,6 +13,13 @@ const normalizedCodeSpan = '<p><code>https://\\{cluster-id\\}.serverless.\\{regi
 const backslashedJavaTypes = '- **getResults** (*List\\<QueryResp.QueryResult\\>*)\n\n- **fields** (*Map\\<String,Object\\>*)';
 const faqHeading = '### Can I leave my organization?{#can-i-leave-my-organization}';
 const sdkMetadataComment = '<!-- category: Authentication; action: CREATE; addedSince: v3.0.x -->';
+const featureNote = [
+    '<FeatureNote variant="plan" titleHref="/docs/pricing">',
+    '',
+    'Available on paid plans.',
+    '',
+    '</FeatureNote>',
+].join('\n');
 
 async function compileToString(content) {
     const { compile } = await import('@mdx-js/mdx');
@@ -137,6 +144,12 @@ async function testFaqHeadingsArePatchable() {
     assert.equal(patched, '### Can I leave my organization?\\{#can-i-leave-my-organization}');
 }
 
+async function testFeatureNoteIsPreservedAsGlobalMdxComponent() {
+    const patched = await applyMdxPatches(featureNote);
+    assert.equal(patched, featureNote);
+    await compileToString(patched);
+}
+
 async function run() {
     await testNormalizeCodeTagContent();
     await testNormalizationPreservesFencedCodeBlocks();
@@ -151,6 +164,7 @@ async function run() {
     await testApplyMdxPatchesConvertsBackslashedJavaTypesToEntities();
     await testLarkDocWriterConvertsBackslashedJavaTypesToEntities();
     await testFaqHeadingsArePatchable();
+    await testFeatureNoteIsPreservedAsGlobalMdxComponent();
     console.log('mdxPatcher regression tests passed');
 }
 

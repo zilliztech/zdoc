@@ -33,12 +33,15 @@ export default function TabsWrapper(props: Props): ReactNode {
         const rootBox = root.getBoundingClientRect();
         const tabBox = active.getBoundingClientRect();
         if (tabBox.width > 0) {
-          const left = tabBox.left - rootBox.left;
+          // Inset the underline so it's shorter than the full tab box.
+          const inset = 10;
+          const left = tabBox.left - rootBox.left + inset;
+          const width = Math.max(8, tabBox.width - inset * 2);
           const top = tabBox.bottom - rootBox.top - 2;
-          const key = `${Math.round(left)}|${Math.round(tabBox.width)}|${Math.round(top)}`;
+          const key = `${Math.round(left)}|${Math.round(width)}|${Math.round(top)}`;
           if (key !== last) {
             last = key;
-            setIndicator({left, width: tabBox.width, top});
+            setIndicator({left, width, top});
           }
         }
       }

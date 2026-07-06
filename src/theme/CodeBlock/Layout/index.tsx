@@ -53,7 +53,6 @@ function AskAiCodeButton({code, label, lang}: {code: string; label?: string; lan
     <button
       type="button"
       className={styles.askAiBtn}
-      data-tip="Ask AI"
       onClick={() => {
         document.dispatchEvent(new CustomEvent('open-chat'));
         document.dispatchEvent(
@@ -61,17 +60,28 @@ function AskAiCodeButton({code, label, lang}: {code: string; label?: string; lan
         );
       }}
       aria-label="Ask AI about this code">
-      <svg width="9" height="15" viewBox="0 0 8 14" fill="none" aria-hidden="true">
+      <svg width="8" height="13" viewBox="0 0 8 14" fill="none" aria-hidden="true">
         <path d="M0 8.55556L5.6 0L4.8 5.64912H8L1.6 14L3.2 8.55556H0Z" fill="currentColor" />
       </svg>
+      <span>Ask AI</span>
     </button>
   );
 }
 
+function capitalizeDisplayLabel(value = ''): string {
+  return value.replace(/(^|[\s([/-])([a-z])/g, (_match, prefix: string, char: string) => `${prefix}${char.toUpperCase()}`);
+}
+
 export default function CodeBlockLayout({className}: {className?: string}): ReactNode {
   const {metadata} = useCodeBlockContext();
-  const rawName = typeof (metadata.title ?? metadata.language) === 'string'
-    ? (metadata.title ?? metadata.language) as string
+  const mergedClassName = clsx(className, metadata.className);
+  const isRestSpecExampleCode = mergedClassName.includes('rest-spec-example-code');
+  const restSpecExampleTag = isRestSpecExampleCode && typeof metadata.title === 'string'
+    ? metadata.title
+    : undefined;
+  const rawNameSource = isRestSpecExampleCode ? metadata.language : (metadata.title ?? metadata.language);
+  const rawName = typeof rawNameSource === 'string'
+    ? rawNameSource
     : undefined;
   const LANG_LABELS: Record<string, string> = {
     javascript: 'JavaScript', typescript: 'TypeScript', python: 'Python',
@@ -84,6 +94,13 @@ export default function CodeBlockLayout({className}: {className?: string}): Reac
   const displayName = rawName
     ? (LANG_LABELS[rawName.toLowerCase()] ?? rawName.charAt(0).toUpperCase() + rawName.slice(1))
     : undefined;
+  const normalizedRestSpecTag = (restSpecExampleTag || '').toLowerCase();
+  const restSpecExampleTagLabel = restSpecExampleTag ? capitalizeDisplayLabel(restSpecExampleTag) : undefined;
+  const restSpecExampleTagClassName = clsx(
+    styles.titleBarExampleTag,
+    (normalizedRestSpecTag.includes('success') || /^2\d\d/.test(normalizedRestSpecTag)) && styles.titleBarExampleTagSuccess,
+    (normalizedRestSpecTag.includes('failure') || normalizedRestSpecTag.includes('error') || /^[45]\d\d/.test(normalizedRestSpecTag)) && styles.titleBarExampleTagFailure,
+  );
 
   // Where to show the language label:
   //  - 'left'   : standalone code block (no tab) — label on the left.
@@ -96,31 +113,55 @@ export default function CodeBlockLayout({className}: {className?: string}): Reac
 
   useEffect(() => {
     const el = titleBarRef.current;
-    if (!el) return;
-    const container = el.closest('.tabs-container');
-    const panel = el.closest('[role="tabpanel"]');
-    const frame = el.closest('[class*="windowFrame"]');
-    // Only the code block that merges INTO the tab strip (the panel's first child)
-    // participates in this logic; everything else keeps the left label.
-    if (!container || !panel || !frame || panel.firstElementChild !== frame) {
-      setLabelPos('left');
-      return;
-    }
-    const tabs = Array.from(container.querySelectorAll<HTMLElement>('.tabs__item'));
-    const panels = Array.from(container.querySelectorAll('[role="tabpanel"]'));
-    const tabForPanel = tabs[panels.indexOf(panel)] as HTMLElement | undefined;
-    const tabText =
-      panels.length === tabs.length
-        ? (tabForPanel?.textContent || '').trim()
-        : (container.querySelector<HTMLElement>('.tabs__item--active')?.textContent || '').trim();
-    const tabL = tabText.toLowerCase();
-    const langL = (displayName || '').toLowerCase();
-    setLabelPos(tabL && tabL === langL ? 'hidden' : 'right');
-  }, [displayName]);
+    if (!el) return undefined;
+    let raf = 0;
+    const compute = () => {
+      if (isRestSpecExampleCode) {
+        setLabelPos('right');
+        return;
+      }
+
+      const container = el.closest('.tabs-container');
+      const panel = el.closest('[role="tabpanel"]');
+      const frame = el.closest('[class*="windowFrame"]');
+      // Only the code block that merges INTO the tab strip (the panel's first
+      // child) participates; everything else keeps the left label.
+      if (!container || !panel || !frame || panel.firstElementChild !== frame) {
+        setLabelPos('left');
+        return;
+      }
+      const tabs: HTMLElement[] = Array.from(container.querySelectorAll<HTMLElement>('.tabs__item'));
+      // Tabs may not be in the DOM yet on first paint — retry next frame so we
+      // don't fall through to showing a redundant right label.
+      if (tabs.length === 0) {
+        raf = requestAnimationFrame(compute);
+        return;
+      }
+      const panels = Array.from(container.querySelectorAll('[role="tabpanel"]'));
+      const idx = panels.indexOf(panel);
+      const tabText = (
+        panels.length === tabs.length && idx >= 0
+          ? tabs[idx]?.textContent || ''
+          : container.querySelector<HTMLElement>('.tabs__item--active')?.textContent || ''
+      ).trim().toLowerCase();
+      // Hide the right label when the tab name already states the language —
+      // match against the raw name (e.g. "go") AND the display name (e.g. "Go").
+      const redundant =
+        !!tabText && (tabText === (rawName || '').toLowerCase() || tabText === (displayName || '').toLowerCase());
+      setLabelPos(redundant ? 'hidden' : 'right');
+    };
+    compute();
+    return () => cancelAnimationFrame(raf);
+  }, [displayName, isRestSpecExampleCode, rawName]);
 
   return (
-    <Container as="div" className={clsx(styles.windowFrame, className, metadata.className)}>
+    <Container as="div" className={clsx(styles.windowFrame, mergedClassName)}>
       <div className={styles.titleBar} ref={titleBarRef}>
+        {restSpecExampleTag && (
+          <span className={restSpecExampleTagClassName} title={restSpecExampleTag}>
+            {restSpecExampleTagLabel}
+          </span>
+        )}
         {rawName && labelPos === 'left' && <span className={styles.titleBarLabel}>{rawName}</span>}
         <div className={styles.titleBarRight}>
           {rawName && labelPos === 'right' && <span className={styles.titleBarLabelRight}>{rawName}</span>}

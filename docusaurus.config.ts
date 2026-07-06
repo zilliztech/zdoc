@@ -127,6 +127,8 @@ const config: Config = {
   favicon: 'icons/favicon.svg',
   trailingSlash: false,
 
+  clientModules: [require.resolve('./src/clientModules/tableRowHeaders.js')],
+
   future: {
     v4: true,
     faster: {
@@ -159,11 +161,11 @@ const config: Config = {
 
   customFields: {
     planeConfig,
-    chatEndpoint: process.env.CHAT_ENDPOINT || '/api/chat/stream',
+    chatEndpoint: process.env.CHAT_ENDPOINT || '/api/chat',
     chatDebug: process.env.CHAT_DEBUG === 'true',
     secondaryNavbar: [
-      { label: 'Cloud Guides', href: '/docs/register-with-zilliz-cloud', prefix: '/docs',       icon: 'cloud'  },
-      { label: 'BYOC Guides',  href: '/docs/byoc/byoc-intro', prefix: '/docs/byoc',  icon: 'server' },
+      { label: 'Zilliz-Managed Cloud', href: '/docs/register-with-zilliz-cloud', prefix: '/docs',       icon: 'cloud'  },
+      { label: 'Bring Your Own Cloud', href: '/docs/byoc/byoc-intro', prefix: '/docs/byoc',  icon: 'server' },
       {
         label: 'API & SDK',
         prefix: '/reference',
@@ -177,7 +179,7 @@ const config: Config = {
         ],
       },
       { label: 'CLI',      href: '/reference/cli/cli/overview', prefix: '/reference/cli', icon: 'terminal' },
-      { label: 'Releases', href: '/docs/changelogs', prefix: '/docs/changelogs', icon: 'tag'      },
+      { label: 'Releases', href: '/docs/byoc/changelogs', prefix: '/docs/byoc/changelogs', icon: 'tag'      },
     ],
   },
 
@@ -218,11 +220,15 @@ const config: Config = {
         SearchBar: {
           baseSettings: {
             apiKey: process.env.INKEEP_API_KEY,
+            integrationId: process.env.INKEEP_INTEGRATION_ID,
+            organizationId: process.env.INKEEP_ORGANIZATION_ID,
           },
         },
         ChatButton: {
           baseSettings: {
             apiKey: process.env.INKEEP_API_KEY,
+            integrationId: process.env.INKEEP_INTEGRATION_ID,
+            organizationId: process.env.INKEEP_ORGANIZATION_ID,
           },
         },
       },
@@ -290,6 +296,10 @@ const config: Config = {
       attributes: {src: '/env.js'},
     },
     {
+      tagName: 'script',
+      attributes: {src: '/inkeep-runtime-config.js'},
+    },
+    {
       tagName: 'link',
       attributes: {rel: 'preconnect', href: 'https://fonts.googleapis.com'},
     },
@@ -301,7 +311,7 @@ const config: Config = {
       tagName: 'link',
       attributes: {
         rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap',
+        href: 'https://fonts.googleapis.com/css2?family=Geist:wght@400..800&family=Geist+Mono:wght@100..900&display=swap',
       },
     },
   ],
@@ -316,6 +326,7 @@ const config: Config = {
       logo: {
         alt: 'Zilliz Logo',
         src: '/img/logo.svg',
+        href: 'https://zilliz.com',
       },
       items: [
         {

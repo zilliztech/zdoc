@@ -10,7 +10,7 @@
     font-size: 11px !important;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: #6b6b6b !important;
+    color: var(--zd-muted-text) !important;
     font-weight: 600 !important;
     margin: 0 0 8px !important;
     line-height: 1 !important;
@@ -33,9 +33,9 @@
     justify-content: flex-start;
     gap: 12px;
     padding: 32px;
-    box-shadow: 0px 2px 4px 0px #0000001A;
+    box-shadow: 0px 2px 4px 0px rgba(29, 41, 57, 0.1);
     border-radius: 14px;
-    border: 1px solid #e5e5e5;
+    border: 1px solid var(--zd-surface-border);
     background-color: #ffffff;
     cursor: pointer;
     transition: box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
@@ -57,8 +57,8 @@
 }
 
 .item:hover .iconContainer {
-    background-color: #eeeeee;
-    border-color: #d8d8d8;
+    background-color: var(--zd-surface-2);
+    border-color: var(--zd-surface-border-strong);
 }
 
 .iconContainer {
@@ -68,8 +68,8 @@
     width: 64px;
     height: 64px;
     border-radius: 10px;
-    background-color: #f3f3f3;
-    border: 1px solid #e5e5e5;
+    background-color: var(--zd-surface-1);
+    border: 1px solid var(--zd-surface-border);
     transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
@@ -179,7 +179,7 @@
 .item p {
     font-size: 16px !important;
     line-height: 22px;
-    color: #6b6b6b;
+    color: var(--zd-muted-text);
     margin: 0 !important;
 }
 

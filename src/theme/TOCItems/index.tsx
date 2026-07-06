@@ -8,10 +8,11 @@
  * active-link colour and the one-item-tall rail segment — so the black bar and
  * the black text always agree, for nested items and the last item alike.
  */
-import React, { useEffect, useId, useLayoutEffect, useRef, useState } from 'react';
+import React, { useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import TOCItemsOriginal from '@theme-original/TOCItems';
 import type TOCItemsType from '@theme/TOCItems';
 import type { WrapperProps } from '@docusaurus/types';
+import { stripDocHeadingTag } from '@site/src/utils/docHeadingTags';
 
 type Props = WrapperProps<typeof TOCItemsType>;
 
@@ -28,6 +29,20 @@ interface Rail {
   activeY: number;
   activeH: number;
   totalH: number;
+}
+
+type TOCItemWithChildren = {
+  readonly value?: string;
+  readonly children?: readonly TOCItemWithChildren[];
+};
+
+function stripTagsFromTOCItems<T extends TOCItemWithChildren>(items: readonly T[] | undefined): readonly T[] | undefined {
+  if (!items) return items;
+  return items.map(item => ({
+    ...item,
+    value: typeof item.value === 'string' ? stripDocHeadingTag(item.value) : item.value,
+    children: stripTagsFromTOCItems(item.children),
+  })) as readonly T[];
 }
 
 function getScrollContainer(el: HTMLElement): HTMLElement | null {
@@ -141,6 +156,10 @@ export default function TOCItems(props: Props): JSX.Element {
   // the programmatic anchor scroll a click triggers fires none of those.
   const pinnedIdRef = useRef<string | null>(null);
   const uid = useId().replace(/:/g, '');
+  const cleanProps = useMemo(
+    () => ({ ...props, toc: stripTagsFromTOCItems(props.toc) }),
+    [props],
+  );
 
   // Re-assert our active class after every render — the built-in highlight
   // (driven by window scroll, which never moves in this inner-scroll theme)
@@ -263,7 +282,7 @@ export default function TOCItems(props: Props): JSX.Element {
             overflow: 'visible',
           }}
         >
-          <path d={rail.path} style={{ stroke: 'var(--zd-gray-200)' }} strokeWidth="1.5" fill="none" strokeLinecap="round" />
+          <path d={rail.path} style={{ stroke: 'var(--zd-gray-200)' }} strokeWidth="1" fill="none" strokeLinecap="round" />
           {rail.activeY >= 0 && rail.activeH > 0 && (
             <>
               <defs>
@@ -292,7 +311,7 @@ export default function TOCItems(props: Props): JSX.Element {
           )}
         </svg>
       )}
-      <TOCItemsOriginal {...props} />
+      <TOCItemsOriginal {...cleanProps} />
       {tip && (
         <div
           role="tooltip"

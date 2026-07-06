@@ -16,10 +16,41 @@
 .categoryLinkLabel {
   flex: 1;
   min-width: 0;
-  overflow: hidden;
-  display: block;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  display: grid;
+  /* wrap long sidebar item labels onto multiple lines instead of truncating */
+  white-space: normal;
+  overflow-wrap: break-word;
+}
+
+.categoryLinkLabelSizer,
+.categoryLinkLabelText {
+  grid-area: 1 / 1;
+  min-width: 0;
+  white-space: normal;
+  overflow-wrap: break-word;
+}
+
+.categoryLinkLabelSizer {
+  font-weight: var(--zd-nav-hover-weight);
+  font-variation-settings: 'wght' var(--zd-nav-hover-weight);
+  opacity: 0;
+  pointer-events: none;
+  transition: none;
+}
+
+.categoryLinkLabelText {
+  font-weight: var(--zd-structure-nav-weight);
+  font-variation-settings: 'wght' var(--zd-structure-nav-weight);
+  transition: none;
+}
+
+/* Active uses the pre-rendered 500 layer instead of animating one text node's weight. */
+:global(.menu__link--active) .categoryLinkLabelSizer {
+  opacity: 1;
+}
+
+:global(.menu__link--active) .categoryLinkLabelText {
+  opacity: 0;
 }
 
 .categoryIcon {
@@ -43,10 +74,10 @@
   width: 15px;
   height: 15px;
   margin-left: auto;
-  color: #b6b8bd;
+  color: var(--zd-gray-400);
   opacity: 1;
   transform: translateZ(0);
-  transition: color 0.12s linear;
+  transition: color var(--zd-hover-duration) var(--zd-hover-ease);
 }
 
 .childCaretIcon {
@@ -58,10 +89,12 @@
   stroke-width: 1;
   stroke-linecap: round;
   stroke-linejoin: round;
+  /* Default (collapsed) points RIGHT; expanded points DOWN. Base SVG is a
+     down-chevron, so collapsed = -90deg, expanded = 0deg. Flip instantly (no
+     transition/will-change): a transition on this composited caret sticks at the
+     start angle, leaving the caret pointing right even when expanded. */
   transform: rotate(-90deg);
   transform-origin: 8px 8px;
-  transition: transform 160ms cubic-bezier(0.2, 0, 0, 1);
-  will-change: transform;
 }
 
 .childCaret[data-collapsed='false'] .childCaretIcon {
@@ -72,7 +105,7 @@
 .categoryLink:focus-visible .childCaret,
 .collapseCaretButton:hover .childCaret,
 .collapseCaretButton:focus-visible .childCaret {
-  color: #8f9299;
+  color: var(--zd-gray-500);
 }
 
 .collapseCaretButton {
@@ -94,18 +127,25 @@
   margin-left: 0;
 }
 
+/* Collapse via grid-template-rows (0fr↔1fr) instead of an animated pixel height.
+   The grid track resolves the children's natural height with NO JS measurement,
+   so a nested category expanding just grows its ancestors' open (1fr) tracks in
+   the SAME frame — no cascade of competing height transitions, no "expand then
+   push" lag. Level-1 and level-3/4 now animate identically. */
 .categoryChildrenFrame {
-  height: var(--sidebar-collapsible-height, 0);
-  margin-top: 2px;
+  display: grid;
   overflow: hidden;
+  /* minmax(0, …) forces the track min to 0 so the collapsed state is truly 0
+     (the list's 6px padding-bottom would otherwise leave a sliver). */
+  grid-template-rows: minmax(0, 1fr);
+  margin-top: 2px;
   transition:
-    height 260ms cubic-bezier(0.33, 1, 0.68, 1),
+    grid-template-rows 260ms cubic-bezier(0.33, 1, 0.68, 1),
     margin-top 260ms cubic-bezier(0.33, 1, 0.68, 1);
-  will-change: height;
 }
 
 .categoryChildrenFrame[data-collapsed='true'] {
-  height: 0;
+  grid-template-rows: minmax(0, 0fr);
   margin-top: 0;
   pointer-events: none;
 }
@@ -114,18 +154,15 @@
   min-height: 0;
   margin: 0 !important;
   padding-left: 0 !important;
-  overflow: visible !important;
+  /* Slack below the last child so its rounded box isn't shaved by the clip. */
+  padding-bottom: 6px !important;
+  overflow: hidden;
   opacity: 1;
-  transform: translateY(0);
-  transition:
-    opacity 200ms ease,
-    transform 260ms cubic-bezier(0.33, 1, 0.68, 1);
-  will-change: opacity, transform;
+  transition: opacity 200ms ease;
 }
 
 .categoryChildrenFrame[data-collapsed='true'] .categoryChildrenList {
   opacity: 0;
-  transform: translateY(-2px);
 }
 
 /* Squared right-arrow on language/protocol entries that drill into a sub-reference */
@@ -137,5 +174,5 @@
   width: 15px;
   height: 15px;
   margin-left: auto;
-  color: #b6b8bd;
+  color: var(--zd-gray-400);
 }

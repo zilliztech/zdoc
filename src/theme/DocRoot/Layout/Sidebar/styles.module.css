@@ -1,7 +1,9 @@
 :root {
-  /* Two-column sidebar = 8.5rem section labels + 13rem page list. Fixed so the
-     layout is identical at every desktop size (no icon/label switch). */
-  --doc-sidebar-width: 21.5rem;
+  /* Two-column sidebar = 8.5rem section labels + 16rem page list. Fixed so the
+     layout is identical at every desktop size (no icon/label switch). The extra
+     width lands on the page-list (secondary) column, which is flex:1 1 0. */
+  /* Whole two-column sidebar (rail + page list) = 380px total. */
+  --doc-sidebar-width: 380px;
   --doc-sidebar-hidden-width: 52px;
 }
 
@@ -10,7 +12,7 @@
   display: none;
 }
 
-@media (min-width: 997px) {
+@media (min-width: 768px) {
   .docSidebarContainer {
     display: flex;
     flex-direction: column;
@@ -18,7 +20,7 @@
     flex-shrink: 0;
     min-height: 0;
     position: relative;
-    background: #fdfdfd;
+    background: var(--zd-page-bg);
     overflow: visible;
   }
 
@@ -36,7 +38,7 @@
     width: var(--doc-sidebar-width);
     height: calc(100vh - var(--ifm-navbar-height));
     z-index: 10;
-    background: #fdfdfd;
+    background: var(--zd-page-bg);
     border-right: 1px solid var(--ifm-toc-border-color);
     min-height: 0;
     overflow: hidden;

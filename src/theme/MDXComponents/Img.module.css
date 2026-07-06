@@ -6,9 +6,11 @@
   width: fit-content;
   max-width: 100%;
   margin: 1.25rem 0;
-  border-radius: 10px;
+  border-radius: var(--zd-doc-image-radius);
   background: #f4f4f6;
   overflow: hidden;
+  line-height: 0;
+  box-shadow: 0 0 0 1px var(--zd-doc-image-stroke);
 }
 
 /* Before load: reserve a 16:9 full-width skeleton so the loading state is
@@ -22,6 +24,7 @@
   content: '';
   position: absolute;
   inset: 0;
+  border-radius: inherit;
   background: linear-gradient(100deg, #eeeef1 25%, #f8f8fa 45%, #eeeef1 65%);
   background-size: 220% 100%;
   animation: imgShimmer 1.25s ease-in-out infinite;
@@ -31,20 +34,93 @@
   display: block;
   max-width: 100%;
   height: auto;
-  border-radius: 10px;
+  border-radius: 0;
+  border: 0 !important;
+  box-shadow: none !important;
   opacity: 0;
   filter: blur(14px);
   transform: scale(1.03);
+  transform-origin: center;
   transition: opacity 0.5s ease, filter 0.6s ease, transform 0.6s ease;
 }
 
 .loaded .img {
   opacity: 1;
   filter: blur(0);
-  transform: none;
+  transform: scale(1.006);
 }
 
 @keyframes imgShimmer {
   from { background-position: 220% 0; }
   to { background-position: -220% 0; }
+}
+
+/* ── Click-to-zoom ── */
+.zoomable {
+  cursor: zoom-in;
+}
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4vh 4vw;
+  /* dark translucent backdrop */
+  background: rgba(0, 0, 0, 0.72);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  cursor: zoom-out;
+  animation: lightboxIn 0.18s ease;
+}
+
+.lightboxImg {
+  max-width: 100%;
+  max-height: 92vh;
+  object-fit: contain;
+  border-radius: 0;
+  cursor: zoom-out;
+  animation: lightboxImgIn 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.lightboxClose {
+  position: fixed;
+  top: 20px;
+  right: 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.lightboxClose:hover {
+  background: rgba(0, 0, 0, 0.62);
+  color: #fff;
+}
+
+@keyframes lightboxIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes lightboxImgIn {
+  from { opacity: 0; transform: scale(0.96); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lightbox,
+  .lightboxImg {
+    animation: none;
+  }
 }

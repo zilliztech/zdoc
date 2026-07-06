@@ -22,7 +22,7 @@ export default function RecentSearches({items, onSelect, onRemove, onClear}: Pro
       {items.map(item => (
         <div key={item} className={styles.recentSearchItem} onClick={() => onSelect(item)}>
           <span style={{display: 'flex', alignItems: 'center', gap: '0.5rem'}}>
-            <Clock size={14} color="#9ca3af" />
+            <Clock size={14} color="var(--zd-gray-400)" />
             {item}
           </span>
           <button

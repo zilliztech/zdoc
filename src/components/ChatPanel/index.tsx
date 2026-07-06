@@ -16,6 +16,7 @@ import {
   Code,
   FileText,
   ArrowUp,
+  ArrowDown,
   Copy,
   Check,
 } from 'lucide-react';
@@ -86,69 +87,70 @@ function ZillizStarIcon() {
 
 function AskAiAvatarIcon() {
   return (
-    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-      <rect width="20" height="20" rx="8" fill="#1D2939" />
-      <path d="M5.5 11.8889L11.8 1.5L10.9 8.35965H14.5L7.3 18.5L9.1 11.8889H5.5Z" fill="#ffffff" />
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <rect width="24" height="24" rx="10" fill="#252F58" />
+      <path
+        d="M7 14L14 3L13 10.2632H17L9 21L11 14H7Z"
+        fill="#ffffff"
+        transform="translate(12 12) scale(0.9) translate(-12 -12)"
+      />
     </svg>
   );
 }
 
-// Bolt mark identical to the topbar "Ask AI" button — used as the leading icon
-// on the streaming/thinking indicator.
-function AskAiBoltIcon() {
+function EmptyBoltIcon() {
   return (
-    <svg width="9" height="15" viewBox="0 0 8 14" fill="none" aria-hidden="true">
-      <path d="M0 8.55556L5.6 0L4.8 5.64912H8L1.6 14L3.2 8.55556H0Z" fill="currentColor" />
+    <svg width="44" height="76" viewBox="0 0 44 76" fill="none" aria-hidden="true">
+      <path
+        d="M0.942375 43.7014L30.3424 0.280334L26.1424 30.5435H42.9424L9.34237 75.2803L17.7424 43.7014H0.942375Z"
+        stroke="#E1DFD9"
+        strokeWidth="0.8"
+        strokeLinejoin="miter"
+        strokeLinecap="butt"
+        vectorEffect="non-scaling-stroke"
+      />
     </svg>
   );
 }
 
-// Scramble "thinking…" indicator (gray) — resolves left→right, then loops.
-function ThinkingText(): React.ReactElement {
-  const ref = useRef<HTMLSpanElement>(null);
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    let stopped = false;
-    let raf = 0;
-    let timer: ReturnType<typeof setTimeout>;
-    const text = 'thinking in 768d..';
-    const chars = ['.', ' '];
-    const run = () => {
-      const start = performance.now();
-      const dur = 650;
-      const tick = (now: number) => {
-        if (stopped) return;
-        const raw = Math.min((now - start) / dur, 1);
-        const progress = 1 - Math.pow(1 - raw, 2);
-        let out = '';
-        for (let i = 0; i < text.length; i++) {
-          const cp = progress * (text.length + 1) - i;
-          out += cp >= 1 ? text[i] : chars[Math.floor(Math.random() * chars.length)];
-        }
-        el.textContent = out;
-        if (raw < 1) raf = requestAnimationFrame(tick);
-        else timer = setTimeout(() => { if (!stopped) run(); }, 500);
-      };
-      raf = requestAnimationFrame(tick);
-    };
-    run();
-    return () => { stopped = true; cancelAnimationFrame(raf); clearTimeout(timer); };
-  }, []);
-  return <span ref={ref} className={styles.thinkingText} aria-label="Thinking" />;
+function ThinkingGlyph() {
+  return (
+    <span className={styles.thinkingGlyph} aria-hidden="true">
+      {Array.from({length: 6}).map((_, index) => (
+        <span key={index} className={styles.thinkingDot} />
+      ))}
+    </span>
+  );
+}
+
+function ThinkingText({label = 'Thinking'}: {label?: string}): React.ReactElement {
+  return (
+    <span className={styles.thinkingText} aria-label="Thinking">
+      <span className={styles.thinkingLabel}>{label}</span>
+      <span className={styles.thinkingDots} aria-hidden="true">
+        <span />
+        <span />
+        <span />
+      </span>
+    </span>
+  );
 }
 
 function ChatHeader({onClose, onClear, showClear}: {onClose: () => void; onClear?: () => void; showClear?: boolean}) {
   return (
     <div className={styles.chatHeader}>
       <div className={styles.chatTitleGroup}>
-        <span className={styles.chatAvatar}><AskAiAvatarIcon /></span>
+        <span className={styles.chatAvatarWrap}>
+          <span className={styles.chatAvatarButton} aria-hidden="true">
+            <AskAiAvatarIcon />
+          </span>
+        </span>
         <span className={styles.chatTitle}>Ask AI</span>
       </div>
       <div className={styles.chatHeaderActions}>
         {showClear && onClear && (
-          <button type="button" className={styles.chatClose} onClick={onClear} aria-label="Clear conversation" title="Clear conversation">
-            <Trash2 size={15} />
+          <button type="button" className={`${styles.chatClose} ${styles.chatClear}`} onClick={onClear} aria-label="Clear conversation" title="Clear conversation">
+            <Trash2 size={12} />
           </button>
         )}
         <button type="button" className={styles.chatClose} onClick={onClose} aria-label="Close chat">
@@ -256,12 +258,22 @@ function ChatSidebar({
 }
 
 export default function ChatPanel({onToggle, isExpanded, toggleMode = 'expand'}: ChatPanelProps): React.ReactElement {
-  const {messages, input, setInput, isStreaming, send, newChat, rateFeedback, chatHistory, activeChatId, loadChat, deleteChat, contextChips, removeContextChip} = useChatContext();
+  const {messages, input, setInput, isStreaming, send, stop, newChat, rateFeedback, chatHistory, activeChatId, loadChat, deleteChat, contextChips, removeContextChip} = useChatContext();
   const location = useLocation();
   const history = useHistory();
   const suggestions = getSuggestions(location.pathname);
-  const messagesContainerRef = useRef<HTMLDivElement>(null);
+  const conversationRef = useRef<HTMLDivElement>(null);
+  const emptyInputRef = useRef<HTMLInputElement>(null);
+  const conversationInputRef = useRef<HTMLInputElement>(null);
+  const streamPauseTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [copiedIdx, setCopiedIdx] = useState<number | null>(null);
+  const [showStreamPauseIndicator, setShowStreamPauseIndicator] = useState(false);
+  const [showJumpToLatest, setShowJumpToLatest] = useState(false);
+
+  const scrollToBottom = () => {
+    const el = conversationRef.current;
+    if (el) el.scrollTo({top: el.scrollHeight, behavior: 'smooth'});
+  };
 
   const copyMessage = (idx: number, text: string) => {
     navigator.clipboard.writeText(text).then(() => {
@@ -291,13 +303,62 @@ export default function ChatPanel({onToggle, isExpanded, toggleMode = 'expand'}:
   ) : null;
 
   useEffect(() => {
-    const el = messagesContainerRef.current;
+    const el = conversationRef.current;
     if (el) {
-      el.scrollTo({top: el.scrollHeight, behavior: 'smooth'});
+      requestAnimationFrame(() => {
+        el.scrollTop = el.scrollHeight;
+        setShowJumpToLatest(false);
+      });
     }
-  }, [messages]);
+  }, [messages, isStreaming, showStreamPauseIndicator]);
+
+  // Show a "Jump to latest" button once the user scrolls away from the bottom.
+  useEffect(() => {
+    const el = conversationRef.current;
+    if (!el) return undefined;
+    const onScroll = () => {
+      const distanceFromBottom = el.scrollHeight - el.scrollTop - el.clientHeight;
+      setShowJumpToLatest(distanceFromBottom > 140);
+    };
+    el.addEventListener('scroll', onScroll, {passive: true});
+    onScroll();
+    return () => el.removeEventListener('scroll', onScroll);
+  }, [messages.length]);
 
   const hasMessages = messages.length > 0;
+  const lastMessage = messages[messages.length - 1];
+  const lastAssistantText = lastMessage?.role === 'assistant' ? lastMessage.text : '';
+
+  useEffect(() => {
+    if (streamPauseTimerRef.current) {
+      clearTimeout(streamPauseTimerRef.current);
+      streamPauseTimerRef.current = null;
+    }
+
+    setShowStreamPauseIndicator(false);
+
+    if (!isStreaming || lastMessage?.role !== 'assistant' || !lastAssistantText) {
+      return undefined;
+    }
+
+    streamPauseTimerRef.current = setTimeout(() => {
+      setShowStreamPauseIndicator(true);
+    }, 850);
+
+    return () => {
+      if (streamPauseTimerRef.current) {
+        clearTimeout(streamPauseTimerRef.current);
+        streamPauseTimerRef.current = null;
+      }
+    };
+  }, [isStreaming, lastMessage?.role, lastAssistantText]);
+
+  const focusInputFromBox = (event: React.MouseEvent<HTMLDivElement>, inputRef: React.RefObject<HTMLInputElement>) => {
+    const target = event.target as HTMLElement;
+    if (target.closest('button') || target.tagName === 'INPUT') return;
+    event.preventDefault();
+    inputRef.current?.focus();
+  };
 
   // Handle source link click — client-side navigation
   const handleSourceClick = (e: React.MouseEvent, url: string) => {
@@ -313,7 +374,11 @@ export default function ChatPanel({onToggle, isExpanded, toggleMode = 'expand'}:
     <>
       {!hasMessages ? (
         <div className={styles.emptyState}>
-          <div className={styles.emptyBody} />
+          <div className={styles.emptyBody}>
+            <div className={styles.emptyBolt} aria-hidden="true">
+              <EmptyBoltIcon />
+            </div>
+          </div>
           <div className={styles.suggestions}>
             {suggestions.map(q => (
               <button type="button" key={q} className={styles.suggestionBtn} onClick={() => send(q)}>
@@ -323,9 +388,10 @@ export default function ChatPanel({onToggle, isExpanded, toggleMode = 'expand'}:
           </div>
 
           <div className={styles.bottomInput}>
-            <div className={styles.inputBox}>
+            <div className={styles.inputBox} onMouseDown={event => focusInputFromBox(event, emptyInputRef)}>
               {chipRow}
               <input
+                ref={emptyInputRef}
                 type="text"
                 value={input}
                 onChange={e => setInput(e.target.value)}
@@ -350,7 +416,7 @@ export default function ChatPanel({onToggle, isExpanded, toggleMode = 'expand'}:
         </div>
       ) : (
         <div className={styles.conversation}>
-          <div className={styles.messages} ref={messagesContainerRef}>
+          <div ref={conversationRef} className={`${styles.messages} ${isStreaming ? styles.messagesStreaming : ''}`}>
             {messages.map((msg, i) => (
               <div key={i} className={`${styles.messageBubble} ${msg.role === 'user' ? styles.userMessage : styles.assistantMessage}`}>
                 <div className={msg.role === 'assistant' ? styles.markdownContent : undefined}>
@@ -361,18 +427,28 @@ export default function ChatPanel({onToggle, isExpanded, toggleMode = 'expand'}:
                   {msg.role === 'assistant' ? (
                     isStreaming && i === messages.length - 1 && !msg.text ? (
                       <span className={styles.thinkingRow}>
-                        <span className={styles.thinkingBolt}><AskAiBoltIcon /></span>
+                        <ThinkingGlyph />
                         {msg.toolCallCount ? (
-                          <span className={styles.thinkingText}>
-                            searching docs ({msg.toolCallCount} tool call{msg.toolCallCount > 1 ? 's' : ''})…
-                          </span>
+                          <ThinkingText label="Searching" />
                         ) : (
                           <ThinkingText />
                         )}
                       </span>
-                    ) : (
+                  ) : (
+                    <>
                       <GroundedMarkdown text={msg.text} sources={msg.sources} grounding={msg.grounding} />
-                    )
+                      {isStreaming && i === messages.length - 1 && showStreamPauseIndicator && msg.text && (
+                        <span className={`${styles.thinkingRow} ${styles.trailingThinkingRow}`}>
+                          <ThinkingGlyph />
+                          {msg.toolCallCount ? (
+                            <ThinkingText label="Searching" />
+                          ) : (
+                            <ThinkingText />
+                          )}
+                        </span>
+                      )}
+                    </>
+                  )
                   ) : (
                     <p>{msg.text}</p>
                   )}
@@ -433,27 +509,43 @@ export default function ChatPanel({onToggle, isExpanded, toggleMode = 'expand'}:
             ))}
           </div>
           <div className={styles.bottomInput}>
-            <div className={styles.inputBox}>
+            {showJumpToLatest && (
+              <button
+                type="button"
+                className={styles.jumpToLatest}
+                onClick={scrollToBottom}>
+                <ArrowDown size={13} strokeWidth={2.4} />
+                Bottom
+              </button>
+            )}
+            <div className={styles.inputBox} onMouseDown={event => focusInputFromBox(event, conversationInputRef)}>
               {chipRow}
               <input
+                ref={conversationInputRef}
                 type="text"
                 value={input}
                 onChange={e => setInput(e.target.value)}
-                onKeyDown={e => e.key === 'Enter' && send(input)}
+                onKeyDown={e => e.key === 'Enter' && !isStreaming && send(input)}
                 placeholder="Ask a question..."
                 className={styles.input}
                 aria-label="Chat message"
-                disabled={isStreaming}
               />
               <div className={styles.inputFooter}>
                 <kbd className={styles.inputKbd}>{IS_MAC ? '⌘I' : 'Ctrl I'}</kbd>
                 <button
                   type="button"
-                  className={styles.sendRound}
-                  onClick={() => send(input)}
-                  disabled={!input.trim() || isStreaming}
-                  aria-label="Send">
-                  <ArrowUp size={16} strokeWidth={2.5} />
+                  className={`${styles.sendRound} ${isStreaming ? styles.stopRound : ''}`}
+                  onClick={() => isStreaming ? stop() : send(input)}
+                  disabled={!isStreaming && !input.trim()}
+                  aria-label={isStreaming ? 'Stop response' : 'Send'}>
+                  {isStreaming ? (
+                    <>
+                      <span className={styles.stopIcon} aria-hidden="true" />
+                      <span>Stop</span>
+                    </>
+                  ) : (
+                    <ArrowUp size={16} strokeWidth={2.5} />
+                  )}
                 </button>
               </div>
             </div>

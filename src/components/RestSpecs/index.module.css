@@ -1,58 +1,185 @@
 .paramContainer {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 5px;
+    /* each param is a compact block separated by a hairline divider (Stripe/OpenAI
+       style) — replaces the old loose 1.5rem floaty spacing. */
+    padding-top: 6px;
+    margin-top: 6px;
+    border-top: 1px solid var(--zd-surface-border-subtle);
+}
+/* first param sits right under the section header's own underline — no double line */
+.sectionHeader + .paramContainer {
+    border-top: none;
+    padding-top: 0;
+    margin-top: 6px;
 }
 
 .paramLabels {
     display: flex;
     flex-direction: row;
-    gap: 10px;
-    margin-top: 1.5rem;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin-top: 0;
 }
 
 .paramExample {
-    font-size: 0.8rem;
-    color: rgb(74, 83, 104);
-    font-weight: 600;
+    font-size: 13px;
+    color: var(--zd-muted-text);
+    font-weight: 500;
+    margin-right: 6px;
 }
 
 .paramName {
-    font-family: monospace;
-    color: rgb(28, 23, 255);
-    font-weight: 700;
-    font-size: 1rem;
-    padding-right: 0.8rem;
+    font-family: var(--ifm-font-family-monospace);
+    color: var(--zd-page-ink);
+    font-weight: 600;
+    font-size: 14px;
+    padding-right: 2px;
 }
 
+/* inline code-value text (e.g. the base URL) — matches the code INSIDE code blocks:
+   Geist Mono, 13px / 20px, weight 450, var(--zd-page-ink). */
+.codeText {
+    font-family: var(--ifm-font-family-monospace);
+    font-size: 13px;
+    font-weight: 450;
+    line-height: 20px;
+    color: var(--zd-muted-text);
+    word-break: break-all;
+}
+
+/* type / location labels — the site's inline-code tag look (warm bg + hairline) */
 .label {
-    font-family: monospace;
-    padding: 0.2em 0.5em;
-    color: rgb(74, 83, 104);
-    background-color: rgba(223, 225, 236, 0.7);
-    border-radius: 5px;
+    font-family: var(--ifm-font-family-monospace);
+    font-size: var(--zd-inline-code-font-size);
+    font-weight: var(--zd-inline-code-font-weight);
+    padding: var(--zd-inline-code-padding);
+    color: var(--zd-inline-code-color);
+    background-color: var(--zd-inline-code-bg);
+    border: 1px solid var(--zd-inline-code-border);
+    border-radius: var(--zd-inline-code-radius);
+    line-height: var(--zd-inline-code-line-height);
+    letter-spacing: normal;
 }
 
+/* required — plain inline text, not a tag/chip */
 .required {
-    font-family: monospace;
-    padding: 0.2em 0.5em;
-    color: rgb(220, 38, 38);
-    background-color: rgb(220, 38, 38, 0.2);;
-    border-radius: 5px;
+    font-family: var(--ifm-font-family-monospace);
+    font-size: 12px;
+    font-weight: 600;
+    padding: 0;
+    color: #bd5a55;
+    background-color: transparent;
+    border: 0;
+    border-radius: 0;
+    line-height: 1.5;
+}
+
+.enumSelectWrapper {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+}
+
+.enumSelectWrapper::after {
+    content: "";
+    position: absolute;
+    right: 16px;
+    width: 6px;
+    height: 6px;
+    border-right: 1.5px solid var(--zd-gray-400);
+    border-bottom: 1.5px solid var(--zd-gray-400);
+    transform: translateY(-2px) rotate(45deg);
+    pointer-events: none;
+    transition: border-color var(--zd-hover-duration, 160ms) var(--zd-hover-ease, ease);
+}
+
+.enumSelect {
+    height: 34px;
+    min-width: 216px;
+    max-width: 100%;
+    padding: 0 42px 0 16px;
+    border: 1px solid var(--zd-surface-border);
+    border-radius: 11px;
+    background-color: transparent;
+    color: var(--zd-muted-text);
+    font-family: var(--ifm-font-family-base);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 32px;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    outline: none;
+    transition:
+        background-color var(--zd-hover-duration, 160ms) var(--zd-hover-ease, ease),
+        border-color var(--zd-hover-duration, 160ms) var(--zd-hover-ease, ease),
+        box-shadow var(--zd-hover-duration, 160ms) var(--zd-hover-ease, ease);
+}
+
+.enumSelect:hover {
+    background-color: transparent;
+    border-color: var(--zd-surface-border-strong);
+}
+
+.enumSelectWrapper:hover::after {
+    border-color: var(--zd-muted-text);
+}
+
+.enumSelect:focus-visible {
+    border-color: #b8b0a6;
+    box-shadow: 0 0 0 2px rgba(56, 52, 49, 0.08);
 }
 
 .sectionHeader {
-    margin-top: 2rem;
-    font-size: 1.2rem; 
-    font-weight: 700;
-    padding: 5px 0;
-    border-bottom: 1px solid rgba(223, 225, 236, 0.7);
+    /* Langfuse style: a full-width divider sits ABOVE each section (not an underline
+       under the title). */
+    position: relative;
+    /* symmetric breathing room around the divider line: the gap BELOW the line (line
+       → title) matches the gap ABOVE it (previous content → line) so every section
+       divider sits evenly between the block before it and its own heading. */
+    margin-top: 4.25rem;
+    padding-top: 4.25rem;
+    border-bottom: none;
+    font-size: 24px;
+    font-weight: 650;
+    line-height: 1.3;
+    /* exact same solid black as the page's big headings (var(--zd-page-ink)) — no gray */
+    color: var(--zd-page-ink);
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 24px;
+}
+/* The header lives in the 60% (3fr) left grid column; extend the divider across BOTH
+   columns to the doc content's right edge. 166.67% of the 3fr column + the 2rem gap
+   == the full width (3fr+2fr+gap). */
+.sectionHeader::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: calc(166.67% + 2rem);
+    border-top: 1px solid var(--zd-surface-border);
+}
+
+.sectionMeta {
+    flex-shrink: 0;
+    align-self: center;
+    color: var(--zd-muted-text);
+    font-family: var(--ifm-font-family-monospace);
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.4;
 }
 
 .tabs {
     display: flex;
     flex-wrap: wrap;
-    align-items: stretch;
+    align-items: flex-start;
+    align-content: flex-start;
     gap: 0.5rem;
 }
 
@@ -64,30 +191,51 @@
 
 .tabLabel {
     display: inline-flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 0.4rem 0.9rem;
+    padding: 5px 14px;
     cursor: pointer;
-    color: var(--ifm-color-emphasis-700);
-    background-color: var(--ifm-color-emphasis-200);
-    font-size: 0.85rem;
-    font-weight: 500;
+    color: var(--zd-page-ink);
+    background-color: var(--zd-surface-2);
+    font-size: 13px;
+    font-weight: 400;
     border-radius: 999px;
+    line-height: 1.5;
     transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
     user-select: none;
 }
 
+/* Reserve the ACTIVE (bold) width for every tab: a zero-height, hidden copy of the
+   label rendered at the selected weight (500) sets the pill's width, so toggling
+   font-weight 400↔500 on selection no longer changes the pill width — the tab row
+   never shifts or rewraps ("drift") when you switch tabs. */
+.tabLabel::after {
+    content: attr(data-label);
+    height: 0;
+    overflow: hidden;
+    visibility: hidden;
+    pointer-events: none;
+    font-weight: 500;
+}
+
 .tabLabel:hover {
-    background-color: var(--ifm-color-emphasis-300);
-    color: var(--ifm-color-emphasis-900);
+    background-color: var(--zd-surface-3);
+    color: var(--zd-page-ink);
 }
 
 .tabPanel {
-    height: 100%;
+    flex: 0 0 100%;
+    height: auto;
     display: none;
     order: 99;
     margin-top: 1rem;
     border-radius: 5px;
+    /* Exclude the tab panels from the browser's scroll-anchoring: on tab switch the
+       old panel flips to display:none. If it was the current scroll anchor, losing it
+       makes the scroll container jump (often to the top, flashing blank). Excluding
+       the volatile panels forces anchoring onto the stable section headings instead. */
+    overflow-anchor: none;
 }
 
 /* Visually-hidden radios — preserves keyboard a11y, replaces `display: none` */
@@ -105,18 +253,18 @@
 
 .tabs input[type=radio]:checked + .tabLabel {
     color: #ffffff;
-    background-color: var(--ifm-color-primary);
-    font-weight: 600;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06), 0 4px 12px rgba(0, 0, 0, 0.10);
+    background-color: var(--zd-page-ink);
+    font-weight: 500;
+    box-shadow: none;
 }
 
 .tabs input[type=radio]:checked + .tabLabel:hover {
-    background-color: var(--ifm-color-primary-dark);
+    background-color: var(--zd-page-ink);
     color: #ffffff;
 }
 
 .tabs input[type=radio]:focus-visible + .tabLabel {
-    outline: 2px solid var(--ifm-color-primary);
+    outline: 2px solid var(--zd-surface-border-strong);
     outline-offset: 2px;
 }
 
@@ -125,24 +273,66 @@
     min-width: 100%;
 }
 
+.singleExample {
+    margin-top: 1rem;
+}
+
+.singleExample :global(.rest-spec-example-code) {
+    margin-top: 0 !important;
+}
+
 .exampleContainer {
-    margin-top: 4.5rem;
+    /* Align the right code panel with the first content row below the matching
+       section title: divider gap (4.25rem + 4.25rem) + title line + first-row gap. */
+    margin-top: calc(8.5rem + 39px);
     font-size: 0.85rem;
+    /* the code panel re-renders (and changes height) on tab switch — keep it out of
+       scroll-anchoring so it can't drag the scroll position when it resizes. */
+    overflow-anchor: none;
+}
+/* neutralise the code frame's own 1.25rem top margin and the tab strip's inline 1rem top
+   margin so the right column's content starts flush at the heading line regardless of
+   whether it leads with code or with a tab strip. */
+.exampleContainer :global([class*="windowFrame"]) {
+    margin-top: 0 !important;
+}
+.exampleContainer > .tabs {
+    margin-top: 0 !important;
 }
 
 .description {
-    font-size: 0.95rem;
+    font-size: 14px;
     font-weight: 450;
+    color: var(--zd-muted-text);
 }
 
 .description p {
-    line-height: 1.5;
+    line-height: 1.6;
+    margin-bottom: 0.5rem;
+}
+.description p:last-child {
+    margin-bottom: 0;
 }
 
 .specLayout {
     display: grid;
-    gap: 2rem;
-    grid-template-columns: 60% 40%;
+    /* row-gap 0 (NOT 2rem): the section divider already carries its own symmetric
+       margin-top/padding-top spacing — an extra 2rem row-gap stacked ON TOP made the
+       gap ABOVE each divider larger than the gap below it. Keep the 2rem COLUMN gap. */
+    gap: 0 2rem;
+    /* minmax(0, …) fr units: account for the 2rem gap (60%+40%+gap would overflow &
+       clip the code panel) AND stop the code block's long lines from expanding the
+       right column past its share (it scrolls internally instead). Keeps the left
+       column at a stable 3fr so the section divider reaches full width. */
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+}
+
+.introBlock {
+    grid-column: 1 / -1;
+}
+
+.introEndpoint {
+    width: 50%;
 }
 
 @media (max-width: 768px) {
@@ -152,5 +342,14 @@
 
     .exampleContainer {
         margin-top: 1rem;
+    }
+
+    .introEndpoint {
+        width: 100%;
+    }
+
+    /* single column on mobile — the divider spans just the one column */
+    .sectionHeader::before {
+        width: 100%;
     }
 }

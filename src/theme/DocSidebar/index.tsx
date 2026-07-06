@@ -1,6 +1,6 @@
 import React, {type ReactNode, useEffect, useMemo, useRef, useState} from 'react';
 import {useLocation, useHistory} from '@docusaurus/router';
-import {useWindowSize} from '@docusaurus/theme-common';
+import DocSidebarItems from '@theme/DocSidebarItems';
 import DocSidebar from '@theme-original/DocSidebar';
 import type DocSidebarType from '@theme/DocSidebar';
 import type {WrapperProps} from '@docusaurus/types';
@@ -220,10 +220,27 @@ const REF_SUBNAV_LABELS: Record<string, string> = {
   cpp: 'C++',
 };
 
-function getRefSubnavLabel(pathname: string): string | null {
+// Some languages serve their docs under a URL slug that differs from the landing
+// slug (e.g. Node.js landing is /reference/nodejs but its docs live under
+// /reference/node/…). Map those doc slugs back so inner pages still resolve to
+// the language — otherwise the sidebar drops out of the drill view on navigation.
+const REF_SLUG_ALIASES: Record<string, string> = {
+  node: 'nodejs',
+};
+
+export function getRefSubnavLabel(pathname: string): string | null {
   const m = pathname.match(/^\/reference\/([^/]+)/);
-  return m ? REF_SUBNAV_LABELS[m[1]] ?? null : null;
+  if (!m) return null;
+  const slug = REF_SLUG_ALIASES[m[1]] ?? m[1];
+  return REF_SUBNAV_LABELS[slug] ?? null;
 }
+
+/** Parent panel of the Client Libraries drill: the landing + each
+ *  language/protocol, in display order. */
+const CLIENT_LIB_ITEMS: {label: string; href: string}[] = [
+  {label: 'Install SDKs', href: '/docs/install-sdks'},
+  ...Object.entries(REF_SUBNAV_LABELS).map(([key, label]) => ({label, href: `/reference/${key}`})),
+];
 
 function getItemHref(item: PropSidebarItem): string | undefined {
   if (item.type === 'link') return item.href;
@@ -277,23 +294,26 @@ function itemContainsPath(item: PropSidebarItem, pathname: string): boolean {
   return false;
 }
 
-/** Collapsed/merged state: narrow viewport (≤1100px) OR the AI chat panel open. */
+/** Collapsed/merged state: narrow viewport breakpoint (≤1320px), or the same
+ *  effective-width compact state used by the topbar while the AI panel is open. */
 function useMergedMode(): boolean {
   const [merged, setMerged] = useState(false);
   useEffect(() => {
     const compute = () => {
-      const narrow = window.innerWidth <= 1100;
-      const chatOpen = !!document.querySelector('.docs-chat-open');
-      setMerged(narrow || chatOpen);
+      const narrow = window.innerWidth <= 1320 || document.body.classList.contains('docs-nav-compact');
+      setMerged(narrow);
     };
     compute();
     window.addEventListener('resize', compute);
     const wrapper = document.querySelector('[class*="docsWrapper"]');
+    const bodyMo = new MutationObserver(compute);
     const mo = new MutationObserver(compute);
     if (wrapper) mo.observe(wrapper, {attributes: true, attributeFilter: ['class']});
+    bodyMo.observe(document.body, {attributes: true, attributeFilter: ['class']});
     return () => {
       window.removeEventListener('resize', compute);
       mo.disconnect();
+      bodyMo.disconnect();
     };
   }, []);
   return merged;
@@ -329,6 +349,42 @@ function TwoLevelSidebar(props: Props): ReactNode {
   // a "back to Client Libraries" link + the language title on top; the tree
   // splits into the normal two-level (primary rail + secondary panel).
   const subnavLabel = getRefSubnavLabel(pathname);
+  // Mirror the drill-in with a leftward slide when leaving a language reference.
+  // The back link sets a sessionStorage flag (survives its full-page reload);
+  // on the destination we play the slide once, then clear the flag.
+  const [backAnim, setBackAnim] = useState(false);
+  useEffect(() => {
+    try {
+      if (!subnavLabel && sessionStorage.getItem('zd-nav-back') === '1') {
+        sessionStorage.removeItem('zd-nav-back');
+        setBackAnim(true);
+        const t = setTimeout(() => setBackAnim(false), 460);
+        return () => clearTimeout(t);
+      }
+    } catch { /* sessionStorage unavailable — skip the back animation */ }
+  }, [subnavLabel, pathname]);
+
+  // ── Desktop drill (Client Libraries ⇄ a language reference) ──
+  // The primary rail ALWAYS stays the guides sections; only the SECONDARY column
+  // drills between the language list and a language's tree. Cross-plugin navigation
+  // remounts the sidebar, so the slide is a mount-time keyframe driven by a
+  // direction flag set on the triggering click (read once, synchronously).
+  const isInstallSdks = normalizePath(pathname) === '/docs/install-sdks';
+  const inRefContext = !!subnavLabel || isInstallSdks;
+  const [pushNav] = useState<{dir: 'forward' | 'back'; label: string} | null>(() => {
+    try {
+      const dir = sessionStorage.getItem('zd-nav-dir');
+      const label = sessionStorage.getItem('zd-nav-back-label') ?? '';
+      if (dir) {
+        sessionStorage.removeItem('zd-nav-dir');
+        sessionStorage.removeItem('zd-nav-back-label');
+      }
+      if (dir === 'forward') return {dir: 'forward', label};
+      if (dir === 'back') return {dir: 'back', label};
+    } catch { /* sessionStorage unavailable */ }
+    return null;
+  });
+
   // Guides primary rail for client-library reference pages: resolve each guides
   // section's landing URL from the guides plugin's doc list (id → path). Plain,
   // non-throwing hooks so the sidebar never crashes if the data is absent.
@@ -359,6 +415,15 @@ function TwoLevelSidebar(props: Props): ReactNode {
   // Merged single-layer: section picker dropdown on top, current section's pages below.
   if (merged) {
     const selectedLabel = selectedItem && 'label' in selectedItem ? (selectedItem as {label: string}).label : 'Section';
+    // Client-library reference pages (Python, Java, …) carry a language TREE, not
+    // guides "sections" — merging by section collapses the tree to a single
+    // "Overview" entry. Show the language title + the FULL tree instead so the nav
+    // never disappears on narrow / zoomed viewports.
+    const refMode = !!subnavLabel;
+    const refDropdownIndex = clientLibsIndex >= 0 ? clientLibsIndex : 0;
+    const mergedDropdownLabel = refMode && guidesRail.length > 0
+      ? (guidesRail[refDropdownIndex]?.label ?? 'Client Libraries')
+      : selectedLabel;
     return (
       <div className={styles.mergedSidebar}>
         <div className={styles.sectionDropdown} ref={dropdownRef}>
@@ -368,41 +433,90 @@ function TwoLevelSidebar(props: Props): ReactNode {
             onClick={() => setDropdownOpen(o => !o)}
             aria-expanded={dropdownOpen}
             aria-haspopup="listbox">
-            <span className={styles.sectionDropdownText}>{selectedLabel}</span>
+            <span className={styles.sectionDropdownText}>{mergedDropdownLabel}</span>
             <ChevronDown size={16} className={dropdownOpen ? styles.sectionDropdownCaretOpen : styles.sectionDropdownCaret} />
           </button>
           {dropdownOpen && (
             <div className={styles.sectionDropdownMenu} role="listbox">
-              {props.sidebar.map((item, index) => {
-                const label = 'label' in item ? item.label : `Section ${index + 1}`;
-                const isActive = index === selectedIndex;
-                return (
-                  <button
-                    key={`${label}-${index}`}
-                    type="button"
-                    role="option"
-                    aria-selected={isActive}
-                    className={`${styles.sectionDropdownItem} ${isActive ? styles.sectionDropdownItemActive : ''}`}
-                    onClick={() => {
-                      setSelectedIndex(index);
-                      setDropdownOpen(false);
-                      if (item.type === 'category' && item.items.length > 0) return;
-                      const href = getItemHref(item);
-                      if (href) history.push(href);
-                    }}>
-                    <span>{label}</span>
-                  </button>
-                );
-              })}
+              {refMode && guidesRail.length > 0 ? (
+                guidesRail.map((section, index) => {
+                  const isActive = index === refDropdownIndex;
+                  return (
+                    <button
+                      key={`${section.label}-${index}`}
+                      type="button"
+                      role="option"
+                      aria-selected={isActive}
+                      className={`${styles.sectionDropdownItem} ${isActive ? styles.sectionDropdownItemActive : ''}`}
+                      onClick={() => {
+                        setDropdownOpen(false);
+                        if (section.href) history.push(section.href);
+                      }}>
+                      <span>{section.label}</span>
+                    </button>
+                  );
+                })
+              ) : (
+                props.sidebar.map((item, index) => {
+                  const label = 'label' in item ? item.label : `Section ${index + 1}`;
+                  const isActive = index === selectedIndex;
+                  return (
+                    <button
+                      key={`${label}-${index}`}
+                      type="button"
+                      role="option"
+                      aria-selected={isActive}
+                      className={`${styles.sectionDropdownItem} ${isActive ? styles.sectionDropdownItemActive : ''}`}
+                      onClick={() => {
+                        setSelectedIndex(index);
+                        setDropdownOpen(false);
+                        if (item.type === 'category' && item.items.length > 0) return;
+                        const href = getItemHref(item);
+                        if (href) history.push(href);
+                      }}>
+                      <span>{label}</span>
+                    </button>
+                  );
+                })
+              )}
             </div>
           )}
         </div>
-        <section className={styles.secondaryPane} aria-label="Documentation pages">
-          {subnavLabel && <div className={styles.subnavTitle}>{subnavLabel}</div>}
+        {refMode && (
+          <a
+            className={styles.refHeaderRow}
+            href="/docs/install-sdks"
+            aria-label="Back to Client Libraries"
+            onClick={(e) => {
+              e.preventDefault();
+              try {
+                sessionStorage.setItem('zd-nav-dir', 'back');
+                sessionStorage.setItem('zd-nav-back-label', subnavLabel);
+                sessionStorage.setItem('zd-nav-back', '1');
+              } catch { /* ignore */ }
+              history.push('/docs/install-sdks');
+            }}>
+            <svg className={styles.refHeaderRowArrow} width="17" height="17" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M11 8H3M6.5 4.5L3 8 6.5 11.5" stroke="currentColor" strokeWidth="1" vectorEffect="non-scaling-stroke" strokeLinecap="butt" strokeLinejoin="miter" />
+            </svg>
+            <span className={styles.refHeaderRowTitle}>{subnavLabel}</span>
+          </a>
+        )}
+        <section
+          className={`${styles.secondaryPane} ${refMode ? styles.refEnter : (backAnim ? styles.backEnter : '')}`}
+          key={refMode ? `ref-${subnavLabel}` : 'section'}
+          aria-label="Documentation pages">
           <div className={styles.sidebarScroll}>
             <div className={styles.secondarySidebarContent}>
               <SidebarIconVisibilityContext.Provider value={false}>
-                <DocSidebar key={selectedIndex} {...props} sidebar={secondarySidebar} />
+                <ul className="menu__list">
+                  <DocSidebarItems
+                    items={refMode ? props.sidebar : secondarySidebar}
+                    activePath={pathname}
+                    level={1}
+                    tabIndex={0}
+                  />
+                </ul>
               </SidebarIconVisibilityContext.Provider>
             </div>
           </div>
@@ -438,11 +552,17 @@ function TwoLevelSidebar(props: Props): ReactNode {
   };
   const hideTooltip = () => setTooltip(null);
 
-  // Client-library reference (desktop): the guides sections stay as the fixed
-  // left rail (Client Libraries active); the language's own page tree fills the
-  // secondary column under a back-link + language-title header (matches fig 4 —
-  // the left primary nav doesn't move when drilling into a language).
-  if (subnavLabel && guidesRail.length > 0) {
+  // Client-library reference (desktop): the guides sections ALWAYS stay as the
+  // fixed left rail (Client Libraries active). Only the SECONDARY column drills
+  // between the language LIST and a language's page TREE, with a "← Client
+  // Libraries" back link — a quick Vercel-style crossfade (opacity + 8px slide +
+  // 2px blur, 0.2s).
+  if (inRefContext && guidesRail.length > 0) {
+    // Only play the drill slide when an actual drill click set a direction flag.
+    // On a plain load/refresh or a non-drill landing (e.g. clicking "Install
+    // SDKs", the parent list itself), pushNav is null → no animation, no jitter.
+    const animDir = pushNav?.dir === 'back' ? 'back' : pushNav?.dir === 'forward' ? 'fwd' : undefined;
+    const childLabel = subnavLabel ?? (pushNav?.dir === 'back' ? pushNav.label : '');
     return (
       <div
         className={styles.twoLevelSidebar}
@@ -462,15 +582,18 @@ function TwoLevelSidebar(props: Props): ReactNode {
                 <button
                   key={`${section.label}-${index}`}
                   type="button"
-                  className={`${styles.primaryRailItem} ${isActive ? styles.primaryRailItemActive : ''}`}
-                  data-label={section.label}
-                  data-sidebar-tooltip={section.label}
+	                  className={`${styles.primaryRailItem} ${isActive ? styles.primaryRailItemActive : ''}`}
+	                  data-label={section.label}
+	                  data-sidebar-tooltip={isActive ? undefined : section.label}
                   onClick={() => {
                     if (section.href) history.push(section.href);
                   }}
                   aria-current={isActive ? 'true' : undefined}>
                   <span className={styles.primaryRailLabel} data-sidebar-tooltip-label>
-                    {section.label}
+                    <span className={styles.primaryRailLabelSizer} aria-hidden="true">
+                      {section.label}
+                    </span>
+                    <span className={styles.primaryRailLabelText}>{section.label}</span>
                   </span>
                 </button>
               );
@@ -478,20 +601,77 @@ function TwoLevelSidebar(props: Props): ReactNode {
           </nav>
 
           <section className={styles.secondaryPane} aria-label="Documentation pages">
-            <div className={styles.refHeader}>
-              <a className={styles.refBack} href="/docs/install-sdks">
-                <svg width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                  <path d="M13 8H3.5M7 4.5L3.5 8l3.5 3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="square" strokeLinejoin="miter" />
-                </svg>
-                Client Libraries
-              </a>
-              <div className={styles.refTitle}>{subnavLabel}</div>
-            </div>
-            <div className={styles.sidebarScroll}>
-              <div className={styles.secondarySidebarContent}>
-                <SidebarIconVisibilityContext.Provider value={false}>
-                  <DocSidebar {...props} sidebar={props.sidebar} />
-                </SidebarIconVisibilityContext.Provider>
+            <div className={styles.refViewport}>
+              <div className={styles.refPane} data-anim={animDir} key={subnavLabel ?? 'parent'}>
+                {subnavLabel ? (
+                  <>
+                    <a
+                      className={styles.refHeaderRow}
+                      href="/docs/install-sdks"
+                      aria-label="Back to Client Libraries"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        try {
+                          sessionStorage.setItem('zd-nav-dir', 'back');
+                          sessionStorage.setItem('zd-nav-back-label', childLabel);
+                        } catch { /* ignore */ }
+                        history.push('/docs/install-sdks');
+                      }}>
+                      <svg className={styles.refHeaderRowArrow} width="17" height="17" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                        <path d="M11 8H3M6.5 4.5L3 8 6.5 11.5" stroke="currentColor" strokeWidth="1" vectorEffect="non-scaling-stroke" strokeLinecap="butt" strokeLinejoin="miter" />
+                      </svg>
+                      <span className={styles.refHeaderRowTitle}>{childLabel}</span>
+                    </a>
+                    <div className={styles.refPanelScroll}>
+                      <div className={styles.secondarySidebarContent}>
+                        <SidebarIconVisibilityContext.Provider value={false}>
+                          <ul className="menu__list">
+                            <DocSidebarItems
+                              items={props.sidebar}
+                              activePath={pathname}
+                              level={1}
+                              tabIndex={0}
+                            />
+                          </ul>
+                        </SidebarIconVisibilityContext.Provider>
+                      </div>
+                    </div>
+                  </>
+                ) : (
+                  <div className={styles.refPanelScroll}>
+                    <div className={styles.secondarySidebarContent}>
+                      <ul className="menu__list">
+                        {CLIENT_LIB_ITEMS.map((it) => {
+                          const active = normalizePath(it.href) === normalizePath(pathname);
+                          return (
+                            <li className="menu__list-item" key={it.href}>
+                              <a
+                                className={`menu__link${active ? ' menu__link--active' : ''}`}
+                                href={it.href}
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  // Only the language refs actually drill in; "Install SDKs" is
+                                  // the parent list itself, so it must NOT trigger the drill
+                                  // animation (that caused the jitter on click).
+                                  if (it.href !== '/docs/install-sdks') {
+                                    try { sessionStorage.setItem('zd-nav-dir', 'forward'); } catch { /* ignore */ }
+                                  }
+                                  history.push(it.href);
+                                }}>
+                                <span>{it.label}</span>
+                                {it.href !== '/docs/install-sdks' && (
+                                  <svg className={styles.refListCaret} width="17" height="17" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                                    <path d="M5 8H13M9.5 4.5L13 8 9.5 11.5" stroke="currentColor" strokeWidth="1" vectorEffect="non-scaling-stroke" strokeLinecap="butt" strokeLinejoin="miter" />
+                                  </svg>
+                                )}
+                              </a>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </section>
@@ -520,9 +700,9 @@ function TwoLevelSidebar(props: Props): ReactNode {
       onBlur={hideTooltip}>
       {subnavLabel && (
         <div className={styles.refHeaderBar}>
-          <a className={styles.refBack} href="/docs/install-sdks">
-            <svg width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-              <path d="M13 8H3.5M7 4.5L3.5 8l3.5 3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="square" strokeLinejoin="miter" />
+          <a className={styles.refBack} href="/docs/install-sdks" onClick={() => { try { sessionStorage.setItem('zd-nav-back', '1'); } catch { /* ignore */ } }}>
+            <svg width="17" height="17" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M11 8H3M6.5 4.5L3 8 6.5 11.5" stroke="currentColor" strokeWidth="1" vectorEffect="non-scaling-stroke" strokeLinecap="butt" strokeLinejoin="miter" />
             </svg>
             Client Libraries
           </a>
@@ -542,9 +722,9 @@ function TwoLevelSidebar(props: Props): ReactNode {
               <button
                 key={`${label}-${index}`}
                 type="button"
-                className={`${styles.primaryRailItem} ${isActive ? styles.primaryRailItemActive : ''}`}
-                data-label={label}
-                data-sidebar-tooltip={label}
+	                className={`${styles.primaryRailItem} ${isActive ? styles.primaryRailItemActive : ''}`}
+	                data-label={label}
+	                data-sidebar-tooltip={isActive ? undefined : label}
                 onClick={() => {
                   // Always update the rail selection — even for a leaf whose page
                   // is already open (history.push would be a no-op), so clicking
@@ -559,7 +739,10 @@ function TwoLevelSidebar(props: Props): ReactNode {
                   {icon}
                 </span>
                 <span className={styles.primaryRailLabel} data-sidebar-tooltip-label>
-                  {label}
+                  <span className={styles.primaryRailLabelSizer} aria-hidden="true">
+                    {label}
+                  </span>
+                  <span className={styles.primaryRailLabelText}>{label}</span>
                 </span>
               </button>
             );
@@ -567,11 +750,20 @@ function TwoLevelSidebar(props: Props): ReactNode {
         </nav>
 
         {selectedHasChildren && (
-          <section className={styles.secondaryPane} aria-label="Documentation pages">
+          <section
+            className={`${styles.secondaryPane} ${backAnim ? styles.backEnter : ''}`}
+            aria-label="Documentation pages">
             <div className={styles.sidebarScroll}>
               <div className={styles.secondarySidebarContent}>
                 <SidebarIconVisibilityContext.Provider value={false}>
-                  <DocSidebar key={selectedIndex} {...props} sidebar={secondarySidebar} />
+                  <ul className="menu__list" key={selectedIndex}>
+                    <DocSidebarItems
+                      items={secondarySidebar}
+                      activePath={pathname}
+                      level={1}
+                      tabIndex={0}
+                    />
+                  </ul>
                 </SidebarIconVisibilityContext.Provider>
               </div>
             </div>
@@ -590,9 +782,17 @@ function TwoLevelSidebar(props: Props): ReactNode {
 }
 
 export default function DocSidebarWrapper(props: Props): ReactNode {
-  const windowSize = useWindowSize();
   const {pathname} = useLocation();
-  const isMobile = windowSize === 'mobile';
+  const [isMobile, setIsMobile] = useState(() =>
+    typeof window !== 'undefined' ? window.innerWidth <= 767 : false,
+  );
+
+  useEffect(() => {
+    const update = () => setIsMobile(window.innerWidth <= 767);
+    update();
+    window.addEventListener('resize', update);
+    return () => window.removeEventListener('resize', update);
+  }, []);
 
   // On mobile the sidebar renders inside the hamburger menu —
   // always show the full sidebar items, never the collapsed icon column.
@@ -611,8 +811,8 @@ export default function DocSidebarWrapper(props: Props): ReactNode {
     <>
       {mobileSubnav && (
         <a className={styles.refBack} href="/docs/install-sdks" style={{padding: '12px 16px 4px'}}>
-          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-            <path d="M13 8H3.5M7 4.5L3.5 8l3.5 3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="square" strokeLinejoin="miter" />
+          <svg width="17" height="17" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M11 8H3M6.5 4.5L3 8 6.5 11.5" stroke="currentColor" strokeWidth="1" vectorEffect="non-scaling-stroke" strokeLinecap="butt" strokeLinejoin="miter" />
           </svg>
           Client Libraries
         </a>

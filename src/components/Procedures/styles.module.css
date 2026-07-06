@@ -2,41 +2,54 @@
     display: block;
     width: 100%;
     margin-top: 30px;
+    position: relative;
+    --procedure-line-color: var(--zd-surface-border-strong);
 }
 
 .step {
     display: flex;
     justify-content: flex-start;
     gap: 0 20px;
+    position: relative;
+}
+
+.step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    left: 14px;
+    top: 36px;
+    bottom: 6px;
+    width: 0.5px;
+    background: var(--procedure-line-color);
+    transform: translateX(-50%);
 }
 
 .stepNumber {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    width: 30px;
+    width: 28px;
 }
 
 .stepNumber span {
     display: flex;
-    border: 1px solid #e5e5e5;
+    border: 0.5px solid var(--procedure-line-color);
     border-radius: 50%;
-    width: 30px;
-    height: 30px;
+    width: 28px;
+    height: 28px;
     font-size: 14px;
     line-height: 20px;
-    font-weight: 600;
-    color: #6b6b6b;
+    font-weight: 400;
+    color: var(--zd-muted-text);
     justify-content: center;
     align-items: center;
+    background: #ffffff;
+    position: relative;
+    z-index: 1;
 }
 
 .connector {
-    flex: 1;
-    display: block;
-    margin: 10px 0;
-    width: 15px;
-    border-right: 1px solid #e5e5e5;
+    display: none;
 }
 
 .stepContent {
@@ -47,31 +60,57 @@
     flex: 1;
     min-width: 0;
     gap: 5px;
-    padding-bottom: 18px;
+    padding-bottom: 20px;
 }
 
 .stepContent h3 {
     font-size: 15px !important;
     line-height: 24px !important;
-    font-weight: 600 !important;
-    color: #1a1a1a !important;
-    margin: 4px 0 !important;
+    font-weight: 500 !important;
+    color: var(--zd-page-ink) !important;
+    /* margin-top 2px so the title's first-line center (2 + 24/2 = 14) lines up
+       with the 28px circle's center (14) — circle and title sit on one line. */
+    margin: 2px 0 !important;
 }
 
 .stepContent p {
     font-size: 15px;
     line-height: 24px;
-    color: #6b6b6b;
+    color: var(--zd-linear-signup-ink);
     margin: 8px 0;
+}
+
+.stepContent > div:has(> p):has(+ div > ul) p {
+    margin-bottom: 0;
+}
+
+.stepContent > div:has(> p) + div:has(> ul) ul {
+    margin-top: 2px;
+}
+
+.stepContent :where(p, li, ul, ol, blockquote, td, th) {
+    color: var(--zd-linear-signup-ink);
 }
 
 .stepContent a:link,
 .stepContent a:visited {
     color: var(--zd-linear-signup-ink) !important;
+    text-decoration-line: underline;
+    text-decoration-thickness: 1px;
+    text-decoration-color: var(--zd-gray-400);
+    text-underline-offset: 4px;
+    transition:
+        color var(--zd-hover-duration, 0.36s) var(--zd-hover-ease, cubic-bezier(0.16, 1, 0.3, 1)),
+        text-decoration-color var(--zd-hover-duration, 0.36s) var(--zd-hover-ease, cubic-bezier(0.16, 1, 0.3, 1)),
+        text-decoration-thickness var(--zd-hover-duration, 0.36s) var(--zd-hover-ease, cubic-bezier(0.16, 1, 0.3, 1)),
+        text-underline-offset var(--zd-hover-duration, 0.36s) var(--zd-hover-ease, cubic-bezier(0.16, 1, 0.3, 1));
 }
 
 .stepContent a:hover {
-    color: #6b6b6b !important;
+    color: var(--zd-linear-signup-ink) !important;
+    text-decoration-color: currentColor;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 5px;
 }
 
 .stepContent strong, .stepContent b {

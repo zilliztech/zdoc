@@ -6,7 +6,7 @@ vi.mock('@docusaurus/useDocusaurusContext', () => ({
   default: () => ({
     siteConfig: {
       customFields: {
-        chatEndpoint: '/api/chat/stream',
+        chatEndpoint: '/api/chat',
       },
     },
   }),
@@ -29,11 +29,11 @@ describe('SearchModal', () => {
     vi.restoreAllMocks();
   });
 
-  it('renders input and footer hints', () => {
+  it('renders input and close hint', () => {
     render(<SearchModal onClose={onClose} />);
     expect(screen.getByPlaceholderText('Search documentation...')).toBeInTheDocument();
     expect(screen.getByRole('button', {name: 'ESC'})).toBeInTheDocument();
-    expect(document.querySelector('[class*="searchFooter"]')).toBeInTheDocument();
+    expect(screen.getByRole('button', {name: /Getting Started/})).toBeInTheDocument();
   });
 
   it('closes on Escape key', () => {

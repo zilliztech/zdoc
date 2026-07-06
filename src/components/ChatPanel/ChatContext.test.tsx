@@ -12,8 +12,9 @@ function sseResponse(events: unknown[]): Response {
   const encoder = new TextEncoder();
   const stream = new ReadableStream({
     start(controller) {
-      for (const data of events) {
-        controller.enqueue(encoder.encode(`data: ${typeof data === 'string' ? data : JSON.stringify(data)}\n\n`));
+      for (const event of events) {
+        const {type, data} = event as {type: string; data: unknown};
+        controller.enqueue(encoder.encode(`event: ${type}\ndata: ${JSON.stringify(data)}\n\n`));
       }
       controller.close();
     },
@@ -42,14 +43,11 @@ describe('ChatProvider request debugging', () => {
       getRandomValues: (arr: Uint8Array) => arr.fill(1),
     });
     vi.stubGlobal('fetch', vi.fn(() => Promise.resolve(sseResponse([
-      {type: 'connected', session_id: 'pending_1', permission_mode: 'bypassPermissions'},
-      {type: 'session_id', session_id: 'server-session-1', timestamp: '2026-05-21T10:00:00.000000'},
-      {type: 'chunk', data: {type: 'tool_use', id: 'toolu_1', name: 'mcp__inkeep-mcp__search', input: {query: 'short secret notice'}}},
-      {type: 'stream_event', event_type: 'block_start', block_index: 0, block_type: 'text', delta: null},
-      {type: 'stream_event', event_type: 'delta', block_index: 0, block_type: null, delta: 'assistant secret answer'},
-      {type: 'stream_event', event_type: 'block_stop', block_index: 0, block_type: null, delta: null},
-      {type: 'completed', session_id: 'server-session-1', timestamp: '2026-05-21T10:00:01.000000'},
-      '[DONE]',
+      {type: 'session', data: {sessionId: 'server-session-1'}},
+      {type: 'agent', data: {type: 'general', name: 'Docs Agent'}},
+      {type: 'tool-call', data: {tool: 'search', count: 1, query: 'short secret notice'}},
+      {type: 'delta', data: {text: 'assistant secret answer'}},
+      {type: 'done', data: {stop_reason: 'end_turn'}},
     ]))));
   });
 
@@ -67,13 +65,13 @@ describe('ChatProvider request debugging', () => {
     });
 
     const [url, init] = vi.mocked(fetch).mock.calls[0];
-    expect(url).toBe('/api/chat/stream');
-    expect((init as RequestInit).headers).toMatchObject({'Content-Type': 'application/json', 'Accept': 'text/event-stream', 'X-Request-ID': 'client-request-1'});
+    expect(url).toBe('/api/chat');
+    expect((init as RequestInit).headers).toMatchObject({'Content-Type': 'application/json', 'X-Request-ID': 'client-request-1'});
     expect(JSON.parse((init as RequestInit).body as string)).toMatchObject({
-      message: 'secret user prompt',
-      agent_config: {agent_config_code: 'zilliz-website-assistant'},
-      streaming_mode: 'token',
-      user_id: 'client-user-1',
+      messages: [{role: 'user', content: 'secret user prompt'}],
+      pageUrl: '/docs/home',
+      sessionId: null,
+      userId: 'client-user-1',
     });
   });
 

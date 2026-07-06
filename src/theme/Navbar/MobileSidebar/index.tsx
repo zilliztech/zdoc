@@ -1,4 +1,4 @@
-import React, {type ReactNode} from 'react';
+import React, {type ReactNode, useEffect, useState} from 'react';
 import {
   useLockBodyScroll,
   useNavbarMobileSidebar,
@@ -10,9 +10,26 @@ import NavbarMobileSidebarSecondaryMenu from '@theme/Navbar/MobileSidebar/Second
 
 export default function NavbarMobileSidebar(): ReactNode {
   const mobileSidebar = useNavbarMobileSidebar();
-  useLockBodyScroll(mobileSidebar.shown);
+  const [isMobileWidth, setIsMobileWidth] = useState(false);
 
-  if (!mobileSidebar.shouldRender) {
+  useEffect(() => {
+    if (typeof window === 'undefined') return undefined;
+    const mq = window.matchMedia('(max-width: 767px)');
+    const update = () => setIsMobileWidth(mq.matches);
+    update();
+    mq.addEventListener('change', update);
+    return () => mq.removeEventListener('change', update);
+  }, []);
+
+  useEffect(() => {
+    if (!isMobileWidth && mobileSidebar.shown) {
+      mobileSidebar.toggle();
+    }
+  }, [isMobileWidth, mobileSidebar]);
+
+  useLockBodyScroll(mobileSidebar.shown && isMobileWidth);
+
+  if (!isMobileWidth || !mobileSidebar.shouldRender) {
     return null;
   }
 

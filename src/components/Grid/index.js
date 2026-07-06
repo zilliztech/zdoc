@@ -1,6 +1,6 @@
-function GridColumn({ widthRatio, children, divider }) {
+function GridColumn({ widthRatio, children }) {
   return (
-    <div style={{ flex: `${widthRatio} 0 0`, borderRight: divider ? '2px solid #ebedf0' : 'none', marginRight: divider ? '10px' : '0' }}>
+    <div style={{ flex: `${widthRatio} 0 0` }}>
       {children}
     </div>
   );
@@ -12,7 +12,7 @@ export default function Grid({ columnSize, widthRatios, children }) {
   for (let i = 0; i < columnSize; i++) {
     const widthRatio = widthRatios.split(',')[i];
     columns.push(
-      <GridColumn key={i} widthRatio={widthRatio} divider={i === 0}>
+      <GridColumn key={i} widthRatio={widthRatio}>
         {children[i]}
       </GridColumn>
     );

@@ -13,6 +13,7 @@
     "write-translations": "docusaurus write-translations",
     "write-heading-ids": "docusaurus write-heading-ids",
     "typecheck": "tsc",
+    "check:static-env": "node scripts/check-static-env-placeholder.js",
     "test:frontend": "vitest run",
     "test:e2e": "playwright test --project=chromium",
     "test:translation": "node scripts/translation/sidebarKeys.test.js && node scripts/translation/manifest.test.js && node scripts/translation/agentRunner.test.js",

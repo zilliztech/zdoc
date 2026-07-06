@@ -1,5 +1,6 @@
 import React, {useState, useRef, useEffect, type ReactNode} from 'react';
 import {useDoc} from '@docusaurus/plugin-content-docs/client';
+import {stripDocHeadingTag} from '@site/src/utils/docHeadingTags';
 import styles from './styles.module.css';
 
 type TOCItem = {
@@ -10,6 +11,7 @@ type TOCItem = {
 
 function TocItem({item, onClick}: {item: TOCItem; onClick: () => void}) {
   const isH3 = item.level === 3;
+  const value = stripDocHeadingTag(item.value);
   return (
     <li className={styles.tocItem} style={{paddingLeft: isH3 ? '0.875rem' : 0}}>
       <a
@@ -17,7 +19,7 @@ function TocItem({item, onClick}: {item: TOCItem; onClick: () => void}) {
         className={styles.tocLink}
         onClick={onClick}
         // eslint-disable-next-line react/no-danger
-        dangerouslySetInnerHTML={{__html: item.value}}
+        dangerouslySetInnerHTML={{__html: value}}
       />
     </li>
   );

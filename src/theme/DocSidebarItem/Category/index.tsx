@@ -249,7 +249,10 @@ function CategoryLinkLabel({
         </span>
       )}
       <span className={styles.categoryLinkLabel} data-sidebar-tooltip-label>
-        {label}
+        <span className={styles.categoryLinkLabelSizer} aria-hidden="true">
+          {label}
+        </span>
+        <span className={styles.categoryLinkLabelText}>{label}</span>
       </span>
       {showChildCaret && <CategoryCaret collapsed={collapsed} />}
     </>
@@ -328,12 +331,8 @@ function DocSidebarItemCategoryCollapsible({
     onItemClick?.(item);
     if (collapsible) {
       if (href) {
-        if (isCurrentPage) {
-          e.preventDefault();
-          updateCollapsed();
-        } else {
-          updateCollapsed(false);
-        }
+        e.preventDefault();
+        updateCollapsed();
       } else {
         e.preventDefault();
         updateCollapsed();
@@ -344,9 +343,9 @@ function DocSidebarItemCategoryCollapsible({
     onItemClick?.(item);
     updateCollapsed();
   };
-  const categoryLink = (item as PropSidebarItemCategory & {link?: unknown}).link;
-  const showChildCaret = !href && !categoryLink && items.length > 0;
-  const isButtonCategory = collapsible && !href;
+  const showChildCaret = items.length > 0;
+  const isButtonCategory = collapsible;
+  const fitKey = label === 'Connect to Global Cluster' ? 'connect-global-cluster' : undefined;
 
   useBrowserLayoutEffect(() => {
     const node = childrenListRef.current;
@@ -355,6 +354,11 @@ function DocSidebarItemCategoryCollapsible({
     }
 
     const updateHeight = () => {
+      // scrollHeight measures the full content height reliably and stays correct
+      // while collapsed (it reports content regardless of the frame's clipping).
+      // The collapse frame's overflow:hidden used to shave the last item flush at
+      // its edge — the list now carries a small padding-bottom (styles.module.css)
+      // so there is always slack below the last item, and scrollHeight includes it.
       setChildrenHeight(node.scrollHeight);
     };
 
@@ -394,7 +398,8 @@ function DocSidebarItemCategoryCollapsible({
               'menu__link--active': isActive,
             })}
             onClick={handleCategoryButtonClick}
-            data-sidebar-tooltip={label}
+            data-sidebar-tooltip={isActive ? undefined : label}
+            data-sidebar-fit={fitKey}
             aria-expanded={!collapsed}>
             <CategoryLinkLabel
               label={label}
@@ -405,15 +410,16 @@ function DocSidebarItemCategoryCollapsible({
           </button>
         ) : (
           <Link
+            {...props}
             className={clsx(styles.categoryLink, 'menu__link', {
               'menu__link--sublist': collapsible,
               'menu__link--active': isActive,
             })}
             onClick={handleItemClick}
             aria-current={isCurrentPage ? 'page' : undefined}
-            data-sidebar-tooltip={label}
-            href={collapsible ? hrefWithSSRFallback ?? '#' : hrefWithSSRFallback}
-            {...props}>
+            data-sidebar-tooltip={isActive ? undefined : label}
+            data-sidebar-fit={fitKey}
+            href={collapsible ? hrefWithSSRFallback ?? '#' : hrefWithSSRFallback}>
             <CategoryLinkLabel
               label={label}
               IconComponent={IconComponent}
@@ -422,7 +428,7 @@ function DocSidebarItemCategoryCollapsible({
             />
           </Link>
         )}
-        {href && collapsible && (
+        {href && collapsible && !isButtonCategory && (
           <CollapseButton
             collapsed={collapsed}
             categoryLabel={label}

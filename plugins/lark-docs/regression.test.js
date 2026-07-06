@@ -55,6 +55,19 @@ async function testConvertLinkResolvesWikiByOriginTokenForBackwardCompatibility(
   });
 }
 
+async function testConvertLinkCanonicalizesCliOverviewRoute() {
+  const writer = new larkDocWriter('', '', '', '/tmp');
+
+  assert.equal(
+    await writer.__convert_link('/reference/cli/overview'),
+    '/reference/cli/cli/overview'
+  );
+  assert.equal(
+    await writer.__convert_link('https://docs.zilliz.com/reference/cli/overview'),
+    '/reference/cli/cli/overview'
+  );
+}
+
 function testWikiSourceFileTokenFallback() {
   const scraper = new larkDocScraper('', '', 'wiki', '/tmp');
   assert.equal(
@@ -193,14 +206,36 @@ async function testBoardImageUrlUsesEscapedMarkdownUrl() {
   assert.equal(markdown, '  ![board token](/img/board%20token.png)');
 }
 
+function testDescriptionSkipsFeatureNoteBlocks() {
+  const writer = new larkDocWriter('', '', '', '/tmp');
+  const markdown = [
+    '# Manage Collections',
+    '',
+    '<FeatureNote variant="plan" titleHref="/docs/pricing">',
+    '',
+    'Available on paid plans.',
+    '',
+    '</FeatureNote>',
+    '',
+    'Create and manage collections in Zilliz Cloud.',
+  ].join('\n');
+
+  assert.equal(
+    writer.__extract_description(markdown),
+    'Create and manage collections in Zilliz Cloud.'
+  );
+}
+
 async function run() {
   await testConvertLinkResolvesWikiByNodeTokenWhenOriginMissing();
   await testConvertLinkResolvesWikiByOriginTokenForBackwardCompatibility();
+  await testConvertLinkCanonicalizesCliOverviewRoute();
   testWikiSourceFileTokenFallback();
   await testTableDropsColumnsThatAreEmptyInEveryRow();
   await testSheetCellConvertsFeishuWikiUrl();
   await testIframeImageUrlEscapesSpacesInGeneratedMarkdown();
   await testBoardImageUrlUsesEscapedMarkdownUrl();
+  testDescriptionSkipsFeatureNoteBlocks();
   console.log('lark-docs regression tests passed');
 }
 

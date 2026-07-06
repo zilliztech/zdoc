@@ -32,7 +32,7 @@ const KNOWN_JSX_TAGS = new Set([
     'Admonition', 'Tabs', 'TabItem', 'DocCard', 'DocCardList',
     'Details', 'CodeBlock', 'ThemedImage', 'TOCInline', 'Highlight',
     'Banner', 'Bars', 'Blocks', 'Cards', 'Grid', 'Hero', 'Procedures',
-    'RestSpecs', 'Stories', 'Supademo',
+    'RestSpecs', 'Stories', 'Supademo', 'FeatureNote',
 ]);
 
 class larkDocWriter {
@@ -154,7 +154,7 @@ class larkDocWriter {
             if (childSource?.base_nav_link) {
                 const meta = await this.__is_to_publish(child.title, child.slug, child.node_token)
                 if (!meta.publish) continue
-                const href = childSource.base_nav_link_href
+                const href = this.__canonicalize_internal_link(childSource.base_nav_link_href)
                 if (!href) {
                     console.warn(`[sidebar] Cannot resolve link target for "${child.title}" (${childSource.node_token})`)
                     continue
@@ -1077,14 +1077,32 @@ class larkDocWriter {
 
     __extract_description(markdown) {
         const content = markdown.split('\n')
-        const title = content.filter(line => line.startsWith('# '))
-        var description = "(placeholder)"
+        const titleIndex = content.findIndex(line => line.startsWith('# '))
+        if (titleIndex === -1) return "(placeholder)"
 
-        if (title.length > 0) {
-            description = content[content.indexOf(title[0])+2] ? content[content.indexOf(title[0])+2].trim() : "(placeholder)"
+        let jsxDepth = 0
+        for (let i = titleIndex + 1; i < content.length; i++) {
+            const line = content[i].trim()
+            if (!line) continue
+            if (/^import\s/.test(line)) continue
+            if (/^<([A-Z][A-Za-z0-9]*)\b[^>]*\/>$/.test(line)) continue
+
+            const open = line.match(/^<([A-Z][A-Za-z0-9]*)\b[^>]*>$/)
+            if (open) {
+                if (!line.includes(`</${open[1]}>`)) jsxDepth++
+                continue
+            }
+            if (jsxDepth > 0) {
+                if (/^<\/[A-Z][A-Za-z0-9]*>$/.test(line)) jsxDepth--
+                continue
+            }
+            if (/^<\/?[A-Z][A-Za-z0-9]*\b/.test(line)) continue
+            if (/^#+\s/.test(line)) break
+
+            return line
         }
 
-        return description
+        return "(placeholder)"
     }
 
     async __write_page({title, suffix, slug, beta, notebook, addedSince, lastModified, deprecateSince, path, type, token, sidebar_position, sidebar_label, keywords, doc_card_list}) {
@@ -2791,7 +2809,17 @@ class larkDocWriter {
             url = url.replace('https://docs.zilliz.com/', '/');
         }
 
-        return url;
+        return this.__canonicalize_internal_link(url);
+    }
+
+    __canonicalize_internal_link(url) {
+        const canonicalRoutes = new Map([
+            ['/reference/cli/overview', '/reference/cli/cli/overview'],
+        ])
+
+        if (!url) return url
+        const normalized = String(url).replace(/^https:\/\/docs\.zilliz\.com/, '')
+        return canonicalRoutes.get(normalized) || url
     }
 
     async __text_elements(elements) {

@@ -25,7 +25,7 @@ export const inkeepSettings ={
       styles: [
         {
           key: 'custom-styles',
-          type: 'link',
+          type: 'link' as const,
           value: "/css/inkeep-overrides.css"
         }
       ]

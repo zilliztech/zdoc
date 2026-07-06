@@ -10,6 +10,7 @@ import MDXLi from '@theme/MDXComponents/Li';
 import MDXImg from '@theme/MDXComponents/Img';
 import Admonition from '@theme/Admonition';
 import Mermaid from '@theme/Mermaid';
+import FeatureNote from '@site/src/components/FeatureNote';
 
 import type {MDXComponentsObject} from '@theme/MDXComponents';
 
@@ -47,7 +48,7 @@ function MDXTable(props: ComponentProps<'table'>) {
   return <table {...rest}>{wrapped}</table>;
 }
 
-const MDXComponents: MDXComponentsObject = {
+const MDXComponents = {
   Head,
   table: MDXTable,
   details: MDXDetails,
@@ -58,16 +59,17 @@ const MDXComponents: MDXComponentsObject = {
   ul: MDXUl,
   li: MDXLi,
   img: MDXImg,
-  h1: Object.assign((props: ComponentProps<'h1'>) => <MDXHeading as="h1" {...props} />, {mdxTag: 'h1'}),
-  h2: Object.assign((props: ComponentProps<'h2'>) => <MDXHeading as="h2" {...props} />, {mdxTag: 'h2'}),
-  h3: Object.assign((props: ComponentProps<'h3'>) => <MDXHeading as="h3" {...props} />, {mdxTag: 'h3'}),
-  h4: Object.assign((props: ComponentProps<'h4'>) => <MDXHeading as="h4" {...props} />, {mdxTag: 'h4'}),
-  h5: Object.assign((props: ComponentProps<'h5'>) => <MDXHeading as="h5" {...props} />, {mdxTag: 'h5'}),
-  h6: Object.assign((props: ComponentProps<'h6'>) => <MDXHeading as="h6" {...props} />, {mdxTag: 'h6'}),
+  h1: Object.assign((props: any) => <MDXHeading as="h1" {...props} />, {mdxTag: 'h1'}),
+  h2: Object.assign((props: any) => <MDXHeading as="h2" {...props} />, {mdxTag: 'h2'}),
+  h3: Object.assign((props: any) => <MDXHeading as="h3" {...props} />, {mdxTag: 'h3'}),
+  h4: Object.assign((props: any) => <MDXHeading as="h4" {...props} />, {mdxTag: 'h4'}),
+  h5: Object.assign((props: any) => <MDXHeading as="h5" {...props} />, {mdxTag: 'h5'}),
+  h6: Object.assign((props: any) => <MDXHeading as="h6" {...props} />, {mdxTag: 'h6'}),
   admonition: Admonition,
   mermaid: Mermaid,
+  FeatureNote,
   // Custom icons used in docs
   LniInfo,
 };
 
-export default MDXComponents;
+export default MDXComponents as unknown as MDXComponentsObject;

@@ -4,21 +4,21 @@
   width: 100%;
   overflow-y: auto;
   min-height: 0;
-  background: #fdfdfd;
+  background: var(--zd-doc-panel-bg);
 }
 
 .docItemWrapper {
   width: 100%;
   flex: 0 0 auto;
   padding-bottom: 7rem !important;
-  background: #fdfdfd;
+  background: var(--zd-doc-panel-bg);
 }
 
-@media (min-width: 997px) {
+@media (min-width: 768px) {
   .docMainContainer {
-    flex-grow: 1;
-    /* Sidebar aside is always 52px; expanded sidebar floats over content */
-    max-width: calc(100% - var(--doc-sidebar-hidden-width));
+    flex: 1 1 0;
+    width: auto;
+    max-width: none;
     /* Right margin to match content left padding */
     padding-right: 32px;
   }
