@@ -12,5 +12,17 @@
     "Migrations": { "customProps": { "icon": "rest-migrate" } },
     "Backup & Restore": { "customProps": { "icon": "rest-backup" } },
     "Metrics & Alerts": { "customProps": { "icon": "rest-metrics" } }
-  }
+  },
+  "hideCategoriesDeep": ["Release notes"],
+  "inject": [
+    {
+      "into": "Get Started",
+      "afterSibling": "tutorials/get-started/cloud-providers-and-regions",
+      "item": {
+        "type": "link",
+        "label": "Release Notes",
+        "href": "/docs/changelogs"
+      }
+    }
+  ]
 }

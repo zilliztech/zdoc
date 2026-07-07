@@ -5,7 +5,7 @@ import DocSidebar from '@theme-original/DocSidebar';
 import type DocSidebarType from '@theme/DocSidebar';
 import type {WrapperProps} from '@docusaurus/types';
 import type {PropSidebarItem, PropSidebarItemCategory} from '@docusaurus/plugin-content-docs';
-import {findFirstSidebarItemLink, useAllDocsData} from '@docusaurus/plugin-content-docs/client';
+import {findFirstSidebarItemLink, useAllDocsData, useDocsSidebar} from '@docusaurus/plugin-content-docs/client';
 import guidesSidebarRaw from '@site/config/generated/guides.sidebar';
 import {
   Rocket,
@@ -322,6 +322,7 @@ function useMergedMode(): boolean {
 function TwoLevelSidebar(props: Props): ReactNode {
   const {pathname} = useLocation();
   const history = useHistory();
+  const docsSidebar = useDocsSidebar();
   const [tooltip, setTooltip] = useState<SidebarTooltipState | null>(null);
   const merged = useMergedMode();
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -398,6 +399,8 @@ function TwoLevelSidebar(props: Props): ReactNode {
     return buildGuidesRail(docPath);
   }, [allDocsData]);
   const clientLibsIndex = guidesRail.findIndex(s => s.label === 'Client Libraries');
+  const isReleasesSidebar = docsSidebar?.name === 'releasesSidebar';
+  const releasesRailActiveIndex = guidesRail.findIndex(s => s.label === 'Get Started');
   // Only open a secondary panel when the selected primary item has children, so
   // flat leaf entries like "Overview" stay one-level (no empty second panel).
   const selectedHasChildren = selectedItem?.type === 'category' && selectedItem.items.length > 0;
@@ -672,6 +675,87 @@ function TwoLevelSidebar(props: Props): ReactNode {
                     </div>
                   </div>
                 )}
+              </div>
+            </div>
+          </section>
+        </div>
+        {tooltip && (
+          <div
+            className={styles.sidebarTooltip}
+            style={{top: tooltip.top, left: tooltip.left}}>
+            {tooltip.label}
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  if (isReleasesSidebar && guidesRail.length > 0) {
+    const activeReleasesRailIndex = releasesRailActiveIndex >= 0 ? releasesRailActiveIndex : 0;
+    const releasesBackHref = guidesRail[activeReleasesRailIndex]?.href ?? '/docs/register-with-zilliz-cloud';
+    return (
+      <div
+        className={styles.twoLevelSidebar}
+        onMouseOver={(event) => showTooltipForTarget(event.target)}
+        onFocus={(event) => showTooltipForTarget(event.target)}
+        onMouseOut={(event) => {
+          const tooltipTarget = (event.target as HTMLElement).closest?.('[data-sidebar-tooltip]');
+          if (tooltipTarget?.contains(event.relatedTarget as Node | null)) return;
+          hideTooltip();
+        }}
+        onBlur={hideTooltip}>
+        <div className={styles.twoLevelBody}>
+          <nav className={styles.primaryRail} aria-label="Documentation sections">
+            {guidesRail.map((section, index) => {
+              const isActive = index === activeReleasesRailIndex;
+              return (
+                <button
+                  key={`${section.label}-${index}`}
+                  type="button"
+                  className={`${styles.primaryRailItem} ${isActive ? styles.primaryRailItemActive : ''}`}
+                  data-label={section.label}
+                  data-sidebar-tooltip={isActive ? undefined : section.label}
+                  onClick={() => {
+                    if (section.href) history.push(section.href);
+                  }}
+                  aria-current={isActive ? 'true' : undefined}>
+                  <span className={styles.primaryRailLabel} data-sidebar-tooltip-label>
+                    <span className={styles.primaryRailLabelSizer} aria-hidden="true">
+                      {section.label}
+                    </span>
+                    <span className={styles.primaryRailLabelText}>{section.label}</span>
+                  </span>
+                </button>
+              );
+            })}
+          </nav>
+
+          <section className={styles.secondaryPane} aria-label="Release notes">
+            <a
+              className={styles.refHeaderRow}
+              href={releasesBackHref}
+              aria-label="Back to Get Started"
+              onClick={(e) => {
+                e.preventDefault();
+                history.push(releasesBackHref);
+              }}>
+              <svg className={styles.refHeaderRowArrow} width="17" height="17" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M11 8H3M6.5 4.5L3 8 6.5 11.5" stroke="currentColor" strokeWidth="1" vectorEffect="non-scaling-stroke" strokeLinecap="butt" strokeLinejoin="miter" />
+              </svg>
+              <span className={styles.refHeaderRowTitle}>Releases</span>
+            </a>
+            <div className={styles.refPanelScroll}>
+              <div className={styles.secondarySidebarContent}>
+                <SidebarIconVisibilityContext.Provider value={false}>
+                  <ul className="menu__list">
+                    <DocSidebarItems
+                      items={props.sidebar}
+                      activePath={pathname}
+                      level={1}
+                      tabIndex={0}
+                    />
+                  </ul>
+                </SidebarIconVisibilityContext.Provider>
               </div>
             </div>
           </section>
