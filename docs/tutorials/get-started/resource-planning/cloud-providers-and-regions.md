@@ -125,9 +125,13 @@ Region support can vary by workload type, deployment option, and feature. Use th
      <td><p>Frankfurt, Germany</p></td>
    </tr>
    <tr>
-     <td><p>Asia</p></td>
+     <td rowspan="2"><p>Asia</p></td>
      <td><p>asia-southeast1</p></td>
      <td><p>Singapore</p></td>
+   </tr>
+   <tr>
+     <td><p>asia-northeast1</p></td>
+     <td><p>Tokyo, Japan</p></td>
    </tr>
 </table>
 
@@ -187,15 +191,15 @@ Region support can vary by workload type, deployment option, and feature. Use th
    </tr>
    <tr>
      <td><p><a href="./on-demand-compute">On-demand compute</a></p></td>
-     <td><p>ℹ️  Part of the regions:</p><ul><li>us-west-2</li></ul></td>
+     <td><p>✅ All regions</p></td>
      <td><p>❌</p></td>
-     <td><p>❌</p></td>
+     <td><p>ℹ️  Part of the regions:</p><ul><li>East US</li></ul></td>
    </tr>
 </table>
 
 <Admonition type="info" icon="📘" title="Note">
 
-<p><a href="http://zilliz.com/contact-sales">Contact us</a> if you need on-demand compute in a region that is not listed.</p>
+[Contact us](http://zilliz.com/contact-sales) if you need on-demand compute in a region that is not listed.
 
 </Admonition>
 
@@ -230,7 +234,7 @@ Region support can vary by workload type, deployment option, and feature. Use th
 
 <Admonition type="info" icon="📘" title="Note">
 
-<p><a href="http://zilliz.com/contact-sales">Contact us</a> if you need BYOC deployment.</p>
+[Contact us](http://zilliz.com/contact-sales) if you need BYOC deployment.
 
 </Admonition>
 
@@ -277,6 +281,7 @@ Region support can vary by workload type, deployment option, and feature. Use th
 
 <Admonition type="info" icon="📘" title="Note">
 
-<p>Some features depend on additional configuration, project plan, or deployment mode. For details, see <a href="./select-zilliz-cloud-service-plans">Deployment and Plan Comparison</a>.</p>
+Some features depend on additional configuration, project plan, or deployment mode. For details, see [Deployment and Plan Comparison](./select-zilliz-cloud-service-plans).
 
 </Admonition>
+

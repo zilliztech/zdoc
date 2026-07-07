@@ -47,6 +47,10 @@ import Grid from '@site/src/components/Grid';
 
         For details, refer to [Deploy BYOC-I on GCP](/docs/byoc/deploy-byoc-i-gcp) for step-by-step manual guides, and [Terraform Provider](https://registry.terraform.io/providers/zilliztech/zillizcloud/latest/docs) for IaC automation.
 
+        ## Enhancements\{#enhancements}
+
+        - **Expanded region availability for On-Demand Clusters** — On-Demand Clusters are now available in all AWS regions, aligned with Serving Dedicated supported regions.
+
     </div>
 
 </Grid>
