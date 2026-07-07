@@ -34,6 +34,24 @@ function reportCard(status, reportPath) {
   return run(`npx docusaurus report-to-lark --card-advance --status ${status}`)
 }
 
+function linkReportHasChanges(reportPath) {
+  const reportJsonPath = reportPath.replace(/\.md$/, '.json')
+  if (!fs.existsSync(reportJsonPath)) return fs.existsSync(reportPath)
+
+  try {
+    const report = JSON.parse(fs.readFileSync(reportJsonPath, 'utf8'))
+    const summary = report.summary || {}
+    return Boolean(
+      summary.deleted_links ||
+      summary.added_links ||
+      summary.broken_external_links
+    )
+  } catch (error) {
+    console.warn(`Could not read link-check summary from ${reportJsonPath}: ${error.message}`)
+    return fs.existsSync(reportPath)
+  }
+}
+
 function main() {
   const args = parseArgs(process.argv.slice(2))
   const buildCommand = args.build || 'pnpm run build'
@@ -60,8 +78,12 @@ function main() {
     process.exit(linkStatus)
   }
 
-  const noteStatus = run(`npx docusaurus report-to-lark --card-note-file ${reportPath}`)
-  if (noteStatus !== 0) process.exit(noteStatus)
+  if (linkReportHasChanges(reportPath)) {
+    const noteStatus = run(`npx docusaurus report-to-lark --card-note-file ${reportPath}`)
+    if (noteStatus !== 0) process.exit(noteStatus)
+  } else {
+    console.log('Link-check report is clean; no report note will be attached to the card.')
+  }
 
   const advanceStatus = run('npx docusaurus report-to-lark --card-advance --status done')
   if (advanceStatus !== 0) process.exit(advanceStatus)

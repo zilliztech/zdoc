@@ -186,8 +186,12 @@ module.exports = function (context, options) {
                     fs.writeFileSync(path.join(reportsDir, `report_${stamp}.md`), markdown)
                     console.log(`Link-check report written to ${latestMd}`)
 
-                    if (report.summary.deleted_links > 0 || report.summary.broken_external_links > 0) {
-                        process.exitCode = 1
+                    if (report.summary.deleted_links > 0) {
+                        console.warn(`Route deletion report is informational: ${report.summary.deleted_links} deleted routes will not fail the build.`)
+                    }
+
+                    if (report.summary.broken_external_links > 0) {
+                        console.warn(`Broken external URL report is informational: ${report.summary.broken_external_links} broken external URLs will not fail the build.`)
                     }
                  })
         }

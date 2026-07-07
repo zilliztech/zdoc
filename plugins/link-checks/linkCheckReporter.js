@@ -15,6 +15,14 @@ function groupBrokenExternalLinks(externalLinks) {
   return [...byUrl.values()].sort((a, b) => a.url.localeCompare(b.url))
 }
 
+function resolveWorkflowRunUrl(env = process.env) {
+  if (env.GITHUB_RUN_URL) return env.GITHUB_RUN_URL
+  if (!env.GITHUB_REPOSITORY || !env.GITHUB_RUN_ID) return null
+
+  const serverUrl = env.GITHUB_SERVER_URL || 'https://github.com'
+  return `${serverUrl}/${env.GITHUB_REPOSITORY}/actions/runs/${env.GITHUB_RUN_ID}`
+}
+
 function buildLinkCheckReport({
   generatedAt = new Date().toISOString(),
   remoteSitemapSource,
@@ -23,12 +31,14 @@ function buildLinkCheckReport({
   localUrls,
   externalLinks,
   checkedExternalLinks = externalLinks,
+  workflowRunUrl = resolveWorkflowRunUrl(),
 }) {
   const deleted = remoteUrls.filter(url => !localUrls.includes(url))
   const added = localUrls.filter(url => !remoteUrls.includes(url))
   const brokenExternalLinks = groupBrokenExternalLinks(externalLinks)
   return {
     generated_at: generatedAt,
+    workflow_run_url: workflowRunUrl,
     remote_sitemap_source: remoteSitemapSource,
     local_sitemap_source: localSitemapSource,
     summary: {
@@ -55,6 +65,9 @@ function renderLinkCheckMarkdown(report) {
   const lines = []
   lines.push('# Link Checks', '')
   lines.push(`Generated: ${report.generated_at}`)
+  if (report.workflow_run_url) {
+    lines.push(`Workflow run: ${report.workflow_run_url}`)
+  }
   lines.push(`Remote sitemap: ${report.remote_sitemap_source}`)
   lines.push(`Local sitemap: ${report.local_sitemap_source}`, '')
   lines.push('## Summary', '')
@@ -79,4 +92,5 @@ function renderLinkCheckMarkdown(report) {
 module.exports = {
   buildLinkCheckReport,
   renderLinkCheckMarkdown,
+  resolveWorkflowRunUrl,
 }
