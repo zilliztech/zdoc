@@ -9,47 +9,47 @@ module.exports = [
         "items": [
           {
             "type": "doc",
-            "id": "api/cli/cli/CloudManagement/CloudManagement-Backup/Backup-create",
+            "id": "cli/cli/CloudManagement/CloudManagement-Backup/Backup-create",
             "label": "create"
           },
           {
             "type": "doc",
-            "id": "api/cli/cli/CloudManagement/CloudManagement-Backup/Backup-delete",
+            "id": "cli/cli/CloudManagement/CloudManagement-Backup/Backup-delete",
             "label": "delete"
           },
           {
             "type": "doc",
-            "id": "api/cli/cli/CloudManagement/CloudManagement-Backup/Backup-describe",
+            "id": "cli/cli/CloudManagement/CloudManagement-Backup/Backup-describe",
             "label": "describe"
           },
           {
             "type": "doc",
-            "id": "api/cli/cli/CloudManagement/CloudManagement-Backup/Backup-describepolicy",
+            "id": "cli/cli/CloudManagement/CloudManagement-Backup/Backup-describepolicy",
             "label": "describe-policy"
           },
           {
             "type": "doc",
-            "id": "api/cli/cli/CloudManagement/CloudManagement-Backup/Backup-export",
+            "id": "cli/cli/CloudManagement/CloudManagement-Backup/Backup-export",
             "label": "export"
           },
           {
             "type": "doc",
-            "id": "api/cli/cli/CloudManagement/CloudManagement-Backup/Backup-list",
+            "id": "cli/cli/CloudManagement/CloudManagement-Backup/Backup-list",
             "label": "list"
           },
           {
             "type": "doc",
-            "id": "api/cli/cli/CloudManagement/CloudManagement-Backup/Backup-restorecluster",
+            "id": "cli/cli/CloudManagement/CloudManagement-Backup/Backup-restorecluster",
             "label": "restore-cluster"
           },
           {
             "type": "doc",
-            "id": "api/cli/cli/CloudManagement/CloudManagement-Backup/Backup-restorecollection",
+            "id": "cli/cli/CloudManagement/CloudManagement-Backup/Backup-restorecollection",
             "label": "restore-collection"
           },
           {
             "type": "doc",
-            "id": "api/cli/cli/CloudManagement/CloudManagement-Backup/Backup-updatepolicy",
+            "id": "cli/cli/CloudManagement/CloudManagement-Backup/Backup-updatepolicy",
             "label": "update-policy"
           }
         ]
@@ -60,17 +60,17 @@ module.exports = [
         "items": [
           {
             "type": "doc",
-            "id": "api/cli/cli/CloudManagement/CloudManagement-Billing/Billing-bindcard",
+            "id": "cli/cli/CloudManagement/CloudManagement-Billing/Billing-bindcard",
             "label": "bind-card"
           },
           {
             "type": "doc",
-            "id": "api/cli/cli/CloudManagement/CloudManagement-Billing/Billing-invoices",
+            "id": "cli/cli/CloudManagement/CloudManagement-Billing/Billing-invoices",
             "label": "invoices"
           },
           {
             "type": "doc",
-            "id": "api/cli/cli/CloudManagement/CloudManagement-Billing/Billing-usage",
+            "id": "cli/cli/CloudManagement/CloudManagement-Billing/Billing-usage",
             "label": "usage"
           }
         ]
@@ -81,52 +81,52 @@ module.exports = [
         "items": [
           {
             "type": "doc",
-            "id": "api/cli/cli/CloudManagement/CloudManagement-Cluster/Cluster-create",
+            "id": "cli/cli/CloudManagement/CloudManagement-Cluster/Cluster-create",
             "label": "create"
           },
           {
             "type": "doc",
-            "id": "api/cli/cli/CloudManagement/CloudManagement-Cluster/Cluster-delete",
+            "id": "cli/cli/CloudManagement/CloudManagement-Cluster/Cluster-delete",
             "label": "delete"
           },
           {
             "type": "doc",
-            "id": "api/cli/cli/CloudManagement/CloudManagement-Cluster/Cluster-describe",
+            "id": "cli/cli/CloudManagement/CloudManagement-Cluster/Cluster-describe",
             "label": "describe"
           },
           {
             "type": "doc",
-            "id": "api/cli/cli/CloudManagement/CloudManagement-Cluster/Cluster-list",
+            "id": "cli/cli/CloudManagement/CloudManagement-Cluster/Cluster-list",
             "label": "list"
           },
           {
             "type": "doc",
-            "id": "api/cli/cli/CloudManagement/CloudManagement-Cluster/Cluster-metrics",
+            "id": "cli/cli/CloudManagement/CloudManagement-Cluster/Cluster-metrics",
             "label": "metrics"
           },
           {
             "type": "doc",
-            "id": "api/cli/cli/CloudManagement/CloudManagement-Cluster/Cluster-modify",
+            "id": "cli/cli/CloudManagement/CloudManagement-Cluster/Cluster-modify",
             "label": "modify"
           },
           {
             "type": "doc",
-            "id": "api/cli/cli/CloudManagement/CloudManagement-Cluster/Cluster-providers",
+            "id": "cli/cli/CloudManagement/CloudManagement-Cluster/Cluster-providers",
             "label": "providers"
           },
           {
             "type": "doc",
-            "id": "api/cli/cli/CloudManagement/CloudManagement-Cluster/Cluster-regions",
+            "id": "cli/cli/CloudManagement/CloudManagement-Cluster/Cluster-regions",
             "label": "regions"
           },
           {
             "type": "doc",
-            "id": "api/cli/cli/CloudManagement/CloudManagement-Cluster/Cluster-resume",
+            "id": "cli/cli/CloudManagement/CloudManagement-Cluster/Cluster-resume",
             "label": "resume"
           },
           {
             "type": "doc",
-            "id": "api/cli/cli/CloudManagement/CloudManagement-Cluster/Cluster-suspend",
+            "id": "cli/cli/CloudManagement/CloudManagement-Cluster/Cluster-suspend",
             "label": "suspend"
           }
         ]
@@ -137,17 +137,17 @@ module.exports = [
         "items": [
           {
             "type": "doc",
-            "id": "api/cli/cli/CloudManagement/CloudManagement-Import/Import-list",
+            "id": "cli/cli/CloudManagement/CloudManagement-Import/Import-list",
             "label": "list"
           },
           {
             "type": "doc",
-            "id": "api/cli/cli/CloudManagement/CloudManagement-Import/Import-start",
+            "id": "cli/cli/CloudManagement/CloudManagement-Import/Import-start",
             "label": "start"
           },
           {
             "type": "doc",
-            "id": "api/cli/cli/CloudManagement/CloudManagement-Import/Import-status",
+            "id": "cli/cli/CloudManagement/CloudManagement-Import/Import-status",
             "label": "status"
           }
         ]
@@ -158,7 +158,7 @@ module.exports = [
         "items": [
           {
             "type": "doc",
-            "id": "api/cli/cli/CloudManagement/CloudManagement-Job/Job-describe",
+            "id": "cli/cli/CloudManagement/CloudManagement-Job/Job-describe",
             "label": "describe"
           }
         ]
@@ -169,22 +169,22 @@ module.exports = [
         "items": [
           {
             "type": "doc",
-            "id": "api/cli/cli/CloudManagement/CloudManagement-Project/Project-create",
+            "id": "cli/cli/CloudManagement/CloudManagement-Project/Project-create",
             "label": "create"
           },
           {
             "type": "doc",
-            "id": "api/cli/cli/CloudManagement/CloudManagement-Project/Project-describe",
+            "id": "cli/cli/CloudManagement/CloudManagement-Project/Project-describe",
             "label": "describe"
           },
           {
             "type": "doc",
-            "id": "api/cli/cli/CloudManagement/CloudManagement-Project/Project-list",
+            "id": "cli/cli/CloudManagement/CloudManagement-Project/Project-list",
             "label": "list"
           },
           {
             "type": "doc",
-            "id": "api/cli/cli/CloudManagement/CloudManagement-Project/Project-upgrade",
+            "id": "cli/cli/CloudManagement/CloudManagement-Project/Project-upgrade",
             "label": "upgrade"
           }
         ]
@@ -195,17 +195,17 @@ module.exports = [
         "items": [
           {
             "type": "doc",
-            "id": "api/cli/cli/CloudManagement/CloudManagement-Volume/Volume-create",
+            "id": "cli/cli/CloudManagement/CloudManagement-Volume/Volume-create",
             "label": "create"
           },
           {
             "type": "doc",
-            "id": "api/cli/cli/CloudManagement/CloudManagement-Volume/Volume-delete",
+            "id": "cli/cli/CloudManagement/CloudManagement-Volume/Volume-delete",
             "label": "delete"
           },
           {
             "type": "doc",
-            "id": "api/cli/cli/CloudManagement/CloudManagement-Volume/Volume-list",
+            "id": "cli/cli/CloudManagement/CloudManagement-Volume/Volume-list",
             "label": "list"
           }
         ]
@@ -222,32 +222,32 @@ module.exports = [
         "items": [
           {
             "type": "doc",
-            "id": "api/cli/cli/Configuration/Configuration-Alert/Alert-create",
+            "id": "cli/cli/Configuration/Configuration-Alert/Alert-create",
             "label": "create"
           },
           {
             "type": "doc",
-            "id": "api/cli/cli/Configuration/Configuration-Alert/Alert-delete",
+            "id": "cli/cli/Configuration/Configuration-Alert/Alert-delete",
             "label": "delete"
           },
           {
             "type": "doc",
-            "id": "api/cli/cli/Configuration/Configuration-Alert/Alert-disable",
+            "id": "cli/cli/Configuration/Configuration-Alert/Alert-disable",
             "label": "disable"
           },
           {
             "type": "doc",
-            "id": "api/cli/cli/Configuration/Configuration-Alert/Alert-enable",
+            "id": "cli/cli/Configuration/Configuration-Alert/Alert-enable",
             "label": "enable"
           },
           {
             "type": "doc",
-            "id": "api/cli/cli/Configuration/Configuration-Alert/Alert-list",
+            "id": "cli/cli/Configuration/Configuration-Alert/Alert-list",
             "label": "list"
           },
           {
             "type": "doc",
-            "id": "api/cli/cli/Configuration/Configuration-Alert/Alert-update",
+            "id": "cli/cli/Configuration/Configuration-Alert/Alert-update",
             "label": "update"
           }
         ]
@@ -258,49 +258,23 @@ module.exports = [
         "items": [
           {
             "type": "doc",
-            "id": "api/cli/cli/Configuration/Configuration-Auth/Auth-login",
+            "id": "cli/cli/Configuration/Configuration-Auth/Auth-login",
             "label": "login"
           },
           {
             "type": "doc",
-            "id": "api/cli/cli/Configuration/Configuration-Auth/Auth-logout",
+            "id": "cli/cli/Configuration/Configuration-Auth/Auth-logout",
             "label": "logout"
           },
           {
             "type": "doc",
-            "id": "api/cli/cli/Configuration/Configuration-Auth/Auth-status",
+            "id": "cli/cli/Configuration/Configuration-Auth/Auth-status",
             "label": "status"
           },
           {
             "type": "doc",
-            "id": "api/cli/cli/Configuration/Configuration-Auth/Auth-switch",
+            "id": "cli/cli/Configuration/Configuration-Auth/Auth-switch",
             "label": "switch"
-          }
-        ]
-      },
-      {
-        "type": "category",
-        "label": "Completion",
-        "items": [
-          {
-            "type": "doc",
-            "id": "api/cli/cli/Configuration/Configuration-Completion/Completion-install",
-            "label": "install"
-          },
-          {
-            "type": "doc",
-            "id": "api/cli/cli/Configuration/Configuration-Completion/Completion-show",
-            "label": "show"
-          },
-          {
-            "type": "doc",
-            "id": "api/cli/cli/Configuration/Configuration-Completion/Completion-status",
-            "label": "status"
-          },
-          {
-            "type": "doc",
-            "id": "api/cli/cli/Configuration/Configuration-Completion/Completion-uninstall",
-            "label": "uninstall"
           }
         ]
       },
@@ -310,22 +284,22 @@ module.exports = [
         "items": [
           {
             "type": "doc",
-            "id": "api/cli/cli/Configuration/Configuration-Configure/Configure-clear",
+            "id": "cli/cli/Configuration/Configuration-Configure/Configure-clear",
             "label": "clear"
           },
           {
             "type": "doc",
-            "id": "api/cli/cli/Configuration/Configuration-Configure/Configure-get",
+            "id": "cli/cli/Configuration/Configuration-Configure/Configure-get",
             "label": "get"
           },
           {
             "type": "doc",
-            "id": "api/cli/cli/Configuration/Configuration-Configure/Configure-list",
+            "id": "cli/cli/Configuration/Configuration-Configure/Configure-list",
             "label": "list"
           },
           {
             "type": "doc",
-            "id": "api/cli/cli/Configuration/Configuration-Configure/Configure-set",
+            "id": "cli/cli/Configuration/Configuration-Configure/Configure-set",
             "label": "set"
           }
         ]
@@ -336,12 +310,12 @@ module.exports = [
         "items": [
           {
             "type": "doc",
-            "id": "api/cli/cli/Configuration/Configuration-Context/Context-current",
+            "id": "cli/cli/Configuration/Configuration-Context/Context-current",
             "label": "current"
           },
           {
             "type": "doc",
-            "id": "api/cli/cli/Configuration/Configuration-Context/Context-set",
+            "id": "cli/cli/Configuration/Configuration-Context/Context-set",
             "label": "set"
           }
         ]
@@ -352,7 +326,7 @@ module.exports = [
         "items": [
           {
             "type": "doc",
-            "id": "api/cli/cli/Configuration/Configuration-Global/Global-version",
+            "id": "cli/cli/Configuration/Configuration-Global/Global-version",
             "label": "version"
           }
         ]
@@ -369,27 +343,27 @@ module.exports = [
         "items": [
           {
             "type": "doc",
-            "id": "api/cli/cli/DataOperations/DataOperations-Alias/Alias-alter",
+            "id": "cli/cli/DataOperations/DataOperations-Alias/Alias-alter",
             "label": "alter"
           },
           {
             "type": "doc",
-            "id": "api/cli/cli/DataOperations/DataOperations-Alias/Alias-create",
+            "id": "cli/cli/DataOperations/DataOperations-Alias/Alias-create",
             "label": "create"
           },
           {
             "type": "doc",
-            "id": "api/cli/cli/DataOperations/DataOperations-Alias/Alias-describe",
+            "id": "cli/cli/DataOperations/DataOperations-Alias/Alias-describe",
             "label": "describe"
           },
           {
             "type": "doc",
-            "id": "api/cli/cli/DataOperations/DataOperations-Alias/Alias-drop",
+            "id": "cli/cli/DataOperations/DataOperations-Alias/Alias-drop",
             "label": "drop"
           },
           {
             "type": "doc",
-            "id": "api/cli/cli/DataOperations/DataOperations-Alias/Alias-list",
+            "id": "cli/cli/DataOperations/DataOperations-Alias/Alias-list",
             "label": "list"
           }
         ]
@@ -400,62 +374,62 @@ module.exports = [
         "items": [
           {
             "type": "doc",
-            "id": "api/cli/cli/DataOperations/DataOperations-Collection/Collection-compact",
+            "id": "cli/cli/DataOperations/DataOperations-Collection/Collection-compact",
             "label": "compact"
           },
           {
             "type": "doc",
-            "id": "api/cli/cli/DataOperations/DataOperations-Collection/Collection-create",
+            "id": "cli/cli/DataOperations/DataOperations-Collection/Collection-create",
             "label": "create"
           },
           {
             "type": "doc",
-            "id": "api/cli/cli/DataOperations/DataOperations-Collection/Collection-describe",
+            "id": "cli/cli/DataOperations/DataOperations-Collection/Collection-describe",
             "label": "describe"
           },
           {
             "type": "doc",
-            "id": "api/cli/cli/DataOperations/DataOperations-Collection/Collection-drop",
+            "id": "cli/cli/DataOperations/DataOperations-Collection/Collection-drop",
             "label": "drop"
           },
           {
             "type": "doc",
-            "id": "api/cli/cli/DataOperations/DataOperations-Collection/Collection-flush",
+            "id": "cli/cli/DataOperations/DataOperations-Collection/Collection-flush",
             "label": "flush"
           },
           {
             "type": "doc",
-            "id": "api/cli/cli/DataOperations/DataOperations-Collection/Collection-getloadstate",
+            "id": "cli/cli/DataOperations/DataOperations-Collection/Collection-getloadstate",
             "label": "get-load-state"
           },
           {
             "type": "doc",
-            "id": "api/cli/cli/DataOperations/DataOperations-Collection/Collection-getstats",
+            "id": "cli/cli/DataOperations/DataOperations-Collection/Collection-getstats",
             "label": "get-stats"
           },
           {
             "type": "doc",
-            "id": "api/cli/cli/DataOperations/DataOperations-Collection/Collection-has",
+            "id": "cli/cli/DataOperations/DataOperations-Collection/Collection-has",
             "label": "has"
           },
           {
             "type": "doc",
-            "id": "api/cli/cli/DataOperations/DataOperations-Collection/Collection-list",
+            "id": "cli/cli/DataOperations/DataOperations-Collection/Collection-list",
             "label": "list"
           },
           {
             "type": "doc",
-            "id": "api/cli/cli/DataOperations/DataOperations-Collection/Collection-load",
+            "id": "cli/cli/DataOperations/DataOperations-Collection/Collection-load",
             "label": "load"
           },
           {
             "type": "doc",
-            "id": "api/cli/cli/DataOperations/DataOperations-Collection/Collection-release",
+            "id": "cli/cli/DataOperations/DataOperations-Collection/Collection-release",
             "label": "release"
           },
           {
             "type": "doc",
-            "id": "api/cli/cli/DataOperations/DataOperations-Collection/Collection-rename",
+            "id": "cli/cli/DataOperations/DataOperations-Collection/Collection-rename",
             "label": "rename"
           }
         ]
@@ -466,22 +440,22 @@ module.exports = [
         "items": [
           {
             "type": "doc",
-            "id": "api/cli/cli/DataOperations/DataOperations-Database/Database-create",
+            "id": "cli/cli/DataOperations/DataOperations-Database/Database-create",
             "label": "create"
           },
           {
             "type": "doc",
-            "id": "api/cli/cli/DataOperations/DataOperations-Database/Database-describe",
+            "id": "cli/cli/DataOperations/DataOperations-Database/Database-describe",
             "label": "describe"
           },
           {
             "type": "doc",
-            "id": "api/cli/cli/DataOperations/DataOperations-Database/Database-drop",
+            "id": "cli/cli/DataOperations/DataOperations-Database/Database-drop",
             "label": "drop"
           },
           {
             "type": "doc",
-            "id": "api/cli/cli/DataOperations/DataOperations-Database/Database-list",
+            "id": "cli/cli/DataOperations/DataOperations-Database/Database-list",
             "label": "list"
           }
         ]
@@ -492,22 +466,22 @@ module.exports = [
         "items": [
           {
             "type": "doc",
-            "id": "api/cli/cli/DataOperations/DataOperations-Index/Index-create",
+            "id": "cli/cli/DataOperations/DataOperations-Index/Index-create",
             "label": "create"
           },
           {
             "type": "doc",
-            "id": "api/cli/cli/DataOperations/DataOperations-Index/Index-describe",
+            "id": "cli/cli/DataOperations/DataOperations-Index/Index-describe",
             "label": "describe"
           },
           {
             "type": "doc",
-            "id": "api/cli/cli/DataOperations/DataOperations-Index/Index-drop",
+            "id": "cli/cli/DataOperations/DataOperations-Index/Index-drop",
             "label": "drop"
           },
           {
             "type": "doc",
-            "id": "api/cli/cli/DataOperations/DataOperations-Index/Index-list",
+            "id": "cli/cli/DataOperations/DataOperations-Index/Index-list",
             "label": "list"
           }
         ]
@@ -518,37 +492,37 @@ module.exports = [
         "items": [
           {
             "type": "doc",
-            "id": "api/cli/cli/DataOperations/DataOperations-Partition/Partition-create",
+            "id": "cli/cli/DataOperations/DataOperations-Partition/Partition-create",
             "label": "create"
           },
           {
             "type": "doc",
-            "id": "api/cli/cli/DataOperations/DataOperations-Partition/Partition-drop",
+            "id": "cli/cli/DataOperations/DataOperations-Partition/Partition-drop",
             "label": "drop"
           },
           {
             "type": "doc",
-            "id": "api/cli/cli/DataOperations/DataOperations-Partition/Partition-getstats",
+            "id": "cli/cli/DataOperations/DataOperations-Partition/Partition-getstats",
             "label": "get-stats"
           },
           {
             "type": "doc",
-            "id": "api/cli/cli/DataOperations/DataOperations-Partition/Partition-has",
+            "id": "cli/cli/DataOperations/DataOperations-Partition/Partition-has",
             "label": "has"
           },
           {
             "type": "doc",
-            "id": "api/cli/cli/DataOperations/DataOperations-Partition/Partition-list",
+            "id": "cli/cli/DataOperations/DataOperations-Partition/Partition-list",
             "label": "list"
           },
           {
             "type": "doc",
-            "id": "api/cli/cli/DataOperations/DataOperations-Partition/Partition-load",
+            "id": "cli/cli/DataOperations/DataOperations-Partition/Partition-load",
             "label": "load"
           },
           {
             "type": "doc",
-            "id": "api/cli/cli/DataOperations/DataOperations-Partition/Partition-release",
+            "id": "cli/cli/DataOperations/DataOperations-Partition/Partition-release",
             "label": "release"
           }
         ]
@@ -559,32 +533,32 @@ module.exports = [
         "items": [
           {
             "type": "doc",
-            "id": "api/cli/cli/DataOperations/DataOperations-Role/Role-create",
+            "id": "cli/cli/DataOperations/DataOperations-Role/Role-create",
             "label": "create"
           },
           {
             "type": "doc",
-            "id": "api/cli/cli/DataOperations/DataOperations-Role/Role-describe",
+            "id": "cli/cli/DataOperations/DataOperations-Role/Role-describe",
             "label": "describe"
           },
           {
             "type": "doc",
-            "id": "api/cli/cli/DataOperations/DataOperations-Role/Role-drop",
+            "id": "cli/cli/DataOperations/DataOperations-Role/Role-drop",
             "label": "drop"
           },
           {
             "type": "doc",
-            "id": "api/cli/cli/DataOperations/DataOperations-Role/Role-grantprivilege",
+            "id": "cli/cli/DataOperations/DataOperations-Role/Role-grantprivilege",
             "label": "grant-privilege"
           },
           {
             "type": "doc",
-            "id": "api/cli/cli/DataOperations/DataOperations-Role/Role-list",
+            "id": "cli/cli/DataOperations/DataOperations-Role/Role-list",
             "label": "list"
           },
           {
             "type": "doc",
-            "id": "api/cli/cli/DataOperations/DataOperations-Role/Role-revokeprivilege",
+            "id": "cli/cli/DataOperations/DataOperations-Role/Role-revokeprivilege",
             "label": "revoke-privilege"
           }
         ]
@@ -595,37 +569,37 @@ module.exports = [
         "items": [
           {
             "type": "doc",
-            "id": "api/cli/cli/DataOperations/DataOperations-User/User-create",
+            "id": "cli/cli/DataOperations/DataOperations-User/User-create",
             "label": "create"
           },
           {
             "type": "doc",
-            "id": "api/cli/cli/DataOperations/DataOperations-User/User-describe",
+            "id": "cli/cli/DataOperations/DataOperations-User/User-describe",
             "label": "describe"
           },
           {
             "type": "doc",
-            "id": "api/cli/cli/DataOperations/DataOperations-User/User-drop",
+            "id": "cli/cli/DataOperations/DataOperations-User/User-drop",
             "label": "drop"
           },
           {
             "type": "doc",
-            "id": "api/cli/cli/DataOperations/DataOperations-User/User-grantrole",
+            "id": "cli/cli/DataOperations/DataOperations-User/User-grantrole",
             "label": "grant-role"
           },
           {
             "type": "doc",
-            "id": "api/cli/cli/DataOperations/DataOperations-User/User-list",
+            "id": "cli/cli/DataOperations/DataOperations-User/User-list",
             "label": "list"
           },
           {
             "type": "doc",
-            "id": "api/cli/cli/DataOperations/DataOperations-User/User-revokerole",
+            "id": "cli/cli/DataOperations/DataOperations-User/User-revokerole",
             "label": "revoke-role"
           },
           {
             "type": "doc",
-            "id": "api/cli/cli/DataOperations/DataOperations-User/User-updatepassword",
+            "id": "cli/cli/DataOperations/DataOperations-User/User-updatepassword",
             "label": "update-password"
           }
         ]
@@ -636,37 +610,37 @@ module.exports = [
         "items": [
           {
             "type": "doc",
-            "id": "api/cli/cli/DataOperations/DataOperations-Vector/Vector-delete",
+            "id": "cli/cli/DataOperations/DataOperations-Vector/Vector-delete",
             "label": "delete"
           },
           {
             "type": "doc",
-            "id": "api/cli/cli/DataOperations/DataOperations-Vector/Vector-get",
+            "id": "cli/cli/DataOperations/DataOperations-Vector/Vector-get",
             "label": "get"
           },
           {
             "type": "doc",
-            "id": "api/cli/cli/DataOperations/DataOperations-Vector/Vector-hybridsearch",
+            "id": "cli/cli/DataOperations/DataOperations-Vector/Vector-hybridsearch",
             "label": "hybrid-search"
           },
           {
             "type": "doc",
-            "id": "api/cli/cli/DataOperations/DataOperations-Vector/Vector-insert",
+            "id": "cli/cli/DataOperations/DataOperations-Vector/Vector-insert",
             "label": "insert"
           },
           {
             "type": "doc",
-            "id": "api/cli/cli/DataOperations/DataOperations-Vector/Vector-query",
+            "id": "cli/cli/DataOperations/DataOperations-Vector/Vector-query",
             "label": "query"
           },
           {
             "type": "doc",
-            "id": "api/cli/cli/DataOperations/DataOperations-Vector/Vector-search",
+            "id": "cli/cli/DataOperations/DataOperations-Vector/Vector-search",
             "label": "search"
           },
           {
             "type": "doc",
-            "id": "api/cli/cli/DataOperations/DataOperations-Vector/Vector-upsert",
+            "id": "cli/cli/DataOperations/DataOperations-Vector/Vector-upsert",
             "label": "upsert"
           }
         ]

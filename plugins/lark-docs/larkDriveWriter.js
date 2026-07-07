@@ -28,10 +28,32 @@ class larkDriveWriter extends larkDocWriter {
         );
         this.manual = manual
         this.utils = new Utils();
+        this.generatedRouteSlugs = new Set();
     }
 
     __slug_value(slug) {
         return slug instanceof Array ? slug[0]?.text || slug[0]?.[slug[0]?.type] : slug
+    }
+
+    __route_slug(currentPath, pageSlug) {
+        const prefix = this.displayedSidebar.replace('Sidebar', '').trim()
+        let slug = `${prefix}/${pageSlug}`
+
+        if (this.generatedRouteSlugs.has(slug)) {
+            const parent = node_path.basename(currentPath)
+            if (parent && parent !== prefix && parent !== pageSlug) {
+                slug = `${prefix}/${parent}/${pageSlug}`
+            }
+        }
+
+        let candidate = slug
+        let suffix = 2
+        while (this.generatedRouteSlugs.has(candidate)) {
+            candidate = `${slug}-${suffix}`
+            suffix += 1
+        }
+        this.generatedRouteSlugs.add(candidate)
+        return candidate
     }
 
     __slug_contexts(parentSlug) {
@@ -207,7 +229,7 @@ class larkDriveWriter extends larkDocWriter {
                     this.page_blocks = JSON.parse(fs.readFileSync(node_path.join(this.docSourceDir, `${pair}.json`), 'utf8')).blocks.items
                     page = this.page_blocks.filter(block => block.block_type == 1)[0] 
                 } else {
-                    const slug = `${this.displayedSidebar.replace('Sidebar', '')}/${page_slug}`
+                    const slug = this.__route_slug(current_path, page_slug)
                     const labels = sidebar_label ? sidebar_label : page_title
 
                     console.log(slug, page_description)
@@ -245,7 +267,7 @@ class larkDriveWriter extends larkDocWriter {
                 })
 
                 current_path = node_path.join(current_path, page_slug + '.md')
-                const slug = `${this.displayedSidebar.replace('Sidebar', '')}/${page_slug}`
+                const slug = this.__route_slug(current_path, page_slug)
 
                 console.log(addedSince, lastModified, deprecateSince)
                 var {front_matter, imports, markdown} = await this.__write_page({

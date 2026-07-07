@@ -40,8 +40,8 @@ function getTopNavBreadcrumb(pathname: string): BreadcrumbItem | null {
     return null;
   }
 
-  if (normalizedPathname.startsWith('/docs/byoc/changelogs')) {
-    return {label: 'Releases', href: withLocalePrefix(pathname, '/docs/byoc/changelogs')};
+  if (normalizedPathname.startsWith('/docs/changelogs')) {
+    return {label: 'Releases', href: withLocalePrefix(pathname, '/docs/changelogs')};
   }
 
   if (normalizedPathname.startsWith('/docs/byoc')) {

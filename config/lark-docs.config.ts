@@ -398,7 +398,7 @@ const cliv13: Manual = {
     contentRoot: 'reference',
     targets: {
         zilliz: {
-            outputDir: 'reference/api/cli/cli',
+            outputDir: 'reference/cli/cli',
             imageDir: 'static/img',
         },
     },
@@ -412,6 +412,9 @@ const cliv14 : Manual = {
     displayedSidebar: 'cliSidebar',
     docSourceDir: './plugins/lark-docs/meta/sources/cli/v1.4.x',
     fallbackSourceDir: './plugins/lark-docs/meta/sources/cli/v1.3.x',
+    sidebarPath: './config/generated/cli.sidebar.js',
+    overridePath: './config/sidebar-overrides/cli.json',
+    contentRoot: 'reference',
     targets: {
         zilliz: {
             outputDir: 'reference/cli/cli',

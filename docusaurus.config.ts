@@ -179,7 +179,7 @@ const config: Config = {
         ],
       },
       { label: 'CLI',      href: '/reference/cli/cli/overview', prefix: '/reference/cli', icon: 'terminal' },
-      { label: 'Releases', href: '/docs/byoc/changelogs', prefix: '/docs/byoc/changelogs', icon: 'tag'      },
+      { label: 'Releases', href: '/docs/changelogs', prefix: '/docs/changelogs', icon: 'tag'      },
     ],
   },
 
