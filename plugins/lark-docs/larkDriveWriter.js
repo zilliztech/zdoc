@@ -40,7 +40,10 @@ class larkDriveWriter extends larkDocWriter {
         let slug = `${prefix}/${pageSlug}`
 
         if (this.generatedRouteSlugs.has(slug)) {
-            const parent = node_path.basename(currentPath)
+            const parentPath = node_path.extname(currentPath) === '.md'
+                ? node_path.dirname(currentPath)
+                : currentPath
+            const parent = node_path.basename(parentPath)
             if (parent && parent !== prefix && parent !== pageSlug) {
                 slug = `${prefix}/${parent}/${pageSlug}`
             }

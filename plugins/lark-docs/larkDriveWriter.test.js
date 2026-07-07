@@ -131,11 +131,26 @@ async function testSidebarItemsUseParentSlugContext() {
   }]);
 }
 
+function testDuplicateRouteSlugUsesParentDirectoryName() {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'lark-drive-writer-'));
+  const writer = new larkDriveWriter('', '', 'goSidebar', dir, '/tmp', 'zilliz', true, false, 'gov230');
+
+  assert.equal(
+    writer.__route_slug('reference/api/go/go/v2/v2-Client-ClientConfig.md', 'v2-Client-ClientConfig'),
+    'go/v2-Client-ClientConfig'
+  );
+  assert.equal(
+    writer.__route_slug('reference/api/go/go/v2/v2-Client/v2-Client-ClientConfig.md', 'v2-Client-ClientConfig'),
+    'go/v2-Client/v2-Client-ClientConfig'
+  );
+}
+
 async function run() {
   testDuplicateTokenSourceUsesParentSlugContext();
   testDuplicateTokenSourceUsesUtilityParentContext();
   await testConvertLinkUsesCurrentParentSlugContext();
   await testSidebarItemsUseParentSlugContext();
+  testDuplicateRouteSlugUsesParentDirectoryName();
   console.log('larkDriveWriter tests passed');
 }
 
