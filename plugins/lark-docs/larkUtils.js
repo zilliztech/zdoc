@@ -28,18 +28,24 @@ class larkUtils {
         }
     }
 
-    pre_process_file_paths(outputDir) {
+    pre_process_file_paths(outputDir, preserveFiles = []) {
         // remove all generated files in the output directory
+        const preserved = new Set(preserveFiles.map(file => node_path.resolve(file)))
         const paths = fs.readdirSync(outputDir, {recursive: true})
         const folders = paths.filter(path => fs.statSync(`${outputDir}/${path}`).isDirectory())
         const files = paths.filter(path => fs.statSync(`${outputDir}/${path}`).isFile())
 
         for (const file of files) {
-            fs.rmSync(`${outputDir}/${file}`, {force: true})
+            const filePath = node_path.resolve(outputDir, file)
+            if (preserved.has(filePath)) continue
+            fs.rmSync(filePath, {force: true})
         }
 
-        for (const folder of folders) {
-            fs.rmSync(`${outputDir}/${folder}`, {recursive: true, force: true})
+        for (const folder of folders.sort((a, b) => b.split(node_path.sep).length - a.split(node_path.sep).length)) {
+            const folderPath = node_path.resolve(outputDir, folder)
+            if (fs.existsSync(folderPath) && fs.readdirSync(folderPath).length === 0) {
+                fs.rmSync(folderPath, {recursive: true, force: true})
+            }
         }
     }
 

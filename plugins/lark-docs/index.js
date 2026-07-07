@@ -161,6 +161,24 @@ module.exports = function (context, options) {
                         await fullSourceFetch()
                     }
 
+                    const injectedDocFilesToPreserve = (targetConfig) => {
+                        const effectiveOverridePath = targetConfig.overridePath ?? overridePath
+                        if (!effectiveOverridePath || !fs.existsSync(effectiveOverridePath)) return []
+                        let overrides
+                        try {
+                            overrides = JSON.parse(fs.readFileSync(effectiveOverridePath, 'utf8'))
+                        } catch (e) {
+                            console.warn(`[fetch-lark-docs] Cannot read sidebar override file ${effectiveOverridePath}: ${e.message}`)
+                            return []
+                        }
+                        const root = contentRoot || targetConfig.outputDir.split('/')[0]
+                        return (overrides.inject || [])
+                            .map(injection => injection.item)
+                            .filter(item => item?.type === 'doc' && item.id)
+                            .map(item => path.join(root, `${item.id}.md`))
+                            .filter(file => file.startsWith(`${targetConfig.outputDir}/`) && fs.existsSync(file))
+                    }
+
                     if (opts.validateLinks && opts.pubTarget === undefined && !opts.sourceOnly && opts.docToken === undefined) {
                         await validateContentLinks({ force: true })
                         return
@@ -275,7 +293,7 @@ module.exports = function (context, options) {
                                 if (targetConfig.preserveOutput) {
                                     console.log(`Preserving existing output files in ${outputDir}`)
                                 } else {
-                                    utils.pre_process_file_paths(outputDir)
+                                    utils.pre_process_file_paths(outputDir, injectedDocFilesToPreserve(targetConfig))
                                 }
 
                                 if (!opts.skipSourceDown) {

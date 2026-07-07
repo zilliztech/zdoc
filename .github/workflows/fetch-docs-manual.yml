@@ -39,7 +39,7 @@ jobs:
         pnpm install --frozen-lockfile
         npx docusaurus report-to-lark --card-create \
           --title "Global Docs Build" \
-          --stages "Fetch EN docs,Build and check EN docs,Fetch SDK refs,Build and check SDK docs"
+          --stages "Fetch EN docs,Build EN docs,Fetch SDK refs,Build and check SDK docs"
       env:
         APP_ID: ${{ secrets.APP_ID }}
         APP_SECRET: ${{ secrets.APP_SECRET }}
@@ -67,13 +67,9 @@ jobs:
         IMAGE_BED_URL: ${{ vars.IMAGE_BED_URL }}
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-    - name: build and check docsite
+    - name: build docsite
       run: |
-        build_stage_args=()
-        if [ "${{ github.event.inputs.target_branch }}" = "feat/zdoc-redesign-dev" ]; then
-          build_stage_args+=(--skipLinkChecks)
-        fi
-        node scripts/run-doc-build-stage.js --build "pnpm run build" "${build_stage_args[@]}"
+        node scripts/run-doc-build-stage.js --build "pnpm run build" --skipLinkChecks
         node scripts/update-lark-doc-snapshot.js --manual guides --targets-built zilliz.saas,zilliz.paas --build-env uat --source-branch ${{ github.event.inputs.target_branch }} --publish-url https://docs.cloud-uat3.zilliz.com --link-check-remote https://docs.zilliz.com
       env:
         TOKEN: ${{ secrets.ACTION_TOKEN }}

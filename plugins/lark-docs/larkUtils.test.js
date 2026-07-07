@@ -143,9 +143,33 @@ function testPreProcessRemovesRootMarkdownFiles() {
   }
 }
 
+function testPreProcessPreservesSelectedFiles() {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'lark-utils-preprocess-preserve-'));
+
+  try {
+    const overview = path.join(dir, 'api', 'python', 'python', 'python.md');
+    const stale = path.join(dir, 'api', 'python', 'python', 'stale.md');
+    const emptyNested = path.join(dir, 'api', 'python', 'python', 'empty');
+    fs.mkdirSync(path.dirname(overview), { recursive: true });
+    fs.mkdirSync(emptyNested);
+    fs.writeFileSync(overview, 'overview');
+    fs.writeFileSync(stale, 'stale');
+
+    new larkUtils().pre_process_file_paths(dir, [overview]);
+
+    assert.equal(fs.existsSync(overview), true);
+    assert.equal(fs.existsSync(stale), false);
+    assert.equal(fs.existsSync(emptyNested), false);
+    assert.equal(fs.existsSync(path.dirname(overview)), true);
+  } finally {
+    fs.rmSync(dir, { recursive: true, force: true });
+  }
+}
+
 function run() {
   testDriveFallbackMatchesUnsluggedFoldersByTitleAndParent();
   testPreProcessRemovesRootMarkdownFiles();
+  testPreProcessPreservesSelectedFiles();
   console.log('larkUtils tests passed');
 }
 
