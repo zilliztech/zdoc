@@ -157,7 +157,7 @@ function removeEmptyCategories(items) {
       const cleaned = removeEmptyCategories(item.items)
       return { ...item, items: cleaned }
     })
-    .filter(item => !item.items || item.items.length > 0)
+    .filter(item => !item.items || item.items.length > 0 || item.link)
 }
 
 /** Recursively promote same-name child docs to category links. */
@@ -214,7 +214,7 @@ function applyOverrides(items, overridePath) {
   try {
     overrides = JSON.parse(fs.readFileSync(overridePath, 'utf-8'))
   } catch {
-    return items
+    return removeEmptyCategories(items)
   }
 
   // 1. override — relabel / restyle doc items by id
@@ -492,7 +492,7 @@ function applyOverrides(items, overridePath) {
     items = next
   }
 
-  return items
+  return removeEmptyCategories(items)
 }
 
 module.exports = applyOverrides
