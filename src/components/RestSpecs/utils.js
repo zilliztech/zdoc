@@ -59,7 +59,15 @@ export const textFilter =  (text, targets) => {
     const converter = new Showdown.Converter();
     text = converter.makeHtml(text);
 
-    return text;
+    return sanitizeHtmlBlockParagraphs(text);
+}
+
+export const sanitizeHtmlBlockParagraphs = (html = '') => {
+    return String(html)
+        .replace(/<p>([^<]*?)(\s*<(?:ul|ol|table|div|pre|blockquote)(?:\s|>))/gi, '<p>$1</p>$2')
+        .replace(/(<\/(?:ul|ol|table|div|pre|blockquote)>\s*)([^<][\s\S]*?)<\/p>/gi, '$1<p>$2</p>')
+        .replace(/<p>(\s*<(?:ul|ol|table|div|pre|blockquote)(?:\s|>))/gi, '$1')
+        .replace(/(<\/(?:ul|ol|table|div|pre|blockquote)>\s*)<\/p>/gi, '$1')
 }
 
 const matchFilterTags = (text) => {

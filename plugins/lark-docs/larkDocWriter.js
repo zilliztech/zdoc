@@ -1780,7 +1780,7 @@ class larkDocWriter {
         if (content.length > 0) {
             
             if (content.indexOf('{#') < 0) {
-                let slug = slugify(content.split('|')[0].trim(), {lower: true, strict: true})
+                let slug = this.__heading_slug(content)
                 return '#'.repeat(level) + ' ' + content + '{#'+slug+'}';
             } else {
                 return '#'.repeat(level) + ' ' + content;
@@ -1799,6 +1799,19 @@ class larkDocWriter {
         content = content.trim()
 
         return content
+    }
+
+    __clean_heading_title_for_slug(content) {
+        return String(content || '')
+            .replace(/\\?\{#[^}]+}/g, '')
+            .replace(/\s*\|\s*(PRIVATE|ONDEMAND|BYOC|CLOUD)\s*$/i, '')
+            .trim()
+    }
+
+    __heading_slug(content) {
+        const customId = String(content || '').match(/\{#([^}]+)}/)
+        if (customId) return customId[1]
+        return slugify(this.__clean_heading_title_for_slug(content), { lower: true, strict: true })
     }
 
     async __bullet(block, indent) {
@@ -2919,8 +2932,8 @@ class larkDocWriter {
                             var content = await this.__text_elements(headerBlock[blockType]['elements']);
                             content = this.__filter_content(content, this.targets)
                             content = this.__clean_headings(content)
-                            const slug = content.includes('{#') ? content.split('{#')[1].replace(/}$/, '') : slugify(content, {strict: true, lower: true});
-                            newUrl += `#${slug}`;
+                            const headingSlug = this.__heading_slug(content);
+                            if (headingSlug) newUrl += `#${headingSlug}`;
                         }
                     }
                 }

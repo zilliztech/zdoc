@@ -68,7 +68,35 @@ function testGetExampleLabelFallsBackToTabLabelAndOption() {
     assert.equal(getExampleLabel({}, '3'), 'OPTION 3')
 }
 
+function testTextFilterDoesNotWrapBlockHtmlInParagraphs() {
+    const { textFilter } = loadUtils()
+    const html = textFilter(
+        'Whether to warm up the index.<ul><li><b>sync</b>: Warm up before load</li></ul>',
+        'zilliz',
+    )
+
+    assert.equal(
+        html,
+        '<p>Whether to warm up the index.</p><ul><li><b>sync</b>: Warm up before load</li></ul>',
+    )
+}
+
+function testTextFilterPreservesTrailingTextAfterBlockHtml() {
+    const { textFilter } = loadUtils()
+    const html = textFilter(
+        'Use this operation.<div><ul><li>First option</li></ul></div>You need admin permissions.<br/>',
+        'zilliz',
+    )
+
+    assert.equal(
+        html,
+        '<p>Use this operation.</p><div><ul><li>First option</li></ul></div><p>You need admin permissions.<br/></p>',
+    )
+}
+
 testFilterSchemaOptionsByLanguageKeepsOriginalOptionValues()
 testFilterSchemaOptionsLeavesUntargetedOptionsForAllLanguages()
 testGetExampleLabelFallsBackToTabLabelAndOption()
+testTextFilterDoesNotWrapBlockHtmlInParagraphs()
+testTextFilterPreservesTrailingTextAfterBlockHtml()
 console.log('restspecs utils tests passed')

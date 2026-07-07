@@ -28,11 +28,9 @@ To access and analyze costs via the Zilliz Cloud usage page, you must have **Org
 
 ## Procedures\{#procedures}
 
-There are two ways to analyze costs on Zilliz Cloud. 
+You can analyze costs on Zilliz Cloud through the web UI. 
 
 - [Via Web UI](./analyze-cost#via-web-ui): If you need to visualize the cost trends, we recommend using the web UI. Usage details on the web UI are rounded to **10 decimal places**.
-
-- [Via RESTful API](./analyze-cost#via-restful-api): If you need more detailed insights into the daily usage, we recommend using the RESTful API. Usage details obtained from the RESTful API are precise to **10 decimal places**.
 
 ### Via Web UI\{#via-web-ui}
 
@@ -53,4 +51,3 @@ Usage data is updated on an hourly basis.
     For example, if you have created two projects, Default Project (for the R&D department) and Project_01 (for the Marketing department), you can select Default Project in the project filter to analyze the R&D department's usage and costs over the past month.
 
     The Usage Amount bar chart will visually represent daily usage changes, and the Usage Amount Details table provides data in tabular form.
-

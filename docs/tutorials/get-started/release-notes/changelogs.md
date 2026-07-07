@@ -148,7 +148,7 @@ import Grid from '@site/src/components/Grid';
 
             - [MinHash function](./minhash-function)
 
-            - Order by for [searches](./single-vector-search#sort-search-results-by-scalar-fields-or-ondemand) and [queries](./get-and-scalar-query#sort-query-results-or-ondemand),
+            - Order by for [searches](./single-vector-search#sort-search-results-by-scalar-fields) and [queries](./get-and-scalar-query#sort-query-results),
 
             - [Snapshots](./snapshots),
 

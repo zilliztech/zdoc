@@ -37,7 +37,7 @@ This feature applies only to managed collections.
 
 ## Limits\{#limits}
 
-- The two TTL modes are mutually exclusive. A collection cannot have both `collection.ttl.seconds` and `ttl_field` set at the same time. To switch, see [Migrate between the two modes](./set-collection-ttl#migrate-between-the-two-modes-or-private).
+- The two TTL modes are mutually exclusive. A collection cannot have both `collection.ttl.seconds` and `ttl_field` set at the same time. To switch, see [Migrate between the two modes](./set-collection-ttl#migrate-between-the-two-modes).
 
 - Collection-level TTL applies one window to the whole collection. If a single row needs a different lifetime, use entity-level TTL.
 

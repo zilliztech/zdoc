@@ -127,6 +127,37 @@ function testKeywordPickerUsesStableSeed() {
   );
 }
 
+function testHeadingSlugDropsVisibilitySuffixes() {
+  const writer = createWriter([]);
+
+  assert.equal(
+    writer.__heading_slug('Custom privilege groups | PRIVATE'),
+    'custom-privilege-groups'
+  );
+  assert.equal(
+    writer.__heading_slug('Sort search results by scalar fields | ONDEMAND'),
+    'sort-search-results-by-scalar-fields'
+  );
+}
+
+async function testConvertedHeadingLinkDropsVisibilitySuffixes() {
+  const writer = createWriter([]);
+  const page = {
+    title: 'Target',
+    slug: 'target-page',
+    blocks: {
+      items: [
+        headingBlock('heading-token', 'page', 3, [textRun('Custom privilege groups | PRIVATE')]),
+      ],
+    },
+  };
+
+  writer.__fetch_link_doc_source = () => page;
+  const converted = await writer.__convert_link('https://zilliverse.feishu.cn/docx/doc-token#heading-token');
+
+  assert.equal(converted, './target-page#custom-privilege-groups');
+}
+
 function testFeatureCardMarkerParserAcceptsReadableSpacing() {
   const writer = createWriter([]);
   assert.deepEqual(
@@ -443,6 +474,8 @@ async function run() {
   testExampleHttpUrlsSkipsInlineCodeSpans();
   testExampleHttpUrlsSkipsFencedCodeBlocks();
   testKeywordPickerUsesStableSeed();
+  testHeadingSlugDropsVisibilitySuffixes();
+  await testConvertedHeadingLinkDropsVisibilitySuffixes();
   testFeatureCardMarkerParserAcceptsReadableSpacing();
   await testCalloutPreservesMarkdownBody();
   await testQuotePreservesMarkdownBody();

@@ -122,17 +122,17 @@ Methods of `AzureConnectParam.Builder`:
     <tr>
         <td><p>withConnStr(String connStr)</p></td>
         <td><p>Sets the connect string.</p></td>
-        <td><p>connStr: A connection string to an Azure Storage account, which can be parsed to an account_url and a credential.To generate a connection string, read this link: <a href="https://learn.microsoft.com/en-us/azure/storage/common/storage-configure-connection-string">https://learn.microsoft.com/en-us/azure/storage/common/storage-configure-connection-string</a></p></td>
+        <td><p>connStr: A connection string to an Azure Storage account, which can be parsed to an account_url and a credential. To generate a connection string, read <a href="https://learn.microsoft.com/en-us/azure/storage/common/storage-configure-connection-string">Azure Storage connection string configuration</a>.</p></td>
     </tr>
     <tr>
         <td><p>withAccountUrl(String accountUrl)</p></td>
         <td><p>Sets the account url.</p></td>
-        <td><p>accountUrl: A string in format like https://\<storage-account>.blob.core.windows.netRead this link for more info:<a href="https://learn.microsoft.com/en-us/azure/storage/common/storage-account-overview">https://learn.microsoft.com/en-us/azure/storage/common/storage-account-overview</a></p></td>
+        <td><p>accountUrl: A string in format like https://\<storage-account>.blob.core.windows.net. Read <a href="https://learn.microsoft.com/en-us/azure/storage/common/storage-account-overview">Azure Storage account overview</a> for more info.</p></td>
     </tr>
     <tr>
         <td><p>withCredential(TokenCredential credential)</p></td>
         <td><p>Set the credential.</p></td>
-        <td><p>credential: Account access key for the account, read this link for more info:<a href="https://learn.microsoft.com/en-us/azure/storage/common/storage-account-keys-manage?tabs=azure-portal#view-account-access-keys">https://learn.microsoft.com/en-us/azure/storage/common/storage-account-keys-manage?tabs=azure-portal#view-account-access-keys</a></p></td>
+        <td><p>credential: Account access key for the account. Read <a href="https://learn.microsoft.com/en-us/azure/storage/common/storage-account-keys-manage?tabs=azure-portal#view-account-access-keys">Azure Storage account access keys</a> for more info.</p></td>
     </tr>
     <tr>
         <td><p>build()</p></td>
@@ -272,4 +272,3 @@ try (RemoteBulkWriter remoteBulkWriter = RemoteBulkWriter(bulkWriterParam)) {
     throw e;
 }
 ```
-

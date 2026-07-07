@@ -265,7 +265,7 @@ nlohmann::json analyzerParams = {
    </tr>
 </table>
 
-To load a large custom vocabulary from an external file instead of inlining it via `dict`, see [Custom configuration with a dictionary file](./jieba-tokenizer#custom-configuration-with-a-dictionary-file-or-private) below.
+To load a large custom vocabulary from an external file instead of inlining it via `dict`, see [Custom configuration with a dictionary file](./jieba-tokenizer#custom-configuration-with-a-dictionary-file) below.
 
 After defining `analyzer_params`, you can apply them to a `VARCHAR` field when defining a collection schema. This allows Zilliz Cloud to process the text in that field using the specified analyzer for efficient tokenization and filtering. For details, refer to [Example use](./analyzer-overview#example-use).
 

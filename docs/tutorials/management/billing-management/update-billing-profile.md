@@ -22,7 +22,7 @@ import Procedures from '@site/src/components/Procedures';
 
 # Update Billing Profile
 
-The billing profile contains the organization and contact information used for billing, invoices, and tax records. Keep your billing profile up to date so invoices are issued with the correct company, address, and contact details. For details about a billing profile, refer to [Understand Invoices](./view-invoice#billing-profile).
+The billing profile contains the organization and contact information used for billing, invoices, and tax records. Keep your billing profile up to date so invoices are issued with the correct company, address, and contact details. For details about invoices, refer to [Understand Invoices](./view-invoice).
 
 <Admonition type="info" icon="📘" title="**Note**">
 

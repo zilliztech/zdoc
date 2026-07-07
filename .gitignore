@@ -46,6 +46,9 @@ k8s/**/secret.yaml
 # Eval results (generated)
 chat-proxy/scripts/eval/results/
 
+# Local scratch files and build logs
+tmp/
+
 # AI tooling local state
 .agents/
 .claude/

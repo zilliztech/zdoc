@@ -186,7 +186,7 @@ You can modify collection-level properties after a collection is created.
    </tr>
    <tr>
      <td><p><code>ttl_field</code></p></td>
-     <td><p>Name of the <code>TIMESTAMPTZ</code> field that stores each entity's absolute expiration timestamp (<strong>entity-level TTL</strong>). Each entity expires exactly when wall-clock time reaches the value stored in this field; a <code>NULL</code> in the field means the entity never expires. Mutually exclusive with <code>collection.ttl.seconds</code>.</p><p>For details, refer to <a href="./set-collection-ttl#set-entity-level-ttl-or-ondemand">Set entity-level TTL</a>.</p></td>
+     <td><p>Name of the <code>TIMESTAMPTZ</code> field that stores each entity's absolute expiration timestamp (<strong>entity-level TTL</strong>). Each entity expires exactly when wall-clock time reaches the value stored in this field; a <code>NULL</code> in the field means the entity never expires. Mutually exclusive with <code>collection.ttl.seconds</code>.</p><p>For details, refer to <a href="./set-collection-ttl#set-entity-level-ttl">Set entity-level TTL</a>.</p></td>
    </tr>
    <tr>
      <td><p><code>mmap.enabled</code></p></td>

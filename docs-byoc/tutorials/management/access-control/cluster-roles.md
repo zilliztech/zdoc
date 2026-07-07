@@ -87,7 +87,7 @@ For collection-level access control, it is recommended to create custom roles.
 
 This feature is exclusively available to Dedicated clusters.
 
-Currently, Zilliz Cloud only supports creating custom roles with built-in privilege groups on the web console. If you need to create custom roles with specific privileges or custom privilege groups, please [create a support ticket](http://support.zilliz.com) first so that we can enable this feature for you. Once the feature is enabled, you can use the SDKs to [create custom privilege groups](./cluster-privileges#custom-privilege-groups-or-private).
+Currently, Zilliz Cloud only supports creating custom roles with built-in privilege groups on the web console. If you need to create custom roles with specific privileges or custom privilege groups, please [create a support ticket](http://support.zilliz.com) first so that we can enable this feature for you. Once the feature is enabled, you can use the SDKs to [create custom privilege groups](./cluster-privileges#custom-privilege-groups).
 
 </Admonition>
 

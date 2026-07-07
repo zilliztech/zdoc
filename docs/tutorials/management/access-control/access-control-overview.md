@@ -80,7 +80,7 @@ The following diagram shows the complete workflow to implement RBAC in Zilliz Cl
 
 1. **Create a role:** You can create customized roles via the [web console](./cluster-roles) or using [SDKs](./cluster-roles-sdk). The specific capabilities of a role are determined by its privileges.
 
-1. **(Optional) Create a privilege group and add privileges to the privilege group:** Combine multiple [privileges](./cluster-privileges) into one privilege group to streamline the process of granting privileges to a role. In addition to the built-in privilege groups provided by Zilliz Cloud, you can also create your own customized privilege groups using the [SDKs](./cluster-privileges#custom-privilege-groups-or-private).
+1. **(Optional) Create a privilege group and add privileges to the privilege group:** Combine multiple [privileges](./cluster-privileges) into one privilege group to streamline the process of granting privileges to a role. In addition to the built-in privilege groups provided by Zilliz Cloud, you can also create your own customized privilege groups using the [SDKs](./cluster-privileges#custom-privilege-groups).
 
 1. **Grant privileges or privilege groups to a role:** Define the capabilities of a role be granting privileges or privilege groups to this role. Currently you can only grant built-in privilege groups to a role on the [web console](./cluster-roles#create-a-custom-cluster-role). To grant specific privileges or customized privilege groups to a role, please [create a support ticket](http://support.zilliz.com) and then use the [SDKs](./cluster-roles-sdk#grant-a-privilege-group-to-a-role) instead.
 

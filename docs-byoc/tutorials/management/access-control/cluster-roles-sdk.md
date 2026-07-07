@@ -150,7 +150,7 @@ In Zilliz Cloud, you can grant the followings to a role:
 
 - **Built-in privilege groups:** Zilliz Cloud offers 9 built-in privilege groups. For details about the specific privileges included in each built-in privilege group, refer to [Built-in privilege groups](./cluster-privileges#built-in-privilege-groups).
 
-- **Custom privilege groups:** If the built-in privileges do not meet your needs, you can combine different privileges to create your own custom privilege groups. For details, refer to [Custom privilege groups](./cluster-privileges#custom-privilege-groups-or-private).
+- **Custom privilege groups:** If the built-in privileges do not meet your needs, you can combine different privileges to create your own custom privilege groups. For details, refer to [Custom privilege groups](./cluster-privileges#custom-privilege-groups).
 
 <Admonition type="info" icon="📘" title="Notes">
 
