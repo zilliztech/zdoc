@@ -46,9 +46,9 @@ async function main() {
   const snapshotPath = args.snapshotPath ||
     path.join('plugins', 'lark-docs', 'meta', 'snapshots', `${args.manual}-${buildEnv}-last-success.json`)
   const scraper = new larkDocScraper(manual.root, manual.base, manual.sourceType, manual.docSourceDir)
-  await scraper.__base()
+  await scraper.__base({ progressLabel: '[snapshot] Base scan' })
   const nodeMetadataByToken = manual.sourceType === 'wiki'
-    ? await scraper.fetch_wiki_node_metadata(scraper.records)
+    ? await scraper.fetch_wiki_node_metadata(scraper.records, { progressLabel: '[snapshot] Wiki metadata' })
     : new Map()
 
   const snapshot = createSourceSnapshot({

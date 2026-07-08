@@ -12,6 +12,7 @@ const FEISHU_HOST = process.env.FEISHU_HOST
 const SPACE_ID = process.env.SPACE_ID
 const FEISHU_MAX_CONCURRENT = parseInt(process.env.FEISHU_MAX_CONCURRENT || '1', 10)
 const FEISHU_MIN_TIME_MS = parseInt(process.env.FEISHU_MIN_TIME_MS || '500', 10)
+const FEISHU_WIKI_NODE_MIN_TIME_MS = parseInt(process.env.FEISHU_WIKI_NODE_MIN_TIME_MS || '1000', 10)
 
 class larkDocScraper {
     constructor(root_node, base_app_id, target_type, doc_source_dir) {
@@ -27,6 +28,10 @@ class larkDocScraper {
         this.limiter = new Bottleneck({
             maxConcurrent: FEISHU_MAX_CONCURRENT,
             minTime: FEISHU_MIN_TIME_MS,
+        })
+        this.wikiNodeLimiter = new Bottleneck({
+            maxConcurrent: 1,
+            minTime: FEISHU_WIKI_NODE_MIN_TIME_MS,
         })
 
         // fs.rmSync(this.doc_source_dir, { recursive: true, force: true })
@@ -53,7 +58,9 @@ class larkDocScraper {
         await this.__ensure_token()
         const objTypeExpr = objType ? `&obj_type=${encodeURIComponent(objType)}` : ''
         const url = `${FEISHU_HOST}/open-apis/wiki/v2/spaces/get_node?token=${encodeURIComponent(token)}${objTypeExpr}`
-        const jres = await this.__fetchFeishuJson(url, { method: 'get' }, `get wiki node ${token}`)
+        const jres = await this.wikiNodeLimiter.schedule(() =>
+            this.__fetchFeishuJson(url, { method: 'get' }, `get wiki node ${token}`)
+        )
         if (jres.code !== 0) {
             throw new Error(`[wiki-node] Failed to resolve ${token}: ${JSON.stringify(jres)}`)
         }
@@ -83,9 +90,14 @@ class larkDocScraper {
         }
     }
 
-    async fetch_wiki_node_metadata(records) {
+    async fetch_wiki_node_metadata(records, { progressLabel=null, progressEvery=25 } = {}) {
         const metadataByToken = new Map()
-        for (const record of canonicalRecordsFrom(records || this.records || [])) {
+        const canonicalRecords = canonicalRecordsFrom(records || this.records || [])
+        if (progressLabel) {
+            console.log(`${progressLabel}: resolving ${canonicalRecords.length} wiki node(s)`)
+        }
+        let processed = 0
+        for (const record of canonicalRecords) {
             try {
                 const objType = this.__wiki_obj_type_from_link(record.doc_link)
                 let node = await this.fetch_wiki_node(record.doc_token, objType)
@@ -115,6 +127,10 @@ class larkDocScraper {
                     requested_token: record.doc_token,
                     fetch_error: error.message,
                 })
+            }
+            processed += 1
+            if (progressLabel && (processed === canonicalRecords.length || processed % progressEvery === 0)) {
+                console.log(`${progressLabel}: resolved ${processed}/${canonicalRecords.length} wiki node(s)`)
             }
         }
         return metadataByToken
@@ -407,7 +423,7 @@ class larkDocScraper {
         return values.map(value => value.trim().toLowerCase()).filter(Boolean)
     }
 
-    async __base_tables(token, tableFilter=null) {
+    async __base_tables(token, tableFilter=null, progressLabel=null) {
         const filterValues = this.__table_filter_values(tableFilter)
         if (this.base_tables && !filterValues) return this.base_tables
 
@@ -452,6 +468,9 @@ class larkDocScraper {
         }
 
         this.base_tables = selectedTables
+        if (progressLabel) {
+            console.log(`${progressLabel}: found ${this.base_tables.length} Base table(s)`)
+        }
         return this.base_tables
     }
 
@@ -486,9 +505,10 @@ class larkDocScraper {
         return selectedView?.view_id || selectedView?.id || null
     }
 
-    async __base_record_page(token, table, viewId=null) {
+    async __base_record_page(token, table, viewId=null, progressLabel=null) {
         const records = []
         let pageToken = null
+        let pageCount = 0
         do {
             const pageTokenExpr = pageToken ? `&page_token=${pageToken}` : ''
             const viewExpr = viewId ? `&view_id=${encodeURIComponent(viewId)}` : ''
@@ -509,17 +529,22 @@ class larkDocScraper {
                 base_table_index: table.index,
                 base_record_index: records.length + index,
             })))
+            pageCount += 1
+            if (progressLabel) {
+                const source = viewId ? 'view records' : 'records'
+                console.log(`${progressLabel}: ${table.name || table.table_id} ${source} page ${pageCount} (${records.length} total)`)
+            }
             pageToken = jres.data?.has_more ? jres.data.page_token : null
         } while (pageToken)
         return records
     }
 
-    async __base_records(token, table) {
+    async __base_records(token, table, progressLabel=null) {
         const viewId = await this.__base_view_id(token, table)
-        const allRecords = await this.__base_record_page(token, table)
+        const allRecords = await this.__base_record_page(token, table, null, progressLabel)
         if (!viewId) return allRecords
 
-        const viewRecords = await this.__base_record_page(token, table, viewId)
+        const viewRecords = await this.__base_record_page(token, table, viewId, progressLabel)
         const allById = new Map(allRecords.map(record => [record.record_id, record]))
         const orderedRecords = []
         const seen = new Set()
@@ -540,20 +565,30 @@ class larkDocScraper {
         return orderedRecords
     }
 
-    async __base({ tableFilter=null, force=false } = {}) {
+    async __base({ tableFilter=null, force=false, progressLabel=null } = {}) {
         if (this.records && !tableFilter && !force) return
         const fetcher = new tokenFetcher()
         await fetcher.fetchToken()
         const token = await fetcher.token()
-        const tables = await this.__base_tables(token, tableFilter)
+        if (progressLabel) {
+            console.log(`${progressLabel}: scanning Base tables`)
+        }
+        const tables = await this.__base_tables(token, tableFilter, progressLabel)
         const recordsByTable = []
 
-        for (const table of tables) {
-            recordsByTable.push(...await this.__base_records(token, table))
+        for (let i = 0; i < tables.length; i++) {
+            const table = tables[i]
+            if (progressLabel) {
+                console.log(`${progressLabel}: scanning table ${i + 1}/${tables.length} (${table.name || table.table_id})`)
+            }
+            recordsByTable.push(...await this.__base_records(token, table, progressLabel))
         }
 
         this.records = recordsByTable
         this.base_tables = tables
+        if (progressLabel) {
+            console.log(`${progressLabel}: loaded ${this.records.length} Base record(s)`)
+        }
 
         const slugEntries = []
         const recordsBySeqId = new Map(this.records.map(record => [record.fields['Seq. ID'], record]))

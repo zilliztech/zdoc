@@ -2,6 +2,7 @@ const fetch = require('node-fetch')
 
 const FEISHU_RETRY_ATTEMPTS = parseInt(process.env.FEISHU_RETRY_ATTEMPTS || '5', 10)
 const FEISHU_RETRY_DELAY_MS = parseInt(process.env.FEISHU_RETRY_DELAY_MS || '1000', 10)
+const FEISHU_RATE_LIMIT_FALLBACK_MS = parseInt(process.env.FEISHU_RATE_LIMIT_FALLBACK_MS || '60000', 10)
 
 function shortError(err) {
     return err?.stack || err?.message || String(err)
@@ -20,13 +21,37 @@ function shouldRetryJsonResponse(res, json) {
     return res.status === 429 || res.status >= 500 || json?.code === 99991400 || json?.status === 429
 }
 
-function retryAfterMs(res, attempt) {
+function parseRetryAfterHeader(value) {
+    if (!value) return null
+
+    const seconds = Number(value)
+    if (Number.isFinite(seconds)) {
+        return seconds > 0 ? seconds * 1000 : null
+    }
+
+    const timestamp = Date.parse(value)
+    if (Number.isFinite(timestamp)) {
+        return Math.max(timestamp - Date.now(), 0)
+    }
+
+    return null
+}
+
+function isFeishuFrequencyLimit(body) {
+    return body && typeof body === 'object' && body.code === 99991400
+}
+
+function retryAfterMs(res, attempt, body) {
     const reset = res?.headers?.get?.('x-ogw-ratelimit-reset')
     const retryAfter = res?.headers?.get?.('retry-after')
-    const parsed = Number(reset || retryAfter)
+    const headerDelay = parseRetryAfterHeader(reset) ?? parseRetryAfterHeader(retryAfter)
 
-    if (Number.isFinite(parsed) && parsed > 0) {
-        return parsed * 1000
+    if (headerDelay !== null) {
+        return headerDelay
+    }
+
+    if (isFeishuFrequencyLimit(body)) {
+        return FEISHU_RATE_LIMIT_FALLBACK_MS
     }
 
     return FEISHU_RETRY_DELAY_MS * attempt
@@ -77,22 +102,22 @@ async function retryFetchBody(url, options, label, readBody, shouldRetryResult=(
             const body = await readBody(res)
             if (res.status === 429 || res.status >= 500 || shouldRetryResult(res, body)) {
                 const err = new Error(`retryable response ${res.status}${responsePreview(body)}`)
-                err.retryDelayMs = retryAfterMs(res, attempt)
+                err.retryDelayMs = retryAfterMs(res, attempt, body)
                 throw err
             }
 
             return body
         } catch (err) {
             lastError = err
-            const retryable = err.retryDelayMs || isRetryableFetchError(err)
+            const retryable = err.retryDelayMs !== undefined || isRetryableFetchError(err)
 
             if (!retryable || attempt === FEISHU_RETRY_ATTEMPTS) {
                 break
             }
 
-            const delay = err.retryDelayMs || (FEISHU_RETRY_DELAY_MS * attempt)
+            const delay = err.retryDelayMs ?? (FEISHU_RETRY_DELAY_MS * attempt)
             process.stderr.write(
-                `[fetch-lark-docs] ${label} failed on attempt ${attempt}/${FEISHU_RETRY_ATTEMPTS}: ${shortError(err)}\n`
+                `[fetch-lark-docs] ${label} failed on attempt ${attempt}/${FEISHU_RETRY_ATTEMPTS}; retrying in ${delay}ms: ${shortError(err)}\n`
             )
             await wait(delay)
         }

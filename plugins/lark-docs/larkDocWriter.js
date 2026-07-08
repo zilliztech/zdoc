@@ -2018,6 +2018,18 @@ class larkDocWriter {
         return null;
     }
 
+    __code_plain_text(code) {
+        return (code?.elements || [])
+            .map(element => element.text_run?.content || '')
+            .join('')
+            .replaceAll('&#36;', '$')
+    }
+
+    __code_language(code, renderedElements=null) {
+        const explicit = code?.style?.language ? this.code_langs[code.style.language] : null
+        return explicit || this.__infer_code_language(renderedElements ?? this.__code_plain_text(code))
+    }
+
     async __code(code, indent, prev, next, blocks) {
         const valid_langs = ['Python', 'JavaScript', 'Java', 'Go', 'C++', 'Bash', 'Shell']
         let elements = (await Promise.all(code['elements'].map( async x => {
@@ -2025,16 +2037,15 @@ class larkDocWriter {
             content = content.replaceAll('&#36;', '$')
             return content
         }))).join('') 
-        let lang = code.style?.language ? this.code_langs[code['style']['language']] : null
-        lang = lang || this.__infer_code_language(elements) || 'plaintext'
+        let lang = this.__code_language(code, elements) || 'plaintext'
 
         // if (lang === 'C++') return; // to be removed once c++ is supported
 
         if (valid_langs.includes(lang)) {
             const prev_type = prev ? this.block_types[prev['block_type']-1] : null;
             const next_type = next ? this.block_types[next['block_type']-1] : null;
-            const prev_lang = prev && prev_type === 'code' && prev['code']['style']?.language ? this.code_langs[prev['code']['style']['language']] : null;
-            const next_lang = next && next_type === 'code' && next['code']['style']?.language ? this.code_langs[next['code']['style']['language']] : null;
+            const prev_lang = prev && prev_type === 'code' ? this.__code_language(prev.code) : null;
+            const next_lang = next && next_type === 'code' ? this.__code_language(next.code) : null;
 
             // first block
             if ((!prev || (prev && prev_type !== 'code') || 
@@ -2056,7 +2067,7 @@ class larkDocWriter {
             }
             
             // middle block
-            if (prev && prev_type === 'code' && valid_langs.includes(next_lang) && prev_lang !== lang && next && next_type === 'code' && valid_langs.includes(next_lang) && next_lang !== code['style']['language']) {
+            if (prev && prev_type === 'code' && valid_langs.includes(prev_lang) && prev_lang !== lang && next && next_type === 'code' && valid_langs.includes(next_lang) && next_lang !== lang) {
                 console.log('middle block')
                 return this.__code_block_split(elements, indent, lang, 'middle');
             } 
@@ -2134,22 +2145,22 @@ class larkDocWriter {
 
     __code_tabs(code, prev, next, blocks) {
         let values = [];
-        let lang = code.style.language ? this.code_langs[code.style.language] : 'plaintext'
+        let lang = this.__code_language(code) || 'plaintext'
         
         if ((!prev || (prev && this.block_types[prev['block_type']-1] !== 'code')) && next && this.block_types[next['block_type']-1] === 'code') {
 
             values.push({ label: get_label(lang), value: lang.toLowerCase() });
 
-            has_next_code(next, this.block_types, this.code_langs);
+            has_next_code.call(this, next, this.block_types);
             
-            function has_next_code(next, block_types, code_langs) {
-                const next_lang = code_langs[next['code']['style']['language']];
+            function has_next_code(next, block_types) {
+                const next_lang = this.__code_language(next.code);
 
                 values.push({ label: get_label(next_lang), value: next_lang.toLowerCase() });
                 try {
                     next = blocks[blocks.indexOf(next) + 1];
                 if (next && block_types[next['block_type']-1] === 'code') {
-                    has_next_code(next, block_types, code_langs);
+                    has_next_code.call(this, next, block_types);
                 }
                 } catch {
                 // do nothing

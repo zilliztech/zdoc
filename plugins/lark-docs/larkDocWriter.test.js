@@ -503,6 +503,42 @@ async function testCodeBlocksInferLanguageWhenFeishuOmitsLanguage() {
   assert.doesNotMatch(python + java, /```plaintext/);
 }
 
+async function testCodeTabGroupKeepsInferredMiddleLanguageInsideTabs() {
+  const blocks = [
+    codeBlock('code-python', 'page', 'from pymilvus import MilvusClient\nclient.create_collection(collection_name="c", schema=schema)', { language: 49 }),
+    codeBlock('code-java', 'page', 'import io.milvus.param.Constant;\nclient.createCollection(request);', { language: 29 }),
+    codeBlock('code-js', 'page', 'client.create_collection({ collection_name: "c", schema })', { language: 30 }),
+    codeBlock('code-go', 'page', 'err = client.CreateCollection(ctx, option)\nfmt.Println("collection created")', { language: 22 }),
+    codeBlock('code-bash', 'page', [
+      'export params=\'{',
+      '  "mmap.enabled": true',
+      '}\'',
+      '',
+      'curl --request POST \\',
+      '--url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/create"',
+    ].join('\n'), { wrap: false }),
+    codeBlock('code-cpp', 'page', 'auto status = client->CreateCollection(milvus::CreateCollectionRequest());', { language: 9 }),
+  ];
+  const writer = createWriter(blocks);
+  const markdown = await writer.__markdown(blocks, 0);
+  const lines = markdown.split('\n');
+  let depth = 0;
+
+  for (const line of lines) {
+    if (/<TabItem\b/.test(line)) {
+      assert.ok(depth > 0, `orphan TabItem rendered outside Tabs: ${line}`);
+    }
+    if (/<Tabs\b/.test(line)) depth += 1;
+    if (/<\/Tabs>/.test(line)) depth -= 1;
+  }
+
+  assert.match(markdown, /"label":"cURL","value":"bash"/);
+  assert.match(markdown, /"label":"C\+\+","value":"c\+\+"/);
+  assert.match(markdown, /<TabItem value='bash'>/);
+  assert.match(markdown, /<TabItem value='c\+\+'>/);
+  assert.equal(depth, 0);
+}
+
 async function run() {
   testExampleHttpUrlsPreservesRawExampleUrls();
   testExampleHttpUrlsSkipsInlineCodeSpans();
@@ -522,6 +558,7 @@ async function run() {
   await testMarkedGridWithUnsupportedIconFallsBackAndSuppressesMarker();
   await testFeatureCardMarkerWithoutIconsFallsBackAndSuppressesMarker();
   await testCodeBlocksInferLanguageWhenFeishuOmitsLanguage();
+  await testCodeTabGroupKeepsInferredMiddleLanguageInsideTabs();
   await testBaseTablesRetriesPrematureClose();
   console.log('larkDocWriter tests passed');
 }

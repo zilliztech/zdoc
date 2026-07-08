@@ -120,7 +120,9 @@ module.exports = function (context, options) {
                     }
 
                     const planIncrementalSourceFetch = async () => {
-                        if (!scraper.records) await scraper.__base()
+                        if (!scraper.records) {
+                            await scraper.__base({ progressLabel: '[incremental-fetch] Base scan' })
+                        }
                         const snapshotEnv = opts.buildEnv || 'local'
                         const snapshotPath = opts.snapshotPath ||
                             path.join('.', 'plugins', 'lark-docs', 'meta', 'snapshots', `${manualName}-${snapshotEnv}-last-success.json`)
@@ -132,7 +134,9 @@ module.exports = function (context, options) {
                             buildEnv: snapshotEnv,
                             maxReferenceDepth: Number(opts.incrementalMaxReferenceDepth || 1),
                             forceFull: !!opts.forceFullFetch,
-                            currentNodeMetadataByToken: await scraper.fetch_wiki_node_metadata(scraper.records),
+                            currentNodeMetadataByToken: await scraper.fetch_wiki_node_metadata(scraper.records, {
+                                progressLabel: '[incremental-fetch] Wiki metadata',
+                            }),
                         })
                         const prefix = path.join('.', 'plugins', 'lark-docs', 'meta', 'reports', `${manualName}-incremental-fetch-plan`)
                         const paths = writeIncrementalFetchPlanReports(plan, prefix)

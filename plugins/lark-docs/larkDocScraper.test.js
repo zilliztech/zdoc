@@ -724,6 +724,167 @@ async function testFetchWikiNodeMetadataResolvesShortcutRevisionFields() {
   assert.equal(metadata.get('raw-docx-token').revision_id, 'rev-docx');
 }
 
+async function testFetchWikiNodeUsesEndpointSpecificLimiter() {
+  const originalWikiNodeMinTime = process.env.FEISHU_WIKI_NODE_MIN_TIME_MS;
+  process.env.FEISHU_WIKI_NODE_MIN_TIME_MS = '20';
+  delete require.cache[require.resolve('./larkDocScraper')];
+  const larkDocScraper = require('./larkDocScraper');
+  const scraper = new larkDocScraper('root-token', 'base-token:*', 'wiki', '/tmp');
+  scraper.token = 'tenant-token';
+
+  const callTimes = [];
+  scraper.__fetchFeishuJson = async () => {
+    callTimes.push(Date.now());
+    return {
+      code: 0,
+      data: {
+        node: {
+          node_token: `node-${callTimes.length}`,
+          node_type: 'origin',
+          obj_token: `docx-${callTimes.length}`,
+          obj_type: 'docx',
+          title: `Source ${callTimes.length}`,
+          obj_edit_time: '1800000000',
+          revision_id: `rev-${callTimes.length}`,
+        },
+      },
+    };
+  };
+
+  try {
+    await scraper.fetch_wiki_node_metadata([
+      {
+        record_id: 'rec-a',
+        fields: {
+          Docs: { text: 'A', link: 'https://zilliverse.feishu.cn/wiki/a-token' },
+          Slug: 'a',
+          'Placement Type': 'canonical',
+        },
+      },
+      {
+        record_id: 'rec-b',
+        fields: {
+          Docs: { text: 'B', link: 'https://zilliverse.feishu.cn/wiki/b-token' },
+          Slug: 'b',
+          'Placement Type': 'canonical',
+        },
+      },
+    ]);
+
+    assert.equal(callTimes.length, 2);
+    assert.ok(callTimes[1] - callTimes[0] >= 15, `second get_node call started after ${callTimes[1] - callTimes[0]}ms`);
+  } finally {
+    if (originalWikiNodeMinTime === undefined) {
+      delete process.env.FEISHU_WIKI_NODE_MIN_TIME_MS;
+    } else {
+      process.env.FEISHU_WIKI_NODE_MIN_TIME_MS = originalWikiNodeMinTime;
+    }
+    delete require.cache[require.resolve('./larkDocScraper')];
+  }
+}
+
+async function testBaseScanProgressLogsTablesAndRecords() {
+  const larkDocScraper = require('./larkDocScraper');
+  const tokenFetcher = require('./larkTokenFetcher.js');
+  const scraper = new larkDocScraper('root-token', 'base-token:*', 'wiki', '/tmp');
+  const logs = [];
+  const originalLog = console.log;
+  const originalFetchToken = tokenFetcher.prototype.fetchToken;
+  const originalToken = tokenFetcher.prototype.token;
+  console.log = (message) => logs.push(String(message));
+  tokenFetcher.prototype.fetchToken = async function fetchToken() {
+    this.tenantAccessToken = 'tenant-token';
+  };
+  tokenFetcher.prototype.token = async () => 'tenant-token';
+
+  scraper.__base_tables = async (_token, _tableFilter, progressLabel) => {
+    assert.equal(progressLabel, '[incremental-fetch] Base scan');
+    return [{ table_id: 'tbl-a', name: 'Guides', index: 0 }];
+  };
+  scraper.__base_records = async (_token, table, progressLabel) => {
+    assert.equal(table.table_id, 'tbl-a');
+    assert.equal(progressLabel, '[incremental-fetch] Base scan');
+    return [{
+      record_id: 'rec-a',
+      base_table_id: table.table_id,
+      base_table_name: table.name,
+      base_table_index: table.index,
+      base_record_index: 0,
+      fields: {
+        Docs: { text: 'Doc A', link: 'https://zilliverse.feishu.cn/wiki/doc-a-token' },
+        Slug: 'doc-a',
+        Parent: [],
+        'Seq. ID': '1',
+      },
+    }];
+  };
+
+  try {
+    await scraper.__base({ progressLabel: '[incremental-fetch] Base scan' });
+
+    assert.match(logs.join('\n'), /scanning Base tables/);
+    assert.match(logs.join('\n'), /scanning table 1\/1 \(Guides\)/);
+    assert.match(logs.join('\n'), /loaded 1 Base record\(s\)/);
+  } finally {
+    console.log = originalLog;
+    tokenFetcher.prototype.fetchToken = originalFetchToken;
+    tokenFetcher.prototype.token = originalToken;
+  }
+}
+
+async function testWikiMetadataProgressLogsResolutionCounts() {
+  const larkDocScraper = require('./larkDocScraper');
+  const scraper = new larkDocScraper('root-token', 'base-token:*', 'wiki', '/tmp');
+  scraper.token = 'tenant-token';
+  const logs = [];
+  const originalLog = console.log;
+  console.log = (message) => logs.push(String(message));
+
+  scraper.__fetchFeishuJson = async () => ({
+    code: 0,
+    data: {
+      node: {
+        node_token: 'node-token',
+        node_type: 'origin',
+        obj_token: 'docx-token',
+        obj_type: 'docx',
+        title: 'Source',
+        revision_id: 'rev-1',
+      },
+    },
+  });
+
+  try {
+    await scraper.fetch_wiki_node_metadata([
+      {
+        record_id: 'rec-a',
+        fields: {
+          Docs: { text: 'A', link: 'https://zilliverse.feishu.cn/wiki/a-token' },
+          Slug: 'a',
+          'Placement Type': 'canonical',
+        },
+      },
+      {
+        record_id: 'rec-b',
+        fields: {
+          Docs: { text: 'B', link: 'https://zilliverse.feishu.cn/wiki/b-token' },
+          Slug: 'b',
+          'Placement Type': 'canonical',
+        },
+      },
+    ], {
+      progressLabel: '[incremental-fetch] Wiki metadata',
+      progressEvery: 1,
+    });
+
+    assert.match(logs.join('\n'), /resolving 2 wiki node\(s\)/);
+    assert.match(logs.join('\n'), /resolved 1\/2 wiki node\(s\)/);
+    assert.match(logs.join('\n'), /resolved 2\/2 wiki node\(s\)/);
+  } finally {
+    console.log = originalLog;
+  }
+}
+
 async function run() {
   await testFeishuJsonFetchesAreThrottled();
   await testWikiRootFetchRetriesPrematureClose();
@@ -740,6 +901,9 @@ async function run() {
   await testValidateContentLinksPreservesLegacyReportShape();
   await testFetchSourceTokensFetchesSelectedTokensWithoutClearingSources();
   await testFetchWikiNodeMetadataResolvesShortcutRevisionFields();
+  await testFetchWikiNodeUsesEndpointSpecificLimiter();
+  await testBaseScanProgressLogsTablesAndRecords();
+  await testWikiMetadataProgressLogsResolutionCounts();
   console.log('lark-docs scraper tests passed');
 }
 
