@@ -200,7 +200,7 @@ Methods of `SearchResultsWrapper`:
      <td><p>getRowRecords(int indexOfTarget)</p></td>
      <td><p>Gets row records from the search result.</p><p>The ID is put into a QueryResultsWrapper.RowRecord with key "id".</p><p>The distance is put into a QueryResultsWrapper.RowRecord with key "distance".</p></td>
      <td><p>indexOfTarget: The order number of a target vector.</p></td>
-     <td><p>List\<QueryResultsWrapper.RowRecord></p></td>
+     <td><p>List&lt;QueryResultsWrapper.RowRecord&gt;</p></td>
    </tr>
 </table>
 

@@ -72,7 +72,7 @@ Methods of `CreateIndexParam.Builder`:
     </tr>
     <tr>
         <td><p><br/>withExtraParam(String extraParam)</p></td>
-        <td><p><br/>Sets the specific index parameters according to index type. For example, IVF index, the extra parameters can be "\{\"nlist\":1024}".</p></td>
+        <td><p><br/>Sets the specific index parameters according to index type. For example, IVF index, the extra parameters can be "\{\"nlist\":1024\}".</p></td>
         <td><p>extraParam: <br/>Extra parameters in JSON format</p></td>
     </tr>
     <tr>

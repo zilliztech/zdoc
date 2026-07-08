@@ -1995,22 +1995,46 @@ class larkDocWriter {
         })
     }
 
+    __infer_code_language(elements) {
+        const text = String(elements || '').trim();
+        if (!text) return null;
+
+        if (/^(?:from\s+pymilvus\s+import|import\s+pymilvus\b|collections\s*=|print\()/m.test(text)) {
+            return 'Python';
+        }
+        if (/^(?:import\s+io\.milvus\.|import\s+java\.|String\s+[A-Z_]+\s*=|[A-Za-z0-9_<>]+\s+\w+\s*=\s*\w+\.builder\(\))/m.test(text)) {
+            return 'Java';
+        }
+        if (/^(?:import\s+"github\.com\/milvus-io\/milvus|client,\s*err\s*:=|.*:=\s*milvusclient\.New\()/m.test(text)) {
+            return 'Go';
+        }
+        if (/^(?:const\s+\{\s*MilvusClient\s*\}\s*=\s*require\(|import\s+\{?\s*MilvusClient\b|const\s+\w+\s*=)/m.test(text)) {
+            return 'JavaScript';
+        }
+        if (/^(?:curl\s+|zilliz\s+|export\s+[A-Z_]+=)/m.test(text)) {
+            return 'Bash';
+        }
+
+        return null;
+    }
+
     async __code(code, indent, prev, next, blocks) {
         const valid_langs = ['Python', 'JavaScript', 'Java', 'Go', 'C++', 'Bash', 'Shell']
-        let lang = code.style.language ? this.code_langs[code['style']['language']] : 'plaintext'
         let elements = (await Promise.all(code['elements'].map( async x => {
             let content = await this.__text_run(x, code['elements'], true)
             content = content.replaceAll('&#36;', '$')
             return content
         }))).join('') 
+        let lang = code.style?.language ? this.code_langs[code['style']['language']] : null
+        lang = lang || this.__infer_code_language(elements) || 'plaintext'
 
         // if (lang === 'C++') return; // to be removed once c++ is supported
 
         if (valid_langs.includes(lang)) {
             const prev_type = prev ? this.block_types[prev['block_type']-1] : null;
             const next_type = next ? this.block_types[next['block_type']-1] : null;
-            const prev_lang = prev && prev_type === 'code' && prev['code']['style']['language'] ? this.code_langs[prev['code']['style']['language']] : null;
-            const next_lang = next && next_type === 'code' && next['code']['style']['language'] ? this.code_langs[next['code']['style']['language']] : null;
+            const prev_lang = prev && prev_type === 'code' && prev['code']['style']?.language ? this.code_langs[prev['code']['style']['language']] : null;
+            const next_lang = next && next_type === 'code' && next['code']['style']?.language ? this.code_langs[next['code']['style']['language']] : null;
 
             // first block
             if ((!prev || (prev && prev_type !== 'code') || 

@@ -136,7 +136,7 @@ Methods of `QueryIterator`:
      <td><p>next()</p></td>
      <td><p>Return a batch of results.</p></td>
      <td><p>N/A</p></td>
-     <td><p>List\<QueryResultsWrapper.RowRecord></p></td>
+     <td><p>List&lt;QueryResultsWrapper.RowRecord&gt;</p></td>
    </tr>
    <tr>
      <td><p>close()</p></td>

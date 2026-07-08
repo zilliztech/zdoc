@@ -2,6 +2,7 @@ const assert = require('node:assert/strict');
 const {
     applyMdxPatches,
     validateMdxStructure,
+    normalizeNestedPlaintextFences,
     normalizeCodeTagContent,
     convertHtmlCommentsToMdx,
     findMalformedProceduresBlocks,
@@ -33,6 +34,54 @@ const featureCardGrid = [
     '',
     '</FeatureCard>',
     '</FeatureCardGrid>',
+].join('\n');
+const htmlTableWithUppercaseTextAndNestedTags = [
+    '<table>',
+    '   <tr>',
+    '     <th><p>Field</p></th>',
+    '     <th><p>Type</p></th>',
+    '     <th><p>Description</p></th>',
+    '   </tr>',
+    '   <tr>',
+    '     <td><p><code>status</code></p></td>',
+    '     <td><p>String</p></td>',
+    '     <td><p>The status (e.g., <code>Receive</code>, <code>Success</code>, <code>Failed</code>).</p></td>',
+    '   </tr>',
+    '</table>',
+].join('\n');
+const markdownTableWithHtmlBreakAfterUppercaseText = [
+    '| Plan | Limit |',
+    '| --- | --- |',
+    '| On-demand cluster | Every 8 CU enables searches.<br/>Up to 256 MB/s at most. |',
+].join('\n');
+const restSpecsExportWithHtmlAndTemplateBraces = [
+    'import RestSpecs from \'@site/src/components/RestSpecs\';',
+    'export const specs = {"example":"Bearer {{TOKEN}}","prompt":"<p><code>https://{cluster-id}.serverless.{region}.vectordb.zillizcloud.com</code></p>"}',
+    'export const endpoint = "/v2/example"',
+].join('\n');
+const invalidMdxEsmExport = 'export const specs = {"schema":\\{"type":"string"}}';
+const indentedFencedJavaCode = [
+    '<TabItem value="java">',
+    '',
+    '    ```java',
+    '    Map<String, Object> analyzerParams = new HashMap<>();',
+    '    ```',
+    '',
+    '</TabItem>',
+].join('\n');
+const consecutivePlaintextSdkBlocks = [
+    '```plaintext',
+    'from pymilvus import MilvusClient',
+    '```',
+    '',
+    '```plaintext',
+    'import io.milvus.v2.client.MilvusClientV2;',
+    '```',
+    '',
+    '```plaintext',
+    'collections = client.list_collections()',
+    'print(collections)',
+    '```',
 ].join('\n');
 
 async function compileToString(content) {
@@ -180,6 +229,46 @@ async function testFeatureCardGridIsPreservedAsGlobalMdxComponent() {
     await compileToString(patched);
 }
 
+async function testHtmlTableClosingTagsAfterUppercaseTextArePreserved() {
+    const patched = await applyMdxPatches(htmlTableWithUppercaseTextAndNestedTags);
+    assert.equal(patched, htmlTableWithUppercaseTextAndNestedTags);
+    assert.ok(!patched.includes('Field&lt;/p&gt;'));
+    assert.ok(!patched.includes('Receive&lt;/code&gt;'));
+    await compileToString(patched);
+}
+
+async function testHtmlBreakAfterUppercaseTextIsPreserved() {
+    const patched = await applyMdxPatches(markdownTableWithHtmlBreakAfterUppercaseText);
+    assert.equal(patched, markdownTableWithHtmlBreakAfterUppercaseText);
+    assert.ok(!patched.includes('CU&lt;br/&gt;'));
+    await compileToString(patched);
+}
+
+async function testMdxEsmExportsArePreserved() {
+    const patched = await applyMdxPatches(restSpecsExportWithHtmlAndTemplateBraces);
+    assert.equal(patched, restSpecsExportWithHtmlAndTemplateBraces);
+    assert.ok(!patched.includes('schema":\\{'));
+    assert.ok(!patched.includes('Bearer {\\{TOKEN}}'));
+    await compileToString(patched);
+}
+
+async function testInvalidMdxEsmExportIsNotMutated() {
+    const patched = await applyMdxPatches(invalidMdxEsmExport);
+    assert.equal(patched, invalidMdxEsmExport);
+}
+
+async function testIndentedFencedCodeIsPreserved() {
+    const patched = await applyMdxPatches(indentedFencedJavaCode);
+    assert.equal(patched, indentedFencedJavaCode);
+    await compileToString(patched);
+}
+
+async function testConsecutivePlaintextFencesAreNotWidened() {
+    const patched = normalizeNestedPlaintextFences(consecutivePlaintextSdkBlocks);
+    assert.equal(patched, consecutivePlaintextSdkBlocks);
+    assert.ok(!patched.includes('````plaintext'));
+}
+
 async function run() {
     await testNormalizeCodeTagContent();
     await testNormalizationPreservesFencedCodeBlocks();
@@ -197,6 +286,12 @@ async function run() {
     await testFaqHeadingsArePatchable();
     await testFeatureNoteIsPreservedAsGlobalMdxComponent();
     await testFeatureCardGridIsPreservedAsGlobalMdxComponent();
+    await testHtmlTableClosingTagsAfterUppercaseTextArePreserved();
+    await testHtmlBreakAfterUppercaseTextIsPreserved();
+    await testMdxEsmExportsArePreserved();
+    await testInvalidMdxEsmExportIsNotMutated();
+    await testIndentedFencedCodeIsPreserved();
+    await testConsecutivePlaintextFencesAreNotWidened();
     console.log('mdxPatcher regression tests passed');
 }
 

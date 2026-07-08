@@ -1,7 +1,7 @@
 ---
-title: "R<T> | Java | v1"
+title: "R&lt;T&gt; | Java | v1"
 slug: /java/v1-Misc-RT
-sidebar_label: "R<T>"
+sidebar_label: "R&lt;T&gt;"
 beta: NEAR DEPRECATE
 notebook: FALSE
 description: "A template class to hold the status code, error message, and the response returned by each client interface. | Java | v1"

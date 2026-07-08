@@ -18,7 +18,7 @@ function createFenceTracker() {
         markerLength: 0,
         update(line) {
             if (!this.inCodeBlock) {
-                const open = line.match(/^[ \t]{0,3}(`{3,}|~{3,})(.*)$/);
+                const open = line.match(/^[ \t]*(`{3,}|~{3,})(.*)$/);
                 if (!open) return false;
                 this.inCodeBlock = true;
                 this.markerChar = open[1][0];
@@ -26,7 +26,7 @@ function createFenceTracker() {
                 return true;
             }
 
-            const close = line.match(/^[ \t]{0,3}(`{3,}|~{3,})[ \t]*$/);
+            const close = line.match(/^[ \t]*(`{3,}|~{3,})[ \t]*$/);
             if (close && close[1][0] === this.markerChar && close[1].length >= this.markerLength) {
                 this.inCodeBlock = false;
                 this.markerChar = null;
@@ -37,6 +37,10 @@ function createFenceTracker() {
             return false;
         },
     };
+}
+
+function isMdxEsmLine(line) {
+    return /^(?:import|export)\b/.test(line.trim());
 }
 
 function getFencedCodeRanges(content) {
@@ -97,7 +101,26 @@ function transformOutsideFencedCodeBlocks(content, transform) {
 
     const flushPending = () => {
         if (pending.length > 0) {
-            result.push(transform(pending.join('\n')));
+            const transformed = [];
+            let prose = [];
+            const flushProse = () => {
+                if (prose.length > 0) {
+                    transformed.push(transform(prose.join('\n')));
+                    prose = [];
+                }
+            };
+
+            for (const line of pending) {
+                if (isMdxEsmLine(line)) {
+                    flushProse();
+                    transformed.push(line);
+                } else {
+                    prose.push(line);
+                }
+            }
+
+            flushProse();
+            result.push(...transformed);
             pending = [];
         }
     };
@@ -153,15 +176,18 @@ function normalizeNestedPlaintextFences(content) {
 
         for (let j = i + 1; j < lines.length; j++) {
             if (lines[j].trim() !== '') lastNonEmpty = j;
-            const close = lines[j].match(/^[ \t]{0,3}(`{3,}|~{3,})[ \t]*$/);
-            if (close && close[1][0] === markerChar && close[1].length >= open[2].length) {
-                closingIndexes.push(j);
+            const close = lines[j].match(/^([ \t]{0,3})(`{3,}|~{3,})[ \t]*$/);
+            if (close && close[2][0] === markerChar && close[2].length >= open[2].length) {
+                closingIndexes.push({ index: j, indent: close[1], marker: close[2] });
             }
         }
 
         if (closingIndexes.length < 2) continue;
 
-        const closeIndex = closingIndexes[closingIndexes.length - 1];
+        const sameIndentClose = closingIndexes.find(close => close.indent === open[1]);
+        const closeIndex = closingIndexes[closingIndexes.length - 1].index;
+        if (!sameIndentClose || sameIndentClose.index !== closeIndex) continue;
+
         // Conservative: only auto-widen generated prompt blocks that close at EOF.
         if (closeIndex !== lastNonEmpty) continue;
 
@@ -195,7 +221,7 @@ function removeTabsHallucinations(content) {
         const trimmed = line.trim();
         fence.update(line);
 
-        if (!fence.inCodeBlock) {
+        if (!fence.inCodeBlock && !isMdxEsmLine(line)) {
             if (/^<Tabs[\s>]/.test(trimmed)) tabsDepth++;
             if (/^<\/Tabs>/.test(trimmed)) tabsDepth = Math.max(0, tabsDepth - 1);
 
@@ -251,7 +277,7 @@ function escapeCurrencyDollars(content) {
     for (let line of lines) {
         fence.update(line);
 
-        if (!fence.inCodeBlock) {
+        if (!fence.inCodeBlock && !isMdxEsmLine(line)) {
             // Split by inline code spans; odd-indexed segments are inside backticks
             const parts = line.split(/(`+[^`]+`+)/);
             line = parts.map((part, i) => {
@@ -291,6 +317,11 @@ function escapeMathBraces(content) {
         fence.update(line);
 
         if (fence.inCodeBlock) {
+            result.push(line);
+            continue;
+        }
+
+        if (isMdxEsmLine(line)) {
             result.push(line);
             continue;
         }
@@ -425,6 +456,7 @@ function escapeTypeScriptGenericText(part) {
     let index = 0;
     const identStart = /[A-Z]/;
     const identChar = /[A-Za-z0-9_$.]/;
+    const htmlTagAfterAngle = /^(?:a|abbr|b|br|code|div|em|i|li|p|span|strong|table|tbody|td|th|thead|tr|u|ul)(?:\s|\/?>)/;
 
     while (index < part.length) {
         const prev = index > 0 ? part[index - 1] : '';
@@ -435,7 +467,11 @@ function escapeTypeScriptGenericText(part) {
             let nameEnd = index + 1;
             while (nameEnd < part.length && identChar.test(part[nameEnd])) nameEnd++;
 
-            if (part[nameEnd] === '<') {
+            if (
+                part[nameEnd] === '<' &&
+                part[nameEnd + 1] !== '/' &&
+                !htmlTagAfterAngle.test(part.slice(nameEnd + 1))
+            ) {
                 let depth = 0;
                 let cursor = nameEnd;
                 while (cursor < part.length) {
@@ -534,7 +570,7 @@ function escapeNonHtmlTags(content) {
     for (let line of lines) {
         fence.update(line);
 
-        if (!fence.inCodeBlock) {
+        if (!fence.inCodeBlock && !isMdxEsmLine(line)) {
             // Split by inline code spans; odd-indexed segments are inside backticks
             const parts = line.split(/(`+[^`]+`+)/);
             line = parts.map((part, i) => {
@@ -610,7 +646,7 @@ function escapeHtmlElementBraces(content) {
     for (let line of lines) {
         fence.update(line);
 
-        if (!fence.inCodeBlock) {
+        if (!fence.inCodeBlock && !isMdxEsmLine(line)) {
             // Split by inline code spans; odd-indexed segments are inside backticks
             const codeParts = line.split(/(`+[^`]+`+)/);
             line = codeParts.map((part, i) => {
@@ -766,6 +802,13 @@ async function applyMdxPatches(content) {
                 switch (error.ruleId) {
                     case 'acorn':
                         offset = error.place.offset;
+
+                        if (
+                            error.place?.line &&
+                            isMdxEsmLine(patchedContent.split('\n')[error.place.line - 1] || '')
+                        ) {
+                            break;
+                        }
 
                         if (offset !== undefined && offset > 0 && offset < patchedContent.length) {
                             for (let i = offset - 1; i >= 0; i--) {

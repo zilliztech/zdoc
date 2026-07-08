@@ -150,7 +150,7 @@ Methods of `QueryResultsWrapper`:
      <td><p>getRowRecords()</p></td>
      <td><p>Gets row records list from the query result.</p></td>
      <td><p>N/A</p></td>
-     <td><p>List\<QueryResultsWrapper.RowRecord></p></td>
+     <td><p>List&lt;QueryResultsWrapper.RowRecord&gt;</p></td>
    </tr>
 </table>
 

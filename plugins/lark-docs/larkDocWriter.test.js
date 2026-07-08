@@ -55,6 +55,18 @@ function headingBlock(block_id, parent_id, level, elements) {
   };
 }
 
+function codeBlock(block_id, parent_id, content, style = { wrap: false }) {
+  return {
+    block_id,
+    block_type: 14,
+    parent_id,
+    code: {
+      elements: [textRun(content)],
+      style,
+    },
+  };
+}
+
 function gridBlock(block_id, children, columnSize = children.length) {
   return {
     block_id,
@@ -469,6 +481,28 @@ async function testBaseTablesRetriesPrematureClose() {
   }
 }
 
+async function testCodeBlocksInferLanguageWhenFeishuOmitsLanguage() {
+  const writer = createWriter([]);
+  const python = await writer.__code(
+    codeBlock('code-python', 'page', 'from pymilvus import MilvusClient\n\ncollections = client.list_collections()').code,
+    0,
+    null,
+    null,
+    []
+  );
+  const java = await writer.__code(
+    codeBlock('code-java', 'page', 'import io.milvus.v2.client.MilvusClientV2;\n\nString TOKEN = "YOUR_CLUSTER_TOKEN";').code,
+    0,
+    null,
+    null,
+    []
+  );
+
+  assert.match(python, /^```python\n/);
+  assert.match(java, /^```java\n/);
+  assert.doesNotMatch(python + java, /```plaintext/);
+}
+
 async function run() {
   testExampleHttpUrlsPreservesRawExampleUrls();
   testExampleHttpUrlsSkipsInlineCodeSpans();
@@ -487,6 +521,7 @@ async function run() {
   await testMarkedGridWithoutHeadingFallsBackAndSuppressesMarker();
   await testMarkedGridWithUnsupportedIconFallsBackAndSuppressesMarker();
   await testFeatureCardMarkerWithoutIconsFallsBackAndSuppressesMarker();
+  await testCodeBlocksInferLanguageWhenFeishuOmitsLanguage();
   await testBaseTablesRetriesPrematureClose();
   console.log('larkDocWriter tests passed');
 }

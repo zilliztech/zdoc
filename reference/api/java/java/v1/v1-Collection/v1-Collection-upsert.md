@@ -56,7 +56,7 @@ Methods of `UpsertParam.Builder`:
         <td><p>partitionName: The name of the partition to insert data into.</p></td>
     </tr>
     <tr>
-        <td><p>withFields(List\<InsertParam.Field> fields)</p></td>
+        <td><p>withFields(List&lt;InsertParam.Field&gt; fields)</p></td>
         <td><p>Sets the column-based data to be inserted. The fields list cannot be empty. <br/>Note that no input is required for the primary key field if auto-id is enabled.</p></td>
         <td><p>fields: A list of Field objects, each representing a field.</p></td>
     </tr>

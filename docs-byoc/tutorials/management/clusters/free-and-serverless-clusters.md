@@ -16,7 +16,8 @@ displayed_sidebar: default
 ---
 
 import Admonition from '@theme/Admonition';
-
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 # Free & Serverless Clusters
 
@@ -24,7 +25,7 @@ Free and Serverless clusters are serving clusters. Use this page for the basic l
 
 <Admonition type="info" icon="📘" title="Note">
 
-For Dedicated clusters, see [Dedicated Cluster](./manage-cluster). For on-demand search through a project endpoint, see [Connect for On-Demand Search](./connect-for-on-demand-search).
+For Dedicated clusters, see [Dedicated Cluster](./manage-cluster). For on-demand search through a project endpoint, see Connect for On-Demand Search.
 
 </Admonition>
 
@@ -44,7 +45,7 @@ You can also create clusters through the RESTful API.
 
 ### Create a Free cluster\{#create-a-free-cluster}
 
-````plaintext
+```bash
 curl --request POST \
      --url "https://api.cloud.zilliz.com/v2/clusters/createFree" \
      --header "Authorization: Bearer ${API_KEY}" \
@@ -57,9 +58,9 @@ curl --request POST \
     }'
 ```
 
-### Create a Serverless cluster{#create-a-serverless-cluster}
+### Create a Serverless cluster\{#create-a-serverless-cluster}
 
-```plaintext
+```bash
 curl --request POST \
      --url "https://api.cloud.zilliz.com/v2/clusters/createServerless" \
      --header "Authorization: Bearer ${API_KEY}" \
@@ -79,17 +80,20 @@ curl --request POST \
 | `projectId` | ID of the project where the cluster will be created. |
 | `regionId` | ID of the cloud region where the cluster will be created. |
 
-## Connect{#connect}
+## Connect\{#connect}
 
 Free and Serverless clusters use the following serving endpoint pattern:
 
-```plaintext
+```bash
 https://{cluster-id}.serverless.{region}.vectordb.zillizcloud.com
 ```
 
 Copy the cluster public endpoint from the **Connect** card on the cluster details page. Use either an API key with access to the cluster or a cluster credential in `username:password` format as the token.
 
-```plaintext
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
 from pymilvus import MilvusClient
 
 CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT"
@@ -101,7 +105,11 @@ client = MilvusClient(
 )
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='java'>
+
+```java
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.client.ConnectConfig;
 
@@ -116,7 +124,11 @@ ConnectConfig connectConfig = ConnectConfig.builder()
 MilvusClientV2 client = new MilvusClientV2(connectConfig);
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='go'>
+
+```go
 import "github.com/milvus-io/milvus/client/v2/milvusclient"
 
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
@@ -125,7 +137,11 @@ client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
 })
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
 const { MilvusClient } = require("@zilliz/milvus2-sdk-node");
 
 const address = "YOUR_CLUSTER_ENDPOINT";
@@ -134,7 +150,11 @@ const token = "YOUR_CLUSTER_TOKEN";
 const client = new MilvusClient({ address, token });
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
 curl --request POST \
   --url "YOUR_CLUSTER_ENDPOINT" \
   --header "Authorization: Bearer YOUR_CLUSTER_TOKEN" \
@@ -142,14 +162,17 @@ curl --request POST \
   --data '{"dbName": "default"}'
 ```
 
+</TabItem>
+</Tabs>
+
 To verify the connection, run a lightweight operation such as listing collections.
 
-```plaintext
+```python
 collections = client.list_collections()
 print(collections)
 ```
 
-## Manage{#manage}
+## Manage\{#manage}
 
 You can manage Free and Serverless clusters from the cluster details page.
 
@@ -162,14 +185,14 @@ You can manage Free and Serverless clusters from the cluster details page.
 
 When an upgrade creates a new Dedicated cluster, remember to update the cluster endpoint in your application code.
 
-## Drop{#drop}
+## Drop\{#drop}
 
 To drop a cluster programmatically, call the drop cluster API with the cluster ID.
 
-```plaintext
+```bash
 curl --request POST \
      --url "https://api.cloud.zilliz.com/v2/clusters/${CLUSTER_ID}/drop" \
      --header "Authorization: Bearer ${API_KEY}" \
      --header "Accept: application/json" \
      --header "Content-Type: application/json"
-````
+```

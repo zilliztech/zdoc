@@ -16,7 +16,8 @@ displayed_sidebar: default
 ---
 
 import Admonition from '@theme/Admonition';
-
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 # Connect to Serving Clusters
 
@@ -39,7 +40,10 @@ Zilliz Cloud provides various serving cluster deployment options to accommodate 
 
 Copy the cluster public endpoint from the **Connect** card on the cluster details page. Use either an API key with access to the cluster or a cluster credential in `username:password` format as the token.
 
-````plaintext
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
 from pymilvus import MilvusClient
 
 CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT"
@@ -51,7 +55,11 @@ client = MilvusClient(
 )
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='java'>
+
+```java
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.client.ConnectConfig;
 
@@ -66,7 +74,11 @@ ConnectConfig connectConfig = ConnectConfig.builder()
 MilvusClientV2 client = new MilvusClientV2(connectConfig);
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='go'>
+
+```go
 import "github.com/milvus-io/milvus/client/v2/milvusclient"
 
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
@@ -75,7 +87,11 @@ client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
 })
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
 const { MilvusClient } = require("@zilliz/milvus2-sdk-node");
 
 const address = "YOUR_CLUSTER_ENDPOINT";
@@ -84,26 +100,36 @@ const token = "YOUR_CLUSTER_TOKEN";
 const client = new MilvusClient({ address, token });
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
 curl --request POST \
   --url "YOUR_CLUSTER_ENDPOINT" \
   --header "Authorization: Bearer YOUR_CLUSTER_TOKEN" \
   --header "Content-Type: application/json" \
   --data '{"dbName": "default"}'
 ```
+
+</TabItem>
+</Tabs>
 
 To verify the connection, run a lightweight operation such as listing collections.
 
-```plaintext
+```python
 collections = client.list_collections()
 print(collections)
 ```
 
-## Connect to Dedicated clusters{#connect-to-dedicated-clusters}
+## Connect to Dedicated clusters\{#connect-to-dedicated-clusters}
 
 Use the cluster endpoint and token consistently across SDKs. `YOUR_CLUSTER_ENDPOINT` is the public endpoint copied from the cluster **Connect** card, and `YOUR_CLUSTER_TOKEN` is either an API key with access to the target cluster or a cluster credential in `username:password` format.
 
-```plaintext
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
 from pymilvus import MilvusClient
 
 CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT"
@@ -115,7 +141,11 @@ client = MilvusClient(
 )
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='java'>
+
+```java
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.client.ConnectConfig;
 
@@ -130,7 +160,11 @@ ConnectConfig connectConfig = ConnectConfig.builder()
 MilvusClientV2 client = new MilvusClientV2(connectConfig);
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='go'>
+
+```go
 import "github.com/milvus-io/milvus/client/v2/milvusclient"
 
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
@@ -139,7 +173,11 @@ client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
 })
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
 const { MilvusClient } = require("@zilliz/milvus2-sdk-node");
 
 const address = "YOUR_CLUSTER_ENDPOINT";
@@ -148,7 +186,11 @@ const token = "YOUR_CLUSTER_TOKEN";
 const client = new MilvusClient({ address, token });
 ```
 
-```plaintext
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
 curl --request POST \
   --url "YOUR_CLUSTER_ENDPOINT" \
   --header "Authorization: Bearer YOUR_CLUSTER_TOKEN" \
@@ -156,11 +198,14 @@ curl --request POST \
   --data '{"dbName": "default"}'
 ```
 
-## Verify the connection{#verify-the-connection}
+</TabItem>
+</Tabs>
+
+## Verify the connection\{#verify-the-connection}
 
 After connecting with an SDK, run a lightweight operation such as listing collections.
 
-```plaintext
+```python
 collections = client.list_collections()
 print(collections)
-````
+```
