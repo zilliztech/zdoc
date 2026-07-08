@@ -377,6 +377,12 @@ You can migrate data from other vendors to your Zilliz Cloud cluster, and the ma
 | Free | 5 |
 | Serverless / Dedicated | 10 |
 
+## Private Endpoints\{#private-endpoints}
+
+| **Item** | **Max Number** | **Remarks** |
+| --- | --- | --- |
+| Private Endpoint | 10 | You can create up to 10 private endpoints per project. |
+
 
 
 import DocCardList from '@theme/DocCardList';

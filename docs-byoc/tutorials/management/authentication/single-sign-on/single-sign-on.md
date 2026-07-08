@@ -24,6 +24,12 @@ Single sign-on (SSO) is a feature that allows users to log in to multiple applic
 
 Zilliz Cloud allows you to enable SSO via the OpenID Connect ([OIDC](https://help.okta.com/en-us/content/topics/apps/apps_app_integration_wizard_oidc.htm)) or [SAML 2.0](https://help.okta.com/en-us/content/topics/apps/apps_app_integration_wizard_saml.htm) protocol. This feature works at the organizational level.
 
+<FeatureNote variant="plan" titleHref="/docs/select-zilliz-cloud-service-plans">
+
+This feature is available only with the Enterprise plan or higher, and BYOC deployments.
+
+</FeatureNote>
+
 
 
 import DocCardList from '@theme/DocCardList';

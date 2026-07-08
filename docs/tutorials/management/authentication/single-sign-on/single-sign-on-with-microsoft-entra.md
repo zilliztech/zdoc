@@ -24,6 +24,12 @@ import Procedures from '@site/src/components/Procedures';
 
 # Microsoft Entra (SAML 2.0)
 
+<FeatureNote variant="plan" titleHref="/docs/select-zilliz-cloud-service-plans">
+
+This feature is available only with the Enterprise plan or higher, and BYOC deployments.
+
+</FeatureNote>
+
 This topic describes how to configure single sign-on (SSO) with Microsoft Entra using the SAML 2.0 protocol.
 
 In this guide, Zilliz Cloud acts as the Service Provider (SP) and Microsoft Entra acts as the Identity Provider (IdP). The following digram illustrates the necessary steps in Zilliz Cloud and Microsoft Entra admin center.

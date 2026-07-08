@@ -124,13 +124,13 @@ To prepare migration data for Milvus 2.x,
 
             ```plaintext
             # configure a Minio host
-            mc alias set my_minio https://&lt;minio_endpoint&gt; <accessKey> <secretKey>
+            mc alias set my_minio https://<minio_endpoint> <accessKey> <secretKey>
             
             # List the available buckets
             mc ls my_minio
             
             # Download a file from the bucket
-            mc cp --recursive my_minio/&lt;your-bucket-path&gt; &lt;local_dir_path&gt;
+            mc cp --recursive my_minio/<your-bucket-path> <local_dir_path>
             ```
 
 1. Decompress the downloaded archive and upload only the content of the **backup** folder to Zilliz Cloud.

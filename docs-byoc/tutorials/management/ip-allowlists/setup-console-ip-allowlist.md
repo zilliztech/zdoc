@@ -22,6 +22,12 @@ import Supademo from '@site/src/components/Supademo';
 
 # Set Up Console IP Allowlist
 
+<FeatureNote variant="plan" titleHref="/docs/select-zilliz-cloud-service-plans">
+
+This feature is available only with the Enterprise plan or higher, and BYOC deployments.
+
+</FeatureNote>
+
 By default, your organization’s web console is accessible from any IP address. To restrict access and enhance security, configure a console IP allowlist so that uses can access the web console only from specified addresses, such as the IP of your office network.
 
 The console IP allowlist applies only to the organization web console. It does not control access to project clusters.

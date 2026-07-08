@@ -143,8 +143,8 @@ For simplicity, create a policy using the JSON editor.
                     "s3:GetBucketLocation"
                 ],
                 "Resource": [
-                    "arn:aws:s3:::&lt;bucket&gt;",
-                    "arn:aws:s3:::&lt;bucket&gt;/*"
+                    "arn:aws:s3:::<bucket>",
+                    "arn:aws:s3:::<bucket>/*"
                 ]
             }
         ]
@@ -167,8 +167,8 @@ For simplicity, create a policy using the JSON editor.
                     "s3:GetBucketLocation"
                 ],
                 "Resource": [
-                    "arn:aws:s3:::&lt;bucket&gt;",
-                    "arn:aws:s3:::&lt;bucket&gt;/*"
+                    "arn:aws:s3:::<bucket>",
+                    "arn:aws:s3:::<bucket>/*"
                 ]
             },
             {
@@ -177,7 +177,7 @@ For simplicity, create a policy using the JSON editor.
                 "Action": [
                     "kms:GenerateDataKey"
                 ],
-                "Resource": "arn:aws:kms:&lt;region&gt;:&lt;account_id&gt;:key/&lt;key_id&gt;"
+                "Resource": "arn:aws:kms:<region>:<account_id>:key/<key_id>"
             }
         ]
     }

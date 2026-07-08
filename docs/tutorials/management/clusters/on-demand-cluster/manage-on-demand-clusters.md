@@ -22,17 +22,23 @@ import Procedures from '@site/src/components/Procedures';
 
 # Manage On-Demand Cluster
 
+<FeatureNote variant="plan" titleHref="/docs/select-zilliz-cloud-service-plans">
+
+This feature is available only with the Enterprise plan or higher.
+
+</FeatureNote>
+
+<FeatureNote variant="region" titleHref="/docs/cloud-providers-and-regions">
+
+This feature is currently available only in AWS us-west-2 and Azure East US regions. To use on-demand clusters in other regions, [contact us](http://zilliz.com/contact-sales).
+
+</FeatureNote>
+
 This guide describes how to view, inspect, and drop on-demand clusters in Zilliz Cloud.
 
 On-demand clusters provide compute for on-demand search workloads. They spin up when requests arrive and scale back to zero when idle, based on the auto-suspend timeout configured when the cluster is created.
 
-For details about the roles and permissions, see [Manage Project Users](./project-users#project-role-and-access-comparison).
-
-<Admonition type="info" icon="📘" title="Note">
-
-To manage an on-demand cluster, you need to be a Project Admin in the target project.
-
-</Admonition>
+To manage an on-demand cluster, you need to be a Project Admin in the target project. For details about the roles and permissions, see [Manage Project Users](./project-users#project-role-and-access-comparison).
 
 ## View all on-demand clusters\{#view-all-on-demand-clusters}
 
@@ -40,7 +46,7 @@ Use this operation to list the on-demand clusters in a project and region.
 
 ### Via RESTful API\{#via-restful-api}
 
-```plaintext
+```bash
 curl --request GET \
      --url "${BASE_URL}/v2/clusters/onDemandClusters?projectId=proj-xxxxxxxxxxxxxxx&regionId=aws-us-west-2" \
      --header "Authorization: Bearer ${TOKEN}" \
@@ -108,7 +114,7 @@ Use this operation to inspect one on-demand cluster by cluster ID.
 
 ### Via RESTful API\{#via-restful-api}
 
-```plaintext
+```bash
 curl --request GET \
      --url "https://${BASE_URL}/v2/on-demand-compute?projectId=proj-09ee1f4b1151d5dd1edbc5&regionId=aws-us-west-2" \
      --header "Authorization: Bearer ${API_KEY}" \
@@ -162,7 +168,7 @@ When a request arrives for a suspended on-demand cluster, Zilliz Cloud spins up 
 
     ```bash
     curl --request PATCH \
-    --url "$\{BASE_URL\}/v2/clusters/onDemandClusters/${CLUSTER_ID}" \
+    --url "${BASE_URL}/v2/clusters/onDemandClusters/${CLUSTER_ID}" \
     --header "Authorization: Bearer ${TOKEN}" \
     --header "OrgId: org-xxxxxxxxxxxxxxxxxxx" \
     --header "Content-Type: application/json" \
@@ -207,7 +213,7 @@ When a request arrives for a suspended on-demand cluster, Zilliz Cloud spins up 
 
     ```bash
     curl --request PATCH \
-    --url "$\{BASE_URL\}/v2/clusters/onDemandClusters/${CLUSTER_ID}" \
+    --url "${BASE_URL}/v2/clusters/onDemandClusters/${CLUSTER_ID}" \
     --header "Authorization: Bearer ${TOKEN}" \
     --header "OrgId: org-xxxxxxxxxxxxxxxxxxx" \
     --header "Content-Type: application/json" \
@@ -254,7 +260,7 @@ Once you drop an on-demand cluster, it is removed immediately and cannot be reco
 
 ### Via RESTful API\{#via-restful-api}
 
-```plaintext
+```bash
 curl --request DELETE \
      --url "${BASE_URL}/v2/clusters/onDemandClusters/inxx-xxxxxxxxxxxxxxx" \
      --header "Authorization: Bearer ${TOKEN}" \

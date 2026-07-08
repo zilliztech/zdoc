@@ -25,7 +25,7 @@ Free and Serverless clusters are serving clusters. Use this page for the basic l
 
 <Admonition type="info" icon="📘" title="Note">
 
-For Dedicated clusters, see [Dedicated Cluster](./manage-cluster). For on-demand search through a project endpoint, see Connect for On-Demand Search.
+For Dedicated clusters, see [Dedicated Cluster](./manage-cluster). For on-demand search through a project endpoint, see [Connect for On-Demand Search](./connect-for-on-demand-search).
 
 </Admonition>
 

@@ -86,6 +86,10 @@ Zilliz Cloud supports the following data sources, and you should provide the cor
     }
     ```
 
+- `milvus-table`
+
+    Set `external_source` to the concrete Milvus snapshot metadata JSON file. For details, refer to [Use Milvus Snapshot as a Data Source](./undefined).
+
 ### Set up schema\{#set-up-schema}
 
 Once you have an external volume containing the target data files, create the schema to map collection columns to Parquet files (`parquet`), a lance table (`lance-table`), an Iceberg table (`iceberg-table`), or Vortex files of the 0.56.0 format (`vortex`).
@@ -661,3 +665,8 @@ Once you have refreshed the external collection, you can  perform similarity sea
 
 Before conducting DQL operations, such as search, query, get, and hybrid search, you need to create a session to attach the compute resources of an on-demand cluster. For details, refer to [On-Demand DQL Operations](./dql-sessions-external-collection).
 
+
+
+import DocCardList from '@theme/DocCardList';
+
+<DocCardList />

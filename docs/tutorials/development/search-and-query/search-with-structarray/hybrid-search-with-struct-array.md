@@ -56,7 +56,7 @@ For index setup, see [Index StructArray Fields](./index-struct-array).
 
 EmbeddingList search on a StructArray vector subfield is entity-level in hybrid search. It behaves like an entity-level vector search request and does not return one matched Struct element offset.
 
-```plaintext
+```python
 from pymilvus import AnnSearchRequest, MilvusClient, RRFRanker
 from pymilvus.client.embedding_list import EmbeddingList
 

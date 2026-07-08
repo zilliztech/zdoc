@@ -48,7 +48,7 @@ This page is for connecting to a project endpoint for on-demand search. If you w
 
 Create a `MilvusClient` with the project endpoint and specify the on-demand cluster that should serve the request.
 
-```plaintext
+```python
 from pymilvus import MilvusClient
 
 client = MilvusClient(
@@ -68,7 +68,7 @@ session = client.session(cluster_id="inxx-xxxxxxxxxxxxxxx")
 
 Then use the session to run DQL operations such as `query`, `get`, `search`, and `hybrid_search`.
 
-```plaintext
+```python
 results = session.search(
     collection_name="my_collection",
     data=[[0.1, 0.2, 0.3, 0.4]],

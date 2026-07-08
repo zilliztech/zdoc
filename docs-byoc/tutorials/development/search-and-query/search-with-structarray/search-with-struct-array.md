@@ -57,7 +57,7 @@ A vector field or vector subfield accepts only one index. If you need both Embed
 
 Use EmbeddingList search when the query itself contains multiple vectors and the target StructArray vector subfield is indexed with a `MAX_SIM*` metric. The result is an entity-level match.
 
-```plaintext
+```python
 from pymilvus import MilvusClient
 from pymilvus.client.embedding_list import EmbeddingList
 

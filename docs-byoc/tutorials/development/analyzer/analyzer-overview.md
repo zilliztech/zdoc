@@ -798,14 +798,14 @@ schema->SetEnableDynamicField(false);
     Map<String, Object> analyzerParamsBuiltin = new HashMap<>();
     analyzerParamsBuiltin.put("type", "english");
     
-    List&lt;String&gt; texts = new ArrayList<>();
+    List<String> texts = new ArrayList<>();
     texts.add("Milvus simplifies text analysis for search.");
     
     RunAnalyzerResp resp = client.runAnalyzer(RunAnalyzerReq.builder()
             .texts(texts)
             .analyzerParams(analyzerParamsBuiltin)
             .build());
-    List&lt;RunAnalyzerResp.AnalyzerResult&gt; results = resp.getResults();
+    List<RunAnalyzerResp.AnalyzerResult> results = resp.getResults();
     ```
 
     </TabItem>
@@ -937,14 +937,14 @@ if (!status.IsOk()) {
             )
     );
     
-    List&lt;String&gt; texts = new ArrayList<>();
+    List<String> texts = new ArrayList<>();
     texts.add("Milvus provides flexible, customizable analyzers for robust text processing.");
     
     RunAnalyzerResp resp = client.runAnalyzer(RunAnalyzerReq.builder()
             .texts(texts)
             .analyzerParams(analyzerParamsCustom)
             .build());
-    List&lt;RunAnalyzerResp.AnalyzerResult&gt; results = resp.getResults();
+    List<RunAnalyzerResp.AnalyzerResult> results = resp.getResults();
     ```
 
     </TabItem>

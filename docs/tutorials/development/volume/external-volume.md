@@ -25,13 +25,17 @@ import Procedures from '@site/src/components/Procedures';
 
 # External Volumes
 
+<FeatureNote variant="region" titleHref="/docs/cloud-providers-and-regions">
+
+This feature is available in all AWS regions and in all Google Cloud regions. It is not available on Microsoft Azure. To use volumes in Azure, [contact us](https://support.zilliz.com/).
+
+</FeatureNote>
+
 An external volume is a read-only reference to a bucket or path in your own cloud object storage (such as AWS S3 or Google Cloud Storage), allowing Zilliz Cloud to access your data in place without copying or moving it. 
 
 This page explains how to create and delete external volumes via the web console and SDKs.                      
 
 ## Considerations\{#considerations}
-
-- Volumes are available on **AWS** and **Google Cloud** only. For **Azure**, [contact support](https://support.zilliz.com/).
 
 - A volume is restricted to your project’s cloud provider and region. For example, if your project is in AWS us-west-2, you can create volumes only in AWS us-west-2.
 
@@ -408,7 +412,7 @@ You can check the details of a specific volume.
     export TOKEN="YOUR_API_KEY"
     
     curl --request GET \
-    --url "$\{BASE_URL\}/v2/volumes/${VOLUME_NAME}" \
+    --url "${BASE_URL}/v2/volumes/${VOLUME_NAME}" \
     --header "Authorization: Bearer ${TOKEN}" \
     --header "Content-Type: application/json"
     
@@ -503,7 +507,7 @@ Deleting an external volume removes only the volume metadata from Zilliz Cloud; 
     export VOLUME_NAME="external_volume"
     
     curl --request DELETE \
-    --url "$\{BASE_URL\}/v2/volumes/${VOLUME_NAME}" \
+    --url "${BASE_URL}/v2/volumes/${VOLUME_NAME}" \
     --header "Authorization: Bearer ${TOKEN}" \
     --header "Content-Type: application/json"
     

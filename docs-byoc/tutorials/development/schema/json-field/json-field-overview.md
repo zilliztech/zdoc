@@ -577,7 +577,7 @@ Zilliz Cloud stores string values exactly as they appear in the JSON input—wit
 
 **Examples of valid strings**:
 
-````plaintext
+```plaintext
 "a\"b", "a'b", "a\\b"
 ```
 
@@ -585,5 +585,5 @@ Zilliz Cloud stores string values exactly as they appear in the JSON input—wit
 
 ```plaintext
 'a"b', 'a\'b'
-````
+```
 

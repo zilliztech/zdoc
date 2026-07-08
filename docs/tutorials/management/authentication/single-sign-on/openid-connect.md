@@ -24,6 +24,12 @@ import Procedures from '@site/src/components/Procedures';
 
 # Okta (OIDC)
 
+<FeatureNote variant="plan" titleHref="/docs/select-zilliz-cloud-service-plans">
+
+This feature is available only with the Enterprise plan or higher, and BYOC deployments.
+
+</FeatureNote>
+
 This topic describes how to configure single sign-on (SSO) with Okta using the OpenID Connect (OIDC) protocol.
 
 In this guide, Zilliz Cloud acts as the Service Provider (SP) and Okta acts as the Identity Provider (IdP). The following diagram illustrates the necessary steps in Zilliz Cloud and the Okta console.

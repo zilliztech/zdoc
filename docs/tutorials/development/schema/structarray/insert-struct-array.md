@@ -93,7 +93,7 @@ The `chunks` value is an array of Struct elements. Each element is an object who
 
 Use `client.insert()` to insert rows that contain StructArray values.
 
-```plaintext
+```python
 from pymilvus import MilvusClient
 
 client = MilvusClient(

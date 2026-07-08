@@ -24,6 +24,12 @@ import Procedures from '@site/src/components/Procedures';
 
 # Configure Access Logs
 
+<FeatureNote variant="plan" titleHref="/docs/select-zilliz-cloud-service-plans">
+
+This feature is available only with the Enterprise plan or higher, and BYOC deployments.
+
+</FeatureNote>
+
 This guide covers the full lifecycle of access logs on Zilliz Cloud: enabling, adjusting settings, and disabling.
 
 <Admonition type="info" icon="📘" title="Notes">
@@ -31,8 +37,6 @@ This guide covers the full lifecycle of access logs on Zilliz Cloud: enabling, a
 - This release logs search- or query-class actions only: Search, HybridSearch, and Query. Support for the full action list is planned for a future release.
 
 - Audit log and access log are mutually exclusive in this release — only one can be enabled at a time.
-
-- Access logs are available only for **Dedicated** clusters on **Enterprise** projects. If your cluster is on a different plan or cluster type, consider upgrading it.
 
 </Admonition>
 

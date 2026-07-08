@@ -66,7 +66,7 @@ When only `radius` is set, the range search returns hits that satisfy the outer 
 
 The following example searches individual chunks whose `chunks[emb]` vectors are similar enough to the query vector. Each result hit represents a matched Struct element.
 
-```plaintext
+```python
 from pymilvus import MilvusClient
 
 client = MilvusClient(
@@ -150,7 +150,7 @@ The top-level predicate selects candidate entities. The `element_filter` predica
 
 StructArray element-level vector fields support range search in hybrid search. Add `radius` and, optionally, `range_filter` to the `AnnSearchRequest` that targets the StructArray element-level vector field.
 
-```plaintext
+```python
 from pymilvus import AnnSearchRequest, RRFRanker
 
 title_req = AnnSearchRequest(

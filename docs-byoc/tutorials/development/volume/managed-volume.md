@@ -25,11 +25,15 @@ import Procedures from '@site/src/components/Procedures';
 
 # Managed Volumes
 
+<FeatureNote variant="region" titleHref="/docs/cloud-providers-and-regions">
+
+This feature is available in all AWS regions and in all Google Cloud regions. It is not available on Microsoft Azure. To use volumes in Azure, [contact us](https://support.zilliz.com/).
+
+</FeatureNote>
+
 A managed volume is a Zilliz Cloud-hosted object store for holding data files used in import and migration. This page explains how to create, manage, and delete managed volumes via the web console and SDKs. 
 
 ## Considerations\{#considerations}
-
-- Volumes are available on **AWS** and **Google Cloud** only. For **Azure**, [contact support](https://support.zilliz.com/).
 
 - A volume is restricted to your project’s cloud provider and region. For example, if your project is in AWS us-west-2, you can create volumes only in AWS us-west-2.
 
@@ -450,7 +454,7 @@ You can also check the details of a specific managed volume.
     export TOKEN="YOUR_API_KEY"
     
     curl --request GET \
-    --url "$\{BASE_URL\}/v2/volumes/${VOLUME_NAME}" \
+    --url "${BASE_URL}/v2/volumes/${VOLUME_NAME}" \
     --header "Authorization: Bearer ${TOKEN}" \
     --header "Content-Type: application/json"
     
@@ -726,7 +730,7 @@ Deleted volumes **cannot be recovered**. Proceed with caution.
     export VOLUME_NAME="managed_volume"
     
     curl --request DELETE \
-    --url "$\{BASE_URL\}/v2/volumes/${VOLUME_NAME}" \
+    --url "${BASE_URL}/v2/volumes/${VOLUME_NAME}" \
     --header "Authorization: Bearer ${TOKEN}" \
     --header "Content-Type: application/json"
     

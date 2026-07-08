@@ -151,7 +151,7 @@ For version-specific support and other limits, see [StructArray Limits](./struct
 
 After creating indexes, describe the collection or list indexes to confirm that the expected subfield paths are indexed.
 
-```plaintext
+```python
 indexes = client.list_indexes(
     collection_name="tech_articles",
 )
@@ -161,7 +161,7 @@ print(indexes)
 
 You can also describe a specific index if your SDK version exposes index-description APIs.
 
-```plaintext
+```python
 index = client.describe_index(
     collection_name="tech_articles",
     index_name="chunks_emb_cosine",

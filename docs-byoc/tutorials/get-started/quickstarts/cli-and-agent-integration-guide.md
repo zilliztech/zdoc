@@ -190,7 +190,7 @@ After installation, describe the task directly. Your agent should translate the 
     Expected CLI command:
 
     ```bash
-    zilliz import start --cluster-id &lt;cluster-id&gt; --collection product_embeddings --body '{"files": [["s3://bucket/path/data.json"]]}'
+    zilliz import start --cluster-id <cluster-id> --collection product_embeddings --body '{"files": [["s3://bucket/path/data.json"]]}'
     ```
 
 - **Create a backup for my production cluster.**
@@ -198,7 +198,7 @@ After installation, describe the task directly. Your agent should translate the 
     Expected CLI command:
 
     ```bash
-    zilliz backup create --cluster-id &lt;cluster-id&gt;
+    zilliz backup create --cluster-id <cluster-id>
     ```
 
 - **Search my collection with a metadata filter and return the top 10 results.**

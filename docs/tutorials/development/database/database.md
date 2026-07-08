@@ -47,7 +47,7 @@ When a Dedicated cluster is created, a default database is created automatically
 
 You can create a database from the Zilliz Cloud console or programmatically.
 
-```plaintext
+```python
 from pymilvus import MilvusClient
 
 client = MilvusClient(
@@ -60,7 +60,7 @@ client.create_database(
 )
 ```
 
-```plaintext
+```java
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.database.request.CreateDatabaseReq;
@@ -79,7 +79,7 @@ CreateDatabaseReq request = CreateDatabaseReq.builder()
 client.createDatabase(request);
 ```
 
-```plaintext
+```go
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
     APIKey:  "YOUR_CLUSTER_TOKEN",
@@ -94,7 +94,7 @@ if err != nil {
 }
 ```
 
-```plaintext
+```javascript
 import { MilvusClient } from "@zilliz/milvus2-sdk-node";
 
 const client = new MilvusClient({
@@ -107,7 +107,7 @@ await client.createDatabase({
 });
 ```
 
-```plaintext
+```bash
 curl --request POST \
   --url "YOUR_CLUSTER_ENDPOINT/v2/vectordb/databases/create" \
   --header "Authorization: Bearer YOUR_CLUSTER_TOKEN" \
@@ -128,7 +128,7 @@ client.create_database(
 )
 ```
 
-```plaintext
+```java
 import java.util.HashMap;
 import java.util.Map;
 
@@ -163,7 +163,7 @@ await client.createDatabase({
 });
 ```
 
-```plaintext
+```bash
 curl --request POST \
   --url "YOUR_CLUSTER_ENDPOINT/v2/vectordb/databases/create" \
   --header "Authorization: Bearer YOUR_CLUSTER_TOKEN" \
@@ -180,7 +180,7 @@ curl --request POST \
 
 List databases or describe a specific database.
 
-```plaintext
+```python
 databases = client.list_databases()
 print(databases)
 
@@ -190,7 +190,7 @@ database = client.describe_database(
 print(database)
 ```
 
-```plaintext
+```java
 import io.milvus.v2.service.database.request.DescribeDatabaseReq;
 import io.milvus.v2.service.database.response.DescribeDatabaseResp;
 import io.milvus.v2.service.database.response.ListDatabasesResp;
@@ -218,7 +218,7 @@ if err != nil {
 log.Println(database)
 ```
 
-```plaintext
+```javascript
 const databases = await client.listDatabases();
 console.log(databases);
 
@@ -228,7 +228,7 @@ const database = await client.describeDatabase({
 console.log(database);
 ```
 
-```plaintext
+```bash
 curl --request POST \
   --url "YOUR_CLUSTER_ENDPOINT/v2/vectordb/databases/describe" \
   --header "Authorization: Bearer YOUR_CLUSTER_TOKEN" \
@@ -262,7 +262,7 @@ client.alter_database_properties(
 )
 ```
 
-```plaintext
+```java
 import io.milvus.v2.service.database.request.AlterDatabasePropertiesReq;
 
 client.alterDatabaseProperties(
@@ -293,7 +293,7 @@ await client.alterDatabaseProperties({
 });
 ```
 
-```plaintext
+```bash
 curl --request POST \
   --url "YOUR_CLUSTER_ENDPOINT/v2/vectordb/databases/alter" \
   --header "Authorization: Bearer YOUR_CLUSTER_TOKEN" \
@@ -319,7 +319,7 @@ client.drop_database_properties(
 )
 ```
 
-```plaintext
+```java
 import io.milvus.v2.service.database.request.DropDatabasePropertiesReq;
 import java.util.Collections;
 
@@ -348,7 +348,7 @@ await client.dropDatabaseProperties({
 });
 ```
 
-```plaintext
+```bash
 curl --request POST \
   --url "YOUR_CLUSTER_ENDPOINT/v2/vectordb/databases/alter" \
   --header "Authorization: Bearer YOUR_CLUSTER_TOKEN" \
@@ -409,7 +409,7 @@ client.drop_database(
 )
 ```
 
-```plaintext
+```java
 import io.milvus.v2.service.database.request.DropDatabaseReq;
 
 client.dropDatabase(
@@ -432,7 +432,7 @@ await client.dropDatabase({
 });
 ```
 
-```plaintext
+```bash
 curl --request POST \
   --url "YOUR_CLUSTER_ENDPOINT/v2/vectordb/databases/drop" \
   --header "Authorization: Bearer YOUR_CLUSTER_TOKEN" \

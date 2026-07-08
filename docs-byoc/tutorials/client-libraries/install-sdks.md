@@ -108,12 +108,12 @@ Use Apache Maven or Gradle/Grails to obtain the SDK. Access the [source code on 
 - For Apache Maven, append this to the `pom.xml` dependencies:
 
     ```xml
-    {/* Install Java SDK compatible with Milvus v2.5.x */}
-    &lt;dependency&gt;
+    <!-- Install Java SDK compatible with Milvus v2.5.x -->
+    <dependency>
          <groupId>io.milvus</groupId>
          <artifactId>milvus-sdk-java</artifactId>
-         &lt;version&gt;2.5.15&lt;/version&gt;
-     &lt;/dependency&gt;
+         <version>2.5.15</version>
+     </dependency>
     ```
 
 - For Gradle/Grails, execute:

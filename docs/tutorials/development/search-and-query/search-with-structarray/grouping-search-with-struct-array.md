@@ -55,7 +55,7 @@ For index setup, see [Index StructArray Fields](./index-struct-array).
 
 The following example searches individual chunks first, then groups the element hits by the parent entity's primary key.
 
-```plaintext
+```python
 from pymilvus import MilvusClient
 
 client = MilvusClient(
@@ -131,7 +131,7 @@ Hybrid grouping with StructArray is an element-level feature. It is supported on
 
 The following example assumes the `chunks` StructArray field has two element-level vector subfields, `chunks[emb]` and `chunks[code_emb]`, and both are indexed with regular vector metrics.
 
-```plaintext
+```python
 from pymilvus import AnnSearchRequest, RRFRanker
 
 index_chunk_req = AnnSearchRequest(

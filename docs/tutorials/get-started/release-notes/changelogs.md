@@ -46,7 +46,7 @@ import Grid from '@site/src/components/Grid';
 
     <div>
 
-        **[July 6, 2026](./undefined#byoc-i-now-available-on-gcp)**
+        **[July 6, 2026](./release-notes-2607#byoc-i-now-available-on-gcp)**
 
     </div>
 

@@ -78,6 +78,12 @@ module.exports = [
           },
           {
             "type": "doc",
+            "id": "tutorials/get-started/release-notes/release-notes-2607",
+            "label": "July, 2026",
+            "key": "doc:tutorials/get-started/release-notes/release-notes-2607"
+          },
+          {
+            "type": "doc",
             "id": "tutorials/get-started/release-notes/release-notes-2606",
             "label": "June, 2026",
             "key": "doc:tutorials/get-started/release-notes/release-notes-2606"
@@ -587,10 +593,14 @@ module.exports = [
             "key": "doc:tutorials/development/collection/manage-collections-sdks"
           },
           {
-            "type": "doc",
-            "id": "tutorials/development/collection/create-external-collection",
+            "type": "category",
             "label": "Create an External Collection",
-            "key": "doc:tutorials/development/collection/create-external-collection"
+            "key": "category:tutorials/development/collection/create-external-collection",
+            "link": {
+              "type": "doc",
+              "id": "tutorials/development/collection/create-external-collection/create-external-collection"
+            },
+            "items": []
           },
           {
             "type": "doc",

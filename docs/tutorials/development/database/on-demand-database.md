@@ -22,13 +22,17 @@ import Procedures from '@site/src/components/Procedures';
 
 # Database for On-Demand Search
 
+<FeatureNote variant="plan" titleHref="/docs/select-zilliz-cloud-service-plans">
+
+This feature is available only with the Enterprise plan or higher.
+
+</FeatureNote>
+
 A database for on-demand search is a project-level database managed by Zilliz Cloud. It is not tied to a serving cluster. Use this page to create, view, and drop databases through a project endpoint.
 
 <Admonition type="info" icon="📘" title="Notes">
 
-- This page is for project-level databases used by on-demand search. For databases hosted by serving clusters, see [Database in Serving Clusters](./database). For a comparison of database models, see [Database Explained](./database-concept).
-
-- This feature is only available to Enterprise projects.
+This page is for project-level databases used by on-demand search. For databases hosted by serving clusters, see [Database in Serving Clusters](./database). For a comparison of database models, see [Database Explained](./database-concept).
 
 </Admonition>
 
@@ -61,7 +65,7 @@ All collections, including managed collections and external collections, in an o
 
 This database is a project-level resource shared by on-demand compute in the project.
 
-```plaintext
+```bash
 curl --request POST \
   --url "YOUR_PROJECT_ENDPOINT/v2/vectordb/databases/create" \
   --header "Authorization: Bearer YOUR_API_KEY" \
@@ -91,7 +95,7 @@ You can also create a database from the Zilliz Cloud console:
 
 ## View databases\{#view-databases}
 
-```plaintext
+```bash
 curl --request POST \
   --url "YOUR_PROJECT_ENDPOINT/v2/vectordb/databases/list" \
   --header "Authorization: Bearer YOUR_API_KEY" \
@@ -111,7 +115,7 @@ Once you drop a database, it is removed immediately and cannot be recovered. Thi
 
 Before dropping a database, drop all collections in the database first.
 
-```plaintext
+```bash
 curl --request POST \
   --url "YOUR_PROJECT_ENDPOINT/v2/vectordb/databases/drop" \
   --header "Authorization: Bearer YOUR_API_KEY" \

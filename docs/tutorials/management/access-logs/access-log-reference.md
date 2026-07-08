@@ -20,6 +20,12 @@ import Admonition from '@theme/Admonition';
 
 # Access Log Reference
 
+<FeatureNote variant="plan" titleHref="/docs/select-zilliz-cloud-service-plans">
+
+This feature is available only with the Enterprise plan or higher, and BYOC deployments.
+
+</FeatureNote>
+
 Access logs are delivered in [JSON Lines](https://jsonlines.org/) format - one JSON object per line. Each line is a self-contained JSON object representing a single operation. The following example shows a log entry of the Search operation:
 
 ```json
@@ -115,7 +121,7 @@ Support for additional actions is planned for a future release.
 
 Log files are organized in your object storage bucket with the following path structure:
 
-````plaintext
+```plaintext
 /<Cluster ID>/<Log type>/<Date>/<File name><File name suffix>
 ```
 
@@ -124,12 +130,12 @@ Log files are organized in your object storage bucket with the following path st
 | Cluster ID | The cluster's unique identifier | `inxx-xxxxxxxxxxxxxxx` |
 | Log type | access, audit, or slow | `access` |
 | Date | ISO date (YYYY-MM-DD) | `2024-12-20` |
-| File name | HH:MM:SS-<UUID>, where HH:MM:SS is the UTC time and <UUID> is a random string for uniqueness | `09:16:53-jz5l7D8Q` |
+| File name | HH:MM:SS-&lt;UUID&gt;, where HH:MM:SS is the UTC time and &lt;UUID&gt; is a random string for uniqueness | `09:16:53-jz5l7D8Q` |
 | File name suffix | .log | `.log` |
 
 Full path example:
 
 ```plaintext
 /inxx-xxxxxxxxxxxxxxx/access/2024-12-20/09:16:53-jz5l7D8Q.log
-````
+```
 

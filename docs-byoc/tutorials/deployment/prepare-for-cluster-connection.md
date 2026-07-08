@@ -10,7 +10,7 @@ notebook: FALSE
 description: "All BYOC clusters are hosted entirely on your own virtual networks (AWS VPC, GCP VPC, or Microsoft Azure VNet) and do not have public endpoints. This guide explains the two approaches to connecting to these BYOC clusters. | BYOC"
 type: origin
 token: Ah0DwMIWsilLa4kVbYocJGCMnlh
-sidebar_position: 6
+sidebar_position: 7
 displayed_sidebar: default
 
 ---

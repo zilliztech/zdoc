@@ -172,6 +172,53 @@ To find entities where `price` raised to the power of 2 is greater than 1000:
 filter = 'price ** 2 > 1000'
 ```
 
+## Bitwise operators\{#bitwise-operators}
+
+Bitwise operators are useful when an integer field encodes multiple flags, such as permissions, feature flags, or status bits. You can use these operators in filter expressions to check, combine, or compare individual bits in an integer value.
+
+For scalar fields, bitwise operators apply to integer field types, such as `INT8`, `INT16`, `INT32`, and `INT64`.
+
+### Supported bitwise operators\{#supported-bitwise-operators}
+
+| **Operator** | **Name** | **Typical use** |
+| --- | --- | --- |
+| `&` | Bitwise AND | Check whether specific bits are set. |
+| `\|` | Bitwise OR | Combine bits before comparison. |
+| `^` | Bitwise XOR | Compare bit differences between two values. |
+
+### Example: Filtering by permission bits\{#example-filtering-by-permission-bits}
+
+Assume you have an integer field named `permissions`, and each bit in the integer represents a permission flag:
+
+| **Permission flag** | **Bit value** |
+| --- | --- |
+| `READ` | `1` |
+| `WRITE` | `2` |
+| `SHARE` | `4` |
+| `ADMIN` | `8` |
+
+For example, `permissions = 5` means that the `READ` and `SHARE` bits are set, because `5 = 1 + 4`.
+
+To find entities where the `SHARE` bit is set, use bitwise AND (`&`):
+
+```python
+filter = "(permissions & 4) == 4"
+```
+
+To find entities where setting the `WRITE` bit produces the `READ + WRITE + SHARE` permission set, use bitwise OR (`|`):
+
+```python
+filter = "(permissions | 2) == 7"
+```
+
+To find entities whose permission bits differ from `READ + WRITE + SHARE` by only the `WRITE` bit, use bitwise XOR (`^`):
+
+```python
+filter = "(permissions ^ 7) == 2"
+```
+
+Note: Always wrap the bitwise operation in parentheses before comparing the result, such as `(permissions & 4) == 4`. 
+
 ## Logical Operators\{#logical-operators}
 
 Logical operators are used to combine multiple conditions into a more complex filter expression. These include `AND`, `OR`, and `NOT`.

@@ -10,7 +10,7 @@ notebook: FALSE
 description: "(placeholder) | Cloud"
 type: origin
 token: N2XtwwchPi79M7kW1UjcnjC4nzc
-sidebar_position: 4
+sidebar_position: 5
 displayed_sidebar: releasesSidebar
 
 ---
@@ -58,7 +58,7 @@ import Grid from '@site/src/components/Grid';
 
         You can access collection-level metrics from the Console UI, Prometheus endpoint, or RESTful API.For details, refer to [Metrics Reference](./metrics-alerts-reference) and [Integrate with Prometheus](./prometheus-monitoring).
 
-        ## Access Logs | PUBLIC\{#access-logs}
+        ## Access Logs | PUBLIC\{#access-logs-or-public}
 
         Zilliz Cloud now supports Access Logs for capturing query-level activity (Search, Hybrid Search, Query) on your clusters, designed for performance analysis and business insights. Key capabilities:
 

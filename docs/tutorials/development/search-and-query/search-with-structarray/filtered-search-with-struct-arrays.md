@@ -42,7 +42,7 @@ This page explains how to use StructArray filters in search workflows. For the f
 
 Use regular filter expressions when the condition belongs to the parent entity, not to an individual Struct element. This works with both EmbeddingList search and element-level search.
 
-```plaintext
+```python
 from pymilvus import MilvusClient
 from pymilvus.client.embedding_list import EmbeddingList
 
@@ -164,7 +164,7 @@ Use `MATCH_ANY` here because the EmbeddingList search result is entity-level. Th
 
 In hybrid search, apply StructArray filters where the condition should take effect. A top-level filter can be shared by the whole hybrid search. An `element_filter` should be attached to the StructArray element-level request that needs element-level constraints.
 
-```plaintext
+```python
 from pymilvus import AnnSearchRequest, RRFRanker
 
 query_vector = [0.19, 0.24, 0.30, 0.37]

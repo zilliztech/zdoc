@@ -20,15 +20,11 @@ import Admonition from '@theme/Admonition';
 
 # Snapshots
 
-A snapshot is a point-in-time image of a Milvus collection, ideal for quick rollbacks, versioning, and testing. It captures the collection's state at a specific timestamp and stores only metadata and manifest files, such as the schema, indexes, and vector data files (binlogs), for efficient storage and restoration. 
-
-<Admonition type="info" icon="📘" title="Notes">
+A snapshot is a point-in-time image of a Milvus collection, ideal for quick rollbacks, versioning, and testing. It captures the collection's state at a specific timestamp and stores only metadata and manifest files, such as the schema, indexes, and vector data files (binlogs), for efficient storage and restoration.
 
 Snapshots are quick, point-in-time images of data, suitable for fast rollbacks or testing (**days to weeks**). At the same time, backups are independent, complete copies stored separately for long-term disaster recovery (**weeks to years**) and for better protection against total storage failure. 
 
-To create backups, refer to [Create Backup](./create-backup) and its sibling pages.
-
-</Admonition>
+To create backups, refer to .
 
 ## Snapshot anatomy\{#snapshot-anatomy}
 
@@ -54,7 +50,7 @@ When you create a snapshot for a collection, Milvus collects the following:
 
 Among the above information, Milvus generates an Apache Avro manifest file for each segment and stores the snapshot metadata, collection description, index information, and the paths to the manifest files in a JSON file. The following diagram illustrates the snapshot folder structure.
 
-```python
+```plaintext
 snapshots/{collection_id}/
 ├── metadata/
 │   └── {snapshot_id}.json         # Snapshot metadata (JSON format)
@@ -66,7 +62,7 @@ snapshots/{collection_id}/
         └── ...
 ```
 
-Creating a snapshot usually takes milliseconds, and restoring it takes seconds to minutes, depending on the data volume. 
+Creating a snapshot usually takes milliseconds, and restoring it takes seconds to minutes, depending on the data volume.
 
 ## Storage impacts and considerations\{#storage-impacts-and-considerations}
 
@@ -91,6 +87,8 @@ Once Milvus references a segment or index file in a snapshot, it does not garbag
 - Restored collections retain the same schema, number of shards, and partition count.
 
 - Restored historical data may conflict with TTL policies. You are advised to disable TTL or adjust TTL settings before creating snapshots.
+
+- To use a snapshot as a `milvus-table` external source, the source snapshot must come from a normal StorageV3 Milvus collection. Snapshots of external collections are not supported as `milvus-table` sources.
 
 ## Further readings\{#further-readings}
 

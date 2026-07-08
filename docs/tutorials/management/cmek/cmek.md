@@ -20,13 +20,19 @@ import Admonition from '@theme/Admonition';
 
 # Customer-Managed Encryption Keys
 
-Zilliz Cloud encrypts data at rest on disk/object storage using the 256-bit Advanced Encryption Standard (AES-256) algorithm by default. For customers with the highest security requirements, Zilliz Cloud adds an additional layer of security by leveraging the customer's cloud provider's Key Management Service (KMS) in combination with Zilliz Cloud's Customer-Managed Encryption Key (CMEK) feature.
+<FeatureNote variant="plan" titleHref="/docs/select-zilliz-cloud-service-plans">
 
-<Admonition type="info" icon="📘" title="Notes">
+This feature is available only on Business Critical (SaaS) and BYOC deployments.
 
-This feature is available only to **Dedicated** clusters in a **Business Critical** project.
+</FeatureNote>
 
-</Admonition>
+<FeatureNote variant="region" titleHref="/docs/cloud-providers-and-regions">
+
+This feature is available in AWS. It is not available on Google Cloud and Microsoft Azure.
+
+</FeatureNote>
+
+Zilliz Cloud encrypts data at rest on disk/object storage using the 256-bit Advanced Encryption Standard (AES-256) algorithm by default. For customers with the highest security requirements, Zilliz Cloud adds an additional layer of security by leveraging the customer's cloud provider's Key Management Service (KMS) in combination with Zilliz Cloud's Customer-Managed Encryption Key (CMEK) feature. 
 
 ## How encryption works\{#how-encryption-works}
 

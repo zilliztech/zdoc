@@ -112,6 +112,12 @@ module.exports = [
       },
       {
         "type": "doc",
+        "id": "tutorials/deployment/deploy-byoc-i-gcp",
+        "label": "Deploy BYOC-I on GCP",
+        "key": "doc:tutorials/deployment/deploy-byoc-i-gcp"
+      },
+      {
+        "type": "doc",
         "id": "tutorials/deployment/deploy-byoc-i-azure",
         "label": "Deploy BYOC-I on Microsoft Azure",
         "key": "doc:tutorials/deployment/deploy-byoc-i-azure"
@@ -425,7 +431,7 @@ module.exports = [
           {
             "type": "doc",
             "id": "tutorials/development/collection/manage-collections-sdks",
-            "label": "Create",
+            "label": "Managed Collection",
             "key": "doc:tutorials/development/collection/manage-collections-sdks"
           },
           {

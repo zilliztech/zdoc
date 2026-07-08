@@ -854,7 +854,9 @@ fmt.Println("collection created")
 </TabItem>
 </Tabs>
 
-```plaintext
+<TabItem value='bash'>
+
+```bash
 export params='{
     "mmap.enabled": True
 }'
@@ -873,6 +875,8 @@ curl --request POST \
     \"params\": $params
 }"
 ```
+
+</TabItem>
 
 ```c++
 auto status = client->CreateCollection(milvus::CreateCollectionRequest()

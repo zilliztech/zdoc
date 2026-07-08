@@ -67,7 +67,7 @@ In this procedure, you will use Milvus Backup to prepare the backup files, uploa
         ...
         cloud:
           address: https://api.cloud.zilliz.com
-          apikey: &lt;your-api-key&gt;
+          apikey: <your-api-key>
         ...
         ```
 

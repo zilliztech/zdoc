@@ -22,17 +22,21 @@ import Supademo from '@site/src/components/Supademo';
 
 # Cross-Region Backup
 
+<FeatureNote variant="plan" titleHref="/docs/select-zilliz-cloud-service-plans">
+
+This feature is available only on Business Critical (SaaS) and BYOC deployments.
+
+</FeatureNote>
+
+<FeatureNote variant="region" titleHref="/docs/cloud-providers-and-regions">
+
+This feature is available in all AWS regions and in all Google Cloud regions. It is not available on Microsoft Azure.
+
+</FeatureNote>
+
 Cross-region backup in Zilliz Cloud enhances data protection by copying backups to multiple cloud regions. It safeguards against regional outages and supports disaster recovery, business continuity, and high availability by minimizing risks from localized failures.
 
 This guide walks you through how to use cross-region backup on Zilliz Cloud. 
-
-Currently, clusters on Azure do not support cross-region backup.
-
-<Admonition type="info" icon="📘" title="Notes">
-
-This feature is available only to **Dedicated** clusters in a **Business Critical** project.
-
-</Admonition>
 
 ## Limits\{#limits}
 

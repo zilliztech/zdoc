@@ -20,6 +20,12 @@ import Admonition from '@theme/Admonition';
 
 # VectorDB Audit Logs Reference
 
+<FeatureNote variant="plan" titleHref="/docs/select-zilliz-cloud-service-plans">
+
+This feature is available only with the Enterprise plan or higher, and BYOC deployments.
+
+</FeatureNote>
+
 On Zilliz Cloud, audit logs have the following syntax:
 
 ```json

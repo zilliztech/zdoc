@@ -20,6 +20,12 @@ import Admonition from '@theme/Admonition';
 
 # Access Logs Overview
 
+<FeatureNote variant="plan" titleHref="/docs/select-zilliz-cloud-service-plans">
+
+This feature is available only with the Enterprise plan or higher, and BYOC deployments.
+
+</FeatureNote>
+
 In high-volume workloads, understanding which data is accessed most frequently is critical for optimization decisions such as index tuning or partition strategy. Without visibility into query patterns, these decisions rely on guesswork.
 
 Access Logs give you that visibility. When enabled on a Zilliz Cloud cluster, the access log pipeline captures query activities and delivers it as structured log files to your own object storage. You can then load these logs into a data warehouse and aggregate by entity ID to identify hot data, slow queries, and usage trends.
@@ -29,8 +35,6 @@ Access Logs give you that visibility. When enabled on a Zilliz Cloud cluster, th
 - This release logs search- or query-class actions only: Search, HybridSearch, and Query. Support for the full action list is planned for a future release.
 
 - Audit log and access log are mutually exclusive in this release — only one can be enabled at a time.
-
-- Access logs are available only for **Dedicated** clusters on **Enterprise** projects. If your cluster is on a different plan or cluster type, consider upgrading it.
 
 </Admonition>
 

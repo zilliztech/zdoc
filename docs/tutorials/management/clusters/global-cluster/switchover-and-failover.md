@@ -159,7 +159,7 @@ For planned regional rotation, you can perform a switchover to promote a seconda
 
     ```bash
     curl --request POST \
-    --url "$\{BASE_URL\}/v2/globalClusters/${globalClusterId}/switchover" \
+    --url "${BASE_URL}/v2/globalClusters/${globalClusterId}/switchover" \
     --header "Authorization: Bearer ${TOKEN}" \
     --header "Content-Type: application/json" \
     -d '{

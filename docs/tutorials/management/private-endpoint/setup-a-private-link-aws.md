@@ -24,19 +24,15 @@ import Procedures from '@site/src/components/Procedures';
 
 This guide demonstrates the procedure for setting up a private link from a Zilliz Cloud cluster to your service hosted in different AWS VPCs.
 
-<Admonition type="info" icon="📘" title="Notes">
+A private link is set up at the project level and is effective for all **Dedicated** serving clusters and **on-demand** clusters deployed within the same cloud provider and region under this project.
 
-This feature is available only to **Dedicated** serving clusters and **on-demand** clusters.
+<Admonition type="info" icon="📘" title="Note">
+
+You can create up to 10 private endpoints per project.
 
 </Admonition>
-
-A private link is set up at the project level and is effective for all clusters deployed within the same cloud provider and region under this project.
-
-<Admonition type="info" icon="📘" title="Notes">
 
 Zilliz Cloud does not charge you for creating and using private endpoints. However, your cloud provider may [charge you for each endpoint](https://aws.amazon.com/privatelink/pricing/) that you create to access Zilliz Cloud.
-
-</Admonition>
 
 ## Before you start\{#before-you-start}
 

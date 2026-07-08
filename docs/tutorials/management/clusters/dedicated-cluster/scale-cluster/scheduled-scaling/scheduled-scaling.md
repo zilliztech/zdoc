@@ -106,7 +106,7 @@ With the RESTful API, you can configure scheduled scaling for both Query CU and 
 
 For details about how to use the advanced mode to write cron expressions, see [Understand cron expressions](./scheduled-scaling).
 
-```plaintext
+```bash
 export BASE_URL="https://api.cloud.zilliz.com"
 export TOKEN="YOUR_API_KEY"
 export CLUSTER_ID="inxx-xxxxxxxxxxxxxxx"

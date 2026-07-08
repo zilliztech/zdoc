@@ -10,7 +10,7 @@ notebook: FALSE
 description: "In this release, Zilliz Cloud introduces several powerful enhancements aimed at improving operational efficiency, flexibility, and user experience. These include support for cluster-level scheduled auto-scaling, schema evolution via the new Merge Data API, the introduction of stage — a cloud-native data layer for streamlined data ingestion, partial restore from cluster-level backups with cross-database selection, and UI support for JSON Path indexes. Together, these features enable users to manage complex workloads more effectively, reduce maintenance overhead, and speed up development cycles in the GenAI era. | Cloud"
 type: origin
 token: WBONwyqFAi02DTkCG41c93wCn6e
-sidebar_position: 11
+sidebar_position: 12
 displayed_sidebar: releasesSidebar
 
 ---

@@ -24,13 +24,19 @@ import Procedures from '@site/src/components/Procedures';
 
 # AWS KMS
 
-AWS Key Management Service (KMS) is an AWS-managed service that makes it easy for you to create and control the keys used to encrypt and sign your data.
+<FeatureNote variant="plan" titleHref="/docs/select-zilliz-cloud-service-plans">
 
-<Admonition type="info" icon="📘" title="Notes">
+This feature is available only on Business Critical (SaaS) and BYOC deployments.
 
-This feature is available only to **Dedicated** clusters in a **Business Critical** project.
+</FeatureNote>
 
-</Admonition>
+<FeatureNote variant="region" titleHref="/docs/cloud-providers-and-regions">
+
+This feature is available in AWS. It is not available on Google Cloud and Microsoft Azure.
+
+</FeatureNote>
+
+AWS Key Management Service (KMS) is an AWS-managed service that makes it easy for you to create and control the keys used to encrypt and sign your data. 
 
 ## Overview\{#overview}
 

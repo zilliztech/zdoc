@@ -1,16 +1,16 @@
 # guides Canonical Link Audit
 
-Generated: 2026-07-06T07:35:47.907Z
+Generated: 2026-07-08T14:24:28.441Z
 Target: zilliz.saas
 Source dir: `./plugins/lark-docs/meta/sources/guides`
 
 ## Summary
 
-- Canonical records: 368
-- Scanned canonical sources: 367
+- Canonical records: 370
+- Scanned canonical sources: 369
 - Skipped non-canonical sources: 98
-- Internal Feishu references: 2088
-- Valid references: 1951
+- Internal Feishu references: 2089
+- Valid references: 1952
 - Broken references: 137
 
 ## Managed Volumes
@@ -24,7 +24,7 @@ Source dir: `./plugins/lark-docs/meta/sources/guides`
 - Type: `mention_doc`
 - Block: `IQR3ddJv9ohBZTxtCk8caPHInof`
 - Source location: [open block](https://zilliverse.feishu.cn/wiki/A33MwQX84iXyQNkzopece3oenye#IQR3ddJv9ohBZTxtCk8caPHInof)
-- JSON path: `$.blocks.items[179].bullet.elements[1].mention_doc`
+- JSON path: `$.blocks.items[182].bullet.elements[1].mention_doc`
 - Current token: `Uj3wwkysGiBhfqk8jsMckyiTnBb`
 - Current URL: https://zilliverse.feishu.cn/wiki/Uj3wwkysGiBhfqk8jsMckyiTnBb
 - Recommended action: Replace the mention_doc with a new Feishu document mention for "Storage Cost" (https://zilliverse.feishu.cn/wiki/PNj2w5fY9ifr82kbX8ucKgXAn0r).
@@ -38,7 +38,7 @@ Source dir: `./plugins/lark-docs/meta/sources/guides`
 - Type: `href_link`
 - Block: `KXpYdQaHyoHZvyxGlY4c26Hxnwd`
 - Source location: [open block](https://zilliverse.feishu.cn/wiki/A33MwQX84iXyQNkzopece3oenye#KXpYdQaHyoHZvyxGlY4c26Hxnwd)
-- JSON path: `$.blocks.items[204].text.elements[1].text_run.text_element_style.link`
+- JSON path: `$.blocks.items[207].text.elements[1].text_run.text_element_style.link`
 - Current token: `VSykwZb3his5JFk2BxycdiADnbh`
 - Current URL: https://zilliverse.feishu.cn/wiki/VSykwZb3his5JFk2BxycdiADnbh
 - Recommended action: Edit the hyperlink URL to https://zilliverse.feishu.cn/wiki/A3YdwRQwoiDLfkkPbwOcEOr3nLe.
@@ -361,7 +361,7 @@ Source dir: `./plugins/lark-docs/meta/sources/guides`
 - Type: `mention_doc`
 - Block: `GGtgdg7YbobH0NxZEADcq7ZLnry`
 - Source location: [open block](https://zilliverse.feishu.cn/wiki/ESVGwTkn8iLfUakSSrkc5dWJnye#GGtgdg7YbobH0NxZEADcq7ZLnry)
-- JSON path: `$.blocks.items[34].bullet.elements[2].mention_doc`
+- JSON path: `$.blocks.items[36].bullet.elements[2].mention_doc`
 - Current token: `Uj3wwkysGiBhfqk8jsMckyiTnBb`
 - Current URL: https://zilliverse.feishu.cn/wiki/Uj3wwkysGiBhfqk8jsMckyiTnBb
 - Recommended action: Replace the mention_doc with a new Feishu document mention for "Storage Cost" (https://zilliverse.feishu.cn/wiki/PNj2w5fY9ifr82kbX8ucKgXAn0r).
@@ -375,7 +375,7 @@ Source dir: `./plugins/lark-docs/meta/sources/guides`
 - Type: `mention_doc`
 - Block: `E2IddfEvCoJbfJxhRPccTLAJn7f`
 - Source location: [open block](https://zilliverse.feishu.cn/wiki/ESVGwTkn8iLfUakSSrkc5dWJnye#E2IddfEvCoJbfJxhRPccTLAJn7f)
-- JSON path: `$.blocks.items[35].bullet.elements[2].mention_doc`
+- JSON path: `$.blocks.items[37].bullet.elements[2].mention_doc`
 - Current token: `JNtPwA2dnioj5Fk7N1WcW5k9nMB`
 - Current URL: https://zilliverse.feishu.cn/wiki/JNtPwA2dnioj5Fk7N1WcW5k9nMB
 - Recommended action: Replace the mention_doc with a new Feishu document mention for "Data Transfer Cost" (https://zilliverse.feishu.cn/wiki/BClgwKlHaiushBkPPssclTkYnef).
@@ -776,7 +776,7 @@ Source dir: `./plugins/lark-docs/meta/sources/guides`
 - Type: `href_link`
 - Block: `DXtBduVNmowl3sxLUa6cSxcQnCh`
 - Source location: [open block](https://zilliverse.feishu.cn/wiki/JaLdw76LPiX003kLpKHcA0n8n2d#DXtBduVNmowl3sxLUa6cSxcQnCh)
-- JSON path: `$.blocks.items[150].text.elements[1].text_run.text_element_style.link`
+- JSON path: `$.blocks.items[153].text.elements[1].text_run.text_element_style.link`
 - Current token: `VSykwZb3his5JFk2BxycdiADnbh`
 - Current URL: https://zilliverse.feishu.cn/wiki/VSykwZb3his5JFk2BxycdiADnbh
 - Recommended action: Edit the hyperlink URL to https://zilliverse.feishu.cn/wiki/A3YdwRQwoiDLfkkPbwOcEOr3nLe.
@@ -970,7 +970,7 @@ Source dir: `./plugins/lark-docs/meta/sources/guides`
 - Type: `mention_doc`
 - Block: `Iq3sd1nevodWqExcPbocHfFhnTf`
 - Source location: [open block](https://zilliverse.feishu.cn/wiki/M5dXwsGOOiPdAjkWLZUc2Pxonuh#Iq3sd1nevodWqExcPbocHfFhnTf)
-- JSON path: `$.blocks.items[8].bullet.elements[1].mention_doc`
+- JSON path: `$.blocks.items[10].bullet.elements[1].mention_doc`
 - Current token: `ZuWZwz63QiQi2kkuNk6czyVdn2g`
 - Current URL: https://zilliverse.feishu.cn/wiki/ZuWZwz63QiQi2kkuNk6czyVdn2g
 - Recommended action: Replace the mention_doc with a new Feishu document mention for "Audit Logs Cost" (https://zilliverse.feishu.cn/wiki/GBfswoqhviHfTVk2qhHc4eGXnfh).
@@ -1006,27 +1006,9 @@ Source dir: `./plugins/lark-docs/meta/sources/guides`
 - Source token: `MUL3wkn7Yi3YoFkYk59csf8bnNc`
 - Source slug: `changelogs`
 - Source doc: [open](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc)
-- Broken references: 34
+- Broken references: 33
 
-### 1. [July 6, 2026](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#KAilddtmRow5CPxxEZlcUEZZn3f)
-- Type: `href_link`
-- Block: `KAilddtmRow5CPxxEZlcUEZZn3f`
-- Source location: [open block](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#KAilddtmRow5CPxxEZlcUEZZn3f)
-- JSON path: `$.blocks.items[10].text.elements[0].text_run.text_element_style.link`
-- Current token: `CUuywySLVil4MKkmYZecUl9snLg`
-- Current URL: https://zilliverse.feishu.cn/wiki/CUuywySLVil4MKkmYZecUl9snLg#MYKLd5fHAoOOykxDBEOcuUqlnHe
-- Anchor: `MYKLd5fHAoOOykxDBEOcuUqlnHe`
-- Recommended action: Edit the hyperlink URL to https://zilliverse.feishu.cn/wiki/OZtawoDUci0CKokf9RlchvInnMf and verify whether the old anchor should be recreated on the target.
-
-| Rank | Confidence | Score | Candidate | Slug | Record | Doc | Reason |
-| ---: | --- | ---: | --- | --- | --- | --- | --- |
-| 1 | possible | 64 | June 2026 Release Notes | `release-notes-2606` | `recvocTcHJzib3` | [open](https://zilliverse.feishu.cn/wiki/OZtawoDUci0CKokf9RlchvInnMf) | similar title; query: July 2026 Release Notes |
-| 2 | possible | 61 | May 2026 Release Notes | `release-notes-2605` | `recvocTcHJn8yH` | [open](https://zilliverse.feishu.cn/wiki/NRF1wGr3AiWWC1kVfWucZD6Xneb) | similar title; query: July 2026 Release Notes |
-| 3 | weak | 59 | January 2026 Release Notes | `release-notes-2601` | `recvocTcHJfRfu` | [open](https://zilliverse.feishu.cn/wiki/ZBEiwpvlbijhYDkmnNScc7zyn5d) | similar title; query: July 2026 Release Notes |
-| 4 | weak | 55 | April 2026 Release Notes | `release-notes-2604` | `recvocTcHJRgBL` | [open](https://zilliverse.feishu.cn/wiki/N2XtwwchPi79M7kW1UjcnjC4nzc) | similar title; query: July 2026 Release Notes |
-| 5 | weak | 54 |  February 2026 Release Notes | `release-notes-2602` | `recvocTcHJpHYE` | [open](https://zilliverse.feishu.cn/wiki/KtAgwMSa6iEoFkkEqzAcEJgRnjc) | similar title; query: July 2026 Release Notes |
-
-### 2. [On-demand search](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#Im9idkVMvo2TdSxmQnmcy30QnAc)
+### 1. [On-demand search](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#Im9idkVMvo2TdSxmQnmcy30QnAc)
 - Type: `href_link`
 - Block: `Im9idkVMvo2TdSxmQnmcy30QnAc`
 - Source location: [open block](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#Im9idkVMvo2TdSxmQnmcy30QnAc)
@@ -1043,7 +1025,7 @@ Source dir: `./plugins/lark-docs/meta/sources/guides`
 | 4 | strong | 86 | Quickstart to On-Demand Search | `quick-start-to-on-demand-search` | `recvlPmGw8hWwY` | [open](https://zilliverse.feishu.cn/wiki/GQN0wDCrni4n36kyeVQcF41Lned) | substring title; query: On-demand search |
 | 5 | strong | 86 | Search | `zilliz-search-prompts` | `recvlW54V0JjMs` | [open](https://zilliverse.feishu.cn/wiki/ANK0wJQ8DibXxIkpYDEcScMHnYe) | substring title; query: On-demand search |
 
-### 3. [External data lake search](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#UtjidNWHFo7vRExfC0DcS0DMnkd)
+### 2. [External data lake search](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#UtjidNWHFo7vRExfC0DcS0DMnkd)
 - Type: `href_link`
 - Block: `UtjidNWHFo7vRExfC0DcS0DMnkd`
 - Source location: [open block](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#UtjidNWHFo7vRExfC0DcS0DMnkd)
@@ -1057,7 +1039,7 @@ Source dir: `./plugins/lark-docs/meta/sources/guides`
 | 1 | strong | 86 | Quickstart to External Data Lake Search | `quick-start-to-external-data-lake-search` | `recvlPmHUapDaN` | [open](https://zilliverse.feishu.cn/wiki/KdwFwQnDNisT4skHH6Hc16uInji) | substring title; query: External data lake search |
 | 2 | strong | 86 | Search | `zilliz-search-prompts` | `recvlW54V0JjMs` | [open](https://zilliverse.feishu.cn/wiki/ANK0wJQ8DibXxIkpYDEcScMHnYe) | substring title; query: External data lake search |
 
-### 4. [External collections and backfill](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#V5fzdYcoEoOLxfxgpZXcHszBnTe)
+### 3. [External collections and backfill](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#V5fzdYcoEoOLxfxgpZXcHszBnTe)
 - Type: `href_link`
 - Block: `V5fzdYcoEoOLxfxgpZXcHszBnTe`
 - Source location: [open block](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#V5fzdYcoEoOLxfxgpZXcHszBnTe)
@@ -1070,7 +1052,7 @@ Source dir: `./plugins/lark-docs/meta/sources/guides`
 | ---: | --- | ---: | --- | --- | --- | --- | --- |
 | 1 | weak | 45 | External Collection Limits | `external-collection-limits` | `recvm1Rp4w1C43` | [open](https://zilliverse.feishu.cn/wiki/P9HuwHZyXilwRTkVoDBcjAMlnrb) | similar title; query: External collections and backfill |
 
-### 5. [Embedding list searches and filtering](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#SzCGdTUBzoMe4fxR0RAcTbK5nnn)
+### 4. [Embedding list searches and filtering](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#SzCGdTUBzoMe4fxR0RAcTbK5nnn)
 - Type: `href_link`
 - Block: `SzCGdTUBzoMe4fxR0RAcTbK5nnn`
 - Source location: [open block](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#SzCGdTUBzoMe4fxR0RAcTbK5nnn)
@@ -1087,7 +1069,7 @@ Source dir: `./plugins/lark-docs/meta/sources/guides`
 | 4 | strong | 86 | Filtered Search with StructArray | `filtered-search-with-struct-arrays` | `recvmiYazRHkb7` | [open](https://zilliverse.feishu.cn/wiki/WDjyw7hO3i26RckEgqIcf36snMh) | substring title; query: StructArray |
 | 5 | strong | 86 | Grouping Search with StructArray | `grouping-search-with-struct-array` | `recvmiYaOEEiuv` | [open](https://zilliverse.feishu.cn/wiki/I60hwuYrSiVSWBkYq9RcqRcpnFh) | substring title; query: StructArray |
 
-### 6. [Access logs](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#Q0BKdaJroog5P9xCZIgccSUgnbe)
+### 5. [Access logs](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#Q0BKdaJroog5P9xCZIgccSUgnbe)
 - Type: `href_link`
 - Block: `Q0BKdaJroog5P9xCZIgccSUgnbe`
 - Source location: [open block](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#Q0BKdaJroog5P9xCZIgccSUgnbe)
@@ -1101,7 +1083,7 @@ Source dir: `./plugins/lark-docs/meta/sources/guides`
 | 1 | strong | 86 | Access Logs Overview | `access-log-overview` | `recvlW0XqrCpP4` | [open](https://zilliverse.feishu.cn/wiki/PIfLwbrMmiOZKAkqtpScjnhinXf) | substring title; query: Access Logs |
 | 2 | strong | 86 | Configure Access Logs | `configure-access-logs` | `recvlW0ZJIlsqj` | [open](https://zilliverse.feishu.cn/wiki/QPgEwd4qziOa5RkgJR2c9gpnn3b) | substring title; query: Access Logs |
 
-### 7. [Model-based embedding](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#GSpRdxgTmoLILExp9fJcmGQHnBe)
+### 6. [Model-based embedding](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#GSpRdxgTmoLILExp9fJcmGQHnBe)
 - Type: `href_link`
 - Block: `GSpRdxgTmoLILExp9fJcmGQHnBe`
 - Source location: [open block](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#GSpRdxgTmoLILExp9fJcmGQHnBe)
@@ -1112,7 +1094,7 @@ Source dir: `./plugins/lark-docs/meta/sources/guides`
 
 - No candidate above threshold.
 
-### 8. [reranking functions](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#GSpRdxgTmoLILExp9fJcmGQHnBe)
+### 7. [reranking functions](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#GSpRdxgTmoLILExp9fJcmGQHnBe)
 - Type: `href_link`
 - Block: `GSpRdxgTmoLILExp9fJcmGQHnBe`
 - Source location: [open block](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#GSpRdxgTmoLILExp9fJcmGQHnBe)
@@ -1123,7 +1105,7 @@ Source dir: `./plugins/lark-docs/meta/sources/guides`
 
 - No candidate above threshold.
 
-### 9. [Dynamic replica autoscaling](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#LPThdwM51oz6PVxyWTbclHnFn4c)
+### 8. [Dynamic replica autoscaling](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#LPThdwM51oz6PVxyWTbclHnFn4c)
 - Type: `href_link`
 - Block: `LPThdwM51oz6PVxyWTbclHnFn4c`
 - Source location: [open block](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#LPThdwM51oz6PVxyWTbclHnFn4c)
@@ -1135,7 +1117,7 @@ Source dir: `./plugins/lark-docs/meta/sources/guides`
 
 - No candidate above threshold.
 
-### 10. [scheduled scaling](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#Uk8idLyEloSykQxhxtAcztLGnEe)
+### 9. [scheduled scaling](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#Uk8idLyEloSykQxhxtAcztLGnEe)
 - Type: `href_link`
 - Block: `Uk8idLyEloSykQxhxtAcztLGnEe`
 - Source location: [open block](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#Uk8idLyEloSykQxhxtAcztLGnEe)
@@ -1150,7 +1132,7 @@ Source dir: `./plugins/lark-docs/meta/sources/guides`
 | 1 | exact | 100 | Scheduled Scaling | `scheduled-scaling` | `recvnkLSNztKb7` | [open](https://zilliverse.feishu.cn/wiki/ZACVwXqTbiCqR3kS9YAccuaQnId) | exact title; query: scheduled scaling |
 | 2 | strong | 86 | Query | `get-and-scalar-query` | `recvlPpiienCU8` | [open](https://zilliverse.feishu.cn/wiki/R7F7wY8pCiJ5Q4kbntxcMsE6nLf) | substring title; query: Scale Query CU |
 
-### 11. [Volume](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#MgXidNy9Pok6jfxPIl3cqxArn4c)
+### 10. [Volume](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#MgXidNy9Pok6jfxPIl3cqxArn4c)
 - Type: `href_link`
 - Block: `MgXidNy9Pok6jfxPIl3cqxArn4c`
 - Source location: [open block](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#MgXidNy9Pok6jfxPIl3cqxArn4c)
@@ -1164,7 +1146,7 @@ Source dir: `./plugins/lark-docs/meta/sources/guides`
 | 1 | strong | 86 | External Volumes | `external-volume` | `recvlPsPG3qxgt` | [open](https://zilliverse.feishu.cn/wiki/JaLdw76LPiX003kLpKHcA0n8n2d) | substring title; query: Volume |
 | 2 | strong | 86 | Managed Volumes | `managed-volume` | `recvlPsP1kFL8k` | [open](https://zilliverse.feishu.cn/wiki/A33MwQX84iXyQNkzopece3oenye) | substring title; query: Volume |
 
-### 12. [Array of Structs](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#UML4dBVPgoq7nQxmDEzcx4lsnLd)
+### 11. [Array of Structs](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#UML4dBVPgoq7nQxmDEzcx4lsnLd)
 - Type: `href_link`
 - Block: `UML4dBVPgoq7nQxmDEzcx4lsnLd`
 - Source location: [open block](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#UML4dBVPgoq7nQxmDEzcx4lsnLd)
@@ -1181,7 +1163,7 @@ Source dir: `./plugins/lark-docs/meta/sources/guides`
 | 4 | strong | 86 | Filtered Search with StructArray | `filtered-search-with-struct-arrays` | `recvmiYazRHkb7` | [open](https://zilliverse.feishu.cn/wiki/WDjyw7hO3i26RckEgqIcf36snMh) | substring title; query: StructArray |
 | 5 | strong | 86 | Grouping Search with StructArray | `grouping-search-with-struct-array` | `recvmiYaOEEiuv` | [open](https://zilliverse.feishu.cn/wiki/I60hwuYrSiVSWBkYq9RcqRcpnFh) | substring title; query: StructArray |
 
-### 13. [Decay rankers](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#KQi2dLa1toIzSMxYCK3cqXg2nne)
+### 12. [Decay rankers](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#KQi2dLa1toIzSMxYCK3cqXg2nne)
 - Type: `href_link`
 - Block: `KQi2dLa1toIzSMxYCK3cqXg2nne`
 - Source location: [open block](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#KQi2dLa1toIzSMxYCK3cqXg2nne)
@@ -1192,7 +1174,7 @@ Source dir: `./plugins/lark-docs/meta/sources/guides`
 
 - No candidate above threshold.
 
-### 14. [📈  Autoscaling upgrade](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#FbA9d5mj2oz1KrxBNprcJTuAnOb)
+### 13. [📈  Autoscaling upgrade](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#FbA9d5mj2oz1KrxBNprcJTuAnOb)
 - Type: `href_link`
 - Block: `FbA9d5mj2oz1KrxBNprcJTuAnOb`
 - Source location: [open block](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#FbA9d5mj2oz1KrxBNprcJTuAnOb)
@@ -1206,7 +1188,7 @@ Source dir: `./plugins/lark-docs/meta/sources/guides`
 | ---: | --- | ---: | --- | --- | --- | --- | --- |
 | 1 | strong | 86 | Query | `get-and-scalar-query` | `recvlPpiienCU8` | [open](https://zilliverse.feishu.cn/wiki/R7F7wY8pCiJ5Q4kbntxcMsE6nLf) | substring title; query: Scale Query CU |
 
-### 15. [🔗  Merge data API](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#HnPLdFjLeol7cLxIxxfcydLwnCb)
+### 14. [🔗  Merge data API](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#HnPLdFjLeol7cLxIxxfcydLwnCb)
 - Type: `href_link`
 - Block: `HnPLdFjLeol7cLxIxxfcydLwnCb`
 - Source location: [open block](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#HnPLdFjLeol7cLxIxxfcydLwnCb)
@@ -1217,7 +1199,7 @@ Source dir: `./plugins/lark-docs/meta/sources/guides`
 
 - No candidate above threshold.
 
-### 16. [📦  Stage](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#RuPFdm3UxoJYX1xtsKvcWzcDnlc)
+### 15. [📦  Stage](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#RuPFdm3UxoJYX1xtsKvcWzcDnlc)
 - Type: `href_link`
 - Block: `RuPFdm3UxoJYX1xtsKvcWzcDnlc`
 - Source location: [open block](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#RuPFdm3UxoJYX1xtsKvcWzcDnlc)
@@ -1231,7 +1213,7 @@ Source dir: `./plugins/lark-docs/meta/sources/guides`
 | 1 | strong | 86 | Migrate from Milvus to Zilliz Cloud Via Backup Tool | `via-stage` | `recvm10eKnXUKF` | [open](https://zilliverse.feishu.cn/wiki/IxO5wZ1meiYrTckUPkQca9JOnbS) | substring slug; query: 📦  Stage |
 | 2 | weak | 50 | Storage Cost | `storage-cost` | `recvlW2tk3N880` | [open](https://zilliverse.feishu.cn/wiki/PNj2w5fY9ifr82kbX8ucKgXAn0r) | similar label; query: 📦  Stage |
 
-### 17. [📅  Schedule-based cluster autoscaling](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#Qx60dkV3goFjXcxrvZlcSEGknVd)
+### 16. [📅  Schedule-based cluster autoscaling](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#Qx60dkV3goFjXcxrvZlcSEGknVd)
 - Type: `href_link`
 - Block: `Qx60dkV3goFjXcxrvZlcSEGknVd`
 - Source location: [open block](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#Qx60dkV3goFjXcxrvZlcSEGknVd)
@@ -1245,7 +1227,7 @@ Source dir: `./plugins/lark-docs/meta/sources/guides`
 | ---: | --- | ---: | --- | --- | --- | --- | --- |
 | 1 | strong | 86 | Query | `get-and-scalar-query` | `recvlPpiienCU8` | [open](https://zilliverse.feishu.cn/wiki/R7F7wY8pCiJ5Q4kbntxcMsE6nLf) | substring title; query: Scale Query CU |
 
-### 18. [📚  Migration docs and best practices](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#VFZ9dKqtoo7xWrxKx6hcVNXrnbd)
+### 17. [📚  Migration docs and best practices](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#VFZ9dKqtoo7xWrxKx6hcVNXrnbd)
 - Type: `href_link`
 - Block: `VFZ9dKqtoo7xWrxKx6hcVNXrnbd`
 - Source location: [open block](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#VFZ9dKqtoo7xWrxKx6hcVNXrnbd)
@@ -1262,7 +1244,7 @@ Source dir: `./plugins/lark-docs/meta/sources/guides`
 | 4 | strong | 86 | Choose the Right Analyzer for Your Use Case | `choose-the-right-analyzer-for-your-use-case` | `recvlPv7JxgQgd` | [open](https://zilliverse.feishu.cn/wiki/Pulhw06e5iXJTFkidFXcGbylnod) | substring label; query: 📚  Migration docs and best practices |
 | 5 | weak | 47 | Integrations | `zilliz-integrations-prompts` | `recvlW5cvc1wgl` | [open](https://zilliverse.feishu.cn/wiki/SHy1wIJ58iGIhykpBW6cZ3Ibndf) | similar title; query: Migrations |
 
-### 19. [🔄  Zero-downtime migration](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#ZzsTdvN6jo1fTlxM8pycb92knsh)
+### 18. [🔄  Zero-downtime migration](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#ZzsTdvN6jo1fTlxM8pycb92knsh)
 - Type: `href_link`
 - Block: `ZzsTdvN6jo1fTlxM8pycb92knsh`
 - Source location: [open block](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#ZzsTdvN6jo1fTlxM8pycb92knsh)
@@ -1275,7 +1257,7 @@ Source dir: `./plugins/lark-docs/meta/sources/guides`
 | ---: | --- | ---: | --- | --- | --- | --- | --- |
 | 1 | strong | 86 | Migration | `zilliz-migration-prompts` | `recvlW58JEaRR5` | [open](https://zilliverse.feishu.cn/wiki/U1dnw1bYyid9pTkjBhkcjOkenVc) | substring title; query: Zero Downtime Migration |
 
-### 20. [JSON index](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#GnPzddVUHo8CQ2xkLNBc1Xecnyd)
+### 19. [JSON index](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#GnPzddVUHo8CQ2xkLNBc1Xecnyd)
 - Type: `href_link`
 - Block: `GnPzddVUHo8CQ2xkLNBc1Xecnyd`
 - Source location: [open block](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#GnPzddVUHo8CQ2xkLNBc1Xecnyd)
@@ -1291,7 +1273,7 @@ Source dir: `./plugins/lark-docs/meta/sources/guides`
 | 2 | strong | 86 | JSON Operators | `json-filtering-operators` | `recvlPpsbFNmVH` | [open](https://zilliverse.feishu.cn/wiki/Py6zwu6r4iPMqVkKAYXcUYLEnXg) | substring label; query: JSON Field |
 | 3 | strong | 86 | JSON Indexing | `json-indexing` | `recvlPtf0BFNBS` | [open](https://zilliverse.feishu.cn/wiki/MBVVww2Zii8k6Bk77GJcXbZJnpf) | substring title; query: JSON index |
 
-### 21. [🔄  Multi-replica](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#J4QjdlydroIPDYxwQnFc48gMnah)
+### 20. [🔄  Multi-replica](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#J4QjdlydroIPDYxwQnFc48gMnah)
 - Type: `href_link`
 - Block: `J4QjdlydroIPDYxwQnFc48gMnah`
 - Source location: [open block](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#J4QjdlydroIPDYxwQnFc48gMnah)
@@ -1302,7 +1284,7 @@ Source dir: `./plugins/lark-docs/meta/sources/guides`
 
 - No candidate above threshold.
 
-### 22. [🔄  Multi-replica](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#WUItdPekUogt8gxrnRncpv69nye)
+### 21. [🔄  Multi-replica](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#WUItdPekUogt8gxrnRncpv69nye)
 - Type: `href_link`
 - Block: `WUItdPekUogt8gxrnRncpv69nye`
 - Source location: [open block](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#WUItdPekUogt8gxrnRncpv69nye)
@@ -1313,7 +1295,7 @@ Source dir: `./plugins/lark-docs/meta/sources/guides`
 
 - No candidate above threshold.
 
-### 23. [Inverted index](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#T0gMdYOLBomMSexb9RCcZxKwnOb)
+### 22. [Inverted index](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#T0gMdYOLBomMSexb9RCcZxKwnOb)
 - Type: `href_link`
 - Block: `T0gMdYOLBomMSexb9RCcZxKwnOb`
 - Source location: [open block](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#T0gMdYOLBomMSexb9RCcZxKwnOb)
@@ -1326,7 +1308,7 @@ Source dir: `./plugins/lark-docs/meta/sources/guides`
 | ---: | --- | ---: | --- | --- | --- | --- | --- |
 | 1 | strong | 86 | INVERTED | `inverted-index-type` | `recvlPuxIa4nK7` | [open](https://zilliverse.feishu.cn/wiki/YNczwtWpFiN0CckMvDVcn0pvnEb) | substring title; query: Inverted index |
 
-### 24. [data import](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#OjcrdCUl3ol9o1x8vLwcvvHUn4Y)
+### 23. [data import](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#OjcrdCUl3ol9o1x8vLwcvvHUn4Y)
 - Type: `href_link`
 - Block: `OjcrdCUl3ol9o1x8vLwcvvHUn4Y`
 - Source location: [open block](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#OjcrdCUl3ol9o1x8vLwcvvHUn4Y)
@@ -1343,7 +1325,7 @@ Source dir: `./plugins/lark-docs/meta/sources/guides`
 | 4 | strong | 86 | Format Options | `data-import-format-options` | `recvlPtZzDu4ca` | [open](https://zilliverse.feishu.cn/wiki/MtGywZwmXiHg0AkJMavcWAtxnCg) | substring slug; query: Data Import |
 | 5 | strong | 86 | Import from a JSON/JSON Lines File | `data-import-json` | `recvlPualU1bR2` | [open](https://zilliverse.feishu.cn/wiki/EHmOwLz5qi3tPDkb0gZcb5ExnJb) | substring slug; query: Data Import |
 
-### 25. [migration](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#OjcrdCUl3ol9o1x8vLwcvvHUn4Y)
+### 24. [migration](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#OjcrdCUl3ol9o1x8vLwcvvHUn4Y)
 - Type: `href_link`
 - Block: `OjcrdCUl3ol9o1x8vLwcvvHUn4Y`
 - Source location: [open block](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#OjcrdCUl3ol9o1x8vLwcvvHUn4Y)
@@ -1360,7 +1342,7 @@ Source dir: `./plugins/lark-docs/meta/sources/guides`
 | 4 | strong | 86 | Offline Migration | `offline-migration` | `recvm10dPTS5Uw` | [open](https://zilliverse.feishu.cn/wiki/MTqjwwUKhiyns4kGV7Lc7PRlnwb) | substring title; query: migration |
 | 5 | weak | 47 | Integrations | `zilliz-integrations-prompts` | `recvlW5cvc1wgl` | [open](https://zilliverse.feishu.cn/wiki/SHy1wIJ58iGIhykpBW6cZ3Ibndf) | similar title; query: Migrations |
 
-### 26. [📥  Data import](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#W7rhde3fYorFLExR7bzcOusbnJe)
+### 25. [📥  Data import](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#W7rhde3fYorFLExR7bzcOusbnJe)
 - Type: `href_link`
 - Block: `W7rhde3fYorFLExR7bzcOusbnJe`
 - Source location: [open block](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#W7rhde3fYorFLExR7bzcOusbnJe)
@@ -1377,7 +1359,7 @@ Source dir: `./plugins/lark-docs/meta/sources/guides`
 | 4 | strong | 86 | Format Options | `data-import-format-options` | `recvlPtZzDu4ca` | [open](https://zilliverse.feishu.cn/wiki/MtGywZwmXiHg0AkJMavcWAtxnCg) | substring slug; query: Data Import |
 | 5 | strong | 86 | Import from a JSON/JSON Lines File | `data-import-json` | `recvlPualU1bR2` | [open](https://zilliverse.feishu.cn/wiki/EHmOwLz5qi3tPDkb0gZcb5ExnJb) | substring slug; query: Data Import |
 
-### 27. [📊  Metric boards and alert system](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#IMTbd8fpvoDyijx3YjlcvdyqnSd)
+### 26. [📊  Metric boards and alert system](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#IMTbd8fpvoDyijx3YjlcvdyqnSd)
 - Type: `href_link`
 - Block: `IMTbd8fpvoDyijx3YjlcvdyqnSd`
 - Source location: [open block](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#IMTbd8fpvoDyijx3YjlcvdyqnSd)
@@ -1388,7 +1370,7 @@ Source dir: `./plugins/lark-docs/meta/sources/guides`
 
 - No candidate above threshold.
 
-### 28. [Access control](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#WuxtdPBrko1lT4xF4EecyFwRn07)
+### 27. [Access control](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#WuxtdPBrko1lT4xF4EecyFwRn07)
 - Type: `href_link`
 - Block: `WuxtdPBrko1lT4xF4EecyFwRn07`
 - Source location: [open block](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#WuxtdPBrko1lT4xF4EecyFwRn07)
@@ -1402,7 +1384,7 @@ Source dir: `./plugins/lark-docs/meta/sources/guides`
 | 1 | exact | 100 | Access Control | `zilliz-access-control-prompts` | `recvlW5aqH4Grd` | [open](https://zilliverse.feishu.cn/wiki/QxYZwB4SKiLz5HkDE9LcISZsnCf) | exact title; query: Access control |
 | 2 | strong | 86 | Access Control Explained | `access-control-overview` | `recvlVYS5vciEa` | [open](https://zilliverse.feishu.cn/wiki/UDjcwWISuixYjqkQy3GcmBpsnmV) | substring title; query: Access control |
 
-### 29. [access control](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#IUejdTuhXoTztlx2agCcMzt3nZb)
+### 28. [access control](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#IUejdTuhXoTztlx2agCcMzt3nZb)
 - Type: `href_link`
 - Block: `IUejdTuhXoTztlx2agCcMzt3nZb`
 - Source location: [open block](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#IUejdTuhXoTztlx2agCcMzt3nZb)
@@ -1416,7 +1398,7 @@ Source dir: `./plugins/lark-docs/meta/sources/guides`
 | 1 | exact | 100 | Access Control | `zilliz-access-control-prompts` | `recvlW5aqH4Grd` | [open](https://zilliverse.feishu.cn/wiki/QxYZwB4SKiLz5HkDE9LcISZsnCf) | exact title; query: access control |
 | 2 | strong | 86 | Access Control Explained | `access-control-overview` | `recvlVYS5vciEa` | [open](https://zilliverse.feishu.cn/wiki/UDjcwWISuixYjqkQy3GcmBpsnmV) | substring title; query: access control |
 
-### 30. [💾  Back & restore](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#OKYKdY0t4oMs6ZxrlYucoVuznIg)
+### 29. [💾  Back & restore](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#OKYKdY0t4oMs6ZxrlYucoVuznIg)
 - Type: `href_link`
 - Block: `OKYKdY0t4oMs6ZxrlYucoVuznIg`
 - Source location: [open block](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#OKYKdY0t4oMs6ZxrlYucoVuznIg)
@@ -1427,7 +1409,7 @@ Source dir: `./plugins/lark-docs/meta/sources/guides`
 
 - No candidate above threshold.
 
-### 31. [💾  Backup & Restore](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#NTJndKMYioBwiuxq1nLcBKJRnDg)
+### 30. [💾  Backup & Restore](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#NTJndKMYioBwiuxq1nLcBKJRnDg)
 - Type: `href_link`
 - Block: `NTJndKMYioBwiuxq1nLcBKJRnDg`
 - Source location: [open block](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#NTJndKMYioBwiuxq1nLcBKJRnDg)
@@ -1438,7 +1420,7 @@ Source dir: `./plugins/lark-docs/meta/sources/guides`
 
 - No candidate above threshold.
 
-### 32. [🔄  Migration from Milvus](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#Kljfdi34popCf4x2wZjcB02Wn4o)
+### 31. [🔄  Migration from Milvus](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#Kljfdi34popCf4x2wZjcB02Wn4o)
 - Type: `href_link`
 - Block: `Kljfdi34popCf4x2wZjcB02Wn4o`
 - Source location: [open block](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#Kljfdi34popCf4x2wZjcB02Wn4o)
@@ -1454,7 +1436,7 @@ Source dir: `./plugins/lark-docs/meta/sources/guides`
 | 3 | possible | 60 | Migrate from Milvus to Zilliz Cloud | `migrate-from-milvus` | `recvlVWmEweOTS` | [open](https://zilliverse.feishu.cn/wiki/TDkbwhwMyi7bPykZAoUc5PFfnIb) | similar slug; query: 🔄  Migration from Milvus |
 | 4 | weak | 47 | Integrations | `zilliz-integrations-prompts` | `recvlW5cvc1wgl` | [open](https://zilliverse.feishu.cn/wiki/SHy1wIJ58iGIhykpBW6cZ3Ibndf) | similar title; query: Migrations |
 
-### 33. [🔐  Private Link](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#BqsMdHNDNoL6f0xjmYOcY3Zln9d)
+### 32. [🔐  Private Link](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#BqsMdHNDNoL6f0xjmYOcY3Zln9d)
 - Type: `href_link`
 - Block: `BqsMdHNDNoL6f0xjmYOcY3Zln9d`
 - Source location: [open block](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#BqsMdHNDNoL6f0xjmYOcY3Zln9d)
@@ -1469,7 +1451,7 @@ Source dir: `./plugins/lark-docs/meta/sources/guides`
 | 2 | strong | 86 | Set up a Private Service Connect (GCP) | `setup-a-private-link-gcp` | `recvlW0tzzRPIz` | [open](https://zilliverse.feishu.cn/wiki/IojuwADAwiRK0hkl4pgcvC2QnQd) | substring slug; query: 🔐  Private Link |
 | 3 | strong | 86 | Set up a PrivateLink (AWS) | `setup-a-private-link-aws` | `recvlW0qbWwYt7` | [open](https://zilliverse.feishu.cn/wiki/GBY6wbUmwi9lLjkXSuKccODgnne) | substring slug; query: 🔐  Private Link |
 
-### 34. [📥  Data import](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#NImwdYBMUoE0u3xyI1PcZ3CanBb)
+### 33. [📥  Data import](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#NImwdYBMUoE0u3xyI1PcZ3CanBb)
 - Type: `href_link`
 - Block: `NImwdYBMUoE0u3xyI1PcZ3CanBb`
 - Source location: [open block](https://zilliverse.feishu.cn/wiki/MUL3wkn7Yi3YoFkYk59csf8bnNc#NImwdYBMUoE0u3xyI1PcZ3CanBb)
@@ -1952,6 +1934,24 @@ Source dir: `./plugins/lark-docs/meta/sources/guides`
 - JSON path: `$.blocks.items[78].text.elements[0].text_run.text_element_style.link`
 - Current token: `W8Mhwa4faiQqtRkH4t9cdexCnlf`
 - Current URL: https://zilliverse.feishu.cn/wiki/W8Mhwa4faiQqtRkH4t9cdexCnlf
+- Recommended action: Choose a canonical Base-listed replacement, then update the Feishu source manually.
+
+- No candidate above threshold.
+
+## Create an External Collection
+- Source file: `RsGAwmgAYiE6fgkOiokcijsBnEg.json`
+- Source token: `RsGAwmgAYiE6fgkOiokcijsBnEg`
+- Source slug: `create-external-collection`
+- Source doc: [open](https://zilliverse.feishu.cn/wiki/RsGAwmgAYiE6fgkOiokcijsBnEg)
+- Broken references: 1
+
+### 1. [Use Milvus Snapshot as a Data Source](https://zilliverse.feishu.cn/wiki/RsGAwmgAYiE6fgkOiokcijsBnEg#Qys6daq6Fo4EJixg8KCcc0zBndv)
+- Type: `mention_doc`
+- Block: `Qys6daq6Fo4EJixg8KCcc0zBndv`
+- Source location: [open block](https://zilliverse.feishu.cn/wiki/RsGAwmgAYiE6fgkOiokcijsBnEg#Qys6daq6Fo4EJixg8KCcc0zBndv)
+- JSON path: `$.blocks.items[35].text.elements[3].mention_doc`
+- Current token: `JfJvwdGz0iD9LpkrCMccZ2ypn0g`
+- Current URL: https://zilliverse.feishu.cn/wiki/JfJvwdGz0iD9LpkrCMccZ2ypn0g
 - Recommended action: Choose a canonical Base-listed replacement, then update the Feishu source manually.
 
 - No candidate above threshold.

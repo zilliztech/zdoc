@@ -185,7 +185,7 @@ Region support can vary by workload type, deployment option, and feature. Use th
    </tr>
    <tr>
      <td><p><a href="./on-demand-cluster">On-demand compute</a></p></td>
-     <td><p>ℹ️  Part of the regions:</p><ul><li>us-west-2</li></ul></td>
+     <td><p>✅ All regions</p></td>
      <td><p>❌</p></td>
      <td><p>ℹ️  Part of the regions:</p><ul><li>East US</li></ul></td>
    </tr>

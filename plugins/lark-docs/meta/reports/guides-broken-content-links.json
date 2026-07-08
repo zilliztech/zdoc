@@ -1,13 +1,13 @@
 {
-  "generated_at": "2026-07-06T07:35:45.139Z",
+  "generated_at": "2026-07-08T14:24:27.205Z",
   "source_dir": "./plugins/lark-docs/meta/sources/guides",
   "base_app_token": "Ac7xbs2k1ad7bjsCXr0ccHe9nMh",
   "base_table_id": "*",
   "summary": {
-    "canonical_tokens": 368,
-    "scanned_sources": 367,
+    "canonical_tokens": 370,
+    "scanned_sources": 369,
     "skipped_noncanonical_sources": 98,
-    "content_links": 2088,
+    "content_links": 2089,
     "broken_content_links": 137
   },
   "broken_content_links": [
@@ -865,21 +865,6 @@
       "token": "JUFpwiSk2iY661kIXiscZXyznAf",
       "kind": "wiki",
       "anchor": null
-    },
-    {
-      "reason": "missing canonical",
-      "source_file": "MUL3wkn7Yi3YoFkYk59csf8bnNc.json",
-      "source_type": "href_link",
-      "source_token": "MUL3wkn7Yi3YoFkYk59csf8bnNc",
-      "source_title": "Changelogs",
-      "source_slug": "changelogs",
-      "block_id": "KAilddtmRow5CPxxEZlcUEZZn3f",
-      "link_text": "July 6, 2026",
-      "raw_url": "https://zilliverse.feishu.cn/wiki/CUuywySLVil4MKkmYZecUl9snLg#MYKLd5fHAoOOykxDBEOcuUqlnHe",
-      "url": "https://zilliverse.feishu.cn/wiki/CUuywySLVil4MKkmYZecUl9snLg#MYKLd5fHAoOOykxDBEOcuUqlnHe",
-      "token": "CUuywySLVil4MKkmYZecUl9snLg",
-      "kind": "wiki",
-      "anchor": "MYKLd5fHAoOOykxDBEOcuUqlnHe"
     },
     {
       "reason": "missing canonical",
@@ -1748,6 +1733,21 @@
       "raw_url": "https://zilliverse.feishu.cn/wiki/W8Mhwa4faiQqtRkH4t9cdexCnlf",
       "url": "https://zilliverse.feishu.cn/wiki/W8Mhwa4faiQqtRkH4t9cdexCnlf",
       "token": "W8Mhwa4faiQqtRkH4t9cdexCnlf",
+      "kind": "wiki",
+      "anchor": null
+    },
+    {
+      "reason": "missing canonical",
+      "source_file": "RsGAwmgAYiE6fgkOiokcijsBnEg.json",
+      "source_type": "mention_doc",
+      "source_token": "RsGAwmgAYiE6fgkOiokcijsBnEg",
+      "source_title": "Create an External Collection",
+      "source_slug": "create-external-collection",
+      "block_id": "Qys6daq6Fo4EJixg8KCcc0zBndv",
+      "link_text": "Use Milvus Snapshot as a Data Source",
+      "raw_url": "https://zilliverse.feishu.cn/wiki/JfJvwdGz0iD9LpkrCMccZ2ypn0g",
+      "url": "https://zilliverse.feishu.cn/wiki/JfJvwdGz0iD9LpkrCMccZ2ypn0g",
+      "token": "JfJvwdGz0iD9LpkrCMccZ2ypn0g",
       "kind": "wiki",
       "anchor": null
     },

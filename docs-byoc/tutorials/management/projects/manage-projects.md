@@ -85,7 +85,7 @@ You can also check the details of a certain project.
     export projectId="proj-xx"
     
     curl --request GET \
-    --url "$\{BASE_URL\}/v2/projects/${projectId}" \
+    --url "${BASE_URL}/v2/projects/${projectId}" \
     --header "Authorization: Bearer ${TOKEN}" \
     --header "Content-Type: application/json"
     ```

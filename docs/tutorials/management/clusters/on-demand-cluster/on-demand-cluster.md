@@ -24,13 +24,19 @@ import Procedures from '@site/src/components/Procedures';
 
 # Create On-Demand Cluster
 
+<FeatureNote variant="plan" titleHref="/docs/select-zilliz-cloud-service-plans">
+
+This feature is available only with the Enterprise plan or higher.
+
+</FeatureNote>
+
+<FeatureNote variant="region" titleHref="/docs/cloud-providers-and-regions">
+
+This feature is currently available only in AWS us-west-2 and Azure East US regions. To use on-demand clusters in other regions, [contact us](http://zilliz.com/contact-sales).
+
+</FeatureNote>
+
 An on-demand cluster provides compute resources for on-demand search and query workloads. It spins up when requests arrive and scales back to zero when idle, so it is a good fit for batch search, validation, exploration, and workloads that do not require always-on serving.
-
-<Admonition type="info" icon="📘" title="Note">
-
-This feature is available only to Enterprise projects. Currently, you can create on-demand clusters only in AWS us-west-2 and Azure East US regions. To use on-demand clusters in other regions, contact Zilliz.
-
-</Admonition>
 
 ## Prerequisites\{#prerequisites}
 
@@ -62,7 +68,7 @@ You can create an on-demand cluster from the Zilliz Cloud console or by calling 
 
 The following example creates an on-demand cluster. For details, see [Create On-Demand Cluster](https://docs-test.cloud-uat3.zilliz.com/reference/restful/create-on-demand-cluster-v2).
 
-```plaintext
+```bash
 curl --request POST \
 --url "${BASE_URL}/v2/clusters/createOnDemandCluster" \
 --header "Authorization: Bearer ${TOKEN}" \

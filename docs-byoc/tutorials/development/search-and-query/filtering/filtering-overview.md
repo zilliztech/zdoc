@@ -28,13 +28,15 @@ Zilliz Cloud supports several basic operators for filtering data:
 
 - **Comparison Operators**: `==`, `!=`, `>`, `<`, `>=`, and `<=` allow filtering based on numeric or text fields.
 
-- **Range and pattern filters**: `IN`, `LIKE`, `=~`, and `!~` match values, wildcard patterns, or regex patterns. For details about string patterns, refer to [Pattern Matching](./pattern-match).
+- **Range and pattern filters**: `IN`, `LIKE`, `=~`, and `!~` match values, wildcard patterns, or regex patterns. For details about string patterns, refer to [Pattern Matching](https://milvus.io/docs/pattern-matching.md).
 
 - **Arithmetic Operators**: `+`, `-`, `*`, `/`, `%`, and `**` are used for calculations involving numeric fields.
 
+- **Bitwise Operators**: In  and later, `&`, `|`, and `^` filter integer fields that encode multiple flags, such as permissions or status bits. For details, refer to [Basic Operators](https://milvus.io/docs/basic-operators.md#Bitwise-operators).
+
 - **Logical Operators**: `AND`, `OR`, and `NOT` combine multiple conditions into complex expressions.
 
-- **IS NULL and IS NOT NULL Operators**: The `IS NULL` and `IS NOT NULL` operators are used to filter fields based on whether they contain a null value (absence of data). For details, refer to [Basic Operators](./basic-filtering-operators).
+- **IS NULL and IS NOT NULL Operators**: The `IS NULL` and `IS NOT NULL` operators are used to filter fields based on whether they contain a null value (absence of data). For details, refer to [Basic Operators](https://milvus.io/docs/basic-operators.md#IS-NULL-and-IS-NOT-NULL-operators).
 
 ### Example: Filtering by Color\{#example-filtering-by-color}
 
@@ -42,6 +44,14 @@ To find entities with primary colors (red, green, or blue) in a scalar field `co
 
 ```python
 filter='color in ["red", "green", "blue"]'
+```
+
+### Example: Filtering by Permission Bits\{#example-filtering-by-permission-bits}
+
+To find entities whose integer `permissions` field has the `SHARE` bit set, use the bitwise AND operator (`&`):
+
+```python
+filter='(permissions & 4) == 4'
 ```
 
 ### Example: Filtering by Regex Pattern\{#example-filtering-by-regex-pattern}
@@ -52,7 +62,7 @@ To find entities whose `message` field contains an error code such as `E1001`, u
 filter='message =~ "E[0-9]{4}"'
 ```
 
-Regex filters use substring matching. To require the entire field value to match the pattern, add `^` and `$` anchors. For details, refer to [Pattern Matching](./pattern-match).
+Regex filters use substring matching. To require the entire field value to match the pattern, add `^` and `$` anchors. For details, refer to [Pattern Matching](https://milvus.io/docs/pattern-matching.md).
 
 ### Example: Filtering JSON Fields\{#example-filtering-json-fields}
 
@@ -70,7 +80,7 @@ If you have an array field `history_temperatures` containing the records of aver
 filter='history_temperatures[10] > 23'
 ```
 
-For more information on these basic operators, refer to [Basic Operators](./basic-filtering-operators).
+For more information on these basic operators, refer to [Basic Operators](https://milvus.io/docs/basic-operators.md).
 
 ## Filter expression templates\{#filter-expression-templates}
 
@@ -176,7 +186,7 @@ Zilliz Cloud uses Tantivy to support inverted indexing and term-based text searc
 
 For more details, refer to Text Match.
 
-#### `PHRASE_MATCH` operator |\{#phrasematch-operator}
+#### `PHRASE_MATCH` operator |\{#phrasematch-operator-or}
 
 The **PHRASE_MATCH** operator enables precise retrieval of documents based on exact phrase matches, considering both the order and adjacency of query terms.
 

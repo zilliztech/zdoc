@@ -20,11 +20,15 @@ import Admonition from '@theme/Admonition';
 
 # VectorDB Audit Logs
 
+<FeatureNote variant="plan" titleHref="/docs/select-zilliz-cloud-service-plans">
+
+This feature is available only with the Enterprise plan or higher, and BYOC deployments.
+
+</FeatureNote>
+
 Audit logging allows administrators to track and monitor user-driven operations and API calls on Zilliz Cloud clusters. This feature provides a detailed record of vector db activities, including vector searches, query execution, index management, and other data operations.
 
 <Admonition type="info" icon="📘" title="Notes">
-
-- Audit logging is available only for **Dedicated** clusters in **Enterprise** projects or higher plan tiers.
 
 - Audit logging is supported only for Zilliz Cloud clusters running Milvus 2.5.x or later.
 

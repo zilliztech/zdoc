@@ -86,7 +86,7 @@ The current slow logs feature enables the following actions by default:
 
 Slow log files are uploaded to object storage under the `slow` directory and use UTC date and time in the final object key.
 
-````plaintext
+```plaintext
 /<Cluster ID>/slow/<Date>/<File name>.log
 ```
 
@@ -101,4 +101,4 @@ Full path example:
 
 ```plaintext
 /inxx-xxxxxxxxxxxxxxx/slow/2026-04-14/06:31:16-jz5l7D8Q.log
-````
+```

@@ -97,7 +97,7 @@ To create a StructArray field, first define the Struct schema used by each eleme
 
 1. Set `max_capacity` to limit how many Struct elements each entity can store in the field.
 
-```plaintext
+```python
 from pymilvus import MilvusClient, DataType
 
 client = MilvusClient(
