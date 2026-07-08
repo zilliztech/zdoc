@@ -17,6 +17,8 @@
     "test:frontend": "vitest run",
     "test:e2e": "playwright test --project=chromium",
     "test:translation": "node scripts/translation/sidebarKeys.test.js && node scripts/translation/manifest.test.js && node scripts/translation/agentRunner.test.js",
+    "doc-publish-bot": "node scripts/doc-publish-bot/index.js",
+    "test:doc-publish-bot": "node --test scripts/doc-publish-bot/*.test.js",
     "test:all": "npm run test --prefix chat-proxy && npm run test:frontend"
   },
   "dependencies": {
