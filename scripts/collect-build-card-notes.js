@@ -24,11 +24,28 @@ function compactMarkdown(markdown, maxLines = 80) {
   ].join('\n')
 }
 
+function githubFileUrl(file) {
+  const repository = process.env.GITHUB_REPOSITORY
+  if (!repository) return null
+
+  const serverUrl = process.env.GITHUB_SERVER_URL || 'https://github.com'
+  const ref = process.env.CARD_REPORT_REF || process.env.GITHUB_REF_NAME || process.env.GITHUB_SHA
+  if (!ref) return null
+
+  const encodedPath = file.split('/').map(encodeURIComponent).join('/')
+  return `${serverUrl}/${repository}/blob/${encodeURIComponent(ref)}/${encodedPath}`
+}
+
+function reportFileLine(file) {
+  const url = githubFileUrl(file)
+  return url ? `Report file: [${file}](${url})` : `Report file: \`${file}\``
+}
+
 function linkCheckNote() {
   const file = 'plugins/link-checks/meta/reports/latest.md'
   const content = readIfExists(file)
   if (!content) return null
-  return `${compactMarkdown(content, 60)}\n\nReport file: \`${file}\``
+  return `${compactMarkdown(content, 60)}\n\n${reportFileLine(file)}`
 }
 
 function canonicalLinkNote() {
@@ -37,7 +54,7 @@ function canonicalLinkNote() {
   const report = readJsonIfExists(jsonFile)
   if (!report) {
     const fallback = readIfExists(mdFile)
-    return fallback ? `${compactMarkdown(fallback, 40)}\n\nReport file: \`${mdFile}\`` : null
+    return fallback ? `${compactMarkdown(fallback, 40)}\n\n${reportFileLine(mdFile)}` : null
   }
 
   const summary = report.summary || {}
@@ -55,7 +72,7 @@ function canonicalLinkNote() {
     `- Valid references: ${summary.valid_references || 0}`,
     `- Broken references: ${summary.broken_references || 0}`,
     '',
-    `Report file: \`${mdFile}\``,
+    reportFileLine(mdFile),
   ].join('\n')
 }
 
@@ -90,7 +107,7 @@ function brokenContentLinksNote() {
     ...examples,
     brokenLinks.length > examples.length ? `- ...and ${brokenLinks.length - examples.length} more broken links` : null,
     '',
-    `Report file: \`${jsonFile}\``,
+    reportFileLine(jsonFile),
   ].filter(Boolean).join('\n')
 }
 
@@ -100,7 +117,7 @@ function incrementalPlanNote() {
   const plan = readJsonIfExists(jsonFile)
   if (!plan) {
     const fallback = readIfExists(mdFile)
-    return fallback ? `${compactMarkdown(fallback, 40)}\n\nReport file: \`${mdFile}\`` : null
+    return fallback ? `${compactMarkdown(fallback, 40)}\n\n${reportFileLine(mdFile)}` : null
   }
 
   const warnings = plan.warnings || []
@@ -119,7 +136,7 @@ function incrementalPlanNote() {
     ...warnings.slice(0, 5).map(warning => `- ${warning}`),
     warnings.length > 5 ? `- ...and ${warnings.length - 5} more warnings` : null,
     '',
-    `Report file: \`${mdFile}\``,
+    reportFileLine(mdFile),
   ].filter(Boolean).join('\n')
 }
 
@@ -149,4 +166,6 @@ module.exports = {
   brokenContentLinksNote,
   collectNotes,
   compactMarkdown,
+  githubFileUrl,
+  reportFileLine,
 }

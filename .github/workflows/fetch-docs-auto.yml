@@ -143,6 +143,16 @@ jobs:
       id: card_notes
       if: always()
       run: node scripts/collect-build-card-notes.js
+      env:
+        CARD_REPORT_REF: dev
+    - name: commit audit report files
+      if: always()
+      uses: stefanzweifel/git-auto-commit-action@v5
+      with:
+        branch: dev
+        create_branch: true
+        push_options: --force
+        file_pattern: plugins/lark-docs/meta/reports plugins/link-checks/meta/reports
     - name: commit to dev
       uses: stefanzweifel/git-auto-commit-action@v5
       with:
