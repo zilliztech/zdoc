@@ -156,7 +156,7 @@ async function createPlanFromText(text, configPath) {
   const manuals = loadLarkDocsConfig(configPath)
   return buildPublishJobPlan({
     text,
-    resolveDoc: docToken => resolveDocToken({ manuals, docToken }),
+    resolveDoc: (docToken, docRef) => resolveDocToken({ manuals, docToken, docLink: docRef?.link }),
   })
 }
 
@@ -187,6 +187,20 @@ async function replyToMessage(messageId, text) {
   ])
 }
 
+function buildReactionCommand(messageId, emojiType = process.env.DOC_PUBLISH_ACK_EMOJI_TYPE || 'Typing') {
+  return [
+    'lark-cli', 'im', 'reactions', 'create',
+    '--message-id', messageId,
+    '--data', JSON.stringify({ reaction_type: { emoji_type: emojiType } }),
+    '--as', 'bot',
+  ]
+}
+
+async function reactToMessage(messageId) {
+  if (!messageId) return
+  await runCommand(buildReactionCommand(messageId))
+}
+
 async function handleText(text, { dryRun, configPath, messageId } = {}) {
   const plan = await createPlanFromText(text, configPath)
   if (dryRun) {
@@ -204,6 +218,11 @@ async function handleText(text, { dryRun, configPath, messageId } = {}) {
 async function handleEvent(event, { dryRun, configPath } = {}) {
   const text = eventText(event)
   const messageId = eventMessageId(event)
+  try {
+    await reactToMessage(messageId)
+  } catch (error) {
+    console.error(`[doc-publish-bot] failed to add ack reaction: ${error.message}`)
+  }
   const decision = await runRouterAgent({ text, event })
   if (decision?.intent === 'ignore') return null
   const routedText = decision ? textFromRouterDecision(decision) : text
@@ -315,6 +334,7 @@ if (require.main === module) {
 }
 
 module.exports = {
+  buildReactionCommand,
   eventMessageId,
   eventText,
   handleEvent,

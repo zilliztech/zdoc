@@ -31,6 +31,10 @@ DOC_PUBLISH_ROUTER_AGENT_COMMAND="codex exec --stdin"
 
 # Optional. Used only with --execute, before Docusaurus/build/Jenkins steps.
 DOC_PUBLISH_AGENT_COMMAND="codex exec --stdin"
+
+# Optional. Feishu reaction added immediately after receiving a publish request.
+# "Typing" is Feishu's emoji_type for 敲键盘.
+DOC_PUBLISH_ACK_EMOJI_TYPE="Typing"
 ```
 
 SDK long-connection mode:

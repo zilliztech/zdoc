@@ -21,21 +21,30 @@ function decodeLoose(text) {
 }
 
 function extractDocTokens(text) {
+  return extractDocRefs(text).map(ref => ref.token)
+}
+
+function extractDocRefs(text) {
   const decoded = decodeLoose(String(text || ''))
-  const tokens = []
-  const pattern = /(?:https?:\/\/[^\s<>"'，。；、)]+)?\/(?:wiki|docx|doc)\/([A-Za-z0-9]+)/g
+  const refs = []
+  const pattern = /((?:https?:\/\/[^\s<>"'，。；、)]+)?\/(?:wiki|docx|doc)\/([A-Za-z0-9]+))/g
   let match
   while ((match = pattern.exec(decoded)) !== null) {
-    tokens.push(match[1])
+    refs.push({ link: match[1], token: match[2] })
   }
-  return unique(tokens)
+  const seen = new Set()
+  return refs.filter(ref => {
+    if (seen.has(ref.token)) return false
+    seen.add(ref.token)
+    return true
+  })
 }
 
 function parsePublishRequest(text) {
   const raw = String(text || '')
   const lower = raw.toLowerCase()
-  const docTokens = extractDocTokens(raw)
-  if (!docTokens.length) {
+  const docRefs = extractDocRefs(raw)
+  if (!docRefs.length) {
     throw new Error('publish request must include at least one Feishu doc/wiki link')
   }
 
@@ -49,7 +58,8 @@ function parsePublishRequest(text) {
   return {
     environment,
     branch: environment === 'production' ? releaseBranch : 'dev',
-    docTokens,
+    docTokens: docRefs.map(ref => ref.token),
+    docRefs,
     approved: /approved|approve|批准|同意|确认上线|可以上线/.test(lower),
     rawText: raw,
   }
@@ -161,6 +171,7 @@ module.exports = {
   DEFAULT_JENKINS_BASE_URL,
   currentPublishManuals,
   extractDocTokens,
+  extractDocRefs,
   parsePublishRequest,
   planBranchCommands,
   planBuildCommands,

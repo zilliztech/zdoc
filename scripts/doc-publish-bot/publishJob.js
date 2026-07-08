@@ -15,8 +15,9 @@ async function buildPublishJobPlan({ text, resolveDoc, imageTag }) {
   const docs = []
   const docusaurusCommands = []
 
-  for (const docToken of request.docTokens) {
-    const resolved = await resolveDoc(docToken)
+  for (const docRef of request.docRefs) {
+    const docToken = docRef.token
+    const resolved = await resolveDoc(docToken, docRef)
     if (!resolved) {
       throw new Error(`doc token ${docToken} was not found in the manual root Base`)
     }
