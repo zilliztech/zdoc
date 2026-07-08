@@ -11,7 +11,6 @@ git fetch origin "${target_branch}" --depth=1
 
 paths=(
   "plugins/lark-docs/meta/snapshots"
-  "plugins/lark-docs/meta/sources"
 )
 
 for path in "${paths[@]}"; do
