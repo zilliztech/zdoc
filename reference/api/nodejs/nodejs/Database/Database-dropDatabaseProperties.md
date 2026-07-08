@@ -7,7 +7,7 @@ added_since: v2.5.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "This operation resets the specified database properties to their defaults. | Node.js"
+description: "This operation drops the setting of the specified properties. | Node.js"
 type: docx
 token: GulFdOWMboEK9bxnzMSc8Uf8n8b
 sidebar_position: 4
@@ -31,18 +31,24 @@ import Admonition from '@theme/Admonition';
 
 # dropDatabaseProperties()
 
-This operation resets the specified database properties to their defaults.
+This operation drops the setting of the specified properties.
 
 ```javascript
-dropDatabaseProperties(data): Promise<ResStatus>
+await milvusClient.dropDatabaseProperties(data)
 ```
+
+<Admonition type="info" icon="📘" title="Notes">
+
+This method applies only to dedicated clusters.
+
+</Admonition>
 
 ## Request Syntax\{#request-syntax}
 
 ```javascript
-milvusClient.dropDatabaseProperties({
+await milvusClient.dropDatabaseProperties({
     db_name: string,
-    properties: string[]
+    delete_properties: string[],
     timeout?: number
 })
 ```
@@ -51,13 +57,13 @@ milvusClient.dropDatabaseProperties({
 
 - **db_name** (*string*) -
 
-    The name of the database whose properties are to be modified.
+    The name of the database whose properties are to be dropped.
 
-    There should be no database that has the specified name. Otherwise, exceptions will occur.
+    There should be a database with the specified name. Otherwise, exceptions will occur.
 
-- **properties** (*string[]*) -
+- **delete_properties** (*string[]*) -
 
-    A list of the names of the database properties to reset. Possible values are as follows:
+    Names of the properties to drop in an array. Possible database properties are as follows:
 
     - **database.replica.number** (*int*) -
 
@@ -95,7 +101,7 @@ This method returns a promise that resolves to a **ResStatus** object.
 
 ```javascript
 {
-    code: number,
+    code: number
     error_code: string | number,
     reason: string
 }
@@ -118,10 +124,12 @@ This method returns a promise that resolves to a **ResStatus** object.
 ## Example\{#example}
 
 ```javascript
-const milvusClient = new milvusClient(MILUVS_ADDRESS);
-const resStatus = await milvusClient.dropDatabaseProperties({
-    db_name: 'my-db',
-    delete_properties: ["database.replica.number"]
+const milvusClient = new MilvusClient({
+    address: 'YOUR_CLUSTER_ENDPOINT',
+    token: 'YOUR_CLUSTER_TOKEN',
+});
+const resStatus = await milvusClient.dropDatabaseProperties({ 
+    db_name: 'new_db',
+    delete_properties: ["database.replica.number"] 
 });
 ```
-

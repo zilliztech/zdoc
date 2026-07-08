@@ -34,13 +34,13 @@ import Admonition from '@theme/Admonition';
 This operation sets the active database for the gRPC client.
 
 ```javascript
-useDatabase(data?): Promise<ResStatus>
+await milvusClient.useDatabase(data?)
 ```
 
 ## Request Syntax\{#request-syntax}
 
 ```javascript
-milvusClient.useDatabase({
+await milvusClient.useDatabase({
     db_name: string
 })
 ```
@@ -49,9 +49,9 @@ milvusClient.useDatabase({
 
 - **db_name** (*string*) -
 
-    The name of the database to create.
+    The name of the database to use.
 
-    There should be a database that has the specified name. Otherwise, exceptions will occur.
+    There should be a database with the specified name. Otherwise, exceptions will occur.
 
 **RETURNS** *Promise |&lt;ResStatus&gt;*
 
@@ -82,6 +82,9 @@ This method returns a promise that resolves to a **ResStatus** object.
 ## Example\{#example}
 
 ```javascript
-const milvusClient = new milvusClient(MILUVS_ADDRESS);
+const milvusClient = new MilvusClient({
+    address: 'YOUR_CLUSTER_ENDPOINT',
+    token: 'YOUR_CLUSTER_TOKEN',
+});
 const resStatus = await milvusClient.useDatabase({ db_name: 'new_db' });
 ```

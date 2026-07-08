@@ -65,6 +65,11 @@ module.exports = [
           },
           {
             "type": "doc",
+            "id": "cli/cli/CloudManagement/CloudManagement-Billing/Billing-downloadinvoice",
+            "label": "download-invoice"
+          },
+          {
+            "type": "doc",
             "id": "cli/cli/CloudManagement/CloudManagement-Billing/Billing-invoices",
             "label": "invoices"
           },
@@ -186,6 +191,11 @@ module.exports = [
             "type": "doc",
             "id": "cli/cli/CloudManagement/CloudManagement-Project/Project-upgrade",
             "label": "upgrade"
+          },
+          {
+            "type": "doc",
+            "id": "cli/cli/CloudManagement/CloudManagement-Project/Project-addregions",
+            "label": "add-regions"
           }
         ]
       },
@@ -207,6 +217,109 @@ module.exports = [
             "type": "doc",
             "id": "cli/cli/CloudManagement/CloudManagement-Volume/Volume-list",
             "label": "list"
+          },
+          {
+            "type": "doc",
+            "id": "cli/cli/CloudManagement/CloudManagement-Volume/Volume-apply",
+            "label": "apply"
+          },
+          {
+            "type": "doc",
+            "id": "cli/cli/CloudManagement/CloudManagement-Volume/Volume-describe",
+            "label": "describe"
+          }
+        ]
+      },
+      {
+        "type": "category",
+        "label": "OnDemandCluster",
+        "items": [
+          {
+            "type": "doc",
+            "id": "cli/cli/CloudManagement/CloudManagement-OnDemandCluster/OnDemandCluster-create",
+            "label": "create"
+          },
+          {
+            "type": "doc",
+            "id": "cli/cli/CloudManagement/CloudManagement-OnDemandCluster/OnDemandCluster-delete",
+            "label": "delete"
+          },
+          {
+            "type": "doc",
+            "id": "cli/cli/CloudManagement/CloudManagement-OnDemandCluster/OnDemandCluster-describe",
+            "label": "describe"
+          },
+          {
+            "type": "doc",
+            "id": "cli/cli/CloudManagement/CloudManagement-OnDemandCluster/OnDemandCluster-list",
+            "label": "list"
+          }
+        ]
+      },
+      {
+        "type": "category",
+        "label": "PrivateLink",
+        "items": [
+          {
+            "type": "doc",
+            "id": "cli/cli/CloudManagement/CloudManagement-PrivateLink/PrivateLink-addwhitelist",
+            "label": "add-whitelist"
+          },
+          {
+            "type": "doc",
+            "id": "cli/cli/CloudManagement/CloudManagement-PrivateLink/PrivateLink-create",
+            "label": "create"
+          },
+          {
+            "type": "doc",
+            "id": "cli/cli/CloudManagement/CloudManagement-PrivateLink/PrivateLink-delete",
+            "label": "delete"
+          },
+          {
+            "type": "doc",
+            "id": "cli/cli/CloudManagement/CloudManagement-PrivateLink/PrivateLink-list",
+            "label": "list"
+          },
+          {
+            "type": "doc",
+            "id": "cli/cli/CloudManagement/CloudManagement-PrivateLink/PrivateLink-listservices",
+            "label": "list-services"
+          }
+        ]
+      },
+      {
+        "type": "category",
+        "label": "StorageIntegration",
+        "items": [
+          {
+            "type": "doc",
+            "id": "cli/cli/CloudManagement/CloudManagement-StorageIntegration/StorageIntegration-create",
+            "label": "create"
+          },
+          {
+            "type": "doc",
+            "id": "cli/cli/CloudManagement/CloudManagement-StorageIntegration/StorageIntegration-delete",
+            "label": "delete"
+          },
+          {
+            "type": "doc",
+            "id": "cli/cli/CloudManagement/CloudManagement-StorageIntegration/StorageIntegration-describe",
+            "label": "describe"
+          },
+          {
+            "type": "doc",
+            "id": "cli/cli/CloudManagement/CloudManagement-StorageIntegration/StorageIntegration-generateauthmaterials",
+            "label": "generate-auth-materials"
+          },
+          {
+            "type": "doc",
+            "id": "cli/cli/CloudManagement/CloudManagement-StorageIntegration/StorageIntegration-list",
+            "label": "list"
+          },
+          {
+            "type": "doc",
+            "id": "cli/cli/CloudManagement/CloudManagement-StorageIntegration/StorageIntegration-validate",
+            "label": "validate"
           }
         ]
       }
@@ -275,8 +388,18 @@ module.exports = [
             "type": "doc",
             "id": "cli/cli/Configuration/Configuration-Auth/Auth-switch",
             "label": "switch"
+          },
+          {
+            "type": "doc",
+            "id": "cli/cli/Configuration/Configuration-Auth/Auth-whoami",
+            "label": "whoami"
           }
         ]
+      },
+      {
+        "type": "category",
+        "label": "Completion",
+        "items": []
       },
       {
         "type": "category",
@@ -310,6 +433,11 @@ module.exports = [
         "items": [
           {
             "type": "doc",
+            "id": "cli/cli/Configuration/Configuration-Context/Context-clear",
+            "label": "clear"
+          },
+          {
+            "type": "doc",
             "id": "cli/cli/Configuration/Configuration-Context/Context-current",
             "label": "current"
           },
@@ -328,6 +456,48 @@ module.exports = [
             "type": "doc",
             "id": "cli/cli/Configuration/Configuration-Global/Global-version",
             "label": "version"
+          },
+          {
+            "type": "doc",
+            "id": "cli/cli/Configuration/Configuration-Global/Global-uninstall",
+            "label": "uninstall"
+          },
+          {
+            "type": "doc",
+            "id": "cli/cli/Configuration/Configuration-Global/Global-upgrade",
+            "label": "upgrade"
+          }
+        ]
+      },
+      {
+        "type": "category",
+        "label": "History",
+        "items": [
+          {
+            "type": "doc",
+            "id": "cli/cli/Configuration/Configuration-History/History-clear",
+            "label": "clear"
+          },
+          {
+            "type": "doc",
+            "id": "cli/cli/Configuration/Configuration-History/History-list",
+            "label": "list"
+          },
+          {
+            "type": "doc",
+            "id": "cli/cli/Configuration/Configuration-History/History-search",
+            "label": "search"
+          }
+        ]
+      },
+      {
+        "type": "category",
+        "label": "Quickstart",
+        "items": [
+          {
+            "type": "doc",
+            "id": "cli/cli/Configuration/Configuration-Quickstart/Quickstart-quickstart",
+            "label": "quickstart"
           }
         ]
       }
@@ -421,6 +591,11 @@ module.exports = [
             "type": "doc",
             "id": "cli/cli/DataOperations/DataOperations-Collection/Collection-load",
             "label": "load"
+          },
+          {
+            "type": "doc",
+            "id": "cli/cli/DataOperations/DataOperations-Collection/Collection-metrics",
+            "label": "metrics"
           },
           {
             "type": "doc",
@@ -642,6 +817,27 @@ module.exports = [
             "type": "doc",
             "id": "cli/cli/DataOperations/DataOperations-Vector/Vector-upsert",
             "label": "upsert"
+          }
+        ]
+      },
+      {
+        "type": "category",
+        "label": "ExternalCollectionRefresh",
+        "items": [
+          {
+            "type": "doc",
+            "id": "cli/cli/DataOperations/DataOperations-ExternalCollectionRefresh/ExternalCollectionRefresh-describe",
+            "label": "describe"
+          },
+          {
+            "type": "doc",
+            "id": "cli/cli/DataOperations/DataOperations-ExternalCollectionRefresh/ExternalCollectionRefresh-list",
+            "label": "list"
+          },
+          {
+            "type": "doc",
+            "id": "cli/cli/DataOperations/DataOperations-ExternalCollectionRefresh/ExternalCollectionRefresh-trigger",
+            "label": "trigger"
           }
         ]
       }

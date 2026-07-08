@@ -1,32 +1,107 @@
 module.exports = [
   {
-    "type": "doc",
-    "id": "api/go/go/v2/v2-Client-ClientConfig",
-    "label": "ClientConfig"
-  },
-  {
-    "type": "doc",
-    "id": "api/go/go/v2/v2-Client-Close",
-    "label": "Close()"
-  },
-  {
-    "type": "doc",
-    "id": "api/go/go/v2/v2-Client-GetServerVersion",
-    "label": "GetServerVersion()"
-  },
-  {
-    "type": "doc",
-    "id": "api/go/go/v2/v2-Client-New",
-    "label": "New()"
-  },
-  {
     "type": "category",
     "label": "Authentication",
     "items": [
       {
         "type": "doc",
+        "id": "api/go/go/v2/v2-Authentication/v2-Authentication-BackupRBAC",
+        "label": "BackupRBAC()"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Authentication/v2-Authentication-CreateRole",
+        "label": "CreateRole()"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Authentication/v2-Authentication-CreateUser",
+        "label": "CreateUser()"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Authentication/v2-Authentication-DescribeRole",
+        "label": "DescribeRole()"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Authentication/v2-Authentication-DescribeUser",
+        "label": "DescribeUser()"
+      },
+      {
+        "type": "doc",
         "id": "api/go/go/v2/v2-Authentication/v2-Authentication-DropRole",
         "label": "DropRole()"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Authentication/v2-Authentication-DropUser",
+        "label": "DropUser()"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Authentication/v2-Authentication-GrantPrivilegeV2",
+        "label": "GrantPrivilegeV2()"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Authentication/v2-Authentication-GrantRole",
+        "label": "GrantRole()"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Authentication/v2-Authentication-ListPrivilegeGroups",
+        "label": "ListPrivilegeGroups()"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Authentication/v2-Authentication-ListRoles",
+        "label": "ListRoles()"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Authentication/v2-Authentication-ListUsers",
+        "label": "ListUsers()"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Authentication/v2-Authentication-PrivilegeGroup",
+        "label": "PrivilegeGroup"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Authentication/v2-Authentication-RBACMeta",
+        "label": "RBACMeta"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Authentication/v2-Authentication-RestoreRBAC",
+        "label": "RestoreRBAC()"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Authentication/v2-Authentication-RevokePrivilegeV2",
+        "label": "RevokePrivilegeV2()"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Authentication/v2-Authentication-RevokeRole",
+        "label": "RevokeRole()"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Authentication/v2-Authentication-Role",
+        "label": "Role"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Authentication/v2-Authentication-UpdatePassword",
+        "label": "UpdatePassword()"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Authentication/v2-Authentication-User",
+        "label": "User"
       }
     ]
   },
@@ -38,6 +113,21 @@ module.exports = [
         "type": "doc",
         "id": "api/go/go/v2/v2-Client/v2-Client-ClientConfig",
         "label": "ClientConfig"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Client/v2-Client-Close",
+        "label": "Close()"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Client/v2-Client-GetServerVersion",
+        "label": "GetServerVersion()"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Client/v2-Client-New",
+        "label": "New()"
       },
       {
         "type": "doc",

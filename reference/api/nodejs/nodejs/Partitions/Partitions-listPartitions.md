@@ -34,17 +34,17 @@ import Admonition from '@theme/Admonition';
 This operation lists the partitions in a specified collection.
 
 ```javascript
-listPartitions(data): Promise<ShowPartitionsResponse>
+await milvusClient.listPartitions(data)
 ```
 
 ## Request Syntax\{#request-syntax}
 
 ```javascript
-milvusClient.listPartitions({
+await milvusClient.listPartitions({
     db_name: string,
     collection_name: string,
-    type?: ShowPartitionsType,
-    timeout?: number
+    timeout?: number,
+    type?: ShowPartitionsType
  })
 ```
 
@@ -60,47 +60,64 @@ milvusClient.listPartitions({
 
     The name of an existing collection.
 
-- **type** (*ShowPartitionsType*) -
-
-     Whether to list all partitions or just the loaded one. Possible values are **All** and **Loaded**.
-
 - **timeout** (*number*)  
 
     The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-**RETURNS** *Promise\<ShowPartitionsResponse>*
+- **type** (*ShowPartitionsType*) - 
+
+    Determines whether to list all partitions or only the loaded ones. A **ShowPartitionsType** has the following values:
+
+    - **All** = 0
+
+        Indicates that all partitions are to be listed.
+
+    - **Loaded** = 1
+
+        Indicates that only the loaded partitions are to be listed.
+
+**RETURNS** *Promise&lt;ShowPartitionsResponse&gt;*
 
 This method returns a promise that resolves to a **ShowPartitionsResponse** object.
 
-```javascript
+```typescript
 {
-    created_timestamps: string | list[string],
-    created_utc_timestamps: string | list[string],
-    partitionIDs: number | list[number],
-    partition_names: string | list[string],
-    status: object
+    partition_names: string[],
+    partitionIDs: number[],
+    data: PartitionData[],
+    status:  ResStatus
 }
 ```
 
 **PARAMETERS:**
 
-- **created_timestamps** (*string* | *list[string]*) -
+- **partition_names** (*string[]*) -
+A list of partition names defined on the collection.
 
-    The timestamp indicating the creation time of the partition.
+- **partitionIDs** (*number[]*) -
+The internal identifiers of the partitions, in the same order as **partition_names**.
 
-- **created_utc_timestamps** (*string* | *list[string]*) -
+- **data** (*PartitionData[]*) -
+A flattened, per-partition view that bundles the name, identifier, creation timestamp, and load percentage.
 
-    The timestamp in UTC indicating the creation time of the partition.
+    - **name** (*string*) -
 
-- **partitionIDs** (*number* | *list[number]*) -
+        The partition name.
 
-    A list of the IDs of the partitions.
+    - **id** (*string*) -
 
-- **partition_names** (*string* | *list[string]*) -
+        The partition identifier.
 
-    A list of the names of the partitions.
+    - **timestamp** (*string*) -
 
-- **status** (*object*) -
+        The creation timestamp of the partition.
+
+    - **loadedPercentage** (*string*) -
+
+        The percentage of the partition that is currently loaded into memory.
+
+- **ResStatus**
+A **ResStatus** object.
 
     - **code** (*number*) -
 
@@ -108,16 +125,19 @@ This method returns a promise that resolves to a **ShowPartitionsResponse** obje
 
     - **error_code** (*string* | *number*) -
 
-        An error code that indicates an occurred error. It remains **Success** if this operation succeeds. 
+        An error code that indicates an occurred error. It remains **Success** if this operation succeeds.
 
-    - **reason** (*string*) - 
+    - **reason** (*string*) -
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
 ## Example\{#example}
 
 ```java
-new milvusClient(MILUVS_ADDRESS).listPartitions({
+new MilvusClient({
+    address: 'YOUR_CLUSTER_ENDPOINT',
+    token: 'YOUR_CLUSTER_TOKEN',
+}).listPartitions({
     collection_name: 'my_collection',
  });
 ```

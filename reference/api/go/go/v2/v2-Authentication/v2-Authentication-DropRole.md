@@ -10,7 +10,7 @@ notebook: false
 description: "This operation drops a role from the system. | Go | v2"
 type: docx
 token: QKItdAf6HoDzMVxzWEbcDVL9n5r
-sidebar_position: 1
+sidebar_position: 9
 keywords: 
   - Vector search
   - knn algorithm

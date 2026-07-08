@@ -203,6 +203,11 @@ module.exports = [
       },
       {
         "type": "doc",
+        "id": "api/java/java/v2/v2-Collections/v2-Collections-addCollectionField",
+        "label": "addCollectionField()"
+      },
+      {
+        "type": "doc",
         "id": "api/java/java/v2/v2-Collections/v2-Collections-DataType",
         "label": "DataType"
       },
@@ -438,47 +443,22 @@ module.exports = [
   },
   {
     "type": "category",
-    "label": "Database",
+    "label": "File Resources",
     "items": [
       {
         "type": "doc",
-        "id": "api/java/java/v2/v2-Database/v2-Database-alterDatabaseProperties",
-        "label": "alterDatabaseProperties()"
+        "id": "api/java/java/v2/v2-FileResources/v2-FileResources-addFileResource",
+        "label": "addFileResource()"
       },
       {
         "type": "doc",
-        "id": "api/java/java/v2/v2-Database/v2-Database-createDatabase",
-        "label": "createDatabase()"
+        "id": "api/java/java/v2/v2-FileResources/v2-FileResources-listFileResources",
+        "label": "listFileResources()"
       },
       {
         "type": "doc",
-        "id": "api/java/java/v2/v2-Database/v2-Database-describeDatabase",
-        "label": "describeDatabase()"
-      },
-      {
-        "type": "doc",
-        "id": "api/java/java/v2/v2-Database/v2-Database-dropDatabase",
-        "label": "dropDatabase()"
-      },
-      {
-        "type": "doc",
-        "id": "api/java/java/v2/v2-Database/v2-Database-dropDatabaseProperties",
-        "label": "dropDatabaseProperties()"
-      },
-      {
-        "type": "doc",
-        "id": "api/java/java/v2/v2-Database/v2-Database-listDatabases",
-        "label": "listDatabases()"
-      },
-      {
-        "type": "doc",
-        "id": "api/java/java/v2/v2-Database/v2-Database-useDatabase",
-        "label": "useDatabase()"
-      },
-      {
-        "type": "doc",
-        "id": "api/java/java/v2/v2-Database/v2-Database-currentUsedDatabase",
-        "label": "currentUsedDatabase()"
+        "id": "api/java/java/v2/v2-FileResources/v2-FileResources-removeFileResource",
+        "label": "removeFileResource()"
       }
     ]
   },
@@ -600,42 +580,52 @@ module.exports = [
   },
   {
     "type": "category",
-    "label": "Partitions",
+    "label": "Snapshots",
     "items": [
       {
         "type": "doc",
-        "id": "api/java/java/v2/v2-Partitions/v2-Partitions-createPartition",
-        "label": "createPartition()"
+        "id": "api/java/java/v2/v2-Snapshots/v2-Snapshots-createSnapshot",
+        "label": "createSnapshot()"
       },
       {
         "type": "doc",
-        "id": "api/java/java/v2/v2-Partitions/v2-Partitions-dropPartition",
-        "label": "dropPartition()"
+        "id": "api/java/java/v2/v2-Snapshots/v2-Snapshots-describeSnapshot",
+        "label": "describeSnapshot()"
       },
       {
         "type": "doc",
-        "id": "api/java/java/v2/v2-Partitions/v2-Partitions-getPartitionStats",
-        "label": "getPartitionStats()"
+        "id": "api/java/java/v2/v2-Snapshots/v2-Snapshots-dropSnapshot",
+        "label": "dropSnapshot()"
       },
       {
         "type": "doc",
-        "id": "api/java/java/v2/v2-Partitions/v2-Partitions-hasPartition",
-        "label": "hasPartition()"
+        "id": "api/java/java/v2/v2-Snapshots/v2-Snapshots-getRestoreSnapshotState",
+        "label": "getRestoreSnapshotState()"
       },
       {
         "type": "doc",
-        "id": "api/java/java/v2/v2-Partitions/v2-Partitions-listPartitions",
-        "label": "listPartitions()"
+        "id": "api/java/java/v2/v2-Snapshots/v2-Snapshots-listRestoreSnapshotJobs",
+        "label": "listRestoreSnapshotJobs()"
       },
       {
         "type": "doc",
-        "id": "api/java/java/v2/v2-Partitions/v2-Partitions-loadPartitions",
-        "label": "loadPartitions()"
+        "id": "api/java/java/v2/v2-Snapshots/v2-Snapshots-listSnapshots",
+        "label": "listSnapshots()"
       },
       {
         "type": "doc",
-        "id": "api/java/java/v2/v2-Partitions/v2-Partitions-releasePartitions",
-        "label": "releasePartitions()"
+        "id": "api/java/java/v2/v2-Snapshots/v2-Snapshots-pinSnapshotData",
+        "label": "pinSnapshotData()"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Snapshots/v2-Snapshots-restoreSnapshot",
+        "label": "restoreSnapshot()"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Snapshots/v2-Snapshots-unpinSnapshotData",
+        "label": "unpinSnapshotData()"
       }
     ]
   },
@@ -899,6 +889,93 @@ module.exports = [
   },
   {
     "type": "category",
+    "label": "Database",
+    "items": [
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Database/v2-Database-alterDatabaseProperties",
+        "label": "alterDatabaseProperties()"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Database/v2-Database-createDatabase",
+        "label": "createDatabase()"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Database/v2-Database-describeDatabase",
+        "label": "describeDatabase()"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Database/v2-Database-dropDatabase",
+        "label": "dropDatabase()"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Database/v2-Database-dropDatabaseProperties",
+        "label": "dropDatabaseProperties()"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Database/v2-Database-listDatabases",
+        "label": "listDatabases()"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Database/v2-Database-useDatabase",
+        "label": "useDatabase()"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Database/v2-Database-currentUsedDatabase",
+        "label": "currentUsedDatabase()"
+      }
+    ]
+  },
+  {
+    "type": "category",
+    "label": "Partitions",
+    "items": [
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Partitions/v2-Partitions-createPartition",
+        "label": "createPartition()"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Partitions/v2-Partitions-dropPartition",
+        "label": "dropPartition()"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Partitions/v2-Partitions-getPartitionStats",
+        "label": "getPartitionStats()"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Partitions/v2-Partitions-hasPartition",
+        "label": "hasPartition()"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Partitions/v2-Partitions-listPartitions",
+        "label": "listPartitions()"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Partitions/v2-Partitions-loadPartitions",
+        "label": "loadPartitions()"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Partitions/v2-Partitions-releasePartitions",
+        "label": "releasePartitions()"
+      }
+    ]
+  },
+  {
+    "type": "category",
     "label": "Volume",
     "items": [
       {
@@ -947,78 +1024,6 @@ module.exports = [
         "type": "doc",
         "id": "api/java/java/v2/v2-Volume/v2-VolumeFileManager-shutdownGracefully",
         "label": "shutdownGracefully()"
-      }
-    ]
-  },
-  {
-    "type": "category",
-    "label": "File Resources",
-    "items": [
-      {
-        "type": "doc",
-        "id": "api/java/java/v2/v2-FileResources/v2-FileResources-addFileResource",
-        "label": "addFileResource()"
-      },
-      {
-        "type": "doc",
-        "id": "api/java/java/v2/v2-FileResources/v2-FileResources-listFileResources",
-        "label": "listFileResources()"
-      },
-      {
-        "type": "doc",
-        "id": "api/java/java/v2/v2-FileResources/v2-FileResources-removeFileResource",
-        "label": "removeFileResource()"
-      }
-    ]
-  },
-  {
-    "type": "category",
-    "label": "Snapshots",
-    "items": [
-      {
-        "type": "doc",
-        "id": "api/java/java/v2/v2-Snapshots/v2-Snapshots-createSnapshot",
-        "label": "createSnapshot()"
-      },
-      {
-        "type": "doc",
-        "id": "api/java/java/v2/v2-Snapshots/v2-Snapshots-describeSnapshot",
-        "label": "describeSnapshot()"
-      },
-      {
-        "type": "doc",
-        "id": "api/java/java/v2/v2-Snapshots/v2-Snapshots-dropSnapshot",
-        "label": "dropSnapshot()"
-      },
-      {
-        "type": "doc",
-        "id": "api/java/java/v2/v2-Snapshots/v2-Snapshots-getRestoreSnapshotState",
-        "label": "getRestoreSnapshotState()"
-      },
-      {
-        "type": "doc",
-        "id": "api/java/java/v2/v2-Snapshots/v2-Snapshots-listRestoreSnapshotJobs",
-        "label": "listRestoreSnapshotJobs()"
-      },
-      {
-        "type": "doc",
-        "id": "api/java/java/v2/v2-Snapshots/v2-Snapshots-listSnapshots",
-        "label": "listSnapshots()"
-      },
-      {
-        "type": "doc",
-        "id": "api/java/java/v2/v2-Snapshots/v2-Snapshots-pinSnapshotData",
-        "label": "pinSnapshotData()"
-      },
-      {
-        "type": "doc",
-        "id": "api/java/java/v2/v2-Snapshots/v2-Snapshots-restoreSnapshot",
-        "label": "restoreSnapshot()"
-      },
-      {
-        "type": "doc",
-        "id": "api/java/java/v2/v2-Snapshots/v2-Snapshots-unpinSnapshotData",
-        "label": "unpinSnapshotData()"
       }
     ]
   }

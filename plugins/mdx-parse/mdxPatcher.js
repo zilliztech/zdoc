@@ -416,6 +416,16 @@ function escapeBackslashedAngleText(part) {
     });
 }
 
+function escapeTypeScriptGenericText(part) {
+    // Type references such as Array<number | string> and
+    // Promise<SearchResults&lt;T&gt;> are prose, but MDX sees the raw outer
+    // angle brackets as JSX. Escape only identifier-prefixed spans; real JSX
+    // components start at the opening bracket and are handled below.
+    return part.replace(/\b([A-Z][A-Za-z0-9_$]*(?:\.[A-Za-z_$][A-Za-z0-9_$]*)*)<([^/<>\n`][^<>\n`]*?)>/g, (_match, typeName, inner) => {
+        return `${typeName}&lt;${inner}&gt;`;
+    });
+}
+
 /**
  * Pre-processing: escape any lowercase tag whose name is not a known HTML element or
  * content-filter tag, outside fenced code blocks and inline code spans.
@@ -491,6 +501,7 @@ function escapeNonHtmlTags(content) {
             line = parts.map((part, i) => {
                 if (i % 2 === 0) {
                     part = escapeBackslashedAngleText(part);
+                    part = escapeTypeScriptGenericText(part);
                     // Escape non-HTML lowercase placeholder tags (e.g. <bucket_name>, <region-code>).
                     // Tags with attributes won't match because the regex only allows \s*\/?>
                     part = part.replace(/(?<!\\)<\/?([a-z][a-z0-9]*(?:[_-][a-z0-9]+)*)\s*\/?>/g, (match, tagName) => {

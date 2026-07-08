@@ -1,6 +1,6 @@
 ---
 title: "addCollectionField() | Java | v2"
-slug: /java/java/v2-Collections-addCollectionField
+slug: /java/java/v2-Collections/v2-Collections-addCollectionField
 sidebar_label: "addCollectionField()"
 beta: false
 added_since: v2.6.x

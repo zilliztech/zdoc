@@ -41,30 +41,31 @@ public DescribeAliasResp describeAlias(DescribeAliasReq request)
 
 ```java
 describeAlias(DescribeAliasReq.builder()
+    .databaseName(String databaseName)
     .alias(String alias)
     .build()
-)
+);
 ```
 
 **BUILDER METHODS:**
 
-- `alias(String alias)`
+- `databaseName(String databaseName)` -
 
-    The alias of a collection. 
+    The name of the database. Defaults to the current database if not specified.
 
-    Before this operation, ensure that the alias exists. Otherwise, exceptions will occur.
+- `alias(String alias)` -
 
-**RETURN TYPE:**
-
-*DescribeAliasResp*
+    The alias name.
 
 **RETURNS:**
+
+*DescribeAliasResp*
 
 A **DescribeAliasResp** object containing the alias details.
 
 **EXCEPTIONS:**
 
-- **MilvusClientExceptions**
+- **MilvusClientException**
 
     This exception will be raised when any error occurs during this operation.
 
@@ -86,8 +87,9 @@ MilvusClientV2 client = new MilvusClientV2(connectConfig);
 
 // 2. Describe alias
 DescribeAliasReq describeAliasReq = DescribeAliasReq.builder()
+        .databaseName("my_database")
+        .collectionName("my_collection")
         .alias("test_alias")
         .build();
 DescribeAliasResp describeAliasResp = client.describeAlias(describeAliasReq);
 ```
-

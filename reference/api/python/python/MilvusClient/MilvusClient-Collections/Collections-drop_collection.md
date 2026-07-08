@@ -33,10 +33,34 @@ import Admonition from '@theme/Admonition';
 
 This operation drops a collection.
 
+<Admonition type="info" icon="📘" title="Notes">
+
+This method applies to dedicated serving clusters and on-demand compute. 
+
+- For a collection in a serving cluster, please create **[MilvusClient](./Client-MilvusClient)** with the cluster endpoint.
+
+    - **Free & Serverless**
+
+        `https://{cluster-id}.serverless.{region}.vectordb.zillizcloud.com`
+
+    - **Dedicated**
+
+        `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
+
+- For a collection in on-demand compute, create **[MilvusClient](./Client-MilvusClient)** with the project endpoints.
+
+    `https://{project-id}.{region}.api.zillizcloud.com`
+
+</Admonition>
+
 ## Request syntax\{#request-syntax}
 
 ```python
-drop_collection(collection_name: str) -> None
+drop_collection(
+    collection_name: str,
+    timeout: Optional[float] = None,
+    **kwargs,
+) -> None
 ```
 
 **PARAMETERS:**
@@ -47,52 +71,48 @@ drop_collection(collection_name: str) -> None
 
     The name of an existing collection.
 
+- **timeout** (*Optional[float]*) -
+
+    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+
+**RETURN TYPE:**
+
+*NoneType*
+
+**RETURNS:**
+
+None
+
+**EXCEPTIONS:**
+
+- **MilvusException**
+
+    This exception will be raised when any error occurs during this operation.
+
 ## Examples\{#examples}
 
 ```python
 from pymilvus import MilvusClient
 
-# 1. Set up a milvus client
 client = MilvusClient(
-    uri="https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
-    token="user:password"
+    uri="YOUR_CLUSTER_ENDPOINT",
+    token="YOUR_CLUSTER_TOKEN"
 )
 
-# 2. Create a collection
+# Create a collection
 client.create_collection(
     collection_name="test_collection",
     dimension=5
 )
 
-# 3. List collections
-res = client.list_collections() 
-
+# List collections
+res = client.list_collections()
 # ['test_collection']
 
-# 4. Drop the collection
+# Drop the collection
 client.drop_collection(collection_name="test_collection")
 
-# 5. List collections
-res = client.list_collections() 
-
+# Verify
+res = client.list_collections()
 # []
 ```
-
-## Related methods\{#related-methods}
-
-- [create_collection()](./Collections-create_collection)
-
-- [create_schema()](./Collections-create_schema)
-
-- [describe_collection()](./Collections-describe_collection)
-
-- [get_collection_stats()](./Collections-get_collection_stats)
-
-- [has_collection()](./Collections-has_collection)
-
-- [list_collections()](./Collections-list_collections)
-
-- [rename_collection()](./Collections-rename_collection)
-
-- [DataType](./Collections-DataType)
-

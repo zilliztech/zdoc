@@ -7,7 +7,7 @@ added_since: Inherit
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "- This function returns the current status of a bulk import job. | Python"
+description: "This function returns the current status of a bulk import job, including project/region scoped jobs for cloud project databases. | Python"
 type: docx
 token: CNQIdgQvXoux0KxpXHxca8EMnjg
 sidebar_position: 2
@@ -31,79 +31,83 @@ import Admonition from '@theme/Admonition';
 
 # get_import_progress()
 
-- This function returns the current status of a bulk import job.
+This function returns the current status of a bulk import job, including project/region scoped jobs for cloud project databases.
 
-    Region ID for project-database import jobs.
+## Request Syntax\{#request-syntax}
 
-Request Syntax
-
-## get_import_progress(
+```python
+get_import_progress(
     url: str,
     job_id: str,
     cluster_id: str = "",
+    project_id: str = "",
+    region_id: str = "",
     api_key: str = "",
+    db_name: str = "",
+    
+    project_id: str = "",
+    region_id: str = "",
+    
     verify: bool | str = True,
     cert: str | tuple | None = None,
     **kwargs,
-)\{#getimportprogress-url-str-jobid-str-clusterid-str-apikey-str-verify-bool}
-
-```python
-PARAMETERS:
+)
 ```
 
-**url** (*str*) -
+**PARAMETERS:**
 
-- **job_id** (*str*) -
+- **url** (*str*) -
 
     **[REQUIRED]**
 
     Server endpoint for bulk import APIs.
 
-- **cluster_id** (*str*) -
+- **job_id** (*str*) -
 
     **[REQUIRED]**
 
     Import job ID returned by `bulk_import()`.
 
-- **api_key** (*str*) -
+- **cluster_id** (*str*) -
 
     Cloud cluster ID.
 
-- **verify** (*bool | str*) -
+- **api_key** (*str*) -
 
     API key for cloud authentication.
 
-- **cert** (*str | tuple*) -
+- **db_name** (*str*) -
 
     Database name for request routing.
 
-- **RETURN TYPE:**
-*requests.Response*
+- **project_id** (*str*) -
+
+    A valid Zilliz Cloud project ID. 
+
+    This applies when you bulk import into a database for on-demand compute.
+
+- **region_id** (*str*) -
+
+    A valid Zilliz Cloud region ID.
+
+    This applies when you bulk import into a database for on-demand compute.
+
+- **verify** (*bool | str*) -
 
     TLS verification setting.
 
-- Returns the current import-job progress payload.
+- **cert** (*str | tuple*) -
 
     Client certificate path or `(cert, key)` tuple.
 
-- Examples
+- **project_id** (*str*) -
 
     Additional HTTP request options.
 
-from pymilvus.bulk_writer import get_import_progress
-
-resp = get_import_progress(
-    url="https://api.cloud.zilliz.com",
-    api_key="YOUR_API_KEY",
-    cluster_id="in0x-xxx",
-    job_id="448996221577371648",
-)
-
-print(resp.json())
+**RETURN TYPE:**
+*requests.Response*
 
 Returns the current import-job progress payload.
-
-HTTP response with import job progress details.
 
 **EXCEPTIONS:**
 
@@ -119,9 +123,12 @@ from pymilvus.bulk_writer import get_import_progress
 resp = get_import_progress(
     url="https://api.cloud.zilliz.com",
     api_key="YOUR_API_KEY",
-    cluster_id="in0x-xxx",
+    project_id="proj-xxx",
+    region_id="aws-us-west-2",
     job_id="448996221577371648",
+    db_name="book_db",
 )
 
 print(resp.json())
 ```
+

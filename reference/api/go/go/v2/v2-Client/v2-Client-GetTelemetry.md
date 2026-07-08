@@ -10,7 +10,7 @@ notebook: false
 description: "This operation returns the client telemetry manager for collecting and reporting client-side metrics. | Go | v2"
 type: docx
 token: DfoBdvU6SoC16Yx8zuEcwgw0nHh
-sidebar_position: 2
+sidebar_position: 5
 keywords: 
   - hnsw algorithm
   - vector similarity search

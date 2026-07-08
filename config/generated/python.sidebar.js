@@ -846,6 +846,59 @@ module.exports = [
   },
   {
     "type": "category",
+    "label": "Volume",
+    "items": [
+      {
+        "type": "category",
+        "label": "VolumeFileManager",
+        "items": [
+          {
+            "type": "doc",
+            "id": "api/python/python/Volume/Volume-VolumeFileManager/VolumeFileManager-upload_file_to_volume",
+            "label": "upload_file_to_volume()"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/Volume/Volume-VolumeFileManager/Volume-VolumeFileManager",
+            "label": "VolumeFileManager"
+          }
+        ]
+      },
+      {
+        "type": "category",
+        "label": "VolumeManager",
+        "items": [
+          {
+            "type": "doc",
+            "id": "api/python/python/Volume/Volume-VolumeManager/VolumeManager-create_volume",
+            "label": "create_volume()"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/Volume/Volume-VolumeManager/VolumeManager-delete_volume",
+            "label": "delete_volume()"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/Volume/Volume-VolumeManager/VolumeManager-describe_volume",
+            "label": "describe_volume()"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/Volume/Volume-VolumeManager/VolumeManager-list_volumes",
+            "label": "list_volumes()"
+          },
+          {
+            "type": "doc",
+            "id": "api/python/python/Volume/Volume-VolumeManager/Volume-VolumeManager",
+            "label": "VolumeManager"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "category",
     "label": "EmbeddingModels",
     "items": [
       {
@@ -1914,59 +1967,6 @@ module.exports = [
             "type": "doc",
             "id": "api/python/python/Rerankers/Rerankers-VoyageRerankFunction/VoyageRerankFunction-__call__",
             "label": "__call__()"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "category",
-    "label": "Volume",
-    "items": [
-      {
-        "type": "category",
-        "label": "VolumeFileManager",
-        "items": [
-          {
-            "type": "doc",
-            "id": "api/python/python/Volume/Volume-VolumeFileManager/VolumeFileManager-upload_file_to_volume",
-            "label": "upload_file_to_volume()"
-          },
-          {
-            "type": "doc",
-            "id": "api/python/python/Volume/Volume-VolumeFileManager/Volume-VolumeFileManager",
-            "label": "VolumeFileManager"
-          }
-        ]
-      },
-      {
-        "type": "category",
-        "label": "VolumeManager",
-        "items": [
-          {
-            "type": "doc",
-            "id": "api/python/python/Volume/Volume-VolumeManager/VolumeManager-create_volume",
-            "label": "create_volume()"
-          },
-          {
-            "type": "doc",
-            "id": "api/python/python/Volume/Volume-VolumeManager/VolumeManager-delete_volume",
-            "label": "delete_volume()"
-          },
-          {
-            "type": "doc",
-            "id": "api/python/python/Volume/Volume-VolumeManager/VolumeManager-describe_volume",
-            "label": "describe_volume()"
-          },
-          {
-            "type": "doc",
-            "id": "api/python/python/Volume/Volume-VolumeManager/VolumeManager-list_volumes",
-            "label": "list_volumes()"
-          },
-          {
-            "type": "doc",
-            "id": "api/python/python/Volume/Volume-VolumeManager/Volume-VolumeManager",
-            "label": "VolumeManager"
           }
         ]
       }

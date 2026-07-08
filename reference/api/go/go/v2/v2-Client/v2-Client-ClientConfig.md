@@ -1,6 +1,6 @@
 ---
 title: "ClientConfig | Go | v2"
-slug: /go/go/v2-Client/v2-Client-ClientConfig
+slug: /go/go/v2-Client-ClientConfig
 sidebar_label: "ClientConfig"
 beta: false
 added_since: v2.6.x

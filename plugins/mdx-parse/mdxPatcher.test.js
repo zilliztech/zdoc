@@ -11,6 +11,11 @@ const LarkDocWriter = require('../lark-docs/larkDocWriter');
 const failingCodeSpan = '<p><code><i>http</i>s://{cluster-id}.serverless.{region}.vectordb.zillizcloud.com</code></p>';
 const normalizedCodeSpan = '<p><code>https://\\{cluster-id\\}.serverless.\\{region\\}.vectordb.zillizcloud.com</code></p>';
 const backslashedJavaTypes = '- **getResults** (*List\\<QueryResp.QueryResult\\>*)\n\n- **fields** (*Map\\<String,Object\\>*)';
+const typescriptGenerics = [
+    '- **file_resource_ids** (*Array<number | string>*) -',
+    '',
+    '**RETURNS** *Promise<SearchResults&lt;T&gt;>*',
+].join('\n');
 const faqHeading = '### Can I leave my organization?{#can-i-leave-my-organization}';
 const sdkMetadataComment = '<!-- category: Authentication; action: CREATE; addedSince: v3.0.x -->';
 const featureNote = [
@@ -138,6 +143,15 @@ async function testApplyMdxPatchesConvertsBackslashedJavaTypesToEntities() {
     assert.ok(!patched.includes('\\<String,Object\\>'));
 }
 
+async function testApplyMdxPatchesConvertsTypescriptGenericsToEntities() {
+    const patched = await applyMdxPatches(typescriptGenerics);
+    assert.ok(patched.includes('Array&lt;number | string&gt;'));
+    assert.ok(patched.includes('Promise&lt;SearchResults&lt;T&gt;&gt;'));
+    assert.ok(!patched.includes('Array<number | string>'));
+    assert.ok(!patched.includes('Promise<SearchResults&lt;T&gt;>'));
+    await compileToString(patched);
+}
+
 async function testLarkDocWriterConvertsBackslashedJavaTypesToEntities() {
     const writer = new LarkDocWriter('', '', 'javaSidebar');
     const patched = await writer.__mdx_patches(backslashedJavaTypes);
@@ -177,6 +191,7 @@ async function run() {
     await testLarkDocWriterUsesSharedNormalization();
     await testLarkDocWriterConvertsSdkMetadataComments();
     await testApplyMdxPatchesConvertsBackslashedJavaTypesToEntities();
+    await testApplyMdxPatchesConvertsTypescriptGenericsToEntities();
     await testLarkDocWriterConvertsBackslashedJavaTypesToEntities();
     await testFaqHeadingsArePatchable();
     await testFeatureNoteIsPreservedAsGlobalMdxComponent();
