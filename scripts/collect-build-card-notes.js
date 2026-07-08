@@ -59,6 +59,41 @@ function canonicalLinkNote() {
   ].join('\n')
 }
 
+function brokenContentLinksNote() {
+  const jsonFile = 'plugins/lark-docs/meta/reports/guides-broken-content-links.json'
+  const report = readJsonIfExists(jsonFile)
+  if (!report) return null
+
+  const summary = report.summary || {}
+  const brokenLinks = report.broken_content_links || []
+  const examples = brokenLinks.slice(0, 5).map((link) => {
+    const title = link.source_title || link.source_slug || link.source_file || '(unknown source)'
+    const text = link.link_text ? ` "${link.link_text}"` : ''
+    return `- ${title}:${text} ${link.url || link.raw_url || link.token || '(unknown target)'}`
+  })
+
+  return [
+    '# Broken Content Links Audit',
+    '',
+    `Generated: ${report.generated_at || '(unknown)'}`,
+    `Source: ${report.source_dir || '(unknown)'}`,
+    '',
+    '## Summary',
+    '',
+    `- Canonical tokens: ${summary.canonical_tokens || 0}`,
+    `- Scanned sources: ${summary.scanned_sources || 0}`,
+    `- Skipped noncanonical sources: ${summary.skipped_noncanonical_sources || 0}`,
+    `- Content links: ${summary.content_links || 0}`,
+    `- Broken content links: ${summary.broken_content_links || brokenLinks.length || 0}`,
+    examples.length ? '' : null,
+    examples.length ? '## Examples' : null,
+    ...examples,
+    brokenLinks.length > examples.length ? `- ...and ${brokenLinks.length - examples.length} more broken links` : null,
+    '',
+    `Report file: \`${jsonFile}\``,
+  ].filter(Boolean).join('\n')
+}
+
 function incrementalPlanNote() {
   const jsonFile = 'plugins/lark-docs/meta/reports/guides-incremental-fetch-plan.json'
   const mdFile = 'plugins/lark-docs/meta/reports/guides-incremental-fetch-plan.md'
@@ -91,6 +126,7 @@ function incrementalPlanNote() {
 function collectNotes() {
   return [
     linkCheckNote(),
+    brokenContentLinksNote(),
     canonicalLinkNote(),
     incrementalPlanNote(),
   ].filter(Boolean)
@@ -110,6 +146,7 @@ if (require.main === module) {
 }
 
 module.exports = {
+  brokenContentLinksNote,
   collectNotes,
   compactMarkdown,
 }

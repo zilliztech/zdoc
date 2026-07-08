@@ -155,7 +155,7 @@ jobs:
   failure:
     needs: fetch
     runs-on: ubuntu-latest
-    if: ${{ needs.fetch.result == 'failure' || needs.fetch.result == 'cancelled' }}
+    if: ${{ always() && (needs.fetch.result == 'failure' || needs.fetch.result == 'cancelled') }}
     steps:
     - name: checkout repo
       uses: actions/checkout@v4
