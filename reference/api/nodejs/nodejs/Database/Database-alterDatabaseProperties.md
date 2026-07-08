@@ -90,7 +90,7 @@ await milvusClient.alterDatabaseProperties({
 
         Whether to deny all read operations in the database.
 
-- **properties** (*Record\<string, string | number | boolean>*) -
+- **properties** (*Record&lt;string, string | number | boolean&gt;*) -
 
     Properties and their values in key-value pairs.
 

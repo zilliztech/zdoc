@@ -120,7 +120,7 @@ This method returns a promise that resolves to a **QueryResults** object.
 
 **PARAMETERS:**
 
-- **data** (*Record\<string, any>[]*) -
+- **data** (*Record&lt;string, any&gt;[]*) -
 The rows whose primary keys match the supplied **ids**. Each entry is keyed by field name and carries the value for every requested **output_fields** entry plus the primary key.
 
 - **ResStatus**

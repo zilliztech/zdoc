@@ -76,7 +76,7 @@ await milvusClient.bulkInsert({
 
     Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-- **options** (*KeyValuePair\<string, string | number>[]*) -   
+- **options** (*KeyValuePair&lt;string, string | number&gt;[]*) -   
 
     Extra options for the current operation in key-value pairs.
 

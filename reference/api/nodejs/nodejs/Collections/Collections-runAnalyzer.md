@@ -50,7 +50,7 @@ milvusClient({
 
 **PARAMETERS:**
 
-- **analyzer_params** (*Record\<string, any>*) -
+- **analyzer_params** (*Record&lt;string, any&gt;*) -
 
     The parameter for the analyzer.
 

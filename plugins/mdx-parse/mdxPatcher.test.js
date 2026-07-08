@@ -14,7 +14,7 @@ const backslashedJavaTypes = '- **getResults** (*List\\<QueryResp.QueryResult\\>
 const typescriptGenerics = [
     '- **file_resource_ids** (*Array<number | string>*) -',
     '',
-    '**RETURNS** *Promise<SearchResults&lt;T&gt;>*',
+    '**RETURNS** *Promise<SearchResults<T>>*',
 ].join('\n');
 const faqHeading = '### Can I leave my organization?{#can-i-leave-my-organization}';
 const sdkMetadataComment = '<!-- category: Authentication; action: CREATE; addedSince: v3.0.x -->';
@@ -148,6 +148,7 @@ async function testApplyMdxPatchesConvertsTypescriptGenericsToEntities() {
     assert.ok(patched.includes('Array&lt;number | string&gt;'));
     assert.ok(patched.includes('Promise&lt;SearchResults&lt;T&gt;&gt;'));
     assert.ok(!patched.includes('Array<number | string>'));
+    assert.ok(!patched.includes('Promise<SearchResults<T>>'));
     assert.ok(!patched.includes('Promise<SearchResults&lt;T&gt;>'));
     await compileToString(patched);
 }

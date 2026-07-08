@@ -77,10 +77,10 @@ This method returns a promise that resolves to a **FlushAllResponse** object.
 - **flush_all_ts** (*number*) -
 A single hybrid timestamp identifying the flush. Deprecated; prefer **flush_all_tss** for multi-cluster deployments.
 
-- **flush_all_tss** (*Record\<string, number>*) -
+- **flush_all_tss** (*Record&lt;string, number&gt;*) -
 A mapping from cluster ID to the hybrid timestamp at which the flush completed in that cluster.
 
-- **flush_all_msgs** (*Record\<string, any>*) -
+- **flush_all_msgs** (*Record&lt;string, any&gt;*) -
 A mapping from physical channel name to flush metadata used by the storage layer.
 
 - **cluster_info** (*FlushClusterInfo*) -

@@ -131,6 +131,85 @@ async function testSidebarItemsUseParentSlugContext() {
   }]);
 }
 
+async function testWriteDocAppliesSharedMdxPatches() {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'lark-drive-writer-'));
+  const out = fs.mkdtempSync(path.join(os.tmpdir(), 'lark-drive-output-'));
+  const writer = new larkDriveWriter('', '', 'nodeSidebar', dir, '/tmp', 'zilliz', true, false, 'nodejs30');
+
+  writeJson(dir, 'search.json', {
+    token: 'search',
+    name: 'search()',
+    type: 'docx',
+    slug: 'Vector-search',
+    blocks: {
+      items: [
+        {
+          block_id: 'page',
+          block_type: 1,
+          page: {
+            elements: [{
+              text_run: {
+                content: 'search()',
+                text_element_style: {},
+              },
+            }],
+          },
+          children: ['return-type', 'example-heading'],
+        },
+        {
+          block_id: 'return-type',
+          block_type: 2,
+          text: {
+            elements: [{
+              text_run: {
+                content: '**RETURNS** *Promise<SearchResults<T>>*',
+                text_element_style: {},
+              },
+            }],
+          },
+        },
+        {
+          block_id: 'example-heading',
+          block_type: 4,
+          heading2: {
+            elements: [{
+              text_run: {
+                content: 'Example',
+                text_element_style: {},
+              },
+            }],
+          },
+        },
+      ],
+    },
+  });
+
+  await writer.write_doc({
+    path: out,
+    page_title: 'search()',
+    page_slug: 'Vector-search',
+    page_type: 'docx',
+    page_token: 'search',
+    page_beta: 'false',
+    notebook: 'false',
+    sidebar_position: 1,
+    sidebar_label: 'search()',
+    doc_card_list: false,
+    addedSince: 'false',
+    lastModified: 'false',
+    deprecateSince: 'false',
+  });
+
+  const markdown = fs.readFileSync(path.join(out, 'Vector-search.md'), 'utf8');
+  assert.ok(markdown.includes('Promise&lt;SearchResults&lt;T&gt;&gt;'));
+  assert.ok(markdown.includes('## Example\\{#example}'));
+  assert.ok(!markdown.includes('Promise<SearchResults<T>>'));
+  assert.ok(!markdown.includes('Promise<SearchResults&lt;T&gt;>'));
+
+  const { compile } = await import('@mdx-js/mdx');
+  await compile(markdown, { development: false });
+}
+
 function testDuplicateRouteSlugUsesParentDirectoryName() {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'lark-drive-writer-'));
   const writer = new larkDriveWriter('', '', 'goSidebar', dir, '/tmp', 'zilliz', true, false, 'gov230');
@@ -150,6 +229,7 @@ async function run() {
   testDuplicateTokenSourceUsesUtilityParentContext();
   await testConvertLinkUsesCurrentParentSlugContext();
   await testSidebarItemsUseParentSlugContext();
+  await testWriteDocAppliesSharedMdxPatches();
   testDuplicateRouteSlugUsesParentDirectoryName();
   console.log('larkDriveWriter tests passed');
 }

@@ -421,9 +421,48 @@ function escapeTypeScriptGenericText(part) {
     // Promise<SearchResults&lt;T&gt;> are prose, but MDX sees the raw outer
     // angle brackets as JSX. Escape only identifier-prefixed spans; real JSX
     // components start at the opening bracket and are handled below.
-    return part.replace(/\b([A-Z][A-Za-z0-9_$]*(?:\.[A-Za-z_$][A-Za-z0-9_$]*)*)<([^/<>\n`][^<>\n`]*?)>/g, (_match, typeName, inner) => {
-        return `${typeName}&lt;${inner}&gt;`;
-    });
+    let out = '';
+    let index = 0;
+    const identStart = /[A-Z]/;
+    const identChar = /[A-Za-z0-9_$.]/;
+
+    while (index < part.length) {
+        const prev = index > 0 ? part[index - 1] : '';
+        if (
+            identStart.test(part[index]) &&
+            !/[A-Za-z0-9_$]/.test(prev)
+        ) {
+            let nameEnd = index + 1;
+            while (nameEnd < part.length && identChar.test(part[nameEnd])) nameEnd++;
+
+            if (part[nameEnd] === '<') {
+                let depth = 0;
+                let cursor = nameEnd;
+                while (cursor < part.length) {
+                    if (part[cursor] === '<') depth++;
+                    if (part[cursor] === '>') {
+                        depth--;
+                        if (depth === 0) break;
+                    }
+                    if (part[cursor] === '\n' || part[cursor] === '`') break;
+                    cursor++;
+                }
+
+                if (depth === 0 && cursor < part.length) {
+                    out += part.slice(index, cursor + 1)
+                        .replace(/</g, '&lt;')
+                        .replace(/>/g, '&gt;');
+                    index = cursor + 1;
+                    continue;
+                }
+            }
+        }
+
+        out += part[index];
+        index++;
+    }
+
+    return out;
 }
 
 /**

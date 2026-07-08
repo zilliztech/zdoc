@@ -82,7 +82,7 @@ This method returns a promise that resolves to a **StatisticsResponse** object.
 - **stats** (*KeyValuePair[]*) -
 The raw statistics list returned by Milvus. Each entry has a **key** (for example, **row_count**) and a **value** as a string.
 
-- **data** (*Record\<string, any>*) -
+- **data** (*Record&lt;string, any&gt;*) -
 A flattened, key-indexed view of **stats** for convenience. For example, `data.row_count` returns the row count as a string.
 
 - **ResStatus**

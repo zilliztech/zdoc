@@ -135,7 +135,7 @@ A list of replicas currently serving the requested collection.
 
         The resource group that owns this replica's nodes.
 
-    - **num_outbound_node** (*Record\<string, number>*) -
+    - **num_outbound_node** (*Record&lt;string, number&gt;*) -
 
         The count of outbound nodes per resource group, used during rebalancing.
 

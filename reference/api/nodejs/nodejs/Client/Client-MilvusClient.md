@@ -115,7 +115,7 @@ new MilvusClient(config: ClientConfig)
 
         The number of attempts to retry the connection if the connection is not successful.
 
-    - **option** (*Record\<string, string>*) -
+    - **option** (*Record&lt;string, string&gt;*) -
 
         Reserved connection options sent in the `ConnectRequest` client info. Use this to pass arbitrary key-value pairs to the server during the initial handshake.
 
