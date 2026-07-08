@@ -166,10 +166,27 @@ function testPreProcessPreservesSelectedFiles() {
   }
 }
 
+function testPreProcessPreservesHomeByDefault() {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'lark-utils-preprocess-home-'));
+
+  try {
+    fs.writeFileSync(path.join(dir, 'home.md'), 'home');
+    fs.writeFileSync(path.join(dir, 'stale-root.md'), 'stale');
+
+    new larkUtils().pre_process_file_paths(dir);
+
+    assert.equal(fs.existsSync(path.join(dir, 'home.md')), true);
+    assert.equal(fs.existsSync(path.join(dir, 'stale-root.md')), false);
+  } finally {
+    fs.rmSync(dir, { recursive: true, force: true });
+  }
+}
+
 function run() {
   testDriveFallbackMatchesUnsluggedFoldersByTitleAndParent();
   testPreProcessRemovesRootMarkdownFiles();
   testPreProcessPreservesSelectedFiles();
+  testPreProcessPreservesHomeByDefault();
   console.log('larkUtils tests passed');
 }
 

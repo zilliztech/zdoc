@@ -30,7 +30,10 @@ class larkUtils {
 
     pre_process_file_paths(outputDir, preserveFiles = []) {
         // remove all generated files in the output directory
-        const preserved = new Set(preserveFiles.map(file => node_path.resolve(file)))
+        const preserved = new Set([
+            node_path.resolve(outputDir, 'home.md'),
+            ...preserveFiles.map(file => node_path.resolve(file)),
+        ])
         const paths = fs.readdirSync(outputDir, {recursive: true})
         const folders = paths.filter(path => fs.statSync(`${outputDir}/${path}`).isDirectory())
         const files = paths.filter(path => fs.statSync(`${outputDir}/${path}`).isFile())
