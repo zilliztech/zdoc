@@ -175,6 +175,65 @@ test('planIncrementalFetch includes docs when wiki node metadata fetch fails', (
   assert.match(plan.reasons_by_token.a.join(' '), /metadata fetch failed/)
 })
 
+test('planIncrementalFetch ignores missing current source when wiki metadata is unchanged', () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'planner-'))
+
+  const plan = planIncrementalFetch({
+    manualName: 'guides',
+    docSourceDir: dir,
+    records: [record('a')],
+    previousSnapshot: {
+      schema_version: 2,
+      manual: 'guides',
+      records: [
+        {
+          record_id: 'rec-a',
+          doc_token: 'a',
+          title: 'a',
+          slug: 'a',
+          source_hash: 'previous-source-hash',
+          node_metadata: { revision_id: null, obj_edit_time: '100' },
+        },
+      ],
+    },
+    currentNodeMetadataByToken: new Map([['a', { revision_id: null, obj_edit_time: '100' }]]),
+  })
+
+  assert.equal(plan.mode, 'incremental')
+  assert.deepEqual(plan.changed_tokens, [])
+  assert.deepEqual(plan.expanded_tokens, [])
+})
+
+test('planIncrementalFetch includes missing current source when wiki metadata changed', () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'planner-'))
+
+  const plan = planIncrementalFetch({
+    manualName: 'guides',
+    docSourceDir: dir,
+    records: [record('a')],
+    previousSnapshot: {
+      schema_version: 2,
+      manual: 'guides',
+      records: [
+        {
+          record_id: 'rec-a',
+          doc_token: 'a',
+          title: 'a',
+          slug: 'a',
+          source_hash: 'previous-source-hash',
+          node_metadata: { revision_id: null, obj_edit_time: '100' },
+        },
+      ],
+    },
+    currentNodeMetadataByToken: new Map([['a', { revision_id: null, obj_edit_time: '200' }]]),
+  })
+
+  assert.equal(plan.mode, 'incremental')
+  assert.deepEqual(plan.changed_tokens, ['a'])
+  assert.match(plan.reasons_by_token.a.join(' '), /wiki node edit time changed/)
+  assert.doesNotMatch(plan.reasons_by_token.a.join(' '), /source file missing/)
+})
+
 test('planIncrementalFetch falls back to full without previous snapshot', () => {
   const plan = planIncrementalFetch({
     manualName: 'guides',

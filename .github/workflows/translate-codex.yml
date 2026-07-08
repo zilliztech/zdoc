@@ -16,6 +16,10 @@ on:
         description: "Translate API reference docs as well as guide docs."
         required: false
         default: "false"
+      target_branch:
+        description: "Branch to checkout and commit translations to."
+        required: false
+        default: ""
 
 concurrency:
   group: translate-codex
@@ -25,10 +29,17 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' }}
     steps:
-    - name: checkout feat/zdoc-redesign branch
+    - name: resolve translation target branch
+      id: target
+      run: |
+        TARGET="${{ github.event.inputs.target_branch || vars.TRANSLATION_TARGET_BRANCH || 'dev' }}"
+        echo "branch=${TARGET}" >> "$GITHUB_OUTPUT"
+        echo "Translation target branch: ${TARGET}"
+
+    - name: checkout translation target branch
       uses: actions/checkout@v4
       with:
-        ref: feat/zdoc-redesign
+        ref: ${{ steps.target.outputs.branch }}
 
     - uses: pnpm/action-setup@v4
       with:
@@ -88,7 +99,7 @@ jobs:
       if: steps.manifest.outputs.count != '0'
       uses: stefanzweifel/git-auto-commit-action@v5
       with:
-        branch: feat/zdoc-redesign
+        branch: ${{ steps.target.outputs.branch }}
         commit_message: "chore: update Japanese translations"
         file_pattern: "i18n .translation-cache"
         push_options: --force

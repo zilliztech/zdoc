@@ -100,9 +100,7 @@ function compareRecord(record, previous, sourceByToken, currentNodeMetadataByTok
       reasons.push('wiki node edit time changed')
     }
   }
-  if (!source) {
-    reasons.push('source file missing')
-  } else if (previous.source_hash && source.__source_hash !== previous.source_hash) {
+  if (source && previous.source_hash && source.__source_hash !== previous.source_hash) {
     reasons.push('source content changed')
   }
   return reasons

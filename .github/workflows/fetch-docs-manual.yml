@@ -19,12 +19,15 @@ jobs:
       card_started_at: ${{ steps.card.outputs.card_started_at }}
       card_stages: ${{ steps.card.outputs.card_stages }}
       card_title: ${{ steps.card.outputs.card_title }}
+      card_notes_json: ${{ steps.card_notes.outputs.card_notes_json }}
     steps:
     - name: get current date
       id: date
       run: echo "::set-output name=date::$(date +'%Y%m%d')"
     - name: checkout repo
       uses: actions/checkout@v4
+    - name: restore generated docs state
+      run: bash scripts/restore-generated-state.sh "${{ github.event.inputs.target_branch || 'dev' }}"
     - uses: pnpm/action-setup@v4
       with:
         version: 9
@@ -139,6 +142,10 @@ jobs:
         MODEL_API_BASE_URL: ${{ vars.MODEL_API_BASE_URL }}
         MODEL_API_KEY: ${{ secrets.MODEL_API_KEY }}
         MODEL_ID: ${{ vars.MODEL_ID }}
+    - name: collect card report notes
+      id: card_notes
+      if: always()
+      run: node scripts/collect-build-card-notes.js
     - name: commit sdk source changes
       uses: stefanzweifel/git-auto-commit-action@v5
       with:
@@ -163,11 +170,12 @@ jobs:
     - name: report failure
       run: |
         pnpm install --frozen-lockfile
-        npx docusaurus report-to-lark --card-finish --message-id ${{ needs.fetch.outputs.card_id }} --status fail --started-at "${{ needs.fetch.outputs.card_started_at }}" --stages "${{ needs.fetch.outputs.card_stages }}" --title "${{ needs.fetch.outputs.card_title }}"
+        npx docusaurus report-to-lark --card-finish --message-id ${{ needs.fetch.outputs.card_id }} --status fail --started-at "${{ needs.fetch.outputs.card_started_at }}" --stages "${{ needs.fetch.outputs.card_stages }}" --title "${{ needs.fetch.outputs.card_title }}" --notes-json "$CARD_NOTES_JSON"
       env:
         APP_ID: ${{ secrets.APP_ID }}
         APP_SECRET: ${{ secrets.APP_SECRET }}
         FEISHU_HOST: ${{ vars.FEISHU_HOST }}
+        CARD_NOTES_JSON: ${{ needs.fetch.outputs.card_notes_json }}
   success:
     needs: fetch
     runs-on: ubuntu-latest
@@ -186,8 +194,9 @@ jobs:
     - name: report success
       run: |
         pnpm install --frozen-lockfile
-        npx docusaurus report-to-lark --card-finish --message-id ${{ needs.fetch.outputs.card_id }} --status success --started-at "${{ needs.fetch.outputs.card_started_at }}" --stages "${{ needs.fetch.outputs.card_stages }}" --title "${{ needs.fetch.outputs.card_title }}"
+        npx docusaurus report-to-lark --card-finish --message-id ${{ needs.fetch.outputs.card_id }} --status success --started-at "${{ needs.fetch.outputs.card_started_at }}" --stages "${{ needs.fetch.outputs.card_stages }}" --title "${{ needs.fetch.outputs.card_title }}" --notes-json "$CARD_NOTES_JSON"
       env:
         APP_ID: ${{ secrets.APP_ID }}
         APP_SECRET: ${{ secrets.APP_SECRET }}
         FEISHU_HOST: ${{ vars.FEISHU_HOST }}
+        CARD_NOTES_JSON: ${{ needs.fetch.outputs.card_notes_json }}

@@ -3,6 +3,10 @@ const fs = require('node:fs')
 const { v4: uuidv4 } = require('uuid')
 const tokenFetcher = require('../lark-docs/larkTokenFetcher')
 const { fetchFeishuJsonWithRetry } = require('../lark-docs/feishuFetch')
+const {
+  buildFinishState,
+  parseNotesJson,
+} = require('./reportCardState')
 require('dotenv/config')
 
 // ---------------------------------------------------------------------------
@@ -56,22 +60,6 @@ function saveState(siteDir, state) {
   fs.writeFileSync(path.join(siteDir, CARD_STATE_FILE), JSON.stringify(state, null, 2))
 }
 
-function finishStatuses(stages, success, existingStatuses=null) {
-  if (success) {
-    return stages.map(() => 'done')
-  }
-
-  if (existingStatuses) {
-    const failedIndex = existingStatuses.findIndex(s => s === 'running' || s === 'pending')
-    if (failedIndex === -1) {
-      return existingStatuses.map((s, i) => i === existingStatuses.length - 1 ? 'fail' : s)
-    }
-    return existingStatuses.map((s, i) => i === failedIndex ? 'fail' : s)
-  }
-
-  return stages.map((_, i) => i === 0 ? 'fail' : 'pending')
-}
-
 async function patchCard(token, messageId, state, feishuHost) {
   return fetchFeishuJsonWithRetry(`${feishuHost}/open-apis/im/v1/messages/${messageId}`, {
     method: 'PATCH',
@@ -109,6 +97,7 @@ module.exports = function (context) {
         .option('--status <status>', 'Stage status: done (default) | fail | success')
         .option('--note <note>', 'Optional note to append to the card')
         .option('--note-file <path>', 'Read note text from a file (supports multiline; overrides --note)')
+        .option('--notes-json <json>', 'JSON array of note strings to append to the card')
         .option('--card-note-file <path>', 'Append a note file to the current progress card without advancing the stage')
         .option('--message-id <id>', 'Card message ID for cross-job --card-finish')
         .option('--started-at <iso>', 'startedAt ISO string passed from card-create job output')
@@ -212,25 +201,17 @@ module.exports = function (context) {
               process.stderr.write('[report-to-lark] --message-id required for --card-finish\n')
               return
             }
-            // State file not available across jobs — reconstruct from job outputs
-            const success = opts.status === 'success' || opts.status === 'done'
             const passedStages = opts.stages ? opts.stages.split(',').map(s => s.trim()).filter(Boolean) : null
-            const state = loadState(context.siteDir) || {
+            const notes = parseNotesJson(opts.notesJson)
+            if (noteText) notes.push(noteText)
+            const state = buildFinishState({
+              existingState: loadState(context.siteDir),
               title: opts.title || 'Build',
-              stages: passedStages || [success ? 'Build succeeded' : 'Build failed'],
-              statuses: finishStatuses(
-                passedStages || [success ? 'Build succeeded' : 'Build failed'],
-                success
-              ),
-              currentIndex: 0,
-              notes: noteText ? [noteText] : [],
-              startedAt: opts.startedAt || new Date().toISOString(),
-            }
-            if (loadState(context.siteDir)) {
-              // State file present (same runner reused): apply final status
-              state.statuses = finishStatuses(state.stages, success, state.statuses)
-              if (noteText) state.notes.push(noteText)
-            }
+              stages: passedStages,
+              status: opts.status,
+              startedAt: opts.startedAt,
+              notes,
+            })
             await patchCard(token, messageId, state, FEISHU_HOST)
             return
           }
