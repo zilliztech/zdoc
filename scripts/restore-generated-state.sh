@@ -10,6 +10,10 @@ fi
 git fetch origin "${target_branch}" --depth=1
 
 paths=(
+  "docs"
+  "docs-byoc"
+  "reference"
+  "config/generated"
   "plugins/lark-docs/meta/snapshots"
 )
 
