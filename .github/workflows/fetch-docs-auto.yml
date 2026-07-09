@@ -91,28 +91,7 @@ jobs:
     - name: fetch sdk references
       id: fetch_sdk_refs
       run: |
-        npx docusaurus fetch-lark-docs -man python -src-only
-        npx docusaurus fetch-lark-docs -man pymilvus25 -src-only
-        npx docusaurus fetch-lark-docs -man pymilvus26 -src-only
-        npx docusaurus fetch-lark-docs -man pymilvus30 -tar zilliz -s3
-        npx docusaurus fetch-lark-docs -man pymilvus30 -tar zilliz -post
-        npx docusaurus fetch-lark-docs -man javaV2 -src-only
-        npx docusaurus fetch-lark-docs -man javaV225 -src-only
-        npx docusaurus fetch-lark-docs -man javaV226 -src-only
-        npx docusaurus fetch-lark-docs -man javaV230 -tar zilliz -s3
-        npx docusaurus fetch-lark-docs -man javaV230 -tar zilliz -post
-        npx docusaurus fetch-lark-docs -man node -src-only
-        npx docusaurus fetch-lark-docs -man nodejs25 -src-only
-        npx docusaurus fetch-lark-docs -man nodejs26 -src-only
-        npx docusaurus fetch-lark-docs -man nodejs30 -tar zilliz -s3
-        npx docusaurus fetch-lark-docs -man nodejs30 -tar zilliz -post
-        npx docusaurus fetch-lark-docs -man gov226 -src-only
-        npx docusaurus fetch-lark-docs -man gov230 -tar zilliz -s3
-        npx docusaurus fetch-lark-docs -man gov230 -tar zilliz -post
-        npx docusaurus fetch-lark-docs -man cliv13 -src-only
-        npx docusaurus fetch-lark-docs -man cliv14 -tar zilliz -s3
-        npx docusaurus fetch-apifox-docs -s plugins/apifox-docs/meta/openapi/
-        npx docusaurus report-to-lark --card-advance
+        bash scripts/fetch-sdk-reference-docs.sh
       env:
         APP_ID: ${{ secrets.APP_ID }}
         APP_SECRET: ${{ secrets.APP_SECRET }}
@@ -130,6 +109,7 @@ jobs:
     - name: build and check sdk docs
       run: |
         node scripts/run-doc-build-stage.js --build "pnpm run build"
+        bash scripts/update-sdk-reference-snapshots.sh
       env:
         TOKEN: ${{ secrets.ACTION_TOKEN }}
         APP_ID: ${{ secrets.APP_ID }}
