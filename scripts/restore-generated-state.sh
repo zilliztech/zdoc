@@ -17,10 +17,10 @@ paths=(
   "plugins/lark-docs/meta/snapshots"
 )
 
-for path in "${paths[@]}"; do
-  if git ls-tree -r --name-only "origin/${target_branch}" -- "${path}" | grep -q .; then
-    git checkout "origin/${target_branch}" -- "${path}"
+for restore_path in "${paths[@]}"; do
+  if git ls-tree --name-only "origin/${target_branch}" -- "${restore_path}" | grep -Fxq "${restore_path}"; then
+    git checkout "origin/${target_branch}" -- "${restore_path}"
   else
-    echo "[restore-generated-state] ${path} not found on origin/${target_branch}; skipping"
+    echo "[restore-generated-state] ${restore_path} not found on origin/${target_branch}; skipping"
   fi
 done
