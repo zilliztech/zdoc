@@ -1,7 +1,7 @@
 ---
 title: "Create a Collection | Cloud"
 slug: /manage-collections-sdks
-sidebar_label: "Create"
+sidebar_label: "Managed Collection"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
@@ -11,6 +11,12 @@ description: "You can create a collection by defining its schema, index paramete
 type: origin
 token: EmcowmwYpiFbWgkmnqfcMf3knVc
 sidebar_position: 2
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - collection
+  - create collections
 displayed_sidebar: default
 
 ---
@@ -787,7 +793,7 @@ if (!status.IsOk()) {
 
 Zilliz Cloud enables mmap on all collections by default, allowing Zilliz Cloud to map raw field data into memory instead of fully loading them. This reduces memory footprints and increases collection capacity. For details on mmap, refer to [Use mmap](./use-mmap).
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -846,7 +852,6 @@ fmt.Println("collection created")
 ```
 
 </TabItem>
-</Tabs>
 
 <TabItem value='bash'>
 
@@ -872,6 +877,8 @@ curl --request POST \
 
 </TabItem>
 
+<TabItem value='c++'>
+
 ```c++
 auto status = client->CreateCollection(milvus::CreateCollectionRequest()
                                           .WithCollectionName("customized_setup_4")
@@ -881,6 +888,9 @@ if (!status.IsOk()) {
     std::cout << status.Message() << std::endl;
 }
 ```
+
+</TabItem>
+</Tabs>
 
 ### Set Collection TTL\{#set-collection-ttl}
 
