@@ -170,6 +170,18 @@ async function testConvertedHeadingLinkDropsVisibilitySuffixes() {
   assert.equal(converted, './target-page#custom-privilege-groups');
 }
 
+async function testConvertedAnchorLinkToleratesTargetWithoutBlocks() {
+  const writer = createWriter([]);
+  writer.__fetch_link_doc_source = () => ({
+    title: 'Target',
+    slug: 'target-page',
+  });
+
+  const converted = await writer.__convert_link('https://zilliverse.feishu.cn/docx/doc-token#missing-heading');
+
+  assert.equal(converted, './target-page');
+}
+
 function testFeatureCardMarkerParserAcceptsReadableSpacing() {
   const writer = createWriter([]);
   assert.deepEqual(
@@ -546,6 +558,7 @@ async function run() {
   testKeywordPickerUsesStableSeed();
   testHeadingSlugDropsVisibilitySuffixes();
   await testConvertedHeadingLinkDropsVisibilitySuffixes();
+  await testConvertedAnchorLinkToleratesTargetWithoutBlocks();
   testFeatureCardMarkerParserAcceptsReadableSpacing();
   await testCalloutPreservesMarkdownBody();
   await testQuotePreservesMarkdownBody();

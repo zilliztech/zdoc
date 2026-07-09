@@ -173,6 +173,61 @@ test('auditCanonicalLinks scans canonical sources and reports non-canonical targ
   assert.deepEqual(report.files[0].broken_references.map(item => item.source_type), ['mention_doc', 'href_link'])
 })
 
+test('auditCanonicalLinks can scope validation to incremental source tokens', () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'canonical-link-audit-scope-'))
+  const changed = source({
+    title: 'Changed Source',
+    slug: 'changed-source',
+    node_token: 'changed-token',
+    origin_node_token: 'changed-origin-token',
+    base_record_id: 'rec-changed',
+    base_placement_type: 'canonical',
+  })
+  const unchanged = source({
+    title: 'Unchanged Source',
+    slug: 'unchanged-source',
+    node_token: 'unchanged-token',
+    origin_node_token: 'unchanged-origin-token',
+    base_record_id: 'rec-unchanged',
+    base_placement_type: 'canonical',
+  })
+  writeJson(dir, 'changed-token.json', changed)
+  writeJson(dir, 'unchanged-token.json', unchanged)
+
+  const records = [
+    {
+      record_id: 'rec-changed',
+      base_table_id: 'tbl',
+      base_table_name: 'Guides',
+      fields: {
+        Docs: { text: 'Changed Source', link: 'https://zilliverse.feishu.cn/wiki/changed-token' },
+        Slug: 'changed-source',
+      },
+    },
+    {
+      record_id: 'rec-unchanged',
+      base_table_id: 'tbl',
+      base_table_name: 'Guides',
+      fields: {
+        Docs: { text: 'Unchanged Source', link: 'https://zilliverse.feishu.cn/wiki/unchanged-token' },
+        Slug: 'unchanged-source',
+      },
+    },
+  ]
+
+  const report = auditCanonicalLinks({
+    manualName: 'guides',
+    docSourceDir: dir,
+    records,
+    target: 'zilliz.saas',
+    sourceTokens: ['changed-token'],
+  })
+
+  assert.equal(report.summary.scanned_sources, 1)
+  assert.equal(report.summary.broken_references, 2)
+  assert.deepEqual(report.files.map(file => file.source_file), ['changed-token.json'])
+})
+
 test('scoreCandidates limits replacements to canonical Base records and ranks exact title first', () => {
   const candidates = scoreCandidates({
     occurrence: { link_text: 'Data Transfer Cost', target_source: null },

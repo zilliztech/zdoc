@@ -51,7 +51,7 @@ jobs:
     - name: fetch english docs
       id: fetch_en_docs
       run: |
-        npx docusaurus fetch-lark-docs -man guides -tar zilliz.saas -s3 --incremental --buildEnv uat --auditCanonicalLinks
+        npx docusaurus fetch-lark-docs -man guides -tar zilliz.saas -s3 --incremental --buildEnv uat --auditCanonicalLinks --failOnBrokenCanonicalLinks
         npx docusaurus fetch-lark-docs -man guides -tar zilliz.saas -post -skipS
         npx docusaurus fetch-lark-docs -man guides -tar zilliz.paas -s3 -skipS
         npx docusaurus fetch-lark-docs -man guides -tar zilliz.paas -post -skipS
@@ -144,14 +144,38 @@ jobs:
       run: node scripts/collect-build-card-notes.js
       env:
         CARD_REPORT_REF: dev
+        CARD_REPORT_STARTED_AT: ${{ steps.card.outputs.card_started_at }}
     - name: commit audit report files
       if: always()
-      uses: stefanzweifel/git-auto-commit-action@v5
-      with:
-        branch: dev
-        create_branch: true
-        push_options: --force
-        file_pattern: plugins/lark-docs/meta/reports plugins/link-checks/meta/reports
+      run: |
+        REPORT_TMP="$(mktemp -d)"
+        mkdir -p "$REPORT_TMP/plugins/lark-docs/meta" "$REPORT_TMP/plugins/link-checks/meta"
+        if [ -d plugins/lark-docs/meta/reports ]; then
+          cp -R plugins/lark-docs/meta/reports "$REPORT_TMP/plugins/lark-docs/meta/reports"
+        fi
+        if [ -d plugins/link-checks/meta/reports ]; then
+          cp -R plugins/link-checks/meta/reports "$REPORT_TMP/plugins/link-checks/meta/reports"
+        fi
+        git fetch origin dev
+        git switch --force-create dev origin/dev
+        rm -rf plugins/lark-docs/meta/reports plugins/link-checks/meta/reports
+        if [ -d "$REPORT_TMP/plugins/lark-docs/meta/reports" ]; then
+          mkdir -p plugins/lark-docs/meta
+          cp -R "$REPORT_TMP/plugins/lark-docs/meta/reports" plugins/lark-docs/meta/reports
+        fi
+        if [ -d "$REPORT_TMP/plugins/link-checks/meta/reports" ]; then
+          mkdir -p plugins/link-checks/meta
+          cp -R "$REPORT_TMP/plugins/link-checks/meta/reports" plugins/link-checks/meta/reports
+        fi
+        git add --all -- plugins/lark-docs/meta/reports plugins/link-checks/meta/reports
+        if git diff --cached --quiet; then
+          echo "No audit report changes to commit."
+        else
+          git -c user.name="github-actions[bot]" \
+            -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+            commit -m "Apply automatic changes"
+          git push --force origin HEAD:dev
+        fi
     - name: commit to dev
       uses: stefanzweifel/git-auto-commit-action@v5
       with:

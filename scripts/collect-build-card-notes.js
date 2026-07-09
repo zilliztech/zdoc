@@ -14,6 +14,26 @@ function readJsonIfExists(file) {
   }
 }
 
+function reportStartedAt() {
+  const raw = process.env.CARD_REPORT_STARTED_AT || ''
+  const timestamp = Date.parse(raw)
+  return Number.isNaN(timestamp) ? null : timestamp
+}
+
+function isFreshGeneratedAt(value) {
+  const startedAt = reportStartedAt()
+  if (!startedAt || !value) return true
+  const generatedAt = Date.parse(value)
+  if (Number.isNaN(generatedAt)) return true
+  return generatedAt >= startedAt
+}
+
+function freshJsonReport(file) {
+  const report = readJsonIfExists(file)
+  if (!report) return null
+  return isFreshGeneratedAt(report.generated_at) ? report : null
+}
+
 function compactMarkdown(markdown, maxLines = 80) {
   const lines = markdown.split(/\r?\n/)
   if (lines.length <= maxLines) return markdown
@@ -51,9 +71,9 @@ function linkCheckNote() {
 function canonicalLinkNote() {
   const jsonFile = 'plugins/lark-docs/meta/reports/guides-canonical-link-audit.json'
   const mdFile = 'plugins/lark-docs/meta/reports/guides-canonical-link-audit.md'
-  const report = readJsonIfExists(jsonFile)
+  const report = freshJsonReport(jsonFile)
   if (!report) {
-    const fallback = readIfExists(mdFile)
+    const fallback = reportStartedAt() ? '' : readIfExists(mdFile)
     return fallback ? `${compactMarkdown(fallback, 40)}\n\n${reportFileLine(mdFile)}` : null
   }
 
@@ -78,7 +98,7 @@ function canonicalLinkNote() {
 
 function brokenContentLinksNote() {
   const jsonFile = 'plugins/lark-docs/meta/reports/guides-broken-content-links.json'
-  const report = readJsonIfExists(jsonFile)
+  const report = freshJsonReport(jsonFile)
   if (!report) return null
 
   const summary = report.summary || {}
@@ -114,9 +134,9 @@ function brokenContentLinksNote() {
 function incrementalPlanNote() {
   const jsonFile = 'plugins/lark-docs/meta/reports/guides-incremental-fetch-plan.json'
   const mdFile = 'plugins/lark-docs/meta/reports/guides-incremental-fetch-plan.md'
-  const plan = readJsonIfExists(jsonFile)
+  const plan = freshJsonReport(jsonFile)
   if (!plan) {
-    const fallback = readIfExists(mdFile)
+    const fallback = reportStartedAt() ? '' : readIfExists(mdFile)
     return fallback ? `${compactMarkdown(fallback, 40)}\n\n${reportFileLine(mdFile)}` : null
   }
 
@@ -167,6 +187,8 @@ module.exports = {
   brokenContentLinksNote,
   collectNotes,
   compactMarkdown,
+  freshJsonReport,
   githubFileUrl,
+  isFreshGeneratedAt,
   reportFileLine,
 }

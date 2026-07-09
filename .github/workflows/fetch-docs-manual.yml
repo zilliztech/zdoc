@@ -1,11 +1,6 @@
 name: "fetch lark docs (manual)"
 on: 
   workflow_dispatch:
-    inputs:
-      target_branch:
-        description: 'Target branch to commit changes to'
-        required: true
-        default: 'dev'
 
 jobs:
   fetch:
@@ -27,7 +22,7 @@ jobs:
     - name: checkout repo
       uses: actions/checkout@v4
     - name: restore generated docs state
-      run: bash scripts/restore-generated-state.sh "${{ github.event.inputs.target_branch || 'dev' }}"
+      run: bash scripts/restore-generated-state.sh dev
     - uses: pnpm/action-setup@v4
       with:
         version: 9
@@ -50,7 +45,7 @@ jobs:
     - name: fetch english docs
       id: fetch_en_docs
       run: |
-        npx docusaurus fetch-lark-docs -man guides -tar zilliz.saas -s3 --incremental --buildEnv uat --auditCanonicalLinks
+        npx docusaurus fetch-lark-docs -man guides -tar zilliz.saas -s3 --incremental --buildEnv uat --auditCanonicalLinks --failOnBrokenCanonicalLinks
         npx docusaurus fetch-lark-docs -man guides -tar zilliz.saas -post -skipS
         npx docusaurus fetch-lark-docs -man guides -tar zilliz.paas -s3 -skipS
         npx docusaurus fetch-lark-docs -man guides -tar zilliz.paas -post -skipS
@@ -72,7 +67,7 @@ jobs:
     - name: build docsite
       run: |
         node scripts/run-doc-build-stage.js --build "pnpm run build" --skipLinkChecks
-        node scripts/update-lark-doc-snapshot.js --manual guides --targets-built zilliz.saas,zilliz.paas --build-env uat --source-branch ${{ github.event.inputs.target_branch }} --publish-url https://docs.cloud-uat3.zilliz.com --link-check-remote https://docs.zilliz.com
+        node scripts/update-lark-doc-snapshot.js --manual guides --targets-built zilliz.saas,zilliz.paas --build-env uat --source-branch dev --publish-url https://docs.cloud-uat3.zilliz.com --link-check-remote https://docs.zilliz.com
       env:
         TOKEN: ${{ secrets.ACTION_TOKEN }}
         APP_ID: ${{ secrets.APP_ID }}
@@ -81,10 +76,10 @@ jobs:
         MODEL_API_BASE_URL: ${{ vars.MODEL_API_BASE_URL }}
         MODEL_API_KEY: ${{ secrets.MODEL_API_KEY }}
         MODEL_ID: ${{ vars.MODEL_ID }}
-    - name: commit docs source changes
+    - name: commit to dev
       uses: stefanzweifel/git-auto-commit-action@v5
       with:
-        branch: ${{ github.event.inputs.target_branch }}
+        branch: dev
         create_branch: true
         push_options: --force
     - name: fetch sdk references
@@ -128,11 +123,7 @@ jobs:
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
     - name: build and check sdk docs
       run: |
-        build_stage_args=()
-        if [ "${{ github.event.inputs.target_branch }}" = "feat/zdoc-redesign-dev" ]; then
-          build_stage_args+=(--skipLinkChecks)
-        fi
-        node scripts/run-doc-build-stage.js --build "pnpm run build" "${build_stage_args[@]}"
+        node scripts/run-doc-build-stage.js --build "pnpm run build"
       env:
         TOKEN: ${{ secrets.ACTION_TOKEN }}
         APP_ID: ${{ secrets.APP_ID }}
@@ -146,19 +137,43 @@ jobs:
       if: always()
       run: node scripts/collect-build-card-notes.js
       env:
-        CARD_REPORT_REF: ${{ github.event.inputs.target_branch || 'dev' }}
+        CARD_REPORT_REF: dev
+        CARD_REPORT_STARTED_AT: ${{ steps.card.outputs.card_started_at }}
     - name: commit audit report files
       if: always()
+      run: |
+        REPORT_TMP="$(mktemp -d)"
+        mkdir -p "$REPORT_TMP/plugins/lark-docs/meta" "$REPORT_TMP/plugins/link-checks/meta"
+        if [ -d plugins/lark-docs/meta/reports ]; then
+          cp -R plugins/lark-docs/meta/reports "$REPORT_TMP/plugins/lark-docs/meta/reports"
+        fi
+        if [ -d plugins/link-checks/meta/reports ]; then
+          cp -R plugins/link-checks/meta/reports "$REPORT_TMP/plugins/link-checks/meta/reports"
+        fi
+        git fetch origin dev
+        git switch --force-create dev origin/dev
+        rm -rf plugins/lark-docs/meta/reports plugins/link-checks/meta/reports
+        if [ -d "$REPORT_TMP/plugins/lark-docs/meta/reports" ]; then
+          mkdir -p plugins/lark-docs/meta
+          cp -R "$REPORT_TMP/plugins/lark-docs/meta/reports" plugins/lark-docs/meta/reports
+        fi
+        if [ -d "$REPORT_TMP/plugins/link-checks/meta/reports" ]; then
+          mkdir -p plugins/link-checks/meta
+          cp -R "$REPORT_TMP/plugins/link-checks/meta/reports" plugins/link-checks/meta/reports
+        fi
+        git add --all -- plugins/lark-docs/meta/reports plugins/link-checks/meta/reports
+        if git diff --cached --quiet; then
+          echo "No audit report changes to commit."
+        else
+          git -c user.name="github-actions[bot]" \
+            -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+            commit -m "Apply automatic changes"
+          git push --force origin HEAD:dev
+        fi
+    - name: commit to dev
       uses: stefanzweifel/git-auto-commit-action@v5
       with:
-        branch: ${{ github.event.inputs.target_branch }}
-        create_branch: true
-        push_options: --force
-        file_pattern: plugins/lark-docs/meta/reports plugins/link-checks/meta/reports
-    - name: commit sdk source changes
-      uses: stefanzweifel/git-auto-commit-action@v5
-      with:
-        branch: ${{ github.event.inputs.target_branch }}
+        branch: dev
         create_branch: true
         push_options: --force
   failure:

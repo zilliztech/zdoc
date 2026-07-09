@@ -3002,7 +3002,7 @@ class larkDocWriter {
                 let newUrl = `./${slug}`;
 
                 if (header) {
-                    const headerBlock = page['blocks']['items'].filter(x => x['block_id'] === header)[0];
+                    const headerBlock = page['blocks']?.['items']?.filter(x => x['block_id'] === header)[0];
 
                     if (headerBlock) {
                         const blockType = this.block_types[headerBlock['block_type'] - 1];

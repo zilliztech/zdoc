@@ -90,7 +90,7 @@ module.exports = function (context, options) {
                         })
                     }
 
-                    const auditCanonicalLinks = async ({ fresh=false } = {}) => {
+                    const auditCanonicalLinks = async ({ fresh=false, sourceTokens=null } = {}) => {
                         if (!opts.auditCanonicalLinks && !opts.failOnBrokenCanonicalLinks) return null
                         const auditScraper = fresh ? new docScraper(root, base, sourceType, docSourceDir) : scraper
                         if (!auditScraper.records) {
@@ -105,6 +105,7 @@ module.exports = function (context, options) {
                             target: opts.pubTarget || null,
                             outputPrefix: prefix,
                             failOnBroken: !!opts.failOnBrokenCanonicalLinks,
+                            sourceTokens,
                         })
                         console.log(`[canonical-links] Report written to ${paths.markdownPath}`)
                         return report
@@ -237,8 +238,13 @@ module.exports = function (context, options) {
 
                     const maybeAuditCanonicalLinks = async ({ plan=null } = {}) => {
                         if (!hasFullSourceContent(plan)) {
-                            console.log('[incremental-fetch] Skipping full canonical link audit because only incremental sources were fetched.')
-                            return null
+                            const sourceTokens = plan?.expanded_tokens || []
+                            if (sourceTokens.length === 0) {
+                                console.log('[incremental-fetch] Skipping canonical link audit because no incremental sources changed.')
+                                return null
+                            }
+                            console.log(`[incremental-fetch] Running canonical link audit for ${sourceTokens.length} incremental source(s).`)
+                            return auditCanonicalLinks({ sourceTokens })
                         }
                         return auditCanonicalLinks()
                     }

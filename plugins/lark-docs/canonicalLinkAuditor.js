@@ -345,10 +345,11 @@ function sourceUrlFor(source) {
   return ''
 }
 
-function auditCanonicalLinks({ manualName, docSourceDir, records, target }) {
+function auditCanonicalLinks({ manualName, docSourceDir, records, target, sourceTokens = null }) {
   const sources = loadSources(docSourceDir)
   const { canonicalByToken, canonicalRecords } = buildCanonicalMap(records, sources)
   const canonicalRecordIds = new Set(canonicalRecords.map(record => record.record_id))
+  const sourceTokenSet = sourceTokens ? new Set(sourceTokens.filter(Boolean)) : null
   const hasCanonicalSourceMetadata = Array.from(new Set(sources.values()))
     .some(source => source.base_placement_type || source.base_record_id)
   const files = fs.existsSync(docSourceDir) ? fs.readdirSync(docSourceDir).filter(file => file.endsWith('.json')) : []
@@ -362,6 +363,7 @@ function auditCanonicalLinks({ manualName, docSourceDir, records, target }) {
   for (const file of files) {
     const source = JSON.parse(fs.readFileSync(path.join(docSourceDir, file), 'utf8'))
     if (!source.blocks?.items) continue
+    if (sourceTokenSet && !sourceTokenAliases(source).some(token => sourceTokenSet.has(token))) continue
     const isCanonicalSource = hasCanonicalSourceMetadata
       ? source.base_placement_type === 'canonical' && canonicalRecordIds.has(source.base_record_id)
       : sourceTokenAliases(source).some(token => canonicalByToken.has(token))
@@ -585,8 +587,8 @@ function removeLegacyCandidateReports(report, outputPrefix) {
   }
 }
 
-function runCanonicalLinkAudit({ manualName, docSourceDir, records, target, outputPrefix, failOnBroken = false }) {
-  const report = auditCanonicalLinks({ manualName, docSourceDir, records, target })
+function runCanonicalLinkAudit({ manualName, docSourceDir, records, target, outputPrefix, failOnBroken = false, sourceTokens = null }) {
+  const report = auditCanonicalLinks({ manualName, docSourceDir, records, target, sourceTokens })
   const paths = writeCanonicalLinkReports(report, outputPrefix)
   if (failOnBroken && report.summary.broken_references > 0) {
     throw new Error(`[canonical-links] Broken canonical links found: ${report.summary.broken_references}. See ${paths.markdownPath}`)
