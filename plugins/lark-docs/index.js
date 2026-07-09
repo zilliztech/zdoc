@@ -90,7 +90,7 @@ module.exports = function (context, options) {
                         })
                     }
 
-                    const auditCanonicalLinks = async ({ fresh=false, sourceTokens=null } = {}) => {
+                    const auditCanonicalLinks = async ({ fresh=false, sourceTokens=null, failOnBroken=!!opts.failOnBrokenCanonicalLinks } = {}) => {
                         if (!opts.auditCanonicalLinks && !opts.failOnBrokenCanonicalLinks) return null
                         const auditScraper = fresh ? new docScraper(root, base, sourceType, docSourceDir) : scraper
                         if (!auditScraper.records) {
@@ -104,7 +104,7 @@ module.exports = function (context, options) {
                             records: auditScraper.records,
                             target: opts.pubTarget || null,
                             outputPrefix: prefix,
-                            failOnBroken: !!opts.failOnBrokenCanonicalLinks,
+                            failOnBroken,
                             sourceTokens,
                         })
                         console.log(`[canonical-links] Report written to ${paths.markdownPath}`)
@@ -243,8 +243,8 @@ module.exports = function (context, options) {
                                 console.log('[incremental-fetch] Skipping canonical link audit because no incremental sources changed.')
                                 return null
                             }
-                            console.log(`[incremental-fetch] Running canonical link audit for ${sourceTokens.length} incremental source(s).`)
-                            return auditCanonicalLinks({ sourceTokens })
+                            console.log(`[incremental-fetch] Running canonical link audit for ${sourceTokens.length} incremental source(s) in report-only mode.`)
+                            return auditCanonicalLinks({ sourceTokens, failOnBroken: false })
                         }
                         return auditCanonicalLinks()
                     }

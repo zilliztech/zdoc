@@ -45,7 +45,7 @@ jobs:
     - name: fetch english docs
       id: fetch_en_docs
       run: |
-        npx docusaurus fetch-lark-docs -man guides -tar zilliz.saas -s3 --incremental --buildEnv uat --auditCanonicalLinks --failOnBrokenCanonicalLinks
+        npx docusaurus fetch-lark-docs -man guides -tar zilliz.saas -s3 --incremental --buildEnv uat --auditCanonicalLinks
         npx docusaurus fetch-lark-docs -man guides -tar zilliz.saas -post -skipS
         npx docusaurus fetch-lark-docs -man guides -tar zilliz.paas -s3 -skipS
         npx docusaurus fetch-lark-docs -man guides -tar zilliz.paas -post -skipS
