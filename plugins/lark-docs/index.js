@@ -202,6 +202,24 @@ module.exports = function (context, options) {
                         removeEmptyDirs(targetOutputDir)
                     }
 
+                    const hasFullSourceContent = (plan) => !plan || plan.mode !== 'incremental'
+
+                    const maybeValidateContentLinks = async ({ plan=null, force=false } = {}) => {
+                        if (!hasFullSourceContent(plan)) {
+                            console.log('[incremental-fetch] Skipping full content link validation because only incremental sources were fetched.')
+                            return null
+                        }
+                        return validateContentLinks({ force })
+                    }
+
+                    const maybeAuditCanonicalLinks = async ({ plan=null } = {}) => {
+                        if (!hasFullSourceContent(plan)) {
+                            console.log('[incremental-fetch] Skipping full canonical link audit because only incremental sources were fetched.')
+                            return null
+                        }
+                        return auditCanonicalLinks()
+                    }
+
                     const injectedDocFilesToPreserve = (targetConfig) => {
                         const effectiveOverridePath = targetConfig.overridePath ?? overridePath
                         if (!effectiveOverridePath || !fs.existsSync(effectiveOverridePath)) return []
@@ -269,10 +287,10 @@ module.exports = function (context, options) {
                                 await auditCanonicalLinks()
                             } else {
                                 // const scraper = new docScraper(root, base, sourceType, docSourceDir)
-                                await fetchSources()
+                                const sourcePlan = await fetchSources()
                                 if (opts.incrementalPlanOnly) return
-                                await validateContentLinks({ force: !!opts.validateLinks })
-                                await auditCanonicalLinks()
+                                await maybeValidateContentLinks({ plan: sourcePlan, force: !!opts.validateLinks })
+                                await maybeAuditCanonicalLinks({ plan: sourcePlan })
                             }
                         // Pull specific source file from Feishu
                         } else if (opts.docToken !== undefined) {
@@ -349,10 +367,10 @@ module.exports = function (context, options) {
                                 }
 
                                 if (!opts.skipSourceDown || opts.validateLinks) {
-                                    await validateContentLinks({ force: !!opts.validateLinks })
+                                    await maybeValidateContentLinks({ plan: sourcePlan, force: !!opts.validateLinks })
                                 }
 
-                                await auditCanonicalLinks()
+                                await maybeAuditCanonicalLinks({ plan: sourcePlan })
 
                                 if (opts.sourceOnly) {
                                     writerCleanup()

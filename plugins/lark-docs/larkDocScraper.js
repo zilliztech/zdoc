@@ -1105,7 +1105,7 @@ class larkDocScraper {
         }
     }
 
-    async __apply_base_navigation({ partialTables=false } = {}) {
+    async __apply_base_navigation({ partialTables=false, hydrateLinkedDocs=false } = {}) {
         if (!this.records) {
             await this.__base()
         }
@@ -1113,7 +1113,9 @@ class larkDocScraper {
             return
         }
 
-        await this.__fetch_base_doc_sources()
+        if (hydrateLinkedDocs) {
+            await this.__fetch_base_doc_sources()
+        }
         const sources = this.__source_files()
         let root = sources.get(this.root)
         if (!root) {
@@ -1128,6 +1130,11 @@ class larkDocScraper {
         }
 
         const recordsById = new Map(this.records.map(record => [record.record_id, record]))
+        const recordsByDocToken = new Map()
+        for (const record of this.records) {
+            const docToken = this.__doc_token(this.__doc_field(record.fields))
+            if (docToken) recordsByDocToken.set(docToken, record)
+        }
         const sourcesByToken = () => this.__source_files()
         const childrenByParent = new Map()
         for (const record of this.records) {
@@ -1166,7 +1173,8 @@ class larkDocScraper {
                 })
                 source.base_nav_ref = true
                 source.base_nav_ref_target_token = targetToken
-                source.base_nav_ref_target_title = targetSource?.title || targetSource?.name || null
+                const targetRecord = targetToken ? recordsByDocToken.get(targetToken) : null
+                source.base_nav_ref_target_title = targetSource?.title || targetSource?.name || (targetRecord ? this.__record_title(targetRecord) : null)
             } else if (placementType === 'link') {
                 source = this.__virtual_source({
                     nodeToken: this.__nav_token(record),
@@ -1190,8 +1198,9 @@ class larkDocScraper {
                     delete source.children
                 }
             } else {
+                const nodeToken = placementType === 'canonical' && docToken ? docToken : this.__nav_token(record)
                 source = this.__virtual_source({
-                    nodeToken: this.__nav_token(record),
+                    nodeToken,
                     parentToken,
                     title,
                     slug,

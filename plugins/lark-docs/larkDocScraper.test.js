@@ -668,6 +668,40 @@ async function testBaseNavigationCreatesRootWhenSourceCacheIsEmpty() {
   assert.equal(root.children[0].node_token, 'base:tbl');
 }
 
+async function testBaseNavigationUsesBaseRecordsWithoutFetchingEveryLinkedDoc() {
+  const larkDocScraper = require('./larkDocScraper');
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'lark-doc-scraper-'));
+  const scraper = new larkDocScraper('root-token', 'base-token:*', 'wiki', tempDir);
+  scraper.use_all_base_tables = true;
+  scraper.records = [
+    {
+      record_id: 'rec-source',
+      base_table_id: 'tbl',
+      base_table_name: 'Guides',
+      base_record_index: 0,
+      fields: {
+        Docs: { text: 'Source Doc', link: 'https://zilliverse.feishu.cn/wiki/source-token' },
+        Slug: 'source-doc',
+        Status: 'Published',
+        'Publish Targets': ['zilliz.saas'],
+      },
+    },
+  ];
+  scraper.base_tables = [{ table_id: 'tbl', name: 'Guides', index: 0 }];
+  let fetched = false;
+  scraper.__fetch_base_doc_sources = async () => {
+    fetched = true;
+  };
+
+  await scraper.__apply_base_navigation({ partialTables: true });
+
+  assert.equal(fetched, false);
+  const source = JSON.parse(fs.readFileSync(path.join(tempDir, 'source-token.json'), 'utf8'));
+  assert.equal(source.node_token, 'source-token');
+  assert.equal(source.base_nav_virtual, true);
+  assert.equal(source.base_placement_type, 'canonical');
+}
+
 async function testFetchWikiNodeMetadataResolvesShortcutRevisionFields() {
   const larkDocScraper = require('./larkDocScraper');
   const scraper = new larkDocScraper('root-token', 'base-token:*', 'wiki', '/tmp');
@@ -931,6 +965,7 @@ async function run() {
   await testValidateContentLinksPreservesLegacyReportShape();
   await testFetchSourceTokensFetchesSelectedTokensWithoutClearingSources();
   await testBaseNavigationCreatesRootWhenSourceCacheIsEmpty();
+  await testBaseNavigationUsesBaseRecordsWithoutFetchingEveryLinkedDoc();
   await testFetchWikiNodeMetadataResolvesShortcutRevisionFields();
   await testFetchWikiNodeUsesEndpointSpecificLimiter();
   await testBaseScanProgressLogsTablesAndRecords();
