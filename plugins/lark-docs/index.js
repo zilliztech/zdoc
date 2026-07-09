@@ -144,6 +144,29 @@ module.exports = function (context, options) {
                         return plan
                     }
 
+                    const readRecentIncrementalPlanForSkippedSources = () => {
+                        if (!opts.skipSourceDown) return null
+                        const reportPath = path.join('.', 'plugins', 'lark-docs', 'meta', 'reports', `${manualName}-incremental-fetch-plan.json`)
+                        if (!fs.existsSync(reportPath)) return null
+                        let plan
+                        try {
+                            plan = JSON.parse(fs.readFileSync(reportPath, 'utf8'))
+                        } catch (e) {
+                            console.warn(`[incremental-fetch] Cannot reuse incremental plan ${reportPath}: ${e.message}`)
+                            return null
+                        }
+                        if (plan.manual !== manualName || plan.mode !== 'incremental') return null
+                        const planSourceDir = path.resolve(plan.source_dir || '')
+                        if (planSourceDir !== path.resolve(docSourceDir)) return null
+                        const expectedBuildEnv = opts.buildEnv || process.env.DOCS_BUILD_ENV || 'local'
+                        if ((plan.build_env || null) !== (expectedBuildEnv || null)) return null
+                        const generatedAt = Date.parse(plan.generated_at || '')
+                        const maxPlanAgeMs = 6 * 60 * 60 * 1000
+                        if (!Number.isFinite(generatedAt) || Date.now() - generatedAt > maxPlanAgeMs) return null
+                        console.log(`[incremental-fetch] Reusing recent incremental plan for skipped sources: ${reportPath}`)
+                        return plan
+                    }
+
                     const fetchSources = async () => {
                         if (opts.incremental || opts.incrementalPlanOnly) {
                             if (sourceType !== 'wiki' || !base.endsWith(':*')) {
@@ -349,7 +372,7 @@ module.exports = function (context, options) {
                         if (opts.docTitle === undefined && !opts.faq && !opts.postProcess) {
                             try {
                                 console.log('Fetching docs from Feishu...')
-                                let sourcePlan = null
+                                let sourcePlan = readRecentIncrementalPlanForSkippedSources()
                                 if (!opts.skipSourceDown) {
                                     sourcePlan = await fetchSources()
                                     if (opts.incrementalPlanOnly) {

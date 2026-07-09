@@ -583,6 +583,12 @@ class larkDocWriter {
      */
     async write_subtree(outputDir, token) {
         const node = this.__fetch_doc_source('node_token', token)
+
+        if (token === this.root_token) {
+            await this.write_docs(outputDir, token)
+            return
+        }
+
         let relPath = ''
         let current = node
 
@@ -597,12 +603,49 @@ class larkDocWriter {
             }
         }
 
-        const targetPath = `${outputDir}/${relPath}`.replace(/\/+/g, '/')
-        if (!fs.existsSync(targetPath)) {
-            fs.mkdirSync(targetPath, { recursive: true })
+        const parentPath = `${outputDir}/${relPath}`.replace(/\/+/g, '/')
+        if (!fs.existsSync(parentPath)) {
+            fs.mkdirSync(parentPath, { recursive: true })
         }
 
-        await this.write_docs(targetPath, token)
+        const meta = await this.__is_to_publish(node.title, node.slug, node.node_token)
+        if (!meta.publish) return
+
+        const writeCurrentPage = async (pagePath, docCardList) => {
+            console.log(`${pagePath}/${node.slug}.md`.replace(/\/+/g, '/'))
+            await this.write_doc({
+                path: pagePath,
+                page_title: node.title,
+                page_slug: node.slug,
+                page_beta: meta.beta,
+                notebook: meta.notebook,
+                addedSince: meta.addSince,
+                lastModified: meta.lastModified,
+                deprecateSince: meta.deprecateSince,
+                page_type: node.node_type,
+                page_token: node.node_token,
+                sidebar_position: 1,
+                sidebar_label: meta.labels,
+                keywords: meta.keywords,
+                doc_card_list: docCardList,
+            })
+        }
+
+        if (node.has_child) {
+            const nodePath = `${parentPath}/${node.slug}`.replace(/\/+/g, '/')
+            if (!fs.existsSync(nodePath)) {
+                fs.mkdirSync(nodePath, { recursive: true })
+            }
+            const category = this.categorize_node(node)
+            if (category === 'meaningful') {
+                await writeCurrentPage(nodePath, true)
+            } else {
+                console.log(`${nodePath}/ [meaningless category — no index page generated]`)
+            }
+            await this.write_docs(nodePath, token)
+        } else {
+            await writeCurrentPage(parentPath, false)
+        }
     }
 
     async write_doc ({

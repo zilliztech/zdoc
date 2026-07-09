@@ -55,7 +55,6 @@ jobs:
         npx docusaurus fetch-lark-docs -man guides -tar zilliz.saas -post -skipS
         npx docusaurus fetch-lark-docs -man guides -tar zilliz.paas -s3 -skipS
         npx docusaurus fetch-lark-docs -man guides -tar zilliz.paas -post -skipS
-        npx docusaurus fetch-lark-docs -man agents -tar zilliz -s3
         npx docusaurus report-to-lark --card-advance
       env:
         APP_ID: ${{ secrets.APP_ID }}
