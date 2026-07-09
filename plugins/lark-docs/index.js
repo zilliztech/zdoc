@@ -150,7 +150,7 @@ module.exports = function (context, options) {
                                 console.warn('[incremental-fetch] Incremental fetch is only supported for wiki manuals backed by all Base tables. Falling back to full fetch.')
                                 if (opts.incrementalPlanOnly) return
                                 await fullSourceFetch()
-                                return
+                                return null
                             }
                             const plan = await planIncrementalSourceFetch()
                             if (opts.incrementalPlanOnly) return
@@ -159,10 +159,47 @@ module.exports = function (context, options) {
                                 if (fallbackSourceDir !== undefined) {
                                     utils.fetch_fallback_sources(docSourceDir, fallbackSourceDir, sourceType, root)
                                 }
-                                return
+                                return plan
                             }
                         }
                         await fullSourceFetch()
+                        return null
+                    }
+
+                    const removeEmptyDirs = (dir) => {
+                        if (!fs.existsSync(dir)) return
+                        const entries = fs.readdirSync(dir, { withFileTypes: true })
+                        for (const entry of entries) {
+                            if (entry.isDirectory()) removeEmptyDirs(path.join(dir, entry.name))
+                        }
+                        if (dir !== outputDir && fs.existsSync(dir) && fs.readdirSync(dir).length === 0) {
+                            fs.rmSync(dir, { recursive: true, force: true })
+                        }
+                    }
+
+                    const cleanupRemovedIncrementalRecords = (plan, targetOutputDir) => {
+                        const removedRecords = plan?.removed_records || []
+                        if (!removedRecords.length) return
+                        for (const record of removedRecords) {
+                            const sourceCandidates = [
+                                record.source_file,
+                                record.doc_token ? `${record.doc_token}.json` : null,
+                                record.node_token ? `${record.node_token}.json` : null,
+                                record.origin_node_token ? `${record.origin_node_token}.json` : null,
+                                record.obj_token ? `${record.obj_token}.json` : null,
+                            ].filter(Boolean)
+                            for (const file of sourceCandidates) {
+                                fs.rmSync(path.join(docSourceDir, file), { force: true })
+                            }
+
+                            if (record.doc_token && fs.existsSync(targetOutputDir)) {
+                                try {
+                                    const relPath = utils.determine_file_path(record.doc_token, targetOutputDir)
+                                    fs.rmSync(path.join(targetOutputDir, relPath), { force: true })
+                                } catch (_) {}
+                            }
+                        }
+                        removeEmptyDirs(targetOutputDir)
                     }
 
                     const injectedDocFilesToPreserve = (targetConfig) => {
@@ -294,18 +331,21 @@ module.exports = function (context, options) {
                         if (opts.docTitle === undefined && !opts.faq && !opts.postProcess) {
                             try {
                                 console.log('Fetching docs from Feishu...')
-                                if (targetConfig.preserveOutput) {
-                                    console.log(`Preserving existing output files in ${outputDir}`)
-                                } else {
-                                    utils.pre_process_file_paths(outputDir, injectedDocFilesToPreserve(targetConfig))
-                                }
-
+                                let sourcePlan = null
                                 if (!opts.skipSourceDown) {
-                                    await fetchSources()
+                                    sourcePlan = await fetchSources()
                                     if (opts.incrementalPlanOnly) {
                                         writerCleanup()
                                         return
                                     }
+                                }
+
+                                if (sourcePlan?.mode === 'incremental') {
+                                    cleanupRemovedIncrementalRecords(sourcePlan, outputDir)
+                                } else if (targetConfig.preserveOutput) {
+                                    console.log(`Preserving existing output files in ${outputDir}`)
+                                } else {
+                                    utils.pre_process_file_paths(outputDir, injectedDocFilesToPreserve(targetConfig))
                                 }
 
                                 if (!opts.skipSourceDown || opts.validateLinks) {
@@ -319,10 +359,24 @@ module.exports = function (context, options) {
                                     return
                                 }
 
-                                await writer.write_docs(outputDir, root)
+                                if (sourcePlan?.mode === 'incremental') {
+                                    const tokensToWrite = sourcePlan.expanded_tokens || []
+                                    if (tokensToWrite.length === 0) {
+                                        console.log('[incremental-fetch] No changed or expanded docs to write.')
+                                    } else {
+                                        for (const token of tokensToWrite) {
+                                            await writer.write_subtree(outputDir, token)
+                                        }
+                                    }
+                                } else {
+                                    await writer.write_docs(outputDir, root)
+                                }
 
                                 const effectiveSidebarPath = targetConfig.sidebarPath ?? sidebarPath
-                                if (effectiveSidebarPath && !opts.skipSidebar) {
+                                const shouldUpdateSidebar = !sourcePlan || sourcePlan.mode !== 'incremental' ||
+                                    (sourcePlan.expanded_tokens || []).length > 0 ||
+                                    (sourcePlan.removed_records || []).length > 0
+                                if (effectiveSidebarPath && !opts.skipSidebar && shouldUpdateSidebar) {
                                     console.log('Generating sidebar...')
                                     const sidebarItems = await writer.generate_sidebar(outputDir, outputDir.split('/')[0])
                                     const sidebarDir = require('node:path').dirname(effectiveSidebarPath)
@@ -331,7 +385,9 @@ module.exports = function (context, options) {
                                     console.log(`Sidebar written to ${effectiveSidebarPath}`)
                                 }
 
-                                utils.post_process_file_paths(outputDir)
+                                if (!sourcePlan || sourcePlan.mode !== 'incremental' || (sourcePlan.expanded_tokens || []).length > 0) {
+                                    utils.post_process_file_paths(outputDir)
+                                }
                             } finally {
                                 writerCleanup()
                             }

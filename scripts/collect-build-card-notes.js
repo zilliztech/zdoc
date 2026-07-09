@@ -132,6 +132,7 @@ function incrementalPlanNote() {
     '',
     `- Changed docs: ${(plan.changed_tokens || []).length}`,
     `- Expanded docs: ${(plan.expanded_tokens || []).length}`,
+    `- Removed docs: ${(plan.removed_tokens || []).length}`,
     `- Warnings: ${warnings.length}`,
     ...warnings.slice(0, 5).map(warning => `- ${warning}`),
     warnings.length > 5 ? `- ...and ${warnings.length - 5} more warnings` : null,

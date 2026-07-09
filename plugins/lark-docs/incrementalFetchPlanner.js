@@ -59,6 +59,21 @@ function buildReferenceGraphs({ sourceByToken, canonicalTokens }) {
   return { outgoing, incoming }
 }
 
+function mergeSnapshotReferenceGraphs({ outgoing, incoming, previousSnapshot, canonicalTokens }) {
+  for (const record of previousSnapshot?.records || []) {
+    const sourceToken = record.doc_token
+    if (!sourceToken || !canonicalTokens.has(sourceToken)) continue
+    const refs = (record.outgoing_tokens || []).filter(token => canonicalTokens.has(token))
+    if (!outgoing.has(sourceToken)) outgoing.set(sourceToken, new Set())
+    for (const targetToken of refs) {
+      outgoing.get(sourceToken).add(targetToken)
+      if (!incoming.has(targetToken)) incoming.set(targetToken, new Set())
+      incoming.get(targetToken).add(sourceToken)
+    }
+  }
+  return { outgoing, incoming }
+}
+
 function nodeRevisionValue(metadata) {
   return metadata?.revision_id || null
 }
@@ -145,6 +160,8 @@ function fullPlan({ manualName, docSourceDir, canonicalRecords, buildEnv, warnin
     changed_records: [],
     changed_tokens: [],
     expanded_tokens: canonicalRecords.map(record => record.doc_token).sort(),
+    removed_records: [],
+    removed_tokens: [],
     reasons_by_token: reasonsByToken,
     warnings,
     snapshot_basis: null,
@@ -198,6 +215,7 @@ function planIncrementalFetch({
   const previousByToken = snapshotRecordsByToken(previousSnapshot)
   const currentRecordIds = new Set(canonicalRecords.map(record => record.record_id))
   const changedRecords = []
+  const removedRecords = []
 
   for (const record of canonicalRecords) {
     const reasons = compareRecord(record, previousById.get(record.record_id), sourceByToken, currentNodeMetadataByToken)
@@ -210,12 +228,9 @@ function planIncrementalFetch({
   for (const previous of previousSnapshot.records || []) {
     if (!currentRecordIds.has(previous.record_id)) {
       warnings.push(`Record removed since last snapshot: ${previous.title || previous.record_id}`)
+      removedRecords.push(previous)
       if (previous.doc_token) addReason(reasonsByToken, previous.doc_token, 'record removed')
     }
-  }
-
-  if (warnings.some(warning => warning.startsWith('Record removed'))) {
-    return fullPlan({ manualName, docSourceDir, canonicalRecords, buildEnv, warnings, reasonsByToken })
   }
 
   const minimumFullFetchCount = 10
@@ -232,8 +247,13 @@ function planIncrementalFetch({
   }
 
   const changedTokens = changedRecords.map(record => record.doc_token).sort()
+  const removedTokens = removedRecords.map(record => record.doc_token).filter(Boolean).sort()
   const canonicalTokens = canonicalTokenSet(canonicalRecords, sourceByToken)
-  const { outgoing, incoming } = buildReferenceGraphs({ sourceByToken, canonicalTokens })
+  const { outgoing, incoming } = mergeSnapshotReferenceGraphs({
+    ...buildReferenceGraphs({ sourceByToken, canonicalTokens }),
+    previousSnapshot,
+    canonicalTokens,
+  })
   const expandedTokens = expandReferences({
     changedTokens,
     outgoing,
@@ -251,6 +271,8 @@ function planIncrementalFetch({
     changed_records: changedRecords,
     changed_tokens: changedTokens,
     expanded_tokens: expandedTokens,
+    removed_records: removedRecords,
+    removed_tokens: removedTokens,
     reasons_by_token: reasonsByToken,
     warnings,
     snapshot_basis: {
@@ -273,6 +295,7 @@ function renderIncrementalFetchPlanMarkdown(plan) {
   lines.push('', '## Summary', '')
   lines.push(`- Changed docs: ${plan.changed_tokens.length}`)
   lines.push(`- Expanded docs: ${plan.expanded_tokens.length}`)
+  lines.push(`- Removed docs: ${(plan.removed_tokens || []).length}`)
   lines.push(`- Warnings: ${plan.warnings.length}`, '')
 
   lines.push('## Changed Docs', '')
@@ -291,6 +314,15 @@ function renderIncrementalFetchPlanMarkdown(plan) {
     for (const token of plan.expanded_tokens) {
       const reasons = plan.reasons_by_token[token] || []
       lines.push(`- ${token}${reasons.length ? `: ${reasons.join('; ')}` : ''}`)
+    }
+  }
+
+  lines.push('', '## Removed Docs', '')
+  if (!plan.removed_records || plan.removed_records.length === 0) {
+    lines.push('- None')
+  } else {
+    for (const record of plan.removed_records) {
+      lines.push(`- ${record.title || record.doc_token || record.record_id} (${record.doc_token || record.record_id})`)
     }
   }
 

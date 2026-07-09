@@ -1115,10 +1115,16 @@ class larkDocScraper {
 
         await this.__fetch_base_doc_sources()
         const sources = this.__source_files()
-        const root = sources.get(this.root)
+        let root = sources.get(this.root)
         if (!root) {
-            console.warn(`[base-nav] Root source ${this.root} not found; skipping Base navigation rewrite.`)
-            return
+            console.warn(`[base-nav] Root source ${this.root} not found; creating virtual Base navigation root.`)
+            root = this.__virtual_source({
+                nodeToken: this.root,
+                parentToken: null,
+                title: 'Root',
+                slug: '',
+                children: [],
+            })
         }
 
         const recordsById = new Map(this.records.map(record => [record.record_id, record]))

@@ -66,6 +66,32 @@ test('planIncrementalFetch detects changed title and expands incoming and outgoi
   assert.match(plan.reasons_by_token.c.join(' '), /incoming reference/)
 })
 
+test('planIncrementalFetch expands references from snapshot when local sources are ignored', () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'planner-'))
+
+  const plan = planIncrementalFetch({
+    manualName: 'guides',
+    docSourceDir: dir,
+    records: [record('a', 'New A'), record('b'), record('c')],
+    previousSnapshot: {
+      schema_version: 2,
+      manual: 'guides',
+      records: [
+        { record_id: 'rec-a', doc_token: 'a', title: 'Old A', slug: 'a', outgoing_tokens: ['b'] },
+        { record_id: 'rec-b', doc_token: 'b', title: 'b', slug: 'b', outgoing_tokens: [] },
+        { record_id: 'rec-c', doc_token: 'c', title: 'c', slug: 'c', outgoing_tokens: ['a'] },
+      ],
+    },
+    maxReferenceDepth: 1,
+  })
+
+  assert.equal(plan.mode, 'incremental')
+  assert.deepEqual(plan.changed_tokens, ['a'])
+  assert.deepEqual(new Set(plan.expanded_tokens), new Set(['a', 'b', 'c']))
+  assert.match(plan.reasons_by_token.b.join(' '), /outgoing reference/)
+  assert.match(plan.reasons_by_token.c.join(' '), /incoming reference/)
+})
+
 test('planIncrementalFetch detects source content hash changes', () => {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'planner-'))
   writeSource(dir, 'a')
@@ -175,7 +201,7 @@ test('planIncrementalFetch includes docs when wiki node metadata fetch fails', (
   assert.match(plan.reasons_by_token.a.join(' '), /metadata fetch failed/)
 })
 
-test('planIncrementalFetch ignores missing current source when wiki metadata is unchanged', () => {
+test('planIncrementalFetch does not refetch unchanged docs just because local sources are ignored', () => {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'planner-'))
 
   const plan = planIncrementalFetch({
@@ -202,6 +228,48 @@ test('planIncrementalFetch ignores missing current source when wiki metadata is 
   assert.equal(plan.mode, 'incremental')
   assert.deepEqual(plan.changed_tokens, [])
   assert.deepEqual(plan.expanded_tokens, [])
+})
+
+test('planIncrementalFetch records removed docs without forcing full fetch', () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'planner-'))
+  writeSource(dir, 'a')
+  const sources = sourceFilesByToken(dir)
+
+  const plan = planIncrementalFetch({
+    manualName: 'guides',
+    docSourceDir: dir,
+    records: [record('a')],
+    previousSnapshot: {
+      schema_version: 2,
+      manual: 'guides',
+      records: [
+        {
+          record_id: 'rec-a',
+          doc_token: 'a',
+          title: 'a',
+          slug: 'a',
+          source_hash: sources.get('a').__source_hash,
+          node_metadata: { revision_id: null, obj_edit_time: '100' },
+        },
+        {
+          record_id: 'rec-b',
+          doc_token: 'b',
+          title: 'b',
+          slug: 'b',
+          source_file: 'b.json',
+          node_metadata: { revision_id: null, obj_edit_time: '100' },
+        },
+      ],
+    },
+    currentNodeMetadataByToken: new Map([['a', { revision_id: null, obj_edit_time: '100' }]]),
+  })
+
+  assert.equal(plan.mode, 'incremental')
+  assert.deepEqual(plan.changed_tokens, [])
+  assert.deepEqual(plan.expanded_tokens, [])
+  assert.deepEqual(plan.removed_tokens, ['b'])
+  assert.deepEqual(plan.removed_records.map(record => record.source_file), ['b.json'])
+  assert.match(plan.warnings.join(' '), /Record removed/)
 })
 
 test('planIncrementalFetch includes missing current source when wiki metadata changed', () => {
