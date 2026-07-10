@@ -411,7 +411,9 @@
 }
 
 .ikp-ai-search-root:not(:has(.ikp-ai-search-input:placeholder-shown)):not(:has(.ikp-ai-search-input[data-zdoc-search-pending='true'])) .ikp-ai-search-results {
-  padding-bottom: 36px !important;
+  /* small gap above the Ask-AI trigger (4 + its 8px margin-top ≈ 12px) so it
+     matches the trigger's 12px bottom margin — not the old chunky 36px. */
+  padding-bottom: 4px !important;
 }
 
 .ikp-ai-search-root:not(:has(.ikp-ai-search-input:placeholder-shown)) .ikp-ai-search-results__list {
