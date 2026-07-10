@@ -27,6 +27,7 @@ concurrency:
 jobs:
   translate:
     runs-on: ubuntu-latest
+    timeout-minutes: 360
     if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' }}
     steps:
     - name: resolve translation target branch
@@ -81,6 +82,8 @@ jobs:
         REVIEW_AGENT_MODEL: ${{ vars.REVIEW_AGENT_MODEL }}
         TRANSLATION_MAX_REVIEW_ROUNDS: ${{ vars.TRANSLATION_MAX_REVIEW_ROUNDS }}
         TRANSLATION_AGENT_RETRIES: ${{ vars.TRANSLATION_AGENT_RETRIES || 3 }}
+        TRANSLATION_AGENT_TIMEOUT_MS: ${{ vars.TRANSLATION_AGENT_TIMEOUT_MS || 300000 }}
+        TRANSLATION_FILE_TIMEOUT_MS: ${{ vars.TRANSLATION_FILE_TIMEOUT_MS || 900000 }}
         TRANSLATION_ALLOW_PARTIAL: "true"
 
     - name: validate translated MDX

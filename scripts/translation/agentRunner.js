@@ -8,9 +8,16 @@ const { readCache, writeCache } = require('./manifest')
 
 const DEFAULT_MANIFEST = 'tmp/translation-manifest.json'
 const DEFAULT_PROVIDER_RETRIES = 3
+const DEFAULT_PROVIDER_TIMEOUT_MS = 300000
+const DEFAULT_FILE_TIMEOUT_MS = 900000
 
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms))
+}
+
+function parsePositiveInteger(value, fallback) {
+  const parsed = Number(value)
+  return Number.isFinite(parsed) && parsed > 0 ? parsed : fallback
 }
 
 function normalizeBaseUrl(raw) {
@@ -46,12 +53,14 @@ function parseReview(text) {
 function isRetryableProviderError(error) {
   const message = String(error?.message || error)
   return /\b(408|409|425|429|500|502|503|504)\b/.test(message) ||
-    /connection error|fetch failed|network|timeout|timed out|ECONNRESET|ETIMEDOUT|EAI_AGAIN/i.test(message)
+    error?.name === 'AbortError' ||
+    /aborted|connection error|fetch failed|network|timeout|timed out|ECONNRESET|ETIMEDOUT|EAI_AGAIN/i.test(message)
 }
 
 async function createProviderCall(agentConfigs, options = {}) {
   const maxRetries = Number.isFinite(options.maxRetries) ? options.maxRetries : DEFAULT_PROVIDER_RETRIES
   const retryDelayMs = Number.isFinite(options.retryDelayMs) ? options.retryDelayMs : 1000
+  const timeoutMs = parsePositiveInteger(options.timeoutMs, DEFAULT_PROVIDER_TIMEOUT_MS)
 
   return async function callModel({ agent, messages }) {
     const config = agentConfigs[agent]
@@ -61,6 +70,8 @@ async function createProviderCall(agentConfigs, options = {}) {
 
     let lastError
     for (let attempt = 0; attempt <= maxRetries; attempt++) {
+      const controller = new AbortController()
+      const timeout = setTimeout(() => controller.abort(), timeoutMs)
       try {
         const res = await fetch(`${normalizeBaseUrl(config.baseUrl)}/chat/completions`, {
           method: 'POST',
@@ -73,6 +84,7 @@ async function createProviderCall(agentConfigs, options = {}) {
             messages,
             temperature: agent === 'review' ? 0 : 0.1,
           }),
+          signal: controller.signal,
         })
         const data = await res.json().catch(() => ({}))
         const content = data?.choices?.[0]?.message?.content
@@ -86,9 +98,25 @@ async function createProviderCall(agentConfigs, options = {}) {
         const waitMs = retryDelayMs * (2 ** attempt)
         console.warn(`[translation-agent] ${agent} call failed; retrying in ${waitMs}ms (${attempt + 1}/${maxRetries}): ${error.message}`)
         await sleep(waitMs)
+      } finally {
+        clearTimeout(timeout)
       }
     }
     throw lastError
+  }
+}
+
+async function withTimeout(promise, timeoutMs, message) {
+  let timeout
+  try {
+    return await Promise.race([
+      promise,
+      new Promise((_, reject) => {
+        timeout = setTimeout(() => reject(new Error(message)), timeoutMs)
+      }),
+    ])
+  } finally {
+    clearTimeout(timeout)
   }
 }
 
@@ -237,10 +265,15 @@ async function main() {
   const manifestPath = args.get('--manifest') || DEFAULT_MANIFEST
   const reportPath = args.get('--report') || 'tmp/translation-report.json'
   const maxReviewRounds = Number(args.get('--max-review-rounds') || process.env.TRANSLATION_MAX_REVIEW_ROUNDS || 2)
-  const maxProviderRetries = Number(process.env.TRANSLATION_AGENT_RETRIES || DEFAULT_PROVIDER_RETRIES)
+  const maxProviderRetries = parsePositiveInteger(process.env.TRANSLATION_AGENT_RETRIES, DEFAULT_PROVIDER_RETRIES)
+  const providerTimeoutMs = parsePositiveInteger(process.env.TRANSLATION_AGENT_TIMEOUT_MS, DEFAULT_PROVIDER_TIMEOUT_MS)
+  const fileTimeoutMs = parsePositiveInteger(process.env.TRANSLATION_FILE_TIMEOUT_MS, DEFAULT_FILE_TIMEOUT_MS)
   const allowPartial = String(process.env.TRANSLATION_ALLOW_PARTIAL || '').toLowerCase() === 'true'
   const manifest = JSON.parse(fs.readFileSync(path.join(siteDir, manifestPath), 'utf8'))
-  const callModel = await createProviderCall(loadAgentConfigsFromEnv(), { maxRetries: maxProviderRetries })
+  const callModel = await createProviderCall(loadAgentConfigsFromEnv(), {
+    maxRetries: maxProviderRetries,
+    timeoutMs: providerTimeoutMs,
+  })
   const cache = readCache(siteDir, manifest.locale)
   const results = []
   const absReportPath = path.join(siteDir, reportPath)
@@ -255,7 +288,11 @@ async function main() {
     console.log(`[translation-agent] ${item.sourcePath}`)
     let result
     try {
-      result = await processManifestItem({ siteDir, item, callModel, maxReviewRounds })
+      result = await withTimeout(
+        processManifestItem({ siteDir, item, callModel, maxReviewRounds }),
+        fileTimeoutMs,
+        `Timed out translating ${item.sourcePath} after ${fileTimeoutMs}ms`,
+      )
     } catch (error) {
       result = {
         ...item,
@@ -296,7 +333,9 @@ module.exports = {
   isRetryableProviderError,
   normalizeBaseUrl,
   parseReview,
+  parsePositiveInteger,
   processManifestItem,
   stripCodeFence,
   validateTranslatedContent,
+  withTimeout,
 }

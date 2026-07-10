@@ -3,7 +3,7 @@ const fs = require('node:fs')
 const os = require('node:os')
 const path = require('node:path')
 
-const { createProviderCall, isRetryableProviderError, processManifestItem } = require('./agentRunner')
+const { createProviderCall, isRetryableProviderError, processManifestItem, withTimeout } = require('./agentRunner')
 
 function withTempDir(callback) {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'translation-agent-'))
@@ -98,15 +98,63 @@ async function testProviderCallRetriesTransientFailures() {
   }
 }
 
+async function testProviderCallTimesOutHungRequests() {
+  const originalFetch = global.fetch
+  let calls = 0
+  global.fetch = async (_url, options = {}) => {
+    calls += 1
+    return new Promise((resolve, reject) => {
+      options.signal?.addEventListener('abort', () => {
+        const error = new Error('The operation was aborted')
+        error.name = 'AbortError'
+        reject(error)
+      })
+    })
+  }
+
+  try {
+    const callModel = await createProviderCall({
+      translation: {
+        baseUrl: 'https://example.com',
+        apiKey: 'test-key',
+        model: 'test-model',
+      },
+    }, { maxRetries: 1, retryDelayMs: 1, timeoutMs: 1 })
+
+    await assert.rejects(
+      () => callModel({
+        agent: 'translation',
+        messages: [{ role: 'user', content: 'hello' }],
+      }),
+      /aborted/i,
+    )
+    assert.equal(calls, 2)
+  } finally {
+    global.fetch = originalFetch
+  }
+}
+
+async function testFileTimeoutRejectsSlowWork() {
+  await assert.rejects(
+    () => withTimeout(new Promise(() => {}), 1, 'Timed out translating docs/test.md after 1ms'),
+    /Timed out translating docs\/test\.md/,
+  )
+}
+
 function testRetryableProviderErrors() {
   assert.equal(isRetryableProviderError(new Error('translation agent failed with HTTP 500: {}')), true)
   assert.equal(isRetryableProviderError(new Error('fetch failed')), true)
+  const abortError = new Error('The operation was aborted')
+  abortError.name = 'AbortError'
+  assert.equal(isRetryableProviderError(abortError), true)
   assert.equal(isRetryableProviderError(new Error('translation agent failed with HTTP 400: {}')), false)
 }
 
 async function run() {
   await testCorrectionRunsWhenReviewFails()
   await testProviderCallRetriesTransientFailures()
+  await testProviderCallTimesOutHungRequests()
+  await testFileTimeoutRejectsSlowWork()
   testRetryableProviderErrors()
   console.log('translation agent runner tests passed')
 }
