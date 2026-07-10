@@ -466,6 +466,7 @@ class larkDocWriter {
     }
 
     async write_docs(path, token) {
+        if (!this.outputRoot) this.outputRoot = path
         const forEachAsync = async (array, callback) => {
             for (let index = 0; index < array.length; index++) {
                 await callback(array[index], index, array);
@@ -582,6 +583,7 @@ class larkDocWriter {
      * chains, then delegates to write_docs().
      */
     async write_subtree(outputDir, token) {
+        if (!this.outputRoot) this.outputRoot = outputDir
         const node = this.__fetch_doc_source('node_token', token)
 
         if (token === this.root_token) {
@@ -645,6 +647,37 @@ class larkDocWriter {
             await this.write_docs(nodePath, token)
         } else {
             await writeCurrentPage(parentPath, false)
+        }
+    }
+
+    __remove_stale_token_files(token, nextFilePath) {
+        if (!token) return
+        const scanRoot = this.outputRoot || node_path.dirname(nextFilePath)
+        if (!scanRoot || !fs.existsSync(scanRoot)) return
+
+        const resolvedNext = node_path.resolve(nextFilePath)
+        const stack = [scanRoot]
+
+        while (stack.length) {
+            const dir = stack.pop()
+            if (!fs.existsSync(dir)) continue
+
+            for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+                const entryPath = node_path.join(dir, entry.name)
+                if (entry.isDirectory()) {
+                    stack.push(entryPath)
+                    continue
+                }
+                if (!entry.isFile() || !entry.name.endsWith('.md')) continue
+                if (node_path.resolve(entryPath) === resolvedNext) continue
+
+                const content = fs.readFileSync(entryPath, 'utf8')
+                const match = content.match(/^token:\s*['"]?([^'"\r\n]+)['"]?\s*$/m)
+                if (match?.[1] !== token) continue
+
+                fs.rmSync(entryPath, { force: true })
+                console.log(`[write_doc] Removed stale generated doc for token ${token}: ${entryPath}`)
+            }
         }
     }
 
@@ -1232,6 +1265,7 @@ class larkDocWriter {
             front_matter.splice(7, 0, `deprecate_since: ${deprecateSince ? deprecateSince : 'FALSE'}`)
             front_matter = front_matter.join('\n')
 
+            this.__remove_stale_token_files(token, file_path)
             fs.writeFileSync(file_path, front_matter + '\n\n' + imports + '\n\n' + markdown)
         } else {
             return {

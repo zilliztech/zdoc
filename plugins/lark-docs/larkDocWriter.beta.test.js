@@ -246,12 +246,53 @@ async function testSidebarSkipsRefToTargetFilteredOutForCurrentTarget() {
     })
 }
 
+async function testRemoveStaleTokenFilesKeepsCurrentDestination() {
+    await withTempDir(async dir => {
+        const outputDir = path.join(dir, 'docs', 'tutorials')
+        const oldDir = path.join(outputDir, 'old')
+        const newDir = path.join(outputDir, 'new')
+        fs.mkdirSync(oldDir, { recursive: true })
+        fs.mkdirSync(newDir, { recursive: true })
+
+        const oldPath = path.join(oldDir, 'moved.md')
+        const newPath = path.join(newDir, 'moved.md')
+        const otherPath = path.join(outputDir, 'other.md')
+
+        fs.writeFileSync(oldPath, '---\ntoken: moved-token\n---\n# Old\n')
+        fs.writeFileSync(newPath, '---\ntoken: moved-token\n---\n# New\n')
+        fs.writeFileSync(otherPath, '---\ntoken: other-token\n---\n# Other\n')
+
+        const writer = new LarkDocWriter(
+            'root',
+            'base:*',
+            'default',
+            dir,
+            path.join(dir, 'images'),
+            'zilliz.saas',
+            true,
+            false,
+        )
+
+        try {
+            writer.outputRoot = outputDir
+            writer.__remove_stale_token_files('moved-token', newPath)
+
+            assert.equal(fs.existsSync(oldPath), false)
+            assert.equal(fs.existsSync(newPath), true)
+            assert.equal(fs.existsSync(otherPath), true)
+        } finally {
+            writer.destroy()
+        }
+    })
+}
+
 async function run() {
     testScraperCopiesBetaToBaseSourceMeta()
     testScraperOmitsPublishMetaForSections()
     await testScraperKeepsRecordsHiddenBySelectedView()
     await testSectionSourceWinsOverDeprecatedCanonicalWithSameSlug()
     await testSidebarSkipsRefToTargetFilteredOutForCurrentTarget()
+    await testRemoveStaleTokenFilesKeepsCurrentDestination()
     await testBaseSourceMetaPreservesBeta()
     console.log('larkDocWriter beta tests passed')
 }
