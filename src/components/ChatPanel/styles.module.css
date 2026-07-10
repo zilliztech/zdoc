@@ -560,14 +560,14 @@
   align-self: flex-end;
   max-width: 85%;
   padding: 7px 11px;
-  background: var(--zd-surface-2);
-  color: var(--zd-linear-signup-ink);
+  background: var(--zd-linear-signup-ink);
+  color: #ffffff;
   /* bottom-right corner squared off */
   border-radius: 12px 12px 3px 12px;
 }
 
 .userMessage p {
-  color: var(--zd-linear-signup-ink);
+  color: #ffffff;
 }
 
 /* Assistant replies — no bubble frame */

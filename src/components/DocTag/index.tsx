@@ -12,7 +12,7 @@ const TAG_REGISTRY: Record<string, TagDef> = {
   'NEAR DEPRECATE': { caption: 'Near Deprecation', color: '#FF9500' },
   'CONTACT SALES':  { caption: 'Contact Sales',   color: '#9C27B0' },
   // Future-proofing entries (match zdoc)
-  PUBLIC:           { caption: 'Public Beta',     color: '#175fff' },
+  PUBLIC:           { caption: 'Public Beta',     color: '#6066fd' },
   BYOC:             { caption: 'BYOC',            color: '#00897B' },
   DEPRECATED:       { caption: 'Deprecated',      color: '#9E9E9E' },
 };
@@ -30,7 +30,7 @@ export default function DocTag({ type, link }: DocTagProps): React.ReactElement 
     <span
       className={styles.tag}
       data-tag-type={type}
-      style={{ color: def.color, borderColor: def.color }}>
+      style={{ color: def.color }}>
       {def.caption}
     </span>
   );

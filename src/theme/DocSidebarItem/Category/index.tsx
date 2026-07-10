@@ -419,6 +419,10 @@ function DocSidebarItemCategoryCollapsible({
             aria-current={isCurrentPage ? 'page' : undefined}
             data-sidebar-tooltip={isActive ? undefined : label}
             data-sidebar-fit={fitKey}
+            /* Non-collapsible category that navigates to a deeper level (shows a
+               ">" caret): mark it so the mobile nav drills in place and stays open
+               instead of closing like a leaf link. */
+            data-sidebar-drill={showChildCaret ? '' : undefined}
             href={collapsible ? hrefWithSSRFallback ?? '#' : hrefWithSSRFallback}>
             <CategoryLinkLabel
               label={label}

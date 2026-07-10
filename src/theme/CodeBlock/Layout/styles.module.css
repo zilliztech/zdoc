@@ -1,10 +1,11 @@
 /* ── Window frame ── */
 .windowFrame {
-/* Vercel-style: small radius, neutral light-gray border, tinted body */
-  border-radius: 8px !important;
+/* Warm cream frame (a touch lighter): larger radius, warm stroke, holds a white
+   code card inset by ~2px so the cream reads as a thin frame around it. */
+  border-radius: 11px !important;
   overflow: hidden !important;
-  background: #ffffff !important;
-  border: 1px solid var(--zd-surface-border-subtle) !important;
+  background: #fbf9f2 !important;
+  border: 1px solid #e8e1d0 !important;
   box-shadow: none !important;
   margin-top: 1.25rem !important;
   margin-bottom: 1.25rem !important;
@@ -18,9 +19,10 @@
   justify-content: flex-end;
   height: 40px;
   padding: 0 0.5rem 0 0.875rem;
-  /* header tinted off-white; code area below stays pure white */
-  background: var(--zd-surface-0);
-  border-bottom: 1px solid var(--zd-surface-border-subtle);
+  /* header shares the cream frame tone; no bottom stroke — the white code card
+     below provides its own separation. */
+  background: #fbf9f2;
+  border-bottom: none;
   gap: 0.75rem;
   flex-shrink: 0;
 }
@@ -239,9 +241,10 @@
 }
 
 .codeContent {
-  /* pure-white code area (header above is the tinted #fcfcfb strip) */
+  /* White code card floating inside the cream frame: rounded on ALL corners, inset
+     an extra 1px on left/right/bottom so the cream frames it evenly. */
   background: #ffffff;
-  margin: 1px;
-  border-radius: 14px;
+  margin: 1px 2px 2px;
+  border-radius: 9px;
   overflow: hidden;
 }

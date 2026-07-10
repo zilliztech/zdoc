@@ -18,6 +18,16 @@
   background: var(--zd-doc-panel-bg);
 }
 
+/* Docs Home: content fills the page, centred, with a wider symmetric gutter
+   (~2× the normal 32px left gap). */
+:global(.docs-home) .docItemCol {
+  max-width: none;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 64px !important;
+  padding-right: 64px !important;
+}
+
 /* No TOC: keep content left-aligned and filling the column (consistent left
    gap) rather than centring, which made the left margin shrink on resize. */
 .docItemColCentered {

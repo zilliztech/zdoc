@@ -274,7 +274,11 @@ export default function NavbarMobileSidebarSecondaryMenu(): ReactNode {
     if (!normalized) return;
 
     const shouldDrillInNav =
-      link.classList.contains('menu__link--sublist') || isMobileSubnavEntry(normalized.key);
+      link.classList.contains('menu__link--sublist') ||
+      // Non-collapsible category that navigates to a deeper level (has a ">"
+      // caret) — drill in place and keep the nav open, don't treat it as a leaf.
+      link.hasAttribute('data-sidebar-drill') ||
+      isMobileSubnavEntry(normalized.key);
     if (!shouldDrillInNav) {
       try {
         window.sessionStorage.removeItem('zdoc-mobile-nav-keep-open');

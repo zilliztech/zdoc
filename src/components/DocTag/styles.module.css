@@ -1,16 +1,19 @@
 .tag {
   display: inline-flex;
   align-items: center;
-  border: 1px solid currentColor;
-  border-radius: 6px;
-  padding: 2px 8px;
+  /* Soft status badge tuned to the redesign: saturated label text, a faint tinted
+     fill, and a light stroke — both derived from the tag's own colour so every
+     type (Public Beta, Private Beta, BYOC, Deprecated…) stays consistent. */
+  color: currentColor;
+  background: transparent;
+  border: 1px solid color-mix(in srgb, currentColor 22%, transparent);
+  border-radius: 7px;
+  padding: 1px 8px;
   font-size: 0.75rem;
-  font-weight: 500;
-  line-height: 1.4;
+  font-weight: 550;
+  line-height: 1.5;
+  letter-spacing: 0.005em;
   white-space: nowrap;
   flex-shrink: 0;
 }
 
-.tag[data-tag-type='PRIVATE'] {
-  margin-left: -12px;
-}

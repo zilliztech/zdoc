@@ -197,7 +197,8 @@
     padding: 5px 14px;
     cursor: pointer;
     color: var(--zd-page-ink);
-    background-color: var(--zd-surface-2);
+    /* warm cream (not neutral gray) so the pill sits with the cream code blocks */
+    background-color: #f0e8d3;
     font-size: 13px;
     font-weight: 400;
     border-radius: 999px;
@@ -220,7 +221,7 @@
 }
 
 .tabLabel:hover {
-    background-color: var(--zd-surface-3);
+    background-color: #e9dfc4;
     color: var(--zd-page-ink);
 }
 
