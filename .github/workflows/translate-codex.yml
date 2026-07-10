@@ -23,6 +23,7 @@ on:
 
 concurrency:
   group: translate-codex
+  cancel-in-progress: true
 
 jobs:
   translate:
@@ -99,6 +100,14 @@ jobs:
           npx docusaurus mdx-parse -d i18n/ja-JP/docusaurus-plugin-content-docs-reference/current
         fi
         pnpm run build
+
+    - name: upload translation report
+      if: always() && steps.manifest.outputs.count != '0'
+      uses: actions/upload-artifact@v4
+      with:
+        name: translation-report
+        path: tmp/translation-report.json
+        if-no-files-found: ignore
 
     - name: commit translations
       if: steps.manifest.outputs.count != '0'
