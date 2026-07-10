@@ -322,7 +322,12 @@ class larkDriveWriter extends larkDocWriter {
                 const docId = node_path.join(currentPath, slug)
                     .replace(/\\/g, '/')
                     .replace(new RegExp(`^${contentRoot}/`), '')
-                items.push({ type: 'doc', id: docId, label })
+                items.push({
+                    type: 'doc',
+                    id: docId,
+                    label,
+                    key: this.__sidebar_key('doc', currentPath, contentRoot, slug, label),
+                })
             } else if (source.children) {
                 // folder/category
                 const category = this.categorize_node(source)
@@ -332,9 +337,20 @@ class larkDriveWriter extends larkDocWriter {
                     const docId = node_path.join(currentPath, slug, slug)
                         .replace(/\\/g, '/')
                         .replace(new RegExp(`^${contentRoot}/`), '')
-                    items.push({ type: 'category', label, link: { type: 'doc', id: docId }, items: childItems })
+                    items.push({
+                        type: 'category',
+                        label,
+                        key: this.__sidebar_key('category', currentPath, contentRoot, slug, label),
+                        link: { type: 'doc', id: docId },
+                        items: childItems,
+                    })
                 } else {
-                    items.push({ type: 'category', label, items: childItems })
+                    items.push({
+                        type: 'category',
+                        label,
+                        key: this.__sidebar_key('category', currentPath, contentRoot, slug, label),
+                        items: childItems,
+                    })
                 }
             }
         }

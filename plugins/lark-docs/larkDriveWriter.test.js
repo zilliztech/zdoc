@@ -128,6 +128,7 @@ async function testSidebarItemsUseParentSlugContext() {
     type: 'doc',
     id: 'api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-create_user',
     label: 'create_user()',
+    key: 'doc:api/python/python/MilvusClient/MilvusClient-Authentication/authentication-createuser',
   }]);
 }
 
