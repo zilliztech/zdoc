@@ -7,6 +7,11 @@ const { validateMdxStructure } = require('../../plugins/mdx-parse/mdxPatcher')
 const { readCache, writeCache } = require('./manifest')
 
 const DEFAULT_MANIFEST = 'tmp/translation-manifest.json'
+const DEFAULT_PROVIDER_RETRIES = 3
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms))
+}
 
 function normalizeBaseUrl(raw) {
   const base = String(raw || '').replace(/\/+$/, '')
@@ -38,30 +43,52 @@ function parseReview(text) {
   }
 }
 
-async function createProviderCall(agentConfigs) {
+function isRetryableProviderError(error) {
+  const message = String(error?.message || error)
+  return /\b(408|409|425|429|500|502|503|504)\b/.test(message) ||
+    /connection error|fetch failed|network|timeout|timed out|ECONNRESET|ETIMEDOUT|EAI_AGAIN/i.test(message)
+}
+
+async function createProviderCall(agentConfigs, options = {}) {
+  const maxRetries = Number.isFinite(options.maxRetries) ? options.maxRetries : DEFAULT_PROVIDER_RETRIES
+  const retryDelayMs = Number.isFinite(options.retryDelayMs) ? options.retryDelayMs : 1000
+
   return async function callModel({ agent, messages }) {
     const config = agentConfigs[agent]
     if (!config?.baseUrl || !config?.apiKey || !config?.model) {
       throw new Error(`Missing provider config for ${agent} agent`)
     }
-    const res = await fetch(`${normalizeBaseUrl(config.baseUrl)}/chat/completions`, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${config.apiKey}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        model: config.model,
-        messages,
-        temperature: agent === 'review' ? 0 : 0.1,
-      }),
-    })
-    const data = await res.json().catch(() => ({}))
-    const content = data?.choices?.[0]?.message?.content
-    if (!res.ok || !content) {
-      throw new Error(`${agent} agent failed: ${JSON.stringify(data).slice(0, 500)}`)
+
+    let lastError
+    for (let attempt = 0; attempt <= maxRetries; attempt++) {
+      try {
+        const res = await fetch(`${normalizeBaseUrl(config.baseUrl)}/chat/completions`, {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${config.apiKey}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            model: config.model,
+            messages,
+            temperature: agent === 'review' ? 0 : 0.1,
+          }),
+        })
+        const data = await res.json().catch(() => ({}))
+        const content = data?.choices?.[0]?.message?.content
+        if (!res.ok || !content) {
+          throw new Error(`${agent} agent failed with HTTP ${res.status}: ${JSON.stringify(data).slice(0, 500)}`)
+        }
+        return content.trim()
+      } catch (error) {
+        lastError = error
+        if (attempt >= maxRetries || !isRetryableProviderError(error)) break
+        const waitMs = retryDelayMs * (2 ** attempt)
+        console.warn(`[translation-agent] ${agent} call failed; retrying in ${waitMs}ms (${attempt + 1}/${maxRetries}): ${error.message}`)
+        await sleep(waitMs)
+      }
     }
-    return content.trim()
+    throw lastError
   }
 }
 
@@ -210,14 +237,33 @@ async function main() {
   const manifestPath = args.get('--manifest') || DEFAULT_MANIFEST
   const reportPath = args.get('--report') || 'tmp/translation-report.json'
   const maxReviewRounds = Number(args.get('--max-review-rounds') || process.env.TRANSLATION_MAX_REVIEW_ROUNDS || 2)
+  const maxProviderRetries = Number(process.env.TRANSLATION_AGENT_RETRIES || DEFAULT_PROVIDER_RETRIES)
+  const allowPartial = String(process.env.TRANSLATION_ALLOW_PARTIAL || '').toLowerCase() === 'true'
   const manifest = JSON.parse(fs.readFileSync(path.join(siteDir, manifestPath), 'utf8'))
-  const callModel = await createProviderCall(loadAgentConfigsFromEnv())
+  const callModel = await createProviderCall(loadAgentConfigsFromEnv(), { maxRetries: maxProviderRetries })
   const cache = readCache(siteDir, manifest.locale)
   const results = []
+  const absReportPath = path.join(siteDir, reportPath)
+
+  function persistProgress() {
+    writeCache(siteDir, manifest.locale, cache)
+    fs.mkdirSync(path.dirname(absReportPath), { recursive: true })
+    fs.writeFileSync(absReportPath, JSON.stringify({ locale: manifest.locale, results }, null, 2) + '\n')
+  }
 
   for (const item of manifest.items) {
     console.log(`[translation-agent] ${item.sourcePath}`)
-    const result = await processManifestItem({ siteDir, item, callModel, maxReviewRounds })
+    let result
+    try {
+      result = await processManifestItem({ siteDir, item, callModel, maxReviewRounds })
+    } catch (error) {
+      result = {
+        ...item,
+        status: 'failed',
+        error: String(error?.message || error),
+      }
+      console.error(`[translation-agent] failed ${item.sourcePath}: ${result.error}`)
+    }
     results.push(result)
     if (result.status === 'translated') {
       cache.files[item.sourcePath] = {
@@ -226,14 +272,13 @@ async function main() {
         translatedAt: new Date().toISOString(),
       }
     }
+    persistProgress()
   }
 
-  writeCache(siteDir, manifest.locale, cache)
-  fs.mkdirSync(path.dirname(path.join(siteDir, reportPath)), { recursive: true })
-  fs.writeFileSync(path.join(siteDir, reportPath), JSON.stringify({ locale: manifest.locale, results }, null, 2) + '\n')
   const failed = results.filter(result => result.status !== 'translated')
-  console.log(`[translation-agent] translated=${results.length - failed.length} failed=${failed.length}`)
-  if (failed.length) process.exit(1)
+  const translatedCount = results.length - failed.length
+  console.log(`[translation-agent] translated=${translatedCount} failed=${failed.length}`)
+  if (failed.length && (!allowPartial || translatedCount === 0)) process.exit(1)
 }
 
 if (require.main === module) {
@@ -248,6 +293,7 @@ module.exports = {
   buildReviewMessages,
   buildTranslationMessages,
   createProviderCall,
+  isRetryableProviderError,
   normalizeBaseUrl,
   parseReview,
   processManifestItem,

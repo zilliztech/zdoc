@@ -80,6 +80,8 @@ jobs:
         REVIEW_AGENT_API_KEY: ${{ secrets.REVIEW_AGENT_API_KEY }}
         REVIEW_AGENT_MODEL: ${{ vars.REVIEW_AGENT_MODEL }}
         TRANSLATION_MAX_REVIEW_ROUNDS: ${{ vars.TRANSLATION_MAX_REVIEW_ROUNDS }}
+        TRANSLATION_AGENT_RETRIES: ${{ vars.TRANSLATION_AGENT_RETRIES || 3 }}
+        TRANSLATION_ALLOW_PARTIAL: "true"
 
     - name: validate translated MDX
       if: steps.manifest.outputs.count != '0'
