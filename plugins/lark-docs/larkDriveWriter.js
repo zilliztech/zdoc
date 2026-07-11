@@ -305,9 +305,16 @@ class larkDriveWriter extends larkDocWriter {
         if (!node.children) return []
 
         const items = []
+        const seenChildTokens = new Map()
 
         for (let i = 0; i < node.children.length; i++) {
             const child = node.children[i]
+            const childToken = child.token || child.node_token
+            if (childToken && seenChildTokens.has(childToken)) {
+                console.warn(`[sidebar] Skipping duplicate child token ${childToken} under ${token}: "${child.name || child.title}" duplicates "${seenChildTokens.get(childToken)}"`)
+                continue
+            }
+            if (childToken) seenChildTokens.set(childToken, child.name || child.title || child.slug || childToken)
             const source = this.__drive_source_for_child(child, node.slug)
             if (!source) continue
 

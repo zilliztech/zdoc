@@ -29,6 +29,8 @@ jobs:
       uses: actions/checkout@v4
     - name: restore generated docs state
       run: bash scripts/restore-generated-state.sh dev
+    - name: validate generated sidebars
+      run: node scripts/validate-generated-sidebars.js
     - uses: pnpm/action-setup@v4
       with:
         version: 9
@@ -72,6 +74,7 @@ jobs:
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
     - name: build docsite
       run: |
+        node scripts/validate-generated-sidebars.js
         node scripts/run-doc-build-stage.js --build "pnpm run build" --skipLinkChecks
         node scripts/update-lark-doc-snapshot.js --manual guides --targets-built zilliz.saas,zilliz.paas --build-env uat --source-branch dev --publish-url https://docs.cloud-uat3.zilliz.com --link-check-remote https://docs.zilliz.com
       env:
@@ -108,6 +111,7 @@ jobs:
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
     - name: build and check sdk docs
       run: |
+        node scripts/validate-generated-sidebars.js
         node scripts/run-doc-build-stage.js --build "pnpm run build"
         bash scripts/update-sdk-reference-snapshots.sh
       env:
@@ -137,6 +141,7 @@ jobs:
           cp -R plugins/link-checks/meta/reports "$REPORT_TMP/plugins/link-checks/meta/reports"
         fi
         git fetch origin dev
+        git reset --hard HEAD
         git switch --force-create dev origin/dev
         rm -rf plugins/lark-docs/meta/reports plugins/link-checks/meta/reports
         if [ -d "$REPORT_TMP/plugins/lark-docs/meta/reports" ]; then

@@ -36,5 +36,7 @@ test('manual and auto workflows share the same SDK reference scripts', () => {
     const source = fs.readFileSync(workflow, 'utf8')
     assert.match(source, /bash scripts\/fetch-sdk-reference-docs\.sh/)
     assert.match(source, /bash scripts\/update-sdk-reference-snapshots\.sh/)
+    assert.match(source, /node scripts\/validate-generated-sidebars\.js/)
+    assert.match(source, /git reset --hard HEAD\s+git switch --force-create dev origin\/dev/)
   }
 })

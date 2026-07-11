@@ -145,9 +145,16 @@ class larkDocWriter {
 
         const children = (node.children || []).filter(c => c.obj_type !== 'bitable' && c != null)
         const items = []
+        const seenChildTokens = new Map()
 
         for (let i = 0; i < children.length; i++) {
             const child = children[i]
+            const childToken = child.node_token || child.token
+            if (childToken && seenChildTokens.has(childToken)) {
+                console.warn(`[sidebar] Skipping duplicate child token ${childToken} under ${token}: "${child.title || child.name}" duplicates "${seenChildTokens.get(childToken)}"`)
+                continue
+            }
+            if (childToken) seenChildTokens.set(childToken, child.title || child.name || child.slug || childToken)
             let childSource = null
             try { childSource = this.__fetch_doc_source('node_token', child.node_token, child.slug) } catch (e) {}
 

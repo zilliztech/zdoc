@@ -607,12 +607,6 @@ module.exports = [
                 "id": "api/restful/restful/v2/data-plane/database-operations-v2/drop-database-v2",
                 "label": "Drop Database (V2)",
                 "key": "doc:api/restful/restful/v2/data-plane/database-operations-v2/drop-database-v2"
-              },
-              {
-                "type": "doc",
-                "id": "api/restful/restful/v2/data-plane/database-operations-v2/alter-database-properties-v2",
-                "label": "Alter Database Properties (V2)",
-                "key": "doc:api/restful/restful/v2/data-plane/database-operations-v2/alter-database-properties-v2"
               }
             ],
             "key": "category:v2/data-plane-v2/database-operations-v2"

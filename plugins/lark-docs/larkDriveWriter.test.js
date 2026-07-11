@@ -132,6 +132,42 @@ async function testSidebarItemsUseParentSlugContext() {
   }]);
 }
 
+async function testSidebarItemsDeduplicateRepeatedChildTokens() {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'lark-drive-writer-'));
+  const writer = new larkDriveWriter('', '', 'javaSidebar', dir, '/tmp', 'zilliz', true, false, 'javaV230');
+  writer.__is_to_publish = async (name) => ({publish: true, labels: name});
+
+  writeJson(dir, 'parent.json', {
+    token: 'parent',
+    name: 'Collections',
+    type: 'folder',
+    slug: 'v2-Collections',
+    children: [
+      { token: 'same-token', name: 'createCollectionWithSchema()', type: 'docx' },
+      { token: 'same-token', name: 'addCollectionField()', type: 'docx' },
+    ],
+  });
+  writeJson(dir, 'same-token.json', {
+    token: 'same-token',
+    name: 'addCollectionField()',
+    type: 'docx',
+    slug: 'v2-Collections-addCollectionField',
+    blocks: { items: [{ block_type: 1, children: ['content'] }] },
+  });
+
+  const warnings = [];
+  const originalWarn = console.warn;
+  console.warn = message => warnings.push(message);
+  try {
+    const items = await writer.__sidebar_items('reference/api/java/java/v2/v2-Collections', 'reference', 'parent');
+    assert.equal(items.length, 1);
+    assert.equal(items[0].id, 'api/java/java/v2/v2-Collections/v2-Collections-addCollectionField');
+    assert.match(warnings[0], /duplicate child token same-token/);
+  } finally {
+    console.warn = originalWarn;
+  }
+}
+
 async function testWriteDocAppliesSharedMdxPatches() {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'lark-drive-writer-'));
   const out = fs.mkdtempSync(path.join(os.tmpdir(), 'lark-drive-output-'));
@@ -230,6 +266,7 @@ async function run() {
   testDuplicateTokenSourceUsesUtilityParentContext();
   await testConvertLinkUsesCurrentParentSlugContext();
   await testSidebarItemsUseParentSlugContext();
+  await testSidebarItemsDeduplicateRepeatedChildTokens();
   await testWriteDocAppliesSharedMdxPatches();
   testDuplicateRouteSlugUsesParentDirectoryName();
   console.log('larkDriveWriter tests passed');
