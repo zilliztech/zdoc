@@ -4,6 +4,7 @@ const fs = require('node:fs')
 const path = require('node:path')
 const yaml = require('js-yaml')
 const { validateMdxStructure } = require('../../plugins/mdx-parse/mdxPatcher')
+const { chunkDocument, DEFAULT_MAX_CHARS, DEFAULT_TARGET_CHARS } = require('./chunker')
 const { readCache, writeCache } = require('./manifest')
 
 const DEFAULT_MANIFEST = 'tmp/translation-manifest.json'
@@ -18,6 +19,15 @@ function sleep(ms) {
 function parsePositiveInteger(value, fallback) {
   const parsed = Number(value)
   return Number.isFinite(parsed) && parsed > 0 ? parsed : fallback
+}
+
+function loadChunkLimits(env = process.env) {
+  const targetChars = parsePositiveInteger(env.TRANSLATION_CHUNK_TARGET_CHARS, DEFAULT_TARGET_CHARS)
+  const maxChars = parsePositiveInteger(env.TRANSLATION_CHUNK_MAX_CHARS, DEFAULT_MAX_CHARS)
+  if (maxChars < targetChars) {
+    throw new Error('TRANSLATION_CHUNK_MAX_CHARS must be greater than or equal to TRANSLATION_CHUNK_TARGET_CHARS')
+  }
+  return { targetChars, maxChars }
 }
 
 function normalizeBaseUrl(raw) {
@@ -143,34 +153,99 @@ async function validateTranslatedContent(content) {
   return errors
 }
 
-function buildTranslationMessages({ sourcePath, sourceContent, locale }) {
+function formatDocumentContext(chunkContext) {
+  if (!chunkContext) return ''
+  const lines = [
+    `Chunk: ${chunkContext.index + 1} of ${chunkContext.total}`,
+    chunkContext.documentTitle ? `Document title: ${chunkContext.documentTitle}` : null,
+    chunkContext.previousTranslatedHeading ? `Previous translated heading: ${chunkContext.previousTranslatedHeading}` : null,
+  ].filter(Boolean)
+  return `${lines.join('\n')}\n`
+}
+
+function buildTranslationMessages({ sourcePath, sourceContent, locale, chunkContext }) {
+  const context = formatDocumentContext(chunkContext)
+  const instruction = chunkContext
+    ? 'Translate this consecutive MDX/Markdown section:'
+    : 'Translate this complete MDX/Markdown file:'
   return [
     { role: 'system', content: loadPrompt('codex-translation-agent.md') },
     {
       role: 'user',
-      content: `Locale: ${locale}\nSource path: ${sourcePath}\n\nTranslate this complete MDX/Markdown file:\n\n${sourceContent}`,
+      content: `Locale: ${locale}\nSource path: ${sourcePath}\n${context}\n${instruction}\n\n${sourceContent}`,
     },
   ]
 }
 
-function buildReviewMessages({ sourcePath, sourceContent, translatedContent, locale }) {
+function buildReviewMessages({ sourcePath, sourceContent, translatedContent, locale, chunkContext }) {
+  const context = formatDocumentContext(chunkContext)
   return [
     { role: 'system', content: loadPrompt('codex-review-agent.md') },
     {
       role: 'user',
-      content: `Locale: ${locale}\nSource path: ${sourcePath}\n\nEnglish source:\n${sourceContent}\n\nTranslated draft:\n${translatedContent}`,
+      content: `Locale: ${locale}\nSource path: ${sourcePath}\n${context}\nEnglish source${chunkContext ? ' section' : ''}:\n${sourceContent}\n\nTranslated draft${chunkContext ? ' section' : ''}:\n${translatedContent}`,
     },
   ]
 }
 
-function buildCorrectionMessages({ sourcePath, sourceContent, translatedContent, review, locale }) {
+function buildCorrectionMessages({ sourcePath, sourceContent, translatedContent, review, locale, chunkContext }) {
+  const context = formatDocumentContext(chunkContext)
   return [
     { role: 'system', content: loadPrompt('codex-correction-agent.md') },
     {
       role: 'user',
-      content: `Locale: ${locale}\nSource path: ${sourcePath}\n\nEnglish source:\n${sourceContent}\n\nCurrent translation:\n${translatedContent}\n\nReview JSON:\n${JSON.stringify(review, null, 2)}`,
+      content: `Locale: ${locale}\nSource path: ${sourcePath}\n${context}\nEnglish source${chunkContext ? ' section' : ''}:\n${sourceContent}\n\nCurrent translation${chunkContext ? ' section' : ''}:\n${translatedContent}\n\nReview JSON:\n${JSON.stringify(review, null, 2)}`,
     },
   ]
+}
+
+function extractDocumentTitle(content) {
+  const match = content.match(/^---\r?\n([\s\S]*?)\r?\n---/)
+  if (!match) return null
+  try {
+    const frontmatter = yaml.load(match[1])
+    return typeof frontmatter?.title === 'string' ? frontmatter.title : null
+  } catch {
+    return null
+  }
+}
+
+function extractFirstHeading(content) {
+  return content.match(/^ {0,3}#{1,6}[\t ]+(.+)$/m)?.[1]?.trim() || null
+}
+
+function restoreBoundaryWhitespace(sourceContent, translatedContent) {
+  const leading = sourceContent.match(/^\s*/)?.[0] || ''
+  const trailing = sourceContent.match(/\s*$/)?.[0] || ''
+  return `${leading}${String(translatedContent || '').trim()}${trailing}`
+}
+
+async function translateAndReviewUnit({
+  sourcePath,
+  sourceContent,
+  locale,
+  callModel,
+  maxReviewRounds,
+  chunkContext,
+}) {
+  let translatedContent = restoreBoundaryWhitespace(sourceContent, stripCodeFence(await callModel({
+    agent: 'translation',
+    messages: buildTranslationMessages({ sourcePath, sourceContent, locale, chunkContext }),
+  })))
+
+  let review = { pass: false, issues: [] }
+  for (let round = 0; round <= maxReviewRounds; round++) {
+    review = parseReview(await callModel({
+      agent: 'review',
+      messages: buildReviewMessages({ sourcePath, sourceContent, translatedContent, locale, chunkContext }),
+    }))
+    if (review.pass || round === maxReviewRounds) break
+    translatedContent = restoreBoundaryWhitespace(sourceContent, stripCodeFence(await callModel({
+      agent: 'correction',
+      messages: buildCorrectionMessages({ sourcePath, sourceContent, translatedContent, review, locale, chunkContext }),
+    })))
+  }
+  return { translatedContent, review }
 }
 
 async function processManifestItem({
@@ -178,52 +253,60 @@ async function processManifestItem({
   item,
   callModel,
   maxReviewRounds = 2,
+  chunkTargetChars = DEFAULT_TARGET_CHARS,
+  chunkMaxChars = DEFAULT_MAX_CHARS,
   validate = validateTranslatedContent,
 }) {
   const absSourcePath = path.join(siteDir, item.sourcePath)
   const absTargetPath = path.join(siteDir, item.targetPath)
   const sourceContent = fs.readFileSync(absSourcePath, 'utf8')
-  let translatedContent = stripCodeFence(await callModel({
-    agent: 'translation',
-    messages: buildTranslationMessages({
-      sourcePath: item.sourcePath,
-      sourceContent,
-      locale: item.locale,
-    }),
-  }))
+  const chunks = chunkDocument(sourceContent, { targetChars: chunkTargetChars, maxChars: chunkMaxChars })
+  const documentTitle = extractDocumentTitle(sourceContent)
+  const translatedChunks = []
+  let previousTranslatedHeading = null
+  let lastReview = { pass: true, issues: [] }
 
-  let review = { pass: false, issues: [] }
-  for (let round = 0; round <= maxReviewRounds; round++) {
-    review = parseReview(await callModel({
-      agent: 'review',
-      messages: buildReviewMessages({
-        sourcePath: item.sourcePath,
-        sourceContent,
-        translatedContent,
-        locale: item.locale,
-      }),
-    }))
-    if (review.pass) break
-    if (round === maxReviewRounds) break
-    translatedContent = stripCodeFence(await callModel({
-      agent: 'correction',
-      messages: buildCorrectionMessages({
-        sourcePath: item.sourcePath,
-        sourceContent,
-        translatedContent,
-        review,
-        locale: item.locale,
-      }),
-    }))
+  for (const chunk of chunks) {
+    const chunkContext = chunks.length > 1
+      ? {
+          index: chunk.index,
+          total: chunks.length,
+          documentTitle,
+          previousTranslatedHeading,
+        }
+      : null
+    const unit = await translateAndReviewUnit({
+      sourcePath: item.sourcePath,
+      sourceContent: chunk.source,
+      locale: item.locale,
+      callModel,
+      maxReviewRounds,
+      chunkContext,
+    })
+    lastReview = unit.review
+    if (!unit.review.pass) {
+      return {
+        ...item,
+        status: 'failed',
+        chunk: { index: chunk.index, total: chunks.length, start: chunk.start, end: chunk.end },
+        review: unit.review,
+        validationErrors: [],
+      }
+    }
+    translatedChunks.push(unit.translatedContent)
+    previousTranslatedHeading = extractFirstHeading(unit.translatedContent) || previousTranslatedHeading
   }
 
+  const translatedContent = translatedChunks.join('')
+
   const validationErrors = await validate(translatedContent)
-  if (!review.pass || validationErrors.length) {
+  if (validationErrors.length) {
     return {
       ...item,
       status: 'failed',
-      review,
+      review: lastReview,
       validationErrors,
+      chunks: { total: chunks.length },
     }
   }
 
@@ -232,8 +315,9 @@ async function processManifestItem({
   return {
     ...item,
     status: 'translated',
-    review,
+    review: lastReview,
     validationErrors: [],
+    chunks: { total: chunks.length },
   }
 }
 
@@ -270,6 +354,7 @@ async function main() {
   const maxProviderRetries = parsePositiveInteger(process.env.TRANSLATION_AGENT_RETRIES, DEFAULT_PROVIDER_RETRIES)
   const providerTimeoutMs = parsePositiveInteger(process.env.TRANSLATION_AGENT_TIMEOUT_MS, DEFAULT_PROVIDER_TIMEOUT_MS)
   const fileTimeoutMs = parsePositiveInteger(process.env.TRANSLATION_FILE_TIMEOUT_MS, DEFAULT_FILE_TIMEOUT_MS)
+  const chunkLimits = loadChunkLimits()
   const allowPartial = String(process.env.TRANSLATION_ALLOW_PARTIAL || '').toLowerCase() === 'true'
   const manifest = JSON.parse(fs.readFileSync(path.join(siteDir, manifestPath), 'utf8'))
   const callModel = await createProviderCall(loadAgentConfigsFromEnv(), {
@@ -291,7 +376,14 @@ async function main() {
     let result
     try {
       result = await withTimeout(
-        processManifestItem({ siteDir, item, callModel, maxReviewRounds }),
+        processManifestItem({
+          siteDir,
+          item,
+          callModel,
+          maxReviewRounds,
+          chunkTargetChars: chunkLimits.targetChars,
+          chunkMaxChars: chunkLimits.maxChars,
+        }),
         fileTimeoutMs,
         `Timed out translating ${item.sourcePath} after ${fileTimeoutMs}ms`,
       )
@@ -333,10 +425,12 @@ module.exports = {
   buildTranslationMessages,
   createProviderCall,
   isRetryableProviderError,
+  loadChunkLimits,
   normalizeBaseUrl,
   parseReview,
   parsePositiveInteger,
   processManifestItem,
+  restoreBoundaryWhitespace,
   stripCodeFence,
   validateTranslatedContent,
   withTimeout,

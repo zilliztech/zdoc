@@ -16,5 +16,6 @@ test('translation workflow creates, updates, summarizes, and finishes a Lark car
   assert.match(workflow, /APP_ID: \$\{\{ secrets\.APP_ID \}\}/)
   assert.match(workflow, /APP_SECRET: \$\{\{ secrets\.APP_SECRET \}\}/)
   assert.match(workflow, /FEISHU_HOST: \$\{\{ vars\.FEISHU_HOST \}\}/)
+  assert.match(workflow, /TRANSLATION_CHUNK_TARGET_CHARS:/)
+  assert.match(workflow, /TRANSLATION_CHUNK_MAX_CHARS:/)
 })
-
