@@ -16,7 +16,7 @@
     "check:static-env": "node scripts/check-static-env-placeholder.js",
     "test:frontend": "vitest run",
     "test:e2e": "playwright test --project=chromium",
-    "test:translation": "node scripts/translation/sidebarKeys.test.js && node scripts/translation/manifest.test.js && node scripts/translation/agentRunner.test.js && node --test scripts/translation/reportSummary.test.js scripts/translation/workflowReporting.test.js",
+    "test:translation": "node scripts/translation/sidebarKeys.test.js && node scripts/translation/manifest.test.js && node scripts/translation/agentRunner.test.js && node --test scripts/translation/chunker.test.js scripts/translation/reportSummary.test.js scripts/translation/workflowReporting.test.js",
     "doc-publish-bot": "node scripts/doc-publish-bot/index.js",
     "test:doc-publish-bot": "node --test scripts/doc-publish-bot/*.test.js",
     "test:all": "npm run test --prefix chat-proxy && npm run test:frontend"
