@@ -86,6 +86,17 @@ jobs:
     - name: install dependencies
       run: pnpm install --frozen-lockfile
 
+    - name: create translation progress card
+      id: card
+      run: |
+        npx docusaurus report-to-lark --card-create \
+          --title "Japanese Docs Translation" \
+          --stages "Find changed docs,Translate docs,Validate translations,Commit translations"
+      env:
+        APP_ID: ${{ secrets.APP_ID }}
+        APP_SECRET: ${{ secrets.APP_SECRET }}
+        FEISHU_HOST: ${{ vars.FEISHU_HOST }}
+
     - name: build translation manifest
       id: manifest
       run: |
@@ -97,13 +108,19 @@ jobs:
         COUNT=$(node -e "const m=require('./tmp/translation-manifest.json'); console.log(m.items.length)")
         echo "count=${COUNT}" >> "$GITHUB_OUTPUT"
         echo "Pending translation files: ${COUNT}"
+        npx docusaurus report-to-lark --card-advance --status done --note "Pending translation files: ${COUNT}"
       env:
         TRANSLATION_MAX_FILES: ${{ github.event.inputs.max_files || vars.TRANSLATION_MAX_FILES }}
         TRANSLATE_REFERENCE: ${{ github.event.inputs.include_reference || vars.TRANSLATE_REFERENCE }}
+        APP_ID: ${{ secrets.APP_ID }}
+        APP_SECRET: ${{ secrets.APP_SECRET }}
+        FEISHU_HOST: ${{ vars.FEISHU_HOST }}
 
     - name: run Codex translation agents
       if: steps.manifest.outputs.count != '0'
-      run: node scripts/translation/agentRunner.js --manifest tmp/translation-manifest.json --report tmp/translation-report.json
+      run: |
+        node scripts/translation/agentRunner.js --manifest tmp/translation-manifest.json --report tmp/translation-report.json
+        npx docusaurus report-to-lark --card-advance --status done
       env:
         TRANSLATION_AGENT_BASE_URL: ${{ vars.TRANSLATION_AGENT_BASE_URL }}
         TRANSLATION_AGENT_API_KEY: ${{ secrets.TRANSLATION_AGENT_API_KEY }}
@@ -116,6 +133,17 @@ jobs:
         TRANSLATION_AGENT_TIMEOUT_MS: ${{ vars.TRANSLATION_AGENT_TIMEOUT_MS || 300000 }}
         TRANSLATION_FILE_TIMEOUT_MS: ${{ vars.TRANSLATION_FILE_TIMEOUT_MS || 900000 }}
         TRANSLATION_ALLOW_PARTIAL: "true"
+        APP_ID: ${{ secrets.APP_ID }}
+        APP_SECRET: ${{ secrets.APP_SECRET }}
+        FEISHU_HOST: ${{ vars.FEISHU_HOST }}
+
+    - name: skip translation stage when nothing changed
+      if: steps.manifest.outputs.count == '0'
+      run: npx docusaurus report-to-lark --card-advance --status done --note "No changed documents required translation."
+      env:
+        APP_ID: ${{ secrets.APP_ID }}
+        APP_SECRET: ${{ secrets.APP_SECRET }}
+        FEISHU_HOST: ${{ vars.FEISHU_HOST }}
 
     - name: validate translated MDX
       if: steps.manifest.outputs.count != '0'
@@ -130,13 +158,41 @@ jobs:
           npx docusaurus mdx-parse -d i18n/ja-JP/docusaurus-plugin-content-docs-reference/current
         fi
         pnpm run build
+        npx docusaurus report-to-lark --card-advance --status done
+      env:
+        APP_ID: ${{ secrets.APP_ID }}
+        APP_SECRET: ${{ secrets.APP_SECRET }}
+        FEISHU_HOST: ${{ vars.FEISHU_HOST }}
+
+    - name: skip validation stage when nothing changed
+      if: steps.manifest.outputs.count == '0'
+      run: npx docusaurus report-to-lark --card-advance --status done
+      env:
+        APP_ID: ${{ secrets.APP_ID }}
+        APP_SECRET: ${{ secrets.APP_SECRET }}
+        FEISHU_HOST: ${{ vars.FEISHU_HOST }}
+
+    - name: create and attach translation report summary
+      if: always()
+      run: |
+        node scripts/translation/reportSummary.js \
+          --manifest tmp/translation-manifest.json \
+          --report tmp/translation-report.json \
+          --output tmp/translation-report.md
+        npx docusaurus report-to-lark --card-note-file tmp/translation-report.md
+      env:
+        APP_ID: ${{ secrets.APP_ID }}
+        APP_SECRET: ${{ secrets.APP_SECRET }}
+        FEISHU_HOST: ${{ vars.FEISHU_HOST }}
 
     - name: upload translation report
-      if: always() && steps.manifest.outputs.count != '0'
+      if: always()
       uses: actions/upload-artifact@v4
       with:
         name: translation-report
-        path: tmp/translation-report.json
+        path: |
+          tmp/translation-report.json
+          tmp/translation-report.md
         if-no-files-found: ignore
 
     - name: commit translations
@@ -148,6 +204,28 @@ jobs:
         file_pattern: "i18n .translation-cache"
         push_options: --force
 
+    - name: mark commit stage complete
+      if: steps.manifest.outputs.count != '0'
+      run: npx docusaurus report-to-lark --card-advance --status done
+      env:
+        APP_ID: ${{ secrets.APP_ID }}
+        APP_SECRET: ${{ secrets.APP_SECRET }}
+        FEISHU_HOST: ${{ vars.FEISHU_HOST }}
+
     - name: no translation changes
       if: steps.manifest.outputs.count == '0'
       run: echo "No changed docs require translation."
+
+    - name: finish translation progress card
+      if: always()
+      run: |
+        npx docusaurus report-to-lark --card-finish \
+          --message-id "${{ steps.card.outputs.card_id }}" \
+          --status "${{ job.status == 'success' && 'success' || 'fail' }}" \
+          --started-at "${{ steps.card.outputs.card_started_at }}" \
+          --stages "${{ steps.card.outputs.card_stages }}" \
+          --title "${{ steps.card.outputs.card_title }}"
+      env:
+        APP_ID: ${{ secrets.APP_ID }}
+        APP_SECRET: ${{ secrets.APP_SECRET }}
+        FEISHU_HOST: ${{ vars.FEISHU_HOST }}
