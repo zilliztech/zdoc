@@ -31,7 +31,9 @@ function loadPrompt(name) {
 }
 
 function stripCodeFence(text) {
-  return String(text || '').trim().replace(/^```(?:json|markdown|mdx)?\s*/i, '').replace(/\s*```$/, '').trim()
+  const trimmed = String(text || '').trim()
+  const wrapped = trimmed.match(/^```(?:json|markdown|mdx)?[\t ]*\r?\n([\s\S]*)\r?\n```$/i)
+  return wrapped ? wrapped[1].trim() : trimmed
 }
 
 function parseReview(text) {

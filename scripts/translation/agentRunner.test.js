@@ -3,7 +3,7 @@ const fs = require('node:fs')
 const os = require('node:os')
 const path = require('node:path')
 
-const { createProviderCall, isRetryableProviderError, processManifestItem, withTimeout } = require('./agentRunner')
+const { createProviderCall, isRetryableProviderError, processManifestItem, stripCodeFence, withTimeout } = require('./agentRunner')
 
 function withTempDir(callback) {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'translation-agent-'))
@@ -150,12 +150,25 @@ function testRetryableProviderErrors() {
   assert.equal(isRetryableProviderError(new Error('translation agent failed with HTTP 400: {}')), false)
 }
 
+function testStripCodeFencePreservesDocumentClosingFence() {
+  const document = '---\ntitle: Test\n---\n\n```text\nexpected output\n```'
+  assert.equal(stripCodeFence(document), document)
+}
+
+function testStripCodeFenceRemovesResponseWrapper() {
+  const wrapped = '```markdown\n---\ntitle: Test\n---\n\n```text\nexpected output\n```\n```'
+  const document = '---\ntitle: Test\n---\n\n```text\nexpected output\n```'
+  assert.equal(stripCodeFence(wrapped), document)
+}
+
 async function run() {
   await testCorrectionRunsWhenReviewFails()
   await testProviderCallRetriesTransientFailures()
   await testProviderCallTimesOutHungRequests()
   await testFileTimeoutRejectsSlowWork()
   testRetryableProviderErrors()
+  testStripCodeFencePreservesDocumentClosingFence()
+  testStripCodeFenceRemovesResponseWrapper()
   console.log('translation agent runner tests passed')
 }
 
