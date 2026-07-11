@@ -61,6 +61,10 @@ function reportFileLine(file) {
   return url ? `Report file: [${file}](${url})` : `Report file: \`${file}\``
 }
 
+function reportFileLines(files) {
+  return files.map(reportFileLine)
+}
+
 function linkCheckNote() {
   const file = 'plugins/link-checks/meta/reports/latest.md'
   const content = readIfExists(file)
@@ -108,9 +112,11 @@ function brokenContentLinksNote() {
     const text = link.link_text ? ` "${link.link_text}"` : ''
     return `- ${title}:${text} ${link.url || link.raw_url || link.token || '(unknown target)'}`
   })
+  const canonicalMdFile = 'plugins/lark-docs/meta/reports/guides-canonical-link-audit.md'
+  const canonicalCsvFile = 'plugins/lark-docs/meta/reports/guides-canonical-link-audit.csv'
 
   return [
-    '# Broken Content Links Audit',
+    '# Canonical Content Links Audit',
     '',
     `Generated: ${report.generated_at || '(unknown)'}`,
     `Source: ${report.source_dir || '(unknown)'}`,
@@ -127,7 +133,12 @@ function brokenContentLinksNote() {
     ...examples,
     brokenLinks.length > examples.length ? `- ...and ${brokenLinks.length - examples.length} more broken links` : null,
     '',
-    reportFileLine(jsonFile),
+    '## Reports',
+    ...reportFileLines([
+      canonicalMdFile,
+      canonicalCsvFile,
+      jsonFile,
+    ]),
   ].filter(Boolean).join('\n')
 }
 
@@ -185,6 +196,7 @@ if (require.main === module) {
 
 module.exports = {
   brokenContentLinksNote,
+  canonicalLinkNote,
   collectNotes,
   compactMarkdown,
   freshJsonReport,
