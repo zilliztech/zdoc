@@ -13,6 +13,8 @@ paths=(
   "docs"
   "docs-byoc"
   "reference"
+  "i18n"
+  ".translation-cache"
   "config/generated"
   "plugins/lark-docs/meta/snapshots"
 )
