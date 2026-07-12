@@ -37,6 +37,14 @@ if [[ "${target_branch}${target_ref}" == *$'\n'* || "${target_branch}${target_re
   exit 2
 fi
 
+if [ -z "${target_ref}" ]; then
+  if [[ "${target_branch}" == *:* ]] || ! git check-ref-format --branch "${target_branch}" >/dev/null 2>&1; then
+    echo "[restore-generated-state] invalid branch name: ${target_branch}" >&2
+    usage
+    exit 2
+  fi
+fi
+
 if [ -n "${target_ref}" ]; then
   git fetch --depth=1 origin -- "${target_ref}"
   resolved_ref="FETCH_HEAD"

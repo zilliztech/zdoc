@@ -199,3 +199,20 @@ test('dash-prefixed positional branches are rejected before git fetch', () => {
     fs.rmSync(root, { recursive: true, force: true })
   }
 })
+
+test('refspec-like positional branches are rejected before fetch can create a local ref', () => {
+  const fixture = createFixture()
+  try {
+    const result = run(fixture.work, ['dev:refs/heads/injected'])
+    const injectedRef = spawnSync('git', ['show-ref', '--verify', '--quiet', 'refs/heads/injected'], {
+      cwd: fixture.work,
+      encoding: 'utf8',
+    })
+
+    assert.notEqual(result.status, 0)
+    assert.match(result.stderr, /Usage:/)
+    assert.equal(injectedRef.status, 1, 'fetch must not create refs/heads/injected')
+  } finally {
+    fs.rmSync(fixture.root, { recursive: true, force: true })
+  }
+})
