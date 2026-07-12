@@ -55,6 +55,7 @@ jobs:
         id: verification
         continue-on-error: true
         run: |
+          set -euo pipefail
           mkdir -p tmp/final-verification-reports
           node scripts/validate-generated-sidebars.js 2>&1 | tee tmp/final-verification-reports/sidebars.log
           node scripts/run-doc-build-stage.js --build "pnpm run build" 2>&1 | tee tmp/final-verification-reports/build.log

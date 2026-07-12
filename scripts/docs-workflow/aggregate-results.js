@@ -20,6 +20,7 @@ function validate(input) {
   if (new Set(input.requestedGroups).size !== input.requestedGroups.length) invalid('requestedGroups must be unique');
   for (const group of input.requestedGroups) if (!validGroups.has(group)) invalid(`unknown requested group: ${group}`);
   if (!input.groups || typeof input.groups !== 'object' || Array.isArray(input.groups)) invalid('groups must be an object');
+  // requestedGroups is authoritative: no missing entries and no unrequested result rows.
   const keys = Object.keys(input.groups);
   if (keys.length !== input.requestedGroups.length || keys.some((group) => !input.requestedGroups.includes(group))) invalid('groups must exactly match requestedGroups');
   for (const group of input.requestedGroups) {
@@ -36,7 +37,7 @@ function validate(input) {
 function aggregateResults(input) {
   validate(input);
   const sourceSuccess = new Set(['source_published', 'no_changes']);
-  const translationSuccess = new Set(['translation_published', 'no_changes', 'skipped']);
+  const translationSuccess = new Set(['translation_published', 'no_changes']);
   let success = input.finalVerification === 'passed';
   const rows = [];
   for (const group of listContentGroups().filter((name) => input.requestedGroups.includes(name))) {

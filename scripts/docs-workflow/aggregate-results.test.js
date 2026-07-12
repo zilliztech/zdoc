@@ -41,9 +41,14 @@ test('fails for any unsuccessful requested source or requested translation', () 
   }
 });
 
-test('accepts an explicitly skipped requested translation', () => {
+test('fails an explicitly skipped requested translation', () => {
   const result = aggregateResults({ requestedGroups: ['guides'], groups: { guides: { source: 'no_changes', translation: 'skipped', translationRequested: true } }, finalVerification: 'passed' });
-  assert.equal(result.overallStatus, 'success');
+  assert.equal(result.overallStatus, 'failure');
+});
+
+test('requires groups to exactly match the authoritative requestedGroups list', () => {
+  assert.throws(() => aggregateResults({ requestedGroups: ['guides'], groups: {}, finalVerification: 'passed' }), /exactly match requestedGroups/);
+  assert.throws(() => aggregateResults({ requestedGroups: ['guides'], groups: { guides: { source: 'no_changes', translation: 'skipped', translationRequested: false }, python: { source: 'skipped', translation: 'skipped', translationRequested: false } }, finalVerification: 'passed' }), /exactly match requestedGroups/);
 });
 
 test('treats final verification failure or skip as a separate overall failure', () => {

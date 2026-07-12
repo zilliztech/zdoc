@@ -98,6 +98,7 @@ function validateWorkflowPolicies(directory = workflowDirectory) {
         [/actions\/checkout@v4[\s\S]*ref: \$\{\{ inputs\.final_dev_sha \}\}[\s\S]*fetch-depth: 0/, 'must check out the immutable final dev SHA'],
         [/validate-generated-sidebars\.js/, 'must validate generated sidebars'],
         [/run-doc-build-stage\.js --build "pnpm run build"/, 'must run the documentation build stage'],
+        [/name: Verify final documentation state[\s\S]*run: \|\n\s+set -euo pipefail\n[\s\S]*validate-generated-sidebars\.js[^\n]*\| tee/, 'must propagate failures from verification commands piped to report logs'],
         [/validate-workflow-policy\.js/, 'must validate workflow policy'],
         [/actions\/upload-artifact@v4[\s\S]*if-no-files-found: ignore/, 'must always preserve verification reports'],
         [/status=passed[\s\S]*status=failed/, 'must emit a deterministic terminal status'],
