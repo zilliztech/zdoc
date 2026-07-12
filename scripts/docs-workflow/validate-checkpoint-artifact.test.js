@@ -3,7 +3,7 @@
 const assert = require('node:assert/strict');
 const crypto = require('node:crypto');
 const { spawnSync } = require('node:child_process');
-const { mkdtemp, mkdir, readFile, rename, symlink, writeFile } = require('node:fs/promises');
+const { mkdtemp, mkdir, readFile, realpath, rename, symlink, writeFile } = require('node:fs/promises');
 const os = require('node:os');
 const path = require('node:path');
 const test = require('node:test');
@@ -36,6 +36,8 @@ test('validates and deeply freezes a valid artifact', async () => {
   assert.equal(Object.isFrozen(result.files), true);
   assert.equal(Object.isFrozen(result.files[0]), true);
   assert.equal(Object.isFrozen(result.validation.commands), true);
+  assert.equal(result.resolvedDir, await realpath(f.dir));
+  assert.equal(Object.keys(result).includes('resolvedDir'), false);
 });
 
 test('accepts a public artifact symlink while still validating its target', async () => {

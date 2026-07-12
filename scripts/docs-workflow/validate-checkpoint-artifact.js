@@ -23,8 +23,8 @@ function validPath(value) {
 }
 
 function ownershipIsFile(owned) { return /\.[A-Za-z0-9]+$/.test(owned); }
-function isOwned(rel, ownedPaths) {
-  return ownedPaths.some((owned) => rel === owned || (!ownershipIsFile(owned) && rel.startsWith(`${owned}/`)));
+function isOwned(rel, ownedPaths, translate = false) {
+  return (translate && rel === '.translation-cache/ja-JP.json') || ownedPaths.some((owned) => rel === owned || (!ownershipIsFile(owned) && rel.startsWith(`${owned}/`)));
 }
 function sorted(values) { return values.every((value, i) => i === 0 || values[i - 1] < value); }
 function pathsConflict(one, two) { return one === two || one.startsWith(`${two}/`) || two.startsWith(`${one}/`); }
@@ -105,13 +105,13 @@ async function validateCheckpointArtifact(artifactDir, expected = {}) {
   for (const entry of manifest.files) {
     exactKeys(entry, FILE_KEYS, 'file');
     if (!validPath(entry.path)) throw new Error(`Invalid path: ${entry.path}`);
-    if (!isOwned(entry.path, group.ownedPaths)) throw new Error(`Path is not owned by group allowlist: ${entry.path}`);
+    if (!isOwned(entry.path, group.ownedPaths, group.translate)) throw new Error(`Path is not owned by group allowlist: ${entry.path}`);
     if (!/^[0-9a-f]{64}$/.test(entry.sha256)) throw new Error(`Invalid checksum: ${entry.path}`);
     if (!Number.isSafeInteger(entry.size) || entry.size < 0) throw new Error(`Invalid size: ${entry.path}`);
   }
   for (const rel of manifest.deletions) {
     if (!validPath(rel)) throw new Error(`Invalid path: ${rel}`);
-    if (!isOwned(rel, group.ownedPaths)) throw new Error(`Path is not owned by group allowlist: ${rel}`);
+    if (!isOwned(rel, group.ownedPaths, group.translate)) throw new Error(`Path is not owned by group allowlist: ${rel}`);
   }
   const filePaths = manifest.files.map((x) => x.path);
   if (new Set(filePaths).size !== filePaths.length) throw new Error('Duplicate file path');
@@ -138,6 +138,7 @@ async function validateCheckpointArtifact(artifactDir, expected = {}) {
     if (bytes.length !== entry.size) throw new Error(`Payload size mismatch: ${entry.path}`);
     if (crypto.createHash('sha256').update(bytes).digest('hex') !== entry.sha256) throw new Error(`Payload checksum mismatch: ${entry.path}`);
   }
+  Object.defineProperty(manifest, 'resolvedDir', { value: pinnedArtifactDir, enumerable: false });
   return deepFreeze(manifest);
 }
 
