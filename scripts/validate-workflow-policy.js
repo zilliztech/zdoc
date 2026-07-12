@@ -91,6 +91,19 @@ function validateWorkflowPolicies(directory = workflowDirectory) {
       if (/^concurrency:/m.test(source)) errors.push(`${file}: reusable publisher must let the orchestrator serialize publication`)
       if (/git-auto-commit|git push[^\n]*--force|secrets\./.test(source)) errors.push(`${file}: publisher must not auto-commit, force-push, or receive job-wide secrets`)
     }
+
+    if (file === 'translate-codex.yml') {
+      const requiredPatterns = [
+        [/TARGET_BRANCH_INPUT: \$\{\{ inputs\.target_branch \}\}/, 'must pass the branch input through the step environment'],
+        [/git check-ref-format --branch "\$target_branch"/, 'must validate the target branch before fetching'],
+        [/refs\/heads\/\$target_branch:refs\/remotes\/origin\/\$target_branch/, 'must fetch the validated branch with an explicit refspec'],
+        [/TRANSLATION_AGENT_API_KEY: \$\{\{ secrets\.TRANSLATION_AGENT_API_KEY \}\}[\s\S]*REVIEW_AGENT_API_KEY: \$\{\{ secrets\.REVIEW_AGENT_API_KEY \}\}/, 'must map only the translation agent secrets'],
+      ]
+      for (const [pattern, message] of requiredPatterns) if (!pattern.test(source)) errors.push(`${file}: ${message}`)
+      const resolver = source.slice(source.indexOf('- id: refs'), source.indexOf('  translate:'))
+      if (/run: \|[\s\S]*\$\{\{ inputs\.target_branch \}\}/.test(resolver)) errors.push(`${file}: target branch input must not be interpolated into shell source`)
+      if (/secrets: inherit/.test(source)) errors.push(`${file}: reusable translation must receive an explicit secret allowlist`)
+    }
   }
 
   return errors

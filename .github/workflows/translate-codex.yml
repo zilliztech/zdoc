@@ -28,14 +28,28 @@ jobs:
     outputs:
       master_sha: ${{ steps.refs.outputs.master_sha }}
       source_sha: ${{ steps.refs.outputs.source_sha }}
+      target_branch: ${{ steps.refs.outputs.target_branch }}
     steps:
       - uses: actions/checkout@v4
         with: { fetch-depth: 0 }
       - id: refs
+        env:
+          TARGET_BRANCH_INPUT: ${{ inputs.target_branch }}
         run: |
-          git fetch --no-tags origin master "${{ inputs.target_branch }}"
-          echo "master_sha=$(git rev-parse origin/master)" >> "$GITHUB_OUTPUT"
-          echo "source_sha=$(git rev-parse origin/${{ inputs.target_branch }})" >> "$GITHUB_OUTPUT"
+          set -euo pipefail
+          target_branch="${TARGET_BRANCH_INPUT:-dev}"
+          if [[ "$target_branch" == *$'\n'* || "$target_branch" == *$'\r'* || "$target_branch" == -* || "$target_branch" == *:* ]]; then
+            echo "Invalid target branch" >&2
+            exit 2
+          fi
+          git check-ref-format --branch "$target_branch" >/dev/null
+          git remote get-url origin >/dev/null
+          git fetch --no-tags origin \
+            "refs/heads/master:refs/remotes/origin/master" \
+            "refs/heads/$target_branch:refs/remotes/origin/$target_branch"
+          master_sha="$(git rev-parse "refs/remotes/origin/master")"
+          source_sha="$(git rev-parse "refs/remotes/origin/$target_branch")"
+          printf 'master_sha=%s\nsource_sha=%s\ntarget_branch=%s\n' "$master_sha" "$source_sha" "$target_branch" >> "$GITHUB_OUTPUT"
   translate:
     needs: prepare
     uses: ./.github/workflows/_translate-content-group.yml
@@ -45,7 +59,9 @@ jobs:
       master_sha: ${{ needs.prepare.outputs.master_sha }}
       should_translate: true
       max_files: ${{ inputs.max_files }}
-    secrets: inherit
+    secrets:
+      TRANSLATION_AGENT_API_KEY: ${{ secrets.TRANSLATION_AGENT_API_KEY }}
+      REVIEW_AGENT_API_KEY: ${{ secrets.REVIEW_AGENT_API_KEY }}
   publish:
     needs: [prepare, translate]
     uses: ./.github/workflows/_publish-content-group.yml
@@ -56,5 +72,5 @@ jobs:
       commit_message: "${{ inputs.group == 'guides' && 'docs(guides): publish fetched content' || inputs.group == 'python' && 'docs(python): publish SDK reference' || inputs.group == 'java' && 'docs(java): publish SDK reference' || inputs.group == 'node' && 'docs(node): publish SDK reference' || inputs.group == 'go' && 'docs(go): publish SDK reference' || inputs.group == 'cli' && 'docs(cli): publish CLI reference' || 'docs(rest): publish REST reference' }}"
       should_publish: ${{ needs.translate.outputs.status == 'translation_ready' }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
-      target_branch: ${{ inputs.target_branch }}
+      target_branch: ${{ needs.prepare.outputs.target_branch }}
       validate_command: pnpm run build

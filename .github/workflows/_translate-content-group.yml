@@ -9,7 +9,6 @@ on:
       should_translate: { required: true, type: boolean }
       max_files: { required: false, type: string, default: '500' }
       artifact_retention_days: { required: false, type: number, default: 3 }
-      card_id: { required: false, type: string, default: '' }
     outputs:
       status: { value: '${{ jobs.translate.outputs.status }}' }
       artifact_name: { value: '${{ jobs.translate.outputs.artifact_name }}' }
@@ -18,8 +17,6 @@ on:
     secrets:
       TRANSLATION_AGENT_API_KEY: { required: true }
       REVIEW_AGENT_API_KEY: { required: true }
-      APP_ID: { required: false }
-      APP_SECRET: { required: false }
 
 permissions:
   actions: read
