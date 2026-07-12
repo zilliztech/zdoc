@@ -1,0 +1,189 @@
+name: publish docs content group
+
+on:
+  workflow_call:
+    inputs:
+      group:
+        required: true
+        type: string
+      artifact_name:
+        required: true
+        type: string
+      commit_message:
+        required: true
+        type: string
+      should_publish:
+        required: true
+        type: boolean
+      master_sha:
+        required: true
+        type: string
+      validate_command:
+        required: false
+        type: string
+        default: node scripts/validate-generated-sidebars.js
+      baseline_artifact_name:
+        required: false
+        type: string
+        default: ''
+      target_branch:
+        required: false
+        type: string
+        default: dev
+    outputs:
+      status:
+        description: Publication result
+        value: ${{ jobs.publish.outputs.status }}
+      commit_sha:
+        description: Published or current target commit
+        value: ${{ jobs.publish.outputs.commit_sha }}
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    outputs:
+      status: ${{ steps.result.outputs.status }}
+      commit_sha: ${{ steps.result.outputs.commit_sha }}
+    env:
+      GROUP: ${{ inputs.group }}
+      MASTER_SHA: ${{ inputs.master_sha }}
+      ARTIFACT_NAME: ${{ inputs.artifact_name }}
+      COMMIT_MESSAGE: ${{ inputs.commit_message }}
+      TARGET_BRANCH: ${{ inputs.target_branch }}
+      VALIDATE_COMMAND: ${{ inputs.validate_command }}
+      DOWNLOAD_DIR: ${{ runner.temp }}/download
+      EXTRACT_DIR: ${{ runner.temp }}/checkpoint-extracted
+      ARTIFACT_DIR: ${{ runner.temp }}/checkpoint-extracted/checkpoint-group
+      PUBLISH_OUTPUT: ${{ runner.temp }}/publication-output.txt
+    steps:
+      - name: Validate publisher inputs
+        if: ${{ inputs.should_publish }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          node - <<'NODE'
+          if (!/^[0-9a-f]{40}$/.test(process.env.MASTER_SHA)) throw new Error('master_sha must be a lowercase 40-character Git SHA')
+          for (const [name, value] of [['artifact_name', process.env.ARTIFACT_NAME], ['commit_message', process.env.COMMIT_MESSAGE], ['validate_command', process.env.VALIDATE_COMMAND]]) {
+            if (!value || /[\r\n]/.test(value)) throw new Error(`${name} must be non-empty and single-line`)
+          }
+          NODE
+          git check-ref-format --branch "$TARGET_BRANCH"
+
+      - name: Check out immutable publisher tooling
+        if: ${{ inputs.should_publish }}
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.master_sha }}
+          fetch-depth: 0
+
+      - name: Validate content group contract
+        if: ${{ inputs.should_publish }}
+        run: node -e 'const group=require("./scripts/docs-workflow/content-groups.js").getContentGroup(process.env.GROUP);if(process.env.COMMIT_MESSAGE!==group.commitMessage)throw new Error("commit_message must equal the content group definition")'
+
+      - uses: pnpm/action-setup@v4
+        if: ${{ inputs.should_publish }}
+        with:
+          version: 9
+
+      - name: Set up Node.js
+        if: ${{ inputs.should_publish }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: pnpm
+
+      - name: Install dependencies
+        if: ${{ inputs.should_publish }}
+        run: pnpm install --frozen-lockfile
+
+      - name: Download checkpoint artifact
+        if: ${{ inputs.should_publish }}
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ inputs.artifact_name }}
+          path: ${{ runner.temp }}/download
+
+      - name: Safely extract checkpoint artifact
+        if: ${{ inputs.should_publish }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          archive="$DOWNLOAD_DIR/checkpoint-group.tar"
+          [[ -f "$archive" ]]
+          tar -tf "$archive" > "$RUNNER_TEMP/archive-paths.txt"
+          tar -tvf "$archive" > "$RUNNER_TEMP/archive-types.txt"
+          node - <<'NODE'
+          const fs = require('node:fs')
+          const paths = fs.readFileSync(process.env.RUNNER_TEMP + '/archive-paths.txt', 'utf8').split('\n').filter(Boolean)
+          if (!paths.length) throw new Error('Checkpoint archive is empty')
+          for (const archiveName of paths) {
+            const name = archiveName.endsWith('/') ? archiveName.slice(0, -1) : archiveName
+            if (!name || name.startsWith('/') || name.split('/').some(part => part === '..' || part === '')) throw new Error(`Unsafe archive path: ${archiveName}`)
+            if (name !== 'checkpoint-group' && !name.startsWith('checkpoint-group/')) throw new Error(`Unexpected archive root: ${archiveName}`)
+          }
+          const lines = fs.readFileSync(process.env.RUNNER_TEMP + '/archive-types.txt', 'utf8').split('\n').filter(Boolean)
+          for (const line of lines) if (!['-', 'd'].includes(line[0])) throw new Error(`Unsafe archive entry type: ${line}`)
+          NODE
+          mkdir -p "$EXTRACT_DIR"
+          tar -xf "$archive" -C "$EXTRACT_DIR"
+          [[ -d "$ARTIFACT_DIR" && ! -L "$ARTIFACT_DIR" ]]
+
+      - name: Validate checkpoint identity
+        if: ${{ inputs.should_publish }}
+        run: node scripts/docs-workflow/validate-checkpoint-artifact.js --artifact "$ARTIFACT_DIR" --group "$GROUP" --master-sha "$MASTER_SHA"
+
+      - name: Publish checkpoint
+        id: publisher
+        if: ${{ inputs.should_publish }}
+        shell: bash
+        run: |
+          set -o pipefail
+          baseline_args=()
+          if [[ -n "${{ inputs.baseline_artifact_name }}" ]]; then
+            echo 'baseline_artifact_name is reserved for translation publishers' >&2
+            exit 1
+          fi
+          bash scripts/docs-workflow/publish-checkpoint.sh \
+            --artifact "$ARTIFACT_DIR" \
+            --branch "$TARGET_BRANCH" \
+            --message "$COMMIT_MESSAGE" \
+            --max-attempts 3 \
+            --validate-command "$VALIDATE_COMMAND" \
+            "${baseline_args[@]}" | tee "$PUBLISH_OUTPUT"
+
+      - name: Emit final publication result
+        id: result
+        if: ${{ always() }}
+        shell: bash
+        run: |
+          status=failed
+          commit_sha=
+          if [[ "${{ inputs.should_publish }}" != true ]]; then
+            status=skipped
+          elif [[ "${{ steps.publisher.outcome }}" == success && -f "$PUBLISH_OUTPUT" ]]; then
+            status=$(sed -n 's/^status=//p' "$PUBLISH_OUTPUT" | tail -1)
+            commit_sha=$(sed -n 's/^commit_sha=//p' "$PUBLISH_OUTPUT" | tail -1)
+            [[ "$status" == published || "$status" == no_changes ]] || status=failed
+          fi
+          echo "status=$status" >> "$GITHUB_OUTPUT"
+          echo "commit_sha=$commit_sha" >> "$GITHUB_OUTPUT"
+
+      - name: Upload publication diagnostics
+        if: ${{ always() && inputs.should_publish }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: publication-${{ inputs.group }}-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/publication-output.txt
+            ${{ runner.temp }}/archive-paths.txt
+            ${{ runner.temp }}/archive-types.txt
+          if-no-files-found: ignore
+          retention-days: 3
+
+      - name: Fail unsuccessful publication
+        if: ${{ always() && steps.result.outputs.status == 'failed' }}
+        run: exit 1

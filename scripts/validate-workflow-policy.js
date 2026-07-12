@@ -8,6 +8,7 @@ const workflowDirectory = path.join(process.cwd(), '.github', 'workflows')
 const publishingWorkflows = new Set([
   'fetch-docs.yml',
   'translate-codex.yml',
+  '_publish-content-group.yml',
 ])
 
 function validateWorkflowPolicies(directory = workflowDirectory) {
@@ -40,7 +41,7 @@ function validateWorkflowPolicies(directory = workflowDirectory) {
     }
 
     if (publishingWorkflows.has(file)) {
-      if (!/^concurrency:\n  group: docs-production-dev\n  cancel-in-progress: false$/m.test(source)) {
+      if (file !== '_publish-content-group.yml' && !/^concurrency:\n  group: docs-production-dev\n  cancel-in-progress: false$/m.test(source)) {
         errors.push(`${file}: serialize dev publication through docs-production-dev`)
       }
       if (!/^  contents: write$/m.test(source)) {
@@ -72,6 +73,21 @@ function validateWorkflowPolicies(directory = workflowDirectory) {
       if (/git-auto-commit|git push(?:\s+--force|[^\n]*\s--force)|git push\b/.test(source)) {
         errors.push(`${file}: producer must not publish or push content`)
       }
+    }
+
+    if (file === '_publish-content-group.yml') {
+      const requiredPatterns = [
+        [/^  workflow_call:$/m, 'must be a workflow_call reusable workflow'],
+        [/actions\/checkout@v4[\s\S]*ref: \$\{\{ inputs\.master_sha \}\}/, 'must check out immutable publisher tooling'],
+        [/actions\/download-artifact@v4/, 'must download the exact checkpoint artifact'],
+        [/tar -tf[\s\S]*tar -tvf/, 'must inspect archive paths and entry types before extraction'],
+        [/validate-checkpoint-artifact\.js/, 'must validate checkpoint identity'],
+        [/publish-checkpoint\.sh/, 'must invoke the checkpoint publisher'],
+        [/status=failed[\s\S]*status=skipped[\s\S]*published[\s\S]*no_changes/, 'must emit deterministic terminal outputs'],
+      ]
+      for (const [pattern, message] of requiredPatterns) if (!pattern.test(source)) errors.push(`${file}: ${message}`)
+      if (/^concurrency:/m.test(source)) errors.push(`${file}: reusable publisher must let the orchestrator serialize publication`)
+      if (/git-auto-commit|git push[^\n]*--force|secrets\./.test(source)) errors.push(`${file}: publisher must not auto-commit, force-push, or receive job-wide secrets`)
     }
   }
 

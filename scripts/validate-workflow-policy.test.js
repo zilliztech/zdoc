@@ -46,3 +46,31 @@ test('reusable content producer is immutable, read-only, and publishes a validat
   assert.match(workflow, /name: Advance progress card for content group\n        if: \$\{\{ steps\.result\.outputs\.status == 'artifact_ready' && inputs\.card_id != '' \}\}/)
   assert.match(workflow, /name: Report content group producer failure\n        if: \$\{\{ always\(\) && steps\.result\.outputs\.status == 'failed' && inputs\.card_id != '' \}\}\n        continue-on-error: true[\s\S]*--status fail[\s\S]*\$\{GROUP\} artifact production failed/)
 })
+
+test('reusable content publisher safely downloads, validates, and publishes checkpoints', () => {
+  const workflowPath = path.join(process.cwd(), '.github/workflows/_publish-content-group.yml')
+  assert.equal(fs.existsSync(workflowPath), true, 'reusable content publisher workflow must exist')
+  const workflow = fs.readFileSync(workflowPath, 'utf8')
+
+  assert.match(workflow, /^name: publish docs content group$/m)
+  assert.match(workflow, /^  workflow_call:$/m)
+  for (const input of ['group', 'artifact_name', 'commit_message', 'should_publish', 'master_sha', 'validate_command', 'baseline_artifact_name', 'target_branch']) {
+    assert.match(workflow, new RegExp(`^      ${input}:$`, 'm'))
+  }
+  assert.match(workflow, /validate_command:[\s\S]*default: node scripts\/validate-generated-sidebars\.js/)
+  assert.match(workflow, /baseline_artifact_name:[\s\S]*default: ''/)
+  assert.match(workflow, /target_branch:[\s\S]*default: dev/)
+  assert.match(workflow, /^  contents: write$/m)
+  assert.doesNotMatch(workflow, /^    secrets:|secrets: inherit/m)
+  assert.doesNotMatch(workflow, /^concurrency:/m)
+  assert.match(workflow, /if: \$\{\{ inputs\.should_publish \}\}[\s\S]*actions\/checkout@v4[\s\S]*ref: \$\{\{ inputs\.master_sha \}\}/)
+  assert.match(workflow, /actions\/download-artifact@v4[\s\S]*name: \$\{\{ inputs\.artifact_name \}\}/)
+  assert.match(workflow, /checkpoint-group\.tar[\s\S]*tar -tf[\s\S]*tar -tvf/)
+  assert.match(workflow, /validate-checkpoint-artifact\.js[\s\S]*--group "\$GROUP"[\s\S]*--master-sha "\$MASTER_SHA"/)
+  assert.match(workflow, /publish-checkpoint\.sh[\s\S]*--artifact "\$ARTIFACT_DIR"[\s\S]*--branch "\$TARGET_BRANCH"[\s\S]*--message "\$COMMIT_MESSAGE"[\s\S]*--max-attempts 3[\s\S]*--validate-command "\$VALIDATE_COMMAND"/)
+  assert.match(workflow, /id: result[\s\S]*if: \$\{\{ always\(\) \}\}[\s\S]*status=failed[\s\S]*status=skipped[\s\S]*published[\s\S]*no_changes/)
+  assert.match(workflow, /commit_sha=/)
+  assert.match(workflow, /name: Fail unsuccessful publication[\s\S]*steps\.result\.outputs\.status == 'failed'/)
+  assert.match(workflow, /actions\/upload-artifact@v4[\s\S]*if-no-files-found: ignore/)
+  assert.doesNotMatch(workflow, /git-auto-commit|git push[^\n]*--force|secrets\./)
+})
