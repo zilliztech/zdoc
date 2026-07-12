@@ -2,6 +2,7 @@ const docScraper = require('./larkDocScraper.js')
 const docWriter = require('./larkDocWriter.js')
 const driveWriter = require('./larkDriveWriter.js')
 const { runCanonicalLinkAudit } = require('./canonicalLinkAuditor')
+const { canonicalAuditRequestForPlan } = require('./incrementalCanonicalAudit')
 const { planIncrementalFetch, writeIncrementalFetchPlanReports } = require('./incrementalFetchPlanner')
 const { readSnapshot } = require('./sourceSnapshot')
 const Utils = require('./larkUtils.js')
@@ -238,13 +239,13 @@ module.exports = function (context, options) {
 
                     const maybeAuditCanonicalLinks = async ({ plan=null } = {}) => {
                         if (!hasFullSourceContent(plan)) {
-                            const sourceTokens = plan?.expanded_tokens || []
-                            if (sourceTokens.length === 0) {
-                                console.log('[incremental-fetch] Skipping canonical link audit because no incremental sources changed.')
-                                return null
+                            const request = canonicalAuditRequestForPlan(plan)
+                            if (request.reason === 'zero-change-full-audit') {
+                                console.log('[incremental-fetch] No sources changed; running a full canonical link audit in report-only mode.')
+                            } else {
+                                console.log(`[incremental-fetch] Running canonical link audit for ${request.sourceTokens.length} incremental source(s) in report-only mode.`)
                             }
-                            console.log(`[incremental-fetch] Running canonical link audit for ${sourceTokens.length} incremental source(s) in report-only mode.`)
-                            return auditCanonicalLinks({ sourceTokens, failOnBroken: false })
+                            return auditCanonicalLinks({ sourceTokens: request.sourceTokens, failOnBroken: false })
                         }
                         return auditCanonicalLinks()
                     }

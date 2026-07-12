@@ -35,6 +35,7 @@ function appendNotes(state, notes) {
 
 function buildFinishState({
   existingState,
+  messageId,
   title,
   stages,
   status,
@@ -43,7 +44,11 @@ function buildFinishState({
 }) {
   const success = status === 'success' || status === 'done'
   const effectiveStages = stages && stages.length ? stages : [success ? 'Build succeeded' : 'Build failed']
-  const state = existingState || {
+  const matchingState = existingState && (!messageId || existingState.messageId === messageId)
+    ? existingState
+    : null
+  const state = matchingState || {
+    messageId,
     title: title || 'Build',
     stages: effectiveStages,
     statuses: finishStatuses(effectiveStages, success),
@@ -52,7 +57,7 @@ function buildFinishState({
     startedAt: startedAt || new Date().toISOString(),
   }
 
-  if (existingState) {
+  if (matchingState) {
     state.statuses = finishStatuses(state.stages, success, state.statuses)
   }
 

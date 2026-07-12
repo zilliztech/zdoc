@@ -1,142 +1,216 @@
-/**
- * Script to check for 404 errors in the documentation
- * This script is used by the check-404.yml GitHub Action workflow
- */
+'use strict'
 
-const fs = require('fs');
-const path = require('path');
-const axios = require('axios');
+const fs = require('node:fs')
+const path = require('node:path')
+const axios = require('axios')
 
-// Function to find all markdown files in the docs directory
-function findMarkdownFiles(dir, fileList = []) {
-  const files = fs.readdirSync(dir);
+const DEFAULT_DIRECTORIES = ['docs', 'docs-byoc', 'reference']
+const USER_AGENT = 'Mozilla/5.0 (compatible; ZillizDocsLinkChecker/1.0; +https://docs.zilliz.com)'
 
-  files.forEach(file => {
-    const filePath = path.join(dir, file);
-    const stat = fs.statSync(filePath);
-
-    if (stat.isDirectory()) {
-      findMarkdownFiles(filePath, fileList);
-    } else if (file.endsWith('.md') || file.endsWith('.mdx')) {
-      fileList.push(filePath);
-    }
-  });
-
-  return fileList;
+function findMarkdownFiles(directory, fileList = []) {
+  for (const entry of fs.readdirSync(directory, { withFileTypes: true })) {
+    const filePath = path.join(directory, entry.name)
+    if (entry.isDirectory()) findMarkdownFiles(filePath, fileList)
+    else if (/\.mdx?$/.test(entry.name)) fileList.push(filePath)
+  }
+  return fileList
 }
 
-// Function to extract links from markdown content
-function extractLinks(content) {
-  // Regular expression to match markdown links [text](url)
-  const linkRegex = /\[([^\]]+)\]\(([^)]+)\)/g;
-  const links = [];
-  let match;
+function stripMarkdownTitle(destination) {
+  const trimmed = destination.trim()
+  const titleMatch = trimmed.match(/^(.*?)(?:\s+(?:"[^"]*"|'[^']*'|\([^()]*\)))$/s)
+  return (titleMatch ? titleMatch[1] : trimmed).trim().replace(/\\#/g, '#')
+}
 
-  while ((match = linkRegex.exec(content)) !== null) {
-    const url = match[2];
-    // Only check HTTP/HTTPS URLs, not relative or anchor links
-    if (url.startsWith('http://') || url.startsWith('https://')) {
-      links.push(url);
+function isPlaceholderUrl(url) {
+  return /[<{][^>}]+[>}]/.test(url) || /\$\{[^}]+\}/.test(url)
+}
+
+function extractExternalLinks(content) {
+  const links = []
+  const lines = content.split(/\r?\n/)
+  let fenced = false
+
+  for (let lineIndex = 0; lineIndex < lines.length; lineIndex += 1) {
+    const line = lines[lineIndex]
+    if (/^\s*(```|~~~)/.test(line)) {
+      fenced = !fenced
+      continue
+    }
+    if (fenced) continue
+
+    for (let cursor = 0; cursor < line.length; cursor += 1) {
+      if (line[cursor] !== '[' || line[cursor - 1] === '!') continue
+      const labelEnd = line.indexOf('](', cursor + 1)
+      if (labelEnd === -1) continue
+
+      const destinationStart = labelEnd + 2
+      let depth = 1
+      let destinationEnd = -1
+      for (let index = destinationStart; index < line.length; index += 1) {
+        if (line[index] === '\\') {
+          index += 1
+          continue
+        }
+        if (line[index] === '(') depth += 1
+        if (line[index] === ')') depth -= 1
+        if (depth === 0) {
+          destinationEnd = index
+          break
+        }
+      }
+      if (destinationEnd === -1) continue
+
+      const url = stripMarkdownTitle(line.slice(destinationStart, destinationEnd))
+      if (/^https?:\/\//i.test(url) && !isPlaceholderUrl(url)) {
+        links.push({ url, line: lineIndex + 1 })
+      }
+      cursor = destinationEnd
     }
   }
 
-  return links;
+  return links
 }
 
-// Main function to check for 404 errors
-async function check404Errors() {
-  console.log('Starting 404 check...');
-  
-  // Find all markdown files in docs directories
-  const markdownDirs = [
-    './docs',
-    './docs-byoc',
-    './reference'
-  ];
-  
-  const allMarkdownFiles = [];
-  markdownDirs.forEach(dir => {
-    if (fs.existsSync(dir)) {
-      findMarkdownFiles(dir, allMarkdownFiles);
+function collectExternalLinks(documents) {
+  const byUrl = new Map()
+  for (const document of documents) {
+    for (const link of extractExternalLinks(document.content)) {
+      if (!byUrl.has(link.url)) byUrl.set(link.url, [])
+      byUrl.get(link.url).push({ file: document.file, line: link.line })
     }
-  });
+  }
+  return [...byUrl.entries()]
+    .sort(([left], [right]) => left.localeCompare(right))
+    .map(([url, sources]) => ({ url, sources }))
+}
 
-  console.log(`Found ${allMarkdownFiles.length} markdown files`);
+function classifyResult(result) {
+  const status = result && result.status
+  if (status >= 200 && status < 300) return 'ok'
+  if (status >= 300 && status < 400) return 'redirected'
+  if (status === 404 || status === 410) return 'broken'
+  if (status === 401 || status === 403) return 'blocked'
+  if (status === 408 || status === 425 || status === 429 || status >= 500 || !status) return 'transient'
+  return 'blocked'
+}
 
-  // Extract all links from markdown files
-  const allLinks = new Set(); // Use Set to avoid duplicates
-  allMarkdownFiles.forEach(file => {
-    const content = fs.readFileSync(file, 'utf8');
-    const links = extractLinks(content);
-    links.forEach(link => allLinks.add(link));
-  });
+function delay(milliseconds) {
+  return new Promise(resolve => setTimeout(resolve, milliseconds))
+}
 
-  console.log(`Found ${allLinks.size} unique external links`);
-
-  // Check each link for 404 errors
-  const linksArray = Array.from(allLinks);
-  const errorLinks = [];
-
-  for (let i = 0; i < linksArray.length; i++) {
-    const link = linksArray[i];
-    console.log(`Checking (${i + 1}/${linksArray.length}): ${link}`);
-    
+async function checkUrl(url, options = {}) {
+  const request = options.request || axios.get
+  const retries = options.retries ?? 2
+  for (let attempt = 0; attempt <= retries; attempt += 1) {
     try {
-      const response = await axios.head(link, { timeout: 10000 }); // 10 second timeout
-      
-      if (response.status >= 400) {
-        errorLinks.push({
-          url: link,
-          status: response.status
-        });
-        console.log(`  ❌ ${response.status} - ${link}`);
-      } else {
-        console.log(`  ✅ ${response.status} - ${link}`);
+      const response = await request(url, {
+        timeout: options.timeout ?? 10000,
+        maxRedirects: 8,
+        validateStatus: () => true,
+        headers: { 'User-Agent': USER_AGENT, Accept: 'text/html,application/xhtml+xml,*/*;q=0.8' },
+      })
+      const classification = classifyResult(response)
+      if (classification !== 'transient' || attempt === retries) {
+        return { classification, status: response.status, finalUrl: response.request?.res?.responseUrl || url }
       }
     } catch (error) {
-      // If HEAD request fails, try GET as fallback
-      try {
-        const response = await axios.get(link, { timeout: 10000 });
-        
-        if (response.status >= 400) {
-          errorLinks.push({
-            url: link,
-            status: response.status
-          });
-          console.log(`  ❌ ${response.status} - ${link}`);
-        } else {
-          console.log(`  ✅ ${response.status} - ${link}`);
-        }
-      } catch (getError) {
-        errorLinks.push({
-          url: link,
-          status: getError.response?.status || 'ERROR',
-          message: getError.message
-        });
-        console.log(`  ❌ ERROR - ${link}: ${getError.message}`);
+      if (attempt === retries) {
+        return { classification: classifyResult(error), code: error.code, message: error.message }
       }
     }
+    await delay(250 * (attempt + 1))
   }
+  throw new Error('unreachable')
+}
 
-  // Report results
-  if (errorLinks.length > 0) {
-    console.log('\n❌ Found broken links:');
-    errorLinks.forEach(link => {
-      console.log(`  Status ${link.status}: ${link.url}`);
-      if (link.message) {
-        console.log(`    Error: ${link.message}`);
-      }
-    });
-    
-    console.log(`\nTotal broken links: ${errorLinks.length}`);
-    process.exit(1); // Exit with error code
-  } else {
-    console.log('\n✅ No broken links found!');
+async function mapWithConcurrency(items, concurrency, worker) {
+  const results = new Array(items.length)
+  let cursor = 0
+  async function run() {
+    while (cursor < items.length) {
+      const index = cursor
+      cursor += 1
+      results[index] = await worker(items[index], index)
+    }
+  }
+  await Promise.all(Array.from({ length: Math.min(concurrency, items.length) }, run))
+  return results
+}
+
+function summarize(results) {
+  return results.reduce((summary, result) => {
+    summary[result.classification] = (summary[result.classification] || 0) + 1
+    return summary
+  }, {})
+}
+
+function evaluateBaseline(currentBrokenUrls, baselineUrls) {
+  const current = new Set(currentBrokenUrls)
+  const baseline = new Set(baselineUrls)
+  return {
+    newBroken: [...current].filter(url => !baseline.has(url)).sort(),
+    resolved: [...baseline].filter(url => !current.has(url)).sort(),
   }
 }
 
-// Run the check
-check404Errors().catch(error => {
-  console.error('Error during 404 check:', error);
-  process.exit(1);
-});
+async function checkExternalLinks(options = {}) {
+  const root = options.root || process.cwd()
+  const files = (options.directories || DEFAULT_DIRECTORIES)
+    .flatMap(directory => {
+      const absolute = path.join(root, directory)
+      return fs.existsSync(absolute) ? findMarkdownFiles(absolute) : []
+    })
+  const documents = files.map(file => ({
+    file: path.relative(root, file),
+    content: fs.readFileSync(file, 'utf8'),
+  }))
+  const links = collectExternalLinks(documents)
+  console.log(`Found ${files.length} markdown files and ${links.length} unique external page links.`)
+
+  const results = await mapWithConcurrency(links, options.concurrency || 8, async (link, index) => {
+    const outcome = await checkUrl(link.url, options)
+    console.log(`[${index + 1}/${links.length}] ${outcome.classification.toUpperCase()} ${link.url}`)
+    return { ...link, ...outcome }
+  })
+  return { files, links, results, summary: summarize(results) }
+}
+
+async function main() {
+  const reportPath = process.env.LINK_CHECK_REPORT || path.join('tmp', 'external-link-report.json')
+  const baselinePath = process.env.LINK_CHECK_BASELINE || path.join('config', 'link-check-baseline.json')
+  const report = await checkExternalLinks()
+  const baseline = fs.existsSync(baselinePath) ? JSON.parse(fs.readFileSync(baselinePath, 'utf8')) : []
+  const broken = report.results.filter(result => result.classification === 'broken')
+  const baselineResult = evaluateBaseline(broken.map(result => result.url), baseline)
+  report.baseline = baselineResult
+  fs.mkdirSync(path.dirname(reportPath), { recursive: true })
+  fs.writeFileSync(reportPath, `${JSON.stringify(report, null, 2)}\n`)
+
+  console.log(`Summary: ${JSON.stringify(report.summary)}`)
+  for (const result of broken) {
+    const prefix = baseline.includes(result.url) ? 'KNOWN' : 'NEW'
+    console.error(`${prefix} BROKEN ${result.status}: ${result.url}`)
+    for (const source of result.sources) console.error(`  ${source.file}:${source.line}`)
+  }
+  for (const url of baselineResult.resolved) console.warn(`BASELINE CAN SHRINK: ${url}`)
+  if (baselineResult.newBroken.length) process.exitCode = 1
+}
+
+if (require.main === module) {
+  main().catch(error => {
+    console.error('Error during external link check:', error)
+    process.exitCode = 1
+  })
+}
+
+module.exports = {
+  checkExternalLinks,
+  checkUrl,
+  classifyResult,
+  collectExternalLinks,
+  evaluateBaseline,
+  extractExternalLinks,
+  findMarkdownFiles,
+  stripMarkdownTitle,
+}
