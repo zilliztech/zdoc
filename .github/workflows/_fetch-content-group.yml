@@ -103,6 +103,7 @@ jobs:
           cache: pnpm
 
       - name: Install dependencies
+        id: install
         run: pnpm install --frozen-lockfile
 
       - name: Create immutable dev baseline worktree
@@ -233,7 +234,7 @@ jobs:
           FEISHU_HOST: ${{ vars.FEISHU_HOST }}
 
       - name: Report content group producer failure
-        if: ${{ always() && steps.result.outputs.status == 'failed' && inputs.card_id != '' }}
+        if: ${{ always() && steps.install.outcome == 'success' && steps.result.outputs.status == 'failed' && inputs.card_id != '' }}
         continue-on-error: true
         run: |
           node -e 'require("node:fs").writeFileSync(".build-card-state.json", JSON.stringify({messageId:process.env.CARD_ID,title:"Global Docs Build",stages:[`Produce ${process.env.GROUP}`],statuses:["running"],currentIndex:0,notes:[],startedAt:new Date().toISOString()}, null, 2))'

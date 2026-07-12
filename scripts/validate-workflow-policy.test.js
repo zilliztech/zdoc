@@ -91,7 +91,8 @@ test('reusable content producer is immutable, read-only, and publishes a validat
     'producer must not report card success before the checkpoint artifact is uploaded',
   )
   assert.match(workflow, /name: Advance progress card for content group\n        if: \$\{\{ steps\.result\.outputs\.status == 'artifact_ready' && inputs\.card_id != '' \}\}/)
-  assert.match(workflow, /name: Report content group producer failure\n        if: \$\{\{ always\(\) && steps\.result\.outputs\.status == 'failed' && inputs\.card_id != '' \}\}\n        continue-on-error: true[\s\S]*--status fail[\s\S]*\$\{GROUP\} artifact production failed/)
+  assert.match(workflow, /name: Install dependencies\n        id: install\n        run: pnpm install --frozen-lockfile/)
+  assert.match(workflow, /name: Report content group producer failure\n        if: \$\{\{ always\(\) && steps\.install\.outcome == 'success' && steps\.result\.outputs\.status == 'failed' && inputs\.card_id != '' \}\}\n        continue-on-error: true[\s\S]*--status fail[\s\S]*\$\{GROUP\} artifact production failed/)
 })
 
 test('reusable content publisher safely downloads, validates, and publishes checkpoints', () => {
