@@ -116,6 +116,7 @@ async function createCheckpointArtifact(options) {
   const output = initialSafety.canonicalOutput;
   const ownedPaths = options.includeTranslationCache ? [...group.ownedPaths, '.translation-cache/ja-JP.json'] : group.ownedPaths;
   const [baseline, current] = await Promise.all([collect(baselineDir, ownedPaths), collect(workspace, ownedPaths)]);
+  if (options.includeTranslationCache && !current.has('.translation-cache/ja-JP.json')) throw new Error('Workspace translation cache is required for translation artifacts');
   const filePaths = [...current.keys()].sort();
   const deletions = [...baseline.keys()].filter((rel) => !current.has(rel)).sort();
   const parent = path.dirname(output);

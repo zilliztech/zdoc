@@ -105,6 +105,12 @@ async function validateCheckpointArtifact(artifactDir, expected = {}) {
   exactKeys(manifest.validation, VALIDATION_KEYS, 'validation');
   if (!Array.isArray(manifest.validation.commands) || !manifest.validation.commands.every((x) => typeof x === 'string') || manifest.validation.passed !== true) throw new Error('Invalid validation');
   if (!Array.isArray(manifest.files) || !Array.isArray(manifest.deletions)) throw new Error('files and deletions must be arrays');
+  const cachePath = '.translation-cache/ja-JP.json';
+  const cacheFileCount = manifest.files.filter((entry) => entry?.path === cachePath).length;
+  const cacheDeletionCount = manifest.deletions.filter((rel) => rel === cachePath).length;
+  if (manifest.stage === 'translation' && cacheDeletionCount) throw new Error('Translation stage must not list translation cache deletion');
+  if (manifest.stage === 'translation' && cacheFileCount !== 1) throw new Error('Translation stage must contain exactly one translation cache payload file');
+  if (manifest.stage === 'source' && (cacheFileCount || cacheDeletionCount)) throw new Error('Source stage must not contain translation cache');
   for (const entry of manifest.files) {
     exactKeys(entry, FILE_KEYS, 'file');
     if (!validPath(entry.path)) throw new Error(`Invalid path: ${entry.path}`);

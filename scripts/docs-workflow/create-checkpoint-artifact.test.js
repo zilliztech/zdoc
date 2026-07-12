@@ -74,7 +74,16 @@ test('translation cache option is strict and source artifacts cannot smuggle cac
   const manifest = await createCheckpointArtifact({ group: 'python', masterSha: SHA_A, devBaselineSha: SHA_B, ...f });
   const version = await require('node:fs/promises').realpath(f.output); manifest.files.push({ path: '.translation-cache/ja-JP.json', sha256: '0'.repeat(64), size: 0 });
   await writeFile(path.join(version, 'manifest.json'), JSON.stringify(manifest));
-  await assert.rejects(validateCheckpointArtifact(version), /translation.*stage|not owned/i);
+  await assert.rejects(validateCheckpointArtifact(version), /translation.*stage|source stage.*translation|not owned/i);
+});
+
+test('translation artifact creation fails when workspace cache is absent and leaves divergent target untouched', async () => {
+  const f = await fixture(); const target = path.join(path.dirname(f.output), 'target');
+  await mkdir(path.join(f.baselineDir, '.translation-cache'), { recursive: true }); await mkdir(path.join(target, '.translation-cache'), { recursive: true });
+  await writeFile(path.join(f.baselineDir, '.translation-cache/ja-JP.json'), '{"doc":{"baseline":1}}');
+  await writeFile(path.join(target, '.translation-cache/ja-JP.json'), '{"doc":{"target":2}}');
+  await assert.rejects(createCheckpointArtifact({ group: 'python', masterSha: SHA_A, devBaselineSha: SHA_B, ...f, includeTranslationCache: true }), /workspace translation cache.*required|missing.*translation cache/i);
+  assert.equal(await readFile(path.join(target, '.translation-cache/ja-JP.json'), 'utf8'), '{"doc":{"target":2}}');
 });
 
 test('represents a baseline file changed into a directory', async () => {

@@ -196,6 +196,13 @@ test('rejects malformed types, SHAs, timestamps, and validation values', async (
   }
 });
 
+test('translation stage requires exactly one cache payload and never a cache deletion', async () => {
+  let f = await artifact({ stage: 'translation' });
+  await assert.rejects(validateCheckpointArtifact(f.dir), /translation.*cache.*required|exactly one/i);
+  f = await artifact({ stage: 'translation', deletions: ['.translation-cache/ja-JP.json'] });
+  await assert.rejects(validateCheckpointArtifact(f.dir), /translation.*cache|deletion/i);
+});
+
 test('validator CLI strictly rejects malformed flags', async () => {
   const f = await artifact();
   const cli = path.join(__dirname, 'validate-checkpoint-artifact.js');
