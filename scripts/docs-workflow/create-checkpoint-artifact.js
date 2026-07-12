@@ -3,7 +3,7 @@
 
 const crypto = require('node:crypto');
 const fs = require('node:fs');
-const { access, lstat, mkdir, mkdtemp, open, realpath, readdir, rename, rm, writeFile } = require('node:fs/promises');
+const { lstat, mkdir, mkdtemp, open, readlink, realpath, readdir, rename, rm, symlink, writeFile } = require('node:fs/promises');
 const path = require('node:path');
 const { getContentGroup } = require('./content-groups');
 const { validateCheckpointArtifact } = require('./validate-checkpoint-artifact');
@@ -22,7 +22,8 @@ async function safeOutputLocation(output, workspace, baseline) {
   const baselineReal = await realpath(baseline);
   const trustedParent = commonAncestor([output, workspace, baseline]);
   let component = trustedParent;
-  for (const segment of path.relative(trustedParent, output).split(path.sep).filter(Boolean)) {
+  const parentSegments = path.relative(trustedParent, path.dirname(output)).split(path.sep).filter(Boolean);
+  for (const segment of parentSegments) {
     component = path.join(component, segment);
     try {
       if ((await lstat(component)).isSymbolicLink()) throw new Error(`Unsafe output symlink component: ${component}`);
@@ -31,8 +32,8 @@ async function safeOutputLocation(output, workspace, baseline) {
       throw error;
     }
   }
-  const missing = [];
-  let cursor = output;
+  const missing = [path.basename(output)];
+  let cursor = path.dirname(output);
   while (true) {
     try {
       const stat = await lstat(cursor);
@@ -100,9 +101,27 @@ async function createCheckpointArtifact(options) {
   await mkdir(parent, { recursive: true });
   const parentReal = await realpath(parent);
   if (parentReal !== parent) throw new Error(`Unsafe output symlink parent: ${parent}`);
-  const staging = await mkdtemp(path.join(parent, `.${path.basename(output)}.staging-`));
-  const backup = path.join(parent, `.${path.basename(output)}.backup-${process.pid}-${Date.now()}`);
-  let backedUp = false;
+  const base = path.basename(output);
+  const versionPrefix = `.${base}.version-`;
+  let oldVersion = null;
+  try {
+    const outputStat = await lstat(output);
+    if (!outputStat.isSymbolicLink()) throw new Error('Legacy output directory requires migration before checkpoint publication');
+    const target = await readlink(output);
+    if (path.isAbsolute(target) || target.includes('/') || target.includes('\\') || !target.startsWith(versionPrefix)) throw new Error('Existing output symlink is not a managed version pointer');
+    oldVersion = path.join(parent, target);
+    if (!insideOrEqual(parent, oldVersion)) throw new Error('Managed output target escapes its trusted parent');
+    const versionStat = await lstat(oldVersion);
+    if (!versionStat.isDirectory() || versionStat.isSymbolicLink()) throw new Error('Managed version target must be a real sibling directory');
+    const versionReal = await realpath(oldVersion);
+    if (path.dirname(versionReal) !== parent) throw new Error('Managed version target resolves outside its trusted parent');
+    await validateCheckpointArtifact(oldVersion);
+  } catch (error) {
+    if (error.code !== 'ENOENT') throw error;
+  }
+  const staging = await mkdtemp(path.join(parent, versionPrefix));
+  const temporaryPointer = path.join(parent, `.${base}.pointer-${process.pid}-${Date.now()}`);
+  let committed = false;
   try {
     const payload = path.join(staging, 'payload');
     await mkdir(payload, { recursive: true });
@@ -125,19 +144,21 @@ async function createCheckpointArtifact(options) {
     await options.testHooks?.beforeSwap?.({ staging, output });
     const finalSafety = await safeOutputLocation(requestedOutput, workspace, baselineDir);
     if (finalSafety.canonicalOutput !== output) throw new Error('Unsafe output changed before publication');
-    try { await access(output); await rename(output, backup); backedUp = true; } catch (error) { if (error.code !== 'ENOENT') throw error; }
-    try { await rename(staging, output); }
-    catch (error) {
-      if (backedUp) { await rename(backup, output); backedUp = false; }
-      throw error;
+    await symlink(path.basename(staging), temporaryPointer);
+    await options.testHooks?.beforePointerSwap?.({ output, version: staging });
+    await rename(temporaryPointer, output);
+    committed = true;
+    await options.testHooks?.afterPointerSwap?.({ output, version: staging });
+    if (oldVersion && oldVersion !== staging) {
+      try {
+        await options.testHooks?.cleanupOldVersion?.({ oldVersion, output });
+        await rm(oldVersion, { recursive: true, force: true });
+      } catch { /* Cleanup is best-effort after the atomic pointer commit. */ }
     }
-    if (backedUp) { await rm(backup, { recursive: true, force: true }); backedUp = false; }
     return manifest;
   } finally {
-    await rm(staging, { recursive: true, force: true });
-    if (backedUp) {
-      try { await rename(backup, output); } catch { /* Preserve the original error if restoration also fails. */ }
-    }
+    await rm(temporaryPointer, { force: true });
+    if (!committed) await rm(staging, { recursive: true, force: true });
   }
 }
 

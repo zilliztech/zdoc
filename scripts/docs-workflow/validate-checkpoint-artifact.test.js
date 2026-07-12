@@ -38,6 +38,14 @@ test('validates and deeply freezes a valid artifact', async () => {
   assert.equal(Object.isFrozen(result.validation.commands), true);
 });
 
+test('accepts a public artifact symlink while still validating its target', async () => {
+  const f = await artifact();
+  const publicPath = `${f.dir}-public`;
+  await symlink(f.dir, publicPath);
+  const result = await validateCheckpointArtifact(publicPath);
+  assert.equal(result.group, 'python');
+});
+
 test('rejects unexpected top-level and nested keys', async () => {
   let f = await artifact({ surprise: true });
   await assert.rejects(validateCheckpointArtifact(f.dir), /unexpected.*surprise/i);
