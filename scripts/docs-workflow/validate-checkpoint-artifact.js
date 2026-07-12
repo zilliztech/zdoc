@@ -26,6 +26,7 @@ function isOwned(rel, ownedPaths) {
   return ownedPaths.some((owned) => rel === owned || (!ownershipIsFile(owned) && rel.startsWith(`${owned}/`)));
 }
 function sorted(values) { return values.every((value, i) => i === 0 || values[i - 1] < value); }
+function pathsConflict(one, two) { return one === two || one.startsWith(`${two}/`) || two.startsWith(`${one}/`); }
 function deepFreeze(value) {
   for (const child of Object.values(value)) if (child && typeof child === 'object') deepFreeze(child);
   return Object.freeze(value);
@@ -84,6 +85,10 @@ async function validateCheckpointArtifact(artifactDir, expected = {}) {
   const deletions = new Set(manifest.deletions);
   if (filePaths.some((rel) => deletions.has(rel))) throw new Error('File/deletion overlap');
   for (let i = 1; i < filePaths.length; i++) if (filePaths[i].startsWith(`${filePaths[i - 1]}/`)) throw new Error('Ambiguous ancestor file paths');
+  for (let i = 0; i < manifest.deletions.length; i++) {
+    for (let j = i + 1; j < manifest.deletions.length; j++) if (pathsConflict(manifest.deletions[i], manifest.deletions[j])) throw new Error('Ambiguous ancestor deletion paths');
+    for (const file of filePaths) if (pathsConflict(manifest.deletions[i], file)) throw new Error('File/deletion ancestor conflict');
+  }
   if (expected.group !== undefined && expected.group !== manifest.group) throw new Error('Expected group mismatch');
   if (expected.masterSha !== undefined && expected.masterSha !== manifest.masterSha) throw new Error('Expected master SHA mismatch');
   if (expected.devBaselineSha !== undefined && expected.devBaselineSha !== manifest.devBaselineSha) throw new Error('Expected dev baseline SHA mismatch');
@@ -104,11 +109,16 @@ async function validateCheckpointArtifact(artifactDir, expected = {}) {
 
 function usage() { return 'Usage: node validate-checkpoint-artifact.js --artifact <dir> [--group <group>] [--master-sha <sha>] [--dev-baseline-sha <sha>]'; }
 function parseArgs(args) {
-  if (args.includes('--help')) return { help: true };
+  if (args.length === 1 && args[0] === '--help') return { help: true };
+  if (args.includes('--help')) throw new Error('--help must be used alone');
   const map = {};
+  const allowed = new Set(['artifact', 'group', 'master-sha', 'dev-baseline-sha']);
   for (let i = 0; i < args.length; i += 2) {
     if (!args[i].startsWith('--') || args[i + 1] === undefined) throw new Error(usage());
-    map[args[i].slice(2)] = args[i + 1];
+    const key = args[i].slice(2);
+    if (!allowed.has(key)) throw new Error(`Unknown argument: --${key}`);
+    if (Object.hasOwn(map, key)) throw new Error(`Duplicate argument: --${key}`);
+    map[key] = args[i + 1];
   }
   if (!map.artifact) throw new Error(usage());
   return { artifact: map.artifact, expected: { group: map.group, masterSha: map['master-sha'], devBaselineSha: map['dev-baseline-sha'] } };

@@ -30,6 +30,7 @@ async function createCheckpointArtifact(options) {
   const group = getContentGroup(groupName);
   if (!SHA.test(masterSha || '')) throw new Error('Invalid master SHA');
   if (!SHA.test(devBaselineSha || '')) throw new Error('Invalid dev baseline SHA');
+  if (options.validationCommands !== undefined && (!Array.isArray(options.validationCommands) || !options.validationCommands.every((command) => typeof command === 'string'))) throw new Error('validationCommands must be an array of strings');
   for (const name of ['baselineDir', 'workspace', 'output']) if (typeof options[name] !== 'string' || !options[name]) throw new Error(`Missing required argument: ${name}`);
   const baselineDir = path.resolve(options.baselineDir), workspace = path.resolve(options.workspace), output = path.resolve(options.output);
   if (insideOrEqual(output, workspace) || insideOrEqual(workspace, output) || insideOrEqual(output, baselineDir) || insideOrEqual(baselineDir, output)) throw new Error('Unsafe output: it must not overlap the workspace or baseline tree');
@@ -57,16 +58,23 @@ async function createCheckpointArtifact(options) {
 
 function usage() { return 'Usage: node create-checkpoint-artifact.js --group <group> --master-sha <sha> --dev-baseline-sha <sha> --baseline-dir <dir> --workspace <dir> --output <dir> [--validation-command <string> ...]'; }
 function parseArgs(args) {
-  if (args.includes('--help')) return { help: true };
+  if (args.length === 1 && args[0] === '--help') return { help: true };
+  if (args.includes('--help')) throw new Error('--help must be used alone');
   const result = { validationCommands: [] };
   const names = { group: 'group', 'master-sha': 'masterSha', 'dev-baseline-sha': 'devBaselineSha', 'baseline-dir': 'baselineDir', workspace: 'workspace', output: 'output' };
+  const seen = new Set();
   for (let i = 0; i < args.length; i += 2) {
     const key = args[i]?.slice(2), value = args[i + 1];
     if (!args[i]?.startsWith('--') || value === undefined) throw new Error(usage());
     if (key === 'validation-command') result.validationCommands.push(value);
-    else if (names[key]) result[names[key]] = value;
+    else if (names[key]) {
+      if (seen.has(key)) throw new Error(`Duplicate argument: --${key}`);
+      seen.add(key);
+      result[names[key]] = value;
+    }
     else throw new Error(`Unknown argument: --${key}`);
   }
+  for (const [flag, name] of Object.entries(names)) if (result[name] === undefined) throw new Error(`Missing required argument: --${flag}`);
   return result;
 }
 if (require.main === module) {

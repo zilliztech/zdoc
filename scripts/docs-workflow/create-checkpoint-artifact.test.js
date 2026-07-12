@@ -1,6 +1,7 @@
 'use strict';
 
 const assert = require('node:assert/strict');
+const { spawnSync } = require('node:child_process');
 const { mkdtemp, mkdir, readFile, symlink, writeFile } = require('node:fs/promises');
 const os = require('node:os');
 const path = require('node:path');
@@ -60,6 +61,17 @@ test('represents a baseline file changed into a directory', async () => {
   assert.deepEqual(manifest.files.map((entry) => entry.path), [`${owned}/index.md`]);
 });
 
+test('represents a baseline directory changed into a file', async () => {
+  const f = await fixture();
+  const owned = 'reference/api/python/python/topic';
+  await mkdir(owned.split('/').reduce((base, part) => path.join(base, part), f.baselineDir), { recursive: true });
+  await writeFile(path.join(f.baselineDir, owned, 'old.md'), 'old child');
+  await writeFile(path.join(f.workspace, owned), 'new file');
+  const manifest = await createCheckpointArtifact({ group: 'python', masterSha: SHA_A, devBaselineSha: SHA_B, ...f });
+  assert.deepEqual(manifest.deletions, [`${owned}/old.md`]);
+  assert.deepEqual(manifest.files.map((entry) => entry.path), [owned]);
+});
+
 test('rejects output that is a protected root or its ancestor', async () => {
   const f = await fixture();
   for (const output of [f.workspace, f.baselineDir, path.dirname(f.workspace)]) {
@@ -89,8 +101,33 @@ test('rejects symlinks in owned workspace paths with a clear error', async () =>
   );
 });
 
+test('rejects symlinks in owned baseline paths', async () => {
+  const f = await fixture();
+  const target = path.join(f.baselineDir, 'target');
+  await writeFile(target, 'secret');
+  await symlink(target, path.join(f.baselineDir, 'reference/api/python/python/link.md'));
+  await assert.rejects(createCheckpointArtifact({ group: 'python', masterSha: SHA_A, devBaselineSha: SHA_B, ...f }), /symlink.*not supported/i);
+});
+
 test('validates required arguments, group, and SHAs', async () => {
   const f = await fixture();
   await assert.rejects(createCheckpointArtifact({ group: 'ruby', masterSha: SHA_A, devBaselineSha: SHA_B, ...f }), /Unknown content group/);
   await assert.rejects(createCheckpointArtifact({ group: 'python', masterSha: 'bad', devBaselineSha: SHA_B, ...f }), /master.*SHA/i);
+  await assert.rejects(createCheckpointArtifact({ group: 'python', masterSha: SHA_A, devBaselineSha: 'bad', ...f }), /dev baseline.*SHA/i);
+  for (const validationCommands of ['node --test', [1], [null]]) {
+    await assert.rejects(createCheckpointArtifact({ group: 'python', masterSha: SHA_A, devBaselineSha: SHA_B, validationCommands, ...f }), /validationCommands.*array of strings/i);
+  }
+});
+
+test('creation CLI rejects unknown, duplicate, missing-value, and individually missing required flags', () => {
+  const cli = path.join(__dirname, 'create-checkpoint-artifact.js');
+  const base = ['--group', 'python', '--master-sha', SHA_A, '--dev-baseline-sha', SHA_B, '--baseline-dir', '/tmp/base', '--workspace', '/tmp/work', '--output', '/tmp/out'];
+  for (const args of [
+    [...base, '--wat', 'x'], [...base, '--group', 'python'], [...base, '--output'],
+    ...['group', 'master-sha', 'dev-baseline-sha', 'baseline-dir', 'workspace', 'output'].map((missing) => base.filter((_, i) => base[i] !== `--${missing}` && base[i - 1] !== `--${missing}`)),
+  ]) {
+    const result = spawnSync(process.execPath, [cli, ...args], { encoding: 'utf8' });
+    assert.notEqual(result.status, 0, args.join(' '));
+    assert.match(result.stderr, /failed|usage|required|duplicate|unknown/i);
+  }
 });
