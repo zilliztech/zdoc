@@ -60,7 +60,7 @@ jobs:
           node scripts/validate-generated-sidebars.js 2>&1 | tee tmp/final-verification-reports/sidebars.log
           node scripts/run-doc-build-stage.js --build "pnpm run build" 2>&1 | tee tmp/final-verification-reports/build.log
           node scripts/validate-workflow-policy.js 2>&1 | tee tmp/final-verification-reports/workflow-policy.log
-          node --test scripts/sdk-reference-workflow.test.js scripts/restore-generated-state.test.js scripts/validate-workflow-policy.test.js scripts/docs-workflow/aggregate-results.test.js scripts/docs-workflow/apply-checkpoint-artifact.test.js scripts/docs-workflow/content-groups.test.js scripts/docs-workflow/create-checkpoint-artifact.test.js scripts/docs-workflow/publish-checkpoint.test.js scripts/docs-workflow/run-content-group.test.js scripts/docs-workflow/validate-checkpoint-artifact.test.js 2>&1 | tee tmp/final-verification-reports/tests.log
+          node --test scripts/sdk-reference-workflow.test.js scripts/restore-generated-state.test.js scripts/validate-workflow-policy.test.js scripts/docs-workflow/aggregate-results.test.js scripts/docs-workflow/build-aggregate-input.test.js scripts/docs-workflow/apply-checkpoint-artifact.test.js scripts/docs-workflow/content-groups.test.js scripts/docs-workflow/create-checkpoint-artifact.test.js scripts/docs-workflow/publish-checkpoint.test.js scripts/docs-workflow/run-content-group.test.js scripts/docs-workflow/validate-checkpoint-artifact.test.js 2>&1 | tee tmp/final-verification-reports/tests.log
       - name: Upload final verification reports
         if: ${{ always() }}
         uses: actions/upload-artifact@v4

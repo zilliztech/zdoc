@@ -85,7 +85,8 @@ jobs:
 
       - name: Validate content group contract
         if: ${{ inputs.should_publish }}
-        run: node -e 'const group=require("./scripts/docs-workflow/content-groups.js").getContentGroup(process.env.GROUP);if(process.env.COMMIT_MESSAGE!==group.commitMessage)throw new Error("commit_message must equal the content group definition")'
+        run: |
+          node -e 'const group=require("./scripts/docs-workflow/content-groups.js").getContentGroup(process.env.GROUP);const allowed=[group.commitMessage,`i18n(${process.env.GROUP}): publish translations`];if(!allowed.includes(process.env.COMMIT_MESSAGE))throw new Error("commit_message must equal a permitted content group message")'
 
       - uses: pnpm/action-setup@v4
         if: ${{ inputs.should_publish }}

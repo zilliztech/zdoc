@@ -1,226 +1,580 @@
-name: "fetch lark docs"
+name: fetch lark docs
 on:
   workflow_dispatch:
+    inputs:
+      group:
+        description: Content group to publish
+        type: choice
+        options: [all, guides, python, java, node, go, cli, rest]
+        default: all
+      artifact_retention_days:
+        description: Artifact retention in days
+        type: number
+        default: 3
   schedule:
-  - cron: "0 2,10,18 * * *"  # Every day at 2, 10, and 18 hours UTC
+    - cron: "0 2,10,18 * * *"
   push:
-    branches:
-      - "dev"
-    paths:
-      - ".github/workflows/fetch-docs.yml"
+    branches: [dev]
+    paths: [.github/workflows/fetch-docs.yml]
 
 permissions:
   contents: write
+  actions: read
 
 concurrency:
   group: docs-production-dev
   cancel-in-progress: false
 
 jobs:
-  fetch:
+  prepare:
     runs-on: ubuntu-latest
-    timeout-minutes: 360
-    env:
-      DOCS_BUILD_ENV: uat
-      DOCS_PUBLISH_URL: https://docs.cloud-uat3.zilliz.com
-      LINK_CHECKS_REMOTE_BASE_URL: https://docs.zilliz.com
+    timeout-minutes: 15
     outputs:
+      master_sha: ${{ steps.refs.outputs.master_sha }}
+      dev_baseline_sha: ${{ steps.refs.outputs.dev_baseline_sha }}
+      selected_group: ${{ steps.refs.outputs.selected_group }}
+      retention_days: ${{ steps.refs.outputs.retention_days }}
       card_id: ${{ steps.card.outputs.card_id }}
       card_started_at: ${{ steps.card.outputs.card_started_at }}
       card_stages: ${{ steps.card.outputs.card_stages }}
       card_title: ${{ steps.card.outputs.card_title }}
-      card_notes_json: ${{ steps.card_notes.outputs.card_notes_json }}
     steps:
-    - name: get current date
-      id: date
-      run: echo "date=$(date +'%Y%m%d')" >> "$GITHUB_OUTPUT"
-    - name: checkout repo
-      uses: actions/checkout@v4
-    - name: restore generated docs state
-      run: bash scripts/restore-generated-state.sh dev
-    - name: validate generated sidebars
-      run: node scripts/validate-generated-sidebars.js
-    - uses: pnpm/action-setup@v4
-      with:
-        version: 9
-    - name: set up Environment
-      uses: actions/setup-node@v4.0.1
-      with:
-        node-version: "20"
-        cache: 'pnpm'
-    - name: install deps & create progress card
-      id: card
-      run: |
-        pnpm install --frozen-lockfile
-        npx docusaurus report-to-lark --card-create \
-          --title "Global Docs Build" \
-          --stages "Fetch EN docs,Build EN docs,Fetch SDK refs,Build and check SDK docs"
-      env:
-        APP_ID: ${{ secrets.APP_ID }}
-        APP_SECRET: ${{ secrets.APP_SECRET }}
-        FEISHU_HOST: ${{ vars.FEISHU_HOST }}
-    - name: fetch english docs
-      id: fetch_en_docs
-      run: |
-        npx docusaurus fetch-lark-docs -man guides -tar zilliz.saas -s3 --incremental --buildEnv uat --auditCanonicalLinks
-        npx docusaurus fetch-lark-docs -man guides -tar zilliz.saas -post -skipS
-        npx docusaurus fetch-lark-docs -man guides -tar zilliz.paas -s3 -skipS
-        npx docusaurus fetch-lark-docs -man guides -tar zilliz.paas -post -skipS
-        npx docusaurus report-to-lark --card-advance
-      env:
-        APP_ID: ${{ secrets.APP_ID }}
-        APP_SECRET: ${{ secrets.APP_SECRET }}
-        FEISHU_HOST: ${{ vars.FEISHU_HOST }}
-        SPACE_ID: ${{ secrets.SPACE_ID }}
-        FIGMA_API_KEY: ${{ secrets.FIGMA_API_KEY }}
-        MODEL_API_BASE_URL: ${{ vars.MODEL_API_BASE_URL }}
-        MODEL_API_KEY: ${{ secrets.MODEL_API_KEY }}
-        MODEL_ID: ${{ vars.MODEL_ID }}
-        AWS_BUCKET: ${{ vars.AWS_BUCKET }}
-        AWS_REGION: ${{ vars.AWS_REGION }}
-        IMAGE_BED_URL: ${{ vars.IMAGE_BED_URL }}
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-    - name: build docsite
-      run: |
-        node scripts/validate-generated-sidebars.js
-        node scripts/run-doc-build-stage.js --build "pnpm run build" --skipLinkChecks
-        node scripts/update-lark-doc-snapshot.js --manual guides --targets-built zilliz.saas,zilliz.paas --build-env uat --source-branch dev --publish-url https://docs.cloud-uat3.zilliz.com --link-check-remote https://docs.zilliz.com
-      env:
-        TOKEN: ${{ secrets.ACTION_TOKEN }}
-        APP_ID: ${{ secrets.APP_ID }}
-        APP_SECRET: ${{ secrets.APP_SECRET }}
-        FEISHU_HOST: ${{ vars.FEISHU_HOST }}
-        MODEL_API_BASE_URL: ${{ vars.MODEL_API_BASE_URL }}
-        MODEL_API_KEY: ${{ secrets.MODEL_API_KEY }}
-        MODEL_ID: ${{ vars.MODEL_ID }}
-    - name: commit to dev
-      uses: stefanzweifel/git-auto-commit-action@v5
-      with:
-        branch: dev
-        create_branch: true
-    - name: fetch sdk references
-      id: fetch_sdk_refs
-      run: |
-        bash scripts/fetch-sdk-reference-docs.sh
-      env:
-        APP_ID: ${{ secrets.APP_ID }}
-        APP_SECRET: ${{ secrets.APP_SECRET }}
-        FEISHU_HOST: ${{ vars.FEISHU_HOST }}
-        SPACE_ID: ${{ secrets.SPACE_ID }}
-        FIGMA_API_KEY: ${{ secrets.FIGMA_API_KEY }}
-        MODEL_API_BASE_URL: ${{ vars.MODEL_API_BASE_URL }}
-        MODEL_API_KEY: ${{ secrets.MODEL_API_KEY }}
-        MODEL_ID: ${{ vars.MODEL_ID }}
-        AWS_BUCKET: ${{ vars.AWS_BUCKET }}
-        AWS_REGION: ${{ vars.AWS_REGION }}
-        IMAGE_BED_URL: ${{ vars.IMAGE_BED_URL }}
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-    - name: build and check sdk docs
-      run: |
-        node scripts/validate-generated-sidebars.js
-        node scripts/run-doc-build-stage.js --build "pnpm run build"
-        bash scripts/update-sdk-reference-snapshots.sh
-      env:
-        TOKEN: ${{ secrets.ACTION_TOKEN }}
-        APP_ID: ${{ secrets.APP_ID }}
-        APP_SECRET: ${{ secrets.APP_SECRET }}
-        FEISHU_HOST: ${{ vars.FEISHU_HOST }}
-        MODEL_API_BASE_URL: ${{ vars.MODEL_API_BASE_URL }}
-        MODEL_API_KEY: ${{ secrets.MODEL_API_KEY }}
-        MODEL_ID: ${{ vars.MODEL_ID }}
-    - name: collect card report notes
-      id: card_notes
-      if: always()
-      run: node scripts/collect-build-card-notes.js
-      env:
-        CARD_REPORT_REF: dev
-        CARD_REPORT_STARTED_AT: ${{ steps.card.outputs.card_started_at }}
-    - name: commit audit report files
-      if: always()
-      run: |
-        REPORT_TMP="$(mktemp -d)"
-        mkdir -p "$REPORT_TMP/plugins/lark-docs/meta" "$REPORT_TMP/plugins/link-checks/meta"
-        if [ -d plugins/lark-docs/meta/reports ]; then
-          cp -R plugins/lark-docs/meta/reports "$REPORT_TMP/plugins/lark-docs/meta/reports"
-        fi
-        if [ -d plugins/link-checks/meta/reports ]; then
-          cp -R plugins/link-checks/meta/reports "$REPORT_TMP/plugins/link-checks/meta/reports"
-        fi
-        git fetch origin dev
-        git reset --hard HEAD
-        git switch --force-create dev origin/dev
-        rm -rf plugins/lark-docs/meta/reports plugins/link-checks/meta/reports
-        if [ -d "$REPORT_TMP/plugins/lark-docs/meta/reports" ]; then
-          mkdir -p plugins/lark-docs/meta
-          cp -R "$REPORT_TMP/plugins/lark-docs/meta/reports" plugins/lark-docs/meta/reports
-        fi
-        if [ -d "$REPORT_TMP/plugins/link-checks/meta/reports" ]; then
-          mkdir -p plugins/link-checks/meta
-          cp -R "$REPORT_TMP/plugins/link-checks/meta/reports" plugins/link-checks/meta/reports
-        fi
-        git add --all -- plugins/lark-docs/meta/reports plugins/link-checks/meta/reports
-        if git diff --cached --quiet; then
-          echo "No audit report changes to commit."
-        else
-          git -c user.name="github-actions[bot]" \
-            -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
-            commit -m "Apply automatic changes"
-          git push origin HEAD:dev
-        fi
-    - name: commit to dev
-      uses: stefanzweifel/git-auto-commit-action@v5
-      with:
-        branch: dev
-        create_branch: true
-  failure:
-    needs: fetch
+      - uses: actions/checkout@v4
+        with:
+          ref: master
+          fetch-depth: 0
+      - id: refs
+        name: Resolve immutable refs and selection
+        env:
+          SELECTED_GROUP: ${{ github.event.inputs.group || 'all' }}
+          RETENTION_DAYS: ${{ github.event.inputs.artifact_retention_days || '3' }}
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin refs/heads/master:refs/remotes/origin/master refs/heads/dev:refs/remotes/origin/dev
+          master_sha=$(git rev-parse refs/remotes/origin/master)
+          dev_baseline_sha=$(git rev-parse refs/remotes/origin/dev)
+          [[ "$master_sha" =~ ^[0-9a-f]{40}$ && "$dev_baseline_sha" =~ ^[0-9a-f]{40}$ ]]
+          case "$SELECTED_GROUP" in all|guides|python|java|node|go|cli|rest) ;; *) exit 2 ;; esac
+          [[ "$RETENTION_DAYS" =~ ^[1-9][0-9]*$ ]]
+          git checkout --detach "$master_sha"
+          card_stages="$SELECTED_GROUP,Verify"
+          [[ "$SELECTED_GROUP" == all ]] && card_stages='guides,python,java,node,go,cli,rest,Verify'
+          printf 'master_sha=%s\ndev_baseline_sha=%s\nselected_group=%s\nretention_days=%s\ncard_stages=%s\n' "$master_sha" "$dev_baseline_sha" "$SELECTED_GROUP" "$RETENTION_DAYS" "$card_stages" >> "$GITHUB_OUTPUT"
+      - uses: pnpm/action-setup@v4
+        with: { version: 9 }
+      - uses: actions/setup-node@v4
+        with: { node-version: '20', cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      - id: card
+        name: Create progress card
+        run: npx docusaurus report-to-lark --card-create --title "Global Docs Build" --stages "$CARD_STAGES"
+        env:
+          CARD_STAGES: ${{ steps.refs.outputs.card_stages }}
+          APP_ID: ${{ secrets.APP_ID }}
+          APP_SECRET: ${{ secrets.APP_SECRET }}
+          FEISHU_HOST: ${{ vars.FEISHU_HOST }}
+
+  produce_guides:
+    needs: prepare
+    if: ${{ needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'guides' }}
+    uses: ./.github/workflows/_fetch-content-group.yml
+    with:
+      group: guides
+      master_sha: ${{ needs.prepare.outputs.master_sha }}
+      dev_baseline_sha: ${{ needs.prepare.outputs.dev_baseline_sha }}
+      artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
+      card_id: ${{ needs.prepare.outputs.card_id }}
+    secrets:
+      APP_ID: ${{ secrets.APP_ID }}
+      APP_SECRET: ${{ secrets.APP_SECRET }}
+      SPACE_ID: ${{ secrets.SPACE_ID }}
+      FIGMA_API_KEY: ${{ secrets.FIGMA_API_KEY }}
+      MODEL_API_KEY: ${{ secrets.MODEL_API_KEY }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+  produce_python:
+    needs: prepare
+    if: ${{ needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'python' }}
+    uses: ./.github/workflows/_fetch-content-group.yml
+    with:
+      group: python
+      master_sha: ${{ needs.prepare.outputs.master_sha }}
+      dev_baseline_sha: ${{ needs.prepare.outputs.dev_baseline_sha }}
+      artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
+      card_id: ${{ needs.prepare.outputs.card_id }}
+    secrets:
+      APP_ID: ${{ secrets.APP_ID }}
+      APP_SECRET: ${{ secrets.APP_SECRET }}
+      SPACE_ID: ${{ secrets.SPACE_ID }}
+      FIGMA_API_KEY: ${{ secrets.FIGMA_API_KEY }}
+      MODEL_API_KEY: ${{ secrets.MODEL_API_KEY }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+  produce_java:
+    needs: prepare
+    if: ${{ needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'java' }}
+    uses: ./.github/workflows/_fetch-content-group.yml
+    with:
+      group: java
+      master_sha: ${{ needs.prepare.outputs.master_sha }}
+      dev_baseline_sha: ${{ needs.prepare.outputs.dev_baseline_sha }}
+      artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
+      card_id: ${{ needs.prepare.outputs.card_id }}
+    secrets:
+      APP_ID: ${{ secrets.APP_ID }}
+      APP_SECRET: ${{ secrets.APP_SECRET }}
+      SPACE_ID: ${{ secrets.SPACE_ID }}
+      FIGMA_API_KEY: ${{ secrets.FIGMA_API_KEY }}
+      MODEL_API_KEY: ${{ secrets.MODEL_API_KEY }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+  produce_node:
+    needs: prepare
+    if: ${{ needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'node' }}
+    uses: ./.github/workflows/_fetch-content-group.yml
+    with:
+      group: node
+      master_sha: ${{ needs.prepare.outputs.master_sha }}
+      dev_baseline_sha: ${{ needs.prepare.outputs.dev_baseline_sha }}
+      artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
+      card_id: ${{ needs.prepare.outputs.card_id }}
+    secrets:
+      APP_ID: ${{ secrets.APP_ID }}
+      APP_SECRET: ${{ secrets.APP_SECRET }}
+      SPACE_ID: ${{ secrets.SPACE_ID }}
+      FIGMA_API_KEY: ${{ secrets.FIGMA_API_KEY }}
+      MODEL_API_KEY: ${{ secrets.MODEL_API_KEY }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+  produce_go:
+    needs: prepare
+    if: ${{ needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'go' }}
+    uses: ./.github/workflows/_fetch-content-group.yml
+    with:
+      group: go
+      master_sha: ${{ needs.prepare.outputs.master_sha }}
+      dev_baseline_sha: ${{ needs.prepare.outputs.dev_baseline_sha }}
+      artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
+      card_id: ${{ needs.prepare.outputs.card_id }}
+    secrets:
+      APP_ID: ${{ secrets.APP_ID }}
+      APP_SECRET: ${{ secrets.APP_SECRET }}
+      SPACE_ID: ${{ secrets.SPACE_ID }}
+      FIGMA_API_KEY: ${{ secrets.FIGMA_API_KEY }}
+      MODEL_API_KEY: ${{ secrets.MODEL_API_KEY }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+  produce_cli:
+    needs: prepare
+    if: ${{ needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'cli' }}
+    uses: ./.github/workflows/_fetch-content-group.yml
+    with:
+      group: cli
+      master_sha: ${{ needs.prepare.outputs.master_sha }}
+      dev_baseline_sha: ${{ needs.prepare.outputs.dev_baseline_sha }}
+      artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
+      card_id: ${{ needs.prepare.outputs.card_id }}
+    secrets:
+      APP_ID: ${{ secrets.APP_ID }}
+      APP_SECRET: ${{ secrets.APP_SECRET }}
+      SPACE_ID: ${{ secrets.SPACE_ID }}
+      FIGMA_API_KEY: ${{ secrets.FIGMA_API_KEY }}
+      MODEL_API_KEY: ${{ secrets.MODEL_API_KEY }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+  produce_rest:
+    needs: prepare
+    if: ${{ needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'rest' }}
+    uses: ./.github/workflows/_fetch-content-group.yml
+    with:
+      group: rest
+      master_sha: ${{ needs.prepare.outputs.master_sha }}
+      dev_baseline_sha: ${{ needs.prepare.outputs.dev_baseline_sha }}
+      artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
+      card_id: ${{ needs.prepare.outputs.card_id }}
+    secrets:
+      APP_ID: ${{ secrets.APP_ID }}
+      APP_SECRET: ${{ secrets.APP_SECRET }}
+      SPACE_ID: ${{ secrets.SPACE_ID }}
+      FIGMA_API_KEY: ${{ secrets.FIGMA_API_KEY }}
+      MODEL_API_KEY: ${{ secrets.MODEL_API_KEY }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+  publish_guides:
+    needs: [prepare, produce_guides]
+    if: ${{ always() }}
+    uses: ./.github/workflows/_publish-content-group.yml
+    with:
+      group: guides
+      artifact_name: ${{ needs.produce_guides.outputs.artifact_name || 'unavailable' }}
+      commit_message: 'docs(guides): publish fetched content'
+      should_publish: ${{ needs.produce_guides.outputs.status == 'artifact_ready' }}
+      master_sha: ${{ needs.prepare.outputs.master_sha }}
+      validate_command: 'node scripts/validate-generated-sidebars.js'
+  translate_guides:
+    needs: [prepare, publish_guides]
+    if: ${{ always() }}
+    uses: ./.github/workflows/_translate-content-group.yml
+    with:
+      group: guides
+      source_commit_sha: ${{ needs.publish_guides.outputs.commit_sha || needs.prepare.outputs.dev_baseline_sha }}
+      master_sha: ${{ needs.prepare.outputs.master_sha }}
+      should_translate: ${{ needs.publish_guides.outputs.status == 'published' || needs.publish_guides.outputs.status == 'no_changes' }}
+      artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
+    secrets:
+      TRANSLATION_AGENT_API_KEY: ${{ secrets.TRANSLATION_AGENT_API_KEY }}
+      REVIEW_AGENT_API_KEY: ${{ secrets.REVIEW_AGENT_API_KEY }}
+  publish_guides_translation:
+    needs: [prepare, publish_guides, translate_guides]
+    if: ${{ always() }}
+    uses: ./.github/workflows/_publish-content-group.yml
+    with:
+      group: guides
+      artifact_name: ${{ needs.translate_guides.outputs.artifact_name || 'unavailable' }}
+      baseline_artifact_name: ${{ needs.translate_guides.outputs.baseline_artifact_name || '' }}
+      commit_message: 'i18n(guides): publish translations'
+      should_publish: ${{ needs.translate_guides.outputs.status == 'translation_ready' }}
+      master_sha: ${{ needs.prepare.outputs.master_sha }}
+      validate_command: 'pnpm run build'
+
+  publish_python:
+    needs: [prepare, produce_python, publish_guides_translation]
+    if: ${{ always() }}
+    uses: ./.github/workflows/_publish-content-group.yml
+    with:
+      group: python
+      artifact_name: ${{ needs.produce_python.outputs.artifact_name || 'unavailable' }}
+      commit_message: 'docs(python): publish SDK reference'
+      should_publish: ${{ needs.produce_python.outputs.status == 'artifact_ready' }}
+      master_sha: ${{ needs.prepare.outputs.master_sha }}
+      validate_command: 'node scripts/validate-generated-sidebars.js'
+  translate_python:
+    needs: [prepare, publish_python]
+    if: ${{ always() }}
+    uses: ./.github/workflows/_translate-content-group.yml
+    with:
+      group: python
+      source_commit_sha: ${{ needs.publish_python.outputs.commit_sha || needs.prepare.outputs.dev_baseline_sha }}
+      master_sha: ${{ needs.prepare.outputs.master_sha }}
+      should_translate: ${{ needs.publish_python.outputs.status == 'published' || needs.publish_python.outputs.status == 'no_changes' }}
+      artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
+    secrets:
+      TRANSLATION_AGENT_API_KEY: ${{ secrets.TRANSLATION_AGENT_API_KEY }}
+      REVIEW_AGENT_API_KEY: ${{ secrets.REVIEW_AGENT_API_KEY }}
+  publish_python_translation:
+    needs: [prepare, publish_python, translate_python]
+    if: ${{ always() }}
+    uses: ./.github/workflows/_publish-content-group.yml
+    with:
+      group: python
+      artifact_name: ${{ needs.translate_python.outputs.artifact_name || 'unavailable' }}
+      baseline_artifact_name: ${{ needs.translate_python.outputs.baseline_artifact_name || '' }}
+      commit_message: 'i18n(python): publish translations'
+      should_publish: ${{ needs.translate_python.outputs.status == 'translation_ready' }}
+      master_sha: ${{ needs.prepare.outputs.master_sha }}
+      validate_command: 'pnpm run build'
+
+  publish_java:
+    needs: [prepare, produce_java, publish_python_translation]
+    if: ${{ always() }}
+    uses: ./.github/workflows/_publish-content-group.yml
+    with:
+      group: java
+      artifact_name: ${{ needs.produce_java.outputs.artifact_name || 'unavailable' }}
+      commit_message: 'docs(java): publish SDK reference'
+      should_publish: ${{ needs.produce_java.outputs.status == 'artifact_ready' }}
+      master_sha: ${{ needs.prepare.outputs.master_sha }}
+      validate_command: 'node scripts/validate-generated-sidebars.js'
+  translate_java:
+    needs: [prepare, publish_java]
+    if: ${{ always() }}
+    uses: ./.github/workflows/_translate-content-group.yml
+    with:
+      group: java
+      source_commit_sha: ${{ needs.publish_java.outputs.commit_sha || needs.prepare.outputs.dev_baseline_sha }}
+      master_sha: ${{ needs.prepare.outputs.master_sha }}
+      should_translate: ${{ needs.publish_java.outputs.status == 'published' || needs.publish_java.outputs.status == 'no_changes' }}
+      artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
+    secrets:
+      TRANSLATION_AGENT_API_KEY: ${{ secrets.TRANSLATION_AGENT_API_KEY }}
+      REVIEW_AGENT_API_KEY: ${{ secrets.REVIEW_AGENT_API_KEY }}
+  publish_java_translation:
+    needs: [prepare, publish_java, translate_java]
+    if: ${{ always() }}
+    uses: ./.github/workflows/_publish-content-group.yml
+    with:
+      group: java
+      artifact_name: ${{ needs.translate_java.outputs.artifact_name || 'unavailable' }}
+      baseline_artifact_name: ${{ needs.translate_java.outputs.baseline_artifact_name || '' }}
+      commit_message: 'i18n(java): publish translations'
+      should_publish: ${{ needs.translate_java.outputs.status == 'translation_ready' }}
+      master_sha: ${{ needs.prepare.outputs.master_sha }}
+      validate_command: 'pnpm run build'
+
+  publish_node:
+    needs: [prepare, produce_node, publish_java_translation]
+    if: ${{ always() }}
+    uses: ./.github/workflows/_publish-content-group.yml
+    with:
+      group: node
+      artifact_name: ${{ needs.produce_node.outputs.artifact_name || 'unavailable' }}
+      commit_message: 'docs(node): publish SDK reference'
+      should_publish: ${{ needs.produce_node.outputs.status == 'artifact_ready' }}
+      master_sha: ${{ needs.prepare.outputs.master_sha }}
+      validate_command: 'node scripts/validate-generated-sidebars.js'
+  translate_node:
+    needs: [prepare, publish_node]
+    if: ${{ always() }}
+    uses: ./.github/workflows/_translate-content-group.yml
+    with:
+      group: node
+      source_commit_sha: ${{ needs.publish_node.outputs.commit_sha || needs.prepare.outputs.dev_baseline_sha }}
+      master_sha: ${{ needs.prepare.outputs.master_sha }}
+      should_translate: ${{ needs.publish_node.outputs.status == 'published' || needs.publish_node.outputs.status == 'no_changes' }}
+      artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
+    secrets:
+      TRANSLATION_AGENT_API_KEY: ${{ secrets.TRANSLATION_AGENT_API_KEY }}
+      REVIEW_AGENT_API_KEY: ${{ secrets.REVIEW_AGENT_API_KEY }}
+  publish_node_translation:
+    needs: [prepare, publish_node, translate_node]
+    if: ${{ always() }}
+    uses: ./.github/workflows/_publish-content-group.yml
+    with:
+      group: node
+      artifact_name: ${{ needs.translate_node.outputs.artifact_name || 'unavailable' }}
+      baseline_artifact_name: ${{ needs.translate_node.outputs.baseline_artifact_name || '' }}
+      commit_message: 'i18n(node): publish translations'
+      should_publish: ${{ needs.translate_node.outputs.status == 'translation_ready' }}
+      master_sha: ${{ needs.prepare.outputs.master_sha }}
+      validate_command: 'pnpm run build'
+
+  publish_go:
+    needs: [prepare, produce_go, publish_node_translation]
+    if: ${{ always() }}
+    uses: ./.github/workflows/_publish-content-group.yml
+    with:
+      group: go
+      artifact_name: ${{ needs.produce_go.outputs.artifact_name || 'unavailable' }}
+      commit_message: 'docs(go): publish SDK reference'
+      should_publish: ${{ needs.produce_go.outputs.status == 'artifact_ready' }}
+      master_sha: ${{ needs.prepare.outputs.master_sha }}
+      validate_command: 'node scripts/validate-generated-sidebars.js'
+  translate_go:
+    needs: [prepare, publish_go]
+    if: ${{ always() }}
+    uses: ./.github/workflows/_translate-content-group.yml
+    with:
+      group: go
+      source_commit_sha: ${{ needs.publish_go.outputs.commit_sha || needs.prepare.outputs.dev_baseline_sha }}
+      master_sha: ${{ needs.prepare.outputs.master_sha }}
+      should_translate: ${{ needs.publish_go.outputs.status == 'published' || needs.publish_go.outputs.status == 'no_changes' }}
+      artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
+    secrets:
+      TRANSLATION_AGENT_API_KEY: ${{ secrets.TRANSLATION_AGENT_API_KEY }}
+      REVIEW_AGENT_API_KEY: ${{ secrets.REVIEW_AGENT_API_KEY }}
+  publish_go_translation:
+    needs: [prepare, publish_go, translate_go]
+    if: ${{ always() }}
+    uses: ./.github/workflows/_publish-content-group.yml
+    with:
+      group: go
+      artifact_name: ${{ needs.translate_go.outputs.artifact_name || 'unavailable' }}
+      baseline_artifact_name: ${{ needs.translate_go.outputs.baseline_artifact_name || '' }}
+      commit_message: 'i18n(go): publish translations'
+      should_publish: ${{ needs.translate_go.outputs.status == 'translation_ready' }}
+      master_sha: ${{ needs.prepare.outputs.master_sha }}
+      validate_command: 'pnpm run build'
+
+  publish_cli:
+    needs: [prepare, produce_cli, publish_go_translation]
+    if: ${{ always() }}
+    uses: ./.github/workflows/_publish-content-group.yml
+    with:
+      group: cli
+      artifact_name: ${{ needs.produce_cli.outputs.artifact_name || 'unavailable' }}
+      commit_message: 'docs(cli): publish CLI reference'
+      should_publish: ${{ needs.produce_cli.outputs.status == 'artifact_ready' }}
+      master_sha: ${{ needs.prepare.outputs.master_sha }}
+      validate_command: 'node scripts/validate-generated-sidebars.js'
+  translate_cli:
+    needs: [prepare, publish_cli]
+    if: ${{ always() }}
+    uses: ./.github/workflows/_translate-content-group.yml
+    with:
+      group: cli
+      source_commit_sha: ${{ needs.publish_cli.outputs.commit_sha || needs.prepare.outputs.dev_baseline_sha }}
+      master_sha: ${{ needs.prepare.outputs.master_sha }}
+      should_translate: ${{ needs.publish_cli.outputs.status == 'published' || needs.publish_cli.outputs.status == 'no_changes' }}
+      artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
+    secrets:
+      TRANSLATION_AGENT_API_KEY: ${{ secrets.TRANSLATION_AGENT_API_KEY }}
+      REVIEW_AGENT_API_KEY: ${{ secrets.REVIEW_AGENT_API_KEY }}
+  publish_cli_translation:
+    needs: [prepare, publish_cli, translate_cli]
+    if: ${{ always() }}
+    uses: ./.github/workflows/_publish-content-group.yml
+    with:
+      group: cli
+      artifact_name: ${{ needs.translate_cli.outputs.artifact_name || 'unavailable' }}
+      baseline_artifact_name: ${{ needs.translate_cli.outputs.baseline_artifact_name || '' }}
+      commit_message: 'i18n(cli): publish translations'
+      should_publish: ${{ needs.translate_cli.outputs.status == 'translation_ready' }}
+      master_sha: ${{ needs.prepare.outputs.master_sha }}
+      validate_command: 'pnpm run build'
+
+  publish_rest:
+    needs: [prepare, produce_rest, publish_cli_translation]
+    if: ${{ always() }}
+    uses: ./.github/workflows/_publish-content-group.yml
+    with:
+      group: rest
+      artifact_name: ${{ needs.produce_rest.outputs.artifact_name || 'unavailable' }}
+      commit_message: 'docs(rest): publish REST reference'
+      should_publish: ${{ needs.produce_rest.outputs.status == 'artifact_ready' }}
+      master_sha: ${{ needs.prepare.outputs.master_sha }}
+      validate_command: 'node scripts/validate-generated-sidebars.js'
+  translate_rest:
+    needs: [prepare, publish_rest]
+    if: ${{ always() }}
+    uses: ./.github/workflows/_translate-content-group.yml
+    with:
+      group: rest
+      source_commit_sha: ${{ needs.publish_rest.outputs.commit_sha || needs.prepare.outputs.dev_baseline_sha }}
+      master_sha: ${{ needs.prepare.outputs.master_sha }}
+      should_translate: ${{ needs.publish_rest.outputs.status == 'published' || needs.publish_rest.outputs.status == 'no_changes' }}
+      artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
+    secrets:
+      TRANSLATION_AGENT_API_KEY: ${{ secrets.TRANSLATION_AGENT_API_KEY }}
+      REVIEW_AGENT_API_KEY: ${{ secrets.REVIEW_AGENT_API_KEY }}
+  publish_rest_translation:
+    needs: [prepare, publish_rest, translate_rest]
+    if: ${{ always() }}
+    uses: ./.github/workflows/_publish-content-group.yml
+    with:
+      group: rest
+      artifact_name: ${{ needs.translate_rest.outputs.artifact_name || 'unavailable' }}
+      baseline_artifact_name: ${{ needs.translate_rest.outputs.baseline_artifact_name || '' }}
+      commit_message: 'i18n(rest): publish translations'
+      should_publish: ${{ needs.translate_rest.outputs.status == 'translation_ready' }}
+      master_sha: ${{ needs.prepare.outputs.master_sha }}
+      validate_command: 'pnpm run build'
+
+  resolve_final:
+    needs: [prepare, publish_rest_translation]
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    outputs:
+      final_dev_sha: ${{ steps.ref.outputs.final_dev_sha }}
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: master, fetch-depth: 0 }
+      - id: ref
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin refs/heads/dev:refs/remotes/origin/dev
+          sha=$(git rev-parse refs/remotes/origin/dev)
+          [[ "$sha" =~ ^[0-9a-f]{40}$ ]]
+          echo "final_dev_sha=$sha" >> "$GITHUB_OUTPUT"
+
+  verify:
+    needs: [prepare, resolve_final]
+    if: ${{ always() && needs.resolve_final.outputs.final_dev_sha != '' }}
+    uses: ./.github/workflows/_verify-docs.yml
+    with:
+      final_dev_sha: ${{ needs.resolve_final.outputs.final_dev_sha }}
+      master_sha: ${{ needs.prepare.outputs.master_sha }}
+
+  aggregate:
+    needs: [prepare, produce_guides, publish_guides, translate_guides, publish_guides_translation, produce_python, publish_python, translate_python, publish_python_translation, produce_java, publish_java, translate_java, publish_java_translation, produce_node, publish_node, translate_node, publish_node_translation, produce_go, publish_go, translate_go, publish_go_translation, produce_cli, publish_cli, translate_cli, publish_cli_translation, produce_rest, publish_rest, translate_rest, publish_rest_translation, verify]
+    if: ${{ always() }}
     runs-on: ubuntu-latest
     timeout-minutes: 30
-    if: ${{ always() && (needs.fetch.result == 'failure' || needs.fetch.result == 'cancelled') }}
     steps:
-    - name: checkout repo
-      uses: actions/checkout@v4
-    - uses: pnpm/action-setup@v4
-      with:
-        version: 9
-    - name: set up Environment
-      uses: actions/setup-node@v4.0.1
-      with:
-        node-version: "20"
-        cache: 'pnpm'
-    - name: report failure
-      run: |
-        pnpm install --frozen-lockfile
-        npx docusaurus report-to-lark --card-finish --message-id ${{ needs.fetch.outputs.card_id }} --status fail --started-at "${{ needs.fetch.outputs.card_started_at }}" --stages "${{ needs.fetch.outputs.card_stages }}" --title "${{ needs.fetch.outputs.card_title }}" --notes-json "$CARD_NOTES_JSON"
-      env:
-        APP_ID: ${{ secrets.APP_ID }}
-        APP_SECRET: ${{ secrets.APP_SECRET }}
-        FEISHU_HOST: ${{ vars.FEISHU_HOST }}
-        CARD_NOTES_JSON: ${{ needs.fetch.outputs.card_notes_json }}
-  success:
-    needs: fetch
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
-    if: ${{ needs.fetch.result == 'success' }}
-    steps:
-    - name: checkout repo
-      uses: actions/checkout@v4
-    - uses: pnpm/action-setup@v4
-      with:
-        version: 9
-    - name: set up Environment
-      uses: actions/setup-node@v4.0.1
-      with:
-        node-version: "20"
-        cache: 'pnpm'
-    - name: report success
-      run: |
-        pnpm install --frozen-lockfile
-        npx docusaurus report-to-lark --card-finish --message-id ${{ needs.fetch.outputs.card_id }} --status success --started-at "${{ needs.fetch.outputs.card_started_at }}" --stages "${{ needs.fetch.outputs.card_stages }}" --title "${{ needs.fetch.outputs.card_title }}" --notes-json "$CARD_NOTES_JSON"
-      env:
-        APP_ID: ${{ secrets.APP_ID }}
-        APP_SECRET: ${{ secrets.APP_SECRET }}
-        FEISHU_HOST: ${{ vars.FEISHU_HOST }}
-        CARD_NOTES_JSON: ${{ needs.fetch.outputs.card_notes_json }}
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.prepare.outputs.master_sha }}
+      - uses: pnpm/action-setup@v4
+        with: { version: 9 }
+      - uses: actions/setup-node@v4
+        with: { node-version: '20', cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      - id: aggregate
+        name: Aggregate terminal results
+        env:
+          SELECTED_GROUP: ${{ needs.prepare.outputs.selected_group }}
+          FINAL_VERIFICATION: ${{ needs.verify.outputs.status || 'failed' }}
+          GUIDES_PRODUCER: ${{ needs.produce_guides.outputs.status }}
+          GUIDES_SOURCE: ${{ needs.publish_guides.outputs.status }}
+          GUIDES_SOURCE_SHA: ${{ needs.publish_guides.outputs.commit_sha }}
+          GUIDES_TRANSLATOR: ${{ needs.translate_guides.outputs.status }}
+          GUIDES_TRANSLATION: ${{ needs.publish_guides_translation.outputs.status }}
+          GUIDES_TRANSLATION_SHA: ${{ needs.publish_guides_translation.outputs.commit_sha }}
+          PYTHON_PRODUCER: ${{ needs.produce_python.outputs.status }}
+          PYTHON_SOURCE: ${{ needs.publish_python.outputs.status }}
+          PYTHON_SOURCE_SHA: ${{ needs.publish_python.outputs.commit_sha }}
+          PYTHON_TRANSLATOR: ${{ needs.translate_python.outputs.status }}
+          PYTHON_TRANSLATION: ${{ needs.publish_python_translation.outputs.status }}
+          PYTHON_TRANSLATION_SHA: ${{ needs.publish_python_translation.outputs.commit_sha }}
+          JAVA_PRODUCER: ${{ needs.produce_java.outputs.status }}
+          JAVA_SOURCE: ${{ needs.publish_java.outputs.status }}
+          JAVA_SOURCE_SHA: ${{ needs.publish_java.outputs.commit_sha }}
+          JAVA_TRANSLATOR: ${{ needs.translate_java.outputs.status }}
+          JAVA_TRANSLATION: ${{ needs.publish_java_translation.outputs.status }}
+          JAVA_TRANSLATION_SHA: ${{ needs.publish_java_translation.outputs.commit_sha }}
+          NODE_PRODUCER: ${{ needs.produce_node.outputs.status }}
+          NODE_SOURCE: ${{ needs.publish_node.outputs.status }}
+          NODE_SOURCE_SHA: ${{ needs.publish_node.outputs.commit_sha }}
+          NODE_TRANSLATOR: ${{ needs.translate_node.outputs.status }}
+          NODE_TRANSLATION: ${{ needs.publish_node_translation.outputs.status }}
+          NODE_TRANSLATION_SHA: ${{ needs.publish_node_translation.outputs.commit_sha }}
+          GO_PRODUCER: ${{ needs.produce_go.outputs.status }}
+          GO_SOURCE: ${{ needs.publish_go.outputs.status }}
+          GO_SOURCE_SHA: ${{ needs.publish_go.outputs.commit_sha }}
+          GO_TRANSLATOR: ${{ needs.translate_go.outputs.status }}
+          GO_TRANSLATION: ${{ needs.publish_go_translation.outputs.status }}
+          GO_TRANSLATION_SHA: ${{ needs.publish_go_translation.outputs.commit_sha }}
+          CLI_PRODUCER: ${{ needs.produce_cli.outputs.status }}
+          CLI_SOURCE: ${{ needs.publish_cli.outputs.status }}
+          CLI_SOURCE_SHA: ${{ needs.publish_cli.outputs.commit_sha }}
+          CLI_TRANSLATOR: ${{ needs.translate_cli.outputs.status }}
+          CLI_TRANSLATION: ${{ needs.publish_cli_translation.outputs.status }}
+          CLI_TRANSLATION_SHA: ${{ needs.publish_cli_translation.outputs.commit_sha }}
+          REST_PRODUCER: ${{ needs.produce_rest.outputs.status }}
+          REST_SOURCE: ${{ needs.publish_rest.outputs.status }}
+          REST_SOURCE_SHA: ${{ needs.publish_rest.outputs.commit_sha }}
+          REST_TRANSLATOR: ${{ needs.translate_rest.outputs.status }}
+          REST_TRANSLATION: ${{ needs.publish_rest_translation.outputs.status }}
+          REST_TRANSLATION_SHA: ${{ needs.publish_rest_translation.outputs.commit_sha }}
+        run: |
+          node scripts/docs-workflow/build-aggregate-input.js --output tmp/docs-workflow-results.json
+          node scripts/docs-workflow/aggregate-results.js --input tmp/docs-workflow-results.json --output tmp/docs-workflow-summary.md
+      - name: Attach summary to card
+        if: ${{ needs.prepare.outputs.card_id != '' }}
+        run: npx docusaurus report-to-lark --card-note-file tmp/docs-workflow-summary.md
+        env:
+          APP_ID: ${{ secrets.APP_ID }}
+          APP_SECRET: ${{ secrets.APP_SECRET }}
+          FEISHU_HOST: ${{ vars.FEISHU_HOST }}
+      - name: Finish progress card
+        if: ${{ always() && needs.prepare.outputs.card_id != '' }}
+        run: npx docusaurus report-to-lark --card-finish --message-id "$CARD_ID" --status "$CARD_STATUS" --started-at "$CARD_STARTED_AT" --stages "$CARD_STAGES" --title "$CARD_TITLE"
+        env:
+          APP_ID: ${{ secrets.APP_ID }}
+          APP_SECRET: ${{ secrets.APP_SECRET }}
+          FEISHU_HOST: ${{ vars.FEISHU_HOST }}
+          CARD_ID: ${{ needs.prepare.outputs.card_id }}
+          CARD_STARTED_AT: ${{ needs.prepare.outputs.card_started_at }}
+          CARD_STAGES: ${{ needs.prepare.outputs.card_stages }}
+          CARD_TITLE: ${{ needs.prepare.outputs.card_title }}
+          CARD_STATUS: ${{ steps.aggregate.outputs.overall_status == 'success' && 'success' || 'fail' }}
+      - name: Fail unsuccessful workflow
+        if: ${{ steps.aggregate.outputs.overall_status != 'success' }}
+        run: exit 1
