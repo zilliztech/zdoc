@@ -10,6 +10,10 @@ const test = require('node:test');
 const creator = path.join(__dirname, 'create-checkpoint-artifact.js');
 const publisher = path.join(__dirname, 'publish-checkpoint.sh');
 function git(cwd, ...args) { return execFileSync('git', args, { cwd, encoding: 'utf8' }).trim(); }
+function assertGitObjectMissing(cwd, object) {
+  const result = spawnSync('git', ['cat-file', '-e', object], { cwd, encoding: 'utf8' });
+  assert.notEqual(result.status, 0);
+}
 function put(root, rel, value) { const file = path.join(root, rel); fs.mkdirSync(path.dirname(file), { recursive: true }); fs.writeFileSync(file, value); }
 function copy(from, to) { fs.cpSync(from, to, { recursive: true }); }
 function setup() {
@@ -60,8 +64,8 @@ test('sequential stale Python and Java source artifacts preserve remote and each
     assert.equal(git(s.seed, 'show', 'origin/dev:docs/unrelated.md'), 'guide remote');
     assert.equal(git(s.seed, 'show', 'origin/dev:reference/api/python/python/keep.md'), 'python new');
     assert.equal(git(s.seed, 'show', 'origin/dev:reference/api/java/java/v2/keep.md'), 'java new');
-    assert.throws(() => git(s.seed, 'show', 'origin/dev:reference/api/python/python/delete.md'));
-    assert.throws(() => git(s.seed, 'show', 'origin/dev:reference/api/java/java/v2/delete.md'));
+    assertGitObjectMissing(s.seed, 'origin/dev:reference/api/python/python/delete.md');
+    assertGitObjectMissing(s.seed, 'origin/dev:reference/api/java/java/v2/delete.md');
     assert.equal(git(s.seed, 'show', 'origin/dev:config/generated/python.sidebar.js'), 'python new sidebar');
     assert.equal(git(s.seed, 'show', 'origin/dev:config/generated/java.sidebar.js'), 'java new sidebar');
     assert.equal(git(s.seed, 'show', 'origin/dev:plugins/lark-docs/meta/snapshots/pymilvus30-uat-last-success.json'), '{"python":true}');

@@ -24,7 +24,7 @@ test('reusable final verification checks the immutable final dev state read-only
   assert.match(verificationStep, /run: \|\n\s+set -euo pipefail\n[\s\S]*validate-generated-sidebars\.js[^\n]*\| tee/)
   assert.ok(verificationStep.indexOf('set -euo pipefail') < verificationStep.indexOf('validate-generated-sidebars.js'))
   assert.match(workflow, /validate-workflow-policy\.js/)
-  for (const testFile of ['sdk-reference-workflow.test.js', 'restore-generated-state.test.js', 'validate-workflow-policy.test.js', 'aggregate-results.test.js', 'build-aggregate-input.test.js']) assert.match(workflow, new RegExp(testFile.replaceAll('.', '\\.')))
+  for (const testFile of ['sdk-reference-workflow.test.js', 'restore-generated-state.test.js', 'validate-workflow-policy.test.js', 'aggregate-results.test.js', 'build-aggregate-input.test.js', 'checkpoint-contention.test.js']) assert.match(workflow, new RegExp(testFile.replaceAll('.', '\\.')))
   assert.match(workflow, /actions\/upload-artifact@v4[\s\S]*if: \$\{\{ always\(\) \}\}/)
   assert.match(workflow, /value: \$\{\{ jobs\.verify\.outputs\.status \}\}/)
   assert.match(workflow, /status=passed[\s\S]*status=failed/)
