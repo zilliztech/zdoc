@@ -104,6 +104,24 @@ test('renders deterministic ordered markdown and escapes table cells', () => {
   assert.equal(escapeMarkdownCell('abc|def\nnext'), 'abc\\|def next');
 });
 
+test('retains every requested continuation outcome when an earlier fetch failed', () => {
+  const groups = {
+    guides: { source: 'fetch_failed', translation: 'skipped', translationRequested: true },
+    python: { source: 'source_published', translation: 'translation_published', translationRequested: true, sourceCommitSha: SHA_A, translationCommitSha: SHA_B },
+    java: { source: 'no_changes', translation: 'skipped', translationRequested: false },
+  };
+  for (const finalVerification of ['passed', 'failed']) {
+    const result = aggregateResults({ requestedGroups: ['guides', 'python', 'java'], groups, finalVerification });
+    assert.equal(result.overallStatus, 'failure');
+    assert.ok(result.markdown.indexOf('| guides |') < result.markdown.indexOf('| python |'));
+    assert.ok(result.markdown.indexOf('| python |') < result.markdown.indexOf('| java |'));
+    assert.match(result.markdown, /\| guides \| fetch_failed \| skipped \|/);
+    assert.match(result.markdown, new RegExp(`\\| python \\| source_published \\| translation_published \\| ${SHA_A} \\| ${SHA_B} \\|`));
+    assert.match(result.markdown, /\| java \| no_changes \| skipped \|/);
+    assert.match(result.markdown, new RegExp(`Final verification: ${finalVerification}`));
+  }
+});
+
 test('CLI writes markdown and GitHub outputs', () => {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'aggregate-results-'));
   const input = path.join(dir, 'input.json');

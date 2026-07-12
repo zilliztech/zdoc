@@ -59,6 +59,14 @@ test('rejects exact and directory-prefix ownership overlaps', () => {
   );
 });
 
+test('rejects a slash-delimited ancestor overlap without changing production definitions', () => {
+  assert.throws(
+    () => validateDisjointOwnership({ broad: ['reference/api/python'], python: ['reference/api/python/python'] }),
+    /ownership overlap/i,
+  );
+  assert.doesNotThrow(() => assertDisjointOwnership());
+});
+
 test('rejects ambiguous or unsafe ownership paths', () => {
   for (const path of ['', '/docs', 'docs/', 'docs//guide', 'docs/./guide', 'docs/../guide']) {
     assert.throws(() => validateDisjointOwnership({ one: [path] }), /Invalid ownership path/);
