@@ -31,12 +31,13 @@ test('SDK reference snapshots are updated after successful build', () => {
   assert.match(snapshotScript, /--link-check-remote https:\/\/docs\.zilliz\.com/)
 })
 
-test('manual and auto workflows share the same SDK reference scripts', () => {
-  for (const workflow of ['.github/workflows/fetch-docs-manual.yml', '.github/workflows/fetch-docs-auto.yml']) {
-    const source = fs.readFileSync(workflow, 'utf8')
-    assert.match(source, /bash scripts\/fetch-sdk-reference-docs\.sh/)
-    assert.match(source, /bash scripts\/update-sdk-reference-snapshots\.sh/)
-    assert.match(source, /node scripts\/validate-generated-sidebars\.js/)
-    assert.match(source, /git reset --hard HEAD\s+git switch --force-create dev origin\/dev/)
-  }
+test('docs workflow supports scheduled and manual runs with the shared SDK reference scripts', () => {
+  const source = fs.readFileSync('.github/workflows/fetch-docs.yml', 'utf8')
+  assert.match(source, /^  workflow_dispatch:$/m)
+  assert.match(source, /^  schedule:$/m)
+  assert.match(source, /cron: "0 2,10,18 \* \* \*"/)
+  assert.match(source, /bash scripts\/fetch-sdk-reference-docs\.sh/)
+  assert.match(source, /bash scripts\/update-sdk-reference-snapshots\.sh/)
+  assert.match(source, /node scripts\/validate-generated-sidebars\.js/)
+  assert.match(source, /git reset --hard HEAD\s+git switch --force-create dev origin\/dev/)
 })

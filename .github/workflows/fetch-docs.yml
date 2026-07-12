@@ -1,6 +1,13 @@
-name: "fetch lark docs (manual)"
-on: 
+name: "fetch lark docs"
+on:
   workflow_dispatch:
+  schedule:
+  - cron: "0 2,10,18 * * *"  # Every day at 2, 10, and 18 hours UTC
+  push:
+    branches:
+      - "dev"
+    paths:
+      - ".github/workflows/fetch-docs.yml"
 
 permissions:
   contents: write

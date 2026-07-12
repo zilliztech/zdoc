@@ -6,8 +6,7 @@ const yaml = require('js-yaml')
 
 const workflowDirectory = path.join(process.cwd(), '.github', 'workflows')
 const publishingWorkflows = new Set([
-  'fetch-docs-auto.yml',
-  'fetch-docs-manual.yml',
+  'fetch-docs.yml',
   'translate-codex.yml',
 ])
 
