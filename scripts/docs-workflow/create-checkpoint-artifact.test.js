@@ -2,12 +2,13 @@
 
 const assert = require('node:assert/strict');
 const { spawnSync } = require('node:child_process');
-const { mkdtemp, mkdir, readFile, symlink, writeFile } = require('node:fs/promises');
+const { lstat, mkdtemp, mkdir, readFile, readdir, symlink, utimes, writeFile } = require('node:fs/promises');
 const os = require('node:os');
 const path = require('node:path');
 const test = require('node:test');
 
-const { createCheckpointArtifact } = require('./create-checkpoint-artifact');
+const { createCheckpointArtifact, garbageCollectArtifactVersions } = require('./create-checkpoint-artifact');
+const { applyCheckpointArtifact } = require('./apply-checkpoint-artifact');
 const { validateCheckpointArtifact } = require('./validate-checkpoint-artifact');
 
 const SHA_A = 'a'.repeat(40);
@@ -39,6 +40,7 @@ test('creates a deterministic, sorted artifact with changed, new, binary, and de
   });
 
   assert.equal(manifest.createdAt, '2026-01-02T03:04:05.000Z');
+  assert.equal(manifest.stage, 'source');
   assert.deepEqual(manifest.files.map((entry) => entry.path), [
     `${root}/a-new.md`, `${root}/changed.md`, `${root}/z-new.bin`,
   ]);
@@ -49,6 +51,30 @@ test('creates a deterministic, sorted artifact with changed, new, binary, and de
   assert.deepEqual(await readFile(path.join(f.output, 'payload', root, 'z-new.bin')), Buffer.from([0, 255, 1, 2]));
   assert.deepEqual(JSON.parse(await readFile(path.join(f.output, 'manifest.json'), 'utf8')), manifest);
   assert.equal(manifest.files.every((entry) => /^[0-9a-f]{64}$/.test(entry.sha256)), true);
+});
+
+test('creates, validates, and applies a translation artifact with three-way cache merge', async () => {
+  const f = await fixture(); const target = path.join(path.dirname(f.output), 'target');
+  await mkdir(path.join(f.baselineDir, '.translation-cache'), { recursive: true });
+  await mkdir(path.join(f.workspace, '.translation-cache'), { recursive: true });
+  await mkdir(path.join(target, '.translation-cache'), { recursive: true });
+  await writeFile(path.join(f.baselineDir, '.translation-cache/ja-JP.json'), '{"doc":{"old":1},"targetOnly":0}');
+  await writeFile(path.join(f.workspace, '.translation-cache/ja-JP.json'), '{"doc":{"new":2},"targetOnly":0}');
+  await writeFile(path.join(target, '.translation-cache/ja-JP.json'), '{"doc":{"old":1},"targetOnly":9}');
+  const manifest = await createCheckpointArtifact({ group: 'python', masterSha: SHA_A, devBaselineSha: SHA_B, ...f, includeTranslationCache: true });
+  assert.equal(manifest.stage, 'translation'); assert.equal(manifest.files.some((entry) => entry.path === '.translation-cache/ja-JP.json'), true);
+  await assert.doesNotReject(validateCheckpointArtifact(f.output));
+  await applyCheckpointArtifact({ artifactDir: f.output, targetDir: target, baselineDir: f.baselineDir });
+  assert.equal(await readFile(path.join(target, '.translation-cache/ja-JP.json'), 'utf8'), '{\n  "doc": {\n    "new": 2\n  },\n  "targetOnly": 9\n}\n');
+});
+
+test('translation cache option is strict and source artifacts cannot smuggle cache', async () => {
+  const f = await fixture();
+  await assert.rejects(createCheckpointArtifact({ group: 'python', masterSha: SHA_A, devBaselineSha: SHA_B, ...f, includeTranslationCache: 'yes' }), /includeTranslationCache.*boolean/i);
+  const manifest = await createCheckpointArtifact({ group: 'python', masterSha: SHA_A, devBaselineSha: SHA_B, ...f });
+  const version = await require('node:fs/promises').realpath(f.output); manifest.files.push({ path: '.translation-cache/ja-JP.json', sha256: '0'.repeat(64), size: 0 });
+  await writeFile(path.join(version, 'manifest.json'), JSON.stringify(manifest));
+  await assert.rejects(validateCheckpointArtifact(version), /translation.*stage|not owned/i);
 });
 
 test('represents a baseline file changed into a directory', async () => {
@@ -201,6 +227,19 @@ test('retains the retired generation so readers pinned before swap remain valid'
   assert.deepEqual((await validateCheckpointArtifact(f.output)).files.map((entry) => entry.path), [
     'reference/api/python/python/new.md', 'reference/api/python/python/old.md',
   ]);
+});
+
+test('garbage collection keeps current, three newest retired, young readers, and ignores malicious names', async () => {
+  const f = await fixture(); const parent = path.dirname(f.output), base = path.basename(f.output), now = Date.now();
+  const names = ['oldest', 'old', 'newer', 'newest', 'young', 'current'];
+  for (let i = 0; i < names.length; i++) { const dir = path.join(parent, `.${base}.version-${names[i]}`); await mkdir(dir); await utimes(dir, new Date(now - (48 - i * 8) * 3600000), new Date(now - (48 - i * 8) * 3600000)); }
+  const current = path.join(parent, `.${base}.version-current`); await symlink(path.basename(current), f.output);
+  const malicious = path.join(parent, `.${base}.version-malicious`); await symlink('/tmp', malicious);
+  await garbageCollectArtifactVersions(f.output, { now, graceMs: 24 * 3600000, keepRetired: 3 });
+  const remaining = new Set(await readdir(parent));
+  assert.equal(remaining.has(`.${base}.version-oldest`), false); assert.equal(remaining.has(`.${base}.version-old`), false);
+  for (const name of ['newer', 'newest', 'young', 'current', 'malicious']) assert.equal(remaining.has(`.${base}.version-${name}`), true, name);
+  assert.equal((await lstat(malicious)).isSymbolicLink(), true);
 });
 
 test('rejects symlinks in owned workspace paths with a clear error', async () => {

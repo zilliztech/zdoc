@@ -24,7 +24,7 @@ async function fixture({ files = {}, deletions = [], cache, baselineCache, targe
     await mkdir(path.dirname(full), { recursive: true }); await writeFile(full, bytes);
     entries.push({ path: rel, sha256: crypto.createHash('sha256').update(bytes).digest('hex'), size: bytes.length });
   }
-  const manifest = { schemaVersion: 1, group: 'python', masterSha: 'a'.repeat(40), devBaselineSha: 'b'.repeat(40), createdAt: '2026-01-02T03:04:05.000Z', ownershipVersion: 1, files: entries, deletions: [...deletions].sort(), snapshotManual: 'pymilvus30', validation: { commands: [], passed: true } };
+  const manifest = { schemaVersion: 1, stage: cache === undefined ? 'source' : 'translation', group: 'python', masterSha: 'a'.repeat(40), devBaselineSha: 'b'.repeat(40), createdAt: '2026-01-02T03:04:05.000Z', ownershipVersion: 1, files: entries, deletions: [...deletions].sort(), snapshotManual: 'pymilvus30', validation: { commands: [], passed: true } };
   await writeFile(path.join(artifactDir, 'manifest.json'), JSON.stringify(manifest));
   for (const [dir, value] of [[baselineDir, baselineCache], [targetDir, targetCache]]) if (value !== undefined) { await mkdir(path.join(dir, '.translation-cache'), { recursive: true }); await writeFile(path.join(dir, CACHE), typeof value === 'string' ? value : JSON.stringify(value)); }
   return { root, artifactDir, targetDir, baselineDir };
@@ -153,6 +153,26 @@ test('translation cache descriptor reads reject target identity swaps and preser
   const targetCache = path.join(f.targetDir, CACHE); const replacement = `${targetCache}.replacement`; await writeFile(replacement, '{"a":9}');
   await assert.rejects(applyCheckpointArtifact({ artifactDir: f.artifactDir, targetDir: f.targetDir, baselineDir: f.baselineDir, hooks: { async afterCacheLstat({ kind }) { if (kind === 'target') await rename(replacement, targetCache); } } }), /identity changed/i);
   assert.equal(await readFile(targetCache, 'utf8'), '{"a":9}');
+});
+
+test('journals only touched paths and preflights disk capacity before mutation', async () => {
+  let f = await fixture({ files: { [`${ROOT}/changed.md`]: 'new' } }); await targetWrite(f, `${ROOT}/changed.md`, 'old'); await targetWrite(f, 'reference/huge-unrelated.bin', Buffer.alloc(1024 * 1024));
+  const copied = []; await applyCheckpointArtifact({ artifactDir: f.artifactDir, targetDir: f.targetDir, hooks: { afterJournalCopy({ rel }) { copied.push(rel); } } }); assert.deepEqual(copied, [`${ROOT}/changed.md`]);
+  f = await fixture({ files: { [`${ROOT}/x.md`]: 'payload' }, deletions: [`${ROOT}/old.md`] }); await targetWrite(f, `${ROOT}/old.md`, 'old');
+  await assert.rejects(applyCheckpointArtifact({ artifactDir: f.artifactDir, targetDir: f.targetDir, hooks: { statfs() { return { bavail: 0, bsize: 4096 }; } } }), /insufficient disk/i);
+  assert.equal(await readFile(path.join(f.targetDir, ROOT, 'old.md'), 'utf8'), 'old');
+});
+
+test('ancestor swaps before delete, commit, and rollback fail closed without touching outside files', async () => {
+  for (const phase of ['beforeDelete', 'beforeCommit', 'beforeRollback']) {
+    const files = phase === 'beforeDelete' ? {} : { [`${ROOT}/x.md`]: 'new' }; const deletions = phase === 'beforeDelete' ? [`${ROOT}/old.md`] : [];
+    const f = await fixture({ files, deletions }); await targetWrite(f, `${ROOT}/old.md`, 'inside');
+    const ancestor = path.join(f.targetDir, 'reference/api/python'), parked = `${ancestor}.parked`, outside = path.join(f.root, 'outside'); await mkdir(path.join(outside, 'python'), { recursive: true }); await writeFile(path.join(outside, 'python/marker'), 'outside');
+    let swapped = false; const swap = async () => { if (swapped) return; swapped = true; await rename(ancestor, parked); await symlink(path.join(outside, 'python'), ancestor); };
+    const hooks = { [phase]: swap }; if (phase === 'beforeRollback') hooks.afterCopy = async () => { throw new Error('trigger rollback'); };
+    await assert.rejects(applyCheckpointArtifact({ artifactDir: f.artifactDir, targetDir: f.targetDir, hooks }), /identity lost|manual cleanup/i);
+    assert.equal(await readFile(path.join(outside, 'python/marker'), 'utf8'), 'outside');
+  }
 });
 
 test('CLI parses strict arguments and help', async () => {

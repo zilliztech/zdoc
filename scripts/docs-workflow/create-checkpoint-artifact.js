@@ -9,6 +9,7 @@ const { getContentGroup } = require('./content-groups');
 const { validateCheckpointArtifact } = require('./validate-checkpoint-artifact');
 
 const SHA = /^[0-9a-f]{40}$/;
+const DEFAULT_GC_GRACE_MS = 24 * 60 * 60 * 1000;
 function insideOrEqual(parent, child) { const rel = path.relative(parent, child); return rel === '' || (!rel.startsWith('..') && !path.isAbsolute(rel)); }
 function commonAncestor(paths) {
   const [first, ...rest] = paths.map((value) => path.resolve(value).split(path.sep));
@@ -84,9 +85,28 @@ async function collect(root, ownedPaths) {
   return files;
 }
 
+async function garbageCollectArtifactVersions(output, options = {}) {
+  const parent = path.dirname(path.resolve(output)), base = path.basename(output), prefix = `.${base}.version-`;
+  const pointer = await lstat(output); if (!pointer.isSymbolicLink()) return;
+  const currentName = await readlink(output);
+  if (path.isAbsolute(currentName) || currentName.includes('/') || currentName.includes('\\') || !currentName.startsWith(prefix)) return;
+  const now = options.now ?? Date.now(), graceMs = options.graceMs ?? DEFAULT_GC_GRACE_MS, keepRetired = options.keepRetired ?? 3;
+  const candidates = [];
+  for (const name of await readdir(parent)) {
+    if (!name.startsWith(prefix) || name === currentName) continue;
+    const full = path.join(parent, name), stat = await lstat(full);
+    if (stat.isSymbolicLink() || !stat.isDirectory()) continue;
+    candidates.push({ full, mtimeMs: stat.mtimeMs });
+  }
+  candidates.sort((a, b) => b.mtimeMs - a.mtimeMs);
+  for (const candidate of candidates.slice(keepRetired)) if (now - candidate.mtimeMs > graceMs) await rm(candidate.full, { recursive: true });
+}
+
 async function createCheckpointArtifact(options) {
   const { group: groupName, masterSha, devBaselineSha } = options || {};
   const group = getContentGroup(groupName);
+  if (options.includeTranslationCache !== undefined && typeof options.includeTranslationCache !== 'boolean') throw new Error('includeTranslationCache must be a boolean');
+  if (options.includeTranslationCache && !group.translate) throw new Error('Translation cache is not enabled for this group');
   if (!SHA.test(masterSha || '')) throw new Error('Invalid master SHA');
   if (!SHA.test(devBaselineSha || '')) throw new Error('Invalid dev baseline SHA');
   if (options.validationCommands !== undefined && (!Array.isArray(options.validationCommands) || !options.validationCommands.every((command) => typeof command === 'string'))) throw new Error('validationCommands must be an array of strings');
@@ -94,7 +114,8 @@ async function createCheckpointArtifact(options) {
   const baselineDir = path.resolve(options.baselineDir), workspace = path.resolve(options.workspace), requestedOutput = path.resolve(options.output);
   const initialSafety = await safeOutputLocation(requestedOutput, workspace, baselineDir);
   const output = initialSafety.canonicalOutput;
-  const [baseline, current] = await Promise.all([collect(baselineDir, group.ownedPaths), collect(workspace, group.ownedPaths)]);
+  const ownedPaths = options.includeTranslationCache ? [...group.ownedPaths, '.translation-cache/ja-JP.json'] : group.ownedPaths;
+  const [baseline, current] = await Promise.all([collect(baselineDir, ownedPaths), collect(workspace, ownedPaths)]);
   const filePaths = [...current.keys()].sort();
   const deletions = [...baseline.keys()].filter((rel) => !current.has(rel)).sort();
   const parent = path.dirname(output);
@@ -135,7 +156,7 @@ async function createCheckpointArtifact(options) {
       files.push({ path: rel, sha256: crypto.createHash('sha256').update(bytes).digest('hex'), size: bytes.length });
     }
     const createdAt = options.createdAt === undefined ? new Date().toISOString() : new Date(options.createdAt).toISOString();
-    const manifest = { schemaVersion: 1, group: groupName, masterSha, devBaselineSha, createdAt, ownershipVersion: 1, files, deletions, snapshotManual: group.snapshotManual, validation: { commands: options.validationCommands || [], passed: true } };
+    const manifest = { schemaVersion: 1, stage: options.includeTranslationCache ? 'translation' : 'source', group: groupName, masterSha, devBaselineSha, createdAt, ownershipVersion: 1, files, deletions, snapshotManual: group.snapshotManual, validation: { commands: options.validationCommands || [], passed: true } };
     const temporary = path.join(staging, `.manifest.${process.pid}.tmp`);
     await writeFile(temporary, `${JSON.stringify(manifest, null, 2)}\n`, { flag: 'wx' });
     await rename(temporary, path.join(staging, 'manifest.json'));
@@ -149,8 +170,7 @@ async function createCheckpointArtifact(options) {
     await rename(temporaryPointer, output);
     committed = true;
     await options.testHooks?.afterPointerSwap?.({ output, version: staging });
-    // Retired immutable versions are intentionally retained. Readers may have pinned them;
-    // a separate generational garbage collector can remove them after a safe retention period.
+    await garbageCollectArtifactVersions(output).catch(() => {});
     return manifest;
   } finally {
     await rm(temporaryPointer, { force: true });
@@ -158,14 +178,15 @@ async function createCheckpointArtifact(options) {
   }
 }
 
-function usage() { return 'Usage: node create-checkpoint-artifact.js --group <group> --master-sha <sha> --dev-baseline-sha <sha> --baseline-dir <dir> --workspace <dir> --output <dir> [--validation-command <string> ...]'; }
+function usage() { return 'Usage: node create-checkpoint-artifact.js --group <group> --master-sha <sha> --dev-baseline-sha <sha> --baseline-dir <dir> --workspace <dir> --output <dir> [--include-translation-cache] [--validation-command <string> ...]'; }
 function parseArgs(args) {
   if (args.length === 1 && args[0] === '--help') return { help: true };
   if (args.includes('--help')) throw new Error('--help must be used alone');
   const result = { validationCommands: [] };
   const names = { group: 'group', 'master-sha': 'masterSha', 'dev-baseline-sha': 'devBaselineSha', 'baseline-dir': 'baselineDir', workspace: 'workspace', output: 'output' };
   const seen = new Set();
-  for (let i = 0; i < args.length; i += 2) {
+  for (let i = 0; i < args.length;) {
+    if (args[i] === '--include-translation-cache') { if (result.includeTranslationCache) throw new Error('Duplicate argument: --include-translation-cache'); result.includeTranslationCache = true; i++; continue; }
     const key = args[i]?.slice(2), value = args[i + 1];
     if (!args[i]?.startsWith('--') || value === undefined) throw new Error(usage());
     if (key === 'validation-command') result.validationCommands.push(value);
@@ -175,6 +196,7 @@ function parseArgs(args) {
       result[names[key]] = value;
     }
     else throw new Error(`Unknown argument: --${key}`);
+    i += 2;
   }
   for (const [flag, name] of Object.entries(names)) if (result[name] === undefined) throw new Error(`Missing required argument: --${flag}`);
   return result;
@@ -183,4 +205,4 @@ if (require.main === module) {
   (async () => { const args = parseArgs(process.argv.slice(2)); if (args.help) console.log(usage()); else await createCheckpointArtifact(args); })()
     .catch((error) => { console.error(`Checkpoint artifact creation failed: ${error.message}`); process.exitCode = 1; });
 }
-module.exports = { createCheckpointArtifact };
+module.exports = { createCheckpointArtifact, garbageCollectArtifactVersions };

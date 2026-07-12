@@ -7,7 +7,7 @@ const { lstat, open, readFile, readlink, realpath, readdir } = require('node:fs/
 const path = require('node:path');
 const { getContentGroup } = require('./content-groups');
 
-const TOP_KEYS = ['schemaVersion', 'group', 'masterSha', 'devBaselineSha', 'createdAt', 'ownershipVersion', 'files', 'deletions', 'snapshotManual', 'validation'];
+const TOP_KEYS = ['schemaVersion', 'stage', 'group', 'masterSha', 'devBaselineSha', 'createdAt', 'ownershipVersion', 'files', 'deletions', 'snapshotManual', 'validation'];
 const FILE_KEYS = ['path', 'sha256', 'size'];
 const VALIDATION_KEYS = ['commands', 'passed'];
 
@@ -23,8 +23,8 @@ function validPath(value) {
 }
 
 function ownershipIsFile(owned) { return /\.[A-Za-z0-9]+$/.test(owned); }
-function isOwned(rel, ownedPaths, translate = false) {
-  return (translate && rel === '.translation-cache/ja-JP.json') || ownedPaths.some((owned) => rel === owned || (!ownershipIsFile(owned) && rel.startsWith(`${owned}/`)));
+function isOwned(rel, ownedPaths, translationArtifact = false) {
+  return (translationArtifact && rel === '.translation-cache/ja-JP.json') || ownedPaths.some((owned) => rel === owned || (!ownershipIsFile(owned) && rel.startsWith(`${owned}/`)));
 }
 function sorted(values) { return values.every((value, i) => i === 0 || values[i - 1] < value); }
 function pathsConflict(one, two) { return one === two || one.startsWith(`${two}/`) || two.startsWith(`${one}/`); }
@@ -91,9 +91,12 @@ async function validateCheckpointArtifact(artifactDir, expected = {}) {
   await expected.testHooks?.afterManifestRead?.({ artifactDir: pinnedArtifactDir, manifest });
   exactKeys(manifest, TOP_KEYS, 'manifest');
   if (manifest.schemaVersion !== 1) throw new Error(`Unsupported schemaVersion: ${manifest.schemaVersion}`);
+  if (manifest.stage !== 'source' && manifest.stage !== 'translation') throw new Error(`Invalid artifact stage: ${manifest.stage}`);
   if (manifest.ownershipVersion !== 1) throw new Error(`Unsupported ownershipVersion: ${manifest.ownershipVersion}`);
   if (typeof manifest.group !== 'string') throw new Error('group must be a string');
   const group = getContentGroup(manifest.group);
+  if (manifest.stage === 'translation' && !group.translate) throw new Error('Translation stage is not enabled for this group');
+  const translationArtifact = manifest.stage === 'translation' && group.translate;
   const sha = /^[0-9a-f]{40}$/;
   if (!sha.test(manifest.masterSha)) throw new Error('Invalid masterSha');
   if (!sha.test(manifest.devBaselineSha)) throw new Error('Invalid devBaselineSha');
@@ -105,13 +108,13 @@ async function validateCheckpointArtifact(artifactDir, expected = {}) {
   for (const entry of manifest.files) {
     exactKeys(entry, FILE_KEYS, 'file');
     if (!validPath(entry.path)) throw new Error(`Invalid path: ${entry.path}`);
-    if (!isOwned(entry.path, group.ownedPaths, group.translate)) throw new Error(`Path is not owned by group allowlist: ${entry.path}`);
+    if (!isOwned(entry.path, group.ownedPaths, translationArtifact)) throw new Error(`Path is not owned by group allowlist or translation stage: ${entry.path}`);
     if (!/^[0-9a-f]{64}$/.test(entry.sha256)) throw new Error(`Invalid checksum: ${entry.path}`);
     if (!Number.isSafeInteger(entry.size) || entry.size < 0) throw new Error(`Invalid size: ${entry.path}`);
   }
   for (const rel of manifest.deletions) {
     if (!validPath(rel)) throw new Error(`Invalid path: ${rel}`);
-    if (!isOwned(rel, group.ownedPaths, group.translate)) throw new Error(`Path is not owned by group allowlist: ${rel}`);
+    if (!isOwned(rel, group.ownedPaths, translationArtifact)) throw new Error(`Path is not owned by group allowlist or translation stage: ${rel}`);
   }
   const filePaths = manifest.files.map((x) => x.path);
   if (new Set(filePaths).size !== filePaths.length) throw new Error('Duplicate file path');

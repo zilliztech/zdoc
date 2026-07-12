@@ -2,14 +2,14 @@
 'use strict';
 
 const fs = require('node:fs');
-const { cp, lstat, mkdir, mkdtemp, open, realpath, rename, rm, writeFile } = require('node:fs/promises');
+const { cp, lstat, mkdir, mkdtemp, open, realpath, rename, rm, rmdir, statfs } = require('node:fs/promises');
 const path = require('node:path');
 const { validateCheckpointArtifact } = require('./validate-checkpoint-artifact');
 
 const CACHE = '.translation-cache/ja-JP.json';
 function insideOrEqual(parent, child) { const rel = path.relative(parent, child); return rel === '' || (!rel.startsWith('..') && !path.isAbsolute(rel)); }
 function conflicts(a, b) { return a === b || a.startsWith(`${b}/`) || b.startsWith(`${a}/`); }
-async function maybeLstat(file) { try { return await lstat(file); } catch (error) { if (error.code === 'ENOENT') return null; throw error; } }
+async function maybeLstat(file) { try { return await lstat(file); } catch (error) { if (error.code === 'ENOENT' || error.code === 'ENOTDIR') return null; throw error; } }
 
 async function safeTarget(targetDir) {
   const requested = path.resolve(targetDir);
@@ -69,7 +69,8 @@ function mergeCache(baseline, artifact, target) {
 
 async function atomicWrite(target, bytes) {
   const temporary = path.join(path.dirname(target), `.${path.basename(target)}.${process.pid}.${Date.now()}.tmp`);
-  await writeFile(temporary, bytes, { flag: 'wx' });
+  const handle = await open(temporary, fs.constants.O_WRONLY | fs.constants.O_CREAT | fs.constants.O_EXCL | (fs.constants.O_NOFOLLOW || 0), 0o600);
+  try { await handle.writeFile(bytes); } finally { await handle.close(); }
   try { await rename(temporary, target); } finally { await rm(temporary, { force: true }); }
 }
 
@@ -81,10 +82,29 @@ function validateOptions(options) {
   if (options.baselineDir !== undefined && (typeof options.baselineDir !== 'string' || !options.baselineDir)) throw new Error('baselineDir must be a non-empty string');
   if (options.hooks !== undefined) {
     if (!options.hooks || typeof options.hooks !== 'object' || Array.isArray(options.hooks)) throw new Error('hooks must be an object');
-    const hookNames = new Set(['afterManifestRead', 'beforeCopy', 'afterCopy', 'afterCacheLstat']);
+    const hookNames = new Set(['afterManifestRead', 'beforeCopy', 'afterCopy', 'afterCacheLstat', 'beforeDelete', 'beforeCommit', 'beforeRollback', 'afterJournalCopy', 'statfs']);
     for (const [name, hook] of Object.entries(options.hooks)) { if (!hookNames.has(name)) throw new Error(`Unknown hook: ${name}`); if (typeof hook !== 'function') throw new Error(`Hook ${name} must be a function`); }
   }
 }
+
+async function captureGuard(root, rels) {
+  const identities = new Map();
+  for (const rel of ['', ...rels]) {
+    const parts = rel ? rel.split('/') : [], limit = rel ? parts.length - 1 : 0; let current = root;
+    for (let i = 0; i <= limit; i++) {
+      if (i) current = path.join(current, parts[i - 1]);
+      const stat = await maybeLstat(current); if (!stat) break;
+      if (stat.isSymbolicLink()) throw new Error(`Target identity guard found symlink: ${path.relative(root, current) || '.'}`);
+      if (stat.isDirectory()) identities.set(current, { dev: stat.dev, ino: stat.ino });
+    }
+  }
+  return identities;
+}
+async function verifyGuard(identities) {
+  for (const [full, expected] of identities) { const stat = await maybeLstat(full); if (!stat || stat.isSymbolicLink() || !stat.isDirectory() || stat.dev !== expected.dev || stat.ino !== expected.ino) throw new Error(`Target identity lost; manual cleanup may be required: ${full}`); }
+}
+function minimalPaths(paths) { return [...new Set(paths)].sort((a, b) => a.split('/').length - b.split('/').length || a.localeCompare(b)).filter((rel, i, all) => !all.slice(0, i).some((parent) => rel.startsWith(`${parent}/`))); }
+async function pathSize(full) { const stat = await maybeLstat(full); if (!stat) return 0; if (stat.isSymbolicLink()) throw new Error(`Symlink cannot be journaled: ${full}`); if (stat.isFile()) return stat.size; let total = 0; for (const name of await require('node:fs/promises').readdir(full)) total += await pathSize(path.join(full, name)); return total; }
 
 async function readCacheNoFollow(root, kind, hooks) {
   await assertSafeAncestors(root, CACHE);
@@ -117,13 +137,21 @@ async function applyCheckpointArtifact(options = {}) {
     mergedCache = mergeCache(parseObject(b, 'Baseline translation cache'), parseObject(a, 'Artifact translation cache'), parseObject(t, 'Target translation cache'));
   }
 
-  const touchedRoots = new Set([...manifest.files.map((x) => x.path.split('/')[0]), ...manifest.deletions.map((x) => x.split('/')[0])]);
+  const mutationPaths = minimalPaths([...manifest.deletions, ...manifest.files.map((entry) => entry.path)]);
+  let guard = await captureGuard(target, mutationPaths);
+  const fsInfo = hooks?.statfs ? await hooks.statfs({ target }) : await statfs(target);
+  let journalEstimate = 0; for (const rel of mutationPaths) journalEstimate += await pathSize(path.join(target, rel));
+  const requiredBytes = manifest.files.reduce((sum, entry) => sum + entry.size, 0) + journalEstimate;
+  const availableBytes = Number(fsInfo.bavail) * Number(fsInfo.bsize);
+  if (Number.isFinite(availableBytes) && availableBytes < requiredBytes) throw new Error(`Insufficient disk capacity: need ${requiredBytes} bytes, have ${availableBytes}`);
+
   const journal = await mkdtemp(path.join(path.dirname(target), `.${path.basename(target)}.apply-`));
-  const existingRoots = new Set();
-  for (const root of touchedRoots) { const source = path.join(target, root); if (await maybeLstat(source)) { existingRoots.add(root); await cp(source, path.join(journal, root), { recursive: true, dereference: false, preserveTimestamps: true }); } }
+  const snapshots = [];
+  for (let i = 0; i < mutationPaths.length; i++) { const rel = mutationPaths[i], source = path.join(target, rel), stat = await maybeLstat(source); if (stat) { const saved = path.join(journal, String(i)); await cp(source, saved, { recursive: true, dereference: false, preserveTimestamps: true }); await hooks?.afterJournalCopy?.({ rel }); snapshots.push({ rel, saved, existed: true }); } else snapshots.push({ rel, existed: false }); }
   let complete = false;
+  const createdDirs = [];
   try {
-    for (const rel of [...manifest.deletions].sort((a, b) => b.split('/').length - a.split('/').length || b.localeCompare(a))) { await assertSafeAncestors(target, rel); await rm(path.join(target, rel), { recursive: true, force: true }); }
+    for (const rel of [...manifest.deletions].sort((a, b) => b.split('/').length - a.split('/').length || b.localeCompare(a))) { await hooks?.beforeDelete?.({ rel }); await verifyGuard(guard); await assertSafeAncestors(target, rel); await rm(path.join(target, rel), { recursive: true, force: true }); await verifyGuard(guard); }
     await hooks?.beforeCopy?.();
     for (const entry of manifest.files) {
       const rel = entry.path, destination = path.join(target, rel); await assertSafeAncestors(target, rel);
@@ -132,18 +160,25 @@ async function applyCheckpointArtifact(options = {}) {
         current = path.join(current, parts[i]); const stat = await maybeLstat(current);
         if (stat?.isSymbolicLink()) throw new Error(`Target symlink ancestor is not allowed: ${rel}`);
         if (stat && !stat.isDirectory()) { const conflict = parts.slice(0, i + 1).join('/'); if (!manifest.deletions.some((d) => conflicts(d, conflict))) throw new Error(`Unauthorized target conflict: ${conflict}`); await rm(current, { recursive: true, force: true }); }
-        if (!(await maybeLstat(current))) await mkdir(current);
+        if (!(await maybeLstat(current))) { await verifyGuard(guard); await mkdir(current); createdDirs.push(current); guard = await captureGuard(target, mutationPaths); await verifyGuard(guard); }
       }
       const existing = await maybeLstat(destination);
       if (existing?.isSymbolicLink()) throw new Error(`Target symlink is not allowed: ${rel}`);
       if (existing?.isDirectory()) { if (!manifest.deletions.some((d) => conflicts(d, rel))) throw new Error(`Unauthorized target conflict: ${rel}`); await rm(destination, { recursive: true }); }
       const bytes = rel === CACHE ? mergedCache : await readNoFollow(path.join(payload, rel), payloadStats.get(rel));
-      await atomicWrite(destination, bytes); await hooks?.afterCopy?.({ rel });
+      await hooks?.beforeCommit?.({ rel }); await verifyGuard(guard); await atomicWrite(destination, bytes); guard = await captureGuard(target, mutationPaths); await verifyGuard(guard); await hooks?.afterCopy?.({ rel });
     }
     complete = true;
     return Object.freeze({ group: manifest.group, copied: manifest.files.length, deletions: manifest.deletions.length, translationCacheMerged: Boolean(cacheEntry) });
   } finally {
-    if (!complete) for (const root of touchedRoots) { await rm(path.join(target, root), { recursive: true, force: true }); if (existingRoots.has(root)) await cp(path.join(journal, root), path.join(target, root), { recursive: true, dereference: false, preserveTimestamps: true }); }
+    if (!complete) {
+      try {
+        await hooks?.beforeRollback?.(); await verifyGuard(guard);
+        for (const snapshot of [...snapshots].sort((a, b) => b.rel.split('/').length - a.rel.split('/').length)) { await verifyGuard(guard); const full = path.join(target, snapshot.rel); if (await maybeLstat(full)) await rm(full, { recursive: true, force: true }); await verifyGuard(guard); }
+        for (const snapshot of snapshots.filter((x) => x.existed)) { await verifyGuard(guard); await mkdir(path.dirname(path.join(target, snapshot.rel)), { recursive: true }); await cp(snapshot.saved, path.join(target, snapshot.rel), { recursive: true, dereference: false, preserveTimestamps: true }); guard = await captureGuard(target, mutationPaths); await verifyGuard(guard); }
+        for (const dir of createdDirs.reverse()) { await verifyGuard(guard); try { await rmdir(dir); } catch (error) { if (error.code !== 'ENOENT' && error.code !== 'ENOTEMPTY') throw error; } guard = await captureGuard(target, mutationPaths); await verifyGuard(guard); }
+      } catch (rollbackError) { throw new Error(`Apply failed and safe rollback was refused; manual cleanup may be required: ${rollbackError.message}`); }
+    }
     await rm(journal, { recursive: true, force: true });
   }
 }

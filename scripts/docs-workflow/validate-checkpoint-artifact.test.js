@@ -19,7 +19,7 @@ async function artifact(overrides = {}) {
   await mkdir(path.dirname(path.join(payload, rel)), { recursive: true });
   await writeFile(path.join(payload, rel), bytes);
   const manifest = {
-    schemaVersion: 1, group: 'python', masterSha: A, devBaselineSha: B,
+    schemaVersion: 1, stage: 'source', group: 'python', masterSha: A, devBaselineSha: B,
     createdAt: '2026-01-02T03:04:05.000Z', ownershipVersion: 1,
     files: [{ path: rel, sha256: crypto.createHash('sha256').update(bytes).digest('hex'), size: bytes.length }],
     deletions: [], snapshotManual: 'pymilvus30', validation: { commands: ['node --test'], passed: true },
