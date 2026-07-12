@@ -1,6 +1,6 @@
 # guides Canonical Link Audit
 
-Generated: 2026-07-12T07:26:10.524Z
+Generated: 2026-07-12T07:43:41.657Z
 Target: zilliz.saas
 Source dir: `./plugins/lark-docs/meta/sources/guides`
 
