@@ -347,7 +347,7 @@ A **ResStatus** object.
 
 ## Example\{#example}
 
-```plaintext
+```javascript
 const milvusClient = new MilvusClient({
     address: 'YOUR_CLUSTER_ENDPOINT',
     token: 'YOUR_CLUSTER_TOKEN',

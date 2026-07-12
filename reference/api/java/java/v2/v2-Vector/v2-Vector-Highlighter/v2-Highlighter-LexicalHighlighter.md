@@ -65,12 +65,12 @@ LexicalHighlighter.builder()
     import java.util.List;
     
     LexicalHighter.HighlightQuery q = new LexicalHighlighter.HighlighterQuery(
-        "&lt;QueryType&gt;",
+        "<QueryType>",
         "<text field name>",
         "<terms to highlight>"
     )
     
-    List&lt;LexicalHighter.HighlightQuery&gt; queries = new ArrayList<>();
+    List<LexicalHighter.HighlightQuery> queries = new ArrayList<>();
     queries.add(q);
     ```
 

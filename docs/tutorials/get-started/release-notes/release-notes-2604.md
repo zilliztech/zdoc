@@ -10,7 +10,7 @@ notebook: FALSE
 description: "(placeholder) | Cloud"
 type: origin
 token: N2XtwwchPi79M7kW1UjcnjC4nzc
-sidebar_position: 5
+sidebar_position: 1
 displayed_sidebar: releasesSidebar
 
 ---
@@ -68,11 +68,11 @@ import Grid from '@site/src/components/Grid';
 
         - **Hot data identification** — analyze returned primary keys to find frequently accessed records.
 
-        - **Structured JSON Lines format** — ready for any analytics pipeline.For details, refer to [Access Logs](./undefined).
+        - **Structured JSON Lines format** — ready for any analytics pipeline. For details, refer to [Access Logs Overview](./access-log-overview).
 
         ## Maintenance Window\{#maintenance-window}
 
-        The maintenance window experience has been redesigned with extended 4-hour minimum duration, email and in-console notifications at 7/3/1 days before upgrades, the ability to defer upgrades by 7 days, and availability for all Business Critical and Enterprise plans.For details, refer to [Configure Maintenance Windows](./organization-settings#set-up-preferred-maintenance-window).
+        The maintenance window experience has been redesigned with an extended 4-hour minimum duration, email and in-console notifications at 7/3/1 days before upgrades, the ability to defer upgrades by 7 days, and availability for all Business Critical and Enterprise plans. For details, refer to [Configure Maintenance Windows](./organization-settings#set-up-preferred-maintenance-window).
 
         ## Cluster Admin Role\{#cluster-admin-role}
 

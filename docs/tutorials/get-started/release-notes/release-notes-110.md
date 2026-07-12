@@ -10,7 +10,7 @@ notebook: FALSE
 description: "We're thrilled to unveil the newest Zilliz Cloud update, featuring a pricing calculator for cost estimation, a data backup and restore process for enhanced data security, a customizable timezone setting for global users, a collection rename tool for better organization, the removal of storage quotas for unrestricted usage, and improved credit conservation for inactive databases. | Cloud"
 type: origin
 token: ZvSOwB7zkir7PjkzrOPciC5WnTe
-sidebar_position: 33
+sidebar_position: 1
 displayed_sidebar: releasesSidebar
 
 ---
@@ -32,7 +32,7 @@ We're thrilled to unveil the newest Zilliz Cloud update, featuring a pricing cal
 
     With this release, our platform now supports database backup and restore on Google Cloud Platform (GCP). This latest release enables our users to easily backup and restore their databases on GCP, ensuring data recovery and business continuity.
 
-    For details, refer to [Backup & Restore](./undefined).
+    For details, refer to [Create Backup](./create-backup) and [Restore from Backup Files](./restore-from-backup-files).
 
 - Custom Timezone
 

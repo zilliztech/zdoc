@@ -10,7 +10,7 @@ notebook: FALSE
 description: "Zilliz Cloud offers an intuitive Jobs page that integrates all historical and asynchronous data tasks within the same project. | Cloud"
 type: origin
 token: RY8ww0NDQi8yU9kNpjicHP7Gn4b
-sidebar_position: 3
+sidebar_position: 1
 displayed_sidebar: default
 
 ---
@@ -65,27 +65,27 @@ The following job information is displayed:
          <td><p>Import data to a collection</p></td>
        </tr>
        <tr>
-         <td><p><a href="./manage-collections-console#create-a-collection">Clone Collection</a></p></td>
+         <td><p><a href="./manage-collections-console">Clone Collection</a></p></td>
          <td><p>Make a full copy of the collection with both its schema and data</p></td>
        </tr>
        <tr>
-         <td><p><a href="./manage-collections-console#create-a-collection">Create Sample Collection</a></p></td>
+         <td><p><a href="./manage-collections-console">Create Sample Collection</a></p></td>
          <td><p>Create a collection loaded with a sample dataset</p></td>
        </tr>
        <tr>
-         <td><p><a href="./manage-cluster#suspend">Suspend Cluster</a></p></td>
+         <td><p><a href="./manage-cluster">Suspend Cluster</a></p></td>
          <td><p>Manually suspend a cluster</p></td>
        </tr>
        <tr>
-         <td><p><a href="./manage-cluster#resume">Resume Cluster</a></p></td>
+         <td><p><a href="./manage-cluster">Resume Cluster</a></p></td>
          <td><p>Manually resume a cluster</p></td>
        </tr>
        <tr>
-         <td><p><a href="./undefined">Scale Query CU</a></p></td>
+         <td><p><a href="./plan-cluster-scaling">Scale Query CU</a></p></td>
          <td><p>Increase or decrease the number of query CUs of a cluster.</p></td>
        </tr>
        <tr>
-         <td><p><a href="./undefined">Scale Replica</a></p></td>
+         <td><p><a href="./plan-cluster-scaling">Scale Replica</a></p></td>
          <td><p>Increase or decrease the number of replicas of a cluster.</p></td>
        </tr>
     </table>

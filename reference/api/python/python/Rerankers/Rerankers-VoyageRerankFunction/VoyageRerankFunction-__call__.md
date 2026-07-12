@@ -69,7 +69,7 @@ voyage_rf(
 
 A list of `RerankResult` objects.
 
-````plaintext
+```plaintext
 ├── RerankResult
 |    └── text
 |    └── score
@@ -90,7 +90,7 @@ Each `RerankResult` object contains:
 
     This exception will be raised when the Voyage module is not installed.
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus.model.reranker import VoyageRerankFunction
@@ -116,4 +116,4 @@ voyage_rf(query, documents)
 #  RerankResult(text='The invention of the Logic Theorist by Allen Newell, Herbert A. Simon, and Cliff Shaw in 1955 marked the creation of the first true AI program, which was capable of solving logic problems, akin to proving mathematical theorems.', score=0.71875, index=3),
 #  RerankResult(text="In 1950, Alan Turing published his seminal paper, 'Computing Machinery and Intelligence,' proposing the Turing Test as a criterion of intelligence, a foundational concept in the philosophy and development of artificial intelligence.", score=0.6796875, index=0),
 #  RerankResult(text='In 1951, British mathematician and computer scientist Alan Turing also developed the first program designed to play chess, demonstrating an early example of AI in game strategy.', score=0.5859375, index=2)]
-````
+```

@@ -10,7 +10,7 @@ notebook: FALSE
 description: "We’re thrilled to share that Zilliz BYOC has introduced several enhancements, allowing you to configure instance settings for your BYOC project and enable AWS PrivateLink for your cluster. | Cloud"
 type: origin
 token: JPNiwF6rPiNe0pkx460cr321nTc
-sidebar_position: 14
+sidebar_position: 1
 displayed_sidebar: releasesSidebar
 
 ---
@@ -49,7 +49,7 @@ For details on the configuration procedures, refer to [Deploy BYOC on AWS](/docs
 Previously, JSON fields were not indexed, and all filter queries required scanning the entire JSON field in each entity. With this release, you can now create an inverted index on specific paths within a JSON field to accelerate queries.
 To index a JSON field, set the index type to **INVERTED**, specify the JSON path you want to optimize, and cast its value to an appropriate data type. During metadata filtering, Zilliz Cloud scans only the specified path within each JSON field value, significantly reducing parsing time and improving filtering performance.
 
-For details on how to index a JSON field and its considerations, refer to [Index a JSON field](./undefined).
+For details on how to index a JSON field and its considerations, refer to [JSON Indexing](./json-indexing).
 
 ## Other Enhancements\{#other-enhancements}
 

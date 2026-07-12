@@ -10,7 +10,7 @@ notebook: FALSE
 description: "(placeholder) | Cloud"
 type: origin
 token: CK0ewQWC2iz6lakP0kscqogbnGh
-sidebar_position: 9
+sidebar_position: 1
 displayed_sidebar: releasesSidebar
 
 ---
@@ -40,9 +40,9 @@ import Grid from '@site/src/components/Grid';
 
         - **Geometry data type support** — Store and query complex spatial shapes (POINT, LINESTRING, POLYGON) for geospatial search, geofencing, routing, and map-based applications. For details, refer to [Geometry Field](./use-geometry-field).
 
-        - **Struct data type support** — Model nested, multi-attribute records more naturally to simplify schema design and improve querying in metadata-rich AI workloads. For details, refer to [Array of Structs](./undefined).
+        - **Struct data type support** — Model nested, multi-attribute records more naturally to simplify schema design and improve querying in metadata-rich AI workloads. For details, refer to [StructArray Overview](./use-array-of-structs).
 
-        - **Enable Dynamic Field on existing collections** — Turn on dynamic field support without recreating the collection, allowing schema flexibility as business attributes evolve. For details, refer to [Modify Collection](./modify-collections#example-5-enable-dynamic-field).
+        - **Enable Dynamic Field on existing collections** — Turn on dynamic field support without recreating the collection, allowing schema flexibility as business attributes evolve. For details, refer to [Modify Collection](./modify-collections).
 
         - **Support Deleting Scalar Indexes Under Loading Status** — Allow deleting and rebuilding scalar indexes while the collection is in loading status.
 
@@ -58,9 +58,9 @@ import Grid from '@site/src/components/Grid';
 
         ## Enhancements\{#enhancements}
 
-        - **Migration Support enabling Full text search** - Now you can enable BM25 function to best leverage full text search functionalities powered by Milvus when migrating from popular vector databases. For details, refer to [Migrate from Milvus to Zilliz Cloud Via Endpoint](./via-endpoint#getting-started) and [External Migration Basics](./external-migration-basics#configure-full-text-search-for-text-data).
+        - **Migration Support enabling Full text search** - Now you can enable BM25 function to best leverage full text search functionalities powered by Milvus when migrating from popular vector databases. For details, refer to [Migrate from Milvus to Zilliz Cloud Via Endpoint](./via-endpoint) and [External Migration Basics](./external-migration-basics).
 
-        - **Alert Support Interval Setting -** You can customize the notification interval for ongoing alerts to ensure they remain noticeable without becoming disruptive. New alerts default to a one-hour interval. For details, refer to [Manage Project Alerts](./manage-project-alerts#alert-settings).
+        - **Alert Support Interval Setting -** You can customize the notification interval for ongoing alerts to ensure they remain noticeable without becoming disruptive. New alerts default to a one-hour interval. For details, refer to [Manage Project Alerts](./manage-project-alerts).
 
     </div>
 

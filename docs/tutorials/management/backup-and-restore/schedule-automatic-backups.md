@@ -10,7 +10,7 @@ notebook: FALSE
 description: "Zilliz Cloud allows you to enable automatic backups for your clusters, helping ensure data recovery in case of unexpected issues. Automatic backups apply to the entire cluster—backing up individual collections automatically is not supported. | Cloud"
 type: origin
 token: HDmKwGeGLi2P67kGdNXcigXDn3e
-sidebar_position: 2
+sidebar_position: 1
 displayed_sidebar: default
 
 ---
@@ -26,7 +26,7 @@ import Procedures from '@site/src/components/Procedures';
 
 Zilliz Cloud allows you to enable **automatic backups** for your clusters, helping ensure data recovery in case of unexpected issues. Automatic backups apply to the **entire cluster**—backing up individual collections automatically is not supported.
 
-Backup creation incurs additional charges, with pricing based on the cloud region where the backup is stored. All backup files are stored in the same cloud region as the source cluster. For example, a cluster in `AWS us-west-2` will have its backups stored in `AWS us-west-2`.
+Backup creation incurs additional [charges](./storage-cost), with pricing based on the cloud region where the backup is stored. All backup files are stored in the same cloud region as the source cluster. For example, a cluster in `AWS us-west-2` will have its backups stored in `AWS us-west-2`.
 
 This guide walks you through how to schedule automatic backups on Zilliz Cloud. To create on-demand backups, see [Create Backup](./create-backup).
 
@@ -84,7 +84,7 @@ The following demo shows how to enable and configure automatic backups:
 
         - **Basic**: Select a frequency (weekly or monthly), then choose the day and time.
 
-        - **Advanced**: Define the schedule by entering a cron expression. For details, see [Cron Expression](./undefined).
+        - **Advanced**: Define the schedule by entering a cron expression. For details, see [Understand Cron Expressions](./cron-expression).
 
 1. (Optional) You can choose to enable the [cross-region backup](./backup-to-other-regions) feature.
 

@@ -1,7 +1,7 @@
 ---
 title: "Create an External Collection | Cloud"
 slug: /create-external-collection
-sidebar_label: "Create an External Collection"
+sidebar_label: "External Collection"
 beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
@@ -10,7 +10,7 @@ notebook: FALSE
 description: "An external collection is a type of data collection in Zilliz Cloud that accesses data from external storage systems or database tables such as AWS S3 and Iceberg without copying it into Zilliz Cloud. It acts as a query layer over data lakes while maintaining compatibility with Zilliz Cloud query interfaces. | Cloud"
 type: origin
 token: RsGAwmgAYiE6fgkOiokcijsBnEg
-sidebar_position: 3
+sidebar_position: 1
 displayed_sidebar: default
 
 ---
@@ -88,7 +88,7 @@ Zilliz Cloud supports the following data sources, and you should provide the cor
 
 - `milvus-table`
 
-    Set `external_source` to the concrete Milvus snapshot metadata JSON file. For details, refer to [Use Milvus Snapshot as a Data Source](./undefined).
+    Set `external_source` to the concrete Milvus snapshot metadata JSON file. For details, refer to [Use Snapshot as Data Source](./use-milvus-snapshot-as-data-source).
 
 ### Set up schema\{#set-up-schema}
 

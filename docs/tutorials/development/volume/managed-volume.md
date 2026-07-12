@@ -788,7 +788,7 @@ When you create a managed volume, you can choose either a **free trial** or **pa
 
     - For list prices, see [Pricing Guide](http://zilliz.com/pricing/pricing-guide).
 
-    - To understand how volume charges are calculated, see Storage Cost.
+    - To understand how volume charges are calculated, see [Storage Cost](./storage-cost).
 
 ## FAQs\{#faqs}
 
@@ -809,5 +809,5 @@ The following table lists the possible volume statuses.
 | **Status** | **Description** |
 | --- | --- |
 | **Available** | The volume is active and usable. |
-| **Frozen** | The organization is frozen due to overdue invoices. The volume cannot be used for new operations. Please pay your bill to continue using volumes. |
+| **Frozen** | The organization is frozen due to overdue [invoices](./manage-invoice). The volume cannot be used for new operations. Please pay your bill to continue using volumes. |
 

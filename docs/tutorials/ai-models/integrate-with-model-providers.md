@@ -48,7 +48,7 @@ Creating a model provider integration itself does not incur charges. However, us
 
 - Charges from the model provider.
 
-- Data transfer costs when data is sent for embedding or reranking. For details, refer to Data Transfer Cost.
+- Data transfer costs when data is sent for embedding or reranking. For details, refer to [Data Transfer Cost](./data-transfer-cost).
 
 Billing applies only when model-based functions or rankers are executed.
 

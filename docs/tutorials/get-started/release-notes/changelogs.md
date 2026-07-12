@@ -46,7 +46,7 @@ import Grid from '@site/src/components/Grid';
 
     <div>
 
-        **[July 6, 2026](./release-notes-2607#byoc-i-now-available-on-gcp)**
+        **[July 6, 2026](./release-notes-2607)**
 
     </div>
 
@@ -94,7 +94,7 @@ import Grid from '@site/src/components/Grid';
 
     <div>
 
-        **[June 3, 2026](./release-notes-2606#nullable-vector)**
+        **[June 3, 2026](./release-notes-2606)**
 
     </div>
 
@@ -134,21 +134,21 @@ import Grid from '@site/src/components/Grid';
 
         - 🏠 Zilliz Cloud evolves from a vector database product into a Vector Lakebase platform with the following highlighted features:
 
-            - On-demand search
+            - [On-demand search](./quick-start-to-on-demand-search)
 
-            - External data lake search
+            - [External data lake search](./quick-start-to-external-data-lake-search)
 
         - 🐦 Milvus v3.0.x enters Private Review for on-demand compute in Zilliz Cloud with the following features:
 
-            - External collections and backfill
+            - [External collections and backfill](./create-external-collection)
 
             - [Nullable vectors](./nullable-fields),
 
-            - [Embedding list searches and filtering](./undefined),
+            - [Embedding list searches and filtering](./use-array-of-structs),
 
             - [MinHash function](./minhash-function)
 
-            - Order by for [searches](./single-vector-search#sort-search-results-by-scalar-fields) and [queries](./get-and-scalar-query#sort-query-results),
+            - Order by for [searches](./single-vector-search#sort-search-results-by-scalar-fields) and [queries](./get-and-scalar-query),
 
             - [Snapshots](./snapshots),
 
@@ -164,7 +164,7 @@ import Grid from '@site/src/components/Grid';
 
         - 🔍︎ Collection-level [large top-K](./use-large-topk) becomes available, expanding the maximum number of returned entities from 16,384 to 1,000,000 for enabled collections
 
-        - 🗺️ [Regional constraints are available in projects](./manage-projects#add-project-regions), helping enterprises manage data residency and keep regional data-plane access explicit.
+        - 🗺️ [Regional constraints are available in projects](./manage-projects), helping enterprises manage data residency and keep regional data-plane access explicit.
 
     </div>
 
@@ -184,11 +184,11 @@ import Grid from '@site/src/components/Grid';
 
         - 📈 More fine-grained [metrics are available at the collection level](./metrics-alerts-reference#cluster-and-collection-metrics).
 
-        - 📋 [Access logs](./undefined) are available in Public Preview.
+        - 📋 [Access logs](./access-log-overview) are available in Public Preview.
 
         - ⚙️ The [maintenance window](./organization-settings#set-up-preferred-maintenance-window) has been redesigned to provide more predictable upgrade scheduling and proactive notifications.
 
-        - 👥 A new [cluster admin](./project-users#cluster-admin) role grants team members operational access to specific clusters without full project-level admin privileges.
+        - 👥 A new [cluster admin](./project-users) role grants team members operational access to specific clusters without full project-level admin privileges.
 
         - 💾 Tiered storage becomes available to clusters in BYOC projects.
 
@@ -200,7 +200,7 @@ import Grid from '@site/src/components/Grid';
 
     <div>
 
-        **[February 9](./release-notes-2602#sso-enforcement)[, 2026](./release-notes-2602#sso-enforcement)**
+        **[February 9](./release-notes-2602)[, 2026](./release-notes-2602)**
 
     </div>
 
@@ -208,7 +208,7 @@ import Grid from '@site/src/components/Grid';
 
         - 🔐 [SSO enforcement](./enforce-sso-in-your-organization) to restrict access from non-SSO authentication.
 
-        - 👥 Cluster-level access control configured at the [organization-](./organization-users#organization-role) and [project-level](./project-users#project-access) for fine-grained data access.
+        - 👥 Cluster-level access control configured at the [organization-](./organization-users#organization-role) and [project-level](./project-users) for fine-grained data access.
 
     </div>
 
@@ -218,7 +218,7 @@ import Grid from '@site/src/components/Grid';
 
     <div>
 
-        **[February 4](./release-notes-2602#new-region-aws-ireland)[, 2026](./release-notes-2602#new-region-aws-ireland)**
+        **[February 4](./release-notes-2602)[, 2026](./release-notes-2602)**
 
     </div>
 
@@ -286,13 +286,13 @@ import Grid from '@site/src/components/Grid';
 
             - [Text Highlighter](./text-highlighter)
 
-        - 🤖 Model-based embedding and reranking functions for public preview.
+        - 🤖 Model-based embedding functions such as [OpenAI](./openai), [Voyage AI](./voyage-ai), and [Cohere](./cohere), and reranking functions, such as [Cohere reranker](./cohere-model-ranker) and [Voyage AI reranker](./voyage-ai-model-ranker), for public preview.
 
         - 🤖 [Hosted models](./hosted-models) for private preview.
 
-        - 🛠️ [Dynamic replica autoscaling](./undefined#dynamic-scaling) with intelligence.
+        - 🛠️ [Dynamic replica autoscaling](./auto-scaling) with intelligence.
 
-        - 📅 Advanced [scheduled scaling](./undefined#scheduled-scaling) with familiar cron settings.
+        - 📅 Advanced [scheduled scaling](./scheduled-scaling) with familiar cron settings.
 
         - 🌎 [Global cluster](./global-cluster-explained) becomes alive. [Contact us](https://support.zilliz.com/hc/en-us) to access.
 
@@ -336,7 +336,7 @@ import Grid from '@site/src/components/Grid';
 
     <div>
 
-        - 📦  Stage has been renamed to Volume, and becomes GA
+        - 📦  Stage has been renamed to [Volume](./managed-volume), and becomes GA
 
         - [🔐  Organization-level IP Whitelist](./setup-console-ip-allowlist) becomes available
 
@@ -360,13 +360,13 @@ import Grid from '@site/src/components/Grid';
 
             - [Geometry](./use-geometry-field), and
 
-            - [Array of Structs](./undefined)
+            - [Array of Structs](./use-array-of-structs)
 
-        - 🔍  Full-text search capabilities are now available during [migrations](./via-endpoint#getting-started).
+        - 🔍  Full-text search capabilities are now available during [migrations](./via-endpoint).
 
-        - ⏰  Customizing the [notification interval](./manage-project-alerts#alert-settings) to suppress repeated alerts.
+        - ⏰  Customizing the [notification interval](./manage-project-alerts) to suppress repeated alerts.
 
-        - 🔧  The [dynamic field can be enabled for existing collections](./modify-collections#example-5-enable-dynamic-field) without collection recreations.
+        - 🔧  The [dynamic field can be enabled for existing collections](./modify-collections) without collection recreations.
 
         - 💳  Subscription plans have been shifted to the project level, while clusters have several deployment options. Read [Detailed Plan Comparison](./select-zilliz-cloud-service-plans) to find more.
 
@@ -392,7 +392,7 @@ import Grid from '@site/src/components/Grid';
 
             - Accelerated JSON filtering with [JSON indexing](./json-indexing) and [Shredding](./json-shredding)
 
-            - [Boost ranker](./boost-ranker) and Decay rankers for search result refinement
+            - [Boost ranker](./boost-ranker) and [Decay rankers](./decay-ranker-oveview) for search result refinement
 
             - Support for [INT8_VECTOR data type](./use-dense-vector)
 
@@ -412,13 +412,13 @@ import Grid from '@site/src/components/Grid';
 
     <div>
 
-        **[August 20, 2025](./release-notes-2508#autoscaling-upgrade)**
+        **[August 20, 2025](./release-notes-2508)**
 
     </div>
 
     <div>
 
-        - [📈  Autoscaling upgrade](./undefined#dynamic-scaling) with simplified configuration
+        - 📈  [Autoscaling upgrade](./auto-scaling) with simplified configuration
 
         - [📋  Audit logs](./audit-logs) become generally available
 
@@ -432,7 +432,7 @@ import Grid from '@site/src/components/Grid';
 
     <div>
 
-        **[August 13, 2025](./release-notes-2508#support-aws-sydney-region)**
+        **[August 13, 2025](./release-notes-2508)**
 
     </div>
 
@@ -456,11 +456,11 @@ import Grid from '@site/src/components/Grid';
 
         - 🔗  Merge data API for schema evolution.
 
-        - 📦  Stage as a shared staging layer for migration and data import
+        - 📦  [Stage](./managed-volume) as a shared staging layer for migration and data import
 
-        - [📅  Schedule-based cluster autoscaling](./undefined)
+        - 📅  [Schedule-based cluster autoscaling](./scheduled-scaling)
 
-        - [🔄  Partial restoration](./restore-from-backup-files#restore-a-partial-cluster) of a cluster
+        - [🔄  Partial restoration](./restore-from-backup-files) of a cluster
 
         - [⚙️  JSON index](./json-indexing) settings on the Zilliz Cloud console
 
@@ -482,7 +482,7 @@ import Grid from '@site/src/components/Grid';
 
     <div>
 
-        - [📚  Migration docs and best practices](./undefined) refactored
+        - 📚  [Migration docs and best practices](./migrate-between-clusters) refactored
 
         - [🚨  Policy-based alerts](./manage-project-alerts) for granular and flexible monitoring
 
@@ -508,7 +508,7 @@ import Grid from '@site/src/components/Grid';
 
         - ⚙️  Instance settings and AWS PrivateLink support for BYOC projects
 
-        - 🔍  Fine-granular filtering on a JSON field using [JSON index](./undefined)
+        - 🔍  Fine-granular filtering on a JSON field using [JSON index](./json-indexing)
 
         - 🛠️  Use the RESTful API to [modify the replica count of your cluster](/reference/restful/modify-cluster-replica-v2).
 
@@ -570,7 +570,7 @@ import Grid from '@site/src/components/Grid';
 
         - 🎯  High recall rate by [turning the search level](./tune-recall-rate)
 
-        - [🔐  Collection-level RBAC support](./cluster-privileges#collection-level-privilege-groups)
+        - [🔐  Collection-level RBAC support](./cluster-privileges)
 
         - [💾  mmap](./use-mmap) support for expanded data capacity
 
@@ -624,7 +624,7 @@ import Grid from '@site/src/components/Grid';
 
         - ⚡  Performance-optimized clusters with expanded capacity
 
-        - [🔄  Multi-replica](./undefined) becomes generally available
+        - 🔄  [Multi-replica](./auto-scaling) becomes generally available
 
         - **New Region**: 🇯🇵 AWS Tokyo (ap-northeast-1)
 
@@ -650,7 +650,7 @@ import Grid from '@site/src/components/Grid';
 
         - ☁️  Serverless clusters become generally available
 
-        - [🔄  Multi-replica](./undefined) becomes available for public preview
+        - 🔄  [Multi-replica](./auto-scaling) becomes available for public preview
 
         - 📦  Migration service for you to migrate data to Zilliz Cloud:
 
@@ -710,7 +710,7 @@ import Grid from '@site/src/components/Grid';
 
             - [Multi-vector hybrid search](./hybrid-search)
 
-            - Inverted index and [fuzzy match](./basic-filtering-operators)
+            - [Inverted index](./inverted-index-type) and [fuzzy match](./basic-filtering-operators)
 
             - [Grouping search](./grouping-search)
 
@@ -762,7 +762,7 @@ import Grid from '@site/src/components/Grid';
 
         - [📊  Metric monitoring through RESTful API](/reference/restful/query-metrics) is available
 
-        - 🌐  Cross-cloud [data import](./undefined) and [migration](./undefined)
+        - 🌐  Cross-cloud [data import](./data-import-zero-to-hero) and [migration](./migrate-between-clusters)
 
     </div>
 
@@ -796,11 +796,11 @@ import Grid from '@site/src/components/Grid';
 
     <div>
 
-        - [📥  Data import](./undefined) from Parquet files
+        - 📥  [Data import](./data-import-zero-to-hero) from Parquet files
 
         - [🔐  API keys](./manage-api-keys) enhanced with RBAC principles
 
-        - [📊  Metric boards and alert system](./undefined) refactored
+        - 📊  [Metric boards and alert system](./metrics-alerts-reference) refactored
 
     </div>
 
@@ -852,7 +852,7 @@ import Grid from '@site/src/components/Grid';
 
             - [Cosine metric type](./search-metrics-explained)
 
-            - Access control
+            - [Access control](./access-control-overview)
 
             - Raw vectors in return
 
@@ -938,7 +938,7 @@ import Grid from '@site/src/components/Grid';
 
         - [💰  Zilliz Cloud plan tiers introduced](https://zilliz.com/pricing)
 
-        - 👥  Organization, collaboration and RBAC for access control
+        - 👥  Organization, collaboration and RBAC for [access control](./access-control-overview)
 
         - 🏷️  Partition key for namespacing introduced
 
@@ -962,7 +962,7 @@ import Grid from '@site/src/components/Grid';
 
         - [💰  Pricing calculator](https://zilliz.com/pricing#calculator)
 
-        - [💾  Back & restore](./undefined) on GCP
+        - 💾  [Back & restore](./create-backup) on GCP
 
         - [⏰  Custom timezone](./organization-settings#manage-timezone)
 
@@ -986,11 +986,11 @@ import Grid from '@site/src/components/Grid';
 
         - ☁️  Zilliz Cloud becomes available on the [AWS Marketplace](https://aws.amazon.com/marketplace/pp/prodview-iqbidum7feuio)
 
-        - [💾  Backup & Restore](./undefined) becomes available on AWS
+        - [💾  Backup & Restore](./create-backup) becomes available on AWS
 
         - [🗑️  Recycle bin](./use-recycle-bin) for data continuity strategy
 
-        - [🔄  Migration from Milvus](./undefined)
+        - 🔄  [Migration from Milvus](./migrate-from-milvus)
 
     </div>
 
@@ -1048,9 +1048,9 @@ import Grid from '@site/src/components/Grid';
 
         - **New Region**: 🇺🇸 AWS Ohio (us-east-2)
 
-        - [🔐  Private Link](./undefined) becomes available
+        - 🔐  [Private Link](./setup-a-private-link-aws) becomes available
 
-        - [📥  Data import](./undefined) becomes available
+        - 📥  [Data import](./data-import-zero-to-hero) becomes available
 
     </div>
 

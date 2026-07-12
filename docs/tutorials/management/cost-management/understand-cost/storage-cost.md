@@ -10,7 +10,7 @@ notebook: FALSE
 description: "In Zilliz Cloud, storage costs are incurred when you store data or backup files, regardless of whether your cluster is running. | Cloud"
 type: origin
 token: PNj2w5fY9ifr82kbX8ucKgXAn0r
-sidebar_position: 4
+sidebar_position: 1
 displayed_sidebar: default
 
 ---
@@ -30,13 +30,13 @@ You will be billed for storage in the following scenarios:
 
 - Serverless cluster: data stored in your Serverless cluster.
 
-- Database: data stored in your databases used for on-demand search.
+- [Database](./database): data stored in your databases used for on-demand search.
 
     - Data and indexes in your managed collections.
 
     - Indexes in your external collections.
 
-- [Backup](./undefined) storage: backup files you create for disaster recovery.
+- [Backup](./create-backup) storage: backup files you create for disaster recovery.
 
 - [Managed volume](./managed-volume) storage: either structured data or collections of unstructured data files stored in a volume.
 

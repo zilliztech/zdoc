@@ -10,7 +10,7 @@ notebook: FALSE
 description: "The Usage page in Zilliz Cloud provides you with a visualized cost analysis tool, enabling you to view and track Zilliz Cloud usage and expenses from multiple dimensions. | BYOC"
 type: origin
 token: LJplw7Q9Gi09GMkiy8PcbYp6nrg
-sidebar_position: 2
+sidebar_position: 1
 displayed_sidebar: default
 
 ---

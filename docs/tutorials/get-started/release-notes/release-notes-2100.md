@@ -10,7 +10,7 @@ notebook: FALSE
 description: "This release brings several key updates to Zilliz Cloud, starting with the GA of Zilliz Cloud Serverless, which offers automatic scaling and enables up to 50x cost savings. Milvus 2.4 features are now GA, introducing capabilities such as sparse vectors, multi-vector hybrid search, and inverted index with fuzzy matching. This release also includes multi-replica functionality in public preview, allowing users to improve query throughput and availability by distributing workloads across replicas in multiple Availability Zones (AZs). Additionally, Zilliz Cloud’s new Migration Service supports migration from open-source Milvus, pgvector, Elasticsearch, and enables intra-organization and cross-organization data migrations within Zilliz Cloud. The expanded RESTful APIs for backup, restore, migration, and job management empower users to build automated operational workflows. Further enhancements include support for Project Read-only roles and the ability to rename clusters and snapshots. | Cloud"
 type: origin
 token: PJ4hwwD1DiVnv0kWPZBceLrdnSf
-sidebar_position: 20
+sidebar_position: 1
 displayed_sidebar: releasesSidebar
 
 ---
@@ -88,7 +88,7 @@ Multi-replica is now available in Zilliz Cloud, enabling cluster-level replicati
 
 - **Enhanced Availability**: Multi-replica strengthens availability by distributing replicas across multiple Availability Zones (AZs). This setup ensures continuous access to data, even in the event of an AZ outage, offering greater reliability for mission-critical applications.
 
-Currently, the multi-replica feature is in public preview and is available on the Enterprise Plan. To find more, read [Manage Replica](./undefined).
+Currently, the multi-replica feature is in public preview and is available on the Enterprise Plan. To find more, read [Plan Cluster Scaling](./plan-cluster-scaling).
 
 ### Migration Service\{#migration-service}
 
