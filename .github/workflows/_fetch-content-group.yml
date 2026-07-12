@@ -143,14 +143,6 @@ jobs:
             bash scripts/update-sdk-reference-snapshots.sh "$GROUP"
           fi
 
-      - name: Advance progress card for content group
-        if: ${{ inputs.card_id != '' }}
-        run: |
-          node -e 'require("node:fs").writeFileSync(".build-card-state.json", JSON.stringify({messageId:process.env.CARD_ID,title:"Global Docs Build",stages:[`Produce ${process.env.GROUP}`],statuses:["running"],currentIndex:0,notes:[],startedAt:new Date().toISOString()}, null, 2))'
-          npx docusaurus report-to-lark --card-advance --status done --note "${GROUP} content group produced successfully"
-        env:
-          CARD_ID: ${{ inputs.card_id }}
-
       - name: Create source checkpoint artifact
         run: |
           validation_command='node scripts/run-doc-build-stage.js --build "pnpm run build"'
@@ -195,6 +187,14 @@ jobs:
       - name: Emit producer result
         id: result
         run: echo 'status=artifact_ready' >> "$GITHUB_OUTPUT"
+
+      - name: Advance progress card for content group
+        if: ${{ inputs.card_id != '' }}
+        run: |
+          node -e 'require("node:fs").writeFileSync(".build-card-state.json", JSON.stringify({messageId:process.env.CARD_ID,title:"Global Docs Build",stages:[`Produce ${process.env.GROUP}`],statuses:["running"],currentIndex:0,notes:[],startedAt:new Date().toISOString()}, null, 2))'
+          npx docusaurus report-to-lark --card-advance --status done --note "${GROUP} artifact is ready"
+        env:
+          CARD_ID: ${{ inputs.card_id }}
 
       - name: Clean up baseline worktree
         if: ${{ always() }}

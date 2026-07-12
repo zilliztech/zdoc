@@ -32,4 +32,8 @@ test('reusable content producer is immutable, read-only, and publishes a validat
   assert.match(workflow, /create-checkpoint-artifact\.js[\s\S]*--baseline-dir "\$BASELINE_DIR"[\s\S]*--workspace "\$GITHUB_WORKSPACE"/)
   assert.match(workflow, /validate-checkpoint-artifact\.js/)
   assert.match(workflow, /actions\/upload-artifact@v4[\s\S]*docs-checkpoint-\$\{\{ inputs\.group \}\}-\$\{\{ github\.run_id \}\}/)
+  assert.ok(
+    workflow.indexOf('name: Upload source checkpoint artifact') < workflow.indexOf('name: Advance progress card for content group'),
+    'producer must not report card success before the checkpoint artifact is uploaded',
+  )
 })
