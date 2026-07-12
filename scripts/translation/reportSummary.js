@@ -14,6 +14,9 @@ function buildSummary({ manifest, report }) {
   const results = report?.results || []
   const translated = results.filter(item => item.status === 'translated').length
   const failed = results.filter(item => item.status !== 'translated')
+  const remaining = Number.isFinite(report?.checkpoint?.remaining)
+    ? report.checkpoint.remaining
+    : Math.max(0, pending - results.length)
   const lines = [
     '### Translation report',
     '',
@@ -21,6 +24,7 @@ function buildSummary({ manifest, report }) {
     `- Pending: ${pending}`,
     `- Translated: ${translated}`,
     `- Failed: ${failed.length}`,
+    `- Remaining: ${remaining}`,
   ]
 
   if (pending === 0) {
@@ -31,6 +35,9 @@ function buildSummary({ manifest, report }) {
       lines.push(`- \`${item.sourcePath || 'unknown'}\`: ${item.error || item.status || 'failed'}`)
     }
     if (failed.length > 20) lines.push(`- …and ${failed.length - 20} more failure(s).`)
+  }
+  if (remaining > 0) {
+    lines.push('', `${remaining} file(s) were deferred to the next incremental run after checkpointing completed work.`)
   }
 
   return `${lines.join('\n')}\n`
@@ -49,4 +56,3 @@ function main() {
 if (require.main === module) main()
 
 module.exports = { buildSummary, readJson }
-

@@ -206,6 +206,7 @@ module.exports = function (context) {
             if (noteText) notes.push(noteText)
             const state = buildFinishState({
               existingState: loadState(context.siteDir),
+              messageId,
               title: opts.title || 'Build',
               stages: passedStages,
               status: opts.status,
