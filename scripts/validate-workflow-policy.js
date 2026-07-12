@@ -58,6 +58,21 @@ function validateWorkflowPolicies(directory = workflowDirectory) {
         errors.push(`${file}: pull_request must not be nested under concurrency`)
       }
     }
+
+    if (file === '_fetch-content-group.yml') {
+      const requiredPatterns = [
+        [/^  workflow_call:$/m, 'must be a workflow_call reusable workflow'],
+        [/actions\/checkout@v4[\s\S]*ref: \$\{\{ inputs\.master_sha \}\}/, 'must check out the immutable master_sha input'],
+        [/restore-generated-state\.sh --ref "\$DEV_BASELINE_SHA"/, 'must restore generated state from the immutable baseline SHA'],
+        [/create-checkpoint-artifact\.js/, 'must create a checkpoint artifact'],
+        [/validate-checkpoint-artifact\.js/, 'must validate the checkpoint artifact'],
+        [/actions\/upload-artifact@v4/, 'must upload the checkpoint artifact'],
+      ]
+      for (const [pattern, message] of requiredPatterns) if (!pattern.test(source)) errors.push(`${file}: ${message}`)
+      if (/git-auto-commit|git push(?:\s+--force|[^\n]*\s--force)|git push\b/.test(source)) {
+        errors.push(`${file}: producer must not publish or push content`)
+      }
+    }
   }
 
   return errors
