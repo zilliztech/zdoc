@@ -3,7 +3,7 @@
 const assert = require('node:assert/strict');
 const crypto = require('node:crypto');
 const { spawnSync } = require('node:child_process');
-const { mkdtemp, mkdir, readFile, rename, rm, symlink, writeFile } = require('node:fs/promises');
+const { lstat, mkdtemp, mkdir, readFile, rename, rm, symlink, writeFile } = require('node:fs/promises');
 const os = require('node:os');
 const path = require('node:path');
 const test = require('node:test');
@@ -62,7 +62,7 @@ test('rejects missing or symlink targets, overlap, symlink ancestors, and payloa
   f = await fixture({ files: { [`${ROOT}/x.md`]: 'x' } }); await mkdir(path.join(f.targetDir, 'reference/api'), { recursive: true }); await symlink(f.root, path.join(f.targetDir, 'reference/api/python'));
   await assert.rejects(applyCheckpointArtifact({ artifactDir: f.artifactDir, targetDir: f.targetDir }), /symlink/i);
   f = await fixture({ files: { [`${ROOT}/x.md`]: 'x' } });
-  await assert.rejects(applyCheckpointArtifact({ artifactDir: f.artifactDir, targetDir: f.targetDir, testHooks: { async beforeCopy() { const p = path.join(f.artifactDir, 'payload', ROOT, 'x.md'); await rm(p); await symlink('/etc/hosts', p); } } }), /symlink|identity|regular/i);
+  await assert.rejects(applyCheckpointArtifact({ artifactDir: f.artifactDir, targetDir: f.targetDir, hooks: { async beforeCopy() { const p = path.join(f.artifactDir, 'payload', ROOT, 'x.md'); await rm(p); await symlink('/etc/hosts', p); } } }), /symlink|identity|regular/i);
 });
 
 test('applies the generation pinned by validation even if the public pointer swaps', async () => {
@@ -72,14 +72,14 @@ test('applies the generation pinned by validation even if the public pointer swa
   const oldVersion = path.join(old.root, '.public.version-old');
   const newVersion = path.join(old.root, '.public.version-new');
   await rename(old.artifactDir, oldVersion); await rename(newer.artifactDir, newVersion); await symlink(path.basename(oldVersion), publicPath);
-  await applyCheckpointArtifact({ artifactDir: publicPath, targetDir: old.targetDir, validationTestHooks: { async afterManifestRead() { const next = path.join(old.root, 'next'); await symlink(path.basename(newVersion), next); await rename(next, publicPath); } } });
+  await applyCheckpointArtifact({ artifactDir: publicPath, targetDir: old.targetDir, hooks: { async afterManifestRead() { const next = path.join(old.root, 'next'); await symlink(path.basename(newVersion), next); await rename(next, publicPath); } } });
   assert.equal(await readFile(path.join(old.targetDir, ROOT, 'x.md'), 'utf8'), 'old-generation');
 });
 
 test('rolls back deletions and earlier copies when a later copy fails', async () => {
   const f = await fixture({ files: { [`${ROOT}/a.md`]: 'new-a', [`${ROOT}/b.md`]: 'new-b' }, deletions: [`${ROOT}/old.md`] });
   await targetWrite(f, `${ROOT}/a.md`, 'old-a'); await targetWrite(f, `${ROOT}/old.md`, 'old');
-  await assert.rejects(applyCheckpointArtifact({ artifactDir: f.artifactDir, targetDir: f.targetDir, testHooks: { async afterCopy({ rel }) { if (rel.endsWith('a.md')) throw new Error('injected'); } } }), /injected/);
+  await assert.rejects(applyCheckpointArtifact({ artifactDir: f.artifactDir, targetDir: f.targetDir, hooks: { async afterCopy({ rel }) { if (rel.endsWith('a.md')) throw new Error('injected'); } } }), /injected/);
   assert.equal(await readFile(path.join(f.targetDir, ROOT, 'a.md'), 'utf8'), 'old-a'); assert.equal(await readFile(path.join(f.targetDir, ROOT, 'old.md'), 'utf8'), 'old');
   await assert.rejects(readFile(path.join(f.targetDir, ROOT, 'b.md')), /ENOENT/);
 });
@@ -110,6 +110,49 @@ test('translation merge conflicts and invalid inputs leave target unchanged', as
     await assert.rejects(applyCheckpointArtifact({ artifactDir: f.artifactDir, targetDir: f.targetDir, baselineDir: f.baselineDir }), /conflict.*a|json object|json/i);
     assert.equal(await readFile(path.join(f.targetDir, CACHE), 'utf8'), before);
   }
+});
+
+test('translation equality ignores nested object key order and output is recursively canonical', async () => {
+  const f = await fixture({
+    baselineCache: { doc: { z: 1, nested: { b: 2, a: 1 }, array: [{ y: 2, x: 1 }] } },
+    cache: { doc: { array: [{ x: 1, y: 2 }], nested: { a: 1, b: 2 }, z: 1 } },
+    targetCache: { doc: { changed: true, deep: { z: 3, a: 1 } }, extra: { z: { b: 2, a: 1 }, a: 0 } },
+  });
+  await applyCheckpointArtifact({ artifactDir: f.artifactDir, targetDir: f.targetDir, baselineDir: f.baselineDir });
+  assert.equal(await readFile(path.join(f.targetDir, CACHE), 'utf8'), '{\n  "doc": {\n    "changed": true,\n    "deep": {\n      "a": 1,\n      "z": 3\n    }\n  },\n  "extra": {\n    "a": 0,\n    "z": {\n      "a": 1,\n      "b": 2\n    }\n  }\n}\n');
+});
+
+test('exported API strictly validates option keys, types, hook names, and hook types', async () => {
+  const f = await fixture({ files: { [`${ROOT}/x.md`]: 'x' } });
+  for (const options of [
+    { artifactDir: f.artifactDir, targetDir: f.targetDir, surprise: true },
+    { artifactDir: 1, targetDir: f.targetDir },
+    { artifactDir: f.artifactDir, targetDir: f.targetDir, baselineDir: 1 },
+    { artifactDir: f.artifactDir, targetDir: f.targetDir, hooks: [] },
+    { artifactDir: f.artifactDir, targetDir: f.targetDir, hooks: { surprise() {} } },
+    { artifactDir: f.artifactDir, targetDir: f.targetDir, hooks: { beforeCopy: true } },
+  ]) await assert.rejects(applyCheckpointArtifact(options), /unknown option|must be|string|hooks|unknown hook/i);
+});
+
+test('translation cache reads reject symlink files and ancestors without changing target', async () => {
+  let f = await fixture({ cache: { a: 2 }, baselineCache: { a: 1 }, targetCache: { a: 1 } });
+  const baselineCache = path.join(f.baselineDir, CACHE); await rm(baselineCache); await symlink('/etc/hosts', baselineCache);
+  await assert.rejects(applyCheckpointArtifact({ artifactDir: f.artifactDir, targetDir: f.targetDir, baselineDir: f.baselineDir }), /symlink|regular/i);
+  assert.equal(await readFile(path.join(f.targetDir, CACHE), 'utf8'), JSON.stringify({ a: 1 }));
+  f = await fixture({ cache: { a: 2 }, baselineCache: { a: 1 }, targetCache: { a: 1 } });
+  const targetCache = path.join(f.targetDir, CACHE); await rm(targetCache); await symlink('/etc/hosts', targetCache);
+  await assert.rejects(applyCheckpointArtifact({ artifactDir: f.artifactDir, targetDir: f.targetDir, baselineDir: f.baselineDir }), /symlink|regular/i);
+  assert.equal((await lstat(targetCache)).isSymbolicLink(), true);
+  f = await fixture({ cache: { a: 2 }, baselineCache: { a: 1 }, targetCache: { a: 1 } });
+  const real = path.join(f.root, 'real-cache-dir'); await rename(path.join(f.baselineDir, '.translation-cache'), real); await symlink(real, path.join(f.baselineDir, '.translation-cache'));
+  await assert.rejects(applyCheckpointArtifact({ artifactDir: f.artifactDir, targetDir: f.targetDir, baselineDir: f.baselineDir }), /symlink ancestor/i);
+});
+
+test('translation cache descriptor reads reject target identity swaps and preserve replacement bytes', async () => {
+  const f = await fixture({ cache: { a: 2 }, baselineCache: { a: 1 }, targetCache: { a: 1 } });
+  const targetCache = path.join(f.targetDir, CACHE); const replacement = `${targetCache}.replacement`; await writeFile(replacement, '{"a":9}');
+  await assert.rejects(applyCheckpointArtifact({ artifactDir: f.artifactDir, targetDir: f.targetDir, baselineDir: f.baselineDir, hooks: { async afterCacheLstat({ kind }) { if (kind === 'target') await rename(replacement, targetCache); } } }), /identity changed/i);
+  assert.equal(await readFile(targetCache, 'utf8'), '{"a":9}');
 });
 
 test('CLI parses strict arguments and help', async () => {
