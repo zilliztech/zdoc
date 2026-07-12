@@ -114,6 +114,27 @@ test('positional dev branch remains supported', () => {
   }
 })
 
+test('positional non-dev branch restores its content and populates the remote-tracking ref', () => {
+  const fixture = createFixture()
+  try {
+    git(fixture.source, 'switch', '-c', 'generated-snapshot')
+    write(fixture.source, 'reference/state.txt', 'snapshot:reference\n')
+    git(fixture.source, 'add', 'reference/state.txt')
+    git(fixture.source, 'commit', '-m', 'snapshot generated state')
+    const snapshotSha = git(fixture.source, 'rev-parse', 'HEAD')
+    git(fixture.source, 'push', 'origin', 'generated-snapshot')
+
+    write(fixture.work, 'reference/state.txt', 'local\n')
+    const result = run(fixture.work, ['generated-snapshot'])
+
+    assert.equal(result.status, 0, result.stderr)
+    assert.equal(fs.readFileSync(path.join(fixture.work, 'reference/state.txt'), 'utf8'), 'snapshot:reference\n')
+    assert.equal(git(fixture.work, 'rev-parse', 'origin/generated-snapshot'), snapshotSha)
+  } finally {
+    fs.rmSync(fixture.root, { recursive: true, force: true })
+  }
+})
+
 test('immutable commit SHA restores old content after dev advances', () => {
   const fixture = createFixture()
   try {
@@ -164,5 +185,17 @@ test('dash-prefixed ref values are passed after the git option separator', () =>
     assert.doesNotMatch(result.stderr, /unknown option|ambiguous option/)
   } finally {
     fs.rmSync(fixture.root, { recursive: true, force: true })
+  }
+})
+
+test('dash-prefixed positional branches are rejected before git fetch', () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'restore-generated-state-no-repo-'))
+  try {
+    const result = run(root, ['--upload-pack=/definitely/missing'])
+    assert.notEqual(result.status, 0)
+    assert.match(result.stderr, /Usage:/)
+    assert.doesNotMatch(result.stderr, /not a git repository|definitely\/missing/)
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true })
   }
 })

@@ -12,7 +12,7 @@ case "$#" in
   0)
     ;;
   1)
-    if [ "$1" = "--ref" ] || [ -z "$1" ]; then
+    if [ "$1" = "--ref" ] || [ -z "$1" ] || [[ "$1" == -* ]]; then
       usage
       exit 2
     fi
