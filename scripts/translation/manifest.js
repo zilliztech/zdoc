@@ -39,8 +39,14 @@ function readCache(siteDir, locale) {
 
 function writeCache(siteDir, locale, cache) {
   const cachePath = cachePathForLocale(siteDir, locale)
-  fs.mkdirSync(path.dirname(cachePath), { recursive: true })
-  fs.writeFileSync(cachePath, JSON.stringify(cache, null, 2) + '\n', 'utf8')
+  writeJsonAtomic(cachePath, cache)
+}
+
+function writeJsonAtomic(filePath, value) {
+  fs.mkdirSync(path.dirname(filePath), { recursive: true })
+  const temporaryPath = `${filePath}.tmp`
+  fs.writeFileSync(temporaryPath, JSON.stringify(value, null, 2) + '\n', 'utf8')
+  fs.renameSync(temporaryPath, filePath)
 }
 
 function sourceMappingsForLocale(locale, { includeReference = false } = {}) {
@@ -125,4 +131,5 @@ module.exports = {
   sourceMappingsForLocale,
   walkMarkdown,
   writeCache,
+  writeJsonAtomic,
 }

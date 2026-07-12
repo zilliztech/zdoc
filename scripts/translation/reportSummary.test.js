@@ -28,3 +28,18 @@ test('reports an empty incremental run', () => {
   assert.match(summary, /No changed documents required translation\./)
 })
 
+test('reports intentionally deferred files from a checkpointed batch', () => {
+  const summary = buildSummary({
+    manifest: { locale: 'ja-JP', items: [{}, {}, {}, {}] },
+    report: {
+      results: [
+        { sourcePath: 'docs/a.md', status: 'translated' },
+        { sourcePath: 'docs/b.md', status: 'translated' },
+      ],
+      checkpoint: { remaining: 2 },
+    },
+  })
+
+  assert.match(summary, /Remaining: 2/)
+  assert.match(summary, /deferred to the next incremental run/i)
+})
