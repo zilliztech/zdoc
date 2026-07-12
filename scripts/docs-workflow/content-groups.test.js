@@ -31,6 +31,8 @@ test('production ownership is disjoint', () => {
 
 test('rejects an unknown content group', () => {
   assert.throws(() => getContentGroup('ruby'), /Unknown content group: ruby/);
+  assert.throws(() => getContentGroup('constructor'), /Unknown content group: constructor/);
+  assert.throws(() => getContentGroup('__proto__'), /Unknown content group: __proto__/);
 });
 
 test('definitions and returned arrays cannot be mutated by callers', () => {

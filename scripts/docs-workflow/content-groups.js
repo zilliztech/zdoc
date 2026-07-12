@@ -78,9 +78,8 @@ function listContentGroups() {
 }
 
 function getContentGroup(name) {
-  const group = CONTENT_GROUPS[name];
-  if (!group) throw new Error(`Unknown content group: ${name}`);
-  return group;
+  if (!Object.hasOwn(CONTENT_GROUPS, name)) throw new Error(`Unknown content group: ${name}`);
+  return CONTENT_GROUPS[name];
 }
 
 function assertDisjointOwnership() {
