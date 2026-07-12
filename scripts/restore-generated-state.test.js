@@ -96,7 +96,27 @@ test('default branch mode restores generated state from dev and skips missing pa
 
     assert.equal(result.status, 0, result.stderr)
     assert.equal(fs.readFileSync(path.join(fixture.work, 'docs/state.txt'), 'utf8'), 'new:docs\n')
+    assert.equal(fs.readFileSync(path.join(fixture.work, 'docs-byoc/state.txt'), 'utf8'), 'old:docs-byoc\n')
     assert.match(result.stdout, /docs-byoc not found on origin\/dev; skipping/)
+  } finally {
+    fs.rmSync(fixture.root, { recursive: true, force: true })
+  }
+})
+
+test('exact immutable ref mode removes managed paths absent from the source commit', () => {
+  const fixture = createFixture()
+  try {
+    fs.rmSync(path.join(fixture.source, 'config/generated'), { recursive: true })
+    git(fixture.source, 'add', '-A')
+    git(fixture.source, 'commit', '-m', 'remove generated config')
+    const sourceSha = git(fixture.source, 'rev-parse', 'HEAD')
+    git(fixture.source, 'push', 'origin', 'dev')
+
+    assert.equal(fs.existsSync(path.join(fixture.work, 'config/generated/state.txt')), true)
+    const result = run(fixture.work, ['--exact', '--ref', sourceSha])
+
+    assert.equal(result.status, 0, result.stderr)
+    assert.equal(fs.existsSync(path.join(fixture.work, 'config/generated')), false)
   } finally {
     fs.rmSync(fixture.root, { recursive: true, force: true })
   }
@@ -156,7 +176,7 @@ test('immutable commit SHA restores old content after dev advances', () => {
 test('invalid argument forms fail with usage', () => {
   const fixture = createFixture()
   try {
-    for (const args of [['--ref'], ['dev', 'extra'], ['--ref', 'dev', 'extra'], ['--ref', '']]) {
+    for (const args of [['--ref'], ['--exact'], ['dev', 'extra'], ['--ref', 'dev', 'extra'], ['--ref', ''], ['--exact', '--exact', 'dev']]) {
       const result = run(fixture.work, args)
       assert.notEqual(result.status, 0, `expected failure for ${JSON.stringify(args)}`)
       assert.match(result.stderr, /Usage:/)

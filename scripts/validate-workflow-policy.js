@@ -64,7 +64,7 @@ function validateWorkflowPolicies(directory = workflowDirectory) {
       const requiredPatterns = [
         [/^  workflow_call:$/m, 'must be a workflow_call reusable workflow'],
         [/actions\/checkout@v4[\s\S]*ref: \$\{\{ inputs\.master_sha \}\}/, 'must check out the immutable master_sha input'],
-        [/restore-generated-state\.sh --ref "\$DEV_BASELINE_SHA"/, 'must restore generated state from the immutable baseline SHA'],
+        [/restore-generated-state\.sh --exact --ref "\$DEV_BASELINE_SHA"/, 'must exactly restore generated state from the immutable baseline SHA'],
         [/create-checkpoint-artifact\.js/, 'must create a checkpoint artifact'],
         [/validate-checkpoint-artifact\.js/, 'must validate the checkpoint artifact'],
         [/actions\/upload-artifact@v4/, 'must upload the checkpoint artifact'],

@@ -60,7 +60,7 @@ jobs:
         run: |
           git fetch --no-tags origin "$SOURCE_COMMIT_SHA"
           git worktree add --detach "$BASELINE_DIR" "$SOURCE_COMMIT_SHA"
-          bash scripts/restore-generated-state.sh --ref "$SOURCE_COMMIT_SHA"
+          bash scripts/restore-generated-state.sh --exact --ref "$SOURCE_COMMIT_SHA"
           mkdir -p .translation-cache "$BASELINE_DIR/.translation-cache"
           test -f .translation-cache/ja-JP.json || printf '{"files":{}}\n' > .translation-cache/ja-JP.json
           test -f "$BASELINE_DIR/.translation-cache/ja-JP.json" || cp .translation-cache/ja-JP.json "$BASELINE_DIR/.translation-cache/ja-JP.json"
