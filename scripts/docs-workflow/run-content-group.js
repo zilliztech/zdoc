@@ -31,7 +31,9 @@ function runContentGroup(group, options = {}) {
   for (const command of commandsFor(group)) {
     const rendered = command.join(' ');
     const result = runner(command[0], command.slice(1), { stdio: 'inherit', env });
-    if (result.error) throw result.error;
+    if (result.error) {
+      throw new Error(`Content group ${group} command ${rendered} could not be spawned: ${result.error.message}`, { cause: result.error });
+    }
     if (typeof result.status !== 'number') throw new Error(`Content group ${group} command ${rendered} ended without a numeric status${result.signal ? ` (signal ${result.signal})` : ''}`);
     if (result.status !== 0) throw new Error(`Content group ${group} command ${rendered} failed with status ${result.status}`);
   }
