@@ -82,7 +82,7 @@ function validateWorkflowPolicies(directory = workflowDirectory) {
         [/actions\/download-artifact@v4/, 'must download the exact checkpoint artifact'],
         [/inputs\.baseline_artifact_name != ''[\s\S]*name: \$\{\{ inputs\.baseline_artifact_name \}\}/, 'must conditionally download the exact baseline artifact'],
         [/tar -tf[\s\S]*tar -tvf/, 'must inspect archive paths and entry types before extraction'],
-        [/extract_checkpoint_archive[\s\S]*extract_checkpoint_archive[\s\S]*--baseline-dir/, 'must reuse safe extraction and pass the resolved baseline directory'],
+        [/extract_checkpoint_archive[\s\S]*extract_checkpoint_archive[\s\S]*manifest\.resolvedDir[\s\S]*payload[\s\S]*--baseline-dir/, 'must reuse safe extraction and pass the validated baseline payload directory'],
         [/validate-checkpoint-artifact\.js/, 'must validate checkpoint identity'],
         [/publish-checkpoint\.sh/, 'must invoke the checkpoint publisher'],
         [/status=failed[\s\S]*status=skipped[\s\S]*published[\s\S]*no_changes/, 'must emit deterministic terminal outputs'],

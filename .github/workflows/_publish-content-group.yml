@@ -155,19 +155,35 @@ jobs:
         if: ${{ inputs.should_publish }}
         run: node scripts/docs-workflow/validate-checkpoint-artifact.js --artifact "$ARTIFACT_DIR" --group "$GROUP" --master-sha "$MASTER_SHA"
 
-      - name: Validate baseline artifact
+      - name: Validate baseline artifact payload
+        id: baseline_validation
         if: ${{ inputs.should_publish && inputs.baseline_artifact_name != '' }}
-        run: node scripts/docs-workflow/validate-checkpoint-artifact.js --artifact "$BASELINE_DIR"
+        shell: bash
+        run: |
+          node - <<'NODE'
+          const fs = require('node:fs/promises')
+          const path = require('node:path')
+          const { validateCheckpointArtifact } = require('./scripts/docs-workflow/validate-checkpoint-artifact.js')
+          validateCheckpointArtifact(process.env.BASELINE_DIR).then(async manifest => {
+            const baselineDir = path.join(manifest.resolvedDir, 'payload')
+            const cache = path.join(baselineDir, '.translation-cache/ja-JP.json')
+            const stat = await fs.lstat(cache)
+            if (!stat.isFile() || stat.isSymbolicLink()) throw new Error('Baseline translation cache must be a regular file')
+            await fs.appendFile(process.env.GITHUB_OUTPUT, `baseline_dir=${baselineDir}\n`)
+          }).catch(error => { console.error(error.message); process.exit(1) })
+          NODE
 
       - name: Publish checkpoint
         id: publisher
         if: ${{ inputs.should_publish }}
         shell: bash
+        env:
+          BASELINE_PAYLOAD_DIR: ${{ steps.baseline_validation.outputs.baseline_dir }}
         run: |
           set -o pipefail
           baseline_args=()
           if [[ -n "${{ inputs.baseline_artifact_name }}" ]]; then
-            baseline_args=(--baseline-dir "$BASELINE_DIR")
+            baseline_args=(--baseline-dir "$BASELINE_PAYLOAD_DIR")
           fi
           bash scripts/docs-workflow/publish-checkpoint.sh \
             --artifact "$ARTIFACT_DIR" \
