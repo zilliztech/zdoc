@@ -183,15 +183,20 @@ test('rejects a managed-looking pointer whose version target is itself a symlink
   );
 });
 
-test('cleanup failure after pointer commit is best-effort and creation succeeds', async () => {
+test('retains the retired generation so readers pinned before swap remain valid', async () => {
   const f = await fixture();
   await writeFile(path.join(f.workspace, 'reference/api/python/python/old.md'), 'old');
   await createCheckpointArtifact({ group: 'python', masterSha: SHA_A, devBaselineSha: SHA_B, ...f });
+  const oldTarget = await require('node:fs/promises').realpath(f.output);
   await writeFile(path.join(f.workspace, 'reference/api/python/python/new.md'), 'new');
-  await assert.doesNotReject(createCheckpointArtifact({
+  let cleanupAttempted = false;
+  await createCheckpointArtifact({
     group: 'python', masterSha: SHA_A, devBaselineSha: SHA_B, ...f,
-    testHooks: { cleanupOldVersion() { throw new Error('injected cleanup failure'); } },
-  }));
+    testHooks: { cleanupOldVersion() { cleanupAttempted = true; throw new Error('must not run'); } },
+  });
+  assert.equal(cleanupAttempted, false);
+  await assert.doesNotReject(validateCheckpointArtifact(oldTarget));
+  assert.equal(await readFile(path.join(oldTarget, 'payload/reference/api/python/python/old.md'), 'utf8'), 'old');
   await assert.doesNotReject(validateCheckpointArtifact(f.output));
   assert.deepEqual((await validateCheckpointArtifact(f.output)).files.map((entry) => entry.path), [
     'reference/api/python/python/new.md', 'reference/api/python/python/old.md',

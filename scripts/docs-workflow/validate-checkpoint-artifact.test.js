@@ -3,7 +3,7 @@
 const assert = require('node:assert/strict');
 const crypto = require('node:crypto');
 const { spawnSync } = require('node:child_process');
-const { mkdtemp, mkdir, readFile, symlink, writeFile } = require('node:fs/promises');
+const { mkdtemp, mkdir, readFile, rename, symlink, writeFile } = require('node:fs/promises');
 const os = require('node:os');
 const path = require('node:path');
 const test = require('node:test');
@@ -41,9 +41,31 @@ test('validates and deeply freezes a valid artifact', async () => {
 test('accepts a public artifact symlink while still validating its target', async () => {
   const f = await artifact();
   const publicPath = `${f.dir}-public`;
-  await symlink(f.dir, publicPath);
+  const version = path.join(path.dirname(publicPath), `.${path.basename(publicPath)}.version-test`);
+  await rename(f.dir, version);
+  await symlink(path.basename(version), publicPath);
   const result = await validateCheckpointArtifact(publicPath);
   assert.equal(result.group, 'python');
+});
+
+test('pins a managed pointer once so a concurrent swap cannot mix generations', async () => {
+  const old = await artifact();
+  const newer = await artifact({ masterSha: B });
+  const publicPath = `${old.dir}-public`;
+  const oldVersion = path.join(path.dirname(publicPath), `.${path.basename(publicPath)}.version-old`);
+  const newVersion = path.join(path.dirname(publicPath), `.${path.basename(publicPath)}.version-new`);
+  await rename(old.dir, oldVersion);
+  await rename(newer.dir, newVersion);
+  await symlink(path.basename(oldVersion), publicPath);
+  const result = await validateCheckpointArtifact(publicPath, {
+    testHooks: { async afterManifestRead() {
+      const temporary = `${publicPath}.next`;
+      await symlink(path.basename(newVersion), temporary);
+      await rename(temporary, publicPath);
+    } },
+  });
+  assert.equal(result.masterSha, A);
+  assert.equal((await validateCheckpointArtifact(publicPath)).masterSha, B);
 });
 
 test('rejects unexpected top-level and nested keys', async () => {

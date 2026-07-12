@@ -149,12 +149,8 @@ async function createCheckpointArtifact(options) {
     await rename(temporaryPointer, output);
     committed = true;
     await options.testHooks?.afterPointerSwap?.({ output, version: staging });
-    if (oldVersion && oldVersion !== staging) {
-      try {
-        await options.testHooks?.cleanupOldVersion?.({ oldVersion, output });
-        await rm(oldVersion, { recursive: true, force: true });
-      } catch { /* Cleanup is best-effort after the atomic pointer commit. */ }
-    }
+    // Retired immutable versions are intentionally retained. Readers may have pinned them;
+    // a separate generational garbage collector can remove them after a safe retention period.
     return manifest;
   } finally {
     await rm(temporaryPointer, { force: true });

@@ -3,7 +3,7 @@
 
 const crypto = require('node:crypto');
 const fs = require('node:fs');
-const { lstat, open, readFile, readdir } = require('node:fs/promises');
+const { lstat, open, readFile, readlink, realpath, readdir } = require('node:fs/promises');
 const path = require('node:path');
 const { getContentGroup } = require('./content-groups');
 
@@ -66,8 +66,29 @@ async function walkPayload(root, current = root, found = [], directories = []) {
   return found;
 }
 
+async function pinArtifactDirectory(artifactDir) {
+  const requested = path.resolve(artifactDir);
+  const stat = await lstat(requested);
+  if (!stat.isSymbolicLink()) {
+    if (!stat.isDirectory()) throw new Error('Artifact path must be a directory or managed pointer');
+    return realpath(requested);
+  }
+  const target = await readlink(requested);
+  const prefix = `.${path.basename(requested)}.version-`;
+  if (path.isAbsolute(target) || target.includes('/') || target.includes('\\') || !target.startsWith(prefix)) throw new Error('Artifact symlink is not a managed version pointer');
+  const pinned = path.join(path.dirname(requested), target);
+  const targetStat = await lstat(pinned);
+  if (!targetStat.isDirectory() || targetStat.isSymbolicLink()) throw new Error('Managed artifact version must be a real sibling directory');
+  const canonical = await realpath(pinned);
+  const canonicalParent = await realpath(path.dirname(requested));
+  if (path.dirname(canonical) !== canonicalParent) throw new Error('Managed artifact version escapes its trusted parent');
+  return canonical;
+}
+
 async function validateCheckpointArtifact(artifactDir, expected = {}) {
-  const manifest = JSON.parse(await readFile(path.join(artifactDir, 'manifest.json'), 'utf8'));
+  const pinnedArtifactDir = await pinArtifactDirectory(artifactDir);
+  const manifest = JSON.parse(await readFile(path.join(pinnedArtifactDir, 'manifest.json'), 'utf8'));
+  await expected.testHooks?.afterManifestRead?.({ artifactDir: pinnedArtifactDir, manifest });
   exactKeys(manifest, TOP_KEYS, 'manifest');
   if (manifest.schemaVersion !== 1) throw new Error(`Unsupported schemaVersion: ${manifest.schemaVersion}`);
   if (manifest.ownershipVersion !== 1) throw new Error(`Unsupported ownershipVersion: ${manifest.ownershipVersion}`);
@@ -106,7 +127,7 @@ async function validateCheckpointArtifact(artifactDir, expected = {}) {
   if (expected.masterSha !== undefined && expected.masterSha !== manifest.masterSha) throw new Error('Expected master SHA mismatch');
   if (expected.devBaselineSha !== undefined && expected.devBaselineSha !== manifest.devBaselineSha) throw new Error('Expected dev baseline SHA mismatch');
 
-  const payloadRoot = path.join(artifactDir, 'payload');
+  const payloadRoot = path.join(pinnedArtifactDir, 'payload');
   const directories = [];
   const actual = (await walkPayload(payloadRoot, payloadRoot, [], directories)).sort();
   for (const rel of directories) if (!filePaths.some((file) => file.startsWith(`${rel}/`))) throw new Error(`Unexpected payload directory: ${rel}`);
