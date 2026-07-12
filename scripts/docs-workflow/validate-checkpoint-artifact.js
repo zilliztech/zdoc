@@ -87,7 +87,6 @@ async function validateCheckpointArtifact(artifactDir, expected = {}) {
   for (let i = 1; i < filePaths.length; i++) if (filePaths[i].startsWith(`${filePaths[i - 1]}/`)) throw new Error('Ambiguous ancestor file paths');
   for (let i = 0; i < manifest.deletions.length; i++) {
     for (let j = i + 1; j < manifest.deletions.length; j++) if (pathsConflict(manifest.deletions[i], manifest.deletions[j])) throw new Error('Ambiguous ancestor deletion paths');
-    for (const file of filePaths) if (pathsConflict(manifest.deletions[i], file)) throw new Error('File/deletion ancestor conflict');
   }
   if (expected.group !== undefined && expected.group !== manifest.group) throw new Error('Expected group mismatch');
   if (expected.masterSha !== undefined && expected.masterSha !== manifest.masterSha) throw new Error('Expected master SHA mismatch');

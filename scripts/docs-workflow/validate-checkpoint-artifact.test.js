@@ -94,17 +94,36 @@ test('rejects duplicates, overlap, ambiguous file ancestry, and unsorted arrays'
   await writeFile(path.join(f.dir, 'manifest.json'), JSON.stringify(f.manifest)); await assert.rejects(validateCheckpointArtifact(f.dir), /duplicate deletion/i);
 });
 
-test('rejects unsafe, unauthorized, ancestral, and cross-conflicting deletions', async () => {
+test('rejects unsafe, unauthorized, and ancestrally redundant deletions', async () => {
   for (const deletions of [
     ['../bad'], ['reference/api/java/nope'],
     ['reference/api/python/python/old', 'reference/api/python/python/old/child'],
-    ['reference/api/python/python', 'reference/api/python/python/index.md'],
-    ['reference/api/python/python/index.md/child'],
   ]) {
     const f = await artifact(); f.manifest.deletions = deletions;
     await writeFile(path.join(f.dir, 'manifest.json'), JSON.stringify(f.manifest));
     await assert.rejects(validateCheckpointArtifact(f.dir), /path|owned|ancestor|conflict|overlap/i);
   }
+});
+
+test('allows file/deletion ancestry in either direction but rejects exact overlap', async () => {
+  let f = await artifact();
+  f.manifest.deletions = ['reference/api/python/python'];
+  await writeFile(path.join(f.dir, 'manifest.json'), JSON.stringify(f.manifest));
+  await assert.doesNotReject(validateCheckpointArtifact(f.dir));
+
+  f = await artifact();
+  const parent = 'reference/api/python/python/topic';
+  await require('node:fs/promises').rm(path.join(f.payload, 'reference'), { recursive: true });
+  await mkdir(path.dirname(path.join(f.payload, parent)), { recursive: true });
+  await writeFile(path.join(f.payload, parent), 'hello');
+  f.manifest.files[0].path = parent;
+  f.manifest.deletions = [`${parent}/old.md`];
+  await writeFile(path.join(f.dir, 'manifest.json'), JSON.stringify(f.manifest));
+  await assert.doesNotReject(validateCheckpointArtifact(f.dir));
+
+  f = await artifact(); f.manifest.deletions = [f.rel];
+  await writeFile(path.join(f.dir, 'manifest.json'), JSON.stringify(f.manifest));
+  await assert.rejects(validateCheckpointArtifact(f.dir), /overlap/i);
 });
 
 test('rejects bad checksum or size', async () => {

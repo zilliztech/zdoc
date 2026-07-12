@@ -8,6 +8,7 @@ const path = require('node:path');
 const test = require('node:test');
 
 const { createCheckpointArtifact } = require('./create-checkpoint-artifact');
+const { validateCheckpointArtifact } = require('./validate-checkpoint-artifact');
 
 const SHA_A = 'a'.repeat(40);
 const SHA_B = 'b'.repeat(40);
@@ -59,6 +60,7 @@ test('represents a baseline file changed into a directory', async () => {
   const manifest = await createCheckpointArtifact({ group: 'python', masterSha: SHA_A, devBaselineSha: SHA_B, ...f, createdAt: '2026-01-02T03:04:05Z' });
   assert.deepEqual(manifest.deletions, [owned]);
   assert.deepEqual(manifest.files.map((entry) => entry.path), [`${owned}/index.md`]);
+  await assert.doesNotReject(validateCheckpointArtifact(f.output));
 });
 
 test('represents a baseline directory changed into a file', async () => {
@@ -70,6 +72,7 @@ test('represents a baseline directory changed into a file', async () => {
   const manifest = await createCheckpointArtifact({ group: 'python', masterSha: SHA_A, devBaselineSha: SHA_B, ...f });
   assert.deepEqual(manifest.deletions, [`${owned}/old.md`]);
   assert.deepEqual(manifest.files.map((entry) => entry.path), [owned]);
+  await assert.doesNotReject(validateCheckpointArtifact(f.output));
 });
 
 test('rejects output that is a protected root or its ancestor', async () => {
