@@ -532,6 +532,7 @@ jobs:
     with:
       final_dev_sha: ${{ needs.resolve_final.outputs.final_dev_sha }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
+      target_branch: ${{ needs.prepare.outputs.target_branch }}
 
   aggregate:
     needs: [prepare, produce_guides, publish_guides, translate_guides, publish_guides_translation, produce_python, publish_python, translate_python, publish_python_translation, produce_java, publish_java, translate_java, publish_java_translation, produce_node, publish_node, translate_node, publish_node_translation, produce_go, publish_go, translate_go, publish_go_translation, produce_cli, publish_cli, translate_cli, publish_cli_translation, produce_rest, publish_rest, translate_rest, publish_rest_translation, verify]

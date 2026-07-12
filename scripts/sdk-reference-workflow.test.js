@@ -62,6 +62,7 @@ test('docs workflow orchestrates parallel producers and checkpointed sequential 
   assert.match(source, /publish_rest_translation:[\s\S]*commit_message: 'i18n\(rest\): publish translations'/)
   assert.match(source, /resolve_final:[\s\S]*needs: \[prepare, publish_rest_translation\][\s\S]*if: \$\{\{ always\(\) \}\}/)
   assert.match(source, /verify:[\s\S]*uses: \.\/.github\/workflows\/_verify-docs\.yml/)
+  assert.match(source, /verify:[\s\S]*target_branch: \$\{\{ needs\.prepare\.outputs\.target_branch \}\}/)
   assert.match(source, /aggregate:[\s\S]*aggregate-results\.js[\s\S]*report-to-lark --card-note-file[\s\S]*report-to-lark --card-finish/)
   assert.doesNotMatch(source, /secrets: inherit/)
 })
