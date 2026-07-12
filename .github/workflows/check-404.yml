@@ -3,14 +3,24 @@ name: "check 404"
 on:
   push:
     branches:
-      - "feat/zdoc-redesign"
+      - "dev"
+      - "master"
   pull_request:
     branches:
-      - "feat/zdoc-redesign"
+      - "dev"
+      - "master"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: check-404-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   Check-404:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       - name: Check out git repository
         uses: actions/checkout@v4
@@ -28,6 +38,92 @@ jobs:
       - name: "Install dependencies"
         run: pnpm install --frozen-lockfile
 
-      - name: "Checking"
+      - name: Create Feishu card for branch run
+        id: push_card
+        if: ${{ github.event_name == 'push' }}
+        continue-on-error: true
         run: |
-          node scripts/check-404.js
+          npx docusaurus report-to-lark --card-create \
+            --title "External Link Check" \
+            --stages "Check external links"
+        env:
+          APP_ID: ${{ secrets.APP_ID }}
+          APP_SECRET: ${{ secrets.APP_SECRET }}
+          FEISHU_HOST: ${{ vars.FEISHU_HOST }}
+
+      - name: Check external links
+        id: check
+        continue-on-error: true
+        run: node scripts/check-404.js
+
+      - name: Build Feishu result summary
+        id: summary
+        if: ${{ always() }}
+        run: |
+          node scripts/external-link-report-summary.js \
+            --report tmp/external-link-report.json \
+            --output tmp/external-link-summary.md \
+            --run-url "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+
+      - name: Create Feishu card for failed pull request
+        id: pr_card
+        if: ${{ always() && github.event_name == 'pull_request' && steps.summary.outputs.has_new_broken == 'true' }}
+        continue-on-error: true
+        run: |
+          npx docusaurus report-to-lark --card-create \
+            --title "External Link Check" \
+            --stages "Check external links"
+        env:
+          APP_ID: ${{ secrets.APP_ID }}
+          APP_SECRET: ${{ secrets.APP_SECRET }}
+          FEISHU_HOST: ${{ vars.FEISHU_HOST }}
+
+      - name: Attach Feishu result summary
+        if: ${{ always() && (steps.push_card.outputs.card_id != '' || steps.pr_card.outputs.card_id != '') }}
+        continue-on-error: true
+        run: npx docusaurus report-to-lark --card-note-file tmp/external-link-summary.md
+        env:
+          APP_ID: ${{ secrets.APP_ID }}
+          APP_SECRET: ${{ secrets.APP_SECRET }}
+          FEISHU_HOST: ${{ vars.FEISHU_HOST }}
+
+      - name: Finish Feishu card
+        if: ${{ always() && (steps.push_card.outputs.card_id != '' || steps.pr_card.outputs.card_id != '') }}
+        continue-on-error: true
+        run: |
+          npx docusaurus report-to-lark --card-finish \
+            --message-id "$CARD_ID" \
+            --status "$CARD_STATUS" \
+            --started-at "$CARD_STARTED_AT" \
+            --stages "$CARD_STAGES" \
+            --title "$CARD_TITLE"
+        env:
+          APP_ID: ${{ secrets.APP_ID }}
+          APP_SECRET: ${{ secrets.APP_SECRET }}
+          FEISHU_HOST: ${{ vars.FEISHU_HOST }}
+          CARD_ID: ${{ steps.push_card.outputs.card_id || steps.pr_card.outputs.card_id }}
+          CARD_STATUS: ${{ steps.check.outcome == 'success' && 'success' || 'fail' }}
+          CARD_STARTED_AT: ${{ steps.push_card.outputs.card_started_at || steps.pr_card.outputs.card_started_at }}
+          CARD_STAGES: ${{ steps.push_card.outputs.card_stages || steps.pr_card.outputs.card_stages }}
+          CARD_TITLE: ${{ steps.push_card.outputs.card_title || steps.pr_card.outputs.card_title }}
+
+      - name: Upload external link report
+        if: ${{ always() && !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: external-link-report
+          path: |
+            tmp/external-link-report.json
+            tmp/external-link-summary.md
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Preserve link-check result
+        if: ${{ always() }}
+        run: |
+          if [ "$CHECK_OUTCOME" != "success" ]; then
+            echo "External link check failed; preserving the checker result."
+            exit 1
+          fi
+        env:
+          CHECK_OUTCOME: ${{ steps.check.outcome }}

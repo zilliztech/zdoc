@@ -25,9 +25,14 @@ permissions:
   actions: read
   contents: write
 
+concurrency:
+  group: docs-production-dev
+  cancel-in-progress: false
+
 jobs:
   prepare:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     outputs:
       should_translate: ${{ steps.guard.outputs.should_translate }}
       target_branch: ${{ steps.target.outputs.branch }}
@@ -63,9 +68,6 @@ jobs:
     needs: prepare
     runs-on: ubuntu-latest
     timeout-minutes: 360
-    concurrency:
-      group: translate-codex
-      cancel-in-progress: false
     if: ${{ needs.prepare.outputs.should_translate == 'true' && (github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch') }}
     steps:
     - name: checkout translation target branch
@@ -80,7 +82,7 @@ jobs:
     - name: set up Node
       uses: actions/setup-node@v4.0.1
       with:
-        node-version: lts/*
+        node-version: "20"
         cache: 'pnpm'
 
     - name: install dependencies
@@ -204,7 +206,6 @@ jobs:
         branch: ${{ needs.prepare.outputs.target_branch }}
         commit_message: "chore: update Japanese translations"
         file_pattern: "i18n .translation-cache"
-        push_options: --force
 
     - name: mark commit stage complete
       if: steps.manifest.outputs.count != '0'

@@ -14,9 +14,13 @@
     "write-heading-ids": "docusaurus write-heading-ids",
     "typecheck": "tsc",
     "check:static-env": "node scripts/check-static-env-placeholder.js",
+    "check:external-links": "node scripts/check-404.js",
     "test:frontend": "vitest run",
     "test:e2e": "playwright test --project=chromium",
     "test:translation": "node scripts/translation/sidebarKeys.test.js && node scripts/translation/manifest.test.js && node scripts/translation/agentRunner.test.js && node --test scripts/translation/chunker.test.js scripts/translation/reportSummary.test.js scripts/translation/workflowReporting.test.js",
+    "test:workflow-policy": "node --test scripts/validate-workflow-policy.test.js",
+    "test:check-404": "node --test scripts/check-404.test.js",
+    "test:external-link-report": "node --test scripts/external-link-report-summary.test.js",
     "doc-publish-bot": "node scripts/doc-publish-bot/index.js",
     "test:doc-publish-bot": "node --test scripts/doc-publish-bot/*.test.js",
     "test:all": "npm run test --prefix chat-proxy && npm run test:frontend"
