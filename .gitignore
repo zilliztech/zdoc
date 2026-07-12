@@ -66,3 +66,4 @@ skills-lock.json
 dist/
 
 data/
+.build-card-state.json

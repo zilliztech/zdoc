@@ -36,6 +36,30 @@ test('buildFinishState preserves cross-job notes when local state is absent', ()
   assert.equal(state.startedAt, '2026-07-08T18:36:16.119Z')
 })
 
+test('buildFinishState ignores persisted state from a different Feishu message', () => {
+  const state = buildFinishState({
+    existingState: {
+      messageId: 'old-message',
+      title: 'Old build',
+      stages: ['Old stage'],
+      statuses: ['done'],
+      notes: ['Old link report'],
+      startedAt: '2026-07-11T10:30:51.737Z',
+    },
+    messageId: 'current-message',
+    title: 'Current build',
+    stages: ['Current stage'],
+    status: 'success',
+    startedAt: '2026-07-11T23:20:46.722Z',
+    notes: ['Current link report'],
+  })
+
+  assert.equal(state.messageId, 'current-message')
+  assert.equal(state.title, 'Current build')
+  assert.deepEqual(state.notes, ['Current link report'])
+  assert.equal(state.startedAt, '2026-07-11T23:20:46.722Z')
+})
+
 test('finishStatuses marks first unfinished stage failed', () => {
   assert.deepEqual(
     finishStatuses(['Fetch', 'Build', 'Check'], false, ['done', 'running', 'pending']),

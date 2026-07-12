@@ -8,9 +8,11 @@ const {
   buildReviewMessages,
   buildTranslationMessages,
   createProviderCall,
+  createProgressCoordinator,
   isRetryableProviderError,
   loadChunkLimits,
   processManifestItem,
+  runWorkerPool,
   stripCodeFence,
   withTimeout,
 } = require('./agentRunner')
@@ -287,6 +289,98 @@ async function testFailedChunkDoesNotWritePartialTarget() {
   })
 }
 
+async function testWorkerPoolLimitsConcurrencyAndProcessesExactlyOnce() {
+  const items = Array.from({ length: 8 }, (_, index) => ({ id: index }))
+  const processed = []
+  let active = 0
+  let maxActive = 0
+  const results = await runWorkerPool(items, {
+    concurrency: 4,
+    processItem: async item => {
+      active += 1
+      maxActive = Math.max(maxActive, active)
+      await new Promise(resolve => setTimeout(resolve, 5))
+      processed.push(item.id)
+      active -= 1
+      return { ...item, status: 'translated' }
+    },
+  })
+
+  assert.equal(maxActive, 4)
+  assert.deepEqual(processed.slice().sort((a, b) => a - b), items.map(item => item.id))
+  assert.equal(new Set(processed).size, items.length)
+  assert.deepEqual(results.map(result => result.id), items.map(item => item.id))
+}
+
+async function testWorkerPoolIsolatesItemFailures() {
+  const items = Array.from({ length: 5 }, (_, index) => ({ id: index }))
+  const results = await runWorkerPool(items, {
+    concurrency: 3,
+    processItem: async item => {
+      if (item.id === 2) throw new Error('provider failed')
+      return { ...item, status: 'translated' }
+    },
+  })
+
+  assert.equal(results.filter(result => result.status === 'translated').length, 4)
+  assert.equal(results[2].status, 'failed')
+  assert.match(results[2].error, /provider failed/)
+}
+
+async function testWorkerPoolStopsAssigningNewItems() {
+  const items = Array.from({ length: 5 }, (_, index) => ({ id: index }))
+  let processed = 0
+  const results = await runWorkerPool(items, {
+    concurrency: 1,
+    shouldStopAssigning: () => processed >= 2,
+    processItem: async item => {
+      processed += 1
+      return { ...item, status: 'translated' }
+    },
+  })
+
+  assert.equal(processed, 2)
+  assert.equal(results.filter(Boolean).length, 2)
+}
+
+async function testProgressCoordinatorCheckpointsCacheAndReport() {
+  await withTempDir(async siteDir => {
+    const manifest = {
+      locale: 'ja-JP',
+      items: Array.from({ length: 4 }, (_, index) => ({
+        sourcePath: `docs/${index}.md`,
+        targetPath: `i18n/${index}.md`,
+        sourceHash: `hash-${index}`,
+      })),
+    }
+    const checkpoints = []
+    const coordinator = createProgressCoordinator({
+      siteDir,
+      manifest,
+      cache: { files: {} },
+      reportPath: 'tmp/report.json',
+      checkpointFiles: 2,
+      checkpointIntervalMs: 60_000,
+      onCheckpoint: metadata => checkpoints.push(metadata.processed),
+    })
+
+    await coordinator.record({ ...manifest.items[1], status: 'translated' }, 1)
+    await coordinator.record({ ...manifest.items[0], status: 'translated' }, 0)
+    await coordinator.record({ ...manifest.items[2], status: 'failed', error: 'bad file' }, 2)
+    await coordinator.record({ ...manifest.items[3], status: 'translated' }, 3)
+    await coordinator.checkpoint(true)
+
+    assert.deepEqual(checkpoints, [2, 4, 4])
+    const cache = JSON.parse(fs.readFileSync(path.join(siteDir, '.translation-cache/ja-JP.json'), 'utf8'))
+    assert.deepEqual(Object.keys(cache.files).sort(), ['docs/0.md', 'docs/1.md', 'docs/3.md'])
+    const report = JSON.parse(fs.readFileSync(path.join(siteDir, 'tmp/report.json'), 'utf8'))
+    assert.equal(report.checkpoint.processed, 4)
+    assert.equal(report.checkpoint.remaining, 0)
+    assert.deepEqual(report.results.map(item => item.sourcePath), ['docs/0.md', 'docs/1.md', 'docs/2.md', 'docs/3.md'])
+    assert.equal(fs.existsSync(path.join(siteDir, 'tmp/report.json.tmp')), false)
+  })
+}
+
 async function run() {
   await testCorrectionRunsWhenReviewFails()
   await testProviderCallRetriesTransientFailures()
@@ -299,6 +393,10 @@ async function run() {
   testChunkMessagesContainContinuityContext()
   await testLongDocumentTranslatesChunksSequentially()
   await testFailedChunkDoesNotWritePartialTarget()
+  await testWorkerPoolLimitsConcurrencyAndProcessesExactlyOnce()
+  await testWorkerPoolIsolatesItemFailures()
+  await testWorkerPoolStopsAssigningNewItems()
+  await testProgressCoordinatorCheckpointsCacheAndReport()
   console.log('translation agent runner tests passed')
 }
 

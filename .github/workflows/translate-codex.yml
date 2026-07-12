@@ -9,9 +9,9 @@ on:
   workflow_dispatch:
     inputs:
       max_files:
-        description: "Maximum files to translate in this run. 0 means no limit."
+        description: "Maximum files to translate in this run. The default bootstrap batch fits the six-hour hosted-runner limit."
         required: false
-        default: "0"
+        default: "500"
       include_reference:
         description: "Translate API reference docs as well as guide docs."
         required: false
@@ -25,9 +25,14 @@ permissions:
   actions: read
   contents: write
 
+concurrency:
+  group: docs-production-dev
+  cancel-in-progress: false
+
 jobs:
   prepare:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     outputs:
       should_translate: ${{ steps.guard.outputs.should_translate }}
       target_branch: ${{ steps.target.outputs.branch }}
@@ -62,10 +67,7 @@ jobs:
   translate:
     needs: prepare
     runs-on: ubuntu-latest
-    timeout-minutes: 360
-    concurrency:
-      group: translate-codex
-      cancel-in-progress: false
+    timeout-minutes: 360 # GitHub-hosted runner maximum; use the soft deadline to preserve commit time.
     if: ${{ needs.prepare.outputs.should_translate == 'true' && (github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch') }}
     steps:
     - name: checkout translation target branch
@@ -80,7 +82,7 @@ jobs:
     - name: set up Node
       uses: actions/setup-node@v4.0.1
       with:
-        node-version: lts/*
+        node-version: "20"
         cache: 'pnpm'
 
     - name: install dependencies
@@ -110,13 +112,14 @@ jobs:
         echo "Pending translation files: ${COUNT}"
         npx docusaurus report-to-lark --card-advance --status done --note "Pending translation files: ${COUNT}"
       env:
-        TRANSLATION_MAX_FILES: ${{ github.event.inputs.max_files || vars.TRANSLATION_MAX_FILES }}
+        TRANSLATION_MAX_FILES: ${{ github.event.inputs.max_files || vars.TRANSLATION_MAX_FILES || 500 }}
         TRANSLATE_REFERENCE: ${{ github.event.inputs.include_reference || vars.TRANSLATE_REFERENCE }}
         APP_ID: ${{ secrets.APP_ID }}
         APP_SECRET: ${{ secrets.APP_SECRET }}
         FEISHU_HOST: ${{ vars.FEISHU_HOST }}
 
     - name: run Codex translation agents
+      id: agents
       if: steps.manifest.outputs.count != '0'
       run: |
         node scripts/translation/agentRunner.js --manifest tmp/translation-manifest.json --report tmp/translation-report.json
@@ -134,6 +137,10 @@ jobs:
         TRANSLATION_FILE_TIMEOUT_MS: ${{ vars.TRANSLATION_FILE_TIMEOUT_MS || 900000 }}
         TRANSLATION_CHUNK_TARGET_CHARS: ${{ vars.TRANSLATION_CHUNK_TARGET_CHARS || 24000 }}
         TRANSLATION_CHUNK_MAX_CHARS: ${{ vars.TRANSLATION_CHUNK_MAX_CHARS || 32000 }}
+        TRANSLATION_CONCURRENCY: ${{ vars.TRANSLATION_CONCURRENCY || 4 }}
+        TRANSLATION_SOFT_DEADLINE_MS: ${{ vars.TRANSLATION_SOFT_DEADLINE_MS || 18000000 }}
+        TRANSLATION_CHECKPOINT_FILES: ${{ vars.TRANSLATION_CHECKPOINT_FILES || 10 }}
+        TRANSLATION_CHECKPOINT_INTERVAL_MS: ${{ vars.TRANSLATION_CHECKPOINT_INTERVAL_MS || 300000 }}
         TRANSLATION_ALLOW_PARTIAL: "true"
         APP_ID: ${{ secrets.APP_ID }}
         APP_SECRET: ${{ secrets.APP_SECRET }}
@@ -148,7 +155,7 @@ jobs:
         FEISHU_HOST: ${{ vars.FEISHU_HOST }}
 
     - name: validate translated MDX
-      if: steps.manifest.outputs.count != '0'
+      if: steps.agents.outputs.translated_count != '0'
       run: |
         if [ -d i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials ]; then
           npx docusaurus mdx-parse -d i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials
@@ -198,16 +205,15 @@ jobs:
         if-no-files-found: ignore
 
     - name: commit translations
-      if: steps.manifest.outputs.count != '0'
+      if: steps.agents.outputs.translated_count != '0'
       uses: stefanzweifel/git-auto-commit-action@v5
       with:
         branch: ${{ needs.prepare.outputs.target_branch }}
         commit_message: "chore: update Japanese translations"
         file_pattern: "i18n .translation-cache"
-        push_options: --force
 
     - name: mark commit stage complete
-      if: steps.manifest.outputs.count != '0'
+      if: steps.agents.outputs.translated_count != '0'
       run: npx docusaurus report-to-lark --card-advance --status done
       env:
         APP_ID: ${{ secrets.APP_ID }}

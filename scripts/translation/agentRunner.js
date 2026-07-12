@@ -5,7 +5,7 @@ const path = require('node:path')
 const yaml = require('js-yaml')
 const { validateMdxStructure } = require('../../plugins/mdx-parse/mdxPatcher')
 const { chunkDocument, DEFAULT_MAX_CHARS, DEFAULT_TARGET_CHARS } = require('./chunker')
-const { readCache, writeCache } = require('./manifest')
+const { readCache, writeCache, writeJsonAtomic } = require('./manifest')
 
 const DEFAULT_MANIFEST = 'tmp/translation-manifest.json'
 const DEFAULT_PROVIDER_RETRIES = 3
@@ -341,6 +341,88 @@ function loadAgentConfigsFromEnv() {
   }
 }
 
+async function runWorkerPool(items, options) {
+  const concurrency = parsePositiveInteger(options.concurrency, 4)
+  const results = new Array(items.length)
+  let cursor = 0
+
+  async function worker() {
+    while (cursor < items.length) {
+      if (options.shouldStopAssigning?.()) return
+      const index = cursor
+      cursor += 1
+      const item = items[index]
+      let result
+      try {
+        result = await options.processItem(item, index)
+      } catch (error) {
+        result = {
+          ...item,
+          status: 'failed',
+          error: String(error?.message || error),
+        }
+      }
+      results[index] = result
+      await options.onResult?.(result, index)
+    }
+  }
+
+  await Promise.all(Array.from({ length: Math.min(concurrency, items.length) }, worker))
+  return results
+}
+
+function createProgressCoordinator(options) {
+  const results = new Array(options.manifest.items.length)
+  const cache = options.cache
+  const checkpointFiles = parsePositiveInteger(options.checkpointFiles, 10)
+  const checkpointIntervalMs = parsePositiveInteger(options.checkpointIntervalMs, 300000)
+  const absReportPath = path.join(options.siteDir, options.reportPath)
+  let completedSinceCheckpoint = 0
+  let lastCheckpointAt = options.now?.() || Date.now()
+
+  function metadata() {
+    const processed = results.filter(Boolean).length
+    return {
+      processed,
+      remaining: options.manifest.items.length - processed,
+      translated: results.filter(result => result?.status === 'translated').length,
+      failed: results.filter(result => result && result.status !== 'translated').length,
+      generatedAt: new Date(options.now?.() || Date.now()).toISOString(),
+    }
+  }
+
+  async function checkpoint(force = false) {
+    const currentTime = options.now?.() || Date.now()
+    if (!force && completedSinceCheckpoint < checkpointFiles && currentTime - lastCheckpointAt < checkpointIntervalMs) return false
+    const checkpointMetadata = metadata()
+    writeCache(options.siteDir, options.manifest.locale, cache)
+    writeJsonAtomic(absReportPath, {
+      locale: options.manifest.locale,
+      results: results.filter(Boolean),
+      checkpoint: checkpointMetadata,
+    })
+    completedSinceCheckpoint = 0
+    lastCheckpointAt = currentTime
+    await options.onCheckpoint?.(checkpointMetadata)
+    return true
+  }
+
+  async function record(result, index) {
+    results[index] = result
+    if (result.status === 'translated') {
+      cache.files[result.sourcePath] = {
+        sourceHash: result.sourceHash,
+        targetPath: result.targetPath,
+        translatedAt: new Date(options.now?.() || Date.now()).toISOString(),
+      }
+    }
+    completedSinceCheckpoint += 1
+    await checkpoint(false)
+  }
+
+  return { cache, checkpoint, metadata, record, results }
+}
+
 async function main() {
   require('dotenv/config')
   const args = new Map()
@@ -354,6 +436,10 @@ async function main() {
   const maxProviderRetries = parsePositiveInteger(process.env.TRANSLATION_AGENT_RETRIES, DEFAULT_PROVIDER_RETRIES)
   const providerTimeoutMs = parsePositiveInteger(process.env.TRANSLATION_AGENT_TIMEOUT_MS, DEFAULT_PROVIDER_TIMEOUT_MS)
   const fileTimeoutMs = parsePositiveInteger(process.env.TRANSLATION_FILE_TIMEOUT_MS, DEFAULT_FILE_TIMEOUT_MS)
+  const concurrency = parsePositiveInteger(process.env.TRANSLATION_CONCURRENCY, 4)
+  const checkpointFiles = parsePositiveInteger(process.env.TRANSLATION_CHECKPOINT_FILES, 10)
+  const checkpointIntervalMs = parsePositiveInteger(process.env.TRANSLATION_CHECKPOINT_INTERVAL_MS, 300000)
+  const softDeadlineMs = parsePositiveInteger(process.env.TRANSLATION_SOFT_DEADLINE_MS, 18000000)
   const chunkLimits = loadChunkLimits()
   const allowPartial = String(process.env.TRANSLATION_ALLOW_PARTIAL || '').toLowerCase() === 'true'
   const manifest = JSON.parse(fs.readFileSync(path.join(siteDir, manifestPath), 'utf8'))
@@ -362,20 +448,35 @@ async function main() {
     timeoutMs: providerTimeoutMs,
   })
   const cache = readCache(siteDir, manifest.locale)
-  const results = []
-  const absReportPath = path.join(siteDir, reportPath)
-
-  function persistProgress() {
-    writeCache(siteDir, manifest.locale, cache)
-    fs.mkdirSync(path.dirname(absReportPath), { recursive: true })
-    fs.writeFileSync(absReportPath, JSON.stringify({ locale: manifest.locale, results }, null, 2) + '\n')
+  const coordinator = createProgressCoordinator({
+    siteDir,
+    manifest,
+    cache,
+    reportPath,
+    checkpointFiles,
+    checkpointIntervalMs,
+    onCheckpoint: metadata => console.log(`[translation-agent] checkpoint translated=${metadata.translated} failed=${metadata.failed} remaining=${metadata.remaining}`),
+  })
+  const startedAt = Date.now()
+  let stopRequested = false
+  const requestStop = signal => {
+    stopRequested = true
+    console.warn(`[translation-agent] received ${signal}; stopping new file assignments after active workers finish`)
   }
+  const onSigint = () => requestStop('SIGINT')
+  const onSigterm = () => requestStop('SIGTERM')
+  process.once('SIGINT', onSigint)
+  process.once('SIGTERM', onSigterm)
 
-  for (const item of manifest.items) {
-    console.log(`[translation-agent] ${item.sourcePath}`)
-    let result
-    try {
-      result = await withTimeout(
+  console.log(`[translation-agent] workers=${concurrency} manifest=${manifest.items.length} softDeadlineMs=${softDeadlineMs}`)
+  try {
+    await runWorkerPool(manifest.items, {
+      concurrency,
+      shouldStopAssigning: () => stopRequested || Date.now() - startedAt >= softDeadlineMs,
+      processItem: async item => {
+        console.log(`[translation-agent] ${item.sourcePath}`)
+        try {
+          return await withTimeout(
         processManifestItem({
           siteDir,
           item,
@@ -387,29 +488,31 @@ async function main() {
         fileTimeoutMs,
         `Timed out translating ${item.sourcePath} after ${fileTimeoutMs}ms`,
       )
-    } catch (error) {
-      result = {
-        ...item,
-        status: 'failed',
-        error: String(error?.message || error),
-      }
-      console.error(`[translation-agent] failed ${item.sourcePath}: ${result.error}`)
-    }
-    results.push(result)
-    if (result.status === 'translated') {
-      cache.files[item.sourcePath] = {
-        sourceHash: item.sourceHash,
-        targetPath: item.targetPath,
-        translatedAt: new Date().toISOString(),
-      }
-    }
-    persistProgress()
+        } catch (error) {
+          const result = { ...item, status: 'failed', error: String(error?.message || error) }
+          console.error(`[translation-agent] failed ${item.sourcePath}: ${result.error}`)
+          return result
+        }
+      },
+      onResult: coordinator.record,
+    })
+  } finally {
+    process.removeListener('SIGINT', onSigint)
+    process.removeListener('SIGTERM', onSigterm)
+    await coordinator.checkpoint(true)
   }
 
+  const results = coordinator.results.filter(Boolean)
   const failed = results.filter(result => result.status !== 'translated')
   const translatedCount = results.length - failed.length
-  console.log(`[translation-agent] translated=${translatedCount} failed=${failed.length}`)
-  if (failed.length && (!allowPartial || translatedCount === 0)) process.exit(1)
+  const remainingCount = manifest.items.length - results.length
+  console.log(`[translation-agent] translated=${translatedCount} failed=${failed.length} remaining=${remainingCount}`)
+  if (process.env.GITHUB_OUTPUT) {
+    fs.appendFileSync(process.env.GITHUB_OUTPUT, `translated_count=${translatedCount}\n`)
+    fs.appendFileSync(process.env.GITHUB_OUTPUT, `failed_count=${failed.length}\n`)
+    fs.appendFileSync(process.env.GITHUB_OUTPUT, `remaining_count=${remainingCount}\n`)
+  }
+  if ((failed.length && (!allowPartial || translatedCount === 0)) || (remainingCount > 0 && translatedCount === 0)) process.exit(1)
 }
 
 if (require.main === module) {
@@ -424,12 +527,14 @@ module.exports = {
   buildReviewMessages,
   buildTranslationMessages,
   createProviderCall,
+  createProgressCoordinator,
   isRetryableProviderError,
   loadChunkLimits,
   normalizeBaseUrl,
   parseReview,
   parsePositiveInteger,
   processManifestItem,
+  runWorkerPool,
   restoreBoundaryWhitespace,
   stripCodeFence,
   validateTranslatedContent,

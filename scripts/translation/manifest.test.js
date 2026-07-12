@@ -8,6 +8,7 @@ const {
   cachePathForLocale,
   hashContent,
   sourceMappingsForLocale,
+  writeCache,
 } = require('./manifest')
 
 function withTempDir(callback) {
@@ -67,9 +68,31 @@ function testSourceMappingsCanIncludeReference() {
   assert.ok(mappings.some(mapping => mapping.targetRoot === 'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current'))
 }
 
+function testCheckpointedCacheRemovesCompletedFilesFromNextManifest() {
+  withTempDir(siteDir => {
+    const completed = '# Complete\n'
+    const pending = '# Pending\n'
+    write(path.join(siteDir, 'docs/tutorials/complete.md'), completed)
+    write(path.join(siteDir, 'docs/tutorials/pending.md'), pending)
+    write(path.join(siteDir, 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/complete.md'), '# 完了\n')
+    writeCache(siteDir, 'ja-JP', {
+      files: {
+        'docs/tutorials/complete.md': {
+          sourceHash: hashContent(completed),
+          targetPath: 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/complete.md',
+        },
+      },
+    })
+
+    const manifest = buildManifest({ siteDir, locale: 'ja-JP' })
+    assert.deepEqual(manifest.items.map(item => item.sourcePath), ['docs/tutorials/pending.md'])
+  })
+}
+
 function run() {
   testBuildManifestIncludesChangedAndMissingDocs()
   testSourceMappingsCanIncludeReference()
+  testCheckpointedCacheRemovesCompletedFilesFromNextManifest()
   console.log('translation manifest tests passed')
 }
 
