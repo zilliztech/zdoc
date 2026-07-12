@@ -24,6 +24,11 @@ function validateWorkflowPolicies(directory = workflowDirectory) {
       errors.push(`${file}: invalid YAML: ${error.message}`)
       continue
     }
+    for (const job of Object.values(workflow.jobs || {})) {
+      if (Object.values(job?.env || {}).some(value => String(value).includes('${{ runner.temp }}'))) {
+        errors.push(`${file}: job-level env must not reference runner.temp`)
+      }
+    }
     if (!/^permissions:\n(?:  .+\n)+/m.test(source)) {
       errors.push(`${file}: declare explicit top-level permissions`)
     }

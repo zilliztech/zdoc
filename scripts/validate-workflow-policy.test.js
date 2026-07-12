@@ -10,6 +10,32 @@ test('GitHub Actions workflows satisfy documentation production safety policy', 
   assert.deepEqual(validateWorkflowPolicies(), [])
 })
 
+test('job-level env must not reference the runner context', () => {
+  const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'workflow-policy-'))
+  try {
+    fs.writeFileSync(path.join(directory, 'fixture.yml'), `name: fixture
+on: push
+permissions:
+  contents: read
+jobs:
+  fixture:
+    timeout-minutes: 5
+    runs-on: ubuntu-latest
+    env:
+      INVALID_PATH: \${{ runner.temp }}/job
+    steps:
+      - uses: actions/upload-artifact@v4
+        with:
+          path: \${{ runner.temp }}/step
+`)
+    assert.ok(
+      validateWorkflowPolicies(directory).includes('fixture.yml: job-level env must not reference runner.temp'),
+    )
+  } finally {
+    fs.rmSync(directory, { recursive: true, force: true })
+  }
+})
+
 test('reusable final verification checks the immutable final dev state read-only', () => {
   const workflowPath = path.join(process.cwd(), '.github/workflows/_verify-docs.yml')
   assert.equal(fs.existsSync(workflowPath), true, 'final verification workflow must exist')

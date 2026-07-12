@@ -35,10 +35,17 @@ jobs:
       GROUP: ${{ inputs.group }}
       SOURCE_COMMIT_SHA: ${{ inputs.source_commit_sha }}
       MASTER_SHA: ${{ inputs.master_sha }}
-      BASELINE_DIR: ${{ runner.temp }}/translation-source-baseline
-      CHECKPOINT_DIR: ${{ runner.temp }}/translation-artifact/checkpoint-group
-      BASELINE_CHECKPOINT_DIR: ${{ runner.temp }}/baseline-artifact/checkpoint-group
     steps:
+      - name: Initialize temporary paths
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ -n "${RUNNER_TEMP:-}" && "$RUNNER_TEMP" == /* ]] || { echo "RUNNER_TEMP must be a non-empty absolute path" >&2; exit 1; }
+          printf '%s\n' \
+            "BASELINE_DIR=$RUNNER_TEMP/translation-source-baseline" \
+            "CHECKPOINT_DIR=$RUNNER_TEMP/translation-artifact/checkpoint-group" \
+            "BASELINE_CHECKPOINT_DIR=$RUNNER_TEMP/baseline-artifact/checkpoint-group" >> "$GITHUB_ENV"
+
       - name: Validate immutable inputs
         run: node -e 'for(const [n,v] of Object.entries({master_sha:process.env.MASTER_SHA,source_commit_sha:process.env.SOURCE_COMMIT_SHA}))if(!/^[0-9a-f]{40}$/.test(v))throw new Error(`${n} must be a lowercase 40-character Git SHA`)'
       - name: Check out immutable master tooling

@@ -62,10 +62,17 @@ jobs:
       MASTER_SHA: ${{ inputs.master_sha }}
       DEV_BASELINE_SHA: ${{ inputs.dev_baseline_sha }}
       TARGET_BRANCH: ${{ inputs.target_branch }}
-      BASELINE_DIR: ${{ runner.temp }}/docs-dev-baseline
-      CHECKPOINT_DIR: ${{ runner.temp }}/checkpoint-group
-      CHECKPOINT_TAR: ${{ runner.temp }}/checkpoint-group.tar
     steps:
+      - name: Initialize temporary paths
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ -n "${RUNNER_TEMP:-}" && "$RUNNER_TEMP" == /* ]] || { echo "RUNNER_TEMP must be a non-empty absolute path" >&2; exit 1; }
+          printf '%s\n' \
+            "BASELINE_DIR=$RUNNER_TEMP/docs-dev-baseline" \
+            "CHECKPOINT_DIR=$RUNNER_TEMP/checkpoint-group" \
+            "CHECKPOINT_TAR=$RUNNER_TEMP/checkpoint-group.tar" >> "$GITHUB_ENV"
+
       - name: Validate SHA inputs
         shell: bash
         run: |

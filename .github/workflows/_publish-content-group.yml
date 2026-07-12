@@ -55,14 +55,21 @@ jobs:
       COMMIT_MESSAGE: ${{ inputs.commit_message }}
       TARGET_BRANCH: ${{ inputs.target_branch }}
       VALIDATE_COMMAND: ${{ inputs.validate_command }}
-      DOWNLOAD_DIR: ${{ runner.temp }}/download
-      EXTRACT_DIR: ${{ runner.temp }}/checkpoint-extracted
-      ARTIFACT_DIR: ${{ runner.temp }}/checkpoint-extracted/checkpoint-group
-      BASELINE_DOWNLOAD_DIR: ${{ runner.temp }}/baseline-download
-      BASELINE_EXTRACT_DIR: ${{ runner.temp }}/baseline-extracted
-      BASELINE_DIR: ${{ runner.temp }}/baseline-extracted/checkpoint-group
-      PUBLISH_OUTPUT: ${{ runner.temp }}/publication-output.txt
     steps:
+      - name: Initialize temporary paths
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ -n "${RUNNER_TEMP:-}" && "$RUNNER_TEMP" == /* ]] || { echo "RUNNER_TEMP must be a non-empty absolute path" >&2; exit 1; }
+          printf '%s\n' \
+            "DOWNLOAD_DIR=$RUNNER_TEMP/download" \
+            "EXTRACT_DIR=$RUNNER_TEMP/checkpoint-extracted" \
+            "ARTIFACT_DIR=$RUNNER_TEMP/checkpoint-extracted/checkpoint-group" \
+            "BASELINE_DOWNLOAD_DIR=$RUNNER_TEMP/baseline-download" \
+            "BASELINE_EXTRACT_DIR=$RUNNER_TEMP/baseline-extracted" \
+            "BASELINE_DIR=$RUNNER_TEMP/baseline-extracted/checkpoint-group" \
+            "PUBLISH_OUTPUT=$RUNNER_TEMP/publication-output.txt" >> "$GITHUB_ENV"
+
       - name: Validate publisher inputs
         if: ${{ inputs.should_publish }}
         shell: bash
