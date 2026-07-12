@@ -10,7 +10,7 @@ notebook: FALSE
 description: "Monitor billing alerts to track recent usage, credit status, payment method validity, and prepaid balance for your Zilliz Cloud organization. These alerts help you detect unexpected spend and update payment methods in time to reduce the risk of service interruption. | Cloud"
 type: origin
 token: XCZaw6aKbixxWIkMssEchOtOnlg
-sidebar_position: 10
+sidebar_position: 1
 displayed_sidebar: default
 
 ---
@@ -38,9 +38,9 @@ Zilliz Cloud provides the following billing alert metrics.
 | --- | --- | --- |
 | Usage Amount in the Past Day ($) | Cumulative usage charges over the past day. | Compare usage against your budget. If usage is higher than expected, review recent activity and [optimize workloads](./cost-optimization) or adjust the budget as needed. |
 | Credit Validity (days) | Number of days before free credits expire. | Use eligible credits before they expire, or [contact sales](http://zilliz.com/contact-sales) if you need help with credit validity. |
-| Remaining Credits ($) | Remaining balance of free credits. | [Set up another payment method](./undefined) before credits run out to avoid service interruption. |
-| Credit Card Validity (days) | Number of days before the saved credit card expires. | [Replace the credit card](./subscribe-by-adding-credit-card#replace-a-credit-card) before expiry to avoid payment failures. |
-| Advance Pay Balance ($) | Remaining prepaid Advance Pay balance. | [Add funds](./advance-pay#add-funds-to-advance-pay) when the balance is low to prevent payment issues or service interruption. |
+| Remaining Credits ($) | Remaining balance of free credits. | Set up another payment method, such as [Credits](./credits) or [Credit Card](./subscribe-by-adding-credit-card), before credits run out to avoid service interruption. |
+| Credit Card Validity (days) | Number of days before the saved credit card expires. | [Replace the credit card](./subscribe-by-adding-credit-card) before expiry to avoid payment failures. |
+| Advance Pay Balance ($) | Remaining prepaid Advance Pay balance. | [Add funds](./advance-pay) when the balance is low to prevent payment issues or service interruption. |
 
 ## **Recommended alerts**\{#recommended-alerts}
 

@@ -10,7 +10,7 @@ notebook: FALSE
 description: "Zilliz Cloud have optimized the user experience for data import features, refined API keys with hierarchical permissions, and enhanced the metrics and alerts mechanism. | Cloud"
 type: origin
 token: VbjiwU5RYi4bWdkC48Jceltnnpd
-sidebar_position: 26
+sidebar_position: 1
 displayed_sidebar: releasesSidebar
 
 ---
@@ -28,7 +28,7 @@ This release is compatible with **Milvus 2.2.x** and **Milvus 2.3.x (Beta)**.
 
 ## Data Import\{#data-import}
 
-We are excited to announce support for the Parquet data format in our latest release. To enhance user experience, we've introduced the PyMilvus writer utility, a powerful tool designed to assist our users in effortlessly creating files in JSON or Parquet formats for seamless data import. Dive into the details and explore the new possibilities at [Data Import](./undefined).
+We are excited to announce support for the Parquet data format in our latest release. To enhance user experience, we've introduced the PyMilvus writer utility, a powerful tool designed to assist our users in effortlessly creating files in JSON or Parquet formats for seamless data import. Dive into the details and explore the new possibilities at [Data Import Hands-On](./data-import-zero-to-hero).
 
 ## API Key\{#api-key}
 
@@ -46,11 +46,11 @@ In the Operation Layer, Zilliz Cloud supports four types of roles, of which Orga
 
 - Project Member: Has read and write permissions to all clusters within the project, can view cluster details, and manage Collections and Indexes.
 
-In the Data Layer, Zilliz Cloud provides three built-in roles: Admin, Read-Only, and Read-Write, to control management, write, and read permissions of data. Zilliz Cloud allows users to create custom roles. These custom roles can define permissions for specific Collections, Partitions, or operations, ensuring the principle of minimal data permissions while using Zilliz Cloud. See the *documentations* to learn the details.
+In the Data Layer, Zilliz Cloud provides three built-in roles: Admin, Read-Only, and Read-Write, to control management, write, and read permissions of data. Zilliz Cloud allows users to create custom roles. These custom roles can define permissions for specific Collections, Partitions, or operations, ensuring the principle of minimal data permissions while using Zilliz Cloud. See [Access Control Explained](./access-control-overview).
 
 ## Metrics & Alert\{#metrics-and-alert}
 
-In this release, we made a refactor of [metric boards and alert system](./undefined). In the new version, you have the capability to monitor a comprehensive range of metrics:
+In this release, we made a refactor of [metric boards and alert system](./metrics-alerts-reference). In the new version, you have the capability to monitor a comprehensive range of metrics:
 
 - Resource Usage Metrics: This includes a detailed view of CU (Compute Unit) computation resource utilization, CU capacity utilization (fullness), and overall storage usage.
 

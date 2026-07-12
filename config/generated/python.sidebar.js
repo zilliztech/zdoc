@@ -2,6 +2,7 @@ module.exports = [
   {
     "type": "category",
     "label": "DataImport",
+    "key": "category:api/python/python/dataimport",
     "items": [
       {
         "type": "doc",
@@ -12,6 +13,7 @@ module.exports = [
       {
         "type": "category",
         "label": "BulkImport",
+        "key": "category:api/python/python/DataImport/dataimport-bulkimport",
         "items": [
           {
             "type": "doc",
@@ -31,12 +33,12 @@ module.exports = [
             "label": "list_import_jobs()",
             "key": "doc:api/python/python/DataImport/DataImport-BulkImport/bulkimport-listimportjobs"
           }
-        ],
-        "key": "category:dataimport/bulkimport"
+        ]
       },
       {
         "type": "category",
         "label": "LocalBulkWriter",
+        "key": "category:api/python/python/DataImport/dataimport-localbulkwriter",
         "items": [
           {
             "type": "doc",
@@ -56,12 +58,12 @@ module.exports = [
             "label": "LocalBulkWriter",
             "key": "doc:api/python/python/DataImport/DataImport-LocalBulkWriter/dataimport-localbulkwriter"
           }
-        ],
-        "key": "category:dataimport/localbulkwriter"
+        ]
       },
       {
         "type": "category",
         "label": "RemoteBulkWriter",
+        "key": "category:api/python/python/DataImport/dataimport-remotebulkwriter",
         "items": [
           {
             "type": "doc",
@@ -93,12 +95,12 @@ module.exports = [
             "label": "S3ConnectParam",
             "key": "doc:api/python/python/DataImport/DataImport-RemoteBulkWriter/remotebulkwriter-s3connectparam"
           }
-        ],
-        "key": "category:dataimport/remotebulkwriter"
+        ]
       },
       {
         "type": "category",
         "label": "VolumeBulkWriter",
+        "key": "category:api/python/python/DataImport/dataimport-volumebulkwriter",
         "items": [
           {
             "type": "doc",
@@ -118,15 +120,14 @@ module.exports = [
             "label": "VolumeBulkWriter",
             "key": "doc:api/python/python/DataImport/DataImport-VolumeBulkWriter/dataimport-volumebulkwriter"
           }
-        ],
-        "key": "category:dataimport/volumebulkwriter"
+        ]
       }
-    ],
-    "key": "category:dataimport"
+    ]
   },
   {
     "type": "category",
     "label": "FileResource",
+    "key": "category:api/python/python/fileresource",
     "items": [
       {
         "type": "doc",
@@ -146,16 +147,17 @@ module.exports = [
         "label": "remove_file_resource()",
         "key": "doc:api/python/python/FileResource/fileresource-removefileresource"
       }
-    ],
-    "key": "category:fileresource"
+    ]
   },
   {
     "type": "category",
     "label": "MilvusClient",
+    "key": "category:api/python/python/milvusclient",
     "items": [
       {
         "type": "category",
         "label": "Authentication",
+        "key": "category:api/python/python/MilvusClient/milvusclient-authentication",
         "items": [
           {
             "type": "doc",
@@ -241,12 +243,12 @@ module.exports = [
             "label": "update_password()",
             "key": "doc:api/python/python/MilvusClient/MilvusClient-Authentication/authentication-updatepassword"
           }
-        ],
-        "key": "category:milvusclient/authentication"
+        ]
       },
       {
         "type": "category",
         "label": "Client",
+        "key": "category:api/python/python/MilvusClient/milvusclient-client",
         "items": [
           {
             "type": "doc",
@@ -272,12 +274,12 @@ module.exports = [
             "label": "session()",
             "key": "doc:api/python/python/MilvusClient/MilvusClient-Client/client-session"
           }
-        ],
-        "key": "category:milvusclient/client"
+        ]
       },
       {
         "type": "category",
         "label": "Collections",
+        "key": "category:api/python/python/MilvusClient/milvusclient-collections",
         "items": [
           {
             "type": "doc",
@@ -441,12 +443,12 @@ module.exports = [
             "label": "refresh_external_collection()",
             "key": "doc:api/python/python/MilvusClient/MilvusClient-Collections/collections-refreshexternalcollection"
           }
-        ],
-        "key": "category:milvusclient/collections"
+        ]
       },
       {
         "type": "category",
         "label": "CollectionSchema",
+        "key": "category:api/python/python/MilvusClient/milvusclient-collectionschema",
         "items": [
           {
             "type": "doc",
@@ -484,12 +486,12 @@ module.exports = [
             "label": "run_analyzer()",
             "key": "doc:api/python/python/MilvusClient/MilvusClient-CollectionSchema/collectionschema-runanalyzer"
           }
-        ],
-        "key": "category:milvusclient/collectionschema"
+        ]
       },
       {
         "type": "category",
         "label": "Management",
+        "key": "category:api/python/python/MilvusClient/milvusclient-management",
         "items": [
           {
             "type": "doc",
@@ -623,12 +625,12 @@ module.exports = [
             "label": "optimize()",
             "key": "doc:api/python/python/MilvusClient/MilvusClient-Management/management-optimize"
           }
-        ],
-        "key": "category:milvusclient/management"
+        ]
       },
       {
         "type": "category",
         "label": "Partitions",
+        "key": "category:api/python/python/MilvusClient/milvusclient-partitions",
         "items": [
           {
             "type": "doc",
@@ -672,12 +674,12 @@ module.exports = [
             "label": "release_partitions()",
             "key": "doc:api/python/python/MilvusClient/MilvusClient-Partitions/partitions-releasepartitions"
           }
-        ],
-        "key": "category:milvusclient/partitions"
+        ]
       },
       {
         "type": "category",
         "label": "Vector",
+        "key": "category:api/python/python/MilvusClient/milvusclient-vector",
         "items": [
           {
             "type": "doc",
@@ -745,12 +747,12 @@ module.exports = [
             "label": "TopHits",
             "key": "doc:api/python/python/MilvusClient/MilvusClient-Vector/vector-tophits"
           }
-        ],
-        "key": "category:milvusclient/vector"
+        ]
       },
       {
         "type": "category",
         "label": "Database",
+        "key": "category:api/python/python/MilvusClient/milvusclient-database",
         "items": [
           {
             "type": "doc",
@@ -800,12 +802,12 @@ module.exports = [
             "label": "use_database()",
             "key": "doc:api/python/python/MilvusClient/MilvusClient-Database/database-usedatabase"
           }
-        ],
-        "key": "category:milvusclient/database"
+        ]
       },
       {
         "type": "category",
         "label": "Function",
+        "key": "category:api/python/python/MilvusClient/milvusclient-function",
         "items": [
           {
             "type": "doc",
@@ -837,12 +839,12 @@ module.exports = [
             "label": "verify()",
             "key": "doc:api/python/python/MilvusClient/MilvusClient-Function/function-verify"
           }
-        ],
-        "key": "category:milvusclient/function"
+        ]
       },
       {
         "type": "category",
         "label": "EmbeddingList",
+        "key": "category:api/python/python/MilvusClient/milvusclient-embeddinglist",
         "items": [
           {
             "type": "doc",
@@ -880,8 +882,7 @@ module.exports = [
             "label": "to_numpy()",
             "key": "doc:api/python/python/MilvusClient/MilvusClient-EmbeddingList/embeddinglist-tonumpy"
           }
-        ],
-        "key": "category:milvusclient/embeddinglist"
+        ]
       },
       {
         "type": "doc",
@@ -892,6 +893,7 @@ module.exports = [
       {
         "type": "category",
         "label": "Highlighter",
+        "key": "category:api/python/python/MilvusClient/milvusclient-highlighter",
         "items": [
           {
             "type": "doc",
@@ -911,12 +913,12 @@ module.exports = [
             "label": "with_query()",
             "key": "doc:api/python/python/MilvusClient/MilvusClient-Highlighter/highlighter-withquery"
           }
-        ],
-        "key": "category:milvusclient/highlighter"
+        ]
       },
       {
         "type": "category",
         "label": "Snapshot",
+        "key": "category:api/python/python/MilvusClient/milvusclient-snapshot",
         "items": [
           {
             "type": "doc",
@@ -972,12 +974,12 @@ module.exports = [
             "label": "unpin_snapshot_data()",
             "key": "doc:api/python/python/MilvusClient/MilvusClient-Snapshot/snapshot-unpinsnapshotdata"
           }
-        ],
-        "key": "category:milvusclient/snapshot"
+        ]
       },
       {
         "type": "category",
         "label": "StructFieldSchema",
+        "key": "category:api/python/python/MilvusClient/milvusclient-structfieldschema",
         "items": [
           {
             "type": "doc",
@@ -1003,19 +1005,19 @@ module.exports = [
             "label": "to_dict()",
             "key": "doc:api/python/python/MilvusClient/MilvusClient-StructFieldSchema/structfieldschema-todict"
           }
-        ],
-        "key": "category:milvusclient/structfieldschema"
+        ]
       }
-    ],
-    "key": "category:milvusclient"
+    ]
   },
   {
     "type": "category",
     "label": "Volume",
+    "key": "category:api/python/python/volume",
     "items": [
       {
         "type": "category",
         "label": "VolumeFileManager",
+        "key": "category:api/python/python/Volume/volume-volumefilemanager",
         "items": [
           {
             "type": "doc",
@@ -1029,12 +1031,12 @@ module.exports = [
             "label": "VolumeFileManager",
             "key": "doc:api/python/python/Volume/Volume-VolumeFileManager/volume-volumefilemanager"
           }
-        ],
-        "key": "category:volume/volumefilemanager"
+        ]
       },
       {
         "type": "category",
         "label": "VolumeManager",
+        "key": "category:api/python/python/Volume/volume-volumemanager",
         "items": [
           {
             "type": "doc",
@@ -1066,19 +1068,19 @@ module.exports = [
             "label": "VolumeManager",
             "key": "doc:api/python/python/Volume/Volume-VolumeManager/volume-volumemanager"
           }
-        ],
-        "key": "category:volume/volumemanager"
+        ]
       }
-    ],
-    "key": "category:volume"
+    ]
   },
   {
     "type": "category",
     "label": "EmbeddingModels",
+    "key": "category:api/python/python/embeddingmodels",
     "items": [
       {
         "type": "category",
         "label": "BGEM3EmbeddingFunction",
+        "key": "category:api/python/python/EmbeddingModels/embeddingmodels-bgem3embeddingfunction",
         "items": [
           {
             "type": "doc",
@@ -1104,12 +1106,12 @@ module.exports = [
             "label": "__call__()",
             "key": "doc:api/python/python/EmbeddingModels/EmbeddingModels-BGEM3EmbeddingFunction/bgem3embeddingfunction-call"
           }
-        ],
-        "key": "category:embeddingmodels/bgem3embeddingfunction"
+        ]
       },
       {
         "type": "category",
         "label": "CohereEmbeddingFunction",
+        "key": "category:api/python/python/EmbeddingModels/embeddingmodels-cohereembeddingfunction",
         "items": [
           {
             "type": "doc",
@@ -1135,12 +1137,12 @@ module.exports = [
             "label": "__call__()",
             "key": "doc:api/python/python/EmbeddingModels/EmbeddingModels-CohereEmbeddingFunction/cohereembeddingfunction-call"
           }
-        ],
-        "key": "category:embeddingmodels/cohereembeddingfunction"
+        ]
       },
       {
         "type": "category",
         "label": "InstructorEmbeddingFunction",
+        "key": "category:api/python/python/EmbeddingModels/embeddingmodels-instructorembeddingfunction",
         "items": [
           {
             "type": "doc",
@@ -1166,12 +1168,12 @@ module.exports = [
             "label": "__call__()",
             "key": "doc:api/python/python/EmbeddingModels/EmbeddingModels-InstructorEmbeddingFunction/instructorembeddingfunction-call"
           }
-        ],
-        "key": "category:embeddingmodels/instructorembeddingfunction"
+        ]
       },
       {
         "type": "category",
         "label": "JinaEmbeddingFunction",
+        "key": "category:api/python/python/EmbeddingModels/embeddingmodels-jinaembeddingfunction",
         "items": [
           {
             "type": "doc",
@@ -1197,12 +1199,12 @@ module.exports = [
             "label": "__call__()",
             "key": "doc:api/python/python/EmbeddingModels/EmbeddingModels-JinaEmbeddingFunction/jinaembeddingfunction-call"
           }
-        ],
-        "key": "category:embeddingmodels/jinaembeddingfunction"
+        ]
       },
       {
         "type": "category",
         "label": "MGTEEmbeddingFunction",
+        "key": "category:api/python/python/EmbeddingModels/embeddingmodels-mgteembeddingfunction",
         "items": [
           {
             "type": "doc",
@@ -1228,12 +1230,12 @@ module.exports = [
             "label": "__call__()",
             "key": "doc:api/python/python/EmbeddingModels/EmbeddingModels-MGTEEmbeddingFunction/mgteembeddingfunction-call"
           }
-        ],
-        "key": "category:embeddingmodels/mgteembeddingfunction"
+        ]
       },
       {
         "type": "category",
         "label": "MistralAIEmbeddingFunction",
+        "key": "category:api/python/python/EmbeddingModels/embeddingmodels-mistralaiembeddingfunction",
         "items": [
           {
             "type": "doc",
@@ -1259,12 +1261,12 @@ module.exports = [
             "label": "__call__()",
             "key": "doc:api/python/python/EmbeddingModels/EmbeddingModels-MistralAIEmbeddingFunction/mistralaiembeddingfunction-call"
           }
-        ],
-        "key": "category:embeddingmodels/mistralaiembeddingfunction"
+        ]
       },
       {
         "type": "category",
         "label": "NomicEmbeddingFunction",
+        "key": "category:api/python/python/EmbeddingModels/embeddingmodels-nomicembeddingfunction",
         "items": [
           {
             "type": "doc",
@@ -1290,12 +1292,12 @@ module.exports = [
             "label": "__call__()",
             "key": "doc:api/python/python/EmbeddingModels/EmbeddingModels-NomicEmbeddingFunction/nomicembeddingfunction-call"
           }
-        ],
-        "key": "category:embeddingmodels/nomicembeddingfunction"
+        ]
       },
       {
         "type": "category",
         "label": "OnnxEmbeddingFunction",
+        "key": "category:api/python/python/EmbeddingModels/embeddingmodels-onnxembeddingfunction",
         "items": [
           {
             "type": "doc",
@@ -1321,12 +1323,12 @@ module.exports = [
             "label": "__call__()",
             "key": "doc:api/python/python/EmbeddingModels/EmbeddingModels-OnnxEmbeddingFunction/onnxembeddingfunction-call"
           }
-        ],
-        "key": "category:embeddingmodels/onnxembeddingfunction"
+        ]
       },
       {
         "type": "category",
         "label": "OpenAIEmbeddingFunction",
+        "key": "category:api/python/python/EmbeddingModels/embeddingmodels-openaiembeddingfunction",
         "items": [
           {
             "type": "doc",
@@ -1352,12 +1354,12 @@ module.exports = [
             "label": "__call__()",
             "key": "doc:api/python/python/EmbeddingModels/EmbeddingModels-OpenAIEmbeddingFunction/openaiembeddingfunction-call"
           }
-        ],
-        "key": "category:embeddingmodels/openaiembeddingfunction"
+        ]
       },
       {
         "type": "category",
         "label": "SentenceTransformerEmbeddingFunction",
+        "key": "category:api/python/python/EmbeddingModels/embeddingmodels-sentencetransformerembeddingfunction",
         "items": [
           {
             "type": "doc",
@@ -1383,12 +1385,12 @@ module.exports = [
             "label": "__call__()",
             "key": "doc:api/python/python/EmbeddingModels/EmbeddingModels-SentenceTransformerEmbeddingFunction/sentencetransformerembeddingfunction-call"
           }
-        ],
-        "key": "category:embeddingmodels/sentencetransformerembeddingfunction"
+        ]
       },
       {
         "type": "category",
         "label": "SpladeEmbeddingFunction",
+        "key": "category:api/python/python/EmbeddingModels/embeddingmodels-spladeembeddingfunction",
         "items": [
           {
             "type": "doc",
@@ -1414,12 +1416,12 @@ module.exports = [
             "label": "__call__()",
             "key": "doc:api/python/python/EmbeddingModels/EmbeddingModels-SpladeEmbeddingFunction/spladeembeddingfunction-call"
           }
-        ],
-        "key": "category:embeddingmodels/spladeembeddingfunction"
+        ]
       },
       {
         "type": "category",
         "label": "VoyageEmbeddingFunction",
+        "key": "category:api/python/python/EmbeddingModels/embeddingmodels-voyageembeddingfunction",
         "items": [
           {
             "type": "doc",
@@ -1445,12 +1447,12 @@ module.exports = [
             "label": "__call__()",
             "key": "doc:api/python/python/EmbeddingModels/EmbeddingModels-VoyageEmbeddingFunction/voyageembeddingfunction-call"
           }
-        ],
-        "key": "category:embeddingmodels/voyageembeddingfunction"
+        ]
       },
       {
         "type": "category",
         "label": "GeminiEmbeddingFunction",
+        "key": "category:api/python/python/EmbeddingModels/embeddingmodels-geminiembeddingfunction",
         "items": [
           {
             "type": "doc",
@@ -1476,12 +1478,12 @@ module.exports = [
             "label": "__call__()",
             "key": "doc:api/python/python/EmbeddingModels/EmbeddingModels-GeminiEmbeddingFunction/geminiembeddingfunction-call"
           }
-        ],
-        "key": "category:embeddingmodels/geminiembeddingfunction"
+        ]
       },
       {
         "type": "category",
         "label": "Model2VecEmbeddingFunction",
+        "key": "category:api/python/python/EmbeddingModels/embeddingmodels-model2vecembeddingfunction",
         "items": [
           {
             "type": "doc",
@@ -1507,19 +1509,19 @@ module.exports = [
             "label": "__call__()",
             "key": "doc:api/python/python/EmbeddingModels/EmbeddingModels-Model2VecEmbeddingFunction/model2vecembeddingfunction-call"
           }
-        ],
-        "key": "category:embeddingmodels/model2vecembeddingfunction"
+        ]
       }
-    ],
-    "key": "category:embeddingmodels"
+    ]
   },
   {
     "type": "category",
     "label": "ORM",
+    "key": "category:api/python/python/orm",
     "items": [
       {
         "type": "category",
         "label": "Collection",
+        "key": "category:api/python/python/ORM/orm-collection",
         "items": [
           {
             "type": "doc",
@@ -1695,12 +1697,12 @@ module.exports = [
             "label": "wait_for_compaction_completed()",
             "key": "doc:api/python/python/ORM/ORM-Collection/collection-waitforcompactioncompleted"
           }
-        ],
-        "key": "category:orm/collection"
+        ]
       },
       {
         "type": "category",
         "label": "CollectionSchema",
+        "key": "category:api/python/python/ORM/orm-collectionschema",
         "items": [
           {
             "type": "doc",
@@ -1726,12 +1728,12 @@ module.exports = [
             "label": "verify()",
             "key": "doc:api/python/python/ORM/ORM-CollectionSchema/collectionschema-verify1"
           }
-        ],
-        "key": "category:orm/collectionschema"
+        ]
       },
       {
         "type": "category",
         "label": "Connections",
+        "key": "category:api/python/python/ORM/orm-connections",
         "items": [
           {
             "type": "doc",
@@ -1781,12 +1783,12 @@ module.exports = [
             "label": "remove_connection()",
             "key": "doc:api/python/python/ORM/ORM-Connections/connections-removeconnection"
           }
-        ],
-        "key": "category:orm/connections"
+        ]
       },
       {
         "type": "category",
         "label": "db",
+        "key": "category:api/python/python/ORM/orm-db",
         "items": [
           {
             "type": "doc",
@@ -1812,12 +1814,12 @@ module.exports = [
             "label": "using_database()",
             "key": "doc:api/python/python/ORM/ORM-db/db-usingdatabase"
           }
-        ],
-        "key": "category:orm/db"
+        ]
       },
       {
         "type": "category",
         "label": "FieldSchema",
+        "key": "category:api/python/python/ORM/orm-fieldschema",
         "items": [
           {
             "type": "doc",
@@ -1837,12 +1839,12 @@ module.exports = [
             "label": "to_dict()",
             "key": "doc:api/python/python/ORM/ORM-FieldSchema/fieldschema-todict"
           }
-        ],
-        "key": "category:orm/fieldschema"
+        ]
       },
       {
         "type": "category",
         "label": "Partition",
+        "key": "category:api/python/python/ORM/orm-partition",
         "items": [
           {
             "type": "doc",
@@ -1910,12 +1912,12 @@ module.exports = [
             "label": "upsert()",
             "key": "doc:api/python/python/ORM/ORM-Partition/partition-upsert"
           }
-        ],
-        "key": "category:orm/partition"
+        ]
       },
       {
         "type": "category",
         "label": "Role",
+        "key": "category:api/python/python/ORM/orm-role",
         "items": [
           {
             "type": "doc",
@@ -1983,12 +1985,12 @@ module.exports = [
             "label": "Role",
             "key": "doc:api/python/python/ORM/ORM-Role/orm-role"
           }
-        ],
-        "key": "category:orm/role"
+        ]
       },
       {
         "type": "category",
         "label": "utility",
+        "key": "category:api/python/python/ORM/orm-utility",
         "items": [
           {
             "type": "doc",
@@ -2248,19 +2250,19 @@ module.exports = [
             "label": "wait_for_loading_complete()",
             "key": "doc:api/python/python/ORM/ORM-utility/utility-waitforloadingcomplete"
           }
-        ],
-        "key": "category:orm/utility"
+        ]
       }
-    ],
-    "key": "category:orm"
+    ]
   },
   {
     "type": "category",
     "label": "Rerankers",
+    "key": "category:api/python/python/rerankers",
     "items": [
       {
         "type": "category",
         "label": "BGERerankFunction",
+        "key": "category:api/python/python/Rerankers/rerankers-bgererankfunction",
         "items": [
           {
             "type": "doc",
@@ -2274,12 +2276,12 @@ module.exports = [
             "label": "__call__()",
             "key": "doc:api/python/python/Rerankers/Rerankers-BGERerankFunction/bgererankfunction-call"
           }
-        ],
-        "key": "category:rerankers/bgererankfunction"
+        ]
       },
       {
         "type": "category",
         "label": "CohereRerankFunction",
+        "key": "category:api/python/python/Rerankers/rerankers-coherererankfunction",
         "items": [
           {
             "type": "doc",
@@ -2293,12 +2295,12 @@ module.exports = [
             "label": "__call__()",
             "key": "doc:api/python/python/Rerankers/Rerankers-CohereRerankFunction/coherererankfunction-call"
           }
-        ],
-        "key": "category:rerankers/coherererankfunction"
+        ]
       },
       {
         "type": "category",
         "label": "CrossEncoderRerankFunction",
+        "key": "category:api/python/python/Rerankers/rerankers-crossencoderrerankfunction",
         "items": [
           {
             "type": "doc",
@@ -2312,12 +2314,12 @@ module.exports = [
             "label": "__call__()",
             "key": "doc:api/python/python/Rerankers/Rerankers-CrossEncoderRerankFunction/crossencoderrerankfunction-call"
           }
-        ],
-        "key": "category:rerankers/crossencoderrerankfunction"
+        ]
       },
       {
         "type": "category",
         "label": "JinaRerankFunction",
+        "key": "category:api/python/python/Rerankers/rerankers-jinarerankfunction",
         "items": [
           {
             "type": "doc",
@@ -2331,12 +2333,12 @@ module.exports = [
             "label": "__call__()",
             "key": "doc:api/python/python/Rerankers/Rerankers-JinaRerankFunction/jinarerankfunction-call"
           }
-        ],
-        "key": "category:rerankers/jinarerankfunction"
+        ]
       },
       {
         "type": "category",
         "label": "VoyageRerankFunction",
+        "key": "category:api/python/python/Rerankers/rerankers-voyagererankfunction",
         "items": [
           {
             "type": "doc",
@@ -2350,10 +2352,8 @@ module.exports = [
             "label": "__call__()",
             "key": "doc:api/python/python/Rerankers/Rerankers-VoyageRerankFunction/voyagererankfunction-call"
           }
-        ],
-        "key": "category:rerankers/voyagererankfunction"
+        ]
       }
-    ],
-    "key": "category:rerankers"
+    ]
   }
 ]

@@ -35,7 +35,7 @@ This operation processes the input data and generates tokenized output.
 
 ## Request Syntax\{#request-syntax}
 
-````plaintext
+```plaintext
 run_analyzer(
     texts: Union[str, List[str]],
     analyzer_params: Union[str, Dict, None] = None,
@@ -83,9 +83,9 @@ A tuple containing:
 
 - `MilvusException` - Raised if any error occurs during this operation.
 
-## Examples{#examples}
+## Examples\{#examples}
 
-```plaintext
+```python
 from pymilvus import MilvusClient
 
 client = MilvusClient(
@@ -110,4 +110,4 @@ print(result)
 
 # Expected output:
 # ['efficient', 'system', 'relies', 'on', 'robust', 'analyzer', 'to', 'correctly', 'process', 'text', 'various', 'applications']
-````
+```

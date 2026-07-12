@@ -2,6 +2,7 @@ module.exports = [
   {
     "type": "category",
     "label": "Authentication",
+    "key": "category:api/go/go/v2/v2-authentication",
     "items": [
       {
         "type": "doc",
@@ -123,12 +124,12 @@ module.exports = [
         "label": "User",
         "key": "doc:api/go/go/v2/v2-Authentication/v2-authentication-user"
       }
-    ],
-    "key": "category:authentication"
+    ]
   },
   {
     "type": "category",
     "label": "Client",
+    "key": "category:api/go/go/v2/v2-client",
     "items": [
       {
         "type": "doc",
@@ -160,12 +161,12 @@ module.exports = [
         "label": "GetTelemetry()",
         "key": "doc:api/go/go/v2/v2-Client/v2-client-gettelemetry"
       }
-    ],
-    "key": "category:client"
+    ]
   },
   {
     "type": "category",
     "label": "Collection",
+    "key": "category:api/go/go/v2/v2-collection",
     "items": [
       {
         "type": "doc",
@@ -341,12 +342,12 @@ module.exports = [
         "label": "RefreshExternalCollectionState",
         "key": "doc:api/go/go/v2/v2-Collection/v2-collection-refreshexternalcollectionstate"
       }
-    ],
-    "key": "category:collection"
+    ]
   },
   {
     "type": "category",
     "label": "Snapshot",
+    "key": "category:api/go/go/v2/v2-snapshot",
     "items": [
       {
         "type": "doc",
@@ -402,16 +403,17 @@ module.exports = [
         "label": "UnpinSnapshotData()",
         "key": "doc:api/go/go/v2/v2-Snapshot/v2-snapshot-unpinsnapshotdata"
       }
-    ],
-    "key": "category:snapshot"
+    ]
   },
   {
     "type": "category",
     "label": "Vector",
+    "key": "category:api/go/go/v2/v2-vector",
     "items": [
       {
         "type": "category",
         "label": "AnnParam",
+        "key": "category:api/go/go/v2/v2-Vector/v2-vector-annparam",
         "items": [
           {
             "type": "doc",
@@ -425,8 +427,7 @@ module.exports = [
             "label": "NewAutoAnnParam()",
             "key": "doc:api/go/go/v2/v2-Vector/v2-Vector-AnnParam/v2-annparam-newautoannparam"
           }
-        ],
-        "key": "category:vector/annparam"
+        ]
       },
       {
         "type": "doc",
@@ -518,12 +519,12 @@ module.exports = [
         "label": "Vector",
         "key": "doc:api/go/go/v2/v2-Vector/v2-vector"
       }
-    ],
-    "key": "category:vector"
+    ]
   },
   {
     "type": "category",
     "label": "Database",
+    "key": "category:api/go/go/v2/v2-database",
     "items": [
       {
         "type": "doc",
@@ -573,12 +574,12 @@ module.exports = [
         "label": "UseDatabase()",
         "key": "doc:api/go/go/v2/v2-Database/v2-database-usedatabase"
       }
-    ],
-    "key": "category:database"
+    ]
   },
   {
     "type": "category",
     "label": "DataImport",
+    "key": "category:api/go/go/v2/v2-dataimport",
     "items": [
       {
         "type": "doc",
@@ -634,7 +635,6 @@ module.exports = [
         "label": "ListImportJobsResponse",
         "key": "doc:api/go/go/v2/v2-DataImport/v2-dataimport-listimportjobsresponse"
       }
-    ],
-    "key": "category:dataimport"
+    ]
   }
 ]

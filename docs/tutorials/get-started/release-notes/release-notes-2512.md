@@ -10,7 +10,7 @@ notebook: FALSE
 description: "(placeholder) | Cloud"
 type: origin
 token: LX0RwtoEEihhNukmt1DcSQGfnjb
-sidebar_position: 8
+sidebar_position: 1
 displayed_sidebar: releasesSidebar
 
 ---
@@ -98,7 +98,7 @@ import Grid from '@site/src/components/Grid';
 
         With GA, Volume now supports two billing modes: Free Trial Volume and Pay-as-you-go Volume. Pay-as-you-go Volumes will begin billing based on storage usage.
 
-        For details, refer to Volume Explained, Manage Volumes (SDK), and Manage Volumes (Console).
+        For details, refer to [Managed Volumes](./managed-volume).
 
         ## Organization-Level IP Access Allowlist\{#organization-level-ip-access-allowlist}
 

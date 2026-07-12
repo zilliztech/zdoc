@@ -10,7 +10,7 @@ notebook: FALSE
 description: "This guide explains the payment methods available for Zilliz Cloud, how payment priority works, and what to consider when managing invoices and subscriptions. | Cloud"
 type: origin
 token: Y6Qqw4a3XiWPlCkQYMqcLEORnAU
-sidebar_position: 2
+sidebar_position: 1
 displayed_sidebar: default
 
 ---
@@ -180,7 +180,11 @@ If your organization is frozen or payment fails, update your payment method to r
 
 ## Related topics\{#related-topics}
 
-- [Set Up Payment Method](./undefined)
+- [Credits](./credits)
+
+- [Credit Card](./subscribe-by-adding-credit-card)
+
+- [Advance Pay](./advance-pay)
 
 - [Update Payment Method](./update-payment-method)
 
@@ -192,7 +196,9 @@ If your organization is frozen or payment fails, update your payment method to r
 
 - [Failed Payments ](./failed-payments-organization-recovery)
 
-- [Separate Billing by Marketplace Account](./undefined)
+- [Separate Zilliz Cloud Billing on AWS Marketplace](./separate-zilliz-cloud-billing-on-aws-marketplace)
+
+- [Separate Zilliz Cloud Billing on Microsoft Marketplace](./separate-zilliz-cloud-billing-on-azure-marketplace)
 
 - [Monitor Billing Alerts](./monitor-billing-alerts)
 

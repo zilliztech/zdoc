@@ -53,7 +53,7 @@ addFunction(
 
 **RETURN TYPE:**
 
-*B extends FunctionScore.FunctionScoreBuilder\<C, B>*
+*B extends FunctionScore.FunctionScoreBuilder&lt;C, B&gt;*
 
 **RETURNS**
 

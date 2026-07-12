@@ -10,7 +10,7 @@ notebook: FALSE
 description: "We are pleased to announce the general availability of a significant update to Zilliz Cloud. This release introduces a new console for Zilliz Cloud services, supports new cloud regions, and allows secure cluster access through private links. | Cloud"
 type: origin
 token: QZXVwFVH3i1p08kal8vcAmmxnie
-sidebar_position: 37
+sidebar_position: 1
 displayed_sidebar: releasesSidebar
 
 ---
@@ -38,10 +38,10 @@ We are pleased to announce the general availability of a significant update to Z
 
     To set up a database connection with a private link, you need to register your VPC endpoint with Zilliz Cloud to create a private link and map the link to the DNS name of the endpoint. 
 
-    For details, refer to [Set up a Private Link](./undefined).
+    For details, refer to [Set up a PrivateLink (AWS)](./setup-a-private-link-aws).
 
 - Data import from large files
 
     We are pleased to announce that Zilliz Cloud now supports data import from large files. You can bulk-insert data into your collection from a file up to 512 MB. The files can be located either in an S3 bucket or on your local disk.
 
-    For details, refer to [Data Import](./undefined).
+    For details, refer to [Data Import Hands-On](./data-import-zero-to-hero).

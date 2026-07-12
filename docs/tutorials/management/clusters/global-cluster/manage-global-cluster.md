@@ -10,7 +10,7 @@ notebook: FALSE
 description: "This page explains how to add and delete secondary clusters, convert a global cluster to a regular cluster, and drop a global cluster entirely. | Cloud"
 type: origin
 token: DW9wwFlgAiwOhBk2PgucY4URnke
-sidebar_position: 7
+sidebar_position: 1
 displayed_sidebar: default
 
 ---
@@ -169,7 +169,7 @@ Once the global endpoint is removed, any application connected via the global en
 | Data replication | Stopped. Data replication metrics are removed. |
 | Global cluster metadata | Cleared (global cluster ID, topology). |
 | Backup policy | Remains on the former primary cluster, unchanged. |
-| Billing | Data transfer charges stop. The remaining cluster is billed as a regular Dedicated cluster. |
+| Billing | [Data transfer](./data-transfer-cost) charges stop. The remaining cluster is billed as a regular [Dedicated cluster](./dedicated-cluster-cost). |
 
 ## Drop global cluster\{#drop-global-cluster}
 

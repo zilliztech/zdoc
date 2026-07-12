@@ -111,7 +111,7 @@ A DescribeReplicasResp that contains detailed information about the replicas in 
 
         The name of the resource group associated with the current replica.
 
-    - **numOutboundNode** (*Map\<String, Integer>*) -
+    - **numOutboundNode** (*Map&lt;String, Integer&gt;*) -
 
         The number of outbound query nodes.
 

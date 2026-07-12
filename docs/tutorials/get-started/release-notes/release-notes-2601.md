@@ -10,7 +10,7 @@ notebook: FALSE
 description: "(placeholder) | Cloud"
 type: origin
 token: ZBEiwpvlbijhYDkmnNScc7zyn5d
-sidebar_position: 7
+sidebar_position: 1
 displayed_sidebar: releasesSidebar
 
 ---
@@ -106,9 +106,9 @@ import Grid from '@site/src/components/Grid';
 
         You can now choose models from top-tier third-party providers like OpenAI, Cohere, and VoyageAI, or host your models directly on Zilliz Cloud.
 
-        - **Model-Based Embedding**: Define a text embedding function during collection creation. After configuration, simply ingest raw text via Insert, Upsert, or Import, and Zilliz automatically handles embedding generation and storage. During search, the system converts text into a dense vector for efficient ANN search. For details, refer to Model-based Functions.
+        - **Model-Based Embedding**: Define a text embedding function during collection creation. After configuration, simply ingest raw text via Insert, Upsert, or Import, and Zilliz automatically handles embedding generation and storage. During search, the system converts text into a dense vector for efficient ANN search. For details, refer to [Open AI](./openai), [Voyage AI](./voyage-ai), and [Cohere](./cohere) pages.
 
-        - **Model-Based Reranking**: Choose the reranking model that best fits your needs, ensuring the most relevant search results are prioritized for your specific use case. For details, refer to Model-based Rankers.
+        - **Model-Based Reranking**: Choose the reranking model that best fits your needs, ensuring the most relevant search results are prioritized for your specific use case. For details, refer to [Cohere rerankers](./cohere-model-ranker) and its sibling pages.
 
         - **Zilliz Hosted Models (Private Preview)**: Deploy fully managed model instances directly on Zilliz infrastructure to ensure stable, high-performance inference with zero data transfer fees. With models running in the Zilliz Cloud environment, your data stays within a private network, ensuring enhanced privacy and ultra-low latency. For details, refer to [Hosted Models](./hosted-models).
 
@@ -122,7 +122,7 @@ import Grid from '@site/src/components/Grid';
 
         - **Zero-Touch Reliability**: With simple resource guardrails, the system automatically handles unpredictable traffic spikes, ensuring consistent performance without manual intervention.
 
-        For details, refer to [Scale Replica](./undefined#dynamic-scaling).
+        For details, refer to [Auto-scaling](./auto-scaling).
 
         ## Advanced Scheduled Scaling with Cron\{#advanced-scheduled-scaling-with-cron}
 
@@ -132,7 +132,7 @@ import Grid from '@site/src/components/Grid';
 
         - **Multi-Schedule Logic:** Configure independent, layered schedules for the same cluster, enabling you to adjust resource profiles for peak weekdays and off-peak weekends, optimizing efficiency in line with your business realities.
 
-        For details, refer to [Scale Query CU](./undefined#scheduled-scaling) and [Scale Replica](./undefined#scheduled-scaling).
+        For details, refer to [Auto-scaling](./auto-scaling) and [Scheduled Scaling](./scheduled-scaling).
 
         ## Global Cluster\{#global-cluster}
 

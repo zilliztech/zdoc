@@ -55,7 +55,7 @@ This method applies only to dedicated serving clusters and on-demand compute.
 
 ## Request syntax\{#request-syntax}
 
-````plaintext
+```plaintext
 search(
     self,
     collection_name: str,
@@ -310,7 +310,7 @@ A list of dictionaries that contains the searched entities with specified output
 
     This exception will be raised when any error occurs during this operation.
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus import MilvusClient
@@ -442,5 +442,5 @@ res = client.search(
 # [[{'id': 7, 'distance': 0.4801957309246063, 'entity': {}},
 #   {'id': 2, 'distance': 0.3205878734588623, 'entity': {}},
 #   {'id': 1, 'distance': 0.2993225157260895, 'entity': {}}]]
-````
+```
 

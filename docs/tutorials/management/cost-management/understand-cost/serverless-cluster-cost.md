@@ -10,7 +10,7 @@ notebook: FALSE
 description: "Serverless clusters in Zilliz Cloud use a pay-per-operation model, where you are mainly charged for the resources consumed by your read and write operations. This ensures you only pay for the actual workload processed, without the need to provision fixed capacity in advance. | Cloud"
 type: origin
 token: Uk0Nw1ZdbiOEBtkAOKacLTf8nGe
-sidebar_position: 3
+sidebar_position: 1
 displayed_sidebar: default
 
 ---
@@ -36,7 +36,7 @@ In addition to the two primary billing items above, the following optional add-o
 
 ## Vector database costs (write)\{#vector-database-costs-write}
 
-Write costs measures the compute resources consumed by insert, upsert, and delete operations.
+Write costs measure the compute resources consumed by [insert](./insert-entities), [upsert](./upsert-entities), and [delete](./delete-entities) operations.
 
 Import and bulk insert operations do **not** incur costs.
 
@@ -87,7 +87,7 @@ Suppose you inserted 3 GB (3,145,728 KB) of entities into a Serverless cluster a
 
 ## Vector database costs (read)\{#vector-database-costs-read}
 
-This cost item measures the resources consumed by search, hybrid search, and query operations. 
+This cost item measures the resources consumed by [search](./single-vector-search), [hybrid search](./hybrid-search), and [query](./get-and-scalar-query) operations. 
 
 ### Cost calculation\{#cost-calculation}
 

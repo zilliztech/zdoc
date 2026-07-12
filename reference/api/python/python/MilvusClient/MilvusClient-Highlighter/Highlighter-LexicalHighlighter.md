@@ -59,7 +59,7 @@ Defines which query terms from text-based filters are highlighted. Each entry mu
 
     ```python
     [
-        {"type": "&lt;QueryType&gt;", "field": "<text field name>", "text": "<terms to highlight>"},
+        {"type": "<QueryType>", "field": "<text field name>", "text": "<terms to highlight>"},
         {...},
     ]
     ```
