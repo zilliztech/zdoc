@@ -61,8 +61,12 @@ test('creates, validates, and applies a translation artifact with three-way cach
   await writeFile(path.join(f.baselineDir, '.translation-cache/ja-JP.json'), '{"doc":{"old":1},"targetOnly":0}');
   await writeFile(path.join(f.workspace, '.translation-cache/ja-JP.json'), '{"doc":{"new":2},"targetOnly":0}');
   await writeFile(path.join(target, '.translation-cache/ja-JP.json'), '{"doc":{"old":1},"targetOnly":9}');
+  const translated = 'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/python/python/topic.md';
+  await mkdir(path.dirname(path.join(f.workspace, translated)), { recursive: true });
+  await writeFile(path.join(f.workspace, translated), '# translated');
   const manifest = await createCheckpointArtifact({ group: 'python', masterSha: SHA_A, devBaselineSha: SHA_B, ...f, includeTranslationCache: true });
   assert.equal(manifest.stage, 'translation'); assert.equal(manifest.files.some((entry) => entry.path === '.translation-cache/ja-JP.json'), true);
+  assert.equal(manifest.files.some((entry) => entry.path === translated), true);
   await assert.doesNotReject(validateCheckpointArtifact(f.output));
   await applyCheckpointArtifact({ artifactDir: f.output, targetDir: target, baselineDir: f.baselineDir });
   assert.equal(await readFile(path.join(target, '.translation-cache/ja-JP.json'), 'utf8'), '{\n  "doc": {\n    "new": 2\n  },\n  "targetOnly": 9\n}\n');

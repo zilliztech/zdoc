@@ -3,6 +3,9 @@
 const fs = require('node:fs')
 const path = require('node:path')
 const crypto = require('node:crypto')
+const { getContentGroup } = require('../docs-workflow/content-groups')
+
+const SHA = /^[0-9a-f]{40}$/
 
 function hashContent(text) {
   return crypto.createHash('sha256').update(text, 'utf8').digest('hex')
@@ -72,7 +75,14 @@ function sourceMappingsForLocale(locale, { includeReference = false } = {}) {
   return mappings
 }
 
-function buildManifest({ siteDir, locale = 'ja-JP', includeReference = false, maxFiles = 0 }) {
+function buildManifest({ siteDir, locale = 'ja-JP', includeReference = false, maxFiles = 0, group = null, sourceCheckpointSha = null }) {
+  let ownedPrefixes = null
+  if (group) {
+    const definition = getContentGroup(group)
+    if (!SHA.test(sourceCheckpointSha || '')) throw new Error('A valid 40-character source checkpoint SHA is required with --group')
+    ownedPrefixes = definition.ownedPaths.filter(prefix => prefix === 'docs' || prefix === 'docs-byoc' || prefix.startsWith('reference/'))
+    includeReference = group !== 'guides'
+  }
   const cache = readCache(siteDir, locale)
   const items = []
 
@@ -81,6 +91,7 @@ function buildManifest({ siteDir, locale = 'ja-JP', includeReference = false, ma
     for (const absSourcePath of walkMarkdown(absSourceRoot)) {
       const relativeToRoot = path.relative(absSourceRoot, absSourcePath)
       const sourcePath = path.join(mapping.sourceRoot, relativeToRoot).replace(/\\/g, '/')
+      if (ownedPrefixes && !ownedPrefixes.some(prefix => sourcePath === prefix || sourcePath.startsWith(`${prefix}/`))) continue
       const targetPath = path.join(mapping.targetRoot, relativeToRoot).replace(/\\/g, '/')
       const sourceContent = fs.readFileSync(absSourcePath, 'utf8')
       const sourceHash = hashContent(sourceContent)
@@ -97,12 +108,12 @@ function buildManifest({ siteDir, locale = 'ja-JP', includeReference = false, ma
         type: mapping.type,
       })
       if (maxFiles > 0 && items.length >= maxFiles) {
-        return { locale, generatedAt: new Date().toISOString(), items }
+        return { locale, group, sourceCheckpointSha, generatedAt: new Date().toISOString(), items }
       }
     }
   }
 
-  return { locale, generatedAt: new Date().toISOString(), items }
+  return { locale, group, sourceCheckpointSha, generatedAt: new Date().toISOString(), items }
 }
 
 function main() {
@@ -115,7 +126,9 @@ function main() {
   const output = args.get('--output') || 'tmp/translation-manifest.json'
   const includeReference = process.env.TRANSLATE_REFERENCE === 'true' || args.get('--include-reference') === 'true'
   const maxFiles = Number(args.get('--max-files') || process.env.TRANSLATION_MAX_FILES || 0)
-  const manifest = buildManifest({ siteDir, locale, includeReference, maxFiles })
+  const group = args.get('--group') || null
+  const sourceCheckpointSha = args.get('--source-checkpoint-sha') || null
+  const manifest = buildManifest({ siteDir, locale, includeReference, maxFiles, group, sourceCheckpointSha })
   fs.mkdirSync(path.dirname(path.join(siteDir, output)), { recursive: true })
   fs.writeFileSync(path.join(siteDir, output), JSON.stringify(manifest, null, 2) + '\n', 'utf8')
   console.log(`[translation-manifest] ${manifest.items.length} file(s) pending -> ${output}`)

@@ -24,7 +24,13 @@ function validPath(value) {
 
 function ownershipIsFile(owned) { return /\.[A-Za-z0-9]+$/.test(owned); }
 function isOwned(rel, ownedPaths, translationArtifact = false) {
-  return (translationArtifact && rel === '.translation-cache/ja-JP.json') || ownedPaths.some((owned) => rel === owned || (!ownershipIsFile(owned) && rel.startsWith(`${owned}/`)));
+  const translationPaths = translationArtifact ? ownedPaths.flatMap((owned) => {
+    if (owned === 'docs') return ['i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials'];
+    if (owned === 'docs-byoc') return ['i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials'];
+    if (owned.startsWith('reference/')) return [`i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/${owned.slice('reference/'.length)}`];
+    return [];
+  }) : [];
+  return (translationArtifact && rel === '.translation-cache/ja-JP.json') || [...ownedPaths, ...translationPaths].some((owned) => rel === owned || (!ownershipIsFile(owned) && rel.startsWith(`${owned}/`)));
 }
 function sorted(values) { return values.every((value, i) => i === 0 || values[i - 1] < value); }
 function pathsConflict(one, two) { return one === two || one.startsWith(`${two}/`) || two.startsWith(`${one}/`); }
