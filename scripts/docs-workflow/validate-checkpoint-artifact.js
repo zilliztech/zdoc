@@ -2,7 +2,8 @@
 'use strict';
 
 const crypto = require('node:crypto');
-const { lstat, readFile, readdir } = require('node:fs/promises');
+const fs = require('node:fs');
+const { lstat, open, readFile, readdir } = require('node:fs/promises');
 const path = require('node:path');
 const { getContentGroup } = require('./content-groups');
 
@@ -30,6 +31,19 @@ function pathsConflict(one, two) { return one === two || one.startsWith(`${two}/
 function deepFreeze(value) {
   for (const child of Object.values(value)) if (child && typeof child === 'object') deepFreeze(child);
   return Object.freeze(value);
+}
+
+async function readPayloadNoFollow(file) {
+  // On platforms without O_NOFOLLOW, the directory walk's lstat and descriptor fstat checks are the fallback.
+  const handle = await open(file, fs.constants.O_RDONLY | (fs.constants.O_NOFOLLOW || 0));
+  try {
+    const before = await handle.stat();
+    if (!before.isFile()) throw new Error(`Payload is not a regular file: ${file}`);
+    const bytes = await handle.readFile();
+    const after = await handle.stat();
+    if (before.dev !== after.dev || before.ino !== after.ino || before.size !== after.size) throw new Error(`Payload file changed during validation: ${file}`);
+    return bytes;
+  } finally { await handle.close(); }
 }
 
 async function walkPayload(root, current = root, found = [], directories = []) {
@@ -99,7 +113,7 @@ async function validateCheckpointArtifact(artifactDir, expected = {}) {
   for (const rel of filePaths) if (!actual.includes(rel)) throw new Error(`Missing payload file: ${rel}`);
   for (const rel of actual) if (!filePaths.includes(rel)) throw new Error(`Unexpected payload file: ${rel}`);
   for (const entry of manifest.files) {
-    const bytes = await readFile(path.join(payloadRoot, ...entry.path.split('/')));
+    const bytes = await readPayloadNoFollow(path.join(payloadRoot, ...entry.path.split('/')));
     if (bytes.length !== entry.size) throw new Error(`Payload size mismatch: ${entry.path}`);
     if (crypto.createHash('sha256').update(bytes).digest('hex') !== entry.sha256) throw new Error(`Payload checksum mismatch: ${entry.path}`);
   }

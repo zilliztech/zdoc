@@ -93,6 +93,61 @@ test('rejects output nested inside a protected root', async () => {
   );
 });
 
+test('rejects a symlinked output parent resolving into workspace without touching it', async () => {
+  const f = await fixture();
+  const marker = path.join(f.workspace, 'keep.txt');
+  await writeFile(marker, 'untouched');
+  const linkedParent = path.join(path.dirname(f.workspace), 'linked-output-parent');
+  await symlink(f.workspace, linkedParent);
+  await assert.rejects(
+    createCheckpointArtifact({ group: 'python', masterSha: SHA_A, devBaselineSha: SHA_B, baselineDir: f.baselineDir, workspace: f.workspace, output: path.join(linkedParent, 'artifact') }),
+    /symlink|unsafe output/i,
+  );
+  assert.equal(await readFile(marker, 'utf8'), 'untouched');
+});
+
+test('rejects a symlink component even when the output already exists beyond it', async () => {
+  const f = await fixture();
+  const realParent = path.join(path.dirname(f.workspace), 'real-output-parent');
+  await mkdir(path.join(realParent, 'artifact'), { recursive: true });
+  const linkedParent = path.join(path.dirname(f.workspace), 'linked-existing-parent');
+  await symlink(realParent, linkedParent);
+  await assert.rejects(
+    createCheckpointArtifact({ group: 'python', masterSha: SHA_A, devBaselineSha: SHA_B, baselineDir: f.baselineDir, workspace: f.workspace, output: path.join(linkedParent, 'artifact') }),
+    /symlink/i,
+  );
+});
+
+test('preserves an existing complete artifact when staging fails', async () => {
+  const f = await fixture();
+  await mkdir(f.output);
+  await writeFile(path.join(f.output, 'sentinel'), 'old artifact');
+  await writeFile(path.join(f.workspace, 'reference/api/python/python/new.md'), 'new');
+  await assert.rejects(createCheckpointArtifact({
+    group: 'python', masterSha: SHA_A, devBaselineSha: SHA_B, ...f,
+    testHooks: { beforeValidation() { throw new Error('injected staging failure'); } },
+  }), /injected staging failure/);
+  assert.equal(await readFile(path.join(f.output, 'sentinel'), 'utf8'), 'old artifact');
+});
+
+test('pre-swap readers see the old artifact while staging is already complete', async () => {
+  const f = await fixture();
+  await mkdir(f.output);
+  await writeFile(path.join(f.output, 'sentinel'), 'old artifact');
+  await writeFile(path.join(f.workspace, 'reference/api/python/python/new.md'), 'new');
+  let observed = false;
+  await createCheckpointArtifact({
+    group: 'python', masterSha: SHA_A, devBaselineSha: SHA_B, ...f,
+    testHooks: { async beforeSwap({ staging, output }) {
+      assert.equal(await readFile(path.join(output, 'sentinel'), 'utf8'), 'old artifact');
+      await validateCheckpointArtifact(staging);
+      observed = true;
+    } },
+  });
+  assert.equal(observed, true);
+  await assert.doesNotReject(validateCheckpointArtifact(f.output));
+});
+
 test('rejects symlinks in owned workspace paths with a clear error', async () => {
   const f = await fixture();
   const target = path.join(f.workspace, 'target');
