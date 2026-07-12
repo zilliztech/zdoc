@@ -1,0 +1,81 @@
+name: verify final docs state
+
+on:
+  workflow_call:
+    inputs:
+      final_dev_sha:
+        required: true
+        type: string
+      master_sha:
+        required: true
+        type: string
+      target_branch:
+        required: false
+        type: string
+        default: dev
+    outputs:
+      status:
+        description: passed or failed
+        value: ${{ jobs.verify.outputs.status }}
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    outputs:
+      status: ${{ steps.result.outputs.status }}
+    env:
+      FINAL_DEV_SHA: ${{ inputs.final_dev_sha }}
+      MASTER_SHA: ${{ inputs.master_sha }}
+      TARGET_BRANCH: ${{ inputs.target_branch }}
+    steps:
+      - name: Validate immutable inputs
+        run: |
+          [[ "$FINAL_DEV_SHA" =~ ^[0-9a-f]{40}$ ]] || { echo "final_dev_sha must be a lowercase 40-character SHA" >&2; exit 1; }
+          [[ "$MASTER_SHA" =~ ^[0-9a-f]{40}$ ]] || { echo "master_sha must be a lowercase 40-character SHA" >&2; exit 1; }
+          git check-ref-format --branch "$TARGET_BRANCH"
+      - name: Check out exact final dev state
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.final_dev_sha }}
+          fetch-depth: 0
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: pnpm
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Verify final documentation state
+        id: verification
+        continue-on-error: true
+        run: |
+          mkdir -p tmp/final-verification-reports
+          node scripts/validate-generated-sidebars.js 2>&1 | tee tmp/final-verification-reports/sidebars.log
+          node scripts/run-doc-build-stage.js --build "pnpm run build" 2>&1 | tee tmp/final-verification-reports/build.log
+          node scripts/validate-workflow-policy.js 2>&1 | tee tmp/final-verification-reports/workflow-policy.log
+          node --test scripts/sdk-reference-workflow.test.js scripts/restore-generated-state.test.js scripts/validate-workflow-policy.test.js scripts/docs-workflow/aggregate-results.test.js scripts/docs-workflow/apply-checkpoint-artifact.test.js scripts/docs-workflow/content-groups.test.js scripts/docs-workflow/create-checkpoint-artifact.test.js scripts/docs-workflow/publish-checkpoint.test.js scripts/docs-workflow/run-content-group.test.js scripts/docs-workflow/validate-checkpoint-artifact.test.js 2>&1 | tee tmp/final-verification-reports/tests.log
+      - name: Upload final verification reports
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: final-docs-verification-${{ github.run_id }}
+          path: tmp/final-verification-reports
+          if-no-files-found: ignore
+      - name: Emit verification result
+        id: result
+        if: ${{ always() }}
+        run: |
+          if [[ "${{ steps.verification.outcome }}" == success ]]; then
+            echo "status=passed" >> "$GITHUB_OUTPUT"
+          else
+            echo "status=failed" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Fail unsuccessful verification
+        if: ${{ steps.result.outputs.status == 'failed' }}
+        run: exit 1

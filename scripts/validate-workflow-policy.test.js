@@ -10,6 +10,24 @@ test('GitHub Actions workflows satisfy documentation production safety policy', 
   assert.deepEqual(validateWorkflowPolicies(), [])
 })
 
+test('reusable final verification checks the immutable final dev state read-only', () => {
+  const workflowPath = path.join(process.cwd(), '.github/workflows/_verify-docs.yml')
+  assert.equal(fs.existsSync(workflowPath), true, 'final verification workflow must exist')
+  const workflow = fs.readFileSync(workflowPath, 'utf8')
+  for (const input of ['final_dev_sha', 'master_sha', 'target_branch']) assert.match(workflow, new RegExp(`^      ${input}:$`, 'm'))
+  assert.match(workflow, /^  contents: read$/m)
+  assert.match(workflow, /timeout-minutes: 180/)
+  assert.match(workflow, /actions\/checkout@v4[\s\S]*ref: \$\{\{ inputs\.final_dev_sha \}\}[\s\S]*fetch-depth: 0/)
+  assert.match(workflow, /validate-generated-sidebars\.js/)
+  assert.match(workflow, /run-doc-build-stage\.js --build "pnpm run build"/)
+  assert.match(workflow, /validate-workflow-policy\.js/)
+  for (const testFile of ['sdk-reference-workflow.test.js', 'restore-generated-state.test.js', 'validate-workflow-policy.test.js', 'aggregate-results.test.js']) assert.match(workflow, new RegExp(testFile.replaceAll('.', '\\.')))
+  assert.match(workflow, /actions\/upload-artifact@v4[\s\S]*if: \$\{\{ always\(\) \}\}/)
+  assert.match(workflow, /value: \$\{\{ jobs\.verify\.outputs\.status \}\}/)
+  assert.match(workflow, /status=passed[\s\S]*status=failed/)
+  assert.doesNotMatch(workflow, /contents: write|git push|secrets\.|secrets:/)
+})
+
 test('reusable content producer is immutable, read-only, and publishes a validated checkpoint artifact', () => {
   const workflowPath = path.join(process.cwd(), '.github/workflows/_fetch-content-group.yml')
   assert.equal(fs.existsSync(workflowPath), true, 'reusable content producer workflow must exist')

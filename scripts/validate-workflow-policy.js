@@ -92,6 +92,20 @@ function validateWorkflowPolicies(directory = workflowDirectory) {
       if (/git-auto-commit|git push[^\n]*--force|secrets\./.test(source)) errors.push(`${file}: publisher must not auto-commit, force-push, or receive job-wide secrets`)
     }
 
+    if (file === '_verify-docs.yml') {
+      const requiredPatterns = [
+        [/^  workflow_call:$/m, 'must be a workflow_call reusable workflow'],
+        [/actions\/checkout@v4[\s\S]*ref: \$\{\{ inputs\.final_dev_sha \}\}[\s\S]*fetch-depth: 0/, 'must check out the immutable final dev SHA'],
+        [/validate-generated-sidebars\.js/, 'must validate generated sidebars'],
+        [/run-doc-build-stage\.js --build "pnpm run build"/, 'must run the documentation build stage'],
+        [/validate-workflow-policy\.js/, 'must validate workflow policy'],
+        [/actions\/upload-artifact@v4[\s\S]*if-no-files-found: ignore/, 'must always preserve verification reports'],
+        [/status=passed[\s\S]*status=failed/, 'must emit a deterministic terminal status'],
+      ]
+      for (const [pattern, message] of requiredPatterns) if (!pattern.test(source)) errors.push(`${file}: ${message}`)
+      if (/contents: write|git push|secrets\.|^\s+secrets:/m.test(source)) errors.push(`${file}: final verification must remain read-only and secret-free`)
+    }
+
     if (file === 'translate-codex.yml') {
       const requiredPatterns = [
         [/TARGET_BRANCH_INPUT: \$\{\{ inputs\.target_branch \}\}/, 'must pass the branch input through the step environment'],
