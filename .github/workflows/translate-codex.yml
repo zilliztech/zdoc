@@ -69,7 +69,7 @@ jobs:
       group: ${{ inputs.group }}
       artifact_name: ${{ needs.translate.outputs.artifact_name }}
       baseline_artifact_name: ${{ needs.translate.outputs.baseline_artifact_name }}
-      commit_message: "${{ inputs.group == 'guides' && 'docs(guides): publish fetched content' || inputs.group == 'python' && 'docs(python): publish SDK reference' || inputs.group == 'java' && 'docs(java): publish SDK reference' || inputs.group == 'node' && 'docs(node): publish SDK reference' || inputs.group == 'go' && 'docs(go): publish SDK reference' || inputs.group == 'cli' && 'docs(cli): publish CLI reference' || 'docs(rest): publish REST reference' }}"
+      commit_message: "${{ inputs.group == 'guides' && 'i18n(guides): publish translations' || inputs.group == 'python' && 'i18n(python): publish translations' || inputs.group == 'java' && 'i18n(java): publish translations' || inputs.group == 'node' && 'i18n(node): publish translations' || inputs.group == 'go' && 'i18n(go): publish translations' || inputs.group == 'cli' && 'i18n(cli): publish translations' || 'i18n(rest): publish translations' }}"
       should_publish: ${{ needs.translate.outputs.status == 'translation_ready' }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
       target_branch: ${{ needs.prepare.outputs.target_branch }}

@@ -127,6 +127,7 @@ test('manual translation wrapper calls reusable translation then publisher witho
   assert.match(workflow, /baseline_artifact_name: \$\{\{ needs\.translate\.outputs\.baseline_artifact_name \}\}/)
   assert.doesNotMatch(workflow, /secrets: inherit/)
   assert.match(workflow, /secrets:\n      TRANSLATION_AGENT_API_KEY: \$\{\{ secrets\.TRANSLATION_AGENT_API_KEY \}\}\n      REVIEW_AGENT_API_KEY: \$\{\{ secrets\.REVIEW_AGENT_API_KEY \}\}/)
+  assert.match(workflow, /commit_message: "\$\{\{ inputs\.group == 'guides' && 'i18n\(guides\): publish translations'[\s\S]*'i18n\(rest\): publish translations' \}\}"/)
   assert.match(workflow, /TARGET_BRANCH_INPUT: \$\{\{ inputs\.target_branch \}\}/)
   const resolverStep = workflow.slice(workflow.indexOf('- id: refs'), workflow.indexOf('  translate:'))
   const resolver = resolverStep.slice(resolverStep.indexOf('        run: |'))

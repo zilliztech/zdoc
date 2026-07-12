@@ -100,7 +100,8 @@ function writeSummaryAtomic(output, content, hooks = {}) {
 function writeGithubOutputs(outputPath, result, summaryPath) {
   validatePath(outputPath, 'GITHUB_OUTPUT');
   validatePath(summaryPath, 'summary_path');
-  fs.appendFileSync(outputPath, `overall_status=${result.overallStatus}\nsummary_path=${summaryPath}\n`);
+  const notesJson = JSON.stringify(result.markdown ? [result.markdown] : []);
+  fs.appendFileSync(outputPath, `overall_status=${result.overallStatus}\nsummary_path=${summaryPath}\nnotes_json=${notesJson}\n`);
 }
 
 function main() {

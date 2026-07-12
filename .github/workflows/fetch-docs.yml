@@ -599,16 +599,10 @@ jobs:
         run: |
           node scripts/docs-workflow/build-aggregate-input.js --output tmp/docs-workflow-results.json
           node scripts/docs-workflow/aggregate-results.js --input tmp/docs-workflow-results.json --output tmp/docs-workflow-summary.md
-      - name: Attach summary to card
-        if: ${{ needs.prepare.outputs.card_id != '' }}
-        run: npx docusaurus report-to-lark --card-note-file tmp/docs-workflow-summary.md
-        env:
-          APP_ID: ${{ secrets.APP_ID }}
-          APP_SECRET: ${{ secrets.APP_SECRET }}
-          FEISHU_HOST: ${{ vars.FEISHU_HOST }}
       - name: Finish progress card
         if: ${{ always() && needs.prepare.outputs.card_id != '' }}
-        run: npx docusaurus report-to-lark --card-finish --message-id "$CARD_ID" --status "$CARD_STATUS" --started-at "$CARD_STARTED_AT" --stages "$CARD_STAGES" --title "$CARD_TITLE"
+        continue-on-error: true
+        run: npx docusaurus report-to-lark --card-finish --message-id "$CARD_ID" --status "$CARD_STATUS" --started-at "$CARD_STARTED_AT" --stages "$CARD_STAGES" --title "$CARD_TITLE" --notes-json "$CARD_NOTES_JSON"
         env:
           APP_ID: ${{ secrets.APP_ID }}
           APP_SECRET: ${{ secrets.APP_SECRET }}
@@ -618,6 +612,7 @@ jobs:
           CARD_STAGES: ${{ needs.prepare.outputs.card_stages }}
           CARD_TITLE: ${{ needs.prepare.outputs.card_title }}
           CARD_STATUS: ${{ steps.aggregate.outputs.overall_status == 'success' && 'success' || 'fail' }}
+          CARD_NOTES_JSON: ${{ steps.aggregate.outputs.notes_json }}
       - name: Fail unsuccessful workflow
         if: ${{ steps.aggregate.outputs.overall_status != 'success' }}
         run: exit 1

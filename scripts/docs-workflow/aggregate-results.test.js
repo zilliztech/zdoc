@@ -142,7 +142,10 @@ test('CLI writes markdown and GitHub outputs', () => {
   });
   assert.equal(result.status, 0, result.stderr);
   assert.equal(fs.readFileSync(output, 'utf8'), aggregateResults(payload()).markdown);
-  assert.match(fs.readFileSync(githubOutput, 'utf8'), /^overall_status=success\nsummary_path=.*summary\.md\n$/);
+  const outputLines = Object.fromEntries(fs.readFileSync(githubOutput, 'utf8').trimEnd().split('\n').map(line => line.split(/=(.*)/s).slice(0, 2)));
+  assert.equal(outputLines.overall_status, 'success');
+  assert.match(outputLines.summary_path, /summary\.md$/);
+  assert.deepEqual(JSON.parse(outputLines.notes_json), [aggregateResults(payload()).markdown]);
 });
 
 test('CLI rejects CR, LF, and NUL path injection before writing files or GitHub outputs', () => {
