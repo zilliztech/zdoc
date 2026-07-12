@@ -4,10 +4,24 @@ const assert = require('node:assert/strict')
 const fs = require('node:fs')
 const path = require('node:path')
 const test = require('node:test')
+const yaml = require('js-yaml')
 const { validateWorkflowPolicies } = require('./validate-workflow-policy')
 
 test('GitHub Actions workflows satisfy documentation production safety policy', () => {
   assert.deepEqual(validateWorkflowPolicies(), [])
+})
+
+test('source publishers are gated before reusable workflows allocate runners', () => {
+  const workflowPath = path.join(process.cwd(), '.github/workflows/fetch-docs.yml')
+  const workflow = yaml.load(fs.readFileSync(workflowPath, 'utf8'))
+
+  for (const group of ['guides', 'python', 'java', 'node', 'go', 'cli', 'rest']) {
+    const condition = workflow.jobs[`publish_${group}`].if
+    assert.match(condition, /always\(\)/, `${group} publisher must tolerate skipped serialization dependencies`)
+    assert.match(condition, /needs\.prepare\.outputs\.publish == 'true'/, `${group} publisher must require publish mode`)
+    assert.match(condition, new RegExp(`needs\\.prepare\\.outputs\\.selected_group == '${group}'`), `${group} publisher must require group selection`)
+    assert.match(condition, new RegExp(`needs\\.produce_${group}\\.outputs\\.status == 'artifact_ready'`), `${group} publisher must require an artifact-ready producer`)
+  }
 })
 
 test('job-level env must not reference the runner context', () => {

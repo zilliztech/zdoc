@@ -20,7 +20,7 @@ on:
         type: boolean
         default: true
       tooling_ref:
-        description: Artifact-only tooling ref override
+        description: Non-production tooling ref override
         type: string
         default: master
   schedule:
@@ -73,7 +73,7 @@ jobs:
           fi
           git check-ref-format --branch "$TARGET_BRANCH"
           tooling_ref="$TOOLING_REF"
-          if [[ "$PUBLISH" == true ]]; then
+          if [[ "$PUBLISH" == true && "$TARGET_BRANCH" == dev ]]; then
             tooling_ref=master
           fi
           if [[ "$tooling_ref" =~ ^[0-9a-f]{40}$ ]]; then
@@ -255,7 +255,7 @@ jobs:
 
   publish_guides:
     needs: [prepare, produce_guides]
-    if: ${{ always() }}
+    if: ${{ always() && needs.prepare.outputs.publish == 'true' && (needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'guides') && needs.produce_guides.outputs.status == 'artifact_ready' }}
     uses: ./.github/workflows/_publish-content-group.yml
     with:
       group: guides
@@ -294,7 +294,7 @@ jobs:
 
   publish_python:
     needs: [prepare, produce_python, publish_guides_translation]
-    if: ${{ always() }}
+    if: ${{ always() && needs.prepare.outputs.publish == 'true' && (needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'python') && needs.produce_python.outputs.status == 'artifact_ready' }}
     uses: ./.github/workflows/_publish-content-group.yml
     with:
       group: python
@@ -333,7 +333,7 @@ jobs:
 
   publish_java:
     needs: [prepare, produce_java, publish_python_translation]
-    if: ${{ always() }}
+    if: ${{ always() && needs.prepare.outputs.publish == 'true' && (needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'java') && needs.produce_java.outputs.status == 'artifact_ready' }}
     uses: ./.github/workflows/_publish-content-group.yml
     with:
       group: java
@@ -372,7 +372,7 @@ jobs:
 
   publish_node:
     needs: [prepare, produce_node, publish_java_translation]
-    if: ${{ always() }}
+    if: ${{ always() && needs.prepare.outputs.publish == 'true' && (needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'node') && needs.produce_node.outputs.status == 'artifact_ready' }}
     uses: ./.github/workflows/_publish-content-group.yml
     with:
       group: node
@@ -411,7 +411,7 @@ jobs:
 
   publish_go:
     needs: [prepare, produce_go, publish_node_translation]
-    if: ${{ always() }}
+    if: ${{ always() && needs.prepare.outputs.publish == 'true' && (needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'go') && needs.produce_go.outputs.status == 'artifact_ready' }}
     uses: ./.github/workflows/_publish-content-group.yml
     with:
       group: go
@@ -450,7 +450,7 @@ jobs:
 
   publish_cli:
     needs: [prepare, produce_cli, publish_go_translation]
-    if: ${{ always() }}
+    if: ${{ always() && needs.prepare.outputs.publish == 'true' && (needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'cli') && needs.produce_cli.outputs.status == 'artifact_ready' }}
     uses: ./.github/workflows/_publish-content-group.yml
     with:
       group: cli
@@ -489,7 +489,7 @@ jobs:
 
   publish_rest:
     needs: [prepare, produce_rest, publish_cli_translation]
-    if: ${{ always() }}
+    if: ${{ always() && needs.prepare.outputs.publish == 'true' && (needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'rest') && needs.produce_rest.outputs.status == 'artifact_ready' }}
     uses: ./.github/workflows/_publish-content-group.yml
     with:
       group: rest
