@@ -4,7 +4,8 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { listContentGroups } = require('./content-groups');
 
-const STATES = new Set(['fetch_failed', 'validation_failed', 'artifact_ready', 'publish_failed', 'source_published', 'translation_failed', 'translation_published', 'no_changes', 'skipped', 'failed']);
+const SOURCE_STATES = new Set(['source_published', 'no_changes', 'fetch_failed', 'validation_failed', 'publish_failed', 'failed', 'skipped']);
+const TRANSLATION_STATES = new Set(['translation_published', 'no_changes', 'translation_failed', 'failed', 'skipped']);
 const FINAL_STATES = new Set(['passed', 'failed', 'skipped']);
 const SHA = /^[0-9a-f]{40}$/;
 const ENTRY_KEYS = new Set(['source', 'translation', 'translationRequested', 'sourceCommitSha', 'translationCommitSha']);
@@ -27,9 +28,11 @@ function validate(input) {
     const entry = input.groups[group];
     if (!entry || typeof entry !== 'object' || Array.isArray(entry)) invalid(`${group} entry must be an object`);
     if (Object.keys(entry).some((key) => !ENTRY_KEYS.has(key))) invalid(`${group} has unknown property`);
-    if (!STATES.has(entry.source) || !STATES.has(entry.translation)) invalid(`${group} has unknown state`);
+    if (!SOURCE_STATES.has(entry.source) || !TRANSLATION_STATES.has(entry.translation)) invalid(`${group} has unknown or nonterminal state`);
     if (typeof entry.translationRequested !== 'boolean') invalid(`${group} translationRequested must be boolean`);
     for (const key of ['sourceCommitSha', 'translationCommitSha']) if (entry[key] !== undefined && (typeof entry[key] !== 'string' || !SHA.test(entry[key]))) invalid(`${group} ${key} must be a lowercase 40-character SHA`);
+    if ((entry.source === 'source_published') !== (entry.sourceCommitSha !== undefined)) invalid(`${group} sourceCommitSha must exist exactly for source_published`);
+    if ((entry.translation === 'translation_published') !== (entry.translationCommitSha !== undefined)) invalid(`${group} translationCommitSha must exist exactly for translation_published`);
   }
   if (!FINAL_STATES.has(input.finalVerification)) invalid('finalVerification has unknown state');
 }
@@ -61,16 +64,55 @@ function parseArgs(args) {
   return values;
 }
 
+function validatePath(value, label) {
+  if (typeof value !== 'string' || value === '' || /[\r\n\0]/.test(value)) throw new Error(`${label} must be a non-empty single-line path without NUL bytes`);
+}
+
+function writeSummaryAtomic(output, content, hooks = {}) {
+  validatePath(output, 'output');
+  const io = { ...fs, ...hooks };
+  const directory = path.dirname(path.resolve(output));
+  io.mkdirSync(directory, { recursive: true });
+  const temporary = path.join(directory, `.${path.basename(output)}.${process.pid}.${Date.now()}.${Math.random().toString(16).slice(2)}.tmp`);
+  let descriptor;
+  try {
+    descriptor = io.openSync(temporary, 'wx', 0o600);
+    io.writeFileSync(descriptor, content, 'utf8');
+    io.fsyncSync(descriptor);
+    io.closeSync(descriptor);
+    descriptor = undefined;
+    io.renameSync(temporary, output);
+    try {
+      const directoryDescriptor = io.openSync(directory, 'r');
+      try { io.fsyncSync(directoryDescriptor); } finally { io.closeSync(directoryDescriptor); }
+    } catch (error) {
+      if (!['EINVAL', 'ENOTSUP', 'EISDIR', 'EPERM'].includes(error.code)) throw error;
+    }
+  } catch (error) {
+    if (descriptor !== undefined) try { io.closeSync(descriptor); } catch {}
+    try { io.unlinkSync(temporary); } catch (cleanupError) { if (cleanupError.code !== 'ENOENT') throw cleanupError; }
+    throw error;
+  }
+}
+
+function writeGithubOutputs(outputPath, result, summaryPath) {
+  validatePath(outputPath, 'GITHUB_OUTPUT');
+  validatePath(summaryPath, 'summary_path');
+  fs.appendFileSync(outputPath, `overall_status=${result.overallStatus}\nsummary_path=${summaryPath}\n`);
+}
+
 function main() {
   const args = parseArgs(process.argv.slice(2));
+  validatePath(args.input, 'input');
+  validatePath(args.output, 'output');
+  if (process.env.GITHUB_OUTPUT) validatePath(process.env.GITHUB_OUTPUT, 'GITHUB_OUTPUT');
   const result = aggregateResults(JSON.parse(fs.readFileSync(args.input, 'utf8')));
-  fs.mkdirSync(path.dirname(path.resolve(args.output)), { recursive: true });
-  fs.writeFileSync(args.output, result.markdown);
-  if (process.env.GITHUB_OUTPUT) fs.appendFileSync(process.env.GITHUB_OUTPUT, `overall_status=${result.overallStatus}\nsummary_path=${path.resolve(args.output)}\n`);
+  writeSummaryAtomic(args.output, result.markdown);
+  if (process.env.GITHUB_OUTPUT) writeGithubOutputs(process.env.GITHUB_OUTPUT, result, path.resolve(args.output));
 }
 
 if (require.main === module) {
   try { main(); } catch (error) { console.error(error.message); process.exitCode = 1; }
 }
 
-module.exports = { aggregateResults, escapeMarkdownCell };
+module.exports = { aggregateResults, escapeMarkdownCell, writeSummaryAtomic };

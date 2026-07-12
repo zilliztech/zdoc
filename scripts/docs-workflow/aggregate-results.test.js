@@ -6,7 +6,7 @@ const os = require('node:os');
 const path = require('node:path');
 const { spawnSync } = require('node:child_process');
 const test = require('node:test');
-const { aggregateResults, escapeMarkdownCell } = require('./aggregate-results');
+const { aggregateResults, escapeMarkdownCell, writeSummaryAtomic } = require('./aggregate-results');
 
 const SHA_A = 'a'.repeat(40);
 const SHA_B = 'b'.repeat(40);
@@ -34,7 +34,7 @@ test('aggregates final terminal results and ignores earlier failed attempts', ()
 test('fails for any unsuccessful requested source or requested translation', () => {
   for (const [group, entry] of [
     ['guides', { source: 'publish_failed', translation: 'skipped', translationRequested: false }],
-    ['guides', { source: 'source_published', translation: 'translation_failed', translationRequested: true }],
+    ['guides', { source: 'source_published', translation: 'translation_failed', translationRequested: true, sourceCommitSha: SHA_A }],
   ]) {
     const result = aggregateResults({ requestedGroups: [group], groups: { [group]: entry }, finalVerification: 'passed' });
     assert.equal(result.overallStatus, 'failure');
@@ -66,11 +66,29 @@ test('rejects invalid schema, states, groups, extras, duplicates, and SHAs', () 
     payload({ groups: { ...payload().groups, java: { source: 'skipped', translation: 'skipped', translationRequested: false } } }),
     payload({ groups: { guides: payload().groups.guides } }),
     payload({ groups: { ...payload().groups, guides: { ...payload().groups.guides, source: 'later_success' } } }),
+    payload({ groups: { ...payload().groups, guides: { ...payload().groups.guides, source: 'artifact_ready' } } }),
     payload({ groups: { ...payload().groups, guides: { ...payload().groups.guides, translationRequested: 'yes' } } }),
     payload({ groups: { ...payload().groups, guides: { ...payload().groups.guides, sourceCommitSha: 'abc' } } }),
+    payload({ groups: { ...payload().groups, guides: { ...payload().groups.guides, sourceCommitSha: undefined } } }),
+    payload({ groups: { ...payload().groups, python: { ...payload().groups.python, sourceCommitSha: SHA_A } } }),
+    payload({ groups: { ...payload().groups, guides: { ...payload().groups.guides, translationCommitSha: undefined } } }),
+    payload({ groups: { ...payload().groups, python: { ...payload().groups.python, translationCommitSha: SHA_B } } }),
     { ...payload(), surprise: true },
   ];
   for (const value of invalid) assert.throws(() => aggregateResults(value), /invalid|must|unknown|requested|sha|schema/i);
+});
+
+test('atomic summary replacement preserves the old file on failure and exposes complete content on success', () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'aggregate-atomic-'));
+  const output = path.join(dir, 'summary.md');
+  fs.writeFileSync(output, 'old bytes');
+  assert.throws(() => writeSummaryAtomic(output, 'new complete bytes', { writeFileSync() { throw new Error('write failed'); } }), /write failed/);
+  assert.equal(fs.readFileSync(output, 'utf8'), 'old bytes');
+  assert.throws(() => writeSummaryAtomic(output, 'new complete bytes', { renameSync() { throw new Error('rename failed'); } }), /rename failed/);
+  assert.equal(fs.readFileSync(output, 'utf8'), 'old bytes');
+  assert.deepEqual(fs.readdirSync(dir), ['summary.md']);
+  writeSummaryAtomic(output, 'new complete bytes');
+  assert.equal(fs.readFileSync(output, 'utf8'), 'new complete bytes');
 });
 
 test('renders deterministic ordered markdown and escapes table cells', () => {
@@ -78,7 +96,7 @@ test('renders deterministic ordered markdown and escapes table cells', () => {
     requestedGroups: ['python', 'guides'],
     groups: {
       python: { source: 'no_changes', translation: 'skipped', translationRequested: false },
-      guides: { source: 'source_published', translation: 'translation_published', translationRequested: true },
+      guides: { source: 'source_published', translation: 'translation_published', translationRequested: true, sourceCommitSha: SHA_A, translationCommitSha: SHA_B },
     },
     finalVerification: 'passed',
   });
@@ -98,4 +116,23 @@ test('CLI writes markdown and GitHub outputs', () => {
   assert.equal(result.status, 0, result.stderr);
   assert.equal(fs.readFileSync(output, 'utf8'), aggregateResults(payload()).markdown);
   assert.match(fs.readFileSync(githubOutput, 'utf8'), /^overall_status=success\nsummary_path=.*summary\.md\n$/);
+});
+
+test('CLI rejects CR, LF, and NUL path injection before writing files or GitHub outputs', () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'aggregate-injection-'));
+  const input = path.join(dir, 'input.json');
+  const githubOutput = path.join(dir, 'github-output');
+  fs.writeFileSync(input, JSON.stringify(payload()));
+  for (const bad of [`${path.join(dir, 'summary.md')}\nforged=value`, `${path.join(dir, 'summary.md')}\rforged=value`]) {
+    const result = spawnSync(process.execPath, [path.join(__dirname, 'aggregate-results.js'), '--input', input, '--output', bad], { encoding: 'utf8', env: { ...process.env, GITHUB_OUTPUT: githubOutput } });
+    assert.notEqual(result.status, 0);
+    assert.equal(fs.existsSync(githubOutput), false);
+  }
+  const badInput = spawnSync(process.execPath, [path.join(__dirname, 'aggregate-results.js'), '--input', `${input}\nforged=value`, '--output', path.join(dir, 'summary.md')], { encoding: 'utf8', env: { ...process.env, GITHUB_OUTPUT: githubOutput } });
+  assert.notEqual(badInput.status, 0);
+  assert.equal(fs.existsSync(githubOutput), false);
+  const badGithubOutput = spawnSync(process.execPath, [path.join(__dirname, 'aggregate-results.js'), '--input', input, '--output', path.join(dir, 'summary.md')], { encoding: 'utf8', env: { ...process.env, GITHUB_OUTPUT: `${githubOutput}\nforged=value` } });
+  assert.notEqual(badGithubOutput.status, 0);
+  assert.equal(fs.existsSync(githubOutput), false);
+  assert.throws(() => writeSummaryAtomic(`${path.join(dir, 'summary.md')}\0forged`, 'content'), /single-line path/);
 });
