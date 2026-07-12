@@ -4,7 +4,7 @@ set -euo pipefail
 common_args=(
   --targets-built zilliz
   --build-env uat
-  --source-branch dev
+  --source-branch "${DOCS_SOURCE_BRANCH:-dev}"
   --publish-url https://docs.cloud-uat3.zilliz.com
   --link-check-remote https://docs.zilliz.com
 )

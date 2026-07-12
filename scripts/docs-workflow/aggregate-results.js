@@ -4,7 +4,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { listContentGroups } = require('./content-groups');
 
-const SOURCE_STATES = new Set(['source_published', 'no_changes', 'fetch_failed', 'validation_failed', 'publish_failed', 'failed', 'skipped']);
+const SOURCE_STATES = new Set(['artifact_ready', 'source_published', 'no_changes', 'fetch_failed', 'validation_failed', 'publish_failed', 'failed', 'skipped']);
 const TRANSLATION_STATES = new Set(['translation_published', 'no_changes', 'translation_failed', 'failed', 'skipped']);
 const FINAL_STATES = new Set(['passed', 'failed', 'skipped']);
 const SHA = /^[0-9a-f]{40}$/;
@@ -15,7 +15,8 @@ function escapeMarkdownCell(value) { return String(value ?? '').replaceAll('|', 
 
 function validate(input) {
   if (!input || typeof input !== 'object' || Array.isArray(input)) invalid('root must be an object');
-  if (Object.keys(input).some((key) => !['requestedGroups', 'groups', 'finalVerification'].includes(key))) invalid('unknown root property');
+  if (Object.keys(input).some((key) => !['mode', 'requestedGroups', 'groups', 'finalVerification'].includes(key))) invalid('unknown root property');
+  if (input.mode !== undefined && !['publish', 'artifact_only'].includes(input.mode)) invalid('mode must be publish or artifact_only');
   if (!Array.isArray(input.requestedGroups) || input.requestedGroups.length === 0) invalid('requestedGroups must be a non-empty array');
   const validGroups = new Set(listContentGroups());
   if (new Set(input.requestedGroups).size !== input.requestedGroups.length) invalid('requestedGroups must be unique');
@@ -39,9 +40,10 @@ function validate(input) {
 
 function aggregateResults(input) {
   validate(input);
-  const sourceSuccess = new Set(['source_published', 'no_changes']);
+  const mode = input.mode || 'publish';
+  const sourceSuccess = mode === 'artifact_only' ? new Set(['artifact_ready']) : new Set(['source_published', 'no_changes']);
   const translationSuccess = new Set(['translation_published', 'no_changes']);
-  let success = input.finalVerification === 'passed';
+  let success = mode === 'artifact_only' ? input.finalVerification === 'skipped' : input.finalVerification === 'passed';
   const rows = [];
   for (const group of listContentGroups().filter((name) => input.requestedGroups.includes(name))) {
     const entry = input.groups[group];
@@ -50,7 +52,7 @@ function aggregateResults(input) {
     rows.push(`| ${escapeMarkdownCell(group)} | ${escapeMarkdownCell(entry.source)} | ${escapeMarkdownCell(entry.translation)} | ${escapeMarkdownCell(entry.sourceCommitSha || '')} | ${escapeMarkdownCell(entry.translationCommitSha || '')} |`);
   }
   const overallStatus = success ? 'success' : 'failure';
-  const markdown = ['# Documentation workflow summary', '', '| Group | Source | Translation | Source commit | Translation commit |', '| --- | --- | --- | --- | --- |', ...rows, '', `Final verification: ${input.finalVerification}`, '', `Overall status: ${overallStatus}`, ''].join('\n');
+  const markdown = ['# Documentation workflow summary', '', `Mode: ${mode}`, '', '| Group | Source | Translation | Source commit | Translation commit |', '| --- | --- | --- | --- | --- |', ...rows, '', `Final verification: ${input.finalVerification}`, '', `Overall status: ${overallStatus}`, ''].join('\n');
   return Object.freeze({ overallStatus, markdown });
 }
 

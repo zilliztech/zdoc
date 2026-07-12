@@ -13,6 +13,7 @@ const SHA_B = 'b'.repeat(40);
 
 function payload(overrides = {}) {
   return {
+    mode: 'publish',
     requestedGroups: ['guides', 'python'],
     groups: {
       guides: { source: 'source_published', translation: 'translation_published', translationRequested: true, sourceCommitSha: SHA_A, translationCommitSha: SHA_B },
@@ -22,6 +23,14 @@ function payload(overrides = {}) {
     ...overrides,
   };
 }
+
+test('artifact-only mode succeeds only when every requested producer uploaded an artifact', () => {
+  const success = aggregateResults({ mode: 'artifact_only', requestedGroups: ['guides'], groups: { guides: { source: 'artifact_ready', translation: 'skipped', translationRequested: false } }, finalVerification: 'skipped' });
+  assert.equal(success.overallStatus, 'success');
+  assert.match(success.markdown, /Mode: artifact_only/);
+  const failure = aggregateResults({ mode: 'artifact_only', requestedGroups: ['guides'], groups: { guides: { source: 'fetch_failed', translation: 'skipped', translationRequested: false } }, finalVerification: 'skipped' });
+  assert.equal(failure.overallStatus, 'failure');
+});
 
 test('aggregates final terminal results and ignores earlier failed attempts', () => {
   const result = aggregateResults(payload());

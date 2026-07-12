@@ -12,6 +12,10 @@ on:
       dev_baseline_sha:
         required: true
         type: string
+      target_branch:
+        required: false
+        type: string
+        default: dev
       artifact_retention_days:
         required: false
         type: number
@@ -57,6 +61,7 @@ jobs:
       GROUP: ${{ inputs.group }}
       MASTER_SHA: ${{ inputs.master_sha }}
       DEV_BASELINE_SHA: ${{ inputs.dev_baseline_sha }}
+      TARGET_BRANCH: ${{ inputs.target_branch }}
       BASELINE_DIR: ${{ runner.temp }}/docs-dev-baseline
       CHECKPOINT_DIR: ${{ runner.temp }}/checkpoint-group
       CHECKPOINT_TAR: ${{ runner.temp }}/checkpoint-group.tar
@@ -144,9 +149,9 @@ jobs:
         run: |
           set -euo pipefail
           if [[ "$GROUP" == guides ]]; then
-            node scripts/update-lark-doc-snapshot.js --manual guides --targets-built zilliz.saas,zilliz.paas --build-env uat --source-branch dev --publish-url https://docs.cloud-uat3.zilliz.com --link-check-remote https://docs.zilliz.com
+            node scripts/update-lark-doc-snapshot.js --manual guides --targets-built zilliz.saas,zilliz.paas --build-env uat --source-branch "$TARGET_BRANCH" --publish-url https://docs.cloud-uat3.zilliz.com --link-check-remote https://docs.zilliz.com
           elif [[ "$GROUP" != rest ]]; then
-            bash scripts/update-sdk-reference-snapshots.sh "$GROUP"
+            DOCS_SOURCE_BRANCH="$TARGET_BRANCH" bash scripts/update-sdk-reference-snapshots.sh "$GROUP"
           fi
         env:
           APP_ID: ${{ secrets.APP_ID }}

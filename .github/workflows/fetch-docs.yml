@@ -11,6 +11,14 @@ on:
         description: Artifact retention in days
         type: number
         default: 3
+      target_branch:
+        description: Existing branch to publish to
+        type: string
+        default: dev
+      publish:
+        description: Publish and translate produced artifacts
+        type: boolean
+        default: true
   schedule:
     - cron: "0 2,10,18 * * *"
   push:
@@ -32,6 +40,8 @@ jobs:
     outputs:
       master_sha: ${{ steps.refs.outputs.master_sha }}
       dev_baseline_sha: ${{ steps.refs.outputs.dev_baseline_sha }}
+      target_branch: ${{ steps.refs.outputs.target_branch }}
+      publish: ${{ steps.refs.outputs.publish }}
       selected_group: ${{ steps.refs.outputs.selected_group }}
       retention_days: ${{ steps.refs.outputs.retention_days }}
       card_id: ${{ steps.card.outputs.card_id }}
@@ -48,18 +58,25 @@ jobs:
         env:
           SELECTED_GROUP: ${{ github.event.inputs.group || 'all' }}
           RETENTION_DAYS: ${{ github.event.inputs.artifact_retention_days || '3' }}
+          TARGET_BRANCH: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.target_branch || 'dev' }}
+          PUBLISH: ${{ github.event_name != 'workflow_dispatch' || github.event.inputs.publish == 'true' }}
         run: |
           set -euo pipefail
-          git fetch --no-tags origin refs/heads/master:refs/remotes/origin/master refs/heads/dev:refs/remotes/origin/dev
+          if [[ "$TARGET_BRANCH" == -* || "$TARGET_BRANCH" == *:* || "$TARGET_BRANCH" == *$'\n'* || "$TARGET_BRANCH" == *$'\r'* ]]; then
+            echo 'target_branch contains forbidden characters' >&2
+            exit 2
+          fi
+          git check-ref-format --branch "$TARGET_BRANCH"
+          git fetch --no-tags origin refs/heads/master:refs/remotes/origin/master "refs/heads/$TARGET_BRANCH:refs/remotes/origin/$TARGET_BRANCH"
           master_sha=$(git rev-parse refs/remotes/origin/master)
-          dev_baseline_sha=$(git rev-parse refs/remotes/origin/dev)
+          dev_baseline_sha=$(git rev-parse "refs/remotes/origin/$TARGET_BRANCH")
           [[ "$master_sha" =~ ^[0-9a-f]{40}$ && "$dev_baseline_sha" =~ ^[0-9a-f]{40}$ ]]
           case "$SELECTED_GROUP" in all|guides|python|java|node|go|cli|rest) ;; *) exit 2 ;; esac
           [[ "$RETENTION_DAYS" =~ ^[1-9][0-9]*$ ]]
           git checkout --detach "$master_sha"
           card_stages="$SELECTED_GROUP,Verify"
           [[ "$SELECTED_GROUP" == all ]] && card_stages='guides,python,java,node,go,cli,rest,Verify'
-          printf 'master_sha=%s\ndev_baseline_sha=%s\nselected_group=%s\nretention_days=%s\ncard_stages=%s\n' "$master_sha" "$dev_baseline_sha" "$SELECTED_GROUP" "$RETENTION_DAYS" "$card_stages" >> "$GITHUB_OUTPUT"
+          printf 'master_sha=%s\ndev_baseline_sha=%s\ntarget_branch=%s\npublish=%s\nselected_group=%s\nretention_days=%s\ncard_stages=%s\n' "$master_sha" "$dev_baseline_sha" "$TARGET_BRANCH" "$PUBLISH" "$SELECTED_GROUP" "$RETENTION_DAYS" "$card_stages" >> "$GITHUB_OUTPUT"
       - uses: pnpm/action-setup@v4
         with: { version: 9 }
       - uses: actions/setup-node@v4
@@ -67,9 +84,10 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - id: card
         name: Create progress card
-        run: npx docusaurus report-to-lark --card-create --title "Global Docs Build" --stages "$CARD_STAGES"
+        run: npx docusaurus report-to-lark --card-create --title "$CARD_TITLE" --stages "$CARD_STAGES"
         env:
           CARD_STAGES: ${{ steps.refs.outputs.card_stages }}
+          CARD_TITLE: ${{ steps.refs.outputs.publish == 'true' && 'Global Docs Build' || 'Global Docs Artifact-Only Build' }}
           APP_ID: ${{ secrets.APP_ID }}
           APP_SECRET: ${{ secrets.APP_SECRET }}
           FEISHU_HOST: ${{ vars.FEISHU_HOST }}
@@ -82,6 +100,7 @@ jobs:
       group: guides
       master_sha: ${{ needs.prepare.outputs.master_sha }}
       dev_baseline_sha: ${{ needs.prepare.outputs.dev_baseline_sha }}
+      target_branch: ${{ needs.prepare.outputs.target_branch }}
       artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
       card_id: ${{ needs.prepare.outputs.card_id }}
     secrets:
@@ -101,6 +120,7 @@ jobs:
       group: python
       master_sha: ${{ needs.prepare.outputs.master_sha }}
       dev_baseline_sha: ${{ needs.prepare.outputs.dev_baseline_sha }}
+      target_branch: ${{ needs.prepare.outputs.target_branch }}
       artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
       card_id: ${{ needs.prepare.outputs.card_id }}
     secrets:
@@ -120,6 +140,7 @@ jobs:
       group: java
       master_sha: ${{ needs.prepare.outputs.master_sha }}
       dev_baseline_sha: ${{ needs.prepare.outputs.dev_baseline_sha }}
+      target_branch: ${{ needs.prepare.outputs.target_branch }}
       artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
       card_id: ${{ needs.prepare.outputs.card_id }}
     secrets:
@@ -139,6 +160,7 @@ jobs:
       group: node
       master_sha: ${{ needs.prepare.outputs.master_sha }}
       dev_baseline_sha: ${{ needs.prepare.outputs.dev_baseline_sha }}
+      target_branch: ${{ needs.prepare.outputs.target_branch }}
       artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
       card_id: ${{ needs.prepare.outputs.card_id }}
     secrets:
@@ -158,6 +180,7 @@ jobs:
       group: go
       master_sha: ${{ needs.prepare.outputs.master_sha }}
       dev_baseline_sha: ${{ needs.prepare.outputs.dev_baseline_sha }}
+      target_branch: ${{ needs.prepare.outputs.target_branch }}
       artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
       card_id: ${{ needs.prepare.outputs.card_id }}
     secrets:
@@ -177,6 +200,7 @@ jobs:
       group: cli
       master_sha: ${{ needs.prepare.outputs.master_sha }}
       dev_baseline_sha: ${{ needs.prepare.outputs.dev_baseline_sha }}
+      target_branch: ${{ needs.prepare.outputs.target_branch }}
       artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
       card_id: ${{ needs.prepare.outputs.card_id }}
     secrets:
@@ -196,6 +220,7 @@ jobs:
       group: rest
       master_sha: ${{ needs.prepare.outputs.master_sha }}
       dev_baseline_sha: ${{ needs.prepare.outputs.dev_baseline_sha }}
+      target_branch: ${{ needs.prepare.outputs.target_branch }}
       artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
       card_id: ${{ needs.prepare.outputs.card_id }}
     secrets:
@@ -215,7 +240,8 @@ jobs:
       group: guides
       artifact_name: ${{ needs.produce_guides.outputs.artifact_name || 'unavailable' }}
       commit_message: 'docs(guides): publish fetched content'
-      should_publish: ${{ needs.produce_guides.outputs.status == 'artifact_ready' }}
+      should_publish: ${{ needs.prepare.outputs.publish == 'true' && needs.produce_guides.outputs.status == 'artifact_ready' }}
+      target_branch: ${{ needs.prepare.outputs.target_branch }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
       validate_command: 'node scripts/validate-generated-sidebars.js'
   translate_guides:
@@ -226,7 +252,7 @@ jobs:
       group: guides
       source_commit_sha: ${{ needs.publish_guides.outputs.commit_sha || needs.prepare.outputs.dev_baseline_sha }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
-      should_translate: ${{ needs.publish_guides.outputs.status == 'published' || needs.publish_guides.outputs.status == 'no_changes' }}
+      should_translate: ${{ needs.prepare.outputs.publish == 'true' && (needs.publish_guides.outputs.status == 'published' || needs.publish_guides.outputs.status == 'no_changes') }}
       artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
     secrets:
       TRANSLATION_AGENT_API_KEY: ${{ secrets.TRANSLATION_AGENT_API_KEY }}
@@ -240,7 +266,8 @@ jobs:
       artifact_name: ${{ needs.translate_guides.outputs.artifact_name || 'unavailable' }}
       baseline_artifact_name: ${{ needs.translate_guides.outputs.baseline_artifact_name || '' }}
       commit_message: 'i18n(guides): publish translations'
-      should_publish: ${{ needs.translate_guides.outputs.status == 'translation_ready' }}
+      should_publish: ${{ needs.prepare.outputs.publish == 'true' && needs.translate_guides.outputs.status == 'translation_ready' }}
+      target_branch: ${{ needs.prepare.outputs.target_branch }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
       validate_command: 'pnpm run build'
 
@@ -252,7 +279,8 @@ jobs:
       group: python
       artifact_name: ${{ needs.produce_python.outputs.artifact_name || 'unavailable' }}
       commit_message: 'docs(python): publish SDK reference'
-      should_publish: ${{ needs.produce_python.outputs.status == 'artifact_ready' }}
+      should_publish: ${{ needs.prepare.outputs.publish == 'true' && needs.produce_python.outputs.status == 'artifact_ready' }}
+      target_branch: ${{ needs.prepare.outputs.target_branch }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
       validate_command: 'node scripts/validate-generated-sidebars.js'
   translate_python:
@@ -263,7 +291,7 @@ jobs:
       group: python
       source_commit_sha: ${{ needs.publish_python.outputs.commit_sha || needs.prepare.outputs.dev_baseline_sha }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
-      should_translate: ${{ needs.publish_python.outputs.status == 'published' || needs.publish_python.outputs.status == 'no_changes' }}
+      should_translate: ${{ needs.prepare.outputs.publish == 'true' && (needs.publish_python.outputs.status == 'published' || needs.publish_python.outputs.status == 'no_changes') }}
       artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
     secrets:
       TRANSLATION_AGENT_API_KEY: ${{ secrets.TRANSLATION_AGENT_API_KEY }}
@@ -277,7 +305,8 @@ jobs:
       artifact_name: ${{ needs.translate_python.outputs.artifact_name || 'unavailable' }}
       baseline_artifact_name: ${{ needs.translate_python.outputs.baseline_artifact_name || '' }}
       commit_message: 'i18n(python): publish translations'
-      should_publish: ${{ needs.translate_python.outputs.status == 'translation_ready' }}
+      should_publish: ${{ needs.prepare.outputs.publish == 'true' && needs.translate_python.outputs.status == 'translation_ready' }}
+      target_branch: ${{ needs.prepare.outputs.target_branch }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
       validate_command: 'pnpm run build'
 
@@ -289,7 +318,8 @@ jobs:
       group: java
       artifact_name: ${{ needs.produce_java.outputs.artifact_name || 'unavailable' }}
       commit_message: 'docs(java): publish SDK reference'
-      should_publish: ${{ needs.produce_java.outputs.status == 'artifact_ready' }}
+      should_publish: ${{ needs.prepare.outputs.publish == 'true' && needs.produce_java.outputs.status == 'artifact_ready' }}
+      target_branch: ${{ needs.prepare.outputs.target_branch }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
       validate_command: 'node scripts/validate-generated-sidebars.js'
   translate_java:
@@ -300,7 +330,7 @@ jobs:
       group: java
       source_commit_sha: ${{ needs.publish_java.outputs.commit_sha || needs.prepare.outputs.dev_baseline_sha }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
-      should_translate: ${{ needs.publish_java.outputs.status == 'published' || needs.publish_java.outputs.status == 'no_changes' }}
+      should_translate: ${{ needs.prepare.outputs.publish == 'true' && (needs.publish_java.outputs.status == 'published' || needs.publish_java.outputs.status == 'no_changes') }}
       artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
     secrets:
       TRANSLATION_AGENT_API_KEY: ${{ secrets.TRANSLATION_AGENT_API_KEY }}
@@ -314,7 +344,8 @@ jobs:
       artifact_name: ${{ needs.translate_java.outputs.artifact_name || 'unavailable' }}
       baseline_artifact_name: ${{ needs.translate_java.outputs.baseline_artifact_name || '' }}
       commit_message: 'i18n(java): publish translations'
-      should_publish: ${{ needs.translate_java.outputs.status == 'translation_ready' }}
+      should_publish: ${{ needs.prepare.outputs.publish == 'true' && needs.translate_java.outputs.status == 'translation_ready' }}
+      target_branch: ${{ needs.prepare.outputs.target_branch }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
       validate_command: 'pnpm run build'
 
@@ -326,7 +357,8 @@ jobs:
       group: node
       artifact_name: ${{ needs.produce_node.outputs.artifact_name || 'unavailable' }}
       commit_message: 'docs(node): publish SDK reference'
-      should_publish: ${{ needs.produce_node.outputs.status == 'artifact_ready' }}
+      should_publish: ${{ needs.prepare.outputs.publish == 'true' && needs.produce_node.outputs.status == 'artifact_ready' }}
+      target_branch: ${{ needs.prepare.outputs.target_branch }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
       validate_command: 'node scripts/validate-generated-sidebars.js'
   translate_node:
@@ -337,7 +369,7 @@ jobs:
       group: node
       source_commit_sha: ${{ needs.publish_node.outputs.commit_sha || needs.prepare.outputs.dev_baseline_sha }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
-      should_translate: ${{ needs.publish_node.outputs.status == 'published' || needs.publish_node.outputs.status == 'no_changes' }}
+      should_translate: ${{ needs.prepare.outputs.publish == 'true' && (needs.publish_node.outputs.status == 'published' || needs.publish_node.outputs.status == 'no_changes') }}
       artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
     secrets:
       TRANSLATION_AGENT_API_KEY: ${{ secrets.TRANSLATION_AGENT_API_KEY }}
@@ -351,7 +383,8 @@ jobs:
       artifact_name: ${{ needs.translate_node.outputs.artifact_name || 'unavailable' }}
       baseline_artifact_name: ${{ needs.translate_node.outputs.baseline_artifact_name || '' }}
       commit_message: 'i18n(node): publish translations'
-      should_publish: ${{ needs.translate_node.outputs.status == 'translation_ready' }}
+      should_publish: ${{ needs.prepare.outputs.publish == 'true' && needs.translate_node.outputs.status == 'translation_ready' }}
+      target_branch: ${{ needs.prepare.outputs.target_branch }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
       validate_command: 'pnpm run build'
 
@@ -363,7 +396,8 @@ jobs:
       group: go
       artifact_name: ${{ needs.produce_go.outputs.artifact_name || 'unavailable' }}
       commit_message: 'docs(go): publish SDK reference'
-      should_publish: ${{ needs.produce_go.outputs.status == 'artifact_ready' }}
+      should_publish: ${{ needs.prepare.outputs.publish == 'true' && needs.produce_go.outputs.status == 'artifact_ready' }}
+      target_branch: ${{ needs.prepare.outputs.target_branch }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
       validate_command: 'node scripts/validate-generated-sidebars.js'
   translate_go:
@@ -374,7 +408,7 @@ jobs:
       group: go
       source_commit_sha: ${{ needs.publish_go.outputs.commit_sha || needs.prepare.outputs.dev_baseline_sha }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
-      should_translate: ${{ needs.publish_go.outputs.status == 'published' || needs.publish_go.outputs.status == 'no_changes' }}
+      should_translate: ${{ needs.prepare.outputs.publish == 'true' && (needs.publish_go.outputs.status == 'published' || needs.publish_go.outputs.status == 'no_changes') }}
       artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
     secrets:
       TRANSLATION_AGENT_API_KEY: ${{ secrets.TRANSLATION_AGENT_API_KEY }}
@@ -388,7 +422,8 @@ jobs:
       artifact_name: ${{ needs.translate_go.outputs.artifact_name || 'unavailable' }}
       baseline_artifact_name: ${{ needs.translate_go.outputs.baseline_artifact_name || '' }}
       commit_message: 'i18n(go): publish translations'
-      should_publish: ${{ needs.translate_go.outputs.status == 'translation_ready' }}
+      should_publish: ${{ needs.prepare.outputs.publish == 'true' && needs.translate_go.outputs.status == 'translation_ready' }}
+      target_branch: ${{ needs.prepare.outputs.target_branch }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
       validate_command: 'pnpm run build'
 
@@ -400,7 +435,8 @@ jobs:
       group: cli
       artifact_name: ${{ needs.produce_cli.outputs.artifact_name || 'unavailable' }}
       commit_message: 'docs(cli): publish CLI reference'
-      should_publish: ${{ needs.produce_cli.outputs.status == 'artifact_ready' }}
+      should_publish: ${{ needs.prepare.outputs.publish == 'true' && needs.produce_cli.outputs.status == 'artifact_ready' }}
+      target_branch: ${{ needs.prepare.outputs.target_branch }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
       validate_command: 'node scripts/validate-generated-sidebars.js'
   translate_cli:
@@ -411,7 +447,7 @@ jobs:
       group: cli
       source_commit_sha: ${{ needs.publish_cli.outputs.commit_sha || needs.prepare.outputs.dev_baseline_sha }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
-      should_translate: ${{ needs.publish_cli.outputs.status == 'published' || needs.publish_cli.outputs.status == 'no_changes' }}
+      should_translate: ${{ needs.prepare.outputs.publish == 'true' && (needs.publish_cli.outputs.status == 'published' || needs.publish_cli.outputs.status == 'no_changes') }}
       artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
     secrets:
       TRANSLATION_AGENT_API_KEY: ${{ secrets.TRANSLATION_AGENT_API_KEY }}
@@ -425,7 +461,8 @@ jobs:
       artifact_name: ${{ needs.translate_cli.outputs.artifact_name || 'unavailable' }}
       baseline_artifact_name: ${{ needs.translate_cli.outputs.baseline_artifact_name || '' }}
       commit_message: 'i18n(cli): publish translations'
-      should_publish: ${{ needs.translate_cli.outputs.status == 'translation_ready' }}
+      should_publish: ${{ needs.prepare.outputs.publish == 'true' && needs.translate_cli.outputs.status == 'translation_ready' }}
+      target_branch: ${{ needs.prepare.outputs.target_branch }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
       validate_command: 'pnpm run build'
 
@@ -437,7 +474,8 @@ jobs:
       group: rest
       artifact_name: ${{ needs.produce_rest.outputs.artifact_name || 'unavailable' }}
       commit_message: 'docs(rest): publish REST reference'
-      should_publish: ${{ needs.produce_rest.outputs.status == 'artifact_ready' }}
+      should_publish: ${{ needs.prepare.outputs.publish == 'true' && needs.produce_rest.outputs.status == 'artifact_ready' }}
+      target_branch: ${{ needs.prepare.outputs.target_branch }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
       validate_command: 'node scripts/validate-generated-sidebars.js'
   translate_rest:
@@ -448,7 +486,7 @@ jobs:
       group: rest
       source_commit_sha: ${{ needs.publish_rest.outputs.commit_sha || needs.prepare.outputs.dev_baseline_sha }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
-      should_translate: ${{ needs.publish_rest.outputs.status == 'published' || needs.publish_rest.outputs.status == 'no_changes' }}
+      should_translate: ${{ needs.prepare.outputs.publish == 'true' && (needs.publish_rest.outputs.status == 'published' || needs.publish_rest.outputs.status == 'no_changes') }}
       artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
     secrets:
       TRANSLATION_AGENT_API_KEY: ${{ secrets.TRANSLATION_AGENT_API_KEY }}
@@ -462,13 +500,14 @@ jobs:
       artifact_name: ${{ needs.translate_rest.outputs.artifact_name || 'unavailable' }}
       baseline_artifact_name: ${{ needs.translate_rest.outputs.baseline_artifact_name || '' }}
       commit_message: 'i18n(rest): publish translations'
-      should_publish: ${{ needs.translate_rest.outputs.status == 'translation_ready' }}
+      should_publish: ${{ needs.prepare.outputs.publish == 'true' && needs.translate_rest.outputs.status == 'translation_ready' }}
+      target_branch: ${{ needs.prepare.outputs.target_branch }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
       validate_command: 'pnpm run build'
 
   resolve_final:
     needs: [prepare, publish_rest_translation]
-    if: ${{ always() }}
+    if: ${{ always() && needs.prepare.outputs.publish == 'true' }}
     runs-on: ubuntu-latest
     timeout-minutes: 15
     outputs:
@@ -477,16 +516,18 @@ jobs:
       - uses: actions/checkout@v4
         with: { ref: master, fetch-depth: 0 }
       - id: ref
+        env:
+          TARGET_BRANCH: ${{ needs.prepare.outputs.target_branch }}
         run: |
           set -euo pipefail
-          git fetch --no-tags origin refs/heads/dev:refs/remotes/origin/dev
-          sha=$(git rev-parse refs/remotes/origin/dev)
+          git fetch --no-tags origin "refs/heads/$TARGET_BRANCH:refs/remotes/origin/$TARGET_BRANCH"
+          sha=$(git rev-parse "refs/remotes/origin/$TARGET_BRANCH")
           [[ "$sha" =~ ^[0-9a-f]{40}$ ]]
           echo "final_dev_sha=$sha" >> "$GITHUB_OUTPUT"
 
   verify:
     needs: [prepare, resolve_final]
-    if: ${{ always() && needs.resolve_final.outputs.final_dev_sha != '' }}
+    if: ${{ always() && needs.prepare.outputs.publish == 'true' && needs.resolve_final.outputs.final_dev_sha != '' }}
     uses: ./.github/workflows/_verify-docs.yml
     with:
       final_dev_sha: ${{ needs.resolve_final.outputs.final_dev_sha }}
@@ -509,6 +550,7 @@ jobs:
       - id: aggregate
         name: Aggregate terminal results
         env:
+          MODE: ${{ needs.prepare.outputs.publish == 'true' && 'publish' || 'artifact_only' }}
           SELECTED_GROUP: ${{ needs.prepare.outputs.selected_group }}
           FINAL_VERIFICATION: ${{ needs.verify.outputs.status || 'failed' }}
           GUIDES_PRODUCER: ${{ needs.produce_guides.outputs.status }}

@@ -4,6 +4,7 @@ const fs = require('node:fs')
 const { listContentGroups } = require('./content-groups')
 
 function buildAggregateInput(env) {
+  const mode = env.MODE === 'artifact_only' ? 'artifact_only' : 'publish'
   const requestedGroups = env.SELECTED_GROUP === 'all' ? listContentGroups() : [env.SELECTED_GROUP]
   const groups = {}
   for (const group of requestedGroups) {
@@ -12,20 +13,22 @@ function buildAggregateInput(env) {
     const publisher = env[`${prefix}_SOURCE`] || ''
     const translator = env[`${prefix}_TRANSLATOR`] || ''
     const translationPublisher = env[`${prefix}_TRANSLATION`] || ''
-    let source = producer !== 'artifact_ready' ? 'fetch_failed'
+    let source = mode === 'artifact_only' ? (producer === 'artifact_ready' ? 'artifact_ready' : 'fetch_failed')
+      : producer !== 'artifact_ready' ? 'fetch_failed'
       : publisher === 'published' ? 'source_published'
         : publisher === 'no_changes' ? 'no_changes' : 'publish_failed'
-    let translation = !['source_published', 'no_changes'].includes(source) ? 'skipped'
+    let translation = mode === 'artifact_only' ? 'skipped'
+      : !['source_published', 'no_changes'].includes(source) ? 'skipped'
       : translator === 'failed' ? 'translation_failed'
         : translator === 'no_changes' ? 'no_changes'
           : translationPublisher === 'published' ? 'translation_published'
             : translationPublisher === 'no_changes' ? 'no_changes' : 'translation_failed'
-    const entry = { source, translation, translationRequested: true }
+    const entry = { source, translation, translationRequested: mode === 'publish' }
     if (source === 'source_published') entry.sourceCommitSha = env[`${prefix}_SOURCE_SHA`]
     if (translation === 'translation_published') entry.translationCommitSha = env[`${prefix}_TRANSLATION_SHA`]
     groups[group] = entry
   }
-  return { requestedGroups, groups, finalVerification: env.FINAL_VERIFICATION === 'passed' ? 'passed' : 'failed' }
+  return { mode, requestedGroups, groups, finalVerification: mode === 'artifact_only' ? 'skipped' : (env.FINAL_VERIFICATION === 'passed' ? 'passed' : 'failed') }
 }
 
 function main() {
