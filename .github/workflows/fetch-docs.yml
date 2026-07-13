@@ -49,7 +49,8 @@ jobs:
       selected_group: ${{ steps.refs.outputs.selected_group }}
       retention_days: ${{ steps.refs.outputs.retention_days }}
       card_id: ${{ steps.card.outputs.card_id }}
-      phase_card_id: ${{ steps.refs.outputs.selected_group != 'all' && steps.card.outputs.card_id || '' }}
+      phase_card_id: ${{ steps.card.outputs.card_id }}
+      card_mode: ${{ steps.refs.outputs.card_mode }}
       card_started_at: ${{ steps.card.outputs.card_started_at }}
       card_stages: ${{ steps.card.outputs.card_stages }}
       card_title: ${{ steps.card.outputs.card_title }}
@@ -98,16 +99,23 @@ jobs:
           git checkout --detach "$master_sha"
           groups=(guides python java node go cli rest)
           [[ "$SELECTED_GROUP" != all ]] && groups=("$SELECTED_GROUP")
+          card_mode=ordered
           card_parts=()
-          for group in "${groups[@]}"; do
-            card_parts+=("Produce $group")
-            if [[ "$PUBLISH" == true ]]; then
-              card_parts+=("Publish $group" "Translate $group" "Publish $group translation")
-            fi
-          done
-          [[ "$PUBLISH" == true ]] && card_parts+=(Verify)
+          if [[ "$SELECTED_GROUP" == all ]]; then
+            card_mode=aggregate
+            card_parts=("Produce manuals (0/${#groups[@]})")
+            [[ "$PUBLISH" == true ]] && card_parts+=("Publish sources (0/${#groups[@]})" "Translate manuals (0/${#groups[@]})" "Publish translations (0/${#groups[@]})" Verify)
+          else
+            for group in "${groups[@]}"; do
+              card_parts+=("Produce $group")
+              if [[ "$PUBLISH" == true ]]; then
+                card_parts+=("Publish $group" "Translate $group" "Publish $group translation")
+              fi
+            done
+            [[ "$PUBLISH" == true ]] && card_parts+=(Verify)
+          fi
           card_stages=$(IFS=,; echo "${card_parts[*]}")
-          printf 'master_sha=%s\ndev_baseline_sha=%s\ntarget_branch=%s\npublish=%s\nselected_group=%s\nretention_days=%s\ncard_stages=%s\n' "$master_sha" "$dev_baseline_sha" "$TARGET_BRANCH" "$PUBLISH" "$SELECTED_GROUP" "$RETENTION_DAYS" "$card_stages" >> "$GITHUB_OUTPUT"
+          printf 'master_sha=%s\ndev_baseline_sha=%s\ntarget_branch=%s\npublish=%s\nselected_group=%s\nretention_days=%s\ncard_stages=%s\ncard_mode=%s\n' "$master_sha" "$dev_baseline_sha" "$TARGET_BRANCH" "$PUBLISH" "$SELECTED_GROUP" "$RETENTION_DAYS" "$card_stages" "$card_mode" >> "$GITHUB_OUTPUT"
       - uses: pnpm/action-setup@v4
         with: { version: 9 }
       - uses: actions/setup-node@v4
@@ -123,19 +131,31 @@ jobs:
           APP_SECRET: ${{ secrets.APP_SECRET }}
           FEISHU_HOST: ${{ vars.FEISHU_HOST }}
 
-  produce_guides:
+  produce_guides_sources:
     needs: prepare
     if: ${{ needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'guides' }}
-    uses: ./.github/workflows/_fetch-content-group.yml
+    uses: ./.github/workflows/_fetch-guides-sources.yml
     with:
-      group: guides
       master_sha: ${{ needs.prepare.outputs.master_sha }}
       dev_baseline_sha: ${{ needs.prepare.outputs.dev_baseline_sha }}
-      target_branch: ${{ needs.prepare.outputs.target_branch }}
       artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
-      card_id: ${{ needs.prepare.outputs.phase_card_id }}
-      card_started_at: ${{ needs.prepare.outputs.card_started_at }}
-      card_stages: ${{ needs.prepare.outputs.card_stages }}
+    secrets:
+      APP_ID: ${{ secrets.APP_ID }}
+      APP_SECRET: ${{ secrets.APP_SECRET }}
+      SPACE_ID: ${{ secrets.SPACE_ID }}
+      FIGMA_API_KEY: ${{ secrets.FIGMA_API_KEY }}
+      MODEL_API_KEY: ${{ secrets.MODEL_API_KEY }}
+
+  render_guides_saas:
+    needs: [prepare, produce_guides_sources]
+    if: ${{ needs.produce_guides_sources.outputs.status == 'artifact_ready' }}
+    uses: ./.github/workflows/_render-guides-target.yml
+    with:
+      target: saas
+      source_artifact_name: ${{ needs.produce_guides_sources.outputs.artifact_name }}
+      master_sha: ${{ needs.prepare.outputs.master_sha }}
+      dev_baseline_sha: ${{ needs.prepare.outputs.dev_baseline_sha }}
+      artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
     secrets:
       APP_ID: ${{ secrets.APP_ID }}
       APP_SECRET: ${{ secrets.APP_SECRET }}
@@ -144,6 +164,41 @@ jobs:
       MODEL_API_KEY: ${{ secrets.MODEL_API_KEY }}
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+  render_guides_byoc:
+    needs: [prepare, produce_guides_sources]
+    if: ${{ needs.produce_guides_sources.outputs.status == 'artifact_ready' }}
+    uses: ./.github/workflows/_render-guides-target.yml
+    with:
+      target: byoc
+      source_artifact_name: ${{ needs.produce_guides_sources.outputs.artifact_name }}
+      master_sha: ${{ needs.prepare.outputs.master_sha }}
+      dev_baseline_sha: ${{ needs.prepare.outputs.dev_baseline_sha }}
+      artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
+    secrets:
+      APP_ID: ${{ secrets.APP_ID }}
+      APP_SECRET: ${{ secrets.APP_SECRET }}
+      SPACE_ID: ${{ secrets.SPACE_ID }}
+      FIGMA_API_KEY: ${{ secrets.FIGMA_API_KEY }}
+      MODEL_API_KEY: ${{ secrets.MODEL_API_KEY }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+  produce_guides:
+    needs: [prepare, produce_guides_sources, render_guides_saas, render_guides_byoc]
+    if: ${{ always() && (needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'guides') }}
+    uses: ./.github/workflows/_assemble-guides.yml
+    with:
+      source_artifact_name: ${{ needs.produce_guides_sources.outputs.artifact_name || 'unavailable' }}
+      saas_artifact_name: ${{ needs.render_guides_saas.outputs.artifact_name || 'unavailable' }}
+      byoc_artifact_name: ${{ needs.render_guides_byoc.outputs.artifact_name || 'unavailable' }}
+      master_sha: ${{ needs.prepare.outputs.master_sha }}
+      dev_baseline_sha: ${{ needs.prepare.outputs.dev_baseline_sha }}
+      target_branch: ${{ needs.prepare.outputs.target_branch }}
+      artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
+    secrets:
+      APP_ID: ${{ secrets.APP_ID }}
+      APP_SECRET: ${{ secrets.APP_SECRET }}
 
   produce_python:
     needs: prepare
@@ -334,7 +389,7 @@ jobs:
       APP_SECRET: ${{ secrets.APP_SECRET }}
 
   publish_python:
-    needs: [prepare, produce_python, publish_guides_translation]
+    needs: [prepare, produce_python]
     if: ${{ always() && needs.prepare.outputs.publish == 'true' && (needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'python') && needs.produce_python.outputs.status == 'artifact_ready' }}
     uses: ./.github/workflows/_publish-content-group.yml
     with:
@@ -390,7 +445,7 @@ jobs:
       APP_SECRET: ${{ secrets.APP_SECRET }}
 
   publish_java:
-    needs: [prepare, produce_java, publish_python_translation]
+    needs: [prepare, produce_java]
     if: ${{ always() && needs.prepare.outputs.publish == 'true' && (needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'java') && needs.produce_java.outputs.status == 'artifact_ready' }}
     uses: ./.github/workflows/_publish-content-group.yml
     with:
@@ -446,7 +501,7 @@ jobs:
       APP_SECRET: ${{ secrets.APP_SECRET }}
 
   publish_node:
-    needs: [prepare, produce_node, publish_java_translation]
+    needs: [prepare, produce_node]
     if: ${{ always() && needs.prepare.outputs.publish == 'true' && (needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'node') && needs.produce_node.outputs.status == 'artifact_ready' }}
     uses: ./.github/workflows/_publish-content-group.yml
     with:
@@ -502,7 +557,7 @@ jobs:
       APP_SECRET: ${{ secrets.APP_SECRET }}
 
   publish_go:
-    needs: [prepare, produce_go, publish_node_translation]
+    needs: [prepare, produce_go]
     if: ${{ always() && needs.prepare.outputs.publish == 'true' && (needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'go') && needs.produce_go.outputs.status == 'artifact_ready' }}
     uses: ./.github/workflows/_publish-content-group.yml
     with:
@@ -558,7 +613,7 @@ jobs:
       APP_SECRET: ${{ secrets.APP_SECRET }}
 
   publish_cli:
-    needs: [prepare, produce_cli, publish_go_translation]
+    needs: [prepare, produce_cli]
     if: ${{ always() && needs.prepare.outputs.publish == 'true' && (needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'cli') && needs.produce_cli.outputs.status == 'artifact_ready' }}
     uses: ./.github/workflows/_publish-content-group.yml
     with:
@@ -614,7 +669,7 @@ jobs:
       APP_SECRET: ${{ secrets.APP_SECRET }}
 
   publish_rest:
-    needs: [prepare, produce_rest, publish_cli_translation]
+    needs: [prepare, produce_rest]
     if: ${{ always() && needs.prepare.outputs.publish == 'true' && (needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'rest') && needs.produce_rest.outputs.status == 'artifact_ready' }}
     uses: ./.github/workflows/_publish-content-group.yml
     with:
@@ -670,7 +725,7 @@ jobs:
       APP_SECRET: ${{ secrets.APP_SECRET }}
 
   resolve_final:
-    needs: [prepare, publish_rest_translation]
+    needs: [prepare, publish_guides_translation, publish_python_translation, publish_java_translation, publish_node_translation, publish_go_translation, publish_cli_translation, publish_rest_translation]
     if: ${{ always() && needs.prepare.outputs.publish == 'true' }}
     runs-on: ubuntu-latest
     timeout-minutes: 15

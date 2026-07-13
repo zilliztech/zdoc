@@ -12,6 +12,9 @@ on:
       card_id: { required: false, type: string, default: '' }
       card_started_at: { required: false, type: string, default: '' }
       card_stages: { required: false, type: string, default: '' }
+      card_mode: { required: false, type: string, default: ordered }
+      selected_group: { required: false, type: string, default: all }
+      publish_enabled: { required: false, type: boolean, default: true }
     outputs:
       status: { value: '${{ jobs.translate.outputs.status }}' }
       artifact_name: { value: '${{ jobs.translate.outputs.artifact_name }}' }
@@ -139,13 +142,21 @@ jobs:
       - name: Report translation phase
         if: ${{ always() && inputs.should_translate && inputs.card_id != '' }}
         continue-on-error: true
-        run: npx docusaurus report-to-lark --card-phase --message-id "$CARD_ID" --title "Global Docs Build" --started-at "$CARD_STARTED_AT" --stages "$CARD_STAGES" --stage "Translate $GROUP" --status "$CARD_STATUS" --note "$CARD_NOTE"
+        run: bash scripts/docs-workflow/report-live-card.sh
         env:
           CARD_ID: ${{ inputs.card_id }}
+          CARD_MODE: ${{ startsWith(inputs.card_stages, 'Produce manuals') && 'aggregate' || 'ordered' }}
           CARD_STARTED_AT: ${{ inputs.card_started_at }}
           CARD_STAGES: ${{ inputs.card_stages }}
           CARD_STATUS: ${{ steps.result.outputs.status == 'failed' && 'fail' || 'done' }}
           CARD_NOTE: ${{ steps.result.outputs.status == 'failed' && format('{0} translation failed', inputs.group) || format('{0} translation {1}', inputs.group, steps.result.outputs.status) }}
+          CARD_PHASE: Translate ${{ inputs.group }}
+          CARD_JOB_NAME: translate_${{ inputs.group }}
+          CARD_JOB_CONCLUSION: ${{ steps.result.outputs.status == 'failed' && 'failure' || 'success' }}
+          CARD_TITLE: Global Docs Build
+          SELECTED_GROUP: ${{ startsWith(inputs.card_stages, 'Produce manuals') && 'all' || inputs.group }}
+          PUBLISH_ENABLED: ${{ contains(inputs.card_stages, 'Publish') }}
+          GH_TOKEN: ${{ github.token }}
           APP_ID: ${{ secrets.APP_ID }}
           APP_SECRET: ${{ secrets.APP_SECRET }}
           FEISHU_HOST: ${{ vars.FEISHU_HOST }}

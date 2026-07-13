@@ -5,6 +5,17 @@ const { spawnSync } = require('node:child_process');
 const { getContentGroup } = require('./content-groups');
 
 const fetch = (manual, ...args) => ['npx', 'docusaurus', 'fetch-lark-docs', '-man', manual, ...args];
+const GUIDES_STAGES = {
+  source: [fetch('guides', '-src-only', '--incremental', '--buildEnv', 'uat')],
+  saas: [
+    fetch('guides', '-tar', 'zilliz.saas', '-s3', '-skipS', '--buildEnv', 'uat', '--auditCanonicalLinks'),
+    fetch('guides', '-tar', 'zilliz.saas', '-post', '-skipS'),
+  ],
+  byoc: [
+    fetch('guides', '-tar', 'zilliz.paas', '-s3', '-skipS', '--buildEnv', 'uat', '--skipLinkValidation'),
+    fetch('guides', '-tar', 'zilliz.paas', '-post', '-skipS'),
+  ],
+};
 const COMMANDS = {
   guides: [
     fetch('guides', '-tar', 'zilliz.saas', '-s3', '--incremental', '--buildEnv', 'uat', '--auditCanonicalLinks'),
@@ -25,10 +36,16 @@ function commandsFor(group) {
   return COMMANDS[group].map((command) => [...command]);
 }
 
+function commandsForGuidesStage(stage) {
+  if (!Object.hasOwn(GUIDES_STAGES, stage)) throw new Error(`Unknown guides stage: ${stage}`);
+  return GUIDES_STAGES[stage].map(command => [...command]);
+}
+
 function runContentGroup(group, options = {}) {
   const runner = options.spawnSync || spawnSync;
   const env = options.env || process.env;
-  for (const command of commandsFor(group)) {
+  const commands = options.stage ? commandsForGuidesStage(options.stage) : commandsFor(group);
+  for (const command of commands) {
     const rendered = command.join(' ');
     const result = runner(command[0], command.slice(1), { stdio: 'inherit', env });
     if (result.error) {
@@ -40,17 +57,22 @@ function runContentGroup(group, options = {}) {
 }
 
 function parseArgs(args) {
-  if (args.length !== 2 || args[0] !== '--group') {
+  if ((args.length !== 2 && args.length !== 4) || args[0] !== '--group') {
     if (args[0] && args[0] !== '--group') throw new Error(`Unknown argument: ${args[0]}`);
     throw new Error('Usage: run-content-group.js --group <name>');
   }
   if (!args[1]) throw new Error('Missing value for --group');
-  return { group: args[1] };
+  const stage = args.length === 4 && args[2] === '--stage' ? args[3] : null;
+  if (args.length === 4 && args[2] !== '--stage') throw new Error(`Unknown argument: ${args[2]}`);
+  getContentGroup(args[1]);
+  if (stage && args[1] !== 'guides') throw new Error('--stage is only valid for guides');
+  if (stage) commandsForGuidesStage(stage);
+  return { group: args[1], stage };
 }
 
 if (require.main === module) {
-  try { runContentGroup(parseArgs(process.argv.slice(2)).group); }
+  try { const args = parseArgs(process.argv.slice(2)); runContentGroup(args.group, { stage: args.stage }); }
   catch (error) { console.error(error.message); process.exitCode = 1; }
 }
 
-module.exports = { commandsFor, parseArgs, runContentGroup };
+module.exports = { commandsFor, commandsForGuidesStage, parseArgs, runContentGroup };

@@ -25,6 +25,9 @@ on:
         required: false
         type: string
         default: ''
+      card_mode: { required: false, type: string, default: ordered }
+      selected_group: { required: false, type: string, default: all }
+      publish_enabled: { required: false, type: boolean, default: true }
     secrets:
       APP_ID:
         required: false
@@ -97,13 +100,21 @@ jobs:
       - name: Report verification phase
         if: ${{ always() && inputs.card_id != '' }}
         continue-on-error: true
-        run: npx docusaurus report-to-lark --card-phase --message-id "$CARD_ID" --title "Global Docs Build" --started-at "$CARD_STARTED_AT" --stages "$CARD_STAGES" --stage Verify --status "$CARD_STATUS" --note "$CARD_NOTE"
+        run: bash scripts/docs-workflow/report-live-card.sh
         env:
           CARD_ID: ${{ inputs.card_id }}
+          CARD_MODE: ${{ startsWith(inputs.card_stages, 'Produce manuals') && 'aggregate' || 'ordered' }}
           CARD_STARTED_AT: ${{ inputs.card_started_at }}
           CARD_STAGES: ${{ inputs.card_stages }}
           CARD_STATUS: ${{ steps.result.outputs.status == 'passed' && 'done' || 'fail' }}
           CARD_NOTE: ${{ steps.result.outputs.status == 'passed' && 'Final verification passed' || 'Final verification failed' }}
+          CARD_PHASE: Verify
+          CARD_JOB_NAME: verify
+          CARD_JOB_CONCLUSION: ${{ steps.result.outputs.status == 'passed' && 'success' || 'failure' }}
+          CARD_TITLE: Global Docs Build
+          SELECTED_GROUP: all
+          PUBLISH_ENABLED: true
+          GH_TOKEN: ${{ github.token }}
           APP_ID: ${{ secrets.APP_ID }}
           APP_SECRET: ${{ secrets.APP_SECRET }}
           FEISHU_HOST: ${{ vars.FEISHU_HOST }}

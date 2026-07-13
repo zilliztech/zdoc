@@ -52,6 +52,29 @@ function buildPhaseState({ messageId, title, stages, stageIndex, status, started
   }
 }
 
+function buildExactState({ messageId, title, stages, startedAt, notes = [] }) {
+  if (!Array.isArray(stages) || stages.length === 0) throw new Error('stages must be a non-empty array')
+  if (stages.length > 20) throw new Error('stages must not exceed 20 entries')
+  const names = new Set()
+  for (const stage of stages) {
+    if (!stage || typeof stage.name !== 'string' || !stage.name.trim()) throw new Error('stage name must be non-empty')
+    if (!['pending', 'running', 'done', 'fail'].includes(stage.status)) throw new Error('stage status is invalid')
+    if (names.has(stage.name)) throw new Error(`duplicate stage name: ${stage.name}`)
+    names.add(stage.name)
+  }
+  const statuses = stages.map(stage => stage.status)
+  const firstActive = statuses.findIndex(status => status === 'running' || status === 'fail')
+  return {
+    messageId,
+    title: title || 'Build',
+    stages: stages.map(stage => stage.name.trim()),
+    statuses,
+    currentIndex: firstActive === -1 ? Math.max(0, statuses.findIndex(status => status === 'pending')) : firstActive,
+    notes: parseNotesJson(JSON.stringify(notes)),
+    startedAt: startedAt || new Date().toISOString(),
+  }
+}
+
 function buildFinishState({
   existingState,
   messageId,
@@ -86,6 +109,7 @@ function buildFinishState({
 
 module.exports = {
   appendNotes,
+  buildExactState,
   buildFinishState,
   buildPhaseState,
   finishStatuses,

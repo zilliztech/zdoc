@@ -21,6 +21,7 @@ test('source publishers are gated before reusable workflows allocate runners', (
     assert.match(condition, /needs\.prepare\.outputs\.publish == 'true'/, `${group} publisher must require publish mode`)
     assert.match(condition, new RegExp(`needs\\.prepare\\.outputs\\.selected_group == '${group}'`), `${group} publisher must require group selection`)
     assert.match(condition, new RegExp(`needs\\.produce_${group}\\.outputs\\.status == 'artifact_ready'`), `${group} publisher must require an artifact-ready producer`)
+    assert.deepEqual(workflow.jobs[`publish_${group}`].needs, ['prepare', `produce_${group}`], `${group} publisher must not wait for another content group`)
   }
 })
 
@@ -108,7 +109,7 @@ test('reusable content producer is immutable, read-only, and publishes a validat
   )
   assert.match(workflow, /name: Advance progress card for content group\n        if: \$\{\{ steps\.result\.outputs\.status == 'artifact_ready' && inputs\.card_id != '' \}\}/)
   assert.match(workflow, /name: Install dependencies\n        id: install\n        run: pnpm install --frozen-lockfile/)
-  assert.match(workflow, /name: Report content group producer failure\n        if: \$\{\{ always\(\) && steps\.install\.outcome == 'success' && steps\.result\.outputs\.status == 'failed' && inputs\.card_id != '' \}\}\n        continue-on-error: true[\s\S]*--status fail[\s\S]*\$\{GROUP\} artifact production failed/)
+  assert.match(workflow, /name: Report content group producer failure\n        if: \$\{\{ always\(\) && steps\.install\.outcome == 'success' && steps\.result\.outputs\.status == 'failed' && inputs\.card_id != '' \}\}\n        continue-on-error: true[\s\S]*report-live-card\.sh[\s\S]*CARD_STATUS: fail[\s\S]*artifact production failed/)
 })
 
 test('reusable content publisher safely downloads, validates, and publishes checkpoints', () => {

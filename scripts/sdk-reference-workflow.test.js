@@ -3,6 +3,7 @@ const { spawnSync } = require('node:child_process')
 const fs = require('node:fs')
 const path = require('node:path')
 const { test } = require('node:test')
+const yaml = require('js-yaml')
 
 test('SDK reference compatibility wrapper invokes content groups in order', () => {
   const fetchScript = fs.readFileSync('scripts/fetch-sdk-reference-docs.sh', 'utf8')
@@ -31,8 +32,9 @@ test('SDK snapshot wrapper clearly rejects groups without an SDK Lark snapshot',
   }
 })
 
-test('docs workflow orchestrates parallel producers and checkpointed sequential publication', () => {
+test('docs workflow orchestrates independent checkpointed publication lanes', () => {
   const source = fs.readFileSync('.github/workflows/fetch-docs.yml', 'utf8')
+  const workflow = yaml.load(source)
   assert.match(source, /^  workflow_dispatch:\n    inputs:\n      group:/m)
   assert.match(source, /artifact_retention_days:[\s\S]*default: 3/)
   assert.match(source, /target_branch:[\s\S]*type: string[\s\S]*default: dev/)
@@ -57,20 +59,27 @@ test('docs workflow orchestrates parallel producers and checkpointed sequential 
 
   const groups = ['guides', 'python', 'java', 'node', 'go', 'cli', 'rest']
   for (const group of groups) {
-    assert.match(source, new RegExp(`produce_${group}:\\n    needs: prepare\\n[\\s\\S]*?uses: \\.\\/.github/workflows/_fetch-content-group\\.yml`))
+    if (group !== 'guides') assert.match(source, new RegExp(`produce_${group}:\\n    needs: prepare\\n[\\s\\S]*?uses: \\.\\/.github/workflows/_fetch-content-group\\.yml`))
     assert.match(source, new RegExp(`publish_${group}:\\n    needs: \\[prepare, produce_${group}(?:,|\\])`))
     assert.match(source, new RegExp(`translate_${group}:\\n    needs: \\[prepare, publish_${group}\\]`))
     assert.match(source, new RegExp(`translate_${group}:\\n    needs: \\[prepare, publish_${group}\\]\\n    if: \\$\\{\\{ always\\(\\) && needs\\.prepare\\.outputs\\.publish == 'true' && \\(needs\\.prepare\\.outputs\\.selected_group == 'all' \\|\\| needs\\.prepare\\.outputs\\.selected_group == '${group}'\\) && \\(needs\\.publish_${group}\\.outputs\\.status == 'published' \\|\\| needs\\.publish_${group}\\.outputs\\.status == 'no_changes'\\) \\}\\}`))
     assert.match(source, new RegExp(`publish_${group}_translation:\\n    needs: \\[prepare, publish_${group}, translate_${group}\\]`))
     assert.match(source, new RegExp(`publish_${group}_translation:\\n    needs: \\[prepare, publish_${group}, translate_${group}\\]\\n    if: \\$\\{\\{ always\\(\\) && needs\\.prepare\\.outputs\\.publish == 'true' && needs\\.translate_${group}\\.outputs\\.status == 'translation_ready' \\}\\}`))
+    assert.deepEqual(workflow.jobs[`publish_${group}`].needs, ['prepare', `produce_${group}`])
+    assert.deepEqual(workflow.jobs[`translate_${group}`].needs, ['prepare', `publish_${group}`])
+    assert.deepEqual(workflow.jobs[`publish_${group}_translation`].needs, ['prepare', `publish_${group}`, `translate_${group}`])
   }
+  assert.deepEqual(workflow.jobs.produce_guides_sources.needs, 'prepare')
+  assert.deepEqual(workflow.jobs.render_guides_saas.needs, ['prepare', 'produce_guides_sources'])
+  assert.deepEqual(workflow.jobs.render_guides_byoc.needs, ['prepare', 'produce_guides_sources'])
+  assert.deepEqual(workflow.jobs.produce_guides.needs, ['prepare', 'produce_guides_sources', 'render_guides_saas', 'render_guides_byoc'])
+  assert.equal(workflow.jobs.produce_guides.uses, './.github/workflows/_assemble-guides.yml')
   assert.match(source, /target_branch: \$\{\{ needs\.prepare\.outputs\.target_branch \}\}/)
   assert.match(source, /should_publish: \$\{\{ needs\.prepare\.outputs\.publish == 'true'/)
   assert.match(source, /should_translate: \$\{\{ needs\.prepare\.outputs\.publish == 'true'/)
   assert.match(source, /resolve_final:[\s\S]*needs\.prepare\.outputs\.publish == 'true'/)
-  assert.match(source, /publish_python:\n    needs: \[prepare, produce_python, publish_guides_translation\]/)
   assert.match(source, /publish_rest_translation:[\s\S]*commit_message: 'i18n\(rest\): publish translations'/)
-  assert.match(source, /resolve_final:[\s\S]*needs: \[prepare, publish_rest_translation\][\s\S]*if: \$\{\{ always\(\) \}\}/)
+  assert.deepEqual(workflow.jobs.resolve_final.needs, ['prepare', ...groups.map(group => `publish_${group}_translation`)])
   assert.match(source, /verify:[\s\S]*uses: \.\/.github\/workflows\/_verify-docs\.yml/)
   assert.match(source, /verify:[\s\S]*target_branch: \$\{\{ needs\.prepare\.outputs\.target_branch \}\}/)
   assert.match(source, /aggregate:[\s\S]*aggregate-results\.js[\s\S]*report-to-lark --card-finish/)
@@ -81,10 +90,12 @@ test('docs workflow orchestrates parallel producers and checkpointed sequential 
     const reusable = fs.readFileSync(path.join(process.cwd(), '.github/workflows', workflow), 'utf8')
     assert.match(reusable, /card_started_at:/, `${workflow} must accept the original card start time`)
     assert.match(reusable, /card_stages:/, `${workflow} must accept the complete card stage list`)
-    assert.match(reusable, /report-to-lark --card-phase/, `${workflow} must report its owned phase`)
+    assert.match(reusable, /report-live-card\.sh/, `${workflow} must report its owned phase`)
   }
   assert.doesNotMatch(source, /report-to-lark --card-note-file/)
   assert.match(source, /report-to-lark --card-finish[^\n]*--notes-json "\$CARD_NOTES_JSON"[\s\S]*CARD_NOTES_JSON: \$\{\{ steps\.reports\.outputs\.card_notes_json \|\| steps\.aggregate\.outputs\.notes_json \}\}/)
   assert.match(source, /name: Finish progress card[\s\S]*continue-on-error: true/)
+  assert.match(source, /phase_card_id: \$\{\{ steps\.card\.outputs\.card_id \}\}/)
+  assert.match(source, /card_mode=aggregate/)
   assert.doesNotMatch(source, /secrets: inherit/)
 })

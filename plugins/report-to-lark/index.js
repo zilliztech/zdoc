@@ -5,6 +5,7 @@ const tokenFetcher = require('../lark-docs/larkTokenFetcher')
 const { fetchFeishuJsonWithRetry } = require('../lark-docs/feishuFetch')
 const {
   buildFinishState,
+  buildExactState,
   buildPhaseState,
   parseNotesJson,
 } = require('./reportCardState')
@@ -93,6 +94,7 @@ module.exports = function (context) {
         .option('--card-advance', 'Mark current stage done/fail and advance to next (reads state file)')
         .option('--card-finish', 'Final card update from a cross-job context (requires --message-id)')
         .option('--card-phase', 'Update one workflow phase from a cross-job context')
+        .option('--card-state-file <path>', 'Replace a cross-job card with exact JSON state')
         // ---- card options ----
         .option('--title <title>', 'Card title')
         .option('--stages <stages>', 'Comma-separated stage names (for --card-create)')
@@ -231,6 +233,20 @@ module.exports = function (context) {
               status: opts.status || 'done',
               startedAt: opts.startedAt,
               note: noteText,
+            })
+            await patchCard(token, opts.messageId, state, FEISHU_HOST)
+            return
+          }
+
+          if (opts.cardStateFile) {
+            if (!opts.messageId) throw new Error('--message-id required for --card-state-file')
+            const input = JSON.parse(fs.readFileSync(opts.cardStateFile, 'utf8'))
+            const state = buildExactState({
+              messageId: opts.messageId,
+              title: opts.title,
+              stages: input.stages,
+              startedAt: opts.startedAt,
+              notes: [input.noteMarkdown],
             })
             await patchCard(token, opts.messageId, state, FEISHU_HOST)
             return

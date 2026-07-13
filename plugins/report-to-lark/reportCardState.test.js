@@ -2,11 +2,34 @@ const assert = require('node:assert/strict')
 const { test } = require('node:test')
 const {
   appendNotes,
+  buildExactState,
   buildFinishState,
   buildPhaseState,
   finishStatuses,
   parseNotesJson,
 } = require('./reportCardState')
+
+test('buildExactState preserves arbitrary parallel stage statuses', () => {
+  const state = buildExactState({
+    messageId: 'message', title: 'Global Docs Build', startedAt: '2026-07-13T00:00:34.000Z',
+    stages: [
+      { name: 'Produce manuals (5/7)', status: 'running' },
+      { name: 'Publish sources (3/7)', status: 'running' },
+      { name: 'Translate manuals (1/7)', status: 'running' },
+      { name: 'Verify', status: 'pending' },
+    ],
+    notes: ['| Manual | Source |'],
+  })
+  assert.deepEqual(state.statuses, ['running', 'running', 'running', 'pending'])
+  assert.equal(state.currentIndex, 0)
+  assert.equal(state.startedAt, '2026-07-13T00:00:34.000Z')
+})
+
+test('buildExactState rejects malformed stage state', () => {
+  assert.throws(() => buildExactState({ stages: [], notes: [] }), /non-empty/)
+  assert.throws(() => buildExactState({ stages: [{ name: 'A', status: 'unknown' }], notes: [] }), /status/)
+  assert.throws(() => buildExactState({ stages: [{ name: 'A', status: 'done' }, { name: 'A', status: 'pending' }], notes: [] }), /duplicate/i)
+})
 
 test('buildPhaseState preserves the workflow timeline and advances to the next phase', () => {
   const state = buildPhaseState({
