@@ -94,7 +94,7 @@ function validateWorkflowPolicies(directory = workflowDirectory) {
       ]
       for (const [pattern, message] of requiredPatterns) if (!pattern.test(source)) errors.push(`${file}: ${message}`)
       if (/^concurrency:/m.test(source)) errors.push(`${file}: reusable publisher must let the orchestrator serialize publication`)
-      if (/git-auto-commit|git push[^\n]*--force|secrets\./.test(source)) errors.push(`${file}: publisher must not auto-commit, force-push, or receive job-wide secrets`)
+      if (/git-auto-commit|git push[^\n]*--force/.test(source)) errors.push(`${file}: publisher must not auto-commit or force-push`)
     }
 
     if (file === '_verify-docs.yml') {
@@ -109,7 +109,7 @@ function validateWorkflowPolicies(directory = workflowDirectory) {
         [/status=passed[\s\S]*status=failed/, 'must emit a deterministic terminal status'],
       ]
       for (const [pattern, message] of requiredPatterns) if (!pattern.test(source)) errors.push(`${file}: ${message}`)
-      if (/contents: write|git push|secrets\.|^\s+secrets:/m.test(source)) errors.push(`${file}: final verification must remain read-only and secret-free`)
+      if (/contents: write|git push/.test(source)) errors.push(`${file}: final verification must remain read-only and must not publish`)
     }
 
     if (file === 'translate-codex.yml') {

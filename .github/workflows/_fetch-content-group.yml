@@ -24,6 +24,14 @@ on:
         required: false
         type: string
         default: ''
+      card_started_at:
+        required: false
+        type: string
+        default: ''
+      card_stages:
+        required: false
+        type: string
+        default: ''
     outputs:
       status:
         description: Producer result status
@@ -225,10 +233,11 @@ jobs:
         if: ${{ steps.result.outputs.status == 'artifact_ready' && inputs.card_id != '' }}
         continue-on-error: true
         run: |
-          node -e 'require("node:fs").writeFileSync(".build-card-state.json", JSON.stringify({messageId:process.env.CARD_ID,title:"Global Docs Build",stages:[`Produce ${process.env.GROUP}`],statuses:["running"],currentIndex:0,notes:[],startedAt:new Date().toISOString()}, null, 2))'
-          npx docusaurus report-to-lark --card-advance --status done --note "${GROUP} artifact is ready"
+          npx docusaurus report-to-lark --card-phase --message-id "$CARD_ID" --title "Global Docs Build" --started-at "$CARD_STARTED_AT" --stages "$CARD_STAGES" --stage "Produce $GROUP" --status done --note "${GROUP} artifact is ready"
         env:
           CARD_ID: ${{ inputs.card_id }}
+          CARD_STARTED_AT: ${{ inputs.card_started_at }}
+          CARD_STAGES: ${{ inputs.card_stages }}
           APP_ID: ${{ secrets.APP_ID }}
           APP_SECRET: ${{ secrets.APP_SECRET }}
           FEISHU_HOST: ${{ vars.FEISHU_HOST }}
@@ -237,10 +246,11 @@ jobs:
         if: ${{ always() && steps.install.outcome == 'success' && steps.result.outputs.status == 'failed' && inputs.card_id != '' }}
         continue-on-error: true
         run: |
-          node -e 'require("node:fs").writeFileSync(".build-card-state.json", JSON.stringify({messageId:process.env.CARD_ID,title:"Global Docs Build",stages:[`Produce ${process.env.GROUP}`],statuses:["running"],currentIndex:0,notes:[],startedAt:new Date().toISOString()}, null, 2))'
-          npx docusaurus report-to-lark --card-advance --status fail --note "${GROUP} artifact production failed"
+          npx docusaurus report-to-lark --card-phase --message-id "$CARD_ID" --title "Global Docs Build" --started-at "$CARD_STARTED_AT" --stages "$CARD_STAGES" --stage "Produce $GROUP" --status fail --note "${GROUP} artifact production failed"
         env:
           CARD_ID: ${{ inputs.card_id }}
+          CARD_STARTED_AT: ${{ inputs.card_started_at }}
+          CARD_STAGES: ${{ inputs.card_stages }}
           APP_ID: ${{ secrets.APP_ID }}
           APP_SECRET: ${{ secrets.APP_SECRET }}
           FEISHU_HOST: ${{ vars.FEISHU_HOST }}

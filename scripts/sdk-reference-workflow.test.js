@@ -1,6 +1,7 @@
 const assert = require('node:assert/strict')
 const { spawnSync } = require('node:child_process')
 const fs = require('node:fs')
+const path = require('node:path')
 const { test } = require('node:test')
 
 test('SDK reference compatibility wrapper invokes content groups in order', () => {
@@ -73,6 +74,13 @@ test('docs workflow orchestrates parallel producers and checkpointed sequential 
   assert.match(source, /verify:[\s\S]*uses: \.\/.github\/workflows\/_verify-docs\.yml/)
   assert.match(source, /verify:[\s\S]*target_branch: \$\{\{ needs\.prepare\.outputs\.target_branch \}\}/)
   assert.match(source, /aggregate:[\s\S]*aggregate-results\.js[\s\S]*report-to-lark --card-finish/)
+  assert.match(source, /card_parts\+=\("Publish \$group" "Translate \$group" "Publish \$group translation"\)/)
+  for (const workflow of ['_fetch-content-group.yml', '_publish-content-group.yml', '_translate-content-group.yml', '_verify-docs.yml']) {
+    const reusable = fs.readFileSync(path.join(process.cwd(), '.github/workflows', workflow), 'utf8')
+    assert.match(reusable, /card_started_at:/, `${workflow} must accept the original card start time`)
+    assert.match(reusable, /card_stages:/, `${workflow} must accept the complete card stage list`)
+    assert.match(reusable, /report-to-lark --card-phase/, `${workflow} must report its owned phase`)
+  }
   assert.doesNotMatch(source, /report-to-lark --card-note-file/)
   assert.match(source, /report-to-lark --card-finish[^\n]*--notes-json "\$CARD_NOTES_JSON"[\s\S]*CARD_NOTES_JSON: \$\{\{ steps\.aggregate\.outputs\.notes_json \}\}/)
   assert.match(source, /name: Finish progress card[\s\S]*continue-on-error: true/)

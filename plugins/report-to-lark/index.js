@@ -5,6 +5,7 @@ const tokenFetcher = require('../lark-docs/larkTokenFetcher')
 const { fetchFeishuJsonWithRetry } = require('../lark-docs/feishuFetch')
 const {
   buildFinishState,
+  buildPhaseState,
   parseNotesJson,
 } = require('./reportCardState')
 require('dotenv/config')
@@ -91,6 +92,7 @@ module.exports = function (context) {
         .option('--card-create', 'POST a new progress card; writes card_id to $GITHUB_OUTPUT and $GITHUB_ENV')
         .option('--card-advance', 'Mark current stage done/fail and advance to next (reads state file)')
         .option('--card-finish', 'Final card update from a cross-job context (requires --message-id)')
+        .option('--card-phase', 'Update one workflow phase from a cross-job context')
         // ---- card options ----
         .option('--title <title>', 'Card title')
         .option('--stages <stages>', 'Comma-separated stage names (for --card-create)')
@@ -101,6 +103,8 @@ module.exports = function (context) {
         .option('--card-note-file <path>', 'Append a note file to the current progress card without advancing the stage')
         .option('--message-id <id>', 'Card message ID for cross-job --card-finish')
         .option('--started-at <iso>', 'startedAt ISO string passed from card-create job output')
+        .option('--stage-index <index>', 'Zero-based stage index for --card-phase')
+        .option('--stage <name>', 'Stage name for --card-phase')
         .action(async (opts) => {
           const FEISHU_HOST = process.env.FEISHU_HOST
           const noteText = opts.noteFile
@@ -214,6 +218,21 @@ module.exports = function (context) {
               notes,
             })
             await patchCard(token, messageId, state, FEISHU_HOST)
+            return
+          }
+
+          if (opts.cardPhase) {
+            const stages = (opts.stages || '').split(',').map(s => s.trim()).filter(Boolean)
+            const state = buildPhaseState({
+              messageId: opts.messageId,
+              title: opts.title,
+              stages,
+              stageIndex: opts.stageIndex === undefined ? stages.indexOf(opts.stage) : Number(opts.stageIndex),
+              status: opts.status || 'done',
+              startedAt: opts.startedAt,
+              note: noteText,
+            })
+            await patchCard(token, opts.messageId, state, FEISHU_HOST)
             return
           }
 

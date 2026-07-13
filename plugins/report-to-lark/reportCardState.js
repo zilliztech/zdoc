@@ -33,6 +33,25 @@ function appendNotes(state, notes) {
   return state
 }
 
+function buildPhaseState({ messageId, title, stages, stageIndex, status, startedAt, note }) {
+  if (!Array.isArray(stages) || stages.length === 0) throw new Error('stages must be a non-empty array')
+  if (!Number.isInteger(stageIndex) || stageIndex < 0 || stageIndex >= stages.length) throw new Error('stageIndex is out of range')
+  if (!['done', 'fail'].includes(status)) throw new Error('phase status must be done or fail')
+  const statuses = stages.map((_, index) => index < stageIndex ? 'done' : 'pending')
+  statuses[stageIndex] = status
+  const currentIndex = status === 'done' && stageIndex + 1 < stages.length ? stageIndex + 1 : stageIndex
+  if (currentIndex !== stageIndex) statuses[currentIndex] = 'running'
+  return {
+    messageId,
+    title: title || 'Build',
+    stages,
+    statuses,
+    currentIndex,
+    notes: note && note.trim() ? [note.trim()] : [],
+    startedAt: startedAt || new Date().toISOString(),
+  }
+}
+
 function buildFinishState({
   existingState,
   messageId,
@@ -68,6 +87,7 @@ function buildFinishState({
 module.exports = {
   appendNotes,
   buildFinishState,
+  buildPhaseState,
   finishStatuses,
   parseNotesJson,
 }

@@ -3,9 +3,41 @@ const { test } = require('node:test')
 const {
   appendNotes,
   buildFinishState,
+  buildPhaseState,
   finishStatuses,
   parseNotesJson,
 } = require('./reportCardState')
+
+test('buildPhaseState preserves the workflow timeline and advances to the next phase', () => {
+  const state = buildPhaseState({
+    messageId: 'message',
+    title: 'Global Docs Build',
+    stages: ['Produce cli', 'Publish cli', 'Translate cli'],
+    stageIndex: 1,
+    status: 'done',
+    startedAt: '2026-07-13T00:00:34.000Z',
+    note: 'CLI source published',
+  })
+
+  assert.deepEqual(state.statuses, ['done', 'done', 'running'])
+  assert.equal(state.currentIndex, 2)
+  assert.equal(state.startedAt, '2026-07-13T00:00:34.000Z')
+  assert.deepEqual(state.notes, ['CLI source published'])
+})
+
+test('buildPhaseState marks the owned phase failed without advancing', () => {
+  const state = buildPhaseState({
+    messageId: 'message',
+    title: 'Global Docs Build',
+    stages: ['Produce cli', 'Publish cli', 'Verify'],
+    stageIndex: 1,
+    status: 'fail',
+    startedAt: '2026-07-13T00:00:34.000Z',
+  })
+
+  assert.deepEqual(state.statuses, ['done', 'fail', 'pending'])
+  assert.equal(state.currentIndex, 1)
+})
 
 test('parseNotesJson returns notes from a JSON array', () => {
   assert.deepEqual(parseNotesJson('["A","B"]'), ['A', 'B'])

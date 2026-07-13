@@ -13,6 +13,23 @@ on:
         required: false
         type: string
         default: dev
+      card_id:
+        required: false
+        type: string
+        default: ''
+      card_started_at:
+        required: false
+        type: string
+        default: ''
+      card_stages:
+        required: false
+        type: string
+        default: ''
+    secrets:
+      APP_ID:
+        required: false
+      APP_SECRET:
+        required: false
     outputs:
       status:
         description: passed or failed
@@ -77,6 +94,19 @@ jobs:
           else
             echo "status=failed" >> "$GITHUB_OUTPUT"
           fi
+      - name: Report verification phase
+        if: ${{ always() && inputs.card_id != '' }}
+        continue-on-error: true
+        run: npx docusaurus report-to-lark --card-phase --message-id "$CARD_ID" --title "Global Docs Build" --started-at "$CARD_STARTED_AT" --stages "$CARD_STAGES" --stage Verify --status "$CARD_STATUS" --note "$CARD_NOTE"
+        env:
+          CARD_ID: ${{ inputs.card_id }}
+          CARD_STARTED_AT: ${{ inputs.card_started_at }}
+          CARD_STAGES: ${{ inputs.card_stages }}
+          CARD_STATUS: ${{ steps.result.outputs.status == 'passed' && 'done' || 'fail' }}
+          CARD_NOTE: ${{ steps.result.outputs.status == 'passed' && 'Final verification passed' || 'Final verification failed' }}
+          APP_ID: ${{ secrets.APP_ID }}
+          APP_SECRET: ${{ secrets.APP_SECRET }}
+          FEISHU_HOST: ${{ vars.FEISHU_HOST }}
       - name: Fail unsuccessful verification
         if: ${{ steps.result.outputs.status == 'failed' }}
         run: exit 1

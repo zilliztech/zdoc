@@ -68,7 +68,9 @@ test('reusable final verification checks the immutable final dev state read-only
   assert.match(workflow, /actions\/upload-artifact@v4[\s\S]*if: \$\{\{ always\(\) \}\}/)
   assert.match(workflow, /value: \$\{\{ jobs\.verify\.outputs\.status \}\}/)
   assert.match(workflow, /status=passed[\s\S]*status=failed/)
-  assert.doesNotMatch(workflow, /contents: write|git push|secrets\.|secrets:/)
+  assert.doesNotMatch(workflow, /contents: write|git push/)
+  const verificationBody = workflow.slice(workflow.indexOf('name: Verify final documentation state'), workflow.indexOf('name: Report verification phase'))
+  assert.doesNotMatch(verificationBody, /secrets\./)
 })
 
 test('reusable content producer is immutable, read-only, and publishes a validated checkpoint artifact', () => {
@@ -123,7 +125,7 @@ test('reusable content publisher safely downloads, validates, and publishes chec
   assert.match(workflow, /baseline_artifact_name:[\s\S]*default: ''/)
   assert.match(workflow, /target_branch:[\s\S]*default: dev/)
   assert.match(workflow, /^  contents: write$/m)
-  assert.doesNotMatch(workflow, /^    secrets:|secrets: inherit/m)
+  assert.match(workflow, /^    secrets:\n      APP_ID:[\s\S]*      APP_SECRET:/m)
   assert.doesNotMatch(workflow, /^concurrency:/m)
   assert.match(workflow, /if: \$\{\{ inputs\.should_publish \}\}[\s\S]*actions\/checkout@v4[\s\S]*ref: \$\{\{ inputs\.master_sha \}\}/)
   assert.match(workflow, /actions\/download-artifact@v4[\s\S]*name: \$\{\{ inputs\.artifact_name \}\}/)
@@ -139,7 +141,9 @@ test('reusable content publisher safely downloads, validates, and publishes chec
   assert.match(workflow, /commit_sha=/)
   assert.match(workflow, /name: Fail unsuccessful publication[\s\S]*steps\.result\.outputs\.status == 'failed'/)
   assert.match(workflow, /actions\/upload-artifact@v4[\s\S]*if-no-files-found: ignore/)
-  assert.doesNotMatch(workflow, /git-auto-commit|git push[^\n]*--force|secrets\./)
+  assert.doesNotMatch(workflow, /git-auto-commit|git push[^\n]*--force/)
+  const publicationBody = workflow.slice(workflow.indexOf('name: Publish checkpoint'), workflow.indexOf('name: Report publication phase'))
+  assert.doesNotMatch(publicationBody, /secrets\./)
 })
 
 test('reusable translation producer creates group-scoped checkpoint artifacts without publishing', () => {
