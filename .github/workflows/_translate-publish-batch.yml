@@ -61,12 +61,12 @@ jobs:
   publish:
     name: publish batch ${{ inputs.batch_number }} of ${{ inputs.batch_count }} (${{ needs.translate.outputs.translated_count }} docs)
     needs: translate
-    if: ${{ always() && needs.translate.outputs.status == 'translation_ready' }}
+    if: ${{ always() && needs.translate.result == 'success' }}
     uses: ./.github/workflows/_publish-content-group.yml
     with:
       group: ${{ inputs.group }}
-      artifact_name: ${{ needs.translate.outputs.artifact_name }}
-      baseline_artifact_name: ${{ needs.translate.outputs.baseline_artifact_name }}
+      artifact_name: ${{ format('translation-checkpoint-{0}-{1}-batch-{2}', inputs.group, github.run_id, inputs.batch_number) }}
+      baseline_artifact_name: ${{ format('translation-baseline-{0}-{1}-batch-{2}', inputs.group, github.run_id, inputs.batch_number) }}
       commit_message: "${{ format('i18n({0}): publish batch {1} of {2}', inputs.group, inputs.batch_number, inputs.batch_count) }}"
       should_publish: true
       target_branch: ${{ inputs.target_branch }}
