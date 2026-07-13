@@ -164,7 +164,7 @@
   min-height: 89px;
   padding: 0.875rem 0.75rem 0.625rem 1rem;
   color: var(--zd-gray-600);
-  background: #FCFCFB;
+  background: #ffffff;
   border: 1px solid var(--zd-surface-border);
   border-radius: 24px;
   transition: border-color var(--zd-hover-duration) var(--zd-hover-ease);

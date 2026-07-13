@@ -7,7 +7,8 @@
 .tabIndicator {
   position: absolute;
   height: 2px;
-  background: var(--zd-page-ink);
+  /* deep cream/beige — matches the active code tab label */
+  background: #7a6528;
   border-radius: 1px;
   pointer-events: none;
   z-index: 3;

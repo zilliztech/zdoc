@@ -245,20 +245,12 @@ function getLogicalColumnCount(table) {
 function isSimpleTable(table) {
   const rows = Array.from(table.rows || []);
   if (!rows.length) return false;
-  const cols = getLogicalColumnCount(table);
-  if (cols < 2 || cols > 8) return false;
+  // A table is "simple" (flat horizontal-rule style — no outer frame, no vertical
+  // column dividers) UNLESS it uses merged cells. Only rowspan/colspan need the
+  // framed grid to stay readable; everything else (long text, list cells, many
+  // columns) now renders as a simple table per design.
   if (table.querySelector('td[rowspan], th[rowspan], td[colspan], th[colspan]')) return false;
-  if (table.querySelector('ul, ol, pre, table, img, video, iframe, details, .alert')) return false;
-
-  return Array.from(table.querySelectorAll('th, td')).every((cell) => {
-    const text = (cell.textContent || '').replace(/\s+/g, ' ').trim();
-    if (text.length > 88) return false;
-    const blockChildren = Array.from(cell.children).filter((child) =>
-      /^(P|DIV|SECTION|ARTICLE|BLOCKQUOTE)$/i.test(child.tagName) &&
-      (child.textContent || '').replace(/\s+/g, ' ').trim()
-    );
-    return blockChildren.length <= 1;
-  });
+  return true;
 }
 
 function tagTableComplexity() {

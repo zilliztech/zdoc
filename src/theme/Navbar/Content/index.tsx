@@ -181,20 +181,25 @@ export default function NavbarContent(): ReactNode {
 
     const normalizedTarget = normalizeKeepOpenPath(keepOpenTarget);
     const normalizedPathname = normalizeKeepOpenPath(pathname);
-    if (normalizedTarget !== '1' && normalizedTarget !== normalizedPathname) return undefined;
+    // Tolerate normalization differences (locale prefix like /ja-JP, trailing
+    // slash) so a mismatch never silently skips re-opening the drilled menu.
+    const arrivedAtTarget =
+      normalizedTarget === '1' ||
+      normalizedTarget === normalizedPathname ||
+      normalizedPathname.endsWith(normalizedTarget) ||
+      normalizedTarget.endsWith(normalizedPathname);
+    if (!arrivedAtTarget) return undefined;
 
-    try {
-      window.sessionStorage.removeItem('zdoc-mobile-nav-keep-open');
-      window.sessionStorage.removeItem('zdoc-mobile-nav-drill-direction');
-    } catch {
-      // Ignore storage failures; the class cleanup below is enough visually.
+    // Re-open ONCE, judged by React's `shown` state — NOT the `.navbar-sidebar--show`
+    // DOM class, which lags a frame behind the state. The old code fired 7 retry
+    // timers + a MutationObserver that all called toggle() while reading that
+    // lagging class, so within one frame several toggles stacked and net-closed the
+    // sidebar (even number of flips). React `shown` is consistent within a render,
+    // so re-runs never double-toggle: after we open, the next run sees shown=true.
+    if (!mobileSidebar.shown) {
+      mobileSidebar.toggle();
     }
 
-    const ensureOpen = () => {
-      const isOpen = document.querySelector('.navbar')?.classList.contains('navbar-sidebar--show');
-      if (!isOpen) mobileSidebar.toggle();
-    };
-    ensureOpen();
     const drillClass =
       drillDirection === 'back'
         ? 'zdoc-mobile-nav-drill-back'
@@ -207,12 +212,26 @@ export default function NavbarContent(): ReactNode {
       void document.documentElement.offsetWidth;
       document.documentElement.classList.add(drillClass);
     }
-    const timers = [0, 16, 80, 180, 360, 720, 1000].map(delay => window.setTimeout(ensureOpen, delay));
-    const removeForceVisible = window.setTimeout(() => {
-      document.documentElement.classList.remove('zdoc-mobile-nav-keep-visible');
-      document.documentElement.classList.remove('zdoc-mobile-nav-route-guard');
+
+    // Keep the flag alive for a short grace window (re-scheduled every run) so a
+    // late cross-plugin remount that resets `shown` re-triggers this effect and
+    // re-opens; then clear it. NOT consumed immediately — that was why a post-open
+    // reset could never be recovered.
+    const clearFlag = window.setTimeout(() => {
+      try {
+        window.sessionStorage.removeItem('zdoc-mobile-nav-keep-open');
+        window.sessionStorage.removeItem('zdoc-mobile-nav-drill-direction');
+      } catch {
+        // ignore
+      }
+      document.documentElement.classList.remove(
+        'zdoc-mobile-nav-keep-visible',
+        'zdoc-mobile-nav-route-guard',
+        'zdoc-mobile-nav-drill-forward',
+        'zdoc-mobile-nav-drill-back'
+      );
       document.getElementById('zdoc-mobile-nav-route-guard')?.remove();
-    }, 1200);
+    }, 900);
     const removeRouteGuard = window.setTimeout(() => {
       document.documentElement.classList.remove('zdoc-mobile-nav-route-guard');
       document.getElementById('zdoc-mobile-nav-route-guard')?.remove();
@@ -221,8 +240,7 @@ export default function NavbarContent(): ReactNode {
       document.documentElement.classList.remove('zdoc-mobile-nav-drill-forward', 'zdoc-mobile-nav-drill-back');
     }, 280);
     return () => {
-      timers.forEach(timer => window.clearTimeout(timer));
-      window.clearTimeout(removeForceVisible);
+      window.clearTimeout(clearFlag);
       window.clearTimeout(removeRouteGuard);
       window.clearTimeout(removeDrillClass);
     };

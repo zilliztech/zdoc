@@ -64,7 +64,8 @@ test('streams a correlated chat response with safe console debug logs', async ({
   });
 
   await page.goto('/docs/home?chatDebug=1');
-  await expect(page.getByText('Zilliz Copilot')).toBeVisible();
+  const chatPanel = page.getByRole('complementary', {name: 'Zilliz Copilot'});
+  await expect(chatPanel.getByText('Ask AI', {exact: true})).toBeVisible();
 
   await page.getByLabel('Chat message').fill(prompt);
   await page.getByRole('button', {name: 'Send'}).click();

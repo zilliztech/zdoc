@@ -39,6 +39,9 @@ body.zdoc-docs-page {
   --zd-surface-border-subtle: #eeeeea;
   --zd-surface-border: #e3e3dd;
   --zd-surface-border-strong: #d6d6cf;
+  /* Home hero/provider card stroke — light keeps the neutral surface border;
+     dark theme overrides this to #2b2b2b (see [data-theme='dark']). */
+  --zd-card-stroke: var(--zd-surface-border);
 
   --ifm-background-color: var(--zd-page-bg);
   --ifm-navbar-background-color: var(--zd-sidebar-bg);
@@ -114,10 +117,10 @@ body.zdoc-docs-page {
   --zd-nav-hover-bg: var(--zd-surface-2);
   /* selected navigation surface */
   --zd-nav-active-bg: var(--zd-sidebar-active-bg);
-  --zd-sidebar-active-bg: #f6f5fc;
+  --zd-sidebar-active-bg: #f6f4fc;
   --zd-sidebar-active-bg-sub: var(--zd-note-bg);
-  --zd-sidebar-hover-bg: #f6f5fc;
-  --zd-sidebar-hover-bg-sub: #f6f5fc;
+  --zd-sidebar-hover-bg: #f6f4fc;
+  --zd-sidebar-hover-bg-sub: #f6f4fc;
   --zd-sidebar-active-ink: var(--zd-page-ink);
   --zd-sidebar-active-weight: 500;
   --zd-banner-nav-bg: #f0eff8;
@@ -345,6 +348,10 @@ body.zdoc-docs-page :where(
   font-weight: 400 !important;
   line-height: 24px;
   color: #ffffff !important;
+  /* grayscale AA so the white label renders clean (no subpixel colour fringe)
+     on the dark button */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   background: var(--zd-linear-signup-ink) !important;
   border: 1px solid var(--zd-linear-dark-border);
   padding: 4px 15px !important;
@@ -361,8 +368,9 @@ body.zdoc-docs-page :where(
 }
 
 .navbar-signup-btn:hover {
-  background: var(--zd-page-ink) !important;
-  border-color: var(--zd-page-ink);
+  /* clearly lighter grey-navy — no lift, no shadow */
+  background: #4a5a76 !important;
+  border-color: #4a5a76;
   color: #ffffff !important;
   text-decoration: none !important;
 }
@@ -413,30 +421,34 @@ body.zdoc-docs-page :where(
 }
 
 .navbar-ask-ai-btn::before {
-  content: none;
+  content: '';
   position: absolute;
   inset: 0;
   z-index: 0;
-  /* A brighter copy of the button's own pastel gradient (periwinkle→white→cyan,
-     234deg). The horizontal mask feathers its left/right edges into soft
-     transparency so the WHOLE gradient block reads as one solid pane sliding
-     across — not a thin shine stripe. */
-  background:
-    linear-gradient(234deg, rgba(218, 220, 255, 0.95) 0%, rgba(255, 255, 255, 0.95) 36.5%, rgba(216, 255, 255, 0.95) 100%);
-  -webkit-mask: linear-gradient(90deg, transparent 0%, #000 22%, #000 78%, transparent 100%);
-  mask: linear-gradient(90deg, transparent 0%, #000 22%, #000 78%, transparent 100%);
-  transform: translateX(-120%);
-  /* No transition in the resting state: when the pointer leaves, the block snaps
-     back off-screen-left instantly (invisible) instead of sweeping back. */
+  /* A soft sheen stripe that sweeps left → right on hover — a quick white
+     "flash" whose trailing edge fades into cyan. Its 234° axis matches the
+     button's background gradient so the band is slanted the same way. */
+  background: linear-gradient(
+    234deg,
+    transparent 24%,
+    rgba(150, 240, 240, 0.13) 46%,
+    rgba(255, 255, 255, 0.92) 57%,
+    transparent 82%
+  );
+  /* Start just off the left edge so the sheen enters the button almost
+     immediately on hover (no dead pre-travel that delays the flash). */
+  transform: translateX(-105%);
+  /* No transition in the resting state: when the pointer leaves, the stripe
+     snaps back off-screen-left instantly instead of sweeping in reverse. */
   transition: none;
   pointer-events: none;
 }
 
-/* One-way white shine: only the hover state carries the transition, so the band
-   sweeps left → right once and never animates in reverse. */
+/* One-way sweep: only the hover state carries the transition. A fast-start
+   ease-out curve makes the flash appear the instant the pointer lands. */
 .navbar-ask-ai-btn:hover::before {
-  transform: none;
-  transition: none;
+  transform: translateX(105%);
+  transition: transform 0.5s cubic-bezier(0.2, 0.85, 0.3, 1);
 }
 
 .navbar-ask-ai-btn svg,
@@ -453,9 +465,9 @@ body.zdoc-docs-page :where(
 
 .navbar-ask-ai-btn:hover {
   background:
-    linear-gradient(234deg, rgba(204, 207, 255, 0.82) 0%, rgba(248, 248, 255, 0.82) 36.5%, rgba(202, 250, 250, 0.82) 100%),
+    linear-gradient(234deg, rgba(213, 215, 255, 0.74) 0%, rgba(252, 252, 255, 0.74) 36.5%, rgba(211, 252, 252, 0.74) 100%),
     #ffffff;
-  border-color: #d7d8ff;
+  border-color: #e6e7ff;
 }
 
 .navbar-ask-ai-btn:focus-visible {
@@ -732,7 +744,10 @@ body {
 .theme-doc-sidebar-container:has([class*='twoLevelSidebar']):not(:has([class*='secondaryPane'])) [class*='sidebarViewport'] {
   position: static !important;
   height: auto !important;
-  border-right: 1px solid var(--zd-surface-border-subtle) !important;
+  /* No border here — the container (below) owns the single divider. viewport +
+     rail + container all hug max-content, so their right edges coincide; three
+     1px borders stacked read as one THICK line. Keep only the container's. */
+  border-right: none !important;
 }
 /* rail keeps its natural .primaryRail width (fit-content, max 12rem) so its items
    + hover/selected highlight match the other sections and Cloud Guides — NOT
@@ -740,7 +755,8 @@ body {
    (the sticky sidebar scrolls with the page) so its width propagates upward. */
 .theme-doc-sidebar-container:has([class*='twoLevelSidebar']):not(:has([class*='secondaryPane'])) nav[class*='primaryRail'] {
   overflow: visible !important;
-  border-right: 1px solid var(--zd-surface-border-subtle) !important;
+  /* No border here either — only the container draws the single thin divider. */
+  border-right: none !important;
 }
 
 /* Remove the 56px top padding Docusaurus adds to the sidebar div for sticky
@@ -1271,26 +1287,49 @@ html.docs-wrapper :where(
   letter-spacing: 0;
 }
 
-.markdown :where(p, li, td, th) a {
+/* In-content links: native text-decoration underline (wraps per line, reliable).
+   Default 2px blue-purple. On hover the colour deepens SMOOTHLY (text-decoration-
+   color is animatable) and the underline thickens to 4px INSTANTLY — Chrome cannot
+   animate underline thickness (proven: any transition on it stays stuck), so the
+   thickness is a hard step while the colour eases. Covers paragraph/list/table/
+   heading links; heading anchor (#) links excluded; banner links keep their own
+   currentColor underline (rule below). */
+.markdown :where(p, li, td, th, h1, h2, h3, h4, h5, h6) a:not(.hash-link):not([class*="anchor"]) {
   color: var(--zd-linear-signup-ink) !important;
-  font-weight: 550;
   text-decoration-line: underline;
-  text-decoration-thickness: 1px;
-  text-decoration-color: var(--zd-gray-400);
+  text-decoration-color: #9698f6;
+  text-decoration-thickness: 1.5px;
   text-underline-offset: 4px;
-  /* Only animate color — text-decoration-thickness / text-underline-offset are
-     rasterized in whole device pixels and step (not interpolate) mid-transition,
-     which reads as a stutter. Let them switch instantly instead. */
   transition:
-    color var(--zd-hover-duration) var(--zd-hover-ease),
-    text-decoration-color var(--zd-hover-duration) var(--zd-hover-ease);
+    color 0.16s ease-in-out,
+    text-decoration-color 0.16s ease-in-out;
 }
-
-.markdown :where(p, li, td, th) a:hover {
-  color: var(--zd-linear-signup-ink) !important;
-  text-decoration-color: var(--zd-linear-signup-ink);
-  text-decoration-thickness: 2px;
-  text-underline-offset: 5px;
+.markdown :where(p, li, td, th) a:not(.hash-link):not([class*="anchor"]) {
+  font-weight: 550;
+}
+.markdown :where(p, li, td, th, h1, h2, h3, h4, h5, h6) a:not(.hash-link):not([class*="anchor"]):hover {
+  text-decoration-color: #4548e0;
+  text-decoration-thickness: 3px;
+}
+/* Banner links: same underline LOGIC as in-content links (1.5px default → 4px on
+   hover, colour deepens with an eased transition) but the colour is derived from
+   the banner's OWN foreground (currentColor) — a lighter tint at rest, the full
+   deep banner colour on hover. So a purple note deepens to purple, an amber
+   warning to deep amber, etc. */
+.markdown .alert [class*="admonitionContent"] a:not(.hash-link) {
+  /* longhand line (NOT the `text-decoration` shorthand — that resets thickness to
+     auto!important and would override the 1.5px below). */
+  text-decoration-line: underline !important;
+  text-decoration-color: color-mix(in srgb, currentColor 55%, transparent) !important;
+  text-decoration-thickness: 1.5px !important;
+  text-underline-offset: 4px;
+  transition:
+    text-decoration-color 0.16s ease-in-out,
+    color 0.16s ease-in-out;
+}
+.markdown .alert [class*="admonitionContent"] a:not(.hash-link):hover {
+  text-decoration-color: currentColor !important;
+  text-decoration-thickness: 3px !important;
 }
 
 /* Code blocks */
@@ -1363,7 +1402,8 @@ pre {
      item's true bottom edge (where the active sliding bar + title-bar stroke sit). */
   bottom: -2px;
   height: 3px;
-  background: #cfcfcf;
+  /* warm tan (not gray) so the hover bar sits on the cream title bar */
+  background: #d6cba6;
   border-radius: 1.5px;
 }
 
@@ -1372,8 +1412,11 @@ pre {
    src/theme/Tabs) — so the per-tab active border is transparent here. */
 .tabs__item--active {
   background: transparent !important;
-  color: var(--zd-linear-signup-ink) !important;
-  font-weight: 400 !important;
+  /* active tab: deep cream/beige text (matches the cream code header), one weight
+     notch heavier, a hair smaller */
+  color: #7a6528 !important;
+  font-weight: 500 !important;
+  font-size: 12.8px !important;
   box-shadow: none !important;
   border-bottom: 2px solid transparent !important;
 }
@@ -1385,11 +1428,11 @@ pre {
   color: #8b8a84 !important;
 }
 
-/* Ask AI / Copy hover: neutral black-alpha wash (darker than the bg, no blue tint).
-   Excludes the "copied" state so its blue feedback wash still shows. */
+/* Ask AI / Copy hover: warm amber-alpha wash so it tints WITH the cream title bar
+   instead of graying it. Excludes the "copied" state so its blue feedback shows. */
 [class*="askAiBtn"]:hover,
 [class*="copyBtn"]:not([class*="Copied"]):hover {
-  background: rgba(0, 0, 0, 0.05) !important;
+  background: rgba(150, 120, 40, 0.13) !important;
 }
 
 /* Merge the tab strip into the code title bar ONLY when the active tab's panel is
@@ -2022,8 +2065,19 @@ nav[aria-label="Breadcrumb"] span[class*='pageBreadcrumbSeparator'] {
 :root {
   --docusaurus-highlighted-code-line-bg: #f5f4f1;
 }
+/* The highlighted-line grey block must span the FULL code width. Docusaurus pulls
+   it out by --ifm-pre-padding (16px), but our `pre` uses 18px horizontal padding,
+   so it stopped 2px short on each side. Match the 18px so it reaches both edges. */
+[class*="windowFrame"] .theme-code-block-highlighted-line,
+.markdown pre .theme-code-block-highlighted-line {
+  margin-left: -18px !important;
+  margin-right: -18px !important;
+  padding-left: 18px !important;
+  padding-right: 18px !important;
+}
 [data-theme='dark'] {
   --docusaurus-highlighted-code-line-bg: rgba(255, 255, 255, 0.12);
+  --zd-card-stroke: #2b2b2b;
 }
 
 /* Neutralize oneLight's warm pink background to match page palette */
@@ -2911,6 +2965,14 @@ html.docs-doc-id-tutorials\/home #copy-page-btn {
   text-transform: none;
 }
 
+/* Banner body text adapts to the alert's own foreground colour (note=purple,
+   tip=cyan, warning=amber) instead of the global near-black body color — the
+   global `.markdown :where(p,li){color:page-ink}` was overriding it to black. */
+.markdown .alert [class*="admonitionContent"] :where(p, li, td, th),
+.markdown .alert [class*="admonitionContent"] :where(p, li, td, th) :where(strong, b, em) {
+  color: var(--ifm-alert-foreground-color);
+}
+
 /* links + inline-code inside follow the type's dark color (not black) — force
    over the global .markdown a color, and tint the underline to match */
 .markdown .alert [class*="admonitionContent"] a,
@@ -2920,16 +2982,11 @@ html.docs-doc-id-tutorials\/home #copy-page-btn {
   text-decoration-thickness: 1px;
   text-decoration-color: currentColor !important;
   text-underline-offset: 4px;
-  /* animate colour only — thickness/offset step in whole pixels and stutter */
+  /* Colour eases smoothly; thickness is not animatable (snaps), so it isn't
+     changed on hover — matches the in-content link behaviour. */
   transition:
-    color var(--zd-hover-duration) var(--zd-hover-ease),
-    text-decoration-color var(--zd-hover-duration) var(--zd-hover-ease);
-}
-
-.markdown .alert [class*="admonitionContent"] a:hover,
-.markdown .alert [class*="admonitionContent"] :where(p, li, td, th) a:hover {
-  text-decoration-thickness: 2px;
-  text-underline-offset: 5px;
+    color 0.5s ease-in-out,
+    text-decoration-color 0.5s ease-in-out;
 }
 .alert :not(pre) > code {
   font-family: var(--ifm-font-family-monospace);
@@ -3102,8 +3159,11 @@ html.docs-doc-id-tutorials\/home #copy-page-btn {
   display: flex;
   align-items: center;
   box-sizing: border-box;
-  margin: -14px -16px !important;
-  padding: 14px 16px !important;
+  /* Horizontal -12px matches the details box's 12px padding so the summary (its
+     hover bg + open-state bottom divider) fills the box EXACTLY — not 4px wider
+     on each side, which made the hover look larger than the box. */
+  margin: -14px -12px !important;
+  padding: 14px 12px !important;
   border-radius: var(--ifm-alert-border-radius, 16px);
   border-bottom: 1px solid transparent !important;
   cursor: pointer;
