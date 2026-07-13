@@ -10,7 +10,7 @@ notebook: FALSE
 description: "Zilliz Cloud offers multiple deployment and project plan options to match different workload, reliability, compliance, data sovereignty, and infrastructure requirements. | Cloud"
 type: origin
 token: Ghq9wEiOOivgeIkmj2HcHC9onXe
-sidebar_position: 4
+sidebar_position: 1
 displayed_sidebar: default
 
 ---
@@ -28,7 +28,7 @@ Before deploying any resources, you need to first decide whether to use **SaaS**
 
 - If you choose BYOC, feature support aligns with the SaaS Business Critical plan.
 
-Use this guide to compare Zilliz Cloud plans and choose the right plan before [creating a project](./manage-projects#create-a-project).
+Use this guide to compare Zilliz Cloud plans and choose the right plan before [creating a project](./manage-projects).
 
 ## Select Deployment (SaaS vs. BYOC)\{#select-deployment-saas-vs-byoc}
 
@@ -65,19 +65,19 @@ If you choose BYOC, you do not need to further choose the plan. The feature supp
      <td><ul><li><p>Business Critical: 99.99% (If multi-replica is enabled)</p></li><li><p>BYOC: 99.95%</p></li></ul></td>
    </tr>
    <tr>
-     <td><p><a href="./undefined#manual-scaling">Manual scaling</a></p></td>
+     <td><p><a href="./manual-scaling">Manual scaling</a></p></td>
      <td><p>✅</p></td>
      <td><p>✅</p></td>
      <td><p>✅</p></td>
    </tr>
    <tr>
-     <td><p>Auto-scaling (including <a href="./undefined#scheduled-scaling">scheduled</a> and <a href="./undefined#dynamic-scaling">dynamic</a> scaling)</p></td>
+     <td><p>Auto-scaling (including <a href="./scheduled-scaling">scheduled</a> and <a href="./auto-scaling">dynamic</a> scaling)</p></td>
      <td><p>❌</p></td>
      <td><p>✅</p></td>
      <td><p>✅</p></td>
    </tr>
    <tr>
-     <td><p><a href="./undefined">Replica</a></p></td>
+     <td><p><a href="./auto-scaling">Replica</a></p></td>
      <td><p>❌</p></td>
      <td><p>✅</p></td>
      <td><p>✅</p></td>

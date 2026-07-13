@@ -10,7 +10,7 @@ notebook: FALSE
 description: "Now Zilliz Cloud services are available on Azure, starting with the East US region. Additionally, we introduce Zilliz Cloud Pipelines (Beta) which transforms unstructured data into vector embeddings for ingestion and retrieval. The release also brings improved RBAC and credential management within Clusters, with three predefined roles (admin, read-write, read-only) for user administration. Other updates include enhanced error message content and stability improvements for more reliable service. | Cloud"
 type: origin
 token: A5lpwIZcZiTLqakdt6rcCmPcnEe
-sidebar_position: 27
+sidebar_position: 1
 displayed_sidebar: releasesSidebar
 
 ---
@@ -44,7 +44,7 @@ Zilliz Cloud Pipelines consists of three specific pipelines: Ingestion, Search, 
 
 ## RBAC and Credential Management in Your Clusters\{#rbac-and-credential-management-in-your-clusters}
 
-In this release, we introduce enhanced functionality for managing RBAC (Role-Based Access Control) and credentials within each Cluster. This streamlined approach allows users to efficiently administer Cluster users. To access these features, navigate to the 'Clusters' section, select 'your_cluster', and then proceed to the 'Users' tab. This release includes three predefined roles for simplified user management: 'admin', 'read-write', and 'read-only', each tailored to suit different levels of access and control needs. For more comprehensive details and guidance on utilizing these new capabilities, see the documentation.
+In this release, we introduce enhanced functionality for managing RBAC (Role-Based Access Control) and credentials within each Cluster. This streamlined approach allows users to efficiently administer Cluster users. To access these features, navigate to the 'Clusters' section, select 'your_cluster', and then proceed to the 'Users' tab. This release includes three predefined roles for simplified user management: 'admin', 'read-write', and 'read-only', each tailored to suit different levels of access and control needs. For more comprehensive details and guidance on utilizing these new capabilities, see [Access Control Explained](./access-control-overview).
 
 ## New Cluster Manipulation API Endpoints\{#new-cluster-manipulation-api-endpoints}
 

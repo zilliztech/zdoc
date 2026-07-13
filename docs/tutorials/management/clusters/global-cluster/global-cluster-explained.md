@@ -74,7 +74,7 @@ For details, see [Switchover and Failover](./switchover-and-failover).
 
 ## Billing\{#billing}
 
-In a global cluster, both the primary and secondary clusters are billed as regular Zilliz Cloud Dedicated clusters for their compute and storage usage, plus additional data transfer charges for data replication between clusters. 
+In a global cluster, both the primary and secondary clusters are billed as regular Zilliz Cloud [Dedicated clusters](./dedicated-cluster-cost) for their compute and storage usage, plus additional [data transfer](./data-transfer-cost) charges for data replication between clusters. 
 
 Suppose your global cluster configuration is as follows:
 
@@ -98,7 +98,7 @@ For detailed list prices, see [Zilliz Cloud List Price](https://zilliz.com/prici
 
 <Admonition type="info" icon="📘" title="Notes">
 
-Discarded clusters in the recycle bin after a [failover](./switchover-and-failover#perform-a-failover) are billed for **storage** only.
+Discarded clusters in the recycle bin after a [failover](./switchover-and-failover) are billed for **storage** only.
 
 </Admonition>
 

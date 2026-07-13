@@ -69,7 +69,7 @@ ce_rf(
 
 A list of `RerankResult` objects.
 
-````plaintext
+```plaintext
 ├── RerankResult
 |    └── text
 |    └── score
@@ -90,7 +90,7 @@ Each `RerankResult` object contains:
 
     This exception will be raised when the Sentence Transformer module is not installed.
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus.model.reranker import CrossEncoderRerankFunction
@@ -116,4 +116,4 @@ ce_rf(query, documents)
 #  RerankResult(text="In 1950, Alan Turing published his seminal paper, 'Computing Machinery and Intelligence,' proposing the Turing Test as a criterion of intelligence, a foundational concept in the philosophy and development of artificial intelligence.", score=-2.9546022415161133, index=0),
 #  RerankResult(text='The invention of the Logic Theorist by Allen Newell, Herbert A. Simon, and Cliff Shaw in 1955 marked the creation of the first true AI program, which was capable of solving logic problems, akin to proving mathematical theorems.', score=-4.771512031555176, index=3),
 #  RerankResult(text='In 1951, British mathematician and computer scientist Alan Turing also developed the first program designed to play chess, demonstrating an early example of AI in game strategy.', score=-8.325657844543457, index=2)]
-````
+```

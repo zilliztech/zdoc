@@ -10,7 +10,7 @@ notebook: FALSE
 description: "We are pleased to announce the general availability of a significant update to Zilliz Cloud. This release raises the standard of vector database services for usability, security, performance, and capability to a new stage, bringing you a state-of-the-art vector database experience built for everyone. | Cloud"
 type: origin
 token: XmUYwRgNDitesQkl9QDc3IslnOh
-sidebar_position: 34
+sidebar_position: 1
 displayed_sidebar: releasesSidebar
 
 ---
@@ -64,7 +64,7 @@ We are pleased to announce the general availability of a significant update to Z
 
     With the new backup and restore feature, you can now easily back up your database and restore it in case of an unexpected loss.
 
-    For details, refer to [Backup & Restore](./undefined).
+    For details, refer to [Create Backup](./create-backup) and its sibling pages.
 
 - Recycler Bin
 
@@ -76,7 +76,7 @@ We are pleased to announce the general availability of a significant update to Z
 
     With this release, we are introducing database migration toolkits. Now open-source Milvus users can easily migrate their local databases to Zilliz Cloud, freeing themselves from the burden of system maintenance. In addition, the migration tool is compatible with Milvus 1.x and 2.x. So with only two steps, you can easily migrate your database, regardless of the Milvus version, into Zilliz Cloud.
 
-    For more details, please refer to the [Migrations](./undefined).
+    For more details, please refer to the [Migrate from Milvus to Zilliz Cloud](./migrate-from-milvus).
 
 - Other Great updates
 

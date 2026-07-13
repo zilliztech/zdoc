@@ -10,7 +10,7 @@ notebook: FALSE
 description: "Cross-region backup in Zilliz Cloud enhances data protection by copying backups to multiple cloud regions. It safeguards against regional outages and supports disaster recovery, business continuity, and high availability by minimizing risks from localized failures. | Cloud"
 type: origin
 token: ESVGwTkn8iLfUakSSrkc5dWJnye
-sidebar_position: 3
+sidebar_position: 1
 displayed_sidebar: default
 
 ---
@@ -123,9 +123,9 @@ In the [Jobs](./job-center) list, you will first see the original backup job. On
 
 When you choose cross-region backup, two types of charges may apply:
 
-- **Storage cost:** Based on the region where the copied backup file is stored. To understand how storage cost is calculated, see Storage Cost.
+- **Storage cost:** Based on the region where the copied backup file is stored. To understand how storage cost is calculated, see [Storage Cost](./storage-cost).
 
-- **Data transfer cost:** Based on the traffic between the source region and the target regions. To understand how storage cost is calculated, see Data Transfer Cost.
+- **Data transfer cost:** Based on the traffic between the source region and the target regions. To understand how storage cost is calculated, see [Data Transfer Cost](./data-transfer-cost).
 
 For detailed rates, see [Pricing Guide](https://zilliz.com/pricing/pricing-guide).
 

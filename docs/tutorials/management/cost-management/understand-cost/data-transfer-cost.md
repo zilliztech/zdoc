@@ -10,7 +10,7 @@ notebook: FALSE
 description: "Data transfer can be traffic coming into Zilliz Cloud, leaving Zilliz Cloud out into the internet, or in between two resources within Zilliz Cloud. Data transfer costs in Zilliz Cloud are billed based on the amount of data transferred. | Cloud"
 type: origin
 token: BClgwKlHaiushBkPPssclTkYnef
-sidebar_position: 6
+sidebar_position: 1
 displayed_sidebar: default
 
 ---
@@ -57,7 +57,7 @@ The following table compares the different data transfer types.
 
 You will be billed for data transfer in the following scenarios:
 
-- Operations like search/query
+- Operations like [search](./single-vector-search)/[query](./get-and-scalar-query)
 
 - Forwarding [audit logs](./audit-logs) to cloud object storage
 
@@ -65,7 +65,7 @@ You will be billed for data transfer in the following scenarios:
 
 - [Cross-region backup](/docs/backup-to-other-regions)
 
-- Use third-party model providers for data ingestion, search, query, and reranking.
+- Use third-party model providers, such as [OpenAI](./openai), [Voyage AI](./voyage-ai), and [Cohere](./cohere), for data ingestion, search, query, and reranking.
 
 <Admonition type="info" icon="📘" title="📘 Note">
 

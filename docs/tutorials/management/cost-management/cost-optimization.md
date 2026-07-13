@@ -10,7 +10,7 @@ notebook: FALSE
 description: "As data scales and query volumes rise, cost control becomes critical. This guide systematically outlines cost optimization strategies for Zilliz Cloud across five dimensions deployment selection, index tuning, elastic scaling, discounts, and billing analysis. | Cloud"
 type: origin
 token: MYHwwhKtri4MMJku6BbcMjF4n1d
-sidebar_position: 3
+sidebar_position: 1
 displayed_sidebar: default
 
 ---
@@ -179,7 +179,7 @@ Efficient queries reduce Read Unit (RU) costs for Serverless users and increase 
 
 ### Index scalar fields\{#index-scalar-fields}
 
-Many users neglect scalar indexing. Without it, filters (e.g., `category == "electronics"` or `timestamp > 1700000000`) trigger a **full collection scan**, which is extremely expensive. You can create indexes for frequently filtered scalar fields.
+Many users neglect scalar indexing using index types, such as [BITMAP](./bitmap-index-type). Without it, filters (e.g., `category == "electronics"` or `timestamp > 1700000000`) trigger a **full collection scan**, which is extremely expensive. You can create indexes for frequently filtered scalar fields.
 
 ```python
 collection.create_index(
@@ -266,7 +266,7 @@ schema.add_field("tenant_id", DataType.VARCHAR, max_length=128, is_partition_key
 
 The biggest cost trap with Dedicated clusters is "provisioning for peak load and running around the clock." Zilliz Cloud offers three scaling strategies to break this pattern.
 
-### Dynamic scaling\{#dynamic-scaling}
+### Auto-scaling\{#auto-scaling}
 
 Set a minimum and maximum CU value, and the system scales automatically based on real-time load.
 
@@ -274,9 +274,9 @@ Set a minimum and maximum CU value, and the system scales automatically based on
 
 - Replicas scale automatically based on the CU Computation metric (QPS-driven)
 
-**Typical scenario:** An e-commerce search service that needs 32 CU at daytime peak but only 8 CU overnight. Set min=8, max=32 in the dynamic scaling configuration, and the system automatically scales down to 8 CU during off-peak hours. Assuming 10 off-peak hours per day, monthly compute costs can be reduced by approximately 30–40%.
+**Typical scenario:** An e-commerce search service that needs 32 CU at daytime peak but only 8 CU overnight. Set min=8, max=32 in the auto-scaling configuration, and the system automatically scales down to 8 CU during off-peak hours. Assuming 10 off-peak hours per day, monthly compute costs can be reduced by approximately 30–40%.
 
-For details, see [Dynamic Scaling](./undefined#dynamic-scaling).
+For details, see [Auto-scaling](./auto-scaling).
 
 ### Scheduled scaling\{#scheduled-scaling}
 
@@ -290,13 +290,13 @@ Suited for workloads with predictable traffic patterns. Supports Basic mode (sim
 
 - Pre-scale for end-of-month promotional periods
 
-For details, see [Scheduled Scaling](./undefined#scheduled-scaling).
+For details, see [Scheduled Scaling](./scheduled-scaling).
 
 ### Manual scaling\{#manual-scaling}
 
 Do not overlook the simplest option — when your workload enters a quiet period (e.g., between projects or during off-season), proactively reduce your CU configuration. Many users forget to scale down after a PoC and end up paying for weeks or even months of unnecessary capacity.
 
-For details, see [Manual Scaling](./undefined#manual-scaling).
+For details, see [Manual Scaling](./manual-scaling).
 
 ### Scaling constraints\{#scaling-constraints}
 

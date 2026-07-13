@@ -2,6 +2,7 @@ module.exports = [
   {
     "type": "category",
     "label": "Client",
+    "key": "category:api/nodejs/nodejs/client",
     "items": [
       {
         "type": "doc",
@@ -57,12 +58,12 @@ module.exports = [
         "label": "use()",
         "key": "doc:api/nodejs/nodejs/Client/client-use"
       }
-    ],
-    "key": "category:client"
+    ]
   },
   {
     "type": "category",
     "label": "Collections",
+    "key": "category:api/nodejs/nodejs/collections",
     "items": [
       {
         "type": "doc",
@@ -250,12 +251,12 @@ module.exports = [
         "label": "refreshExternalCollection()",
         "key": "doc:api/nodejs/nodejs/Collections/collections-refreshexternalcollection"
       }
-    ],
-    "key": "category:collections"
+    ]
   },
   {
     "type": "category",
     "label": "Data Import",
+    "key": "category:api/nodejs/nodejs/dataimport",
     "items": [
       {
         "type": "doc",
@@ -353,12 +354,12 @@ module.exports = [
         "label": "getImportState()",
         "key": "doc:api/nodejs/nodejs/DataImport/dataimport-getimportstate"
       }
-    ],
-    "key": "category:data-import"
+    ]
   },
   {
     "type": "category",
     "label": "Management",
+    "key": "category:api/nodejs/nodejs/management",
     "items": [
       {
         "type": "doc",
@@ -516,12 +517,12 @@ module.exports = [
         "label": "loadCollectionAsync()",
         "key": "doc:api/nodejs/nodejs/Management/management-loadcollectionasync"
       }
-    ],
-    "key": "category:management"
+    ]
   },
   {
     "type": "category",
     "label": "Snapshot",
+    "key": "category:api/nodejs/nodejs/snapshot",
     "items": [
       {
         "type": "doc",
@@ -577,12 +578,12 @@ module.exports = [
         "label": "unpinSnapshotData()",
         "key": "doc:api/nodejs/nodejs/Snapshot/snapshot-unpinsnapshotdata"
       }
-    ],
-    "key": "category:snapshot"
+    ]
   },
   {
     "type": "category",
     "label": "Vector",
+    "key": "category:api/nodejs/nodejs/vector",
     "items": [
       {
         "type": "doc",
@@ -644,12 +645,12 @@ module.exports = [
         "label": "queryIterator()",
         "key": "doc:api/nodejs/nodejs/Vector/vector-queryiterator"
       }
-    ],
-    "key": "category:vector"
+    ]
   },
   {
     "type": "category",
     "label": "Authentication",
+    "key": "category:api/nodejs/nodejs/authentication",
     "items": [
       {
         "type": "doc",
@@ -783,12 +784,12 @@ module.exports = [
         "label": "hasRole()",
         "key": "doc:api/nodejs/nodejs/Authentication/authentication-hasrole"
       }
-    ],
-    "key": "category:authentication"
+    ]
   },
   {
     "type": "category",
     "label": "Database",
+    "key": "category:api/nodejs/nodejs/database",
     "items": [
       {
         "type": "doc",
@@ -838,12 +839,12 @@ module.exports = [
         "label": "describeDatabase()",
         "key": "doc:api/nodejs/nodejs/Database/database-describedatabase"
       }
-    ],
-    "key": "category:database"
+    ]
   },
   {
     "type": "category",
     "label": "Partitions",
+    "key": "category:api/nodejs/nodejs/partitions",
     "items": [
       {
         "type": "doc",
@@ -893,7 +894,6 @@ module.exports = [
         "label": "releasePartitions()",
         "key": "doc:api/nodejs/nodejs/Partitions/partitions-releasepartitions"
       }
-    ],
-    "key": "category:partitions"
+    ]
   }
 ]

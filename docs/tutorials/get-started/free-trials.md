@@ -10,7 +10,7 @@ notebook: FALSE
 description: "Zilliz Cloud offers both free cluster and free trial to help you evaluate or test the powerful vector database features and estimate costs of using Zilliz Cloud. To start, simply register an account on Zilliz Cloud. No payment information is required. | Cloud"
 type: origin
 token: LMfdwRwKIiJtywkwbHVcGnOFnRf
-sidebar_position: 2
+sidebar_position: 1
 displayed_sidebar: default
 
 ---
@@ -46,11 +46,11 @@ When you sign up for Zilliz Cloud with a work email, your organization will rece
 
 After the trial, your organization will be frozen. During this time, your Serverless and Dedicated clusters will be moved to the [recycle bin](./use-recycle-bin), and you won't have access to features exclusive to these clusters (e.g., Backup and restore, alerts, etc.).
 
-To unfreeze your organization, simply add a payment method. This will allow you to restore deleted data from the recycle bin. If you don't add a payment method within 30 days of freezing, your Serverless and Dedicated clusters will be permanently deleted, but your organization will still be preserved.
+To unfreeze your organization, simply add a payment method, such as [Credit Card](./subscribe-by-adding-credit-card) or [Marketplace Subscription](./marketplace-subscription). This will allow you to restore deleted data from the recycle bin. If you don't add a payment method within 30 days of freezing, your Serverless and Dedicated clusters will be permanently deleted, but your organization will still be preserved.
 
 ### Earn credits and extend credit expiration\{#earn-credits-and-extend-credit-expiration}
 
-When you register with a work email, you’ll receive &#36;100 in free credits. You can earn an extra &#36;100 by adding a payment method on Zilliz Cloud. Plus, adding a payment method extends the credit expiration to **1 year**.
+When you register with a work email, you’ll receive &#36;100 in free credits. You can earn an extra &#36;100 by adding a payment method, such as [Credit Card](./subscribe-by-adding-credit-card) or [Marketplace Subscription](./marketplace-subscription), on Zilliz Cloud. Plus, adding a payment method extends the credit expiration to **1 year**.
 
 If you need additional credits or want to extend your trial period, please [contact sales](https://zilliz.com/contact-sales).
 

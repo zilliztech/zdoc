@@ -10,7 +10,7 @@ notebook: FALSE
 description: "This page provides information about limits on the Zilliz Cloud platform. Submit a request to us if you need to report issues related to these limits. | Cloud"
 type: origin
 token: PuxkwMWvbiHxvTkHsVkcMZP9n5f
-sidebar_position: 18
+sidebar_position: 1
 displayed_sidebar: default
 
 ---
@@ -119,7 +119,7 @@ The following table lists the limits on the capacity of each type of cluster pla
 
 <Admonition type="info" icon="📘" title="Notes">
 
-The upper limits for dedicated cluster capacity depend on the CU type and size used. If your cluster's capacity is not enough, consider adjusting the CU type and size. For details, see [Scale Cluster](./undefined).
+The upper limits for dedicated cluster capacity depend on the CU type and size used. If your cluster's capacity is not enough, consider adjusting the CU type and size. For details, see [Plan Cluster Scaling](./plan-cluster-scaling).
 
 </Admonition>
 

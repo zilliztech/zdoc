@@ -52,7 +52,7 @@ Query CU Cost = Query CU Unit Price × Number of Query CU × Active Runtime
 
 ## Indexing CU cost\{#indexing-cu-cost}
 
-Indexing CU cost measures compute resources consumed when you build indexes for data in both managed and external collections in on-demand compute.
+Indexing CU cost measures compute resources consumed when you build indexes for data in both [managed](./manage-collections-sdks) and [external collections](./create-external-collection) in on-demand compute.
 
 ### Sources of indexing CU cost\{#sources-of-indexing-cu-cost}
 

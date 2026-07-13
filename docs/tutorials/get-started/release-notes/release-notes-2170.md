@@ -10,7 +10,7 @@ notebook: FALSE
 description: "This release delivers a more refined and intuitive user experience across multiple features of Zilliz Cloud. From a redesigned migration console to policy-based alerting and improved mmap controls, we've focused on making your workflows faster, more flexible, and easier to manage. New AI assistant capabilities and support for BYOC on GCP further extend the platform's power and usability, whether you're managing infrastructure, monitoring environments, or seeking support. | Cloud"
 type: origin
 token: DF8HwUTD6iScNQkVzs8cZTr8n8b
-sidebar_position: 13
+sidebar_position: 1
 displayed_sidebar: releasesSidebar
 
 ---
@@ -32,7 +32,7 @@ All Zilliz Cloud clusters created after this release are compatible with **Milvu
 
     ![M3K4bSnIeoqBKExPdaPcd6j7nVb](https://zdoc-images.s3.us-west-2.amazonaws.com/m3k4bsnieoqbkexpdapcd6j7nvb.png "M3K4bSnIeoqBKExPdaPcd6j7nVb")
 
-    Zilliz Cloud supports migrations between Zilliz Cloud clusters, from Milvus instances, and from several external sources. For details on the possible data sources, refer to [Migrations](./undefined).
+    Zilliz Cloud supports migrations between Zilliz Cloud clusters, from Milvus instances, and from several external sources. For details on the possible data sources, refer to [Zilliz to Zilliz Migrations](./migrate-between-clusters).
 
 - **Advanced collection & configuration tools:** Confidently handle complex collection and field mappings with improved data type support, dynamic-to-fixed field conversion, and intuitive controls for configuring field and shard settings — all within a responsive, user-friendly interface.
 
@@ -56,7 +56,7 @@ For details on policy-based alerts, refer to [Manage Project Alerts](./manage-pr
 
 ## UI support for mmap settings\{#ui-support-for-mmap-settings}
 
-Zilliz Cloud follows [cluster-level defaults](./use-mmap#global-mmap-strategy) based on your CU type and plan. Since this release, you can manage **mmap settings** directly from the graphical user interface (GUI) at the collection and field levels. 
+Zilliz Cloud follows [cluster-level defaults](./use-mmap) based on your CU type and plan. Since this release, you can manage **mmap settings** directly from the graphical user interface (GUI) at the collection and field levels. 
 
 - **Collection-Level Configuration:** Easily apply mmap settings to raw data if needed.
 

@@ -10,7 +10,7 @@ notebook: FALSE
 description: "The Usage page in Zilliz Cloud provides you with a visualized cost analysis tool, enabling you to view and track Zilliz Cloud usage and expenses from multiple dimensions. | Cloud"
 type: origin
 token: LJplw7Q9Gi09GMkiy8PcbYp6nrg
-sidebar_position: 2
+sidebar_position: 1
 displayed_sidebar: default
 
 ---
@@ -22,7 +22,7 @@ import Admonition from '@theme/Admonition';
 
 The **Usage** page in Zilliz Cloud provides you with a visualized cost analysis tool, enabling you to view and track Zilliz Cloud usage and expenses from multiple dimensions.
 
-If you subscribe through a marketplace and want to separate billing by marketplace account, see [Separate Billing by Marketplace Account](./undefined).
+If you subscribe through a marketplace and want to separate billing by marketplace account, see [Separate Zilliz Cloud Billing on AWS Marketplace](./separate-zilliz-cloud-billing-on-aws-marketplace) and its sibling pages.
 
 ## Prerequisites\{#prerequisites}
 

@@ -10,7 +10,7 @@ notebook: FALSE
 description: "In this release, Zilliz Cloud has unveiled an array of new features backed by Milvus 2.4, including sparse vector support, enhanced multi-vector and hybrid search, an inverted index and fuzzy matching for faster queries, and grouping search for document-level recall. It also introduces Float16 and BFloat16 data types for improved search efficiency. In addition, the Pipelines feature now tracks token usage stats with every data ingestion and search request, streamlining performance monitoring. You can find detailed stats on the invoice page. | Cloud"
 type: origin
 token: GanXwLnJkiymKVkNPhecdi9MnGf
-sidebar_position: 22
+sidebar_position: 1
 displayed_sidebar: releasesSidebar
 
 ---
@@ -66,7 +66,7 @@ In previous releases of Milvus, memory-based binary search indexes and Marisa Tr
 
 This release also supports fuzzy matches in scalar filtering using prefixes, infixes, and suffixes.
 
-For details, check out the [Binary Vector](./use-binary-vector), Index Scalar Fields, and [Use the ](./basic-filtering-operators)[`like`](./basic-filtering-operators)[ Operator](./basic-filtering-operators) guides as well as the example code in [inverted_index_example.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/inverted_index_example.py) and [fuzzy_match.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/fuzzy_match.py). *Be sure to update the connection details in the example code with your Zilliz Cloud cluster credentials and use AUTOINDEX instead.*
+For details, check out the [Binary Vector](./use-binary-vector), [INVERTED](./inverted-index-type), and [Use the ](./basic-filtering-operators)[`like`](./basic-filtering-operators)[ Operator](./basic-filtering-operators) guides as well as the example code in [inverted_index_example.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/inverted_index_example.py) and [fuzzy_match.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/fuzzy_match.py). *Be sure to update the connection details in the example code with your Zilliz Cloud cluster credentials and use AUTOINDEX instead.*
 
 ### Grouping Search\{#grouping-search}
 
@@ -78,7 +78,7 @@ For details, check out the [Grouping Search](./grouping-search) guide and the ex
 
 Machine learning and neural networks often use half-precision data types, such as Float16 and BFloat- While these data types can improve query efficiency and reduce memory usage, they come with a tradeoff of reduced accuracy. With this release, Zilliz Cloud now supports these data types for vector fields.
 
-For deatils, refer to the Search & Rerank and the example code in [float16_example.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/datatypes/float16_example.py) and [bfloat16_example.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/datatypes/bfloat16_example.py). *Be sure to update the connection details in the example code with your Zilliz Cloud cluster credentials.*
+For deatils, refer to [Dense Vector](./use-dense-vector) and the example code in [float16_example.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/datatypes/float16_example.py) and [bfloat16_example.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/datatypes/bfloat16_example.py). *Be sure to update the connection details in the example code with your Zilliz Cloud cluster credentials.*
 
 ### Refined MilvusClient Interfaces\{#refined-milvusclient-interfaces}
 

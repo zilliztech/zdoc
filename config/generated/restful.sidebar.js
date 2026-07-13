@@ -62,7 +62,7 @@ module.exports = [
                 "key": "doc:api/restful/restful/v2/control-plane/extract-load-and-transform-v2/merge-data-v2"
               }
             ],
-            "key": "category:v2/control-plane-v2/extract-load-and-transform-v2"
+            "key": "category:v2/control-plane-v2/extract-load-transform-v2"
           },
           {
             "type": "category",
@@ -289,7 +289,7 @@ module.exports = [
                 "key": "doc:api/restful/restful/v2/control-plane/backup-and-restore-v2/restore-collection-backup-v2"
               }
             ],
-            "key": "category:v2/control-plane-v2/backup-and-restore-v2"
+            "key": "category:v2/control-plane-v2/backup-restore-v2"
           },
           {
             "type": "category",
@@ -326,7 +326,7 @@ module.exports = [
                 "key": "doc:api/restful/restful/v2/control-plane/metrics-and-alerts-v2/query-cluster-metrics-v2"
               }
             ],
-            "key": "category:v2/control-plane-v2/metrics-and-alerts-v2"
+            "key": "category:v2/control-plane-v2/metrics-alerts-v2"
           },
           {
             "type": "category",

@@ -10,7 +10,7 @@ notebook: FALSE
 description: "A database in a serving cluster is a logical container for collections hosted by a Dedicated serving cluster. Use this page to create, view, configure, use, and drop databases through a serving cluster endpoint. | Cloud"
 type: origin
 token: DtLVw8EUyi6MqMkXh3Cc3rfZnic
-sidebar_position: 2
+sidebar_position: 1
 displayed_sidebar: default
 
 ---
@@ -20,6 +20,12 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
 # Database in Serving Clusters
+
+<FeatureNote variant="plan" titleHref="/docs/select-zilliz-cloud-service-plans">
+
+This feature is available only with the Enterprise plan or higher.
+
+</FeatureNote>
 
 A database in a serving cluster is a logical container for collections hosted by a Dedicated serving cluster. Use this page to create, view, configure, use, and drop databases through a serving cluster endpoint.
 
@@ -47,6 +53,9 @@ When a Dedicated cluster is created, a default database is created automatically
 
 You can create a database from the Zilliz Cloud console or programmatically.
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
 from pymilvus import MilvusClient
 
@@ -59,6 +68,10 @@ client.create_database(
     db_name="my_database_1",
 )
 ```
+
+</TabItem>
+
+<TabItem value='java'>
 
 ```java
 import io.milvus.v2.client.ConnectConfig;
@@ -79,6 +92,10 @@ CreateDatabaseReq request = CreateDatabaseReq.builder()
 client.createDatabase(request);
 ```
 
+</TabItem>
+
+<TabItem value='go'>
+
 ```go
 client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
@@ -94,6 +111,10 @@ if err != nil {
 }
 ```
 
+</TabItem>
+
+<TabItem value='javascript'>
+
 ```javascript
 import { MilvusClient } from "@zilliz/milvus2-sdk-node";
 
@@ -107,6 +128,10 @@ await client.createDatabase({
 });
 ```
 
+</TabItem>
+
+<TabItem value='bash'>
+
 ```bash
 curl --request POST \
   --url "YOUR_CLUSTER_ENDPOINT/v2/vectordb/databases/create" \
@@ -116,6 +141,9 @@ curl --request POST \
     "dbName": "my_database_1"
   }'
 ```
+
+</TabItem>
+</Tabs>
 
 You can also set properties when creating a database. The following example sets the number of replicas.
 
@@ -180,6 +208,9 @@ curl --request POST \
 
 List databases or describe a specific database.
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+<TabItem value='python'>
+
 ```python
 databases = client.list_databases()
 print(databases)
@@ -189,6 +220,10 @@ database = client.describe_database(
 )
 print(database)
 ```
+
+</TabItem>
+
+<TabItem value='java'>
 
 ```java
 import io.milvus.v2.service.database.request.DescribeDatabaseReq;
@@ -204,6 +239,9 @@ DescribeDatabaseResp database = client.describeDatabase(
 );
 ```
 
+</TabItem>
+</Tabs>
+
 ```plaintext
 databases, err := client.ListDatabase(ctx, milvusclient.NewListDatabaseOption())
 if err != nil {
@@ -218,6 +256,9 @@ if err != nil {
 log.Println(database)
 ```
 
+<Tabs groupId="code" defaultValue='javascript' values={[{"label":"JavaScript","value":"javascript"}]}>
+<TabItem value='javascript'>
+
 ```javascript
 const databases = await client.listDatabases();
 console.log(databases);
@@ -228,6 +269,10 @@ const database = await client.describeDatabase({
 console.log(database);
 ```
 
+</TabItem>
+
+<TabItem value='bash'>
+
 ```bash
 curl --request POST \
   --url "YOUR_CLUSTER_ENDPOINT/v2/vectordb/databases/describe" \
@@ -237,6 +282,9 @@ curl --request POST \
     "dbName": "default"
   }'
 ```
+
+</TabItem>
+</Tabs>
 
 ## Manage database properties\{#manage-database-properties}
 

@@ -10,7 +10,7 @@ notebook: FALSE
 description: "(placeholder) | Cloud"
 type: origin
 token: NRF1wGr3AiWWC1kVfWucZD6Xneb
-sidebar_position: 4
+sidebar_position: 1
 displayed_sidebar: releasesSidebar
 
 ---
@@ -112,7 +112,7 @@ import Grid from '@site/src/components/Grid';
 
         - **External Collection** — Reference data directly on object storage (Parquet, Lance, Vortex, and Iceberg) without copying it into Milvus. Milvus manages schema, indexes, and query execution only. An incremental Refresh keeps the collection in sync with source file changes, and a single dataset can be served from multiple instances simultaneously. 
 
-            For details, refer to External Collection.
+            For details, refer to [Create an External Collection](./create-external-collection).
 
         - **External Backfill** *(Private Preview)*  — Upgrade an embedding model on a live collection without downtime. Add a new vector field via `AddCollectionField`, freeze a consistent starting point with Snapshot, run the embedding job offline, and write values back through normal ingestion paths. The application switches over once the new column is indexed.
 
@@ -126,7 +126,7 @@ import Grid from '@site/src/components/Grid';
 
         - **EmbList + DiskANN**  — Stores a variable-length vector list per entity, indexed on disk via DiskANN. Suited for long documents, late-interaction models like ColBERT, and multimodal entities — keeping RAM under control at large corpus sizes.
 
-            For details, refer to [StructArray](./undefined) and [StructArray Operators](./struct-array-filtering).
+            For details, refer to [StructArray Overview](./use-array-of-structs) and [StructArray Operators](./struct-array-filtering).
 
         - **MinHash DIDO (Doc-in, Doc-out)**  — Adds a server-side MinHash function to MINHASH_LSH. Milvus automatically computes signatures during insert, bulk-insert, and search — no application-side preprocessing needed for deduplication, fingerprinting, and plagiarism detection workflows.
 
@@ -136,7 +136,7 @@ import Grid from '@site/src/components/Grid';
 
         - **Query / Search Order By** — Multi-field ordering for search and query results, with per-field ASC / DESC, pushed down into the kernel. No more over-fetching and client-side re-sorting for composite ranking.
 
-            For details, refer to [Basic Vector Search](./single-vector-search#sort-search-results-by-scalar-fields), [Grouping Search](./grouping-search#order-groups-by-a-scalar-field), and [Query](./get-and-scalar-query#sort-query-results).
+            For details, refer to [Basic Vector Search](./single-vector-search#sort-search-results-by-scalar-fields), [Grouping Search](./grouping-search), and [Query](./get-and-scalar-query).
 
         **Data lifecycle and operations**
 

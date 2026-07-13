@@ -2,10 +2,12 @@ module.exports = [
   {
     "type": "category",
     "label": "Cloud Management",
+    "key": "category:cli/cli/cloudmanagement",
     "items": [
       {
         "type": "category",
         "label": "Backup",
+        "key": "category:cli/cli/CloudManagement/cloudmanagement-backup",
         "items": [
           {
             "type": "doc",
@@ -61,12 +63,12 @@ module.exports = [
             "label": "update-policy",
             "key": "doc:cli/cli/CloudManagement/CloudManagement-Backup/backup-updatepolicy"
           }
-        ],
-        "key": "category:cloud-management/backup"
+        ]
       },
       {
         "type": "category",
         "label": "Billing",
+        "key": "category:cli/cli/CloudManagement/cloudmanagement-billing",
         "items": [
           {
             "type": "doc",
@@ -92,12 +94,12 @@ module.exports = [
             "label": "usage",
             "key": "doc:cli/cli/CloudManagement/CloudManagement-Billing/billing-usage"
           }
-        ],
-        "key": "category:cloud-management/billing"
+        ]
       },
       {
         "type": "category",
         "label": "Cluster",
+        "key": "category:cli/cli/CloudManagement/cloudmanagement-cluster",
         "items": [
           {
             "type": "doc",
@@ -159,12 +161,12 @@ module.exports = [
             "label": "suspend",
             "key": "doc:cli/cli/CloudManagement/CloudManagement-Cluster/cluster-suspend"
           }
-        ],
-        "key": "category:cloud-management/cluster"
+        ]
       },
       {
         "type": "category",
         "label": "Import",
+        "key": "category:cli/cli/CloudManagement/cloudmanagement-import",
         "items": [
           {
             "type": "doc",
@@ -184,12 +186,12 @@ module.exports = [
             "label": "status",
             "key": "doc:cli/cli/CloudManagement/CloudManagement-Import/import-status"
           }
-        ],
-        "key": "category:cloud-management/import"
+        ]
       },
       {
         "type": "category",
         "label": "Job",
+        "key": "category:cli/cli/CloudManagement/cloudmanagement-job",
         "items": [
           {
             "type": "doc",
@@ -197,12 +199,12 @@ module.exports = [
             "label": "describe",
             "key": "doc:cli/cli/CloudManagement/CloudManagement-Job/job-describe"
           }
-        ],
-        "key": "category:cloud-management/job"
+        ]
       },
       {
         "type": "category",
         "label": "Project",
+        "key": "category:cli/cli/CloudManagement/cloudmanagement-project",
         "items": [
           {
             "type": "doc",
@@ -234,12 +236,12 @@ module.exports = [
             "label": "add-regions",
             "key": "doc:cli/cli/CloudManagement/CloudManagement-Project/project-addregions"
           }
-        ],
-        "key": "category:cloud-management/project"
+        ]
       },
       {
         "type": "category",
         "label": "Volume",
+        "key": "category:cli/cli/CloudManagement/cloudmanagement-volume",
         "items": [
           {
             "type": "doc",
@@ -271,12 +273,12 @@ module.exports = [
             "label": "describe",
             "key": "doc:cli/cli/CloudManagement/CloudManagement-Volume/volume-describe"
           }
-        ],
-        "key": "category:cloud-management/volume"
+        ]
       },
       {
         "type": "category",
         "label": "OnDemandCluster",
+        "key": "category:cli/cli/CloudManagement/cloudmanagement-ondemandcluster",
         "items": [
           {
             "type": "doc",
@@ -302,12 +304,12 @@ module.exports = [
             "label": "list",
             "key": "doc:cli/cli/CloudManagement/CloudManagement-OnDemandCluster/ondemandcluster-list"
           }
-        ],
-        "key": "category:cloud-management/ondemandcluster"
+        ]
       },
       {
         "type": "category",
         "label": "PrivateLink",
+        "key": "category:cli/cli/CloudManagement/cloudmanagement-privatelink",
         "items": [
           {
             "type": "doc",
@@ -339,12 +341,12 @@ module.exports = [
             "label": "list-services",
             "key": "doc:cli/cli/CloudManagement/CloudManagement-PrivateLink/privatelink-listservices"
           }
-        ],
-        "key": "category:cloud-management/privatelink"
+        ]
       },
       {
         "type": "category",
         "label": "StorageIntegration",
+        "key": "category:cli/cli/CloudManagement/cloudmanagement-storageintegration",
         "items": [
           {
             "type": "doc",
@@ -382,19 +384,19 @@ module.exports = [
             "label": "validate",
             "key": "doc:cli/cli/CloudManagement/CloudManagement-StorageIntegration/storageintegration-validate"
           }
-        ],
-        "key": "category:cloud-management/storageintegration"
+        ]
       }
-    ],
-    "key": "category:cloud-management"
+    ]
   },
   {
     "type": "category",
     "label": "Configuration",
+    "key": "category:cli/cli/configuration",
     "items": [
       {
         "type": "category",
         "label": "Alert",
+        "key": "category:cli/cli/Configuration/configuration-alert",
         "items": [
           {
             "type": "doc",
@@ -432,12 +434,12 @@ module.exports = [
             "label": "update",
             "key": "doc:cli/cli/Configuration/Configuration-Alert/alert-update"
           }
-        ],
-        "key": "category:configuration/alert"
+        ]
       },
       {
         "type": "category",
         "label": "Auth",
+        "key": "category:cli/cli/Configuration/configuration-auth",
         "items": [
           {
             "type": "doc",
@@ -469,18 +471,18 @@ module.exports = [
             "label": "whoami",
             "key": "doc:cli/cli/Configuration/Configuration-Auth/auth-whoami"
           }
-        ],
-        "key": "category:configuration/auth"
+        ]
       },
       {
         "type": "category",
         "label": "Completion",
-        "items": [],
-        "key": "category:configuration/completion"
+        "key": "category:cli/cli/Configuration/configuration-completion",
+        "items": []
       },
       {
         "type": "category",
         "label": "Configure",
+        "key": "category:cli/cli/Configuration/configuration-configure",
         "items": [
           {
             "type": "doc",
@@ -506,12 +508,12 @@ module.exports = [
             "label": "set",
             "key": "doc:cli/cli/Configuration/Configuration-Configure/configure-set"
           }
-        ],
-        "key": "category:configuration/configure"
+        ]
       },
       {
         "type": "category",
         "label": "Context",
+        "key": "category:cli/cli/Configuration/configuration-context",
         "items": [
           {
             "type": "doc",
@@ -531,12 +533,12 @@ module.exports = [
             "label": "set",
             "key": "doc:cli/cli/Configuration/Configuration-Context/context-set"
           }
-        ],
-        "key": "category:configuration/context"
+        ]
       },
       {
         "type": "category",
         "label": "Global",
+        "key": "category:cli/cli/Configuration/configuration-global",
         "items": [
           {
             "type": "doc",
@@ -556,12 +558,12 @@ module.exports = [
             "label": "upgrade",
             "key": "doc:cli/cli/Configuration/Configuration-Global/global-upgrade"
           }
-        ],
-        "key": "category:configuration/global"
+        ]
       },
       {
         "type": "category",
         "label": "History",
+        "key": "category:cli/cli/Configuration/configuration-history",
         "items": [
           {
             "type": "doc",
@@ -581,12 +583,12 @@ module.exports = [
             "label": "search",
             "key": "doc:cli/cli/Configuration/Configuration-History/history-search"
           }
-        ],
-        "key": "category:configuration/history"
+        ]
       },
       {
         "type": "category",
         "label": "Quickstart",
+        "key": "category:cli/cli/Configuration/configuration-quickstart",
         "items": [
           {
             "type": "doc",
@@ -594,19 +596,19 @@ module.exports = [
             "label": "quickstart",
             "key": "doc:cli/cli/Configuration/Configuration-Quickstart/quickstart-quickstart"
           }
-        ],
-        "key": "category:configuration/quickstart"
+        ]
       }
-    ],
-    "key": "category:configuration"
+    ]
   },
   {
     "type": "category",
     "label": "Data Operations",
+    "key": "category:cli/cli/dataoperations",
     "items": [
       {
         "type": "category",
         "label": "Alias",
+        "key": "category:cli/cli/DataOperations/dataoperations-alias",
         "items": [
           {
             "type": "doc",
@@ -638,12 +640,12 @@ module.exports = [
             "label": "list",
             "key": "doc:cli/cli/DataOperations/DataOperations-Alias/alias-list"
           }
-        ],
-        "key": "category:data-operations/alias"
+        ]
       },
       {
         "type": "category",
         "label": "Collection",
+        "key": "category:cli/cli/DataOperations/dataoperations-collection",
         "items": [
           {
             "type": "doc",
@@ -723,12 +725,12 @@ module.exports = [
             "label": "rename",
             "key": "doc:cli/cli/DataOperations/DataOperations-Collection/collection-rename"
           }
-        ],
-        "key": "category:data-operations/collection"
+        ]
       },
       {
         "type": "category",
         "label": "Database",
+        "key": "category:cli/cli/DataOperations/dataoperations-database",
         "items": [
           {
             "type": "doc",
@@ -754,12 +756,12 @@ module.exports = [
             "label": "list",
             "key": "doc:cli/cli/DataOperations/DataOperations-Database/database-list"
           }
-        ],
-        "key": "category:data-operations/database"
+        ]
       },
       {
         "type": "category",
         "label": "Index",
+        "key": "category:cli/cli/DataOperations/dataoperations-index",
         "items": [
           {
             "type": "doc",
@@ -785,12 +787,12 @@ module.exports = [
             "label": "list",
             "key": "doc:cli/cli/DataOperations/DataOperations-Index/index-list"
           }
-        ],
-        "key": "category:data-operations/index"
+        ]
       },
       {
         "type": "category",
         "label": "Partition",
+        "key": "category:cli/cli/DataOperations/dataoperations-partition",
         "items": [
           {
             "type": "doc",
@@ -834,12 +836,12 @@ module.exports = [
             "label": "release",
             "key": "doc:cli/cli/DataOperations/DataOperations-Partition/partition-release"
           }
-        ],
-        "key": "category:data-operations/partition"
+        ]
       },
       {
         "type": "category",
         "label": "Role",
+        "key": "category:cli/cli/DataOperations/dataoperations-role",
         "items": [
           {
             "type": "doc",
@@ -877,12 +879,12 @@ module.exports = [
             "label": "revoke-privilege",
             "key": "doc:cli/cli/DataOperations/DataOperations-Role/role-revokeprivilege"
           }
-        ],
-        "key": "category:data-operations/role"
+        ]
       },
       {
         "type": "category",
         "label": "User",
+        "key": "category:cli/cli/DataOperations/dataoperations-user",
         "items": [
           {
             "type": "doc",
@@ -926,12 +928,12 @@ module.exports = [
             "label": "update-password",
             "key": "doc:cli/cli/DataOperations/DataOperations-User/user-updatepassword"
           }
-        ],
-        "key": "category:data-operations/user"
+        ]
       },
       {
         "type": "category",
         "label": "Vector",
+        "key": "category:cli/cli/DataOperations/dataoperations-vector",
         "items": [
           {
             "type": "doc",
@@ -975,12 +977,12 @@ module.exports = [
             "label": "upsert",
             "key": "doc:cli/cli/DataOperations/DataOperations-Vector/vector-upsert"
           }
-        ],
-        "key": "category:data-operations/vector"
+        ]
       },
       {
         "type": "category",
         "label": "ExternalCollectionRefresh",
+        "key": "category:cli/cli/DataOperations/dataoperations-externalcollectionrefresh",
         "items": [
           {
             "type": "doc",
@@ -1000,10 +1002,8 @@ module.exports = [
             "label": "trigger",
             "key": "doc:cli/cli/DataOperations/DataOperations-ExternalCollectionRefresh/externalcollectionrefresh-trigger"
           }
-        ],
-        "key": "category:data-operations/externalcollectionrefresh"
+        ]
       }
-    ],
-    "key": "category:data-operations"
+    ]
   }
 ]

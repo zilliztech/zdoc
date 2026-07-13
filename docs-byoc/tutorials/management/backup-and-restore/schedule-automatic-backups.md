@@ -10,7 +10,7 @@ notebook: FALSE
 description: "Zilliz Cloud allows you to enable automatic backups for your clusters, helping ensure data recovery in case of unexpected issues. Automatic backups apply to the entire cluster—backing up individual collections automatically is not supported. | BYOC"
 type: origin
 token: HDmKwGeGLi2P67kGdNXcigXDn3e
-sidebar_position: 2
+sidebar_position: 1
 displayed_sidebar: default
 
 ---
@@ -74,7 +74,7 @@ The following demo shows how to enable and configure automatic backups:
 
         - **Basic**: Select a frequency (weekly or monthly), then choose the day and time.
 
-        - **Advanced**: Define the schedule by entering a cron expression. For details, see [Cron Expression](./undefined).
+        - **Advanced**: Define the schedule by entering a cron expression. For details, see [Understand Cron Expressions](./cron-expression).
 
 1. Click **Save**.
 

@@ -2,6 +2,7 @@ module.exports = [
   {
     "type": "category",
     "label": "Authentication",
+    "key": "category:api/java/java/v2/v2-authentication",
     "items": [
       {
         "type": "doc",
@@ -99,12 +100,12 @@ module.exports = [
         "label": "updateUser()",
         "key": "doc:api/java/java/v2/v2-Authentication/v2-authentication-updateuser"
       }
-    ],
-    "key": "category:authentication"
+    ]
   },
   {
     "type": "category",
     "label": "Client",
+    "key": "category:api/java/java/v2/v2-client",
     "items": [
       {
         "type": "doc",
@@ -136,12 +137,12 @@ module.exports = [
         "label": "getServerVersionV2()",
         "key": "doc:api/java/java/v2/v2-Client/v2-client-getserverversionv2"
       }
-    ],
-    "key": "category:client"
+    ]
   },
   {
     "type": "category",
     "label": "Collections",
+    "key": "category:api/java/java/v2/v2-collections",
     "items": [
       {
         "type": "doc",
@@ -164,6 +165,7 @@ module.exports = [
       {
         "type": "category",
         "label": "CollectionSchema",
+        "key": "category:api/java/java/v2/v2-Collections/v2-collections-collectionschema",
         "items": [
           {
             "type": "doc",
@@ -219,8 +221,7 @@ module.exports = [
             "label": "isEnableDynamicField()",
             "key": "doc:api/java/java/v2/v2-Collections/v2-Collections-CollectionSchema/v2-collectionschema-isenabledynamicfield"
           }
-        ],
-        "key": "category:collections/collectionschema"
+        ]
       },
       {
         "type": "doc",
@@ -339,6 +340,7 @@ module.exports = [
       {
         "type": "category",
         "label": "Function",
+        "key": "category:api/java/java/v2/v2-Collections/v2-collections-function",
         "items": [
           {
             "type": "doc",
@@ -382,8 +384,7 @@ module.exports = [
             "label": "WeightedRanker",
             "key": "doc:api/java/java/v2/v2-Collections/v2-Collections-Function/v2-function-weightedranker"
           }
-        ],
-        "key": "category:collections/function"
+        ]
       },
       {
         "type": "doc",
@@ -418,6 +419,7 @@ module.exports = [
       {
         "type": "category",
         "label": "EmbeddingList",
+        "key": "category:api/java/java/v2/v2-Collections/v2-collections-embeddinglist",
         "items": [
           {
             "type": "doc",
@@ -443,12 +445,12 @@ module.exports = [
             "label": "getPlaceholderType()",
             "key": "doc:api/java/java/v2/v2-Collections/v2-Collections-EmbeddingList/v2-embeddinglist-getplaceholdertype"
           }
-        ],
-        "key": "category:collections/embeddinglist"
+        ]
       },
       {
         "type": "category",
         "label": "StructFieldSchema",
+        "key": "category:api/java/java/v2/v2-Collections/v2-collections-structfieldschema",
         "items": [
           {
             "type": "doc",
@@ -498,8 +500,7 @@ module.exports = [
             "label": "StructFieldSchema",
             "key": "doc:api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-collections-structfieldschema"
           }
-        ],
-        "key": "category:collections/structfieldschema"
+        ]
       },
       {
         "type": "doc",
@@ -519,12 +520,12 @@ module.exports = [
         "label": "getLoadStateV2()",
         "key": "doc:api/java/java/v2/v2-Collections/v2-collections-getloadstatev2"
       }
-    ],
-    "key": "category:collections"
+    ]
   },
   {
     "type": "category",
     "label": "File Resources",
+    "key": "category:api/java/java/v2/v2-fileresources",
     "items": [
       {
         "type": "doc",
@@ -544,12 +545,12 @@ module.exports = [
         "label": "removeFileResource()",
         "key": "doc:api/java/java/v2/v2-FileResources/v2-fileresources-removefileresource"
       }
-    ],
-    "key": "category:file-resources"
+    ]
   },
   {
     "type": "category",
     "label": "Management",
+    "key": "category:api/java/java/v2/v2-management",
     "items": [
       {
         "type": "doc",
@@ -683,12 +684,12 @@ module.exports = [
         "label": "refreshExternalCollection()",
         "key": "doc:api/java/java/v2/v2-Management/v2-management-refreshexternalcollection"
       }
-    ],
-    "key": "category:management"
+    ]
   },
   {
     "type": "category",
     "label": "Snapshots",
+    "key": "category:api/java/java/v2/v2-snapshots",
     "items": [
       {
         "type": "doc",
@@ -744,12 +745,12 @@ module.exports = [
         "label": "unpinSnapshotData()",
         "key": "doc:api/java/java/v2/v2-Snapshots/v2-snapshots-unpinsnapshotdata"
       }
-    ],
-    "key": "category:snapshots"
+    ]
   },
   {
     "type": "category",
     "label": "Vector",
+    "key": "category:api/java/java/v2/v2-vector",
     "items": [
       {
         "type": "doc",
@@ -820,6 +821,7 @@ module.exports = [
       {
         "type": "category",
         "label": "FunctionScore",
+        "key": "category:api/java/java/v2/v2-Vector/v2-vector-functionscore",
         "items": [
           {
             "type": "doc",
@@ -845,12 +847,12 @@ module.exports = [
             "label": "getParams()",
             "key": "doc:api/java/java/v2/v2-Vector/v2-Vector-FunctionScore/v2-functionscore-getparams"
           }
-        ],
-        "key": "category:vector/functionscore"
+        ]
       },
       {
         "type": "category",
         "label": "Highlighter",
+        "key": "category:api/java/java/v2/v2-Vector/v2-vector-highlighter",
         "items": [
           {
             "type": "doc",
@@ -870,15 +872,14 @@ module.exports = [
             "label": "SemanticHighlighter",
             "key": "doc:api/java/java/v2/v2-Vector/v2-Vector-Highlighter/v2-highlighter-semantichighlighter"
           }
-        ],
-        "key": "category:vector/highlighter"
+        ]
       }
-    ],
-    "key": "category:vector"
+    ]
   },
   {
     "type": "category",
     "label": "Data Import",
+    "key": "category:api/java/java/v2/v2-dataimport",
     "items": [
       {
         "type": "doc",
@@ -889,6 +890,7 @@ module.exports = [
       {
         "type": "category",
         "label": "BulkImport",
+        "key": "category:api/java/java/v2/v2-DataImport/v2-dataimport-bulkimport",
         "items": [
           {
             "type": "doc",
@@ -914,12 +916,12 @@ module.exports = [
             "label": "listImportJobs()",
             "key": "doc:api/java/java/v2/v2-DataImport/v2-DataImport-BulkImport/v2-bulkimport-listimportjobs"
           }
-        ],
-        "key": "category:data-import/bulkimport"
+        ]
       },
       {
         "type": "category",
         "label": "LocalBulkWriter",
+        "key": "category:api/java/java/v2/v2-DataImport/v2-dataimport-localbulkwriter",
         "items": [
           {
             "type": "doc",
@@ -957,12 +959,12 @@ module.exports = [
             "label": "getTotalRowCount()",
             "key": "doc:api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-localbulkwriter-gettotalrowcount"
           }
-        ],
-        "key": "category:data-import/localbulkwriter"
+        ]
       },
       {
         "type": "category",
         "label": "RemoteBulkWriter",
+        "key": "category:api/java/java/v2/v2-DataImport/v2-dataimport-remotebulkwriter",
         "items": [
           {
             "type": "doc",
@@ -1000,12 +1002,12 @@ module.exports = [
             "label": "getTotalRowCount()",
             "key": "doc:api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-remotebulkwriter-gettotalrowcount"
           }
-        ],
-        "key": "category:data-import/remotebulkwriter"
+        ]
       },
       {
         "type": "category",
         "label": "VolumeBulkWriter",
+        "key": "category:api/java/java/v2/v2-DataImport/v2-dataimport-volumebulkwriter",
         "items": [
           {
             "type": "doc",
@@ -1049,15 +1051,14 @@ module.exports = [
             "label": "VolumeBulkWriter",
             "key": "doc:api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-dataimport-volumebulkwriter"
           }
-        ],
-        "key": "category:data-import/volumebulkwriter"
+        ]
       }
-    ],
-    "key": "category:data-import"
+    ]
   },
   {
     "type": "category",
     "label": "Database",
+    "key": "category:api/java/java/v2/v2-database",
     "items": [
       {
         "type": "doc",
@@ -1107,12 +1108,12 @@ module.exports = [
         "label": "currentUsedDatabase()",
         "key": "doc:api/java/java/v2/v2-Database/v2-database-currentuseddatabase"
       }
-    ],
-    "key": "category:database"
+    ]
   },
   {
     "type": "category",
     "label": "Partitions",
+    "key": "category:api/java/java/v2/v2-partitions",
     "items": [
       {
         "type": "doc",
@@ -1156,16 +1157,17 @@ module.exports = [
         "label": "releasePartitions()",
         "key": "doc:api/java/java/v2/v2-Partitions/v2-partitions-releasepartitions"
       }
-    ],
-    "key": "category:partitions"
+    ]
   },
   {
     "type": "category",
     "label": "Volume",
+    "key": "category:api/java/java/v2/v2-volume",
     "items": [
       {
         "type": "category",
         "label": "VolumeFileManager",
+        "key": "category:api/java/java/v2/v2-Volume/v2-volume-volumefilemanager",
         "items": [
           {
             "type": "doc",
@@ -1179,12 +1181,12 @@ module.exports = [
             "label": "VolumeFileManager",
             "key": "doc:api/java/java/v2/v2-Volume/v2-Volume-VolumeFileManager/v2-volume-volumefilemanager"
           }
-        ],
-        "key": "category:volume/volumefilemanager"
+        ]
       },
       {
         "type": "category",
         "label": "VolumeManager",
+        "key": "category:api/java/java/v2/v2-Volume/v2-volume-volumemanager",
         "items": [
           {
             "type": "doc",
@@ -1210,8 +1212,7 @@ module.exports = [
             "label": "VolumeManager",
             "key": "doc:api/java/java/v2/v2-Volume/v2-Volume-VolumeManager/v2-volume-volumemanager"
           }
-        ],
-        "key": "category:volume/volumemanager"
+        ]
       },
       {
         "type": "doc",
@@ -1219,7 +1220,6 @@ module.exports = [
         "label": "shutdownGracefully()",
         "key": "doc:api/java/java/v2/v2-Volume/v2-volumefilemanager-shutdowngracefully"
       }
-    ],
-    "key": "category:volume"
+    ]
   }
 ]

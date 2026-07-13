@@ -358,7 +358,7 @@ await milvusClient.createCollection({
             ```javascript
             const multi_analyzer_params = {
               // Define language-specific analyzers
-              // Each analyzer follows this format: &lt;analyzer_name&gt;: &lt;analyzer_params&gt;
+              // Each analyzer follows this format: <analyzer_name>: <analyzer_params>
               "analyzers": {
                 "english": {"type": "english"},          // English-optimized analyzer
                 "chinese": {"type": "chinese"},          // Chinese-optimized analyzer
@@ -703,7 +703,7 @@ await milvusClient.createCollection({
             ```javascript
             const multi_analyzer_params = {
               // Define language-specific analyzers
-              // Each analyzer follows this format: &lt;analyzer_name&gt;: &lt;analyzer_params&gt;
+              // Each analyzer follows this format: <analyzer_name>: <analyzer_params>
               "analyzers": {
                 "english": {"type": "english"},          // English-optimized analyzer
                 "chinese": {"type": "chinese"},          // Chinese-optimized analyzer

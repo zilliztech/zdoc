@@ -10,7 +10,7 @@ notebook: FALSE
 description: "If you are an Organization Owner, you have the privileges to manage the organization settings. | Cloud"
 type: origin
 token: AAqUwQW3qia3akkjfDNc0kwanlh
-sidebar_position: 2
+sidebar_position: 1
 displayed_sidebar: default
 
 ---
@@ -98,7 +98,7 @@ If maintenance runs past your preferred window, it will continue until completio
 
     - Take no action and let maintenance run as scheduled.
 
-- For **Organization Members**, please check your [SDK compatibility](./install-sdks#sdk-compatibility).
+- For **Organization Members**, please check your [SDK compatibility](./install-sdks).
 
 ## Delete organization\{#delete-organization}
 
@@ -108,13 +108,13 @@ Before you start, make sure the following conditions are met:
 
 - All volumes in the current organization are [deleted](./managed-volume).
 
-- All organization bills are paid.
+- All organization [bills](./payment-billing) are paid.
 
 - You are granted the [Organization Owner](./organization-users) role in the target organization.
 
 - All remaining advance pay funds need to be refunded.
 
-- Third-party marketplace subscription needs to be cancelled.
+- Third-party marketplace subscriptions, such as those on [AWS Marketplace](./subscribe-on-aws-marketplace), [GCP Marketplace](./subscribe-on-gcp-marketplace), or [Azure Marketplace](./subscribe-on-azure-marketplace), need to be canceled.
 
 To delete an organization: 
 

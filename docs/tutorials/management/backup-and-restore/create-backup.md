@@ -24,7 +24,7 @@ import Supademo from '@site/src/components/Supademo';
 
 In Zilliz Cloud, a backup is a copy of the data that allows you to restore the entire cluster or specific collections in the event of data loss or system failure.
 
-Backup creation incurs additional charges, with pricing based on the cloud region where the backup is stored. All backup files are stored in the same cloud region as the source cluster. For example, a cluster in `AWS us-west-2` will have its backups stored in `AWS us-west-2`.
+Backup creation incurs additional [charges](./storage-cost), with pricing based on the cloud region where the backup is stored. All backup files are stored in the same cloud region as the source cluster. For example, a cluster in `AWS us-west-2` will have its backups stored in `AWS us-west-2`.
 
 This guide explains how to **manually create backups**. To automate backup creation, see [Schedule Automatic Backups](./schedule-automatic-backups).
 
@@ -165,5 +165,5 @@ When you back up an encrypted cluster, all data within the encryption scope rema
 
 When you restore an encrypted backup to a new cluster, Zilliz Cloud will use the KMS key associated with the backup file to decrypt the data before restoration. Therefore, you can restore the backup to a new cluster with or without encryption. 
 
-For details, refer to [Restore from an encrypted backup](./restore-from-backup-files#restore-from-an-encrypted-backup-file).
+For details, refer to [Restore from an encrypted backup](./restore-from-backup-files).
 

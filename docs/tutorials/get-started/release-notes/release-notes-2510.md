@@ -10,7 +10,7 @@ notebook: FALSE
 description: "(placeholder) | Cloud"
 type: origin
 token: PmaowiSUaiTa8ckPMYJcqdRYnQg
-sidebar_position: 10
+sidebar_position: 1
 displayed_sidebar: releasesSidebar
 
 ---
@@ -42,13 +42,13 @@ import Grid from '@site/src/components/Grid';
 
         - **Accelerated JSON filtering** — Run complex, nested metadata queries up to **100× faster** with **JSON indexing** and **shredding**. For details, refer to [JSON Indexing](./json-indexing) and [JSON Shredding](./json-shredding).
 
-        - **New reranking functions** — **Boost Ranker** and **Decay Ranker** refine search results by combining semantic similarity with contextual relevance. For details, refer to [Boost Ranker](./boost-ranker) and Decay Ranker.
+        - **New reranking functions** — **Boost Ranker** and **Decay Ranker** refine search results by combining semantic similarity with contextual relevance. For details, refer to [Boost Ranker](./boost-ranker) and [Decay Ranker Overview](./decay-ranker-oveview).
 
         - **INT8 vector support** — Store quantized vectors for lightweight deep learning inference. For details, refer to [Dense Vector](./use-dense-vector).
 
         - **MINHASH_LSH index** — Perform efficient large-scale deduplication and similarity checks powered by MinHash and Locality-Sensitive Hashing. This feature is available in **Private Preview**, and you [can contact us](https://support.zilliz.com/hc/en-us) if you are interested. For details, refer to [MINHASH_LSH](./minhash-lsh).
 
-        - **Partial upserts** — Update specific fields without rewriting entire records. For details, refer to [Upsert Entities](./upsert-entities#upsert-in-merge-mode).
+        - **Partial upserts** — Update specific fields without rewriting entire records. For details, refer to [Upsert Entities](./upsert-entities).
 
         To enable **Public Preview**, you can upgrade your cluster to Milvus v2.6.x on the **Cluster Overview** page in the Zilliz Cloud console by selecting **Try Preview Features**. After upgrading, Milvus v2.5.x features remain available.
 
@@ -90,7 +90,7 @@ import Grid from '@site/src/components/Grid';
 
         ## Enhancements\{#enhancements}
 
-        - You can now use the **Analyzer GUI** to quickly configure analyzers with **language-specific templates** and **test** the results. This helps users understand how their analyzer configuration affects tokenization — and ultimately impacts full-text search results. For demonstrations, refer to [Analyzer Overview](./analyzer-overview#example-use-on-the-zilliz-cloud-console).
+        - You can now use the **Analyzer GUI** to quickly configure analyzers with **language-specific templates** and **test** the results. This helps users understand how their analyzer configuration affects tokenization — and ultimately impacts full-text search results. For demonstrations, refer to [Analyzer Overview](./analyzer-overview).
 
         - Clearer error messages and enhanced experience now help users **diagnose connection issues** and set up the source database for migration more easily.
 

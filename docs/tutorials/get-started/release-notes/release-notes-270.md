@@ -10,7 +10,7 @@ notebook: FALSE
 description: "This update introduces powerful tools and enhancements to Zilliz Cloud new Connectors for easy data ingestion from sources like Object Storage, Rerankers to improve search relevance, a Metrics Monitoring API for in-depth system state analytics, and a Cross Cloud Data Import feature allowing direct import from AWS S3, Google Cloud Storage, and Azure Blob Storage to vector database instances. These features combine to elevate data ingestion, search precision, and operational insight, streamlining the management of vector databases in the cloud. | Cloud"
 type: origin
 token: S7PMwgqGOiURCpkTFT4cTnTjnAc
-sidebar_position: 24
+sidebar_position: 1
 displayed_sidebar: releasesSidebar
 
 ---
@@ -60,4 +60,4 @@ Key Metrics Cover:
 
 Now, Zilliz Cloud users can effortlessly import or migrate their data from AWS S3, Google Cloud Storage, and Azure Blob Storage into any vector database instance on Zilliz Cloud, regardless of where it resides.
 
-For more details, see [Data Import](./undefined) and [Migrations](./undefined) in Zilliz Cloud docs.
+For more details, see [Data Import Hands-On](./data-import-zero-to-hero) and [Zilliz to Zilliz Migrations](./migrate-between-clusters) in Zilliz Cloud docs.

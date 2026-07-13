@@ -10,7 +10,7 @@ notebook: FALSE
 description: "Dedicated clusters in Zilliz Cloud follows a pay-as-you-go model, where you are mainly charged for the compute resources consumed by your clusters. This ensures you only pay for what you actually use, without the need to over-provision resources in advance. | Cloud"
 type: origin
 token: J2prwh2KLis9oqkqNIAcU1d6nsd
-sidebar_position: 2
+sidebar_position: 1
 displayed_sidebar: default
 
 ---
@@ -62,7 +62,7 @@ Vector Database Cost = Query CU Unit Price x Total Number of Query CU x Cluster 
 
     <Admonition type="info" icon="📘" title="Note">
 
-    During a [scaling](./undefined) job, Zilliz Cloud continues to bill the cluster based on its previous configuration. The new configuration is used for billing only after the scaling job is completed successfully. This applies to both scale-up and scale-down operations. While the job is still in progress, the cluster continues to serve with the previous available configuration.
+    During a [scaling](./auto-scaling) job, Zilliz Cloud continues to bill the cluster based on its previous configuration. The new configuration is used for billing only after the scaling job is completed successfully. This applies to both scale-up and scale-down operations. While the job is still in progress, the cluster continues to serve with the previous available configuration.
 
     </Admonition>
 
@@ -114,4 +114,4 @@ No vector database costs are charged while in Creating, Suspending, Resuming, or
 
 **When I scale a Dedicated cluster, am I billed based on the old configuration or the new configuration during scaling?**
 
-During [scaling](./undefined), you are billed based on the previous configuration. The new configuration is used for billing only after the scaling job completes successfully. 
+During [scaling](./auto-scaling), you are billed based on the previous configuration. The new configuration is used for billing only after the scaling job completes successfully. 
