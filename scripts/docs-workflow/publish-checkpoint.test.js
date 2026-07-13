@@ -77,6 +77,22 @@ test('validation failure does not push', () => {
   const env = gitWrapper(s.root, 'pass', s.seed), r = publish(s.seed, bad, env); assert.notEqual(r.status, 0); assert.equal(git(s.remote, 'rev-parse', 'refs/heads/dev'), before); assert.equal(readFileSync(env.log, 'utf8'), '');
 });
 
+test('validation worktree can use dependencies installed in the publisher checkout', () => {
+  const s = setup(), work = path.join(s.root, 'work');
+  mkdirSync(path.join(s.seed, 'node_modules', '.bin'), { recursive: true });
+  writeFileSync(path.join(s.seed, 'node_modules', '.bin', 'docusaurus'), '#!/usr/bin/env bash\nexit 0\n');
+  chmodSync(path.join(s.seed, 'node_modules', '.bin', 'docusaurus'), 0o755);
+  execFileSync('cp', ['-R', s.seed, work]);
+  writeFileSync(path.join(work, 'docs/a.md'), 'new\n');
+  const publishArgs = args(artifact(s.root, s.seed, work));
+  publishArgs[publishArgs.indexOf('test -f docs/a.md')] = 'test -x node_modules/.bin/docusaurus';
+
+  const result = publish(s.seed, publishArgs);
+
+  assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}`);
+  assert.match(result.stdout, /status=published/);
+});
+
 test('checksum failure happens before fetch or push', () => {
   const s = setup(), work = path.join(s.root, 'work'); execFileSync('cp', ['-R', s.seed, work]); writeFileSync(path.join(work, 'docs/a.md'), 'new\n'); const a = artifact(s.root, s.seed, work);
   writeFileSync(path.join(realpathSync(a), 'payload/docs/a.md'), 'tampered\n'); const env = gitWrapper(s.root, 'pass', s.seed), r = publish(s.seed, args(a), env);

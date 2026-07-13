@@ -56,15 +56,17 @@ function main() {
   const args = parseArgs(process.argv.slice(2))
   const buildCommand = args.build || 'pnpm run build'
   const reportPath = args.reportPath || 'plugins/link-checks/meta/reports/latest.md'
+  const skipCardReporting = isTruthy(args.skipCardReporting) || isTruthy(process.env.SKIP_CARD_REPORTING)
 
   const buildStatus = run(buildCommand)
   if (buildStatus !== 0) {
-    reportCard('fail', fs.existsSync(reportPath) ? reportPath : null)
+    if (!skipCardReporting) reportCard('fail', fs.existsSync(reportPath) ? reportPath : null)
     process.exit(buildStatus)
   }
 
   if (isTruthy(args.skipLinkChecks) || isTruthy(process.env.SKIP_LINK_CHECKS)) {
     console.log('Skipping link checks because skipLinkChecks is enabled.')
+    if (skipCardReporting) return
     const advanceStatus = run('npx docusaurus report-to-lark --card-advance --status done')
     if (advanceStatus !== 0) process.exit(advanceStatus)
     return
@@ -74,9 +76,11 @@ function main() {
     LINK_CHECKS_REMOTE_BASE_URL: process.env.LINK_CHECKS_REMOTE_BASE_URL || 'https://docs.zilliz.com',
   })
   if (linkStatus !== 0) {
-    reportCard('fail', reportPath)
+    if (!skipCardReporting) reportCard('fail', reportPath)
     process.exit(linkStatus)
   }
+
+  if (skipCardReporting) return
 
   if (linkReportHasChanges(reportPath)) {
     const noteStatus = run(`npx docusaurus report-to-lark --card-note-file ${reportPath}`)

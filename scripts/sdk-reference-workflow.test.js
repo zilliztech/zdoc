@@ -74,6 +74,10 @@ test('docs workflow orchestrates independent checkpointed publication lanes', ()
   assert.deepEqual(workflow.jobs.render_guides_byoc.needs, ['prepare', 'produce_guides_sources'])
   assert.deepEqual(workflow.jobs.produce_guides.needs, ['prepare', 'produce_guides_sources', 'render_guides_saas', 'render_guides_byoc'])
   assert.equal(workflow.jobs.produce_guides.uses, './.github/workflows/_assemble-guides.yml')
+  for (const jobName of ['produce_guides_sources', 'render_guides_saas', 'render_guides_byoc']) {
+    assert.equal(workflow.jobs[jobName].with.card_id, '${{ needs.prepare.outputs.phase_card_id }}')
+    assert.equal(workflow.jobs[jobName].with.card_mode, '${{ needs.prepare.outputs.card_mode }}')
+  }
   assert.match(source, /target_branch: \$\{\{ needs\.prepare\.outputs\.target_branch \}\}/)
   assert.match(source, /should_publish: \$\{\{ needs\.prepare\.outputs\.publish == 'true'/)
   assert.match(source, /should_translate: \$\{\{ needs\.prepare\.outputs\.publish == 'true'/)

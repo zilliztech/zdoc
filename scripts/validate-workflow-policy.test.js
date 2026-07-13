@@ -61,6 +61,7 @@ test('reusable final verification checks the immutable final dev state read-only
   assert.match(workflow, /actions\/checkout@v4[\s\S]*ref: \$\{\{ inputs\.final_dev_sha \}\}[\s\S]*fetch-depth: 0/)
   assert.match(workflow, /validate-generated-sidebars\.js/)
   assert.match(workflow, /run-doc-build-stage\.js --build "pnpm run build"/)
+  assert.match(workflow, /run-doc-build-stage\.js --build "pnpm run build" --skipCardReporting/)
   const verificationStep = workflow.slice(workflow.indexOf('name: Verify final documentation state'), workflow.indexOf('name: Upload final verification reports'))
   assert.match(verificationStep, /run: \|\n\s+set -euo pipefail\n[\s\S]*validate-generated-sidebars\.js[^\n]*\| tee/)
   assert.ok(verificationStep.indexOf('set -euo pipefail') < verificationStep.indexOf('validate-generated-sidebars.js'))
@@ -110,6 +111,14 @@ test('reusable content producer is immutable, read-only, and publishes a validat
   assert.match(workflow, /name: Advance progress card for content group\n        if: \$\{\{ steps\.result\.outputs\.status == 'artifact_ready' && inputs\.card_id != '' \}\}/)
   assert.match(workflow, /name: Install dependencies\n        id: install\n        run: pnpm install --frozen-lockfile/)
   assert.match(workflow, /name: Report content group producer failure\n        if: \$\{\{ always\(\) && steps\.install\.outcome == 'success' && steps\.result\.outputs\.status == 'failed' && inputs\.card_id != '' \}\}\n        continue-on-error: true[\s\S]*report-live-card\.sh[\s\S]*CARD_STATUS: fail[\s\S]*artifact production failed/)
+})
+
+test('guides source and render stages refresh aggregate card progress', () => {
+  for (const workflowName of ['_fetch-guides-sources.yml', '_render-guides-target.yml']) {
+    const workflow = fs.readFileSync(path.join(process.cwd(), '.github/workflows', workflowName), 'utf8')
+    for (const input of ['card_id', 'card_mode', 'card_started_at']) assert.match(workflow, new RegExp(`^      ${input}:`, 'm'))
+    assert.match(workflow, /name: Report aggregate guides progress[\s\S]*inputs\.card_mode == 'aggregate'[\s\S]*report-live-card\.sh/)
+  }
 })
 
 test('reusable content publisher safely downloads, validates, and publishes checkpoints', () => {

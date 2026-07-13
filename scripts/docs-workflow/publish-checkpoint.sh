@@ -39,6 +39,7 @@ for required in --artifact --branch --message --validate-command; do [[ "$seen" 
 git check-ref-format --branch "$branch" >/dev/null 2>&1 || die 'Unsafe branch name'
 git config --get "remote.$remote.url" >/dev/null || die 'Remote is not configured'
 
+repo_root=$(git rev-parse --show-toplevel)
 script_dir=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 node "$script_dir/validate-checkpoint-artifact.js" --artifact "$artifact" >/dev/null
 manifest_json=$(node -e "const {validateCheckpointArtifact}=require(process.argv[1]);validateCheckpointArtifact(process.argv[2]).then(m=>process.stdout.write(JSON.stringify({group:m.group,stage:m.stage,masterSha:m.masterSha,devBaselineSha:m.devBaselineSha,paths:[...new Set([...m.files.map(x=>x.path),...m.deletions])]}))).catch(e=>{console.error(e.message);process.exit(1)})" "$script_dir/validate-checkpoint-artifact.js" "$artifact")
@@ -51,6 +52,9 @@ while (( attempt <= max_attempts )); do
   git fetch --no-tags "$remote" "+refs/heads/$branch:refs/remotes/$remote/$branch"
   active_worktree=$(mktemp -d "$root/docs-publish.XXXXXX"); temp_files="$temp_files"$'\n'"$active_worktree"; rmdir "$active_worktree"
   git worktree add --detach "$active_worktree" "refs/remotes/$remote/$branch" >/dev/null
+  if [[ ! -e "$active_worktree/node_modules" && -d "$repo_root/node_modules" ]]; then
+    ln -s "$repo_root/node_modules" "$active_worktree/node_modules"
+  fi
   apply_args=(--artifact "$artifact" --target "$active_worktree"); [[ -z "$baseline_dir" ]] || apply_args+=(--baseline-dir "$baseline_dir")
   node "$script_dir/apply-checkpoint-artifact.js" "${apply_args[@]}"
   (cd "$active_worktree" && bash -o errexit -o nounset -o pipefail -c "$validate_command")

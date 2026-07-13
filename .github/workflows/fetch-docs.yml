@@ -139,6 +139,9 @@ jobs:
       master_sha: ${{ needs.prepare.outputs.master_sha }}
       dev_baseline_sha: ${{ needs.prepare.outputs.dev_baseline_sha }}
       artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
+      card_id: ${{ needs.prepare.outputs.phase_card_id }}
+      card_mode: ${{ needs.prepare.outputs.card_mode }}
+      card_started_at: ${{ needs.prepare.outputs.card_started_at }}
     secrets:
       APP_ID: ${{ secrets.APP_ID }}
       APP_SECRET: ${{ secrets.APP_SECRET }}
@@ -156,6 +159,9 @@ jobs:
       master_sha: ${{ needs.prepare.outputs.master_sha }}
       dev_baseline_sha: ${{ needs.prepare.outputs.dev_baseline_sha }}
       artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
+      card_id: ${{ needs.prepare.outputs.phase_card_id }}
+      card_mode: ${{ needs.prepare.outputs.card_mode }}
+      card_started_at: ${{ needs.prepare.outputs.card_started_at }}
     secrets:
       APP_ID: ${{ secrets.APP_ID }}
       APP_SECRET: ${{ secrets.APP_SECRET }}
@@ -175,6 +181,9 @@ jobs:
       master_sha: ${{ needs.prepare.outputs.master_sha }}
       dev_baseline_sha: ${{ needs.prepare.outputs.dev_baseline_sha }}
       artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
+      card_id: ${{ needs.prepare.outputs.phase_card_id }}
+      card_mode: ${{ needs.prepare.outputs.card_mode }}
+      card_started_at: ${{ needs.prepare.outputs.card_started_at }}
     secrets:
       APP_ID: ${{ secrets.APP_ID }}
       APP_SECRET: ${{ secrets.APP_SECRET }}
