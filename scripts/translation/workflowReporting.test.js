@@ -16,4 +16,9 @@ test('reusable translation workflow produces and uploads a group-scoped report',
   assert.match(workflow, /id: agents/)
   assert.match(workflow, /steps\.agents\.outputs\.translated_count/)
   assert.match(workflow, /CARD_NO_CHANGES_GROUP: \$\{\{ steps\.result\.outputs\.status == 'no_changes' && inputs\.group \|\| '' \}\}/)
+  for (const input of ['batch_index', 'batch_number', 'batch_count', 'batch_size', 'pending_count', 'pending_set_sha256']) {
+    assert.match(workflow, new RegExp(`^      ${input}:`, 'm'))
+  }
+  assert.match(workflow, /ARTIFACT_SUFFIX/)
+  assert.match(workflow, /--expected-pending-set-sha256/)
 })

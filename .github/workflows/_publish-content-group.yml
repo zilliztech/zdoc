@@ -45,6 +45,8 @@ on:
       card_mode: { required: false, type: string, default: ordered }
       selected_group: { required: false, type: string, default: all }
       publish_enabled: { required: false, type: boolean, default: true }
+      translation_batch_number: { required: false, type: number, default: 0 }
+      translation_batch_count: { required: false, type: number, default: 0 }
     secrets:
       APP_ID:
         required: false
@@ -75,6 +77,8 @@ jobs:
       COMMIT_MESSAGE: ${{ inputs.commit_message }}
       TARGET_BRANCH: ${{ inputs.target_branch }}
       VALIDATE_COMMAND: ${{ inputs.validate_command }}
+      TRANSLATION_BATCH_NUMBER: ${{ inputs.translation_batch_number }}
+      TRANSLATION_BATCH_COUNT: ${{ inputs.translation_batch_count }}
     steps:
       - name: Initialize temporary paths
         shell: bash
@@ -100,6 +104,8 @@ jobs:
           for (const [name, value] of [['artifact_name', process.env.ARTIFACT_NAME], ['commit_message', process.env.COMMIT_MESSAGE], ['validate_command', process.env.VALIDATE_COMMAND]]) {
             if (!value || /[\r\n]/.test(value)) throw new Error(`${name} must be non-empty and single-line`)
           }
+          const number = Number(process.env.TRANSLATION_BATCH_NUMBER), count = Number(process.env.TRANSLATION_BATCH_COUNT)
+          if ((number === 0) !== (count === 0) || !Number.isSafeInteger(number) || !Number.isSafeInteger(count) || number < 0 || count < number) throw new Error('translation batch inputs are invalid')
           NODE
           git check-ref-format --branch "$TARGET_BRANCH"
 
@@ -113,7 +119,12 @@ jobs:
       - name: Validate content group contract
         if: ${{ inputs.should_publish }}
         run: |
-          node -e 'const group=require("./scripts/docs-workflow/content-groups.js").getContentGroup(process.env.GROUP);const allowed=[group.commitMessage,`i18n(${process.env.GROUP}): publish translations`];if(!allowed.includes(process.env.COMMIT_MESSAGE))throw new Error("commit_message must equal a permitted content group message")'
+          node - <<'NODE'
+          const group = require('./scripts/docs-workflow/content-groups.js').getContentGroup(process.env.GROUP)
+          const number = Number(process.env.TRANSLATION_BATCH_NUMBER), count = Number(process.env.TRANSLATION_BATCH_COUNT)
+          const allowed = number > 0 ? `i18n(${process.env.GROUP}): publish batch ${number} of ${count}` : `i18n(${process.env.GROUP}): publish translations`
+          if (process.env.COMMIT_MESSAGE !== group.commitMessage && process.env.COMMIT_MESSAGE !== allowed) throw new Error('commit_message must equal a permitted content group message')
+          NODE
 
       - uses: pnpm/action-setup@v4
         if: ${{ inputs.should_publish }}
@@ -181,7 +192,16 @@ jobs:
 
       - name: Validate checkpoint identity
         if: ${{ inputs.should_publish }}
-        run: node scripts/docs-workflow/validate-checkpoint-artifact.js --artifact "$ARTIFACT_DIR" --group "$GROUP" --master-sha "$MASTER_SHA"
+        run: |
+          node scripts/docs-workflow/validate-checkpoint-artifact.js --artifact "$ARTIFACT_DIR" --group "$GROUP" --master-sha "$MASTER_SHA"
+          node - <<'NODE'
+          const { validateCheckpointArtifact } = require('./scripts/docs-workflow/validate-checkpoint-artifact.js')
+          validateCheckpointArtifact(process.env.ARTIFACT_DIR).then(manifest => {
+            const number = Number(process.env.TRANSLATION_BATCH_NUMBER), count = Number(process.env.TRANSLATION_BATCH_COUNT)
+            if (number > 0 && (manifest.batch?.batchNumber !== number || manifest.batch?.batchCount !== count)) throw new Error('checkpoint translation batch identity mismatch')
+            if (number === 0 && manifest.batch !== undefined) throw new Error('unexpected checkpoint translation batch identity')
+          }).catch(error => { console.error(error.message); process.exit(1) })
+          NODE
 
       - name: Validate baseline artifact payload
         id: baseline_validation
