@@ -51,7 +51,6 @@ tmp/
 
 # AI tooling local state
 .agents/
-.claude/
 .qwen/
 .superpower/
 .superpowers/

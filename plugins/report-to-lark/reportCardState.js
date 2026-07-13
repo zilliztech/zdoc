@@ -33,6 +33,12 @@ function appendNotes(state, notes) {
   return state
 }
 
+function selectExactStateNotes(input) {
+  if (Array.isArray(input.notes)) return input.notes
+  if (Array.isArray(input.manuals) && input.manuals.length) return []
+  return [input.noteMarkdown]
+}
+
 function buildPhaseState({ messageId, title, stages, stageIndex, status, startedAt, note }) {
   if (!Array.isArray(stages) || stages.length === 0) throw new Error('stages must be a non-empty array')
   if (!Number.isInteger(stageIndex) || stageIndex < 0 || stageIndex >= stages.length) throw new Error('stageIndex is out of range')
@@ -52,7 +58,7 @@ function buildPhaseState({ messageId, title, stages, stageIndex, status, started
   }
 }
 
-function buildExactState({ messageId, title, stages, startedAt, notes = [] }) {
+function buildExactState({ messageId, title, stages, startedAt, notes = [], manuals }) {
   if (!Array.isArray(stages) || stages.length === 0) throw new Error('stages must be a non-empty array')
   if (stages.length > 20) throw new Error('stages must not exceed 20 entries')
   const names = new Set()
@@ -64,7 +70,7 @@ function buildExactState({ messageId, title, stages, startedAt, notes = [] }) {
   }
   const statuses = stages.map(stage => stage.status)
   const firstActive = statuses.findIndex(status => status === 'running' || status === 'fail')
-  return {
+  const state = {
     messageId,
     title: title || 'Build',
     stages: stages.map(stage => stage.name.trim()),
@@ -73,6 +79,8 @@ function buildExactState({ messageId, title, stages, startedAt, notes = [] }) {
     notes: parseNotesJson(JSON.stringify(notes)),
     startedAt: startedAt || new Date().toISOString(),
   }
+  if (Array.isArray(manuals) && manuals.length) state.manuals = manuals
+  return state
 }
 
 function buildFinishState({
@@ -114,4 +122,5 @@ module.exports = {
   buildPhaseState,
   finishStatuses,
   parseNotesJson,
+  selectExactStateNotes,
 }

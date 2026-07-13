@@ -34,7 +34,7 @@ function stageStatus(statuses) {
   return 'pending'
 }
 
-function buildLiveCardState({ requestedGroups, jobs, publishEnabled }) {
+function buildLiveCardState({ requestedGroups, jobs, publishEnabled, notes = [] }) {
   if (!Array.isArray(requestedGroups) || requestedGroups.length === 0) throw new Error('requestedGroups must be a non-empty array')
   const byName = new Map((jobs || []).map(job => [normalizeJobName(job.name), job]))
   const rows = requestedGroups.map(group => {
@@ -54,11 +54,14 @@ function buildLiveCardState({ requestedGroups, jobs, publishEnabled }) {
     '',
     ...rows.map(({ group, statuses }) => `- **${group}** · ${icon[statuses.produce]} Produce · ${icon[statuses.source]} Source · ${icon[statuses.translate]} Translate · ${icon[statuses.translation]} Translation`),
   ]
-  return {
+  const state = {
     stages,
     noteMarkdown: progressRows.join('\n'),
     overallStatus: stages.some(stage => stage.status === 'fail') ? 'fail' : stages.every(stage => stage.status === 'done') ? 'done' : 'running',
   }
+  if (rows.length > 1) state.manuals = rows.map(({ group, statuses }) => ({ group, ...statuses }))
+  if (Array.isArray(notes) && notes.length) state.notes = notes.filter(note => typeof note === 'string' && note.trim())
+  return state
 }
 
 function parseArgs(argv) {
@@ -81,6 +84,7 @@ if (require.main === module) {
         ...(args['override-job'] ? [{ name: args['override-job'], status: 'completed', conclusion: args['override-conclusion'] || 'success' }] : []),
       ],
       publishEnabled: args.publish === 'true',
+      notes: args['notes-json'] ? JSON.parse(args['notes-json']) : [],
     })
     fs.writeFileSync(args.output, `${JSON.stringify(state, null, 2)}\n`)
   } catch (error) {

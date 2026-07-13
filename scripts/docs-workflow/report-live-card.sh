@@ -21,5 +21,6 @@ node scripts/docs-workflow/build-live-card-state.js \
   --publish "$PUBLISH_ENABLED" \
   --override-job "$CARD_JOB_NAME" \
   --override-conclusion "$CARD_JOB_CONCLUSION" \
+  --notes-json "${CARD_NOTES_JSON:-[]}" \
   --output "$state_file"
 npx docusaurus report-to-lark --card-state-file "$state_file" --message-id "$CARD_ID" --title "$CARD_TITLE" --started-at "$CARD_STARTED_AT"

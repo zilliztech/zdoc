@@ -3,12 +3,13 @@ const fs = require('node:fs')
 const { v4: uuidv4 } = require('uuid')
 const tokenFetcher = require('../lark-docs/larkTokenFetcher')
 const { fetchFeishuJsonWithRetry } = require('../lark-docs/feishuFetch')
-const { normalizeLarkMarkdown } = require('./larkMarkdown')
+const { buildCardV2 } = require('./cardV2')
 const {
   buildFinishState,
   buildExactState,
   buildPhaseState,
   parseNotesJson,
+  selectExactStateNotes,
 } = require('./reportCardState')
 require('dotenv/config')
 
@@ -17,40 +18,8 @@ require('dotenv/config')
 // ---------------------------------------------------------------------------
 
 const CARD_STATE_FILE = '.build-card-state.json'
-const EMOJI = { pending: '⬜', running: '⏳', done: '✅', fail: '❌' }
-
 function buildCardContent(state) {
-  const stageLines = state.stages.map((name, i) => {
-    const s = state.statuses[i] || 'pending'
-    const e = EMOJI[s] || '⬜'
-    return s === 'running' ? `${e} **${name}**` : `${e} ${name}`
-  })
-
-  const hasFail = state.statuses.some(s => s === 'fail')
-  const allDone = state.stages.length > 0 && state.statuses.every(s => s === 'done')
-  const template = hasFail ? 'red' : allDone ? 'green' : 'blue'
-
-  const started = new Date(state.startedAt)
-  const sec = Math.round((Date.now() - started.getTime()) / 1000)
-  const elapsed = sec < 60 ? `${sec}s` : `${Math.floor(sec / 60)}m ${sec % 60}s`
-
-  const elements = [
-    { tag: 'div', text: { tag: 'lark_md', content: stageLines.join('\n') } },
-  ]
-  if (state.notes && state.notes.length) {
-    elements.push({ tag: 'hr' })
-    elements.push({ tag: 'div', text: { tag: 'lark_md', content: normalizeLarkMarkdown(state.notes.join('\n')) } })
-  }
-  elements.push({
-    tag: 'note',
-    elements: [{ tag: 'plain_text', content: `Started ${started.toUTCString()} · ${elapsed} elapsed` }],
-  })
-
-  return JSON.stringify({
-    config: { wide_screen_mode: true },
-    header: { title: { tag: 'plain_text', content: state.title }, template },
-    elements,
-  })
+  return JSON.stringify(buildCardV2(state))
 }
 
 function loadState(siteDir) {
@@ -247,7 +216,8 @@ module.exports = function (context) {
               title: opts.title,
               stages: input.stages,
               startedAt: opts.startedAt,
-              notes: [input.noteMarkdown],
+              notes: selectExactStateNotes(input),
+              manuals: input.manuals,
             })
             await patchCard(token, opts.messageId, state, FEISHU_HOST)
             return

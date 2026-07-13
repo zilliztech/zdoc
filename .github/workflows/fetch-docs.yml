@@ -848,17 +848,23 @@ jobs:
       - name: Finish progress card
         if: ${{ always() && needs.prepare.outputs.card_id != '' }}
         continue-on-error: true
-        run: npx docusaurus report-to-lark --card-finish --message-id "$CARD_ID" --status "$CARD_STATUS" --started-at "$CARD_STARTED_AT" --stages "$CARD_STAGES" --title "$CARD_TITLE" --notes-json "$CARD_NOTES_JSON"
+        run: bash scripts/docs-workflow/report-live-card.sh
         env:
           APP_ID: ${{ secrets.APP_ID }}
           APP_SECRET: ${{ secrets.APP_SECRET }}
           FEISHU_HOST: ${{ vars.FEISHU_HOST }}
+          GH_TOKEN: ${{ github.token }}
           CARD_ID: ${{ needs.prepare.outputs.card_id }}
+          CARD_MODE: aggregate
           CARD_STARTED_AT: ${{ needs.prepare.outputs.card_started_at }}
           CARD_STAGES: ${{ needs.prepare.outputs.card_stages }}
           CARD_TITLE: ${{ needs.prepare.outputs.card_title }}
           CARD_STATUS: ${{ steps.aggregate.outputs.overall_status == 'success' && 'success' || 'fail' }}
           CARD_NOTES_JSON: ${{ steps.reports.outputs.card_notes_json || steps.aggregate.outputs.notes_json }}
+          CARD_JOB_NAME: verify
+          CARD_JOB_CONCLUSION: ${{ needs.verify.outputs.status == 'passed' && 'success' || 'failure' }}
+          SELECTED_GROUP: ${{ needs.prepare.outputs.selected_group }}
+          PUBLISH_ENABLED: ${{ needs.prepare.outputs.publish }}
       - name: Fail unsuccessful workflow
         if: ${{ steps.aggregate.outputs.overall_status != 'success' }}
         run: exit 1
