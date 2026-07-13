@@ -170,7 +170,7 @@ jobs:
           CARD_STATUS: ${{ steps.result.outputs.status == 'failed' && 'fail' || 'done' }}
           CARD_NOTE: ${{ steps.result.outputs.status == 'failed' && format('{0} translation failed', inputs.group) || format('{0} translation {1}', inputs.group, steps.result.outputs.status) }}
           CARD_PHASE: Translate ${{ inputs.group }}
-          CARD_JOB_NAME: translate_${{ inputs.group }}
+          CARD_JOB_NAME: ${{ inputs.batch_number > 0 && format('{0}_translation_batch_{1}_of_{2}_pending_{3} / translate batch {1} of {2}', inputs.group, inputs.batch_number, inputs.batch_count, inputs.pending_count) || format('translate_{0}', inputs.group) }}
           CARD_JOB_CONCLUSION: ${{ steps.result.outputs.status == 'failed' && 'failure' || 'success' }}
           CARD_NO_CHANGES_GROUP: ${{ steps.result.outputs.status == 'no_changes' && inputs.group || '' }}
           CARD_TITLE: Global Docs Build

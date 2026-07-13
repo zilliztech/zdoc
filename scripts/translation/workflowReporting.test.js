@@ -21,4 +21,14 @@ test('reusable translation workflow produces and uploads a group-scoped report',
   }
   assert.match(workflow, /ARTIFACT_SUFFIX/)
   assert.match(workflow, /--expected-pending-set-sha256/)
+  assert.match(workflow, /CARD_JOB_NAME: \$\{\{ inputs\.batch_number > 0 && format\('\{0\}_translation_batch_\{1\}_of_\{2\}_pending_\{3\} \/ translate batch \{1\} of \{2\}'/)
+})
+
+test('batch publisher reports a reconstructable durable job identity', () => {
+  const workflow = fs.readFileSync('.github/workflows/_publish-content-group.yml', 'utf8')
+  assert.match(workflow, /^      translation_pending_count:/m)
+  assert.match(workflow, /CARD_JOB_NAME: \$\{\{ inputs\.translation_batch_number > 0 && format\('\{0\}_translation_batch_\{1\}_of_\{2\}_pending_\{3\} \/ publish batch \{1\} of \{2\} \(\{4\} docs\)'/)
+  const wrapper = fs.readFileSync('.github/workflows/_translate-publish-batch.yml', 'utf8')
+  assert.match(wrapper, /translation_pending_count: \$\{\{ inputs\.pending_count \}\}/)
+  assert.match(wrapper, /translation_published_count: \$\{\{ needs\.translate\.outputs\.translated_count \}\}/)
 })

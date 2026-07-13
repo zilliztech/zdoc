@@ -74,6 +74,8 @@ jobs:
       validate_command: pnpm run build
       translation_batch_number: ${{ inputs.batch_number }}
       translation_batch_count: ${{ inputs.batch_count }}
+      translation_pending_count: ${{ inputs.pending_count }}
+      translation_published_count: ${{ needs.translate.outputs.translated_count }}
       card_id: ${{ inputs.card_id }}
       card_started_at: ${{ inputs.card_started_at }}
       card_stages: ${{ inputs.card_stages }}

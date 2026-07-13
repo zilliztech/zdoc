@@ -97,3 +97,53 @@ test('marks translation publication done when the translator reports no changes'
   assert.equal(state.stages[3].name, 'Publish translations (1/1)')
   assert.equal(state.stages[3].status, 'done')
 })
+
+test('derives Guides translation progress from durable batch jobs', () => {
+  const state = buildLiveCardState({
+    requestedGroups: ['guides'],
+    publishEnabled: true,
+    jobs: [
+      { name: 'produce_guides / produce', status: 'completed', conclusion: 'success' },
+      { name: 'publish_guides / publish', status: 'completed', conclusion: 'success' },
+      { name: 'guides_translation_batch_1_of_4_pending_118 / translate batch 1 of 4', status: 'completed', conclusion: 'success' },
+      { name: 'guides_translation_batch_1_of_4_pending_118 / publish batch 1 of 4 (30 docs)', status: 'completed', conclusion: 'success' },
+      { name: 'guides_translation_batch_2_of_4_pending_118 / translate batch 2 of 4', status: 'completed', conclusion: 'success' },
+      { name: 'guides_translation_batch_2_of_4_pending_118 / publish batch 2 of 4 (28 docs)', status: 'completed', conclusion: 'success' },
+      { name: 'guides_translation_batch_3_of_4_pending_118 / translate batch 3 of 4', status: 'in_progress', conclusion: null },
+    ],
+  })
+
+  assert.equal(state.stages[2].status, 'running')
+  assert.equal(state.stages[3].status, 'running')
+  assert.match(state.noteMarkdown, /58 documents published · 60 remaining · 2\/4 batches/)
+})
+
+test('marks both Guides translation stages failed when a durable batch fails', () => {
+  const state = buildLiveCardState({
+    requestedGroups: ['guides'],
+    publishEnabled: true,
+    jobs: [
+      { name: 'guides_translation_batch_1_of_2_pending_45 / translate batch 1 of 2', status: 'completed', conclusion: 'success' },
+      { name: 'guides_translation_batch_1_of_2_pending_45 / publish batch 1 of 2 (30 docs)', status: 'completed', conclusion: 'success' },
+      { name: 'guides_translation_batch_2_of_2_pending_45 / translate batch 2 of 2', status: 'completed', conclusion: 'failure' },
+    ],
+  })
+
+  assert.equal(state.stages[2].status, 'fail')
+  assert.equal(state.stages[3].status, 'fail')
+  assert.match(state.noteMarkdown, /30 documents published · 15 remaining · 1\/2 batches/)
+})
+
+test('marks empty Guides durable preparation as no changes', () => {
+  const state = buildLiveCardState({
+    requestedGroups: ['guides'],
+    publishEnabled: true,
+    noChangeGroups: ['guides'],
+    jobs: [
+      { name: 'prepare_guides_translation_batches / prepare', status: 'completed', conclusion: 'success' },
+    ],
+  })
+
+  assert.equal(state.stages[2].status, 'done')
+  assert.equal(state.stages[3].status, 'done')
+})

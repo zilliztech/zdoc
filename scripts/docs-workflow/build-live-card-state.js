@@ -47,14 +47,70 @@ function guidesProduceStatus(byName) {
   return 'pending'
 }
 
+function parseGuidesBatchJob(job) {
+  const name = String(job?.name || '')
+  const identity = name.match(/^guides_translation_batch_(\d+)_of_(\d+)_pending_(\d+)\s*\/\s*/)
+  if (!identity) return null
+  const phase = name.match(/\/\s*(translate|publish) batch\s+(\d+)\s+of\s+(\d+)(?:\s+\((\d+) docs\))?/)
+  if (!phase) return null
+  const batchNumber = Number(identity[1])
+  const batchCount = Number(identity[2])
+  if (Number(phase[2]) !== batchNumber || Number(phase[3]) !== batchCount) return null
+  return {
+    job,
+    phase: phase[1],
+    batchNumber,
+    batchCount,
+    pendingCount: Number(identity[3]),
+    publishedCount: phase[4] === undefined ? null : Number(phase[4]),
+  }
+}
+
+function guidesBatchState(jobs) {
+  const parsed = (jobs || []).map(parseGuidesBatchJob).filter(Boolean)
+  if (!parsed.length) return null
+  const batchCount = Math.max(...parsed.map(item => item.batchCount))
+  const pendingCount = Math.max(...parsed.map(item => item.pendingCount))
+  const byPhase = phase => {
+    const batches = new Map()
+    for (const item of parsed.filter(item => item.phase === phase)) {
+      const existing = batches.get(item.batchNumber)
+      if (!existing || jobStatus(item.job) === 'fail' || existing.status === 'pending') {
+        batches.set(item.batchNumber, { status: jobStatus(item.job), publishedCount: item.publishedCount })
+      }
+    }
+    return batches
+  }
+  const translators = byPhase('translate')
+  const publishers = byPhase('publish')
+  const translatorStatuses = Array.from({ length: batchCount }, (_, index) => translators.get(index + 1)?.status || 'pending')
+  const publisherStatuses = Array.from({ length: batchCount }, (_, index) => publishers.get(index + 1)?.status || 'pending')
+  const translate = stageStatus(translatorStatuses)
+  const translation = translate === 'fail' ? 'fail' : stageStatus(publisherStatuses)
+  const publishedDocuments = [...publishers.values()]
+    .filter(item => item.status === 'done' && Number.isSafeInteger(item.publishedCount))
+    .reduce((sum, item) => sum + item.publishedCount, 0)
+  const publishedBatches = [...publishers.values()].filter(item => item.status === 'done').length
+  return {
+    translate,
+    translation,
+    summary: `${publishedDocuments} documents published · ${Math.max(0, pendingCount - publishedDocuments)} remaining · ${publishedBatches}/${batchCount} batches`,
+  }
+}
+
 function buildLiveCardState({ requestedGroups, jobs, publishEnabled, notes = [], noChangeGroups = [] }) {
   if (!Array.isArray(requestedGroups) || requestedGroups.length === 0) throw new Error('requestedGroups must be a non-empty array')
   const byName = new Map((jobs || []).map(job => [normalizeJobName(job.name), job]))
   const noChangeSet = new Set(noChangeGroups)
+  const guidesBatches = guidesBatchState(jobs)
   const rows = requestedGroups.map(group => {
     const statuses = Object.fromEntries(PHASES.map(phase => {
       const jobName = phase.job(group)
-      const status = phase.key === 'translation' && noChangeSet.has(group) && !byName.has(jobName)
+      const status = group === 'guides' && guidesBatches && (phase.key === 'translate' || phase.key === 'translation')
+        ? guidesBatches[phase.key]
+        : group === 'guides' && noChangeSet.has(group) && (phase.key === 'translate' || phase.key === 'translation')
+          ? 'done'
+        : phase.key === 'translation' && noChangeSet.has(group) && !byName.has(jobName)
         ? 'done'
         : phase.key === 'produce' && group === 'guides'
           ? guidesProduceStatus(byName)
@@ -76,6 +132,7 @@ function buildLiveCardState({ requestedGroups, jobs, publishEnabled, notes = [],
     '',
     ...rows.map(({ group, statuses }) => `- **${group}** · ${icon[statuses.produce]} Produce · ${icon[statuses.source]} Source · ${icon[statuses.translate]} Translate · ${icon[statuses.translation]} Translation`),
   ]
+  if (requestedGroups.includes('guides') && guidesBatches) progressRows.push('', `Guides batches: ${guidesBatches.summary}`)
   const state = {
     stages,
     noteMarkdown: progressRows.join('\n'),

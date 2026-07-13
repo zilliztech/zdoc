@@ -369,7 +369,7 @@ jobs:
       master_sha: ${{ needs.prepare.outputs.master_sha }}
 
   translate_guides_batches:
-    name: guides_translation_batch_${{ matrix.batchNumber }}_of_${{ needs.prepare_guides_translation_batches.outputs.batch_count }}
+    name: guides_translation_batch_${{ matrix.batchNumber }}_of_${{ needs.prepare_guides_translation_batches.outputs.batch_count }}_pending_${{ needs.prepare_guides_translation_batches.outputs.pending_count }}
     needs: [prepare, publish_guides, prepare_guides_translation_batches]
     if: ${{ always() && needs.prepare.outputs.publish == 'true' && needs.prepare_guides_translation_batches.result == 'success' && needs.prepare_guides_translation_batches.outputs.batch_count != '0' }}
     strategy:
