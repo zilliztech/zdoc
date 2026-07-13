@@ -1,0 +1,87 @@
+name: recover translation batch artifacts
+
+on:
+  workflow_dispatch:
+    inputs:
+      artifact_run_id:
+        description: Workflow run containing the completed translation artifacts
+        required: true
+        type: string
+      batch_count:
+        description: Number of batch artifact pairs to publish
+        required: true
+        type: string
+        default: '20'
+      target_branch:
+        description: Branch receiving recovered translation commits
+        required: true
+        type: string
+
+permissions:
+  actions: read
+  contents: write
+
+concurrency:
+  group: docs-production-dev
+  cancel-in-progress: false
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    outputs:
+      artifact_master_sha: ${{ steps.plan.outputs.artifact_master_sha }}
+      matrix: ${{ steps.plan.outputs.matrix }}
+    steps:
+      - name: Validate source run and artifact inventory
+        id: plan
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPOSITORY: ${{ github.repository }}
+          ARTIFACT_RUN_ID: ${{ inputs.artifact_run_id }}
+          BATCH_COUNT: ${{ inputs.batch_count }}
+        run: |
+          set -euo pipefail
+          node - <<'NODE'
+          const { execFileSync } = require('node:child_process')
+          const fs = require('node:fs')
+          const runId = Number(process.env.ARTIFACT_RUN_ID)
+          const batchCount = Number(process.env.BATCH_COUNT)
+          if (!Number.isSafeInteger(runId) || runId <= 0) throw new Error('artifact_run_id must be a positive integer')
+          if (!Number.isSafeInteger(batchCount) || batchCount <= 0 || batchCount > 100) throw new Error('batch_count must be an integer from 1 to 100')
+          const run = JSON.parse(execFileSync('gh', ['api', `repos/${process.env.REPOSITORY}/actions/runs/${runId}`], { encoding: 'utf8' }))
+          if (!/^[0-9a-f]{40}$/.test(run.head_sha)) throw new Error('source run has an invalid head SHA')
+          const response = JSON.parse(execFileSync('gh', ['api', `repos/${process.env.REPOSITORY}/actions/runs/${runId}/artifacts?per_page=100`], { encoding: 'utf8' }))
+          const names = new Set(response.artifacts.filter(artifact => !artifact.expired).map(artifact => artifact.name))
+          const include = []
+          for (let batchNumber = 1; batchNumber <= batchCount; batchNumber += 1) {
+            for (const prefix of ['translation-checkpoint', 'translation-baseline']) {
+              const name = `${prefix}-guides-${runId}-batch-${batchNumber}`
+              if (!names.has(name)) throw new Error(`missing or expired artifact: ${name}`)
+            }
+            include.push({ batchNumber })
+          }
+          const output = process.env.GITHUB_OUTPUT
+          fs.appendFileSync(output, `artifact_master_sha=${run.head_sha}\nmatrix=${JSON.stringify({ include })}\n`)
+          NODE
+
+  publish:
+    name: recover_guides_batch_${{ matrix.batchNumber }}_of_${{ inputs.batch_count }}
+    needs: prepare
+    strategy:
+      fail-fast: false
+      max-parallel: 1
+      matrix: ${{ fromJSON(needs.prepare.outputs.matrix) }}
+    uses: ./.github/workflows/_publish-content-group.yml
+    with:
+      group: guides
+      artifact_run_id: ${{ fromJSON(inputs.artifact_run_id) }}
+      artifact_name: ${{ format('translation-checkpoint-guides-{0}-batch-{1}', inputs.artifact_run_id, matrix.batchNumber) }}
+      baseline_artifact_name: ${{ format('translation-baseline-guides-{0}-batch-{1}', inputs.artifact_run_id, matrix.batchNumber) }}
+      commit_message: "${{ format('i18n(guides): publish batch {0} of {1}', matrix.batchNumber, inputs.batch_count) }}"
+      should_publish: true
+      target_branch: ${{ inputs.target_branch }}
+      master_sha: ${{ needs.prepare.outputs.artifact_master_sha }}
+      validate_command: pnpm run build
+      translation_batch_number: ${{ matrix.batchNumber }}
+      translation_batch_count: ${{ fromJSON(inputs.batch_count) }}

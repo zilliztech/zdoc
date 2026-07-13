@@ -9,6 +9,7 @@ on:
       artifact_name:
         required: true
         type: string
+      artifact_run_id: { required: false, type: number, default: 0 }
       commit_message:
         required: true
         type: string
@@ -63,6 +64,7 @@ on:
         value: ${{ jobs.publish.outputs.commit_sha }}
 
 permissions:
+  actions: read
   contents: write
 
 jobs:
@@ -150,6 +152,8 @@ jobs:
         with:
           name: ${{ inputs.artifact_name }}
           path: ${{ runner.temp }}/download
+          run-id: ${{ inputs.artifact_run_id > 0 && inputs.artifact_run_id || github.run_id }}
+          github-token: ${{ github.token }}
 
       - name: Download baseline artifact
         if: ${{ inputs.should_publish && inputs.baseline_artifact_name != '' }}
@@ -157,6 +161,8 @@ jobs:
         with:
           name: ${{ inputs.baseline_artifact_name }}
           path: ${{ runner.temp }}/baseline-download
+          run-id: ${{ inputs.artifact_run_id > 0 && inputs.artifact_run_id || github.run_id }}
+          github-token: ${{ github.token }}
 
       - name: Safely extract checkpoint artifact
         if: ${{ inputs.should_publish }}

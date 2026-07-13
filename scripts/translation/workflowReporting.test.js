@@ -26,6 +26,9 @@ test('reusable translation workflow produces and uploads a group-scoped report',
 
 test('batch publisher reports a reconstructable durable job identity', () => {
   const workflow = fs.readFileSync('.github/workflows/_publish-content-group.yml', 'utf8')
+  assert.match(workflow, /^      artifact_run_id:/m)
+  assert.match(workflow, /run-id: \$\{\{ inputs\.artifact_run_id > 0 && inputs\.artifact_run_id \|\| github\.run_id \}\}/)
+  assert.match(workflow, /github-token: \$\{\{ github\.token \}\}/)
   assert.match(workflow, /^      translation_pending_count:/m)
   assert.match(workflow, /CARD_JOB_NAME: \$\{\{ inputs\.translation_batch_number > 0 && format\('\{0\}_translation_batch_\{1\}_of_\{2\}_pending_\{3\} \/ publish batch \{1\} of \{2\} \(\{4\} docs\)'/)
   const wrapper = fs.readFileSync('.github/workflows/_translate-publish-batch.yml', 'utf8')
@@ -34,4 +37,18 @@ test('batch publisher reports a reconstructable durable job identity', () => {
   assert.match(wrapper, /baseline_artifact_name: \$\{\{ format\('translation-baseline-\{0\}-\{1\}-batch-\{2\}'/)
   assert.match(wrapper, /translation_pending_count: \$\{\{ inputs\.pending_count \}\}/)
   assert.match(wrapper, /translation_published_count: \$\{\{ needs\.translate\.outputs\.translated_count \}\}/)
+})
+
+test('manual recovery workflow publishes prior-run batches sequentially', () => {
+  const workflow = fs.readFileSync('.github/workflows/recover-translation-batches.yml', 'utf8')
+  assert.match(workflow, /^  workflow_dispatch:/m)
+  assert.match(workflow, /artifact_run_id:/)
+  assert.match(workflow, /batch_count:/)
+  assert.match(workflow, /max-parallel: 1/)
+  assert.match(workflow, /fail-fast: false/)
+  assert.match(workflow, /uses: \.\/\.github\/workflows\/_publish-content-group\.yml/)
+  assert.match(workflow, /artifact_run_id: \$\{\{ fromJSON\(inputs\.artifact_run_id\) \}\}/)
+  assert.match(workflow, /translation-checkpoint-guides-\{0\}-batch-\{1\}/)
+  assert.match(workflow, /translation-baseline-guides-\{0\}-batch-\{1\}/)
+  assert.doesNotMatch(workflow, /TRANSLATION_AGENT_API_KEY|REVIEW_AGENT_API_KEY/)
 })

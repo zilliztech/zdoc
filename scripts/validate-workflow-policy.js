@@ -10,6 +10,7 @@ const publishingWorkflows = new Set([
   'translate-codex.yml',
   '_publish-content-group.yml',
   '_translate-publish-batch.yml',
+  'recover-translation-batches.yml',
 ])
 
 function validateWorkflowPolicies(directory = workflowDirectory) {
