@@ -10,6 +10,7 @@ const { getContentGroup } = require('./content-groups');
 const TOP_KEYS = ['schemaVersion', 'stage', 'group', 'masterSha', 'devBaselineSha', 'createdAt', 'ownershipVersion', 'files', 'deletions', 'snapshotManual', 'validation'];
 const FILE_KEYS = ['path', 'sha256', 'size'];
 const VALIDATION_KEYS = ['commands', 'passed'];
+const BATCH_KEYS = ['batchIndex', 'batchNumber', 'batchCount', 'batchSize', 'pendingCount', 'pendingSetSha256'];
 
 function exactKeys(value, keys, label) {
   if (!value || typeof value !== 'object' || Array.isArray(value)) throw new Error(`${label} must be an object`);
@@ -95,7 +96,9 @@ async function validateCheckpointArtifact(artifactDir, expected = {}) {
   const pinnedArtifactDir = await pinArtifactDirectory(artifactDir);
   const manifest = JSON.parse(await readFile(path.join(pinnedArtifactDir, 'manifest.json'), 'utf8'));
   await expected.testHooks?.afterManifestRead?.({ artifactDir: pinnedArtifactDir, manifest });
-  exactKeys(manifest, TOP_KEYS, 'manifest');
+  const manifestKeys = Object.keys(manifest);
+  for (const key of manifestKeys) if (![...TOP_KEYS, 'batch'].includes(key)) throw new Error(`Unexpected manifest key: ${key}`);
+  for (const key of TOP_KEYS) if (!Object.hasOwn(manifest, key)) throw new Error(`Missing manifest key: ${key}`);
   if (manifest.schemaVersion !== 1) throw new Error(`Unsupported schemaVersion: ${manifest.schemaVersion}`);
   if (manifest.stage !== 'source' && manifest.stage !== 'translation') throw new Error(`Invalid artifact stage: ${manifest.stage}`);
   if (manifest.ownershipVersion !== 1) throw new Error(`Unsupported ownershipVersion: ${manifest.ownershipVersion}`);
@@ -103,6 +106,13 @@ async function validateCheckpointArtifact(artifactDir, expected = {}) {
   const group = getContentGroup(manifest.group);
   if (manifest.stage === 'translation' && !group.translate) throw new Error('Translation stage is not enabled for this group');
   const translationArtifact = manifest.stage === 'translation' && group.translate;
+  if (manifest.batch !== undefined) {
+    if (!translationArtifact) throw new Error('Batch metadata is only allowed for translation artifacts');
+    exactKeys(manifest.batch, BATCH_KEYS, 'batch');
+    const batch = manifest.batch;
+    for (const key of ['batchIndex', 'batchNumber', 'batchCount', 'batchSize', 'pendingCount']) if (!Number.isSafeInteger(batch[key])) throw new Error(`Invalid batch ${key}`);
+    if (batch.batchIndex < 0 || batch.batchNumber !== batch.batchIndex + 1 || batch.batchCount < batch.batchNumber || batch.batchSize <= 0 || batch.pendingCount <= 0 || !/^[0-9a-f]{64}$/.test(batch.pendingSetSha256)) throw new Error('Invalid batch metadata');
+  }
   const sha = /^[0-9a-f]{40}$/;
   if (!sha.test(manifest.masterSha)) throw new Error('Invalid masterSha');
   if (!sha.test(manifest.devBaselineSha)) throw new Error('Invalid devBaselineSha');

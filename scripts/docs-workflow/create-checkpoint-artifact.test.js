@@ -64,8 +64,10 @@ test('creates, validates, and applies a translation artifact with three-way cach
   const translated = 'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/python/python/topic.md';
   await mkdir(path.dirname(path.join(f.workspace, translated)), { recursive: true });
   await writeFile(path.join(f.workspace, translated), '# translated');
-  const manifest = await createCheckpointArtifact({ group: 'python', masterSha: SHA_A, devBaselineSha: SHA_B, ...f, includeTranslationCache: true });
+  const batch = { batchIndex: 1, batchNumber: 2, batchCount: 4, batchSize: 30, pendingCount: 97, pendingSetSha256: 'c'.repeat(64) };
+  const manifest = await createCheckpointArtifact({ group: 'python', masterSha: SHA_A, devBaselineSha: SHA_B, ...f, includeTranslationCache: true, batch });
   assert.equal(manifest.stage, 'translation'); assert.equal(manifest.files.some((entry) => entry.path === '.translation-cache/ja-JP.json'), true);
+  assert.deepEqual(manifest.batch, batch);
   assert.equal(manifest.files.some((entry) => entry.path === translated), true);
   await assert.doesNotReject(validateCheckpointArtifact(f.output));
   await applyCheckpointArtifact({ artifactDir: f.output, targetDir: target, baselineDir: f.baselineDir });

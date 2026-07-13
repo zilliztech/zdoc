@@ -107,6 +107,15 @@ async function createCheckpointArtifact(options) {
   const group = getContentGroup(groupName);
   if (options.includeTranslationCache !== undefined && typeof options.includeTranslationCache !== 'boolean') throw new Error('includeTranslationCache must be a boolean');
   if (options.includeTranslationCache && !group.translate) throw new Error('Translation cache is not enabled for this group');
+  let batch;
+  if (options.batch !== undefined) {
+    if (!options.includeTranslationCache) throw new Error('Batch metadata is only allowed for translation artifacts');
+    const keys = ['batchIndex', 'batchNumber', 'batchCount', 'batchSize', 'pendingCount', 'pendingSetSha256'];
+    if (!options.batch || typeof options.batch !== 'object' || Array.isArray(options.batch) || Object.keys(options.batch).length !== keys.length || keys.some((key) => !Object.hasOwn(options.batch, key))) throw new Error('Invalid translation batch metadata');
+    batch = { ...options.batch };
+    for (const key of ['batchIndex', 'batchNumber', 'batchCount', 'batchSize', 'pendingCount']) if (!Number.isSafeInteger(batch[key])) throw new Error(`Invalid translation batch ${key}`);
+    if (batch.batchIndex < 0 || batch.batchNumber !== batch.batchIndex + 1 || batch.batchCount < batch.batchNumber || batch.batchSize <= 0 || batch.pendingCount <= 0 || !/^[0-9a-f]{64}$/.test(batch.pendingSetSha256)) throw new Error('Invalid translation batch metadata');
+  }
   if (!SHA.test(masterSha || '')) throw new Error('Invalid master SHA');
   if (!SHA.test(devBaselineSha || '')) throw new Error('Invalid dev baseline SHA');
   if (options.validationCommands !== undefined && (!Array.isArray(options.validationCommands) || !options.validationCommands.every((command) => typeof command === 'string'))) throw new Error('validationCommands must be an array of strings');
@@ -160,7 +169,7 @@ async function createCheckpointArtifact(options) {
       files.push({ path: rel, sha256: crypto.createHash('sha256').update(bytes).digest('hex'), size: bytes.length });
     }
     const createdAt = options.createdAt === undefined ? new Date().toISOString() : new Date(options.createdAt).toISOString();
-    const manifest = { schemaVersion: 1, stage: options.includeTranslationCache ? 'translation' : 'source', group: groupName, masterSha, devBaselineSha, createdAt, ownershipVersion: 1, files, deletions, snapshotManual: group.snapshotManual, validation: { commands: options.validationCommands || [], passed: true } };
+    const manifest = { schemaVersion: 1, stage: options.includeTranslationCache ? 'translation' : 'source', group: groupName, masterSha, devBaselineSha, createdAt, ownershipVersion: 1, files, deletions, snapshotManual: group.snapshotManual, validation: { commands: options.validationCommands || [], passed: true }, ...(batch ? { batch } : {}) };
     const temporary = path.join(staging, `.manifest.${process.pid}.tmp`);
     await writeFile(temporary, `${JSON.stringify(manifest, null, 2)}\n`, { flag: 'wx' });
     await rename(temporary, path.join(staging, 'manifest.json'));
@@ -182,27 +191,34 @@ async function createCheckpointArtifact(options) {
   }
 }
 
-function usage() { return 'Usage: node create-checkpoint-artifact.js --group <group> --master-sha <sha> --dev-baseline-sha <sha> --baseline-dir <dir> --workspace <dir> --output <dir> [--include-translation-cache] [--validation-command <string> ...]'; }
+function usage() { return 'Usage: node create-checkpoint-artifact.js --group <group> --master-sha <sha> --dev-baseline-sha <sha> --baseline-dir <dir> --workspace <dir> --output <dir> [--include-translation-cache] [--batch-index <n> --batch-number <n> --batch-count <n> --batch-size <n> --pending-count <n> --pending-set-sha256 <sha>] [--validation-command <string> ...]'; }
 function parseArgs(args) {
   if (args.length === 1 && args[0] === '--help') return { help: true };
   if (args.includes('--help')) throw new Error('--help must be used alone');
   const result = { validationCommands: [] };
   const names = { group: 'group', 'master-sha': 'masterSha', 'dev-baseline-sha': 'devBaselineSha', 'baseline-dir': 'baselineDir', workspace: 'workspace', output: 'output' };
+  const batchNames = { 'batch-index': 'batchIndex', 'batch-number': 'batchNumber', 'batch-count': 'batchCount', 'batch-size': 'batchSize', 'pending-count': 'pendingCount', 'pending-set-sha256': 'pendingSetSha256' };
   const seen = new Set();
   for (let i = 0; i < args.length;) {
     if (args[i] === '--include-translation-cache') { if (result.includeTranslationCache) throw new Error('Duplicate argument: --include-translation-cache'); result.includeTranslationCache = true; i++; continue; }
     const key = args[i]?.slice(2), value = args[i + 1];
     if (!args[i]?.startsWith('--') || value === undefined) throw new Error(usage());
     if (key === 'validation-command') result.validationCommands.push(value);
-    else if (names[key]) {
+    else if (names[key] || batchNames[key]) {
       if (seen.has(key)) throw new Error(`Duplicate argument: --${key}`);
       seen.add(key);
-      result[names[key]] = value;
+      result[names[key] || batchNames[key]] = batchNames[key] && key !== 'pending-set-sha256' ? Number(value) : value;
     }
     else throw new Error(`Unknown argument: --${key}`);
     i += 2;
   }
   for (const [flag, name] of Object.entries(names)) if (result[name] === undefined) throw new Error(`Missing required argument: --${flag}`);
+  const presentBatch = Object.values(batchNames).filter((name) => result[name] !== undefined);
+  if (presentBatch.length !== 0 && presentBatch.length !== Object.keys(batchNames).length) throw new Error('All translation batch arguments must be provided together');
+  if (presentBatch.length) {
+    result.batch = Object.fromEntries(Object.values(batchNames).map((name) => [name, result[name]]));
+    for (const name of Object.values(batchNames)) delete result[name];
+  }
   return result;
 }
 if (require.main === module) {
