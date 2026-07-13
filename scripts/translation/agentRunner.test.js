@@ -71,6 +71,35 @@ async function testCorrectionRunsWhenReviewFails() {
   })
 }
 
+async function testRestSpecsUseStructuredLocaleTranslation() {
+  await withTempDir(async siteDir => {
+    const sourcePath = 'reference/api/restful/restful/v1/search.mdx'
+    const targetPath = 'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/restful/restful/v1/search.mdx'
+    write(path.join(siteDir, sourcePath), '# Search\n<RestSpecs specs={specs} lang="en-US" />\n\nexport const specs = {"summary":"Search","description":"Search a collection.","example":{"message":"User has not authenticated"}}\nexport const endpoint = "/v1/search"\nexport const method = "post"\n')
+    const callModel = async ({ agent, messages }) => {
+      if (messages[0].content.includes('structured Zilliz Cloud REST API')) {
+        return JSON.stringify(JSON.parse(messages[1].content.split('\n\n')[1]).map(entry => ({ ...entry, text: `JA:${entry.text}` })))
+      }
+      if (agent === 'translation') return '# 検索\n<RestSpecs specs={specs} lang="en-US" />\n\n'
+      if (agent === 'review') return '{"pass":true,"issues":[]}'
+      throw new Error(`unexpected agent ${agent}`)
+    }
+    const result = await processManifestItem({
+      siteDir,
+      item: { sourcePath, targetPath, sourceHash: 'rest', locale: 'ja-JP', type: 'reference' },
+      callModel,
+      validate: async () => [],
+    })
+    assert.equal(result.status, 'translated')
+    const output = fs.readFileSync(path.join(siteDir, targetPath), 'utf8')
+    assert.match(output, /lang="ja-JP"/)
+    assert.match(output, /"summary":"Search"/)
+    assert.match(output, /"ja-JP":\{"summary":"JA:Search","description":"JA:Search a collection\."\}/)
+    assert.match(output, /"message":"User has not authenticated"/)
+    assert.match(output, /export const endpoint = "\/v1\/search"/)
+  })
+}
+
 async function testProviderCallRetriesTransientFailures() {
   const originalFetch = global.fetch
   let calls = 0
@@ -383,6 +412,7 @@ async function testProgressCoordinatorCheckpointsCacheAndReport() {
 
 async function run() {
   await testCorrectionRunsWhenReviewFails()
+  await testRestSpecsUseStructuredLocaleTranslation()
   await testProviderCallRetriesTransientFailures()
   await testProviderCallTimesOutHungRequests()
   await testFileTimeoutRejectsSlowWork()
