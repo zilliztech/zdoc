@@ -3,6 +3,7 @@ const fs = require('node:fs')
 const { v4: uuidv4 } = require('uuid')
 const tokenFetcher = require('../lark-docs/larkTokenFetcher')
 const { fetchFeishuJsonWithRetry } = require('../lark-docs/feishuFetch')
+const { normalizeLarkMarkdown } = require('./larkMarkdown')
 const {
   buildFinishState,
   buildExactState,
@@ -38,7 +39,7 @@ function buildCardContent(state) {
   ]
   if (state.notes && state.notes.length) {
     elements.push({ tag: 'hr' })
-    elements.push({ tag: 'div', text: { tag: 'lark_md', content: state.notes.join('\n') } })
+    elements.push({ tag: 'div', text: { tag: 'lark_md', content: normalizeLarkMarkdown(state.notes.join('\n')) } })
   }
   elements.push({
     tag: 'note',

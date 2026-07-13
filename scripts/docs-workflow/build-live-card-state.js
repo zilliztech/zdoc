@@ -27,10 +27,6 @@ function jobStatus(job) {
   return FAILED.has(job.conclusion) ? 'fail' : 'pending'
 }
 
-function escapeCell(value) {
-  return String(value).replaceAll('|', '\\|').replace(/[\r\n]+/g, ' ').replaceAll('`', '\\`')
-}
-
 function stageStatus(statuses) {
   if (statuses.includes('fail')) return 'fail'
   if (statuses.every(status => status === 'done')) return 'done'
@@ -52,14 +48,15 @@ function buildLiveCardState({ requestedGroups, jobs, publishEnabled }) {
   })
   const verify = jobStatus(byName.get('verify'))
   stages.push({ name: 'Verify', status: verify })
-  const table = [
-    '| Manual | Produce | Source | Translate | Translation |',
-    '| --- | --- | --- | --- | --- |',
-    ...rows.map(({ group, statuses }) => `| ${escapeCell(group)} | ${statuses.produce} | ${statuses.source} | ${statuses.translate} | ${statuses.translation} |`),
+  const icon = { pending: '⬜', running: '⏳', done: '✅', fail: '❌' }
+  const progressRows = [
+    '**Manual progress**',
+    '',
+    ...rows.map(({ group, statuses }) => `- **${group}** · ${icon[statuses.produce]} Produce · ${icon[statuses.source]} Source · ${icon[statuses.translate]} Translate · ${icon[statuses.translation]} Translation`),
   ]
   return {
     stages,
-    noteMarkdown: table.join('\n'),
+    noteMarkdown: progressRows.join('\n'),
     overallStatus: stages.some(stage => stage.status === 'fail') ? 'fail' : stages.every(stage => stage.status === 'done') ? 'done' : 'running',
   }
 }
