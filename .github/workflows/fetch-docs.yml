@@ -359,15 +359,35 @@ jobs:
     secrets:
       APP_ID: ${{ secrets.APP_ID }}
       APP_SECRET: ${{ secrets.APP_SECRET }}
-  translate_guides:
+  prepare_guides_translation_batches:
     needs: [prepare, publish_guides]
     if: ${{ always() && needs.prepare.outputs.publish == 'true' && (needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'guides') && (needs.publish_guides.outputs.status == 'published' || needs.publish_guides.outputs.status == 'no_changes') }}
-    uses: ./.github/workflows/_translate-content-group.yml
+    uses: ./.github/workflows/_prepare-translation-batches.yml
     with:
       group: guides
       source_commit_sha: ${{ needs.publish_guides.outputs.commit_sha || needs.prepare.outputs.dev_baseline_sha }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
-      should_translate: ${{ needs.prepare.outputs.publish == 'true' && (needs.publish_guides.outputs.status == 'published' || needs.publish_guides.outputs.status == 'no_changes') }}
+
+  translate_guides_batches:
+    name: guides_translation_batch_${{ matrix.batchNumber }}_of_${{ needs.prepare_guides_translation_batches.outputs.batch_count }}
+    needs: [prepare, publish_guides, prepare_guides_translation_batches]
+    if: ${{ always() && needs.prepare.outputs.publish == 'true' && needs.prepare_guides_translation_batches.result == 'success' && needs.prepare_guides_translation_batches.outputs.batch_count != '0' }}
+    strategy:
+      fail-fast: false
+      max-parallel: 1
+      matrix: ${{ fromJSON(needs.prepare_guides_translation_batches.outputs.matrix) }}
+    uses: ./.github/workflows/_translate-publish-batch.yml
+    with:
+      group: guides
+      source_commit_sha: ${{ needs.publish_guides.outputs.commit_sha || needs.prepare.outputs.dev_baseline_sha }}
+      master_sha: ${{ needs.prepare.outputs.master_sha }}
+      target_branch: ${{ needs.prepare.outputs.target_branch }}
+      batch_index: ${{ matrix.batchIndex }}
+      batch_number: ${{ matrix.batchNumber }}
+      batch_count: ${{ fromJSON(needs.prepare_guides_translation_batches.outputs.batch_count) }}
+      batch_size: ${{ fromJSON(needs.prepare_guides_translation_batches.outputs.batch_size) }}
+      pending_count: ${{ fromJSON(needs.prepare_guides_translation_batches.outputs.pending_count) }}
+      pending_set_sha256: ${{ needs.prepare_guides_translation_batches.outputs.pending_set_sha256 }}
       artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
       card_id: ${{ needs.prepare.outputs.phase_card_id }}
       card_started_at: ${{ needs.prepare.outputs.card_started_at }}
@@ -377,25 +397,26 @@ jobs:
       REVIEW_AGENT_API_KEY: ${{ secrets.REVIEW_AGENT_API_KEY }}
       APP_ID: ${{ secrets.APP_ID }}
       APP_SECRET: ${{ secrets.APP_SECRET }}
-  publish_guides_translation:
-    needs: [prepare, publish_guides, translate_guides]
-    if: ${{ always() && needs.prepare.outputs.publish == 'true' && needs.translate_guides.outputs.status == 'translation_ready' }}
-    uses: ./.github/workflows/_publish-content-group.yml
-    with:
-      group: guides
-      artifact_name: ${{ needs.translate_guides.outputs.artifact_name || 'unavailable' }}
-      baseline_artifact_name: ${{ needs.translate_guides.outputs.baseline_artifact_name || '' }}
-      commit_message: 'i18n(guides): publish translations'
-      should_publish: ${{ needs.prepare.outputs.publish == 'true' && needs.translate_guides.outputs.status == 'translation_ready' }}
-      target_branch: ${{ needs.prepare.outputs.target_branch }}
-      master_sha: ${{ needs.prepare.outputs.master_sha }}
-      validate_command: 'pnpm run build'
-      card_id: ${{ needs.prepare.outputs.phase_card_id }}
-      card_started_at: ${{ needs.prepare.outputs.card_started_at }}
-      card_stages: ${{ needs.prepare.outputs.card_stages }}
-    secrets:
-      APP_ID: ${{ secrets.APP_ID }}
-      APP_SECRET: ${{ secrets.APP_SECRET }}
+  finalize_guides_translation:
+    needs: [prepare, prepare_guides_translation_batches, translate_guides_batches]
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    outputs:
+      translator_status: ${{ steps.result.outputs.translator_status }}
+      publisher_status: ${{ steps.result.outputs.publisher_status }}
+      commit_sha: ${{ steps.result.outputs.commit_sha }}
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: '${{ needs.prepare.outputs.master_sha }}', fetch-depth: 0 }
+      - id: result
+        env:
+          PUBLISH: ${{ needs.prepare.outputs.publish }}
+          PREP_RESULT: ${{ needs.prepare_guides_translation_batches.result }}
+          BATCH_COUNT: ${{ needs.prepare_guides_translation_batches.outputs.batch_count }}
+          BATCH_RESULT: ${{ needs.translate_guides_batches.result }}
+          TARGET_BRANCH: ${{ needs.prepare.outputs.target_branch }}
+        run: node scripts/docs-workflow/finalize-translation-batches.js
 
   publish_python:
     needs: [prepare, produce_python]
@@ -734,7 +755,7 @@ jobs:
       APP_SECRET: ${{ secrets.APP_SECRET }}
 
   resolve_final:
-    needs: [prepare, publish_guides_translation, publish_python_translation, publish_java_translation, publish_node_translation, publish_go_translation, publish_cli_translation, publish_rest_translation]
+    needs: [prepare, finalize_guides_translation, publish_python_translation, publish_java_translation, publish_node_translation, publish_go_translation, publish_cli_translation, publish_rest_translation]
     if: ${{ always() && needs.prepare.outputs.publish == 'true' }}
     runs-on: ubuntu-latest
     timeout-minutes: 15
@@ -769,7 +790,7 @@ jobs:
       APP_SECRET: ${{ secrets.APP_SECRET }}
 
   aggregate:
-    needs: [prepare, produce_guides, publish_guides, translate_guides, publish_guides_translation, produce_python, publish_python, translate_python, publish_python_translation, produce_java, publish_java, translate_java, publish_java_translation, produce_node, publish_node, translate_node, publish_node_translation, produce_go, publish_go, translate_go, publish_go_translation, produce_cli, publish_cli, translate_cli, publish_cli_translation, produce_rest, publish_rest, translate_rest, publish_rest_translation, resolve_final, verify]
+    needs: [prepare, produce_guides, publish_guides, prepare_guides_translation_batches, translate_guides_batches, finalize_guides_translation, produce_python, publish_python, translate_python, publish_python_translation, produce_java, publish_java, translate_java, publish_java_translation, produce_node, publish_node, translate_node, publish_node_translation, produce_go, publish_go, translate_go, publish_go_translation, produce_cli, publish_cli, translate_cli, publish_cli_translation, produce_rest, publish_rest, translate_rest, publish_rest_translation, resolve_final, verify]
     if: ${{ always() }}
     runs-on: ubuntu-latest
     timeout-minutes: 30
@@ -791,9 +812,9 @@ jobs:
           GUIDES_PRODUCER: ${{ needs.produce_guides.outputs.status }}
           GUIDES_SOURCE: ${{ needs.publish_guides.outputs.status }}
           GUIDES_SOURCE_SHA: ${{ needs.publish_guides.outputs.commit_sha }}
-          GUIDES_TRANSLATOR: ${{ needs.translate_guides.outputs.status }}
-          GUIDES_TRANSLATION: ${{ needs.publish_guides_translation.outputs.status }}
-          GUIDES_TRANSLATION_SHA: ${{ needs.publish_guides_translation.outputs.commit_sha }}
+          GUIDES_TRANSLATOR: ${{ needs.finalize_guides_translation.outputs.translator_status }}
+          GUIDES_TRANSLATION: ${{ needs.finalize_guides_translation.outputs.publisher_status }}
+          GUIDES_TRANSLATION_SHA: ${{ needs.finalize_guides_translation.outputs.commit_sha }}
           PYTHON_PRODUCER: ${{ needs.produce_python.outputs.status }}
           PYTHON_SOURCE: ${{ needs.publish_python.outputs.status }}
           PYTHON_SOURCE_SHA: ${{ needs.publish_python.outputs.commit_sha }}
