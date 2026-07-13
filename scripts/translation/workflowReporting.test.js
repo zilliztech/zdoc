@@ -15,4 +15,5 @@ test('reusable translation workflow produces and uploads a group-scoped report',
   assert.match(workflow, /timeout-minutes: 360/)
   assert.match(workflow, /id: agents/)
   assert.match(workflow, /steps\.agents\.outputs\.translated_count/)
+  assert.match(workflow, /CARD_NO_CHANGES_GROUP: \$\{\{ steps\.result\.outputs\.status == 'no_changes' && inputs\.group \|\| '' \}\}/)
 })

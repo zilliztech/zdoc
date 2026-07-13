@@ -47,14 +47,18 @@ function guidesProduceStatus(byName) {
   return 'pending'
 }
 
-function buildLiveCardState({ requestedGroups, jobs, publishEnabled, notes = [] }) {
+function buildLiveCardState({ requestedGroups, jobs, publishEnabled, notes = [], noChangeGroups = [] }) {
   if (!Array.isArray(requestedGroups) || requestedGroups.length === 0) throw new Error('requestedGroups must be a non-empty array')
   const byName = new Map((jobs || []).map(job => [normalizeJobName(job.name), job]))
+  const noChangeSet = new Set(noChangeGroups)
   const rows = requestedGroups.map(group => {
     const statuses = Object.fromEntries(PHASES.map(phase => {
-      const status = phase.key === 'produce' && group === 'guides'
-        ? guidesProduceStatus(byName)
-        : jobStatus(byName.get(phase.job(group)))
+      const jobName = phase.job(group)
+      const status = phase.key === 'translation' && noChangeSet.has(group) && !byName.has(jobName)
+        ? 'done'
+        : phase.key === 'produce' && group === 'guides'
+          ? guidesProduceStatus(byName)
+          : jobStatus(byName.get(jobName))
       return [phase.key, publishEnabled ? status : (phase.key === 'produce' ? status : 'pending')]
     }))
     return { group, statuses }
@@ -103,6 +107,7 @@ if (require.main === module) {
       ],
       publishEnabled: args.publish === 'true',
       notes: args['notes-json'] ? JSON.parse(args['notes-json']) : [],
+      noChangeGroups: args['no-change-groups-json'] ? JSON.parse(args['no-change-groups-json']) : [],
     })
     fs.writeFileSync(args.output, `${JSON.stringify(state, null, 2)}\n`)
   } catch (error) {

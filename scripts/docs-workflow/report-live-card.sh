@@ -14,6 +14,10 @@ else
 fi
 jobs_file="$RUNNER_TEMP/docs-workflow-jobs.json"
 state_file="$RUNNER_TEMP/docs-card-state.json"
+no_change_groups_json='[]'
+if [[ -n "${CARD_NO_CHANGES_GROUP:-}" ]]; then
+  no_change_groups_json=$(node -e 'process.stdout.write(JSON.stringify([process.argv[1]]))' "$CARD_NO_CHANGES_GROUP")
+fi
 gh api --paginate --slurp "repos/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID/jobs?per_page=100" > "$jobs_file"
 node scripts/docs-workflow/build-live-card-state.js \
   --groups-json "$groups_json" \
@@ -21,6 +25,7 @@ node scripts/docs-workflow/build-live-card-state.js \
   --publish "$PUBLISH_ENABLED" \
   --override-job "$CARD_JOB_NAME" \
   --override-conclusion "$CARD_JOB_CONCLUSION" \
+  --no-change-groups-json "$no_change_groups_json" \
   --notes-json "${CARD_NOTES_JSON:-[]}" \
   --output "$state_file"
 npx docusaurus report-to-lark --card-state-file "$state_file" --message-id "$CARD_ID" --title "$CARD_TITLE" --started-at "$CARD_STARTED_AT"

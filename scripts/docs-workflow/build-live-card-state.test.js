@@ -81,3 +81,19 @@ test('shows guides production failed when a prerequisite fails before assembly',
   assert.equal(state.manuals[0].produce, 'fail')
   assert.equal(state.stages[0].status, 'fail')
 })
+
+test('marks translation publication done when the translator reports no changes', () => {
+  const state = buildLiveCardState({
+    requestedGroups: ['go'],
+    publishEnabled: true,
+    noChangeGroups: ['go'],
+    jobs: [
+      { name: 'produce_go / produce', status: 'completed', conclusion: 'success' },
+      { name: 'publish_go / publish', status: 'completed', conclusion: 'success' },
+      { name: 'translate_go / translate', status: 'completed', conclusion: 'success' },
+    ],
+  })
+
+  assert.equal(state.stages[3].name, 'Publish translations (1/1)')
+  assert.equal(state.stages[3].status, 'done')
+})

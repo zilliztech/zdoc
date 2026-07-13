@@ -153,6 +153,7 @@ jobs:
           CARD_PHASE: Translate ${{ inputs.group }}
           CARD_JOB_NAME: translate_${{ inputs.group }}
           CARD_JOB_CONCLUSION: ${{ steps.result.outputs.status == 'failed' && 'failure' || 'success' }}
+          CARD_NO_CHANGES_GROUP: ${{ steps.result.outputs.status == 'no_changes' && inputs.group || '' }}
           CARD_TITLE: Global Docs Build
           SELECTED_GROUP: ${{ startsWith(inputs.card_stages, 'Produce manuals') && 'all' || inputs.group }}
           PUBLISH_ENABLED: ${{ contains(inputs.card_stages, 'Publish') }}
