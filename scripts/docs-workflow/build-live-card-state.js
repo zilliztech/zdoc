@@ -34,11 +34,29 @@ function stageStatus(statuses) {
   return 'pending'
 }
 
+function guidesProduceStatus(byName) {
+  const assembly = byName.get('produce_guides')
+  if (assembly) return jobStatus(assembly)
+  const prerequisites = [
+    byName.get('produce_guides_sources'),
+    byName.get('render_guides_saas'),
+    byName.get('render_guides_byoc'),
+  ].map(jobStatus)
+  if (prerequisites.includes('fail')) return 'fail'
+  if (prerequisites.some(status => status === 'running' || status === 'done')) return 'running'
+  return 'pending'
+}
+
 function buildLiveCardState({ requestedGroups, jobs, publishEnabled, notes = [] }) {
   if (!Array.isArray(requestedGroups) || requestedGroups.length === 0) throw new Error('requestedGroups must be a non-empty array')
   const byName = new Map((jobs || []).map(job => [normalizeJobName(job.name), job]))
   const rows = requestedGroups.map(group => {
-    const statuses = Object.fromEntries(PHASES.map(phase => [phase.key, publishEnabled ? jobStatus(byName.get(phase.job(group))) : (phase.key === 'produce' ? jobStatus(byName.get(phase.job(group))) : 'pending')]))
+    const statuses = Object.fromEntries(PHASES.map(phase => {
+      const status = phase.key === 'produce' && group === 'guides'
+        ? guidesProduceStatus(byName)
+        : jobStatus(byName.get(phase.job(group)))
+      return [phase.key, publishEnabled ? status : (phase.key === 'produce' ? status : 'pending')]
+    }))
     return { group, statuses }
   })
   const stages = PHASES.map(phase => {

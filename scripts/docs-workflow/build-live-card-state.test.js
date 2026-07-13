@@ -51,3 +51,33 @@ test('preserves report notes in the exact live card state', () => {
   assert.deepEqual(state.notes, ['# Link report\n\n- Broken links: 0'])
   assert.equal(state.manuals, undefined)
 })
+
+test('shows guides production running while shared fetch or target rendering is active', () => {
+  const state = buildLiveCardState({
+    requestedGroups: ['guides', 'rest'],
+    publishEnabled: true,
+    jobs: [
+      { name: 'produce_guides_sources / fetch', status: 'completed', conclusion: 'success' },
+      { name: 'render_guides_saas / render', status: 'in_progress', conclusion: null },
+      { name: 'render_guides_byoc / render', status: 'in_progress', conclusion: null },
+    ],
+  })
+
+  assert.equal(state.manuals[0].produce, 'running')
+  assert.equal(state.stages[0].status, 'running')
+  assert.equal(state.stages[0].name, 'Produce manuals (0/2)')
+})
+
+test('shows guides production failed when a prerequisite fails before assembly', () => {
+  const state = buildLiveCardState({
+    requestedGroups: ['guides', 'rest'],
+    publishEnabled: true,
+    jobs: [
+      { name: 'produce_guides_sources / fetch', status: 'completed', conclusion: 'success' },
+      { name: 'render_guides_saas / render', status: 'completed', conclusion: 'failure' },
+    ],
+  })
+
+  assert.equal(state.manuals[0].produce, 'fail')
+  assert.equal(state.stages[0].status, 'fail')
+})
