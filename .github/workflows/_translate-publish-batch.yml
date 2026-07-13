@@ -1,0 +1,82 @@
+name: translate and publish durable batch
+
+permissions:
+  contents: write
+  actions: read
+
+on:
+  workflow_call:
+    inputs:
+      group: { required: true, type: string }
+      source_commit_sha: { required: true, type: string }
+      master_sha: { required: true, type: string }
+      target_branch: { required: true, type: string }
+      batch_index: { required: true, type: number }
+      batch_number: { required: true, type: number }
+      batch_count: { required: true, type: number }
+      batch_size: { required: true, type: number }
+      pending_count: { required: true, type: number }
+      pending_set_sha256: { required: true, type: string }
+      artifact_retention_days: { required: false, type: number, default: 3 }
+      card_id: { required: false, type: string, default: '' }
+      card_started_at: { required: false, type: string, default: '' }
+      card_stages: { required: false, type: string, default: '' }
+    secrets:
+      TRANSLATION_AGENT_API_KEY: { required: true }
+      REVIEW_AGENT_API_KEY: { required: true }
+      APP_ID: { required: false }
+      APP_SECRET: { required: false }
+    outputs:
+      status: { value: '${{ jobs.publish.outputs.status || jobs.translate.outputs.status }}' }
+      commit_sha: { value: '${{ jobs.publish.outputs.commit_sha }}' }
+      translated_count: { value: '${{ jobs.translate.outputs.translated_count }}' }
+      failed_count: { value: '${{ jobs.translate.outputs.failed_count }}' }
+
+jobs:
+  translate:
+    name: translate batch ${{ inputs.batch_number }} of ${{ inputs.batch_count }}
+    uses: ./.github/workflows/_translate-content-group.yml
+    with:
+      group: ${{ inputs.group }}
+      source_commit_sha: ${{ inputs.source_commit_sha }}
+      master_sha: ${{ inputs.master_sha }}
+      should_translate: true
+      max_files: '0'
+      batch_index: ${{ inputs.batch_index }}
+      batch_number: ${{ inputs.batch_number }}
+      batch_count: ${{ inputs.batch_count }}
+      batch_size: ${{ inputs.batch_size }}
+      pending_count: ${{ inputs.pending_count }}
+      pending_set_sha256: ${{ inputs.pending_set_sha256 }}
+      artifact_retention_days: ${{ inputs.artifact_retention_days }}
+      card_id: ${{ inputs.card_id }}
+      card_started_at: ${{ inputs.card_started_at }}
+      card_stages: ${{ inputs.card_stages }}
+    secrets:
+      TRANSLATION_AGENT_API_KEY: ${{ secrets.TRANSLATION_AGENT_API_KEY }}
+      REVIEW_AGENT_API_KEY: ${{ secrets.REVIEW_AGENT_API_KEY }}
+      APP_ID: ${{ secrets.APP_ID }}
+      APP_SECRET: ${{ secrets.APP_SECRET }}
+
+  publish:
+    name: publish batch ${{ inputs.batch_number }} of ${{ inputs.batch_count }} (${{ needs.translate.outputs.translated_count }} docs)
+    needs: translate
+    if: ${{ always() && needs.translate.outputs.status == 'translation_ready' }}
+    uses: ./.github/workflows/_publish-content-group.yml
+    with:
+      group: ${{ inputs.group }}
+      artifact_name: ${{ needs.translate.outputs.artifact_name }}
+      baseline_artifact_name: ${{ needs.translate.outputs.baseline_artifact_name }}
+      commit_message: "${{ format('i18n({0}): publish batch {1} of {2}', inputs.group, inputs.batch_number, inputs.batch_count) }}"
+      should_publish: true
+      target_branch: ${{ inputs.target_branch }}
+      master_sha: ${{ inputs.master_sha }}
+      validate_command: pnpm run build
+      translation_batch_number: ${{ inputs.batch_number }}
+      translation_batch_count: ${{ inputs.batch_count }}
+      card_id: ${{ inputs.card_id }}
+      card_started_at: ${{ inputs.card_started_at }}
+      card_stages: ${{ inputs.card_stages }}
+    secrets:
+      APP_ID: ${{ secrets.APP_ID }}
+      APP_SECRET: ${{ secrets.APP_SECRET }}

@@ -9,6 +9,7 @@ const publishingWorkflows = new Set([
   'fetch-docs.yml',
   'translate-codex.yml',
   '_publish-content-group.yml',
+  '_translate-publish-batch.yml',
 ])
 
 function validateWorkflowPolicies(directory = workflowDirectory) {
@@ -32,7 +33,8 @@ function validateWorkflowPolicies(directory = workflowDirectory) {
     if (!/^permissions:\n(?:  .+\n)+/m.test(source)) {
       errors.push(`${file}: declare explicit top-level permissions`)
     }
-    if (!/^\s{4}timeout-minutes: \d+$/m.test(source)) {
+    const primaryJobs = Object.values(workflow.jobs || {}).filter(job => job?.['runs-on'])
+    if (primaryJobs.some(job => !Number.isFinite(job?.['timeout-minutes']))) {
       errors.push(`${file}: every primary job must have a timeout`)
     }
     if (/node-version:\s*(?:lts\/\*|latest)/.test(source)) {
@@ -46,7 +48,7 @@ function validateWorkflowPolicies(directory = workflowDirectory) {
     }
 
     if (publishingWorkflows.has(file)) {
-      if (file !== '_publish-content-group.yml' && !/^concurrency:\n  group: docs-production-dev\n  cancel-in-progress: false$/m.test(source)) {
+      if (!['_publish-content-group.yml', '_translate-publish-batch.yml'].includes(file) && !/^concurrency:\n  group: docs-production-dev\n  cancel-in-progress: false$/m.test(source)) {
         errors.push(`${file}: serialize dev publication through docs-production-dev`)
       }
       if (!/^  contents: write$/m.test(source)) {

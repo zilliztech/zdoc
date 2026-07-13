@@ -1,0 +1,66 @@
+name: prepare translation batches
+
+on:
+  workflow_call:
+    inputs:
+      group: { required: true, type: string }
+      source_commit_sha: { required: true, type: string }
+      master_sha: { required: true, type: string }
+    outputs:
+      matrix: { value: '${{ jobs.prepare.outputs.matrix }}' }
+      pending_count: { value: '${{ jobs.prepare.outputs.pending_count }}' }
+      batch_count: { value: '${{ jobs.prepare.outputs.batch_count }}' }
+      batch_size: { value: '${{ jobs.prepare.outputs.batch_size }}' }
+      pending_set_sha256: { value: '${{ jobs.prepare.outputs.pending_set_sha256 }}' }
+
+permissions:
+  contents: read
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    outputs:
+      matrix: ${{ steps.summary.outputs.matrix }}
+      pending_count: ${{ steps.summary.outputs.pending_count }}
+      batch_count: ${{ steps.summary.outputs.batch_count }}
+      batch_size: ${{ steps.summary.outputs.batch_size }}
+      pending_set_sha256: ${{ steps.summary.outputs.pending_set_sha256 }}
+    env:
+      GROUP: ${{ inputs.group }}
+      SOURCE_COMMIT_SHA: ${{ inputs.source_commit_sha }}
+      MASTER_SHA: ${{ inputs.master_sha }}
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: '${{ inputs.master_sha }}', fetch-depth: 0 }
+      - name: Materialize immutable translation source
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin "$SOURCE_COMMIT_SHA"
+          bash scripts/restore-generated-state.sh --exact --ref "$SOURCE_COMMIT_SHA"
+          mkdir -p .translation-cache
+          test -f .translation-cache/ja-JP.json || printf '{"files":{}}\n' > .translation-cache/ja-JP.json
+      - id: summary
+        name: Build deterministic batch matrix
+        run: |
+          set -euo pipefail
+          node scripts/translation/manifest.js --locale ja-JP --output tmp/translation-manifest.json --group "$GROUP" --source-checkpoint-sha "$SOURCE_COMMIT_SHA"
+          node - <<'NODE'
+          const fs = require('node:fs')
+          const { getContentGroup } = require('./scripts/docs-workflow/content-groups')
+          const { createBatchSummary } = require('./scripts/translation/batches')
+          const manifest = JSON.parse(fs.readFileSync('tmp/translation-manifest.json', 'utf8'))
+          const batchSize = getContentGroup(process.env.GROUP).durableTranslationBatchSize
+          if (batchSize <= 0) throw new Error(`Durable translation batching is disabled for ${process.env.GROUP}`)
+          const summary = createBatchSummary(manifest, batchSize)
+          const lines = {
+            matrix: JSON.stringify(summary.matrix),
+            pending_count: String(summary.pendingCount),
+            batch_count: String(summary.batchCount),
+            batch_size: String(summary.batchSize),
+            pending_set_sha256: summary.pendingSetSha256,
+          }
+          JSON.parse(lines.matrix)
+          fs.appendFileSync(process.env.GITHUB_OUTPUT, Object.entries(lines).map(([key, value]) => `${key}=${value}\n`).join(''))
+          NODE
+
