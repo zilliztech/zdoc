@@ -78,30 +78,30 @@ test('sequential stale Python and Java source artifacts preserve remote and each
 test('translation cache three-way merges disjoint stale artifacts and rejects a same-key conflict', () => {
   const s = setup();
   try {
-    put(s.seed, '.translation-cache/ja-JP.json', JSON.stringify({ shared: 'base', python: 'base', java: 'base', remote: 'base' }) + '\n');
+    put(s.seed, '.translation-cache/ja-JP.json', JSON.stringify({ files: { shared: 'base', python: 'base', java: 'base', remote: 'base' } }) + '\n');
     put(s.seed, 'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/python/python/page.md', 'python old\n');
     put(s.seed, 'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/java/java/v2/page.md', 'java old\n');
     commitSeed(s);
     const baseline = path.join(s.root, 'baseline'), python = path.join(s.root, 'python'), java = path.join(s.root, 'java'); copy(s.seed, baseline); copy(s.seed, python); copy(s.seed, java);
-    put(python, '.translation-cache/ja-JP.json', JSON.stringify({ shared: 'base', python: 'new', java: 'base', remote: 'base' }) + '\n');
+    put(python, '.translation-cache/ja-JP.json', JSON.stringify({ files: { shared: 'base', python: 'new', java: 'base', remote: 'base' } }) + '\n');
     put(python, 'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/python/python/page.md', 'python new\n');
-    put(java, '.translation-cache/ja-JP.json', JSON.stringify({ shared: 'base', python: 'base', java: 'new', remote: 'base' }) + '\n');
+    put(java, '.translation-cache/ja-JP.json', JSON.stringify({ files: { shared: 'base', python: 'base', java: 'new', remote: 'base' } }) + '\n');
     put(java, 'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/java/java/v2/page.md', 'java new\n');
     const pa = artifact(s, 'python', baseline, python, true), ja = artifact(s, 'java', baseline, java, true);
-    put(s.seed, '.translation-cache/ja-JP.json', JSON.stringify({ shared: 'base', python: 'base', java: 'base', remote: 'remote-new' }) + '\n'); git(s.seed, 'add', '.'); git(s.seed, 'commit', '-m', 'remote cache'); git(s.seed, 'push', 'origin', 'dev');
+    put(s.seed, '.translation-cache/ja-JP.json', JSON.stringify({ files: { shared: 'base', python: 'base', java: 'base', remote: 'remote-new' } }) + '\n'); git(s.seed, 'add', '.'); git(s.seed, 'commit', '-m', 'remote cache'); git(s.seed, 'push', 'origin', 'dev');
     for (const a of [pa, ja]) { const result = publish(s, a, baseline); assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}`); }
     git(s.seed, 'fetch', 'origin', 'dev');
-    assert.deepEqual(JSON.parse(git(s.seed, 'show', 'origin/dev:.translation-cache/ja-JP.json')), { shared: 'base', python: 'new', java: 'new', remote: 'remote-new' });
+    assert.deepEqual(JSON.parse(git(s.seed, 'show', 'origin/dev:.translation-cache/ja-JP.json')), { files: { shared: 'base', python: 'new', java: 'new', remote: 'remote-new' } });
     assert.equal(git(s.seed, 'show', 'origin/dev:i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/python/python/page.md'), 'python new');
     assert.equal(git(s.seed, 'show', 'origin/dev:i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/java/java/v2/page.md'), 'java new');
     const conflictWork = path.join(s.root, 'conflict'); copy(baseline, conflictWork);
-    put(conflictWork, '.translation-cache/ja-JP.json', JSON.stringify({ shared: 'second', python: 'base', java: 'base', remote: 'base' }) + '\n');
+    put(conflictWork, '.translation-cache/ja-JP.json', JSON.stringify({ files: { shared: 'second', python: 'base', java: 'base', remote: 'base' } }) + '\n');
     const conflict = artifact(s, 'python', baseline, conflictWork, true), firstTip = git(s.remote, 'rev-parse', 'refs/heads/dev');
-    const firstWork = path.join(s.root, 'first'); copy(s.seed, firstWork); put(firstWork, '.translation-cache/ja-JP.json', JSON.stringify({ shared: 'first', python: 'new', java: 'new', remote: 'remote-new' }) + '\n');
+    const firstWork = path.join(s.root, 'first'); copy(s.seed, firstWork); put(firstWork, '.translation-cache/ja-JP.json', JSON.stringify({ files: { shared: 'first', python: 'new', java: 'new', remote: 'remote-new' } }) + '\n');
     const currentBase = path.join(s.root, 'current-base'); copy(s.seed, currentBase); const first = artifact(s, 'python', currentBase, firstWork, true);
     let result = publish(s, first, currentBase); assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}`);
     const afterFirst = git(s.remote, 'rev-parse', 'refs/heads/dev'); assert.notEqual(afterFirst, firstTip);
     result = publish(s, conflict, baseline); assert.notEqual(result.status, 0); assert.equal(git(s.remote, 'rev-parse', 'refs/heads/dev'), afterFirst);
-    assert.equal(JSON.parse(git(s.remote, 'show', 'refs/heads/dev:.translation-cache/ja-JP.json')).shared, 'first');
+    assert.equal(JSON.parse(git(s.remote, 'show', 'refs/heads/dev:.translation-cache/ja-JP.json')).files.shared, 'first');
   } finally { fs.rmSync(s.root, { recursive: true, force: true }); }
 });

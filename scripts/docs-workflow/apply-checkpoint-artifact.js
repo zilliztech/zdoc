@@ -55,14 +55,28 @@ function canonicalize(value) {
   return value;
 }
 function equal(a, b) { return JSON.stringify(canonicalize(a)) === JSON.stringify(canonicalize(b)); }
-function mergeCache(baseline, artifact, target) {
+function mergeRecord(baseline, artifact, target, prefix = '') {
   const missing = Symbol('missing'), result = {};
   for (const key of [...new Set([...Object.keys(baseline), ...Object.keys(artifact), ...Object.keys(target)])].sort()) {
     const b = Object.hasOwn(baseline, key) ? baseline[key] : missing, a = Object.hasOwn(artifact, key) ? artifact[key] : missing, t = Object.hasOwn(target, key) ? target[key] : missing;
     const eq = (x, y) => x === missing || y === missing ? x === y : equal(x, y);
     let chosen;
-    if (eq(a, b)) chosen = t; else if (eq(t, b) || eq(a, t)) chosen = a; else throw new Error(`Translation cache conflict for key: ${key}`);
+    if (eq(a, b)) chosen = t; else if (eq(t, b) || eq(a, t)) chosen = a; else throw new Error(`Translation cache conflict for key: ${prefix}${key}`);
     if (chosen !== missing) result[key] = chosen;
+  }
+  return result;
+}
+function mergeCache(baseline, artifact, target) {
+  const caches = [baseline, artifact, target];
+  const usesFilesSchema = caches.some((cache) => Object.hasOwn(cache, 'files'));
+  let result;
+  if (usesFilesSchema) {
+    for (const cache of caches) if (!cache.files || typeof cache.files !== 'object' || Array.isArray(cache.files)) throw new Error('Translation cache files must be a JSON object');
+    const metadata = caches.map((cache) => Object.fromEntries(Object.entries(cache).filter(([key]) => key !== 'files')));
+    result = mergeRecord(metadata[0], metadata[1], metadata[2]);
+    result.files = mergeRecord(baseline.files, artifact.files, target.files, 'files.');
+  } else {
+    result = mergeRecord(baseline, artifact, target);
   }
   return Buffer.from(`${JSON.stringify(canonicalize(result), null, 2)}\n`);
 }
