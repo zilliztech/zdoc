@@ -74,6 +74,8 @@ test('docs workflow orchestrates parallel producers and checkpointed sequential 
   assert.match(source, /verify:[\s\S]*uses: \.\/.github\/workflows\/_verify-docs\.yml/)
   assert.match(source, /verify:[\s\S]*target_branch: \$\{\{ needs\.prepare\.outputs\.target_branch \}\}/)
   assert.match(source, /aggregate:[\s\S]*aggregate-results\.js[\s\S]*report-to-lark --card-finish/)
+  assert.match(source, /name: Collect card report summaries[\s\S]*CARD_REPORT_REF: \$\{\{ needs\.resolve_final\.outputs\.final_dev_sha \}\}[\s\S]*collect-build-card-notes\.js/)
+  assert.match(source, /CARD_NOTES_JSON: \$\{\{ steps\.reports\.outputs\.card_notes_json \|\| steps\.aggregate\.outputs\.notes_json \}\}/)
   assert.match(source, /card_parts\+=\("Publish \$group" "Translate \$group" "Publish \$group translation"\)/)
   for (const workflow of ['_fetch-content-group.yml', '_publish-content-group.yml', '_translate-content-group.yml', '_verify-docs.yml']) {
     const reusable = fs.readFileSync(path.join(process.cwd(), '.github/workflows', workflow), 'utf8')
@@ -82,7 +84,7 @@ test('docs workflow orchestrates parallel producers and checkpointed sequential 
     assert.match(reusable, /report-to-lark --card-phase/, `${workflow} must report its owned phase`)
   }
   assert.doesNotMatch(source, /report-to-lark --card-note-file/)
-  assert.match(source, /report-to-lark --card-finish[^\n]*--notes-json "\$CARD_NOTES_JSON"[\s\S]*CARD_NOTES_JSON: \$\{\{ steps\.aggregate\.outputs\.notes_json \}\}/)
+  assert.match(source, /report-to-lark --card-finish[^\n]*--notes-json "\$CARD_NOTES_JSON"[\s\S]*CARD_NOTES_JSON: \$\{\{ steps\.reports\.outputs\.card_notes_json \|\| steps\.aggregate\.outputs\.notes_json \}\}/)
   assert.match(source, /name: Finish progress card[\s\S]*continue-on-error: true/)
   assert.doesNotMatch(source, /secrets: inherit/)
 })

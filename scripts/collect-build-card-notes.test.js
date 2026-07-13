@@ -3,7 +3,20 @@ const fs = require('node:fs')
 const os = require('node:os')
 const path = require('node:path')
 const { test } = require('node:test')
-const { brokenContentLinksNote, collectNotes } = require('./collect-build-card-notes')
+const { brokenContentLinksNote, collectCardNotes, collectNotes } = require('./collect-build-card-notes')
+
+test('collectCardNotes preserves workflow summary notes before report notes', () => {
+  withTempCwd(() => {
+    process.env.CARD_BASE_NOTES_JSON = '["# Workflow summary"]'
+    fs.mkdirSync('plugins/link-checks/meta/reports', { recursive: true })
+    fs.writeFileSync('plugins/link-checks/meta/reports/latest.md', '# Link checks\n\n- Broken links: 0')
+
+    const notes = collectCardNotes()
+
+    assert.equal(notes[0], '# Workflow summary')
+    assert.match(notes[1], /# Link checks/)
+  })
+})
 
 function withTempCwd(callback) {
   const originalCwd = process.cwd()
@@ -12,6 +25,7 @@ function withTempCwd(callback) {
     GITHUB_REPOSITORY: process.env.GITHUB_REPOSITORY,
     GITHUB_SERVER_URL: process.env.GITHUB_SERVER_URL,
     CARD_REPORT_REF: process.env.CARD_REPORT_REF,
+    CARD_BASE_NOTES_JSON: process.env.CARD_BASE_NOTES_JSON,
   }
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'card-notes-'))
   try {
