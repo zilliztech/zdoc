@@ -13,6 +13,7 @@ const {
   loadChunkLimits,
   processManifestItem,
   runWorkerPool,
+  stabilizeBareUrlFormatting,
   stripCodeFence,
   withTimeout,
 } = require('./agentRunner')
@@ -247,6 +248,16 @@ function testChunkMessagesContainContinuityContext() {
   }).at(-1).content, /Translate this complete MDX\/Markdown file/)
 }
 
+function testStabilizesBoldBareUrlsBeforeJapanesePunctuation() {
+  const url = 'https://in01-&ast;&ast;&ast;.aws-us-west-2.vectordb-uat3.zillizcloud.com:19540'
+  const translated = `例: **${url}**。\n通常の **強調** は変更しません。\n`
+
+  assert.equal(
+    stabilizeBareUrlFormatting(translated),
+    `例: **\`${url}\`**。\n通常の **強調** は変更しません。\n`,
+  )
+}
+
 async function testLongDocumentTranslatesChunksSequentially() {
   await withTempDir(async siteDir => {
     const sourcePath = 'docs/tutorials/long.md'
@@ -281,6 +292,36 @@ async function testLongDocumentTranslatesChunksSequentially() {
     assert.equal(result.chunks.total, expectedChunks.length)
     assert.deepEqual(calls.map(call => call.agent), expectedChunks.flatMap(() => ['translation', 'review']))
     assert.match(fs.readFileSync(path.join(siteDir, targetPath), 'utf8'), /# セクション Three/)
+  })
+}
+
+async function testRestoresSourceImportsBeforeValidation() {
+  await withTempDir(async siteDir => {
+    const sourcePath = 'reference/api/python/python/test.md'
+    const targetPath = 'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/python/python/test.md'
+    const source = "---\ntitle: Test\n---\n\nimport Admonition from '@theme/Admonition';\n\n# Test\n"
+    write(path.join(siteDir, sourcePath), source)
+
+    const callModel = async ({ agent }) => {
+      if (agent === 'translation') {
+        return "---\ntitle: テスト\n---\n\nimport Admonition from 『@theme/Admonition』;\n\n# テスト\n"
+      }
+      if (agent === 'review') return '{"pass":true,"issues":[]}'
+      throw new Error(`unexpected agent ${agent}`)
+    }
+
+    const result = await processManifestItem({
+      siteDir,
+      item: { sourcePath, targetPath, sourceHash: 'import-hash', locale: 'ja-JP', type: 'reference' },
+      callModel,
+      maxReviewRounds: 0,
+    })
+
+    assert.equal(result.status, 'translated')
+    assert.match(
+      fs.readFileSync(path.join(siteDir, targetPath), 'utf8'),
+      /import Admonition from '@theme\/Admonition';/,
+    )
   })
 }
 
@@ -421,7 +462,9 @@ async function run() {
   testStripCodeFencePreservesDocumentClosingFence()
   testStripCodeFenceRemovesResponseWrapper()
   testChunkMessagesContainContinuityContext()
+  testStabilizesBoldBareUrlsBeforeJapanesePunctuation()
   await testLongDocumentTranslatesChunksSequentially()
+  await testRestoresSourceImportsBeforeValidation()
   await testFailedChunkDoesNotWritePartialTarget()
   await testWorkerPoolLimitsConcurrencyAndProcessesExactlyOnce()
   await testWorkerPoolIsolatesItemFailures()

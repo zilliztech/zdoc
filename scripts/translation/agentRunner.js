@@ -221,6 +221,22 @@ function restoreBoundaryWhitespace(sourceContent, translatedContent) {
   return `${leading}${String(translatedContent || '').trim()}${trailing}`
 }
 
+function stabilizeBareUrlFormatting(content) {
+  return String(content).replace(
+    /\*\*(https?:\/\/[^\s]+?)\*\*(?=[\u3000-\u303f\uff00-\uffef])/gu,
+    '**`$1`**',
+  )
+}
+
+function restoreEsmStatements(sourceContent, translatedContent) {
+  const pattern = /^[\t ]*(?:import|export)\b[^\r\n]*(?:\r?\n|$)/gm
+  const sourceStatements = String(sourceContent).match(pattern) || []
+  const translatedStatements = String(translatedContent).match(pattern) || []
+  if (sourceStatements.length !== translatedStatements.length) return translatedContent
+  let index = 0
+  return String(translatedContent).replace(pattern, () => sourceStatements[index++])
+}
+
 async function translateAndReviewUnit({
   sourcePath,
   sourceContent,
@@ -278,12 +294,12 @@ async function processManifestItem({
       callModel,
       systemPrompt: loadPrompt('codex-rest-spec-translation-agent.md'),
     })
-    const translatedContent = assembleRestDocument({
+    const translatedContent = stabilizeBareUrlFormatting(assembleRestDocument({
       translatedPrefix: shell.translatedContent,
       localizedSpecs: specResult.localized,
       suffix: restDocument.suffix,
       locale: item.locale,
-    })
+    }))
     const validationErrors = await validate(translatedContent)
     if (validationErrors.length) return { ...item, status: 'failed', review: shell.review, validationErrors, restSpecEntries: specResult.translatedCount }
     fs.mkdirSync(path.dirname(absTargetPath), { recursive: true })
@@ -327,7 +343,9 @@ async function processManifestItem({
     previousTranslatedHeading = extractFirstHeading(unit.translatedContent) || previousTranslatedHeading
   }
 
-  const translatedContent = translatedChunks.join('')
+  const translatedContent = stabilizeBareUrlFormatting(
+    restoreEsmStatements(sourceContent, translatedChunks.join('')),
+  )
 
   const validationErrors = await validate(translatedContent)
   if (validationErrors.length) {
@@ -566,6 +584,8 @@ module.exports = {
   processManifestItem,
   runWorkerPool,
   restoreBoundaryWhitespace,
+  restoreEsmStatements,
+  stabilizeBareUrlFormatting,
   stripCodeFence,
   validateTranslatedContent,
   withTimeout,
