@@ -4,6 +4,7 @@ const fs = require('node:fs')
 const path = require('node:path')
 const crypto = require('node:crypto')
 const { getContentGroup } = require('../docs-workflow/content-groups')
+const { selectManifestBatch } = require('./batches')
 
 const SHA = /^[0-9a-f]{40}$/
 
@@ -128,7 +129,17 @@ function main() {
   const maxFiles = Number(args.get('--max-files') || process.env.TRANSLATION_MAX_FILES || 0)
   const group = args.get('--group') || null
   const sourceCheckpointSha = args.get('--source-checkpoint-sha') || null
-  const manifest = buildManifest({ siteDir, locale, includeReference, maxFiles, group, sourceCheckpointSha })
+  const batchFlags = ['--batch-index', '--batch-size', '--expected-pending-set-sha256']
+  const presentBatchFlags = batchFlags.filter(flag => args.has(flag))
+  if (presentBatchFlags.length !== 0 && presentBatchFlags.length !== batchFlags.length) throw new Error('Batch manifest flags must be provided together')
+  let manifest = buildManifest({ siteDir, locale, includeReference, maxFiles: presentBatchFlags.length ? 0 : maxFiles, group, sourceCheckpointSha })
+  if (presentBatchFlags.length) {
+    manifest = selectManifestBatch(manifest, {
+      batchIndex: Number(args.get('--batch-index')),
+      batchSize: Number(args.get('--batch-size')),
+      expectedPendingSetSha256: args.get('--expected-pending-set-sha256'),
+    })
+  }
   fs.mkdirSync(path.dirname(path.join(siteDir, output)), { recursive: true })
   fs.writeFileSync(path.join(siteDir, output), JSON.stringify(manifest, null, 2) + '\n', 'utf8')
   console.log(`[translation-manifest] ${manifest.items.length} file(s) pending -> ${output}`)
