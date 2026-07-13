@@ -25,6 +25,14 @@ test('defines the Python content group ownership contract', () => {
   ]);
 });
 
+test('configures durable translation batches for Guides only', () => {
+  assert.equal(getContentGroup('guides').durableTranslationBatchSize, 30);
+  for (const group of ['python', 'java', 'node', 'go', 'cli', 'rest']) {
+    assert.equal(getContentGroup(group).durableTranslationBatchSize, 0);
+  }
+  assert.throws(() => { getContentGroup('guides').durableTranslationBatchSize = 10; }, TypeError);
+});
+
 test('production ownership is disjoint', () => {
   assert.doesNotThrow(() => assertDisjointOwnership());
 });

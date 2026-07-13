@@ -11,41 +11,47 @@ function deepFreeze(value) {
 
 const CONTENT_GROUPS = deepFreeze({
   guides: {
-    manuals: ['guides'], snapshotManual: 'guides', translate: true,
+    manuals: ['guides'], snapshotManual: 'guides', translate: true, durableTranslationBatchSize: 30,
     ownedPaths: ['docs', 'docs-byoc', 'config/generated/guides.sidebar.js', 'config/generated/guides-byoc.sidebar.js', 'plugins/lark-docs/meta/snapshots/guides-uat-last-success.json', 'plugins/lark-docs/meta/reports/guides-canonical-link-audit.json', 'plugins/lark-docs/meta/reports/guides-canonical-link-audit.md', 'plugins/lark-docs/meta/reports/guides-canonical-link-audit.csv', 'plugins/lark-docs/meta/reports/guides-incremental-fetch-plan.json', 'plugins/lark-docs/meta/reports/guides-incremental-fetch-plan.md', 'plugins/lark-docs/meta/reports/guides-broken-content-links.json'],
     commitMessage: 'docs(guides): publish fetched content',
   },
   python: {
-    manuals: ['python', 'pymilvus25', 'pymilvus26', 'pymilvus30'], snapshotManual: 'pymilvus30', translate: true,
+    manuals: ['python', 'pymilvus25', 'pymilvus26', 'pymilvus30'], snapshotManual: 'pymilvus30', translate: true, durableTranslationBatchSize: 0,
     ownedPaths: ['reference/api/python/python', 'config/generated/python.sidebar.js', 'plugins/lark-docs/meta/snapshots/pymilvus30-uat-last-success.json'],
     commitMessage: 'docs(python): publish SDK reference',
   },
   java: {
-    manuals: ['javaV2', 'javaV225', 'javaV226', 'javaV230'], snapshotManual: 'javaV230', translate: true,
+    manuals: ['javaV2', 'javaV225', 'javaV226', 'javaV230'], snapshotManual: 'javaV230', translate: true, durableTranslationBatchSize: 0,
     ownedPaths: ['reference/api/java/java/v2', 'config/generated/java.sidebar.js', 'plugins/lark-docs/meta/snapshots/javaV230-uat-last-success.json'],
     commitMessage: 'docs(java): publish SDK reference',
   },
   node: {
-    manuals: ['node', 'nodejs25', 'nodejs26', 'nodejs30'], snapshotManual: 'nodejs30', translate: true,
+    manuals: ['node', 'nodejs25', 'nodejs26', 'nodejs30'], snapshotManual: 'nodejs30', translate: true, durableTranslationBatchSize: 0,
     ownedPaths: ['reference/api/nodejs/nodejs', 'config/generated/node.sidebar.js', 'plugins/lark-docs/meta/snapshots/nodejs30-uat-last-success.json'],
     commitMessage: 'docs(node): publish SDK reference',
   },
   go: {
-    manuals: ['gov226', 'gov230'], snapshotManual: 'gov230', translate: true,
+    manuals: ['gov226', 'gov230'], snapshotManual: 'gov230', translate: true, durableTranslationBatchSize: 0,
     ownedPaths: ['reference/api/go/go/v2', 'config/generated/go.sidebar.js', 'plugins/lark-docs/meta/snapshots/gov230-uat-last-success.json'],
     commitMessage: 'docs(go): publish SDK reference',
   },
   cli: {
-    manuals: ['cliv13', 'cliv14'], snapshotManual: 'cliv14', translate: true,
+    manuals: ['cliv13', 'cliv14'], snapshotManual: 'cliv14', translate: true, durableTranslationBatchSize: 0,
     ownedPaths: ['reference/cli/cli', 'config/generated/cli.sidebar.js', 'plugins/lark-docs/meta/snapshots/cliv14-uat-last-success.json'],
     commitMessage: 'docs(cli): publish CLI reference',
   },
   rest: {
-    manuals: [], snapshotManual: null, translate: true,
+    manuals: [], snapshotManual: null, translate: true, durableTranslationBatchSize: 0,
     ownedPaths: ['reference/api/restful/restful', 'config/generated/restful.sidebar.js'],
     commitMessage: 'docs(rest): publish REST reference',
   },
 });
+
+for (const [name, group] of Object.entries(CONTENT_GROUPS)) {
+  if (!Number.isInteger(group.durableTranslationBatchSize) || group.durableTranslationBatchSize < 0) {
+    throw new Error(`Invalid durable translation batch size for ${name}`);
+  }
+}
 
 function normalizeOwnershipPath(path) {
   if (typeof path !== 'string' || path === '' || path.startsWith('/') || path.endsWith('/')) {
