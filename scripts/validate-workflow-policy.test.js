@@ -29,29 +29,7 @@ test('source publishers are gated before reusable workflows allocate runners', (
     assert.match(condition, /needs\.prepare\.outputs\.publish == 'true'/, `${group} publisher must require publish mode`)
     assert.match(condition, new RegExp(`needs\\.prepare\\.outputs\\.selected_group == '${group}'`), `${group} publisher must require group selection`)
     assert.match(condition, new RegExp(`needs\\.produce_${group}\\.outputs\\.status == 'artifact_ready'`), `${group} publisher must require an artifact-ready producer`)
-    assert.deepEqual(workflow.jobs[`publish_${group}`].needs.slice(0, 2), ['prepare', `produce_${group}`], `${group} publisher must wait for its own producer`)
-  }
-})
-
-test('full docs production serializes every publication to the target branch', () => {
-  const workflow = fs.readFileSync(path.join(process.cwd(), '.github/workflows/fetch-docs.yml'), 'utf8')
-  const expectedNeeds = new Map([
-    ['publish_python', 'prepare, produce_python, publish_guides'],
-    ['publish_java', 'prepare, produce_java, publish_python'],
-    ['publish_node', 'prepare, produce_node, publish_java'],
-    ['publish_go', 'prepare, produce_go, publish_node'],
-    ['publish_cli', 'prepare, produce_cli, publish_go'],
-    ['publish_rest', 'prepare, produce_rest, publish_cli'],
-    ['prepare_guides_translation_batches', 'prepare, publish_guides, publish_rest'],
-    ['publish_python_translation', 'prepare, publish_python, translate_python, finalize_guides_translation'],
-    ['publish_java_translation', 'prepare, publish_java, translate_java, publish_python_translation'],
-    ['publish_node_translation', 'prepare, publish_node, translate_node, publish_java_translation'],
-    ['publish_go_translation', 'prepare, publish_go, translate_go, publish_node_translation'],
-    ['publish_cli_translation', 'prepare, publish_cli, translate_cli, publish_go_translation'],
-    ['publish_rest_translation', 'prepare, publish_rest, translate_rest, publish_cli_translation'],
-  ])
-  for (const [job, needs] of expectedNeeds) {
-    assert.match(workflow, new RegExp(`^  ${job}:\\n    needs: \\[${needs.replaceAll(', ', ', ')}\\]`, 'm'))
+    assert.deepEqual(workflow.jobs[`publish_${group}`].needs, ['prepare', `produce_${group}`], `${group} publisher must not wait for another content group`)
   }
 })
 
