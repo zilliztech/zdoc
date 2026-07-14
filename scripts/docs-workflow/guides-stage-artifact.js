@@ -4,6 +4,7 @@
 const crypto = require('node:crypto')
 const fs = require('node:fs/promises')
 const path = require('node:path')
+const { assertSourceCompleteness } = require('../../plugins/lark-docs/sourceCompleteness')
 
 const SHA = /^[0-9a-f]{40}$/
 const STAGE_PATHS = Object.freeze({
@@ -51,9 +52,30 @@ async function collect(root, prefixes) {
   return result
 }
 
-async function createGuidesStageArtifact({ stage, workspace, baselineDir, output, masterSha, devBaselineSha, sourceArtifactSha256 = null }) {
+async function assertSourceStageCompleteness({ workspace, snapshotCandidatePath, rootToken }) {
+  if (!rootToken) throw new Error('Guides source artifact requires rootToken')
+  const relativeSnapshot = snapshotCandidatePath || 'plugins/lark-docs/meta/reports/guides-source-snapshot-candidate.json'
+  const snapshotPath = path.join(workspace, relativeSnapshot)
+  let snapshot
+  try {
+    snapshot = JSON.parse(await fs.readFile(snapshotPath, 'utf8'))
+  } catch (error) {
+    if (error.code === 'ENOENT') throw new Error(`Guides source artifact is missing required snapshot candidate: ${relativeSnapshot}`)
+    throw error
+  }
+  assertSourceCompleteness({
+    manual: 'guides',
+    buildEnv: 'uat',
+    rootToken,
+    sourceDir: path.join(workspace, 'plugins/lark-docs/meta/sources/guides'),
+    snapshot,
+  })
+}
+
+async function createGuidesStageArtifact({ stage, workspace, baselineDir, output, masterSha, devBaselineSha, sourceArtifactSha256 = null, snapshotCandidatePath = null, rootToken = null }) {
   if (!Object.hasOwn(STAGE_PATHS, stage)) throw new Error(`Unknown guides stage: ${stage}`)
   if (!SHA.test(masterSha) || !SHA.test(devBaselineSha)) throw new Error('Invalid SHA')
+  if (stage === 'source') await assertSourceStageCompleteness({ workspace, snapshotCandidatePath, rootToken })
   const [current, baseline] = await Promise.all([collect(workspace, STAGE_PATHS[stage]), collect(baselineDir, STAGE_PATHS[stage])])
   if (current.size === 0) throw new Error(`Guides ${stage} artifact has no files`)
   for (const required of REQUIRED_STAGE_FILES[stage]) {
@@ -126,7 +148,7 @@ if (require.main === module) {
   const args = parseArgs(process.argv.slice(2))
   const operation = args.operation
   const promise = operation === 'create'
-    ? createGuidesStageArtifact({ stage: args.stage, workspace: args.workspace, baselineDir: args['baseline-dir'], output: args.output, masterSha: args['master-sha'], devBaselineSha: args['dev-baseline-sha'], sourceArtifactSha256: args['source-artifact-sha256'] || null })
+    ? createGuidesStageArtifact({ stage: args.stage, workspace: args.workspace, baselineDir: args['baseline-dir'], output: args.output, masterSha: args['master-sha'], devBaselineSha: args['dev-baseline-sha'], sourceArtifactSha256: args['source-artifact-sha256'] || null, snapshotCandidatePath: args['snapshot-candidate'] || null, rootToken: args['root-token'] || null })
     : operation === 'validate'
       ? validateGuidesStageArtifact(args.artifact, { stage: args.stage, masterSha: args['master-sha'], devBaselineSha: args['dev-baseline-sha'], sourceArtifactSha256: args['source-artifact-sha256'] })
       : operation === 'restore'

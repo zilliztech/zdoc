@@ -9,23 +9,53 @@ const { createGuidesStageArtifact, restoreGuidesStageArtifact, validateGuidesSta
 
 const SHA = 'a'.repeat(40)
 function write(root, relative, value) { const file = path.join(root, relative); fs.mkdirSync(path.dirname(file), { recursive: true }); fs.writeFileSync(file, value) }
+function json(root, relative, value) { write(root, relative, JSON.stringify(value)) }
+
+function validSnapshot() {
+  return {
+    schema_version: 2,
+    manual: 'guides',
+    build_env: 'uat',
+    records: [
+      {
+        placement_type: 'canonical',
+        doc_token: 'doc',
+        source_file: 'doc.json',
+      },
+    ],
+  }
+}
 
 test('creates, validates, and restores a source artifact', async () => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'guides-stage-'))
   const workspace = path.join(root, 'workspace'), baseline = path.join(root, 'baseline'), artifact = path.join(root, 'artifact'), target = path.join(root, 'target')
   fs.mkdirSync(workspace); fs.mkdirSync(baseline); fs.mkdirSync(target)
-  write(workspace, 'plugins/lark-docs/meta/sources/guides/doc.json', '{"title":"Doc"}')
+  json(workspace, 'plugins/lark-docs/meta/sources/guides/root.json', { node_token: 'root', children: [{ node_token: 'doc' }] })
+  json(workspace, 'plugins/lark-docs/meta/sources/guides/doc.json', { node_token: 'doc', title: 'Doc' })
   write(workspace, 'plugins/lark-docs/meta/reports/guides-incremental-fetch-plan.json', '{}')
   await assert.rejects(
-    createGuidesStageArtifact({ stage: 'source', workspace, baselineDir: baseline, output: artifact, masterSha: SHA, devBaselineSha: SHA }),
+    createGuidesStageArtifact({ stage: 'source', workspace, baselineDir: baseline, output: artifact, masterSha: SHA, devBaselineSha: SHA, rootToken: 'root' }),
     /snapshot candidate/i,
   )
-  write(workspace, 'plugins/lark-docs/meta/reports/guides-source-snapshot-candidate.json', '{"schema_version":2}')
-  const manifest = await createGuidesStageArtifact({ stage: 'source', workspace, baselineDir: baseline, output: artifact, masterSha: SHA, devBaselineSha: SHA })
+  json(workspace, 'plugins/lark-docs/meta/reports/guides-source-snapshot-candidate.json', validSnapshot())
+  const manifest = await createGuidesStageArtifact({ stage: 'source', workspace, baselineDir: baseline, output: artifact, masterSha: SHA, devBaselineSha: SHA, rootToken: 'root' })
   assert.equal(manifest.stage, 'source')
-  assert.equal((await validateGuidesStageArtifact(artifact)).files.length, 3)
+  assert.equal((await validateGuidesStageArtifact(artifact)).files.length, 4)
   await restoreGuidesStageArtifact({ artifact, target })
-  assert.equal(fs.readFileSync(path.join(target, 'plugins/lark-docs/meta/sources/guides/doc.json'), 'utf8'), '{"title":"Doc"}')
+  assert.deepEqual(JSON.parse(fs.readFileSync(path.join(target, 'plugins/lark-docs/meta/sources/guides/doc.json'), 'utf8')), { node_token: 'doc', title: 'Doc' })
+})
+
+test('source artifact creation rejects an incomplete candidate source graph', async () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'guides-stage-'))
+  const workspace = path.join(root, 'workspace'), baseline = path.join(root, 'baseline'), artifact = path.join(root, 'artifact')
+  fs.mkdirSync(workspace); fs.mkdirSync(baseline)
+  json(workspace, 'plugins/lark-docs/meta/sources/guides/root.json', { node_token: 'root', children: [{ node_token: 'doc' }] })
+  json(workspace, 'plugins/lark-docs/meta/reports/guides-source-snapshot-candidate.json', validSnapshot())
+
+  await assert.rejects(
+    createGuidesStageArtifact({ stage: 'source', workspace, baselineDir: baseline, output: artifact, masterSha: SHA, devBaselineSha: SHA, rootToken: 'root' }),
+    /incomplete.*0\/1 canonical sources/i,
+  )
 })
 
 test('enforces stage ownership and rejects tampering', async () => {

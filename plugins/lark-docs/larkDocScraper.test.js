@@ -969,6 +969,7 @@ async function testIncrementalSourceFetchWritesCandidateFromRetainedScan() {
     async fetch_source_tokens(tokens) {
       assert.deepEqual(tokens, ['doc-a']);
       fs.mkdirSync(sourceDir, { recursive: true });
+      fs.writeFileSync(path.join(sourceDir, 'root-token.json'), JSON.stringify({ node_token: 'root-token', children: [{ node_token: 'doc-a' }] }));
       fs.writeFileSync(path.join(sourceDir, 'doc-a.json'), JSON.stringify({ node_token: 'doc-a', title: 'A' }));
     }
   }
@@ -988,8 +989,22 @@ async function testIncrementalSourceFetchWritesCandidateFromRetainedScan() {
       };
       if (request === './sourceSnapshot') return {
         readSnapshot() { return null; },
-        createSourceSnapshot(input) { candidateInput = input; return { candidate: true }; },
-        validateCandidateSnapshot(candidate) { assert.deepEqual(candidate, { candidate: true }); },
+        createSourceSnapshot(input) {
+          candidateInput = input;
+          return {
+            schema_version: 2,
+            manual: 'guides',
+            build_env: 'uat',
+            records: [
+              {
+                placement_type: 'canonical',
+                doc_token: 'doc-a',
+                source_file: 'doc-a.json',
+              },
+            ],
+          };
+        },
+        validateCandidateSnapshot(candidate) { assert.equal(candidate.manual, 'guides'); },
         writeSnapshot(file, candidate) { writtenCandidate = { file, candidate }; },
       };
     }
@@ -1014,7 +1029,9 @@ async function testIncrementalSourceFetchWritesCandidateFromRetainedScan() {
     assert.equal(candidateInput.nodeMetadataByToken, metadata);
     assert.equal(candidateInput.docSourceDir, sourceDir);
     assert.equal(candidateInput.baseAppToken, 'base-token');
-    assert.deepEqual(writtenCandidate, { file: candidatePath, candidate: { candidate: true } });
+    assert.equal(writtenCandidate.file, candidatePath);
+    assert.equal(writtenCandidate.candidate.manual, 'guides');
+    assert.equal(writtenCandidate.candidate.records[0].source_file, 'doc-a.json');
   } finally {
     Module._load = originalLoad;
     delete require.cache[require.resolve('./index')];

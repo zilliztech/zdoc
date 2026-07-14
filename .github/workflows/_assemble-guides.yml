@@ -18,7 +18,7 @@ on:
       APP_SECRET: { required: true }
 
 permissions:
-  actions: read
+  actions: write
   contents: read
 
 jobs:
@@ -75,6 +75,23 @@ jobs:
             --source-branch "${{ inputs.target_branch }}" \
             --publish-url https://docs.cloud-uat3.zilliz.com \
             --link-check-remote https://docs.zilliz.com
+      - id: promoted_source_cache
+        name: Prepare promoted guides source cache
+        run: |
+          mkdir -p plugins/lark-docs/meta/source-cache
+          snapshot=plugins/lark-docs/meta/snapshots/guides-uat-last-success.json
+          manifest=plugins/lark-docs/meta/source-cache/guides-manifest.json
+          node scripts/docs-workflow/guides-source-cache.js create --source-dir plugins/lark-docs/meta/sources/guides --snapshot "$snapshot" --output "$manifest" --root-token Tg6mwbRGDitPQ3kLUQzc44I7nth
+          key=$(node scripts/docs-workflow/guides-source-cache.js key --snapshot "$snapshot")
+          echo "key=$key" >> "$GITHUB_OUTPUT"
+      - name: Save promoted guides source cache
+        continue-on-error: true
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            plugins/lark-docs/meta/sources/guides
+            plugins/lark-docs/meta/source-cache/guides-manifest.json
+          key: ${{ steps.promoted_source_cache.outputs.key }}
       - name: Create combined guides checkpoint
         run: |
           node scripts/docs-workflow/create-checkpoint-artifact.js --group guides --master-sha "${{ inputs.master_sha }}" --dev-baseline-sha "${{ inputs.dev_baseline_sha }}" --baseline-dir "$RUNNER_TEMP/baseline" --workspace "$GITHUB_WORKSPACE" --output "$RUNNER_TEMP/checkpoint-group" --validation-command "node scripts/validate-generated-sidebars.js" --validation-command 'node scripts/run-doc-build-stage.js --build "pnpm run build" --skipLinkChecks --skipCardReporting'

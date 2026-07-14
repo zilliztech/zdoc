@@ -37,15 +37,17 @@ function commandsFor(group) {
   return COMMANDS[group].map((command) => [...command]);
 }
 
-function commandsForGuidesStage(stage) {
+function commandsForGuidesStage(stage, options = {}) {
   if (!Object.hasOwn(GUIDES_STAGES, stage)) throw new Error(`Unknown guides stage: ${stage}`);
-  return GUIDES_STAGES[stage].map(command => [...command]);
+  const commands = GUIDES_STAGES[stage].map(command => [...command]);
+  if (stage === 'source' && options.forceFullFetch) commands[0].push('--forceFullFetch');
+  return commands;
 }
 
 function runContentGroup(group, options = {}) {
   const runner = options.spawnSync || spawnSync;
   const env = options.env || process.env;
-  const commands = options.stage ? commandsForGuidesStage(options.stage) : commandsFor(group);
+  const commands = options.stage ? commandsForGuidesStage(options.stage, { forceFullFetch: options.forceFullFetch }) : commandsFor(group);
   for (const command of commands) {
     const rendered = command.join(' ');
     const result = runner(command[0], command.slice(1), { stdio: 'inherit', env });
@@ -58,21 +60,24 @@ function runContentGroup(group, options = {}) {
 }
 
 function parseArgs(args) {
-  if ((args.length !== 2 && args.length !== 4) || args[0] !== '--group') {
+  if (![2, 4, 5].includes(args.length) || args[0] !== '--group') {
     if (args[0] && args[0] !== '--group') throw new Error(`Unknown argument: ${args[0]}`);
     throw new Error('Usage: run-content-group.js --group <name>');
   }
   if (!args[1]) throw new Error('Missing value for --group');
-  const stage = args.length === 4 && args[2] === '--stage' ? args[3] : null;
-  if (args.length === 4 && args[2] !== '--stage') throw new Error(`Unknown argument: ${args[2]}`);
+  const stage = args.length >= 4 && args[2] === '--stage' ? args[3] : null;
+  if (args.length >= 4 && args[2] !== '--stage') throw new Error(`Unknown argument: ${args[2]}`);
+  const forceFullFetch = args.length === 5 && args[4] === '--force-full-fetch';
+  if (args.length === 5 && !forceFullFetch) throw new Error(`Unknown argument: ${args[4]}`);
   getContentGroup(args[1]);
   if (stage && args[1] !== 'guides') throw new Error('--stage is only valid for guides');
   if (stage) commandsForGuidesStage(stage);
-  return { group: args[1], stage };
+  if (forceFullFetch && stage !== 'source') throw new Error('--force-full-fetch is only valid for the guides source stage');
+  return { group: args[1], stage, ...(forceFullFetch ? { forceFullFetch: true } : {}) };
 }
 
 if (require.main === module) {
-  try { const args = parseArgs(process.argv.slice(2)); runContentGroup(args.group, { stage: args.stage }); }
+  try { const args = parseArgs(process.argv.slice(2)); runContentGroup(args.group, { stage: args.stage, forceFullFetch: args.forceFullFetch }); }
   catch (error) { console.error(error.message); process.exitCode = 1; }
 }
 

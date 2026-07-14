@@ -230,6 +230,19 @@ test('planIncrementalFetch does not refetch unchanged docs just because local so
   assert.deepEqual(plan.expanded_tokens, [])
 })
 
+test('planIncrementalFetch forces a full fetch when the source cache is not complete', () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'planner-'))
+  const plan = planIncrementalFetch({
+    manualName: 'guides',
+    docSourceDir: dir,
+    records: [record('a')],
+    previousSnapshot: { schema_version: 2, manual: 'guides', records: [{ record_id: 'rec-a', doc_token: 'a', title: 'a', slug: 'a' }] },
+    sourceCompleteness: { complete: false, validCanonicalSources: 0, expectedCanonicalSources: 1 },
+  })
+  assert.equal(plan.mode, 'full')
+  assert.match(plan.warnings.join(' '), /source cache is incomplete/i)
+})
+
 test('planIncrementalFetch records removed docs without forcing full fetch', () => {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'planner-'))
   writeSource(dir, 'a')
