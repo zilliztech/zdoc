@@ -4,6 +4,15 @@ const { getContentGroup } = require('./content-groups');
 
 const TRANSLATION_ROOT = 'i18n/ja-JP';
 const REFERENCE_I18N_ROOT = `${TRANSLATION_ROOT}/docusaurus-plugin-content-docs-reference/current`;
+const PRESERVED_ENGLISH = Object.freeze({
+  guides: Object.freeze([]),
+  python: Object.freeze(['reference/api/python/python/python.md']),
+  java: Object.freeze(['reference/api/java/java/java.md']),
+  node: Object.freeze(['reference/api/nodejs/nodejs/nodejs.md']),
+  go: Object.freeze(['reference/api/go/go/go.md']),
+  cli: Object.freeze(['reference/cli/cli/Overview.md']),
+  rest: Object.freeze([]),
+});
 
 function referenceTranslationPath(ownedPath) {
   if (!ownedPath.startsWith('reference/')) return null;
@@ -25,6 +34,7 @@ function getGroupPaths(groupName) {
   const snapshot = group.ownedPaths.find((ownedPath) => (
     ownedPath.startsWith('plugins/lark-docs/meta/snapshots/') && ownedPath.endsWith('.json')
   )) || null;
+  const preservedEnglish = Object.freeze([...PRESERVED_ENGLISH[groupName]]);
 
   return Object.freeze({
     group: groupName,
@@ -32,6 +42,7 @@ function getGroupPaths(groupName) {
     translationOutputs,
     sidebars,
     snapshot,
+    preservedEnglish,
     translate: Boolean(group.translate),
   });
 }

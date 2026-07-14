@@ -38,14 +38,22 @@ test('rest preparation removes restored English REST outputs and preserves i18n'
   assert.deepEqual(result.restored, ['config/generated/restful.sidebar.js']);
 });
 
-test('non-rest groups keep restored outputs before incremental reconciliation', () => {
+test('non-rest groups keep generated outputs and restore landing pages from master', () => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'zdoc-python-prepare-'));
   write(path.join(root, 'reference/api/python/python/old.md'));
+  write(path.join(root, 'reference/api/python/python/python.md'), 'stale landing\n');
   write(path.join(root, 'config/generated/python.sidebar.js'), 'module.exports=[]\n');
 
-  const result = prepareContentGroupWorkspace({ group: 'python', cwd: root });
+  const result = prepareContentGroupWorkspace({
+    group: 'python',
+    cwd: root,
+    preservedContentByPath: new Map([
+      ['reference/api/python/python/python.md', 'master landing\n'],
+    ]),
+  });
 
   assert.equal(fs.existsSync(path.join(root, 'reference/api/python/python/old.md')), true);
+  assert.equal(fs.readFileSync(path.join(root, 'reference/api/python/python/python.md'), 'utf8'), 'master landing\n');
   assert.equal(fs.existsSync(path.join(root, 'config/generated/python.sidebar.js')), true);
-  assert.deepEqual(result, { group: 'python', removed: [], restored: [] });
+  assert.deepEqual(result, { group: 'python', removed: [], restored: ['reference/api/python/python/python.md'] });
 });

@@ -2,6 +2,7 @@
 
 const fs = require('node:fs')
 const path = require('node:path')
+const { getGroupPaths } = require('./docs-workflow/group-paths')
 
 const referenceSidebarTargets = Object.freeze([
   { sidebar: 'python.sidebar.js', idPrefix: 'api/python/python' },
@@ -101,6 +102,15 @@ function validateReferenceSidebarTargets({ directory, outputDir }) {
   return results
 }
 
+function validatePreservedEnglishFiles({ cwd = process.cwd() } = {}) {
+  const missing = ['python', 'java', 'node', 'go', 'cli']
+    .flatMap(group => getGroupPaths(group).preservedEnglish)
+    .filter(relativePath => !fs.existsSync(path.join(cwd, ...relativePath.split('/'))))
+    .sort()
+  if (missing.length) throw new Error(`Missing preserved landing pages:\n- ${missing.join('\n- ')}`)
+  return { checked: 5, missing }
+}
+
 function main() {
   const directory = path.join(process.cwd(), 'config/generated')
   const count = validateAllGeneratedSidebars(directory)
@@ -111,6 +121,8 @@ function main() {
   })) {
     console.log(`[sidebar-validation] ${result.sidebar}: ${result.checked} doc target(s) checked`)
   }
+  const preserved = validatePreservedEnglishFiles()
+  console.log(`[sidebar-validation] ${preserved.checked} preserved landing page(s) checked`)
   const candidate = path.join(process.cwd(), 'plugins/lark-docs/meta/reports/guides-source-snapshot-candidate.json')
   if (fs.existsSync(candidate)) {
     const { validateGuidesCoverage } = require('./validate-guides-coverage')
@@ -130,6 +142,7 @@ module.exports = {
   collectSidebarDocIds,
   referenceSidebarTargets,
   validateAllGeneratedSidebars,
+  validatePreservedEnglishFiles,
   validateReferenceSidebarTargets,
   validateSidebar,
   validateSidebarDocTargets,

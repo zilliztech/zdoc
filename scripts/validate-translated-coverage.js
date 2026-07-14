@@ -9,6 +9,9 @@ const { mapEnglishToI18nPath } = require('./translation/sourceDelta')
 function walkDocuments(cwd, relativeRoot) {
   const absoluteRoot = path.join(cwd, ...relativeRoot.split('/'))
   if (!fs.existsSync(absoluteRoot)) return []
+  const rootStat = fs.lstatSync(absoluteRoot)
+  if (rootStat.isSymbolicLink()) throw new Error(`Translated coverage does not allow symlinks: ${relativeRoot}`)
+  if (rootStat.isFile()) return /\.(?:md|mdx)$/.test(relativeRoot) ? [relativeRoot] : []
   const documents = []
 
   function visit(directory) {

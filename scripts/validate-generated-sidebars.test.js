@@ -8,10 +8,16 @@ const test = require('node:test')
 const {
   referenceSidebarTargets,
   validateAllGeneratedSidebars,
+  validatePreservedEnglishFiles,
   validateReferenceSidebarTargets,
   validateSidebar,
   validateSidebarDocTargets,
 } = require('./validate-generated-sidebars')
+
+function write(file, content) {
+  fs.mkdirSync(path.dirname(file), { recursive: true })
+  fs.writeFileSync(file, content)
+}
 
 test('rejects duplicate document ids and keys recursively', () => {
   const sidebar = [{
@@ -75,4 +81,22 @@ test('validates document targets for every generated reference sidebar', () => {
   } finally {
     fs.rmSync(root, { recursive: true, force: true })
   }
+})
+
+test('rejects a missing SDK or CLI landing page', () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'preserved-landing-pages-'))
+  const landingPages = [
+    'reference/api/python/python/python.md',
+    'reference/api/java/java/java.md',
+    'reference/api/nodejs/nodejs/nodejs.md',
+    'reference/api/go/go/go.md',
+    'reference/cli/cli/Overview.md',
+  ]
+  for (const relativePath of landingPages) write(path.join(root, relativePath), '# landing\n')
+  fs.rmSync(path.join(root, landingPages[0]))
+
+  assert.throws(
+    () => validatePreservedEnglishFiles({ cwd: root }),
+    /missing preserved landing pages.*python\.md/is,
+  )
 })

@@ -56,3 +56,13 @@ test('maps both guides roots and ignores non-document assets', () => {
   assert.equal(result.englishDocuments, 2)
   assert.equal(result.translatedDocuments, 2)
 })
+
+test('treats a preserved landing page outside the generated root as pending', () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'translated-coverage-java-'))
+  write(root, 'reference/api/java/java/v2/v2-Client/a.md')
+  write(root, 'reference/api/java/java/java.md')
+  write(root, 'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/java/java/v2/v2-Client/a.md')
+
+  const result = validateTranslatedCoverage({ group: 'java', cwd: root })
+  assert.deepEqual(result.pendingTranslations, ['reference/api/java/java/java.md'])
+})

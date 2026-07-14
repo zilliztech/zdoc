@@ -22,7 +22,7 @@ const CONTENT_GROUPS = deepFreeze({
   },
   java: {
     manuals: ['javaV2', 'javaV225', 'javaV226', 'javaV230'], snapshotManual: 'javaV230', translate: true, durableTranslationBatchSize: 0,
-    ownedPaths: ['reference/api/java/java/v2', 'config/generated/java.sidebar.js', 'plugins/lark-docs/meta/snapshots/javaV230-uat-last-success.json'],
+    ownedPaths: ['reference/api/java/java/v2', 'reference/api/java/java/java.md', 'config/generated/java.sidebar.js', 'plugins/lark-docs/meta/snapshots/javaV230-uat-last-success.json'],
     commitMessage: 'docs(java): publish SDK reference',
   },
   node: {
@@ -32,7 +32,7 @@ const CONTENT_GROUPS = deepFreeze({
   },
   go: {
     manuals: ['gov226', 'gov230'], snapshotManual: 'gov230', translate: true, durableTranslationBatchSize: 0,
-    ownedPaths: ['reference/api/go/go/v2', 'config/generated/go.sidebar.js', 'plugins/lark-docs/meta/snapshots/gov230-uat-last-success.json'],
+    ownedPaths: ['reference/api/go/go/v2', 'reference/api/go/go/go.md', 'config/generated/go.sidebar.js', 'plugins/lark-docs/meta/snapshots/gov230-uat-last-success.json'],
     commitMessage: 'docs(go): publish SDK reference',
   },
   cli: {

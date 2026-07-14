@@ -25,6 +25,11 @@ test('defines the Python content group ownership contract', () => {
   ]);
 });
 
+test('owns Java and Go landing pages outside their generated v2 roots', () => {
+  assert.ok(getContentGroup('java').ownedPaths.includes('reference/api/java/java/java.md'));
+  assert.ok(getContentGroup('go').ownedPaths.includes('reference/api/go/go/go.md'));
+});
+
 test('configures durable translation batches for Guides only', () => {
   assert.equal(getContentGroup('guides').durableTranslationBatchSize, 30);
   for (const group of ['python', 'java', 'node', 'go', 'cli', 'rest']) {

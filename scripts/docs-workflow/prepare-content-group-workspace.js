@@ -40,12 +40,30 @@ function readGitFileAtRef({ cwd, ref = 'HEAD', relativePath }) {
   return result.stdout;
 }
 
-function prepareContentGroupWorkspace({ group, cwd = process.cwd(), restSidebarContent = null }) {
+function restorePreservedFiles({ root, relativePaths, contentByPath }) {
+  const restored = [];
+  for (const relativePath of relativePaths) {
+    const content = contentByPath?.get(relativePath);
+    if (typeof content !== 'string') throw new Error(`Missing current master content for preserved file: ${relativePath}`);
+    const target = resolveOwnedPath(root, relativePath);
+    if (fs.existsSync(target)) fs.rmSync(target, { force: true });
+    fs.mkdirSync(path.dirname(target), { recursive: true });
+    fs.writeFileSync(target, content, 'utf8');
+    restored.push(relativePath);
+  }
+  return restored;
+}
+
+function prepareContentGroupWorkspace({ group, cwd = process.cwd(), restSidebarContent = null, preservedContentByPath = null }) {
   const root = path.resolve(cwd);
   const removed = [];
-  const restored = [];
+  const groupPaths = getGroupPaths(group);
+  const restored = restorePreservedFiles({
+    root,
+    relativePaths: groupPaths.preservedEnglish,
+    contentByPath: preservedContentByPath,
+  });
   if (group !== 'rest') {
-    getGroupPaths(group);
     return { group, removed, restored };
   }
   if (typeof restSidebarContent !== 'string') throw new Error('REST preparation requires current master sidebar content');
@@ -80,7 +98,11 @@ function main() {
   const restSidebarContent = group === 'rest'
     ? readGitFileAtRef({ cwd: process.cwd(), ref: process.env.MASTER_SHA || 'HEAD', relativePath: REST_SIDEBAR })
     : null;
-  const result = prepareContentGroupWorkspace({ group, restSidebarContent });
+  const preservedContentByPath = new Map(getGroupPaths(group).preservedEnglish.map((relativePath) => [
+    relativePath,
+    readGitFileAtRef({ cwd: process.cwd(), ref: process.env.MASTER_SHA || 'HEAD', relativePath }),
+  ]));
+  const result = prepareContentGroupWorkspace({ group, restSidebarContent, preservedContentByPath });
   console.log(`[prepare-content-group] ${group}: removed ${result.removed.length} restored path(s)`);
   for (const relativePath of result.removed) console.log(`- ${relativePath}`);
   for (const relativePath of result.restored) console.log(`+ ${relativePath} (master)`);
@@ -95,4 +117,4 @@ if (require.main === module) {
   }
 }
 
-module.exports = { prepareContentGroupWorkspace, readGitFileAtRef, resolveOwnedPath };
+module.exports = { prepareContentGroupWorkspace, readGitFileAtRef, resolveOwnedPath, restorePreservedFiles };

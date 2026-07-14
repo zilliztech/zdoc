@@ -39,16 +39,28 @@ test('reference groups map reference outputs into docs-reference i18n', () => {
   ]);
   assert.deepEqual(getGroupPaths('java').translationOutputs, [
     'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/java/java/v2',
+    'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/java/java/java.md',
   ]);
   assert.deepEqual(getGroupPaths('node').translationOutputs, [
     'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/nodejs/nodejs',
   ]);
   assert.deepEqual(getGroupPaths('go').translationOutputs, [
     'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2',
+    'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/go.md',
   ]);
   assert.deepEqual(getGroupPaths('cli').translationOutputs, [
     'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/cli/cli',
   ]);
+});
+
+test('SDK and CLI groups declare master-owned landing pages to preserve', () => {
+  assert.deepEqual(getGroupPaths('python').preservedEnglish, ['reference/api/python/python/python.md']);
+  assert.deepEqual(getGroupPaths('java').preservedEnglish, ['reference/api/java/java/java.md']);
+  assert.deepEqual(getGroupPaths('node').preservedEnglish, ['reference/api/nodejs/nodejs/nodejs.md']);
+  assert.deepEqual(getGroupPaths('go').preservedEnglish, ['reference/api/go/go/go.md']);
+  assert.deepEqual(getGroupPaths('cli').preservedEnglish, ['reference/cli/cli/Overview.md']);
+  assert.deepEqual(getGroupPaths('guides').preservedEnglish, []);
+  assert.deepEqual(getGroupPaths('rest').preservedEnglish, []);
 });
 
 test('reference translation mapping rejects non-reference paths', () => {
@@ -61,5 +73,6 @@ test('returned path metadata cannot be mutated by callers', () => {
 
   assert.equal(Object.isFrozen(paths), true);
   assert.equal(Object.isFrozen(paths.englishOutputs), true);
+  assert.equal(Object.isFrozen(paths.preservedEnglish), true);
   assert.throws(() => paths.englishOutputs.push('other'), TypeError);
 });
