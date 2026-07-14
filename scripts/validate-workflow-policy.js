@@ -83,6 +83,26 @@ function validateWorkflowPolicies(directory = workflowDirectory) {
       }
     }
 
+    if (file === '_prepare-translation-batches.yml') {
+      const requiredPatterns = [
+        [/git diff --name-status "\$SOURCE_COMMIT_SHA\^" "\$SOURCE_COMMIT_SHA"/, 'must derive durable batches from the immutable source checkpoint diff'],
+        [/sourceDelta\.js --group "\$GROUP"[\s\S]*--output tmp\/source-delta\.json/, 'must classify the selected group source delta'],
+        [/manifest\.js[\s\S]*--source-delta tmp\/source-delta\.json/, 'must build the durable pending set from the source delta'],
+      ]
+      for (const [pattern, message] of requiredPatterns) if (!pattern.test(source)) errors.push(`${file}: ${message}`)
+    }
+
+    if (file === '_translate-content-group.yml') {
+      const requiredPatterns = [
+        [/git diff --name-status "\$SOURCE_COMMIT_SHA\^" "\$SOURCE_COMMIT_SHA"/, 'must derive translation reconciliation from the immutable source checkpoint diff'],
+        [/sourceDelta\.js --group "\$GROUP"[\s\S]*--output tmp\/source-delta\.json/, 'must classify the selected group source delta'],
+        [/applySourceDelta\.js --delta tmp\/source-delta\.json --report tmp\/source-delta-report\.json/, 'must apply translated output and cache deletions before manifest creation'],
+        [/manifest\.js[\s\S]*--source-delta tmp\/source-delta\.json/, 'must limit translation candidates to the source delta'],
+        [/steps\.source_delta\.outputs\.has_mutation == 'true'/, 'must create checkpoints for deletion-only translation mutations'],
+      ]
+      for (const [pattern, message] of requiredPatterns) if (!pattern.test(source)) errors.push(`${file}: ${message}`)
+    }
+
     if (file === '_publish-content-group.yml') {
       const requiredPatterns = [
         [/^  workflow_call:$/m, 'must be a workflow_call reusable workflow'],

@@ -142,13 +142,14 @@ function testGroupValidationAndLegacyCompatibility() {
   })
 }
 
-function testSourceDeltaLimitsManifestAndPreservesReconciliationMetadata() {
+function testSourceDeltaPrioritizesCurrentChangesAndPreservesPendingBacklog() {
   withTempDir(siteDir => {
     const sha = 'b'.repeat(40)
     const changed = 'reference/api/restful/restful/new.mdx'
     const deletedI18n = 'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/restful/restful/old.mdx'
     write(path.join(siteDir, changed), '# new\n')
-    write(path.join(siteDir, 'reference/api/restful/restful/unchanged.mdx'), '# unchanged\n')
+    const backlog = 'reference/api/restful/restful/a-backlog.mdx'
+    write(path.join(siteDir, backlog), '# backlog\n')
 
     const manifest = buildManifest({
       siteDir,
@@ -161,11 +162,24 @@ function testSourceDeltaLimitsManifestAndPreservesReconciliationMetadata() {
       },
     })
 
-    assert.deepEqual(manifest.items.map(item => item.sourcePath), [changed])
+    assert.deepEqual(manifest.items.map(item => item.sourcePath), [changed, backlog])
     assert.deepEqual(manifest.source_delta, {
       deleted_i18n: [deletedI18n],
       renamed: [],
     })
+
+    const limited = buildManifest({
+      siteDir,
+      group: 'rest',
+      sourceCheckpointSha: sha,
+      sourceDelta: {
+        changedEnglish: [changed],
+        deletedI18n: [],
+        renamed: [],
+      },
+      maxFiles: 1,
+    })
+    assert.deepEqual(limited.items.map(item => item.sourcePath), [changed])
   })
 }
 
@@ -175,7 +189,7 @@ function run() {
   testCheckpointedCacheRemovesCompletedFilesFromNextManifest()
   testContentGroupsFilterBeforeMaxFilesAndRecordCheckpoint()
   testGroupValidationAndLegacyCompatibility()
-  testSourceDeltaLimitsManifestAndPreservesReconciliationMetadata()
+  testSourceDeltaPrioritizesCurrentChangesAndPreservesPendingBacklog()
   console.log('translation manifest tests passed')
 }
 

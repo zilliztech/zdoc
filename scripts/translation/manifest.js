@@ -94,7 +94,6 @@ function buildManifest({ siteDir, locale = 'ja-JP', includeReference = false, ma
       const relativeToRoot = path.relative(absSourceRoot, absSourcePath)
       const sourcePath = path.join(mapping.sourceRoot, relativeToRoot).replace(/\\/g, '/')
       if (ownedPrefixes && !ownedPrefixes.some(prefix => sourcePath === prefix || sourcePath.startsWith(`${prefix}/`))) continue
-      if (changedEnglish && !changedEnglish.has(sourcePath)) continue
       const targetPath = path.join(mapping.targetRoot, relativeToRoot).replace(/\\/g, '/')
       const sourceContent = fs.readFileSync(absSourcePath, 'utf8')
       const sourceHash = hashContent(sourceContent)
@@ -110,13 +109,17 @@ function buildManifest({ siteDir, locale = 'ja-JP', includeReference = false, ma
         locale,
         type: mapping.type,
       })
-      if (maxFiles > 0 && items.length >= maxFiles) {
-        return createManifest({ locale, group, sourceCheckpointSha, sourceDelta, items })
-      }
     }
   }
 
-  return createManifest({ locale, group, sourceCheckpointSha, sourceDelta, items })
+  if (changedEnglish) {
+    items.sort((a, b) => (
+      Number(changedEnglish.has(b.sourcePath)) - Number(changedEnglish.has(a.sourcePath)) ||
+      a.sourcePath.localeCompare(b.sourcePath)
+    ))
+  }
+  const selectedItems = maxFiles > 0 ? items.slice(0, maxFiles) : items
+  return createManifest({ locale, group, sourceCheckpointSha, sourceDelta, items: selectedItems })
 }
 
 function createManifest({ locale, group, sourceCheckpointSha, sourceDelta, items }) {

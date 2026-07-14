@@ -27,6 +27,7 @@ function pendingSetSha256(manifest) {
     locale: manifest.locale,
     group: manifest.group,
     sourceCheckpointSha: manifest.sourceCheckpointSha,
+    sourceDelta: manifest.source_delta || null,
     items: canonicalPendingItems(manifest),
   }
   return crypto.createHash('sha256').update(JSON.stringify(identity)).digest('hex')
@@ -36,7 +37,10 @@ function createBatchSummary(manifest, batchSize) {
   assertManifest(manifest)
   assertBatchSize(batchSize)
   const pendingCount = manifest.items.length
-  const batchCount = Math.ceil(pendingCount / batchSize)
+  const hasReconciliationMutation = Boolean(
+    manifest.source_delta?.deleted_i18n?.length || manifest.source_delta?.renamed?.length,
+  )
+  const batchCount = pendingCount > 0 ? Math.ceil(pendingCount / batchSize) : hasReconciliationMutation ? 1 : 0
   return {
     pendingCount,
     batchCount,

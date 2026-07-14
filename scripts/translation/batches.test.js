@@ -57,3 +57,30 @@ test('handles empty and exact batches and rejects invalid identity', () => {
   selected.items.pop()
   assert.equal(manifest().items.length, 65)
 })
+
+test('creates one reconciliation-only batch for a deletion-only source delta', () => {
+  const source = {
+    ...manifest(0),
+    source_delta: {
+      deleted_i18n: ['i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/old.md'],
+      renamed: [],
+    },
+  }
+  const summary = createBatchSummary(source, 30)
+  assert.equal(summary.pendingCount, 0)
+  assert.equal(summary.batchCount, 1)
+  assert.deepEqual(summary.matrix, { include: [{ batchIndex: 0, batchNumber: 1 }] })
+  const selected = selectManifestBatch(source, {
+    batchIndex: 0,
+    batchSize: 30,
+    expectedPendingSetSha256: summary.pendingSetSha256,
+  })
+  assert.deepEqual(selected.items, [])
+  assert.equal(selected.batch.pendingCount, 0)
+})
+
+test('includes source reconciliation metadata in the pending set identity', () => {
+  const one = { ...manifest(0), source_delta: { deleted_i18n: ['i18n/ja-JP/one.md'], renamed: [] } }
+  const two = { ...manifest(0), source_delta: { deleted_i18n: ['i18n/ja-JP/two.md'], renamed: [] } }
+  assert.notEqual(createBatchSummary(one, 30).pendingSetSha256, createBatchSummary(two, 30).pendingSetSha256)
+})

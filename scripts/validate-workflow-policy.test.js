@@ -189,7 +189,11 @@ test('reusable translation producer creates group-scoped checkpoint artifacts wi
   assert.match(workflow, /^  contents: read$/m)
   assert.match(workflow, /actions\/checkout@v4[\s\S]*ref: \$\{\{ inputs\.master_sha \}\}/)
   assert.match(workflow, /restore-generated-state\.sh --exact --ref "\$SOURCE_COMMIT_SHA"/)
-  assert.match(workflow, /manifest\.js[\s\S]*--group "\$GROUP"[\s\S]*--source-checkpoint-sha "\$SOURCE_COMMIT_SHA"/)
+  assert.match(workflow, /git diff --name-status "\$SOURCE_COMMIT_SHA\^" "\$SOURCE_COMMIT_SHA"/)
+  assert.match(workflow, /sourceDelta\.js --group "\$GROUP"[\s\S]*--output tmp\/source-delta\.json/)
+  assert.match(workflow, /applySourceDelta\.js --delta tmp\/source-delta\.json --report tmp\/source-delta-report\.json/)
+  assert.match(workflow, /manifest\.js[\s\S]*--group "\$GROUP"[\s\S]*--source-checkpoint-sha "\$SOURCE_COMMIT_SHA"[\s\S]*--source-delta tmp\/source-delta\.json/)
+  assert.match(workflow, /steps\.source_delta\.outputs\.has_mutation == 'true'/)
   assert.match(workflow, /agentRunner\.js[\s\S]*TRANSLATION_ALLOW_PARTIAL: "true"/)
   assert.match(workflow, /--include-translation-cache/)
   assert.match(workflow, /translation-checkpoint-\$\{\{ inputs\.group \}\}-\$\{\{ github\.run_id \}\}/)
@@ -197,6 +201,13 @@ test('reusable translation producer creates group-scoped checkpoint artifacts wi
   assert.match(workflow, /id: result[\s\S]*if: \$\{\{ always\(\) \}\}/)
   for (const status of ['translation_ready', 'no_changes', 'failed']) assert.match(workflow, new RegExp(`status=${status}`))
   assert.doesNotMatch(workflow, /git push|git-auto-commit|contents: write/)
+})
+
+test('durable translation batch preparation uses the same source delta as batch execution', () => {
+  const workflow = fs.readFileSync(path.join(process.cwd(), '.github/workflows/_prepare-translation-batches.yml'), 'utf8')
+  assert.match(workflow, /git diff --name-status "\$SOURCE_COMMIT_SHA\^" "\$SOURCE_COMMIT_SHA"/)
+  assert.match(workflow, /sourceDelta\.js --group "\$GROUP"[\s\S]*--output tmp\/source-delta\.json/)
+  assert.match(workflow, /manifest\.js[\s\S]*--source-delta tmp\/source-delta\.json/)
 })
 
 test('manual translation wrapper calls reusable translation then publisher without legacy automation', () => {

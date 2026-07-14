@@ -74,6 +74,18 @@ test('creates, validates, and applies a translation artifact with three-way cach
   assert.equal(await readFile(path.join(target, '.translation-cache/ja-JP.json'), 'utf8'), '{\n  "doc": {\n    "new": 2\n  },\n  "targetOnly": 9\n}\n');
 });
 
+test('allows a reconciliation-only translation batch with zero pending model files', async () => {
+  const f = await fixture();
+  await mkdir(path.join(f.baselineDir, '.translation-cache'), { recursive: true });
+  await mkdir(path.join(f.workspace, '.translation-cache'), { recursive: true });
+  await writeFile(path.join(f.baselineDir, '.translation-cache/ja-JP.json'), '{"files":{}}');
+  await writeFile(path.join(f.workspace, '.translation-cache/ja-JP.json'), '{"files":{}}');
+  const batch = { batchIndex: 0, batchNumber: 1, batchCount: 1, batchSize: 30, pendingCount: 0, pendingSetSha256: 'd'.repeat(64) };
+  const manifest = await createCheckpointArtifact({ group: 'python', masterSha: SHA_A, devBaselineSha: SHA_B, ...f, includeTranslationCache: true, batch });
+  assert.deepEqual(manifest.batch, batch);
+  await assert.doesNotReject(validateCheckpointArtifact(f.output));
+});
+
 test('translation cache option is strict and source artifacts cannot smuggle cache', async () => {
   const f = await fixture();
   await assert.rejects(createCheckpointArtifact({ group: 'python', masterSha: SHA_A, devBaselineSha: SHA_B, ...f, includeTranslationCache: 'yes' }), /includeTranslationCache.*boolean/i);

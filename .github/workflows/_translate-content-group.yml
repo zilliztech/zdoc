@@ -89,6 +89,16 @@ jobs:
           mkdir -p .translation-cache "$BASELINE_DIR/.translation-cache"
           test -f .translation-cache/ja-JP.json || printf '{"files":{}}\n' > .translation-cache/ja-JP.json
           test -f "$BASELINE_DIR/.translation-cache/ja-JP.json" || cp .translation-cache/ja-JP.json "$BASELINE_DIR/.translation-cache/ja-JP.json"
+      - name: Apply source translation delta
+        id: source_delta
+        if: ${{ inputs.should_translate }}
+        run: |
+          set -euo pipefail
+          mkdir -p tmp
+          git diff --name-status "$SOURCE_COMMIT_SHA^" "$SOURCE_COMMIT_SHA" > tmp/source-name-status.txt
+          node scripts/translation/sourceDelta.js --group "$GROUP" --name-status tmp/source-name-status.txt --output tmp/source-delta.json
+          node scripts/translation/applySourceDelta.js --delta tmp/source-delta.json --report tmp/source-delta-report.json
+          echo "has_mutation=$(node -p "require('./tmp/source-delta-report.json').hasTranslationMutation ? 'true' : 'false'")" >> "$GITHUB_OUTPUT"
       - name: Build group translation manifest
         id: manifest
         if: ${{ inputs.should_translate }}
@@ -97,7 +107,7 @@ jobs:
           if (( ${{ inputs.batch_number }} > 0 )); then
             batch_args=(--batch-index "${{ inputs.batch_index }}" --batch-size "${{ inputs.batch_size }}" --expected-pending-set-sha256 "${{ inputs.pending_set_sha256 }}")
           fi
-          node scripts/translation/manifest.js --locale ja-JP --output tmp/translation-manifest.json --max-files "${{ inputs.max_files }}" --group "$GROUP" --source-checkpoint-sha "$SOURCE_COMMIT_SHA" "${batch_args[@]}"
+          node scripts/translation/manifest.js --locale ja-JP --output tmp/translation-manifest.json --max-files "${{ inputs.max_files }}" --group "$GROUP" --source-checkpoint-sha "$SOURCE_COMMIT_SHA" --source-delta tmp/source-delta.json "${batch_args[@]}"
           echo "count=$(node -p "require('./tmp/translation-manifest.json').items.length")" >> "$GITHUB_OUTPUT"
       - name: Run translation agents
         id: agents
@@ -112,16 +122,16 @@ jobs:
           REVIEW_AGENT_MODEL: ${{ vars.REVIEW_AGENT_MODEL }}
           TRANSLATION_ALLOW_PARTIAL: "true"
       - name: Validate translated group
-        if: ${{ inputs.should_translate && steps.agents.outputs.translated_count != '0' }}
+        if: ${{ inputs.should_translate && (steps.agents.outputs.translated_count != '0' || steps.source_delta.outputs.has_mutation == 'true') }}
         run: |
           case "$GROUP" in
             guides) for d in i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials; do test ! -d "$d" || npx docusaurus mdx-parse -d "$d"; done ;;
             *) test ! -d i18n/ja-JP/docusaurus-plugin-content-docs-reference/current || npx docusaurus mdx-parse -d i18n/ja-JP/docusaurus-plugin-content-docs-reference/current ;;
           esac
-          if (( ${{ inputs.batch_number }} == 0 )); then pnpm run build; fi
+          if (( ${{ inputs.batch_number }} == 0 )) || [[ "${{ steps.manifest.outputs.count || '0' }}" == 0 ]]; then pnpm run build; fi
       - name: Create validated translation checkpoints
         id: checkpoint
-        if: ${{ inputs.should_translate && steps.agents.outputs.translated_count != '0' }}
+        if: ${{ inputs.should_translate && (steps.agents.outputs.translated_count != '0' || steps.source_delta.outputs.has_mutation == 'true') }}
         run: |
           batch_args=()
           if (( ${{ inputs.batch_number }} > 0 )); then batch_args=(--batch-index "${{ inputs.batch_index }}" --batch-number "${{ inputs.batch_number }}" --batch-count "${{ inputs.batch_count }}" --batch-size "${{ inputs.batch_size }}" --pending-count "${{ inputs.pending_count }}" --pending-set-sha256 "${{ inputs.pending_set_sha256 }}"); fi
@@ -155,7 +165,7 @@ jobs:
         if: ${{ always() }}
         run: |
           status=failed; artifact_name=; baseline_artifact_name=; translated_count="${{ steps.agents.outputs.translated_count || '0' }}"; failed_count="${{ steps.agents.outputs.failed_count || '0' }}"; remaining_count="${{ steps.agents.outputs.remaining_count || '0' }}"
-          if [[ "${{ inputs.should_translate }}" != true || "${{ steps.manifest.outputs.count || '0' }}" == 0 ]]; then status=no_changes
+          if [[ "${{ inputs.should_translate }}" != true || ( "${{ steps.manifest.outputs.count || '0' }}" == 0 && "${{ steps.source_delta.outputs.has_mutation || 'false' }}" != true ) ]]; then status=no_changes
           elif [[ "${{ steps.translation_upload.outcome }}" == success && "${{ steps.baseline_upload.outcome }}" == success ]]; then status=translation_ready; artifact_name="translation-checkpoint-$GROUP-${{ github.run_id }}$ARTIFACT_SUFFIX"; baseline_artifact_name="translation-baseline-$GROUP-${{ github.run_id }}$ARTIFACT_SUFFIX"; fi
           printf 'status=%s\nartifact_name=%s\nbaseline_artifact_name=%s\ntranslated_count=%s\nfailed_count=%s\nremaining_count=%s\n' "$status" "$artifact_name" "$baseline_artifact_name" "$translated_count" "$failed_count" "$remaining_count" >> "$GITHUB_OUTPUT"
       - name: Report translation phase

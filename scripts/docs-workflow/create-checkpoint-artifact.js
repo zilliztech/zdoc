@@ -114,7 +114,7 @@ async function createCheckpointArtifact(options) {
     if (!options.batch || typeof options.batch !== 'object' || Array.isArray(options.batch) || Object.keys(options.batch).length !== keys.length || keys.some((key) => !Object.hasOwn(options.batch, key))) throw new Error('Invalid translation batch metadata');
     batch = { ...options.batch };
     for (const key of ['batchIndex', 'batchNumber', 'batchCount', 'batchSize', 'pendingCount']) if (!Number.isSafeInteger(batch[key])) throw new Error(`Invalid translation batch ${key}`);
-    if (batch.batchIndex < 0 || batch.batchNumber !== batch.batchIndex + 1 || batch.batchCount < batch.batchNumber || batch.batchSize <= 0 || batch.pendingCount <= 0 || !/^[0-9a-f]{64}$/.test(batch.pendingSetSha256)) throw new Error('Invalid translation batch metadata');
+    if (batch.batchIndex < 0 || batch.batchNumber !== batch.batchIndex + 1 || batch.batchCount < batch.batchNumber || batch.batchSize <= 0 || batch.pendingCount < 0 || !/^[0-9a-f]{64}$/.test(batch.pendingSetSha256)) throw new Error('Invalid translation batch metadata');
   }
   if (!SHA.test(masterSha || '')) throw new Error('Invalid master SHA');
   if (!SHA.test(devBaselineSha || '')) throw new Error('Invalid dev baseline SHA');

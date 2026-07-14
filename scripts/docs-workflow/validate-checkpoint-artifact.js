@@ -111,7 +111,7 @@ async function validateCheckpointArtifact(artifactDir, expected = {}) {
     exactKeys(manifest.batch, BATCH_KEYS, 'batch');
     const batch = manifest.batch;
     for (const key of ['batchIndex', 'batchNumber', 'batchCount', 'batchSize', 'pendingCount']) if (!Number.isSafeInteger(batch[key])) throw new Error(`Invalid batch ${key}`);
-    if (batch.batchIndex < 0 || batch.batchNumber !== batch.batchIndex + 1 || batch.batchCount < batch.batchNumber || batch.batchSize <= 0 || batch.pendingCount <= 0 || !/^[0-9a-f]{64}$/.test(batch.pendingSetSha256)) throw new Error('Invalid batch metadata');
+    if (batch.batchIndex < 0 || batch.batchNumber !== batch.batchIndex + 1 || batch.batchCount < batch.batchNumber || batch.batchSize <= 0 || batch.pendingCount < 0 || !/^[0-9a-f]{64}$/.test(batch.pendingSetSha256)) throw new Error('Invalid batch metadata');
   }
   const sha = /^[0-9a-f]{40}$/;
   if (!sha.test(manifest.masterSha)) throw new Error('Invalid masterSha');
