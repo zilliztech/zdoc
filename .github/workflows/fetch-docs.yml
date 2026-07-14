@@ -885,7 +885,7 @@ jobs:
           FEISHU_HOST: ${{ vars.FEISHU_HOST }}
           GH_TOKEN: ${{ github.token }}
           CARD_ID: ${{ needs.prepare.outputs.card_id }}
-          CARD_MODE: aggregate
+          CARD_MODE: ${{ needs.prepare.outputs.card_mode }}
           CARD_STARTED_AT: ${{ needs.prepare.outputs.card_started_at }}
           CARD_STAGES: ${{ needs.prepare.outputs.card_stages }}
           CARD_TITLE: ${{ needs.prepare.outputs.card_title }}
