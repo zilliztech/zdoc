@@ -5,8 +5,9 @@ const { spawnSync } = require('node:child_process');
 const { getContentGroup } = require('./content-groups');
 
 const fetch = (manual, ...args) => ['npx', 'docusaurus', 'fetch-lark-docs', '-man', manual, ...args];
+const GUIDES_SOURCE_SNAPSHOT_CANDIDATE = 'plugins/lark-docs/meta/reports/guides-source-snapshot-candidate.json';
 const GUIDES_STAGES = {
-  source: [fetch('guides', '-src-only', '--incremental', '--buildEnv', 'uat')],
+  source: [fetch('guides', '-src-only', '--incremental', '--buildEnv', 'uat', '--snapshotCandidatePath', GUIDES_SOURCE_SNAPSHOT_CANDIDATE)],
   saas: [
     fetch('guides', '-tar', 'zilliz.saas', '-s3', '-skipS', '--buildEnv', 'uat', '--auditCanonicalLinks'),
     fetch('guides', '-tar', 'zilliz.saas', '-post', '-skipS'),

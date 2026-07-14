@@ -35,7 +35,15 @@ test('guides commands preserve flags and order without reporting', () => assert.
   fetch('guides', '-tar', 'zilliz.saas', '-post', '-skipS'), fetch('guides', '-tar', 'zilliz.paas', '-s3', '-skipS'), fetch('guides', '-tar', 'zilliz.paas', '-post', '-skipS'),
 ]));
 test('guides stages fetch sources once and render targets from restored sources', () => {
-  assert.deepEqual(commandsForGuidesStage('source'), [fetch('guides', '-src-only', '--incremental', '--buildEnv', 'uat')]);
+  assert.deepEqual(commandsForGuidesStage('source'), [fetch(
+    'guides',
+    '-src-only',
+    '--incremental',
+    '--buildEnv',
+    'uat',
+    '--snapshotCandidatePath',
+    'plugins/lark-docs/meta/reports/guides-source-snapshot-candidate.json',
+  )]);
   assert.deepEqual(commandsForGuidesStage('saas'), [
     fetch('guides', '-tar', 'zilliz.saas', '-s3', '-skipS', '--buildEnv', 'uat', '--auditCanonicalLinks'),
     fetch('guides', '-tar', 'zilliz.saas', '-post', '-skipS'),

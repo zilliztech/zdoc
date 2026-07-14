@@ -4,7 +4,7 @@ const driveWriter = require('./larkDriveWriter.js')
 const { runCanonicalLinkAudit } = require('./canonicalLinkAuditor')
 const { canonicalAuditRequestForPlan } = require('./incrementalCanonicalAudit')
 const { planIncrementalFetch, writeIncrementalFetchPlanReports } = require('./incrementalFetchPlanner')
-const { readSnapshot } = require('./sourceSnapshot')
+const { createSourceSnapshot, readSnapshot, validateCandidateSnapshot, writeSnapshot } = require('./sourceSnapshot')
 const Utils = require('./larkUtils.js')
 const fs = require('node:fs')
 const path = require('node:path')
@@ -41,6 +41,7 @@ module.exports = function (context, options) {
                 .option('--incrementalPlanOnly', 'Write the incremental fetch plan and exit without fetching')
                 .option('--incrementalMaxReferenceDepth <n>', 'Reference expansion depth for --incremental', '1')
                 .option('--snapshotPath <path>', 'Override last-success snapshot path')
+                .option('--snapshotCandidatePath <path>', 'Write a source snapshot candidate after an incremental source-only fetch')
                 .option('--buildEnv <env>', 'Build environment for snapshot scoping: uat or production', process.env.DOCS_BUILD_ENV || 'local')
                 .option('--forceFullFetch', 'Ignore incremental planning and force a full source fetch')
                 .action(async (opts) => {
@@ -121,6 +122,8 @@ module.exports = function (context, options) {
                         }
                     }
 
+                    let currentNodeMetadataByToken = new Map()
+
                     const planIncrementalSourceFetch = async () => {
                         if (!scraper.records) {
                             await scraper.__base({ progressLabel: '[incremental-fetch] Base scan' })
@@ -128,6 +131,9 @@ module.exports = function (context, options) {
                         const snapshotEnv = opts.buildEnv || 'local'
                         const snapshotPath = opts.snapshotPath ||
                             path.join('.', 'plugins', 'lark-docs', 'meta', 'snapshots', `${manualName}-${snapshotEnv}-last-success.json`)
+                        currentNodeMetadataByToken = await scraper.fetch_wiki_node_metadata(scraper.records, {
+                            progressLabel: '[incremental-fetch] Wiki metadata',
+                        })
                         const plan = planIncrementalFetch({
                             manualName,
                             docSourceDir,
@@ -136,9 +142,7 @@ module.exports = function (context, options) {
                             buildEnv: snapshotEnv,
                             maxReferenceDepth: Number(opts.incrementalMaxReferenceDepth || 1),
                             forceFull: !!opts.forceFullFetch,
-                            currentNodeMetadataByToken: await scraper.fetch_wiki_node_metadata(scraper.records, {
-                                progressLabel: '[incremental-fetch] Wiki metadata',
-                            }),
+                            currentNodeMetadataByToken,
                         })
                         const prefix = path.join('.', 'plugins', 'lark-docs', 'meta', 'reports', `${manualName}-incremental-fetch-plan`)
                         const paths = writeIncrementalFetchPlanReports(plan, prefix)
@@ -250,6 +254,33 @@ module.exports = function (context, options) {
                         return auditCanonicalLinks()
                     }
 
+                    const writeSourceSnapshotCandidate = () => {
+                        if (!opts.snapshotCandidatePath) return
+                        if (!opts.sourceOnly || !opts.incremental) {
+                            throw new Error('--snapshotCandidatePath requires --sourceOnly and --incremental')
+                        }
+                        const candidate = createSourceSnapshot({
+                            manualName,
+                            targetsBuilt: [],
+                            buildEnv: opts.buildEnv || 'local',
+                            sourceBranch: null,
+                            publishUrl: null,
+                            linkCheckRemote: 'https://docs.zilliz.com',
+                            docSourceDir,
+                            baseAppToken: scraper.base_app_token,
+                            records: scraper.records,
+                            nodeMetadataByToken: currentNodeMetadataByToken,
+                        })
+                        validateCandidateSnapshot(candidate, {
+                            manual: manualName,
+                            buildEnv: opts.buildEnv || 'local',
+                            sourceDir: docSourceDir,
+                            baseAppToken: scraper.base_app_token,
+                        })
+                        writeSnapshot(opts.snapshotCandidatePath, candidate)
+                        console.log(`[snapshot] Candidate written to ${opts.snapshotCandidatePath}`)
+                    }
+
                     const injectedDocFilesToPreserve = (targetConfig) => {
                         const effectiveOverridePath = targetConfig.overridePath ?? overridePath
                         if (!effectiveOverridePath || !fs.existsSync(effectiveOverridePath)) return []
@@ -321,6 +352,7 @@ module.exports = function (context, options) {
                                 if (opts.incrementalPlanOnly) return
                                 await maybeValidateContentLinks({ plan: sourcePlan, force: !!opts.validateLinks })
                                 await maybeAuditCanonicalLinks({ plan: sourcePlan })
+                                writeSourceSnapshotCandidate()
                             }
                         // Pull specific source file from Feishu
                         } else if (opts.docToken !== undefined) {
