@@ -1034,13 +1034,13 @@
         }
       },
       "patch": {
-        "summary": "Update On-Demand Cluster Info",
+        "summary": "Update On-Demand Cluster",
         "deprecated": false,
-        "description": "Update the name or description of an on-demand cluster in the current project.",
+        "description": "Update the name, description, or auto-suspend idle window of an on-demand cluster in the current project.",
         "x-i18n": {
           "zh-CN": {
-            "summary": "更新按需集群信息",
-            "description": "更新当前项目中一个按需集群的名称或描述。"
+            "summary": "更新按需集群",
+            "description": "更新当前项目中一个按需集群的名称、描述或自动挂起空闲时间。"
           }
         },
         "tags": [
@@ -1116,6 +1116,18 @@
                         "description": "集群的新描述。值可以为空字符串。"
                       }
                     }
+                  },
+                  "autoSuspend": {
+                    "type": "string",
+                    "description": "Auto-suspend idle window. The value must use the `<number><s|m|h>` format, such as `60s`, `5m`, or `1h`, and must be at least 60 seconds.",
+                    "pattern": "^\\d+[smh]$",
+                    "example": "5m",
+                    "x-i18n": {
+                      "zh-CN": {
+                        "description": "自动挂起空闲时间。该值必须使用 `<number><s|m|h>` 格式，例如 `60s`、`5m` 或 `1h`，且至少为 60 秒。",
+                        "example": "5m"
+                      }
+                    }
                   }
                 },
                 "description": "Request payload for updating an on-demand cluster.",
@@ -1127,10 +1139,11 @@
               },
               "examples": {
                 "1": {
-                  "summary": "Name and description",
+                  "summary": "Name, description, and auto-suspend",
                   "value": {
                     "clusterName": "New Cluster Name",
-                    "description": "This is the new description of the cluster."
+                    "description": "This is the new description of the cluster.",
+                    "autoSuspend": "5m"
                   }
                 },
                 "2": {
@@ -1143,6 +1156,12 @@
                   "summary": "Description only",
                   "value": {
                     "description": ""
+                  }
+                },
+                "4": {
+                  "summary": "Auto-suspend only",
+                  "value": {
+                    "autoSuspend": "5m"
                   }
                 }
               }

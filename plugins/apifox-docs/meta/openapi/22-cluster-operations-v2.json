@@ -2109,12 +2109,12 @@
         "security": []
       },
       "patch": {
-        "summary": "Update Dedicated Cluster Info",
+        "summary": "Update Dedicated Cluster",
         "deprecated": false,
         "description": "Update the name or description of a dedicated cluster in the current project.",
         "x-i18n": {
           "zh-CN": {
-            "summary": "更新 Dedicated 集群信息",
+            "summary": "更新 Dedicated 集群",
             "description": "更新当前项目中一个 Dedicated 集群的名称或描述。"
           }
         },
