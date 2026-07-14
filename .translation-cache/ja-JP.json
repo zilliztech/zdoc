@@ -570,6 +570,11 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/schema/use-dense-vector.md",
       "translatedAt": "2026-07-13T20:16:22.874Z"
     },
+    "docs-byoc/tutorials/development/schema/use-geometry-field.md": {
+      "sourceHash": "876d4392c7ef14692a415212d5f3332658dd1f62bc7e4aa0bf06601a534335ab",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/schema/use-geometry-field.md",
+      "translatedAt": "2026-07-14T04:11:12.746Z"
+    },
     "docs-byoc/tutorials/development/schema/use-number-field.md": {
       "sourceHash": "b7f587507eb7b7dcbfdb5576a627c3a8a0dc43b2409e68564f89d513bd5bf291",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/schema/use-number-field.md",
@@ -724,6 +729,11 @@
       "sourceHash": "cf939bb2a04fbfc072ad29815a2de3d1aa56f534627cc33a0c367124c9f5861a",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/search-and-query/search-with-structarray/tutorial-colbert-colpali.md",
       "translatedAt": "2026-07-13T20:40:24.423Z"
+    },
+    "docs-byoc/tutorials/development/search-and-query/single-vector-search.md": {
+      "sourceHash": "afa20151bd7775d96f66d37d95d347404d21a42c91a15c04b5f00fc98aceb6a0",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/search-and-query/single-vector-search.md",
+      "translatedAt": "2026-07-14T04:14:02.719Z"
     },
     "docs-byoc/tutorials/development/search-and-query/text-highlighter.md": {
       "sourceHash": "b782f014fdd06f42b1180b7a2d93c48035417cff0dcf07ab02dae75c680c80a0",
@@ -2049,6 +2059,11 @@
       "sourceHash": "3d24545dc5fd8dac3fd54cb59ea3c047c0579c44d877e991b70dc04e3511e89e",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/search-and-query/semantic-highlighter.md",
       "translatedAt": "2026-07-13T17:19:08.399Z"
+    },
+    "docs/tutorials/development/search-and-query/single-vector-search.md": {
+      "sourceHash": "b269a16337e5c2c1289f024ff83121777b15ade32f5986ade49ade88bca93bfe",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/search-and-query/single-vector-search.md",
+      "translatedAt": "2026-07-14T04:13:44.211Z"
     },
     "docs/tutorials/development/search-and-query/text-highlighter.md": {
       "sourceHash": "b576f4a6045acd8255deb77827fe25956e88fe1a3c4b5721d72675afc4528e85",
