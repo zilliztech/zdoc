@@ -5,10 +5,10 @@
     "zilliz"
   ],
   "build_env": "uat",
-  "source_branch": "codex/checkpointed-docs-publish-test-20260713",
+  "source_branch": "dev",
   "publish_url": "https://docs.cloud-uat3.zilliz.com",
   "link_check_remote": "https://docs.zilliz.com",
-  "generated_at": "2026-07-13T10:50:39.467Z",
+  "generated_at": "2026-07-14T03:00:36.276Z",
   "source_dir": "./plugins/lark-docs/meta/sources/node/v3.0.x",
   "base_app_token": "LlrPbysPZau2dGsSVuicHmvCn0e",
   "records": [
