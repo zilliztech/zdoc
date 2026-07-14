@@ -5200,6 +5200,11 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/python/python/DataImport/DataImport-BulkImport/BulkImport-get_import_progress.md",
       "translatedAt": "2026-07-13T11:00:40.839Z"
     },
+    "reference/api/python/python/DataImport/DataImport-BulkImport/BulkImport-list_import_jobs.md": {
+      "sourceHash": "0dc526bb500f49c4fc1043d024b67cf472b111a162d516e5646fd9888de0d6ee",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/python/python/DataImport/DataImport-BulkImport/BulkImport-list_import_jobs.md",
+      "translatedAt": "2026-07-14T03:12:00.284Z"
+    },
     "reference/api/python/python/DataImport/DataImport-LocalBulkWriter/DataImport-LocalBulkWriter.md": {
       "sourceHash": "47126b313156e9e1cc3eaba18fab96bf74a3d79eccc152342ff16c34af7b4459",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/python/python/DataImport/DataImport-LocalBulkWriter/DataImport-LocalBulkWriter.md",
@@ -6459,6 +6464,11 @@
       "sourceHash": "7c315a24ee5886dbd853762240764a2fd25f35d6cd90045ed70efef4ab4901b5",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/python/python/ORM/ORM-Partition/Partition-upsert.md",
       "translatedAt": "2026-07-13T11:40:55.457Z"
+    },
+    "reference/api/python/python/ORM/ORM-Role/ORM-Role.md": {
+      "sourceHash": "84c79e1ba4937f51ee7a4cb370a9c546da0f2dc2e5698639db3746825ded6205",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/python/python/ORM/ORM-Role/ORM-Role.md",
+      "translatedAt": "2026-07-14T03:12:11.326Z"
     },
     "reference/api/python/python/ORM/ORM-Role/Role-add_user.md": {
       "sourceHash": "ffba75ee2b08504c5b0dde669620b6f3375930fbaf73905fadfce833aff6350b",
