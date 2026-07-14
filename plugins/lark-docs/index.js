@@ -6,6 +6,7 @@ const { canonicalAuditRequestForPlan } = require('./incrementalCanonicalAudit')
 const { planIncrementalFetch, writeIncrementalFetchPlanReports } = require('./incrementalFetchPlanner')
 const { createSourceSnapshot, readSnapshot, validateCandidateSnapshot, writeSnapshot } = require('./sourceSnapshot')
 const { validateSourceCompleteness, assertSourceCompleteness } = require('./sourceCompleteness')
+const { cleanupRemovedIncrementalRecords } = require('./incrementalReconciliation')
 const Utils = require('./larkUtils.js')
 const fs = require('node:fs')
 const path = require('node:path')
@@ -125,18 +126,20 @@ module.exports = function (context, options) {
 
                     let currentNodeMetadataByToken = new Map()
 
-                    const planIncrementalSourceFetch = async () => {
+                    const planIncrementalSourceFetch = async ({ sourceCacheIsFresh = false } = {}) => {
                         if (!scraper.records) {
                             await scraper.__base({ progressLabel: '[incremental-fetch] Base scan' })
                         }
                         const snapshotEnv = opts.buildEnv || 'local'
                         const snapshotPath = opts.snapshotPath ||
                             path.join('.', 'plugins', 'lark-docs', 'meta', 'snapshots', `${manualName}-${snapshotEnv}-last-success.json`)
-                        currentNodeMetadataByToken = await scraper.fetch_wiki_node_metadata(scraper.records, {
-                            progressLabel: '[incremental-fetch] Wiki metadata',
-                        })
+                        currentNodeMetadataByToken = sourceType === 'wiki'
+                            ? await scraper.fetch_wiki_node_metadata(scraper.records, {
+                                progressLabel: '[incremental-fetch] Wiki metadata',
+                            })
+                            : new Map()
                         const previousSnapshot = readSnapshot(snapshotPath)
-                        const sourceCompleteness = previousSnapshot ? validateSourceCompleteness({
+                        const sourceCompleteness = previousSnapshot && !sourceCacheIsFresh ? validateSourceCompleteness({
                             manual: manualName,
                             buildEnv: snapshotEnv,
                             rootToken: root,
@@ -157,6 +160,7 @@ module.exports = function (context, options) {
                             currentNodeMetadataByToken,
                             sourceCompleteness,
                         })
+                        plan.source_scope = sourceCacheIsFresh || plan.mode === 'full' ? 'full' : 'partial'
                         const prefix = path.join('.', 'plugins', 'lark-docs', 'meta', 'reports', `${manualName}-incremental-fetch-plan`)
                         const paths = writeIncrementalFetchPlanReports(plan, prefix)
                         console.log(`[incremental-fetch] Plan written to ${paths.markdownPath}`)
@@ -188,63 +192,30 @@ module.exports = function (context, options) {
 
                     const fetchSources = async () => {
                         if (opts.incremental || opts.incrementalPlanOnly) {
-                            if (sourceType !== 'wiki' || !base.endsWith(':*')) {
-                                console.warn('[incremental-fetch] Incremental fetch is only supported for wiki manuals backed by all Base tables. Falling back to full fetch.')
-                                if (opts.incrementalPlanOnly) return
-                                await fullSourceFetch()
-                                return null
-                            }
-                            const plan = await planIncrementalSourceFetch()
-                            if (opts.incrementalPlanOnly) return
-                            if (plan.mode === 'incremental') {
-                                await scraper.fetch_source_tokens(plan.expanded_tokens)
-                                if (fallbackSourceDir !== undefined) {
-                                    utils.fetch_fallback_sources(docSourceDir, fallbackSourceDir, sourceType, root)
+                            if (sourceType === 'wiki' && base.endsWith(':*')) {
+                                const plan = await planIncrementalSourceFetch()
+                                if (opts.incrementalPlanOnly) return plan
+                                if (plan.mode === 'incremental') {
+                                    await scraper.fetch_source_tokens(plan.expanded_tokens)
+                                    if (fallbackSourceDir !== undefined) {
+                                        utils.fetch_fallback_sources(docSourceDir, fallbackSourceDir, sourceType, root)
+                                    }
+                                    return plan
                                 }
-                                return plan
+                            } else if (sourceType === 'drive') {
+                                console.log('[incremental-fetch] Refreshing complete Drive source cache before planning the render delta.')
+                                await fullSourceFetch()
+                                return planIncrementalSourceFetch({ sourceCacheIsFresh: true })
+                            } else {
+                                console.warn('[incremental-fetch] Incremental planning is unsupported for this manual; selecting full fetch and render.')
+                                if (opts.incrementalPlanOnly) return null
                             }
                         }
                         await fullSourceFetch()
                         return null
                     }
 
-                    const removeEmptyDirs = (dir) => {
-                        if (!fs.existsSync(dir)) return
-                        const entries = fs.readdirSync(dir, { withFileTypes: true })
-                        for (const entry of entries) {
-                            if (entry.isDirectory()) removeEmptyDirs(path.join(dir, entry.name))
-                        }
-                        if (dir !== outputDir && fs.existsSync(dir) && fs.readdirSync(dir).length === 0) {
-                            fs.rmSync(dir, { recursive: true, force: true })
-                        }
-                    }
-
-                    const cleanupRemovedIncrementalRecords = (plan, targetOutputDir) => {
-                        const removedRecords = plan?.removed_records || []
-                        if (!removedRecords.length) return
-                        for (const record of removedRecords) {
-                            const sourceCandidates = [
-                                record.source_file,
-                                record.doc_token ? `${record.doc_token}.json` : null,
-                                record.node_token ? `${record.node_token}.json` : null,
-                                record.origin_node_token ? `${record.origin_node_token}.json` : null,
-                                record.obj_token ? `${record.obj_token}.json` : null,
-                            ].filter(Boolean)
-                            for (const file of sourceCandidates) {
-                                fs.rmSync(path.join(docSourceDir, file), { force: true })
-                            }
-
-                            if (record.doc_token && fs.existsSync(targetOutputDir)) {
-                                try {
-                                    const relPath = utils.determine_file_path(record.doc_token, targetOutputDir)
-                                    fs.rmSync(path.join(targetOutputDir, relPath), { force: true })
-                                } catch (_) {}
-                            }
-                        }
-                        removeEmptyDirs(targetOutputDir)
-                    }
-
-                    const hasFullSourceContent = (plan) => !plan || plan.mode !== 'incremental'
+                    const hasFullSourceContent = (plan) => !plan || plan.mode !== 'incremental' || plan.source_scope === 'full'
 
                     const maybeValidateContentLinks = async ({ plan=null, force=false } = {}) => {
                         if (!hasFullSourceContent(plan)) {
@@ -453,7 +424,12 @@ module.exports = function (context, options) {
                                 }
 
                                 if (sourcePlan?.mode === 'incremental') {
-                                    cleanupRemovedIncrementalRecords(sourcePlan, outputDir)
+                                    cleanupRemovedIncrementalRecords({
+                                        plan: sourcePlan,
+                                        docSourceDir,
+                                        targetOutputDir: outputDir,
+                                        determineFilePath: (token, targetDir) => utils.determine_file_path(token, targetDir),
+                                    })
                                 } else if (targetConfig.preserveOutput) {
                                     console.log(`Preserving existing output files in ${outputDir}`)
                                 } else {

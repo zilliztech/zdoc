@@ -1039,6 +1039,80 @@ async function testIncrementalSourceFetchWritesCandidateFromRetainedScan() {
   }
 }
 
+async function testDriveIncrementalRefreshesSourcesBeforePlanningRenderDelta() {
+  const originalLoad = Module._load;
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'lark-drive-incremental-'));
+  const sourceDir = path.join(tempDir, 'sources');
+  const records = [{
+    record_id: 'rec-a',
+    fields: { Docs: { text: 'A', link: 'https://example.feishu.cn/docx/doc-a' } },
+  }];
+  let fetchCalls = 0;
+  let planCalls = 0;
+  let action = null;
+
+  class FakeScraper {
+    constructor() { this.base_app_token = 'base-token'; this.records = null; }
+    async fetch(recursive) {
+      fetchCalls += 1;
+      assert.equal(recursive, true);
+      this.records = records;
+      fs.mkdirSync(sourceDir, { recursive: true });
+      fs.writeFileSync(path.join(sourceDir, 'doc-a.json'), JSON.stringify({
+        token: 'doc-a', type: 'docx', name: 'A', blocks: { items: [{ block_type: 1 }] },
+      }));
+    }
+  }
+  class FakeUtils {}
+
+  Module._load = function patchedLoad(request, parent, isMain) {
+    if (parent?.filename?.endsWith('/plugins/lark-docs/index.js')) {
+      if (request === './larkDocScraper.js') return FakeScraper;
+      if (request === './larkUtils.js') return FakeUtils;
+      if (request === './incrementalFetchPlanner') return {
+        planIncrementalFetch(input) {
+          planCalls += 1;
+          assert.equal(fs.existsSync(path.join(sourceDir, 'doc-a.json')), true);
+          assert.equal(input.records, records);
+          return { manual: 'pymilvus30', mode: 'incremental', expanded_tokens: ['doc-a'], removed_records: [] };
+        },
+        writeIncrementalFetchPlanReports() { return { markdownPath: path.join(tempDir, 'plan.md') }; },
+      };
+      if (request === './sourceSnapshot') return {
+        readSnapshot() { return { schema_version: 2, manual: 'pymilvus30', records: [] }; },
+        createSourceSnapshot() { throw new Error('candidate snapshot should not be written'); },
+        validateCandidateSnapshot() {},
+        writeSnapshot() {},
+      };
+      if (request === './sourceCompleteness') return {
+        validateSourceCompleteness() { throw new Error('refreshed Drive sources must not validate the stale cache'); },
+        assertSourceCompleteness() {},
+      };
+    }
+    return originalLoad.apply(this, arguments);
+  };
+
+  try {
+    delete require.cache[require.resolve('./index')];
+    const plugin = require('./index')(null, {
+      pymilvus30: {
+        root: 'root-token', base: 'base-token', sourceType: 'drive', displayedSidebar: [],
+        docSourceDir: sourceDir, targets: {},
+      },
+    });
+    const command = { option() { return this; }, action(callback) { action = callback; return this; } };
+    plugin.extendCli({ command() { return command; } });
+    await action({ manual: 'pymilvus30', sourceOnly: true, incremental: true, buildEnv: 'uat' });
+
+    assert.equal(fetchCalls, 1);
+    assert.equal(planCalls, 1);
+  } finally {
+    Module._load = originalLoad;
+    delete require.cache[require.resolve('./index')];
+    fs.rmSync(tempDir, { recursive: true, force: true });
+  }
+}
+
 async function run() {
   await testFeishuJsonFetchesAreThrottled();
   await testWikiRootFetchRetriesPrematureClose();
@@ -1061,6 +1135,7 @@ async function run() {
   await testBaseScanProgressLogsTablesAndRecords();
   await testWikiMetadataProgressLogsResolutionCounts();
   await testIncrementalSourceFetchWritesCandidateFromRetainedScan();
+  await testDriveIncrementalRefreshesSourcesBeforePlanningRenderDelta();
   console.log('lark-docs scraper tests passed');
 }
 

@@ -103,6 +103,26 @@ function testScraperOmitsPublishMetaForSections() {
     assert.equal(Object.prototype.hasOwnProperty.call(source, 'base_beta'), false)
 }
 
+function testScraperInfersSdkFeishuDocsAsCanonicalWithoutSlug() {
+    const scraper = new LarkDocScraper('root', 'base', 'drive', 'unused')
+    const source = scraper.__source_base_meta({}, {
+        record_id: 'recSdkDoc',
+        base_table_id: 'tblSdk',
+        base_table_name: 'SDK',
+        base_record_index: 1,
+        fields: {
+            Docs: { text: 'Create collection', link: 'https://example.feishu.cn/docx/sdk-doc-token' },
+        },
+    })
+
+    assert.equal(source.base_placement_type, 'canonical')
+    assert.equal(scraper.__is_structural_record({
+        fields: {
+            Docs: { text: 'Create collection', link: 'https://example.feishu.cn/docx/sdk-doc-token' },
+        },
+    }), false)
+}
+
 async function testScraperKeepsRecordsHiddenBySelectedView() {
     const scraper = new LarkDocScraper('root', 'base:*', 'wiki', 'unused')
     scraper.base_app_token = 'baseToken'
@@ -289,6 +309,7 @@ async function testRemoveStaleTokenFilesKeepsCurrentDestination() {
 async function run() {
     testScraperCopiesBetaToBaseSourceMeta()
     testScraperOmitsPublishMetaForSections()
+    testScraperInfersSdkFeishuDocsAsCanonicalWithoutSlug()
     await testScraperKeepsRecordsHiddenBySelectedView()
     await testSectionSourceWinsOverDeprecatedCanonicalWithSameSlug()
     await testSidebarSkipsRefToTargetFilteredOutForCurrentTarget()

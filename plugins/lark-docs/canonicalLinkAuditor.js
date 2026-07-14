@@ -1,6 +1,7 @@
 const fs = require('node:fs')
 const path = require('node:path')
 const slugify = require('slugify')
+const { parseFeishuDocumentLink, safeDecodeUrl } = require('./feishuDocumentLink')
 
 function plainValue(value) {
   if (value === null || value === undefined) return null
@@ -42,40 +43,8 @@ function docTitle(doc) {
   return doc.text || doc.name || plainValue(doc)
 }
 
-function safeDecodeUrl(value) {
-  if (!value) return null
-  let decoded = String(value)
-  for (let i = 0; i < 2; i++) {
-    try {
-      const next = decodeURIComponent(decoded)
-      if (next === decoded) break
-      decoded = next
-    } catch (_) {
-      break
-    }
-  }
-  return decoded
-}
-
 function contentLinkTarget(url) {
-  const decoded = safeDecodeUrl(url)
-  if (!decoded) return null
-  const linkMatch = decoded.match(/https?:\/\/\S+/)
-  const link = linkMatch ? linkMatch[0] : decoded.trim()
-  let parsed
-  try {
-    parsed = new URL(link)
-  } catch (_) {
-    return null
-  }
-  const host = parsed.hostname.toLowerCase()
-  if (!host.includes('feishu.cn') && !host.includes('larksuite.com')) return null
-  const segments = parsed.pathname.split('/').filter(Boolean)
-  const kind = segments[0]
-  if (!['wiki', 'doc', 'docs', 'docx'].includes(kind)) return null
-  const token = segments[segments.length - 1]
-  if (!token) return null
-  return { url: decoded, token, kind, anchor: parsed.hash ? parsed.hash.slice(1) : null }
+  return parseFeishuDocumentLink(url)
 }
 
 function sourceTokenAliases(source) {
@@ -267,7 +236,7 @@ function placementType(record) {
   const value = plainValue(record.fields?.['Placement Type'])
   const normalized = value ? value.trim().toLowerCase() : ''
   if (['canonical', 'ref', 'section', 'link'].includes(normalized)) return normalized
-  return recordToken(record) && record.fields?.Slug ? 'canonical' : 'section'
+  return contentLinkTarget(docLink(docField(record.fields || {}))) ? 'canonical' : 'section'
 }
 
 function canonicalRecordsFrom(records) {

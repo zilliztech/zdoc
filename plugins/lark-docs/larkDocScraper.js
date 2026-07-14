@@ -1,6 +1,6 @@
 const tokenFetcher = require('./larkTokenFetcher.js')
 const { fetchFeishuJsonWithRetry } = require('./feishuFetch.js')
-const { auditCanonicalLinks, canonicalRecordsFrom } = require('./canonicalLinkAuditor')
+const { auditCanonicalLinks, canonicalRecordsFrom, contentLinkTarget } = require('./canonicalLinkAuditor')
 const fs = require('fs')
 const node_path = require('path')
 const _ = require('lodash')
@@ -855,12 +855,12 @@ class larkDocScraper {
         const value = this.__plain_value(record.fields['Placement Type'])
         const normalized = value ? value.trim().toLowerCase() : ''
         if (['canonical', 'ref', 'section', 'link'].includes(normalized)) return normalized
-        return this.__doc_token(this.__doc_field(record.fields)) && record.fields.Slug ? 'canonical' : 'section'
+        return contentLinkTarget(this.__doc_link(this.__doc_field(record.fields))) ? 'canonical' : 'section'
     }
 
     __is_structural_record(record) {
         const placementType = this.__placement_type(record)
-        return placementType === 'section' || placementType === 'ref' || placementType === 'link' || !this.__doc_token(this.__doc_field(record.fields)) || !record.fields.Slug
+        return placementType !== 'canonical'
     }
 
     __source_base_meta(source, record) {

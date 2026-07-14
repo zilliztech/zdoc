@@ -5,11 +5,32 @@ const path = require('node:path')
 const { test } = require('node:test')
 const {
   createSourceSnapshot,
+  outputPathsByTokenFromDirs,
   promoteCandidateSnapshot,
   readSnapshot,
   validateCandidateSnapshot,
   writeSnapshot,
 } = require('./sourceSnapshot')
+
+test('outputPathsByTokenFromDirs indexes generated markdown by token', () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'snapshot-output-paths-'))
+  fs.mkdirSync(path.join(root, 'docs/tutorials'), { recursive: true })
+  fs.mkdirSync(path.join(root, 'docs-byoc/tutorials'), { recursive: true })
+  fs.writeFileSync(path.join(root, 'docs/tutorials/source.md'), '---\ntoken: source-token\n---\n')
+  fs.writeFileSync(path.join(root, 'docs-byoc/tutorials/source.mdx'), '---\ntoken: "source-token"\n---\n')
+  fs.writeFileSync(path.join(root, 'docs/tutorials/manual.md'), '# no generated token\n')
+
+  const result = outputPathsByTokenFromDirs({
+    cwd: root,
+    outputDirs: ['docs/tutorials', 'docs-byoc/tutorials'],
+  })
+
+  assert.deepEqual(result.get('source-token'), [
+    'docs-byoc/tutorials/source.mdx',
+    'docs/tutorials/source.md',
+  ])
+  assert.equal(result.has('manual'), false)
+})
 
 test('createSourceSnapshot records hashes and outgoing tokens', () => {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'snapshot-'))
@@ -34,6 +55,10 @@ test('createSourceSnapshot records hashes and outgoing tokens', () => {
     linkCheckRemote: 'https://docs.zilliz.com',
     docSourceDir: dir,
     baseAppToken: 'base-token',
+    outputPathsByToken: new Map([[
+      'source-token',
+      ['docs/tutorials/source.md', 'docs-byoc/tutorials/source.md'],
+    ]]),
     nodeMetadataByToken: new Map([['source-token', {
       node_token: 'source-token',
       obj_token: 'docx-token',
@@ -66,6 +91,10 @@ test('createSourceSnapshot records hashes and outgoing tokens', () => {
   assert.equal(snapshot.records[0].revision_id, 'rev-1')
   assert.equal(snapshot.records[0].node_metadata.obj_token, 'docx-token')
   assert.equal(snapshot.records[0].outgoing_tokens[0], 'target-token')
+  assert.deepEqual(snapshot.records[0].output_paths, [
+    'docs-byoc/tutorials/source.md',
+    'docs/tutorials/source.md',
+  ])
   assert.match(snapshot.records[0].source_hash, /^[a-f0-9]{64}$/)
 })
 
@@ -123,5 +152,7 @@ test('candidate validation rejects mismatches, duplicate records, and malformed 
   assert.throws(() => validateCandidateSnapshot({ ...base, manual: 'other' }, expected), /manual/i)
   assert.throws(() => validateCandidateSnapshot({ ...base, records: [...base.records, { ...base.records[0] }] }, expected), /duplicate/i)
   assert.throws(() => validateCandidateSnapshot({ ...base, records: [{ ...base.records[0], source_hash: 'bad' }] }, expected), /source hash/i)
+  assert.throws(() => validateCandidateSnapshot({ ...base, records: [{ ...base.records[0], output_paths: 'bad' }] }, expected), /output paths/i)
+  assert.throws(() => validateCandidateSnapshot({ ...base, records: [{ ...base.records[0], output_paths: ['../escape.md'] }] }, expected), /output path/i)
   assert.throws(() => validateCandidateSnapshot({ ...base, records: [] }, expected), /non-empty/i)
 })

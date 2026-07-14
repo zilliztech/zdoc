@@ -25,6 +25,13 @@ function writeSnapshot(file, snapshot) {
   fs.writeFileSync(file, JSON.stringify(snapshot, null, 2))
 }
 
+function isSafeRelativePath(value) {
+  return typeof value === 'string'
+    && value !== ''
+    && !path.isAbsolute(value)
+    && !value.split('/').some(part => part === '' || part === '.' || part === '..')
+}
+
 function validateCandidateSnapshot(candidate, expected = {}) {
   if (!candidate || typeof candidate !== 'object' || Array.isArray(candidate)) throw new Error('Candidate snapshot must be an object')
   if (candidate.schema_version !== 2) throw new Error('Candidate snapshot schema version must be 2')
@@ -47,6 +54,10 @@ function validateCandidateSnapshot(candidate, expected = {}) {
     if (typeof record.source_file !== 'string' || !record.source_file) throw new Error(`Candidate snapshot source file is required for ${record.doc_token}`)
     if (!/^[0-9a-f]{64}$/.test(record.source_hash || '')) throw new Error(`Candidate snapshot source hash is invalid for ${record.doc_token}`)
     if (!Array.isArray(record.outgoing_tokens)) throw new Error(`Candidate snapshot outgoing tokens are invalid for ${record.doc_token}`)
+    if (record.output_paths !== undefined && !Array.isArray(record.output_paths)) throw new Error(`Candidate snapshot output paths are invalid for ${record.doc_token}`)
+    for (const outputPath of record.output_paths || []) {
+      if (!isSafeRelativePath(outputPath)) throw new Error(`Candidate snapshot output path is invalid for ${record.doc_token}: ${outputPath}`)
+    }
   }
   return candidate
 }
@@ -80,6 +91,39 @@ function sourceFilesByToken(docSourceDir) {
   return byToken
 }
 
+function outputPathsByTokenFromDirs({ outputDirs, cwd = process.cwd() }) {
+  const root = path.resolve(cwd)
+  const byToken = new Map()
+  for (const outputDir of outputDirs || []) {
+    if (!isSafeRelativePath(outputDir)) throw new Error(`Invalid output directory: ${outputDir}`)
+    const absoluteOutputDir = path.resolve(root, ...outputDir.split('/'))
+    if (!absoluteOutputDir.startsWith(`${root}${path.sep}`) || !fs.existsSync(absoluteOutputDir)) continue
+    const stack = [absoluteOutputDir]
+    while (stack.length > 0) {
+      const directory = stack.pop()
+      for (const entry of fs.readdirSync(directory, { withFileTypes: true })) {
+        const entryPath = path.join(directory, entry.name)
+        if (entry.isDirectory()) {
+          stack.push(entryPath)
+          continue
+        }
+        if (!entry.isFile() || !/\.mdx?$/.test(entry.name)) continue
+        const content = fs.readFileSync(entryPath, 'utf8')
+        const match = content.match(/^token:\s*['"]?([^'"\r\n]+)['"]?\s*$/m)
+        const token = match?.[1]?.trim()
+        if (!token) continue
+        const relativePath = path.relative(root, entryPath).split(path.sep).join('/')
+        if (!byToken.has(token)) byToken.set(token, [])
+        byToken.get(token).push(relativePath)
+      }
+    }
+  }
+  for (const [token, outputPaths] of byToken) {
+    byToken.set(token, [...new Set(outputPaths)].sort())
+  }
+  return byToken
+}
+
 function createSourceSnapshot({
   manualName,
   targetsBuilt = [],
@@ -91,6 +135,7 @@ function createSourceSnapshot({
   baseAppToken = null,
   records,
   nodeMetadataByToken = new Map(),
+  outputPathsByToken = new Map(),
 }) {
   const sourceByToken = sourceFilesByToken(docSourceDir)
   const canonicalRecords = canonicalRecordsFrom(records)
@@ -128,6 +173,7 @@ function createSourceSnapshot({
         obj_edit_time: nodeMetadata?.obj_edit_time || source?.obj_edit_time || null,
         revision_id: nodeMetadata?.revision_id || source?.revision_id || null,
         outgoing_tokens: [...new Set(outgoingTokens)].sort(),
+        output_paths: [...new Set(outputPathsByToken.get(record.doc_token) || [])].sort(),
       }
     }),
   }
@@ -140,5 +186,6 @@ module.exports = {
   validateCandidateSnapshot,
   writeSnapshot,
   sourceFilesByToken,
+  outputPathsByTokenFromDirs,
   hashText,
 }

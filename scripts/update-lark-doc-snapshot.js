@@ -2,7 +2,12 @@ const fs = require('node:fs')
 const path = require('node:path')
 const vm = require('node:vm')
 const larkDocScraper = require('../plugins/lark-docs/larkDocScraper')
-const { createSourceSnapshot, writeSnapshot } = require('../plugins/lark-docs/sourceSnapshot')
+const {
+  createSourceSnapshot,
+  outputPathsByTokenFromDirs,
+  writeSnapshot,
+} = require('../plugins/lark-docs/sourceSnapshot')
+const { outputDirsForTargets } = require('./docs-workflow/lark-snapshot-output-paths')
 
 function parseArgs(argv) {
   const args = {}
@@ -50,6 +55,9 @@ async function main() {
   const nodeMetadataByToken = manual.sourceType === 'wiki'
     ? await scraper.fetch_wiki_node_metadata(scraper.records, { progressLabel: '[snapshot] Wiki metadata' })
     : new Map()
+  const outputPathsByToken = outputPathsByTokenFromDirs({
+    outputDirs: outputDirsForTargets(manual, targetsBuilt),
+  })
 
   const snapshot = createSourceSnapshot({
     manualName: args.manual,
@@ -62,6 +70,7 @@ async function main() {
     baseAppToken: scraper.base_app_token,
     records: scraper.records,
     nodeMetadataByToken,
+    outputPathsByToken,
   })
 
   writeSnapshot(snapshotPath, snapshot)

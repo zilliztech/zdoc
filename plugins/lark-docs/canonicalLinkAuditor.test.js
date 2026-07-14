@@ -5,10 +5,52 @@ const path = require('node:path')
 const { test } = require('node:test')
 const {
   auditCanonicalLinks,
+  canonicalRecordsFrom,
   extractContentLinks,
   scoreCandidates,
   writeCanonicalLinkReports,
 } = require('./canonicalLinkAuditor')
+
+test('canonicalRecordsFrom respects explicit placement and infers Feishu docs without requiring slug', () => {
+  const records = [
+    {
+      record_id: 'guide-section',
+      fields: {
+        'Placement Type': 'section',
+        Doc: { text: 'Guide section', link: 'https://example.feishu.cn/wiki/guide-section-token' },
+      },
+    },
+    {
+      record_id: 'guide-canonical',
+      fields: {
+        'Placement Type': 'canonical',
+        Doc: { text: 'Guide canonical', link: 'https://example.feishu.cn/wiki/guide-canonical-token' },
+        Slug: 'guide-canonical',
+      },
+    },
+    {
+      record_id: 'sdk-doc',
+      fields: {
+        Doc: { text: 'SDK method', link: 'https://example.feishu.cn/docx/sdk-doc-token' },
+      },
+    },
+    {
+      record_id: 'sdk-section',
+      fields: { Title: 'Collection operations' },
+    },
+    {
+      record_id: 'external-link',
+      fields: {
+        Doc: { text: 'External', link: 'https://example.com/reference' },
+      },
+    },
+  ]
+
+  assert.deepEqual(
+    canonicalRecordsFrom(records).map(record => record.record_id),
+    ['guide-canonical', 'sdk-doc'],
+  )
+})
 
 function writeJson(dir, file, value) {
   fs.writeFileSync(path.join(dir, file), JSON.stringify(value, null, 2))
