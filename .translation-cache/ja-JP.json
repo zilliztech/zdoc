@@ -425,6 +425,11 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/function/reranking-functions/rule-based-rerankers/decay-rankers/linear-decay.md",
       "translatedAt": "2026-07-13T19:54:27.442Z"
     },
+    "docs-byoc/tutorials/development/function/reranking-functions/rule-based-rerankers/decay-rankers/tutorial-implement-time-based-ranking.md": {
+      "sourceHash": "98098720f092cad06ea98307afa533dd7a9bcfce195290e398f51c3d57d5ff27",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/function/reranking-functions/rule-based-rerankers/decay-rankers/tutorial-implement-time-based-ranking.md",
+      "translatedAt": "2026-07-14T05:47:20.309Z"
+    },
     "docs-byoc/tutorials/development/insert-and-delete/count-entities.md": {
       "sourceHash": "04e2f82f13864755126721e0312b68199362d9b560a0ac8b1c80ae9c60e9be63",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/insert-and-delete/count-entities.md",
@@ -1724,6 +1729,11 @@
       "sourceHash": "39e80b2a71a5f0bb33b5973fce241ee6ae98408a9dc1a5130f6dd3914ad96bee",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/function/reranking-functions/rule-based-rerankers/decay-rankers/linear-decay.md",
       "translatedAt": "2026-07-13T16:26:31.675Z"
+    },
+    "docs/tutorials/development/function/reranking-functions/rule-based-rerankers/decay-rankers/tutorial-implement-time-based-ranking.md": {
+      "sourceHash": "e5c9c5d7c1d4d9ce7f7e4aaec38ae8ef3e613ac0a7df1b696ec8eab0f1079baf",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/function/reranking-functions/rule-based-rerankers/decay-rankers/tutorial-implement-time-based-ranking.md",
+      "translatedAt": "2026-07-14T05:48:28.371Z"
     },
     "docs/tutorials/development/function/text-embedding-functions/cohere.md": {
       "sourceHash": "28992d9b1dfa80eaf12435968a2369b3069f5bc53fd044f053e772217e7345a1",
