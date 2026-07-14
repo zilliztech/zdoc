@@ -6965,6 +6965,11 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/restful/restful/v1/control-plane/pipeline-operations/drop-pipeline.mdx",
       "translatedAt": "2026-07-13T10:53:44.240Z"
     },
+    "reference/api/restful/restful/v1/control-plane/pipeline-operations/list-pipelines.mdx": {
+      "sourceHash": "fbbabf1d004989daac644e405f7abfd2b0998fe3aa726957bfd8e28162b2a81e",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/restful/restful/v1/control-plane/pipeline-operations/list-pipelines.mdx",
+      "translatedAt": "2026-07-14T03:52:46.334Z"
+    },
     "reference/api/restful/restful/v1/control-plane/pipeline-operations/pipeline-operations.mdx": {
       "sourceHash": "3a6b9c3fff9e6e183a0b47733e82d240be65e6252739330a00b0043111ac1ee8",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/restful/restful/v1/control-plane/pipeline-operations/pipeline-operations.mdx",
@@ -7579,6 +7584,11 @@
       "sourceHash": "7c5c067d14f5bba947bf6a7b2a6941f93ad86a525bb0bbb2d15d0d11f714a85c",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/restful/restful/v2/data-plane/collection-operations-v2/add-function-to-collection-v2.mdx",
       "translatedAt": "2026-07-13T11:16:43.929Z"
+    },
+    "reference/api/restful/restful/v2/data-plane/collection-operations-v2/alter-collection-properties-v2.mdx": {
+      "sourceHash": "60309082dabac6a9a1af237894cdd4d5a8acacb637b869501a9b10a3acf45bdc",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/restful/restful/v2/data-plane/collection-operations-v2/alter-collection-properties-v2.mdx",
+      "translatedAt": "2026-07-14T03:51:00.124Z"
     },
     "reference/api/restful/restful/v2/data-plane/collection-operations-v2/alter-field-properties-v2.mdx": {
       "sourceHash": "d3a3c9e4cd82618c626f57d87fc7aac021ff1e0cb076bcbc7b517ae8aa6a65a6",
