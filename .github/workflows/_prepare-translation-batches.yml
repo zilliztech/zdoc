@@ -38,6 +38,8 @@ jobs:
           set -euo pipefail
           git fetch --no-tags origin "$SOURCE_COMMIT_SHA"
           bash scripts/restore-generated-state.sh --exact --ref "$SOURCE_COMMIT_SHA"
+          git cat-file -e "$SOURCE_COMMIT_SHA^" 2>/dev/null || git fetch --no-tags --depth=2 origin "$SOURCE_COMMIT_SHA"
+          git cat-file -e "$SOURCE_COMMIT_SHA^"
           mkdir -p .translation-cache tmp
           test -f .translation-cache/ja-JP.json || printf '{"files":{}}\n' > .translation-cache/ja-JP.json
           git diff --name-status "$SOURCE_COMMIT_SHA^" "$SOURCE_COMMIT_SHA" > tmp/source-name-status.txt

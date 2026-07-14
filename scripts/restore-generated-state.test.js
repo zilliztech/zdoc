@@ -122,6 +122,27 @@ test('exact immutable ref mode removes managed paths absent from the source comm
   }
 })
 
+test('immutable ref restore preserves existing commit ancestry', () => {
+  const fixture = createFixture()
+  try {
+    write(fixture.source, 'docs/state.txt', 'new:docs\n')
+    git(fixture.source, 'add', 'docs/state.txt')
+    git(fixture.source, 'commit', '-m', 'advance generated state')
+    const sourceSha = git(fixture.source, 'rev-parse', 'HEAD')
+    git(fixture.source, 'push', 'origin', 'dev')
+    git(fixture.work, 'fetch', 'origin', 'dev')
+
+    assert.equal(git(fixture.work, 'rev-parse', `${sourceSha}^`), fixture.oldSha)
+
+    const result = run(fixture.work, ['--exact', '--ref', sourceSha])
+
+    assert.equal(result.status, 0, result.stderr)
+    assert.equal(git(fixture.work, 'rev-parse', `${sourceSha}^`), fixture.oldSha)
+  } finally {
+    fs.rmSync(fixture.root, { recursive: true, force: true })
+  }
+})
+
 test('positional dev branch remains supported', () => {
   const fixture = createFixture()
   try {

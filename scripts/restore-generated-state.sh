@@ -70,8 +70,12 @@ if [ "$(pwd -P)" != "$(cd "$repo_root" && pwd -P)" ]; then
 fi
 
 if [ -n "${target_ref}" ]; then
-  git fetch --depth=1 origin -- "${target_ref}"
-  resolved_ref="FETCH_HEAD"
+  if [[ "${target_ref}" =~ ^[0-9a-f]{40}$ ]] && git cat-file -e "${target_ref}^{commit}" 2>/dev/null; then
+    resolved_ref="${target_ref}"
+  else
+    git fetch --depth=1 origin -- "${target_ref}"
+    resolved_ref="FETCH_HEAD"
+  fi
 else
   git fetch origin "${target_branch}" --depth=1
   resolved_ref="origin/${target_branch}"
