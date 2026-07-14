@@ -76,7 +76,7 @@ function sourceMappingsForLocale(locale, { includeReference = false } = {}) {
   return mappings
 }
 
-function buildManifest({ siteDir, locale = 'ja-JP', includeReference = false, maxFiles = 0, group = null, sourceCheckpointSha = null }) {
+function buildManifest({ siteDir, locale = 'ja-JP', includeReference = false, maxFiles = 0, group = null, sourceCheckpointSha = null, sourceDelta = null }) {
   let ownedPrefixes = null
   if (group) {
     const definition = getContentGroup(group)
@@ -84,6 +84,7 @@ function buildManifest({ siteDir, locale = 'ja-JP', includeReference = false, ma
     ownedPrefixes = definition.ownedPaths.filter(prefix => prefix === 'docs' || prefix === 'docs-byoc' || prefix.startsWith('reference/'))
     includeReference = group !== 'guides'
   }
+  const changedEnglish = sourceDelta ? new Set(sourceDelta.changedEnglish || []) : null
   const cache = readCache(siteDir, locale)
   const items = []
 
@@ -93,6 +94,7 @@ function buildManifest({ siteDir, locale = 'ja-JP', includeReference = false, ma
       const relativeToRoot = path.relative(absSourceRoot, absSourcePath)
       const sourcePath = path.join(mapping.sourceRoot, relativeToRoot).replace(/\\/g, '/')
       if (ownedPrefixes && !ownedPrefixes.some(prefix => sourcePath === prefix || sourcePath.startsWith(`${prefix}/`))) continue
+      if (changedEnglish && !changedEnglish.has(sourcePath)) continue
       const targetPath = path.join(mapping.targetRoot, relativeToRoot).replace(/\\/g, '/')
       const sourceContent = fs.readFileSync(absSourcePath, 'utf8')
       const sourceHash = hashContent(sourceContent)
@@ -109,12 +111,23 @@ function buildManifest({ siteDir, locale = 'ja-JP', includeReference = false, ma
         type: mapping.type,
       })
       if (maxFiles > 0 && items.length >= maxFiles) {
-        return { locale, group, sourceCheckpointSha, generatedAt: new Date().toISOString(), items }
+        return createManifest({ locale, group, sourceCheckpointSha, sourceDelta, items })
       }
     }
   }
 
-  return { locale, group, sourceCheckpointSha, generatedAt: new Date().toISOString(), items }
+  return createManifest({ locale, group, sourceCheckpointSha, sourceDelta, items })
+}
+
+function createManifest({ locale, group, sourceCheckpointSha, sourceDelta, items }) {
+  const manifest = { locale, group, sourceCheckpointSha, generatedAt: new Date().toISOString(), items }
+  if (sourceDelta) {
+    manifest.source_delta = {
+      deleted_i18n: [...(sourceDelta.deletedI18n || [])],
+      renamed: [...(sourceDelta.renamed || [])],
+    }
+  }
+  return manifest
 }
 
 function main() {
@@ -129,10 +142,12 @@ function main() {
   const maxFiles = Number(args.get('--max-files') || process.env.TRANSLATION_MAX_FILES || 0)
   const group = args.get('--group') || null
   const sourceCheckpointSha = args.get('--source-checkpoint-sha') || null
+  const sourceDeltaPath = args.get('--source-delta') || null
+  const sourceDelta = sourceDeltaPath ? JSON.parse(fs.readFileSync(path.join(siteDir, sourceDeltaPath), 'utf8')) : null
   const batchFlags = ['--batch-index', '--batch-size', '--expected-pending-set-sha256']
   const presentBatchFlags = batchFlags.filter(flag => args.has(flag))
   if (presentBatchFlags.length !== 0 && presentBatchFlags.length !== batchFlags.length) throw new Error('Batch manifest flags must be provided together')
-  let manifest = buildManifest({ siteDir, locale, includeReference, maxFiles: presentBatchFlags.length ? 0 : maxFiles, group, sourceCheckpointSha })
+  let manifest = buildManifest({ siteDir, locale, includeReference, maxFiles: presentBatchFlags.length ? 0 : maxFiles, group, sourceCheckpointSha, sourceDelta })
   if (presentBatchFlags.length) {
     manifest = selectManifestBatch(manifest, {
       batchIndex: Number(args.get('--batch-index')),

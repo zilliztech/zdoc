@@ -142,12 +142,40 @@ function testGroupValidationAndLegacyCompatibility() {
   })
 }
 
+function testSourceDeltaLimitsManifestAndPreservesReconciliationMetadata() {
+  withTempDir(siteDir => {
+    const sha = 'b'.repeat(40)
+    const changed = 'reference/api/restful/restful/new.mdx'
+    const deletedI18n = 'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/restful/restful/old.mdx'
+    write(path.join(siteDir, changed), '# new\n')
+    write(path.join(siteDir, 'reference/api/restful/restful/unchanged.mdx'), '# unchanged\n')
+
+    const manifest = buildManifest({
+      siteDir,
+      group: 'rest',
+      sourceCheckpointSha: sha,
+      sourceDelta: {
+        changedEnglish: [changed, 'reference/api/restful/restful/missing.mdx'],
+        deletedI18n: [deletedI18n],
+        renamed: [],
+      },
+    })
+
+    assert.deepEqual(manifest.items.map(item => item.sourcePath), [changed])
+    assert.deepEqual(manifest.source_delta, {
+      deleted_i18n: [deletedI18n],
+      renamed: [],
+    })
+  })
+}
+
 function run() {
   testBuildManifestIncludesChangedAndMissingDocs()
   testSourceMappingsCanIncludeReference()
   testCheckpointedCacheRemovesCompletedFilesFromNextManifest()
   testContentGroupsFilterBeforeMaxFilesAndRecordCheckpoint()
   testGroupValidationAndLegacyCompatibility()
+  testSourceDeltaLimitsManifestAndPreservesReconciliationMetadata()
   console.log('translation manifest tests passed')
 }
 
