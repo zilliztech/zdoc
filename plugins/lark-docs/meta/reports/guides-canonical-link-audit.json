@@ -1,14 +1,14 @@
 {
-  "generated_at": "2026-07-13T21:58:48.145Z",
+  "generated_at": "2026-07-14T03:02:40.676Z",
   "manual": "guides",
   "target": "zilliz.saas",
   "source_dir": "./plugins/lark-docs/meta/sources/guides",
   "summary": {
     "canonical_records": 373,
-    "scanned_sources": 1,
+    "scanned_sources": 0,
     "skipped_noncanonical_sources": 0,
-    "internal_references": 1,
-    "valid_references": 1,
+    "internal_references": 0,
+    "valid_references": 0,
     "broken_references": 0
   },
   "files": []

@@ -1,40 +1,18 @@
 {
-  "generated_at": "2026-07-13T21:58:46.768Z",
+  "generated_at": "2026-07-14T03:00:56.862Z",
   "manual": "guides",
   "build_env": "uat",
   "mode": "incremental",
   "source_dir": "./plugins/lark-docs/meta/sources/guides",
-  "changed_records": [
-    {
-      "record_id": "recvlPmGw8hWwY",
-      "table_id": "tbl9BeCMjBmalJVb",
-      "table_name": "Get Started",
-      "title": "Quickstart to On-Demand Search",
-      "labels": "Quickstart to On-Demand Search",
-      "slug": "quick-start-to-on-demand-search",
-      "doc_token": "GQN0wDCrni4n36kyeVQcF41Lned",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/GQN0wDCrni4n36kyeVQcF41Lned",
-      "reasons": [
-        "wiki node edit time changed"
-      ]
-    }
-  ],
-  "changed_tokens": [
-    "GQN0wDCrni4n36kyeVQcF41Lned"
-  ],
-  "expanded_tokens": [
-    "GQN0wDCrni4n36kyeVQcF41Lned"
-  ],
+  "changed_records": [],
+  "changed_tokens": [],
+  "expanded_tokens": [],
   "removed_records": [],
   "removed_tokens": [],
-  "reasons_by_token": {
-    "GQN0wDCrni4n36kyeVQcF41Lned": [
-      "wiki node edit time changed"
-    ]
-  },
+  "reasons_by_token": {},
   "warnings": [],
   "snapshot_basis": {
-    "generated_at": "2026-07-12T03:27:06.753Z",
+    "generated_at": "2026-07-14T00:38:23.315Z",
     "records": 373
   }
 }
