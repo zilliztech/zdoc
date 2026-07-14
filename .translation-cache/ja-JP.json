@@ -1885,6 +1885,11 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/use-geometry-field.md",
       "translatedAt": "2026-07-13T16:55:46.486Z"
     },
+    "docs/tutorials/development/schema/use-number-field.md": {
+      "sourceHash": "1d4d3b1add03ef8306389cf99f7b994065783c834d905f9b56fc38bb4acc4772",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/use-number-field.md",
+      "translatedAt": "2026-07-14T03:12:29.017Z"
+    },
     "docs/tutorials/development/schema/use-sparse-vector.md": {
       "sourceHash": "0d3a3b128696682798ae13c585245d051a43616d73b2362c49d9544ba7733e6a",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/use-sparse-vector.md",
