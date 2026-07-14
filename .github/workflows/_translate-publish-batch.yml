@@ -61,7 +61,6 @@ jobs:
   publish:
     name: publish batch ${{ inputs.batch_number }} of ${{ inputs.batch_count }} (${{ needs.translate.outputs.translated_count }} docs)
     needs: translate
-    if: ${{ always() && needs.translate.result == 'success' }}
     uses: ./.github/workflows/_publish-content-group.yml
     with:
       group: ${{ inputs.group }}
