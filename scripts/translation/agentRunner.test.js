@@ -194,7 +194,7 @@ function testRetryableProviderErrors() {
 }
 
 function testChunkLimitConfiguration() {
-  assert.deepEqual(loadChunkLimits({}), { targetChars: 24000, maxChars: 32000 })
+  assert.deepEqual(loadChunkLimits({}), { targetChars: 16000, maxChars: 24000 })
   assert.deepEqual(loadChunkLimits({
     TRANSLATION_CHUNK_TARGET_CHARS: '12000',
     TRANSLATION_CHUNK_MAX_CHARS: '18000',

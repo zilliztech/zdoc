@@ -1,7 +1,7 @@
 'use strict'
 
-const DEFAULT_TARGET_CHARS = 24000
-const DEFAULT_MAX_CHARS = 32000
+const DEFAULT_TARGET_CHARS = 16000
+const DEFAULT_MAX_CHARS = 24000
 
 function splitLinesWithOffsets(source) {
   const lines = []
@@ -81,8 +81,20 @@ function consumeAdmonition(lines, index) {
 
 function consumeJsx(lines, index) {
   let depth = 0
+  let fence = null
   let cursor = index
   while (cursor < lines.length) {
+    if (fence) {
+      if (isFenceCloser(lines[cursor], fence)) fence = null
+      cursor += 1
+      continue
+    }
+    const opener = fenceOpener(lines[cursor])
+    if (opener) {
+      fence = opener
+      cursor += 1
+      continue
+    }
     depth += jsxDepthDelta(lineBody(lines[cursor]))
     cursor += 1
     if (depth <= 0) return cursor

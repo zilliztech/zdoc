@@ -1,8 +1,10 @@
 'use strict'
 
 const assert = require('node:assert/strict')
+const fs = require('node:fs')
+const path = require('node:path')
 const test = require('node:test')
-const { chunkDocument } = require('./chunker')
+const { chunkDocument, DEFAULT_MAX_CHARS } = require('./chunker')
 
 function assertLossless(source, chunks) {
   assert.equal(chunks.map(chunk => chunk.source).join(''), source)
@@ -69,6 +71,35 @@ test('does not split inside protected Markdown or MDX blocks', () => {
       `split inside protected block: ${protectedBlock}`,
     )
   }
+})
+
+test('ignores Java generic types while finding the end of a JSX container', () => {
+  const source = '# Before\n\n<Tabs>\n<TabItem value="java">\n```java\nList<List<String>> values;\n```\n</TabItem>\n</Tabs>\n\n## After\n\nEnd.\n'
+  const chunks = chunkDocument(source, { targetChars: 60, maxChars: 100 })
+  assertLossless(source, chunks)
+  assert.ok(chunks.length > 1)
+  assert.ok(chunks.some(chunk => chunk.source.startsWith('## After')))
+})
+
+test('keeps timeout-prone guides below a 20k request budget by default', () => {
+  const files = [
+    'docs/tutorials/development/function/reranking-functions/rule-based-rerankers/decay-rankers/tutorial-implement-time-based-ranking.md',
+    'docs/tutorials/development/schema/use-number-field.md',
+    'docs/tutorials/development/search-and-query/single-vector-search.md',
+    'docs-byoc/tutorials/development/function/reranking-functions/rule-based-rerankers/decay-rankers/tutorial-implement-time-based-ranking.md',
+    'docs-byoc/tutorials/development/schema/use-geometry-field.md',
+    'docs-byoc/tutorials/development/search-and-query/single-vector-search.md',
+  ]
+  for (const file of files) {
+    const source = fs.readFileSync(path.resolve(file), 'utf8')
+    const chunks = chunkDocument(source)
+    assertLossless(source, chunks)
+    assert.ok(
+      Math.max(...chunks.map(chunk => chunk.source.length)) <= 20000,
+      `${file} exceeded the safe request budget`,
+    )
+  }
+  assert.ok(DEFAULT_MAX_CHARS >= 20000)
 })
 
 test('allows one indivisible block to exceed the maximum', () => {
