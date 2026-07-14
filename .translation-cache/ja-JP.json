@@ -7205,80 +7205,50 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/restful/restful/v2/control-plane/cluster-operations-v2/create-free-cluster-v2.mdx",
       "translatedAt": "2026-07-13T11:00:21.500Z"
     },
-    "reference/api/restful/restful/v2/control-plane/cluster-operations-v2/create-on-demand-cluster-v2.mdx": {
-      "sourceHash": "1cbf1808db5cc9a6f1c45c3ffe6b74f633041ac9dc43aea4f6f6025c8af54b23",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/restful/restful/v2/control-plane/cluster-operations-v2/create-on-demand-cluster-v2.mdx",
-      "translatedAt": "2026-07-13T11:00:42.207Z"
-    },
     "reference/api/restful/restful/v2/control-plane/cluster-operations-v2/create-serverless-cluster-v2.mdx": {
-      "sourceHash": "c075c174d863547b3705add10a7e146478008bc20dc4f97c47ee9484413fcad5",
+      "sourceHash": "06bcfdcba8f4d332c8bd9e1c9be82d2d61e28254b11cb49b14e0decbb149620c",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/restful/restful/v2/control-plane/cluster-operations-v2/create-serverless-cluster-v2.mdx",
-      "translatedAt": "2026-07-13T11:00:28.242Z"
-    },
-    "reference/api/restful/restful/v2/control-plane/cluster-operations-v2/delete-on-demand-cluster-v2.mdx": {
-      "sourceHash": "0d63ac85a3c4980cd0fc0b324ea764feae390458a2c4fcf07b1aca8a4776b3fc",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/restful/restful/v2/control-plane/cluster-operations-v2/delete-on-demand-cluster-v2.mdx",
-      "translatedAt": "2026-07-13T11:01:00.058Z"
+      "translatedAt": "2026-07-14T17:15:30.241Z"
     },
     "reference/api/restful/restful/v2/control-plane/cluster-operations-v2/describe-cluster-v2.mdx": {
-      "sourceHash": "1ed3c7a4d87037cf63c2bab2221a04855052b4c8507d128823d616df18252150",
+      "sourceHash": "c3586804d1ede048ae46259c1decd14757b18189507e4128ebcd825fe630e666",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/restful/restful/v2/control-plane/cluster-operations-v2/describe-cluster-v2.mdx",
-      "translatedAt": "2026-07-13T11:03:03.537Z"
-    },
-    "reference/api/restful/restful/v2/control-plane/cluster-operations-v2/describe-on-demand-cluster-v2.mdx": {
-      "sourceHash": "2669fcb2bd51fa83ae216d4ea47cc842580eb5fce4f4faba5967cfad98f8800b",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/restful/restful/v2/control-plane/cluster-operations-v2/describe-on-demand-cluster-v2.mdx",
-      "translatedAt": "2026-07-13T11:01:22.688Z"
+      "translatedAt": "2026-07-14T17:16:05.371Z"
     },
     "reference/api/restful/restful/v2/control-plane/cluster-operations-v2/drop-cluster-v2.mdx": {
-      "sourceHash": "1349495f84aaeb378baf28fafa36f934f17b57c21e43a0d344599064f96d980c",
+      "sourceHash": "696095b900715ddd615c45d0f88188d1bc57d3121bb0445ebfc3a2c6e7196fec",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/restful/restful/v2/control-plane/cluster-operations-v2/drop-cluster-v2.mdx",
-      "translatedAt": "2026-07-13T11:05:34.708Z"
+      "translatedAt": "2026-07-14T17:15:36.944Z"
     },
     "reference/api/restful/restful/v2/control-plane/cluster-operations-v2/list-clusters-v2.mdx": {
       "sourceHash": "9ef831c0dae40eec9161feeaa6e6de0610f23f28dacf0678ff365fc18ebe8d75",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/restful/restful/v2/control-plane/cluster-operations-v2/list-clusters-v2.mdx",
       "translatedAt": "2026-07-13T11:01:43.341Z"
     },
-    "reference/api/restful/restful/v2/control-plane/cluster-operations-v2/list-on-demand-clusters-v2.mdx": {
-      "sourceHash": "efdf3730d38aa8416ef83fb053b64cc038b9a991924ac0d8a07b5551da585125",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/restful/restful/v2/control-plane/cluster-operations-v2/list-on-demand-clusters-v2.mdx",
-      "translatedAt": "2026-07-13T11:01:52.242Z"
-    },
     "reference/api/restful/restful/v2/control-plane/cluster-operations-v2/modify-cluster-replica-v2.mdx": {
-      "sourceHash": "aae419ca36eb6bde39a85dc997a2a33cb934efd66cb42a6a02893743347a4ed2",
+      "sourceHash": "829ec2da3b68e46da2ebd914cb09fad63dbea71834261358fae2f198f1bbba9a",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/restful/restful/v2/control-plane/cluster-operations-v2/modify-cluster-replica-v2.mdx",
-      "translatedAt": "2026-07-13T11:02:49.373Z"
+      "translatedAt": "2026-07-14T17:15:30.953Z"
     },
     "reference/api/restful/restful/v2/control-plane/cluster-operations-v2/modify-cluster-v2.mdx": {
-      "sourceHash": "1ff1ab5e9c313a35078e0ac592853b43c57ea810072a125633054e72f957d0e1",
+      "sourceHash": "6adf6c312d520ff8d0f261796d3fb99a4755d4fef6eecf87be85ef3e2981b7ba",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/restful/restful/v2/control-plane/cluster-operations-v2/modify-cluster-v2.mdx",
-      "translatedAt": "2026-07-13T11:02:55.657Z"
-    },
-    "reference/api/restful/restful/v2/control-plane/cluster-operations-v2/modify-on-demand-cluster-v2.mdx": {
-      "sourceHash": "71a45d1aba307f7b70afeca28eb6b7c4d5f28b585c4a115fa1215fee57f7d27d",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/restful/restful/v2/control-plane/cluster-operations-v2/modify-on-demand-cluster-v2.mdx",
-      "translatedAt": "2026-07-13T11:03:41.583Z"
+      "translatedAt": "2026-07-14T17:16:27.986Z"
     },
     "reference/api/restful/restful/v2/control-plane/cluster-operations-v2/resume-cluster-v2.mdx": {
-      "sourceHash": "e3b341ba594fe83bdf67131221f8860c11243dbe4214679844d7de860e623502",
+      "sourceHash": "bede760ee0062fa18c488bc4cdfd2e397b364665fd56163799c4dc2e50dd56a8",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/restful/restful/v2/control-plane/cluster-operations-v2/resume-cluster-v2.mdx",
-      "translatedAt": "2026-07-13T11:03:31.543Z"
+      "translatedAt": "2026-07-14T17:16:01.236Z"
     },
     "reference/api/restful/restful/v2/control-plane/cluster-operations-v2/suspend-cluster-v2.mdx": {
-      "sourceHash": "c80d1f6454c9004ce68bea9bc0dda3f85fdc2d8516d5b897d70e8f7e0f13e780",
+      "sourceHash": "be1fbfb72f8e015cf28aef5c1350e15c8da4cdb7189aa85805b2527956fae7f1",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/restful/restful/v2/control-plane/cluster-operations-v2/suspend-cluster-v2.mdx",
-      "translatedAt": "2026-07-13T11:03:34.438Z"
+      "translatedAt": "2026-07-14T17:16:02.389Z"
     },
-    "reference/api/restful/restful/v2/control-plane/cluster-operations-v2/update-dedicated-cluster-info-v2.mdx": {
-      "sourceHash": "f5210dd6e9ffcb3cb1a727c008c67b896a1992e6ede043ff1441d2c1f11634d4",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/restful/restful/v2/control-plane/cluster-operations-v2/update-dedicated-cluster-info-v2.mdx",
-      "translatedAt": "2026-07-13T11:04:07.718Z"
-    },
-    "reference/api/restful/restful/v2/control-plane/cluster-operations-v2/update-on-demand-cluster-info-v2.mdx": {
-      "sourceHash": "244f9d02f500481cbe10318cf43d6a8b6c9284ddfe14174775719824c0b849e3",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/restful/restful/v2/control-plane/cluster-operations-v2/update-on-demand-cluster-info-v2.mdx",
-      "translatedAt": "2026-07-13T11:04:25.002Z"
+    "reference/api/restful/restful/v2/control-plane/cluster-operations-v2/update-dedicated-cluster-v2.mdx": {
+      "sourceHash": "3bd63331db0cdaf0d0cfd058b855b4c37611da5f97d8a12e89fe87fa191977a8",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/restful/restful/v2/control-plane/cluster-operations-v2/update-dedicated-cluster-v2.mdx",
+      "translatedAt": "2026-07-14T17:16:40.370Z"
     },
     "reference/api/restful/restful/v2/control-plane/control-plane.mdx": {
       "sourceHash": "c309b75752eac86d37e2deb9251fdd88f26368baf90e3dc95f701cd82f3dab6a",
@@ -7424,6 +7394,36 @@
       "sourceHash": "865e41899b28265506a23d52720c1443fc8df137a650a5082d634a66394bd5f9",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/restful/restful/v2/control-plane/metrics-and-alerts-v2/update-alert-rule-v2.mdx",
       "translatedAt": "2026-07-13T11:10:54.833Z"
+    },
+    "reference/api/restful/restful/v2/control-plane/on-demand-cluster-operations-v2/create-on-demand-cluster-v2.mdx": {
+      "sourceHash": "fa35a5315c08297e5f255e11f1b5b22d1e64944179d9863298075ebd7544b875",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/restful/restful/v2/control-plane/on-demand-cluster-operations-v2/create-on-demand-cluster-v2.mdx",
+      "translatedAt": "2026-07-14T17:16:37.815Z"
+    },
+    "reference/api/restful/restful/v2/control-plane/on-demand-cluster-operations-v2/delete-on-demand-cluster-v2.mdx": {
+      "sourceHash": "1f44cdf386d3e7a6cae6be8f0ac1cc549049071d4506d2888c0ccc4c25407dea",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/restful/restful/v2/control-plane/on-demand-cluster-operations-v2/delete-on-demand-cluster-v2.mdx",
+      "translatedAt": "2026-07-14T17:16:45.240Z"
+    },
+    "reference/api/restful/restful/v2/control-plane/on-demand-cluster-operations-v2/describe-on-demand-cluster-v2.mdx": {
+      "sourceHash": "adc62a8b20e9811f225d61184681de05c8c5a8a1873bb0c4881b73d5efd76cdf",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/restful/restful/v2/control-plane/on-demand-cluster-operations-v2/describe-on-demand-cluster-v2.mdx",
+      "translatedAt": "2026-07-14T17:17:05.872Z"
+    },
+    "reference/api/restful/restful/v2/control-plane/on-demand-cluster-operations-v2/list-on-demand-clusters-v2.mdx": {
+      "sourceHash": "8128ef0390812ad96450ba5f1744840d7e4417d17cdb796aadd82acd8e758742",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/restful/restful/v2/control-plane/on-demand-cluster-operations-v2/list-on-demand-clusters-v2.mdx",
+      "translatedAt": "2026-07-14T17:17:10.383Z"
+    },
+    "reference/api/restful/restful/v2/control-plane/on-demand-cluster-operations-v2/on-demand-cluster-operations-v2.mdx": {
+      "sourceHash": "2e0320028e81b435d23e12b2e9e36d436dba9f8e99dcadde997221e276674b1f",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/restful/restful/v2/control-plane/on-demand-cluster-operations-v2/on-demand-cluster-operations-v2.mdx",
+      "translatedAt": "2026-07-14T17:17:01.601Z"
+    },
+    "reference/api/restful/restful/v2/control-plane/on-demand-cluster-operations-v2/update-on-demand-cluster-v2.mdx": {
+      "sourceHash": "e2f8df06815aa29506d032cc0fc88f552685af08154de066426151a32c4ded27",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/restful/restful/v2/control-plane/on-demand-cluster-operations-v2/update-on-demand-cluster-v2.mdx",
+      "translatedAt": "2026-07-14T17:17:09.486Z"
     },
     "reference/api/restful/restful/v2/control-plane/on-demand-compute-v2/describe-on-demand-compute-v2.mdx": {
       "sourceHash": "91e5e950777aeb76b25106ad8d2cf348ae26e33945df74a38e245705f2c79b1d",
