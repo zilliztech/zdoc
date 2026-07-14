@@ -8,30 +8,10 @@
   "source_branch": "dev",
   "publish_url": "https://docs.cloud-uat3.zilliz.com",
   "link_check_remote": "https://docs.zilliz.com",
-  "generated_at": "2026-07-14T11:07:22.438Z",
+  "generated_at": "2026-07-14T14:48:02.659Z",
   "source_dir": "./plugins/lark-docs/meta/sources/java/v3.0.x/v2",
   "base_app_token": "AOFDbSmwma9XrNsLa8KcQgt9ngc",
   "records": [
-    {
-      "record_id": "recuOEVvwdcnKi",
-      "table_id": "tbl63oNrbGDCXorc",
-      "table_name": "数据表",
-      "placement_type": "canonical",
-      "title": "Data Import",
-      "slug": "v2-DataImport",
-      "doc_token": "AtkCfVN4Ll6GqMdVJfxcybHanDf",
-      "doc_link": "https://zilliverse.feishu.cn/drive/folder/AtkCfVN4Ll6GqMdVJfxcybHanDf",
-      "source_file": null,
-      "source_hash": null,
-      "node_metadata": null,
-      "node_token": null,
-      "origin_node_token": null,
-      "obj_token": null,
-      "obj_type": null,
-      "obj_edit_time": null,
-      "revision_id": null,
-      "outgoing_tokens": []
-    },
     {
       "record_id": "recuOEVF771UG4",
       "table_id": "tbl63oNrbGDCXorc",
@@ -50,7 +30,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-DataImport/v2-DataImport-BulkImport/v2-DataImport-BulkImport.md"
+      ]
     },
     {
       "record_id": "recuOEVWVxBGE1",
@@ -72,6 +55,9 @@
       "revision_id": null,
       "outgoing_tokens": [
         "S0ITdsnpYoDpH9xKv9fcBhe5nWA"
+      ],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-DataImport/v2-DataImport-BulkImport/v2-BulkImport-bulkImport.md"
       ]
     },
     {
@@ -94,6 +80,9 @@
       "revision_id": null,
       "outgoing_tokens": [
         "EjnFdC5EfoIkoExSBOxcEC2hnbg"
+      ],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-DataImport/v2-DataImport-BulkImport/v2-BulkImport-getImportProgress.md"
       ]
     },
     {
@@ -116,6 +105,9 @@
       "revision_id": null,
       "outgoing_tokens": [
         "CN9sdiCicoERZpx9GhmcLa4Wn7g"
+      ],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-DataImport/v2-DataImport-BulkImport/v2-BulkImport-listImportJobs.md"
       ]
     },
     {
@@ -139,6 +131,9 @@
       "outgoing_tokens": [
         "FGZadH85KoLEhRxkbLxcc1zbn4c",
         "G7F9dQ8DwoZsaVxExdnc7K6an3g"
+      ],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-DataImport-LocalBulkWriter.md"
       ]
     },
     {
@@ -159,7 +154,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-LocalBulkWriter-appendRow.md"
+      ]
     },
     {
       "record_id": "recuOEWbchR1Cn",
@@ -179,7 +177,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-LocalBulkWriter-close.md"
+      ]
     },
     {
       "record_id": "recuOEWdHkRR45",
@@ -199,7 +200,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-LocalBulkWriter-commit.md"
+      ]
     },
     {
       "record_id": "recuOEWfpxPGze",
@@ -219,7 +223,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-LocalBulkWriter-getBatchFiles.md"
+      ]
     },
     {
       "record_id": "recvaIN5E4S1VO",
@@ -239,7 +246,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-LocalBulkWriter-getTotalRowCount.md"
+      ]
     },
     {
       "record_id": "recuOEVOZVCSve",
@@ -262,6 +272,9 @@
       "outgoing_tokens": [
         "FGZadH85KoLEhRxkbLxcc1zbn4c",
         "XAIndF6XWoQzvRxDvpLcgEE1nEb"
+      ],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-DataImport-RemoteBulkWriter.md"
       ]
     },
     {
@@ -282,7 +295,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-RemoteBulkWriter-appendRow.md"
+      ]
     },
     {
       "record_id": "recuOEWjYW9qLg",
@@ -302,7 +318,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-RemoteBulkWriter-close.md"
+      ]
     },
     {
       "record_id": "recuOEWlm0zhPy",
@@ -322,7 +341,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-RemoteBulkWriter-commit.md"
+      ]
     },
     {
       "record_id": "recuOEWn3r8e5A",
@@ -342,7 +364,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-RemoteBulkWriter-getBatchFiles.md"
+      ]
     },
     {
       "record_id": "recvaIN6UsLX00",
@@ -362,7 +387,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-RemoteBulkWriter-getTotalRowCount.md"
+      ]
     },
     {
       "record_id": "recuOEVTp3Tgcf",
@@ -382,7 +410,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-DataImport/v2-DataImport-BulkFileType.md"
+      ]
     },
     {
       "record_id": "recvfGAxeiLXSd",
@@ -405,6 +436,9 @@
       "outgoing_tokens": [
         "FGZadH85KoLEhRxkbLxcc1zbn4c",
         "NtxedWgOpof2Qtx8BU2ckktunWc"
+      ],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-DataImport-VolumeBulkWriter.md"
       ]
     },
     {
@@ -425,7 +459,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-VolumeBulkWriter-appendRow.md"
+      ]
     },
     {
       "record_id": "recvfGAEqQd7LG",
@@ -445,7 +482,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-VolumeBulkWriter-close.md"
+      ]
     },
     {
       "record_id": "recvfGAFQUOUwl",
@@ -465,7 +505,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-VolumeBulkWriter-commit.md"
+      ]
     },
     {
       "record_id": "recvfGAIwphw2N",
@@ -485,7 +528,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-VolumeBulkWriter-getBatchFiles.md"
+      ]
     },
     {
       "record_id": "recvfGAKh0nYxR",
@@ -505,7 +551,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-VolumeBulkWriter-getTotalRowCount.md"
+      ]
     },
     {
       "record_id": "recvfGALW9Oro5",
@@ -525,27 +574,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
-    },
-    {
-      "record_id": "recu4OLpTSUO8b",
-      "table_id": "tbl63oNrbGDCXorc",
-      "table_name": "数据表",
-      "placement_type": "canonical",
-      "title": "Authentication",
-      "slug": "v2-Authentication",
-      "doc_token": "LEj1fTFKLlUKSZdZjYEcnYgGnuh",
-      "doc_link": "https://zilliverse.feishu.cn/drive/folder/LEj1fTFKLlUKSZdZjYEcnYgGnuh",
-      "source_file": "LEj1fTFKLlUKSZdZjYEcnYgGnuh.json",
-      "source_hash": "deba735912057070e50d375e34045a02ccb6288fa52ae0b91d3f9c722fce4252",
-      "node_metadata": null,
-      "node_token": null,
-      "origin_node_token": null,
-      "obj_token": null,
-      "obj_type": null,
-      "obj_edit_time": null,
-      "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-VolumeBulkWriter-getVolumeUploadResult.md"
+      ]
     },
     {
       "record_id": "recu4OLPLiVXb4",
@@ -565,7 +597,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recu4OLRBNzYMe",
@@ -585,7 +618,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recu4OLUmBn9s2",
@@ -605,7 +639,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Authentication/v2-Authentication-createRole.md"
+      ]
     },
     {
       "record_id": "recu4OLW1GtXKb",
@@ -625,7 +662,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Authentication/v2-Authentication-createUser.md"
+      ]
     },
     {
       "record_id": "recu4OLXMAHheK",
@@ -645,7 +685,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Authentication/v2-Authentication-describeRole.md"
+      ]
     },
     {
       "record_id": "recu4OLZU8yIWa",
@@ -665,7 +708,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Authentication/v2-Authentication-describeUser.md"
+      ]
     },
     {
       "record_id": "recu4OM1Foi6TI",
@@ -685,7 +731,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recu4OM3lkZnpR",
@@ -705,7 +752,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Authentication/v2-Authentication-dropRole.md"
+      ]
     },
     {
       "record_id": "recu4OM553OxPL",
@@ -725,7 +775,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Authentication/v2-Authentication-dropUser.md"
+      ]
     },
     {
       "record_id": "recu4OM6N7UZEh",
@@ -745,7 +798,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recu4OM8B6SGbp",
@@ -765,7 +819,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Authentication/v2-Authentication-grantPrivilegeV2.md"
+      ]
     },
     {
       "record_id": "recu4OMay31z7l",
@@ -785,7 +842,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Authentication/v2-Authentication-grantRole.md"
+      ]
     },
     {
       "record_id": "recu4OMckdICsI",
@@ -805,7 +865,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Authentication/v2-Authentication-listPrivilegeGroups.md"
+      ]
     },
     {
       "record_id": "recuF7Dofi5TcU",
@@ -825,7 +888,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Authentication/v2-Authentication-listRoles.md"
+      ]
     },
     {
       "record_id": "recuF7Dor7XhVa",
@@ -845,7 +911,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Authentication/v2-Authentication-listUsers.md"
+      ]
     },
     {
       "record_id": "recuF7DoNnPOCK",
@@ -865,7 +934,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recuF7DpEbZU6d",
@@ -885,7 +955,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recuF7DpS3yjn0",
@@ -905,7 +976,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Authentication/v2-Authentication-revokePrivilegeV2.md"
+      ]
     },
     {
       "record_id": "recuF7Dqa4QzZ7",
@@ -925,7 +999,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Authentication/v2-Authentication-revokeRole.md"
+      ]
     },
     {
       "record_id": "recuF7DqqQl7Va",
@@ -945,7 +1022,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Authentication/v2-Authentication-updatePassword.md"
+      ]
     },
     {
       "record_id": "recvmLaSd80YNH",
@@ -965,7 +1045,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Authentication/v2-Authentication-alterRole.md"
+      ]
     },
     {
       "record_id": "recvmLb6ikYqHC",
@@ -985,27 +1068,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
-    },
-    {
-      "record_id": "recu4OLvVYW4W3",
-      "table_id": "tbl63oNrbGDCXorc",
-      "table_name": "数据表",
-      "placement_type": "canonical",
-      "title": "Client",
-      "slug": "v2-Client",
-      "doc_token": "YyNNfpZsKlOCstdX7xRcXT4an6e",
-      "doc_link": "https://zilliverse.feishu.cn/drive/folder/YyNNfpZsKlOCstdX7xRcXT4an6e",
-      "source_file": "YyNNfpZsKlOCstdX7xRcXT4an6e.json",
-      "source_hash": "7c9c4346eb5f6b2554e7dbfae17f0ec9945b958febc293b8e0b9ccafc2e0e6a1",
-      "node_metadata": null,
-      "node_token": null,
-      "origin_node_token": null,
-      "obj_token": null,
-      "obj_type": null,
-      "obj_edit_time": null,
-      "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Authentication/v2-Authentication-updateUser.md"
+      ]
     },
     {
       "record_id": "recu4OMg69Rcdl",
@@ -1027,6 +1093,9 @@
       "revision_id": null,
       "outgoing_tokens": [
         "ErNidktYPodbDxxow0xcV5qHnof"
+      ],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Client/v2-Client-MilvusClientV2.md"
       ]
     },
     {
@@ -1050,6 +1119,9 @@
       "outgoing_tokens": [
         "ErNidktYPodbDxxow0xcV5qHnof",
         "IeOWd0yR2onm5Ex6XyqcrGjKnpS"
+      ],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Client/v2-Client-MilvusClientV2Pool.md"
       ]
     },
     {
@@ -1070,7 +1142,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Client/v2-Client-clientIsReady.md"
+      ]
     },
     {
       "record_id": "recvcLXRW5fdXt",
@@ -1090,7 +1165,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Client/v2-Client-ConnectConfig.md"
+      ]
     },
     {
       "record_id": "recvmLb3wjS5EG",
@@ -1110,27 +1188,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
-    },
-    {
-      "record_id": "recu4OLzH4OqvZ",
-      "table_id": "tbl63oNrbGDCXorc",
-      "table_name": "数据表",
-      "placement_type": "canonical",
-      "title": "Collections",
-      "slug": "v2-Collections",
-      "doc_token": "K6akf7IbXl5Jj1dFV8Fca62Inkd",
-      "doc_link": "https://zilliverse.feishu.cn/drive/folder/K6akf7IbXl5Jj1dFV8Fca62Inkd",
-      "source_file": "K6akf7IbXl5Jj1dFV8Fca62Inkd.json",
-      "source_hash": "1fedf064e68ef407acada7b227ea1c8dbf9f41d681561704347101dafd1efabd",
-      "node_metadata": null,
-      "node_token": null,
-      "origin_node_token": null,
-      "obj_token": null,
-      "obj_type": null,
-      "obj_edit_time": null,
-      "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Client/v2-Client-getServerVersionV2.md"
+      ]
     },
     {
       "record_id": "recu4OMik2p9ST",
@@ -1150,7 +1211,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Collections/v2-Collections-alterAlias.md"
+      ]
     },
     {
       "record_id": "recuOVj8WjrvAa",
@@ -1170,7 +1234,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Collections/v2-Collections-addCollectionField.md"
+      ]
     },
     {
       "record_id": "recuF7DwhOGBkd",
@@ -1190,7 +1257,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Collections/v2-Collections-alterCollectionField.md"
+      ]
     },
     {
       "record_id": "recv0Jn262vGdH",
@@ -1210,7 +1280,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Collections/v2-Collections-batchDescribeCollection.md"
+      ]
     },
     {
       "record_id": "recuF7DwIVjLvk",
@@ -1230,7 +1303,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Collections/v2-Collections-alterCollectionProperties.md"
+      ]
     },
     {
       "record_id": "recu4OMmBF31BO",
@@ -1250,7 +1326,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Collections/v2-Collections-createAlias.md"
+      ]
     },
     {
       "record_id": "recu4OMokuIWsU",
@@ -1270,7 +1349,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Collections/v2-Collections-createCollection.md"
+      ]
     },
     {
       "record_id": "recu4OMs4z52u9",
@@ -1290,7 +1372,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recuLfzKmZC8fT",
@@ -1310,7 +1393,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Collections/v2-Collections-CreateSchema.md"
+      ]
     },
     {
       "record_id": "recu4OMu22mruh",
@@ -1330,7 +1416,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Collections/v2-Collections-describeAlias.md"
+      ]
     },
     {
       "record_id": "recu4OMwqFlpeM",
@@ -1350,7 +1439,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Collections/v2-Collections-describeCollection.md"
+      ]
     },
     {
       "record_id": "recuLfhBJMPz2c",
@@ -1370,7 +1462,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Collections/v2-Collections-describeReplicas.md"
+      ]
     },
     {
       "record_id": "recu4OMykZl86V",
@@ -1390,7 +1485,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Collections/v2-Collections-dropAlias.md"
+      ]
     },
     {
       "record_id": "recu4OMAfTDqW4",
@@ -1410,7 +1508,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Collections/v2-Collections-dropCollection.md"
+      ]
     },
     {
       "record_id": "recuF7Dx679XZF",
@@ -1430,7 +1531,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Collections/v2-Collections-dropCollectionProperties.md"
+      ]
     },
     {
       "record_id": "recuOUy2iTvBSi",
@@ -1450,7 +1554,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Collections/v2-Collections-dropCollectionFieldProperties.md"
+      ]
     },
     {
       "record_id": "recu4OMEnfer5e",
@@ -1470,7 +1577,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Collections/v2-Collections-getCollectionStats.md"
+      ]
     },
     {
       "record_id": "recu4OMG4uzaWF",
@@ -1490,7 +1600,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Collections/v2-Collections-hasCollection.md"
+      ]
     },
     {
       "record_id": "recu4OMHMLmqNy",
@@ -1510,7 +1623,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Collections/v2-Collections-listAliases.md"
+      ]
     },
     {
       "record_id": "recuF7Dy11hOfr",
@@ -1530,7 +1646,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Collections/v2-Collections-listCollections.md"
+      ]
     },
     {
       "record_id": "recv0JzmcqdutY",
@@ -1550,7 +1669,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Collections/v2-Collections-ListCollectionsV2.md"
+      ]
     },
     {
       "record_id": "recu4OMJCQFB76",
@@ -1570,7 +1692,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Collections/v2-Collections-renameCollection.md"
+      ]
     },
     {
       "record_id": "recu4OP4Fx05LY",
@@ -1590,7 +1715,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Collections/v2-Collections-DataType.md"
+      ]
     },
     {
       "record_id": "recu4OP7NipnSM",
@@ -1610,7 +1738,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Collections/v2-Collections-ConsistencyLevel.md"
+      ]
     },
     {
       "record_id": "recu5tNwjtLW6g",
@@ -1632,6 +1763,9 @@
       "revision_id": null,
       "outgoing_tokens": [
         "ZwKPdk2rzoQUU7xm4CHcPiZqnjh"
+      ],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Collections/v2-Collections-CollectionSchema/v2-Collections-CollectionSchema.md"
       ]
     },
     {
@@ -1654,6 +1788,9 @@
       "revision_id": null,
       "outgoing_tokens": [
         "RZ8idPxaho5yMoxJzGdc7QAcnNf"
+      ],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Collections/v2-Collections-CollectionSchema/v2-CollectionSchema-addField.md"
       ]
     },
     {
@@ -1674,7 +1811,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Collections/v2-Collections-CollectionSchema/v2-CollectionSchema-getStructField.md"
+      ]
     },
     {
       "record_id": "recvaIMrBzjvSn",
@@ -1694,7 +1834,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Collections/v2-Collections-CollectionSchema/v2-CollectionSchema-getStructFields.md"
+      ]
     },
     {
       "record_id": "recvaIMubvum97",
@@ -1714,7 +1857,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Collections/v2-Collections-CollectionSchema/v2-CollectionSchema-getFieldSchemaList.md"
+      ]
     },
     {
       "record_id": "recvaIMz87U51B",
@@ -1734,7 +1880,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Collections/v2-Collections-CollectionSchema/v2-CollectionSchema-getFunctionList.md"
+      ]
     },
     {
       "record_id": "recu5tNHvCtRTv",
@@ -1756,6 +1905,9 @@
       "revision_id": null,
       "outgoing_tokens": [
         "ZwKPdk2rzoQUU7xm4CHcPiZqnjh"
+      ],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Collections/v2-Collections-CollectionSchema/v2-CollectionSchema-getField.md"
       ]
     },
     {
@@ -1776,7 +1928,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Collections/v2-Collections-CollectionSchema/v2-CollectionSchema-isEnableDynamicField.md"
+      ]
     },
     {
       "record_id": "recuw8IUEOua1C",
@@ -1796,7 +1951,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Collections/v2-Collections-CollectionSchema/v2-CollectionSchema-addFunction.md"
+      ]
     },
     {
       "record_id": "recu5u2cuH59cu",
@@ -1818,6 +1976,9 @@
       "revision_id": null,
       "outgoing_tokens": [
         "RZ8idPxaho5yMoxJzGdc7QAcnNf"
+      ],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Collections/v2-Collections-FieldSchema.md"
       ]
     },
     {
@@ -1838,7 +1999,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Collections/v2-Collections-EmbeddingList/v2-Collections-EmbeddingList.md"
+      ]
     },
     {
       "record_id": "recvaIMImoecwW",
@@ -1858,7 +2022,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Collections/v2-Collections-EmbeddingList/v2-EmbeddingList-getPlaceholderType.md"
+      ]
     },
     {
       "record_id": "recvaIMJwDErky",
@@ -1878,7 +2045,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Collections/v2-Collections-EmbeddingList/v2-EmbeddingList-getData.md"
+      ]
     },
     {
       "record_id": "recv0JS2CCPMgQ",
@@ -1900,6 +2070,9 @@
       "revision_id": null,
       "outgoing_tokens": [
         "EXcNdtZrro7Ufkxp3G6cUArOn7b"
+      ],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Collections/v2-Collections-EmbeddingList/v2-EmbeddingList-add.md"
       ]
     },
     {
@@ -1920,7 +2093,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Collections/v2-Collections-Function/v2-Collections-Function.md"
+      ]
     },
     {
       "record_id": "recuw8J2OLopHs",
@@ -1940,7 +2116,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Collections/v2-Collections-Function/v2-Function-FunctionType.md"
+      ]
     },
     {
       "record_id": "recv0JRz2TFNBq",
@@ -1960,7 +2139,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Collections/v2-Collections-Function/v2-Function-BoostRanker.md"
+      ]
     },
     {
       "record_id": "recv0GHwRloo9F",
@@ -1980,7 +2162,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Collections/v2-Collections-Function/v2-Function-DecayRanker.md"
+      ]
     },
     {
       "record_id": "recv0GHyAKoHUm",
@@ -2000,7 +2185,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Collections/v2-Collections-Function/v2-Function-ModelRanker.md"
+      ]
     },
     {
       "record_id": "recv0GHDnQj14Q",
@@ -2020,7 +2208,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Collections/v2-Collections-Function/v2-Function-RRFRanker.md"
+      ]
     },
     {
       "record_id": "recv0GHE9ofK6w",
@@ -2040,7 +2231,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Collections/v2-Collections-Function/v2-Function-WeightedRanker.md"
+      ]
     },
     {
       "record_id": "recv0AQC6f1Mem",
@@ -2060,7 +2254,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-Collections-StructFieldSchema.md"
+      ]
     },
     {
       "record_id": "recvaIMBK3UUR3",
@@ -2082,6 +2279,9 @@
       "revision_id": null,
       "outgoing_tokens": [
         "DCszdG9rCoZxhfxfAuOcNsXRnOc"
+      ],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-addField.md"
       ]
     },
     {
@@ -2104,6 +2304,9 @@
       "revision_id": null,
       "outgoing_tokens": [
         "RZ8idPxaho5yMoxJzGdc7QAcnNf"
+      ],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-getDataType.md"
       ]
     },
     {
@@ -2126,6 +2329,9 @@
       "revision_id": null,
       "outgoing_tokens": [
         "RZ8idPxaho5yMoxJzGdc7QAcnNf"
+      ],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-getElementType.md"
       ]
     },
     {
@@ -2146,7 +2352,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-getName.md"
+      ]
     },
     {
       "record_id": "recv0O5XzyZTPe",
@@ -2166,7 +2375,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-getDescription.md"
+      ]
     },
     {
       "record_id": "recv0O60gyMt31",
@@ -2186,7 +2398,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-getFields.md"
+      ]
     },
     {
       "record_id": "recv0O6204GbKo",
@@ -2206,7 +2421,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Collections/v2-Collections-StructFieldSchema/v2-StructFieldSchema-getMaxCapacity.md"
+      ]
     },
     {
       "record_id": "recuF7DIqd7Rzn",
@@ -2226,7 +2444,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recvaIFs8fXWV1",
@@ -2246,7 +2465,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Collections/v2-Collections-addCollectionFunction.md"
+      ]
     },
     {
       "record_id": "recvaIFtReovBS",
@@ -2266,7 +2488,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Collections/v2-Collections-alterCollectionFunction.md"
+      ]
     },
     {
       "record_id": "recvaIFvtMmxiZ",
@@ -2286,7 +2511,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Collections/v2-Collections-dropCollectionFunction.md"
+      ]
     },
     {
       "record_id": "recveF4Yuq1N7n",
@@ -2306,7 +2534,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Collections/v2-Collections-truncateCollection.md"
+      ]
     },
     {
       "record_id": "recvmLaQEScnDd",
@@ -2326,7 +2557,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Collections/v2-Collections-addCollectionStructField.md"
+      ]
     },
     {
       "record_id": "recvmLaZwvxY4N",
@@ -2346,27 +2580,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
-    },
-    {
-      "record_id": "recu4OLDx7ijSQ",
-      "table_id": "tbl63oNrbGDCXorc",
-      "table_name": "数据表",
-      "placement_type": "canonical",
-      "title": "Management",
-      "slug": "v2-Management",
-      "doc_token": "EVpQfxDmQloZX4dVW63c5h9mnHd",
-      "doc_link": "https://zilliverse.feishu.cn/drive/folder/EVpQfxDmQloZX4dVW63c5h9mnHd",
-      "source_file": "EVpQfxDmQloZX4dVW63c5h9mnHd.json",
-      "source_hash": "ae7c3b01d70e87e35cc3c6a23037a7931d50eb53f9d93920aa33b325d3a5dd0e",
-      "node_metadata": null,
-      "node_token": null,
-      "origin_node_token": null,
-      "obj_token": null,
-      "obj_type": null,
-      "obj_edit_time": null,
-      "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Collections/v2-Collections-getLoadStateV2.md"
+      ]
     },
     {
       "record_id": "recu4OMMetmnHM",
@@ -2386,7 +2603,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Management/v2-Management-alterIndexProperties.md"
+      ]
     },
     {
       "record_id": "recu4OMQBRQ6rR",
@@ -2406,7 +2626,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Management/v2-Management-createIndex.md"
+      ]
     },
     {
       "record_id": "recv0JHz0vaK7T",
@@ -2426,7 +2649,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Management/v2-Management-compact.md"
+      ]
     },
     {
       "record_id": "recu4OMSfq8H3o",
@@ -2446,7 +2672,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Management/v2-Management-describeIndex.md"
+      ]
     },
     {
       "record_id": "recu4OMU1ATi1f",
@@ -2466,7 +2695,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Management/v2-Management-dropIndex.md"
+      ]
     },
     {
       "record_id": "recu4OMVLddhwg",
@@ -2486,7 +2718,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Management/v2-Management-dropIndexProperties.md"
+      ]
     },
     {
       "record_id": "recv0JMKsPBsRW",
@@ -2506,7 +2741,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Management/v2-Management-flush.md"
+      ]
     },
     {
       "record_id": "recv0JKFKeQEAa",
@@ -2526,7 +2764,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recu4OMXCJ211N",
@@ -2546,7 +2785,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Management/v2-Management-getLoadState.md"
+      ]
     },
     {
       "record_id": "recuLfyrROo0Oq",
@@ -2566,7 +2808,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recuLfyxuT40e2",
@@ -2586,7 +2829,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recu4OOSszufIP",
@@ -2606,7 +2850,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Management/v2-Management-loadCollection.md"
+      ]
     },
     {
       "record_id": "recu4OOV0bW6uO",
@@ -2626,7 +2873,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Management/v2-Management-refreshLoad.md"
+      ]
     },
     {
       "record_id": "recu4OOYdaHtAO",
@@ -2646,7 +2896,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Management/v2-Management-releaseCollection.md"
+      ]
     },
     {
       "record_id": "recuF7Ez9HFADU",
@@ -2666,7 +2919,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Management/v2-Management-IndexParam.md"
+      ]
     },
     {
       "record_id": "recuF7EzscZqTl",
@@ -2686,7 +2942,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Management/v2-Management-IndexType.md"
+      ]
     },
     {
       "record_id": "recuF7EzHE2p7b",
@@ -2706,7 +2965,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Management/v2-Management-listIndexes.md"
+      ]
     },
     {
       "record_id": "recuF7EzX54knM",
@@ -2726,7 +2988,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Management/v2-Management-MetricType.md"
+      ]
     },
     {
       "record_id": "recuF7EAcEoB8t",
@@ -2746,7 +3011,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recuF7EAsDnScc",
@@ -2766,7 +3032,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recuLfy23a0nqX",
@@ -2786,7 +3053,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recvaIFwMRHxYM",
@@ -2806,7 +3074,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Management/v2-Management-getCompactionPlans.md"
+      ]
     },
     {
       "record_id": "recvaIFxVKrkJA",
@@ -2826,7 +3097,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Management/v2-Management-getServerVersion.md"
+      ]
     },
     {
       "record_id": "recvaIFBkB4wSr",
@@ -2846,7 +3120,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recviqRYNcbYJp",
@@ -2866,7 +3141,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Management/v2-Management-refreshExternalCollection.md"
+      ]
     },
     {
       "record_id": "recviqS04Ttbt6",
@@ -2886,7 +3164,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Management/v2-Management-getRefreshExternalCollectionProgress.md"
+      ]
     },
     {
       "record_id": "recviqS1w3hHz6",
@@ -2906,7 +3187,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Management/v2-Management-listRefreshExternalCollectionJobs.md"
+      ]
     },
     {
       "record_id": "recvmLaVSKKEQj",
@@ -2926,7 +3210,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Management/v2-Management-flushAll.md"
+      ]
     },
     {
       "record_id": "recvmLaXLTQVVY",
@@ -2946,27 +3233,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
-    },
-    {
-      "record_id": "recu4OLHiI0eUZ",
-      "table_id": "tbl63oNrbGDCXorc",
-      "table_name": "数据表",
-      "placement_type": "canonical",
-      "title": "Partitions",
-      "slug": "v2-Partitions",
-      "doc_token": "JukBfPwp8luly7dRHdWc1MEBnge",
-      "doc_link": "https://zilliverse.feishu.cn/drive/folder/JukBfPwp8luly7dRHdWc1MEBnge",
-      "source_file": "JukBfPwp8luly7dRHdWc1MEBnge.json",
-      "source_hash": "fcc647bc7745a65a15fdbc294146a54271199056c907cebb31e06042643aefa9",
-      "node_metadata": null,
-      "node_token": null,
-      "origin_node_token": null,
-      "obj_token": null,
-      "obj_type": null,
-      "obj_edit_time": null,
-      "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Management/v2-Management-getFlushAllState.md"
+      ]
     },
     {
       "record_id": "recu4ON0c8jOsV",
@@ -2986,7 +3256,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Partitions/v2-Partitions-createPartition.md"
+      ]
     },
     {
       "record_id": "recu4ON1RVJE9O",
@@ -3006,7 +3279,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Partitions/v2-Partitions-dropPartition.md"
+      ]
     },
     {
       "record_id": "recuF7EHL1heBz",
@@ -3026,7 +3302,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Partitions/v2-Partitions-getPartitionStats.md"
+      ]
     },
     {
       "record_id": "recu4ON3Rx24go",
@@ -3046,7 +3325,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Partitions/v2-Partitions-hasPartition.md"
+      ]
     },
     {
       "record_id": "recu4ON5xbbh6N",
@@ -3066,7 +3348,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Partitions/v2-Partitions-listPartitions.md"
+      ]
     },
     {
       "record_id": "recu4ON7f3GsWx",
@@ -3086,7 +3371,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Partitions/v2-Partitions-loadPartitions.md"
+      ]
     },
     {
       "record_id": "recu4ON9ciljeB",
@@ -3106,27 +3394,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
-    },
-    {
-      "record_id": "recu4OLL0QKloo",
-      "table_id": "tbl63oNrbGDCXorc",
-      "table_name": "数据表",
-      "placement_type": "canonical",
-      "title": "Vector",
-      "slug": "v2-Vector",
-      "doc_token": "ZfBtfDoOplTRNfdOiq9cNxIvn8e",
-      "doc_link": "https://zilliverse.feishu.cn/drive/folder/ZfBtfDoOplTRNfdOiq9cNxIvn8e",
-      "source_file": "ZfBtfDoOplTRNfdOiq9cNxIvn8e.json",
-      "source_hash": "d7823267225308ab4135024d251bb7e06f8c18234214903110e69f96528d08c2",
-      "node_metadata": null,
-      "node_token": null,
-      "origin_node_token": null,
-      "obj_token": null,
-      "obj_type": null,
-      "obj_edit_time": null,
-      "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Partitions/v2-Partitions-releasePartitions.md"
+      ]
     },
     {
       "record_id": "recu4ONcts8h80",
@@ -3146,7 +3417,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Vector/v2-Vector-delete.md"
+      ]
     },
     {
       "record_id": "recu4ONfpU2XD2",
@@ -3166,7 +3440,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Vector/v2-Vector-get.md"
+      ]
     },
     {
       "record_id": "recu4ONhh4Jrst",
@@ -3186,7 +3463,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Vector/v2-Vector-insert.md"
+      ]
     },
     {
       "record_id": "recu4ONjbi12dm",
@@ -3206,7 +3486,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Vector/v2-Vector-query.md"
+      ]
     },
     {
       "record_id": "recu4ONkT0iCgs",
@@ -3226,7 +3509,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Vector/v2-Vector-search.md"
+      ]
     },
     {
       "record_id": "recu4ONmGes99K",
@@ -3246,7 +3532,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Vector/v2-Vector-upsert.md"
+      ]
     },
     {
       "record_id": "recuiMpJyRPYQc",
@@ -3266,7 +3555,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Vector/v2-Vector-hybridSearch.md"
+      ]
     },
     {
       "record_id": "recuiMpOnO5f6C",
@@ -3286,7 +3578,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Vector/v2-Vector-queryIterator.md"
+      ]
     },
     {
       "record_id": "recuiMpRrTglB3",
@@ -3306,7 +3601,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Vector/v2-Vector-searchIterator.md"
+      ]
     },
     {
       "record_id": "recuLEyiR2x13A",
@@ -3326,7 +3624,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Vector/v2-Vector-SearchIteratorV2.md"
+      ]
     },
     {
       "record_id": "recuOUvwKNZmKd",
@@ -3346,7 +3647,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Vector/v2-Vector-runAnalyzer.md"
+      ]
     },
     {
       "record_id": "recv0Ju4xI9i1J",
@@ -3366,7 +3670,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Vector/v2-Vector-FunctionScore/v2-Vector-FunctionScore.md"
+      ]
     },
     {
       "record_id": "recv0Ju85Hbn9M",
@@ -3388,6 +3695,9 @@
       "revision_id": null,
       "outgoing_tokens": [
         "Au6Wda1HUonyXOx5Pfzc0Cpjnab"
+      ],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Vector/v2-Vector-FunctionScore/v2-FunctionScore-addFunction.md"
       ]
     },
     {
@@ -3408,7 +3718,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Vector/v2-Vector-FunctionScore/v2-FunctionScore-getFunctions.md"
+      ]
     },
     {
       "record_id": "recvaIMLZizqCh",
@@ -3428,7 +3741,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Vector/v2-Vector-FunctionScore/v2-FunctionScore-getParams.md"
+      ]
     },
     {
       "record_id": "recv971zTqxDY8",
@@ -3448,7 +3764,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Vector/v2-Vector-Highlighter/v2-Vector-Highlighter.md"
+      ]
     },
     {
       "record_id": "recv971B1jAnE7",
@@ -3468,7 +3787,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Vector/v2-Vector-Highlighter/v2-Highlighter-LexicalHighlighter.md"
+      ]
     },
     {
       "record_id": "recv971EIArePd",
@@ -3488,27 +3810,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
-    },
-    {
-      "record_id": "recum3gLKCrT6g",
-      "table_id": "tbl63oNrbGDCXorc",
-      "table_name": "数据表",
-      "placement_type": "canonical",
-      "title": "Database",
-      "slug": "v2-Database",
-      "doc_token": "Ja2Wf1J9glm6oCdCxfDc9BzPnoc",
-      "doc_link": "https://zilliverse.feishu.cn/drive/folder/Ja2Wf1J9glm6oCdCxfDc9BzPnoc",
-      "source_file": null,
-      "source_hash": null,
-      "node_metadata": null,
-      "node_token": null,
-      "origin_node_token": null,
-      "obj_token": null,
-      "obj_type": null,
-      "obj_edit_time": null,
-      "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Vector/v2-Vector-Highlighter/v2-Highlighter-SemanticHighlighter.md"
+      ]
     },
     {
       "record_id": "recuF7EQsrzqtl",
@@ -3528,7 +3833,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Database/v2-Database-alterDatabaseProperties.md"
+      ]
     },
     {
       "record_id": "recum3gXp4Fq3U",
@@ -3548,7 +3856,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Database/v2-Database-createDatabase.md"
+      ]
     },
     {
       "record_id": "recum3h0d1kzRj",
@@ -3568,7 +3879,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Database/v2-Database-describeDatabase.md"
+      ]
     },
     {
       "record_id": "recum3h1McCEcC",
@@ -3588,7 +3902,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Database/v2-Database-dropDatabase.md"
+      ]
     },
     {
       "record_id": "recuLExTaUTy9o",
@@ -3608,7 +3925,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Database/v2-Database-dropDatabaseProperties.md"
+      ]
     },
     {
       "record_id": "recum3h3AVF6ib",
@@ -3628,7 +3948,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Database/v2-Database-listDatabases.md"
+      ]
     },
     {
       "record_id": "recuH0PYbDXm1m",
@@ -3648,7 +3971,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Database/v2-Database-useDatabase.md"
+      ]
     },
     {
       "record_id": "recvaIFzXWQ0pZ",
@@ -3668,27 +3994,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
-    },
-    {
-      "record_id": "recuF7ET781h97",
-      "table_id": "tbl63oNrbGDCXorc",
-      "table_name": "数据表",
-      "placement_type": "canonical",
-      "title": "Resource Group",
-      "slug": "v2-ResourceGroup",
-      "doc_token": "F7kifoqZzl3jgndMDoacjl9Unce",
-      "doc_link": "https://zilliverse.feishu.cn/drive/folder/F7kifoqZzl3jgndMDoacjl9Unce",
-      "source_file": "F7kifoqZzl3jgndMDoacjl9Unce.json",
-      "source_hash": "7c175c5c0cdeef431323036d1687af95ed17ac04a162a2daa6c4ac4fb719805e",
-      "node_metadata": null,
-      "node_token": null,
-      "origin_node_token": null,
-      "obj_token": null,
-      "obj_type": null,
-      "obj_edit_time": null,
-      "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Database/v2-Database-currentUsedDatabase.md"
+      ]
     },
     {
       "record_id": "recuF7EUVawSCQ",
@@ -3708,7 +4017,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recuF7EUVaUiap",
@@ -3728,7 +4038,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recuF7EUVaUROw",
@@ -3748,7 +4059,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recuF7EUVapH4e",
@@ -3768,7 +4080,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recuF7EUVaZfzh",
@@ -3788,7 +4101,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recuLfxV214FTL",
@@ -3808,7 +4122,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recuLEy5GZJrJo",
@@ -3828,27 +4143,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
-    },
-    {
-      "record_id": "recuTIqpgY2sYP",
-      "table_id": "tbl63oNrbGDCXorc",
-      "table_name": "数据表",
-      "placement_type": "canonical",
-      "title": "Volume",
-      "slug": "v2-Volume",
-      "doc_token": "O6ngfC8y5lIhIWdEGDAcXHzcntl",
-      "doc_link": "https://zilliverse.feishu.cn/drive/folder/O6ngfC8y5lIhIWdEGDAcXHzcntl",
-      "source_file": null,
-      "source_hash": null,
-      "node_metadata": null,
-      "node_token": null,
-      "origin_node_token": null,
-      "obj_token": null,
-      "obj_type": null,
-      "obj_edit_time": null,
-      "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recuTIqpOY9N4I",
@@ -3868,7 +4164,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Volume/v2-Volume-VolumeManager/v2-Volume-VolumeManager.md"
+      ]
     },
     {
       "record_id": "recuTIqpOY5tZ4",
@@ -3888,7 +4187,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Volume/v2-Volume-VolumeManager/v2-VolumeManager-createVolume.md"
+      ]
     },
     {
       "record_id": "recuTIqpOYyIAo",
@@ -3908,7 +4210,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Volume/v2-Volume-VolumeManager/v2-VolumeManager-deleteVolume.md"
+      ]
     },
     {
       "record_id": "recuTIqpOY5HzQ",
@@ -3928,7 +4233,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Volume/v2-Volume-VolumeManager/v2-VolumeManager-listVolumes.md"
+      ]
     },
     {
       "record_id": "recuTIqpOY6psD",
@@ -3948,7 +4256,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Volume/v2-Volume-VolumeFileManager/v2-Volume-VolumeFileManager.md"
+      ]
     },
     {
       "record_id": "recuTIqpOYYXSA",
@@ -3968,7 +4279,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Volume/v2-Volume-VolumeFileManager/v2-VolumeFileManager-uploadFilesAsync.md"
+      ]
     },
     {
       "record_id": "recvaIN1YfWuD0",
@@ -3988,27 +4302,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
-    },
-    {
-      "record_id": "recviqRb5dIslB",
-      "table_id": "tbl63oNrbGDCXorc",
-      "table_name": "数据表",
-      "placement_type": "canonical",
-      "title": "File Resources",
-      "slug": "v2-FileResources",
-      "doc_token": "W5gwfoADilawLFd64CWcpuFMn0g",
-      "doc_link": "https://zilliverse.feishu.cn/drive/folder/W5gwfoADilawLFd64CWcpuFMn0g",
-      "source_file": "W5gwfoADilawLFd64CWcpuFMn0g.json",
-      "source_hash": "5f438d41a73762ba9bf6059e6c83e3b1c693d522e263007dff6df1fef11107a5",
-      "node_metadata": null,
-      "node_token": null,
-      "origin_node_token": null,
-      "obj_token": null,
-      "obj_type": null,
-      "obj_edit_time": null,
-      "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Volume/v2-VolumeFileManager-shutdownGracefully.md"
+      ]
     },
     {
       "record_id": "recviqS2WUkk1E",
@@ -4028,7 +4325,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-FileResources/v2-FileResources-addFileResource.md"
+      ]
     },
     {
       "record_id": "recviqS4iakqPk",
@@ -4048,7 +4348,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-FileResources/v2-FileResources-removeFileResource.md"
+      ]
     },
     {
       "record_id": "recviqS5uvTro7",
@@ -4068,27 +4371,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
-    },
-    {
-      "record_id": "recvjFyAlik5Cl",
-      "table_id": "tbl63oNrbGDCXorc",
-      "table_name": "数据表",
-      "placement_type": "canonical",
-      "title": "Snapshots",
-      "slug": "v2-Snapshots",
-      "doc_token": "DQpifjFvilUwaFdB7sGcYZo9nYg",
-      "doc_link": "https://zilliverse.feishu.cn/drive/folder/DQpifjFvilUwaFdB7sGcYZo9nYg",
-      "source_file": "DQpifjFvilUwaFdB7sGcYZo9nYg.json",
-      "source_hash": "1bfca2c7412e72f09c7db65ce612446d71132f8f0a2812829958eded1dd5b17f",
-      "node_metadata": null,
-      "node_token": null,
-      "origin_node_token": null,
-      "obj_token": null,
-      "obj_type": null,
-      "obj_edit_time": null,
-      "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-FileResources/v2-FileResources-listFileResources.md"
+      ]
     },
     {
       "record_id": "recvjFyDtydZG8",
@@ -4108,7 +4394,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Snapshots/v2-Snapshots-createSnapshot.md"
+      ]
     },
     {
       "record_id": "recvjFyFFaKX6A",
@@ -4128,7 +4417,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Snapshots/v2-Snapshots-dropSnapshot.md"
+      ]
     },
     {
       "record_id": "recvjFyHMtvo9L",
@@ -4148,7 +4440,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Snapshots/v2-Snapshots-listSnapshots.md"
+      ]
     },
     {
       "record_id": "recvjFyKaqPnMf",
@@ -4168,7 +4463,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Snapshots/v2-Snapshots-describeSnapshot.md"
+      ]
     },
     {
       "record_id": "recvjFyMZU4Rl3",
@@ -4188,7 +4486,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Snapshots/v2-Snapshots-restoreSnapshot.md"
+      ]
     },
     {
       "record_id": "recvjFyOX1CMSP",
@@ -4208,7 +4509,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Snapshots/v2-Snapshots-getRestoreSnapshotState.md"
+      ]
     },
     {
       "record_id": "recvjFyR47kfSh",
@@ -4228,7 +4532,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Snapshots/v2-Snapshots-listRestoreSnapshotJobs.md"
+      ]
     },
     {
       "record_id": "recvjFyTtgiid1",
@@ -4248,7 +4555,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Snapshots/v2-Snapshots-pinSnapshotData.md"
+      ]
     },
     {
       "record_id": "recvjFyViYc1q5",
@@ -4268,27 +4578,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
-    },
-    {
-      "record_id": "recvmLaNYj8I3E",
-      "table_id": "tbl63oNrbGDCXorc",
-      "table_name": "数据表",
-      "placement_type": "canonical",
-      "title": "CDC",
-      "slug": "v2-CDC",
-      "doc_token": "OALCf8g9Ql2zqfdv0bxcDbagnTc",
-      "doc_link": "https://zilliverse.feishu.cn/drive/folder/OALCf8g9Ql2zqfdv0bxcDbagnTc",
-      "source_file": "OALCf8g9Ql2zqfdv0bxcDbagnTc.json",
-      "source_hash": "6d6c99ea73fdf93d218c545ccdb6724dcdaf2863383b3ad3986274bde06c1211",
-      "node_metadata": null,
-      "node_token": null,
-      "origin_node_token": null,
-      "obj_token": null,
-      "obj_type": null,
-      "obj_edit_time": null,
-      "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/java/java/v2/v2-Snapshots/v2-Snapshots-unpinSnapshotData.md"
+      ]
     },
     {
       "record_id": "recvmLaUlDlGIb",
@@ -4308,7 +4601,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recvmLb0BFTxnO",
@@ -4328,7 +4622,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recvmLb2c40bVH",
@@ -4348,7 +4643,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     }
   ]
 }
