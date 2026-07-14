@@ -113,6 +113,8 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           IMAGE_BED_URL: ${{ vars.IMAGE_BED_URL }}
+          GUIDES_FIGMA_MAX_CONCURRENT: '1'
+          GUIDES_FIGMA_MIN_TIME_MS: '1000'
       - name: Create shared source artifact
         run: |
           node scripts/docs-workflow/guides-source-cache.js create --source-dir plugins/lark-docs/meta/sources/guides --snapshot plugins/lark-docs/meta/reports/guides-source-snapshot-candidate.json --output "$RUNNER_TEMP/guides-source-manifest.json" --root-token Tg6mwbRGDitPQ3kLUQzc44I7nth

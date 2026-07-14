@@ -43,7 +43,7 @@ Manifest 位于 plugins/lark-docs/meta/media-cache/guides.json，记录媒体身
 ### 上传与并发
 
 - prefetch 复用 larkImageDownloader.__uploadToS3() 的 MD5 metadata 比对：S3 中 hash 相同则跳过上传，hash 不同或 object 不存在才上传。
-- prefetch 使用有限 worker pool 并行处理媒体，默认并发 4，并通过 downloader 的最小请求间隔限制 Figma/飞书请求速率。
+- prefetch 使用有限 worker pool 并行处理媒体，默认并发 4。飞书下载和 S3 检查保持并行；Figma API 使用独立 limiter，单并发且请求启动间隔至少 1000ms，Figma CDN 图片下载不占用 API limiter。
 - GitHub Artifact 的体积只与 manifest 条目数相关，不与图片大小相关。
 
 ### 增量与单篇文档

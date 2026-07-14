@@ -33,3 +33,23 @@ test('loads prefetched media and rejects strict cache misses', () => {
     else process.env.GUIDES_MEDIA_PREFETCH_REQUIRED = previousStrict
   }
 })
+
+test('routes Figma API work through its dedicated limiter', async () => {
+  assert.match(LarkImageDownloader.prototype.__fetchCaption.toString(), /__scheduleFigmaApi/)
+  assert.match(LarkImageDownloader.prototype.__downloadIframe.toString(), /__scheduleFigmaApi/)
+  const downloader = new LarkImageDownloader({}, os.tmpdir())
+  let scheduled = 0
+  downloader.figmaLimiter = {
+    async schedule(task) {
+      scheduled += 1
+      return await task()
+    },
+  }
+  try {
+    const result = await downloader.__scheduleFigmaApi(async () => 'figma-response')
+    assert.equal(result, 'figma-response')
+    assert.equal(scheduled, 1)
+  } finally {
+    downloader.destroy()
+  }
+})

@@ -31,6 +31,10 @@ class larkImageDownloader {
             maxConcurrent: limiterOptions.maxConcurrent || 1,
             minTime: limiterOptions.minTime ?? 52,
         });
+        this.figmaLimiter = new Bottleneck({
+            maxConcurrent: limiterOptions.figmaMaxConcurrent || 1,
+            minTime: limiterOptions.figmaMinTime ?? 1000,
+        });
         console.log(`[s3] init — region=${process.env.AWS_REGION ?? '(unset)'} bucket=${process.env.AWS_BUCKET ?? '(unset)'} key_id=${process.env.AWS_ACCESS_KEY_ID ? 'set' : '(unset)'}`)
         this.s3 = new S3Client({
             credentials: {
@@ -152,22 +156,26 @@ class larkImageDownloader {
             },
         }
 
-        return await fetchJsonWithRetry(
-            `https://api.figma.com/v1/files/${key}/nodes?ids=${node}`,
-            req,
-            `fetch Figma caption ${key}:${node}`
-        )
+        return await this.__scheduleFigmaApi(async () => {
+            return await fetchJsonWithRetry(
+                `https://api.figma.com/v1/files/${key}/nodes?ids=${node}`,
+                req,
+                `fetch Figma caption ${key}:${node}`
+            )
+        })
     }
 
     async __downloadIframe(key, node) {
         console.log(`ImageReq: ${key} ${node}`)
-        const imageJson = await fetchJsonWithRetry(`https://api.figma.com/v1/images/${key}?ids=${node}&format=png&scale=3`, {
-            method: 'GET',
-            headers: {
-                'Accept': 'application/json',
-                'X-Figma-Token': process.env.FIGMA_API_KEY                
-            }
-        }, `fetch Figma image URL ${key}:${node}`)
+        const imageJson = await this.__scheduleFigmaApi(async () => {
+            return await fetchJsonWithRetry(`https://api.figma.com/v1/images/${key}?ids=${node}&format=png&scale=3`, {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'X-Figma-Token': process.env.FIGMA_API_KEY
+                }
+            }, `fetch Figma image URL ${key}:${node}`)
+        })
         const url = imageJson.images[node]
         return await fetchBufferWithRetry(url, {
             method: 'GET',
@@ -177,6 +185,10 @@ class larkImageDownloader {
             },
             agent: new https.Agent({ keepAlive: true, maxSockets: 10 })
         }, `download Figma image ${key}:${node}`)
+    }
+
+    async __scheduleFigmaApi(task) {
+        return await this.figmaLimiter.schedule(task)
     }
 
     destroy() {

@@ -187,6 +187,8 @@ async function main() {
   const downloader = new Downloader({}, path.dirname(path.resolve(args.get('--output'))), {
     maxConcurrent: concurrency,
     minTime: Number(process.env.GUIDES_MEDIA_PREFETCH_MIN_TIME_MS || 250),
+    figmaMaxConcurrent: Number(process.env.GUIDES_FIGMA_MAX_CONCURRENT || 1),
+    figmaMinTime: Number(process.env.GUIDES_FIGMA_MIN_TIME_MS || 1000),
   })
   try {
     const manifest = await prefetchGuidesMedia({

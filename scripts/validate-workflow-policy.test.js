@@ -164,6 +164,8 @@ test('guides media is prefetched once for the incremental render scope and share
   assert.match(source, /--plan plugins\/lark-docs\/meta\/reports\/guides-incremental-fetch-plan\.json/)
   assert.match(source, /--snapshot plugins\/lark-docs\/meta\/reports\/guides-source-snapshot-candidate\.json/)
   assert.match(source, /--concurrency 4/)
+  assert.match(source, /GUIDES_FIGMA_MAX_CONCURRENT: '1'/)
+  assert.match(source, /GUIDES_FIGMA_MIN_TIME_MS: '1000'/)
   assert.match(source, /AWS_ACCESS_KEY_ID: \$\{\{ secrets\.AWS_ACCESS_KEY_ID \}\}/)
   assert.match(source, /AWS_SECRET_ACCESS_KEY: \$\{\{ secrets\.AWS_SECRET_ACCESS_KEY \}\}/)
 

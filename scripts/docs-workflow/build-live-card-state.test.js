@@ -115,6 +115,31 @@ test('infers no-change publication from a successful translator and skipped publ
   assert.equal(state.stages[3].status, 'done')
 })
 
+test('keeps no-change translation publication done before its queued publisher is evaluated', () => {
+  const state = buildLiveCardState({
+    requestedGroups: ['go', 'rest'],
+    publishEnabled: true,
+    jobs: [
+      {
+        name: 'translate_go / translate',
+        status: 'completed',
+        conclusion: 'success',
+        steps: [
+          { name: 'Run translation agents', status: 'completed', conclusion: 'skipped' },
+          { name: 'Create validated translation checkpoints', status: 'completed', conclusion: 'skipped' },
+          { name: 'Upload translation checkpoint', status: 'completed', conclusion: 'skipped' },
+          { name: 'Emit translation result', status: 'completed', conclusion: 'success' },
+        ],
+      },
+      { name: 'translate_rest / translate', status: 'completed', conclusion: 'success' },
+    ],
+  })
+
+  assert.equal(state.manuals[0].translation, 'done')
+  assert.equal(state.manuals[1].translation, 'pending')
+  assert.equal(state.stages[3].name, 'Publish translations (1/2)')
+})
+
 test('derives Guides translation progress from durable batch jobs', () => {
   const state = buildLiveCardState({
     requestedGroups: ['guides'],

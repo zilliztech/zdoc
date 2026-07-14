@@ -34,6 +34,14 @@ function stageStatus(statuses) {
   return 'pending'
 }
 
+function translatorNoChanges(job) {
+  if (jobStatus(job) !== 'done') return false
+  const steps = new Map((job.steps || []).map(step => [step.name, step]))
+  return steps.get('Create validated translation checkpoints')?.conclusion === 'skipped' &&
+    steps.get('Upload translation checkpoint')?.conclusion === 'skipped' &&
+    steps.get('Emit translation result')?.conclusion === 'success'
+}
+
 function guidesProduceStatus(byName) {
   const assembly = byName.get('produce_guides')
   if (assembly) return jobStatus(assembly)
@@ -111,6 +119,8 @@ function buildLiveCardState({ requestedGroups, jobs, publishEnabled, notes = [],
       const status = group === 'guides' && guidesBatches && (phase.key === 'translate' || phase.key === 'translation')
         ? guidesBatches[phase.key]
         : group === 'guides' && noChangeSet.has(group) && (phase.key === 'translate' || phase.key === 'translation')
+          ? 'done'
+        : phase.key === 'translation' && translatorNoChanges(translator)
           ? 'done'
         : phase.key === 'translation' && noChangeSet.has(group) && !byName.has(jobName)
         ? 'done'
