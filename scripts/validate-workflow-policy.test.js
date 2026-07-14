@@ -130,8 +130,10 @@ test('guides source and render stages refresh aggregate card progress', () => {
 })
 
 test('guides workflows bootstrap full sources and persist only verified caches', () => {
+  const caller = fs.readFileSync('.github/workflows/fetch-docs.yml', 'utf8')
   const source = fs.readFileSync('.github/workflows/_fetch-guides-sources.yml', 'utf8')
   const assemble = fs.readFileSync('.github/workflows/_assemble-guides.yml', 'utf8')
+  assert.match(caller, /^  actions: write$/m)
   assert.match(source, /actions\/cache\/restore@v4/)
   assert.match(source, /guides-source-cache\.js validate/)
   assert.match(source, /--force-full-fetch/)
