@@ -73,4 +73,4 @@ jobs:
       should_publish: ${{ needs.translate.outputs.status == 'translation_ready' }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
       target_branch: ${{ needs.prepare.outputs.target_branch }}
-      validate_command: 'node scripts/validate-generated-sidebars.js && node scripts/validate-translated-coverage.js --group "${{ inputs.group }}"'
+      validate_command: 'node "$GITHUB_WORKSPACE/scripts/validate-generated-sidebars.js" && node "$GITHUB_WORKSPACE/scripts/validate-translated-coverage.js" --group "${{ inputs.group }}"'

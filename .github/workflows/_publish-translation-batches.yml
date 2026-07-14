@@ -112,7 +112,7 @@ jobs:
               --branch "$TARGET_BRANCH" \
               --message "i18n($GROUP): publish batch $number of $BATCH_COUNT" \
               --max-attempts 10 \
-              --validate-command "node scripts/validate-generated-sidebars.js && node scripts/validate-translated-coverage.js --group \"$GROUP\"" | tee "$output"
+              --validate-command "node \"$GITHUB_WORKSPACE/scripts/validate-generated-sidebars.js\" && node \"$GITHUB_WORKSPACE/scripts/validate-translated-coverage.js\" --group \"$GROUP\"" | tee "$output"
 
             status=$(sed -n 's/^status=//p' "$output" | tail -1)
             commit_sha=$(sed -n 's/^commit_sha=//p' "$output" | tail -1)

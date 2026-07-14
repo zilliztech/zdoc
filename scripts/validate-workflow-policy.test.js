@@ -193,7 +193,7 @@ test('reusable content publisher safely downloads, validates, and publishes chec
   for (const input of ['group', 'artifact_name', 'commit_message', 'should_publish', 'master_sha', 'validate_command', 'baseline_artifact_name', 'target_branch']) {
     assert.match(workflow, new RegExp(`^      ${input}:$`, 'm'))
   }
-  assert.match(workflow, /validate_command:[\s\S]*default: node scripts\/validate-generated-sidebars\.js/)
+  assert.match(workflow, /validate_command:[\s\S]*default: node "\$GITHUB_WORKSPACE\/scripts\/validate-generated-sidebars\.js"/)
   assert.match(workflow, /baseline_artifact_name:[\s\S]*default: ''/)
   assert.match(workflow, /target_branch:[\s\S]*default: dev/)
   assert.match(workflow, /^  contents: write$/m)
@@ -231,7 +231,7 @@ test('guides translations run in parallel and publish batches in one short order
   const reusable = fs.readFileSync('.github/workflows/_publish-translation-batches.yml', 'utf8')
   assert.match(reusable, /for \(\(number=1; number<=BATCH_COUNT; number\+\+\)\)/)
   assert.match(reusable, /--max-attempts 10/)
-  assert.match(reusable, /validate-generated-sidebars\.js && node scripts\/validate-translated-coverage\.js --group \\"\$GROUP\\"/)
+  assert.match(reusable, /\$GITHUB_WORKSPACE\/scripts\/validate-generated-sidebars\.js[\s\S]*\$GITHUB_WORKSPACE\/scripts\/validate-translated-coverage\.js/)
   assert.doesNotMatch(reusable, /pnpm run build/)
 })
 
@@ -242,7 +242,7 @@ test('translation publishers form a short queue with scoped validation', () => {
     const job = workflow.jobs[`publish_${group}_translation`]
     const predecessor = index === 0 ? 'publish_guides_translation_batches' : `publish_${groups[index - 1]}_translation`
     assert.ok(job.needs.includes(predecessor))
-    assert.equal(job.with.validate_command, `node scripts/validate-generated-sidebars.js && node scripts/validate-translated-coverage.js --group "${group}"`)
+    assert.equal(job.with.validate_command, `node "$GITHUB_WORKSPACE/scripts/validate-generated-sidebars.js" && node "$GITHUB_WORKSPACE/scripts/validate-translated-coverage.js" --group "${group}"`)
   }
 })
 

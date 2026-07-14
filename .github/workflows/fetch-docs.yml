@@ -346,7 +346,7 @@ jobs:
       should_publish: ${{ needs.prepare.outputs.publish == 'true' && needs.produce_guides.outputs.status == 'artifact_ready' }}
       target_branch: ${{ needs.prepare.outputs.target_branch }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
-      validate_command: 'node scripts/validate-generated-sidebars.js'
+      validate_command: 'node "$GITHUB_WORKSPACE/scripts/validate-generated-sidebars.js"'
       card_id: ${{ needs.prepare.outputs.phase_card_id }}
       card_started_at: ${{ needs.prepare.outputs.card_started_at }}
       card_stages: ${{ needs.prepare.outputs.card_stages }}
@@ -440,7 +440,7 @@ jobs:
       should_publish: ${{ needs.prepare.outputs.publish == 'true' && needs.produce_python.outputs.status == 'artifact_ready' }}
       target_branch: ${{ needs.prepare.outputs.target_branch }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
-      validate_command: 'node scripts/validate-generated-sidebars.js'
+      validate_command: 'node "$GITHUB_WORKSPACE/scripts/validate-generated-sidebars.js"'
       card_id: ${{ needs.prepare.outputs.phase_card_id }}
       card_started_at: ${{ needs.prepare.outputs.card_started_at }}
       card_stages: ${{ needs.prepare.outputs.card_stages }}
@@ -477,7 +477,7 @@ jobs:
       should_publish: ${{ needs.prepare.outputs.publish == 'true' && needs.translate_python.outputs.status == 'translation_ready' }}
       target_branch: ${{ needs.prepare.outputs.target_branch }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
-      validate_command: 'node scripts/validate-generated-sidebars.js && node scripts/validate-translated-coverage.js --group "python"'
+      validate_command: 'node "$GITHUB_WORKSPACE/scripts/validate-generated-sidebars.js" && node "$GITHUB_WORKSPACE/scripts/validate-translated-coverage.js" --group "python"'
       card_id: ${{ needs.prepare.outputs.phase_card_id }}
       card_started_at: ${{ needs.prepare.outputs.card_started_at }}
       card_stages: ${{ needs.prepare.outputs.card_stages }}
@@ -496,7 +496,7 @@ jobs:
       should_publish: ${{ needs.prepare.outputs.publish == 'true' && needs.produce_java.outputs.status == 'artifact_ready' }}
       target_branch: ${{ needs.prepare.outputs.target_branch }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
-      validate_command: 'node scripts/validate-generated-sidebars.js'
+      validate_command: 'node "$GITHUB_WORKSPACE/scripts/validate-generated-sidebars.js"'
       card_id: ${{ needs.prepare.outputs.phase_card_id }}
       card_started_at: ${{ needs.prepare.outputs.card_started_at }}
       card_stages: ${{ needs.prepare.outputs.card_stages }}
@@ -533,7 +533,7 @@ jobs:
       should_publish: ${{ needs.prepare.outputs.publish == 'true' && needs.translate_java.outputs.status == 'translation_ready' }}
       target_branch: ${{ needs.prepare.outputs.target_branch }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
-      validate_command: 'node scripts/validate-generated-sidebars.js && node scripts/validate-translated-coverage.js --group "java"'
+      validate_command: 'node "$GITHUB_WORKSPACE/scripts/validate-generated-sidebars.js" && node "$GITHUB_WORKSPACE/scripts/validate-translated-coverage.js" --group "java"'
       card_id: ${{ needs.prepare.outputs.phase_card_id }}
       card_started_at: ${{ needs.prepare.outputs.card_started_at }}
       card_stages: ${{ needs.prepare.outputs.card_stages }}
@@ -552,7 +552,7 @@ jobs:
       should_publish: ${{ needs.prepare.outputs.publish == 'true' && needs.produce_node.outputs.status == 'artifact_ready' }}
       target_branch: ${{ needs.prepare.outputs.target_branch }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
-      validate_command: 'node scripts/validate-generated-sidebars.js'
+      validate_command: 'node "$GITHUB_WORKSPACE/scripts/validate-generated-sidebars.js"'
       card_id: ${{ needs.prepare.outputs.phase_card_id }}
       card_started_at: ${{ needs.prepare.outputs.card_started_at }}
       card_stages: ${{ needs.prepare.outputs.card_stages }}
@@ -589,7 +589,7 @@ jobs:
       should_publish: ${{ needs.prepare.outputs.publish == 'true' && needs.translate_node.outputs.status == 'translation_ready' }}
       target_branch: ${{ needs.prepare.outputs.target_branch }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
-      validate_command: 'node scripts/validate-generated-sidebars.js && node scripts/validate-translated-coverage.js --group "node"'
+      validate_command: 'node "$GITHUB_WORKSPACE/scripts/validate-generated-sidebars.js" && node "$GITHUB_WORKSPACE/scripts/validate-translated-coverage.js" --group "node"'
       card_id: ${{ needs.prepare.outputs.phase_card_id }}
       card_started_at: ${{ needs.prepare.outputs.card_started_at }}
       card_stages: ${{ needs.prepare.outputs.card_stages }}
@@ -608,7 +608,7 @@ jobs:
       should_publish: ${{ needs.prepare.outputs.publish == 'true' && needs.produce_go.outputs.status == 'artifact_ready' }}
       target_branch: ${{ needs.prepare.outputs.target_branch }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
-      validate_command: 'node scripts/validate-generated-sidebars.js'
+      validate_command: 'node "$GITHUB_WORKSPACE/scripts/validate-generated-sidebars.js"'
       card_id: ${{ needs.prepare.outputs.phase_card_id }}
       card_started_at: ${{ needs.prepare.outputs.card_started_at }}
       card_stages: ${{ needs.prepare.outputs.card_stages }}
@@ -645,7 +645,7 @@ jobs:
       should_publish: ${{ needs.prepare.outputs.publish == 'true' && needs.translate_go.outputs.status == 'translation_ready' }}
       target_branch: ${{ needs.prepare.outputs.target_branch }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
-      validate_command: 'node scripts/validate-generated-sidebars.js && node scripts/validate-translated-coverage.js --group "go"'
+      validate_command: 'node "$GITHUB_WORKSPACE/scripts/validate-generated-sidebars.js" && node "$GITHUB_WORKSPACE/scripts/validate-translated-coverage.js" --group "go"'
       card_id: ${{ needs.prepare.outputs.phase_card_id }}
       card_started_at: ${{ needs.prepare.outputs.card_started_at }}
       card_stages: ${{ needs.prepare.outputs.card_stages }}
@@ -664,7 +664,7 @@ jobs:
       should_publish: ${{ needs.prepare.outputs.publish == 'true' && needs.produce_cli.outputs.status == 'artifact_ready' }}
       target_branch: ${{ needs.prepare.outputs.target_branch }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
-      validate_command: 'node scripts/validate-generated-sidebars.js'
+      validate_command: 'node "$GITHUB_WORKSPACE/scripts/validate-generated-sidebars.js"'
       card_id: ${{ needs.prepare.outputs.phase_card_id }}
       card_started_at: ${{ needs.prepare.outputs.card_started_at }}
       card_stages: ${{ needs.prepare.outputs.card_stages }}
@@ -701,7 +701,7 @@ jobs:
       should_publish: ${{ needs.prepare.outputs.publish == 'true' && needs.translate_cli.outputs.status == 'translation_ready' }}
       target_branch: ${{ needs.prepare.outputs.target_branch }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
-      validate_command: 'node scripts/validate-generated-sidebars.js && node scripts/validate-translated-coverage.js --group "cli"'
+      validate_command: 'node "$GITHUB_WORKSPACE/scripts/validate-generated-sidebars.js" && node "$GITHUB_WORKSPACE/scripts/validate-translated-coverage.js" --group "cli"'
       card_id: ${{ needs.prepare.outputs.phase_card_id }}
       card_started_at: ${{ needs.prepare.outputs.card_started_at }}
       card_stages: ${{ needs.prepare.outputs.card_stages }}
@@ -720,7 +720,7 @@ jobs:
       should_publish: ${{ needs.prepare.outputs.publish == 'true' && needs.produce_rest.outputs.status == 'artifact_ready' }}
       target_branch: ${{ needs.prepare.outputs.target_branch }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
-      validate_command: 'node scripts/validate-generated-sidebars.js'
+      validate_command: 'node "$GITHUB_WORKSPACE/scripts/validate-generated-sidebars.js"'
       card_id: ${{ needs.prepare.outputs.phase_card_id }}
       card_started_at: ${{ needs.prepare.outputs.card_started_at }}
       card_stages: ${{ needs.prepare.outputs.card_stages }}
@@ -757,7 +757,7 @@ jobs:
       should_publish: ${{ needs.prepare.outputs.publish == 'true' && needs.translate_rest.outputs.status == 'translation_ready' }}
       target_branch: ${{ needs.prepare.outputs.target_branch }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
-      validate_command: 'node scripts/validate-generated-sidebars.js && node scripts/validate-translated-coverage.js --group "rest"'
+      validate_command: 'node "$GITHUB_WORKSPACE/scripts/validate-generated-sidebars.js" && node "$GITHUB_WORKSPACE/scripts/validate-translated-coverage.js" --group "rest"'
       card_id: ${{ needs.prepare.outputs.phase_card_id }}
       card_started_at: ${{ needs.prepare.outputs.card_started_at }}
       card_stages: ${{ needs.prepare.outputs.card_stages }}
