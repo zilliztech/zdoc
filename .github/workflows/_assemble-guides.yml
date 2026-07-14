@@ -1,0 +1,101 @@
+name: assemble guides checkpoint
+
+on:
+  workflow_call:
+    inputs:
+      source_artifact_name: { required: true, type: string }
+      saas_artifact_name: { required: true, type: string }
+      byoc_artifact_name: { required: true, type: string }
+      master_sha: { required: true, type: string }
+      dev_baseline_sha: { required: true, type: string }
+      target_branch: { required: true, type: string }
+      artifact_retention_days: { required: false, type: number, default: 3 }
+    outputs:
+      status: { value: '${{ jobs.assemble.outputs.status }}' }
+      artifact_name: { value: '${{ jobs.assemble.outputs.artifact_name }}' }
+    secrets:
+      APP_ID: { required: true }
+      APP_SECRET: { required: true }
+
+permissions:
+  actions: read
+  contents: read
+
+jobs:
+  assemble:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    outputs:
+      status: ${{ steps.result.outputs.status }}
+      artifact_name: docs-checkpoint-guides-${{ github.run_id }}
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: '${{ inputs.master_sha }}', fetch-depth: 0 }
+      - uses: pnpm/action-setup@v4
+        with: { version: 9 }
+      - uses: actions/setup-node@v4
+        with: { node-version: '20', cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      - name: Prepare immutable baseline
+        run: |
+          git fetch --no-tags origin "${{ inputs.dev_baseline_sha }}"
+          git worktree add --detach "$RUNNER_TEMP/baseline" "${{ inputs.dev_baseline_sha }}"
+          bash scripts/restore-generated-state.sh --exact --ref "${{ inputs.dev_baseline_sha }}"
+      - uses: actions/download-artifact@v4
+        with: { name: '${{ inputs.source_artifact_name }}', path: '${{ runner.temp }}/source-download' }
+      - uses: actions/download-artifact@v4
+        with: { name: '${{ inputs.saas_artifact_name }}', path: '${{ runner.temp }}/saas-download' }
+      - uses: actions/download-artifact@v4
+        with: { name: '${{ inputs.byoc_artifact_name }}', path: '${{ runner.temp }}/byoc-download' }
+      - name: Restore validated guides stages
+        run: |
+          tar -xf "$RUNNER_TEMP/source-download/guides-source.tar" -C "$RUNNER_TEMP/source-download"
+          source_sha=$(sha256sum "$RUNNER_TEMP/source-download/guides-source/manifest.json" | cut -d' ' -f1)
+          for pair in source:guides-source saas:guides-render byoc:guides-render; do
+            label=${pair%%:*}; root=${pair#*:}; archive="$RUNNER_TEMP/$label-download/guides-${label/source/source}.tar"
+            [[ "$label" == source ]] || archive="$RUNNER_TEMP/$label-download/guides-render.tar"
+            [[ "$label" == source ]] || tar -xf "$archive" -C "$RUNNER_TEMP/$label-download"
+            source_arg=()
+            [[ "$label" == source ]] || source_arg=(--source-artifact-sha256 "$source_sha")
+            node scripts/docs-workflow/guides-stage-artifact.js --operation restore --stage "$label" --artifact "$RUNNER_TEMP/$label-download/$root" --target "$GITHUB_WORKSPACE" --master-sha "${{ inputs.master_sha }}" --dev-baseline-sha "${{ inputs.dev_baseline_sha }}" "${source_arg[@]}"
+          done
+      - name: Validate combined guides output
+        run: |
+          node scripts/validate-generated-sidebars.js
+          node scripts/run-doc-build-stage.js --build "pnpm run build" --skipLinkChecks --skipCardReporting
+      - name: Promote validated guides source snapshot
+        run: |
+          node scripts/promote-lark-doc-snapshot.js \
+            --candidate plugins/lark-docs/meta/reports/guides-source-snapshot-candidate.json \
+            --output plugins/lark-docs/meta/snapshots/guides-uat-last-success.json \
+            --manual guides \
+            --build-env uat \
+            --source-dir plugins/lark-docs/meta/sources/guides \
+            --targets-built zilliz.saas,zilliz.paas \
+            --source-branch "${{ inputs.target_branch }}" \
+            --publish-url https://docs.cloud-uat3.zilliz.com \
+            --link-check-remote https://docs.zilliz.com
+      - name: Create combined guides checkpoint
+        run: |
+          node scripts/docs-workflow/create-checkpoint-artifact.js --group guides --master-sha "${{ inputs.master_sha }}" --dev-baseline-sha "${{ inputs.dev_baseline_sha }}" --baseline-dir "$RUNNER_TEMP/baseline" --workspace "$GITHUB_WORKSPACE" --output "$RUNNER_TEMP/checkpoint-group" --validation-command "node scripts/validate-generated-sidebars.js" --validation-command 'node scripts/run-doc-build-stage.js --build "pnpm run build" --skipLinkChecks --skipCardReporting'
+          tar --dereference -cf "$RUNNER_TEMP/checkpoint-group.tar" -C "$RUNNER_TEMP" checkpoint-group
+      - id: upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: docs-checkpoint-guides-${{ github.run_id }}
+          path: ${{ runner.temp }}/checkpoint-group.tar
+          retention-days: ${{ inputs.artifact_retention_days }}
+          if-no-files-found: error
+      - name: Upload guides reports
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: docs-checkpoint-guides-${{ github.run_id }}-reports
+          path: plugins/lark-docs/meta/reports/
+          retention-days: ${{ inputs.artifact_retention_days }}
+          if-no-files-found: ignore
+      - id: result
+        if: ${{ always() }}
+        run: echo "status=${{ steps.upload.outcome == 'success' && 'artifact_ready' || 'failed' }}" >> "$GITHUB_OUTPUT"
+      - if: ${{ always() }}
+        run: git worktree remove --force "$RUNNER_TEMP/baseline" || true

@@ -1,0 +1,90 @@
+---
+title: "encode_queries() | Python"
+slug: /python/python/NomicEmbeddingFunction-encode_queries
+sidebar_label: "encode_queries()"
+beta: false
+added_since: v2.4.x
+last_modified: false
+deprecate_since: false
+notebook: false
+description: "この操作は、クエリ文字列のリストを受け取り、各クエリをベクトル埋め込みにエンコードします。 | Python"
+type: docx
+token: KBujdxXhko2zJjx4hFmcsHGhn4g
+sidebar_position: 2
+keywords: 
+  - ハイブリッド検索
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - encode_queries()
+  - pymilvus30
+displayed_sidebar: pythonSidebar
+
+displayed_sidbar: pythonSidebar
+---
+
+import Admonition from '@theme/Admonition';
+
+
+# encode_queries()
+
+この操作は、クエリ文字列のリストを受け取り、各クエリをベクトル埋め込みにエンコードします。
+
+## リクエスト構文\{#request-syntax}
+
+```python
+encode_queries(
+    queries: List[str], 
+) -> List[np.array]
+```
+
+**パラメータ:**
+
+- **queries** (*List[str]*)
+
+    文字列値のリストです。各文字列は、エンコードのために埋め込みモデルに渡されるクエリを表します。モデルは、リスト内の各文字列に対して埋め込みベクトルを生成します。
+
+**戻り値の型:**
+
+*List[np.array]*
+
+**戻り値:**
+
+各要素が NumPy 配列であるリストです。
+
+**例外:**
+
+- **ValueError**
+
+    `api_key` が指定されておらず、`NOMIC_API_KEY` 環境変数も設定されていない場合に、この例外が発生します。
+
+## 例\{#examples}
+
+```python
+from pymilvus.model.dense import NomicEmbeddingFunction
+
+ef = NomicEmbeddingFunction(
+    model_name="nomic-embed-text-v1.5", # Defaults to `mistral-embed`
+    api_key="NOMIC_API_KEY" # Provide your Nomic API key
+)
+
+queries = ["When was artificial intelligence founded", 
+           "Where was Alan Turing born?"]
+
+query_embeddings = ef.encode_queries(queries)
+
+print("Embeddings:", query_embeddings)
+print("Dim", ef.dim, query_embeddings[0].shape)
+
+# Embeddings: [array([ 3.24096680e-02,  7.35473600e-02, -1.63940430e-01, -4.45556640e-02,
+#         7.83081050e-02,  2.64587400e-02,  1.35898590e-03, -1.59606930e-02,
+#        -3.33557130e-02,  1.05056760e-02, -2.35290530e-02,  2.23388670e-02,
+#         ...
+#         7.67211900e-02,  4.54406740e-02,  9.70459000e-02,  4.00161740e-03,
+#        -3.12805180e-02, -7.05566400e-02,  5.04760740e-02,  5.22766100e-02,
+#        -3.87878400e-02, -3.03649900e-03,  5.90515140e-03, -1.95007320e-02])]
+# Dim 768 (768,)
+```

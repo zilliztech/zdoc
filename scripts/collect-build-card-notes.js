@@ -181,6 +181,15 @@ function collectNotes() {
   ].filter(Boolean)
 }
 
+function collectCardNotes() {
+  let baseNotes = []
+  try {
+    const parsed = JSON.parse(process.env.CARD_BASE_NOTES_JSON || '[]')
+    if (Array.isArray(parsed)) baseNotes = parsed.filter(note => typeof note === 'string' && note.trim())
+  } catch (_) {}
+  return [...baseNotes, ...collectNotes()]
+}
+
 function writeGithubOutput(notes) {
   const output = process.env.GITHUB_OUTPUT
   if (!output) return
@@ -189,7 +198,7 @@ function writeGithubOutput(notes) {
 }
 
 if (require.main === module) {
-  const notes = collectNotes()
+  const notes = collectCardNotes()
   writeGithubOutput(notes)
   process.stdout.write(JSON.stringify(notes, null, 2) + '\n')
 }
@@ -197,6 +206,7 @@ if (require.main === module) {
 module.exports = {
   brokenContentLinksNote,
   canonicalLinkNote,
+  collectCardNotes,
   collectNotes,
   compactMarkdown,
   freshJsonReport,

@@ -949,6 +949,79 @@ async function testWikiMetadataProgressLogsResolutionCounts() {
   }
 }
 
+async function testIncrementalSourceFetchWritesCandidateFromRetainedScan() {
+  const originalLoad = Module._load;
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'lark-candidate-'));
+  const sourceDir = path.join(tempDir, 'sources');
+  const candidatePath = path.join(tempDir, 'candidate.json');
+  const records = [{ record_id: 'rec-a', fields: { Docs: { text: 'A', link: 'https://example.feishu.cn/wiki/doc-a' }, Slug: 'a', 'Placement Type': 'canonical' } }];
+  const metadata = new Map([['doc-a', { node_token: 'node-a', obj_token: 'doc-a', revision_id: 'rev-1' }]]);
+  let baseCalls = 0;
+  let metadataCalls = 0;
+  let candidateInput = null;
+  let writtenCandidate = null;
+  let action = null;
+
+  class FakeScraper {
+    constructor() { this.base_app_token = 'base-token'; this.records = null; }
+    async __base() { baseCalls += 1; this.records = records; }
+    async fetch_wiki_node_metadata(inputRecords) { metadataCalls += 1; assert.equal(inputRecords, records); return metadata; }
+    async fetch_source_tokens(tokens) {
+      assert.deepEqual(tokens, ['doc-a']);
+      fs.mkdirSync(sourceDir, { recursive: true });
+      fs.writeFileSync(path.join(sourceDir, 'doc-a.json'), JSON.stringify({ node_token: 'doc-a', title: 'A' }));
+    }
+  }
+  class FakeUtils {}
+
+  Module._load = function patchedLoad(request, parent, isMain) {
+    if (parent?.filename?.endsWith('/plugins/lark-docs/index.js')) {
+      if (request === './larkDocScraper.js') return FakeScraper;
+      if (request === './larkUtils.js') return FakeUtils;
+      if (request === './incrementalFetchPlanner') return {
+        planIncrementalFetch(input) {
+          assert.equal(input.records, records);
+          assert.equal(input.currentNodeMetadataByToken, metadata);
+          return { manual: 'guides', mode: 'incremental', expanded_tokens: ['doc-a'], removed_records: [] };
+        },
+        writeIncrementalFetchPlanReports() { return { markdownPath: path.join(tempDir, 'plan.md') }; },
+      };
+      if (request === './sourceSnapshot') return {
+        readSnapshot() { return null; },
+        createSourceSnapshot(input) { candidateInput = input; return { candidate: true }; },
+        validateCandidateSnapshot(candidate) { assert.deepEqual(candidate, { candidate: true }); },
+        writeSnapshot(file, candidate) { writtenCandidate = { file, candidate }; },
+      };
+    }
+    return originalLoad.apply(this, arguments);
+  };
+
+  try {
+    delete require.cache[require.resolve('./index')];
+    const plugin = require('./index')(null, {
+      guides: {
+        root: 'root-token', base: 'base-token:*', sourceType: 'wiki', displayedSidebar: [],
+        docSourceDir: sourceDir, targets: {},
+      },
+    });
+    const command = { option() { return this; }, action(callback) { action = callback; return this; } };
+    plugin.extendCli({ command() { return command; } });
+    await action({ manual: 'guides', sourceOnly: true, incremental: true, buildEnv: 'uat', snapshotCandidatePath: candidatePath });
+
+    assert.equal(baseCalls, 1);
+    assert.equal(metadataCalls, 1);
+    assert.equal(candidateInput.records, records);
+    assert.equal(candidateInput.nodeMetadataByToken, metadata);
+    assert.equal(candidateInput.docSourceDir, sourceDir);
+    assert.equal(candidateInput.baseAppToken, 'base-token');
+    assert.deepEqual(writtenCandidate, { file: candidatePath, candidate: { candidate: true } });
+  } finally {
+    Module._load = originalLoad;
+    delete require.cache[require.resolve('./index')];
+    fs.rmSync(tempDir, { recursive: true, force: true });
+  }
+}
+
 async function run() {
   await testFeishuJsonFetchesAreThrottled();
   await testWikiRootFetchRetriesPrematureClose();
@@ -970,6 +1043,7 @@ async function run() {
   await testFetchWikiNodeUsesEndpointSpecificLimiter();
   await testBaseScanProgressLogsTablesAndRecords();
   await testWikiMetadataProgressLogsResolutionCounts();
+  await testIncrementalSourceFetchWritesCandidateFromRetainedScan();
   console.log('lark-docs scraper tests passed');
 }
 

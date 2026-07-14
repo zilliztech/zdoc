@@ -1,0 +1,90 @@
+name: fetch shared guides sources
+
+on:
+  workflow_call:
+    inputs:
+      master_sha: { required: true, type: string }
+      dev_baseline_sha: { required: true, type: string }
+      artifact_retention_days: { required: false, type: number, default: 3 }
+      card_id: { required: false, type: string, default: '' }
+      card_mode: { required: false, type: string, default: ordered }
+      card_started_at: { required: false, type: string, default: '' }
+    outputs:
+      status: { value: '${{ jobs.fetch.outputs.status }}' }
+      artifact_name: { value: '${{ jobs.fetch.outputs.artifact_name }}' }
+    secrets:
+      APP_ID: { required: true }
+      APP_SECRET: { required: true }
+      SPACE_ID: { required: true }
+      FIGMA_API_KEY: { required: true }
+      MODEL_API_KEY: { required: true }
+
+permissions:
+  actions: read
+  contents: read
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    outputs:
+      status: ${{ steps.result.outputs.status }}
+      artifact_name: guides-sources-${{ github.run_id }}
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: '${{ inputs.master_sha }}', fetch-depth: 0 }
+      - uses: pnpm/action-setup@v4
+        with: { version: 9 }
+      - uses: actions/setup-node@v4
+        with: { node-version: '20', cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      - name: Prepare immutable baseline
+        run: |
+          git fetch --no-tags origin "${{ inputs.dev_baseline_sha }}"
+          git worktree add --detach "$RUNNER_TEMP/baseline" "${{ inputs.dev_baseline_sha }}"
+          bash scripts/restore-generated-state.sh --exact --ref "${{ inputs.dev_baseline_sha }}"
+      - name: Fetch shared guides sources
+        run: node scripts/docs-workflow/run-content-group.js --group guides --stage source
+        env:
+          DOCS_BUILD_ENV: uat
+          APP_ID: ${{ secrets.APP_ID }}
+          APP_SECRET: ${{ secrets.APP_SECRET }}
+          FEISHU_HOST: ${{ vars.FEISHU_HOST }}
+          SPACE_ID: ${{ secrets.SPACE_ID }}
+          FIGMA_API_KEY: ${{ secrets.FIGMA_API_KEY }}
+          MODEL_API_BASE_URL: ${{ vars.MODEL_API_BASE_URL }}
+          MODEL_API_KEY: ${{ secrets.MODEL_API_KEY }}
+          MODEL_ID: ${{ vars.MODEL_ID }}
+      - name: Create shared source artifact
+        run: |
+          node scripts/docs-workflow/guides-stage-artifact.js --operation create --stage source --workspace "$GITHUB_WORKSPACE" --baseline-dir "$RUNNER_TEMP/baseline" --output "$RUNNER_TEMP/guides-source" --master-sha "${{ inputs.master_sha }}" --dev-baseline-sha "${{ inputs.dev_baseline_sha }}"
+          tar -cf "$RUNNER_TEMP/guides-source.tar" -C "$RUNNER_TEMP" guides-source
+      - id: upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: guides-sources-${{ github.run_id }}
+          path: ${{ runner.temp }}/guides-source.tar
+          retention-days: ${{ inputs.artifact_retention_days }}
+          if-no-files-found: error
+      - id: result
+        if: ${{ always() }}
+        run: echo "status=${{ steps.upload.outcome == 'success' && 'artifact_ready' || 'failed' }}" >> "$GITHUB_OUTPUT"
+      - name: Report aggregate guides progress
+        if: ${{ always() && inputs.card_mode == 'aggregate' && inputs.card_id != '' }}
+        continue-on-error: true
+        run: bash scripts/docs-workflow/report-live-card.sh
+        env:
+          CARD_ID: ${{ inputs.card_id }}
+          CARD_MODE: aggregate
+          CARD_STARTED_AT: ${{ inputs.card_started_at }}
+          CARD_TITLE: Global Docs Build
+          CARD_JOB_NAME: produce_guides_sources
+          CARD_JOB_CONCLUSION: ${{ steps.result.outputs.status == 'artifact_ready' && 'success' || 'failure' }}
+          SELECTED_GROUP: all
+          PUBLISH_ENABLED: true
+          GH_TOKEN: ${{ github.token }}
+          APP_ID: ${{ secrets.APP_ID }}
+          APP_SECRET: ${{ secrets.APP_SECRET }}
+          FEISHU_HOST: ${{ vars.FEISHU_HOST }}
+      - if: ${{ always() }}
+        run: git worktree remove --force "$RUNNER_TEMP/baseline" || true

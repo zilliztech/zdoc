@@ -10,7 +10,7 @@ notebook: FALSE
 description: "Zilliz Cloud provides on-demand compute resources, allowing you to run similarity searches and queries on demand. As shown in the figure below, compute resources automatically suspend when no requests arrive, and suspended compute resources do not incur charges. | Cloud"
 type: origin
 token: GQN0wDCrni4n36kyeVQcF41Lned
-sidebar_position: 3
+sidebar_position: 1
 displayed_sidebar: default
 
 ---
@@ -895,7 +895,7 @@ zilliz import status \
 
 ## Step 6: Create an on-demand cluster\{#step-6-create-an-on-demand-cluster}
 
-Once your external collection is ready, you need to attach it to an on-demand cluster for on-demand searches. The following command creates a cluster and returns its ID.
+Once your collection is ready, you need to attach it to an on-demand cluster for on-demand searches. The following command creates a cluster and returns its ID.
 
 ```bash
 export CONTROL_PLANE_ENDPOINT="https://api.cloud.zilliz.com"

@@ -3,9 +3,13 @@ const fs = require('node:fs')
 const { v4: uuidv4 } = require('uuid')
 const tokenFetcher = require('../lark-docs/larkTokenFetcher')
 const { fetchFeishuJsonWithRetry } = require('../lark-docs/feishuFetch')
+const { buildCardV2 } = require('./cardV2')
 const {
   buildFinishState,
+  buildExactState,
+  buildPhaseState,
   parseNotesJson,
+  selectExactStateNotes,
 } = require('./reportCardState')
 require('dotenv/config')
 
@@ -14,40 +18,8 @@ require('dotenv/config')
 // ---------------------------------------------------------------------------
 
 const CARD_STATE_FILE = '.build-card-state.json'
-const EMOJI = { pending: '⬜', running: '⏳', done: '✅', fail: '❌' }
-
 function buildCardContent(state) {
-  const stageLines = state.stages.map((name, i) => {
-    const s = state.statuses[i] || 'pending'
-    const e = EMOJI[s] || '⬜'
-    return s === 'running' ? `${e} **${name}**` : `${e} ${name}`
-  })
-
-  const hasFail = state.statuses.some(s => s === 'fail')
-  const allDone = state.stages.length > 0 && state.statuses.every(s => s === 'done')
-  const template = hasFail ? 'red' : allDone ? 'green' : 'blue'
-
-  const started = new Date(state.startedAt)
-  const sec = Math.round((Date.now() - started.getTime()) / 1000)
-  const elapsed = sec < 60 ? `${sec}s` : `${Math.floor(sec / 60)}m ${sec % 60}s`
-
-  const elements = [
-    { tag: 'div', text: { tag: 'lark_md', content: stageLines.join('\n') } },
-  ]
-  if (state.notes && state.notes.length) {
-    elements.push({ tag: 'hr' })
-    elements.push({ tag: 'div', text: { tag: 'lark_md', content: state.notes.join('\n') } })
-  }
-  elements.push({
-    tag: 'note',
-    elements: [{ tag: 'plain_text', content: `Started ${started.toUTCString()} · ${elapsed} elapsed` }],
-  })
-
-  return JSON.stringify({
-    config: { wide_screen_mode: true },
-    header: { title: { tag: 'plain_text', content: state.title }, template },
-    elements,
-  })
+  return JSON.stringify(buildCardV2(state))
 }
 
 function loadState(siteDir) {
@@ -91,6 +63,8 @@ module.exports = function (context) {
         .option('--card-create', 'POST a new progress card; writes card_id to $GITHUB_OUTPUT and $GITHUB_ENV')
         .option('--card-advance', 'Mark current stage done/fail and advance to next (reads state file)')
         .option('--card-finish', 'Final card update from a cross-job context (requires --message-id)')
+        .option('--card-phase', 'Update one workflow phase from a cross-job context')
+        .option('--card-state-file <path>', 'Replace a cross-job card with exact JSON state')
         // ---- card options ----
         .option('--title <title>', 'Card title')
         .option('--stages <stages>', 'Comma-separated stage names (for --card-create)')
@@ -101,6 +75,8 @@ module.exports = function (context) {
         .option('--card-note-file <path>', 'Append a note file to the current progress card without advancing the stage')
         .option('--message-id <id>', 'Card message ID for cross-job --card-finish')
         .option('--started-at <iso>', 'startedAt ISO string passed from card-create job output')
+        .option('--stage-index <index>', 'Zero-based stage index for --card-phase')
+        .option('--stage <name>', 'Stage name for --card-phase')
         .action(async (opts) => {
           const FEISHU_HOST = process.env.FEISHU_HOST
           const noteText = opts.noteFile
@@ -214,6 +190,36 @@ module.exports = function (context) {
               notes,
             })
             await patchCard(token, messageId, state, FEISHU_HOST)
+            return
+          }
+
+          if (opts.cardPhase) {
+            const stages = (opts.stages || '').split(',').map(s => s.trim()).filter(Boolean)
+            const state = buildPhaseState({
+              messageId: opts.messageId,
+              title: opts.title,
+              stages,
+              stageIndex: opts.stageIndex === undefined ? stages.indexOf(opts.stage) : Number(opts.stageIndex),
+              status: opts.status || 'done',
+              startedAt: opts.startedAt,
+              note: noteText,
+            })
+            await patchCard(token, opts.messageId, state, FEISHU_HOST)
+            return
+          }
+
+          if (opts.cardStateFile) {
+            if (!opts.messageId) throw new Error('--message-id required for --card-state-file')
+            const input = JSON.parse(fs.readFileSync(opts.cardStateFile, 'utf8'))
+            const state = buildExactState({
+              messageId: opts.messageId,
+              title: opts.title,
+              stages: input.stages,
+              startedAt: opts.startedAt,
+              notes: selectExactStateNotes(input),
+              manuals: input.manuals,
+            })
+            await patchCard(token, opts.messageId, state, FEISHU_HOST)
             return
           }
 

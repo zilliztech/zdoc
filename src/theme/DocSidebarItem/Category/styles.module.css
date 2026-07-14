@@ -17,6 +17,7 @@
   flex: 1;
   min-width: 0;
   display: grid;
+  position: relative;
   /* wrap long sidebar item labels onto multiple lines instead of truncating */
   white-space: normal;
   overflow-wrap: break-word;
@@ -36,6 +37,12 @@
   opacity: 0;
   pointer-events: none;
   transition: none;
+  /* The sizer is a permanently-hidden 500-weight ghost. Kept in the grid cell it
+     would add its own (bolder, so wider → sometimes taller) wrap to the row
+     height, leaving the visible 400-weight text on one line inside a two-line
+     box. Take it out of flow so only the visible text drives the item height. */
+  position: absolute;
+  inset: 0;
 }
 
 .categoryLinkLabelText {

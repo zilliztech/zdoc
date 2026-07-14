@@ -25,6 +25,45 @@ function writeSnapshot(file, snapshot) {
   fs.writeFileSync(file, JSON.stringify(snapshot, null, 2))
 }
 
+function validateCandidateSnapshot(candidate, expected = {}) {
+  if (!candidate || typeof candidate !== 'object' || Array.isArray(candidate)) throw new Error('Candidate snapshot must be an object')
+  if (candidate.schema_version !== 2) throw new Error('Candidate snapshot schema version must be 2')
+  if (typeof candidate.manual !== 'string' || !candidate.manual) throw new Error('Candidate snapshot manual is required')
+  if (expected.manual && candidate.manual !== expected.manual) throw new Error('Candidate snapshot manual mismatch')
+  if (typeof candidate.build_env !== 'string' || !candidate.build_env) throw new Error('Candidate snapshot build environment is required')
+  if (expected.buildEnv && candidate.build_env !== expected.buildEnv) throw new Error('Candidate snapshot build environment mismatch')
+  if (typeof candidate.source_dir !== 'string' || !candidate.source_dir) throw new Error('Candidate snapshot source directory is required')
+  if (expected.sourceDir && path.resolve(candidate.source_dir) !== path.resolve(expected.sourceDir)) throw new Error('Candidate snapshot source directory mismatch')
+  if (typeof candidate.base_app_token !== 'string' || !candidate.base_app_token) throw new Error('Candidate snapshot Base application token is required')
+  if (expected.baseAppToken && candidate.base_app_token !== expected.baseAppToken) throw new Error('Candidate snapshot Base application token mismatch')
+  if (!Number.isFinite(Date.parse(candidate.generated_at))) throw new Error('Candidate snapshot generated timestamp is invalid')
+  if (!Array.isArray(candidate.records) || candidate.records.length === 0) throw new Error('Candidate snapshot records must be a non-empty array')
+  const recordIds = new Set(), docTokens = new Set()
+  for (const record of candidate.records) {
+    if (!record || typeof record !== 'object' || typeof record.record_id !== 'string' || !record.record_id) throw new Error('Candidate snapshot record ID is required')
+    if (typeof record.doc_token !== 'string' || !record.doc_token) throw new Error('Candidate snapshot document token is required')
+    if (recordIds.has(record.record_id) || docTokens.has(record.doc_token)) throw new Error('Candidate snapshot contains duplicate records')
+    recordIds.add(record.record_id); docTokens.add(record.doc_token)
+    if (typeof record.source_file !== 'string' || !record.source_file) throw new Error(`Candidate snapshot source file is required for ${record.doc_token}`)
+    if (!/^[0-9a-f]{64}$/.test(record.source_hash || '')) throw new Error(`Candidate snapshot source hash is invalid for ${record.doc_token}`)
+    if (!Array.isArray(record.outgoing_tokens)) throw new Error(`Candidate snapshot outgoing tokens are invalid for ${record.doc_token}`)
+  }
+  return candidate
+}
+
+function promoteCandidateSnapshot(candidate, options) {
+  validateCandidateSnapshot(candidate, options)
+  if (!Array.isArray(options.targetsBuilt) || options.targetsBuilt.length === 0 || options.targetsBuilt.some(value => typeof value !== 'string' || !value)) throw new Error('targetsBuilt must be a non-empty string array')
+  for (const name of ['sourceBranch', 'publishUrl', 'linkCheckRemote']) if (typeof options[name] !== 'string' || !options[name]) throw new Error(`${name} is required`)
+  return {
+    ...JSON.parse(JSON.stringify(candidate)),
+    targets_built: [...options.targetsBuilt],
+    source_branch: options.sourceBranch,
+    publish_url: options.publishUrl,
+    link_check_remote: options.linkCheckRemote,
+  }
+}
+
 function sourceFilesByToken(docSourceDir) {
   const byToken = new Map()
   if (!fs.existsSync(docSourceDir)) return byToken
@@ -96,7 +135,9 @@ function createSourceSnapshot({
 
 module.exports = {
   createSourceSnapshot,
+  promoteCandidateSnapshot,
   readSnapshot,
+  validateCandidateSnapshot,
   writeSnapshot,
   sourceFilesByToken,
   hashText,

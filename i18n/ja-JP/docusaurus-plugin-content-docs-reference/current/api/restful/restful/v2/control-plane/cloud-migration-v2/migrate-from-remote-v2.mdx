@@ -1,0 +1,31 @@
+---
+displayed_sidebar: restfulSidebar
+sidebar_position: 0
+slug: /restful/migrate-from-remote-v2
+beta: FALSE
+title: "リモートから移行 (V2) | RESTful"
+description: "リモートバケットから指定されたクラスターへの移行を開始します。 | RESTful"
+hide_table_of_contents: true
+sidebar_label: "リモートから移行 (V2)"
+sidebar_custom_props:
+  badges:
+    - "post"
+keywords: 
+  - zilliz cloud
+  - zilliz
+  - cloud
+  - "リモートから移行 (V2)"
+  - "post"
+  - RESTful
+  - API
+---
+
+# リモートから移行 (V2)
+
+import RestSpecs from '@site/src/components/RestSpecs';
+
+<RestSpecs specs={specs} endpoint={endpoint} method={method} target="zilliz" lang="ja-JP" />
+
+export const specs = {"summary":"Migrate from Remote","description":"Starts a migration from a remote bucket to the specified cluster.","x-i18n":{"zh-CN":{"summary":"从远端迁移","description":"本接口用于从远端存储桶迁移数据到指定集群。"},"ja-JP":{"summary":"Remote から移行","description":"リモートバケットから指定したクラスターへの移行を開始します。"}},"tags":["Cloud Migration (V2)"],"parameters":[{"name":"Authorization","in":"header","description":"The authentication token should be an API key with appropriate privileges.","required":true,"example":"Bearer {{TOKEN}}","schema":{"type":"string"},"x-i18n":{"zh-CN":{"description":"认证令牌，应为具备适当权限的 API 密钥。"},"ja-JP":{"description":"認証トークンには、適切な権限を持つ API key を使用する必要があります。"}}},{"name":"Accept","in":"header","description":"Use `application/json`.","required":false,"example":"application/json","schema":{"type":"string"},"x-i18n":{"zh-CN":{"description":"使用 `application/json`。"},"ja-JP":{"description":"`application/json` を使用します。"}}}],"requestBody":{"content":{"application/json":{"schema":{"type":"object","properties":{"source":{"type":"object","description":"Source storage configuration.","x-i18n":{"zh-CN":{"description":"源存储配置。"},"ja-JP":{"description":"ソースストレージの設定。"}},"properties":{"cloud":{"type":"string","description":"Cloud provider.","x-i18n":{"zh-CN":{"description":"云提供商。"},"ja-JP":{"description":"クラウドプロバイダー。"}}},"region":{"type":"string","description":"Cloud region.","x-i18n":{"zh-CN":{"description":"云地域。"},"ja-JP":{"description":"クラウドリージョン。"}}},"bucketName":{"type":"string","description":"Name of the source bucket.","x-i18n":{"zh-CN":{"description":"源存储桶名称。"},"ja-JP":{"description":"ソースバケットの名前。"}}},"path":{"type":"string","description":"Path within the source bucket.","x-i18n":{"zh-CN":{"description":"源存储桶内的路径。"},"ja-JP":{"description":"ソースバケット内のパス。"}}},"objectUrl":{"type":"string","description":"Object URL.","x-i18n":{"zh-CN":{"description":"对象 URL。"},"ja-JP":{"description":"オブジェクト URL。"}}},"accessKey":{"type":"string","description":"Access key.","x-i18n":{"zh-CN":{"description":"访问密钥。"},"ja-JP":{"description":"アクセスキー。"}}},"secretKey":{"type":"string","description":"Secret key.","x-i18n":{"zh-CN":{"description":"私有密钥。"},"ja-JP":{"description":"シークレットキー。"}}},"token":{"type":"string","description":"Security token.","x-i18n":{"zh-CN":{"description":"安全令牌。"},"ja-JP":{"description":"セキュリティトークン。"}}},"stageName":{"type":"string","description":"Stage name.","x-i18n":{"zh-CN":{"description":"Stage 名称。"},"ja-JP":{"description":"ステージ名。"}}},"dataPath":{"type":"string","description":"Data path.","x-i18n":{"zh-CN":{"description":"数据路径。"},"ja-JP":{"description":"データパス。"}}}}},"destination":{"type":"object","description":"Destination cluster configuration.","x-i18n":{"zh-CN":{"description":"目标集群配置。"},"ja-JP":{"description":"宛先クラスターの設定。"}},"properties":{"clusterId":{"type":"string","description":"ID of the destination cluster.","x-i18n":{"zh-CN":{"description":"目标集群 ID。"},"ja-JP":{"description":"宛先クラスターの ID。"}}}}}}}}}},"responses":{"200":{"description":"Returns the ID of the created migration job.","x-i18n":{"zh-CN":{"description":"返回已创建迁移任务的 ID。"},"ja-JP":{"description":"作成された移行ジョブの ID を返します。"}},"content":{"application/json":{"schema":{"anyOf":[{"x-tab-label":"success","type":"object","properties":{"code":{"type":"integer","description":"Response code.","x-i18n":{"zh-CN":{"description":"响应码。"},"ja-JP":{"description":"レスポンスコード。"}}},"data":{"type":"object","properties":{"jobId":{"type":"string","description":"ID of the created migration job.","x-i18n":{"zh-CN":{"description":"已创建迁移任务的 ID。"},"ja-JP":{"description":"作成された移行ジョブの ID。"}}}},"description":"Response payload which contains the ID of the created migration job.","x-i18n":{"zh-CN":{"description":"响应载荷，包含已创建迁移任务的 ID。"},"ja-JP":{"description":"作成された移行ジョブの ID を含むレスポンスペイロード。"}}}}},{"x-tab-label":"failure","type":"object","properties":{"code":{"type":"integer","description":"Response code.","x-i18n":{"zh-CN":{"description":"响应码。"},"ja-JP":{"description":"レスポンスコード。"}}},"message":{"type":"string","description":"Error message.","x-i18n":{"zh-CN":{"description":"错误描述。"},"ja-JP":{"description":"エラーメッセージ。"}}}},"description":"A failure response.","x-i18n":{"zh-CN":{"description":"失败响应。"},"ja-JP":{"description":"失敗レスポンス。"}},"x-i18n-langs":["zh-CN"]}]}}}}}}
+export const endpoint = "/v2/migrations/startByRemote"
+export const method = "post"

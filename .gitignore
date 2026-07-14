@@ -51,7 +51,6 @@ tmp/
 
 # AI tooling local state
 .agents/
-.claude/
 .qwen/
 .superpower/
 .superpowers/
@@ -59,6 +58,7 @@ skills-lock.json
 
 # Worktrees
 .worktrees/
+.claude/worktrees/
 
 # Vercel
 .vercel

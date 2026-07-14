@@ -1,25 +1,17 @@
-name: "translate docs with Codex agents"
+name: translate docs with Codex agents
 
 on:
-  workflow_run:
-    workflows:
-      - "fetch lark docs (auto)"
-      - "fetch lark docs (manual)"
-    types: [completed]
   workflow_dispatch:
     inputs:
-      max_files:
-        description: "Maximum files to translate in this run. The default bootstrap batch fits the six-hour hosted-runner limit."
-        required: false
-        default: "500"
-      include_reference:
-        description: "Translate API reference docs as well as guide docs."
-        required: false
-        default: "false"
-      target_branch:
-        description: "Branch to checkout and commit translations to."
-        required: false
-        default: ""
+      group:
+        description: Content group to translate
+        required: true
+        type: choice
+        default: guides
+        options: [guides, python, java, node, go, cli, rest]
+      max_files: { description: Maximum files, required: false, default: '500' }
+      include_reference: { description: Legacy compatibility input, required: false, default: 'false' }
+      target_branch: { description: Publication branch, required: false, default: dev }
 
 permissions:
   actions: read
@@ -34,206 +26,51 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     outputs:
-      should_translate: ${{ steps.guard.outputs.should_translate }}
-      target_branch: ${{ steps.target.outputs.branch }}
+      master_sha: ${{ steps.refs.outputs.master_sha }}
+      source_sha: ${{ steps.refs.outputs.source_sha }}
+      target_branch: ${{ steps.refs.outputs.target_branch }}
     steps:
-    - name: resolve translation target branch
-      id: target
-      run: |
-        TARGET="${{ github.event.inputs.target_branch || vars.TRANSLATION_TARGET_BRANCH || 'dev' }}"
-        echo "branch=${TARGET}" >> "$GITHUB_OUTPUT"
-        echo "Translation target branch: ${TARGET}"
-
-    - name: skip fetch-triggered translation when another translation is active
-      id: guard
-      env:
-        GH_TOKEN: ${{ github.token }}
-      run: |
-        SHOULD_TRANSLATE=true
-        if [ "${{ github.event_name }}" = "workflow_run" ]; then
-          ACTIVE_RUNS="$(gh api "repos/${GITHUB_REPOSITORY}/actions/workflows/translate-codex.yml/runs" \
-            --method GET \
-            --field status=in_progress \
-            --field per_page=20 \
-            --jq ".workflow_runs[] | select(.id != ${GITHUB_RUN_ID}) | .html_url")"
-          if [ -n "$ACTIVE_RUNS" ]; then
-            SHOULD_TRANSLATE=false
-            echo "Another translation workflow is already running; skipping this fetch-triggered translation."
-            echo "$ACTIVE_RUNS"
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - id: refs
+        env:
+          TARGET_BRANCH_INPUT: ${{ inputs.target_branch }}
+        run: |
+          set -euo pipefail
+          target_branch="${TARGET_BRANCH_INPUT:-dev}"
+          if [[ "$target_branch" == *$'\n'* || "$target_branch" == *$'\r'* || "$target_branch" == -* || "$target_branch" == *:* ]]; then
+            echo "Invalid target branch" >&2
+            exit 2
           fi
-        fi
-        echo "should_translate=${SHOULD_TRANSLATE}" >> "$GITHUB_OUTPUT"
-
+          git check-ref-format --branch "$target_branch" >/dev/null
+          git remote get-url origin >/dev/null
+          git fetch --no-tags origin \
+            "refs/heads/master:refs/remotes/origin/master" \
+            "refs/heads/$target_branch:refs/remotes/origin/$target_branch"
+          master_sha="$(git rev-parse "refs/remotes/origin/master")"
+          source_sha="$(git rev-parse "refs/remotes/origin/$target_branch")"
+          printf 'master_sha=%s\nsource_sha=%s\ntarget_branch=%s\n' "$master_sha" "$source_sha" "$target_branch" >> "$GITHUB_OUTPUT"
   translate:
     needs: prepare
-    runs-on: ubuntu-latest
-    timeout-minutes: 360 # GitHub-hosted runner maximum; use the soft deadline to preserve commit time.
-    if: ${{ needs.prepare.outputs.should_translate == 'true' && (github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch') }}
-    steps:
-    - name: checkout translation target branch
-      uses: actions/checkout@v4
-      with:
-        ref: ${{ needs.prepare.outputs.target_branch }}
-
-    - uses: pnpm/action-setup@v4
-      with:
-        version: 9
-
-    - name: set up Node
-      uses: actions/setup-node@v4.0.1
-      with:
-        node-version: "20"
-        cache: 'pnpm'
-
-    - name: install dependencies
-      run: pnpm install --frozen-lockfile
-
-    - name: create translation progress card
-      id: card
-      run: |
-        npx docusaurus report-to-lark --card-create \
-          --title "Japanese Docs Translation" \
-          --stages "Find changed docs,Translate docs,Validate translations,Commit translations"
-      env:
-        APP_ID: ${{ secrets.APP_ID }}
-        APP_SECRET: ${{ secrets.APP_SECRET }}
-        FEISHU_HOST: ${{ vars.FEISHU_HOST }}
-
-    - name: build translation manifest
-      id: manifest
-      run: |
-        node scripts/translation/manifest.js \
-          --locale ja-JP \
-          --output tmp/translation-manifest.json \
-          --max-files "${TRANSLATION_MAX_FILES:-0}" \
-          --include-reference "${TRANSLATE_REFERENCE:-false}"
-        COUNT=$(node -e "const m=require('./tmp/translation-manifest.json'); console.log(m.items.length)")
-        echo "count=${COUNT}" >> "$GITHUB_OUTPUT"
-        echo "Pending translation files: ${COUNT}"
-        npx docusaurus report-to-lark --card-advance --status done --note "Pending translation files: ${COUNT}"
-      env:
-        TRANSLATION_MAX_FILES: ${{ github.event.inputs.max_files || vars.TRANSLATION_MAX_FILES || 500 }}
-        TRANSLATE_REFERENCE: ${{ github.event.inputs.include_reference || vars.TRANSLATE_REFERENCE }}
-        APP_ID: ${{ secrets.APP_ID }}
-        APP_SECRET: ${{ secrets.APP_SECRET }}
-        FEISHU_HOST: ${{ vars.FEISHU_HOST }}
-
-    - name: run Codex translation agents
-      id: agents
-      if: steps.manifest.outputs.count != '0'
-      run: |
-        node scripts/translation/agentRunner.js --manifest tmp/translation-manifest.json --report tmp/translation-report.json
-        npx docusaurus report-to-lark --card-advance --status done
-      env:
-        TRANSLATION_AGENT_BASE_URL: ${{ vars.TRANSLATION_AGENT_BASE_URL }}
-        TRANSLATION_AGENT_API_KEY: ${{ secrets.TRANSLATION_AGENT_API_KEY }}
-        TRANSLATION_AGENT_MODEL: ${{ vars.TRANSLATION_AGENT_MODEL }}
-        REVIEW_AGENT_BASE_URL: ${{ vars.REVIEW_AGENT_BASE_URL }}
-        REVIEW_AGENT_API_KEY: ${{ secrets.REVIEW_AGENT_API_KEY }}
-        REVIEW_AGENT_MODEL: ${{ vars.REVIEW_AGENT_MODEL }}
-        TRANSLATION_MAX_REVIEW_ROUNDS: ${{ vars.TRANSLATION_MAX_REVIEW_ROUNDS }}
-        TRANSLATION_AGENT_RETRIES: ${{ vars.TRANSLATION_AGENT_RETRIES || 3 }}
-        TRANSLATION_AGENT_TIMEOUT_MS: ${{ vars.TRANSLATION_AGENT_TIMEOUT_MS || 300000 }}
-        TRANSLATION_FILE_TIMEOUT_MS: ${{ vars.TRANSLATION_FILE_TIMEOUT_MS || 900000 }}
-        TRANSLATION_CHUNK_TARGET_CHARS: ${{ vars.TRANSLATION_CHUNK_TARGET_CHARS || 24000 }}
-        TRANSLATION_CHUNK_MAX_CHARS: ${{ vars.TRANSLATION_CHUNK_MAX_CHARS || 32000 }}
-        TRANSLATION_CONCURRENCY: ${{ vars.TRANSLATION_CONCURRENCY || 4 }}
-        TRANSLATION_SOFT_DEADLINE_MS: ${{ vars.TRANSLATION_SOFT_DEADLINE_MS || 18000000 }}
-        TRANSLATION_CHECKPOINT_FILES: ${{ vars.TRANSLATION_CHECKPOINT_FILES || 10 }}
-        TRANSLATION_CHECKPOINT_INTERVAL_MS: ${{ vars.TRANSLATION_CHECKPOINT_INTERVAL_MS || 300000 }}
-        TRANSLATION_ALLOW_PARTIAL: "true"
-        APP_ID: ${{ secrets.APP_ID }}
-        APP_SECRET: ${{ secrets.APP_SECRET }}
-        FEISHU_HOST: ${{ vars.FEISHU_HOST }}
-
-    - name: skip translation stage when nothing changed
-      if: steps.manifest.outputs.count == '0'
-      run: npx docusaurus report-to-lark --card-advance --status done --note "No changed documents required translation."
-      env:
-        APP_ID: ${{ secrets.APP_ID }}
-        APP_SECRET: ${{ secrets.APP_SECRET }}
-        FEISHU_HOST: ${{ vars.FEISHU_HOST }}
-
-    - name: validate translated MDX
-      if: steps.agents.outputs.translated_count != '0'
-      run: |
-        if [ -d i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials ]; then
-          npx docusaurus mdx-parse -d i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials
-        fi
-        if [ -d i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials ]; then
-          npx docusaurus mdx-parse -d i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials
-        fi
-        if [ -d i18n/ja-JP/docusaurus-plugin-content-docs-reference/current ]; then
-          npx docusaurus mdx-parse -d i18n/ja-JP/docusaurus-plugin-content-docs-reference/current
-        fi
-        pnpm run build
-        npx docusaurus report-to-lark --card-advance --status done
-      env:
-        APP_ID: ${{ secrets.APP_ID }}
-        APP_SECRET: ${{ secrets.APP_SECRET }}
-        FEISHU_HOST: ${{ vars.FEISHU_HOST }}
-
-    - name: skip validation stage when nothing changed
-      if: steps.manifest.outputs.count == '0'
-      run: npx docusaurus report-to-lark --card-advance --status done
-      env:
-        APP_ID: ${{ secrets.APP_ID }}
-        APP_SECRET: ${{ secrets.APP_SECRET }}
-        FEISHU_HOST: ${{ vars.FEISHU_HOST }}
-
-    - name: create and attach translation report summary
-      if: always()
-      run: |
-        node scripts/translation/reportSummary.js \
-          --manifest tmp/translation-manifest.json \
-          --report tmp/translation-report.json \
-          --output tmp/translation-report.md
-        npx docusaurus report-to-lark --card-note-file tmp/translation-report.md
-      env:
-        APP_ID: ${{ secrets.APP_ID }}
-        APP_SECRET: ${{ secrets.APP_SECRET }}
-        FEISHU_HOST: ${{ vars.FEISHU_HOST }}
-
-    - name: upload translation report
-      if: always()
-      uses: actions/upload-artifact@v4
-      with:
-        name: translation-report
-        path: |
-          tmp/translation-report.json
-          tmp/translation-report.md
-        if-no-files-found: ignore
-
-    - name: commit translations
-      if: steps.agents.outputs.translated_count != '0'
-      uses: stefanzweifel/git-auto-commit-action@v5
-      with:
-        branch: ${{ needs.prepare.outputs.target_branch }}
-        commit_message: "chore: update Japanese translations"
-        file_pattern: "i18n .translation-cache"
-
-    - name: mark commit stage complete
-      if: steps.agents.outputs.translated_count != '0'
-      run: npx docusaurus report-to-lark --card-advance --status done
-      env:
-        APP_ID: ${{ secrets.APP_ID }}
-        APP_SECRET: ${{ secrets.APP_SECRET }}
-        FEISHU_HOST: ${{ vars.FEISHU_HOST }}
-
-    - name: no translation changes
-      if: steps.manifest.outputs.count == '0'
-      run: echo "No changed docs require translation."
-
-    - name: finish translation progress card
-      if: always()
-      run: |
-        npx docusaurus report-to-lark --card-finish \
-          --message-id "${{ steps.card.outputs.card_id }}" \
-          --status "${{ job.status == 'success' && 'success' || 'fail' }}" \
-          --started-at "${{ steps.card.outputs.card_started_at }}" \
-          --stages "${{ steps.card.outputs.card_stages }}" \
-          --title "${{ steps.card.outputs.card_title }}"
-      env:
-        APP_ID: ${{ secrets.APP_ID }}
-        APP_SECRET: ${{ secrets.APP_SECRET }}
-        FEISHU_HOST: ${{ vars.FEISHU_HOST }}
+    uses: ./.github/workflows/_translate-content-group.yml
+    with:
+      group: ${{ inputs.group }}
+      source_commit_sha: ${{ needs.prepare.outputs.source_sha }}
+      master_sha: ${{ needs.prepare.outputs.master_sha }}
+      should_translate: true
+      max_files: ${{ inputs.max_files }}
+    secrets:
+      TRANSLATION_AGENT_API_KEY: ${{ secrets.TRANSLATION_AGENT_API_KEY }}
+      REVIEW_AGENT_API_KEY: ${{ secrets.REVIEW_AGENT_API_KEY }}
+  publish:
+    needs: [prepare, translate]
+    uses: ./.github/workflows/_publish-content-group.yml
+    with:
+      group: ${{ inputs.group }}
+      artifact_name: ${{ needs.translate.outputs.artifact_name }}
+      baseline_artifact_name: ${{ needs.translate.outputs.baseline_artifact_name }}
+      commit_message: "${{ inputs.group == 'guides' && 'i18n(guides): publish translations' || inputs.group == 'python' && 'i18n(python): publish translations' || inputs.group == 'java' && 'i18n(java): publish translations' || inputs.group == 'node' && 'i18n(node): publish translations' || inputs.group == 'go' && 'i18n(go): publish translations' || inputs.group == 'cli' && 'i18n(cli): publish translations' || 'i18n(rest): publish translations' }}"
+      should_publish: ${{ needs.translate.outputs.status == 'translation_ready' }}
+      master_sha: ${{ needs.prepare.outputs.master_sha }}
+      target_branch: ${{ needs.prepare.outputs.target_branch }}
+      validate_command: pnpm run build

@@ -1,0 +1,185 @@
+name: translate docs content group
+
+on:
+  workflow_call:
+    inputs:
+      group: { required: true, type: string }
+      source_commit_sha: { required: true, type: string }
+      master_sha: { required: true, type: string }
+      should_translate: { required: true, type: boolean }
+      max_files: { required: false, type: string, default: '500' }
+      batch_index: { required: false, type: number, default: -1 }
+      batch_number: { required: false, type: number, default: 0 }
+      batch_count: { required: false, type: number, default: 0 }
+      batch_size: { required: false, type: number, default: 0 }
+      pending_count: { required: false, type: number, default: 0 }
+      pending_set_sha256: { required: false, type: string, default: '' }
+      artifact_retention_days: { required: false, type: number, default: 3 }
+      card_id: { required: false, type: string, default: '' }
+      card_started_at: { required: false, type: string, default: '' }
+      card_stages: { required: false, type: string, default: '' }
+      card_mode: { required: false, type: string, default: ordered }
+      selected_group: { required: false, type: string, default: all }
+      publish_enabled: { required: false, type: boolean, default: true }
+    outputs:
+      status: { value: '${{ jobs.translate.outputs.status }}' }
+      artifact_name: { value: '${{ jobs.translate.outputs.artifact_name }}' }
+      baseline_artifact_name: { value: '${{ jobs.translate.outputs.baseline_artifact_name }}' }
+      translated_count: { value: '${{ jobs.translate.outputs.translated_count }}' }
+      failed_count: { value: '${{ jobs.translate.outputs.failed_count }}' }
+      remaining_count: { value: '${{ jobs.translate.outputs.remaining_count }}' }
+    secrets:
+      TRANSLATION_AGENT_API_KEY: { required: true }
+      REVIEW_AGENT_API_KEY: { required: true }
+      APP_ID: { required: false }
+      APP_SECRET: { required: false }
+
+permissions:
+  actions: read
+  contents: read
+
+jobs:
+  translate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    outputs:
+      status: ${{ steps.result.outputs.status }}
+      artifact_name: ${{ steps.result.outputs.artifact_name }}
+      baseline_artifact_name: ${{ steps.result.outputs.baseline_artifact_name }}
+      translated_count: ${{ steps.result.outputs.translated_count }}
+      failed_count: ${{ steps.result.outputs.failed_count }}
+      remaining_count: ${{ steps.result.outputs.remaining_count }}
+    env:
+      GROUP: ${{ inputs.group }}
+      SOURCE_COMMIT_SHA: ${{ inputs.source_commit_sha }}
+      MASTER_SHA: ${{ inputs.master_sha }}
+    steps:
+      - name: Initialize temporary paths
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ -n "${RUNNER_TEMP:-}" && "$RUNNER_TEMP" == /* ]] || { echo "RUNNER_TEMP must be a non-empty absolute path" >&2; exit 1; }
+          printf '%s\n' \
+            "BASELINE_DIR=$RUNNER_TEMP/translation-source-baseline" \
+            "CHECKPOINT_DIR=$RUNNER_TEMP/translation-artifact/checkpoint-group" \
+            "BASELINE_CHECKPOINT_DIR=$RUNNER_TEMP/baseline-artifact/checkpoint-group" >> "$GITHUB_ENV"
+          suffix=
+          if (( ${{ inputs.batch_number }} > 0 )); then suffix="-batch-${{ inputs.batch_number }}"; fi
+          echo "ARTIFACT_SUFFIX=$suffix" >> "$GITHUB_ENV"
+
+      - name: Validate immutable inputs
+        run: node -e 'for(const [n,v] of Object.entries({master_sha:process.env.MASTER_SHA,source_commit_sha:process.env.SOURCE_COMMIT_SHA}))if(!/^[0-9a-f]{40}$/.test(v))throw new Error(`${n} must be a lowercase 40-character Git SHA`)'
+      - name: Check out immutable master tooling
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.master_sha }}
+          fetch-depth: 0
+      - uses: pnpm/action-setup@v4
+        with: { version: 9 }
+      - uses: actions/setup-node@v4
+        with: { node-version: '20', cache: pnpm }
+      - name: Install current master tooling
+        run: pnpm install --frozen-lockfile
+      - name: Materialize source checkpoint and baseline
+        if: ${{ inputs.should_translate }}
+        run: |
+          git fetch --no-tags origin "$SOURCE_COMMIT_SHA"
+          git worktree add --detach "$BASELINE_DIR" "$SOURCE_COMMIT_SHA"
+          bash scripts/restore-generated-state.sh --exact --ref "$SOURCE_COMMIT_SHA"
+          mkdir -p .translation-cache "$BASELINE_DIR/.translation-cache"
+          test -f .translation-cache/ja-JP.json || printf '{"files":{}}\n' > .translation-cache/ja-JP.json
+          test -f "$BASELINE_DIR/.translation-cache/ja-JP.json" || cp .translation-cache/ja-JP.json "$BASELINE_DIR/.translation-cache/ja-JP.json"
+      - name: Build group translation manifest
+        id: manifest
+        if: ${{ inputs.should_translate }}
+        run: |
+          batch_args=()
+          if (( ${{ inputs.batch_number }} > 0 )); then
+            batch_args=(--batch-index "${{ inputs.batch_index }}" --batch-size "${{ inputs.batch_size }}" --expected-pending-set-sha256 "${{ inputs.pending_set_sha256 }}")
+          fi
+          node scripts/translation/manifest.js --locale ja-JP --output tmp/translation-manifest.json --max-files "${{ inputs.max_files }}" --group "$GROUP" --source-checkpoint-sha "$SOURCE_COMMIT_SHA" "${batch_args[@]}"
+          echo "count=$(node -p "require('./tmp/translation-manifest.json').items.length")" >> "$GITHUB_OUTPUT"
+      - name: Run translation agents
+        id: agents
+        if: ${{ inputs.should_translate && steps.manifest.outputs.count != '0' }}
+        run: node scripts/translation/agentRunner.js --manifest tmp/translation-manifest.json --report tmp/translation-report.json
+        env:
+          TRANSLATION_AGENT_API_KEY: ${{ secrets.TRANSLATION_AGENT_API_KEY }}
+          TRANSLATION_AGENT_BASE_URL: ${{ vars.TRANSLATION_AGENT_BASE_URL }}
+          TRANSLATION_AGENT_MODEL: ${{ vars.TRANSLATION_AGENT_MODEL }}
+          REVIEW_AGENT_API_KEY: ${{ secrets.REVIEW_AGENT_API_KEY }}
+          REVIEW_AGENT_BASE_URL: ${{ vars.REVIEW_AGENT_BASE_URL }}
+          REVIEW_AGENT_MODEL: ${{ vars.REVIEW_AGENT_MODEL }}
+          TRANSLATION_ALLOW_PARTIAL: "true"
+      - name: Validate translated group
+        if: ${{ inputs.should_translate && steps.agents.outputs.translated_count != '0' }}
+        run: |
+          case "$GROUP" in
+            guides) for d in i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials; do test ! -d "$d" || npx docusaurus mdx-parse -d "$d"; done ;;
+            *) test ! -d i18n/ja-JP/docusaurus-plugin-content-docs-reference/current || npx docusaurus mdx-parse -d i18n/ja-JP/docusaurus-plugin-content-docs-reference/current ;;
+          esac
+          if (( ${{ inputs.batch_number }} == 0 )); then pnpm run build; fi
+      - name: Create validated translation checkpoints
+        id: checkpoint
+        if: ${{ inputs.should_translate && steps.agents.outputs.translated_count != '0' }}
+        run: |
+          batch_args=()
+          if (( ${{ inputs.batch_number }} > 0 )); then batch_args=(--batch-index "${{ inputs.batch_index }}" --batch-number "${{ inputs.batch_number }}" --batch-count "${{ inputs.batch_count }}" --batch-size "${{ inputs.batch_size }}" --pending-count "${{ inputs.pending_count }}" --pending-set-sha256 "${{ inputs.pending_set_sha256 }}"); fi
+          node scripts/docs-workflow/create-checkpoint-artifact.js --group "$GROUP" --master-sha "$MASTER_SHA" --dev-baseline-sha "$SOURCE_COMMIT_SHA" --baseline-dir "$BASELINE_DIR" --workspace "$BASELINE_DIR" --output "$BASELINE_CHECKPOINT_DIR" --include-translation-cache "${batch_args[@]}"
+          node scripts/docs-workflow/create-checkpoint-artifact.js --group "$GROUP" --master-sha "$MASTER_SHA" --dev-baseline-sha "$SOURCE_COMMIT_SHA" --baseline-dir "$BASELINE_DIR" --workspace "$GITHUB_WORKSPACE" --output "$CHECKPOINT_DIR" --include-translation-cache --validation-command "pnpm run build" "${batch_args[@]}"
+          node scripts/docs-workflow/validate-checkpoint-artifact.js --artifact "$BASELINE_CHECKPOINT_DIR" --group "$GROUP" --master-sha "$MASTER_SHA" --dev-baseline-sha "$SOURCE_COMMIT_SHA"
+          node scripts/docs-workflow/validate-checkpoint-artifact.js --artifact "$CHECKPOINT_DIR" --group "$GROUP" --master-sha "$MASTER_SHA" --dev-baseline-sha "$SOURCE_COMMIT_SHA"
+          mkdir -p "$RUNNER_TEMP/baseline-upload" "$RUNNER_TEMP/translation-upload"
+          tar --dereference -cf "$RUNNER_TEMP/baseline-upload/checkpoint-group.tar" -C "$(dirname "$BASELINE_CHECKPOINT_DIR")" "$(basename "$BASELINE_CHECKPOINT_DIR")"
+          tar --dereference -cf "$RUNNER_TEMP/translation-upload/checkpoint-group.tar" -C "$(dirname "$CHECKPOINT_DIR")" "$(basename "$CHECKPOINT_DIR")"
+      - name: Upload baseline checkpoint
+        id: baseline_upload
+        if: ${{ steps.checkpoint.outcome == 'success' }}
+        uses: actions/upload-artifact@v4
+        with: { name: 'translation-baseline-${{ inputs.group }}-${{ github.run_id }}${{ env.ARTIFACT_SUFFIX }}', path: '${{ runner.temp }}/baseline-upload/checkpoint-group.tar', retention-days: '${{ inputs.artifact_retention_days }}' }
+      - name: Upload translation checkpoint
+        id: translation_upload
+        if: ${{ steps.checkpoint.outcome == 'success' }}
+        uses: actions/upload-artifact@v4
+        with: { name: 'translation-checkpoint-${{ inputs.group }}-${{ github.run_id }}${{ env.ARTIFACT_SUFFIX }}', path: '${{ runner.temp }}/translation-upload/checkpoint-group.tar', retention-days: '${{ inputs.artifact_retention_days }}' }
+      - name: Upload translation report
+        if: ${{ always() }}
+        run: node scripts/translation/reportSummary.js --manifest tmp/translation-manifest.json --report tmp/translation-report.json --output tmp/translation-report.md
+        continue-on-error: true
+      - name: Archive translation report
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with: { name: 'translation-report-${{ inputs.group }}-${{ github.run_id }}${{ env.ARTIFACT_SUFFIX }}', path: 'tmp/translation-report*', if-no-files-found: ignore }
+      - name: Emit translation result
+        id: result
+        if: ${{ always() }}
+        run: |
+          status=failed; artifact_name=; baseline_artifact_name=; translated_count="${{ steps.agents.outputs.translated_count || '0' }}"; failed_count="${{ steps.agents.outputs.failed_count || '0' }}"; remaining_count="${{ steps.agents.outputs.remaining_count || '0' }}"
+          if [[ "${{ inputs.should_translate }}" != true || "${{ steps.manifest.outputs.count || '0' }}" == 0 ]]; then status=no_changes
+          elif [[ "${{ steps.translation_upload.outcome }}" == success && "${{ steps.baseline_upload.outcome }}" == success ]]; then status=translation_ready; artifact_name="translation-checkpoint-$GROUP-${{ github.run_id }}$ARTIFACT_SUFFIX"; baseline_artifact_name="translation-baseline-$GROUP-${{ github.run_id }}$ARTIFACT_SUFFIX"; fi
+          printf 'status=%s\nartifact_name=%s\nbaseline_artifact_name=%s\ntranslated_count=%s\nfailed_count=%s\nremaining_count=%s\n' "$status" "$artifact_name" "$baseline_artifact_name" "$translated_count" "$failed_count" "$remaining_count" >> "$GITHUB_OUTPUT"
+      - name: Report translation phase
+        if: ${{ always() && inputs.should_translate && inputs.card_id != '' }}
+        continue-on-error: true
+        run: bash scripts/docs-workflow/report-live-card.sh
+        env:
+          CARD_ID: ${{ inputs.card_id }}
+          CARD_MODE: ${{ startsWith(inputs.card_stages, 'Produce manuals') && 'aggregate' || 'ordered' }}
+          CARD_STARTED_AT: ${{ inputs.card_started_at }}
+          CARD_STAGES: ${{ inputs.card_stages }}
+          CARD_STATUS: ${{ steps.result.outputs.status == 'failed' && 'fail' || 'done' }}
+          CARD_NOTE: ${{ steps.result.outputs.status == 'failed' && format('{0} translation failed', inputs.group) || format('{0} translation {1}', inputs.group, steps.result.outputs.status) }}
+          CARD_PHASE: Translate ${{ inputs.group }}
+          CARD_JOB_NAME: ${{ inputs.batch_number > 0 && format('{0}_translation_batch_{1}_of_{2}_pending_{3} / translate batch {1} of {2}', inputs.group, inputs.batch_number, inputs.batch_count, inputs.pending_count) || format('translate_{0}', inputs.group) }}
+          CARD_JOB_CONCLUSION: ${{ steps.result.outputs.status == 'failed' && 'failure' || 'success' }}
+          CARD_NO_CHANGES_GROUP: ${{ steps.result.outputs.status == 'no_changes' && inputs.group || '' }}
+          CARD_TITLE: Global Docs Build
+          SELECTED_GROUP: ${{ startsWith(inputs.card_stages, 'Produce manuals') && 'all' || inputs.group }}
+          PUBLISH_ENABLED: ${{ contains(inputs.card_stages, 'Publish') }}
+          GH_TOKEN: ${{ github.token }}
+          APP_ID: ${{ secrets.APP_ID }}
+          APP_SECRET: ${{ secrets.APP_SECRET }}
+          FEISHU_HOST: ${{ vars.FEISHU_HOST }}
+      - name: Fail unsuccessful translation
+        if: ${{ always() && steps.result.outputs.status == 'failed' }}
+        run: exit 1

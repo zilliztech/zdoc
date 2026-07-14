@@ -6,6 +6,7 @@ const yaml = require('js-yaml')
 const { validateMdxStructure } = require('../../plugins/mdx-parse/mdxPatcher')
 const { chunkDocument, DEFAULT_MAX_CHARS, DEFAULT_TARGET_CHARS } = require('./chunker')
 const { readCache, writeCache, writeJsonAtomic } = require('./manifest')
+const { assembleRestDocument, parseRestDocument, translateRestSpecs } = require('./restSpecLocalization')
 
 const DEFAULT_MANIFEST = 'tmp/translation-manifest.json'
 const DEFAULT_PROVIDER_RETRIES = 3
@@ -220,6 +221,22 @@ function restoreBoundaryWhitespace(sourceContent, translatedContent) {
   return `${leading}${String(translatedContent || '').trim()}${trailing}`
 }
 
+function stabilizeBareUrlFormatting(content) {
+  return String(content).replace(
+    /\*\*(https?:\/\/[^\s]+?)\*\*(?=[\u3000-\u303f\uff00-\uffef])/gu,
+    '**`$1`**',
+  )
+}
+
+function restoreEsmStatements(sourceContent, translatedContent) {
+  const pattern = /^[\t ]*(?:import|export)\b[^\r\n]*(?:\r?\n|$)/gm
+  const sourceStatements = String(sourceContent).match(pattern) || []
+  const translatedStatements = String(translatedContent).match(pattern) || []
+  if (sourceStatements.length !== translatedStatements.length) return translatedContent
+  let index = 0
+  return String(translatedContent).replace(pattern, () => sourceStatements[index++])
+}
+
 async function translateAndReviewUnit({
   sourcePath,
   sourceContent,
@@ -260,6 +277,35 @@ async function processManifestItem({
   const absSourcePath = path.join(siteDir, item.sourcePath)
   const absTargetPath = path.join(siteDir, item.targetPath)
   const sourceContent = fs.readFileSync(absSourcePath, 'utf8')
+  const restDocument = item.sourcePath.startsWith('reference/api/restful/restful/') ? parseRestDocument(sourceContent) : null
+  if (restDocument) {
+    const shell = await translateAndReviewUnit({
+      sourcePath: item.sourcePath,
+      sourceContent: restDocument.prefix,
+      locale: item.locale,
+      callModel,
+      maxReviewRounds,
+      chunkContext: null,
+    })
+    if (!shell.review.pass) return { ...item, status: 'failed', review: shell.review, validationErrors: [] }
+    const specResult = await translateRestSpecs({
+      sourceSpecs: restDocument.sourceSpecs,
+      locale: item.locale,
+      callModel,
+      systemPrompt: loadPrompt('codex-rest-spec-translation-agent.md'),
+    })
+    const translatedContent = stabilizeBareUrlFormatting(assembleRestDocument({
+      translatedPrefix: shell.translatedContent,
+      localizedSpecs: specResult.localized,
+      suffix: restDocument.suffix,
+      locale: item.locale,
+    }))
+    const validationErrors = await validate(translatedContent)
+    if (validationErrors.length) return { ...item, status: 'failed', review: shell.review, validationErrors, restSpecEntries: specResult.translatedCount }
+    fs.mkdirSync(path.dirname(absTargetPath), { recursive: true })
+    fs.writeFileSync(absTargetPath, translatedContent.endsWith('\n') ? translatedContent : `${translatedContent}\n`, 'utf8')
+    return { ...item, status: 'translated', review: shell.review, validationErrors: [], chunks: { total: 1 }, restSpecEntries: specResult.translatedCount }
+  }
   const chunks = chunkDocument(sourceContent, { targetChars: chunkTargetChars, maxChars: chunkMaxChars })
   const documentTitle = extractDocumentTitle(sourceContent)
   const translatedChunks = []
@@ -297,7 +343,9 @@ async function processManifestItem({
     previousTranslatedHeading = extractFirstHeading(unit.translatedContent) || previousTranslatedHeading
   }
 
-  const translatedContent = translatedChunks.join('')
+  const translatedContent = stabilizeBareUrlFormatting(
+    restoreEsmStatements(sourceContent, translatedChunks.join('')),
+  )
 
   const validationErrors = await validate(translatedContent)
   if (validationErrors.length) {
@@ -536,6 +584,8 @@ module.exports = {
   processManifestItem,
   runWorkerPool,
   restoreBoundaryWhitespace,
+  restoreEsmStatements,
+  stabilizeBareUrlFormatting,
   stripCodeFence,
   validateTranslatedContent,
   withTimeout,

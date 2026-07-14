@@ -33,6 +33,56 @@ function appendNotes(state, notes) {
   return state
 }
 
+function selectExactStateNotes(input) {
+  if (Array.isArray(input.notes)) return input.notes
+  if (Array.isArray(input.manuals) && input.manuals.length) return []
+  return [input.noteMarkdown]
+}
+
+function buildPhaseState({ messageId, title, stages, stageIndex, status, startedAt, note }) {
+  if (!Array.isArray(stages) || stages.length === 0) throw new Error('stages must be a non-empty array')
+  if (!Number.isInteger(stageIndex) || stageIndex < 0 || stageIndex >= stages.length) throw new Error('stageIndex is out of range')
+  if (!['done', 'fail'].includes(status)) throw new Error('phase status must be done or fail')
+  const statuses = stages.map((_, index) => index < stageIndex ? 'done' : 'pending')
+  statuses[stageIndex] = status
+  const currentIndex = status === 'done' && stageIndex + 1 < stages.length ? stageIndex + 1 : stageIndex
+  if (currentIndex !== stageIndex) statuses[currentIndex] = 'running'
+  return {
+    messageId,
+    title: title || 'Build',
+    stages,
+    statuses,
+    currentIndex,
+    notes: note && note.trim() ? [note.trim()] : [],
+    startedAt: startedAt || new Date().toISOString(),
+  }
+}
+
+function buildExactState({ messageId, title, stages, startedAt, notes = [], manuals }) {
+  if (!Array.isArray(stages) || stages.length === 0) throw new Error('stages must be a non-empty array')
+  if (stages.length > 20) throw new Error('stages must not exceed 20 entries')
+  const names = new Set()
+  for (const stage of stages) {
+    if (!stage || typeof stage.name !== 'string' || !stage.name.trim()) throw new Error('stage name must be non-empty')
+    if (!['pending', 'running', 'done', 'fail'].includes(stage.status)) throw new Error('stage status is invalid')
+    if (names.has(stage.name)) throw new Error(`duplicate stage name: ${stage.name}`)
+    names.add(stage.name)
+  }
+  const statuses = stages.map(stage => stage.status)
+  const firstActive = statuses.findIndex(status => status === 'running' || status === 'fail')
+  const state = {
+    messageId,
+    title: title || 'Build',
+    stages: stages.map(stage => stage.name.trim()),
+    statuses,
+    currentIndex: firstActive === -1 ? Math.max(0, statuses.findIndex(status => status === 'pending')) : firstActive,
+    notes: parseNotesJson(JSON.stringify(notes)),
+    startedAt: startedAt || new Date().toISOString(),
+  }
+  if (Array.isArray(manuals) && manuals.length) state.manuals = manuals
+  return state
+}
+
 function buildFinishState({
   existingState,
   messageId,
@@ -67,7 +117,10 @@ function buildFinishState({
 
 module.exports = {
   appendNotes,
+  buildExactState,
   buildFinishState,
+  buildPhaseState,
   finishStatuses,
   parseNotesJson,
+  selectExactStateNotes,
 }

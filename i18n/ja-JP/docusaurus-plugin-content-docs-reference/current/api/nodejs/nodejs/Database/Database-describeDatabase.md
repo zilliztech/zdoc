@@ -1,0 +1,115 @@
+---
+title: "describeDatabase() | Node.js"
+slug: /node/node/Database-describeDatabase
+sidebar_label: "describeDatabase()"
+beta: false
+added_since: v2.6.x
+last_modified: v3.0.x
+deprecate_since: false
+notebook: false
+description: "この操作はデータベースを記述し、データベース名、ID、作成タイムスタンプ、プロパティなどの詳細を返します。 | Node.js"
+type: docx
+token: PzXldcfljoU9rOx9TFUcIoNknt6
+sidebar_position: 8
+keywords: 
+  - Zilliz
+  - milvus ベクトルデータベース
+  - milvus db
+  - milvus vector db
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - describeDatabase()
+  - nodejs30
+displayed_sidebar: nodeSidebar
+
+displayed_sidbar: nodeSidebar
+---
+
+import Admonition from '@theme/Admonition';
+
+
+# describeDatabase()
+
+この操作はデータベースを記述し、データベース名、ID、作成タイムスタンプ、プロパティなどの詳細を返します。
+
+```javascript
+await milvusClient.describeDatabase(data: DescribeDatabaseRequest)
+```
+
+## リクエスト構文\{#request-syntax}
+
+```javascript
+await milvusClient.describeDatabase({
+    db_name: string,
+    timeout?: number,
+})
+```
+
+**パラメーター:**
+
+- **db_name** (*string*) -
+
+    **[REQUIRED]**
+
+    記述するデータベースの名前。
+
+- **timeout** (*number*) -
+
+    ミリ秒単位の RPC タイムアウト。任意。
+
+**戻り値** *Promise&lt;DescribeDatabaseResponse&gt;*
+
+このメソッドは、**DescribeDatabaseResponse** オブジェクトに解決される promise を返します。
+
+```typescript
+{
+    db_name: string,
+    dbID: number,
+    created_timestamp: number,
+    properties: KeyValuePair[],
+    status:  ResStatus
+}
+```
+
+**パラメーター:**
+
+- **db_name** (*string*) -
+データベース名。
+
+- **dbID** (*number*) -
+内部データベース識別子。
+
+- **created_timestamp** (*number*) -
+データベースの作成タイムスタンプ（ミリ秒単位）。
+
+- **properties** (*KeyValuePair[]*) -
+作成時に宣言された、または `alterDatabaseProperties()` を使用して設定されたデータベースレベルのプロパティ（たとえば、**database.replica.number**、**database.resource_groups**）。
+
+- **ResStatus**
+**ResStatus** オブジェクト。
+
+    - **code** (*number*) -
+
+        操作結果を示すコード。この操作が成功した場合は **0** のままです。
+
+    - **error_code** (*string* | *number*) -
+
+        発生したエラーを示すエラーコード。この操作が成功した場合は **Success** のままです。
+
+    - **reason** (*string*) -
+
+        報告されたエラーの理由を示す理由。この操作が成功した場合は空文字列のままです。
+
+## 例\{#example}
+
+```javascript
+import { MilvusClient } from '@zilliz/milvus2-sdk-node';
+
+const client = new MilvusClient({
+    address: 'YOUR_CLUSTER_ENDPOINT',
+    token: 'YOUR_CLUSTER_TOKEN',
+});
+const res = await client.describeDatabase({ db_name: 'default' });
+console.log(res.db_name, res.dbID, res.properties);
+```

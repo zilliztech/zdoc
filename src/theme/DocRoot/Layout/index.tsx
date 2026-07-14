@@ -208,6 +208,8 @@ function SelectionAskAiButton(): ReactNode {
 function DocRootLayoutInner({children}: Props): ReactNode {
   const sidebar = useDocsSidebar();
   const {pathname} = useLocation();
+  // The Docs Home landing page renders full-width (no left sidebar).
+  const isHomePage = pathname.replace(/\/$/, '') === '/docs/home';
   const [hiddenSidebarContainer, setHiddenSidebarContainerState] = useState(persistedHiddenContainer);
   const [hiddenSidebar, setHiddenSidebarState] = useState(persistedHidden);
   const [isChatOpen, setIsChatOpen] = useState(false);
@@ -446,7 +448,7 @@ function DocRootLayoutInner({children}: Props): ReactNode {
   }, [openChat]);
 
   return (
-    <div className={[styles.docsWrapper, isChatLayoutReserved ? 'docs-chat-open' : ''].filter(Boolean).join(' ')}>
+    <div className={[styles.docsWrapper, isChatLayoutReserved ? 'docs-chat-open' : '', isHomePage ? 'docs-home' : ''].filter(Boolean).join(' ')}>
       <BackToTopButton />
       <SelectionAskAiButton />
 

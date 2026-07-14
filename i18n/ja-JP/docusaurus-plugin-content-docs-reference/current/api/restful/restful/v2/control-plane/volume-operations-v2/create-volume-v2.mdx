@@ -1,0 +1,31 @@
+---
+displayed_sidebar: restfulSidebar
+sidebar_position: 1
+slug: /restful/create-volume-v2
+beta: FALSE
+title: "Volume を作成 (V2) | RESTful"
+description: "この操作は、指定されたプロジェクトに新しい volume を作成します。 | RESTful"
+hide_table_of_contents: true
+sidebar_label: "Volume を作成 (V2)"
+sidebar_custom_props:
+  badges:
+    - "post"
+keywords: 
+  - zilliz cloud
+  - zilliz
+  - cloud
+  - "Volume を作成 (V2)"
+  - "post"
+  - RESTful
+  - API
+---
+
+# Volume を作成 (V2)
+
+import RestSpecs from '@site/src/components/RestSpecs';
+
+<RestSpecs specs={specs} endpoint={endpoint} method={method} target="zilliz" lang="ja-JP" />
+
+export const specs = {"summary":"Create Volume","deprecated":false,"description":"This operation creates a new volume in the specified project.","x-i18n":{"zh-CN":{"summary":"创建 Volume","description":"本接口用于在指定项目下创建一个新的 Volume。"},"ja-JP":{"summary":"Volume を作成します","description":"この操作は、指定したプロジェクトに新しい volume を作成します。"}},"tags":["Volume Operations (V2)"],"parameters":[{"name":"Authorization","in":"header","description":"The authentication token should be an API key with appropriate privileges.","required":true,"example":"Bearer {{TOKEN}}","schema":{"type":"string"},"x-i18n":{"zh-CN":{"description":"认证令牌，应为具备适当权限的 API 密钥。"},"ja-JP":{"description":"認証トークンには、適切な権限を持つ API key を使用する必要があります。"}}}],"requestBody":{"content":{"application/json":{"schema":{"type":"object","properties":{"projectId":{"type":"string","description":"The ID of the project to which the volume belongs.","x-i18n":{"zh-CN":{"description":"所属项目的 ID。"},"ja-JP":{"description":"volume が属するプロジェクトの ID。"}},"example":"proj-xxxxxxxxxxxxxxxxxxxxxxx"},"regionId":{"type":"string","description":"The ID of the region where the volume will be created. You can use [List Cloud Regions](/reference/list-cloud-regions-v2) to list available regions. The region should be bound to the specified project.","x-i18n":{"zh-CN":{"description":"Volume 所属区域的 ID。您可以使用 [查看云服务区域](/reference/list-cloud-regions-v2) 接口列出可用区域。该区域应与指定项目绑定。"},"ja-JP":{"description":"volume を作成するリージョンの ID。[List Cloud Regions](/reference/list-cloud-regions-v2) を使用して利用可能なリージョンを一覧表示できます。このリージョンは、指定したプロジェクトに関連付けられている必要があります。"}}},"volumeName":{"type":"string","description":"The name of the volume to create.","x-i18n":{"zh-CN":{"description":"Volume 名称。"},"ja-JP":{"description":"作成する volume の名前。"}}},"description":{"type":"string","description":"Description of the volume.","example":"Raw import data for recommendation workloads","x-i18n":{"zh-CN":{"description":"Volume 描述。","example":"Raw import data for recommendation workloads"},"ja-JP":{"description":"volume の説明。"}}},"type":{"type":"string","description":"The category of the volume. Valid values are `MANAGED` and `EXTERNAL`. Defaults to `MANAGED`.","x-i18n":{"zh-CN":{"description":"Volume 的类别。有效值为 `MANAGED` 和 `EXTERNAL`。默认值为 `MANAGED`。"},"ja-JP":{"description":"volume のカテゴリ。有効な値は `MANAGED` と `EXTERNAL` です。デフォルトは `MANAGED` です。"}}},"storageIntegrationId":{"type":"string","description":"The storage integration ID. Required when `type` is `EXTERNAL`.","x-i18n":{"zh-CN":{"description":"存储集成 ID。当 `type` 为 `EXTERNAL` 时必填。"},"ja-JP":{"description":"storage integration の ID。`type` が `EXTERNAL` の場合は必須です。"}}},"path":{"type":"string","description":"The path prefix within the volume. Required when `type` is `EXTERNAL`.","x-i18n":{"zh-CN":{"description":"存储卷内的路径前缀。当 `type` 为 `EXTERNAL` 时必填。"},"ja-JP":{"description":"volume 内のパスプレフィックス。`type` が `EXTERNAL` の場合は必須です。"}}}},"required":["volumeName","regionId","projectId"]},"examples":{"1":{"summary":"Managed Volume","x-target-response":"OPTION 1","x-target-lang":"en-US","value":{"projectId":"proj-xxxxxxxxxxxxxxxxxxxxxxx","regionId":"aws-us-west-2","volumeName":"my_volume","description":"A volume for storing collection data."}},"2":{"summary":"Managed Volume","x-target-response":"OPTION 1","x-target-lang":"zh-CN","value":{"projectId":"proj-xxxxxxxxxxxxxxxxxxxxxxx","regionId":"ali-cn-hangzhou","volumeName":"my_volume","description":"用于存储集合数据的卷描述。"}},"3":{"summary":"External Volume","x-target-response":"OPTION 1","x-target-lang":"en-US","value":{"projectId":"proj-xxxxxxxxxxxxxxxxxxxxxxx","regionId":"aws-us-west-2","volumeName":"my_external_volume","type":"EXTERNAL","storageIntegrationId":"integ-xxxxxxxxxxxxxxxxxxx","path":"data/","description":"A volume for storing collection data."}},"4":{"summary":"External Volume","x-target-response":"OPTION 1","x-target-lang":"zh-CN","value":{"projectId":"proj-xxxxxxxxxxxxxxxxxxxxxxx","regionId":"ali-cn-hangzhou","volumeName":"my_external_volume","type":"EXTERNAL","storageIntegrationId":"integ-xxxxxxxxxxxxxxxxxxx","path":"data/","description":"用于存储集合数据的卷描述。"}}}}}},"responses":{"200":{"description":"Returns the name of the created volume.","x-i18n":{"zh-CN":{"description":"返回已创建的 Volume 名称。"},"ja-JP":{"description":"作成された volume の名前を返します。"}},"content":{"application/json":{"schema":{"anyOf":[{"x-tab-label":"success","description":"Returns the created volume name.","x-i18n":{"zh-CN":{"description":"返回已创建的 Volume 名称。"},"ja-JP":{"description":"作成された volume 名を返します。"}},"type":"object","properties":{"code":{"type":"integer","description":"Response code.","x-i18n":{"zh-CN":{"description":"响应码。"},"ja-JP":{"description":"レスポンスコード。"}}},"data":{"type":"object","properties":{"volumeName":{"type":"string","description":"The name of the created volume.","x-i18n":{"zh-CN":{"description":"已创建的 Volume 名称。"},"ja-JP":{"description":"作成された volume の名前。"}}}}}}},{"x-tab-label":"failure","description":"Returns an error message.","x-i18n":{"zh-CN":{"description":"返回错误消息。"},"ja-JP":{"description":"エラーメッセージを返します。"}},"x-i18n-langs":["zh-CN"],"type":"object","properties":{"code":{"type":"integer","description":"Response code.","x-i18n":{"zh-CN":{"description":"响应码。"},"ja-JP":{"description":"レスポンスコード。"}}},"message":{"type":"string","description":"Error message.","x-i18n":{"zh-CN":{"description":"错误描述。"},"ja-JP":{"description":"エラーメッセージ。"}}}}}]},"examples":{"1":{"summary":"success","x-target-response":"OPTION 1","value":{"code":0,"data":{"volumeName":"my_volume"}}},"2":{"summary":"failure","x-target-response":"OPTION 2","value":{"code":1800,"message":"User hasn't authenticated"}}}}}}}}
+export const endpoint = "/v2/volumes/create"
+export const method = "post"

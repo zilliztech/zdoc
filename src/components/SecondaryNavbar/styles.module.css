@@ -219,7 +219,7 @@
 /* Collapsed-topbar trigger: tighter gap between the active label and its caret. */
 .collapsedTrigger {
   gap: 4px;
-  padding: 0 10px 0 0;
+  padding: 0 12px;
   border-radius: 10px;
   transition:
     background-color var(--zd-hover-duration) var(--zd-hover-ease),

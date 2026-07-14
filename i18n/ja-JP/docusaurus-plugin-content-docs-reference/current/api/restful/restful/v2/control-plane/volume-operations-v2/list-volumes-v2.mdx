@@ -1,0 +1,31 @@
+---
+displayed_sidebar: restfulSidebar
+sidebar_position: 0
+slug: /restful/list-volumes-v2
+beta: FALSE
+title: "ボリューム一覧 (V2) | RESTful"
+description: "この操作は、指定されたプロジェクト内のすべてのボリュームを一覧表示します。 | RESTful"
+hide_table_of_contents: true
+sidebar_label: "ボリューム一覧 (V2)"
+sidebar_custom_props:
+  badges:
+    - "get"
+keywords: 
+  - zilliz cloud
+  - zilliz
+  - cloud
+  - "ボリューム一覧 (V2)"
+  - "get"
+  - RESTful
+  - API
+---
+
+# ボリューム一覧 (V2)
+
+import RestSpecs from '@site/src/components/RestSpecs';
+
+<RestSpecs specs={specs} endpoint={endpoint} method={method} target="zilliz" lang="ja-JP" />
+
+export const specs = {"summary":"List Volumes","deprecated":false,"description":"This operation lists all volumes in the specified project.","x-i18n":{"zh-CN":{"summary":"查看 Volume 列表","description":"本接口将列出指定项目下的所有 Volume。"},"ja-JP":{"summary":"ボリュームを一覧表示","description":"この操作は、指定したプロジェクト内のすべてのボリュームを一覧表示します。"}},"tags":["Volume Operations (V2)"],"parameters":[{"name":"Authorization","in":"header","description":"The authentication token should be an API key with appropriate privileges.","required":true,"example":"Bearer {{TOKEN}}","schema":{"type":"string"},"x-i18n":{"zh-CN":{"description":"认证令牌，应为具备适当权限的 API 密钥。"},"ja-JP":{"description":"認証トークンには、適切な権限を持つ API key を使用する必要があります。"}}},{"name":"projectId","in":"query","description":"The target project of this operation.","x-i18n":{"zh-CN":{"description":"当前操作的目标项目。"},"ja-JP":{"description":"この操作の対象プロジェクト。"}},"required":true,"schema":{"type":"string"},"example":"proj-xxxxxxxxxxxxxxxxx"},{"name":"pageSize","in":"query","description":"The number of records to include in each response.","x-i18n":{"zh-CN":{"description":"每次返回的记录数。"},"ja-JP":{"description":"各レスポンスに含めるレコード数。"}},"required":false,"example":10,"schema":{"type":"integer","default":10,"minimum":1,"maximum":100}},{"name":"currentPage","in":"query","description":"The current page number.","x-i18n":{"zh-CN":{"description":"当前页码。"},"ja-JP":{"description":"現在のページ番号。"}},"required":false,"example":1,"schema":{"type":"integer","default":1,"minimum":1}},{"name":"type","in":"query","description":"The category of the volume. Valid values are `MANAGED` and `EXTERNAL`.","x-i18n":{"zh-CN":{"description":"Volume 的类别。有效值为 `MANAGED` 和 `EXTERNAL`。"},"ja-JP":{"description":"ボリュームのカテゴリ。有効な値は `MANAGED` および `EXTERNAL` です。"}},"required":false,"schema":{"type":"string"}}],"responses":{"200":{"description":"Returns the list of volumes.","x-i18n":{"zh-CN":{"description":"返回 Volume 列表。"},"ja-JP":{"description":"ボリュームの一覧を返します。"}},"content":{"application/json":{"schema":{"anyOf":[{"x-tab-label":"success","type":"object","properties":{"code":{"type":"integer","description":"Response code.","x-i18n":{"zh-CN":{"description":"响应码。"},"ja-JP":{"description":"レスポンスコード。"}}},"data":{"type":"object","properties":{"count":{"type":"integer","description":"Total number of volumes.","x-i18n":{"zh-CN":{"description":"Volume 总数。"},"ja-JP":{"description":"ボリュームの総数。"}}},"currentPage":{"type":"integer","description":"Current page number.","x-i18n":{"zh-CN":{"description":"当前页码。"},"ja-JP":{"description":"現在のページ番号。"}}},"pageSize":{"type":"integer","description":"Number of volumes per page.","x-i18n":{"zh-CN":{"description":"每页的 Volume 数量。"},"ja-JP":{"description":"1 ページあたりのボリューム数。"}}},"volumes":{"type":"array","description":"List of volumes.","x-i18n":{"zh-CN":{"description":"Volume 列表。"},"ja-JP":{"description":"ボリュームの一覧。"}},"items":{"type":"object","properties":{"volumeName":{"type":"string","description":"The name of the volume.","x-i18n":{"zh-CN":{"description":"Volume 名称。"},"ja-JP":{"description":"ボリューム名。"}}},"description":{"type":"string","description":"Description of the volume.","x-i18n":{"zh-CN":{"description":"Volume 描述。"},"ja-JP":{"description":"ボリュームの説明。"}}},"type":{"type":"string","description":"The category of the volume.","x-i18n":{"zh-CN":{"description":"Volume 的类别。"},"ja-JP":{"description":"ボリュームのカテゴリ。"}}}}}}}}}},{"x-tab-label":"failure","description":"Returns an error message.","x-i18n":{"zh-CN":{"description":"返回错误消息。"},"ja-JP":{"description":"エラーメッセージを返します。"}},"x-i18n-langs":["zh-CN"],"type":"object","properties":{"code":{"type":"integer","description":"Response code.","x-i18n":{"zh-CN":{"description":"响应码。"},"ja-JP":{"description":"レスポンスコード。"}}},"message":{"type":"string","description":"Error message.","x-i18n":{"zh-CN":{"description":"错误描述。"},"ja-JP":{"description":"エラーメッセージ。"}}}}}]},"examples":{"1":{"summary":"success","x-target-response":"OPTION 1","value":{"code":200,"data":{"count":3,"currentPage":1,"pageSize":10,"volumes":[{"volumeName":"my_volume_1","type":"MANAGED","description":"A volume for storing collection data."},{"volumeName":"my_volume_2","type":"EXTERNAL","description":"A volume for storing collection data."},{"volumeName":"my_volume_3","type":"MANAGED","description":"A volume for storing collection data."}]}}},"2":{"summary":"failure","x-target-response":"OPTION 2","value":{"code":1800,"message":"User hasn't authenticated"}}}}}}}}
+export const endpoint = "/v2/volumes"
+export const method = "get"

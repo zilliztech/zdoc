@@ -13,6 +13,7 @@ const {
   loadChunkLimits,
   processManifestItem,
   runWorkerPool,
+  stabilizeBareUrlFormatting,
   stripCodeFence,
   withTimeout,
 } = require('./agentRunner')
@@ -68,6 +69,35 @@ async function testCorrectionRunsWhenReviewFails() {
     assert.equal(result.status, 'translated')
     assert.deepEqual(calls, ['translation', 'review', 'correction', 'review'])
     assert.equal(fs.readFileSync(path.join(siteDir, targetPath), 'utf8').includes('client.search()'), true)
+  })
+}
+
+async function testRestSpecsUseStructuredLocaleTranslation() {
+  await withTempDir(async siteDir => {
+    const sourcePath = 'reference/api/restful/restful/v1/search.mdx'
+    const targetPath = 'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/restful/restful/v1/search.mdx'
+    write(path.join(siteDir, sourcePath), '# Search\n<RestSpecs specs={specs} lang="en-US" />\n\nexport const specs = {"summary":"Search","description":"Search a collection.","example":{"message":"User has not authenticated"}}\nexport const endpoint = "/v1/search"\nexport const method = "post"\n')
+    const callModel = async ({ agent, messages }) => {
+      if (messages[0].content.includes('structured Zilliz Cloud REST API')) {
+        return JSON.stringify(JSON.parse(messages[1].content.split('\n\n')[1]).map(entry => ({ ...entry, text: `JA:${entry.text}` })))
+      }
+      if (agent === 'translation') return '# 検索\n<RestSpecs specs={specs} lang="en-US" />\n\n'
+      if (agent === 'review') return '{"pass":true,"issues":[]}'
+      throw new Error(`unexpected agent ${agent}`)
+    }
+    const result = await processManifestItem({
+      siteDir,
+      item: { sourcePath, targetPath, sourceHash: 'rest', locale: 'ja-JP', type: 'reference' },
+      callModel,
+      validate: async () => [],
+    })
+    assert.equal(result.status, 'translated')
+    const output = fs.readFileSync(path.join(siteDir, targetPath), 'utf8')
+    assert.match(output, /lang="ja-JP"/)
+    assert.match(output, /"summary":"Search"/)
+    assert.match(output, /"ja-JP":\{"summary":"JA:Search","description":"JA:Search a collection\."\}/)
+    assert.match(output, /"message":"User has not authenticated"/)
+    assert.match(output, /export const endpoint = "\/v1\/search"/)
   })
 }
 
@@ -218,6 +248,16 @@ function testChunkMessagesContainContinuityContext() {
   }).at(-1).content, /Translate this complete MDX\/Markdown file/)
 }
 
+function testStabilizesBoldBareUrlsBeforeJapanesePunctuation() {
+  const url = 'https://in01-&ast;&ast;&ast;.aws-us-west-2.vectordb-uat3.zillizcloud.com:19540'
+  const translated = `例: **${url}**。\n通常の **強調** は変更しません。\n`
+
+  assert.equal(
+    stabilizeBareUrlFormatting(translated),
+    `例: **\`${url}\`**。\n通常の **強調** は変更しません。\n`,
+  )
+}
+
 async function testLongDocumentTranslatesChunksSequentially() {
   await withTempDir(async siteDir => {
     const sourcePath = 'docs/tutorials/long.md'
@@ -252,6 +292,36 @@ async function testLongDocumentTranslatesChunksSequentially() {
     assert.equal(result.chunks.total, expectedChunks.length)
     assert.deepEqual(calls.map(call => call.agent), expectedChunks.flatMap(() => ['translation', 'review']))
     assert.match(fs.readFileSync(path.join(siteDir, targetPath), 'utf8'), /# セクション Three/)
+  })
+}
+
+async function testRestoresSourceImportsBeforeValidation() {
+  await withTempDir(async siteDir => {
+    const sourcePath = 'reference/api/python/python/test.md'
+    const targetPath = 'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/python/python/test.md'
+    const source = "---\ntitle: Test\n---\n\nimport Admonition from '@theme/Admonition';\n\n# Test\n"
+    write(path.join(siteDir, sourcePath), source)
+
+    const callModel = async ({ agent }) => {
+      if (agent === 'translation') {
+        return "---\ntitle: テスト\n---\n\nimport Admonition from 『@theme/Admonition』;\n\n# テスト\n"
+      }
+      if (agent === 'review') return '{"pass":true,"issues":[]}'
+      throw new Error(`unexpected agent ${agent}`)
+    }
+
+    const result = await processManifestItem({
+      siteDir,
+      item: { sourcePath, targetPath, sourceHash: 'import-hash', locale: 'ja-JP', type: 'reference' },
+      callModel,
+      maxReviewRounds: 0,
+    })
+
+    assert.equal(result.status, 'translated')
+    assert.match(
+      fs.readFileSync(path.join(siteDir, targetPath), 'utf8'),
+      /import Admonition from '@theme\/Admonition';/,
+    )
   })
 }
 
@@ -383,6 +453,7 @@ async function testProgressCoordinatorCheckpointsCacheAndReport() {
 
 async function run() {
   await testCorrectionRunsWhenReviewFails()
+  await testRestSpecsUseStructuredLocaleTranslation()
   await testProviderCallRetriesTransientFailures()
   await testProviderCallTimesOutHungRequests()
   await testFileTimeoutRejectsSlowWork()
@@ -391,7 +462,9 @@ async function run() {
   testStripCodeFencePreservesDocumentClosingFence()
   testStripCodeFenceRemovesResponseWrapper()
   testChunkMessagesContainContinuityContext()
+  testStabilizesBoldBareUrlsBeforeJapanesePunctuation()
   await testLongDocumentTranslatesChunksSequentially()
+  await testRestoresSourceImportsBeforeValidation()
   await testFailedChunkDoesNotWritePartialTarget()
   await testWorkerPoolLimitsConcurrencyAndProcessesExactlyOnce()
   await testWorkerPoolIsolatesItemFailures()
