@@ -29,7 +29,7 @@ function walkDocuments(cwd, relativeRoot) {
   return documents.sort()
 }
 
-function validateTranslatedCoverage({ group, cwd = process.cwd(), failOnPending = false }) {
+function analyzeTranslatedCoverage({ group, cwd = process.cwd() }) {
   const paths = getGroupPaths(group)
   const englishRoots = paths.englishOutputs.filter(relativePath => (
     relativePath === 'docs' || relativePath === 'docs-byoc' || relativePath.startsWith('reference/')
@@ -44,12 +44,6 @@ function validateTranslatedCoverage({ group, cwd = process.cwd(), failOnPending 
     .map(([, englishPath]) => englishPath)
     .sort()
 
-  if (orphanTranslations.length) {
-    throw new Error(`${group} has orphan translated files:\n- ${orphanTranslations.join('\n- ')}`)
-  }
-  if (failOnPending && pendingTranslations.length) {
-    throw new Error(`${group} has pending translations:\n- ${pendingTranslations.join('\n- ')}`)
-  }
   return {
     group,
     englishDocuments: englishDocuments.length,
@@ -57,6 +51,18 @@ function validateTranslatedCoverage({ group, cwd = process.cwd(), failOnPending 
     orphanTranslations,
     pendingTranslations,
   }
+}
+
+function validateTranslatedCoverage({ group, cwd = process.cwd(), failOnPending = false }) {
+  const result = analyzeTranslatedCoverage({ group, cwd })
+
+  if (result.orphanTranslations.length) {
+    throw new Error(`${group} has orphan translated files:\n- ${result.orphanTranslations.join('\n- ')}`)
+  }
+  if (failOnPending && result.pendingTranslations.length) {
+    throw new Error(`${group} has pending translations:\n- ${result.pendingTranslations.join('\n- ')}`)
+  }
+  return result
 }
 
 function parseArgs(argv) {
@@ -89,4 +95,4 @@ if (require.main === module) {
   }
 }
 
-module.exports = { validateTranslatedCoverage, walkDocuments }
+module.exports = { analyzeTranslatedCoverage, validateTranslatedCoverage, walkDocuments }

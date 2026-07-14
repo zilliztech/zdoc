@@ -66,6 +66,34 @@ test('removes the old source cache key for renamed docs and leaves the new path 
   assert.equal(cache.files[newPath], undefined)
 })
 
+test('reconciles orphan translations left by an earlier failed publication', () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'zdoc-i18n-orphan-reconcile-'))
+  const currentSource = 'reference/api/restful/restful/current.mdx'
+  const currentTarget = 'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/restful/restful/current.mdx'
+  const orphanSource = 'reference/api/restful/restful/old.mdx'
+  const orphanTarget = 'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/restful/restful/old.mdx'
+  write(path.join(root, currentSource), '# current\n')
+  write(path.join(root, currentTarget), '# current ja\n')
+  write(path.join(root, orphanTarget), '# orphan ja\n')
+  write(path.join(root, '.translation-cache/ja-JP.json'), JSON.stringify({
+    files: {
+      [currentSource]: { sourceHash: 'current', targetPath: currentTarget },
+      [orphanSource]: { sourceHash: 'old', targetPath: orphanTarget },
+    },
+  }))
+
+  const result = applySourceDelta({
+    cwd: root,
+    delta: { group: 'rest', deletedI18n: [], renamed: [], changedEnglish: [] },
+  })
+
+  assert.equal(fs.existsSync(path.join(root, currentTarget)), true)
+  assert.equal(fs.existsSync(path.join(root, orphanTarget)), false)
+  assert.deepEqual(result.deletedI18n, [orphanTarget])
+  assert.deepEqual(result.removedCacheKeys, [orphanSource])
+  assert.equal(result.hasTranslationMutation, true)
+})
+
 test('rejects deletion paths outside ja-JP i18n and symlink ancestors', () => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'zdoc-i18n-safe-'))
   write(path.join(root, '.translation-cache/ja-JP.json'), '{"files":{}}')
