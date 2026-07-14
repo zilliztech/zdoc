@@ -18,10 +18,7 @@ on:
       APP_ID: { required: true }
       APP_SECRET: { required: true }
       SPACE_ID: { required: true }
-      FIGMA_API_KEY: { required: true }
       MODEL_API_KEY: { required: true }
-      AWS_ACCESS_KEY_ID: { required: true }
-      AWS_SECRET_ACCESS_KEY: { required: true }
 
 permissions:
   actions: read
@@ -64,15 +61,14 @@ jobs:
           APP_SECRET: ${{ secrets.APP_SECRET }}
           FEISHU_HOST: ${{ vars.FEISHU_HOST }}
           SPACE_ID: ${{ secrets.SPACE_ID }}
-          FIGMA_API_KEY: ${{ secrets.FIGMA_API_KEY }}
           MODEL_API_BASE_URL: ${{ vars.MODEL_API_BASE_URL }}
           MODEL_API_KEY: ${{ secrets.MODEL_API_KEY }}
           MODEL_ID: ${{ vars.MODEL_ID }}
           AWS_BUCKET: ${{ vars.AWS_BUCKET }}
           AWS_REGION: ${{ vars.AWS_REGION }}
           IMAGE_BED_URL: ${{ vars.IMAGE_BED_URL }}
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          GUIDES_MEDIA_MANIFEST: plugins/lark-docs/meta/media-cache/guides.json
+          GUIDES_MEDIA_PREFETCH_REQUIRED: 'true'
       - name: Create render artifact
         run: |
           source_sha=$(sha256sum "$RUNNER_TEMP/guides-source/manifest.json" | cut -d' ' -f1)

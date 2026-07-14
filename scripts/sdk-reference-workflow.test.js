@@ -66,7 +66,7 @@ test('docs workflow orchestrates independent checkpointed publication lanes', ()
   assert.match(source, /TOOLING_REF: \$\{\{ github\.event\.inputs\.tooling_ref \|\| 'master' \}\}/)
   assert.match(source, /^  schedule:$/m)
   assert.match(source, /cron: "0 2,10,18 \* \* \*"/)
-  assert.match(source, /^  actions: read$/m)
+  assert.match(source, /^  actions: write$/m)
   assert.match(source, /group: docs-production-dev\n  cancel-in-progress: false/)
   assert.match(source, /if \[\[ "\$PUBLISH" == true && "\$TARGET_BRANCH" == dev \]\]; then\n\s+tooling_ref=master/)
   assert.match(source, /\^\[0-9a-f\]\{40\}\$/)
@@ -77,30 +77,37 @@ test('docs workflow orchestrates independent checkpointed publication lanes', ()
   assert.doesNotMatch(source, /git-auto-commit|git push|--force|fetch-sdk-reference-docs|update-sdk-reference-snapshots/)
 
   const groups = ['guides', 'python', 'java', 'node', 'go', 'cli', 'rest']
+  const sourceOrder = ['java', 'node', 'go', 'cli', 'rest', 'python', 'guides']
   for (const group of groups) {
     if (group !== 'guides') assert.match(source, new RegExp(`produce_${group}:\\n    needs: prepare\\n[\\s\\S]*?uses: \\.\\/.github/workflows/_fetch-content-group\\.yml`))
-    assert.match(source, new RegExp(`publish_${group}:\\n    needs: \\[prepare, produce_${group}(?:,|\\])`))
-    assert.deepEqual(workflow.jobs[`publish_${group}`].needs, ['prepare', `produce_${group}`])
     if (group !== 'guides') {
       assert.match(source, new RegExp(`translate_${group}:\\n    needs: \\[prepare, publish_${group}\\]`))
       assert.match(source, new RegExp(`translate_${group}:\\n    needs: \\[prepare, publish_${group}\\]\\n    if: \\$\\{\\{ always\\(\\) && needs\\.prepare\\.outputs\\.publish == 'true' && \\(needs\\.prepare\\.outputs\\.selected_group == 'all' \\|\\| needs\\.prepare\\.outputs\\.selected_group == '${group}'\\) && \\(needs\\.publish_${group}\\.outputs\\.status == 'published' \\|\\| needs\\.publish_${group}\\.outputs\\.status == 'no_changes'\\) \\}\\}`))
-      assert.match(source, new RegExp(`publish_${group}_translation:\\n    needs: \\[prepare, publish_${group}, translate_${group}\\]`))
-      assert.match(source, new RegExp(`publish_${group}_translation:\\n    needs: \\[prepare, publish_${group}, translate_${group}\\]\\n    if: \\$\\{\\{ always\\(\\) && needs\\.prepare\\.outputs\\.publish == 'true' && needs\\.translate_${group}\\.outputs\\.status == 'translation_ready' \\}\\}`))
       assert.deepEqual(workflow.jobs[`translate_${group}`].needs, ['prepare', `publish_${group}`])
-      assert.deepEqual(workflow.jobs[`publish_${group}_translation`].needs, ['prepare', `publish_${group}`, `translate_${group}`])
     }
+  }
+  for (const [index, group] of sourceOrder.entries()) {
+    const expected = ['prepare', `produce_${group}`]
+    if (index > 0) expected.push(`publish_${sourceOrder[index - 1]}`)
+    assert.deepEqual(workflow.jobs[`publish_${group}`].needs, expected)
+  }
+  const translationOrder = ['python', 'java', 'node', 'go', 'cli', 'rest']
+  for (const [index, group] of translationOrder.entries()) {
+    const predecessor = index === 0 ? 'publish_guides_translation_batches' : `publish_${translationOrder[index - 1]}_translation`
+    assert.deepEqual(workflow.jobs[`publish_${group}_translation`].needs, ['prepare', `publish_${group}`, `translate_${group}`, predecessor])
   }
   assert.equal(workflow.jobs.translate_guides, undefined)
   assert.equal(workflow.jobs.publish_guides_translation, undefined)
   assert.deepEqual(workflow.jobs.prepare_guides_translation_batches.needs, ['prepare', 'publish_guides'])
   assert.equal(workflow.jobs.prepare_guides_translation_batches.uses, './.github/workflows/_prepare-translation-batches.yml')
   assert.deepEqual(workflow.jobs.translate_guides_batches.needs, ['prepare', 'publish_guides', 'prepare_guides_translation_batches'])
-  assert.equal(workflow.jobs.translate_guides_batches.uses, './.github/workflows/_translate-publish-batch.yml')
+  assert.equal(workflow.jobs.translate_guides_batches.uses, './.github/workflows/_translate-content-group.yml')
   assert.equal(workflow.jobs.translate_guides_batches.strategy['fail-fast'], false)
-  assert.equal(workflow.jobs.translate_guides_batches.strategy['max-parallel'], 1)
+  assert.equal(workflow.jobs.translate_guides_batches.strategy['max-parallel'], undefined)
   assert.equal(workflow.jobs.translate_guides_batches.strategy.matrix, '${{ fromJSON(needs.prepare_guides_translation_batches.outputs.matrix) }}')
   assert.match(workflow.jobs.translate_guides_batches.name, /pending_\$\{\{ needs\.prepare_guides_translation_batches\.outputs\.pending_count \}\}/)
-  assert.deepEqual(workflow.jobs.finalize_guides_translation.needs, ['prepare', 'prepare_guides_translation_batches', 'translate_guides_batches'])
+  assert.deepEqual(workflow.jobs.publish_guides_translation_batches.needs, ['prepare', 'publish_rest', 'prepare_guides_translation_batches', 'translate_guides_batches'])
+  assert.deepEqual(workflow.jobs.finalize_guides_translation.needs, ['prepare', 'prepare_guides_translation_batches', 'translate_guides_batches', 'publish_guides_translation_batches'])
   assert.deepEqual(workflow.jobs.produce_guides_sources.needs, 'prepare')
   assert.deepEqual(workflow.jobs.render_guides_saas.needs, ['prepare', 'produce_guides_sources'])
   assert.deepEqual(workflow.jobs.render_guides_byoc.needs, ['prepare', 'produce_guides_sources'])

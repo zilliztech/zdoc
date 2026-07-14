@@ -18,6 +18,8 @@ on:
       SPACE_ID: { required: true }
       FIGMA_API_KEY: { required: true }
       MODEL_API_KEY: { required: true }
+      AWS_ACCESS_KEY_ID: { required: true }
+      AWS_SECRET_ACCESS_KEY: { required: true }
 
 permissions:
   actions: read
@@ -93,6 +95,24 @@ jobs:
           MODEL_API_BASE_URL: ${{ vars.MODEL_API_BASE_URL }}
           MODEL_API_KEY: ${{ secrets.MODEL_API_KEY }}
           MODEL_ID: ${{ vars.MODEL_ID }}
+      - name: Prefetch shared guides media
+        run: |
+          node scripts/docs-workflow/guides-media-prefetch.js \
+            --source-dir plugins/lark-docs/meta/sources/guides \
+            --output plugins/lark-docs/meta/media-cache/guides.json \
+            --plan plugins/lark-docs/meta/reports/guides-incremental-fetch-plan.json \
+            --snapshot plugins/lark-docs/meta/reports/guides-source-snapshot-candidate.json \
+            --concurrency 4
+        env:
+          APP_ID: ${{ secrets.APP_ID }}
+          APP_SECRET: ${{ secrets.APP_SECRET }}
+          FEISHU_HOST: ${{ vars.FEISHU_HOST }}
+          FIGMA_API_KEY: ${{ secrets.FIGMA_API_KEY }}
+          AWS_BUCKET: ${{ vars.AWS_BUCKET }}
+          AWS_REGION: ${{ vars.AWS_REGION }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          IMAGE_BED_URL: ${{ vars.IMAGE_BED_URL }}
       - name: Create shared source artifact
         run: |
           node scripts/docs-workflow/guides-source-cache.js create --source-dir plugins/lark-docs/meta/sources/guides --snapshot plugins/lark-docs/meta/reports/guides-source-snapshot-candidate.json --output "$RUNNER_TEMP/guides-source-manifest.json" --root-token Tg6mwbRGDitPQ3kLUQzc44I7nth

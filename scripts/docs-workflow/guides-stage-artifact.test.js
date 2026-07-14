@@ -38,11 +38,30 @@ test('creates, validates, and restores a source artifact', async () => {
     /snapshot candidate/i,
   )
   json(workspace, 'plugins/lark-docs/meta/reports/guides-source-snapshot-candidate.json', validSnapshot())
+  json(workspace, 'plugins/lark-docs/meta/media-cache/guides.json', {
+    schemaVersion: 1,
+    entries: [{ id: 'feishu-image:image', type: 'feishu-image', token: 'image', objectKey: 'image.png' }],
+  })
   const manifest = await createGuidesStageArtifact({ stage: 'source', workspace, baselineDir: baseline, output: artifact, masterSha: SHA, devBaselineSha: SHA, rootToken: 'root' })
   assert.equal(manifest.stage, 'source')
-  assert.equal((await validateGuidesStageArtifact(artifact)).files.length, 4)
+  assert.equal((await validateGuidesStageArtifact(artifact)).files.length, 5)
   await restoreGuidesStageArtifact({ artifact, target })
   assert.deepEqual(JSON.parse(fs.readFileSync(path.join(target, 'plugins/lark-docs/meta/sources/guides/doc.json'), 'utf8')), { node_token: 'doc', title: 'Doc' })
+  assert.equal(fs.existsSync(path.join(target, 'plugins/lark-docs/meta/media-cache/guides.json')), true)
+})
+
+test('source artifact requires the shared media manifest', async () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'guides-stage-media-'))
+  const workspace = path.join(root, 'workspace'), baseline = path.join(root, 'baseline'), artifact = path.join(root, 'artifact')
+  fs.mkdirSync(workspace); fs.mkdirSync(baseline)
+  json(workspace, 'plugins/lark-docs/meta/sources/guides/root.json', { node_token: 'root', children: [{ node_token: 'doc' }] })
+  json(workspace, 'plugins/lark-docs/meta/sources/guides/doc.json', { node_token: 'doc', title: 'Doc' })
+  json(workspace, 'plugins/lark-docs/meta/reports/guides-source-snapshot-candidate.json', validSnapshot())
+
+  await assert.rejects(
+    createGuidesStageArtifact({ stage: 'source', workspace, baselineDir: baseline, output: artifact, masterSha: SHA, devBaselineSha: SHA, rootToken: 'root' }),
+    /media manifest/i,
+  )
 })
 
 test('source artifact creation rejects an incomplete candidate source graph', async () => {

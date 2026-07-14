@@ -2300,7 +2300,13 @@ class larkDocWriter {
         const root = this.upload_to_s3 ? IMAGE_BED_URL : `/${this.imageDir.replace(/^static\//g, '')}`
         const caption = image.caption?.content ? image.caption.content.trim() : image.token;
         const slug = slugify(caption, {lower: true, strict: true})
-        const imageUrl = this.__markdown_image_url(`${root}/${slug}.png`);
+        const prefetched = this.downloader.__prefetchedMedia?.(`feishu-image:${image.token}`) || null
+        const objectKey = prefetched?.objectKey || `${slug}.png`
+        const imageUrl = this.__markdown_image_url(`${root}/${objectKey}`);
+
+        if (prefetched) {
+            return `![${caption}](${imageUrl} "${caption}")`;
+        }
 
         if (this.skip_image_download) {
             return `![${caption}](${imageUrl} "${caption}")`;
@@ -2319,6 +2325,7 @@ class larkDocWriter {
                 console.log(`[image] written to disk: ${slug}.png`)
             }
         } catch (error) {
+            if (error.code === 'MEDIA_PREFETCH_MISS') throw error
             console.error(`[image] ERROR for token ${image.token}:`, error.message ?? error)
             console.log("-------------- A retry is needed -----------------");
             console.log("Sleeping for 5 seconds")
@@ -2360,7 +2367,13 @@ class larkDocWriter {
 
     async __board(board, indent) {
         const root = this.upload_to_s3 ? IMAGE_BED_URL : `/${ this.imageDir.replace(/^static\//g, '')}`
-        const boardUrl = this.__markdown_image_url(`${root}/${board["token"]}.png`);
+        const prefetched = this.downloader.__prefetchedMedia?.(`feishu-board:${board.token}`) || null
+        const objectKey = prefetched?.objectKey || `${board.token}.png`
+        const boardUrl = this.__markdown_image_url(`${root}/${objectKey}`);
+
+        if (prefetched) {
+            return ' '.repeat(indent) + `![${board.token}](${boardUrl})`;
+        }
 
         if (this.skip_image_download) {
             return ' '.repeat(indent) + `![${board.token}](${boardUrl})`;
@@ -2421,10 +2434,18 @@ class larkDocWriter {
 
         if (iframe['component']['iframe_type'] !== 8) {
             return '';
-        } else if (this.skip_image_download) {
-            const url = new URL(decodeURIComponent(iframe.component.url))
-            const key = url.pathname.split('/')[2]
-            const node = url.searchParams.get('node-id').split('-').join(":") 
+        }
+
+        const url = new URL(decodeURIComponent(iframe.component.url))
+        const key = url.pathname.split('/')[2]
+        const node = url.searchParams.get('node-id').split('-').join(":")
+        const prefetched = this.downloader.__prefetchedMedia?.(`figma:${key}:${node}`) || null
+        if (prefetched) {
+            this.iframes.push({ block_id, caption: prefetched.caption })
+            return `![${prefetched.caption}](${this.__markdown_image_url(`${root}/${prefetched.objectKey}`)} "${prefetched.caption}")`;
+        }
+
+        if (this.skip_image_download) {
             const caption = (await this.downloader.__fetchCaption(key, node)).nodes[node].document.name;
             this.iframes.push({
                 block_id,
@@ -2433,9 +2454,6 @@ class larkDocWriter {
             return `![${caption}](${this.__markdown_image_url(`${root}/${caption}.png`)} "${caption}")`;
         } else {
             try {
-                const url = new URL(decodeURIComponent(iframe.component.url))
-                const key = url.pathname.split('/')[2]
-                const node = url.searchParams.get('node-id').split('-').join(":") 
                 const caption = (await this.downloader.__fetchCaption(key, node)).nodes[node].document.name;
                 const buffer = await this.downloader.__downloadIframe(key, node);
                 if (this.upload_to_s3) {
@@ -2451,6 +2469,7 @@ class larkDocWriter {
 
                 return `![${caption}](${this.__markdown_image_url(`${root}/${caption}.png`)} "${caption}")`;
             } catch (error) {
+                if (error.code === 'MEDIA_PREFETCH_MISS') throw error
                 console.log(error)
                 console.log("-------------- A retry is needed -----------------");
                 console.log("Sleeping for a minute")

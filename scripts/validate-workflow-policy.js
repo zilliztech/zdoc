@@ -9,6 +9,7 @@ const publishingWorkflows = new Set([
   'fetch-docs.yml',
   'translate-codex.yml',
   '_publish-content-group.yml',
+  '_publish-translation-batches.yml',
   '_translate-publish-batch.yml',
 ])
 
@@ -48,7 +49,7 @@ function validateWorkflowPolicies(directory = workflowDirectory) {
     }
 
     if (publishingWorkflows.has(file)) {
-      if (!['_publish-content-group.yml', '_translate-publish-batch.yml'].includes(file) && !/^concurrency:\n  group: docs-production-dev\n  cancel-in-progress: false$/m.test(source)) {
+      if (!['_publish-content-group.yml', '_publish-translation-batches.yml', '_translate-publish-batch.yml'].includes(file) && !/^concurrency:\n  group: docs-production-dev\n  cancel-in-progress: false$/m.test(source)) {
         errors.push(`${file}: serialize dev publication through docs-production-dev`)
       }
       if (!/^  contents: write$/m.test(source)) {

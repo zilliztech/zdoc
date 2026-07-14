@@ -1,0 +1,143 @@
+name: publish translation batches
+
+on:
+  workflow_call:
+    inputs:
+      group: { required: true, type: string }
+      master_sha: { required: true, type: string }
+      target_branch: { required: true, type: string }
+      batch_count: { required: true, type: number }
+      card_id: { required: false, type: string, default: '' }
+      card_started_at: { required: false, type: string, default: '' }
+      card_stages: { required: false, type: string, default: '' }
+    secrets:
+      APP_ID: { required: false }
+      APP_SECRET: { required: false }
+    outputs:
+      status: { value: '${{ jobs.publish.outputs.status }}' }
+      commit_sha: { value: '${{ jobs.publish.outputs.commit_sha }}' }
+
+permissions:
+  actions: read
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    outputs:
+      status: ${{ steps.publish.outputs.status }}
+      commit_sha: ${{ steps.publish.outputs.commit_sha }}
+    env:
+      GROUP: ${{ inputs.group }}
+      MASTER_SHA: ${{ inputs.master_sha }}
+      TARGET_BRANCH: ${{ inputs.target_branch }}
+      BATCH_COUNT: ${{ inputs.batch_count }}
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: '${{ inputs.master_sha }}', fetch-depth: 0 }
+      - uses: pnpm/action-setup@v4
+        with: { version: 9 }
+      - uses: actions/setup-node@v4
+        with: { node-version: '20', cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      - name: Download translation checkpoints
+        uses: actions/download-artifact@v4
+        with:
+          pattern: translation-checkpoint-${{ inputs.group }}-${{ github.run_id }}-batch-*
+          path: ${{ runner.temp }}/translation-checkpoints
+      - name: Download translation baselines
+        uses: actions/download-artifact@v4
+        with:
+          pattern: translation-baseline-${{ inputs.group }}-${{ github.run_id }}-batch-*
+          path: ${{ runner.temp }}/translation-baselines
+      - id: publish
+        name: Publish prepared batches in order
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ "$MASTER_SHA" =~ ^[0-9a-f]{40}$ ]]
+          [[ "$BATCH_COUNT" =~ ^[1-9][0-9]*$ ]]
+          git check-ref-format --branch "$TARGET_BRANCH"
+
+          extract_archive() {
+            local archive=$1 destination=$2
+            tar -tf "$archive" | node -e 'const fs=require("fs");for(const raw of fs.readFileSync(0,"utf8").split("\n").filter(Boolean)){const p=raw.endsWith("/")?raw.slice(0,-1):raw;if(!p||p.startsWith("/")||p.split("/").some(x=>x===""||x==="..")||(p!=="checkpoint-group"&&!p.startsWith("checkpoint-group/")))throw Error("unsafe checkpoint archive path: "+raw)}'
+            tar -tvf "$archive" | node -e 'const fs=require("fs");for(const line of fs.readFileSync(0,"utf8").split("\n").filter(Boolean))if(!["-","d"].includes(line[0]))throw Error("unsafe checkpoint archive entry: "+line)'
+            mkdir -p "$destination"
+            tar -xf "$archive" -C "$destination"
+          }
+
+          final_status=no_changes
+          final_sha=
+          [[ $(find "$RUNNER_TEMP/translation-checkpoints" -mindepth 1 -maxdepth 1 -type d | wc -l) -eq "$BATCH_COUNT" ]]
+          [[ $(find "$RUNNER_TEMP/translation-baselines" -mindepth 1 -maxdepth 1 -type d | wc -l) -eq "$BATCH_COUNT" ]]
+          for ((number=1; number<=BATCH_COUNT; number++)); do
+            checkpoint_root="$RUNNER_TEMP/translation-checkpoints/translation-checkpoint-$GROUP-${GITHUB_RUN_ID}-batch-$number"
+            baseline_root="$RUNNER_TEMP/translation-baselines/translation-baseline-$GROUP-${GITHUB_RUN_ID}-batch-$number"
+            checkpoint_extract="$RUNNER_TEMP/checkpoint-$number"
+            baseline_extract="$RUNNER_TEMP/baseline-$number"
+            extract_archive "$checkpoint_root/checkpoint-group.tar" "$checkpoint_extract"
+            extract_archive "$baseline_root/checkpoint-group.tar" "$baseline_extract"
+
+            artifact_dir="$checkpoint_extract/checkpoint-group"
+            baseline_dir="$baseline_extract/checkpoint-group"
+            node scripts/docs-workflow/validate-checkpoint-artifact.js --artifact "$artifact_dir" --group "$GROUP" --master-sha "$MASTER_SHA"
+            node scripts/docs-workflow/validate-checkpoint-artifact.js --artifact "$baseline_dir" --group "$GROUP" --master-sha "$MASTER_SHA"
+            ARTIFACT_DIR="$artifact_dir" BASELINE_DIR="$baseline_dir" BATCH_NUMBER="$number" node - <<'NODE'
+            const fs = require('node:fs/promises')
+            const path = require('node:path')
+            const { validateCheckpointArtifact } = require('./scripts/docs-workflow/validate-checkpoint-artifact.js')
+            Promise.all([
+              validateCheckpointArtifact(process.env.ARTIFACT_DIR),
+              validateCheckpointArtifact(process.env.BASELINE_DIR),
+            ]).then(async manifests => {
+              const expectedNumber = Number(process.env.BATCH_NUMBER)
+              const expectedCount = Number(process.env.BATCH_COUNT)
+              for (const manifest of manifests) {
+                if (manifest.batch?.batchNumber !== expectedNumber || manifest.batch?.batchCount !== expectedCount) {
+                  throw new Error('checkpoint translation batch identity mismatch')
+                }
+              }
+              const cache = path.join(manifests[1].resolvedDir, 'payload/.translation-cache/ja-JP.json')
+              const stat = await fs.lstat(cache)
+              if (!stat.isFile() || stat.isSymbolicLink()) throw new Error('Baseline translation cache must be a regular file')
+            }).catch(error => { console.error(error.message); process.exit(1) })
+            NODE
+
+            output="$RUNNER_TEMP/publication-batch-$number.txt"
+            bash scripts/docs-workflow/publish-checkpoint.sh \
+              --artifact "$artifact_dir" \
+              --baseline-dir "$baseline_dir/payload" \
+              --branch "$TARGET_BRANCH" \
+              --message "i18n($GROUP): publish batch $number of $BATCH_COUNT" \
+              --max-attempts 10 \
+              --validate-command "node scripts/validate-generated-sidebars.js && node scripts/validate-translated-coverage.js --group \"$GROUP\"" | tee "$output"
+
+            status=$(sed -n 's/^status=//p' "$output" | tail -1)
+            commit_sha=$(sed -n 's/^commit_sha=//p' "$output" | tail -1)
+            [[ "$status" == published || "$status" == no_changes ]]
+            [[ "$commit_sha" =~ ^[0-9a-f]{40}$ ]]
+            [[ "$status" == published ]] && final_status=published
+            final_sha="$commit_sha"
+          done
+          printf 'status=%s\ncommit_sha=%s\n' "$final_status" "$final_sha" >> "$GITHUB_OUTPUT"
+      - name: Report guides translation publication
+        if: ${{ always() && inputs.card_id != '' }}
+        continue-on-error: true
+        run: bash scripts/docs-workflow/report-live-card.sh
+        env:
+          CARD_ID: ${{ inputs.card_id }}
+          CARD_MODE: aggregate
+          CARD_STARTED_AT: ${{ inputs.card_started_at }}
+          CARD_STAGES: ${{ inputs.card_stages }}
+          CARD_PHASE: Publish ${{ inputs.group }} translation
+          CARD_STATUS: ${{ steps.publish.outcome == 'success' && 'done' || 'fail' }}
+          CARD_NOTE: ${{ steps.publish.outcome == 'success' && format('{0} translation batches published', inputs.group) || format('{0} translation batch publication failed', inputs.group) }}
+          CARD_TITLE: Global Docs Build
+          SELECTED_GROUP: ${{ inputs.group }}
+          PUBLISH_ENABLED: true
+          GH_TOKEN: ${{ github.token }}
+          APP_ID: ${{ secrets.APP_ID }}
+          APP_SECRET: ${{ secrets.APP_SECRET }}
+          FEISHU_HOST: ${{ vars.FEISHU_HOST }}

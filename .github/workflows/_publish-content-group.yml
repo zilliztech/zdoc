@@ -239,7 +239,7 @@ jobs:
             --artifact "$ARTIFACT_DIR" \
             --branch "$TARGET_BRANCH" \
             --message "$COMMIT_MESSAGE" \
-            --max-attempts 3 \
+            --max-attempts 10 \
             --validate-command "$VALIDATE_COMMAND" \
             "${baseline_args[@]}" | tee "$PUBLISH_OUTPUT"
 

@@ -146,6 +146,8 @@ jobs:
       SPACE_ID: ${{ secrets.SPACE_ID }}
       FIGMA_API_KEY: ${{ secrets.FIGMA_API_KEY }}
       MODEL_API_KEY: ${{ secrets.MODEL_API_KEY }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
   render_guides_saas:
     needs: [prepare, produce_guides_sources]
@@ -164,10 +166,7 @@ jobs:
       APP_ID: ${{ secrets.APP_ID }}
       APP_SECRET: ${{ secrets.APP_SECRET }}
       SPACE_ID: ${{ secrets.SPACE_ID }}
-      FIGMA_API_KEY: ${{ secrets.FIGMA_API_KEY }}
       MODEL_API_KEY: ${{ secrets.MODEL_API_KEY }}
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
   render_guides_byoc:
     needs: [prepare, produce_guides_sources]
@@ -186,10 +185,7 @@ jobs:
       APP_ID: ${{ secrets.APP_ID }}
       APP_SECRET: ${{ secrets.APP_SECRET }}
       SPACE_ID: ${{ secrets.SPACE_ID }}
-      FIGMA_API_KEY: ${{ secrets.FIGMA_API_KEY }}
       MODEL_API_KEY: ${{ secrets.MODEL_API_KEY }}
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
   produce_guides:
     needs: [prepare, produce_guides_sources, render_guides_saas, render_guides_byoc]
@@ -340,7 +336,7 @@ jobs:
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
   publish_guides:
-    needs: [prepare, produce_guides]
+    needs: [prepare, produce_guides, publish_python]
     if: ${{ always() && needs.prepare.outputs.publish == 'true' && (needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'guides') && needs.produce_guides.outputs.status == 'artifact_ready' }}
     uses: ./.github/workflows/_publish-content-group.yml
     with:
@@ -372,14 +368,14 @@ jobs:
     if: ${{ always() && needs.prepare.outputs.publish == 'true' && needs.prepare_guides_translation_batches.result == 'success' && needs.prepare_guides_translation_batches.outputs.batch_count != '0' }}
     strategy:
       fail-fast: false
-      max-parallel: 1
       matrix: ${{ fromJSON(needs.prepare_guides_translation_batches.outputs.matrix) }}
-    uses: ./.github/workflows/_translate-publish-batch.yml
+    uses: ./.github/workflows/_translate-content-group.yml
     with:
       group: guides
       source_commit_sha: ${{ needs.publish_guides.outputs.commit_sha || needs.prepare.outputs.dev_baseline_sha }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
-      target_branch: ${{ needs.prepare.outputs.target_branch }}
+      should_translate: true
+      max_files: '0'
       batch_index: ${{ matrix.batchIndex }}
       batch_number: ${{ matrix.batchNumber }}
       batch_count: ${{ fromJSON(needs.prepare_guides_translation_batches.outputs.batch_count) }}
@@ -395,8 +391,25 @@ jobs:
       REVIEW_AGENT_API_KEY: ${{ secrets.REVIEW_AGENT_API_KEY }}
       APP_ID: ${{ secrets.APP_ID }}
       APP_SECRET: ${{ secrets.APP_SECRET }}
+
+  publish_guides_translation_batches:
+    needs: [prepare, publish_rest, prepare_guides_translation_batches, translate_guides_batches]
+    if: ${{ always() && needs.prepare.outputs.publish == 'true' && needs.prepare_guides_translation_batches.result == 'success' && needs.prepare_guides_translation_batches.outputs.batch_count != '0' && needs.translate_guides_batches.result == 'success' }}
+    uses: ./.github/workflows/_publish-translation-batches.yml
+    with:
+      group: guides
+      master_sha: ${{ needs.prepare.outputs.master_sha }}
+      target_branch: ${{ needs.prepare.outputs.target_branch }}
+      batch_count: ${{ fromJSON(needs.prepare_guides_translation_batches.outputs.batch_count) }}
+      card_id: ${{ needs.prepare.outputs.phase_card_id }}
+      card_started_at: ${{ needs.prepare.outputs.card_started_at }}
+      card_stages: ${{ needs.prepare.outputs.card_stages }}
+    secrets:
+      APP_ID: ${{ secrets.APP_ID }}
+      APP_SECRET: ${{ secrets.APP_SECRET }}
+
   finalize_guides_translation:
-    needs: [prepare, prepare_guides_translation_batches, translate_guides_batches]
+    needs: [prepare, prepare_guides_translation_batches, translate_guides_batches, publish_guides_translation_batches]
     if: ${{ always() }}
     runs-on: ubuntu-latest
     timeout-minutes: 15
@@ -412,12 +425,12 @@ jobs:
           PUBLISH: ${{ needs.prepare.outputs.publish }}
           PREP_RESULT: ${{ needs.prepare_guides_translation_batches.result }}
           BATCH_COUNT: ${{ needs.prepare_guides_translation_batches.outputs.batch_count }}
-          BATCH_RESULT: ${{ needs.translate_guides_batches.result }}
+          BATCH_RESULT: ${{ needs.publish_guides_translation_batches.result }}
           TARGET_BRANCH: ${{ needs.prepare.outputs.target_branch }}
         run: node scripts/docs-workflow/finalize-translation-batches.js
 
   publish_python:
-    needs: [prepare, produce_python]
+    needs: [prepare, produce_python, publish_rest]
     if: ${{ always() && needs.prepare.outputs.publish == 'true' && (needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'python') && needs.produce_python.outputs.status == 'artifact_ready' }}
     uses: ./.github/workflows/_publish-content-group.yml
     with:
@@ -453,7 +466,7 @@ jobs:
       APP_ID: ${{ secrets.APP_ID }}
       APP_SECRET: ${{ secrets.APP_SECRET }}
   publish_python_translation:
-    needs: [prepare, publish_python, translate_python]
+    needs: [prepare, publish_python, translate_python, publish_guides_translation_batches]
     if: ${{ always() && needs.prepare.outputs.publish == 'true' && needs.translate_python.outputs.status == 'translation_ready' }}
     uses: ./.github/workflows/_publish-content-group.yml
     with:
@@ -464,7 +477,7 @@ jobs:
       should_publish: ${{ needs.prepare.outputs.publish == 'true' && needs.translate_python.outputs.status == 'translation_ready' }}
       target_branch: ${{ needs.prepare.outputs.target_branch }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
-      validate_command: 'pnpm run build'
+      validate_command: 'node scripts/validate-generated-sidebars.js && node scripts/validate-translated-coverage.js --group "python"'
       card_id: ${{ needs.prepare.outputs.phase_card_id }}
       card_started_at: ${{ needs.prepare.outputs.card_started_at }}
       card_stages: ${{ needs.prepare.outputs.card_stages }}
@@ -509,7 +522,7 @@ jobs:
       APP_ID: ${{ secrets.APP_ID }}
       APP_SECRET: ${{ secrets.APP_SECRET }}
   publish_java_translation:
-    needs: [prepare, publish_java, translate_java]
+    needs: [prepare, publish_java, translate_java, publish_python_translation]
     if: ${{ always() && needs.prepare.outputs.publish == 'true' && needs.translate_java.outputs.status == 'translation_ready' }}
     uses: ./.github/workflows/_publish-content-group.yml
     with:
@@ -520,7 +533,7 @@ jobs:
       should_publish: ${{ needs.prepare.outputs.publish == 'true' && needs.translate_java.outputs.status == 'translation_ready' }}
       target_branch: ${{ needs.prepare.outputs.target_branch }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
-      validate_command: 'pnpm run build'
+      validate_command: 'node scripts/validate-generated-sidebars.js && node scripts/validate-translated-coverage.js --group "java"'
       card_id: ${{ needs.prepare.outputs.phase_card_id }}
       card_started_at: ${{ needs.prepare.outputs.card_started_at }}
       card_stages: ${{ needs.prepare.outputs.card_stages }}
@@ -529,7 +542,7 @@ jobs:
       APP_SECRET: ${{ secrets.APP_SECRET }}
 
   publish_node:
-    needs: [prepare, produce_node]
+    needs: [prepare, produce_node, publish_java]
     if: ${{ always() && needs.prepare.outputs.publish == 'true' && (needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'node') && needs.produce_node.outputs.status == 'artifact_ready' }}
     uses: ./.github/workflows/_publish-content-group.yml
     with:
@@ -565,7 +578,7 @@ jobs:
       APP_ID: ${{ secrets.APP_ID }}
       APP_SECRET: ${{ secrets.APP_SECRET }}
   publish_node_translation:
-    needs: [prepare, publish_node, translate_node]
+    needs: [prepare, publish_node, translate_node, publish_java_translation]
     if: ${{ always() && needs.prepare.outputs.publish == 'true' && needs.translate_node.outputs.status == 'translation_ready' }}
     uses: ./.github/workflows/_publish-content-group.yml
     with:
@@ -576,7 +589,7 @@ jobs:
       should_publish: ${{ needs.prepare.outputs.publish == 'true' && needs.translate_node.outputs.status == 'translation_ready' }}
       target_branch: ${{ needs.prepare.outputs.target_branch }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
-      validate_command: 'pnpm run build'
+      validate_command: 'node scripts/validate-generated-sidebars.js && node scripts/validate-translated-coverage.js --group "node"'
       card_id: ${{ needs.prepare.outputs.phase_card_id }}
       card_started_at: ${{ needs.prepare.outputs.card_started_at }}
       card_stages: ${{ needs.prepare.outputs.card_stages }}
@@ -585,7 +598,7 @@ jobs:
       APP_SECRET: ${{ secrets.APP_SECRET }}
 
   publish_go:
-    needs: [prepare, produce_go]
+    needs: [prepare, produce_go, publish_node]
     if: ${{ always() && needs.prepare.outputs.publish == 'true' && (needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'go') && needs.produce_go.outputs.status == 'artifact_ready' }}
     uses: ./.github/workflows/_publish-content-group.yml
     with:
@@ -621,7 +634,7 @@ jobs:
       APP_ID: ${{ secrets.APP_ID }}
       APP_SECRET: ${{ secrets.APP_SECRET }}
   publish_go_translation:
-    needs: [prepare, publish_go, translate_go]
+    needs: [prepare, publish_go, translate_go, publish_node_translation]
     if: ${{ always() && needs.prepare.outputs.publish == 'true' && needs.translate_go.outputs.status == 'translation_ready' }}
     uses: ./.github/workflows/_publish-content-group.yml
     with:
@@ -632,7 +645,7 @@ jobs:
       should_publish: ${{ needs.prepare.outputs.publish == 'true' && needs.translate_go.outputs.status == 'translation_ready' }}
       target_branch: ${{ needs.prepare.outputs.target_branch }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
-      validate_command: 'pnpm run build'
+      validate_command: 'node scripts/validate-generated-sidebars.js && node scripts/validate-translated-coverage.js --group "go"'
       card_id: ${{ needs.prepare.outputs.phase_card_id }}
       card_started_at: ${{ needs.prepare.outputs.card_started_at }}
       card_stages: ${{ needs.prepare.outputs.card_stages }}
@@ -641,7 +654,7 @@ jobs:
       APP_SECRET: ${{ secrets.APP_SECRET }}
 
   publish_cli:
-    needs: [prepare, produce_cli]
+    needs: [prepare, produce_cli, publish_go]
     if: ${{ always() && needs.prepare.outputs.publish == 'true' && (needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'cli') && needs.produce_cli.outputs.status == 'artifact_ready' }}
     uses: ./.github/workflows/_publish-content-group.yml
     with:
@@ -677,7 +690,7 @@ jobs:
       APP_ID: ${{ secrets.APP_ID }}
       APP_SECRET: ${{ secrets.APP_SECRET }}
   publish_cli_translation:
-    needs: [prepare, publish_cli, translate_cli]
+    needs: [prepare, publish_cli, translate_cli, publish_go_translation]
     if: ${{ always() && needs.prepare.outputs.publish == 'true' && needs.translate_cli.outputs.status == 'translation_ready' }}
     uses: ./.github/workflows/_publish-content-group.yml
     with:
@@ -688,7 +701,7 @@ jobs:
       should_publish: ${{ needs.prepare.outputs.publish == 'true' && needs.translate_cli.outputs.status == 'translation_ready' }}
       target_branch: ${{ needs.prepare.outputs.target_branch }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
-      validate_command: 'pnpm run build'
+      validate_command: 'node scripts/validate-generated-sidebars.js && node scripts/validate-translated-coverage.js --group "cli"'
       card_id: ${{ needs.prepare.outputs.phase_card_id }}
       card_started_at: ${{ needs.prepare.outputs.card_started_at }}
       card_stages: ${{ needs.prepare.outputs.card_stages }}
@@ -697,7 +710,7 @@ jobs:
       APP_SECRET: ${{ secrets.APP_SECRET }}
 
   publish_rest:
-    needs: [prepare, produce_rest]
+    needs: [prepare, produce_rest, publish_cli]
     if: ${{ always() && needs.prepare.outputs.publish == 'true' && (needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'rest') && needs.produce_rest.outputs.status == 'artifact_ready' }}
     uses: ./.github/workflows/_publish-content-group.yml
     with:
@@ -733,7 +746,7 @@ jobs:
       APP_ID: ${{ secrets.APP_ID }}
       APP_SECRET: ${{ secrets.APP_SECRET }}
   publish_rest_translation:
-    needs: [prepare, publish_rest, translate_rest]
+    needs: [prepare, publish_rest, translate_rest, publish_cli_translation]
     if: ${{ always() && needs.prepare.outputs.publish == 'true' && needs.translate_rest.outputs.status == 'translation_ready' }}
     uses: ./.github/workflows/_publish-content-group.yml
     with:
@@ -744,7 +757,7 @@ jobs:
       should_publish: ${{ needs.prepare.outputs.publish == 'true' && needs.translate_rest.outputs.status == 'translation_ready' }}
       target_branch: ${{ needs.prepare.outputs.target_branch }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
-      validate_command: 'pnpm run build'
+      validate_command: 'node scripts/validate-generated-sidebars.js && node scripts/validate-translated-coverage.js --group "rest"'
       card_id: ${{ needs.prepare.outputs.phase_card_id }}
       card_started_at: ${{ needs.prepare.outputs.card_started_at }}
       card_stages: ${{ needs.prepare.outputs.card_stages }}
@@ -788,7 +801,7 @@ jobs:
       APP_SECRET: ${{ secrets.APP_SECRET }}
 
   aggregate:
-    needs: [prepare, produce_guides, publish_guides, prepare_guides_translation_batches, translate_guides_batches, finalize_guides_translation, produce_python, publish_python, translate_python, publish_python_translation, produce_java, publish_java, translate_java, publish_java_translation, produce_node, publish_node, translate_node, publish_node_translation, produce_go, publish_go, translate_go, publish_go_translation, produce_cli, publish_cli, translate_cli, publish_cli_translation, produce_rest, publish_rest, translate_rest, publish_rest_translation, resolve_final, verify]
+    needs: [prepare, produce_guides, publish_guides, prepare_guides_translation_batches, translate_guides_batches, publish_guides_translation_batches, finalize_guides_translation, produce_python, publish_python, translate_python, publish_python_translation, produce_java, publish_java, translate_java, publish_java_translation, produce_node, publish_node, translate_node, publish_node_translation, produce_go, publish_go, translate_go, publish_go_translation, produce_cli, publish_cli, translate_cli, publish_cli_translation, produce_rest, publish_rest, translate_rest, publish_rest_translation, resolve_final, verify]
     if: ${{ always() }}
     runs-on: ubuntu-latest
     timeout-minutes: 30

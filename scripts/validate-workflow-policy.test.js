@@ -19,17 +19,24 @@ test('docs production runs only on schedules or explicit manual dispatch', () =>
   assert.doesNotMatch(triggerBlock, /\n\s+push:/)
 })
 
-test('source publishers are gated before reusable workflows allocate runners', () => {
+test('content producers stay parallel while source publishers form an explicit commit queue', () => {
   const workflowPath = path.join(process.cwd(), '.github/workflows/fetch-docs.yml')
   const workflow = yaml.load(fs.readFileSync(workflowPath, 'utf8'))
+  const groups = ['guides', 'python', 'java', 'node', 'go', 'cli', 'rest']
+  const publicationOrder = ['java', 'node', 'go', 'cli', 'rest', 'python', 'guides']
 
-  for (const group of ['guides', 'python', 'java', 'node', 'go', 'cli', 'rest']) {
+  for (const group of groups) {
+    assert.deepEqual(workflow.jobs[`produce_${group}`].needs, group === 'guides' ? ['prepare', 'produce_guides_sources', 'render_guides_saas', 'render_guides_byoc'] : 'prepare')
     const condition = workflow.jobs[`publish_${group}`].if
     assert.match(condition, /always\(\)/, `${group} publisher must tolerate skipped serialization dependencies`)
     assert.match(condition, /needs\.prepare\.outputs\.publish == 'true'/, `${group} publisher must require publish mode`)
     assert.match(condition, new RegExp(`needs\\.prepare\\.outputs\\.selected_group == '${group}'`), `${group} publisher must require group selection`)
     assert.match(condition, new RegExp(`needs\\.produce_${group}\\.outputs\\.status == 'artifact_ready'`), `${group} publisher must require an artifact-ready producer`)
-    assert.deepEqual(workflow.jobs[`publish_${group}`].needs, ['prepare', `produce_${group}`], `${group} publisher must not wait for another content group`)
+  }
+  for (const [index, group] of publicationOrder.entries()) {
+    const expectedNeeds = ['prepare', `produce_${group}`]
+    if (index > 0) expectedNeeds.push(`publish_${publicationOrder[index - 1]}`)
+    assert.deepEqual(workflow.jobs[`publish_${group}`].needs, expectedNeeds)
   }
 })
 
@@ -148,6 +155,32 @@ test('guides workflows bootstrap full sources and persist only verified caches',
   assert.ok(assemble.indexOf('Promote validated guides source snapshot') < assemble.indexOf('actions/cache/save@v4'))
 })
 
+test('guides media is prefetched once for the incremental render scope and shared by parallel renders', () => {
+  const caller = yaml.load(fs.readFileSync('.github/workflows/fetch-docs.yml', 'utf8'))
+  const source = fs.readFileSync('.github/workflows/_fetch-guides-sources.yml', 'utf8')
+  const render = fs.readFileSync('.github/workflows/_render-guides-target.yml', 'utf8')
+
+  assert.match(source, /guides-media-prefetch\.js/)
+  assert.match(source, /--plan plugins\/lark-docs\/meta\/reports\/guides-incremental-fetch-plan\.json/)
+  assert.match(source, /--snapshot plugins\/lark-docs\/meta\/reports\/guides-source-snapshot-candidate\.json/)
+  assert.match(source, /--concurrency 4/)
+  assert.match(source, /AWS_ACCESS_KEY_ID: \$\{\{ secrets\.AWS_ACCESS_KEY_ID \}\}/)
+  assert.match(source, /AWS_SECRET_ACCESS_KEY: \$\{\{ secrets\.AWS_SECRET_ACCESS_KEY \}\}/)
+
+  assert.match(render, /GUIDES_MEDIA_MANIFEST: plugins\/lark-docs\/meta\/media-cache\/guides\.json/)
+  assert.match(render, /GUIDES_MEDIA_PREFETCH_REQUIRED: 'true'/)
+  assert.doesNotMatch(render, /FIGMA_API_KEY|AWS_ACCESS_KEY_ID|AWS_SECRET_ACCESS_KEY/)
+
+  assert.deepEqual(caller.jobs.render_guides_saas.needs, ['prepare', 'produce_guides_sources'])
+  assert.deepEqual(caller.jobs.render_guides_byoc.needs, ['prepare', 'produce_guides_sources'])
+  for (const job of ['render_guides_saas', 'render_guides_byoc']) {
+    const secrets = caller.jobs[job].secrets || {}
+    assert.equal(Object.hasOwn(secrets, 'FIGMA_API_KEY'), false)
+    assert.equal(Object.hasOwn(secrets, 'AWS_ACCESS_KEY_ID'), false)
+    assert.equal(Object.hasOwn(secrets, 'AWS_SECRET_ACCESS_KEY'), false)
+  }
+})
+
 test('reusable content publisher safely downloads, validates, and publishes checkpoints', () => {
   const workflowPath = path.join(process.cwd(), '.github/workflows/_publish-content-group.yml')
   assert.equal(fs.existsSync(workflowPath), true, 'reusable content publisher workflow must exist')
@@ -171,7 +204,7 @@ test('reusable content publisher safely downloads, validates, and publishes chec
   assert.match(workflow, /extract_checkpoint_archive "\$DOWNLOAD_DIR\/checkpoint-group\.tar" "\$EXTRACT_DIR" "\$ARTIFACT_DIR" checkpoint[\s\S]*extract_checkpoint_archive "\$BASELINE_DOWNLOAD_DIR\/checkpoint-group\.tar" "\$BASELINE_EXTRACT_DIR" "\$BASELINE_DIR" baseline/)
   assert.match(workflow, /tar -tf "\$archive"[\s\S]*tar -tvf "\$archive"[\s\S]*checkpoint-group\.tar/)
   assert.match(workflow, /validate-checkpoint-artifact\.js[\s\S]*--group "\$GROUP"[\s\S]*--master-sha "\$MASTER_SHA"/)
-  assert.match(workflow, /publish-checkpoint\.sh[\s\S]*--artifact "\$ARTIFACT_DIR"[\s\S]*--branch "\$TARGET_BRANCH"[\s\S]*--message "\$COMMIT_MESSAGE"[\s\S]*--max-attempts 3[\s\S]*--validate-command "\$VALIDATE_COMMAND"/)
+  assert.match(workflow, /publish-checkpoint\.sh[\s\S]*--artifact "\$ARTIFACT_DIR"[\s\S]*--branch "\$TARGET_BRANCH"[\s\S]*--message "\$COMMIT_MESSAGE"[\s\S]*--max-attempts 10[\s\S]*--validate-command "\$VALIDATE_COMMAND"/)
   assert.match(workflow, /id: baseline_validation[\s\S]*validateCheckpointArtifact[\s\S]*manifest\.resolvedDir[\s\S]*payload[\s\S]*\.translation-cache\/ja-JP\.json[\s\S]*baseline_dir=/)
   assert.match(workflow, /BASELINE_PAYLOAD_DIR: \$\{\{ steps\.baseline_validation\.outputs\.baseline_dir \}\}[\s\S]*baseline_args=\(\)[\s\S]*baseline_args=\(--baseline-dir "\$BASELINE_PAYLOAD_DIR"\)[\s\S]*"\$\{baseline_args\[@\]\}"/)
   assert.match(workflow, /id: result[\s\S]*if: \$\{\{ always\(\) \}\}[\s\S]*status=failed[\s\S]*status=skipped[\s\S]*published[\s\S]*no_changes/)
@@ -181,6 +214,34 @@ test('reusable content publisher safely downloads, validates, and publishes chec
   assert.doesNotMatch(workflow, /git-auto-commit|git push[^\n]*--force/)
   const publicationBody = workflow.slice(workflow.indexOf('name: Publish checkpoint'), workflow.indexOf('name: Report publication phase'))
   assert.doesNotMatch(publicationBody, /secrets\./)
+})
+
+test('guides translations run in parallel and publish batches in one short ordered stage', () => {
+  const workflow = yaml.load(fs.readFileSync('.github/workflows/fetch-docs.yml', 'utf8'))
+  const translate = workflow.jobs.translate_guides_batches
+  assert.equal(translate.strategy['max-parallel'], undefined)
+  assert.equal(translate.uses, './.github/workflows/_translate-content-group.yml')
+  const publish = workflow.jobs.publish_guides_translation_batches
+  assert.ok(publish.needs.includes('translate_guides_batches'))
+  assert.ok(publish.needs.includes('publish_rest'))
+  assert.equal(publish.uses, './.github/workflows/_publish-translation-batches.yml')
+
+  const reusable = fs.readFileSync('.github/workflows/_publish-translation-batches.yml', 'utf8')
+  assert.match(reusable, /for \(\(number=1; number<=BATCH_COUNT; number\+\+\)\)/)
+  assert.match(reusable, /--max-attempts 10/)
+  assert.match(reusable, /validate-generated-sidebars\.js && node scripts\/validate-translated-coverage\.js --group \\"\$GROUP\\"/)
+  assert.doesNotMatch(reusable, /pnpm run build/)
+})
+
+test('translation publishers form a short queue with scoped validation', () => {
+  const workflow = yaml.load(fs.readFileSync('.github/workflows/fetch-docs.yml', 'utf8'))
+  const groups = ['python', 'java', 'node', 'go', 'cli', 'rest']
+  for (const [index, group] of groups.entries()) {
+    const job = workflow.jobs[`publish_${group}_translation`]
+    const predecessor = index === 0 ? 'publish_guides_translation_batches' : `publish_${groups[index - 1]}_translation`
+    assert.ok(job.needs.includes(predecessor))
+    assert.equal(job.with.validate_command, `node scripts/validate-generated-sidebars.js && node scripts/validate-translated-coverage.js --group "${group}"`)
+  }
 })
 
 test('reusable translation producer creates group-scoped checkpoint artifacts without publishing', () => {
