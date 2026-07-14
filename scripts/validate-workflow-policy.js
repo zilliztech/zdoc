@@ -67,6 +67,31 @@ function validateWorkflowPolicies(directory = workflowDirectory) {
       }
     }
 
+    if (file === 'fetch-docs.yml') {
+      const expectedPublicationNeeds = {
+        publish_python: ['prepare', 'produce_python', 'publish_guides'],
+        publish_java: ['prepare', 'produce_java', 'publish_python'],
+        publish_node: ['prepare', 'produce_node', 'publish_java'],
+        publish_go: ['prepare', 'produce_go', 'publish_node'],
+        publish_cli: ['prepare', 'produce_cli', 'publish_go'],
+        publish_rest: ['prepare', 'produce_rest', 'publish_cli'],
+        prepare_guides_translation_batches: ['prepare', 'publish_guides', 'publish_rest'],
+        publish_python_translation: ['prepare', 'publish_python', 'translate_python', 'finalize_guides_translation'],
+        publish_java_translation: ['prepare', 'publish_java', 'translate_java', 'publish_python_translation'],
+        publish_node_translation: ['prepare', 'publish_node', 'translate_node', 'publish_java_translation'],
+        publish_go_translation: ['prepare', 'publish_go', 'translate_go', 'publish_node_translation'],
+        publish_cli_translation: ['prepare', 'publish_cli', 'translate_cli', 'publish_go_translation'],
+        publish_rest_translation: ['prepare', 'publish_rest', 'translate_rest', 'publish_cli_translation'],
+      }
+      for (const [jobName, expectedNeeds] of Object.entries(expectedPublicationNeeds)) {
+        const actualNeeds = workflow.jobs?.[jobName]?.needs
+        const normalizedNeeds = Array.isArray(actualNeeds) ? actualNeeds : [actualNeeds].filter(Boolean)
+        if (JSON.stringify(normalizedNeeds) !== JSON.stringify(expectedNeeds)) {
+          errors.push(`${file}: ${jobName} must preserve the serialized publication dependency chain`)
+        }
+      }
+    }
+
     if (file === '_fetch-content-group.yml') {
       const requiredPatterns = [
         [/^  workflow_call:$/m, 'must be a workflow_call reusable workflow'],
