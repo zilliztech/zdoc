@@ -3635,6 +3635,11 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Vector/v2-Vector.md",
       "translatedAt": "2026-07-13T10:02:27.303Z"
     },
+    "reference/api/java/java/java.md": {
+      "sourceHash": "048ea1cc6142e8b454028f5378a0aac6e03d99b9c5b6f745b4359f143c266408",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/java/java/java.md",
+      "translatedAt": "2026-07-14T15:22:22.315Z"
+    },
     "reference/api/java/java/v2/v2-Authentication/v2-Authentication-alterRole.md": {
       "sourceHash": "1ffe8bc23ed1cbd50bc6de9101f42f06cda9b16a5ddb2b0229c8a418edb0e1b7",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/java/java/v2/v2-Authentication/v2-Authentication-alterRole.md",
