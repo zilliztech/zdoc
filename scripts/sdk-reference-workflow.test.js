@@ -44,6 +44,11 @@ test('Guides assembly promotes the source candidate only after combined validati
   assert.match(source, /--output plugins\/lark-docs\/meta\/snapshots\/guides-uat-last-success\.json/)
   assert.doesNotMatch(source, /update-lark-doc-snapshot\.js/)
   assert.doesNotMatch(source, /\[snapshot\] Base scan|\[snapshot\] Wiki metadata/)
+  assert.equal(
+    source.match(/run-doc-build-stage\.js --build \"pnpm run build\" --skipLinkChecks --skipCardReporting/g)?.length,
+    2,
+    'assembly and checkpoint revalidation must not report Lark card progress',
+  )
 })
 
 test('docs workflow orchestrates independent checkpointed publication lanes', () => {

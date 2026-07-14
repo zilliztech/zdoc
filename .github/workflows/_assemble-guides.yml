@@ -62,7 +62,7 @@ jobs:
       - name: Validate combined guides output
         run: |
           node scripts/validate-generated-sidebars.js
-          node scripts/run-doc-build-stage.js --build "pnpm run build" --skipLinkChecks
+          node scripts/run-doc-build-stage.js --build "pnpm run build" --skipLinkChecks --skipCardReporting
       - name: Promote validated guides source snapshot
         run: |
           node scripts/promote-lark-doc-snapshot.js \
@@ -77,7 +77,7 @@ jobs:
             --link-check-remote https://docs.zilliz.com
       - name: Create combined guides checkpoint
         run: |
-          node scripts/docs-workflow/create-checkpoint-artifact.js --group guides --master-sha "${{ inputs.master_sha }}" --dev-baseline-sha "${{ inputs.dev_baseline_sha }}" --baseline-dir "$RUNNER_TEMP/baseline" --workspace "$GITHUB_WORKSPACE" --output "$RUNNER_TEMP/checkpoint-group" --validation-command "node scripts/validate-generated-sidebars.js" --validation-command 'node scripts/run-doc-build-stage.js --build "pnpm run build" --skipLinkChecks'
+          node scripts/docs-workflow/create-checkpoint-artifact.js --group guides --master-sha "${{ inputs.master_sha }}" --dev-baseline-sha "${{ inputs.dev_baseline_sha }}" --baseline-dir "$RUNNER_TEMP/baseline" --workspace "$GITHUB_WORKSPACE" --output "$RUNNER_TEMP/checkpoint-group" --validation-command "node scripts/validate-generated-sidebars.js" --validation-command 'node scripts/run-doc-build-stage.js --build "pnpm run build" --skipLinkChecks --skipCardReporting'
           tar --dereference -cf "$RUNNER_TEMP/checkpoint-group.tar" -C "$RUNNER_TEMP" checkpoint-group
       - id: upload
         uses: actions/upload-artifact@v4
