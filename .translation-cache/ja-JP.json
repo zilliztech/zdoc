@@ -5215,6 +5215,11 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/python/python/DataImport/DataImport-BulkFileType.md",
       "translatedAt": "2026-07-13T11:00:17.324Z"
     },
+    "reference/api/python/python/DataImport/DataImport-BulkImport/BulkImport-bulk_import.md": {
+      "sourceHash": "96974614d1bb254846f851c4609fcdb6ceffb7f5c9575e561847884f7d705b59",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/python/python/DataImport/DataImport-BulkImport/BulkImport-bulk_import.md",
+      "translatedAt": "2026-07-14T05:45:52.516Z"
+    },
     "reference/api/python/python/DataImport/DataImport-BulkImport/BulkImport-get_import_progress.md": {
       "sourceHash": "42bdd1171f1fec64dadbd8caa7b90cd4c3a4657f6fb3d15e9cc985131979c113",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/python/python/DataImport/DataImport-BulkImport/BulkImport-get_import_progress.md",
