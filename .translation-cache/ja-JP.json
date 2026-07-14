@@ -3150,6 +3150,11 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/tools/terraform-provider.md",
       "translatedAt": "2026-07-13T19:03:56.465Z"
     },
+    "reference/api/go/go/go.md": {
+      "sourceHash": "9d60b58a137f5fd8ceb2368b7b55c848f07ee0969351913fe030110764ecc72c",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/go.md",
+      "translatedAt": "2026-07-14T15:23:58.155Z"
+    },
     "reference/api/go/go/v2/v2-Authentication/v2-Authentication-BackupRBAC.md": {
       "sourceHash": "5961e9c470a6ee667c3a60c1f77f198ca7cd6d8bf093065405993abeb452fb54",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/v2/v2-Authentication/v2-Authentication-BackupRBAC.md",
