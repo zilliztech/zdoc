@@ -189,27 +189,34 @@ module.exports = [
                 "id": "api/restful/restful/v2/control-plane/cluster-operations-v2/modify-cluster-replica-v2",
                 "label": "Modify Cluster Replica (V2)",
                 "key": "doc:api/restful/restful/v2/control-plane/cluster-operations-v2/modify-cluster-replica-v2"
-              },
-              {
-                "type": "doc",
-                "id": "api/restful/restful/v2/control-plane/cluster-operations-v2/list-on-demand-clusters-v2",
-                "label": "List On-Demand Clusters (V2)",
-                "key": "doc:api/restful/restful/v2/control-plane/cluster-operations-v2/list-on-demand-clusters-v2"
-              },
-              {
-                "type": "doc",
-                "id": "api/restful/restful/v2/control-plane/cluster-operations-v2/delete-on-demand-cluster-v2",
-                "label": "Delete On-Demand Cluster (V2)",
-                "key": "doc:api/restful/restful/v2/control-plane/cluster-operations-v2/delete-on-demand-cluster-v2"
-              },
-              {
-                "type": "doc",
-                "id": "api/restful/restful/v2/control-plane/cluster-operations-v2/create-on-demand-cluster-v2",
-                "label": "Create On-Demand Cluster (V2)",
-                "key": "doc:api/restful/restful/v2/control-plane/cluster-operations-v2/create-on-demand-cluster-v2"
               }
             ],
             "key": "category:v2/control-plane-v2/cluster-operations-v2"
+          },
+          {
+            "type": "category",
+            "label": "On-Demand Cluster Operations (V2)",
+            "items": [
+              {
+                "type": "doc",
+                "id": "api/restful/restful/v2/control-plane/on-demand-cluster-operations-v2/list-on-demand-clusters-v2",
+                "label": "List On-Demand Clusters (V2)",
+                "key": "doc:api/restful/restful/v2/control-plane/on-demand-cluster-operations-v2/list-on-demand-clusters-v2"
+              },
+              {
+                "type": "doc",
+                "id": "api/restful/restful/v2/control-plane/on-demand-cluster-operations-v2/delete-on-demand-cluster-v2",
+                "label": "Delete On-Demand Cluster (V2)",
+                "key": "doc:api/restful/restful/v2/control-plane/on-demand-cluster-operations-v2/delete-on-demand-cluster-v2"
+              },
+              {
+                "type": "doc",
+                "id": "api/restful/restful/v2/control-plane/on-demand-cluster-operations-v2/create-on-demand-cluster-v2",
+                "label": "Create On-Demand Cluster (V2)",
+                "key": "doc:api/restful/restful/v2/control-plane/on-demand-cluster-operations-v2/create-on-demand-cluster-v2"
+              }
+            ],
+            "key": "category:v2/control-plane-v2/on-demand-cluster-operations-v2"
           },
           {
             "type": "category",

@@ -1,9 +1,11 @@
 'use strict'
 
 const assert = require('node:assert/strict')
+const fs = require('node:fs')
+const os = require('node:os')
 const path = require('node:path')
 const test = require('node:test')
-const { validateAllGeneratedSidebars, validateSidebar } = require('./validate-generated-sidebars')
+const { validateAllGeneratedSidebars, validateSidebar, validateSidebarDocTargets } = require('./validate-generated-sidebars')
 
 test('rejects duplicate document ids and keys recursively', () => {
   const sidebar = [{
@@ -19,4 +21,29 @@ test('rejects duplicate document ids and keys recursively', () => {
 
 test('all tracked generated sidebars have unique document identities and translation keys', () => {
   assert.doesNotThrow(() => validateAllGeneratedSidebars(path.join(process.cwd(), 'config/generated')))
+})
+
+test('rejects generated sidebar entries whose document file is missing', () => {
+  const outputDir = fs.mkdtempSync(path.join(os.tmpdir(), 'sidebar-targets-'))
+  try {
+    fs.mkdirSync(path.join(outputDir, 'api/restful/restful/v2/control-plane/cluster-operations-v2'), { recursive: true })
+    fs.writeFileSync(
+      path.join(outputDir, 'api/restful/restful/v2/control-plane/cluster-operations-v2/list-clusters-v2.mdx'),
+      '---\ntitle: List Clusters\n---\n',
+    )
+    const sidebar = [{
+      type: 'category',
+      label: 'Cluster Operations',
+      items: [
+        { type: 'doc', id: 'api/restful/restful/v2/control-plane/cluster-operations-v2/list-clusters-v2' },
+        { type: 'doc', id: 'api/restful/restful/v2/control-plane/cluster-operations-v2/create-on-demand-cluster-v2' },
+      ],
+    }]
+    assert.throws(
+      () => validateSidebarDocTargets({ outputDir, sidebar, idPrefix: 'api/restful/restful', label: 'restful.sidebar.js' }),
+      /restful\.sidebar\.js references missing generated document files.*create-on-demand-cluster-v2/s,
+    )
+  } finally {
+    fs.rmSync(outputDir, { recursive: true, force: true })
+  }
 })

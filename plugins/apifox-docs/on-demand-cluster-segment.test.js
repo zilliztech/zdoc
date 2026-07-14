@@ -23,8 +23,23 @@ const movedOperations = [
   ['delete', '/v2/clusters/onDemandClusters/{CLUSTER_ID}'],
 ]
 
+const sidebarMovedSlugs = [
+  'create-on-demand-cluster-v2',
+  'list-on-demand-clusters-v2',
+  'delete-on-demand-cluster-v2',
+]
+
 function loadJson(filePath) {
   return JSON.parse(fs.readFileSync(filePath, 'utf-8'))
+}
+
+function collectSidebarIds(items, ids = new Set()) {
+  for (const item of items || []) {
+    if ((item.type === 'doc' || item.type === 'ref') && item.id) ids.add(item.id)
+    if (item.link?.type === 'doc' && item.link.id) ids.add(item.link.id)
+    if (Array.isArray(item.items)) collectSidebarIds(item.items, ids)
+  }
+  return ids
 }
 
 function testSegmentBoundary() {
@@ -62,6 +77,23 @@ function testSegmentBoundary() {
     'Cluster Operations (V2)',
   )
   assert.ok(cluster.paths['/v2/clusters/createDedicated'].post)
+}
+
+function testSidebarUsesOnDemandSegment() {
+  const sidebar = require('../../config/generated/restful.sidebar.js')
+  const sidebarIds = collectSidebarIds(sidebar)
+  for (const slug of sidebarMovedSlugs) {
+    assert.equal(
+      sidebarIds.has(`api/restful/restful/v2/control-plane/cluster-operations-v2/${slug}`),
+      false,
+      `Sidebar must not keep stale Cluster Operations path for ${slug}`,
+    )
+    assert.equal(
+      sidebarIds.has(`api/restful/restful/v2/control-plane/on-demand-cluster-operations-v2/${slug}`),
+      true,
+      `Sidebar must point ${slug} at the On-Demand Cluster Operations segment`,
+    )
+  }
 }
 
 function testPatchNamesAndAutoSuspendSchema() {
@@ -156,6 +188,7 @@ async function testGeneratedRoutes() {
 
 async function run() {
   testSegmentBoundary()
+  testSidebarUsesOnDemandSegment()
   testPatchNamesAndAutoSuspendSchema()
   testMetadataAndRepositoryLinks()
   await testGeneratedRoutes()

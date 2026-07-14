@@ -30,6 +30,37 @@ function validateSidebar(sidebar, label = 'sidebar') {
   if (errors.length) throw new Error(`${label} contains duplicate sidebar entries:\n- ${errors.join('\n- ')}`)
 }
 
+function collectSidebarDocIds(sidebar) {
+  const ids = new Set()
+  function visit(items) {
+    for (const item of items || []) {
+      if ((item.type === 'doc' || item.type === 'ref') && item.id) ids.add(item.id)
+      if (item.link?.type === 'doc' && item.link.id) ids.add(item.link.id)
+      if (Array.isArray(item.items)) visit(item.items)
+    }
+  }
+  visit(sidebar)
+  return ids
+}
+
+function hasDocFile(root, id) {
+  const normalized = id.split('/').filter(Boolean)
+  if (normalized.length === 0 || normalized.some(part => part === '.' || part === '..')) return false
+  const base = path.join(root, ...normalized)
+  return fs.existsSync(`${base}.md`) || fs.existsSync(`${base}.mdx`)
+}
+
+function validateSidebarDocTargets({ outputDir, sidebar, idPrefix, label = 'sidebar' }) {
+  const missing = [...collectSidebarDocIds(sidebar)]
+    .filter(id => id.startsWith(`${idPrefix}/`) || id === idPrefix)
+    .filter(id => !hasDocFile(outputDir, id))
+    .sort()
+  if (missing.length) {
+    throw new Error(`${label} references missing generated document files:\n- ${missing.join('\n- ')}`)
+  }
+  return { checked: collectSidebarDocIds(sidebar).size, missing }
+}
+
 function validateAllGeneratedSidebars(directory) {
   const files = fs.readdirSync(directory)
     .filter(file => file.endsWith('.sidebar.js'))
@@ -46,6 +77,17 @@ function main() {
   const directory = path.join(process.cwd(), 'config/generated')
   const count = validateAllGeneratedSidebars(directory)
   console.log(`[sidebar-validation] validated ${count} generated sidebar file(s)`)
+  const restfulSidebarPath = path.join(directory, 'restful.sidebar.js')
+  if (fs.existsSync(restfulSidebarPath)) {
+    delete require.cache[require.resolve(restfulSidebarPath)]
+    const result = validateSidebarDocTargets({
+      outputDir: path.join(process.cwd(), 'reference'),
+      idPrefix: 'api/restful/restful',
+      sidebar: require(restfulSidebarPath),
+      label: 'restful.sidebar.js',
+    })
+    console.log(`[sidebar-validation] restful.sidebar.js: ${result.checked} doc target(s) checked`)
+  }
   const candidate = path.join(process.cwd(), 'plugins/lark-docs/meta/reports/guides-source-snapshot-candidate.json')
   if (fs.existsSync(candidate)) {
     const { validateGuidesCoverage } = require('./validate-guides-coverage')
@@ -61,4 +103,4 @@ function main() {
 
 if (require.main === module) main()
 
-module.exports = { validateAllGeneratedSidebars, validateSidebar }
+module.exports = { collectSidebarDocIds, validateAllGeneratedSidebars, validateSidebar, validateSidebarDocTargets }
