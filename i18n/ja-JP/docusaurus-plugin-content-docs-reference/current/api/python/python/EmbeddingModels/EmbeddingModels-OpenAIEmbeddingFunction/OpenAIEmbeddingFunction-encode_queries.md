@@ -1,0 +1,92 @@
+---
+title: "encode_queries() | Python"
+slug: /python/python/OpenAIEmbeddingFunction-encode_queries
+sidebar_label: "encode_queries()"
+beta: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
+notebook: false
+description: "この操作は、クエリ文字列のリストを受け取り、各クエリをベクトル埋め込みにエンコードします。 | Python"
+type: docx
+token: Sf9UdzL3rolQNAxDm8Ecga3snhg
+sidebar_position: 2
+keywords: 
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - encode_queries()
+  - pymilvus30
+displayed_sidebar: pythonSidebar
+
+displayed_sidbar: pythonSidebar
+---
+
+import Admonition from '@theme/Admonition';
+
+
+# encode_queries()
+
+この操作は、クエリ文字列のリストを受け取り、各クエリをベクトル埋め込みにエンコードします。
+
+## リクエスト構文\{#request-syntax}
+
+```python
+encode_queries(
+    queries: List[str], 
+) -> List[np.array]
+```
+
+**パラメーター:**
+
+- **queries** (*List[str]*)
+
+    文字列値のリストです。各文字列は、エンコードのために埋め込みモデルに渡されるクエリを表します。モデルは、リスト内の各文字列に対して埋め込みベクトルを生成します。
+
+**戻り値の型:**
+
+*List[np.array]*
+
+**戻り値:**
+
+各要素が NumPy 配列であるリストです。
+
+**例外:**
+
+- **ImportError**
+
+    OpenAI モジュールがインストールされていない場合に、この例外が発生します。
+
+## 例\{#examples}
+
+```python
+from pymilvus import model
+
+openai_ef = model.dense.OpenAIEmbeddingFunction(
+    model_name='text-embedding-3-large', # Specify the model name
+    dimensions=512 # Set the embedding dimensionality according to MRL feature.
+)
+
+queries = ["When was artificial intelligence founded", 
+           "Where was Alan Turing born?"]
+
+query_embeddings = openai_ef.encode_queries(queries)
+
+# Print embeddings
+print("Embeddings:", query_embeddings)
+# Print dimension and shape of embeddings
+print("Dim:", openai_ef.dim, query_embeddings[0].shape)
+
+# Embeddings: [array([ 0.00530251, -0.01907905, -0.01672608, -0.05030033,  0.01635982,
+#        -0.03169853, -0.0033602 ,  0.09047844,  0.00030747,  0.11853652,
+#        -0.02870182, -0.01526102,  0.05505067,  0.00993909, -0.07165466,
+# ...
+#        -9.78106782e-02, -2.22669560e-02,  1.21873049e-02, -4.83198799e-02,
+#         5.32377362e-02, -1.90469325e-02,  5.62430918e-02,  1.02650477e-02,
+#        -6.21757433e-02,  7.88027793e-02,  4.91846527e-04, -1.51633881e-02])]
+# Dim: 512 (512,)
+```

@@ -1,0 +1,105 @@
+---
+title: "createVolume() | Java | v2"
+slug: /java/java/v2-VolumeManager-createVolume
+sidebar_label: "createVolume()"
+beta: false
+added_since: false
+last_modified: false
+deprecate_since: false
+notebook: false
+description: "この操作は volume を作成します。 | Java | v2"
+type: docx
+token: Efi4dCKhFoYpEZxRfWRcvFEXnBg
+sidebar_position: 1
+keywords: 
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - createVolume()
+  - javaV230
+displayed_sidebar: javaSidebar
+
+displayed_sidbar: javaSidebar
+---
+
+import Admonition from '@theme/Admonition';
+
+
+# createVolume()
+
+この操作は volume を作成します。
+
+```java
+public void createVolume(CreateVolumeRequest request)
+```
+
+## リクエスト構文\{#request-syntax}
+
+```java
+createVolume(CreateVolumeRequest.builder()
+    .projectId(String projectId)
+    .regionId(String regionId)
+    .volumeName(String volumeName)
+    .build();
+)
+```
+
+**パラメーター**
+
+- **projectId** (*str*) -
+
+    **[REQUIRED]**
+
+    作成する volume が属するプロジェクトの ID。
+
+- **regionId** (*str*) -
+
+    **[REQUIRED]**
+
+    volume を作成するクラウドリージョンの ID。使用可能な値は [クラウドリージョンの一覧](/reference/restful/list-cloud-regions-v2) で確認できます。
+
+- **volumeName** (*str*) -
+
+    **[REQUIRED]**
+
+    作成する volume の名前。
+
+**戻り値の型**
+
+*void*
+
+**戻り値**
+
+なし
+
+## 例\{#example}
+
+```java
+import io.milvus.bulkwriter.VolumeManager;
+import io.milvus.bulkwriter.VolumeManagerParam;
+import io.milvus.bulkwriter.request.volume.CreateVolumeRequest;
+
+VolumeManagerParam volumeManagerParam = VolumeManagerParam.newBuilder()
+    .withCloudEndpoint("https://api.cloud.zilliz.com")
+    .withApiKey("YOUR_API_KEY")
+    .build();
+        
+VolumeManager volumeManager = new VolumeManager(volumeManagerParam);
+
+CreateVolumeRequest request = CreateVolumeRequest.builder()
+    .projectId("proj-xxxxxxxxxxxxxxxxxxxxxxx")
+    .regionId("aws-us-west-1")
+    .volumeName("my_volume")
+    .build();
+
+volumeManager.createVolume(request);
+
+System.out.printf("\nVolume %s created%n", "my_volume");
+
+// Volume my_volume created
+```
+

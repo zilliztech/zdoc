@@ -1,0 +1,92 @@
+---
+title: "encode_documents() | Python"
+slug: /python/python/VoyageEmbeddingFunction-encode_documents
+sidebar_label: "encode_documents()"
+beta: false
+added_since: v2.4.x
+last_modified: false
+deprecate_since: false
+notebook: false
+description: "この操作はドキュメントを受け取り、それらをベクトル埋め込みにエンコードします。 | Python"
+type: docx
+token: S9zrdw1etovCFKx0gcic6AiVn0e
+sidebar_position: 1
+keywords: 
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - encode_documents()
+  - pymilvus30
+displayed_sidebar: pythonSidebar
+
+displayed_sidbar: pythonSidebar
+---
+
+import Admonition from '@theme/Admonition';
+
+
+# encode_documents()
+
+この操作はドキュメントを受け取り、それらをベクトル埋め込みにエンコードします。
+
+## リクエスト構文\{#request-syntax}
+
+```python
+encode_documents(
+    documents: List[str], 
+) -> List[np.array]
+```
+
+**PARAMETERS:**
+
+- **documents** (*List[str]*)
+
+    エンコードのために埋め込みモデルに渡される各文字列がドキュメントを表す、文字列値のリストです。モデルは、リスト内の各文字列に対して埋め込みベクトルを生成します。
+
+**RETURN TYPE:**
+
+*List[np.array]*
+
+**RETURNS:**
+
+各要素が NumPy 配列であるリストです。
+
+**Exceptions:**
+
+- **ImportError**
+
+    Voyage モジュールがインストールされていない場合に、この例外が発生します。
+
+## 例\{#examples}
+
+```python
+from pymilvus.model.dense import VoyageEmbeddingFunction
+
+voyage_ef = VoyageEmbeddingFunction(
+    model_name="voyage-lite-02-instruct", # Defaults to `voyage-2`
+    api_key='YOUR_API_KEY' # Replace with your own Voyage API key
+)
+
+docs = [
+    "Artificial intelligence was founded as an academic discipline in 1956.",
+    "Alan Turing was the first person to conduct substantial research in AI.",
+    "Born in Maida Vale, London, Turing was raised in southern England.",
+]
+
+docs_embeddings = voyage_ef.encode_documents(docs)
+
+# Print embeddings
+print("Embeddings:", docs_embeddings)
+# Print dimension and shape of embeddings
+print("Dim:", voyage_ef.dim, docs_embeddings[0].shape)
+
+# Embeddings: [array([ 0.03130895,  0.00234866, -0.03993684, ..., -0.01473105,
+#         0.03551823, -0.00862956]), array([ 0.0414308 , -0.00795113, -0.03615218, ..., -0.02307944,
+#         0.03417618, -0.01015649]), array([ 0.05001092,  0.00222745, -0.02103342, ..., -0.02351113,
+#         0.06017989,  0.00644311])]
+# Dim: 1024 (1024,)
+```

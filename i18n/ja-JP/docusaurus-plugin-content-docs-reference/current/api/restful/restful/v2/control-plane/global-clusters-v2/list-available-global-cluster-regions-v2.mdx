@@ -1,0 +1,31 @@
+---
+displayed_sidebar: restfulSidebar
+sidebar_position: 0
+slug: /restful/list-available-global-cluster-regions-v2
+beta: FALSE
+title: "利用可能な Global Cluster リージョンを一覧表示 (V2) | RESTful"
+description: "Global Cluster で一緒に使用できるリージョングループを返します。Global Cluster を作成する前、または secondary clusters を追加する前に、この API を使用してください。 | RESTful"
+hide_table_of_contents: true
+sidebar_label: "利用可能な Global Cluster リージョンを一覧表示 (V2)"
+sidebar_custom_props:
+  badges:
+    - "get"
+keywords: 
+  - zilliz cloud
+  - zilliz
+  - cloud
+  - "利用可能な Global Cluster リージョンを一覧表示 (V2)"
+  - "get"
+  - RESTful
+  - API
+---
+
+# 利用可能な Global Cluster リージョンを一覧表示 (V2)
+
+import RestSpecs from '@site/src/components/RestSpecs';
+
+<RestSpecs specs={specs} endpoint={endpoint} method={method} target="zilliz" lang="ja-JP" />
+
+export const specs = {"summary":"List Available Global Cluster Regions","description":"Returns region groups that can be used together in a Global Cluster. Use this API before creating a Global Cluster or adding secondary clusters.","tags":["Global Clusters (V2)"],"x-i18n":{"zh-CN":{"summary":"列出可用全球集群地域","description":"返回可在同一个全球集群中配合使用的地域组。创建全球集群或添加从集群前可调用此接口。"},"ja-JP":{"summary":"利用可能な Global Cluster リージョンを一覧表示","description":"Global Cluster で一緒に使用できるリージョングループを返します。Global Cluster を作成する前、またはセカンダリクラスターを追加する前にこの API を使用してください。"}},"parameters":[{"name":"Authorization","in":"header","description":"The authentication token should be an API key with appropriate privileges.","required":true,"example":"Bearer {{TOKEN}}","schema":{"type":"string"},"x-i18n":{"zh-CN":{"description":"认证令牌，应为具备适当权限的 API 密钥。"},"ja-JP":{"description":"認証トークンは、適切な権限を持つ API key である必要があります。"}}}],"responses":{"200":{"description":"Returns available Global Cluster region groups.","x-i18n":{"zh-CN":{"description":"返回可用全球集群地域组。"},"ja-JP":{"description":"利用可能な Global Cluster のリージョングループを返します。"}},"content":{"application/json":{"schema":{"oneOf":[{"x-tab-label":"success","type":"object","properties":{"regionGroups":{"type":"array","description":"Region groups where member regions can communicate with each other for Global Cluster usage. An empty array means no available region combination is currently exposed for the organization.","x-i18n":{"zh-CN":{"description":"可用于全球集群且成员地域之间可互通的地域组。空数组表示当前组织没有可用的地域组合。"},"ja-JP":{"description":"Global Cluster で使用するために、メンバーリージョン同士が相互に通信できるリージョングループです。空の配列は、現在その組織に対して利用可能なリージョンの組み合わせが公開されていないことを意味します。"}},"items":{"type":"array","items":{"type":"string","example":"aws-us-west-2"}}}}},{"x-tab-label":"failure","type":"object","description":"Returns an error message.","x-i18n":{"zh-CN":{"description":"返回错误消息。"},"ja-JP":{"description":"エラーメッセージを返します。"}},"properties":{"code":{"type":"integer","description":"Response code.","x-i18n":{"zh-CN":{"description":"响应码。"},"ja-JP":{"description":"レスポンスコード。"}},"example":400},"message":{"type":"string","description":"Error message.","x-i18n":{"zh-CN":{"description":"错误描述。"},"ja-JP":{"description":"エラーメッセージ。"}},"example":"Invalid request parameters."}}}]},"examples":{"1":{"summary":"success","x-target-response":"OPTION 1","x-target-lang":"en-US","value":{"regionGroups":[["aws-us-west-2","aws-us-east-1"],["aws-eu-central-1","aws-eu-west-1"]]}},"2":{"summary":"success","x-target-response":"OPTION 1","x-target-lang":"zh-CN","value":{"regionGroups":[["ali-cn-hangzhou","ali-cn-beijing"],["ali-cn-shanghai","ali-cn-shenzhen"]]}},"3":{"summary":"failure","x-target-response":"OPTION 2","value":{"code":400,"message":"Invalid request parameters."}}}}}}}}
+export const endpoint = "/v2/globalClusters/availableRegions"
+export const method = "get"

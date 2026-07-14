@@ -1,0 +1,95 @@
+---
+title: "encode_documents() | Python"
+slug: /python/python/OpenAIEmbeddingFunction-encode_documents
+sidebar_label: "encode_documents()"
+beta: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
+notebook: false
+description: "この操作はドキュメントを受け取り、それらをベクトル埋め込みにエンコードします。 | Python"
+type: docx
+token: UrG5delwyok3RPx0UBlcdBQ5nZd
+sidebar_position: 1
+keywords: 
+  - 動画類似検索
+  - ベクトル検索
+  - 音声類似検索
+  - Elastic vector database
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - encode_documents()
+  - pymilvus30
+displayed_sidebar: pythonSidebar
+
+displayed_sidbar: pythonSidebar
+---
+
+import Admonition from '@theme/Admonition';
+
+
+# encode_documents()
+
+この操作はドキュメントを受け取り、それらをベクトル埋め込みにエンコードします。
+
+## リクエスト構文\{#request-syntax}
+
+```python
+encode_documents(
+    documents: List[str], 
+) -> List[np.array]
+```
+
+**PARAMETERS:**
+
+- **documents** (*List[str]*)
+
+    文字列値のリストです。各文字列は、エンコードのために埋め込みモデルに渡されるドキュメントを表します。モデルは、リスト内の各文字列に対して埋め込みベクトルを生成します。
+
+**RETURN TYPE:**
+
+*List[np.array]*
+
+**RETURNS:**
+
+各要素が NumPy 配列であるリストです。
+
+**Exceptions:**
+
+- **ImportError**
+
+    OpenAI モジュールがインストールされていない場合に、この例外が発生します。
+
+## 例\{#examples}
+
+```python
+from pymilvus import model
+
+openai_ef = model.dense.OpenAIEmbeddingFunction(
+    model_name='text-embedding-3-large', # Specify the model name
+    dimensions=512 # Set the embedding dimensionality according to MRL feature.
+)
+
+docs = [
+    "Artificial intelligence was founded as an academic discipline in 1956.",
+    "Alan Turing was the first person to conduct substantial research in AI.",
+    "Born in Maida Vale, London, Turing was raised in southern England.",
+]
+
+docs_embeddings = openai_ef.encode_documents(docs)
+
+# Print embeddings
+print("Embeddings:", docs_embeddings)
+# Print dimension and shape of embeddings
+print("Dim:", openai_ef.dim, docs_embeddings[0].shape)
+
+# Embeddings: [array([ 0.01775479, -0.02049707, -0.01100917, -0.05264385,  0.04231524,
+#        -0.00669057,  0.00421101,  0.10464716,  0.05100248,  0.05320431,
+#        -0.03256712, -0.03667054,  0.05512591,  0.03194661, -0.14211836,
+# ...
+#        -8.93921182e-02,  6.78001530e-03,  3.54858451e-02, -5.09016626e-02,
+#         3.80731490e-03,  4.72489968e-02,  2.11893879e-02,  9.96136945e-03,
+#        -5.77749610e-02,  9.73062310e-03,  4.63456511e-02, -4.32428494e-02])]
+# Dim: 512 (512,)
+```

@@ -6,10 +6,10 @@
     "zilliz.paas"
   ],
   "build_env": "uat",
-  "source_branch": "dev",
+  "source_branch": "codex/checkpointed-docs-publish-test-20260713",
   "publish_url": "https://docs.cloud-uat3.zilliz.com",
   "link_check_remote": "https://docs.zilliz.com",
-  "generated_at": "2026-07-12T03:27:06.753Z",
+  "generated_at": "2026-07-14T00:38:23.315Z",
   "source_dir": "./plugins/lark-docs/meta/sources/guides",
   "base_app_token": "Ac7xbs2k1ad7bjsCXr0ccHe9nMh",
   "records": [
@@ -877,14 +877,14 @@
         "parent_node_token": "BDOHwqlMDiei78kdUefcjSQUnEg",
         "node_create_time": "1708764162",
         "obj_create_time": "1708764162",
-        "obj_edit_time": "1779768893",
+        "obj_edit_time": "1783932867",
         "revision_id": null
       },
       "node_token": "GQN0wDCrni4n36kyeVQcF41Lned",
       "origin_node_token": "GQN0wDCrni4n36kyeVQcF41Lned",
       "obj_token": "KaFedwfsXoaRXCx9S9Gc7NPSnph",
       "obj_type": "docx",
-      "obj_edit_time": "1779768893",
+      "obj_edit_time": "1783932867",
       "revision_id": null,
       "outgoing_tokens": []
     },

@@ -1,0 +1,31 @@
+---
+displayed_sidebar: restfulSidebar
+sidebar_position: 2
+slug: /restful/delete-backup-v2
+beta: FALSE
+title: "バックアップを削除（V2） | RESTful"
+description: "クラスターの指定されたバックアップを削除します。この API は専用クラスターにのみ適用される点に注意してください。 | RESTful"
+hide_table_of_contents: true
+sidebar_label: "バックアップを削除（V2）"
+sidebar_custom_props:
+  badges:
+    - "delete"
+keywords: 
+  - zilliz cloud
+  - zilliz
+  - cloud
+  - "バックアップを削除（V2）"
+  - "delete"
+  - RESTful
+  - API
+---
+
+# バックアップを削除（V2）
+
+import RestSpecs from '@site/src/components/RestSpecs';
+
+<RestSpecs specs={specs} endpoint={endpoint} method={method} target="zilliz" lang="ja-JP" />
+
+export const specs = {"summary":"Delete Backup","deprecated":false,"description":"Delete the specified backup of a cluster. Note that this API only applies to dedicated clusters.","x-i18n":{"zh-CN":{"summary":"删除备份","description":"本接口删除指定备份记录。仅适用于 Dedicated 集群。"},"ja-JP":{"summary":"バックアップを削除","description":"クラスターの指定したバックアップを削除します。この API は専用クラスターにのみ適用されることに注意してください。"}},"tags":["Backup & Restore (V2)"],"parameters":[{"name":"Authorization","in":"header","description":"The authentication token should be an API key with appropriate privileges.","required":true,"example":"Bearer {{TOKEN}}","schema":{"type":"string"},"x-i18n":{"zh-CN":{"description":"认证令牌，应为具备适当权限的 API 密钥。"},"ja-JP":{"description":"認証トークンには、適切な権限を持つ API key を使用する必要があります。"}}},{"name":"CLUSTER_ID","in":"path","description":"The ID of the cluster whose backup is to be deleted.","example":"inxx-xxxxxxxxxxxxxxx","required":true,"schema":{"type":"string"},"x-i18n":{"zh-CN":{"description":"备份所属集群的 ID。"},"ja-JP":{"description":"バックアップを削除する対象のクラスターの ID。"}}},{"name":"BACKUP_ID","in":"path","description":"The ID of the backup to be deleted.","example":"backupx_xxxxxxxxxxxxxxx","required":true,"schema":{"type":"string"},"x-i18n":{"zh-CN":{"description":"需要删除的备份 ID。"},"ja-JP":{"description":"削除するバックアップの ID。"}}}],"responses":{"200":{"description":"response","content":{"application/json":{"schema":{"anyOf":[{"x-tab-label":"success","type":"object","properties":{"code":{"type":"integer","description":"Response code.","x-i18n":{"zh-CN":{"description":"响应码。"},"ja-JP":{"description":"レスポンスコード。"}}},"data":{"type":"object","description":"Response payload which is the information about the deleted backup.","x-i18n":{"zh-CN":{"description":"响应负载，为已删除备份的信息。"},"ja-JP":{"description":"削除されたバックアップの情報を含むレスポンスペイロード。"}},"properties":{"backupId":{"type":"string","description":"The ID of the backup that has been deleted.","example":"backupx_xxxxxxxxxxxxxxx","x-i18n":{"zh-CN":{"description":"已删除备份的 ID。"},"ja-JP":{"description":"削除されたバックアップの ID。"}}},"backupName":{"type":"string","description":"The name of the backup that has been deleted.","x-i18n":{"zh-CN":{"description":"已删除备份的名称。"},"ja-JP":{"description":"削除されたバックアップの名前。"}}}}}}},{"x-tab-label":"failure","description":"Returns an error message.","x-i18n":{"zh-CN":{"description":"返回错误消息。"},"ja-JP":{"description":"エラーメッセージを返します。"}},"x-i18n-langs":["zh-CN"],"type":"object","properties":{"code":{"type":"integer","description":"Response code.","x-i18n":{"zh-CN":{"description":"响应码。"},"ja-JP":{"description":"レスポンスコード。"}}},"message":{"type":"string","description":"Error message.","x-i18n":{"zh-CN":{"description":"错误描述。"},"ja-JP":{"description":"エラーメッセージ。"}}}}}]},"examples":{"1":{"summary":"success","x-target-response":"OPTION 1","value":{"code":0,"data":{"backupId":"backupx-xxxxxxxxxxxxxx","backupName":"Dedicated-01_backup1"}}},"2":{"summary":"failure","x-target-response":"OPTION 2","value":{"code":21119,"message":"The apikey is illegal."}}}}},"x-i18n":{"ja-JP":{"description":"response"}}}},"security":[]}
+export const endpoint = "/v2/clusters/{CLUSTER_ID}/backups/{BACKUP_ID}"
+export const method = "delete"

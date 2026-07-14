@@ -1,0 +1,31 @@
+---
+displayed_sidebar: restfulSidebar
+sidebar_position: 9
+slug: /restful/list-projects
+beta: DEPRECATED
+title: "プロジェクト一覧 (V1) | RESTful"
+description: "既存のプロジェクトを一覧表示します。 | RESTful"
+hide_table_of_contents: true
+sidebar_label: "プロジェクト一覧 (V1)"
+sidebar_custom_props:
+  badges:
+    - "get"
+keywords: 
+  - zilliz cloud
+  - zilliz
+  - cloud
+  - "プロジェクト一覧 (V1)"
+  - "get"
+  - RESTful
+  - API
+---
+
+# プロジェクト一覧 (V1)
+
+import RestSpecs from '@site/src/components/RestSpecs';
+
+<RestSpecs specs={specs} endpoint={endpoint} method={method} target="zilliz" lang="ja-JP" />
+
+export const specs = {"summary":"List Projects","deprecated":true,"description":"Lists existing projects.","x-i18n":{"zh-CN":{"summary":"查看项目列表","description":"本接口用于查看当前用户所属的所有项目。"},"ja-JP":{"summary":"プロジェクトを一覧表示","description":"既存のプロジェクトを一覧表示します。"}},"tags":["Cluster Operations"],"parameters":[{"name":"Authorization","in":"header","description":"The authentication token should be an API key with appropriate privileges.","x-i18n":{"zh-CN":{"description":"认证令牌，应为具备适当权限的 API 密钥。"},"ja-JP":{"description":"認証トークンには、適切な権限を持つ API key を使用する必要があります。"}},"required":true,"example":"Bearer {{TOKEN}}","schema":{"type":"string"}}],"responses":{"200":{"description":"Returns a list of projects.","x-i18n":{"zh-CN":{"description":"返回项目详情列表。"},"ja-JP":{"description":"プロジェクトの一覧を返します。"}},"content":{"application/json":{"schema":{"oneOf":[{"x-tab-label":"success","type":"object","additionalProperties":false,"properties":{"code":{"type":"integer","description":"Response code.","x-i18n":{"zh-CN":{"description":"响应码。"},"ja-JP":{"description":"レスポンスコード。"}}},"data":{"type":"array","items":{"type":"object","properties":{"createTimeMilli":{"type":"string","description":"A numeric value representing the creation time of the project in milliseconds since the Unix epoch.","x-i18n":{"zh-CN":{"description":"一个数字值，代表项目创建的时间，单位为毫秒，起始时间为 1970 年 1 月 1 日 00:00:00 UTC。"},"ja-JP":{"description":"Unix epoch からの経過時間をミリ秒で表した、プロジェクトの作成時刻を示す数値です。"}}},"instanceCount":{"type":"integer","description":"The number of clusters created in the project.","x-i18n":{"zh-CN":{"description":"项目中已创建的集群数量。"},"ja-JP":{"description":"プロジェクト内に作成されたクラスターの数です。"}}},"projectId":{"type":"string","description":"The ID of the project.","x-i18n":{"zh-CN":{"description":"项目的 ID。"},"ja-JP":{"description":"プロジェクトの ID。"}}},"projectName":{"type":"string","description":"The name of the project.","x-i18n":{"zh-CN":{"description":"项目的名称。"},"ja-JP":{"description":"プロジェクト名。"}}}},"description":"A project.","x-i18n":{"zh-CN":{"description":"项目的相关信息。"},"ja-JP":{"description":"プロジェクト。"}}},"description":"Response payload, which is a list of projects.","x-i18n":{"zh-CN":{"description":"响应返回项目列表。"},"ja-JP":{"description":"プロジェクトの一覧であるレスポンスペイロード。"}}}},"description":"Returns a list of projects.","x-i18n":{"ja-JP":{"description":"プロジェクトの一覧を返します。"}}},{"x-tab-label":"failure","type":"object","additionalProperties":false,"properties":{"code":{"type":"integer","description":"Response code.","x-i18n":{"zh-CN":{"description":"响应码。"},"ja-JP":{"description":"レスポンスコード。"}}},"message":{"type":"string","description":"Error message.","x-i18n":{"zh-CN":{"description":"错误描述。"},"ja-JP":{"description":"エラーメッセージ。"}}}},"description":"Returns an error message.","x-i18n":{"ja-JP":{"description":"エラーメッセージを返します。"}}}]},"examples":{"1":{"summary":"success","x-target-response":"OPTION 1","value":{"code":200,"data":[{"createTimeMilli":1685006864000,"instanceCount":0,"projectId":"proj-xxxxxxxxxxxxxxxxxxxxxx","projectName":"Default Project"}]}},"2":{"summary":"failure","x-target-response":"OPTION 2","value":{"code":80002,"message":"Token not found or unauthorized: The provided token does not exist in our records, or you do not have the necessary permissions to use this token. Please ensure you have the correct token."}}}}}}},"security":[]}
+export const endpoint = "/v1/projects"
+export const method = "get"
