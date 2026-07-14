@@ -164,7 +164,7 @@ When a request arrives for a suspended on-demand cluster, Zilliz Cloud spins up 
 
 - **Via RESTful API**
 
-    The following example modifies the cluster name. For details, see [Update On-Demand Cluster Info](/reference/restful/update-on-demand-cluster-info-v2).
+    The following example modifies the cluster name. For details, see [Update On-Demand Cluster](/reference/restful/update-on-demand-cluster-v2).
 
     ```bash
     curl --request PATCH \
@@ -209,7 +209,7 @@ When a request arrives for a suspended on-demand cluster, Zilliz Cloud spins up 
 
 - **Via RESTful API**
 
-    The following example modifies the cluster description. For details, see [Update On-Demand Cluster Info](/reference/restful/update-on-demand-cluster-info-v2).
+    The following example modifies the cluster description. For details, see [Update On-Demand Cluster](/reference/restful/update-on-demand-cluster-v2).
 
     ```bash
     curl --request PATCH \
@@ -300,4 +300,3 @@ Example response:
 - To create an on-demand cluster, see [Create On-Demand Cluster](./on-demand-cluster).
 
 - To connect through a project endpoint, see [Connect for On-Demand Search](./connect-for-on-demand-search).
-

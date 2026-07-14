@@ -32,5 +32,7 @@
     "修改全球集群 CU": "modify-global-cluster-cu",
     "移除全球端点": "remove-global-endpoint",
     "列出可用全球集群地域": "list-available-global-cluster-regions",
-    "转换集群为全球集群": "convert-cluster-to-global-cluster"
+    "转换集群为全球集群": "convert-cluster-to-global-cluster",
+    "更新按需集群": "update-on-demand-cluster",
+    "更新 Dedicated 集群": "update-dedicated-cluster"
 }

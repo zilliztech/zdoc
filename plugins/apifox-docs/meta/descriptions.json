@@ -155,6 +155,10 @@
         "description": "This set of APIs provides a way to manage on-demand compute for projects."
     },
     {
+        "name": "on-demand-cluster-operations-v2",
+        "description": "This set of APIs provides a way to manage on-demand clusters in Zilliz Cloud."
+    },
+    {
         "name": "global-clusters-v2",
         "description": "This set of APIs provides a way to manage Global Clusters in Zilliz Cloud."
     },
