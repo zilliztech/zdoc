@@ -67,4 +67,4 @@
 - [x] Run `pnpm run test:translation`.
 - [x] Run card, workflow policy, and live-card tests.
 - [x] Run `git diff --check` and inspect the complete diff.
-- [ ] Commit the plan and implementation, merge the isolated branch into `master`, push normally, and remove the temporary worktree and branch.
+- [x] Commit the plan and implementation, merge the isolated branch into `master`, push normally, and remove the temporary worktree and branch.
