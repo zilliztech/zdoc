@@ -8,30 +8,10 @@
   "source_branch": "dev",
   "publish_url": "https://docs.cloud-uat3.zilliz.com",
   "link_check_remote": "https://docs.zilliz.com",
-  "generated_at": "2026-07-14T11:05:12.998Z",
+  "generated_at": "2026-07-14T14:47:22.955Z",
   "source_dir": "./plugins/lark-docs/meta/sources/node/v3.0.x",
   "base_app_token": "LlrPbysPZau2dGsSVuicHmvCn0e",
   "records": [
-    {
-      "record_id": "recu4NWhqWAejC",
-      "table_id": "tblT65LG94H2vobA",
-      "table_name": "数据表",
-      "placement_type": "canonical",
-      "title": "Authentication",
-      "slug": "Authentication",
-      "doc_token": "H1JWfZh74lkVhgdfGiKcQfsinPg",
-      "doc_link": "https://zilliverse.feishu.cn/drive/folder/H1JWfZh74lkVhgdfGiKcQfsinPg",
-      "source_file": null,
-      "source_hash": null,
-      "node_metadata": null,
-      "node_token": null,
-      "origin_node_token": null,
-      "obj_token": null,
-      "obj_type": null,
-      "obj_edit_time": null,
-      "revision_id": null,
-      "outgoing_tokens": []
-    },
     {
       "record_id": "recu4NWPjOGjXI",
       "table_id": "tblT65LG94H2vobA",
@@ -50,7 +30,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recu4NX7nscyby",
@@ -70,7 +51,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Authentication/Authentication-addUserToRole.md"
+      ]
     },
     {
       "record_id": "recu4NXabIDrn8",
@@ -90,7 +74,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recv1sbDMKTKbx",
@@ -110,7 +95,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recu4NXcA3NP7l",
@@ -130,7 +116,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Authentication/Authentication-createRole.md"
+      ]
     },
     {
       "record_id": "recu4NXew1micl",
@@ -150,7 +139,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Authentication/Authentication-createUser.md"
+      ]
     },
     {
       "record_id": "recu4NXgXRsUkX",
@@ -170,7 +162,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Authentication/Authentication-deleteUser.md"
+      ]
     },
     {
       "record_id": "recu4NXiHTByeg",
@@ -190,7 +185,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Authentication/Authentication-describeRole.md"
+      ]
     },
     {
       "record_id": "recu4NXkqkNp1l",
@@ -210,7 +208,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Authentication/Authentication-describeUser.md"
+      ]
     },
     {
       "record_id": "recufrVCJwuuJ9",
@@ -230,7 +231,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Authentication/Authentication-dropAllRoles.md"
+      ]
     },
     {
       "record_id": "recueSJkNJ8KqE",
@@ -250,7 +254,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Authentication/Authentication-dropPrivilegeGroup.md"
+      ]
     },
     {
       "record_id": "recu4NXm4JwVik",
@@ -270,7 +277,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Authentication/Authentication-dropRole.md"
+      ]
     },
     {
       "record_id": "recu4NXnKgWG4P",
@@ -290,7 +300,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recu4NXpt1ibeg",
@@ -310,7 +321,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Authentication/Authentication-grantPrivilegeV2.md"
+      ]
     },
     {
       "record_id": "recu4NXrwdA7AB",
@@ -330,7 +344,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Authentication/Authentication-grantRole.md"
+      ]
     },
     {
       "record_id": "recu4NXtX4K4FG",
@@ -350,7 +367,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Authentication/Authentication-listGrant.md"
+      ]
     },
     {
       "record_id": "recuF2bsS7ymHl",
@@ -370,7 +390,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Authentication/Authentication-listGrants.md"
+      ]
     },
     {
       "record_id": "recuF2bsZAigsE",
@@ -390,7 +413,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Authentication/Authentication-listPrivilegeGroups.md"
+      ]
     },
     {
       "record_id": "recuF2buvKuXSx",
@@ -410,7 +436,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Authentication/Authentication-listRoles.md"
+      ]
     },
     {
       "record_id": "recuF2bve01Ojm",
@@ -430,7 +459,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Authentication/Authentication-listUsers.md"
+      ]
     },
     {
       "record_id": "recuF2bvFaOzQD",
@@ -450,7 +482,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Authentication/Authentication-removePrivilegesFromGroup.md"
+      ]
     },
     {
       "record_id": "recuF2bwrwwkzx",
@@ -470,7 +505,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Authentication/Authentication-removeUserFromRole.md"
+      ]
     },
     {
       "record_id": "recuF2bwZaJ0m0",
@@ -490,7 +528,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recuF2bxuyiX6g",
@@ -510,7 +549,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recuF2bxYWhWb4",
@@ -530,7 +570,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Authentication/Authentication-revokePrivilegeV2.md"
+      ]
     },
     {
       "record_id": "recuF2byNPUiUg",
@@ -550,7 +593,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Authentication/Authentication-revokeRole.md"
+      ]
     },
     {
       "record_id": "recuF2bzfJHVxz",
@@ -570,7 +616,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Authentication/Authentication-updateUser.md"
+      ]
     },
     {
       "record_id": "recvaTzFDYMh0d",
@@ -590,27 +639,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
-    },
-    {
-      "record_id": "recu4NWmmkGZuZ",
-      "table_id": "tblT65LG94H2vobA",
-      "table_name": "数据表",
-      "placement_type": "canonical",
-      "title": "Client",
-      "slug": "Client",
-      "doc_token": "DNpsf7mK9l2ruTdk4fCcwoudnFe",
-      "doc_link": "https://zilliverse.feishu.cn/drive/folder/DNpsf7mK9l2ruTdk4fCcwoudnFe",
-      "source_file": "DNpsf7mK9l2ruTdk4fCcwoudnFe.json",
-      "source_hash": "2977876ac4594537f29168e92779d97dc4d27c200bc4d95dac9c264da19919c2",
-      "node_metadata": null,
-      "node_token": null,
-      "origin_node_token": null,
-      "obj_token": null,
-      "obj_type": null,
-      "obj_edit_time": null,
-      "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Authentication/Authentication-hasRole.md"
+      ]
     },
     {
       "record_id": "recu4NXxPVZUcQ",
@@ -630,7 +662,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Client/Client-connect.md"
+      ]
     },
     {
       "record_id": "recu4NXzBQXSge",
@@ -650,7 +685,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Client/Client-MilvusClient.md"
+      ]
     },
     {
       "record_id": "recv1n4QUXuWkU",
@@ -670,7 +708,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Client/Client-checkHealth.md"
+      ]
     },
     {
       "record_id": "recv1n4R1sLHCu",
@@ -690,7 +731,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Client/Client-checkCompatibility.md"
+      ]
     },
     {
       "record_id": "recv1n4R7CZ9NB",
@@ -710,7 +754,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Client/Client-closeConnection.md"
+      ]
     },
     {
       "record_id": "recvaTzB7yvRdy",
@@ -730,7 +777,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Client/Client-use.md"
+      ]
     },
     {
       "record_id": "recvaTzCluHQJP",
@@ -750,7 +800,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Client/Client-getVersion.md"
+      ]
     },
     {
       "record_id": "recvj8dxJKGQXK",
@@ -770,7 +823,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Client/Client-session.md"
+      ]
     },
     {
       "record_id": "recvj8dyKIxTOY",
@@ -790,27 +846,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
-    },
-    {
-      "record_id": "recu4NWrP0FkyK",
-      "table_id": "tblT65LG94H2vobA",
-      "table_name": "数据表",
-      "placement_type": "canonical",
-      "title": "Collections",
-      "slug": "Collections",
-      "doc_token": "CsRZfOAHhly4fSd5kxvcAfkFnpf",
-      "doc_link": "https://zilliverse.feishu.cn/drive/folder/CsRZfOAHhly4fSd5kxvcAfkFnpf",
-      "source_file": "CsRZfOAHhly4fSd5kxvcAfkFnpf.json",
-      "source_hash": "5ecf9b78162582f041440bfa74c4b097c6c0781be9ad89087e9bb67b7f5f473f",
-      "node_metadata": null,
-      "node_token": null,
-      "origin_node_token": null,
-      "obj_token": null,
-      "obj_type": null,
-      "obj_edit_time": null,
-      "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Client/Client-close.md"
+      ]
     },
     {
       "record_id": "recu4NXDjp9RgU",
@@ -830,7 +869,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Collections/Collections-alterAlias.md"
+      ]
     },
     {
       "record_id": "recuF2bRlWLHmf",
@@ -850,7 +892,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Collections/Collections-alterCollectionFieldProperties.md"
+      ]
     },
     {
       "record_id": "recuF2bRXdeRuR",
@@ -870,7 +915,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Collections/Collections-alterCollectionProperties.md"
+      ]
     },
     {
       "record_id": "recu4NXF4yAqqB",
@@ -890,7 +938,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Collections/Collections-createAlias.md"
+      ]
     },
     {
       "record_id": "recu4NXGK3hXLU",
@@ -913,6 +964,9 @@
       "outgoing_tokens": [
         "AtLEdt0ZWoUbHoxkfvHcq1ZunUg",
         "Vq2VdsWJaoufsGx5stJcTuyPnDb"
+      ],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Collections/Collections-createCollection.md"
       ]
     },
     {
@@ -933,7 +987,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Collections/Collections-DataType.md"
+      ]
     },
     {
       "record_id": "recu4NXKmvGCZX",
@@ -953,7 +1010,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Collections/Collections-describeAlias.md"
+      ]
     },
     {
       "record_id": "recu4NXMBgD2NV",
@@ -973,7 +1033,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Collections/Collections-describeCollection.md"
+      ]
     },
     {
       "record_id": "recu4NXOywv5CO",
@@ -993,7 +1056,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Collections/Collections-dropAlias.md"
+      ]
     },
     {
       "record_id": "recu4NXQnW2prn",
@@ -1013,7 +1079,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Collections/Collections-dropCollection.md"
+      ]
     },
     {
       "record_id": "recuF2bSrmLMX5",
@@ -1033,7 +1102,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Collections/Collections-dropCollectionProperties.md"
+      ]
     },
     {
       "record_id": "recu4NXSBVb2bt",
@@ -1053,7 +1125,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Collections/Collections-getCollectionStatistics.md"
+      ]
     },
     {
       "record_id": "recu4NXV00QV2B",
@@ -1073,7 +1148,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Collections/Collections-hasCollection.md"
+      ]
     },
     {
       "record_id": "recu4NY44w3lmP",
@@ -1093,7 +1171,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Collections/Collections-listAliases.md"
+      ]
     },
     {
       "record_id": "recu4NY6stNlON",
@@ -1113,7 +1194,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Collections/Collections-listCollections.md"
+      ]
     },
     {
       "record_id": "recu4NY8kAl9h5",
@@ -1133,7 +1217,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Collections/Collections-renameCollection.md"
+      ]
     },
     {
       "record_id": "recuw8JHpjLvvp",
@@ -1153,7 +1240,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Collections/Collections-FunctionType.md"
+      ]
     },
     {
       "record_id": "recuOygM7d73vl",
@@ -1173,7 +1263,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Collections/Collections-runAnalyzer.md"
+      ]
     },
     {
       "record_id": "recuOygMZghYX7",
@@ -1195,6 +1288,9 @@
       "revision_id": null,
       "outgoing_tokens": [
         "AtLEdt0ZWoUbHoxkfvHcq1ZunUg"
+      ],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Collections/Collections-addCollectionField.md"
       ]
     },
     {
@@ -1217,6 +1313,9 @@
       "revision_id": null,
       "outgoing_tokens": [
         "AtLEdt0ZWoUbHoxkfvHcq1ZunUg"
+      ],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Collections/Collections-addCollectionFields.md"
       ]
     },
     {
@@ -1237,7 +1336,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Collections/Collections-getPkFieldName.md"
+      ]
     },
     {
       "record_id": "recvaTA0Mk1qKd",
@@ -1257,7 +1359,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Collections/Collections-getPkFieldType.md"
+      ]
     },
     {
       "record_id": "recvaTA1YCaek1",
@@ -1277,7 +1382,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Collections/Collections-getPkField.md"
+      ]
     },
     {
       "record_id": "recvcLXER2TlWt",
@@ -1297,7 +1405,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Collections/Collections-addCollectionFunction.md"
+      ]
     },
     {
       "record_id": "recvcLXGNnFuf7",
@@ -1317,7 +1428,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Collections/Collections-alterCollectionFunction.md"
+      ]
     },
     {
       "record_id": "recvcLXIwqzDtX",
@@ -1337,7 +1451,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Collections/Collections-dropCollectionFunction.md"
+      ]
     },
     {
       "record_id": "recvfCfwGc19a3",
@@ -1357,7 +1474,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Collections/Collections-truncateCollection.md"
+      ]
     },
     {
       "record_id": "recvirrUpNzveF",
@@ -1377,7 +1497,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Collections/Collections-refreshExternalCollection.md"
+      ]
     },
     {
       "record_id": "recvirrVOeyGxj",
@@ -1397,7 +1520,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Collections/Collections-getRefreshExternalCollectionProgress.md"
+      ]
     },
     {
       "record_id": "recvirrX76HzX4",
@@ -1417,7 +1543,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Collections/Collections-listRefreshExternalCollectionJobs.md"
+      ]
     },
     {
       "record_id": "recvirtK3OOJRM",
@@ -1437,27 +1566,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
-    },
-    {
-      "record_id": "recu4NWwVB8uMo",
-      "table_id": "tblT65LG94H2vobA",
-      "table_name": "数据表",
-      "placement_type": "canonical",
-      "title": "Management",
-      "slug": "Management",
-      "doc_token": "E5cpfv4EPlpWJ5dV0iJcPwo4nyf",
-      "doc_link": "https://zilliverse.feishu.cn/drive/folder/E5cpfv4EPlpWJ5dV0iJcPwo4nyf",
-      "source_file": "E5cpfv4EPlpWJ5dV0iJcPwo4nyf.json",
-      "source_hash": "07dc07b52f28fe8183e303ed8210a2a4f3ef31f86934db1fd0d1379f3b242423",
-      "node_metadata": null,
-      "node_token": null,
-      "origin_node_token": null,
-      "obj_token": null,
-      "obj_type": null,
-      "obj_edit_time": null,
-      "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Collections/Collections-batchDescribeCollections.md"
+      ]
     },
     {
       "record_id": "recuF2cA1GtPfA",
@@ -1477,7 +1589,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Management/Management-alterIndexProperties.md"
+      ]
     },
     {
       "record_id": "recu4NYbtry3Yz",
@@ -1497,7 +1612,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Management/Management-createIndex.md"
+      ]
     },
     {
       "record_id": "recuVYAgNqYdm9",
@@ -1517,7 +1635,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Management/Management-compact.md"
+      ]
     },
     {
       "record_id": "recu4NYdlk8any",
@@ -1537,7 +1658,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Management/Management-describeIndex.md"
+      ]
     },
     {
       "record_id": "recu4NYf4Gft5e",
@@ -1557,7 +1681,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Management/Management-dropIndex.md"
+      ]
     },
     {
       "record_id": "recuF2cAedMzE6",
@@ -1577,7 +1704,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Management/Management-dropIndexProperties.md"
+      ]
     },
     {
       "record_id": "recuF2cAqywhbq",
@@ -1597,7 +1727,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Management/Management-flush.md"
+      ]
     },
     {
       "record_id": "recuF2cBgX5F0l",
@@ -1617,7 +1750,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Management/Management-flushSync.md"
+      ]
     },
     {
       "record_id": "recuF2ccQ4M00H",
@@ -1639,6 +1775,9 @@
       "revision_id": null,
       "outgoing_tokens": [
         "DCK5d56UZop0kGxpQu8cLqlvndg"
+      ],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Management/Management-getCompactionState.md"
       ]
     },
     {
@@ -1659,7 +1798,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Management/Management-getFlushState.md"
+      ]
     },
     {
       "record_id": "recuF2cBIjcMOC",
@@ -1679,7 +1821,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Management/Management-getIndexBuildProgress.md"
+      ]
     },
     {
       "record_id": "recuF2cC5JYv0z",
@@ -1699,7 +1844,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Management/Management-getIndexState.md"
+      ]
     },
     {
       "record_id": "recuF2cCjdIVqJ",
@@ -1719,7 +1867,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Management/Management-getLoadingProgress.md"
+      ]
     },
     {
       "record_id": "recu4NYgLezZum",
@@ -1739,7 +1890,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Management/Management-getLoadState.md"
+      ]
     },
     {
       "record_id": "recuF2cCvMQBtg",
@@ -1759,7 +1913,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Management/Management-listIndexes.md"
+      ]
     },
     {
       "record_id": "recu4NYkIVHZ5R",
@@ -1779,7 +1936,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Management/Management-loadCollection.md"
+      ]
     },
     {
       "record_id": "recuF2cCQexz3K",
@@ -1799,7 +1959,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Management/Management-loadCollectionSync.md"
+      ]
     },
     {
       "record_id": "recuF2cD7rxLh1",
@@ -1819,7 +1982,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Management/Management-refreshLoad.md"
+      ]
     },
     {
       "record_id": "recu4NYmlcJbds",
@@ -1839,7 +2005,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Management/Management-releaseCollection.md"
+      ]
     },
     {
       "record_id": "recu4NY27kFkN5",
@@ -1859,7 +2028,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Management/Management-IndexType.md"
+      ]
     },
     {
       "record_id": "recv1sYeN5gAPK",
@@ -1879,7 +2051,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Management/Management-MetricType.md"
+      ]
     },
     {
       "record_id": "recvaTzQ8V13hR",
@@ -1899,7 +2074,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recvaTzRKKWnjU",
@@ -1919,7 +2095,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recvaTzThvdHcZ",
@@ -1939,7 +2116,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recvaTzVvGEICl",
@@ -1959,7 +2137,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Management/Management-loadCollectionAsync.md"
+      ]
     },
     {
       "record_id": "recvaTzWPO2cpn",
@@ -1979,7 +2160,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recvaTzYjUVkHy",
@@ -1999,7 +2181,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Management/Management-getReplicas.md"
+      ]
     },
     {
       "record_id": "recvirtKY7lVcX",
@@ -2019,7 +2204,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Management/Management-flushAll.md"
+      ]
     },
     {
       "record_id": "recvirtLZDmX7M",
@@ -2039,7 +2227,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Management/Management-flushAllSync.md"
+      ]
     },
     {
       "record_id": "recvirtMUkXO0I",
@@ -2059,27 +2250,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
-    },
-    {
-      "record_id": "recu4NWDr2iSEm",
-      "table_id": "tblT65LG94H2vobA",
-      "table_name": "数据表",
-      "placement_type": "canonical",
-      "title": "Partitions",
-      "slug": "Partitions",
-      "doc_token": "Hg5PfTIHll3FK4dbYdxcaURHn2n",
-      "doc_link": "https://zilliverse.feishu.cn/drive/folder/Hg5PfTIHll3FK4dbYdxcaURHn2n",
-      "source_file": "Hg5PfTIHll3FK4dbYdxcaURHn2n.json",
-      "source_hash": "ac743c75da563114d99eb0e9005f555866564ef798f95ce45bc155aeb130015d",
-      "node_metadata": null,
-      "node_token": null,
-      "origin_node_token": null,
-      "obj_token": null,
-      "obj_type": null,
-      "obj_edit_time": null,
-      "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Management/Management-getFlushAllState.md"
+      ]
     },
     {
       "record_id": "recu4NYpn56OJ7",
@@ -2099,7 +2273,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Partitions/Partitions-createPartition.md"
+      ]
     },
     {
       "record_id": "recu4NYr2jwhts",
@@ -2119,7 +2296,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Partitions/Partitions-dropPartition.md"
+      ]
     },
     {
       "record_id": "recu4NYteM1i8B",
@@ -2139,7 +2319,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Partitions/Partitions-getPartitionStatistics.md"
+      ]
     },
     {
       "record_id": "recu4NYuZSt8J9",
@@ -2159,7 +2342,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Partitions/Partitions-hasPartition.md"
+      ]
     },
     {
       "record_id": "recu4NYwBiGH7N",
@@ -2179,7 +2365,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Partitions/Partitions-listPartitions.md"
+      ]
     },
     {
       "record_id": "recu4NYyAaSocx",
@@ -2199,7 +2388,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Partitions/Partitions-loadPartitions.md"
+      ]
     },
     {
       "record_id": "recuF2edGaw5Lr",
@@ -2219,7 +2411,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Partitions/Partitions-loadPartitionsSync.md"
+      ]
     },
     {
       "record_id": "recu4NYABoZhId",
@@ -2239,27 +2434,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
-    },
-    {
-      "record_id": "recu4NWJ6hPqkS",
-      "table_id": "tblT65LG94H2vobA",
-      "table_name": "数据表",
-      "placement_type": "canonical",
-      "title": "Vector",
-      "slug": "Vector",
-      "doc_token": "HgpMfqiBwlO0sudMbiVcYpHHn5f",
-      "doc_link": "https://zilliverse.feishu.cn/drive/folder/HgpMfqiBwlO0sudMbiVcYpHHn5f",
-      "source_file": "HgpMfqiBwlO0sudMbiVcYpHHn5f.json",
-      "source_hash": "7a282c8581da686b19ce23b7ec92eec0644f5e2a97a3304da7a80e3ca69387c7",
-      "node_metadata": null,
-      "node_token": null,
-      "origin_node_token": null,
-      "obj_token": null,
-      "obj_type": null,
-      "obj_edit_time": null,
-      "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Partitions/Partitions-releasePartitions.md"
+      ]
     },
     {
       "record_id": "recv1n4n2dviOr",
@@ -2279,7 +2457,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Vector/Vector-count.md"
+      ]
     },
     {
       "record_id": "recu4NWQJLbt9u",
@@ -2299,7 +2480,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Vector/Vector-delete.md"
+      ]
     },
     {
       "record_id": "recu4NWTQVjC0i",
@@ -2319,7 +2503,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Vector/Vector-get.md"
+      ]
     },
     {
       "record_id": "recu4NWXlFVTDA",
@@ -2339,7 +2526,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Vector/Vector-insert.md"
+      ]
     },
     {
       "record_id": "recu4NWZSVy49a",
@@ -2359,7 +2549,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Vector/Vector-query.md"
+      ]
     },
     {
       "record_id": "recu4NX1YflTzw",
@@ -2381,6 +2574,9 @@
       "revision_id": null,
       "outgoing_tokens": [
         "Vq2VdsWJaoufsGx5stJcTuyPnDb"
+      ],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Vector/Vector-search.md"
       ]
     },
     {
@@ -2401,7 +2597,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Vector/Vector-upsert.md"
+      ]
     },
     {
       "record_id": "recuF2epyTbGWv",
@@ -2421,7 +2620,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Vector/Vector-hybridSearch.md"
+      ]
     },
     {
       "record_id": "recuF2nZ2LE0oj",
@@ -2441,7 +2643,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Vector/Vector-queryIterator.md"
+      ]
     },
     {
       "record_id": "recuF2nZA2wTMf",
@@ -2461,7 +2666,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Vector/Vector-searchIterator.md"
+      ]
     },
     {
       "record_id": "recvaTzMSqaL78",
@@ -2481,27 +2689,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
-    },
-    {
-      "record_id": "recuA2CVlf0gs8",
-      "table_id": "tblT65LG94H2vobA",
-      "table_name": "数据表",
-      "placement_type": "canonical",
-      "title": "ResourceGroup",
-      "slug": "ResourceGroup",
-      "doc_token": "Karwf466pld78UdaQ2DcX4F3nce",
-      "doc_link": "https://zilliverse.feishu.cn/drive/folder/Karwf466pld78UdaQ2DcX4F3nce",
-      "source_file": "Karwf466pld78UdaQ2DcX4F3nce.json",
-      "source_hash": "9a09200890039add2c56c77887bc59c9254ddd09cd1b8b3102914db9a983417e",
-      "node_metadata": null,
-      "node_token": null,
-      "origin_node_token": null,
-      "obj_token": null,
-      "obj_type": null,
-      "obj_edit_time": null,
-      "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recuA2D0Ralmiq",
@@ -2523,7 +2712,8 @@
       "revision_id": null,
       "outgoing_tokens": [
         "Q0aNdOtyYoQHFhxCdEacj2kdnah"
-      ]
+      ],
+      "output_paths": []
     },
     {
       "record_id": "recuA2D2SAjAC6",
@@ -2543,7 +2733,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recuA2D4XLEMo9",
@@ -2565,7 +2756,8 @@
       "revision_id": null,
       "outgoing_tokens": [
         "JsQqdoEUNoWFCCxAMcUc0mtjncf"
-      ]
+      ],
+      "output_paths": []
     },
     {
       "record_id": "recuA2D7MBRE59",
@@ -2585,7 +2777,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recuA2DbCLkB0W",
@@ -2605,7 +2798,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recuA2Ddfu0EgK",
@@ -2625,7 +2819,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recuA2Df39KNMJ",
@@ -2647,7 +2842,8 @@
       "revision_id": null,
       "outgoing_tokens": [
         "Q0aNdOtyYoQHFhxCdEacj2kdnah"
-      ]
+      ],
+      "output_paths": []
     },
     {
       "record_id": "recvaTzHjiD7P5",
@@ -2667,7 +2863,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recvaTzIBjo6dw",
@@ -2687,7 +2884,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recvj8dsFSOUUw",
@@ -2707,7 +2905,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recvj8dtRvhflr",
@@ -2727,27 +2926,8 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
-    },
-    {
-      "record_id": "recvaTCXsgewcl",
-      "table_id": "tblT65LG94H2vobA",
-      "table_name": "数据表",
-      "placement_type": "canonical",
-      "title": "Database",
-      "slug": "Database",
-      "doc_token": "F0ZXfs6XSlspHxdg7DwcYb84nMf",
-      "doc_link": "https://zilliverse.feishu.cn/drive/folder/F0ZXfs6XSlspHxdg7DwcYb84nMf",
-      "source_file": "F0ZXfs6XSlspHxdg7DwcYb84nMf.json",
-      "source_hash": "689427687571450fb98d945075945fd61464bef34e9e874afc2504f05c6d5951",
-      "node_metadata": null,
-      "node_token": null,
-      "origin_node_token": null,
-      "obj_token": null,
-      "obj_type": null,
-      "obj_edit_time": null,
-      "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": []
     },
     {
       "record_id": "recuA25dhEHPzT",
@@ -2767,7 +2947,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Database/Database-alterDatabaseProperties.md"
+      ]
     },
     {
       "record_id": "recudXwk9NBTCe",
@@ -2787,7 +2970,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Database/Database-createDatabase.md"
+      ]
     },
     {
       "record_id": "recudXwmhiFdgy",
@@ -2807,7 +2993,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Database/Database-dropDatabase.md"
+      ]
     },
     {
       "record_id": "recuA25gLWuIuy",
@@ -2827,7 +3016,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Database/Database-dropDatabaseProperties.md"
+      ]
     },
     {
       "record_id": "recudXwp5bkZaV",
@@ -2847,7 +3039,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Database/Database-listDatabases.md"
+      ]
     },
     {
       "record_id": "recudXwqNfjoMY",
@@ -2867,7 +3062,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Database/Database-useDatabase.md"
+      ]
     },
     {
       "record_id": "recvaTA3ntyRyP",
@@ -2887,7 +3085,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Database/Database-describeDatabase.md"
+      ]
     },
     {
       "record_id": "recvaTA50IHhJb",
@@ -2907,27 +3108,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
-    },
-    {
-      "record_id": "recvirvVAM0D3B",
-      "table_id": "tblT65LG94H2vobA",
-      "table_name": "数据表",
-      "placement_type": "canonical",
-      "title": "Snapshot",
-      "slug": "Snapshot",
-      "doc_token": "IxaefGzWtlPFlTd617bcYS4cn4d",
-      "doc_link": "https://zilliverse.feishu.cn/drive/folder/IxaefGzWtlPFlTd617bcYS4cn4d",
-      "source_file": "IxaefGzWtlPFlTd617bcYS4cn4d.json",
-      "source_hash": "02487fcdcc45e3d8e2078c37ecaed3d070bad99bb917e61411be2e7240b21f6a",
-      "node_metadata": null,
-      "node_token": null,
-      "origin_node_token": null,
-      "obj_token": null,
-      "obj_type": null,
-      "obj_edit_time": null,
-      "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Database/Database-alterDatabase.md"
+      ]
     },
     {
       "record_id": "recvirrYpm16Qq",
@@ -2947,7 +3131,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Snapshot/Snapshot-createSnapshot.md"
+      ]
     },
     {
       "record_id": "recvirrZJsNjX9",
@@ -2967,7 +3154,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Snapshot/Snapshot-dropSnapshot.md"
+      ]
     },
     {
       "record_id": "recvirs11KjRYt",
@@ -2987,7 +3177,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Snapshot/Snapshot-listSnapshots.md"
+      ]
     },
     {
       "record_id": "recvirs2pJpLKN",
@@ -3007,7 +3200,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Snapshot/Snapshot-describeSnapshot.md"
+      ]
     },
     {
       "record_id": "recvirs3ItqxlN",
@@ -3027,7 +3223,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Snapshot/Snapshot-restoreSnapshot.md"
+      ]
     },
     {
       "record_id": "recvirs525FO2U",
@@ -3047,7 +3246,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Snapshot/Snapshot-getRestoreSnapshotState.md"
+      ]
     },
     {
       "record_id": "recvirs6n12T3U",
@@ -3067,7 +3269,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Snapshot/Snapshot-listRestoreSnapshotJobs.md"
+      ]
     },
     {
       "record_id": "recvirs7EMikA6",
@@ -3087,7 +3292,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Snapshot/Snapshot-pinSnapshotData.md"
+      ]
     },
     {
       "record_id": "recvirs8WchHgE",
@@ -3107,27 +3315,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
-    },
-    {
-      "record_id": "recvis4qucFpFm",
-      "table_id": "tblT65LG94H2vobA",
-      "table_name": "数据表",
-      "placement_type": "canonical",
-      "title": "Data Import",
-      "slug": "DataImport",
-      "doc_token": "OE6ef37Ztlb6FgdouLvcTcrpnAp",
-      "doc_link": "https://zilliverse.feishu.cn/drive/folder/OE6ef37Ztlb6FgdouLvcTcrpnAp",
-      "source_file": "OE6ef37Ztlb6FgdouLvcTcrpnAp.json",
-      "source_hash": "38a2c0f36a292adba044ce5523431e9314f74f12748ac486439784c9f9237390",
-      "node_metadata": null,
-      "node_token": null,
-      "origin_node_token": null,
-      "obj_token": null,
-      "obj_type": null,
-      "obj_edit_time": null,
-      "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/Snapshot/Snapshot-unpinSnapshotData.md"
+      ]
     },
     {
       "record_id": "recv1s9k1ln8Ez",
@@ -3147,7 +3338,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/DataImport/DataImport-bulkInsert.md"
+      ]
     },
     {
       "record_id": "recvaTzOpKRsVL",
@@ -3167,7 +3361,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/DataImport/DataImport-listImportTasks.md"
+      ]
     },
     {
       "record_id": "recvis5IEBJWCk",
@@ -3187,7 +3384,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/DataImport/DataImport-getImportState.md"
+      ]
     },
     {
       "record_id": "recvmMH9oEEh6G",
@@ -3210,6 +3410,9 @@
       "outgoing_tokens": [
         "DsLHde5AWomjFhxD3K7c4Yklnlh",
         "U7w6d4gUioGzw2xmYqvcFz1Jnub"
+      ],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/DataImport/DataImport-BulkWriter.md"
       ]
     },
     {
@@ -3233,6 +3436,9 @@
       "outgoing_tokens": [
         "DsLHde5AWomjFhxD3K7c4Yklnlh",
         "U7w6d4gUioGzw2xmYqvcFz1Jnub"
+      ],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/DataImport/DataImport-BulkWriterOptions.md"
       ]
     },
     {
@@ -3253,7 +3459,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/DataImport/DataImport-BulkWriterSchema.md"
+      ]
     },
     {
       "record_id": "recvmMHi16SJR8",
@@ -3273,7 +3482,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/DataImport/DataImport-Formatter.md"
+      ]
     },
     {
       "record_id": "recvmMHkkYw77c",
@@ -3293,7 +3505,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/DataImport/DataImport-Storage.md"
+      ]
     },
     {
       "record_id": "recvmMHnenkYcx",
@@ -3313,7 +3528,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/DataImport/DataImport-FlushEvent.md"
+      ]
     },
     {
       "record_id": "recvmMHqHFTm37",
@@ -3333,7 +3551,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/DataImport/DataImport-listImportJobs.md"
+      ]
     },
     {
       "record_id": "recvmMHuE5Iat6",
@@ -3353,7 +3574,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/DataImport/DataImport-createImportJobs.md"
+      ]
     },
     {
       "record_id": "recvmMHy6dzJ49",
@@ -3373,7 +3597,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/DataImport/DataImport-createImportJobs.md"
+      ]
     },
     {
       "record_id": "recvmMHBU20AxR",
@@ -3393,7 +3620,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/DataImport/DataImport-HttpImportCreateReq.md"
+      ]
     },
     {
       "record_id": "recvmMHFSPkWEG",
@@ -3413,7 +3643,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/DataImport/DataImport-HttpImportCreateResponse.md"
+      ]
     },
     {
       "record_id": "recvmMHJIiwJXX",
@@ -3433,7 +3666,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/DataImport/DataImport-HttpImportListResponse.md"
+      ]
     },
     {
       "record_id": "recvmMHNn01K14",
@@ -3453,7 +3689,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/DataImport/DataImport-HttpImportProgressReq.md"
+      ]
     },
     {
       "record_id": "recvmMHRSDmdmH",
@@ -3473,7 +3712,10 @@
       "obj_type": null,
       "obj_edit_time": null,
       "revision_id": null,
-      "outgoing_tokens": []
+      "outgoing_tokens": [],
+      "output_paths": [
+        "reference/api/nodejs/nodejs/DataImport/DataImport-HttpImportProgressResponse.md"
+      ]
     }
   ]
 }
