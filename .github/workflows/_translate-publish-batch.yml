@@ -59,25 +59,199 @@ jobs:
       APP_SECRET: ${{ secrets.APP_SECRET }}
 
   publish:
-    name: publish batch ${{ inputs.batch_number }} of ${{ inputs.batch_count }} (${{ needs.translate.outputs.translated_count }} docs)
+    name: publish batch ${{ inputs.batch_number }} of ${{ inputs.batch_count }}
     needs: translate
-    uses: ./.github/workflows/_publish-content-group.yml
-    with:
-      group: ${{ inputs.group }}
-      artifact_name: ${{ format('translation-checkpoint-{0}-{1}-batch-{2}', inputs.group, github.run_id, inputs.batch_number) }}
-      baseline_artifact_name: ${{ format('translation-baseline-{0}-{1}-batch-{2}', inputs.group, github.run_id, inputs.batch_number) }}
-      commit_message: "${{ format('i18n({0}): publish batch {1} of {2}', inputs.group, inputs.batch_number, inputs.batch_count) }}"
-      should_publish: true
-      target_branch: ${{ inputs.target_branch }}
-      master_sha: ${{ inputs.master_sha }}
-      validate_command: pnpm run build
-      translation_batch_number: ${{ inputs.batch_number }}
-      translation_batch_count: ${{ inputs.batch_count }}
-      translation_pending_count: ${{ inputs.pending_count }}
-      translation_published_count: ${{ needs.translate.outputs.translated_count }}
-      card_id: ${{ inputs.card_id }}
-      card_started_at: ${{ inputs.card_started_at }}
-      card_stages: ${{ inputs.card_stages }}
-    secrets:
-      APP_ID: ${{ secrets.APP_ID }}
-      APP_SECRET: ${{ secrets.APP_SECRET }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    permissions:
+      actions: read
+      contents: write
+    outputs:
+      status: ${{ steps.result.outputs.status }}
+      commit_sha: ${{ steps.result.outputs.commit_sha }}
+    env:
+      GROUP: ${{ inputs.group }}
+      MASTER_SHA: ${{ inputs.master_sha }}
+      TARGET_BRANCH: ${{ inputs.target_branch }}
+      BATCH_NUMBER: ${{ inputs.batch_number }}
+      BATCH_COUNT: ${{ inputs.batch_count }}
+      ARTIFACT_NAME: translation-checkpoint-${{ inputs.group }}-${{ github.run_id }}-batch-${{ inputs.batch_number }}
+      BASELINE_ARTIFACT_NAME: translation-baseline-${{ inputs.group }}-${{ github.run_id }}-batch-${{ inputs.batch_number }}
+      COMMIT_MESSAGE: "i18n(${{ inputs.group }}): publish batch ${{ inputs.batch_number }} of ${{ inputs.batch_count }}"
+    steps:
+      - name: Initialize publication paths
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ -n "${RUNNER_TEMP:-}" && "$RUNNER_TEMP" == /* ]]
+          printf '%s\n' \
+            "DOWNLOAD_DIR=$RUNNER_TEMP/download" \
+            "EXTRACT_DIR=$RUNNER_TEMP/checkpoint-extracted" \
+            "ARTIFACT_DIR=$RUNNER_TEMP/checkpoint-extracted/checkpoint-group" \
+            "BASELINE_DOWNLOAD_DIR=$RUNNER_TEMP/baseline-download" \
+            "BASELINE_EXTRACT_DIR=$RUNNER_TEMP/baseline-extracted" \
+            "BASELINE_DIR=$RUNNER_TEMP/baseline-extracted/checkpoint-group" \
+            "PUBLISH_OUTPUT=$RUNNER_TEMP/publication-output.txt" >> "$GITHUB_ENV"
+
+      - name: Validate immutable publication inputs
+        shell: bash
+        run: |
+          set -euo pipefail
+          node - <<'NODE'
+          if (!/^[0-9a-f]{40}$/.test(process.env.MASTER_SHA)) throw new Error('master_sha must be a lowercase 40-character Git SHA')
+          const number = Number(process.env.BATCH_NUMBER), count = Number(process.env.BATCH_COUNT)
+          if (!Number.isSafeInteger(number) || !Number.isSafeInteger(count) || number < 1 || number > count) throw new Error('translation batch identity is invalid')
+          for (const [name, value] of [['artifact_name', process.env.ARTIFACT_NAME], ['baseline_artifact_name', process.env.BASELINE_ARTIFACT_NAME], ['commit_message', process.env.COMMIT_MESSAGE]]) {
+            if (!value || /[\r\n]/.test(value)) throw new Error(`${name} must be non-empty and single-line`)
+          }
+          NODE
+          git check-ref-format --branch "$TARGET_BRANCH"
+
+      - name: Check out immutable publisher tooling
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.master_sha }}
+          fetch-depth: 0
+
+      - uses: pnpm/action-setup@v4
+        with: { version: 9 }
+
+      - uses: actions/setup-node@v4
+        with: { node-version: '20', cache: pnpm }
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Download translation checkpoint
+        uses: actions/download-artifact@v4
+        with:
+          name: translation-checkpoint-${{ inputs.group }}-${{ github.run_id }}-batch-${{ inputs.batch_number }}
+          path: ${{ runner.temp }}/download
+
+      - name: Download translation baseline
+        uses: actions/download-artifact@v4
+        with:
+          name: translation-baseline-${{ inputs.group }}-${{ github.run_id }}-batch-${{ inputs.batch_number }}
+          path: ${{ runner.temp }}/baseline-download
+
+      - name: Safely extract translation artifacts
+        shell: bash
+        run: |
+          set -euo pipefail
+          extract_checkpoint_archive() {
+            local archive=$1 extract_dir=$2 artifact_dir=$3 label=$4
+            local paths_file="$RUNNER_TEMP/${label}-archive-paths.txt"
+            local types_file="$RUNNER_TEMP/${label}-archive-types.txt"
+            [[ -f "$archive" ]]
+            tar -tf "$archive" > "$paths_file"
+            tar -tvf "$archive" > "$types_file"
+            ARCHIVE_PATHS_FILE="$paths_file" ARCHIVE_TYPES_FILE="$types_file" node - <<'NODE'
+          const fs = require('node:fs')
+          const paths = fs.readFileSync(process.env.ARCHIVE_PATHS_FILE, 'utf8').split('\n').filter(Boolean)
+          if (!paths.length) throw new Error('Checkpoint archive is empty')
+          for (const archiveName of paths) {
+            const name = archiveName.endsWith('/') ? archiveName.slice(0, -1) : archiveName
+            if (!name || name.startsWith('/') || name.split('/').some(part => part === '..' || part === '')) throw new Error(`Unsafe archive path: ${archiveName}`)
+            if (name !== 'checkpoint-group' && !name.startsWith('checkpoint-group/')) throw new Error(`Unexpected archive root: ${archiveName}`)
+          }
+          const lines = fs.readFileSync(process.env.ARCHIVE_TYPES_FILE, 'utf8').split('\n').filter(Boolean)
+          for (const line of lines) if (!['-', 'd'].includes(line[0])) throw new Error(`Unsafe archive entry type: ${line}`)
+          NODE
+            mkdir -p "$extract_dir"
+            tar -xf "$archive" -C "$extract_dir"
+            [[ $(find "$extract_dir" -mindepth 1 -maxdepth 1 -print | wc -l) -eq 1 ]]
+            [[ -d "$artifact_dir" && ! -L "$artifact_dir" ]]
+          }
+          extract_checkpoint_archive "$DOWNLOAD_DIR/checkpoint-group.tar" "$EXTRACT_DIR" "$ARTIFACT_DIR" checkpoint
+          extract_checkpoint_archive "$BASELINE_DOWNLOAD_DIR/checkpoint-group.tar" "$BASELINE_EXTRACT_DIR" "$BASELINE_DIR" baseline
+
+      - name: Validate translation artifact identity
+        id: baseline
+        shell: bash
+        run: |
+          set -euo pipefail
+          node scripts/docs-workflow/validate-checkpoint-artifact.js --artifact "$ARTIFACT_DIR" --group "$GROUP" --master-sha "$MASTER_SHA"
+          node scripts/docs-workflow/validate-checkpoint-artifact.js --artifact "$BASELINE_DIR" --group "$GROUP" --master-sha "$MASTER_SHA"
+          node - <<'NODE'
+          const fs = require('node:fs/promises')
+          const path = require('node:path')
+          const { validateCheckpointArtifact } = require('./scripts/docs-workflow/validate-checkpoint-artifact.js')
+          Promise.all([validateCheckpointArtifact(process.env.ARTIFACT_DIR), validateCheckpointArtifact(process.env.BASELINE_DIR)]).then(async ([artifact, baseline]) => {
+            const number = Number(process.env.BATCH_NUMBER), count = Number(process.env.BATCH_COUNT)
+            for (const manifest of [artifact, baseline]) {
+              if (manifest.batch?.batchNumber !== number || manifest.batch?.batchCount !== count) throw new Error('checkpoint translation batch identity mismatch')
+            }
+            const baselineDir = path.join(baseline.resolvedDir, 'payload')
+            const cache = path.join(baselineDir, '.translation-cache/ja-JP.json')
+            const stat = await fs.lstat(cache)
+            if (!stat.isFile() || stat.isSymbolicLink()) throw new Error('Baseline translation cache must be a regular file')
+            await fs.appendFile(process.env.GITHUB_OUTPUT, `payload_dir=${baselineDir}\n`)
+          }).catch(error => { console.error(error.message); process.exit(1) })
+          NODE
+
+      - name: Publish translation checkpoint
+        id: publisher
+        shell: bash
+        env:
+          BASELINE_PAYLOAD_DIR: ${{ steps.baseline.outputs.payload_dir }}
+        run: |
+          set -o pipefail
+          bash scripts/docs-workflow/publish-checkpoint.sh \
+            --artifact "$ARTIFACT_DIR" \
+            --baseline-dir "$BASELINE_PAYLOAD_DIR" \
+            --branch "$TARGET_BRANCH" \
+            --message "$COMMIT_MESSAGE" \
+            --max-attempts 3 \
+            --validate-command "pnpm run build" | tee "$PUBLISH_OUTPUT"
+
+      - name: Emit publication result
+        id: result
+        if: ${{ always() }}
+        shell: bash
+        run: |
+          status=failed
+          commit_sha=
+          if [[ "${{ steps.publisher.outcome }}" == success && -f "$PUBLISH_OUTPUT" ]]; then
+            status=$(sed -n 's/^status=//p' "$PUBLISH_OUTPUT" | tail -1)
+            commit_sha=$(sed -n 's/^commit_sha=//p' "$PUBLISH_OUTPUT" | tail -1)
+            [[ "$status" == published || "$status" == no_changes ]] || status=failed
+          fi
+          printf 'status=%s\ncommit_sha=%s\n' "$status" "$commit_sha" >> "$GITHUB_OUTPUT"
+
+      - name: Report translation publication
+        if: ${{ always() && inputs.card_id != '' }}
+        continue-on-error: true
+        run: bash scripts/docs-workflow/report-live-card.sh
+        env:
+          CARD_ID: ${{ inputs.card_id }}
+          CARD_MODE: aggregate
+          CARD_STARTED_AT: ${{ inputs.card_started_at }}
+          CARD_STAGES: ${{ inputs.card_stages }}
+          CARD_PHASE: Publish ${{ inputs.group }} translation
+          CARD_STATUS: ${{ steps.result.outputs.status == 'failed' && 'fail' || 'done' }}
+          CARD_NOTE: ${{ steps.result.outputs.status == 'failed' && format('{0} batch publication failed', inputs.group) || format('{0} batch publication {1}', inputs.group, steps.result.outputs.status) }}
+          CARD_JOB_NAME: ${{ format('{0}_translation_batch_{1}_of_{2}_pending_{3} / publish batch {1} of {2} ({4} docs)', inputs.group, inputs.batch_number, inputs.batch_count, inputs.pending_count, needs.translate.outputs.translated_count) }}
+          CARD_JOB_CONCLUSION: ${{ steps.result.outputs.status == 'failed' && 'failure' || 'success' }}
+          CARD_TITLE: Global Docs Build
+          SELECTED_GROUP: ${{ inputs.group }}
+          PUBLISH_ENABLED: true
+          GH_TOKEN: ${{ github.token }}
+          APP_ID: ${{ secrets.APP_ID }}
+          APP_SECRET: ${{ secrets.APP_SECRET }}
+          FEISHU_HOST: ${{ vars.FEISHU_HOST }}
+
+      - name: Upload publication diagnostics
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: publication-${{ inputs.group }}-${{ github.run_id }}-batch-${{ inputs.batch_number }}
+          path: |
+            ${{ runner.temp }}/publication-output.txt
+            ${{ runner.temp }}/*-archive-paths.txt
+            ${{ runner.temp }}/*-archive-types.txt
+          if-no-files-found: ignore
+          retention-days: 3
+
+      - name: Fail unsuccessful publication
+        if: ${{ always() && steps.result.outputs.status == 'failed' }}
+        run: exit 1
