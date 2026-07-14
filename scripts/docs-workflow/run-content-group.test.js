@@ -53,6 +53,20 @@ test('guides stages fetch sources once and render targets from restored sources'
     fetch('guides', '-tar', 'zilliz.paas', '-post', '-skipS'),
   ]);
 });
+test('guides source stage supports an explicit forced-full bootstrap', () => {
+  assert.deepEqual(commandsForGuidesStage('source', { forceFullFetch: true }), [fetch(
+    'guides',
+    '-src-only',
+    '--incremental',
+    '--buildEnv',
+    'uat',
+    '--snapshotCandidatePath',
+    'plugins/lark-docs/meta/reports/guides-source-snapshot-candidate.json',
+    '--forceFullFetch',
+  )]);
+  assert.deepEqual(parseArgs(['--group', 'guides', '--stage', 'source', '--force-full-fetch']), { group: 'guides', stage: 'source', forceFullFetch: true });
+  assert.throws(() => parseArgs(['--group', 'guides', '--stage', 'saas', '--force-full-fetch']), /only valid.*source/i);
+});
 test('rest group is isolated', () => assert.deepEqual(commandsFor('rest'), [['npx', 'docusaurus', 'fetch-apifox-docs', '-s', 'plugins/apifox-docs/meta/openapi/']]));
 test('commandsFor returns defensive copies', () => { const result = commandsFor('python'); result[0][0] = 'changed'; result.push(['extra']); assert.equal(commandsFor('python')[0][0], 'npx'); assert.equal(commandsFor('python').length, 5); });
 test('runContentGroup executes sequentially with supplied environment', () => { const calls = []; const env = { TEST: 'yes' }; runContentGroup('go', { env, spawnSync(command, args, options) { calls.push([command, args, options]); return { status: 0 }; } }); assert.deepEqual(calls.map(([command, args]) => [command, ...args]), commandsFor('go')); assert.ok(calls.every(([, , options]) => options.stdio === 'inherit' && options.env === env)); });

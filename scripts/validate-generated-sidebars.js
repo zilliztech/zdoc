@@ -46,6 +46,17 @@ function main() {
   const directory = path.join(process.cwd(), 'config/generated')
   const count = validateAllGeneratedSidebars(directory)
   console.log(`[sidebar-validation] validated ${count} generated sidebar file(s)`)
+  const candidate = path.join(process.cwd(), 'plugins/lark-docs/meta/reports/guides-source-snapshot-candidate.json')
+  if (fs.existsSync(candidate)) {
+    const { validateGuidesCoverage } = require('./validate-guides-coverage')
+    for (const config of [
+      { outputDir: 'docs/tutorials', idPrefix: 'tutorials', sidebarPath: 'config/generated/guides.sidebar.js' },
+      { outputDir: 'docs-byoc/tutorials', idPrefix: 'tutorials', sidebarPath: 'config/generated/guides-byoc.sidebar.js' },
+    ]) {
+      const result = validateGuidesCoverage({ outputDir: config.outputDir, idPrefix: config.idPrefix, sidebar: require(path.resolve(config.sidebarPath)) })
+      console.log(`[guides-coverage] ${config.sidebarPath}: ${result.generatedDocs} generated docs covered`)
+    }
+  }
 }
 
 if (require.main === module) main()

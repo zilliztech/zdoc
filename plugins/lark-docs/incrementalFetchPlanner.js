@@ -178,6 +178,7 @@ function planIncrementalFetch({
   forceFull = false,
   fullFetchThreshold = 0.25,
   currentNodeMetadataByToken = new Map(),
+  sourceCompleteness = null,
 }) {
   const canonicalRecords = canonicalRecordsFrom(records)
   if (forceFull) {
@@ -185,6 +186,15 @@ function planIncrementalFetch({
   }
   if (!previousSnapshot) {
     return fullPlan({ manualName, docSourceDir, canonicalRecords, buildEnv, warnings: ['No previous snapshot found.'] })
+  }
+  if (sourceCompleteness && !sourceCompleteness.complete) {
+    return fullPlan({
+      manualName,
+      docSourceDir,
+      canonicalRecords,
+      buildEnv,
+      warnings: [`Source cache is incomplete (${sourceCompleteness.validCanonicalSources || 0}/${sourceCompleteness.expectedCanonicalSources || 0} canonical sources valid).`],
+    })
   }
   if (currentNodeMetadataByToken.size > 0 && Number(previousSnapshot.schema_version || 1) < 2) {
     return fullPlan({

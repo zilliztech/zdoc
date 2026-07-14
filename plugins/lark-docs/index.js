@@ -5,6 +5,7 @@ const { runCanonicalLinkAudit } = require('./canonicalLinkAuditor')
 const { canonicalAuditRequestForPlan } = require('./incrementalCanonicalAudit')
 const { planIncrementalFetch, writeIncrementalFetchPlanReports } = require('./incrementalFetchPlanner')
 const { createSourceSnapshot, readSnapshot, validateCandidateSnapshot, writeSnapshot } = require('./sourceSnapshot')
+const { validateSourceCompleteness, assertSourceCompleteness } = require('./sourceCompleteness')
 const Utils = require('./larkUtils.js')
 const fs = require('node:fs')
 const path = require('node:path')
@@ -134,15 +135,27 @@ module.exports = function (context, options) {
                         currentNodeMetadataByToken = await scraper.fetch_wiki_node_metadata(scraper.records, {
                             progressLabel: '[incremental-fetch] Wiki metadata',
                         })
+                        const previousSnapshot = readSnapshot(snapshotPath)
+                        const sourceCompleteness = previousSnapshot ? validateSourceCompleteness({
+                            manual: manualName,
+                            buildEnv: snapshotEnv,
+                            rootToken: root,
+                            sourceDir: docSourceDir,
+                            snapshot: previousSnapshot,
+                        }) : null
+                        if (sourceCompleteness && !sourceCompleteness.complete) {
+                            console.warn(`[incremental-fetch] Source cache incomplete (${sourceCompleteness.validCanonicalSources}/${sourceCompleteness.expectedCanonicalSources}); selecting full fetch.`)
+                        }
                         const plan = planIncrementalFetch({
                             manualName,
                             docSourceDir,
                             records: scraper.records,
-                            previousSnapshot: readSnapshot(snapshotPath),
+                            previousSnapshot,
                             buildEnv: snapshotEnv,
                             maxReferenceDepth: Number(opts.incrementalMaxReferenceDepth || 1),
                             forceFull: !!opts.forceFullFetch,
                             currentNodeMetadataByToken,
+                            sourceCompleteness,
                         })
                         const prefix = path.join('.', 'plugins', 'lark-docs', 'meta', 'reports', `${manualName}-incremental-fetch-plan`)
                         const paths = writeIncrementalFetchPlanReports(plan, prefix)
@@ -277,6 +290,13 @@ module.exports = function (context, options) {
                             sourceDir: docSourceDir,
                             baseAppToken: scraper.base_app_token,
                         })
+                        assertSourceCompleteness({
+                            manual: manualName,
+                            buildEnv: opts.buildEnv || 'local',
+                            rootToken: root,
+                            sourceDir: docSourceDir,
+                            snapshot: candidate,
+                        })
                         writeSnapshot(opts.snapshotCandidatePath, candidate)
                         console.log(`[snapshot] Candidate written to ${opts.snapshotCandidatePath}`)
                     }
@@ -367,6 +387,18 @@ module.exports = function (context, options) {
                             var { outputDir, imageDir } = targetConfig
                         } catch (e) {
                             throw new Error(`Please provide a valid target... \n\nAvailable targets: \n- ${utils.list_valid_targets(targets).join('\n- ')}\n`)
+                        }
+
+                        if (manualName === 'guides' && opts.skipSourceDown && !opts.postProcess) {
+                            const candidatePath = opts.snapshotCandidatePath || path.join('.', 'plugins', 'lark-docs', 'meta', 'reports', 'guides-source-snapshot-candidate.json')
+                            if (!fs.existsSync(candidatePath)) throw new Error(`Complete guides source candidate is required before rendering: ${candidatePath}`)
+                            assertSourceCompleteness({
+                                manual: 'guides',
+                                buildEnv: opts.buildEnv || 'uat',
+                                rootToken: root,
+                                sourceDir: docSourceDir,
+                                snapshot: readSnapshot(candidatePath),
+                            })
                         }
 
                         if (!fs.existsSync(outputDir)) {

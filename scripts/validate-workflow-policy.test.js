@@ -129,6 +129,20 @@ test('guides source and render stages refresh aggregate card progress', () => {
   }
 })
 
+test('guides workflows bootstrap full sources and persist only verified caches', () => {
+  const source = fs.readFileSync('.github/workflows/_fetch-guides-sources.yml', 'utf8')
+  const assemble = fs.readFileSync('.github/workflows/_assemble-guides.yml', 'utf8')
+  assert.match(source, /actions\/cache\/restore@v4/)
+  assert.match(source, /guides-source-cache\.js validate/)
+  assert.match(source, /--force-full-fetch/)
+  assert.match(source, /steps\.source_cache_check\.outputs\.valid/)
+  assert.match(assemble, /guides-source-cache\.js create/)
+  assert.match(assemble, /actions\/cache\/save@v4/)
+  assert.match(assemble, /^  actions: write$/m)
+  assert.ok(assemble.indexOf('Validate combined guides output') < assemble.indexOf('actions/cache/save@v4'))
+  assert.ok(assemble.indexOf('Promote validated guides source snapshot') < assemble.indexOf('actions/cache/save@v4'))
+})
+
 test('reusable content publisher safely downloads, validates, and publishes checkpoints', () => {
   const workflowPath = path.join(process.cwd(), '.github/workflows/_publish-content-group.yml')
   assert.equal(fs.existsSync(workflowPath), true, 'reusable content publisher workflow must exist')
