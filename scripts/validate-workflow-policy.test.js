@@ -11,6 +11,14 @@ test('GitHub Actions workflows satisfy documentation production safety policy', 
   assert.deepEqual(validateWorkflowPolicies(), [])
 })
 
+test('docs production runs only on schedules or explicit manual dispatch', () => {
+  const workflowPath = path.join(process.cwd(), '.github/workflows/fetch-docs.yml')
+  const triggerBlock = fs.readFileSync(workflowPath, 'utf8').split('\npermissions:')[0]
+  assert.match(triggerBlock, /workflow_dispatch:/)
+  assert.match(triggerBlock, /schedule:/)
+  assert.doesNotMatch(triggerBlock, /\n\s+push:/)
+})
+
 test('source publishers are gated before reusable workflows allocate runners', () => {
   const workflowPath = path.join(process.cwd(), '.github/workflows/fetch-docs.yml')
   const workflow = yaml.load(fs.readFileSync(workflowPath, 'utf8'))

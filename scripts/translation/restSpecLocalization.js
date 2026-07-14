@@ -53,7 +53,17 @@ function parseTranslationEntries(text, expected) {
       ...(value.match(/\{\{[^}]+\}\}/g) || []),
       ...(value.match(/https?:\/\/[^\s)]+/g) || []),
     ].sort()
-    if (JSON.stringify(tokens(entry.text)) !== JSON.stringify(tokens(translation))) throw new Error(`REST translation changed a protected token for ${entry.id}`)
+    const remaining = tokens(translation)
+    for (const token of tokens(entry.text)) {
+      const index = remaining.indexOf(token)
+      if (index === -1) throw new Error(`REST translation changed a protected token for ${entry.id}`)
+      remaining.splice(index, 1)
+    }
+    const safeAddedCodeFormatting = token => {
+      const match = token.match(/^`([^`]+)`$/)
+      return Boolean(match && entry.text.includes(match[1]))
+    }
+    if (remaining.some(token => !safeAddedCodeFormatting(token))) throw new Error(`REST translation changed a protected token for ${entry.id}`)
     return { ...entry, translation }
   })
 }

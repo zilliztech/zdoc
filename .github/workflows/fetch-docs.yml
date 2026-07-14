@@ -25,9 +25,6 @@ on:
         default: master
   schedule:
     - cron: "0 2,10,18 * * *"
-  push:
-    branches: [dev]
-    paths: [.github/workflows/fetch-docs.yml]
 
 permissions:
   contents: write

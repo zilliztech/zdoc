@@ -47,3 +47,35 @@ test('rejects translations that change protected API tokens', async () => {
     callModel: async ({ messages }) => JSON.stringify(JSON.parse(messages[1].content.split('\n\n')[1]).map(entry => ({ ...entry, text: '変更されたテキスト' }))),
   }), /protected token/i)
 })
+
+test('allows code formatting to be added around unchanged technical identifiers', async () => {
+  const technicalSpecs = {
+    description: 'When true, one INDEX function and 0-50 PRESERVE functions are allowed.',
+  }
+  const { localized } = await translateRestSpecs({
+    sourceSpecs: technicalSpecs,
+    locale: 'ja-JP',
+    systemPrompt: 'prompt',
+    callModel: async ({ messages }) => JSON.stringify(
+      JSON.parse(messages[1].content.split('\n\n')[1]).map(entry => ({
+        ...entry,
+        text: '`true` の場合、1 個の `INDEX` 関数と 0～50 個の `PRESERVE` 関数を使用できます。',
+      })),
+    ),
+  })
+  assert.equal(
+    localized['x-i18n']['ja-JP'].description,
+    '`true` の場合、1 個の `INDEX` 関数と 0～50 個の `PRESERVE` 関数を使用できます。',
+  )
+})
+
+test('rejects invented code identifiers that do not exist in the source prose', async () => {
+  await assert.rejects(translateRestSpecs({
+    sourceSpecs: { description: 'Use the INDEX function.' },
+    locale: 'ja-JP',
+    systemPrompt: 'prompt',
+    callModel: async ({ messages }) => JSON.stringify(
+      JSON.parse(messages[1].content.split('\n\n')[1]).map(entry => ({ ...entry, text: '`UNKNOWN` 関数を使用します。' })),
+    ),
+  }), /protected token/i)
+})
