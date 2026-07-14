@@ -59,15 +59,22 @@ jobs:
             [[ "$label" == source ]] || source_arg=(--source-artifact-sha256 "$source_sha")
             node scripts/docs-workflow/guides-stage-artifact.js --operation restore --stage "$label" --artifact "$RUNNER_TEMP/$label-download/$root" --target "$GITHUB_WORKSPACE" --master-sha "${{ inputs.master_sha }}" --dev-baseline-sha "${{ inputs.dev_baseline_sha }}" "${source_arg[@]}"
           done
-      - name: Validate combined guides output and update snapshot
+      - name: Validate combined guides output
         run: |
           node scripts/validate-generated-sidebars.js
           node scripts/run-doc-build-stage.js --build "pnpm run build" --skipLinkChecks
-          node scripts/update-lark-doc-snapshot.js --manual guides --targets-built zilliz.saas,zilliz.paas --build-env uat --source-branch "${{ inputs.target_branch }}" --publish-url https://docs.cloud-uat3.zilliz.com --link-check-remote https://docs.zilliz.com
-        env:
-          APP_ID: ${{ secrets.APP_ID }}
-          APP_SECRET: ${{ secrets.APP_SECRET }}
-          FEISHU_HOST: ${{ vars.FEISHU_HOST }}
+      - name: Promote validated guides source snapshot
+        run: |
+          node scripts/promote-lark-doc-snapshot.js \
+            --candidate plugins/lark-docs/meta/reports/guides-source-snapshot-candidate.json \
+            --output plugins/lark-docs/meta/snapshots/guides-uat-last-success.json \
+            --manual guides \
+            --build-env uat \
+            --source-dir plugins/lark-docs/meta/sources/guides \
+            --targets-built zilliz.saas,zilliz.paas \
+            --source-branch "${{ inputs.target_branch }}" \
+            --publish-url https://docs.cloud-uat3.zilliz.com \
+            --link-check-remote https://docs.zilliz.com
       - name: Create combined guides checkpoint
         run: |
           node scripts/docs-workflow/create-checkpoint-artifact.js --group guides --master-sha "${{ inputs.master_sha }}" --dev-baseline-sha "${{ inputs.dev_baseline_sha }}" --baseline-dir "$RUNNER_TEMP/baseline" --workspace "$GITHUB_WORKSPACE" --output "$RUNNER_TEMP/checkpoint-group" --validation-command "node scripts/validate-generated-sidebars.js" --validation-command 'node scripts/run-doc-build-stage.js --build "pnpm run build" --skipLinkChecks'

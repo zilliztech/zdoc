@@ -12,6 +12,7 @@ const STAGE_PATHS = Object.freeze({
     'plugins/lark-docs/meta/reports/guides-incremental-fetch-plan.json',
     'plugins/lark-docs/meta/reports/guides-incremental-fetch-plan.md',
     'plugins/lark-docs/meta/reports/guides-broken-content-links.json',
+    'plugins/lark-docs/meta/reports/guides-source-snapshot-candidate.json',
   ],
   saas: [
     'docs',
@@ -21,6 +22,11 @@ const STAGE_PATHS = Object.freeze({
     'plugins/lark-docs/meta/reports/guides-canonical-link-audit.csv',
   ],
   byoc: ['docs-byoc', 'config/generated/guides-byoc.sidebar.js'],
+})
+const REQUIRED_STAGE_FILES = Object.freeze({
+  source: ['plugins/lark-docs/meta/reports/guides-source-snapshot-candidate.json'],
+  saas: [],
+  byoc: [],
 })
 
 function allowed(stage, relative) {
@@ -50,6 +56,9 @@ async function createGuidesStageArtifact({ stage, workspace, baselineDir, output
   if (!SHA.test(masterSha) || !SHA.test(devBaselineSha)) throw new Error('Invalid SHA')
   const [current, baseline] = await Promise.all([collect(workspace, STAGE_PATHS[stage]), collect(baselineDir, STAGE_PATHS[stage])])
   if (current.size === 0) throw new Error(`Guides ${stage} artifact has no files`)
+  for (const required of REQUIRED_STAGE_FILES[stage]) {
+    if (!current.has(required)) throw new Error(`Guides ${stage} artifact is missing required snapshot candidate: ${required}`)
+  }
   await fs.rm(output, { recursive: true, force: true })
   await fs.mkdir(path.join(output, 'payload'), { recursive: true })
   const files = []
@@ -84,6 +93,9 @@ async function validateGuidesStageArtifact(directory, expected = {}) {
     const bytes = await fs.readFile(full)
     if (bytes.length !== file.size) throw new Error(`Payload size mismatch: ${file.path}`)
     if (crypto.createHash('sha256').update(bytes).digest('hex') !== file.sha256) throw new Error(`Payload checksum mismatch: ${file.path}`)
+  }
+  for (const required of REQUIRED_STAGE_FILES[manifest.stage]) {
+    if (!seen.has(required)) throw new Error(`Guides ${manifest.stage} artifact is missing required snapshot candidate: ${required}`)
   }
   for (const relative of manifest.deletions || []) if (!allowed(manifest.stage, relative) || seen.has(relative)) throw new Error(`Unauthorized deletion: ${relative}`)
   return manifest

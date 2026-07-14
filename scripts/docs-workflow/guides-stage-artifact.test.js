@@ -16,9 +16,14 @@ test('creates, validates, and restores a source artifact', async () => {
   fs.mkdirSync(workspace); fs.mkdirSync(baseline); fs.mkdirSync(target)
   write(workspace, 'plugins/lark-docs/meta/sources/guides/doc.json', '{"title":"Doc"}')
   write(workspace, 'plugins/lark-docs/meta/reports/guides-incremental-fetch-plan.json', '{}')
+  await assert.rejects(
+    createGuidesStageArtifact({ stage: 'source', workspace, baselineDir: baseline, output: artifact, masterSha: SHA, devBaselineSha: SHA }),
+    /snapshot candidate/i,
+  )
+  write(workspace, 'plugins/lark-docs/meta/reports/guides-source-snapshot-candidate.json', '{"schema_version":2}')
   const manifest = await createGuidesStageArtifact({ stage: 'source', workspace, baselineDir: baseline, output: artifact, masterSha: SHA, devBaselineSha: SHA })
   assert.equal(manifest.stage, 'source')
-  assert.equal((await validateGuidesStageArtifact(artifact)).files.length, 2)
+  assert.equal((await validateGuidesStageArtifact(artifact)).files.length, 3)
   await restoreGuidesStageArtifact({ artifact, target })
   assert.equal(fs.readFileSync(path.join(target, 'plugins/lark-docs/meta/sources/guides/doc.json'), 'utf8'), '{"title":"Doc"}')
 })

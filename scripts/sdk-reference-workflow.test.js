@@ -32,6 +32,20 @@ test('SDK snapshot wrapper clearly rejects groups without an SDK Lark snapshot',
   }
 })
 
+test('Guides assembly promotes the source candidate only after combined validation', () => {
+  const source = fs.readFileSync('.github/workflows/_assemble-guides.yml', 'utf8')
+  const build = source.indexOf('node scripts/run-doc-build-stage.js')
+  const promote = source.indexOf('node scripts/promote-lark-doc-snapshot.js')
+  const checkpoint = source.indexOf('node scripts/docs-workflow/create-checkpoint-artifact.js')
+  assert.ok(build >= 0, 'combined build validation must exist')
+  assert.ok(promote > build, 'candidate promotion must follow combined build validation')
+  assert.ok(checkpoint > promote, 'checkpoint creation must include the promoted snapshot')
+  assert.match(source, /--candidate plugins\/lark-docs\/meta\/reports\/guides-source-snapshot-candidate\.json/)
+  assert.match(source, /--output plugins\/lark-docs\/meta\/snapshots\/guides-uat-last-success\.json/)
+  assert.doesNotMatch(source, /update-lark-doc-snapshot\.js/)
+  assert.doesNotMatch(source, /\[snapshot\] Base scan|\[snapshot\] Wiki metadata/)
+})
+
 test('docs workflow orchestrates independent checkpointed publication lanes', () => {
   const source = fs.readFileSync('.github/workflows/fetch-docs.yml', 'utf8')
   const workflow = yaml.load(source)
