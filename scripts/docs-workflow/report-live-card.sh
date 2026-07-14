@@ -2,8 +2,13 @@
 set -euo pipefail
 
 [[ -n "${CARD_ID:-}" ]] || exit 0
+target_branch="${CARD_TARGET_BRANCH:-}"
+if [[ -z "$target_branch" && -n "${GITHUB_EVENT_PATH:-}" && -f "$GITHUB_EVENT_PATH" ]]; then
+  target_branch=$(node -e 'const e=require(process.argv[1]); process.stdout.write(String(e.inputs?.target_branch || ""))' "$GITHUB_EVENT_PATH")
+fi
+target_branch="${target_branch:-dev}"
 if [[ "${CARD_MODE:-ordered}" == ordered ]]; then
-  npx docusaurus report-to-lark --card-phase --message-id "$CARD_ID" --title "$CARD_TITLE" --started-at "$CARD_STARTED_AT" --stages "$CARD_STAGES" --stage "$CARD_PHASE" --status "$CARD_STATUS" --note "$CARD_NOTE"
+  npx docusaurus report-to-lark --card-phase --message-id "$CARD_ID" --title "$CARD_TITLE" --started-at "$CARD_STARTED_AT" --stages "$CARD_STAGES" --stage "$CARD_PHASE" --status "$CARD_STATUS" --note "$CARD_NOTE" --target-branch "$target_branch"
   exit 0
 fi
 
@@ -28,4 +33,4 @@ node scripts/docs-workflow/build-live-card-state.js \
   --no-change-groups-json "$no_change_groups_json" \
   --notes-json "${CARD_NOTES_JSON:-[]}" \
   --output "$state_file"
-npx docusaurus report-to-lark --card-state-file "$state_file" --message-id "$CARD_ID" --title "$CARD_TITLE" --started-at "$CARD_STARTED_AT"
+npx docusaurus report-to-lark --card-state-file "$state_file" --message-id "$CARD_ID" --title "$CARD_TITLE" --started-at "$CARD_STARTED_AT" --target-branch "$target_branch"

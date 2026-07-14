@@ -120,10 +120,11 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - id: card
         name: Create progress card
-        run: npx docusaurus report-to-lark --card-create --title "$CARD_TITLE" --stages "$CARD_STAGES"
+        run: npx docusaurus report-to-lark --card-create --title "$CARD_TITLE" --stages "$CARD_STAGES" --target-branch "$TARGET_BRANCH"
         env:
           CARD_STAGES: ${{ steps.refs.outputs.card_stages }}
           CARD_TITLE: ${{ steps.refs.outputs.publish == 'true' && 'Global Docs Build' || 'Global Docs Artifact-Only Build' }}
+          TARGET_BRANCH: ${{ steps.refs.outputs.target_branch }}
           APP_ID: ${{ secrets.APP_ID }}
           APP_SECRET: ${{ secrets.APP_SECRET }}
           FEISHU_HOST: ${{ vars.FEISHU_HOST }}
@@ -886,6 +887,7 @@ jobs:
           CARD_STARTED_AT: ${{ needs.prepare.outputs.card_started_at }}
           CARD_STAGES: ${{ needs.prepare.outputs.card_stages }}
           CARD_TITLE: ${{ needs.prepare.outputs.card_title }}
+          CARD_TARGET_BRANCH: ${{ needs.prepare.outputs.target_branch }}
           CARD_STATUS: ${{ steps.aggregate.outputs.overall_status == 'success' && 'success' || 'fail' }}
           CARD_NOTES_JSON: ${{ steps.reports.outputs.card_notes_json || steps.aggregate.outputs.notes_json }}
           CARD_JOB_NAME: verify

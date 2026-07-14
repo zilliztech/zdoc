@@ -106,15 +106,19 @@ function buildLiveCardState({ requestedGroups, jobs, publishEnabled, notes = [],
   const rows = requestedGroups.map(group => {
     const statuses = Object.fromEntries(PHASES.map(phase => {
       const jobName = phase.job(group)
+      const publisher = byName.get(jobName)
+      const translator = byName.get(`translate_${group}`)
       const status = group === 'guides' && guidesBatches && (phase.key === 'translate' || phase.key === 'translation')
         ? guidesBatches[phase.key]
         : group === 'guides' && noChangeSet.has(group) && (phase.key === 'translate' || phase.key === 'translation')
           ? 'done'
         : phase.key === 'translation' && noChangeSet.has(group) && !byName.has(jobName)
         ? 'done'
+        : phase.key === 'translation' && publisher?.conclusion === 'skipped' && jobStatus(translator) === 'done'
+        ? 'done'
         : phase.key === 'produce' && group === 'guides'
           ? guidesProduceStatus(byName)
-          : jobStatus(byName.get(jobName))
+          : jobStatus(publisher)
       return [phase.key, publishEnabled ? status : (phase.key === 'produce' ? status : 'pending')]
     }))
     return { group, statuses }

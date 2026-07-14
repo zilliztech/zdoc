@@ -98,6 +98,23 @@ test('marks translation publication done when the translator reports no changes'
   assert.equal(state.stages[3].status, 'done')
 })
 
+test('infers no-change publication from a successful translator and skipped publisher', () => {
+  const state = buildLiveCardState({
+    requestedGroups: ['go'],
+    publishEnabled: true,
+    jobs: [
+      { name: 'produce_go / produce', status: 'completed', conclusion: 'success' },
+      { name: 'publish_go / publish', status: 'completed', conclusion: 'success' },
+      { name: 'translate_go / translate', status: 'completed', conclusion: 'success' },
+      { name: 'publish_go_translation', status: 'completed', conclusion: 'skipped' },
+    ],
+  })
+
+  assert.equal(state.manuals, undefined)
+  assert.equal(state.stages[3].name, 'Publish translations (1/1)')
+  assert.equal(state.stages[3].status, 'done')
+})
+
 test('derives Guides translation progress from durable batch jobs', () => {
   const state = buildLiveCardState({
     requestedGroups: ['guides'],

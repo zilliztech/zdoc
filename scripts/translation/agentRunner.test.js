@@ -12,6 +12,8 @@ const {
   isRetryableProviderError,
   loadChunkLimits,
   processManifestItem,
+  protectEsmStatements,
+  restoreProtectedEsm,
   runWorkerPool,
   stabilizeBareUrlFormatting,
   stripCodeFence,
@@ -302,9 +304,11 @@ async function testRestoresSourceImportsBeforeValidation() {
     const source = "---\ntitle: Test\n---\n\nimport Admonition from '@theme/Admonition';\n\n# Test\n"
     write(path.join(siteDir, sourcePath), source)
 
-    const callModel = async ({ agent }) => {
+    const callModel = async ({ agent, messages }) => {
       if (agent === 'translation') {
-        return "---\ntitle: テスト\n---\n\nimport Admonition from 『@theme/Admonition』;\n\n# テスト\n"
+        const supplied = messages.at(-1).content.split('Translate this complete MDX/Markdown file:\n\n')[1]
+        assert.doesNotMatch(supplied, /import Admonition/)
+        return supplied.replace('title: Test', 'title: テスト').replace('# Test', '# テスト')
       }
       if (agent === 'review') return '{"pass":true,"issues":[]}'
       throw new Error(`unexpected agent ${agent}`)
@@ -322,6 +326,57 @@ async function testRestoresSourceImportsBeforeValidation() {
       fs.readFileSync(path.join(siteDir, targetPath), 'utf8'),
       /import Admonition from '@theme\/Admonition';/,
     )
+  })
+}
+
+function testProtectsEsmBeforeModelTranslation() {
+  const source = "Before.\n\nimport Admonition from '@theme/Admonition';\n\nAfter.\n"
+  const protectedEsm = protectEsmStatements(source)
+  assert.doesNotMatch(protectedEsm.content, /import Admonition/)
+  assert.match(protectedEsm.content, /zdoc-preserved-esm:0/)
+  assert.equal(restoreProtectedEsm(protectedEsm.content, protectedEsm), source)
+  assert.throws(
+    () => restoreProtectedEsm(protectedEsm.content.replace('zdoc-preserved-esm:0', 'changed'), protectedEsm),
+    /protected ESM marker/i,
+  )
+}
+
+async function testRepairsUnescapedHeadingAnchorsAfterTranslation() {
+  await withTempDir(async siteDir => {
+    const sourcePath = 'docs/tutorials/anchor.md'
+    const targetPath = 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/anchor.md'
+    write(path.join(siteDir, sourcePath), '---\ntitle: Anchor\n---\n\n## Stable heading\\{#stable-anchor}\n\nBody.\n')
+    const callModel = async ({ agent }) => agent === 'translation'
+      ? '---\ntitle: アンカー\n---\n\n## 安定した見出し{#stable-anchor}\n\n本文。\n'
+      : '{"pass":true,"issues":[]}'
+    const result = await processManifestItem({
+      siteDir,
+      item: { sourcePath, targetPath, sourceHash: 'anchor-hash', locale: 'ja-JP', type: 'docs' },
+      callModel,
+      maxReviewRounds: 0,
+    })
+    assert.equal(result.status, 'translated')
+    assert.match(fs.readFileSync(path.join(siteDir, targetPath), 'utf8'), /\\\{#stable-anchor\}/)
+  })
+}
+
+async function testRejectsChangedHeadingAnchorIdentity() {
+  await withTempDir(async siteDir => {
+    const sourcePath = 'docs/tutorials/anchor-changed.md'
+    const targetPath = 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/anchor-changed.md'
+    write(path.join(siteDir, sourcePath), '## Stable heading\\{#stable-anchor}\n')
+    const callModel = async ({ agent }) => agent === 'translation'
+      ? '## 安定した見出し{#changed-anchor}\n'
+      : '{"pass":true,"issues":[]}'
+    const result = await processManifestItem({
+      siteDir,
+      item: { sourcePath, targetPath, sourceHash: 'changed-anchor-hash', locale: 'ja-JP', type: 'docs' },
+      callModel,
+      maxReviewRounds: 0,
+    })
+    assert.equal(result.status, 'failed')
+    assert.match(result.validationErrors.join('\n'), /anchor identity/i)
+    assert.equal(fs.existsSync(path.join(siteDir, targetPath)), false)
   })
 }
 
@@ -464,7 +519,10 @@ async function run() {
   testChunkMessagesContainContinuityContext()
   testStabilizesBoldBareUrlsBeforeJapanesePunctuation()
   await testLongDocumentTranslatesChunksSequentially()
+  testProtectsEsmBeforeModelTranslation()
   await testRestoresSourceImportsBeforeValidation()
+  await testRepairsUnescapedHeadingAnchorsAfterTranslation()
+  await testRejectsChangedHeadingAnchorIdentity()
   await testFailedChunkDoesNotWritePartialTarget()
   await testWorkerPoolLimitsConcurrencyAndProcessesExactlyOnce()
   await testWorkerPoolIsolatesItemFailures()

@@ -39,7 +39,7 @@ function selectExactStateNotes(input) {
   return [input.noteMarkdown]
 }
 
-function buildPhaseState({ messageId, title, stages, stageIndex, status, startedAt, note }) {
+function buildPhaseState({ messageId, title, stages, stageIndex, status, startedAt, note, targetBranch }) {
   if (!Array.isArray(stages) || stages.length === 0) throw new Error('stages must be a non-empty array')
   if (!Number.isInteger(stageIndex) || stageIndex < 0 || stageIndex >= stages.length) throw new Error('stageIndex is out of range')
   if (!['done', 'fail'].includes(status)) throw new Error('phase status must be done or fail')
@@ -55,10 +55,11 @@ function buildPhaseState({ messageId, title, stages, stageIndex, status, started
     currentIndex,
     notes: note && note.trim() ? [note.trim()] : [],
     startedAt: startedAt || new Date().toISOString(),
+    targetBranch: targetBranch || undefined,
   }
 }
 
-function buildExactState({ messageId, title, stages, startedAt, notes = [], manuals }) {
+function buildExactState({ messageId, title, stages, startedAt, notes = [], manuals, targetBranch }) {
   if (!Array.isArray(stages) || stages.length === 0) throw new Error('stages must be a non-empty array')
   if (stages.length > 20) throw new Error('stages must not exceed 20 entries')
   const names = new Set()
@@ -78,6 +79,7 @@ function buildExactState({ messageId, title, stages, startedAt, notes = [], manu
     currentIndex: firstActive === -1 ? Math.max(0, statuses.findIndex(status => status === 'pending')) : firstActive,
     notes: parseNotesJson(JSON.stringify(notes)),
     startedAt: startedAt || new Date().toISOString(),
+    targetBranch: targetBranch || undefined,
   }
   if (Array.isArray(manuals) && manuals.length) state.manuals = manuals
   return state
@@ -91,6 +93,7 @@ function buildFinishState({
   status,
   startedAt,
   notes = [],
+  targetBranch,
 }) {
   const success = status === 'success' || status === 'done'
   const effectiveStages = stages && stages.length ? stages : [success ? 'Build succeeded' : 'Build failed']
@@ -105,10 +108,12 @@ function buildFinishState({
     currentIndex: 0,
     notes: [],
     startedAt: startedAt || new Date().toISOString(),
+    targetBranch: targetBranch || undefined,
   }
 
   if (matchingState) {
     state.statuses = finishStatuses(state.stages, success, state.statuses)
+    if (targetBranch) state.targetBranch = targetBranch
   }
 
   appendNotes(state, notes)

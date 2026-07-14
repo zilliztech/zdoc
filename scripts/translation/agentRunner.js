@@ -3,7 +3,7 @@
 const fs = require('node:fs')
 const path = require('node:path')
 const yaml = require('js-yaml')
-const { validateMdxStructure } = require('../../plugins/mdx-parse/mdxPatcher')
+const { applyMdxPatches, validateMdxStructure } = require('../../plugins/mdx-parse/mdxPatcher')
 const { chunkDocument, DEFAULT_MAX_CHARS, DEFAULT_TARGET_CHARS } = require('./chunker')
 const { readCache, writeCache, writeJsonAtomic } = require('./manifest')
 const { assembleRestDocument, parseRestDocument, translateRestSpecs } = require('./restSpecLocalization')
@@ -228,6 +228,40 @@ function stabilizeBareUrlFormatting(content) {
   )
 }
 
+function protectEsmStatements(content) {
+  const statements = []
+  const pattern = /^[\t ]*(?:import|export)\b[^\r\n]*(?:\r?\n|$)/gm
+  const protectedContent = String(content).replace(pattern, statement => {
+    const index = statements.push(statement) - 1
+    const newline = statement.endsWith('\r\n') ? '\r\n' : statement.endsWith('\n') ? '\n' : ''
+    return `<!-- zdoc-preserved-esm:${index} -->${newline}`
+  })
+  return { content: protectedContent, statements }
+}
+
+function restoreProtectedEsm(content, protectedEsm) {
+  let restored = String(content)
+  for (let index = 0; index < protectedEsm.statements.length; index++) {
+    const marker = `<!-- zdoc-preserved-esm:${index} -->`
+    if (restored.split(marker).length !== 2) throw new Error(`Protected ESM marker ${index} was changed during translation`)
+    restored = restored.replace(marker, protectedEsm.statements[index].replace(/\r?\n$/, ''))
+  }
+  if (/<!--\s*zdoc-preserved-esm:/i.test(restored)) throw new Error('Unexpected protected ESM marker remained after translation')
+  return restored
+}
+
+function headingAnchorIds(content) {
+  return [...String(content).matchAll(/\\?\{#([A-Za-z0-9][\w.-]*)\}/g)].map(match => match[1])
+}
+
+function validateHeadingAnchorIdentity(sourceContent, translatedContent) {
+  const source = headingAnchorIds(sourceContent)
+  const translated = headingAnchorIds(translatedContent)
+  return JSON.stringify(source) === JSON.stringify(translated)
+    ? []
+    : [`Heading anchor identity changed: expected ${JSON.stringify(source)}, received ${JSON.stringify(translated)}`]
+}
+
 function restoreEsmStatements(sourceContent, translatedContent) {
   const pattern = /^[\t ]*(?:import|export)\b[^\r\n]*(?:\r?\n|$)/gm
   const sourceStatements = String(sourceContent).match(pattern) || []
@@ -245,24 +279,26 @@ async function translateAndReviewUnit({
   maxReviewRounds,
   chunkContext,
 }) {
-  let translatedContent = restoreBoundaryWhitespace(sourceContent, stripCodeFence(await callModel({
+  const protectedEsm = protectEsmStatements(sourceContent)
+  const modelSourceContent = protectedEsm.content
+  let translatedContent = restoreBoundaryWhitespace(modelSourceContent, stripCodeFence(await callModel({
     agent: 'translation',
-    messages: buildTranslationMessages({ sourcePath, sourceContent, locale, chunkContext }),
+    messages: buildTranslationMessages({ sourcePath, sourceContent: modelSourceContent, locale, chunkContext }),
   })))
 
   let review = { pass: false, issues: [] }
   for (let round = 0; round <= maxReviewRounds; round++) {
     review = parseReview(await callModel({
       agent: 'review',
-      messages: buildReviewMessages({ sourcePath, sourceContent, translatedContent, locale, chunkContext }),
+      messages: buildReviewMessages({ sourcePath, sourceContent: modelSourceContent, translatedContent, locale, chunkContext }),
     }))
     if (review.pass || round === maxReviewRounds) break
-    translatedContent = restoreBoundaryWhitespace(sourceContent, stripCodeFence(await callModel({
+    translatedContent = restoreBoundaryWhitespace(modelSourceContent, stripCodeFence(await callModel({
       agent: 'correction',
-      messages: buildCorrectionMessages({ sourcePath, sourceContent, translatedContent, review, locale, chunkContext }),
+      messages: buildCorrectionMessages({ sourcePath, sourceContent: modelSourceContent, translatedContent, review, locale, chunkContext }),
     })))
   }
-  return { translatedContent, review }
+  return { translatedContent: restoreProtectedEsm(translatedContent, protectedEsm), review }
 }
 
 async function processManifestItem({
@@ -343,11 +379,14 @@ async function processManifestItem({
     previousTranslatedHeading = extractFirstHeading(unit.translatedContent) || previousTranslatedHeading
   }
 
-  const translatedContent = stabilizeBareUrlFormatting(
+  const translatedContent = await applyMdxPatches(stabilizeBareUrlFormatting(
     restoreEsmStatements(sourceContent, translatedChunks.join('')),
-  )
+  ))
 
-  const validationErrors = await validate(translatedContent)
+  const validationErrors = [
+    ...validateHeadingAnchorIdentity(sourceContent, translatedContent),
+    ...await validate(translatedContent),
+  ]
   if (validationErrors.length) {
     return {
       ...item,
@@ -582,9 +621,11 @@ module.exports = {
   parseReview,
   parsePositiveInteger,
   processManifestItem,
+  protectEsmStatements,
   runWorkerPool,
   restoreBoundaryWhitespace,
   restoreEsmStatements,
+  restoreProtectedEsm,
   stabilizeBareUrlFormatting,
   stripCodeFence,
   validateTranslatedContent,

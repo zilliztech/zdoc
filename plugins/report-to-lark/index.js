@@ -77,6 +77,7 @@ module.exports = function (context) {
         .option('--started-at <iso>', 'startedAt ISO string passed from card-create job output')
         .option('--stage-index <index>', 'Zero-based stage index for --card-phase')
         .option('--stage <name>', 'Stage name for --card-phase')
+        .option('--target-branch <branch>', 'Publication target branch shown on progress cards')
         .action(async (opts) => {
           const FEISHU_HOST = process.env.FEISHU_HOST
           const noteText = opts.noteFile
@@ -99,6 +100,7 @@ module.exports = function (context) {
               currentIndex: 0,
               notes: [],
               startedAt: new Date().toISOString(),
+              targetBranch: opts.targetBranch || undefined,
             }
             const data = await fetchFeishuJsonWithRetry(`${FEISHU_HOST}/open-apis/im/v1/messages?receive_id_type=chat_id`, {
               method: 'POST',
@@ -188,6 +190,7 @@ module.exports = function (context) {
               status: opts.status,
               startedAt: opts.startedAt,
               notes,
+              targetBranch: opts.targetBranch,
             })
             await patchCard(token, messageId, state, FEISHU_HOST)
             return
@@ -203,6 +206,7 @@ module.exports = function (context) {
               status: opts.status || 'done',
               startedAt: opts.startedAt,
               note: noteText,
+              targetBranch: opts.targetBranch,
             })
             await patchCard(token, opts.messageId, state, FEISHU_HOST)
             return
@@ -218,6 +222,7 @@ module.exports = function (context) {
               startedAt: opts.startedAt,
               notes: selectExactStateNotes(input),
               manuals: input.manuals,
+              targetBranch: opts.targetBranch || input.targetBranch,
             })
             await patchCard(token, opts.messageId, state, FEISHU_HOST)
             return

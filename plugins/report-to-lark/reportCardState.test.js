@@ -43,12 +43,14 @@ test('buildPhaseState preserves the workflow timeline and advances to the next p
     status: 'done',
     startedAt: '2026-07-13T00:00:34.000Z',
     note: 'CLI source published',
+    targetBranch: 'dev',
   })
 
   assert.deepEqual(state.statuses, ['done', 'done', 'running'])
   assert.equal(state.currentIndex, 2)
   assert.equal(state.startedAt, '2026-07-13T00:00:34.000Z')
   assert.deepEqual(state.notes, ['CLI source published'])
+  assert.equal(state.targetBranch, 'dev')
 })
 
 test('buildPhaseState marks the owned phase failed without advancing', () => {
@@ -87,11 +89,24 @@ test('buildFinishState preserves cross-job notes when local state is absent', ()
     status: 'success',
     startedAt: '2026-07-08T18:36:16.119Z',
     notes: ['# Link Checks', '# Canonical Links'],
+    targetBranch: 'dev',
   })
 
   assert.deepEqual(state.statuses, ['done', 'done'])
   assert.deepEqual(state.notes, ['# Link Checks', '# Canonical Links'])
   assert.equal(state.startedAt, '2026-07-08T18:36:16.119Z')
+  assert.equal(state.targetBranch, 'dev')
+})
+
+test('buildExactState preserves the explicit publication target', () => {
+  const state = buildExactState({
+    messageId: 'message',
+    title: 'Global Docs Build',
+    targetBranch: 'release-test',
+    stages: [{ name: 'Produce manuals (1/1)', status: 'done' }],
+    notes: [],
+  })
+  assert.equal(state.targetBranch, 'release-test')
 })
 
 test('buildFinishState ignores persisted state from a different Feishu message', () => {

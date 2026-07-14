@@ -98,3 +98,19 @@ test('omits the manual table for cards without structured manual progress', () =
   assert.equal(card.body.elements.some(element => element.tag === 'table'), false)
   assert.equal(card.body.elements.at(-1).tag, 'markdown')
 })
+
+test('uses the explicit publication target instead of the workflow ref', () => {
+  const original = process.env.GITHUB_REF_NAME
+  process.env.GITHUB_REF_NAME = 'master'
+  try {
+    const card = buildCardV2(sampleState({ targetBranch: 'dev' }), {
+      now: new Date('2026-07-13T00:02:05.000Z'),
+    })
+    assert.match(card.header.subtitle.content, /^dev ·/)
+    assert.match(card.body.elements.at(-1).content, /Target dev/)
+    assert.doesNotMatch(card.body.elements.at(-1).content, /Target master/)
+  } finally {
+    if (original === undefined) delete process.env.GITHUB_REF_NAME
+    else process.env.GITHUB_REF_NAME = original
+  }
+})

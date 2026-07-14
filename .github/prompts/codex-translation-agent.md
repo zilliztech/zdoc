@@ -8,6 +8,7 @@ Rules:
 - Translate human-readable frontmatter values such as title, sidebar_label, description, and keywords.
 - Keep code blocks, inline code, shell commands, API names, class names, method names, file paths, URLs, anchors, IDs, and placeholders unchanged.
 - Preserve all MDX/JSX imports and components exactly, including tag names, attributes, and nesting.
+- Preserve `<!-- zdoc-preserved-esm:N -->` markers exactly; do not translate, move, duplicate, or remove them.
 - Preserve markdown structure: headings, lists, tables, blockquotes, admonitions, tabs, and indentation.
 - Preserve every markdown link URL exactly; translate only visible link text.
 - Keep product names and technical terms in English when they are official names: Zilliz Cloud, Milvus, BYOC, Serverless, Dedicated, collection, partition, cluster, vector, scalar, index, API key.
