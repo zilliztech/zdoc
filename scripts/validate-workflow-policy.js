@@ -72,6 +72,7 @@ function validateWorkflowPolicies(directory = workflowDirectory) {
         [/^  workflow_call:$/m, 'must be a workflow_call reusable workflow'],
         [/actions\/checkout@v4[\s\S]*ref: \$\{\{ inputs\.master_sha \}\}/, 'must check out the immutable master_sha input'],
         [/restore-generated-state\.sh --exact --ref "\$DEV_BASELINE_SHA"/, 'must exactly restore generated state from the immutable baseline SHA'],
+        [/name: Restore generated state from dev baseline[\s\S]*name: Prepare selected content group workspace[\s\S]*prepare-content-group-workspace\.js "\$GROUP"[\s\S]*name: Fetch content group/, 'must prepare the selected group after baseline restore and before generation'],
         [/create-checkpoint-artifact\.js/, 'must create a checkpoint artifact'],
         [/validate-checkpoint-artifact\.js/, 'must validate the checkpoint artifact'],
         [/actions\/upload-artifact@v4/, 'must upload the checkpoint artifact'],

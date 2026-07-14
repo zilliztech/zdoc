@@ -126,6 +126,9 @@ jobs:
       - name: Restore generated state from dev baseline
         run: bash scripts/restore-generated-state.sh --exact --ref "$DEV_BASELINE_SHA"
 
+      - name: Prepare selected content group workspace
+        run: node scripts/docs-workflow/prepare-content-group-workspace.js "$GROUP"
+
       - name: Fetch content group
         run: node scripts/docs-workflow/run-content-group.js --group "$GROUP"
         env:
