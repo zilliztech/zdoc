@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-13T03:18:36.150Z",
+  "generated_at": "2026-07-14T03:52:31.079Z",
   "manual": "guides",
   "build_env": "uat",
   "mode": "incremental",
@@ -12,7 +12,7 @@
   "reasons_by_token": {},
   "warnings": [],
   "snapshot_basis": {
-    "generated_at": "2026-07-12T03:27:06.753Z",
+    "generated_at": "2026-07-14T03:00:57.028Z",
     "records": 373
   }
 }
