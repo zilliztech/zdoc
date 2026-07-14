@@ -95,6 +95,15 @@ Most individual page slugs will remain unchanged. Renaming the two PATCH summari
 - `update-on-demand-cluster-info-v2` becomes `update-on-demand-cluster-v2` and moves into the new on-demand group.
 - `update-dedicated-cluster-info-v2` becomes `update-dedicated-cluster-v2` within the existing cluster group.
 
+Add Chinese title mappings in `plugins/apifox-docs/meta/titles.json` so Chinese reference generation can resolve the renamed summaries:
+
+```json
+"更新按需集群": "update-on-demand-cluster",
+"更新 Dedicated 集群": "update-dedicated-cluster"
+```
+
+Update the two links in `docs/tutorials/management/clusters/on-demand-cluster/manage-on-demand-clusters.md` from the old `update-on-demand-cluster-info-v2` route and label to `update-on-demand-cluster-v2` and `Update On-Demand Cluster`.
+
 ## Loading and Reference Behavior
 
 `specLoader.js` loads all JSON fragments alphabetically and merges tags, paths, components, and servers. The new `33-` prefix places the fragment after the current files without requiring loader changes.
@@ -117,6 +126,8 @@ Add a focused segment regression test that verifies:
 6. Loading the complete OpenAPI directory succeeds and exposes the five moved operations once each.
 7. The two PATCH summaries omit `Info`, including their Chinese summaries.
 8. The on-demand PATCH schema exposes `autoSuspend` with the expected pattern, while the dedicated PATCH schema does not.
+9. Chinese reference generation accepts both renamed summaries.
+10. Repository content no longer links to either old `*-cluster-info-v2` slug.
 
 Run the existing Apifox plugin tests, parse all OpenAPI JSON files, and run the documentation generation path relevant to REST references. Check generated output to confirm the new group folder exists and the five pages are no longer generated beneath `cluster-operations-v2`.
 
