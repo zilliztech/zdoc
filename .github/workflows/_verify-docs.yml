@@ -78,6 +78,9 @@ jobs:
           set -euo pipefail
           mkdir -p tmp/final-verification-reports
           node scripts/validate-generated-sidebars.js 2>&1 | tee tmp/final-verification-reports/sidebars.log
+          for group in guides python java node go cli rest; do
+            node scripts/validate-translated-coverage.js --group "$group"
+          done 2>&1 | tee tmp/final-verification-reports/translated-coverage.log
           node scripts/run-doc-build-stage.js --build "pnpm run build" --skipCardReporting 2>&1 | tee tmp/final-verification-reports/build.log
           node scripts/validate-workflow-policy.js 2>&1 | tee tmp/final-verification-reports/workflow-policy.log
           node --test scripts/sdk-reference-workflow.test.js scripts/restore-generated-state.test.js scripts/validate-workflow-policy.test.js scripts/docs-workflow/aggregate-results.test.js scripts/docs-workflow/build-aggregate-input.test.js scripts/docs-workflow/apply-checkpoint-artifact.test.js scripts/docs-workflow/checkpoint-contention.test.js scripts/docs-workflow/content-groups.test.js scripts/docs-workflow/create-checkpoint-artifact.test.js scripts/docs-workflow/publish-checkpoint.test.js scripts/docs-workflow/run-content-group.test.js scripts/docs-workflow/validate-checkpoint-artifact.test.js 2>&1 | tee tmp/final-verification-reports/tests.log

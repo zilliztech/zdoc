@@ -3,6 +3,15 @@
 const fs = require('node:fs')
 const path = require('node:path')
 
+const referenceSidebarTargets = Object.freeze([
+  { sidebar: 'python.sidebar.js', idPrefix: 'api/python/python' },
+  { sidebar: 'java.sidebar.js', idPrefix: 'api/java/java/v2' },
+  { sidebar: 'node.sidebar.js', idPrefix: 'api/nodejs/nodejs' },
+  { sidebar: 'go.sidebar.js', idPrefix: 'api/go/go/v2' },
+  { sidebar: 'cli.sidebar.js', idPrefix: 'cli/cli' },
+  { sidebar: 'restful.sidebar.js', idPrefix: 'api/restful/restful' },
+])
+
 function validateSidebar(sidebar, label = 'sidebar') {
   const seenIds = new Map()
   const seenKeys = new Map()
@@ -73,20 +82,34 @@ function validateAllGeneratedSidebars(directory) {
   return files.length
 }
 
+function validateReferenceSidebarTargets({ directory, outputDir }) {
+  const results = []
+  for (const target of referenceSidebarTargets) {
+    const sidebarPath = path.join(directory, target.sidebar)
+    if (!fs.existsSync(sidebarPath)) continue
+    delete require.cache[require.resolve(sidebarPath)]
+    results.push({
+      sidebar: target.sidebar,
+      ...validateSidebarDocTargets({
+        outputDir,
+        sidebar: require(sidebarPath),
+        idPrefix: target.idPrefix,
+        label: target.sidebar,
+      }),
+    })
+  }
+  return results
+}
+
 function main() {
   const directory = path.join(process.cwd(), 'config/generated')
   const count = validateAllGeneratedSidebars(directory)
   console.log(`[sidebar-validation] validated ${count} generated sidebar file(s)`)
-  const restfulSidebarPath = path.join(directory, 'restful.sidebar.js')
-  if (fs.existsSync(restfulSidebarPath)) {
-    delete require.cache[require.resolve(restfulSidebarPath)]
-    const result = validateSidebarDocTargets({
-      outputDir: path.join(process.cwd(), 'reference'),
-      idPrefix: 'api/restful/restful',
-      sidebar: require(restfulSidebarPath),
-      label: 'restful.sidebar.js',
-    })
-    console.log(`[sidebar-validation] restful.sidebar.js: ${result.checked} doc target(s) checked`)
+  for (const result of validateReferenceSidebarTargets({
+    directory,
+    outputDir: path.join(process.cwd(), 'reference'),
+  })) {
+    console.log(`[sidebar-validation] ${result.sidebar}: ${result.checked} doc target(s) checked`)
   }
   const candidate = path.join(process.cwd(), 'plugins/lark-docs/meta/reports/guides-source-snapshot-candidate.json')
   if (fs.existsSync(candidate)) {
@@ -103,4 +126,11 @@ function main() {
 
 if (require.main === module) main()
 
-module.exports = { collectSidebarDocIds, validateAllGeneratedSidebars, validateSidebar, validateSidebarDocTargets }
+module.exports = {
+  collectSidebarDocIds,
+  referenceSidebarTargets,
+  validateAllGeneratedSidebars,
+  validateReferenceSidebarTargets,
+  validateSidebar,
+  validateSidebarDocTargets,
+}

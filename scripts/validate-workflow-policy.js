@@ -97,8 +97,9 @@ function validateWorkflowPolicies(directory = workflowDirectory) {
         [/git diff --name-status "\$SOURCE_COMMIT_SHA\^" "\$SOURCE_COMMIT_SHA"/, 'must derive translation reconciliation from the immutable source checkpoint diff'],
         [/sourceDelta\.js --group "\$GROUP"[\s\S]*--output tmp\/source-delta\.json/, 'must classify the selected group source delta'],
         [/applySourceDelta\.js --delta tmp\/source-delta\.json --report tmp\/source-delta-report\.json/, 'must apply translated output and cache deletions before manifest creation'],
-        [/manifest\.js[\s\S]*--source-delta tmp\/source-delta\.json/, 'must limit translation candidates to the source delta'],
+        [/manifest\.js[\s\S]*--source-delta tmp\/source-delta\.json/, 'must prioritize current source changes and preserve reconciliation metadata'],
         [/steps\.source_delta\.outputs\.has_mutation == 'true'/, 'must create checkpoints for deletion-only translation mutations'],
+        [/validate-translated-coverage\.js --group "\$GROUP"/, 'must reject orphan translated documents before checkpoint creation'],
       ]
       for (const [pattern, message] of requiredPatterns) if (!pattern.test(source)) errors.push(`${file}: ${message}`)
     }
@@ -125,6 +126,7 @@ function validateWorkflowPolicies(directory = workflowDirectory) {
         [/^  workflow_call:$/m, 'must be a workflow_call reusable workflow'],
         [/actions\/checkout@v4[\s\S]*ref: \$\{\{ inputs\.final_dev_sha \}\}[\s\S]*fetch-depth: 0/, 'must check out the immutable final dev SHA'],
         [/validate-generated-sidebars\.js/, 'must validate generated sidebars'],
+        [/for group in guides python java node go cli rest; do[\s\S]*validate-translated-coverage\.js --group "\$group"[\s\S]*done/, 'must validate translated coverage for every translatable group'],
         [/run-doc-build-stage\.js --build "pnpm run build"/, 'must run the documentation build stage'],
         [/name: Verify final documentation state[\s\S]*run: \|\n\s+set -euo pipefail\n[\s\S]*validate-generated-sidebars\.js[^\n]*\| tee/, 'must propagate failures from verification commands piped to report logs'],
         [/validate-workflow-policy\.js/, 'must validate workflow policy'],

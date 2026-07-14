@@ -5,7 +5,13 @@ const fs = require('node:fs')
 const os = require('node:os')
 const path = require('node:path')
 const test = require('node:test')
-const { validateAllGeneratedSidebars, validateSidebar, validateSidebarDocTargets } = require('./validate-generated-sidebars')
+const {
+  referenceSidebarTargets,
+  validateAllGeneratedSidebars,
+  validateReferenceSidebarTargets,
+  validateSidebar,
+  validateSidebarDocTargets,
+} = require('./validate-generated-sidebars')
 
 test('rejects duplicate document ids and keys recursively', () => {
   const sidebar = [{
@@ -45,5 +51,28 @@ test('rejects generated sidebar entries whose document file is missing', () => {
     )
   } finally {
     fs.rmSync(outputDir, { recursive: true, force: true })
+  }
+})
+
+test('validates document targets for every generated reference sidebar', () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'reference-sidebar-targets-'))
+  const generatedDir = path.join(root, 'config/generated')
+  const referenceDir = path.join(root, 'reference')
+  try {
+    fs.mkdirSync(generatedDir, { recursive: true })
+    for (const target of referenceSidebarTargets) {
+      const id = `${target.idPrefix}/missing`
+      fs.writeFileSync(
+        path.join(generatedDir, target.sidebar),
+        `module.exports = [{ type: 'doc', id: ${JSON.stringify(id)} }]\n`,
+      )
+      assert.throws(
+        () => validateReferenceSidebarTargets({ directory: generatedDir, outputDir: referenceDir }),
+        new RegExp(`${target.sidebar.replace('.', '\\.')} references missing generated document files`),
+      )
+      fs.rmSync(path.join(generatedDir, target.sidebar))
+    }
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true })
   }
 })

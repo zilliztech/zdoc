@@ -128,6 +128,7 @@ jobs:
             guides) for d in i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials; do test ! -d "$d" || npx docusaurus mdx-parse -d "$d"; done ;;
             *) test ! -d i18n/ja-JP/docusaurus-plugin-content-docs-reference/current || npx docusaurus mdx-parse -d i18n/ja-JP/docusaurus-plugin-content-docs-reference/current ;;
           esac
+          node scripts/validate-translated-coverage.js --group "$GROUP"
           if (( ${{ inputs.batch_number }} == 0 )) || [[ "${{ steps.manifest.outputs.count || '0' }}" == 0 ]]; then pnpm run build; fi
       - name: Create validated translation checkpoints
         id: checkpoint
