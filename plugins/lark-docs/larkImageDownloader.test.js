@@ -8,23 +8,15 @@ const test = require('node:test')
 
 const LarkImageDownloader = require('./larkImageDownloader')
 
-test('loads prefetched media and rejects strict cache misses', () => {
+test('does not read Guides media manifest environment variables', () => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'lark-media-manifest-'))
-  const manifestPath = path.join(root, 'guides.json')
-  fs.writeFileSync(manifestPath, JSON.stringify({
-    schemaVersion: 1,
-    entries: [{ id: 'figma:key:1:2', type: 'figma', fileKey: 'key', nodeId: '1:2', caption: 'Diagram', objectKey: 'Diagram.png' }],
-  }))
   const previousPath = process.env.GUIDES_MEDIA_MANIFEST
   const previousStrict = process.env.GUIDES_MEDIA_PREFETCH_REQUIRED
-  process.env.GUIDES_MEDIA_MANIFEST = manifestPath
+  process.env.GUIDES_MEDIA_MANIFEST = path.join(root, 'missing.json')
   process.env.GUIDES_MEDIA_PREFETCH_REQUIRED = 'true'
   const downloader = new LarkImageDownloader({}, root)
   try {
-    assert.deepEqual(downloader.__prefetchedMedia('figma:key:1:2'), {
-      id: 'figma:key:1:2', type: 'figma', fileKey: 'key', nodeId: '1:2', caption: 'Diagram', objectKey: 'Diagram.png',
-    })
-    assert.throws(() => downloader.__prefetchedMedia('figma:key:3:4'), /Prefetched media is missing/)
+    assert.equal(typeof downloader.__prefetchedMedia, 'undefined')
   } finally {
     downloader.destroy()
     if (previousPath === undefined) delete process.env.GUIDES_MEDIA_MANIFEST

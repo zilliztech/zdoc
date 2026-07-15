@@ -4,7 +4,6 @@ const https = require('node:https')
 const Bottleneck = require('bottleneck')
 const process = require('node:process')
 const crypto = require('node:crypto')
-const fs = require('node:fs')
 const { S3Client, PutObjectCommand, HeadObjectCommand, PutObjectAclCommand } = require('@aws-sdk/client-s3');
 const { NodeHttpHandler } = require('@smithy/node-http-handler');
 const { fetchBufferWithRetry, fetchFeishuBufferWithRetry, fetchJsonWithRetry } = require('./feishuFetch.js')
@@ -17,16 +16,6 @@ class larkImageDownloader {
         this.images = new utils(this.docs, 'image');
         this.iframes = new utils(this.docs, 'iframe');
         this.target_path = target_path;   
-        this.prefetchedMedia = new Map()
-        this.prefetchRequired = process.env.GUIDES_MEDIA_PREFETCH_REQUIRED === 'true'
-        if (process.env.GUIDES_MEDIA_MANIFEST) {
-            const manifest = JSON.parse(fs.readFileSync(process.env.GUIDES_MEDIA_MANIFEST, 'utf8'))
-            if (manifest.schemaVersion !== 1 || !Array.isArray(manifest.entries)) throw new Error('Invalid guides media manifest')
-            for (const entry of manifest.entries) {
-                if (!entry?.id || this.prefetchedMedia.has(entry.id)) throw new Error('Guides media manifest requires unique ids')
-                this.prefetchedMedia.set(entry.id, entry)
-            }
-        }
         this.limiter = new Bottleneck({
             maxConcurrent: limiterOptions.maxConcurrent || 1,
             minTime: limiterOptions.minTime ?? 52,
@@ -48,16 +37,6 @@ class larkImageDownloader {
             }),
         })
     }    
-
-    __prefetchedMedia(id) {
-        const entry = this.prefetchedMedia.get(id) || null
-        if (!entry && this.prefetchRequired) {
-            const error = new Error(`Prefetched media is missing: ${id}`)
-            error.code = 'MEDIA_PREFETCH_MISS'
-            throw error
-        }
-        return entry
-    }
 
     async __uploadToS3(buffer, key) {
         const get_params = {

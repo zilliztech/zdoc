@@ -131,12 +131,12 @@ test('reusable content producer is immutable, read-only, and publishes a validat
   assert.match(workflow, /name: Report content group producer failure\n        if: \$\{\{ always\(\) && steps\.install\.outcome == 'success' && steps\.result\.outputs\.status == 'failed' && inputs\.card_id != '' \}\}\n        continue-on-error: true[\s\S]*report-live-card\.sh[\s\S]*CARD_STATUS: fail[\s\S]*artifact production failed/)
 })
 
-test('guides source and render stages refresh aggregate card progress', () => {
-  for (const workflowName of ['_fetch-guides-sources.yml', '_render-guides-target.yml']) {
-    const workflow = fs.readFileSync(path.join(process.cwd(), '.github/workflows', workflowName), 'utf8')
-    for (const input of ['card_id', 'card_mode', 'card_started_at']) assert.match(workflow, new RegExp(`^      ${input}:`, 'm'))
-    assert.match(workflow, /name: Report aggregate guides progress[\s\S]*inputs\.card_mode == 'aggregate'[\s\S]*report-live-card\.sh/)
-  }
+test('guides source stage reports progress while render stages stay offline', () => {
+  const source = fs.readFileSync(path.join(process.cwd(), '.github/workflows/_fetch-guides-sources.yml'), 'utf8')
+  const render = fs.readFileSync(path.join(process.cwd(), '.github/workflows/_render-guides-target.yml'), 'utf8')
+  for (const input of ['card_id', 'card_mode', 'card_started_at']) assert.match(source, new RegExp(`^      ${input}:`, 'm'))
+  assert.match(source, /name: Report aggregate guides progress[\s\S]*inputs\.card_mode == 'aggregate'[\s\S]*report-live-card\.sh/)
+  assert.doesNotMatch(render, /report-live-card|secrets\./)
 })
 
 test('Tools table is the only Agents producer while Releases keeps its sidebar', () => {
@@ -169,6 +169,7 @@ test('guides media is prefetched once for the incremental render scope and share
   const caller = yaml.load(fs.readFileSync('.github/workflows/fetch-docs.yml', 'utf8'))
   const source = fs.readFileSync('.github/workflows/_fetch-guides-sources.yml', 'utf8')
   const render = fs.readFileSync('.github/workflows/_render-guides-target.yml', 'utf8')
+  const runner = fs.readFileSync('scripts/docs-workflow/run-content-group.js', 'utf8')
 
   assert.match(source, /guides-media-prefetch\.js/)
   assert.match(source, /--plan plugins\/lark-docs\/meta\/reports\/guides-incremental-fetch-plan\.json/)
@@ -179,9 +180,10 @@ test('guides media is prefetched once for the incremental render scope and share
   assert.match(source, /AWS_ACCESS_KEY_ID: \$\{\{ secrets\.AWS_ACCESS_KEY_ID \}\}/)
   assert.match(source, /AWS_SECRET_ACCESS_KEY: \$\{\{ secrets\.AWS_SECRET_ACCESS_KEY \}\}/)
 
-  assert.match(render, /GUIDES_MEDIA_MANIFEST: plugins\/lark-docs\/meta\/media-cache\/guides\.json/)
-  assert.match(render, /GUIDES_MEDIA_PREFETCH_REQUIRED: 'true'/)
-  assert.doesNotMatch(render, /FIGMA_API_KEY|AWS_ACCESS_KEY_ID|AWS_SECRET_ACCESS_KEY/)
+  assert.match(runner, /--offline[\s\S]*--mediaManifest[\s\S]*plugins\/lark-docs\/meta\/media-cache\/guides\.json/)
+  assert.doesNotMatch(render, /GUIDES_MEDIA_MANIFEST|GUIDES_MEDIA_PREFETCH_REQUIRED/)
+  assert.doesNotMatch(render, /APP_ID|APP_SECRET|SPACE_ID|MODEL_API_KEY|FIGMA_API_KEY|AWS_ACCESS_KEY_ID|AWS_SECRET_ACCESS_KEY/)
+  assert.match(render, /NO_UPDATE_NOTIFIER: '1'/)
 
   assert.deepEqual(caller.jobs.render_guides_saas.needs, ['prepare', 'produce_guides_sources'])
   assert.deepEqual(caller.jobs.render_guides_byoc.needs, ['prepare', 'produce_guides_sources'])
@@ -190,6 +192,10 @@ test('guides media is prefetched once for the incremental render scope and share
     assert.equal(Object.hasOwn(secrets, 'FIGMA_API_KEY'), false)
     assert.equal(Object.hasOwn(secrets, 'AWS_ACCESS_KEY_ID'), false)
     assert.equal(Object.hasOwn(secrets, 'AWS_SECRET_ACCESS_KEY'), false)
+    assert.equal(Object.hasOwn(secrets, 'APP_ID'), false)
+    assert.equal(Object.hasOwn(secrets, 'APP_SECRET'), false)
+    assert.equal(Object.hasOwn(secrets, 'SPACE_ID'), false)
+    assert.equal(Object.hasOwn(secrets, 'MODEL_API_KEY'), false)
   }
 })
 

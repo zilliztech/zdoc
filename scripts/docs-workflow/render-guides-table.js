@@ -28,6 +28,7 @@ function renderGuidesTable(options) {
     'docusaurus', 'fetch-lark-docs', '-man', 'guides', '-tar', options.target,
     '-token', `base:${options.table_id}`, '-skipS', '--buildEnv', 'uat',
     '--snapshotCandidatePath', 'plugins/lark-docs/meta/reports/guides-source-snapshot-candidate.json',
+    '--offline', '--mediaManifest', 'plugins/lark-docs/meta/media-cache/guides.json',
   ]
   const result = spawnSync('npx', args, { cwd: workspace, stdio: 'inherit', env: process.env })
   if (result.error) throw new Error(`Guides table render could not start: ${result.error.message}`)

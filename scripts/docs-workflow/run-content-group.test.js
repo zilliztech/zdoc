@@ -45,11 +45,11 @@ test('guides stages fetch sources once and render targets from restored sources'
     'plugins/lark-docs/meta/reports/guides-source-snapshot-candidate.json',
   )]);
   assert.deepEqual(commandsForGuidesStage('saas'), [
-    fetch('guides', '-tar', 'zilliz.saas', '-s3', '-skipS', '--buildEnv', 'uat', '--auditCanonicalLinks'),
+    fetch('guides', '-tar', 'zilliz.saas', '-s3', '-skipS', '--buildEnv', 'uat', '--auditCanonicalLinks', '--offline', '--mediaManifest', 'plugins/lark-docs/meta/media-cache/guides.json'),
     fetch('guides', '-tar', 'zilliz.saas', '-post', '-skipS'),
   ]);
   assert.deepEqual(commandsForGuidesStage('byoc'), [
-    fetch('guides', '-tar', 'zilliz.paas', '-s3', '-skipS', '--buildEnv', 'uat', '--skipLinkValidation'),
+    fetch('guides', '-tar', 'zilliz.paas', '-s3', '-skipS', '--buildEnv', 'uat', '--skipLinkValidation', '--offline', '--mediaManifest', 'plugins/lark-docs/meta/media-cache/guides.json'),
     fetch('guides', '-tar', 'zilliz.paas', '-post', '-skipS'),
   ]);
 });

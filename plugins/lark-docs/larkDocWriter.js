@@ -46,7 +46,8 @@ class larkDocWriter {
         targets='zilliz.saas',
         skip_image_download=false,
         upload_to_s3=false,
-        linkReplacementShimPath=null
+        linkReplacementShimPath=null,
+        mediaResolver=null
     ) {
         this.root_token = root_token
         const baseParts = base_token.split(':')
@@ -69,6 +70,7 @@ class larkDocWriter {
         this.upload_to_s3 = upload_to_s3
         this.linkReplacementShimPath = linkReplacementShimPath
         this.linkReplacementShim = this.__load_link_replacement_shim(linkReplacementShimPath)
+        this.mediaResolver = mediaResolver
     }
 
     destroy() {
@@ -1044,6 +1046,12 @@ class larkDocWriter {
                     }
                 }
             }
+        }
+
+        if (this.mediaResolver) {
+            const error = new Error(`Offline render metadata is missing for ${token || slug || title}`)
+            error.code = 'OFFLINE_METADATA_MISS'
+            throw error
         }
 
         if (!this.records) {
@@ -2309,13 +2317,11 @@ class larkDocWriter {
         const root = this.upload_to_s3 ? IMAGE_BED_URL : `/${this.imageDir.replace(/^static\//g, '')}`
         const caption = image.caption?.content ? image.caption.content.trim() : image.token;
         const slug = slugify(caption, {lower: true, strict: true})
-        const prefetched = this.downloader.__prefetchedMedia?.(`feishu-image:${image.token}`) || null
-        const objectKey = prefetched?.objectKey || `${slug}.png`
-        const imageUrl = this.__markdown_image_url(`${root}/${objectKey}`);
-
-        if (prefetched) {
-            return `![${caption}](${imageUrl} "${caption}")`;
+        if (this.mediaResolver) {
+            const resolved = this.mediaResolver.resolveFeishuImage(image.token)
+            return `![${caption}](${this.__markdown_image_url(resolved.url)} "${caption}")`;
         }
+        const imageUrl = this.__markdown_image_url(`${root}/${slug}.png`);
 
         if (this.skip_image_download) {
             return `![${caption}](${imageUrl} "${caption}")`;
@@ -2376,13 +2382,11 @@ class larkDocWriter {
 
     async __board(board, indent) {
         const root = this.upload_to_s3 ? IMAGE_BED_URL : `/${ this.imageDir.replace(/^static\//g, '')}`
-        const prefetched = this.downloader.__prefetchedMedia?.(`feishu-board:${board.token}`) || null
-        const objectKey = prefetched?.objectKey || `${board.token}.png`
-        const boardUrl = this.__markdown_image_url(`${root}/${objectKey}`);
-
-        if (prefetched) {
-            return ' '.repeat(indent) + `![${board.token}](${boardUrl})`;
+        if (this.mediaResolver) {
+            const resolved = this.mediaResolver.resolveBoard(board.token)
+            return ' '.repeat(indent) + `![${board.token}](${this.__markdown_image_url(resolved.url)})`;
         }
+        const boardUrl = this.__markdown_image_url(`${root}/${board.token}.png`);
 
         if (this.skip_image_download) {
             return ' '.repeat(indent) + `![${board.token}](${boardUrl})`;
@@ -2438,7 +2442,8 @@ class larkDocWriter {
         const iframe = block['iframe'];
         const existing_iframe = this.iframes.find(x => x.block_id === block_id)
         if (existing_iframe) {
-            return `![${existing_iframe.caption}](${this.__markdown_image_url(`${root}/${existing_iframe.caption}.png`)} "${existing_iframe.caption}")`;
+            const existingUrl = existing_iframe.url || `${root}/${existing_iframe.caption}.png`
+            return `![${existing_iframe.caption}](${this.__markdown_image_url(existingUrl)} "${existing_iframe.caption}")`;
         }
 
         if (iframe['component']['iframe_type'] !== 8) {
@@ -2448,10 +2453,10 @@ class larkDocWriter {
         const url = new URL(decodeURIComponent(iframe.component.url))
         const key = url.pathname.split('/')[2]
         const node = url.searchParams.get('node-id').split('-').join(":")
-        const prefetched = this.downloader.__prefetchedMedia?.(`figma:${key}:${node}`) || null
-        if (prefetched) {
-            this.iframes.push({ block_id, caption: prefetched.caption })
-            return `![${prefetched.caption}](${this.__markdown_image_url(`${root}/${prefetched.objectKey}`)} "${prefetched.caption}")`;
+        if (this.mediaResolver) {
+            const resolved = this.mediaResolver.resolveFigma(key, node)
+            this.iframes.push({ block_id, caption: resolved.caption, url: resolved.url })
+            return `![${resolved.caption}](${this.__markdown_image_url(resolved.url)} "${resolved.caption}")`;
         }
 
         if (this.skip_image_download) {

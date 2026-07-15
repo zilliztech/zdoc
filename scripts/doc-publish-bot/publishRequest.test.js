@@ -53,6 +53,7 @@ test('planDocusaurusCommands plans guide SaaS and PaaS target commands from Base
     ['npx', 'docusaurus', 'fetch-lark-docs', '-man', 'guides', '-tar', 'zilliz.paas', '-token', 'ABC123xyz', '-s3'],
     ['npx', 'docusaurus', 'fetch-lark-docs', '-man', 'guides', '-tar', 'zilliz.paas', '-post', '-skipS'],
   ])
+  assert.equal(commands.flat().includes('--offline'), false)
 })
 
 test('planDocusaurusCommands plans SDK reference commands against zilliz target', () => {
@@ -66,6 +67,7 @@ test('planDocusaurusCommands plans SDK reference commands against zilliz target'
     ['npx', 'docusaurus', 'fetch-lark-docs', '-man', 'nodejs30', '-tar', 'zilliz', '-token', 'SDK789', '-s3'],
     ['npx', 'docusaurus', 'fetch-lark-docs', '-man', 'nodejs30', '-tar', 'zilliz', '-post'],
   ])
+  assert.equal(commands.flat().includes('--offline'), false)
 })
 
 test('planJenkinsTrigger uses the real zilliz-docs Jenkins folder', () => {

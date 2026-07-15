@@ -9,11 +9,11 @@ const GUIDES_SOURCE_SNAPSHOT_CANDIDATE = 'plugins/lark-docs/meta/reports/guides-
 const GUIDES_STAGES = {
   source: [fetch('guides', '-src-only', '--incremental', '--buildEnv', 'uat', '--snapshotCandidatePath', GUIDES_SOURCE_SNAPSHOT_CANDIDATE)],
   saas: [
-    fetch('guides', '-tar', 'zilliz.saas', '-s3', '-skipS', '--buildEnv', 'uat', '--auditCanonicalLinks'),
+    fetch('guides', '-tar', 'zilliz.saas', '-s3', '-skipS', '--buildEnv', 'uat', '--auditCanonicalLinks', '--offline', '--mediaManifest', 'plugins/lark-docs/meta/media-cache/guides.json'),
     fetch('guides', '-tar', 'zilliz.saas', '-post', '-skipS'),
   ],
   byoc: [
-    fetch('guides', '-tar', 'zilliz.paas', '-s3', '-skipS', '--buildEnv', 'uat', '--skipLinkValidation'),
+    fetch('guides', '-tar', 'zilliz.paas', '-s3', '-skipS', '--buildEnv', 'uat', '--skipLinkValidation', '--offline', '--mediaManifest', 'plugins/lark-docs/meta/media-cache/guides.json'),
     fetch('guides', '-tar', 'zilliz.paas', '-post', '-skipS'),
   ],
 };

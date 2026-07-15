@@ -162,11 +162,6 @@ jobs:
       card_id: ${{ needs.prepare.outputs.phase_card_id }}
       card_mode: ${{ needs.prepare.outputs.card_mode }}
       card_started_at: ${{ needs.prepare.outputs.card_started_at }}
-    secrets:
-      APP_ID: ${{ secrets.APP_ID }}
-      APP_SECRET: ${{ secrets.APP_SECRET }}
-      SPACE_ID: ${{ secrets.SPACE_ID }}
-      MODEL_API_KEY: ${{ secrets.MODEL_API_KEY }}
 
   render_guides_byoc:
     needs: [prepare, produce_guides_sources]
@@ -181,11 +176,6 @@ jobs:
       card_id: ${{ needs.prepare.outputs.phase_card_id }}
       card_mode: ${{ needs.prepare.outputs.card_mode }}
       card_started_at: ${{ needs.prepare.outputs.card_started_at }}
-    secrets:
-      APP_ID: ${{ secrets.APP_ID }}
-      APP_SECRET: ${{ secrets.APP_SECRET }}
-      SPACE_ID: ${{ secrets.SPACE_ID }}
-      MODEL_API_KEY: ${{ secrets.MODEL_API_KEY }}
 
   produce_guides:
     needs: [prepare, produce_guides_sources, render_guides_saas, render_guides_byoc]

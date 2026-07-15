@@ -40,6 +40,8 @@ test('table render clears only its directory and renders the Base table subtree'
   assert.equal(fs.existsSync(path.join(workspace, 'docs/tutorials/management/keep.md')), true)
   assert.deepEqual(command.slice(0, 8), ['npx', 'docusaurus', 'fetch-lark-docs', '-man', 'guides', '-tar', 'zilliz.saas', '-token'])
   assert.equal(command.includes('base:tbl-tools'), true)
+  assert.equal(command.includes('--offline'), true)
+  assert.equal(command.includes('--mediaManifest'), true)
 })
 
 test('cleanup render removes the owned directory without invoking Docusaurus', () => {

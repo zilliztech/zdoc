@@ -14,12 +14,6 @@ on:
     outputs:
       status: { value: '${{ jobs.render.outputs.status }}' }
       artifact_name: { value: '${{ jobs.render.outputs.artifact_name }}' }
-    secrets:
-      APP_ID: { required: true }
-      APP_SECRET: { required: true }
-      SPACE_ID: { required: true }
-      MODEL_API_KEY: { required: true }
-
 permissions:
   actions: read
   contents: read
@@ -57,18 +51,8 @@ jobs:
         run: node scripts/docs-workflow/run-content-group.js --group guides --stage "${{ inputs.target }}"
         env:
           DOCS_BUILD_ENV: uat
-          APP_ID: ${{ secrets.APP_ID }}
-          APP_SECRET: ${{ secrets.APP_SECRET }}
-          FEISHU_HOST: ${{ vars.FEISHU_HOST }}
-          SPACE_ID: ${{ secrets.SPACE_ID }}
-          MODEL_API_BASE_URL: ${{ vars.MODEL_API_BASE_URL }}
-          MODEL_API_KEY: ${{ secrets.MODEL_API_KEY }}
-          MODEL_ID: ${{ vars.MODEL_ID }}
-          AWS_BUCKET: ${{ vars.AWS_BUCKET }}
-          AWS_REGION: ${{ vars.AWS_REGION }}
           IMAGE_BED_URL: ${{ vars.IMAGE_BED_URL }}
-          GUIDES_MEDIA_MANIFEST: plugins/lark-docs/meta/media-cache/guides.json
-          GUIDES_MEDIA_PREFETCH_REQUIRED: 'true'
+          NO_UPDATE_NOTIFIER: '1'
       - name: Create render artifact
         run: |
           source_sha=$(sha256sum "$RUNNER_TEMP/guides-source/manifest.json" | cut -d' ' -f1)
@@ -84,22 +68,5 @@ jobs:
       - id: result
         if: ${{ always() }}
         run: echo "status=${{ steps.upload.outcome == 'success' && 'artifact_ready' || 'failed' }}" >> "$GITHUB_OUTPUT"
-      - name: Report aggregate guides progress
-        if: ${{ always() && inputs.card_mode == 'aggregate' && inputs.card_id != '' }}
-        continue-on-error: true
-        run: bash scripts/docs-workflow/report-live-card.sh
-        env:
-          CARD_ID: ${{ inputs.card_id }}
-          CARD_MODE: aggregate
-          CARD_STARTED_AT: ${{ inputs.card_started_at }}
-          CARD_TITLE: Global Docs Build
-          CARD_JOB_NAME: ${{ format('render_guides_{0}', inputs.target) }}
-          CARD_JOB_CONCLUSION: ${{ steps.result.outputs.status == 'artifact_ready' && 'success' || 'failure' }}
-          SELECTED_GROUP: all
-          PUBLISH_ENABLED: true
-          GH_TOKEN: ${{ github.token }}
-          APP_ID: ${{ secrets.APP_ID }}
-          APP_SECRET: ${{ secrets.APP_SECRET }}
-          FEISHU_HOST: ${{ vars.FEISHU_HOST }}
       - if: ${{ always() }}
         run: git worktree remove --force "$RUNNER_TEMP/baseline" || true

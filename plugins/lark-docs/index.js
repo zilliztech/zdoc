@@ -7,11 +7,18 @@ const { planIncrementalFetch, writeIncrementalFetchPlanReports } = require('./in
 const { createSourceSnapshot, readSnapshot, validateCandidateSnapshot, writeSnapshot } = require('./sourceSnapshot')
 const { validateSourceCompleteness, assertSourceCompleteness } = require('./sourceCompleteness')
 const { cleanupRemovedIncrementalRecords } = require('./incrementalReconciliation')
+const { createOfflineMediaResolver } = require('./offlineMediaResolver')
 const Utils = require('./larkUtils.js')
 const fs = require('node:fs')
 const path = require('node:path')
 const inquirer = require('inquirer')
 require('dotenv/config');
+
+function validateOfflineOptions(opts) {
+    if (!opts.offline) return
+    if (!opts.skipSourceDown) throw new Error('--offline requires --skipSourceDown')
+    if (!opts.mediaManifest) throw new Error('--offline requires --mediaManifest')
+}
 
 module.exports = function (context, options) {
     return {
@@ -46,7 +53,10 @@ module.exports = function (context, options) {
                 .option('--snapshotCandidatePath <path>', 'Write a source snapshot candidate after an incremental source-only fetch')
                 .option('--buildEnv <env>', 'Build environment for snapshot scoping: uat or production', process.env.DOCS_BUILD_ENV || 'local')
                 .option('--forceFullFetch', 'Ignore incremental planning and force a full source fetch')
+                .option('--offline', 'Render only from local source metadata and prefetched media')
+                .option('--mediaManifest <path>', 'Prefetched media manifest used by --offline')
                 .action(async (opts) => {
+                    validateOfflineOptions(opts)
                     try {
                         process.env.REPO_BRANCH = fs.readFileSync('.git/HEAD', 'utf8').split(': ')[1].trim().split('/').slice(-1)[0]
                     } catch (e) {
@@ -380,8 +390,11 @@ module.exports = function (context, options) {
                             fs.mkdirSync(imageDir, { recursive: true })
                         }
 
+                        const mediaResolver = opts.offline
+                            ? createOfflineMediaResolver({ manifestPath: opts.mediaManifest, imageBedUrl: process.env.IMAGE_BED_URL || 'https://zdoc-images.s3.us-west-2.amazonaws.com' })
+                            : null
                         const writer = sourceType === 'wiki' || sourceType === 'onePager' ?
-                            new docWriter(root, base, displayedSidebar, docSourceDir, imageDir, opts.pubTarget, opts.skipImageDown, opts.uploadToS3, opts.linkShim) :
+                            new docWriter(root, base, displayedSidebar, docSourceDir, imageDir, opts.pubTarget, opts.skipImageDown, opts.uploadToS3, opts.linkShim, mediaResolver) :
                             new driveWriter(root, base, displayedSidebar, docSourceDir, imageDir, opts.pubTarget, opts.skipImageDown, opts.uploadToS3, opts.manual)
 
                         // Ensure S3 connections are always closed, even on error or Ctrl+C
@@ -653,3 +666,5 @@ module.exports = function (context, options) {
         }
     }
 }
+
+module.exports.validateOfflineOptions = validateOfflineOptions

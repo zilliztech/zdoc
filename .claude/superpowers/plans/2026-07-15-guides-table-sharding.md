@@ -291,21 +291,21 @@ git commit -m "refactor(guides): make Tools table own Agents content"
 - Modify: `.github/workflows/_render-guides-table.yml`
 - Modify: `scripts/validate-workflow-policy.test.js`
 
-- [ ] **Step 1: 为 prefetch 之前的 online writer 行为补 golden tests**
+- [x] **Step 1: 为 prefetch 之前的 online writer 行为补 golden tests**
 
 固定 `6dcc67dec^` 的核心行为：普通 image/board/Figma iframe 会调用 downloader；`skipImageDown` 保留既有 URL/caption 行为；S3 upload、retry 和本地写入不受 manifest 环境变量影响。
 
-- [ ] **Step 2: 验证当前实现破坏边界**
+- [x] **Step 2: 验证当前实现破坏边界**
 
 Run: `node --test plugins/lark-docs/larkDocWriter.media-prefetch.test.js plugins/lark-docs/larkImageDownloader.test.js`
 
 Expected: FAIL，当前 downloader 会全局读取 `GUIDES_MEDIA_MANIFEST`，writer 直接依赖 `__prefetchedMedia`。
 
-- [ ] **Step 3: 恢复通用 writer/downloader 在线路径**
+- [x] **Step 3: 恢复通用 writer/downloader 在线路径**
 
 从 writer 的默认路径移除全局 manifest 依赖；downloader 不再读取 Guides manifest。保留 `4375ef132` 引入的 Figma limiter，因为它属于在线 API 稳定性，不改变发布语义。
 
-- [ ] **Step 4: 实现显式 offlineMediaResolver**
+- [x] **Step 4: 实现显式 offlineMediaResolver**
 
 导出：
 
@@ -315,39 +315,39 @@ createOfflineMediaResolver({ manifestPath, imageBedUrl })
 
 resolver 提供 `resolveFeishuImage(token)`、`resolveBoard(token)`、`resolveFigma(fileKey, nodeId)`；命中返回 final URL/caption/object key，miss 抛 `MEDIA_PREFETCH_MISS`。
 
-- [ ] **Step 5: 让 writer 只在显式注入 resolver 时走离线路径**
+- [x] **Step 5: 让 writer 只在显式注入 resolver 时走离线路径**
 
 writer 的新增构造参数默认为 `null`。`null` 时执行原 online 实现；非空时只解析 manifest，不调用 downloader。不要通过进程级环境变量改变所有 writer 实例。
 
-- [ ] **Step 6: 写 offline 失败测试**
+- [x] **Step 6: 写 offline 失败测试**
 
 覆盖：`--offline` 未配 `--skipSourceDown` 时拒绝；本地 metadata 缺失时不调用 Bitable；media miss 不调用 Feishu/Figma/S3；S3 client 不能执行 send。
 
-- [ ] **Step 7: 写 online 单文档兼容测试**
+- [x] **Step 7: 写 online 单文档兼容测试**
 
 模拟 `-doc` 和普通 `-token`，断言仍调用 `scraper.fetch(false, token)`，且没有默认开启 offline。
 
-- [ ] **Step 8: 验证 offline 测试失败**
+- [x] **Step 8: 验证 offline 测试失败**
 
 Run: `node --test plugins/lark-docs/offlineMediaResolver.test.js plugins/lark-docs/offlineRender.test.js scripts/doc-publish-bot/publishJob.test.js scripts/doc-publish-bot/publishRequest.test.js`
 
 Expected: FAIL，当前没有 offline guard。
 
-- [ ] **Step 9: 实现 opt-in offline**
+- [x] **Step 9: 实现 opt-in offline**
 
 增加 CLI `--offline` 和 `--mediaManifest <path>`。offline 必须同时提供 manifest；只在该模式禁用 writer 的 Bitable fallback，并向 writer 注入 `offlineMediaResolver`；默认 online 行为不变。
 
-- [ ] **Step 10: 收紧 render workflow**
+- [x] **Step 10: 收紧 render workflow**
 
 表级命令增加 `--offline --mediaManifest plugins/lark-docs/meta/media-cache/guides.json` 和 `NO_UPDATE_NOTIFIER=1`。从 reusable workflow 删除 APP、SPACE、FIGMA、AWS、MODEL secrets/环境变量，只保留非敏感的 `IMAGE_BED_URL`。
 
-- [ ] **Step 11: 运行测试**
+- [x] **Step 11: 运行测试**
 
 Run: `node --test plugins/lark-docs/larkDocWriter.media-prefetch.test.js plugins/lark-docs/larkImageDownloader.test.js plugins/lark-docs/larkDriveWriter.test.js plugins/lark-docs/offlineMediaResolver.test.js plugins/lark-docs/offlineRender.test.js scripts/doc-publish-bot/publishJob.test.js scripts/doc-publish-bot/publishRequest.test.js scripts/validate-workflow-policy.test.js`
 
 Expected: PASS。
 
-- [ ] **Step 12: 提交**
+- [x] **Step 12: 提交**
 
 ```bash
 git add plugins/lark-docs/index.js plugins/lark-docs/larkDocWriter.js plugins/lark-docs/larkDocWriter.media-prefetch.test.js plugins/lark-docs/larkImageDownloader.js plugins/lark-docs/larkImageDownloader.test.js plugins/lark-docs/offlineMediaResolver.js plugins/lark-docs/offlineMediaResolver.test.js plugins/lark-docs/offlineRender.test.js scripts/docs-workflow/render-guides-table.js .github/workflows/_render-guides-table.yml scripts/validate-workflow-policy.test.js
