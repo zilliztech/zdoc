@@ -112,31 +112,31 @@ git commit -m "fix(guides): require renderable canonical sources"
 - Modify: `plugins/lark-docs/incrementalFetchPlanner.js`
 - Modify: `plugins/lark-docs/incrementalFetchPlanner.test.js`
 
-- [ ] **Step 1: 写 schema v3 失败测试**
+- [x] **Step 1: 写 schema v3 失败测试**
 
 snapshot 增加 `navigation_records`，保存 record/table/placement/parent/order/labels/slug/targets/doc/ref identity。section 移动、link href 修改、ref target 修改必须改变 table digest。
 
-- [ ] **Step 2: 验证旧 snapshot 测试失败**
+- [x] **Step 2: 验证旧 snapshot 测试失败**
 
 Run: `node --test plugins/lark-docs/sourceSnapshot.test.js plugins/lark-docs/incrementalFetchPlanner.test.js`
 
 Expected: FAIL，旧 snapshot 不包含 navigation records。
 
-- [ ] **Step 3: 实现导航 identity 和 table digest**
+- [x] **Step 3: 实现导航 identity 和 table digest**
 
 canonical snapshot records 保持兼容；Guides 新增按 `table_id` 排序的 navigation identity。只有 Guides 的旧 schema v1/v2 作为不完整 navigation basis；SDK snapshot 不因缺少 `navigation_records` 自动 full fetch。
 
-- [ ] **Step 4: 扩展 affected_tables**
+- [x] **Step 4: 扩展 affected_tables**
 
 `affected_tables` 是 canonical token delta、删除、引用扩展和 navigation digest delta 的并集。section/link/ref 变化必须进入表级协调。
 
-- [ ] **Step 5: 运行测试**
+- [x] **Step 5: 运行测试**
 
 Run: `node --test plugins/lark-docs/sourceSnapshot.test.js plugins/lark-docs/incrementalFetchPlanner.test.js`
 
 Expected: PASS。
 
-- [ ] **Step 6: 提交**
+- [x] **Step 6: 提交**
 
 ```bash
 git add plugins/lark-docs/sourceSnapshot.js plugins/lark-docs/sourceSnapshot.test.js plugins/lark-docs/incrementalFetchPlanner.js plugins/lark-docs/incrementalFetchPlanner.test.js

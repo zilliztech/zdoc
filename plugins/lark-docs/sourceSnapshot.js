@@ -5,7 +5,17 @@ const {
   extractContentLinks,
   canonicalRecordsFrom,
   sourceTokenAliases,
+  plainValue,
+  docField,
+  docLink,
+  docTitle,
+  contentLinkTarget,
 } = require('./canonicalLinkAuditor')
+const {
+  guidesPlacementType,
+  guidesRecordPublishTargets,
+  guidesRecordRefTarget,
+} = require('./guidesBaseRecordSemantics')
 
 function hashText(text) {
   return crypto.createHash('sha256').update(text).digest('hex')
@@ -34,9 +44,10 @@ function isSafeRelativePath(value) {
 
 function validateCandidateSnapshot(candidate, expected = {}) {
   if (!candidate || typeof candidate !== 'object' || Array.isArray(candidate)) throw new Error('Candidate snapshot must be an object')
-  if (candidate.schema_version !== 2) throw new Error('Candidate snapshot schema version must be 2')
   if (typeof candidate.manual !== 'string' || !candidate.manual) throw new Error('Candidate snapshot manual is required')
   if (expected.manual && candidate.manual !== expected.manual) throw new Error('Candidate snapshot manual mismatch')
+  const expectedSchemaVersion = candidate.manual === 'guides' ? 3 : 2
+  if (candidate.schema_version !== expectedSchemaVersion) throw new Error(`Candidate snapshot schema version must be ${expectedSchemaVersion}`)
   if (typeof candidate.build_env !== 'string' || !candidate.build_env) throw new Error('Candidate snapshot build environment is required')
   if (expected.buildEnv && candidate.build_env !== expected.buildEnv) throw new Error('Candidate snapshot build environment mismatch')
   if (typeof candidate.source_dir !== 'string' || !candidate.source_dir) throw new Error('Candidate snapshot source directory is required')
@@ -57,6 +68,21 @@ function validateCandidateSnapshot(candidate, expected = {}) {
     if (record.output_paths !== undefined && !Array.isArray(record.output_paths)) throw new Error(`Candidate snapshot output paths are invalid for ${record.doc_token}`)
     for (const outputPath of record.output_paths || []) {
       if (!isSafeRelativePath(outputPath)) throw new Error(`Candidate snapshot output path is invalid for ${record.doc_token}: ${outputPath}`)
+    }
+  }
+  if (candidate.manual === 'guides') {
+    if (!Array.isArray(candidate.navigation_records)) throw new Error('Candidate snapshot navigation records are required for Guides')
+    if (!candidate.table_digests || typeof candidate.table_digests !== 'object' || Array.isArray(candidate.table_digests)) throw new Error('Candidate snapshot table digests are required for Guides')
+    const navigationRecordIds = new Set()
+    for (const record of candidate.navigation_records) {
+      if (!record || typeof record.record_id !== 'string' || !record.record_id) throw new Error('Candidate snapshot navigation record ID is required')
+      if (navigationRecordIds.has(record.record_id)) throw new Error('Candidate snapshot contains duplicate navigation records')
+      navigationRecordIds.add(record.record_id)
+      if (typeof record.table_id !== 'string' || !record.table_id) throw new Error(`Candidate snapshot navigation table ID is required for ${record.record_id}`)
+      if (!['canonical', 'section', 'link', 'ref'].includes(record.placement_type)) throw new Error(`Candidate snapshot navigation placement is invalid for ${record.record_id}`)
+    }
+    for (const [tableId, digest] of Object.entries(candidate.table_digests)) {
+      if (!tableId || !/^[0-9a-f]{64}$/.test(digest || '')) throw new Error(`Candidate snapshot table digest is invalid for ${tableId || 'unknown table'}`)
     }
   }
   return candidate
@@ -124,6 +150,71 @@ function outputPathsByTokenFromDirs({ outputDirs, cwd = process.cwd() }) {
   return byToken
 }
 
+function recordToken(record) {
+  const link = docLink(docField(record.fields || {}))
+  if (!link) return null
+  const target = contentLinkTarget(link)
+  if (target?.token) return target.token
+  try {
+    return new URL(link).pathname.split('/').filter(Boolean).pop() || null
+  } catch (_) {
+    return null
+  }
+}
+
+function parentRecordIds(record) {
+  const values = Array.isArray(record.fields?.Parent) ? record.fields.Parent : record.fields?.Parent == null ? [] : [record.fields.Parent]
+  return values.flatMap(value => {
+    if (typeof value === 'string') return [value]
+    if (Array.isArray(value?.record_ids)) return value.record_ids
+    return [value?.record_id || value?.id].filter(Boolean)
+  }).sort()
+}
+
+function navigationOrder(record) {
+  const explicit = plainValue(record.fields?.['Sidebar Order'] ?? record.fields?.['Nav Order'] ?? record.fields?.Order)
+  return explicit != null && explicit !== '' && Number.isFinite(Number(explicit)) ? Number(explicit) : Number(record.base_record_index || 0)
+}
+
+function createGuidesNavigationState(records) {
+  const navigationRecords = (records || []).map(record => {
+    const fields = record.fields || {}
+    const placementType = guidesPlacementType(record, { guidesMode: true })
+    const doc = docField(fields)
+    const link = docLink(doc)
+    const refTarget = guidesRecordRefTarget(record)
+    const refLink = typeof refTarget === 'string' ? refTarget : null
+    return {
+      record_id: record.record_id,
+      table_id: record.base_table_id,
+      table_name: record.base_table_name || null,
+      placement_type: placementType,
+      parent_record_ids: parentRecordIds(record),
+      order: navigationOrder(record),
+      title: docTitle(doc) || plainValue(fields.Labels) || record.record_id,
+      labels: plainValue(fields.Labels) || '',
+      slug: plainValue(fields.Slug) || '',
+      targets: guidesRecordPublishTargets(record).sort(),
+      progress: plainValue(fields.Progress ?? fields.Status) || '',
+      doc_token: recordToken(record),
+      doc_link: link || '',
+      ref_target: refTarget || null,
+      ref_target_token: refLink ? (contentLinkTarget(refLink)?.token || null) : null,
+    }
+  }).filter(record => record.record_id && record.table_id && record.placement_type)
+    .sort((a, b) => a.table_id.localeCompare(b.table_id) || a.order - b.order || a.record_id.localeCompare(b.record_id))
+
+  const recordsByTable = new Map()
+  for (const record of navigationRecords) {
+    if (!recordsByTable.has(record.table_id)) recordsByTable.set(record.table_id, [])
+    recordsByTable.get(record.table_id).push(record)
+  }
+  const tableDigests = Object.fromEntries([...recordsByTable.entries()]
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([tableId, tableRecords]) => [tableId, hashText(JSON.stringify(tableRecords))]))
+  return { navigationRecords, tableDigests }
+}
+
 function createSourceSnapshot({
   manualName,
   targetsBuilt = [],
@@ -139,8 +230,9 @@ function createSourceSnapshot({
 }) {
   const sourceByToken = sourceFilesByToken(docSourceDir)
   const canonicalRecords = canonicalRecordsFrom(records)
-  return {
-    schema_version: 2,
+  const guidesNavigation = manualName === 'guides' ? createGuidesNavigationState(records) : null
+  const snapshot = {
+    schema_version: manualName === 'guides' ? 3 : 2,
     manual: manualName,
     targets_built: targetsBuilt,
     build_env: buildEnv,
@@ -177,6 +269,11 @@ function createSourceSnapshot({
       }
     }),
   }
+  if (guidesNavigation) {
+    snapshot.navigation_records = guidesNavigation.navigationRecords
+    snapshot.table_digests = guidesNavigation.tableDigests
+  }
+  return snapshot
 }
 
 module.exports = {
@@ -187,5 +284,6 @@ module.exports = {
   writeSnapshot,
   sourceFilesByToken,
   outputPathsByTokenFromDirs,
+  createGuidesNavigationState,
   hashText,
 }

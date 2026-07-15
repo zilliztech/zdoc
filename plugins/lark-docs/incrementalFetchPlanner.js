@@ -5,7 +5,7 @@ const {
   extractContentLinks,
   sourceTokenAliases,
 } = require('./canonicalLinkAuditor')
-const { sourceFilesByToken } = require('./sourceSnapshot')
+const { sourceFilesByToken, createGuidesNavigationState } = require('./sourceSnapshot')
 
 function addReason(reasonsByToken, token, reason) {
   if (!token) return
@@ -150,7 +150,7 @@ function expandReferences({ changedTokens, outgoing, incoming, maxReferenceDepth
   return [...expanded].sort()
 }
 
-function fullPlan({ manualName, docSourceDir, canonicalRecords, buildEnv, warnings, reasonsByToken = {} }) {
+function fullPlan({ manualName, docSourceDir, canonicalRecords, buildEnv, warnings, reasonsByToken = {}, affectedTables = [] }) {
   return {
     generated_at: new Date().toISOString(),
     manual: manualName,
@@ -164,6 +164,7 @@ function fullPlan({ manualName, docSourceDir, canonicalRecords, buildEnv, warnin
     removed_tokens: [],
     reasons_by_token: reasonsByToken,
     warnings,
+    affected_tables: [...new Set(affectedTables)].sort(),
     snapshot_basis: null,
   }
 }
@@ -181,11 +182,13 @@ function planIncrementalFetch({
   sourceCompleteness = null,
 }) {
   const canonicalRecords = canonicalRecordsFrom(records)
+  const guidesNavigation = manualName === 'guides' ? createGuidesNavigationState(records) : null
+  const currentNavigationTables = guidesNavigation ? Object.keys(guidesNavigation.tableDigests) : []
   if (forceFull) {
-    return fullPlan({ manualName, docSourceDir, canonicalRecords, buildEnv, warnings: ['Forced full fetch requested.'] })
+    return fullPlan({ manualName, docSourceDir, canonicalRecords, buildEnv, warnings: ['Forced full fetch requested.'], affectedTables: currentNavigationTables })
   }
   if (!previousSnapshot) {
-    return fullPlan({ manualName, docSourceDir, canonicalRecords, buildEnv, warnings: ['No previous snapshot found.'] })
+    return fullPlan({ manualName, docSourceDir, canonicalRecords, buildEnv, warnings: ['No previous snapshot found.'], affectedTables: currentNavigationTables })
   }
   if (sourceCompleteness && !sourceCompleteness.complete) {
     const nonRenderableCount = sourceCompleteness.nonRenderableCanonicalFiles?.length || 0
@@ -195,6 +198,7 @@ function planIncrementalFetch({
       canonicalRecords,
       buildEnv,
       warnings: [`Source cache is incomplete (${sourceCompleteness.validCanonicalSources || 0}/${sourceCompleteness.expectedCanonicalSources || 0} canonical sources valid${nonRenderableCount ? `; ${nonRenderableCount} non-renderable canonical source${nonRenderableCount === 1 ? '' : 's'}` : ''}).`],
+      affectedTables: currentNavigationTables,
     })
   }
   if (currentNodeMetadataByToken.size > 0 && Number(previousSnapshot.schema_version || 1) < 2) {
@@ -204,6 +208,17 @@ function planIncrementalFetch({
       canonicalRecords,
       buildEnv,
       warnings: ['Previous snapshot does not include wiki node metadata.'],
+      affectedTables: currentNavigationTables,
+    })
+  }
+  if (manualName === 'guides' && (Number(previousSnapshot.schema_version || 1) < 3 || !previousSnapshot.navigation_records || !previousSnapshot.table_digests)) {
+    return fullPlan({
+      manualName,
+      docSourceDir,
+      canonicalRecords,
+      buildEnv,
+      warnings: ['Previous Guides snapshot does not include navigation schema v3.'],
+      affectedTables: currentNavigationTables,
     })
   }
 
@@ -219,6 +234,7 @@ function planIncrementalFetch({
       canonicalRecords,
       buildEnv,
       warnings: [`Failed to read source graph: ${error.message}`],
+      affectedTables: currentNavigationTables,
     })
   }
 
@@ -254,6 +270,7 @@ function planIncrementalFetch({
       buildEnv,
       warnings: [`Changed record count ${changedRecords.length} exceeds full-fetch threshold ${changedLimit}.`],
       reasonsByToken,
+      affectedTables: currentNavigationTables,
     })
   }
 
@@ -272,6 +289,21 @@ function planIncrementalFetch({
     maxReferenceDepth: Number(maxReferenceDepth || 1),
     reasonsByToken,
   })
+  const affectedTables = new Set()
+  if (guidesNavigation) {
+    const previousTableDigests = previousSnapshot.table_digests || {}
+    for (const tableId of new Set([...Object.keys(guidesNavigation.tableDigests), ...Object.keys(previousTableDigests)])) {
+      if (guidesNavigation.tableDigests[tableId] !== previousTableDigests[tableId]) affectedTables.add(tableId)
+    }
+  }
+  for (const record of changedRecords) if (record.table_id) affectedTables.add(record.table_id)
+  for (const record of removedRecords) if (record.table_id) affectedTables.add(record.table_id)
+  const currentTableByToken = new Map(canonicalRecords.map(record => [record.doc_token, record.table_id]))
+  const previousTableByToken = new Map((previousSnapshot.records || []).map(record => [record.doc_token, record.table_id]))
+  for (const token of expandedTokens) {
+    const tableId = currentTableByToken.get(token) || previousTableByToken.get(token)
+    if (tableId) affectedTables.add(tableId)
+  }
 
   return {
     generated_at: new Date().toISOString(),
@@ -286,6 +318,7 @@ function planIncrementalFetch({
     removed_tokens: removedTokens,
     reasons_by_token: reasonsByToken,
     warnings,
+    affected_tables: [...affectedTables].sort(),
     snapshot_basis: {
       generated_at: previousSnapshot.generated_at || null,
       records: previousByToken.size,

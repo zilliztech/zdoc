@@ -79,7 +79,7 @@ test('createSourceSnapshot records hashes and outgoing tokens', () => {
   })
 
   assert.equal(snapshot.manual, 'guides')
-  assert.equal(snapshot.schema_version, 2)
+  assert.equal(snapshot.schema_version, 3)
   assert.deepEqual(snapshot.targets_built, ['zilliz.saas', 'zilliz.paas'])
   assert.equal(snapshot.build_env, 'uat')
   assert.equal(snapshot.source_branch, 'dev')
@@ -96,6 +96,50 @@ test('createSourceSnapshot records hashes and outgoing tokens', () => {
     'docs/tutorials/source.md',
   ])
   assert.match(snapshot.records[0].source_hash, /^[a-f0-9]{64}$/)
+  assert.equal(snapshot.navigation_records.length, 1)
+  assert.equal(snapshot.navigation_records[0].placement_type, 'canonical')
+  assert.match(snapshot.table_digests.tbl, /^[a-f0-9]{64}$/)
+})
+
+test('Guides navigation snapshot changes table digest for section, link, and ref edits', () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'snapshot-nav-'))
+  fs.writeFileSync(path.join(dir, 'doc.json'), JSON.stringify({ node_token: 'doc', blocks: { items: [] } }))
+  const baseRecords = [
+    { record_id: 'section', base_table_id: 'tbl', base_table_name: 'Development', base_record_index: 0, fields: { Labels: 'Section', Slug: 'section', 'Placement Type': 'section' } },
+    { record_id: 'doc', base_table_id: 'tbl', base_table_name: 'Development', base_record_index: 1, fields: { Docs: { text: 'Doc', link: 'https://example.feishu.cn/wiki/doc' }, Slug: 'doc', Parent: [{ record_id: 'section' }], Targets: ['Zilliz.SaaS'], Progress: 'Draft', 'Placement Type': 'canonical' } },
+    { record_id: 'link', base_table_id: 'tbl', base_table_name: 'Development', base_record_index: 2, fields: { Docs: { text: 'External', link: 'https://example.com/a' }, Slug: 'external', 'Placement Type': 'link' } },
+    { record_id: 'ref', base_table_id: 'tbl', base_table_name: 'Development', base_record_index: 3, fields: { Labels: 'Reuse', Slug: 'reuse', 'Ref Target Doc': 'doc', 'Placement Type': 'ref' } },
+  ]
+  const create = records => createSourceSnapshot({ manualName: 'guides', buildEnv: 'uat', docSourceDir: dir, baseAppToken: 'base', records })
+  const initial = create(baseRecords)
+
+  assert.equal(initial.schema_version, 3)
+  assert.deepEqual(initial.navigation_records.map(record => record.placement_type), ['section', 'canonical', 'link', 'ref'])
+  assert.deepEqual(initial.navigation_records.find(record => record.record_id === 'doc').parent_record_ids, ['section'])
+  assert.deepEqual(initial.navigation_records.find(record => record.record_id === 'doc').targets, ['zilliz.saas'])
+
+  const mutations = [
+    records => { records[1].fields.Parent = []; },
+    records => { records[2].fields.Docs.link = 'https://example.com/b'; },
+    records => { records[3].fields['Ref Target Doc'] = 'other-doc'; },
+  ]
+  for (const mutate of mutations) {
+    const records = structuredClone(baseRecords)
+    mutate(records)
+    assert.notEqual(create(records).table_digests.tbl, initial.table_digests.tbl)
+  }
+})
+
+test('SDK snapshots remain schema v2 without Guides navigation records', () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'snapshot-sdk-'))
+  fs.writeFileSync(path.join(dir, 'doc.json'), JSON.stringify({ node_token: 'doc' }))
+  const snapshot = createSourceSnapshot({
+    manualName: 'pymilvus30', buildEnv: 'uat', docSourceDir: dir, baseAppToken: 'base',
+    records: [{ record_id: 'doc', base_table_id: 'tbl', fields: { Docs: { text: 'Doc', link: 'https://example.feishu.cn/wiki/doc' }, Slug: 'doc' } }],
+  })
+  assert.equal(snapshot.schema_version, 2)
+  assert.equal(snapshot.navigation_records, undefined)
+  assert.equal(snapshot.table_digests, undefined)
 })
 
 test('writeSnapshot and readSnapshot round trip JSON', () => {
@@ -108,7 +152,7 @@ test('writeSnapshot and readSnapshot round trip JSON', () => {
 
 test('validates and promotes a candidate without changing source facts', () => {
   const candidate = {
-    schema_version: 2,
+    schema_version: 3,
     manual: 'guides',
     targets_built: [],
     build_env: 'uat',
@@ -124,6 +168,8 @@ test('validates and promotes a candidate without changing source facts', () => {
       source_file: 'doc-1.json', source_hash: 'a'.repeat(64), node_metadata: { revision_id: 'rev-1' },
       node_token: 'node-1', origin_node_token: null, obj_token: 'obj-1', obj_type: 'docx', obj_edit_time: '1', revision_id: 'rev-1', outgoing_tokens: [],
     }],
+    navigation_records: [{ record_id: 'rec-1', table_id: 'tbl-1', placement_type: 'canonical' }],
+    table_digests: { 'tbl-1': 'b'.repeat(64) },
   }
   assert.equal(validateCandidateSnapshot(candidate, {
     manual: 'guides', buildEnv: 'uat', sourceDir: candidate.source_dir, baseAppToken: 'base-token',
@@ -143,10 +189,12 @@ test('validates and promotes a candidate without changing source facts', () => {
 
 test('candidate validation rejects mismatches, duplicate records, and malformed hashes', () => {
   const base = {
-    schema_version: 2, manual: 'guides', targets_built: [], build_env: 'uat', source_branch: null,
+    schema_version: 3, manual: 'guides', targets_built: [], build_env: 'uat', source_branch: null,
     publish_url: null, link_check_remote: 'https://docs.zilliz.com', generated_at: '2026-07-14T01:00:00.000Z',
     source_dir: 'sources/guides', base_app_token: 'base-token',
     records: [{ record_id: 'rec-1', doc_token: 'doc-1', source_file: 'doc-1.json', source_hash: 'a'.repeat(64), outgoing_tokens: [] }],
+    navigation_records: [{ record_id: 'rec-1', table_id: 'tbl-1', placement_type: 'canonical' }],
+    table_digests: { 'tbl-1': 'b'.repeat(64) },
   }
   const expected = { manual: 'guides', buildEnv: 'uat', sourceDir: 'sources/guides', baseAppToken: 'base-token' }
   assert.throws(() => validateCandidateSnapshot({ ...base, manual: 'other' }, expected), /manual/i)

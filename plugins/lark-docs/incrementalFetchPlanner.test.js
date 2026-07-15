@@ -6,6 +6,10 @@ const { test } = require('node:test')
 const { planIncrementalFetch } = require('./incrementalFetchPlanner')
 const { sourceFilesByToken } = require('./sourceSnapshot')
 
+function guidesV3(snapshot) {
+  return { ...snapshot, schema_version: 3, navigation_records: [], table_digests: {} }
+}
+
 function writeSource(dir, token, outgoingTokens = []) {
   fs.writeFileSync(path.join(dir, `${token}.json`), JSON.stringify({
     title: token,
@@ -40,15 +44,14 @@ test('planIncrementalFetch detects changed title and expands incoming and outgoi
   writeSource(dir, 'c', ['a'])
   const sources = sourceFilesByToken(dir)
 
-  const previousSnapshot = {
-    schema_version: 2,
+  const previousSnapshot = guidesV3({
     manual: 'guides',
     records: [
       { record_id: 'rec-a', doc_token: 'a', title: 'Old A', slug: 'a', source_hash: sources.get('a').__source_hash },
       { record_id: 'rec-b', doc_token: 'b', title: 'b', slug: 'b', source_hash: sources.get('b').__source_hash },
       { record_id: 'rec-c', doc_token: 'c', title: 'c', slug: 'c', source_hash: sources.get('c').__source_hash },
     ],
-  }
+  })
 
   const plan = planIncrementalFetch({
     manualName: 'guides',
@@ -73,15 +76,14 @@ test('planIncrementalFetch expands references from snapshot when local sources a
     manualName: 'guides',
     docSourceDir: dir,
     records: [record('a', 'New A'), record('b'), record('c')],
-    previousSnapshot: {
-      schema_version: 2,
+    previousSnapshot: guidesV3({
       manual: 'guides',
       records: [
         { record_id: 'rec-a', doc_token: 'a', title: 'Old A', slug: 'a', outgoing_tokens: ['b'] },
         { record_id: 'rec-b', doc_token: 'b', title: 'b', slug: 'b', outgoing_tokens: [] },
         { record_id: 'rec-c', doc_token: 'c', title: 'c', slug: 'c', outgoing_tokens: ['a'] },
       ],
-    },
+    }),
     maxReferenceDepth: 1,
   })
 
@@ -101,13 +103,12 @@ test('planIncrementalFetch detects source content hash changes', () => {
     manualName: 'guides',
     docSourceDir: dir,
     records: [record('a')],
-    previousSnapshot: {
-      schema_version: 2,
+    previousSnapshot: guidesV3({
       manual: 'guides',
       records: [
         { record_id: 'rec-a', doc_token: 'a', title: 'a', slug: 'a', source_hash: `old-${sources.get('a').__source_hash}` },
       ],
-    },
+    }),
     maxReferenceDepth: 1,
   })
 
@@ -125,8 +126,7 @@ test('planIncrementalFetch detects wiki node revision changes', () => {
     manualName: 'guides',
     docSourceDir: dir,
     records: [record('a')],
-    previousSnapshot: {
-      schema_version: 2,
+    previousSnapshot: guidesV3({
       manual: 'guides',
       records: [
         {
@@ -138,7 +138,7 @@ test('planIncrementalFetch detects wiki node revision changes', () => {
           node_metadata: { revision_id: 'rev-1', obj_edit_time: '100' },
         },
       ],
-    },
+    }),
     currentNodeMetadataByToken: new Map([['a', { revision_id: 'rev-2', obj_edit_time: '100' }]]),
     maxReferenceDepth: 1,
   })
@@ -179,8 +179,7 @@ test('planIncrementalFetch includes docs when wiki node metadata fetch fails', (
     manualName: 'guides',
     docSourceDir: dir,
     records: [record('a')],
-    previousSnapshot: {
-      schema_version: 2,
+    previousSnapshot: guidesV3({
       manual: 'guides',
       records: [
         {
@@ -192,7 +191,7 @@ test('planIncrementalFetch includes docs when wiki node metadata fetch fails', (
           node_metadata: { revision_id: 'rev-1', obj_edit_time: '100' },
         },
       ],
-    },
+    }),
     currentNodeMetadataByToken: new Map([['a', { fetch_error: 'permission denied' }]]),
   })
 
@@ -208,8 +207,7 @@ test('planIncrementalFetch does not refetch unchanged docs just because local so
     manualName: 'guides',
     docSourceDir: dir,
     records: [record('a')],
-    previousSnapshot: {
-      schema_version: 2,
+    previousSnapshot: guidesV3({
       manual: 'guides',
       records: [
         {
@@ -221,7 +219,7 @@ test('planIncrementalFetch does not refetch unchanged docs just because local so
           node_metadata: { revision_id: null, obj_edit_time: '100' },
         },
       ],
-    },
+    }),
     currentNodeMetadataByToken: new Map([['a', { revision_id: null, obj_edit_time: '100' }]]),
   })
 
@@ -258,8 +256,7 @@ test('planIncrementalFetch records removed docs without forcing full fetch', () 
     manualName: 'guides',
     docSourceDir: dir,
     records: [record('a')],
-    previousSnapshot: {
-      schema_version: 2,
+    previousSnapshot: guidesV3({
       manual: 'guides',
       records: [
         {
@@ -279,7 +276,7 @@ test('planIncrementalFetch records removed docs without forcing full fetch', () 
           node_metadata: { revision_id: null, obj_edit_time: '100' },
         },
       ],
-    },
+    }),
     currentNodeMetadataByToken: new Map([['a', { revision_id: null, obj_edit_time: '100' }]]),
   })
 
@@ -298,8 +295,7 @@ test('planIncrementalFetch includes missing current source when wiki metadata ch
     manualName: 'guides',
     docSourceDir: dir,
     records: [record('a')],
-    previousSnapshot: {
-      schema_version: 2,
+    previousSnapshot: guidesV3({
       manual: 'guides',
       records: [
         {
@@ -311,7 +307,7 @@ test('planIncrementalFetch includes missing current source when wiki metadata ch
           node_metadata: { revision_id: null, obj_edit_time: '100' },
         },
       ],
-    },
+    }),
     currentNodeMetadataByToken: new Map([['a', { revision_id: null, obj_edit_time: '200' }]]),
   })
 
@@ -330,4 +326,42 @@ test('planIncrementalFetch falls back to full without previous snapshot', () => 
   })
   assert.equal(plan.mode, 'full')
   assert.match(plan.warnings.join(' '), /No previous snapshot/)
+})
+
+test('Guides planner forces full when previous snapshot lacks navigation schema v3', () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'planner-'))
+  const plan = planIncrementalFetch({
+    manualName: 'guides', docSourceDir: dir, records: [record('a')],
+    previousSnapshot: { schema_version: 2, manual: 'guides', records: [] },
+  })
+  assert.equal(plan.mode, 'full')
+  assert.match(plan.warnings.join(' '), /navigation/i)
+})
+
+test('SDK planner accepts schema v2 without navigation records', () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'planner-'))
+  const plan = planIncrementalFetch({
+    manualName: 'pymilvus30', docSourceDir: dir, records: [],
+    previousSnapshot: { schema_version: 2, manual: 'pymilvus30', records: [] },
+  })
+  assert.equal(plan.mode, 'incremental')
+  assert.deepEqual(plan.affected_tables, [])
+})
+
+test('Guides planner marks tables affected by navigation-only changes', () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'planner-'))
+  const records = [{
+    record_id: 'section', base_table_id: 'tbl-development', base_table_name: 'Development', base_record_index: 0,
+    fields: { Labels: 'Renamed Section', Slug: 'section', 'Placement Type': 'section' },
+  }]
+  const plan = planIncrementalFetch({
+    manualName: 'guides', docSourceDir: dir, records,
+    previousSnapshot: {
+      schema_version: 3, manual: 'guides', records: [],
+      navigation_records: [{ record_id: 'section', table_id: 'tbl-development', placement_type: 'section', labels: 'Old Section', slug: 'section' }],
+      table_digests: { 'tbl-development': 'old-digest' },
+    },
+  })
+  assert.equal(plan.mode, 'incremental')
+  assert.deepEqual(plan.affected_tables, ['tbl-development'])
 })
