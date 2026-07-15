@@ -48,7 +48,29 @@ import Grid from '@site/src/components/Grid';
 
     <div>
 
-        **[2026年7月6日](./release-notes-2607#byoc-i-now-available-on-gcp)**
+        **[2026年7月15日](./release-notes-2607)**
+
+    </div>
+
+    <div>
+
+        - 💾 BYOC プロジェクトで[ストレージ統合](/docs/byoc/integrate-with-aws-s3)と[外部ボリューム](/docs/byoc/external-volume)が利用可能になりました。
+
+        - 📈 オンデマンドクラスターで[コレクションレベルのメトリクス](./metrics-alerts-reference)が利用可能になりました。
+
+        - 💳 オンデマンドコンピュートと外部ボリュームに対する課金が開始されました。料金の内訳については、[オンデマンドコンピュートのコスト](./on-demand-compute-cost)および[ストレージリクエストのコスト](./storage-request-cost)を参照してください。
+
+        - 💻 RESTful API を通じて[プログラムによるストレージ統合](/reference/restful/storage-integration-operations-v2)を利用できるようになりました。
+
+    </div>
+
+</Grid>
+
+<Grid columnSize="2" widthRatios="25,74">
+
+    <div>
+
+        **[2026年7月6日](./release-notes-2607)**
 
     </div>
 
@@ -64,7 +86,23 @@ import Grid from '@site/src/components/Grid';
 
     <div>
 
-        **[2026年6月17日](./release-notes-2606#enhancements)**
+        **[2026年6月24日](./release-notes-2606)**
+
+    </div>
+
+    <div>
+
+        - 💾 高度にカスタマイズしたバックアップサイクルを構成できるようになりました。詳細については、[自動バックアップのスケジュール](./schedule-automatic-backups)を参照してください。
+
+    </div>
+
+</Grid>
+
+<Grid columnSize="2" widthRatios="25,74">
+
+    <div>
+
+        **[2026年6月17日](./release-notes-2606)**
 
     </div>
 
@@ -120,13 +158,13 @@ import Grid from '@site/src/components/Grid';
 
         - 🏠 Zilliz Cloud は、ベクトルデータベース製品から Vector Lakebase プラットフォームへ進化し、以下の主要機能が追加されました。
 
-            - [オンデマンド検索](./on-demand-compute)
+            - [オンデマンド検索](./quick-start-to-on-demand-search)
 
-            - [外部データレイク検索](./external-collection)
+            - [外部データレイク検索](./quick-start-to-external-data-lake-search)
 
         - 🐦 Milvus v3.0.x が Zilliz Cloud のオンデマンドコンピュート向けに Private Review に入り、以下の機能が利用可能になりました。
 
-            - [External Collection と Backfill](./external-collection)
+            - [External Collection と Backfill](./create-external-collection)
 
             - [Nullable Vectors](./nullable-fields)
 
@@ -170,7 +208,7 @@ import Grid from '@site/src/components/Grid';
 
         - 📈 より細かい粒度の[コレクションレベルでのメトリクス](./metrics-alerts-reference#cluster-and-collection-metrics)が利用可能になりました。
 
-        - 📋 [アクセスログ](./access-logs)がパブリックプレビューで利用可能になりました。
+        - 📋 [アクセスログ](./access-log-overview)がパブリックプレビューで利用可能になりました。
 
         - ⚙️ [メンテナンスウィンドウ](./organization-settings#set-up-preferred-maintenance-window)が再設計され、より予測可能なアップグレードスケジューリングと事前通知が提供されるようになりました。
 
@@ -272,9 +310,7 @@ import Grid from '@site/src/components/Grid';
 
             - [テキストハイライター](./text-highlighter)
 
-        - 🤖 [モデルベースの埋め込み](./model-based-functions)および[リランキング機能](./model-ranker)がパブリックプレビューで利用可能になりました。
-
-        - 🤖 ホストモデルがプライベートプレビューで利用可能になりました。
+        - 🤖 [OpenAI](./openai)、[Voyage AI](./voyage-ai)、[Cohere](./cohere)などのモデルベースの埋め込み関数、および [Cohere リランカー](./cohere-model-ranker)、[Voyage AI リランカー](./voyage-ai-model-ranker)などのリランキング関数がパブリックプレビューで利用可能になりました。
 
         - 🛠️ インテリジェンスを備えた[動的レプリカの自動スケーリング](./manage-replica#dynamic-scaling)。
 
@@ -322,7 +358,7 @@ import Grid from '@site/src/components/Grid';
 
     <div>
 
-        - 📦  ステージが[ボリューム](./volume)に名称変更され、GAとなりました
+        - 📦  ステージが[ボリューム](./managed-volume)に名称変更され、GAとなりました
 
         - [🔐  組織レベルのIPホワイトリスト](./setup-console-ip-allowlist)が利用可能になりました
 
@@ -378,7 +414,7 @@ import Grid from '@site/src/components/Grid';
 
             - [JSONインデックス](./json-indexing)と[Shredding](./json-shredding)による高速化されたJSONフィルタリング
 
-            - 検索結果の絞り込みのための[ブーストランカー](./boost-ranker)と[デケイランカー](./decay-ranker)
+            - 検索結果の絞り込みのための[ブーストランカー](./boost-ranker)と[デケイランカー](./decay-ranker-oveview)
 
             - [INT8_VECTORデータ型](./use-dense-vector)のサポート
 
@@ -404,7 +440,7 @@ import Grid from '@site/src/components/Grid';
 
     <div>
 
-        - [📈  自動スケーリングのアップグレード](./scale-query-cu#dynamic-scaling)により、設定が簡素化されました
+        - 📈  [自動スケーリングのアップグレード](./scale-query-cu#dynamic-scaling)により、設定が簡素化されました
 
         - [📋  監査ログ](./audit-logs)が一般提供開始
 
@@ -440,11 +476,11 @@ import Grid from '@site/src/components/Grid';
 
     <div>
 
-        - [🔗  データマージAPI](./merge-data)によるスキーマ進化。
+        - 🔗  データマージAPIによるスキーマ進化。
 
-        - [📦  ステージ](./volume)をデータ移行とデータインポートの共有ステージングレイヤーとして
+        - 📦  [ステージ](./managed-volume)をデータ移行とデータインポートの共有ステージングレイヤーとして
 
-        - [📅  スケジュールベースのクラスタ自動スケーリング](./scale-query-cu)
+        - 📅  [スケジュールベースのクラスタ自動スケーリング](./scale-query-cu#scheduled-scaling)
 
         - [🔄  クラスタの部分的な復元](./restore-from-backup-files#restore-a-partial-cluster)
 
@@ -468,7 +504,7 @@ import Grid from '@site/src/components/Grid';
 
     <div>
 
-        - [📚  移行ドキュメントとベストプラクティス](./migrations)のリファクタリング
+        - 📚  [移行ドキュメントとベストプラクティス](./migrate-between-clusters)のリファクタリング
 
         - [🚨  ポリシーベースのアラート](./manage-project-alerts)によるきめ細かく柔軟な監視
 
@@ -494,7 +530,7 @@ import Grid from '@site/src/components/Grid';
 
         - ⚙️  BYOCプロジェクトのインスタンス設定とAWS プライベートLinkサポート
 
-        - 🔍  [JSONインデックス](./use-json-fields)を使用したJSONフィールドのきめ細かなフィルタリング
+        - 🔍  [JSONインデックス](./json-indexing)を使用したJSONフィールドのきめ細かなフィルタリング
 
         - 🛠️  RESTful APIを使用して[クラスタのレプリカ数を変更](/reference/restful/modify-cluster-replica-v2)できます。
 
@@ -610,7 +646,7 @@ import Grid from '@site/src/components/Grid';
 
         - ⚡  容量拡張されたパフォーマンス最適化済みクラスタ
 
-        - [🔄  マルチレプリカ](./manage-replica)が一般提供開始
+        - 🔄  [マルチレプリカ](./manage-replica)が一般提供開始
 
         - **新しいリージョン**: 🇯🇵 AWS 東京 (ap-northeast-1)
 
@@ -636,7 +672,7 @@ import Grid from '@site/src/components/Grid';
 
         - ☁️  サーバーレスクラスタが一般提供開始
 
-        - [🔄  マルチレプリカ](./manage-replica)がパブリックプレビューで利用可能
+        - 🔄  [マルチレプリカ](./manage-replica)がパブリックプレビューで利用可能
 
         - 📦  Zilliz Cloudへのデータ移行サービス：
 
@@ -696,7 +732,7 @@ import Grid from '@site/src/components/Grid';
 
             - [マルチベクトルハイブリッド検索](./hybrid-search)
 
-            - [転置インデックス](./index-scalar-fields)と[ファジーマッチ](./basic-filtering-operators)
+            - [転置インデックス](./inverted-index-type)と[ファジーマッチ](./basic-filtering-operators)
 
             - [グルーピング検索](./grouping-search)
 
@@ -748,7 +784,7 @@ import Grid from '@site/src/components/Grid';
 
         - [📊  RESTful APIによるメトリクス監視](/reference/restful/query-metrics)が利用可能
 
-        - 🌐  クロスクラウドの[データインポート](./data-import)と[データ移行](./migrations)
+        - 🌐  クロスクラウドの[データインポート](./data-import-zero-to-hero)と[データ移行](./migrate-between-clusters)
 
     </div>
 
@@ -782,11 +818,11 @@ import Grid from '@site/src/components/Grid';
 
     <div>
 
-        - [📥  Parquetファイルからのデータインポート](./data-import)
+        - 📥  [Parquetファイルからのデータインポート](./data-import-zero-to-hero)
 
         - [🔐  RBAC原則を備えたAPIキー](./manage-api-keys)の強化
 
-        - [📊  メトリクスボードとアラートシステム](./metrics-and-alerts)のリファクタリング
+        - 📊  [メトリクスボードとアラートシステム](./metrics-alerts-reference)のリファクタリング
 
     </div>
 
@@ -838,7 +874,7 @@ import Grid from '@site/src/components/Grid';
 
             - [コサインメトリックタイプ](./search-metrics-explained)
 
-            - [アクセス制御](./access-control)
+            - [アクセス制御](./access-control-overview)
 
             - 返却される生ベクトル
 
@@ -924,7 +960,7 @@ import Grid from '@site/src/components/Grid';
 
         - [💰  Zilliz Cloudプラン階層の導入](https://zilliz.com/pricing)
 
-        - 👥  [アクセス制御](./access-control)のための組織、コラボレーション、およびRBAC
+        - 👥  [アクセス制御](./access-control-overview)のための組織、コラボレーション、およびRBAC
 
         - 🏷️  名前空間分けのためのパーティションキーの導入
 
@@ -948,7 +984,7 @@ import Grid from '@site/src/components/Grid';
 
         - [💰  料金計算ツール](https://zilliz.com/pricing#calculator)
 
-        - [💾  GCPでのバックアップと復元](./backup-and-restore)
+        - 💾  [GCPでのバックアップと復元](./create-backup)
 
         - [⏰  カスタムタイムゾーン](./organization-settings#manage-timezone)
 
@@ -972,11 +1008,11 @@ import Grid from '@site/src/components/Grid';
 
         - ☁️  Zilliz Cloudが[AWS Marketplace](https://aws.amazon.com/marketplace/pp/prodview-iqbidum7feuio)で利用可能になりました
 
-        - [💾  AWSでのバックアップと復元](./backup-and-restore)が利用可能になりました
+        - [💾  AWSでのバックアップと復元](./create-backup)が利用可能になりました
 
         - [🗑️  データ継続性戦略のためのごみ箱](./use-recycle-bin)
 
-        - [🔄  Milvusからの移行](./migrations)
+        - 🔄  [Milvusからの移行](./migrate-from-milvus)
 
     </div>
 
@@ -1034,9 +1070,9 @@ import Grid from '@site/src/components/Grid';
 
         - **新しいリージョン**: 🇺🇸 AWS オハイオ (us-east-2)
 
-        - [🔐  プライベート Link](./setup-a-private-link)が利用可能になりました
+        - 🔐  [プライベート Link](./setup-a-private-link-aws)が利用可能になりました
 
-        - [📥  データインポート](./data-import)が利用可能になりました
+        - 📥  [データインポート](./data-import-zero-to-hero)が利用可能になりました
 
     </div>
 

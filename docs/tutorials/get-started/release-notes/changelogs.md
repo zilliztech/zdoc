@@ -51,7 +51,29 @@ import Grid from '@site/src/components/Grid';
 
     <div>
 
-        **[July 6, 2026](./release-notes-2607#byoc-i-now-available-on-gcp)**
+        **[July 15, 2026](./release-notes-2607)**
+
+    </div>
+
+    <div>
+
+        - 💾 [Storage integration](/docs/byoc/integrate-with-aws-s3) and [external volumes](/docs/byoc/external-volume) become available for BYOC projects.
+
+        - 📈 [Collection-level metrics](./metrics-alerts-reference) go online for on-demand clusters.
+
+        - 💳 On-demand compute and external volumes now incur charges. For the breakdown, see [On-Demand Compute Cost](./on-demand-compute-cost) and [Storage Request Cost](./storage-request-cost).
+
+        - 💻 [Programmable storage integrations](/reference/restful/storage-integration-operations-v2) are available through RESTful APIs.
+
+    </div>
+
+</Grid>
+
+<Grid columnSize="2" widthRatios="25,74">
+
+    <div>
+
+        **[July 6, 2026](./release-notes-2607)**
 
     </div>
 
@@ -67,13 +89,13 @@ import Grid from '@site/src/components/Grid';
 
     <div>
 
-        **[June 24, 2026](./release-notes-2606#enhancements)**
+        **[June 24, 2026](./release-notes-2606)**
 
     </div>
 
     <div>
 
-        - 💾 You can now orchestrate highly customized backup cycles. For details, see [Schedual Automatic Backups](./schedule-automatic-backups).
+        - 💾 You can now orchestrate highly customized backup cycles. For details, see [Schedule Automatic Backups](./schedule-automatic-backups).
 
     </div>
 
@@ -83,7 +105,7 @@ import Grid from '@site/src/components/Grid';
 
     <div>
 
-        **[June 17, 2026](./release-notes-2606#enhancements)**
+        **[June 17, 2026](./release-notes-2606)**
 
     </div>
 
@@ -139,13 +161,13 @@ import Grid from '@site/src/components/Grid';
 
         - 🏠 Zilliz Cloud evolves from a vector database product into a Vector Lakebase platform with the following highlighted features:
 
-            - [On-demand search](./on-demand-compute)
+            - [On-demand search](./quick-start-to-on-demand-search)
 
-            - [External data lake search](./external-collection)
+            - [External data lake search](./quick-start-to-external-data-lake-search)
 
         - 🐦 Milvus v3.0.x enters Private Review for on-demand compute in Zilliz Cloud with the following features:
 
-            - [External collections and backfill](./external-collection)
+            - [External collections and backfill](./create-external-collection)
 
             - [Nullable vectors](./nullable-fields),
 
@@ -189,7 +211,7 @@ import Grid from '@site/src/components/Grid';
 
         - 📈 More fine-grained [metrics are available at the collection level](./metrics-alerts-reference#cluster-and-collection-metrics).
 
-        - 📋 [Access logs](./access-logs) are available in Public Preview.
+        - 📋 [Access logs](./access-log-overview) are available in Public Preview.
 
         - ⚙️ The [maintenance window](./organization-settings#set-up-preferred-maintenance-window) has been redesigned to provide more predictable upgrade scheduling and proactive notifications.
 
@@ -291,9 +313,7 @@ import Grid from '@site/src/components/Grid';
 
             - [Text Highlighter](./text-highlighter)
 
-        - 🤖 [Model-based embedding](./model-based-functions) and [reranking functions](./model-ranker) for public preview.
-
-        - 🤖 Hosted models for private preview.
+        - 🤖 Model-based embedding functions such as [OpenAI](./openai), [Voyage AI](./voyage-ai), and [Cohere](./cohere), and reranking functions, such as [Cohere reranker](./cohere-model-ranker) and [Voyage AI reranker](./voyage-ai-model-ranker), for public preview.
 
         - 🛠️ [Dynamic replica autoscaling](./manage-replica#dynamic-scaling) with intelligence.
 
@@ -341,7 +361,7 @@ import Grid from '@site/src/components/Grid';
 
     <div>
 
-        - 📦  Stage has been renamed to [Volume](./volume), and becomes GA
+        - 📦  Stage has been renamed to [Volume](./managed-volume), and becomes GA
 
         - [🔐  Organization-level IP Whitelist](./setup-console-ip-allowlist) becomes available
 
@@ -397,7 +417,7 @@ import Grid from '@site/src/components/Grid';
 
             - Accelerated JSON filtering with [JSON indexing](./json-indexing) and [Shredding](./json-shredding)
 
-            - [Boost ranker](./boost-ranker) and [Decay rankers](./decay-ranker) for search result refinement
+            - [Boost ranker](./boost-ranker) and [Decay rankers](./decay-ranker-oveview) for search result refinement
 
             - Support for [INT8_VECTOR data type](./use-dense-vector)
 
@@ -423,7 +443,7 @@ import Grid from '@site/src/components/Grid';
 
     <div>
 
-        - [📈  Autoscaling upgrade](./scale-query-cu#dynamic-scaling) with simplified configuration
+        - 📈  [Autoscaling upgrade](./scale-query-cu#dynamic-scaling) with simplified configuration
 
         - [📋  Audit logs](./audit-logs) become generally available
 
@@ -459,11 +479,11 @@ import Grid from '@site/src/components/Grid';
 
     <div>
 
-        - [🔗  Merge data API](./merge-data) for schema evolution.
+        - 🔗  Merge data API for schema evolution.
 
-        - [📦  Stage](./volume) as a shared staging layer for migration and data import
+        - 📦  [Stage](./managed-volume) as a shared staging layer for migration and data import
 
-        - [📅  Schedule-based cluster autoscaling](./scale-query-cu)
+        - 📅  [Schedule-based cluster autoscaling](./scale-query-cu#scheduled-scaling)
 
         - [🔄  Partial restoration](./restore-from-backup-files#restore-a-partial-cluster) of a cluster
 
@@ -487,7 +507,7 @@ import Grid from '@site/src/components/Grid';
 
     <div>
 
-        - [📚  Migration docs and best practices](./migrations) refactored
+        - 📚  [Migration docs and best practices](./migrate-between-clusters) refactored
 
         - [🚨  Policy-based alerts](./manage-project-alerts) for granular and flexible monitoring
 
@@ -513,7 +533,7 @@ import Grid from '@site/src/components/Grid';
 
         - ⚙️  Instance settings and AWS PrivateLink support for BYOC projects
 
-        - 🔍  Fine-granular filtering on a JSON field using [JSON index](./use-json-fields)
+        - 🔍  Fine-granular filtering on a JSON field using [JSON index](./json-indexing)
 
         - 🛠️  Use the RESTful API to [modify the replica count of your cluster](/reference/restful/modify-cluster-replica-v2).
 
@@ -629,7 +649,7 @@ import Grid from '@site/src/components/Grid';
 
         - ⚡  Performance-optimized clusters with expanded capacity
 
-        - [🔄  Multi-replica](./manage-replica) becomes generally available
+        - 🔄  [Multi-replica](./manage-replica) becomes generally available
 
         - **New Region**: 🇯🇵 AWS Tokyo (ap-northeast-1)
 
@@ -655,7 +675,7 @@ import Grid from '@site/src/components/Grid';
 
         - ☁️  Serverless clusters become generally available
 
-        - [🔄  Multi-replica](./manage-replica) becomes available for public preview
+        - 🔄  [Multi-replica](./manage-replica) becomes available for public preview
 
         - 📦  Migration service for you to migrate data to Zilliz Cloud:
 
@@ -715,7 +735,7 @@ import Grid from '@site/src/components/Grid';
 
             - [Multi-vector hybrid search](./hybrid-search)
 
-            - [Inverted index](./index-scalar-fields) and [fuzzy match](./basic-filtering-operators)
+            - [Inverted index](./inverted-index-type) and [fuzzy match](./basic-filtering-operators)
 
             - [Grouping search](./grouping-search)
 
@@ -767,7 +787,7 @@ import Grid from '@site/src/components/Grid';
 
         - [📊  Metric monitoring through RESTful API](/reference/restful/query-metrics) is available
 
-        - 🌐  Cross-cloud [data import](./data-import) and [migration](./migrations)
+        - 🌐  Cross-cloud [data import](./data-import-zero-to-hero) and [migration](./migrate-between-clusters)
 
     </div>
 
@@ -801,11 +821,11 @@ import Grid from '@site/src/components/Grid';
 
     <div>
 
-        - [📥  Data import](./data-import) from Parquet files
+        - 📥  [Data import](./data-import-zero-to-hero) from Parquet files
 
         - [🔐  API keys](./manage-api-keys) enhanced with RBAC principles
 
-        - [📊  Metric boards and alert system](./metrics-and-alerts) refactored
+        - 📊  [Metric boards and alert system](./metrics-alerts-reference) refactored
 
     </div>
 
@@ -857,7 +877,7 @@ import Grid from '@site/src/components/Grid';
 
             - [Cosine metric type](./search-metrics-explained)
 
-            - [Access control](./access-control)
+            - [Access control](./access-control-overview)
 
             - Raw vectors in return
 
@@ -943,7 +963,7 @@ import Grid from '@site/src/components/Grid';
 
         - [💰  Zilliz Cloud plan tiers introduced](https://zilliz.com/pricing)
 
-        - 👥  Organization, collaboration and RBAC for [access control](./access-control)
+        - 👥  Organization, collaboration and RBAC for [access control](./access-control-overview)
 
         - 🏷️  Partition key for namespacing introduced
 
@@ -967,7 +987,7 @@ import Grid from '@site/src/components/Grid';
 
         - [💰  Pricing calculator](https://zilliz.com/pricing#calculator)
 
-        - [💾  Back & restore](./backup-and-restore) on GCP
+        - 💾  [Back & restore](./create-backup) on GCP
 
         - [⏰  Custom timezone](./organization-settings#manage-timezone)
 
@@ -991,11 +1011,11 @@ import Grid from '@site/src/components/Grid';
 
         - ☁️  Zilliz Cloud becomes available on the [AWS Marketplace](https://aws.amazon.com/marketplace/pp/prodview-iqbidum7feuio)
 
-        - [💾  Backup & Restore](./backup-and-restore) becomes available on AWS
+        - [💾  Backup & Restore](./create-backup) becomes available on AWS
 
         - [🗑️  Recycle bin](./use-recycle-bin) for data continuity strategy
 
-        - [🔄  Migration from Milvus](./migrations)
+        - 🔄  [Migration from Milvus](./migrate-from-milvus)
 
     </div>
 
@@ -1053,9 +1073,9 @@ import Grid from '@site/src/components/Grid';
 
         - **New Region**: 🇺🇸 AWS Ohio (us-east-2)
 
-        - [🔐  Private Link](./setup-a-private-link) becomes available
+        - 🔐  [Private Link](./setup-a-private-link-aws) becomes available
 
-        - [📥  Data import](./data-import) becomes available
+        - 📥  [Data import](./data-import-zero-to-hero) becomes available
 
     </div>
 
