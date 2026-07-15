@@ -16,6 +16,7 @@ export type AlignmentConfidence = 'high' | 'medium' | 'low';
 export type ChangeKind = 'insert' | 'replace' | 'delete' | 'move';
 
 export type SemanticNodeKind =
+  | 'title'
   | 'heading'
   | 'paragraph'
   | 'list'
@@ -42,6 +43,7 @@ export interface SemanticNode {
   remote: {
     blockId?: string;
     token?: string;
+    elementName: string;
     attributes: Record<string, string>;
   };
 }
@@ -80,6 +82,7 @@ export interface AlignedChange {
   confidence: AlignmentConfidence;
   targetNodeId?: string;
   anchorNodeId?: string;
+  anchorOperationId?: string;
   score: number;
   blocker?: string;
 }
@@ -93,6 +96,7 @@ export interface DocumentPair {
   targetDocUrl?: string;
   targetDocToken?: string;
   targetParentUrl?: string;
+  targetParentToken?: string;
   mode: DocumentMode;
   productScope?: string;
   versionScope?: string;

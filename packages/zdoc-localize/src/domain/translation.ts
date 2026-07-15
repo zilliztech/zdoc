@@ -3,7 +3,7 @@ import type {ResolvedGlossaryTerm} from './glossary.js';
 import type {ChangeKind, SemanticNodeKind} from './model.js';
 
 export interface PreservedToken {
-  kind: 'inline_code' | 'code_block' | 'url' | 'resource_token' | 'citation';
+  kind: 'inline_code' | 'code_block' | 'bold_span' | 'url' | 'resource_token' | 'citation';
   value: string;
   count: number;
 }
@@ -30,6 +30,7 @@ export interface TranslationRequest {
   memoryExamples: TranslationMemoryExample[];
   preserved: PreservedToken[];
   linkMappings: LinkMapping[];
+  warnings: string[];
   targetNodeKind: SemanticNodeKind;
 }
 
@@ -99,7 +100,48 @@ export function validateTranslations(
       throw validationError('translation_node_kind_mismatch', `Operation ${request.operationId} changed node kind.`);
     }
     for (const token of request.preserved) {
-      if (countOccurrences(text, token.value) !== token.count) {
+      if (token.kind === 'bold_span') {
+        const boldCount = [...text.matchAll(/\*\*[^*]+\*\*/g)].length;
+        if (boldCount !== token.count) {
+          throw validationError(
+            'preserved_token_mismatch',
+            `Operation ${request.operationId} did not preserve ${token.count} bold span(s).`,
+            token,
+          );
+        }
+        continue;
+      }
+      if (token.kind === 'url') {
+        const mapping = request.linkMappings.find((candidate) => candidate.sourceUrl === token.value);
+        if (!mapping && token.value.includes('#')) {
+          const baseUrl = token.value.slice(0, token.value.indexOf('#'));
+          const baseMapping = request.linkMappings.find((candidate) => candidate.sourceUrl === baseUrl);
+          if (baseMapping?.targetUrl) {
+            throw validationError(
+              'unresolved_internal_anchor',
+              `Operation ${request.operationId} has no verified Chinese block mapping for ${token.value}.`,
+              {sourceUrl: token.value, targetDocumentUrl: baseMapping.targetUrl},
+            );
+          }
+        }
+        if (mapping?.targetUrl) {
+          if (
+            countOccurrences(text, mapping.targetUrl) !== token.count
+            || countOccurrences(text, token.value) !== 0
+          ) {
+            throw validationError(
+              'internal_link_not_localized',
+              `Operation ${request.operationId} must rewrite ${token.value} to ${mapping.targetUrl}.`,
+              mapping,
+            );
+          }
+          continue;
+        }
+      }
+      const requiredValue = token.kind === 'inline_code' && !token.value.startsWith('`')
+        ? `\`${token.value}\``
+        : token.value;
+      if (countOccurrences(text, requiredValue) !== token.count) {
         throw validationError(
           'preserved_token_mismatch',
           `Operation ${request.operationId} did not preserve ${token.kind} ${token.value}.`,

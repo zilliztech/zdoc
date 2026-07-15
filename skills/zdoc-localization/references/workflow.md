@@ -2,7 +2,7 @@
 
 ## Translation request input
 
-Each item in `translation-requests.json` contains an immutable `operationId`, change kind, English before/after text, current Chinese, section context, approved glossary terms, translation-memory examples, protected tokens, link mappings, and target node kind.
+Each item in `translation-requests.json` contains an immutable `operationId`, change kind, English before/after text, current Chinese, section context, approved glossary terms, translation-memory examples, protected tokens, link mappings, link warnings, and target node kind. Present every link warning during review; never invent a Chinese anchor.
 
 ## Translation response output
 
@@ -35,7 +35,8 @@ Use Markdown only for inline formatting that must survive review, such as `` `co
 zdoc-localize plan create --pair <pair-id> --format json
 zdoc-localize plan classify --run <run-id> --applicable <change-id,change-id> --format json
 zdoc-localize plan complete --run <run-id> --translations <relative-json> --format json
-zdoc-localize apply --run <run-id> --review <relative-review-md> --format json
+zdoc-localize apply --run <run-id> --review <relative-review-md> --preview --format json
+zdoc-localize apply --run <run-id> --review <relative-review-md> --approval-token <token> --format json
 zdoc-localize status --run <run-id> --format json
 ```
 

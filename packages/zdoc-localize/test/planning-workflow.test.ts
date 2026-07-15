@@ -35,6 +35,127 @@ class MutableDocs {
 }
 
 describe('bootstrap and planning workflows', () => {
+  it('rejects bootstrap acceptance when either remote document changed during review', async () => {
+    const cwd = await mkdtemp(join(tmpdir(), 'zdoc-localize-stale-bootstrap-'));
+    const docs = new MutableDocs();
+    docs.documents.set('source-url', {documentId: 'source', revisionId: 1, content: '<h1 id="s1">Overview</h1>'});
+    docs.documents.set('target-url', {documentId: 'target', revisionId: 1, content: '<h1 id="t1">概述</h1>'});
+    const registry = new LocalRegistryStore(cwd);
+    await registry.savePair({
+      pairId: 'pair-1', sourceLocale: 'en', targetLocale: 'zh-CN', sourceDocUrl: 'source-url',
+      targetDocUrl: 'target-url', mode: 'mirror', status: 'needs_bootstrap',
+    });
+    const workflows = new LocalizationWorkflows({
+      cwd, registry, snapshots: new LocalSnapshotStore(cwd), memory: new MemoryTranslationMemory(), docs,
+      clock: {now: () => new Date('2026-07-15T00:00:00.000Z')}, ids: {next: () => 'run-bootstrap'},
+    });
+    const bootstrap = await workflows.planBootstrap('pair-1');
+    docs.documents.set('target-url', {documentId: 'target', revisionId: 2, content: '<h1 id="t1">新概述</h1>'});
+
+    await expect(workflows.acceptBootstrap(bootstrap.runId)).rejects.toMatchObject({
+      type: 'stale_plan', subtype: 'bootstrap_target_changed',
+    });
+    expect(await registry.getReceipt('pair-1')).toBeUndefined();
+  });
+
+  it('does not auto-correspond a shifted structural group during bootstrap', async () => {
+    const cwd = await mkdtemp(join(tmpdir(), 'zdoc-localize-bootstrap-shift-'));
+    const docs = new MutableDocs();
+    docs.documents.set('source-url', {documentId: 'source', revisionId: 1, content: '<h1 id="s1">Overview</h1><p id="s2">Source body</p>'});
+    docs.documents.set('target-url', {documentId: 'target', revisionId: 1, content: '<h1 id="t1">概述</h1><p id="extra">人工前言</p><p id="t2">正文</p>'});
+    const registry = new LocalRegistryStore(cwd);
+    await registry.savePair({
+      pairId: 'pair-1', sourceLocale: 'en', targetLocale: 'zh-CN', sourceDocUrl: 'source-url',
+      targetDocUrl: 'target-url', mode: 'mirror', status: 'needs_bootstrap',
+    });
+    const workflows = new LocalizationWorkflows({
+      cwd, registry, snapshots: new LocalSnapshotStore(cwd), memory: new MemoryTranslationMemory(), docs,
+      clock: {now: () => new Date('2026-07-15T00:00:00.000Z')}, ids: {next: () => 'run-bootstrap'},
+    });
+
+    const bootstrap = await workflows.planBootstrap('pair-1');
+
+    expect(bootstrap.audit.correspondences).not.toContainEqual(expect.objectContaining({sourceNodeId: 'Overview:paragraph:0'}));
+    expect(bootstrap.audit.unmatchedSourceNodes).toContain('s2');
+  });
+
+  it('aggregates repeated protected tokens into one exact count', async () => {
+    const cwd = await mkdtemp(join(tmpdir(), 'zdoc-localize-token-count-'));
+    const docs = new MutableDocs();
+    docs.documents.set('source-url', {
+      documentId: 'source', revisionId: 1,
+      content: '<title id="title">Setup</title><p id="p1">Run <code>curl</code>, then <code>curl</code> again.</p>',
+    });
+    const registry = new LocalRegistryStore(cwd);
+    await registry.savePair({
+      pairId: 'pair-1', sourceLocale: 'en', targetLocale: 'zh-CN', sourceDocUrl: 'source-url',
+      targetParentToken: 'parent', mode: 'mirror', status: 'needs_bootstrap',
+    });
+    const workflows = new LocalizationWorkflows({
+      cwd, registry, snapshots: new LocalSnapshotStore(cwd), memory: new MemoryTranslationMemory(), docs,
+      clock: {now: () => new Date('2026-07-15T00:00:00.000Z')}, ids: {next: () => 'run-create'},
+    });
+
+    const plan = await workflows.createPlan('pair-1');
+    const paragraph = plan.translationRequests.find((request) => request.targetNodeKind === 'paragraph');
+
+    expect(paragraph?.preserved).toEqual([{kind: 'inline_code', value: 'curl', count: 2}]);
+  });
+
+  it('blocks missing-target creation when report-only content would be copied silently', async () => {
+    const cwd = await mkdtemp(join(tmpdir(), 'zdoc-localize-create-unsupported-'));
+    const docs = new MutableDocs();
+    docs.documents.set('source-url', {
+      documentId: 'source', revisionId: 1,
+      content: '<title id="title">Setup</title><table id="table"><tbody><tr><td>English only</td></tr></tbody></table>',
+    });
+    const registry = new LocalRegistryStore(cwd);
+    await registry.savePair({
+      pairId: 'pair-1', sourceLocale: 'en', targetLocale: 'zh-CN', sourceDocUrl: 'source-url',
+      targetParentToken: 'parent', mode: 'mirror', status: 'needs_bootstrap',
+    });
+    const workflows = new LocalizationWorkflows({
+      cwd, registry, snapshots: new LocalSnapshotStore(cwd), memory: new MemoryTranslationMemory(), docs,
+      clock: {now: () => new Date('2026-07-15T00:00:00.000Z')}, ids: {next: () => 'run-create'},
+    });
+
+    const plan = await workflows.createPlan('pair-1');
+
+    expect(plan).toMatchObject({state: 'blocked', blocker: expect.stringContaining('report-only')});
+  });
+
+  it('surfaces unresolved internal link and anchor mappings in translation requests', async () => {
+    const cwd = await mkdtemp(join(tmpdir(), 'zdoc-localize-link-warning-'));
+    const docs = new MutableDocs();
+    docs.documents.set('source-url', {
+      documentId: 'source', revisionId: 1,
+      content: '<title id="title">Setup</title><p id="p1">Read the <a href="https://docs.feishu.cn/docx/other#section">guide</a>.</p>',
+    });
+    const registry = new LocalRegistryStore(cwd);
+    await registry.savePair({
+      pairId: 'pair-1', sourceLocale: 'en', targetLocale: 'zh-CN', sourceDocUrl: 'source-url',
+      targetParentToken: 'parent', mode: 'mirror', status: 'needs_bootstrap',
+    });
+    await registry.savePair({
+      pairId: 'other', sourceLocale: 'en', targetLocale: 'zh-CN',
+      sourceDocUrl: 'https://docs.feishu.cn/docx/other', mode: 'mirror', status: 'needs_bootstrap',
+    });
+    const workflows = new LocalizationWorkflows({
+      cwd, registry, snapshots: new LocalSnapshotStore(cwd), memory: new MemoryTranslationMemory(), docs,
+      clock: {now: () => new Date('2026-07-15T00:00:00.000Z')}, ids: {next: () => 'run-create'},
+    });
+
+    const plan = await workflows.createPlan('pair-1');
+    const paragraph = plan.translationRequests.find((request) => request.targetNodeKind === 'paragraph');
+
+    expect(paragraph?.warnings).toEqual(expect.arrayContaining([
+      expect.stringContaining('missing a Chinese document mapping'),
+      expect.stringContaining('unresolved English anchor'),
+    ]));
+  });
+
+
+
   it('accepts a baseline and produces translation requests for later remote English changes', async () => {
     const cwd = await mkdtemp(join(tmpdir(), 'zdoc-localize-plan-'));
     const [baselineXml, currentXmlRaw, targetXml] = await Promise.all([
@@ -125,7 +246,10 @@ describe('bootstrap and planning workflows', () => {
       targetHash: 'target',
       runId: 'bootstrap',
       completedAt: '2026-07-15T00:00:00.000Z',
-      correspondences: [],
+      correspondences: [{
+        sourceNodeId: 'Overview/Configure monitoring:callout:0',
+        targetNodeId: '概述/配置监控:callout:0',
+      }],
     });
     const docs = new MutableDocs();
     docs.documents.set('source-url', {documentId: 'source', revisionId: 2, content: await readFile(fixture('source-current.xml'), 'utf8')});

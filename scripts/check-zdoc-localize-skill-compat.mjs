@@ -28,18 +28,21 @@ function inInitialRange(version, range) {
 const missingCommands = compatibility.requiredCommands.filter((command) =>
   !program.includes(`'${command}'`) && !program.includes(`"${command}"`),
 );
+const missingFeatures = compatibility.requiredFeatures.filter((feature) => !program.includes(`'${feature}'`));
 const safetyStatements = [
-  'Never run `apply` without explicit document-level approval',
+  'Never run a write without explicit document-level approval',
   'Never retry `confirmation_required` with a confirmation flag automatically',
 ];
 const unsafeRoutes = safetyStatements.filter((statement) => !skill.includes(statement));
 const compatible = inInitialRange(packageJson.version, compatibility.cliRange)
   && missingCommands.length === 0
+  && missingFeatures.length === 0
   && unsafeRoutes.length === 0;
 
 process.stdout.write(`${JSON.stringify({
   compatible,
   missingCommands,
+  missingFeatures,
   unsafeRoutes,
   cliVersion: packageJson.version,
   acceptedRange: compatibility.cliRange,

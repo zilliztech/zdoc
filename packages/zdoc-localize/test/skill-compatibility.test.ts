@@ -10,6 +10,7 @@ describe('Codex Skill compatibility', () => {
     const report = JSON.parse(execFileSync(process.execPath, [checker], {encoding: 'utf8'})) as {
       compatible: boolean;
       missingCommands: string[];
+      missingFeatures: string[];
       unsafeRoutes: string[];
       cliVersion: string;
       acceptedRange: string;
@@ -18,6 +19,7 @@ describe('Codex Skill compatibility', () => {
     expect(report).toEqual({
       compatible: true,
       missingCommands: [],
+      missingFeatures: [],
       unsafeRoutes: [],
       cliVersion: '0.1.0',
       acceptedRange: '>=0.1.0 <0.2.0',

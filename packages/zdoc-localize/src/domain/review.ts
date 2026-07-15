@@ -18,10 +18,13 @@ export interface PlanOperation {
   targetCurrent?: string;
   proposedText: string;
   targetNodeKind: SemanticNodeKind;
+  targetElementName?: string;
+  targetAttributes?: Record<string, string>;
   targetNodeId?: string;
   targetBlockId?: string;
   targetNodeHash?: string;
   anchorNodeId?: string;
+  anchorOperationId?: string;
   anchorBlockId?: string;
   anchorNodeHash?: string;
   preserved?: Array<{kind: string; value: string; count: number}>;

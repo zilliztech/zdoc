@@ -130,6 +130,62 @@ describe('supporting adapters', () => {
     }));
   });
 
+  it('keeps run rows isolated from receipt rows that share a run ID', async () => {
+    const run = {runId: 'run-1', pairId: 'pair-1', state: 'review_required', createdAt: 'now', updatedAt: 'now'};
+    const receipt = {pairId: 'pair-1', runId: 'run-1', sourceRevision: 1};
+    const runner = new FakeRunner([
+      ok({items: [
+        {record_id: 'receipt-record', fields: {record_type: 'receipt', run_id: 'run-1', payload_json: JSON.stringify(receipt)}},
+        {record_id: 'run-record', fields: {record_type: 'run', run_id: 'run-1', payload_json: JSON.stringify(run)}},
+      ]}),
+      ok({items: [
+        {record_id: 'receipt-record', fields: {record_type: 'receipt', run_id: 'run-1', payload_json: JSON.stringify(receipt)}},
+        {record_id: 'run-record', fields: {record_type: 'run', run_id: 'run-1', payload_json: JSON.stringify(run)}},
+      ]}),
+      ok({record: {record_id: 'run-record'}}),
+    ]);
+    const registry = new LarkBaseRegistry(runner, {
+      baseToken: 'base-token', documentPairsTableId: 'tbl-pairs', glossaryTableId: 'tbl-glossary', runsTableId: 'tbl-runs',
+    });
+
+    await expect(registry.getRun('run-1')).resolves.toMatchObject({state: 'review_required'});
+    await registry.saveRun({...run, state: 'completed'} as never);
+
+    expect(runner.calls[2]?.args).toEqual(expect.arrayContaining(['--record-id', 'run-record']));
+  });
+
+  it('paginates Base records instead of silently truncating shared state', async () => {
+    const runner = new FakeRunner([
+      ok({items: [{fields: {pair_id: 'pair-1', source_doc_url: 'en-1', target_doc_url: 'zh-1', mode: 'mirror', status: 'active'}}], has_more: true}),
+      ok({items: [{fields: {pair_id: 'pair-2', source_doc_url: 'en-2', target_doc_url: 'zh-2', mode: 'mirror', status: 'active'}}], has_more: false}),
+    ]);
+    const registry = new LarkBaseRegistry(runner, {
+      baseToken: 'base-token', documentPairsTableId: 'tbl-pairs', glossaryTableId: 'tbl-glossary', runsTableId: 'tbl-runs',
+    });
+
+    await expect(registry.listPairs()).resolves.toHaveLength(2);
+    expect(runner.calls[1]?.args).toEqual(expect.arrayContaining(['--offset', '1']));
+  });
+
+  it('stores only compact run metadata in Base and leaves document bodies in snapshot bundles', async () => {
+    const runner = new FakeRunner([ok({items: []}), ok({record: {record_id: 'run-record'}})]);
+    const registry = new LarkBaseRegistry(runner, {
+      baseToken: 'base-token', documentPairsTableId: 'tbl-pairs', glossaryTableId: 'tbl-glossary', runsTableId: 'tbl-runs',
+    });
+    await registry.saveRun({
+      runId: 'run-1', pairId: 'pair-1', state: 'translation_required', createdAt: 'now', updatedAt: 'now',
+      metadata: {
+        bundleRef: {kind: 'drive', token: 'snapshot-token', sha256: 'hash'},
+        changes: [{before: {xml: '<p>very large source body</p>'}}],
+        aligned: [{change: {after: {xml: '<p>very large current body</p>'}}}],
+      },
+    });
+
+    const jsonArg = runner.calls[1]!.args[runner.calls[1]!.args.indexOf('--json') + 1]!;
+    expect(jsonArg).toContain('snapshot-token');
+    expect(jsonArg).not.toContain('very large');
+  });
+
   it('uploads immutable snapshot bundles through a relative outbox path', async () => {
     const cwd = await mkdtemp(join(tmpdir(), 'zdoc-drive-adapter-'));
     const runner = new FakeRunner([ok({file_token: 'box-snapshot'})]);

@@ -5,6 +5,7 @@ import {join, resolve, sep} from 'node:path';
 import {Command, CommanderError, Option} from 'commander';
 
 import {createRuntime, type Runtime} from '../application/runtime.js';
+import {NodeProcessRunner, type ProcessRunner} from '../adapters/process-runner.js';
 import {asLocalizeError, LocalizeError, toErrorEnvelope} from '../domain/errors.js';
 import type {DocumentMode} from '../domain/model.js';
 import {ConfigStore, type WorkspaceConfig} from '../storage/config-store.js';
@@ -21,6 +22,7 @@ export interface CliResult {
 export interface RunCliOptions {
   cwd?: string;
   runtimeFactory?: (cwd: string) => Promise<Runtime>;
+  diagnosticRunner?: ProcessRunner;
 }
 
 const commands = [
@@ -37,6 +39,7 @@ const commands = [
 const features = [
   'external-translation-provider',
   'review-markdown-v1',
+  'write-preview-v1',
 ] as const;
 
 class MemoryIo {
@@ -86,6 +89,7 @@ function createProgram(
   io: MemoryIo,
   cwd: string,
   runtimeFactory: (cwd: string) => Promise<Runtime>,
+  diagnosticRunner: ProcessRunner,
 ): Command {
   const program = new Command();
   program
@@ -111,12 +115,48 @@ function createProgram(
     .action(async (options: {format: string; offline?: boolean}) => {
       await mkdir(join(cwd, '.zdoc-localize'), {recursive: true});
       await access(join(cwd, '.zdoc-localize'), constants.W_OK);
+      const config = await new ConfigStore(cwd).read();
+      const checks: Array<{id: string; status: 'passed' | 'failed' | 'skipped'; detail?: string}> = [
+        {id: 'node-version', status: 'passed', detail: process.version},
+        {id: 'workspace-write', status: 'passed'},
+      ];
+      if (options.offline) {
+        emit(io, {mode: 'offline', healthy: true, checks}, options.format);
+        return;
+      }
+      const runCheck = async (id: string, executable: string, args: string[], optional = false): Promise<void> => {
+        try {
+          const result = await diagnosticRunner.run({executable, args});
+          checks.push(result.exitCode === 0
+            ? {id, status: 'passed', ...(result.stdout.trim() ? {detail: result.stdout.trim().slice(0, 300)} : {})}
+            : {id, status: optional ? 'skipped' : 'failed', detail: result.stderr.trim() || `exit ${result.exitCode}`});
+        } catch (error) {
+          checks.push({id, status: optional ? 'skipped' : 'failed', detail: String(error)});
+        }
+      };
+      await runCheck('lark-cli-version', 'lark-cli', ['--version']);
+      await runCheck('lark-auth', 'lark-cli', ['auth', 'status', '--json', '--verify']);
+      try {
+        await withRuntime(cwd, runtimeFactory, async (runtime) => {
+          await runtime.registry.listPairs();
+          await runtime.registry.listGlossary();
+        });
+        checks.push({id: 'registry-access', status: 'passed'});
+        checks.push({id: 'sqlite', status: 'passed'});
+      } catch (error) {
+        checks.push({id: 'registry-access', status: 'failed', detail: String(error)});
+        checks.push({id: 'sqlite', status: 'failed', detail: 'Runtime initialization or registry check failed.'});
+      }
+      if (config?.mode === 'feishu' && config.stateFolderUrl) {
+        await runCheck('drive-state-folder', 'lark-cli', ['drive', '+inspect', '--url', config.stateFolderUrl, '--format', 'json', '--as', 'user']);
+      } else {
+        checks.push({id: 'drive-state-folder', status: 'skipped', detail: 'Local registry mode does not use a shared Drive state folder.'});
+      }
+      await runCheck('feishu-md-sync', 'feishu-md-sync', ['--version'], true);
       emit(io, {
-        mode: options.offline ? 'offline' : 'local',
-        checks: [
-          {id: 'node-version', status: 'passed', detail: process.version},
-          {id: 'workspace-write', status: 'passed'},
-        ],
+        mode: config?.mode ?? 'local',
+        healthy: checks.every((check) => check.status !== 'failed'),
+        checks,
       }, options.format);
     });
 
@@ -126,8 +166,9 @@ function createProgram(
     .requiredOption('--source <url>')
     .option('--target <url>')
     .option('--target-parent <url>')
+    .option('--target-parent-token <token>')
     .addOption(new Option('--mode <mode>').choices(['mirror', 'selective', 'independent', 'excluded']).default('mirror'))
-    .action(async (options: {pair: string; source: string; target?: string; targetParent?: string; mode: DocumentMode; format: string}) => {
+    .action(async (options: {pair: string; source: string; target?: string; targetParent?: string; targetParentToken?: string; mode: DocumentMode; format: string}) => {
       const documentPair = {
         pairId: options.pair,
         sourceLocale: 'en' as const,
@@ -135,6 +176,7 @@ function createProgram(
         sourceDocUrl: options.source,
         ...(options.target ? {targetDocUrl: options.target} : {}),
         ...(options.targetParent ? {targetParentUrl: options.targetParent} : {}),
+        ...(options.targetParentToken ? {targetParentToken: options.targetParentToken} : {}),
         mode: options.mode,
         status: 'needs_bootstrap' as const,
       };
@@ -203,8 +245,12 @@ function createProgram(
   formatOption(program.command('apply').description('Apply an approved localization review'))
     .requiredOption('--run <id>')
     .requiredOption('--review <file>')
-    .action(async (options: {run: string; review: string; format: string}) => {
-      const result = await withRuntime(cwd, runtimeFactory, (runtime) => runtime.workflows.apply(options.run, options.review));
+    .option('--preview', 'Generate the immutable write preview and approval token')
+    .option('--approval-token <token>', 'Exact token returned by --preview')
+    .action(async (options: {run: string; review: string; preview?: boolean; approvalToken?: string; format: string}) => {
+      const result = options.preview
+        ? await withRuntime(cwd, runtimeFactory, (runtime) => runtime.workflows.previewApply(options.run, options.review))
+        : await withRuntime(cwd, runtimeFactory, (runtime) => runtime.workflows.apply(options.run, options.review, options.approvalToken));
       emit(io, result, options.format);
     });
 
@@ -221,15 +267,21 @@ function createProgram(
       const result = await withRuntime(cwd, runtimeFactory, (runtime) => runtime.workflows.restartFromCurrent(options.run));
       emit(io, result, options.format);
     });
+  formatOption(recover.command('finalize'))
+    .requiredOption('--run <id>')
+    .action(async (options: {run: string; format: string}) => {
+      const result = await withRuntime(cwd, runtimeFactory, (runtime) => runtime.workflows.finalizeVerified(options.run));
+      emit(io, result, options.format);
+    });
   formatOption(recover.command('reverse'))
     .requiredOption('--run <id>')
-    .action(() => {
-      throw new LocalizeError({
-        type: 'confirmation_required',
-        subtype: 'reverse_patch_review',
-        message: 'Reverse recovery requires a separately reviewed reverse patch.',
-        hint: 'Run recover inspect and review the pre-write snapshot before reverse recovery.',
-      });
+    .option('--preview', 'Generate the reverse patch preview and approval token')
+    .option('--approval-token <token>', 'Exact token returned by --preview')
+    .action(async (options: {run: string; preview?: boolean; approvalToken?: string; format: string}) => {
+      const result = options.preview
+        ? await withRuntime(cwd, runtimeFactory, (runtime) => runtime.workflows.previewReverse(options.run))
+        : await withRuntime(cwd, runtimeFactory, (runtime) => runtime.workflows.reversePartial(options.run, options.approvalToken));
+      emit(io, result, options.format);
     });
   formatOption(program.command('init').description('Configure shared Feishu registry and snapshot storage'))
     .addOption(new Option('--mode <mode>').choices(['local', 'feishu']).makeOptionMandatory())
@@ -281,7 +333,7 @@ function createProgram(
 export async function runCli(argv: string[], options: RunCliOptions = {}): Promise<CliResult> {
   const io = new MemoryIo();
   const cwd = options.cwd ?? process.cwd();
-  const program = createProgram(io, cwd, options.runtimeFactory ?? createRuntime);
+  const program = createProgram(io, cwd, options.runtimeFactory ?? createRuntime, options.diagnosticRunner ?? new NodeProcessRunner());
   try {
     await program.parseAsync(['node', 'zdoc-localize', ...argv]);
     return io.result(0);

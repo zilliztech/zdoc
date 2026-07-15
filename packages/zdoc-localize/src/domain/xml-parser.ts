@@ -20,12 +20,38 @@ export interface ParseFeishuDocumentOptions {
 }
 
 const writableKinds = new Set<SemanticNodeKind>([
+  'title',
   'heading',
   'paragraph',
   'list',
   'quote',
   'callout',
 ]);
+
+const safeInlineElements = new Set(['b', 'strong', 'code', 'a']);
+
+function elementChildren(element: XmlElement): XmlElement[] {
+  return element.children.filter((child): child is XmlElement => typeof child !== 'string');
+}
+
+function descendantsAreInline(element: XmlElement): boolean {
+  return elementChildren(element).every((child) =>
+    safeInlineElements.has(child.name) && elementChildren(child).length === 0,
+  );
+}
+
+function isStructurallyWritable(element: XmlElement, kind: SemanticNodeKind): boolean {
+  if (!writableKinds.has(kind)) return false;
+  if (kind === 'callout') {
+    const children = elementChildren(element);
+    return children.length === 1 && children[0]!.name === 'p' && descendantsAreInline(children[0]!);
+  }
+  if (kind === 'list') {
+    const children = elementChildren(element);
+    return children.length > 0 && children.every((child) => child.name === 'li' && descendantsAreInline(child));
+  }
+  return descendantsAreInline(element);
+}
 
 function parseFragment(xml: string): XmlElement[] {
   const roots: XmlElement[] = [];
@@ -92,6 +118,7 @@ function textContent(element: XmlElement): string {
 }
 
 function kindFor(name: string): SemanticNodeKind {
+  if (name === 'title') return 'title';
   if (/^h[1-9]$/.test(name)) return 'heading';
   if (name === 'p') return 'paragraph';
   if (name === 'ul' || name === 'ol') return 'list';
@@ -124,7 +151,6 @@ export function parseFeishuDocument(
   let activeSectionIndex = -1;
 
   for (const element of roots) {
-    if (element.name === 'title') continue;
     const level = headingLevel(element);
     const text = textContent(element);
     if (level !== undefined) {
@@ -151,11 +177,12 @@ export function parseFeishuDocument(
       siblingIndex,
       text,
       xml: normalizedXml,
-      writable: writableKinds.has(kind),
+      writable: isStructurallyWritable(element, kind),
       fingerprint,
       remote: {
         ...(element.attributes.id ? {blockId: element.attributes.id} : {}),
         ...(element.attributes.token ? {token: element.attributes.token} : {}),
+        elementName: element.name,
         attributes: {...element.attributes},
       },
     };

@@ -35,7 +35,11 @@ function lcsMatches(before: SemanticNode[], after: SemanticNode[]): Match[] {
 }
 
 function changeId(kind: SemanticChange['kind'], before?: SemanticNode, after?: SemanticNode): string {
-  return canonicalHash({kind, before: before?.fingerprint, after: after?.fingerprint}).slice(0, 16);
+  return canonicalHash({
+    kind,
+    before: before ? {fingerprint: before.fingerprint, nodeId: before.nodeId, documentIndex: before.documentIndex} : undefined,
+    after: after ? {fingerprint: after.fingerprint, nodeId: after.nodeId, documentIndex: after.documentIndex} : undefined,
+  }).slice(0, 16);
 }
 
 function previousNodeId(document: SemanticDocument, node: SemanticNode): string | undefined {
@@ -50,33 +54,44 @@ export function diffDocuments(
   const afterUsed = new Set<number>();
   const changes: SemanticChange[] = [];
 
-  const currentByNodeId = new Map(current.nodes.map((node, index) => [node.nodeId, {node, index}]));
-  baseline.nodes.forEach((before, beforeIndex) => {
-    const matched = currentByNodeId.get(before.nodeId);
-    if (!matched || matched.node.fingerprint === before.fingerprint) return;
-    beforeUsed.add(beforeIndex);
-    afterUsed.add(matched.index);
-    changes.push({
-      changeId: changeId('replace', before, matched.node),
-      kind: 'replace',
-      before,
-      after: matched.node,
-      previousSourceNodeId: previousNodeId(current, matched.node),
-    });
+  const exactMatches: Match[] = [];
+  const stableCandidates: Match[] = [];
+  const currentByBlockId = new Map<string, number[]>();
+  current.nodes.forEach((node, index) => {
+    if (!node.remote.blockId) return;
+    const indexes = currentByBlockId.get(node.remote.blockId) ?? [];
+    indexes.push(index);
+    currentByBlockId.set(node.remote.blockId, indexes);
   });
-
-  const remainingBefore = baseline.nodes
-    .map((node, index) => ({node, index}))
-    .filter(({index}) => !beforeUsed.has(index));
-  const remainingAfter = current.nodes
-    .map((node, index) => ({node, index}))
-    .filter(({index}) => !afterUsed.has(index));
-  for (const match of lcsMatches(
-    remainingBefore.map(({node}) => node),
-    remainingAfter.map(({node}) => node),
-  )) {
-    beforeUsed.add(remainingBefore[match.beforeIndex]!.index);
-    afterUsed.add(remainingAfter[match.afterIndex]!.index);
+  baseline.nodes.forEach((node, beforeIndex) => {
+    const blockId = node.remote.blockId;
+    if (!blockId) return;
+    const candidates = currentByBlockId.get(blockId) ?? [];
+    if (candidates.length !== 1) return;
+    const afterIndex = candidates[0]!;
+    if (current.nodes[afterIndex]!.fingerprint !== node.fingerprint) return;
+    stableCandidates.push({beforeIndex, afterIndex});
+  });
+  let lastStableAfterIndex = -1;
+  for (const match of stableCandidates) {
+    if (match.afterIndex <= lastStableAfterIndex) continue;
+    exactMatches.push(match);
+    beforeUsed.add(match.beforeIndex);
+    afterUsed.add(match.afterIndex);
+    lastStableAfterIndex = match.afterIndex;
+  }
+  const remainingBefore = baseline.nodes.map((node, index) => ({node, index})).filter(({index}) => !beforeUsed.has(index));
+  const remainingAfter = current.nodes.map((node, index) => ({node, index})).filter(({index}) => !afterUsed.has(index));
+  for (const match of lcsMatches(remainingBefore.map(({node}) => node), remainingAfter.map(({node}) => node))) {
+    exactMatches.push({
+      beforeIndex: remainingBefore[match.beforeIndex]!.index,
+      afterIndex: remainingAfter[match.afterIndex]!.index,
+    });
+  }
+  exactMatches.sort((left, right) => left.beforeIndex - right.beforeIndex);
+  for (const match of exactMatches) {
+    beforeUsed.add(match.beforeIndex);
+    afterUsed.add(match.afterIndex);
   }
 
   const unmatchedBefore = () => baseline.nodes
@@ -101,12 +116,41 @@ export function diffDocuments(
     });
   }
 
+  const boundaries = [
+    {beforeIndex: -1, afterIndex: -1},
+    ...exactMatches,
+    {beforeIndex: baseline.nodes.length, afterIndex: current.nodes.length},
+  ];
+  for (let boundaryIndex = 0; boundaryIndex < boundaries.length - 1; boundaryIndex += 1) {
+    const left = boundaries[boundaryIndex]!;
+    const right = boundaries[boundaryIndex + 1]!;
+    const beforeGap = baseline.nodes
+      .map((node, index) => ({node, index}))
+      .filter(({index}) => index > left.beforeIndex && index < right.beforeIndex && !beforeUsed.has(index));
+    const afterGap = current.nodes
+      .map((node, index) => ({node, index}))
+      .filter(({index}) => index > left.afterIndex && index < right.afterIndex && !afterUsed.has(index));
+    if (beforeGap.length === 0 || beforeGap.length !== afterGap.length) continue;
+    if (beforeGap.some((item, index) => item.node.kind !== afterGap[index]!.node.kind)) continue;
+    for (let index = 0; index < beforeGap.length; index += 1) {
+      const beforeItem = beforeGap[index]!;
+      const afterItem = afterGap[index]!;
+      beforeUsed.add(beforeItem.index);
+      afterUsed.add(afterItem.index);
+      changes.push({
+        changeId: changeId('replace', beforeItem.node, afterItem.node),
+        kind: 'replace',
+        before: beforeItem.node,
+        after: afterItem.node,
+        previousSourceNodeId: previousNodeId(current, afterItem.node),
+      });
+    }
+  }
+
   for (const beforeItem of unmatchedBefore()) {
-    const candidates = unmatchedAfter().filter(({node}) =>
-      node.kind === beforeItem.node.kind
-      && node.sectionIndex === beforeItem.node.sectionIndex
-      && node.siblingIndex === beforeItem.node.siblingIndex,
-    );
+    const blockId = beforeItem.node.remote.blockId;
+    if (!blockId) continue;
+    const candidates = unmatchedAfter().filter(({node}) => node.remote.blockId === blockId);
     if (candidates.length !== 1) continue;
     const afterItem = candidates[0]!;
     beforeUsed.add(beforeItem.index);

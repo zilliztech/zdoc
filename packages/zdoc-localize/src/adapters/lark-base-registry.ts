@@ -20,12 +20,26 @@ function recordsFrom(data: unknown): BaseRecord[] {
   return [];
 }
 
+function pageFrom(data: unknown): {records: BaseRecord[]; hasMore: boolean} {
+  const object = data as {has_more?: boolean; hasMore?: boolean} | undefined;
+  return {
+    records: recordsFrom(data),
+    hasMore: object?.has_more === true || object?.hasMore === true,
+  };
+}
+
 function fieldsOf(record: BaseRecord): Record<string, unknown> {
   return record.fields ?? record;
 }
 
 function recordId(record: BaseRecord): string | undefined {
   return record.record_id ?? record.recordId;
+}
+
+function compactRun(run: RunRecord): RunRecord {
+  if (!run.metadata) return run;
+  const {changes: _changes, aligned: _aligned, audit: _audit, plan: _plan, ...metadata} = run.metadata;
+  return {...run, metadata};
 }
 
 export class LarkBaseRegistry implements RegistryStore {
@@ -35,16 +49,26 @@ export class LarkBaseRegistry implements RegistryStore {
   ) {}
 
   private async list(tableId: string, field?: string, value?: string): Promise<BaseRecord[]> {
-    const data = await runJsonCommand<unknown>(this.runner, {
-      executable: 'lark-cli',
-      args: [
-        'base', '+record-list', '--base-token', this.options.baseToken, '--table-id', tableId,
-        ...(field && value ? ['--filter-json', JSON.stringify({logic: 'and', conditions: [[field, '==', value]]})] : []),
-        '--limit', '200', '--format', 'json', '--as', 'user',
-      ],
-      env: larkMachineEnv,
-    });
-    return recordsFrom(data);
+    const records: BaseRecord[] = [];
+    let offset = 0;
+    while (true) {
+      const data = await runJsonCommand<unknown>(this.runner, {
+        executable: 'lark-cli',
+        args: [
+          'base', '+record-list', '--base-token', this.options.baseToken, '--table-id', tableId,
+          ...(field && value ? ['--filter-json', JSON.stringify({logic: 'and', conditions: [[field, '==', value]]})] : []),
+          '--limit', '200',
+          ...(offset > 0 ? ['--offset', String(offset)] : []),
+          '--format', 'json', '--as', 'user',
+        ],
+        env: larkMachineEnv,
+      });
+      const page = pageFrom(data);
+      records.push(...page.records);
+      if (page.records.length === 0 || (!page.hasMore && page.records.length < 200)) break;
+      offset += page.records.length;
+    }
+    return records;
   }
 
   private async upsert(tableId: string, fields: Record<string, unknown>, existingRecordId?: string): Promise<void> {
@@ -70,6 +94,7 @@ export class LarkBaseRegistry implements RegistryStore {
       target_doc_url: pair.targetDocUrl ?? null,
       target_doc_token: pair.targetDocToken ?? null,
       target_parent_url: pair.targetParentUrl ?? null,
+      target_parent_token: pair.targetParentToken ?? null,
       mode: pair.mode,
       product_scope: pair.productScope ?? null,
       version_scope: pair.versionScope ?? null,
@@ -87,7 +112,9 @@ export class LarkBaseRegistry implements RegistryStore {
   }
 
   async saveRun(run: RunRecord): Promise<void> {
-    const existing = (await this.list(this.options.runsTableId, 'run_id', run.runId))[0];
+    const existing = (await this.list(this.options.runsTableId, 'run_id', run.runId))
+      .find((record) => fieldsOf(record).record_type === 'run');
+    const compact = compactRun(run);
     await this.upsert(this.options.runsTableId, {
       record_type: 'run',
       run_id: run.runId,
@@ -95,12 +122,13 @@ export class LarkBaseRegistry implements RegistryStore {
       state: run.state,
       created_at: run.createdAt,
       updated_at: run.updatedAt,
-      payload_json: JSON.stringify(run),
+      payload_json: JSON.stringify(compact),
     }, existing ? recordId(existing) : undefined);
   }
 
   async getRun(runId: string): Promise<RunRecord | undefined> {
-    const record = (await this.list(this.options.runsTableId, 'run_id', runId))[0];
+    const record = (await this.list(this.options.runsTableId, 'run_id', runId))
+      .find((item) => fieldsOf(item).record_type === 'run');
     const payload = record ? fieldsOf(record).payload_json : undefined;
     return typeof payload === 'string' ? JSON.parse(payload) as RunRecord : undefined;
   }
@@ -168,6 +196,7 @@ export class LarkBaseRegistry implements RegistryStore {
       ...(fields.target_doc_url ? {targetDocUrl: String(fields.target_doc_url)} : {}),
       ...(fields.target_doc_token ? {targetDocToken: String(fields.target_doc_token)} : {}),
       ...(fields.target_parent_url ? {targetParentUrl: String(fields.target_parent_url)} : {}),
+      ...(fields.target_parent_token ? {targetParentToken: String(fields.target_parent_token)} : {}),
       mode: String(fields.mode) as DocumentPair['mode'],
       ...(fields.product_scope ? {productScope: String(fields.product_scope)} : {}),
       ...(fields.version_scope ? {versionScope: String(fields.version_scope)} : {}),

@@ -19,7 +19,7 @@ export interface WriteResult {
 }
 
 type LarkWriteData = {
-  document?: {revision_id?: number; document_id?: string};
+  document?: {revision_id?: number; document_id?: string; url?: string; document_url?: string};
   result?: string;
   updated_blocks_count?: number;
   warnings?: string[];
@@ -60,7 +60,7 @@ export class LarkDocsAdapter {
     return this.update('block_delete', input, ['--block-id', input.blockIds.join(',')]);
   }
 
-  async createDocument(input: {title: string; parentToken?: string; xml: string}): Promise<{documentId: string; revisionId?: number}> {
+  async createDocument(input: {title: string; parentToken?: string; xml: string}): Promise<{documentId: string; documentUrl?: string; revisionId?: number}> {
     const data = await runJsonCommand<LarkWriteData>(this.runner, {
       executable: 'lark-cli',
       args: [
@@ -79,7 +79,12 @@ export class LarkDocsAdapter {
         message: 'Feishu created a document but did not return a document ID.',
       });
     }
-    return {documentId, ...(data.document?.revision_id === undefined ? {} : {revisionId: data.document.revision_id})};
+    const documentUrl = data.document?.url ?? data.document?.document_url;
+    return {
+      documentId,
+      ...(documentUrl ? {documentUrl} : {}),
+      ...(data.document?.revision_id === undefined ? {} : {revisionId: data.document.revision_id}),
+    };
   }
 
   private async update(

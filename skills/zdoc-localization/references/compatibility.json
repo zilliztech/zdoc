@@ -12,6 +12,7 @@
   ],
   "requiredFeatures": [
     "external-translation-provider",
-    "review-markdown-v1"
+    "review-markdown-v1",
+    "write-preview-v1"
   ]
 }

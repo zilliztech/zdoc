@@ -44,4 +44,28 @@ describe('Feishu XML semantic parsing', () => {
     expect(markdown).toContain('<!-- unsupported:table block=table-1 -->');
     expect(markdown).toContain('<!-- unsupported:image block=image-1 token=img-token -->');
   });
+
+  it('marks a nominally writable container as read-only when it contains an opaque resource', () => {
+    const document = parseFeishuDocument(
+      '<callout id="note"><p>Keep this</p><img id="nested-image" token="img-token"/></callout>',
+      {documentId: 'doc-en', revisionId: 1},
+    );
+
+    expect(document.nodes[0]).toMatchObject({kind: 'callout', writable: false});
+  });
+
+  it('marks inline styles that the review renderer cannot round-trip as read-only', () => {
+    const document = parseFeishuDocument(
+      '<p id="styled">Keep <em>emphasis</em> and <u>underline</u>.</p>',
+      {documentId: 'doc-en', revisionId: 1},
+    );
+
+    expect(document.nodes[0]).toMatchObject({kind: 'paragraph', writable: false});
+
+    const nested = parseFeishuDocument(
+      '<p id="nested"><a href="https://example.com"><b>Nested</b></a><br/>Next line</p>',
+      {documentId: 'doc-en', revisionId: 1},
+    );
+    expect(nested.nodes[0]).toMatchObject({kind: 'paragraph', writable: false});
+  });
 });

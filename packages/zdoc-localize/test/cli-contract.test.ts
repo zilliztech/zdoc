@@ -5,6 +5,16 @@ import {join} from 'node:path';
 import {describe, expect, it} from 'vitest';
 
 import {runCli} from '../src/cli/program.js';
+import type {ProcessCall, ProcessResult, ProcessRunner} from '../src/adapters/process-runner.js';
+
+class DiagnosticRunner implements ProcessRunner {
+  readonly calls: ProcessCall[] = [];
+  constructor(private readonly results: ProcessResult[]) {}
+  async run(call: ProcessCall): Promise<ProcessResult> {
+    this.calls.push(call);
+    return this.results.shift()!;
+  }
+}
 
 describe('CLI contract', () => {
   it('returns versioned capabilities as a JSON success envelope', async () => {
@@ -66,6 +76,29 @@ describe('CLI contract', () => {
     });
   });
 
+  it('runs explicit external diagnostics in online mode', async () => {
+    const cwd = await mkdtemp(join(tmpdir(), 'zdoc-localize-doctor-online-'));
+    await runCli(['init', '--mode', 'local', '--format', 'json'], {cwd});
+    const diagnostics = new DiagnosticRunner([
+      {exitCode: 0, stdout: '1.2.3\n', stderr: ''},
+      {exitCode: 0, stdout: '{"ok":true,"data":{"authenticated":true}}\n', stderr: ''},
+      {exitCode: 0, stdout: '0.3.0\n', stderr: ''},
+    ]);
+
+    const result = await runCli(['doctor', '--format', 'json'], {cwd, diagnosticRunner: diagnostics});
+
+    expect(result.exitCode).toBe(0);
+    const data = JSON.parse(result.stdout).data;
+    expect(data).toMatchObject({mode: 'local', healthy: true});
+    expect(data.checks).toEqual(expect.arrayContaining([
+        expect.objectContaining({id: 'lark-cli-version', status: 'passed'}),
+        expect.objectContaining({id: 'lark-auth', status: 'passed'}),
+        expect.objectContaining({id: 'registry-access', status: 'passed'}),
+        expect.objectContaining({id: 'sqlite', status: 'passed'}),
+        expect.objectContaining({id: 'feishu-md-sync', status: 'passed'}),
+    ]));
+  });
+
   it('exposes plan completion, apply, and recovery command contracts', async () => {
     const planHelp = await runCli(['plan', '--help']);
     const applyHelp = await runCli(['apply', '--help']);
@@ -75,6 +108,8 @@ describe('CLI contract', () => {
     expect(planHelp.stdout).toContain('classify');
     expect(applyHelp.stdout).toContain('--review');
     expect(applyHelp.stdout).toContain('--run');
+    expect(applyHelp.stdout).toContain('--preview');
+    expect(applyHelp.stdout).toContain('--approval-token');
     expect(recoverHelp.stdout).toContain('inspect');
   });
 

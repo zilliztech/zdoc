@@ -45,6 +45,7 @@ describe('translation response validation', () => {
       {kind: 'url', value: 'https://example.com', count: 1},
     ],
     linkMappings: [],
+    warnings: [],
     targetNodeKind: 'paragraph',
   };
 
@@ -58,6 +59,43 @@ describe('translation response validation', () => {
       translatedText: '使用 `curl` 监控集群告警：https://example.com。',
       targetNodeKind: 'paragraph',
     }]);
+  });
+
+  it('requires registered internal links to use their Chinese document mapping', () => {
+    const internal = {
+      ...request,
+      glossary: [],
+      preserved: [{kind: 'url' as const, value: 'https://docs.example.com/en/setup', count: 1}],
+      linkMappings: [{sourceUrl: 'https://docs.example.com/en/setup', targetUrl: 'https://docs.example.com/zh/setup'}],
+    };
+
+    expect(validateTranslations([internal], [{
+      operationId: 'op-1', translatedText: '查看[配置指南](https://docs.example.com/zh/setup)。', targetNodeKind: 'paragraph',
+    }])).toHaveLength(1);
+    expect(() => validateTranslations([internal], [{
+      operationId: 'op-1', translatedText: '查看[配置指南](https://docs.example.com/en/setup)。', targetNodeKind: 'paragraph',
+    }])).toThrowError(expect.objectContaining({subtype: 'internal_link_not_localized'}));
+  });
+
+  it('requires an exact registered Chinese block mapping for internal anchors', () => {
+    const anchored = {
+      ...request,
+      glossary: [],
+      preserved: [{kind: 'url' as const, value: 'https://docs.example.com/en/setup#install', count: 1}],
+      linkMappings: [
+        {sourceUrl: 'https://docs.example.com/en/setup', targetUrl: 'https://docs.example.com/zh/setup'},
+        {sourceUrl: 'https://docs.example.com/en/setup#install', targetUrl: 'https://docs.example.com/zh/setup#blk-install'},
+      ],
+      warnings: [],
+    };
+    expect(validateTranslations([anchored], [{
+      operationId: 'op-1', translatedText: '查看[安装](https://docs.example.com/zh/setup#blk-install)。', targetNodeKind: 'paragraph',
+    }])).toHaveLength(1);
+
+    const unresolved = {...anchored, linkMappings: anchored.linkMappings.slice(0, 1)};
+    expect(() => validateTranslations([unresolved], [{
+      operationId: 'op-1', translatedText: '查看[安装](https://docs.example.com/en/setup#install)。', targetNodeKind: 'paragraph',
+    }])).toThrowError(expect.objectContaining({subtype: 'unresolved_internal_anchor'}));
   });
 
   it.each([
@@ -78,6 +116,35 @@ describe('translation response validation', () => {
       translatedText: '无关内容',
       targetNodeKind: 'paragraph',
     }])).toThrowError(expect.objectContaining({subtype: 'translation_operation_mismatch'}));
+  });
+
+  it('preserves inline-code structure, not only the token text', () => {
+    const rawCodeToken = {
+      ...request,
+      glossary: [],
+      preserved: [{kind: 'inline_code' as const, value: 'curl', count: 1}],
+      linkMappings: [],
+    };
+
+    expect(() => validateTranslations([rawCodeToken], [{
+      operationId: 'op-1', translatedText: '运行 curl。', targetNodeKind: 'paragraph',
+    }])).toThrowError(expect.objectContaining({subtype: 'preserved_token_mismatch'}));
+  });
+
+  it('requires bold spans to remain structurally marked', () => {
+    const boldRequest = {
+      ...request,
+      glossary: [],
+      preserved: [{kind: 'bold_span' as const, value: 'Zilliz Cloud', count: 1}],
+      linkMappings: [],
+    };
+
+    expect(() => validateTranslations([boldRequest], [{
+      operationId: 'op-1', translatedText: '使用 Zilliz Cloud。', targetNodeKind: 'paragraph',
+    }])).toThrowError(expect.objectContaining({subtype: 'preserved_token_mismatch'}));
+    expect(validateTranslations([boldRequest], [{
+      operationId: 'op-1', translatedText: '使用 **Zilliz Cloud**。', targetNodeKind: 'paragraph',
+    }])).toHaveLength(1);
   });
 
   it('requires an explicit delete decision', () => {

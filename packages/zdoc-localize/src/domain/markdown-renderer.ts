@@ -24,6 +24,6 @@ function renderNode(node: SemanticNode): string {
 }
 
 export function renderDiagnosticMarkdown(document: SemanticDocument): string {
-  const body = document.nodes.map(renderNode).join('\n\n');
+  const body = document.nodes.filter((node) => node.kind !== 'title').map(renderNode).join('\n\n');
   return `# ${document.title}\n\n${body}\n`;
 }

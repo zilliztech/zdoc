@@ -32,16 +32,18 @@ Stop when the version is outside the supported range or required capabilities ar
 
 ## Run the Workflow
 
-1. Register a confirmed pair with `pair add`, or inspect existing pairs with `pair list/show`.
+1. Register a confirmed pair with `pair add`, or inspect existing pairs with `pair list/show`. For a missing Chinese target, require a confirmed `--target-parent-token`; creation still uses the full review and preview approval flow.
 2. For an untracked pair, run `bootstrap plan`. Present the structural audit and wait for explicit baseline acceptance before `bootstrap accept`.
 3. Run `plan create --pair <id> --format json`.
 4. If state is `classification_required`, present every English change and obtain applicability decisions. Continue with `plan classify --run <id> --applicable <comma-separated-change-ids>`. Do not classify selective content silently.
 5. If state is `translation_required`, read the generated `translation-requests.json`. Read [references/workflow.md](references/workflow.md) before generating `translations.json`.
-6. Run `plan complete --run <id> --translations <relative-file> --format json`.
-7. Present the generated `review.md`. The user may edit only the marked translation regions.
-8. Never run `apply` without explicit document-level approval of the current review file.
-9. After approval, run `apply --run <id> --review <relative-file> --format json`.
-10. Verify `state=completed` and report the validation path. Do not claim completion from a successful write call alone.
+6. Present every request warning, especially missing Chinese link mappings and unresolved English anchors. Never resolve an anchor by guesswork.
+7. Run `plan complete --run <id> --translations <relative-file> --format json`.
+8. Present the generated `review.md`. The user may edit only the marked translation regions.
+9. Run `apply --run <id> --review <relative-file> --preview --format json` and present the exact block-level write preview and approval token.
+10. Never run a write without explicit document-level approval of that exact current preview.
+11. After approval, run `apply --run <id> --review <relative-file> --approval-token <token> --format json`.
+12. Verify `state=completed` and report the validation path. Do not claim completion from a successful write call alone.
 
 All file arguments must remain inside the current workspace. Use JSON output for machine decisions.
 
@@ -62,4 +64,6 @@ Read [references/errors.md](references/errors.md) when a command fails or return
 - Treat `stale_plan` as an invalidated review and regenerate it.
 - Treat low-confidence alignment and unsupported changed content as valid stop states.
 - On `partial_write`, inspect recovery evidence before proposing any reversal.
+- Run `recover reverse --preview` only when inspection reports `safeToRecover=true`; require explicit approval of the exact reverse token before applying it.
+- If a verified write is waiting only for receipt persistence, use `recover finalize`; it performs no document write.
 - Do not update the English local Markdown during a localization task.
