@@ -21,6 +21,7 @@ async function testBaseSourceMetaPreservesBeta() {
             name: 'Connect for On-Demand Search',
             slug: 'connect-for-on-demand-search',
             base_record_id: 'recvlURuqRVAAw',
+            base_placement_type: 'canonical',
             base_targets: ['Zilliz.SaaS'],
             base_status: 'Draft',
             base_beta: ['PUBLIC'],
@@ -56,6 +57,51 @@ async function testBaseSourceMetaPreservesBeta() {
                 'BTrNwoEfYii1e9kf0BScWDpcnA2',
             )
             assert.match(frontMatter, /^beta: PUBLIC$/m)
+        } finally {
+            writer.destroy()
+        }
+    })
+}
+
+async function testGuidesCanonicalDoesNotPublishWithoutProgress() {
+    await withTempDir(async dir => {
+        fs.writeFileSync(path.join(dir, 'source.json'), JSON.stringify({
+            title: 'Marketplace Subscription',
+            name: 'Marketplace Subscription',
+            slug: 'marketplace-subscription',
+            node_token: 'marketplace-token',
+            base_record_id: 'recMarketplace',
+            base_placement_type: 'canonical',
+            base_targets: [],
+            base_status: null,
+        }, null, 2))
+
+        const writer = new LarkDocWriter('root', 'base:*', 'default', dir, path.join(dir, 'images'), 'zilliz.saas', true, false)
+        try {
+            const meta = await writer.__is_to_publish('Marketplace Subscription', 'marketplace-subscription', 'marketplace-token')
+            assert.equal(meta.publish, false)
+        } finally {
+            writer.destroy()
+        }
+    })
+}
+
+async function testSdkSourceKeepsLegacyProgressFiltering() {
+    await withTempDir(async dir => {
+        fs.writeFileSync(path.join(dir, 'source.json'), JSON.stringify({
+            title: 'SDK Function',
+            name: 'SDK Function',
+            slug: 'sdk-function',
+            node_token: 'sdk-token',
+            base_record_id: 'recSdk',
+            base_targets: ['Zilliz'],
+            base_status: 'WIP',
+        }, null, 2))
+
+        const writer = new LarkDocWriter('root', 'base-token', 'pythonSidebar', dir, path.join(dir, 'images'), 'zilliz', true, false)
+        try {
+            const meta = await writer.__is_to_publish('SDK Function', 'sdk-function', 'sdk-token')
+            assert.equal(meta.publish, false)
         } finally {
             writer.destroy()
         }
@@ -315,6 +361,8 @@ async function run() {
     await testSidebarSkipsRefToTargetFilteredOutForCurrentTarget()
     await testRemoveStaleTokenFilesKeepsCurrentDestination()
     await testBaseSourceMetaPreservesBeta()
+    await testGuidesCanonicalDoesNotPublishWithoutProgress()
+    await testSdkSourceKeepsLegacyProgressFiltering()
     console.log('larkDocWriter beta tests passed')
 }
 

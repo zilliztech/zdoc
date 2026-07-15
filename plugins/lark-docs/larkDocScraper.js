@@ -1,6 +1,7 @@
 const tokenFetcher = require('./larkTokenFetcher.js')
 const { fetchFeishuJsonWithRetry } = require('./feishuFetch.js')
 const { auditCanonicalLinks, canonicalRecordsFrom, contentLinkTarget } = require('./canonicalLinkAuditor')
+const { guidesPlacementType } = require('./guidesBaseRecordSemantics')
 const fs = require('fs')
 const node_path = require('path')
 const _ = require('lodash')
@@ -852,9 +853,8 @@ class larkDocScraper {
     }
 
     __placement_type(record) {
-        const value = this.__plain_value(record.fields['Placement Type'])
-        const normalized = value ? value.trim().toLowerCase() : ''
-        if (['canonical', 'ref', 'section', 'link'].includes(normalized)) return normalized
+        const placement = guidesPlacementType(record, { guidesMode: this.use_all_base_tables })
+        if (placement) return placement
         return contentLinkTarget(this.__doc_link(this.__doc_field(record.fields))) ? 'canonical' : 'section'
     }
 

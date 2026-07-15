@@ -24,6 +24,7 @@ const { fetchFeishuJsonWithRetry, fetchTextWithRetry } = require('./feishuFetch.
 // MDX compilation will be loaded dynamically as it's an ES module
 
 const IMAGE_BED_URL = process.env.IMAGE_BED_URL || 'https://zdoc-images.s3.us-west-2.amazonaws.com'
+const { guidesPlacementType, guidesRecordPublishTargets } = require('./guidesBaseRecordSemantics')
 
 // Known JSX block components that the MDX patcher must never escape.
 // Shared by __escape_non_html_tags (safeUppercaseTags seed) and __mdx_patches
@@ -252,6 +253,14 @@ class larkDocWriter {
     }
 
     __base_source_is_publishable(source) {
+        const placement = guidesPlacementType(source)
+        if (placement) {
+            const targets = guidesRecordPublishTargets(source)
+            const targetMatches = targets.length === 0 || targets.includes(this.targets.toLowerCase())
+            if (placement !== 'canonical') return targetMatches
+            const status = this.__plain_value(source.base_status)
+            return targetMatches && ['Draft', 'Approved', 'Published', 'Publish', 'Reviewed'].includes(status)
+        }
         const targetsField = source.base_targets
         const status = this.__plain_value(source.base_status)
         const isPublishable = ['Draft', 'Approved', 'Published', 'Publish', 'Reviewed'].includes(status)
@@ -316,6 +325,7 @@ class larkDocWriter {
 
     __has_base_publish_meta(source) {
         return source && (
+            Object.prototype.hasOwnProperty.call(source, 'base_placement_type') ||
             Object.prototype.hasOwnProperty.call(source, 'base_status') ||
             Object.prototype.hasOwnProperty.call(source, 'base_targets')
         )
