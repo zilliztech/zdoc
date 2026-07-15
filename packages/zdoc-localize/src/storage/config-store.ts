@@ -4,7 +4,9 @@ import {dirname, join} from 'node:path';
 export interface WorkspaceConfig {
   mode: 'local' | 'feishu';
   registryUrl?: string;
+  registryBaseToken?: string;
   stateFolderUrl?: string;
+  stateFolderToken?: string;
   registryTableIds?: {
     documentPairs: string;
     glossary: string;

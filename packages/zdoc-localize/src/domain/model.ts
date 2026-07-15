@@ -111,4 +111,5 @@ export interface RunRecord {
   targetPlanRevision?: number;
   errorType?: string;
   errorDetail?: unknown;
+  metadata?: Record<string, unknown>;
 }
