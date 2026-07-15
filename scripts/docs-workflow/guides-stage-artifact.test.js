@@ -13,7 +13,7 @@ function json(root, relative, value) { write(root, relative, JSON.stringify(valu
 
 function validSnapshot() {
   return {
-    schema_version: 2,
+    schema_version: 3,
     manual: 'guides',
     build_env: 'uat',
     records: [
@@ -23,7 +23,13 @@ function validSnapshot() {
         source_file: 'doc.json',
       },
     ],
+    navigation_records: [{ record_id: 'rec-doc', table_id: 'tbl', placement_type: 'canonical' }],
+    table_digests: { tbl: 'a'.repeat(64) },
   }
+}
+
+function renderableSource() {
+  return { node_token: 'doc', title: 'Doc', blocks: { items: [{ block_id: 'page', block_type: 1 }, { block_id: 'body', block_type: 2 }] } }
 }
 
 test('creates, validates, and restores a source artifact', async () => {
@@ -31,7 +37,7 @@ test('creates, validates, and restores a source artifact', async () => {
   const workspace = path.join(root, 'workspace'), baseline = path.join(root, 'baseline'), artifact = path.join(root, 'artifact'), target = path.join(root, 'target')
   fs.mkdirSync(workspace); fs.mkdirSync(baseline); fs.mkdirSync(target)
   json(workspace, 'plugins/lark-docs/meta/sources/guides/root.json', { node_token: 'root', children: [{ node_token: 'doc' }] })
-  json(workspace, 'plugins/lark-docs/meta/sources/guides/doc.json', { node_token: 'doc', title: 'Doc' })
+  json(workspace, 'plugins/lark-docs/meta/sources/guides/doc.json', renderableSource())
   write(workspace, 'plugins/lark-docs/meta/reports/guides-incremental-fetch-plan.json', '{}')
   await assert.rejects(
     createGuidesStageArtifact({ stage: 'source', workspace, baselineDir: baseline, output: artifact, masterSha: SHA, devBaselineSha: SHA, rootToken: 'root' }),
@@ -46,7 +52,7 @@ test('creates, validates, and restores a source artifact', async () => {
   assert.equal(manifest.stage, 'source')
   assert.equal((await validateGuidesStageArtifact(artifact)).files.length, 5)
   await restoreGuidesStageArtifact({ artifact, target })
-  assert.deepEqual(JSON.parse(fs.readFileSync(path.join(target, 'plugins/lark-docs/meta/sources/guides/doc.json'), 'utf8')), { node_token: 'doc', title: 'Doc' })
+  assert.deepEqual(JSON.parse(fs.readFileSync(path.join(target, 'plugins/lark-docs/meta/sources/guides/doc.json'), 'utf8')), renderableSource())
   assert.equal(fs.existsSync(path.join(target, 'plugins/lark-docs/meta/media-cache/guides.json')), true)
 })
 
@@ -55,7 +61,7 @@ test('source artifact requires the shared media manifest', async () => {
   const workspace = path.join(root, 'workspace'), baseline = path.join(root, 'baseline'), artifact = path.join(root, 'artifact')
   fs.mkdirSync(workspace); fs.mkdirSync(baseline)
   json(workspace, 'plugins/lark-docs/meta/sources/guides/root.json', { node_token: 'root', children: [{ node_token: 'doc' }] })
-  json(workspace, 'plugins/lark-docs/meta/sources/guides/doc.json', { node_token: 'doc', title: 'Doc' })
+  json(workspace, 'plugins/lark-docs/meta/sources/guides/doc.json', renderableSource())
   json(workspace, 'plugins/lark-docs/meta/reports/guides-source-snapshot-candidate.json', validSnapshot())
 
   await assert.rejects(

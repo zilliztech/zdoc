@@ -30,13 +30,13 @@ test('rowsFromCliJson recognizes lark-cli table-list data.tables shape', () => {
   }), [{ id: 'tbl9BeCMjBmalJVb', name: 'Get Started' }])
 })
 
-test('resolveDocInManual uses the first table when manual base has no table selector', async () => {
+test('resolveDocInManual uses the first table for an SDK manual with a single-table Base', async () => {
   const calls = []
   const result = await resolveDocInManual({
     manuals: {
-      agents: { base: 'base123' },
+      pymilvus30: { base: 'base123' },
     },
-    manualName: 'agents',
+    manualName: 'pymilvus30',
     docToken: 'DOC_TOKEN',
     runCommand: async (argv) => {
       calls.push(argv)
@@ -59,7 +59,7 @@ test('resolveDocInManual uses the first table when manual base has no table sele
     },
   })
 
-  assert.equal(result.manualName, 'agents')
+  assert.equal(result.manualName, 'pymilvus30')
   assert.equal(result.tableId, 'tbl_first')
   assert.equal(result.title, 'Agent doc')
   assert.equal(calls.length, 2)

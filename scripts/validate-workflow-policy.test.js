@@ -139,6 +139,16 @@ test('guides source and render stages refresh aggregate card progress', () => {
   }
 })
 
+test('Tools table is the only Agents producer while Releases keeps its sidebar', () => {
+  const config = fs.readFileSync('config/lark-docs.config.ts', 'utf8')
+  const sidebars = fs.readFileSync('sidebarsTutorial.ts', 'utf8')
+  const workflows = fs.readdirSync('.github/workflows').map(file => fs.readFileSync(path.join('.github/workflows', file), 'utf8')).join('\n')
+  assert.doesNotMatch(config, /const agents: Manual|agents,/)
+  assert.doesNotMatch(sidebars, /agentsSidebar|agents\.sidebar/)
+  assert.match(sidebars, /releasesSidebar/)
+  assert.doesNotMatch(workflows, /produce_guides_agents|guides-agents|merge-agents-sidebar/)
+})
+
 test('guides workflows bootstrap full sources and persist only verified caches', () => {
   const caller = fs.readFileSync('.github/workflows/fetch-docs.yml', 'utf8')
   const source = fs.readFileSync('.github/workflows/_fetch-guides-sources.yml', 'utf8')

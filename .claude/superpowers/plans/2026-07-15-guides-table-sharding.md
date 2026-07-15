@@ -248,27 +248,27 @@ git commit -m "feat(guides): render every canonical Base table"
 - Modify: `.claude/skills/zdoc-feishu-doc-publish/SKILL.md`
 - Modify: `sidebarsTutorial.ts`
 
-- [ ] **Step 1: 写 workflow 失败测试**
+- [x] **Step 1: 写 workflow 失败测试**
 
 断言 Tools table 是 Agents 页面唯一生产者，workflow 中不存在 `produce_guides_agents`、Agents artifact 或 fragment merge，`sidebarsTutorial.ts` 不注册 `agentsSidebar`。
 
-- [ ] **Step 2: 删除重复链路**
+- [x] **Step 2: 删除重复链路**
 
 assemble 只等待 source 和 table matrix。删除 `agents` stage ownership、`config/generated/agents.sidebar.js` checkpoint ownership，以及 `config/lark-docs.config.ts` 中的独立 Agents manual。
 
 publish bot 支持列表移除 `agents`；Agents/Prompts 页面统一解析为 `guides` manual。更新 skill 文档和 resolver 测试，旧 Agents Base 不再作为发布入口。
 
-- [ ] **Step 3: 保留 Release Notes 模型**
+- [x] **Step 3: 保留 Release Notes 模型**
 
 `releasesSidebar` 保留；主 Guides sidebar 仍只注入 `/docs/changelogs`。
 
-- [ ] **Step 4: 运行测试**
+- [x] **Step 4: 运行测试**
 
 Run: `node --test scripts/validate-workflow-policy.test.js scripts/sdk-reference-workflow.test.js scripts/docs-workflow/guides-stage-artifact.test.js scripts/doc-publish-bot/publishRequest.test.js scripts/doc-publish-bot/baseResolver.test.js`
 
 Expected: PASS。
 
-- [ ] **Step 5: 提交**
+- [x] **Step 5: 提交**
 
 ```bash
 git add config/lark-docs.config.ts .github/workflows/fetch-docs.yml .github/workflows/_assemble-guides.yml scripts/docs-workflow/guides-stage-artifact.js scripts/docs-workflow/guides-stage-artifact.test.js scripts/docs-workflow/content-groups.js scripts/doc-publish-bot/publishRequest.js scripts/doc-publish-bot/publishRequest.test.js scripts/doc-publish-bot/baseResolver.test.js .claude/skills/zdoc-feishu-doc-publish/SKILL.md sidebarsTutorial.ts

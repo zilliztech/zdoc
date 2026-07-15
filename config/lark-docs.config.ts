@@ -49,25 +49,6 @@ const guides: Manual = {
     },
 }
 
-const agents: Manual = {
-    root: 'R8ZwwvHrJivIAyk8JkQchM0Anng',
-    base: 'YxSibAMZ4aDqhjs5Ru4clmrun4f',
-    sourceType: 'wiki',
-    displayedSidebar: 'default',
-    docSourceDir: './plugins/lark-docs/meta/sources/agents-and-prompts',
-    sidebarPath: './config/generated/agents.sidebar.js',
-    contentRoot: 'docs',
-    targets: {
-        zilliz: {
-            // Keep files in the Tools chapter while publishing pages under
-            // the default /docs sidebar and route namespace.
-            outputDir: 'docs/tutorials/tools',
-            imageDir: 'static/img',
-            preserveOutput: true,
-        },
-    },
-}
-
 // sdk: python =============================
 
 const python : Manual =  {
@@ -425,7 +406,6 @@ const cliv14 : Manual = {
 
 export default {
     guides,
-    agents,
     python,
     pymilvus25,
     pymilvus26,

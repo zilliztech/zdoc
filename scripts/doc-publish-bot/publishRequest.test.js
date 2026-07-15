@@ -3,10 +3,16 @@ const { test } = require('node:test')
 
 const {
   parsePublishRequest,
+  currentPublishManuals,
   planBranchCommands,
   planDocusaurusCommands,
   planJenkinsTrigger,
 } = require('./publishRequest')
+
+test('current publish manuals route Agents pages through Guides only', () => {
+  assert.equal(currentPublishManuals().includes('guides'), true)
+  assert.equal(currentPublishManuals().includes('agents'), false)
+})
 
 test('parsePublishRequest extracts UAT request doc tokens from Chinese mention text', () => {
   const request = parsePublishRequest(`@小涂,请帮我发布以下文档到 UAT:

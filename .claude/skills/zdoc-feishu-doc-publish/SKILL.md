@@ -90,7 +90,7 @@ Use the matching Base record to choose the manual. Common current manuals:
 | Area | Current publish manual | Older/source-only manuals |
 |---|---|---|
 | Cloud guides | `guides` | none |
-| Agents/prompts pages | `agents` | none |
+| Agents/prompts pages | `guides`（Tools 表） | none |
 | Python SDK | `pymilvus30` | `python`, `pymilvus25`, `pymilvus26` |
 | Java SDK | `javaV230` | `javaV2`, `javaV225`, `javaV226` |
 | Node SDK | `nodejs30` | `node`, `nodejs25`, `nodejs26` |

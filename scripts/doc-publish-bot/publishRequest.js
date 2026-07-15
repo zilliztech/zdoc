@@ -164,7 +164,7 @@ function planJenkinsTrigger({ environment, branch, imageTag, jenkinsBaseUrl = DE
 }
 
 function currentPublishManuals() {
-  return ['guides', 'agents', ...CURRENT_SDK_MANUALS]
+  return ['guides', ...CURRENT_SDK_MANUALS]
 }
 
 module.exports = {
