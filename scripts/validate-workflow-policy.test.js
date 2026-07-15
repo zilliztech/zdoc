@@ -1,6 +1,7 @@
 'use strict'
 
 const assert = require('node:assert/strict')
+const { spawnSync } = require('node:child_process')
 const fs = require('node:fs')
 const path = require('node:path')
 const test = require('node:test')
@@ -249,10 +250,16 @@ test('guides translations run in parallel and publish batches in one short order
   assert.equal(publish.uses, './.github/workflows/_publish-translation-batches.yml')
 
   const reusable = fs.readFileSync('.github/workflows/_publish-translation-batches.yml', 'utf8')
+  const reusableYaml = yaml.load(reusable)
+  const publishScript = reusableYaml.jobs.publish.steps.find(step => step.id === 'publish').run
   assert.match(reusable, /for \(\(number=1; number<=BATCH_COUNT; number\+\+\)\)/)
+  assert.match(reusable, /validate-translation-batch\.js/)
+  assert.doesNotMatch(reusable, /node - <<['"]?NODE/)
   assert.match(reusable, /--max-attempts 10/)
   assert.match(reusable, /\$GITHUB_WORKSPACE\/scripts\/validate-generated-sidebars\.js[\s\S]*\$GITHUB_WORKSPACE\/scripts\/validate-translated-coverage\.js/)
   assert.doesNotMatch(reusable, /pnpm run build/)
+  const syntax = spawnSync('bash', ['-n'], { input: publishScript, encoding: 'utf8' })
+  assert.equal(syntax.status, 0, syntax.stderr)
 })
 
 test('translation publishers form a short queue with scoped validation', () => {
