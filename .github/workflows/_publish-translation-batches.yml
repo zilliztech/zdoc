@@ -119,6 +119,8 @@ jobs:
           CARD_PHASE: Publish ${{ inputs.group }} translation
           CARD_STATUS: ${{ steps.publish.outcome == 'success' && 'done' || 'fail' }}
           CARD_NOTE: ${{ steps.publish.outcome == 'success' && format('{0} translation batches published', inputs.group) || format('{0} translation batch publication failed', inputs.group) }}
+          CARD_JOB_NAME: publish_guides_translation_batches / publish
+          CARD_JOB_CONCLUSION: ${{ steps.publish.outcome == 'success' && 'success' || 'failure' }}
           CARD_TITLE: Global Docs Build
           SELECTED_GROUP: ${{ inputs.group }}
           PUBLISH_ENABLED: true

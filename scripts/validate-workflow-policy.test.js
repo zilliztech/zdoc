@@ -265,6 +265,9 @@ test('guides translations run in parallel and publish batches in one short order
   assert.doesNotMatch(reusable, /pnpm run build/)
   const syntax = spawnSync('bash', ['-n'], { input: publishScript, encoding: 'utf8' })
   assert.equal(syntax.status, 0, syntax.stderr)
+  const reportStep = reusable.slice(reusable.indexOf('name: Report guides translation publication'))
+  assert.match(reportStep, /CARD_JOB_NAME: publish_guides_translation_batches \/ publish/)
+  assert.match(reportStep, /CARD_JOB_CONCLUSION: \$\{\{ steps\.publish\.outcome == 'success' && 'success' \|\| 'failure' \}\}/)
 })
 
 test('translation publishers form a short queue with scoped validation', () => {
