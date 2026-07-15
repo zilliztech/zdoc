@@ -702,6 +702,38 @@ async function testBaseNavigationUsesBaseRecordsWithoutFetchingEveryLinkedDoc() 
   assert.equal(source.base_placement_type, 'canonical');
 }
 
+async function testBaseDocHydrationRefetchesVirtualCanonicalSources() {
+  const larkDocScraper = require('./larkDocScraper');
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'lark-doc-scraper-'));
+  const scraper = new larkDocScraper('root-token', 'base-token:*', 'wiki', tempDir);
+  scraper.records = [{
+    record_id: 'rec-source',
+    fields: { Docs: { text: 'Source Doc', link: 'https://zilliverse.feishu.cn/wiki/source-token' } },
+  }];
+  fs.writeFileSync(path.join(tempDir, 'source-token.json'), JSON.stringify({
+    node_token: 'source-token',
+    origin_node_token: 'source-token',
+    base_nav_virtual: true,
+    base_placement_type: 'canonical',
+  }));
+  let metadataFetches = 0;
+  scraper.__fetchFeishuJson = async () => {
+    metadataFetches += 1;
+    return { code: 0, data: { node: { node_token: 'source-token', origin_node_token: 'source-token', obj_type: 'docx', title: 'Source Doc' } } };
+  };
+  scraper.__slugify = async () => 'source-doc';
+  scraper.__fetch_blocks = async node => {
+    node.blocks = { items: [{ block_id: 'page', block_type: 1 }, { block_id: 'body', block_type: 2 }] };
+  };
+
+  await scraper.__fetch_base_doc_sources();
+
+  const source = JSON.parse(fs.readFileSync(path.join(tempDir, 'source-token.json'), 'utf8'));
+  assert.equal(metadataFetches, 1);
+  assert.equal(source.base_nav_virtual, undefined);
+  assert.equal(source.blocks.items.length, 2);
+}
+
 async function testFetchWikiNodeMetadataResolvesShortcutRevisionFields() {
   const larkDocScraper = require('./larkDocScraper');
   const scraper = new larkDocScraper('root-token', 'base-token:*', 'wiki', '/tmp');
@@ -970,7 +1002,11 @@ async function testIncrementalSourceFetchWritesCandidateFromRetainedScan() {
       assert.deepEqual(tokens, ['doc-a']);
       fs.mkdirSync(sourceDir, { recursive: true });
       fs.writeFileSync(path.join(sourceDir, 'root-token.json'), JSON.stringify({ node_token: 'root-token', children: [{ node_token: 'doc-a' }] }));
-      fs.writeFileSync(path.join(sourceDir, 'doc-a.json'), JSON.stringify({ node_token: 'doc-a', title: 'A' }));
+      fs.writeFileSync(path.join(sourceDir, 'doc-a.json'), JSON.stringify({
+        node_token: 'doc-a',
+        title: 'A',
+        blocks: { items: [{ block_id: 'page', block_type: 1 }, { block_id: 'body', block_type: 2 }] },
+      }));
     }
   }
   class FakeUtils {}
@@ -1130,6 +1166,7 @@ async function run() {
   await testFetchSourceTokensFetchesSelectedTokensWithoutClearingSources();
   await testBaseNavigationCreatesRootWhenSourceCacheIsEmpty();
   await testBaseNavigationUsesBaseRecordsWithoutFetchingEveryLinkedDoc();
+  await testBaseDocHydrationRefetchesVirtualCanonicalSources();
   await testFetchWikiNodeMetadataResolvesShortcutRevisionFields();
   await testFetchWikiNodeUsesEndpointSpecificLimiter();
   await testBaseScanProgressLogsTablesAndRecords();

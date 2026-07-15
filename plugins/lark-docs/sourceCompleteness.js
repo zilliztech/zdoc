@@ -23,6 +23,14 @@ function aliases(record) {
   return [record.doc_token, record.node_token, record.origin_node_token, record.obj_token].filter(Boolean)
 }
 
+function isRenderableCanonicalSource(source) {
+  if (!source || source.base_nav_virtual) return false
+  const blocks = source.blocks?.items
+  if (!Array.isArray(blocks) || blocks.length === 0) return false
+  if (!blocks.some(block => block.block_type === 1)) return false
+  return blocks.some(block => block.block_type !== 1)
+}
+
 function validateSourceCompleteness({ manual, buildEnv, rootToken, sourceDir, snapshot }) {
   const result = {
     complete: false,
@@ -33,6 +41,7 @@ function validateSourceCompleteness({ manual, buildEnv, rootToken, sourceDir, sn
     corruptFiles: [],
     hashMismatches: [],
     tokenMismatches: [],
+    nonRenderableCanonicalFiles: [],
     unsafeFiles: [],
     identityErrors: [],
     rootError: null,
@@ -70,9 +79,14 @@ function validateSourceCompleteness({ manual, buildEnv, rootToken, sourceDir, sn
     try { source = JSON.parse(bytes) } catch (_) { result.corruptFiles.push(relative); continue }
     const sourceAliases = [source.node_token, source.origin_node_token, source.obj_token, source.token].filter(Boolean)
     if (!aliases(record).some(token => sourceAliases.includes(token))) result.tokenMismatches.push(relative)
-    if (!result.hashMismatches.includes(relative) && !result.tokenMismatches.includes(relative)) result.validCanonicalSources++
+    if (!isRenderableCanonicalSource(source)) result.nonRenderableCanonicalFiles.push(relative)
+    if (
+      !result.hashMismatches.includes(relative) &&
+      !result.tokenMismatches.includes(relative) &&
+      !result.nonRenderableCanonicalFiles.includes(relative)
+    ) result.validCanonicalSources++
   }
-  for (const key of ['missingFiles', 'corruptFiles', 'hashMismatches', 'tokenMismatches', 'unsafeFiles', 'identityErrors']) result[key].sort()
+  for (const key of ['missingFiles', 'corruptFiles', 'hashMismatches', 'tokenMismatches', 'nonRenderableCanonicalFiles', 'unsafeFiles', 'identityErrors']) result[key].sort()
   result.complete = !result.rootError && result.identityErrors.length === 0 && result.validCanonicalSources === result.expectedCanonicalSources
   return result
 }
@@ -80,10 +94,10 @@ function validateSourceCompleteness({ manual, buildEnv, rootToken, sourceDir, sn
 function assertSourceCompleteness(options) {
   const result = validateSourceCompleteness(options)
   if (!result.complete) {
-    const samples = [...result.missingFiles, ...result.corruptFiles, ...result.hashMismatches, ...result.tokenMismatches, ...result.unsafeFiles].slice(0, 5)
+    const samples = [...result.missingFiles, ...result.corruptFiles, ...result.hashMismatches, ...result.tokenMismatches, ...result.nonRenderableCanonicalFiles, ...result.unsafeFiles].slice(0, 5)
     throw new Error(`Lark source graph is incomplete: ${result.validCanonicalSources}/${result.expectedCanonicalSources} canonical sources valid${result.rootError ? `; root: ${result.rootError}` : ''}${samples.length ? `; sample: ${samples.join(', ')}` : ''}`)
   }
   return result
 }
 
-module.exports = { hashSnapshot, validateSourceCompleteness, assertSourceCompleteness }
+module.exports = { hashSnapshot, isRenderableCanonicalSource, validateSourceCompleteness, assertSourceCompleteness }

@@ -2,6 +2,7 @@ const tokenFetcher = require('./larkTokenFetcher.js')
 const { fetchFeishuJsonWithRetry } = require('./feishuFetch.js')
 const { auditCanonicalLinks, canonicalRecordsFrom, contentLinkTarget } = require('./canonicalLinkAuditor')
 const { guidesPlacementType } = require('./guidesBaseRecordSemantics')
+const { isRenderableCanonicalSource } = require('./sourceCompleteness')
 const fs = require('fs')
 const node_path = require('path')
 const _ = require('lodash')
@@ -795,9 +796,10 @@ class larkDocScraper {
     async __fetch_base_doc_sources() {
         const sources = this.__source_files()
         for (const record of this.records || []) {
+            if (this.__placement_type(record) !== 'canonical') continue
             const docField = this.__doc_field(record.fields)
             const docToken = this.__doc_token(docField)
-            if (!docToken || sources.has(docToken)) continue
+            if (!docToken || isRenderableCanonicalSource(sources.get(docToken))) continue
 
             const url = `${FEISHU_HOST}/open-apis/wiki/v2/spaces/get_node?token=${docToken}`
             const jres = await this.__fetchFeishuJson(url, { method: 'get' }, `get linked Base wiki node ${docToken}`)

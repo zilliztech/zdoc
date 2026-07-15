@@ -188,12 +188,13 @@ function planIncrementalFetch({
     return fullPlan({ manualName, docSourceDir, canonicalRecords, buildEnv, warnings: ['No previous snapshot found.'] })
   }
   if (sourceCompleteness && !sourceCompleteness.complete) {
+    const nonRenderableCount = sourceCompleteness.nonRenderableCanonicalFiles?.length || 0
     return fullPlan({
       manualName,
       docSourceDir,
       canonicalRecords,
       buildEnv,
-      warnings: [`Source cache is incomplete (${sourceCompleteness.validCanonicalSources || 0}/${sourceCompleteness.expectedCanonicalSources || 0} canonical sources valid).`],
+      warnings: [`Source cache is incomplete (${sourceCompleteness.validCanonicalSources || 0}/${sourceCompleteness.expectedCanonicalSources || 0} canonical sources valid${nonRenderableCount ? `; ${nonRenderableCount} non-renderable canonical source${nonRenderableCount === 1 ? '' : 's'}` : ''}).`],
     })
   }
   if (currentNodeMetadataByToken.size > 0 && Number(previousSnapshot.schema_version || 1) < 2) {

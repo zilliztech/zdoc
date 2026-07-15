@@ -237,10 +237,16 @@ test('planIncrementalFetch forces a full fetch when the source cache is not comp
     docSourceDir: dir,
     records: [record('a')],
     previousSnapshot: { schema_version: 2, manual: 'guides', records: [{ record_id: 'rec-a', doc_token: 'a', title: 'a', slug: 'a' }] },
-    sourceCompleteness: { complete: false, validCanonicalSources: 0, expectedCanonicalSources: 1 },
+    sourceCompleteness: {
+      complete: false,
+      validCanonicalSources: 0,
+      expectedCanonicalSources: 1,
+      nonRenderableCanonicalFiles: ['a.json'],
+    },
   })
   assert.equal(plan.mode, 'full')
   assert.match(plan.warnings.join(' '), /source cache is incomplete/i)
+  assert.match(plan.warnings.join(' '), /1 non-renderable canonical/i)
 })
 
 test('planIncrementalFetch records removed docs without forcing full fetch', () => {

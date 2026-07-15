@@ -19,17 +19,17 @@
 - Modify: `plugins/lark-docs/larkDocWriter.js`
 - Modify: `plugins/lark-docs/larkDocWriter.beta.test.js`
 
-- [ ] **Step 1: 写失败测试，覆盖 canonical/section/link/ref 和缺省推断**
+- [x] **Step 1: 写失败测试，覆盖 canonical/section/link/ref 和缺省推断**
 
 测试必须断言：Feishu Docs link 缺省为 canonical，非 Feishu placeholder 缺省为 section；canonical 创建页面，section 创建 category，link 创建 href，ref 创建 canonical 引用。
 
-- [ ] **Step 2: 运行语义测试并确认旧实现失败**
+- [x] **Step 2: 运行语义测试并确认旧实现失败**
 
 Run: `node --test plugins/lark-docs/guidesBaseRecordSemantics.test.js plugins/lark-docs/larkDocWriter.beta.test.js`
 
 Expected: FAIL，至少显示 `Draft`/空 Progress canonical 或 record kind 契约不一致。
 
-- [ ] **Step 3: 实现共享语义 helper**
+- [x] **Step 3: 实现共享语义 helper**
 
 导出稳定接口：
 
@@ -43,17 +43,17 @@ recordRefTarget(record)
 
 `recordCreatesPage()` 只表达 canonical 节点类型；另行实现 publishability：`Draft/Reviewed/Published/Approved/Publish` 允许发布，空值、`Not Start Yet/WIP/Deprecated` 不发布，Targets 决定 target。helper 文件和 API 明确使用 `guides` 前缀，仅处理显式 `base_placement_type` 或 Guides 多表模式，不能解释 SDK 的 `Type` 字段。
 
-- [ ] **Step 4: 让 scraper 和 writer 使用同一 helper**
+- [x] **Step 4: 让 scraper 和 writer 使用同一 helper**
 
 删除 Guides 多表路径中重复的 placement/status 判断。section 永远可作为结构节点；canonical 同时满足 Progress 和 Targets 时发布；link/ref 不写正文。保留没有 `base_placement_type` 的 SDK legacy fallback。
 
-- [ ] **Step 5: 运行测试**
+- [x] **Step 5: 运行测试**
 
 Run: `node --test plugins/lark-docs/guidesBaseRecordSemantics.test.js plugins/lark-docs/larkDocWriter.beta.test.js plugins/lark-docs/larkDocScraper.test.js`
 
 Expected: PASS。
 
-- [ ] **Step 6: 提交**
+- [x] **Step 6: 提交**
 
 ```bash
 git add plugins/lark-docs/guidesBaseRecordSemantics.js plugins/lark-docs/guidesBaseRecordSemantics.test.js plugins/lark-docs/larkDocScraper.js plugins/lark-docs/larkDocWriter.js plugins/lark-docs/larkDocWriter.beta.test.js
@@ -69,35 +69,35 @@ git commit -m "fix(lark): align Base record publishing semantics"
 - Modify: `plugins/lark-docs/larkDocScraper.test.js`
 - Modify: `plugins/lark-docs/incrementalFetchPlanner.test.js`
 
-- [ ] **Step 1: 写失败测试**
+- [x] **Step 1: 写失败测试**
 
 覆盖：canonical source 是 `base_nav_virtual`、缺 page block、正文 blocks 为空时 completeness 失败；section/link/ref virtual source 允许存在。
 
-- [ ] **Step 2: 验证测试失败**
+- [x] **Step 2: 验证测试失败**
 
 Run: `node --test plugins/lark-docs/sourceCompleteness.test.js plugins/lark-docs/larkDocScraper.test.js`
 
 Expected: FAIL，当前 virtual canonical 被计为 valid。
 
-- [ ] **Step 3: 扩展 completeness 结果**
+- [x] **Step 3: 扩展 completeness 结果**
 
 新增 `nonRenderableCanonicalFiles`，只有真实可渲染 canonical 才增加 `validCanonicalSources`。错误消息必须列出样例 token/file。
 
-- [ ] **Step 4: 修复 linked Base doc hydration**
+- [x] **Step 4: 修复 linked Base doc hydration**
 
 `__fetch_base_doc_sources()` 不再用 `sources.has(docToken)` 判断完成；只有对应 source 可渲染才跳过。full fetch 和 incomplete-cache recovery 必须刷新所有 virtual canonical。
 
-- [ ] **Step 5: 验证 planner 自动转 full**
+- [x] **Step 5: 验证 planner 自动转 full**
 
 source completeness 不完整时，plan 必须是 `mode: full`，warning 包含 non-renderable canonical 计数。
 
-- [ ] **Step 6: 运行测试**
+- [x] **Step 6: 运行测试**
 
 Run: `node --test plugins/lark-docs/sourceCompleteness.test.js plugins/lark-docs/larkDocScraper.test.js plugins/lark-docs/incrementalFetchPlanner.test.js`
 
 Expected: PASS。
 
-- [ ] **Step 7: 提交**
+- [x] **Step 7: 提交**
 
 ```bash
 git add plugins/lark-docs/sourceCompleteness.js plugins/lark-docs/sourceCompleteness.test.js plugins/lark-docs/larkDocScraper.js plugins/lark-docs/larkDocScraper.test.js plugins/lark-docs/incrementalFetchPlanner.test.js
