@@ -199,31 +199,31 @@ git commit -m "fix(guides): derive table renders from canonical targets"
 - Modify: `scripts/docs-workflow/restore-guides-table-artifacts.js`
 - Modify: `scripts/docs-workflow/restore-guides-table-artifacts.test.js`
 
-- [ ] **Step 1: 写失败测试**
+- [x] **Step 1: 写失败测试**
 
 测试 Client Libraries 和 Tools 都清理/重建同名目录；section 目录保留、canonical 页面存在、link/ref 不产生重复文件；artifact 拒绝跨目录路径。
 
-- [ ] **Step 2: 验证测试失败**
+- [x] **Step 2: 验证测试失败**
 
 Run: `node --test scripts/docs-workflow/render-guides-table.test.js scripts/docs-workflow/guides-table-artifact.test.js scripts/docs-workflow/restore-guides-table-artifacts.test.js`
 
 Expected: FAIL，当前 Client Libraries/Tools 无 target ownership。
 
-- [ ] **Step 3: 实现所有非空内容表的目录 ownership**
+- [x] **Step 3: 实现所有非空内容表的目录 ownership**
 
 `tableOutputPath(tableId, target)` 始终返回表 slug 目录；是否调度由 matrix 决定。render 只清理该目录并调用 `base:<tableId>` subtree。
 
-- [ ] **Step 4: 保留 artifact 安全校验**
+- [x] **Step 4: 保留 artifact 安全校验**
 
 继续校验 normalized relative path、identity、checksum、重复文件、缺失/额外 artifact 和空 matrix。
 
-- [ ] **Step 5: 运行测试**
+- [x] **Step 5: 运行测试**
 
 Run: `node --test scripts/docs-workflow/render-guides-table.test.js scripts/docs-workflow/guides-table-artifact.test.js scripts/docs-workflow/restore-guides-table-artifacts.test.js`
 
 Expected: PASS。
 
-- [ ] **Step 6: 提交**
+- [x] **Step 6: 提交**
 
 ```bash
 git add scripts/docs-workflow/render-guides-table.js scripts/docs-workflow/render-guides-table.test.js scripts/docs-workflow/guides-table-artifact.js scripts/docs-workflow/guides-table-artifact.test.js scripts/docs-workflow/restore-guides-table-artifacts.js scripts/docs-workflow/restore-guides-table-artifacts.test.js
