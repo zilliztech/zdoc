@@ -364,15 +364,15 @@ git commit -m "refactor(lark): isolate offline media resolution"
 - Modify: `scripts/sdk-reference-workflow.test.js`
 - Create: `scripts/guides-sdk-isolation.test.js`
 
-- [ ] **Step 1: 写 SDK 配置隔离测试**
+- [x] **Step 1: 写 SDK 配置隔离测试**
 
 从 `config/lark-docs.config.ts` 读取全部 manuals，断言：Guides 使用 `sourceType: wiki` 和 `base:*`；18 个 SDK manuals 各使用单表独立 Base；不存在独立 `agents` manual；所有非 Guides manual 都不进入 Guides table matrix。
 
-- [ ] **Step 2: 固定 SDK command sequence**
+- [x] **Step 2: 固定 SDK command sequence**
 
 断言 `commandsFor('python'|'java'|'node'|'go'|'cli')` 与改造前完全一致，不增加 `--offline`、`--mediaManifest`、Guides source candidate 或 table 参数。
 
-- [ ] **Step 3: 固定 drive writer 记录模型**
+- [x] **Step 3: 固定 drive writer 记录模型**
 
 覆盖三类 fixture：
 
@@ -382,15 +382,15 @@ git commit -m "refactor(lark): isolate offline media resolution"
 
 三类都不得进入 Guides Placement Type helper，原层级和页面路径保持不变。
 
-- [ ] **Step 4: 固定 SDK snapshot 行为**
+- [x] **Step 4: 固定 SDK snapshot 行为**
 
 SDK schema v2 snapshot 缺少 `navigation_records` 时仍可 incremental；只有 Guides 多表 snapshot 才要求 schema v3 navigation identity。
 
-- [ ] **Step 5: 固定继承的 online media 行为**
+- [x] **Step 5: 固定继承的 online media 行为**
 
 `larkDriveWriter` 未传 resolver 时继续调用 downloader/caption/S3 路径，不读取 Guides manifest，也不触发 offline guard。
 
-- [ ] **Step 6: 运行 SDK 回归**
+- [x] **Step 6: 运行 SDK 回归**
 
 Run:
 
@@ -400,7 +400,7 @@ node --test plugins/lark-docs/larkDriveWriter.test.js plugins/lark-docs/larkDocW
 
 Expected: PASS。
 
-- [ ] **Step 7: 提交**
+- [x] **Step 7: 提交**
 
 ```bash
 git add plugins/lark-docs/larkDriveWriter.test.js plugins/lark-docs/larkDocWriter.test.js plugins/lark-docs/sourceSnapshot.test.js scripts/docs-workflow/run-content-group.test.js scripts/sdk-reference-workflow.test.js scripts/guides-sdk-isolation.test.js

@@ -30,6 +30,12 @@ test('cli commands are exact and ordered', () => assert.deepEqual(commandsFor('c
   ['npx', 'docusaurus', 'fetch-lark-docs', '-man', 'cliv13', '-src-only'],
   ['npx', 'docusaurus', 'fetch-lark-docs', '-man', 'cliv14', '-tar', 'zilliz', '-s3', '--incremental', '--buildEnv', 'uat'],
 ]));
+test('SDK commands do not inherit Guides offline or table flags', () => {
+  for (const group of ['python', 'java', 'node', 'go', 'cli']) {
+    const flat = commandsFor(group).flat();
+    for (const flag of ['--offline', '--mediaManifest', '--table', '--snapshotCandidatePath']) assert.equal(flat.includes(flag), false);
+  }
+});
 test('guides commands preserve flags and order without reporting', () => assert.deepEqual(commandsFor('guides'), [
   fetch('guides', '-tar', 'zilliz.saas', '-s3', '--incremental', '--buildEnv', 'uat', '--auditCanonicalLinks'),
   fetch('guides', '-tar', 'zilliz.saas', '-post', '-skipS'), fetch('guides', '-tar', 'zilliz.paas', '-s3', '-skipS'), fetch('guides', '-tar', 'zilliz.paas', '-post', '-skipS'),
