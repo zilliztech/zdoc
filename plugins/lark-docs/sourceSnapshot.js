@@ -229,7 +229,7 @@ function createSourceSnapshot({
   outputPathsByToken = new Map(),
 }) {
   const sourceByToken = sourceFilesByToken(docSourceDir)
-  const canonicalRecords = canonicalRecordsFrom(records)
+  const canonicalRecords = canonicalRecordsFrom(records, { guidesPublishableOnly: manualName === 'guides' })
   const guidesNavigation = manualName === 'guides' ? createGuidesNavigationState(records) : null
   const snapshot = {
     schema_version: manualName === 'guides' ? 3 : 2,

@@ -212,7 +212,7 @@ function planIncrementalFetch({
   currentNodeMetadataByToken = new Map(),
   sourceCompleteness = null,
 }) {
-  const canonicalRecords = canonicalRecordsFrom(records)
+  const canonicalRecords = canonicalRecordsFrom(records, { guidesPublishableOnly: manualName === 'guides' })
   const guidesNavigation = manualName === 'guides' ? createGuidesNavigationState(records) : null
   const currentOwnership = guidesTableOwnership(guidesNavigation?.navigationRecords)
   const previousOwnership = guidesTableOwnership(previousSnapshot?.navigation_records)

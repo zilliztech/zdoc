@@ -73,6 +73,7 @@ test('createSourceSnapshot records hashes and outgoing tokens', () => {
       fields: {
         Docs: { text: 'Source', link: 'https://zilliverse.feishu.cn/wiki/source-token' },
         Slug: 'source',
+        Progress: 'Draft',
         'Placement Type': 'canonical',
       },
     }],
@@ -99,6 +100,29 @@ test('createSourceSnapshot records hashes and outgoing tokens', () => {
   assert.equal(snapshot.navigation_records.length, 1)
   assert.equal(snapshot.navigation_records[0].placement_type, 'canonical')
   assert.match(snapshot.table_digests.tbl, /^[a-f0-9]{64}$/)
+})
+
+test('Guides snapshot requires sources only for publishable canonical records', () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'snapshot-progress-'))
+  fs.writeFileSync(path.join(dir, 'draft.json'), JSON.stringify({
+    node_token: 'draft',
+    blocks: { items: [{ block_id: 'page', block_type: 1 }, { block_id: 'body', block_type: 2 }] },
+  }))
+  const records = [
+    {
+      record_id: 'draft', base_table_id: 'tbl', base_table_name: 'Management',
+      fields: { Docs: { text: 'Draft', link: 'https://example.feishu.cn/wiki/draft' }, Progress: 'Draft', 'Placement Type': 'canonical' },
+    },
+    {
+      record_id: 'empty', base_table_id: 'tbl', base_table_name: 'Management',
+      fields: { Docs: { text: 'Hidden', link: 'https://example.feishu.cn/wiki/hidden' }, Progress: '', 'Placement Type': 'canonical' },
+    },
+  ]
+
+  const snapshot = createSourceSnapshot({ manualName: 'guides', buildEnv: 'uat', docSourceDir: dir, records })
+
+  assert.deepEqual(snapshot.records.map(record => record.record_id), ['draft'])
+  assert.deepEqual(snapshot.navigation_records.map(record => record.record_id), ['draft', 'empty'])
 })
 
 test('Guides navigation snapshot changes table digest for section, link, and ref edits', () => {

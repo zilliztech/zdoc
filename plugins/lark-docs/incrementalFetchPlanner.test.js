@@ -32,6 +32,7 @@ function record(token, title = token) {
     fields: {
       Docs: { text: title, link: `https://zilliverse.feishu.cn/wiki/${token}` },
       Slug: token,
+      Progress: 'Draft',
       'Placement Type': 'canonical',
     },
   }
@@ -326,6 +327,19 @@ test('planIncrementalFetch falls back to full without previous snapshot', () => 
   })
   assert.equal(plan.mode, 'full')
   assert.match(plan.warnings.join(' '), /No previous snapshot/)
+})
+
+test('Guides full plan excludes canonical records with empty Progress', () => {
+  const hidden = record('hidden')
+  hidden.fields.Progress = ''
+  const plan = planIncrementalFetch({
+    manualName: 'guides',
+    docSourceDir: '/missing',
+    records: [record('draft'), hidden],
+    previousSnapshot: null,
+  })
+
+  assert.deepEqual(plan.expanded_tokens, ['draft'])
 })
 
 test('Guides planner forces full when previous snapshot lacks navigation schema v3', () => {

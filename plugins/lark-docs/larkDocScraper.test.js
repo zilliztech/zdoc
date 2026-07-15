@@ -638,6 +638,50 @@ async function testFetchSourceTokensFetchesSelectedTokensWithoutClearingSources(
   assert.equal(fs.existsSync(path.join(tempDir, 'existing.json')), true);
 }
 
+async function testFullWikiFetchHydratesBaseCanonicalSources() {
+  const larkDocScraper = require('./larkDocScraper');
+  const tokenFetcher = require('./larkTokenFetcher.js');
+  const originalFetchToken = tokenFetcher.prototype.fetchToken;
+  const originalToken = tokenFetcher.prototype.token;
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'lark-doc-full-fetch-'));
+
+  tokenFetcher.prototype.fetchToken = async function fetchToken() {
+    this.tenantAccessToken = 'tenant-token';
+  };
+  tokenFetcher.prototype.token = async () => 'tenant-token';
+
+  try {
+    const scraper = new larkDocScraper('root-token', 'base-token:*', 'wiki', tempDir);
+    scraper.__fetchFeishuJson = async () => ({
+      code: 0,
+      data: {
+        node: {
+          node_token: 'root-token',
+          origin_node_token: 'root-token',
+          obj_type: 'folder',
+          title: 'Root',
+          has_child: false,
+        },
+      },
+    });
+    scraper.__fetch_wiki_children = async node => {
+      fs.writeFileSync(path.join(tempDir, 'root-token.json'), JSON.stringify(node));
+    };
+    let navigationOptions = null;
+    scraper.__apply_base_navigation = async options => {
+      navigationOptions = options;
+    };
+
+    await scraper.fetch(true);
+
+    assert.deepEqual(navigationOptions, { hydrateLinkedDocs: true });
+  } finally {
+    tokenFetcher.prototype.fetchToken = originalFetchToken;
+    tokenFetcher.prototype.token = originalToken;
+    fs.rmSync(tempDir, { recursive: true, force: true });
+  }
+}
+
 async function testBaseNavigationCreatesRootWhenSourceCacheIsEmpty() {
   const larkDocScraper = require('./larkDocScraper');
   const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'lark-doc-scraper-'));
@@ -708,7 +752,7 @@ async function testBaseDocHydrationRefetchesVirtualCanonicalSources() {
   const scraper = new larkDocScraper('root-token', 'base-token:*', 'wiki', tempDir);
   scraper.records = [{
     record_id: 'rec-source',
-    fields: { Docs: { text: 'Source Doc', link: 'https://zilliverse.feishu.cn/wiki/source-token' } },
+    fields: { Docs: { text: 'Source Doc', link: 'https://zilliverse.feishu.cn/wiki/source-token' }, Progress: 'Draft' },
   }];
   fs.writeFileSync(path.join(tempDir, 'source-token.json'), JSON.stringify({
     node_token: 'source-token',
@@ -732,6 +776,29 @@ async function testBaseDocHydrationRefetchesVirtualCanonicalSources() {
   assert.equal(metadataFetches, 1);
   assert.equal(source.base_nav_virtual, undefined);
   assert.equal(source.blocks.items.length, 2);
+}
+
+async function testBaseDocHydrationSkipsCanonicalWithEmptyProgress() {
+  const larkDocScraper = require('./larkDocScraper');
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'lark-doc-scraper-'));
+  const scraper = new larkDocScraper('root-token', 'base-token:*', 'wiki', tempDir);
+  scraper.records = [{
+    record_id: 'rec-hidden',
+    fields: {
+      Docs: { text: 'Hidden Doc', link: 'https://zilliverse.feishu.cn/wiki/hidden-token' },
+      Progress: '',
+      'Placement Type': 'canonical',
+    },
+  }];
+  let metadataFetches = 0;
+  scraper.__fetchFeishuJson = async () => {
+    metadataFetches += 1;
+    return { code: 0, data: {} };
+  };
+
+  await scraper.__fetch_base_doc_sources();
+
+  assert.equal(metadataFetches, 0);
 }
 
 async function testFetchWikiNodeMetadataResolvesShortcutRevisionFields() {
@@ -795,6 +862,7 @@ async function testFetchWikiNodeMetadataResolvesShortcutRevisionFields() {
       fields: {
         Docs: { text: 'Source', link: 'https://zilliverse.feishu.cn/wiki/shortcut-token' },
         Slug: 'source',
+        Progress: 'Draft',
         'Placement Type': 'canonical',
       },
     },
@@ -805,6 +873,7 @@ async function testFetchWikiNodeMetadataResolvesShortcutRevisionFields() {
       fields: {
         Docs: { text: 'Docx Source', link: 'https://zilliverse.feishu.cn/docx/raw-docx-token' },
         Slug: 'docx-source',
+        Progress: 'Draft',
         'Placement Type': 'canonical',
       },
     },
@@ -854,6 +923,7 @@ async function testFetchWikiNodeUsesEndpointSpecificLimiter() {
         fields: {
           Docs: { text: 'A', link: 'https://zilliverse.feishu.cn/wiki/a-token' },
           Slug: 'a',
+          Progress: 'Draft',
           'Placement Type': 'canonical',
         },
       },
@@ -862,6 +932,7 @@ async function testFetchWikiNodeUsesEndpointSpecificLimiter() {
         fields: {
           Docs: { text: 'B', link: 'https://zilliverse.feishu.cn/wiki/b-token' },
           Slug: 'b',
+          Progress: 'Draft',
           'Placement Type': 'canonical',
         },
       },
@@ -957,6 +1028,7 @@ async function testWikiMetadataProgressLogsResolutionCounts() {
         fields: {
           Docs: { text: 'A', link: 'https://zilliverse.feishu.cn/wiki/a-token' },
           Slug: 'a',
+          Progress: 'Draft',
           'Placement Type': 'canonical',
         },
       },
@@ -965,6 +1037,7 @@ async function testWikiMetadataProgressLogsResolutionCounts() {
         fields: {
           Docs: { text: 'B', link: 'https://zilliverse.feishu.cn/wiki/b-token' },
           Slug: 'b',
+          Progress: 'Draft',
           'Placement Type': 'canonical',
         },
       },
@@ -1164,9 +1237,11 @@ async function run() {
   await testDriveDocSlugifyUsesCompositeParentContext();
   await testValidateContentLinksPreservesLegacyReportShape();
   await testFetchSourceTokensFetchesSelectedTokensWithoutClearingSources();
+  await testFullWikiFetchHydratesBaseCanonicalSources();
   await testBaseNavigationCreatesRootWhenSourceCacheIsEmpty();
   await testBaseNavigationUsesBaseRecordsWithoutFetchingEveryLinkedDoc();
   await testBaseDocHydrationRefetchesVirtualCanonicalSources();
+  await testBaseDocHydrationSkipsCanonicalWithEmptyProgress();
   await testFetchWikiNodeMetadataResolvesShortcutRevisionFields();
   await testFetchWikiNodeUsesEndpointSpecificLimiter();
   await testBaseScanProgressLogsTablesAndRecords();

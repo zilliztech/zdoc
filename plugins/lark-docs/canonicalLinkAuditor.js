@@ -1,5 +1,6 @@
 const fs = require('node:fs')
 const path = require('node:path')
+const { guidesCanonicalIsPublishable } = require('./guidesBaseRecordSemantics')
 const slugify = require('slugify')
 const { parseFeishuDocumentLink, safeDecodeUrl } = require('./feishuDocumentLink')
 
@@ -239,9 +240,10 @@ function placementType(record) {
   return contentLinkTarget(docLink(docField(record.fields || {}))) ? 'canonical' : 'section'
 }
 
-function canonicalRecordsFrom(records) {
+function canonicalRecordsFrom(records, { guidesPublishableOnly = false } = {}) {
   return (records || [])
     .filter(record => placementType(record) === 'canonical')
+    .filter(record => !guidesPublishableOnly || guidesCanonicalIsPublishable(record))
     .map(record => {
       const doc = docField(record.fields || {})
       const doc_token = recordToken(record)

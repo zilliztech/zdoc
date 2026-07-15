@@ -16,7 +16,7 @@ Guides 的真实来源是 Base `Ac7xbs2k1ad7bjsCXr0ccHe9nMh`。该 Base 当前�
 | Architecture | 5 | 1 | 0 | 0 | SaaS/BYOC |
 | Solution | 0 | 0 | 0 | 0 | 无内容 |
 
-Base 中 372 条 canonical 的 `Progress` 为 `Draft`，另有 1 条为空。`Draft` 是允许发布的日常编辑状态；空 Progress 仍不发布。之前将 `Client Libraries`、`Tools` 视为 nav-only，并为 Agents 另建 producer，均与真实 Base 数据冲突。
+Base 中当前 373 条 canonical 的 `Progress` 均为 `Draft`。`Draft` 是允许发布的日常编辑状态；代码仍必须防御未来出现的空 Progress，空 Progress canonical 不下载正文、不进入发布 source snapshot，也不发布页面。之前将 `Client Libraries`、`Tools` 视为 nav-only，并为 Agents 另建 producer，均与真实 Base 数据冲突。
 
 ## 目标
 
@@ -108,13 +108,15 @@ Base 扫描、Parent 层级、link/ref 解析、跨表引用图和增量 planner
 
 ### canonical 完整性
 
-仅存在 `<token>.json` 不代表 source 完整。canonical source 必须同时满足：
+仅存在 `<token>.json` 不代表 source 完整。进入发布集合的 canonical source 必须同时满足：
 
 - 文件位于 source root 内且不是 symlink；
 - hash 与 snapshot 一致；
 - token identity 匹配；
 - 不是 `base_nav_virtual` 占位节点；
 - 包含可渲染 page block 和非空正文 blocks。
+
+空 Progress 或其他不可发布状态的 canonical 仍保留在 `navigation_records` 中，以便状态变化触发表级协调，但不计入 source completeness 的 expected canonical 数量。全量 wiki source fetch 必须先以 `hydrateLinkedDocs: true` 补齐所有可发布 canonical；增量 token fetch 和表级 render 不执行全量 hydration。
 
 section/link/ref 可以使用 virtual source，因为它们只描述导航。
 

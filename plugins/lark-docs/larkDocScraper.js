@@ -1,7 +1,7 @@
 const tokenFetcher = require('./larkTokenFetcher.js')
 const { fetchFeishuJsonWithRetry } = require('./feishuFetch.js')
 const { auditCanonicalLinks, canonicalRecordsFrom, contentLinkTarget } = require('./canonicalLinkAuditor')
-const { guidesPlacementType } = require('./guidesBaseRecordSemantics')
+const { guidesPlacementType, guidesCanonicalIsPublishable } = require('./guidesBaseRecordSemantics')
 const { isRenderableCanonicalSource } = require('./sourceCompleteness')
 const fs = require('fs')
 const node_path = require('path')
@@ -94,7 +94,9 @@ class larkDocScraper {
 
     async fetch_wiki_node_metadata(records, { progressLabel=null, progressEvery=25 } = {}) {
         const metadataByToken = new Map()
-        const canonicalRecords = canonicalRecordsFrom(records || this.records || [])
+        const canonicalRecords = canonicalRecordsFrom(records || this.records || [], {
+            guidesPublishableOnly: this.use_all_base_tables,
+        })
         if (progressLabel) {
             console.log(`${progressLabel}: resolving ${canonicalRecords.length} wiki node(s)`)
         }
@@ -213,7 +215,7 @@ class larkDocScraper {
         }
 
         if (recursive && this.target_type == "wiki") {
-            await this.__apply_base_navigation()
+            await this.__apply_base_navigation({ hydrateLinkedDocs: true })
         }
 
         // validate all docx source files have blocks before proceeding
@@ -797,6 +799,7 @@ class larkDocScraper {
         const sources = this.__source_files()
         for (const record of this.records || []) {
             if (this.__placement_type(record) !== 'canonical') continue
+            if (this.use_all_base_tables && !guidesCanonicalIsPublishable(record)) continue
             const docField = this.__doc_field(record.fields)
             const docToken = this.__doc_token(docField)
             if (!docToken || isRenderableCanonicalSource(sources.get(docToken))) continue

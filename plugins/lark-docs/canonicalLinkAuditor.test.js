@@ -52,6 +52,33 @@ test('canonicalRecordsFrom respects explicit placement and infers Feishu docs wi
   )
 })
 
+test('canonicalRecordsFrom can restrict Guides sources to publishable canonical records', () => {
+  const records = [
+    {
+      record_id: 'draft',
+      fields: {
+        Docs: { text: 'Draft', link: 'https://example.feishu.cn/wiki/draft-token' },
+        Progress: 'Draft',
+        'Placement Type': 'canonical',
+      },
+    },
+    {
+      record_id: 'empty-progress',
+      fields: {
+        Docs: { text: 'Hidden', link: 'https://example.feishu.cn/wiki/hidden-token' },
+        Progress: '',
+        'Placement Type': 'canonical',
+      },
+    },
+  ]
+
+  assert.deepEqual(canonicalRecordsFrom(records).map(record => record.record_id), ['draft', 'empty-progress'])
+  assert.deepEqual(
+    canonicalRecordsFrom(records, { guidesPublishableOnly: true }).map(record => record.record_id),
+    ['draft'],
+  )
+})
+
 function writeJson(dir, file, value) {
   fs.writeFileSync(path.join(dir, file), JSON.stringify(value, null, 2))
 }

@@ -71,7 +71,7 @@ git commit -m "fix(lark): align Base record publishing semantics"
 
 - [x] **Step 1: 写失败测试**
 
-覆盖：canonical source 是 `base_nav_virtual`、缺 page block、正文 blocks 为空时 completeness 失败；section/link/ref virtual source 允许存在。
+覆盖：可发布 canonical source 是 `base_nav_virtual`、缺 page block、正文 blocks 为空时 completeness 失败；空 Progress canonical 不进入 expected source 集合；section/link/ref virtual source 允许存在。
 
 - [x] **Step 2: 验证测试失败**
 
@@ -85,7 +85,7 @@ Expected: FAIL，当前 virtual canonical 被计为 valid。
 
 - [x] **Step 4: 修复 linked Base doc hydration**
 
-`__fetch_base_doc_sources()` 不再用 `sources.has(docToken)` 判断完成；只有对应 source 可渲染才跳过。full fetch 和 incomplete-cache recovery 必须刷新所有 virtual canonical。
+`__fetch_base_doc_sources()` 不再用 `sources.has(docToken)` 判断完成；只有对应 source 可渲染才跳过。full fetch 必须通过 `hydrateLinkedDocs: true` 刷新所有可发布 virtual canonical；空 Progress canonical 跳过 hydration，incremental token fetch 和表级 render 不执行全量 hydration。
 
 - [x] **Step 5: 验证 planner 自动转 full**
 
@@ -494,7 +494,7 @@ git commit -m "ci(guides): finalize parallel table render DAG"
 **Files:**
 - Modify: `.claude/superpowers/plans/2026-07-15-guides-table-sharding.md`
 
-- [ ] **Step 1: 运行完整本地测试**
+- [x] **Step 1: 运行完整本地测试**
 
 Run:
 
@@ -504,9 +504,11 @@ node --test plugins/lark-docs/*.test.js scripts/docs-workflow/*.test.js scripts/
 
 Expected: 0 failures。
 
-- [ ] **Step 2: 强制 full source fetch 到隔离工作区**
+- [x] **Step 2: 强制 full source fetch 到隔离工作区**
 
 使用真实 Base 和 `--forceFullFetch`，确认 373 条 canonical 全部为 renderable source，Tools 为 23 条 canonical，Client Libraries 为 1 条 canonical。
+
+实际验证先执行了隔离 full replay，再针对旧实现遗留的 87 个 virtual canonical 定向 hydration；补齐 `Marketplace Subscription` metadata 后重新生成 candidate，结果为 373/373 renderable、Tools 23、Client Libraries 1、matrix 14。
 
 - [ ] **Step 3: 以 `max-parallel: 4` 重放 14 个组合**
 
