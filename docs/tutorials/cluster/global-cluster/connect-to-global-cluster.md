@@ -8,7 +8,7 @@ last_modified: FALSE
 deprecate_since: FALSE
 beta: FALSE
 notebook: FALSE
-description: "After your global cluster is running, connect to it using an endpoint and an authentication token. This page covers the two endpoint types, when to use each, and how routing behaves during switchover and failover. | Cloud"
+description: "Connect to Global Cluster | Cloud"
 type: origin
 token: DknbwaLS3iAAiUk9ifPc1Vmvnze
 sidebar_position: 3
@@ -36,7 +36,9 @@ After your global cluster is running, connect to it using an endpoint and an aut
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This feature is available only to <strong>Dedicated</strong> clusters in a <strong>Business Critical</strong> project.</p>
+This feature is available only on Business Critical (SaaS) and BYOC deployments.
+
+This feature is available in all AWS regions and in the following Google Cloud regions: gcp-us-central1 and gcp-us-east4. It is not available on Microsoft Azure.
 
 </Admonition>
 
@@ -85,7 +87,7 @@ The following table compares the two connection endpoints.
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>It is recommended to use the global endpoint for production workloads. It eliminates the need to handle endpoint changes in your application code during switchover or failover.</p>
+It is recommended to use the global endpoint for production workloads. It eliminates the need to handle endpoint changes in your application code during switchover or failover.
 
 </Admonition>
 
@@ -107,9 +109,57 @@ The following table compares the two connection endpoints.
 
 </Procedures>
 
-## Check SDK version\{#check-sdk-version}
+## Connect using the global endpoint\{#connect-using-the-global-endpoint}
 
-Ensure you have [installed](./install-sdks) SDKs. Before connecting to a global cluster, ensure your SDK meets the minimum version requirement.
+The global endpoint is a single URL that always routes requests to the current primary cluster in the global cluster. 
+
+If a switchover or failover occurs, Zilliz Cloud automatically updates the global endpoint to point to the new primary cluster. This lets your application continue using the same endpoint without manually changing the cluster URI.
+
+Zilliz Cloud supports connecting to the global endpoint through both SDKs and RESTful APIs. For production applications, we recommend using an SDK client.
+
+<details>
+
+<summary>Why SDK connections are recommended over RESTful API connections?</summary>
+
+SDK clients can retrieve the global cluster topology, including the endpoint list, primary and secondary roles, and cluster health. With this information, SDK clients can react faster when the primary cluster changes. SDK clients will also support read/write splitting in the future, where write requests are routed to the primary cluster and eligible read requests are routed based on the global cluster topology.
+
+However, RESTful API connections do not maintain global cluster topology information. As a result, RESTful API connections may take longer to switch to the new primary cluster after a switchover or failover. For the same reason, RESTful API connections cannot support read/write splitting.
+
+The following table compares SDK connection with RESTful API connection.
+
+<table>
+   <tr>
+     <th><p><strong>Dimension</strong></p></th>
+     <th><p><strong>SDK connection</strong></p></th>
+     <th><p><strong>RESTful API connection</strong></p></th>
+   </tr>
+   <tr>
+     <td><p>Best for</p></td>
+     <td><p>Production applications that need faster recovery during role changes and future read/write splitting.</p></td>
+     <td><p>Lightweight scripts, simple REST integrations, and one-off administrative operations.</p></td>
+   </tr>
+   <tr>
+     <td><p>Topology awareness</p></td>
+     <td><p>Retrieves global cluster topology, including the endpoint list, primary and secondary roles, and cluster health.</p></td>
+     <td><p>Does not maintain global cluster topology information.</p></td>
+   </tr>
+   <tr>
+     <td><p>Primary change handling</p></td>
+     <td><p>Can react faster, usually within seconds, when the primary cluster changes after a switchover or failover.</p></td>
+     <td><p>May take longer, usually minutes, to switch to the new primary because the client does not maintain topology information.</p></td>
+   </tr>
+   <tr>
+     <td><p>Read/write splitting</p></td>
+     <td><p>✅ Will be supported soon.</p></td>
+     <td><p>❌ Not supported</p></td>
+   </tr>
+</table>
+
+</details>
+
+### Check SDK Version\{#check-sdk-version}
+
+Before you start, ensure you have [installed](./install-sdks) SDKs and also ensure your SDK meets the minimum version requirement.
 
 <table>
    <tr>
@@ -121,24 +171,14 @@ Ensure you have [installed](./install-sdks) SDKs. Before connecting to a global 
      <td><p><code>2.6.9</code></p></td>
    </tr>
    <tr>
-     <td><p>Node.js</p></td>
-     <td><p><code>2.6.10</code></p></td>
-   </tr>
-   <tr>
      <td><p>Java</p></td>
      <td><p><code>2.6.14</code></p></td>
    </tr>
-   <tr>
-     <td><p>Go</p></td>
-     <td><p><code>2.6.2</code></p></td>
-   </tr>
 </table>
 
-## Connect using the global endpoint\{#connect-using-the-global-endpoint}
+### Connection guide\{#connection-guide}
 
-The global endpoint is a single URL that routes requests to the appropriate cluster in the global cluster. Use it as the `uri` in your SDK client.
-
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -170,30 +210,13 @@ MilvusClientV2 client = new MilvusClientV2(connectConfig);
 
 </TabItem>
 
-<TabItem value='javascript'>
+<TabItem value='bash'>
 
-```javascript
-const { MilvusClient } = require("@zilliz/milvus2-sdk-node")
-
-// Use the global endpoint for automatic routing
-const client = new MilvusClient({
-    address: "YOUR_GLOBAL_ENDPOINT",  // Global endpoint from the console
-    token: "YOUR_CLUSTER_TOKEN"       // API key or username:password
-})
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-import "github.com/milvus-io/milvus/client/v2/milvusclient"
-
-// Use the global endpoint for automatic routing
-client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-    Address: "YOUR_GLOBAL_ENDPOINT", // Global endpoint from the console
-    APIKey:  "YOUR_CLUSTER_TOKEN", // API key or username:password
-})
+```bash
+curl --request POST \
+  --url "YOUR_GLOBAL_ENDPOINT" \
+  --header "Authorization: Bearer YOUR_CLUSTER_TOKEN" \
+  --header "Content-Type: application/json" \
 ```
 
 </TabItem>
@@ -203,7 +226,7 @@ client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
 
 Each cluster in the global cluster has its own public endpoint. Use this when you need to target a specific cluster directly.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -262,11 +285,22 @@ client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
 ```
 
 </TabItem>
+
+<TabItem value='bash'>
+
+```bash
+curl --request POST \
+  --url "YOUR_CLUSTER_PUBLIC_ENDPOINT" \
+  --header "Authorization: Bearer YOUR_CLUSTER_TOKEN" \
+  --header "Content-Type: application/json" \
+```
+
+</TabItem>
 </Tabs>
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>When using public endpoints, only the primary cluster's public endpoint accepts write operations. Writing to a secondary cluster's public endpoint will fail.</p>
+When using public endpoints, only the primary cluster's public endpoint accepts write operations. Writing to a secondary cluster's public endpoint will fail.
 
 </Admonition>
 

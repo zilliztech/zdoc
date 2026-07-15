@@ -177,13 +177,13 @@ Zilliz Cloud は、AWS、Google Cloud、Microsoft Azure の複数のクラウド
      <th><p><strong>Microsoft Azure</strong></p></th>
    </tr>
    <tr>
-     <td><p>常時稼働コンピュート (<a href="./cluster">Serving クラスター</a>)</p></td>
+     <td><p>常時稼働コンピュート (<a href="./manage-cluster">Serving クラスター</a>)</p></td>
      <td><p>✅ すべてのリージョン</p></td>
      <td><p>✅ すべてのリージョン</p></td>
      <td><p>✅ すべてのリージョン</p></td>
    </tr>
    <tr>
-     <td><p><a href="./on-demand-compute">オンデマンドコンピュート</a></p></td>
+     <td><p><a href="./on-demand-cluster">オンデマンドコンピュート</a></p></td>
      <td><p>ℹ️ 一部のリージョン:</p><ul><li>us-west-2</li></ul></td>
      <td><p>❌</p></td>
      <td><p>❌</p></td>
@@ -241,13 +241,13 @@ Zilliz Cloud は、AWS、Google Cloud、Microsoft Azure の複数のクラウド
      <th><p><strong>Microsoft Azure</strong></p></th>
    </tr>
    <tr>
-     <td><p><a href="./volume">Volume</a></p></td>
+     <td><p><a href="./managed-volume">Volume</a></p></td>
      <td><p>✅ すべてのリージョン</p></td>
      <td><p>✅ すべてのリージョン</p></td>
      <td><p>❌</p></td>
    </tr>
    <tr>
-     <td><p><a href="./external-collection">External collection</a></p></td>
+     <td><p><a href="./manage-external-collections-console">External collection</a></p></td>
      <td><p>✅ すべてのリージョン</p></td>
      <td><p>❌</p></td>
      <td><p>❌</p></td>
@@ -255,7 +255,7 @@ Zilliz Cloud は、AWS、Google Cloud、Microsoft Azure の複数のクラウド
    <tr>
      <td><p><a href="./global-cluster-explained">Global cluster</a></p></td>
      <td><p>✅ すべてのリージョン</p></td>
-     <td><p>ℹ️ 一部のリージョン:</p><ul><li><p>gcp-us-central1</p></li><li><p>gcp-us-east4</p></li></ul></td>
+     <td><p>ℹ️ 一部のリージョン:</p><ul><li><p>gcp-us-central1</p></li><li><p>gcp-us-east4</p><Admonition type="caution" icon="🚧" title="undefined"> </Admonition></li></ul></td>
      <td><p>❌</p></td>
    </tr>
    <tr>

@@ -178,6 +178,12 @@ curl --request POST \
 
 再開操作が成功すると、ジョブレコードが生成されます。進捗状況は [ジョブ](./job-center) ページで確認できます。
 
+### グローバルクラスターへの変換\{#convert-to-a-global-cluster}
+
+既存の専用クラスターを [グローバルクラスター](./global-cluster-explained) に変換する必要がある場合は、以下の手順に従ってください。
+
+<Supademo id="cmm5p53sh3hogdtfhemesjhv0" title=""  />
+
 ## 削除\{#drop}
 
 クラスターが不要になった場合、削除することができます。クラスターは Web コンソールまたはプログラムで削除できます。

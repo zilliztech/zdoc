@@ -5,7 +5,7 @@ sidebar_key: monitor-global-cluster
 sidebar_label: "グローバルクラスターを監視"
 beta: FALSE
 notebook: FALSE
-description: "このページでは、グローバルクラスターの健全性、レプリケーション状態、およびパフォーマンスを監視する方法について説明します。 | Cloud"
+description: "グローバルクラスターの監視 | Cloud"
 type: origin
 token: ZQqowpu4Oi0xIPkyRSTconB6nnb
 sidebar_position: 6
@@ -29,7 +29,9 @@ import Admonition from '@theme/Admonition';
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>この機能は、<strong>ビジネスクリティカル</strong> プロジェクトの <strong>Dedicated</strong> クラスターでのみ利用可能です。</p>
+この機能は、Business Critical（SaaS）および BYOC デプロイでのみ利用できます。
+
+この機能は、すべての AWS リージョンと、Google Cloud の gcp-us-central1 および gcp-us-east4 リージョンで利用できます。Microsoft Azure では利用できません。
 
 </Admonition>
 
@@ -118,5 +120,4 @@ import Admonition from '@theme/Admonition';
 
 ## クラスターメトリクスとアラート\{#cluster-metrics-and-alerts}
 
-グローバルクラスター内の各クラスター（プライマリおよびセカンダリの両方）は、通常の Dedicated クラスターと同じメトリクスを公開します。これらのメトリクスはクラスター詳細ページで確認したり、これらのメトリクスのアラートを作成したり、外部監視システムにエクスポートしたりすることができます。詳細については、[メトリクスとアラート](./metrics-and-alerts) を参照してください。
-
+グローバルクラスター内の各クラスター（プライマリーおよびセカンダリー）は、通常の Dedicated クラスターと同じメトリクスを公開します。これらのメトリクスはクラスター詳細ページで確認したり、アラートを作成したり、外部監視システムにエクスポートしたりできます。詳細については、[メトリクスリファレンス](./metrics-alerts-reference)を参照してください。

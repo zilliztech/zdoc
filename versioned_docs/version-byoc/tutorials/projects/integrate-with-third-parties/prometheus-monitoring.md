@@ -11,7 +11,7 @@ notebook: FALSE
 description: "Prometheus is a monitoring system that collects metrics from configured targets at specified intervals, evaluates rule expressions, displays the results, and can trigger alerts based on specific conditions. | BYOC"
 type: origin
 token: Ex99woZlsico4FkfwxGckjRRnqf
-sidebar_position: 5
+sidebar_position: 1
 keywords: 
   - zilliz
   - vector database
@@ -32,6 +32,8 @@ import Procedures from '@site/src/components/Procedures';
 [Prometheus](https://prometheus.io/) is a monitoring system that collects metrics from configured targets at specified intervals, evaluates rule expressions, displays the results, and can trigger alerts based on specific conditions.
 
 By integrating Zilliz Cloud with Prometheus, you can collect and monitor metrics related to your Zilliz Cloud deployment.
+
+Prometheus integration exports Serving Cluster metrics only. It does not export On-Demand Compute database metrics.
 
 ## Configure Prometheus to scrape Zilliz Cloud metrics\{#configure-prometheus-to-scrape-zilliz-cloud-metrics}
 
@@ -64,7 +66,7 @@ To monitor Zilliz Cloud clusters with Prometheus, follow these steps:
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    <p>The cluster must contain no more than 10,000 collections. Clusters exceeding this limit may experience incomplete or degraded metrics export.</p>
+    The cluster must contain no more than 10,000 collections. Clusters exceeding this limit may experience incomplete or degraded metrics export.
 
     </Admonition>
 

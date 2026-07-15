@@ -8,7 +8,7 @@ last_modified: FALSE
 deprecate_since: FALSE
 beta: FALSE
 notebook: FALSE
-description: "This page explains how to monitor the health, replication status, and performance of your global cluster. | Cloud"
+description: "Monitor Global Cluster | Cloud"
 type: origin
 token: ZQqowpu4Oi0xIPkyRSTconB6nnb
 sidebar_position: 6
@@ -32,7 +32,9 @@ This page explains how to monitor the health, replication status, and performanc
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This feature is available only to <strong>Dedicated</strong> clusters in a <strong>Business Critical</strong> project.</p>
+This feature is available only on Business Critical (SaaS) and BYOC deployments.
+
+This feature is available in all AWS regions and in the following Google Cloud regions: gcp-us-central1 and gcp-us-east4. It is not available on Microsoft Azure.
 
 </Admonition>
 
@@ -121,5 +123,5 @@ If you perform a [failover](./switchover-and-failover#perform-a-failover) while 
 
 ## Cluster metrics and alerts\{#cluster-metrics-and-alerts}
 
-Each cluster in a global cluster — both primary and secondary — exposes the same metrics as a regular Dedicated cluster. You can view these metrics on the cluster details page, create alerts for these metrics, or export them to an external monitoring system. For details, see [Metrics & Alerts](./metrics-and-alerts).
+Each cluster in a global cluster — both primary and secondary — exposes the same metrics as a regular Dedicated cluster. You can view these metrics on the cluster details page, create alerts for these metrics, or export them to an external monitoring system. For details, see [Metrics Reference](./metrics-alerts-reference).
 

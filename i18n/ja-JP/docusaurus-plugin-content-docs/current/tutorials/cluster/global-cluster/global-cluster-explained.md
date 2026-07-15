@@ -5,7 +5,7 @@ sidebar_key: global-cluster-explained
 sidebar_label: "グローバルクラスターの概要"
 beta: FALSE
 notebook: FALSE
-description: "Zilliz Cloud のグローバルクラスターを使用すると、同じクラウドプロバイダーの複数のリージョンに、プライマリークラスターと複数の読み取り専用セカンダリークラスターをデプロイできます。"
+description: "グローバルクラスターの概要 | Cloud"
 type: origin
 token: AICcwQ55yiNqEPkjdV6cb2i8nqe
 sidebar_position: 1
@@ -33,7 +33,9 @@ Zilliz Cloud **グローバルクラスター** を使用すると、同じク�
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>この機能は、<strong>ビジネスクリティカル</strong> プロジェクトの <strong>Dedicated</strong> クラスターでのみ利用可能です。</p>
+この機能は、Business Critical（SaaS）および BYOC デプロイでのみ利用できます。
+
+この機能は、すべての AWS リージョンと、Google Cloud の gcp-us-central1 および gcp-us-east4 リージョンで利用できます。Microsoft Azure では利用できません。
 
 </Admonition>
 
@@ -99,7 +101,7 @@ Zilliz Cloud グローバルクラスターは、スイッチオーバーとフ�
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p><a href="./switchover-and-failover#perform-a-failover">フェイルオーバー</a> 後のごみ箱にある破棄されたクラスターは、<strong>ストレージ</strong> のみが請求されます。</p>
+[フェイルオーバー](./switchover-and-failover#perform-a-failover)後にごみ箱へ移動されたクラスターは、**ストレージ**についてのみ課金されます。
 
 </Admonition>
 
@@ -203,4 +205,3 @@ Zilliz Cloud グローバルクラスターは、スイッチオーバーとフ�
     - プライベートグローバルエンドポイントの設定はサポートされていません。グローバルエンドポイントにはパブリックインターネットアクセスが必要です。
 
     - カスタマーマネージド暗号化キー（[CMEK](./cmek)）は、グローバルクラスターではサポートされていません。CMEK が有効になっているクラスターは、グローバルクラスターに変換できません。
-

@@ -5,7 +5,7 @@ sidebar_key: on-demand-cluster
 sidebar_label: "クラスター"
 beta: PUBLIC
 notebook: FALSE
-description: "クラスターは、ベクトルデータベースのワークロードを実行するコンピューティングリソースのセットです。Zilliz Cloud には、常時稼働で低レイテンシーアクセスが必要な本番ワークロード向けに継続的に実行されるサーバークラスターと、リクエストが到着したときにのみ起動し、アイドル時にゼロにスケールするオンデマンドクラスターの2種類があります。 | Cloud"
+description: "クラスターは、ベクトルデータベースのワークロードを実行するコンピュートリソースの集合です。Zilliz Cloud には、常時稼働して低レイテンシーアクセスが必要な本番ワークロードを処理する Serving クラスターと、リクエストの到着時に起動し、アイドル時にゼロまでスケールするオンデマンドクラスターの2種類があります。 | Cloud"
 type: origin
 token: XFoiwC15Jiu5LAkUeuVcvbconDR
 sidebar_position: 1
@@ -13,7 +13,7 @@ keywords:
   - zilliz
   - ベクトルデータベース
   - cloud
-  - オンデマンドコンピューティング
+  - オンデマンドコンピュート
   - クラスター
 
 ---
@@ -25,250 +25,276 @@ import Supademo from '@site/src/components/Supademo';
 
 import Procedures from '@site/src/components/Procedures';
 
-# クラスタ
+# オンデマンドクラスター
 
-クラスタは、ベクトルデータベースのワークロードを実行するコンピューティングリソースのセットです。Zilliz Cloud では2つのタイプを提供しています。**serving cluster** は、常時稼働かつ低レイテンシーアクセスが必要な本番ワークロード向けに継続的に実行され、**on-demand cluster** はリクエストが到着したときにのみ起動し、アイドル時にはゼロにスケールします。
+オンデマンドクラスターは、オンデマンドの検索およびクエリワークロードにコンピュートリソースを提供します。リクエストが到着すると起動し、アイドル状態になるとゼロまでスケールダウンするため、バッチ検索、検証、探索、常時稼働のサービスを必要としないワークロードに適しています。
 
-このトピックでは、**on-demand** クラスタの作成方法について説明します。
+## 前提条件
 
-<Admonition type="info" icon="📘" title="Note">
+オンデマンドクラスターを作成する前に、次の条件を満たしていることを確認してください。
 
-<p>この機能は <strong>Enterprise</strong> プロジェクトでのみ利用可能です。</p>
-<p>現在、on-demand クラスタは AWS us-west-2 でのみ作成できます。その他のリージョンについては、<a href="http://zilliz.com/contact-sales">お問い合わせ</a>ください。</p>
+- 対象プロジェクトの **Project Admin** であること。ロールと権限の詳細については、[プロジェクトユーザーの管理](./project-users)を参照してください。
+- オンデマンドクラスターを作成するプロジェクトの ID を取得していること。
+- プロジェクト内のリソースを管理する権限を持つ API キーを取得していること。
+- プロジェクトとオンデマンドクラスターが同じリージョンにあること。現在サポートされているリージョンは `aws-us-west-2` と `az-eastus` です。
 
-</Admonition>
+## 制限事項
 
-## 制限\{#limitations}
+| 制限 | 説明 |
+| ----- | ----------- |
+| プロジェクトタイプ | オンデマンドクラスターは Enterprise プロジェクトでのみ利用できます。 |
+| リージョン | 現在、オンデマンドクラスターを作成できるのは `aws-us-west-2` と `az-eastus` のみです。 |
+| 権限 | オンデマンドクラスターを管理するには、Project Admin である必要があります。 |
+| クラスター数 | 各プロジェクトには最大20個のオンデマンドクラスターを作成できます。 |
+| データ量 | オンデマンドクラスターは、8 CU ごとに最大 3 TB の生データをクエリできます。この制限を超えるクエリはエラーを返します。 |
 
-- on-demand クラスタを管理するには、**プロジェクト管理者**である必要があります。
+## オンデマンドクラスターの作成
 
-- 各プロジェクトで作成できる on-demand クラスタは最大20個までです。
+Zilliz Cloud コンソールまたは RESTful API を使用してオンデマンドクラスターを作成できます。
 
-- on-demand クラスタは、8 CU あたり最大3 TB の生データをクエリできます。この制限を超えるクエリはエラーを返します。
+### RESTful API を使用する場合\{#via-restful-api}
 
-## on-demand クラスタの作成\{#create-an-on-demand-cluster}
+次の例では、オンデマンドクラスターを作成します。詳細については、[Create On-Demand Cluster (V2)](/reference/restful/create-on-demand-cluster-v2)を参照してください。
 
-- **RESTful API経由**
+```bash
+curl --request POST \
+--url "${BASE_URL}/v2/clusters/createOnDemandCluster" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Request-Timeout: 5" \
+--header "Content-Type: application/json" \
+-d '{
+    "projectId": "proj-xxxxxxxxxxxxxxxxxxx",
+    "regionId": "aws-us-west-2",
+    "clusterName": "my-on-demand",
+    "cuSize": 8,
+    "autoSuspend": 60,
+    "description": "A cluster for vector search workloads."
+}'
+```
 
-    ```bash
-    export BASE_URL="https://api.cloud.zilliz.com"
-    export TOKEN="YOUR_API_KEY"
-    curl --request POST \
-         --url "${BASE_URL}/v2/clusters/createOnDemandCluster" \
-         --header "Authorization: Bearer ${TOKEN}" \
-         --header "Accept: application/json" \
-         --header "Content-Type: application/json" \
-         --data-raw '{
-            "projectId": "proj-09ee1f4b1151d5dd1edbc5",
-            "regionId": "aws-us-west-2",
-            "clusterName": "my-on-demand",
-            "cuSize": 8,
-            "autoSuspend": 120,
-            "description": "A cluster for vector search workloads."
-          }'
-         
-    # {
-    #   "code": 0,
-    #   "data": {
-    #     "clusterId": "in07-7d6ac8697204a6a",
-    #     "regionId": "aws-us-west-2",
-    #     "projectId": "proj-09ee1f4b1151d5dd1edbc5"
-    #   }
-    # }
-    ```
+次の表は各パラメータについて説明しています。
 
-    The following table describes the parameters.
+| パラメータ | 説明 |
+| --------- | ----------- |
+| `projectId` | オンデマンドクラスターを作成するプロジェクトの ID。 |
+| `regionId` | オンデマンドクラスターをデプロイするリージョン。リージョンはプロジェクトのリージョンと一致している必要があります。現在は `aws-us-west-2` または `az-eastus` を使用します。 |
+| `clusterName` | 作成するオンデマンドクラスターの名前。 |
+| `cuSize` | 割り当てるクエリ CU の数。クラスターはワークロードに応じてゼロからこの値まで自動的にスケールします。最小値は 8 CU、最大値は 256 CU で、8 単位で指定します。この値は作成後に変更できません。 |
+| `autoSuspend` | クラスターが自動一時停止するまでのアイドルタイムアウト（秒）。この期間中にリクエストを受信しなかった場合、コンピュートコストの発生を停止するためクラスターが一時停止します。最小値とデフォルト値はいずれも60秒です。 |
+| `description`（任意） | 作成するオンデマンドクラスターの説明。最大255文字。 |
+
+出力例は次のとおりです。
+
+```json
+{
+    "code": 0,
+    "data": {
+        "clusterId": "inxx-xxxxxxxxxxxxxxx",
+        "prompt": "Successfully submitted. The on-demand cluster is being created. Use the Describe On-Demand Cluster API to check its creation progress and status. Once the cluster status is RUNNING, use your API key to access the on-demand cluster."
+    }
+}
+```
+
+### Web コンソールを使用する場合\{#via-web-console}
+
+<Supademo id="cmo9gv84436szl2dy975hyhsh" title=""  />
+
+<Procedures>
+
+1. **On-Demand Compute > Clusters** をクリックします。
+
+1. **+ Cluster** をクリックします。
+
+1. クラスター設定を構成します。
+
+    次の表は各パラメータについて説明しています。
 
     <table>
-       <tr>
-         <th><p><strong>パラメーター</strong></p></th>
-         <th><p><strong>説明</strong></p></th>
-       </tr>
-       <tr>
-         <td><p><code>projectId</code></p></td>
-         <td><p>オンデマンドクラスターが作成されるプロジェクトのID。</p></td>
-       </tr>
-       <tr>
-         <td><p><code>regionId</code></p></td>
-         <td><p>クラスターがデプロイされるリージョン。プロジェクトのリージョンと一致する必要があります。</p></td>
-       </tr>
-       <tr>
-         <td><p><code>cuSize</code></p></td>
-         <td><p>割り当てるクエリーCUの数。クラスターはワークロードに基づいてゼロからこの値の間で自動的にスケールします — リクエストが到着すると指定されたCUサイズまでスピンアップし、アイドル時にはゼロまでスケールダウンします。</p><p>最小は8 CU、最大は256 CUで、サイズは8ずつ増加します（例：8、16、24）。8 CUを超えるクラスターには支払い方法が必要です。</p><p>これを8に設定すると、最大3 TBのデータを検索できます。データボリュームを増やすには、CUサイズを増やしてください。</p><p>この値は作成後に固定され、変更できません。</p></td>
-       </tr>
-       <tr>
-         <td><p><code>clusterName</code></p></td>
-         <td><p>作成するクラスターの名前。</p></td>
-       </tr>
-       <tr>
-         <td><p><code>auto一時停止</code></p></td>
-         <td><p>クラスターが自動的に一時停止するまでのアイドルタイムアウト。この期間内にリクエストを受信しない場合、クラスターはコンピュートコストの発生を停止するために一時停止します。</p><ul><li><p>値の型: 整数</p></li><li><p>単位: 秒</p></li><li><p>最小値: 60</p></li><li><p>デフォルト: 60</p></li></ul></td>
-       </tr>
-       <tr>
-         <td><p><code>description</code></p></td>
-         <td><p>作成するオンデマンドクラスターの説明です。最大 255 文字です。</p></td>
-       </tr>
+        <tr>
+          <th><p><strong>パラメータ</strong></p></th>
+          <th><p><strong>説明</strong></p></th>
+        </tr>
+        <tr>
+          <td><p>Cluster Name</p></td>
+          <td><p>作成するクラスターの名前。</p></td>
+        </tr>
+        <tr>
+          <td><p>Cluster Description</p></td>
+          <td><p>作成するオンデマンドクラスターの説明。最大255文字。</p></td>
+        </tr>
+        <tr>
+          <td><p>Query CU</p></td>
+          <td><p>割り当てるクエリ CU の数。クラスターはワークロードに応じてゼロからこの値まで自動的にスケールします。リクエストが到着すると指定した CU サイズまで起動し、アイドル時にはゼロまでスケールダウンします。</p><p>最小値は 8 CU、最大値は 256 CU で、8 単位（8、16、24 など）で指定します。8 CU を超えるクラスターには支払い方法の登録が必要です。</p><p>8 に設定すると、最大 3 TB のデータを検索できます。データ量を増やすには CU サイズを増やしてください。</p><p>この値は作成後に変更できません。</p></td>
+        </tr>
+        <tr>
+          <td><p>Auto suspend</p></td>
+          <td><p>クラスターが自動一時停止するまでのアイドル時間（秒）。デフォルトは1分です。この期間中にリクエストを受信しなかった場合、コンピュートコストの発生を停止するためクラスターが一時停止します。</p></td>
+        </tr>
     </table>
 
-- **ウェブコンソール経由**
+1. **Create** をクリックします。
 
-    次のデモでは、ウェブコンソールでオンデマンドクラスターを作成する方法を示しています。
+</Procedures>
 
-    <Supademo id="cmo9gv84436szl2dy975hyhsh" title=""  />
+## オンデマンドクラスターの更新\{#update-on-demand-cluster}
 
-    <Procedures>
+オンデマンドクラスターの名前、説明、および `autoSuspend` 設定を更新できます。
 
-    1. **On-Demand Compute > Clusters** をクリックします。
+### RESTful API を使用する場合\{#via-restful-api}
 
-    1. **+ Cluster** をクリックします。
+次の例では、オンデマンドクラスターを更新します。詳細については、[Update On-Demand Cluster (V2)](/reference/restful/update-on-demand-cluster-v2)を参照してください。
 
-    1. クラスター設定を構成します。
+```bash
+export TOKEN="YOUR_API_KEY"
+export CLUSTER_ID="inxx-xxxxxxxxxxxxxxx"
 
-        次の表でパラメーターを説明します。
+curl --request PATCH \
+--url "${BASE_URL}/v2/clusters/onDemandClusters/${CLUSTER_ID}" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "OrgId: org-xxxxxxxxxxxxxxxxxxx" \
+--header "Content-Type: application/json" \
+-d '{
+    "clusterName": "New Cluster Name",
+    "description": "This is the new description of the cluster.",
+    "autoSuspend": "5m"
+}'
+```
 
-        <table>
-           <tr>
-             <th><p><strong>パラメーター</strong></p></th>
-             <th><p><strong>説明</strong></p></th>
-           </tr>
-           <tr>
-             <td><p>クラスター名</p></td>
-             <td><p>作成するクラスターの名前。</p></td>
-           </tr>
-           <tr>
-             <td><p>クラスターの説明</p></td>
-             <td><p>作成するオンデマンドクラスターの説明です。最大 255 文字です。</p></td>
-           </tr>
-           <tr>
-             <td><p>Query CU</p></td>
-             <td><p>割り当てるクエリーCUの数。クラスターはワークロードに基づいてゼロからこの値の間で自動的にスケールします — リクエストが到着すると指定されたCUサイズまでスピンアップし、アイドル時にはゼロまでスケールダウンします。</p><p>最小は8 CU、最大は256 CUで、サイズは8ずつ増加します（例：8、16、24）。8 CUを超えるクラスターには支払い方法が必要です。</p><p>この値は作成後に固定され、変更できません。</p></td>
-           </tr>
-           <tr>
-             <td><p>Auto suspend</p></td>
-             <td><p>クラスターが自動的に一時停止するまでのアイドル時間（秒単位）。デフォルトは1分です。この期間内にリクエストを受信しない場合、クラスターはコンピュートコストの発生を停止するために一時停止します。</p></td>
-           </tr>
-        </table>
+出力例は次のとおりです。
 
-    1. **Create** をクリックします。
-
-    </Procedures>
-
-## View all on-demand clusters\{#view-all-on-demand-clusters}
-
-- **RESTful API経由**
-
-    次のように、すべてのオンデマンドクラスターを一覧表示できます:
-
-    ```bash
-    export BASE_URL="https://api.cloud.zilliz.com"
-    export TOKEN="YOUR_API_KEY"
-    curl --request GET \
-         --url "{BASE_URL}/v2/clusters/onDemandClusters?projectId={PROJECT_ID}&regionId=aws-us-west-2" \
-         --header "Authorization: Bearer ${TOKEN}" \
-         --header "Accept: application/json"
-    ```
-
-    以下は出力例です。
-
-    ```bash
-    {
-      "code": 0,
-      "data": {
-        "count": 2,
-        "onDemandClusters": [
-          {
-            "clusterId": "in07-7d6ac8697204a6a",
-            "clusterName": "xxx",
-            "regionId": "aws-us-west-2",
-            "cuSize": 8,
-            "status": "SUSPENDED",
-            "endpoint": "https://proj-09ee1f4b1151d5dd1edbc5.aws-us-west-2.vectordb-uat3.zillizcloud.com",
-            "privateLink": "",
-            "createdBy": "jack.tsai@zilliz.com",
-            "createTime": 1745396115000
-          }
-        ]
-      }
+```json
+{
+    "code": 0,
+    "data": {
+        "clusterId": "inxx-xxxxxxxxxxxxxxx",
+        "prompt": "successfully submitted. Cluster is being upgraded, which is expected to take several minutes. You can access data about the creation progress and status of your cluster by DescribeCluster API. Once the cluster status is RUNNING, you may access your vector database using the SDK."
     }
-    ```
+}
+```
 
-- **ウェブコンソール経由**
+### Web コンソールを使用する場合\{#via-web-console}
 
-    ![WPOBwHulYhQPRIbgpjJcrAfXnVc](https://zdoc-images.s3.us-west-2.amazonaws.com/WPOBwHulYhQPRIbgpjJcrAfXnVc.png)
+Web コンソールでは、既存のオンデマンドクラスターの名前、説明、自動一時停止時間を変更できます。
 
-## Check the details of an on-demand cluster\{#check-the-details-of-an-on-demand-cluster}
+![M2XMwoWoih17BRbqhGhcb6i9njg](https://zdoc-images.s3.us-west-2.amazonaws.com/M2XMwoWoih17BRbqhGhcb6i9njg.png)
 
-- **RESTful API経由**
+## すべてのオンデマンドクラスターの表示\{#view-all-on-demand-clusters}
 
-    オンデマンドクラスターは以下のように記述できます:
+### RESTful API を使用する場合\{#via-restful-api}
 
-    ```bash
-    export BASE_URL="https://api.cloud.zilliz.com"
-    export TOKEN="YOUR_API_KEY"
-    
-    curl --request GET \
-         --url "${BASE_URL}/v2/clusters/onDemandClusters/in07-7d6ac8697204a6a" \
-         --header "Authorization: Bearer ${TOKEN}" \
-         --header "Accept: application/json"
-    ```
+すべてのオンデマンドクラスターを一覧表示するには、次のリクエストを使用します。
 
-    以下は出力例です。
+```bash
+export BASE_URL="https://api.cloud.zilliz.com"
+export TOKEN="YOUR_API_KEY"
 
-    ```bash
-    {
-      "code": 0,
-      "data": {
+curl --request GET \
+      --url "{BASE_URL}/v2/clusters/onDemandClusters?projectId={PROJECT_ID}&regionId=aws-us-west-2" \
+      --header "Authorization: Bearer ${TOKEN}" \
+      --header "Accept: application/json"
+```
+
+出力例は次のとおりです。
+
+```bash
+{
+  "code": 0,
+  "data": {
+    "count": 2,
+    "onDemandClusters": [
+      {
         "clusterId": "in07-7d6ac8697204a6a",
         "clusterName": "xxx",
         "regionId": "aws-us-west-2",
         "cuSize": 8,
-        "status": "RUNNING",
+        "status": "SUSPENDED",
         "endpoint": "https://proj-09ee1f4b1151d5dd1edbc5.aws-us-west-2.vectordb-uat3.zillizcloud.com",
         "privateLink": "",
-        "createdBy": "jack.tsai@zilliz.com",
+        "createdBy": "admin@zilliz.com",
         "createTime": 1745396115000
       }
-    }
-    ```
+    ]
+  }
+}
+```
 
-- **ウェブコンソール経由**
+### Web コンソールを使用する場合\{via-web-console}
 
-    ![NDpWwXSknh7FMibTGjNcwg8Vnjf](https://zdoc-images.s3.us-west-2.amazonaws.com/NDpWwXSknh7FMibTGjNcwg8Vnjf.png)
+![WPOBwHulYhQPRIbgpjJcrAfXnVc](https://zdoc-images.s3.us-west-2.amazonaws.com/WPOBwHulYhQPRIbgpjJcrAfXnVc.png)
 
-## オンデマンドクラスタの削除\{#drop-an-on-demand-cluster}
+## オンデマンドクラスターの詳細確認\{#check-the-details-of-an-on-demand-cluster}
+
+### RESTful API を使用する場合\{#via-restful-api}
+
+オンデマンドクラスターの詳細を取得するには、次のリクエストを使用します。
+
+```bash
+export BASE_URL="https://api.cloud.zilliz.com"
+export TOKEN="YOUR_API_KEY"
+
+curl --request GET \
+      --url "${BASE_URL}/v2/clusters/onDemandClusters/inxx-xxxxxxxxxxxxxxx" \
+      --header "Authorization: Bearer ${TOKEN}" \
+      --header "Accept: application/json"
+```
+
+出力例は次のとおりです。
+
+```bash
+{
+  "code": 0,
+  "data": {
+    "clusterId": "inxx-xxxxxxxxxxxxxxx",
+    "clusterName": "xxx",
+    "regionId": "aws-us-west-2",
+    "cuSize": 8,
+    "status": "RUNNING",
+    "endpoint": "https://proj-xxxxxxxxxxxxxxx.aws-us-west-2.vectordb-uat3.zillizcloud.com",
+    "privateLink": "",
+    "createdBy": "admin@zilliz.com",
+    "createTime": 1745396115000
+  }
+}
+```
+
+### Web コンソールを使用する場合\{via-web-console}
+
+![NDpWwXSknh7FMibTGjNcwg8Vnjf](https://zdoc-images.s3.us-west-2.amazonaws.com/NDpWwXSknh7FMibTGjNcwg8Vnjf.png)
+
+## オンデマンドクラスターの削除\{#drop-an-on-demand-cluster}
 
 <Admonition type="danger" icon="🚧" title="Warning">
 
-<p>クラスタを削除すると、即座に削除され、復元することはできません。この操作は元に戻せません。</p>
+クラスターを削除すると、直ちに完全に削除され、復元できません。この操作は元に戻せません。
 
 </Admonition>
 
-- **RESTful API経由**
+### RESTful API を使用する場合\{#via-restful-api}
 
-    オンデマンドクラスタは以下のように削除できます。
+オンデマンドクラスターを削除するには、次のリクエストを使用します。
 
-    ```bash
-    export BASE_URL="https://api.cloud.zilliz.com"
-    export TOKEN="YOUR_API_KEY"
-    
-    curl --request DELETE \
-         --url "${BASE_URL}/v2/clusters/onDemandClusters/in07-7d6ac8697204a6a" \
-         --header "Authorization: Bearer ${TOKEN}" \
-         --header "Accept: application/json"
-    ```
+```bash
+export BASE_URL="https://api.cloud.zilliz.com"
+export TOKEN="YOUR_API_KEY"
 
-    以下は出力例です。
+curl --request DELETE \
+      --url "${BASE_URL}/v2/clusters/onDemandClusters/inxx-xxxxxxxxxxxxxxx" \
+      --header "Authorization: Bearer ${TOKEN}" \
+      --header "Accept: application/json"
+```
 
-    ```bash
-    {
-      "code": 0,
-      "data": {
-        "clusterId": "in07-7d6ac8697204a6a",
-        "status": "DELETING"
-      }
-    }
-    ```
+出力例は次のとおりです。
 
-- **ウェブコンソール経由**
+```bash
+{
+  "code": 0,
+  "data": {
+    "clusterId": "inxx-xxxxxxxxxxxxxxx",
+    "status": "DELETING"
+  }
+}
+```
 
-    ![Vu38wTpLDhmRqYbmYFVcbjK5nVx](https://zdoc-images.s3.us-west-2.amazonaws.com/Vu38wTpLDhmRqYbmYFVcbjK5nVx.png)
+### Web コンソールを使用する場合\{via-web-console}
+
+![Vu38wTpLDhmRqYbmYFVcbjK5nVx](https://zdoc-images.s3.us-west-2.amazonaws.com/Vu38wTpLDhmRqYbmYFVcbjK5nVx.png)

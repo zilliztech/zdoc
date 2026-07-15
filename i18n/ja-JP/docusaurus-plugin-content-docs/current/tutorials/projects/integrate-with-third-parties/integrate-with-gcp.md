@@ -9,7 +9,7 @@ description: "Zilliz Cloud では、Google Cloud Storage と連携して、監�
 type: origin
 token: INoRwFTjfiindPkaNlwc9XAgnkh
 sidebar_position: 2
-keywords: 
+keywords:
   - zilliz
   - ベクトルデータベース
   - クラウド
@@ -168,11 +168,247 @@ Zilliz Cloud では、[Google Cloud Storage](https://cloud.google.com/storage) �
 
 これで、Google Cloud Storage が Zilliz Cloud と統合され、監査ログやバックアップファイルをエクスポートできるようになりました。詳細については、[監査ログ](./audit-logs) または [バックアップファイルのエクスポート](./export-backup-files) を参照してください。
 
+## プログラムによるストレージ統合の作成\{#create-storage-integration-programmatically}
+
+Zilliz Cloud コンソールを使用する代わりに、ストレージ統合をプログラムで作成することもできます。
+
+<Procedures>
+
+1. バケットを作成します。
+
+    詳細については、上記の [Google Admin コンソールでバケットを作成](./integrate-with-gcp#step-3-create-a-bucket-in-google-admin-console)または [Create a bucket](https://docs.cloud.google.com/storage/docs/creating-buckets#console) API ドキュメントを参照してください。
+
+1. 認証情報を生成します。
+
+    ```bash
+    export BASE_URL="https://api.cloud.zilliz.com"
+    export TOKEN="YOUR_API_KEY"
+
+    curl --request POST \
+    --url "${BASE_URL}/v2/storageIntegrations/authorizationMaterials" \
+    --header "Authorization: Bearer ${TOKEN}" \
+    --header "Request-Timeout: 5" \
+    --header "Content-Type: application/json" \
+    -d '{
+        "projectId": "proj-xxxxxxxxxxxxxxxxxxxxxx",
+        "regionId": "gcp-us-central1",
+        "bucketName": "my-bucket"
+    }'
+    ```
+
+    上記のリクエストにより、Google Admin コンソールで権限とロールを作成するために必要な認証情報が生成されます。
+
+    レスポンス例は次のとおりです。
+
+    ```bash
+    {
+        "code": 0,
+        "data": {
+            "permission": [
+                "storage.objects.get",
+                "storage.objects.create",
+                "storage.objects.list",
+                "storage.buckets.get"
+            ],
+            "googleCloudServiceAccount": "zilliz-xxxx@vdc-dev-test.iam.gserviceaccount.com"
+        }
+    }
+    ```
+
+    パラメータの詳細については、[Generate Storage Integration Authorization Materials](/reference/restful/generate-storage-integration-authorization-materials-v2)を参照してください。
+
+1. 返された `permission` と `googleCloudServiceAccount` を使用して、バケットを操作するための十分な権限を持つロールを作成します。
+
+    次のステップで使用するため、作成したロールのサービスアカウントメールアドレスを記録します。ロールの作成方法については、上記の [Google Admin コンソールでロールを作成](./integrate-with-gcp#step-2-create-a-role-in-google-admin-console)を参照してください。
+
+1. 取得した認証情報を検証します。
+
+    リクエストで、`externalCred.gcpProjectId` を GCP プロジェクト ID に、`externalCred.serviceAccountEmail` を前のステップで作成したロールのサービスアカウントメールアドレスに設定します。
+
+    ```bash
+    curl --request POST \
+    --url "${BASE_URL}/v2/storageIntegrations/validate" \
+    --header "Authorization: Bearer ${TOKEN}" \
+    --header "Request-Timeout: 5" \
+    --header "Content-Type: application/json" \
+    -d '{
+        "projectId": "proj-xxxxxxxxxxxxxxxxxxxxxx",
+        "regionId": "gcp-us-central1",
+        "bucketName": "my-bucket",
+        "externalCred": {
+            "gcpProjectId": "my-gcp-project",
+            "serviceAccountEmail": "bucket-access@my-gcp-project.iam.gserviceaccount.com"
+        }
+    }'
+    ```
+
+    検証が成功した場合のレスポンスは次のとおりです。
+
+    ```bash
+    {
+        "code": 0,
+        "data": {
+            "success": true,
+            "message": ""
+        }
+    }
+    ```
+
+    パラメータの詳細については、[Validate Storage Integration](/reference/restful/validate-storage-integration-v2)を参照してください。
+
+1. ストレージ統合を作成します。
+
+    このリクエストは、`description` が追加される点を除き、検証リクエストとほとんど同じパラメータを使用します。
+
+    ```bash
+    curl --request POST \
+    --url "${BASE_URL}/v2/storageIntegrations" \
+    --header "Authorization: Bearer ${TOKEN}" \
+    --header "Request-Timeout: 5" \
+    --header "Content-Type: application/json" \
+    -d '{
+        "projectId": "proj-xxxxxxxxxxxxxxxxxxxxxx",
+        "name": "analytics-gcp",
+        "description": "GCP bucket for external tables",
+        "regionId": "gcp-us-central1",
+        "bucketName": "my-bucket",
+        "externalCred": {
+            "gcpProjectId": "my-gcp-project",
+            "serviceAccountEmail": "bucket-access@my-gcp-project.iam.gserviceaccount.com"
+        }
+    }'
+    ```
+
+    レスポンスは次のようになります。
+
+    ```bash
+    {
+        "code": 0,
+        "data": {
+            "integrationId": "integ-xxxxxxxxxxxxxxxxxxx",
+            "name": "analytics-gcp"
+        }
+    }
+    ```
+
+    パラメータの詳細については、[Create Storage Integration](/reference/restful/create-storage-integration-v2)を参照してください。
+
+</Procedures>
+
+
 ## 統合の管理\{#manage-integrations}
 
 統合が追加されると、必要に応じてその詳細を表示したり、統合を削除したりできます。
 
 ![FKLYbB02LoDDA9xENiYccBTun5e](https://zdoc-images.s3.us-west-2.amazonaws.com/fklybb02lodda9xeniyccbtun5e.png "FKLYbB02LoDDA9xENiYccBTun5e")
+
+### 統合 ID の取得\{#obtain-the-integration-id}
+
+RESTful API を使用する場合は、**View Details** をクリックして統合の詳細を表示し、統合 ID をコピーします。
+
+また、次のコマンドを実行して統合 ID を取得することもできます。
+
+```bash
+export TOKEN="YOUR_API_KEY"
+
+curl --request GET \
+--url "${BASE_URL}/v2/storageIntegrations?projectId=proj-xxxxxxxxxxxxxxxxxxxxxx" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Request-Timeout: 5" \
+--header "Content-Type: application/json"
+```
+
+レスポンスは次のようになります。
+
+```bash
+{
+    "code": 0,
+    "data": {
+        "storageIntegrations": [
+            {
+                "integrationId": "integ-xxxxxxxxxxxxxxxxxxx",
+                "name": "analytics-gcp",
+                "status": "ACTIVE",
+                "message": "",
+                "regionId": "gcp-us-central1",
+                "bucketName": "my-bucket"
+            }
+        ],
+        "count": 1,
+        "currentPage": 1,
+        "pageSize": 10
+    }
+}
+```
+
+パラメータの詳細については、[List Storage Integrations](/reference/restful/list-storage-integrations-v2)を参照してください。
+
+### 統合の詳細を表示\{#view-integration-details}
+
+次のコマンドを使用して統合の詳細を表示できます。
+
+```bash
+export integrationId="integ-xxxxxxxxxxxxxxxxxxx"
+
+curl --request GET \
+--url "${BASE_URL}/v2/storageIntegrations/${integrationId}" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Request-Timeout: 5" \
+--header "Content-Type: application/json"
+```
+
+レスポンスは次のようになります。
+
+```bash
+{
+    "code": 0,
+    "data": {
+        "integrationId": "integ-xxxxxxxxxxxxxxxxxxx",
+        "name": "analytics-s3",
+        "description": "GCP bucket for external tables",
+        "status": "ACTIVE",
+        "message": "",
+        "regionId": "gcp-us-central1",
+        "bucketName": "my-bucket",
+        "externalCred": {
+            "roleArn": "arn:aws:iam::123456789012:role/zilliz-bucket-role",
+            "externalId": "zilliz-external-AbCdEf12345678"
+        },
+        "createTime": "2024-07-30T16:49:50Z"
+    }
+}
+```
+
+パラメータの詳細については、[Describe Storage Integration](/reference/restful/describe-storage-integration-v2)を参照してください。
+
+### ストレージ統合の削除\{#delete-storage-integration}
+
+Zilliz Cloud コンソールで **Remove** をクリックする代わりに、次のコマンドを使用して不要なストレージ統合を削除できます。
+
+```bash
+export integrationId="integ-xxxxxxxxxxxxxxxxxxx"
+
+curl --request DELETE \
+--url "${BASE_URL}/v2/storageIntegrations/${integrationId}" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Request-Timeout: 5" \
+--header "Content-Type: application/json"
+```
+
+レスポンスは次のようになります。
+
+```bash
+{
+    "code": 0,
+    "data": {
+        "integrationId": "integ-xxxxxxxxxxxxxxxxxxx",
+        "name": "analytics-gcp"
+    }
+}
+```
+
+パラメータの詳細については、[Delete Storage Integration](/reference/restful/delete-storage-integration-v2)を参照してください。
+
 
 ## よくある質問\{#faq}
 

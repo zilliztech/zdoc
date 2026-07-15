@@ -55,7 +55,7 @@ Query CU Cost = Query CU Unit Price × Number of Query CU × Active Runtime
 
 ## インデックス作成 CU cost\{#indexing-cu-cost}
 
-インデックス作成CUコストは、オンデマンドコンピューティングで[マネージド](./manage-collections)および[外部コレクション](./external-collection)の両方のデータに対してインデックスを構築する際に消費されるコンピューティングリソースを測定します。
+インデックス作成 CU コストは、オンデマンドコンピュートで[マネージドコレクション](./manage-collections-sdks)および[外部コレクション](./create-external-collection)の両方のデータに対してインデックスを構築する際に消費されるコンピュートリソースを測定します。
 
 ### Sources of indexing CU cost\{#sources-of-indexing-cu-cost}
 
@@ -83,3 +83,30 @@ Indexing CU Cost = Indexing CU Unit Price × Number of Indexing CU x Time
 
 </Admonition>
 
+## 例\{#example}
+
+オンデマンドコンピュートの使用状況が次のとおりであるとします。
+
+- **リージョン**: AWS us-west-2
+
+- **プロジェクトプラン**: Enterprise
+
+- **クエリ CU 数**: 8 CU
+
+- **オンデマンドクラスターの実行時間**: 30 分
+
+- **インデックス作成使用量**: 120 CU-minutes
+
+上記の情報に基づき、[料金表](https://zilliz.com/pricing/pricing-guide?plan=Enterprise&provider=aws&region=aws-us-west-2)ページで次の単価を確認できます。
+
+- **クエリ CU 単価** = &#36;0.41 / CU / hour
+
+- **インデックス作成 CU 単価** = &#36;0.41 / CU / hour
+
+したがって、次のように計算されます。
+
+`Query CU Cost = 8 x 30 x $0.41 = $98.40`
+
+`Indexing CU Cost = 120 x $0.41 = $49.20`
+
+`Total On-demand Compute Cost = $98.40+ $49.20 = $147.60`

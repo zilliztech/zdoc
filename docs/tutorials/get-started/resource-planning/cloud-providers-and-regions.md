@@ -26,7 +26,7 @@ import Admonition from '@theme/Admonition';
 
 # Cloud Providers & Regions
 
-Zilliz Cloud supports multiple cloud providers and regions across AWS, Google Cloud, and Microsoft Azure.
+Zilliz Cloud supports multiple cloud providers and regions across AWS, Google Cloud, and Microsoft Azure. 
 
 Region support can vary by workload type, deployment option, and feature. Use this page to choose a region before [creating projects](./manage-projects#create-a-project).
 
@@ -184,13 +184,13 @@ Region support can vary by workload type, deployment option, and feature. Use th
      <th><p><strong>Microsoft Azure</strong></p></th>
    </tr>
    <tr>
-     <td><p>Always-on compute (<a href="./cluster">Serving cluster</a>)</p></td>
+     <td><p>Always-on compute (<a href="./manage-cluster">Serving cluster</a>)</p></td>
      <td><p>✅ All regions</p></td>
      <td><p>✅ All regions</p></td>
      <td><p>✅ All regions</p></td>
    </tr>
    <tr>
-     <td><p><a href="./on-demand-compute">On-demand compute</a></p></td>
+     <td><p><a href="./on-demand-cluster">On-demand compute</a></p></td>
      <td><p>✅ All regions</p></td>
      <td><p>❌</p></td>
      <td><p>ℹ️  Part of the regions:</p><ul><li>East US</li></ul></td>
@@ -248,13 +248,13 @@ Region support can vary by workload type, deployment option, and feature. Use th
      <th><p><strong>Microsoft Azure</strong></p></th>
    </tr>
    <tr>
-     <td><p><a href="./volume">Volume</a></p></td>
+     <td><p><a href="./managed-volume">Volume</a></p></td>
      <td><p>✅ All regions</p></td>
      <td><p>✅ All regions</p></td>
      <td><p>❌</p></td>
    </tr>
    <tr>
-     <td><p><a href="./external-collection">External collection</a></p></td>
+     <td><p><a href="./manage-external-collections-console">External collection</a></p></td>
      <td><p>✅ All regions</p></td>
      <td><p>❌</p></td>
      <td><p>❌</p></td>
@@ -262,7 +262,7 @@ Region support can vary by workload type, deployment option, and feature. Use th
    <tr>
      <td><p><a href="./global-cluster-explained">Global cluster</a></p></td>
      <td><p>✅ All regions</p></td>
-     <td><p>ℹ️   Part of the regions:</p><ul><li><p>gcp-us-central1</p></li><li><p>gcp-us-east4</p></li></ul></td>
+     <td><p>ℹ️   Part of the regions:</p><ul><li><p>gcp-us-central1</p></li><li><p>gcp-us-east4</p><Admonition type="caution" icon="🚧" title="undefined"> </Admonition></li></ul></td>
      <td><p>❌</p></td>
    </tr>
    <tr>

@@ -181,6 +181,12 @@ For details, refer to [Resume Cluster](/reference/restful/resume-cluster-v2).
 
 Once the resume operation is successful, a job record will be generated. You can check the progress on the [Jobs](./job-center) page.
 
+### Convert to a global cluster\{#convert-to-a-global-cluster}
+
+If you need to convert an existing Dedicated cluster to a [global cluster](./global-cluster-explained), follow the steps below.
+
+<Supademo id="cmm5p53sh3hogdtfhemesjhv0" title=""  />
+
 ## Drop\{#drop}
 
 When a cluster is no longer needed, you can drop it. You can drop a cluster via the web console or programatically.

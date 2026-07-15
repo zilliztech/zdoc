@@ -8,8 +8,8 @@ notebook: FALSE
 description: "Prometheus は、設定されたターゲットから指定された間隔でメトリクスを収集し、ルール式を評価して結果を表示し、特定の条件に基づいてアラートを発生させることができる監視システムです。"
 type: origin
 token: Ex99woZlsico4FkfwxGckjRRnqf
-sidebar_position: 5
-keywords: 
+sidebar_position: 1
+keywords:
   - zilliz
   - ベクトルデータベース
   - cloud
@@ -29,6 +29,8 @@ import Procedures from '@site/src/components/Procedures';
 [Prometheus](https://prometheus.io/) は、設定されたターゲットから指定された間隔でメトリクスを収集し、ルール式を評価して結果を表示し、特定の条件に基づいてアラートをトリガーできる監視システムです。
 
 Zilliz Cloud と Prometheus を統合することで、Zilliz Cloud デプロイメントに関連するメトリクスを収集・監視できます。
+
+Prometheus 統合でエクスポートされるのは Serving クラスターのメトリクスのみです。オンデマンドコンピュートデータベースのメトリクスはエクスポートされません。
 
 <Admonition type="info" icon="📘" title="Notes">
 
@@ -60,14 +62,14 @@ Prometheus で Zilliz Cloud クラスターを監視するには、以下の手�
         authorization:
           type: Bearer
           credentials: {{apiKey}}
-        
+
         static_configs:
             - targets: ["api.cloud.zilliz.com"]
     ```
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    <p>クラスターに含まれるコレクションは10,000個以下である必要があります。この制限を超えるクラスターでは、メトリクスのエクスポートが不完全になったり、品質が低下したりする可能性があります。</p>
+    クラスターに含まれるコレクションは10,000個以下である必要があります。この制限を超えるクラスターでは、メトリクスのエクスポートが不完全になったり、品質が低下したりする可能性があります。
 
     </Admonition>
 
@@ -303,10 +305,10 @@ Zilliz Cloud によって公開されるメトリクスには、以下の識別�
 
     ```plaintext
     histogram_quantile(
-        0.70, 
+        0.70,
         sum(
             rate(zilliz_request_duration_seconds_bucket{cluster_id='in01-xxxxx',request_type='insert'}[$__rate_interval])
-        ) by (le) 
+        ) by (le)
     )
     ```
 
@@ -330,4 +332,4 @@ Zilliz Cloud によって公開されるメトリクスには、以下の識別�
     sum(increase(zilliz_slow_queries_total{cluster_id=?}[5m]))
     ```
 
-    
+

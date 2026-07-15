@@ -8,7 +8,7 @@ last_modified: FALSE
 deprecate_since: FALSE
 beta: FALSE
 notebook: FALSE
-description: "Zilliz Cloud global cluster lets you deploy a primary cluster and multiple read-only secondary clusters across multiple regions on the same cloud provider. | Cloud"
+description: "Global Cluster Explained | Cloud"
 type: origin
 token: AICcwQ55yiNqEPkjdV6cb2i8nqe
 sidebar_position: 1
@@ -36,7 +36,9 @@ This feature is designed for globally distributed, mission-critical applications
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This feature is available only to <strong>Dedicated</strong> clusters in a <strong>Business Critical</strong> project.</p>
+This feature is available only on Business Critical (SaaS) and BYOC deployments.
+
+This feature is available in all AWS regions and in the following Google Cloud regions: gcp-us-central1 and gcp-us-east4. It is not available on Microsoft Azure.
 
 </Admonition>
 
@@ -102,7 +104,7 @@ For detailed list prices, see [Zilliz Cloud List Price](https://zilliz.com/prici
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Discarded clusters in the recycle bin after a <a href="./switchover-and-failover#perform-a-failover">failover</a> are billed for <strong>storage</strong> only.</p>
+Discarded clusters in the recycle bin after a [failover](./switchover-and-failover#perform-a-failover) are billed for **storage** only.
 
 </Admonition>
 

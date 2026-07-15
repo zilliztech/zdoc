@@ -9,7 +9,7 @@ description: "Zilliz Cloud では、Amazon Simple Storage Service (Amazon S3) �
 type: origin
 token: PAViwMSb3iVMzuk56z3c1zfRnwh
 sidebar_position: 1
-keywords: 
+keywords:
   - zilliz
   - ベクトルデータベース
   - cloud
@@ -293,6 +293,132 @@ AWS コンソールで IAM ロールを作成する前に、Zilliz Cloud コン�
 
 これで、この統合を使用してバックアップファイルをエクスポートしたり、監査ログを Amazon S3 バケットに転送したりできます。詳細については、[Export Backup Files](./export-backup-files) または [監査ログging](./audit-logs) を参照してください。
 
+## プログラムによるストレージ統合の作成\{#create-storage-integration-programmatically}
+
+Zilliz Cloud コンソールを使用する代わりに、ストレージ統合をプログラムで作成することもできます。
+
+<Procedures>
+
+1. S3 バケットを作成します。
+
+    詳細については、上記の [AWS コンソールで S3 バケットを作成](./integrate-with-aws-s3#step-2-create-s3-bucket-in-aws-console)または [CreateBucket](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucket.html) API ドキュメントを参照してください。
+
+1. 認証情報を生成します。
+
+    ```bash
+    export BASE_URL="https://api.cloud.zilliz.com"
+    export TOKEN="YOUR_API_KEY"
+
+    curl --request POST \
+    --url "${BASE_URL}/v2/storageIntegrations/authorizationMaterials" \
+    --header "Authorization: Bearer ${TOKEN}" \
+    --header "Request-Timeout: 5" \
+    --header "Content-Type: application/json" \
+    -d '{
+        "projectId": "proj-xxxxxxxxxxxxxxxxxxxxxx",
+        "regionId": "aws-us-west-2",
+        "bucketName": "my-bucket"
+    }'
+    ```
+
+    上記のリクエストにより、AWS コンソールで権限、ポリシー、ロールを作成するために必要な認証情報が生成されます。
+
+    レスポンス例は次のとおりです。
+
+    ```bash
+    {
+      "code": 0,
+      "data": {
+        "readonly": "{...}",
+        "readwrite": "{...}",
+        "iamPolicy": "{...}",
+        "trustPolicy": "{...}",
+        "zillizAccount": "306787409409",
+        "externalId": "zilliz-external-AbCdEf12345678"
+      }
+    }
+    ```
+
+    パラメータの詳細については、[Generate Storage Integration Authorization Materials](/reference/restful/generate-storage-integration-authorization-materials-v2)を参照してください。
+
+1. 返された `readonly`、`readwrite`、`iamPolicy`、`trustPolicy`、`zillizAccount` を使用して、バケットを操作するための十分な権限を持つ IAM ロールを作成します。
+
+    `arn:aws:iam::123456789012:role/zilliz-bucket-role` のようなロール ARN を記録します。ロールの作成方法については、上記の [AWS コンソールで IAM ポリシーを作成](./integrate-with-aws-s3#step-3-create-iam-policy-in-aws-console)および [IAM ロールの作成](./integrate-with-aws-s3#step-4-create-iam-role)を参照してください。
+
+1. 取得した認証情報を検証します。
+
+    リクエストで、`externalCred.roleArn` を前のステップで記録したロール ARN に、`externalCred.externalId` を取得した認証情報に表示された外部 ID に設定します。
+
+    ```bash
+    curl --request POST \
+    --url "${BASE_URL}/v2/storageIntegrations/validate" \
+    --header "Authorization: Bearer ${TOKEN}" \
+    --header "Request-Timeout: 5" \
+    --header "Content-Type: application/json" \
+    -d '{
+        "projectId": "proj-xxxxxxxxxxxxxxxxxxxxxx",
+        "regionId": "aws-us-west-2",
+        "bucketName": "my-bucket",
+        "externalCred": {
+            "roleArn": "arn:aws:iam::123456789012:role/zilliz-bucket-role",
+            "externalId": "zilliz-external-AbCdEf12345678"
+        }
+    }'
+    ```
+
+    検証が成功した場合のレスポンスは次のとおりです。
+
+    ```bash
+    {
+        "code": 0,
+        "data": {
+            "success": true,
+            "message": ""
+        }
+    }
+    ```
+
+    パラメータの詳細については、[Validate Storage Integration](/reference/restful/validate-storage-integration-v2)を参照してください。
+
+1. ストレージ統合を作成します。
+
+    このリクエストは、説明を除き、検証リクエストとほとんど同じパラメータを使用します。
+
+    ```bash
+    curl --request POST \
+    --url "${BASE_URL}/v2/storageIntegrations" \
+    --header "Authorization: Bearer ${TOKEN}" \
+    --header "Request-Timeout: 5" \
+    --header "Content-Type: application/json" \
+    -d '{
+        "projectId": "proj-xxxxxxxxxxxxxxxxxxxxxx",
+        "name": "analytics-s3",
+        "description": "S3 bucket for external tables",
+        "regionId": "aws-us-west-2",
+        "bucketName": "my-bucket",
+        "externalCred": {
+            "roleArn": "arn:aws:iam::123456789012:role/zilliz-bucket-role",
+            "externalId": "zilliz-external-AbCdEf12345678"
+        }
+    }'
+    ```
+
+    レスポンスは次のようになります。
+
+    ```bash
+    {
+        "code": 0,
+        "data": {
+            "integrationId": "integ-xxxxxxxxxxxxxxxxxxx",
+            "name": "analytics-s3"
+        }
+    }
+    ```
+
+    パラメータの詳細については、[Create Storage Integration](/reference/restful/create-storage-integration-v2)を参照してください。
+
+</Procedures>
+
 ## 統合の管理\{#manage-integrations}
 
 統合が追加されたら、必要に応じてその詳細を表示したり、統合を削除したりできます。
@@ -302,6 +428,109 @@ AWS コンソールで IAM ロールを作成する前に、Zilliz Cloud コン�
 ### 統合IDの取得\{#obtain-the-integration-id}
 
 RESTful API を使用して、Zilliz Cloud と統合された AWS S3 バケットのいずれかにバックアップファイルをエクスポートする必要がある場合は、**View Details** をクリックして統合の詳細を表示し、その統合IDをコピーします。
+
+また、次のコマンドを実行して統合 ID を取得することもできます。
+
+```bash
+export TOKEN="YOUR_API_KEY"
+
+curl --request GET \
+--url "${BASE_URL}/v2/storageIntegrations?projectId=proj-xxxxxxxxxxxxxxxxxxxxxx" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Request-Timeout: 5" \
+--header "Content-Type: application/json"
+```
+
+レスポンスは次のようになります。
+
+```bash
+{
+    "code": 0,
+    "data": {
+        "storageIntegrations": [
+            {
+                "integrationId": "integ-xxxxxxxxxxxxxxxxxxx",
+                "name": "analytics-s3",
+                "status": "ACTIVE",
+                "message": "",
+                "regionId": "aws-us-west-2",
+                "bucketName": "my-bucket"
+            }
+        ],
+        "count": 1,
+        "currentPage": 1,
+        "pageSize": 10
+    }
+}
+```
+
+パラメータの詳細については、[List Storage Integrations](/reference/restful/list-storage-integrations-v2)を参照してください。
+
+### 統合の詳細を表示\{#view-integration-details}
+
+次のコマンドを使用して統合の詳細を表示できます。
+
+```bash
+export integrationId="integ-xxxxxxxxxxxxxxxxxxx"
+
+curl --request GET \
+--url "${BASE_URL}/v2/storageIntegrations/${integrationId}" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Request-Timeout: 5" \
+--header "Content-Type: application/json"
+```
+
+レスポンスは次のようになります。
+
+```bash
+{
+    "code": 0,
+    "data": {
+        "integrationId": "integ-xxxxxxxxxxxxxxxxxxx",
+        "name": "analytics-s3",
+        "description": "S3 bucket for external tables",
+        "status": "ACTIVE",
+        "message": "",
+        "regionId": "aws-us-west-2",
+        "bucketName": "my-bucket",
+        "externalCred": {
+            "roleArn": "arn:aws:iam::123456789012:role/zilliz-bucket-role",
+            "externalId": "zilliz-external-AbCdEf12345678"
+        },
+        "createTime": "2024-07-30T16:49:50Z"
+    }
+}
+```
+
+パラメータの詳細については、[Describe Storage Integration](/reference/restful/describe-storage-integration-v2)を参照してください。
+
+### ストレージ統合の削除\{#delete-storage-integration}
+
+Zilliz Cloud コンソールで **Remove** をクリックする代わりに、次のコマンドを使用して不要なストレージ統合を削除できます。
+
+```bash
+export integrationId="integ-xxxxxxxxxxxxxxxxxxx"
+
+curl --request DELETE \
+--url "${BASE_URL}/v2/storageIntegrations/${integrationId}" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Request-Timeout: 5" \
+--header "Content-Type: application/json"
+```
+
+レスポンスは次のようになります。
+
+```bash
+{
+    "code": 0,
+    "data": {
+        "integrationId": "integ-xxxxxxxxxxxxxxxxxxx",
+        "name": "analytics-s3"
+    }
+}
+```
+
+パラメータの詳細については、[Delete Storage Integration](/reference/restful/delete-storage-integration-v2)を参照してください。
 
 ## トラブルシューティング\{#troubleshooting}
 
@@ -362,4 +591,3 @@ try assume role from[zilliz-role] to [arn:aws:iam::041623484421:role/testoss1217
 - Zilliz Cloud コンソールのロール ARN と外部 ID が、IAM 信頼ポリシーの対応する値と一致していることを確認します。
 
 - IAM ロールの信頼ポリシーで、Zilliz Cloud がロールを引き受けることを許可していることを確認します。
-

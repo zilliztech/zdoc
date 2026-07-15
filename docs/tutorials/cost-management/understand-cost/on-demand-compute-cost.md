@@ -58,7 +58,7 @@ Query CU Cost = Query CU Unit Price × Number of Query CU × Active Runtime
 
 ## Indexing CU cost\{#indexing-cu-cost}
 
-Indexing CU cost measures compute resources consumed when you build indexes for data in both [managed](./collection) and [external collections](./external-collection) in on-demand compute.
+Indexing CU cost measures compute resources consumed when you build indexes for data in both [managed](./manage-collections-sdks) and [external collections](./create-external-collection) in on-demand compute.
 
 ### Sources of indexing CU cost\{#sources-of-indexing-cu-cost}
 
@@ -85,4 +85,32 @@ Indexing CU Cost = Indexing CU Unit Price × Number of Indexing CU x Time
 On the [Usage](./analyze-cost) and [Invoice](./view-invoice) pages, indexing CU costs are shown as totals by database rather than by individual job.  
 
 </Admonition>
+
+## Example\{#example}
+
+Suppose your on-demand compute usage is as follows:
+
+- **Region**: AWS us-west-2
+
+- **Project Plan**: Enterprise
+
+- **Query CU Quantity**: 8 CU
+
+- **On-demand cluster Runtime**: 30 minutes
+
+- **Indexing Usage**: 120 CU-minutes
+
+According to the information above, you can find the following unit prices on the [List Price](https://zilliz.com/pricing/pricing-guide?plan=Enterprise&provider=aws&region=aws-us-west-2) page.
+
+- **Query CU Unit Price** = &#36;0.41 / CU / hour
+
+- **Indexing CU Unit Price** = &#36;0.41 / CU / hour
+
+Then:
+
+`Query CU Cost = 8 x 30 x $0.41 = $98.40`
+
+`Indexing CU Cost = 120 x $0.41 = $49.20`
+
+`Total On-demand Compute Cost = $98.40+ $49.20 = $147.60`
 
