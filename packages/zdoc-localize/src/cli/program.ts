@@ -1,6 +1,6 @@
-import {access, mkdir} from 'node:fs/promises';
+import {access, mkdir, readFile} from 'node:fs/promises';
 import {constants} from 'node:fs';
-import {join} from 'node:path';
+import {join, resolve, sep} from 'node:path';
 
 import {Command, CommanderError, Option} from 'commander';
 
@@ -57,6 +57,15 @@ function emit(io: MemoryIo, data: unknown, format: string): void {
 
 function formatOption(command: Command): Command {
   return command.option('--format <format>', 'Output format: json | pretty', 'pretty');
+}
+
+function workspacePath(cwd: string, path: string): string {
+  const workspace = resolve(cwd);
+  const absolute = resolve(workspace, path);
+  if (absolute !== workspace && !absolute.startsWith(`${workspace}${sep}`)) {
+    throw new LocalizeError({type: 'validation', subtype: 'unsafe_input_path', message: 'Input paths must stay inside the workspace.'});
+  }
+  return absolute;
 }
 
 async function withRuntime<T>(
@@ -165,6 +174,14 @@ function createProgram(
       const result = await withRuntime(cwd, runtimeFactory, (runtime) => runtime.workflows.createPlan(options.pair));
       emit(io, result, options.format);
     });
+  formatOption(plan.command('complete'))
+    .requiredOption('--run <id>')
+    .requiredOption('--translations <file>')
+    .action(async (options: {run: string; translations: string; format: string}) => {
+      const responses = JSON.parse(await readFile(workspacePath(cwd, options.translations), 'utf8')) as Parameters<Runtime['workflows']['completePlan']>[1];
+      const result = await withRuntime(cwd, runtimeFactory, (runtime) => runtime.workflows.completePlan(options.run, responses));
+      emit(io, result, options.format);
+    });
 
   formatOption(program.command('status'))
     .requiredOption('--run <id>')
@@ -174,8 +191,37 @@ function createProgram(
       emit(io, {run}, options.format);
     });
 
-  program.command('apply').description('Apply an approved localization review');
-  program.command('recover').description('Inspect and recover incomplete writes');
+  formatOption(program.command('apply').description('Apply an approved localization review'))
+    .requiredOption('--run <id>')
+    .requiredOption('--review <file>')
+    .action(async (options: {run: string; review: string; format: string}) => {
+      const result = await withRuntime(cwd, runtimeFactory, (runtime) => runtime.workflows.apply(options.run, options.review));
+      emit(io, result, options.format);
+    });
+
+  const recover = program.command('recover').description('Inspect and recover incomplete writes');
+  formatOption(recover.command('inspect'))
+    .requiredOption('--run <id>')
+    .action(async (options: {run: string; format: string}) => {
+      const result = await withRuntime(cwd, runtimeFactory, (runtime) => runtime.workflows.inspectRecovery(options.run));
+      emit(io, result, options.format);
+    });
+  formatOption(recover.command('accept-current'))
+    .requiredOption('--run <id>')
+    .action(async (options: {run: string; format: string}) => {
+      const result = await withRuntime(cwd, runtimeFactory, (runtime) => runtime.workflows.restartFromCurrent(options.run));
+      emit(io, result, options.format);
+    });
+  formatOption(recover.command('reverse'))
+    .requiredOption('--run <id>')
+    .action(() => {
+      throw new LocalizeError({
+        type: 'confirmation_required',
+        subtype: 'reverse_patch_review',
+        message: 'Reverse recovery requires a separately reviewed reverse patch.',
+        hint: 'Run recover inspect and review the pre-write snapshot before reverse recovery.',
+      });
+    });
   program.command('init').description('Configure shared Feishu registry and snapshot storage');
 
   return program;

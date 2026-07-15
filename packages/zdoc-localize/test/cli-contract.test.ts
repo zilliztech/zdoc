@@ -65,4 +65,15 @@ describe('CLI contract', () => {
       },
     });
   });
+
+  it('exposes plan completion, apply, and recovery command contracts', async () => {
+    const planHelp = await runCli(['plan', '--help']);
+    const applyHelp = await runCli(['apply', '--help']);
+    const recoverHelp = await runCli(['recover', '--help']);
+
+    expect(planHelp.stdout).toContain('complete');
+    expect(applyHelp.stdout).toContain('--review');
+    expect(applyHelp.stdout).toContain('--run');
+    expect(recoverHelp.stdout).toContain('inspect');
+  });
 });

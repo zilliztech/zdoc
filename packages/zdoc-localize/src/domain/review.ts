@@ -12,6 +12,9 @@ export interface PlanOperation {
   confidence: AlignmentConfidence;
   sourceBefore?: string;
   sourceAfter?: string;
+  sourceNodeId?: string;
+  sourceNodeHash?: string;
+  sourceHeadingPath?: string[];
   targetCurrent?: string;
   proposedText: string;
   targetNodeKind: SemanticNodeKind;
@@ -21,6 +24,7 @@ export interface PlanOperation {
   anchorNodeId?: string;
   anchorBlockId?: string;
   anchorNodeHash?: string;
+  preserved?: Array<{kind: string; value: string; count: number}>;
 }
 
 export interface LocalizationPlan {
