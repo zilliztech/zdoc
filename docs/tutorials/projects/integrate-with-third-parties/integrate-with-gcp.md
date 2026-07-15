@@ -11,7 +11,7 @@ notebook: FALSE
 description: "Zilliz Cloud allows you to integrate with Google Cloud Storage to export audit logs or backup files to designated buckets. | Cloud"
 type: origin
 token: INoRwFTjfiindPkaNlwc9XAgnkh
-sidebar_position: 2
+sidebar_position: 3
 keywords: 
   - zilliz
   - vector database

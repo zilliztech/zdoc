@@ -8,7 +8,7 @@ notebook: FALSE
 description: "Zilliz Cloud では、Google Cloud Storage と連携して、監査ログやバックアップファイルを指定されたバケットにエクスポートできます。| Cloud"
 type: origin
 token: INoRwFTjfiindPkaNlwc9XAgnkh
-sidebar_position: 2
+sidebar_position: 3
 keywords:
   - zilliz
   - ベクトルデータベース

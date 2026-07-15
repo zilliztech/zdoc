@@ -8,7 +8,7 @@ notebook: FALSE
 description: "Datadog は、アプリケーションのパフォーマンス、インフラストラクチャ、ログ管理に関するリアルタイムのインサイトを提供するクラウド監視および分析プラットフォームです。Zilliz Cloud と Datadog を統合することで、Zilliz Cloud クラスターに関するメトリクス データを Datadog ダッシュボードに送信できます。"
 type: origin
 token: JGFQwMcVmiikeOkhepGcQ8Ken0e
-sidebar_position: 4
+sidebar_position: 5
 keywords: 
   - zilliz
   - ベクトルデータベース

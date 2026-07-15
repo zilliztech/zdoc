@@ -11,7 +11,7 @@ notebook: FALSE
 description: "Datadog is a cloud monitoring and analytics platform that provides real-time insights into application performance, infrastructure, and log management. By integrating Zilliz Cloud with Datadog, you can send metric data about your Zilliz Cloud clusters to your Datadog dashboards. | Cloud"
 type: origin
 token: JGFQwMcVmiikeOkhepGcQ8Ken0e
-sidebar_position: 4
+sidebar_position: 5
 keywords: 
   - zilliz
   - vector database

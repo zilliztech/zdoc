@@ -200,8 +200,8 @@ A CU is the basic unit of compute resources used for parallel processing of data
    </tr>
    <tr>
      <td><p>Dedicated serving cluster in an Enterprise project</p></td>
-     <td><p>CU size x Replica Count &lt;=10,240</p></td>
-     <td><p>On the console, you can create up to 1,024 CUs for a single cluster.</p><p>However, the limit is CU size x Replica Count &lt;=10,240 if replicas are added.</p></td>
+     <td><p>CU size x Replica Count &lt;=204,800</p></td>
+     <td><p>On the console, you can create up to 2,048 CUs for a single cluster.</p><p>However, the limit is CU size x Replica Count &lt;=204,800 if replicas are added.</p></td>
    </tr>
    <tr>
      <td><p>On-demand cluster in an Enterprise project</p></td>
@@ -260,13 +260,13 @@ The following table lists the limits on the capacity of each type of cluster pla
 
 <Admonition type="info" icon="📘" title="Notes">
 
-The upper limits for dedicated cluster capacity depend on the CU type and size used. If your cluster's capacity is not enough, consider adjusting the CU type and size. For details, see [Scale Cluster](./scale-query-cu).
+The upper limits for dedicated cluster capacity depend on the CU type and size used. If your cluster's capacity is not enough, consider adjusting the CU type and size. For details, see Plan Cluster Scaling.
 
 </Admonition>
 
 ## Replicas\{#replicas}
 
-To add replicas, the cluster needs to have **12 CUs or more**. The following limit applies as well.
+To add replicas, the cluster must have **at least 8 CUs**. The following limit applies as well.
 
 <table>
    <tr>
@@ -276,15 +276,23 @@ To add replicas, the cluster needs to have **12 CUs or more**. The following lim
    </tr>
    <tr>
      <td><p>Replica</p></td>
-     <td><p>10</p></td>
-     <td><p>You can create a maximum of 10 replicas.</p></td>
+     <td><p>100</p></td>
+     <td><p>You can create a maximum of 100 replicas.</p></td>
    </tr>
    <tr>
      <td><p>Query CU x Replica Count</p></td>
-     <td><p>10,240</p></td>
-     <td><p>The cluster replica x query CU should not exceed 10,240.</p></td>
+     <td><p>204,800</p></td>
+     <td><p>The cluster replica x query CU should not exceed 204,800.</p></td>
    </tr>
 </table>
+
+<Admonition type="info" icon="📘" title="Notes">
+
+For certain clusters compatible with earlier Milvus releases, you may need at least 12 CUs to add replicas. 
+
+To add replicas for clusters with fewer query CUs, [contact us](https://support.zilliz.com/hc/en-us).
+
+</Admonition>
 
 ## Databases\{#databases}
 

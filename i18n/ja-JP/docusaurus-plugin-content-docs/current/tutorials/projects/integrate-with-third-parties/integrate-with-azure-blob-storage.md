@@ -8,7 +8,7 @@ notebook: FALSE
 description: "Zilliz Cloud では、Azure Blob Storage と連携して、バックアップファイルや監査ログを指定されたコンテナーにエクスポートできます。 | Cloud"
 type: origin
 token: IzXPwUlJ5isTa4kH9KTcC6SfnvZ
-sidebar_position: 3
+sidebar_position: 4
 keywords:
   - zilliz
   - ベクトルデータベース

@@ -116,8 +116,8 @@ A CU is the basic unit of compute resources used for parallel processing of data
    </tr>
    <tr>
      <td><p>Dedicated serving cluster in an Enterprise project</p></td>
-     <td><p>CU size x Replica Count &lt;=10,240</p></td>
-     <td><p>On the console, you can create up to 1,024 CUs for a single cluster.</p><p>However, the limit is CU size x Replica Count &lt;=10,240 if replicas are added.</p></td>
+     <td><p>CU size x Replica Count &lt;=204,800</p></td>
+     <td><p>On the console, you can create up to 2,048 CUs for a single cluster.</p><p>However, the limit is CU size x Replica Count &lt;=204,800 if replicas are added.</p></td>
    </tr>
 </table>
 
@@ -129,7 +129,7 @@ You are welcome to [contact us](https://support.zilliz.com/hc/en-us)
 
 ## Replicas\{#replicas}
 
-To add replicas, the cluster needs to have **12 CUs or more**. The following limit applies as well.
+To add replicas, the cluster must have **at least 8 CUs**. The following limit applies as well.
 
 <table>
    <tr>
@@ -139,15 +139,23 @@ To add replicas, the cluster needs to have **12 CUs or more**. The following lim
    </tr>
    <tr>
      <td><p>Replica</p></td>
-     <td><p>10</p></td>
-     <td><p>You can create a maximum of 10 replicas.</p></td>
+     <td><p>100</p></td>
+     <td><p>You can create a maximum of 100 replicas.</p></td>
    </tr>
    <tr>
      <td><p>Query CU x Replica Count</p></td>
-     <td><p>10,240</p></td>
-     <td><p>The cluster replica x query CU should not exceed 10,240.</p></td>
+     <td><p>204,800</p></td>
+     <td><p>The cluster replica x query CU should not exceed 204,800.</p></td>
    </tr>
 </table>
+
+<Admonition type="info" icon="📘" title="Notes">
+
+For certain clusters compatible with earlier Milvus releases, you may need at least 12 CUs to add replicas. 
+
+To add replicas for clusters with fewer query CUs, [contact us](https://support.zilliz.com/hc/en-us).
+
+</Admonition>
 
 ## Databases\{#databases}
 
@@ -414,19 +422,4 @@ You can restore a backup file in the same region as the original cluster of the 
 ## Migration\{#migration}
 
 You can migrate data from other vendors to your Zilliz Cloud cluster, and the maximum number of collections per migration varies with your Zilliz Cloud cluster. You can migrate a maximum of **10** collections each time during the migrations.
-
-## Private Endpoints\{#private-endpoints}
-
-<table>
-   <tr>
-     <th><p><strong>Item</strong></p></th>
-     <th><p><strong>Max Number</strong></p></th>
-     <th><p><strong>Remarks</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>Private Endpoint</p></td>
-     <td><p>10</p></td>
-     <td><p>You can create up to 10 private endpoints per project.</p></td>
-   </tr>
-</table>
 

@@ -48,9 +48,9 @@ The content on this page applies to serving clusters only.  On-demand clusters s
 
 - **Resource Limitations**: You can configure replicas for an existing Dedicated cluster as long as the following conditions are met:
 
-    - The cluster has 12 query CUs or more
+    - The cluster has 8 query CUs or more
 
-    - The product of the cluster query CU count x replica count should not exceed 10,240.
+    - The product of the cluster query CU count x replica count should not exceed 204,800.
 
 - **Billing during scaling:** During a replica scaling job, Zilliz Cloud continues to bill the cluster based on the previous replica configuration. The new replica count is used for billing only after the scaling job is completed successfully. If the scaling job is still in progress or does not complete, billing remains based on the previous replica configuration.
 
@@ -125,7 +125,7 @@ When setting up dynamic scaling, you can configure the following bounds:
 
 - **Minimum Replica**: Defaults to the current count.
 
-- **Maximum Replica**: Defaults to 1× the current CU size. The maximum replica cannot exceed 10. [Contact support](http://support.zilliz.com) if you need this limit increased.
+- **Maximum Replica**: Defaults to 1× the current CU size. The maximum replica cannot exceed 100. [Contact support](http://support.zilliz.com) if you need this limit increased.
 
 <Admonition type="info" icon="📘" title="Notes">
 

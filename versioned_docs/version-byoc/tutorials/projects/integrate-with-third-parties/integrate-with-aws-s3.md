@@ -8,7 +8,7 @@ last_modified: FALSE
 deprecate_since: FALSE
 beta: FALSE
 notebook: FALSE
-description: "Zilliz Cloud allows you to integrate with Amazon Simple Storage Service (Amazon S3) to export backup files or audit logs to designated S3 buckets. | Cloud"
+description: "Zilliz Cloud allows you to integrate with Amazon Simple Storage Service (Amazon S3) to export audit logs to designated S3 buckets. | Cloud"
 type: origin
 token: PAViwMSb3iVMzuk56z3c1zfRnwh
 sidebar_position: 2
@@ -33,7 +33,7 @@ import Procedures from '@site/src/components/Procedures';
 
 # Integrate with AWS S3
 
-Zilliz Cloud allows you to integrate with Amazon Simple Storage Service (Amazon S3) to export backup files or audit logs to designated S3 buckets.
+Zilliz Cloud allows you to integrate with Amazon Simple Storage Service (Amazon S3) to export audit logs to designated S3 buckets.
 
 ![BUEcwkZiChJrTlbziBMc3V49nFe](https://zdoc-images.s3.us-west-2.amazonaws.com/BUEcwkZiChJrTlbziBMc3V49nFe.png)
 
@@ -59,7 +59,7 @@ Zilliz Cloud allows you to integrate with Amazon Simple Storage Service (Amazon 
 
     - **Integration Name**: A unique name for this integration (e.g., `integration_0819`).
 
-    - **Integration Description** *(optional)*: A description for this integration (e.g., `for export backupfile`).
+    - **Integration Description** *(optional)*: A description for this integration (e.g., `for export file`).
 
     - **Bucket Permission**: Select the level of access Zilliz Cloud has to your S3 bucket. The following table explains the options.
 
@@ -74,7 +74,7 @@ Zilliz Cloud allows you to integrate with Amazon Simple Storage Service (Amazon 
            </tr>
            <tr>
              <td><p>Read write</p></td>
-             <td><p>Zilliz Cloud can both read from and write to the bucket. Use for <a href="./export-backup-files">backup export</a>, <a href="./audit-logs">audit log forwarding</a>, or <a href="./configure-access-logs">access log forwarding</a>.</p></td>
+             <td><p>Zilliz Cloud can both read from and write to the bucket. Use for <a href="./audit-logs">audit log forwarding</a> or <a href="./configure-access-logs">access log forwarding</a>.</p></td>
            </tr>
         </table>
 
@@ -96,9 +96,9 @@ Zilliz Cloud allows you to integrate with Amazon Simple Storage Service (Amazon 
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    - The AWS region to create a bucket should be consistent with the region where your Zilliz Cloud cluster or external volume resides. For Zilliz Cloud-supported regions, refer to [Cloud Providers & Regions](./cloud-providers-and-regions).
+    - The AWS region to create a bucket should be consistent with the region where your Zilliz Cloud cluster or external volume resides. For Zilliz Cloud-supported regions, refer to [Cloud Providers & Regions](/docs/cloud-providers-and-regions).
 
-    - For clusters running in different regions, create separate integrations for each region to ensure backup files or audit logs can be exported properly.
+    - For clusters running in different regions, create separate integrations for each region to ensure audit logs can be exported properly.
 
     </Admonition>
 
@@ -132,7 +132,7 @@ Once the bucket is created, go back to the [Zilliz Cloud console](https://cloud.
 
 ## Step 3: Create IAM policy in AWS console\{#step-3-create-iam-policy-in-aws-console}
 
-To give Zilliz Cloud access to AWS S3, create an IAM policy. This policy should include specific actions and resources to facilitate the transfer of backup files between Zilliz Cloud and your S3 bucket.
+To give Zilliz Cloud access to AWS S3, create an IAM policy. This policy should include specific actions and resources to facilitate the transfer of files between Zilliz Cloud and your S3 bucket.
 
 <Supademo id="cmeibzhk09d4rh3pyaipwhqi7" title="Step 3: Create IAM policy (1)" />
 
@@ -292,133 +292,7 @@ Once that's done, do the following to create an IAM role:
 
 </Procedures>
 
-You can now use this integration to export backup files or forward audit logs to your Amazon S3 bucket. For more information, refer to  [Export Backup Files](./export-backup-files) or [Audit Logging](./audit-logs).
-
-## Create storage integration programmatically\{#create-storage-integration-programmatically}
-
-As an alternative to working on Zilliz Cloud console, you can also programmatically create the storage integration.
-
-<Procedures>
-
-1. Create an S3 bucket.
-
-    For details, refer to [Create S3 bucket in AWS console](./integrate-with-aws-s3#step-2-create-s3-bucket-in-aws-console) above or the [CreateBucket](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucket.html) API doc.
-
-1. Generate authentication materials.
-
-    ```bash
-    export BASE_URL="https://api.cloud.zilliz.com"
-    export TOKEN="YOUR_API_KEY"
-    
-    curl --request POST \
-    --url "${BASE_URL}/v2/storageIntegrations/authorizationMaterials" \
-    --header "Authorization: Bearer ${TOKEN}" \
-    --header "Request-Timeout: 5" \
-    --header "Content-Type: application/json" \
-    -d '{
-        "projectId": "proj-xxxxxxxxxxxxxxxxxxxxxx",
-        "regionId": "aws-us-west-2",
-        "bucketName": "my-bucket"
-    }'
-    ```
-
-    The above request generates the necessary credentials for you to create permissions, policies and roles on the AWS console. 
-
-    A possible response is as follows:
-
-    ```bash
-    {
-      "code": 0,
-      "data": {
-        "readonly": "{...}",
-        "readwrite": "{...}",
-        "iamPolicy": "{...}",
-        "trustPolicy": "{...}",
-        "zillizAccount": "306787409409",
-        "externalId": "zilliz-external-AbCdEf12345678"
-      }
-    }
-    ```
-
-    For details on parameter descriptions, refer to [Generate Storage Integration Authorization Materials](/reference/restful/generate-storage-integration-authorization-materials-v2).
-
-1. Use the returned `readonly`, `readwrite`, `iamPolicy`, `trustPolicy`, and `zillizAccount` to create an IAM role that has sufficient permissions to operate the bucket. 
-
-    Write down the role ARN, which is similar to `arn:aws:iam::123456789012:role/zilliz-bucket-role`. For details on how to create a role, refer to [Create IAM policy in AWS console](./integrate-with-aws-s3#step-3-create-iam-policy-in-aws-console) and [Create IAM role](./integrate-with-aws-s3#step-4-create-iam-role) above.
-
-1. Validate the obtained credentials.
-
-    In the request, set `externalCred.roleArn` to the role ARN noted in the previous step, and `externalCred.externalId` to the one displayed in the obtained authentication materials.
-
-    ```bash
-    curl --request POST \
-    --url "${BASE_URL}/v2/storageIntegrations/validate" \
-    --header "Authorization: Bearer ${TOKEN}" \
-    --header "Request-Timeout: 5" \
-    --header "Content-Type: application/json" \
-    -d '{
-        "projectId": "proj-xxxxxxxxxxxxxxxxxxxxxx",
-        "regionId": "aws-us-west-2",
-        "bucketName": "my-bucket",
-        "externalCred": {
-            "roleArn": "arn:aws:iam::123456789012:role/zilliz-bucket-role",
-            "externalId": "zilliz-external-AbCdEf12345678"
-        }
-    }'
-    ```
-
-    A validation success response is as follows:
-
-    ```bash
-    {
-        "code": 0,
-        "data": {
-            "success": true,
-            "message": ""
-        }
-    }
-    ```
-
-    For details on parameter descriptions, refer to [Validate Storage Integration](/reference/restful/validate-storage-integration-v2).
-
-1. Create storage integration.
-
-    This request shares most parameters with the validation request, except for a description.
-
-    ```bash
-    curl --request POST \
-    --url "${BASE_URL}/v2/storageIntegrations" \
-    --header "Authorization: Bearer ${TOKEN}" \
-    --header "Request-Timeout: 5" \
-    --header "Content-Type: application/json" \
-    -d '{
-        "projectId": "proj-xxxxxxxxxxxxxxxxxxxxxx",
-        "name": "analytics-s3",
-        "description": "S3 bucket for external tables",
-        "regionId": "aws-us-west-2",
-        "bucketName": "my-bucket",
-        "externalCred": {
-            "roleArn": "arn:aws:iam::123456789012:role/zilliz-bucket-role",
-            "externalId": "zilliz-external-AbCdEf12345678"
-        }
-    }'
-    ```
-
-    The response is similar to the following:
-
-    ```bash
-    {
-        "code": 0,
-        "data": {
-            "integrationId": "integ-xxxxxxxxxxxxxxxxxxx",
-            "name": "analytics-s3"
-        }
-    }
-    ```
-
-    For details on parameter descriptions, refer to [Create Storage Integration](/reference/restful/create-storage-integration-v2).
-
-</Procedures>
+You can now use this integration to forward audit logs to your Amazon S3 bucket. For more information, refer to [Audit Logging](./audit-logs).
 
 ## Manage integrations\{#manage-integrations}
 
@@ -428,7 +302,7 @@ Once the integration is added, you can view its details or remove the integratio
 
 ### Obtain the integration ID\{#obtain-the-integration-id}
 
-If you need to use the RESTful API to export backup files to one of your AWS S3 buckets integrated with Zilliz Cloud, click **View Details** to display the details of an integration and copy its integration ID.
+If you need to use the RESTful API to export files to one of your AWS S3 buckets integrated with Zilliz Cloud, click **View Details** to display the details of an integration and copy its integration ID.
 
 Alternatively, you can obtain the integration ID by running the following command.
 

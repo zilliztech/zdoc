@@ -11,7 +11,7 @@ notebook: FALSE
 description: "Zilliz Cloud allows you to integrate with Azure Blob Storage to export backup files or audit logs to designated containers. | Cloud"
 type: origin
 token: IzXPwUlJ5isTa4kH9KTcC6SfnvZ
-sidebar_position: 3
+sidebar_position: 4
 keywords: 
   - zilliz
   - vector database

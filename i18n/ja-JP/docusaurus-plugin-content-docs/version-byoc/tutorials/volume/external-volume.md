@@ -1,11 +1,11 @@
 ---
-title: "外部ボリューム | Cloud"
+title: "外部ボリューム | BYOC"
 slug: /external-volume
 sidebar_key: external-volume
 sidebar_label: "外部ボリューム"
 beta: FALSE
 notebook: FALSE
-description: "外部ボリュームは、お客様のクラウドオブジェクトストレージ（AWS S3 や Google Cloud Storage など）内のバケットやパスへの読み取り専用の参照であり、Zilliz Cloud がデータをコピーまたは移動することなくその場でアクセスできるようにします。 | Cloud"
+description: "外部ボリュームは、お客様のクラウドオブジェクトストレージ（AWS S3 など）内のバケットやパスへの読み取り専用の参照であり、Zilliz Cloud がデータをコピーまたは移動することなくその場でアクセスできるようにします。 | BYOC"
 type: origin
 token: JaLdw76LPiX003kLpKHcA0n8n2d
 sidebar_position: 2
@@ -27,13 +27,13 @@ import Procedures from '@site/src/components/Procedures';
 
 # 外部ボリューム
 
-外部ボリュームは、お客様のクラウドオブジェクトストレージ（AWS S3 や Google Cloud Storage など）内のバケットまたはパスへの読み取り専用の参照であり、Zilliz Cloud がデータをコピーまたは移動することなく、その場でデータにアクセスできるようにします。
+外部ボリュームは、お客様のクラウドオブジェクトストレージ（AWS S3 など）内のバケットまたはパスへの読み取り専用の参照であり、Zilliz Cloud がデータをコピーまたは移動することなく、その場でデータにアクセスできるようにします。
 
 このページでは、Web コンソールと SDK を使用して外部ボリュームを作成および削除する方法について説明します。
 
 ## 考慮事項\{#considerations}
 
-- ボリュームは **AWS** と **Google Cloud** でのみ利用可能です。**Azure** の場合は、[サポートにお問い合わせ](https://support.zilliz.com/) ください。
+- ボリュームは **AWS** で利用できます。その他のプロバイダーについては、[サポートにお問い合わせ](https://support.zilliz.com/)ください。
 
 - ボリュームはプロジェクトのクラウドプロバイダーとリージョンに制限されます。例えば、プロジェクトが AWS us-west-2 にある場合、AWS us-west-2 のボリュームのみを作成できます。
 
@@ -46,6 +46,10 @@ import Procedures from '@site/src/components/Procedures';
 - 外部ボリュームでは、データはお客様のバケットに残ります。そのため、データファイルは外部ボリュームではなく、お客様のクラウドオブジェクトストレージで管理する必要があります。
 
 - 各組織は最大 **100 個の外部ボリューム** を作成できます。
+
+## 始める前に\{#before-you-start}
+
+外部ボリュームを作成する前に、[AWS S3 バケット](./integrate-with-aws-s3)を統合する必要があります。ストレージ統合は、作成する外部ボリュームと同じクラウドプロバイダーおよびリージョンに配置してください。
 
 ## 外部ボリュームの作成\{#create-an-external-volume}
 
@@ -218,7 +222,7 @@ import Procedures from '@site/src/components/Procedures';
            </tr>
            <tr>
              <td><p>ストレージ統合とパス</p></td>
-             <td><p>ストレージ統合（<a href="./integrate-with-aws-s3">AWS S3 バケット</a>、<a href="./integrate-with-gcp">Google GCS バケット</a>、または <a href="./integrate-with-azure-blob-storage">Azure BLOB コンテナー</a>）は、クラウドストレージのアクセス設定をカプセル化した認証情報オブジェクトです。</p><p>パスは、データが配置されている場所へのポインターです。（例: <code>folder/</code>）</p></td>
+             <td><p>ストレージ統合（<a href="./integrate-with-aws-s3">AWS S3 バケット</a>）は、クラウドストレージのアクセス設定をカプセル化した認証情報オブジェクトです。</p><p>パスは、データが配置されている場所へのポインターです（例：<code>folder/</code>）。</p></td>
            </tr>
         </table>
 
@@ -574,12 +578,6 @@ import Procedures from '@site/src/components/Procedures';
 
     </Procedures>
 
-## 請求\{#billing}
-
-外部ボリュームの作成と使用には、Zilliz Cloud の料金は発生しません。お支払い方法の登録は不要です。
-
-ただし、インポートまたは移行時に Zilliz Cloud がバケットから読み取る際、クラウドプロバイダーがデータリクエスト料金を請求する場合があります。詳細については、[Amazon S3 Pricing](https://aws.amazon.com/s3/pricing/) または [Google Cloud Storage Pricing](https://cloud.google.com/storage/pricing.) を参照してください。
-
 ## FAQs\{#faqs}
 
 **請求書の未払いにより組織が凍結された場合、ボリュームはどうなりますか？**
@@ -592,9 +590,9 @@ import Procedures from '@site/src/components/Procedures';
 
 どちらもお客様の S3 または GCS バケットからデータをインポートできます。主な違いは以下の通りです。
 
-- 外部ボリュームでは、[AWS S3 bucket](./integrate-with-aws-s3)、[Google Cloud Storage bucket](./integrate-with-gcp)、または [Microsoft Azure blob storage container](./integrate-with-azure-blob-storage) を Zilliz Cloud と統合して、認証情報の管理を行う必要があります。認証情報は一度設定すれば、複数のボリュームや操作で再利用できます。データエンジニアはクラウドストレージのキーに直接アクセスする必要はありません。
+- 外部ボリュームでは、[AWS S3 バケット](./integrate-with-aws-s3)を Zilliz Cloud と統合して認証情報を管理する必要があります。認証情報は一度設定すれば、複数のボリュームや操作で再利用できます。データエンジニアはクラウドストレージのキーに直接アクセスする必要はありません。
 
-- 直接の [external storage import](./import-data-on-web-ui#remote-files-from-an-object-storage-bucket) では、各インポートリクエストごとに認証情報（アクセスキー、シークレットキー）をインラインで提供する必要があります。これは一度限りのインポートにはシンプルですが、認証情報の分離や再利用性は提供しません。
+- 直接の[外部ストレージインポート](./import-data-on-web-ui#remote-files-from-an-object-storage-bucket)では、インポートリクエストごとに認証情報（アクセスキーとシークレットキー）を提供する必要があります。これは一度限りのインポートにはシンプルですが、認証情報の分離や再利用性は提供しません。
 
 **外部ボリューム作成後に、ストレージ統合やパスを変更できますか？**
 
@@ -623,10 +621,10 @@ import Procedures from '@site/src/components/Procedures';
    </tr>
    <tr>
      <td><p><strong>Frozen</strong></p></td>
-     <td><p>The organization is frozen due to overdue <a href="null">invoices</a>. The volume cannot be used for new operations. Please pay your bill to continue using volumes.</p></td>
+     <td><p>請求書の未払いにより組織が凍結されています。ボリュームを新しい操作に使用することはできません。ボリュームの使用を継続するには、<a href="/docs/view-invoice">請求書</a>を支払ってください。</p></td>
    </tr>
    <tr>
      <td><p><strong>Error</strong></p></td>
-     <td><p>The <a href="null">storage integration</a> validation failed. Check the configuration and retry.</p></td>
+     <td><p>ストレージ統合の検証に失敗しました。設定を確認して再試行してください。</p><p>利用可能なストレージ統合は次のとおりです。</p><ul><li><p><a href="./integrate-with-aws-s3">AWS S3 バケット</a></p></li></ul></td>
    </tr>
 </table>
