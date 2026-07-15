@@ -19,7 +19,8 @@
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "vitest run --config vitest.config.ts",
-    "test:package": "node scripts/package-smoke.mjs"
+    "test:package": "node scripts/package-smoke.mjs",
+    "pack:check": "pnpm run build && pnpm pack"
   },
   "dependencies": {
     "commander": "^12.1.0",

@@ -1,4 +1,4 @@
-import {mkdtemp} from 'node:fs/promises';
+import {mkdtemp, readFile} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 
@@ -75,5 +75,14 @@ describe('CLI contract', () => {
     expect(applyHelp.stdout).toContain('--review');
     expect(applyHelp.stdout).toContain('--run');
     expect(recoverHelp.stdout).toContain('inspect');
+  });
+
+  it('initializes explicit local workspace configuration', async () => {
+    const cwd = await mkdtemp(join(tmpdir(), 'zdoc-localize-init-'));
+    const result = await runCli(['init', '--mode', 'local', '--format', 'json'], {cwd});
+
+    expect(result.exitCode).toBe(0);
+    expect(JSON.parse(result.stdout).data.config.mode).toBe('local');
+    expect(JSON.parse(await readFile(join(cwd, '.zdoc-localize', 'config.json'), 'utf8'))).toEqual({mode: 'local'});
   });
 });

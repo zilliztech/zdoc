@@ -7,6 +7,7 @@ import {Command, CommanderError, Option} from 'commander';
 import {createRuntime, type Runtime} from '../application/runtime.js';
 import {asLocalizeError, LocalizeError, toErrorEnvelope} from '../domain/errors.js';
 import type {DocumentMode} from '../domain/model.js';
+import {ConfigStore, type WorkspaceConfig} from '../storage/config-store.js';
 
 export const CLI_VERSION = '0.1.0';
 export const SCHEMA_VERSION = 1;
@@ -222,7 +223,49 @@ function createProgram(
         hint: 'Run recover inspect and review the pre-write snapshot before reverse recovery.',
       });
     });
-  program.command('init').description('Configure shared Feishu registry and snapshot storage');
+  formatOption(program.command('init').description('Configure shared Feishu registry and snapshot storage'))
+    .addOption(new Option('--mode <mode>').choices(['local', 'feishu']).makeOptionMandatory())
+    .option('--registry <url>')
+    .option('--registry-token <token>')
+    .option('--pairs-table <id>')
+    .option('--glossary-table <id>')
+    .option('--runs-table <id>')
+    .option('--state-folder <url>')
+    .option('--state-folder-token <token>')
+    .action(async (options: {
+      mode: 'local' | 'feishu'; format: string; registry?: string; registryToken?: string;
+      pairsTable?: string; glossaryTable?: string; runsTable?: string;
+      stateFolder?: string; stateFolderToken?: string;
+    }) => {
+      let config: WorkspaceConfig = {mode: options.mode};
+      if (options.mode === 'feishu') {
+        const required = [
+          options.registry, options.registryToken, options.pairsTable, options.glossaryTable,
+          options.runsTable, options.stateFolder, options.stateFolderToken,
+        ];
+        if (required.some((value) => !value)) {
+          throw new LocalizeError({
+            type: 'validation',
+            subtype: 'feishu_init_incomplete',
+            message: 'Feishu mode requires registry URL/token, three table IDs, and state-folder URL/token.',
+          });
+        }
+        config = {
+          mode: 'feishu',
+          registryUrl: options.registry,
+          registryBaseToken: options.registryToken,
+          stateFolderUrl: options.stateFolder,
+          stateFolderToken: options.stateFolderToken,
+          registryTableIds: {
+            documentPairs: options.pairsTable!,
+            glossary: options.glossaryTable!,
+            localizationRuns: options.runsTable!,
+          },
+        };
+      }
+      await new ConfigStore(cwd).write(config);
+      emit(io, {config}, options.format);
+    });
 
   return program;
 }
