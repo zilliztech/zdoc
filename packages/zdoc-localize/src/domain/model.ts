@@ -32,6 +32,8 @@ export interface SemanticNode {
   nodeId: string;
   kind: SemanticNodeKind;
   headingPath: string[];
+  sectionIndex: number;
+  documentIndex: number;
   siblingIndex: number;
   text: string;
   xml: string;
@@ -58,6 +60,28 @@ export interface SemanticDocument {
   sections: SemanticSection[];
   canonicalHash: string;
   rawXml: string;
+}
+
+export interface SemanticChange {
+  changeId: string;
+  kind: ChangeKind;
+  before?: SemanticNode;
+  after?: SemanticNode;
+  previousSourceNodeId?: string;
+}
+
+export interface HistoricalCorrespondence {
+  sourceNodeId: string;
+  targetNodeId: string;
+}
+
+export interface AlignedChange {
+  change: SemanticChange;
+  confidence: AlignmentConfidence;
+  targetNodeId?: string;
+  anchorNodeId?: string;
+  score: number;
+  blocker?: string;
 }
 
 export interface DocumentPair {

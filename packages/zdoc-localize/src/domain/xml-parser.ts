@@ -121,6 +121,7 @@ export function parseFeishuDocument(
   const siblingCounts = new Map<string, number>();
   const nodes: SemanticNode[] = [];
   const sections: SemanticSection[] = [];
+  let activeSectionIndex = -1;
 
   for (const element of roots) {
     if (element.name === 'title') continue;
@@ -130,6 +131,7 @@ export function parseFeishuDocument(
       headingPath.splice(level - 1);
       headingPath[level - 1] = text;
       headingPath.splice(level);
+      activeSectionIndex = sections.length;
     }
 
     const kind = kindFor(element.name);
@@ -138,12 +140,14 @@ export function parseFeishuDocument(
     const siblingIndex = siblingCounts.get(siblingKey) ?? 0;
     siblingCounts.set(siblingKey, siblingIndex + 1);
     const normalizedXml = serialize(element);
-    const fingerprint = canonicalHash({kind, path, text, xml: normalizedXml});
+    const fingerprint = canonicalHash({kind, text, xml: normalizedXml});
     const nodeId = `${path.join('/') || '$root'}:${kind}:${siblingIndex}`;
     const node: SemanticNode = {
       nodeId,
       kind,
       headingPath: path,
+      sectionIndex: activeSectionIndex,
+      documentIndex: nodes.length,
       siblingIndex,
       text,
       xml: normalizedXml,
@@ -172,6 +176,8 @@ export function parseFeishuDocument(
     nodes: nodes.map((node) => ({
       kind: node.kind,
       headingPath: node.headingPath,
+      sectionIndex: node.sectionIndex,
+      documentIndex: node.documentIndex,
       siblingIndex: node.siblingIndex,
       text: node.text,
       xml: node.xml,

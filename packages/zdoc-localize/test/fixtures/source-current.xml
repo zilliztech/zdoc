@@ -4,5 +4,6 @@
 <h2 id="h-steps-new">Configure monitoring</h2>
 <ol id="list-steps-new"><li id="li-1-new">Open the <a href="https://example.com/console">Console</a>.</li><li id="li-2-new">Create an integration.</li><li id="li-3-new">Copy the endpoint.</li></ol>
 <callout id="callout-note-new" emoji="💡"><p id="p-note-new">Prometheus supports Serving Clusters only.</p></callout>
+<p id="p-alerts-new">Review alert delivery after saving the integration.</p>
 <pre id="code-sample-new" lang="bash"><code>curl "$ENDPOINT"</code></pre>
 <table id="table-1-new"><tbody><tr><td>Metric</td><td>Availability</td></tr></tbody></table>
