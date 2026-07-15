@@ -55,6 +55,7 @@ tmp/
 .superpower/
 .superpowers/
 skills-lock.json
+.zdoc-localize/
 
 # Worktrees
 .worktrees/

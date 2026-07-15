@@ -1,6 +1,7 @@
 packages:
   - 'chat-proxy'
   - 'packages/chat-ui'
+  - 'packages/zdoc-localize'
 
 onlyBuiltDependencies:
   - '@swc/core'
