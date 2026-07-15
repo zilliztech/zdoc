@@ -67,14 +67,19 @@ jobs:
   }
 })
 
-test('reusable final verification checks the immutable final dev state read-only', () => {
+test('reusable final verification uses immutable master tooling against exact final dev content read-only', () => {
   const workflowPath = path.join(process.cwd(), '.github/workflows/_verify-docs.yml')
   assert.equal(fs.existsSync(workflowPath), true, 'final verification workflow must exist')
   const workflow = fs.readFileSync(workflowPath, 'utf8')
   for (const input of ['final_dev_sha', 'master_sha', 'target_branch']) assert.match(workflow, new RegExp(`^      ${input}:$`, 'm'))
   assert.match(workflow, /^  contents: read$/m)
   assert.match(workflow, /timeout-minutes: 180/)
-  assert.match(workflow, /actions\/checkout@v4[\s\S]*ref: \$\{\{ inputs\.final_dev_sha \}\}[\s\S]*fetch-depth: 0/)
+  assert.match(workflow, /name: Check out immutable master tooling[\s\S]*actions\/checkout@v4[\s\S]*ref: \$\{\{ inputs\.master_sha \}\}[\s\S]*fetch-depth: 0/)
+  assert.match(workflow, /git fetch --no-tags origin "\$FINAL_DEV_SHA"/)
+  assert.match(workflow, /git worktree add --detach "\$RUNNER_TEMP\/final-dev" "\$FINAL_DEV_SHA"/)
+  assert.match(workflow, /restore-generated-state\.sh --exact --ref "\$FINAL_DEV_SHA"/)
+  assert.match(workflow, /name: Clean up final dev worktree[\s\S]*if: \$\{\{ always\(\) \}\}[\s\S]*git worktree remove --force "\$RUNNER_TEMP\/final-dev"/)
+  assert.doesNotMatch(workflow, /actions\/checkout@v4[\s\S]*ref: \$\{\{ inputs\.final_dev_sha \}\}/)
   assert.match(workflow, /validate-generated-sidebars\.js/)
   assert.match(workflow, /for group in guides python java node go cli rest; do[\s\S]*validate-translated-coverage\.js --group "\$group"[\s\S]*done/)
   assert.match(workflow, /run-doc-build-stage\.js --build "pnpm run build"/)

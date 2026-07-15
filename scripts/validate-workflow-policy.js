@@ -158,7 +158,10 @@ function validateWorkflowPolicies(directory = workflowDirectory) {
     if (file === '_verify-docs.yml') {
       const requiredPatterns = [
         [/^  workflow_call:$/m, 'must be a workflow_call reusable workflow'],
-        [/actions\/checkout@v4[\s\S]*ref: \$\{\{ inputs\.final_dev_sha \}\}[\s\S]*fetch-depth: 0/, 'must check out the immutable final dev SHA'],
+        [/name: Check out immutable master tooling[\s\S]*actions\/checkout@v4[\s\S]*ref: \$\{\{ inputs\.master_sha \}\}[\s\S]*fetch-depth: 0/, 'must check out immutable master tooling'],
+        [/git fetch --no-tags origin "\$FINAL_DEV_SHA"[\s\S]*git worktree add --detach "\$RUNNER_TEMP\/final-dev" "\$FINAL_DEV_SHA"/, 'must materialize the exact final dev SHA'],
+        [/restore-generated-state\.sh --exact --ref "\$FINAL_DEV_SHA"/, 'must restore generated content from the exact final dev SHA'],
+        [/name: Clean up final dev worktree[\s\S]*if: \$\{\{ always\(\) \}\}[\s\S]*git worktree remove --force "\$RUNNER_TEMP\/final-dev"/, 'must always clean up the final dev worktree'],
         [/validate-generated-sidebars\.js/, 'must validate generated sidebars'],
         [/for group in guides python java node go cli rest; do[\s\S]*validate-translated-coverage\.js --group "\$group"[\s\S]*done/, 'must validate translated coverage for every translatable group'],
         [/run-doc-build-stage\.js --build "pnpm run build"/, 'must run the documentation build stage'],
@@ -168,6 +171,7 @@ function validateWorkflowPolicies(directory = workflowDirectory) {
         [/status=passed[\s\S]*status=failed/, 'must emit a deterministic terminal status'],
       ]
       for (const [pattern, message] of requiredPatterns) if (!pattern.test(source)) errors.push(`${file}: ${message}`)
+      if (/actions\/checkout@v4[\s\S]*ref: \$\{\{ inputs\.final_dev_sha \}\}/.test(source)) errors.push(`${file}: final verification tooling must not come from the dev content commit`)
       if (/contents: write|git push/.test(source)) errors.push(`${file}: final verification must remain read-only and must not publish`)
     }
 
