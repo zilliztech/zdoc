@@ -1,0 +1,4 @@
+interface:
+  display_name: "ZDoc Localization"
+  short_description: "Review and apply stale-safe ZDoc translations"
+  default_prompt: "Use $zdoc-localization to check a registered English Feishu document and prepare its Chinese localization update."

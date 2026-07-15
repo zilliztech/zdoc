@@ -1,0 +1,17 @@
+{
+  "skillVersion": "1.0.0",
+  "cliRange": ">=0.1.0 <0.2.0",
+  "requiredCommands": [
+    "doctor",
+    "pair",
+    "bootstrap",
+    "plan",
+    "apply",
+    "status",
+    "recover"
+  ],
+  "requiredFeatures": [
+    "external-translation-provider",
+    "review-markdown-v1"
+  ]
+}
