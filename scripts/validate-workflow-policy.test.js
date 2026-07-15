@@ -12,6 +12,21 @@ test('GitHub Actions workflows satisfy documentation production safety policy', 
   assert.deepEqual(validateWorkflowPolicies(), [])
 })
 
+test('workflow policy rejects checkpoint publishers without idempotent scoped staging', () => {
+  const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'publisher-policy-'))
+  const publisherPath = path.join(directory, 'publish-checkpoint.sh')
+  try {
+    fs.writeFileSync(publisherPath, '(cd "$active_worktree" && git add --all -- "${paths[@]}")\n')
+    const errors = validateWorkflowPolicies(undefined, { publisherPath })
+    assert.ok(errors.includes('publish-checkpoint.sh: checkpoint publisher must select stageable manifest paths'))
+    assert.ok(errors.includes('publish-checkpoint.sh: checkpoint publisher must use NUL-delimited literal pathspec staging'))
+    assert.ok(errors.includes('publish-checkpoint.sh: checkpoint publisher must verify staged manifest scope'))
+    assert.ok(errors.includes('publish-checkpoint.sh: direct manifest pathspec staging is not idempotent'))
+  } finally {
+    fs.rmSync(directory, { recursive: true, force: true })
+  }
+})
+
 test('docs production runs only on schedules or explicit manual dispatch', () => {
   const workflowPath = path.join(process.cwd(), '.github/workflows/fetch-docs.yml')
   const triggerBlock = fs.readFileSync(workflowPath, 'utf8').split('\npermissions:')[0]
@@ -253,6 +268,13 @@ test('guides translations run in parallel and publish batches in one short order
   assert.ok(publish.needs.includes('translate_guides_batches'))
   assert.ok(publish.needs.includes('publish_rest'))
   assert.equal(publish.uses, './.github/workflows/_publish-translation-batches.yml')
+
+  const publisher = fs.readFileSync('scripts/docs-workflow/publish-checkpoint.sh', 'utf8')
+  assert.match(publisher, /checkpoint-stage-paths\.js" select/)
+  assert.match(publisher, /--pathspec-from-file="\$stage_paths_file"/)
+  assert.match(publisher, /--pathspec-file-nul/)
+  assert.match(publisher, /checkpoint-stage-paths\.js" verify/)
+  assert.doesNotMatch(publisher, /git add --all -- "\$\{paths\[@\]\}"/)
 
   const reusable = fs.readFileSync('.github/workflows/_publish-translation-batches.yml', 'utf8')
   const reusableYaml = yaml.load(reusable)
