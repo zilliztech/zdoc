@@ -365,3 +365,20 @@ test('Guides planner marks tables affected by navigation-only changes', () => {
   assert.equal(plan.mode, 'incremental')
   assert.deepEqual(plan.affected_tables, ['tbl-development'])
 })
+
+test('Guides planner retains previous target ownership for one-time cleanup', () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'planner-'))
+  const plan = planIncrementalFetch({
+    manualName: 'guides', docSourceDir: dir,
+    records: [{ record_id: 'section', base_table_id: 'tools', base_table_name: 'Tools', fields: { Labels: 'Tools', 'Placement Type': 'section' } }],
+    previousSnapshot: {
+      schema_version: 3, manual: 'guides', records: [],
+      navigation_records: [{ record_id: 'page', table_id: 'tools', table_name: 'Tools', placement_type: 'canonical', progress: 'Draft', targets: ['zilliz.saas'] }],
+      table_digests: { tools: 'old-digest' },
+    },
+  })
+  assert.deepEqual(plan.current_table_targets, {})
+  assert.deepEqual(plan.previous_table_targets, { tools: ['zilliz.saas'] })
+  assert.deepEqual(plan.previous_table_names, { tools: 'Tools' })
+  assert.deepEqual(plan.affected_tables, ['tools'])
+})

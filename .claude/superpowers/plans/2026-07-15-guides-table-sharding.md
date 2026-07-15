@@ -150,17 +150,17 @@ git commit -m "feat(guides): track navigation changes by Base table"
 - Modify: `scripts/docs-workflow/guides-tables.test.js`
 - Modify: `.github/workflows/_fetch-guides-sources.yml`
 
-- [ ] **Step 1: 重写失败测试**
+- [x] **Step 1: 重写失败测试**
 
 删除 Client Libraries/Tools nav-only 断言。测试当前 14 个组合，并测试新增 canonical target、删除最后一个 canonical、空 Solution。
 
-- [ ] **Step 2: 验证测试失败**
+- [x] **Step 2: 验证测试失败**
 
 Run: `node --test scripts/docs-workflow/guides-tables.test.js`
 
 Expected: FAIL，当前静态 registry 只产生 10 个组合。
 
-- [ ] **Step 3: 实现动态 matrix**
+- [x] **Step 3: 实现动态 matrix**
 
 CLI 改为：
 
@@ -172,17 +172,17 @@ node scripts/docs-workflow/guides-tables.js matrix \
 
 matrix 根据 canonical Targets 生成，不根据表名硬编码 nav-only。
 
-- [ ] **Step 4: 处理删除后的清空组合**
+- [x] **Step 4: 处理删除后的清空组合**
 
 planner/snapshot 必须保留 previous target ownership；删除最后一个 canonical 时仍输出一次 cleanup matrix entry，完成后后续运行不再调度。
 
-- [ ] **Step 5: 运行测试**
+- [x] **Step 5: 运行测试**
 
 Run: `node --test scripts/docs-workflow/guides-tables.test.js scripts/validate-workflow-policy.test.js`
 
 Expected: PASS。
 
-- [ ] **Step 6: 提交**
+- [x] **Step 6: 提交**
 
 ```bash
 git add scripts/docs-workflow/guides-tables.js scripts/docs-workflow/guides-tables.test.js .github/workflows/_fetch-guides-sources.yml

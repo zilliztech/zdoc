@@ -6,6 +6,33 @@ const {
   sourceTokenAliases,
 } = require('./canonicalLinkAuditor')
 const { sourceFilesByToken, createGuidesNavigationState } = require('./sourceSnapshot')
+const { guidesCanonicalIsPublishable, guidesRecordPublishTargets } = require('./guidesBaseRecordSemantics')
+
+const GUIDES_TARGETS = ['zilliz.paas', 'zilliz.saas']
+
+function normalizeGuidesTarget(target) {
+  const value = String(target || '').trim().toLowerCase()
+  if (value === 'saas') return 'zilliz.saas'
+  if (value === 'paas' || value === 'byoc' || value === 'zilliz.byoc') return 'zilliz.paas'
+  return value
+}
+
+function guidesTableOwnership(navigationRecords) {
+  const targetsByTable = new Map()
+  const namesByTable = new Map()
+  for (const record of navigationRecords || []) {
+    if (record.table_id && record.table_name) namesByTable.set(record.table_id, record.table_name)
+    if (!record.table_id || !guidesCanonicalIsPublishable(record)) continue
+    const targets = guidesRecordPublishTargets(record).map(normalizeGuidesTarget).filter(target => GUIDES_TARGETS.includes(target))
+    const effectiveTargets = targets.length > 0 ? targets : GUIDES_TARGETS
+    if (!targetsByTable.has(record.table_id)) targetsByTable.set(record.table_id, new Set())
+    effectiveTargets.forEach(target => targetsByTable.get(record.table_id).add(target))
+  }
+  return {
+    targets: Object.fromEntries([...targetsByTable.entries()].sort(([a], [b]) => a.localeCompare(b)).map(([tableId, targets]) => [tableId, [...targets].sort()])),
+    names: Object.fromEntries([...namesByTable.entries()].sort(([a], [b]) => a.localeCompare(b))),
+  }
+}
 
 function addReason(reasonsByToken, token, reason) {
   if (!token) return
@@ -150,7 +177,7 @@ function expandReferences({ changedTokens, outgoing, incoming, maxReferenceDepth
   return [...expanded].sort()
 }
 
-function fullPlan({ manualName, docSourceDir, canonicalRecords, buildEnv, warnings, reasonsByToken = {}, affectedTables = [] }) {
+function fullPlan({ manualName, docSourceDir, canonicalRecords, buildEnv, warnings, reasonsByToken = {}, affectedTables = [], currentOwnership = { targets: {}, names: {} }, previousOwnership = { targets: {}, names: {} } }) {
   return {
     generated_at: new Date().toISOString(),
     manual: manualName,
@@ -165,6 +192,10 @@ function fullPlan({ manualName, docSourceDir, canonicalRecords, buildEnv, warnin
     reasons_by_token: reasonsByToken,
     warnings,
     affected_tables: [...new Set(affectedTables)].sort(),
+    current_table_targets: currentOwnership.targets,
+    current_table_names: currentOwnership.names,
+    previous_table_targets: previousOwnership.targets,
+    previous_table_names: previousOwnership.names,
     snapshot_basis: null,
   }
 }
@@ -183,12 +214,14 @@ function planIncrementalFetch({
 }) {
   const canonicalRecords = canonicalRecordsFrom(records)
   const guidesNavigation = manualName === 'guides' ? createGuidesNavigationState(records) : null
+  const currentOwnership = guidesTableOwnership(guidesNavigation?.navigationRecords)
+  const previousOwnership = guidesTableOwnership(previousSnapshot?.navigation_records)
   const currentNavigationTables = guidesNavigation ? Object.keys(guidesNavigation.tableDigests) : []
   if (forceFull) {
-    return fullPlan({ manualName, docSourceDir, canonicalRecords, buildEnv, warnings: ['Forced full fetch requested.'], affectedTables: currentNavigationTables })
+    return fullPlan({ manualName, docSourceDir, canonicalRecords, buildEnv, warnings: ['Forced full fetch requested.'], affectedTables: currentNavigationTables, currentOwnership, previousOwnership })
   }
   if (!previousSnapshot) {
-    return fullPlan({ manualName, docSourceDir, canonicalRecords, buildEnv, warnings: ['No previous snapshot found.'], affectedTables: currentNavigationTables })
+    return fullPlan({ manualName, docSourceDir, canonicalRecords, buildEnv, warnings: ['No previous snapshot found.'], affectedTables: currentNavigationTables, currentOwnership, previousOwnership })
   }
   if (sourceCompleteness && !sourceCompleteness.complete) {
     const nonRenderableCount = sourceCompleteness.nonRenderableCanonicalFiles?.length || 0
@@ -199,6 +232,8 @@ function planIncrementalFetch({
       buildEnv,
       warnings: [`Source cache is incomplete (${sourceCompleteness.validCanonicalSources || 0}/${sourceCompleteness.expectedCanonicalSources || 0} canonical sources valid${nonRenderableCount ? `; ${nonRenderableCount} non-renderable canonical source${nonRenderableCount === 1 ? '' : 's'}` : ''}).`],
       affectedTables: currentNavigationTables,
+      currentOwnership,
+      previousOwnership,
     })
   }
   if (currentNodeMetadataByToken.size > 0 && Number(previousSnapshot.schema_version || 1) < 2) {
@@ -209,6 +244,8 @@ function planIncrementalFetch({
       buildEnv,
       warnings: ['Previous snapshot does not include wiki node metadata.'],
       affectedTables: currentNavigationTables,
+      currentOwnership,
+      previousOwnership,
     })
   }
   if (manualName === 'guides' && (Number(previousSnapshot.schema_version || 1) < 3 || !previousSnapshot.navigation_records || !previousSnapshot.table_digests)) {
@@ -219,6 +256,8 @@ function planIncrementalFetch({
       buildEnv,
       warnings: ['Previous Guides snapshot does not include navigation schema v3.'],
       affectedTables: currentNavigationTables,
+      currentOwnership,
+      previousOwnership,
     })
   }
 
@@ -235,6 +274,8 @@ function planIncrementalFetch({
       buildEnv,
       warnings: [`Failed to read source graph: ${error.message}`],
       affectedTables: currentNavigationTables,
+      currentOwnership,
+      previousOwnership,
     })
   }
 
@@ -271,6 +312,8 @@ function planIncrementalFetch({
       warnings: [`Changed record count ${changedRecords.length} exceeds full-fetch threshold ${changedLimit}.`],
       reasonsByToken,
       affectedTables: currentNavigationTables,
+      currentOwnership,
+      previousOwnership,
     })
   }
 
@@ -319,6 +362,10 @@ function planIncrementalFetch({
     reasons_by_token: reasonsByToken,
     warnings,
     affected_tables: [...affectedTables].sort(),
+    current_table_targets: currentOwnership.targets,
+    current_table_names: currentOwnership.names,
+    previous_table_targets: previousOwnership.targets,
+    previous_table_names: previousOwnership.names,
     snapshot_basis: {
       generated_at: previousSnapshot.generated_at || null,
       records: previousByToken.size,
