@@ -1,0 +1,8 @@
+<title id="title-zh">配置指标</title>
+<h1 id="zh-overview">概述</h1>
+<p id="zh-overview-p1">使用 <b>Zilliz Cloud</b> 和 <code>Prometheus</code> 监控指标。</p>
+<h2 id="zh-steps">配置监控</h2>
+<ol id="zh-list"><li id="zh-li-1">打开<a href="https://example.com/console">控制台</a>。</li><li id="zh-li-2">创建集成。</li></ol>
+<callout id="zh-callout" emoji="💡"><p id="zh-note">Prometheus 仅支持 Serving Cluster。</p></callout>
+<pre id="zh-code" lang="bash"><code>curl "$ENDPOINT"</code></pre>
+<img id="zh-image" token="img-token" name="metrics.png"/>

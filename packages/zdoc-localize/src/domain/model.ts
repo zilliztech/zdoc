@@ -15,6 +15,51 @@ export type DocumentMode = 'mirror' | 'selective' | 'independent' | 'excluded';
 export type AlignmentConfidence = 'high' | 'medium' | 'low';
 export type ChangeKind = 'insert' | 'replace' | 'delete' | 'move';
 
+export type SemanticNodeKind =
+  | 'heading'
+  | 'paragraph'
+  | 'list'
+  | 'quote'
+  | 'callout'
+  | 'code'
+  | 'table'
+  | 'image'
+  | 'whiteboard'
+  | 'resource'
+  | 'opaque';
+
+export interface SemanticNode {
+  nodeId: string;
+  kind: SemanticNodeKind;
+  headingPath: string[];
+  siblingIndex: number;
+  text: string;
+  xml: string;
+  writable: boolean;
+  fingerprint: string;
+  remote: {
+    blockId?: string;
+    token?: string;
+    attributes: Record<string, string>;
+  };
+}
+
+export interface SemanticSection {
+  headingPath: string[];
+  headingNodeId: string;
+  nodes: SemanticNode[];
+}
+
+export interface SemanticDocument {
+  documentId: string;
+  revisionId: number;
+  title: string;
+  nodes: SemanticNode[];
+  sections: SemanticSection[];
+  canonicalHash: string;
+  rawXml: string;
+}
+
 export interface DocumentPair {
   pairId: string;
   sourceLocale: 'en';

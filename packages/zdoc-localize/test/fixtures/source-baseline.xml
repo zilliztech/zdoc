@@ -1,0 +1,9 @@
+<title id="title-en">Configure metrics</title>
+<h1 id="h-overview">Overview</h1>
+<p id="p-intro">Monitor <b>Zilliz Cloud</b> metrics with <code>Prometheus</code>.</p>
+<h2 id="h-steps">Configure monitoring</h2>
+<ol id="list-steps"><li id="li-1">Open the <a href="https://example.com/console">Console</a>.</li><li id="li-2">Create an integration.</li></ol>
+<callout id="callout-note" emoji="💡"><p id="p-note">Prometheus supports Serving Clusters only.</p></callout>
+<pre id="code-sample" lang="bash"><code>curl "$ENDPOINT"</code></pre>
+<table id="table-1"><tbody><tr><td>Metric</td><td>Availability</td></tr></tbody></table>
+<img id="image-1" token="img-token" name="metrics.png"/>
