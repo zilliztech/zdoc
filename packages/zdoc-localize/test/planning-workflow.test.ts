@@ -19,8 +19,9 @@ const fixture = (name: string) => fileURLToPath(new URL(`./fixtures/${name}`, im
 
 class MemoryTranslationMemory implements TranslationMemory {
   readonly entries: TranslationMemoryEntry[] = [];
+  constructor(private readonly example?: TranslationMemoryEntry) {}
   async recordApproved(entry: TranslationMemoryEntry): Promise<void> { this.entries.push(entry); }
-  async findExact(_query: TranslationMemoryQuery): Promise<TranslationMemoryEntry | undefined> { return undefined; }
+  async findExact(_query: TranslationMemoryQuery): Promise<TranslationMemoryEntry | undefined> { return this.example; }
   async close(): Promise<void> {}
 }
 
@@ -56,11 +57,21 @@ describe('bootstrap and planning workflows', () => {
       status: 'needs_bootstrap',
     });
     let id = 0;
+    const memoryExample: TranslationMemoryEntry = {
+      sourceHash: 'example', targetLocale: 'zh-CN', glossaryHash: 'example', headingPath: ['Overview'],
+      sourceText: 'Monitor metrics.', targetText: '监控指标。', pairId: 'pair-old', runId: 'run-old',
+      verifiedRunId: 'run-old', approvedAt: '2026-07-14T00:00:00.000Z',
+    };
+    await registry.savePair({
+      pairId: 'pair-console', sourceLocale: 'en', targetLocale: 'zh-CN',
+      sourceDocUrl: 'https://example.com/console', targetDocUrl: 'https://cn.example.com/console',
+      mode: 'mirror', status: 'active',
+    });
     const workflows = new LocalizationWorkflows({
       cwd,
       registry,
       snapshots: new LocalSnapshotStore(cwd),
-      memory: new MemoryTranslationMemory(),
+      memory: new MemoryTranslationMemory(memoryExample),
       docs,
       clock: {now: () => new Date('2026-07-15T00:00:00.000Z')},
       ids: {next: () => `run-${++id}`},
@@ -81,6 +92,11 @@ describe('bootstrap and planning workflows', () => {
       'replace',
       'replace',
     ]);
+    expect(plan.translationRequests.some((request) => request.memoryExamples.length > 0)).toBe(true);
+    expect(plan.translationRequests.flatMap((request) => request.linkMappings)).toContainEqual({
+      sourceUrl: 'https://example.com/console',
+      targetUrl: 'https://cn.example.com/console',
+    });
     expect(plan.translationRequestsPath).toContain(`.zdoc-localize/runs/${plan.runId}/translation-requests.json`);
     expect(await registry.getReceipt('pair-1')).toMatchObject({sourceRevision: 1, targetRevision: 10});
   });
@@ -128,5 +144,13 @@ describe('bootstrap and planning workflows', () => {
 
     expect(result.state).toBe('classification_required');
     expect(result.changes.length).toBeGreaterThan(0);
+
+    const applicable = result.changes
+      .filter((change) => (change.after ?? change.before)?.writable)
+      .map((change) => change.changeId);
+    const classified = await workflows.classifyPlan(result.runId, applicable);
+
+    expect(classified.state).toBe('translation_required');
+    expect(classified.translationRequests).toHaveLength(applicable.length);
   });
 });

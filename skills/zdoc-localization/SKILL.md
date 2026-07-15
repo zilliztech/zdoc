@@ -35,7 +35,7 @@ Stop when the version is outside the supported range or required capabilities ar
 1. Register a confirmed pair with `pair add`, or inspect existing pairs with `pair list/show`.
 2. For an untracked pair, run `bootstrap plan`. Present the structural audit and wait for explicit baseline acceptance before `bootstrap accept`.
 3. Run `plan create --pair <id> --format json`.
-4. If state is `classification_required`, present every English change and obtain applicability decisions before continuing. Do not classify selective content silently.
+4. If state is `classification_required`, present every English change and obtain applicability decisions. Continue with `plan classify --run <id> --applicable <comma-separated-change-ids>`. Do not classify selective content silently.
 5. If state is `translation_required`, read the generated `translation-requests.json`. Read [references/workflow.md](references/workflow.md) before generating `translations.json`.
 6. Run `plan complete --run <id> --translations <relative-file> --format json`.
 7. Present the generated `review.md`. The user may edit only the marked translation regions.

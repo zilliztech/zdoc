@@ -300,11 +300,23 @@ export class LocalizationWorkflows {
     }
     if (pair.mode === 'selective') {
       await this.persistPlanArtifacts(runId, sourceFetch, targetFetch, changes, [], 'classification_required');
+      const bundleRef = await this.dependencies.snapshots.putBundle({
+        runId,
+        files: {
+          'source-baseline.xml': baselineXml,
+          'source-current.xml': sourceFetch.content,
+          'target-current.xml': targetFetch.content,
+          'changes.json': JSON.stringify(changes, null, 2),
+        },
+      });
       await this.dependencies.registry.saveRun(this.newRun(runId, pairId, 'classification_required', {
         kind: 'localization',
+        bundleRef,
         changes,
         sourceRevision: source.revisionId,
+        sourceHash: source.canonicalHash,
         targetRevision: target.revisionId,
+        targetHash: target.canonicalHash,
       }));
       return {runId, state: 'classification_required', changes, translationRequests: []};
     }
@@ -326,13 +338,8 @@ export class LocalizationWorkflows {
       return {runId, state: 'blocked', changes, translationRequests: [], blocker};
     }
 
-    const glossary = resolveGlossary(await this.dependencies.registry.listGlossary(), {
-      pairId,
-      product: pair.productScope,
-      environment: pair.environmentScope,
-      version: pair.versionScope,
-    });
-    const translationRequests = aligned.map((item) => buildRequest(item, source, target, glossary));
+    const translationInputs = await this.createTranslationInputs(pair, aligned, source, target);
+    const translationRequests = translationInputs.requests;
     const translationRequestsPath = await this.persistPlanArtifacts(
       runId,
       sourceFetch,
@@ -361,9 +368,72 @@ export class LocalizationWorkflows {
       targetHash: target.canonicalHash,
       changes,
       aligned,
-      glossaryHash: canonicalHash([...glossary.values()]),
+      glossaryHash: translationInputs.glossaryHash,
     }));
     return {runId, state: 'translation_required', changes, translationRequests, translationRequestsPath};
+  }
+
+  async classifyPlan(runId: string, applicableChangeIds: string[]): Promise<PlanningResult> {
+    const run = await this.requireRun(runId);
+    if (run.state !== 'classification_required' || run.metadata?.kind !== 'localization') {
+      throw new LocalizeError({type: 'validation', subtype: 'run_not_classification_required', message: `Run ${runId} is not waiting for applicability classification.`});
+    }
+    const pair = await this.requirePair(run.pairId);
+    const changes = run.metadata.changes as SemanticChange[];
+    const known = new Set(changes.map((change) => change.changeId));
+    if (applicableChangeIds.some((changeId) => !known.has(changeId))) {
+      throw new LocalizeError({type: 'validation', subtype: 'unknown_classification_change', message: 'Classification contains an unknown change ID.'});
+    }
+    const selectedIds = new Set(applicableChangeIds);
+    const selected = changes.filter((change) => selectedIds.has(change.changeId));
+    const bundleRef = run.metadata.bundleRef as SnapshotReference;
+    const bundle = await this.dependencies.snapshots.getBundle(bundleRef);
+    const sourceXml = bundle.files['source-current.xml'];
+    const targetXml = bundle.files['target-current.xml'];
+    if (!sourceXml || !targetXml) {
+      throw new LocalizeError({type: 'verification_failed', subtype: 'classification_bundle_incomplete', message: 'Selective run snapshot is incomplete.'});
+    }
+    const source = parseFeishuDocument(sourceXml, {documentId: 'source-current', revisionId: Number(run.metadata.sourceRevision)});
+    const target = parseFeishuDocument(targetXml, {documentId: 'target-current', revisionId: Number(run.metadata.targetRevision)});
+    const receipt = await this.dependencies.registry.getReceipt(run.pairId);
+    const aligned = alignChanges(selected, target, receipt?.correspondences ?? []);
+    const blocker = aligned.find((item) => item.confidence === 'low')?.blocker;
+    if (blocker) {
+      await this.markRun(run, 'blocked', {blocker, aligned});
+      return {runId, state: 'blocked', changes: selected, translationRequests: [], blocker};
+    }
+    const unsupported = aligned.find((item) => !(item.change.after ?? item.change.before)?.writable);
+    if (unsupported) {
+      const reason = `changed ${unsupported.change.after?.kind ?? unsupported.change.before?.kind} content is report-only`;
+      await this.markRun(run, 'blocked', {blocker: reason, aligned});
+      return {runId, state: 'blocked', changes: selected, translationRequests: [], blocker: reason};
+    }
+    const translationInputs = await this.createTranslationInputs(pair, aligned, source, target);
+    const requestText = `${JSON.stringify(translationInputs.requests, null, 2)}\n`;
+    const translationRequestsPath = await this.writeRunFile(runId, 'translation-requests.json', requestText);
+    const completedBundleRef = await this.dependencies.snapshots.putBundle({
+      runId,
+      files: {
+        ...bundle.files,
+        'applicability.json': `${JSON.stringify({applicableChangeIds}, null, 2)}\n`,
+        'alignments.json': `${JSON.stringify(aligned, null, 2)}\n`,
+        'translation-requests.json': requestText,
+      },
+    });
+    await this.markRun(run, 'translation_required', {
+      bundleRef: completedBundleRef,
+      changes: selected,
+      aligned,
+      glossaryHash: translationInputs.glossaryHash,
+      applicableChangeIds,
+    });
+    return {
+      runId,
+      state: 'translation_required',
+      changes: selected,
+      translationRequests: translationInputs.requests,
+      translationRequestsPath,
+    };
   }
 
   async completePlan(runId: string, responses: TranslationResponse[]): Promise<CompletedPlanResult> {
@@ -627,6 +697,41 @@ export class LocalizationWorkflows {
     return requests.length > 0
       ? this.writeRunFile(runId, 'translation-requests.json', `${JSON.stringify(requests, null, 2)}\n`)
       : undefined;
+  }
+
+  private async createTranslationInputs(
+    pair: DocumentPair,
+    aligned: AlignedChange[],
+    source: SemanticDocument,
+    target: SemanticDocument,
+  ): Promise<{requests: TranslationRequest[]; glossaryHash: string}> {
+    const glossary = resolveGlossary(await this.dependencies.registry.listGlossary(), {
+      pairId: pair.pairId,
+      product: pair.productScope,
+      environment: pair.environmentScope,
+      version: pair.versionScope,
+    });
+    const glossaryHash = canonicalHash([...glossary.values()]);
+    const linkMappings = (await this.dependencies.registry.listPairs())
+      .filter((candidate) => candidate.targetDocUrl)
+      .map((candidate) => ({sourceUrl: candidate.sourceDocUrl, targetUrl: candidate.targetDocUrl}));
+    const requests: TranslationRequest[] = [];
+    for (const item of aligned) {
+      const sourceNode = item.change.after ?? item.change.before!;
+      const exact = await this.dependencies.memory.findExact({
+        sourceHash: sourceNode.fingerprint,
+        targetLocale: pair.targetLocale,
+        glossaryHash,
+        headingPath: sourceNode.headingPath,
+      });
+      const memoryExamples = exact ? [{
+        source: exact.sourceText,
+        target: exact.targetText,
+        headingPath: exact.headingPath,
+      }] : [];
+      requests.push(buildRequest(item, source, target, glossary, memoryExamples, linkMappings));
+    }
+    return {requests, glossaryHash};
   }
 
   private newRun(

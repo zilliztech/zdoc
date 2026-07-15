@@ -72,6 +72,7 @@ describe('CLI contract', () => {
     const recoverHelp = await runCli(['recover', '--help']);
 
     expect(planHelp.stdout).toContain('complete');
+    expect(planHelp.stdout).toContain('classify');
     expect(applyHelp.stdout).toContain('--review');
     expect(applyHelp.stdout).toContain('--run');
     expect(recoverHelp.stdout).toContain('inspect');

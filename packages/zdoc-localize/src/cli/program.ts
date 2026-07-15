@@ -175,6 +175,14 @@ function createProgram(
       const result = await withRuntime(cwd, runtimeFactory, (runtime) => runtime.workflows.createPlan(options.pair));
       emit(io, result, options.format);
     });
+  formatOption(plan.command('classify'))
+    .requiredOption('--run <id>')
+    .requiredOption('--applicable <ids>', 'Comma-separated applicable change IDs')
+    .action(async (options: {run: string; applicable: string; format: string}) => {
+      const ids = options.applicable.split(',').map((value) => value.trim()).filter(Boolean);
+      const result = await withRuntime(cwd, runtimeFactory, (runtime) => runtime.workflows.classifyPlan(options.run, ids));
+      emit(io, result, options.format);
+    });
   formatOption(plan.command('complete'))
     .requiredOption('--run <id>')
     .requiredOption('--translations <file>')

@@ -33,6 +33,7 @@ Use Markdown only for inline formatting that must survive review, such as `` `co
 
 ```bash
 zdoc-localize plan create --pair <pair-id> --format json
+zdoc-localize plan classify --run <run-id> --applicable <change-id,change-id> --format json
 zdoc-localize plan complete --run <run-id> --translations <relative-json> --format json
 zdoc-localize apply --run <run-id> --review <relative-review-md> --format json
 zdoc-localize status --run <run-id> --format json
