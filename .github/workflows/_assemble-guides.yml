@@ -4,8 +4,8 @@ on:
   workflow_call:
     inputs:
       source_artifact_name: { required: true, type: string }
-      saas_artifact_name: { required: true, type: string }
-      byoc_artifact_name: { required: true, type: string }
+      table_matrix: { required: true, type: string }
+      table_count: { required: true, type: string }
       master_sha: { required: true, type: string }
       dev_baseline_sha: { required: true, type: string }
       target_branch: { required: true, type: string }
@@ -44,21 +44,39 @@ jobs:
       - uses: actions/download-artifact@v4
         with: { name: '${{ inputs.source_artifact_name }}', path: '${{ runner.temp }}/source-download' }
       - uses: actions/download-artifact@v4
-        with: { name: '${{ inputs.saas_artifact_name }}', path: '${{ runner.temp }}/saas-download' }
-      - uses: actions/download-artifact@v4
-        with: { name: '${{ inputs.byoc_artifact_name }}', path: '${{ runner.temp }}/byoc-download' }
-      - name: Restore validated guides stages
+        if: ${{ inputs.table_count != '0' }}
+        with:
+          pattern: guides-table-*-${{ github.run_id }}
+          path: ${{ runner.temp }}/table-download
+          merge-multiple: true
+      - name: Restore validated Guides source
         run: |
           tar -xf "$RUNNER_TEMP/source-download/guides-source.tar" -C "$RUNNER_TEMP/source-download"
-          source_sha=$(sha256sum "$RUNNER_TEMP/source-download/guides-source/manifest.json" | cut -d' ' -f1)
-          for pair in source:guides-source saas:guides-render byoc:guides-render; do
-            label=${pair%%:*}; root=${pair#*:}; archive="$RUNNER_TEMP/$label-download/guides-${label/source/source}.tar"
-            [[ "$label" == source ]] || archive="$RUNNER_TEMP/$label-download/guides-render.tar"
-            [[ "$label" == source ]] || tar -xf "$archive" -C "$RUNNER_TEMP/$label-download"
-            source_arg=()
-            [[ "$label" == source ]] || source_arg=(--source-artifact-sha256 "$source_sha")
-            node scripts/docs-workflow/guides-stage-artifact.js --operation restore --stage "$label" --artifact "$RUNNER_TEMP/$label-download/$root" --target "$GITHUB_WORKSPACE" --master-sha "${{ inputs.master_sha }}" --dev-baseline-sha "${{ inputs.dev_baseline_sha }}" "${source_arg[@]}"
+          node scripts/docs-workflow/guides-stage-artifact.js --operation restore --stage source --artifact "$RUNNER_TEMP/source-download/guides-source" --target "$GITHUB_WORKSPACE" --master-sha "${{ inputs.master_sha }}" --dev-baseline-sha "${{ inputs.dev_baseline_sha }}"
+      - name: Restore validated Guides table artifacts
+        if: ${{ inputs.table_count != '0' }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/table-artifacts"
+          for archive in "$RUNNER_TEMP"/table-download/*.tar; do
+            name=$(basename "$archive" .tar)
+            destination="$RUNNER_TEMP/table-artifacts/$name"
+            mkdir -p "$destination"
+            tar -tf "$archive" | node -e 'const fs=require("fs");for(const p of fs.readFileSync(0,"utf8").trim().split("\n"))if(p!=="guides-table"&&!p.startsWith("guides-table/"))throw Error("unsafe archive path")'
+            tar -xf "$archive" -C "$destination"
           done
+          node -e 'require("fs").writeFileSync(process.argv[1], process.env.MATRIX_JSON)' "$RUNNER_TEMP/guides-table-matrix.json"
+          source_sha=$(sha256sum "$RUNNER_TEMP/source-download/guides-source/manifest.json" | cut -d' ' -f1)
+          node scripts/docs-workflow/restore-guides-table-artifacts.js --matrix-file "$RUNNER_TEMP/guides-table-matrix.json" --artifacts-root "$RUNNER_TEMP/table-artifacts" --target "$GITHUB_WORKSPACE" --source-artifact-sha256 "$source_sha"
+        env:
+          MATRIX_JSON: ${{ inputs.table_matrix }}
+      - name: Generate combined Guides sidebars offline
+        run: |
+          npx docusaurus fetch-lark-docs -man guides -tar zilliz.saas -sidebar -skipS --offline --mediaManifest plugins/lark-docs/meta/media-cache/guides.json
+          npx docusaurus fetch-lark-docs -man guides -tar zilliz.paas -sidebar -skipS --offline --mediaManifest plugins/lark-docs/meta/media-cache/guides.json
+        env:
+          DOCS_BUILD_ENV: uat
+          IMAGE_BED_URL: ${{ vars.IMAGE_BED_URL }}
+          NO_UPDATE_NOTIFIER: '1'
       - name: Validate combined guides output
         run: |
           node scripts/validate-generated-sidebars.js

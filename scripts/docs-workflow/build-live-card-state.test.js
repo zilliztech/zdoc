@@ -52,14 +52,14 @@ test('preserves report notes in the exact live card state', () => {
   assert.equal(state.manuals, undefined)
 })
 
-test('shows guides production running while shared fetch or target rendering is active', () => {
+test('shows guides production running while shared fetch or table matrix rendering is active', () => {
   const state = buildLiveCardState({
     requestedGroups: ['guides', 'rest'],
     publishEnabled: true,
     jobs: [
       { name: 'produce_guides_sources / fetch', status: 'completed', conclusion: 'success' },
-      { name: 'render_guides_saas / render', status: 'in_progress', conclusion: null },
-      { name: 'render_guides_byoc / render', status: 'in_progress', conclusion: null },
+      { name: 'render_guides_tables / render / saas / Tools', status: 'completed', conclusion: 'success' },
+      { name: 'render_guides_tables / render / byoc / Tools', status: 'in_progress', conclusion: null },
     ],
   })
 
@@ -74,12 +74,20 @@ test('shows guides production failed when a prerequisite fails before assembly',
     publishEnabled: true,
     jobs: [
       { name: 'produce_guides_sources / fetch', status: 'completed', conclusion: 'success' },
-      { name: 'render_guides_saas / render', status: 'completed', conclusion: 'failure' },
+      { name: 'render_guides_tables / render / saas / Tools', status: 'completed', conclusion: 'failure' },
     ],
   })
 
   assert.equal(state.manuals[0].produce, 'fail')
   assert.equal(state.stages[0].status, 'fail')
+})
+
+test('keeps empty Guides matrix in progress until assembly completes', () => {
+  const state = buildLiveCardState({
+    requestedGroups: ['guides'], publishEnabled: true,
+    jobs: [{ name: 'produce_guides_sources / fetch', status: 'completed', conclusion: 'success' }],
+  })
+  assert.equal(state.stages[0].status, 'running')
 })
 
 test('marks translation publication done when the translator reports no changes', () => {

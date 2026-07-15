@@ -325,8 +325,11 @@ module.exports = function (context, options) {
                         const { outputDir } = targetConfig
                         const effectiveSidebarPath = targetConfig.sidebarPath ?? sidebarPath
                         if (!effectiveSidebarPath) throw new Error('sidebarPath is not configured for this manual or target')
+                        const mediaResolver = opts.offline
+                            ? createOfflineMediaResolver({ manifestPath: opts.mediaManifest, imageBedUrl: process.env.IMAGE_BED_URL || 'https://zdoc-images.s3.us-west-2.amazonaws.com' })
+                            : null
                         const writer = sourceType === 'wiki' || sourceType === 'onePager'
-                            ? new docWriter(root, base, displayedSidebar, docSourceDir, null, opts.pubTarget ?? Object.keys(targets)[0], true, false, opts.linkShim)
+                            ? new docWriter(root, base, displayedSidebar, docSourceDir, null, opts.pubTarget ?? Object.keys(targets)[0], true, false, opts.linkShim, mediaResolver)
                             : new driveWriter(root, base, displayedSidebar, docSourceDir, null, opts.pubTarget ?? Object.keys(targets)[0], true, false, opts.manual)
                         console.log('Generating sidebar from existing sources...')
                         const sidebarItems = await writer.generate_sidebar(outputDir, outputDir.split('/')[0])

@@ -109,6 +109,35 @@ function validateWorkflowPolicies(directory = workflowDirectory) {
       for (const [pattern, message] of requiredPatterns) if (!pattern.test(source)) errors.push(`${file}: ${message}`)
     }
 
+    if (file === '_render-guides-table.yml') {
+      const requiredPatterns = [
+        [/render-guides-table\.js/, 'must invoke the table-scoped renderer'],
+        [/guides-table-artifact\.js --operation create/, 'must create a validated table artifact'],
+        [/NO_UPDATE_NOTIFIER: '1'/, 'must disable update notifier network checks'],
+      ]
+      for (const [pattern, message] of requiredPatterns) if (!pattern.test(source)) errors.push(`${file}: ${message}`)
+      if (/secrets:|APP_ID|APP_SECRET|SPACE_ID|FIGMA_API_KEY|AWS_ACCESS_KEY_ID|AWS_SECRET_ACCESS_KEY|MODEL_API_KEY/.test(source)) {
+        errors.push(`${file}: offline table render must not receive third-party credentials`)
+      }
+    }
+
+    if (file === '_assemble-guides.yml') {
+      const requiredPatterns = [
+        [/inputs\.table_count != '0'[\s\S]*pattern: guides-table-/, 'must skip table artifact download for an empty matrix'],
+        [/restore-guides-table-artifacts\.js/, 'must restore validated table artifacts'],
+        [/fetch-lark-docs[\s\S]*-sidebar[\s\S]*--offline[\s\S]*--mediaManifest/, 'must generate combined sidebars offline'],
+      ]
+      for (const [pattern, message] of requiredPatterns) if (!pattern.test(source)) errors.push(`${file}: ${message}`)
+    }
+
+    if (file === 'fetch-docs.yml') {
+      const requiredPatterns = [
+        [/render_guides_tables:[\s\S]*max-parallel: 4[\s\S]*fromJSON\(needs\.produce_guides_sources\.outputs\.table_matrix\)/, 'must render Guides target/table matrix with max-parallel 4'],
+        [/produce_guides:[\s\S]*render_guides_tables\.result == 'skipped'/, 'must assemble an empty Guides render matrix'],
+      ]
+      for (const [pattern, message] of requiredPatterns) if (!pattern.test(source)) errors.push(`${file}: ${message}`)
+    }
+
     if (file === '_publish-content-group.yml') {
       const requiredPatterns = [
         [/^  workflow_call:$/m, 'must be a workflow_call reusable workflow'],

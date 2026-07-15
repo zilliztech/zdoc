@@ -1,19 +1,22 @@
-name: render guides target
+name: render guides table
 
 on:
   workflow_call:
     inputs:
+      table_id: { required: true, type: string }
+      table_name: { required: true, type: string }
+      table_slug: { required: true, type: string }
       target: { required: true, type: string }
+      target_name: { required: true, type: string }
+      cleanup: { required: true, type: boolean }
       source_artifact_name: { required: true, type: string }
       master_sha: { required: true, type: string }
       dev_baseline_sha: { required: true, type: string }
       artifact_retention_days: { required: false, type: number, default: 3 }
-      card_id: { required: false, type: string, default: '' }
-      card_mode: { required: false, type: string, default: ordered }
-      card_started_at: { required: false, type: string, default: '' }
     outputs:
       status: { value: '${{ jobs.render.outputs.status }}' }
       artifact_name: { value: '${{ jobs.render.outputs.artifact_name }}' }
+
 permissions:
   actions: read
   contents: read
@@ -24,7 +27,7 @@ jobs:
     timeout-minutes: 180
     outputs:
       status: ${{ steps.result.outputs.status }}
-      artifact_name: guides-render-${{ inputs.target }}-${{ github.run_id }}
+      artifact_name: guides-table-${{ inputs.target_name }}-${{ inputs.table_slug }}-${{ github.run_id }}
     steps:
       - uses: actions/checkout@v4
         with: { ref: '${{ inputs.master_sha }}', fetch-depth: 0 }
@@ -33,8 +36,6 @@ jobs:
       - uses: actions/setup-node@v4
         with: { node-version: '20', cache: pnpm }
       - run: pnpm install --frozen-lockfile
-      - name: Validate target
-        run: case "${{ inputs.target }}" in saas|byoc) ;; *) exit 2 ;; esac
       - name: Prepare immutable baseline
         run: |
           git fetch --no-tags origin "${{ inputs.dev_baseline_sha }}"
@@ -47,22 +48,24 @@ jobs:
           tar -tf "$RUNNER_TEMP/download/guides-source.tar" | node -e 'const fs=require("fs");for(const p of fs.readFileSync(0,"utf8").trim().split("\n"))if(p!=="guides-source"&&!p.startsWith("guides-source/"))throw Error("unsafe archive path")'
           tar -xf "$RUNNER_TEMP/download/guides-source.tar" -C "$RUNNER_TEMP"
           node scripts/docs-workflow/guides-stage-artifact.js --operation restore --stage source --artifact "$RUNNER_TEMP/guides-source" --target "$GITHUB_WORKSPACE" --master-sha "${{ inputs.master_sha }}" --dev-baseline-sha "${{ inputs.dev_baseline_sha }}"
-      - name: Render guides target
-        run: node scripts/docs-workflow/run-content-group.js --group guides --stage "${{ inputs.target }}"
+      - name: Render Guides table offline
+        run: node scripts/docs-workflow/render-guides-table.js --workspace "$GITHUB_WORKSPACE" --entry "$ENTRY_JSON"
         env:
-          DOCS_BUILD_ENV: uat
+          ENTRY_JSON: ${{ toJSON(inputs) }}
           IMAGE_BED_URL: ${{ vars.IMAGE_BED_URL }}
           NO_UPDATE_NOTIFIER: '1'
-      - name: Create render artifact
+      - name: Create table artifact
         run: |
           source_sha=$(sha256sum "$RUNNER_TEMP/guides-source/manifest.json" | cut -d' ' -f1)
-          node scripts/docs-workflow/guides-stage-artifact.js --operation create --stage "${{ inputs.target }}" --workspace "$GITHUB_WORKSPACE" --baseline-dir "$RUNNER_TEMP/baseline" --output "$RUNNER_TEMP/guides-render" --master-sha "${{ inputs.master_sha }}" --dev-baseline-sha "${{ inputs.dev_baseline_sha }}" --source-artifact-sha256 "$source_sha"
-          tar -cf "$RUNNER_TEMP/guides-render.tar" -C "$RUNNER_TEMP" guides-render
+          node scripts/docs-workflow/guides-table-artifact.js --operation create --workspace "$GITHUB_WORKSPACE" --output "$RUNNER_TEMP/guides-table" --entry "$ENTRY_JSON" --master-sha "${{ inputs.master_sha }}" --dev-baseline-sha "${{ inputs.dev_baseline_sha }}" --source-artifact-sha256 "$source_sha"
+          tar -cf "$RUNNER_TEMP/guides-table-${{ inputs.target_name }}-${{ inputs.table_slug }}.tar" -C "$RUNNER_TEMP" guides-table
+        env:
+          ENTRY_JSON: ${{ toJSON(inputs) }}
       - id: upload
         uses: actions/upload-artifact@v4
         with:
-          name: guides-render-${{ inputs.target }}-${{ github.run_id }}
-          path: ${{ runner.temp }}/guides-render.tar
+          name: guides-table-${{ inputs.target_name }}-${{ inputs.table_slug }}-${{ github.run_id }}
+          path: ${{ runner.temp }}/guides-table-${{ inputs.target_name }}-${{ inputs.table_slug }}.tar
           retention-days: ${{ inputs.artifact_retention_days }}
           if-no-files-found: error
       - id: result

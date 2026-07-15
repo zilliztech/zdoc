@@ -149,42 +149,35 @@ jobs:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-  render_guides_saas:
+  render_guides_tables:
+    name: render_guides_tables / ${{ matrix.target_name }} / ${{ matrix.table_name }}
     needs: [prepare, produce_guides_sources]
-    if: ${{ needs.produce_guides_sources.outputs.status == 'artifact_ready' }}
-    uses: ./.github/workflows/_render-guides-target.yml
+    if: ${{ needs.produce_guides_sources.outputs.status == 'artifact_ready' && needs.produce_guides_sources.outputs.table_count != '0' }}
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix: ${{ fromJSON(needs.produce_guides_sources.outputs.table_matrix) }}
+    uses: ./.github/workflows/_render-guides-table.yml
     with:
-      target: saas
+      table_id: ${{ matrix.table_id }}
+      table_name: ${{ matrix.table_name }}
+      table_slug: ${{ matrix.table_slug }}
+      target: ${{ matrix.target }}
+      target_name: ${{ matrix.target_name }}
+      cleanup: ${{ matrix.cleanup }}
       source_artifact_name: ${{ needs.produce_guides_sources.outputs.artifact_name }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
       dev_baseline_sha: ${{ needs.prepare.outputs.dev_baseline_sha }}
       artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
-      card_id: ${{ needs.prepare.outputs.phase_card_id }}
-      card_mode: ${{ needs.prepare.outputs.card_mode }}
-      card_started_at: ${{ needs.prepare.outputs.card_started_at }}
-
-  render_guides_byoc:
-    needs: [prepare, produce_guides_sources]
-    if: ${{ needs.produce_guides_sources.outputs.status == 'artifact_ready' }}
-    uses: ./.github/workflows/_render-guides-target.yml
-    with:
-      target: byoc
-      source_artifact_name: ${{ needs.produce_guides_sources.outputs.artifact_name }}
-      master_sha: ${{ needs.prepare.outputs.master_sha }}
-      dev_baseline_sha: ${{ needs.prepare.outputs.dev_baseline_sha }}
-      artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
-      card_id: ${{ needs.prepare.outputs.phase_card_id }}
-      card_mode: ${{ needs.prepare.outputs.card_mode }}
-      card_started_at: ${{ needs.prepare.outputs.card_started_at }}
 
   produce_guides:
-    needs: [prepare, produce_guides_sources, render_guides_saas, render_guides_byoc]
-    if: ${{ always() && (needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'guides') }}
+    needs: [prepare, produce_guides_sources, render_guides_tables]
+    if: ${{ always() && (needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'guides') && needs.produce_guides_sources.outputs.status == 'artifact_ready' && (needs.render_guides_tables.result == 'success' || needs.render_guides_tables.result == 'skipped') }}
     uses: ./.github/workflows/_assemble-guides.yml
     with:
       source_artifact_name: ${{ needs.produce_guides_sources.outputs.artifact_name || 'unavailable' }}
-      saas_artifact_name: ${{ needs.render_guides_saas.outputs.artifact_name || 'unavailable' }}
-      byoc_artifact_name: ${{ needs.render_guides_byoc.outputs.artifact_name || 'unavailable' }}
+      table_matrix: ${{ needs.produce_guides_sources.outputs.table_matrix || '{"include":[]}' }}
+      table_count: ${{ needs.produce_guides_sources.outputs.table_count || '0' }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
       dev_baseline_sha: ${{ needs.prepare.outputs.dev_baseline_sha }}
       target_branch: ${{ needs.prepare.outputs.target_branch }}

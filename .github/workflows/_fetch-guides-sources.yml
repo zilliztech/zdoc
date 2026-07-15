@@ -13,6 +13,7 @@ on:
       status: { value: '${{ jobs.fetch.outputs.status }}' }
       artifact_name: { value: '${{ jobs.fetch.outputs.artifact_name }}' }
       table_matrix: { value: '${{ jobs.fetch.outputs.table_matrix }}' }
+      table_count: { value: '${{ jobs.fetch.outputs.table_count }}' }
     secrets:
       APP_ID: { required: true }
       APP_SECRET: { required: true }
@@ -34,6 +35,7 @@ jobs:
       status: ${{ steps.result.outputs.status }}
       artifact_name: guides-sources-${{ github.run_id }}
       table_matrix: ${{ steps.table_matrix.outputs.matrix }}
+      table_count: ${{ steps.table_matrix.outputs.count }}
     steps:
       - uses: actions/checkout@v4
         with: { ref: '${{ inputs.master_sha }}', fetch-depth: 0 }
@@ -123,7 +125,9 @@ jobs:
           matrix=$(node scripts/docs-workflow/guides-tables.js matrix \
             --plan plugins/lark-docs/meta/reports/guides-incremental-fetch-plan.json \
             --snapshot plugins/lark-docs/meta/reports/guides-source-snapshot-candidate.json)
-          echo "matrix=$matrix" >> "$GITHUB_OUTPUT"
+          count=$(node -e 'const value=JSON.parse(process.argv[1]);process.stdout.write(String(value.length))' "$matrix")
+          echo "matrix={\"include\":$matrix}" >> "$GITHUB_OUTPUT"
+          echo "count=$count" >> "$GITHUB_OUTPUT"
       - name: Create shared source artifact
         run: |
           node scripts/docs-workflow/guides-source-cache.js create --source-dir plugins/lark-docs/meta/sources/guides --snapshot plugins/lark-docs/meta/reports/guides-source-snapshot-candidate.json --output "$RUNNER_TEMP/guides-source-manifest.json" --root-token Tg6mwbRGDitPQ3kLUQzc44I7nth

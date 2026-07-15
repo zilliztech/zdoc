@@ -26,7 +26,7 @@ test('content producers stay parallel while source publishers form an explicit c
   const publicationOrder = ['java', 'node', 'go', 'cli', 'rest', 'python', 'guides']
 
   for (const group of groups) {
-    assert.deepEqual(workflow.jobs[`produce_${group}`].needs, group === 'guides' ? ['prepare', 'produce_guides_sources', 'render_guides_saas', 'render_guides_byoc'] : 'prepare')
+    assert.deepEqual(workflow.jobs[`produce_${group}`].needs, group === 'guides' ? ['prepare', 'produce_guides_sources', 'render_guides_tables'] : 'prepare')
     const condition = workflow.jobs[`publish_${group}`].if
     assert.match(condition, /always\(\)/, `${group} publisher must tolerate skipped serialization dependencies`)
     assert.match(condition, /needs\.prepare\.outputs\.publish == 'true'/, `${group} publisher must require publish mode`)
@@ -131,9 +131,9 @@ test('reusable content producer is immutable, read-only, and publishes a validat
   assert.match(workflow, /name: Report content group producer failure\n        if: \$\{\{ always\(\) && steps\.install\.outcome == 'success' && steps\.result\.outputs\.status == 'failed' && inputs\.card_id != '' \}\}\n        continue-on-error: true[\s\S]*report-live-card\.sh[\s\S]*CARD_STATUS: fail[\s\S]*artifact production failed/)
 })
 
-test('guides source stage reports progress while render stages stay offline', () => {
+test('guides source stage reports progress while table render stays offline', () => {
   const source = fs.readFileSync(path.join(process.cwd(), '.github/workflows/_fetch-guides-sources.yml'), 'utf8')
-  const render = fs.readFileSync(path.join(process.cwd(), '.github/workflows/_render-guides-target.yml'), 'utf8')
+  const render = fs.readFileSync(path.join(process.cwd(), '.github/workflows/_render-guides-table.yml'), 'utf8')
   for (const input of ['card_id', 'card_mode', 'card_started_at']) assert.match(source, new RegExp(`^      ${input}:`, 'm'))
   assert.match(source, /name: Report aggregate guides progress[\s\S]*inputs\.card_mode == 'aggregate'[\s\S]*report-live-card\.sh/)
   assert.doesNotMatch(render, /report-live-card|secrets\./)
@@ -168,8 +168,8 @@ test('guides workflows bootstrap full sources and persist only verified caches',
 test('guides media is prefetched once for the incremental render scope and shared by parallel renders', () => {
   const caller = yaml.load(fs.readFileSync('.github/workflows/fetch-docs.yml', 'utf8'))
   const source = fs.readFileSync('.github/workflows/_fetch-guides-sources.yml', 'utf8')
-  const render = fs.readFileSync('.github/workflows/_render-guides-target.yml', 'utf8')
-  const runner = fs.readFileSync('scripts/docs-workflow/run-content-group.js', 'utf8')
+  const render = fs.readFileSync('.github/workflows/_render-guides-table.yml', 'utf8')
+  const runner = fs.readFileSync('scripts/docs-workflow/render-guides-table.js', 'utf8')
 
   assert.match(source, /guides-media-prefetch\.js/)
   assert.match(source, /--plan plugins\/lark-docs\/meta\/reports\/guides-incremental-fetch-plan\.json/)
@@ -185,18 +185,22 @@ test('guides media is prefetched once for the incremental render scope and share
   assert.doesNotMatch(render, /APP_ID|APP_SECRET|SPACE_ID|MODEL_API_KEY|FIGMA_API_KEY|AWS_ACCESS_KEY_ID|AWS_SECRET_ACCESS_KEY/)
   assert.match(render, /NO_UPDATE_NOTIFIER: '1'/)
 
-  assert.deepEqual(caller.jobs.render_guides_saas.needs, ['prepare', 'produce_guides_sources'])
-  assert.deepEqual(caller.jobs.render_guides_byoc.needs, ['prepare', 'produce_guides_sources'])
-  for (const job of ['render_guides_saas', 'render_guides_byoc']) {
-    const secrets = caller.jobs[job].secrets || {}
-    assert.equal(Object.hasOwn(secrets, 'FIGMA_API_KEY'), false)
-    assert.equal(Object.hasOwn(secrets, 'AWS_ACCESS_KEY_ID'), false)
-    assert.equal(Object.hasOwn(secrets, 'AWS_SECRET_ACCESS_KEY'), false)
-    assert.equal(Object.hasOwn(secrets, 'APP_ID'), false)
-    assert.equal(Object.hasOwn(secrets, 'APP_SECRET'), false)
-    assert.equal(Object.hasOwn(secrets, 'SPACE_ID'), false)
-    assert.equal(Object.hasOwn(secrets, 'MODEL_API_KEY'), false)
-  }
+  assert.deepEqual(caller.jobs.render_guides_tables.needs, ['prepare', 'produce_guides_sources'])
+  assert.equal(caller.jobs.render_guides_tables.strategy['max-parallel'], 4)
+  assert.equal(caller.jobs.render_guides_tables.strategy['fail-fast'], false)
+  assert.equal(caller.jobs.render_guides_tables.strategy.matrix, '${{ fromJSON(needs.produce_guides_sources.outputs.table_matrix) }}')
+  assert.equal(caller.jobs.render_guides_tables.secrets, undefined)
+})
+
+test('Guides table matrix permits empty renders and exact assembly', () => {
+  const caller = yaml.load(fs.readFileSync('.github/workflows/fetch-docs.yml', 'utf8'))
+  const assemble = fs.readFileSync('.github/workflows/_assemble-guides.yml', 'utf8')
+  assert.match(caller.jobs.render_guides_tables.if, /table_count != '0'/)
+  assert.match(caller.jobs.produce_guides.if, /render_guides_tables\.result == 'success'.*render_guides_tables\.result == 'skipped'/)
+  assert.deepEqual(caller.jobs.produce_guides.needs, ['prepare', 'produce_guides_sources', 'render_guides_tables'])
+  assert.match(assemble, /if: \$\{\{ inputs\.table_count != '0' \}\}[\s\S]*pattern: guides-table-/)
+  assert.match(assemble, /restore-guides-table-artifacts\.js/)
+  assert.doesNotMatch(assemble, /saas_artifact_name|byoc_artifact_name|guides-render\.tar/)
 })
 
 test('reusable content publisher safely downloads, validates, and publishes checkpoints', () => {

@@ -458,15 +458,15 @@ git commit -m "test(guides): validate Base navigation semantics"
 - Modify: `scripts/validate-workflow-policy.js`
 - Modify: `scripts/validate-workflow-policy.test.js`
 
-- [ ] **Step 1: 写 DAG 失败测试**
+- [x] **Step 1: 写 DAG 失败测试**
 
 断言 source producer 完成后启动 `target × table` matrix，`max-parallel: 4`；空 matrix 仍允许 assemble；assemble 不下载不存在的 table artifact。
 
-- [ ] **Step 2: 实现 workflow**
+- [x] **Step 2: 实现 workflow**
 
 producer 并行、table render 有限并行、publisher 排队策略保持不变。live card 把 matrix children 聚合为一个 Guides render 阶段。
 
-- [ ] **Step 3: 验证 YAML 无重复 key**
+- [x] **Step 3: 验证 YAML 无重复 key**
 
 Run:
 
@@ -476,13 +476,13 @@ node -e "const fs=require('fs'),YAML=require('yaml');for(const f of fs.readdirSy
 
 Expected: exit 0。
 
-- [ ] **Step 4: 运行 policy 测试**
+- [x] **Step 4: 运行 policy 测试**
 
 Run: `node --test scripts/validate-workflow-policy.test.js scripts/sdk-reference-workflow.test.js scripts/docs-workflow/build-live-card-state.test.js && node scripts/validate-workflow-policy.js`
 
 Expected: PASS。
 
-- [ ] **Step 5: 提交**
+- [x] **Step 5: 提交**
 
 ```bash
 git add .github/workflows/fetch-docs.yml .github/workflows/_assemble-guides.yml .github/workflows/_render-guides-table.yml scripts/docs-workflow/build-live-card-state.js scripts/docs-workflow/build-live-card-state.test.js scripts/validate-workflow-policy.js scripts/validate-workflow-policy.test.js

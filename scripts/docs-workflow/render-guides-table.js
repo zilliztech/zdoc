@@ -50,10 +50,12 @@ function parseArgs(argv) {
 if (require.main === module) {
   try {
     const args = parseArgs(process.argv.slice(2))
+    const entry = args.entry ? JSON.parse(args.entry) : {}
     renderGuidesTable({
+      ...entry,
       workspace: args.workspace || process.cwd(),
-      table_id: args['table-id'], table_name: args['table-name'], table_slug: args['table-slug'],
-      target: args.target, cleanup: args.cleanup === 'true',
+      table_id: args['table-id'] || entry.table_id, table_name: args['table-name'] || entry.table_name, table_slug: args['table-slug'] || entry.table_slug,
+      target: args.target || entry.target, cleanup: args.cleanup ? args.cleanup === 'true' : Boolean(entry.cleanup),
     })
   } catch (error) {
     console.error(error.message)

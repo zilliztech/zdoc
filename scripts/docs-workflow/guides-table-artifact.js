@@ -87,4 +87,25 @@ async function validateGuidesTableArtifact(directory, expected = null) {
   return manifest
 }
 
+function parseArgs(argv) {
+  const args = {}
+  for (let index = 0; index < argv.length; index += 2) {
+    const flag = argv[index], value = argv[index + 1]
+    if (!flag?.startsWith('--') || value == null) throw new Error('Invalid arguments')
+    args[flag.slice(2)] = value
+  }
+  return args
+}
+
+if (require.main === module) {
+  const args = parseArgs(process.argv.slice(2))
+  const entry = JSON.parse(args.entry)
+  const promise = args.operation === 'create'
+    ? createGuidesTableArtifact({ workspace: args.workspace, output: args.output, entry, masterSha: args['master-sha'], devBaselineSha: args['dev-baseline-sha'], sourceArtifactSha256: args['source-artifact-sha256'] })
+    : args.operation === 'validate'
+      ? validateGuidesTableArtifact(args.artifact, entry)
+      : Promise.reject(new Error('Unknown operation'))
+  promise.catch(error => { console.error(error.message); process.exitCode = 1 })
+}
+
 module.exports = { artifactId, createGuidesTableArtifact, validateGuidesTableArtifact }

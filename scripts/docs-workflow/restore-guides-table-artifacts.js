@@ -5,7 +5,7 @@ const fs = require('node:fs/promises')
 const path = require('node:path')
 const { artifactId, validateGuidesTableArtifact } = require('./guides-table-artifact')
 
-async function restoreGuidesTableArtifacts({ matrix, artifactDirs, target }) {
+async function restoreGuidesTableArtifacts({ matrix, artifactDirs, target, sourceArtifactSha256 = null }) {
   if (!Array.isArray(matrix) || !Array.isArray(artifactDirs)) throw new Error('matrix and artifactDirs must be arrays')
   const expected = new Map()
   for (const entry of matrix) {
@@ -16,6 +16,7 @@ async function restoreGuidesTableArtifacts({ matrix, artifactDirs, target }) {
   const artifacts = new Map()
   for (const directory of artifactDirs) {
     const manifest = await validateGuidesTableArtifact(directory)
+    if (sourceArtifactSha256 && manifest.sourceArtifactSha256 !== sourceArtifactSha256) throw new Error(`Guides table source artifact mismatch: ${manifest.id}`)
     if (artifacts.has(manifest.id)) throw new Error(`Duplicate Guides table artifact: ${manifest.id}`)
     artifacts.set(manifest.id, { directory, manifest })
   }
@@ -36,5 +37,31 @@ async function restoreGuidesTableArtifacts({ matrix, artifactDirs, target }) {
   }
   return restored
 }
+
+function parseArgs(argv) {
+  const args = {}
+  for (let index = 0; index < argv.length; index += 2) {
+    const flag = argv[index], value = argv[index + 1]
+    if (!flag?.startsWith('--') || value == null) throw new Error('Invalid arguments')
+    args[flag.slice(2)] = value
+  }
+  return args
+}
+
+async function main(argv) {
+  try {
+    const args = parseArgs(argv)
+    const matrix = JSON.parse(await fs.readFile(args['matrix-file'], 'utf8')).include || []
+    const artifactDirs = (await fs.readdir(args['artifacts-root'], { withFileTypes: true }))
+      .filter(entry => entry.isDirectory())
+      .map(entry => path.join(args['artifacts-root'], entry.name, 'guides-table'))
+    await restoreGuidesTableArtifacts({ matrix, artifactDirs, target: args.target, sourceArtifactSha256: args['source-artifact-sha256'] || null })
+  } catch (error) {
+    console.error(error.message)
+    process.exitCode = 1
+  }
+}
+
+if (require.main === module) main(process.argv.slice(2))
 
 module.exports = { restoreGuidesTableArtifacts }

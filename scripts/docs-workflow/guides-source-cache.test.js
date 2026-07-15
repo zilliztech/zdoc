@@ -14,9 +14,14 @@ function fixture() {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'guides-cache-'))
   const sourceDir = path.join(root, 'sources')
   write(sourceDir, 'root.json', { node_token: 'root', children: [{ node_token: 'doc' }] })
-  write(sourceDir, 'doc.json', { node_token: 'doc', title: 'Doc' })
+  write(sourceDir, 'doc.json', { node_token: 'doc', title: 'Doc', blocks: { items: [{ block_id: 'page', block_type: 1 }, { block_id: 'body', block_type: 2 }] } })
   const sourceHash = crypto.createHash('sha256').update(fs.readFileSync(path.join(sourceDir, 'doc.json'))).digest('hex')
-  const snapshot = { schema_version: 2, manual: 'guides', build_env: 'uat', records: [{ placement_type: 'canonical', doc_token: 'doc', source_file: 'doc.json', source_hash: sourceHash }] }
+  const snapshot = {
+    schema_version: 3, manual: 'guides', build_env: 'uat',
+    records: [{ placement_type: 'canonical', doc_token: 'doc', source_file: 'doc.json', source_hash: sourceHash }],
+    navigation_records: [{ record_id: 'doc', table_id: 'tbl', placement_type: 'canonical' }],
+    table_digests: { tbl: 'a'.repeat(64) },
+  }
   const snapshotPath = write(root, 'snapshot.json', snapshot)
   return { root, sourceDir, snapshotPath }
 }

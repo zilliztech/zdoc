@@ -42,14 +42,12 @@ function translatorNoChanges(job) {
     steps.get('Emit translation result')?.conclusion === 'success'
 }
 
-function guidesProduceStatus(byName) {
+function guidesProduceStatus(byName, jobs) {
   const assembly = byName.get('produce_guides')
   if (assembly) return jobStatus(assembly)
-  const prerequisites = [
-    byName.get('produce_guides_sources'),
-    byName.get('render_guides_saas'),
-    byName.get('render_guides_byoc'),
-  ].map(jobStatus)
+  const renderJobs = (jobs || []).filter(job => normalizeJobName(job.name) === 'render_guides_tables')
+  const prerequisites = [jobStatus(byName.get('produce_guides_sources'))]
+  if (renderJobs.length > 0) prerequisites.push(stageStatus(renderJobs.map(jobStatus)))
   if (prerequisites.includes('fail')) return 'fail'
   if (prerequisites.some(status => status === 'running' || status === 'done')) return 'running'
   return 'pending'
@@ -127,7 +125,7 @@ function buildLiveCardState({ requestedGroups, jobs, publishEnabled, notes = [],
         : phase.key === 'translation' && publisher?.conclusion === 'skipped' && jobStatus(translator) === 'done'
         ? 'done'
         : phase.key === 'produce' && group === 'guides'
-          ? guidesProduceStatus(byName)
+          ? guidesProduceStatus(byName, jobs)
           : jobStatus(publisher)
       return [phase.key, publishEnabled ? status : (phase.key === 'produce' ? status : 'pending')]
     }))
