@@ -126,11 +126,17 @@ function main() {
   const candidate = path.join(process.cwd(), 'plugins/lark-docs/meta/reports/guides-source-snapshot-candidate.json')
   if (fs.existsSync(candidate)) {
     const { validateGuidesCoverage } = require('./validate-guides-coverage')
+    const { validateGuidesSourceContract } = require('./validate-guides-source-contract')
+    const snapshot = JSON.parse(fs.readFileSync(candidate, 'utf8'))
     for (const config of [
-      { outputDir: 'docs/tutorials', idPrefix: 'tutorials', sidebarPath: 'config/generated/guides.sidebar.js' },
-      { outputDir: 'docs-byoc/tutorials', idPrefix: 'tutorials', sidebarPath: 'config/generated/guides-byoc.sidebar.js' },
+      { target: 'zilliz.saas', outputDir: 'docs/tutorials', idPrefix: 'tutorials', sidebarPath: 'config/generated/guides.sidebar.js' },
+      { target: 'zilliz.paas', outputDir: 'docs-byoc/tutorials', idPrefix: 'tutorials', sidebarPath: 'config/generated/guides-byoc.sidebar.js' },
     ]) {
-      const result = validateGuidesCoverage({ outputDir: config.outputDir, idPrefix: config.idPrefix, sidebar: require(path.resolve(config.sidebarPath)) })
+      delete require.cache[require.resolve(path.resolve(config.sidebarPath))]
+      const sidebar = require(path.resolve(config.sidebarPath))
+      const contract = validateGuidesSourceContract({ snapshot, target: config.target, outputDir: config.outputDir, idPrefix: config.idPrefix, sidebar })
+      console.log(`[guides-contract] ${config.sidebarPath}: ${contract.checkedRecords} Base record(s) checked`)
+      const result = validateGuidesCoverage({ outputDir: config.outputDir, idPrefix: config.idPrefix, sidebar })
       console.log(`[guides-coverage] ${config.sidebarPath}: ${result.generatedDocs} generated docs covered`)
     }
   }

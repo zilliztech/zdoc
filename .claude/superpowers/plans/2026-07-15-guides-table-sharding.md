@@ -416,31 +416,31 @@ git commit -m "test(lark): isolate SDK publishing from Guides sharding"
 - Modify: `scripts/validate-guides-coverage.test.js`
 - Modify: `scripts/validate-generated-sidebars.js`
 
-- [ ] **Step 1: 写四类记录契约测试**
+- [x] **Step 1: 写四类记录契约测试**
 
 canonical 缺文件/导航失败；section 缺 category 失败但不要求页面；link href 错误失败；ref target 缺失或重复正文失败。
 
-- [ ] **Step 2: 验证测试失败**
+- [x] **Step 2: 验证测试失败**
 
 Run: `node --test scripts/validate-guides-source-contract.test.js scripts/validate-guides-coverage.test.js`
 
 Expected: FAIL，当前 validator 只比较文件与 sidebar ID。
 
-- [ ] **Step 3: 实现 source contract validator**
+- [x] **Step 3: 实现 source contract validator**
 
 输入 source candidate、target、output root 和 sidebar，逐条验证 Base 记录语义。FAQ/home/release sidebar 例外保持显式且最小。
 
-- [ ] **Step 4: 接入 assemble validation**
+- [x] **Step 4: 接入 assemble validation**
 
 `validate-generated-sidebars.js` 先验证 sidebar 文件引用，再验证 Base contract，最后运行 coverage。
 
-- [ ] **Step 5: 运行测试**
+- [x] **Step 5: 运行测试**
 
 Run: `node --test scripts/validate-guides-source-contract.test.js scripts/validate-guides-coverage.test.js`
 
 Expected: PASS。
 
-- [ ] **Step 6: 提交**
+- [x] **Step 6: 提交**
 
 ```bash
 git add scripts/validate-guides-source-contract.js scripts/validate-guides-source-contract.test.js scripts/validate-guides-coverage.js scripts/validate-guides-coverage.test.js scripts/validate-generated-sidebars.js

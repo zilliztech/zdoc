@@ -18,10 +18,9 @@ test('fails when generated docs are missing from the sidebar', () => {
   )
 })
 
-test('accepts category links and excludes docs assigned to standalone sidebars', () => {
+test('accepts category links and excludes only explicit release sidebar docs', () => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'coverage-')), docs = path.join(root, 'docs')
   write(docs, 'guide/guide.md')
-  write(docs, 'agents/tool.md', '---\ndisplayed_sidebar: agentsSidebar\n---\n# Agent')
   write(docs, 'releases/note.md', '---\ndisplayed_sidebar: releasesSidebar\n---\n# Release')
   const result = validateGuidesCoverage({
     outputDir: docs,
@@ -36,4 +35,10 @@ test('fails when the sidebar references a missing generated document', () => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'coverage-')), docs = path.join(root, 'docs')
   write(docs, 'a.md')
   assert.throws(() => validateGuidesCoverage({ outputDir: docs, idPrefix: 'tutorials', sidebar: [{ type: 'doc', id: 'tutorials/missing' }] }), /missing generated files: 1/)
+})
+
+test('does not exempt obsolete Agents standalone sidebar metadata', () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'coverage-')), docs = path.join(root, 'docs')
+  write(docs, 'agents/tool.md', '---\ndisplayed_sidebar: agentsSidebar\n---\n# Agent')
+  assert.throws(() => validateGuidesCoverage({ outputDir: docs, idPrefix: 'tutorials', sidebar: [] }), /missing from sidebar: 1/)
 })

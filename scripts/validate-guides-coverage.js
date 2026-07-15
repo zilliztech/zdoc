@@ -21,7 +21,7 @@ function standaloneSidebar(contents) {
   const match = contents.match(/^---\s*\n([\s\S]*?)\n---/)
   if (!match) return false
   const sidebar = match[1].match(/^displayed_sidebar:\s*['"]?([^'"\s]+)['"]?\s*$/m)?.[1]
-  return sidebar && sidebar !== 'default'
+  return sidebar === 'releasesSidebar'
 }
 
 function collectGeneratedDocIds(outputDir, idPrefix) {
