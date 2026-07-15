@@ -42,3 +42,16 @@ test('does not exempt obsolete Agents standalone sidebar metadata', () => {
   write(docs, 'agents/tool.md', '---\ndisplayed_sidebar: agentsSidebar\n---\n# Agent')
   assert.throws(() => validateGuidesCoverage({ outputDir: docs, idPrefix: 'tutorials', sidebar: [] }), /missing from sidebar: 1/)
 })
+
+test('allows an explicitly preserved landing page outside Base navigation', () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'coverage-')), docs = path.join(root, 'docs')
+  write(docs, 'home.md')
+  const result = validateGuidesCoverage({
+    outputDir: docs,
+    idPrefix: 'tutorials',
+    sidebar: [],
+    ignoredGeneratedIds: ['tutorials/home'],
+  })
+  assert.equal(result.generatedDocs, 1)
+  assert.deepEqual(result.missingFromSidebar, [])
+})

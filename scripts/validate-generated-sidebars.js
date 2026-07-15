@@ -125,18 +125,20 @@ function main() {
   console.log(`[sidebar-validation] ${preserved.checked} preserved landing page(s) checked`)
   const candidate = path.join(process.cwd(), 'plugins/lark-docs/meta/reports/guides-source-snapshot-candidate.json')
   if (fs.existsSync(candidate)) {
+    const applyOverrides = require('../config/applyOverrides')
     const { validateGuidesCoverage } = require('./validate-guides-coverage')
     const { validateGuidesSourceContract } = require('./validate-guides-source-contract')
     const snapshot = JSON.parse(fs.readFileSync(candidate, 'utf8'))
     for (const config of [
-      { target: 'zilliz.saas', outputDir: 'docs/tutorials', idPrefix: 'tutorials', sidebarPath: 'config/generated/guides.sidebar.js' },
-      { target: 'zilliz.paas', outputDir: 'docs-byoc/tutorials', idPrefix: 'tutorials', sidebarPath: 'config/generated/guides-byoc.sidebar.js' },
+      { target: 'zilliz.saas', outputDir: 'docs/tutorials', idPrefix: 'tutorials', sidebarPath: 'config/generated/guides.sidebar.js', overridePath: 'config/sidebar-overrides/guides.json', ignoredGeneratedIds: ['tutorials/home'] },
+      { target: 'zilliz.paas', outputDir: 'docs-byoc/tutorials', idPrefix: 'tutorials', sidebarPath: 'config/generated/guides-byoc.sidebar.js', overridePath: 'config/sidebar-overrides/guides-byoc.json', ignoredGeneratedIds: [] },
     ]) {
       delete require.cache[require.resolve(path.resolve(config.sidebarPath))]
       const sidebar = require(path.resolve(config.sidebarPath))
       const contract = validateGuidesSourceContract({ snapshot, target: config.target, outputDir: config.outputDir, idPrefix: config.idPrefix, sidebar })
       console.log(`[guides-contract] ${config.sidebarPath}: ${contract.checkedRecords} Base record(s) checked`)
-      const result = validateGuidesCoverage({ outputDir: config.outputDir, idPrefix: config.idPrefix, sidebar })
+      const effectiveSidebar = applyOverrides(sidebar, path.resolve(config.overridePath))
+      const result = validateGuidesCoverage({ outputDir: config.outputDir, idPrefix: config.idPrefix, sidebar: effectiveSidebar, ignoredGeneratedIds: config.ignoredGeneratedIds })
       console.log(`[guides-coverage] ${config.sidebarPath}: ${result.generatedDocs} generated docs covered`)
     }
   }

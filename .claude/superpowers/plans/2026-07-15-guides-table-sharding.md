@@ -21,7 +21,7 @@
 
 - [x] **Step 1: 写失败测试，覆盖 canonical/section/link/ref 和缺省推断**
 
-测试必须断言：Feishu Docs link 缺省为 canonical，非 Feishu placeholder 缺省为 section；canonical 创建页面，section 创建 category，link 创建 href，ref 创建 canonical 引用。
+测试必须断言：Feishu Docs link 缺省为 canonical，非 Feishu placeholder 缺省为 section；canonical 创建页面，section 创建 category，link 创建 href，ref 创建复用 canonical ID 的 Docusaurus doc item。
 
 - [x] **Step 2: 运行语义测试并确认旧实现失败**
 
@@ -418,7 +418,7 @@ git commit -m "test(lark): isolate SDK publishing from Guides sharding"
 
 - [x] **Step 1: 写四类记录契约测试**
 
-canonical 缺文件/导航失败；section 缺 category 失败但不要求页面；link href 错误失败；ref target 缺失或重复正文失败。
+canonical 缺文件/导航失败；section 缺 category 失败但不要求页面；link href 错误失败；ref doc target 缺失或 canonical token 生成重复正文失败。
 
 - [x] **Step 2: 验证测试失败**
 
@@ -510,11 +510,13 @@ Expected: 0 failures。
 
 实际验证先执行了隔离 full replay，再针对旧实现遗留的 87 个 virtual canonical 定向 hydration；补齐 `Marketplace Subscription` metadata 后重新生成 candidate，结果为 373/373 renderable、Tools 23、Client Libraries 1、matrix 14。
 
-- [ ] **Step 3: 以 `max-parallel: 4` 重放 14 个组合**
+- [x] **Step 3: 以 `max-parallel: 4` 重放 14 个组合**
 
 确认每个 job 只修改所属目录，render 日志中不存在 Feishu/Figma/S3/model 请求，media miss 会失败。
 
-- [ ] **Step 4: 重放 assemble**
+实际验证 14 个 table/target render 全部成功，最大并行度为 4；render 阶段没有 Feishu/Figma/S3 请求，也没有 `MEDIA_PREFETCH_MISS`。
+
+- [x] **Step 4: 重放 assemble**
 
 生成 SaaS/BYOC sidebar，运行：
 
@@ -524,6 +526,8 @@ node scripts/run-doc-build-stage.js --build "pnpm run build" --skipLinkChecks --
 ```
 
 Expected: PASS，Tools/Agents、Client Libraries、Release Notes 导航完整。
+
+实际验证 SaaS 433 条和 BYOC 351 条 Base 导航记录通过 contract；SaaS 328 个、BYOC 281 个生成页面通过 effective-sidebar coverage；完整 Docusaurus build 退出码为 0。
 
 - [ ] **Step 5: 验证单文档发布回归**
 

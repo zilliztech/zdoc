@@ -75,6 +75,7 @@ Agents 内容已经完整合并进 Guides Tools 表。Tools 表是唯一来源�
 - `Progress` 为 `Draft/Reviewed/Published/Approved/Publish` 且 target 匹配时生成页面。
 - 必须进入导航。
 - 空 Progress、`Not Start Yet/WIP/Deprecated` 不发布。
+- `FAQs` 是显式特例：一个 canonical source 展开为多篇 FAQ 页面，外层只生成无 landing page 的 category，不生成 `faqs/faqs` 页面。
 
 ### section
 
@@ -93,7 +94,9 @@ Agents 内容已经完整合并进 Guides Tools 表。Tools 表是唯一来源�
 
 - 必须进入导航。
 - `Ref Target Doc` 指向一个 canonical token。
-- 不重复生成正文；导航复用 canonical 页面 ID。
+- 不重复生成正文；导航复用 canonical 页面 ID，并输出为 Docusaurus `{type: 'doc', id}`。
+- 与 canonical 主导航项的区别由稳定的 `ref:` key 标识，而不是创建新的页面或 doc ID。
+- ref 不要求 Base `Slug`；ref key 在 Slug 为空时使用目标 canonical 的 slug，页面目标始终以 canonical token 对应的实际 doc ID 为准。
 - 允许表内和跨表引用。
 
 ### 缺省 Placement Type
@@ -208,10 +211,11 @@ source 阶段根据计划收集本轮可能 render 的 canonical media reference
 
 ## 验证约束
 
-- 每个 target canonical 必须存在且只存在一个生成页面，并被 sidebar doc/category link 覆盖。
+- 除 FAQs 外，每个 target canonical 必须存在且只存在一个生成页面，并被 sidebar doc/category link 覆盖。
+- FAQs canonical 必须展开为至少一篇 FAQ 页面，所有展开页进入无 landing link 的 category，且不得生成 `faqs/faqs` 页面。
 - section 必须产生导航 category，但不得要求同名 landing page。
 - link 必须保留 href，不得要求本地文件。
-- ref 必须解析到存在的 canonical 页面，不得重复写正文。
+- ref 必须解析到存在的 canonical 页面，并以复用该页面 ID 的 doc item 进入导航，不得重复写正文。
 - table artifact 只能修改自己的目录，拒绝越界、重复路径、checksum 和 identity 错误。
 - render workflow 不得接收 Feishu/Figma/AWS/model secrets。
 - `-doc`/online `-token` 回归测试必须证明在线发布路径仍可用。

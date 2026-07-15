@@ -20,7 +20,9 @@ const node_path = require('node:path')
 const cheerio = require('cheerio')
 const showdown = require('showdown')
 const _ = require('lodash')
+const yaml = require('js-yaml')
 const { fetchFeishuJsonWithRetry, fetchTextWithRetry } = require('./feishuFetch.js')
+const { canonicalizeInternalDocLink } = require('./internalDocLink')
 // MDX compilation will be loaded dynamically as it's an ES module
 
 const IMAGE_BED_URL = process.env.IMAGE_BED_URL || 'https://zdoc-images.s3.us-west-2.amazonaws.com'
@@ -120,6 +122,38 @@ class larkDocWriter {
         return (nonEmptyBlocks.length >= 2 || wordCount >= 60) ? 'meaningful' : 'meaningless'
     }
 
+    __category_has_landing_page(source) {
+        if (source?.base_placement_type === 'section') return false
+        if (source?.base_placement_type === 'canonical') return source.slug !== 'faqs'
+        return this.categorize_node(source) === 'meaningful'
+    }
+
+    __faq_sidebar_items(currentPath, contentRoot) {
+        if (!fs.existsSync(currentPath)) return []
+        return fs.readdirSync(currentPath, { withFileTypes: true })
+            .filter(entry => entry.isFile() && /\.mdx?$/.test(entry.name) && !/^faqs\.mdx?$/.test(entry.name))
+            .map(entry => {
+                const contents = fs.readFileSync(node_path.join(currentPath, entry.name), 'utf8')
+                const match = contents.match(/^---\r?\n([\s\S]*?)\r?\n---(?:\r?\n|$)/)
+                const frontmatter = match ? yaml.load(match[1]) || {} : {}
+                const slug = entry.name.replace(/\.mdx?$/, '')
+                const id = node_path.join(currentPath, slug)
+                    .replace(/\\/g, '/')
+                    .replace(new RegExp(`^${contentRoot}/`), '')
+                return {
+                    position: Number(frontmatter.sidebar_position) || Number.MAX_SAFE_INTEGER,
+                    item: {
+                        type: 'doc',
+                        id,
+                        label: frontmatter.sidebar_label || frontmatter.title || slug,
+                        key: this.__sidebar_key('doc', currentPath, contentRoot, slug, frontmatter.sidebar_label || frontmatter.title || slug),
+                    },
+                }
+            })
+            .sort((left, right) => left.position - right.position || left.item.id.localeCompare(right.item.id))
+            .map(entry => entry.item)
+    }
+
     async generate_sidebar(outputDir, contentRoot) {
         this.sidebarOutputDir = outputDir
         this.sidebarContentRoot = contentRoot
@@ -161,6 +195,35 @@ class larkDocWriter {
             let childSource = null
             try { childSource = this.__fetch_doc_source('node_token', child.node_token, child.slug) } catch (e) {}
 
+            if (childSource?.base_placement_type === 'section') {
+                if (!this.__base_source_is_publishable(childSource)) continue
+                const label = this.__plain_value(childSource.base_labels) || childSource.title || child.title
+                const slug = child.slug || slugify(label, { lower: true, strict: true })
+                const childItems = child.has_child
+                    ? await this.__sidebar_items(`${currentPath}/${slug}`, contentRoot, child.node_token)
+                    : []
+                items.push({
+                    type: 'category',
+                    label,
+                    key: this.__sidebar_key('category', currentPath, contentRoot, slug, label),
+                    items: childItems,
+                })
+                continue
+            }
+
+            if (childSource?.base_placement_type === 'canonical' && child.slug === 'faqs') {
+                const meta = await this.__is_to_publish(child.title, child.slug, child.node_token)
+                if (!meta.publish) continue
+                const faqPath = node_path.join(currentPath, child.slug)
+                items.push({
+                    type: 'category',
+                    label: meta.labels || child.title,
+                    key: this.__sidebar_key('category', currentPath, contentRoot, child.slug, child.title),
+                    items: this.__faq_sidebar_items(faqPath, contentRoot),
+                })
+                continue
+            }
+
             if (childSource?.base_nav_link) {
                 const meta = await this.__is_to_publish(child.title, child.slug, child.node_token)
                 if (!meta.publish) continue
@@ -198,7 +261,7 @@ class larkDocWriter {
                     continue
                 }
                 items.push({
-                    type: 'ref',
+                    type: 'doc',
                     id: refId,
                     label: meta.labels || child.title,
                     key: this.__sidebar_key('ref', currentPath, contentRoot, child.slug, child.title),
@@ -213,10 +276,10 @@ class larkDocWriter {
             const label = meta.labels || child.title
 
             if (child.has_child) {
-                const category = childSource ? this.categorize_node(childSource) : 'meaningful'
+                const categoryHasLandingPage = childSource ? this.__category_has_landing_page(childSource) : true
                 const childItems = await this.__sidebar_items(`${currentPath}/${slug}`, contentRoot, child.node_token)
 
-                if (category === 'meaningful') {
+                if (categoryHasLandingPage) {
                     const docId = node_path.join(currentPath, slug, slug)
                         .replace(/\\/g, '/')
                         .replace(new RegExp(`^${contentRoot}/`), '')
@@ -356,7 +419,7 @@ class larkDocWriter {
             }
         }
 
-        if (source.has_child && this.categorize_node(source) === 'meaningful') {
+        if (source.has_child && this.__category_has_landing_page(source)) {
             segments.push(source.slug)
         }
 
@@ -517,9 +580,9 @@ class larkDocWriter {
 
                         let childSource
                         try { childSource = this.__fetch_doc_source('node_token', child.node_token) } catch (e) { childSource = null }
-                        const category = childSource ? this.categorize_node(childSource) : 'meaningful'
+                        const categoryHasLandingPage = childSource ? this.__category_has_landing_page(childSource) : true
 
-                        if (category === 'meaningful') {
+                        if (categoryHasLandingPage) {
                             console.log(`${current_path}/${slug}/${slug}.md`)
                             await this.write_doc({
                                 path: `${current_path}/${slug}`,
@@ -656,8 +719,7 @@ class larkDocWriter {
             if (!fs.existsSync(nodePath)) {
                 fs.mkdirSync(nodePath, { recursive: true })
             }
-            const category = this.categorize_node(node)
-            if (category === 'meaningful') {
+            if (this.__category_has_landing_page(node)) {
                 await writeCurrentPage(nodePath, true)
             } else {
                 console.log(`${nodePath}/ [meaningless category — no index page generated]`)
@@ -814,6 +876,11 @@ class larkDocWriter {
         const blocks = source.blocks.items
         const suffix = path.includes('byoc') ? 'BYOC' : 'CLOUD'
 
+        for (const extension of ['md', 'mdx']) {
+            const landingPage = `${path}/faqs.${extension}`
+            if (fs.existsSync(landingPage)) fs.rmSync(landingPage)
+        }
+
         if (blocks) {
             this.page_blocks = blocks
         }
@@ -841,12 +908,6 @@ class larkDocWriter {
                 let sub_page = a.slice(start, end)
                 sub_pages.push(sub_page)
             }
-
-            // Write FAQs root page
-            let slug = 'faqs'
-            let front_matter = this.__front_matters(title, suffix, slug, null, null, source.node_type, source.node_token, 999, "", "", this.displayedSidebar, "Frequently asked questions")
-            const markdown = `${front_matter}\n\n# ${title}` + "\n\nimport DocCardList from '@theme/DocCardList';\n\n<DocCardList />"
-            fs.writeFileSync(`${path}/${slug}.md`, markdown)
 
             for (let index = 0; index < sub_pages.length; index++) {
                 let sub_page = sub_pages[index]
@@ -1000,7 +1061,7 @@ class larkDocWriter {
             if (baseSource) {
                 if (baseSource.base_placement_type === 'section') {
                     return {
-                        publish: !!baseSource.has_child,
+                        publish: this.__base_source_is_publishable(baseSource),
                         title: baseSource.title || title,
                         slug,
                         beta: null,
@@ -3107,13 +3168,7 @@ class larkDocWriter {
     }
 
     __canonicalize_internal_link(url) {
-        const canonicalRoutes = new Map([
-            ['/reference/cli/overview', '/reference/cli/cli/overview'],
-        ])
-
-        if (!url) return url
-        const normalized = String(url).replace(/^https:\/\/docs\.zilliz\.com/, '')
-        return canonicalRoutes.get(normalized) || url
+        return canonicalizeInternalDocLink(url)
     }
 
     async __text_elements(elements) {

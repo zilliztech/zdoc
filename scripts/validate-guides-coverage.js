@@ -43,10 +43,11 @@ function collectGeneratedDocIds(outputDir, idPrefix) {
   return ids
 }
 
-function validateGuidesCoverage({ outputDir, idPrefix = 'tutorials', sidebar }) {
+function validateGuidesCoverage({ outputDir, idPrefix = 'tutorials', sidebar, ignoredGeneratedIds = [] }) {
   const generated = collectGeneratedDocIds(outputDir, idPrefix)
   const sidebarIds = collectSidebarIds(sidebar)
-  const missingFromSidebar = [...generated].filter(id => !sidebarIds.has(id)).sort()
+  const ignored = new Set(ignoredGeneratedIds)
+  const missingFromSidebar = [...generated].filter(id => !ignored.has(id) && !sidebarIds.has(id)).sort()
   const missingGeneratedFiles = [...sidebarIds].filter(id => id.startsWith(`${idPrefix}/`) && !generated.has(id)).sort()
   if (missingFromSidebar.length || missingGeneratedFiles.length) {
     throw new Error([
