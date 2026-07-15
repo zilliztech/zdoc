@@ -84,7 +84,7 @@ This guide provides comprehensive instructions on how to add a payment credit ca
 
 ## Replace a credit card\{#replace-a-credit-card}
 
-When your credit card approaches its expiration date, you can choose to replace your existing card or switch to a [Marketplace subscription](./undefined).
+When your credit card approaches its expiration date, you can choose to replace your existing card or switch to a [Marketplace subscription](./marketplace-subscription).
 
 The following demo shows how to replace your existing credit card to a new card.
 
@@ -120,7 +120,7 @@ Please allow a few minutes for the billing overview to reflect the chnges.
 
 </Admonition>
 
-For details about Marketplace subscription see [Marketplace Subscription](./undefined).
+For details about Marketplace subscription see [Marketplace Subscription](./marketplace-subscription).
 
 For details about updating a payment method, see [Update Payment Method](./update-payment-method).
 

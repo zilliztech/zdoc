@@ -91,7 +91,7 @@ The **Availability** column lists the compute resources that support each metric
 
 - **Serving Clusters only**: The metric is available only for Serving Clusters. The value lists the supported Serving Cluster deployment options. **All** means all Serving Cluster deployment options. For details, refer to  [Deployment and Plan Comparison](./select-zilliz-cloud-service-plans).
 
-- **On-Demand Compute databases**: Only a subset of collection-level metrics is available. Supported metrics include **QPS (Read)**, **Search NQ per Second**, **Latency (Read)**, **Request Failure Rate (Read)**, and **Entity Count**.
+- **On-Demand Compute databases**: Only a subset of collection-level metrics is available. Supported metrics include **QPS (Read)**, **Search NQ per Second**, **Latency (Read)**, **Request Failure Rate (Read)**, and **Entity Count**. These metrics are available in the Console. Prometheus export is not supported for On-Demand Compute database metrics in this release.
 
 </Admonition>
 

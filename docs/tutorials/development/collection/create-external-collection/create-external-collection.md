@@ -10,7 +10,7 @@ notebook: FALSE
 description: "An external collection is a type of data collection in Zilliz Cloud that accesses data from external storage systems or database tables such as AWS S3 and Iceberg without copying it into Zilliz Cloud. It acts as a query layer over data lakes while maintaining compatibility with Zilliz Cloud query interfaces. | Cloud"
 type: origin
 token: RsGAwmgAYiE6fgkOiokcijsBnEg
-sidebar_position: 1
+sidebar_position: 3
 displayed_sidebar: default
 
 ---

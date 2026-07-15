@@ -36,7 +36,7 @@ When inserting or upserting data, you will receive this error because your data 
 
 To address this issue, you can follow the instructions below.
 
-In such a case, you are advised to  [scale up your serving cluster](./undefined) by increasing the query CUs.
+In such a case, you are advised to  [scale up your serving cluster](./auto-scaling) by increasing the query CUs.
 
 ### How can I scale down the query CUs of my serving cluster?\{#how-can-i-scale-down-the-query-cus-of-my-serving-cluster}
 

@@ -10,7 +10,7 @@ notebook: FALSE
 description: "Zilliz Cloud have optimized the user experience for data import features, refined API keys with hierarchical permissions, and enhanced the metrics and alerts mechanism. | Cloud"
 type: origin
 token: VbjiwU5RYi4bWdkC48Jceltnnpd
-sidebar_position: 1
+sidebar_position: 26
 displayed_sidebar: releasesSidebar
 
 ---

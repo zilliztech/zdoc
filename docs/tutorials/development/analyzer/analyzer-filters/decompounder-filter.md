@@ -10,7 +10,7 @@ notebook: FALSE
 description: "The `decompounder` filter splits compound words into individual components based on a specified dictionary, making it easier to search for parts of compound terms. This filter is particularly useful for languages that frequently use compound words, such as German. | Cloud"
 type: origin
 token: DDrHwdsb7idJa9kVU6zc2VwInBf
-sidebar_position: 8
+sidebar_position: 9
 displayed_sidebar: default
 
 ---

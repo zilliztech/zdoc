@@ -80,7 +80,7 @@ To restore access, resolve the billing issue and make sure your organization has
 
 <Procedures>
 
-1. Add a valid payment method, such as a [credit card](./subscribe-by-adding-credit-card) or [Marketplace subscription](./undefined).
+1. Add a valid payment method, such as a [credit card](./subscribe-by-adding-credit-card) or [Marketplace subscription](./marketplace-subscription).
 
 1. If you are using [Advance Pay](./advance-pay), add funds to your balance.
 
@@ -156,7 +156,7 @@ To reduce the risk of service interruption:
 
 - [Configure billing alerts](./monitor-billing-alerts) for usage, credits, card validity, and Advance Pay balance.
 
-- Confirm that [Marketplace subscription](./undefined)s are linked to the correct Zilliz Cloud organization.
+- Confirm that [Marketplace subscription](./marketplace-subscription)s are linked to the correct Zilliz Cloud organization.
 
 - If your organization recently added a credit card for the first time, make sure the card has sufficient available balance for interim charges when accumulated usage first reaches billing thresholds.
 

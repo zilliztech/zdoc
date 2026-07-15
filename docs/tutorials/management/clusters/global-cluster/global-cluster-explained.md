@@ -98,7 +98,7 @@ For detailed list prices, see [Zilliz Cloud List Price](https://zilliz.com/prici
 
 <Admonition type="info" icon="📘" title="Notes">
 
-Discarded clusters in the recycle bin after a [failover](./switchover-and-failover) are billed for **storage** only.
+Discarded clusters in the recycle bin after a [failover](./switchover-and-failover#perform-a-failover) are billed for **storage** only.
 
 </Admonition>
 

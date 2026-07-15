@@ -10,7 +10,7 @@ notebook: FALSE
 description: "This page explains how to add and delete secondary clusters, convert a global cluster to a regular cluster, and drop a global cluster entirely. | Cloud"
 type: origin
 token: DW9wwFlgAiwOhBk2PgucY4URnke
-sidebar_position: 1
+sidebar_position: 7
 displayed_sidebar: default
 
 ---

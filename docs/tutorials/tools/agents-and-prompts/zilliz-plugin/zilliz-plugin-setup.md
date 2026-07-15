@@ -11,15 +11,6 @@ description: "This guide explains how to install and set up the Zilliz Plugin in
 type: origin
 token: UDxnwONhSidaQikY6NGcRdmOnUh
 sidebar_position: 1
-keywords: 
-  - zilliz
-  - vector database
-  - ai-agents
-  - decision matrix
-  - skill
-  - claude
-  - zilliz cli
-  - setup
 displayed_sidebar: default
 
 ---

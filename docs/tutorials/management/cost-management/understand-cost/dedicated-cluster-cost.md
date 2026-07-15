@@ -10,7 +10,7 @@ notebook: FALSE
 description: "Dedicated clusters in Zilliz Cloud follows a pay-as-you-go model, where you are mainly charged for the compute resources consumed by your clusters. This ensures you only pay for what you actually use, without the need to over-provision resources in advance. | Cloud"
 type: origin
 token: J2prwh2KLis9oqkqNIAcU1d6nsd
-sidebar_position: 1
+sidebar_position: 2
 displayed_sidebar: default
 
 ---

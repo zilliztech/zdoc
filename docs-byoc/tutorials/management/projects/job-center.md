@@ -10,7 +10,7 @@ notebook: FALSE
 description: "Zilliz Cloud offers an intuitive Jobs page that integrates all historical and asynchronous data tasks within the same project. | BYOC"
 type: origin
 token: RY8ww0NDQi8yU9kNpjicHP7Gn4b
-sidebar_position: 1
+sidebar_position: 3
 displayed_sidebar: default
 
 ---
@@ -65,19 +65,19 @@ The following job information is displayed:
          <td><p>Import data to a collection</p></td>
        </tr>
        <tr>
-         <td><p><a href="./manage-collections-console">Clone Collection</a></p></td>
+         <td><p><a href="./manage-collections-console#create-a-collection">Clone Collection</a></p></td>
          <td><p>Make a full copy of the collection with both its schema and data</p></td>
        </tr>
        <tr>
-         <td><p><a href="./manage-collections-console">Create Sample Collection</a></p></td>
+         <td><p><a href="./manage-collections-console#create-a-collection">Create Sample Collection</a></p></td>
          <td><p>Create a collection loaded with a sample dataset</p></td>
        </tr>
        <tr>
-         <td><p><a href="./manage-cluster">Suspend Cluster</a></p></td>
+         <td><p><a href="./manage-cluster#suspend">Suspend Cluster</a></p></td>
          <td><p>Manually suspend a cluster</p></td>
        </tr>
        <tr>
-         <td><p><a href="./manage-cluster">Resume Cluster</a></p></td>
+         <td><p><a href="./manage-cluster#resume">Resume Cluster</a></p></td>
          <td><p>Manually resume a cluster</p></td>
        </tr>
        <tr>
@@ -102,7 +102,7 @@ The following job information is displayed:
 
 To view the details of a job, click **...** in the **Actions** column and then select **View Details**. Alternatively, you can use the [Describe Job](/reference/restful/describe-job-v2) API to get the details programmatically.
 
-![view_job_details](https://zdoc-images.s3.us-west-2.amazonaws.com/view_job_details.png "view_job_details")
+![view_job_details](https://zdoc-images.s3.us-west-2.amazonaws.com/viewjobdetails.png "view_job_details")
 
 ## Cancel job\{#cancel-job}
 
@@ -120,7 +120,7 @@ To cancel a job, you must be an **Organization Owner** or a **Project Admin**.
 
 </Admonition>
 
-![cancel_job](https://zdoc-images.s3.us-west-2.amazonaws.com/cancel_job.png "cancel_job")
+![cancel_job](https://zdoc-images.s3.us-west-2.amazonaws.com/canceljob.png "cancel_job")
 
 ## Retry failed job\{#retry-failed-job}
 
@@ -136,5 +136,5 @@ For failed import jobs, you can click on the info icon next to its status and ch
 
 If you have made adjustments to the files that are failed to be imported, you can retry the job.
 
-![retry_failed_job](https://zdoc-images.s3.us-west-2.amazonaws.com/retry_failed_job.png "retry_failed_job")
+![retry_failed_job](https://zdoc-images.s3.us-west-2.amazonaws.com/retryfailedjob.png "retry_failed_job")
 

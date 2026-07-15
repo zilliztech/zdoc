@@ -10,7 +10,7 @@ notebook: FALSE
 description: "The `regex` filter is a regular expression filter any token produced by the tokenizer is kept only if it matches the expression you provide; everything else is discarded. | BYOC"
 type: origin
 token: AwmtwHGQii1j9Wk1W04cNxvBnth
-sidebar_position: 11
+sidebar_position: 12
 displayed_sidebar: default
 
 ---

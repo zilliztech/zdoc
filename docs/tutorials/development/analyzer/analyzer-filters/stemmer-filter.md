@@ -10,7 +10,7 @@ notebook: FALSE
 description: "The `stemmer` filter reduces words to their base or root form (known as stemming), making it easier to match words with similar meanings across different inflections. The `stemmer` filter supports multiple languages, allowing for effective search and indexing in various linguistic contexts. | Cloud"
 type: origin
 token: JksSwTwJPidjsnk18Olc2TjWnZe
-sidebar_position: 9
+sidebar_position: 10
 displayed_sidebar: default
 
 ---

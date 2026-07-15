@@ -26,7 +26,7 @@ Once you have [registered an account](./register-with-zilliz-cloud) with Zilliz 
 
 ## Modify your profile information\{#modify-your-profile-information}
 
-![modify_account_info](https://zdoc-images.s3.us-west-2.amazonaws.com/modify_account_info.png "modify_account_info")
+![modify_account_info](https://zdoc-images.s3.us-west-2.amazonaws.com/modifyaccountinfo.png "modify_account_info")
 
 <Procedures>
 
@@ -44,7 +44,7 @@ Once you have [registered an account](./register-with-zilliz-cloud) with Zilliz 
 
 ## Update account email address\{#update-account-email-address}
 
-![update_email_address](https://zdoc-images.s3.us-west-2.amazonaws.com/update_email_address.png "update_email_address")
+![update_email_address](https://zdoc-images.s3.us-west-2.amazonaws.com/updateemailaddress.png "update_email_address")
 
 <Admonition type="info" icon="📘" title="📘 Notes">
 
@@ -54,7 +54,7 @@ Updating the email address will not affect the receiver of billing invoices and 
 
 ## Change account password\{#change-account-password}
 
-![change_password](https://zdoc-images.s3.us-west-2.amazonaws.com/change_password.png "change_password")
+![change_password](https://zdoc-images.s3.us-west-2.amazonaws.com/changepassword.png "change_password")
 
 Your password must be at least 8 characters long and include at least 3 of the following character types:
 
@@ -104,7 +104,7 @@ If you have already linked your Zilliz Cloud account with a third-party account 
 
 ### Unlink from your Google account\{#unlink-from-your-google-account}
 
-![unlink_from_google](https://zdoc-images.s3.us-west-2.amazonaws.com/unlink_from_google.png "unlink_from_google")
+![unlink_from_google](https://zdoc-images.s3.us-west-2.amazonaws.com/unlinkfromgoogle.png "unlink_from_google")
 
 <Procedures>
 
@@ -122,7 +122,7 @@ If you have already linked your Zilliz Cloud account with a third-party account 
 
 ### Unlink from your GitHub account\{#unlink-from-your-github-account}
 
-![unlink_from_github](https://zdoc-images.s3.us-west-2.amazonaws.com/unlink_from_github.png "unlink_from_github")
+![unlink_from_github](https://zdoc-images.s3.us-west-2.amazonaws.com/unlinkfromgithub.png "unlink_from_github")
 
 <Procedures>
 

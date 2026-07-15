@@ -10,7 +10,7 @@ notebook: FALSE
 description: "This guide explains the payment methods available for Zilliz Cloud, how payment priority works, and what to consider when managing invoices and subscriptions. | BYOC"
 type: origin
 token: Y6Qqw4a3XiWPlCkQYMqcLEORnAU
-sidebar_position: 1
+sidebar_position: 2
 displayed_sidebar: default
 
 ---

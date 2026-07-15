@@ -10,7 +10,7 @@ notebook: FALSE
 description: "Zilliz Cloud provides on-demand compute resources, allowing you to run similarity searches and queries on demand. As shown in the figure below, compute resources automatically suspend when no requests arrive, and suspended compute resources do not incur charges. | Cloud"
 type: origin
 token: GQN0wDCrni4n36kyeVQcF41Lned
-sidebar_position: 1
+sidebar_position: 3
 displayed_sidebar: default
 
 ---

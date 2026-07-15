@@ -26,6 +26,8 @@ import Procedures from '@site/src/components/Procedures';
 
 By integrating Zilliz Cloud with Prometheus, you can collect and monitor metrics related to your Zilliz Cloud deployment.
 
+Prometheus integration exports Serving Cluster metrics only. It does not export On-Demand Compute database metrics.
+
 ## Configure Prometheus to scrape Zilliz Cloud metrics\{#configure-prometheus-to-scrape-zilliz-cloud-metrics}
 
 To monitor Zilliz Cloud clusters with Prometheus, follow these steps:

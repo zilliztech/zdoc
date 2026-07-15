@@ -459,7 +459,7 @@ Filters in a custom analyzer can be either **built-in** or **custom**, depending
 
     - `cncharonly`: Removes tokens that contain any non-Chinese characters. For details, refer to [Cncharonly](./cncharonly-filter).
 
-    - `pinyin`: Adds Pinyin token forms for Chinese tokens, enabling Pinyin-based matching for Chinese text. For details, refer to [Pinyin](./undefined).
+    - `pinyin`: Adds Pinyin token forms for Chinese tokens, enabling Pinyin-based matching for Chinese text. For details, refer to [Pinyin](./pinyin-filter).
 
     **Example of using a built-in filter:**
 

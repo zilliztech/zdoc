@@ -11,14 +11,6 @@ description: "The Zilliz Cloud plugin for Claude Code is a natural language inte
 type: origin
 token: LFepwAKeGiURJUksNA4cqYPYnIb
 sidebar_position: 2
-keywords: 
-  - zilliz
-  - vector database
-  - ai-agents
-  - decision matrix
-  - skill
-  - claude
-  - zilliz cli
 displayed_sidebar: default
 
 ---

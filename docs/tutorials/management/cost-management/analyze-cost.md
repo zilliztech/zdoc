@@ -10,7 +10,7 @@ notebook: FALSE
 description: "The Usage page in Zilliz Cloud provides you with a visualized cost analysis tool, enabling you to view and track Zilliz Cloud usage and expenses from multiple dimensions. | Cloud"
 type: origin
 token: LJplw7Q9Gi09GMkiy8PcbYp6nrg
-sidebar_position: 1
+sidebar_position: 2
 displayed_sidebar: default
 
 ---
@@ -46,7 +46,7 @@ Usage data is updated on an hourly basis.
 
 </Admonition>
 
-![analyze_cost](https://zdoc-images.s3.us-west-2.amazonaws.com/analyze_cost.png "analyze_cost")
+![analyze_cost](https://zdoc-images.s3.us-west-2.amazonaws.com/analyzecost.png "analyze_cost")
 
 - **By Project**
 

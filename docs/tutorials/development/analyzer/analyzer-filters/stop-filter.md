@@ -10,7 +10,7 @@ notebook: FALSE
 description: "The `stop` filter removes specified stop words from tokenized text, helping to eliminate common, less meaningful words. You can configure the list of stop words using the `stopwords` parameter. | Cloud"
 type: origin
 token: ScncwBnDBiVoLjksXAwcUgrgnod
-sidebar_position: 7
+sidebar_position: 8
 displayed_sidebar: default
 
 ---

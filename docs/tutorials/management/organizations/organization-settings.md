@@ -10,7 +10,7 @@ notebook: FALSE
 description: "If you are an Organization Owner, you have the privileges to manage the organization settings. | Cloud"
 type: origin
 token: AAqUwQW3qia3akkjfDNc0kwanlh
-sidebar_position: 1
+sidebar_position: 2
 displayed_sidebar: default
 
 ---
@@ -98,7 +98,7 @@ If maintenance runs past your preferred window, it will continue until completio
 
     - Take no action and let maintenance run as scheduled.
 
-- For **Organization Members**, please check your [SDK compatibility](./install-sdks).
+- For **Organization Members**, please check your [SDK compatibility](./install-sdks#sdk-compatibility).
 
 ## Delete organization\{#delete-organization}
 

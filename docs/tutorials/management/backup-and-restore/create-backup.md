@@ -165,5 +165,5 @@ When you back up an encrypted cluster, all data within the encryption scope rema
 
 When you restore an encrypted backup to a new cluster, Zilliz Cloud will use the KMS key associated with the backup file to decrypt the data before restoration. Therefore, you can restore the backup to a new cluster with or without encryption. 
 
-For details, refer to [Restore from an encrypted backup](./restore-from-backup-files).
+For details, refer to [Restore from an encrypted backup](./restore-from-backup-files#restore-from-an-encrypted-backup-file).
 

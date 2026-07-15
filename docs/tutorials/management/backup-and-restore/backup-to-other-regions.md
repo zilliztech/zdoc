@@ -10,7 +10,7 @@ notebook: FALSE
 description: "Cross-region backup in Zilliz Cloud enhances data protection by copying backups to multiple cloud regions. It safeguards against regional outages and supports disaster recovery, business continuity, and high availability by minimizing risks from localized failures. | Cloud"
 type: origin
 token: ESVGwTkn8iLfUakSSrkc5dWJnye
-sidebar_position: 1
+sidebar_position: 3
 displayed_sidebar: default
 
 ---

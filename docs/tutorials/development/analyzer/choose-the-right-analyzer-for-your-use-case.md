@@ -84,7 +84,7 @@ An inappropriate analyzer can cause either under- or over-tokenization, missing 
      <td><p>Users type Pinyin, but the indexed text uses Chinese characters.</p></td>
      <td><p>Chinese text: <code>"足球"</code>; query text: <code>"zuqiu"</code></p></td>
      <td><p>Analyzer that emits only Chinese-character tokens</p></td>
-     <td><p>Use a custom analyzer with the <a href="./jieba-tokenizer"><code>jieba</code></a> tokenizer and <a href="./undefined"><code>pinyin</code></a> filter.</p></td>
+     <td><p>Use a custom analyzer with the <a href="./jieba-tokenizer"><code>jieba</code></a> tokenizer and <a href="./pinyin-filter"><code>pinyin</code></a> filter.</p></td>
    </tr>
 </table>
 
@@ -429,7 +429,7 @@ These filters handle specific language characteristics:
      <td><ul><li><p>Input: <code>["Hello", "世界", "123"]</code></p></li><li><p>Output: <code>[[], ['世界'], []]</code></p></li></ul></td>
    </tr>
    <tr>
-     <td><p><a href="./undefined"><code>pinyin</code></a></p></td>
+     <td><p><a href="./pinyin-filter"><code>pinyin</code></a></p></td>
      <td><p>Chinese</p></td>
      <td><p>Emits Pinyin token forms for Chinese tokens</p></td>
      <td><ul><li><p>Input: <code>["中文"]</code></p></li><li><p>Output: <code>[['中文', 'zhong', 'wen']]</code></p></li></ul></td>

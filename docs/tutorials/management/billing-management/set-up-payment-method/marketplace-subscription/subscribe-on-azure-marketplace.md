@@ -224,7 +224,7 @@ Visit [Azure Marketplace](https://azuremarketplace.microsoft.com/en-us) and star
 
 1. Search for **Zilliz Cloud** in the search box, or [go to the Azure Marketplace](https://azuremarketplace.microsoft.com/en-us/marketplace/apps/zillizinc1703056661329.zilliz_cloud?tab=Overview) to view the Zilliz Cloud portal page.
 
-    ![search_for_zilliz_on_azure](https://zdoc-images.s3.us-west-2.amazonaws.com/search_for_zilliz_on_azure.png "search_for_zilliz_on_azure")
+    ![search_for_zilliz_on_azure](https://zdoc-images.s3.us-west-2.amazonaws.com/searchforzillizonazure.png "search_for_zilliz_on_azure")
 
 1. Click **Zilliz Cloud**.
 
@@ -232,11 +232,11 @@ Visit [Azure Marketplace](https://azuremarketplace.microsoft.com/en-us) and star
 
 1. Switch to the **Plans + Pricing** tab. Click **Get it now**.
 
-    ![get_it_now_on_azure](https://zdoc-images.s3.us-west-2.amazonaws.com/get_it_now_on_azure.png "get_it_now_on_azure")
+    ![get_it_now_on_azure](https://zdoc-images.s3.us-west-2.amazonaws.com/getitnowonazure.png "get_it_now_on_azure")
 
 1. In the pop-up window, enter your basic information required by Zilliz Cloud.
 
-    ![enter_basic_information_azure](https://zdoc-images.s3.us-west-2.amazonaws.com/enter_basic_information_azure.png "enter_basic_information_azure")
+    ![enter_basic_information_azure](https://zdoc-images.s3.us-west-2.amazonaws.com/enterbasicinformationazure.png "enter_basic_information_azure")
 
 1. On the **Subscribe to Zilliz Cloud** page, complete the following steps:
 
@@ -258,11 +258,11 @@ Visit [Azure Marketplace](https://azuremarketplace.microsoft.com/en-us) and star
 
     1. Review the subscription details and click **Review+Subscribe**.
 
-    ![configure_subscription_on_azure](https://zdoc-images.s3.us-west-2.amazonaws.com/configure_subscription_on_azure.png "configure_subscription_on_azure")
+    ![configure_subscription_on_azure](https://zdoc-images.s3.us-west-2.amazonaws.com/configuresubscriptiononazure.png "configure_subscription_on_azure")
 
 1. On the next page, link your Azure Marketplace subscription to Zilliz Cloud by clicking **Configure account now**.
 
-    ![configure_account_azure](https://zdoc-images.s3.us-west-2.amazonaws.com/configure_account_azure.png "configure_account_azure")
+    ![configure_account_azure](https://zdoc-images.s3.us-west-2.amazonaws.com/configureaccountazure.png "configure_account_azure")
 
 1. In the new tab, follow the steps below to complete subscription.
 
@@ -290,7 +290,7 @@ More specifically, you can either:
 
 - Switch your payment method from Marketplace subscription to a credit card.
 
-For details, see Update Payment Method.
+For details, see [Update Payment Method](./update-payment-method).
 
 ## Cancel Azure Marketplace subscription\{#cancel-azure-marketplace-subscription}
 
@@ -300,11 +300,11 @@ For details, see Update Payment Method.
 
 1. Click **All resources** or find your subscription in the **Resources/Recent** tab.
 
-    ![azure_all_resources](https://zdoc-images.s3.us-west-2.amazonaws.com/azure_all_resources.png "azure_all_resources")
+    ![azure_all_resources](https://zdoc-images.s3.us-west-2.amazonaws.com/azureallresources.png "azure_all_resources")
 
 1. Navigate to the subscription you want to cancel. Click **Cancel subscription**. Wait for a few minutes for Azure Marketplace to complete the process.
 
-    ![cancel_azure_subscription](https://zdoc-images.s3.us-west-2.amazonaws.com/cancel_azure_subscription.png "cancel_azure_subscription")
+    ![cancel_azure_subscription](https://zdoc-images.s3.us-west-2.amazonaws.com/cancelazuresubscription.png "cancel_azure_subscription")
 
 </Procedures>
 

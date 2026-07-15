@@ -35,7 +35,7 @@ The functionality of the `chinese` analyzer is equivalent to the following custo
 
 <Admonition type="info" icon="📘" title="Notes">
 
-The built-in `chinese` analyzer does not emit Pinyin tokens. To match Chinese text with Pinyin query terms, use a custom analyzer with the `jieba` tokenizer and the [Pinyin filter](./undefined).
+The built-in `chinese` analyzer does not emit Pinyin tokens. To match Chinese text with Pinyin query terms, use a custom analyzer with the `jieba` tokenizer and the [Pinyin filter](./pinyin-filter).
 
 </Admonition>
 

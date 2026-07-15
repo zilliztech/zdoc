@@ -210,7 +210,7 @@ To disable public endpoints:
 
 </Admonition>
 
-![disable_public_endpoint](https://zdoc-images.s3.us-west-2.amazonaws.com/disable_public_endpoint.png "disable_public_endpoint")
+![disable_public_endpoint](https://zdoc-images.s3.us-west-2.amazonaws.com/disablepublicendpoint.png "disable_public_endpoint")
 
 ## FAQ\{#faq}
 

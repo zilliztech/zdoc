@@ -10,7 +10,7 @@ notebook: FALSE
 description: "In this release, Zilliz Cloud introduces several powerful enhancements aimed at improving operational efficiency, flexibility, and user experience. These include support for cluster-level scheduled auto-scaling, schema evolution via the new Merge Data API, the introduction of stage — a cloud-native data layer for streamlined data ingestion, partial restore from cluster-level backups with cross-database selection, and UI support for JSON Path indexes. Together, these features enable users to manage complex workloads more effectively, reduce maintenance overhead, and speed up development cycles in the GenAI era. | Cloud"
 type: origin
 token: WBONwyqFAi02DTkCG41c93wCn6e
-sidebar_position: 1
+sidebar_position: 12
 displayed_sidebar: releasesSidebar
 
 ---
@@ -84,7 +84,7 @@ You can now selectively restore specific **databases** and **collections** from 
 
 ![Sd5PbeR5poupNlx6nM6cCrdxnTd](https://zdoc-images.s3.us-west-2.amazonaws.com/sd5pber5poupnlx6nm6ccrdxntd.png "Sd5PbeR5poupNlx6nM6cCrdxnTd")
 
-For details, refer to [Restore a Partial Cluster](./restore-from-backup-files).
+For details, refer to [Restore a Partial Cluster](./restore-from-backup-files#restore-a-partial-cluster).
 
 ## Create JSON Path Indexes on Zilliz Cloud Console\{#create-json-path-indexes-on-zilliz-cloud-console}
 
@@ -92,7 +92,7 @@ Zilliz Cloud now supports creating JSON Path indexes directly from the web conso
 
 ![PDbobfoUDolZd4xKR8kcDXqIn0f](https://zdoc-images.s3.us-west-2.amazonaws.com/pdbobfoudolzd4xkr8kcdxqin0f.png "PDbobfoUDolZd4xKR8kcDXqIn0f")
 
-For details on JSON path indexes, refer to [Index Values Inside a JSON Field](./json-indexing) and [Index Keys in the Dynamic Field](./enable-dynamic-field).
+For details on JSON path indexes, refer to [Index Values Inside a JSON Field](./json-indexing) and [Index Keys in the Dynamic Field](./enable-dynamic-field#index-keys-in-the-dynamic-field).
 
 ## BYOC Project Instance Quota Settings Now Available\{#byoc-project-instance-quota-settings-now-available}
 

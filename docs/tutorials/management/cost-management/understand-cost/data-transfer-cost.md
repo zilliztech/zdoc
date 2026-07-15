@@ -10,7 +10,7 @@ notebook: FALSE
 description: "Data transfer can be traffic coming into Zilliz Cloud, leaving Zilliz Cloud out into the internet, or in between two resources within Zilliz Cloud. Data transfer costs in Zilliz Cloud are billed based on the amount of data transferred. | Cloud"
 type: origin
 token: BClgwKlHaiushBkPPssclTkYnef
-sidebar_position: 1
+sidebar_position: 6
 displayed_sidebar: default
 
 ---

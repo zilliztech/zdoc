@@ -10,7 +10,7 @@ notebook: FALSE
 description: "A database in a serving cluster is a logical container for collections hosted by a Dedicated serving cluster. Use this page to create, view, configure, use, and drop databases through a serving cluster endpoint. | BYOC"
 type: origin
 token: DtLVw8EUyi6MqMkXh3Cc3rfZnic
-sidebar_position: 1
+sidebar_position: 2
 displayed_sidebar: default
 
 ---

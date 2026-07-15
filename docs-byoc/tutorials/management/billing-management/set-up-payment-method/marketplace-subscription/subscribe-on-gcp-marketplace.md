@@ -46,7 +46,7 @@ Visit [GCP](https://console.cloud.google.com/marketplace)[ Marketplace](https://
 
 1. Search for **Zilliz Cloud** in the search box, or [go to the GCP Marketplace](https://console.cloud.google.com/marketplace/product/zilliz-public/zilliz-cloud?project=zilliz-public&pli=1) to view the Zilliz Cloud portal page.
 
-    ![search_for_zilliz_on_gcp](https://zdoc-images.s3.us-west-2.amazonaws.com/search_for_zilliz_on_gcp.png "search_for_zilliz_on_gcp")
+    ![search_for_zilliz_on_gcp](https://zdoc-images.s3.us-west-2.amazonaws.com/searchforzillizongcp.png "search_for_zilliz_on_gcp")
 
 1. Click **Zilliz Cloud**.
 
@@ -54,7 +54,7 @@ Visit [GCP](https://console.cloud.google.com/marketplace)[ Marketplace](https://
 
 1. Select the project for subscription and click **Subscribe**. 
 
-    ![click_subscribe_on_gcp](https://zdoc-images.s3.us-west-2.amazonaws.com/click_subscribe_on_gcp.png "click_subscribe_on_gcp")
+    ![click_subscribe_on_gcp](https://zdoc-images.s3.us-west-2.amazonaws.com/clicksubscribeongcp.png "click_subscribe_on_gcp")
 
 1. On the **New Zilliz Cloud subscription** page, complete the following steps:
 
@@ -64,7 +64,7 @@ Visit [GCP](https://console.cloud.google.com/marketplace)[ Marketplace](https://
 
     1. Click **Subscribe**.
 
-    ![new_zilliz_cloud_subscription_on_gcp](https://zdoc-images.s3.us-west-2.amazonaws.com/new_zilliz_cloud_subscription_on_gcp.png "new_zilliz_cloud_subscription_on_gcp")
+    ![new_zilliz_cloud_subscription_on_gcp](https://zdoc-images.s3.us-west-2.amazonaws.com/newzillizcloudsubscriptionongcp.png "new_zilliz_cloud_subscription_on_gcp")
 
 1. In the pop-up window, click **SIGN UP WITH ZILLIZ**.
 
@@ -74,7 +74,7 @@ Visit [GCP](https://console.cloud.google.com/marketplace)[ Marketplace](https://
 
     </Admonition>
 
-    ![gcp_flash_message](https://zdoc-images.s3.us-west-2.amazonaws.com/gcp_flash_message.png "gcp_flash_message")
+    ![gcp_flash_message](https://zdoc-images.s3.us-west-2.amazonaws.com/gcpflashmessage.png "gcp_flash_message")
 
 1. In the new tab, follow the steps below to complete subscription.
 
@@ -102,7 +102,7 @@ More specifically, you can either:
 
 - Switch your payment method from Marketplace subscription to a credit card.
 
-For details, see Update Payment Method.
+For details, see [Update Payment Method](./update-payment-method).
 
 ## Cancel GCP Marketplace subscription\{#cancel-gcp-marketplace-subscription}
 

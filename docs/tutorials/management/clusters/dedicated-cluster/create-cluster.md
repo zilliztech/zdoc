@@ -101,7 +101,7 @@ In the command above,
 
 - `cuType`: The type of the cluster. Valid values: Performance-optimized, Capacity-optimized, and Tiered-storage.
 
-- `cuSize`: The number of query CUs used for the cluster. Value range: 1 to 256. For organizations created with a personal email address, the maximum query CU size for a Dedicated cluster is 32, even if a payment method is configured.
+- `cuSize`: The number of query CUs used for the cluster. Value range: 1 to 2,048. For organizations created with a personal email address, the maximum query CU size for a Dedicated cluster is 32, even if a payment method is configured.
 
 - `description` (optional): Description of the cluster.
 

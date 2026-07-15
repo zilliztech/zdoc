@@ -10,7 +10,7 @@ notebook: FALSE
 description: "Chinese text search often requires users to enter Chinese characters exactly as they appear in the indexed text. In name lookup, autocomplete, and search-as-you-type workflows, users frequently type Pinyin instead of Chinese characters. For example, a user may type `zuqiu` to search for `足球`. The `pinyin` filter adds Pinyin tokens to the analyzer output so Chinese text can match Pinyin input without maintaining a separate Pinyin field. | Cloud"
 type: origin
 token: EhXXwmJzBi8pg9kJcC4ccm9OnDe
-sidebar_position: 1
+sidebar_position: 6
 displayed_sidebar: default
 
 ---
