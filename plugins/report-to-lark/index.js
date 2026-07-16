@@ -4,12 +4,12 @@ const { v4: uuidv4 } = require('uuid')
 const tokenFetcher = require('../lark-docs/larkTokenFetcher')
 const { fetchFeishuJsonWithRetry } = require('../lark-docs/feishuFetch')
 const { buildCardV2 } = require('./cardV2')
+const { createCardClient } = require('./cardClient')
 const {
   buildFinishState,
   buildExactState,
   buildPhaseState,
   parseNotesJson,
-  selectExactStateNotes,
 } = require('./reportCardState')
 require('dotenv/config')
 
@@ -18,9 +18,6 @@ require('dotenv/config')
 // ---------------------------------------------------------------------------
 
 const CARD_STATE_FILE = '.build-card-state.json'
-function buildCardContent(state) {
-  return JSON.stringify(buildCardV2(state))
-}
 
 function loadState(siteDir) {
   const p = path.join(siteDir, CARD_STATE_FILE)
@@ -30,14 +27,6 @@ function loadState(siteDir) {
 
 function saveState(siteDir, state) {
   fs.writeFileSync(path.join(siteDir, CARD_STATE_FILE), JSON.stringify(state, null, 2))
-}
-
-async function patchCard(token, messageId, state, feishuHost) {
-  return fetchFeishuJsonWithRetry(`${feishuHost}/open-apis/im/v1/messages/${messageId}`, {
-    method: 'PATCH',
-    headers: { 'Content-Type': 'application/json; charset=utf-8', Authorization: `Bearer ${token}` },
-    body: JSON.stringify({ content: buildCardContent(state) }),
-  }, 'report-to-lark patch card')
 }
 
 // ---------------------------------------------------------------------------
@@ -87,6 +76,12 @@ module.exports = function (context) {
           const fetcher = new tokenFetcher()
           await fetcher.fetchToken()
           const token = await fetcher.token()
+          const cardClient = createCardClient({
+            feishuHost: FEISHU_HOST,
+            appId: process.env.APP_ID,
+            appSecret: process.env.APP_SECRET,
+            tokenProvider: async () => token,
+          })
 
           // ----------------------------------------------------------------
           // --card-create  POST a new card, persist state, export card_id
@@ -108,7 +103,7 @@ module.exports = function (context) {
               body: JSON.stringify({
                 receive_id: opts.receiveId,
                 msg_type: 'interactive',
-                content: buildCardContent(state),
+                content: JSON.stringify(buildCardV2(state)),
                 uuid: uuidv4(),
               }),
             }, 'report-to-lark create card')
@@ -145,7 +140,7 @@ module.exports = function (context) {
             const note = fs.readFileSync(opts.cardNoteFile, 'utf8').trim()
             if (note) state.notes.push(note)
             saveState(context.siteDir, state)
-            await patchCard(token, state.messageId, state, FEISHU_HOST)
+            await cardClient.patch({ messageId: state.messageId, state })
             return
           }
 
@@ -166,7 +161,7 @@ module.exports = function (context) {
               state.statuses[state.currentIndex] = 'running'
             }
             saveState(context.siteDir, state)
-            await patchCard(token, state.messageId, state, FEISHU_HOST)
+            await cardClient.patch({ messageId: state.messageId, state })
             return
           }
 
@@ -192,7 +187,7 @@ module.exports = function (context) {
               notes,
               targetBranch: opts.targetBranch,
             })
-            await patchCard(token, messageId, state, FEISHU_HOST)
+            await cardClient.patch({ messageId, state })
             return
           }
 
@@ -208,7 +203,7 @@ module.exports = function (context) {
               note: noteText,
               targetBranch: opts.targetBranch,
             })
-            await patchCard(token, opts.messageId, state, FEISHU_HOST)
+            await cardClient.patch({ messageId: opts.messageId, state })
             return
           }
 
@@ -218,13 +213,11 @@ module.exports = function (context) {
             const state = buildExactState({
               messageId: opts.messageId,
               title: opts.title,
-              stages: input.stages,
               startedAt: opts.startedAt,
-              notes: selectExactStateNotes(input),
-              manuals: input.manuals,
               targetBranch: opts.targetBranch || input.targetBranch,
+              input,
             })
-            await patchCard(token, opts.messageId, state, FEISHU_HOST)
+            await cardClient.patch({ messageId: opts.messageId, state })
             return
           }
 

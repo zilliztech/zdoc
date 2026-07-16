@@ -1,26 +1,32 @@
 'use strict'
 
 const assert = require('node:assert/strict')
-const { test } = require('node:test')
-const { buildCardV2 } = require('./cardV2')
+const test = require('node:test')
+const { buildCardV2, normalizeCardState, reportNeedsAttention } = require('./cardV2')
 
 function sampleState(overrides = {}) {
   return {
     title: 'Global Docs Build',
-    stages: [
-      'Produce manuals (2/2)',
-      'Publish sources (2/2)',
-      'Translate manuals (1/2)',
-      'Publish translations (0/2)',
-      'Verify',
+    overallStatus: 'running',
+    phases: [
+      { key: 'produce', label: 'Produce', done: 6, total: 7, status: 'running' },
+      { key: 'publish', label: 'Publish', done: 3, total: 7, status: 'running' },
+      { key: 'translate', label: 'Translate', done: 1, total: 7, status: 'running' },
+      { key: 'translation', label: 'Publish translations', done: 0, total: 7, status: 'waiting' },
+      { key: 'verify', label: 'Verify', done: 0, total: 1, status: 'waiting' },
     ],
-    statuses: ['done', 'done', 'running', 'pending', 'pending'],
-    startedAt: '2026-07-13T00:00:00.000Z',
     manuals: [
-      { group: 'guides', produce: 'done', source: 'done', translate: 'running', translation: 'pending' },
-      { group: 'rest', produce: 'done', source: 'done', translate: 'done', translation: 'pending' },
+      { group: 'java', label: 'Java SDK', phase: 'publish', status: 'failed', currentTask: 'Publish checkpoint', detail: 'Validation failed' },
+      { group: 'guides', label: 'Guides', phase: 'produce', status: 'running', currentTask: 'Render Guides tables', detail: '8/14 complete · 4 active · 2 pending · 0 failed' },
+      { group: 'python', label: 'Python SDK', phase: 'publish', status: 'waiting', currentTask: 'Waiting for REST API publisher', detail: null },
+      { group: 'go', label: 'Go SDK', phase: 'translation', status: 'completed', currentTask: 'Publish Go SDK translation', detail: null },
     ],
-    notes: [],
+    reports: [
+      { title: 'Healthy report', markdown: '# Healthy report\n\n- Broken links: 0', attention: false },
+      { title: 'Warning report', markdown: '# Warning report\n\n- Warnings: 2', attention: true },
+    ],
+    startedAt: '2026-07-16T10:00:00.000Z',
+    targetBranch: 'test/central-card',
     ...overrides,
   }
 }
@@ -30,87 +36,90 @@ function descendants(value) {
   return [value, ...Object.values(value).flatMap(descendants)]
 }
 
-test('builds a Card JSON v2 progress card with semantic header and responsive phases', () => {
+test('renders a narrow Card V2 with two phase rows and active manual blocks', () => {
   const card = buildCardV2(sampleState(), {
-    now: new Date('2026-07-13T00:02:05.000Z'),
-    branch: 'dev',
-    workflowUrl: 'https://github.com/zilliztech/zdoc/actions/runs/123',
+    now: new Date('2026-07-16T10:10:00.000Z'),
+    workflowUrl: 'https://github.com/zilliztech/zdoc/actions/runs/1',
   })
+  const serialized = JSON.stringify(card)
+  const columnSets = card.body.elements.filter(element => element.tag === 'column_set')
 
   assert.equal(card.schema, '2.0')
   assert.equal(card.header.template, 'blue')
-  assert.equal(card.header.title.content, 'Global Docs Build')
-  assert.match(card.header.subtitle.content, /dev · 2m 5s elapsed/)
-  assert.deepEqual(card.header.text_tag_list, [{ tag: 'text_tag', text: { tag: 'plain_text', content: 'Running' }, color: 'blue' }])
-  const phaseGrid = card.body.elements.find(element => element.tag === 'column_set')
-  assert.equal(phaseGrid.flex_mode, 'flow')
-  assert.equal(phaseGrid.columns.length, 5)
-  assert.match(phaseGrid.columns[2].elements[0].content, /Translate manuals \(1\/2\)/)
-})
-
-test('renders manual progress as one root-level native table with option statuses', () => {
-  const card = buildCardV2(sampleState())
-  const table = card.body.elements.find(element => element.tag === 'table')
-
-  assert.ok(table)
-  assert.equal(table.freeze_first_column, true)
-  assert.equal(table.row_height, 'auto')
-  assert.deepEqual(table.columns.map(column => column.display_name), ['Manual', 'Produce', 'Source', 'Translate', 'Translation'])
-  assert.equal(table.rows.length, 2)
-  assert.deepEqual(table.rows[0].translate, [{ text: 'Running', color: 'blue' }])
-  assert.deepEqual(table.rows[0].translation, [{ text: 'Pending', color: 'grey' }])
-
-  for (const element of card.body.elements) {
-    if (element === table) continue
-    assert.equal(descendants(element).some(node => node.tag === 'table'), false)
-  }
-})
-
-test('renders report notes as rich Markdown panels and expands warning or failure reports', () => {
-  const card = buildCardV2(sampleState({
-    notes: [
-      '# Healthy report\n\n- Broken links: 0',
-      '# Warning report\n\n- Warnings: 2',
-      '# Failed report\n\n- Broken content links: 3',
-    ],
-  }))
-  const panels = card.body.elements.filter(element => element.tag === 'collapsible_panel')
-
-  assert.equal(panels.length, 3)
-  assert.deepEqual(panels.map(panel => panel.expanded), [false, true, true])
-  assert.deepEqual(panels.map(panel => panel.header.title.content), ['**Healthy report**', '**Warning report**', '**Failed report**'])
-  assert.equal(panels.every(panel => panel.elements[0].tag === 'markdown'), true)
-  assert.match(panels[0].elements[0].content, /Broken links: 0/)
-})
-
-test('uses green and red semantic headers for completed and failed cards', () => {
-  const success = buildCardV2(sampleState({ statuses: ['done', 'done', 'done', 'done', 'done'] }))
-  const failure = buildCardV2(sampleState({ statuses: ['done', 'fail', 'pending', 'pending', 'pending'] }))
-
-  assert.equal(success.header.template, 'green')
-  assert.equal(success.header.text_tag_list[0].text.content, 'Succeeded')
-  assert.equal(failure.header.template, 'red')
-  assert.equal(failure.header.text_tag_list[0].text.content, 'Failed')
-})
-
-test('omits the manual table for cards without structured manual progress', () => {
-  const card = buildCardV2(sampleState({ manuals: undefined }))
+  assert.match(card.header.subtitle.content, /test\/central-card · 10m 0s elapsed/)
+  assert.equal(columnSets.length, 5)
+  assert.equal(columnSets[0].columns.length, 3)
+  assert.equal(columnSets[1].columns.length, 2)
   assert.equal(card.body.elements.some(element => element.tag === 'table'), false)
-  assert.equal(card.body.elements.at(-1).tag, 'markdown')
+  assert.match(serialized, /CURRENT TASK/)
+  assert.match(serialized, /Waiting for REST API publisher/)
+  assert.match(serialized, /blue-50/)
+  assert.match(serialized, /grey-50/)
+  assert.match(serialized, /red-50/)
 })
 
-test('uses the explicit publication target instead of the workflow ref', () => {
-  const original = process.env.GITHUB_REF_NAME
-  process.env.GITHUB_REF_NAME = 'master'
-  try {
-    const card = buildCardV2(sampleState({ targetBranch: 'dev' }), {
-      now: new Date('2026-07-13T00:02:05.000Z'),
-    })
-    assert.match(card.header.subtitle.content, /^dev ·/)
-    assert.match(card.body.elements.at(-1).content, /Target dev/)
-    assert.doesNotMatch(card.body.elements.at(-1).content, /Target master/)
-  } finally {
-    if (original === undefined) delete process.env.GITHUB_REF_NAME
-    else process.env.GITHUB_REF_NAME = original
-  }
+test('places a collapsed grey Completed panel after active manuals and before reports', () => {
+  const card = buildCardV2(sampleState())
+  const panels = card.body.elements.filter(element => element.tag === 'collapsible_panel')
+  const completed = panels[0]
+
+  assert.equal(completed.expanded, false)
+  assert.equal(completed.header.title.content, '**Completed (1)**')
+  assert.equal(completed.border.color, 'grey')
+  assert.match(completed.elements[0].content, /Go SDK · Publish translations/)
+  assert.deepEqual(panels.slice(1).map(panel => panel.expanded), [false, true])
+  assert.ok(card.body.elements.indexOf(completed) > card.body.elements.findLastIndex(element => element.tag === 'column_set'))
+  assert.ok(card.body.elements.indexOf(completed) < card.body.elements.indexOf(panels[1]))
+  assert.equal(descendants(completed).some(node => node.tag === 'table'), false)
+})
+
+test('uses semantic terminal headers and explicit report attention', () => {
+  const success = buildCardV2(sampleState({ overallStatus: 'success' }))
+  const failure = buildCardV2(sampleState({ overallStatus: 'failure' }))
+  const cancelled = buildCardV2(sampleState({ overallStatus: 'cancelled' }))
+
+  assert.deepEqual([success.header.template, success.header.text_tag_list[0].text.content], ['green', 'Succeeded'])
+  assert.deepEqual([failure.header.template, failure.header.text_tag_list[0].text.content], ['red', 'Failed'])
+  assert.deepEqual([cancelled.header.template, cancelled.header.text_tag_list[0].text.content], ['red', 'Cancelled'])
+  assert.equal(reportNeedsAttention('# Report\n\n- Broken references: 3'), true)
+  assert.equal(reportNeedsAttention('# Report\n\n- Broken references: 0'), false)
+})
+
+test('keeps the native divider and compact immutable workflow footer', () => {
+  const card = buildCardV2(sampleState(), { workflowUrl: 'https://github.com/zilliztech/zdoc/actions/runs/1' })
+  assert.equal(card.body.elements.at(-2).tag, 'hr')
+  assert.equal(card.body.elements.at(-1).tag, 'markdown')
+  assert.equal(card.body.elements.at(-1).text_size, 'notation')
+  assert.match(card.body.elements.at(-1).content, /Target test\/central-card/)
+  assert.match(card.body.elements.at(-1).content, /actions\/runs\/1/)
+})
+
+test('bounds and escapes user-derived manual content', () => {
+  const unsafe = '<text_tag color="red">owned</text_tag>' + 'x'.repeat(300)
+  const card = buildCardV2(sampleState({
+    manuals: [{ group: 'x', label: unsafe, phase: 'produce', status: 'running', currentTask: unsafe, detail: unsafe }],
+    reports: [],
+  }))
+  const serialized = JSON.stringify(card)
+  assert.doesNotMatch(serialized, /<text_tag color=\\"red\\">owned/)
+  assert.ok(serialized.length < 5000)
+})
+
+test('normalizes the legacy prepare card until the first monitor snapshot', () => {
+  const legacy = normalizeCardState({
+    stages: ['Produce manuals (0/7)', 'Publish sources (0/7)', 'Translate manuals (0/7)', 'Publish translations (0/7)', 'Verify'],
+    statuses: ['running', 'pending', 'pending', 'pending', 'pending'],
+    notes: ['# Starting'],
+  })
+  assert.deepEqual(legacy.phases.map(phase => [phase.label, phase.status]), [
+    ['Produce manuals', 'running'],
+    ['Publish sources', 'waiting'],
+    ['Translate manuals', 'waiting'],
+    ['Publish translations', 'waiting'],
+    ['Verify', 'waiting'],
+  ])
+  assert.equal(legacy.overallStatus, 'running')
+  assert.deepEqual(legacy.reports, [{ markdown: '# Starting' }])
+  const card = buildCardV2({ title: 'Initial card', startedAt: '2026-07-16T10:00:00.000Z', ...legacy })
+  assert.equal(card.body.elements.filter(element => element.tag === 'column_set').length, 2)
 })
