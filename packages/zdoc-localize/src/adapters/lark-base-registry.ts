@@ -1,6 +1,13 @@
 import type {LocalizationReceipt, RegistryStore, SnapshotReference} from '../application/ports.js';
 import type {GlossaryEntry} from '../domain/glossary.js';
 import type {DocumentPair, RunRecord} from '../domain/model.js';
+import {
+  readBaseText,
+  readProhibitedVariants,
+  writeBaseDateTime,
+  writeBaseUrl,
+  writeProhibitedVariants,
+} from './lark-base-cells.js';
 import {larkMachineEnv, runJsonCommand, type ProcessRunner} from './process-runner.js';
 
 export interface LarkBaseRegistryOptions {
@@ -89,11 +96,11 @@ export class LarkBaseRegistry implements RegistryStore {
       pair_id: pair.pairId,
       source_locale: pair.sourceLocale,
       target_locale: pair.targetLocale,
-      source_doc_url: pair.sourceDocUrl,
+      source_doc_url: writeBaseUrl(pair.sourceDocUrl),
       source_doc_token: pair.sourceDocToken ?? null,
-      target_doc_url: pair.targetDocUrl ?? null,
+      target_doc_url: writeBaseUrl(pair.targetDocUrl),
       target_doc_token: pair.targetDocToken ?? null,
-      target_parent_url: pair.targetParentUrl ?? null,
+      target_parent_url: writeBaseUrl(pair.targetParentUrl),
       target_parent_token: pair.targetParentToken ?? null,
       mode: pair.mode,
       product_scope: pair.productScope ?? null,
@@ -113,38 +120,41 @@ export class LarkBaseRegistry implements RegistryStore {
 
   async saveRun(run: RunRecord): Promise<void> {
     const existing = (await this.list(this.options.runsTableId, 'run_id', run.runId))
-      .find((record) => fieldsOf(record).record_type === 'run');
+      .find((record) => readBaseText(fieldsOf(record).record_type) === 'run');
     const compact = compactRun(run);
     await this.upsert(this.options.runsTableId, {
       record_type: 'run',
       run_id: run.runId,
       pair_id: run.pairId,
       state: run.state,
-      created_at: run.createdAt,
-      updated_at: run.updatedAt,
+      created_at: writeBaseDateTime(run.createdAt),
+      updated_at: writeBaseDateTime(run.updatedAt),
+      source_from_revision: run.sourceFromRevision ?? null,
+      source_to_revision: run.sourceToRevision ?? null,
+      target_plan_revision: run.targetPlanRevision ?? null,
+      error_type: run.errorType ?? null,
       payload_json: JSON.stringify(compact),
     }, existing ? recordId(existing) : undefined);
   }
 
   async getRun(runId: string): Promise<RunRecord | undefined> {
     const record = (await this.list(this.options.runsTableId, 'run_id', runId))
-      .find((item) => fieldsOf(item).record_type === 'run');
+      .find((item) => readBaseText(fieldsOf(item).record_type) === 'run');
     const payload = record ? fieldsOf(record).payload_json : undefined;
-    return typeof payload === 'string' ? JSON.parse(payload) as RunRecord : undefined;
+    const text = readBaseText(payload);
+    return text ? JSON.parse(text) as RunRecord : undefined;
   }
 
   async listGlossary(): Promise<GlossaryEntry[]> {
     return (await this.list(this.options.glossaryTableId)).map((record) => fieldsOf(record)).map((fields) => ({
-      termId: String(fields.term_id ?? ''),
-      sourceTerm: String(fields.source_term ?? ''),
-      ...(fields.target_term ? {targetTerm: String(fields.target_term)} : {}),
-      disposition: String(fields.disposition) as GlossaryEntry['disposition'],
-      scopeType: String(fields.scope_type) as GlossaryEntry['scopeType'],
-      ...(fields.scope_value ? {scopeValue: String(fields.scope_value)} : {}),
-      prohibitedVariants: typeof fields.prohibited_variants === 'string'
-        ? JSON.parse(fields.prohibited_variants) as string[]
-        : [],
-      status: String(fields.status) as GlossaryEntry['status'],
+      termId: readBaseText(fields.term_id),
+      sourceTerm: readBaseText(fields.source_term),
+      ...(readBaseText(fields.target_term) ? {targetTerm: readBaseText(fields.target_term)} : {}),
+      disposition: readBaseText(fields.disposition) as GlossaryEntry['disposition'],
+      scopeType: readBaseText(fields.scope_type) as GlossaryEntry['scopeType'],
+      ...(readBaseText(fields.scope_value) ? {scopeValue: readBaseText(fields.scope_value)} : {}),
+      prohibitedVariants: readProhibitedVariants(fields.prohibited_variants),
+      status: readBaseText(fields.status) as GlossaryEntry['status'],
     }));
   }
 
@@ -158,7 +168,7 @@ export class LarkBaseRegistry implements RegistryStore {
         disposition: entry.disposition,
         scope_type: entry.scopeType,
         scope_value: entry.scopeValue ?? null,
-        prohibited_variants: JSON.stringify(entry.prohibitedVariants ?? []),
+        prohibited_variants: writeProhibitedVariants(entry.prohibitedVariants),
         status: entry.status,
       }, existing ? recordId(existing) : undefined);
     }
@@ -166,20 +176,27 @@ export class LarkBaseRegistry implements RegistryStore {
 
   async getReceipt(pairId: string): Promise<LocalizationReceipt | undefined> {
     const records = await this.list(this.options.runsTableId, 'pair_id', pairId);
-    const record = records.find((item) => fieldsOf(item).record_type === 'receipt');
+    const record = records.find((item) => readBaseText(fieldsOf(item).record_type) === 'receipt');
     const payload = record ? fieldsOf(record).payload_json : undefined;
-    return typeof payload === 'string' ? JSON.parse(payload) as LocalizationReceipt : undefined;
+    const text = readBaseText(payload);
+    return text ? JSON.parse(text) as LocalizationReceipt : undefined;
   }
 
   async saveReceipt(receipt: LocalizationReceipt): Promise<void> {
     const existingRecords = await this.list(this.options.runsTableId, 'pair_id', receipt.pairId);
-    const existing = existingRecords.find((item) => fieldsOf(item).record_type === 'receipt');
+    const existing = existingRecords.find((item) => readBaseText(fieldsOf(item).record_type) === 'receipt');
     await this.upsert(this.options.runsTableId, {
       record_type: 'receipt',
       run_id: receipt.runId,
       pair_id: receipt.pairId,
       state: 'completed',
-      updated_at: receipt.completedAt,
+      updated_at: writeBaseDateTime(receipt.completedAt),
+      completed_at: writeBaseDateTime(receipt.completedAt),
+      source_to_revision: receipt.sourceRevision,
+      target_verified_revision: receipt.targetRevision,
+      source_hash: receipt.sourceHash,
+      target_hash: receipt.targetHash,
+      source_snapshot_token: receipt.sourceSnapshotRef.token ?? null,
       payload_json: JSON.stringify(receipt),
     }, existing ? recordId(existing) : undefined);
   }
@@ -188,20 +205,20 @@ export class LarkBaseRegistry implements RegistryStore {
     if (!record) return undefined;
     const fields = fieldsOf(record);
     return {
-      pairId: String(fields.pair_id),
+      pairId: readBaseText(fields.pair_id),
       sourceLocale: 'en',
       targetLocale: 'zh-CN',
-      sourceDocUrl: String(fields.source_doc_url),
-      ...(fields.source_doc_token ? {sourceDocToken: String(fields.source_doc_token)} : {}),
-      ...(fields.target_doc_url ? {targetDocUrl: String(fields.target_doc_url)} : {}),
-      ...(fields.target_doc_token ? {targetDocToken: String(fields.target_doc_token)} : {}),
-      ...(fields.target_parent_url ? {targetParentUrl: String(fields.target_parent_url)} : {}),
-      ...(fields.target_parent_token ? {targetParentToken: String(fields.target_parent_token)} : {}),
-      mode: String(fields.mode) as DocumentPair['mode'],
-      ...(fields.product_scope ? {productScope: String(fields.product_scope)} : {}),
-      ...(fields.version_scope ? {versionScope: String(fields.version_scope)} : {}),
-      ...(fields.environment_scope ? {environmentScope: String(fields.environment_scope)} : {}),
-      status: String(fields.status) as DocumentPair['status'],
+      sourceDocUrl: readBaseText(fields.source_doc_url),
+      ...(readBaseText(fields.source_doc_token) ? {sourceDocToken: readBaseText(fields.source_doc_token)} : {}),
+      ...(readBaseText(fields.target_doc_url) ? {targetDocUrl: readBaseText(fields.target_doc_url)} : {}),
+      ...(readBaseText(fields.target_doc_token) ? {targetDocToken: readBaseText(fields.target_doc_token)} : {}),
+      ...(readBaseText(fields.target_parent_url) ? {targetParentUrl: readBaseText(fields.target_parent_url)} : {}),
+      ...(readBaseText(fields.target_parent_token) ? {targetParentToken: readBaseText(fields.target_parent_token)} : {}),
+      mode: readBaseText(fields.mode) as DocumentPair['mode'],
+      ...(readBaseText(fields.product_scope) ? {productScope: readBaseText(fields.product_scope)} : {}),
+      ...(readBaseText(fields.version_scope) ? {versionScope: readBaseText(fields.version_scope)} : {}),
+      ...(readBaseText(fields.environment_scope) ? {environmentScope: readBaseText(fields.environment_scope)} : {}),
+      status: readBaseText(fields.status) as DocumentPair['status'],
     };
   }
 }

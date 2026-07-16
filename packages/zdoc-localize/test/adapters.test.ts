@@ -130,8 +130,46 @@ describe('supporting adapters', () => {
     }));
   });
 
+  it('parses typed Base URL and label response shapes', async () => {
+    const runner = new FakeRunner([ok({items: [{fields: {
+      pair_id: 'pair-1',
+      source_doc_url: {text: 'English', link: 'https://example.feishu.cn/docx/en'},
+      target_doc_url: {text: 'Chinese', link: 'https://example.feishu.cn/docx/zh'},
+      mode: [{text: 'mirror'}],
+      status: {name: 'active'},
+    }}]})]);
+    const registry = new LarkBaseRegistry(runner, {
+      baseToken: 'base-token', documentPairsTableId: 'tbl-pairs', glossaryTableId: 'tbl-glossary', runsTableId: 'tbl-runs',
+    });
+
+    await expect(registry.getPair('pair-1')).resolves.toMatchObject({
+      sourceDocUrl: 'https://example.feishu.cn/docx/en',
+      targetDocUrl: 'https://example.feishu.cn/docx/zh',
+      mode: 'mirror',
+      status: 'active',
+    });
+  });
+
+  it('reads human glossary variants while retaining legacy JSON support', async () => {
+    const runner = new FakeRunner([ok({items: [
+      {fields: {term_id: 'term-1', source_term: 'cluster', target_term: '集群', disposition: 'translate', scope_type: 'global', prohibited_variants: '群集\n集群组', status: 'approved'}},
+      {fields: {term_id: 'term-2', source_term: 'node', target_term: '节点', disposition: 'translate', scope_type: 'global', prohibited_variants: '["结点"]', status: 'approved'}},
+    ]})]);
+    const registry = new LarkBaseRegistry(runner, {
+      baseToken: 'base-token', documentPairsTableId: 'tbl-pairs', glossaryTableId: 'tbl-glossary', runsTableId: 'tbl-runs',
+    });
+
+    await expect(registry.listGlossary()).resolves.toEqual(expect.arrayContaining([
+      expect.objectContaining({termId: 'term-1', prohibitedVariants: ['群集', '集群组']}),
+      expect.objectContaining({termId: 'term-2', prohibitedVariants: ['结点']}),
+    ]));
+  });
+
   it('keeps run rows isolated from receipt rows that share a run ID', async () => {
-    const run = {runId: 'run-1', pairId: 'pair-1', state: 'review_required', createdAt: 'now', updatedAt: 'now'};
+    const run = {
+      runId: 'run-1', pairId: 'pair-1', state: 'review_required',
+      createdAt: '2026-07-16T01:00:00.000Z', updatedAt: '2026-07-16T01:00:00.000Z',
+    };
     const receipt = {pairId: 'pair-1', runId: 'run-1', sourceRevision: 1};
     const runner = new FakeRunner([
       ok({items: [
@@ -173,7 +211,8 @@ describe('supporting adapters', () => {
       baseToken: 'base-token', documentPairsTableId: 'tbl-pairs', glossaryTableId: 'tbl-glossary', runsTableId: 'tbl-runs',
     });
     await registry.saveRun({
-      runId: 'run-1', pairId: 'pair-1', state: 'translation_required', createdAt: 'now', updatedAt: 'now',
+      runId: 'run-1', pairId: 'pair-1', state: 'translation_required',
+      createdAt: '2026-07-16T01:00:00.000Z', updatedAt: '2026-07-16T01:00:00.000Z',
       metadata: {
         bundleRef: {kind: 'drive', token: 'snapshot-token', sha256: 'hash'},
         changes: [{before: {xml: '<p>very large source body</p>'}}],
@@ -184,6 +223,44 @@ describe('supporting adapters', () => {
     const jsonArg = runner.calls[1]!.args[runner.calls[1]!.args.indexOf('--json') + 1]!;
     expect(jsonArg).toContain('snapshot-token');
     expect(jsonArg).not.toContain('very large');
+  });
+
+  it('projects typed run and receipt fields alongside authoritative payload JSON', async () => {
+    const runner = new FakeRunner([
+      ok({items: []}),
+      ok({record: {record_id: 'run-record'}}),
+      ok({items: []}),
+      ok({record: {record_id: 'receipt-record'}}),
+    ]);
+    const registry = new LarkBaseRegistry(runner, {
+      baseToken: 'base-token', documentPairsTableId: 'tbl-pairs', glossaryTableId: 'tbl-glossary', runsTableId: 'tbl-runs',
+    });
+
+    await registry.saveRun({
+      runId: 'run-1', pairId: 'pair-1', state: 'blocked',
+      createdAt: '2026-07-16T01:00:00.000Z', updatedAt: '2026-07-16T02:00:00.000Z',
+      sourceFromRevision: 10, sourceToRevision: 11, targetPlanRevision: 7,
+      errorType: 'unsupported_table', errorDetail: {block: 'table-1'},
+    });
+    await registry.saveReceipt({
+      pairId: 'pair-1', runId: 'run-1', sourceRevision: 11, sourceHash: 'source-hash',
+      sourceSnapshotRef: {kind: 'drive', path: 'snapshot.json', hash: 'snapshot-hash', token: 'snapshot-token'},
+      targetRevision: 8, targetHash: 'target-hash', completedAt: '2026-07-16T03:00:00.000Z', correspondences: [],
+    });
+
+    const runFields = JSON.parse(runner.calls[1]!.args[runner.calls[1]!.args.indexOf('--json') + 1]!) as Record<string, unknown>;
+    expect(runFields).toMatchObject({
+      state: 'blocked', created_at: '2026-07-16 09:00:00', updated_at: '2026-07-16 10:00:00',
+      source_from_revision: 10, source_to_revision: 11, target_plan_revision: 7, error_type: 'unsupported_table',
+    });
+    expect(JSON.parse(String(runFields.payload_json))).toMatchObject({runId: 'run-1', errorDetail: {block: 'table-1'}});
+
+    const receiptFields = JSON.parse(runner.calls[3]!.args[runner.calls[3]!.args.indexOf('--json') + 1]!) as Record<string, unknown>;
+    expect(receiptFields).toMatchObject({
+      record_type: 'receipt', completed_at: '2026-07-16 11:00:00', source_to_revision: 11,
+      target_verified_revision: 8, source_hash: 'source-hash', target_hash: 'target-hash',
+      source_snapshot_token: 'snapshot-token',
+    });
   });
 
   it('uploads immutable snapshot bundles through a relative outbox path', async () => {
