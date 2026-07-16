@@ -21,7 +21,7 @@ describe('Codex Skill compatibility', () => {
       missingCommands: [],
       missingFeatures: [],
       unsafeRoutes: [],
-      cliVersion: '0.1.0',
+      cliVersion: '0.1.1',
       acceptedRange: '>=0.1.0 <0.2.0',
     });
   });

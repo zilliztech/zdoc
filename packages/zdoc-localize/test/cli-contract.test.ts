@@ -6,6 +6,7 @@ import {describe, expect, it} from 'vitest';
 
 import {runCli} from '../src/cli/program.js';
 import type {ProcessCall, ProcessResult, ProcessRunner} from '../src/adapters/process-runner.js';
+import {LocalRegistryStore} from '../src/storage/local-registry-store.js';
 
 class DiagnosticRunner implements ProcessRunner {
   readonly calls: ProcessCall[] = [];
@@ -24,7 +25,7 @@ describe('CLI contract', () => {
     expect(JSON.parse(result.stdout)).toEqual({
       ok: true,
       data: {
-        cliVersion: '0.1.0',
+        cliVersion: '0.1.1',
         schemaVersion: 1,
         commands: expect.arrayContaining([
           'doctor',
@@ -32,6 +33,7 @@ describe('CLI contract', () => {
           'bootstrap',
           'plan',
           'apply',
+          'manual',
           'status',
           'recover',
         ]),
@@ -137,6 +139,36 @@ describe('CLI contract', () => {
     expect(applyHelp.stdout).toContain('--approval-token');
     expect(recoverHelp.stdout).toContain('inspect');
     expect(manualHelp.stdout).toContain('verify');
+  });
+
+  it('projects manual-action status without exposing internal placeholder or recovery payloads', async () => {
+    const cwd = await mkdtemp(join(tmpdir(), 'zdoc-localize-status-'));
+    const registry = new LocalRegistryStore(cwd);
+    await registry.saveRun({
+      runId: 'run-initialize', pairId: 'pair-1', state: 'manual_action_required',
+      createdAt: '2026-07-16T00:00:00.000Z', updatedAt: '2026-07-16T00:01:00.000Z',
+      metadata: {
+        manualActions: [{
+          operationId: 'sync-1', sourceDocumentId: 'source-doc', sourceBlockId: 'sync-source',
+          sourceUrl: 'https://example.feishu.cn/docx/source-doc#sync-source',
+          placeholderBlockId: 'private-placeholder', marker: 'private-marker',
+        }],
+        prewriteRef: {provider: 'drive', id: 'private-snapshot'},
+      },
+    });
+
+    const result = await runCli(['status', '--run', 'run-initialize', '--format', 'json'], {cwd});
+    const data = JSON.parse(result.stdout).data;
+
+    expect(data).toMatchObject({
+      runId: 'run-initialize', state: 'manual_action_required',
+      manualActions: [{
+        operationId: 'sync-1', sourceDocumentId: 'source-doc', sourceBlockId: 'sync-source',
+        sourceUrl: 'https://example.feishu.cn/docx/source-doc#sync-source',
+      }],
+    });
+    expect(JSON.stringify(data)).not.toContain('private-placeholder');
+    expect(JSON.stringify(data)).not.toContain('private-snapshot');
   });
 
   it('initializes explicit local workspace configuration', async () => {

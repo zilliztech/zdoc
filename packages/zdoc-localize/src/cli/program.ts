@@ -8,10 +8,10 @@ import {createRuntime, type Runtime} from '../application/runtime.js';
 import {feishuRegistrySchema} from '../adapters/lark-base-schema.js';
 import {NodeProcessRunner, type ProcessRunner} from '../adapters/process-runner.js';
 import {asLocalizeError, LocalizeError, toErrorEnvelope} from '../domain/errors.js';
-import type {DocumentMode} from '../domain/model.js';
+import type {DocumentMode, RunRecord} from '../domain/model.js';
 import {ConfigStore, type WorkspaceConfig} from '../storage/config-store.js';
 
-export const CLI_VERSION = '0.1.0';
+export const CLI_VERSION = '0.1.1';
 export const SCHEMA_VERSION = 1;
 
 export interface CliResult {
@@ -76,6 +76,38 @@ function workspacePath(cwd: string, path: string): string {
     throw new LocalizeError({type: 'validation', subtype: 'unsafe_input_path', message: 'Input paths must stay inside the workspace.'});
   }
   return absolute;
+}
+
+export function projectRunStatus(run: RunRecord): Record<string, unknown> {
+  const manualActions = (run.metadata?.manualActions as Array<Record<string, unknown>> | undefined) ?? [];
+  const errorDetail = run.errorDetail as Record<string, unknown> | undefined;
+  return {
+    runId: run.runId,
+    pairId: run.pairId,
+    state: run.state,
+    createdAt: run.createdAt,
+    updatedAt: run.updatedAt,
+    ...(run.sourceFromRevision === undefined ? {} : {sourceFromRevision: run.sourceFromRevision}),
+    ...(run.sourceToRevision === undefined ? {} : {sourceToRevision: run.sourceToRevision}),
+    ...(run.targetPlanRevision === undefined ? {} : {targetPlanRevision: run.targetPlanRevision}),
+    ...(run.errorType ? {errorType: run.errorType} : {}),
+    ...(errorDetail ? {errorDetail: {
+      type: errorDetail.type,
+      subtype: errorDetail.subtype,
+      message: errorDetail.message,
+      hint: errorDetail.hint,
+      retryable: errorDetail.retryable,
+    }} : {}),
+    ...(typeof run.metadata?.validationPath === 'string' ? {validationPath: run.metadata.validationPath} : {}),
+    ...(manualActions.length > 0 ? {
+      manualActions: manualActions.map((action) => ({
+        operationId: action.operationId,
+        sourceDocumentId: action.sourceDocumentId,
+        sourceBlockId: action.sourceBlockId,
+        sourceUrl: action.sourceUrl,
+      })),
+    } : {}),
+  };
 }
 
 async function withRuntime<T>(
@@ -250,7 +282,7 @@ function createProgram(
     .action(async (options: {run: string; format: string}) => {
       const run = await withRuntime(cwd, runtimeFactory, (runtime) => runtime.registry.getRun(options.run));
       if (!run) throw new LocalizeError({type: 'not_found', subtype: 'run_not_found', message: `Localization run ${options.run} was not found.`});
-      emit(io, {run}, options.format);
+      emit(io, projectRunStatus(run), options.format);
     });
 
   formatOption(program.command('apply').description('Apply an approved localization review'))

@@ -37,7 +37,12 @@ zdoc-localize plan classify --run <run-id> --applicable <change-id,change-id> --
 zdoc-localize plan complete --run <run-id> --translations <relative-json> --format json
 zdoc-localize apply --run <run-id> --review <relative-review-md> --preview --format json
 zdoc-localize apply --run <run-id> --review <relative-review-md> --approval-token <token> --format json
+zdoc-localize manual verify --run <run-id> --format json
 zdoc-localize status --run <run-id> --format json
 ```
 
 The review and its plan are revision-bound. If either remote document changes before apply, discard the old review and create a new plan.
+
+For a title-only existing Chinese target, `plan create` produces a complete initialization plan. Do not run `bootstrap accept` on that empty target. Ordinary code is copied verbatim, Whiteboards are mirrored without translation, and native synced-code sources become protected placeholders. After the approved automatic apply, the user replaces each placeholder with a Feishu native synced reference and `manual verify` validates the exact source document/block identity before the receipt advances.
+
+On later runs, native synced-code changes are verify-only and make zero target code writes. Changed Whiteboards are mirrored again to the existing target Whiteboard token.

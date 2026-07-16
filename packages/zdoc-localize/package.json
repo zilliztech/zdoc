@@ -1,6 +1,6 @@
 {
   "name": "zdoc-localize",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Stale-safe localization planning and Feishu block updates for ZDoc.",
   "type": "module",
   "bin": {

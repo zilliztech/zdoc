@@ -7,12 +7,16 @@
     "bootstrap",
     "plan",
     "apply",
+    "manual",
     "status",
     "recover"
   ],
   "requiredFeatures": [
     "external-translation-provider",
     "review-markdown-v1",
-    "write-preview-v1"
+    "write-preview-v1",
+    "existing-empty-target-initialization-v1",
+    "manual-synced-reference-v1",
+    "whiteboard-mirror-v1"
   ]
 }

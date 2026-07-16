@@ -23,6 +23,12 @@ test -n "$ZL" && test -x "$ZL"
 
 Stop when the version is outside the supported range or required capabilities are absent. Do not guess renamed commands or JSON fields.
 
+Require these feature flags for the existing-empty-target workflow:
+
+- `existing-empty-target-initialization-v1`
+- `manual-synced-reference-v1`
+- `whiteboard-mirror-v1`
+
 Before the first Feishu-mode initialization for a registry, run `"$ZL" registry schema --format json`, then inspect the live Base tables and fields. Require exact field names and compatible types; controlled mode, status, disposition, scope type, record type, and run state fields must be single-select Labels. Treat view-creation limitations as warnings, but block on missing or incompatible fields.
 
 ## Route the Request
@@ -35,7 +41,7 @@ Before the first Feishu-mode initialization for a registry, run `"$ZL" registry 
 ## Run the Workflow
 
 1. Register a confirmed pair with `pair add`, or inspect existing pairs with `pair list/show`. For a missing Chinese target, require a confirmed `--target-parent-token`; creation still uses the full review and preview approval flow.
-2. For an untracked pair, run `bootstrap plan`. Present the structural audit and wait for explicit baseline acceptance before `bootstrap accept`.
+2. For an untracked non-empty pair, run `bootstrap plan`. Present the structural audit and wait for explicit baseline acceptance before `bootstrap accept`. Never bootstrap-accept a title-only target; route it through `plan create` initialization.
 3. Run `plan create --pair <id> --format json`.
 4. If state is `classification_required`, present every English change and obtain applicability decisions. Continue with `plan classify --run <id> --applicable <comma-separated-change-ids>`. Do not classify selective content silently.
 5. If state is `translation_required`, read the generated `translation-requests.json`. Read [references/workflow.md](references/workflow.md) before generating `translations.json`.
@@ -45,7 +51,10 @@ Before the first Feishu-mode initialization for a registry, run `"$ZL" registry 
 9. Run `apply --run <id> --review <relative-file> --preview --format json` and present the exact block-level write preview and approval token.
 10. Never run a write without explicit document-level approval of that exact current preview.
 11. After approval, run `apply --run <id> --review <relative-file> --approval-token <token> --format json`.
-12. Verify `state=completed` and report the validation path. Do not claim completion from a successful write call alone.
+12. When apply returns `manual_action_required`, present every manual action. The user replaces each protected placeholder with a native Feishu synced reference in the UI, then run `manual verify --run <id>`. Never flatten native synced code into an ordinary code block.
+13. Verify `state=completed` and report the validation path. Do not claim completion from a successful write call alone, and never claim completion while the run is `manual_action_required`.
+
+Whiteboards are copied as independent raw-node mirrors. Do not translate their contents. Incremental runs refresh a changed source Whiteboard through the CLI and verify its canonical hash.
 
 All file arguments must remain inside the current workspace. Use JSON output for machine decisions.
 
