@@ -9,6 +9,7 @@ import type {
   TranslationMemory,
   TranslationMemoryEntry,
   TranslationMemoryQuery,
+  WhiteboardGateway,
 } from '../src/application/ports.js';
 import {LocalizationWorkflows} from '../src/application/workflows.js';
 import type {FetchedDocument, WriteInput, WriteResult} from '../src/adapters/lark-docs-adapter.js';
@@ -62,6 +63,7 @@ class WritableDocs {
   corruptCreates = false;
   misrouteFirstReplace = false;
   readonly creates: Array<{title: string; parentToken?: string; xml: string}> = [];
+  private whiteboardSequence = 0;
 
   async fetch(doc: string): Promise<FetchedDocument> {
     const result = this.documents.get(doc);
@@ -77,6 +79,17 @@ class WritableDocs {
   }
 
   async insertAfter(input: WriteInput & {blockId: string; xml: string}): Promise<WriteResult> {
+    if (input.xml === '<whiteboard type="blank"></whiteboard>') {
+      const blockId = `new-${input.blockId}`;
+      const blockToken = `target-board-${++this.whiteboardSequence}`;
+      const result = await this.write(input.doc, `insert:${input.blockId}`, (content) =>
+        insertAfter(content, input.blockId, `<whiteboard token="${blockToken}"></whiteboard>`),
+      );
+      return {
+        ...result,
+        newBlocks: [{blockId, blockType: 'whiteboard', blockToken}],
+      };
+    }
     return this.write(input.doc, `insert:${input.blockId}`, (content) =>
       insertAfter(content, input.blockId, this.corruptWrites ? '<p>错误内容</p>' : input.xml),
     );
@@ -103,7 +116,17 @@ class WritableDocs {
     const current = this.documents.get(doc)!;
     const revisionId = current.revisionId + 1;
     this.documents.set(doc, {...current, revisionId, content: mutate(current.content)});
-    return {revisionId, updatedBlocksCount: 1, warnings: []};
+    return {revisionId, updatedBlocksCount: 1, warnings: [], newBlocks: []};
+  }
+}
+
+class MemoryWhiteboards implements WhiteboardGateway {
+  readonly values = new Map<string, unknown>();
+  readonly updates: Array<{token: string; raw: unknown; idempotencyToken: string}> = [];
+  async queryRaw(token: string): Promise<unknown> { return this.values.get(token); }
+  async overwriteRaw(input: {token: string; raw: unknown; idempotencyToken: string}): Promise<void> {
+    this.updates.push(input);
+    this.values.set(input.token, structuredClone(input.raw));
   }
 }
 
@@ -251,6 +274,60 @@ async function preparedLiveListWorkflow(failAtWrite?: number) {
 }
 
 describe('plan completion and apply', () => {
+  it('initializes automatic content and pauses for a manual synced reference', async () => {
+    const cwd = await mkdtemp(join(tmpdir(), 'zdoc-localize-initialize-apply-'));
+    const docs = new WritableDocs();
+    const whiteboards = new MemoryWhiteboards();
+    whiteboards.values.set('board-source', {nodes: [{id: 'source-node', type: 'text', text: 'Workflow'}]});
+    whiteboards.values.set('target-board-1', {nodes: []});
+    docs.documents.set('source-url', {
+      documentId: 'source', revisionId: 31,
+      content: '<title id="source">Hugging Face</title>'
+        + '<p id="intro">English body.</p>'
+        + '<pre id="code" lang="python"><code>print("hello")</code></pre>'
+        + '<whiteboard id="board" token="board-source"></whiteboard>'
+        + '<synced-source id="sync-source"><pre id="sync-code"><code>print("synced")</code></pre></synced-source>',
+    });
+    docs.documents.set('target-url', {
+      documentId: 'target', revisionId: 4,
+      content: '<title id="target">Hugging Face</title>',
+    });
+    const registry = new LocalRegistryStore(cwd);
+    await registry.savePair({
+      pairId: 'pair-initialize', sourceLocale: 'en', targetLocale: 'zh-CN', sourceDocUrl: 'source-url',
+      targetDocUrl: 'target-url', mode: 'mirror', status: 'needs_bootstrap',
+    });
+    const workflows = new LocalizationWorkflows({
+      cwd, registry, snapshots: new LocalSnapshotStore(cwd), memory: new MemoryTranslationMemory(), docs, whiteboards,
+      clock: {now: () => new Date('2026-07-16T00:00:00.000Z')}, ids: {next: () => 'run-initialize'},
+    });
+    const created = await workflows.createPlan('pair-initialize');
+    const completed = await workflows.completePlan(created.runId, created.translationRequests.map((request) => ({
+      operationId: request.operationId,
+      translatedText: request.targetNodeKind === 'title' ? 'Hugging Face' : '中文正文。',
+      targetNodeKind: request.targetNodeKind,
+    })));
+    const preview = await workflows.previewApply(created.runId, completed.reviewPath);
+
+    const result = await workflows.apply(created.runId, completed.reviewPath, preview.approvalToken);
+
+    expect(result).toMatchObject({
+      runId: created.runId,
+      state: 'manual_action_required',
+      manualActionsPath: expect.stringContaining('manual-actions.json'),
+    });
+    expect(await registry.getReceipt('pair-initialize')).toBeUndefined();
+    expect(await registry.getPair('pair-initialize')).toMatchObject({status: 'needs_bootstrap'});
+    expect(await registry.getRun(created.runId)).toMatchObject({state: 'manual_action_required'});
+    expect(docs.documents.get('target-url')?.content).toContain('中文正文。');
+    expect(docs.documents.get('target-url')?.content).toContain('print(&quot;hello&quot;)');
+    expect(docs.documents.get('target-url')?.content).toContain('token="target-board-1"');
+    expect(docs.documents.get('target-url')?.content).toContain('ZDOC-MANUAL-SYNC:');
+    expect(whiteboards.updates).toEqual([expect.objectContaining({
+      token: 'target-board-1', idempotencyToken: expect.stringContaining(created.runId),
+    })]);
+  });
+
   it('applies a live Feishu flat-to-nested list change with atomic list-item groups', async () => {
     const cwd = await mkdtemp(join(tmpdir(), 'zdoc-localize-live-list-'));
     const docs = new LiveListDocs();

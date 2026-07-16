@@ -43,6 +43,12 @@ import {isStrictlyEmptyTarget} from '../domain/initialization.js';
 import {buildInitialPlanInputs} from '../domain/initial-plan.js';
 import {InitializationInspector} from './initialization-inspector.js';
 import {
+  manualSyncMarker,
+  syncedReferencePlaceholder,
+  type ManualSyncedReferenceAction,
+} from './manual-actions.js';
+import {WhiteboardMirror} from './whiteboard-mirror.js';
+import {
   compileReview,
   parseReview,
   type LocalizationPlan,
@@ -91,8 +97,9 @@ export interface CompletedPlanResult {
 
 export interface ApplyResult {
   runId: string;
-  state: 'completed';
-  validationPath: string;
+  state: 'completed' | 'manual_action_required';
+  validationPath?: string;
+  manualActionsPath?: string;
 }
 
 export interface ApplyPreviewResult {
@@ -1110,6 +1117,7 @@ export class LocalizationWorkflows {
     const approvedById = new Map(approved.operations.map((operation) => [operation.operationId, operation]));
     const resolvedTargetBlockIds = new Map<string, string>();
     const applyLog: Array<{operationId: string; kind: PlanOperation['kind']; resolvedBlockId?: string; resolvedBlockIds?: string[]; targetHash: string}> = [];
+    const pendingManualActions: Array<Omit<ManualSyncedReferenceAction, 'placeholderBlockId' | 'predecessorBlockId' | 'successorBlockId'>> = [];
 
     try {
       for (const operation of plan.operations) {
@@ -1127,22 +1135,71 @@ export class LocalizationWorkflows {
           }
           effectiveOperation = {...operation, anchorBlockId: resolvedAnchor};
         }
-        if (effectiveOperation.kind === 'replace') {
-          await this.dependencies.docs.replaceBlock({
+        const policy = effectiveOperation.policy
+          ?? (effectiveOperation.kind === 'delete' ? 'delete' : 'translation');
+        let writeResult: Awaited<ReturnType<DocumentGateway['insertAfter']>> | undefined;
+        if (policy === 'verify_synced_reference') {
+          throw new LocalizeError({
+            type: 'unsupported_content',
+            subtype: 'verify_synced_reference_not_implemented',
+            message: 'Incremental native synced-reference verification is not implemented yet.',
+          });
+        } else if (effectiveOperation.kind === 'replace' && policy === 'translation') {
+          writeResult = await this.dependencies.docs.replaceBlock({
             doc: targetUrl,
             blockId: this.requireBlockId(effectiveOperation.targetBlockId, operation.operationId),
             revisionId: activeRevision,
             xml: xmlForOperation(effectiveOperation, 'approvedText' in reviewOperation ? reviewOperation.approvedText : ''),
           });
         } else if (effectiveOperation.kind === 'insert') {
-          await this.dependencies.docs.insertAfter({
+          let xml: string;
+          if (policy === 'translation') {
+            xml = xmlForOperation(effectiveOperation, 'approvedText' in reviewOperation ? reviewOperation.approvedText : '');
+          } else if (policy === 'verbatim_code') {
+            if (!effectiveOperation.sourceXml) {
+              throw new LocalizeError({
+                type: 'verification_failed',
+                subtype: 'verbatim_code_xml_missing',
+                message: `Verbatim code operation ${operation.operationId} has no protected source XML.`,
+              });
+            }
+            xml = effectiveOperation.sourceXml;
+          } else if (policy === 'whiteboard_mirror') {
+            xml = '<whiteboard type="blank"></whiteboard>';
+          } else if (policy === 'manual_synced_reference') {
+            xml = syncedReferencePlaceholder(effectiveOperation, pair.sourceDocUrl);
+          } else {
+            throw new LocalizeError({
+              type: 'unsupported_content',
+              subtype: 'operation_policy_not_writable',
+              message: `Operation policy ${policy} is not writable.`,
+            });
+          }
+          writeResult = await this.dependencies.docs.insertAfter({
             doc: targetUrl,
             blockId: this.requireBlockId(effectiveOperation.anchorBlockId, operation.operationId),
             revisionId: activeRevision,
-            xml: xmlForOperation(effectiveOperation, 'approvedText' in reviewOperation ? reviewOperation.approvedText : ''),
+            xml,
           });
+          if (policy === 'whiteboard_mirror') {
+            const sourceToken = effectiveOperation.sourceResourceToken;
+            const targetToken = writeResult.newBlocks?.find((block) => block.blockToken)?.blockToken;
+            if (!sourceToken || !targetToken || !this.dependencies.whiteboards) {
+              throw new LocalizeError({
+                type: 'verification_failed',
+                subtype: 'whiteboard_target_missing',
+                message: `Whiteboard operation ${operation.operationId} did not return a target Whiteboard token.`,
+              });
+            }
+            await new WhiteboardMirror(this.dependencies.whiteboards).mirror(
+              sourceToken,
+              targetToken,
+              `${runId}-${operation.operationId}`,
+            );
+            effectiveOperation = {...effectiveOperation, targetResourceToken: targetToken};
+          }
         } else if (effectiveOperation.kind === 'delete') {
-          await this.dependencies.docs.deleteBlocks({
+          writeResult = await this.dependencies.docs.deleteBlocks({
             doc: targetUrl,
             blockIds: effectiveOperation.targetBlockIds?.length
               ? effectiveOperation.targetBlockIds
@@ -1156,7 +1213,16 @@ export class LocalizationWorkflows {
         const refreshed = await this.dependencies.docs.fetch(targetUrl);
         activeRevision = refreshed.revisionId;
         const refreshedTarget = parseFeishuDocument(refreshed.content, {documentId: refreshed.documentId, revisionId: refreshed.revisionId});
-        const progression = verifyOperationProgression(effectiveOperation, reviewOperation, beforeWrite, refreshedTarget);
+        const progression = policy === 'manual_synced_reference'
+          ? verifyManualPlaceholderProgression(effectiveOperation, beforeWrite, refreshedTarget)
+          : verifyOperationProgression(
+              effectiveOperation,
+              policy === 'verbatim_code'
+                ? {operationId: operation.operationId, approvedText: operation.proposedText}
+                : reviewOperation,
+              beforeWrite,
+              refreshedTarget,
+            );
         if (!progression.ok) {
           throw new LocalizeError({
             type: 'verification_failed',
@@ -1166,6 +1232,15 @@ export class LocalizationWorkflows {
           });
         }
         if (progression.resolvedBlockId) resolvedTargetBlockIds.set(operation.operationId, progression.resolvedBlockId);
+        if (policy === 'manual_synced_reference' && progression.resolvedBlockId) {
+          pendingManualActions.push({
+            operationId: operation.operationId,
+            marker: manualSyncMarker(operation.operationId),
+            sourceDocumentId: this.requireBlockId(operation.sourceDocumentId, operation.operationId),
+            sourceBlockId: this.requireBlockId(operation.sourceBlockId, operation.operationId),
+            sourceUrl: `${pair.sourceDocUrl.split('#')[0]}#${operation.sourceBlockId}`,
+          });
+        }
         activeTarget = refreshedTarget;
         applyLog.push({
           operationId: operation.operationId,
@@ -1186,6 +1261,43 @@ export class LocalizationWorkflows {
       const state = appliedOperations > 0 || localizeError.type === 'partial_write' ? 'partial' : 'blocked';
       await this.markRun(run, state, {prewriteRef, appliedOperations, applyError: localizeError.message}, localizeError);
       throw localizeError;
+    }
+
+    if (pendingManualActions.length > 0) {
+      const manualActions: ManualSyncedReferenceAction[] = pendingManualActions.map((action) => {
+        const placeholderBlockId = this.requireBlockId(
+          resolvedTargetBlockIds.get(action.operationId),
+          action.operationId,
+        );
+        const index = activeTarget.nodes.findIndex((node) => node.remote.blockId === placeholderBlockId);
+        const predecessorBlockId = index > 0 ? activeTarget.nodes[index - 1]?.remote.blockId : undefined;
+        const successorBlockId = index >= 0 ? activeTarget.nodes[index + 1]?.remote.blockId : undefined;
+        return {
+          ...action,
+          placeholderBlockId,
+          ...(predecessorBlockId ? {predecessorBlockId} : {}),
+          ...(successorBlockId ? {successorBlockId} : {}),
+        };
+      });
+      const manualActionsText = `${JSON.stringify(manualActions, null, 2)}\n`;
+      const manualActionsPath = await this.writeRunFile(runId, 'manual-actions.json', manualActionsText);
+      const postAutomaticRef = await this.dependencies.snapshots.putBundle({
+        runId,
+        files: {
+          'target-after-automatic-apply.xml': activeTarget.rawXml,
+          'manual-actions.json': manualActionsText,
+        },
+      });
+      await this.markRun(run, 'manual_action_required', {
+        prewriteRef,
+        postAutomaticRef,
+        appliedOperations,
+        lastVerifiedTargetHash: activeTarget.canonicalHash,
+        applyLog,
+        manualActions,
+        manualActionsPath,
+      });
+      return {runId, state: 'manual_action_required', manualActionsPath};
     }
 
     run = await this.markRun(run, 'verifying', {prewriteRef, appliedOperations});
@@ -2199,6 +2311,32 @@ function verifyOperationProgression(
     return {ok: true, resolvedBlockId: insertedId, resolvedBlockIds: insertedIds};
   }
   return {ok: false, reason: 'move operations are not writable'};
+}
+
+function verifyManualPlaceholderProgression(
+  operation: PlanOperation,
+  before: SemanticDocument,
+  after: SemanticDocument,
+): {ok: boolean; reason?: string; resolvedBlockId?: string; resolvedBlockIds?: string[]} {
+  const anchorBlockId = operation.anchorBlockId;
+  if (!anchorBlockId) return {ok: false, reason: 'planned placeholder anchor block ID is missing'};
+  const beforeIds = new Set(before.nodes.flatMap((node) => node.remote.blockId ? [node.remote.blockId] : []));
+  const inserted = after.nodes.filter((node) => node.remote.blockId && !beforeIds.has(node.remote.blockId));
+  if (inserted.length !== 1) return {ok: false, reason: 'placeholder insertion did not create exactly one new block'};
+  const placeholder = inserted[0]!;
+  if (placeholder.kind !== 'callout' || !placeholder.text.includes(manualSyncMarker(operation.operationId))) {
+    return {ok: false, reason: 'inserted block is not the protected manual-sync placeholder'};
+  }
+  const anchorIndex = after.nodes.findIndex((node) => node.remote.blockId === anchorBlockId);
+  const placeholderIndex = after.nodes.findIndex((node) => node.remote.blockId === placeholder.remote.blockId);
+  if (anchorIndex < 0 || placeholderIndex !== anchorIndex + 1) {
+    return {ok: false, reason: 'manual-sync placeholder is not immediately after the planned anchor'};
+  }
+  const placeholderId = placeholder.remote.blockId!;
+  if (nodeSequence(before) !== nodeSequence(after, new Set([placeholderId]))) {
+    return {ok: false, reason: 'an unplanned block changed during placeholder insertion'};
+  }
+  return {ok: true, resolvedBlockId: placeholderId, resolvedBlockIds: remoteBlockIds(placeholder)};
 }
 
 function verifyPlan(
