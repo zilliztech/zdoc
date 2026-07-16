@@ -158,4 +158,31 @@ describe('translation response validation', () => {
       targetNodeKind: 'paragraph',
     }])).toThrowError(expect.objectContaining({subtype: 'delete_decision_required'}));
   });
+
+  it('requires a translated nested list to preserve the source outline', () => {
+    const nestedList: TranslationRequest = {
+      ...request,
+      operationId: 'op-list',
+      changeKind: 'insert',
+      sourceBefore: undefined,
+      sourceAfter: '1. Scan the remote English document.\n2. Review the proposed Chinese changes.\n   - Preserve URLs.\n   - Apply approved writes.',
+      targetCurrent: undefined,
+      glossary: [],
+      preserved: [],
+      linkMappings: [],
+      targetNodeKind: 'list',
+    };
+
+    expect(validateTranslations([nestedList], [{
+      operationId: 'op-list',
+      translatedText: '1. 扫描远端英文文档。\n2. 审核建议的中文变更。\n   - 保留 URL。\n   - 应用获批的写入。',
+      targetNodeKind: 'list',
+    }])).toHaveLength(1);
+
+    expect(() => validateTranslations([nestedList], [{
+      operationId: 'op-list',
+      translatedText: '- 扫描远端英文文档。\n- 审核建议的中文变更。\n- 保留 URL。\n- 应用获批的写入。',
+      targetNodeKind: 'list',
+    }])).toThrowError(expect.objectContaining({subtype: 'list_structure_mismatch'}));
+  });
 });

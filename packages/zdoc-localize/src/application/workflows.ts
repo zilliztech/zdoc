@@ -109,6 +109,7 @@ export interface ApplyPreviewResult {
     operationId: string;
     kind: PlanOperation['kind'];
     targetBlockId?: string;
+    targetBlockIds?: string[];
     anchorBlockId?: string;
     anchorOperationId?: string;
     approvedText?: string;
@@ -127,6 +128,7 @@ export interface ReversePreviewResult {
     operationId: string;
     kind: 'replace' | 'insert' | 'delete';
     blockId?: string;
+    blockIds?: string[];
     anchorBlockId?: string;
     xml?: string;
     expectedText?: string;
@@ -227,6 +229,25 @@ function chainInsertionAnchors(aligned: AlignedChange[]): AlignedChange[] {
       : item;
     if (item.change.after) insertedBySourceNodeId.set(item.change.after.nodeId, item.change.changeId);
     return chained;
+  });
+}
+
+function resolveListReplacementAnchors(aligned: AlignedChange[], target: SemanticDocument): AlignedChange[] {
+  const deletedBySourceNodeId = new Map(aligned.flatMap((item) =>
+    item.change.kind === 'delete' && item.change.before?.kind === 'list' && item.targetNodeId
+      ? [[item.change.before.nodeId, item] as const]
+      : [],
+  ));
+  return aligned.map((item) => {
+    if (item.change.kind !== 'insert' || item.change.after?.kind !== 'list' || item.confidence !== 'low') return item;
+    const deleted = deletedBySourceNodeId.get(item.change.after.nodeId);
+    const deletedTargetIndex = deleted?.targetNodeId
+      ? target.nodes.findIndex((node) => node.nodeId === deleted.targetNodeId)
+      : -1;
+    if (deletedTargetIndex <= 0) return item;
+    const anchor = target.nodes[deletedTargetIndex - 1];
+    if (!anchor?.remote.blockId) return item;
+    return {...item, anchorNodeId: anchor.nodeId, confidence: 'high', score: 100, blocker: undefined};
   });
 }
 
@@ -450,7 +471,10 @@ export class LocalizationWorkflows {
       return {runId, state: 'classification_required', changes, translationRequests: []};
     }
 
-    const aligned = chainInsertionAnchors(alignChanges(changes, target, receipt.correspondences, currentCorrespondences));
+    const aligned = chainInsertionAnchors(resolveListReplacementAnchors(
+      alignChanges(changes, target, receipt.correspondences, currentCorrespondences),
+      target,
+    ));
     const low = aligned.find((item) => item.confidence === 'low');
     if (low) {
       const blocker = low.blocker ?? 'low-confidence alignment';
@@ -609,12 +633,12 @@ export class LocalizationWorkflows {
     const currentCorrespondences = bundle.files['current-correspondences.json']
       ? JSON.parse(bundle.files['current-correspondences.json']) as HistoricalCorrespondence[]
       : [];
-    const aligned = chainInsertionAnchors(alignChanges(
+    const aligned = chainInsertionAnchors(resolveListReplacementAnchors(alignChanges(
       selected,
       target,
       receipt?.correspondences ?? [],
       currentCorrespondences,
-    ));
+    ), target));
     const blocker = aligned.find((item) => item.confidence === 'low')?.blocker;
     if (blocker) {
       await this.markRun(run, 'blocked', {blocker, aligned});
@@ -708,11 +732,12 @@ export class LocalizationWorkflows {
           targetCurrent: targetNode.text,
           targetNodeId: targetNode.nodeId,
           targetBlockId: targetNode.remote.blockId,
+          ...(targetNode.remote.blockIds?.length ? {targetBlockIds: targetNode.remote.blockIds} : {}),
           targetNodeHash: targetNode.fingerprint,
         } : {}),
         ...(anchorNode ? {
           anchorNodeId: anchorNode.nodeId,
-          anchorBlockId: anchorNode.remote.blockId,
+          anchorBlockId: anchorNode.remote.blockIds?.at(-1) ?? anchorNode.remote.blockId,
           anchorNodeHash: anchorNode.fingerprint,
         } : {}),
         ...(item.anchorOperationId ? {anchorOperationId: item.anchorOperationId} : {}),
@@ -812,6 +837,7 @@ export class LocalizationWorkflows {
           operationId: operation.operationId,
           kind: operation.kind,
           ...(operation.targetBlockId ? {targetBlockId: operation.targetBlockId} : {}),
+          ...(operation.targetBlockIds?.length ? {targetBlockIds: operation.targetBlockIds} : {}),
           ...(operation.anchorBlockId ? {anchorBlockId: operation.anchorBlockId} : {}),
           ...(operation.anchorOperationId ? {anchorOperationId: operation.anchorOperationId} : {}),
           ...('approvedText' in reviewOperation
@@ -893,7 +919,13 @@ export class LocalizationWorkflows {
       const expectedHash = operation.kind === 'insert' ? operation.anchorNodeHash : operation.targetNodeHash;
       const expectedBlockId = operation.kind === 'insert' ? operation.anchorBlockId : operation.targetBlockId;
       const node = nodeId ? target.nodes.find((candidate) => candidate.nodeId === nodeId) : undefined;
-      if (!node || node.fingerprint !== expectedHash || node.remote.blockId !== expectedBlockId) {
+      const expectedBlockIds = operation.kind === 'insert' ? undefined : operation.targetBlockIds;
+      if (
+        !node
+        || node.fingerprint !== expectedHash
+        || node.remote.blockId !== expectedBlockId
+        || expectedBlockIds && JSON.stringify(node.remote.blockIds ?? []) !== JSON.stringify(expectedBlockIds)
+      ) {
         await this.markRun(run, 'stale', {staleReason: 'target_block_changed', operationId: operation.operationId});
         throw new LocalizeError({type: 'stale_plan', subtype: 'target_block_changed', message: `Target block for ${operation.operationId} changed after planning.`});
       }
@@ -918,7 +950,7 @@ export class LocalizationWorkflows {
     let appliedOperations = 0;
     const approvedById = new Map(approved.operations.map((operation) => [operation.operationId, operation]));
     const resolvedTargetBlockIds = new Map<string, string>();
-    const applyLog: Array<{operationId: string; kind: PlanOperation['kind']; resolvedBlockId?: string; targetHash: string}> = [];
+    const applyLog: Array<{operationId: string; kind: PlanOperation['kind']; resolvedBlockId?: string; resolvedBlockIds?: string[]; targetHash: string}> = [];
 
     try {
       for (const operation of plan.operations) {
@@ -953,7 +985,9 @@ export class LocalizationWorkflows {
         } else if (effectiveOperation.kind === 'delete') {
           await this.dependencies.docs.deleteBlocks({
             doc: targetUrl,
-            blockIds: [this.requireBlockId(effectiveOperation.targetBlockId, operation.operationId)],
+            blockIds: effectiveOperation.targetBlockIds?.length
+              ? effectiveOperation.targetBlockIds
+              : [this.requireBlockId(effectiveOperation.targetBlockId, operation.operationId)],
             revisionId: activeRevision,
           });
         } else {
@@ -978,6 +1012,7 @@ export class LocalizationWorkflows {
           operationId: operation.operationId,
           kind: operation.kind,
           ...(progression.resolvedBlockId ? {resolvedBlockId: progression.resolvedBlockId} : {}),
+          ...(progression.resolvedBlockIds?.length ? {resolvedBlockIds: progression.resolvedBlockIds} : {}),
           targetHash: activeTarget.canonicalHash,
         });
         run = await this.markRun(run, 'applying', {
@@ -1447,11 +1482,13 @@ export class LocalizationWorkflows {
     const prewrite = parseFeishuDocument(targetPrewriteXml, {documentId: 'target-prewrite', revisionId: 0});
     const plan = await this.planForRun(run);
     const planById = new Map(plan.operations.map((operation) => [operation.operationId, operation]));
-    const applyLog = ((run.metadata?.applyLog as Array<{operationId: string; resolvedBlockId?: string}> | undefined) ?? [])
+    const applyLog = ((run.metadata?.applyLog as Array<{operationId: string; resolvedBlockId?: string; resolvedBlockIds?: string[]}> | undefined) ?? [])
       .slice(0, Number(run.metadata?.appliedOperations ?? 0));
     const appliedDeletedBlockIds = new Set(applyLog.flatMap((entry) => {
       const operation = planById.get(entry.operationId);
-      return operation?.kind === 'delete' && operation.targetBlockId ? [operation.targetBlockId] : [];
+      return operation?.kind === 'delete'
+        ? operation.targetBlockIds?.length ? operation.targetBlockIds : operation.targetBlockId ? [operation.targetBlockId] : []
+        : [];
     }));
     const operations: ReversePreviewResult['operations'] = [];
     for (const entry of [...applyLog].reverse()) {
@@ -1463,9 +1500,11 @@ export class LocalizationWorkflows {
         if (!node) throw new LocalizeError({type: 'verification_failed', subtype: 'recovery_prewrite_block_missing', message: `Pre-write block ${blockId} is missing.`});
         operations.push({operationId: operation.operationId, kind: 'replace', blockId, xml: node.xml, expectedText: node.text, targetNodeKind: node.kind});
       } else if (operation.kind === 'insert') {
-        const blockId = entry.resolvedBlockId;
-        if (!blockId) throw new LocalizeError({type: 'verification_failed', subtype: 'recovery_insert_block_missing', message: `Inserted block for ${operation.operationId} was not recorded.`});
-        operations.push({operationId: operation.operationId, kind: 'delete', blockId});
+        const blockIds = entry.resolvedBlockIds?.length
+          ? entry.resolvedBlockIds
+          : entry.resolvedBlockId ? [entry.resolvedBlockId] : [];
+        if (blockIds.length === 0) throw new LocalizeError({type: 'verification_failed', subtype: 'recovery_insert_block_missing', message: `Inserted block for ${operation.operationId} was not recorded.`});
+        operations.push({operationId: operation.operationId, kind: 'delete', blockId: blockIds[0], blockIds});
       } else if (operation.kind === 'delete') {
         const deletedBlockId = this.requireBlockId(operation.targetBlockId, operation.operationId);
         const index = prewrite.nodes.findIndex((node) => node.remote.blockId === deletedBlockId);
@@ -1509,8 +1548,9 @@ export class LocalizationWorkflows {
           synthetic = {operationId: reverse.operationId, kind: 'replace', confidence: 'high', proposedText: reverse.expectedText!, targetNodeKind: reverse.targetNodeKind!, targetBlockId: reverse.blockId};
           reviewOperation = {operationId: reverse.operationId, approvedText: reverse.expectedText!};
         } else if (reverse.kind === 'delete') {
-          await this.dependencies.docs.deleteBlocks({doc: targetUrl, blockIds: [reverse.blockId!], revisionId: active.revisionId});
-          synthetic = {operationId: reverse.operationId, kind: 'delete', confidence: 'high', proposedText: 'DELETE', targetNodeKind: 'paragraph', targetBlockId: reverse.blockId};
+          const blockIds = reverse.blockIds?.length ? reverse.blockIds : [reverse.blockId!];
+          await this.dependencies.docs.deleteBlocks({doc: targetUrl, blockIds, revisionId: active.revisionId});
+          synthetic = {operationId: reverse.operationId, kind: 'delete', confidence: 'high', proposedText: 'DELETE', targetNodeKind: 'paragraph', targetBlockId: blockIds[0], targetBlockIds: blockIds};
           reviewOperation = {operationId: reverse.operationId, decision: 'delete'};
         } else {
           await this.dependencies.docs.insertAfter({doc: targetUrl, blockId: reverse.anchorBlockId!, revisionId: active.revisionId, xml: reverse.xml!});
@@ -1794,14 +1834,63 @@ function inlineMarkdown(value: string): string {
   return result + escapeXml(value.slice(cursor));
 }
 
+interface MarkdownList {
+  ordered: boolean;
+  items: Array<{text: string; children: MarkdownList[]}>;
+}
+
+function parseMarkdownList(value: string): MarkdownList | undefined {
+  const lines = value.split('\n').filter((line) => line.trim()).map((line) => {
+    const match = /^(\s*)(?:(\d+)\.|[-*])\s+(.+)$/.exec(line);
+    return match ? {indent: match[1]!.length, ordered: Boolean(match[2]), text: match[3]!} : undefined;
+  });
+  if (lines.some((line) => !line) || !lines[0]) return undefined;
+
+  const parseAt = (start: number, indent: number, ordered: boolean): {list: MarkdownList; next: number} => {
+    const list: MarkdownList = {ordered, items: []};
+    let index = start;
+    while (index < lines.length) {
+      const line = lines[index]!;
+      if (line.indent < indent || line.indent === indent && line.ordered !== ordered) break;
+      if (line.indent > indent) break;
+      const item = {text: line.text, children: [] as MarkdownList[]};
+      list.items.push(item);
+      index += 1;
+      while (index < lines.length && lines[index]!.indent > indent) {
+        const child = parseAt(index, lines[index]!.indent, lines[index]!.ordered);
+        item.children.push(child.list);
+        index = child.next;
+      }
+    }
+    return {list, next: index};
+  };
+
+  const parsed = parseAt(0, lines[0].indent, lines[0].ordered);
+  return parsed.next === lines.length ? parsed.list : undefined;
+}
+
+function markdownListXml(list: MarkdownList, attributes = ''): string {
+  const tag = list.ordered ? 'ol' : 'ul';
+  const items = list.items.map((item) =>
+    `<li>${inlineMarkdown(item.text)}${item.children.map((child) => markdownListXml(child)).join('')}</li>`,
+  ).join('');
+  return `<${tag}${attributes}>${items}</${tag}>`;
+}
+
 function xmlForOperation(operation: PlanOperation, approvedText: string): string {
   if (operation.targetNodeKind === 'title') {
     return `<title${rootAttributes(operation)}>${inlineMarkdown(approvedText)}</title>`;
   }
   if (operation.targetNodeKind === 'list') {
-    const items = approvedText.split('\n').map((line) => line.replace(/^\s*[-*]\s+/, '').trim()).filter(Boolean);
-    const tag = operation.targetElementName === 'ol' ? 'ol' : 'ul';
-    return `<${tag}${rootAttributes(operation)}>${items.map((item) => `<li>${inlineMarkdown(item)}</li>`).join('')}</${tag}>`;
+    const list = parseMarkdownList(approvedText);
+    if (!list) {
+      throw new LocalizeError({
+        type: 'validation',
+        subtype: 'list_markdown_invalid',
+        message: `Operation ${operation.operationId} does not contain a valid list outline.`,
+      });
+    }
+    return markdownListXml(list, rootAttributes(operation));
   }
   if (operation.targetNodeKind === 'heading') {
     const tag = operation.targetElementName && /^h[1-9]$/.test(operation.targetElementName)
@@ -1825,8 +1914,14 @@ function plainApproved(value: string, kind: PlanOperation['targetNodeKind']): st
 
 function nodeSequence(document: SemanticDocument, excludedBlockIds: Set<string> = new Set()): string {
   return JSON.stringify(document.nodes
-    .filter((node) => !node.remote.blockId || !excludedBlockIds.has(node.remote.blockId))
+    .filter((node) => remoteBlockIds(node).every((blockId) => !excludedBlockIds.has(blockId)))
     .map((node) => ({blockId: node.remote.blockId ?? null, kind: node.kind, fingerprint: node.fingerprint})));
+}
+
+function remoteBlockIds(node: SemanticNode): string[] {
+  return node.remote.blockIds?.length
+    ? node.remote.blockIds
+    : node.remote.blockId ? [node.remote.blockId] : [];
 }
 
 function verifyOperationProgression(
@@ -1834,7 +1929,7 @@ function verifyOperationProgression(
   approved: ReturnType<typeof parseReview>['operations'][number],
   before: SemanticDocument,
   after: SemanticDocument,
-): {ok: boolean; reason?: string; resolvedBlockId?: string} {
+): {ok: boolean; reason?: string; resolvedBlockId?: string; resolvedBlockIds?: string[]} {
   const expected = 'approvedText' in approved
     ? plainApproved(approved.approvedText, operation.targetNodeKind)
     : '';
@@ -1852,12 +1947,15 @@ function verifyOperationProgression(
     return {ok: true, resolvedBlockId: blockId};
   }
   if (operation.kind === 'delete') {
-    const blockId = operation.targetBlockId;
-    if (!blockId) return {ok: false, reason: 'planned delete block ID is missing'};
-    if (after.nodes.some((node) => node.remote.blockId === blockId)) {
+    const blockIds = operation.targetBlockIds?.length
+      ? operation.targetBlockIds
+      : operation.targetBlockId ? [operation.targetBlockId] : [];
+    if (blockIds.length === 0) return {ok: false, reason: 'planned delete block ID is missing'};
+    const deleted = new Set(blockIds);
+    if (after.nodes.some((node) => remoteBlockIds(node).some((blockId) => deleted.has(blockId)))) {
       return {ok: false, reason: 'planned target block still exists after deletion'};
     }
-    const excluded = new Set([blockId]);
+    const excluded = deleted;
     if (nodeSequence(before, excluded) !== nodeSequence(after)) {
       return {ok: false, reason: 'an unplanned block changed during deletion'};
     }
@@ -1885,7 +1983,8 @@ function verifyOperationProgression(
     if (nodeSequence(before) !== nodeSequence(after, new Set([insertedId]))) {
       return {ok: false, reason: 'an unplanned block changed during insertion'};
     }
-    return {ok: true, resolvedBlockId: insertedId};
+    const insertedIds = remoteBlockIds(insertedNode);
+    return {ok: true, resolvedBlockId: insertedId, resolvedBlockIds: insertedIds};
   }
   return {ok: false, reason: 'move operations are not writable'};
 }
@@ -1899,9 +1998,12 @@ function verifyPlan(
   const approvedById = new Map(approved.map((operation) => [operation.operationId, operation]));
   const operations = plan.operations.map((operation) => {
     if (operation.kind === 'delete') {
+      const deleted = new Set(operation.targetBlockIds?.length
+        ? operation.targetBlockIds
+        : operation.targetBlockId ? [operation.targetBlockId] : []);
       return {
         operationId: operation.operationId,
-        ok: !target.nodes.some((node) => node.remote.blockId === operation.targetBlockId),
+        ok: deleted.size > 0 && !target.nodes.some((node) => remoteBlockIds(node).some((blockId) => deleted.has(blockId))),
       };
     }
     const reviewOperation = approvedById.get(operation.operationId)!;

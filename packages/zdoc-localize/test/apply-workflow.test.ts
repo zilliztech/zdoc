@@ -92,7 +92,7 @@ class WritableDocs {
     return {documentId: 'created-target', revisionId: 1};
   }
 
-  private async write(doc: string, label: string, mutate: (content: string) => string): Promise<WriteResult> {
+  protected async write(doc: string, label: string, mutate: (content: string) => string): Promise<WriteResult> {
     this.writes.push(label);
     if (this.failAtWrite === this.writes.length) {
       throw new LocalizeError({type: 'partial_write', subtype: 'fake_partial', message: 'Fake partial write.'});
@@ -101,6 +101,24 @@ class WritableDocs {
     const revisionId = current.revisionId + 1;
     this.documents.set(doc, {...current, revisionId, content: mutate(current.content)});
     return {revisionId, updatedBlocksCount: 1, warnings: []};
+  }
+}
+
+class LiveListDocs extends WritableDocs {
+  override async insertAfter(input: WriteInput & {blockId: string; xml: string}): Promise<WriteResult> {
+    let item = 0;
+    const liveXml = input.xml.replace(/<li>/g, () => `<li id="live-list-${++item}">`);
+    return this.write(input.doc, `insert:${input.blockId}`, (content) =>
+      content.replace(blockPattern(input.blockId), (match) => `${match}\n${liveXml}`),
+    );
+  }
+
+  override async deleteBlocks(input: WriteInput & {blockIds: string[]}): Promise<WriteResult> {
+    return this.write(input.doc, `delete:${input.blockIds.join(',')}`, (content) =>
+      input.blockIds
+        .reduce((value, blockId) => removeBlock(value, blockId), content)
+        .replace(/<(ol|ul)>\s*<\/\1>/g, ''),
+    );
   }
 }
 
@@ -172,11 +190,14 @@ async function preparedWorkflow(options: {failAtWrite?: number; corruptWrites?: 
   docs.documents.set('source-url', {documentId: 'source', revisionId: 2, content: currentXml});
   const created = await workflows.createPlan('pair-1');
   const responses = created.translationRequests.map((request) => {
+    if (request.changeKind === 'delete') {
+      return {operationId: request.operationId, decision: 'delete' as const};
+    }
     if (request.sourceAfter?.includes('metrics and alerts')) {
       return {operationId: request.operationId, translatedText: '使用 **Zilliz Cloud** 和 `Prometheus` 监控指标和告警。', targetNodeKind: request.targetNodeKind};
     }
     if (request.sourceAfter?.includes('Copy the endpoint')) {
-      return {operationId: request.operationId, translatedText: '- 打开[控制台](https://cn.example.com/console)。\n- 创建集成。\n- 复制端点。', targetNodeKind: request.targetNodeKind};
+      return {operationId: request.operationId, translatedText: '1. 打开[控制台](https://cn.example.com/console)。\n2. 创建集成。\n3. 复制端点。', targetNodeKind: request.targetNodeKind};
     }
     if (request.sourceAfter?.includes('Confirm alerts')) {
       return {operationId: request.operationId, translatedText: '然后在控制面板中确认告警。', targetNodeKind: request.targetNodeKind};
@@ -187,7 +208,106 @@ async function preparedWorkflow(options: {failAtWrite?: number; corruptWrites?: 
   return {cwd, docs, registry, memory, workflows, created, completed};
 }
 
+async function preparedLiveListWorkflow(failAtWrite?: number) {
+  const cwd = await mkdtemp(join(tmpdir(), 'zdoc-localize-live-list-recovery-'));
+  const docs = new LiveListDocs();
+  docs.failAtWrite = failAtWrite;
+  docs.documents.set('source-url', {
+    documentId: 'source', revisionId: 1,
+    content: '<h1 id="en-workflow">Workflow</h1><ol><li id="en-step-1" seq="1">Scan the remote English document.</li><li id="en-step-2">Review the proposed Chinese changes.</li></ol><ul><li id="en-bullet-1">Preserve URLs and inline <code>commands</code>.</li><li id="en-bullet-2">Apply only approved block-level writes.</li></ul>',
+  });
+  docs.documents.set('target-url', {
+    documentId: 'target', revisionId: 3,
+    content: '<h1 id="zh-workflow">工作流程</h1><ol><li id="zh-step-1" seq="1">扫描远端英文文档。</li><li id="zh-step-2">审核建议的中文变更。</li></ol><ul><li id="zh-bullet-1">保留 URL 和内联 <code>commands</code>。</li><li id="zh-bullet-2">仅应用已批准的块级写入。</li></ul>',
+  });
+  const registry = new LocalRegistryStore(cwd);
+  await registry.savePair({
+    pairId: 'pair-list', sourceLocale: 'en', targetLocale: 'zh-CN', sourceDocUrl: 'source-url',
+    targetDocUrl: 'target-url', mode: 'mirror', status: 'needs_bootstrap',
+  });
+  let id = 0;
+  const workflows = new LocalizationWorkflows({
+    cwd, registry, snapshots: new LocalSnapshotStore(cwd), memory: new MemoryTranslationMemory(), docs,
+    clock: {now: () => new Date('2026-07-16T00:00:00.000Z')}, ids: {next: () => `run-list-${++id}`},
+  });
+  const bootstrap = await workflows.planBootstrap('pair-list');
+  await workflows.acceptBootstrap(bootstrap.runId);
+  docs.documents.set('source-url', {
+    documentId: 'source', revisionId: 2,
+    content: '<h1 id="en-workflow">Workflow</h1><ol><li id="en-step-1" seq="1">Scan the remote English document.</li><li id="en-step-2-new">Review the proposed Chinese changes.<ul><li id="en-child-1">Preserve URLs and inline <code>commands</code>.</li><li id="en-child-2">Apply only approved block-level writes.</li></ul></li></ol>',
+  });
+  const created = await workflows.createPlan('pair-list');
+  const completed = await workflows.completePlan(created.runId, created.translationRequests.map((request) => request.changeKind === 'delete'
+    ? {operationId: request.operationId, decision: 'delete'}
+    : {
+        operationId: request.operationId,
+        translatedText: '1. 扫描远端英文文档。\n2. 审核建议的中文变更。\n   - 保留 URL 和内联 `commands`。\n   - 仅应用已批准的块级写入。',
+        targetNodeKind: request.targetNodeKind,
+      }));
+  return {cwd, docs, registry, workflows, created, completed};
+}
+
 describe('plan completion and apply', () => {
+  it('applies a live Feishu flat-to-nested list change with atomic list-item groups', async () => {
+    const cwd = await mkdtemp(join(tmpdir(), 'zdoc-localize-live-list-'));
+    const docs = new LiveListDocs();
+    docs.documents.set('source-url', {
+      documentId: 'source', revisionId: 1,
+      content: '<h1 id="en-workflow">Workflow</h1><ol><li id="en-step-1" seq="1">Scan the remote English document.</li><li id="en-step-2">Review the proposed Chinese changes.</li></ol><ul><li id="en-bullet-1">Preserve URLs and inline <code>commands</code>.</li><li id="en-bullet-2">Apply only approved block-level writes.</li></ul>',
+    });
+    docs.documents.set('target-url', {
+      documentId: 'target', revisionId: 3,
+      content: '<h1 id="zh-workflow">工作流程</h1><ol><li id="zh-step-1" seq="1">扫描远端英文文档。</li><li id="zh-step-2">审核建议的中文变更。</li></ol><ul><li id="zh-bullet-1">保留 URL 和内联 <code>commands</code>。</li><li id="zh-bullet-2">仅应用已批准的块级写入。</li></ul>',
+    });
+    const registry = new LocalRegistryStore(cwd);
+    await registry.savePair({
+      pairId: 'pair-list', sourceLocale: 'en', targetLocale: 'zh-CN', sourceDocUrl: 'source-url',
+      targetDocUrl: 'target-url', mode: 'mirror', status: 'needs_bootstrap',
+    });
+    let id = 0;
+    const workflows = new LocalizationWorkflows({
+      cwd, registry, snapshots: new LocalSnapshotStore(cwd), memory: new MemoryTranslationMemory(), docs,
+      clock: {now: () => new Date('2026-07-16T00:00:00.000Z')}, ids: {next: () => `run-list-${++id}`},
+    });
+    const bootstrap = await workflows.planBootstrap('pair-list');
+    await workflows.acceptBootstrap(bootstrap.runId);
+    docs.documents.set('source-url', {
+      documentId: 'source', revisionId: 2,
+      content: '<h1 id="en-workflow">Workflow</h1><ol><li id="en-step-1" seq="1">Scan the remote English document.</li><li id="en-step-2-new">Review the proposed Chinese changes.<ul><li id="en-child-1">Preserve URLs and inline <code>commands</code>.</li><li id="en-child-2">Apply only approved block-level writes.</li></ul></li></ol>',
+    });
+    const created = await workflows.createPlan('pair-list');
+    const completed = await workflows.completePlan(created.runId, created.translationRequests.map((request) => request.changeKind === 'delete'
+      ? {operationId: request.operationId, decision: 'delete'}
+      : {
+          operationId: request.operationId,
+          translatedText: '1. 扫描远端英文文档。\n2. 审核建议的中文变更。\n   - 保留 URL 和内联 `commands`。\n   - 仅应用已批准的块级写入。',
+          targetNodeKind: request.targetNodeKind,
+        }));
+    const preview = await workflows.previewApply(created.runId, completed.reviewPath);
+
+    await expect(workflows.apply(created.runId, completed.reviewPath, preview.approvalToken)).resolves.toMatchObject({state: 'completed'});
+    expect(docs.writes).toEqual([
+      'delete:zh-step-1,zh-step-2',
+      'insert:zh-workflow',
+      'delete:zh-bullet-1,zh-bullet-2',
+    ]);
+    expect(docs.documents.get('target-url')?.content).toContain('<ol><li id="live-list-1">扫描远端英文文档。</li><li id="live-list-2">审核建议的中文变更。<ul><li id="live-list-3">保留 URL 和内联 <code>commands</code>。</li><li id="live-list-4">仅应用已批准的块级写入。</li></ul></li></ol>');
+  });
+
+  it('previews reversal of every top-level block created by a partial nested-list apply', async () => {
+    const context = await preparedLiveListWorkflow(3);
+    const preview = await context.workflows.previewApply(context.created.runId, context.completed.reviewPath);
+    await expect(context.workflows.apply(context.created.runId, context.completed.reviewPath, preview.approvalToken)).rejects.toMatchObject({
+      type: 'partial_write',
+    });
+
+    const reverse = await context.workflows.previewReverse(context.created.runId);
+
+    expect(reverse.operations).toEqual(expect.arrayContaining([
+      expect.objectContaining({kind: 'delete', blockIds: ['live-list-1', 'live-list-2']}),
+    ]));
+  });
+
   it('creates a missing Chinese document only after full review and preview approval', async () => {
     const cwd = await mkdtemp(join(tmpdir(), 'zdoc-localize-create-'));
     const docs = new WritableDocs();
@@ -263,11 +383,11 @@ describe('plan completion and apply', () => {
     const result = await context.workflows.apply(context.created.runId, context.completed.reviewPath, preview.approvalToken);
 
     expect(result.state).toBe('completed');
-    expect(context.docs.writes).toHaveLength(3);
+    expect(context.docs.writes).toHaveLength(4);
     expect(context.memory.entries).toHaveLength(3);
     expect(await context.registry.getReceipt('pair-1')).toMatchObject({sourceRevision: 2, runId: context.created.runId});
     expect(context.docs.documents.get('target-url')?.content).toContain('确认告警发送情况');
-    expect(context.docs.documents.get('target-url')?.content).toContain('<ol id="zh-list">');
+    expect(context.docs.documents.get('target-url')?.content).toContain('复制端点');
   });
 
   it('requires the exact preview token before any write', async () => {

@@ -118,12 +118,13 @@ describe('semantic diff and alignment', () => {
 
     expect(changes.map((change) => change.kind).sort()).toEqual([
       'delete',
+      'delete',
+      'insert',
       'insert',
       'replace',
-      'replace',
     ]);
-    expect(changes.find((change) => change.kind === 'insert')?.after?.text).toContain('Review alert delivery');
-    expect(changes.find((change) => change.kind === 'delete')?.before?.kind).toBe('image');
+    expect(changes.some((change) => change.kind === 'insert' && change.after?.text.includes('Review alert delivery'))).toBe(true);
+    expect(changes.some((change) => change.kind === 'delete' && change.before?.kind === 'image')).toBe(true);
   });
 
   it('uses historical correspondence for a high-confidence replacement', async () => {
@@ -156,7 +157,7 @@ describe('semantic diff and alignment', () => {
       sourceNodeId: sourceCallout!.nodeId,
       targetNodeId: targetCallout!.nodeId,
     }]);
-    const insertion = aligned.find((item) => item.change.kind === 'insert');
+    const insertion = aligned.find((item) => item.change.kind === 'insert' && item.change.after?.text.includes('Review alert delivery'));
 
     expect(insertion).toMatchObject({
       confidence: 'high',

@@ -40,6 +40,17 @@ function descendantsAreInline(element: XmlElement): boolean {
   );
 }
 
+function listIsWritable(element: XmlElement): boolean {
+  const items = elementChildren(element);
+  return items.length > 0 && items.every((item) => {
+    if (item.name !== 'li') return false;
+    return elementChildren(item).every((child) => {
+      if (safeInlineElements.has(child.name)) return elementChildren(child).length === 0;
+      return (child.name === 'ol' || child.name === 'ul') && listIsWritable(child);
+    });
+  });
+}
+
 function isStructurallyWritable(element: XmlElement, kind: SemanticNodeKind): boolean {
   if (!writableKinds.has(kind)) return false;
   if (kind === 'callout') {
@@ -47,8 +58,7 @@ function isStructurallyWritable(element: XmlElement, kind: SemanticNodeKind): bo
     return children.length === 1 && children[0]!.name === 'p' && descendantsAreInline(children[0]!);
   }
   if (kind === 'list') {
-    const children = elementChildren(element);
-    return children.length > 0 && children.every((child) => child.name === 'li' && descendantsAreInline(child));
+    return listIsWritable(element);
   }
   return descendantsAreInline(element);
 }
@@ -105,6 +115,7 @@ function serialize(element: XmlElement): string {
 }
 
 function textContent(element: XmlElement): string {
+  if (element.name === 'ol' || element.name === 'ul') return listMarkdown(element);
   const pieces: string[] = [];
   for (const child of element.children) {
     if (typeof child === 'string') {
@@ -115,6 +126,29 @@ function textContent(element: XmlElement): string {
     if (child.name === 'li' || child.name === 'p' || child.name === 'br') pieces.push('\n');
   }
   return pieces.join('').replace(/[ \t]+/g, ' ').replace(/ *\n */g, '\n').trim();
+}
+
+function listItemText(item: XmlElement): string {
+  const pieces: string[] = [];
+  for (const child of item.children) {
+    if (typeof child === 'string') pieces.push(child);
+    else if (child.name !== 'ol' && child.name !== 'ul') pieces.push(textContent(child));
+  }
+  return pieces.join('').replace(/\s+/g, ' ').trim();
+}
+
+function listMarkdown(element: XmlElement, depth = 0): string {
+  const ordered = element.name === 'ol';
+  const indent = '   '.repeat(depth);
+  const lines: string[] = [];
+  const items = elementChildren(element).filter((child) => child.name === 'li');
+  items.forEach((item, index) => {
+    lines.push(`${indent}${ordered ? `${index + 1}.` : '-'} ${listItemText(item)}`.trimEnd());
+    for (const nested of elementChildren(item).filter((child) => child.name === 'ol' || child.name === 'ul')) {
+      lines.push(listMarkdown(nested, depth + 1));
+    }
+  });
+  return lines.join('\n');
 }
 
 function kindFor(name: string): SemanticNodeKind {
@@ -180,7 +214,14 @@ export function parseFeishuDocument(
       writable: isStructurallyWritable(element, kind),
       fingerprint,
       remote: {
-        ...(element.attributes.id ? {blockId: element.attributes.id} : {}),
+        ...((element.attributes.id ?? (kind === 'list' ? elementChildren(element).find((child) => child.name === 'li')?.attributes.id : undefined))
+          ? {blockId: element.attributes.id ?? elementChildren(element).find((child) => child.name === 'li')!.attributes.id}
+          : {}),
+        ...(kind === 'list'
+          ? {blockIds: element.attributes.id
+              ? [element.attributes.id]
+              : elementChildren(element).filter((child) => child.name === 'li').flatMap((child) => child.attributes.id ? [child.attributes.id] : [])}
+          : {}),
         ...(element.attributes.token ? {token: element.attributes.token} : {}),
         elementName: element.name,
         attributes: {...element.attributes},

@@ -54,6 +54,17 @@ function validationError(subtype: string, message: string, details?: unknown): L
   return new LocalizeError({type: 'validation', subtype, message, details});
 }
 
+function listOutline(value: string): Array<{indent: number; ordered: boolean}> | undefined {
+  const lines = value.split('\n').filter((line) => line.trim());
+  const outline: Array<{indent: number; ordered: boolean}> = [];
+  for (const line of lines) {
+    const match = /^(\s*)(?:(\d+)\.|[-*])\s+/.exec(line);
+    if (!match) return undefined;
+    outline.push({indent: match[1]!.length, ordered: Boolean(match[2])});
+  }
+  return outline;
+}
+
 export function validateTranslations(
   requests: TranslationRequest[],
   responses: TranslationResponse[],
@@ -98,6 +109,17 @@ export function validateTranslations(
     }
     if (response.targetNodeKind !== request.targetNodeKind) {
       throw validationError('translation_node_kind_mismatch', `Operation ${request.operationId} changed node kind.`);
+    }
+    if (request.targetNodeKind === 'list') {
+      const sourceOutline = listOutline(request.sourceAfter ?? request.sourceBefore ?? '');
+      const translatedOutline = listOutline(text);
+      if (!sourceOutline || !translatedOutline || JSON.stringify(sourceOutline) !== JSON.stringify(translatedOutline)) {
+        throw validationError(
+          'list_structure_mismatch',
+          `Operation ${request.operationId} changed the ordered, unordered, or indentation structure of the list.`,
+          {sourceOutline, translatedOutline},
+        );
+      }
     }
     for (const token of request.preserved) {
       if (token.kind === 'bold_span') {

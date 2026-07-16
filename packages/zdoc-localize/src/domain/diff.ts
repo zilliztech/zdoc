@@ -135,6 +135,7 @@ export function diffDocuments(
     for (let index = 0; index < beforeGap.length; index += 1) {
       const beforeItem = beforeGap[index]!;
       const afterItem = afterGap[index]!;
+      if (beforeItem.node.kind === 'list') continue;
       beforeUsed.add(beforeItem.index);
       afterUsed.add(afterItem.index);
       changes.push({
@@ -148,6 +149,7 @@ export function diffDocuments(
   }
 
   for (const beforeItem of unmatchedBefore()) {
+    if (beforeItem.node.kind === 'list') continue;
     const blockId = beforeItem.node.remote.blockId;
     if (!blockId) continue;
     const candidates = unmatchedAfter().filter(({node}) => node.remote.blockId === blockId);

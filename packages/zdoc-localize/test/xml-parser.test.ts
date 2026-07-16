@@ -68,4 +68,22 @@ describe('Feishu XML semantic parsing', () => {
     );
     expect(nested.nodes[0]).toMatchObject({kind: 'paragraph', writable: false});
   });
+
+  it('preserves a live Feishu nested-list outline and its top-level block IDs', () => {
+    const document = parseFeishuDocument(
+      '<ol><li id="step-1" seq="1">Scan the remote English document.</li><li id="step-2">Review the proposed Chinese changes.<ul><li id="child-1">Preserve URLs and inline <code>commands</code>.</li><li id="child-2">Apply only approved block-level writes.</li></ul></li></ol>',
+      {documentId: 'doc-en', revisionId: 8},
+    );
+
+    expect(document.nodes[0]).toMatchObject({
+      kind: 'list',
+      writable: true,
+      text: '1. Scan the remote English document.\n2. Review the proposed Chinese changes.\n   - Preserve URLs and inline commands.\n   - Apply only approved block-level writes.',
+      remote: {
+        blockId: 'step-1',
+        blockIds: ['step-1', 'step-2'],
+        elementName: 'ol',
+      },
+    });
+  });
 });

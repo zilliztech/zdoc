@@ -22,6 +22,7 @@ export interface PlanOperation {
   targetAttributes?: Record<string, string>;
   targetNodeId?: string;
   targetBlockId?: string;
+  targetBlockIds?: string[];
   targetNodeHash?: string;
   anchorNodeId?: string;
   anchorOperationId?: string;

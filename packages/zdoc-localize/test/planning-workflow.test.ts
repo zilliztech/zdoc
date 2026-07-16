@@ -207,10 +207,11 @@ describe('bootstrap and planning workflows', () => {
     const plan = await workflows.createPlan('pair-1');
 
     expect(plan.state).toBe('translation_required');
-    expect(plan.translationRequests).toHaveLength(3);
+    expect(plan.translationRequests).toHaveLength(4);
     expect(plan.translationRequests.map((request) => request.changeKind).sort()).toEqual([
+      'delete',
       'insert',
-      'replace',
+      'insert',
       'replace',
     ]);
     expect(plan.translationRequests.some((request) => request.memoryExamples.length > 0)).toBe(true);
@@ -220,6 +221,62 @@ describe('bootstrap and planning workflows', () => {
     });
     expect(plan.translationRequestsPath).toContain(`.zdoc-localize/runs/${plan.runId}/translation-requests.json`);
     expect(await registry.getReceipt('pair-1')).toMatchObject({sourceRevision: 1, targetRevision: 10});
+  });
+
+  it('plans a live Feishu flat-to-nested list change with every target list-item block bound', async () => {
+    const cwd = await mkdtemp(join(tmpdir(), 'zdoc-localize-nested-list-plan-'));
+    const docs = new MutableDocs();
+    docs.documents.set('source-url', {
+      documentId: 'source', revisionId: 1,
+      content: '<h1 id="en-workflow">Workflow</h1><ol><li id="en-step-1" seq="1">Scan the remote English document.</li><li id="en-step-2">Review the proposed Chinese changes.</li></ol><ul><li id="en-bullet-1">Preserve URLs and inline <code>commands</code>.</li><li id="en-bullet-2">Apply only approved block-level writes.</li></ul>',
+    });
+    docs.documents.set('target-url', {
+      documentId: 'target', revisionId: 3,
+      content: '<h1 id="zh-workflow">工作流程</h1><ol><li id="zh-step-1" seq="1">扫描远端英文文档。</li><li id="zh-step-2">审核建议的中文变更。</li></ol><ul><li id="zh-bullet-1">保留 URL 和内联 <code>commands</code>。</li><li id="zh-bullet-2">仅应用已批准的块级写入。</li></ul>',
+    });
+    const registry = new LocalRegistryStore(cwd);
+    await registry.savePair({
+      pairId: 'pair-1', sourceLocale: 'en', targetLocale: 'zh-CN', sourceDocUrl: 'source-url',
+      targetDocUrl: 'target-url', mode: 'mirror', status: 'needs_bootstrap',
+    });
+    let id = 0;
+    const workflows = new LocalizationWorkflows({
+      cwd, registry, snapshots: new LocalSnapshotStore(cwd), memory: new MemoryTranslationMemory(), docs,
+      clock: {now: () => new Date('2026-07-16T00:00:00.000Z')}, ids: {next: () => `run-${++id}`},
+    });
+    const bootstrap = await workflows.planBootstrap('pair-1');
+    await workflows.acceptBootstrap(bootstrap.runId);
+    docs.documents.set('source-url', {
+      documentId: 'source', revisionId: 2,
+      content: '<h1 id="en-workflow">Workflow</h1><ol><li id="en-step-1" seq="1">Scan the remote English document.</li><li id="en-step-2-new">Review the proposed Chinese changes.<ul><li id="en-child-1">Preserve URLs and inline <code>commands</code>.</li><li id="en-child-2">Apply only approved block-level writes.</li></ul></li></ol>',
+    });
+
+    const created = await workflows.createPlan('pair-1');
+    expect(created.state).toBe('translation_required');
+    const nested = created.translationRequests.find((request) => request.changeKind === 'insert');
+    expect(nested?.sourceAfter).toBe('1. Scan the remote English document.\n2. Review the proposed Chinese changes.\n   - Preserve URLs and inline commands.\n   - Apply only approved block-level writes.');
+
+    const completed = await workflows.completePlan(created.runId, created.translationRequests.map((request) => request.changeKind === 'delete'
+      ? {operationId: request.operationId, decision: 'delete'}
+      : {
+          operationId: request.operationId,
+          translatedText: '1. 扫描远端英文文档。\n2. 审核建议的中文变更。\n   - 保留 URL 和内联 `commands`。\n   - 仅应用已批准的块级写入。',
+          targetNodeKind: request.targetNodeKind,
+        }));
+    const plan = JSON.parse(await readFile(join(cwd, completed.planPath), 'utf8')) as {operations: Array<{kind: string; targetBlockIds?: string[]}>};
+    const preview = await workflows.previewApply(created.runId, completed.reviewPath);
+
+    expect(plan.operations).toEqual(expect.arrayContaining([
+      expect.objectContaining({kind: 'delete', targetBlockIds: ['zh-bullet-1', 'zh-bullet-2']}),
+      expect.objectContaining({kind: 'delete', targetBlockIds: ['zh-step-1', 'zh-step-2']}),
+      expect.objectContaining({kind: 'insert', anchorBlockId: 'zh-workflow'}),
+    ]));
+    expect(preview.operations).toEqual(expect.arrayContaining([
+      expect.objectContaining({
+        kind: 'insert',
+        compiledXml: '<ol><li>扫描远端英文文档。</li><li>审核建议的中文变更。<ul><li>保留 URL 和内联 <code>commands</code>。</li><li>仅应用已批准的块级写入。</li></ul></li></ol>',
+      }),
+    ]));
   });
 
   it('returns classification_required for a selective document before translation', async () => {

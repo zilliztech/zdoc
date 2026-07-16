@@ -42,6 +42,7 @@ export interface SemanticNode {
   fingerprint: string;
   remote: {
     blockId?: string;
+    blockIds?: string[];
     token?: string;
     elementName: string;
     attributes: Record<string, string>;
