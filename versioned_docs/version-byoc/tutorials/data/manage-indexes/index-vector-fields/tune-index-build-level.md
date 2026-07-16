@@ -33,12 +33,13 @@ Zilliz Cloud introduces a parameter called `build_level`, which allows users to 
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This feature is currently in <strong>PUBLIC REVIEW</strong> and applies to dedicated clusters only if:</p>
-<ul>
-<li><p>The clusters are <strong>Performance-optimized</strong>, <strong>Capacity-optimized</strong>, and <strong>Tiered-storage</strong> type, and</p></li>
-<li><p>The clusters are compatible with <strong>Milvus v2.6.x</strong>.</p></li>
-</ul>
-<p>You can upgrade your clusters to test this feature, and contact us if you encounter anything that needs further clarification.</p>
+This feature is currently in **PUBLIC REVIEW** and applies to dedicated clusters only if:
+
+- The clusters are **Performance-optimized**, **Capacity-optimized**, and **Tiered-storage** type, and
+
+- The clusters are compatible with **Milvus v2.6.x**.
+
+You can upgrade your clusters to test this feature, and contact us if you encounter anything that needs further clarification.
 
 </Admonition>
 
@@ -75,20 +76,20 @@ The following table compares the capacity, QPS, and recall rate of a performance
    </tr>
    <tr>
      <td><p>Capacity-first (0)</p></td>
-     <td><p>2.1 million 768-dim vectors</p></td>
-     <td><p>&#126; 2,850</p></td>
+     <td><p>5 million 768-dim vectors</p></td>
+     <td><p>&#126; 1,800</p></td>
      <td><p>90% - 95%</p></td>
    </tr>
    <tr>
      <td><p>Balanced (1)</p></td>
-     <td><p>1.5 million 768-dim vectors</p></td>
-     <td><p>&#126; 3,500</p></td>
+     <td><p>2 million 768-dim vectors</p></td>
+     <td><p>&#126; 2,800</p></td>
      <td><p>91% - 97%</p></td>
    </tr>
    <tr>
      <td><p>Precison-first (2)</p></td>
-     <td><p>1 million 768-dim vectors</p></td>
-     <td><p>&#126; 3,000</p></td>
+     <td><p>1.5 million 768-dim vectors</p></td>
+     <td><p>&#126; 2,900</p></td>
      <td><p>92% - 98% (↑)</p></td>
    </tr>
 </table>
@@ -106,20 +107,20 @@ The following table compares the capacity, QPS, and recall rate of a capacity-op
    </tr>
    <tr>
      <td><p>Capacity-first (0)</p></td>
-     <td><p>7 million 768-dim vectors</p></td>
-     <td><p>&#126; 300</p></td>
+     <td><p>12 million 768-dim vectors</p></td>
+     <td><p>&#126; 200</p></td>
      <td><p>89% - 97%</p></td>
    </tr>
    <tr>
      <td><p>Balanced (1)</p></td>
-     <td><p>5 million 768-dim vectors</p></td>
-     <td><p>&#126; 350</p></td>
+     <td><p>8 million 768-dim vectors</p></td>
+     <td><p>&#126; 300</p></td>
      <td><p>93% - 98%</p></td>
    </tr>
    <tr>
      <td><p>Precision-first (2)</p></td>
-     <td><p>3 million 768-dim vectors</p></td>
-     <td><p>&#126; 345</p></td>
+     <td><p>5 million 768-dim vectors</p></td>
+     <td><p>&#126; 350</p></td>
      <td><p>94% - 98%</p></td>
    </tr>
 </table>
@@ -138,8 +139,6 @@ Since the majority of the data is stored on S3, memory is no longer the primary 
 
 Before starting the operations, familiarize yourself with the following limits:
 
-- Only Milvus 2.6.x-compatible dedicated clusters of the performance-optimized or capacity-optimized type permit this setting.
-
 - You need to set this parameter on a vector field of the floating vector types, including **FLOAT_VECTOR**, **FLOAT16_VECTOR**, and **BFLOAT16_VECTOR**, when indexing a collection.
 
 - Once set, this parameter cannot be modified. However, you can drop the index and create another with the desired settings if necessary.
@@ -154,9 +153,9 @@ Zilliz Cloud allows you to set `build_level` either programmatically or on the Z
 
 ### Set build_level programmatically\{#set-buildlevel-programmatically}
 
-To set `build_level`, you need to do it when you [index a vector field](./index-vector-fields#index-a-collection) of floating types, such as **FLOAT_VECTOR**, **FLOAT16_VECTOR**, and **BFLOAT16_VECTOR**.
+To set `build_level`, you need to do it when you [index a vector field](./autoindex-explained) of floating types, such as **FLOAT_VECTOR**, **FLOAT16_VECTOR**, and **BFLOAT16_VECTOR**.
 
-The following example assumes that you have finished the steps in [Preparations](./index-vector-fields#preparations). Setting `build_level` to `1` indicates that the **Balanced** option applies.
+The following example assumes that you have already created a collection. Setting `build_level` to `1` indicates that the **Balanced** option applies.
 
 ```python
 # 4. Set up index

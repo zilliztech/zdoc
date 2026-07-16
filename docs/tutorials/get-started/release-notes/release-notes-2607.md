@@ -45,6 +45,12 @@ import Grid from '@site/src/components/Grid';
 
         For details, refer to [Integrate with AWS S3](./integrate-with-aws-s3) and [External Volumes](./external-volume).
 
+        ## BYOC supports API Key for Cluster Access\{#byoc-supports-api-key-for-cluster-access}
+
+        You can access the cluster by cluster endpoint with the API Key now. Customized API Key with cluster-level fine-grained access control is also supported.
+
+        For details, refer to [API Keys](/docs/byoc/manage-api-keys).
+
         ## Collection-level metrics for On-Demand Clusters\{#collection-level-metrics-for-on-demand-clusters}
 
         On-Demand Clusters now expose collection-level performance metrics, including latency and QPS in the web console, so you can isolate workload behavior and troubleshoot individual collections more precisely.
