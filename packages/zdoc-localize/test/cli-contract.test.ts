@@ -38,6 +38,9 @@ describe('CLI contract', () => {
         features: expect.arrayContaining([
           'external-translation-provider',
           'review-markdown-v1',
+          'existing-empty-target-initialization-v1',
+          'manual-synced-reference-v1',
+          'whiteboard-mirror-v1',
         ]),
       },
     });

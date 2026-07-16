@@ -42,6 +42,9 @@ const features = [
   'external-translation-provider',
   'review-markdown-v1',
   'write-preview-v1',
+  'existing-empty-target-initialization-v1',
+  'manual-synced-reference-v1',
+  'whiteboard-mirror-v1',
 ] as const;
 
 class MemoryIo {

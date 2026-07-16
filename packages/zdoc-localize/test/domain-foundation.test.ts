@@ -32,6 +32,17 @@ describe('domain foundations', () => {
     );
   });
 
+  it('allows an applying run to pause for a planned manual action', () => {
+    expect(transitionRun('applying', 'manual_action_required')).toBe('manual_action_required');
+    expect(transitionRun('manual_action_required', 'verifying')).toBe('verifying');
+  });
+
+  it('does not let a manual-action run complete without verification', () => {
+    expect(() => transitionRun('manual_action_required', 'completed')).toThrowError(
+      expect.objectContaining({subtype: 'illegal_state_transition'}),
+    );
+  });
+
   it('allows a failed recovery attempt to remain partial', () => {
     expect(transitionRun('recovering', 'partial')).toBe('partial');
   });

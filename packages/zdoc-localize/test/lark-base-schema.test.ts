@@ -13,6 +13,7 @@ describe('Feishu registry schema', () => {
       type: 'select',
       options: expect.arrayContaining([
         expect.objectContaining({name: 'review_required'}),
+        expect.objectContaining({name: 'manual_action_required'}),
         expect.objectContaining({name: 'partial'}),
       ]),
     });
@@ -31,6 +32,14 @@ describe('Feishu registry schema', () => {
       'Needs Review',
       'Blocked or Partial',
       'Completed',
+    ]);
+    expect(feishuRegistrySchema.views.localizationRuns[0]?.filter.conditions).toEqual([
+      ['state', 'intersects', [
+        'classification_required',
+        'translation_required',
+        'review_required',
+        'manual_action_required',
+      ]],
     ]);
   });
 });

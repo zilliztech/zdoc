@@ -31,6 +31,7 @@ const runStates = [
   'review_required',
   'stale',
   'applying',
+  'manual_action_required',
   'verifying',
   'completed',
   'blocked',
@@ -115,7 +116,7 @@ export const feishuRegistrySchema = {
       {name: 'Deprecated', type: 'grid', filter: {logic: 'and', conditions: [['status', '==', 'deprecated']]}},
     ] satisfies BaseViewSpec[],
     localizationRuns: [
-      {name: 'Needs Review', type: 'grid', filter: {logic: 'and', conditions: [['state', 'intersects', ['classification_required', 'translation_required', 'review_required']]]}},
+      {name: 'Needs Review', type: 'grid', filter: {logic: 'and', conditions: [['state', 'intersects', ['classification_required', 'translation_required', 'review_required', 'manual_action_required']]]}},
       {name: 'Blocked or Partial', type: 'grid', filter: {logic: 'and', conditions: [['state', 'intersects', ['blocked', 'partial', 'stale']]]}},
       {name: 'Completed', type: 'grid', filter: {logic: 'and', conditions: [['state', '==', 'completed']]}},
     ] satisfies BaseViewSpec[],

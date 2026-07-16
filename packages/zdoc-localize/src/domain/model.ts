@@ -5,6 +5,7 @@ export type RunState =
   | 'review_required'
   | 'stale'
   | 'applying'
+  | 'manual_action_required'
   | 'verifying'
   | 'completed'
   | 'blocked'
