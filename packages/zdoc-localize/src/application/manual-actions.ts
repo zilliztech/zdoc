@@ -4,6 +4,7 @@ export interface ManualSyncedReferenceAction {
   operationId: string;
   marker: string;
   placeholderBlockId: string;
+  sourceNodeId: string;
   sourceDocumentId: string;
   sourceBlockId: string;
   sourceUrl: string;

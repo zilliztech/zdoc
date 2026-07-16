@@ -326,6 +326,23 @@ describe('plan completion and apply', () => {
     expect(whiteboards.updates).toEqual([expect.objectContaining({
       token: 'target-board-1', idempotencyToken: expect.stringContaining(created.runId),
     })]);
+
+    const manualRun = await registry.getRun(created.runId);
+    const action = (manualRun?.metadata?.manualActions as Array<{placeholderBlockId: string; sourceDocumentId: string; sourceBlockId: string}>)[0]!;
+    const target = docs.documents.get('target-url')!;
+    docs.documents.set('target-url', {
+      ...target,
+      revisionId: target.revisionId + 1,
+      content: target.content.replace(
+        blockPattern(action.placeholderBlockId),
+        `<synced_reference id="manual-reference" src-token="${action.sourceDocumentId}" src-block-id="${action.sourceBlockId}"></synced_reference>`,
+      ),
+    });
+
+    await expect(workflows.verifyManualActions(created.runId)).resolves.toMatchObject({state: 'completed'});
+    await expect(workflows.verifyManualActions(created.runId)).resolves.toMatchObject({state: 'completed'});
+    expect(await registry.getReceipt('pair-initialize')).toMatchObject({sourceRevision: 31});
+    expect(await registry.getPair('pair-initialize')).toMatchObject({status: 'active'});
   });
 
   it('applies a live Feishu flat-to-nested list change with atomic list-item groups', async () => {

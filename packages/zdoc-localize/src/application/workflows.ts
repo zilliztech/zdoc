@@ -49,6 +49,11 @@ import {
 } from './manual-actions.js';
 import {WhiteboardMirror} from './whiteboard-mirror.js';
 import {
+  normalizeCorrespondences,
+  verifyManualSyncedReferences,
+  type StoredCorrespondence,
+} from '../domain/native-sync.js';
+import {
   compileReview,
   parseReview,
   type LocalizationPlan,
@@ -141,6 +146,20 @@ export interface ReversePreviewResult {
     expectedText?: string;
     targetNodeKind?: PlanOperation['targetNodeKind'];
   }>;
+}
+
+interface ApplyResourceEvidence {
+  sourceResourceHash?: string;
+  targetResourceToken?: string;
+}
+
+interface ApplyLogEntry extends ApplyResourceEvidence {
+  operationId: string;
+  kind: PlanOperation['kind'];
+  policy?: PlanOperation['policy'];
+  resolvedBlockId?: string;
+  resolvedBlockIds?: string[];
+  targetHash: string;
 }
 
 function blockLabel(node: SemanticNode): string {
@@ -1116,7 +1135,7 @@ export class LocalizationWorkflows {
     let appliedOperations = 0;
     const approvedById = new Map(approved.operations.map((operation) => [operation.operationId, operation]));
     const resolvedTargetBlockIds = new Map<string, string>();
-    const applyLog: Array<{operationId: string; kind: PlanOperation['kind']; resolvedBlockId?: string; resolvedBlockIds?: string[]; targetHash: string}> = [];
+    const applyLog: ApplyLogEntry[] = [];
     const pendingManualActions: Array<Omit<ManualSyncedReferenceAction, 'placeholderBlockId' | 'predecessorBlockId' | 'successorBlockId'>> = [];
 
     try {
@@ -1138,6 +1157,8 @@ export class LocalizationWorkflows {
         const policy = effectiveOperation.policy
           ?? (effectiveOperation.kind === 'delete' ? 'delete' : 'translation');
         let writeResult: Awaited<ReturnType<DocumentGateway['insertAfter']>> | undefined;
+        let sourceResourceHash: string | undefined;
+        let targetResourceToken: string | undefined;
         if (policy === 'verify_synced_reference') {
           throw new LocalizeError({
             type: 'unsupported_content',
@@ -1191,11 +1212,13 @@ export class LocalizationWorkflows {
                 message: `Whiteboard operation ${operation.operationId} did not return a target Whiteboard token.`,
               });
             }
-            await new WhiteboardMirror(this.dependencies.whiteboards).mirror(
+            const mirrored = await new WhiteboardMirror(this.dependencies.whiteboards).mirror(
               sourceToken,
               targetToken,
               `${runId}-${operation.operationId}`,
             );
+            sourceResourceHash = mirrored.source.hash;
+            targetResourceToken = targetToken;
             effectiveOperation = {...effectiveOperation, targetResourceToken: targetToken};
           }
         } else if (effectiveOperation.kind === 'delete') {
@@ -1238,6 +1261,7 @@ export class LocalizationWorkflows {
             marker: manualSyncMarker(operation.operationId),
             sourceDocumentId: this.requireBlockId(operation.sourceDocumentId, operation.operationId),
             sourceBlockId: this.requireBlockId(operation.sourceBlockId, operation.operationId),
+            sourceNodeId: this.requireBlockId(operation.sourceNodeId, operation.operationId),
             sourceUrl: `${pair.sourceDocUrl.split('#')[0]}#${operation.sourceBlockId}`,
           });
         }
@@ -1245,9 +1269,12 @@ export class LocalizationWorkflows {
         applyLog.push({
           operationId: operation.operationId,
           kind: operation.kind,
+          ...(operation.policy ? {policy: operation.policy} : {}),
           ...(progression.resolvedBlockId ? {resolvedBlockId: progression.resolvedBlockId} : {}),
           ...(progression.resolvedBlockIds?.length ? {resolvedBlockIds: progression.resolvedBlockIds} : {}),
           targetHash: activeTarget.canonicalHash,
+          ...(sourceResourceHash ? {sourceResourceHash} : {}),
+          ...(targetResourceToken ? {targetResourceToken} : {}),
         });
         run = await this.markRun(run, 'applying', {
           prewriteRef,
@@ -1376,6 +1403,210 @@ export class LocalizationWorkflows {
     await this.markRun(run, 'completed', {
       prewriteRef,
       appliedOperations,
+      validationPath,
+      ...(translationMemoryWarning ? {translationMemoryWarning} : {}),
+    });
+    return {runId, state: 'completed', validationPath};
+  }
+
+  async verifyManualActions(runId: string): Promise<ApplyResult> {
+    let run = await this.requireRun(runId);
+    if (run.state === 'completed') {
+      return {
+        runId,
+        state: 'completed',
+        ...(typeof run.metadata?.validationPath === 'string'
+          ? {validationPath: run.metadata.validationPath}
+          : {}),
+      };
+    }
+    if (run.state !== 'manual_action_required') {
+      throw new LocalizeError({
+        type: 'validation',
+        subtype: 'run_not_waiting_for_manual_actions',
+        message: `Run ${runId} is not waiting for manual localization actions.`,
+      });
+    }
+
+    const pair = await this.requirePair(run.pairId);
+    const targetUrl = this.requireTarget(pair);
+    const plan = await this.planForRun(run);
+    const planBundle = await this.dependencies.snapshots.getBundle(run.metadata!.bundleRef as SnapshotReference);
+    const plannedSourceXml = planBundle.files['source-current.xml'];
+    if (!plannedSourceXml) {
+      throw new LocalizeError({
+        type: 'verification_failed',
+        subtype: 'manual_source_snapshot_missing',
+        message: 'The manual-action run has no planned English source snapshot.',
+      });
+    }
+    const postAutomaticRef = run.metadata?.postAutomaticRef as SnapshotReference | undefined;
+    if (!postAutomaticRef) {
+      throw new LocalizeError({
+        type: 'verification_failed',
+        subtype: 'manual_target_snapshot_missing',
+        message: 'The manual-action run has no post-automatic target snapshot.',
+      });
+    }
+    const postAutomaticBundle = await this.dependencies.snapshots.getBundle(postAutomaticRef);
+    const plannedTargetXml = postAutomaticBundle.files['target-after-automatic-apply.xml'];
+    if (!plannedTargetXml) {
+      throw new LocalizeError({
+        type: 'verification_failed',
+        subtype: 'manual_target_snapshot_missing',
+        message: 'The manual-action run has no post-automatic target XML.',
+      });
+    }
+    const actions = (run.metadata?.manualActions as ManualSyncedReferenceAction[] | undefined) ?? [];
+    if (actions.length === 0) {
+      throw new LocalizeError({
+        type: 'verification_failed',
+        subtype: 'manual_actions_missing',
+        message: 'The manual-action run contains no immutable manual action records.',
+      });
+    }
+    const prewriteRef = run.metadata?.prewriteRef as SnapshotReference | undefined;
+    const prewriteBundle = prewriteRef ? await this.dependencies.snapshots.getBundle(prewriteRef) : undefined;
+    const approvedJson = prewriteBundle?.files['approved-review.json'];
+    if (!approvedJson) {
+      throw new LocalizeError({
+        type: 'verification_failed',
+        subtype: 'manual_approved_review_missing',
+        message: 'The manual-action run has no immutable approved review snapshot.',
+      });
+    }
+    const approved = JSON.parse(approvedJson) as ReturnType<typeof parseReview>;
+    const [sourceFetch, targetFetch] = await Promise.all([
+      this.dependencies.docs.fetch(pair.sourceDocUrl),
+      this.dependencies.docs.fetch(targetUrl),
+    ]);
+    const plannedSource = parseFeishuDocument(plannedSourceXml, {
+      documentId: sourceFetch.documentId,
+      revisionId: plan.sourceRevision,
+    });
+    const source = parseFeishuDocument(sourceFetch.content, {
+      documentId: sourceFetch.documentId,
+      revisionId: sourceFetch.revisionId,
+    });
+    if (!manualSourceChangeIsSafe(plannedSource, source, actions)) {
+      throw new LocalizeError({
+        type: 'stale_plan',
+        subtype: 'manual_source_changed',
+        message: 'The English source changed outside the planned native synced blocks while manual action was pending.',
+        hint: 'Restore or re-plan before verifying the manual synced references.',
+      });
+    }
+    const plannedTarget = parseFeishuDocument(plannedTargetXml, {
+      documentId: targetFetch.documentId,
+      revisionId: Number(run.metadata?.targetPlanRevision ?? plan.targetRevision),
+    });
+    const target = parseFeishuDocument(targetFetch.content, {
+      documentId: targetFetch.documentId,
+      revisionId: targetFetch.revisionId,
+    });
+    const manualVerification = verifyManualSyncedReferences(actions, plannedTarget, target);
+    const applyLog = (run.metadata?.applyLog as ApplyLogEntry[] | undefined) ?? [];
+    const resolvedTargetBlockIds = new Map<string, string>();
+    const resourceEvidence = new Map<string, ApplyResourceEvidence>();
+    for (const entry of applyLog) {
+      if (entry.resolvedBlockId) resolvedTargetBlockIds.set(entry.operationId, entry.resolvedBlockId);
+      if (entry.sourceResourceHash || entry.targetResourceToken) {
+        resourceEvidence.set(entry.operationId, {
+          ...(entry.sourceResourceHash ? {sourceResourceHash: entry.sourceResourceHash} : {}),
+          ...(entry.targetResourceToken ? {targetResourceToken: entry.targetResourceToken} : {}),
+        });
+      }
+    }
+    for (const [operationId, blockId] of manualVerification.resolvedBlockIds) {
+      resolvedTargetBlockIds.set(operationId, blockId);
+    }
+    const verification = verifyPlan(
+      plan,
+      approved.operations,
+      target,
+      resolvedTargetBlockIds,
+      resourceEvidence,
+    );
+    if (!verification.ok) {
+      throw new LocalizeError({
+        type: 'verification_failed',
+        subtype: 'target_readback_mismatch',
+        message: 'The Chinese document does not match the approved automatic and manual localization plan.',
+        details: verification,
+      });
+    }
+
+    const sourceSnapshotRef = await this.dependencies.snapshots.putBundle({
+      runId,
+      files: {
+        ...documentArtifacts('source', sourceFetch.content, source),
+        ...documentArtifacts('target', targetFetch.content, target),
+      },
+    });
+    const previousReceipt = await this.dependencies.registry.getReceipt(run.pairId);
+    const currentCorrespondences = planBundle.files['current-correspondences.json']
+      ? JSON.parse(planBundle.files['current-correspondences.json']) as StoredCorrespondence[]
+      : previousReceipt?.correspondences ?? [];
+    const correspondences = updateCorrespondences(
+      currentCorrespondences,
+      plan,
+      target,
+      approved.operations,
+      resolvedTargetBlockIds,
+      resourceEvidence,
+    );
+    const completedAt = this.dependencies.clock.now().toISOString();
+    const pendingReceipt: LocalizationReceipt = {
+      pairId: run.pairId,
+      sourceRevision: source.revisionId,
+      sourceHash: source.canonicalHash,
+      sourceSnapshotRef,
+      targetRevision: target.revisionId,
+      targetHash: target.canonicalHash,
+      runId,
+      completedAt,
+      correspondences,
+    };
+    const pendingPair: DocumentPair = {...pair, status: 'active'};
+    run = await this.markRun(run, 'verifying', {
+      pendingReceipt,
+      pendingPair,
+      verification,
+      manualVerification: {correspondences: manualVerification.correspondences},
+    });
+    await this.dependencies.registry.savePair(pendingPair);
+    await this.dependencies.registry.saveReceipt(pendingReceipt);
+
+    let translationMemoryWarning: string | undefined;
+    const approvedById = new Map(approved.operations.map((operation) => [operation.operationId, operation]));
+    try {
+      for (const operation of plan.operations) {
+        const policy = operation.policy ?? (operation.kind === 'delete' ? 'delete' : 'translation');
+        if (policy !== 'translation' || !operation.sourceAfter) continue;
+        const reviewOperation = approvedById.get(operation.operationId);
+        if (!reviewOperation || !('approvedText' in reviewOperation)) continue;
+        await this.dependencies.memory.recordApproved({
+          sourceHash: operation.sourceNodeHash ?? canonicalHash(operation.sourceAfter),
+          targetLocale: 'zh-CN',
+          glossaryHash: String(run.metadata?.glossaryHash ?? ''),
+          headingPath: operation.sourceHeadingPath ?? [],
+          sourceText: operation.sourceAfter,
+          targetText: reviewOperation.approvedText,
+          pairId: run.pairId,
+          runId,
+          verifiedRunId: runId,
+          approvedAt: completedAt,
+        });
+      }
+    } catch (error) {
+      translationMemoryWarning = `Verified localization completed, but rebuildable translation memory was not updated: ${String(error)}`;
+    }
+    const validationPath = await this.writeRunFile(
+      runId,
+      'validation-report.json',
+      `${JSON.stringify({ok: true, operations: verification.operations}, null, 2)}\n`,
+    );
+    await this.markRun(run, 'completed', {
       validationPath,
       ...(translationMemoryWarning ? {translationMemoryWarning} : {}),
     });
@@ -2344,6 +2575,7 @@ function verifyPlan(
   approved: ReturnType<typeof parseReview>['operations'],
   target: SemanticDocument,
   resolvedTargetBlockIds: Map<string, string>,
+  resourceEvidence: Map<string, ApplyResourceEvidence> = new Map(),
 ): {ok: boolean; operations: Array<{operationId: string; ok: boolean}>} {
   const approvedById = new Map(approved.map((operation) => [operation.operationId, operation]));
   const operations = plan.operations.map((operation) => {
@@ -2356,15 +2588,37 @@ function verifyPlan(
         ok: deleted.size > 0 && !target.nodes.some((node) => remoteBlockIds(node).some((blockId) => deleted.has(blockId))),
       };
     }
+    const policy = operation.policy ?? 'translation';
     const reviewOperation = approvedById.get(operation.operationId)!;
-    const expected = 'approvedText' in reviewOperation
-      ? plainApproved(reviewOperation.approvedText, operation.targetNodeKind)
-      : '';
     const blockId = resolvedTargetBlockIds.get(operation.operationId)
       ?? operation.targetBlockId;
     const node = blockId
       ? target.nodes.find((candidate) => candidate.remote.blockId === blockId)
       : undefined;
+    if (policy === 'whiteboard_mirror') {
+      const expectedToken = resourceEvidence.get(operation.operationId)?.targetResourceToken
+        ?? operation.targetResourceToken;
+      return {
+        operationId: operation.operationId,
+        ok: Boolean(node && node.kind === 'whiteboard' && expectedToken && node.remote.token === expectedToken),
+      };
+    }
+    if (policy === 'manual_synced_reference' || policy === 'verify_synced_reference') {
+      return {
+        operationId: operation.operationId,
+        ok: Boolean(
+          node
+          && node.kind === 'synced_reference'
+          && node.remote.sourceDocumentId === operation.sourceDocumentId
+          && node.remote.sourceBlockId === operation.sourceBlockId,
+        ),
+      };
+    }
+    const expected = policy === 'verbatim_code'
+      ? plainApproved(operation.proposedText, operation.targetNodeKind)
+      : reviewOperation && 'approvedText' in reviewOperation
+        ? plainApproved(reviewOperation.approvedText, operation.targetNodeKind)
+        : '';
     return {
       operationId: operation.operationId,
       ok: Boolean(node && node.kind === operation.targetNodeKind && plainApproved(node.text, node.kind) === expected),
@@ -2374,28 +2628,72 @@ function verifyPlan(
 }
 
 function updateCorrespondences(
-  previous: HistoricalCorrespondence[],
+  previous: StoredCorrespondence[],
   plan: LocalizationPlan,
   target: SemanticDocument,
   approved: ReturnType<typeof parseReview>['operations'],
   resolvedTargetBlockIds: Map<string, string>,
-): HistoricalCorrespondence[] {
+  resourceEvidence: Map<string, ApplyResourceEvidence> = new Map(),
+): StoredCorrespondence[] {
   const removed = new Set(plan.operations.filter((operation) => operation.kind === 'delete').map((operation) => operation.sourceNodeId));
-  const next = previous.filter((item) => !removed.has(item.sourceNodeId));
+  const next = normalizeCorrespondences(previous).filter((item) => !removed.has(item.sourceNodeId));
   const approvedById = new Map(approved.map((operation) => [operation.operationId, operation]));
   for (const operation of plan.operations) {
     if (operation.kind === 'delete' || !operation.sourceNodeId) continue;
-    const reviewOperation = approvedById.get(operation.operationId)!;
-    if (!('approvedText' in reviewOperation)) continue;
+    const policy = operation.policy ?? 'translation';
+    const reviewOperation = approvedById.get(operation.operationId);
+    if (policy === 'translation' && (!reviewOperation || !('approvedText' in reviewOperation))) continue;
     const blockId = resolvedTargetBlockIds.get(operation.operationId) ?? operation.targetBlockId;
     const targetNode = blockId
       ? target.nodes.find((node) => node.remote.blockId === blockId)
       : undefined;
     if (!targetNode) continue;
     const existingIndex = next.findIndex((item) => item.sourceNodeId === operation.sourceNodeId);
-    const item = {sourceNodeId: operation.sourceNodeId, targetNodeId: targetNode.nodeId};
+    const item: StoredCorrespondence = policy === 'manual_synced_reference' || policy === 'verify_synced_reference'
+      ? {
+          kind: 'native_sync',
+          sourceNodeId: operation.sourceNodeId,
+          targetNodeId: targetNode.nodeId,
+          sourceDocumentId: operation.sourceDocumentId ?? targetNode.remote.sourceDocumentId ?? '',
+          sourceBlockId: operation.sourceBlockId ?? targetNode.remote.sourceBlockId ?? '',
+        }
+      : policy === 'whiteboard_mirror'
+        ? {
+            kind: 'copied_resource',
+            sourceNodeId: operation.sourceNodeId,
+            targetNodeId: targetNode.nodeId,
+            resourceKind: 'whiteboard',
+            sourceResourceHash: resourceEvidence.get(operation.operationId)?.sourceResourceHash ?? '',
+          }
+        : {kind: 'content', sourceNodeId: operation.sourceNodeId, targetNodeId: targetNode.nodeId};
     if (existingIndex >= 0) next[existingIndex] = item;
     else next.push(item);
   }
   return next;
+}
+
+function manualSourceChangeIsSafe(
+  planned: SemanticDocument,
+  current: SemanticDocument,
+  actions: ManualSyncedReferenceAction[],
+): boolean {
+  if (planned.canonicalHash === current.canonicalHash) return true;
+  const stableSequence = (document: SemanticDocument): string => JSON.stringify(document.nodes
+    .filter((node) => node.kind !== 'synced_source')
+    .map((node) => ({
+      kind: node.kind,
+      blockId: node.remote.blockId ?? null,
+      fingerprint: node.fingerprint,
+    })));
+  if (stableSequence(planned) !== stableSequence(current)) return false;
+  const syncIdentities = (document: SemanticDocument): string[] => document.nodes
+    .filter((node) => node.kind === 'synced_source')
+    .map((node) => `${node.remote.sourceDocumentId ?? document.documentId}\u0000${node.remote.sourceBlockId ?? node.remote.blockId ?? ''}`)
+    .sort();
+  if (JSON.stringify(syncIdentities(planned)) !== JSON.stringify(syncIdentities(current))) return false;
+  return actions.every((action) => current.nodes.some((node) =>
+    node.kind === 'synced_source'
+    && (node.remote.sourceDocumentId ?? current.documentId) === action.sourceDocumentId
+    && (node.remote.sourceBlockId ?? node.remote.blockId) === action.sourceBlockId,
+  ));
 }

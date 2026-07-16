@@ -34,6 +34,7 @@ const commands = [
   'bootstrap',
   'plan',
   'apply',
+  'manual',
   'status',
   'recover',
 ] as const;
@@ -261,6 +262,14 @@ function createProgram(
       const result = options.preview
         ? await withRuntime(cwd, runtimeFactory, (runtime) => runtime.workflows.previewApply(options.run, options.review))
         : await withRuntime(cwd, runtimeFactory, (runtime) => runtime.workflows.apply(options.run, options.review, options.approvalToken));
+      emit(io, result, options.format);
+    });
+
+  const manual = program.command('manual').description('Verify planned human localization actions');
+  formatOption(manual.command('verify'))
+    .requiredOption('--run <id>')
+    .action(async (options: {run: string; format: string}) => {
+      const result = await withRuntime(cwd, runtimeFactory, (runtime) => runtime.workflows.verifyManualActions(options.run));
       emit(io, result, options.format);
     });
 

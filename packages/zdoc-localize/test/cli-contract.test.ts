@@ -127,6 +127,7 @@ describe('CLI contract', () => {
     const planHelp = await runCli(['plan', '--help']);
     const applyHelp = await runCli(['apply', '--help']);
     const recoverHelp = await runCli(['recover', '--help']);
+    const manualHelp = await runCli(['manual', '--help']);
 
     expect(planHelp.stdout).toContain('complete');
     expect(planHelp.stdout).toContain('classify');
@@ -135,6 +136,7 @@ describe('CLI contract', () => {
     expect(applyHelp.stdout).toContain('--preview');
     expect(applyHelp.stdout).toContain('--approval-token');
     expect(recoverHelp.stdout).toContain('inspect');
+    expect(manualHelp.stdout).toContain('verify');
   });
 
   it('initializes explicit local workspace configuration', async () => {
