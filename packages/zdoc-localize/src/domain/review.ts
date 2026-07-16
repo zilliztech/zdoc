@@ -8,6 +8,8 @@ import type {
 
 export interface PlanOperation {
   operationId: string;
+  policy?: OperationPolicy;
+  effect?: OperationEffect;
   kind: ChangeKind;
   confidence: AlignmentConfidence;
   sourceBefore?: string;
@@ -29,10 +31,24 @@ export interface PlanOperation {
   anchorBlockId?: string;
   anchorNodeHash?: string;
   preserved?: Array<{kind: string; value: string; count: number}>;
+  sourceDocumentId?: string;
+  sourceBlockId?: string;
+  sourceResourceToken?: string;
+  targetResourceToken?: string;
 }
 
+export type OperationPolicy =
+  | 'translation'
+  | 'verbatim_code'
+  | 'whiteboard_mirror'
+  | 'manual_synced_reference'
+  | 'verify_synced_reference'
+  | 'delete';
+
+export type OperationEffect = 'write' | 'mirror' | 'manual' | 'verify_only' | 'delete';
+
 export interface LocalizationPlan {
-  planVersion: 1;
+  planVersion: 1 | 2;
   runId: string;
   pairId: string;
   sourceRevision: number;
@@ -44,7 +60,7 @@ export interface LocalizationPlan {
 
 export type ApprovedReviewOperation =
   | {operationId: string; approvedText: string}
-  | {operationId: string; decision: 'delete'};
+  | {operationId: string; decision: 'delete' | 'protected'};
 
 export interface ApprovedReview {
   planHash: string;
@@ -57,11 +73,35 @@ function field(value: string | undefined): string {
 
 export function compileReview(plan: LocalizationPlan): string {
   const planHash = canonicalHash(plan);
-  const sections = plan.operations.map((operation, index) => `## Change ${index + 1} · ${operation.kind}
+  const sections = plan.operations.map((operation, index) => {
+    const header = `## Change ${index + 1} · ${operation.kind}
 
 Operation: ${operation.operationId}
 
-Confidence: ${operation.confidence}
+Confidence: ${operation.confidence}`;
+    const policy = operation.policy ?? (operation.kind === 'delete' ? 'delete' : 'translation');
+    if (policy !== 'translation' && policy !== 'delete') {
+      return `${header}
+
+Policy: ${policy}
+
+Effect: ${operation.effect ?? '(none)'}
+
+Source document: ${field(operation.sourceDocumentId)}
+
+Source block: ${field(operation.sourceBlockId)}
+
+Source resource: ${field(operation.sourceResourceToken)}
+
+Target block: ${field(operation.targetBlockId)}
+
+Target resource: ${field(operation.targetResourceToken)}
+
+### Protected action
+
+This operation is planned and reviewable, but it has no editable translation text.`;
+    }
+    return `${header}
 
 ### English before
 
@@ -79,7 +119,8 @@ ${field(operation.targetCurrent)}
 
 <!-- BEGIN EDITABLE TRANSLATION op:${operation.operationId} -->
 ${operation.proposedText}
-<!-- END EDITABLE TRANSLATION op:${operation.operationId} -->`);
+<!-- END EDITABLE TRANSLATION op:${operation.operationId} -->`;
+  });
 
   return `# ZDoc Localization Review
 
@@ -119,7 +160,11 @@ export function parseReview(review: string, plan: LocalizationPlan): ApprovedRev
   }
 
   const matches = [...review.matchAll(editablePattern)];
-  const expectedIds = plan.operations.map((operation) => operation.operationId);
+  const editableOperations = plan.operations.filter((operation) => {
+    const policy = operation.policy ?? (operation.kind === 'delete' ? 'delete' : 'translation');
+    return policy === 'translation' || policy === 'delete';
+  });
+  const expectedIds = editableOperations.map((operation) => operation.operationId);
   const actualIds = matches.map((match) => match[1]);
   if (actualIds.length !== expectedIds.length || actualIds.some((id, index) => id !== expectedIds[index])) {
     throw reviewError(
@@ -129,8 +174,13 @@ export function parseReview(review: string, plan: LocalizationPlan): ApprovedRev
     );
   }
 
-  const operations = plan.operations.map((operation, index): ApprovedReviewOperation => {
-    const text = matches[index]![2]!.trim();
+  const editableById = new Map(matches.map((match) => [match[1]!, match[2]!.trim()]));
+  const operations = plan.operations.map((operation): ApprovedReviewOperation => {
+    const policy = operation.policy ?? (operation.kind === 'delete' ? 'delete' : 'translation');
+    if (policy !== 'translation' && policy !== 'delete') {
+      return {operationId: operation.operationId, decision: 'protected'};
+    }
+    const text = editableById.get(operation.operationId) ?? '';
     if (operation.kind === 'delete') {
       if (text !== 'DELETE') {
         throw reviewError(

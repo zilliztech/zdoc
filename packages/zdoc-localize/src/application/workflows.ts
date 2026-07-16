@@ -109,7 +109,7 @@ export interface ApplyPreviewResult {
     anchorBlockId?: string;
     anchorOperationId?: string;
     approvedText?: string;
-    decision?: 'delete';
+    decision?: 'delete' | 'protected';
     compiledXml?: string;
   }>;
 }
@@ -839,11 +839,13 @@ export class LocalizationWorkflows {
     }
     const requests = JSON.parse(requestJson) as TranslationRequest[];
     const requestById = new Map(requests.map((request) => [request.operationId, request]));
-    validateTranslations(requests, approved.operations.map((operation): TranslationResponse => {
-      if ('decision' in operation) return operation;
+    validateTranslations(requests, approved.operations.flatMap((operation): TranslationResponse[] => {
+      if ('decision' in operation) return operation.decision === 'delete'
+        ? [{operationId: operation.operationId, decision: 'delete'}]
+        : [];
       const request = requestById.get(operation.operationId);
       if (!request) throw new LocalizeError({type: 'verification_failed', subtype: 'translation_request_missing', message: `The approved operation ${operation.operationId} has no translation request.`});
-      return {operationId: operation.operationId, translatedText: operation.approvedText, targetNodeKind: request.targetNodeKind};
+      return [{operationId: operation.operationId, translatedText: operation.approvedText, targetNodeKind: request.targetNodeKind}];
     }));
     const approvedById = new Map(approved.operations.map((operation) => [operation.operationId, operation]));
     let creationDraftXml: string | undefined;
@@ -929,8 +931,10 @@ export class LocalizationWorkflows {
     }
     const requests = JSON.parse(requestJson) as TranslationRequest[];
     const requestById = new Map(requests.map((request) => [request.operationId, request]));
-    validateTranslations(requests, approved.operations.map((operation): TranslationResponse => {
-      if ('decision' in operation) return operation;
+    validateTranslations(requests, approved.operations.flatMap((operation): TranslationResponse[] => {
+      if ('decision' in operation) return operation.decision === 'delete'
+        ? [{operationId: operation.operationId, decision: 'delete'}]
+        : [];
       const request = requestById.get(operation.operationId);
       if (!request) {
         throw new LocalizeError({
@@ -939,11 +943,11 @@ export class LocalizationWorkflows {
           message: `The approved operation ${operation.operationId} has no translation request.`,
         });
       }
-      return {
+      return [{
         operationId: operation.operationId,
         translatedText: operation.approvedText,
         targetNodeKind: request.targetNodeKind,
-      };
+      }];
     }));
     const [sourceFetch, targetFetch] = await Promise.all([
       this.dependencies.docs.fetch(pair.sourceDocUrl),

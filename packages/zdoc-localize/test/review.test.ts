@@ -70,4 +70,88 @@ describe('review artifacts', () => {
       expect.objectContaining({subtype: 'delete_review_changed'}),
     );
   });
+
+  it('keeps version-2 non-translation operations protected and non-editable', () => {
+    const planV2: LocalizationPlan = {
+      planVersion: 2,
+      runId: 'run-v2',
+      pairId: 'pair-v2',
+      sourceRevision: 4,
+      targetRevision: 7,
+      sourceHash: 'source-hash',
+      targetHash: 'target-hash',
+      operations: [
+        {
+          operationId: 'translate-1',
+          policy: 'translation',
+          effect: 'write',
+          kind: 'insert',
+          confidence: 'high',
+          sourceAfter: 'Hello.',
+          proposedText: '你好。',
+          targetNodeKind: 'paragraph',
+          anchorBlockId: 'target-doc',
+        },
+        {
+          operationId: 'code-1',
+          policy: 'verbatim_code',
+          effect: 'write',
+          kind: 'insert',
+          confidence: 'high',
+          sourceAfter: 'print(1)',
+          proposedText: 'print(1)',
+          targetNodeKind: 'code',
+          anchorOperationId: 'translate-1',
+        },
+        {
+          operationId: 'board-1',
+          policy: 'whiteboard_mirror',
+          effect: 'mirror',
+          kind: 'insert',
+          confidence: 'high',
+          proposedText: '',
+          targetNodeKind: 'whiteboard',
+          sourceResourceToken: 'board-source',
+        },
+        {
+          operationId: 'sync-1',
+          policy: 'manual_synced_reference',
+          effect: 'manual',
+          kind: 'insert',
+          confidence: 'high',
+          proposedText: '',
+          targetNodeKind: 'synced_reference',
+          sourceDocumentId: 'source-doc',
+          sourceBlockId: 'sync-source',
+        },
+        {
+          operationId: 'verify-1',
+          policy: 'verify_synced_reference',
+          effect: 'verify_only',
+          kind: 'replace',
+          confidence: 'high',
+          proposedText: '',
+          targetNodeKind: 'synced_reference',
+          sourceDocumentId: 'source-doc',
+          sourceBlockId: 'sync-source',
+          targetBlockId: 'sync-reference',
+        },
+      ],
+    };
+    const review = compileReview(planV2);
+
+    expect(review.match(/BEGIN EDITABLE TRANSLATION/g)).toHaveLength(1);
+    expect(review).toContain('Policy: manual_synced_reference');
+    expect(parseReview(review.replace('你好。', '人工修改。'), planV2).operations).toEqual([
+      {operationId: 'translate-1', approvedText: '人工修改。'},
+      {operationId: 'code-1', decision: 'protected'},
+      {operationId: 'board-1', decision: 'protected'},
+      {operationId: 'sync-1', decision: 'protected'},
+      {operationId: 'verify-1', decision: 'protected'},
+    ]);
+    expect(() => parseReview(
+      review.replace('Source block: sync-source', 'Source block: other'),
+      planV2,
+    )).toThrowError(expect.objectContaining({subtype: 'review_metadata_changed'}));
+  });
 });
