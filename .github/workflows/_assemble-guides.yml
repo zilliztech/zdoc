@@ -99,7 +99,7 @@ jobs:
           mkdir -p plugins/lark-docs/meta/source-cache
           snapshot=plugins/lark-docs/meta/snapshots/guides-uat-last-success.json
           manifest=plugins/lark-docs/meta/source-cache/guides-manifest.json
-          node scripts/docs-workflow/guides-source-cache.js create --source-dir plugins/lark-docs/meta/sources/guides --snapshot "$snapshot" --output "$manifest" --root-token Tg6mwbRGDitPQ3kLUQzc44I7nth
+          node scripts/docs-workflow/guides-source-cache.js create --source-dir plugins/lark-docs/meta/sources/guides --snapshot "$snapshot" --output "$manifest" --media-manifest plugins/lark-docs/meta/media-cache/guides.json --root-token Tg6mwbRGDitPQ3kLUQzc44I7nth
           key=$(node scripts/docs-workflow/guides-source-cache.js key --snapshot "$snapshot")
           echo "key=$key" >> "$GITHUB_OUTPUT"
       - name: Save promoted guides source cache
@@ -109,6 +109,7 @@ jobs:
           path: |
             plugins/lark-docs/meta/sources/guides
             plugins/lark-docs/meta/source-cache/guides-manifest.json
+            plugins/lark-docs/meta/media-cache/guides.json
           key: ${{ steps.promoted_source_cache.outputs.key }}
       - name: Create combined guides checkpoint
         run: |

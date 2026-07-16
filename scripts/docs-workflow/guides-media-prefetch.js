@@ -22,13 +22,26 @@ function allSourceFiles(sourceDir) {
   return fs.readdirSync(sourceDir).filter(file => file.endsWith('.json')).sort()
 }
 
+function sourceFilesForSnapshot(sourceDir, snapshot) {
+  const available = new Set(allSourceFiles(sourceDir))
+  const files = [...new Set((snapshot.records || []).map(record => record.source_file).filter(Boolean))].sort()
+  for (const file of files) {
+    if (typeof file !== 'string' || !/^[^/\\]+\.json$/.test(file) || !available.has(file)) {
+      throw new Error(`Cannot resolve media source file from snapshot: ${file}`)
+    }
+  }
+  return files
+}
+
 function selectSourceFiles({ sourceDir, planPath = null, snapshotPath = null, docTokens = [] }) {
   const available = new Set(allSourceFiles(sourceDir))
   let selectedTokens = [...new Set(docTokens.filter(Boolean))]
-  let plan = null
   if (selectedTokens.length === 0 && planPath) {
-    plan = readJson(planPath)
-    if (plan.mode !== 'incremental') return [...available].sort()
+    const plan = readJson(planPath)
+    if (plan.mode !== 'incremental') {
+      if (!snapshotPath) return [...available].sort()
+      return sourceFilesForSnapshot(sourceDir, readJson(snapshotPath))
+    }
     selectedTokens = [...new Set(plan.expanded_tokens || [])]
   } else if (selectedTokens.length === 0) {
     return [...available].sort()
@@ -36,13 +49,6 @@ function selectSourceFiles({ sourceDir, planPath = null, snapshotPath = null, do
 
   if (!snapshotPath) throw new Error('Incremental or single-doc media prefetch requires a source snapshot')
   const snapshot = readJson(snapshotPath)
-  if (plan) {
-    const affectedTables = new Set(plan.affected_tables || [])
-    selectedTokens = [...new Set([
-      ...selectedTokens,
-      ...(snapshot.records || []).filter(record => affectedTables.has(record.table_id)).map(record => record.doc_token),
-    ])]
-  }
   const sourceByToken = new Map((snapshot.records || []).map(record => [record.doc_token, record.source_file]))
   return selectedTokens.map(token => {
     const sourceFile = sourceByToken.get(token)
@@ -51,6 +57,23 @@ function selectSourceFiles({ sourceDir, planPath = null, snapshotPath = null, do
     }
     return sourceFile
   }).filter((file, index, files) => files.indexOf(file) === index).sort()
+}
+
+function selectRequiredSourceFiles({ sourceDir, planPath = null, snapshotPath = null, docTokens = [] }) {
+  if (docTokens.some(Boolean) || !planPath) return selectSourceFiles({ sourceDir, planPath, snapshotPath, docTokens })
+  const plan = readJson(planPath)
+  if (plan.mode !== 'incremental') {
+    if (!snapshotPath) return allSourceFiles(sourceDir)
+    return sourceFilesForSnapshot(sourceDir, readJson(snapshotPath))
+  }
+  if (!snapshotPath) throw new Error('Incremental media coverage validation requires a source snapshot')
+  const snapshot = readJson(snapshotPath)
+  const affectedTables = new Set(plan.affected_tables || [])
+  const requiredTokens = [...new Set([
+    ...(plan.expanded_tokens || []),
+    ...(snapshot.records || []).filter(record => affectedTables.has(record.table_id)).map(record => record.doc_token),
+  ])]
+  return selectSourceFiles({ sourceDir, snapshotPath, docTokens: requiredTokens })
 }
 
 function collectMediaReferences(sourceDir, sourceFiles = allSourceFiles(sourceDir)) {
@@ -72,6 +95,72 @@ function collectMediaReferences(sourceDir, sourceFiles = allSourceFiles(sourceDi
         const id = `figma:${fileKey}:${nodeId}`
         entries.set(id, { id, type: 'figma', fileKey, nodeId })
       }
+    }
+  }
+  return [...entries.values()].sort((a, b) => a.id.localeCompare(b.id))
+}
+
+function markdownMediaByToken(docsDirs) {
+  const result = new Map()
+  function visit(entryPath) {
+    if (!fs.existsSync(entryPath)) return
+    const stat = fs.lstatSync(entryPath)
+    if (stat.isSymbolicLink()) throw new Error(`Baseline docs cannot contain symlinks: ${entryPath}`)
+    if (stat.isDirectory()) {
+      for (const name of fs.readdirSync(entryPath).sort()) visit(path.join(entryPath, name))
+      return
+    }
+    if (!stat.isFile() || !/\.mdx?$/.test(entryPath)) return
+    const content = fs.readFileSync(entryPath, 'utf8')
+    const token = content.match(/^token:\s*["']?([^\s"']+)["']?\s*$/m)?.[1]
+    if (!token) return
+    const images = [...content.matchAll(/!\[([^\]]*)\]\((https?:\/\/[^\s)]+)(?:\s+"([^"]*)")?\)/g)].map(match => {
+      const objectKey = path.posix.basename(decodeURIComponent(new URL(match[2]).pathname))
+      return { caption: (match[3] || match[1] || objectKey.replace(/\.png$/i, '')).trim(), objectKey }
+    }).filter(entry => entry.objectKey.endsWith('.png') && !entry.objectKey.includes('..'))
+    if (!result.has(token)) result.set(token, [])
+    result.get(token).push(images)
+  }
+  for (const docsDir of docsDirs) visit(docsDir)
+  return result
+}
+
+function orderedFigmaReferences(source) {
+  const seen = new Set(), result = []
+  for (const block of source.blocks?.items || []) {
+    if (block.iframe?.component?.iframe_type !== 8 || !block.iframe.component.url) continue
+    const { fileKey, nodeId } = figmaIdentity(block.iframe.component.url)
+    const id = `figma:${fileKey}:${nodeId}`
+    if (!seen.has(id)) result.push({ id, type: 'figma', fileKey, nodeId })
+    seen.add(id)
+  }
+  return result
+}
+
+function bootstrapMediaEntries({ sourceDir, docsDirs = [] }) {
+  const mediaByToken = markdownMediaByToken(docsDirs)
+  const entries = new Map()
+  for (const name of allSourceFiles(sourceDir)) {
+    const source = readJson(path.join(sourceDir, name))
+    const token = source.node_token || source.doc_token
+    const renderedCandidates = mediaByToken.get(token) || []
+    if (renderedCandidates.length === 0) continue
+    const references = collectMediaReferences(sourceDir, [name])
+    const deterministic = references.filter(reference => reference.type !== 'figma').map(reference => (
+      reference.type === 'feishu-board' ? { ...reference, objectKey: `${reference.token}.png` } : reference
+    ))
+    const deterministicKeys = new Set(deterministic.map(reference => reference.objectKey))
+    const renderedKeys = new Set(renderedCandidates.flat().map(entry => entry.objectKey))
+    for (const reference of deterministic) if (renderedKeys.has(reference.objectKey)) entries.set(reference.id, reference)
+
+    const figma = orderedFigmaReferences(source)
+    if (figma.length === 0) continue
+    const renderedFigma = renderedCandidates
+      .map(images => images.filter(image => !deterministicKeys.has(image.objectKey)))
+      .find(images => images.length === figma.length)
+    if (!renderedFigma) continue
+    for (let index = 0; index < figma.length; index += 1) {
+      entries.set(figma[index].id, { ...figma[index], ...renderedFigma[index] })
     }
   }
   return [...entries.values()].sort((a, b) => a.id.localeCompare(b.id))
@@ -101,6 +190,22 @@ function validateEntries(entries) {
       entry.id !== `figma:${entry.fileKey}:${entry.nodeId}`
     )) throw new Error(`Invalid Figma media identity: ${entry.id}`)
     seen.add(entry.id)
+  }
+}
+
+function readMediaManifest(manifestPath) {
+  if (!manifestPath || !fs.existsSync(manifestPath)) return []
+  const manifest = readJson(manifestPath)
+  if (manifest.schemaVersion !== 1) throw new Error('Invalid guides media manifest schema')
+  validateEntries(manifest.entries)
+  return manifest.entries
+}
+
+function assertMediaCoverage(entries, references) {
+  const available = new Set(entries.map(entry => entry.id))
+  const missing = references.map(reference => reference.id).filter(id => !available.has(id))
+  if (missing.length > 0) {
+    throw new Error(`Guides media manifest coverage is incomplete: ${missing.length} missing (${missing.slice(0, 10).join(', ')})`)
   }
 }
 
@@ -152,23 +257,35 @@ async function prefetchGuidesMedia({
   trimBoard: trim = trimBoard,
   concurrency = 4,
   sourceFiles = allSourceFiles(sourceDir),
+  requiredSourceFiles = sourceFiles,
+  previousManifestPath = null,
+  bootstrapDocsDirs = [],
+  reuseExisting = false,
 }) {
   if (!Number.isInteger(concurrency) || concurrency < 1 || concurrency > 16) throw new Error('Media prefetch concurrency must be between 1 and 16')
   const references = collectMediaReferences(sourceDir, sourceFiles)
+  const reusable = new Map(bootstrapMediaEntries({ sourceDir, docsDirs: bootstrapDocsDirs }).map(entry => [entry.id, entry]))
+  for (const entry of readMediaManifest(previousManifestPath)) reusable.set(entry.id, entry)
   const resolved = new Array(references.length)
   let cursor = 0
   const workers = Array.from({ length: Math.min(concurrency, references.length) }, async () => {
     while (cursor < references.length) {
       const index = cursor
       cursor += 1
-      resolved[index] = await resolveReference(references[index], downloader, trim)
+      resolved[index] = reuseExisting && reusable.has(references[index].id)
+        ? reusable.get(references[index].id)
+        : await resolveReference(references[index], downloader, trim)
     }
   })
   await Promise.all(workers)
   if (references.length === 0) {
     console.log('[guides-media-prefetch] No media referenced by the selected document scope')
   }
-  return writeMediaManifest(output, resolved)
+  const merged = new Map(reusable)
+  for (const entry of resolved) merged.set(entry.id, entry)
+  const entries = [...merged.values()]
+  assertMediaCoverage(entries, collectMediaReferences(sourceDir, requiredSourceFiles))
+  return writeMediaManifest(output, entries)
 }
 
 function parseArgs(argv) {
@@ -176,7 +293,7 @@ function parseArgs(argv) {
   for (let index = 0; index < argv.length; index += 2) {
     const flag = argv[index]
     const value = argv[index + 1]
-    if (!flag?.startsWith('--') || value === undefined || args.has(flag)) throw new Error('Usage: guides-media-prefetch.js --source-dir <path> --output <path> [--plan <path> --snapshot <path>] [--doc-token <token[,token]>] [--concurrency <n>]')
+    if (!flag?.startsWith('--') || value === undefined || args.has(flag)) throw new Error('Usage: guides-media-prefetch.js --source-dir <path> --output <path> [--plan <path> --snapshot <path>] [--doc-token <token[,token]>] [--previous-manifest <path>] [--bootstrap-docs <dir[,dir]>] [--reuse-existing <true|false>] [--concurrency <n>]')
     args.set(flag, value)
   }
   for (const flag of ['--source-dir', '--output']) if (!args.has(flag)) throw new Error(`Missing required argument: ${flag}`)
@@ -192,6 +309,8 @@ async function main() {
   const snapshotPath = args.has('--snapshot') ? path.resolve(args.get('--snapshot')) : null
   const docTokens = (args.get('--doc-token') || '').split(',').map(value => value.trim()).filter(Boolean)
   const sourceFiles = selectSourceFiles({ sourceDir, planPath, snapshotPath, docTokens })
+  const requiredSourceFiles = selectRequiredSourceFiles({ sourceDir, planPath, snapshotPath, docTokens })
+  const bootstrapDocsDirs = (args.get('--bootstrap-docs') || '').split(',').map(value => value.trim()).filter(Boolean).map(value => path.resolve(value))
   const downloader = new Downloader({}, path.dirname(path.resolve(args.get('--output'))), {
     maxConcurrent: concurrency,
     minTime: Number(process.env.GUIDES_MEDIA_PREFETCH_MIN_TIME_MS || 250),
@@ -205,6 +324,10 @@ async function main() {
       downloader,
       concurrency,
       sourceFiles,
+      requiredSourceFiles,
+      previousManifestPath: args.has('--previous-manifest') ? path.resolve(args.get('--previous-manifest')) : null,
+      bootstrapDocsDirs,
+      reuseExisting: args.get('--reuse-existing') === 'true',
     })
     console.log(`[guides-media-prefetch] ${manifest.entries.length} media item(s) prefetched`)
   } finally {
@@ -214,4 +337,4 @@ async function main() {
 
 if (require.main === module) main().catch(error => { console.error(error.message); process.exitCode = 1 })
 
-module.exports = { collectMediaReferences, figmaIdentity, prefetchGuidesMedia, selectSourceFiles, validateEntries, writeMediaManifest }
+module.exports = { assertMediaCoverage, bootstrapMediaEntries, collectMediaReferences, figmaIdentity, prefetchGuidesMedia, readMediaManifest, selectRequiredSourceFiles, selectSourceFiles, sourceFilesForSnapshot, validateEntries, writeMediaManifest }

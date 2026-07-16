@@ -56,7 +56,7 @@ jobs:
           if [[ -f "$snapshot" ]]; then
             key=$(node scripts/docs-workflow/guides-source-cache.js key --snapshot "$snapshot")
           else
-            key="guides-source-v1-bootstrap-${{ inputs.dev_baseline_sha }}"
+            key="guides-source-v2-bootstrap-${{ inputs.dev_baseline_sha }}"
           fi
           echo "key=$key" >> "$GITHUB_OUTPUT"
       - id: source_cache
@@ -65,6 +65,7 @@ jobs:
           path: |
             plugins/lark-docs/meta/sources/guides
             plugins/lark-docs/meta/source-cache/guides-manifest.json
+            plugins/lark-docs/meta/media-cache/guides.json
           key: ${{ steps.source_cache_key.outputs.key }}
       - id: source_cache_check
         name: Validate restored guides source cache
@@ -72,13 +73,14 @@ jobs:
           valid=false
           snapshot=plugins/lark-docs/meta/snapshots/guides-uat-last-success.json
           manifest=plugins/lark-docs/meta/source-cache/guides-manifest.json
-          if [[ "${{ steps.source_cache.outputs.cache-hit }}" == true && -f "$snapshot" && -f "$manifest" ]]; then
-            if node scripts/docs-workflow/guides-source-cache.js validate --source-dir plugins/lark-docs/meta/sources/guides --snapshot "$snapshot" --manifest "$manifest" --root-token Tg6mwbRGDitPQ3kLUQzc44I7nth; then
+          media=plugins/lark-docs/meta/media-cache/guides.json
+          if [[ "${{ steps.source_cache.outputs.cache-hit }}" == true && -f "$snapshot" && -f "$manifest" && -f "$media" ]]; then
+            if node scripts/docs-workflow/guides-source-cache.js validate --source-dir plugins/lark-docs/meta/sources/guides --snapshot "$snapshot" --manifest "$manifest" --media-manifest "$media" --root-token Tg6mwbRGDitPQ3kLUQzc44I7nth; then
               valid=true
             fi
           fi
           if [[ "$valid" != true ]]; then
-            rm -rf plugins/lark-docs/meta/sources/guides plugins/lark-docs/meta/source-cache
+            rm -rf plugins/lark-docs/meta/sources/guides plugins/lark-docs/meta/source-cache plugins/lark-docs/meta/media-cache
           fi
           echo "valid=$valid" >> "$GITHUB_OUTPUT"
       - name: Fetch shared guides sources
@@ -106,6 +108,9 @@ jobs:
             --output plugins/lark-docs/meta/media-cache/guides.json \
             --plan plugins/lark-docs/meta/reports/guides-incremental-fetch-plan.json \
             --snapshot plugins/lark-docs/meta/reports/guides-source-snapshot-candidate.json \
+            --previous-manifest plugins/lark-docs/meta/media-cache/guides.json \
+            --bootstrap-docs docs,docs-byoc \
+            --reuse-existing "${{ steps.source_cache_check.outputs.valid != 'true' }}" \
             --concurrency 4
         env:
           APP_ID: ${{ secrets.APP_ID }}
@@ -130,7 +135,7 @@ jobs:
           echo "count=$count" >> "$GITHUB_OUTPUT"
       - name: Create shared source artifact
         run: |
-          node scripts/docs-workflow/guides-source-cache.js create --source-dir plugins/lark-docs/meta/sources/guides --snapshot plugins/lark-docs/meta/reports/guides-source-snapshot-candidate.json --output "$RUNNER_TEMP/guides-source-manifest.json" --root-token Tg6mwbRGDitPQ3kLUQzc44I7nth
+          node scripts/docs-workflow/guides-source-cache.js create --source-dir plugins/lark-docs/meta/sources/guides --snapshot plugins/lark-docs/meta/reports/guides-source-snapshot-candidate.json --output "$RUNNER_TEMP/guides-source-manifest.json" --media-manifest plugins/lark-docs/meta/media-cache/guides.json --root-token Tg6mwbRGDitPQ3kLUQzc44I7nth
           node scripts/docs-workflow/guides-stage-artifact.js --operation create --stage source --workspace "$GITHUB_WORKSPACE" --baseline-dir "$RUNNER_TEMP/baseline" --output "$RUNNER_TEMP/guides-source" --master-sha "${{ inputs.master_sha }}" --dev-baseline-sha "${{ inputs.dev_baseline_sha }}" --snapshot-candidate plugins/lark-docs/meta/reports/guides-source-snapshot-candidate.json --root-token Tg6mwbRGDitPQ3kLUQzc44I7nth
           tar -cf "$RUNNER_TEMP/guides-source.tar" -C "$RUNNER_TEMP" guides-source
       - id: upload
