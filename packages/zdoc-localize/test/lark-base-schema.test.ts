@@ -1,0 +1,36 @@
+import {describe, expect, it} from 'vitest';
+
+import {feishuRegistrySchema} from '../src/adapters/lark-base-schema.js';
+
+describe('Feishu registry schema', () => {
+  it('uses filterable labels for controlled workflow values', () => {
+    const pairs = feishuRegistrySchema.tables.documentPairs.fields;
+    const runs = feishuRegistrySchema.tables.localizationRuns.fields;
+
+    expect(pairs.find((field) => field.name === 'status')).toMatchObject({type: 'select', multiple: false});
+    expect(pairs.find((field) => field.name === 'mode')).toMatchObject({type: 'select', multiple: false});
+    expect(runs.find((field) => field.name === 'state')).toMatchObject({
+      type: 'select',
+      options: expect.arrayContaining([
+        expect.objectContaining({name: 'review_required'}),
+        expect.objectContaining({name: 'partial'}),
+      ]),
+    });
+  });
+
+  it('keeps machine payloads and dynamic scopes out of fixed labels', () => {
+    const pairs = feishuRegistrySchema.tables.documentPairs.fields;
+    const runs = feishuRegistrySchema.tables.localizationRuns.fields;
+
+    expect(pairs.find((field) => field.name === 'version_scope')).toMatchObject({type: 'text'});
+    expect(runs.find((field) => field.name === 'payload_json')).toMatchObject({type: 'text'});
+  });
+
+  it('defines the approved operational views', () => {
+    expect(feishuRegistrySchema.views.localizationRuns.map((view) => view.name)).toEqual([
+      'Needs Review',
+      'Blocked or Partial',
+      'Completed',
+    ]);
+  });
+});
