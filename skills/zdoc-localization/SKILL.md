@@ -23,6 +23,8 @@ test -n "$ZL" && test -x "$ZL"
 
 Stop when the version is outside the supported range or required capabilities are absent. Do not guess renamed commands or JSON fields.
 
+Before the first Feishu-mode initialization for a registry, run `"$ZL" registry schema --format json`, then inspect the live Base tables and fields. Require exact field names and compatible types; controlled mode, status, disposition, scope type, record type, and run state fields must be single-select Labels. Treat view-creation limitations as warnings, but block on missing or incompatible fields.
+
 ## Route the Request
 
 - Local English Markdown publication or English local/remote reconciliation → use `$feishu-md-sync`.

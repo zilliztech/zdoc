@@ -39,6 +39,18 @@ zdoc-localize init --mode feishu \
 
 The CLI does not store application secrets or access tokens. Feishu authentication remains owned by `lark-cli`.
 
+## Typed Feishu registry
+
+Print the exact Base table, field, Label option, and view contract before provisioning a shared registry:
+
+```bash
+zdoc-localize registry schema --format json
+```
+
+Controlled workflow values such as document mode, pair status, terminology disposition, and run state are single-select Label fields. Document locations use URL-styled text, timestamps use date-time fields, revisions use numbers, and IDs, tokens, hashes, dynamic scopes, and recovery JSON remain text. The CLI writes searchable run and receipt projections while preserving complete recovery state in `payload_json` and immutable Drive snapshots.
+
+For a live pilot, use an explicitly approved isolated Drive root containing one registry Base, one machine-managed `state` folder, and a dedicated English/Chinese document pair. Provision and inspect all resources with the authenticated user identity before running `init` in Feishu mode.
+
 ## Core workflow
 
 ```bash

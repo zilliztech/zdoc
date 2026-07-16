@@ -43,6 +43,27 @@ describe('CLI contract', () => {
     });
   });
 
+  it('exposes the exact typed Feishu registry schema', async () => {
+    const result = await runCli(['registry', 'schema', '--format', 'json']);
+
+    expect(result.exitCode).toBe(0);
+    expect(JSON.parse(result.stdout)).toMatchObject({
+      ok: true,
+      data: {
+        baseName: 'ZDoc Localization Registry',
+        timeZone: 'Asia/Shanghai',
+        tables: {
+          documentPairs: {name: 'document_pairs'},
+          glossary: {name: 'glossary'},
+          localizationRuns: {
+            name: 'localization_runs',
+            fields: expect.arrayContaining([expect.objectContaining({name: 'state', type: 'select', multiple: false})]),
+          },
+        },
+      },
+    });
+  });
+
   it('registers and lists a document pair in an isolated workspace', async () => {
     const cwd = await mkdtemp(join(tmpdir(), 'zdoc-localize-cli-'));
 

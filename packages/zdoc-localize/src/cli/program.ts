@@ -5,6 +5,7 @@ import {join, resolve, sep} from 'node:path';
 import {Command, CommanderError, Option} from 'commander';
 
 import {createRuntime, type Runtime} from '../application/runtime.js';
+import {feishuRegistrySchema} from '../adapters/lark-base-schema.js';
 import {NodeProcessRunner, type ProcessRunner} from '../adapters/process-runner.js';
 import {asLocalizeError, LocalizeError, toErrorEnvelope} from '../domain/errors.js';
 import type {DocumentMode} from '../domain/model.js';
@@ -28,6 +29,7 @@ export interface RunCliOptions {
 const commands = [
   'init',
   'doctor',
+  'registry',
   'pair',
   'bootstrap',
   'plan',
@@ -109,6 +111,11 @@ function createProgram(
       commands: [...commands],
       features: [...features],
     }, options.format));
+
+  const registry = program.command('registry').description('Inspect the shared Feishu registry contract');
+  formatOption(registry.command('schema'))
+    .description('Print the exact Base table, field, option, and view schema')
+    .action((options: {format: string}) => emit(io, feishuRegistrySchema, options.format));
 
   formatOption(program.command('doctor'))
     .option('--offline', 'Do not access Feishu or external CLIs')
