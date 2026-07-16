@@ -97,6 +97,38 @@ test('shows actual SDK source-publisher dependencies', () => {
   assert.equal(manuals.rest.currentTask, 'Publish checkpoint')
 })
 
+test('keeps dependency text when GitHub exposes a queued publisher job', () => {
+  const state = deriveDocsProgressState({
+    requestedGroups: ['java', 'node'],
+    publishEnabled: true,
+    jobs: [
+      { id: 1, name: 'produce_java / produce', status: 'completed', conclusion: 'success' },
+      { id: 2, name: 'publish_java / publish', status: 'in_progress', conclusion: null, steps: [{ name: 'Publish checkpoint', status: 'in_progress' }] },
+      { id: 3, name: 'produce_node / produce', status: 'completed', conclusion: 'success' },
+      { id: 4, name: 'publish_node / publish', status: 'queued', conclusion: null },
+    ],
+  })
+  const node = state.manuals.find(manual => manual.group === 'node')
+  assert.equal(node.currentTask, 'Waiting for Java publisher')
+})
+
+test('keeps partially published Guides batches running instead of completed', () => {
+  const jobs = [
+    { id: 1, name: 'produce_guides_sources / fetch', status: 'completed', conclusion: 'success' },
+    { id: 2, name: 'produce_guides / assemble', status: 'completed', conclusion: 'success' },
+    { id: 3, name: 'publish_guides / publish', status: 'completed', conclusion: 'success' },
+    { id: 4, name: 'guides_translation_batch_1_of_2_pending_40 / translate batch 1 of 2', status: 'completed', conclusion: 'success' },
+    { id: 5, name: 'guides_translation_batch_2_of_2_pending_40 / translate batch 2 of 2', status: 'completed', conclusion: 'success' },
+    { id: 6, name: 'guides_translation_batch_1_of_2_pending_40 / publish batch 1 of 2 (20 docs)', status: 'completed', conclusion: 'success' },
+    { id: 7, name: 'guides_translation_batch_2_of_2_pending_40 / publish batch 2 of 2', status: 'queued', conclusion: null },
+  ]
+  const state = deriveDocsProgressState({ requestedGroups: ['guides'], publishEnabled: true, jobs })
+  assert.equal(state.manuals[0].phase, 'translation')
+  assert.equal(state.manuals[0].status, 'running')
+  assert.equal(state.manuals[0].currentTask, 'Publish Guides translation batches')
+  assert.equal(state.manuals[0].detail, '20 documents published · 20 remaining · 1/2 batches')
+})
+
 test('keeps an empty Guides matrix in assembly without synthetic table counts', () => {
   const state = deriveDocsProgressState({
     requestedGroups: ['guides'],

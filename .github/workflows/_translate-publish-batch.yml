@@ -18,14 +18,9 @@ on:
       pending_count: { required: true, type: number }
       pending_set_sha256: { required: true, type: string }
       artifact_retention_days: { required: false, type: number, default: 3 }
-      card_id: { required: false, type: string, default: '' }
-      card_started_at: { required: false, type: string, default: '' }
-      card_stages: { required: false, type: string, default: '' }
     secrets:
       TRANSLATION_AGENT_API_KEY: { required: true }
       REVIEW_AGENT_API_KEY: { required: true }
-      APP_ID: { required: false }
-      APP_SECRET: { required: false }
     outputs:
       status: { value: '${{ jobs.publish.outputs.status || jobs.translate.outputs.status }}' }
       commit_sha: { value: '${{ jobs.publish.outputs.commit_sha }}' }
@@ -49,14 +44,9 @@ jobs:
       pending_count: ${{ inputs.pending_count }}
       pending_set_sha256: ${{ inputs.pending_set_sha256 }}
       artifact_retention_days: ${{ inputs.artifact_retention_days }}
-      card_id: ${{ inputs.card_id }}
-      card_started_at: ${{ inputs.card_started_at }}
-      card_stages: ${{ inputs.card_stages }}
     secrets:
       TRANSLATION_AGENT_API_KEY: ${{ secrets.TRANSLATION_AGENT_API_KEY }}
       REVIEW_AGENT_API_KEY: ${{ secrets.REVIEW_AGENT_API_KEY }}
-      APP_ID: ${{ secrets.APP_ID }}
-      APP_SECRET: ${{ secrets.APP_SECRET }}
 
   publish:
     name: publish batch ${{ inputs.batch_number }} of ${{ inputs.batch_count }}
@@ -217,28 +207,6 @@ jobs:
             [[ "$status" == published || "$status" == no_changes ]] || status=failed
           fi
           printf 'status=%s\ncommit_sha=%s\n' "$status" "$commit_sha" >> "$GITHUB_OUTPUT"
-
-      - name: Report translation publication
-        if: ${{ always() && inputs.card_id != '' }}
-        continue-on-error: true
-        run: bash scripts/docs-workflow/report-live-card.sh
-        env:
-          CARD_ID: ${{ inputs.card_id }}
-          CARD_MODE: aggregate
-          CARD_STARTED_AT: ${{ inputs.card_started_at }}
-          CARD_STAGES: ${{ inputs.card_stages }}
-          CARD_PHASE: Publish ${{ inputs.group }} translation
-          CARD_STATUS: ${{ steps.result.outputs.status == 'failed' && 'fail' || 'done' }}
-          CARD_NOTE: ${{ steps.result.outputs.status == 'failed' && format('{0} batch publication failed', inputs.group) || format('{0} batch publication {1}', inputs.group, steps.result.outputs.status) }}
-          CARD_JOB_NAME: ${{ format('{0}_translation_batch_{1}_of_{2}_pending_{3} / publish batch {1} of {2} ({4} docs)', inputs.group, inputs.batch_number, inputs.batch_count, inputs.pending_count, needs.translate.outputs.translated_count) }}
-          CARD_JOB_CONCLUSION: ${{ steps.result.outputs.status == 'failed' && 'failure' || 'success' }}
-          CARD_TITLE: Global Docs Build
-          SELECTED_GROUP: ${{ inputs.group }}
-          PUBLISH_ENABLED: true
-          GH_TOKEN: ${{ github.token }}
-          APP_ID: ${{ secrets.APP_ID }}
-          APP_SECRET: ${{ secrets.APP_SECRET }}
-          FEISHU_HOST: ${{ vars.FEISHU_HOST }}
 
       - name: Upload publication diagnostics
         if: ${{ always() }}

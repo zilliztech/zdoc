@@ -1,0 +1,46 @@
+name: monitor docs progress
+on:
+  workflow_call:
+    inputs:
+      master_sha: { required: true, type: string }
+      card_id: { required: true, type: string }
+      card_started_at: { required: true, type: string }
+      target_branch: { required: true, type: string }
+      selected_group: { required: true, type: string }
+      publish_enabled: { required: true, type: boolean }
+    secrets:
+      APP_ID: { required: true }
+      APP_SECRET: { required: true }
+
+permissions:
+  actions: read
+  contents: read
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    permissions:
+      actions: read
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.master_sha }}
+      - uses: pnpm/action-setup@v4
+        with: { version: 9 }
+      - uses: actions/setup-node@v4
+        with: { node-version: '20', cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      - name: Monitor workflow and update Feishu card
+        run: node scripts/docs-workflow/monitor-docs-progress.js
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          CARD_ID: ${{ inputs.card_id }}
+          CARD_STARTED_AT: ${{ inputs.card_started_at }}
+          CARD_TARGET_BRANCH: ${{ inputs.target_branch }}
+          SELECTED_GROUP: ${{ inputs.selected_group }}
+          PUBLISH_ENABLED: ${{ inputs.publish_enabled }}
+          APP_ID: ${{ secrets.APP_ID }}
+          APP_SECRET: ${{ secrets.APP_SECRET }}
+          FEISHU_HOST: ${{ vars.FEISHU_HOST }}

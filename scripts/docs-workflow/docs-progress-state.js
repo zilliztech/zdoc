@@ -202,7 +202,7 @@ function guidesBatchPhase(effectiveJobs, phase) {
   const published = batches.filter(item => jobStatus(item.job) === 'completed' && Number.isSafeInteger(item.publishedCount)).reduce((sum, item) => sum + item.publishedCount, 0)
   const pending = Math.max(...batches.map(item => item.pendingCount))
   return {
-    status: failed ? 'failed' : completed === total ? 'completed' : running ? 'running' : 'waiting',
+    status: failed ? 'failed' : completed === total ? 'completed' : (running || completed > 0) ? 'running' : 'waiting',
     currentTask: phase === 'translate' ? 'Translate Guides batches' : 'Publish Guides translation batches',
     detail: phase === 'publish' ? `${published} documents published · ${Math.max(0, pending - published)} remaining · ${completed}/${total} batches` : `${completed}/${total} complete · ${running} active · ${waiting} pending · ${failed} failed`,
   }
@@ -225,7 +225,7 @@ function deriveManualPhases({ group, effectiveJobs, publishEnabled }) {
   const publishJob = byIdentity.get(`publish_${group}`)
   phases.publish = phases.produce.status !== 'completed'
     ? { status: 'waiting', currentTask: 'Waiting for production', detail: null }
-    : publishJob
+    : publishJob && jobStatus(publishJob) !== 'waiting'
       ? phaseResult(publishJob, `Publish ${GROUP_LABELS[group]}`)
       : { status: 'waiting', currentTask: waitingFor(group, 'publish'), detail: null }
 
@@ -237,13 +237,17 @@ function deriveManualPhases({ group, effectiveJobs, publishEnabled }) {
 
   const guidesPublish = group === 'guides' ? guidesBatchPhase(effectiveJobs, 'publish') : null
   const translationJob = byIdentity.get(`publish_${group}_translation`)
-  phases.translation = phases.translate.status !== 'completed'
-    ? { status: 'waiting', currentTask: 'Waiting for translation', detail: null }
-    : guidesPublish || (translatorHasNoChanges(translateJob) && (!translationJob || translationJob.conclusion === 'skipped'))
-      ? { status: 'completed', currentTask: 'No translation changes', detail: null }
-      : translationJob
-        ? phaseResult(translationJob, `Publish ${GROUP_LABELS[group]} translation`)
-        : { status: 'waiting', currentTask: waitingFor(group, 'translation'), detail: null }
+  if (phases.translate.status !== 'completed') {
+    phases.translation = { status: 'waiting', currentTask: 'Waiting for translation', detail: null }
+  } else if (guidesPublish) {
+    phases.translation = guidesPublish
+  } else if (translatorHasNoChanges(translateJob) && (!translationJob || translationJob.conclusion === 'skipped')) {
+    phases.translation = { status: 'completed', currentTask: 'No translation changes', detail: null }
+  } else if (translationJob && jobStatus(translationJob) !== 'waiting') {
+    phases.translation = phaseResult(translationJob, `Publish ${GROUP_LABELS[group]} translation`)
+  } else {
+    phases.translation = { status: 'waiting', currentTask: waitingFor(group, 'translation'), detail: null }
+  }
   return phases
 }
 

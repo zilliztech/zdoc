@@ -189,6 +189,54 @@ function validateWorkflowPolicies(directory = workflowDirectory) {
     }
   }
 
+  const readWorkflow = (file) => fs.existsSync(path.join(directory, file))
+    ? fs.readFileSync(path.join(directory, file), 'utf8')
+    : ''
+  const callerSource = readWorkflow('fetch-docs.yml')
+  if (callerSource) {
+    let caller
+    try { caller = yaml.load(callerSource) } catch (_) { caller = null }
+    const monitor = caller?.jobs?.monitor_docs_progress
+    const monitorNeeds = Array.isArray(monitor?.needs) ? monitor.needs : monitor?.needs ? [monitor.needs] : []
+    if (monitorNeeds.length !== 1 || monitorNeeds[0] !== 'prepare') errors.push('fetch-docs.yml: central monitor must start after prepare only')
+    if (monitor?.uses !== './.github/workflows/_monitor-docs-progress.yml') errors.push('fetch-docs.yml: central monitor must use _monitor-docs-progress.yml')
+    const aggregateNeeds = Array.isArray(caller?.jobs?.aggregate?.needs) ? caller.jobs.aggregate.needs : []
+    if (aggregateNeeds.includes('monitor_docs_progress')) errors.push('fetch-docs.yml: aggregate must not depend on the central monitor')
+    const fallback = caller?.jobs?.finalize_card_fallback
+    const fallbackNeeds = Array.isArray(fallback?.needs) ? fallback.needs : []
+    if (fallbackNeeds.join(',') !== 'prepare,aggregate,monitor_docs_progress') errors.push('fetch-docs.yml: fallback must depend on prepare, aggregate, and monitor')
+    if (!String(fallback?.if || '').includes("needs.monitor_docs_progress.result != 'success'")) errors.push('fetch-docs.yml: fallback must run only when the monitor is unsuccessful')
+    const aggregateSource = callerSource.slice(callerSource.indexOf('  aggregate:'), callerSource.indexOf('  finalize_card_fallback:'))
+    if (!/name: docs-card-report-\$\{\{ github\.run_id \}\}/.test(aggregateSource) || !/name: Upload final card report artifact[\s\S]*if: \$\{\{ always\(\) \}\}[\s\S]*continue-on-error: true/.test(aggregateSource)) {
+      errors.push('fetch-docs.yml: aggregate must always attempt the final card report artifact')
+    }
+    if (/name: Finish progress card|report-live-card\.sh/.test(callerSource)) errors.push('fetch-docs.yml: aggregate must not directly patch the card')
+  }
+
+  const distributedFiles = [
+    '_fetch-content-group.yml', '_fetch-guides-sources.yml', '_assemble-guides.yml',
+    '_publish-content-group.yml', '_translate-content-group.yml', '_publish-translation-batches.yml',
+    '_translate-publish-batch.yml', '_verify-docs.yml',
+  ]
+  const distributedPattern = /report-live-card\.sh|report-to-lark --card-(?:phase|finish|state-file|advance)/
+  for (const file of distributedFiles) {
+    const source = readWorkflow(file)
+    if (distributedPattern.test(source)) errors.push(`${file}: distributed card update is forbidden`)
+    if (/^      card_(?:id|started_at|stages|mode):/m.test(source)) errors.push(`${file}: reporting-only card inputs are forbidden`)
+  }
+
+  for (const file of ['_assemble-guides.yml', '_publish-content-group.yml', '_translate-content-group.yml', '_publish-translation-batches.yml', '_translate-publish-batch.yml', '_verify-docs.yml']) {
+    if (/APP_ID|APP_SECRET/.test(readWorkflow(file))) errors.push(`${file}: non-source job must not receive Feishu app credentials`)
+  }
+
+  const monitorSource = readWorkflow('_monitor-docs-progress.yml')
+  if (monitorSource) {
+    if (!/^permissions:\n  actions: read\n  contents: read$/m.test(monitorSource)) errors.push('_monitor-docs-progress.yml: monitor permissions must be actions: read and contents: read')
+    if (/contents: write|actions: write|SPACE_ID|FIGMA_API_KEY|MODEL_API_KEY|AWS_ACCESS_KEY_ID|AWS_SECRET_ACCESS_KEY/.test(monitorSource)) errors.push('_monitor-docs-progress.yml: monitor must not receive write or source-production credentials')
+  } else if (callerSource) {
+    errors.push('_monitor-docs-progress.yml: central monitor workflow is required')
+  }
+
   return errors
 }
 

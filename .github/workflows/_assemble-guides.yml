@@ -13,10 +13,6 @@ on:
     outputs:
       status: { value: '${{ jobs.assemble.outputs.status }}' }
       artifact_name: { value: '${{ jobs.assemble.outputs.artifact_name }}' }
-    secrets:
-      APP_ID: { required: true }
-      APP_SECRET: { required: true }
-
 permissions:
   actions: write
   contents: read
