@@ -25,8 +25,9 @@ function allSourceFiles(sourceDir) {
 function selectSourceFiles({ sourceDir, planPath = null, snapshotPath = null, docTokens = [] }) {
   const available = new Set(allSourceFiles(sourceDir))
   let selectedTokens = [...new Set(docTokens.filter(Boolean))]
+  let plan = null
   if (selectedTokens.length === 0 && planPath) {
-    const plan = readJson(planPath)
+    plan = readJson(planPath)
     if (plan.mode !== 'incremental') return [...available].sort()
     selectedTokens = [...new Set(plan.expanded_tokens || [])]
   } else if (selectedTokens.length === 0) {
@@ -35,6 +36,13 @@ function selectSourceFiles({ sourceDir, planPath = null, snapshotPath = null, do
 
   if (!snapshotPath) throw new Error('Incremental or single-doc media prefetch requires a source snapshot')
   const snapshot = readJson(snapshotPath)
+  if (plan) {
+    const affectedTables = new Set(plan.affected_tables || [])
+    selectedTokens = [...new Set([
+      ...selectedTokens,
+      ...(snapshot.records || []).filter(record => affectedTables.has(record.table_id)).map(record => record.doc_token),
+    ])]
+  }
   const sourceByToken = new Map((snapshot.records || []).map(record => [record.doc_token, record.source_file]))
   return selectedTokens.map(token => {
     const sourceFile = sourceByToken.get(token)

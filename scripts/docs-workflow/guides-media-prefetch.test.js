@@ -49,7 +49,7 @@ test('writes a deterministic validated media manifest', () => {
   ]), /unexpected media manifest field/i)
 })
 
-test('selects only expanded canonical source files for incremental and single-doc prefetch', () => {
+test('selects explicit incremental tokens, single-doc scope, and every source for full plans', () => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'guides-media-selection-'))
   const sourceDir = path.join(root, 'sources')
   writeSource(sourceDir, 'a.json', [])
@@ -68,6 +68,31 @@ test('selects only expanded canonical source files for incremental and single-do
 
   fs.writeFileSync(planPath, JSON.stringify({ mode: 'full', expanded_tokens: [] }))
   assert.deepEqual(selectSourceFiles({ sourceDir, planPath, snapshotPath }), ['a.json', 'b.json', 'root.json'])
+})
+
+test('incremental prefetch includes unchanged documents in every affected table', () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'guides-media-affected-table-'))
+  const sourceDir = path.join(root, 'sources')
+  writeSource(sourceDir, 'changed.json', [{ image: { token: 'changed-image' } }])
+  writeSource(sourceDir, 'unchanged.json', [{ board: { token: 'unchanged-board' } }])
+  writeSource(sourceDir, 'unaffected.json', [{ image: { token: 'unaffected-image' } }])
+  const snapshotPath = path.join(root, 'snapshot.json')
+  fs.writeFileSync(snapshotPath, JSON.stringify({ records: [
+    { doc_token: 'changed', source_file: 'changed.json', table_id: 'affected-table' },
+    { doc_token: 'unchanged', source_file: 'unchanged.json', table_id: 'affected-table' },
+    { doc_token: 'unaffected', source_file: 'unaffected.json', table_id: 'other-table' },
+  ] }))
+  const planPath = path.join(root, 'plan.json')
+  fs.writeFileSync(planPath, JSON.stringify({
+    mode: 'incremental',
+    expanded_tokens: ['changed'],
+    affected_tables: ['affected-table'],
+  }))
+
+  assert.deepEqual(
+    selectSourceFiles({ sourceDir, planPath, snapshotPath }),
+    ['changed.json', 'unchanged.json'],
+  )
 })
 
 test('prefetches every unique media reference once with bounded concurrency', async () => {
