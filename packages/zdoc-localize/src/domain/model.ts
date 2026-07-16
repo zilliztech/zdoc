@@ -27,6 +27,8 @@ export type SemanticNodeKind =
   | 'table'
   | 'image'
   | 'whiteboard'
+  | 'synced_source'
+  | 'synced_reference'
   | 'resource'
   | 'opaque';
 
@@ -45,6 +47,8 @@ export interface SemanticNode {
     blockId?: string;
     blockIds?: string[];
     token?: string;
+    sourceDocumentId?: string;
+    sourceBlockId?: string;
     elementName: string;
     attributes: Record<string, string>;
   };

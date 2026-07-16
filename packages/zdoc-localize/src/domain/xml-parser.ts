@@ -162,7 +162,9 @@ function kindFor(name: string): SemanticNodeKind {
   if (name === 'table') return 'table';
   if (name === 'img') return 'image';
   if (name === 'whiteboard') return 'whiteboard';
-  if (['sheet', 'bitable', 'synced_reference', 'synced_source', 'source'].includes(name)) return 'resource';
+  if (name === 'synced-source' || name === 'synced_source') return 'synced_source';
+  if (name === 'synced_reference') return 'synced_reference';
+  if (['sheet', 'bitable', 'source'].includes(name)) return 'resource';
   return 'opaque';
 }
 
@@ -223,6 +225,18 @@ export function parseFeishuDocument(
               : elementChildren(element).filter((child) => child.name === 'li').flatMap((child) => child.attributes.id ? [child.attributes.id] : [])}
           : {}),
         ...(element.attributes.token ? {token: element.attributes.token} : {}),
+        ...(kind === 'synced_source'
+          ? {
+              sourceDocumentId: options.documentId,
+              sourceBlockId: element.attributes.id,
+            }
+          : {}),
+        ...(kind === 'synced_reference'
+          ? {
+              sourceDocumentId: element.attributes['src-token'],
+              sourceBlockId: element.attributes['src-block-id'],
+            }
+          : {}),
         elementName: element.name,
         attributes: {...element.attributes},
       },

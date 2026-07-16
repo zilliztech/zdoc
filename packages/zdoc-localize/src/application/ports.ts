@@ -1,5 +1,6 @@
 import type {GlossaryEntry} from '../domain/glossary.js';
 import type {DocumentPair, RunRecord} from '../domain/model.js';
+import type {StoredCorrespondence} from '../domain/native-sync.js';
 
 export interface LocalizationReceipt {
   pairId: string;
@@ -10,7 +11,7 @@ export interface LocalizationReceipt {
   targetHash: string;
   runId: string;
   completedAt: string;
-  correspondences: Array<{sourceNodeId: string; targetNodeId: string}>;
+  correspondences: StoredCorrespondence[];
 }
 
 export interface RegistryStore {

@@ -89,4 +89,45 @@ describe('Feishu XML semantic parsing', () => {
       '1. Scan the remote English document.\n2. Review the proposed Chinese changes.\n   - Preserve URLs and inline commands.\n   - Apply only approved block-level writes.',
     );
   });
+
+  it('parses real source and reference synced blocks with protected identities', () => {
+    const source = parseFeishuDocument(
+      '<synced-source id="src-block"><pre id="code"><code>print(1)</code></pre></synced-source>',
+      {documentId: 'source-doc', revisionId: 3},
+    );
+    const target = parseFeishuDocument(
+      '<synced_reference id="ref-block" src-token="source-doc" src-block-id="src-block"></synced_reference>',
+      {documentId: 'target-doc', revisionId: 7},
+    );
+
+    expect(source.nodes[0]).toMatchObject({
+      kind: 'synced_source',
+      writable: false,
+      remote: {
+        blockId: 'src-block',
+        sourceDocumentId: 'source-doc',
+        sourceBlockId: 'src-block',
+      },
+    });
+    expect(target.nodes[0]).toMatchObject({
+      kind: 'synced_reference',
+      writable: false,
+      remote: {
+        blockId: 'ref-block',
+        sourceDocumentId: 'source-doc',
+        sourceBlockId: 'src-block',
+      },
+    });
+  });
+
+  it('accepts the underscore source spelling for compatibility', () => {
+    const document = parseFeishuDocument('<synced_source id="src"></synced_source>', {
+      documentId: 'doc', revisionId: 1,
+    });
+
+    expect(document.nodes[0]).toMatchObject({
+      kind: 'synced_source',
+      remote: {sourceDocumentId: 'doc', sourceBlockId: 'src'},
+    });
+  });
 });

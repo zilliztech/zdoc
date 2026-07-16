@@ -57,6 +57,32 @@ describe('local persistence', () => {
     expect(await registry.listPairs()).toEqual([pair]);
   });
 
+  it('round-trips typed localization receipt correspondences', async () => {
+    const cwd = await mkdtemp(join(tmpdir(), 'zdoc-localize-receipt-'));
+    const registry = new LocalRegistryStore(cwd);
+    const receipt = {
+      pairId: 'pair-1',
+      sourceRevision: 4,
+      sourceHash: 'source-hash',
+      sourceSnapshotRef: {kind: 'local' as const, path: 'snapshot.json', hash: 'snapshot-hash'},
+      targetRevision: 7,
+      targetHash: 'target-hash',
+      runId: 'run-1',
+      completedAt: '2026-07-16T00:00:00.000Z',
+      correspondences: [{
+        kind: 'native_sync' as const,
+        sourceNodeId: 'source:sync:0',
+        targetNodeId: 'target:sync:0',
+        sourceDocumentId: 'source-doc',
+        sourceBlockId: 'source-block',
+      }],
+    };
+
+    await registry.saveReceipt(receipt);
+
+    expect(await registry.getReceipt(receipt.pairId)).toEqual(receipt);
+  });
+
   it('stores immutable snapshot bundles by content hash', async () => {
     const cwd = await mkdtemp(join(tmpdir(), 'zdoc-localize-snapshots-'));
     const snapshots = new LocalSnapshotStore(cwd);
