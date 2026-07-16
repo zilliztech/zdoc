@@ -439,6 +439,24 @@ describe('plan completion and apply', () => {
       ),
     });
 
+    await expect(workflows.inspectRecovery(created.runId)).resolves.toMatchObject({
+      state: 'manual_action_required', safeToRecover: true, manualActionsVerified: true,
+    });
+    const manualTarget = docs.documents.get('target-url')!;
+    docs.documents.set('target-url', {
+      ...manualTarget,
+      revisionId: manualTarget.revisionId + 1,
+      content: `${manualTarget.content}<p id="unexpected">unexpected edit</p>`,
+    });
+    await expect(workflows.inspectRecovery(created.runId)).resolves.toMatchObject({
+      state: 'manual_action_required', safeToRecover: false, manualActionsVerified: false,
+    });
+    docs.documents.set('target-url', manualTarget);
+    await expect(workflows.previewReverse(created.runId)).resolves.toMatchObject({
+      state: 'confirmation_required', approvalToken: expect.any(String),
+      operations: expect.arrayContaining([expect.objectContaining({kind: 'delete', blockId: 'manual-reference'})]),
+    });
+
     await expect(workflows.verifyManualActions(created.runId)).resolves.toMatchObject({state: 'completed'});
     await expect(workflows.verifyManualActions(created.runId)).resolves.toMatchObject({state: 'completed'});
     expect(await registry.getReceipt('pair-initialize')).toMatchObject({sourceRevision: 31});
@@ -735,6 +753,69 @@ describe('plan completion and apply', () => {
     await context.workflows.reversePartial(context.created.runId, reversePreview.approvalToken);
     expect(context.docs.documents.get('target-url')?.content).toContain('监控指标。</p>');
     expect((await context.registry.getRun(context.created.runId))?.state).toBe('blocked');
+  });
+
+  it('previews and restores a verified Whiteboard partial write from its raw prewrite snapshot', async () => {
+    const cwd = await mkdtemp(join(tmpdir(), 'zdoc-localize-whiteboard-recovery-'));
+    const docs = new WritableDocs();
+    const whiteboards = new MemoryWhiteboards();
+    const targetXml = '<title id="title">指南</title><whiteboard id="board" token="target-board"></whiteboard>';
+    docs.documents.set('target-url', {documentId: 'target', revisionId: 5, content: targetXml});
+    docs.documents.set('source-url', {documentId: 'source', revisionId: 2, content: '<title id="title">Guide</title>'});
+    const oldBoard = {nodes: [{id: 'old', type: 'text', text: 'Old'}]};
+    const newBoard = {nodes: [{id: 'new', type: 'text', text: 'New'}]};
+    whiteboards.values.set('target-board', newBoard);
+    const registry = new LocalRegistryStore(cwd);
+    const snapshots = new LocalSnapshotStore(cwd);
+    await registry.savePair({
+      pairId: 'pair-board-recovery', sourceLocale: 'en', targetLocale: 'zh-CN', sourceDocUrl: 'source-url',
+      targetDocUrl: 'target-url', mode: 'mirror', status: 'active',
+    });
+    const target = parseFeishuDocument(targetXml, {documentId: 'target', revisionId: 5});
+    const prewriteRef = await snapshots.putBundle({runId: 'run-board-recovery', files: {'target-prewrite.xml': targetXml}});
+    const resourcePrewriteRef = await snapshots.putBundle({
+      runId: 'run-board-recovery', files: {'whiteboard-board-op-prewrite.json': JSON.stringify(oldBoard)},
+    });
+    const plan = {
+      planVersion: 2 as const, runId: 'run-board-recovery', pairId: 'pair-board-recovery',
+      sourceRevision: 2, targetRevision: 5, sourceHash: 'source-hash', targetHash: target.canonicalHash,
+      operations: [{
+        operationId: 'board-op', policy: 'whiteboard_mirror' as const, effect: 'mirror' as const,
+        kind: 'replace' as const, confidence: 'high' as const, proposedText: '', targetNodeKind: 'whiteboard' as const,
+        targetNodeId: target.nodes[1]!.nodeId, targetBlockId: 'board', targetResourceToken: 'target-board',
+        sourceResourceToken: 'source-board', sourceResourceHash: canonicalWhiteboard(newBoard).hash,
+      }],
+    };
+    await registry.saveRun({
+      runId: 'run-board-recovery', pairId: 'pair-board-recovery', state: 'partial',
+      createdAt: '2026-07-16T00:00:00.000Z', updatedAt: '2026-07-16T00:00:00.000Z',
+      metadata: {
+        kind: 'localization', plan, prewriteRef, appliedOperations: 1,
+        lastVerifiedTargetHash: target.canonicalHash,
+        applyLog: [{
+          operationId: 'board-op', kind: 'replace', policy: 'whiteboard_mirror', resolvedBlockId: 'board',
+          targetHash: target.canonicalHash, sourceResourceHash: canonicalWhiteboard(newBoard).hash,
+          targetResourceToken: 'target-board', targetResourcePrewriteRef: resourcePrewriteRef,
+          targetResourcePrewriteHash: canonicalWhiteboard(oldBoard).hash,
+        }],
+      },
+    });
+    const workflows = new LocalizationWorkflows({
+      cwd, registry, snapshots, memory: new MemoryTranslationMemory(), docs, whiteboards,
+      clock: {now: () => new Date('2026-07-16T00:00:00.000Z')}, ids: {next: () => 'unused'},
+    });
+
+    await expect(workflows.inspectRecovery('run-board-recovery')).resolves.toMatchObject({
+      safeToRecover: true, resourceHashesMatch: true,
+    });
+    const preview = await workflows.previewReverse('run-board-recovery');
+    expect(preview.operations).toEqual([expect.objectContaining({
+      kind: 'whiteboard_restore', targetResourceToken: 'target-board',
+      expectedResourceHash: canonicalWhiteboard(oldBoard).hash,
+    })]);
+    await workflows.reversePartial('run-board-recovery', preview.approvalToken);
+    expect(canonicalWhiteboard(whiteboards.values.get('target-board')).hash).toBe(canonicalWhiteboard(oldBoard).hash);
+    expect(await registry.getRun('run-board-recovery')).toMatchObject({state: 'blocked'});
   });
 
   it('records the latest error subtype when reverse recovery fails', async () => {

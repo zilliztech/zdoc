@@ -138,13 +138,16 @@ export interface ReversePreviewResult {
   restoreTargetHash: string;
   operations: Array<{
     operationId: string;
-    kind: 'replace' | 'insert' | 'delete';
+    kind: 'replace' | 'insert' | 'delete' | 'whiteboard_restore';
     blockId?: string;
     blockIds?: string[];
     anchorBlockId?: string;
     xml?: string;
     expectedText?: string;
     targetNodeKind?: PlanOperation['targetNodeKind'];
+    targetResourceToken?: string;
+    resourceSnapshotRef?: SnapshotReference;
+    expectedResourceHash?: string;
   }>;
 }
 
@@ -160,6 +163,8 @@ interface ApplyLogEntry extends ApplyResourceEvidence {
   resolvedBlockId?: string;
   resolvedBlockIds?: string[];
   targetHash: string;
+  targetResourcePrewriteRef?: SnapshotReference;
+  targetResourcePrewriteHash?: string;
 }
 
 function blockLabel(node: SemanticNode): string {
@@ -1247,6 +1252,7 @@ export class LocalizationWorkflows {
     const resolvedTargetBlockIds = new Map<string, string>();
     const applyLog: ApplyLogEntry[] = [];
     const pendingManualActions: Array<Omit<ManualSyncedReferenceAction, 'placeholderBlockId' | 'predecessorBlockId' | 'successorBlockId'>> = [];
+    let potentialResourceWrite = false;
 
     try {
       for (const operation of plan.operations) {
@@ -1328,6 +1334,32 @@ export class LocalizationWorkflows {
               hint: 'Regenerate the localization plan and preview.',
             });
           }
+          const targetPrewrite = await mirror.snapshot(existingTargetToken);
+          const targetResourcePrewriteRef = await this.dependencies.snapshots.putBundle({
+            runId,
+            files: {
+              [`whiteboard-${operation.operationId}-prewrite.json`]: `${JSON.stringify(targetPrewrite.raw, null, 2)}\n`,
+            },
+          });
+          const provisionalLog: ApplyLogEntry = {
+            operationId: operation.operationId,
+            kind: operation.kind,
+            policy,
+            resolvedBlockId: this.requireBlockId(effectiveOperation.targetBlockId, operation.operationId),
+            targetHash: activeTarget.canonicalHash,
+            sourceResourceHash: sourceSnapshot.hash,
+            targetResourceToken: existingTargetToken,
+            targetResourcePrewriteRef,
+            targetResourcePrewriteHash: targetPrewrite.hash,
+          };
+          applyLog.push(provisionalLog);
+          potentialResourceWrite = true;
+          run = await this.markRun(run, 'applying', {
+            prewriteRef,
+            appliedOperations,
+            lastVerifiedTargetHash: activeTarget.canonicalHash,
+            applyLog,
+          });
           const mirrored = await mirror.mirrorSnapshot(
             sourceSnapshot,
             existingTargetToken,
@@ -1338,7 +1370,7 @@ export class LocalizationWorkflows {
           const resolvedBlockId = this.requireBlockId(effectiveOperation.targetBlockId, operation.operationId);
           resolvedTargetBlockIds.set(operation.operationId, resolvedBlockId);
           appliedOperations += 1;
-          applyLog.push({
+          applyLog[applyLog.length - 1] = {
             operationId: operation.operationId,
             kind: operation.kind,
             policy,
@@ -1346,7 +1378,10 @@ export class LocalizationWorkflows {
             targetHash: activeTarget.canonicalHash,
             sourceResourceHash,
             targetResourceToken,
-          });
+            targetResourcePrewriteRef,
+            targetResourcePrewriteHash: targetPrewrite.hash,
+          };
+          potentialResourceWrite = false;
           run = await this.markRun(run, 'applying', {
             prewriteRef,
             appliedOperations,
@@ -1474,7 +1509,7 @@ export class LocalizationWorkflows {
       }
     } catch (error) {
       const localizeError = error instanceof LocalizeError ? error : new LocalizeError({type: 'upstream', message: String(error)});
-      const state = appliedOperations > 0 || localizeError.type === 'partial_write' ? 'partial' : 'blocked';
+      const state = appliedOperations > 0 || potentialResourceWrite || localizeError.type === 'partial_write' ? 'partial' : 'blocked';
       await this.markRun(run, state, {prewriteRef, appliedOperations, applyError: localizeError.message}, localizeError);
       throw localizeError;
     }
@@ -2138,6 +2173,8 @@ export class LocalizationWorkflows {
     prewriteRef?: SnapshotReference;
     currentTargetHash?: string;
     currentTargetHashMatchesLastVerified?: boolean;
+    resourceHashesMatch?: boolean;
+    manualActionsVerified?: boolean;
     safeToRecover: boolean;
     recoveryToken?: string;
   }> {
@@ -2147,12 +2184,14 @@ export class LocalizationWorkflows {
       ? run.metadata.createdDocumentId
       : pair.targetDocUrl;
     let currentTargetHash: string | undefined;
+    let currentTarget: SemanticDocument | undefined;
     if (selector) {
       const fetched = await this.dependencies.docs.fetch(selector);
-      currentTargetHash = parseFeishuDocument(fetched.content, {
+      currentTarget = parseFeishuDocument(fetched.content, {
         documentId: fetched.documentId,
         revisionId: fetched.revisionId,
-      }).canonicalHash;
+      });
+      currentTargetHash = currentTarget.canonicalHash;
     }
     const lastVerifiedTargetHash = typeof run.metadata?.lastVerifiedTargetHash === 'string'
       ? run.metadata.lastVerifiedTargetHash
@@ -2160,9 +2199,47 @@ export class LocalizationWorkflows {
     const currentTargetHashMatchesLastVerified = Boolean(
       currentTargetHash && lastVerifiedTargetHash && currentTargetHash === lastVerifiedTargetHash,
     );
-    const safeToRecover = run.state === 'partial'
-      && Boolean(run.metadata?.prewriteRef)
-      && currentTargetHashMatchesLastVerified;
+    const applyLog = (run.metadata?.applyLog as ApplyLogEntry[] | undefined) ?? [];
+    let resourceHashesMatch = true;
+    for (const entry of applyLog) {
+      if (!entry.targetResourceToken || !entry.sourceResourceHash) continue;
+      if (!this.dependencies.whiteboards) {
+        resourceHashesMatch = false;
+        break;
+      }
+      const current = await new WhiteboardMirror(this.dependencies.whiteboards).snapshot(entry.targetResourceToken);
+      if (current.hash !== entry.sourceResourceHash && current.hash !== entry.targetResourcePrewriteHash) {
+        resourceHashesMatch = false;
+        break;
+      }
+    }
+    let manualActionsVerified = false;
+    if (run.state === 'manual_action_required' && currentTarget) {
+      try {
+        const postAutomaticRef = run.metadata?.postAutomaticRef as SnapshotReference | undefined;
+        const postAutomaticBundle = postAutomaticRef
+          ? await this.dependencies.snapshots.getBundle(postAutomaticRef)
+          : undefined;
+        const plannedTargetXml = postAutomaticBundle?.files['target-after-automatic-apply.xml'];
+        const actions = (run.metadata?.manualActions as ManualSyncedReferenceAction[] | undefined) ?? [];
+        if (plannedTargetXml && actions.length > 0) {
+          const plannedTarget = parseFeishuDocument(plannedTargetXml, {
+            documentId: currentTarget.documentId,
+            revisionId: currentTarget.revisionId,
+          });
+          verifyManualSyncedReferences(actions, plannedTarget, currentTarget);
+          manualActionsVerified = true;
+        }
+      } catch {
+        manualActionsVerified = false;
+      }
+    }
+    const safeToRecover = Boolean(run.metadata?.prewriteRef)
+      && resourceHashesMatch
+      && (
+        run.state === 'partial' && currentTargetHashMatchesLastVerified
+        || run.state === 'manual_action_required' && manualActionsVerified
+      );
     const recoveryToken = safeToRecover && currentTargetHash
       ? canonicalHash({runId, currentTargetHash, appliedOperations: Number(run.metadata?.appliedOperations ?? 0), prewriteRef: run.metadata?.prewriteRef})
       : undefined;
@@ -2173,6 +2250,8 @@ export class LocalizationWorkflows {
       ...(run.metadata?.prewriteRef ? {prewriteRef: run.metadata.prewriteRef as SnapshotReference} : {}),
       ...(currentTargetHash ? {currentTargetHash} : {}),
       ...(lastVerifiedTargetHash ? {currentTargetHashMatchesLastVerified} : {}),
+      ...(applyLog.some((entry) => entry.targetResourceToken) ? {resourceHashesMatch} : {}),
+      ...(run.state === 'manual_action_required' ? {manualActionsVerified} : {}),
       safeToRecover,
       ...(recoveryToken ? {recoveryToken} : {}),
     };
@@ -2181,7 +2260,7 @@ export class LocalizationWorkflows {
   async previewReverse(runId: string): Promise<ReversePreviewResult> {
     const run = await this.requireRun(runId);
     const inspection = await this.inspectRecovery(runId);
-    if (run.state !== 'partial' || !inspection.safeToRecover || !inspection.currentTargetHash) {
+    if (!['partial', 'manual_action_required'].includes(run.state) || !inspection.safeToRecover || !inspection.currentTargetHash) {
       throw new LocalizeError({
         type: 'confirmation_required',
         subtype: 'reverse_not_proven_safe',
@@ -2198,8 +2277,37 @@ export class LocalizationWorkflows {
     const prewrite = parseFeishuDocument(targetPrewriteXml, {documentId: 'target-prewrite', revisionId: 0});
     const plan = await this.planForRun(run);
     const planById = new Map(plan.operations.map((operation) => [operation.operationId, operation]));
-    const applyLog = ((run.metadata?.applyLog as Array<{operationId: string; resolvedBlockId?: string; resolvedBlockIds?: string[]}> | undefined) ?? [])
-      .slice(0, Number(run.metadata?.appliedOperations ?? 0));
+    const applyLog = [...((run.metadata?.applyLog as ApplyLogEntry[] | undefined) ?? [])];
+    if (run.state === 'manual_action_required') {
+      const pair = await this.requirePair(run.pairId);
+      const fetched = await this.dependencies.docs.fetch(this.requireTarget(pair));
+      const currentTarget = parseFeishuDocument(fetched.content, {
+        documentId: fetched.documentId,
+        revisionId: fetched.revisionId,
+      });
+      const postAutomaticRef = run.metadata?.postAutomaticRef as SnapshotReference;
+      const postAutomaticBundle = await this.dependencies.snapshots.getBundle(postAutomaticRef);
+      const plannedTargetXml = postAutomaticBundle.files['target-after-automatic-apply.xml'];
+      if (!plannedTargetXml) {
+        throw new LocalizeError({type: 'verification_failed', subtype: 'manual_target_snapshot_missing', message: 'Manual recovery has no post-automatic target snapshot.'});
+      }
+      const plannedTarget = parseFeishuDocument(plannedTargetXml, {
+        documentId: fetched.documentId,
+        revisionId: fetched.revisionId,
+      });
+      const manual = verifyManualSyncedReferences(
+        (run.metadata?.manualActions as ManualSyncedReferenceAction[] | undefined) ?? [],
+        plannedTarget,
+        currentTarget,
+      );
+      for (const entry of applyLog) {
+        const resolved = manual.resolvedBlockIds.get(entry.operationId);
+        if (resolved) {
+          entry.resolvedBlockId = resolved;
+          entry.resolvedBlockIds = [resolved];
+        }
+      }
+    }
     const appliedDeletedBlockIds = new Set(applyLog.flatMap((entry) => {
       const operation = planById.get(entry.operationId);
       return operation?.kind === 'delete'
@@ -2210,7 +2318,23 @@ export class LocalizationWorkflows {
     for (const entry of [...applyLog].reverse()) {
       const operation = planById.get(entry.operationId);
       if (!operation) throw new LocalizeError({type: 'verification_failed', subtype: 'recovery_operation_missing', message: `Applied operation ${entry.operationId} is missing from the plan.`});
-      if (operation.kind === 'replace') {
+      if (operation.policy === 'verify_synced_reference') {
+        continue;
+      } else if (operation.policy === 'whiteboard_mirror' && operation.kind === 'replace') {
+        if (!entry.targetResourceToken || !entry.targetResourcePrewriteRef || !entry.targetResourcePrewriteHash) {
+          throw new LocalizeError({
+            type: 'verification_failed', subtype: 'whiteboard_recovery_snapshot_missing',
+            message: `Whiteboard operation ${operation.operationId} has no durable pre-write resource snapshot.`,
+          });
+        }
+        operations.push({
+          operationId: operation.operationId,
+          kind: 'whiteboard_restore',
+          targetResourceToken: entry.targetResourceToken,
+          resourceSnapshotRef: entry.targetResourcePrewriteRef,
+          expectedResourceHash: entry.targetResourcePrewriteHash,
+        });
+      } else if (operation.kind === 'replace') {
         const blockId = this.requireBlockId(operation.targetBlockId, operation.operationId);
         const node = prewrite.nodes.find((candidate) => candidate.remote.blockId === blockId);
         if (!node) throw new LocalizeError({type: 'verification_failed', subtype: 'recovery_prewrite_block_missing', message: `Pre-write block ${blockId} is missing.`});
@@ -2257,6 +2381,40 @@ export class LocalizationWorkflows {
     try {
       for (const reverse of preview.operations) {
         const before = active;
+        if (reverse.kind === 'whiteboard_restore') {
+          if (!this.dependencies.whiteboards || !reverse.targetResourceToken || !reverse.resourceSnapshotRef || !reverse.expectedResourceHash) {
+            throw new LocalizeError({
+              type: 'verification_failed', subtype: 'whiteboard_recovery_snapshot_missing',
+              message: `Whiteboard reverse operation ${reverse.operationId} is incomplete.`,
+            });
+          }
+          const bundle = await this.dependencies.snapshots.getBundle(reverse.resourceSnapshotRef);
+          const rawJson = Object.values(bundle.files)[0];
+          if (!rawJson) {
+            throw new LocalizeError({
+              type: 'verification_failed', subtype: 'whiteboard_recovery_snapshot_missing',
+              message: `Whiteboard reverse operation ${reverse.operationId} has no raw snapshot payload.`,
+            });
+          }
+          await this.dependencies.whiteboards.overwriteRaw({
+            token: reverse.targetResourceToken,
+            raw: JSON.parse(rawJson) as unknown,
+            idempotencyToken: `${runId}-${reverse.operationId}-reverse`,
+          });
+          const restored = await new WhiteboardMirror(this.dependencies.whiteboards).snapshot(reverse.targetResourceToken);
+          if (restored.hash !== reverse.expectedResourceHash) {
+            throw new LocalizeError({
+              type: 'verification_failed', subtype: 'whiteboard_reverse_verification_mismatch',
+              message: `Whiteboard reverse operation ${reverse.operationId} did not restore its pre-write hash.`,
+            });
+          }
+          reverseAppliedOperations += 1;
+          run = await this.markRun(run, 'recovering', {
+            reverseAppliedOperations,
+            lastVerifiedTargetHash: active.canonicalHash,
+          });
+          continue;
+        }
         let synthetic: PlanOperation;
         let reviewOperation: ReturnType<typeof parseReview>['operations'][number];
         if (reverse.kind === 'replace') {
