@@ -1,5 +1,5 @@
 ---
-title: "External Volumes | Cloud"
+title: "外部ボリューム | BYOC"
 slug: /external-volume
 sidebar_label: "外部ボリューム"
 beta: FALSE
@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "外部ボリュームは、自分のクラウドオブジェクトストレージ（AWS S3 や Google Cloud Storage など）内のバケットまたはパスへの読み取り専用参照であり、データをコピーまたは移動することなく、その場で Zilliz Cloud がデータにアクセスできるようにします。 | Cloud"
+description: "外部ボリュームは、お客様自身のクラウドオブジェクトストレージ（AWS S3 など）内のバケットまたはパスへの読み取り専用参照であり、Zilliz Cloud がデータをコピーまたは移動せずにその場でアクセスできるようにします。 | BYOC"
 type: origin
 token: JaLdw76LPiX003kLpKHcA0n8n2d
 sidebar_position: 2
@@ -23,39 +23,39 @@ import Supademo from '@site/src/components/Supademo';
 
 import Procedures from '@site/src/components/Procedures';
 
-# External Volumes
+# 外部ボリューム
 
 <FeatureNote variant="region" titleHref="/docs/cloud-providers-and-regions">
 
-この機能は、すべての AWS リージョンおよびすべての Google Cloud リージョンで利用できます。Microsoft Azure では利用できません。Azure でボリュームを使用するには、[お問い合わせください](https://support.zilliz.com/)。
+この機能はすべての AWS リージョンで利用できます。Microsoft Azure では利用できません。Azure でボリュームを使用するには、[お問い合わせください](https://support.zilliz.com/)。
 
 </FeatureNote>
 
-外部ボリュームは、自分のクラウドオブジェクトストレージ（AWS S3 や Google Cloud Storage など）内のバケットまたはパスへの読み取り専用参照であり、データをコピーまたは移動することなく、その場で Zilliz Cloud がデータにアクセスできるようにします。 
+外部ボリュームは、お客様自身のクラウドオブジェクトストレージ（AWS S3 など）内のバケットまたはパスへの読み取り専用参照であり、Zilliz Cloud がデータをコピーまたは移動せずにその場でアクセスできるようにします。 
 
-このページでは、Web コンソールおよび SDK を使用して外部ボリュームを作成・削除する方法について説明します。                      
+このページでは、Web コンソールおよび SDK を使用して外部ボリュームを作成および削除する方法を説明します。                      
 
 ## 注意事項\{#considerations}
 
-- ボリュームは、プロジェクトのクラウドプロバイダーおよびリージョンに制限されます。たとえば、プロジェクトが AWS us-west-2 にある場合、作成できるボリュームも AWS us-west-2 のみです。
+- ボリュームはプロジェクトのクラウドプロバイダーとリージョンに制限されます。たとえば、プロジェクトが AWS us-west-2 にある場合、作成できるボリュームも AWS us-west-2 のみです。
 
 - クラスターでボリュームを使用するには、そのクラスターがボリュームと同じクラウドプロバイダーおよびリージョンに存在している必要があります。
 
 - ボリュームを作成および管理するには、**Project Admin** である必要があります。
 
-- ボリュームは一度作成すると設定を編集できません。ボリュームの設定を変更したい場合は、代わりに希望する設定で新しいボリュームを作成してください。
+- ボリュームは一度作成すると構成を編集できません。ボリュームの設定を変更したい場合は、代わりに希望する設定で新しいボリュームを作成してください。
 
-- 外部ボリュームの場合、データは自分のバケット内に保持されます。そのため、外部ボリューム上ではなく、自分のクラウドオブジェクトストレージ内でデータファイルを管理する必要があります。
+- 外部ボリュームの場合、データはお客様のバケット内に保持されます。そのため、データファイルは外部ボリューム上ではなく、お客様のクラウドオブジェクトストレージ上で管理する必要があります。
 
-- 各組織は最大 **100 個の外部ボリューム** を作成できます。
+- 各組織では最大 **100 個の外部ボリューム** を作成できます。
 
-## 始める前に\{#before-you-start}
+## 開始する前に\{#before-you-start}
 
-外部ボリュームを作成する前に、[AWS S3 bucket](./integrate-with-aws-s3) または [Google GCS bucket](./integrate-with-gcp) を統合する必要があります。ストレージ統合は、作成したい外部ボリュームと同じクラウドプロバイダーおよびリージョン内にある必要があることに注意してください。
+外部ボリュームを作成する前に、[AWS S3 バケット](./integrate-with-aws-s3) を統合する必要があります。なお、ストレージ統合は、作成したい外部ボリュームと同じクラウドプロバイダーおよびリージョンに存在している必要があります。
 
 ## 外部ボリュームを作成する\{#create-an-external-volume}
 
-- **SDK 経由**
+- **SDK を使用する場合**
 
     <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
@@ -150,19 +150,19 @@ import Procedures from '@site/src/components/Procedures';
     </TabItem>
     </Tabs>
 
-    次の表は、各パラメーターを説明しています。
+    次の表は各パラメータを説明したものです。
 
     | **Parameter** | **Description** |
     | --- | --- |
     | `projectId` | ボリュームを作成したいプロジェクトの ID。 |
-    | `regionId` | 作成するボリュームのリージョンは、データをインポートまたは移行する予定の対象クラスターのクラウドプロバイダーおよびリージョンと一致している必要があります。 |
-    | `volumeName` | 作成するボリュームの名前は組織全体で一意である必要があり、64 文字以内で、文字またはアンダースコアで始まり、英字、数字、ハイフン、アンダースコアのみを含める必要があります。 |
-    | `type` | 外部ボリュームを作成するには、このパラメーターを `EXTERNAL` に設定します。デフォルトは `MANAGED` です。 |
+    | `regionId` | 作成するボリュームのリージョンは、データをインポートまたは移行する対象クラスターのクラウドプロバイダーおよびリージョンと一致している必要があります。 |
+    | `volumeName` | 作成するボリュームの名前は組織全体で一意である必要があり、64 文字以下、文字またはアンダースコアで始まり、文字、数字、ハイフン、アンダースコアのみを含めることができます。 |
+    | `type` | 外部ボリュームを作成するには、このパラメータを `EXTERNAL` に設定します。デフォルトは `MANAGED` です。 |
     | `storageIntegrationId` | 参照するストレージ統合の ID。`type=EXTERNAL` の場合に必須です。選択するストレージ統合は、作成したい外部ボリュームと同じ組織およびリージョンに属している必要があります。 |
     | `path` | ストレージパス。`type=EXTERNAL` の場合に必須です。 |
-    | `description`(optional) | 作成するボリュームの説明。255 文字以内。 |
+    | `description`(optional) | 作成するボリュームの説明。最大 255 文字。 |
 
-- **Web コンソール経由**
+- **Web コンソールを使用する場合**
 
     <Supademo id="cmo15qfif005fy90jzr8ov1sd" title=""  />
 
@@ -170,19 +170,19 @@ import Procedures from '@site/src/components/Procedures';
 
     1. 左側のナビゲーションで **Volumes** をクリックします。
 
-    1. **Volumes** ページで **+ Volume** をクリックします。
+    1. Volumes ページで **+ Volume** をクリックします。
 
     1. ボリュームの設定を行います。
 
-        次の表は、外部ボリュームを作成するときに使用する各パラメーターを説明しています。
+        次の表は、外部ボリュームの作成時に使用する各パラメータを説明したものです。
 
         | **Parameter** | **Description** |
         | --- | --- |
-        | Name | ボリューム名は組織全体で一意である必要があり、64 文字以内で、文字またはアンダースコアで始まり、英字、数字、ハイフン、アンダースコアのみを含める必要があります。 |
-        | Description | このパラメーターは任意です。255 文字以内。 |
-        | Volume Type | ボリュームタイプとして "External" を選択します。 |
-        | Cloud Provider & Region | ボリュームのクラウドプロバイダーおよびリージョンは、データをインポートまたは移行する予定の対象クラスターのクラウドプロバイダーおよびリージョンと一致している必要があります。 |
-        | Storage Integration & Path | ストレージ統合（[AWS S3 bucket](./integrate-with-aws-s3) または [Google GCS bucket](./integrate-with-gcp)）は、クラウドストレージへのアクセス設定をカプセル化した認証情報オブジェクトです。<br/>Path は、データが配置されている場所を指すポインターです。（例: `folder/`） |
+        | Name | ボリューム名は組織全体で一意である必要があり、64 文字以下、文字またはアンダースコアで始まり、文字、数字、ハイフン、アンダースコアのみを含めることができます。 |
+        | Description | このパラメータは任意です。最大 255 文字。 |
+        | Volume Type | ボリュームタイプとして「External」を選択します。 |
+        | Cloud Provider & Region | ボリュームのクラウドプロバイダーとリージョンは、データをインポートまたは移行する対象クラスターのクラウドプロバイダーとリージョンに一致している必要があります。 |
+        | Storage Integration & Path | ストレージ統合（[AWS S3 バケット](./integrate-with-aws-s3)）は、クラウドストレージのアクセス設定をカプセル化した認証情報オブジェクトです。<br/>Path はデータが配置されている場所を指すポインタです。（例: `folder/`） |
 
     1. **Create** をクリックします。
 
@@ -192,7 +192,7 @@ import Procedures from '@site/src/components/Procedures';
 
 プロジェクト内の既存のすべてのボリュームを表示できます。
 
-- **SDK 経由**
+- **SDK を使用する場合**
 
     <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
@@ -319,7 +319,7 @@ import Procedures from '@site/src/components/Procedures';
     </TabItem>
     </Tabs>
 
-- **Web コンソール経由**
+- **Web コンソールを使用する場合**
 
     ![PeL0wrKF1hTHvwbNAZBctTQonZf](https://zdoc-images.s3.us-west-2.amazonaws.com/PeL0wrKF1hTHvwbNAZBctTQonZf.png)
 
@@ -327,7 +327,7 @@ import Procedures from '@site/src/components/Procedures';
 
 特定のボリュームの詳細を確認できます。
 
-- **SDK 経由**
+- **SDK を使用する場合**
 
     <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
@@ -433,17 +433,17 @@ import Procedures from '@site/src/components/Procedures';
     </TabItem>
     </Tabs>
 
-- **Web コンソール経由**
+- **Web コンソールを使用する場合**
 
     ![NrgXwPhxGhq78NbBfDYcWc6Ened](https://zdoc-images.s3.us-west-2.amazonaws.com/NrgXwPhxGhq78NbBfDYcWc6Ened.png)
 
 ## 外部ボリュームを削除する\{#delete-an-external-volume}
 
-不要になった外部ボリュームは、いつでも削除できます。
+不要になった外部ボリュームはいつでも削除できます。
 
-外部ボリュームを削除しても、Zilliz Cloud から削除されるのはボリュームのメタデータのみであり、データ自体はクラウドオブジェクトストレージ内にそのまま残ります。 
+外部ボリュームを削除しても、Zilliz Cloud から削除されるのはボリュームのメタデータのみであり、データ自体はクラウドオブジェクトストレージ内にそのまま保持されます。 
 
-- **SDK 経由**
+- **SDK を使用する場合**
 
     <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
@@ -522,7 +522,7 @@ import Procedures from '@site/src/components/Procedures';
     </TabItem>
     </Tabs>
 
-- **Web コンソール経由**
+- **Web コンソールを使用する場合**
 
     <Supademo id="cmo168p180083y90jhb7al4cb" title=""  />
 
@@ -536,43 +536,37 @@ import Procedures from '@site/src/components/Procedures';
 
     </Procedures>
 
-## Billing\{#billing}
-
-外部ボリュームの作成および使用に対して、Zilliz Cloud の料金は発生しません。支払い方法の登録も不要です。
-
-ただし、インポートまたは移行時に Zilliz Cloud がお客様のバケットからデータを読み取る際、クラウドプロバイダー側でデータリクエスト料金が発生する場合があります。詳細については、[Amazon S3 Pricing](https://aws.amazon.com/s3/pricing/) または [Google Cloud Storage Pricing](https://cloud.google.com/storage/pricing.) を参照してください。
-
 ## FAQs\{#faqs}
 
-**請求書の未払いにより組織が凍結された場合、私のボリュームはどうなりますか？**
+**請求書の未払いにより組織が凍結された場合、ボリュームはどうなりますか？**
 
-組織が凍結されると、無料トライアルと従量課金制の両方を含むすべてのマネージドボリュームと、それらに保存されているすべてのファイルは削除され、復元できません。外部ボリュームも凍結され、新しい操作には使用できなくなりますが、お客様自身のバケット内のデータには影響しません。
+組織が凍結されると、すべてのマネージド Volume（無料トライアルと従量課金の両方）およびそこに保存されているすべてのファイルは削除され、復元できません。外部ボリュームも凍結され、新しい操作には使用できなくなりますが、ご自身のバケット内のデータには影響ありません。
 
-ボリュームの利用を継続するには、まず未払いの請求書をすべて精算してください。
+ボリュームの利用を継続するには、まず未払いの請求書をすべて支払ってください。
 
 **外部ボリュームと外部ストレージからの直接インポートの違いは何ですか？**
 
-どちらも、お客様自身の S3 または GCS バケットからデータをインポートできます。主な違いは次のとおりです。
+どちらも、ご自身の S3 または GCS バケットからデータをインポートできます。主な違いは次のとおりです。
 
-- 外部ボリュームでは、認証情報管理のために [AWS S3 バケット](./integrate-with-aws-s3)、[Google Cloud Storage バケット](./integrate-with-gcp)、または [Microsoft Azure Blob Storage コンテナー](./integrate-with-azure-blob-storage) を Zilliz Cloud と統合する必要があります。認証情報は一度設定すれば、複数のボリュームや操作で再利用できます。データエンジニアがクラウドストレージのキーに直接アクセスする必要はありません。
+- 外部ボリュームでは、認証情報管理のために [AWS S3 bucket](./integrate-with-aws-s3) を Zilliz Cloud と統合する必要があります。認証情報は一度設定すれば、複数のボリュームや操作で再利用できます。データエンジニアがクラウドストレージのキーに直接アクセスする必要はありません。
 
-- 直接の[外部ストレージインポート](./import-data-on-web-ui#remote-files-from-an-object-storage-bucket)では、インポート要求ごとに認証情報（アクセスキーとシークレットキー）を指定する必要があります。これは一度限りのインポートにはシンプルですが、認証情報の分離や再利用性は提供されません。
+- 直接の [external storage import](./import-data-on-web-ui#remote-files-from-an-object-storage-bucket) では、インポートリクエストごとに認証情報（access key と secret key）を指定する必要があります。これは一度限りのインポートにはより簡単ですが、認証情報の分離や再利用性は提供されません。
 
-**外部ボリュームの作成後に、そのストレージ統合またはパスを変更できますか？**
+**外部ボリューム作成後に、ストレージ統合やパスを変更できますか？**
 
-いいえ。外部ボリュームの作成後に、ストレージ統合とパスを変更することはできません。別のストレージ統合またはパスを使用するには、新しい外部ボリュームを作成してください。
+いいえ。外部ボリュームの作成後は、ストレージ統合およびパスを変更できません。別のストレージ統合またはパスを使用するには、新しい外部ボリュームを作成してください。
 
-**アクティブなジョブまたは外部コレクションから参照されている外部ボリュームを削除できますか？**
+**アクティブなジョブまたは external collection から参照されている外部ボリュームを削除できますか？**
 
-いいえ。下流の外部コレクションまたはアクティブなジョブがそのボリュームを参照している場合、削除はブロックされます。
+いいえ。下流の external collection またはアクティブなジョブがそのボリュームを参照している場合、削除はブロックされます。
 
 **外部ボリュームを使用すると、データ転送料金は発生しますか？**
 
-いいえ。外部ボリュームは、お使いのクラスターと同じクラウドプロバイダーおよびリージョン内になければなりません。すべてのデータアクセスは同一リージョン内で行われるため、Zilliz Cloud ではリージョン間のデータ転送料金は発生しません。
+いいえ。外部ボリュームは、お使いの cluster と同じクラウドプロバイダーおよびリージョン内になければなりません。すべてのデータアクセスは同一リージョン内で行われるため、Zilliz Cloud ではリージョン間のデータ転送料金は発生しません。
 
 **ボリュームのステータスは何を意味しますか？**
 
-以下の表は、ボリュームに設定される可能性のあるステータスを示しています。
+以下の表は、可能なボリュームステータスを示しています。
 
 <table>
    <tr>
@@ -589,7 +583,7 @@ import Procedures from '@site/src/components/Procedures';
    </tr>
    <tr>
      <td><p><strong>Error</strong></p></td>
-     <td><p>ストレージ統合の検証に失敗しました。設定を確認し、再試行してください。</p><p>利用可能なストレージ統合は次のとおりです。</p><ul><li><p><a href="./integrate-with-aws-s3">AWS S3 バケット</a>、</p></li><li><p><a href="./integrate-with-gcp">Google Cloud Storage バケット</a>、または</p></li><li><p><a href="./integrate-with-azure-blob-storage">Microsoft Azure Blob Storage コンテナー</a></p></li></ul></td>
+     <td><p>ストレージ統合の検証に失敗しました。設定を確認して再試行してください。</p><p>利用可能なアプリケーションストレージ統合は次のとおりです。</p><ul><li><a href="./integrate-with-aws-s3">AWS S3 bucket</a>、</li></ul></td>
    </tr>
 </table>
 

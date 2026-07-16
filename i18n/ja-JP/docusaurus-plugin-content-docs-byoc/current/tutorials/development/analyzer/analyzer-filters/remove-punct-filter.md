@@ -7,10 +7,10 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "`removepunct` フィルタは、トークンストリームから独立した句読点トークンを削除します。句読点記号ではなく意味のある内容語に重点を置いた、よりクリーンなテキスト処理を行いたい場合に使用します。 | BYOC"
+description: "`removepunct` フィルタは、トークンストリームから独立した句読点トークンを削除します。句読点ではなく意味のある内容語に焦点を当てた、よりクリーンなテキスト処理を行いたい場合に使用します。 | BYOC"
 type: origin
 token: TVfnwtCEQico7Bk9bngcnV1cnGb
-sidebar_position: 10
+sidebar_position: 11
 displayed_sidebar: default
 
 ---
@@ -21,17 +21,17 @@ import TabItem from '@theme/TabItem';
 
 # Remove Punct
 
-`removepunct` フィルタは、トークンストリームから独立した句読点トークンを削除します。句読点記号ではなく意味のある内容語に重点を置いた、よりクリーンなテキスト処理を行いたい場合に使用します。
+`removepunct` フィルタは、トークンストリームから独立した句読点トークンを削除します。句読点ではなく意味のある内容語に焦点を当てた、よりクリーンなテキスト処理を行いたい場合に使用します。
 
 <Admonition type="info" icon="📘" title="注意">
 
-このフィルタは、句読点を個別のトークンとして保持する `jieba`、`lindera`、`icu` トークナイザーと組み合わせた場合に最も効果的です（例: `"Hello!"` → `["Hello", "!"]`）。`standard` や `whitespace` のような他のトークナイザーはトークン化の際に句読点を破棄するため、`removepunct` はそれらには効果がありません。
+このフィルタは、句読点を個別のトークンとして保持する `jieba`、`lindera`、`icu` トークナイザーと組み合わせると最も効果的です（例: `"Hello!"` → `["Hello", "!"]`）。`standard` や `whitespace` のような他のトークナイザーは、トークン化の際に句読点を破棄するため、`removepunct` はそれらには効果がありません。
 
 </Admonition>
 
-## Configuration\{#configuration}
+## 設定\{#configuration}
 
-`removepunct` フィルタは Zilliz Cloud に組み込まれています。これを使用するには、`analyzer_params` 内の `filter` セクションにその名前を指定するだけです。
+`removepunct` フィルタは Zilliz Cloud に組み込まれています。使用するには、`analyzer_params` 内の `filter` セクションでその名前を指定するだけです。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -87,15 +87,15 @@ nlohmann::json analyzer_params = {
 };
 ```
 
-`removepunct` フィルタはトークナイザーによって生成された term に対して動作するため、トークナイザーと組み合わせて使用する必要があります。
+`removepunct` フィルタはトークナイザーによって生成されたトークンに対して動作するため、トークナイザーと組み合わせて使用する必要があります。
 
-`analyzer_params` を定義した後、collection schema を定義する際にそれらを `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud は指定された analyzer を使用してそのフィールド内のテキストを処理し、効率的なトークン化とフィルタリングを実行できます。詳細については、[使用例](./analyzer-overview#example-use) を参照してください。
+`analyzer_params` を定義した後、コレクションスキーマを定義する際にそれらを `VARCHAR` フィールドへ適用できます。これにより Zilliz Cloud は、効率的なトークン化とフィルタリングのために、指定されたアナライザーを使用してそのフィールド内のテキストを処理できます。詳細については、[使用例](./analyzer-overview#example-use) を参照してください。
 
-## Examples\{#examples}
+## 例\{#examples}
 
-analyzer の設定を collection schema に適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
+アナライザー設定をコレクションスキーマに適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
 
-### Analyzer configuration\{#analyzer-configuration}
+### アナライザー設定\{#analyzer-configuration}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -151,7 +151,7 @@ nlohmann::json analyzer_params = {
 };
 ```
 
-### Verification using `run_analyzer`\{#verification-using-runanalyzer}
+### `run_analyzer` を使用した検証\{#verification-using-runanalyzer}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -272,7 +272,7 @@ if (!status.IsOk()) {
 }
 ```
 
-### Expected output\{#expected-output}
+### 期待される出力\{#expected-output}
 
 ```plaintext
 ['Привет', 'Как', 'дела']

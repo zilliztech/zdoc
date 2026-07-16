@@ -1,16 +1,16 @@
 ---
-title: "同義語 | BYOC"
+title: "Synonym | BYOC"
 slug: /synonym-filter
-sidebar_label: "同義語"
+sidebar_label: "Synonym"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "`synonym` フィルターは、同義語辞書に従ってトークンを書き換え、検索時に関連する用語が一致するようにします。2 つの動作モードと 2 つの辞書提供方法をサポートします | BYOC"
+description: "`synonym` フィルターは、同義語辞書に従ってトークンを書き換えることで、検索時に関連する用語が一致するようにします。2 つの動作モードと 2 つの辞書指定方法をサポートしています | BYOC"
 type: origin
 token: Wo5xwhRaWitCP9kXOG2c082en2c
-sidebar_position: 12
+sidebar_position: 13
 displayed_sidebar: default
 
 ---
@@ -18,51 +18,51 @@ displayed_sidebar: default
 import Admonition from '@theme/Admonition';
 
 
-# 同義語
+# Synonym
 
-`synonym` フィルターは、同義語辞書に従ってトークンを書き換え、検索時に関連する用語が一致するようにします。2 つの動作モードと 2 つの辞書提供方法をサポートします。
+`synonym` フィルターは、同義語辞書に従ってトークンを書き換えることで、検索時に関連する用語が一致するようにします。2 つの動作モードと 2 つの辞書指定方法をサポートしています。
 
-- **動作モード** — `expand` モードでは元のトークンを保持し、それに加えて同義語を出力します。正規化モード（`expand: false`）では、トークンを正規形に書き換えます。
+- **Operation modes** — `expand` モードでは元のトークンを保持し、それに加えて同義語も出力します。正規化モード（`expand: false`）では、トークンを正規形に書き換えます。
 
-- **辞書ソース** — 小さな辞書は `synonyms` 配列を使ってフィルター設定にインラインで埋め込めます。大きな辞書は [file resource](./manage-file-resources) として保存し、`synonyms_file` 経由で参照する必要があります。
+- **Dictionary sources** — 小規模な辞書は `synonyms` 配列を使ってフィルター設定内にインラインで埋め込めます。大規模な辞書は [file resource](./manage-file-resources) として保存し、`synonyms_file` で参照する必要があります。
 
-## 辞書形式\{#dictionary-format}
+## Dictionary format\{#dictionary-format}
 
-同義語辞書はプレーンテキストのドキュメント（またはインライン配列）で、各行が 1 つのルールを定義します。サポートされるルール形式は 2 種類あります。
+同義語辞書はプレーンテキストのドキュメント（またはインライン配列）で、各行が 1 つのルールを定義します。サポートされるルール形式は 2 種類です。
 
-### マッピングルール\{#mapping-rule}
+### Mapping rule\{#mapping-rule}
 
 ```plaintext
 fast, quick => speedy
 ```
 
-左側のトークン（`fast`, `quick`）は右側のトークン（`speedy`）に書き換えられます。複数のターゲットも許可されます。
+左側のトークン（`fast`、`quick`）は右側のトークン（`speedy`）に書き換えられます。複数のターゲットも指定できます。
 
 ```plaintext
 small, little => tiny, compact
 ```
 
-`expand: true` の場合、元のトークンはターゲットとともに保持されます。
+`expand: true` の場合、元のトークンはターゲットと一緒に保持されます。
 
 - 入力 `fast` で `expand: true` → `fast`, `speedy`
 
 - 入力 `fast` で `expand: false` → `speedy`
 
-### 等価グループ\{#equivalence-group}
+### Equivalence group\{#equivalence-group}
 
 ```plaintext
 happy, joyful, cheerful
 ```
 
-列挙されたすべてのトークンは同等とみなされます。
+列挙されたすべてのトークンは同等と見なされます。
 
-- `expand: true` の場合、グループ内の任意のトークンが出現すると、そのグループ内のすべてのトークンが出力されます。入力 `happy` → `happy`, `joyful`, `cheerful`。
+- `expand: true` の場合、グループ内のいずれかのトークンが出現すると、グループ内のすべてのトークンが出力されます。入力 `happy` → `happy`, `joyful`, `cheerful`。
 
-- `expand: false` の場合、すべての出現はグループ内の最初のトークンに書き換えられます。入力 `joyful` → `happy`。入力 `happy` はすでに最初のトークンであるため変更されません。
+- `expand: false` の場合、出現したすべてのトークンはグループ内の最初のトークンに書き換えられます。入力 `joyful` → `happy`。入力 `happy` はすでに最初のトークンなので変更されません。
 
-## 設定\{#configuration}
+## Configuration\{#configuration}
 
-`synonym` フィルターはカスタムフィルターです。`"type": "synonym"` を指定し、`synonyms`（インライン）または `synonyms_file`（外部）の少なくとも一方に加えて、`expand` フラグも指定します。
+`synonym` フィルターは custom filter です。`"type": "synonym"` を指定し、`synonyms`（インライン）または `synonyms_file`（外部）の少なくとも一方に加えて、`expand` フラグを指定します。
 
 ```python
 analyzer_params = {
@@ -70,11 +70,11 @@ analyzer_params = {
     "filter": [
         {
             "type": "synonym",
-            "synonyms": [                       # インラインルール（任意）
+            "synonyms": [                       # inline rules (optional)
                 "fast, quick => speedy",
                 "happy, joyful, cheerful",
             ],
-            "synonyms_file": {                  # 外部ルール（任意）
+            "synonyms_file": {                  # external rules (optional)
                 "type": "remote",
                 "resource_name": "en_synonyms",
                 "file_name": "synonyms.txt",
@@ -85,29 +85,29 @@ analyzer_params = {
 }
 ```
 
-`synonym` フィルターは次のパラメータを受け付けます。
+`synonym` フィルターは次のパラメーターを受け付けます。
 
 | **Parameter** | **Description** | **Default** |
 | --- | --- | --- |
-| `synonyms` | ルール文字列のインライン配列です。各文字列は上記で説明した辞書形式を使用します。小さな辞書（数十ルール程度まで）に適しています。 | — |
-| `synonyms_file` | 1 行に 1 つの同義語ルールを格納した [file resource](./manage-file-resources) への参照です。より大きな辞書に使用します。以下の [External dictionary file](./synonym-filter#external-dictionary-file) を参照してください。 | — |
-| `expand` | ルールの適用方法を制御するブールフラグです。true は元のトークンを保持し、それに加えて同義語を出力します。false はトークンを正規形（マッピングの右辺、または等価グループの最初のトークン）に書き換えます。 | false |
+| `synonyms` | ルール文字列のインライン配列です。各文字列は上記で説明した辞書形式を使用します。小規模な辞書（数十ルール程度まで）に適しています。 | — |
+| `synonyms_file` | 1 行ごとに同義語ルールを保存する [file resource](./manage-file-resources) への参照です。より大きな辞書に使用します。詳細は以下の [External dictionary file](./synonym-filter#external-dictionary-file) を参照してください。 | — |
+| `expand` | ルールの適用方法を制御するブールフラグです。true は元のトークンを保持し、それに加えて同義語も出力します。false はトークンを正規形（mapping の右辺、または equivalence group の最初のトークン）に書き換えます。 | false |
 
-`synonyms`、`synonyms_file`、またはその両方を指定できます。両方が存在する場合、フィルターは 2 つのソースをマージします。フィルターは tokenizer によって生成されたトークンに対して動作するため、[standard](./standard-tokenizer) tokenizer などの tokenizer と組み合わせる必要があります。
+`synonyms`、`synonyms_file`、またはその両方を指定できます。両方が存在する場合、フィルターは 2 つのソースをマージします。このフィルターは tokenizer が生成したトークンに対して動作するため、[standard](./standard-tokenizer) tokenizer などの tokenizer と組み合わせて使用する必要があります。
 
-### 外部辞書ファイル\{#external-dictionary-file}
+### External dictionary file\{#external-dictionary-file}
 
-本番規模の辞書については、そのファイルをリモート file resource として登録し、`synonyms_file` から参照します。
+本番規模の辞書では、ファイルを remote file resource として登録し、`synonyms_file` から参照します。
 
 ```python
 from pymilvus import MilvusClient
 
 client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
 
-# ファイルは一度だけ登録し、それを必要とする任意の analyzer から参照します。
+# Register the file once, then reference it from any analyzer that needs it.
 client.add_file_resource(
     name="en_synonyms",
-    path="file/synonyms.txt",     # rootPath を含む完全な S3 オブジェクトキー
+    path="file/synonyms.txt",     # full S3 object key, including rootPath
 )
 
 analyzer_params = {
@@ -126,9 +126,9 @@ analyzer_params = {
 
 完全なワークフロー（アップロード、登録、一覧表示、削除）および代替の `"type": "local"` 形式については、Manage File Resources を参照してください。
 
-## 例\{#examples}
+## Examples\{#examples}
 
-analyzer を collection スキーマに適用する前に、`run_analyzer` でその動作を確認してください。以下の例では簡潔にするためインラインの `synonyms` 配列を使用しています。より大きな辞書では `synonyms_file` に置き換えてください。
+analyzer を collection スキーマに適用する前に、`run_analyzer` を使ってその動作を確認してください。以下の例では簡潔さのためにインラインの `synonyms` 配列を使用しています。より大きな辞書では `synonyms_file` に置き換えてください。
 
 ### `expand: true` — 元のトークンを保持し、同義語を追加\{#expand-true-keep-the-original-add-synonyms}
 
@@ -156,7 +156,7 @@ print(client.run_analyzer(["i am happy today"], analyzer_params))
 # → [['i', 'am', 'happy', 'joyful', 'cheerful', 'today']]
 ```
 
-`fast` と `happy` はどちらも保持され、その同義語があわせて出力されます。
+`fast` と `happy` はどちらも保持され、それぞれの同義語が一緒に出力されます。
 
 ### `expand: false` — 正規形に書き換え\{#expand-false-rewrite-to-canonical-form}
 
@@ -180,4 +180,4 @@ print(client.run_analyzer(["i am happy today"], analyzer_params_norm))
 # → [['i', 'am', 'happy', 'today']]
 ```
 
-マッピングルールは `fast` を `speedy` に書き換えます。等価グループでは、`happy` はグループ内の最初のトークンであるため変更されません。`joyful` または `cheerful` を含む入力であれば、`happy` に書き換えられていたはずです。
+mapping ルールでは `fast` は `speedy` に書き換えられます。equivalence group では、`happy` はグループの最初のトークンであるため変更されません。入力に `joyful` または `cheerful` が含まれていた場合は、`happy` に書き換えられていたはずです。
