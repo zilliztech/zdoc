@@ -15,8 +15,10 @@ import {alignChanges, rebaseCorrespondences} from '../domain/alignment.js';
 import {diffDocuments} from '../domain/diff.js';
 import {LocalizeError} from '../domain/errors.js';
 import {canonicalHash} from '../domain/hash.js';
+import {renderDiagnosticMarkdown} from '../domain/markdown-renderer.js';
 import {findReverseInsertionAnchor} from '../domain/recovery.js';
 import {resolveGlossary, type ResolvedGlossaryTerm} from '../domain/glossary.js';
+import {transitionRun} from '../domain/state-machine.js';
 import type {
   AlignedChange,
   DocumentPair,
@@ -295,6 +297,43 @@ function buildRequest(
   };
 }
 
+function documentArtifacts(name: string, content: string, document: SemanticDocument): Record<string, string> {
+  return {
+    [`${name}.xml`]: content,
+    [`${name}.semantic.json`]: `${JSON.stringify(document, null, 2)}\n`,
+    [`${name}.md`]: renderDiagnosticMarkdown(document),
+  };
+}
+
+function currentDocumentArtifacts(source: FetchedDocument, target: FetchedDocument): Record<string, string> {
+  const sourceDocument = parseFeishuDocument(source.content, {
+    documentId: source.documentId,
+    revisionId: source.revisionId,
+  });
+  const targetDocument = parseFeishuDocument(target.content, {
+    documentId: target.documentId,
+    revisionId: target.revisionId,
+  });
+  return {
+    ...documentArtifacts('source-current', source.content, sourceDocument),
+    ...documentArtifacts('target-current', target.content, targetDocument),
+  };
+}
+
+function runErrorProjection(error: LocalizeError): Pick<RunRecord, 'errorType' | 'errorDetail'> {
+  return {
+    errorType: error.subtype ?? error.type,
+    errorDetail: {
+      type: error.type,
+      ...(error.subtype ? {subtype: error.subtype} : {}),
+      message: error.message,
+      ...(error.hint ? {hint: error.hint} : {}),
+      retryable: error.retryable,
+      ...(error.details === undefined ? {} : {details: error.details}),
+    },
+  };
+}
+
 export class LocalizationWorkflows {
   constructor(private readonly dependencies: WorkflowDependencies) {}
 
@@ -318,10 +357,8 @@ export class LocalizationWorkflows {
     const bundle = {
       runId,
       files: {
-        'source.xml': sourceFetch.content,
-        'source.semantic.json': JSON.stringify(source, null, 2),
-        'target.xml': targetFetch.content,
-        'target.semantic.json': JSON.stringify(target, null, 2),
+        ...documentArtifacts('source', sourceFetch.content, source),
+        ...documentArtifacts('target', targetFetch.content, target),
         'bootstrap-audit.json': JSON.stringify(audit, null, 2),
       },
     };
@@ -335,7 +372,7 @@ export class LocalizationWorkflows {
       sourceHash: source.canonicalHash,
       targetRevision: target.revisionId,
       targetHash: target.canonicalHash,
-    }));
+    }, {sourceToRevision: source.revisionId, targetPlanRevision: target.revisionId}));
     return {runId, state: 'review_required', audit, auditPath};
   }
 
@@ -382,20 +419,22 @@ export class LocalizationWorkflows {
       revisionId: currentTargetFetch.revisionId,
     });
     if (currentSource.revisionId !== source.revisionId || currentSource.canonicalHash !== source.canonicalHash) {
-      await this.markRun(run, 'stale', {staleReason: 'bootstrap_source_changed'});
-      throw new LocalizeError({
+      const error = new LocalizeError({
         type: 'stale_plan',
         subtype: 'bootstrap_source_changed',
         message: 'The remote English document changed during bootstrap review.',
       });
+      await this.markRun(run, 'stale', {staleReason: 'bootstrap_source_changed'}, error);
+      throw error;
     }
     if (currentTarget.revisionId !== target.revisionId || currentTarget.canonicalHash !== target.canonicalHash) {
-      await this.markRun(run, 'stale', {staleReason: 'bootstrap_target_changed'});
-      throw new LocalizeError({
+      const error = new LocalizeError({
         type: 'stale_plan',
         subtype: 'bootstrap_target_changed',
         message: 'The remote Chinese document changed during bootstrap review.',
       });
+      await this.markRun(run, 'stale', {staleReason: 'bootstrap_target_changed'}, error);
+      throw error;
     }
     const pendingReceipt: LocalizationReceipt = {
       pairId: run.pairId,
@@ -410,7 +449,7 @@ export class LocalizationWorkflows {
     };
     await this.dependencies.registry.saveReceipt(pendingReceipt);
     await this.dependencies.registry.savePair({...pair, status: 'active'});
-    await this.dependencies.registry.saveRun({...run, state: 'completed', updatedAt: this.dependencies.clock.now().toISOString()});
+    await this.markRun(run, 'completed', {});
   }
 
   async createPlan(pairId: string): Promise<PlanningResult> {
@@ -438,23 +477,28 @@ export class LocalizationWorkflows {
     const changes = diffDocuments(baseline, source);
     const currentCorrespondences = rebaseCorrespondences(receipt.correspondences, baseline, source);
     const runId = this.dependencies.ids.next();
+    const revisions = {
+      sourceFromRevision: receipt.sourceRevision,
+      sourceToRevision: source.revisionId,
+      targetPlanRevision: target.revisionId,
+    };
 
     if (changes.length === 0) {
-      await this.dependencies.registry.saveRun(this.newRun(runId, pairId, 'completed', {kind: 'localization', noChanges: true}));
+      await this.dependencies.registry.saveRun(this.newRun(runId, pairId, 'completed', {kind: 'localization', noChanges: true}, revisions));
       return {runId, state: 'completed', changes, translationRequests: []};
     }
     if (pair.mode === 'independent') {
-      await this.dependencies.registry.saveRun(this.newRun(runId, pairId, 'blocked', {kind: 'localization', changes, blocker: 'independent document'}));
+      const error = new LocalizeError({type: 'unsupported_content', subtype: 'independent_document', message: 'Independent documents are report-only.'});
+      await this.dependencies.registry.saveRun(this.newRun(runId, pairId, 'blocked', {kind: 'localization', changes, blocker: 'independent document'}, {...revisions, ...runErrorProjection(error)}));
       return {runId, state: 'blocked', changes, translationRequests: [], blocker: 'independent documents are report-only'};
     }
     if (pair.mode === 'selective') {
-      await this.persistPlanArtifacts(runId, sourceFetch, targetFetch, changes, [], 'classification_required');
+      await this.persistPlanArtifacts(runId, sourceFetch, targetFetch, changes, []);
       const bundleRef = await this.dependencies.snapshots.putBundle({
         runId,
         files: {
           'source-baseline.xml': baselineXml,
-          'source-current.xml': sourceFetch.content,
-          'target-current.xml': targetFetch.content,
+          ...currentDocumentArtifacts(sourceFetch, targetFetch),
           'changes.json': JSON.stringify(changes, null, 2),
           'current-correspondences.json': JSON.stringify(currentCorrespondences, null, 2),
         },
@@ -467,7 +511,7 @@ export class LocalizationWorkflows {
         sourceHash: source.canonicalHash,
         targetRevision: target.revisionId,
         targetHash: target.canonicalHash,
-      }));
+      }, revisions));
       return {runId, state: 'classification_required', changes, translationRequests: []};
     }
 
@@ -478,7 +522,8 @@ export class LocalizationWorkflows {
     const low = aligned.find((item) => item.confidence === 'low');
     if (low) {
       const blocker = low.blocker ?? 'low-confidence alignment';
-      await this.dependencies.registry.saveRun(this.newRun(runId, pairId, 'blocked', {kind: 'localization', changes, aligned, blocker}));
+      const error = new LocalizeError({type: 'alignment_blocked', subtype: 'low_confidence_alignment', message: blocker});
+      await this.dependencies.registry.saveRun(this.newRun(runId, pairId, 'blocked', {kind: 'localization', changes, aligned, blocker}, {...revisions, ...runErrorProjection(error)}));
       return {runId, state: 'blocked', changes, translationRequests: [], blocker};
     }
     const unsupported = aligned.find((item) => {
@@ -487,7 +532,8 @@ export class LocalizationWorkflows {
     });
     if (unsupported) {
       const blocker = `changed ${unsupported.change.after?.kind ?? unsupported.change.before?.kind} content is report-only`;
-      await this.dependencies.registry.saveRun(this.newRun(runId, pairId, 'blocked', {kind: 'localization', changes, aligned, blocker}));
+      const error = new LocalizeError({type: 'unsupported_content', subtype: 'report_only_content', message: blocker});
+      await this.dependencies.registry.saveRun(this.newRun(runId, pairId, 'blocked', {kind: 'localization', changes, aligned, blocker}, {...revisions, ...runErrorProjection(error)}));
       return {runId, state: 'blocked', changes, translationRequests: [], blocker};
     }
 
@@ -499,14 +545,12 @@ export class LocalizationWorkflows {
       targetFetch,
       changes,
       translationRequests,
-      'translation_required',
     );
     const bundleRef = await this.dependencies.snapshots.putBundle({
       runId,
       files: {
         'source-baseline.xml': baselineXml,
-        'source-current.xml': sourceFetch.content,
-        'target-current.xml': targetFetch.content,
+        ...currentDocumentArtifacts(sourceFetch, targetFetch),
         'changes.json': JSON.stringify(changes, null, 2),
         'alignments.json': JSON.stringify(aligned, null, 2),
         'current-correspondences.json': JSON.stringify(currentCorrespondences, null, 2),
@@ -523,7 +567,7 @@ export class LocalizationWorkflows {
       changes,
       aligned,
       glossaryHash: translationInputs.glossaryHash,
-    }));
+    }, revisions));
     return {runId, state: 'translation_required', changes, translationRequests, translationRequestsPath};
   }
 
@@ -531,7 +575,8 @@ export class LocalizationWorkflows {
     if (pair.mode !== 'mirror') {
       const runId = this.dependencies.ids.next();
       const blocker = 'Automatic target creation is supported only for mirror document pairs.';
-      await this.dependencies.registry.saveRun(this.newRun(runId, pair.pairId, 'blocked', {kind: 'creation', blocker}));
+      const error = new LocalizeError({type: 'configuration', subtype: 'automatic_creation_requires_mirror', message: blocker});
+      await this.dependencies.registry.saveRun(this.newRun(runId, pair.pairId, 'blocked', {kind: 'creation', blocker}, runErrorProjection(error)));
       return {runId, state: 'blocked', changes: [], translationRequests: [], blocker};
     }
     if (!pair.targetParentToken) {
@@ -550,11 +595,12 @@ export class LocalizationWorkflows {
     const reportOnly = source.nodes.filter((node) => !node.writable && node.kind !== 'code');
     if (reportOnly.length > 0) {
       const blocker = `New target creation contains report-only content: ${reportOnly.map((node) => `${node.kind}:${blockLabel(node)}`).join(', ')}`;
+      const error = new LocalizeError({type: 'unsupported_content', subtype: 'creation_report_only_content', message: blocker});
       await this.dependencies.registry.saveRun(this.newRun(runId, pair.pairId, 'blocked', {
         kind: 'creation',
         blocker,
         reportOnlyNodes: reportOnly.map((node) => ({kind: node.kind, blockId: node.remote.blockId, text: node.text})),
-      }));
+      }, {sourceToRevision: source.revisionId, targetPlanRevision: 0, ...runErrorProjection(error)}));
       return {runId, state: 'blocked', changes: [], translationRequests: [], blocker};
     }
     const target = parseFeishuDocument('', {documentId: 'new-target', revisionId: 0});
@@ -574,13 +620,11 @@ export class LocalizationWorkflows {
       {documentId: 'new-target', revisionId: 0, content: ''},
       changes,
       translationInputs.requests,
-      'translation_required',
     );
     const bundleRef = await this.dependencies.snapshots.putBundle({
       runId,
       files: {
-        'source-current.xml': sourceFetch.content,
-        'target-current.xml': '',
+        ...currentDocumentArtifacts(sourceFetch, {documentId: 'new-target', revisionId: 0, content: ''}),
         'changes.json': `${JSON.stringify(changes, null, 2)}\n`,
         'alignments.json': `${JSON.stringify(aligned, null, 2)}\n`,
         'translation-requests.json': `${JSON.stringify(translationInputs.requests, null, 2)}\n`,
@@ -596,7 +640,7 @@ export class LocalizationWorkflows {
       changes,
       aligned,
       glossaryHash: translationInputs.glossaryHash,
-    }));
+    }, {sourceToRevision: source.revisionId, targetPlanRevision: 0}));
     return {
       runId,
       state: 'translation_required',
@@ -641,13 +685,15 @@ export class LocalizationWorkflows {
     ), target));
     const blocker = aligned.find((item) => item.confidence === 'low')?.blocker;
     if (blocker) {
-      await this.markRun(run, 'blocked', {blocker, aligned});
+      const error = new LocalizeError({type: 'alignment_blocked', subtype: 'low_confidence_alignment', message: blocker});
+      await this.markRun(run, 'blocked', {blocker, aligned}, error);
       return {runId, state: 'blocked', changes: selected, translationRequests: [], blocker};
     }
     const unsupported = aligned.find((item) => !(item.change.after ?? item.change.before)?.writable);
     if (unsupported) {
       const reason = `changed ${unsupported.change.after?.kind ?? unsupported.change.before?.kind} content is report-only`;
-      await this.markRun(run, 'blocked', {blocker: reason, aligned});
+      const error = new LocalizeError({type: 'unsupported_content', subtype: 'report_only_content', message: reason});
+      await this.markRun(run, 'blocked', {blocker: reason, aligned}, error);
       return {runId, state: 'blocked', changes: selected, translationRequests: [], blocker: reason};
     }
     const translationInputs = await this.createTranslationInputs(pair, aligned, source, target);
@@ -770,12 +816,7 @@ export class LocalizationWorkflows {
       runId,
       files: {...bundle.files, 'plan.json': planText, 'review.md': reviewText, 'translations.json': translationsText},
     });
-    await this.dependencies.registry.saveRun({
-      ...run,
-      state: 'review_required',
-      updatedAt: this.dependencies.clock.now().toISOString(),
-      metadata: {...run.metadata, bundleRef: completedBundleRef, plan},
-    });
+    await this.markRun(run, 'review_required', {bundleRef: completedBundleRef, plan});
     return {runId, state: 'review_required', planPath, reviewPath};
   }
 
@@ -906,12 +947,14 @@ export class LocalizationWorkflows {
     const source = parseFeishuDocument(sourceFetch.content, {documentId: sourceFetch.documentId, revisionId: sourceFetch.revisionId});
     const target = parseFeishuDocument(targetFetch.content, {documentId: targetFetch.documentId, revisionId: targetFetch.revisionId});
     if (source.revisionId !== plan.sourceRevision || source.canonicalHash !== plan.sourceHash) {
-      await this.markRun(run, 'stale', {staleReason: 'source_changed'});
-      throw new LocalizeError({type: 'stale_plan', subtype: 'source_changed', message: 'The remote English document changed after planning.', hint: 'Regenerate the localization plan.'});
+      const error = new LocalizeError({type: 'stale_plan', subtype: 'source_changed', message: 'The remote English document changed after planning.', hint: 'Regenerate the localization plan.'});
+      await this.markRun(run, 'stale', {staleReason: 'source_changed'}, error);
+      throw error;
     }
     if (target.revisionId !== plan.targetRevision || target.canonicalHash !== plan.targetHash) {
-      await this.markRun(run, 'stale', {staleReason: 'target_changed'});
-      throw new LocalizeError({type: 'stale_plan', subtype: 'target_changed', message: 'The remote Chinese document changed after planning.', hint: 'Regenerate the localization plan.'});
+      const error = new LocalizeError({type: 'stale_plan', subtype: 'target_changed', message: 'The remote Chinese document changed after planning.', hint: 'Regenerate the localization plan.'});
+      await this.markRun(run, 'stale', {staleReason: 'target_changed'}, error);
+      throw error;
     }
     for (const operation of plan.operations) {
       if (operation.kind === 'insert' && operation.anchorOperationId) continue;
@@ -926,8 +969,9 @@ export class LocalizationWorkflows {
         || node.remote.blockId !== expectedBlockId
         || expectedBlockIds && JSON.stringify(node.remote.blockIds ?? []) !== JSON.stringify(expectedBlockIds)
       ) {
-        await this.markRun(run, 'stale', {staleReason: 'target_block_changed', operationId: operation.operationId});
-        throw new LocalizeError({type: 'stale_plan', subtype: 'target_block_changed', message: `Target block for ${operation.operationId} changed after planning.`});
+        const error = new LocalizeError({type: 'stale_plan', subtype: 'target_block_changed', message: `Target block for ${operation.operationId} changed after planning.`});
+        await this.markRun(run, 'stale', {staleReason: 'target_block_changed', operationId: operation.operationId}, error);
+        throw error;
       }
     }
 
@@ -1025,25 +1069,29 @@ export class LocalizationWorkflows {
     } catch (error) {
       const localizeError = error instanceof LocalizeError ? error : new LocalizeError({type: 'upstream', message: String(error)});
       const state = appliedOperations > 0 || localizeError.type === 'partial_write' ? 'partial' : 'blocked';
-      await this.markRun(run, state, {prewriteRef, appliedOperations, applyError: localizeError.message});
+      await this.markRun(run, state, {prewriteRef, appliedOperations, applyError: localizeError.message}, localizeError);
       throw localizeError;
     }
 
     run = await this.markRun(run, 'verifying', {prewriteRef, appliedOperations});
     const verification = verifyPlan(plan, approved.operations, activeTarget, resolvedTargetBlockIds);
     if (!verification.ok) {
-      await this.markRun(run, 'blocked', {prewriteRef, appliedOperations, verification});
-      throw new LocalizeError({
+      const error = new LocalizeError({
         type: 'verification_failed',
         subtype: 'target_readback_mismatch',
         message: 'The updated Chinese document did not match the approved plan.',
         details: verification,
       });
+      await this.markRun(run, 'blocked', {prewriteRef, appliedOperations, verification}, error);
+      throw error;
     }
 
     const sourceSnapshotRef = await this.dependencies.snapshots.putBundle({
       runId,
-      files: {'source.xml': sourceFetch.content, 'target.xml': activeTarget.rawXml},
+      files: {
+        ...documentArtifacts('source', sourceFetch.content, source),
+        ...documentArtifacts('target', activeTarget.rawXml, activeTarget),
+      },
     });
     const previousReceipt = await this.dependencies.registry.getReceipt(run.pairId);
     const currentCorrespondences = planBundle.files['current-correspondences.json']
@@ -1108,7 +1156,7 @@ export class LocalizationWorkflows {
   }
 
   async finalizeVerified(runId: string): Promise<ApplyResult> {
-    const run = await this.requireRun(runId);
+    let run = await this.requireRun(runId);
     if (run.state !== 'verifying' && !(run.state === 'applying' && run.metadata?.kind === 'creation')) {
       throw new LocalizeError({
         type: 'validation',
@@ -1122,6 +1170,12 @@ export class LocalizationWorkflows {
           ...(run.metadata.pendingPair ? {pair: run.metadata.pendingPair as DocumentPair} : {}),
         }
       : await this.reconstructVerifiedFinalization(run);
+    if (run.state === 'applying') {
+      run = await this.markRun(run, 'verifying', {
+        pendingReceipt: reconstructed.receipt,
+        ...(reconstructed.pair ? {pendingPair: reconstructed.pair} : {}),
+      });
+    }
     if (reconstructed.pair) await this.dependencies.registry.savePair(reconstructed.pair);
     const pendingReceipt = reconstructed.receipt;
     await this.dependencies.registry.saveReceipt(pendingReceipt);
@@ -1277,8 +1331,9 @@ export class LocalizationWorkflows {
     const sourceFetch = await this.dependencies.docs.fetch(pair.sourceDocUrl);
     const source = parseFeishuDocument(sourceFetch.content, {documentId: sourceFetch.documentId, revisionId: sourceFetch.revisionId});
     if (source.revisionId !== plan.sourceRevision || source.canonicalHash !== plan.sourceHash) {
-      await this.markRun(run, 'stale', {staleReason: 'source_changed'});
-      throw new LocalizeError({type: 'stale_plan', subtype: 'source_changed', message: 'The remote English document changed after planning.'});
+      const error = new LocalizeError({type: 'stale_plan', subtype: 'source_changed', message: 'The remote English document changed after planning.'});
+      await this.markRun(run, 'stale', {staleReason: 'source_changed'}, error);
+      throw error;
     }
     const plannedSource = parseFeishuDocument(sourceXml, {documentId: source.documentId, revisionId: source.revisionId});
     const operationBySourceId = new Map(plan.operations.map((operation) => [operation.sourceNodeId, operation]));
@@ -1321,12 +1376,13 @@ export class LocalizationWorkflows {
         xml: body.join(''),
       });
     } catch (error) {
-      await this.markRun(run, 'blocked', {applyError: String(error)});
-      throw error;
+      const localizeError = error instanceof LocalizeError ? error : new LocalizeError({type: 'upstream', message: String(error)});
+      await this.markRun(run, 'blocked', {applyError: localizeError.message}, localizeError);
+      throw localizeError;
     }
     const [journalResult, registryResult] = await Promise.allSettled([
       this.writeRunFile(run.runId, 'creation-result.json', `${JSON.stringify(created, null, 2)}\n`),
-      this.markRun(run, 'verifying', {createdDocumentId: created.documentId, appliedOperations: plan.operations.length}),
+      this.markRun(run, 'applying', {createdDocumentId: created.documentId, appliedOperations: plan.operations.length}),
     ]);
     if (registryResult.status === 'fulfilled') run = registryResult.value;
     if (journalResult.status === 'rejected' && registryResult.status === 'rejected') {
@@ -1345,7 +1401,7 @@ export class LocalizationWorkflows {
     }
     if (registryResult.status === 'rejected') throw registryResult.reason;
     if (journalResult.status === 'rejected') {
-      run = await this.markRun(run, 'verifying', {creationJournalWarning: String(journalResult.reason)});
+      run = await this.markRun(run, 'applying', {creationJournalWarning: String(journalResult.reason)});
     }
     const targetFetch = await this.dependencies.docs.fetch(created.documentId);
     const target = parseFeishuDocument(targetFetch.content, {documentId: targetFetch.documentId, revisionId: targetFetch.revisionId});
@@ -1354,13 +1410,17 @@ export class LocalizationWorkflows {
       revisionId: target.revisionId,
     });
     if (target.canonicalHash !== expected.canonicalHash) {
-      await this.markRun(run, 'partial', {createdDocumentId: created.documentId, verification: 'created_document_mismatch'});
-      throw new LocalizeError({type: 'verification_failed', subtype: 'created_document_mismatch', message: 'The created Chinese document did not match the approved full-document draft.'});
+      const error = new LocalizeError({type: 'verification_failed', subtype: 'created_document_mismatch', message: 'The created Chinese document did not match the approved full-document draft.'});
+      await this.markRun(run, 'partial', {createdDocumentId: created.documentId, verification: 'created_document_mismatch'}, error);
+      throw error;
     }
     const correspondences = bootstrapAlignment(plannedSource, target).correspondences;
     const sourceSnapshotRef = await this.dependencies.snapshots.putBundle({
       runId: run.runId,
-      files: {'source.xml': sourceFetch.content, 'target.xml': targetFetch.content},
+      files: {
+        ...documentArtifacts('source', sourceFetch.content, source),
+        ...documentArtifacts('target', targetFetch.content, target),
+      },
     });
     const completedAt = this.dependencies.clock.now().toISOString();
     const updatedPair: DocumentPair = {
@@ -1566,12 +1626,14 @@ export class LocalizationWorkflows {
         run = await this.markRun(run, 'recovering', {reverseAppliedOperations, lastVerifiedTargetHash: active.canonicalHash});
       }
     } catch (error) {
-      await this.markRun(run, 'partial', {reverseAppliedOperations, reverseError: String(error)});
-      throw error;
+      const localizeError = error instanceof LocalizeError ? error : new LocalizeError({type: 'upstream', message: String(error)});
+      await this.markRun(run, 'partial', {reverseAppliedOperations, reverseError: localizeError.message}, localizeError);
+      throw localizeError;
     }
     if (active.canonicalHash !== preview.restoreTargetHash) {
-      await this.markRun(run, 'partial', {reverseAppliedOperations, reverseError: 'final_hash_mismatch'});
-      throw new LocalizeError({type: 'verification_failed', subtype: 'reverse_final_hash_mismatch', message: 'Reverse recovery did not restore the exact pre-write target.'});
+      const error = new LocalizeError({type: 'verification_failed', subtype: 'reverse_final_hash_mismatch', message: 'Reverse recovery did not restore the exact pre-write target.'});
+      await this.markRun(run, 'partial', {reverseAppliedOperations, reverseError: 'final_hash_mismatch'}, error);
+      throw error;
     }
     await this.markRun(run, 'blocked', {
       reverseAppliedOperations,
@@ -1608,10 +1670,10 @@ export class LocalizationWorkflows {
     target: FetchedDocument,
     changes: SemanticChange[],
     requests: TranslationRequest[],
-    _state: string,
   ): Promise<string | undefined> {
-    await this.writeRunFile(runId, 'source-current.xml', source.content);
-    await this.writeRunFile(runId, 'target-current.xml', target.content);
+    await Promise.all(Object.entries(currentDocumentArtifacts(source, target)).map(([name, content]) => (
+      this.writeRunFile(runId, name, content)
+    )));
     await this.writeRunFile(runId, 'changes.json', `${JSON.stringify(changes, null, 2)}\n`);
     return requests.length > 0
       ? this.writeRunFile(runId, 'translation-requests.json', `${JSON.stringify(requests, null, 2)}\n`)
@@ -1699,9 +1761,28 @@ export class LocalizationWorkflows {
     pairId: string,
     state: RunRecord['state'],
     metadata: Record<string, unknown>,
+    projections: Pick<RunRecord, 'sourceFromRevision' | 'sourceToRevision' | 'targetPlanRevision' | 'errorType' | 'errorDetail'> = {},
   ): RunRecord {
     const now = this.dependencies.clock.now().toISOString();
-    return {runId, pairId, state, createdAt: now, updatedAt: now, metadata};
+    const path: RunRecord['state'][] = state === 'review_required'
+      ? ['translation_required', 'review_required']
+      : state === 'completed' && metadata.noChanges === true
+        ? ['completed']
+        : ['classification_required', 'translation_required', 'blocked'].includes(state)
+          ? [state]
+          : [];
+    if (path.length === 0) {
+      throw new LocalizeError({
+        type: 'validation',
+        subtype: 'illegal_initial_state',
+        message: `A new localization run cannot start in ${state}.`,
+      });
+    }
+    let current: RunRecord['state'] = 'scanning';
+    for (const next of path) {
+      current = transitionRun(current, next, metadata.noChanges === true ? 'no_changes' : String(metadata.kind ?? ''));
+    }
+    return {runId, pairId, state: current, createdAt: now, updatedAt: now, metadata, ...projections};
   }
 
   private async writeRunFile(runId: string, name: string, content: string): Promise<string> {
@@ -1742,12 +1823,15 @@ export class LocalizationWorkflows {
     run: RunRecord,
     state: RunRecord['state'],
     metadata: Record<string, unknown>,
+    error?: LocalizeError,
   ): Promise<RunRecord> {
+    if (state !== run.state) transitionRun(run.state, state, String(run.metadata?.kind ?? ''));
     const updated = {
       ...run,
       state,
       updatedAt: this.dependencies.clock.now().toISOString(),
       metadata: {...run.metadata, ...metadata},
+      ...(error ? runErrorProjection(error) : {}),
     };
     await this.dependencies.registry.saveRun(updated);
     return updated;

@@ -60,8 +60,7 @@ export function resolveGlossary(
   for (const [key, candidates] of grouped) {
     const highest = Math.max(...candidates.map((entry) => priority[entry.scopeType]));
     const winners = candidates.filter((entry) => priority[entry.scopeType] === highest);
-    const values = new Set(winners.map((entry) => `${entry.disposition}\u0000${entry.targetTerm ?? ''}`));
-    if (values.size > 1) {
+    if (winners.length > 1) {
       throw new LocalizeError({
         type: 'configuration',
         subtype: 'glossary_conflict',

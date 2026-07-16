@@ -16,6 +16,26 @@ describe('domain foundations', () => {
     expect(transitionRun('review_required', 'applying')).toBe('applying');
   });
 
+  it('allows an accepted bootstrap review to complete', () => {
+    expect(transitionRun('review_required', 'completed', 'bootstrap')).toBe('completed');
+  });
+
+  it('does not let an ordinary reviewed localization skip apply and verification', () => {
+    expect(() => transitionRun('review_required', 'completed')).toThrowError(
+      expect.objectContaining({subtype: 'illegal_state_transition'}),
+    );
+  });
+
+  it('does not let an applying run skip verification', () => {
+    expect(() => transitionRun('applying', 'completed')).toThrowError(
+      expect.objectContaining({subtype: 'illegal_state_transition'}),
+    );
+  });
+
+  it('allows a failed recovery attempt to remain partial', () => {
+    expect(transitionRun('recovering', 'partial')).toBe('partial');
+  });
+
   it('rejects an illegal transition from completed to applying', () => {
     expect(() => transitionRun('completed', 'applying')).toThrowError(
       expect.objectContaining({

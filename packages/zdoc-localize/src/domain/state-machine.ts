@@ -12,11 +12,13 @@ const transitions: Readonly<Record<RunState, readonly RunState[]>> = {
   completed: [],
   blocked: ['scanning'],
   partial: ['recovering'],
-  recovering: ['scanning', 'blocked'],
+  recovering: ['scanning', 'partial', 'blocked'],
 };
 
-export function transitionRun(current: RunState, next: RunState): RunState {
-  if (!transitions[current].includes(next)) {
+export function transitionRun(current: RunState, next: RunState, runKind?: string): RunState {
+  const bootstrapCompletion = runKind === 'bootstrap' && current === 'review_required' && next === 'completed';
+  const noChangesCompletion = runKind === 'no_changes' && current === 'scanning' && next === 'completed';
+  if (!bootstrapCompletion && !noChangesCompletion && !transitions[current].includes(next)) {
     throw new LocalizeError({
       type: 'validation',
       subtype: 'illegal_state_transition',

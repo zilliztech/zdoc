@@ -45,7 +45,7 @@ class FailOnceReceiptRegistry extends LocalRegistryStore {
       this.failPendingRun = false;
       throw new Error('pending receipt metadata unavailable');
     }
-    if (this.failCreatedRun && run.state === 'verifying' && run.metadata?.createdDocumentId && !run.metadata.pendingReceipt) {
+    if (this.failCreatedRun && run.state === 'verifying' && run.metadata?.createdDocumentId) {
       this.failCreatedRun = false;
       throw new Error('created document registry unavailable');
     }
@@ -57,7 +57,9 @@ class WritableDocs {
   readonly documents = new Map<string, FetchedDocument>();
   readonly writes: string[] = [];
   failAtWrite?: number;
+  failureSubtype = 'fake_partial';
   corruptWrites = false;
+  corruptCreates = false;
   misrouteFirstReplace = false;
   readonly creates: Array<{title: string; parentToken?: string; xml: string}> = [];
 
@@ -88,14 +90,15 @@ class WritableDocs {
 
   async createDocument(input: {title: string; parentToken?: string; xml: string}): Promise<{documentId: string; revisionId: number}> {
     this.creates.push(input);
-    this.documents.set('created-target', {documentId: 'created-target', revisionId: 1, content: `<title>${input.title}</title>${input.xml}`});
+    const body = this.corruptCreates ? '<p>corrupt creation</p>' : input.xml;
+    this.documents.set('created-target', {documentId: 'created-target', revisionId: 1, content: `<title>${input.title}</title>${body}`});
     return {documentId: 'created-target', revisionId: 1};
   }
 
   protected async write(doc: string, label: string, mutate: (content: string) => string): Promise<WriteResult> {
     this.writes.push(label);
     if (this.failAtWrite === this.writes.length) {
-      throw new LocalizeError({type: 'partial_write', subtype: 'fake_partial', message: 'Fake partial write.'});
+      throw new LocalizeError({type: 'partial_write', subtype: this.failureSubtype, message: 'Fake partial write.'});
     }
     const current = this.documents.get(doc)!;
     const revisionId = current.revisionId + 1;
@@ -205,7 +208,7 @@ async function preparedWorkflow(options: {failAtWrite?: number; corruptWrites?: 
     return {operationId: request.operationId, translatedText: '保存集成后，检查告警发送情况。', targetNodeKind: request.targetNodeKind};
   });
   const completed = await workflows.completePlan(created.runId, responses);
-  return {cwd, docs, registry, memory, workflows, created, completed};
+  return {cwd, docs, registry, snapshots, memory, workflows, created, completed};
 }
 
 async function preparedLiveListWorkflow(failAtWrite?: number) {
@@ -344,6 +347,39 @@ describe('plan completion and apply', () => {
     expect(await registry.getReceipt('new-pair')).toMatchObject({sourceRevision: 1, targetRevision: 1});
   });
 
+  it('records creation verification failures in typed run fields', async () => {
+    const cwd = await mkdtemp(join(tmpdir(), 'zdoc-localize-create-mismatch-'));
+    const docs = new WritableDocs();
+    docs.documents.set('source-url', {
+      documentId: 'source', revisionId: 1,
+      content: '<title id="title">Setup</title><p id="p1">Run <code>curl</code>.</p>',
+    });
+    const registry = new LocalRegistryStore(cwd);
+    await registry.savePair({
+      pairId: 'new-pair', sourceLocale: 'en', targetLocale: 'zh-CN', sourceDocUrl: 'source-url',
+      targetParentToken: 'wiki-parent', mode: 'mirror', status: 'needs_bootstrap',
+    });
+    const workflows = new LocalizationWorkflows({
+      cwd, registry, snapshots: new LocalSnapshotStore(cwd), memory: new MemoryTranslationMemory(), docs,
+      clock: {now: () => new Date('2026-07-15T00:00:00.000Z')}, ids: {next: () => 'run-create-mismatch'},
+    });
+    const created = await workflows.createPlan('new-pair');
+    const completed = await workflows.completePlan(created.runId, created.translationRequests.map((request) => ({
+      operationId: request.operationId,
+      translatedText: request.targetNodeKind === 'title' ? '配置' : '运行 `curl`。',
+      targetNodeKind: request.targetNodeKind,
+    })));
+    const preview = await workflows.previewApply(created.runId, completed.reviewPath);
+    docs.corruptCreates = true;
+
+    await expect(workflows.apply(created.runId, completed.reviewPath, preview.approvalToken)).rejects.toMatchObject({
+      type: 'verification_failed', subtype: 'created_document_mismatch',
+    });
+    expect(await registry.getRun(created.runId)).toMatchObject({
+      state: 'partial', errorType: 'created_document_mismatch',
+    });
+  });
+
   it('recovers a created document ID from the local journal when registry persistence fails', async () => {
     const cwd = await mkdtemp(join(tmpdir(), 'zdoc-localize-create-journal-'));
     const docs = new WritableDocs();
@@ -385,7 +421,15 @@ describe('plan completion and apply', () => {
     expect(result.state).toBe('completed');
     expect(context.docs.writes).toHaveLength(4);
     expect(context.memory.entries).toHaveLength(3);
-    expect(await context.registry.getReceipt('pair-1')).toMatchObject({sourceRevision: 2, runId: context.created.runId});
+    const receipt = await context.registry.getReceipt('pair-1');
+    expect(receipt).toMatchObject({sourceRevision: 2, runId: context.created.runId});
+    const baseline = await context.snapshots.getBundle(receipt!.sourceSnapshotRef);
+    expect(baseline.files).toMatchObject({
+      'source.semantic.json': expect.any(String),
+      'source.md': expect.stringContaining('# Overview'),
+      'target.semantic.json': expect.any(String),
+      'target.md': expect.any(String),
+    });
     expect(context.docs.documents.get('target-url')?.content).toContain('确认告警发送情况');
     expect(context.docs.documents.get('target-url')?.content).toContain('复制端点');
   });
@@ -431,7 +475,11 @@ describe('plan completion and apply', () => {
       subtype: 'source_changed',
     });
     expect(context.docs.writes).toHaveLength(0);
-    expect((await context.registry.getRun(context.created.runId))?.state).toBe('stale');
+    expect(await context.registry.getRun(context.created.runId)).toMatchObject({
+      state: 'stale',
+      errorType: 'source_changed',
+      errorDetail: expect.objectContaining({subtype: 'source_changed'}),
+    });
   });
 
   it('invalidates the plan before writes when a planned target block ID is rebound', async () => {
@@ -471,7 +519,11 @@ describe('plan completion and apply', () => {
       type: 'partial_write',
     });
 
-    expect((await context.registry.getRun(context.created.runId))?.state).toBe('partial');
+    expect(await context.registry.getRun(context.created.runId)).toMatchObject({
+      state: 'partial',
+      errorType: 'fake_partial',
+      errorDetail: expect.objectContaining({subtype: 'fake_partial'}),
+    });
     expect(await context.registry.getReceipt('pair-1')).toEqual(receiptBefore);
     const inspection = await context.workflows.inspectRecovery(context.created.runId);
     expect(inspection).toMatchObject({
@@ -489,6 +541,23 @@ describe('plan completion and apply', () => {
     await context.workflows.reversePartial(context.created.runId, reversePreview.approvalToken);
     expect(context.docs.documents.get('target-url')?.content).toContain('监控指标。</p>');
     expect((await context.registry.getRun(context.created.runId))?.state).toBe('blocked');
+  });
+
+  it('records the latest error subtype when reverse recovery fails', async () => {
+    const context = await preparedWorkflow({failAtWrite: 2});
+    const preview = await context.workflows.previewApply(context.created.runId, context.completed.reviewPath);
+    await expect(context.workflows.apply(context.created.runId, context.completed.reviewPath, preview.approvalToken))
+      .rejects.toMatchObject({subtype: 'fake_partial'});
+    const reverse = await context.workflows.previewReverse(context.created.runId);
+    context.docs.failureSubtype = 'fake_reverse';
+    context.docs.failAtWrite = 3;
+
+    await expect(context.workflows.reversePartial(context.created.runId, reverse.approvalToken))
+      .rejects.toMatchObject({subtype: 'fake_reverse'});
+    expect(await context.registry.getRun(context.created.runId)).toMatchObject({
+      state: 'partial',
+      errorType: 'fake_reverse',
+    });
   });
 
   it('does not advance the receipt when readback verification fails', async () => {

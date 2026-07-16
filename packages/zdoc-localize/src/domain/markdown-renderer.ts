@@ -12,7 +12,7 @@ function renderNode(node: SemanticNode): string {
     return `${'#'.repeat(Math.max(1, node.headingPath.length))} ${node.text}`;
   }
   if (node.kind === 'list') {
-    return node.text.split('\n').map((item) => `- ${item}`).join('\n');
+    return node.text;
   }
   if (node.kind === 'quote') return `> ${node.text}`;
   if (node.kind === 'callout') return `> [!NOTE]\n> ${node.text.replaceAll('\n', '\n> ')}`;

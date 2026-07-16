@@ -35,6 +35,42 @@ class MutableDocs {
 }
 
 describe('bootstrap and planning workflows', () => {
+  it('rejects an illegal workflow state transition before persisting it', async () => {
+    const cwd = await mkdtemp(join(tmpdir(), 'zdoc-localize-state-transition-'));
+    const registry = new LocalRegistryStore(cwd);
+    const run = {
+      runId: 'run-completed', pairId: 'pair-1', state: 'completed' as const,
+      createdAt: '2026-07-15T00:00:00.000Z', updatedAt: '2026-07-15T00:00:00.000Z',
+    };
+    await registry.saveRun(run);
+    const workflows = new LocalizationWorkflows({
+      cwd, registry, snapshots: new LocalSnapshotStore(cwd), memory: new MemoryTranslationMemory(), docs: new MutableDocs(),
+      clock: {now: () => new Date('2026-07-16T00:00:00.000Z')}, ids: {next: () => 'unused'},
+    });
+
+    await expect((workflows as unknown as {
+      markRun(current: typeof run, state: 'applying', metadata: Record<string, unknown>): Promise<unknown>;
+    }).markRun(run, 'applying', {})).rejects.toMatchObject({
+      type: 'validation', subtype: 'illegal_state_transition',
+    });
+    expect(await registry.getRun(run.runId)).toMatchObject({state: 'completed'});
+  });
+
+  it('does not create a new run directly in a non-initial workflow state', async () => {
+    const cwd = await mkdtemp(join(tmpdir(), 'zdoc-localize-initial-state-'));
+    const workflows = new LocalizationWorkflows({
+      cwd, registry: new LocalRegistryStore(cwd), snapshots: new LocalSnapshotStore(cwd),
+      memory: new MemoryTranslationMemory(), docs: new MutableDocs(),
+      clock: {now: () => new Date('2026-07-16T00:00:00.000Z')}, ids: {next: () => 'unused'},
+    });
+
+    expect(() => (workflows as unknown as {
+      newRun(runId: string, pairId: string, state: 'stale', metadata: Record<string, unknown>): unknown;
+    }).newRun('run-stale', 'pair-1', 'stale', {kind: 'localization'})).toThrowError(
+      expect.objectContaining({subtype: 'illegal_initial_state'}),
+    );
+  });
+
   it('rejects bootstrap acceptance when either remote document changed during review', async () => {
     const cwd = await mkdtemp(join(tmpdir(), 'zdoc-localize-stale-bootstrap-'));
     const docs = new MutableDocs();
@@ -100,6 +136,10 @@ describe('bootstrap and planning workflows', () => {
     const paragraph = plan.translationRequests.find((request) => request.targetNodeKind === 'paragraph');
 
     expect(paragraph?.preserved).toEqual([{kind: 'inline_code', value: 'curl', count: 2}]);
+    expect(await registry.getRun(plan.runId)).toMatchObject({
+      sourceToRevision: 1,
+      targetPlanRevision: 0,
+    });
   });
 
   it('blocks missing-target creation when report-only content would be copied silently', async () => {
@@ -122,6 +162,10 @@ describe('bootstrap and planning workflows', () => {
     const plan = await workflows.createPlan('pair-1');
 
     expect(plan).toMatchObject({state: 'blocked', blocker: expect.stringContaining('report-only')});
+    expect(await registry.getRun(plan.runId)).toMatchObject({
+      errorType: 'creation_report_only_content',
+      errorDetail: expect.objectContaining({subtype: 'creation_report_only_content'}),
+    });
   });
 
   it('surfaces unresolved internal link and anchor mappings in translation requests', async () => {
@@ -188,10 +232,11 @@ describe('bootstrap and planning workflows', () => {
       sourceDocUrl: 'https://example.com/console', targetDocUrl: 'https://cn.example.com/console',
       mode: 'mirror', status: 'active',
     });
+    const snapshots = new LocalSnapshotStore(cwd);
     const workflows = new LocalizationWorkflows({
       cwd,
       registry,
-      snapshots: new LocalSnapshotStore(cwd),
+      snapshots,
       memory: new MemoryTranslationMemory(memoryExample),
       docs,
       clock: {now: () => new Date('2026-07-15T00:00:00.000Z')},
@@ -201,6 +246,15 @@ describe('bootstrap and planning workflows', () => {
     const bootstrap = await workflows.planBootstrap('pair-1');
     expect(bootstrap.state).toBe('review_required');
     expect(bootstrap.audit.unmatchedSourceNodes).toContain('table-1');
+    const bootstrapRun = await registry.getRun(bootstrap.runId);
+    expect(bootstrapRun).toMatchObject({sourceToRevision: 1, targetPlanRevision: 10});
+    const bootstrapBundle = await snapshots.getBundle(
+      bootstrapRun!.metadata!.snapshotRef as Parameters<LocalSnapshotStore['getBundle']>[0],
+    );
+    expect(bootstrapBundle.files).toMatchObject({
+      'source.md': expect.stringContaining('# Overview'),
+      'target.md': expect.any(String),
+    });
     await workflows.acceptBootstrap(bootstrap.runId);
 
     docs.documents.set('source-url', {documentId: 'source', revisionId: 2, content: currentXml});
@@ -221,6 +275,23 @@ describe('bootstrap and planning workflows', () => {
     });
     expect(plan.translationRequestsPath).toContain(`.zdoc-localize/runs/${plan.runId}/translation-requests.json`);
     expect(await registry.getReceipt('pair-1')).toMatchObject({sourceRevision: 1, targetRevision: 10});
+    expect(await registry.getRun(plan.runId)).toMatchObject({
+      sourceFromRevision: 1,
+      sourceToRevision: 2,
+      targetPlanRevision: 10,
+    });
+    const run = await registry.getRun(plan.runId);
+    const bundle = await snapshots.getBundle(
+      run!.metadata!.bundleRef as Parameters<LocalSnapshotStore['getBundle']>[0],
+    );
+    expect(bundle.files).toMatchObject({
+      'source-current.semantic.json': expect.any(String),
+      'target-current.semantic.json': expect.any(String),
+      'source-current.md': expect.stringContaining('# Overview'),
+      'target-current.md': expect.any(String),
+    });
+    await expect(readFile(join(cwd, '.zdoc-localize', 'runs', plan.runId, 'source-current.md'), 'utf8'))
+      .resolves.toContain('# Overview');
   });
 
   it('plans a live Feishu flat-to-nested list change with every target list-item block bound', async () => {

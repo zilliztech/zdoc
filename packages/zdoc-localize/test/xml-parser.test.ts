@@ -85,5 +85,8 @@ describe('Feishu XML semantic parsing', () => {
         elementName: 'ol',
       },
     });
+    expect(renderDiagnosticMarkdown(document)).toContain(
+      '1. Scan the remote English document.\n2. Review the proposed Chinese changes.\n   - Preserve URLs and inline commands.\n   - Apply only approved block-level writes.',
+    );
   });
 });

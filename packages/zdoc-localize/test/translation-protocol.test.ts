@@ -28,6 +28,15 @@ describe('glossary resolution', () => {
       expect.objectContaining({type: 'configuration', subtype: 'glossary_conflict'}),
     );
   });
+
+  it('rejects duplicate approved terms at the same priority even when their values match', () => {
+    expect(() => resolveGlossary([
+      {termId: '1', sourceTerm: 'database', targetTerm: '数据库', disposition: 'translate', scopeType: 'product', scopeValue: 'cloud', status: 'approved'},
+      {termId: '2', sourceTerm: 'database', targetTerm: '数据库', disposition: 'translate', scopeType: 'environment', scopeValue: 'cn', status: 'approved'},
+    ], {pairId: 'pair-1', product: 'cloud', environment: 'cn'})).toThrowError(
+      expect.objectContaining({type: 'configuration', subtype: 'glossary_conflict'}),
+    );
+  });
 });
 
 describe('translation response validation', () => {
