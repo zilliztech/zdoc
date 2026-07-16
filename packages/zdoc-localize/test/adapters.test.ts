@@ -150,6 +150,33 @@ describe('supporting adapters', () => {
     });
   });
 
+  it('parses the current lark-cli matrix record-list response', async () => {
+    const runner = new FakeRunner([ok({
+      data: [[
+        'pair-1',
+        '[https://example.feishu.cn/docx/en](https://example.feishu.cn/docx/en)',
+        '[https://example.feishu.cn/docx/zh](https://example.feishu.cn/docx/zh)',
+        ['mirror'],
+        ['needs_bootstrap'],
+      ]],
+      fields: ['pair_id', 'source_doc_url', 'target_doc_url', 'mode', 'status'],
+      field_id_list: ['fld-pair', 'fld-source', 'fld-target', 'fld-mode', 'fld-status'],
+      record_id_list: ['rec-pair'],
+      has_more: false,
+    })]);
+    const registry = new LarkBaseRegistry(runner, {
+      baseToken: 'base-token', documentPairsTableId: 'tbl-pairs', glossaryTableId: 'tbl-glossary', runsTableId: 'tbl-runs',
+    });
+
+    await expect(registry.getPair('pair-1')).resolves.toMatchObject({
+      pairId: 'pair-1',
+      sourceDocUrl: 'https://example.feishu.cn/docx/en',
+      targetDocUrl: 'https://example.feishu.cn/docx/zh',
+      mode: 'mirror',
+      status: 'needs_bootstrap',
+    });
+  });
+
   it('reads human glossary variants while retaining legacy JSON support', async () => {
     const runner = new FakeRunner([ok({items: [
       {fields: {term_id: 'term-1', source_term: 'cluster', target_term: '集群', disposition: 'translate', scope_type: 'global', prohibited_variants: '群集\n集群组', status: 'approved'}},

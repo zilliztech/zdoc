@@ -85,7 +85,7 @@ export interface BaseFieldSpec {
 export interface BaseViewSpec {
   name: string;
   type: 'grid';
-  filter: {logic: 'and'; conditions: Array<[string, '==' | 'isAnyOf', string | string[]]>};
+  filter: {logic: 'and'; conditions: Array<[string, '==' | 'intersects', string | string[]]>};
 }
 
 const options = (...names: string[]): BaseOptionSpec[] =>
@@ -179,8 +179,8 @@ views: {
     {name: 'Deprecated', type: 'grid', filter: {logic: 'and', conditions: [['status', '==', 'deprecated']]}},
   ],
   localizationRuns: [
-    {name: 'Needs Review', type: 'grid', filter: {logic: 'and', conditions: [['state', 'isAnyOf', ['classification_required', 'translation_required', 'review_required']]]}},
-    {name: 'Blocked or Partial', type: 'grid', filter: {logic: 'and', conditions: [['state', 'isAnyOf', ['blocked', 'partial', 'stale']]]}},
+    {name: 'Needs Review', type: 'grid', filter: {logic: 'and', conditions: [['state', 'intersects', ['classification_required', 'translation_required', 'review_required']]]}},
+    {name: 'Blocked or Partial', type: 'grid', filter: {logic: 'and', conditions: [['state', 'intersects', ['blocked', 'partial', 'stale']]]}},
     {name: 'Completed', type: 'grid', filter: {logic: 'and', conditions: [['state', '==', 'completed']]}},
   ],
 }

@@ -20,10 +20,22 @@ export interface LarkBaseRegistryOptions {
 type BaseRecord = {record_id?: string; recordId?: string; fields?: Record<string, unknown>} & Record<string, unknown>;
 
 function recordsFrom(data: unknown): BaseRecord[] {
-  const object = data as {items?: BaseRecord[]; records?: BaseRecord[]; data?: BaseRecord[]} | undefined;
+  const object = data as {
+    items?: BaseRecord[];
+    records?: BaseRecord[];
+    data?: BaseRecord[] | unknown[][];
+    fields?: string[];
+    record_id_list?: string[];
+  } | undefined;
   if (Array.isArray(object?.items)) return object.items;
   if (Array.isArray(object?.records)) return object.records;
-  if (Array.isArray(object?.data)) return object.data;
+  if (Array.isArray(object?.data) && Array.isArray(object.fields) && object.data.every(Array.isArray)) {
+    return (object.data as unknown[][]).map((row, index) => ({
+      ...(object.record_id_list?.[index] ? {record_id: object.record_id_list[index]} : {}),
+      fields: Object.fromEntries(object.fields!.map((field, fieldIndex) => [field, row[fieldIndex]])),
+    }));
+  }
+  if (Array.isArray(object?.data)) return object.data as BaseRecord[];
   return [];
 }
 

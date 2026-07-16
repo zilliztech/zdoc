@@ -2,7 +2,11 @@ import {LocalizeError} from '../domain/errors.js';
 
 export function readBaseText(value: unknown): string {
   if (value === null || value === undefined) return '';
-  if (typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean') return String(value);
+  if (typeof value === 'string') {
+    const markdownUrl = value.match(/^\[[^\]]*\]\((https?:\/\/[^)]+)\)$/);
+    return markdownUrl?.[1] ?? value;
+  }
+  if (typeof value === 'number' || typeof value === 'boolean') return String(value);
   if (Array.isArray(value)) return value.length > 0 ? readBaseText(value[0]) : '';
   if (typeof value === 'object') {
     const object = value as Record<string, unknown>;

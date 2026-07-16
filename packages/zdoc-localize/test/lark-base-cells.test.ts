@@ -15,6 +15,8 @@ describe('Feishu Base cell codecs', () => {
       .toBe('https://example.feishu.cn/docx/zh');
     expect(readBaseText([{text: 'active'}])).toBe('active');
     expect(readBaseText({name: 'review_required'})).toBe('review_required');
+    expect(readBaseText('[https://example.feishu.cn/docx/en](https://example.feishu.cn/docx/en)'))
+      .toBe('https://example.feishu.cn/docx/en');
   });
 
   it('writes URL strings without inventing a display label', () => {
