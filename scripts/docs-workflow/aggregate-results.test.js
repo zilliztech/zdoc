@@ -35,6 +35,7 @@ test('artifact-only mode succeeds only when every requested producer uploaded an
 test('aggregates final terminal results and ignores earlier failed attempts', () => {
   const result = aggregateResults(payload());
   assert.equal(result.overallStatus, 'success');
+  assert.equal(result.summaryText, 'Documentation workflow succeeded.');
   assert.match(result.markdown, /\| guides \| source_published \| translation_published \| a{40} \| b{40} \|/);
   assert.match(result.markdown, /Final verification: passed/);
   assert.match(result.markdown, /Overall status: success/);
@@ -144,6 +145,7 @@ test('CLI writes markdown and GitHub outputs', () => {
   assert.equal(fs.readFileSync(output, 'utf8'), aggregateResults(payload()).markdown);
   const outputLines = Object.fromEntries(fs.readFileSync(githubOutput, 'utf8').trimEnd().split('\n').map(line => line.split(/=(.*)/s).slice(0, 2)));
   assert.equal(outputLines.overall_status, 'success');
+  assert.equal(outputLines.summary_text, 'Documentation workflow succeeded.');
   assert.match(outputLines.summary_path, /summary\.md$/);
   assert.deepEqual(JSON.parse(outputLines.notes_json), [aggregateResults(payload()).markdown]);
 });

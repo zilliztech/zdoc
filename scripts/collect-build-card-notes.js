@@ -1,4 +1,5 @@
 const fs = require('node:fs')
+const path = require('node:path')
 
 function readIfExists(file) {
   return fs.existsSync(file) ? fs.readFileSync(file, 'utf8').trim() : ''
@@ -188,13 +189,21 @@ function collectCardNotes() {
     if (Array.isArray(parsed)) baseNotes = parsed.filter(note => typeof note === 'string' && note.trim())
   } catch (_) {}
   return [...baseNotes, ...collectNotes()]
+    .filter(note => typeof note === 'string' && note.trim())
+    .slice(0, 12)
+    .map(note => note.trim().slice(0, 12000))
 }
 
 function writeGithubOutput(notes) {
   const output = process.env.GITHUB_OUTPUT
-  if (!output) return
+  const notesFile = path.resolve(process.env.CARD_NOTES_FILE || 'tmp/card-notes.json')
+  fs.mkdirSync(path.dirname(notesFile), { recursive: true })
+  fs.writeFileSync(notesFile, `${JSON.stringify(notes, null, 2)}\n`)
+  if (!output) return notesFile
   const value = JSON.stringify(notes)
   fs.appendFileSync(output, `card_notes_json<<CARD_NOTES_JSON\n${value}\nCARD_NOTES_JSON\n`)
+  fs.appendFileSync(output, `card_notes_file=${notesFile}\n`)
+  return notesFile
 }
 
 if (require.main === module) {

@@ -2,6 +2,7 @@ const assert = require('node:assert/strict')
 const fs = require('node:fs')
 const os = require('node:os')
 const path = require('node:path')
+const { spawnSync } = require('node:child_process')
 const { test } = require('node:test')
 const { brokenContentLinksNote, collectCardNotes, collectNotes } = require('./collect-build-card-notes')
 
@@ -115,5 +116,30 @@ test('broken content link report is attached as canonical content links note', (
     assert.match(note, /guides-canonical-link-audit\.csv/)
     assert.match(note, /guides-broken-content-links\.json/)
     assert.match(note, /github\.com\/zilliztech\/zdoc\/blob\/dev\/plugins\/lark-docs\/meta\/reports\/guides-canonical-link-audit\.md/)
+  })
+})
+
+test('CLI writes bounded notes to a JSON file and exposes its absolute path', () => {
+  withTempCwd((dir) => {
+    const githubOutput = path.join(dir, 'github-output')
+    const notesFile = path.join(dir, 'out', 'card-notes.json')
+    const cli = path.join(__dirname, 'collect-build-card-notes.js')
+    const result = spawnSync(process.execPath, [cli], {
+      encoding: 'utf8',
+      env: {
+        ...process.env,
+        GITHUB_OUTPUT: githubOutput,
+        CARD_NOTES_FILE: notesFile,
+        CARD_BASE_NOTES_JSON: JSON.stringify(['# Workflow summary', 'x'.repeat(13000)]),
+      },
+    })
+
+    assert.equal(result.status, 0, result.stderr)
+    const notes = JSON.parse(fs.readFileSync(notesFile, 'utf8'))
+    assert.equal(notes.length, 2)
+    assert.equal(notes[1].length, 12000)
+    const output = fs.readFileSync(githubOutput, 'utf8')
+    assert.match(output, new RegExp(`card_notes_file=${notesFile.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}`))
+    assert.match(output, /card_notes_json<<CARD_NOTES_JSON/)
   })
 })
