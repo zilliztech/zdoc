@@ -6,13 +6,13 @@ import type {
   SemanticNode,
 } from './model.js';
 
-export function rebaseCorrespondences(
-  history: HistoricalCorrespondence[],
+export function rebaseCorrespondences<T extends HistoricalCorrespondence>(
+  history: T[],
   baseline: SemanticDocument,
   current: SemanticDocument,
-): HistoricalCorrespondence[] {
-  const targetByBaselineId = new Map(history.map((item) => [item.sourceNodeId, item.targetNodeId]));
-  const rebased: HistoricalCorrespondence[] = [];
+): T[] {
+  const correspondenceByBaselineId = new Map(history.map((item) => [item.sourceNodeId, item]));
+  const rebased: T[] = [];
   const baselineUsed = new Set<number>();
   const currentUsed = new Set<number>();
   const currentByBlockId = new Map<string, number[]>();
@@ -28,8 +28,8 @@ export function rebaseCorrespondences(
     const candidates = currentByBlockId.get(blockId) ?? [];
     if (candidates.length !== 1) return;
     const currentIndex = candidates[0]!;
-    const targetNodeId = targetByBaselineId.get(node.nodeId);
-    if (targetNodeId) rebased.push({sourceNodeId: current.nodes[currentIndex]!.nodeId, targetNodeId});
+    const correspondence = correspondenceByBaselineId.get(node.nodeId);
+    if (correspondence) rebased.push({...correspondence, sourceNodeId: current.nodes[currentIndex]!.nodeId});
     baselineUsed.add(baselineIndex);
     currentUsed.add(currentIndex);
   });
@@ -56,8 +56,8 @@ export function rebaseCorrespondences(
     const baselineNode = remainingBaseline[left]!.node;
     const currentNode = remainingCurrent[right]!.node;
     if (baselineNode.fingerprint === currentNode.fingerprint) {
-      const targetNodeId = targetByBaselineId.get(baselineNode.nodeId);
-      if (targetNodeId) rebased.push({sourceNodeId: currentNode.nodeId, targetNodeId});
+      const correspondence = correspondenceByBaselineId.get(baselineNode.nodeId);
+      if (correspondence) rebased.push({...correspondence, sourceNodeId: currentNode.nodeId});
       left += 1;
       right += 1;
     } else if (table[left + 1]![right]! >= table[left]![right + 1]!) {

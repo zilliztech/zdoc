@@ -16,6 +16,14 @@ export class WhiteboardMirror {
 
   async mirror(sourceToken: string, targetToken: string, idempotencyToken: string): Promise<WhiteboardMirrorResult> {
     const source = await this.snapshot(sourceToken);
+    return this.mirrorSnapshot(source, targetToken, idempotencyToken);
+  }
+
+  async mirrorSnapshot(
+    source: CanonicalWhiteboard,
+    targetToken: string,
+    idempotencyToken: string,
+  ): Promise<WhiteboardMirrorResult> {
     await this.whiteboards.overwriteRaw({
       token: targetToken,
       raw: source.raw,

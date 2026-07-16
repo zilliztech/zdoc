@@ -9,11 +9,14 @@ import type {
   TranslationMemory,
   TranslationMemoryEntry,
   TranslationMemoryQuery,
+  WhiteboardGateway,
 } from '../src/application/ports.js';
 import {LocalizationWorkflows} from '../src/application/workflows.js';
 import type {FetchedDocument} from '../src/adapters/lark-docs-adapter.js';
 import {LocalRegistryStore} from '../src/storage/local-registry-store.js';
 import {LocalSnapshotStore} from '../src/storage/local-snapshot-store.js';
+import {canonicalWhiteboard} from '../src/domain/whiteboard.js';
+import {parseFeishuDocument} from '../src/domain/xml-parser.js';
 
 const fixture = (name: string) => fileURLToPath(new URL(`./fixtures/${name}`, import.meta.url));
 
@@ -34,7 +37,113 @@ class MutableDocs {
   }
 }
 
+class MemoryWhiteboards implements WhiteboardGateway {
+  readonly values = new Map<string, unknown>();
+  async queryRaw(token: string): Promise<unknown> { return this.values.get(token); }
+  async overwriteRaw(input: {token: string; raw: unknown}): Promise<void> {
+    this.values.set(input.token, structuredClone(input.raw));
+  }
+}
+
 describe('bootstrap and planning workflows', () => {
+  it('plans changed native synced code as verify-only without translation requests', async () => {
+    const cwd = await mkdtemp(join(tmpdir(), 'zdoc-localize-native-sync-plan-'));
+    const docs = new MutableDocs();
+    const baselineXml = '<title id="title">Guide</title>'
+      + '<synced-source id="sync-source"><pre id="code"><code>print(1)</code></pre></synced-source>';
+    const currentXml = '<title id="title">Guide</title>'
+      + '<synced-source id="sync-source"><pre id="code"><code>print(2)</code></pre></synced-source>';
+    const targetXml = '<title id="zh-title">指南</title>'
+      + '<synced_reference id="sync-reference" src-token="source" src-block-id="sync-source"></synced_reference>';
+    docs.documents.set('source-url', {documentId: 'source', revisionId: 2, content: currentXml});
+    docs.documents.set('target-url', {documentId: 'target', revisionId: 5, content: targetXml});
+    const registry = new LocalRegistryStore(cwd);
+    const snapshots = new LocalSnapshotStore(cwd);
+    const baseline = parseFeishuDocument(baselineXml, {documentId: 'source', revisionId: 1});
+    const target = parseFeishuDocument(targetXml, {documentId: 'target', revisionId: 5});
+    const sourceSync = baseline.nodes.find((node) => node.kind === 'synced_source')!;
+    const targetSync = target.nodes.find((node) => node.kind === 'synced_reference')!;
+    const sourceSnapshotRef = await snapshots.putBundle({runId: 'baseline', files: {'source.xml': baselineXml}});
+    await registry.savePair({
+      pairId: 'pair-native', sourceLocale: 'en', targetLocale: 'zh-CN', sourceDocUrl: 'source-url',
+      targetDocUrl: 'target-url', mode: 'mirror', status: 'active',
+    });
+    await registry.saveReceipt({
+      pairId: 'pair-native', sourceRevision: 1, sourceHash: baseline.canonicalHash, sourceSnapshotRef,
+      targetRevision: 5, targetHash: target.canonicalHash, runId: 'baseline', completedAt: '2026-07-15T00:00:00.000Z',
+      correspondences: [{
+        kind: 'native_sync', sourceNodeId: sourceSync.nodeId, targetNodeId: targetSync.nodeId,
+        sourceDocumentId: 'source', sourceBlockId: 'sync-source',
+      }],
+    });
+    const workflows = new LocalizationWorkflows({
+      cwd, registry, snapshots, memory: new MemoryTranslationMemory(), docs,
+      clock: {now: () => new Date('2026-07-16T00:00:00.000Z')}, ids: {next: () => 'run-native'},
+    });
+
+    const created = await workflows.createPlan('pair-native');
+    const completed = await workflows.completePlan(created.runId, []);
+    const plan = JSON.parse(await readFile(join(cwd, completed.planPath), 'utf8')) as {
+      planVersion: number; operations: Array<Record<string, unknown>>;
+    };
+
+    expect(created).toMatchObject({state: 'translation_required', translationRequests: []});
+    expect(plan.planVersion).toBe(2);
+    expect(plan.operations).toEqual([expect.objectContaining({
+      policy: 'verify_synced_reference', effect: 'verify_only', sourceDocumentId: 'source',
+      sourceBlockId: 'sync-source', targetBlockId: 'sync-reference',
+    })]);
+  });
+
+  it('plans a Whiteboard mirror when its raw content hash changes without a Docx XML change', async () => {
+    const cwd = await mkdtemp(join(tmpdir(), 'zdoc-localize-whiteboard-plan-'));
+    const docs = new MutableDocs();
+    const whiteboards = new MemoryWhiteboards();
+    const sourceXml = '<title id="title">Guide</title><whiteboard id="board" token="source-board"></whiteboard>';
+    const targetXml = '<title id="zh-title">指南</title><whiteboard id="zh-board" token="target-board"></whiteboard>';
+    docs.documents.set('source-url', {documentId: 'source', revisionId: 2, content: sourceXml});
+    docs.documents.set('target-url', {documentId: 'target', revisionId: 5, content: targetXml});
+    const oldBoard = {nodes: [{id: 'old', type: 'text', text: 'Old', x: 1}]};
+    const newBoard = {nodes: [{id: 'new', type: 'text', text: 'New', x: 1}]};
+    whiteboards.values.set('source-board', newBoard);
+    const registry = new LocalRegistryStore(cwd);
+    const snapshots = new LocalSnapshotStore(cwd);
+    const source = parseFeishuDocument(sourceXml, {documentId: 'source', revisionId: 1});
+    const target = parseFeishuDocument(targetXml, {documentId: 'target', revisionId: 5});
+    const sourceBoard = source.nodes.find((node) => node.kind === 'whiteboard')!;
+    const targetBoard = target.nodes.find((node) => node.kind === 'whiteboard')!;
+    const sourceSnapshotRef = await snapshots.putBundle({runId: 'baseline', files: {'source.xml': sourceXml}});
+    await registry.savePair({
+      pairId: 'pair-board', sourceLocale: 'en', targetLocale: 'zh-CN', sourceDocUrl: 'source-url',
+      targetDocUrl: 'target-url', mode: 'mirror', status: 'active',
+    });
+    await registry.saveReceipt({
+      pairId: 'pair-board', sourceRevision: 1, sourceHash: source.canonicalHash, sourceSnapshotRef,
+      targetRevision: 5, targetHash: target.canonicalHash, runId: 'baseline', completedAt: '2026-07-15T00:00:00.000Z',
+      correspondences: [{
+        kind: 'copied_resource', sourceNodeId: sourceBoard.nodeId, targetNodeId: targetBoard.nodeId,
+        resourceKind: 'whiteboard', sourceResourceHash: canonicalWhiteboard(oldBoard).hash,
+      }],
+    });
+    const workflows = new LocalizationWorkflows({
+      cwd, registry, snapshots, memory: new MemoryTranslationMemory(), docs, whiteboards,
+      clock: {now: () => new Date('2026-07-16T00:00:00.000Z')}, ids: {next: () => 'run-board'},
+    });
+
+    const created = await workflows.createPlan('pair-board');
+    const completed = await workflows.completePlan(created.runId, []);
+    const plan = JSON.parse(await readFile(join(cwd, completed.planPath), 'utf8')) as {
+      operations: Array<Record<string, unknown>>;
+    };
+
+    expect(created).toMatchObject({state: 'translation_required', translationRequests: []});
+    expect(plan.operations).toEqual([expect.objectContaining({
+      policy: 'whiteboard_mirror', effect: 'mirror', kind: 'replace',
+      sourceResourceToken: 'source-board', targetResourceToken: 'target-board',
+      sourceResourceHash: canonicalWhiteboard(newBoard).hash,
+    })]);
+  });
+
   it('rejects an illegal workflow state transition before persisting it', async () => {
     const cwd = await mkdtemp(join(tmpdir(), 'zdoc-localize-state-transition-'));
     const registry = new LocalRegistryStore(cwd);

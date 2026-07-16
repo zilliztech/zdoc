@@ -522,7 +522,14 @@ export class LocalizationWorkflows {
       targetPlanRevision: target.revisionId,
     };
 
-    if (changes.length === 0) {
+    const resourcePlanning = pair.mode === 'mirror'
+      ? await this.createIncrementalResourceOperations(
+          changes, source, target, receipt.correspondences, currentCorrespondences,
+        )
+      : {operations: [] as PlanOperation[], consumedChangeIds: new Set<string>()};
+    const contentChanges = changes.filter((change) => !resourcePlanning.consumedChangeIds.has(change.changeId));
+
+    if (contentChanges.length === 0 && resourcePlanning.operations.length === 0) {
       await this.dependencies.registry.saveRun(this.newRun(runId, pairId, 'completed', {kind: 'localization', noChanges: true}, revisions));
       return {runId, state: 'completed', changes, translationRequests: []};
     }
@@ -555,7 +562,7 @@ export class LocalizationWorkflows {
     }
 
     const aligned = chainInsertionAnchors(resolveListReplacementAnchors(
-      alignChanges(changes, target, receipt.correspondences, currentCorrespondences),
+      alignChanges(contentChanges, target, receipt.correspondences, currentCorrespondences),
       target,
     ));
     const low = aligned.find((item) => item.confidence === 'low');
@@ -592,6 +599,7 @@ export class LocalizationWorkflows {
         ...currentDocumentArtifacts(sourceFetch, targetFetch),
         'changes.json': JSON.stringify(changes, null, 2),
         'alignments.json': JSON.stringify(aligned, null, 2),
+        'resource-operations.json': JSON.stringify(resourcePlanning.operations, null, 2),
         'current-correspondences.json': JSON.stringify(currentCorrespondences, null, 2),
         'translation-requests.json': JSON.stringify(translationRequests, null, 2),
       },
@@ -605,9 +613,107 @@ export class LocalizationWorkflows {
       targetHash: target.canonicalHash,
       changes,
       aligned,
+      resourceOperations: resourcePlanning.operations,
       glossaryHash: translationInputs.glossaryHash,
     }, revisions));
     return {runId, state: 'translation_required', changes, translationRequests, translationRequestsPath};
+  }
+
+  private async createIncrementalResourceOperations(
+    changes: SemanticChange[],
+    source: SemanticDocument,
+    target: SemanticDocument,
+    historicalCorrespondences: StoredCorrespondence[],
+    currentCorrespondences: StoredCorrespondence[],
+  ): Promise<{operations: PlanOperation[]; consumedChangeIds: Set<string>}> {
+    const correspondences = normalizeCorrespondences(currentCorrespondences);
+    const correspondenceBySource = new Map(correspondences.map((item) => [item.sourceNodeId, item]));
+    const historicalBySource = new Map(normalizeCorrespondences(historicalCorrespondences)
+      .map((item) => [item.sourceNodeId, item]));
+    const targetById = new Map(target.nodes.map((node) => [node.nodeId, node]));
+    const operations: PlanOperation[] = [];
+    const consumedChangeIds = new Set<string>();
+
+    for (const change of changes) {
+      const sourceNode = change.after ?? change.before;
+      if (!sourceNode || sourceNode.kind !== 'synced_source') continue;
+      const correspondence = (change.after ? correspondenceBySource.get(change.after.nodeId) : undefined)
+        ?? (change.before ? historicalBySource.get(change.before.nodeId) : undefined);
+      if (!correspondence || correspondence.kind !== 'native_sync') continue;
+      const targetNode = targetById.get(correspondence.targetNodeId);
+      const currentSourceBlockId = sourceNode.remote.sourceBlockId ?? sourceNode.remote.blockId;
+      const currentSourceDocumentId = sourceNode.remote.sourceDocumentId ?? source.documentId;
+      if (
+        !targetNode
+        || targetNode.kind !== 'synced_reference'
+        || currentSourceDocumentId !== correspondence.sourceDocumentId
+        || currentSourceBlockId !== correspondence.sourceBlockId
+      ) continue;
+      consumedChangeIds.add(change.changeId);
+      operations.push({
+        operationId: change.changeId,
+        policy: 'verify_synced_reference',
+        effect: 'verify_only',
+        kind: 'replace',
+        confidence: 'high',
+        ...(change.before ? {sourceBefore: change.before.text} : {}),
+        ...(change.after ? {sourceAfter: change.after.text} : {}),
+        sourceNodeId: sourceNode.nodeId,
+        sourceNodeHash: sourceNode.fingerprint,
+        sourceHeadingPath: sourceNode.headingPath,
+        proposedText: '',
+        targetNodeKind: 'synced_reference',
+        targetNodeId: targetNode.nodeId,
+        targetBlockId: targetNode.remote.blockId,
+        targetNodeHash: targetNode.fingerprint,
+        sourceDocumentId: correspondence.sourceDocumentId,
+        sourceBlockId: correspondence.sourceBlockId,
+      });
+    }
+
+    const copiedBoards = correspondences.filter((item) => item.kind === 'copied_resource' && item.resourceKind === 'whiteboard');
+    if (copiedBoards.length > 0 && !this.dependencies.whiteboards) {
+      throw new LocalizeError({
+        type: 'configuration',
+        subtype: 'whiteboard_gateway_missing',
+        message: 'Incremental Whiteboard verification requires the configured Whiteboard gateway.',
+      });
+    }
+    for (const correspondence of copiedBoards) {
+      if (correspondence.kind !== 'copied_resource') continue;
+      const sourceNode = source.nodes.find((node) => node.nodeId === correspondence.sourceNodeId);
+      const targetNode = targetById.get(correspondence.targetNodeId);
+      if (!sourceNode || sourceNode.kind !== 'whiteboard' || !sourceNode.remote.token || !targetNode || targetNode.kind !== 'whiteboard') continue;
+      const sourceBoard = await new WhiteboardMirror(this.dependencies.whiteboards!).snapshot(sourceNode.remote.token);
+      if (sourceBoard.hash === correspondence.sourceResourceHash) continue;
+      const relatedChange = changes.find((change) =>
+        (change.after?.nodeId ?? change.before?.nodeId) === sourceNode.nodeId
+        && (change.after?.kind ?? change.before?.kind) === 'whiteboard',
+      );
+      if (relatedChange) consumedChangeIds.add(relatedChange.changeId);
+      operations.push({
+        operationId: relatedChange?.changeId ?? canonicalHash({
+          kind: 'whiteboard_mirror', sourceNodeId: sourceNode.nodeId, sourceResourceHash: sourceBoard.hash,
+        }).slice(0, 16),
+        policy: 'whiteboard_mirror',
+        effect: 'mirror',
+        kind: 'replace',
+        confidence: 'high',
+        sourceAfter: sourceNode.text,
+        sourceNodeId: sourceNode.nodeId,
+        sourceNodeHash: sourceNode.fingerprint,
+        sourceHeadingPath: sourceNode.headingPath,
+        proposedText: '',
+        targetNodeKind: 'whiteboard',
+        targetNodeId: targetNode.nodeId,
+        targetBlockId: targetNode.remote.blockId,
+        targetNodeHash: targetNode.fingerprint,
+        sourceResourceToken: sourceNode.remote.token,
+        sourceResourceHash: sourceBoard.hash,
+        targetResourceToken: targetNode.remote.token,
+      });
+    }
+    return {operations, consumedChangeIds};
   }
 
   private async createDocumentPlan(pair: DocumentPair): Promise<PlanningResult> {
@@ -869,6 +975,10 @@ export class LocalizationWorkflows {
     });
     const validatedById = new Map(validated.map((item) => [item.operationId, item]));
     const requestById = new Map(requests.map((item) => [item.operationId, item]));
+    const resourceOperations = (metadata.resourceOperations as PlanOperation[] | undefined)
+      ?? (bundle.files['resource-operations.json']
+        ? JSON.parse(bundle.files['resource-operations.json']) as PlanOperation[]
+        : []);
     const operations: PlanOperation[] = run.metadata?.kind === 'initialization'
       ? ((metadata.initialOperations as PlanOperation[] | undefined)
           ?? (bundle.files['initial-operations.json']
@@ -891,7 +1001,7 @@ export class LocalizationWorkflows {
             preserved: request.preserved,
           };
         })
-      : aligned.map((item) => {
+      : [...aligned.map((item) => {
       const translation = validatedById.get(item.change.changeId)!;
       const request = requestById.get(item.change.changeId)!;
       const targetNode = item.targetNodeId
@@ -930,9 +1040,9 @@ export class LocalizationWorkflows {
         targetAttributes: structuralNode.remote.attributes,
         preserved: request.preserved,
       };
-      });
+      }), ...resourceOperations];
     const plan: LocalizationPlan = {
-      planVersion: run.metadata?.kind === 'initialization' ? 2 : 1,
+      planVersion: run.metadata?.kind === 'initialization' || resourceOperations.length > 0 ? 2 : 1,
       runId,
       pairId: run.pairId,
       sourceRevision: Number(metadata.sourceRevision),
@@ -1160,11 +1270,90 @@ export class LocalizationWorkflows {
         let sourceResourceHash: string | undefined;
         let targetResourceToken: string | undefined;
         if (policy === 'verify_synced_reference') {
-          throw new LocalizeError({
-            type: 'unsupported_content',
-            subtype: 'verify_synced_reference_not_implemented',
-            message: 'Incremental native synced-reference verification is not implemented yet.',
+          const targetNode = effectiveOperation.targetBlockId
+            ? activeTarget.nodes.find((node) => node.remote.blockId === effectiveOperation.targetBlockId)
+            : undefined;
+          const sourceNode = source.nodes.find((node) =>
+            node.kind === 'synced_source'
+            && (node.remote.sourceDocumentId ?? source.documentId) === effectiveOperation.sourceDocumentId
+            && (node.remote.sourceBlockId ?? node.remote.blockId) === effectiveOperation.sourceBlockId,
+          );
+          if (
+            !sourceNode
+            || !targetNode
+            || targetNode.kind !== 'synced_reference'
+            || targetNode.remote.sourceDocumentId !== effectiveOperation.sourceDocumentId
+            || targetNode.remote.sourceBlockId !== effectiveOperation.sourceBlockId
+          ) {
+            throw new LocalizeError({
+              type: 'verification_failed',
+              subtype: 'native_synced_reference_mismatch',
+              message: `Native synced reference ${operation.operationId} no longer points to the planned English source.`,
+            });
+          }
+          const resolvedBlockId = this.requireBlockId(targetNode.remote.blockId, operation.operationId);
+          resolvedTargetBlockIds.set(operation.operationId, resolvedBlockId);
+          applyLog.push({
+            operationId: operation.operationId,
+            kind: operation.kind,
+            policy,
+            resolvedBlockId,
+            targetHash: activeTarget.canonicalHash,
           });
+          run = await this.markRun(run, 'applying', {
+            prewriteRef,
+            appliedOperations,
+            lastVerifiedTargetHash: activeTarget.canonicalHash,
+            applyLog,
+          });
+          continue;
+        } else if (policy === 'whiteboard_mirror' && effectiveOperation.kind === 'replace') {
+          const sourceToken = effectiveOperation.sourceResourceToken;
+          const plannedSourceHash = effectiveOperation.sourceResourceHash;
+          const existingTargetToken = effectiveOperation.targetResourceToken;
+          if (!sourceToken || !plannedSourceHash || !existingTargetToken || !this.dependencies.whiteboards) {
+            throw new LocalizeError({
+              type: 'verification_failed',
+              subtype: 'whiteboard_target_missing',
+              message: `Whiteboard operation ${operation.operationId} is missing its planned source hash or target token.`,
+            });
+          }
+          const mirror = new WhiteboardMirror(this.dependencies.whiteboards);
+          const sourceSnapshot = await mirror.snapshot(sourceToken);
+          if (sourceSnapshot.hash !== plannedSourceHash) {
+            throw new LocalizeError({
+              type: 'stale_plan',
+              subtype: 'whiteboard_source_changed',
+              message: `Source Whiteboard for ${operation.operationId} changed after planning.`,
+              hint: 'Regenerate the localization plan and preview.',
+            });
+          }
+          const mirrored = await mirror.mirrorSnapshot(
+            sourceSnapshot,
+            existingTargetToken,
+            `${runId}-${operation.operationId}`,
+          );
+          sourceResourceHash = mirrored.source.hash;
+          targetResourceToken = existingTargetToken;
+          const resolvedBlockId = this.requireBlockId(effectiveOperation.targetBlockId, operation.operationId);
+          resolvedTargetBlockIds.set(operation.operationId, resolvedBlockId);
+          appliedOperations += 1;
+          applyLog.push({
+            operationId: operation.operationId,
+            kind: operation.kind,
+            policy,
+            resolvedBlockId,
+            targetHash: activeTarget.canonicalHash,
+            sourceResourceHash,
+            targetResourceToken,
+          });
+          run = await this.markRun(run, 'applying', {
+            prewriteRef,
+            appliedOperations,
+            lastVerifiedTargetHash: activeTarget.canonicalHash,
+            applyLog,
+          });
+          continue;
         } else if (effectiveOperation.kind === 'replace' && policy === 'translation') {
           writeResult = await this.dependencies.docs.replaceBlock({
             doc: targetUrl,
@@ -1328,7 +1517,10 @@ export class LocalizationWorkflows {
     }
 
     run = await this.markRun(run, 'verifying', {prewriteRef, appliedOperations});
-    const verification = verifyPlan(plan, approved.operations, activeTarget, resolvedTargetBlockIds);
+    const resourceEvidence = resourceEvidenceFromApplyLog(applyLog);
+    const verification = verifyPlan(
+      plan, approved.operations, activeTarget, resolvedTargetBlockIds, resourceEvidence,
+    );
     if (!verification.ok) {
       const error = new LocalizeError({
         type: 'verification_failed',
@@ -1357,6 +1549,7 @@ export class LocalizationWorkflows {
       activeTarget,
       approved.operations,
       resolvedTargetBlockIds,
+      resourceEvidence,
     );
     const completedAt = this.dependencies.clock.now().toISOString();
     const pendingReceipt: LocalizationReceipt = {
@@ -1751,10 +1944,12 @@ export class LocalizationWorkflows {
       });
     }
     const resolvedIds = new Map<string, string>();
-    for (const entry of (run.metadata?.applyLog as Array<{operationId: string; resolvedBlockId?: string}> | undefined) ?? []) {
+    const applyLog = (run.metadata?.applyLog as ApplyLogEntry[] | undefined) ?? [];
+    for (const entry of applyLog) {
       if (entry.resolvedBlockId) resolvedIds.set(entry.operationId, entry.resolvedBlockId);
     }
-    const verification = verifyPlan(plan, approved.operations, target, resolvedIds);
+    const resourceEvidence = resourceEvidenceFromApplyLog(applyLog);
+    const verification = verifyPlan(plan, approved.operations, target, resolvedIds, resourceEvidence);
     if (!verification.ok) {
       throw new LocalizeError({type: 'verification_failed', subtype: 'target_readback_mismatch', message: 'Current target no longer matches the verified reviewed plan.', details: verification});
     }
@@ -1773,7 +1968,9 @@ export class LocalizationWorkflows {
         targetHash: target.canonicalHash,
         runId: run.runId,
         completedAt: this.dependencies.clock.now().toISOString(),
-        correspondences: updateCorrespondences(currentCorrespondences, plan, target, approved.operations, resolvedIds),
+        correspondences: updateCorrespondences(
+          currentCorrespondences, plan, target, approved.operations, resolvedIds, resourceEvidence,
+        ),
       },
     };
   }
@@ -2695,5 +2892,16 @@ function manualSourceChangeIsSafe(
     node.kind === 'synced_source'
     && (node.remote.sourceDocumentId ?? current.documentId) === action.sourceDocumentId
     && (node.remote.sourceBlockId ?? node.remote.blockId) === action.sourceBlockId,
+  ));
+}
+
+function resourceEvidenceFromApplyLog(entries: ApplyLogEntry[]): Map<string, ApplyResourceEvidence> {
+  return new Map(entries.flatMap((entry): Array<[string, ApplyResourceEvidence]> =>
+    entry.sourceResourceHash || entry.targetResourceToken
+      ? [[entry.operationId, {
+          ...(entry.sourceResourceHash ? {sourceResourceHash: entry.sourceResourceHash} : {}),
+          ...(entry.targetResourceToken ? {targetResourceToken: entry.targetResourceToken} : {}),
+        }]]
+      : [],
   ));
 }
