@@ -1,0 +1,28 @@
+[
+  {
+    "id": 1,
+    "run_attempt": 1,
+    "name": "produce_guides_sources / fetch",
+    "status": "completed",
+    "conclusion": "success",
+    "steps": [
+      { "name": "Prefetch shared Guides media", "status": "completed", "conclusion": "success" },
+      { "name": "Create shared source artifact", "status": "completed", "conclusion": "success" }
+    ]
+  },
+  { "id": 2, "run_attempt": 1, "name": "render_guides_tables / saas / Tools / render", "status": "completed", "conclusion": "success" },
+  { "id": 3, "run_attempt": 1, "name": "render_guides_tables / saas / Integrations / render", "status": "completed", "conclusion": "success" },
+  { "id": 4, "run_attempt": 1, "name": "render_guides_tables / saas / Tutorials / render", "status": "completed", "conclusion": "success" },
+  { "id": 5, "run_attempt": 1, "name": "render_guides_tables / saas / Admin / render", "status": "completed", "conclusion": "success" },
+  { "id": 6, "run_attempt": 1, "name": "render_guides_tables / byoc / Tools / render", "status": "completed", "conclusion": "success" },
+  { "id": 7, "run_attempt": 1, "name": "render_guides_tables / byoc / Integrations / render", "status": "completed", "conclusion": "success" },
+  { "id": 8, "run_attempt": 1, "name": "render_guides_tables / byoc / Tutorials / render", "status": "completed", "conclusion": "success" },
+  { "id": 9, "run_attempt": 1, "name": "render_guides_tables / byoc / Admin / render", "status": "completed", "conclusion": "success" },
+  { "id": 10, "run_attempt": 1, "name": "render_guides_tables / saas / Migration / render", "status": "in_progress", "conclusion": null, "steps": [{ "name": "Render Guides table", "status": "in_progress", "conclusion": null }] },
+  { "id": 11, "run_attempt": 1, "name": "render_guides_tables / saas / Security / render", "status": "in_progress", "conclusion": null, "steps": [{ "name": "Render Guides table", "status": "in_progress", "conclusion": null }] },
+  { "id": 12, "run_attempt": 1, "name": "render_guides_tables / byoc / Migration / render", "status": "in_progress", "conclusion": null, "steps": [{ "name": "Render Guides table", "status": "in_progress", "conclusion": null }] },
+  { "id": 13, "run_attempt": 1, "name": "render_guides_tables / byoc / Security / render", "status": "in_progress", "conclusion": null, "steps": [{ "name": "Render Guides table", "status": "in_progress", "conclusion": null }] },
+  { "id": 14, "run_attempt": 1, "name": "render_guides_tables / saas / Reference / render", "status": "queued", "conclusion": null },
+  { "id": 15, "run_attempt": 1, "name": "render_guides_tables / byoc / Reference / render", "status": "queued", "conclusion": null }
+]
+
