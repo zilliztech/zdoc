@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "A model provider integration connects Zilliz Cloud to a third-party model service and makes the provider’s capabilities available to your project. | Cloud"
+description: "A text embedding or reranking model hosted by an external provider cannot be called from Zilliz Cloud until the provider can authenticate requests from your project. A model provider integration stores the provider-issued credential at the project level and gives Zilliz Cloud an integration ID that text embedding and reranking features can reference. This avoids placing credentials in individual Function or Ranker configurations. | Cloud"
 type: origin
 token: B1cSwfWcri4VJLkCR20cHIs6nCf
 sidebar_position: 1
@@ -24,33 +24,24 @@ import Procedures from '@site/src/components/Procedures';
 
 # Integrate with Model Providers
 
-A **model provider integration** connects Zilliz Cloud to a third-party model service and makes the provider’s capabilities available to your project.
+A text embedding or reranking model hosted by an external provider cannot be called from Zilliz Cloud until the provider can authenticate requests from your project. A **model provider integration** stores the provider-issued credential at the project level and gives Zilliz Cloud an integration ID that text embedding and reranking features can reference. This avoids placing credentials in individual Function or Ranker configurations.
 
-An integration:
+<Admonition type="info" icon="📘" title="Notes">
 
-- Stores credentials required to access a model provider
+Creating a model provider integration does not incur charges. The external provider may charge for model inference, and sending data to the provider may incur [data transfer costs](./data-transfer-cost).
 
-- Explores the model provider’s supported capabilities (for example, text embedding or reranking)
+</Admonition>
 
-## When you need a model provider integration\{#when-you-need-a-model-provider-integration}
+## Supported model providers\{#supported-model-providers}
 
-You need to create a model provider integration **only when you want to use model-based capabilities** in Zilliz Cloud:
+The following model providers can be integrated with Zilliz Cloud:
 
-- **Text Embedding Functions**: Convert raw text into dense vectors using external models. For details, refer to [Function Overview](./function-and-model-inference-overview).
-
-- **Model-based Rankers**: Re-rank search results using external reranking models. For details, refer to [Cohere Ranker](./cohere-model-ranker) and its sibling pages.
-
-Local features such as BM25, hybrid rankers, and rule-based rankers do **not** require a model provider integration.
-
-## Billing considerations\{#billing-considerations}
-
-Creating a model provider integration itself does not incur charges. However, using external model providers may result in additional costs, including:
-
-- Charges from the model provider.
-
-- Data transfer costs when data is sent for embedding or reranking. For details, refer to [Data Transfer Cost](./data-transfer-cost).
-
-Billing applies only when model-based functions or rankers are executed.
+| Model provider | Supported model types | Required credential |
+| --- | --- | --- |
+| **OpenAI** | Text embedding models | API key. To obtain one, see the [OpenAI API quickstart](https://developers.openai.com/api/docs/quickstart#create-and-export-an-api-key). |
+| **Cohere** | Text embedding and reranking models | API key. To obtain one, see [API Keys and Rate Limits](https://docs.cohere.com/docs/rate-limits). |
+| **Voyage AI** | Text embedding and reranking models | API key. To obtain one, see [API Key and Python Client](https://docs.voyageai.com/docs/api-key-and-installation). |
+| **Hugging Face** | Text embedding models | User Access Token with **Make calls to Inference Providers** permission. To obtain one, see [Inference Providers](https://huggingface.co/docs/inference-providers/en/index#getting-started). |
 
 ## Before you start\{#before-you-start}
 
@@ -58,9 +49,11 @@ Before creating a model provider integration, make sure that:
 
 - You have **Organization Owner** or **Project Admin** permissions for the target Zilliz Cloud project. If you do not have sufficient permissions, contact your Zilliz Cloud Organization Owner.
 
-- You have a valid **API key** for the model provider you want to integrate.
+- You have the credential required by the selected model provider. See [Supported model providers](./integrate-with-model-providers).
 
-## Create a model provider integration\{#create-a-model-provider-integration}
+- If you plan to use Hugging Face, identify an Inference Provider supported by the embedding model you intend to use. Select `hf-inference` to use Hugging Face Serverless Inference API. For partner-routed inference, use the provider name supported by the selected model. Model and provider availability is managed by Hugging Face and may change over time.
+
+## Create an integration in the Zilliz Cloud console\{#create-an-integration-in-the-zilliz-cloud-console}
 
 <Supademo id="cmj9f3j6u0johf6zpk5kdyx3u" title=""  />
 
@@ -82,9 +75,11 @@ To create a model provider integration:
 
     - **Integration Description** *(optional)*: A description for this integration (e.g., `for model provider`).
 
+    - **Provider** *(Hugging Face only)*: Select the Hugging Face Inference Provider that serves the embedding model you intend to use. Use `hf-inference` for Hugging Face Serverless Inference API. For partner-routed inference, enter the provider name supported by the selected model.
+
 1. Click **Next**. You'll be redirected to the **Credential Information** step:
 
-    1. In the **API Key** field, enter the API key for your model provider access.
+    1. Enter the credential required by the selected model provider. For Hugging Face, enter your User Access Token in the **Hugging Face Access Token** field. The same Hugging Face token is used for `hf-inference` and partner-routed inference.
 
     1. Click **Validate Integration** to check the connection. Once its status changes to Successful, proceed to the next step.
 
@@ -94,13 +89,15 @@ To create a model provider integration:
 
 Once created, the integration becomes available for use by model-based functions and rankers.
 
+For Hugging Face, **Validate Integration** verifies that Zilliz Cloud can authenticate with the supplied User Access Token. Model existence, Feature Extraction support, compatibility between the selected model and Inference Provider, and vector dimension are validated when you configure or execute a Text Embedding Function. Zilliz Cloud masks the User Access Token after the integration is created.
+
 ## Manage integrations\{#manage-integrations}
 
 After an integration is created, you can manage it from the **Integrations** page:
 
 - Obtain your integration ID
 
-    The integration ID will be required when using a text embedding function or a reranking function.
+    The integration ID is required when a Text Embedding Function or model-based Ranker uses the integration.
 
 - View integration details
 
@@ -120,21 +117,21 @@ If an integration is removed or becomes invalid, collections or rankers that ref
 
 After creating a model provider integration, you can:
 
-- Use it with a **Text Embedding Function** to convert text into dense vectors
+- Use it with a **Text Embedding Function** to convert text into dense vectors. To use a Hugging Face integration, see Hugging Face.
 
-- Use it with **Model-based Rankers** to re-rank search results
+- Use a Cohere or Voyage AI integration with a model-based Ranker to rerank search results.
 
 For detailed instructions, refer to:
 
 - [Function Overview](./function-and-model-inference-overview)
 
-- [Weighted Ranker](./reranking-weighted-reranker)
+- [OpenAI](./openai)
 
-- [RRF Ranker](./reranking-rrf)
+- [Cohere](./cohere)
 
-- [Boost Ranker](./boost-ranker)
+- [Voyage AI](./voyage-ai)
 
-- [Decay Ranker Overview](./decay-ranker-oveview)
+- Hugging Face
 
 - [Cohere Ranker](./cohere-model-ranker)
 

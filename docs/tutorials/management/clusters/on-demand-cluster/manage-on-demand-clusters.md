@@ -250,6 +250,48 @@ When a request arrives for a suspended on-demand cluster, Zilliz Cloud spins up 
 
     </Procedures>
 
+## Modify an on-demand cluster\{#modify-an-on-demand-cluster}
+
+You can modify the settings, such as the name, description, and auto-suspend settings of an on-demand cluster.
+
+- **Via RESTful API**
+
+    You can modify the auto-suspend time of an existing on-demand cluster.
+
+    ```bash
+    export TOKEN="YOUR_API_KEY"
+    export CLUSTER_ID="inxx-xxxxxxxxxxxxxxx"
+    
+    curl --request PATCH \
+    --url "${BASE_URL}/v2/clusters/onDemandClusters/${CLUSTER_ID}" \
+    --header "Authorization: Bearer ${TOKEN}" \
+    --header "OrgId: org-xxxxxxxxxxxxxxxxxxx" \
+    --header "Content-Type: application/json" \
+    -d '{
+        "clusterName": "New Cluster Name",
+        "description": "This is the new description of the cluster.",
+        "autoSuspend": "5m"
+    }'
+    ```
+
+    The following is an example output.
+
+    ```bash
+    {
+      "code": 0,
+      "data": {
+        "clusterId": "inxx-xxxxxxxxxxxxxxx",
+        "prompt": "Successfully submitted."
+      }
+    }
+    ```
+
+- **Via web console**
+
+    You can modify the cluster name, description, and auto-suspend time of an existing on-demand cluster via the web console.
+
+    ![M2XMwoWoih17BRbqhGhcb6i9njg](https://zdoc-images.s3.us-west-2.amazonaws.com/M2XMwoWoih17BRbqhGhcb6i9njg.png)
+
 ## Drop an on-demand cluster\{#drop-an-on-demand-cluster}
 
 <Admonition type="danger" icon="🚧" title="Danger">

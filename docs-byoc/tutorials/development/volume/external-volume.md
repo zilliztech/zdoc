@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "An external volume is a read-only reference to a bucket or path in your own cloud object storage (such as AWS S3 or Google Cloud Storage), allowing Zilliz Cloud to access your data in place without copying or moving it. | BYOC"
+description: "An external volume is a read-only reference to a bucket or path in your own cloud object storage (such as AWS S3), allowing Zilliz Cloud to access your data in place without copying or moving it. | BYOC"
 type: origin
 token: JaLdw76LPiX003kLpKHcA0n8n2d
 sidebar_position: 2
@@ -27,11 +27,11 @@ import Procedures from '@site/src/components/Procedures';
 
 <FeatureNote variant="region" titleHref="/docs/cloud-providers-and-regions">
 
-This feature is available in all AWS regions and in all Google Cloud regions. It is not available on Microsoft Azure. To use volumes in Azure, [contact us](https://support.zilliz.com/).
+This feature is available in all AWS regions. It is not available on Microsoft Azure. To use volumes in Azure, [contact us](https://support.zilliz.com/).
 
 </FeatureNote>
 
-An external volume is a read-only reference to a bucket or path in your own cloud object storage (such as AWS S3 or Google Cloud Storage), allowing Zilliz Cloud to access your data in place without copying or moving it. 
+An external volume is a read-only reference to a bucket or path in your own cloud object storage (such as AWS S3), allowing Zilliz Cloud to access your data in place without copying or moving it. 
 
 This page explains how to create and delete external volumes via the web console and SDKs.                      
 
@@ -51,7 +51,7 @@ This page explains how to create and delete external volumes via the web console
 
 ## Before you start\{#before-you-start}
 
-Before creating an external volume, you need to integrate your [AWS S3 bucket](./integrate-with-aws-s3) or [Google GCS bucket](./integrate-with-gcp). Note that the storage integration should be in the same cloud provider and region as the external volume you wish to create.
+Before creating an external volume, you need to integrate your [AWS S3 bucket](./integrate-with-aws-s3). Note that the storage integration should be in the same cloud provider and region as the external volume you wish to create.
 
 ## Create an external volume\{#create-an-external-volume}
 
@@ -182,7 +182,7 @@ Before creating an external volume, you need to integrate your [AWS S3 bucket](.
         | Description | This parameter is optional. Up to 255 characters. |
         | Volume Type | Select "External" as the volume type. |
         | Cloud Provider & Region | The volume cloud provider and region must match the cloud provider and region of the target cluster you plan to import or migrate data into. |
-        | Storage Integration & Path | Storage integration ([AWS S3 bucket](./integrate-with-aws-s3) or [Google GCS bucket](./integrate-with-gcp)) is the credential object that encapsulates the access configuration for your cloud storage.<br/>Path is a pointer to where your data is placed. (Eg. `folder/`) |
+        | Storage Integration & Path | Storage integration ([AWS S3 bucket](./integrate-with-aws-s3)) is the credential object that encapsulates the access configuration for your cloud storage.<br/>Path is a pointer to where your data is placed. (Eg. `folder/`) |
 
     1. Click on **Create**.
 
@@ -536,12 +536,6 @@ Deleting an external volume removes only the volume metadata from Zilliz Cloud; 
 
     </Procedures>
 
-## Billing\{#billing}
-
-Creating and using an external volume incurs no Zilliz Cloud charges. No payment method is required.
-
-However, your cloud provider may charge data request fees when Zilliz Cloud reads from your bucket during import or migration. For details, see [Amazon S3 Pricing](https://aws.amazon.com/s3/pricing/) or [Google Cloud Storage Pricing](https://cloud.google.com/storage/pricing.).
-
 ## FAQs\{#faqs}
 
 **What happens to my volumes if my organization is frozen due to overdue invoices?**
@@ -554,7 +548,7 @@ To continue using volumes, first settle all outstanding invoices.
 
 Both allow you to import data from your own S3 or GCS bucket. The key differences are:
 
-- External volume requires you to integrate an [AWS S3 bucket](./integrate-with-aws-s3), a [Google Cloud Storage bucket](./integrate-with-gcp), or a [Microsoft Azure blob storage container](./integrate-with-azure-blob-storage) with Zilliz Cloud for credential management. Credentials are set up once and reused across multiple volumes and operations. Data engineers do not need direct access to cloud storage keys.
+- External volume requires you to integrate an [AWS S3 bucket](./integrate-with-aws-s3) with Zilliz Cloud for credential management. Credentials are set up once and reused across multiple volumes and operations. Data engineers do not need direct access to cloud storage keys.
 
 - Direct [external storage import](./import-data-on-web-ui#remote-files-from-an-object-storage-bucket) requires you to provide credentials (access key and secret key) with each import request. This is simpler for one-time imports but does not offer credential separation or reusability.
 
@@ -585,11 +579,11 @@ The following table lists the possible volume statuses.
    </tr>
    <tr>
      <td><p><strong>Frozen</strong></p></td>
-     <td><p>The organization is frozen due to overdue <a href="./view-invoice">invoices</a>. The volume cannot be used for new operations. Please pay your bill to continue using volumes.</p></td>
+     <td><p>The organization is frozen due to overdue <a href="/docs/view-invoice">invoices</a>. The volume cannot be used for new operations. Please pay your bill to continue using volumes.</p></td>
    </tr>
    <tr>
      <td><p><strong>Error</strong></p></td>
-     <td><p>The storage integration validation failed. Check the configuration and retry.</p><p>Application storage integrations are as follows:</p><ul><li><p><a href="./integrate-with-aws-s3">AWS S3 bucket</a>,</p></li><li><p><a href="./integrate-with-gcp">Google Cloud Storage bucket</a>, or</p></li><li><p><a href="./integrate-with-azure-blob-storage">Microsoft Azure blob storage container</a></p></li></ul></td>
+     <td><p>The storage integration validation failed. Check the configuration and retry.</p><p>Application storage integrations are as follows:</p><ul><li><a href="./integrate-with-aws-s3">AWS S3 bucket</a>,</li></ul></td>
    </tr>
 </table>
 

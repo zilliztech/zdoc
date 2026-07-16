@@ -589,12 +589,6 @@ module.exports = [
         "items": [
           {
             "type": "doc",
-            "id": "tutorials/development/volume/managed-volume",
-            "label": "Managed Volumes",
-            "key": "doc:tutorials/development/volume/managed-volume"
-          },
-          {
-            "type": "doc",
             "id": "tutorials/development/volume/external-volume",
             "label": "External Volumes",
             "key": "doc:tutorials/development/volume/external-volume"
@@ -603,7 +597,14 @@ module.exports = [
             "type": "category",
             "label": "Storage Integration",
             "key": "category:tutorials/development/volume/storage-integration",
-            "items": []
+            "items": [
+              {
+                "type": "doc",
+                "id": "tutorials/development/volume/storage-integration/integrate-with-aws-s3",
+                "label": "AWS S3",
+                "key": "doc:tutorials/development/volume/storage-integration/integrate-with-aws-s3"
+              }
+            ]
           }
         ]
       },
@@ -1503,12 +1504,6 @@ module.exports = [
         "items": [
           {
             "type": "doc",
-            "id": "tutorials/development/volume/managed-volume",
-            "label": "Managed Volumes",
-            "key": "ref:tutorials/management/volume/managed-volume"
-          },
-          {
-            "type": "doc",
             "id": "tutorials/development/volume/external-volume",
             "label": "External Volumes",
             "key": "ref:tutorials/management/volume/external-volume"
@@ -1517,7 +1512,14 @@ module.exports = [
             "type": "category",
             "label": "Storage Integrations",
             "key": "category:tutorials/management/volume/storage-integrations",
-            "items": []
+            "items": [
+              {
+                "type": "doc",
+                "id": "tutorials/development/volume/storage-integration/integrate-with-aws-s3",
+                "label": "Integrate with AWS S3",
+                "key": "ref:tutorials/management/volume/storage-integrations/integrate-with-aws-s3"
+              }
+            ]
           }
         ]
       },

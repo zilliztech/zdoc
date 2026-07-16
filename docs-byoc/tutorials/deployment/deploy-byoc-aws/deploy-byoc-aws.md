@@ -257,11 +257,31 @@ Once the status tag on a project card reads **Suspended**, you cannot manipulate
 
 ## Technical support access\{#technical-support-access}
 
-To assist you with troubleshooting and maintenance operations, Zilliz Cloud enables technical support to access your project's data plane by default. 
+To assist you with troubleshooting and maintenance operations, Zilliz Cloud enables technical support to access your project's data plane by default. You can choose to disable it to meet governance and security requirements.
 
-![TKIEwRBp0hpQL5btdvwccQGKngZ](https://zdoc-images.s3.us-west-2.amazonaws.com/TKIEwRBp0hpQL5btdvwccQGKngZ.png)
+The following procedure demonstrates how to enable technical support access again after you disabled it when Zilliz Cloud technical support contacts you on an identified issue.
 
-When you click **Technical Support Access** from the target project's drop-down menu to view the current settings. You can disable it to meet data governance and security requirements.
+<Procedures>
+
+1. Once Zilliz Cloud identifies an issue on your data plane and you have disabled technical support access, we will inform you about it and apply for technical support access.
+
+1. Find the data plane in concern, click **...** at the bottom-right corner of the data plane card, and click **Technical Support Access** from the drop-down list.
+
+    ![TKIEwRBp0hpQL5btdvwccQGKngZ](https://zdoc-images.s3.us-west-2.amazonaws.com/TKIEwRBp0hpQL5btdvwccQGKngZ.png)
+
+1. In the prompted dialog box, switch on **Technical Support Access**.
+
+    ![SLmCwHdrNhJiw3bzf9kc5gB4nAb](https://zdoc-images.s3.us-west-2.amazonaws.com/SLmCwHdrNhJiw3bzf9kc5gB4nAb.png)
+
+1. And you will find information about the reason why we apply for access and the ID of the issue owner assigned by Zilliz Cloud. You can decide the access lifespan in **Expected Duration** and provide optional requirements in **Description**. Once everything is set, click **Save**.
+
+    ![D8X5w8TZQhkN51bpoqHc09o0nue](https://zdoc-images.s3.us-west-2.amazonaws.com/D8X5w8TZQhkN51bpoqHc09o0nue.png)
+
+1. When you open the dialog box during troubleshooting, you will see the end time of this access. The technical support access will be disabled again once it expires or you explicitly disable it.
+
+    ![HL1OwXlTihXk9PbzvjbchIp0n3f](https://zdoc-images.s3.us-west-2.amazonaws.com/HL1OwXlTihXk9PbzvjbchIp0n3f.png)
+
+</Procedures>
 
 ## Procedures\{#procedures}
 

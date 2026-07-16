@@ -46,7 +46,29 @@ import Grid from '@site/src/components/Grid';
 
     <div>
 
-        **[July 6, 2026](./release-notes-2607#byoc-i-now-available-on-gcp)**
+        **[July 15, 2026](./release-notes-2607#byoc-supports-storage-integrations-and-external-volumes)**
+
+    </div>
+
+    <div>
+
+        - 💾 [Storage integration](/docs/byoc/integrate-with-aws-s3) and [external volumes](/docs/byoc/external-volume) become available for BYOC projects.
+
+        - 📈 [Collection-level metrics](./metrics-alerts-reference) go online for on-demand clusters.
+
+        - 💳 On-demand compute and external volumes now incur charges. For the breakdown, see [On-Demand Compute Cost](./on-demand-compute-cost) and [Storage Request Cost](./storage-request-cost).
+
+        - 💻 [Programmable storage integrations](/reference/restful/storage-integration-operations-v2) are available through RESTful APIs.
+
+    </div>
+
+</Grid>
+
+<Grid columnSize="2" widthRatios="25,74">
+
+    <div>
+
+        **[July 6, 2026](./release-notes-2607)**
 
     </div>
 
