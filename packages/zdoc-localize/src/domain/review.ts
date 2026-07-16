@@ -35,6 +35,7 @@ export interface PlanOperation {
   sourceBlockId?: string;
   sourceResourceToken?: string;
   targetResourceToken?: string;
+  sourceXml?: string;
 }
 
 export type OperationPolicy =

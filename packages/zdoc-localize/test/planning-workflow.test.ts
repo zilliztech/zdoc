@@ -122,6 +122,66 @@ describe('bootstrap and planning workflows', () => {
     expect(await registry.getReceipt('pair-empty')).toBeUndefined();
   });
 
+  it('plans full initialization for a title-only existing target', async () => {
+    const cwd = await mkdtemp(join(tmpdir(), 'zdoc-localize-empty-target-plan-'));
+    const docs = new MutableDocs();
+    docs.documents.set('source-url', {
+      documentId: 'source',
+      revisionId: 31,
+      content: '<title id="source">Hugging Face</title>'
+        + '<p id="intro">English body.</p>'
+        + '<pre id="code" lang="python"><code>print("hello")</code></pre>'
+        + '<whiteboard id="board" token="board-source"></whiteboard>'
+        + '<synced-source id="sync-source"><pre id="sync-code"><code>print("synced")</code></pre></synced-source>',
+    });
+    docs.documents.set('target-url', {
+      documentId: 'target', revisionId: 4,
+      content: '<title id="target">Hugging Face</title>',
+    });
+    const registry = new LocalRegistryStore(cwd);
+    await registry.savePair({
+      pairId: 'pair-empty-plan', sourceLocale: 'en', targetLocale: 'zh-CN', sourceDocUrl: 'source-url',
+      targetDocUrl: 'target-url', mode: 'mirror', status: 'needs_bootstrap',
+    });
+    const workflows = new LocalizationWorkflows({
+      cwd, registry, snapshots: new LocalSnapshotStore(cwd), memory: new MemoryTranslationMemory(), docs,
+      clock: {now: () => new Date('2026-07-16T00:00:00.000Z')}, ids: {next: () => 'run-empty-plan'},
+    });
+
+    const result = await workflows.createPlan('pair-empty-plan');
+    const run = await registry.getRun(result.runId);
+
+    expect(result).toMatchObject({state: 'translation_required'});
+    expect(result.translationRequests.map((request) => request.targetNodeKind)).toEqual(['title', 'paragraph']);
+    expect(run?.metadata?.initialOperations).toEqual(expect.arrayContaining([
+      expect.objectContaining({policy: 'translation', targetNodeKind: 'title', kind: 'replace'}),
+      expect.objectContaining({policy: 'translation', targetNodeKind: 'paragraph', kind: 'insert'}),
+      expect.objectContaining({policy: 'verbatim_code', targetNodeKind: 'code', sourceXml: expect.stringContaining('<pre')}),
+      expect.objectContaining({policy: 'whiteboard_mirror', sourceResourceToken: 'board-source'}),
+      expect.objectContaining({
+        policy: 'manual_synced_reference', sourceDocumentId: 'source', sourceBlockId: 'sync-source',
+      }),
+    ]));
+
+    const completed = await workflows.completePlan(result.runId, result.translationRequests.map((request) => ({
+      operationId: request.operationId,
+      translatedText: request.targetNodeKind === 'title' ? 'Hugging Face' : '中文正文。',
+      targetNodeKind: request.targetNodeKind,
+    })));
+    const compiledPlan = JSON.parse(await readFile(join(cwd, completed.planPath), 'utf8')) as {
+      planVersion: number;
+      operations: Array<{policy?: string; proposedText: string}>;
+    };
+    expect(compiledPlan.planVersion).toBe(2);
+    expect(compiledPlan.operations).toEqual(expect.arrayContaining([
+      expect.objectContaining({policy: 'translation', proposedText: 'Hugging Face'}),
+      expect.objectContaining({policy: 'translation', proposedText: '中文正文。'}),
+      expect.objectContaining({policy: 'verbatim_code', proposedText: 'print("hello")'}),
+      expect.objectContaining({policy: 'whiteboard_mirror'}),
+      expect.objectContaining({policy: 'manual_synced_reference'}),
+    ]));
+  });
+
   it('does not auto-correspond a shifted structural group during bootstrap', async () => {
     const cwd = await mkdtemp(join(tmpdir(), 'zdoc-localize-bootstrap-shift-'));
     const docs = new MutableDocs();

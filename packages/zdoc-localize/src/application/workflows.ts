@@ -39,6 +39,8 @@ import {
 } from '../domain/translation.js';
 import {parseFeishuDocument} from '../domain/xml-parser.js';
 import {isStrictlyEmptyTarget} from '../domain/initialization.js';
+import {buildInitialPlanInputs} from '../domain/initial-plan.js';
+import {InitializationInspector} from './initialization-inspector.js';
 import {
   compileReview,
   parseReview,
@@ -460,11 +462,16 @@ export class LocalizationWorkflows {
     if (pair.mode === 'excluded') {
       throw new LocalizeError({type: 'validation', subtype: 'pair_excluded', message: `Pair ${pairId} is excluded from localization.`});
     }
-    if (!pair.targetDocUrl && !pair.targetDocToken) return this.createDocumentPlan(pair);
     const receipt = await this.dependencies.registry.getReceipt(pairId);
-    if (!receipt) {
+    const disposition = await new InitializationInspector(this.dependencies.docs).inspect(pair, receipt);
+    if (disposition.kind === 'create_target') return this.createDocumentPlan(pair);
+    if (disposition.kind === 'initialize_empty_target') {
+      return this.createExistingTargetPlan(pair, disposition.source, disposition.target);
+    }
+    if (disposition.kind === 'adopt_existing_target') {
       throw new LocalizeError({type: 'validation', subtype: 'baseline_missing', message: `Pair ${pairId} must be bootstrapped before planning.`});
     }
+    if (!receipt) throw new LocalizeError({type: 'verification_failed', subtype: 'receipt_missing', message: `Pair ${pairId} has no localization receipt.`});
     const baselineBundle = await this.dependencies.snapshots.getBundle(receipt.sourceSnapshotRef);
     const baselineXml = baselineBundle.files['source.xml'];
     if (!baselineXml) {
@@ -655,6 +662,81 @@ export class LocalizationWorkflows {
     };
   }
 
+  private async createExistingTargetPlan(
+    pair: DocumentPair,
+    sourceFetch: FetchedDocument,
+    targetFetch: FetchedDocument,
+  ): Promise<PlanningResult> {
+    if (pair.mode !== 'mirror') {
+      const runId = this.dependencies.ids.next();
+      const blocker = 'Existing empty target initialization is supported only for mirror document pairs.';
+      const error = new LocalizeError({type: 'configuration', subtype: 'empty_target_initialization_requires_mirror', message: blocker});
+      await this.dependencies.registry.saveRun(this.newRun(runId, pair.pairId, 'blocked', {
+        kind: 'initialization', blocker,
+      }, runErrorProjection(error)));
+      return {runId, state: 'blocked', changes: [], translationRequests: [], blocker};
+    }
+    const source = parseFeishuDocument(sourceFetch.content, {
+      documentId: sourceFetch.documentId,
+      revisionId: sourceFetch.revisionId,
+    });
+    const target = parseFeishuDocument(targetFetch.content, {
+      documentId: targetFetch.documentId,
+      revisionId: targetFetch.revisionId,
+    });
+    pair = await this.savePairTitles(pair, source.title, target.title);
+    const runId = this.dependencies.ids.next();
+    const initial = buildInitialPlanInputs(source, target);
+    if (initial.unsupported.length > 0) {
+      const blocker = `Existing empty target initialization contains unsupported content: ${initial.unsupported.map((node) => `${node.kind}:${blockLabel(node)}`).join(', ')}`;
+      const error = new LocalizeError({type: 'unsupported_content', subtype: 'initialization_unsupported_content', message: blocker});
+      await this.dependencies.registry.saveRun(this.newRun(runId, pair.pairId, 'blocked', {
+        kind: 'initialization',
+        blocker,
+        unsupportedNodes: initial.unsupported.map((node) => ({kind: node.kind, blockId: node.remote.blockId, text: node.text})),
+      }, {sourceToRevision: source.revisionId, targetPlanRevision: target.revisionId, ...runErrorProjection(error)}));
+      return {runId, state: 'blocked', changes: initial.changes, translationRequests: [], blocker};
+    }
+    const translationInputs = await this.createTranslationInputs(pair, initial.translatableAligned, source, target);
+    const translationRequestsPath = await this.persistPlanArtifacts(
+      runId,
+      sourceFetch,
+      targetFetch,
+      initial.changes,
+      translationInputs.requests,
+    );
+    const initialOperationsText = `${JSON.stringify(initial.operations, null, 2)}\n`;
+    const bundleRef = await this.dependencies.snapshots.putBundle({
+      runId,
+      files: {
+        ...currentDocumentArtifacts(sourceFetch, targetFetch),
+        'changes.json': `${JSON.stringify(initial.changes, null, 2)}\n`,
+        'alignments.json': `${JSON.stringify(initial.translatableAligned, null, 2)}\n`,
+        'initial-operations.json': initialOperationsText,
+        'translation-requests.json': `${JSON.stringify(translationInputs.requests, null, 2)}\n`,
+      },
+    });
+    await this.dependencies.registry.saveRun(this.newRun(runId, pair.pairId, 'translation_required', {
+      kind: 'initialization',
+      bundleRef,
+      sourceRevision: source.revisionId,
+      sourceHash: source.canonicalHash,
+      targetRevision: target.revisionId,
+      targetHash: target.canonicalHash,
+      changes: initial.changes,
+      aligned: initial.translatableAligned,
+      initialOperations: initial.operations,
+      glossaryHash: translationInputs.glossaryHash,
+    }, {sourceToRevision: source.revisionId, targetPlanRevision: target.revisionId}));
+    return {
+      runId,
+      state: 'translation_required',
+      changes: initial.changes,
+      translationRequests: translationInputs.requests,
+      translationRequestsPath,
+    };
+  }
+
   async classifyPlan(runId: string, applicableChangeIds: string[]): Promise<PlanningResult> {
     const run = await this.requireRun(runId);
     if (run.state !== 'classification_required' || run.metadata?.kind !== 'localization') {
@@ -731,7 +813,7 @@ export class LocalizationWorkflows {
 
   async completePlan(runId: string, responses: TranslationResponse[]): Promise<CompletedPlanResult> {
     const run = await this.requireRun(runId);
-    if (run.state !== 'translation_required' || !['localization', 'creation'].includes(String(run.metadata?.kind))) {
+    if (run.state !== 'translation_required' || !['localization', 'creation', 'initialization'].includes(String(run.metadata?.kind))) {
       throw new LocalizeError({
         type: 'validation',
         subtype: 'run_not_translation_required',
@@ -759,7 +841,29 @@ export class LocalizationWorkflows {
     });
     const validatedById = new Map(validated.map((item) => [item.operationId, item]));
     const requestById = new Map(requests.map((item) => [item.operationId, item]));
-    const operations: PlanOperation[] = aligned.map((item) => {
+    const operations: PlanOperation[] = run.metadata?.kind === 'initialization'
+      ? ((metadata.initialOperations as PlanOperation[] | undefined)
+          ?? (bundle.files['initial-operations.json']
+            ? JSON.parse(bundle.files['initial-operations.json']) as PlanOperation[]
+            : []))
+        .map((operation) => {
+          if (operation.policy !== 'translation') return operation;
+          const translation = validatedById.get(operation.operationId);
+          const request = requestById.get(operation.operationId);
+          if (!translation || !request || 'decision' in translation) {
+            throw new LocalizeError({
+              type: 'verification_failed',
+              subtype: 'initialization_translation_missing',
+              message: `Initialization operation ${operation.operationId} has no validated translation.`,
+            });
+          }
+          return {
+            ...operation,
+            proposedText: translation.translatedText,
+            preserved: request.preserved,
+          };
+        })
+      : aligned.map((item) => {
       const translation = validatedById.get(item.change.changeId)!;
       const request = requestById.get(item.change.changeId)!;
       const targetNode = item.targetNodeId
@@ -798,9 +902,9 @@ export class LocalizationWorkflows {
         targetAttributes: structuralNode.remote.attributes,
         preserved: request.preserved,
       };
-    });
+      });
     const plan: LocalizationPlan = {
-      planVersion: 1,
+      planVersion: run.metadata?.kind === 'initialization' ? 2 : 1,
       runId,
       pairId: run.pairId,
       sourceRevision: Number(metadata.sourceRevision),
@@ -827,7 +931,7 @@ export class LocalizationWorkflows {
 
   async previewApply(runId: string, reviewPath: string): Promise<ApplyPreviewResult> {
     const run = await this.requireRun(runId);
-    if (run.state !== 'review_required' || !['localization', 'creation'].includes(String(run.metadata?.kind))) {
+    if (run.state !== 'review_required' || !['localization', 'creation', 'initialization'].includes(String(run.metadata?.kind))) {
       throw new LocalizeError({type: 'validation', subtype: 'run_not_review_required', message: `Run ${runId} is not ready to apply.`});
     }
     const plan = await this.planForRun(run);
@@ -910,7 +1014,7 @@ export class LocalizationWorkflows {
       });
     }
     let run = await this.requireRun(runId);
-    if (run.state !== 'review_required' || !['localization', 'creation'].includes(String(run.metadata?.kind))) {
+    if (run.state !== 'review_required' || !['localization', 'creation', 'initialization'].includes(String(run.metadata?.kind))) {
       throw new LocalizeError({type: 'validation', subtype: 'run_not_review_required', message: `Run ${runId} is not ready to apply.`});
     }
     const pair = await this.requirePair(run.pairId);
