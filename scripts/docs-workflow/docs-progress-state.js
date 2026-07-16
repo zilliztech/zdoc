@@ -142,19 +142,23 @@ function guidesRenderIdentity(job) {
   return `${target} / ${tableParts.join(':')}`
 }
 
-function deriveGuidesProduce(effectiveJobs) {
+function deriveGuidesProduce(effectiveJobs, guidesTableTotal = null) {
   const byIdentity = new Map(effectiveJobs.map(job => [logicalJobIdentity(job), job]))
   const source = byIdentity.get('produce_guides_sources')
   const sourceStatus = jobStatus(source)
   if (sourceStatus !== 'completed') return phaseResult(source, sourceStatus === 'waiting' ? 'Waiting to fetch Guides sources' : 'Fetch shared Guides sources')
 
   const renderJobs = effectiveJobs.filter(job => logicalJobIdentity(job).startsWith('render_guides_tables:'))
-  if (renderJobs.length) {
+  const stableTotal = Number.isSafeInteger(guidesTableTotal) && guidesTableTotal >= 0
+    ? Math.max(guidesTableTotal, renderJobs.length)
+    : renderJobs.length
+  if (stableTotal > 0) {
     const counts = { completed: 0, running: 0, waiting: 0, failed: 0 }
     for (const job of renderJobs) counts[jobStatus(job)] += 1
-    if (counts.failed || counts.running || counts.waiting) {
+    const pending = Math.max(0, stableTotal - counts.completed - counts.running - counts.failed)
+    if (counts.failed || counts.running || pending) {
       const failed = renderJobs.filter(job => jobStatus(job) === 'failed').map(guidesRenderIdentity).sort()
-      const detail = `${counts.completed}/${renderJobs.length} complete · ${counts.running} active · ${counts.waiting} pending · ${counts.failed} failed${failed.length ? ` · failed: ${failed.join(', ')}` : ''}`
+      const detail = `${counts.completed}/${stableTotal} complete · ${counts.running} active · ${pending} pending · ${counts.failed} failed${failed.length ? ` · failed: ${failed.join(', ')}` : ''}`
       return {
         status: counts.failed ? 'failed' : counts.running ? 'running' : 'waiting',
         currentTask: 'Render Guides tables',
@@ -214,11 +218,11 @@ function waitingFor(group, phase) {
   return `Waiting for ${DEPENDENCY_LABELS[predecessor]} publisher`
 }
 
-function deriveManualPhases({ group, effectiveJobs, publishEnabled }) {
+function deriveManualPhases({ group, effectiveJobs, publishEnabled, guidesTableTotal }) {
   const byIdentity = new Map(effectiveJobs.map(job => [logicalJobIdentity(job), job]))
   const phases = {}
   phases.produce = group === 'guides'
-    ? deriveGuidesProduce(effectiveJobs)
+    ? deriveGuidesProduce(effectiveJobs, guidesTableTotal)
     : phaseResult(byIdentity.get(`produce_${group}`), `Produce ${GROUP_LABELS[group]}`)
   if (!publishEnabled) return phases
 
@@ -297,12 +301,12 @@ function orderManuals(manuals) {
   return [...manuals].sort((left, right) => order[left.status] - order[right.status])
 }
 
-function deriveDocsProgressState({ requestedGroups, jobs = [], publishEnabled, reports = [], terminalStatus = null }) {
+function deriveDocsProgressState({ requestedGroups, jobs = [], publishEnabled, reports = [], terminalStatus = null, guidesTableTotal = null }) {
   if (!Array.isArray(requestedGroups) || requestedGroups.length === 0) throw new Error('requestedGroups must be a non-empty array')
   for (const group of requestedGroups) if (!GROUP_LABELS[group]) throw new Error(`Unknown documentation group: ${group}`)
   const effectiveJobs = selectEffectiveJobs(jobs)
   const internalManuals = requestedGroups.map(group => {
-    const phaseResults = deriveManualPhases({ group, effectiveJobs, publishEnabled })
+    const phaseResults = deriveManualPhases({ group, effectiveJobs, publishEnabled, guidesTableTotal })
     return { phaseResults, presentation: manualPresentation(group, phaseResults, publishEnabled) }
   })
   const descriptors = publishEnabled ? [...PHASES, { key: 'verify', label: 'Verify' }] : [PHASES[0]]

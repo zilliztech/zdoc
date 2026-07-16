@@ -225,6 +225,14 @@ function validateWorkflowPolicies(directory = workflowDirectory) {
     if (/^      card_(?:id|started_at|stages|mode):/m.test(source)) errors.push(`${file}: reporting-only card inputs are forbidden`)
   }
 
+  const guidesSource = readWorkflow('_fetch-guides-sources.yml')
+  if (guidesSource) {
+    if (!/name: Create Guides progress metadata[\s\S]*continue-on-error: true/.test(guidesSource) ||
+        !/name: Upload Guides progress metadata[\s\S]*continue-on-error: true[\s\S]*name: docs-progress-metadata-\$\{\{ github\.run_id \}\}/.test(guidesSource)) {
+      errors.push('_fetch-guides-sources.yml: Guides progress metadata must be best-effort and run-scoped')
+    }
+  }
+
   for (const file of ['_assemble-guides.yml', '_publish-content-group.yml', '_translate-content-group.yml', '_publish-translation-batches.yml', '_translate-publish-batch.yml', '_verify-docs.yml']) {
     if (/APP_ID|APP_SECRET/.test(readWorkflow(file))) errors.push(`${file}: non-source job must not receive Feishu app credentials`)
   }

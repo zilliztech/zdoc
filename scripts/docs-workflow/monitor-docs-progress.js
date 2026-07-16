@@ -54,6 +54,7 @@ function createDocsProgressMonitor({
   title,
   pollIntervalMs = 60_000,
   listJobs,
+  downloadProgressMetadata = async () => null,
   downloadFinalReport,
   patchCard,
   sleep = delay,
@@ -64,6 +65,7 @@ function createDocsProgressMonitor({
   let cancellationPatched = false
   let latestState = null
   let latestJobs = []
+  let progressMetadata = null
 
   function metadata() {
     return { title, startedAt, targetBranch }
@@ -94,7 +96,18 @@ function createDocsProgressMonitor({
       publishEnabled,
       reports: options.reports || [],
       terminalStatus: options.terminalStatus || null,
+      guidesTableTotal: progressMetadata?.guidesTableTotal ?? null,
     }), metadata())
+  }
+
+  async function loadProgressMetadata() {
+    if (progressMetadata || !requestedGroups.includes('guides')) return
+    try {
+      const candidate = await downloadProgressMetadata()
+      if (candidate) progressMetadata = validateProgressMetadata(candidate, { expectedRunId: runId })
+    } catch (_) {
+      boundedLog('live progress metadata unavailable; using visible jobs until the next heartbeat')
+    }
   }
 
   async function terminalState(jobs, aggregate) {
@@ -123,6 +136,7 @@ function createDocsProgressMonitor({
       return false
     }
     latestJobs = jobs
+    await loadProgressMetadata()
     const aggregate = selectAggregateJob(jobs)
     if (aggregate?.status === 'completed') {
       latestState = await terminalState(jobs, aggregate)
@@ -188,18 +202,30 @@ function assertSafeExtraction(root) {
   visit(resolvedRoot)
 }
 
-function findReportFile(root) {
+function findExactFile(root, expectedName) {
   const matches = []
   const visit = directory => {
     for (const entry of fs.readdirSync(directory, { withFileTypes: true })) {
       const file = path.join(directory, entry.name)
       if (entry.isDirectory()) visit(file)
-      else if (entry.name === 'card-report.json') matches.push(file)
+      else if (entry.name === expectedName) matches.push(file)
     }
   }
   visit(root)
-  if (matches.length !== 1) throw new Error('Artifact must contain exactly one card-report.json')
+  if (matches.length !== 1) throw new Error(`Artifact must contain exactly one ${expectedName}`)
   return matches[0]
+}
+
+function validateProgressMetadata(value, { expectedRunId } = {}) {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) throw new Error('Progress metadata must be an object')
+  const allowed = ['schemaVersion', 'runId', 'guidesTableTotal']
+  const unknown = Object.keys(value).filter(key => !allowed.includes(key))
+  if (unknown.length) throw new Error(`Progress metadata contains unknown keys: ${unknown.join(', ')}`)
+  if (value.schemaVersion !== 1) throw new Error('Progress metadata schemaVersion must be 1')
+  if (!Number.isSafeInteger(value.runId) || value.runId <= 0) throw new Error('Progress metadata runId must be a positive integer')
+  if (expectedRunId !== undefined && value.runId !== expectedRunId) throw new Error('Progress metadata runId does not match the workflow run')
+  if (!Number.isSafeInteger(value.guidesTableTotal) || value.guidesTableTotal < 0) throw new Error('Progress metadata guidesTableTotal must be a non-negative integer')
+  return { schemaVersion: 1, runId: value.runId, guidesTableTotal: value.guidesTableTotal }
 }
 
 function validateArchiveEntries(entries) {
@@ -244,6 +270,37 @@ function createGitHubActionsClient({
     return (value.artifacts || []).filter(artifact => !artifact.expired).sort((left, right) => (right.id || 0) - (left.id || 0))[0] || null
   }
 
+  async function findNamedArtifact(name) {
+    const value = await githubFetch(fetchImpl, `${base}/actions/runs/${runId}/artifacts?name=${encodeURIComponent(name)}`, token)
+    return (value.artifacts || []).filter(artifact => !artifact.expired).sort((left, right) => (right.id || 0) - (left.id || 0))[0] || null
+  }
+
+  async function downloadArtifactJson({ artifactName, fileName, validate }) {
+    const artifact = await withRetry(() => findNamedArtifact(artifactName), { sleep })
+    if (!artifact) return null
+    const directory = fs.mkdtempSync(path.join(runnerTemp, `${artifactName}-`))
+    const archive = path.join(directory, `${artifactName}.zip`)
+    const extracted = path.join(directory, 'extracted')
+    try {
+      fs.mkdirSync(extracted)
+      fs.writeFileSync(archive, await githubFetch(fetchImpl, artifact.archive_download_url, token, true), { mode: 0o600 })
+      validateArchiveEntries(await listArchive(archive))
+      await unzip(archive, extracted)
+      assertSafeExtraction(extracted)
+      return validate(JSON.parse(fs.readFileSync(findExactFile(extracted, fileName), 'utf8')))
+    } finally {
+      fs.rmSync(directory, { recursive: true, force: true })
+    }
+  }
+
+  function downloadProgressMetadata() {
+    return downloadArtifactJson({
+      artifactName: `docs-progress-metadata-${runId}`,
+      fileName: 'progress-metadata.json',
+      validate: value => validateProgressMetadata(value, { expectedRunId: runId }),
+    })
+  }
+
   async function downloadFinalReport() {
     let artifact = null
     for (let attempt = 0; attempt < 5 && !artifact; attempt += 1) {
@@ -260,13 +317,13 @@ function createGitHubActionsClient({
       validateArchiveEntries(await listArchive(archive))
       await unzip(archive, extracted)
       assertSafeExtraction(extracted)
-      return readCardReport(findReportFile(extracted), { expectedRunId: runId })
+      return readCardReport(findExactFile(extracted, 'card-report.json'), { expectedRunId: runId })
     } finally {
       fs.rmSync(directory, { recursive: true, force: true })
     }
   }
 
-  return { downloadFinalReport, listJobs }
+  return { downloadFinalReport, downloadProgressMetadata, listJobs }
 }
 
 function required(env, key) {
@@ -333,6 +390,7 @@ async function main() {
     ...config,
     title: config.publishEnabled ? 'Global Docs Build' : 'Global Docs Artifact-Only Build',
     listJobs: github.listJobs,
+    downloadProgressMetadata: github.downloadProgressMetadata,
     downloadFinalReport: reportFromFile,
     patchCard: state => cardClient.patch({ messageId: config.cardId, state }),
   })
@@ -358,5 +416,6 @@ module.exports = {
   readConfiguration,
   selectAggregateJob,
   validateArchiveEntries,
+  validateProgressMetadata,
   withRetry,
 }

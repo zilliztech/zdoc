@@ -72,6 +72,33 @@ test('derives Guides table progress from the latest effective matrix attempts', 
   })
 })
 
+test('keeps the Guides denominator stable when GitHub has not exposed every matrix job', () => {
+  const jobs = [
+    { id: 1, name: 'produce_guides_sources / fetch', status: 'completed', conclusion: 'success' },
+    ...Array.from({ length: 7 }, (_, index) => ({
+      id: 10 + index,
+      name: `render_guides_tables / saas / Complete ${index + 1} / render`,
+      status: 'completed',
+      conclusion: 'success',
+    })),
+    ...Array.from({ length: 4 }, (_, index) => ({
+      id: 20 + index,
+      name: `render_guides_tables / byoc / Active ${index + 1} / render`,
+      status: 'in_progress',
+      conclusion: null,
+    })),
+  ]
+
+  const state = deriveDocsProgressState({
+    requestedGroups: ['guides'],
+    publishEnabled: false,
+    jobs,
+    guidesTableTotal: 14,
+  })
+
+  assert.equal(state.manuals[0].detail, '7/14 complete · 4 active · 3 pending · 0 failed')
+})
+
 test('counts a retried Guides table once and pins a final failed identity', () => {
   const jobs = require('./fixtures/docs-progress/retry-and-failure.json')
   const state = deriveDocsProgressState({ requestedGroups: ['guides'], publishEnabled: false, jobs })

@@ -5,7 +5,7 @@ const fs = require('node:fs')
 const os = require('node:os')
 const path = require('node:path')
 const test = require('node:test')
-const { createDocsProgressMonitor, createGitHubActionsClient, readConfiguration, selectAggregateJob, validateArchiveEntries, withRetry } = require('./monitor-docs-progress')
+const { createDocsProgressMonitor, createGitHubActionsClient, readConfiguration, selectAggregateJob, validateArchiveEntries, validateProgressMetadata, withRetry } = require('./monitor-docs-progress')
 
 const RUNNING = [{
   id: 1,
@@ -82,6 +82,43 @@ test('reflects a changed current step on the next poll', async () => {
   })
   await monitor.run()
   assert.deepEqual(tasks.slice(0, 2), ['Fetch shared Guides sources', 'Prefetch shared Guides media'])
+})
+
+test('caches validated live metadata and uses it for a stable Guides denominator', async () => {
+  const visibleRenderJobs = [
+    { id: 1, name: 'produce_guides_sources / fetch', status: 'completed', conclusion: 'success' },
+    ...Array.from({ length: 7 }, (_, index) => ({ id: 10 + index, name: `render_guides_tables / saas / Complete ${index + 1} / render`, status: 'completed', conclusion: 'success' })),
+    ...Array.from({ length: 4 }, (_, index) => ({ id: 20 + index, name: `render_guides_tables / byoc / Active ${index + 1} / render`, status: 'in_progress', conclusion: null })),
+  ]
+  const snapshots = [visibleRenderJobs, visibleRenderJobs, TERMINAL]
+  const details = []
+  let metadataDownloads = 0
+  const monitor = createMonitor({
+    listJobs: async () => snapshots.shift(),
+    downloadProgressMetadata: async () => {
+      metadataDownloads += 1
+      return { schemaVersion: 1, runId: 42, guidesTableTotal: 14 }
+    },
+    patchCard: async state => details.push(state.manuals[0].detail),
+  })
+
+  await monitor.run()
+
+  assert.equal(metadataDownloads, 1)
+  assert.deepEqual(details.slice(0, 2), [
+    '7/14 complete · 4 active · 3 pending · 0 failed',
+    '7/14 complete · 4 active · 3 pending · 0 failed',
+  ])
+})
+
+test('validates exact live progress metadata and rejects mismatched runs', () => {
+  assert.deepEqual(validateProgressMetadata({ schemaVersion: 1, runId: 42, guidesTableTotal: 14 }, { expectedRunId: 42 }), {
+    schemaVersion: 1,
+    runId: 42,
+    guidesTableTotal: 14,
+  })
+  assert.throws(() => validateProgressMetadata({ schemaVersion: 1, runId: 41, guidesTableTotal: 14 }, { expectedRunId: 42 }), /runId/)
+  assert.throws(() => validateProgressMetadata({ schemaVersion: 1, runId: 42, guidesTableTotal: 14, extra: true }, { expectedRunId: 42 }), /unknown keys/)
 })
 
 test('retries transient Jobs API failures with bounded exponential delays', async () => {
@@ -192,23 +229,30 @@ test('GitHub client paginates jobs and validates an artifact before extraction',
     const parsed = new URL(url)
     if (url.includes('/jobs?') && parsed.searchParams.get('page') === '1') return { ok: true, json: async () => ({ jobs: firstPage }) }
     if (url.includes('/jobs?') && parsed.searchParams.get('page') === '2') return { ok: true, json: async () => ({ jobs: [{ id: 101, name: 'aggregate' }] }) }
+    if (url.includes('name=docs-progress-metadata-42')) return { ok: true, json: async () => ({ artifacts: [{ id: 2, expired: false, archive_download_url: 'https://api.github.com/metadata.zip' }] }) }
     if (url.includes('/artifacts?')) return { ok: true, json: async () => ({ artifacts: [{ id: 1, expired: false, archive_download_url: 'https://api.github.com/artifact.zip' }] }) }
+    if (url.endsWith('/metadata.zip')) return { ok: true, arrayBuffer: async () => new Uint8Array([4, 5, 6]).buffer }
     if (url.endsWith('/artifact.zip')) return { ok: true, arrayBuffer: async () => new Uint8Array([1, 2, 3]).buffer }
     throw new Error(`unexpected URL: ${url}`)
   }
   const client = createGitHubActionsClient({
     token: 'token', repository: 'zilliztech/zdoc', runId: 42, fetchImpl, runnerTemp,
     sleep: async () => {},
-    listArchive: async () => { listed += 1; return ['card-report.json'] },
-    unzip: async (_archive, destination) => {
+    listArchive: async archive => { listed += 1; return [archive.includes('docs-progress-metadata') ? 'progress-metadata.json' : 'card-report.json'] },
+    unzip: async (archive, destination) => {
       extracted += 1
-      fs.writeFileSync(path.join(destination, 'card-report.json'), JSON.stringify(finalReport()))
+      if (archive.includes('docs-progress-metadata')) {
+        fs.writeFileSync(path.join(destination, 'progress-metadata.json'), JSON.stringify({ schemaVersion: 1, runId: 42, guidesTableTotal: 14 }))
+      } else {
+        fs.writeFileSync(path.join(destination, 'card-report.json'), JSON.stringify(finalReport()))
+      }
     },
   })
 
   assert.equal((await client.listJobs()).length, 101)
+  assert.deepEqual(await client.downloadProgressMetadata(), { schemaVersion: 1, runId: 42, guidesTableTotal: 14 })
   assert.deepEqual(await client.downloadFinalReport(), finalReport())
-  assert.equal(listed, 1)
-  assert.equal(extracted, 1)
+  assert.equal(listed, 2)
+  assert.equal(extracted, 2)
   assert.deepEqual(fs.readdirSync(runnerTemp), [])
 })

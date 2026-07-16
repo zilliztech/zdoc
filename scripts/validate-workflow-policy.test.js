@@ -204,6 +204,10 @@ test('guides source and table render expose jobs for the central monitor without
   const render = fs.readFileSync(path.join(process.cwd(), '.github/workflows/_render-guides-table.yml'), 'utf8')
   assert.doesNotMatch(source, /report-live-card|card_id|card_mode|card_started_at/)
   assert.doesNotMatch(render, /report-live-card|secrets\./)
+  assert.match(source, /name: Create Guides progress metadata[\s\S]*continue-on-error: true/)
+  assert.match(source, /name: Upload Guides progress metadata[\s\S]*continue-on-error: true[\s\S]*name: docs-progress-metadata-\$\{\{ github\.run_id \}\}/)
+  const metadataSteps = source.slice(source.indexOf('name: Create Guides progress metadata'), source.indexOf('name: Create shared source artifact'))
+  assert.doesNotMatch(metadataSteps, /APP_ID|APP_SECRET|SPACE_ID|FIGMA_API_KEY|AWS_ACCESS_KEY_ID|AWS_SECRET_ACCESS_KEY/)
 })
 
 test('Tools table is the only Agents producer while Releases keeps its sidebar', () => {
