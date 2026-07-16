@@ -5,6 +5,7 @@ import {join} from 'node:path';
 import {LarkBaseRegistry} from '../adapters/lark-base-registry.js';
 import {LarkDocsAdapter} from '../adapters/lark-docs-adapter.js';
 import {LarkDriveSnapshotStore} from '../adapters/lark-drive-snapshots.js';
+import {LarkWhiteboardAdapter} from '../adapters/lark-whiteboard-adapter.js';
 import {NodeProcessRunner} from '../adapters/process-runner.js';
 import {LocalizeError} from '../domain/errors.js';
 import {ConfigStore} from '../storage/config-store.js';
@@ -18,6 +19,7 @@ export interface Runtime {
   registry: RegistryStore;
   snapshots: SnapshotStore;
   docs: LarkDocsAdapter;
+  whiteboards: LarkWhiteboardAdapter;
   workflows: LocalizationWorkflows;
   close(): Promise<void>;
 }
@@ -26,6 +28,7 @@ export async function createRuntime(cwd: string): Promise<Runtime> {
   const config = await new ConfigStore(cwd).read();
   const runner = new NodeProcessRunner();
   const docs = new LarkDocsAdapter(runner);
+  const whiteboards = new LarkWhiteboardAdapter(runner);
   let registry: RegistryStore;
   let snapshots: SnapshotStore;
 
@@ -58,6 +61,7 @@ export async function createRuntime(cwd: string): Promise<Runtime> {
     snapshots,
     memory,
     docs,
+    whiteboards,
     clock: {now: () => new Date()},
     ids: {next: () => randomUUID()},
   });
@@ -66,6 +70,7 @@ export async function createRuntime(cwd: string): Promise<Runtime> {
     registry,
     snapshots,
     docs,
+    whiteboards,
     workflows,
     close: () => memory.close(),
   };

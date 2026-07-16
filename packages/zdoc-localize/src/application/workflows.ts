@@ -11,6 +11,7 @@ import type {
   SnapshotReference,
   SnapshotStore,
   TranslationMemory,
+  WhiteboardGateway,
 } from './ports.js';
 import {alignChanges, rebaseCorrespondences} from '../domain/alignment.js';
 import {diffDocuments} from '../domain/diff.js';
@@ -54,6 +55,7 @@ export interface WorkflowDependencies {
   snapshots: SnapshotStore;
   memory: TranslationMemory;
   docs: DocumentGateway;
+  whiteboards?: WhiteboardGateway;
   clock: Clock;
   ids: IdGenerator;
 }

@@ -8,6 +8,7 @@ import {FeishuMdSyncAdapter} from '../src/adapters/feishu-md-sync-adapter.js';
 import {LarkBaseRegistry} from '../src/adapters/lark-base-registry.js';
 import {LarkDocsAdapter} from '../src/adapters/lark-docs-adapter.js';
 import {LarkDriveSnapshotStore} from '../src/adapters/lark-drive-snapshots.js';
+import {LarkWhiteboardAdapter} from '../src/adapters/lark-whiteboard-adapter.js';
 import type {ProcessCall, ProcessResult, ProcessRunner} from '../src/adapters/process-runner.js';
 
 class FakeRunner implements ProcessRunner {
@@ -51,14 +52,25 @@ describe('Lark document adapter', () => {
   });
 
   it('writes XML through stdin with the planned revision', async () => {
-    const runner = new FakeRunner([ok({document: {revision_id: 13}, result: 'success', updated_blocks_count: 1, warnings: []})]);
+    const runner = new FakeRunner([ok({
+      document: {
+        revision_id: 13,
+        new_blocks: [{block_id: 'wb-block', block_type: 'whiteboard', block_token: 'board-target'}],
+      },
+      result: 'success',
+      updated_blocks_count: 1,
+      warnings: [],
+    })]);
     const docs = new LarkDocsAdapter(runner);
 
-    await docs.replaceBlock({
+    await expect(docs.replaceBlock({
       doc: 'doc-zh',
       blockId: 'blk-1',
       revisionId: 12,
       xml: '<p>更新后</p>',
+    })).resolves.toMatchObject({
+      revisionId: 13,
+      newBlocks: [{blockId: 'wb-block', blockType: 'whiteboard', blockToken: 'board-target'}],
     });
 
     expect(runner.calls[0]).toEqual(expect.objectContaining({
@@ -86,6 +98,30 @@ describe('Lark document adapter', () => {
       blockIds: ['blk-1', 'blk-2'],
       revisionId: 12,
     })).rejects.toMatchObject({type: 'partial_write', subtype: 'lark_partial_success'});
+  });
+
+  it('queries and overwrites raw Whiteboard nodes without shell interpolation', async () => {
+    const raw = {nodes: [{id: 'node-1', type: 'text', text: 'Hello'}]};
+    const runner = new FakeRunner([ok(raw), ok({result: 'success'})]);
+    const whiteboards = new LarkWhiteboardAdapter(runner);
+
+    await expect(whiteboards.queryRaw('source-board')).resolves.toEqual(raw);
+    await whiteboards.overwriteRaw({
+      token: 'target-board', raw, idempotencyToken: 'run-1-board-1',
+    });
+
+    expect(runner.calls[0]).toEqual(expect.objectContaining({
+      executable: 'lark-cli',
+      args: ['whiteboard', '+query', '--whiteboard-token', 'source-board', '--output_as', 'raw', '--format', 'json', '--as', 'user'],
+    }));
+    expect(runner.calls[1]).toEqual(expect.objectContaining({
+      executable: 'lark-cli',
+      args: [
+        'whiteboard', '+update', '--whiteboard-token', 'target-board', '--input_format', 'raw',
+        '--source', '-', '--overwrite', '--idempotent-token', 'run-1-board-1', '--format', 'json', '--as', 'user',
+      ],
+      stdin: JSON.stringify(raw),
+    }));
   });
 });
 

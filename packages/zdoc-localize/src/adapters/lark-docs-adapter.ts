@@ -13,10 +13,17 @@ export interface WriteResult {
   revisionId?: number;
   updatedBlocksCount: number;
   warnings: string[];
+  newBlocks: Array<{blockId: string; blockType: string; blockToken?: string}>;
 }
 
 type LarkWriteData = {
-  document?: {revision_id?: number; document_id?: string; url?: string; document_url?: string};
+  document?: {
+    revision_id?: number;
+    document_id?: string;
+    url?: string;
+    document_url?: string;
+    new_blocks?: Array<{block_id: string; block_type: string | number; block_token?: string}>;
+  };
   result?: string;
   updated_blocks_count?: number;
   warnings?: string[];
@@ -121,6 +128,11 @@ export class LarkDocsAdapter implements DocumentGateway {
       ...(data.document?.revision_id === undefined ? {} : {revisionId: data.document.revision_id}),
       updatedBlocksCount: data.updated_blocks_count ?? 0,
       warnings: data.warnings ?? [],
+      newBlocks: (data.document?.new_blocks ?? []).map((block) => ({
+        blockId: block.block_id,
+        blockType: String(block.block_type),
+        ...(block.block_token ? {blockToken: block.block_token} : {}),
+      })),
     };
   }
 }

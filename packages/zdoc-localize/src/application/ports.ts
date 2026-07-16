@@ -10,14 +10,32 @@ export interface FetchedDocument {
 
 export interface DocumentGateway {
   fetch(doc: string, revisionId?: number): Promise<FetchedDocument>;
-  replaceBlock(input: {doc: string; blockId: string; revisionId: number; xml: string}): Promise<{revisionId?: number}>;
-  insertAfter(input: {doc: string; blockId: string; revisionId: number; xml: string}): Promise<{revisionId?: number}>;
-  deleteBlocks(input: {doc: string; blockIds: string[]; revisionId: number}): Promise<{revisionId?: number}>;
+  replaceBlock(input: {doc: string; blockId: string; revisionId: number; xml: string}): Promise<DocumentWriteResult>;
+  insertAfter(input: {doc: string; blockId: string; revisionId: number; xml: string}): Promise<DocumentWriteResult>;
+  deleteBlocks(input: {doc: string; blockIds: string[]; revisionId: number}): Promise<DocumentWriteResult>;
   createDocument(input: {title: string; parentToken?: string; xml: string}): Promise<{
     documentId: string;
     documentUrl?: string;
     revisionId?: number;
   }>;
+}
+
+export interface NewDocumentBlock {
+  blockId: string;
+  blockType: string;
+  blockToken?: string;
+}
+
+export interface DocumentWriteResult {
+  revisionId?: number;
+  updatedBlocksCount?: number;
+  warnings?: string[];
+  newBlocks?: NewDocumentBlock[];
+}
+
+export interface WhiteboardGateway {
+  queryRaw(token: string): Promise<unknown>;
+  overwriteRaw(input: {token: string; raw: unknown; idempotencyToken: string}): Promise<void>;
 }
 
 export interface LocalizationReceipt {
