@@ -20,21 +20,6 @@ on:
         required: false
         type: number
         default: 3
-      card_id:
-        required: false
-        type: string
-        default: ''
-      card_started_at:
-        required: false
-        type: string
-        default: ''
-      card_stages:
-        required: false
-        type: string
-        default: ''
-      card_mode: { required: false, type: string, default: ordered }
-      selected_group: { required: false, type: string, default: all }
-      publish_enabled: { required: false, type: boolean, default: true }
     outputs:
       status:
         description: Producer result status
@@ -234,50 +219,6 @@ jobs:
           else
             echo 'status=failed' >> "$GITHUB_OUTPUT"
           fi
-
-      - name: Advance progress card for content group
-        if: ${{ steps.result.outputs.status == 'artifact_ready' && inputs.card_id != '' }}
-        continue-on-error: true
-        run: bash scripts/docs-workflow/report-live-card.sh
-        env:
-          CARD_ID: ${{ inputs.card_id }}
-          CARD_MODE: ${{ startsWith(inputs.card_stages, 'Produce manuals') && 'aggregate' || 'ordered' }}
-          CARD_STARTED_AT: ${{ inputs.card_started_at }}
-          CARD_STAGES: ${{ inputs.card_stages }}
-          CARD_TITLE: Global Docs Build
-          CARD_PHASE: Produce ${{ inputs.group }}
-          CARD_STATUS: done
-          CARD_NOTE: ${{ format('{0} artifact is ready', inputs.group) }}
-          CARD_JOB_NAME: produce_${{ inputs.group }}
-          CARD_JOB_CONCLUSION: success
-          SELECTED_GROUP: ${{ startsWith(inputs.card_stages, 'Produce manuals') && 'all' || inputs.group }}
-          PUBLISH_ENABLED: ${{ contains(inputs.card_stages, 'Publish') }}
-          GH_TOKEN: ${{ github.token }}
-          APP_ID: ${{ secrets.APP_ID }}
-          APP_SECRET: ${{ secrets.APP_SECRET }}
-          FEISHU_HOST: ${{ vars.FEISHU_HOST }}
-
-      - name: Report content group producer failure
-        if: ${{ always() && steps.install.outcome == 'success' && steps.result.outputs.status == 'failed' && inputs.card_id != '' }}
-        continue-on-error: true
-        run: bash scripts/docs-workflow/report-live-card.sh
-        env:
-          CARD_ID: ${{ inputs.card_id }}
-          CARD_MODE: ${{ startsWith(inputs.card_stages, 'Produce manuals') && 'aggregate' || 'ordered' }}
-          CARD_STARTED_AT: ${{ inputs.card_started_at }}
-          CARD_STAGES: ${{ inputs.card_stages }}
-          CARD_TITLE: Global Docs Build
-          CARD_PHASE: Produce ${{ inputs.group }}
-          CARD_STATUS: fail
-          CARD_NOTE: ${{ format('{0} artifact production failed', inputs.group) }}
-          CARD_JOB_NAME: produce_${{ inputs.group }}
-          CARD_JOB_CONCLUSION: failure
-          SELECTED_GROUP: ${{ startsWith(inputs.card_stages, 'Produce manuals') && 'all' || inputs.group }}
-          PUBLISH_ENABLED: ${{ contains(inputs.card_stages, 'Publish') }}
-          GH_TOKEN: ${{ github.token }}
-          APP_ID: ${{ secrets.APP_ID }}
-          APP_SECRET: ${{ secrets.APP_SECRET }}
-          FEISHU_HOST: ${{ vars.FEISHU_HOST }}
 
       - name: Clean up baseline worktree
         if: ${{ always() }}

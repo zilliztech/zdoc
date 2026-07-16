@@ -13,26 +13,6 @@ on:
         required: false
         type: string
         default: dev
-      card_id:
-        required: false
-        type: string
-        default: ''
-      card_started_at:
-        required: false
-        type: string
-        default: ''
-      card_stages:
-        required: false
-        type: string
-        default: ''
-      card_mode: { required: false, type: string, default: ordered }
-      selected_group: { required: false, type: string, default: all }
-      publish_enabled: { required: false, type: boolean, default: true }
-    secrets:
-      APP_ID:
-        required: false
-      APP_SECRET:
-        required: false
     outputs:
       status:
         description: passed or failed
@@ -106,27 +86,6 @@ jobs:
           else
             echo "status=failed" >> "$GITHUB_OUTPUT"
           fi
-      - name: Report verification phase
-        if: ${{ always() && inputs.card_id != '' }}
-        continue-on-error: true
-        run: bash scripts/docs-workflow/report-live-card.sh
-        env:
-          CARD_ID: ${{ inputs.card_id }}
-          CARD_MODE: ${{ startsWith(inputs.card_stages, 'Produce manuals') && 'aggregate' || 'ordered' }}
-          CARD_STARTED_AT: ${{ inputs.card_started_at }}
-          CARD_STAGES: ${{ inputs.card_stages }}
-          CARD_STATUS: ${{ steps.result.outputs.status == 'passed' && 'done' || 'fail' }}
-          CARD_NOTE: ${{ steps.result.outputs.status == 'passed' && 'Final verification passed' || 'Final verification failed' }}
-          CARD_PHASE: Verify
-          CARD_JOB_NAME: verify
-          CARD_JOB_CONCLUSION: ${{ steps.result.outputs.status == 'passed' && 'success' || 'failure' }}
-          CARD_TITLE: Global Docs Build
-          SELECTED_GROUP: all
-          PUBLISH_ENABLED: true
-          GH_TOKEN: ${{ github.token }}
-          APP_ID: ${{ secrets.APP_ID }}
-          APP_SECRET: ${{ secrets.APP_SECRET }}
-          FEISHU_HOST: ${{ vars.FEISHU_HOST }}
       - name: Clean up final dev worktree
         if: ${{ always() }}
         run: git worktree remove --force "$RUNNER_TEMP/final-dev" 2>/dev/null || true

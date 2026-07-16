@@ -46,11 +46,7 @@ jobs:
       selected_group: ${{ steps.refs.outputs.selected_group }}
       retention_days: ${{ steps.refs.outputs.retention_days }}
       card_id: ${{ steps.card.outputs.card_id }}
-      phase_card_id: ${{ steps.card.outputs.card_id }}
-      card_mode: ${{ steps.refs.outputs.card_mode }}
       card_started_at: ${{ steps.card.outputs.card_started_at }}
-      card_stages: ${{ steps.card.outputs.card_stages }}
-      card_title: ${{ steps.card.outputs.card_title }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -96,10 +92,8 @@ jobs:
           git checkout --detach "$master_sha"
           groups=(guides python java node go cli rest)
           [[ "$SELECTED_GROUP" != all ]] && groups=("$SELECTED_GROUP")
-          card_mode=ordered
           card_parts=()
           if [[ "$SELECTED_GROUP" == all ]]; then
-            card_mode=aggregate
             card_parts=("Produce manuals (0/${#groups[@]})")
             [[ "$PUBLISH" == true ]] && card_parts+=("Publish sources (0/${#groups[@]})" "Translate manuals (0/${#groups[@]})" "Publish translations (0/${#groups[@]})" Verify)
           else
@@ -112,7 +106,7 @@ jobs:
             [[ "$PUBLISH" == true ]] && card_parts+=(Verify)
           fi
           card_stages=$(IFS=,; echo "${card_parts[*]}")
-          printf 'master_sha=%s\ndev_baseline_sha=%s\ntarget_branch=%s\npublish=%s\nselected_group=%s\nretention_days=%s\ncard_stages=%s\ncard_mode=%s\n' "$master_sha" "$dev_baseline_sha" "$TARGET_BRANCH" "$PUBLISH" "$SELECTED_GROUP" "$RETENTION_DAYS" "$card_stages" "$card_mode" >> "$GITHUB_OUTPUT"
+          printf 'master_sha=%s\ndev_baseline_sha=%s\ntarget_branch=%s\npublish=%s\nselected_group=%s\nretention_days=%s\ncard_stages=%s\n' "$master_sha" "$dev_baseline_sha" "$TARGET_BRANCH" "$PUBLISH" "$SELECTED_GROUP" "$RETENTION_DAYS" "$card_stages" >> "$GITHUB_OUTPUT"
       - uses: pnpm/action-setup@v4
         with: { version: 9 }
       - uses: actions/setup-node@v4
@@ -129,6 +123,20 @@ jobs:
           APP_SECRET: ${{ secrets.APP_SECRET }}
           FEISHU_HOST: ${{ vars.FEISHU_HOST }}
 
+  monitor_docs_progress:
+    needs: [prepare]
+    uses: ./.github/workflows/_monitor-docs-progress.yml
+    with:
+      master_sha: ${{ needs.prepare.outputs.master_sha }}
+      card_id: ${{ needs.prepare.outputs.card_id }}
+      card_started_at: ${{ needs.prepare.outputs.card_started_at }}
+      target_branch: ${{ needs.prepare.outputs.target_branch }}
+      selected_group: ${{ needs.prepare.outputs.selected_group }}
+      publish_enabled: ${{ needs.prepare.outputs.publish == 'true' }}
+    secrets:
+      APP_ID: ${{ secrets.APP_ID }}
+      APP_SECRET: ${{ secrets.APP_SECRET }}
+
   produce_guides_sources:
     needs: prepare
     if: ${{ needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'guides' }}
@@ -137,9 +145,6 @@ jobs:
       master_sha: ${{ needs.prepare.outputs.master_sha }}
       dev_baseline_sha: ${{ needs.prepare.outputs.dev_baseline_sha }}
       artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
-      card_id: ${{ needs.prepare.outputs.phase_card_id }}
-      card_mode: ${{ needs.prepare.outputs.card_mode }}
-      card_started_at: ${{ needs.prepare.outputs.card_started_at }}
     secrets:
       APP_ID: ${{ secrets.APP_ID }}
       APP_SECRET: ${{ secrets.APP_SECRET }}
@@ -182,10 +187,6 @@ jobs:
       dev_baseline_sha: ${{ needs.prepare.outputs.dev_baseline_sha }}
       target_branch: ${{ needs.prepare.outputs.target_branch }}
       artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
-    secrets:
-      APP_ID: ${{ secrets.APP_ID }}
-      APP_SECRET: ${{ secrets.APP_SECRET }}
-
   produce_python:
     needs: prepare
     if: ${{ needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'python' }}
@@ -196,9 +197,6 @@ jobs:
       dev_baseline_sha: ${{ needs.prepare.outputs.dev_baseline_sha }}
       target_branch: ${{ needs.prepare.outputs.target_branch }}
       artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
-      card_id: ${{ needs.prepare.outputs.phase_card_id }}
-      card_started_at: ${{ needs.prepare.outputs.card_started_at }}
-      card_stages: ${{ needs.prepare.outputs.card_stages }}
     secrets:
       APP_ID: ${{ secrets.APP_ID }}
       APP_SECRET: ${{ secrets.APP_SECRET }}
@@ -218,9 +216,6 @@ jobs:
       dev_baseline_sha: ${{ needs.prepare.outputs.dev_baseline_sha }}
       target_branch: ${{ needs.prepare.outputs.target_branch }}
       artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
-      card_id: ${{ needs.prepare.outputs.phase_card_id }}
-      card_started_at: ${{ needs.prepare.outputs.card_started_at }}
-      card_stages: ${{ needs.prepare.outputs.card_stages }}
     secrets:
       APP_ID: ${{ secrets.APP_ID }}
       APP_SECRET: ${{ secrets.APP_SECRET }}
@@ -240,9 +235,6 @@ jobs:
       dev_baseline_sha: ${{ needs.prepare.outputs.dev_baseline_sha }}
       target_branch: ${{ needs.prepare.outputs.target_branch }}
       artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
-      card_id: ${{ needs.prepare.outputs.phase_card_id }}
-      card_started_at: ${{ needs.prepare.outputs.card_started_at }}
-      card_stages: ${{ needs.prepare.outputs.card_stages }}
     secrets:
       APP_ID: ${{ secrets.APP_ID }}
       APP_SECRET: ${{ secrets.APP_SECRET }}
@@ -262,9 +254,6 @@ jobs:
       dev_baseline_sha: ${{ needs.prepare.outputs.dev_baseline_sha }}
       target_branch: ${{ needs.prepare.outputs.target_branch }}
       artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
-      card_id: ${{ needs.prepare.outputs.phase_card_id }}
-      card_started_at: ${{ needs.prepare.outputs.card_started_at }}
-      card_stages: ${{ needs.prepare.outputs.card_stages }}
     secrets:
       APP_ID: ${{ secrets.APP_ID }}
       APP_SECRET: ${{ secrets.APP_SECRET }}
@@ -284,9 +273,6 @@ jobs:
       dev_baseline_sha: ${{ needs.prepare.outputs.dev_baseline_sha }}
       target_branch: ${{ needs.prepare.outputs.target_branch }}
       artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
-      card_id: ${{ needs.prepare.outputs.phase_card_id }}
-      card_started_at: ${{ needs.prepare.outputs.card_started_at }}
-      card_stages: ${{ needs.prepare.outputs.card_stages }}
     secrets:
       APP_ID: ${{ secrets.APP_ID }}
       APP_SECRET: ${{ secrets.APP_SECRET }}
@@ -306,9 +292,6 @@ jobs:
       dev_baseline_sha: ${{ needs.prepare.outputs.dev_baseline_sha }}
       target_branch: ${{ needs.prepare.outputs.target_branch }}
       artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
-      card_id: ${{ needs.prepare.outputs.phase_card_id }}
-      card_started_at: ${{ needs.prepare.outputs.card_started_at }}
-      card_stages: ${{ needs.prepare.outputs.card_stages }}
     secrets:
       APP_ID: ${{ secrets.APP_ID }}
       APP_SECRET: ${{ secrets.APP_SECRET }}
@@ -330,12 +313,6 @@ jobs:
       target_branch: ${{ needs.prepare.outputs.target_branch }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
       validate_command: 'node "$GITHUB_WORKSPACE/scripts/validate-generated-sidebars.js"'
-      card_id: ${{ needs.prepare.outputs.phase_card_id }}
-      card_started_at: ${{ needs.prepare.outputs.card_started_at }}
-      card_stages: ${{ needs.prepare.outputs.card_stages }}
-    secrets:
-      APP_ID: ${{ secrets.APP_ID }}
-      APP_SECRET: ${{ secrets.APP_SECRET }}
   prepare_guides_translation_batches:
     needs: [prepare, publish_guides]
     if: ${{ always() && needs.prepare.outputs.publish == 'true' && (needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'guides') && (needs.publish_guides.outputs.status == 'published' || needs.publish_guides.outputs.status == 'no_changes') }}
@@ -366,14 +343,9 @@ jobs:
       pending_count: ${{ fromJSON(needs.prepare_guides_translation_batches.outputs.pending_count) }}
       pending_set_sha256: ${{ needs.prepare_guides_translation_batches.outputs.pending_set_sha256 }}
       artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
-      card_id: ${{ needs.prepare.outputs.phase_card_id }}
-      card_started_at: ${{ needs.prepare.outputs.card_started_at }}
-      card_stages: ${{ needs.prepare.outputs.card_stages }}
     secrets:
       TRANSLATION_AGENT_API_KEY: ${{ secrets.TRANSLATION_AGENT_API_KEY }}
       REVIEW_AGENT_API_KEY: ${{ secrets.REVIEW_AGENT_API_KEY }}
-      APP_ID: ${{ secrets.APP_ID }}
-      APP_SECRET: ${{ secrets.APP_SECRET }}
 
   publish_guides_translation_batches:
     needs: [prepare, publish_rest, prepare_guides_translation_batches, translate_guides_batches]
@@ -384,12 +356,6 @@ jobs:
       master_sha: ${{ needs.prepare.outputs.master_sha }}
       target_branch: ${{ needs.prepare.outputs.target_branch }}
       batch_count: ${{ fromJSON(needs.prepare_guides_translation_batches.outputs.batch_count) }}
-      card_id: ${{ needs.prepare.outputs.phase_card_id }}
-      card_started_at: ${{ needs.prepare.outputs.card_started_at }}
-      card_stages: ${{ needs.prepare.outputs.card_stages }}
-    secrets:
-      APP_ID: ${{ secrets.APP_ID }}
-      APP_SECRET: ${{ secrets.APP_SECRET }}
 
   finalize_guides_translation:
     needs: [prepare, prepare_guides_translation_batches, translate_guides_batches, publish_guides_translation_batches]
@@ -424,12 +390,6 @@ jobs:
       target_branch: ${{ needs.prepare.outputs.target_branch }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
       validate_command: 'node "$GITHUB_WORKSPACE/scripts/validate-generated-sidebars.js"'
-      card_id: ${{ needs.prepare.outputs.phase_card_id }}
-      card_started_at: ${{ needs.prepare.outputs.card_started_at }}
-      card_stages: ${{ needs.prepare.outputs.card_stages }}
-    secrets:
-      APP_ID: ${{ secrets.APP_ID }}
-      APP_SECRET: ${{ secrets.APP_SECRET }}
   translate_python:
     needs: [prepare, publish_python]
     if: ${{ always() && needs.prepare.outputs.publish == 'true' && (needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'python') && (needs.publish_python.outputs.status == 'published' || needs.publish_python.outputs.status == 'no_changes') }}
@@ -440,14 +400,9 @@ jobs:
       master_sha: ${{ needs.prepare.outputs.master_sha }}
       should_translate: ${{ needs.prepare.outputs.publish == 'true' && (needs.publish_python.outputs.status == 'published' || needs.publish_python.outputs.status == 'no_changes') }}
       artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
-      card_id: ${{ needs.prepare.outputs.phase_card_id }}
-      card_started_at: ${{ needs.prepare.outputs.card_started_at }}
-      card_stages: ${{ needs.prepare.outputs.card_stages }}
     secrets:
       TRANSLATION_AGENT_API_KEY: ${{ secrets.TRANSLATION_AGENT_API_KEY }}
       REVIEW_AGENT_API_KEY: ${{ secrets.REVIEW_AGENT_API_KEY }}
-      APP_ID: ${{ secrets.APP_ID }}
-      APP_SECRET: ${{ secrets.APP_SECRET }}
   publish_python_translation:
     needs: [prepare, publish_python, translate_python, publish_guides_translation_batches]
     if: ${{ always() && needs.prepare.outputs.publish == 'true' && needs.translate_python.outputs.status == 'translation_ready' }}
@@ -461,12 +416,6 @@ jobs:
       target_branch: ${{ needs.prepare.outputs.target_branch }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
       validate_command: 'node "$GITHUB_WORKSPACE/scripts/validate-generated-sidebars.js" && node "$GITHUB_WORKSPACE/scripts/validate-translated-coverage.js" --group "python"'
-      card_id: ${{ needs.prepare.outputs.phase_card_id }}
-      card_started_at: ${{ needs.prepare.outputs.card_started_at }}
-      card_stages: ${{ needs.prepare.outputs.card_stages }}
-    secrets:
-      APP_ID: ${{ secrets.APP_ID }}
-      APP_SECRET: ${{ secrets.APP_SECRET }}
 
   publish_java:
     needs: [prepare, produce_java]
@@ -480,12 +429,6 @@ jobs:
       target_branch: ${{ needs.prepare.outputs.target_branch }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
       validate_command: 'node "$GITHUB_WORKSPACE/scripts/validate-generated-sidebars.js"'
-      card_id: ${{ needs.prepare.outputs.phase_card_id }}
-      card_started_at: ${{ needs.prepare.outputs.card_started_at }}
-      card_stages: ${{ needs.prepare.outputs.card_stages }}
-    secrets:
-      APP_ID: ${{ secrets.APP_ID }}
-      APP_SECRET: ${{ secrets.APP_SECRET }}
   translate_java:
     needs: [prepare, publish_java]
     if: ${{ always() && needs.prepare.outputs.publish == 'true' && (needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'java') && (needs.publish_java.outputs.status == 'published' || needs.publish_java.outputs.status == 'no_changes') }}
@@ -496,14 +439,9 @@ jobs:
       master_sha: ${{ needs.prepare.outputs.master_sha }}
       should_translate: ${{ needs.prepare.outputs.publish == 'true' && (needs.publish_java.outputs.status == 'published' || needs.publish_java.outputs.status == 'no_changes') }}
       artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
-      card_id: ${{ needs.prepare.outputs.phase_card_id }}
-      card_started_at: ${{ needs.prepare.outputs.card_started_at }}
-      card_stages: ${{ needs.prepare.outputs.card_stages }}
     secrets:
       TRANSLATION_AGENT_API_KEY: ${{ secrets.TRANSLATION_AGENT_API_KEY }}
       REVIEW_AGENT_API_KEY: ${{ secrets.REVIEW_AGENT_API_KEY }}
-      APP_ID: ${{ secrets.APP_ID }}
-      APP_SECRET: ${{ secrets.APP_SECRET }}
   publish_java_translation:
     needs: [prepare, publish_java, translate_java, publish_python_translation]
     if: ${{ always() && needs.prepare.outputs.publish == 'true' && needs.translate_java.outputs.status == 'translation_ready' }}
@@ -517,12 +455,6 @@ jobs:
       target_branch: ${{ needs.prepare.outputs.target_branch }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
       validate_command: 'node "$GITHUB_WORKSPACE/scripts/validate-generated-sidebars.js" && node "$GITHUB_WORKSPACE/scripts/validate-translated-coverage.js" --group "java"'
-      card_id: ${{ needs.prepare.outputs.phase_card_id }}
-      card_started_at: ${{ needs.prepare.outputs.card_started_at }}
-      card_stages: ${{ needs.prepare.outputs.card_stages }}
-    secrets:
-      APP_ID: ${{ secrets.APP_ID }}
-      APP_SECRET: ${{ secrets.APP_SECRET }}
 
   publish_node:
     needs: [prepare, produce_node, publish_java]
@@ -536,12 +468,6 @@ jobs:
       target_branch: ${{ needs.prepare.outputs.target_branch }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
       validate_command: 'node "$GITHUB_WORKSPACE/scripts/validate-generated-sidebars.js"'
-      card_id: ${{ needs.prepare.outputs.phase_card_id }}
-      card_started_at: ${{ needs.prepare.outputs.card_started_at }}
-      card_stages: ${{ needs.prepare.outputs.card_stages }}
-    secrets:
-      APP_ID: ${{ secrets.APP_ID }}
-      APP_SECRET: ${{ secrets.APP_SECRET }}
   translate_node:
     needs: [prepare, publish_node]
     if: ${{ always() && needs.prepare.outputs.publish == 'true' && (needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'node') && (needs.publish_node.outputs.status == 'published' || needs.publish_node.outputs.status == 'no_changes') }}
@@ -552,14 +478,9 @@ jobs:
       master_sha: ${{ needs.prepare.outputs.master_sha }}
       should_translate: ${{ needs.prepare.outputs.publish == 'true' && (needs.publish_node.outputs.status == 'published' || needs.publish_node.outputs.status == 'no_changes') }}
       artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
-      card_id: ${{ needs.prepare.outputs.phase_card_id }}
-      card_started_at: ${{ needs.prepare.outputs.card_started_at }}
-      card_stages: ${{ needs.prepare.outputs.card_stages }}
     secrets:
       TRANSLATION_AGENT_API_KEY: ${{ secrets.TRANSLATION_AGENT_API_KEY }}
       REVIEW_AGENT_API_KEY: ${{ secrets.REVIEW_AGENT_API_KEY }}
-      APP_ID: ${{ secrets.APP_ID }}
-      APP_SECRET: ${{ secrets.APP_SECRET }}
   publish_node_translation:
     needs: [prepare, publish_node, translate_node, publish_java_translation]
     if: ${{ always() && needs.prepare.outputs.publish == 'true' && needs.translate_node.outputs.status == 'translation_ready' }}
@@ -573,12 +494,6 @@ jobs:
       target_branch: ${{ needs.prepare.outputs.target_branch }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
       validate_command: 'node "$GITHUB_WORKSPACE/scripts/validate-generated-sidebars.js" && node "$GITHUB_WORKSPACE/scripts/validate-translated-coverage.js" --group "node"'
-      card_id: ${{ needs.prepare.outputs.phase_card_id }}
-      card_started_at: ${{ needs.prepare.outputs.card_started_at }}
-      card_stages: ${{ needs.prepare.outputs.card_stages }}
-    secrets:
-      APP_ID: ${{ secrets.APP_ID }}
-      APP_SECRET: ${{ secrets.APP_SECRET }}
 
   publish_go:
     needs: [prepare, produce_go, publish_node]
@@ -592,12 +507,6 @@ jobs:
       target_branch: ${{ needs.prepare.outputs.target_branch }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
       validate_command: 'node "$GITHUB_WORKSPACE/scripts/validate-generated-sidebars.js"'
-      card_id: ${{ needs.prepare.outputs.phase_card_id }}
-      card_started_at: ${{ needs.prepare.outputs.card_started_at }}
-      card_stages: ${{ needs.prepare.outputs.card_stages }}
-    secrets:
-      APP_ID: ${{ secrets.APP_ID }}
-      APP_SECRET: ${{ secrets.APP_SECRET }}
   translate_go:
     needs: [prepare, publish_go]
     if: ${{ always() && needs.prepare.outputs.publish == 'true' && (needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'go') && (needs.publish_go.outputs.status == 'published' || needs.publish_go.outputs.status == 'no_changes') }}
@@ -608,14 +517,9 @@ jobs:
       master_sha: ${{ needs.prepare.outputs.master_sha }}
       should_translate: ${{ needs.prepare.outputs.publish == 'true' && (needs.publish_go.outputs.status == 'published' || needs.publish_go.outputs.status == 'no_changes') }}
       artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
-      card_id: ${{ needs.prepare.outputs.phase_card_id }}
-      card_started_at: ${{ needs.prepare.outputs.card_started_at }}
-      card_stages: ${{ needs.prepare.outputs.card_stages }}
     secrets:
       TRANSLATION_AGENT_API_KEY: ${{ secrets.TRANSLATION_AGENT_API_KEY }}
       REVIEW_AGENT_API_KEY: ${{ secrets.REVIEW_AGENT_API_KEY }}
-      APP_ID: ${{ secrets.APP_ID }}
-      APP_SECRET: ${{ secrets.APP_SECRET }}
   publish_go_translation:
     needs: [prepare, publish_go, translate_go, publish_node_translation]
     if: ${{ always() && needs.prepare.outputs.publish == 'true' && needs.translate_go.outputs.status == 'translation_ready' }}
@@ -629,12 +533,6 @@ jobs:
       target_branch: ${{ needs.prepare.outputs.target_branch }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
       validate_command: 'node "$GITHUB_WORKSPACE/scripts/validate-generated-sidebars.js" && node "$GITHUB_WORKSPACE/scripts/validate-translated-coverage.js" --group "go"'
-      card_id: ${{ needs.prepare.outputs.phase_card_id }}
-      card_started_at: ${{ needs.prepare.outputs.card_started_at }}
-      card_stages: ${{ needs.prepare.outputs.card_stages }}
-    secrets:
-      APP_ID: ${{ secrets.APP_ID }}
-      APP_SECRET: ${{ secrets.APP_SECRET }}
 
   publish_cli:
     needs: [prepare, produce_cli, publish_go]
@@ -648,12 +546,6 @@ jobs:
       target_branch: ${{ needs.prepare.outputs.target_branch }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
       validate_command: 'node "$GITHUB_WORKSPACE/scripts/validate-generated-sidebars.js"'
-      card_id: ${{ needs.prepare.outputs.phase_card_id }}
-      card_started_at: ${{ needs.prepare.outputs.card_started_at }}
-      card_stages: ${{ needs.prepare.outputs.card_stages }}
-    secrets:
-      APP_ID: ${{ secrets.APP_ID }}
-      APP_SECRET: ${{ secrets.APP_SECRET }}
   translate_cli:
     needs: [prepare, publish_cli]
     if: ${{ always() && needs.prepare.outputs.publish == 'true' && (needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'cli') && (needs.publish_cli.outputs.status == 'published' || needs.publish_cli.outputs.status == 'no_changes') }}
@@ -664,14 +556,9 @@ jobs:
       master_sha: ${{ needs.prepare.outputs.master_sha }}
       should_translate: ${{ needs.prepare.outputs.publish == 'true' && (needs.publish_cli.outputs.status == 'published' || needs.publish_cli.outputs.status == 'no_changes') }}
       artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
-      card_id: ${{ needs.prepare.outputs.phase_card_id }}
-      card_started_at: ${{ needs.prepare.outputs.card_started_at }}
-      card_stages: ${{ needs.prepare.outputs.card_stages }}
     secrets:
       TRANSLATION_AGENT_API_KEY: ${{ secrets.TRANSLATION_AGENT_API_KEY }}
       REVIEW_AGENT_API_KEY: ${{ secrets.REVIEW_AGENT_API_KEY }}
-      APP_ID: ${{ secrets.APP_ID }}
-      APP_SECRET: ${{ secrets.APP_SECRET }}
   publish_cli_translation:
     needs: [prepare, publish_cli, translate_cli, publish_go_translation]
     if: ${{ always() && needs.prepare.outputs.publish == 'true' && needs.translate_cli.outputs.status == 'translation_ready' }}
@@ -685,12 +572,6 @@ jobs:
       target_branch: ${{ needs.prepare.outputs.target_branch }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
       validate_command: 'node "$GITHUB_WORKSPACE/scripts/validate-generated-sidebars.js" && node "$GITHUB_WORKSPACE/scripts/validate-translated-coverage.js" --group "cli"'
-      card_id: ${{ needs.prepare.outputs.phase_card_id }}
-      card_started_at: ${{ needs.prepare.outputs.card_started_at }}
-      card_stages: ${{ needs.prepare.outputs.card_stages }}
-    secrets:
-      APP_ID: ${{ secrets.APP_ID }}
-      APP_SECRET: ${{ secrets.APP_SECRET }}
 
   publish_rest:
     needs: [prepare, produce_rest, publish_cli]
@@ -704,12 +585,6 @@ jobs:
       target_branch: ${{ needs.prepare.outputs.target_branch }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
       validate_command: 'node "$GITHUB_WORKSPACE/scripts/validate-generated-sidebars.js"'
-      card_id: ${{ needs.prepare.outputs.phase_card_id }}
-      card_started_at: ${{ needs.prepare.outputs.card_started_at }}
-      card_stages: ${{ needs.prepare.outputs.card_stages }}
-    secrets:
-      APP_ID: ${{ secrets.APP_ID }}
-      APP_SECRET: ${{ secrets.APP_SECRET }}
   translate_rest:
     needs: [prepare, publish_rest]
     if: ${{ always() && needs.prepare.outputs.publish == 'true' && (needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'rest') && (needs.publish_rest.outputs.status == 'published' || needs.publish_rest.outputs.status == 'no_changes') }}
@@ -720,14 +595,9 @@ jobs:
       master_sha: ${{ needs.prepare.outputs.master_sha }}
       should_translate: ${{ needs.prepare.outputs.publish == 'true' && (needs.publish_rest.outputs.status == 'published' || needs.publish_rest.outputs.status == 'no_changes') }}
       artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
-      card_id: ${{ needs.prepare.outputs.phase_card_id }}
-      card_started_at: ${{ needs.prepare.outputs.card_started_at }}
-      card_stages: ${{ needs.prepare.outputs.card_stages }}
     secrets:
       TRANSLATION_AGENT_API_KEY: ${{ secrets.TRANSLATION_AGENT_API_KEY }}
       REVIEW_AGENT_API_KEY: ${{ secrets.REVIEW_AGENT_API_KEY }}
-      APP_ID: ${{ secrets.APP_ID }}
-      APP_SECRET: ${{ secrets.APP_SECRET }}
   publish_rest_translation:
     needs: [prepare, publish_rest, translate_rest, publish_cli_translation]
     if: ${{ always() && needs.prepare.outputs.publish == 'true' && needs.translate_rest.outputs.status == 'translation_ready' }}
@@ -741,13 +611,6 @@ jobs:
       target_branch: ${{ needs.prepare.outputs.target_branch }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
       validate_command: 'node "$GITHUB_WORKSPACE/scripts/validate-generated-sidebars.js" && node "$GITHUB_WORKSPACE/scripts/validate-translated-coverage.js" --group "rest"'
-      card_id: ${{ needs.prepare.outputs.phase_card_id }}
-      card_started_at: ${{ needs.prepare.outputs.card_started_at }}
-      card_stages: ${{ needs.prepare.outputs.card_stages }}
-    secrets:
-      APP_ID: ${{ secrets.APP_ID }}
-      APP_SECRET: ${{ secrets.APP_SECRET }}
-
   resolve_final:
     needs: [prepare, finalize_guides_translation, publish_python_translation, publish_java_translation, publish_node_translation, publish_go_translation, publish_cli_translation, publish_rest_translation]
     if: ${{ always() && needs.prepare.outputs.publish == 'true' }}
@@ -776,13 +639,6 @@ jobs:
       final_dev_sha: ${{ needs.resolve_final.outputs.final_dev_sha }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
       target_branch: ${{ needs.prepare.outputs.target_branch }}
-      card_id: ${{ needs.prepare.outputs.phase_card_id }}
-      card_started_at: ${{ needs.prepare.outputs.card_started_at }}
-      card_stages: ${{ needs.prepare.outputs.card_stages }}
-    secrets:
-      APP_ID: ${{ secrets.APP_ID }}
-      APP_SECRET: ${{ secrets.APP_SECRET }}
-
   aggregate:
     needs: [prepare, produce_guides, publish_guides, prepare_guides_translation_batches, translate_guides_batches, publish_guides_translation_batches, finalize_guides_translation, produce_python, publish_python, translate_python, publish_python_translation, produce_java, publish_java, translate_java, publish_java_translation, produce_node, publish_node, translate_node, publish_node_translation, produce_go, publish_go, translate_go, publish_go_translation, produce_cli, publish_cli, translate_cli, publish_cli_translation, produce_rest, publish_rest, translate_rest, publish_rest_translation, resolve_final, verify]
     if: ${{ always() }}
@@ -869,27 +725,70 @@ jobs:
             done
           fi
           node scripts/collect-build-card-notes.js
-      - name: Finish progress card
-        if: ${{ always() && needs.prepare.outputs.card_id != '' }}
+      - name: Create final card report artifact
+        if: ${{ always() }}
         continue-on-error: true
-        run: bash scripts/docs-workflow/report-live-card.sh
+        run: |
+          set -euo pipefail
+          reports_file="${{ steps.reports.outputs.card_notes_file }}"
+          if [[ -z "$reports_file" || ! -f "$reports_file" ]]; then
+            reports_file="$RUNNER_TEMP/card-notes.json"
+            printf '[]\n' > "$reports_file"
+          fi
+          printf '%s\n' "${CARD_SUMMARY:-Documentation workflow report unavailable.}" > "$RUNNER_TEMP/card-summary.txt"
+          node scripts/docs-workflow/docs-card-report.js create \
+            --run-id "$GITHUB_RUN_ID" \
+            --overall-status "$OVERALL_STATUS" \
+            --summary-file "$RUNNER_TEMP/card-summary.txt" \
+            --reports-json "$reports_file" \
+            --output tmp/docs-card-report/card-report.json
         env:
-          APP_ID: ${{ secrets.APP_ID }}
-          APP_SECRET: ${{ secrets.APP_SECRET }}
-          FEISHU_HOST: ${{ vars.FEISHU_HOST }}
-          GH_TOKEN: ${{ github.token }}
-          CARD_ID: ${{ needs.prepare.outputs.card_id }}
-          CARD_MODE: ${{ needs.prepare.outputs.card_mode }}
-          CARD_STARTED_AT: ${{ needs.prepare.outputs.card_started_at }}
-          CARD_STAGES: ${{ needs.prepare.outputs.card_stages }}
-          CARD_TITLE: ${{ needs.prepare.outputs.card_title }}
-          CARD_TARGET_BRANCH: ${{ needs.prepare.outputs.target_branch }}
-          CARD_STATUS: ${{ steps.aggregate.outputs.overall_status == 'success' && 'success' || 'fail' }}
-          CARD_NOTES_JSON: ${{ steps.reports.outputs.card_notes_json || steps.aggregate.outputs.notes_json }}
-          CARD_JOB_NAME: verify
-          CARD_JOB_CONCLUSION: ${{ needs.verify.outputs.status == 'passed' && 'success' || 'failure' }}
-          SELECTED_GROUP: ${{ needs.prepare.outputs.selected_group }}
-          PUBLISH_ENABLED: ${{ needs.prepare.outputs.publish }}
+          OVERALL_STATUS: ${{ steps.aggregate.outputs.overall_status == 'success' && 'success' || 'failure' }}
+          CARD_SUMMARY: ${{ steps.aggregate.outputs.summary_text }}
+      - name: Upload final card report artifact
+        if: ${{ always() }}
+        continue-on-error: true
+        uses: actions/upload-artifact@v4
+        with:
+          name: docs-card-report-${{ github.run_id }}
+          path: tmp/docs-card-report/card-report.json
+          if-no-files-found: warn
+          retention-days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
       - name: Fail unsuccessful workflow
         if: ${{ steps.aggregate.outputs.overall_status != 'success' }}
         run: exit 1
+
+  finalize_card_fallback:
+    needs: [prepare, aggregate, monitor_docs_progress]
+    if: ${{ always() && needs.prepare.outputs.card_id != '' && needs.monitor_docs_progress.result != 'success' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      actions: read
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: '${{ needs.prepare.outputs.master_sha }}' }
+      - uses: pnpm/action-setup@v4
+        with: { version: 9 }
+      - uses: actions/setup-node@v4
+        with: { node-version: '20', cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      - uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: docs-card-report-${{ github.run_id }}
+          path: tmp/docs-card-report
+      - name: Perform best-effort terminal card update
+        continue-on-error: true
+        run: node scripts/docs-workflow/monitor-docs-progress.js --finalize-only --report-file tmp/docs-card-report/card-report.json
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          CARD_ID: ${{ needs.prepare.outputs.card_id }}
+          CARD_STARTED_AT: ${{ needs.prepare.outputs.card_started_at }}
+          CARD_TARGET_BRANCH: ${{ needs.prepare.outputs.target_branch }}
+          SELECTED_GROUP: ${{ needs.prepare.outputs.selected_group }}
+          PUBLISH_ENABLED: ${{ needs.prepare.outputs.publish }}
+          APP_ID: ${{ secrets.APP_ID }}
+          APP_SECRET: ${{ secrets.APP_SECRET }}
+          FEISHU_HOST: ${{ vars.FEISHU_HOST }}

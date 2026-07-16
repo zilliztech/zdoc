@@ -6,7 +6,7 @@ const os = require('node:os')
 const path = require('node:path')
 const test = require('node:test')
 
-const { collectMediaReferences, prefetchGuidesMedia, selectSourceFiles, writeMediaManifest } = require('./guides-media-prefetch')
+const { bootstrapMediaEntries, collectMediaReferences, prefetchGuidesMedia, selectRequiredSourceFiles, selectSourceFiles, writeMediaManifest } = require('./guides-media-prefetch')
 
 function writeSource(root, name, blocks) {
   fs.mkdirSync(root, { recursive: true })
@@ -49,7 +49,7 @@ test('writes a deterministic validated media manifest', () => {
   ]), /unexpected media manifest field/i)
 })
 
-test('selects only expanded canonical source files for incremental and single-doc prefetch', () => {
+test('selects explicit incremental tokens, single-doc scope, and every source for full plans', () => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'guides-media-selection-'))
   const sourceDir = path.join(root, 'sources')
   writeSource(sourceDir, 'a.json', [])
@@ -67,7 +67,128 @@ test('selects only expanded canonical source files for incremental and single-do
   assert.deepEqual(selectSourceFiles({ sourceDir, snapshotPath, docTokens: ['token-a'] }), ['a.json'])
 
   fs.writeFileSync(planPath, JSON.stringify({ mode: 'full', expanded_tokens: [] }))
-  assert.deepEqual(selectSourceFiles({ sourceDir, planPath, snapshotPath }), ['a.json', 'b.json', 'root.json'])
+  assert.deepEqual(selectSourceFiles({ sourceDir, planPath, snapshotPath }), ['a.json', 'b.json'])
+  assert.deepEqual(selectRequiredSourceFiles({ sourceDir, planPath, snapshotPath }), ['a.json', 'b.json'])
+})
+
+test('incremental prefetch fetches changed documents and requires every document in affected tables', () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'guides-media-affected-table-'))
+  const sourceDir = path.join(root, 'sources')
+  writeSource(sourceDir, 'changed.json', [{ image: { token: 'changed-image' } }])
+  writeSource(sourceDir, 'unchanged.json', [{ board: { token: 'unchanged-board' } }])
+  writeSource(sourceDir, 'unaffected.json', [{ image: { token: 'unaffected-image' } }])
+  const snapshotPath = path.join(root, 'snapshot.json')
+  fs.writeFileSync(snapshotPath, JSON.stringify({ records: [
+    { doc_token: 'changed', source_file: 'changed.json', table_id: 'affected-table' },
+    { doc_token: 'unchanged', source_file: 'unchanged.json', table_id: 'affected-table' },
+    { doc_token: 'unaffected', source_file: 'unaffected.json', table_id: 'other-table' },
+  ] }))
+  const planPath = path.join(root, 'plan.json')
+  fs.writeFileSync(planPath, JSON.stringify({
+    mode: 'incremental',
+    expanded_tokens: ['changed'],
+    affected_tables: ['affected-table'],
+  }))
+
+  assert.deepEqual(selectSourceFiles({ sourceDir, planPath, snapshotPath }), ['changed.json'])
+  assert.deepEqual(selectRequiredSourceFiles({ sourceDir, planPath, snapshotPath }), ['changed.json', 'unchanged.json'])
+})
+
+test('incremental prefetch reuses unchanged media and refreshes changed media', async () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'guides-media-reuse-'))
+  const sourceDir = path.join(root, 'sources')
+  const output = path.join(root, 'guides.json')
+  writeSource(sourceDir, 'changed.json', [{ image: { token: 'changed', caption: { content: 'Changed' } } }])
+  writeSource(sourceDir, 'unchanged.json', [{ iframe: { component: { iframe_type: 8, url: encodeURIComponent('https://www.figma.com/design/key/Name?node-id=1-2') } } }])
+  writeMediaManifest(output, [
+    { id: 'figma:key:1:2', type: 'figma', fileKey: 'key', nodeId: '1:2', caption: 'Deleted Node', objectKey: 'deleted-node.png' },
+  ])
+  const calls = []
+  const downloader = {
+    async __downloadImage(token) { calls.push(`image:${token}`); return Buffer.from('image') },
+    async __uploadToS3(_buffer, key) { calls.push(`upload:${key}`) },
+    async __fetchCaption() { throw new Error('unchanged Figma media must not be fetched') },
+  }
+
+  const manifest = await prefetchGuidesMedia({
+    sourceDir,
+    output,
+    previousManifestPath: output,
+    sourceFiles: ['changed.json'],
+    requiredSourceFiles: ['changed.json', 'unchanged.json'],
+    downloader,
+  })
+
+  assert.deepEqual(calls, ['image:changed', 'upload:changed.png'])
+  assert.deepEqual(manifest.entries.map(entry => entry.id), ['feishu-image:changed', 'figma:key:1:2'])
+})
+
+test('full bootstrap reuses media proven by validated baseline docs and fetches new media', async () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'guides-media-bootstrap-'))
+  const sourceDir = path.join(root, 'sources')
+  const docsDir = path.join(root, 'docs')
+  const output = path.join(root, 'guides.json')
+  writeSource(sourceDir, 'doc.json', [
+    { image: { token: 'old-image', caption: { content: 'Old Image' } } },
+    { iframe: { component: { iframe_type: 8, url: encodeURIComponent('https://www.figma.com/design/key/Name?node-id=1-2') } } },
+    { image: { token: 'new-image', caption: { content: 'New Image' } } },
+  ])
+  const source = JSON.parse(fs.readFileSync(path.join(sourceDir, 'doc.json'), 'utf8'))
+  source.node_token = 'doc-token'
+  fs.writeFileSync(path.join(sourceDir, 'doc.json'), JSON.stringify(source))
+  fs.mkdirSync(docsDir)
+  fs.writeFileSync(path.join(docsDir, 'doc.md'), [
+    '---',
+    'token: doc-token',
+    '---',
+    '![Old Image](https://images.test/old-image.png "Old Image")',
+    '![Deleted Figma](https://images.test/deleted-figma.png "Deleted Figma")',
+  ].join('\n'))
+
+  assert.deepEqual(bootstrapMediaEntries({ sourceDir, docsDirs: [docsDir] }).map(entry => entry.id), [
+    'feishu-image:old-image',
+    'figma:key:1:2',
+  ])
+  const calls = []
+  const downloader = {
+    async __downloadImage(token) { calls.push(`image:${token}`); return Buffer.from(token) },
+    async __uploadToS3(_buffer, key) { calls.push(`upload:${key}`) },
+    async __fetchCaption() { throw new Error('deleted baseline Figma node must not be fetched during bootstrap') },
+  }
+  const manifest = await prefetchGuidesMedia({
+    sourceDir,
+    output,
+    downloader,
+    bootstrapDocsDirs: [docsDir],
+    reuseExisting: true,
+  })
+
+  assert.deepEqual(calls, ['image:new-image', 'upload:new-image.png'])
+  assert.deepEqual(manifest.entries.map(entry => entry.id), [
+    'feishu-image:new-image',
+    'feishu-image:old-image',
+    'figma:key:1:2',
+  ])
+})
+
+test('incremental prefetch fails clearly when neither prior nor fresh media covers an affected table', async () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'guides-media-missing-'))
+  const sourceDir = path.join(root, 'sources')
+  const output = path.join(root, 'guides.json')
+  writeSource(sourceDir, 'changed.json', [])
+  writeSource(sourceDir, 'unchanged.json', [{ board: { token: 'missing-board' } }])
+
+  await assert.rejects(
+    prefetchGuidesMedia({
+      sourceDir,
+      output,
+      sourceFiles: ['changed.json'],
+      requiredSourceFiles: ['changed.json', 'unchanged.json'],
+      downloader: {},
+    }),
+    /media manifest coverage is incomplete.*feishu-board:missing-board/i,
+  )
+  assert.equal(fs.existsSync(output), false)
 })
 
 test('prefetches every unique media reference once with bounded concurrency', async () => {

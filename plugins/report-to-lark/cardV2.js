@@ -1,11 +1,35 @@
 'use strict'
 
-const STATUS = {
-  pending: { label: 'Pending', color: 'grey', icon: '○' },
-  running: { label: 'Running', color: 'blue', icon: '◉' },
-  done: { label: 'Done', color: 'green', icon: '✓' },
-  fail: { label: 'Failed', color: 'red', icon: '✕' },
-}
+const STATUS = Object.freeze({
+  waiting: { label: 'Waiting', color: 'grey', icon: '○', background: 'grey-50' },
+  running: { label: 'Running', color: 'blue', icon: '◉', background: 'blue-50' },
+  completed: { label: 'Done', color: 'green', icon: '✓', background: 'grey-50' },
+  failed: { label: 'Failed', color: 'red', icon: '✕', background: 'red-50' },
+  cancelled: { label: 'Cancelled', color: 'red', icon: '✕', background: 'red-50' },
+})
+
+const OVERALL = Object.freeze({
+  running: { template: 'blue', label: 'Running', color: 'blue' },
+  success: { template: 'green', label: 'Succeeded', color: 'green' },
+  failure: { template: 'red', label: 'Failed', color: 'red' },
+  cancelled: { template: 'red', label: 'Cancelled', color: 'red' },
+})
+
+const LEGACY_STATUS = Object.freeze({
+  pending: 'waiting',
+  running: 'running',
+  done: 'completed',
+  fail: 'failed',
+})
+
+const PHASE_LABELS = Object.freeze({
+  produce: 'Produce',
+  publish: 'Publish',
+  source: 'Publish',
+  translate: 'Translate',
+  translation: 'Publish translations',
+  verify: 'Verify',
+})
 
 function elapsedText(startedAt, now = new Date()) {
   const start = Date.parse(startedAt)
@@ -15,63 +39,151 @@ function elapsedText(startedAt, now = new Date()) {
   return `${Math.floor(seconds / 60)}m ${seconds % 60}s elapsed`
 }
 
-function overallPresentation(statuses) {
-  if (statuses.includes('fail')) return { template: 'red', label: 'Failed', color: 'red' }
-  if (statuses.length > 0 && statuses.every(status => status === 'done')) return { template: 'green', label: 'Succeeded', color: 'green' }
-  return { template: 'blue', label: 'Running', color: 'blue' }
+function escapeCardText(value) {
+  return String(value ?? '')
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replace(/([\\`*_[\]()])/g, '\\$1')
 }
 
-function phaseColumn(name, status) {
-  const presentation = STATUS[status] || STATUS.pending
+function bounded(value, limit) {
+  const text = String(value ?? '').trim()
+  return text.length <= limit ? text : `${text.slice(0, Math.max(0, limit - 1))}…`
+}
+
+function legacyPhase(name, status, index) {
+  const text = String(name || '').trim()
+  const count = text.match(/\((\d+)\/(\d+)\)\s*$/)
+  const label = count ? text.slice(0, count.index).trim() : text
+  return {
+    key: `legacy-${index}`,
+    label,
+    done: count ? Number(count[1]) : LEGACY_STATUS[status] === 'completed' ? 1 : 0,
+    total: count ? Number(count[2]) : 1,
+    status: LEGACY_STATUS[status] || 'waiting',
+  }
+}
+
+function legacyManual(manual) {
+  if (manual.status) return manual
+  const entries = [
+    ['produce', manual.produce],
+    ['publish', manual.publish || manual.source],
+    ['translate', manual.translate],
+    ['translation', manual.translation],
+  ].map(([phase, status]) => [phase, LEGACY_STATUS[status] || 'waiting'])
+  const failed = entries.find(([, status]) => status === 'failed')
+  const running = entries.find(([, status]) => status === 'running')
+  const waiting = entries.find(([, status]) => status === 'waiting')
+  const selected = failed || running || waiting || entries.at(-1)
+  return {
+    group: manual.group,
+    label: manual.label || manual.group,
+    phase: selected[0],
+    status: failed ? 'failed' : running ? 'running' : waiting ? 'waiting' : 'completed',
+    currentTask: manual.currentTask || PHASE_LABELS[selected[0]],
+    detail: manual.detail || null,
+  }
+}
+
+function normalizeCardState(state) {
+  if (Array.isArray(state?.phases)) {
+    return {
+      ...state,
+      manuals: Array.isArray(state.manuals) ? state.manuals.map(legacyManual) : [],
+      reports: Array.isArray(state.reports)
+        ? state.reports
+        : (state.notes || []).map(markdown => ({ markdown })),
+    }
+  }
+  const statuses = Array.isArray(state?.statuses) ? state.statuses : []
+  const overallStatus = statuses.includes('fail')
+    ? 'failure'
+    : statuses.length > 0 && statuses.every(status => status === 'done')
+      ? 'success'
+      : 'running'
+  return {
+    ...state,
+    overallStatus,
+    phases: (state?.stages || []).map((name, index) => legacyPhase(name, statuses[index], index)),
+    manuals: Array.isArray(state?.manuals) ? state.manuals.map(legacyManual) : [],
+    reports: (state?.notes || []).filter(note => typeof note === 'string' && note.trim()).map(markdown => ({ markdown })),
+  }
+}
+
+function phaseColumn(phase) {
+  const presentation = STATUS[phase.status] || STATUS.waiting
+  const progress = Number(phase.total) > 1 ? `\n${Number(phase.done) || 0}/${phase.total}` : ''
   return {
     tag: 'column',
     width: 'weighted',
     weight: 1,
     vertical_align: 'center',
-    background_style: status === 'fail' ? 'red-50' : status === 'done' ? 'green-50' : status === 'running' ? 'blue-50' : 'grey-50',
+    background_style: presentation.background,
     padding: '8px',
     elements: [{
       tag: 'markdown',
-      content: `**${presentation.icon} ${name}**\n<text_tag color='${presentation.color}'>${presentation.label}</text_tag>`,
+      content: `**${presentation.icon} ${escapeCardText(phase.label)}**${progress}\n<text_tag color='${presentation.color}'>${presentation.label}</text_tag>`,
       text_align: 'center',
       text_size: 'notation',
     }],
   }
 }
 
-function statusOption(status) {
-  const presentation = STATUS[status] || STATUS.pending
-  return [{ text: presentation.label, color: presentation.color }]
+function phaseRow(phases) {
+  return {
+    tag: 'column_set',
+    flex_mode: 'flow',
+    horizontal_spacing: '8px',
+    columns: phases.map(phaseColumn),
+  }
 }
 
-function manualTable(manuals) {
+function phaseLabel(phase) {
+  return PHASE_LABELS[phase] || bounded(phase, 40) || 'Current phase'
+}
+
+function manualBlock(manual) {
+  const presentation = STATUS[manual.status] || STATUS.waiting
+  const label = escapeCardText(bounded(manual.label || manual.group, 80))
+  const task = escapeCardText(bounded(manual.currentTask || 'Waiting to start', 160))
+  const detail = manual.detail ? `\n${escapeCardText(bounded(manual.detail, 240))}` : ''
   return {
-    tag: 'table',
-    page_size: Math.min(10, Math.max(1, manuals.length)),
-    row_height: 'auto',
-    freeze_first_column: true,
-    header_style: {
-      text_align: 'left',
-      text_size: 'normal',
-      background_style: 'none',
-      text_color: 'grey',
-      bold: true,
-      lines: 1,
+    tag: 'column_set',
+    flex_mode: 'flow',
+    columns: [{
+      tag: 'column',
+      width: 'weighted',
+      weight: 1,
+      background_style: presentation.background,
+      padding: '10px',
+      elements: [{
+        tag: 'markdown',
+        text_size: 'normal',
+        content: `**${label} · ${escapeCardText(phaseLabel(manual.phase))}**  <text_tag color='${presentation.color}'>${presentation.label}</text_tag>\n<font color='grey'>CURRENT TASK</font>\n${task}${detail}`,
+      }],
+    }],
+  }
+}
+
+function completedPanel(manuals) {
+  return {
+    tag: 'collapsible_panel',
+    expanded: false,
+    header: {
+      title: { tag: 'markdown', content: `**Completed (${manuals.length})**` },
+      icon: { tag: 'standard_icon', token: 'down-small-ccm_outlined', size: '16px 16px' },
+      icon_position: 'right',
+      icon_expanded_angle: -180,
     },
-    columns: [
-      { name: 'manual', display_name: 'Manual', data_type: 'text', width: 'auto' },
-      { name: 'produce', display_name: 'Produce', data_type: 'options', width: 'auto' },
-      { name: 'source', display_name: 'Source', data_type: 'options', width: 'auto' },
-      { name: 'translate', display_name: 'Translate', data_type: 'options', width: 'auto' },
-      { name: 'translation', display_name: 'Translation', data_type: 'options', width: 'auto' },
-    ],
-    rows: manuals.map(manual => ({
-      manual: manual.group,
-      produce: statusOption(manual.produce),
-      source: statusOption(manual.source),
-      translate: statusOption(manual.translate),
-      translation: statusOption(manual.translation),
-    })),
+    border: { color: 'grey', corner_radius: '5px' },
+    padding: '8px',
+    elements: [{
+      tag: 'markdown',
+      text_size: 'notation',
+      content: manuals.map(manual => `- ${escapeCardText(bounded(manual.label || manual.group, 80))} · ${escapeCardText(phaseLabel(manual.phase))}`).join('\n'),
+    }],
   }
 }
 
@@ -90,42 +202,48 @@ function reportNeedsAttention(markdown) {
     /^\s*#{1,6}\s+.*\b(?:warning|failed?|error)\b/im.test(text)
 }
 
-function reportPanel(markdown, index) {
+function reportPanel(report, index) {
+  const markdown = bounded(typeof report === 'string' ? report : report?.markdown, 12000)
+  const title = bounded(typeof report === 'object' && report?.title ? report.title : reportTitle(markdown, index), 120)
+  const attention = typeof report === 'object' && typeof report?.attention === 'boolean'
+    ? report.attention
+    : reportNeedsAttention(markdown)
   return {
     tag: 'collapsible_panel',
-    expanded: reportNeedsAttention(markdown),
+    expanded: attention,
     header: {
-      title: { tag: 'markdown', content: `**${reportTitle(markdown, index)}**` },
+      title: { tag: 'markdown', content: `**${escapeCardText(title)}**` },
       icon: { tag: 'standard_icon', token: 'down-small-ccm_outlined', size: '16px 16px' },
       icon_position: 'right',
       icon_expanded_angle: -180,
     },
-    border: { color: 'grey', corner_radius: '5px' },
+    border: { color: attention ? 'red' : 'grey', corner_radius: '5px' },
     padding: '8px',
     elements: [{ tag: 'markdown', content: markdown, text_size: 'normal' }],
   }
 }
 
-function buildCardV2(state, options = {}) {
-  const statuses = Array.isArray(state.statuses) ? state.statuses : []
-  const presentation = overallPresentation(statuses)
+function buildCardV2(input, options = {}) {
+  const state = normalizeCardState(input || {})
+  const presentation = OVERALL[state.overallStatus] || OVERALL.running
   const now = options.now || new Date()
   const branch = options.branch || state.targetBranch || process.env.GITHUB_REF_NAME || process.env.GITHUB_HEAD_REF || 'branch unavailable'
   const workflowUrl = options.workflowUrl || (process.env.GITHUB_SERVER_URL && process.env.GITHUB_REPOSITORY && process.env.GITHUB_RUN_ID
     ? `${process.env.GITHUB_SERVER_URL}/${process.env.GITHUB_REPOSITORY}/actions/runs/${process.env.GITHUB_RUN_ID}`
     : null)
-  const elements = [{
-    tag: 'column_set',
-    flex_mode: 'flow',
-    horizontal_spacing: '8px',
-    columns: (state.stages || []).map((name, index) => phaseColumn(name, statuses[index])),
-  }]
+  const elements = []
+  if (state.phases.length) elements.push(phaseRow(state.phases.slice(0, 3)))
+  if (state.phases.length > 3) elements.push(phaseRow(state.phases.slice(3, 5)))
 
-  if (Array.isArray(state.manuals) && state.manuals.length) elements.push(manualTable(state.manuals))
-  for (const [index, note] of (state.notes || []).entries()) elements.push(reportPanel(note, index))
+  const activeManuals = state.manuals.filter(manual => manual.status !== 'completed')
+  const completedManuals = state.manuals.filter(manual => manual.status === 'completed')
+  elements.push(...activeManuals.map(manualBlock))
+  if (completedManuals.length) elements.push(completedPanel(completedManuals))
+  for (const [index, report] of state.reports.entries()) elements.push(reportPanel(report, index))
   elements.push({ tag: 'hr' })
+  const started = Number.isNaN(Date.parse(state.startedAt)) ? 'unavailable' : new Date(state.startedAt).toUTCString()
   const footer = [
-    `Started ${new Date(state.startedAt).toUTCString()}`,
+    `Started ${started}`,
     elapsedText(state.startedAt, now),
     `Target ${branch}`,
     workflowUrl ? `[Open workflow](${workflowUrl})` : null,
@@ -149,4 +267,4 @@ function buildCardV2(state, options = {}) {
   }
 }
 
-module.exports = { buildCardV2, reportNeedsAttention }
+module.exports = { buildCardV2, normalizeCardState, reportNeedsAttention }

@@ -52,8 +52,9 @@ function aggregateResults(input) {
     rows.push(`| ${escapeMarkdownCell(group)} | ${escapeMarkdownCell(entry.source)} | ${escapeMarkdownCell(entry.translation)} | ${escapeMarkdownCell(entry.sourceCommitSha || '')} | ${escapeMarkdownCell(entry.translationCommitSha || '')} |`);
   }
   const overallStatus = success ? 'success' : 'failure';
+  const summaryText = success ? 'Documentation workflow succeeded.' : 'Documentation workflow failed.';
   const markdown = ['# Documentation workflow summary', '', `Mode: ${mode}`, '', '| Group | Source | Translation | Source commit | Translation commit |', '| --- | --- | --- | --- | --- |', ...rows, '', `Final verification: ${input.finalVerification}`, '', `Overall status: ${overallStatus}`, ''].join('\n');
-  return Object.freeze({ overallStatus, markdown });
+  return Object.freeze({ overallStatus, summaryText, markdown });
 }
 
 function parseArgs(args) {
@@ -101,7 +102,7 @@ function writeGithubOutputs(outputPath, result, summaryPath) {
   validatePath(outputPath, 'GITHUB_OUTPUT');
   validatePath(summaryPath, 'summary_path');
   const notesJson = JSON.stringify(result.markdown ? [result.markdown] : []);
-  fs.appendFileSync(outputPath, `overall_status=${result.overallStatus}\nsummary_path=${summaryPath}\nnotes_json=${notesJson}\n`);
+  fs.appendFileSync(outputPath, `overall_status=${result.overallStatus}\nsummary_text=${result.summaryText}\nsummary_path=${summaryPath}\nnotes_json=${notesJson}\n`);
 }
 
 function main() {

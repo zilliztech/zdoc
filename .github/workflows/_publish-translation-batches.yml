@@ -7,12 +7,6 @@ on:
       master_sha: { required: true, type: string }
       target_branch: { required: true, type: string }
       batch_count: { required: true, type: number }
-      card_id: { required: false, type: string, default: '' }
-      card_started_at: { required: false, type: string, default: '' }
-      card_stages: { required: false, type: string, default: '' }
-    secrets:
-      APP_ID: { required: false }
-      APP_SECRET: { required: false }
     outputs:
       status: { value: '${{ jobs.publish.outputs.status }}' }
       commit_sha: { value: '${{ jobs.publish.outputs.commit_sha }}' }
@@ -107,24 +101,3 @@ jobs:
             final_sha="$commit_sha"
           done
           printf 'status=%s\ncommit_sha=%s\n' "$final_status" "$final_sha" >> "$GITHUB_OUTPUT"
-      - name: Report guides translation publication
-        if: ${{ always() && inputs.card_id != '' }}
-        continue-on-error: true
-        run: bash scripts/docs-workflow/report-live-card.sh
-        env:
-          CARD_ID: ${{ inputs.card_id }}
-          CARD_MODE: aggregate
-          CARD_STARTED_AT: ${{ inputs.card_started_at }}
-          CARD_STAGES: ${{ inputs.card_stages }}
-          CARD_PHASE: Publish ${{ inputs.group }} translation
-          CARD_STATUS: ${{ steps.publish.outcome == 'success' && 'done' || 'fail' }}
-          CARD_NOTE: ${{ steps.publish.outcome == 'success' && format('{0} translation batches published', inputs.group) || format('{0} translation batch publication failed', inputs.group) }}
-          CARD_JOB_NAME: publish_guides_translation_batches / publish
-          CARD_JOB_CONCLUSION: ${{ steps.publish.outcome == 'success' && 'success' || 'failure' }}
-          CARD_TITLE: Global Docs Build
-          SELECTED_GROUP: ${{ inputs.group }}
-          PUBLISH_ENABLED: true
-          GH_TOKEN: ${{ github.token }}
-          APP_ID: ${{ secrets.APP_ID }}
-          APP_SECRET: ${{ secrets.APP_SECRET }}
-          FEISHU_HOST: ${{ vars.FEISHU_HOST }}

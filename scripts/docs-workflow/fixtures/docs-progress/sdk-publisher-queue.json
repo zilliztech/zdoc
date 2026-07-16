@@ -1,0 +1,11 @@
+[
+  { "id": 1, "name": "produce_python / produce", "status": "completed", "conclusion": "success" },
+  { "id": 2, "name": "produce_java / produce", "status": "completed", "conclusion": "success" },
+  { "id": 3, "name": "publish_java / publish", "status": "in_progress", "conclusion": null, "steps": [{ "name": "Publish checkpoint", "status": "in_progress", "conclusion": null }] },
+  { "id": 4, "name": "produce_node / produce", "status": "completed", "conclusion": "success" },
+  { "id": 5, "name": "produce_go / produce", "status": "completed", "conclusion": "success" },
+  { "id": 6, "name": "produce_cli / produce", "status": "completed", "conclusion": "success" },
+  { "id": 7, "name": "produce_rest / produce", "status": "completed", "conclusion": "success" },
+  { "id": 8, "name": "publish_rest / publish", "status": "in_progress", "conclusion": null, "steps": [{ "name": "Publish checkpoint", "status": "in_progress", "conclusion": null }] }
+]
+

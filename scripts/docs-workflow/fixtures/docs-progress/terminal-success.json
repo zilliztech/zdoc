@@ -1,0 +1,8 @@
+[
+  { "id": 1, "name": "produce_python / produce", "status": "completed", "conclusion": "success" },
+  { "id": 2, "name": "publish_python / publish", "status": "completed", "conclusion": "success" },
+  { "id": 3, "name": "translate_python / translate", "status": "completed", "conclusion": "success" },
+  { "id": 4, "name": "publish_python_translation / publish", "status": "completed", "conclusion": "success" },
+  { "id": 5, "name": "verify / verify", "status": "completed", "conclusion": "success" },
+  { "id": 6, "name": "aggregate", "status": "completed", "conclusion": "success" }
+]

@@ -33,12 +33,6 @@ function appendNotes(state, notes) {
   return state
 }
 
-function selectExactStateNotes(input) {
-  if (Array.isArray(input.notes)) return input.notes
-  if (Array.isArray(input.manuals) && input.manuals.length) return []
-  return [input.noteMarkdown]
-}
-
 function buildPhaseState({ messageId, title, stages, stageIndex, status, startedAt, note, targetBranch }) {
   if (!Array.isArray(stages) || stages.length === 0) throw new Error('stages must be a non-empty array')
   if (!Number.isInteger(stageIndex) || stageIndex < 0 || stageIndex >= stages.length) throw new Error('stageIndex is out of range')
@@ -59,30 +53,25 @@ function buildPhaseState({ messageId, title, stages, stageIndex, status, started
   }
 }
 
-function buildExactState({ messageId, title, stages, startedAt, notes = [], manuals, targetBranch }) {
-  if (!Array.isArray(stages) || stages.length === 0) throw new Error('stages must be a non-empty array')
-  if (stages.length > 20) throw new Error('stages must not exceed 20 entries')
-  const names = new Set()
-  for (const stage of stages) {
-    if (!stage || typeof stage.name !== 'string' || !stage.name.trim()) throw new Error('stage name must be non-empty')
-    if (!['pending', 'running', 'done', 'fail'].includes(stage.status)) throw new Error('stage status is invalid')
-    if (names.has(stage.name)) throw new Error(`duplicate stage name: ${stage.name}`)
-    names.add(stage.name)
+function buildExactState({ messageId, title, startedAt, targetBranch, input }) {
+  if (!input || !['running', 'success', 'failure', 'cancelled'].includes(input.overallStatus)) throw new Error('overallStatus is invalid')
+  if (!Array.isArray(input.phases)) throw new Error('phases must be an array')
+  if (!Array.isArray(input.manuals)) throw new Error('manuals must be an array')
+  if (!Array.isArray(input.reports)) throw new Error('reports must be an array')
+  const manualStatuses = new Set(['failed', 'running', 'waiting', 'completed', 'cancelled'])
+  for (const manual of input.manuals) {
+    if (!manual || !manualStatuses.has(manual.status)) throw new Error('manual status is invalid')
   }
-  const statuses = stages.map(stage => stage.status)
-  const firstActive = statuses.findIndex(status => status === 'running' || status === 'fail')
-  const state = {
+  return {
     messageId,
-    title: title || 'Build',
-    stages: stages.map(stage => stage.name.trim()),
-    statuses,
-    currentIndex: firstActive === -1 ? Math.max(0, statuses.findIndex(status => status === 'pending')) : firstActive,
-    notes: parseNotesJson(JSON.stringify(notes)),
-    startedAt: startedAt || new Date().toISOString(),
-    targetBranch: targetBranch || undefined,
+    title: title || input.title || 'Global Docs Build',
+    startedAt: startedAt || input.startedAt || new Date().toISOString(),
+    targetBranch: targetBranch || input.targetBranch,
+    overallStatus: input.overallStatus,
+    phases: input.phases,
+    manuals: input.manuals,
+    reports: input.reports,
   }
-  if (Array.isArray(manuals) && manuals.length) state.manuals = manuals
-  return state
 }
 
 function buildFinishState({
@@ -127,5 +116,4 @@ module.exports = {
   buildPhaseState,
   finishStatuses,
   parseNotesJson,
-  selectExactStateNotes,
 }

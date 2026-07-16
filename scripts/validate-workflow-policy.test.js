@@ -67,6 +67,73 @@ jobs:
   }
 })
 
+test('central monitor owns live and terminal card presentation', () => {
+  const callerSource = fs.readFileSync('.github/workflows/fetch-docs.yml', 'utf8')
+  const workflow = yaml.load(callerSource)
+  assert.deepEqual(workflow.jobs.monitor_docs_progress.needs, ['prepare'])
+  assert.equal(workflow.jobs.monitor_docs_progress.uses, './.github/workflows/_monitor-docs-progress.yml')
+  assert.equal(workflow.jobs.aggregate.needs.includes('monitor_docs_progress'), false)
+  assert.deepEqual(workflow.jobs.finalize_card_fallback.needs, ['prepare', 'aggregate', 'monitor_docs_progress'])
+  assert.match(workflow.jobs.finalize_card_fallback.if, /monitor_docs_progress\.result != 'success'/)
+  assert.match(callerSource, /name: docs-card-report-\$\{\{ github\.run_id \}\}/)
+  assert.doesNotMatch(callerSource, /name: Finish progress card/)
+
+  const monitor = fs.readFileSync('.github/workflows/_monitor-docs-progress.yml', 'utf8')
+  assert.match(monitor, /^\s+actions: read$/m)
+  assert.match(monitor, /^\s+contents: read$/m)
+  assert.doesNotMatch(monitor, /contents: write|actions: write|SPACE_ID|FIGMA_API_KEY|MODEL_API_KEY|AWS_ACCESS_KEY_ID/)
+
+  for (const file of [
+    '_fetch-content-group.yml', '_fetch-guides-sources.yml', '_assemble-guides.yml',
+    '_publish-content-group.yml', '_translate-content-group.yml', '_publish-translation-batches.yml',
+    '_translate-publish-batch.yml', '_verify-docs.yml',
+  ]) {
+    const source = fs.readFileSync(path.join('.github/workflows', file), 'utf8')
+    assert.doesNotMatch(source, /report-live-card\.sh|report-to-lark --card-(?:phase|finish|state-file|advance)/, file)
+    assert.doesNotMatch(source, /^      card_(?:id|started_at|stages|mode):/m, file)
+  }
+  for (const file of ['_assemble-guides.yml', '_publish-content-group.yml', '_translate-content-group.yml', '_publish-translation-batches.yml', '_translate-publish-batch.yml', '_verify-docs.yml']) {
+    assert.doesNotMatch(fs.readFileSync(path.join('.github/workflows', file), 'utf8'), /APP_ID|APP_SECRET/, file)
+  }
+})
+
+test('workflow validator rejects distributed card ownership and broken monitor topology', () => {
+  const sourceDirectory = path.join(process.cwd(), '.github/workflows')
+  const cases = [
+    {
+      mutate(directory) {
+        fs.appendFileSync(path.join(directory, '_verify-docs.yml'), '\n# report-live-card.sh\n')
+      },
+      expected: /distributed card update/,
+    },
+    {
+      mutate(directory) {
+        const file = path.join(directory, 'fetch-docs.yml')
+        fs.writeFileSync(file, fs.readFileSync(file, 'utf8').replace('monitor_docs_progress:\n    needs: [prepare]', 'monitor_docs_progress:\n    needs: [prepare, produce_python]'))
+      },
+      expected: /monitor must start after prepare only/,
+    },
+    {
+      mutate(directory) {
+        const file = path.join(directory, 'fetch-docs.yml')
+        fs.writeFileSync(file, fs.readFileSync(file, 'utf8').replace('name: docs-card-report-${{ github.run_id }}', 'name: missing-final-report'))
+      },
+      expected: /final card report artifact/,
+    },
+  ]
+
+  for (const fixture of cases) {
+    const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'central-card-policy-'))
+    try {
+      fs.cpSync(sourceDirectory, directory, { recursive: true })
+      fixture.mutate(directory)
+      assert.match(validateWorkflowPolicies(directory).join('\n'), fixture.expected)
+    } finally {
+      fs.rmSync(directory, { recursive: true, force: true })
+    }
+  }
+})
+
 test('reusable final verification uses immutable master tooling against exact final dev content read-only', () => {
   const workflowPath = path.join(process.cwd(), '.github/workflows/_verify-docs.yml')
   assert.equal(fs.existsSync(workflowPath), true, 'final verification workflow must exist')
@@ -104,7 +171,7 @@ test('reusable content producer is immutable, read-only, and publishes a validat
 
   assert.match(workflow, /^name: fetch docs content group$/m)
   assert.match(workflow, /^  workflow_call:$/m)
-  for (const input of ['group', 'master_sha', 'dev_baseline_sha', 'artifact_retention_days', 'card_id']) {
+  for (const input of ['group', 'master_sha', 'dev_baseline_sha', 'artifact_retention_days']) {
     assert.match(workflow, new RegExp(`^      ${input}:$`, 'm'))
   }
   for (const secret of ['APP_ID', 'APP_SECRET', 'SPACE_ID', 'FIGMA_API_KEY', 'MODEL_API_KEY', 'AWS_ACCESS_KEY_ID', 'AWS_SECRET_ACCESS_KEY']) {
@@ -128,21 +195,19 @@ test('reusable content producer is immutable, read-only, and publishes a validat
   assert.doesNotMatch(jobEnv, /secrets\./, 'producer secrets must be scoped to individual steps')
   const sourceUpload = workflow.slice(workflow.indexOf('name: Upload source checkpoint artifact'), workflow.indexOf('name: Upload content group reports'))
   assert.doesNotMatch(sourceUpload, /^        env:/m, 'artifact upload must not receive credentials')
-  assert.ok(
-    workflow.indexOf('name: Upload source checkpoint artifact') < workflow.indexOf('name: Advance progress card for content group'),
-    'producer must not report card success before the checkpoint artifact is uploaded',
-  )
-  assert.match(workflow, /name: Advance progress card for content group\n        if: \$\{\{ steps\.result\.outputs\.status == 'artifact_ready' && inputs\.card_id != '' \}\}/)
   assert.match(workflow, /name: Install dependencies\n        id: install\n        run: pnpm install --frozen-lockfile/)
-  assert.match(workflow, /name: Report content group producer failure\n        if: \$\{\{ always\(\) && steps\.install\.outcome == 'success' && steps\.result\.outputs\.status == 'failed' && inputs\.card_id != '' \}\}\n        continue-on-error: true[\s\S]*report-live-card\.sh[\s\S]*CARD_STATUS: fail[\s\S]*artifact production failed/)
+  assert.doesNotMatch(workflow, /report-live-card|card_id|card_started_at|card_stages|card_mode/)
 })
 
-test('guides source stage reports progress while table render stays offline', () => {
+test('guides source and table render expose jobs for the central monitor without patching cards', () => {
   const source = fs.readFileSync(path.join(process.cwd(), '.github/workflows/_fetch-guides-sources.yml'), 'utf8')
   const render = fs.readFileSync(path.join(process.cwd(), '.github/workflows/_render-guides-table.yml'), 'utf8')
-  for (const input of ['card_id', 'card_mode', 'card_started_at']) assert.match(source, new RegExp(`^      ${input}:`, 'm'))
-  assert.match(source, /name: Report aggregate guides progress[\s\S]*inputs\.card_mode == 'aggregate'[\s\S]*report-live-card\.sh/)
+  assert.doesNotMatch(source, /report-live-card|card_id|card_mode|card_started_at/)
   assert.doesNotMatch(render, /report-live-card|secrets\./)
+  assert.match(source, /name: Create Guides progress metadata[\s\S]*continue-on-error: true/)
+  assert.match(source, /name: Upload Guides progress metadata[\s\S]*continue-on-error: true[\s\S]*name: docs-progress-metadata-\$\{\{ github\.run_id \}\}/)
+  const metadataSteps = source.slice(source.indexOf('name: Create Guides progress metadata'), source.indexOf('name: Create shared source artifact'))
+  assert.doesNotMatch(metadataSteps, /APP_ID|APP_SECRET|SPACE_ID|FIGMA_API_KEY|AWS_ACCESS_KEY_ID|AWS_SECRET_ACCESS_KEY/)
 })
 
 test('Tools table is the only Agents producer while Releases keeps its sidebar', () => {
@@ -162,9 +227,12 @@ test('guides workflows bootstrap full sources and persist only verified caches',
   assert.match(caller, /^  actions: write$/m)
   assert.match(source, /actions\/cache\/restore@v4/)
   assert.match(source, /guides-source-cache\.js validate/)
+  assert.match(source, /plugins\/lark-docs\/meta\/media-cache\/guides\.json/)
+  assert.match(source, /--media-manifest "?plugins\/lark-docs\/meta\/media-cache\/guides\.json"?/)
   assert.match(source, /--force-full-fetch/)
   assert.match(source, /steps\.source_cache_check\.outputs\.valid/)
   assert.match(assemble, /guides-source-cache\.js create/)
+  assert.match(assemble, /--media-manifest "?plugins\/lark-docs\/meta\/media-cache\/guides\.json"?/)
   assert.match(assemble, /actions\/cache\/save@v4/)
   assert.match(assemble, /^  actions: write$/m)
   assert.ok(assemble.indexOf('Validate combined guides output') < assemble.indexOf('actions/cache/save@v4'))
@@ -180,6 +248,9 @@ test('guides media is prefetched once for the incremental render scope and share
   assert.match(source, /guides-media-prefetch\.js/)
   assert.match(source, /--plan plugins\/lark-docs\/meta\/reports\/guides-incremental-fetch-plan\.json/)
   assert.match(source, /--snapshot plugins\/lark-docs\/meta\/reports\/guides-source-snapshot-candidate\.json/)
+  assert.match(source, /--previous-manifest plugins\/lark-docs\/meta\/media-cache\/guides\.json/)
+  assert.match(source, /--bootstrap-docs docs,docs-byoc/)
+  assert.match(source, /--reuse-existing.*steps\.source_cache_check\.outputs\.valid/)
   assert.match(source, /--concurrency 4/)
   assert.match(source, /GUIDES_FIGMA_MAX_CONCURRENT: '1'/)
   assert.match(source, /GUIDES_FIGMA_MIN_TIME_MS: '1000'/)
@@ -223,7 +294,7 @@ test('reusable content publisher safely downloads, validates, and publishes chec
   assert.match(workflow, /baseline_artifact_name:[\s\S]*default: ''/)
   assert.match(workflow, /target_branch:[\s\S]*default: dev/)
   assert.match(workflow, /^  contents: write$/m)
-  assert.match(workflow, /^    secrets:\n      APP_ID:[\s\S]*      APP_SECRET:/m)
+  assert.doesNotMatch(workflow, /APP_ID|APP_SECRET|report-live-card|card_id|card_started_at|card_stages|card_mode/)
   assert.doesNotMatch(workflow, /^concurrency:/m)
   assert.match(workflow, /if: \$\{\{ inputs\.should_publish \}\}[\s\S]*actions\/checkout@v4[\s\S]*ref: \$\{\{ inputs\.master_sha \}\}/)
   assert.match(workflow, /actions\/download-artifact@v4[\s\S]*name: \$\{\{ inputs\.artifact_name \}\}/)
@@ -240,7 +311,7 @@ test('reusable content publisher safely downloads, validates, and publishes chec
   assert.match(workflow, /name: Fail unsuccessful publication[\s\S]*steps\.result\.outputs\.status == 'failed'/)
   assert.match(workflow, /actions\/upload-artifact@v4[\s\S]*if-no-files-found: ignore/)
   assert.doesNotMatch(workflow, /git-auto-commit|git push[^\n]*--force/)
-  const publicationBody = workflow.slice(workflow.indexOf('name: Publish checkpoint'), workflow.indexOf('name: Report publication phase'))
+  const publicationBody = workflow.slice(workflow.indexOf('name: Publish checkpoint'))
   assert.doesNotMatch(publicationBody, /secrets\./)
 })
 
@@ -265,9 +336,7 @@ test('guides translations run in parallel and publish batches in one short order
   assert.doesNotMatch(reusable, /pnpm run build/)
   const syntax = spawnSync('bash', ['-n'], { input: publishScript, encoding: 'utf8' })
   assert.equal(syntax.status, 0, syntax.stderr)
-  const reportStep = reusable.slice(reusable.indexOf('name: Report guides translation publication'))
-  assert.match(reportStep, /CARD_JOB_NAME: publish_guides_translation_batches \/ publish/)
-  assert.match(reportStep, /CARD_JOB_CONCLUSION: \$\{\{ steps\.publish\.outcome == 'success' && 'success' \|\| 'failure' \}\}/)
+  assert.doesNotMatch(reusable, /report-live-card|CARD_JOB_NAME|APP_ID|APP_SECRET|card_id|card_started_at|card_stages/)
 })
 
 test('translation publishers form a short queue with scoped validation', () => {

@@ -7,31 +7,37 @@ const {
   buildPhaseState,
   finishStatuses,
   parseNotesJson,
-  selectExactStateNotes,
 } = require('./reportCardState')
 
-test('buildExactState preserves arbitrary parallel stage statuses', () => {
+function exactInput(overrides = {}) {
+  return {
+    overallStatus: 'running',
+    phases: [{ key: 'produce', label: 'Produce', done: 1, total: 2, status: 'running' }],
+    manuals: [{ group: 'rest', label: 'REST API', phase: 'produce', status: 'running', currentTask: 'Fetch content group', detail: null }],
+    reports: [{ title: 'Report', markdown: '# Report', attention: false }],
+    targetBranch: 'release-test',
+    ...overrides,
+  }
+}
+
+test('buildExactState preserves the complete centralized snapshot', () => {
   const state = buildExactState({
     messageId: 'message', title: 'Global Docs Build', startedAt: '2026-07-13T00:00:34.000Z',
-    stages: [
-      { name: 'Produce manuals (5/7)', status: 'running' },
-      { name: 'Publish sources (3/7)', status: 'running' },
-      { name: 'Translate manuals (1/7)', status: 'running' },
-      { name: 'Verify', status: 'pending' },
-    ],
-    notes: ['| Manual | Source |'],
-    manuals: [{ group: 'rest', produce: 'done', source: 'running', translate: 'pending', translation: 'pending' }],
+    input: exactInput(),
   })
-  assert.deepEqual(state.statuses, ['running', 'running', 'running', 'pending'])
-  assert.equal(state.currentIndex, 0)
+  assert.equal(state.overallStatus, 'running')
   assert.equal(state.startedAt, '2026-07-13T00:00:34.000Z')
-  assert.deepEqual(state.manuals, [{ group: 'rest', produce: 'done', source: 'running', translate: 'pending', translation: 'pending' }])
+  assert.deepEqual(state.phases, exactInput().phases)
+  assert.deepEqual(state.manuals, exactInput().manuals)
+  assert.deepEqual(state.reports, exactInput().reports)
+  assert.equal(state.targetBranch, 'release-test')
 })
 
-test('buildExactState rejects malformed stage state', () => {
-  assert.throws(() => buildExactState({ stages: [], notes: [] }), /non-empty/)
-  assert.throws(() => buildExactState({ stages: [{ name: 'A', status: 'unknown' }], notes: [] }), /status/)
-  assert.throws(() => buildExactState({ stages: [{ name: 'A', status: 'done' }, { name: 'A', status: 'pending' }], notes: [] }), /duplicate/i)
+test('buildExactState rejects malformed centralized state', () => {
+  assert.throws(() => buildExactState({ input: {} }), /overallStatus/)
+  assert.throws(() => buildExactState({ input: exactInput({ phases: null }) }), /phases/)
+  assert.throws(() => buildExactState({ input: exactInput({ manuals: [{ ...exactInput().manuals[0], status: 'pending' }] }) }), /manual status/)
+  assert.throws(() => buildExactState({ input: exactInput({ reports: null }) }), /reports/)
 })
 
 test('buildPhaseState preserves the workflow timeline and advances to the next phase', () => {
@@ -98,15 +104,14 @@ test('buildFinishState preserves cross-job notes when local state is absent', ()
   assert.equal(state.targetBranch, 'dev')
 })
 
-test('buildExactState preserves the explicit publication target', () => {
+test('buildExactState lets explicit publication target override input', () => {
   const state = buildExactState({
     messageId: 'message',
     title: 'Global Docs Build',
-    targetBranch: 'release-test',
-    stages: [{ name: 'Produce manuals (1/1)', status: 'done' }],
-    notes: [],
+    targetBranch: 'override-branch',
+    input: exactInput(),
   })
-  assert.equal(state.targetBranch, 'release-test')
+  assert.equal(state.targetBranch, 'override-branch')
 })
 
 test('buildFinishState ignores persisted state from a different Feishu message', () => {
@@ -138,10 +143,4 @@ test('finishStatuses marks first unfinished stage failed', () => {
     finishStatuses(['Fetch', 'Build', 'Check'], false, ['done', 'running', 'pending']),
     ['done', 'fail', 'pending']
   )
-})
-
-test('structured manual rows replace the legacy compact progress note', () => {
-  assert.deepEqual(selectExactStateNotes({ manuals: [{ group: 'rest' }], noteMarkdown: '**Manual progress**' }), [])
-  assert.deepEqual(selectExactStateNotes({ notes: ['# Report'], manuals: [{ group: 'rest' }], noteMarkdown: '**Manual progress**' }), ['# Report'])
-  assert.deepEqual(selectExactStateNotes({ noteMarkdown: '# Legacy note' }), ['# Legacy note'])
 })
