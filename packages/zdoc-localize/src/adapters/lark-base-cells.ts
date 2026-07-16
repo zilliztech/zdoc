@@ -18,8 +18,27 @@ export function readBaseText(value: unknown): string {
   return '';
 }
 
-export function writeBaseUrl(value: string | undefined): string | null {
-  return value?.trim() || null;
+export function readBaseLink(value: unknown): {text: string; link: string} {
+  if (typeof value === 'string') {
+    const markdownUrl = value.match(/^\[([^\]]*)\]\((https?:\/\/[^)]+)\)$/);
+    if (markdownUrl) return {text: markdownUrl[1]!, link: markdownUrl[2]!};
+    return {text: value, link: value};
+  }
+  if (typeof value === 'object' && value !== null) {
+    const object = value as Record<string, unknown>;
+    if (typeof object.link === 'string') {
+      return {text: typeof object.text === 'string' ? object.text : object.link, link: object.link};
+    }
+  }
+  const text = readBaseText(value);
+  return {text, link: text};
+}
+
+export function writeBaseUrl(value: string | undefined, title?: string): string | null {
+  const link = value?.trim();
+  if (!link) return null;
+  const label = title?.replaceAll(/[\[\]\r\n]/g, ' ').replaceAll(/\s+/g, ' ').trim();
+  return label ? `[${label}](${link})` : link;
 }
 
 export function writeBaseDateTime(value: string | undefined): string | null {

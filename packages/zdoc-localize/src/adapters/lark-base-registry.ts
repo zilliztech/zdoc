@@ -2,6 +2,7 @@ import type {LocalizationReceipt, RegistryStore, SnapshotReference} from '../app
 import type {GlossaryEntry} from '../domain/glossary.js';
 import type {DocumentPair, RunRecord} from '../domain/model.js';
 import {
+  readBaseLink,
   readBaseText,
   readProhibitedVariants,
   writeBaseDateTime,
@@ -108,9 +109,9 @@ export class LarkBaseRegistry implements RegistryStore {
       pair_id: pair.pairId,
       source_locale: pair.sourceLocale,
       target_locale: pair.targetLocale,
-      source_doc_url: writeBaseUrl(pair.sourceDocUrl),
+      source_doc_url: writeBaseUrl(pair.sourceDocUrl, pair.sourceDocTitle),
       source_doc_token: pair.sourceDocToken ?? null,
-      target_doc_url: writeBaseUrl(pair.targetDocUrl),
+      target_doc_url: writeBaseUrl(pair.targetDocUrl, pair.targetDocTitle),
       target_doc_token: pair.targetDocToken ?? null,
       target_parent_url: writeBaseUrl(pair.targetParentUrl),
       target_parent_token: pair.targetParentToken ?? null,
@@ -216,13 +217,17 @@ export class LarkBaseRegistry implements RegistryStore {
   private parsePair(record: BaseRecord | undefined): DocumentPair | undefined {
     if (!record) return undefined;
     const fields = fieldsOf(record);
+    const sourceDocument = readBaseLink(fields.source_doc_url);
+    const targetDocument = readBaseLink(fields.target_doc_url);
     return {
       pairId: readBaseText(fields.pair_id),
       sourceLocale: 'en',
       targetLocale: 'zh-CN',
-      sourceDocUrl: readBaseText(fields.source_doc_url),
+      sourceDocUrl: sourceDocument.link,
+      ...(sourceDocument.text && sourceDocument.text !== sourceDocument.link ? {sourceDocTitle: sourceDocument.text} : {}),
       ...(readBaseText(fields.source_doc_token) ? {sourceDocToken: readBaseText(fields.source_doc_token)} : {}),
-      ...(readBaseText(fields.target_doc_url) ? {targetDocUrl: readBaseText(fields.target_doc_url)} : {}),
+      ...(targetDocument.link ? {targetDocUrl: targetDocument.link} : {}),
+      ...(targetDocument.text && targetDocument.text !== targetDocument.link ? {targetDocTitle: targetDocument.text} : {}),
       ...(readBaseText(fields.target_doc_token) ? {targetDocToken: readBaseText(fields.target_doc_token)} : {}),
       ...(readBaseText(fields.target_parent_url) ? {targetParentUrl: readBaseText(fields.target_parent_url)} : {}),
       ...(readBaseText(fields.target_parent_token) ? {targetParentToken: readBaseText(fields.target_parent_token)} : {}),

@@ -118,7 +118,9 @@ describe('supporting adapters', () => {
       sourceLocale: 'en',
       targetLocale: 'zh-CN',
       sourceDocUrl: 'https://example.feishu.cn/docx/en',
+      sourceDocTitle: 'English Guide',
       targetDocUrl: 'https://example.feishu.cn/docx/zh',
+      targetDocTitle: '中文指南',
       mode: 'mirror',
       status: 'needs_bootstrap',
     });
@@ -128,6 +130,11 @@ describe('supporting adapters', () => {
       executable: 'lark-cli',
       args: expect.arrayContaining(['base', '+record-upsert', '--table-id', 'tbl-pairs', '--json']),
     }));
+    const fields = JSON.parse(runner.calls[1]!.args[runner.calls[1]!.args.indexOf('--json') + 1]!) as Record<string, unknown>;
+    expect(fields).toMatchObject({
+      source_doc_url: '[English Guide](https://example.feishu.cn/docx/en)',
+      target_doc_url: '[中文指南](https://example.feishu.cn/docx/zh)',
+    });
   });
 
   it('parses typed Base URL and label response shapes', async () => {
@@ -144,7 +151,9 @@ describe('supporting adapters', () => {
 
     await expect(registry.getPair('pair-1')).resolves.toMatchObject({
       sourceDocUrl: 'https://example.feishu.cn/docx/en',
+      sourceDocTitle: 'English',
       targetDocUrl: 'https://example.feishu.cn/docx/zh',
+      targetDocTitle: 'Chinese',
       mode: 'mirror',
       status: 'active',
     });
@@ -154,8 +163,8 @@ describe('supporting adapters', () => {
     const runner = new FakeRunner([ok({
       data: [[
         'pair-1',
-        '[https://example.feishu.cn/docx/en](https://example.feishu.cn/docx/en)',
-        '[https://example.feishu.cn/docx/zh](https://example.feishu.cn/docx/zh)',
+        '[English Guide](https://example.feishu.cn/docx/en)',
+        '[中文指南](https://example.feishu.cn/docx/zh)',
         ['mirror'],
         ['needs_bootstrap'],
       ]],
@@ -171,7 +180,9 @@ describe('supporting adapters', () => {
     await expect(registry.getPair('pair-1')).resolves.toMatchObject({
       pairId: 'pair-1',
       sourceDocUrl: 'https://example.feishu.cn/docx/en',
+      sourceDocTitle: 'English Guide',
       targetDocUrl: 'https://example.feishu.cn/docx/zh',
+      targetDocTitle: '中文指南',
       mode: 'mirror',
       status: 'needs_bootstrap',
     });

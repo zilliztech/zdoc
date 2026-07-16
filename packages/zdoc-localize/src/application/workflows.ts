@@ -352,6 +352,7 @@ export class LocalizationWorkflows {
       documentId: targetFetch.documentId,
       revisionId: targetFetch.revisionId,
     });
+    await this.savePairTitles(pair, source.title, target.title);
     const audit = bootstrapAlignment(source, target);
     const runId = this.dependencies.ids.next();
     const bundle = {
@@ -453,7 +454,7 @@ export class LocalizationWorkflows {
   }
 
   async createPlan(pairId: string): Promise<PlanningResult> {
-    const pair = await this.requirePair(pairId);
+    let pair = await this.requirePair(pairId);
     if (pair.mode === 'excluded') {
       throw new LocalizeError({type: 'validation', subtype: 'pair_excluded', message: `Pair ${pairId} is excluded from localization.`});
     }
@@ -474,6 +475,7 @@ export class LocalizationWorkflows {
     const baseline = parseFeishuDocument(baselineXml, {documentId: sourceFetch.documentId, revisionId: receipt.sourceRevision});
     const source = parseFeishuDocument(sourceFetch.content, {documentId: sourceFetch.documentId, revisionId: sourceFetch.revisionId});
     const target = parseFeishuDocument(targetFetch.content, {documentId: targetFetch.documentId, revisionId: targetFetch.revisionId});
+    pair = await this.savePairTitles(pair, source.title, target.title);
     const changes = diffDocuments(baseline, source);
     const currentCorrespondences = rebaseCorrespondences(receipt.correspondences, baseline, source);
     const runId = this.dependencies.ids.next();
@@ -591,6 +593,7 @@ export class LocalizationWorkflows {
       documentId: sourceFetch.documentId,
       revisionId: sourceFetch.revisionId,
     });
+    pair = await this.savePairTitles(pair, source.title);
     const runId = this.dependencies.ids.next();
     const reportOnly = source.nodes.filter((node) => !node.writable && node.kind !== 'code');
     if (reportOnly.length > 0) {
@@ -1429,6 +1432,7 @@ export class LocalizationWorkflows {
         ? {targetDocUrl: created.documentUrl ?? inferredDocumentUrl(pair, created.documentId)}
         : {}),
       targetDocToken: created.documentId,
+      targetDocTitle: title,
       status: 'active',
     };
     const pendingReceipt: LocalizationReceipt = {
@@ -1811,6 +1815,18 @@ export class LocalizationWorkflows {
     const pair = await this.dependencies.registry.getPair(pairId);
     if (!pair) throw new LocalizeError({type: 'not_found', subtype: 'pair_not_found', message: `Document pair ${pairId} was not found.`});
     return pair;
+  }
+
+  private async savePairTitles(pair: DocumentPair, sourceDocTitle: string, targetDocTitle?: string): Promise<DocumentPair> {
+    const updated = {
+      ...pair,
+      ...(sourceDocTitle ? {sourceDocTitle} : {}),
+      ...(targetDocTitle ? {targetDocTitle} : {}),
+    };
+    if (updated.sourceDocTitle !== pair.sourceDocTitle || updated.targetDocTitle !== pair.targetDocTitle) {
+      await this.dependencies.registry.savePair(updated);
+    }
+    return updated;
   }
 
   private async requireRun(runId: string): Promise<RunRecord> {

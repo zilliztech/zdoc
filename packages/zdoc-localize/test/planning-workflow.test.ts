@@ -246,6 +246,10 @@ describe('bootstrap and planning workflows', () => {
     const bootstrap = await workflows.planBootstrap('pair-1');
     expect(bootstrap.state).toBe('review_required');
     expect(bootstrap.audit.unmatchedSourceNodes).toContain('table-1');
+    expect(await registry.getPair('pair-1')).toMatchObject({
+      sourceDocTitle: 'Configure metrics',
+      targetDocTitle: '配置指标',
+    });
     const bootstrapRun = await registry.getRun(bootstrap.runId);
     expect(bootstrapRun).toMatchObject({sourceToRevision: 1, targetPlanRevision: 10});
     const bootstrapBundle = await snapshots.getBundle(

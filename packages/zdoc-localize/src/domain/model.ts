@@ -93,8 +93,10 @@ export interface DocumentPair {
   sourceLocale: 'en';
   targetLocale: 'zh-CN';
   sourceDocUrl: string;
+  sourceDocTitle?: string;
   sourceDocToken?: string;
   targetDocUrl?: string;
+  targetDocTitle?: string;
   targetDocToken?: string;
   targetParentUrl?: string;
   targetParentToken?: string;
