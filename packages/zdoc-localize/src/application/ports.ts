@@ -2,6 +2,24 @@ import type {GlossaryEntry} from '../domain/glossary.js';
 import type {DocumentPair, RunRecord} from '../domain/model.js';
 import type {StoredCorrespondence} from '../domain/native-sync.js';
 
+export interface FetchedDocument {
+  documentId: string;
+  revisionId: number;
+  content: string;
+}
+
+export interface DocumentGateway {
+  fetch(doc: string, revisionId?: number): Promise<FetchedDocument>;
+  replaceBlock(input: {doc: string; blockId: string; revisionId: number; xml: string}): Promise<{revisionId?: number}>;
+  insertAfter(input: {doc: string; blockId: string; revisionId: number; xml: string}): Promise<{revisionId?: number}>;
+  deleteBlocks(input: {doc: string; blockIds: string[]; revisionId: number}): Promise<{revisionId?: number}>;
+  createDocument(input: {title: string; parentToken?: string; xml: string}): Promise<{
+    documentId: string;
+    documentUrl?: string;
+    revisionId?: number;
+  }>;
+}
+
 export interface LocalizationReceipt {
   pairId: string;
   sourceRevision: number;

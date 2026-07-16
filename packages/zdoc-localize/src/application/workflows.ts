@@ -3,6 +3,8 @@ import {join, relative, resolve, sep} from 'node:path';
 
 import type {
   Clock,
+  DocumentGateway,
+  FetchedDocument,
   IdGenerator,
   LocalizationReceipt,
   RegistryStore,
@@ -10,7 +12,6 @@ import type {
   SnapshotStore,
   TranslationMemory,
 } from './ports.js';
-import type {FetchedDocument} from '../adapters/lark-docs-adapter.js';
 import {alignChanges, rebaseCorrespondences} from '../domain/alignment.js';
 import {diffDocuments} from '../domain/diff.js';
 import {LocalizeError} from '../domain/errors.js';
@@ -37,20 +38,13 @@ import {
   validateTranslations,
 } from '../domain/translation.js';
 import {parseFeishuDocument} from '../domain/xml-parser.js';
+import {isStrictlyEmptyTarget} from '../domain/initialization.js';
 import {
   compileReview,
   parseReview,
   type LocalizationPlan,
   type PlanOperation,
 } from '../domain/review.js';
-
-interface DocumentGateway {
-  fetch(doc: string, revisionId?: number): Promise<FetchedDocument>;
-  replaceBlock(input: {doc: string; blockId: string; revisionId: number; xml: string}): Promise<{revisionId?: number}>;
-  insertAfter(input: {doc: string; blockId: string; revisionId: number; xml: string}): Promise<{revisionId?: number}>;
-  deleteBlocks(input: {doc: string; blockIds: string[]; revisionId: number}): Promise<{revisionId?: number}>;
-  createDocument(input: {title: string; parentToken?: string; xml: string}): Promise<{documentId: string; documentUrl?: string; revisionId?: number}>;
-}
 
 export interface WorkflowDependencies {
   cwd: string;
@@ -436,6 +430,14 @@ export class LocalizationWorkflows {
       });
       await this.markRun(run, 'stale', {staleReason: 'bootstrap_target_changed'}, error);
       throw error;
+    }
+    if (isStrictlyEmptyTarget(currentTarget)) {
+      throw new LocalizeError({
+        type: 'validation',
+        subtype: 'empty_target_requires_initialization',
+        message: 'A title-only Chinese target must be initialized through plan create, not accepted as a bootstrap baseline.',
+        hint: `Run zdoc-localize plan create --pair ${run.pairId}.`,
+      });
     }
     const pendingReceipt: LocalizationReceipt = {
       pairId: run.pairId,

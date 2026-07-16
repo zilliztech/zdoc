@@ -94,6 +94,34 @@ describe('bootstrap and planning workflows', () => {
     expect(await registry.getReceipt('pair-1')).toBeUndefined();
   });
 
+  it('rejects bootstrap acceptance for a title-only target', async () => {
+    const cwd = await mkdtemp(join(tmpdir(), 'zdoc-localize-empty-bootstrap-'));
+    const docs = new MutableDocs();
+    docs.documents.set('source-url', {
+      documentId: 'source', revisionId: 1,
+      content: '<title id="source">Setup</title><p id="p1">English body</p>',
+    });
+    docs.documents.set('target-url', {
+      documentId: 'target', revisionId: 1,
+      content: '<title id="target">Setup</title>',
+    });
+    const registry = new LocalRegistryStore(cwd);
+    await registry.savePair({
+      pairId: 'pair-empty', sourceLocale: 'en', targetLocale: 'zh-CN', sourceDocUrl: 'source-url',
+      targetDocUrl: 'target-url', mode: 'mirror', status: 'needs_bootstrap',
+    });
+    const workflows = new LocalizationWorkflows({
+      cwd, registry, snapshots: new LocalSnapshotStore(cwd), memory: new MemoryTranslationMemory(), docs,
+      clock: {now: () => new Date('2026-07-16T00:00:00.000Z')}, ids: {next: () => 'run-empty-bootstrap'},
+    });
+    const bootstrap = await workflows.planBootstrap('pair-empty');
+
+    await expect(workflows.acceptBootstrap(bootstrap.runId)).rejects.toMatchObject({
+      type: 'validation', subtype: 'empty_target_requires_initialization',
+    });
+    expect(await registry.getReceipt('pair-empty')).toBeUndefined();
+  });
+
   it('does not auto-correspond a shifted structural group during bootstrap', async () => {
     const cwd = await mkdtemp(join(tmpdir(), 'zdoc-localize-bootstrap-shift-'));
     const docs = new MutableDocs();

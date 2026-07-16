@@ -1,11 +1,8 @@
 import {LocalizeError} from '../domain/errors.js';
+import type {DocumentGateway, FetchedDocument} from '../application/ports.js';
 import {larkMachineEnv, runJsonCommand, type ProcessRunner} from './process-runner.js';
 
-export interface FetchedDocument {
-  documentId: string;
-  revisionId: number;
-  content: string;
-}
+export type {FetchedDocument} from '../application/ports.js';
 
 export interface WriteInput {
   doc: string;
@@ -25,7 +22,7 @@ type LarkWriteData = {
   warnings?: string[];
 };
 
-export class LarkDocsAdapter {
+export class LarkDocsAdapter implements DocumentGateway {
   constructor(private readonly runner: ProcessRunner) {}
 
   async fetch(doc: string, revisionId = -1): Promise<FetchedDocument> {
