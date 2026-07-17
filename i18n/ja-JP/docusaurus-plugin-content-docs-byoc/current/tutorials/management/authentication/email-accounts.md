@@ -1,5 +1,5 @@
 ---
-title: "メールアカウント | BYOC"
+title: "Email Accounts | BYOC"
 slug: /email-accounts
 sidebar_label: "メールアカウント"
 beta: FALSE
@@ -26,13 +26,13 @@ Zilliz Cloud で[アカウントを登録](./register-with-zilliz-cloud)する�
 
 ## プロフィール情報を変更する\{#modify-your-profile-information}
 
-![modify_account_info](https://zdoc-images.s3.us-west-2.amazonaws.com/modifyaccountinfo.png "modify_account_info")
+![modify_account_info](https://zdoc-images.s3.us-west-2.amazonaws.com/modify_account_info.png "modify_account_info")
 
 <Procedures>
 
 1. **Profile** に移動し、**Account Settings** をクリックします。
 
-1. 次のアカウント情報を編集できます。
+1. 以下のアカウント情報を編集できます。
 
     - 名前
 
@@ -44,27 +44,27 @@ Zilliz Cloud で[アカウントを登録](./register-with-zilliz-cloud)する�
 
 ## アカウントのメールアドレスを更新する\{#update-account-email-address}
 
-![update_email_address](https://zdoc-images.s3.us-west-2.amazonaws.com/updateemailaddress.png "update_email_address")
+![update_email_address](https://zdoc-images.s3.us-west-2.amazonaws.com/update_email_address.png "update_email_address")
 
-<Admonition type="info" icon="📘" title="📘 注意">
+<Admonition type="info" icon="📘" title="📘 注記">
 
-メールアドレスを更新しても、請求書およびアラートの受信者には影響しません。必要に応じて、これらの情報は手動で更新してください。
+メールアドレスを更新しても、請求書やアラートの受信者には影響しません。必要に応じて、これらの情報を手動で更新してください。
 
 </Admonition>
 
 ## アカウントのパスワードを変更する\{#change-account-password}
 
-![change_password](https://zdoc-images.s3.us-west-2.amazonaws.com/changepassword.png "change_password")
+![change_password](https://zdoc-images.s3.us-west-2.amazonaws.com/change_password.png "change_password")
 
-パスワードは 8 文字以上で、次の文字種のうち少なくとも 3 種類を含める必要があります。
+パスワードは 8 文字以上で、以下の文字種のうち少なくとも 3 種類を含める必要があります。
 
-- 小文字（a–z）
+- 小文字 (a–z)
 
-- 大文字（A–Z）
+- 大文字 (A–Z)
 
-- 数字（0–9）
+- 数字 (0–9)
 
-- 特殊文字（例: !@#$%^&*）
+- 特殊文字 (例: !@#$%^&*)
 
 ## MFA を有効化および無効化する\{#enable-and-disable-mfa}
 
@@ -72,31 +72,31 @@ Zilliz Cloud で[アカウントを登録](./register-with-zilliz-cloud)する�
 
 ## ログイン方法を切り替える\{#switch-login-method}
 
-初回登録時と同じログイン方法を維持する必要がありますが、ログイン方法を切り替える必要がある場合に備えて、Zilliz Cloud は柔軟性を提供しています。
+初回登録時と一貫したログイン方法を維持する必要がありますが、ログイン方法を切り替える必要がある場合に備えて、Zilliz Cloud は柔軟な選択肢を提供しています。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="注記">
 
-組織ユーザーの場合、IdP である Okta を使用して Single Sign-on (SSO) を設定できます。これにより、組織ユーザーは Okta で認証し、別途 Zilliz Cloud アカウントを作成することなく、業務用メールアドレスを使ってシームレスに Zilliz Cloud にアクセスできます。詳細については、[Single Sign-on with Okta](./single-sign-on-with-okta) を参照してください。
+組織ユーザーの場合、ID プロバイダー (IdP) である Okta を使って Single Sign-on (SSO) を設定できます。これにより、組織ユーザーは Okta で認証し、別の Zilliz Cloud アカウントを作成することなく、ビジネス用メールアドレスを使用してシームレスに Zilliz Cloud にアクセスできます。詳細については、[Single Sign-on with Okta](./single-sign-on-with-okta) を参照してください。
 
 </Admonition>
 
 ### パスワードログインからサードパーティログインに切り替える\{#switch-from-password-login-to-third-party-login}
 
-パスワードログインからサードパーティ（Google または GitHub）ログインに切り替えるには、事前に [MFA を無効化](./multi-factor-auth#disable-mfa) したうえで、[Zilliz Cloud アカウントをサードパーティサービスに連携する](./register-with-zilliz-cloud#linking-to-google-account) 場合と同じ手順に従ってください。
+パスワードログインからサードパーティ (Google または GitHub) ログインに切り替えるには、事前に [MFA を無効化](./multi-factor-auth#disable-mfa) したうえで、[Zilliz Cloud アカウントをサードパーティサービスにリンクする](./register-with-zilliz-cloud#linking-to-google-account) ときと同じ手順に従ってください。
 
 ### サードパーティログインからパスワードログインに切り替える\{#switch-from-third-party-login-to-password-login}
 
-Zilliz Cloud アカウントをサードパーティアカウントに連携した後、メールアドレスとパスワードを使ったログインに戻すには、[Zilliz Cloud アカウントとサードパーティサービスとの連携を解除](./email-accounts#unlink-from-third-party-authentication) してください。
+Zilliz Cloud アカウントをサードパーティアカウントにリンクした後、メールアドレスとパスワードによるログインに戻すには、[Zilliz Cloud アカウントとサードパーティサービスとの連携を解除](./email-accounts#unlink-from-third-party-authentication)するだけです。
 
 ### サードパーティログイン間で切り替える\{#switch-between-third-party-logins}
 
-すでに Zilliz Cloud アカウントをサードパーティアカウントに連携しており、別のサードパーティログインに切り替えたい場合は、以下の手順に従ってください。
+すでに Zilliz Cloud アカウントをサードパーティアカウントにリンクしており、別のサードパーティログインに切り替えたい場合は、以下の手順に従ってください。
 
 <Procedures>
 
-1. [現在のサードパーティアカウントとの連携を解除](./email-accounts#unlink-from-third-party-authentication) します。
+1. [現在のサードパーティアカウントとの連携を解除](./email-accounts#unlink-from-third-party-authentication)します。
 
-1. [Zilliz Cloud アカウントを新しく使用したいサードパーティアカウントに連携](./register-with-zilliz-cloud) します。
+1. [Zilliz Cloud アカウントを新しく利用したいサードパーティアカウントにリンク](./register-with-zilliz-cloud)します。
 
 </Procedures>
 
@@ -104,7 +104,7 @@ Zilliz Cloud アカウントをサードパーティアカウントに連携し�
 
 ### Google アカウントとの連携を解除する\{#unlink-from-your-google-account}
 
-![unlink_from_google](https://zdoc-images.s3.us-west-2.amazonaws.com/unlinkfromgoogle.png "unlink_from_google")
+![unlink_from_google](https://zdoc-images.s3.us-west-2.amazonaws.com/unlink_from_google.png "unlink_from_google")
 
 <Procedures>
 
@@ -116,13 +116,13 @@ Zilliz Cloud アカウントをサードパーティアカウントに連携し�
 
     - すでにパスワードを設定している場合、Google アカウントとの連携は直接解除され、元のメールアドレスとパスワードでログインできます。
 
-    - まだパスワードを設定していない場合は、メールで送信されたリンクから新しいパスワードを設定してください。パスワードを設定すると、ログイン方法は業務用メールアドレスと新しいパスワードに変更されます。
+    - まだパスワードを設定していない場合は、メールで送信されたリンクから新しいパスワードを設定してください。パスワードが設定されると、ログイン方法は会社のメールアドレスと新しいパスワードに変更されます。
 
 </Procedures>
 
 ### GitHub アカウントとの連携を解除する\{#unlink-from-your-github-account}
 
-![unlink_from_github](https://zdoc-images.s3.us-west-2.amazonaws.com/unlinkfromgithub.png "unlink_from_github")
+![unlink_from_github](https://zdoc-images.s3.us-west-2.amazonaws.com/unlink_from_github.png "unlink_from_github")
 
 <Procedures>
 
@@ -134,25 +134,25 @@ Zilliz Cloud アカウントをサードパーティアカウントに連携し�
 
     - すでにパスワードを設定している場合、GitHub アカウントとの連携は直接解除され、元のメールアドレスとパスワードでログインできます。
 
-    - まだパスワードを設定していない場合は、メールで送信されたリンクから新しいパスワードを設定してください。パスワードを設定すると、ログイン方法は業務用メールアドレスと新しいパスワードに変更されます。
+    - まだパスワードを設定していない場合は、メールで送信されたリンクから新しいパスワードを設定してください。パスワードが設定されると、ログイン方法は会社のメールアドレスと新しいパスワードに変更されます。
 
 </Procedures>
 
 ## アカウントを閉鎖する\{#close-your-account}
 
-<Admonition type="info" icon="📘" title="🚧 Warning">
+<Admonition type="info" icon="📘" title="🚧 警告">
 
-アカウントを閉鎖すると、そのアカウントを使って Zilliz Cloud にログインできなくなります。考えが変わってアカウントを再開する必要がある場合は、[Zilliz Cloud Support Portal](https://support.zilliz.com/hc/en-us) でサポートチケットを作成してください。30 日後、このアカウント内のすべてのデータは削除されます。
+アカウントを閉鎖すると、そのアカウントを使って Zilliz Cloud にログインできなくなります。気が変わってアカウントを再開する必要がある場合は、[Zilliz Cloud Support Portal](https://support.zilliz.com/hc/en-us) でサポートチケットを作成してください。30 日後、このアカウント内のすべてのデータは削除されます。
 
 </Admonition>
 
-### 始める前に\{#before-you-start}
+### 開始前に\{#before-you-start}
 
-先に進む前に、次の条件を満たしていることを確認してください。
+続行する前に、以下の条件を満たしていることを確認してください。
 
-- クラスターを含むプロジェクトで自分が唯一のプロジェクト管理者である場合は、[プロジェクトのクラスターを削除](./manage-cluster) してください。
+- クラスターがあるプロジェクトで自分が唯一のプロジェクト管理者である場合は、[プロジェクトのクラスターを削除](./manage-cluster)してください。
 
-- 自分が唯一の組織所有者である場合は、その組織を削除してください。
+- 自分が唯一の組織オーナーである場合は、組織を削除してください。
 
 ### 手順\{#procedures}
 
@@ -160,16 +160,16 @@ Zilliz Cloud アカウントをサードパーティアカウントに連携し�
 
 <Procedures>
 
-1. [Zilliz Cloud console](https://cloud.zilliz.com/login) にログインします。
+1. [Zilliz Cloud コンソール](https://cloud.zilliz.com/login)にログインします。
 
-1. 右上のプロフィールアイコンをクリックし、**Account Settings** をクリックします。
+1. 右上隅のプロフィールアイコンをクリックします。**Account Settings** をクリックします。
 
 1. **Account** **Settings** ウィンドウで、**Close Account** ボタンをクリックします。
 
-1. Zilliz Cloud を離れる理由をお知らせいただき、フィードバックを送信してください。
+1. Zilliz Cloud を退会する理由を入力し、フィードバックを送信します。
 
-1. テキストボックスにアカウントのメールアドレスを再入力します。**Send Verification Code** をクリックし、メールの受信トレイで受け取ったコードを入力します。以下の情報を読み、チェックボックスにチェックを入れます。続行するには **Next** をクリックします。
+1. テキストボックスにアカウントのメールアドレスをもう一度入力します。**Send Verification Code** をクリックし、メールの受信トレイに届いたコードを入力します。以下の情報を読み、チェックボックスにチェックを入れます。続行するには **Next** をクリックします。
 
-1. アカウントの削除が正常に完了すると、メール通知が送信されます。
+1. アカウントの削除が正常に完了すると、メール通知を受け取ります。
 
 </Procedures>

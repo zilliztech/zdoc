@@ -1,16 +1,16 @@
 ---
-title: "Serving Cluster 内のデータベース | Cloud"
+title: "Serving Clusters の Database | Cloud"
 slug: /database
-sidebar_label: "Serving Cluster 内のデータベース"
+sidebar_label: "Serving Clusters の Database"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "serving cluster 内のデータベースは、Dedicated serving cluster でホストされる collection の論理コンテナです。このページでは、serving cluster エンドポイントを通じてデータベースを作成、表示、設定、使用、削除する方法について説明します。 | Cloud"
+description: "Serving cluster の database は、Dedicated serving cluster でホストされる collection の論理コンテナです。このページでは、serving cluster エンドポイントを通じて database を作成、表示、設定、使用、削除する方法を説明します。 | Cloud"
 type: origin
 token: DtLVw8EUyi6MqMkXh3Cc3rfZnic
-sidebar_position: 1
+sidebar_position: 2
 displayed_sidebar: default
 
 ---
@@ -19,7 +19,7 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Serving Clusters 内のデータベース
+# Serving Clusters の Database
 
 <FeatureNote variant="plan" titleHref="/docs/select-zilliz-cloud-service-plans">
 
@@ -27,11 +27,11 @@ import TabItem from '@theme/TabItem';
 
 </FeatureNote>
 
-serving cluster 内のデータベースは、Dedicated serving cluster でホストされる collection の論理コンテナです。このページでは、serving cluster エンドポイントを通じてデータベースを作成、表示、設定、使用、削除する方法について説明します。
+Serving cluster の database は、Dedicated serving cluster でホストされる collection の論理コンテナです。このページでは、serving cluster エンドポイントを通じて database を作成、表示、設定、使用、削除する方法を説明します。
 
-<Admonition type="info" icon="📘" title="注">
+<Admonition type="info" icon="📘" title="Note">
 
-このページは serving cluster 内のデータベース向けです。オンデマンドコンピュートでクエリされるプロジェクトレベルのデータベースについては、[Database for On-Demand Search](./on-demand-database) を参照してください。データベースモデルの比較については、[Database Explained](./database-concept) を参照してください。
+このページは serving cluster 内の database を対象としています。オンデマンドコンピュートでクエリされるプロジェクトレベルの database については、[オンデマンド検索向け Database](./on-demand-database) を参照してください。database モデルの比較については、[Database Explained](./database-concept) を参照してください。
 
 </Admonition>
 
@@ -41,17 +41,17 @@ serving cluster 内のデータベースは、Dedicated serving cluster でホ�
 
 - Dedicated serving cluster を作成済みであること。
 
-- serving cluster エンドポイントを把握していること。例: `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`。
+- serving cluster エンドポイントを取得していること。例: `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`。
 
-- 認証トークンを持っていること。これは対象 cluster にアクセスできる API key、または `username:password` 形式の cluster 認証情報です。
+- 認証トークンを取得していること。これは、対象 cluster へのアクセス権を持つ API key、または `username:password` 形式の cluster credential を使用できます。
 
-- データベースを管理するための **Organization Owner** または **Project Admin** 権限を持っていること。
+- database を管理するための **Organization Owner** または **Project Admin** アクセス権を持っていること。
 
-Dedicated cluster が作成されると、デフォルトのデータベースが自動的に作成されます。Dedicated cluster には最大 1,024 個のデータベースを作成できます。
+Dedicated cluster が作成されると、デフォルトの database が自動的に作成されます。Dedicated cluster では最大 1,024 個の database を作成できます。
 
-## データベースを作成する\{#create-database}
+## Database を作成する\{#create-database}
 
-Zilliz Cloud コンソールまたはプログラムからデータベースを作成できます。
+Zilliz Cloud コンソールから、またはプログラムで database を作成できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -145,7 +145,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-データベースの作成時にプロパティを設定することもできます。次の例ではレプリカ数を設定しています。
+database の作成時にプロパティを設定することもできます。次の例では replica の数を設定しています。
 
 ```plaintext
 client.create_database(
@@ -204,9 +204,9 @@ curl --request POST \
   }'
 ```
 
-## データベースを表示する\{#view-databases}
+## Database を表示する\{#view-databases}
 
-データベースを一覧表示するか、特定のデータベースの詳細を表示します。
+database の一覧を取得するか、特定の database の詳細を表示します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
 <TabItem value='python'>
@@ -286,20 +286,20 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## データベースプロパティを管理する\{#manage-database-properties}
+## Database プロパティを管理する\{#manage-database-properties}
 
-以下のデータベースプロパティは、serving cluster 内のデータベースに対して設定できます。
+Serving cluster 内の database では、以下の database プロパティを設定できます。
 
 | Property | Description |
 | --- | --- |
-| `database.replica.number` | データベースのレプリカ数。 |
-| `database.max.collections` | データベースで許可される collection の最大数。 |
-| `database.force.deny.writing` | データベースに対する書き込み操作を拒否するかどうか。 |
-| `database.force.deny.reading` | データベースに対する読み取り操作を拒否するかどうか。 |
+| `database.replica.number` | database の replica 数。 |
+| `database.max.collections` | database で許可される collection の最大数。 |
+| `database.force.deny.writing` | database の書き込み操作を拒否するかどうか。 |
+| `database.force.deny.reading` | database の読み取り操作を拒否するかどうか。 |
 
-### データベースプロパティを変更する\{#alter-database-properties}
+### Database プロパティを変更する\{#alter-database-properties}
 
-次の例では、データベース内で作成できる collection 数を制限しています。
+次の例では、database で作成できる collection の数を制限しています。
 
 ```plaintext
 client.alter_database_properties(
@@ -354,9 +354,9 @@ curl --request POST \
   }'
 ```
 
-### データベースプロパティを削除する\{#drop-database-properties}
+### Database プロパティを削除する\{#drop-database-properties}
 
-次の例では、データベースから collection 制限を削除しています。
+次の例では、database から collection 数の制限を削除しています。
 
 ```plaintext
 client.drop_database_properties(
@@ -409,13 +409,13 @@ curl --request POST \
   }'
 ```
 
-## データベースを使用する\{#use-database}
+## Database を使用する\{#use-database}
 
-SDK を使用する場合、再接続せずに 1 つのデータベースから別のデータベースへ切り替えることができます。
+SDK を使用する場合、再接続せずに 1 つの database から別の database へ切り替えることができます。
 
-<Admonition type="info" icon="📘" title="注">
+<Admonition type="info" icon="📘" title="Note">
 
-RESTful API は永続接続上でのデータベース切り替えをサポートしていません。RESTful API リクエストでは、操作が `dbName` をサポートしている場合、各リクエスト本文で対象データベースを指定してください。
+RESTful API は永続接続上での database 切り替えをサポートしていません。RESTful API リクエストでは、操作が `dbName` をサポートしている場合、各リクエスト本文で対象 database を指定してください。
 
 </Admonition>
 
@@ -447,9 +447,9 @@ await client.useDatabase({
 # Specify "dbName" in the request body of each operation when supported.
 ```
 
-## データベースを削除する\{#drop-database}
+## Database を削除する\{#drop-database}
 
-デフォルトデータベースは削除できません。データベースを削除する前に、まずそのデータベース内のすべての collection を削除してください。
+デフォルトの database は削除できません。database を削除する前に、まずその database 内のすべての collection を削除してください。
 
 ```plaintext
 client.drop_database(
@@ -494,5 +494,5 @@ curl --request POST \
 
 - [Database Explained](./database-concept)
 
-- [Database for On-Demand Search](./on-demand-database)
+- [オンデマンド検索向け Database](./on-demand-database)
 

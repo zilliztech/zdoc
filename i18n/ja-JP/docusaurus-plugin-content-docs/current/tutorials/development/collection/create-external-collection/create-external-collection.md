@@ -1,5 +1,5 @@
 ---
-title: "External Collection の作成 | Cloud"
+title: "External Collection を作成する | Cloud"
 slug: /create-external-collection
 sidebar_label: "External Collection"
 beta: PUBLIC
@@ -7,10 +7,10 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "external collection は、AWS S3 や Iceberg などの外部ストレージシステムまたはデータベーステーブルから、Zilliz Cloud にコピーすることなくデータへアクセスする Zilliz Cloud のデータ collection の一種です。Zilliz Cloud のクエリインターフェイスとの互換性を維持しながら、データレイク上のクエリレイヤーとして機能します。 | Cloud"
+description: "external collection は、AWS S3 や Iceberg などの外部ストレージシステムやデータベーステーブルから、データを Zilliz Cloud にコピーせずにアクセスする Zilliz Cloud のデータ collection の一種です。これはデータレイク上のクエリレイヤーとして機能しながら、Zilliz Cloud のクエリインターフェースとの互換性を維持します。 | Cloud"
 type: origin
 token: RsGAwmgAYiE6fgkOiokcijsBnEg
-sidebar_position: 1
+sidebar_position: 3
 displayed_sidebar: default
 
 ---
@@ -19,65 +19,65 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# External Collection の作成
+# External Collection を作成する
 
-external collection は、AWS S3 や Iceberg などの外部ストレージシステムまたはデータベーステーブルから、Zilliz Cloud にコピーすることなくデータへアクセスする Zilliz Cloud のデータ collection の一種です。Zilliz Cloud のクエリインターフェイスとの互換性を維持しながら、データレイク上のクエリレイヤーとして機能します。
+external collection は、AWS S3 や Iceberg などの外部ストレージシステムやデータベーステーブルから、データを Zilliz Cloud にコピーせずにアクセスする Zilliz Cloud のデータ collection の一種です。これはデータレイク上のクエリレイヤーとして機能しながら、Zilliz Cloud のクエリインターフェースとの互換性を維持します。
 
 ## 概要\{#overview}
 
-一般的な AI データパイプラインでは、ユーザーはすでに AWS S3 などのストレージシステム上に、Parquet またはその他の形式でデータを保存している場合があります。Zilliz Cloud がこの外部に保存されたデータを利用できるようにするには、通常、Extract-Transform-Load（ETL）パイプラインを使用して Zilliz Cloud 独自のストレージにインポートする必要があります。 
+一般的な AI データパイプラインでは、ユーザーはすでに AWS S3 などのストレージシステム上に、Parquet やその他の形式でデータを保存している場合があります。Zilliz Cloud でこの外部保存データを利用できるようにするには、通常、Extract-Transform-Load（ETL）パイプラインを使用して、Zilliz Cloud 独自のストレージにインポートする必要があります。 
 
-この「データを Zilliz Cloud に持ち込む」ワークフローでは、同期が困難な冗長データが作成され、データの一貫性を確保するためのエンジニアリング保守負荷が増加します。
+この bring-your-data-to-Zilliz Cloud ワークフローでは、同期が難しい冗長データが作成され、データ整合性を確保するためのエンジニアリング保守負担も増加します。
 
 ![YQXWwPQ3vheYa4b8398cWoPNnyN](https://zdoc-images.s3.us-west-2.amazonaws.com/YQXWwPQ3vheYa4b8398cWoPNnyN.png)
 
-これらの問題を解決するため、Zilliz Cloud は、データ同期や ETL パイプラインを心配することなく、Zilliz Cloud から外部に保存されたデータへアクセスできる external collection を提供します。
+これらの問題を解決するために、Zilliz Cloud は external collection を提供しており、データ同期や ETL パイプラインを気にすることなく、Zilliz Cloud から外部保存データにアクセスできます。
 
 ![Q6F4wtcd2h3PnKbnMxncw3urn3f](https://zdoc-images.s3.us-west-2.amazonaws.com/Q6F4wtcd2h3PnKbnMxncw3urn3f.png)
 
-作成後、external collection はデータに直接アクセスし、データを保存している場所にそのまま保持できます。バックグラウンドでは、Zilliz Cloud が Zilliz Cloud のメタデータと外部データファイル内の行とのマッピングを記録する manifest ファイルを作成します。manifest ファイルの準備が完了すると、任意の managed collection と同様に external collection 内に index を作成できます。 
+作成後、external collection はデータに直接アクセスし、保存している場所にそのまま保持できます。バックグラウンドでは、Zilliz Cloud が manifest ファイルを作成し、Zilliz Cloud のメタデータと外部データファイル内の行のマッピングを記録します。manifest ファイルの準備ができたら、任意の managed collection と同様に external collection に index を作成できます。 
 
-データが変更された場合、サブ秒単位の refresh を手動でトリガーすることでメタデータが更新され、Zilliz Cloud を常に最新の状態に保てます。
+データが変更された場合は、手動でサブ秒の refresh をトリガーすることでメタデータが更新され、Zilliz Cloud を常に最新の状態に保てます。
 
-external collection は、オンデマンドコンピューティング用のデータベースで利用できます。
+external collection は、オンデマンドコンピューティング向けのデータベースで利用できます。
 
-## ステップ 1: schema の作成\{#step-1-create-schema}
+## ステップ 1: schema を作成する\{#step-1-create-schema}
 
-managed collection を作成する場合と同様に、external collection を作成する前にも schema を作成する必要があります。ただし、schema は managed collection のものとは少し異なります。
+managed collection を作成する場合と同様に、external collection を作成する前にも schema を作成する必要があります。ただし、この schema は managed collection のものとは少し異なります。
 
 ### 準備\{#preparation}
 
-- オンデマンドコンピューティング用のデータベースで external collection を作成するための十分な権限を持つ API key を取得済みであること。
+- オンデマンドコンピューティング向けデータベースで external collection を作成するための十分な権限を持つ API key を取得していること。
 
-    詳細については、[API Keys](./manage-api-keys) を参照してください。
+    詳細は、[API Keys](./manage-api-keys) を参照してください。
 
-- オブジェクトストレージバケットを Zilliz Cloud と統合済みであること。
+- オブジェクトストレージバケットを Zilliz Cloud と統合していること。
 
-    詳細については、[AWS](./integrate-with-aws-s3)、[GCP](./integrate-with-gcp)、および [Azure](./integrate-with-azure-blob-storage) のドキュメントを参照してください。
+    詳細は、[AWS](./integrate-with-aws-s3)、[GCP](./integrate-with-gcp)、および [Azure](./integrate-with-azure-blob-storage) のドキュメントを参照してください。
 
-- バケット統合から external volume を作成済みであること。volume に対象のデータファイルが含まれていることを確認してください。
+- バケット統合から external volume を作成していること。volume に対象のデータファイルが含まれていることを確認してください。
 
-    詳細については、[External Volumes](./external-volume) を参照してください。
+    詳細は、[External Volumes](./external-volume) を参照してください。
 
 ### サポートされるデータソース\{#support-data-sources}
 
-Zilliz Cloud は次のデータソースをサポートしており、選択した形式に対応する外部ソースを指定する必要があります。
+Zilliz Cloud は次のデータソースをサポートしており、選択した形式に応じて対応する external source を指定する必要があります。
 
 - `parquet`
 
-    `external_source` を対象の Parquet ファイルを含むフォルダーに設定します。
+    `external_source` を、対象の Parquet ファイルを含むフォルダに設定します。
 
 - `vortex`,
 
-    `external_source` を version 0.56 の Vortex columnar ファイルを含むフォルダーに設定します。
+    `external_source` を、バージョン 0.56 の Vortex カラムナファイルを含むフォルダに設定します。
 
 - `lance-table`
 
-    `external_source` を、**_transactions**、**_versions**、**data** などのサブフォルダーを含むフォルダーパスに設定します。
+    `external_source` を、**_transactions**、**_versions**、**data** などのサブフォルダを含むフォルダパスに設定します。
 
 - `iceberg-table`
 
-    `external_source` を Iceberg table の `metadata.json` ファイルに設定し、次のように snapshot ID を渡します。
+    `external_source` を Iceberg table の `metadata.json` ファイルに設定し、以下のように snapshot ID を渡します。
 
     ```python
     external_spec={
@@ -88,15 +88,15 @@ Zilliz Cloud は次のデータソースをサポートしており、選択し�
 
 - `milvus-table`
 
-    `external_source` を具体的な Milvus snapshot メタデータ JSON ファイルに設定します。詳細については、[Snapshot をデータソースとして使用する](./use-milvus-snapshot-as-data-source) を参照してください。
+    `external_source` を具体的な Milvus snapshot metadata JSON ファイルに設定します。詳細は、[Use Snapshot as Data Source](./use-milvus-snapshot-as-data-source) を参照してください。
 
-### schema の設定\{#set-up-schema}
+### schema を設定する\{#set-up-schema}
 
 対象のデータファイルを含む external volume を用意したら、collection の列を Parquet ファイル（`parquet`）、lance table（`lance-table`）、Iceberg table（`iceberg-table`）、または 0.56.0 形式の Vortex ファイル（`vortex`）にマッピングする schema を作成します。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="注意">
 
-外部ソースは、これがフォルダーであることを示すためにスラッシュ（/）で終わる必要があります。
+external source は、フォルダであることを示すために末尾をスラッシュ（/）で終える必要があります。
 
 </Admonition>
 
@@ -183,9 +183,9 @@ export fields='[
 </TabItem>
 </Tabs>
 
-## ステップ 2: field の追加\{#step-2-add-fields}
+## ステップ 2: フィールドを追加する\{#step-2-add-fields}
 
-schema の準備ができたら、次のように field を追加できます。
+schema の準備ができたら、次のようにフィールドを追加できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -296,13 +296,13 @@ export schema="{
 </TabItem>
 </Tabs>
 
-## ステップ 3: collection の作成\{#step-3-create-a-collection}
+## ステップ 3: collection を作成する\{#step-3-create-a-collection}
 
-すべての field を schema に追加したら、external collection を作成できます。
+schema にすべてのフィールドを追加したら、external collection を作成できます。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="注意">
 
-external collection はプロジェクトレベルのデータベース内に作成でき、通常はオンデマンド cluster に関連付けられます。
+通常はオンデマンド cluster に関連付けられている、プロジェクトレベルのデータベース内に external collection を作成できます。
 
 </Admonition>
 
@@ -403,9 +403,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## ステップ 4: index の作成\{#step-4-create-indexes}
+## ステップ 4: index を作成する\{#step-4-create-indexes}
 
-managed collection の場合と同様に、external collection の列に index を作成できます。
+managed collection と同様に、external collection の列に対しても index を作成できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -536,9 +536,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## ステップ 5: データの refresh\{#step-5-refresh-data}
+## ステップ 5: データを refresh する\{#step-5-refresh-data}
 
-collection の準備ができたら、それを refresh してデータのメタデータと index を作成します。
+collection の準備ができたら、これを refresh して、データのメタデータと index を作成します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -645,25 +645,25 @@ curl --request POST \
 
 refresh 操作は非同期であるため、その進行状況を監視するための反復処理を設定する必要があります。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="注意">
 
-- refresh 操作はデータファイルのメタデータをスキャンし、それに応じて manifest ファイルを生成します。通常、150〜250 ms かかります。
+- refresh 操作はデータファイルのメタデータをスキャンし、それに応じて manifest ファイルを生成します。通常は 150〜250 ms かかります。
 
-- manifest ファイルは、Milvus 内のメタデータと外部ファイル内の行とのマッピングを記録します。
+- manifest ファイルは、Milvus 内のメタデータと外部ファイル内の行のマッピングを記録します。
 
-- ソースデータに更新があった場合、Zilliz Cloud を最新の状態に保つために refresh を再度手動で呼び出す必要があります。
+- ソースデータに更新があった場合、Zilliz Cloud を最新の状態に保つために手動でもう一度 refresh を呼び出す必要があります。
 
-- 挿入を伴わず、すべてのアクティブなメタデータを削除する必要がある refresh は拒否されます。
+- 挿入を伴わずにすべてのアクティブなメタデータを削除する必要がある refresh は拒否されます。
 
-- オンデマンドコンピューティング用のデータベース内の external collection については、手動で load および release する必要はありません。
+- オンデマンドコンピューティング向けデータベース内の external collection については、手動で load や release を行う必要はありません。
 
 </Admonition>
 
-## 次のステップ\{#follow-ups}
+## フォローアップ\{#follow-ups}
 
-external collection を refresh した後は、任意の managed collection と同様に external collection で類似検索やクエリを実行できます。ただし、オンデマンドコンピューティング用のデータベース内の collection は、検索やクエリのためにオンデマンド cluster にアタッチされている必要があります。詳細については、[On-Demand Cluster の作成](./on-demand-cluster) とその関連ページを参照してください。
+External Collection を更新したら、オンデマンドコンピューティング用データベース内の collection は検索およびクエリのためにオンデマンド cluster にアタッチする必要がある点を除き、他のマネージド collection と同様に、External Collection で類似検索やクエリを実行できます。詳細については、[On-Demand Cluster を作成する](./on-demand-cluster) およびその関連ページを参照してください。
 
-search、query、get、hybrid search などの DQL 操作を実行する前に、オンデマンド cluster のコンピューティングリソースをアタッチする session を作成する必要があります。詳細については、[On-Demand DQL Operations](./dql-sessions-external-collection) を参照してください。
+search、query、get、hybrid search などの DQL 操作を実行する前に、オンデマンド cluster のコンピュートリソースをアタッチするための session を作成する必要があります。詳細については、[On-Demand DQL Operations](./dql-sessions-external-collection) を参照してください。
 
 
 
