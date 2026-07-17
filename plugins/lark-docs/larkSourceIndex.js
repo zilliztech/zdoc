@@ -120,9 +120,6 @@ class LarkSourceIndex {
       if (directoryEntry.isSymbolicLink()) {
         throw new Error(`Cannot open Lark source file ${sourcePath}: symlink source files are not allowed`)
       }
-      if (!directoryEntry.isFile()) {
-        throw new Error(`Cannot read Lark source file ${sourcePath}: not a regular file`)
-      }
 
       const sourceJson = readRegularSourceFile(sourcePath, openFlags)
       if (options.onRead) options.onRead(sourcePath)

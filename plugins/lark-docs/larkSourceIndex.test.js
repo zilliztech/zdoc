@@ -228,7 +228,32 @@ test('opens source files with no-follow and nonblocking descriptor flags', { con
   assert.equal(observedFlags & fs.constants.O_NONBLOCK, fs.constants.O_NONBLOCK)
 })
 
-test('rejects a JSON FIFO promptly without opening it', { skip: process.platform === 'win32' }, t => {
+test('loads a regular source when readdir reports an unknown entry type', { concurrency: false }, t => {
+  const sourceDir = makeSourceDir(t)
+  writeJson(sourceDir, 'source.json', { title: 'Unknown Dirent', node_token: 'unknown-dirent' })
+  const readdirSync = fs.readdirSync
+  t.mock.method(fs, 'readdirSync', function (directory, options) {
+    return readdirSync.call(this, directory, options).map(entry => entry.name === 'source.json'
+      ? {
+          name: entry.name,
+          isDirectory: () => false,
+          isSymbolicLink: () => false,
+          isFile: () => false,
+        }
+      : entry)
+  })
+
+  let index
+  try {
+    index = LarkSourceIndex.load(sourceDir)
+  } finally {
+    t.mock.restoreAll()
+  }
+
+  assert.equal(index.find('node_token', 'unknown-dirent').title, 'Unknown Dirent')
+})
+
+test('rejects a JSON FIFO after nonblocking descriptor validation', { skip: process.platform === 'win32' }, t => {
   const sourceDir = makeSourceDir(t)
   const fifoPath = path.join(sourceDir, 'source.json')
   const result = childProcess.spawnSync('mkfifo', [fifoPath])
@@ -238,11 +263,19 @@ test('rejects a JSON FIFO promptly without opening it', { skip: process.platform
   }
 
   const script = `
+    const fs = require('node:fs')
     const LarkSourceIndex = require(${JSON.stringify(path.join(__dirname, 'larkSourceIndex'))})
+    const openSync = fs.openSync
+    let opened = false
+    fs.openSync = function (...args) {
+      opened = true
+      return openSync.apply(this, args)
+    }
     try {
       LarkSourceIndex.load(${JSON.stringify(sourceDir)})
       process.exit(2)
     } catch (error) {
+      if (!opened) process.exit(4)
       if (!/not a regular file/.test(error.message)) process.exit(3)
     }
   `
