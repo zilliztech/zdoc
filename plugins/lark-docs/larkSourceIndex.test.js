@@ -56,7 +56,11 @@ test('loads source files once and serves node, object, origin, and Base lookups'
   assert.equal(reads.length, 4)
   assert.equal(index.find('node_token', 'node-a').title, 'A')
   assert.equal(index.find(['token', 'obj_token'], 'object-a').title, 'A')
+  assert.equal(index.find('token', 'generic-a').title, 'Generic')
+  assert.equal(index.findAnyToken('node-a').title, 'A')
   assert.equal(index.findAnyToken('origin-a').title, 'A')
+  assert.equal(index.findAnyToken('object-a').title, 'A')
+  assert.equal(index.findAnyToken('generic-a').title, 'Generic')
   assert.equal(index.findBaseSourceMeta({ title: 'Section', slug: 'section' }).base_record_id, 'rec-section')
   assert.equal(index.findBaseSourceMeta({ title: 'Wrong title', slug: 'wrong-slug', token: 'base-section' }).base_record_id, 'rec-section')
   assert.equal(reads.length, 4)
@@ -66,6 +70,36 @@ test('loads source files once and serves node, object, origin, and Base lookups'
     '03-generic.json',
     '04-base-virtual.json',
   ])
+})
+
+test('accepts virtual-only and record-only Base sources independently', t => {
+  const sourceDir = makeSourceDir(t)
+  writeJson(sourceDir, 'virtual.json', {
+    title: 'Virtual',
+    slug: 'virtual',
+    token: 'virtual-token',
+    base_nav_virtual: true,
+  })
+  writeJson(sourceDir, 'record.json', {
+    title: 'Record',
+    slug: 'record',
+    token: 'record-token',
+    base_record_id: 'rec-record',
+  })
+  const index = LarkSourceIndex.load(sourceDir)
+
+  assert.equal(
+    index.findBaseSourceMeta({ title: 'Virtual', slug: 'virtual' }).base_nav_virtual,
+    true,
+  )
+  assert.equal(
+    index.findBaseSourceMeta({ title: 'Wrong', slug: 'wrong', token: 'virtual-token' }).base_nav_virtual,
+    true,
+  )
+  assert.equal(
+    index.findBaseSourceMeta({ title: 'Record', slug: 'record' }).base_record_id,
+    'rec-record',
+  )
 })
 
 test('reports every source filename when a token alias is ambiguous', t => {
