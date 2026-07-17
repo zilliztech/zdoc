@@ -336,14 +336,14 @@
       "translatedAt": "2026-07-16T19:36:17.558Z"
     },
     "docs-byoc/tutorials/development/data-import/data-import-format-options/data-import-numpy.md": {
-      "sourceHash": "adbed055fa6994f2b6d3fcd0929622ea4bf84c6baec38189805b0702d2f46a16",
+      "sourceHash": "fce90b32ae06a260cc41f0e01a6ebf3fefa767a38d7a760879e8ce6c22fee5b5",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/data-import/data-import-format-options/data-import-numpy.md",
-      "translatedAt": "2026-07-13T19:40:21.863Z"
+      "translatedAt": "2026-07-17T03:22:40.434Z"
     },
     "docs-byoc/tutorials/development/data-import/data-import-format-options/data-import-parquet.md": {
-      "sourceHash": "777636eb0e42d17fe29d5dc3f953de7596ab3680ad109364924cc50a1fe53ac7",
+      "sourceHash": "148ba1c31da4e96bcea64639ffbbc981dd9fd2eac7085763b26bcb4cbe484319",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/data-import/data-import-format-options/data-import-parquet.md",
-      "translatedAt": "2026-07-13T19:40:05.247Z"
+      "translatedAt": "2026-07-17T03:22:57.410Z"
     },
     "docs-byoc/tutorials/development/data-import/data-import-storage-options.md": {
       "sourceHash": "1b77d170db5b7557b66a9675978bed734a0a7b4988cec8d4c8f4e12bfe686004",
@@ -370,15 +370,25 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/data-import/import-data/import-data-via-sdks.md",
       "translatedAt": "2026-07-13T19:41:50.019Z"
     },
+    "docs-byoc/tutorials/development/data-import/import-data/import-data.md": {
+      "sourceHash": "33e9babafad491f63b4ecd530714bbb5870ac1223753274cc703a205f5d32acd",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/data-import/import-data/import-data.md",
+      "translatedAt": "2026-07-17T03:18:22.078Z"
+    },
+    "docs-byoc/tutorials/development/data-import/prepare-data-import/prepare-data-import.md": {
+      "sourceHash": "aef090e3b0d89ad3260ef7cfd9c1783db19caab62458acd1aebcaafa459e77ce",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/data-import/prepare-data-import/prepare-data-import.md",
+      "translatedAt": "2026-07-17T03:18:23.211Z"
+    },
     "docs-byoc/tutorials/development/data-import/prepare-data-import/use-bulkwriter.md": {
       "sourceHash": "b76592669ad8af75bdf5bca171ce0a12992b956411351be1fb0fd57eb777990f",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/data-import/prepare-data-import/use-bulkwriter.md",
       "translatedAt": "2026-07-13T19:43:47.482Z"
     },
     "docs-byoc/tutorials/development/database/database.md": {
-      "sourceHash": "dde78e3caa528330fc847aaa40acba330788730982aefd86e9c4fb21691d3e5c",
+      "sourceHash": "12485267fdc906af779ba75e789e030768e2dcbc967c49aadd718a44bc51b641",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/database/database.md",
-      "translatedAt": "2026-07-13T19:44:02.832Z"
+      "translatedAt": "2026-07-17T03:24:54.150Z"
     },
     "docs-byoc/tutorials/development/function/bm25-function.md": {
       "sourceHash": "66baee9278dce3c36c3c5e9701b882b35613c8ff55099ad130c64a2be7b766c2",
@@ -524,6 +534,11 @@
       "sourceHash": "25094d15d2738e219656ee3169b5986f39f7b161c64c3d31eb1e7fcb3971948b",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/schema/primary-field-auto-id.md",
       "translatedAt": "2026-07-13T20:09:30.874Z"
+    },
+    "docs-byoc/tutorials/development/schema/schema-best-practices/schema-best-practices.md": {
+      "sourceHash": "6c226920701a6d630c4140a3ce22d759cb874bdc4f95b5ec1ce5f7877829ec7e",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/schema/schema-best-practices/schema-best-practices.md",
+      "translatedAt": "2026-07-17T03:18:29.645Z"
     },
     "docs-byoc/tutorials/development/schema/schema-best-practices/schema-design-hands-on.md": {
       "sourceHash": "33a598aa6e85dc3edd5568418b6acd875ce6b6fa0638ceee6a2ab5b83c180307",
@@ -786,9 +801,9 @@
       "translatedAt": "2026-07-13T20:45:03.884Z"
     },
     "docs-byoc/tutorials/development/vector-index/tune-index-build-level.md": {
-      "sourceHash": "7c578b930d376eeb01362cbf5c05e2a7b5a24316d713bc27a98e63ca076e8585",
+      "sourceHash": "f148cfcf97bd47c58406e0b34c577659f07ca4ed3e2f530153e9166bd4e73210",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/vector-index/tune-index-build-level.md",
-      "translatedAt": "2026-07-16T19:21:04.536Z"
+      "translatedAt": "2026-07-17T03:19:13.567Z"
     },
     "docs-byoc/tutorials/development/volume/external-volume.md": {
       "sourceHash": "5cfa20b0ed821269a773a028ecaffa62cf2f2ec4a438ff3f6ebbb2a149922976",
@@ -816,14 +831,14 @@
       "translatedAt": "2026-07-13T20:46:26.151Z"
     },
     "docs-byoc/tutorials/get-started/faqs/faq-cluster.md": {
-      "sourceHash": "af13f5aa2198b9b263fa971b9202f04e7b4889bed67db16eafbf05baae601fbe",
+      "sourceHash": "d772e4bc91213d0d40a60c4a7cd13a835967c6400af795acfb3818a2569e7cdb",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/get-started/faqs/faq-cluster.md",
-      "translatedAt": "2026-07-13T20:48:04.852Z"
+      "translatedAt": "2026-07-17T03:23:27.437Z"
     },
     "docs-byoc/tutorials/get-started/faqs/faq-collection.md": {
-      "sourceHash": "6b1865cc0920c355752b28c9074ab59013e9b8f58df7cf649b0611020a218098",
+      "sourceHash": "32d0fb270f41aa6cbf4fae21dad075f0e3a37a901fd581ef0306e6ec28c53699",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/get-started/faqs/faq-collection.md",
-      "translatedAt": "2026-07-13T20:47:38.411Z"
+      "translatedAt": "2026-07-17T03:23:47.350Z"
     },
     "docs-byoc/tutorials/get-started/faqs/faq-data-import.md": {
       "sourceHash": "fa74931a28a042ccafb989d561243799dd68ccb96e030200eb43a7756d28f4ff",
@@ -876,9 +891,9 @@
       "translatedAt": "2026-07-13T21:00:17.839Z"
     },
     "docs-byoc/tutorials/get-started/register-with-zilliz-cloud.md": {
-      "sourceHash": "c20211d28244b112a0ead3c6bba706ac973cadf9f83f14d2b4dccd9d541b9dc9",
+      "sourceHash": "b09eb2cf3af25c90dfa3b47a9eee28d5cc01e820be497fc239df96b63d7d17e5",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/get-started/register-with-zilliz-cloud.md",
-      "translatedAt": "2026-07-13T20:59:15.558Z"
+      "translatedAt": "2026-07-17T03:24:46.414Z"
     },
     "docs-byoc/tutorials/management/access-control/access-control-overview.md": {
       "sourceHash": "72c906cf40ab753051e60f47435c993c418826e03134da7a8ca468c1d6e9870a",
@@ -946,9 +961,9 @@
       "translatedAt": "2026-07-13T21:04:45.719Z"
     },
     "docs-byoc/tutorials/management/authentication/email-accounts.md": {
-      "sourceHash": "e4f979338bd845eea13767daf667539c4cabbd122023a837e1e3c6504eef12e8",
+      "sourceHash": "059a2918e5384378a14cb052103986d40736e177187a9dddf028a1dbe72cb05f",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/authentication/email-accounts.md",
-      "translatedAt": "2026-07-13T21:06:39.177Z"
+      "translatedAt": "2026-07-17T03:25:28.425Z"
     },
     "docs-byoc/tutorials/management/authentication/manage-api-keys.md": {
       "sourceHash": "e96a98f758feb728ae8e1a496ca84dc5807b795ac773b976c4db5bc6cb9f40c0",
@@ -1011,9 +1026,9 @@
       "translatedAt": "2026-07-13T21:15:08.081Z"
     },
     "docs-byoc/tutorials/management/backup-and-restore/schedule-automatic-backups.md": {
-      "sourceHash": "435cf5b25e50e7ec9eeb05b3616610b444f6de9cdbea8ceea60c582688442781",
+      "sourceHash": "0789431f6ed9192ab31b10353de56a75decdfbd621f6b5440cba9208b192862c",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/backup-and-restore/schedule-automatic-backups.md",
-      "translatedAt": "2026-07-13T21:15:21.584Z"
+      "translatedAt": "2026-07-17T03:25:18.508Z"
     },
     "docs-byoc/tutorials/management/billing-management/manage-invoice.md": {
       "sourceHash": "93f8d7ff13fa02b936d9872b4e118eb1f05a5749f10c55bdfc75a59071dd8d35",
@@ -1021,9 +1036,9 @@
       "translatedAt": "2026-07-13T21:15:08.170Z"
     },
     "docs-byoc/tutorials/management/billing-management/payment-billing.md": {
-      "sourceHash": "35add88c00f697dd7cf9dd3ad620a8a0315c57d5eff47700e752f808574859c4",
+      "sourceHash": "01a5d8c21cd092ef3a673ae2dc7920bc55a9c467168b4647f128c4e305fe9dcb",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/billing-management/payment-billing.md",
-      "translatedAt": "2026-07-13T21:15:42.840Z"
+      "translatedAt": "2026-07-17T03:26:18.320Z"
     },
     "docs-byoc/tutorials/management/billing-management/set-up-payment-method/advance-pay.md": {
       "sourceHash": "7e5e614d9f5a32a8a896012c9ceb487bd29de0cf573f2b70ae9d0d4ebeb3650d",
@@ -1035,15 +1050,20 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/billing-management/set-up-payment-method/credits.md",
       "translatedAt": "2026-07-13T21:15:38.551Z"
     },
+    "docs-byoc/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/marketplace-subscription.md": {
+      "sourceHash": "c3b6fb10b2bbb8f04ed08eb00e4dac5dd6c2cf779a2dcd5e01de685545d69611",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/marketplace-subscription.md",
+      "translatedAt": "2026-07-17T03:19:31.694Z"
+    },
     "docs-byoc/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-aws-marketplace-private-offer.md": {
-      "sourceHash": "8a2757a51225f9a9599dfec8ce94f90c6fe759cd65e37a10a7c97c190bdc5cde",
+      "sourceHash": "7725e8646394bc30b5786873a982411db7ca8d9c4a0c8e3079fcf04f5f10163c",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-aws-marketplace-private-offer.md",
-      "translatedAt": "2026-07-13T21:16:56.203Z"
+      "translatedAt": "2026-07-17T03:28:20.511Z"
     },
     "docs-byoc/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-aws-marketplace.md": {
-      "sourceHash": "f5e205020bbaeba8b9d08de65020a96252d77ecf66993ca0e883967421e739d0",
+      "sourceHash": "a240111174b4fd43b8ad2e78ba400777f6768c81f5ee40e2fbc9eb1d92509904",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-aws-marketplace.md",
-      "translatedAt": "2026-07-13T21:17:23.136Z"
+      "translatedAt": "2026-07-17T03:28:18.621Z"
     },
     "docs-byoc/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-azure-marketplace.md": {
       "sourceHash": "4f6dee826a5f5c72c269d6fd5e08beb0d9879e08c2ee02ad6a54d2864138d758",
@@ -1134,6 +1154,41 @@
       "sourceHash": "ecfaea6c9902514592e064ebc260125563e9c72dfab9456967d77f94e59882de",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/free-and-serverless-clusters.md",
       "translatedAt": "2026-07-13T21:22:45.420Z"
+    },
+    "docs-byoc/tutorials/management/clusters/global-cluster/connect-to-global-cluster.md": {
+      "sourceHash": "3c63ee0d6c962db7acb89e1ea81f371c836cac9fed0d8e30d570bffc85fdacbd",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/global-cluster/connect-to-global-cluster.md",
+      "translatedAt": "2026-07-17T03:19:38.407Z"
+    },
+    "docs-byoc/tutorials/management/clusters/global-cluster/create-global-cluster.md": {
+      "sourceHash": "00974039b72e4cfaf71afb6a7d03bd201daffe5ba7b6461e2626ea6a6a2cbc44",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/global-cluster/create-global-cluster.md",
+      "translatedAt": "2026-07-17T03:20:57.658Z"
+    },
+    "docs-byoc/tutorials/management/clusters/global-cluster/global-cluster-explained.md": {
+      "sourceHash": "572e25fcfd79ab708594892c3fc28cc03cf3a9a548b89be4f40aa74428d377df",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/global-cluster/global-cluster-explained.md",
+      "translatedAt": "2026-07-17T03:21:19.514Z"
+    },
+    "docs-byoc/tutorials/management/clusters/global-cluster/manage-global-cluster.md": {
+      "sourceHash": "0a6159d842eabbb7afdddf4d47d8ee2cfb8894fdda0e96757798fd931a341190",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/global-cluster/manage-global-cluster.md",
+      "translatedAt": "2026-07-17T03:21:10.679Z"
+    },
+    "docs-byoc/tutorials/management/clusters/global-cluster/monitor-global-cluster.md": {
+      "sourceHash": "03bab39523a98fc1dfdceafa786b79bf4781a4604986bbcccadc6938493b39ee",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/global-cluster/monitor-global-cluster.md",
+      "translatedAt": "2026-07-17T03:20:59.258Z"
+    },
+    "docs-byoc/tutorials/management/clusters/global-cluster/scale-global-cluster.md": {
+      "sourceHash": "b1bfe2a4d8dd8558b51aa9266ca328756c5688d7f0a0ba452272efa59e73f312",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/global-cluster/scale-global-cluster.md",
+      "translatedAt": "2026-07-17T03:21:44.148Z"
+    },
+    "docs-byoc/tutorials/management/clusters/global-cluster/switchover-and-failover.md": {
+      "sourceHash": "6c1b214fe7b04ba498a85e17779a0a080cdc5b2137f87e36568ad0caf9d30f80",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/management/clusters/global-cluster/switchover-and-failover.md",
+      "translatedAt": "2026-07-17T03:24:23.657Z"
     },
     "docs-byoc/tutorials/management/cmek/aws-kms.md": {
       "sourceHash": "884c4d3cf7fb6ea47222685ce0faad33e2633e98207c5ec9d6e564b7baa85420",
@@ -1615,6 +1670,11 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/data-export/export-data-iterators.md",
       "translatedAt": "2026-07-13T16:12:37.240Z"
     },
+    "docs/tutorials/development/data-import/data-import-format-options/data-import-format-options.md": {
+      "sourceHash": "9e5a9387a82e8c299a975b8237865a3a59230f91aa006d348005f30fd4767d3b",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/data-import/data-import-format-options/data-import-format-options.md",
+      "translatedAt": "2026-07-17T03:21:19.022Z"
+    },
     "docs/tutorials/development/data-import/data-import-format-options/data-import-json.md": {
       "sourceHash": "20c6be6d0a40d0f64308657a045272a060db5ffe77e6cc400b066339d24e08da",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/data-import/data-import-format-options/data-import-json.md",
@@ -1654,6 +1714,16 @@
       "sourceHash": "a13c4046b6bdfa78b6fe7da428f54f523b652c0cc1157e3eca3aef7c0c0052c3",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/data-import/import-data/import-data-via-sdks.md",
       "translatedAt": "2026-07-13T16:19:12.406Z"
+    },
+    "docs/tutorials/development/data-import/import-data/import-data.md": {
+      "sourceHash": "9933a105105b091b87086357445a9082b3cf10b9276821113828b31caf6ca70c",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/data-import/import-data/import-data.md",
+      "translatedAt": "2026-07-17T03:21:30.057Z"
+    },
+    "docs/tutorials/development/data-import/prepare-data-import/prepare-data-import.md": {
+      "sourceHash": "c2466c2566cd220fc48e222e7de3bf40616672881b879aff40cadcacdf2e3414",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/data-import/prepare-data-import/prepare-data-import.md",
+      "translatedAt": "2026-07-17T03:21:28.275Z"
     },
     "docs/tutorials/development/data-import/prepare-data-import/use-bulkwriter.md": {
       "sourceHash": "c0e0ff21bc53056bc73a8d0a79b3d270c04b733cb212a04e9d0be27c8bbd8bb4",
@@ -1849,6 +1919,11 @@
       "sourceHash": "00b1a454e5745cce498720a63bab0b1af6ae69d635357f26f46ebe36fa784f61",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/primary-field-auto-id.md",
       "translatedAt": "2026-07-13T16:43:50.996Z"
+    },
+    "docs/tutorials/development/schema/schema-best-practices/schema-best-practices.md": {
+      "sourceHash": "bce6ec0e151cbf76cb5487fa2886f0d8960d34d6ae2f2bf7b988ce972b810dd1",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/schema-best-practices/schema-best-practices.md",
+      "translatedAt": "2026-07-17T03:21:35.632Z"
     },
     "docs/tutorials/development/schema/schema-best-practices/schema-design-hands-on.md": {
       "sourceHash": "8e0943e2740393211da66377a5d8499baec9e99e614c9abc4e6fde4c2050e762",
@@ -2131,9 +2206,9 @@
       "translatedAt": "2026-07-13T17:24:47.188Z"
     },
     "docs/tutorials/development/vector-index/tune-index-build-level.md": {
-      "sourceHash": "ffeb9dcbb4fb289ab6be9717641a75339634a8461351710d7fc756127cc6b485",
+      "sourceHash": "fbde9a4857c2b060b105df1b97435615549ed5525bfb1cbe6023f05d0e848d1b",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/vector-index/tune-index-build-level.md",
-      "translatedAt": "2026-07-16T19:23:04.724Z"
+      "translatedAt": "2026-07-17T03:19:15.153Z"
     },
     "docs/tutorials/development/volume/external-volume.md": {
       "sourceHash": "3b47a4c5fa6e9fac21748e7260f431de1ef5672090f3243637056ecfc043434e",
@@ -2660,6 +2735,11 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/billing-management/set-up-payment-method/credits.md",
       "translatedAt": "2026-07-13T18:16:54.294Z"
     },
+    "docs/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/marketplace-subscription.md": {
+      "sourceHash": "f21c64f8d02f4146ac662697b38e22386400931e7b7d44299479442ec475bd99",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/marketplace-subscription.md",
+      "translatedAt": "2026-07-17T03:22:39.697Z"
+    },
     "docs/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-aws-marketplace-free-trial.md": {
       "sourceHash": "afe782b6fa07cb3076af064bb060a38ea2cd9be145972eb74e4910b5b76d8f85",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/billing-management/set-up-payment-method/marketplace-subscription/subscribe-on-aws-marketplace-free-trial.md",
@@ -2914,6 +2994,11 @@
       "sourceHash": "376616d833242320b952dd938e2143c8277ae3564696ddafc291dc45673cca0e",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/metrics-and-alerts/view-cluster-metric-charts.md",
       "translatedAt": "2026-07-13T18:40:25.601Z"
+    },
+    "docs/tutorials/management/migrations/migrate-between-clusters/migrate-between-clusters.md": {
+      "sourceHash": "bba775f26464b2fa0d3b7377009c35ff130072e8b7815042f520763bd04b07ce",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/management/migrations/migrate-between-clusters/migrate-between-clusters.md",
+      "translatedAt": "2026-07-17T03:22:04.912Z"
     },
     "docs/tutorials/management/migrations/migrate-between-clusters/offline-migration.md": {
       "sourceHash": "eb543e489cc91b942bbc81c8de38eaaae9c55b9d50a9df864e37d64bb9f51e00",
