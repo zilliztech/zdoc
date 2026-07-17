@@ -186,6 +186,8 @@ jobs:
       master_sha: ${{ needs.prepare.outputs.master_sha }}
       dev_baseline_sha: ${{ needs.prepare.outputs.dev_baseline_sha }}
       target_branch: ${{ needs.prepare.outputs.target_branch }}
+      cache_version: ${{ needs.produce_guides_sources.outputs.cache_version }}
+      cache_save_required: ${{ needs.produce_guides_sources.outputs.cache_save_required }}
       artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
   produce_python:
     needs: prepare

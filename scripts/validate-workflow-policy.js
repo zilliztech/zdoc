@@ -131,6 +131,38 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
         [/fetch-lark-docs[\s\S]*-sidebar[\s\S]*--offline[\s\S]*--mediaManifest/, 'must generate combined sidebars offline'],
       ]
       for (const [pattern, message] of requiredPatterns) if (!pattern.test(source)) errors.push(`${file}: ${message}`)
+      const steps = workflow.jobs?.assemble?.steps || []
+      const stepById = new Map(steps.filter(step => step.id).map(step => [step.id, step]))
+      const stepIndex = name => steps.findIndex(step => step.name === name)
+      if (!workflow.on?.workflow_call?.inputs?.cache_version?.required || !workflow.on?.workflow_call?.inputs?.cache_save_required?.required) {
+        errors.push(`${file}: must receive Guides cache version and save requirement from source validation`)
+      }
+      const validateIndex = stepIndex('Validate combined guides output')
+      const selectIndex = stepIndex('Select promoted Guides source snapshot')
+      const createIndex = stepIndex('Create Guides v4 generation payload')
+      const saveIndex = stepIndex('Save Guides v4 generation')
+      const reportIndex = stepIndex('Record Guides cache generation persistence')
+      if (!(validateIndex >= 0 && validateIndex < selectIndex && selectIndex < createIndex && createIndex < saveIndex && saveIndex < reportIndex)) {
+        errors.push(`${file}: Guides v4 generation must follow combined validation and promoted snapshot selection before save and reporting`)
+      }
+      const selection = stepById.get('promoted_snapshot')
+      if (!/guides-cache-generation-lifecycle\.js select[\s\S]*--cache-version "\$\{\{ inputs\.cache_version \}\}"[\s\S]*--save-required "\$\{\{ inputs\.cache_save_required \}\}"[\s\S]*if \[\[ "\$selected" == candidate \]\]; then[\s\S]*promote-lark-doc-snapshot\.js/.test(selection?.run || '')) {
+        errors.push(`${file}: unchanged valid-v4 assembly must preserve the baseline snapshot while save-required runs promote the candidate`)
+      }
+      const generation = stepById.get('guides_v4_generation')
+      if (generation?.if !== "${{ inputs.cache_save_required == 'true' }}" ||
+          !/guides-source-cache-generation\.js keys[\s\S]*--snapshot "\$snapshot"[\s\S]*guides-source-cache-generation\.js create[\s\S]*guides-source-cache-generation\.js validate[\s\S]*key=\$key/.test(generation?.run || '')) {
+        errors.push(`${file}: v4 generation payload must be created, keyed, and revalidated from the exact promoted snapshot only when save is required`)
+      }
+      const save = stepById.get('save_guides_v4_generation')
+      if (save?.if !== "${{ inputs.cache_save_required == 'true' && steps.guides_v4_generation.outcome == 'success' }}" || save?.['continue-on-error'] !== true || save?.uses !== 'actions/cache/save@v4' || save?.with?.path !== 'tmp/guides-source-cache-v4' || save?.with?.key !== '${{ steps.guides_v4_generation.outputs.key }}') {
+        errors.push(`${file}: Guides v4 cache save must be conditional, nonfatal, and use the promoted snapshot generation key`)
+      }
+      const report = steps.find(step => step.name === 'Record Guides cache generation persistence')
+      if (report?.if !== '${{ always() }}' || !/guides-cache-generation-lifecycle\.js report[\s\S]*steps\.promoted_snapshot\.outcome[\s\S]*steps\.promoted_source_manifest\.outcome[\s\S]*steps\.guides_v4_generation\.outcome[\s\S]*steps\.save_guides_v4_generation\.outcome[\s\S]*guides-cache-generation\.json/.test(report?.run || '')) {
+        errors.push(`${file}: Guides cache generation report must run after save and record the actual preparation and save outcomes`)
+      }
+      if (/guides-source-cache\.js key[^\n]*--version 3/.test(source)) errors.push(`${file}: legacy v3 cache persistence is forbidden`)
     }
 
     if (file === 'fetch-docs.yml') {
@@ -138,6 +170,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
         [/^          GUIDES_TRANSLATION_CANDIDATES: \$\{\{ needs\.prepare_guides_translation_batches\.outputs\.candidate_counts \}\}$/m, 'must pass Guides candidate counts to aggregation'],
         [/render_guides_tables:[\s\S]*max-parallel: 4[\s\S]*fromJSON\(needs\.produce_guides_sources\.outputs\.table_matrix\)/, 'must render Guides target/table matrix with max-parallel 4'],
         [/produce_guides:[\s\S]*render_guides_tables\.result == 'skipped'/, 'must assemble an empty Guides render matrix'],
+        [/produce_guides:[\s\S]*cache_version: \$\{\{ needs\.produce_guides_sources\.outputs\.cache_version \}\}[\s\S]*cache_save_required: \$\{\{ needs\.produce_guides_sources\.outputs\.cache_save_required \}\}/, 'must pass Guides cache version and save requirement into assembly'],
       ]
       for (const [pattern, message] of requiredPatterns) if (!pattern.test(source)) errors.push(`${file}: ${message}`)
     }
@@ -369,10 +402,6 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     if (!resultStep || !/source_valid=true[\s\S]*media_valid=true[\s\S]*cache_version[\s\S]*cache_save_required/.test(resultStep.run || '') ||
         !/guides-cache-save-decision\.js decide[\s\S]*--cache-version "\$cache_version"[\s\S]*--prefetch-mode[\s\S]*--candidate "\$candidate"[\s\S]*--baseline "\$baseline"/.test(resultStep.run || '') || /candidate_key|baseline_key/.test(resultStep.run || '')) {
       errors.push('_fetch-guides-sources.yml: Guides cache result must emit validity, version, and save requirement from legacy, recovery, or snapshot change')
-    }
-    const guidesAssemble = readWorkflow('_assemble-guides.yml')
-    if (!/guides-source-cache\.js key --snapshot "\$snapshot" --version 3/.test(guidesAssemble)) {
-      errors.push('_assemble-guides.yml: promoted Guides cache must use the v3 key')
     }
   }
 

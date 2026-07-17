@@ -355,14 +355,48 @@ test('workflow validator rejects unsafe Guides cache migration shapes', () => {
     }
   }
 
-  const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'guides-cache-save-policy-'))
+  const assemblyCases = [
+    {
+      mutate(source) { return source.replace("if: ${{ inputs.cache_save_required == 'true' && steps.guides_v4_generation.outcome == 'success' }}", 'if: ${{ always() }}') },
+      expected: /v4 cache save must be conditional, nonfatal/,
+    },
+    {
+      mutate(source) { return source.replace('continue-on-error: true\n        uses: actions/cache/save@v4', 'continue-on-error: false\n        uses: actions/cache/save@v4') },
+      expected: /v4 cache save must be conditional, nonfatal/,
+    },
+    {
+      mutate(source) { return source.replace('guides-cache-generation-lifecycle.js select', 'guides-cache-generation-lifecycle.js unsafe') },
+      expected: /preserve the baseline snapshot/,
+    },
+    {
+      mutate(source) { return source.replace('name: Record Guides cache generation persistence\n        if: ${{ always() }}', 'name: Record Guides cache generation persistence\n        if: ${{ success() }}') },
+      expected: /report must run after save/,
+    },
+    {
+      mutate(source) { return `${source}\n# guides-source-cache.js key --snapshot "$snapshot" --version 3\n` },
+      expected: /legacy v3 cache persistence is forbidden/,
+    },
+  ]
+  for (const fixture of assemblyCases) {
+    const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'guides-cache-save-policy-'))
+    try {
+      fs.cpSync(sourceDirectory, directory, { recursive: true })
+      const file = path.join(directory, '_assemble-guides.yml')
+      fs.writeFileSync(file, fixture.mutate(fs.readFileSync(file, 'utf8')))
+      assert.match(validateWorkflowPolicies(directory).join('\n'), fixture.expected)
+    } finally {
+      fs.rmSync(directory, { recursive: true, force: true })
+    }
+  }
+
+  const callerDirectory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'guides-cache-caller-policy-'))
   try {
-    fs.cpSync(sourceDirectory, directory, { recursive: true })
-    const file = path.join(directory, '_assemble-guides.yml')
-    fs.writeFileSync(file, fs.readFileSync(file, 'utf8').replace('key --snapshot "$snapshot" --version 3', 'key --snapshot "$snapshot" --version 2'))
-    assert.match(validateWorkflowPolicies(directory).join('\n'), /promoted Guides cache must use the v3 key/)
+    fs.cpSync(sourceDirectory, callerDirectory, { recursive: true })
+    const file = path.join(callerDirectory, 'fetch-docs.yml')
+    fs.writeFileSync(file, fs.readFileSync(file, 'utf8').replace('      cache_save_required: ${{ needs.produce_guides_sources.outputs.cache_save_required }}\n', ''))
+    assert.match(validateWorkflowPolicies(callerDirectory).join('\n'), /pass Guides cache version and save requirement into assembly/)
   } finally {
-    fs.rmSync(directory, { recursive: true, force: true })
+    fs.rmSync(callerDirectory, { recursive: true, force: true })
   }
 })
 
@@ -569,13 +603,20 @@ test('guides workflows bootstrap full sources and persist only verified caches',
   assert.match(source, /cache_state=invalid/)
   assert.match(source, /steps\.source_cache_check\.outputs\.source_valid[\s\S]*args\+=\(--force-full-fetch\)/)
   assert.doesNotMatch(source, /media_valid[^\n]*[\s\S]{0,180}args\+=\(--force-full-fetch\)/)
-  assert.match(assemble, /guides-source-cache\.js create/)
-  assert.match(assemble, /guides-source-cache\.js key --snapshot "\$snapshot" --version 3/)
+  assert.match(caller, /produce_guides:[\s\S]*cache_version: \$\{\{ needs\.produce_guides_sources\.outputs\.cache_version \}\}[\s\S]*cache_save_required: \$\{\{ needs\.produce_guides_sources\.outputs\.cache_save_required \}\}/)
+  assert.match(assemble, /cache_version: \{ required: true, type: string \}/)
+  assert.match(assemble, /cache_save_required: \{ required: true, type: string \}/)
+  assert.match(assemble, /name: Select promoted Guides source snapshot[\s\S]*guides-cache-generation-lifecycle\.js select[\s\S]*--cache-version "\$\{\{ inputs\.cache_version \}\}"[\s\S]*--save-required "\$\{\{ inputs\.cache_save_required \}\}"/)
+  assert.match(assemble, /name: Prepare promoted Guides source manifest[\s\S]*guides-source-cache\.js create/)
+  assert.match(assemble, /id: guides_v4_generation\n\s+name: Create Guides v4 generation payload\n\s+if: \$\{\{ inputs\.cache_save_required == 'true' \}\}[\s\S]*guides-source-cache-generation\.js keys[\s\S]*--snapshot "\$snapshot"[\s\S]*guides-source-cache-generation\.js create[\s\S]*guides-source-cache-generation\.js validate/)
   assert.match(assemble, /--media-manifest "?plugins\/lark-docs\/meta\/media-cache\/guides\.json"?/)
-  assert.match(assemble, /actions\/cache\/save@v4/)
+  assert.match(assemble, /id: save_guides_v4_generation\n\s+name: Save Guides v4 generation\n\s+if: \$\{\{ inputs\.cache_save_required == 'true' && steps\.guides_v4_generation\.outcome == 'success' \}\}\n\s+continue-on-error: true\n\s+uses: actions\/cache\/save@v4[\s\S]*path: tmp\/guides-source-cache-v4[\s\S]*key: \$\{\{ steps\.guides_v4_generation\.outputs\.key \}\}/)
+  assert.match(assemble, /name: Record Guides cache generation persistence\n\s+if: \$\{\{ always\(\) \}\}[\s\S]*guides-cache-generation-lifecycle\.js report[\s\S]*steps\.promoted_snapshot\.outcome[\s\S]*steps\.promoted_source_manifest\.outcome[\s\S]*guides-cache-generation\.json/)
   assert.match(assemble, /^  actions: write$/m)
-  assert.ok(assemble.indexOf('Validate combined guides output') < assemble.indexOf('actions/cache/save@v4'))
-  assert.ok(assemble.indexOf('Promote validated guides source snapshot') < assemble.indexOf('actions/cache/save@v4'))
+  assert.ok(assemble.indexOf('Validate combined guides output') < assemble.indexOf('Select promoted Guides source snapshot'))
+  assert.ok(assemble.indexOf('Select promoted Guides source snapshot') < assemble.indexOf('Create Guides v4 generation payload'))
+  assert.ok(assemble.indexOf('Create Guides v4 generation payload') < assemble.indexOf('Save Guides v4 generation'))
+  assert.doesNotMatch(assemble, /guides-source-cache\.js key[^\n]*--version 3/)
 })
 
 test('guides media is prefetched once for the incremental render scope and shared by parallel renders', () => {
