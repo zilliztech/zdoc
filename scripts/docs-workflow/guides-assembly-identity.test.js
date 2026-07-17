@@ -9,6 +9,7 @@ const { spawnSync } = require('node:child_process')
 const test = require('node:test')
 
 const {
+  assemblyDecisionSha256,
   decideAssembly,
   generatorFingerprint,
   navigationOwnershipProjection,
@@ -302,6 +303,43 @@ test('baseline facts fail closed when an intermediate baseline parent is replace
   }
 })
 
+test('missing read ancestors fail closed before a final target can appear through a symlink', () => {
+  const f = fixture()
+  const outside = fs.mkdtempSync(path.join(os.tmpdir(), 'guides-assembly-missing-parent-'))
+  const missingParent = path.join(fs.realpathSync(f.baselineRoot), 'missing')
+  const targetFile = path.join(missingParent, 'descriptor.json')
+  fs.writeFileSync(path.join(outside, 'descriptor.json'), JSON.stringify(validDescriptor(f)))
+  let finalTouched = false
+  let outsideOpened = false
+  const fsImpl = new Proxy(fs, {
+    get(target, property) {
+      if (property === 'lstatSync') return function (targetPath) {
+        if (targetPath === targetFile) {
+          finalTouched = true
+          if (!target.existsSync(missingParent)) target.symlinkSync(outside, missingParent)
+        }
+        return target.lstatSync(targetPath)
+      }
+      if (property === 'openSync') return function (targetPath, ...args) {
+        if (targetPath === targetFile) outsideOpened = true
+        return target.openSync(targetPath, ...args)
+      }
+      return target[property]
+    },
+  })
+  try {
+    writeDescriptor(f, validDescriptor(f))
+    const decision = decide(f, { baselineDescriptorPath: 'missing/descriptor.json', fsImpl })
+    assert.equal(decision.mode, 'regenerate')
+    assert.equal(decision.baselineDescriptorPresent, false)
+    assert.equal(finalTouched, false)
+    assert.equal(outsideOpened, false)
+  } finally {
+    cleanup(f)
+    fs.rmSync(outside, { recursive: true, force: true })
+  }
+})
+
 test('reuse requires the exact schema-3 identity, empty delta, baseline facts, and sidebar bytes', () => {
   const f = fixture()
   try {
@@ -437,10 +475,17 @@ test('unsupported schema decisions cannot write committed descriptors but suppor
     const descriptor = validDescriptor(f)
     const supportedRegenerate = decide(f, { baselineSourceSha: SHA_A })
     const unsupported = decide(f, { candidateSnapshot: snapshot({ schema_version: 2 }) })
-    const bound = { repositoryRoot: f.root, descriptor, decision: supportedRegenerate, expectedMasterSha: SHA_A, expectedDevBaselineSha: SHA_B }
+    const bound = {
+      repositoryRoot: f.root, descriptor, decision: supportedRegenerate,
+      expectedMasterSha: SHA_A, expectedDevBaselineSha: SHA_B,
+      expectedDecisionSha256: assemblyDecisionSha256(supportedRegenerate),
+    }
     assert.throws(() => writeCommittedDescriptor({ ...bound, outputPath: 'output/no-decision.json', decision: undefined }), /decision.*required/i)
     assert.throws(() => writeCommittedDescriptor({ ...bound, outputPath: 'output/no-master.json', expectedMasterSha: undefined }), /expected.*master/i)
     assert.throws(() => writeCommittedDescriptor({ ...bound, outputPath: 'output/no-baseline.json', expectedDevBaselineSha: undefined }), /expected.*baseline/i)
+    assert.throws(() => writeCommittedDescriptor({ ...bound, outputPath: 'output/no-decision-hash.json', expectedDecisionSha256: undefined }), /expected.*decision/i)
+    assert.throws(() => writeCommittedDescriptor({ ...bound, outputPath: 'output/stale-decision-hash.json', expectedDecisionSha256: 'f'.repeat(64) }), /decision.*hash|sha.*mismatch/i)
+    assert.throws(() => writeCommittedDescriptor({ ...bound, outputPath: 'output/different-decision.json', decision: { ...supportedRegenerate, tableCount: 1 } }), /decision.*hash|sha.*mismatch/i)
     assert.throws(() => writeCommittedDescriptor({ ...bound, outputPath: 'output/stale-master.json', expectedMasterSha: SHA_B }), /master.*mismatch/i)
     assert.throws(() => writeCommittedDescriptor({ ...bound, outputPath: 'output/stale-baseline.json', expectedDevBaselineSha: SHA_A }), /baseline.*mismatch/i)
     assert.throws(() => writeCommittedDescriptor({
@@ -448,9 +493,11 @@ test('unsupported schema decisions cannot write committed descriptors but suppor
     }), /semantic.*mismatch|identity.*decision/i)
     assert.throws(() => writeCommittedDescriptor({
       ...bound, outputPath: 'output/unsupported.json', decision: unsupported,
+      expectedDecisionSha256: assemblyDecisionSha256(unsupported),
     }), /unsupported.*snapshot|schema/i)
     assert.throws(() => writeCommittedDescriptor({
       ...bound, outputPath: 'output/marker.json', decision: { ...unsupported, reasons: ['source-delta'] },
+      expectedDecisionSha256: assemblyDecisionSha256({ ...unsupported, reasons: ['source-delta'] }),
       descriptor: {
         ...descriptor,
         semanticSourceGraphSha256: unsupported.semanticSourceGraphSha256,
@@ -458,8 +505,17 @@ test('unsupported schema decisions cannot write committed descriptors but suppor
       },
     }), /unsupported.*marker|snapshot.*schema/i)
 
-    writeCommittedDescriptor({ ...bound, outputPath: 'output/supported.json' })
+    const regeneratedDescriptor = { ...descriptor, saasSidebarSha256: 'c'.repeat(64), byocSidebarSha256: 'd'.repeat(64) }
+    writeCommittedDescriptor({ ...bound, outputPath: 'output/supported.json', descriptor: regeneratedDescriptor })
     assert.equal(fs.existsSync(path.join(f.root, 'output/supported.json')), true)
+
+    const reuseDecision = decide(f)
+    assert.throws(() => writeCommittedDescriptor({
+      repositoryRoot: f.root, outputPath: 'output/reuse-changed-sidebar.json',
+      descriptor: { ...descriptor, saasSidebarSha256: 'e'.repeat(64) }, decision: reuseDecision,
+      expectedMasterSha: SHA_A, expectedDevBaselineSha: SHA_B,
+      expectedDecisionSha256: assemblyDecisionSha256(reuseDecision),
+    }), /reuse.*sidebar|sidebar.*baseline/i)
   } finally { cleanup(f) }
 })
 
@@ -521,7 +577,10 @@ test('committed descriptor writes atomically and verifies exact sidebar hashes',
     writeDescriptor(f, validDescriptor(f))
     const descriptor = validDescriptor(f)
     const decision = decide(f)
-    const binding = { decision, expectedMasterSha: SHA_A, expectedDevBaselineSha: SHA_B }
+    const binding = {
+      decision, expectedMasterSha: SHA_A, expectedDevBaselineSha: SHA_B,
+      expectedDecisionSha256: assemblyDecisionSha256(decision),
+    }
     const output = 'output/descriptor.json'
     writeCommittedDescriptor({ repositoryRoot: f.root, outputPath: output, descriptor, ...binding })
     assert.deepEqual(JSON.parse(fs.readFileSync(path.join(f.root, output), 'utf8')), descriptor)
@@ -534,6 +593,55 @@ test('committed descriptor writes atomically and verifies exact sidebar hashes',
     fs.symlinkSync(path.join(f.root, 'outside'), path.join(f.root, 'linked-parent'))
     assert.throws(() => writeCommittedDescriptor({ repositoryRoot: f.root, outputPath: 'linked-parent/descriptor.json', descriptor, ...binding }), /parent|symlink|directory/i)
   } finally { cleanup(f) }
+})
+
+test('descriptor writes fail closed when an intermediate output ancestor is replaced before staging', () => {
+  const f = fixture()
+  const outside = fs.mkdtempSync(path.join(os.tmpdir(), 'guides-assembly-output-outside-'))
+  try {
+    writeDescriptor(f, validDescriptor(f))
+    const descriptor = validDescriptor(f)
+    const decision = decide(f)
+    const root = fs.realpathSync(f.root)
+    const outputParent = path.join(root, 'output')
+    const nestedParent = path.join(outputParent, 'nested')
+    const displaced = `${outputParent}.displaced`
+    const outputPath = 'output/nested/descriptor.json'
+    const targetFile = path.join(root, outputPath)
+    fs.mkdirSync(nestedParent, { recursive: true })
+    fs.writeFileSync(targetFile, 'existing descriptor')
+    fs.mkdirSync(path.join(outside, 'nested'), { recursive: true })
+    let swapped = false
+    let outsideOpened = false
+    const fsImpl = new Proxy(fs, {
+      get(target, property) {
+        if (property === 'lstatSync') return function (targetPath) {
+          const stat = target.lstatSync(targetPath)
+          if (!swapped && targetPath === targetFile) {
+            swapped = true
+            target.renameSync(outputParent, displaced)
+            target.symlinkSync(outside, outputParent)
+          }
+          return stat
+        }
+        if (property === 'openSync') return function (targetPath, ...args) {
+          if (swapped && targetPath.startsWith(`${targetFile}.tmp-`)) outsideOpened = true
+          return target.openSync(targetPath, ...args)
+        }
+        return target[property]
+      },
+    })
+    assert.throws(() => writeCommittedDescriptor({
+      repositoryRoot: f.root, outputPath, descriptor, decision,
+      expectedMasterSha: SHA_A, expectedDevBaselineSha: SHA_B,
+      expectedDecisionSha256: assemblyDecisionSha256(decision), fsImpl,
+    }), /ancestor|directory|identity|symlink|recovery/i)
+    assert.equal(outsideOpened, false)
+    assert.equal(fs.readFileSync(path.join(displaced, 'nested/descriptor.json'), 'utf8'), 'existing descriptor')
+  } finally {
+    cleanup(f)
+    fs.rmSync(outside, { recursive: true, force: true })
+  }
 })
 
 test('CLI rejects duplicate, unknown, missing flags, positional extras, and validates a decision', () => {
@@ -567,11 +675,16 @@ test('CLI rejects duplicate, unknown, missing flags, positional extras, and vali
     const writeArgs = [
       'write-descriptor', '--repository-root', f.root, '--decision', f.paths.decision,
       '--expected-master-sha', SHA_A, '--expected-dev-baseline-sha', SHA_B,
+      '--expected-decision-sha256', assemblyDecisionSha256(decision),
       '--saas-sidebar', currentSaas, '--byoc-sidebar', currentByoc, '--output', descriptorOutput,
     ]
     const written = spawnSync(process.execPath, [cli, ...writeArgs], { encoding: 'utf8' })
     assert.equal(written.status, 0, written.stderr)
-    for (const [removedFlag, expected] of [['--expected-master-sha', /expected-master-sha/i], ['--expected-dev-baseline-sha', /expected-dev-baseline-sha/i]]) {
+    for (const [removedFlag, expected] of [
+      ['--expected-master-sha', /expected-master-sha/i],
+      ['--expected-dev-baseline-sha', /expected-dev-baseline-sha/i],
+      ['--expected-decision-sha256', /expected-decision-sha256/i],
+    ]) {
       const index = writeArgs.indexOf(removedFlag)
       const missingArgs = [...writeArgs.slice(0, index), ...writeArgs.slice(index + 2)]
       const missing = spawnSync(process.execPath, [cli, ...missingArgs], { encoding: 'utf8' })
@@ -593,7 +706,8 @@ test('CLI rejects duplicate, unknown, missing flags, positional extras, and vali
 
     const unsupportedPath = 'outputs/unsupported-decision.json'
     fs.writeFileSync(path.join(f.root, unsupportedPath), JSON.stringify(decide(f, { candidateSnapshot: snapshot({ schema_version: 2 }) })))
-    const unsupportedWrite = spawnSync(process.execPath, [cli, 'write-descriptor', '--repository-root', f.root, '--decision', unsupportedPath, '--expected-master-sha', SHA_A, '--expected-dev-baseline-sha', SHA_B, '--saas-sidebar', currentSaas, '--byoc-sidebar', currentByoc, '--output', 'outputs/unsupported.json'], { encoding: 'utf8' })
+    const unsupportedDecision = JSON.parse(fs.readFileSync(path.join(f.root, unsupportedPath), 'utf8'))
+    const unsupportedWrite = spawnSync(process.execPath, [cli, 'write-descriptor', '--repository-root', f.root, '--decision', unsupportedPath, '--expected-master-sha', SHA_A, '--expected-dev-baseline-sha', SHA_B, '--expected-decision-sha256', assemblyDecisionSha256(unsupportedDecision), '--saas-sidebar', currentSaas, '--byoc-sidebar', currentByoc, '--output', 'outputs/unsupported.json'], { encoding: 'utf8' })
     assert.notEqual(unsupportedWrite.status, 0)
     assert.match(unsupportedWrite.stderr, /unsupported.*snapshot|schema/i)
     for (const extra of [['--unknown', 'x'], ['positional'], ['--table-count', '0']]) {

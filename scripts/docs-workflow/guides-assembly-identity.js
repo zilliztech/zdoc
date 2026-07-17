@@ -217,7 +217,7 @@ function safeRepositoryPath(repositoryRoot, relativePath, label, fsImpl = fs, ro
     if (realDirectory !== current) throw new Error(`${label} parent must not traverse symlinks: ${current}`)
     ancestors.push(Object.freeze({ directory: current, device: stat.dev, inode: stat.ino }))
   }
-  return { root, target, ancestors }
+  return { root, target, ancestors, ancestorMissing }
 }
 
 function recordDirectoryIdentity(directory, fsImpl = fs) {
@@ -241,7 +241,8 @@ function verifyAncestorChain(ancestors, fsImpl = fs) {
 function readRegularFileFact(repositoryRoot, relativePath, label, fsImpl = fs, rootIdentity = null) {
   const identity = rootIdentity || recordDirectoryIdentity(repositoryRoot, fsImpl)
   verifyDirectoryIdentity(identity, fsImpl)
-  const { target, ancestors } = safeRepositoryPath(identity.directory, relativePath, label, fsImpl, identity)
+  const { target, ancestors, ancestorMissing } = safeRepositoryPath(identity.directory, relativePath, label, fsImpl, identity)
+  if (ancestorMissing) return { present: false, valid: false, bytes: null, sha256: null, target }
   let stat
   try {
     verifyAncestorChain(ancestors, fsImpl)
@@ -434,22 +435,38 @@ function validateAssemblyDecision(value, expected = {}) {
   return value
 }
 
+function assemblyDecisionSha256(decision) {
+  return hashCanonical(validateAssemblyDecision(decision))
+}
+
 function ensureOutputParent(repositoryRoot, relativePath, fsImpl = fs) {
   if (typeof relativePath !== 'string' || !relativePath || path.isAbsolute(relativePath) || relativePath.includes('\\') || relativePath.includes('\0')) throw new Error('Output path must be repository-relative')
   const normalized = path.normalize(relativePath)
   if (normalized === '..' || normalized.startsWith(`..${path.sep}`)) throw new Error('Output path escapes repository')
-  const root = fsImpl.realpathSync(repositoryRoot)
+  const rootIdentity = recordDirectoryIdentity(repositoryRoot, fsImpl)
+  verifyDirectoryIdentity(rootIdentity, fsImpl)
+  const root = rootIdentity.directory
   const target = path.resolve(root, normalized)
   if (!target.startsWith(`${root}${path.sep}`)) throw new Error('Output path escapes repository')
+  const ancestors = [rootIdentity]
   let current = root
   for (const segment of path.relative(root, path.dirname(target)).split(path.sep).filter(Boolean)) {
     current = path.join(current, segment)
     try {
       const stat = fsImpl.lstatSync(current)
       if (stat.isSymbolicLink() || !stat.isDirectory()) throw new Error(`Output parent must be a real directory: ${current}`)
+      const realDirectory = fsImpl.realpathSync(current)
+      if (realDirectory !== current || !realDirectory.startsWith(`${root}${path.sep}`)) throw new Error(`Output parent escapes repository: ${current}`)
+      ancestors.push(Object.freeze({ directory: current, device: stat.dev, inode: stat.ino }))
     } catch (error) {
       if (error.code !== 'ENOENT') throw error
       fsImpl.mkdirSync(current)
+      const stat = fsImpl.lstatSync(current)
+      const realDirectory = fsImpl.realpathSync(current)
+      if (stat.isSymbolicLink() || !stat.isDirectory() || realDirectory !== current || !realDirectory.startsWith(`${root}${path.sep}`)) {
+        throw new Error(`Created output parent must be a real repository directory: ${current}`)
+      }
+      ancestors.push(Object.freeze({ directory: current, device: stat.dev, inode: stat.ino }))
     }
   }
   try {
@@ -458,28 +475,34 @@ function ensureOutputParent(repositoryRoot, relativePath, fsImpl = fs) {
   } catch (error) {
     if (error.code !== 'ENOENT') throw error
   }
-  return target
+  verifyAncestorChain(ancestors, fsImpl)
+  return { target, ancestors }
 }
 
 function atomicWriteJson(repositoryRoot, outputPath, value, fsImpl = fs) {
-  const target = ensureOutputParent(repositoryRoot, outputPath, fsImpl)
-  const parentIdentity = recordDirectoryIdentity(path.dirname(target), fsImpl)
+  const { target, ancestors } = ensureOutputParent(repositoryRoot, outputPath, fsImpl)
   const temporary = `${target}.tmp-${process.pid}-${Date.now()}`
   let descriptor
   let primaryError = null
   try {
-    verifyDirectoryIdentity(parentIdentity, fsImpl)
+    verifyAncestorChain(ancestors, fsImpl)
     if (typeof fsImpl.constants.O_NOFOLLOW !== 'number') throw new Error('Secure descriptor writes require O_NOFOLLOW')
     const flags = fsImpl.constants.O_WRONLY | fsImpl.constants.O_CREAT | fsImpl.constants.O_EXCL | fsImpl.constants.O_NOFOLLOW
     descriptor = fsImpl.openSync(temporary, flags, 0o644)
-    verifyDirectoryIdentity(parentIdentity, fsImpl)
+    verifyAncestorChain(ancestors, fsImpl)
+    verifyAncestorChain(ancestors, fsImpl)
     fsImpl.writeFileSync(descriptor, `${JSON.stringify(value, null, 2)}\n`)
+    verifyAncestorChain(ancestors, fsImpl)
+    verifyAncestorChain(ancestors, fsImpl)
     fsImpl.fsyncSync(descriptor)
+    verifyAncestorChain(ancestors, fsImpl)
+    verifyAncestorChain(ancestors, fsImpl)
     fsImpl.closeSync(descriptor)
     descriptor = undefined
-    verifyDirectoryIdentity(parentIdentity, fsImpl)
+    verifyAncestorChain(ancestors, fsImpl)
+    verifyAncestorChain(ancestors, fsImpl)
     fsImpl.renameSync(temporary, target)
-    verifyDirectoryIdentity(parentIdentity, fsImpl)
+    verifyAncestorChain(ancestors, fsImpl)
   } catch (error) {
     primaryError = error
   }
@@ -488,9 +511,9 @@ function atomicWriteJson(repositoryRoot, outputPath, value, fsImpl = fs) {
     try { fsImpl.closeSync(descriptor) } catch (error) { recoveryErrors.push(new Error(`Close descriptor temporary ${temporary}: ${error.message}`, { cause: error })) }
   }
   try {
-    verifyDirectoryIdentity(parentIdentity, fsImpl)
+    verifyAncestorChain(ancestors, fsImpl)
     fsImpl.rmSync(temporary, { force: true })
-    verifyDirectoryIdentity(parentIdentity, fsImpl)
+    verifyAncestorChain(ancestors, fsImpl)
   } catch (error) {
     recoveryErrors.push(new Error(`Remove descriptor temporary ${temporary}: ${error.message}`, { cause: error }))
   }
@@ -502,11 +525,13 @@ function atomicWriteJson(repositoryRoot, outputPath, value, fsImpl = fs) {
   return value
 }
 
-function writeCommittedDescriptor({ repositoryRoot, outputPath, descriptor, decision, expectedMasterSha, expectedDevBaselineSha, fsImpl = fs }) {
+function writeCommittedDescriptor({ repositoryRoot, outputPath, descriptor, decision, expectedMasterSha, expectedDevBaselineSha, expectedDecisionSha256, fsImpl = fs }) {
   if (!decision) throw new Error('Guides assembly decision is required for descriptor promotion')
   requireSha(expectedMasterSha, SHA40, 'Expected masterSha')
   requireSha(expectedDevBaselineSha, SHA40, 'Expected devBaselineSha')
+  requireSha(expectedDecisionSha256, SHA256, 'Expected decision SHA-256')
   validateAssemblyDecision(decision, { masterSha: expectedMasterSha, devBaselineSha: expectedDevBaselineSha })
+  if (assemblyDecisionSha256(decision) !== expectedDecisionSha256) throw new Error('Assembly decision SHA-256 mismatch')
   validateCommittedDescriptor(descriptor)
   const markerPair = value => value.semanticSourceGraphSha256 === unsupportedSemanticMarkerHash()
     && value.navigationOwnershipSha256 === unsupportedNavigationMarkerHash()
@@ -514,6 +539,9 @@ function writeCommittedDescriptor({ repositoryRoot, outputPath, descriptor, deci
   if (decision.reasons.includes('unsupported-snapshot-schema')) throw new Error('Cannot commit a descriptor from an unsupported snapshot schema decision')
   for (const key of ['semanticSourceGraphSha256', 'navigationOwnershipSha256', 'generatorFingerprintSha256']) {
     if (descriptor[key] !== decision[key]) throw new Error(`Descriptor ${key} identity mismatch with assembly decision`)
+  }
+  if (decision.mode === 'reuse' && (descriptor.saasSidebarSha256 !== decision.baselineSaasSidebarSha256 || descriptor.byocSidebarSha256 !== decision.baselineByocSidebarSha256)) {
+    throw new Error('Reuse descriptor sidebar hashes must match the exact baseline decision')
   }
   return atomicWriteJson(repositoryRoot, outputPath, descriptor, fsImpl)
 }
@@ -566,7 +594,7 @@ function main(argv = process.argv.slice(2)) {
     })
   }
   if (operation === 'write-descriptor') {
-    const args = parseFlags(values, ['repository-root', 'decision', 'expected-master-sha', 'expected-dev-baseline-sha', 'saas-sidebar', 'byoc-sidebar', 'output'])
+    const args = parseFlags(values, ['repository-root', 'decision', 'expected-master-sha', 'expected-dev-baseline-sha', 'expected-decision-sha256', 'saas-sidebar', 'byoc-sidebar', 'output'])
     const decision = validateAssemblyDecision(readJsonPath(args['repository-root'], args.decision, 'Guides assembly decision'), {
       masterSha: args['expected-master-sha'], devBaselineSha: args['expected-dev-baseline-sha'],
     })
@@ -576,6 +604,7 @@ function main(argv = process.argv.slice(2)) {
     return writeCommittedDescriptor({
       repositoryRoot: args['repository-root'], outputPath: args.output, decision,
       expectedMasterSha: args['expected-master-sha'], expectedDevBaselineSha: args['expected-dev-baseline-sha'],
+      expectedDecisionSha256: args['expected-decision-sha256'],
       descriptor: {
       schemaVersion: 1,
       semanticSourceGraphSha256: decision.semanticSourceGraphSha256,
@@ -603,6 +632,7 @@ if (require.main === module) {
 }
 
 module.exports = {
+  assemblyDecisionSha256,
   decideAssembly,
   generatorFingerprint,
   navigationOwnershipProjection,
