@@ -51,14 +51,25 @@ jobs:
         run: |
           snapshot=plugins/lark-docs/meta/snapshots/guides-uat-last-success.json
           if [[ -f "$snapshot" ]]; then
+            v3=$(node scripts/docs-workflow/guides-source-cache.js key --snapshot "$snapshot" --version 3)
             v2=$(node scripts/docs-workflow/guides-source-cache.js key --snapshot "$snapshot" --version 2)
             v1=$(node scripts/docs-workflow/guides-source-cache.js key --snapshot "$snapshot" --version 1)
           else
+            v3="guides-source-v3-bootstrap-${{ inputs.dev_baseline_sha }}"
             v2="guides-source-v2-bootstrap-${{ inputs.dev_baseline_sha }}"
             v1="guides-source-v1-bootstrap-${{ inputs.dev_baseline_sha }}"
           fi
-          printf 'v2=%s\nv1=%s\n' "$v2" "$v1" >> "$GITHUB_OUTPUT"
+          printf 'v3=%s\nv2=%s\nv1=%s\n' "$v3" "$v2" "$v1" >> "$GITHUB_OUTPUT"
+      - id: source_cache_v3
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            plugins/lark-docs/meta/sources/guides
+            plugins/lark-docs/meta/source-cache/guides-manifest.json
+            plugins/lark-docs/meta/media-cache/guides.json
+          key: ${{ steps.source_cache_keys.outputs.v3 }}
       - id: source_cache_v2
+        if: ${{ steps.source_cache_v3.outputs.cache-hit != 'true' }}
         uses: actions/cache/restore@v4
         with:
           path: |
@@ -67,7 +78,7 @@ jobs:
             plugins/lark-docs/meta/media-cache/guides.json
           key: ${{ steps.source_cache_keys.outputs.v2 }}
       - id: source_cache_v1
-        if: ${{ steps.source_cache_v2.outputs.cache-hit != 'true' }}
+        if: ${{ steps.source_cache_v3.outputs.cache-hit != 'true' && steps.source_cache_v2.outputs.cache-hit != 'true' }}
         uses: actions/cache/restore@v4
         with:
           path: |
@@ -84,7 +95,9 @@ jobs:
           manifest=plugins/lark-docs/meta/source-cache/guides-manifest.json
           media=plugins/lark-docs/meta/media-cache/guides.json
 
-          if [[ "${{ steps.source_cache_v2.outputs.cache-hit }}" == true ]]; then
+          if [[ "${{ steps.source_cache_v3.outputs.cache-hit }}" == true ]]; then
+            cache_version=v3
+          elif [[ "${{ steps.source_cache_v2.outputs.cache-hit }}" == true ]]; then
             cache_version=v2
           elif [[ "${{ steps.source_cache_v1.outputs.cache-hit }}" == true ]]; then
             cache_version=v1
@@ -103,7 +116,7 @@ jobs:
             fi
           fi
 
-          if [[ "$source_valid" == true && "$cache_version" == v2 && -f "$media" ]]; then
+          if [[ "$source_valid" == true && ( "$cache_version" == v3 || "$cache_version" == v2 ) && -f "$media" ]]; then
             if node scripts/docs-workflow/guides-source-cache.js validate-media \
               --source-dir plugins/lark-docs/meta/sources/guides \
               --snapshot "$snapshot" \
@@ -142,15 +155,24 @@ jobs:
           MODEL_ID: ${{ vars.MODEL_ID }}
       - name: Prefetch shared guides media
         run: |
-          node scripts/docs-workflow/guides-media-prefetch.js \
-            --source-dir plugins/lark-docs/meta/sources/guides \
-            --output plugins/lark-docs/meta/media-cache/guides.json \
-            --plan plugins/lark-docs/meta/reports/guides-incremental-fetch-plan.json \
-            --snapshot plugins/lark-docs/meta/reports/guides-source-snapshot-candidate.json \
-            --previous-manifest plugins/lark-docs/meta/media-cache/guides.json \
-            --bootstrap-docs docs,docs-byoc \
-            --reuse-existing "${{ steps.source_cache_check.outputs.source_valid != 'true' }}" \
+          args=(
+            --source-dir plugins/lark-docs/meta/sources/guides
+            --output plugins/lark-docs/meta/media-cache/guides.json
+            --snapshot plugins/lark-docs/meta/reports/guides-source-snapshot-candidate.json
+            --bootstrap-docs docs,docs-byoc
             --concurrency 4
+          )
+          if [[ "${{ steps.source_cache_check.outputs.media_valid }}" == true ]]; then
+            args+=(
+              --plan plugins/lark-docs/meta/reports/guides-incremental-fetch-plan.json
+              --previous-manifest plugins/lark-docs/meta/media-cache/guides.json
+              --reuse-existing false
+            )
+          else
+            echo "[source-cache] Media cache unavailable; rebuilding complete canonical media coverage."
+            args+=(--reuse-existing true)
+          fi
+          node scripts/docs-workflow/guides-media-prefetch.js "${args[@]}"
         env:
           APP_ID: ${{ secrets.APP_ID }}
           APP_SECRET: ${{ secrets.APP_SECRET }}

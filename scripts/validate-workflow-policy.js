@@ -253,7 +253,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
         !/name: Upload Guides progress metadata[\s\S]*continue-on-error: true[\s\S]*name: docs-progress-metadata-\$\{\{ github\.run_id \}\}/.test(guidesSource)) {
       errors.push('_fetch-guides-sources.yml: Guides progress metadata must be best-effort and run-scoped')
     }
-    if (!/id: source_cache_v2[\s\S]*id: source_cache_v1/.test(guidesSource)) {
+    if (!/id: source_cache_v3[\s\S]*id: source_cache_v2[\s\S]*id: source_cache_v1/.test(guidesSource)) {
       errors.push('_fetch-guides-sources.yml: Guides source cache requires a v1 exact migration fallback')
     }
     if (/restore-keys:/.test(guidesSource)) {
@@ -269,6 +269,20 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     const mediaInvalidation = guidesSource.match(/if \[\[ "\$media_valid" != true \]\]; then\n([\s\S]*?)\n\s+fi/)?.[1] || ''
     if (!/rm -rf plugins\/lark-docs\/meta\/media-cache/.test(mediaInvalidation) || /plugins\/lark-docs\/meta\/sources\/guides/.test(mediaInvalidation)) {
       errors.push('_fetch-guides-sources.yml: media invalidation must preserve source files')
+    }
+    const mediaPrefetchBlock = guidesSource.slice(
+      guidesSource.indexOf('name: Prefetch shared guides media'),
+      guidesSource.indexOf('id: table_matrix'),
+    )
+    if (!/steps\.source_cache_check\.outputs\.media_valid/.test(mediaPrefetchBlock) ||
+        !/Media cache unavailable; rebuilding complete canonical media coverage/.test(mediaPrefetchBlock) ||
+        !/else[\s\S]*args\+=\(--reuse-existing true\)/.test(mediaPrefetchBlock) ||
+        !/if \[\[ "\$\{\{ steps\.source_cache_check\.outputs\.media_valid \}\}" == true \]\]; then[\s\S]*--plan plugins\/lark-docs\/meta\/reports\/guides-incremental-fetch-plan\.json/.test(mediaPrefetchBlock)) {
+      errors.push('_fetch-guides-sources.yml: invalid media cache must trigger full canonical media recovery')
+    }
+    const guidesAssemble = readWorkflow('_assemble-guides.yml')
+    if (!/guides-source-cache\.js key --snapshot "\$snapshot" --version 3/.test(guidesAssemble)) {
+      errors.push('_assemble-guides.yml: promoted Guides cache must use the v3 key')
     }
   }
 

@@ -156,6 +156,45 @@ test('keeps partially published Guides batches running instead of completed', ()
   assert.equal(state.manuals[0].detail, '20 documents published · 20 remaining · 1/2 batches')
 })
 
+test('recognizes the compact Guides batch names exposed by reusable workflows', () => {
+  const state = deriveDocsProgressState({
+    requestedGroups: ['guides'],
+    publishEnabled: true,
+    jobs: [
+      { id: 1, name: 'produce_guides_sources / fetch', status: 'completed', conclusion: 'success' },
+      { id: 2, name: 'produce_guides / assemble', status: 'completed', conclusion: 'success' },
+      { id: 3, name: 'publish_guides / publish', status: 'completed', conclusion: 'success' },
+      { id: 4, name: 'guides_translation_batch_1_of_2_pending_40 / translate', status: 'completed', conclusion: 'success' },
+      { id: 5, name: 'guides_translation_batch_2_of_2_pending_40 / translate', status: 'completed', conclusion: 'success' },
+      { id: 6, name: 'publish_guides_translation_batches / publish', status: 'completed', conclusion: 'success' },
+      { id: 7, name: 'verify / verify', status: 'completed', conclusion: 'success' },
+    ],
+  })
+
+  assert.deepEqual(state.phases.map(phase => [phase.key, phase.done, phase.total, phase.status]), [
+    ['produce', 1, 1, 'completed'],
+    ['publish', 1, 1, 'completed'],
+    ['translate', 1, 1, 'completed'],
+    ['translation', 1, 1, 'completed'],
+    ['verify', 1, 1, 'completed'],
+  ])
+  assert.equal(state.manuals[0].status, 'completed')
+})
+
+test('normalizes every child status when the final report says the workflow succeeded', () => {
+  const state = deriveDocsProgressState({
+    requestedGroups: ['guides'],
+    publishEnabled: true,
+    jobs: [],
+    terminalStatus: 'success',
+  })
+
+  assert.ok(state.phases.every(phase => phase.status === 'completed' && phase.done === phase.total))
+  assert.deepEqual(state.manuals.map(manual => [manual.phase, manual.status, manual.currentTask]), [
+    ['translation', 'completed', 'Workflow completed'],
+  ])
+})
+
 test('keeps an empty Guides matrix in assembly without synthetic table counts', () => {
   const state = deriveDocsProgressState({
     requestedGroups: ['guides'],

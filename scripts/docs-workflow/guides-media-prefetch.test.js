@@ -65,6 +65,8 @@ test('selects explicit incremental tokens, single-doc scope, and every source fo
 
   assert.deepEqual(selectSourceFiles({ sourceDir, planPath, snapshotPath }), ['b.json'])
   assert.deepEqual(selectSourceFiles({ sourceDir, snapshotPath, docTokens: ['token-a'] }), ['a.json'])
+  assert.deepEqual(selectSourceFiles({ sourceDir, snapshotPath }), ['a.json', 'b.json'])
+  assert.deepEqual(selectRequiredSourceFiles({ sourceDir, snapshotPath }), ['a.json', 'b.json'])
 
   fs.writeFileSync(planPath, JSON.stringify({ mode: 'full', expanded_tokens: [] }))
   assert.deepEqual(selectSourceFiles({ sourceDir, planPath, snapshotPath }), ['a.json', 'b.json'])

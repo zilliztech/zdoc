@@ -44,7 +44,7 @@ function selectSourceFiles({ sourceDir, planPath = null, snapshotPath = null, do
     }
     selectedTokens = [...new Set(plan.expanded_tokens || [])]
   } else if (selectedTokens.length === 0) {
-    return [...available].sort()
+    return snapshotPath ? sourceFilesForSnapshot(sourceDir, readJson(snapshotPath)) : [...available].sort()
   }
 
   if (!snapshotPath) throw new Error('Incremental or single-doc media prefetch requires a source snapshot')

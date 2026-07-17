@@ -183,15 +183,17 @@ function parseGuidesBatch(job) {
   const parts = String(job?.name || '').split(' / ')
   if (!/^guides_translation_batch_/.test(parts[0] || '')) return null
   const identity = parts[0].match(/^guides_translation_batch_(\d+)_of_(\d+)_pending_(\d+)$/)
-  const phase = parts.slice(1).join(' / ').match(/^(translate|publish) batch\s+(\d+)\s+of\s+(\d+)(?:\s+\((\d+) docs\))?/)
+  const phaseText = parts.slice(1).join(' / ')
+  const phase = phaseText.match(/^(translate|publish)(?:\s+batch\s+\d+\s+of\s+\d+(?:\s+\(\d+ docs\))?)?$/)
   if (!identity || !phase) return null
+  const published = phaseText.match(/\((\d+) docs\)$/)
   return {
     job,
     phase: phase[1],
     batchNumber: Number(identity[1]),
     batchCount: Number(identity[2]),
     pendingCount: Number(identity[3]),
-    publishedCount: phase[4] === undefined ? null : Number(phase[4]),
+    publishedCount: published ? Number(published[1]) : null,
   }
 }
 
@@ -239,7 +241,9 @@ function deriveManualPhases({ group, effectiveJobs, publishEnabled, guidesTableT
     ? { status: 'waiting', currentTask: 'Waiting for source publication', detail: null }
     : guidesTranslate || phaseResult(translateJob, `Translate ${GROUP_LABELS[group]}`)
 
-  const guidesPublish = group === 'guides' ? guidesBatchPhase(effectiveJobs, 'publish') : null
+  const guidesPublish = group === 'guides'
+    ? guidesBatchPhase(effectiveJobs, 'publish') || phaseResult(byIdentity.get('publish_guides_translation_batches'), 'Publish Guides translation batches')
+    : null
   const translationJob = byIdentity.get(`publish_${group}_translation`)
   if (phases.translate.status !== 'completed') {
     phases.translation = { status: 'waiting', currentTask: 'Waiting for translation', detail: null }
@@ -301,6 +305,20 @@ function orderManuals(manuals) {
   return [...manuals].sort((left, right) => order[left.status] - order[right.status])
 }
 
+function normalizeSuccessfulChildren(phases, manuals, publishEnabled) {
+  const finalPhase = publishEnabled ? PHASES.at(-1).key : PHASES[0].key
+  return {
+    phases: phases.map(phase => ({ ...phase, done: phase.total, status: 'completed' })),
+    manuals: manuals.map(manual => ({
+      ...manual,
+      phase: finalPhase,
+      status: 'completed',
+      currentTask: 'Workflow completed',
+      detail: null,
+    })),
+  }
+}
+
 function deriveDocsProgressState({ requestedGroups, jobs = [], publishEnabled, reports = [], terminalStatus = null, guidesTableTotal = null }) {
   if (!Array.isArray(requestedGroups) || requestedGroups.length === 0) throw new Error('requestedGroups must be a non-empty array')
   for (const group of requestedGroups) if (!GROUP_LABELS[group]) throw new Error(`Unknown documentation group: ${group}`)
@@ -310,8 +328,9 @@ function deriveDocsProgressState({ requestedGroups, jobs = [], publishEnabled, r
     return { phaseResults, presentation: manualPresentation(group, phaseResults, publishEnabled) }
   })
   const descriptors = publishEnabled ? [...PHASES, { key: 'verify', label: 'Verify' }] : [PHASES[0]]
-  const phases = descriptors.map(descriptor => derivePhase({ descriptor, manuals: internalManuals, effectiveJobs }))
-  const manuals = orderManuals(internalManuals.map(manual => manual.presentation))
+  let phases = descriptors.map(descriptor => derivePhase({ descriptor, manuals: internalManuals, effectiveJobs }))
+  let manuals = orderManuals(internalManuals.map(manual => manual.presentation))
+  if (terminalStatus === 'success') ({ phases, manuals } = normalizeSuccessfulChildren(phases, manuals, publishEnabled))
   return {
     overallStatus: terminalStatus || (phases.some(phase => phase.status === 'failed') || manuals.some(manual => manual.status === 'failed') ? 'failure' : 'running'),
     phases,

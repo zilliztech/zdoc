@@ -48,13 +48,16 @@ function writeLegacyManifest(f, manifestPath) {
   }, null, 2)}\n`)
 }
 
-test('uses one snapshot hash with explicit v1 and v2 key prefixes', () => {
+test('uses one snapshot hash with a v3 default and explicit migration key prefixes', () => {
   const f = fixture()
   const v1 = sourceCacheKey(f.snapshotPath, { version: 1 })
   const v2 = sourceCacheKey(f.snapshotPath, { version: 2 })
+  const v3 = sourceCacheKey(f.snapshotPath, { version: 3 })
   assert.match(v1, /^guides-source-v1-[0-9a-f]{64}$/)
   assert.equal(v2.replace('guides-source-v2-', ''), v1.replace('guides-source-v1-', ''))
-  assert.throws(() => sourceCacheKey(f.snapshotPath, { version: 3 }), /unsupported/i)
+  assert.equal(v3.replace('guides-source-v3-', ''), v1.replace('guides-source-v1-', ''))
+  assert.equal(sourceCacheKey(f.snapshotPath), v3)
+  assert.throws(() => sourceCacheKey(f.snapshotPath, { version: 4 }), /unsupported/i)
 })
 
 test('accepts a valid v1 source cache only when schema 1 is explicitly allowed', () => {
@@ -94,7 +97,7 @@ test('rejects a v1 source cache whose sources directory is a symlink', () => {
 
 test('creates and validates a snapshot-keyed source cache manifest', () => {
   const f = fixture(), manifestPath = path.join(f.root, 'manifest.json')
-  assert.match(sourceCacheKey(f.snapshotPath), /^guides-source-v2-[0-9a-f]{64}$/)
+  assert.match(sourceCacheKey(f.snapshotPath), /^guides-source-v3-[0-9a-f]{64}$/)
   const manifest = createSourceCacheManifest({ sourceDir: f.sourceDir, snapshotPath: f.snapshotPath, manifestPath, mediaManifestPath: f.mediaManifestPath, rootToken: 'root' })
   assert.equal(manifest.files.length, 3)
   assert.match(manifest.mediaManifest.sha256, /^[0-9a-f]{64}$/)
