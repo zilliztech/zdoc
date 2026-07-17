@@ -25,7 +25,7 @@ function write(root, relative, value) {
 }
 
 function fixture() {
-  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'guides-cache-generation-'))
+  const root = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'guides-cache-generation-')))
   const workspace = path.join(root, 'workspace')
   const { sourceDir, sourceManifestPath, mediaManifestPath } = livePaths(workspace)
   write(sourceDir, 'root.json', { node_token: 'root', children: [{ node_token: 'doc' }] })
@@ -61,14 +61,20 @@ function fixture() {
 function treeBytes(root) {
   const result = {}
   function visit(current, relative = '') {
-    if (!fs.existsSync(current)) return
+    if (!fs.existsSync(current)) { result[relative] = 'absent'; return }
     const stat = fs.lstatSync(current)
     if (stat.isSymbolicLink()) { result[relative] = `symlink:${fs.readlinkSync(current)}`; return }
-    if (stat.isFile()) { result[relative] = fs.readFileSync(current).toString('hex'); return }
+    if (stat.isFile()) { result[relative] = `file:${fs.readFileSync(current).toString('hex')}`; return }
+    result[relative] = stat.isDirectory() ? 'directory' : `other:${stat.mode}`
     for (const name of fs.readdirSync(current).sort()) visit(path.join(current, name), relative ? `${relative}/${name}` : name)
   }
   visit(root)
   return result
+}
+
+function thrown(operation) {
+  try { operation() } catch (error) { return error }
+  assert.fail('Expected operation to throw')
 }
 
 function livePaths(workspace) {
@@ -126,6 +132,40 @@ test('create and promote reject overlapping input and destination roots without 
   const payloadBefore = treeBytes(f.outputDir)
   assert.throws(() => promoteGenerationPayload({ payloadDir: f.outputDir, workspace: f.outputDir, snapshotPath: f.snapshotPath, rootToken: 'root' }), /overlap|workspace/i)
   assert.deepEqual(treeBytes(f.outputDir), payloadBefore)
+})
+
+test('create rejects a non-existing output beneath a symlink ancestor that aliases live sources', () => {
+  const f = fixture()
+  const before = treeBytes(f.workspace)
+  const alias = path.join(f.root, 'source-alias')
+  fs.symlinkSync(f.sourceDir, alias, 'dir')
+  const output = path.join(alias, 'new-generation')
+
+  assert.throws(() => createGenerationPayload({
+    workspace: f.workspace,
+    snapshotPath: f.snapshotPath,
+    rootToken: 'root',
+    outputDir: output,
+  }), /symlink|overlap|ancestor/i)
+  assert.deepEqual(treeBytes(f.workspace), before)
+  assert.equal(fs.existsSync(output), false)
+})
+
+test('promote canonicalizes a workspace reached through a symlinked parent before overlap checks', () => {
+  const f = fixture()
+  createGenerationPayload({ workspace: f.workspace, snapshotPath: f.snapshotPath, rootToken: 'root', outputDir: f.outputDir })
+  const alias = path.join(f.root, 'root-alias')
+  fs.symlinkSync(f.root, alias, 'dir')
+  const workspace = path.join(alias, 'tmp')
+  const before = treeBytes(path.dirname(f.outputDir))
+
+  assert.throws(() => promoteGenerationPayload({
+    payloadDir: f.outputDir,
+    workspace,
+    snapshotPath: f.snapshotPath,
+    rootToken: 'root',
+  }), /overlap|workspace|symlink/i)
+  assert.deepEqual(treeBytes(path.dirname(f.outputDir)), before)
 })
 
 test('creates, validates, and promotes the exact v4 payload while removing stale live sources', () => {
@@ -229,6 +269,71 @@ test('promotion rolls live paths back byte-for-byte after an injected install fa
   assert.deepEqual(treeBytes(workspace), before)
 })
 
+test('promotion rollback removes directory residue for initially absent and mixed live paths', () => {
+  const f = fixture()
+  createGenerationPayload({ workspace: f.workspace, snapshotPath: f.snapshotPath, rootToken: 'root', outputDir: f.outputDir })
+  const workspace = path.join(f.root, 'mixed-workspace')
+  const live = livePaths(workspace)
+  write(workspace, 'plugins/lark-docs/meta/media-cache/guides.json', 'old media bytes')
+  const before = treeBytes(workspace)
+
+  assert.throws(() => promoteGenerationPayload({
+    payloadDir: f.outputDir,
+    workspace,
+    snapshotPath: f.snapshotPath,
+    rootToken: 'root',
+    hooks: { afterInstall({ index }) { if (index === 1) throw new Error('mixed install failure') } },
+  }), /mixed install failure/i)
+  assert.deepEqual(treeBytes(workspace), before)
+  assert.deepEqual(treeBytes(live.sourceDir), { '': 'absent' })
+  assert.deepEqual(treeBytes(live.sourceManifestPath), { '': 'absent' })
+})
+
+test('promotion aggregates rollback faults, attempts later actions, and preserves its journal', () => {
+  const f = fixture()
+  createGenerationPayload({ workspace: f.workspace, snapshotPath: f.snapshotPath, rootToken: 'root', outputDir: f.outputDir })
+  const workspace = path.join(f.root, 'faulted-promotion-workspace')
+  const live = livePaths(workspace)
+  write(live.sourceDir, 'old.json', 'old source')
+  const calls = []
+  let journalRoot
+  let directoryFaulted = false
+
+  const error = thrown(() => promoteGenerationPayload({
+    payloadDir: f.outputDir,
+    workspace,
+    snapshotPath: f.snapshotPath,
+    rootToken: 'root',
+    hooks: {
+      afterInstall({ index }) { if (index === 0) throw new Error('original promotion failure') },
+      beforeRollbackRemove({ index, journal }) {
+        calls.push(`remove-${index}`)
+        journalRoot = journal
+        if (index === 0) throw new Error('remove rollback failure')
+      },
+      beforeRollbackRestore({ index }) {
+        calls.push(`restore-${index}`)
+        if (index === 0) throw new Error('restore rollback failure')
+      },
+      beforeRollbackDirectoryCleanup({ path: directory }) {
+        calls.push(`directory-${path.basename(directory)}`)
+        if (!directoryFaulted) {
+          directoryFaulted = true
+          throw new Error('directory cleanup failure')
+        }
+      },
+    },
+  }))
+
+  assert.equal(error instanceof AggregateError, true)
+  assert.match(error.message, /original promotion failure.*remove rollback failure.*restore rollback failure.*directory cleanup failure/i)
+  assert.deepEqual(calls.slice(0, 3), ['remove-0', 'remove-1', 'remove-2'])
+  assert.equal(calls.includes('restore-0'), true)
+  assert.equal(calls.filter(call => call.startsWith('directory-')).length >= 2, true)
+  assert.equal(fs.existsSync(journalRoot), true)
+  fs.rmSync(journalRoot, { recursive: true, force: true })
+})
+
 test('create restores an existing output byte-for-byte after an injected swap failure', () => {
   const f = fixture()
   createGenerationPayload({ workspace: f.workspace, snapshotPath: f.snapshotPath, rootToken: 'root', outputDir: f.outputDir })
@@ -262,6 +367,43 @@ test('create restores an existing output byte-for-byte after an injected swap fa
   assert.deepEqual(treeBytes(f.outputDir), before)
   const leftovers = fs.readdirSync(path.dirname(f.outputDir)).filter(name => name.startsWith(`.${path.basename(f.outputDir)}.`))
   assert.deepEqual(leftovers, [])
+})
+
+test('create aggregates rollback faults, attempts later cleanup, and preserves its backup', () => {
+  const f = fixture()
+  createGenerationPayload({ workspace: f.workspace, snapshotPath: f.snapshotPath, rootToken: 'root', outputDir: f.outputDir })
+  const calls = []
+  let backupPath
+
+  const error = thrown(() => createGenerationPayload({
+    workspace: f.workspace,
+    snapshotPath: f.snapshotPath,
+    rootToken: 'root',
+    outputDir: f.outputDir,
+    hooks: {
+      afterSwapCommit() { throw new Error('original create failure') },
+      beforeRollbackRemoveOutput({ backup }) {
+        calls.push('remove-output')
+        backupPath = backup
+        throw new Error('remove output failure')
+      },
+      beforeRollbackRestoreBackup() {
+        calls.push('restore-backup')
+        throw new Error('restore backup failure')
+      },
+      beforeTemporaryCleanup() {
+        calls.push('cleanup-temporary')
+        throw new Error('temporary cleanup failure')
+      },
+    },
+  }))
+
+  assert.equal(error instanceof AggregateError, true)
+  assert.match(error.message, /original create failure.*remove output failure.*restore backup failure.*temporary cleanup failure/i)
+  assert.deepEqual(calls, ['remove-output', 'restore-backup', 'cleanup-temporary'])
+  assert.equal(fs.existsSync(backupPath), true)
+  fs.rmSync(f.outputDir, { recursive: true, force: true })
+  fs.renameSync(backupPath, f.outputDir)
 })
 
 test('create refuses to replace a preexisting non-directory output', async (t) => {

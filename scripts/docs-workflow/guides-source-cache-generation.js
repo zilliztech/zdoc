@@ -29,6 +29,36 @@ function pathsOverlap(one, two) {
   return relative === '' || (!relative.startsWith('..') && !path.isAbsolute(relative)) || (!reverse.startsWith('..') && !path.isAbsolute(reverse))
 }
 
+function canonicalPath(target, label, { allowMissing = false } = {}) {
+  const resolved = path.resolve(target)
+  if (!allowMissing) return fs.realpathSync(resolved)
+  const parsed = path.parse(resolved)
+  const parts = resolved.slice(parsed.root.length).split(path.sep).filter(Boolean)
+  let current = parsed.root
+  for (let index = 0; index < parts.length; index += 1) {
+    current = path.join(current, parts[index])
+    let stat
+    try { stat = fs.lstatSync(current) } catch (error) {
+      if (error.code !== 'ENOENT' || !allowMissing) throw error
+      const parent = fs.realpathSync(path.dirname(current))
+      return path.join(parent, ...parts.slice(index))
+    }
+    if (stat.isSymbolicLink()) throw new Error(`${label} must not have symlink ancestors: ${current}`)
+    if (index < parts.length - 1 && !stat.isDirectory()) throw new Error(`${label} has a non-directory ancestor: ${current}`)
+  }
+  return fs.realpathSync(resolved)
+}
+
+function aggregateFailure(label, original, failures) {
+  if (failures.length === 0) throw original
+  const errors = [original, ...failures]
+  throw new AggregateError(errors, `${label}: ${errors.map(error => error.message).join('; ')}`, { cause: original })
+}
+
+function attempt(failures, operation) {
+  try { operation(); return true } catch (error) { failures.push(error); return false }
+}
+
 function generationKeys({ snapshotPath, runId, runAttempt }) {
   const id = positiveInteger(runId, 'runId')
   const attempt = positiveInteger(runAttempt, 'runAttempt', 100)
@@ -53,13 +83,13 @@ function lstatRequired(target, label) {
 function requireDirectory(target, label) {
   const stat = lstatRequired(target, label)
   if (!stat.isDirectory()) throw new Error(`${label} must be a real directory: ${target}`)
-  return path.resolve(target)
+  return fs.realpathSync(target)
 }
 
 function requireRegularFile(target, label) {
   const stat = lstatRequired(target, label)
   if (!stat.isFile()) throw new Error(`${label} must be a regular file: ${target}`)
-  return path.resolve(target)
+  return fs.realpathSync(target)
 }
 
 function payloadPaths(payloadDir) {
@@ -114,16 +144,17 @@ function liveCachePaths(workspace) {
 }
 
 function createGenerationPayload({ workspace, snapshotPath, rootToken, outputDir, hooks = {} }) {
-  if (!hooks || typeof hooks !== 'object' || Array.isArray(hooks) || Object.keys(hooks).some(key => key !== 'beforeSwapCommit') || (hooks.beforeSwapCommit && typeof hooks.beforeSwapCommit !== 'function')) {
+  const allowedHooks = new Set(['beforeSwapCommit', 'afterSwapCommit', 'beforeBackupCleanup', 'beforeRollbackRemoveOutput', 'beforeRollbackRestoreBackup', 'beforeTemporaryCleanup'])
+  if (!hooks || typeof hooks !== 'object' || Array.isArray(hooks) || Object.keys(hooks).some(key => !allowedHooks.has(key)) || Object.values(hooks).some(value => typeof value !== 'function')) {
     throw new Error('Invalid generation hooks')
   }
   const { sourceDir, sourceManifestPath, mediaManifestPath } = liveCachePaths(workspace)
   validateSourceCache({ sourceDir, snapshotPath, manifestPath: sourceManifestPath, rootToken, acceptedSchemaVersions: [2] })
   validateMediaCache({ sourceDir, snapshotPath, manifestPath: sourceManifestPath, mediaManifestPath })
   const sourceRoot = requireDirectory(sourceDir, 'Generation source directory')
-  const output = path.resolve(outputDir)
+  const output = canonicalPath(outputDir, 'Generation output', { allowMissing: true })
   for (const input of [sourceRoot, sourceManifestPath, mediaManifestPath, snapshotPath]) {
-    if (pathsOverlap(output, input)) throw new Error('Generation output must not overlap cache inputs')
+    if (pathsOverlap(output, canonicalPath(input, 'Generation input'))) throw new Error('Generation output must not overlap cache inputs')
   }
   fs.mkdirSync(path.dirname(output), { recursive: true })
   let outputExists = false
@@ -156,24 +187,33 @@ function createGenerationPayload({ workspace, snapshotPath, rootToken, outputDir
     hooks.beforeSwapCommit?.()
     fs.renameSync(temporary, output)
     newInstalled = true
+    hooks.afterSwapCommit?.({ output, backup })
     if (oldMoved) {
+      hooks.beforeBackupCleanup?.({ output, backup })
       fs.rmSync(backup, { recursive: true })
       oldMoved = false
     }
     return output
-  } catch (error) {
+  } catch (original) {
+    const failures = []
     if (newInstalled) {
-      fs.rmSync(output, { recursive: true, force: true })
-      newInstalled = false
+      if (attempt(failures, () => {
+        hooks.beforeRollbackRemoveOutput?.({ output, backup })
+        fs.rmSync(output, { recursive: true, force: true })
+      })) newInstalled = false
     }
     if (oldMoved) {
-      fs.renameSync(backup, output)
-      oldMoved = false
+      if (attempt(failures, () => {
+        hooks.beforeRollbackRestoreBackup?.({ output, backup })
+        fs.renameSync(backup, output)
+      })) oldMoved = false
     }
-    throw error
-  } finally {
-    fs.rmSync(temporary, { recursive: true, force: true })
-    if (!oldMoved) fs.rmSync(backup, { recursive: true, force: true })
+    attempt(failures, () => {
+      hooks.beforeTemporaryCleanup?.({ temporary, output, backup })
+      fs.rmSync(temporary, { recursive: true, force: true })
+    })
+    if (!oldMoved && fs.existsSync(backup)) attempt(failures, () => fs.rmSync(backup, { recursive: true, force: true }))
+    aggregateFailure('Guides generation create failed and rollback was incomplete', original, failures)
   }
 }
 
@@ -191,8 +231,26 @@ function installPath(source, destination) {
   fs.cpSync(source, destination, { recursive: true, dereference: false, preserveTimestamps: true })
 }
 
+function initiallyMissingDirectories(destination, boundary) {
+  const missing = []
+  let current = path.dirname(destination)
+  while (current !== boundary && pathsOverlap(current, boundary)) {
+    if (fs.existsSync(current)) break
+    missing.push(current)
+    current = path.dirname(current)
+  }
+  return missing
+}
+
+function removeEmptyDirectory(directory) {
+  try { fs.rmdirSync(directory) } catch (error) {
+    if (error.code !== 'ENOENT' && error.code !== 'ENOTEMPTY') throw error
+  }
+}
+
 function promoteGenerationPayload({ payloadDir, workspace, snapshotPath, rootToken, hooks = {} }) {
-  if (!hooks || typeof hooks !== 'object' || Array.isArray(hooks) || Object.keys(hooks).some(key => key !== 'afterInstall') || (hooks.afterInstall && typeof hooks.afterInstall !== 'function')) {
+  const allowedHooks = new Set(['afterInstall', 'beforeRollbackRemove', 'beforeRollbackRestore', 'beforeRollbackDirectoryCleanup', 'beforeJournalCleanup'])
+  if (!hooks || typeof hooks !== 'object' || Array.isArray(hooks) || Object.keys(hooks).some(key => !allowedHooks.has(key)) || Object.values(hooks).some(value => typeof value !== 'function')) {
     throw new Error('Invalid promotion hooks')
   }
   const validation = validateGenerationPayload({ payloadDir, snapshotPath, rootToken })
@@ -203,6 +261,8 @@ function promoteGenerationPayload({ payloadDir, workspace, snapshotPath, rootTok
     { source: validation.paths.sourceManifestPath, destination: path.join(workspaceRoot, 'plugins/lark-docs/meta/source-cache/guides-manifest.json') },
     { source: validation.paths.mediaManifestPath, destination: path.join(workspaceRoot, 'plugins/lark-docs/meta/media-cache/guides.json') },
   ]
+  const missingDirectories = [...new Set(installs.flatMap(install => initiallyMissingDirectories(install.destination, workspaceRoot)))]
+    .sort((left, right) => right.length - left.length)
   const journal = fs.mkdtempSync(path.join(os.tmpdir(), 'guides-cache-promotion-'))
   let snapshots
   try {
@@ -211,27 +271,53 @@ function promoteGenerationPayload({ payloadDir, workspace, snapshotPath, rootTok
       journal: path.join(journal, String(index)),
       existed: maybeCopyToJournal(install.destination, path.join(journal, String(index))),
     }))
-  } catch (error) {
-    fs.rmSync(journal, { recursive: true, force: true })
-    throw error
+  } catch (original) {
+    const failures = []
+    attempt(failures, () => {
+      hooks.beforeJournalCleanup?.({ journal })
+      fs.rmSync(journal, { recursive: true, force: true })
+    })
+    aggregateFailure('Guides generation journal creation failed and cleanup was incomplete', original, failures)
   }
-  let complete = false
   try {
     for (let index = 0; index < installs.length; index += 1) {
       installPath(installs[index].source, installs[index].destination)
       hooks.afterInstall?.({ index, path: installs[index].destination })
     }
-    complete = true
+    hooks.beforeJournalCleanup?.({ journal })
+    fs.rmSync(journal, { recursive: true, force: true })
     return Object.freeze({ sourceDir: installs[0].destination, sourceManifestPath: installs[1].destination, mediaManifestPath: installs[2].destination })
-  } finally {
-    if (!complete) {
-      for (const snapshot of snapshots) fs.rmSync(snapshot.destination, { recursive: true, force: true })
-      for (const snapshot of snapshots.filter(item => item.existed)) {
+  } catch (original) {
+    const failures = []
+    for (let index = 0; index < snapshots.length; index += 1) {
+      const snapshot = snapshots[index]
+      attempt(failures, () => {
+        hooks.beforeRollbackRemove?.({ index, path: snapshot.destination, journal })
+        fs.rmSync(snapshot.destination, { recursive: true, force: true })
+      })
+    }
+    for (let index = 0; index < snapshots.length; index += 1) {
+      const snapshot = snapshots[index]
+      if (!snapshot.existed) continue
+      attempt(failures, () => {
+        hooks.beforeRollbackRestore?.({ index, path: snapshot.destination, journal })
         fs.mkdirSync(path.dirname(snapshot.destination), { recursive: true })
         fs.cpSync(snapshot.journal, snapshot.destination, { recursive: true, dereference: false, preserveTimestamps: true })
-      }
+      })
     }
-    fs.rmSync(journal, { recursive: true, force: true })
+    for (const directory of missingDirectories) {
+      attempt(failures, () => {
+        hooks.beforeRollbackDirectoryCleanup?.({ path: directory, journal })
+        removeEmptyDirectory(directory)
+      })
+    }
+    if (failures.length === 0) {
+      attempt(failures, () => {
+        hooks.beforeJournalCleanup?.({ journal })
+        fs.rmSync(journal, { recursive: true, force: true })
+      })
+    }
+    aggregateFailure('Guides generation promotion failed and rollback was incomplete', original, failures)
   }
 }
 
