@@ -179,7 +179,10 @@ class larkDocWriter {
 
     async __sidebar_items(currentPath, contentRoot, token) {
         let node
-        try { node = this.__fetch_doc_source('node_token', token) } catch (e) { return [] }
+        try { node = this.__fetch_doc_source('node_token', token) } catch (e) {
+            if (this.sourceIndex) throw e
+            return []
+        }
         if (!node.has_child) return []
 
         const children = (node.children || []).filter(c => c.obj_type !== 'bitable' && c != null)
@@ -195,7 +198,9 @@ class larkDocWriter {
             }
             if (childToken) seenChildTokens.set(childToken, child.title || child.name || child.slug || childToken)
             let childSource = null
-            try { childSource = this.__fetch_doc_source('node_token', child.node_token, child.slug) } catch (e) {}
+            try { childSource = this.__fetch_doc_source('node_token', child.node_token, child.slug) } catch (e) {
+                if (this.sourceIndex) throw e
+            }
 
             if (childSource?.base_placement_type === 'section') {
                 if (!this.__base_source_is_publishable(childSource)) continue
@@ -302,7 +307,9 @@ class larkDocWriter {
                 }
             } else if (child.slug !== 'faqs') {
                 let childSource = null
-                try { childSource = this.__fetch_doc_source('node_token', child.node_token, child.slug) } catch (e) {}
+                try { childSource = this.__fetch_doc_source('node_token', child.node_token, child.slug) } catch (e) {
+                    if (this.sourceIndex) throw e
+                }
                 if (childSource && !this.__has_renderable_page(childSource)) continue
                 const docId = node_path.join(currentPath, slug)
                     .replace(/\\/g, '/')
@@ -418,7 +425,8 @@ class larkDocWriter {
             if (!parentToken || parentToken === this.root_token) break
             try {
                 current = this.__fetch_doc_source('node_token', parentToken)
-            } catch (_) {
+            } catch (error) {
+                if (this.sourceIndex) throw error
                 break
             }
         }

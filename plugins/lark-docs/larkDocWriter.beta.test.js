@@ -693,6 +693,139 @@ async function testIndexedSidebarDelegatesRefsParentsSectionsAndSlugLookups() {
     })
 }
 
+async function testIndexedSidebarPropagatesAmbiguousRootAndChildLookups() {
+    const ambiguityErrors = []
+    await withTempDir(async dir => {
+        fs.writeFileSync(path.join(dir, 'root-first.json'), JSON.stringify({
+            title: 'Root First', slug: 'root-first', node_token: 'root', has_child: false,
+        }))
+        fs.writeFileSync(path.join(dir, 'root-second.json'), JSON.stringify({
+            title: 'Root Second', slug: 'root-second', node_token: 'root', has_child: false,
+        }))
+        const writer = new LarkDocWriter(
+            'root', 'base:*', 'default', dir, path.join(dir, 'images'),
+            'zilliz.saas', true, false, null, null, LarkSourceIndex.load(dir),
+        )
+
+        try {
+            await writer.generate_sidebar('docs/tutorials', 'docs')
+        } catch (error) {
+            ambiguityErrors.push({ lookup: 'root', error })
+        } finally {
+            writer.destroy()
+        }
+    })
+
+    await withTempDir(async dir => {
+        fs.writeFileSync(path.join(dir, 'root.json'), JSON.stringify({
+            title: 'Root', slug: 'root', node_token: 'root', has_child: true,
+            children: [{ title: 'Child', slug: 'child', node_token: 'child-token', has_child: false }],
+        }))
+        fs.writeFileSync(path.join(dir, 'child-first.json'), JSON.stringify({
+            title: 'Child First', slug: 'child', node_token: 'child-token', has_child: false,
+        }))
+        fs.writeFileSync(path.join(dir, 'child-second.json'), JSON.stringify({
+            title: 'Child Second', slug: 'child', node_token: 'child-token', has_child: false,
+        }))
+        const writer = new LarkDocWriter(
+            'root', 'base:*', 'default', dir, path.join(dir, 'images'),
+            'zilliz.saas', true, false, null, null, LarkSourceIndex.load(dir),
+        )
+        writer.records = []
+
+        try {
+            await writer.generate_sidebar('docs/tutorials', 'docs')
+        } catch (error) {
+            ambiguityErrors.push({ lookup: 'child', error })
+        } finally {
+            writer.destroy()
+        }
+    })
+
+    assert.equal(ambiguityErrors.length, 2)
+    const rootError = ambiguityErrors.find(result => result.lookup === 'root').error
+    assert.match(rootError.message, /root-first\.json/)
+    assert.match(rootError.message, /root-second\.json/)
+    const childError = ambiguityErrors.find(result => result.lookup === 'child').error
+    assert.match(childError.message, /child-first\.json/)
+    assert.match(childError.message, /child-second\.json/)
+}
+
+async function testLegacySidebarStillSkipsMissingRootAndChildSources() {
+    await withTempDir(async dir => {
+        const missingRootWriter = new LarkDocWriter(
+            'missing-root', 'base:*', 'default', dir, path.join(dir, 'images'),
+            'zilliz.saas', true, false,
+        )
+        try {
+            assert.deepEqual(await missingRootWriter.generate_sidebar('docs/tutorials', 'docs'), [])
+        } finally {
+            missingRootWriter.destroy()
+        }
+
+        fs.writeFileSync(path.join(dir, 'root.json'), JSON.stringify({
+            title: 'Root', slug: 'root', node_token: 'root', has_child: true,
+            children: [{ title: 'Missing Child', slug: 'missing-child', node_token: 'missing-child', has_child: false }],
+        }))
+        const missingChildWriter = new LarkDocWriter(
+            'root', 'base:*', 'default', dir, path.join(dir, 'images'),
+            'zilliz.saas', true, false,
+        )
+        missingChildWriter.records = []
+        try {
+            assert.deepEqual(await missingChildWriter.generate_sidebar('docs/tutorials', 'docs'), [])
+        } finally {
+            missingChildWriter.destroy()
+        }
+    })
+}
+
+async function testUnindexedWriteSubtreeReadsLiveSourcesCreatedAfterConstruction() {
+    await withTempDir(async dir => {
+        const sourceDir = path.join(dir, 'sources')
+        const outputDir = path.join(dir, 'docs')
+        fs.mkdirSync(sourceDir)
+        const writer = new LarkDocWriter(
+            'root', 'base:*', 'default', sourceDir, path.join(dir, 'images'),
+            'zilliz.saas', true, false,
+        )
+        const writes = []
+        writer.write_doc = async options => writes.push(options)
+
+        fs.writeFileSync(path.join(sourceDir, 'root.json'), JSON.stringify({
+            title: 'Root', slug: 'root', node_token: 'root', has_child: true,
+        }))
+        fs.writeFileSync(path.join(sourceDir, 'parent.json'), JSON.stringify({
+            title: 'Parent', slug: 'live-parent', node_token: 'parent-token',
+            parent_node_token: 'root', has_child: true,
+        }))
+        fs.writeFileSync(path.join(sourceDir, 'leaf.json'), JSON.stringify({
+            title: 'Stale Leaf', slug: 'stale-leaf', node_token: 'leaf-token',
+            parent_node_token: 'parent-token', has_child: false,
+        }))
+        fs.writeFileSync(path.join(sourceDir, 'leaf.json'), JSON.stringify({
+            title: 'Live Leaf', slug: 'live-leaf', node_token: 'leaf-token',
+            parent_node_token: 'parent-token', has_child: false,
+            base_record_id: 'rec-leaf', base_placement_type: 'canonical',
+            base_targets: ['Zilliz.SaaS'], base_status: 'Draft',
+        }))
+
+        try {
+            assert.equal(writer.sourceIndex, null)
+            await writer.write_subtree(outputDir, 'leaf-token')
+        } finally {
+            writer.destroy()
+        }
+
+        assert.equal(writes.length, 1)
+        assert.equal(path.resolve(writes[0].path), path.join(outputDir, 'live-parent'))
+        assert.equal(writes[0].page_title, 'Live Leaf')
+        assert.equal(writes[0].page_slug, 'live-leaf')
+        assert.equal(writes[0].page_token, 'leaf-token')
+        assert.equal(writes[0].doc_card_list, false)
+    })
+}
+
 async function testRemoveStaleTokenFilesKeepsCurrentDestination() {
     await withTempDir(async dir => {
         const outputDir = path.join(dir, 'docs', 'tutorials')
@@ -745,6 +878,9 @@ async function run() {
     await testBaseCanonicalWithChildrenKeepsLandingPage()
     await testFaqsExpandIntoCategoryWithoutLandingPage()
     await testIndexedSidebarDelegatesRefsParentsSectionsAndSlugLookups()
+    await testIndexedSidebarPropagatesAmbiguousRootAndChildLookups()
+    await testLegacySidebarStillSkipsMissingRootAndChildSources()
+    await testUnindexedWriteSubtreeReadsLiveSourcesCreatedAfterConstruction()
     await testRemoveStaleTokenFilesKeepsCurrentDestination()
     await testBaseSourceMetaPreservesBeta()
     await testGuidesCanonicalDoesNotPublishWithoutProgress()
