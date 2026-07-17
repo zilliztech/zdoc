@@ -48,16 +48,18 @@ function writeLegacyManifest(f, manifestPath) {
   }, null, 2)}\n`)
 }
 
-test('uses one snapshot hash with a v3 default and explicit migration key prefixes', () => {
+test('uses one snapshot hash with a v3 default and v4-compatible explicit prefixes', () => {
   const f = fixture()
   const v1 = sourceCacheKey(f.snapshotPath, { version: 1 })
   const v2 = sourceCacheKey(f.snapshotPath, { version: 2 })
   const v3 = sourceCacheKey(f.snapshotPath, { version: 3 })
+  const v4 = sourceCacheKey(f.snapshotPath, { version: 4 })
   assert.match(v1, /^guides-source-v1-[0-9a-f]{64}$/)
   assert.equal(v2.replace('guides-source-v2-', ''), v1.replace('guides-source-v1-', ''))
   assert.equal(v3.replace('guides-source-v3-', ''), v1.replace('guides-source-v1-', ''))
+  assert.equal(v4.replace('guides-source-v4-', ''), v1.replace('guides-source-v1-', ''))
   assert.equal(sourceCacheKey(f.snapshotPath), v3)
-  assert.throws(() => sourceCacheKey(f.snapshotPath, { version: 4 }), /unsupported/i)
+  assert.throws(() => sourceCacheKey(f.snapshotPath, { version: 5 }), /unsupported/i)
 })
 
 test('accepts a valid v1 source cache only when schema 1 is explicitly allowed', () => {

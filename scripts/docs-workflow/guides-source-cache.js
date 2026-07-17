@@ -10,7 +10,7 @@ const { assertMediaCoverage, collectMediaReferences, sourceFilesForSnapshot, val
 function readSnapshot(snapshotPath) { return JSON.parse(fs.readFileSync(snapshotPath, 'utf8')) }
 function sha(bytes) { return crypto.createHash('sha256').update(bytes).digest('hex') }
 function sourceCacheKey(snapshotPath, { version = 3 } = {}) {
-  if (![1, 2, 3].includes(version)) throw new Error(`Unsupported Guides source cache version: ${version}`)
+  if (![1, 2, 3, 4].includes(version)) throw new Error(`Unsupported Guides source cache version: ${version}`)
   return `guides-source-v${version}-${hashSnapshot(readSnapshot(snapshotPath))}`
 }
 
