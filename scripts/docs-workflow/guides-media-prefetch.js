@@ -220,6 +220,53 @@ function writeMediaManifest(output, entries) {
   return manifest
 }
 
+const MEDIA_METRIC_KEYS = Object.freeze([
+  'canonicalReferencesRequired',
+  'selectedReferences',
+  'validatedManifestReuse',
+  'committedDocsReconstruction',
+  'resolvedByNetwork',
+  'staleEntriesDropped',
+  'finalManifestEntries',
+])
+
+function validateMediaPrefetchMetrics(metrics) {
+  if (!metrics || typeof metrics !== 'object' || Array.isArray(metrics)) throw new Error('Media prefetch metrics must be an object')
+  const keys = Object.keys(metrics)
+  if (keys.length !== MEDIA_METRIC_KEYS.length || keys.some(key => !MEDIA_METRIC_KEYS.includes(key))) {
+    throw new Error('Media prefetch metrics contain unexpected or missing counters')
+  }
+  for (const key of MEDIA_METRIC_KEYS) {
+    if (!Number.isSafeInteger(metrics[key]) || metrics[key] < 0) throw new Error(`Media prefetch metric ${key} must be a safe nonnegative integer`)
+  }
+  const dispositions = metrics.validatedManifestReuse + metrics.committedDocsReconstruction + metrics.resolvedByNetwork
+  if (metrics.finalManifestEntries !== dispositions || metrics.finalManifestEntries !== metrics.canonicalReferencesRequired) {
+    throw new Error('Media prefetch metrics do not reconcile final inventory and provenance dispositions')
+  }
+  if (metrics.selectedReferences > metrics.canonicalReferencesRequired) throw new Error('Selected media references cannot exceed canonical inventory')
+  return Object.freeze({ ...metrics })
+}
+
+function writeMediaPrefetchReport(output, { mode, cacheState, metrics, generatedAt = new Date().toISOString() }) {
+  if (!['incremental', 'recovery'].includes(mode)) throw new Error('Media prefetch report mode must be incremental or recovery')
+  if (!['valid', 'invalid', 'missing', 'legacy'].includes(cacheState)) throw new Error('Media prefetch report cache state is invalid')
+  if (typeof generatedAt !== 'string' || Number.isNaN(Date.parse(generatedAt)) || new Date(generatedAt).toISOString() !== generatedAt) {
+    throw new Error('Media prefetch report generatedAt must be an ISO timestamp')
+  }
+  const report = {
+    schemaVersion: 1,
+    generated_at: generatedAt,
+    mode,
+    cache_state: cacheState,
+    metrics: validateMediaPrefetchMetrics(metrics),
+  }
+  fs.mkdirSync(path.dirname(output), { recursive: true })
+  const temporary = `${output}.${process.pid}.tmp`
+  fs.writeFileSync(temporary, `${JSON.stringify(report, null, 2)}\n`, { flag: 'wx' })
+  fs.renameSync(temporary, output)
+  return report
+}
+
 async function trimBoard(buffer) {
   const sharp = require('sharp')
   return sharp(buffer)
@@ -258,46 +305,101 @@ async function prefetchGuidesMedia({
   concurrency = 4,
   sourceFiles = allSourceFiles(sourceDir),
   requiredSourceFiles = sourceFiles,
+  canonicalSourceFiles = requiredSourceFiles,
   previousManifestPath = null,
   bootstrapDocsDirs = [],
   reuseExisting = false,
 }) {
   if (!Number.isInteger(concurrency) || concurrency < 1 || concurrency > 16) throw new Error('Media prefetch concurrency must be between 1 and 16')
   const references = collectMediaReferences(sourceDir, sourceFiles)
-  const reusable = new Map(bootstrapMediaEntries({ sourceDir, docsDirs: bootstrapDocsDirs }).map(entry => [entry.id, entry]))
-  for (const entry of readMediaManifest(previousManifestPath)) reusable.set(entry.id, entry)
-  const resolved = new Array(references.length)
+  const canonicalReferences = collectMediaReferences(sourceDir, canonicalSourceFiles)
+  const canonicalById = new Map(canonicalReferences.map(reference => [reference.id, reference]))
+  const selectedIds = new Set(references.map(reference => reference.id))
+  const reconstructed = new Map(bootstrapMediaEntries({ sourceDir, docsDirs: bootstrapDocsDirs }).map(entry => [entry.id, entry]))
+  const previousEntries = readMediaManifest(previousManifestPath)
+  const previous = new Map(previousEntries.map(entry => [entry.id, entry]))
+  const finalEntries = new Map()
+  const provenance = new Map()
+  const pendingResolution = []
+
+  for (const reference of canonicalReferences) {
+    if (selectedIds.has(reference.id) && !reuseExisting) {
+      pendingResolution.push(reference)
+      continue
+    }
+    if (previous.has(reference.id)) {
+      finalEntries.set(reference.id, previous.get(reference.id))
+      provenance.set(reference.id, 'validatedManifestReuse')
+      continue
+    }
+    if (reconstructed.has(reference.id)) {
+      finalEntries.set(reference.id, reconstructed.get(reference.id))
+      provenance.set(reference.id, 'committedDocsReconstruction')
+      continue
+    }
+    if (selectedIds.has(reference.id)) pendingResolution.push(reference)
+  }
+
+  const resolutionById = new Map(pendingResolution.map(reference => [reference.id, reference]))
+  const referencesToResolve = [...resolutionById.values()]
+  const resolved = new Array(referencesToResolve.length)
   let cursor = 0
-  const workers = Array.from({ length: Math.min(concurrency, references.length) }, async () => {
-    while (cursor < references.length) {
+  const workers = Array.from({ length: Math.min(concurrency, referencesToResolve.length) }, async () => {
+    while (cursor < referencesToResolve.length) {
       const index = cursor
       cursor += 1
-      resolved[index] = reuseExisting && reusable.has(references[index].id)
-        ? reusable.get(references[index].id)
-        : await resolveReference(references[index], downloader, trim)
+      resolved[index] = await resolveReference(referencesToResolve[index], downloader, trim)
     }
   })
   await Promise.all(workers)
   if (references.length === 0) {
     console.log('[guides-media-prefetch] No media referenced by the selected document scope')
   }
-  const merged = new Map(reusable)
-  for (const entry of resolved) merged.set(entry.id, entry)
-  const entries = [...merged.values()]
-  assertMediaCoverage(entries, collectMediaReferences(sourceDir, requiredSourceFiles))
-  return writeMediaManifest(output, entries)
+  for (const entry of resolved) {
+    finalEntries.set(entry.id, entry)
+    provenance.set(entry.id, 'resolvedByNetwork')
+  }
+  const entries = canonicalReferences.map(reference => finalEntries.get(reference.id)).filter(Boolean)
+  assertMediaCoverage(entries, canonicalReferences)
+  const metrics = validateMediaPrefetchMetrics({
+    canonicalReferencesRequired: canonicalReferences.length,
+    selectedReferences: selectedIds.size,
+    validatedManifestReuse: [...provenance.values()].filter(value => value === 'validatedManifestReuse').length,
+    committedDocsReconstruction: [...provenance.values()].filter(value => value === 'committedDocsReconstruction').length,
+    resolvedByNetwork: [...provenance.values()].filter(value => value === 'resolvedByNetwork').length,
+    staleEntriesDropped: previousEntries.filter(entry => !canonicalById.has(entry.id)).length,
+    finalManifestEntries: entries.length,
+  })
+  return { manifest: writeMediaManifest(output, entries), metrics }
 }
 
 function parseArgs(argv) {
   const args = new Map()
+  const allowed = new Set(['--source-dir', '--output', '--report', '--mode', '--cache-state', '--snapshot', '--plan', '--doc-token', '--previous-manifest', '--bootstrap-docs', '--reuse-existing', '--concurrency'])
   for (let index = 0; index < argv.length; index += 2) {
     const flag = argv[index]
     const value = argv[index + 1]
-    if (!flag?.startsWith('--') || value === undefined || args.has(flag)) throw new Error('Usage: guides-media-prefetch.js --source-dir <path> --output <path> [--plan <path> --snapshot <path>] [--doc-token <token[,token]>] [--previous-manifest <path>] [--bootstrap-docs <dir[,dir]>] [--reuse-existing <true|false>] [--concurrency <n>]')
+    if (!allowed.has(flag) || value === undefined || args.has(flag)) throw new Error('Usage: guides-media-prefetch.js --source-dir <path> --output <path> --report <path> --mode <incremental|recovery> --cache-state <valid|invalid|missing|legacy> --snapshot <path> [--plan <path>] [--doc-token <token[,token]>] [--previous-manifest <path>] [--bootstrap-docs <dir[,dir]>] [--reuse-existing <true|false>] [--concurrency <n>]')
     args.set(flag, value)
   }
-  for (const flag of ['--source-dir', '--output']) if (!args.has(flag)) throw new Error(`Missing required argument: ${flag}`)
+  for (const flag of ['--source-dir', '--output', '--report', '--mode', '--cache-state', '--snapshot']) if (!args.has(flag)) throw new Error(`Missing required argument: ${flag}`)
+  if (!['incremental', 'recovery'].includes(args.get('--mode'))) throw new Error('--mode must be incremental or recovery')
+  if (!['valid', 'invalid', 'missing', 'legacy'].includes(args.get('--cache-state'))) throw new Error('--cache-state must be valid, invalid, missing, or legacy')
+  if (args.has('--reuse-existing') && !['true', 'false'].includes(args.get('--reuse-existing'))) throw new Error('--reuse-existing must be true or false')
   return args
+}
+
+function resolvePrefetchScopes({ sourceDir, snapshotPath, planPath = null, docTokens = [], mode }) {
+  if (!['incremental', 'recovery'].includes(mode)) throw new Error('Media prefetch scope mode must be incremental or recovery')
+  const canonicalSourceFiles = sourceFilesForSnapshot(sourceDir, readJson(snapshotPath))
+  if (mode === 'recovery') {
+    return { sourceFiles: canonicalSourceFiles, requiredSourceFiles: canonicalSourceFiles, canonicalSourceFiles }
+  }
+  return {
+    sourceFiles: selectSourceFiles({ sourceDir, planPath, snapshotPath, docTokens }),
+    requiredSourceFiles: selectRequiredSourceFiles({ sourceDir, planPath, snapshotPath, docTokens }),
+    canonicalSourceFiles,
+  }
 }
 
 async function main() {
@@ -306,10 +408,15 @@ async function main() {
   const concurrency = Number(args.get('--concurrency') || 4)
   const sourceDir = path.resolve(args.get('--source-dir'))
   const planPath = args.has('--plan') ? path.resolve(args.get('--plan')) : null
-  const snapshotPath = args.has('--snapshot') ? path.resolve(args.get('--snapshot')) : null
+  const snapshotPath = path.resolve(args.get('--snapshot'))
   const docTokens = (args.get('--doc-token') || '').split(',').map(value => value.trim()).filter(Boolean)
-  const sourceFiles = selectSourceFiles({ sourceDir, planPath, snapshotPath, docTokens })
-  const requiredSourceFiles = selectRequiredSourceFiles({ sourceDir, planPath, snapshotPath, docTokens })
+  const { sourceFiles, requiredSourceFiles, canonicalSourceFiles } = resolvePrefetchScopes({
+    sourceDir,
+    snapshotPath,
+    planPath,
+    docTokens,
+    mode: args.get('--mode'),
+  })
   const bootstrapDocsDirs = (args.get('--bootstrap-docs') || '').split(',').map(value => value.trim()).filter(Boolean).map(value => path.resolve(value))
   const downloader = new Downloader({}, path.dirname(path.resolve(args.get('--output'))), {
     maxConcurrent: concurrency,
@@ -318,18 +425,24 @@ async function main() {
     figmaMinTime: Number(process.env.GUIDES_FIGMA_MIN_TIME_MS || 1000),
   })
   try {
-    const manifest = await prefetchGuidesMedia({
+    const result = await prefetchGuidesMedia({
       sourceDir,
       output: path.resolve(args.get('--output')),
       downloader,
       concurrency,
       sourceFiles,
       requiredSourceFiles,
+      canonicalSourceFiles,
       previousManifestPath: args.has('--previous-manifest') ? path.resolve(args.get('--previous-manifest')) : null,
       bootstrapDocsDirs,
       reuseExisting: args.get('--reuse-existing') === 'true',
     })
-    console.log(`[guides-media-prefetch] ${manifest.entries.length} media item(s) prefetched`)
+    writeMediaPrefetchReport(path.resolve(args.get('--report')), {
+      mode: args.get('--mode'),
+      cacheState: args.get('--cache-state'),
+      metrics: result.metrics,
+    })
+    console.log(`[guides-media-prefetch] canonical=${result.metrics.canonicalReferencesRequired} selected=${result.metrics.selectedReferences} manifest_reuse=${result.metrics.validatedManifestReuse} docs_reconstruction=${result.metrics.committedDocsReconstruction} network_resolved=${result.metrics.resolvedByNetwork} stale_dropped=${result.metrics.staleEntriesDropped} final=${result.metrics.finalManifestEntries}`)
   } finally {
     downloader.destroy()
   }
@@ -337,4 +450,4 @@ async function main() {
 
 if (require.main === module) main().catch(error => { console.error(error.message); process.exitCode = 1 })
 
-module.exports = { assertMediaCoverage, bootstrapMediaEntries, collectMediaReferences, figmaIdentity, prefetchGuidesMedia, readMediaManifest, selectRequiredSourceFiles, selectSourceFiles, sourceFilesForSnapshot, validateEntries, writeMediaManifest }
+module.exports = { assertMediaCoverage, bootstrapMediaEntries, collectMediaReferences, figmaIdentity, parseArgs, prefetchGuidesMedia, readMediaManifest, resolvePrefetchScopes, selectRequiredSourceFiles, selectSourceFiles, sourceFilesForSnapshot, validateEntries, validateMediaPrefetchMetrics, writeMediaManifest, writeMediaPrefetchReport }

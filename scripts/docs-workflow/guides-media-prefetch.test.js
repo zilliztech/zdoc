@@ -6,7 +6,18 @@ const os = require('node:os')
 const path = require('node:path')
 const test = require('node:test')
 
-const { bootstrapMediaEntries, collectMediaReferences, prefetchGuidesMedia, selectRequiredSourceFiles, selectSourceFiles, writeMediaManifest } = require('./guides-media-prefetch')
+const {
+  bootstrapMediaEntries,
+  collectMediaReferences,
+  parseArgs,
+  prefetchGuidesMedia,
+  resolvePrefetchScopes,
+  selectRequiredSourceFiles,
+  selectSourceFiles,
+  validateMediaPrefetchMetrics,
+  writeMediaManifest,
+  writeMediaPrefetchReport,
+} = require('./guides-media-prefetch')
 
 function writeSource(root, name, blocks) {
   fs.mkdirSync(root, { recursive: true })
@@ -96,7 +107,7 @@ test('incremental prefetch fetches changed documents and requires every document
   assert.deepEqual(selectRequiredSourceFiles({ sourceDir, planPath, snapshotPath }), ['changed.json', 'unchanged.json'])
 })
 
-test('incremental prefetch reuses unchanged media and refreshes changed media', async () => {
+test('valid previous manifest supplies canonical inventory outside the incremental selected scope', async () => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'guides-media-reuse-'))
   const sourceDir = path.join(root, 'sources')
   const output = path.join(root, 'guides.json')
@@ -112,17 +123,27 @@ test('incremental prefetch reuses unchanged media and refreshes changed media', 
     async __fetchCaption() { throw new Error('unchanged Figma media must not be fetched') },
   }
 
-  const manifest = await prefetchGuidesMedia({
+  const result = await prefetchGuidesMedia({
     sourceDir,
     output,
     previousManifestPath: output,
     sourceFiles: ['changed.json'],
     requiredSourceFiles: ['changed.json', 'unchanged.json'],
+    canonicalSourceFiles: ['changed.json', 'unchanged.json'],
     downloader,
   })
 
   assert.deepEqual(calls, ['image:changed', 'upload:changed.png'])
-  assert.deepEqual(manifest.entries.map(entry => entry.id), ['feishu-image:changed', 'figma:key:1:2'])
+  assert.deepEqual(result.manifest.entries.map(entry => entry.id), ['feishu-image:changed', 'figma:key:1:2'])
+  assert.deepEqual(result.metrics, {
+    canonicalReferencesRequired: 2,
+    selectedReferences: 1,
+    validatedManifestReuse: 1,
+    committedDocsReconstruction: 0,
+    resolvedByNetwork: 1,
+    staleEntriesDropped: 0,
+    finalManifestEntries: 2,
+  })
 })
 
 test('migrated source cache rebuilds missing media from baseline docs and refreshes changed scope', async () => {
@@ -148,21 +169,31 @@ test('migrated source cache rebuilds missing media from baseline docs and refres
     async __downloadImage(token) { calls.push(`image:${token}`); return Buffer.from(token) },
     async __uploadToS3(_buffer, key) { calls.push(`upload:${key}`) },
   }
-  const manifest = await prefetchGuidesMedia({
+  const result = await prefetchGuidesMedia({
     sourceDir,
     output,
     downloader,
     sourceFiles: ['changed.json'],
     requiredSourceFiles: ['changed.json', 'unchanged.json'],
+    canonicalSourceFiles: ['changed.json', 'unchanged.json'],
     bootstrapDocsDirs: [docsDir],
     reuseExisting: false,
   })
 
   assert.deepEqual(calls, ['image:changed-image', 'upload:changed-image.png'])
-  assert.deepEqual(manifest.entries.map(entry => entry.id), [
+  assert.deepEqual(result.manifest.entries.map(entry => entry.id), [
     'feishu-image:changed-image',
     'feishu-image:unchanged-image',
   ])
+  assert.deepEqual(result.metrics, {
+    canonicalReferencesRequired: 2,
+    selectedReferences: 1,
+    validatedManifestReuse: 0,
+    committedDocsReconstruction: 1,
+    resolvedByNetwork: 1,
+    staleEntriesDropped: 0,
+    finalManifestEntries: 2,
+  })
 })
 
 test('full bootstrap reuses media proven by validated baseline docs and fetches new media', async () => {
@@ -197,16 +228,17 @@ test('full bootstrap reuses media proven by validated baseline docs and fetches 
     async __uploadToS3(_buffer, key) { calls.push(`upload:${key}`) },
     async __fetchCaption() { throw new Error('deleted baseline Figma node must not be fetched during bootstrap') },
   }
-  const manifest = await prefetchGuidesMedia({
+  const result = await prefetchGuidesMedia({
     sourceDir,
     output,
     downloader,
     bootstrapDocsDirs: [docsDir],
     reuseExisting: true,
+    canonicalSourceFiles: ['doc.json'],
   })
 
   assert.deepEqual(calls, ['image:new-image', 'upload:new-image.png'])
-  assert.deepEqual(manifest.entries.map(entry => entry.id), [
+  assert.deepEqual(result.manifest.entries.map(entry => entry.id), [
     'feishu-image:new-image',
     'feishu-image:old-image',
     'figma:key:1:2',
@@ -261,7 +293,7 @@ test('prefetches every unique media reference once with bounded concurrency', as
     async __uploadToS3(_buffer, key) { calls.push(`upload:${key}`) },
   }
 
-  const manifest = await prefetchGuidesMedia({ sourceDir, output, downloader, trimBoard: async buffer => buffer, concurrency: 3 })
+  const result = await prefetchGuidesMedia({ sourceDir, output, downloader, trimBoard: async buffer => buffer, concurrency: 3, canonicalSourceFiles: ['a.json'] })
 
   assert.deepEqual([...calls].sort(), [
     'board:board', 'upload:board.png',
@@ -270,5 +302,122 @@ test('prefetches every unique media reference once with bounded concurrency', as
   ].sort())
   assert.ok(maxActive > 1)
   assert.ok(maxActive <= 3)
-  assert.deepEqual(manifest.entries.map(entry => entry.id), ['feishu-board:board', 'feishu-image:img', 'figma:key:1:2'])
+  assert.deepEqual(result.manifest.entries.map(entry => entry.id), ['feishu-board:board', 'feishu-image:img', 'figma:key:1:2'])
+})
+
+test('prunes stale prior manifest entries and counts them separately', async () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'guides-media-stale-'))
+  const sourceDir = path.join(root, 'sources')
+  const output = path.join(root, 'guides.json')
+  writeSource(sourceDir, 'canonical.json', [{ image: { token: 'canonical', caption: { content: 'Canonical' } } }])
+  writeMediaManifest(output, [
+    { id: 'feishu-image:canonical', type: 'feishu-image', token: 'canonical', caption: 'Canonical', objectKey: 'canonical.png' },
+    { id: 'feishu-board:stale', type: 'feishu-board', token: 'stale', objectKey: 'stale.png' },
+  ])
+
+  const result = await prefetchGuidesMedia({
+    sourceDir,
+    output,
+    downloader: { async __downloadImage() { throw new Error('canonical manifest entry must be reused') } },
+    sourceFiles: [],
+    requiredSourceFiles: ['canonical.json'],
+    canonicalSourceFiles: ['canonical.json'],
+    previousManifestPath: output,
+  })
+
+  assert.deepEqual(result.manifest.entries.map(entry => entry.id), ['feishu-image:canonical'])
+  assert.equal(result.metrics.staleEntriesDropped, 1)
+  assert.equal(result.metrics.validatedManifestReuse, 1)
+})
+
+test('complete inventory equals required references and the three provenance dispositions', () => {
+  const metrics = validateMediaPrefetchMetrics({
+    canonicalReferencesRequired: 7,
+    selectedReferences: 2,
+    validatedManifestReuse: 3,
+    committedDocsReconstruction: 2,
+    resolvedByNetwork: 2,
+    staleEntriesDropped: 4,
+    finalManifestEntries: 7,
+  })
+  assert.equal(metrics.finalManifestEntries, metrics.canonicalReferencesRequired)
+  assert.equal(
+    metrics.finalManifestEntries,
+    metrics.validatedManifestReuse + metrics.committedDocsReconstruction + metrics.resolvedByNetwork,
+  )
+  assert.throws(() => validateMediaPrefetchMetrics({ ...metrics, finalManifestEntries: 6 }), /reconcile|inventory/i)
+})
+
+test('valid previous manifest with an empty incremental delta performs no network resolution', async () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'guides-media-empty-delta-'))
+  const sourceDir = path.join(root, 'sources')
+  const output = path.join(root, 'guides.json')
+  const report = path.join(root, 'report.json')
+  writeSource(sourceDir, 'canonical.json', [{ board: { token: 'board' } }])
+  writeMediaManifest(output, [{ id: 'feishu-board:board', type: 'feishu-board', token: 'board', objectKey: 'board.png' }])
+  const downloader = new Proxy({}, { get() { throw new Error('network resolver must not be accessed') } })
+
+  const result = await prefetchGuidesMedia({
+    sourceDir,
+    output,
+    downloader,
+    sourceFiles: [],
+    requiredSourceFiles: [],
+    canonicalSourceFiles: ['canonical.json'],
+    previousManifestPath: output,
+  })
+  const written = writeMediaPrefetchReport(report, {
+    mode: 'incremental',
+    cacheState: 'valid',
+    metrics: result.metrics,
+    generatedAt: '2026-07-17T00:00:00.000Z',
+  })
+
+  assert.equal(result.metrics.resolvedByNetwork, 0)
+  assert.equal(result.metrics.validatedManifestReuse, 1)
+  assert.deepEqual(JSON.parse(fs.readFileSync(report, 'utf8')), written)
+})
+
+test('CLI requires report, mode, cache state, and snapshot with bounded values', () => {
+  const required = [
+    '--source-dir', 'sources',
+    '--output', 'manifest.json',
+    '--report', 'report.json',
+    '--mode', 'incremental',
+    '--cache-state', 'valid',
+    '--snapshot', 'snapshot.json',
+  ]
+  assert.equal(parseArgs(required).get('--report'), 'report.json')
+  for (const flag of ['--report', '--mode', '--cache-state', '--snapshot']) {
+    const index = required.indexOf(flag)
+    assert.throws(() => parseArgs([...required.slice(0, index), ...required.slice(index + 2)]), new RegExp(flag.slice(2), 'i'))
+  }
+  assert.throws(() => parseArgs(required.with(required.indexOf('--mode') + 1, 'full')), /mode.*incremental.*recovery/i)
+  assert.throws(() => parseArgs(required.with(required.indexOf('--cache-state') + 1, 'unknown')), /cache-state.*valid.*invalid.*missing.*legacy/i)
+  assert.throws(() => parseArgs([...required, '--unknown', 'value']), /unknown|usage/i)
+})
+
+test('CLI scope resolution derives complete canonical recovery inventory from the snapshot', () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'guides-media-cli-scope-'))
+  const sourceDir = path.join(root, 'sources')
+  writeSource(sourceDir, 'a.json', [])
+  writeSource(sourceDir, 'b.json', [])
+  const snapshotPath = path.join(root, 'snapshot.json')
+  fs.writeFileSync(snapshotPath, JSON.stringify({ records: [
+    { doc_token: 'a', source_file: 'a.json' },
+    { doc_token: 'b', source_file: 'b.json' },
+  ] }))
+  const planPath = path.join(root, 'plan.json')
+  fs.writeFileSync(planPath, JSON.stringify({ mode: 'incremental', expanded_tokens: ['a'], affected_tables: [] }))
+
+  assert.deepEqual(resolvePrefetchScopes({ sourceDir, snapshotPath, planPath, docTokens: [], mode: 'recovery' }), {
+    sourceFiles: ['a.json', 'b.json'],
+    requiredSourceFiles: ['a.json', 'b.json'],
+    canonicalSourceFiles: ['a.json', 'b.json'],
+  })
+  assert.deepEqual(resolvePrefetchScopes({ sourceDir, snapshotPath, planPath, docTokens: [], mode: 'incremental' }), {
+    sourceFiles: ['a.json'],
+    requiredSourceFiles: ['a.json'],
+    canonicalSourceFiles: ['a.json', 'b.json'],
+  })
 })
