@@ -4,6 +4,7 @@ const os = require('node:os')
 const path = require('node:path')
 const { spawnSync } = require('node:child_process')
 const { test } = require('node:test')
+const { createCardReport } = require('./docs-workflow/docs-card-report')
 const {
   brokenContentLinksNote,
   cacheGenerationNote,
@@ -152,6 +153,59 @@ test('skipped-valid-v4 is accepted only with no save requirement and a null key'
     process.env.CARD_REPORT_STARTED_AT = '2026-07-17T01:00:00.000Z'
     writeMediaReports({ persistence: 'skipped-valid-v4' })
     assert.match(collectNotes()[0], /- Cache persistence: skipped-valid-v4/)
+  })
+})
+
+for (const [persistence, expectedAttention] of [
+  ['saved', false],
+  ['skipped-valid-v4', false],
+  ['save-failed', true],
+]) {
+  test(`collected ${persistence} persistence produces the correct final card attention without changing success`, () => {
+    withTempCwd(() => {
+      process.env.CARD_REPORT_STARTED_AT = '2026-07-17T01:00:00.000Z'
+      writeMediaReports({ persistence })
+      const notes = collectNotes()
+      const report = createCardReport({
+        runId: 123,
+        overallStatus: 'success',
+        summary: 'Documentation workflow succeeded.',
+        generatedAt: '2026-07-17T02:00:00.000Z',
+        reports: notes,
+      })
+      const media = report.reports.find(item => item.title === 'Guides media')
+      assert.equal(report.overallStatus, 'success')
+      assert.equal(media.attention, expectedAttention)
+    })
+  })
+}
+
+test('cache failure wording outside the exact Guides persistence fact is not attention-worthy', () => {
+  const report = createCardReport({
+    runId: 123,
+    overallStatus: 'success',
+    summary: 'Documentation workflow succeeded.',
+    generatedAt: '2026-07-17T02:00:00.000Z',
+    reports: ['# Unrelated cache note\n\n- Cache persistence: save-failed'],
+  })
+  assert.equal(report.reports[0].attention, false)
+})
+
+test('malformed persistence remains best-effort through final card creation', () => {
+  withTempCwd(() => {
+    process.env.CARD_REPORT_STARTED_AT = '2026-07-17T01:00:00.000Z'
+    process.env.CARD_EXPECT_GUIDES_REPORTS = 'true'
+    writeMediaReports({ generation: { persistence: 'save-failed', saveKey: null } })
+    const report = createCardReport({
+      runId: 123,
+      overallStatus: 'success',
+      summary: 'Documentation workflow succeeded.',
+      generatedAt: '2026-07-17T02:00:00.000Z',
+      reports: collectNotes(),
+    })
+    assert.equal(report.overallStatus, 'success')
+    assert.equal(report.reports.some(item => /Guides cache persistence report/.test(item.markdown)), true)
+    assert.equal(report.reports.some(item => item.attention), false)
   })
 })
 

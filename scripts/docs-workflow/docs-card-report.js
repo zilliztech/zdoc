@@ -70,10 +70,15 @@ function hasPositiveMetric(markdown, names) {
   return names.some(name => new RegExp(`(?:^|\\n)\\s*[-*]?\\s*${name}\\s*:\\s*([1-9]\\d*)`, 'i').test(markdown))
 }
 
+function hasGuidesCacheSaveFailure(markdown) {
+  return /^[ \t]*# Guides media[ \t]*$/m.test(markdown) &&
+    /(?:^|\n)[ \t]*-[ \t]+Cache persistence:[ \t]+save-failed[ \t]*(?=\n|$)/.test(markdown)
+}
+
 function reportNeedsAttention(markdown) {
   const text = String(markdown)
   return hasPositiveMetric(text, ['warnings?', 'errors?', 'failures?', 'broken(?: content)? links?', 'broken references?']) ||
-    /^\s*#{1,6}\s+.*\b(?:warning|failed?|error)\b/im.test(text)
+    /^\s*#{1,6}\s+.*\b(?:warning|failed?|error)\b/im.test(text) || hasGuidesCacheSaveFailure(text)
 }
 
 function cleanText(value, max) {
