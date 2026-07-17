@@ -1,12 +1,58 @@
 const fs = require('node:fs')
 const path = require('node:path')
 
+const CONSTRUCTOR_TOKEN = Symbol('LarkSourceIndex constructor')
+const OPEN_FLAGS = fs.constants.O_RDONLY | (fs.constants.O_NOFOLLOW || 0)
 const hasOwn = (value, key) => Object.prototype.hasOwnProperty.call(value, key)
 
-function freezeRecursively(value) {
-  if (!value || typeof value !== 'object' || Object.isFrozen(value)) return value
-  for (const child of Object.values(value)) freezeRecursively(child)
-  return Object.freeze(value)
+function freezeIteratively(value) {
+  if (!value || typeof value !== 'object') return value
+
+  const objects = []
+  const pending = [value]
+  const seen = new Set()
+  while (pending.length > 0) {
+    const current = pending.pop()
+    if (!current || typeof current !== 'object' || seen.has(current)) continue
+    seen.add(current)
+    objects.push(current)
+    for (const child of Object.values(current)) pending.push(child)
+  }
+  for (let index = objects.length - 1; index >= 0; index -= 1) {
+    Object.freeze(objects[index])
+  }
+  return value
+}
+
+function readRegularSourceFile(sourcePath, wasSymlinkAtListing) {
+  let fileDescriptor
+  try {
+    fileDescriptor = fs.openSync(sourcePath, OPEN_FLAGS)
+  } catch (error) {
+    const detail = wasSymlinkAtListing || error.code === 'ELOOP'
+      ? 'symlink source files are not allowed'
+      : error.message
+    throw new Error(`Cannot open Lark source file ${sourcePath}: ${detail}`)
+  }
+
+  try {
+    let fileStat
+    try {
+      fileStat = fs.fstatSync(fileDescriptor)
+    } catch (error) {
+      throw new Error(`Cannot read Lark source file ${sourcePath}: ${error.message}`)
+    }
+    if (!fileStat.isFile()) {
+      throw new Error(`Cannot read Lark source file ${sourcePath}: not a regular file`)
+    }
+    try {
+      return fs.readFileSync(fileDescriptor, 'utf8')
+    } catch (error) {
+      throw new Error(`Cannot read Lark source file ${sourcePath}: ${error.message}`)
+    }
+  } finally {
+    fs.closeSync(fileDescriptor)
+  }
 }
 
 function ambiguousLookupError(value, entries) {
@@ -18,7 +64,10 @@ class LarkSourceIndex {
   #sourceDir
   #byType
 
-  constructor(sourceDir, byType) {
+  constructor(constructorToken, sourceDir, byType) {
+    if (constructorToken !== CONSTRUCTOR_TOKEN) {
+      throw new Error('LarkSourceIndex instances must be created with LarkSourceIndex.load')
+    }
     this.#sourceDir = sourceDir
     this.#byType = byType
     Object.freeze(this)
@@ -42,29 +91,27 @@ class LarkSourceIndex {
     const realSourceDir = fs.realpathSync(resolvedDir)
     const directoryEntries = fs.readdirSync(realSourceDir, { withFileTypes: true })
       .filter(entry => entry.name.endsWith('.json'))
-      .sort((left, right) => left.name.localeCompare(right.name))
-    const entries = []
+      .sort((left, right) => left.name < right.name ? -1 : left.name > right.name ? 1 : 0)
     const byType = new Map()
 
     for (const directoryEntry of directoryEntries) {
       const sourcePath = path.join(realSourceDir, directoryEntry.name)
-      const fileStat = fs.lstatSync(sourcePath)
-      if (directoryEntry.isSymbolicLink() || fileStat.isSymbolicLink()) {
-        throw new Error(`Lark source file must not be a symlink: ${sourcePath}`)
-      }
-      if (!directoryEntry.isFile() || !fileStat.isFile()) continue
+      if (!directoryEntry.isFile() && !directoryEntry.isSymbolicLink()) continue
 
+      const sourceJson = readRegularSourceFile(sourcePath, directoryEntry.isSymbolicLink())
       if (options.onRead) options.onRead(sourcePath)
       let source
       try {
-        source = JSON.parse(fs.readFileSync(sourcePath, 'utf8'))
-      } catch (error) {
-        throw new Error(`Cannot parse Lark source JSON ${sourcePath}: ${error.message}`)
+        source = JSON.parse(sourceJson)
+      } catch (_) {
+        throw new Error(`Cannot parse Lark source JSON ${sourcePath}`)
       }
-      freezeRecursively(source)
+      if (!source || typeof source !== 'object' || Array.isArray(source)) {
+        throw new Error(`Invalid Lark source JSON shape in ${sourcePath}`)
+      }
+      freezeIteratively(source)
 
       const indexedEntry = Object.freeze({ source, sourcePath })
-      entries.push(indexedEntry)
       for (const [type, value] of Object.entries(source)) {
         let values = byType.get(type)
         if (!values) {
@@ -83,7 +130,7 @@ class LarkSourceIndex {
     for (const values of byType.values()) {
       for (const candidates of values.values()) Object.freeze(candidates)
     }
-    return new LarkSourceIndex(realSourceDir, byType)
+    return new LarkSourceIndex(CONSTRUCTOR_TOKEN, realSourceDir, byType)
   }
 
   find(typeOrTypes, value, options = {}) {

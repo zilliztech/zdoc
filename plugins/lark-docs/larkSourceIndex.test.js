@@ -173,6 +173,40 @@ test('freezes every parsed source recursively', t => {
   assert.equal(Object.isFrozen(source.blocks.items[0]), true)
 })
 
+test('freezes deeply nested sources without overflowing the call stack', t => {
+  const sourceDir = makeSourceDir(t)
+  const depth = 20_000
+  const json = `{"node_token":"deep","nested":${'{"nested":'.repeat(depth)}{}${'}'.repeat(depth)}}`
+  fs.writeFileSync(path.join(sourceDir, 'deep.json'), json)
+
+  const source = LarkSourceIndex.load(sourceDir).find('node_token', 'deep')
+
+  let current = source
+  for (let index = 0; index <= depth; index += 1) {
+    assert.equal(Object.isFrozen(current), true)
+    current = current.nested
+  }
+})
+
+test('reads safely opened bytes before notifying onRead about the source', t => {
+  const sourceDir = makeSourceDir(t)
+  const sourcePath = path.join(sourceDir, 'source.json')
+  const replacementPath = path.join(sourceDir, 'replacement.txt')
+  writeJson(sourceDir, 'source.json', { title: 'Original', node_token: 'original' })
+  fs.writeFileSync(replacementPath, JSON.stringify({ title: 'Replacement', node_token: 'replacement' }))
+
+  const index = LarkSourceIndex.load(sourceDir, {
+    onRead(file) {
+      assert.equal(file, fs.realpathSync(sourcePath))
+      fs.unlinkSync(file)
+      fs.symlinkSync(replacementPath, file)
+    },
+  })
+
+  assert.equal(index.find('node_token', 'original').title, 'Original')
+  assert.equal(index.findAnyToken('replacement'), null)
+})
+
 test('rejects symlink source directories and source files', t => {
   const parent = makeSourceDir(t)
   const realDir = path.join(parent, 'real')
@@ -184,14 +218,64 @@ test('rejects symlink source directories and source files', t => {
 
   writeJson(realDir, 'source.json', { title: 'Source' })
   fs.symlinkSync(path.join(realDir, 'source.json'), path.join(realDir, 'linked.json'))
-  assert.throws(() => LarkSourceIndex.load(realDir), /linked\.json.*symlink|symlink.*linked\.json/i)
+  assert.throws(
+    () => LarkSourceIndex.load(realDir),
+    /Cannot open Lark source file.*linked\.json.*symlink/i,
+  )
 })
 
-test('rejects malformed JSON with the source filename', t => {
+test('rejects malformed JSON with the source filename without leaking contents', t => {
   const sourceDir = makeSourceDir(t)
-  fs.writeFileSync(path.join(sourceDir, 'broken.json'), '{')
+  fs.writeFileSync(path.join(sourceDir, 'broken.json'), 'TOP_SECRET')
 
-  assert.throws(() => LarkSourceIndex.load(sourceDir), /broken\.json/)
+  assert.throws(
+    () => LarkSourceIndex.load(sourceDir),
+    error => {
+      assert.match(error.message, /Cannot parse Lark source JSON.*broken\.json/)
+      assert.doesNotMatch(error.message, /TOP_SECRET/)
+      return true
+    },
+  )
+})
+
+test('reports descriptor read failures separately from JSON parse failures', t => {
+  const sourceDir = makeSourceDir(t)
+  writeJson(sourceDir, 'unreadable.json', { title: 'Unreadable' })
+  const readFileSync = fs.readFileSync
+  fs.readFileSync = function (source, ...args) {
+    if (typeof source === 'number') throw new Error('simulated read failure')
+    return readFileSync.call(this, source, ...args)
+  }
+
+  try {
+    assert.throws(
+      () => LarkSourceIndex.load(sourceDir),
+      /Cannot read Lark source file.*unreadable\.json.*simulated read failure/,
+    )
+  } finally {
+    fs.readFileSync = readFileSync
+  }
+})
+
+for (const [shape, value] of [
+  ['null', null],
+  ['array', []],
+  ['string', 'source'],
+  ['number', 42],
+]) {
+  test(`rejects ${shape} Lark source JSON with a filename-qualified shape error`, t => {
+    const sourceDir = makeSourceDir(t)
+    writeJson(sourceDir, `${shape}.json`, value)
+
+    assert.throws(
+      () => LarkSourceIndex.load(sourceDir),
+      new RegExp(`Invalid Lark source JSON shape.*${shape}\\.json`),
+    )
+  })
+}
+
+test('rejects direct construction outside the validated loader', () => {
+  assert.throws(() => new LarkSourceIndex(), /LarkSourceIndex\.load/)
 })
 
 test('returns null for missing any-token and Base metadata lookups', t => {
