@@ -242,6 +242,12 @@ already-supported duplicate case or fails with both conflicting source paths.
 dependency. Lookup helpers query the index instead of reading the whole source
 directory. Writer-specific mutable state is not shared between SaaS and BYOC.
 
+The index is opt-in for the combined Guides sidebar path. Existing writer
+instances created by per-document/subtree publication without an injected index
+retain their current lookup implementation and behavior. The `--docToken`
+fetch/write path, its source fetching, media handling, output mutation,
+post-processing, and sidebar decisions are not refactored by this work.
+
 The combined Guides sidebar command is
 `scripts/docs-workflow/generate-guides-sidebars.js`. It loads one immutable
 index and invokes two target-specific writers. Repeated per-node directory scans
@@ -859,6 +865,8 @@ expected-SHA lease. Automated cleanup is outside the initial implementation.
 - Checking every remote object-store item on every run.
 - Creating a persistent sidebar index database or daemon.
 - Changing translated text or translation provider behavior.
+- Changing `lark-docs` per-document/subtree publication behavior or routing the
+  existing `--docToken` path through the combined sidebar optimization.
 - Allowing workers to update the Feishu card.
 - Force-updating the target branch, broad force pushes, automatic rebases,
   automatic merges, distributed locks, or a separate staging repository. The

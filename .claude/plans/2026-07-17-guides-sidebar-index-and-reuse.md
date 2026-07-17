@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Remove repeated whole-directory parsing from Guides sidebar generation and skip generation only when a committed identity proves the exact baseline output is reusable.
+**Goal:** Remove repeated whole-directory parsing from the combined Guides sidebar workflow and skip generation only when a committed identity proves the exact baseline output is reusable, without changing per-document/subtree publication.
 
 **Architecture:** Load Guides JSON into one immutable index shared by separate SaaS and BYOC writers. Compute canonical source, navigation, and conservative tooling identities; carry a strict run decision through the source artifact; first verify decisions in observe-only mode, then enable mutually exclusive reuse or regeneration with unconditional final validation.
 
@@ -15,7 +15,7 @@
 ## File structure
 
 - Create `plugins/lark-docs/larkSourceIndex.js` and `.test.js`: immutable, deterministic source lookup.
-- Modify `plugins/lark-docs/larkDocWriter.js` and tests: inject/use the index without changing callers.
+- Modify `plugins/lark-docs/larkDocWriter.js` and tests: use an injected index only for the combined sidebar path; preserve the existing no-index lookup path byte-for-byte for per-document publication.
 - Create `scripts/docs-workflow/generate-guides-sidebars.js` and `.test.js`: hard-coded one-process two-target wrapper.
 - Modify `plugins/lark-docs/index.js`: combined sidebar target option and shared index.
 - Create `scripts/docs-workflow/guides-assembly-identity.js` and `.test.js`: projections, fingerprint, descriptor, decision, and CLI.
@@ -141,36 +141,75 @@ Expected: FAIL because the constructor and lookups do not use the index.
 
 - [ ] **Step 3: Replace the three scanning helpers**
 
-Append `sourceIndex = null` to the constructor without changing existing positional arguments. Set:
+Append `sourceIndex = null` to the constructor without changing existing positional arguments. Store it without constructing an index:
 
 ```js
 this.sourceIndex = sourceIndex
-
-__source_index() {
-  if (!this.sourceIndex) this.sourceIndex = LarkSourceIndex.load(this.docSourceDir)
-  return this.sourceIndex
-}
 ```
 
-Replace only:
+Add indexed branches to the three helpers while leaving their existing filesystem implementation as the exact fallback when `sourceIndex` is null:
 
 ```js
 __fetch_doc_source(type, value, slug = '') {
-  const source = this.__source_index().find(type, value, { slug })
-  if (!source) throw new Error(`Cannot find ${value} in ${this.docSourceDir}`)
-  return source
+  if (this.sourceIndex) {
+    const source = this.sourceIndex.find(type, value, { slug })
+    if (!source) throw new Error(`Cannot find ${value} in ${this.docSourceDir}`)
+    return source
+  }
+  const file = fs.readdirSync(this.docSourceDir).filter(file => {
+    const page = JSON.parse(fs.readFileSync(`${this.docSourceDir}/${file}`, { encoding: 'utf-8', flag: 'r' }))
+    try {
+      type = type instanceof Array ? type.filter(candidate => Object.keys(page).includes(candidate))[0] : type
+    } catch (error) {
+      throw new Error(`1. Cannot find ${type} in ${this.docSourceDir}/${file}`)
+    }
+    return page[type] === value
+  })
+  if (file.length > 0) {
+    if (slug) {
+      return file.map(name => JSON.parse(fs.readFileSync(`${this.docSourceDir}/${name}`, { encoding: 'utf-8', flag: 'r' })))
+        .filter(page => page.slug === slug)[0]
+    }
+    return JSON.parse(fs.readFileSync(`${this.docSourceDir}/${file[0]}`, { encoding: 'utf-8', flag: 'r' }))
+  }
+  throw new Error(`2. Cannot find ${value} in ${this.docSourceDir}`)
 }
 
 __fetch_doc_source_by_any_token(token) {
-  return this.__source_index().findAnyToken(token)
+  if (this.sourceIndex) return this.sourceIndex.findAnyToken(token)
+  const tokenKeys = ['node_token', 'origin_node_token', 'obj_token', 'token']
+  const files = fs.readdirSync(this.docSourceDir).filter(file => file.endsWith('.json'))
+  for (const file of files) {
+    const source = JSON.parse(fs.readFileSync(`${this.docSourceDir}/${file}`, { encoding: 'utf-8', flag: 'r' }))
+    if (tokenKeys.some(key => source[key] === token)) return source
+  }
+  return null
 }
 
 __fetch_base_source_meta(title, slug, token = null) {
-  return this.__source_index().findBaseSourceMeta({ title, slug, token })
+  if (this.sourceIndex) return this.sourceIndex.findBaseSourceMeta({ title, slug, token })
+  if (!slug || !fs.existsSync(this.docSourceDir)) return null
+  const files = fs.readdirSync(this.docSourceDir).filter(file => file.endsWith('.json'))
+  const sources = files.map(file => JSON.parse(fs.readFileSync(`${this.docSourceDir}/${file}`, 'utf8')))
+  if (token) {
+    const tokenMatch = sources.find(source =>
+      (source.base_record_id || source.base_nav_virtual) &&
+      (source.node_token === token || source.origin_node_token === token || source.token === token)
+    )
+    if (tokenMatch) return tokenMatch
+  }
+  return sources.find(source =>
+    (source.base_record_id || source.base_nav_virtual) &&
+    source.slug === slug &&
+    (source.title === title || source.name === title)
+  ) || null
 }
 ```
 
-Leave callers and error handling intact. Do not share writer mutable state.
+Do not create or inject an index in the existing `opts.docToken` path. Leave its
+call order, fetch behavior, writer construction, cleanup, output paths,
+post-processing, and sidebar behavior unchanged. Do not share writer mutable
+state.
 
 - [ ] **Step 4: Run index and writer regressions**
 
@@ -181,6 +220,8 @@ node plugins/lark-docs/larkSourceIndex.test.js
 node plugins/lark-docs/larkDocWriter.test.js
 node plugins/lark-docs/larkDocWriter.beta.test.js
 node plugins/lark-docs/offlineRender.test.js
+node scripts/doc-publish-bot/publishRequest.test.js
+node scripts/doc-publish-bot/publishJob.test.js
 ```
 
 Expected: PASS and existing sidebar fixtures remain byte-equivalent.
@@ -235,6 +276,11 @@ Expected: FAIL because the wrapper/helper do not exist.
 
 Add `--sidebarTargets <targets>` to `plugins/lark-docs/index.js`. It is valid only with `--sidebarOnly`, `manual=guides`, and offline media resolution. Parse exactly `zilliz.saas` and `zilliz.paas`, create one `LarkSourceIndex`, then create two separate writers with that shared index and write each configured sidebar.
 
+Place this branch entirely inside `opts.sidebarOnly` before the existing
+per-document/subtree branch. Add a regression test that the `opts.docToken`
+branch constructs the same writer arguments and executes the same fetch and
+`write_subtree()` calls as before when `--sidebarTargets` is absent.
+
 - [ ] **Step 4: Implement the hard-coded workflow wrapper**
 
 `generate-guides-sidebars.js` must accept only `--media-manifest <path>` and run this fixed vector:
@@ -261,6 +307,8 @@ Run:
 node --test scripts/docs-workflow/generate-guides-sidebars.test.js
 node plugins/lark-docs/larkSourceIndex.test.js
 node plugins/lark-docs/larkDocWriter.beta.test.js
+node scripts/doc-publish-bot/publishRequest.test.js
+node scripts/doc-publish-bot/publishJob.test.js
 node --check plugins/lark-docs/index.js
 ```
 
@@ -540,6 +588,8 @@ Run:
 node plugins/lark-docs/larkSourceIndex.test.js
 node plugins/lark-docs/larkDocWriter.test.js
 node plugins/lark-docs/larkDocWriter.beta.test.js
+node scripts/doc-publish-bot/publishRequest.test.js
+node scripts/doc-publish-bot/publishJob.test.js
 node --test \
   scripts/docs-workflow/generate-guides-sidebars.test.js \
   scripts/docs-workflow/guides-assembly-identity.test.js \
