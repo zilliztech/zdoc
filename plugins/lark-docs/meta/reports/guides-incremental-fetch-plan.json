@@ -1,18 +1,146 @@
 {
-  "generated_at": "2026-07-13T03:18:36.150Z",
+  "generated_at": "2026-07-17T02:53:36.792Z",
   "manual": "guides",
   "build_env": "uat",
   "mode": "incremental",
   "source_dir": "./plugins/lark-docs/meta/sources/guides",
-  "changed_records": [],
-  "changed_tokens": [],
-  "expanded_tokens": [],
+  "changed_records": [
+    {
+      "record_id": "recvlPuraXJQ1v",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Tune Index Build Level",
+      "labels": "Tune Build Level",
+      "slug": "tune-index-build-level",
+      "doc_token": "WQvUw9c9lifskGkgz0fcmUWvnFb",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/WQvUw9c9lifskGkgz0fcmUWvnFb",
+      "reasons": [
+        "wiki node edit time changed"
+      ]
+    }
+  ],
+  "changed_tokens": [
+    "WQvUw9c9lifskGkgz0fcmUWvnFb"
+  ],
+  "expanded_tokens": [
+    "EA2twSf5oiERMDkriKScU9GInc4",
+    "MUL3wkn7Yi3YoFkYk59csf8bnNc",
+    "MYHwwhKtri4MMJku6BbcMjF4n1d",
+    "PmaowiSUaiTa8ckPMYJcqdRYnQg",
+    "WQvUw9c9lifskGkgz0fcmUWvnFb"
+  ],
   "removed_records": [],
   "removed_tokens": [],
-  "reasons_by_token": {},
+  "reasons_by_token": {
+    "WQvUw9c9lifskGkgz0fcmUWvnFb": [
+      "wiki node edit time changed"
+    ],
+    "EA2twSf5oiERMDkriKScU9GInc4": [
+      "outgoing reference from WQvUw9c9lifskGkgz0fcmUWvnFb"
+    ],
+    "MUL3wkn7Yi3YoFkYk59csf8bnNc": [
+      "incoming reference to WQvUw9c9lifskGkgz0fcmUWvnFb"
+    ],
+    "MYHwwhKtri4MMJku6BbcMjF4n1d": [
+      "incoming reference to WQvUw9c9lifskGkgz0fcmUWvnFb"
+    ],
+    "PmaowiSUaiTa8ckPMYJcqdRYnQg": [
+      "incoming reference to WQvUw9c9lifskGkgz0fcmUWvnFb"
+    ]
+  },
   "warnings": [],
+  "affected_tables": [
+    "tbl9BeCMjBmalJVb",
+    "tblWv7PjNDsexddH",
+    "tblZMzoITXNsyKmQ"
+  ],
+  "current_table_targets": {
+    "tbl9BeCMjBmalJVb": [
+      "zilliz.paas",
+      "zilliz.saas"
+    ],
+    "tblb929onfgAPW90": [
+      "zilliz.saas"
+    ],
+    "tblgHPdSvZP8gUz6": [
+      "zilliz.paas",
+      "zilliz.saas"
+    ],
+    "tblh7utKxg0dgdTo": [
+      "zilliz.paas",
+      "zilliz.saas"
+    ],
+    "tblLMqwkNDtAEK5p": [
+      "zilliz.paas"
+    ],
+    "tblm1SbEPZaZrGZQ": [
+      "zilliz.paas",
+      "zilliz.saas"
+    ],
+    "tblWv7PjNDsexddH": [
+      "zilliz.paas",
+      "zilliz.saas"
+    ],
+    "tblZMzoITXNsyKmQ": [
+      "zilliz.paas",
+      "zilliz.saas"
+    ]
+  },
+  "current_table_names": {
+    "tbl9BeCMjBmalJVb": "Get Started",
+    "tblb929onfgAPW90": "AI Models",
+    "tblgHPdSvZP8gUz6": "Client Libraries",
+    "tblh7utKxg0dgdTo": "Architecture",
+    "tblLMqwkNDtAEK5p": "Deployment",
+    "tblm1SbEPZaZrGZQ": "Tools",
+    "tblWv7PjNDsexddH": "Development",
+    "tblZMzoITXNsyKmQ": "Management"
+  },
+  "previous_table_targets": {
+    "tbl9BeCMjBmalJVb": [
+      "zilliz.paas",
+      "zilliz.saas"
+    ],
+    "tblb929onfgAPW90": [
+      "zilliz.saas"
+    ],
+    "tblgHPdSvZP8gUz6": [
+      "zilliz.paas",
+      "zilliz.saas"
+    ],
+    "tblh7utKxg0dgdTo": [
+      "zilliz.paas",
+      "zilliz.saas"
+    ],
+    "tblLMqwkNDtAEK5p": [
+      "zilliz.paas"
+    ],
+    "tblm1SbEPZaZrGZQ": [
+      "zilliz.paas",
+      "zilliz.saas"
+    ],
+    "tblWv7PjNDsexddH": [
+      "zilliz.paas",
+      "zilliz.saas"
+    ],
+    "tblZMzoITXNsyKmQ": [
+      "zilliz.paas",
+      "zilliz.saas"
+    ]
+  },
+  "previous_table_names": {
+    "tbl9BeCMjBmalJVb": "Get Started",
+    "tblb929onfgAPW90": "AI Models",
+    "tblgHPdSvZP8gUz6": "Client Libraries",
+    "tblh7utKxg0dgdTo": "Architecture",
+    "tblLMqwkNDtAEK5p": "Deployment",
+    "tblm1SbEPZaZrGZQ": "Tools",
+    "tblWv7PjNDsexddH": "Development",
+    "tblZMzoITXNsyKmQ": "Management"
+  },
   "snapshot_basis": {
-    "generated_at": "2026-07-12T03:27:06.753Z",
+    "generated_at": "2026-07-16T18:46:48.162Z",
     "records": 373
-  }
+  },
+  "source_scope": "partial"
 }
