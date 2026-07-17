@@ -32,21 +32,22 @@ function pathsOverlap(one, two) {
 function canonicalPath(target, label, { allowMissing = false } = {}) {
   const resolved = path.resolve(target)
   if (!allowMissing) return fs.realpathSync(resolved)
-  const parsed = path.parse(resolved)
-  const parts = resolved.slice(parsed.root.length).split(path.sep).filter(Boolean)
-  let current = parsed.root
-  for (let index = 0; index < parts.length; index += 1) {
-    current = path.join(current, parts[index])
-    let stat
-    try { stat = fs.lstatSync(current) } catch (error) {
-      if (error.code !== 'ENOENT' || !allowMissing) throw error
-      const parent = fs.realpathSync(path.dirname(current))
-      return path.join(parent, ...parts.slice(index))
+  const missing = []
+  let current = resolved
+  while (true) {
+    try {
+      fs.lstatSync(current)
+      const physical = fs.realpathSync(current)
+      if (missing.length > 0 && !fs.statSync(physical).isDirectory()) throw new Error(`${label} has a non-directory ancestor: ${current}`)
+      return path.join(physical, ...missing.reverse())
+    } catch (error) {
+      if (error.code !== 'ENOENT') throw error
+      missing.push(path.basename(current))
+      const parent = path.dirname(current)
+      if (parent === current) throw error
+      current = parent
     }
-    if (stat.isSymbolicLink()) throw new Error(`${label} must not have symlink ancestors: ${current}`)
-    if (index < parts.length - 1 && !stat.isDirectory()) throw new Error(`${label} has a non-directory ancestor: ${current}`)
   }
-  return fs.realpathSync(resolved)
 }
 
 function aggregateFailure(label, original, failures) {
@@ -134,13 +135,36 @@ function copyRegularFile(source, destination) {
   fs.copyFileSync(source, destination, fs.constants.COPYFILE_EXCL)
 }
 
-function liveCachePaths(workspace) {
-  const root = requireDirectory(workspace, 'Guides cache generation workspace')
-  return {
-    sourceDir: path.join(root, 'plugins/lark-docs/meta/sources/guides'),
-    sourceManifestPath: path.join(root, 'plugins/lark-docs/meta/source-cache/guides-manifest.json'),
-    mediaManifestPath: path.join(root, 'plugins/lark-docs/meta/media-cache/guides.json'),
+function fixedWorkspacePath(root, relative, label) {
+  const parts = relative.split('/').filter(Boolean)
+  let current = root
+  for (let index = 0; index < parts.length; index += 1) {
+    const candidate = path.join(current, parts[index])
+    let stat
+    try { stat = fs.lstatSync(candidate) } catch (error) {
+      if (error.code !== 'ENOENT') throw error
+      const missing = path.join(current, ...parts.slice(index))
+      if (!pathsOverlap(root, missing)) throw new Error(`${label} must stay inside the workspace`)
+      return missing
+    }
+    if (stat.isSymbolicLink()) throw new Error(`${label} must not have symlink ancestors: ${candidate}`)
+    if (index < parts.length - 1 && !stat.isDirectory()) throw new Error(`${label} has a non-directory ancestor: ${candidate}`)
+    current = fs.realpathSync(candidate)
+    if (!pathsOverlap(root, current)) throw new Error(`${label} must stay inside the workspace`)
   }
+  return current
+}
+
+function liveCachePathsFromRoot(root) {
+  return {
+    sourceDir: fixedWorkspacePath(root, 'plugins/lark-docs/meta/sources/guides', 'Guides source cache path'),
+    sourceManifestPath: fixedWorkspacePath(root, 'plugins/lark-docs/meta/source-cache/guides-manifest.json', 'Guides source manifest path'),
+    mediaManifestPath: fixedWorkspacePath(root, 'plugins/lark-docs/meta/media-cache/guides.json', 'Guides media manifest path'),
+  }
+}
+
+function liveCachePaths(workspace) {
+  return liveCachePathsFromRoot(requireDirectory(workspace, 'Guides cache generation workspace'))
 }
 
 function createGenerationPayload({ workspace, snapshotPath, rootToken, outputDir, hooks = {} }) {
@@ -152,20 +176,21 @@ function createGenerationPayload({ workspace, snapshotPath, rootToken, outputDir
   validateSourceCache({ sourceDir, snapshotPath, manifestPath: sourceManifestPath, rootToken, acceptedSchemaVersions: [2] })
   validateMediaCache({ sourceDir, snapshotPath, manifestPath: sourceManifestPath, mediaManifestPath })
   const sourceRoot = requireDirectory(sourceDir, 'Generation source directory')
-  const output = canonicalPath(outputDir, 'Generation output', { allowMissing: true })
+  const requestedOutput = path.resolve(outputDir)
+  let outputExists = false
+  try {
+    const stat = fs.lstatSync(requestedOutput)
+    outputExists = true
+    if (stat.isSymbolicLink()) throw new Error(`Generation output must not be a symlink: ${requestedOutput}`)
+    if (!stat.isDirectory()) throw new Error(`Generation output must be a real directory: ${requestedOutput}`)
+  } catch (error) {
+    if (error.code !== 'ENOENT') throw error
+  }
+  const output = canonicalPath(requestedOutput, 'Generation output', { allowMissing: true })
   for (const input of [sourceRoot, sourceManifestPath, mediaManifestPath, snapshotPath]) {
     if (pathsOverlap(output, canonicalPath(input, 'Generation input'))) throw new Error('Generation output must not overlap cache inputs')
   }
   fs.mkdirSync(path.dirname(output), { recursive: true })
-  let outputExists = false
-  try {
-    const stat = fs.lstatSync(output)
-    outputExists = true
-    if (stat.isSymbolicLink()) throw new Error(`Generation output must not be a symlink: ${output}`)
-    if (!stat.isDirectory()) throw new Error(`Generation output must be a real directory: ${output}`)
-  } catch (error) {
-    if (error.code !== 'ENOENT') throw error
-  }
   const temporary = fs.mkdtempSync(path.join(path.dirname(output), `.${path.basename(output)}.tmp-`))
   const backup = `${temporary}.backup`
   let oldMoved = false
@@ -256,10 +281,11 @@ function promoteGenerationPayload({ payloadDir, workspace, snapshotPath, rootTok
   const validation = validateGenerationPayload({ payloadDir, snapshotPath, rootToken })
   const workspaceRoot = requireDirectory(workspace, 'Guides cache promotion workspace')
   if (pathsOverlap(validation.paths.root, workspaceRoot)) throw new Error('Promotion workspace must not overlap the generation payload')
+  const live = liveCachePathsFromRoot(workspaceRoot)
   const installs = [
-    { source: validation.paths.sourceDir, destination: path.join(workspaceRoot, 'plugins/lark-docs/meta/sources/guides') },
-    { source: validation.paths.sourceManifestPath, destination: path.join(workspaceRoot, 'plugins/lark-docs/meta/source-cache/guides-manifest.json') },
-    { source: validation.paths.mediaManifestPath, destination: path.join(workspaceRoot, 'plugins/lark-docs/meta/media-cache/guides.json') },
+    { source: validation.paths.sourceDir, destination: live.sourceDir },
+    { source: validation.paths.sourceManifestPath, destination: live.sourceManifestPath },
+    { source: validation.paths.mediaManifestPath, destination: live.mediaManifestPath },
   ]
   const missingDirectories = [...new Set(installs.flatMap(install => initiallyMissingDirectories(install.destination, workspaceRoot)))]
     .sort((left, right) => right.length - left.length)

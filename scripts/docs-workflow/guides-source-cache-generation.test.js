@@ -151,6 +151,44 @@ test('create rejects a non-existing output beneath a symlink ancestor that alias
   assert.equal(fs.existsSync(output), false)
 })
 
+test('create accepts a prospective output through a benign alias and returns its physical path', () => {
+  const f = fixture()
+  const alias = path.join(f.root, 'benign-root-alias')
+  fs.symlinkSync(f.root, alias, 'dir')
+  const requested = path.join(alias, 'aliased-output/generation')
+  const physical = path.join(f.root, 'aliased-output/generation')
+
+  assert.equal(createGenerationPayload({
+    workspace: f.workspace,
+    snapshotPath: f.snapshotPath,
+    rootToken: 'root',
+    outputDir: requested,
+  }), physical)
+  assert.deepEqual(treeBytes(physical), treeBytes(path.resolve(physical)))
+})
+
+test('create rejects internal workspace symlink boundaries without touching external data', async (t) => {
+  for (const relative of ['plugins', 'plugins/lark-docs/meta', 'plugins/lark-docs/meta/source-cache']) {
+    await t.test(relative, () => {
+      const f = fixture()
+      const internal = path.join(f.workspace, relative)
+      const external = path.join(f.root, `external-${relative.replaceAll('/', '-')}`)
+      fs.renameSync(internal, external)
+      fs.symlinkSync(external, internal, 'dir')
+      const externalBefore = treeBytes(external)
+
+      assert.throws(() => createGenerationPayload({
+        workspace: f.workspace,
+        snapshotPath: f.snapshotPath,
+        rootToken: 'root',
+        outputDir: f.outputDir,
+      }), /workspace|symlink|outside/i)
+      assert.deepEqual(treeBytes(external), externalBefore)
+      assert.equal(fs.existsSync(f.outputDir), false)
+    })
+  }
+})
+
 test('promote canonicalizes a workspace reached through a symlinked parent before overlap checks', () => {
   const f = fixture()
   createGenerationPayload({ workspace: f.workspace, snapshotPath: f.snapshotPath, rootToken: 'root', outputDir: f.outputDir })
@@ -166,6 +204,32 @@ test('promote canonicalizes a workspace reached through a symlinked parent befor
     rootToken: 'root',
   }), /overlap|workspace|symlink/i)
   assert.deepEqual(treeBytes(path.dirname(f.outputDir)), before)
+})
+
+test('promote rejects internal workspace symlink boundaries without touching external data', async (t) => {
+  for (const relative of ['plugins', 'plugins/lark-docs/meta', 'plugins/lark-docs/meta/media-cache']) {
+    await t.test(relative, () => {
+      const f = fixture()
+      createGenerationPayload({ workspace: f.workspace, snapshotPath: f.snapshotPath, rootToken: 'root', outputDir: f.outputDir })
+      const workspace = path.join(f.root, `promotion-${relative.replaceAll('/', '-')}`)
+      const internal = path.join(workspace, relative)
+      const external = path.join(f.root, `promotion-external-${relative.replaceAll('/', '-')}`)
+      fs.mkdirSync(path.dirname(internal), { recursive: true })
+      write(external, 'marker.txt', `external ${relative}`)
+      fs.symlinkSync(external, internal, 'dir')
+      const workspaceBefore = treeBytes(workspace)
+      const externalBefore = treeBytes(external)
+
+      assert.throws(() => promoteGenerationPayload({
+        payloadDir: f.outputDir,
+        workspace,
+        snapshotPath: f.snapshotPath,
+        rootToken: 'root',
+      }), /workspace|symlink|outside/i)
+      assert.deepEqual(treeBytes(workspace), workspaceBefore)
+      assert.deepEqual(treeBytes(external), externalBefore)
+    })
+  }
 })
 
 test('creates, validates, and promotes the exact v4 payload while removing stale live sources', () => {
