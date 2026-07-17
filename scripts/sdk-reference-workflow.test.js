@@ -34,14 +34,20 @@ test('SDK snapshot wrapper clearly rejects groups without an SDK Lark snapshot',
 
 test('Guides assembly promotes the source candidate only after combined validation', () => {
   const source = fs.readFileSync('.github/workflows/_assemble-guides.yml', 'utf8')
-  const build = source.indexOf('node scripts/run-doc-build-stage.js')
-  const promote = source.indexOf('node scripts/promote-lark-doc-snapshot.js')
+  const validation = source.indexOf('      - name: Validate combined guides output')
+  const selection = source.indexOf('      - id: promoted_snapshot')
+  const selectionEnd = source.indexOf('      - id: promoted_source_manifest', selection)
   const checkpoint = source.indexOf('node scripts/docs-workflow/create-checkpoint-artifact.js')
-  assert.ok(build >= 0, 'combined build validation must exist')
-  assert.ok(promote > build, 'candidate promotion must follow combined build validation')
-  assert.ok(checkpoint > promote, 'checkpoint creation must include the promoted snapshot')
-  assert.match(source, /--candidate plugins\/lark-docs\/meta\/reports\/guides-source-snapshot-candidate\.json/)
-  assert.match(source, /--output plugins\/lark-docs\/meta\/snapshots\/guides-uat-last-success\.json/)
+  assert.ok(validation >= 0, 'combined build validation must exist')
+  assert.ok(selection > validation, 'snapshot selection and conditional promotion must follow combined validation')
+  assert.ok(selectionEnd > selection, 'snapshot selection must be a bounded workflow step')
+  assert.ok(checkpoint > selectionEnd, 'checkpoint creation must include the selected snapshot identity')
+
+  const selectionStep = source.slice(selection, selectionEnd)
+  assert.match(selectionStep, /^\s*candidate=plugins\/lark-docs\/meta\/reports\/guides-source-snapshot-candidate\.json$/m)
+  assert.match(selectionStep, /^\s*snapshot=plugins\/lark-docs\/meta\/snapshots\/guides-uat-last-success\.json$/m)
+  assert.match(selectionStep, /guides-cache-generation-lifecycle\.js select[\s\S]*--candidate "\$candidate" --baseline "\$snapshot"/)
+  assert.match(selectionStep, /if \[\[ "\$selected" == candidate \]\]; then[\s\S]*promote-lark-doc-snapshot\.js[\s\S]*--candidate "\$candidate"[\s\S]*--output "\$snapshot"/)
   assert.doesNotMatch(source, /update-lark-doc-snapshot\.js/)
   assert.doesNotMatch(source, /\[snapshot\] Base scan|\[snapshot\] Wiki metadata/)
   assert.equal(
