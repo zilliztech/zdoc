@@ -70,7 +70,7 @@ The following table compares the capacity, QPS, and recall rate of a performance
 <table>
    <tr>
      <th><p>Build Level Option</p></th>
-     <th><p>Capacity</p></th>
+     <th><p>Capacity (Per CU)</p></th>
      <th><p>QPS</p></th>
      <th><p>Recall</p></th>
    </tr>
@@ -101,7 +101,7 @@ The following table compares the capacity, QPS, and recall rate of a capacity-op
 <table>
    <tr>
      <th><p>Build Level Option</p></th>
-     <th><p>Capacity</p></th>
+     <th><p>Capacity (Per CU)</p></th>
      <th><p>QPS</p></th>
      <th><p>Recall</p></th>
    </tr>
