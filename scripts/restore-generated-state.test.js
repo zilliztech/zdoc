@@ -6,6 +6,7 @@ const fs = require('node:fs')
 const os = require('node:os')
 const path = require('node:path')
 const test = require('node:test')
+const { createCheckpointArtifact } = require('./docs-workflow/create-checkpoint-artifact')
 
 const scriptPath = path.resolve('scripts/restore-generated-state.sh')
 const restorePaths = [
@@ -16,6 +17,7 @@ const restorePaths = [
   '.translation-cache',
   'config/generated',
   'plugins/lark-docs/meta/snapshots',
+  'plugins/lark-docs/meta/assembly',
 ]
 
 function git(cwd, ...args) {
@@ -117,6 +119,39 @@ test('exact immutable ref mode removes managed paths absent from the source comm
 
     assert.equal(result.status, 0, result.stderr)
     assert.equal(fs.existsSync(path.join(fixture.work, 'config/generated')), false)
+  } finally {
+    fs.rmSync(fixture.root, { recursive: true, force: true })
+  }
+})
+
+test('exact restore carries the Guides descriptor and translation checkpoints do not delete it', async () => {
+  const fixture = createFixture()
+  const descriptor = 'plugins/lark-docs/meta/assembly/guides.json'
+  try {
+    write(fixture.source, descriptor, '{"schemaVersion":1}\n')
+    git(fixture.source, 'add', descriptor)
+    git(fixture.source, 'commit', '-m', 'add guides assembly descriptor')
+    const sourceSha = git(fixture.source, 'rev-parse', 'HEAD')
+    git(fixture.source, 'push', 'origin', 'dev')
+
+    const restored = run(fixture.work, ['--exact', '--ref', sourceSha])
+    assert.equal(restored.status, 0, restored.stderr)
+    assert.equal(fs.readFileSync(path.join(fixture.work, descriptor), 'utf8'), '{"schemaVersion":1}\n')
+
+    const baselineDir = path.join(fixture.root, 'checkpoint-baseline')
+    const workspace = path.join(fixture.root, 'checkpoint-workspace')
+    const output = path.join(fixture.root, 'checkpoint-artifact')
+    const restoredDescriptor = fs.readFileSync(path.join(fixture.work, descriptor))
+    for (const root of [baselineDir, workspace]) {
+      write(root, descriptor, restoredDescriptor)
+      write(root, '.translation-cache/ja-JP.json', '{"files":{}}')
+    }
+    const manifest = await createCheckpointArtifact({
+      group: 'guides', masterSha: 'a'.repeat(40), devBaselineSha: sourceSha,
+      baselineDir, workspace, output, includeTranslationCache: true,
+    })
+    assert.equal(manifest.files.some((file) => file.path === descriptor), true)
+    assert.equal(manifest.deletions.includes(descriptor), false)
   } finally {
     fs.rmSync(fixture.root, { recursive: true, force: true })
   }

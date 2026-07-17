@@ -9,6 +9,8 @@ const test = require('node:test')
 const { createGuidesStageArtifact, restoreGuidesStageArtifact, validateGuidesStageArtifact } = require('./guides-stage-artifact')
 
 const SHA = 'a'.repeat(40)
+const SHA_B = 'b'.repeat(40)
+const ASSEMBLY_DECISION = 'plugins/lark-docs/meta/reports/guides-assembly-decision.json'
 function write(root, relative, value) { const file = path.join(root, relative); fs.mkdirSync(path.dirname(file), { recursive: true }); fs.writeFileSync(file, value) }
 function json(root, relative, value) { write(root, relative, JSON.stringify(value)) }
 
@@ -51,6 +53,32 @@ function validMediaPrefetchReport() {
   }
 }
 
+function validAssemblyDecision(overrides = {}) {
+  return {
+    schemaVersion: 1,
+    generated_at: '2026-07-17T00:00:00.000Z',
+    masterSha: SHA,
+    devBaselineSha: SHA,
+    baselineSourceSha: SHA,
+    mode: 'reuse',
+    reasons: [],
+    tableCount: 0,
+    semanticSourceGraphSha256: '1'.repeat(64),
+    navigationOwnershipSha256: '2'.repeat(64),
+    generatorFingerprintSha256: '3'.repeat(64),
+    baselineDescriptorPresent: true,
+    baselineDescriptorValid: true,
+    baselineDescriptorSha256: '4'.repeat(64),
+    baselineSaasSidebarPresent: true,
+    baselineSaasSidebarValid: true,
+    baselineSaasSidebarSha256: '5'.repeat(64),
+    baselineByocSidebarPresent: true,
+    baselineByocSidebarValid: true,
+    baselineByocSidebarSha256: '6'.repeat(64),
+    ...overrides,
+  }
+}
+
 function prepareSourceWorkspace(root, { report = validMediaPrefetchReport(), mediaManifest = { schemaVersion: 1, entries: [] } } = {}) {
   const workspace = path.join(root, 'workspace')
   const baseline = path.join(root, 'baseline')
@@ -62,6 +90,7 @@ function prepareSourceWorkspace(root, { report = validMediaPrefetchReport(), med
   json(workspace, 'plugins/lark-docs/meta/reports/guides-source-snapshot-candidate.json', validSnapshot())
   json(workspace, 'plugins/lark-docs/meta/media-cache/guides.json', mediaManifest)
   write(workspace, 'plugins/lark-docs/meta/reports/guides-incremental-fetch-plan.json', '{}')
+  json(workspace, ASSEMBLY_DECISION, validAssemblyDecision())
   if (report !== null) json(workspace, 'plugins/lark-docs/meta/reports/guides-media-prefetch.json', report)
   return { workspace, baseline, artifact }
 }
@@ -83,9 +112,12 @@ test('creates, validates, and restores a source artifact', async () => {
     entries: [],
   })
   json(workspace, 'plugins/lark-docs/meta/reports/guides-media-prefetch.json', validMediaPrefetchReport())
+  json(workspace, ASSEMBLY_DECISION, validAssemblyDecision())
   const manifest = await createGuidesStageArtifact({ stage: 'source', workspace, baselineDir: baseline, output: artifact, masterSha: SHA, devBaselineSha: SHA, rootToken: 'root' })
   assert.equal(manifest.stage, 'source')
-  assert.equal((await validateGuidesStageArtifact(artifact)).files.length, 6)
+  assert.equal((await validateGuidesStageArtifact(artifact)).files.length, 7)
+  assert.deepEqual(manifest.files.filter(file => file.path.includes('/reports/guides-assembly')).map(file => file.path), [ASSEMBLY_DECISION])
+  assert.equal(manifest.files.some(file => file.path === 'plugins/lark-docs/meta/assembly/guides.json'), false)
   await restoreGuidesStageArtifact({ artifact, target })
   assert.deepEqual(JSON.parse(fs.readFileSync(path.join(target, 'plugins/lark-docs/meta/sources/guides/doc.json'), 'utf8')), renderableSource())
   assert.equal(fs.existsSync(path.join(target, 'plugins/lark-docs/meta/media-cache/guides.json')), true)
@@ -102,6 +134,61 @@ test('source artifact requires a semantic media prefetch report', async () => {
     createGuidesStageArtifact({ stage: 'source', workspace, baselineDir: baseline, output: artifact, masterSha: SHA, devBaselineSha: SHA, rootToken: 'root' }),
     /media prefetch report/i,
   )
+})
+
+test('source artifact requires a strict assembly decision bound to stage SHAs', async (t) => {
+  const cases = [
+    ['missing', null, /assembly decision/i],
+    ['malformed JSON', '{bad', /assembly decision.*JSON|invalid JSON/i],
+    ['extra key', { ...validAssemblyDecision(), extra: true }, /assembly decision.*key|invalid or extra keys/i],
+    ['wrong master', validAssemblyDecision({ masterSha: SHA_B }), /master.*mismatch/i],
+    ['wrong dev baseline', validAssemblyDecision({ devBaselineSha: SHA_B, baselineSourceSha: SHA_B }), /baseline.*mismatch/i],
+    ['unexplained baseline provenance mismatch', validAssemblyDecision({ baselineSourceSha: SHA_B, mode: 'regenerate', reasons: ['source-delta'] }), /baseline.*provenance|baseline-source-sha-mismatch/i],
+  ]
+  for (const [name, decision, expected] of cases) {
+    await t.test(name, async () => {
+      const root = fs.mkdtempSync(path.join(os.tmpdir(), 'guides-stage-decision-'))
+      const fixture = prepareSourceWorkspace(root)
+      if (decision === null) fs.rmSync(path.join(fixture.workspace, ASSEMBLY_DECISION))
+      else if (typeof decision === 'string') write(fixture.workspace, ASSEMBLY_DECISION, decision)
+      else json(fixture.workspace, ASSEMBLY_DECISION, decision)
+      await assert.rejects(
+        createGuidesStageArtifact({ stage: 'source', workspace: fixture.workspace, baselineDir: fixture.baseline, output: fixture.artifact, masterSha: SHA, devBaselineSha: SHA, rootToken: 'root' }),
+        expected,
+      )
+    })
+  }
+})
+
+test('source artifact accepts regenerate decision with explicit baseline provenance mismatch', async () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'guides-stage-regenerate-decision-'))
+  const fixture = prepareSourceWorkspace(root)
+  json(fixture.workspace, ASSEMBLY_DECISION, validAssemblyDecision({
+    baselineSourceSha: SHA_B,
+    mode: 'regenerate',
+    reasons: ['baseline-source-sha-mismatch'],
+  }))
+  await assert.doesNotReject(createGuidesStageArtifact({
+    stage: 'source', workspace: fixture.workspace, baselineDir: fixture.baseline, output: fixture.artifact,
+    masterSha: SHA, devBaselineSha: SHA, rootToken: 'root',
+  }))
+  await assert.doesNotReject(validateGuidesStageArtifact(fixture.artifact, { masterSha: SHA, devBaselineSha: SHA }))
+})
+
+test('source artifact validation rejects a rehashed assembly decision with wrong stage identity', async () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'guides-stage-rehashed-decision-'))
+  const fixture = prepareSourceWorkspace(root)
+  await createGuidesStageArtifact({ stage: 'source', workspace: fixture.workspace, baselineDir: fixture.baseline, output: fixture.artifact, masterSha: SHA, devBaselineSha: SHA, rootToken: 'root' })
+  const payload = path.join(fixture.artifact, 'payload', ASSEMBLY_DECISION)
+  const bytes = Buffer.from(JSON.stringify(validAssemblyDecision({ masterSha: SHA_B })))
+  fs.writeFileSync(payload, bytes)
+  const manifestPath = path.join(fixture.artifact, 'manifest.json')
+  const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'))
+  const entry = manifest.files.find(file => file.path === ASSEMBLY_DECISION)
+  entry.size = bytes.length
+  entry.sha256 = crypto.createHash('sha256').update(bytes).digest('hex')
+  fs.writeFileSync(manifestPath, JSON.stringify(manifest))
+  await assert.rejects(validateGuidesStageArtifact(fixture.artifact), /master.*mismatch/i)
 })
 
 test('source artifact rejects malformed media prefetch report contracts', async (t) => {

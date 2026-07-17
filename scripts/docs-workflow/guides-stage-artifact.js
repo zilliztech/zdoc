@@ -6,10 +6,12 @@ const fs = require('node:fs/promises')
 const path = require('node:path')
 const { assertSourceCompleteness } = require('../../plugins/lark-docs/sourceCompleteness')
 const { validateEntries, validateMediaPrefetchMetrics } = require('./guides-media-prefetch')
+const { validateAssemblyDecision } = require('./guides-assembly-identity')
 
 const SHA = /^[0-9a-f]{40}$/
 const MEDIA_MANIFEST = 'plugins/lark-docs/meta/media-cache/guides.json'
 const MEDIA_PREFETCH_REPORT = 'plugins/lark-docs/meta/reports/guides-media-prefetch.json'
+const ASSEMBLY_DECISION = 'plugins/lark-docs/meta/reports/guides-assembly-decision.json'
 const STAGE_PATHS = Object.freeze({
   source: [
     'plugins/lark-docs/meta/sources/guides',
@@ -19,6 +21,7 @@ const STAGE_PATHS = Object.freeze({
     'plugins/lark-docs/meta/reports/guides-broken-content-links.json',
     'plugins/lark-docs/meta/reports/guides-source-snapshot-candidate.json',
     MEDIA_PREFETCH_REPORT,
+    ASSEMBLY_DECISION,
   ],
   saas: [
     'docs',
@@ -34,18 +37,22 @@ const REQUIRED_STAGE_FILES = Object.freeze({
     'plugins/lark-docs/meta/reports/guides-source-snapshot-candidate.json',
     MEDIA_MANIFEST,
     MEDIA_PREFETCH_REPORT,
+    ASSEMBLY_DECISION,
   ],
   saas: [],
   byoc: [],
 })
 
 function allowed(stage, relative) {
+  if (relative === ASSEMBLY_DECISION) return stage === 'source'
+  if (relative.startsWith(`${ASSEMBLY_DECISION}/`)) return false
   return STAGE_PATHS[stage].some(prefix => relative === prefix || relative.startsWith(`${prefix}/`))
 }
 
 function requiredLabel(relative) {
   if (relative.includes('/media-cache/')) return 'media manifest'
   if (relative === MEDIA_PREFETCH_REPORT) return 'media prefetch report'
+  if (relative === ASSEMBLY_DECISION) return 'assembly decision'
   return 'snapshot candidate'
 }
 
@@ -86,6 +93,17 @@ function validatePackagedMediaInventory(mediaManifest, mediaReport) {
   if (mediaManifest.entries.length !== mediaReport.metrics.finalManifestEntries) {
     throw new Error(`Guides media manifest entry count ${mediaManifest.entries.length} does not match report finalManifestEntries ${mediaReport.metrics.finalManifestEntries}`)
   }
+}
+
+function parseAssemblyDecision(bytes, { masterSha, devBaselineSha }) {
+  let value
+  try { value = JSON.parse(bytes.toString('utf8')) } catch (error) { throw new Error(`Guides assembly decision is invalid JSON: ${error.message}`) }
+  validateAssemblyDecision(value, { masterSha, devBaselineSha })
+  if (value.baselineSourceSha !== devBaselineSha
+    && !(value.mode === 'regenerate' && value.reasons.includes('baseline-source-sha-mismatch'))) {
+    throw new Error('Guides assembly decision baseline provenance mismatch requires baseline-source-sha-mismatch regeneration')
+  }
+  return value
 }
 
 async function collect(root, prefixes) {
@@ -138,6 +156,7 @@ async function createGuidesStageArtifact({ stage, workspace, baselineDir, output
     }
   }
   if (stage === 'source') {
+    parseAssemblyDecision(current.get(ASSEMBLY_DECISION), { masterSha, devBaselineSha })
     const mediaReport = parseMediaPrefetchReport(current.get(MEDIA_PREFETCH_REPORT))
     const mediaManifest = parseMediaManifest(current.get(MEDIA_MANIFEST))
     validatePackagedMediaInventory(mediaManifest, mediaReport)
@@ -169,6 +188,7 @@ async function validateGuidesStageArtifact(directory, expected = {}) {
   const seen = new Set()
   let mediaManifest = null
   let mediaReport = null
+  let assemblyDecision = null
   for (const file of manifest.files || []) {
     if (!allowed(manifest.stage, file.path) || seen.has(file.path)) throw new Error(`Unauthorized or duplicate path: ${file.path}`)
     seen.add(file.path)
@@ -180,13 +200,19 @@ async function validateGuidesStageArtifact(directory, expected = {}) {
     if (crypto.createHash('sha256').update(bytes).digest('hex') !== file.sha256) throw new Error(`Payload checksum mismatch: ${file.path}`)
     if (manifest.stage === 'source' && file.path === MEDIA_MANIFEST) mediaManifest = parseMediaManifest(bytes)
     if (manifest.stage === 'source' && file.path === MEDIA_PREFETCH_REPORT) mediaReport = parseMediaPrefetchReport(bytes)
+    if (manifest.stage === 'source' && file.path === ASSEMBLY_DECISION) {
+      assemblyDecision = parseAssemblyDecision(bytes, { masterSha: manifest.masterSha, devBaselineSha: manifest.devBaselineSha })
+    }
   }
   for (const required of REQUIRED_STAGE_FILES[manifest.stage]) {
     if (!seen.has(required)) {
       throw new Error(`Guides ${manifest.stage} artifact is missing required ${requiredLabel(required)}: ${required}`)
     }
   }
-  if (manifest.stage === 'source') validatePackagedMediaInventory(mediaManifest, mediaReport)
+  if (manifest.stage === 'source') {
+    if (!assemblyDecision) throw new Error('Guides source artifact is missing required assembly decision')
+    validatePackagedMediaInventory(mediaManifest, mediaReport)
+  }
   for (const relative of manifest.deletions || []) if (!allowed(manifest.stage, relative) || seen.has(relative)) throw new Error(`Unauthorized deletion: ${relative}`)
   return manifest
 }
