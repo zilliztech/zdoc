@@ -257,7 +257,7 @@ function writeMediaPrefetchReport(output, { mode, cacheState, metrics, generated
     schemaVersion: 1,
     generated_at: generatedAt,
     mode,
-    cache_state: cacheState,
+    cacheState,
     metrics: validateMediaPrefetchMetrics(metrics),
   }
   fs.mkdirSync(path.dirname(output), { recursive: true })

@@ -375,7 +375,23 @@ test('valid previous manifest with an empty incremental delta performs no networ
 
   assert.equal(result.metrics.resolvedByNetwork, 0)
   assert.equal(result.metrics.validatedManifestReuse, 1)
-  assert.deepEqual(JSON.parse(fs.readFileSync(report, 'utf8')), written)
+  const expectedReport = {
+    schemaVersion: 1,
+    generated_at: '2026-07-17T00:00:00.000Z',
+    mode: 'incremental',
+    cacheState: 'valid',
+    metrics: {
+      canonicalReferencesRequired: 1,
+      selectedReferences: 0,
+      validatedManifestReuse: 1,
+      committedDocsReconstruction: 0,
+      resolvedByNetwork: 0,
+      staleEntriesDropped: 0,
+      finalManifestEntries: 1,
+    },
+  }
+  assert.deepEqual(written, expectedReport)
+  assert.deepEqual(JSON.parse(fs.readFileSync(report, 'utf8')), expectedReport)
 })
 
 test('CLI requires report, mode, cache state, and snapshot with bounded values', () => {
