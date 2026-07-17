@@ -35,6 +35,11 @@ test('includes optional Guides translation candidate counts when supplied', () =
   })
 })
 
+test('treats undefined and empty translation candidate inputs as absent', () => {
+  assert.equal(parseCandidateCounts(undefined), undefined)
+  assert.equal(parseCandidateCounts(''), undefined)
+})
+
 test('rejects malformed or invalid translation candidate counts', () => {
   for (const value of [
     '{',

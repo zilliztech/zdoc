@@ -10,6 +10,7 @@ function translationCandidatesError(message) {
 }
 
 function parseCandidateCounts(value) {
+  if (!value) return undefined
   let counts
   try { counts = JSON.parse(value) } catch { translationCandidatesError('must be valid JSON') }
   if (!counts || typeof counts !== 'object' || Array.isArray(counts)) translationCandidatesError('must be an object')
@@ -43,7 +44,10 @@ function buildAggregateInput(env) {
     const entry = { source, translation, translationRequested: mode === 'publish' }
     if (source === 'source_published') entry.sourceCommitSha = env[`${prefix}_SOURCE_SHA`]
     if (translation === 'translation_published') entry.translationCommitSha = env[`${prefix}_TRANSLATION_SHA`]
-    if (group === 'guides' && env.GUIDES_TRANSLATION_CANDIDATES) entry.translationCandidates = parseCandidateCounts(env.GUIDES_TRANSLATION_CANDIDATES)
+    if (group === 'guides') {
+      const translationCandidates = parseCandidateCounts(env.GUIDES_TRANSLATION_CANDIDATES)
+      if (translationCandidates) entry.translationCandidates = translationCandidates
+    }
     groups[group] = entry
   }
   return { mode, requestedGroups, groups, finalVerification: mode === 'artifact_only' ? 'skipped' : (env.FINAL_VERIFICATION === 'passed' ? 'passed' : 'failed') }
