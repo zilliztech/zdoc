@@ -27,6 +27,67 @@ test('workflow policy rejects checkpoint publishers without idempotent scoped st
   }
 })
 
+test('workflow policy rejects missing translation candidate reporting requirements', () => {
+  const sourceDirectory = path.join(process.cwd(), '.github/workflows')
+  const cases = [
+    {
+      file: '_prepare-translation-batches.yml',
+      token: 'candidate_counts',
+      expected: '_prepare-translation-batches.yml: must expose translation candidate counts',
+    },
+    {
+      file: '_prepare-translation-batches.yml',
+      token: 'summary.candidateCounts',
+      expected: '_prepare-translation-batches.yml: must emit classified translation candidate counts',
+    },
+    {
+      file: 'fetch-docs.yml',
+      token: 'GUIDES_TRANSLATION_CANDIDATES',
+      expected: 'fetch-docs.yml: must pass Guides candidate counts to aggregation',
+    },
+  ]
+
+  for (const fixture of cases) {
+    const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'candidate-policy-'))
+    try {
+      fs.cpSync(sourceDirectory, directory, { recursive: true })
+      const file = path.join(directory, fixture.file)
+      const source = fs.readFileSync(file, 'utf8')
+      assert.ok(source.includes(fixture.token), `${fixture.file} must contain ${fixture.token}`)
+      fs.writeFileSync(file, source.replaceAll(fixture.token, '__REMOVED_POLICY_TOKEN__'))
+      assert.ok(validateWorkflowPolicies(directory).includes(fixture.expected))
+    } finally {
+      fs.rmSync(directory, { recursive: true, force: true })
+    }
+  }
+})
+
+test('workflow policy independently requires checkpoint stage selection and verification', () => {
+  const publisherSource = fs.readFileSync('scripts/docs-workflow/publish-checkpoint.sh', 'utf8')
+  const cases = [
+    {
+      token: 'checkpoint-stage-paths.js" select',
+      expected: 'publish-checkpoint.sh: checkpoint publisher must select stageable manifest paths',
+    },
+    {
+      token: 'checkpoint-stage-paths.js" verify',
+      expected: 'publish-checkpoint.sh: checkpoint publisher must verify staged manifest scope',
+    },
+  ]
+
+  for (const fixture of cases) {
+    const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'publisher-policy-'))
+    const publisherPath = path.join(directory, 'publish-checkpoint.sh')
+    try {
+      assert.ok(publisherSource.includes(fixture.token))
+      fs.writeFileSync(publisherPath, publisherSource.replace(fixture.token, fixture.token.replace(/ (select|verify)$/, ' missing_$1')))
+      assert.ok(validateWorkflowPolicies(undefined, { publisherPath }).includes(fixture.expected))
+    } finally {
+      fs.rmSync(directory, { recursive: true, force: true })
+    }
+  }
+})
+
 test('docs production runs only on schedules or explicit manual dispatch', () => {
   const workflowPath = path.join(process.cwd(), '.github/workflows/fetch-docs.yml')
   const triggerBlock = fs.readFileSync(workflowPath, 'utf8').split('\npermissions:')[0]

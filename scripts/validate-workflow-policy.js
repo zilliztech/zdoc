@@ -86,6 +86,8 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
 
     if (file === '_prepare-translation-batches.yml') {
       const requiredPatterns = [
+        [/candidate_counts/, 'must expose translation candidate counts'],
+        [/summary\.candidateCounts/, 'must emit classified translation candidate counts'],
         [/git cat-file -e "\$SOURCE_COMMIT_SHA\^" 2>\/dev\/null \|\| git fetch --no-tags --depth=2 origin "\$SOURCE_COMMIT_SHA"/, 'must recover source checkpoint ancestry after generated-state restore'],
         [/git cat-file -e "\$SOURCE_COMMIT_SHA\^"[\s\S]*git diff --name-status "\$SOURCE_COMMIT_SHA\^" "\$SOURCE_COMMIT_SHA"/, 'must verify the source checkpoint parent before deriving durable batches'],
         [/git diff --name-status "\$SOURCE_COMMIT_SHA\^" "\$SOURCE_COMMIT_SHA"/, 'must derive durable batches from the immutable source checkpoint diff'],
@@ -132,6 +134,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
 
     if (file === 'fetch-docs.yml') {
       const requiredPatterns = [
+        [/GUIDES_TRANSLATION_CANDIDATES/, 'must pass Guides candidate counts to aggregation'],
         [/render_guides_tables:[\s\S]*max-parallel: 4[\s\S]*fromJSON\(needs\.produce_guides_sources\.outputs\.table_matrix\)/, 'must render Guides target/table matrix with max-parallel 4'],
         [/produce_guides:[\s\S]*render_guides_tables\.result == 'skipped'/, 'must assemble an empty Guides render matrix'],
       ]
