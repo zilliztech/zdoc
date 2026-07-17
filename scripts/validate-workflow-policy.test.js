@@ -62,6 +62,50 @@ test('workflow policy rejects missing translation candidate reporting requiremen
   }
 })
 
+test('workflow policy rejects miswired translation candidate reporting values', () => {
+  const sourceDirectory = path.join(process.cwd(), '.github/workflows')
+  const cases = [
+    {
+      file: '_prepare-translation-batches.yml',
+      from: "      candidate_counts: { value: '${{ jobs.prepare.outputs.candidate_counts }}' }",
+      to: "      candidate_counts: { value: '{}' }",
+      expected: '_prepare-translation-batches.yml: must expose translation candidate counts',
+    },
+    {
+      file: '_prepare-translation-batches.yml',
+      from: '      candidate_counts: ${{ steps.summary.outputs.candidate_counts }}',
+      to: '      candidate_counts: ${{ steps.summary.outputs.pending_count }}',
+      expected: '_prepare-translation-batches.yml: must map prepare candidate counts from the summary step',
+    },
+    {
+      file: '_prepare-translation-batches.yml',
+      from: '            candidate_counts: JSON.stringify(summary.candidateCounts),',
+      to: '            candidate_counts: JSON.stringify({}),',
+      expected: '_prepare-translation-batches.yml: must emit classified translation candidate counts',
+    },
+    {
+      file: 'fetch-docs.yml',
+      from: '          GUIDES_TRANSLATION_CANDIDATES: ${{ needs.prepare_guides_translation_batches.outputs.candidate_counts }}',
+      to: '          GUIDES_TRANSLATION_CANDIDATES: ${{ needs.prepare_guides_translation_batches.outputs.pending_count }}',
+      expected: 'fetch-docs.yml: must pass Guides candidate counts to aggregation',
+    },
+  ]
+
+  for (const fixture of cases) {
+    const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'candidate-wiring-policy-'))
+    try {
+      fs.cpSync(sourceDirectory, directory, { recursive: true })
+      const file = path.join(directory, fixture.file)
+      const source = fs.readFileSync(file, 'utf8')
+      assert.ok(source.includes(fixture.from), `${fixture.file} must contain the expected candidate mapping`)
+      fs.writeFileSync(file, source.replace(fixture.from, fixture.to))
+      assert.ok(validateWorkflowPolicies(directory).includes(fixture.expected))
+    } finally {
+      fs.rmSync(directory, { recursive: true, force: true })
+    }
+  }
+})
+
 test('workflow policy independently requires checkpoint stage selection and verification', () => {
   const publisherSource = fs.readFileSync('scripts/docs-workflow/publish-checkpoint.sh', 'utf8')
   const cases = [
