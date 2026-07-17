@@ -2,8 +2,16 @@ const fs = require('node:fs')
 const path = require('node:path')
 
 const CONSTRUCTOR_TOKEN = Symbol('LarkSourceIndex constructor')
-const OPEN_FLAGS = fs.constants.O_RDONLY | (fs.constants.O_NOFOLLOW || 0)
+const REQUIRED_SECURE_OPEN_FLAGS = ['O_NOFOLLOW', 'O_NONBLOCK']
 const hasOwn = (value, key) => Object.prototype.hasOwnProperty.call(value, key)
+
+function secureOpenFlags() {
+  const missingFlags = REQUIRED_SECURE_OPEN_FLAGS.filter(flag => typeof fs.constants[flag] !== 'number')
+  if (missingFlags.length > 0) {
+    throw new Error(`Secure Lark source loading requires filesystem support for ${missingFlags.join(', ')}`)
+  }
+  return fs.constants.O_RDONLY | fs.constants.O_NOFOLLOW | fs.constants.O_NONBLOCK
+}
 
 function freezeIteratively(value) {
   if (!value || typeof value !== 'object') return value
@@ -24,17 +32,19 @@ function freezeIteratively(value) {
   return value
 }
 
-function readRegularSourceFile(sourcePath, wasSymlinkAtListing) {
+function readRegularSourceFile(sourcePath, openFlags) {
   let fileDescriptor
   try {
-    fileDescriptor = fs.openSync(sourcePath, OPEN_FLAGS)
+    fileDescriptor = fs.openSync(sourcePath, openFlags)
   } catch (error) {
-    const detail = wasSymlinkAtListing || error.code === 'ELOOP'
+    const detail = error.code === 'ELOOP'
       ? 'symlink source files are not allowed'
       : error.message
     throw new Error(`Cannot open Lark source file ${sourcePath}: ${detail}`)
   }
 
+  let sourceJson
+  let primaryError = null
   try {
     let fileStat
     try {
@@ -46,13 +56,22 @@ function readRegularSourceFile(sourcePath, wasSymlinkAtListing) {
       throw new Error(`Cannot read Lark source file ${sourcePath}: not a regular file`)
     }
     try {
-      return fs.readFileSync(fileDescriptor, 'utf8')
+      sourceJson = fs.readFileSync(fileDescriptor, 'utf8')
     } catch (error) {
       throw new Error(`Cannot read Lark source file ${sourcePath}: ${error.message}`)
     }
-  } finally {
-    fs.closeSync(fileDescriptor)
+  } catch (error) {
+    primaryError = error
   }
+  try {
+    fs.closeSync(fileDescriptor)
+  } catch (error) {
+    if (!primaryError) {
+      primaryError = new Error(`Cannot close Lark source file ${sourcePath}: ${error.message}`)
+    }
+  }
+  if (primaryError) throw primaryError
+  return sourceJson
 }
 
 function ambiguousLookupError(value, entries) {
@@ -89,6 +108,7 @@ class LarkSourceIndex {
     }
 
     const realSourceDir = fs.realpathSync(resolvedDir)
+    const openFlags = secureOpenFlags()
     const directoryEntries = fs.readdirSync(realSourceDir, { withFileTypes: true })
       .filter(entry => entry.name.endsWith('.json'))
       .sort((left, right) => left.name < right.name ? -1 : left.name > right.name ? 1 : 0)
@@ -96,9 +116,15 @@ class LarkSourceIndex {
 
     for (const directoryEntry of directoryEntries) {
       const sourcePath = path.join(realSourceDir, directoryEntry.name)
-      if (!directoryEntry.isFile() && !directoryEntry.isSymbolicLink()) continue
+      if (directoryEntry.isDirectory()) continue
+      if (directoryEntry.isSymbolicLink()) {
+        throw new Error(`Cannot open Lark source file ${sourcePath}: symlink source files are not allowed`)
+      }
+      if (!directoryEntry.isFile()) {
+        throw new Error(`Cannot read Lark source file ${sourcePath}: not a regular file`)
+      }
 
-      const sourceJson = readRegularSourceFile(sourcePath, directoryEntry.isSymbolicLink())
+      const sourceJson = readRegularSourceFile(sourcePath, openFlags)
       if (options.onRead) options.onRead(sourcePath)
       let source
       try {

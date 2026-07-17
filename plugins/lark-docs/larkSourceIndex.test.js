@@ -1,4 +1,5 @@
 const assert = require('node:assert/strict')
+const childProcess = require('node:child_process')
 const fs = require('node:fs')
 const os = require('node:os')
 const path = require('node:path')
@@ -207,6 +208,50 @@ test('reads safely opened bytes before notifying onRead about the source', t => 
   assert.equal(index.findAnyToken('replacement'), null)
 })
 
+test('opens source files with no-follow and nonblocking descriptor flags', { concurrency: false }, t => {
+  const sourceDir = makeSourceDir(t)
+  writeJson(sourceDir, 'source.json', { title: 'Source', node_token: 'source' })
+  const openSync = fs.openSync
+  let observedFlags
+  t.mock.method(fs, 'openSync', function (source, flags, ...args) {
+    observedFlags = flags
+    return openSync.call(this, source, flags, ...args)
+  })
+
+  try {
+    LarkSourceIndex.load(sourceDir)
+  } finally {
+    t.mock.restoreAll()
+  }
+
+  assert.equal(observedFlags & fs.constants.O_NOFOLLOW, fs.constants.O_NOFOLLOW)
+  assert.equal(observedFlags & fs.constants.O_NONBLOCK, fs.constants.O_NONBLOCK)
+})
+
+test('rejects a JSON FIFO promptly without opening it', { skip: process.platform === 'win32' }, t => {
+  const sourceDir = makeSourceDir(t)
+  const fifoPath = path.join(sourceDir, 'source.json')
+  const result = childProcess.spawnSync('mkfifo', [fifoPath])
+  if (result.error || result.status !== 0) {
+    t.skip('mkfifo is unavailable')
+    return
+  }
+
+  const script = `
+    const LarkSourceIndex = require(${JSON.stringify(path.join(__dirname, 'larkSourceIndex'))})
+    try {
+      LarkSourceIndex.load(${JSON.stringify(sourceDir)})
+      process.exit(2)
+    } catch (error) {
+      if (!/not a regular file/.test(error.message)) process.exit(3)
+    }
+  `
+  const loadResult = childProcess.spawnSync(process.execPath, ['-e', script], { timeout: 5_000 })
+
+  assert.notEqual(loadResult.error?.code, 'ETIMEDOUT')
+  assert.equal(loadResult.status, 0)
+})
+
 test('rejects symlink source directories and source files', t => {
   const parent = makeSourceDir(t)
   const realDir = path.join(parent, 'real')
@@ -238,14 +283,14 @@ test('rejects malformed JSON with the source filename without leaking contents',
   )
 })
 
-test('reports descriptor read failures separately from JSON parse failures', t => {
+test('reports descriptor read failures separately from JSON parse failures', { concurrency: false }, t => {
   const sourceDir = makeSourceDir(t)
   writeJson(sourceDir, 'unreadable.json', { title: 'Unreadable' })
   const readFileSync = fs.readFileSync
-  fs.readFileSync = function (source, ...args) {
+  t.mock.method(fs, 'readFileSync', function (source, ...args) {
     if (typeof source === 'number') throw new Error('simulated read failure')
     return readFileSync.call(this, source, ...args)
-  }
+  })
 
   try {
     assert.throws(
@@ -253,7 +298,54 @@ test('reports descriptor read failures separately from JSON parse failures', t =
       /Cannot read Lark source file.*unreadable\.json.*simulated read failure/,
     )
   } finally {
-    fs.readFileSync = readFileSync
+    t.mock.restoreAll()
+  }
+})
+
+test('preserves a primary read failure when closing the descriptor also fails', { concurrency: false }, t => {
+  const sourceDir = makeSourceDir(t)
+  writeJson(sourceDir, 'source.json', { title: 'Source' })
+  const readFileSync = fs.readFileSync
+  const closeSync = fs.closeSync
+  t.mock.method(fs, 'readFileSync', function (source, ...args) {
+    if (typeof source === 'number') throw new Error('primary read failure')
+    return readFileSync.call(this, source, ...args)
+  })
+  t.mock.method(fs, 'closeSync', function (fileDescriptor) {
+    closeSync.call(this, fileDescriptor)
+    throw new Error('secondary close failure')
+  })
+
+  try {
+    assert.throws(
+      () => LarkSourceIndex.load(sourceDir),
+      error => {
+        assert.match(error.message, /primary read failure/)
+        assert.doesNotMatch(error.message, /secondary close failure/)
+        return true
+      },
+    )
+  } finally {
+    t.mock.restoreAll()
+  }
+})
+
+test('reports a close failure when the descriptor read succeeds', { concurrency: false }, t => {
+  const sourceDir = makeSourceDir(t)
+  writeJson(sourceDir, 'source.json', { title: 'Source' })
+  const closeSync = fs.closeSync
+  t.mock.method(fs, 'closeSync', function (fileDescriptor) {
+    closeSync.call(this, fileDescriptor)
+    throw new Error('simulated close failure')
+  })
+
+  try {
+    assert.throws(
+      () => LarkSourceIndex.load(sourceDir),
+      /Cannot close Lark source file.*source\.json.*simulated close failure/,
+    )
+  } finally {
+    t.mock.restoreAll()
   }
 })
 
