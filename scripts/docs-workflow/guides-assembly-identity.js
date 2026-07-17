@@ -57,6 +57,8 @@ function canonicalize(value) {
 }
 function canonicalJson(value) { return JSON.stringify(canonicalize(value)) }
 function hashCanonical(value) { return hashBytes(canonicalJson(value)) }
+function unsupportedSemanticMarkerHash() { return hashCanonical({ projectionVersion: 1, unavailable: 'semantic-source', snapshotSchemaVersion: 2 }) }
+function unsupportedNavigationMarkerHash() { return hashCanonical({ projectionVersion: 1, unavailable: 'navigation-ownership', snapshotSchemaVersion: 2 }) }
 
 function exactKeys(value, keys, label) {
   if (!value || typeof value !== 'object' || Array.isArray(value)) throw new Error(`${label} must be an object`)
@@ -185,15 +187,18 @@ function navigationOwnershipProjection(snapshot) {
   return canonicalize({ projectionVersion: 1, navigation_records: navigationRecords, table_digests: tableDigests })
 }
 
-function safeRepositoryPath(repositoryRoot, relativePath, label, fsImpl = fs) {
+function safeRepositoryPath(repositoryRoot, relativePath, label, fsImpl = fs, rootIdentity = null) {
   if (typeof relativePath !== 'string' || !relativePath || path.isAbsolute(relativePath) || relativePath.includes('\\') || relativePath.includes('\0')) {
     throw new Error(`${label} must be a safe repository-relative path`)
   }
   const normalized = path.normalize(relativePath)
   if (normalized === '.' || normalized === '..' || normalized.startsWith(`..${path.sep}`)) throw new Error(`${label} escapes the repository`)
-  const root = fsImpl.realpathSync(repositoryRoot)
+  const identity = rootIdentity || recordDirectoryIdentity(repositoryRoot, fsImpl)
+  verifyDirectoryIdentity(identity, fsImpl)
+  const root = identity.directory
   const target = path.resolve(root, normalized)
   if (!target.startsWith(`${root}${path.sep}`)) throw new Error(`${label} escapes the repository`)
+  const ancestors = [identity]
   let current = root
   let ancestorMissing = false
   for (const segment of path.relative(root, path.dirname(target)).split(path.sep).filter(Boolean)) {
@@ -208,8 +213,11 @@ function safeRepositoryPath(repositoryRoot, relativePath, label, fsImpl = fs) {
       throw error
     }
     if (stat.isSymbolicLink() || !stat.isDirectory()) throw new Error(`${label} parent must be a real directory: ${current}`)
+    const realDirectory = fsImpl.realpathSync(current)
+    if (realDirectory !== current) throw new Error(`${label} parent must not traverse symlinks: ${current}`)
+    ancestors.push(Object.freeze({ directory: current, device: stat.dev, inode: stat.ino }))
   }
-  return { root, target }
+  return { root, target, ancestors }
 }
 
 function recordDirectoryIdentity(directory, fsImpl = fs) {
@@ -226,12 +234,20 @@ function verifyDirectoryIdentity(identity, fsImpl = fs) {
   }
 }
 
+function verifyAncestorChain(ancestors, fsImpl = fs) {
+  for (const identity of ancestors) verifyDirectoryIdentity(identity, fsImpl)
+}
+
 function readRegularFileFact(repositoryRoot, relativePath, label, fsImpl = fs, rootIdentity = null) {
   const identity = rootIdentity || recordDirectoryIdentity(repositoryRoot, fsImpl)
   verifyDirectoryIdentity(identity, fsImpl)
-  const { target } = safeRepositoryPath(identity.directory, relativePath, label, fsImpl)
+  const { target, ancestors } = safeRepositoryPath(identity.directory, relativePath, label, fsImpl, identity)
   let stat
-  try { stat = fsImpl.lstatSync(target) } catch (error) {
+  try {
+    verifyAncestorChain(ancestors, fsImpl)
+    stat = fsImpl.lstatSync(target)
+    verifyAncestorChain(ancestors, fsImpl)
+  } catch (error) {
     if (error.code === 'ENOENT') return { present: false, valid: false, bytes: null, sha256: null, target }
     return { present: true, valid: false, bytes: null, sha256: null, target }
   }
@@ -241,7 +257,7 @@ function readRegularFileFact(repositoryRoot, relativePath, label, fsImpl = fs, r
     const noFollow = fsImpl.constants.O_NOFOLLOW
     const nonblock = fsImpl.constants.O_NONBLOCK
     if (typeof noFollow !== 'number' || typeof nonblock !== 'number') throw new Error('Secure file reads require O_NOFOLLOW and O_NONBLOCK')
-    verifyDirectoryIdentity(identity, fsImpl)
+    verifyAncestorChain(ancestors, fsImpl)
     descriptor = fsImpl.openSync(target, fsImpl.constants.O_RDONLY | noFollow | nonblock)
     const before = fsImpl.fstatSync(descriptor)
     if (!before.isFile() || before.dev !== stat.dev || before.ino !== stat.ino || before.size !== stat.size) throw new Error(`${label} changed before read`)
@@ -250,7 +266,7 @@ function readRegularFileFact(repositoryRoot, relativePath, label, fsImpl = fs, r
     if (!after.isFile() || after.dev !== before.dev || after.ino !== before.ino || after.size !== before.size || bytes.length !== before.size) throw new Error(`${label} changed during read`)
     fsImpl.closeSync(descriptor)
     descriptor = undefined
-    verifyDirectoryIdentity(identity, fsImpl)
+    verifyAncestorChain(ancestors, fsImpl)
     return { present: true, valid: true, bytes, sha256: hashBytes(bytes), target }
   } catch (_) {
     return { present: true, valid: false, bytes: null, sha256: null, target }
@@ -319,8 +335,8 @@ function decideAssembly(options) {
   let semanticSourceGraphSha256
   let navigationOwnershipSha256
   if (unsupportedSnapshotSchema) {
-    semanticSourceGraphSha256 = hashCanonical({ projectionVersion: 1, unavailable: 'semantic-source', snapshotSchemaVersion: 2 })
-    navigationOwnershipSha256 = hashCanonical({ projectionVersion: 1, unavailable: 'navigation-ownership', snapshotSchemaVersion: 2 })
+    semanticSourceGraphSha256 = unsupportedSemanticMarkerHash()
+    navigationOwnershipSha256 = unsupportedNavigationMarkerHash()
   } else {
     semanticSourceGraphSha256 = hashCanonical(semanticSourceProjection(candidateSnapshot))
     navigationOwnershipSha256 = hashCanonical(navigationOwnershipProjection(candidateSnapshot))
@@ -486,12 +502,19 @@ function atomicWriteJson(repositoryRoot, outputPath, value, fsImpl = fs) {
   return value
 }
 
-function writeCommittedDescriptor({ repositoryRoot, outputPath, descriptor, decision = null, fsImpl = fs }) {
-  if (decision) {
-    validateAssemblyDecision(decision)
-    if (decision.reasons.includes('unsupported-snapshot-schema')) throw new Error('Cannot commit a descriptor from an unsupported snapshot schema decision')
-  }
+function writeCommittedDescriptor({ repositoryRoot, outputPath, descriptor, decision, expectedMasterSha, expectedDevBaselineSha, fsImpl = fs }) {
+  if (!decision) throw new Error('Guides assembly decision is required for descriptor promotion')
+  requireSha(expectedMasterSha, SHA40, 'Expected masterSha')
+  requireSha(expectedDevBaselineSha, SHA40, 'Expected devBaselineSha')
+  validateAssemblyDecision(decision, { masterSha: expectedMasterSha, devBaselineSha: expectedDevBaselineSha })
   validateCommittedDescriptor(descriptor)
+  const markerPair = value => value.semanticSourceGraphSha256 === unsupportedSemanticMarkerHash()
+    && value.navigationOwnershipSha256 === unsupportedNavigationMarkerHash()
+  if (markerPair(decision) || markerPair(descriptor)) throw new Error('Cannot commit a descriptor containing unsupported snapshot schema marker hashes')
+  if (decision.reasons.includes('unsupported-snapshot-schema')) throw new Error('Cannot commit a descriptor from an unsupported snapshot schema decision')
+  for (const key of ['semanticSourceGraphSha256', 'navigationOwnershipSha256', 'generatorFingerprintSha256']) {
+    if (descriptor[key] !== decision[key]) throw new Error(`Descriptor ${key} identity mismatch with assembly decision`)
+  }
   return atomicWriteJson(repositoryRoot, outputPath, descriptor, fsImpl)
 }
 
@@ -543,19 +566,25 @@ function main(argv = process.argv.slice(2)) {
     })
   }
   if (operation === 'write-descriptor') {
-    const args = parseFlags(values, ['repository-root', 'decision', 'saas-sidebar', 'byoc-sidebar', 'output'])
-    const decision = validateAssemblyDecision(readJsonPath(args['repository-root'], args.decision, 'Guides assembly decision'))
+    const args = parseFlags(values, ['repository-root', 'decision', 'expected-master-sha', 'expected-dev-baseline-sha', 'saas-sidebar', 'byoc-sidebar', 'output'])
+    const decision = validateAssemblyDecision(readJsonPath(args['repository-root'], args.decision, 'Guides assembly decision'), {
+      masterSha: args['expected-master-sha'], devBaselineSha: args['expected-dev-baseline-sha'],
+    })
     const saas = readRegularFileFact(args['repository-root'], args['saas-sidebar'], 'SaaS sidebar')
     const byoc = readRegularFileFact(args['repository-root'], args['byoc-sidebar'], 'BYOC sidebar')
     if (!saas.valid || !byoc.valid) throw new Error('Descriptor sidebars must be regular non-symlink files')
-    return writeCommittedDescriptor({ repositoryRoot: args['repository-root'], outputPath: args.output, decision, descriptor: {
+    return writeCommittedDescriptor({
+      repositoryRoot: args['repository-root'], outputPath: args.output, decision,
+      expectedMasterSha: args['expected-master-sha'], expectedDevBaselineSha: args['expected-dev-baseline-sha'],
+      descriptor: {
       schemaVersion: 1,
       semanticSourceGraphSha256: decision.semanticSourceGraphSha256,
       navigationOwnershipSha256: decision.navigationOwnershipSha256,
       generatorFingerprintSha256: decision.generatorFingerprintSha256,
       saasSidebarSha256: saas.sha256,
       byocSidebarSha256: byoc.sha256,
-    } })
+      },
+    })
   }
   if (operation === 'verify-descriptor') {
     const args = parseFlags(values, ['repository-root', 'descriptor', 'saas-sidebar', 'byoc-sidebar'])

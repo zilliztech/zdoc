@@ -226,6 +226,82 @@ test('generator fingerprint changes with masterSha and approved file bytes', () 
   } finally { cleanup(f) }
 })
 
+test('generator fingerprint fails closed when an intermediate allowlist parent is replaced before open', () => {
+  const f = fixture()
+  const outside = fs.mkdtempSync(path.join(os.tmpdir(), 'guides-assembly-outside-tooling-'))
+  const parent = path.join(fs.realpathSync(f.root), 'plugins/lark-docs')
+  const displaced = `${parent}.displaced`
+  const targetFile = path.join(parent, 'index.js')
+  fs.mkdirSync(outside, { recursive: true })
+  fs.writeFileSync(path.join(outside, 'index.js'), 'outside tooling bytes')
+  let swapped = false
+  let outsideOpened = false
+  const fsImpl = new Proxy(fs, {
+    get(target, property) {
+      if (property === 'lstatSync') return function (targetPath) {
+        const stat = target.lstatSync(targetPath)
+        if (!swapped && targetPath === targetFile) {
+          swapped = true
+          target.renameSync(parent, displaced)
+          target.symlinkSync(outside, parent)
+        }
+        return stat
+      }
+      if (property === 'openSync') return function (targetPath, ...args) {
+        if (swapped && targetPath === targetFile) outsideOpened = true
+        return target.openSync(targetPath, ...args)
+      }
+      return target[property]
+    },
+  })
+  try {
+    assert.throws(() => generatorFingerprint({ repositoryRoot: f.root, masterSha: SHA_A, fsImpl }), /fingerprint|identity|directory|symlink/i)
+    assert.equal(outsideOpened, false)
+  } finally {
+    cleanup(f)
+    fs.rmSync(outside, { recursive: true, force: true })
+  }
+})
+
+test('baseline facts fail closed when an intermediate baseline parent is replaced before open', () => {
+  const f = fixture()
+  const outside = fs.mkdtempSync(path.join(os.tmpdir(), 'guides-assembly-outside-baseline-'))
+  const parent = path.join(fs.realpathSync(f.baselineRoot), 'baseline')
+  const displaced = `${parent}.displaced`
+  const byocFile = path.join(parent, 'guides-byoc.sidebar.js')
+  fs.writeFileSync(path.join(outside, 'guides-byoc.sidebar.js'), fs.readFileSync(byocFile))
+  let swapped = false
+  let outsideOpened = false
+  const fsImpl = new Proxy(fs, {
+    get(target, property) {
+      if (property === 'lstatSync') return function (targetPath) {
+        const stat = target.lstatSync(targetPath)
+        if (!swapped && targetPath === byocFile) {
+          swapped = true
+          target.renameSync(parent, displaced)
+          target.symlinkSync(outside, parent)
+        }
+        return stat
+      }
+      if (property === 'openSync') return function (targetPath, ...args) {
+        if (swapped && targetPath === byocFile) outsideOpened = true
+        return target.openSync(targetPath, ...args)
+      }
+      return target[property]
+    },
+  })
+  try {
+    writeDescriptor(f, validDescriptor(f))
+    const decision = decide(f, { fsImpl })
+    assert.equal(decision.mode, 'regenerate')
+    assert.equal(decision.baselineByocSidebarValid, false)
+    assert.equal(outsideOpened, false)
+  } finally {
+    cleanup(f)
+    fs.rmSync(outside, { recursive: true, force: true })
+  }
+})
+
 test('reuse requires the exact schema-3 identity, empty delta, baseline facts, and sidebar bytes', () => {
   const f = fixture()
   try {
@@ -358,16 +434,31 @@ test('unsupported schema decisions cannot write committed descriptors but suppor
   const f = fixture()
   try {
     writeDescriptor(f, validDescriptor(f))
-    const unsupported = decide(f, { candidateSnapshot: snapshot({ schema_version: 2 }) })
-    assert.throws(() => writeCommittedDescriptor({
-      repositoryRoot: f.root, outputPath: 'output/unsupported.json', descriptor: validDescriptor(f), decision: unsupported,
-    }), /unsupported.*snapshot|schema/i)
-
+    const descriptor = validDescriptor(f)
     const supportedRegenerate = decide(f, { baselineSourceSha: SHA_A })
-    assert.equal(supportedRegenerate.mode, 'regenerate')
-    writeCommittedDescriptor({
-      repositoryRoot: f.root, outputPath: 'output/supported.json', descriptor: validDescriptor(f), decision: supportedRegenerate,
-    })
+    const unsupported = decide(f, { candidateSnapshot: snapshot({ schema_version: 2 }) })
+    const bound = { repositoryRoot: f.root, descriptor, decision: supportedRegenerate, expectedMasterSha: SHA_A, expectedDevBaselineSha: SHA_B }
+    assert.throws(() => writeCommittedDescriptor({ ...bound, outputPath: 'output/no-decision.json', decision: undefined }), /decision.*required/i)
+    assert.throws(() => writeCommittedDescriptor({ ...bound, outputPath: 'output/no-master.json', expectedMasterSha: undefined }), /expected.*master/i)
+    assert.throws(() => writeCommittedDescriptor({ ...bound, outputPath: 'output/no-baseline.json', expectedDevBaselineSha: undefined }), /expected.*baseline/i)
+    assert.throws(() => writeCommittedDescriptor({ ...bound, outputPath: 'output/stale-master.json', expectedMasterSha: SHA_B }), /master.*mismatch/i)
+    assert.throws(() => writeCommittedDescriptor({ ...bound, outputPath: 'output/stale-baseline.json', expectedDevBaselineSha: SHA_A }), /baseline.*mismatch/i)
+    assert.throws(() => writeCommittedDescriptor({
+      ...bound, outputPath: 'output/identity-mismatch.json', descriptor: { ...descriptor, semanticSourceGraphSha256: 'f'.repeat(64) },
+    }), /semantic.*mismatch|identity.*decision/i)
+    assert.throws(() => writeCommittedDescriptor({
+      ...bound, outputPath: 'output/unsupported.json', decision: unsupported,
+    }), /unsupported.*snapshot|schema/i)
+    assert.throws(() => writeCommittedDescriptor({
+      ...bound, outputPath: 'output/marker.json', decision: { ...unsupported, reasons: ['source-delta'] },
+      descriptor: {
+        ...descriptor,
+        semanticSourceGraphSha256: unsupported.semanticSourceGraphSha256,
+        navigationOwnershipSha256: unsupported.navigationOwnershipSha256,
+      },
+    }), /unsupported.*marker|snapshot.*schema/i)
+
+    writeCommittedDescriptor({ ...bound, outputPath: 'output/supported.json' })
     assert.equal(fs.existsSync(path.join(f.root, 'output/supported.json')), true)
   } finally { cleanup(f) }
 })
@@ -427,18 +518,21 @@ test('malformed source, navigation, plans, digests, SHAs, and unsafe baseline pa
 test('committed descriptor writes atomically and verifies exact sidebar hashes', () => {
   const f = fixture()
   try {
+    writeDescriptor(f, validDescriptor(f))
     const descriptor = validDescriptor(f)
+    const decision = decide(f)
+    const binding = { decision, expectedMasterSha: SHA_A, expectedDevBaselineSha: SHA_B }
     const output = 'output/descriptor.json'
-    writeCommittedDescriptor({ repositoryRoot: f.root, outputPath: output, descriptor })
+    writeCommittedDescriptor({ repositoryRoot: f.root, outputPath: output, descriptor, ...binding })
     assert.deepEqual(JSON.parse(fs.readFileSync(path.join(f.root, output), 'utf8')), descriptor)
     assert.deepEqual(validateCommittedDescriptor(JSON.parse(fs.readFileSync(path.join(f.root, output), 'utf8'))), descriptor)
     assert.deepEqual(fs.readdirSync(path.join(f.root, 'output')).filter(name => name.includes('.tmp-')), [])
     const linkedFinal = 'output/linked.json'
     fs.symlinkSync(path.join(f.root, output), path.join(f.root, linkedFinal))
-    assert.throws(() => writeCommittedDescriptor({ repositoryRoot: f.root, outputPath: linkedFinal, descriptor }), /symlink|regular/i)
+    assert.throws(() => writeCommittedDescriptor({ repositoryRoot: f.root, outputPath: linkedFinal, descriptor, ...binding }), /symlink|regular/i)
     fs.mkdirSync(path.join(f.root, 'outside'))
     fs.symlinkSync(path.join(f.root, 'outside'), path.join(f.root, 'linked-parent'))
-    assert.throws(() => writeCommittedDescriptor({ repositoryRoot: f.root, outputPath: 'linked-parent/descriptor.json', descriptor }), /parent|symlink|directory/i)
+    assert.throws(() => writeCommittedDescriptor({ repositoryRoot: f.root, outputPath: 'linked-parent/descriptor.json', descriptor, ...binding }), /parent|symlink|directory/i)
   } finally { cleanup(f) }
 })
 
@@ -470,8 +564,27 @@ test('CLI rejects duplicate, unknown, missing flags, positional extras, and vali
     fs.copyFileSync(path.join(f.baselineRoot, f.paths.saas), path.join(f.root, currentSaas))
     fs.copyFileSync(path.join(f.baselineRoot, f.paths.byoc), path.join(f.root, currentByoc))
     const descriptorOutput = 'outputs/committed.json'
-    const written = spawnSync(process.execPath, [cli, 'write-descriptor', '--repository-root', f.root, '--decision', f.paths.decision, '--saas-sidebar', currentSaas, '--byoc-sidebar', currentByoc, '--output', descriptorOutput], { encoding: 'utf8' })
+    const writeArgs = [
+      'write-descriptor', '--repository-root', f.root, '--decision', f.paths.decision,
+      '--expected-master-sha', SHA_A, '--expected-dev-baseline-sha', SHA_B,
+      '--saas-sidebar', currentSaas, '--byoc-sidebar', currentByoc, '--output', descriptorOutput,
+    ]
+    const written = spawnSync(process.execPath, [cli, ...writeArgs], { encoding: 'utf8' })
     assert.equal(written.status, 0, written.stderr)
+    for (const [removedFlag, expected] of [['--expected-master-sha', /expected-master-sha/i], ['--expected-dev-baseline-sha', /expected-dev-baseline-sha/i]]) {
+      const index = writeArgs.indexOf(removedFlag)
+      const missingArgs = [...writeArgs.slice(0, index), ...writeArgs.slice(index + 2)]
+      const missing = spawnSync(process.execPath, [cli, ...missingArgs], { encoding: 'utf8' })
+      assert.notEqual(missing.status, 0)
+      assert.match(missing.stderr, expected)
+    }
+    for (const [flag, value, expected] of [['--expected-master-sha', SHA_B, /master.*mismatch/i], ['--expected-dev-baseline-sha', SHA_A, /baseline.*mismatch/i]]) {
+      const staleArgs = [...writeArgs]
+      staleArgs[staleArgs.indexOf(flag) + 1] = value
+      const stale = spawnSync(process.execPath, [cli, ...staleArgs], { encoding: 'utf8' })
+      assert.notEqual(stale.status, 0)
+      assert.match(stale.stderr, expected)
+    }
     const verified = spawnSync(process.execPath, [cli, 'verify-descriptor', '--repository-root', f.root, '--descriptor', descriptorOutput, '--saas-sidebar', currentSaas, '--byoc-sidebar', currentByoc], { encoding: 'utf8' })
     assert.equal(verified.status, 0, verified.stderr)
     fs.appendFileSync(path.join(f.root, currentSaas), 'tamper')
@@ -480,7 +593,7 @@ test('CLI rejects duplicate, unknown, missing flags, positional extras, and vali
 
     const unsupportedPath = 'outputs/unsupported-decision.json'
     fs.writeFileSync(path.join(f.root, unsupportedPath), JSON.stringify(decide(f, { candidateSnapshot: snapshot({ schema_version: 2 }) })))
-    const unsupportedWrite = spawnSync(process.execPath, [cli, 'write-descriptor', '--repository-root', f.root, '--decision', unsupportedPath, '--saas-sidebar', currentSaas, '--byoc-sidebar', currentByoc, '--output', 'outputs/unsupported.json'], { encoding: 'utf8' })
+    const unsupportedWrite = spawnSync(process.execPath, [cli, 'write-descriptor', '--repository-root', f.root, '--decision', unsupportedPath, '--expected-master-sha', SHA_A, '--expected-dev-baseline-sha', SHA_B, '--saas-sidebar', currentSaas, '--byoc-sidebar', currentByoc, '--output', 'outputs/unsupported.json'], { encoding: 'utf8' })
     assert.notEqual(unsupportedWrite.status, 0)
     assert.match(unsupportedWrite.stderr, /unsupported.*snapshot|schema/i)
     for (const extra of [['--unknown', 'x'], ['positional'], ['--table-count', '0']]) {
