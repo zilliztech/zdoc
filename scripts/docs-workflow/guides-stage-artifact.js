@@ -44,9 +44,22 @@ const REQUIRED_STAGE_FILES = Object.freeze({
 })
 
 function allowed(stage, relative) {
+  if (!isStrictManifestPath(relative)) return false
   if (relative === ASSEMBLY_DECISION) return stage === 'source'
   if (relative.startsWith(`${ASSEMBLY_DECISION}/`)) return false
   return STAGE_PATHS[stage].some(prefix => relative === prefix || relative.startsWith(`${prefix}/`))
+}
+
+function isStrictManifestPath(value) {
+  if (typeof value !== 'string' || !value || path.posix.isAbsolute(value) || value.includes('\\') || /[\0\r\n]/.test(value)) return false
+  const segments = value.split('/')
+  if (segments.some(segment => !segment || segment === '.' || segment === '..')) return false
+  return path.posix.normalize(value) === value
+}
+
+function requireManifestPath(value, label) {
+  if (!isStrictManifestPath(value)) throw new Error(`Unsafe ${label} path: ${String(value)}`)
+  return value
 }
 
 function requiredLabel(relative) {
@@ -124,6 +137,118 @@ async function collect(root, prefixes) {
   return result
 }
 
+function overlaps(left, right) {
+  const relative = path.relative(left, right)
+  const reverse = path.relative(right, left)
+  return relative === ''
+    || (!relative.startsWith('..') && !path.isAbsolute(relative))
+    || (!reverse.startsWith('..') && !path.isAbsolute(reverse))
+}
+
+async function requireRealDirectory(directory, label) {
+  const absolute = path.resolve(directory)
+  const stat = await fs.lstat(absolute)
+  if (stat.isSymbolicLink() || !stat.isDirectory()) throw new Error(`${label} must be a real directory`)
+  return fs.realpath(absolute)
+}
+
+async function resolveOutputCandidate(output) {
+  if (typeof output !== 'string' || !output) throw new Error('Guides artifact output is required')
+  const absolute = path.resolve(output)
+  if (absolute === path.parse(absolute).root) throw new Error('Unsafe output root')
+  const missing = []
+  let current = absolute
+  while (true) {
+    try {
+      const stat = await fs.lstat(current)
+      if (stat.isSymbolicLink()) throw new Error(`Guides artifact output path must not use symlinks: ${current}`)
+      const real = await fs.realpath(current)
+      return path.join(real, ...missing.reverse())
+    } catch (error) {
+      if (error.code !== 'ENOENT') throw error
+      missing.push(path.basename(current))
+      const parent = path.dirname(current)
+      if (parent === current) throw new Error('Unsafe output path')
+      current = parent
+    }
+  }
+}
+
+async function validateOutputDisjointness({ workspace, baselineDir, output }) {
+  const [workspaceRoot, baselineRoot, outputCandidate] = await Promise.all([
+    requireRealDirectory(workspace, 'Guides workspace'),
+    requireRealDirectory(baselineDir, 'Guides baseline'),
+    resolveOutputCandidate(output),
+  ])
+  if (overlaps(outputCandidate, workspaceRoot)) throw new Error('Guides artifact output overlaps workspace or is its ancestor')
+  if (overlaps(outputCandidate, baselineRoot)) throw new Error('Guides artifact output overlaps baseline or is its ancestor')
+}
+
+async function requireExistingFileUnderRoot(root, relative, label) {
+  requireManifestPath(relative, label)
+  const target = path.resolve(root, relative)
+  if (!target.startsWith(`${root}${path.sep}`)) throw new Error(`Unsafe ${label} path: ${relative}`)
+  let current = root
+  for (const segment of path.posix.dirname(relative).split('/').filter(segment => segment !== '.')) {
+    current = path.join(current, segment)
+    const stat = await fs.lstat(current)
+    if (stat.isSymbolicLink() || !stat.isDirectory()) throw new Error(`${label} ancestor must be a real directory: ${relative}`)
+  }
+  const stat = await fs.lstat(target)
+  if (stat.isSymbolicLink() || !stat.isFile()) throw new Error(`${label} must be a regular non-symlink file: ${relative}`)
+  return target
+}
+
+async function ensureTargetRoot(target) {
+  const absolute = path.resolve(target)
+  if (absolute === path.parse(absolute).root) throw new Error('Unsafe restore target root')
+  const missing = []
+  let current = absolute
+  while (true) {
+    try {
+      const stat = await fs.lstat(current)
+      if (stat.isSymbolicLink() || !stat.isDirectory()) throw new Error('Guides restore target ancestor must be a real directory')
+      current = await fs.realpath(current)
+      break
+    } catch (error) {
+      if (error.code !== 'ENOENT') throw error
+      missing.push(path.basename(current))
+      const parent = path.dirname(current)
+      if (parent === current) throw new Error('Unsafe restore target path')
+      current = parent
+    }
+  }
+  for (const segment of missing.reverse()) {
+    current = path.join(current, segment)
+    await fs.mkdir(current)
+    const stat = await fs.lstat(current)
+    if (stat.isSymbolicLink() || !stat.isDirectory() || await fs.realpath(current) !== current) {
+      throw new Error('Guides restore target ancestor must be a real directory')
+    }
+  }
+  return current
+}
+
+async function ensureMutationParent(root, relative, label) {
+  requireManifestPath(relative, label)
+  const destination = path.resolve(root, relative)
+  if (!destination.startsWith(`${root}${path.sep}`)) throw new Error(`Unsafe ${label} path: ${relative}`)
+  let current = root
+  for (const segment of path.posix.dirname(relative).split('/').filter(segment => segment !== '.')) {
+    current = path.join(current, segment)
+    let stat
+    try { stat = await fs.lstat(current) } catch (error) {
+      if (error.code !== 'ENOENT') throw error
+      await fs.mkdir(current)
+      stat = await fs.lstat(current)
+    }
+    if (stat.isSymbolicLink() || !stat.isDirectory() || await fs.realpath(current) !== current) {
+      throw new Error(`${label} ancestor must be a real directory: ${relative}`)
+    }
+  }
+  return destination
+}
+
 async function assertSourceStageCompleteness({ workspace, snapshotCandidatePath, rootToken }) {
   if (!rootToken) throw new Error('Guides source artifact requires rootToken')
   const relativeSnapshot = snapshotCandidatePath || 'plugins/lark-docs/meta/reports/guides-source-snapshot-candidate.json'
@@ -147,6 +272,7 @@ async function assertSourceStageCompleteness({ workspace, snapshotCandidatePath,
 async function createGuidesStageArtifact({ stage, workspace, baselineDir, output, masterSha, devBaselineSha, sourceArtifactSha256 = null, snapshotCandidatePath = null, rootToken = null }) {
   if (!Object.hasOwn(STAGE_PATHS, stage)) throw new Error(`Unknown guides stage: ${stage}`)
   if (!SHA.test(masterSha) || !SHA.test(devBaselineSha)) throw new Error('Invalid SHA')
+  await validateOutputDisjointness({ workspace, baselineDir, output })
   if (stage === 'source') await assertSourceStageCompleteness({ workspace, snapshotCandidatePath, rootToken })
   const [current, baseline] = await Promise.all([collect(workspace, STAGE_PATHS[stage]), collect(baselineDir, STAGE_PATHS[stage])])
   if (current.size === 0) throw new Error(`Guides ${stage} artifact has no files`)
@@ -165,6 +291,7 @@ async function createGuidesStageArtifact({ stage, workspace, baselineDir, output
   await fs.mkdir(path.join(output, 'payload'), { recursive: true })
   const files = []
   for (const [relative, bytes] of [...current].sort(([a], [b]) => a.localeCompare(b))) {
+    if (!allowed(stage, relative)) throw new Error(`Unauthorized path: ${relative}`)
     const destination = path.join(output, 'payload', relative)
     await fs.mkdir(path.dirname(destination), { recursive: true })
     await fs.writeFile(destination, bytes, { flag: 'wx' })
@@ -178,7 +305,9 @@ async function createGuidesStageArtifact({ stage, workspace, baselineDir, output
 }
 
 async function validateGuidesStageArtifact(directory, expected = {}) {
-  const manifest = JSON.parse(await fs.readFile(path.join(directory, 'manifest.json'), 'utf8'))
+  const artifactRoot = await requireRealDirectory(directory, 'Guides artifact')
+  const manifestPath = await requireExistingFileUnderRoot(artifactRoot, 'manifest.json', 'manifest')
+  const manifest = JSON.parse(await fs.readFile(manifestPath, 'utf8'))
   if (manifest.schemaVersion !== 1 || manifest.manual !== 'guides' || !Object.hasOwn(STAGE_PATHS, manifest.stage)) throw new Error('Invalid guides artifact identity')
   if (!SHA.test(manifest.masterSha) || !SHA.test(manifest.devBaselineSha)) throw new Error('Invalid guides artifact SHA')
   if (expected.stage && manifest.stage !== expected.stage) throw new Error(`Expected guides stage ${expected.stage}`)
@@ -189,12 +318,19 @@ async function validateGuidesStageArtifact(directory, expected = {}) {
   let mediaManifest = null
   let mediaReport = null
   let assemblyDecision = null
-  for (const file of manifest.files || []) {
+  if (!Array.isArray(manifest.files) || !Array.isArray(manifest.deletions)) throw new Error('Guides artifact files and deletions must be arrays')
+  for (const file of manifest.files) {
+    requireManifestPath(file?.path, 'manifest file')
     if (!allowed(manifest.stage, file.path) || seen.has(file.path)) throw new Error(`Unauthorized or duplicate path: ${file.path}`)
     seen.add(file.path)
-    const full = path.join(directory, 'payload', file.path)
-    const stat = await fs.lstat(full)
-    if (!stat.isFile() || stat.isSymbolicLink()) throw new Error(`Invalid payload file: ${file.path}`)
+  }
+  for (const relative of manifest.deletions) {
+    requireManifestPath(relative, 'manifest deletion')
+    if (!allowed(manifest.stage, relative) || seen.has(relative)) throw new Error(`Unauthorized deletion: ${relative}`)
+  }
+  const payloadRoot = await requireRealDirectory(path.join(artifactRoot, 'payload'), 'Guides artifact payload')
+  for (const file of manifest.files) {
+    const full = await requireExistingFileUnderRoot(payloadRoot, file.path, 'payload file')
     const bytes = await fs.readFile(full)
     if (bytes.length !== file.size) throw new Error(`Payload size mismatch: ${file.path}`)
     if (crypto.createHash('sha256').update(bytes).digest('hex') !== file.sha256) throw new Error(`Payload checksum mismatch: ${file.path}`)
@@ -213,17 +349,30 @@ async function validateGuidesStageArtifact(directory, expected = {}) {
     if (!assemblyDecision) throw new Error('Guides source artifact is missing required assembly decision')
     validatePackagedMediaInventory(mediaManifest, mediaReport)
   }
-  for (const relative of manifest.deletions || []) if (!allowed(manifest.stage, relative) || seen.has(relative)) throw new Error(`Unauthorized deletion: ${relative}`)
   return manifest
 }
 
 async function restoreGuidesStageArtifact({ artifact, target, expected = {} }) {
   const manifest = await validateGuidesStageArtifact(artifact, expected)
-  for (const relative of manifest.deletions) await fs.rm(path.join(target, relative), { recursive: true, force: true })
+  const artifactRoot = await requireRealDirectory(artifact, 'Guides artifact')
+  const payloadRoot = await requireRealDirectory(path.join(artifactRoot, 'payload'), 'Guides artifact payload')
+  const targetRoot = await ensureTargetRoot(target)
+  for (const relative of manifest.deletions) {
+    const destination = await ensureMutationParent(targetRoot, relative, 'restore deletion')
+    try {
+      const stat = await fs.lstat(destination)
+      if (stat.isSymbolicLink()) throw new Error(`Restore deletion target must not be a symlink: ${relative}`)
+      await fs.rm(destination, { recursive: stat.isDirectory(), force: true })
+    } catch (error) { if (error.code !== 'ENOENT') throw error }
+  }
   for (const file of manifest.files) {
-    const destination = path.join(target, file.path)
-    await fs.mkdir(path.dirname(destination), { recursive: true })
-    await fs.copyFile(path.join(artifact, 'payload', file.path), destination)
+    const source = await requireExistingFileUnderRoot(payloadRoot, file.path, 'payload file')
+    const destination = await ensureMutationParent(targetRoot, file.path, 'restore destination')
+    try {
+      const stat = await fs.lstat(destination)
+      if (stat.isSymbolicLink() || !stat.isFile()) throw new Error(`Restore destination must be a regular non-symlink file: ${file.path}`)
+    } catch (error) { if (error.code !== 'ENOENT') throw error }
+    await fs.copyFile(source, destination)
   }
   return manifest
 }

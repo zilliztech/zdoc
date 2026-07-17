@@ -127,6 +127,15 @@ test('creates, validates, and restores a source artifact', async () => {
   )
 })
 
+test('restore creates a missing target root one segment at a time', async () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'guides-stage-missing-target-'))
+  const fixture = prepareSourceWorkspace(root)
+  await createGuidesStageArtifact({ stage: 'source', workspace: fixture.workspace, baselineDir: fixture.baseline, output: fixture.artifact, masterSha: SHA, devBaselineSha: SHA, rootToken: 'root' })
+  const target = path.join(root, 'missing', 'nested', 'target')
+  await restoreGuidesStageArtifact({ artifact: fixture.artifact, target })
+  assert.deepEqual(JSON.parse(fs.readFileSync(path.join(target, 'plugins/lark-docs/meta/sources/guides/doc.json'), 'utf8')), renderableSource())
+})
+
 test('source artifact requires a semantic media prefetch report', async () => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'guides-stage-media-report-'))
   const { workspace, baseline, artifact } = prepareSourceWorkspace(root, { report: null })
@@ -189,6 +198,112 @@ test('source artifact validation rejects a rehashed assembly decision with wrong
   entry.sha256 = crypto.createHash('sha256').update(bytes).digest('hex')
   fs.writeFileSync(manifestPath, JSON.stringify(manifest))
   await assert.rejects(validateGuidesStageArtifact(fixture.artifact), /master.*mismatch/i)
+})
+
+test('artifact validation rejects unsafe manifest file and deletion paths before filesystem access', async (t) => {
+  const unsafePaths = [
+    'docs/../../victim',
+    'plugins/lark-docs/meta/sources/guides/../../../victim',
+    '/absolute/path',
+    'docs\\victim',
+    'docs//victim',
+    'docs/./victim',
+    'docs/victim\nname',
+    'docs/victim\0name',
+  ]
+  for (const unsafe of unsafePaths) {
+    await t.test(JSON.stringify(unsafe), async () => {
+      const root = fs.mkdtempSync(path.join(os.tmpdir(), 'guides-stage-unsafe-manifest-'))
+      const fixture = prepareSourceWorkspace(root)
+      await createGuidesStageArtifact({ stage: 'source', workspace: fixture.workspace, baselineDir: fixture.baseline, output: fixture.artifact, masterSha: SHA, devBaselineSha: SHA, rootToken: 'root' })
+      const manifestPath = path.join(fixture.artifact, 'manifest.json')
+      const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'))
+      manifest.files[0].path = unsafe
+      fs.writeFileSync(manifestPath, JSON.stringify(manifest))
+      await assert.rejects(validateGuidesStageArtifact(fixture.artifact), /unsafe|unauthorized|relative|path/i)
+
+      const validManifest = await createGuidesStageArtifact({ stage: 'source', workspace: fixture.workspace, baselineDir: fixture.baseline, output: fixture.artifact, masterSha: SHA, devBaselineSha: SHA, rootToken: 'root' })
+      const withDeletion = { ...validManifest, deletions: [unsafe] }
+      fs.writeFileSync(path.join(fixture.artifact, 'manifest.json'), JSON.stringify(withDeletion))
+      const target = path.join(root, 'target')
+      const victim = path.join(root, 'victim')
+      fs.mkdirSync(target)
+      fs.writeFileSync(victim, 'keep')
+      await assert.rejects(restoreGuidesStageArtifact({ artifact: fixture.artifact, target }), /unsafe|unauthorized|relative|path/i)
+      assert.equal(fs.readFileSync(victim, 'utf8'), 'keep')
+    })
+  }
+})
+
+test('artifact validation rejects symlink ancestors inside payload', async () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'guides-stage-payload-symlink-'))
+  const fixture = prepareSourceWorkspace(root)
+  await createGuidesStageArtifact({ stage: 'source', workspace: fixture.workspace, baselineDir: fixture.baseline, output: fixture.artifact, masterSha: SHA, devBaselineSha: SHA, rootToken: 'root' })
+  const payloadMeta = path.join(fixture.artifact, 'payload/plugins/lark-docs/meta')
+  const displaced = `${payloadMeta}.real`
+  fs.renameSync(payloadMeta, displaced)
+  fs.symlinkSync(displaced, payloadMeta)
+  await assert.rejects(validateGuidesStageArtifact(fixture.artifact), /symlink|ancestor|directory/i)
+})
+
+test('restore rejects symlink target ancestors without outside writes or deletions', async () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'guides-stage-restore-symlink-'))
+  const fixture = prepareSourceWorkspace(root)
+  await createGuidesStageArtifact({ stage: 'source', workspace: fixture.workspace, baselineDir: fixture.baseline, output: fixture.artifact, masterSha: SHA, devBaselineSha: SHA, rootToken: 'root' })
+  const target = path.join(root, 'target')
+  const outside = path.join(root, 'outside')
+  fs.mkdirSync(path.join(target, 'plugins/lark-docs'), { recursive: true })
+  fs.mkdirSync(outside)
+  fs.writeFileSync(path.join(outside, 'sentinel'), 'keep')
+  fs.symlinkSync(outside, path.join(target, 'plugins/lark-docs/meta'))
+  await assert.rejects(restoreGuidesStageArtifact({ artifact: fixture.artifact, target }), /symlink|ancestor|directory/i)
+  assert.equal(fs.readFileSync(path.join(outside, 'sentinel'), 'utf8'), 'keep')
+  assert.equal(fs.readdirSync(outside).length, 1)
+})
+
+test('creation rejects overlapping or symlinked outputs before recursive removal', async () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'guides-stage-output-overlap-'))
+  const fixture = prepareSourceWorkspace(root)
+  const sentinel = path.join(fixture.workspace, 'keep.txt')
+  fs.writeFileSync(sentinel, 'keep')
+  const cases = [
+    fixture.workspace,
+    path.join(fixture.workspace, 'artifact'),
+    fixture.baseline,
+    path.join(fixture.baseline, 'artifact'),
+    root,
+  ]
+  for (const output of cases) {
+    await assert.rejects(
+      createGuidesStageArtifact({ stage: 'source', workspace: fixture.workspace, baselineDir: fixture.baseline, output, masterSha: SHA, devBaselineSha: SHA, rootToken: 'root' }),
+      /output.*(workspace|baseline|overlap|ancestor|inside|unsafe)/i,
+    )
+    assert.equal(fs.readFileSync(sentinel, 'utf8'), 'keep')
+  }
+
+  const linkedParent = path.join(root, 'linked-output-parent')
+  fs.symlinkSync(fixture.workspace, linkedParent)
+  await assert.rejects(
+    createGuidesStageArtifact({ stage: 'source', workspace: fixture.workspace, baselineDir: fixture.baseline, output: path.join(linkedParent, 'artifact'), masterSha: SHA, devBaselineSha: SHA, rootToken: 'root' }),
+    /output.*symlink|symlink.*output|unsafe output/i,
+  )
+  assert.equal(fs.readFileSync(sentinel, 'utf8'), 'keep')
+})
+
+test('invalid assembly decisions preserve an existing artifact byte-for-byte', async () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'guides-stage-preserve-output-'))
+  const fixture = prepareSourceWorkspace(root)
+  await createGuidesStageArtifact({ stage: 'source', workspace: fixture.workspace, baselineDir: fixture.baseline, output: fixture.artifact, masterSha: SHA, devBaselineSha: SHA, rootToken: 'root' })
+  const beforeManifest = fs.readFileSync(path.join(fixture.artifact, 'manifest.json'))
+  const sentinel = path.join(fixture.artifact, 'sentinel')
+  fs.writeFileSync(sentinel, 'keep')
+  json(fixture.workspace, ASSEMBLY_DECISION, validAssemblyDecision({ masterSha: SHA_B }))
+  await assert.rejects(
+    createGuidesStageArtifact({ stage: 'source', workspace: fixture.workspace, baselineDir: fixture.baseline, output: fixture.artifact, masterSha: SHA, devBaselineSha: SHA, rootToken: 'root' }),
+    /master.*mismatch/i,
+  )
+  assert.deepEqual(fs.readFileSync(path.join(fixture.artifact, 'manifest.json')), beforeManifest)
+  assert.equal(fs.readFileSync(sentinel, 'utf8'), 'keep')
 })
 
 test('source artifact rejects malformed media prefetch report contracts', async (t) => {
