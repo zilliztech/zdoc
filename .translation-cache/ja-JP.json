@@ -516,9 +516,9 @@
       "translatedAt": "2026-07-13T20:01:55.766Z"
     },
     "docs-byoc/tutorials/development/schema/json-field/json-indexing.md": {
-      "sourceHash": "540b6ad50c066173ea81562a7540bed680fac535127e422e4dfde7e97cb46497",
+      "sourceHash": "ce83372cb592dd68e7efa2269daf39ef804a63b73bead29e87c46ec8fa9e47c6",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/schema/json-field/json-indexing.md",
-      "translatedAt": "2026-07-13T20:03:38.958Z"
+      "translatedAt": "2026-07-17T19:04:09.438Z"
     },
     "docs-byoc/tutorials/development/schema/json-field/json-shredding.md": {
       "sourceHash": "261e70e7621ce1aa4286752c9e9960c23fa85a0506c251a5c79ed0b4f3c9eb73",
@@ -1901,9 +1901,9 @@
       "translatedAt": "2026-07-13T16:41:39.084Z"
     },
     "docs/tutorials/development/schema/json-field/json-indexing.md": {
-      "sourceHash": "846622594ee57d6ee7680785e5df0bc964bd90b8e7b856478227eb268ddc4a80",
+      "sourceHash": "d72e3bb01256bd27520f6a491dca7b9f08324a70681f1977426547e746614972",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/schema/json-field/json-indexing.md",
-      "translatedAt": "2026-07-13T16:41:55.210Z"
+      "translatedAt": "2026-07-17T19:04:04.519Z"
     },
     "docs/tutorials/development/schema/json-field/json-shredding.md": {
       "sourceHash": "b865db63411ab6cdedfff2342e86904e685997213dadb887bd3b030c67f3da76",
