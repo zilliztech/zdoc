@@ -10,13 +10,14 @@ const { aggregateResults, escapeMarkdownCell, writeSummaryAtomic } = require('./
 
 const SHA_A = 'a'.repeat(40);
 const SHA_B = 'b'.repeat(40);
+const GUIDES_TRANSLATION_CANDIDATES = { total: 163, current_delta: 15, missing_target: 18, stale_source: 130 };
 
 function payload(overrides = {}) {
   return {
     mode: 'publish',
     requestedGroups: ['guides', 'python'],
     groups: {
-      guides: { source: 'source_published', translation: 'translation_published', translationRequested: true, sourceCommitSha: SHA_A, translationCommitSha: SHA_B },
+      guides: { source: 'source_published', translation: 'translation_published', translationRequested: true, sourceCommitSha: SHA_A, translationCommitSha: SHA_B, translationCandidates: GUIDES_TRANSLATION_CANDIDATES },
       python: { source: 'no_changes', translation: 'skipped', translationRequested: false },
     },
     finalVerification: 'passed',
@@ -37,6 +38,8 @@ test('aggregates final terminal results and ignores earlier failed attempts', ()
   assert.equal(result.overallStatus, 'success');
   assert.equal(result.summaryText, 'Documentation workflow succeeded.');
   assert.match(result.markdown, /\| guides \| source_published \| translation_published \| a{40} \| b{40} \|/);
+  assert.match(result.markdown, /Guides translation candidates: 163 total — 15 current English changes, 18 missing Japanese targets, 130 stale translations\./);
+  assert.ok(result.markdown.indexOf('Guides translation candidates:') < result.markdown.indexOf('Final verification:'));
   assert.match(result.markdown, /Final verification: passed/);
   assert.match(result.markdown, /Overall status: success/);
 });
@@ -86,6 +89,19 @@ test('rejects invalid schema, states, groups, extras, duplicates, and SHAs', () 
     { ...payload(), surprise: true },
   ];
   for (const value of invalid) assert.throws(() => aggregateResults(value), /invalid|must|unknown|requested|sha|schema/i);
+});
+
+test('rejects invalid Guides translation candidate count schemas', () => {
+  const invalidCounts = [
+    { total: 163, current_delta: -1, missing_target: 18, stale_source: 146 },
+    { total: 163, current_delta: 15.5, missing_target: 18, stale_source: 129.5 },
+    { total: 163, current_delta: 15, missing_target: 18, stale_source: 130, surprise: 0 },
+    { total: 164, current_delta: 15, missing_target: 18, stale_source: 130 },
+  ];
+  for (const translationCandidates of invalidCounts) {
+    const value = payload({ groups: { ...payload().groups, guides: { ...payload().groups.guides, translationCandidates } } });
+    assert.throws(() => aggregateResults(value), /translation candidates/i);
+  }
 });
 
 test('atomic summary replacement preserves the old file on failure and exposes complete content on success', () => {

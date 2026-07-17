@@ -43,3 +43,8 @@ test('batch preparation reports translation candidate reason counts', () => {
   assert.match(prepare, /candidate_counts: JSON\.stringify\(summary\.candidateCounts\)/)
   assert.match(prepare, /^          console\.log\(`translation candidates: total=\$\{summary\.candidateCounts\.total\} current_delta=\$\{summary\.candidateCounts\.current_delta\} missing_target=\$\{summary\.candidateCounts\.missing_target\} stale_source=\$\{summary\.candidateCounts\.stale_source\}`\)$/m)
 })
+
+test('aggregate receives Guides translation candidate counts', () => {
+  const workflow = fs.readFileSync('.github/workflows/fetch-docs.yml', 'utf8')
+  assert.match(workflow, /^          GUIDES_TRANSLATION_CANDIDATES: \$\{\{ needs\.prepare_guides_translation_batches\.outputs\.candidate_counts \}\}$/m)
+})

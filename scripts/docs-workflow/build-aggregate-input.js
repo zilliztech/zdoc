@@ -3,6 +3,23 @@
 const fs = require('node:fs')
 const { listContentGroups } = require('./content-groups')
 
+const CANDIDATE_COUNT_KEYS = ['total', 'current_delta', 'missing_target', 'stale_source']
+
+function translationCandidatesError(message) {
+  throw new Error(`Invalid translation candidates: ${message}`)
+}
+
+function parseCandidateCounts(value) {
+  let counts
+  try { counts = JSON.parse(value) } catch { translationCandidatesError('must be valid JSON') }
+  if (!counts || typeof counts !== 'object' || Array.isArray(counts)) translationCandidatesError('must be an object')
+  const keys = Object.keys(counts)
+  if (keys.length !== CANDIDATE_COUNT_KEYS.length || keys.some((key) => !CANDIDATE_COUNT_KEYS.includes(key))) translationCandidatesError('must contain exactly total, current_delta, missing_target, and stale_source')
+  for (const key of CANDIDATE_COUNT_KEYS) if (!Number.isSafeInteger(counts[key]) || counts[key] < 0) translationCandidatesError(`${key} must be a safe nonnegative integer`)
+  if (counts.total !== counts.current_delta + counts.missing_target + counts.stale_source) translationCandidatesError('total must equal the reason counts')
+  return counts
+}
+
 function buildAggregateInput(env) {
   const mode = env.MODE === 'artifact_only' ? 'artifact_only' : 'publish'
   const requestedGroups = env.SELECTED_GROUP === 'all' ? listContentGroups() : [env.SELECTED_GROUP]
@@ -26,6 +43,7 @@ function buildAggregateInput(env) {
     const entry = { source, translation, translationRequested: mode === 'publish' }
     if (source === 'source_published') entry.sourceCommitSha = env[`${prefix}_SOURCE_SHA`]
     if (translation === 'translation_published') entry.translationCommitSha = env[`${prefix}_TRANSLATION_SHA`]
+    if (group === 'guides' && env.GUIDES_TRANSLATION_CANDIDATES) entry.translationCandidates = parseCandidateCounts(env.GUIDES_TRANSLATION_CANDIDATES)
     groups[group] = entry
   }
   return { mode, requestedGroups, groups, finalVerification: mode === 'artifact_only' ? 'skipped' : (env.FINAL_VERIFICATION === 'passed' ? 'passed' : 'failed') }
@@ -39,4 +57,4 @@ function main() {
 }
 
 if (require.main === module) { try { main() } catch (error) { console.error(error.message); process.exitCode = 1 } }
-module.exports = { buildAggregateInput }
+module.exports = { buildAggregateInput, parseCandidateCounts }

@@ -8,10 +8,20 @@ const SOURCE_STATES = new Set(['artifact_ready', 'source_published', 'no_changes
 const TRANSLATION_STATES = new Set(['translation_published', 'no_changes', 'translation_failed', 'failed', 'skipped']);
 const FINAL_STATES = new Set(['passed', 'failed', 'skipped']);
 const SHA = /^[0-9a-f]{40}$/;
-const ENTRY_KEYS = new Set(['source', 'translation', 'translationRequested', 'sourceCommitSha', 'translationCommitSha']);
+const ENTRY_KEYS = new Set(['source', 'translation', 'translationRequested', 'sourceCommitSha', 'translationCommitSha', 'translationCandidates']);
+const CANDIDATE_COUNT_KEYS = ['total', 'current_delta', 'missing_target', 'stale_source'];
 
 function invalid(message) { throw new Error(`Invalid aggregate results schema: ${message}`); }
 function escapeMarkdownCell(value) { return String(value ?? '').replaceAll('|', '\\|').replace(/[\r\n]+/g, ' '); }
+
+function validateCandidateCounts(counts, group) {
+  if (group !== 'guides') invalid(`${group} translation candidates are only supported for guides`);
+  if (!counts || typeof counts !== 'object' || Array.isArray(counts)) invalid(`${group} translation candidates must be an object`);
+  const keys = Object.keys(counts);
+  if (keys.length !== CANDIDATE_COUNT_KEYS.length || keys.some((key) => !CANDIDATE_COUNT_KEYS.includes(key))) invalid(`${group} translation candidates must contain exactly total, current_delta, missing_target, and stale_source`);
+  for (const key of CANDIDATE_COUNT_KEYS) if (!Number.isSafeInteger(counts[key]) || counts[key] < 0) invalid(`${group} translation candidates ${key} must be a safe nonnegative integer`);
+  if (counts.total !== counts.current_delta + counts.missing_target + counts.stale_source) invalid(`${group} translation candidates total must equal the reason counts`);
+}
 
 function validate(input) {
   if (!input || typeof input !== 'object' || Array.isArray(input)) invalid('root must be an object');
@@ -34,6 +44,7 @@ function validate(input) {
     for (const key of ['sourceCommitSha', 'translationCommitSha']) if (entry[key] !== undefined && (typeof entry[key] !== 'string' || !SHA.test(entry[key]))) invalid(`${group} ${key} must be a lowercase 40-character SHA`);
     if ((entry.source === 'source_published') !== (entry.sourceCommitSha !== undefined)) invalid(`${group} sourceCommitSha must exist exactly for source_published`);
     if ((entry.translation === 'translation_published') !== (entry.translationCommitSha !== undefined)) invalid(`${group} translationCommitSha must exist exactly for translation_published`);
+    if (entry.translationCandidates !== undefined) validateCandidateCounts(entry.translationCandidates, group);
   }
   if (!FINAL_STATES.has(input.finalVerification)) invalid('finalVerification has unknown state');
 }
@@ -53,7 +64,9 @@ function aggregateResults(input) {
   }
   const overallStatus = success ? 'success' : 'failure';
   const summaryText = success ? 'Documentation workflow succeeded.' : 'Documentation workflow failed.';
-  const markdown = ['# Documentation workflow summary', '', `Mode: ${mode}`, '', '| Group | Source | Translation | Source commit | Translation commit |', '| --- | --- | --- | --- | --- |', ...rows, '', `Final verification: ${input.finalVerification}`, '', `Overall status: ${overallStatus}`, ''].join('\n');
+  const candidateSummary = input.groups.guides?.translationCandidates;
+  const candidateLines = candidateSummary ? [`Guides translation candidates: ${candidateSummary.total} total — ${candidateSummary.current_delta} current English changes, ${candidateSummary.missing_target} missing Japanese targets, ${candidateSummary.stale_source} stale translations.`, ''] : [];
+  const markdown = ['# Documentation workflow summary', '', `Mode: ${mode}`, '', '| Group | Source | Translation | Source commit | Translation commit |', '| --- | --- | --- | --- | --- |', ...rows, '', ...candidateLines, `Final verification: ${input.finalVerification}`, '', `Overall status: ${overallStatus}`, ''].join('\n');
   return Object.freeze({ overallStatus, summaryText, markdown });
 }
 

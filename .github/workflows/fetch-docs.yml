@@ -665,6 +665,7 @@ jobs:
           GUIDES_TRANSLATOR: ${{ needs.finalize_guides_translation.outputs.translator_status }}
           GUIDES_TRANSLATION: ${{ needs.finalize_guides_translation.outputs.publisher_status }}
           GUIDES_TRANSLATION_SHA: ${{ needs.finalize_guides_translation.outputs.commit_sha }}
+          GUIDES_TRANSLATION_CANDIDATES: ${{ needs.prepare_guides_translation_batches.outputs.candidate_counts }}
           PYTHON_PRODUCER: ${{ needs.produce_python.outputs.status }}
           PYTHON_SOURCE: ${{ needs.publish_python.outputs.status }}
           PYTHON_SOURCE_SHA: ${{ needs.publish_python.outputs.commit_sha }}
