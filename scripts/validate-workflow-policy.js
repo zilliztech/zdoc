@@ -210,6 +210,24 @@ function validateWorkflowPolicies(directory = workflowDirectory) {
     if (!/name: docs-card-report-\$\{\{ github\.run_id \}\}/.test(aggregateSource) || !/name: Upload final card report artifact[\s\S]*if: \$\{\{ always\(\) \}\}[\s\S]*continue-on-error: true/.test(aggregateSource)) {
       errors.push('fetch-docs.yml: aggregate must always attempt the final card report artifact')
     }
+    const restoreReports = aggregateSource.indexOf('name: Restore committed report directories')
+    const downloadGuidesReports = aggregateSource.indexOf('name: Download current Guides reports')
+    const collectReports = aggregateSource.indexOf('name: Collect card report summaries')
+    if (downloadGuidesReports < 0) errors.push('fetch-docs.yml: aggregate must download current Guides reports')
+    if (!(restoreReports >= 0 && downloadGuidesReports > restoreReports && collectReports > downloadGuidesReports)) {
+      errors.push('fetch-docs.yml: current Guides reports must be downloaded before card collection')
+    }
+    if (!/name: Download current Guides reports[\s\S]*path: plugins\/lark-docs\/meta\/reports/.test(aggregateSource)) {
+      errors.push('fetch-docs.yml: Guides reports must restore into the collector report directory')
+    }
+    if (!/CARD_REPORT_ARTIFACT_URL:/.test(aggregateSource)) {
+      errors.push('fetch-docs.yml: artifact-only card reports require a workflow artifact URL')
+    }
+    const createReport = aggregateSource.indexOf('name: Create final card report artifact')
+    const reportIngestion = aggregateSource.slice(Math.max(0, restoreReports), createReport >= 0 ? createReport : aggregateSource.length)
+    if (/APP_ID|APP_SECRET|SPACE_ID|FIGMA_API_KEY|MODEL_API_KEY/.test(reportIngestion)) {
+      errors.push('fetch-docs.yml: aggregate report ingestion must not receive Feishu credentials')
+    }
     if (/name: Finish progress card|report-live-card\.sh/.test(callerSource)) errors.push('fetch-docs.yml: aggregate must not directly patch the card')
   }
 

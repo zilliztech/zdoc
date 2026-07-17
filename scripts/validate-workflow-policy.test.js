@@ -97,6 +97,21 @@ test('central monitor owns live and terminal card presentation', () => {
   }
 })
 
+test('aggregate restores current Guides reports before building the final card artifact', () => {
+  const workflow = fs.readFileSync('.github/workflows/fetch-docs.yml', 'utf8')
+  const aggregate = workflow.slice(workflow.indexOf('  aggregate:'), workflow.indexOf('  finalize_card_fallback:'))
+  const restoreIndex = aggregate.indexOf('name: Restore committed report directories')
+  const downloadIndex = aggregate.indexOf('name: Download current Guides reports')
+  const collectIndex = aggregate.indexOf('name: Collect card report summaries')
+  assert.ok(restoreIndex >= 0)
+  assert.ok(downloadIndex > restoreIndex)
+  assert.ok(collectIndex > downloadIndex)
+  assert.match(aggregate, /name: docs-checkpoint-guides-\$\{\{ github\.run_id \}\}-reports/)
+  assert.match(aggregate, /path: plugins\/lark-docs\/meta\/reports/)
+  assert.match(aggregate, /CARD_EXPECT_GUIDES_REPORTS:.*produce_guides\.outputs\.status.*artifact_ready/)
+  assert.match(aggregate, /CARD_REPORT_ARTIFACT_URL:/)
+})
+
 test('workflow validator rejects distributed card ownership and broken monitor topology', () => {
   const sourceDirectory = path.join(process.cwd(), '.github/workflows')
   const cases = [
@@ -168,6 +183,56 @@ test('workflow validator rejects unsafe Guides cache migration shapes', () => {
     try {
       fs.cpSync(sourceDirectory, directory, { recursive: true })
       const file = path.join(directory, '_fetch-guides-sources.yml')
+      fs.writeFileSync(file, fixture.mutate(fs.readFileSync(file, 'utf8')))
+      assert.match(validateWorkflowPolicies(directory).join('\n'), fixture.expected)
+    } finally {
+      fs.rmSync(directory, { recursive: true, force: true })
+    }
+  }
+})
+
+test('workflow validator rejects incomplete aggregate report ingestion', () => {
+  const sourceDirectory = path.join(process.cwd(), '.github/workflows')
+  const cases = [
+    {
+      mutate(source) {
+        return source.replace(/      - name: Download current Guides reports[\s\S]*?          path: plugins\/lark-docs\/meta\/reports\n/, '')
+      },
+      expected: /aggregate must download current Guides reports/,
+    },
+    {
+      mutate(source) {
+        return source
+          .replace('      - name: Restore committed report directories', '      - name: Collect card report summaries\n        run: true\n      - name: Restore committed report directories')
+          .replace('      - id: reports\n        name: Collect card report summaries', '      - id: reports\n        name: Collect card report summaries late')
+      },
+      expected: /downloaded before card collection/,
+    },
+    {
+      mutate(source) {
+        return source.replace('path: plugins/lark-docs/meta/reports', 'path: tmp/guides-reports')
+      },
+      expected: /collector report directory/,
+    },
+    {
+      mutate(source) {
+        return source.replace(/^\s+CARD_REPORT_ARTIFACT_URL:.*\n/m, '')
+      },
+      expected: /artifact-only card reports require a workflow artifact URL/,
+    },
+    {
+      mutate(source) {
+        return source.replace('CARD_REPORT_STARTED_AT: ${{ needs.prepare.outputs.card_started_at }}', 'APP_ID: ${{ secrets.APP_ID }}\n          CARD_REPORT_STARTED_AT: ${{ needs.prepare.outputs.card_started_at }}')
+      },
+      expected: /report ingestion must not receive Feishu credentials/,
+    },
+  ]
+
+  for (const fixture of cases) {
+    const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'aggregate-report-policy-'))
+    try {
+      fs.cpSync(sourceDirectory, directory, { recursive: true })
+      const file = path.join(directory, 'fetch-docs.yml')
       fs.writeFileSync(file, fixture.mutate(fs.readFileSync(file, 'utf8')))
       assert.match(validateWorkflowPolicies(directory).join('\n'), fixture.expected)
     } finally {
