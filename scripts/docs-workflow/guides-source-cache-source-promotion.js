@@ -134,6 +134,21 @@ function removeEmptyDirectory(directory) {
   }
 }
 
+function cleanupGuidesLiveCache({ workspace, scope = 'all' }) {
+  if (!['all', 'media'].includes(scope)) throw new Error('Guides cleanup scope must be all or media')
+  const workspaceRoot = requireDirectory(workspace, 'Guides cleanup workspace')
+  const destinations = {
+    sourceDir: fixedWorkspacePath(workspaceRoot, 'plugins/lark-docs/meta/sources/guides', 'Guides live source path', 'directory'),
+    sourceManifestPath: fixedWorkspacePath(workspaceRoot, 'plugins/lark-docs/meta/source-cache/guides-manifest.json', 'Guides live source manifest path', 'file'),
+    mediaManifestPath: fixedWorkspacePath(workspaceRoot, 'plugins/lark-docs/meta/media-cache/guides.json', 'Guides live media manifest path', 'file'),
+  }
+  const removals = scope === 'media'
+    ? [destinations.mediaManifestPath]
+    : [destinations.sourceDir, destinations.sourceManifestPath, destinations.mediaManifestPath]
+  for (const target of removals) fs.rmSync(target, { recursive: target === destinations.sourceDir, force: true })
+  return Object.freeze(destinations)
+}
+
 function promoteSourceGenerationPayload({ payloadDir, workspace, snapshotPath, rootToken, hooks = {} }) {
   const allowedHooks = new Set(['afterInstall', 'beforeMediaRemoval', 'beforeRollbackRemove', 'beforeRollbackRestore', 'beforeDirectoryCleanup', 'beforeJournalCleanup'])
   if (!hooks || typeof hooks !== 'object' || Array.isArray(hooks) || Object.keys(hooks).some(key => !allowedHooks.has(key)) || Object.values(hooks).some(value => typeof value !== 'function')) {
@@ -215,22 +230,28 @@ function promoteSourceGenerationPayload({ payloadDir, workspace, snapshotPath, r
 
 function parseArgs(argv) {
   const [operation, ...values] = argv
-  if (operation !== 'promote') throw new Error('Usage: promote --payload <dir> --workspace <dir> --snapshot <file> --root-token <token>')
-  const allowed = new Set(['payload', 'workspace', 'snapshot', 'root-token'])
+  const required = operation === 'promote'
+    ? new Set(['payload', 'workspace', 'snapshot', 'root-token'])
+    : operation === 'cleanup' ? new Set(['workspace', 'scope']) : null
+  if (!required) throw new Error('Usage: promote --payload <dir> --workspace <dir> --snapshot <file> --root-token <token> | cleanup --workspace <dir> --scope <all|media>')
   const args = {}
   for (let index = 0; index < values.length; index += 2) {
     const flag = values[index], value = values[index + 1]
     if (!flag?.startsWith('--') || value === undefined) throw new Error('Missing or invalid argument')
     const key = flag.slice(2)
-    if (!allowed.has(key) || Object.hasOwn(args, key) || !value || /[\0\r\n]/.test(value)) throw new Error(`Invalid argument: ${flag}`)
+    if (!required.has(key) || Object.hasOwn(args, key) || !value || /[\0\r\n]/.test(value)) throw new Error(`Invalid argument: ${flag}`)
     args[key] = value
   }
-  for (const key of allowed) if (!Object.hasOwn(args, key)) throw new Error(`Missing required argument: --${key}`)
-  return args
+  for (const key of required) if (!Object.hasOwn(args, key)) throw new Error(`Missing required argument: --${key}`)
+  return { operation, ...args }
 }
 
 function main(argv = process.argv.slice(2)) {
   const args = parseArgs(argv)
+  if (args.operation === 'cleanup') {
+    process.stdout.write(`${JSON.stringify(cleanupGuidesLiveCache({ workspace: args.workspace, scope: args.scope }))}\n`)
+    return
+  }
   const result = promoteSourceGenerationPayload({
     payloadDir: args.payload,
     workspace: args.workspace,
@@ -244,4 +265,4 @@ if (require.main === module) {
   try { main() } catch (error) { console.error(error.message); process.exitCode = 1 }
 }
 
-module.exports = { promoteSourceGenerationPayload, validateSourceGenerationPayload }
+module.exports = { cleanupGuidesLiveCache, promoteSourceGenerationPayload, validateSourceGenerationPayload }

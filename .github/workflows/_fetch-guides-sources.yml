@@ -127,7 +127,8 @@ jobs:
           fi
           rm -rf "$staged" tmp/guides-source-cache-v4
           if [[ "$source_valid" != true ]]; then
-            rm -rf plugins/lark-docs/meta/sources/guides plugins/lark-docs/meta/source-cache plugins/lark-docs/meta/media-cache
+            node scripts/docs-workflow/guides-source-cache-source-promotion.js cleanup \
+              --workspace "$GITHUB_WORKSPACE" --scope all
           fi
           printf 'source_valid=%s\nmedia_valid=%s\ncandidate_present=%s\n' \
             "$source_valid" "$media_valid" "$candidate_present" >> "$GITHUB_OUTPUT"
@@ -166,9 +167,11 @@ jobs:
               fi
             fi
             if [[ "$source_valid" != true ]]; then
-              rm -rf plugins/lark-docs/meta/sources/guides plugins/lark-docs/meta/source-cache plugins/lark-docs/meta/media-cache
+              node scripts/docs-workflow/guides-source-cache-source-promotion.js cleanup \
+                --workspace "$GITHUB_WORKSPACE" --scope all
             elif [[ "$media_valid" != true ]]; then
-              rm -rf plugins/lark-docs/meta/media-cache
+              node scripts/docs-workflow/guides-source-cache-source-promotion.js cleanup \
+                --workspace "$GITHUB_WORKSPACE" --scope media
             fi
           fi
           printf 'source_valid=%s\nmedia_valid=%s\ncandidate_present=%s\n' \
@@ -208,9 +211,11 @@ jobs:
               fi
             fi
             if [[ "$source_valid" != true ]]; then
-              rm -rf plugins/lark-docs/meta/sources/guides plugins/lark-docs/meta/source-cache plugins/lark-docs/meta/media-cache
+              node scripts/docs-workflow/guides-source-cache-source-promotion.js cleanup \
+                --workspace "$GITHUB_WORKSPACE" --scope all
             elif [[ "$media_valid" != true ]]; then
-              rm -rf plugins/lark-docs/meta/media-cache
+              node scripts/docs-workflow/guides-source-cache-source-promotion.js cleanup \
+                --workspace "$GITHUB_WORKSPACE" --scope media
             fi
           fi
           printf 'source_valid=%s\nmedia_valid=%s\ncandidate_present=%s\n' \
@@ -243,7 +248,8 @@ jobs:
               source_valid=true
             fi
             if [[ "$source_valid" != true ]]; then
-              rm -rf plugins/lark-docs/meta/sources/guides plugins/lark-docs/meta/source-cache plugins/lark-docs/meta/media-cache
+              node scripts/docs-workflow/guides-source-cache-source-promotion.js cleanup \
+                --workspace "$GITHUB_WORKSPACE" --scope all
             fi
           fi
           printf 'source_valid=%s\nmedia_valid=%s\ncandidate_present=%s\n' \
@@ -350,15 +356,11 @@ jobs:
           candidate=plugins/lark-docs/meta/reports/guides-source-snapshot-candidate.json
           baseline=plugins/lark-docs/meta/snapshots/guides-uat-last-success.json
           cache_version="${{ steps.source_cache_check.outputs.cache_version }}"
-          cache_save_required=false
-          candidate_key=$(node scripts/docs-workflow/guides-source-cache.js key --snapshot "$candidate" --version 4)
-          baseline_key=missing
-          if [[ -f "$baseline" ]]; then
-            baseline_key=$(node scripts/docs-workflow/guides-source-cache.js key --snapshot "$baseline" --version 4)
-          fi
-          if [[ "$cache_version" != v4 || "${{ steps.media_prefetch.outputs.mode }}" == recovery || "$candidate_key" != "$baseline_key" ]]; then
-            cache_save_required=true
-          fi
+          cache_save_required=$(node scripts/docs-workflow/guides-cache-save-decision.js decide \
+            --cache-version "$cache_version" \
+            --prefetch-mode "${{ steps.media_prefetch.outputs.mode }}" \
+            --candidate "$candidate" \
+            --baseline "$baseline")
           printf 'source_valid=true\nmedia_valid=true\ncache_version=%s\ncache_save_required=%s\n' \
             "$cache_version" "$cache_save_required" >> "$GITHUB_OUTPUT"
       - id: table_matrix

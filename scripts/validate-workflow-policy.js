@@ -303,10 +303,13 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       }
     }
     if (/cache-hit/.test(guidesSource)) errors.push('_fetch-guides-sources.yml: Guides fallback must never trust cache-hit before validation')
+    if (/rm -rf[^\n]*plugins\/lark-docs\/meta\/(?:source-cache|media-cache)\/?(?:\s|$)/.test(guidesSource)) {
+      errors.push('_fetch-guides-sources.yml: Guides cleanup must remove exact cache leaves and preserve unrelated cache state')
+    }
     for (const [validationName, nextRestoreName, requiredCleanup] of [
-      ['Validate and promote Guides v4 cache candidate', 'Restore Guides v3 cache candidate', /rm -rf "\$staged" tmp\/guides-source-cache-v4[\s\S]*rm -rf plugins\/lark-docs\/meta\/sources\/guides plugins\/lark-docs\/meta\/source-cache plugins\/lark-docs\/meta\/media-cache/],
-      ['Validate Guides v3 cache candidate', 'Restore Guides v2 cache candidate', /rm -rf plugins\/lark-docs\/meta\/sources\/guides plugins\/lark-docs\/meta\/source-cache plugins\/lark-docs\/meta\/media-cache/],
-      ['Validate Guides v2 cache candidate', 'Restore Guides v1 cache candidate', /rm -rf plugins\/lark-docs\/meta\/sources\/guides plugins\/lark-docs\/meta\/source-cache plugins\/lark-docs\/meta\/media-cache/],
+      ['Validate and promote Guides v4 cache candidate', 'Restore Guides v3 cache candidate', /rm -rf "\$staged" tmp\/guides-source-cache-v4[\s\S]*guides-source-cache-source-promotion\.js cleanup[\s\S]*--scope all/],
+      ['Validate Guides v3 cache candidate', 'Restore Guides v2 cache candidate', /guides-source-cache-source-promotion\.js cleanup[\s\S]*--scope all/],
+      ['Validate Guides v2 cache candidate', 'Restore Guides v1 cache candidate', /guides-source-cache-source-promotion\.js cleanup[\s\S]*--scope all/],
     ]) {
       const block = guidesSource.slice(guidesSource.indexOf(`name: ${validationName}`), guidesSource.indexOf(`name: ${nextRestoreName}`))
       if (!requiredCleanup.test(block)) {
@@ -316,7 +319,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     }
     for (const [validationName, nextRestoreName] of [['Validate Guides v3 cache candidate', 'Restore Guides v2 cache candidate'], ['Validate Guides v2 cache candidate', 'Restore Guides v1 cache candidate']]) {
       const block = guidesSource.slice(guidesSource.indexOf(`name: ${validationName}`), guidesSource.indexOf(`name: ${nextRestoreName}`))
-      if (!/elif \[\[ "\$media_valid" != true \]\]; then\n\s+rm -rf plugins\/lark-docs\/meta\/media-cache/.test(block)) {
+      if (!/elif \[\[ "\$media_valid" != true \]\]; then[\s\S]*guides-source-cache-source-promotion\.js cleanup[\s\S]*--scope media/.test(block)) {
         errors.push('_fetch-guides-sources.yml: invalid legacy media must preserve valid Guides sources and select recovery')
         break
       }
@@ -344,7 +347,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     if (/--plan|--doc-token|--previous-manifest/.test(recoveryBranch)) errors.push('_fetch-guides-sources.yml: recovery media prefetch must use complete candidate snapshot coverage')
     const resultStep = stepById.get('source_cache_result')
     if (!resultStep || !/source_valid=true[\s\S]*media_valid=true[\s\S]*cache_version[\s\S]*cache_save_required/.test(resultStep.run || '') ||
-        !/cache_version" != v4/.test(resultStep.run || '') || !/media_prefetch\.outputs\.mode.*recovery/.test(resultStep.run || '') || !/candidate_key" != "\$baseline_key/.test(resultStep.run || '')) {
+        !/guides-cache-save-decision\.js decide[\s\S]*--cache-version "\$cache_version"[\s\S]*--prefetch-mode[\s\S]*--candidate "\$candidate"[\s\S]*--baseline "\$baseline"/.test(resultStep.run || '') || /candidate_key|baseline_key/.test(resultStep.run || '')) {
       errors.push('_fetch-guides-sources.yml: Guides cache result must emit validity, version, and save requirement from legacy, recovery, or snapshot change')
     }
     const guidesAssemble = readWorkflow('_assemble-guides.yml')

@@ -298,9 +298,15 @@ test('workflow validator rejects unsafe Guides cache migration shapes', () => {
     },
     {
       mutate(source) {
-        return source.replace('rm -rf "$staged" tmp/guides-source-cache-v4', 'rm -rf "$staged"')
+        return source.replace('--workspace "$GITHUB_WORKSPACE" --scope all', '--workspace "$GITHUB_WORKSPACE" --scope media')
       },
       expected: /residue must be removed/,
+    },
+    {
+      mutate(source) {
+        return source.replace('node scripts/docs-workflow/guides-source-cache-source-promotion.js cleanup \\\n              --workspace "$GITHUB_WORKSPACE" --scope all', 'rm -rf plugins/lark-docs/meta/source-cache plugins/lark-docs/meta/media-cache')
+      },
+      expected: /exact cache leaves/,
     },
     {
       mutate(source) {
@@ -513,9 +519,10 @@ test('guides workflows bootstrap full sources and persist only verified caches',
     assert.equal(step.if, undefined)
     assert.match(step.run, new RegExp(`steps\\.${preceding}\\.outputs\\.source_valid[\\s\\S]*source_valid=true`))
   }
-  assert.match(source, /name: Validate and promote Guides v4 cache candidate[\s\S]*rm -rf tmp\/guides-source-cache-v4[\s\S]*name: Restore Guides v3 cache candidate/)
-  assert.match(source, /name: Validate Guides v3 cache candidate[\s\S]*rm -rf plugins\/lark-docs\/meta\/sources\/guides plugins\/lark-docs\/meta\/source-cache plugins\/lark-docs\/meta\/media-cache[\s\S]*name: Restore Guides v2 cache candidate/)
-  assert.match(source, /name: Validate Guides v2 cache candidate[\s\S]*rm -rf plugins\/lark-docs\/meta\/sources\/guides plugins\/lark-docs\/meta\/source-cache plugins\/lark-docs\/meta\/media-cache[\s\S]*name: Restore Guides v1 cache candidate/)
+  assert.match(source, /name: Validate and promote Guides v4 cache candidate[\s\S]*rm -rf tmp\/guides-source-cache-v4[\s\S]*guides-source-cache-source-promotion\.js cleanup[\s\S]*--scope all[\s\S]*name: Restore Guides v3 cache candidate/)
+  assert.match(source, /name: Validate Guides v3 cache candidate[\s\S]*guides-source-cache-source-promotion\.js cleanup[\s\S]*--scope all[\s\S]*name: Restore Guides v2 cache candidate/)
+  assert.match(source, /name: Validate Guides v2 cache candidate[\s\S]*guides-source-cache-source-promotion\.js cleanup[\s\S]*--scope all[\s\S]*name: Restore Guides v1 cache candidate/)
+  assert.doesNotMatch(source, /rm -rf[^\n]*plugins\/lark-docs\/meta\/(?:source-cache|media-cache)\/?(?:\s|$)/)
   assert.match(source, /guides-source-cache\.js validate-source/)
   assert.match(source, /guides-source-cache\.js validate-media/)
   assert.match(source, /guides-source-cache-generation\.js promote/)
@@ -523,6 +530,8 @@ test('guides workflows bootstrap full sources and persist only verified caches',
   assert.match(source, /--media-manifest "?plugins\/lark-docs\/meta\/media-cache\/guides\.json"?/)
   assert.match(source, /--force-full-fetch/)
   assert.match(source, /id: source_cache_result[\s\S]*source_valid[\s\S]*media_valid[\s\S]*cache_version[\s\S]*cache_save_required/)
+  assert.match(source, /guides-cache-save-decision\.js decide[\s\S]*--cache-version "\$cache_version"[\s\S]*--prefetch-mode[\s\S]*--candidate "\$candidate"[\s\S]*--baseline "\$baseline"/)
+  assert.doesNotMatch(source, /candidate_key|baseline_key/)
   assert.match(source, /cache_state=invalid/)
   assert.match(source, /steps\.source_cache_check\.outputs\.source_valid[\s\S]*args\+=\(--force-full-fetch\)/)
   assert.doesNotMatch(source, /media_valid[^\n]*[\s\S]{0,180}args\+=\(--force-full-fetch\)/)

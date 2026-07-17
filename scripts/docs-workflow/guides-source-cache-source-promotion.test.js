@@ -10,6 +10,7 @@ const test = require('node:test')
 
 const { createSourceCacheManifest, validateSourceCache } = require('./guides-source-cache')
 const {
+  cleanupGuidesLiveCache,
   promoteSourceGenerationPayload,
   validateSourceGenerationPayload,
 } = require('./guides-source-cache-source-promotion')
@@ -237,4 +238,61 @@ test('source-only promotion CLI preserves the validated payload and promotes rec
   assert.equal(result.status, 0, result.stderr)
   assert.equal(JSON.parse(result.stdout).sourceDir, livePaths(f.workspace).sourceDir)
   assert.deepEqual(tree(f.payload), before)
+})
+
+test('exact Guides cleanup preserves unrelated source and media cache sentinels', () => {
+  const f = fixture()
+  const live = livePaths(f.workspace)
+  write(live.sourceDir, 'old.json', 'old source')
+  write(f.workspace, 'plugins/lark-docs/meta/sources/keep.txt', 'keep sources')
+  write(f.workspace, 'plugins/lark-docs/meta/source-cache/guides-manifest.json', 'old manifest')
+  write(f.workspace, 'plugins/lark-docs/meta/source-cache/keep.json', 'keep source cache')
+  write(f.workspace, 'plugins/lark-docs/meta/media-cache/guides.json', 'old media')
+  write(f.workspace, 'plugins/lark-docs/meta/media-cache/keep.json', 'keep media cache')
+
+  const cli = path.resolve(__dirname, 'guides-source-cache-source-promotion.js')
+  const result = spawnSync(process.execPath, [cli, 'cleanup', '--workspace', f.workspace, '--scope', 'all'], { encoding: 'utf8' })
+  assert.equal(result.status, 0, result.stderr)
+
+  assert.deepEqual(tree(live.sourceDir), { '': 'absent' })
+  assert.deepEqual(tree(live.sourceManifestPath), { '': 'absent' })
+  assert.deepEqual(tree(live.mediaManifestPath), { '': 'absent' })
+  assert.equal(fs.readFileSync(path.join(f.workspace, 'plugins/lark-docs/meta/sources/keep.txt'), 'utf8'), 'keep sources')
+  assert.equal(fs.readFileSync(path.join(f.workspace, 'plugins/lark-docs/meta/source-cache/keep.json'), 'utf8'), 'keep source cache')
+  assert.equal(fs.readFileSync(path.join(f.workspace, 'plugins/lark-docs/meta/media-cache/keep.json'), 'utf8'), 'keep media cache')
+})
+
+test('media-only Guides cleanup preserves valid sources, source manifest, and unrelated media state', () => {
+  const f = fixture()
+  const live = livePaths(f.workspace)
+  write(live.sourceDir, 'old.json', 'old source')
+  write(f.workspace, 'plugins/lark-docs/meta/source-cache/guides-manifest.json', 'old manifest')
+  write(f.workspace, 'plugins/lark-docs/meta/media-cache/guides.json', 'old media')
+  write(f.workspace, 'plugins/lark-docs/meta/media-cache/keep.json', 'keep media cache')
+  const sourcesBefore = tree(live.sourceDir)
+
+  cleanupGuidesLiveCache({ workspace: f.workspace, scope: 'media' })
+
+  assert.deepEqual(tree(live.sourceDir), sourcesBefore)
+  assert.equal(fs.readFileSync(live.sourceManifestPath, 'utf8'), 'old manifest')
+  assert.equal(fs.existsSync(live.mediaManifestPath), false)
+  assert.equal(fs.readFileSync(path.join(f.workspace, 'plugins/lark-docs/meta/media-cache/keep.json'), 'utf8'), 'keep media cache')
+})
+
+test('Guides cleanup rejects internal symlink redirection before touching external or sibling state', () => {
+  const f = fixture()
+  const external = path.join(f.root, 'external-source-cache')
+  write(external, 'guides-manifest.json', 'external manifest')
+  write(external, 'keep.json', 'external sentinel')
+  write(f.workspace, 'plugins/lark-docs/meta/media-cache/guides.json', 'live media')
+  write(f.workspace, 'plugins/lark-docs/meta/media-cache/keep.json', 'live sentinel')
+  const internal = path.join(f.workspace, 'plugins/lark-docs/meta/source-cache')
+  fs.mkdirSync(path.dirname(internal), { recursive: true })
+  fs.symlinkSync(external, internal, 'dir')
+  const externalBefore = tree(external)
+  const workspaceBefore = tree(f.workspace)
+
+  assert.throws(() => cleanupGuidesLiveCache({ workspace: f.workspace, scope: 'all' }), /symlink|workspace|outside/i)
+  assert.deepEqual(tree(external), externalBefore)
+  assert.deepEqual(tree(f.workspace), workspaceBefore)
 })
