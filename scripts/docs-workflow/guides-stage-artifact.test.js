@@ -51,7 +51,7 @@ function validMediaPrefetchReport() {
   }
 }
 
-function prepareSourceWorkspace(root, { report = validMediaPrefetchReport() } = {}) {
+function prepareSourceWorkspace(root, { report = validMediaPrefetchReport(), mediaManifest = { schemaVersion: 1, entries: [] } } = {}) {
   const workspace = path.join(root, 'workspace')
   const baseline = path.join(root, 'baseline')
   const artifact = path.join(root, 'artifact')
@@ -60,7 +60,7 @@ function prepareSourceWorkspace(root, { report = validMediaPrefetchReport() } = 
   json(workspace, 'plugins/lark-docs/meta/sources/guides/root.json', { node_token: 'root', children: [{ node_token: 'doc' }] })
   json(workspace, 'plugins/lark-docs/meta/sources/guides/doc.json', renderableSource())
   json(workspace, 'plugins/lark-docs/meta/reports/guides-source-snapshot-candidate.json', validSnapshot())
-  json(workspace, 'plugins/lark-docs/meta/media-cache/guides.json', { schemaVersion: 1, entries: [] })
+  json(workspace, 'plugins/lark-docs/meta/media-cache/guides.json', mediaManifest)
   write(workspace, 'plugins/lark-docs/meta/reports/guides-incremental-fetch-plan.json', '{}')
   if (report !== null) json(workspace, 'plugins/lark-docs/meta/reports/guides-media-prefetch.json', report)
   return { workspace, baseline, artifact }
@@ -80,7 +80,7 @@ test('creates, validates, and restores a source artifact', async () => {
   json(workspace, 'plugins/lark-docs/meta/reports/guides-source-snapshot-candidate.json', validSnapshot())
   json(workspace, 'plugins/lark-docs/meta/media-cache/guides.json', {
     schemaVersion: 1,
-    entries: [{ id: 'feishu-image:image', type: 'feishu-image', token: 'image', objectKey: 'image.png' }],
+    entries: [],
   })
   json(workspace, 'plugins/lark-docs/meta/reports/guides-media-prefetch.json', validMediaPrefetchReport())
   const manifest = await createGuidesStageArtifact({ stage: 'source', workspace, baselineDir: baseline, output: artifact, masterSha: SHA, devBaselineSha: SHA, rootToken: 'root' })
@@ -128,6 +128,34 @@ test('source artifact rejects malformed media prefetch report contracts', async 
   }
 })
 
+test('source artifact creation rejects media inventory count mismatch', async () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'guides-stage-media-count-'))
+  const fixture = prepareSourceWorkspace(root, {
+    mediaManifest: {
+      schemaVersion: 1,
+      entries: [{ id: 'feishu-board:board', type: 'feishu-board', token: 'board', objectKey: 'board.png' }],
+    },
+  })
+  await assert.rejects(
+    createGuidesStageArtifact({ stage: 'source', workspace: fixture.workspace, baselineDir: fixture.baseline, output: fixture.artifact, masterSha: SHA, devBaselineSha: SHA, rootToken: 'root' }),
+    /media manifest.*count|finalManifestEntries|inventory/i,
+  )
+})
+
+test('source artifact creation validates packaged media manifest entries', async () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'guides-stage-invalid-media-entry-'))
+  const fixture = prepareSourceWorkspace(root, {
+    mediaManifest: {
+      schemaVersion: 1,
+      entries: [{ id: 'feishu-image:image', type: 'feishu-image', token: 'image', objectKey: 'image.png' }],
+    },
+  })
+  await assert.rejects(
+    createGuidesStageArtifact({ stage: 'source', workspace: fixture.workspace, baselineDir: fixture.baseline, output: fixture.artifact, masterSha: SHA, devBaselineSha: SHA, rootToken: 'root' }),
+    /caption|media/i,
+  )
+})
+
 test('source artifact validation rejects semantic report tampering even with a matching checksum', async () => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'guides-stage-rehashed-media-report-'))
   const fixture = prepareSourceWorkspace(root)
@@ -151,6 +179,26 @@ test('source artifact validation still rejects media prefetch payload checksum t
   await createGuidesStageArtifact({ stage: 'source', workspace: fixture.workspace, baselineDir: fixture.baseline, output: fixture.artifact, masterSha: SHA, devBaselineSha: SHA, rootToken: 'root' })
   fs.writeFileSync(path.join(fixture.artifact, 'payload/plugins/lark-docs/meta/reports/guides-media-prefetch.json'), '{}')
   await assert.rejects(validateGuidesStageArtifact(fixture.artifact), /checksum|size/i)
+})
+
+test('source artifact validation rejects rehashed valid media and report count mismatch', async () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'guides-stage-rehashed-media-count-'))
+  const fixture = prepareSourceWorkspace(root)
+  await createGuidesStageArtifact({ stage: 'source', workspace: fixture.workspace, baselineDir: fixture.baseline, output: fixture.artifact, masterSha: SHA, devBaselineSha: SHA, rootToken: 'root' })
+  const relative = 'plugins/lark-docs/meta/media-cache/guides.json'
+  const payload = path.join(fixture.artifact, 'payload', relative)
+  const media = Buffer.from(JSON.stringify({
+    schemaVersion: 1,
+    entries: [{ id: 'feishu-board:board', type: 'feishu-board', token: 'board', objectKey: 'board.png' }],
+  }))
+  fs.writeFileSync(payload, media)
+  const manifestPath = path.join(fixture.artifact, 'manifest.json')
+  const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'))
+  const entry = manifest.files.find(file => file.path === relative)
+  entry.size = media.length
+  entry.sha256 = crypto.createHash('sha256').update(media).digest('hex')
+  fs.writeFileSync(manifestPath, JSON.stringify(manifest))
+  await assert.rejects(validateGuidesStageArtifact(fixture.artifact), /media manifest.*count|finalManifestEntries|inventory/i)
 })
 
 test('source artifact requires the shared media manifest', async () => {

@@ -5,14 +5,15 @@ const crypto = require('node:crypto')
 const fs = require('node:fs/promises')
 const path = require('node:path')
 const { assertSourceCompleteness } = require('../../plugins/lark-docs/sourceCompleteness')
-const { validateMediaPrefetchMetrics } = require('./guides-media-prefetch')
+const { validateEntries, validateMediaPrefetchMetrics } = require('./guides-media-prefetch')
 
 const SHA = /^[0-9a-f]{40}$/
+const MEDIA_MANIFEST = 'plugins/lark-docs/meta/media-cache/guides.json'
 const MEDIA_PREFETCH_REPORT = 'plugins/lark-docs/meta/reports/guides-media-prefetch.json'
 const STAGE_PATHS = Object.freeze({
   source: [
     'plugins/lark-docs/meta/sources/guides',
-    'plugins/lark-docs/meta/media-cache/guides.json',
+    MEDIA_MANIFEST,
     'plugins/lark-docs/meta/reports/guides-incremental-fetch-plan.json',
     'plugins/lark-docs/meta/reports/guides-incremental-fetch-plan.md',
     'plugins/lark-docs/meta/reports/guides-broken-content-links.json',
@@ -31,7 +32,7 @@ const STAGE_PATHS = Object.freeze({
 const REQUIRED_STAGE_FILES = Object.freeze({
   source: [
     'plugins/lark-docs/meta/reports/guides-source-snapshot-candidate.json',
-    'plugins/lark-docs/meta/media-cache/guides.json',
+    MEDIA_MANIFEST,
     MEDIA_PREFETCH_REPORT,
   ],
   saas: [],
@@ -70,6 +71,21 @@ function parseMediaPrefetchReport(bytes) {
   let value
   try { value = JSON.parse(bytes.toString('utf8')) } catch (error) { throw new Error(`Guides media prefetch report is invalid JSON: ${error.message}`) }
   return validateMediaPrefetchReport(value)
+}
+
+function parseMediaManifest(bytes) {
+  let value
+  try { value = JSON.parse(bytes.toString('utf8')) } catch (error) { throw new Error(`Guides media manifest is invalid JSON: ${error.message}`) }
+  exactKeys(value, ['schemaVersion', 'entries'], 'Guides media manifest')
+  if (value.schemaVersion !== 1) throw new Error('Guides media manifest schemaVersion must be 1')
+  validateEntries(value.entries)
+  return value
+}
+
+function validatePackagedMediaInventory(mediaManifest, mediaReport) {
+  if (mediaManifest.entries.length !== mediaReport.metrics.finalManifestEntries) {
+    throw new Error(`Guides media manifest entry count ${mediaManifest.entries.length} does not match report finalManifestEntries ${mediaReport.metrics.finalManifestEntries}`)
+  }
 }
 
 async function collect(root, prefixes) {
@@ -121,7 +137,11 @@ async function createGuidesStageArtifact({ stage, workspace, baselineDir, output
       throw new Error(`Guides ${stage} artifact is missing required ${requiredLabel(required)}: ${required}`)
     }
   }
-  if (stage === 'source') parseMediaPrefetchReport(current.get(MEDIA_PREFETCH_REPORT))
+  if (stage === 'source') {
+    const mediaReport = parseMediaPrefetchReport(current.get(MEDIA_PREFETCH_REPORT))
+    const mediaManifest = parseMediaManifest(current.get(MEDIA_MANIFEST))
+    validatePackagedMediaInventory(mediaManifest, mediaReport)
+  }
   await fs.rm(output, { recursive: true, force: true })
   await fs.mkdir(path.join(output, 'payload'), { recursive: true })
   const files = []
@@ -147,6 +167,8 @@ async function validateGuidesStageArtifact(directory, expected = {}) {
   if (expected.devBaselineSha && manifest.devBaselineSha !== expected.devBaselineSha) throw new Error('Guides artifact baseline SHA mismatch')
   if (expected.sourceArtifactSha256 && manifest.sourceArtifactSha256 !== expected.sourceArtifactSha256) throw new Error('Guides source artifact identity mismatch')
   const seen = new Set()
+  let mediaManifest = null
+  let mediaReport = null
   for (const file of manifest.files || []) {
     if (!allowed(manifest.stage, file.path) || seen.has(file.path)) throw new Error(`Unauthorized or duplicate path: ${file.path}`)
     seen.add(file.path)
@@ -156,13 +178,15 @@ async function validateGuidesStageArtifact(directory, expected = {}) {
     const bytes = await fs.readFile(full)
     if (bytes.length !== file.size) throw new Error(`Payload size mismatch: ${file.path}`)
     if (crypto.createHash('sha256').update(bytes).digest('hex') !== file.sha256) throw new Error(`Payload checksum mismatch: ${file.path}`)
-    if (manifest.stage === 'source' && file.path === MEDIA_PREFETCH_REPORT) parseMediaPrefetchReport(bytes)
+    if (manifest.stage === 'source' && file.path === MEDIA_MANIFEST) mediaManifest = parseMediaManifest(bytes)
+    if (manifest.stage === 'source' && file.path === MEDIA_PREFETCH_REPORT) mediaReport = parseMediaPrefetchReport(bytes)
   }
   for (const required of REQUIRED_STAGE_FILES[manifest.stage]) {
     if (!seen.has(required)) {
       throw new Error(`Guides ${manifest.stage} artifact is missing required ${requiredLabel(required)}: ${required}`)
     }
   }
+  if (manifest.stage === 'source') validatePackagedMediaInventory(mediaManifest, mediaReport)
   for (const relative of manifest.deletions || []) if (!allowed(manifest.stage, relative) || seen.has(relative)) throw new Error(`Unauthorized deletion: ${relative}`)
   return manifest
 }
