@@ -7,17 +7,10 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "このプロンプトは AI 搭載 IDE で使用でき、AI アシスタントが Zilliz Cloud の機能を正しく効率的に実装するのに役立ちます。 | Cloud"
+description: "このプロンプトは AI 搭載 IDE で使用でき、AI アシスタントが Zilliz Cloud の機能を正確かつ効率的に実装するのに役立ちます。 | Cloud"
 type: origin
 token: Fb4Ywqocai1i56ktDT4cquNwnke
 sidebar_position: 1
-keywords: 
-  - zilliz
-  - ベクターデータベース
-  - ai-agents
-  - decision matrix
-  - prompts
-  - base prompts
 displayed_sidebar: default
 
 ---
@@ -27,20 +20,20 @@ import Admonition from '@theme/Admonition';
 
 # Base Prompt
 
-このプロンプトは AI 搭載 IDE で使用でき、AI アシスタントが Zilliz Cloud の機能を正しく効率的に実装するのに役立ちます。
+このプロンプトは AI 搭載 IDE で使用でき、AI アシスタントが Zilliz Cloud の機能を正確かつ効率的に実装するのに役立ちます。
 
-## これらのプロンプトの使用方法\{#how-to-use-these-prompts}
+## これらのプロンプトの使い方\{#how-to-use-these-prompts}
 
-Zilliz Cloud のプロンプトをリポジトリ内のファイルに保存し、チャット時に AI ツールへ含めてください。以下の表は、各種ツールでプロンプトを配置する場所を示しています。
+Zilliz Cloud のプロンプトをリポジトリ内のファイルに保存し、チャット時に AI ツールへ含めてください。以下の表は、異なるツールでプロンプトをどこに配置するかを示しています。
 
-| **ツール** | **プロンプトを配置する場所** | **参照** |
+| **Tool** | **プロンプトを配置する場所** | **Reference** |
 | --- | --- | --- |
 | Claude Code | プロンプトを `CLAUDE.md` ファイルに含めます。 | [指示とメモリを保存する](https://code.claude.com/docs/en/memory) |
 | Cursor | プロンプトをプロジェクトルールに追加します。 | [プロジェクトルールを設定する](https://docs.cursor.com/en/context/rules) |
-| GitHub Copilot | プロンプトをプロジェクト内のファイルに保存し、`#<filename>` を使って参照します。 | [Copilot のカスタム指示](https://code.visualstudio.com/docs/copilot/copilot-customization#_custom-instructions) |
+| GitHub Copilot | プロンプトをプロジェクト内のファイルに保存し、`#<filename>` を使用して参照します。 | [Copilot のカスタム指示](https://code.visualstudio.com/docs/copilot/copilot-customization#_custom-instructions) |
 | Gemini CLI | プロンプトを `GEMINI.md` ファイルに含めます。 | [Gemini CLI codelab](https://codelabs.developers.google.com/gemini-cli-hands-on) |
 
-## Prompt\{#prompt}
+## プロンプト\{#prompt}
 
 ```plaintext
 # Zilliz Cloud Base Prompt

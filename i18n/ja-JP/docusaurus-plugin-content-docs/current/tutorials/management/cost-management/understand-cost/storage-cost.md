@@ -7,10 +7,10 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud では、cluster が稼働しているかどうかにかかわらず、データまたはバックアップファイルを保存するとストレージコストが発生します。 | Cloud"
+description: "Zilliz Cloud では、クラスターが稼働しているかどうかにかかわらず、データまたはバックアップファイルを保存するとストレージコストが発生します。 | Cloud"
 type: origin
 token: PNj2w5fY9ifr82kbX8ucKgXAn0r
-sidebar_position: 4
+sidebar_position: 1
 displayed_sidebar: default
 
 ---
@@ -20,25 +20,25 @@ import Admonition from '@theme/Admonition';
 
 # ストレージコスト
 
-Zilliz Cloud では、cluster が稼働しているかどうかにかかわらず、データまたはバックアップファイルを保存するとストレージコストが発生します。
+Zilliz Cloud では、クラスターが稼働しているかどうかにかかわらず、データまたはバックアップファイルを保存するとストレージコストが発生します。
 
 ## ストレージコストの発生源\{#sources-of-storage-costs}
 
 以下のシナリオでストレージ料金が請求されます。
 
-- Dedicated cluster: Dedicated cluster に保存されたデータ。
+- Dedicated クラスター: Dedicated クラスターに保存されたデータ。
 
-- Serverless cluster: Serverless cluster に保存されたデータ。
+- Serverless クラスター: Serverless クラスターに保存されたデータ。
 
-- [Database](./database): オンデマンド検索に使用する databases に保存されたデータ。
+- [データベース](./database): オンデマンド検索に使用するデータベースに保存されたデータ。
 
-    - 管理対象 collection 内のデータおよび index。
+    - 管理対象コレクション内のデータとインデックス。
 
-    - 外部 collection 内の index。
+    - 外部コレクション内のインデックス。
 
-- [Backup](./create-backup) storage: 障害復旧のために作成したバックアップファイル。
+- [バックアップ](./create-backup)ストレージ: 災害復旧のために作成したバックアップファイル。
 
-- [Managed volume](./managed-volume) storage: volume に保存された構造化データ、または非構造化データファイルの collection。
+- [マネージドボリューム](./managed-volume)ストレージ: ボリュームに保存される構造化データ、または非構造化データファイルの集合。
 
 ## コスト計算\{#cost-calculation}
 
@@ -46,27 +46,27 @@ Zilliz Cloud では、cluster が稼働しているかどうかにかかわら�
 Storage Cost = Storage Unit Price x Data Size x Duration
 ```
 
-- Storage Unit Price: クラウドリージョンと cluster タイプによって決まります。詳細な料金については、[Zilliz Cloud Pricing](https://zilliz.com/pricing) を参照してください。
+- Storage Unit Price: クラウドリージョンとクラスタータイプによって決まります。詳細な料金については、[Zilliz Cloud Pricing](https://zilliz.com/pricing) を参照してください。
 
-- Data Size: 保存されるすべてのデータのサイズ、またはバックアップファイルのサイズで、GB 単位で測定されます。
+- Data Size: 保存されているすべてのデータのサイズ、またはバックアップファイルのサイズで、GB 単位で測定されます。
 
-- Duration: データまたはバックアップファイルが Zilliz Cloud に保存される期間。
+- Duration: データまたはバックアップファイルが Zilliz Cloud に保存される時間の長さ。
 
-## 課金ルール\{#billing-rules}
+## 請求ルール\{#billing-rules}
 
-cluster、volume storage の課金ルールは、backup storage や cold data access とは少し異なります。
+クラスターおよびボリュームストレージの請求ルールは、バックアップストレージおよびコールドデータアクセスとはわずかに異なります。
 
-- **Dedicated & Serverless Cluster, Volume, and Database Storage:** 時間単位で課金され、最小課金時間は 1 時間です。
+- **Dedicated & Serverless Cluster, Volume, and Database Storage:** 時間単位で請求され、最低請求時間は 1 時間です。
 
-- **Backup Storage:** 日単位で課金され、最小課金日は 1 日です。
+- **Backup Storage:** 日単位で請求され、最低請求日数は 1 日です。
 
 ## 例\{#examples}
 
 以下は、ストレージコストの計算方法を理解するための例です。
 
-### 例 1: Dedicated cluster のストレージコスト\{#example-1-dedicated-cluster-storage-cost}
+### 例 1: Dedicated クラスターのストレージコスト\{#example-1-dedicated-cluster-storage-cost}
 
-サービング cluster の構成が以下のとおりであるとします。
+ご利用中のサービングクラスターの構成が以下のとおりであるとします。
 
 - **Cloud Provider & Region**: AWS us-east-1 (Virginia)
 
@@ -76,15 +76,15 @@ cluster、volume storage の課金ルールは、backup storage や cold data ac
 
 - **Storage Duration**: 29 日 23 時間 30 分
 
-クラウドプロバイダーとリージョン、および cluster タイプの情報から、[Pricing Page](https://zilliz.com/pricing) でストレージの単価が **&#36;0.025/GB per month** であることがわかります。
+Cloud Provider & Region、および Cluster Type の情報を基に、[Pricing Page](https://zilliz.com/pricing) でストレージ単価が **&#36;0.025/GB per month** であることを確認できます。
 
-[課金ルール](./storage-cost#billing-rules)により、1 時間未満の端数は 1 時間に切り上げられます。保存期間の 29 日 23 時間 30 分は 30 日に切り上げられ、これは 1 か月に相当します。
+[請求ルール](./storage-cost#billing-rules)により、1 時間未満の端数は切り上げられて 1 時間として計算されます。ストレージ期間の 29 日 23 時間 30 分は 30 日に切り上げられ、これは 1 か月に相当します。
 
-データストレージの総コストは `$0.025 x 500 × 1 = $12.50` です。
+データストレージの合計コストは `$0.025 x 500 × 1 = $12.50` です。
 
-### 例 2: Backup storage のコスト\{#example-2-backup-storage-cost}
+### 例 2: バックアップストレージのコスト\{#example-2-backup-storage-cost}
 
-cluster の構成が以下のとおりであるとします。
+クラスターの構成が以下のとおりであるとします。
 
 - **Cloud Provider & Region**: AWS us-east-1 (Virginia)
 
@@ -94,26 +94,26 @@ cluster の構成が以下のとおりであるとします。
 
 - **Backup File Retention Period**: 44 日 6 時間
 
-クラウドプロバイダーとリージョン、および cluster タイプの情報から、[Pricing Page](https://zilliz.com/pricing) でストレージの単価が **&#36;0.025/GB per month** であることがわかります。
+Cloud Provider & Region、および Cluster Type の情報を基に、[Pricing Page](https://zilliz.com/pricing) でストレージ単価が **&#36;0.025/GB per month** であることを確認できます。
 
-[課金ルール](./storage-cost#billing-rules)により、1 日未満の端数は 1 日に切り上げられます。したがって、保持期間の 44 日 6 時間は 45 日に切り上げられ、これは 1.5 か月に相当します。
+[請求ルール](./storage-cost#billing-rules)により、1 日未満の端数は切り上げられて 1 日として計算されます。そのため、保持期間の 44 日 6 時間は 45 日に切り上げられ、これは 1.5 か月に相当します。
 
-この例の cluster の backup storage 総コストは `$0.025 x 20 x 1.5 = $0.75` です。
+この例のクラスターにおけるバックアップストレージの合計コストは `$0.025 x 20 x 1.5 = $0.75` です。
 
-### 例 3: Managed volume storage のコスト\{#example-3-managed-volume-storage-cost}
+### 例 3: マネージドボリュームストレージのコスト\{#example-3-managed-volume-storage-cost}
 
-インポートのために volume に **10 GB** のデータをアップロードし、それを **1 か月** 保持した場合、単価が **&#36;0.04/GB per month** であれば、コストは `$0.04 × 10 × 1 = $0.40` です。
+インポートのためにボリュームに **10 GB** のデータをアップロードし、それを **1 か月** 保持した場合、単価が **&#36;0.04/GB per month** であれば、コストは `$0.04 × 10 × 1 = $0.40` です。
 
-## FAQs\{#faqs}
+## FAQ\{#faqs}
 
-1. **cluster を一時停止してもストレージ料金は請求されますか？**
+1. **クラスターを一時停止した場合でもストレージ料金は請求されますか？**
 
-    はい。cluster が一時停止されていても、cluster データ、backup、または volume ファイルが保持されている限り、ストレージコストが適用されます。
+    はい。クラスターが一時停止されていても、クラスターデータ、バックアップ、またはボリュームファイルが保持されている限り、ストレージコストが適用されます。
 
 1. **ストレージには最低料金がありますか？**
  はい。ストレージには最低料金があります。
 
-    - cluster および volume storage: 最小 1 時間分の課金。
+    - クラスターおよびボリュームストレージ: 最低 1 時間分の請求。
 
-    - backup storage: 最小 1 日分の課金。
+    - バックアップストレージ: 最低 1 日分の請求。
 

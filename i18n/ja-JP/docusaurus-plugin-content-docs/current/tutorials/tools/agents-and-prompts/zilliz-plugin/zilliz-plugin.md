@@ -7,18 +7,10 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Claude Code 向け Zilliz Cloud プラグインは、Zilliz Cloud の操作を IDE に直接持ち込む自然言語インターフェースです。CLI コマンドを覚えたり Web コンソールに切り替えたりする代わりに、やりたいことを平易な言葉で説明すれば、プラグインがそれを処理します。 | Cloud"
+description: "Claude Code 向けの Zilliz Cloud プラグインは、Zilliz Cloud の操作を IDE に直接持ち込む自然言語インターフェースです。CLI コマンドを覚えたり Web コンソールに切り替えたりする代わりに、やりたいことを平易な言葉で説明するだけで、プラグインが処理します。 | Cloud"
 type: origin
 token: LFepwAKeGiURJUksNA4cqYPYnIb
 sidebar_position: 2
-keywords: 
-  - zilliz
-  - ベクトルデータベース
-  - ai-agents
-  - decision matrix
-  - skill
-  - claude
-  - zilliz cli
 displayed_sidebar: default
 
 ---
@@ -28,11 +20,11 @@ import Admonition from '@theme/Admonition';
 
 # Zilliz Claude Code プラグイン
 
-Claude Code 向け Zilliz Cloud プラグインは、Zilliz Cloud の操作を IDE に直接持ち込む自然言語インターフェースです。CLI コマンドを覚えたり Web コンソールに切り替えたりする代わりに、やりたいことを平易な言葉で説明すれば、プラグインがそれを処理します。
+Claude Code 向けの Zilliz Cloud プラグインは、Zilliz Cloud の操作を IDE に直接持ち込む自然言語インターフェースです。CLI コマンドを覚えたり Web コンソールに切り替えたりする代わりに、やりたいことを平易な言葉で説明するだけで、プラグインが処理します。
 
-## Zilliz Plugin とは？\{#what-is-the-zilliz-plugin}
+## Zilliz プラグインとは？\{#what-is-the-zilliz-plugin}
 
-自然言語機能で Zilliz CLI をラップする Claude Code プラグインで、会話形式のコマンドを通じて Zilliz Cloud リソースを管理できます。
+Zilliz CLI を自然言語機能でラップした Claude Code プラグインで、会話形式のコマンドを通じて Zilliz Cloud リソースを管理できます。
 
 ## 主な機能\{#key-features}
 
@@ -40,7 +32,7 @@ Claude Code 向け Zilliz Cloud プラグインは、Zilliz Cloud の操作を I
 
 - **Clusters**: クラスターの作成、削除、一時停止、再開、変更
 
-- **Collections**: カスタムスキーマでの作成、読み込み、解放、名前変更、削除
+- **Collections**: カスタムスキーマでの作成、ロード、リリース、名前変更、削除
 
 - **Vectors**: ベクトルの検索、クエリ、挿入、アップサート、削除
 
@@ -48,15 +40,15 @@ Claude Code 向け Zilliz Cloud プラグインは、Zilliz Cloud の操作を I
 
 - **Databases**: データベースの作成、一覧表示、詳細表示、削除
 
-- **Users & Roles**: RBAC セットアップ、権限管理
+- **Users & Roles**: RBAC のセットアップ、権限管理
 
-- **Backups**: 作成、復元、エクスポート、ポリシー管理
+- **Backups**: バックアップの作成、復元、エクスポート、ポリシー管理
 
 - **Import**: クラウドストレージからの一括データインポート
 
-- **Partitions**: パーティションの作成、読み込み、解放、管理
+- **Partitions**: パーティションの作成、ロード、リリース、および管理
 
-- **Monitoring**: クラスターのステータス、コレクション統計
+- **Monitoring**: クラスターのステータス、コレクションの統計情報
 
 - **Billing**: 請求管理
 

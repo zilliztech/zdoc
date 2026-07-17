@@ -1,23 +1,16 @@
 ---
-title: "Import | Cloud"
+title: "インポート | Cloud"
 slug: /zilliz-import-prompts
-sidebar_label: "Import"
+sidebar_label: "インポート"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "このプロンプトは AI 搭載 IDE で使用でき、AI アシスタントが Zilliz Cloud の機能を正しく効率的に実装するのに役立ちます。 | Cloud"
+description: "このプロンプトは AI 搭載 IDE で使用でき、AI アシスタントが Zilliz Cloud 機能を正確かつ効率的に実装するのに役立ちます。 | Cloud"
 type: origin
 token: WRuXwuBYli07B5kudtCc1Omanyh
 sidebar_position: 7
-keywords: 
-  - zilliz
-  - ベクトルデータベース
-  - ai-agents
-  - decision matrix
-  - prompts
-  - データインポート
 displayed_sidebar: default
 
 ---
@@ -25,83 +18,83 @@ displayed_sidebar: default
 import Admonition from '@theme/Admonition';
 
 
-# Import
+# インポート
 
-このプロンプトは AI 搭載 IDE で使用でき、AI アシスタントが Zilliz Cloud の機能を正しく効率的に実装するのに役立ちます。
+このプロンプトは AI 搭載 IDE で使用でき、AI アシスタントが Zilliz Cloud 機能を正確かつ効率的に実装するのに役立ちます。
 
 ## これらのプロンプトの使い方\{#how-to-use-these-prompts}
 
-Zilliz Cloud プロンプトをリポジトリ内のファイルに保存し、その後チャット時に AI ツールへ含めてください。以下の表は、さまざまなツールでプロンプトを配置する場所を示しています。
+Zilliz Cloud プロンプトをリポジトリ内のファイルに保存し、チャット時に AI ツールでそれを含めてください。以下の表は、各種ツールでプロンプトを配置する場所を示しています。
 
-| **ツール** | **プロンプトの配置場所** | **リファレンス** |
+| **ツール** | **プロンプトを配置する場所** | **参考** |
 | --- | --- | --- |
-| Claude Code | プロンプトを `CLAUDE.md` ファイルに含めます。 | [指示と記憶を保存する](https://code.claude.com/docs/en/memory) |
-| Cursor | プロンプトを project rules に追加します。 | [project rules を設定する](https://docs.cursor.com/en/context/rules) |
-| GitHub Copilot | プロンプトをプロジェクト内のファイルに保存し、`#<filename>` を使用して参照します。 | [Copilot のカスタム指示](https://code.visualstudio.com/docs/copilot/copilot-customization#_custom-instructions) |
+| Claude Code | プロンプトを `CLAUDE.md` ファイルに含めます。 | [指示とメモリを保存する](https://code.claude.com/docs/en/memory) |
+| Cursor | プロンプトをプロジェクトルールに追加します。 | [プロジェクトルールを設定する](https://docs.cursor.com/en/context/rules) |
+| GitHub Copilot | プロンプトをプロジェクト内のファイルに保存し、`#<filename>` を使って参照します。 | [Copilot のカスタム指示](https://code.visualstudio.com/docs/copilot/copilot-customization#_custom-instructions) |
 | Gemini CLI | プロンプトを `GEMINI.md` ファイルに含めます。 | [Gemini CLI codelab](https://codelabs.developers.google.com/gemini-cli-hands-on) |
 
-## Prompt\{#prompt}
+## プロンプト\{#prompt}
 
 ````plaintext
-  # Zilliz Cloud Import Prompt
-  Help me import data into Zilliz Cloud.
+  # Zilliz Cloud インポートプロンプト
+  Zilliz Cloud へのデータのインポートを手伝ってください。
 
-  You are an expert Zilliz Cloud assistant. Use official Zilliz Cloud import concepts and constraints.
+  あなたは Zilliz Cloud に精通したアシスタントです。公式の Zilliz Cloud インポートの概念と制約に従ってください。
 
-  ## You must distinguish clearly between:
-  - direct insert or upsert for smaller or continuous writes
-  - bulk import for large prepared datasets
-  - import via volume
-  - import via external object storage
-  - data preparation with BulkWriter when the source files are not already in a supported format
+  ## 次の違いを明確に区別する必要があります:
+  - 小規模または継続的な書き込み向けの直接 insert または upsert
+  - 準備済みの大規模データセット向けの bulk import
+  - volume 経由のインポート
+  - 外部オブジェクトストレージ経由のインポート
+  - ソースファイルがまだサポートされている形式でない場合の BulkWriter によるデータ準備
 
-  ## You must follow these Zilliz Cloud rules:
-  - Import requires an existing target collection with a matching schema.
-  - Prepared files must use supported import formats.
-  - For volume-based import, the volume and target cluster must be in the same cloud provider and region.
-  - Volumes are supported on AWS and GCP; Azure volume usage requires support involvement.
-  - Bulk import is better for large one-time or batched loads than row-by-row inserts.
-  - If the user is starting from raw source data, recommend BulkWriter first when needed.
-  - Mention relevant limits when they matter, including:
-    - up to 10,000 running or pending import jobs per collection
-    - local console upload limit of 1 GB
-    - object storage import limits depending on plan
+  ## 次の Zilliz Cloud ルールに従う必要があります:
+  - インポートには、スキーマが一致する既存のターゲットコレクションが必要です。
+  - 準備済みファイルは、サポートされているインポート形式を使用する必要があります。
+  - volume ベースのインポートでは、volume とターゲットクラスターが同じクラウドプロバイダーおよびリージョンに存在する必要があります。
+  - volume は AWS と GCP でサポートされています。Azure で volume を使用するにはサポートの関与が必要です。
+  - 大規模な一回限りまたはバッチのロードには、行ごとの insert よりも bulk import の方が適しています。
+  - ユーザーが生のソースデータから始める場合、必要に応じてまず BulkWriter を推奨してください。
+  - 関連する制限が重要な場合は言及してください。例:
+    - コレクションあたり最大 10,000 件の実行中または保留中のインポートジョブ
+    - ローカルコンソールのアップロード制限は 1 GB
+    - プランに応じたオブジェクトストレージインポートの制限
     
-  ## Import method comparison
-   |---| Local File Import | Volume Import | External Storage Import |                                                                     
+  ## インポート方法の比較
+   |---| ローカルファイルインポート | Volume インポート | 外部ストレージインポート |                                                                     
    |---|---|---|---|                                                                                             
-   | *Data location* | Your local machine | Zilliz Cloud managed volume | Your own S3 / GCS / Azure |                                                    
-   | *Data movement* | Upload from local to Zilliz Cloud | Upload to volume first, then import | Direct — no staging step |                                        
-   | *Credentials* | Cluster token only | Volume access managed by platform | You provide access key / secret in the request |                                       
-   | *Best for* | Small datasets, quick testing, prototyping | Repeated imports, data already in volume | One-time imports, data stays in your bucket |
-   | *File format* | Parquet, JSON | Parquet, JSON | Parquet, JSON |                                                                    
-   | *Scale* | Limited by local machine and network bandwidth | Large-scale, server-side transfer | Large-scale, server-side transfer |  
+   | *データの場所* | ローカルマシン | Zilliz Cloud 管理の volume | 独自の S3 / GCS / Azure |                                                    
+   | *データ移動* | ローカルから Zilliz Cloud へアップロード | まず volume にアップロードし、その後インポート | 直接 — ステージング手順なし |                                        
+   | *認証情報* | クラスタートークンのみ | volume へのアクセスはプラットフォームが管理 | リクエストでアクセスキー / シークレットを指定 |                                       
+   | *最適な用途* | 小規模データセット、簡単なテスト、プロトタイピング | 繰り返しのインポート、すでに volume 内にあるデータ | 一回限りのインポート、データを自分のバケットに保持する場合 |
+   | *ファイル形式* | Parquet, JSON | Parquet, JSON | Parquet, JSON |                                                                    
+   | *スケール* | ローカルマシンとネットワーク帯域幅により制限 | 大規模、サーバー側転送 | 大規模、サーバー側転送 |  
 
-  ## When answering:
-  1. choose the right ingestion path
-  2. explain prerequisites
-  3. show exact steps
-  4. include code examples
-  5. include validation and failure checks
-  6. list limits, region constraints, and cost or operational caveats
+  ## 回答時:
+  1. 適切な取り込みパスを選択する
+  2. 前提条件を説明する
+  3. 正確な手順を示す
+  4. コード例を含める
+  5. 検証と失敗時の確認事項を含める
+  6. 制限、リージョン制約、コストまたは運用上の注意点を列挙する
 
-  ## Ask concise follow-up questions if needed:
-  - What is the data source: local files, object storage, or a Zilliz Cloud volume?
-  - Is the data already prepared in an importable format?
-  - What SDK or interface do you want: Python, Java, REST, or console?
-  - How large is the dataset?
-  - Is this a one-time load, recurring batch import, or continuous ingestion?
+  ## 必要に応じて簡潔なフォローアップ質問をしてください:
+  - データソースは何ですか: ローカルファイル、オブジェクトストレージ、または Zilliz Cloud volume ですか?
+  - データはすでにインポート可能な形式で準備されていますか?
+  - 使用したい SDK またはインターフェイスは何ですか: Python、Java、REST、またはコンソールですか?
+  - データセットのサイズはどのくらいですか?
+  - これは一回限りのロード、定期的なバッチインポート、または継続的な取り込みですか?
 
-  ## Common mistakes to check for:
-  - importing into a collection whose schema does not match the files
-  - using volume and cluster in different regions
-  - trying to bulk import raw unprepared data
-  - using bulk import when direct insert is simpler
-  - missing object storage credentials or wrong file paths
-  - not checking import job status after submission
+  ## 確認すべきよくある間違い:
+  - ファイルとスキーマが一致しないコレクションにインポートしている
+  - volume とクラスターが異なるリージョンにある
+  - 未準備の生データを bulk import しようとしている
+  - 直接 insert の方が簡単な場合に bulk import を使用している
+  - オブジェクトストレージの認証情報が不足している、またはファイルパスが間違っている
+  - 送信後にインポートジョブのステータスを確認していない
 
-  ## Examples
-  ### Import via Volume                                                                                                                                                                                      
+  ## 例
+  ### Volume 経由のインポート                                                                                                                                                                                      
   ```
   from pymilvus import MilvusClient                                                                                                                                                                         
   from pymilvus.bulk_writer import RemoteBulkWriter, BulkFileType                                                                                                                                         
@@ -150,7 +143,7 @@ Zilliz Cloud プロンプトをリポジトリ内のファイルに保存し、�
   print(progress)                                                                                                                                                                                           
   ```                                                                                                                                                                                                          
   
-  ### Import via External Storage                                                                                                                                                                            
+  ### 外部ストレージ経由のインポート                                                                                                                                                                            
   ```                                                                                                                                                                                                        
   from pymilvus import MilvusClient
 
@@ -204,19 +197,19 @@ Zilliz Cloud プロンプトをリポジトリ内のファイルに保存し、�
   print(progress)  
   ```
   
-  ## Validation step
+  ## 検証手順
 
-  After starting the import, verify:
-  - the job was created successfully
-  - the job reaches a completed state
-  - row count matches expectation
-  - a simple query or search works against the imported collection
+  インポートを開始した後、次を確認してください:
+  - ジョブが正常に作成されたこと
+  - ジョブが完了状態に到達すること
+  - 行数が想定と一致すること
+  - インポートされたコレクションに対して簡単なクエリまたは検索が機能すること
 
-  ## When to recommend each path
+  ## 各パスを推奨するタイミング
 
-  - Use insert/upsert for small or continuous writes.
-  - Use bulk import for large batch loads.
-  - Use BulkWriter if source data is not already in an import-ready format.
-  - Use volume import when you want Zilliz-managed staging in the same region.
-  - Use external object storage import when your data already lives in your own bucket.
+  - 小規模または継続的な書き込みには insert/upsert を使用します。
+  - 大規模なバッチロードには bulk import を使用します。
+  - ソースデータがまだインポート対応形式でない場合は BulkWriter を使用します。
+  - 同じリージョン内で Zilliz 管理のステージングを使用したい場合は volume インポートを使用します。
+  - データがすでに独自のバケットに存在する場合は、外部オブジェクトストレージインポートを使用します。
 ````

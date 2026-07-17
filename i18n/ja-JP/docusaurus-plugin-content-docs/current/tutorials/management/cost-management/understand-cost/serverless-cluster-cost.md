@@ -1,16 +1,16 @@
 ---
-title: "Serverless クラスターコスト | Cloud"
+title: "Serverless Cluster のコスト | Cloud"
 slug: /serverless-cluster-cost
-sidebar_label: "Serverless クラスター"
+sidebar_label: "Serverless Cluster"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud の Serverless クラスターは従量課金モデルを採用しており、主に読み取りおよび書き込み操作で消費されるリソースに対して課金されます。これにより、事前に固定容量をプロビジョニングする必要なく、実際に処理されたワークロードに対してのみ支払います。 | Cloud"
+description: "Zilliz Cloud の Serverless cluster は従量課金モデルを採用しており、主に読み取りおよび書き込み操作で消費されたリソースに対して課金されます。これにより、事前に固定容量をプロビジョニングする必要なく、実際に処理されたワークロードに対してのみ料金を支払います。 | Cloud"
 type: origin
 token: Uk0Nw1ZdbiOEBtkAOKacLTf8nGe
-sidebar_position: 3
+sidebar_position: 1
 displayed_sidebar: default
 
 ---
@@ -18,27 +18,27 @@ displayed_sidebar: default
 import Admonition from '@theme/Admonition';
 
 
-# Serverless クラスターコスト
+# Serverless Cluster のコスト
 
-Zilliz Cloud の Serverless クラスターは従量課金モデルを採用しており、主に読み取りおよび書き込み操作で消費されるリソースに対して課金されます。これにより、事前に固定容量をプロビジョニングする必要なく、実際に処理されたワークロードに対してのみ支払います。
+Zilliz Cloud の Serverless cluster は従量課金モデルを採用しており、主に読み取りおよび書き込み操作で消費されたリソースに対して課金されます。これにより、事前に固定容量をプロビジョニングする必要なく、実際に処理されたワークロードに対してのみ料金を支払います。
 
-Serverless クラスターの合計コストは、以下のコンポーネントの合計です。
+Serverless cluster の総コストは、以下のコンポーネントの合計です。
 
-- [読み取り](./serverless-cluster-cost#vector-database-costs-read)および[書き込み](./serverless-cluster-cost#vector-database-costs-write)操作の両方に対するベクトルデータベースコスト
+- [read](./serverless-cluster-cost#vector-database-costs-read) 操作と [write](./serverless-cluster-cost#vector-database-costs-write) 操作の両方に対する Vector database cost
 
-- [ストレージコスト](./serverless-cluster-cost#storage-cost)
+- [Storage cost](./serverless-cluster-cost#storage-cost)
 
-上記の 2 つの主要な課金項目に加えて、以下のオプションの追加料金が適用される場合があります。
+上記 2 つの主要な課金項目に加えて、以下のオプションの追加料金が適用される場合があります。
 
-- [データ転送コスト](./data-transfer-cost)
+- [Data transfer cost](./data-transfer-cost)
 
-- [監査ログコスト](./audit-log-cost)
+- [Audit log cost](./audit-log-cost)
 
 ## Vector database costs (write)\{#vector-database-costs-write}
 
-書き込みコストは、[insert](./insert-entities)、[upsert](./upsert-entities)、および [delete](./delete-entities) 操作で消費されるコンピュートリソースを測定します。
+write cost は、[insert](./insert-entities)、[upsert](./upsert-entities)、および [delete](./delete-entities) 操作によって消費されるコンピュートリソースを測定します。
 
-Import および bulk insert 操作では**コストは発生しません**。
+Import および bulk insert 操作ではコストは**発生しません**。
 
 ### Cost calculation\{#cost-calculation}
 
@@ -48,15 +48,15 @@ Vector Database Cost (Write) = vCU Unit Price x Write vCU Usage
 
 - **vCU Unit Price:** 100 万 vCU あたり &#36;4。
 
-- **Write vCU Usage:** 書き込み操作に含まれるデータサイズに基づいて計算されます。
+- **Write vCU Usage:** write 操作に含まれるデータサイズに基づいて計算されます。
 
 ### Example\{#example}
 
-以下の表は、特定量のデータを Serverless クラスターに書き込む場合の vCU 使用量とコストのクイックリファレンスです。 
+以下の表は、特定量のデータを Serverless cluster に書き込む際の vCU 使用量とコストの早見表です。 
 
-より大きなデータセットの場合は、vCU 使用量とコストを比例してスケールするだけです。たとえば、768 次元ベクトルを 1,000 万件書き込むと、約 750 万 vCU を使用し、コストは約 &#36;30 になります。
+より大きなデータセットの場合は、vCU 使用量とコストを比例して単純にスケールしてください。たとえば、768 次元ベクトルを 1,000 万件書き込むと、約 750 万 vCU を使用し、コストは約 &#36;30 になります。
 
-| **Data Size (&ast;)** | **Write vCU usage (million)** | **Write Cost** |
+| **データサイズ (&ast;)** | **Write vCU 使用量（百万）** | **Write Cost** |
 | --- | --- | --- |
 | 128 次元ベクトル 100 万件 | 0.125 | &#36;0.5 |
 | 768 次元ベクトル 100 万件 | 0.75 | &#36;3 |
@@ -65,17 +65,17 @@ Vector Database Cost (Write) = vCU Unit Price x Write vCU Usage
 
 *&ast;上記の表のデータサイズには scalar は含まれません。*
 
-*&ast;スキーマに複数の vector フィールドが含まれる場合、書き込みコストは線形に増加します。たとえば、スキーマに 2 つの 128 次元 vector フィールドがある場合、100 万 entity の書き込みに対する vCU 使用量は 0.125 × 2 = 0.25、書き込みコストは約 &#36;0.5 × 2 = &#36;1 です。*
+*&ast;schema に複数の vector field が含まれている場合、write cost は線形に増加します。たとえば、schema に 128 次元の vector field が 2 つある場合、100 万 entities の書き込みにおける vCU 使用量は 0.125 × 2 = 0.25、write cost はおおよそ &#36;0.5 × 2 = &#36;1 です。*
 
-書き込み vCU 使用量とコストを正確に計算するには、以下の指標を参照してください。
+write vCU 使用量とコストを正確に計算するには、以下の指標を参照してください。
 
 | **Operation** | **vCU Usage** |
 | --- | --- |
 | Insert | 挿入データ 1 KB = 0.25 vCU |
-| Delete | 削除された entity 1 件 = 1 vCU<br/>存在しない entity を削除した場合も 1 vCU 消費します。 |
-| Upsert | 更新されたデータのサイズと削除された entity 数に基づいて計算されます。<br/>存在しない entity を削除した場合も 1 vCU 消費します。 |
+| Delete | 削除された 1 entity = 1 vCU<br/>存在しない entity を削除した場合も 1 vCU 消費します。 |
+| Upsert | 更新されたデータのサイズと削除された entities 数に基づいて計算されます。<br/>存在しない entity を削除した場合も 1 vCU 消費します。 |
 
-3 GB（3,145,728 KB）の entity を Serverless クラスターに挿入し、その後 100,000 件の entity を削除したとします。
+Serverless cluster に 3 GB（3,145,728 KB）の entities を挿入し、その後 100,000 entities を削除したとします。
 
 - `Insert operation vCU usage = 3,145,728 x 0.25 = 78,643 vCUs`
 
@@ -97,27 +97,27 @@ Vector Database Cost (Read) = vCU Unit Price x Read vCU Usage
 
 - **vCU Unit Price:** 100 万 vCU あたり &#36;4
 
-- **Read vCU Usage:** 以下の 3 つの要因によって決まります。
+- **Read vCU Usage:** 以下の 3 つの要因に依存します。
 
-    - 検索またはクエリリクエストの数: 検索またはクエリを多く実行するほど、vCU 使用量は増えます。
+    - search または query リクエスト数: 実行する search または query が多いほど、vCU 使用量は高くなります。
 
-    - 各検索またはクエリでスキャンされるデータサイズ: スキャンされるデータが多いほど、vCU 使用量は増えます。
+    - 各 search または query でスキャンされるデータサイズ: スキャンされるデータが多いほど、vCU 使用量は高くなります。
 
-        *ヒント: 各検索またはクエリの間、Zilliz Cloud はクラスター内の collection 全体をスキャンします。検索またはクエリ中に [partition key](./use-partition-key) をフィルターとして使用すると、Zilliz Cloud は指定された partition key に一致する collection の一部のみをスキャンするため、全体の読み取り vCU 使用量を抑えられます。*
+        *ヒント: 各 search または query の実行中、Zilliz Cloud は cluster 内の collection 全体をスキャンします。[partition key](./use-partition-key) を search または query 時のフィルターとして使用すると、Zilliz Cloud は指定された partition key に一致する collection の一部のみをスキャンするため、全体の read vCU 使用量を下げることができます。*
 
-    - 各検索またはクエリで返されるデータサイズ: 返されるデータが多いほど、vCU 使用量は増えます。たとえば、検索で vector フィールドを含むすべてのフィールドを返す場合、ID フィールドのみを返す検索よりもはるかに多くの vCU を消費します。
+    - 各 search または query で返されるデータサイズ: 返されるデータが多いほど、vCU 使用量は高くなります。たとえば、search で vector field を含むすべての field を返す場合、ID field のみを返す search よりもはるかに多くの vCU を消費します。
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" icon="📘" title="注">
 
-    各読み取り操作には最低 6 vCU のコストがかかります。
+    各 read 操作には最低 6 vCU のコストがかかります。
 
     </Admonition>
 
 ### Example\{#example}
 
-以下の表は、さまざまなデータ量に対する 100 万回の読み取りリクエストにおける vCU 使用量とコストの例を示しています。
+以下の表は、さまざまなデータ量に対する 100 万回の read リクエストにおける vCU 使用量とコストの例を示しています。
 
-| **Scan Data Size (&ast;)** | **Read vCU Usage (million)** | **Read Cost** |
+| **スキャンデータサイズ (&ast;)** | **Read vCU Usage (million)** | **Read Cost** |
 | --- | --- | --- |
 | 128 次元ベクトル 100 万件 | 5 | &#36;20 |
 | 768 次元ベクトル 100 万件 | 15 | &#36;60 |
@@ -131,15 +131,15 @@ Vector Database Cost (Read) = vCU Unit Price x Read vCU Usage
 
 *&ast;上記の表のデータサイズには scalar は含まれません。* 
 
-上記の表から、データサイズが 100 万から 1,000 万、さらに 1 億へと増加しても、vCU 使用量は比例して増加しないことがわかります。 
+上記の表から、データサイズが 100 万から 1,000 万、さらに 1 億へと増加しても、vCU 使用量は比例して増加しないことが分かります。 
 
 ## Storage cost\{#storage-cost}
 
-ストレージコストはベクトルデータベースコストとは別に課金され、以下に依存します。
+Storage cost は vector database cost とは別に課金され、以下に依存します。
 
-- クラスターリージョン、クラスタータイプ、プロジェクトプラン
+- Cluster region、cluster type、および project plan
 
-- ストレージ使用量
+- Storage usage
 
 詳細については、[Storage](./storage-cost) を参照してください。
 

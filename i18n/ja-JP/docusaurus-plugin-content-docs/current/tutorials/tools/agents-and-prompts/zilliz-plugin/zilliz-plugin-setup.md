@@ -7,19 +7,10 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "このガイドでは、Claude Code に Zilliz Plugin をインストールしてセットアップする方法を説明します。 | Cloud"
+description: "このガイドでは、Claude Code で Zilliz Plugin をインストールしてセットアップする方法を説明します。 | Cloud"
 type: origin
 token: UDxnwONhSidaQikY6NGcRdmOnUh
 sidebar_position: 1
-keywords: 
-  - zilliz
-  - ベクトルデータベース
-  - ai-agents
-  - decision matrix
-  - skill
-  - claude
-  - zilliz cli
-  - セットアップ
 displayed_sidebar: default
 
 ---
@@ -32,11 +23,11 @@ import Procedures from '@site/src/components/Procedures';
 
 # Zilliz Claude Code Plugin セットアップ
 
-このガイドでは、Claude Code に Zilliz Plugin をインストールしてセットアップする方法を説明します。
+このガイドでは、Claude Code で Zilliz Plugin をインストールしてセットアップする方法を説明します。
 
 ## 前提条件\{#prerequisites}
 
-- [Claude Code](https://code.claude.com/) がすでにインストールされていること。
+- すでに [Claude Code](https://code.claude.com/) をインストールしていること。
 
 ## セットアップ手順\{#setup-procedure}
 
@@ -56,17 +47,17 @@ import Procedures from '@site/src/components/Procedures';
 
 1. Zilliz Plugin を見つけてインストールします
 
-    **Discover** タブに移動し、zilliz を検索します。zilliz プラグインを選択してインストールします。
+    **Discover** タブに移動し、zilliz を検索します。zilliz plugin を選択してインストールします。
 
     ![TqS3b4z7Ho9xcXxHJaIc7HTZn1e](https://zdoc-images.s3.us-west-2.amazonaws.com/tqs3b4z7ho9xcxxhjaic7htzn1e.png "TqS3b4z7Ho9xcXxHJaIc7HTZn1e")
 
 </Procedures>
 
-ご利用の環境でマーケットプレイスの検出がサポートされていない場合でも、Zilliz プラグインマーケットプレイスを手動で追加することでプラグインをインストールできることがあります。
+お使いの環境がマーケットプレイスでの検索に対応していない場合でも、Zilliz plugin marketplace を手動で追加することでプラグインをインストールできる可能性があります。
 
 <details>
 
-<summary>Zilliz Cloud プラグインマーケットプレイスを追加してインストールする</summary>
+<summary>Zilliz Cloud plugin marketplace を追加してインストールする</summary>
 
 1. Claude Code を実行します
 
@@ -74,7 +65,7 @@ import Procedures from '@site/src/components/Procedures';
     > claude
     ```
 
-1. Zilliz Plugin マーケットプレイスを追加します。
+1. Zilliz Plugin marketplace を追加します。
 
     ```bash
     /plugin marketplace add zilliztech/zilliz-plugin
@@ -96,7 +87,7 @@ import Procedures from '@site/src/components/Procedures';
 /zilliz:setup
 ```
 
-ウィザードでは、次の手順が案内されます。
+ウィザードでは次の手順を案内します。
 
 <Procedures>
 
@@ -138,7 +129,7 @@ import Procedures from '@site/src/components/Procedures';
     zilliz auth login
     ```
 
-    これにより、認証のためのブラウザが開きます。ログイン後、認証情報はローカルに保存されます。
+    これにより認証用のブラウザが開きます。ログイン後、認証情報はローカルに保存されます。
 
 1. クラスターに接続します。
 
@@ -148,7 +139,7 @@ import Procedures from '@site/src/components/Procedures';
     zilliz context set --cluster-id <your-cluster-id>
     ```
 
-    または、プラグインに利用可能なクラスターの中から選択を支援させることもできます。
+    または、プラグインに利用可能なクラスターの中から選択させることもできます。
 
 </Procedures>
 
@@ -160,7 +151,7 @@ import Procedures from '@site/src/components/Procedures';
 You: "List my clusters"
 ```
 
-プラグインに Zilliz Cloud のクラスター一覧が表示されるはずです。
+プラグインに Zilliz Cloud のクラスターが表示されるはずです。
 
 ## トラブルシューティング\{#troubleshooting}
 
@@ -196,7 +187,7 @@ You: "List my clusters"
 
     1. Zilliz Cloud アカウントが有効であることを確認します
 
-    1. ログアウトしてから再度ログインしてみます。
+    1. ログアウトして再度ログインしてみます。
 
     ```bash
     zilliz logout
