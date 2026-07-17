@@ -64,6 +64,31 @@ function fixedWorkspacePath(root, relative, label, expectedType) {
   return current
 }
 
+function cleanupWorkspaceLeaf(root, relative, label) {
+  const parts = relative.split('/').filter(Boolean)
+  let current = root
+  for (let index = 0; index < parts.length; index += 1) {
+    const candidate = path.join(current, parts[index])
+    if (index === parts.length - 1) {
+      try { fs.lstatSync(candidate) } catch (error) { if (error.code !== 'ENOENT') throw error }
+      if (!isInside(root, candidate)) throw new Error(`${label} must stay inside the workspace`)
+      return candidate
+    }
+    let stat
+    try { stat = fs.lstatSync(candidate) } catch (error) {
+      if (error.code !== 'ENOENT') throw error
+      const missing = path.join(current, ...parts.slice(index))
+      if (!isInside(root, missing)) throw new Error(`${label} must stay inside the workspace`)
+      return missing
+    }
+    if (stat.isSymbolicLink()) throw new Error(`${label} must not have symlink ancestors: ${candidate}`)
+    if (!stat.isDirectory()) throw new Error(`${label} has a non-directory ancestor: ${candidate}`)
+    current = fs.realpathSync(candidate)
+    if (!isInside(root, current)) throw new Error(`${label} must stay inside the workspace`)
+  }
+  throw new Error(`${label} is invalid`)
+}
+
 function payloadPaths(payloadDir) {
   const root = requireDirectory(payloadDir, 'Guides source generation payload')
   if (JSON.stringify(fs.readdirSync(root).sort()) !== JSON.stringify(PAYLOAD_CHILDREN)) throw new Error('Guides source generation payload has unexpected children')
@@ -138,14 +163,14 @@ function cleanupGuidesLiveCache({ workspace, scope = 'all' }) {
   if (!['all', 'media'].includes(scope)) throw new Error('Guides cleanup scope must be all or media')
   const workspaceRoot = requireDirectory(workspace, 'Guides cleanup workspace')
   const destinations = {
-    sourceDir: fixedWorkspacePath(workspaceRoot, 'plugins/lark-docs/meta/sources/guides', 'Guides live source path', 'directory'),
-    sourceManifestPath: fixedWorkspacePath(workspaceRoot, 'plugins/lark-docs/meta/source-cache/guides-manifest.json', 'Guides live source manifest path', 'file'),
-    mediaManifestPath: fixedWorkspacePath(workspaceRoot, 'plugins/lark-docs/meta/media-cache/guides.json', 'Guides live media manifest path', 'file'),
+    sourceDir: cleanupWorkspaceLeaf(workspaceRoot, 'plugins/lark-docs/meta/sources/guides', 'Guides live source path'),
+    sourceManifestPath: cleanupWorkspaceLeaf(workspaceRoot, 'plugins/lark-docs/meta/source-cache/guides-manifest.json', 'Guides live source manifest path'),
+    mediaManifestPath: cleanupWorkspaceLeaf(workspaceRoot, 'plugins/lark-docs/meta/media-cache/guides.json', 'Guides live media manifest path'),
   }
   const removals = scope === 'media'
     ? [destinations.mediaManifestPath]
     : [destinations.sourceDir, destinations.sourceManifestPath, destinations.mediaManifestPath]
-  for (const target of removals) fs.rmSync(target, { recursive: target === destinations.sourceDir, force: true })
+  for (const target of removals) fs.rmSync(target, { recursive: true, force: true })
   return Object.freeze(destinations)
 }
 

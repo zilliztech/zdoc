@@ -284,6 +284,7 @@ test('Guides cleanup rejects internal symlink redirection before touching extern
   const external = path.join(f.root, 'external-source-cache')
   write(external, 'guides-manifest.json', 'external manifest')
   write(external, 'keep.json', 'external sentinel')
+  write(f.workspace, 'plugins/lark-docs/meta/sources/guides/old.json', 'must remain')
   write(f.workspace, 'plugins/lark-docs/meta/media-cache/guides.json', 'live media')
   write(f.workspace, 'plugins/lark-docs/meta/media-cache/keep.json', 'live sentinel')
   const internal = path.join(f.workspace, 'plugins/lark-docs/meta/source-cache')
@@ -295,4 +296,49 @@ test('Guides cleanup rejects internal symlink redirection before touching extern
   assert.throws(() => cleanupGuidesLiveCache({ workspace: f.workspace, scope: 'all' }), /symlink|workspace|outside/i)
   assert.deepEqual(tree(external), externalBefore)
   assert.deepEqual(tree(f.workspace), workspaceBefore)
+})
+
+test('Guides cleanup removes exact final leaves of any type without following symlinks and permits fallback recreation', async (t) => {
+  const cases = [
+    { name: 'source leaf file', leaf: 'sourceDir', type: 'file' },
+    { name: 'source manifest directory', leaf: 'sourceManifestPath', type: 'directory' },
+    { name: 'source manifest final symlink', leaf: 'sourceManifestPath', type: 'symlink' },
+    { name: 'media manifest directory', leaf: 'mediaManifestPath', type: 'directory' },
+    { name: 'media manifest final symlink', leaf: 'mediaManifestPath', type: 'symlink' },
+  ]
+  for (const fixtureCase of cases) {
+    await t.test(fixtureCase.name, () => {
+      const f = fixture()
+      const live = livePaths(f.workspace)
+      const external = path.join(f.root, `external-${fixtureCase.name.replaceAll(' ', '-')}`)
+      write(f.workspace, 'plugins/lark-docs/meta/source-cache/keep.json', 'source sentinel')
+      write(f.workspace, 'plugins/lark-docs/meta/media-cache/keep.json', 'media sentinel')
+      const target = live[fixtureCase.leaf]
+      fs.rmSync(target, { recursive: true, force: true })
+      fs.mkdirSync(path.dirname(target), { recursive: true })
+      if (fixtureCase.type === 'file') fs.writeFileSync(target, 'wrong file type')
+      if (fixtureCase.type === 'directory') write(target, 'nested.txt', 'wrong directory type')
+      if (fixtureCase.type === 'symlink') {
+        write(external, 'marker.txt', 'external target')
+        fs.symlinkSync(external, target, 'dir')
+      }
+      const externalBefore = tree(external)
+
+      cleanupGuidesLiveCache({ workspace: f.workspace, scope: 'all' })
+
+      assert.deepEqual(tree(target), { '': 'absent' })
+      assert.equal(fs.readFileSync(path.join(f.workspace, 'plugins/lark-docs/meta/source-cache/keep.json'), 'utf8'), 'source sentinel')
+      assert.equal(fs.readFileSync(path.join(f.workspace, 'plugins/lark-docs/meta/media-cache/keep.json'), 'utf8'), 'media sentinel')
+      assert.deepEqual(tree(external), externalBefore)
+
+      write(live.sourceDir, 'restored.json', 'restored source')
+      fs.mkdirSync(path.dirname(live.sourceManifestPath), { recursive: true })
+      fs.writeFileSync(live.sourceManifestPath, 'restored manifest')
+      fs.mkdirSync(path.dirname(live.mediaManifestPath), { recursive: true })
+      fs.writeFileSync(live.mediaManifestPath, 'restored media')
+      assert.equal(fs.readFileSync(path.join(live.sourceDir, 'restored.json'), 'utf8'), 'restored source')
+      assert.equal(fs.readFileSync(live.sourceManifestPath, 'utf8'), 'restored manifest')
+      assert.equal(fs.readFileSync(live.mediaManifestPath, 'utf8'), 'restored media')
+    })
+  }
 })
