@@ -5,8 +5,10 @@ const crypto = require('node:crypto')
 const fs = require('node:fs/promises')
 const path = require('node:path')
 const { assertSourceCompleteness } = require('../../plugins/lark-docs/sourceCompleteness')
+const { validateMediaPrefetchMetrics } = require('./guides-media-prefetch')
 
 const SHA = /^[0-9a-f]{40}$/
+const MEDIA_PREFETCH_REPORT = 'plugins/lark-docs/meta/reports/guides-media-prefetch.json'
 const STAGE_PATHS = Object.freeze({
   source: [
     'plugins/lark-docs/meta/sources/guides',
@@ -15,6 +17,7 @@ const STAGE_PATHS = Object.freeze({
     'plugins/lark-docs/meta/reports/guides-incremental-fetch-plan.md',
     'plugins/lark-docs/meta/reports/guides-broken-content-links.json',
     'plugins/lark-docs/meta/reports/guides-source-snapshot-candidate.json',
+    MEDIA_PREFETCH_REPORT,
   ],
   saas: [
     'docs',
@@ -29,6 +32,7 @@ const REQUIRED_STAGE_FILES = Object.freeze({
   source: [
     'plugins/lark-docs/meta/reports/guides-source-snapshot-candidate.json',
     'plugins/lark-docs/meta/media-cache/guides.json',
+    MEDIA_PREFETCH_REPORT,
   ],
   saas: [],
   byoc: [],
@@ -36,6 +40,36 @@ const REQUIRED_STAGE_FILES = Object.freeze({
 
 function allowed(stage, relative) {
   return STAGE_PATHS[stage].some(prefix => relative === prefix || relative.startsWith(`${prefix}/`))
+}
+
+function requiredLabel(relative) {
+  if (relative.includes('/media-cache/')) return 'media manifest'
+  if (relative === MEDIA_PREFETCH_REPORT) return 'media prefetch report'
+  return 'snapshot candidate'
+}
+
+function exactKeys(value, expected, label) {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) throw new Error(`${label} must be an object`)
+  const keys = Object.keys(value)
+  if (keys.length !== expected.length || keys.some(key => !expected.includes(key))) throw new Error(`${label} must contain exact keys: ${expected.join(', ')}`)
+}
+
+function validateMediaPrefetchReport(value) {
+  exactKeys(value, ['schemaVersion', 'generated_at', 'mode', 'cacheState', 'metrics'], 'Guides media prefetch report')
+  if (value.schemaVersion !== 1) throw new Error('Guides media prefetch report schemaVersion must be 1')
+  if (typeof value.generated_at !== 'string' || Number.isNaN(Date.parse(value.generated_at)) || new Date(value.generated_at).toISOString() !== value.generated_at) {
+    throw new Error('Guides media prefetch report generated_at must be an ISO timestamp')
+  }
+  if (!['incremental', 'recovery'].includes(value.mode)) throw new Error('Guides media prefetch report mode must be incremental or recovery')
+  if (!['valid', 'invalid', 'missing', 'legacy'].includes(value.cacheState)) throw new Error('Guides media prefetch report cacheState is invalid')
+  validateMediaPrefetchMetrics(value.metrics)
+  return value
+}
+
+function parseMediaPrefetchReport(bytes) {
+  let value
+  try { value = JSON.parse(bytes.toString('utf8')) } catch (error) { throw new Error(`Guides media prefetch report is invalid JSON: ${error.message}`) }
+  return validateMediaPrefetchReport(value)
 }
 
 async function collect(root, prefixes) {
@@ -84,10 +118,10 @@ async function createGuidesStageArtifact({ stage, workspace, baselineDir, output
   if (current.size === 0) throw new Error(`Guides ${stage} artifact has no files`)
   for (const required of REQUIRED_STAGE_FILES[stage]) {
     if (!current.has(required)) {
-      const label = required.includes('/media-cache/') ? 'media manifest' : 'snapshot candidate'
-      throw new Error(`Guides ${stage} artifact is missing required ${label}: ${required}`)
+      throw new Error(`Guides ${stage} artifact is missing required ${requiredLabel(required)}: ${required}`)
     }
   }
+  if (stage === 'source') parseMediaPrefetchReport(current.get(MEDIA_PREFETCH_REPORT))
   await fs.rm(output, { recursive: true, force: true })
   await fs.mkdir(path.join(output, 'payload'), { recursive: true })
   const files = []
@@ -122,11 +156,11 @@ async function validateGuidesStageArtifact(directory, expected = {}) {
     const bytes = await fs.readFile(full)
     if (bytes.length !== file.size) throw new Error(`Payload size mismatch: ${file.path}`)
     if (crypto.createHash('sha256').update(bytes).digest('hex') !== file.sha256) throw new Error(`Payload checksum mismatch: ${file.path}`)
+    if (manifest.stage === 'source' && file.path === MEDIA_PREFETCH_REPORT) parseMediaPrefetchReport(bytes)
   }
   for (const required of REQUIRED_STAGE_FILES[manifest.stage]) {
     if (!seen.has(required)) {
-      const label = required.includes('/media-cache/') ? 'media manifest' : 'snapshot candidate'
-      throw new Error(`Guides ${manifest.stage} artifact is missing required ${label}: ${required}`)
+      throw new Error(`Guides ${manifest.stage} artifact is missing required ${requiredLabel(required)}: ${required}`)
     }
   }
   for (const relative of manifest.deletions || []) if (!allowed(manifest.stage, relative) || seen.has(relative)) throw new Error(`Unauthorized deletion: ${relative}`)
