@@ -6,7 +6,8 @@ const fs = require('node:fs')
 const os = require('node:os')
 const path = require('node:path')
 const test = require('node:test')
-const { sourceCacheKey, createSourceCacheManifest, validateSourceCache } = require('./guides-source-cache')
+const { hashSnapshot } = require('../../plugins/lark-docs/sourceCompleteness')
+const { sourceCacheKey, createSourceCacheManifest, validateMediaCache, validateSourceCache } = require('./guides-source-cache')
 
 function write(root, relative, value) { const file = path.join(root, relative); fs.mkdirSync(path.dirname(file), { recursive: true }); fs.writeFileSync(file, typeof value === 'string' ? value : JSON.stringify(value)); return file }
 
@@ -31,6 +32,50 @@ function fixture() {
   return { root, sourceDir, snapshotPath, mediaManifestPath }
 }
 
+function writeLegacyManifest(f, manifestPath) {
+  const snapshot = JSON.parse(fs.readFileSync(f.snapshotPath, 'utf8'))
+  const files = fs.readdirSync(f.sourceDir).filter(file => file.endsWith('.json')).sort().map(file => {
+    const bytes = fs.readFileSync(path.join(f.sourceDir, file))
+    return { path: file, size: bytes.length, sha256: crypto.createHash('sha256').update(bytes).digest('hex') }
+  })
+  fs.writeFileSync(manifestPath, `${JSON.stringify({
+    schemaVersion: 1,
+    manual: 'guides',
+    buildEnv: 'uat',
+    snapshotHash: hashSnapshot(snapshot),
+    createdAt: '2026-07-14T00:00:00.000Z',
+    files,
+  }, null, 2)}\n`)
+}
+
+test('uses one snapshot hash with explicit v1 and v2 key prefixes', () => {
+  const f = fixture()
+  const v1 = sourceCacheKey(f.snapshotPath, { version: 1 })
+  const v2 = sourceCacheKey(f.snapshotPath, { version: 2 })
+  assert.match(v1, /^guides-source-v1-[0-9a-f]{64}$/)
+  assert.equal(v2.replace('guides-source-v2-', ''), v1.replace('guides-source-v1-', ''))
+  assert.throws(() => sourceCacheKey(f.snapshotPath, { version: 3 }), /unsupported/i)
+})
+
+test('accepts a valid v1 source cache only when schema 1 is explicitly allowed', () => {
+  const f = fixture(), manifestPath = path.join(f.root, 'legacy-manifest.json')
+  writeLegacyManifest(f, manifestPath)
+  assert.throws(() => validateSourceCache({
+    sourceDir: f.sourceDir,
+    snapshotPath: f.snapshotPath,
+    manifestPath,
+    rootToken: 'root',
+    acceptedSchemaVersions: [2],
+  }), /identity/i)
+  assert.equal(validateSourceCache({
+    sourceDir: f.sourceDir,
+    snapshotPath: f.snapshotPath,
+    manifestPath,
+    rootToken: 'root',
+    acceptedSchemaVersions: [1, 2],
+  }).complete, true)
+})
+
 test('creates and validates a snapshot-keyed source cache manifest', () => {
   const f = fixture(), manifestPath = path.join(f.root, 'manifest.json')
   assert.match(sourceCacheKey(f.snapshotPath), /^guides-source-v2-[0-9a-f]{64}$/)
@@ -53,8 +98,15 @@ test('rejects a tampered or incomplete cached media manifest', () => {
   const f = fixture(), manifestPath = path.join(f.root, 'manifest.json')
   createSourceCacheManifest({ sourceDir: f.sourceDir, snapshotPath: f.snapshotPath, manifestPath, mediaManifestPath: f.mediaManifestPath, rootToken: 'root' })
   fs.writeFileSync(f.mediaManifestPath, JSON.stringify({ schemaVersion: 1, entries: [] }))
+  assert.equal(validateSourceCache({
+    sourceDir: f.sourceDir,
+    snapshotPath: f.snapshotPath,
+    manifestPath,
+    rootToken: 'root',
+    acceptedSchemaVersions: [2],
+  }).complete, true)
   assert.throws(
-    () => validateSourceCache({ sourceDir: f.sourceDir, snapshotPath: f.snapshotPath, manifestPath, mediaManifestPath: f.mediaManifestPath, rootToken: 'root' }),
+    () => validateMediaCache({ sourceDir: f.sourceDir, snapshotPath: f.snapshotPath, manifestPath, mediaManifestPath: f.mediaManifestPath }),
     /media manifest|coverage/i,
   )
 })

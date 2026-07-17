@@ -46,45 +46,87 @@ jobs:
           git fetch --no-tags origin "${{ inputs.dev_baseline_sha }}"
           git worktree add --detach "$RUNNER_TEMP/baseline" "${{ inputs.dev_baseline_sha }}"
           bash scripts/restore-generated-state.sh --exact --ref "${{ inputs.dev_baseline_sha }}"
-      - id: source_cache_key
-        name: Compute guides source cache key
+      - id: source_cache_keys
+        name: Compute Guides source cache keys
         run: |
           snapshot=plugins/lark-docs/meta/snapshots/guides-uat-last-success.json
           if [[ -f "$snapshot" ]]; then
-            key=$(node scripts/docs-workflow/guides-source-cache.js key --snapshot "$snapshot")
+            v2=$(node scripts/docs-workflow/guides-source-cache.js key --snapshot "$snapshot" --version 2)
+            v1=$(node scripts/docs-workflow/guides-source-cache.js key --snapshot "$snapshot" --version 1)
           else
-            key="guides-source-v2-bootstrap-${{ inputs.dev_baseline_sha }}"
+            v2="guides-source-v2-bootstrap-${{ inputs.dev_baseline_sha }}"
+            v1="guides-source-v1-bootstrap-${{ inputs.dev_baseline_sha }}"
           fi
-          echo "key=$key" >> "$GITHUB_OUTPUT"
-      - id: source_cache
+          printf 'v2=%s\nv1=%s\n' "$v2" "$v1" >> "$GITHUB_OUTPUT"
+      - id: source_cache_v2
         uses: actions/cache/restore@v4
         with:
           path: |
             plugins/lark-docs/meta/sources/guides
             plugins/lark-docs/meta/source-cache/guides-manifest.json
             plugins/lark-docs/meta/media-cache/guides.json
-          key: ${{ steps.source_cache_key.outputs.key }}
+          key: ${{ steps.source_cache_keys.outputs.v2 }}
+      - id: source_cache_v1
+        if: ${{ steps.source_cache_v2.outputs.cache-hit != 'true' }}
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            plugins/lark-docs/meta/sources/guides
+            plugins/lark-docs/meta/source-cache/guides-manifest.json
+          key: ${{ steps.source_cache_keys.outputs.v1 }}
       - id: source_cache_check
         name: Validate restored guides source cache
         run: |
-          valid=false
+          source_valid=false
+          media_valid=false
+          cache_version=none
           snapshot=plugins/lark-docs/meta/snapshots/guides-uat-last-success.json
           manifest=plugins/lark-docs/meta/source-cache/guides-manifest.json
           media=plugins/lark-docs/meta/media-cache/guides.json
-          if [[ "${{ steps.source_cache.outputs.cache-hit }}" == true && -f "$snapshot" && -f "$manifest" && -f "$media" ]]; then
-            if node scripts/docs-workflow/guides-source-cache.js validate --source-dir plugins/lark-docs/meta/sources/guides --snapshot "$snapshot" --manifest "$manifest" --media-manifest "$media" --root-token Tg6mwbRGDitPQ3kLUQzc44I7nth; then
-              valid=true
+
+          if [[ "${{ steps.source_cache_v2.outputs.cache-hit }}" == true ]]; then
+            cache_version=v2
+          elif [[ "${{ steps.source_cache_v1.outputs.cache-hit }}" == true ]]; then
+            cache_version=v1
+          fi
+
+          if [[ "$cache_version" != none && -f "$snapshot" && -f "$manifest" ]]; then
+            schemas=2
+            [[ "$cache_version" == v1 ]] && schemas=1,2
+            if node scripts/docs-workflow/guides-source-cache.js validate-source \
+              --source-dir plugins/lark-docs/meta/sources/guides \
+              --snapshot "$snapshot" \
+              --manifest "$manifest" \
+              --root-token Tg6mwbRGDitPQ3kLUQzc44I7nth \
+              --schemas "$schemas"; then
+              source_valid=true
             fi
           fi
-          if [[ "$valid" != true ]]; then
-            rm -rf plugins/lark-docs/meta/sources/guides plugins/lark-docs/meta/source-cache plugins/lark-docs/meta/media-cache
+
+          if [[ "$source_valid" == true && "$cache_version" == v2 && -f "$media" ]]; then
+            if node scripts/docs-workflow/guides-source-cache.js validate-media \
+              --source-dir plugins/lark-docs/meta/sources/guides \
+              --snapshot "$snapshot" \
+              --manifest "$manifest" \
+              --media-manifest "$media"; then
+              media_valid=true
+            fi
           fi
-          echo "valid=$valid" >> "$GITHUB_OUTPUT"
+
+          if [[ "$source_valid" != true ]]; then
+            rm -rf plugins/lark-docs/meta/sources/guides plugins/lark-docs/meta/source-cache
+          fi
+          if [[ "$media_valid" != true ]]; then
+            rm -rf plugins/lark-docs/meta/media-cache
+          fi
+          printf 'source_valid=%s\nmedia_valid=%s\ncache_version=%s\n' \
+            "$source_valid" "$media_valid" "$cache_version" >> "$GITHUB_OUTPUT"
+          echo "[source-cache] source=$source_valid media=$media_valid version=$cache_version"
       - name: Fetch shared guides sources
         run: |
           args=(--group guides --stage source)
-          if [[ "${{ steps.source_cache_check.outputs.valid }}" != true ]]; then
-            echo "[source-cache] No complete exact cache; forcing full bootstrap fetch."
+          if [[ "${{ steps.source_cache_check.outputs.source_valid }}" != true ]]; then
+            echo "[source-cache] Source graph unavailable; forcing full bootstrap fetch."
             args+=(--force-full-fetch)
           fi
           node scripts/docs-workflow/run-content-group.js "${args[@]}"
@@ -107,7 +149,7 @@ jobs:
             --snapshot plugins/lark-docs/meta/reports/guides-source-snapshot-candidate.json \
             --previous-manifest plugins/lark-docs/meta/media-cache/guides.json \
             --bootstrap-docs docs,docs-byoc \
-            --reuse-existing "${{ steps.source_cache_check.outputs.valid != 'true' }}" \
+            --reuse-existing "${{ steps.source_cache_check.outputs.source_valid != 'true' }}" \
             --concurrency 4
         env:
           APP_ID: ${{ secrets.APP_ID }}

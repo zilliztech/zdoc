@@ -134,6 +134,48 @@ test('workflow validator rejects distributed card ownership and broken monitor t
   }
 })
 
+test('workflow validator rejects unsafe Guides cache migration shapes', () => {
+  const sourceDirectory = path.join(process.cwd(), '.github/workflows')
+  const cases = [
+    {
+      mutate(source) {
+        return source.replace(/      - id: source_cache_v1[\s\S]*?          key: \$\{\{ steps\.source_cache_keys\.outputs\.v1 \}\}\n/, '')
+      },
+      expected: /v1 exact migration fallback/,
+    },
+    {
+      mutate(source) {
+        return source.replace('steps.source_cache_check.outputs.source_valid }}" != true', 'steps.source_cache_check.outputs.media_valid }}" != true')
+      },
+      expected: /full fetch must depend only on source validity/,
+    },
+    {
+      mutate(source) {
+        return source.replace('rm -rf plugins/lark-docs/meta/media-cache', 'rm -rf plugins/lark-docs/meta/sources/guides plugins/lark-docs/meta/media-cache')
+      },
+      expected: /media invalidation must preserve source files/,
+    },
+    {
+      mutate(source) {
+        return source.replace('          key: ${{ steps.source_cache_keys.outputs.v2 }}', '          key: ${{ steps.source_cache_keys.outputs.v2 }}\n          restore-keys: guides-source-v2-')
+      },
+      expected: /restore must remain exact/,
+    },
+  ]
+
+  for (const fixture of cases) {
+    const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'guides-cache-policy-'))
+    try {
+      fs.cpSync(sourceDirectory, directory, { recursive: true })
+      const file = path.join(directory, '_fetch-guides-sources.yml')
+      fs.writeFileSync(file, fixture.mutate(fs.readFileSync(file, 'utf8')))
+      assert.match(validateWorkflowPolicies(directory).join('\n'), fixture.expected)
+    } finally {
+      fs.rmSync(directory, { recursive: true, force: true })
+    }
+  }
+})
+
 test('reusable final verification uses immutable master tooling against exact final dev content read-only', () => {
   const workflowPath = path.join(process.cwd(), '.github/workflows/_verify-docs.yml')
   assert.equal(fs.existsSync(workflowPath), true, 'final verification workflow must exist')
@@ -225,12 +267,17 @@ test('guides workflows bootstrap full sources and persist only verified caches',
   const source = fs.readFileSync('.github/workflows/_fetch-guides-sources.yml', 'utf8')
   const assemble = fs.readFileSync('.github/workflows/_assemble-guides.yml', 'utf8')
   assert.match(caller, /^  actions: write$/m)
-  assert.match(source, /actions\/cache\/restore@v4/)
-  assert.match(source, /guides-source-cache\.js validate/)
+  assert.match(source, /id: source_cache_keys[\s\S]*--version 2[\s\S]*--version 1/)
+  assert.match(source, /id: source_cache_v2[\s\S]*actions\/cache\/restore@v4[\s\S]*steps\.source_cache_keys\.outputs\.v2/)
+  assert.match(source, /id: source_cache_v1[\s\S]*source_cache_v2\.outputs\.cache-hit != 'true'[\s\S]*actions\/cache\/restore@v4[\s\S]*steps\.source_cache_keys\.outputs\.v1/)
+  assert.match(source, /guides-source-cache\.js validate-source/)
+  assert.match(source, /guides-source-cache\.js validate-media/)
   assert.match(source, /plugins\/lark-docs\/meta\/media-cache\/guides\.json/)
   assert.match(source, /--media-manifest "?plugins\/lark-docs\/meta\/media-cache\/guides\.json"?/)
   assert.match(source, /--force-full-fetch/)
-  assert.match(source, /steps\.source_cache_check\.outputs\.valid/)
+  assert.match(source, /id: source_cache_check[\s\S]*source_valid[\s\S]*media_valid[\s\S]*cache_version/)
+  assert.match(source, /steps\.source_cache_check\.outputs\.source_valid[\s\S]*args\+=\(--force-full-fetch\)/)
+  assert.doesNotMatch(source, /media_valid[^\n]*[\s\S]{0,180}args\+=\(--force-full-fetch\)/)
   assert.match(assemble, /guides-source-cache\.js create/)
   assert.match(assemble, /--media-manifest "?plugins\/lark-docs\/meta\/media-cache\/guides\.json"?/)
   assert.match(assemble, /actions\/cache\/save@v4/)
@@ -250,7 +297,7 @@ test('guides media is prefetched once for the incremental render scope and share
   assert.match(source, /--snapshot plugins\/lark-docs\/meta\/reports\/guides-source-snapshot-candidate\.json/)
   assert.match(source, /--previous-manifest plugins\/lark-docs\/meta\/media-cache\/guides\.json/)
   assert.match(source, /--bootstrap-docs docs,docs-byoc/)
-  assert.match(source, /--reuse-existing.*steps\.source_cache_check\.outputs\.valid/)
+  assert.match(source, /--reuse-existing.*steps\.source_cache_check\.outputs\.source_valid/)
   assert.match(source, /--concurrency 4/)
   assert.match(source, /GUIDES_FIGMA_MAX_CONCURRENT: '1'/)
   assert.match(source, /GUIDES_FIGMA_MIN_TIME_MS: '1000'/)

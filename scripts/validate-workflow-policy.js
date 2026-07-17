@@ -231,6 +231,23 @@ function validateWorkflowPolicies(directory = workflowDirectory) {
         !/name: Upload Guides progress metadata[\s\S]*continue-on-error: true[\s\S]*name: docs-progress-metadata-\$\{\{ github\.run_id \}\}/.test(guidesSource)) {
       errors.push('_fetch-guides-sources.yml: Guides progress metadata must be best-effort and run-scoped')
     }
+    if (!/id: source_cache_v2[\s\S]*id: source_cache_v1/.test(guidesSource)) {
+      errors.push('_fetch-guides-sources.yml: Guides source cache requires a v1 exact migration fallback')
+    }
+    if (/restore-keys:/.test(guidesSource)) {
+      errors.push('_fetch-guides-sources.yml: Guides source cache restore must remain exact')
+    }
+    const sourceFetchBlock = guidesSource.slice(
+      guidesSource.indexOf('name: Fetch shared guides sources'),
+      guidesSource.indexOf('name: Prefetch shared guides media'),
+    )
+    if (!/steps\.source_cache_check\.outputs\.source_valid/.test(sourceFetchBlock) || /steps\.source_cache_check\.outputs\.media_valid/.test(sourceFetchBlock)) {
+      errors.push('_fetch-guides-sources.yml: full fetch must depend only on source validity')
+    }
+    const mediaInvalidation = guidesSource.match(/if \[\[ "\$media_valid" != true \]\]; then\n([\s\S]*?)\n\s+fi/)?.[1] || ''
+    if (!/rm -rf plugins\/lark-docs\/meta\/media-cache/.test(mediaInvalidation) || /plugins\/lark-docs\/meta\/sources\/guides/.test(mediaInvalidation)) {
+      errors.push('_fetch-guides-sources.yml: media invalidation must preserve source files')
+    }
   }
 
   for (const file of ['_assemble-guides.yml', '_publish-content-group.yml', '_translate-content-group.yml', '_publish-translation-batches.yml', '_translate-publish-batch.yml', '_verify-docs.yml']) {
