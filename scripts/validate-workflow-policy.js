@@ -285,9 +285,12 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       errors.push('_fetch-guides-sources.yml: Guides v4 restore requires the sole snapshot-scoped restore prefix and isolated payload path')
     }
     const v4Validation = stepById.get('source_cache_v4_check')?.run || ''
-    if (!/validate-source[\s\S]*"\$staged\/sources"[\s\S]*validate-media[\s\S]*"\$staged\/media-manifest\.json"/.test(v4Validation) ||
+    if (!/guides-source-cache-source-promotion\.js validate[\s\S]*--payload "\$staged"[\s\S]*guides-source-cache\.js validate-media[\s\S]*"\$staged\/media-manifest\.json"/.test(v4Validation) ||
         !/else[\s\S]*guides-source-cache-source-promotion\.js promote[\s\S]*--payload "\$staged"[\s\S]*source_valid=true/.test(v4Validation)) {
       errors.push('_fetch-guides-sources.yml: v4 Guides source and media validity must remain independent before promotion')
+    }
+    if (!/\[\[ -e "\$payload" \|\| -L "\$payload" \]\] && candidate_present=true[\s\S]*\[\[ -d "\$payload" && ! -L "\$payload" && -f "\$snapshot" \]\]/.test(v4Validation)) {
+      errors.push('_fetch-guides-sources.yml: malformed v4 cache payload must be reported as an invalid candidate')
     }
     for (const [id, preceding] of [['source_cache_v3', 'source_cache_v4_check'], ['source_cache_v2', 'source_cache_v3_check'], ['source_cache_v1', 'source_cache_v2_check']]) {
       if (stepById.get(id)?.if !== `\${{ steps.${preceding}.outputs.source_valid != 'true' }}`) {
@@ -299,6 +302,15 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       const validation = stepById.get(id)
       if (validation?.if || !new RegExp(`steps\\.${preceding}\\.outputs\\.source_valid[\\s\\S]*source_valid=true`).test(validation?.run || '')) {
         errors.push('_fetch-guides-sources.yml: Guides validation chain must propagate prior source validity to stop fallback')
+        break
+      }
+    }
+    for (const [id, includesMedia] of [['source_cache_v3_check', true], ['source_cache_v2_check', true], ['source_cache_v1_check', false]]) {
+      const run = stepById.get(id)?.run || ''
+      const sourcePresence = /\[\[ -e plugins\/lark-docs\/meta\/sources\/guides \|\| -L plugins\/lark-docs\/meta\/sources\/guides[\s\S]*-e "\$manifest" \|\| -L "\$manifest"/.test(run)
+      const mediaPresence = /-e "\$media" \|\| -L "\$media" \]\] && candidate_present=true/.test(run)
+      if (!sourcePresence || (includesMedia && !mediaPresence) || (!includesMedia && !/\|\| -L "\$manifest" \]\] && candidate_present=true/.test(run))) {
+        errors.push('_fetch-guides-sources.yml: malformed legacy cache leaves must be reported as invalid candidates')
         break
       }
     }
@@ -319,10 +331,18 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     }
     for (const [validationName, nextRestoreName] of [['Validate Guides v3 cache candidate', 'Restore Guides v2 cache candidate'], ['Validate Guides v2 cache candidate', 'Restore Guides v1 cache candidate']]) {
       const block = guidesSource.slice(guidesSource.indexOf(`name: ${validationName}`), guidesSource.indexOf(`name: ${nextRestoreName}`))
+      if (!/guides-source-cache-source-promotion\.js validate-live-source[\s\S]*guides-source-cache-source-promotion\.js validate-live-media/.test(block)) {
+        errors.push('_fetch-guides-sources.yml: legacy Guides physical validation must precede semantic source and media reads')
+        break
+      }
       if (!/elif \[\[ "\$media_valid" != true \]\]; then[\s\S]*guides-source-cache-source-promotion\.js cleanup[\s\S]*--scope media/.test(block)) {
         errors.push('_fetch-guides-sources.yml: invalid legacy media must preserve valid Guides sources and select recovery')
         break
       }
+    }
+    const v1Validation = guidesSource.slice(guidesSource.indexOf('name: Validate Guides v1 cache candidate'), guidesSource.indexOf('id: source_cache_check'))
+    if (!/guides-source-cache-source-promotion\.js validate-live-source[\s\S]*--schemas 1,2/.test(v1Validation)) {
+      errors.push('_fetch-guides-sources.yml: v1 Guides physical validation must precede semantic source reads')
     }
     const sourceFetchBlock = guidesSource.slice(
       guidesSource.indexOf('name: Fetch shared guides sources'),

@@ -4,7 +4,7 @@
 const fs = require('node:fs')
 const os = require('node:os')
 const path = require('node:path')
-const { validateSourceCache } = require('./guides-source-cache')
+const { validateMediaCache, validateSourceCache } = require('./guides-source-cache')
 
 const PAYLOAD_CHILDREN = Object.freeze(['media-manifest.json', 'source-manifest.json', 'sources'])
 
@@ -116,6 +116,37 @@ function validateSourceGenerationPayload({ payloadDir, snapshotPath, rootToken }
     acceptedSchemaVersions: [2],
   })
   return Object.freeze({ paths: Object.freeze(paths), source })
+}
+
+function liveSourceCachePaths(workspace, label) {
+  const root = requireDirectory(workspace, label)
+  return {
+    root,
+    sourceDir: fixedWorkspacePath(root, 'plugins/lark-docs/meta/sources/guides', 'Guides live source path', 'directory'),
+    sourceManifestPath: fixedWorkspacePath(root, 'plugins/lark-docs/meta/source-cache/guides-manifest.json', 'Guides live source manifest path', 'file'),
+  }
+}
+
+function validateLiveSourceCache({ workspace, snapshotPath, rootToken, acceptedSchemaVersions = [2] }) {
+  const paths = liveSourceCachePaths(workspace, 'Guides live source validation workspace')
+  return validateSourceCache({
+    sourceDir: paths.sourceDir,
+    snapshotPath,
+    manifestPath: paths.sourceManifestPath,
+    rootToken,
+    acceptedSchemaVersions,
+  })
+}
+
+function validateLiveMediaCache({ workspace, snapshotPath }) {
+  const paths = liveSourceCachePaths(workspace, 'Guides live media validation workspace')
+  const mediaManifestPath = fixedWorkspacePath(paths.root, 'plugins/lark-docs/meta/media-cache/guides.json', 'Guides live media manifest path', 'file')
+  return validateMediaCache({
+    sourceDir: paths.sourceDir,
+    snapshotPath,
+    manifestPath: paths.sourceManifestPath,
+    mediaManifestPath,
+  })
 }
 
 function maybeCopyToJournal(source, destination) {
@@ -257,8 +288,11 @@ function parseArgs(argv) {
   const [operation, ...values] = argv
   const required = operation === 'promote'
     ? new Set(['payload', 'workspace', 'snapshot', 'root-token'])
-    : operation === 'cleanup' ? new Set(['workspace', 'scope']) : null
-  if (!required) throw new Error('Usage: promote --payload <dir> --workspace <dir> --snapshot <file> --root-token <token> | cleanup --workspace <dir> --scope <all|media>')
+    : operation === 'cleanup' ? new Set(['workspace', 'scope'])
+      : operation === 'validate' ? new Set(['payload', 'snapshot', 'root-token'])
+        : operation === 'validate-live-source' ? new Set(['workspace', 'snapshot', 'root-token', 'schemas'])
+          : operation === 'validate-live-media' ? new Set(['workspace', 'snapshot']) : null
+  if (!required) throw new Error('Usage: promote|cleanup|validate|validate-live-source|validate-live-media')
   const args = {}
   for (let index = 0; index < values.length; index += 2) {
     const flag = values[index], value = values[index + 1]
@@ -277,6 +311,26 @@ function main(argv = process.argv.slice(2)) {
     process.stdout.write(`${JSON.stringify(cleanupGuidesLiveCache({ workspace: args.workspace, scope: args.scope }))}\n`)
     return
   }
+  if (args.operation === 'validate') {
+    const result = validateSourceGenerationPayload({ payloadDir: args.payload, snapshotPath: args.snapshot, rootToken: args['root-token'] })
+    process.stdout.write(`${JSON.stringify({ valid: true, sources: result.source.validCanonicalSources })}\n`)
+    return
+  }
+  if (args.operation === 'validate-live-source') {
+    const result = validateLiveSourceCache({
+      workspace: args.workspace,
+      snapshotPath: args.snapshot,
+      rootToken: args['root-token'],
+      acceptedSchemaVersions: args.schemas.split(',').map(Number),
+    })
+    process.stdout.write(`${JSON.stringify({ valid: true, sources: result.validCanonicalSources })}\n`)
+    return
+  }
+  if (args.operation === 'validate-live-media') {
+    validateLiveMediaCache({ workspace: args.workspace, snapshotPath: args.snapshot })
+    process.stdout.write('{"valid":true}\n')
+    return
+  }
   const result = promoteSourceGenerationPayload({
     payloadDir: args.payload,
     workspace: args.workspace,
@@ -290,4 +344,4 @@ if (require.main === module) {
   try { main() } catch (error) { console.error(error.message); process.exitCode = 1 }
 }
 
-module.exports = { cleanupGuidesLiveCache, promoteSourceGenerationPayload, validateSourceGenerationPayload }
+module.exports = { cleanupGuidesLiveCache, promoteSourceGenerationPayload, validateLiveMediaCache, validateLiveSourceCache, validateSourceGenerationPayload }

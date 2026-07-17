@@ -8,6 +8,11 @@ const { hashSnapshot, assertSourceCompleteness } = require('../../plugins/lark-d
 const { assertMediaCoverage, collectMediaReferences, sourceFilesForSnapshot, validateEntries } = require('./guides-media-prefetch')
 
 function readSnapshot(snapshotPath) { return JSON.parse(fs.readFileSync(snapshotPath, 'utf8')) }
+function readRegularJson(file, label) {
+  const stat = fs.lstatSync(file)
+  if (!stat.isFile() || stat.isSymbolicLink()) throw new Error(`${label} must be a regular non-symlink file`)
+  return JSON.parse(fs.readFileSync(file, 'utf8'))
+}
 function sha(bytes) { return crypto.createHash('sha256').update(bytes).digest('hex') }
 function sourceCacheKey(snapshotPath, { version = 3 } = {}) {
   if (![1, 2, 3, 4].includes(version)) throw new Error(`Unsupported Guides source cache version: ${version}`)
@@ -64,7 +69,7 @@ function validateSourceCache({ sourceDir, snapshotPath, manifestPath, rootToken,
   if (!Array.isArray(acceptedSchemaVersions) || acceptedSchemaVersions.length === 0 || acceptedSchemaVersions.some(version => ![1, 2].includes(version))) {
     throw new Error('Accepted source cache schemas must contain only versions 1 or 2')
   }
-  const snapshot = readSnapshot(snapshotPath), manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'))
+  const snapshot = readSnapshot(snapshotPath), manifest = readRegularJson(manifestPath, 'Guides source cache manifest')
   if (!acceptedSchemaVersions.includes(manifest.schemaVersion) || manifest.manual !== 'guides' || manifest.buildEnv !== 'uat') throw new Error('Source cache manifest identity is invalid')
   if (manifest.snapshotHash !== hashSnapshot(snapshot)) throw new Error('Source cache snapshot identity mismatch')
   const actual = sourceFiles(sourceDir)
@@ -73,7 +78,7 @@ function validateSourceCache({ sourceDir, snapshotPath, manifestPath, rootToken,
 }
 
 function validateMediaCache({ sourceDir, snapshotPath, manifestPath, mediaManifestPath }) {
-  const snapshot = readSnapshot(snapshotPath), manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'))
+  const snapshot = readSnapshot(snapshotPath), manifest = readRegularJson(manifestPath, 'Guides source cache manifest')
   if (manifest.schemaVersion !== 2 || manifest.manual !== 'guides' || manifest.buildEnv !== 'uat' || !manifest.mediaManifest) {
     throw new Error('Source cache does not contain v2 media identity')
   }

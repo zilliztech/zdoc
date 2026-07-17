@@ -97,14 +97,13 @@ jobs:
           payload=tmp/guides-source-cache-v4
           staged="$RUNNER_TEMP/guides-source-cache-v4"
           rm -rf "$staged"
-          if [[ -d "$payload" && -f "$snapshot" ]]; then
-            candidate_present=true
+          [[ -e "$payload" || -L "$payload" ]] && candidate_present=true
+          if [[ -d "$payload" && ! -L "$payload" && -f "$snapshot" ]]; then
             cp -a "$payload" "$staged"
             rm -rf tmp/guides-source-cache-v4
-            if node scripts/docs-workflow/guides-source-cache.js validate-source \
-              --source-dir "$staged/sources" --snapshot "$snapshot" \
-              --manifest "$staged/source-manifest.json" \
-              --root-token Tg6mwbRGDitPQ3kLUQzc44I7nth --schemas 2; then
+            if node scripts/docs-workflow/guides-source-cache-source-promotion.js validate \
+              --payload "$staged" --snapshot "$snapshot" \
+              --root-token Tg6mwbRGDitPQ3kLUQzc44I7nth; then
               if node scripts/docs-workflow/guides-source-cache.js validate-media \
                 --source-dir "$staged/sources" --snapshot "$snapshot" \
                 --manifest "$staged/source-manifest.json" \
@@ -155,14 +154,14 @@ jobs:
             source_valid=true
             media_valid="${{ steps.source_cache_v4_check.outputs.media_valid }}"
           else
-            [[ -d plugins/lark-docs/meta/sources/guides || -f "$manifest" || -f "$media" ]] && candidate_present=true
-            if [[ -f "$snapshot" && -f "$manifest" ]] && node scripts/docs-workflow/guides-source-cache.js validate-source \
-              --source-dir plugins/lark-docs/meta/sources/guides --snapshot "$snapshot" --manifest "$manifest" \
+            [[ -e plugins/lark-docs/meta/sources/guides || -L plugins/lark-docs/meta/sources/guides || \
+               -e "$manifest" || -L "$manifest" || -e "$media" || -L "$media" ]] && candidate_present=true
+            if [[ -f "$snapshot" ]] && node scripts/docs-workflow/guides-source-cache-source-promotion.js validate-live-source \
+              --workspace "$GITHUB_WORKSPACE" --snapshot "$snapshot" \
               --root-token Tg6mwbRGDitPQ3kLUQzc44I7nth --schemas 2; then
               source_valid=true
-              if [[ -f "$media" ]] && node scripts/docs-workflow/guides-source-cache.js validate-media \
-                --source-dir plugins/lark-docs/meta/sources/guides --snapshot "$snapshot" \
-                --manifest "$manifest" --media-manifest "$media"; then
+              if node scripts/docs-workflow/guides-source-cache-source-promotion.js validate-live-media \
+                --workspace "$GITHUB_WORKSPACE" --snapshot "$snapshot"; then
                 media_valid=true
               fi
             fi
@@ -199,14 +198,14 @@ jobs:
             source_valid=true
             media_valid="${{ steps.source_cache_v3_check.outputs.media_valid }}"
           else
-            [[ -d plugins/lark-docs/meta/sources/guides || -f "$manifest" || -f "$media" ]] && candidate_present=true
-            if [[ -f "$snapshot" && -f "$manifest" ]] && node scripts/docs-workflow/guides-source-cache.js validate-source \
-              --source-dir plugins/lark-docs/meta/sources/guides --snapshot "$snapshot" --manifest "$manifest" \
+            [[ -e plugins/lark-docs/meta/sources/guides || -L plugins/lark-docs/meta/sources/guides || \
+               -e "$manifest" || -L "$manifest" || -e "$media" || -L "$media" ]] && candidate_present=true
+            if [[ -f "$snapshot" ]] && node scripts/docs-workflow/guides-source-cache-source-promotion.js validate-live-source \
+              --workspace "$GITHUB_WORKSPACE" --snapshot "$snapshot" \
               --root-token Tg6mwbRGDitPQ3kLUQzc44I7nth --schemas 2; then
               source_valid=true
-              if [[ -f "$media" ]] && node scripts/docs-workflow/guides-source-cache.js validate-media \
-                --source-dir plugins/lark-docs/meta/sources/guides --snapshot "$snapshot" \
-                --manifest "$manifest" --media-manifest "$media"; then
+              if node scripts/docs-workflow/guides-source-cache-source-promotion.js validate-live-media \
+                --workspace "$GITHUB_WORKSPACE" --snapshot "$snapshot"; then
                 media_valid=true
               fi
             fi
@@ -241,9 +240,10 @@ jobs:
             source_valid=true
             media_valid="${{ steps.source_cache_v2_check.outputs.media_valid }}"
           else
-            [[ -d plugins/lark-docs/meta/sources/guides || -f "$manifest" ]] && candidate_present=true
-            if [[ -f "$snapshot" && -f "$manifest" ]] && node scripts/docs-workflow/guides-source-cache.js validate-source \
-              --source-dir plugins/lark-docs/meta/sources/guides --snapshot "$snapshot" --manifest "$manifest" \
+            [[ -e plugins/lark-docs/meta/sources/guides || -L plugins/lark-docs/meta/sources/guides || \
+               -e "$manifest" || -L "$manifest" ]] && candidate_present=true
+            if [[ -f "$snapshot" ]] && node scripts/docs-workflow/guides-source-cache-source-promotion.js validate-live-source \
+              --workspace "$GITHUB_WORKSPACE" --snapshot "$snapshot" \
               --root-token Tg6mwbRGDitPQ3kLUQzc44I7nth --schemas 1,2; then
               source_valid=true
             fi

@@ -316,6 +316,27 @@ test('workflow validator rejects unsafe Guides cache migration shapes', () => {
     },
     {
       mutate(source) {
+        return source.replace('[[ -e "$payload" || -L "$payload" ]] && candidate_present=true', 'candidate_present=false')
+      },
+      expected: /malformed v4 cache payload must be reported as an invalid candidate/,
+    },
+    {
+      mutate(source) {
+        return source.replace('guides-source-cache-source-promotion.js validate-live-source', 'guides-source-cache.js validate-source')
+      },
+      expected: /physical validation must precede semantic/,
+    },
+    {
+      mutate(source) {
+        return source.replace(
+          '[[ -e plugins/lark-docs/meta/sources/guides || -L plugins/lark-docs/meta/sources/guides || \\\n               -e "$manifest" || -L "$manifest" || -e "$media" || -L "$media" ]]',
+          '[[ -d plugins/lark-docs/meta/sources/guides || -f "$manifest" || -f "$media" ]]',
+        )
+      },
+      expected: /malformed legacy cache leaves must be reported as invalid candidates/,
+    },
+    {
+      mutate(source) {
         return source.replace('Media cache unavailable; rebuilding complete canonical media coverage', 'Media cache unavailable')
       },
       expected: /full canonical media recovery/,
@@ -508,7 +529,8 @@ test('guides workflows bootstrap full sources and persist only verified caches',
   assert.equal((source.match(/^\s+restore-keys:/gm) || []).length, 1)
   assert.match(source, /name: Restore Guides v4 cache candidate[\s\S]*if: \$\{\{ steps\.source_cache_keys\.outputs\.v4_restore_enabled == 'true' \}\}[\s\S]*path: tmp\/guides-source-cache-v4[\s\S]*key: \$\{\{ steps\.source_cache_keys\.outputs\.v4_lookup \}\}[\s\S]*restore-keys: \$\{\{ steps\.source_cache_keys\.outputs\.v4_prefix \}\}/)
   assert.match(source, /guides-source-cache-generation\.js keys[\s\S]*\.prefix[\s\S]*v4_prefix/)
-  assert.match(source, /name: Validate and promote Guides v4 cache candidate[\s\S]*validate-source[\s\S]*"\$staged\/sources"[\s\S]*validate-media[\s\S]*"\$staged\/media-manifest\.json"[\s\S]*else[\s\S]*guides-source-cache-source-promotion\.js promote[\s\S]*--payload "\$staged"[\s\S]*source_valid=true/)
+  assert.match(source, /\[\[ -e "\$payload" \|\| -L "\$payload" \]\] && candidate_present=true[\s\S]*\[\[ -d "\$payload" && ! -L "\$payload" && -f "\$snapshot" \]\]/)
+  assert.match(source, /name: Validate and promote Guides v4 cache candidate[\s\S]*guides-source-cache-source-promotion\.js validate[\s\S]*--payload "\$staged"[\s\S]*guides-source-cache\.js validate-media[\s\S]*"\$staged\/media-manifest\.json"[\s\S]*else[\s\S]*guides-source-cache-source-promotion\.js promote[\s\S]*--payload "\$staged"[\s\S]*source_valid=true/)
   assert.doesNotMatch(source, /cp -a "\$staged\/sources" plugins\/lark-docs\/meta\/sources/)
   assert.match(source, /name: Restore Guides v3 cache candidate\n\s+if: \$\{\{ steps\.source_cache_v4_check\.outputs\.source_valid != 'true' \}\}/)
   assert.match(source, /name: Restore Guides v2 cache candidate\n\s+if: \$\{\{ steps\.source_cache_v3_check\.outputs\.source_valid != 'true' \}\}/)
@@ -522,9 +544,21 @@ test('guides workflows bootstrap full sources and persist only verified caches',
   assert.match(source, /name: Validate and promote Guides v4 cache candidate[\s\S]*rm -rf tmp\/guides-source-cache-v4[\s\S]*guides-source-cache-source-promotion\.js cleanup[\s\S]*--scope all[\s\S]*name: Restore Guides v3 cache candidate/)
   assert.match(source, /name: Validate Guides v3 cache candidate[\s\S]*guides-source-cache-source-promotion\.js cleanup[\s\S]*--scope all[\s\S]*name: Restore Guides v2 cache candidate/)
   assert.match(source, /name: Validate Guides v2 cache candidate[\s\S]*guides-source-cache-source-promotion\.js cleanup[\s\S]*--scope all[\s\S]*name: Restore Guides v1 cache candidate/)
+  for (const validationName of ['Validate Guides v3 cache candidate', 'Validate Guides v2 cache candidate', 'Validate Guides v1 cache candidate']) {
+    const start = source.indexOf(`name: ${validationName}`)
+    const end = source.indexOf('\n      - id:', start + 1)
+    const block = source.slice(start, end)
+    assert.match(block, /\[\[ -e plugins\/lark-docs\/meta\/sources\/guides \|\| -L plugins\/lark-docs\/meta\/sources\/guides/)
+    assert.match(block, /-e "\$manifest" \|\| -L "\$manifest"/)
+    if (validationName !== 'Validate Guides v1 cache candidate') assert.match(block, /-e "\$media" \|\| -L "\$media"/)
+  }
   assert.doesNotMatch(source, /rm -rf[^\n]*plugins\/lark-docs\/meta\/(?:source-cache|media-cache)\/?(?:\s|$)/)
-  assert.match(source, /guides-source-cache\.js validate-source/)
+  assert.match(source, /guides-source-cache-source-promotion\.js validate-live-source/)
   assert.match(source, /guides-source-cache\.js validate-media/)
+  for (const [validationName, nextName] of [['Validate Guides v3 cache candidate', 'Restore Guides v2 cache candidate'], ['Validate Guides v2 cache candidate', 'Restore Guides v1 cache candidate']]) {
+    const block = source.slice(source.indexOf(`name: ${validationName}`), source.indexOf(`name: ${nextName}`))
+    assert.ok(block.indexOf('guides-source-cache-source-promotion.js validate-live-source') < block.indexOf('guides-source-cache-source-promotion.js validate-live-media'))
+  }
   assert.match(source, /guides-source-cache-generation\.js promote/)
   assert.match(source, /plugins\/lark-docs\/meta\/media-cache\/guides\.json/)
   assert.match(source, /--media-manifest "?plugins\/lark-docs\/meta\/media-cache\/guides\.json"?/)

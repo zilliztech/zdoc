@@ -1,6 +1,7 @@
 'use strict'
 
 const assert = require('node:assert/strict')
+const { spawnSync } = require('node:child_process')
 const crypto = require('node:crypto')
 const fs = require('node:fs')
 const os = require('node:os')
@@ -97,6 +98,31 @@ test('rejects a v1 source cache whose sources directory is a symlink', () => {
   }), /unsafe|symlink|invalid/i)
 })
 
+test('rejects a v1 source manifest final symlink before reading it', () => {
+  const f = fixture(), manifestPath = path.join(f.root, 'legacy-manifest.json')
+  writeLegacyManifest(f, manifestPath)
+  const external = path.join(f.root, 'external-legacy-manifest.json')
+  fs.renameSync(manifestPath, external)
+  fs.symlinkSync(external, manifestPath)
+  assert.throws(() => validateSourceCache({
+    sourceDir: f.sourceDir, snapshotPath: f.snapshotPath, manifestPath, rootToken: 'root', acceptedSchemaVersions: [1, 2],
+  }), /manifest|regular|symlink|unsafe/i)
+})
+
+test('rejects a v1 source manifest FIFO before reading it', () => {
+  const f = fixture(), manifestPath = path.join(f.root, 'legacy-manifest.json')
+  const fifo = spawnSync('mkfifo', [manifestPath], { encoding: 'utf8' })
+  assert.equal(fifo.status, 0, fifo.stderr)
+  const cli = path.resolve(__dirname, 'guides-source-cache.js')
+  const result = spawnSync(process.execPath, [
+    cli, 'validate-source', '--source-dir', f.sourceDir, '--snapshot', f.snapshotPath,
+    '--manifest', manifestPath, '--root-token', 'root', '--schemas', '1,2',
+  ], { encoding: 'utf8', timeout: 1000 })
+  assert.notEqual(result.error?.code, 'ETIMEDOUT', 'v1 validator must reject a FIFO through lstat without opening it')
+  assert.notEqual(result.status, 0)
+  assert.match(result.stderr, /manifest|regular|unsafe/i)
+})
+
 test('creates and validates a snapshot-keyed source cache manifest', () => {
   const f = fixture(), manifestPath = path.join(f.root, 'manifest.json')
   assert.match(sourceCacheKey(f.snapshotPath), /^guides-source-v3-[0-9a-f]{64}$/)
@@ -119,6 +145,69 @@ test('rejects a v2 source cache whose sources directory is a symlink', () => {
     manifestPath,
     rootToken: 'root',
   }), /unsafe|symlink|invalid/i)
+})
+
+test('rejects nonregular v2 source manifests without opening them', () => {
+  const f = fixture(), manifestPath = path.join(f.root, 'manifest.json')
+  createSourceCacheManifest({ sourceDir: f.sourceDir, snapshotPath: f.snapshotPath, manifestPath, mediaManifestPath: f.mediaManifestPath, rootToken: 'root' })
+  fs.rmSync(manifestPath)
+  fs.mkdirSync(manifestPath)
+  assert.throws(() => validateSourceCache({ sourceDir: f.sourceDir, snapshotPath: f.snapshotPath, manifestPath, rootToken: 'root' }), /manifest|regular|unsafe/i)
+
+  fs.rmSync(manifestPath, { recursive: true })
+  const fifo = spawnSync('mkfifo', [manifestPath], { encoding: 'utf8' })
+  assert.equal(fifo.status, 0, fifo.stderr)
+  const cli = path.resolve(__dirname, 'guides-source-cache.js')
+  const result = spawnSync(process.execPath, [
+    cli, 'validate-source', '--source-dir', f.sourceDir, '--snapshot', f.snapshotPath,
+    '--manifest', manifestPath, '--root-token', 'root', '--schemas', '2',
+  ], { encoding: 'utf8', timeout: 1000 })
+  assert.notEqual(result.error?.code, 'ETIMEDOUT', 'validator must reject a FIFO through lstat without opening it')
+  assert.notEqual(result.status, 0)
+  assert.match(result.stderr, /manifest|regular|unsafe/i)
+})
+
+test('media validation rejects an unsafe source manifest before reading it', () => {
+  const f = fixture(), manifestPath = path.join(f.root, 'manifest.json')
+  createSourceCacheManifest({ sourceDir: f.sourceDir, snapshotPath: f.snapshotPath, manifestPath, mediaManifestPath: f.mediaManifestPath, rootToken: 'root' })
+  const external = path.join(f.root, 'external-source-manifest.json')
+  fs.renameSync(manifestPath, external)
+  fs.symlinkSync(external, manifestPath)
+  assert.throws(() => validateMediaCache({ sourceDir: f.sourceDir, snapshotPath: f.snapshotPath, manifestPath, mediaManifestPath: f.mediaManifestPath }), /manifest|regular|symlink|unsafe/i)
+})
+
+test('media validation rejects a media manifest FIFO without opening it', () => {
+  const f = fixture(), manifestPath = path.join(f.root, 'manifest.json')
+  createSourceCacheManifest({ sourceDir: f.sourceDir, snapshotPath: f.snapshotPath, manifestPath, mediaManifestPath: f.mediaManifestPath, rootToken: 'root' })
+  fs.rmSync(f.mediaManifestPath)
+  const fifo = spawnSync('mkfifo', [f.mediaManifestPath], { encoding: 'utf8' })
+  assert.equal(fifo.status, 0, fifo.stderr)
+  const cli = path.resolve(__dirname, 'guides-source-cache.js')
+  const result = spawnSync(process.execPath, [
+    cli, 'validate-media', '--source-dir', f.sourceDir, '--snapshot', f.snapshotPath,
+    '--manifest', manifestPath, '--media-manifest', f.mediaManifestPath,
+  ], { encoding: 'utf8', timeout: 1000 })
+  assert.notEqual(result.error?.code, 'ETIMEDOUT', 'validator must reject a media FIFO through lstat without opening it')
+  assert.notEqual(result.status, 0)
+  assert.match(result.stderr, /media manifest|regular|unsafe/i)
+})
+
+test('manifest readers reject directory and device leaves before parsing JSON', () => {
+  const f = fixture(), manifestPath = path.join(f.root, 'manifest.json')
+  createSourceCacheManifest({ sourceDir: f.sourceDir, snapshotPath: f.snapshotPath, manifestPath, mediaManifestPath: f.mediaManifestPath, rootToken: 'root' })
+
+  assert.throws(() => validateSourceCache({
+    sourceDir: f.sourceDir, snapshotPath: f.snapshotPath, manifestPath: '/dev/null', rootToken: 'root', acceptedSchemaVersions: [1, 2],
+  }), /manifest|regular|unsafe/i)
+
+  fs.rmSync(f.mediaManifestPath)
+  fs.mkdirSync(f.mediaManifestPath)
+  assert.throws(() => validateMediaCache({
+    sourceDir: f.sourceDir, snapshotPath: f.snapshotPath, manifestPath, mediaManifestPath: f.mediaManifestPath,
+  }), /media manifest|regular|unsafe/i)
+  assert.throws(() => validateMediaCache({
+    sourceDir: f.sourceDir, snapshotPath: f.snapshotPath, manifestPath, mediaManifestPath: '/dev/null',
+  }), /media manifest|regular|unsafe/i)
 })
 
 test('rejects tampered cached sources and snapshot identity changes', () => {

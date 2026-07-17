@@ -12,6 +12,8 @@ const { createSourceCacheManifest, validateSourceCache } = require('./guides-sou
 const {
   cleanupGuidesLiveCache,
   promoteSourceGenerationPayload,
+  validateLiveMediaCache,
+  validateLiveSourceCache,
   validateSourceGenerationPayload,
 } = require('./guides-source-cache-source-promotion')
 
@@ -81,12 +83,23 @@ function fixture() {
   return { root, payload, sourceDir, sourceManifestPath, mediaManifestPath, snapshotPath, workspace: path.join(root, 'workspace') }
 }
 
+function installLiveFixture(f) {
+  const live = livePaths(f.workspace)
+  fs.mkdirSync(path.dirname(live.sourceDir), { recursive: true })
+  fs.cpSync(f.sourceDir, live.sourceDir, { recursive: true })
+  fs.mkdirSync(path.dirname(live.sourceManifestPath), { recursive: true })
+  fs.copyFileSync(f.sourceManifestPath, live.sourceManifestPath)
+  fs.mkdirSync(path.dirname(live.mediaManifestPath), { recursive: true })
+  fs.copyFileSync(f.mediaManifestPath, live.mediaManifestPath)
+  return live
+}
+
 test('source-only payload validation enforces the exact safe v4 layout while ignoring media semantics', async (t) => {
   const valid = fixture()
   fs.writeFileSync(valid.mediaManifestPath, '{}')
   assert.equal(validateSourceGenerationPayload({ payloadDir: valid.payload, snapshotPath: valid.snapshotPath, rootToken: 'root' }).source.complete, true)
 
-  for (const kind of ['extra-child', 'nested-json-directory', 'media-symlink', 'manifest-traversal']) {
+  for (const kind of ['extra-child', 'nested-json-directory', 'media-symlink', 'media-directory', 'source-manifest-symlink', 'source-manifest-directory', 'manifest-traversal']) {
     await t.test(kind, () => {
       const f = fixture()
       if (kind === 'extra-child') write(f.payload, 'extra.txt', 'extra')
@@ -95,12 +108,88 @@ test('source-only payload validation enforces the exact safe v4 layout while ign
         fs.rmSync(f.mediaManifestPath)
         fs.symlinkSync(f.snapshotPath, f.mediaManifestPath)
       }
+      if (kind === 'media-directory') {
+        fs.rmSync(f.mediaManifestPath)
+        fs.mkdirSync(f.mediaManifestPath)
+      }
+      if (kind === 'source-manifest-symlink') {
+        fs.rmSync(f.sourceManifestPath)
+        fs.symlinkSync(f.snapshotPath, f.sourceManifestPath)
+      }
+      if (kind === 'source-manifest-directory') {
+        fs.rmSync(f.sourceManifestPath)
+        fs.mkdirSync(f.sourceManifestPath)
+      }
       if (kind === 'manifest-traversal') {
         const manifest = JSON.parse(fs.readFileSync(f.sourceManifestPath, 'utf8'))
         manifest.files[0].path = '../escape.json'
         fs.writeFileSync(f.sourceManifestPath, JSON.stringify(manifest))
       }
       assert.throws(() => validateSourceGenerationPayload({ payloadDir: f.payload, snapshotPath: f.snapshotPath, rootToken: 'root' }), /payload|symlink|regular|unsafe|manifest|path/i)
+    })
+  }
+})
+
+test('v4 source payload validate CLI checks safe structure and source semantics without reading media contents', () => {
+  const f = fixture()
+  fs.writeFileSync(f.mediaManifestPath, '{}')
+  const before = tree(f.payload)
+  const cli = path.resolve(__dirname, 'guides-source-cache-source-promotion.js')
+  const result = spawnSync(process.execPath, [
+    cli, 'validate', '--payload', f.payload, '--snapshot', f.snapshotPath, '--root-token', 'root',
+  ], { encoding: 'utf8' })
+  assert.equal(result.status, 0, result.stderr)
+  assert.equal(JSON.parse(result.stdout).valid, true)
+  assert.deepEqual(tree(f.payload), before)
+
+  const fifoFixture = fixture()
+  fs.rmSync(fifoFixture.sourceManifestPath)
+  const fifo = spawnSync('mkfifo', [fifoFixture.sourceManifestPath], { encoding: 'utf8' })
+  assert.equal(fifo.status, 0, fifo.stderr)
+  const rejected = spawnSync(process.execPath, [
+    cli, 'validate', '--payload', fifoFixture.payload, '--snapshot', fifoFixture.snapshotPath, '--root-token', 'root',
+  ], { encoding: 'utf8', timeout: 1000 })
+  assert.notEqual(rejected.error?.code, 'ETIMEDOUT', 'v4 validation must reject a manifest FIFO without opening it')
+  assert.notEqual(rejected.status, 0)
+  assert.match(rejected.stderr, /manifest|regular|unsafe/i)
+})
+
+test('legacy live validators enforce physical source and media boundaries before semantic readers', async (t) => {
+  for (const kind of ['source-dir-parent-symlink', 'source-manifest-parent-symlink', 'source-manifest-symlink', 'media-parent-symlink', 'media-manifest-symlink']) {
+    await t.test(kind, () => {
+      const f = fixture()
+      const live = installLiveFixture(f)
+      const external = path.join(f.root, `external-${kind}`)
+      write(external, 'marker.txt', 'external')
+      if (kind === 'source-dir-parent-symlink') {
+        fs.rmSync(path.join(f.workspace, 'plugins/lark-docs/meta/sources'), { recursive: true })
+        fs.symlinkSync(external, path.join(f.workspace, 'plugins/lark-docs/meta/sources'), 'dir')
+      }
+      if (kind === 'source-manifest-parent-symlink') {
+        fs.rmSync(path.join(f.workspace, 'plugins/lark-docs/meta/source-cache'), { recursive: true })
+        fs.symlinkSync(external, path.join(f.workspace, 'plugins/lark-docs/meta/source-cache'), 'dir')
+      }
+      if (kind === 'source-manifest-symlink') {
+        fs.rmSync(live.sourceManifestPath)
+        fs.symlinkSync(path.join(external, 'marker.txt'), live.sourceManifestPath)
+      }
+      if (kind === 'media-parent-symlink') {
+        fs.rmSync(path.join(f.workspace, 'plugins/lark-docs/meta/media-cache'), { recursive: true })
+        fs.symlinkSync(external, path.join(f.workspace, 'plugins/lark-docs/meta/media-cache'), 'dir')
+      }
+      if (kind === 'media-manifest-symlink') {
+        fs.rmSync(live.mediaManifestPath)
+        fs.symlinkSync(path.join(external, 'marker.txt'), live.mediaManifestPath)
+      }
+      const externalBefore = tree(external)
+
+      if (kind.startsWith('source')) {
+        assert.throws(() => validateLiveSourceCache({ workspace: f.workspace, snapshotPath: f.snapshotPath, rootToken: 'root', acceptedSchemaVersions: [2] }), /symlink|workspace|regular|unsafe/i)
+      } else {
+        assert.equal(validateLiveSourceCache({ workspace: f.workspace, snapshotPath: f.snapshotPath, rootToken: 'root', acceptedSchemaVersions: [2] }).complete, true)
+        assert.throws(() => validateLiveMediaCache({ workspace: f.workspace, snapshotPath: f.snapshotPath }), /symlink|workspace|regular|unsafe/i)
+      }
+      assert.deepEqual(tree(external), externalBefore)
     })
   }
 })
