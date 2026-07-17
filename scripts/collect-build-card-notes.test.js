@@ -177,6 +177,35 @@ for (const [label, generatedAt] of [['missing', undefined], ['malformed', 'not-a
   })
 }
 
+for (const [label, generatedAt] of [
+  ['array', ['2026-07-17T01:05:00.000Z']],
+  ['object', { timestamp: '2026-07-17T01:05:00.000Z' }],
+  ['number', 20260717],
+]) {
+  test(`expected Guides reports reject a non-string ${label} generated_at`, () => {
+    withTempCwd(() => {
+      process.env.CARD_REPORT_STARTED_AT = '2026-07-17T01:00:00.000Z'
+      process.env.CARD_EXPECT_GUIDES_REPORTS = 'true'
+      writeJson('plugins/lark-docs/meta/reports/guides-incremental-fetch-plan.json', {
+        generated_at: generatedAt,
+        mode: 'incremental',
+        build_env: 'uat',
+        changed_tokens: [],
+        expanded_tokens: [],
+        removed_tokens: [],
+        warnings: [],
+      })
+
+      const notes = collectNotes()
+
+      assert.equal(notes.length, 1)
+      assert.doesNotMatch(notes[0], /# Incremental Fetch Plan/)
+      assert.match(notes[0], /# Guides reports unavailable/)
+      assert.match(notes[0], /- Incremental fetch plan/)
+    })
+  })
+}
+
 test('generated_at remains optional when no valid run boundary is supplied', () => {
   withTempCwd(() => {
     delete process.env.CARD_REPORT_STARTED_AT

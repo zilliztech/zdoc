@@ -24,7 +24,7 @@ function reportStartedAt() {
 function isFreshGeneratedAt(value) {
   const startedAt = reportStartedAt()
   if (startedAt === null) return true
-  if (!value) return false
+  if (typeof value !== 'string' || !value) return false
   const generatedAt = Date.parse(value)
   if (Number.isNaN(generatedAt)) return false
   return generatedAt >= startedAt
