@@ -49,7 +49,8 @@ class larkDocWriter {
         skip_image_download=false,
         upload_to_s3=false,
         linkReplacementShimPath=null,
-        mediaResolver=null
+        mediaResolver=null,
+        sourceIndex=null
     ) {
         this.root_token = root_token
         const baseParts = base_token.split(':')
@@ -73,6 +74,7 @@ class larkDocWriter {
         this.linkReplacementShimPath = linkReplacementShimPath
         this.linkReplacementShim = this.__load_link_replacement_shim(linkReplacementShimPath)
         this.mediaResolver = mediaResolver
+        this.sourceIndex = sourceIndex
     }
 
     destroy() {
@@ -353,6 +355,7 @@ class larkDocWriter {
     }
 
     __fetch_base_source_meta(title, slug, token=null) {
+        if (this.sourceIndex) return this.sourceIndex.findBaseSourceMeta({ title, slug, token })
         if (!slug || !fs.existsSync(this.docSourceDir)) return null
         const files = fs.readdirSync(this.docSourceDir).filter(file => file.endsWith('.json'))
         const sources = files.map(file => JSON.parse(fs.readFileSync(`${this.docSourceDir}/${file}`, 'utf8')))
@@ -376,6 +379,7 @@ class larkDocWriter {
     }
 
     __fetch_doc_source_by_any_token(token) {
+        if (this.sourceIndex) return this.sourceIndex.findAnyToken(token)
         const tokenKeys = ['node_token', 'origin_node_token', 'obj_token', 'token']
         const files = fs.readdirSync(this.docSourceDir).filter(file => file.endsWith('.json'))
         for (const file of files) {
@@ -429,6 +433,11 @@ class larkDocWriter {
     }
 
     __fetch_doc_source (type, value, slug="") {
+        if (this.sourceIndex) {
+            const source = this.sourceIndex.find(type, value, { slug })
+            if (!source) throw new Error(`Cannot find ${value} in ${this.docSourceDir}`)
+            return source
+        }
         const file = fs.readdirSync(this.docSourceDir).filter(file => {
             const page = JSON.parse(fs.readFileSync(`${this.docSourceDir}/${file}`, {encoding: 'utf-8', flag: 'r'}))
             

@@ -4,6 +4,7 @@ const os = require('node:os')
 const path = require('node:path')
 const LarkDocScraper = require('./larkDocScraper')
 const LarkDocWriter = require('./larkDocWriter')
+const LarkSourceIndex = require('./larkSourceIndex')
 
 async function withTempDir(callback) {
     const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'lark-doc-writer-beta-'))
@@ -570,6 +571,128 @@ async function testFaqsExpandIntoCategoryWithoutLandingPage() {
     })
 }
 
+async function testIndexedSidebarDelegatesRefsParentsSectionsAndSlugLookups() {
+    await withTempDir(async dir => {
+        const pageBlocks = {
+            items: [
+                { block_type: 1, page: {}, children: ['text-block'] },
+                { block_id: 'text-block', block_type: 2, text: { elements: [{ text_run: { content: 'body' } }] } },
+            ],
+        }
+        const sources = [
+            {
+                title: 'Root', slug: 'root', node_token: 'root', has_child: true,
+                children: [
+                    { title: 'Section', slug: 'section', node_token: 'section-token', has_child: false },
+                    { title: 'Category', slug: 'category', node_token: 'category-token', has_child: true },
+                    { title: 'Reused Target', slug: 'reused-target', node_token: 'ref-token', has_child: false },
+                ],
+            },
+            {
+                title: 'Section', slug: 'section', node_token: 'section-token',
+                base_placement_type: 'section', base_nav_virtual: true, has_child: false,
+            },
+            {
+                title: 'Other Section', slug: 'other-section', node_token: 'section-token',
+                base_placement_type: 'section', base_nav_virtual: true, has_child: false,
+            },
+            {
+                title: 'Category', slug: 'category', node_token: 'category-token', parent_node_token: 'root',
+                base_record_id: 'rec-category', base_placement_type: 'canonical',
+                base_targets: ['Zilliz.SaaS'], base_status: 'Draft', has_child: true,
+                children: [{ title: 'Target', slug: 'target', node_token: 'target-token', has_child: false }],
+                blocks: pageBlocks,
+            },
+            {
+                title: 'Target', slug: 'target', node_token: 'target-token', parent_node_token: 'category-token',
+                origin_node_token: 'target-origin-token',
+                base_record_id: 'rec-target', base_placement_type: 'canonical',
+                base_targets: ['Zilliz.SaaS'], base_status: 'Draft', has_child: false,
+                blocks: pageBlocks,
+            },
+            {
+                title: 'Reused Target', slug: 'reused-target', node_token: 'ref-token', parent_node_token: 'root',
+                base_record_id: 'rec-ref', base_placement_type: 'ref', base_nav_ref: true,
+                base_nav_ref_target_token: 'target-origin-token', base_targets: ['Zilliz.SaaS'], base_status: 'Draft',
+                has_child: false,
+            },
+        ]
+        sources.forEach((source, index) => {
+            fs.writeFileSync(path.join(dir, `${index}.json`), JSON.stringify(source, null, 2))
+        })
+        const loadedIndex = LarkSourceIndex.load(dir)
+        const calls = []
+        const sourceIndex = {
+            find(typeOrTypes, value, options = {}) {
+                calls.push({ method: 'find', typeOrTypes, value, options })
+                return loadedIndex.find(typeOrTypes, value, options)
+            },
+            findAnyToken(token) {
+                calls.push({ method: 'findAnyToken', token })
+                return loadedIndex.findAnyToken(token)
+            },
+            findBaseSourceMeta(options) {
+                calls.push({ method: 'findBaseSourceMeta', ...options })
+                return loadedIndex.findBaseSourceMeta(options)
+            },
+        }
+        for (let index = 0; index < sources.length; index += 1) {
+            fs.writeFileSync(path.join(dir, `${index}.json`), 'corrupt after index construction')
+        }
+        const writer = new LarkDocWriter(
+            'root', 'base:*', 'default', dir, path.join(dir, 'images'),
+            'zilliz.saas', true, false, null, null, sourceIndex,
+        )
+        const readdirSync = fs.readdirSync
+        let enumerations = 0
+        fs.readdirSync = function countedReaddir(...args) {
+            enumerations += 1
+            return readdirSync.apply(this, args)
+        }
+
+        try {
+            assert.deepEqual(await writer.generate_sidebar('docs/tutorials', 'docs'), [
+                {
+                    type: 'category',
+                    label: 'Section',
+                    key: 'category:tutorials/section',
+                    items: [],
+                },
+                {
+                    type: 'category',
+                    label: 'Category',
+                    key: 'category:tutorials/category',
+                    link: { type: 'doc', id: 'tutorials/category/category' },
+                    items: [{
+                        type: 'doc',
+                        id: 'tutorials/category/target',
+                        label: 'Target',
+                        key: 'doc:tutorials/category/target',
+                    }],
+                },
+                {
+                    type: 'doc',
+                    id: 'tutorials/category/target',
+                    label: 'Reused Target',
+                    key: 'ref:tutorials/reused-target',
+                },
+            ])
+        } finally {
+            fs.readdirSync = readdirSync
+            writer.destroy()
+        }
+
+        assert.equal(enumerations, 0)
+        assert.ok(calls.some(call => call.method === 'find' &&
+            call.value === 'section-token' && call.options.slug === 'section'))
+        assert.ok(calls.some(call => call.method === 'findAnyToken' && call.token === 'target-origin-token'))
+        assert.ok(calls.some(call => call.method === 'find' &&
+            call.value === 'category-token' && call.options.slug === ''))
+        assert.ok(calls.some(call => call.method === 'findBaseSourceMeta' &&
+            call.title === 'Category' && call.slug === 'category' && call.token === 'category-token'))
+    })
+}
+
 async function testRemoveStaleTokenFilesKeepsCurrentDestination() {
     await withTempDir(async dir => {
         const outputDir = path.join(dir, 'docs', 'tutorials')
@@ -621,6 +744,7 @@ async function run() {
     await testSidebarKeepsEmptySectionAsCategory()
     await testBaseCanonicalWithChildrenKeepsLandingPage()
     await testFaqsExpandIntoCategoryWithoutLandingPage()
+    await testIndexedSidebarDelegatesRefsParentsSectionsAndSlugLookups()
     await testRemoveStaleTokenFilesKeepsCurrentDestination()
     await testBaseSourceMetaPreservesBeta()
     await testGuidesCanonicalDoesNotPublishWithoutProgress()
