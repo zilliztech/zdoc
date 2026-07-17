@@ -16,6 +16,7 @@ function manifest(count = 65) {
       sourceHash: String(index).padStart(64, '0'),
       locale: 'ja-JP',
       type: 'docs',
+      reason: index < 15 ? 'current_delta' : index < 33 ? 'missing_target' : 'stale_source',
     })),
   }
 }
@@ -24,6 +25,12 @@ test('creates deterministic matrix and selects the final partial batch', () => {
   const source = manifest()
   const summary = createBatchSummary(source, 30)
   assert.equal(summary.pendingCount, 65)
+  assert.deepEqual(summary.candidateCounts, {
+    total: 65,
+    current_delta: 15,
+    missing_target: 18,
+    stale_source: 32,
+  })
   assert.equal(summary.batchCount, 3)
   assert.deepEqual(summary.matrix.include, [
     { batchIndex: 0, batchNumber: 1 },
@@ -36,6 +43,7 @@ test('creates deterministic matrix and selects the final partial batch', () => {
     expectedPendingSetSha256: summary.pendingSetSha256,
   })
   assert.equal(batch.items.length, 5)
+  assert.deepEqual(batch.items.map(item => item.reason), source.items.slice(60).map(item => item.reason))
   assert.deepEqual(batch.batch, {
     batchIndex: 2,
     batchNumber: 3,
@@ -82,5 +90,12 @@ test('creates one reconciliation-only batch for a deletion-only source delta', (
 test('includes source reconciliation metadata in the pending set identity', () => {
   const one = { ...manifest(0), source_delta: { deleted_i18n: ['i18n/ja-JP/one.md'], renamed: [] } }
   const two = { ...manifest(0), source_delta: { deleted_i18n: ['i18n/ja-JP/two.md'], renamed: [] } }
+  assert.notEqual(createBatchSummary(one, 30).pendingSetSha256, createBatchSummary(two, 30).pendingSetSha256)
+})
+
+test('includes candidate reasons in the pending set identity', () => {
+  const one = manifest()
+  const two = structuredClone(one)
+  two.items[0].reason = 'missing_target'
   assert.notEqual(createBatchSummary(one, 30).pendingSetSha256, createBatchSummary(two, 30).pendingSetSha256)
 })

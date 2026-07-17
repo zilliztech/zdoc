@@ -3,6 +3,7 @@
 const crypto = require('node:crypto')
 
 const SHA256 = /^[0-9a-f]{64}$/
+const CANDIDATE_REASONS = Object.freeze(['current_delta', 'missing_target', 'stale_source'])
 
 function assertManifest(manifest) {
   if (!manifest || typeof manifest !== 'object' || Array.isArray(manifest) || !Array.isArray(manifest.items)) throw new Error('Translation manifest must contain an items array')
@@ -12,12 +13,23 @@ function assertBatchSize(batchSize) {
   if (!Number.isInteger(batchSize) || batchSize <= 0) throw new Error('Batch size must be a positive integer')
 }
 
+function countCandidateReasons(manifest) {
+  assertManifest(manifest)
+  const counts = { total: manifest.items.length, current_delta: 0, missing_target: 0, stale_source: 0 }
+  for (const item of manifest.items) {
+    if (!CANDIDATE_REASONS.includes(item.reason)) throw new Error(`Unknown translation candidate reason: ${item.reason}`)
+    counts[item.reason] += 1
+  }
+  return counts
+}
+
 function canonicalPendingItems(manifest) {
   return manifest.items.map(item => ({
     sourcePath: item.sourcePath,
     targetPath: item.targetPath,
     sourceHash: item.sourceHash,
     type: item.type,
+    reason: item.reason,
   })).sort((a, b) => a.sourcePath.localeCompare(b.sourcePath))
 }
 
@@ -45,6 +57,7 @@ function createBatchSummary(manifest, batchSize) {
     pendingCount,
     batchCount,
     batchSize,
+    candidateCounts: countCandidateReasons(manifest),
     pendingSetSha256: pendingSetSha256(manifest),
     matrix: { include: Array.from({ length: batchCount }, (_, batchIndex) => ({ batchIndex, batchNumber: batchIndex + 1 })) },
   }
@@ -73,4 +86,4 @@ function selectManifestBatch(manifest, options = {}) {
   }
 }
 
-module.exports = { createBatchSummary, pendingSetSha256, selectManifestBatch }
+module.exports = { countCandidateReasons, createBatchSummary, pendingSetSha256, selectManifestBatch }
