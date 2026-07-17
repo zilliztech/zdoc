@@ -5,6 +5,38 @@ const path = require('node:path')
 const { test } = require('node:test')
 const yaml = require('js-yaml')
 
+const GUIDES_BUILD_VALIDATION = 'node scripts/run-doc-build-stage.js --build "pnpm run build" --skipLinkChecks --skipCardReporting'
+
+function assertGuidesAssemblySnapshotLifecycle(source) {
+  const workflow = yaml.load(source)
+  const steps = workflow.jobs?.assemble?.steps || []
+  const named = name => steps.filter(step => step.name === name)
+  const validations = named('Validate combined guides output')
+  const selections = named('Select promoted Guides source snapshot')
+  const checkpoints = named('Create combined guides checkpoint')
+  assert.equal(validations.length, 1, 'combined Guides validation must be owned by exactly one step')
+  assert.equal(selections.length, 1, 'snapshot selection must be owned by exactly one step')
+  assert.equal(checkpoints.length, 1, 'checkpoint creation must be owned by exactly one step')
+
+  const validation = validations[0]
+  const selection = selections[0]
+  const checkpoint = checkpoints[0]
+  assert.match(validation.run || '', /node scripts\/validate-generated-sidebars\.js/)
+  assert.equal((validation.run || '').includes(GUIDES_BUILD_VALIDATION), true, 'combined validation step must run the exact no-card build')
+  assert.ok(steps.indexOf(validation) < steps.indexOf(selection), 'snapshot selection and conditional promotion must follow combined validation')
+  assert.ok(steps.indexOf(selection) < steps.indexOf(checkpoint), 'checkpoint creation must include the selected snapshot identity')
+
+  const selectionRun = selection.run || ''
+  assert.match(selectionRun, /^[ \t]*candidate=plugins\/lark-docs\/meta\/reports\/guides-source-snapshot-candidate\.json$/m)
+  assert.match(selectionRun, /^[ \t]*snapshot=plugins\/lark-docs\/meta\/snapshots\/guides-uat-last-success\.json$/m)
+  assert.match(selectionRun, /guides-cache-generation-lifecycle\.js select[\s\S]*--candidate "\$candidate" --baseline "\$snapshot"/)
+  assert.match(selectionRun, /if \[\[ "\$selected" == candidate \]\]; then[\s\S]*promote-lark-doc-snapshot\.js[\s\S]*--candidate "\$candidate"[\s\S]*--output "\$snapshot"/)
+  assert.equal((checkpoint.run || '').includes(`--validation-command '${GUIDES_BUILD_VALIDATION}'`), true, 'checkpoint creation must embed the second exact no-card build validation')
+
+  assert.doesNotMatch(source, /update-lark-doc-snapshot\.js/)
+  assert.doesNotMatch(source, /\[snapshot\] Base scan|\[snapshot\] Wiki metadata/)
+}
+
 test('SDK reference compatibility wrapper invokes content groups in order', () => {
   const fetchScript = fs.readFileSync('scripts/fetch-sdk-reference-docs.sh', 'utf8')
   assert.match(fetchScript, /for group in python java node go cli rest/)
@@ -34,27 +66,17 @@ test('SDK snapshot wrapper clearly rejects groups without an SDK Lark snapshot',
 
 test('Guides assembly promotes the source candidate only after combined validation', () => {
   const source = fs.readFileSync('.github/workflows/_assemble-guides.yml', 'utf8')
-  const validation = source.indexOf('      - name: Validate combined guides output')
-  const selection = source.indexOf('      - id: promoted_snapshot')
-  const selectionEnd = source.indexOf('      - id: promoted_source_manifest', selection)
-  const checkpoint = source.indexOf('node scripts/docs-workflow/create-checkpoint-artifact.js')
-  assert.ok(validation >= 0, 'combined build validation must exist')
-  assert.ok(selection > validation, 'snapshot selection and conditional promotion must follow combined validation')
-  assert.ok(selectionEnd > selection, 'snapshot selection must be a bounded workflow step')
-  assert.ok(checkpoint > selectionEnd, 'checkpoint creation must include the selected snapshot identity')
+  assertGuidesAssemblySnapshotLifecycle(source)
+})
 
-  const selectionStep = source.slice(selection, selectionEnd)
-  assert.match(selectionStep, /^\s*candidate=plugins\/lark-docs\/meta\/reports\/guides-source-snapshot-candidate\.json$/m)
-  assert.match(selectionStep, /^\s*snapshot=plugins\/lark-docs\/meta\/snapshots\/guides-uat-last-success\.json$/m)
-  assert.match(selectionStep, /guides-cache-generation-lifecycle\.js select[\s\S]*--candidate "\$candidate" --baseline "\$snapshot"/)
-  assert.match(selectionStep, /if \[\[ "\$selected" == candidate \]\]; then[\s\S]*promote-lark-doc-snapshot\.js[\s\S]*--candidate "\$candidate"[\s\S]*--output "\$snapshot"/)
-  assert.doesNotMatch(source, /update-lark-doc-snapshot\.js/)
-  assert.doesNotMatch(source, /\[snapshot\] Base scan|\[snapshot\] Wiki metadata/)
-  assert.equal(
-    source.match(/run-doc-build-stage\.js --build \"pnpm run build\" --skipLinkChecks --skipCardReporting/g)?.length,
-    2,
-    'assembly and checkpoint revalidation must not report Lark card progress',
-  )
+test('Guides assembly rejects build validation moved out of the combined validation step', () => {
+  const source = fs.readFileSync('.github/workflows/_assemble-guides.yml', 'utf8')
+  const moved = source
+    .replace(`          ${GUIDES_BUILD_VALIDATION}\n`, '          true\n')
+    .replace('          candidate=plugins/lark-docs/meta/reports/guides-source-snapshot-candidate.json', `          ${GUIDES_BUILD_VALIDATION}\n          candidate=plugins/lark-docs/meta/reports/guides-source-snapshot-candidate.json`)
+  const escaped = GUIDES_BUILD_VALIDATION.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  assert.equal((moved.match(new RegExp(escaped, 'g')) || []).length, 2, 'mutation retains the misleading global command count')
+  assert.throws(() => assertGuidesAssemblySnapshotLifecycle(moved), /combined validation step must run the exact no-card build/)
 })
 
 test('docs workflow orchestrates independent checkpointed publication lanes', () => {
