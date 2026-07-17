@@ -1,6 +1,7 @@
 'use strict'
 
 const assert = require('node:assert/strict')
+const { spawnSync } = require('node:child_process')
 const fs = require('node:fs')
 const os = require('node:os')
 const path = require('node:path')
@@ -395,14 +396,14 @@ test('valid previous manifest with an empty incremental delta performs no networ
 })
 
 test('CLI requires report, mode, cache state, and snapshot with bounded values', () => {
-  const required = [
+  const common = [
     '--source-dir', 'sources',
     '--output', 'manifest.json',
     '--report', 'report.json',
-    '--mode', 'incremental',
     '--cache-state', 'valid',
     '--snapshot', 'snapshot.json',
   ]
+  const required = [...common, '--mode', 'incremental', '--plan', 'plan.json']
   assert.equal(parseArgs(required).get('--report'), 'report.json')
   for (const flag of ['--report', '--mode', '--cache-state', '--snapshot']) {
     const index = required.indexOf(flag)
@@ -411,6 +412,28 @@ test('CLI requires report, mode, cache state, and snapshot with bounded values',
   assert.throws(() => parseArgs(required.with(required.indexOf('--mode') + 1, 'full')), /mode.*incremental.*recovery/i)
   assert.throws(() => parseArgs(required.with(required.indexOf('--cache-state') + 1, 'unknown')), /cache-state.*valid.*invalid.*missing.*legacy/i)
   assert.throws(() => parseArgs([...required, '--unknown', 'value']), /unknown|usage/i)
+})
+
+test('CLI mode selects exactly one incremental selector and forbids recovery selectors', () => {
+  const common = [
+    '--source-dir', 'sources',
+    '--output', 'manifest.json',
+    '--report', 'report.json',
+    '--cache-state', 'valid',
+    '--snapshot', 'snapshot.json',
+  ]
+  assert.equal(parseArgs([...common, '--mode', 'incremental', '--plan', 'plan.json']).get('--plan'), 'plan.json')
+  assert.equal(parseArgs([...common, '--mode', 'incremental', '--doc-token', 'doc']).get('--doc-token'), 'doc')
+  assert.throws(() => parseArgs([...common, '--mode', 'incremental']), /incremental.*plan.*doc-token/i)
+  assert.throws(() => parseArgs([...common, '--mode', 'incremental', '--plan', 'plan.json', '--doc-token', 'doc']), /incremental.*one.*selector|plan.*doc-token/i)
+  assert.throws(() => parseArgs([...common, '--mode', 'incremental', '--plan', '', '--doc-token', 'doc']), /incremental.*one.*selector|plan.*doc-token/i)
+  assert.throws(() => parseArgs([...common, '--mode', 'incremental', '--plan', '']), /plan.*non-empty|selector/i)
+  assert.equal(parseArgs([...common, '--mode', 'recovery']).get('--mode'), 'recovery')
+  assert.throws(() => parseArgs([...common, '--mode', 'recovery', '--plan', 'plan.json']), /recovery.*plan|selector/i)
+  assert.throws(() => parseArgs([...common, '--mode', 'recovery', '--plan', '']), /recovery.*plan|selector/i)
+  assert.throws(() => parseArgs([...common, '--mode', 'recovery', '--doc-token', 'doc']), /recovery.*doc-token|selector/i)
+  assert.throws(() => parseArgs([...common, '--mode', 'recovery', '--doc-token', '']), /recovery.*doc-token|selector/i)
+  assert.throws(() => parseArgs([...common, '--mode', 'recovery', '--reuse-existing', 'true']), /unknown|usage/i)
 })
 
 test('CLI scope resolution derives complete canonical recovery inventory from the snapshot', () => {
@@ -436,4 +459,43 @@ test('CLI scope resolution derives complete canonical recovery inventory from th
     requiredSourceFiles: ['a.json'],
     canonicalSourceFiles: ['a.json', 'b.json'],
   })
+})
+
+test('recovery CLI writes empty canonical manifest and report with bounded counter log', () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'guides-media-cli-e2e-'))
+  const sourceDir = path.join(root, 'sources')
+  const output = path.join(root, 'guides.json')
+  const report = path.join(root, 'report.json')
+  const snapshot = path.join(root, 'snapshot.json')
+  writeSource(sourceDir, 'empty.json', [])
+  fs.writeFileSync(snapshot, JSON.stringify({ records: [{ doc_token: 'empty', source_file: 'empty.json' }] }))
+
+  const result = spawnSync(process.execPath, [
+    path.resolve(__dirname, 'guides-media-prefetch.js'),
+    '--source-dir', sourceDir,
+    '--output', output,
+    '--report', report,
+    '--mode', 'recovery',
+    '--cache-state', 'missing',
+    '--snapshot', snapshot,
+  ], { encoding: 'utf8' })
+
+  assert.equal(result.status, 0, result.stderr)
+  assert.deepEqual(JSON.parse(fs.readFileSync(output, 'utf8')), { schemaVersion: 1, entries: [] })
+  assert.deepEqual(JSON.parse(fs.readFileSync(report, 'utf8')), {
+    schemaVersion: 1,
+    generated_at: JSON.parse(fs.readFileSync(report, 'utf8')).generated_at,
+    mode: 'recovery',
+    cacheState: 'missing',
+    metrics: {
+      canonicalReferencesRequired: 0,
+      selectedReferences: 0,
+      validatedManifestReuse: 0,
+      committedDocsReconstruction: 0,
+      resolvedByNetwork: 0,
+      staleEntriesDropped: 0,
+      finalManifestEntries: 0,
+    },
+  })
+  assert.match(result.stdout, /\[guides-media-prefetch\] canonical=0 selected=0 manifest_reuse=0 docs_reconstruction=0 network_resolved=0 stale_dropped=0 final=0/)
 })

@@ -375,17 +375,26 @@ async function prefetchGuidesMedia({
 
 function parseArgs(argv) {
   const args = new Map()
-  const allowed = new Set(['--source-dir', '--output', '--report', '--mode', '--cache-state', '--snapshot', '--plan', '--doc-token', '--previous-manifest', '--bootstrap-docs', '--reuse-existing', '--concurrency'])
+  const allowed = new Set(['--source-dir', '--output', '--report', '--mode', '--cache-state', '--snapshot', '--plan', '--doc-token', '--previous-manifest', '--bootstrap-docs', '--concurrency'])
   for (let index = 0; index < argv.length; index += 2) {
     const flag = argv[index]
     const value = argv[index + 1]
-    if (!allowed.has(flag) || value === undefined || args.has(flag)) throw new Error('Usage: guides-media-prefetch.js --source-dir <path> --output <path> --report <path> --mode <incremental|recovery> --cache-state <valid|invalid|missing|legacy> --snapshot <path> [--plan <path>] [--doc-token <token[,token]>] [--previous-manifest <path>] [--bootstrap-docs <dir[,dir]>] [--reuse-existing <true|false>] [--concurrency <n>]')
+    if (!allowed.has(flag) || value === undefined || args.has(flag)) throw new Error('Usage: guides-media-prefetch.js --source-dir <path> --output <path> --report <path> --mode <incremental|recovery> --cache-state <valid|invalid|missing|legacy> --snapshot <path> [--plan <path> | --doc-token <token[,token]>] [--previous-manifest <path>] [--bootstrap-docs <dir[,dir]>] [--concurrency <n>]')
     args.set(flag, value)
   }
   for (const flag of ['--source-dir', '--output', '--report', '--mode', '--cache-state', '--snapshot']) if (!args.has(flag)) throw new Error(`Missing required argument: ${flag}`)
   if (!['incremental', 'recovery'].includes(args.get('--mode'))) throw new Error('--mode must be incremental or recovery')
   if (!['valid', 'invalid', 'missing', 'legacy'].includes(args.get('--cache-state'))) throw new Error('--cache-state must be valid, invalid, missing, or legacy')
-  if (args.has('--reuse-existing') && !['true', 'false'].includes(args.get('--reuse-existing'))) throw new Error('--reuse-existing must be true or false')
+  const hasPlan = args.has('--plan')
+  const hasDocToken = args.has('--doc-token')
+  if (args.get('--mode') === 'incremental' && hasPlan === hasDocToken) {
+    throw new Error('Incremental mode requires exactly one selector: --plan or --doc-token')
+  }
+  if (args.get('--mode') === 'incremental' && hasPlan && !args.get('--plan').trim()) throw new Error('--plan selector must be non-empty')
+  if (args.get('--mode') === 'incremental' && hasDocToken && !args.get('--doc-token').split(',').some(value => value.trim())) throw new Error('--doc-token selector must be non-empty')
+  if (args.get('--mode') === 'recovery' && (hasPlan || hasDocToken)) {
+    throw new Error('Recovery mode rejects --plan and --doc-token selectors')
+  }
   return args
 }
 
@@ -435,7 +444,7 @@ async function main() {
       canonicalSourceFiles,
       previousManifestPath: args.has('--previous-manifest') ? path.resolve(args.get('--previous-manifest')) : null,
       bootstrapDocsDirs,
-      reuseExisting: args.get('--reuse-existing') === 'true',
+      reuseExisting: args.get('--mode') === 'recovery',
     })
     writeMediaPrefetchReport(path.resolve(args.get('--report')), {
       mode: args.get('--mode'),
