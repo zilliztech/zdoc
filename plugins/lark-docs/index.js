@@ -34,7 +34,7 @@ function parseSidebarTargets(value) {
 
 function validateSidebarTargetRequest({
     manualName, manual, targetNames, sidebarOnly, skipSourceDown, offline, mediaManifest,
-    skipSidebar=false, pubTarget=null,
+    skipSidebar=false, pubTarget=null, incrementalPlanOnly=false,
 }) {
     if (manualName !== 'guides' || manual?.sourceType !== 'wiki') {
         throw new Error('--sidebarTargets is only supported for the Guides wiki manual')
@@ -45,6 +45,7 @@ function validateSidebarTargetRequest({
     if (!mediaManifest) throw new Error('--sidebarTargets requires --mediaManifest')
     if (skipSidebar) throw new Error('--sidebarTargets cannot be combined with --skipSidebar')
     if (pubTarget) throw new Error('--sidebarTargets cannot be combined with --pubTarget')
+    if (incrementalPlanOnly) throw new Error('--incrementalPlanOnly cannot be combined with --sidebarTargets')
     if (!Array.isArray(targetNames)) throw new Error('--sidebarTargets requires targets')
     if (new Set(targetNames).size !== targetNames.length) throw new Error('--sidebarTargets contains duplicate targets')
     const unknown = targetNames.filter(target => !GUIDES_SIDEBAR_TARGETS.includes(target))
@@ -63,12 +64,170 @@ function validateSidebarTargetRequest({
     return [...GUIDES_SIDEBAR_TARGETS]
 }
 
+function sidebarModuleContents(sidebarItems) {
+    return `module.exports = ${JSON.stringify(sidebarItems, null, 2)}\n`
+}
+
+function safeWorkspacePath(workspace, relativePath, fsImpl) {
+    if (!relativePath || path.isAbsolute(relativePath) || relativePath.includes('\\')) {
+        throw new Error(`Unsafe sidebar path: ${relativePath}`)
+    }
+    const normalized = path.normalize(relativePath)
+    if (normalized === '.' || normalized === '..' || normalized.startsWith(`..${path.sep}`)) {
+        throw new Error(`Unsafe sidebar path: ${relativePath}`)
+    }
+    const root = fsImpl.realpathSync(workspace)
+    const target = path.resolve(root, normalized)
+    if (!target.startsWith(`${root}${path.sep}`)) throw new Error(`Sidebar path escapes workspace: ${relativePath}`)
+    return { root, target }
+}
+
+function ensureSafeDirectory(root, directory, fsImpl) {
+    const relative = path.relative(root, directory)
+    let current = root
+    for (const segment of relative.split(path.sep).filter(Boolean)) {
+        current = path.join(current, segment)
+        let stat
+        try {
+            stat = fsImpl.lstatSync(current)
+        } catch (error) {
+            if (error.code !== 'ENOENT') throw error
+            fsImpl.mkdirSync(current)
+            stat = fsImpl.lstatSync(current)
+        }
+        if (stat.isSymbolicLink()) throw new Error(`Sidebar ancestor must not be a symlink: ${current}`)
+        if (!stat.isDirectory()) throw new Error(`Sidebar ancestor must be a directory: ${current}`)
+    }
+}
+
+function uniqueSiblingPath(finalPath, kind, fsImpl) {
+    for (let attempt = 0; attempt < 100; attempt += 1) {
+        const candidate = `${finalPath}.${kind}-${process.pid}-${Date.now()}-${attempt}`
+        try {
+            fsImpl.lstatSync(candidate)
+        } catch (error) {
+            if (error.code === 'ENOENT') return candidate
+            throw error
+        }
+    }
+    throw new Error(`Cannot allocate sidebar ${kind} path for ${finalPath}`)
+}
+
+function removePathIfPresent(target, fsImpl) {
+    try {
+        const stat = fsImpl.lstatSync(target)
+        fsImpl.rmSync(target, { recursive: stat.isDirectory(), force: true })
+    } catch (error) {
+        if (error.code !== 'ENOENT') throw error
+    }
+}
+
+function writeStagedFile(target, contents, fsImpl) {
+    const noFollow = fsImpl.constants.O_NOFOLLOW
+    if (typeof noFollow !== 'number') throw new Error('Secure sidebar staging requires O_NOFOLLOW support')
+    const flags = fsImpl.constants.O_WRONLY | fsImpl.constants.O_CREAT | fsImpl.constants.O_EXCL | noFollow
+    let descriptor
+    let primaryError = null
+    try {
+        descriptor = fsImpl.openSync(target, flags, 0o644)
+        fsImpl.writeFileSync(descriptor, contents, 'utf8')
+        fsImpl.fsyncSync(descriptor)
+    } catch (error) {
+        primaryError = error
+    }
+    if (descriptor !== undefined) {
+        try {
+            fsImpl.closeSync(descriptor)
+        } catch (error) {
+            if (!primaryError) primaryError = error
+        }
+    }
+    if (primaryError) throw primaryError
+}
+
+function writeSidebarPairTransactional({ workspace=process.cwd(), outputs, fsImpl=fs }) {
+    if (!Array.isArray(outputs) || outputs.length !== 2) throw new Error('Exactly two sidebar outputs are required')
+    const entries = outputs.map(output => {
+        const { root, target } = safeWorkspacePath(workspace, output.sidebarPath, fsImpl)
+        ensureSafeDirectory(root, path.dirname(target), fsImpl)
+        let hadOriginal = false
+        try {
+            const stat = fsImpl.lstatSync(target)
+            if (stat.isSymbolicLink()) throw new Error(`Sidebar target must not be a symlink: ${target}`)
+            if (!stat.isFile()) throw new Error(`Sidebar target must be a regular file: ${target}`)
+            hadOriginal = true
+        } catch (error) {
+            if (error.code !== 'ENOENT') throw error
+        }
+        return {
+            finalPath: target,
+            tempPath: uniqueSiblingPath(target, 'tmp', fsImpl),
+            backupPath: hadOriginal ? uniqueSiblingPath(target, 'backup', fsImpl) : null,
+            hadOriginal,
+            backupMade: false,
+            committed: false,
+            contents: sidebarModuleContents(output.sidebarItems),
+        }
+    })
+    if (new Set(entries.map(entry => entry.finalPath)).size !== entries.length) {
+        throw new Error('Sidebar output paths must be distinct')
+    }
+
+    let primaryError = null
+    try {
+        for (const entry of entries) writeStagedFile(entry.tempPath, entry.contents, fsImpl)
+        for (const entry of entries) {
+            if (!entry.hadOriginal) continue
+            const stat = fsImpl.lstatSync(entry.finalPath)
+            if (stat.isSymbolicLink() || !stat.isFile()) throw new Error(`Unsafe sidebar target: ${entry.finalPath}`)
+            fsImpl.renameSync(entry.finalPath, entry.backupPath)
+            entry.backupMade = true
+        }
+        for (const entry of entries) {
+            fsImpl.renameSync(entry.tempPath, entry.finalPath)
+            entry.committed = true
+        }
+        for (const entry of entries) {
+            if (entry.backupMade) {
+                fsImpl.rmSync(entry.backupPath, { force: true })
+                entry.backupMade = false
+            }
+        }
+        return outputs
+    } catch (error) {
+        primaryError = error
+        throw error
+    } finally {
+        if (primaryError) {
+            for (const entry of entries) {
+                try {
+                    if (entry.committed) removePathIfPresent(entry.finalPath, fsImpl)
+                    if (entry.backupMade) {
+                        removePathIfPresent(entry.finalPath, fsImpl)
+                        fsImpl.renameSync(entry.backupPath, entry.finalPath)
+                        entry.backupMade = false
+                    }
+                } catch (_) {}
+            }
+        }
+        for (const entry of entries) {
+            try { removePathIfPresent(entry.tempPath, fsImpl) } catch (_) {}
+            if (!primaryError && entry.backupMade) {
+                try { removePathIfPresent(entry.backupPath, fsImpl) } catch (_) {}
+            }
+        }
+    }
+}
+
 async function generateSidebarTargets(options) {
     const targetNames = validateSidebarTargetRequest(options)
-    const { manual, sourceIndex, writerFactory, writeSidebar, linkShim=null, mediaResolver=null } = options
+    const { manual, sourceIndex, writerFactory, writeSidebarPair, linkShim=null, mediaResolver=null } = options
     if (!sourceIndex || !Object.isFrozen(sourceIndex)) throw new Error('--sidebarTargets requires one immutable source index')
+    for (const method of ['find', 'findAnyToken', 'findBaseSourceMeta']) {
+        if (typeof sourceIndex[method] !== 'function') throw new Error(`Immutable source index requires ${method}`)
+    }
     if (typeof writerFactory !== 'function') throw new Error('writerFactory is required')
-    if (typeof writeSidebar !== 'function') throw new Error('writeSidebar is required')
+    if (typeof writeSidebarPair !== 'function') throw new Error('writeSidebarPair is required')
 
     const writers = []
     const generated = []
@@ -103,7 +262,7 @@ async function generateSidebarTargets(options) {
                 sidebarItems,
             })
         }
-        for (const output of generated) await writeSidebar(output.sidebarPath, output.sidebarItems, output.targetName)
+        await writeSidebarPair(generated)
         return generated
     } catch (error) {
         primaryError = error
@@ -199,6 +358,7 @@ function larkDocsPlugin(context, options) {
                             mediaManifest: opts.mediaManifest,
                             skipSidebar: !!opts.skipSidebar,
                             pubTarget: opts.pubTarget,
+                            incrementalPlanOnly: !!opts.incrementalPlanOnly,
                         })
                     }
 
@@ -419,17 +579,17 @@ function larkDocsPlugin(context, options) {
                             .filter(file => file.startsWith(`${targetConfig.outputDir}/`) && fs.existsSync(file))
                     }
 
-                    if (opts.validateLinks && opts.pubTarget === undefined && !opts.sourceOnly && opts.docToken === undefined) {
+                    if (opts.validateLinks && !opts.sidebarOnly && opts.pubTarget === undefined && !opts.sourceOnly && opts.docToken === undefined) {
                         await validateContentLinks({ force: true })
                         return
                     }
 
-                    if (opts.incrementalPlanOnly && opts.pubTarget === undefined && !opts.sourceOnly && opts.docToken === undefined) {
+                    if (opts.incrementalPlanOnly && !opts.sidebarOnly && opts.pubTarget === undefined && !opts.sourceOnly && opts.docToken === undefined) {
                         await planIncrementalSourceFetch()
                         return
                     }
 
-                    if ((opts.auditCanonicalLinks || opts.failOnBrokenCanonicalLinks) && opts.pubTarget === undefined && !opts.sourceOnly && opts.docToken === undefined) {
+                    if ((opts.auditCanonicalLinks || opts.failOnBrokenCanonicalLinks) && !opts.sidebarOnly && opts.pubTarget === undefined && !opts.sourceOnly && opts.docToken === undefined) {
                         await auditCanonicalLinks()
                         return
                     }
@@ -457,14 +617,13 @@ function larkDocsPlugin(context, options) {
                                 mediaManifest: opts.mediaManifest,
                                 skipSidebar: false,
                                 pubTarget: null,
+                                incrementalPlanOnly: false,
                                 linkShim: opts.linkShim,
                                 mediaResolver,
                                 writerFactory: (...args) => new docWriter(...args),
-                                writeSidebar: async (effectiveSidebarPath, sidebarItems) => {
-                                    const sidebarDir = path.dirname(effectiveSidebarPath)
-                                    if (!fs.existsSync(sidebarDir)) fs.mkdirSync(sidebarDir, { recursive: true })
-                                    fs.writeFileSync(effectiveSidebarPath, `module.exports = ${JSON.stringify(sidebarItems, null, 2)}\n`)
-                                    console.log(`Sidebar written to ${effectiveSidebarPath}`)
+                                writeSidebarPair: async outputs => {
+                                    writeSidebarPairTransactional({ outputs })
+                                    for (const output of outputs) console.log(`Sidebar written to ${output.sidebarPath}`)
                                 },
                             })
                             return
@@ -825,5 +984,7 @@ function larkDocsPlugin(context, options) {
 module.exports = larkDocsPlugin
 module.exports.validateOfflineOptions = validateOfflineOptions
 module.exports.generateSidebarTargets = generateSidebarTargets
+module.exports.writeSidebarPairTransactional = writeSidebarPairTransactional
+module.exports.sidebarModuleContents = sidebarModuleContents
 module.exports.parseSidebarTargets = parseSidebarTargets
 module.exports.validateSidebarTargetRequest = validateSidebarTargetRequest
