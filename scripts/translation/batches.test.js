@@ -2,7 +2,7 @@
 
 const assert = require('node:assert/strict')
 const test = require('node:test')
-const { createBatchSummary, selectManifestBatch } = require('./batches')
+const { countCandidateReasons, createBatchSummary, selectManifestBatch } = require('./batches')
 
 function manifest(count = 65) {
   return {
@@ -52,6 +52,18 @@ test('creates deterministic matrix and selects the final partial batch', () => {
     pendingCount: 65,
     pendingSetSha256: summary.pendingSetSha256,
   })
+})
+
+test('counts candidate reasons and rejects unknown reasons', () => {
+  const source = manifest()
+  assert.deepEqual(countCandidateReasons(source), {
+    total: 65,
+    current_delta: 15,
+    missing_target: 18,
+    stale_source: 32,
+  })
+  source.items[0].reason = 'unknown'
+  assert.throws(() => countCandidateReasons(source), /unknown translation candidate reason/i)
 })
 
 test('handles empty and exact batches and rejects invalid identity', () => {
