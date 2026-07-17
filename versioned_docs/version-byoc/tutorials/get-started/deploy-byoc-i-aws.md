@@ -35,10 +35,9 @@ This page explains how to deploy a Bring-Your-Own-Cloud (BYOC) data plane with a
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<ul>
-<li><p>Zilliz BYOC is currently available in <strong>General Availability</strong>. For access and implementation details, please contact <a href="https://zilliz.com/contact-sales">Zilliz Cloud support</a>.</p></li>
-<li><p>This guide demonstrates how to create the necessary resources on the AWS console step-by-step. If you prefer to use a Terraform script to provision the infrastructure,  see <a href="./terraform-provider">Terraform Provider</a>. </p></li>
-</ul>
+- Zilliz BYOC is currently available in **General Availability**. For access and implementation details, please contact [Zilliz Cloud support](https://zilliz.com/contact-sales).
+
+- This guide demonstrates how to create the necessary resources on the AWS console step-by-step. If you prefer to use a Terraform script to provision the infrastructure,  see [Terraform Provider](./terraform-provider). 
 
 </Admonition>
 
@@ -132,7 +131,7 @@ The project is created at the end of this step, and you will be redirected to th
 
 ![BYiTwvFLRhOJvRbMWNSc7zitnPu](https://zdoc-images.s3.us-west-2.amazonaws.com/BYiTwvFLRhOJvRbMWNSc7zitnPu.png)
 
-### Step 3: Deploy the data plane\{#step-3-deploy-the-data-plane}
+### Step 3: Prepare the data plane\{#step-3-prepare-the-data-plane}
 
 <Procedures>
 
@@ -221,12 +220,13 @@ The project is created at the end of this step, and you will be redirected to th
 
         <Admonition type="info" icon="📘" title="Notes">
 
-        <ul>
-        <li><p>Your choice in <strong>Project Size</strong> does not affect the settings in <strong>Tiered Storage Node</strong>.</p></li>
-        <li><p>If <strong>Auto-scaling</strong> is disabled, the sum of the <strong>Default Query Node</strong> count and the <strong>Tiered Query Node</strong> count should be a positive integer.</p></li>
-        <li><p>If <strong>Auto-scaling</strong> is enabled, the sum of the <strong>Min</strong> values of both the <strong>Default Query Node</strong> and the <strong>Tiered Query Node</strong> should be a positive integer.</p></li>
-        <li><p>For clusters created before Tiered Storage becomes available for BYOC, you can manually enable Tiered Storage. For details, refer to  <a href="./enable-tiered-storage-aws">Enable Tiered Storage for Exisiting Clusters</a>.</p></li>
-        </ul>
+        - Your choice in **Project Size** does not affect the settings in **Tiered Storage Node**.
+
+        - If **Auto-scaling** is disabled, the sum of the **Default Query Node** count and the **Tiered Query Node** count should be a positive integer.
+
+        - If **Auto-scaling** is enabled, the sum of the **Min** values of both the **Default Query Node** and the **Tiered Query Node** should be a positive integer.
+
+        - For clusters created before Tiered Storage becomes available for BYOC, you can manually enable Tiered Storage. For details, refer to  [Enable Tiered Storage for Exisiting Clusters](./enable-tiered-storage-aws).
 
         </Admonition>
 
@@ -262,15 +262,31 @@ Once the status tag on a project card reads **Running**, you can start creating 
 
 ## Technical support access\{#technical-support-access}
 
-To assist you with troubleshooting and maintenance operations, Zilliz Cloud enables technical support to access your project's data plane by default. 
+To assist you with troubleshooting and maintenance operations, Zilliz Cloud enables technical support to access your project's data plane by default. You can choose to disable it to meet governance and security requirements.
 
-![XThkbwy5hoho7Ixpgg5ctUp1nRe](https://zdoc-images.s3.us-west-2.amazonaws.com/xthkbwy5hoho7ixpgg5ctup1nre.png "XThkbwy5hoho7Ixpgg5ctUp1nRe")
+The following procedure demonstrates how to enable technical support access again after you disabled it when Zilliz Cloud technical support contacts you on an identified issue.
 
-When you click **Technical Support Access** from the target project's drop-down menu to view the current settings.
+<Procedures>
 
-![Z4L2bIrA0onlxPxFNUNcYv78nIe](https://zdoc-images.s3.us-west-2.amazonaws.com/z4l2bira0onlxpxfnuncyv78nie.png "Z4L2bIrA0onlxPxFNUNcYv78nIe")
+1. Once Zilliz Cloud identifies an issue on your data plane and you have disabled technical support access, we will inform you about it and apply for technical support access.
 
-You can disable it to meet data governance and security requirements.
+1. Find the data plane in concern, click **...** at the bottom-right corner of the data plane card, and click **Technical Support Access** from the drop-down list.
+
+    ![TKIEwRBp0hpQL5btdvwccQGKngZ](https://zdoc-images.s3.us-west-2.amazonaws.com/TKIEwRBp0hpQL5btdvwccQGKngZ.png)
+
+1. In the prompted dialog box, switch on **Technical Support Access**.
+
+    ![SLmCwHdrNhJiw3bzf9kc5gB4nAb](https://zdoc-images.s3.us-west-2.amazonaws.com/SLmCwHdrNhJiw3bzf9kc5gB4nAb.png)
+
+1. And you will find information about the reason why we apply for access and the ID of the issue owner assigned by Zilliz Cloud. You can decide the access lifespan in **Expected Duration** and provide optional requirements in **Description**. Once everything is set, click **Save**.
+
+    ![D8X5w8TZQhkN51bpoqHc09o0nue](https://zdoc-images.s3.us-west-2.amazonaws.com/D8X5w8TZQhkN51bpoqHc09o0nue.png)
+
+1. When you open the dialog box during troubleshooting, you will see the end time of this access. The technical support access will be disabled again once it expires or you explicitly disable it.
+
+    ![HL1OwXlTihXk9PbzvjbchIp0n3f](https://zdoc-images.s3.us-west-2.amazonaws.com/HL1OwXlTihXk9PbzvjbchIp0n3f.png)
+
+</Procedures>
 
 ## Required permissions\{#required-permissions}
 
