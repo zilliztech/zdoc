@@ -122,16 +122,71 @@ function removePathIfPresent(target, fsImpl) {
     }
 }
 
-function writeStagedFile(target, contents, fsImpl) {
+function transactionOperationError(operation, target, error) {
+    return new Error(`${operation} (${target}): ${error.message}`, { cause: error })
+}
+
+function aggregateTransactionError(label, primaryError, recoveryErrors) {
+    if (recoveryErrors.length === 0) return primaryError
+    const errors = [primaryError, ...recoveryErrors]
+    return new AggregateError(errors, `${label}: ${errors.map(error => error.message).join('; ')}`, { cause: primaryError })
+}
+
+function recordDirectoryIdentity(root, directory, fsImpl) {
+    const stat = fsImpl.lstatSync(directory)
+    if (stat.isSymbolicLink() || !stat.isDirectory()) throw new Error(`Sidebar output parent must be a real directory: ${directory}`)
+    const realDirectory = fsImpl.realpathSync(directory)
+    if (realDirectory !== directory || (realDirectory !== root && !realDirectory.startsWith(`${root}${path.sep}`))) {
+        throw new Error(`Sidebar output parent escapes workspace: ${directory}`)
+    }
+    return Object.freeze({ directory, realDirectory, device: stat.dev, inode: stat.ino })
+}
+
+function verifyDirectoryIdentity(identity, fsImpl) {
+    let stat
+    let realDirectory
+    try {
+        stat = fsImpl.lstatSync(identity.directory)
+        realDirectory = fsImpl.realpathSync(identity.directory)
+    } catch (error) {
+        throw new Error(`Sidebar output directory identity unavailable for ${identity.directory}: ${error.message}`, { cause: error })
+    }
+    if (stat.isSymbolicLink() || !stat.isDirectory()
+        || stat.dev !== identity.device || stat.ino !== identity.inode || realDirectory !== identity.realDirectory) {
+        throw new Error(`Sidebar output directory identity changed: ${identity.directory}`)
+    }
+}
+
+function attemptTransactionOperation(errors, operation, target, callback) {
+    try {
+        callback()
+        return true
+    } catch (error) {
+        errors.push(transactionOperationError(operation, target, error))
+        return false
+    }
+}
+
+function removeEntryPathIfPresent(entry, target, fsImpl) {
+    verifyDirectoryIdentity(entry.directoryIdentity, fsImpl)
+    removePathIfPresent(target, fsImpl)
+    verifyDirectoryIdentity(entry.directoryIdentity, fsImpl)
+}
+
+function writeStagedFile(entry, fsImpl) {
+    const { tempPath: target, contents, directoryIdentity } = entry
     const noFollow = fsImpl.constants.O_NOFOLLOW
     if (typeof noFollow !== 'number') throw new Error('Secure sidebar staging requires O_NOFOLLOW support')
     const flags = fsImpl.constants.O_WRONLY | fsImpl.constants.O_CREAT | fsImpl.constants.O_EXCL | noFollow
     let descriptor
     let primaryError = null
     try {
+        verifyDirectoryIdentity(directoryIdentity, fsImpl)
         descriptor = fsImpl.openSync(target, flags, 0o644)
+        verifyDirectoryIdentity(directoryIdentity, fsImpl)
         fsImpl.writeFileSync(descriptor, contents, 'utf8')
         fsImpl.fsyncSync(descriptor)
+        verifyDirectoryIdentity(directoryIdentity, fsImpl)
     } catch (error) {
         primaryError = error
     }
@@ -140,6 +195,9 @@ function writeStagedFile(target, contents, fsImpl) {
             fsImpl.closeSync(descriptor)
         } catch (error) {
             if (!primaryError) primaryError = error
+            else primaryError = aggregateTransactionError('Sidebar staged file close failed', primaryError, [
+                transactionOperationError('close staged sidebar', target, error),
+            ])
         }
     }
     if (primaryError) throw primaryError
@@ -149,7 +207,9 @@ function writeSidebarPairTransactional({ workspace=process.cwd(), outputs, fsImp
     if (!Array.isArray(outputs) || outputs.length !== 2) throw new Error('Exactly two sidebar outputs are required')
     const entries = outputs.map(output => {
         const { root, target } = safeWorkspacePath(workspace, output.sidebarPath, fsImpl)
-        ensureSafeDirectory(root, path.dirname(target), fsImpl)
+        const directory = path.dirname(target)
+        ensureSafeDirectory(root, directory, fsImpl)
+        const directoryIdentity = recordDirectoryIdentity(root, directory, fsImpl)
         let hadOriginal = false
         try {
             const stat = fsImpl.lstatSync(target)
@@ -166,6 +226,7 @@ function writeSidebarPairTransactional({ workspace=process.cwd(), outputs, fsImp
             hadOriginal,
             backupMade: false,
             committed: false,
+            directoryIdentity,
             contents: sidebarModuleContents(output.sidebarItems),
         }
     })
@@ -173,50 +234,69 @@ function writeSidebarPairTransactional({ workspace=process.cwd(), outputs, fsImp
         throw new Error('Sidebar output paths must be distinct')
     }
 
-    let primaryError = null
+    let transactionCommitted = false
     try {
-        for (const entry of entries) writeStagedFile(entry.tempPath, entry.contents, fsImpl)
+        for (const entry of entries) writeStagedFile(entry, fsImpl)
         for (const entry of entries) {
             if (!entry.hadOriginal) continue
+            verifyDirectoryIdentity(entry.directoryIdentity, fsImpl)
             const stat = fsImpl.lstatSync(entry.finalPath)
             if (stat.isSymbolicLink() || !stat.isFile()) throw new Error(`Unsafe sidebar target: ${entry.finalPath}`)
             fsImpl.renameSync(entry.finalPath, entry.backupPath)
             entry.backupMade = true
+            verifyDirectoryIdentity(entry.directoryIdentity, fsImpl)
         }
         for (const entry of entries) {
+            verifyDirectoryIdentity(entry.directoryIdentity, fsImpl)
             fsImpl.renameSync(entry.tempPath, entry.finalPath)
             entry.committed = true
+            verifyDirectoryIdentity(entry.directoryIdentity, fsImpl)
         }
+        transactionCommitted = true
+    } catch (primaryError) {
+        const recoveryErrors = []
         for (const entry of entries) {
             if (entry.backupMade) {
-                fsImpl.rmSync(entry.backupPath, { force: true })
-                entry.backupMade = false
-            }
-        }
-        return outputs
-    } catch (error) {
-        primaryError = error
-        throw error
-    } finally {
-        if (primaryError) {
-            for (const entry of entries) {
-                try {
-                    if (entry.committed) removePathIfPresent(entry.finalPath, fsImpl)
-                    if (entry.backupMade) {
-                        removePathIfPresent(entry.finalPath, fsImpl)
+                const removed = attemptTransactionOperation(recoveryErrors, 'remove uncommitted sidebar', entry.finalPath, () => {
+                    removeEntryPathIfPresent(entry, entry.finalPath, fsImpl)
+                })
+                if (removed) {
+                    const restored = attemptTransactionOperation(recoveryErrors, 'restore sidebar backup', `${entry.backupPath} -> ${entry.finalPath}`, () => {
+                        verifyDirectoryIdentity(entry.directoryIdentity, fsImpl)
                         fsImpl.renameSync(entry.backupPath, entry.finalPath)
                         entry.backupMade = false
-                    }
-                } catch (_) {}
+                        verifyDirectoryIdentity(entry.directoryIdentity, fsImpl)
+                    })
+                    if (restored) entry.committed = false
+                }
+            } else if (entry.committed) {
+                attemptTransactionOperation(recoveryErrors, 'remove new sidebar', entry.finalPath, () => {
+                    removeEntryPathIfPresent(entry, entry.finalPath, fsImpl)
+                    entry.committed = false
+                })
             }
         }
         for (const entry of entries) {
-            try { removePathIfPresent(entry.tempPath, fsImpl) } catch (_) {}
-            if (!primaryError && entry.backupMade) {
-                try { removePathIfPresent(entry.backupPath, fsImpl) } catch (_) {}
-            }
+            attemptTransactionOperation(recoveryErrors, 'remove staged sidebar residue', entry.tempPath, () => {
+                removeEntryPathIfPresent(entry, entry.tempPath, fsImpl)
+            })
         }
+        throw aggregateTransactionError('Sidebar pair transaction and recovery failed', primaryError, recoveryErrors)
     }
+
+    if (!transactionCommitted) throw new Error('Sidebar pair transaction did not reach commit')
+    const cleanupErrors = []
+    for (const entry of entries) {
+        if (!entry.backupMade) continue
+        const removed = attemptTransactionOperation(cleanupErrors, 'remove committed sidebar backup residue', entry.backupPath, () => {
+            removeEntryPathIfPresent(entry, entry.backupPath, fsImpl)
+        })
+        if (removed) entry.backupMade = false
+    }
+    if (cleanupErrors.length > 0) {
+        throw new AggregateError(cleanupErrors, `Sidebar pair committed but backup cleanup failed: ${cleanupErrors.map(error => error.message).join('; ')}`)
+    }
+    return outputs
 }
 
 async function generateSidebarTargets(options) {

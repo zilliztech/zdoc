@@ -18,7 +18,7 @@ function parseArgs(argv) {
   return { mediaManifest: argv[1] }
 }
 
-function requireRepoRelativeRegularFile(workspace, relativePath, label) {
+function requireRepoRelativeRegularFile(workspace, relativePath, label, fsImpl = fs) {
   if (!relativePath || path.isAbsolute(relativePath) || relativePath.includes('\\')) {
     throw new Error(`${label} must be a safe repository-relative path`)
   }
@@ -28,7 +28,7 @@ function requireRepoRelativeRegularFile(workspace, relativePath, label) {
   }
   let root
   try {
-    root = fs.realpathSync(workspace)
+    root = fsImpl.realpathSync(workspace)
   } catch (_) {
     throw new Error('workspace must exist')
   }
@@ -37,26 +37,26 @@ function requireRepoRelativeRegularFile(workspace, relativePath, label) {
 
   let stat
   try {
-    stat = fs.lstatSync(target)
+    stat = fsImpl.lstatSync(target)
   } catch (error) {
     throw new Error(`${label} does not exist: ${relativePath}`)
   }
   if (stat.isSymbolicLink()) throw new Error(`${label} must not be a symlink: ${relativePath}`)
   if (!stat.isFile()) throw new Error(`${label} must be a regular file: ${relativePath}`)
-  const realTarget = fs.realpathSync(target)
+  const realTarget = fsImpl.realpathSync(target)
   if (realTarget !== target || !realTarget.startsWith(`${root}${path.sep}`)) {
     throw new Error(`${label} must not traverse symlinks: ${relativePath}`)
   }
   return target
 }
 
-function ensureSafeOutputPath(workspace, relativePath) {
+function ensureSafeOutputPath(workspace, relativePath, fsImpl = fs) {
   if (!relativePath || path.isAbsolute(relativePath) || relativePath.includes('\\')) {
     throw new Error(`Unsafe sidebar output path: ${relativePath}`)
   }
   const normalized = path.normalize(relativePath)
   if (normalized === '..' || normalized.startsWith(`..${path.sep}`)) throw new Error(`Unsafe sidebar output path: ${relativePath}`)
-  const root = fs.realpathSync(workspace)
+  const root = fsImpl.realpathSync(workspace)
   const target = path.resolve(root, normalized)
   if (!target.startsWith(`${root}${path.sep}`)) throw new Error(`Sidebar output escapes workspace: ${relativePath}`)
   let current = root
@@ -64,11 +64,11 @@ function ensureSafeOutputPath(workspace, relativePath) {
     current = path.join(current, segment)
     let stat
     try {
-      stat = fs.lstatSync(current)
+      stat = fsImpl.lstatSync(current)
     } catch (error) {
       if (error.code !== 'ENOENT') throw error
-      fs.mkdirSync(current)
-      stat = fs.lstatSync(current)
+      fsImpl.mkdirSync(current)
+      stat = fsImpl.lstatSync(current)
     }
     if (stat.isSymbolicLink()) throw new Error(`Sidebar output ancestor must not be a symlink: ${current}`)
     if (!stat.isDirectory()) throw new Error(`Sidebar output ancestor must be a directory: ${current}`)
@@ -76,11 +76,11 @@ function ensureSafeOutputPath(workspace, relativePath) {
   return target
 }
 
-function uniqueBackupPath(finalPath) {
+function uniqueBackupPath(finalPath, fsImpl = fs) {
   for (let attempt = 0; attempt < 100; attempt += 1) {
     const candidate = `${finalPath}.backup-${process.pid}-${Date.now()}-${attempt}`
     try {
-      fs.lstatSync(candidate)
+      fsImpl.lstatSync(candidate)
     } catch (error) {
       if (error.code === 'ENOENT') return candidate
       throw error
@@ -89,63 +89,132 @@ function uniqueBackupPath(finalPath) {
   throw new Error(`Cannot allocate sidebar backup path for ${finalPath}`)
 }
 
-function removeIfPresent(target) {
+function removeIfPresent(target, fsImpl = fs) {
   try {
-    const stat = fs.lstatSync(target)
-    fs.rmSync(target, { recursive: stat.isDirectory(), force: true })
+    const stat = fsImpl.lstatSync(target)
+    fsImpl.rmSync(target, { recursive: stat.isDirectory(), force: true })
   } catch (error) {
     if (error.code !== 'ENOENT') throw error
   }
 }
 
-function quarantineSidebarOutputs(workspace) {
+function operationError(operation, target, error) {
+  return new Error(`${operation} (${target}): ${error.message}`, { cause: error })
+}
+
+function aggregateFailure(label, primaryError, recoveryErrors) {
+  if (recoveryErrors.length === 0) return primaryError
+  const errors = [primaryError, ...recoveryErrors]
+  return new AggregateError(errors, `${label}: ${errors.map(error => error.message).join('; ')}`, { cause: primaryError })
+}
+
+function attempt(errors, operation, target, callback) {
+  try {
+    callback()
+    return true
+  } catch (error) {
+    errors.push(operationError(operation, target, error))
+    return false
+  }
+}
+
+function recordOutputDirectoryIdentity(workspace, finalPath, fsImpl = fs) {
+  const root = fsImpl.realpathSync(workspace)
+  const directory = path.dirname(finalPath)
+  const stat = fsImpl.lstatSync(directory)
+  const realDirectory = fsImpl.realpathSync(directory)
+  if (stat.isSymbolicLink() || !stat.isDirectory() || realDirectory !== directory
+    || (realDirectory !== root && !realDirectory.startsWith(`${root}${path.sep}`))) {
+    throw new Error(`Sidebar output parent must be a real workspace directory: ${directory}`)
+  }
+  return Object.freeze({ directory, realDirectory, device: stat.dev, inode: stat.ino })
+}
+
+function verifyOutputDirectoryIdentity(identity, fsImpl = fs) {
+  let stat
+  let realDirectory
+  try {
+    stat = fsImpl.lstatSync(identity.directory)
+    realDirectory = fsImpl.realpathSync(identity.directory)
+  } catch (error) {
+    throw new Error(`Sidebar output directory identity unavailable for ${identity.directory}: ${error.message}`, { cause: error })
+  }
+  if (stat.isSymbolicLink() || !stat.isDirectory() || stat.dev !== identity.device
+    || stat.ino !== identity.inode || realDirectory !== identity.realDirectory) {
+    throw new Error(`Sidebar output directory identity changed: ${identity.directory}`)
+  }
+}
+
+function removeEntryPathIfPresent(entry, target, fsImpl) {
+  verifyOutputDirectoryIdentity(entry.directoryIdentity, fsImpl)
+  removeIfPresent(target, fsImpl)
+  verifyOutputDirectoryIdentity(entry.directoryIdentity, fsImpl)
+}
+
+function quarantineSidebarOutputs(workspace, fsImpl = fs) {
   const entries = []
   try {
     for (const relativePath of SIDEBAR_OUTPUTS) {
-      const finalPath = ensureSafeOutputPath(workspace, relativePath)
-      let backupPath = null
+      const finalPath = ensureSafeOutputPath(workspace, relativePath, fsImpl)
+      const directoryIdentity = recordOutputDirectoryIdentity(workspace, finalPath, fsImpl)
+      const entry = { relativePath, finalPath, backupPath: null, backupMade: false, hadOriginal: false, directoryIdentity }
+      let stat
       try {
-        const stat = fs.lstatSync(finalPath)
-        if (stat.isSymbolicLink()) throw new Error(`Sidebar output must not be a symlink: ${relativePath}`)
-        if (!stat.isFile()) throw new Error(`Sidebar output must be a regular file: ${relativePath}`)
-        backupPath = uniqueBackupPath(finalPath)
-        fs.renameSync(finalPath, backupPath)
+        stat = fsImpl.lstatSync(finalPath)
       } catch (error) {
         if (error.code !== 'ENOENT') throw error
       }
-      entries.push({ relativePath, finalPath, backupPath })
+      if (!stat) {
+        entries.push(entry)
+        continue
+      }
+      if (stat.isSymbolicLink()) throw new Error(`Sidebar output must not be a symlink: ${relativePath}`)
+      if (!stat.isFile()) throw new Error(`Sidebar output must be a regular file: ${relativePath}`)
+      entry.hadOriginal = true
+      entry.backupPath = uniqueBackupPath(finalPath, fsImpl)
+      entries.push(entry)
+      verifyOutputDirectoryIdentity(directoryIdentity, fsImpl)
+      fsImpl.renameSync(finalPath, entry.backupPath)
+      entry.backupMade = true
+      verifyOutputDirectoryIdentity(directoryIdentity, fsImpl)
     }
     return entries
-  } catch (error) {
-    for (const entry of entries.reverse()) {
-      try {
-        removeIfPresent(entry.finalPath)
-        if (entry.backupPath) fs.renameSync(entry.backupPath, entry.finalPath)
-      } catch (_) {}
-    }
-    throw error
+  } catch (primaryError) {
+    const recoveryErrors = restoreQuarantinedOutputs(entries.reverse(), fsImpl)
+    throw aggregateFailure('Sidebar quarantine and recovery failed', primaryError, recoveryErrors)
   }
 }
 
-function restoreQuarantinedOutputs(entries) {
+function restoreQuarantinedOutputs(entries, fsImpl = fs) {
+  const recoveryErrors = []
   for (const entry of entries) {
-    try {
-      removeIfPresent(entry.finalPath)
-      if (entry.backupPath) fs.renameSync(entry.backupPath, entry.finalPath)
-    } catch (_) {}
+    if (entry.hadOriginal && !entry.backupMade) continue
+    const removed = attempt(recoveryErrors, 'remove fresh sidebar during recovery', entry.finalPath, () => {
+      removeEntryPathIfPresent(entry, entry.finalPath, fsImpl)
+    })
+    if (removed && entry.backupMade) {
+      const restored = attempt(recoveryErrors, 'restore quarantined sidebar', `${entry.backupPath} -> ${entry.finalPath}`, () => {
+        verifyOutputDirectoryIdentity(entry.directoryIdentity, fsImpl)
+        fsImpl.renameSync(entry.backupPath, entry.finalPath)
+        entry.backupMade = false
+        verifyOutputDirectoryIdentity(entry.directoryIdentity, fsImpl)
+      })
+      if (restored) entry.backupPath = null
+    }
   }
+  return recoveryErrors
 }
 
-function openManifestIdentity(workspace, mediaManifest) {
-  const target = requireRepoRelativeRegularFile(workspace, mediaManifest, 'Guides media manifest')
+function openManifestIdentity(workspace, mediaManifest, fsImpl = fs) {
+  const target = requireRepoRelativeRegularFile(workspace, mediaManifest, 'Guides media manifest', fsImpl)
   for (const flag of ['O_NOFOLLOW', 'O_NONBLOCK']) {
-    if (typeof fs.constants[flag] !== 'number') throw new Error(`Secure media manifest reads require ${flag}`)
+    if (typeof fsImpl.constants[flag] !== 'number') throw new Error(`Secure media manifest reads require ${flag}`)
   }
-  const descriptor = fs.openSync(target, fs.constants.O_RDONLY | fs.constants.O_NOFOLLOW | fs.constants.O_NONBLOCK)
+  const descriptor = fsImpl.openSync(target, fsImpl.constants.O_RDONLY | fsImpl.constants.O_NOFOLLOW | fsImpl.constants.O_NONBLOCK)
   try {
-    const stat = fs.fstatSync(descriptor)
+    const stat = fsImpl.fstatSync(descriptor)
     if (!stat.isFile()) throw new Error('Guides media manifest must be a regular file')
-    const bytes = fs.readFileSync(descriptor)
+    const bytes = fsImpl.readFileSync(descriptor)
     return {
       descriptor,
       target,
@@ -153,31 +222,49 @@ function openManifestIdentity(workspace, mediaManifest) {
       inode: stat.ino,
       hash: crypto.createHash('sha256').update(bytes).digest('hex'),
     }
-  } catch (error) {
-    fs.closeSync(descriptor)
-    throw error
+  } catch (primaryError) {
+    try {
+      fsImpl.closeSync(descriptor)
+    } catch (closeError) {
+      throw aggregateFailure('Guides media manifest read and close failed', primaryError, [
+        operationError('close Guides media manifest descriptor', target, closeError),
+      ])
+    }
+    throw primaryError
   }
 }
 
-function verifyManifestIdentity(identity, workspace, mediaManifest) {
-  const current = openManifestIdentity(workspace, mediaManifest)
+function verifyManifestIdentity(identity, workspace, mediaManifest, fsImpl = fs) {
+  const current = openManifestIdentity(workspace, mediaManifest, fsImpl)
+  let primaryError = null
   try {
     if (current.device !== identity.device || current.inode !== identity.inode || current.hash !== identity.hash) {
       throw new Error('Guides media manifest identity or hash changed during sidebar generation')
     }
+  } catch (error) {
+    primaryError = error
   } finally {
-    fs.closeSync(current.descriptor)
+    try {
+      fsImpl.closeSync(current.descriptor)
+    } catch (closeError) {
+      const wrapped = operationError('close verified Guides media manifest descriptor', current.target, closeError)
+      primaryError = primaryError
+        ? aggregateFailure('Guides media manifest verification and close failed', primaryError, [wrapped])
+        : wrapped
+    }
   }
+  if (primaryError) throw primaryError
 }
 
-function generateGuidesSidebars({ workspace, mediaManifest, spawnSync = defaultSpawnSync }) {
+function generateGuidesSidebars({ workspace, mediaManifest, spawnSync = defaultSpawnSync, fsImpl = fs }) {
   if (!workspace) throw new Error('workspace is required')
   let identity
   let quarantined = []
   let primaryError = null
+  let committed = false
   try {
-    identity = openManifestIdentity(workspace, mediaManifest)
-    quarantined = quarantineSidebarOutputs(workspace)
+    identity = openManifestIdentity(workspace, mediaManifest, fsImpl)
+    quarantined = quarantineSidebarOutputs(workspace, fsImpl)
     const args = [
       'docusaurus', 'fetch-lark-docs',
       '--manual', 'guides',
@@ -191,23 +278,45 @@ function generateGuidesSidebars({ workspace, mediaManifest, spawnSync = defaultS
     if (result.error) throw new Error(`Guides sidebar generation could not spawn: ${result.error.message}`)
     if (result.signal) throw new Error(`Guides sidebar generation failed with signal ${result.signal}`)
     if (result.status !== 0) throw new Error(`Guides sidebar generation failed with status ${result.status}`)
-    verifyManifestIdentity(identity, workspace, mediaManifest)
-    for (const output of SIDEBAR_OUTPUTS) {
-      requireRepoRelativeRegularFile(workspace, output, `Fresh generated sidebar ${output}`)
-    }
+    verifyManifestIdentity(identity, workspace, mediaManifest, fsImpl)
     for (const entry of quarantined) {
-      if (entry.backupPath) fs.rmSync(entry.backupPath, { force: true })
-      entry.backupPath = null
+      verifyOutputDirectoryIdentity(entry.directoryIdentity, fsImpl)
+      requireRepoRelativeRegularFile(workspace, entry.relativePath, `Fresh generated sidebar ${entry.relativePath}`, fsImpl)
+      verifyOutputDirectoryIdentity(entry.directoryIdentity, fsImpl)
+    }
+    committed = true
+    const cleanupErrors = []
+    for (const entry of quarantined) {
+      if (!entry.backupMade) continue
+      const removed = attempt(cleanupErrors, 'remove committed quarantine backup residue', entry.backupPath, () => {
+        removeEntryPathIfPresent(entry, entry.backupPath, fsImpl)
+      })
+      if (removed) {
+        entry.backupMade = false
+        entry.backupPath = null
+      }
+    }
+    if (cleanupErrors.length > 0) {
+      throw new AggregateError(cleanupErrors, `Guides sidebars committed but backup cleanup failed: ${cleanupErrors.map(error => error.message).join('; ')}`)
     }
   } catch (error) {
     primaryError = error
-    restoreQuarantinedOutputs(quarantined)
+    if (!committed) {
+      primaryError = aggregateFailure(
+        'Guides sidebar generation and recovery failed',
+        primaryError,
+        restoreQuarantinedOutputs(quarantined, fsImpl),
+      )
+    }
   } finally {
     if (identity) {
       try {
-        fs.closeSync(identity.descriptor)
+        fsImpl.closeSync(identity.descriptor)
       } catch (error) {
-        if (!primaryError) primaryError = error
+        const wrapped = operationError('close original Guides media manifest descriptor', identity.target, error)
+        primaryError = primaryError
+          ? aggregateFailure('Guides sidebar transaction and manifest close failed', primaryError, [wrapped])
+          : wrapped
       }
     }
   }

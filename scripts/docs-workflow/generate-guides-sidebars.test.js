@@ -175,6 +175,20 @@ function transactionResidue(workspace) {
     : []
 }
 
+function captureThrown(operation) {
+  try {
+    operation()
+  } catch (error) {
+    return error
+  }
+  assert.fail('Expected operation to throw')
+}
+
+function errorText(error) {
+  const nested = error instanceof AggregateError ? error.errors.map(errorText) : []
+  return [error.message, ...nested].join('\n')
+}
+
 test('transactional sidebar pair writes exact bytes and replaces both existing files without residue', () => {
   const workspace = fs.mkdtempSync(path.join(os.tmpdir(), 'sidebar-pair-'))
   const files = sidebarFiles(workspace)
@@ -228,6 +242,143 @@ test('transactional sidebar pair rolls back both originals on staged write and s
         fs.rmSync(workspace, { recursive: true, force: true })
       }
     })
+  }
+})
+
+test('transactional sidebar pair preserves committed outputs when backup cleanup fails', () => {
+  const workspace = fs.mkdtempSync(path.join(os.tmpdir(), 'sidebar-pair-cleanup-'))
+  const files = sidebarFiles(workspace)
+  fs.mkdirSync(path.dirname(files[0]), { recursive: true })
+  fs.writeFileSync(files[0], 'old saas')
+  fs.writeFileSync(files[1], 'old paas')
+  let backupRemovals = 0
+  let survivingBackup
+  const fsImpl = new Proxy(fs, {
+    get(target, property) {
+      if (property === 'rmSync') return function (targetPath, options) {
+        if (targetPath.includes('.backup-')) {
+          backupRemovals += 1
+          if (backupRemovals === 2) {
+            survivingBackup = targetPath
+            throw new Error(`injected backup cleanup failure: ${targetPath}`)
+          }
+        }
+        return target.rmSync(targetPath, options)
+      }
+      return target[property]
+    },
+  })
+  try {
+    const error = captureThrown(() => writeSidebarPairTransactional({ workspace, outputs: sidebarPair(), fsImpl }))
+    assert.match(errorText(error), /backup cleanup failure/)
+    assert.match(errorText(error), new RegExp(survivingBackup.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')))
+    assert.equal(fs.readFileSync(files[0], 'utf8').includes('"id": "saas"'), true)
+    assert.equal(fs.readFileSync(files[1], 'utf8').includes('"id": "paas"'), true)
+    assert.equal(fs.existsSync(survivingBackup), true)
+  } finally {
+    fs.rmSync(workspace, { recursive: true, force: true })
+  }
+})
+
+test('transactional sidebar pair aggregates primary and rollback rename failures without deleting the backup', () => {
+  const workspace = fs.mkdtempSync(path.join(os.tmpdir(), 'sidebar-pair-recovery-'))
+  const files = sidebarFiles(workspace)
+  fs.mkdirSync(path.dirname(files[0]), { recursive: true })
+  fs.writeFileSync(files[0], 'old saas')
+  fs.writeFileSync(files[1], 'old paas')
+  let commitRenames = 0
+  let failedBackup
+  const fsImpl = new Proxy(fs, {
+    get(target, property) {
+      if (property === 'renameSync') return function (source, destination) {
+        if (source.includes('.tmp-')) {
+          commitRenames += 1
+          if (commitRenames === 2) throw new Error(`injected second commit failure: ${source} -> ${destination}`)
+        }
+        if (source.includes('guides.sidebar.js.backup-') && destination.endsWith('/config/generated/guides.sidebar.js')) {
+          failedBackup = source
+          throw new Error(`injected rollback rename failure: ${source} -> ${destination}`)
+        }
+        return target.renameSync(source, destination)
+      }
+      return target[property]
+    },
+  })
+  try {
+    const error = captureThrown(() => writeSidebarPairTransactional({ workspace, outputs: sidebarPair(), fsImpl }))
+    assert.equal(error instanceof AggregateError, true, errorText(error))
+    assert.match(errorText(error), /second commit failure/)
+    assert.match(errorText(error), /rollback rename failure/)
+    assert.match(errorText(error), new RegExp(files[0].replace(/[.*+?^${}()|[\]\\]/g, '\\$&')))
+    assert.equal(fs.existsSync(failedBackup), true)
+    assert.equal(fs.readFileSync(files[1], 'utf8'), 'old paas')
+  } finally {
+    fs.rmSync(workspace, { recursive: true, force: true })
+  }
+})
+
+test('transactional sidebar pair reports staged cleanup residue with its exact path', () => {
+  const workspace = fs.mkdtempSync(path.join(os.tmpdir(), 'sidebar-pair-temp-cleanup-'))
+  let writes = 0
+  let residuePath
+  const fsImpl = new Proxy(fs, {
+    get(target, property) {
+      if (property === 'writeFileSync') return function (...args) {
+        writes += 1
+        if (writes === 2) throw new Error('injected staged write failure')
+        return target.writeFileSync(...args)
+      }
+      if (property === 'rmSync') return function (targetPath, options) {
+        if (!residuePath && targetPath.includes('.tmp-')) {
+          residuePath = targetPath
+          throw new Error(`injected temp cleanup failure: ${targetPath}`)
+        }
+        return target.rmSync(targetPath, options)
+      }
+      return target[property]
+    },
+  })
+  try {
+    const error = captureThrown(() => writeSidebarPairTransactional({ workspace, outputs: sidebarPair(), fsImpl }))
+    assert.equal(error instanceof AggregateError, true, errorText(error))
+    assert.match(errorText(error), /staged write failure/)
+    assert.match(errorText(error), /temp cleanup failure/)
+    assert.match(errorText(error), new RegExp(residuePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')))
+    assert.equal(fs.existsSync(residuePath), true)
+  } finally {
+    fs.rmSync(workspace, { recursive: true, force: true })
+  }
+})
+
+test('transactional sidebar pair rejects a replaced output parent during staging', () => {
+  const workspace = fs.mkdtempSync(path.join(os.tmpdir(), 'sidebar-pair-parent-race-'))
+  const files = sidebarFiles(workspace)
+  const generated = path.dirname(files[0])
+  const displaced = `${generated}.displaced`
+  fs.mkdirSync(generated, { recursive: true })
+  fs.writeFileSync(files[0], 'old saas')
+  fs.writeFileSync(files[1], 'old paas')
+  let swapped = false
+  const fsImpl = new Proxy(fs, {
+    get(target, property) {
+      if (property === 'openSync') return function (...args) {
+        if (!swapped) {
+          swapped = true
+          target.renameSync(generated, displaced)
+          target.mkdirSync(generated)
+        }
+        return target.openSync(...args)
+      }
+      return target[property]
+    },
+  })
+  try {
+    const error = captureThrown(() => writeSidebarPairTransactional({ workspace, outputs: sidebarPair(), fsImpl }))
+    assert.match(errorText(error), /directory.*identity|identity.*directory/i)
+    assert.match(errorText(error), /recover|residue/i)
+    assert.equal(fs.existsSync(path.join(generated, 'guides.sidebar.js')), false)
+  } finally {
+    fs.rmSync(workspace, { recursive: true, force: true })
   }
 })
 
@@ -653,6 +804,194 @@ test('wrapper successful fresh pair replaces originals and removes quarantine ba
     assert.equal(fs.readFileSync(files[0], 'utf8'), 'fresh saas')
     assert.equal(fs.readFileSync(files[1], 'utf8'), 'fresh paas')
     assert.deepEqual(wrapperResidue(fixture.workspace), [])
+  } finally {
+    fs.rmSync(fixture.workspace, { recursive: true, force: true })
+  }
+})
+
+test('wrapper preserves a committed fresh pair when quarantine backup cleanup fails', () => {
+  const fixture = wrapperFixture()
+  const files = writeOriginalSidebars(fixture.workspace)
+  let backupRemovals = 0
+  let survivingBackup
+  const fsImpl = new Proxy(fs, {
+    get(target, property) {
+      if (property === 'rmSync') return function (targetPath, options) {
+        if (targetPath.includes('.backup-')) {
+          backupRemovals += 1
+          if (backupRemovals === 2) {
+            survivingBackup = targetPath
+            throw new Error(`injected wrapper backup cleanup failure: ${targetPath}`)
+          }
+        }
+        return target.rmSync(targetPath, options)
+      }
+      return target[property]
+    },
+  })
+  try {
+    const error = captureThrown(() => generateGuidesSidebars({
+      ...fixture,
+      fsImpl,
+      spawnSync() {
+        fs.writeFileSync(files[0], 'fresh saas')
+        fs.writeFileSync(files[1], 'fresh paas')
+        return { status: 0, signal: null }
+      },
+    }))
+    assert.match(errorText(error), /wrapper backup cleanup failure/)
+    assert.match(errorText(error), new RegExp(survivingBackup.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')))
+    assert.equal(fs.readFileSync(files[0], 'utf8'), 'fresh saas')
+    assert.equal(fs.readFileSync(files[1], 'utf8'), 'fresh paas')
+    assert.equal(fs.existsSync(survivingBackup), true)
+  } finally {
+    fs.rmSync(fixture.workspace, { recursive: true, force: true })
+  }
+})
+
+test('wrapper aggregates child and restore rename failures while preserving the backup', () => {
+  const fixture = wrapperFixture()
+  const files = writeOriginalSidebars(fixture.workspace)
+  let failedBackup
+  const fsImpl = new Proxy(fs, {
+    get(target, property) {
+      if (property === 'renameSync') return function (source, destination) {
+        if (source.includes('guides.sidebar.js.backup-') && destination.endsWith('/config/generated/guides.sidebar.js')) {
+          failedBackup = source
+          throw new Error(`injected wrapper restore rename failure: ${source} -> ${destination}`)
+        }
+        return target.renameSync(source, destination)
+      }
+      return target[property]
+    },
+  })
+  try {
+    const error = captureThrown(() => generateGuidesSidebars({
+      ...fixture,
+      fsImpl,
+      spawnSync() {
+        fs.writeFileSync(files[0], 'fresh saas')
+        fs.writeFileSync(files[1], 'fresh paas')
+        return { status: 9, signal: null }
+      },
+    }))
+    assert.equal(error instanceof AggregateError, true, errorText(error))
+    assert.match(errorText(error), /status 9/)
+    assert.match(errorText(error), /restore rename failure/)
+    assert.match(errorText(error), new RegExp(files[0].replace(/[.*+?^${}()|[\]\\]/g, '\\$&')))
+    assert.equal(fs.existsSync(failedBackup), true)
+    assert.equal(fs.readFileSync(files[1], 'utf8'), 'original paas')
+  } finally {
+    fs.rmSync(fixture.workspace, { recursive: true, force: true })
+  }
+})
+
+test('wrapper reports fresh-output cleanup residue with its exact path', () => {
+  const fixture = wrapperFixture()
+  const files = writeOriginalSidebars(fixture.workspace)
+  let cleanupFailureInjected = false
+  const fsImpl = new Proxy(fs, {
+    get(target, property) {
+      if (property === 'rmSync') return function (targetPath, options) {
+        if (!cleanupFailureInjected && targetPath.endsWith('/config/generated/guides.sidebar.js')) {
+          cleanupFailureInjected = true
+          throw new Error(`injected fresh output cleanup failure: ${targetPath}`)
+        }
+        return target.rmSync(targetPath, options)
+      }
+      return target[property]
+    },
+  })
+  try {
+    const error = captureThrown(() => generateGuidesSidebars({
+      ...fixture,
+      fsImpl,
+      spawnSync() {
+        fs.writeFileSync(files[0], 'fresh saas')
+        fs.writeFileSync(files[1], 'fresh paas')
+        return { status: 6, signal: null }
+      },
+    }))
+    assert.equal(error instanceof AggregateError, true, errorText(error))
+    assert.match(errorText(error), /status 6/)
+    assert.match(errorText(error), /fresh output cleanup failure/)
+    assert.match(errorText(error), new RegExp(files[0].replace(/[.*+?^${}()|[\]\\]/g, '\\$&')))
+  } finally {
+    fs.rmSync(fixture.workspace, { recursive: true, force: true })
+  }
+})
+
+test('wrapper rejects a replaced output parent and reports recovery debt', () => {
+  const fixture = wrapperFixture()
+  const files = writeOriginalSidebars(fixture.workspace)
+  const generated = path.dirname(files[0])
+  const displaced = `${generated}.displaced`
+  try {
+    const error = captureThrown(() => generateGuidesSidebars({
+      ...fixture,
+      spawnSync() {
+        fs.renameSync(generated, displaced)
+        fs.mkdirSync(generated)
+        fs.writeFileSync(files[0], 'fresh saas')
+        fs.writeFileSync(files[1], 'fresh paas')
+        return { status: 0, signal: null }
+      },
+    }))
+    assert.match(errorText(error), /directory.*identity|identity.*directory/i)
+    assert.match(errorText(error), /recover|restore|residue|debt/i)
+    assert.equal(fs.readFileSync(files[0], 'utf8'), 'fresh saas')
+    assert.equal(fs.readFileSync(files[1], 'utf8'), 'fresh paas')
+  } finally {
+    fs.rmSync(fixture.workspace, { recursive: true, force: true })
+  }
+})
+
+test('manifest open aggregates a read failure with descriptor close failure', () => {
+  const fixture = wrapperFixture()
+  const { openManifestIdentity } = require('./generate-guides-sidebars')
+  const fsImpl = new Proxy(fs, {
+    get(target, property) {
+      if (property === 'fstatSync') return function () { throw new Error('injected manifest read failure') }
+      if (property === 'closeSync') return function () { throw new Error('injected manifest close failure') }
+      return target[property]
+    },
+  })
+  try {
+    const error = captureThrown(() => openManifestIdentity(fixture.workspace, fixture.mediaManifest, fsImpl))
+    assert.equal(error instanceof AggregateError, true)
+    assert.match(errorText(error), /manifest read failure/)
+    assert.match(errorText(error), /manifest close failure/)
+  } finally {
+    fs.rmSync(fixture.workspace, { recursive: true, force: true })
+  }
+})
+
+test('manifest verification preserves identity failure when closing its descriptor also fails', () => {
+  const fixture = wrapperFixture()
+  let closeCalls = 0
+  const fsImpl = new Proxy(fs, {
+    get(target, property) {
+      if (property === 'closeSync') return function (descriptor) {
+        closeCalls += 1
+        if (closeCalls === 1) throw new Error('injected verification descriptor close failure')
+        return target.closeSync(descriptor)
+      }
+      return target[property]
+    },
+  })
+  try {
+    const error = captureThrown(() => generateGuidesSidebars({
+      ...fixture,
+      fsImpl,
+      spawnSync() {
+        writeSidebarOutputs(fixture.workspace)
+        fs.writeFileSync(path.join(fixture.workspace, fixture.mediaManifest), '{"changed":true}')
+        return { status: 0, signal: null }
+      },
+    }))
+    assert.equal(error instanceof AggregateError, true)
+    assert.match(errorText(error), /manifest.*changed|identity|hash/i)
+    assert.match(errorText(error), /verification descriptor close failure/)
   } finally {
     fs.rmSync(fixture.workspace, { recursive: true, force: true })
   }
