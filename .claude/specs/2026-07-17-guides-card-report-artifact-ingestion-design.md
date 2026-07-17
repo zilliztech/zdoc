@@ -188,4 +188,3 @@ same report content uses immutable final-commit links.
 - Extending artifact ingestion to every SDK report in this change.
 - Increasing card-report size or report-count limits.
 - Persisting artifact-only reports beyond the configured Actions retention.
-
