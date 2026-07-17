@@ -7,12 +7,12 @@ const path = require('node:path')
 const { sourceCacheKey, validateMediaCache, validateSourceCache } = require('./guides-source-cache')
 
 const PAYLOAD_CHILDREN = Object.freeze(['media-manifest.json', 'source-manifest.json', 'sources'])
-const PATH_FLAGS = new Set(['snapshot', 'payload', 'source-dir', 'source-manifest', 'media-manifest', 'output', 'workspace'])
+const PATH_FLAGS = new Set(['snapshot', 'payload', 'output', 'workspace'])
 const OPERATIONS = Object.freeze({
   keys: ['snapshot', 'run-id', 'run-attempt'],
   validate: ['payload', 'snapshot', 'root-token'],
   promote: ['payload', 'workspace', 'snapshot', 'root-token'],
-  create: ['source-dir', 'source-manifest', 'media-manifest', 'snapshot', 'root-token', 'output'],
+  create: ['workspace', 'output', 'snapshot', 'root-token'],
 })
 
 function positiveInteger(value, label, maximum = Number.MAX_SAFE_INTEGER) {
@@ -104,7 +104,20 @@ function copyRegularFile(source, destination) {
   fs.copyFileSync(source, destination, fs.constants.COPYFILE_EXCL)
 }
 
-function createGenerationPayload({ sourceDir, sourceManifestPath, mediaManifestPath, snapshotPath, rootToken, outputDir }) {
+function liveCachePaths(workspace) {
+  const root = requireDirectory(workspace, 'Guides cache generation workspace')
+  return {
+    sourceDir: path.join(root, 'plugins/lark-docs/meta/sources/guides'),
+    sourceManifestPath: path.join(root, 'plugins/lark-docs/meta/source-cache/guides-manifest.json'),
+    mediaManifestPath: path.join(root, 'plugins/lark-docs/meta/media-cache/guides.json'),
+  }
+}
+
+function createGenerationPayload({ workspace, snapshotPath, rootToken, outputDir, hooks = {} }) {
+  if (!hooks || typeof hooks !== 'object' || Array.isArray(hooks) || Object.keys(hooks).some(key => key !== 'beforeSwapCommit') || (hooks.beforeSwapCommit && typeof hooks.beforeSwapCommit !== 'function')) {
+    throw new Error('Invalid generation hooks')
+  }
+  const { sourceDir, sourceManifestPath, mediaManifestPath } = liveCachePaths(workspace)
   validateSourceCache({ sourceDir, snapshotPath, manifestPath: sourceManifestPath, rootToken, acceptedSchemaVersions: [2] })
   validateMediaCache({ sourceDir, snapshotPath, manifestPath: sourceManifestPath, mediaManifestPath })
   const sourceRoot = requireDirectory(sourceDir, 'Generation source directory')
@@ -113,8 +126,19 @@ function createGenerationPayload({ sourceDir, sourceManifestPath, mediaManifestP
     if (pathsOverlap(output, input)) throw new Error('Generation output must not overlap cache inputs')
   }
   fs.mkdirSync(path.dirname(output), { recursive: true })
+  let outputExists = false
+  try {
+    const stat = fs.lstatSync(output)
+    outputExists = true
+    if (stat.isSymbolicLink()) throw new Error(`Generation output must not be a symlink: ${output}`)
+    if (!stat.isDirectory()) throw new Error(`Generation output must be a real directory: ${output}`)
+  } catch (error) {
+    if (error.code !== 'ENOENT') throw error
+  }
   const temporary = fs.mkdtempSync(path.join(path.dirname(output), `.${path.basename(output)}.tmp-`))
-  let committed = false
+  const backup = `${temporary}.backup`
+  let oldMoved = false
+  let newInstalled = false
   try {
     const payloadSources = path.join(temporary, 'sources')
     fs.mkdirSync(payloadSources)
@@ -125,12 +149,31 @@ function createGenerationPayload({ sourceDir, sourceManifestPath, mediaManifestP
     copyRegularFile(sourceManifestPath, path.join(temporary, 'source-manifest.json'))
     copyRegularFile(mediaManifestPath, path.join(temporary, 'media-manifest.json'))
     validateGenerationPayload({ payloadDir: temporary, snapshotPath, rootToken })
-    fs.rmSync(output, { recursive: true, force: true })
+    if (outputExists) {
+      fs.renameSync(output, backup)
+      oldMoved = true
+    }
+    hooks.beforeSwapCommit?.()
     fs.renameSync(temporary, output)
-    committed = true
+    newInstalled = true
+    if (oldMoved) {
+      fs.rmSync(backup, { recursive: true })
+      oldMoved = false
+    }
     return output
+  } catch (error) {
+    if (newInstalled) {
+      fs.rmSync(output, { recursive: true, force: true })
+      newInstalled = false
+    }
+    if (oldMoved) {
+      fs.renameSync(backup, output)
+      oldMoved = false
+    }
+    throw error
   } finally {
-    if (!committed) fs.rmSync(temporary, { recursive: true, force: true })
+    fs.rmSync(temporary, { recursive: true, force: true })
+    if (!oldMoved) fs.rmSync(backup, { recursive: true, force: true })
   }
 }
 
@@ -223,7 +266,7 @@ function main(argv = process.argv.slice(2)) {
     const result = validateGenerationPayload({ payloadDir: input.payload, snapshotPath: input.snapshot, rootToken: input['root-token'] })
     process.stdout.write(`${JSON.stringify({ valid: true, sources: result.source.validCanonicalSources })}\n`)
   } else if (input.operation === 'create') {
-    const output = createGenerationPayload({ sourceDir: input['source-dir'], sourceManifestPath: input['source-manifest'], mediaManifestPath: input['media-manifest'], snapshotPath: input.snapshot, rootToken: input['root-token'], outputDir: input.output })
+    const output = createGenerationPayload({ workspace: input.workspace, snapshotPath: input.snapshot, rootToken: input['root-token'], outputDir: input.output })
     process.stdout.write(`${JSON.stringify({ output })}\n`)
   } else {
     const result = promoteGenerationPayload({ payloadDir: input.payload, workspace: input.workspace, snapshotPath: input.snapshot, rootToken: input['root-token'] })
@@ -235,4 +278,4 @@ if (require.main === module) {
   try { main() } catch (error) { console.error(error.message); process.exitCode = 1 }
 }
 
-module.exports = { createGenerationPayload, generationKeys, parseArgs, promoteGenerationPayload, validateGenerationPayload }
+module.exports = { createGenerationPayload, generationKeys, promoteGenerationPayload, validateGenerationPayload }

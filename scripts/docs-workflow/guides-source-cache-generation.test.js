@@ -9,13 +9,13 @@ const path = require('node:path')
 const test = require('node:test')
 
 const { createSourceCacheManifest } = require('./guides-source-cache')
+const generationModule = require('./guides-source-cache-generation')
 const {
   createGenerationPayload,
   generationKeys,
-  parseArgs,
   promoteGenerationPayload,
   validateGenerationPayload,
-} = require('./guides-source-cache-generation')
+} = generationModule
 
 function write(root, relative, value) {
   const file = path.join(root, relative)
@@ -26,7 +26,8 @@ function write(root, relative, value) {
 
 function fixture() {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'guides-cache-generation-'))
-  const sourceDir = path.join(root, 'source-input')
+  const workspace = path.join(root, 'workspace')
+  const { sourceDir, sourceManifestPath, mediaManifestPath } = livePaths(workspace)
   write(sourceDir, 'root.json', { node_token: 'root', children: [{ node_token: 'doc' }] })
   const docPath = write(sourceDir, 'doc.json', {
     node_token: 'doc',
@@ -49,13 +50,12 @@ function fixture() {
     table_digests: { table: 'a'.repeat(64) },
   }
   const snapshotPath = write(root, 'snapshot.json', snapshot)
-  const mediaManifestPath = write(root, 'media-input.json', {
+  write(workspace, 'plugins/lark-docs/meta/media-cache/guides.json', {
     schemaVersion: 1,
     entries: [{ id: 'feishu-image:image', type: 'feishu-image', token: 'image', caption: 'Image', objectKey: 'image.png' }],
   })
-  const sourceManifestPath = path.join(root, 'source-input-manifest.json')
   createSourceCacheManifest({ sourceDir, snapshotPath, manifestPath: sourceManifestPath, mediaManifestPath, rootToken: 'root' })
-  return { root, sourceDir, snapshot, snapshotPath, mediaManifestPath, sourceManifestPath, outputDir: path.join(root, 'tmp/guides-source-cache-v4') }
+  return { root, workspace, sourceDir, snapshot, snapshotPath, mediaManifestPath, sourceManifestPath, outputDir: path.join(root, 'tmp/guides-source-cache-v4') }
 }
 
 function treeBytes(root) {
@@ -95,6 +95,15 @@ test('generation keys use canonical snapshot hash and isolate generated_at chang
   assert.notEqual(generationKeys({ snapshotPath: changedPath, runId: 29550685342, runAttempt: 3 }).prefix, one.prefix)
 })
 
+test('generation module exports only the four public generation operations', () => {
+  assert.deepEqual(Object.keys(generationModule).sort(), [
+    'createGenerationPayload',
+    'generationKeys',
+    'promoteGenerationPayload',
+    'validateGenerationPayload',
+  ])
+})
+
 test('generation keys reject invalid or unbounded run identities', () => {
   const f = fixture()
   for (const [runId, runAttempt] of [[0, 1], [-1, 1], [1.5, 1], [Number.MAX_SAFE_INTEGER + 1, 1], ['01', 1], ['1e2', 1], [1, 0], [1, 101]]) {
@@ -106,16 +115,14 @@ test('create and promote reject overlapping input and destination roots without 
   const f = fixture()
   const sourceBefore = treeBytes(f.sourceDir)
   assert.throws(() => createGenerationPayload({
-    sourceDir: f.sourceDir,
-    sourceManifestPath: f.sourceManifestPath,
-    mediaManifestPath: f.mediaManifestPath,
+    workspace: f.workspace,
     snapshotPath: f.snapshotPath,
     rootToken: 'root',
     outputDir: f.sourceDir,
   }), /overlap|output/i)
   assert.deepEqual(treeBytes(f.sourceDir), sourceBefore)
 
-  createGenerationPayload({ sourceDir: f.sourceDir, sourceManifestPath: f.sourceManifestPath, mediaManifestPath: f.mediaManifestPath, snapshotPath: f.snapshotPath, rootToken: 'root', outputDir: f.outputDir })
+  createGenerationPayload({ workspace: f.workspace, snapshotPath: f.snapshotPath, rootToken: 'root', outputDir: f.outputDir })
   const payloadBefore = treeBytes(f.outputDir)
   assert.throws(() => promoteGenerationPayload({ payloadDir: f.outputDir, workspace: f.outputDir, snapshotPath: f.snapshotPath, rootToken: 'root' }), /overlap|workspace/i)
   assert.deepEqual(treeBytes(f.outputDir), payloadBefore)
@@ -124,9 +131,7 @@ test('create and promote reject overlapping input and destination roots without 
 test('creates, validates, and promotes the exact v4 payload while removing stale live sources', () => {
   const f = fixture()
   const created = createGenerationPayload({
-    sourceDir: f.sourceDir,
-    sourceManifestPath: f.sourceManifestPath,
-    mediaManifestPath: f.mediaManifestPath,
+    workspace: f.workspace,
     snapshotPath: f.snapshotPath,
     rootToken: 'root',
     outputDir: f.outputDir,
@@ -135,7 +140,7 @@ test('creates, validates, and promotes the exact v4 payload while removing stale
   assert.deepEqual(fs.readdirSync(f.outputDir).sort(), ['media-manifest.json', 'source-manifest.json', 'sources'])
   assert.equal(validateGenerationPayload({ payloadDir: f.outputDir, snapshotPath: f.snapshotPath, rootToken: 'root' }).source.complete, true)
 
-  const workspace = path.join(f.root, 'workspace')
+  const workspace = path.join(f.root, 'promotion-workspace')
   const live = livePaths(workspace)
   write(live.sourceDir, 'stale.json', '{"stale":true}')
   write(workspace, 'plugins/lark-docs/meta/source-cache/guides-manifest.json', 'old source manifest')
@@ -149,7 +154,7 @@ test('creates, validates, and promotes the exact v4 payload while removing stale
 
 test('rejected payload cannot mutate live paths', () => {
   const f = fixture()
-  createGenerationPayload({ sourceDir: f.sourceDir, sourceManifestPath: f.sourceManifestPath, mediaManifestPath: f.mediaManifestPath, snapshotPath: f.snapshotPath, rootToken: 'root', outputDir: f.outputDir })
+  createGenerationPayload({ workspace: f.workspace, snapshotPath: f.snapshotPath, rootToken: 'root', outputDir: f.outputDir })
   fs.writeFileSync(path.join(f.outputDir, 'source-manifest.json'), '{}')
   const workspace = path.join(f.root, 'workspace')
   const live = livePaths(workspace)
@@ -161,11 +166,31 @@ test('rejected payload cannot mutate live paths', () => {
   assert.deepEqual(treeBytes(workspace), before)
 })
 
+test('snapshot-B validation and promotion reject a snapshot-A payload without mutating live state', () => {
+  const f = fixture()
+  createGenerationPayload({ workspace: f.workspace, snapshotPath: f.snapshotPath, rootToken: 'root', outputDir: f.outputDir })
+  const snapshotBPath = write(f.root, 'snapshot-b.json', {
+    ...f.snapshot,
+    generated_at: '2026-07-18T00:00:00.000Z',
+  })
+  const before = treeBytes(f.workspace)
+
+  assert.throws(
+    () => validateGenerationPayload({ payloadDir: f.outputDir, snapshotPath: snapshotBPath, rootToken: 'root' }),
+    /snapshot/i,
+  )
+  assert.throws(
+    () => promoteGenerationPayload({ payloadDir: f.outputDir, workspace: f.workspace, snapshotPath: snapshotBPath, rootToken: 'root' }),
+    /snapshot/i,
+  )
+  assert.deepEqual(treeBytes(f.workspace), before)
+})
+
 test('validation rejects symlinks, nonregular children, and manifest traversal', async (t) => {
   for (const kind of ['manifest-symlink', 'sources-symlink', 'nested-source', 'manifest-traversal']) {
     await t.test(kind, () => {
       const f = fixture()
-      createGenerationPayload({ sourceDir: f.sourceDir, sourceManifestPath: f.sourceManifestPath, mediaManifestPath: f.mediaManifestPath, snapshotPath: f.snapshotPath, rootToken: 'root', outputDir: f.outputDir })
+      createGenerationPayload({ workspace: f.workspace, snapshotPath: f.snapshotPath, rootToken: 'root', outputDir: f.outputDir })
       if (kind === 'manifest-symlink') {
         fs.rmSync(path.join(f.outputDir, 'source-manifest.json'))
         fs.symlinkSync(f.sourceManifestPath, path.join(f.outputDir, 'source-manifest.json'))
@@ -173,7 +198,7 @@ test('validation rejects symlinks, nonregular children, and manifest traversal',
         fs.rmSync(path.join(f.outputDir, 'sources'), { recursive: true })
         fs.symlinkSync(f.sourceDir, path.join(f.outputDir, 'sources'), 'dir')
       } else if (kind === 'nested-source') {
-        fs.mkdirSync(path.join(f.outputDir, 'sources/nested'))
+        fs.mkdirSync(path.join(f.outputDir, 'sources/nested.json'))
       } else {
         const manifestPath = path.join(f.outputDir, 'source-manifest.json')
         const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'))
@@ -187,7 +212,7 @@ test('validation rejects symlinks, nonregular children, and manifest traversal',
 
 test('promotion rolls live paths back byte-for-byte after an injected install failure', () => {
   const f = fixture()
-  createGenerationPayload({ sourceDir: f.sourceDir, sourceManifestPath: f.sourceManifestPath, mediaManifestPath: f.mediaManifestPath, snapshotPath: f.snapshotPath, rootToken: 'root', outputDir: f.outputDir })
+  createGenerationPayload({ workspace: f.workspace, snapshotPath: f.snapshotPath, rootToken: 'root', outputDir: f.outputDir })
   const workspace = path.join(f.root, 'workspace')
   const live = livePaths(workspace)
   write(live.sourceDir, 'old.json', 'old source bytes')
@@ -204,17 +229,87 @@ test('promotion rolls live paths back byte-for-byte after an injected install fa
   assert.deepEqual(treeBytes(workspace), before)
 })
 
-test('CLI argument parsing rejects duplicates, unknowns, missing values, and traversal paths', () => {
-  assert.deepEqual(parseArgs(['keys', '--snapshot', 'snapshot.json', '--run-id', '42', '--run-attempt', '2']), {
-    operation: 'keys', snapshot: 'snapshot.json', 'run-id': '42', 'run-attempt': '2',
+test('create restores an existing output byte-for-byte after an injected swap failure', () => {
+  const f = fixture()
+  createGenerationPayload({ workspace: f.workspace, snapshotPath: f.snapshotPath, rootToken: 'root', outputDir: f.outputDir })
+  const before = treeBytes(f.outputDir)
+  const docPath = path.join(f.sourceDir, 'doc.json')
+  const changedDoc = { ...JSON.parse(fs.readFileSync(docPath, 'utf8')), title: 'Changed Doc' }
+  fs.writeFileSync(docPath, JSON.stringify(changedDoc))
+  const changedSnapshot = {
+    ...f.snapshot,
+    records: [{
+      ...f.snapshot.records[0],
+      source_hash: crypto.createHash('sha256').update(fs.readFileSync(docPath)).digest('hex'),
+    }],
+  }
+  fs.writeFileSync(f.snapshotPath, JSON.stringify(changedSnapshot))
+  createSourceCacheManifest({
+    sourceDir: f.sourceDir,
+    snapshotPath: f.snapshotPath,
+    manifestPath: f.sourceManifestPath,
+    mediaManifestPath: f.mediaManifestPath,
+    rootToken: 'root',
   })
+
+  assert.throws(() => createGenerationPayload({
+    workspace: f.workspace,
+    snapshotPath: f.snapshotPath,
+    rootToken: 'root',
+    outputDir: f.outputDir,
+    hooks: { beforeSwapCommit() { throw new Error('injected swap failure') } },
+  }), /injected swap failure/i)
+  assert.deepEqual(treeBytes(f.outputDir), before)
+  const leftovers = fs.readdirSync(path.dirname(f.outputDir)).filter(name => name.startsWith(`.${path.basename(f.outputDir)}.`))
+  assert.deepEqual(leftovers, [])
+})
+
+test('create refuses to replace a preexisting non-directory output', async (t) => {
+  for (const kind of ['file', 'symlink']) {
+    await t.test(kind, () => {
+      const f = fixture()
+      fs.mkdirSync(path.dirname(f.outputDir), { recursive: true })
+      if (kind === 'file') fs.writeFileSync(f.outputDir, 'keep this file')
+      else fs.symlinkSync(f.sourceDir, f.outputDir, 'dir')
+      const before = treeBytes(f.outputDir)
+
+      assert.throws(() => createGenerationPayload({
+        workspace: f.workspace,
+        snapshotPath: f.snapshotPath,
+        rootToken: 'root',
+        outputDir: f.outputDir,
+      }), /output|directory|symlink/i)
+      assert.deepEqual(treeBytes(f.outputDir), before)
+    })
+  }
+})
+
+test('create rejects unsupported swap hooks before touching output', () => {
+  const f = fixture()
+  assert.throws(() => createGenerationPayload({
+    workspace: f.workspace,
+    snapshotPath: f.snapshotPath,
+    rootToken: 'root',
+    outputDir: f.outputDir,
+    hooks: { afterSwap() {} },
+  }), /hook/i)
+  assert.equal(fs.existsSync(f.outputDir), false)
+})
+
+test('CLI argument parsing rejects duplicates, unknowns, missing values, and traversal paths', () => {
+  const cli = path.resolve(__dirname, 'guides-source-cache-generation.js')
+  const run = args => spawnSync(process.execPath, [cli, ...args], { encoding: 'utf8' })
   for (const argv of [
     ['keys', '--snapshot', 'snapshot.json', '--snapshot', 'other.json', '--run-id', '42', '--run-attempt', '2'],
     ['keys', '--wat', 'x', '--snapshot', 'snapshot.json', '--run-id', '42', '--run-attempt', '2'],
     ['keys', '--snapshot'],
     ['keys', '--snapshot', '../snapshot.json', '--run-id', '42', '--run-attempt', '2'],
     ['validate', '--payload', 'payload', '--snapshot', 'snapshot.json'],
-  ]) assert.throws(() => parseArgs(argv), /argument|duplicate|unknown|missing|path|root-token/i)
+  ]) {
+    const result = run(argv)
+    assert.notEqual(result.status, 0)
+    assert.match(result.stderr, /argument|duplicate|unknown|missing|path|root-token/i)
+  }
 })
 
 test('CLI executes keys, create, validate, and promote operations', () => {
@@ -227,9 +322,7 @@ test('CLI executes keys, create, validate, and promote operations', () => {
 
   const created = run([
     'create',
-    '--source-dir', f.sourceDir,
-    '--source-manifest', f.sourceManifestPath,
-    '--media-manifest', f.mediaManifestPath,
+    '--workspace', f.workspace,
     '--snapshot', f.snapshotPath,
     '--root-token', 'root',
     '--output', f.outputDir,
@@ -237,11 +330,24 @@ test('CLI executes keys, create, validate, and promote operations', () => {
   assert.equal(created.status, 0, created.stderr)
   assert.equal(JSON.parse(created.stdout).output, path.resolve(f.outputDir))
 
+  for (const [flag, value] of [
+    ['--source-dir', f.sourceDir],
+    ['--source-manifest', f.sourceManifestPath],
+    ['--media-manifest', f.mediaManifestPath],
+  ]) {
+    const rejected = run([
+      'create', '--workspace', f.workspace, '--snapshot', f.snapshotPath,
+      '--root-token', 'root', '--output', path.join(f.root, 'rejected'), flag, value,
+    ])
+    assert.notEqual(rejected.status, 0)
+    assert.match(rejected.stderr, /unknown argument/i)
+  }
+
   const validated = run(['validate', '--payload', f.outputDir, '--snapshot', f.snapshotPath, '--root-token', 'root'])
   assert.equal(validated.status, 0, validated.stderr)
   assert.equal(JSON.parse(validated.stdout).valid, true)
 
-  const workspace = path.join(f.root, 'workspace')
+  const workspace = path.join(f.root, 'promotion-workspace')
   fs.mkdirSync(workspace)
   const promoted = run(['promote', '--payload', f.outputDir, '--workspace', workspace, '--snapshot', f.snapshotPath, '--root-token', 'root'])
   assert.equal(promoted.status, 0, promoted.stderr)
