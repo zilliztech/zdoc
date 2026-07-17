@@ -2,6 +2,7 @@
 
 const fs = require('node:fs')
 const path = require('node:path')
+const { countCandidateReasons } = require('./batches')
 
 function readJson(filePath) {
   if (!filePath || !fs.existsSync(filePath)) return null
@@ -11,6 +12,7 @@ function readJson(filePath) {
 function buildSummary({ manifest, report }) {
   const locale = manifest?.locale || report?.locale || 'unknown'
   const pending = manifest?.items?.length || 0
+  const candidateCounts = countCandidateReasons(manifest || { items: [] })
   const results = report?.results || []
   const translated = results.filter(item => item.status === 'translated').length
   const failed = results.filter(item => item.status !== 'translated')
@@ -22,13 +24,16 @@ function buildSummary({ manifest, report }) {
     '',
     `- Locale: \`${locale}\``,
     `- Pending: ${pending}`,
+    `- Current English changes: ${candidateCounts.current_delta}`,
+    `- Missing Japanese targets: ${candidateCounts.missing_target}`,
+    `- Stale translations: ${candidateCounts.stale_source}`,
     `- Translated: ${translated}`,
     `- Failed: ${failed.length}`,
     `- Remaining: ${remaining}`,
   ]
 
   if (pending === 0) {
-    lines.push('', 'No changed documents required translation.')
+    lines.push('', 'No documents require translation or translation-state reconciliation.')
   } else if (failed.length) {
     lines.push('', 'Failures:')
     for (const item of failed.slice(0, 20)) {
