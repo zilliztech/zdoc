@@ -38,7 +38,8 @@ test('batch publisher validates and publishes a reconstructable durable checkpoi
 
 test('batch preparation reports translation candidate reason counts', () => {
   const prepare = fs.readFileSync('.github/workflows/_prepare-translation-batches.yml', 'utf8')
-  assert.match(prepare, /^      candidate_counts:/m)
+  assert.match(prepare, /^      candidate_counts: \{ value: '\$\{\{ jobs\.prepare\.outputs\.candidate_counts \}\}' \}$/m)
+  assert.match(prepare, /^      candidate_counts: \$\{\{ steps\.summary\.outputs\.candidate_counts \}\}$/m)
   assert.match(prepare, /candidate_counts: JSON\.stringify\(summary\.candidateCounts\)/)
-  assert.match(prepare, /translation candidates: total=/)
+  assert.match(prepare, /^          console\.log\(`translation candidates: total=\$\{summary\.candidateCounts\.total\} current_delta=\$\{summary\.candidateCounts\.current_delta\} missing_target=\$\{summary\.candidateCounts\.missing_target\} stale_source=\$\{summary\.candidateCounts\.stale_source\}`\)$/m)
 })
