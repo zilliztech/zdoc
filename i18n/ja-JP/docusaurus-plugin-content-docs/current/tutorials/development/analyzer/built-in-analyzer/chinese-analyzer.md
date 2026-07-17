@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "`chinese` analyzer は中国語テキストを処理するために特別に設計されており、効果的なセグメンテーションとトークン化を提供します。 | Cloud"
+description: "`chinese` analyzer は、中国語テキストを処理するために特別に設計されており、効果的なセグメンテーションとトークン化を提供します。 | Cloud"
 type: origin
 token: Of8PwuunCihBfxksNJJcSCRYnsf
 sidebar_position: 3
@@ -21,21 +21,21 @@ import TabItem from '@theme/TabItem';
 
 # 中国語
 
-`chinese` analyzer は中国語テキストを処理するために特別に設計されており、効果的なセグメンテーションとトークン化を提供します。
+`chinese` analyzer は、中国語テキストを処理するために特別に設計されており、効果的なセグメンテーションとトークン化を提供します。
 
-### Definition\{#definition}
+### 定義\{#definition}
 
-`chinese` analyzer は以下で構成されています。
+`chinese` analyzer は以下で構成されます。
 
-- **Tokenizer**: `jieba` tokenizer を使用して、語彙と文脈に基づいて中国語テキストをトークンへ分割します。詳細については、[Jieba](./jieba-tokenizer) を参照してください。
+- **Tokenizer**: `jieba` tokenizer を使用して、語彙と文脈に基づいて中国語テキストを token に分割します。詳細については、[Jieba](./jieba-tokenizer) を参照してください。
 
-- **Filter**: `cnalphanumonly` filter を使用して、中国語以外の文字を含むトークンを削除します。詳細については、[Cnalphanumonly](./cnalphanumonly-filter) を参照してください。
+- **Filter**: `cnalphanumonly` filter を使用して、中国語以外の文字を含む token を削除します。詳細については、[Cnalphanumonly](./cnalphanumonly-filter) を参照してください。
 
-`chinese` analyzer の機能は、以下のカスタム analyzer 設定と同等です。
+`chinese` analyzer の機能は、次のカスタム analyzer 設定と同等です。
 
-<Admonition type="info" icon="📘" title="注">
+<Admonition type="info" icon="📘" title="Notes">
 
-組み込みの `chinese` analyzer は Pinyin トークンを出力しません。中国語テキストを Pinyin のクエリ語と一致させるには、`jieba` tokenizer と [Pinyin filter](./pinyin-filter) を使用したカスタム analyzer を使用してください。
+組み込みの `chinese` analyzer は Pinyin token を出力しません。Pinyin クエリ語で中国語テキストを照合するには、`jieba` tokenizer と [Pinyin filter](./undefined) を使用したカスタム analyzer を使用してください。
 
 </Admonition>
 
@@ -102,7 +102,7 @@ nlohmann::json analyzer_params = {
 };
 ```
 
-### Configuration\{#configuration}
+### 設定\{#configuration}
 
 `chinese` analyzer をフィールドに適用するには、`analyzer_params` で `type` を `chinese` に設定するだけです。
 
@@ -162,17 +162,17 @@ nlohmann::json analyzer_params = {
 };
 ```
 
-<Admonition type="info" icon="📘" title="注">
+<Admonition type="info" icon="📘" title="Notes">
 
-`chinese` analyzer はオプションのパラメータを受け付けません。
+`chinese` analyzer は任意のオプションパラメーターを受け付けません。
 
 </Admonition>
 
 ## 例\{#examples}
 
-analyzer 設定を collection スキーマに適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
+analyzer 設定を collection schema に適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
 
-### Analyzer configuration\{#analyzer-configuration}
+### Analyzer 設定\{#analyzer-configuration}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -376,4 +376,3 @@ if (!status.IsOk()) {
 ```python
 Chinese analyzer output: ['Milvus', '是', '一个', '高性', '性能', '高性能', '可', '扩展', '的', '向量', '数据', '据库', '数据库']
 ```
-

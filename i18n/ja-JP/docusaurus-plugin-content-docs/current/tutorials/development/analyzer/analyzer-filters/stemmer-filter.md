@@ -7,10 +7,10 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "`stemmer` フィルタは、単語を基本形または語幹の形（stemming と呼ばれます）に変換し、異なる活用形でも類似した意味を持つ単語を一致させやすくします。`stemmer` フィルタは複数の言語をサポートしており、さまざまな言語コンテキストで効果的な検索とインデックス作成を可能にします。 | Cloud"
+description: "`stemmer` filter は、単語を基本形または語根の形式（ステミングとして知られます）に縮約し、異なる語形変化にまたがって類似した意味を持つ単語を一致させやすくします。`stemmer` filter は複数の言語をサポートしており、さまざまな言語的コンテキストで効果的な検索とインデックス作成を可能にします。 | Cloud"
 type: origin
 token: JksSwTwJPidjsnk18Olc2TjWnZe
-sidebar_position: 10
+sidebar_position: 9
 displayed_sidebar: default
 
 ---
@@ -21,11 +21,11 @@ import TabItem from '@theme/TabItem';
 
 # Stemmer
 
-`stemmer` フィルタは、単語を基本形または語幹の形（stemming と呼ばれます）に変換し、異なる活用形でも類似した意味を持つ単語を一致させやすくします。`stemmer` フィルタは複数の言語をサポートしており、さまざまな言語コンテキストで効果的な検索とインデックス作成を可能にします。
+`stemmer` filter は、単語を基本形または語根の形式（ステミングとして知られます）に縮約し、異なる語形変化にまたがって類似した意味を持つ単語を一致させやすくします。`stemmer` filter は複数の言語をサポートしており、さまざまな言語的コンテキストで効果的な検索とインデックス作成を可能にします。
 
-## Configuration\{#configuration}
+## 設定\{#configuration}
 
-`stemmer` フィルタは Zilliz Cloud のカスタムフィルタです。これを使用するには、フィルタ設定で `"type": "stemmer"` を指定し、あわせて `language` パラメータで stemming に使用する言語を選択します。
+`stemmer` filter は Zilliz Cloud のカスタム filter です。使用するには、filter 設定で `"type": "stemmer"` を指定し、ステミングに使用する言語を選択するための `language` パラメーターを併せて指定します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -115,21 +115,21 @@ nlohmann::json analyzer_params = {
 };
 ```
 
-`stemmer` フィルタは、以下の設定可能なパラメータを受け付けます。
+`stemmer` filter は、次の設定可能なパラメーターを受け付けます。
 
-| Parameter | Description |
+| パラメーター | 説明 |
 | --- | --- |
-| `language` | stemming 処理に使用する言語を指定します。サポートされる言語には、`"arabic"`、`"danish"`、`"dutch"`、`"english"`、`"finnish"`、`"french"`、`"german"`、`"greek"`、`"hungarian"`、`"italian"`、`"norwegian"`、`"portuguese"`、`"romanian"`、`"russian"`、`"spanish"`、`"swedish"`、`"tamil"`、`"turkish"` があります。 |
+| `language` | ステミング処理に使用する言語を指定します。サポートされている言語には、`"arabic"`、`"danish"`、`"dutch"`、`"english"`、`"finnish"`、`"french"`、`"german"`、`"greek"`、`"hungarian"`、`"italian"`、`"norwegian"`、`"portuguese"`、`"romanian"`、`"russian"`、`"spanish"`、`"swedish"`、`"tamil"`、`"turkish"` が含まれます |
 
-`stemmer` フィルタは tokenizer によって生成された語に対して動作するため、tokenizer と組み合わせて使用する必要があります。
+`stemmer` filter は tokenizer によって生成された terms に対して動作するため、tokenizer と組み合わせて使用する必要があります。
 
-`analyzer_params` を定義した後、collection schema を定義する際にそれを `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud はそのフィールド内のテキストを指定した analyzer を使用して処理し、効率的なトークン化とフィルタリングを実現できます。詳細については、[使用例](./analyzer-overview#example-use) を参照してください。
+`analyzer_params` を定義した後、collection スキーマを定義する際にそれらを `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud は指定された analyzer を使用して、そのフィールド内のテキストを効率的にトークン化およびフィルタリングできます。詳細については、[使用例](./analyzer-overview#example-use) を参照してください。
 
-## Examples\{#examples}
+## 例\{#examples}
 
-analyzer 設定を collection schema に適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
+collection スキーマに analyzer 設定を適用する前に、`run_analyzer` メソッドを使用してその動作を確認します。
 
-### Analyzer configuration\{#analyzer-configuration}
+### Analyzer 設定\{#analyzer-configuration}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -213,7 +213,7 @@ nlohmann::json analyzer_params = {
 };
 ```
 
-### Verification using `run_analyzer`\{#verification-using-runanalyzer}
+### `run_analyzer` を使用した検証\{#verification-using-runanalyzer}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -335,9 +335,8 @@ if (!status.IsOk()) {
 }
 ```
 
-### Expected output\{#expected-output}
+### 期待される出力\{#expected-output}
 
 ```python
 ['run', 'run', 'look', 'ran', 'runner']
 ```
-

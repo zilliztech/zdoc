@@ -7,10 +7,10 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "The `stop` フィルターは、トークン化されたテキストから指定したストップワードを削除し、一般的で意味の薄い単語を除外するのに役立ちます。`stopwords` パラメーターを使用してストップワードのリストを設定できます。 | Cloud"
+description: "`stop` filter は、トークン化されたテキストから指定された stop words を削除し、一般的で意味の薄い単語を取り除くのに役立ちます。`stopwords` パラメータを使用して stop words のリストを設定できます。 | Cloud"
 type: origin
 token: ScncwBnDBiVoLjksXAwcUgrgnod
-sidebar_position: 8
+sidebar_position: 7
 displayed_sidebar: default
 
 ---
@@ -21,15 +21,15 @@ import TabItem from '@theme/TabItem';
 
 # Stop
 
-`stop` フィルターは、トークン化されたテキストから指定したストップワードを削除し、一般的で意味の薄い単語を除外するのに役立ちます。ストップワードのリストは `stop_words` パラメーターで設定できます。
+`stop` filter は、トークン化されたテキストから指定された stop words を削除し、一般的で意味の薄い単語を取り除くのに役立ちます。`stop_words` パラメータを使用して stop words のリストを設定できます。
 
-## Configuration\{#configuration}
+## 設定\{#configuration}
 
-`stop` フィルターは、`stop_words` パラメーターによるインライン指定、または `stop_words_file` パラメーターによる登録済みファイルリソースのいずれかからストップワードリストを受け取ります。
+`stop` filter は、`stop_words` パラメータを介してインラインで、または `stop_words_file` パラメータを介して登録済みファイルリソースから、stop-words リストを受け取ります。
 
-### Inline stop-words list\{#inline-stop-words-list}
+### インライン stop-words リスト\{#inline-stop-words-list}
 
-インラインリストで `stop` フィルターを使用するには、フィルター設定で `"type": "stop"` を指定し、あわせてストップワードのリストを渡す `stop_words` パラメーターを指定します。
+インラインリストで `stop` filter を使用するには、filter 設定で `"type": "stop"` を指定し、stop words のリストを提供する `stop_words` パラメータを指定します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -120,28 +120,28 @@ nlohmann::json analyzer_params = {
 };
 ```
 
-`stop` フィルターでは、以下の設定可能なパラメーターを受け付けます。
+`stop` filter は、以下の設定可能なパラメータを受け付けます。
 
 <table>
    <tr>
-     <th><p>パラメーター</p></th>
+     <th><p>パラメータ</p></th>
      <th><p>説明</p></th>
    </tr>
    <tr>
      <td><p><code>stop_words</code></p></td>
-     <td><p>トークン化から削除する単語のリストです。デフォルトでは、このフィルターは組み込みの <code>_english_</code> 辞書を使用します。以下の3つの方法で上書きまたは拡張できます。</p><ul><li><p><strong>組み込み辞書</strong> – 以下の言語エイリアスのいずれかを指定すると、事前定義された辞書を使用できます。</p><p><code>"_english_"</code>, <code>"_danish_"</code>, <code>"_dutch_"</code>, <code>"_finnish_"</code>, <code>"_french_"</code>, <code>"_german_"</code>, <code>"_hungarian_"</code>, <code>"_italian_"</code>, <code>"_norwegian_"</code>, <code>"_portuguese_"</code>, <code>"_russian_"</code>, <code>"_spanish_"</code>, <code>"_swedish_"</code></p></li><li><p><strong>カスタムリスト</strong> – 独自の用語配列を渡します。例: <code>["foo", "bar", "baz"]</code>。</p></li><li><p><strong>混在リスト</strong> – エイリアスとカスタム用語を組み合わせます。例: <code>["of", "to", "_english_"]</code>。</p><p>各事前定義辞書に含まれる正確な内容の詳細については、<a href="https://github.com/milvus-io/milvus/blob/master/internal/core/thirdparty/tantivy/tantivy-binding/src/analyzer/filter/stop_words.rs">stop_words</a> を参照してください。</p></li></ul></td>
+     <td><p>トークン化から削除される単語のリストです。デフォルトでは、filter は組み込みの <code>_english_</code> 辞書を使用します。次の 3 つの方法で上書きまたは拡張できます。</p><ul><li><p><strong>組み込み辞書</strong> – 定義済み辞書を使用するには、次のいずれかの言語エイリアスを指定します。</p><p><code>"_english_"</code>, <code>"_danish_"</code>, <code>"_dutch_"</code>, <code>"_finnish_"</code>, <code>"_french_"</code>, <code>"_german_"</code>, <code>"_hungarian_"</code>, <code>"_italian_"</code>, <code>"_norwegian_"</code>, <code>"_portuguese_"</code>, <code>"_russian_"</code>, <code>"_spanish_"</code>, <code>"_swedish_"</code></p></li><li><p><strong>カスタムリスト</strong> – 独自の用語の配列を渡します。例: <code>["foo", "bar", "baz"]</code>。</p></li><li><p><strong>混合リスト</strong> – エイリアスとカスタム用語を組み合わせます。例: <code>["of", "to", "_english_"]</code>。</p><p>各定義済み辞書の正確な内容の詳細については、<a href="https://github.com/milvus-io/milvus/blob/master/internal/core/thirdparty/tantivy/tantivy-binding/src/analyzer/filter/stop_words.rs">stop_words</a> を参照してください。</p></li></ul></td>
    </tr>
 </table>
 
-`stop` フィルターは tokenizer によって生成された terms に対して動作するため、tokenizer と組み合わせて使用する必要があります。Zilliz Cloud で利用可能な tokenizer の一覧については、[Standard Tokenizer](./standard-tokenizer) および関連ページを参照してください。
+`stop` filter は tokenizer によって生成された用語に対して動作するため、tokenizer と組み合わせて使用する必要があります。Zilliz Cloud で利用可能な tokenizer のリストについては、[Standard Tokenizer](./standard-tokenizer) とその関連ページを参照してください。
 
-`analyzer_params` を定義した後、collection schema の定義時にそれらを `VARCHAR` フィールドへ適用できます。これにより、Zilliz Cloud は指定された analyzer を使用してそのフィールド内のテキストを処理し、効率的なトークン化とフィルタリングを行えます。詳細については、[Example use](./analyzer-overview#example-use) を参照してください。
+`analyzer_params` を定義したら、collection schema を定義する際にそれらを `VARCHAR` field に適用できます。これにより、Zilliz Cloud は効率的なトークン化とフィルタリングのために、指定された analyzer を使用してその field のテキストを処理できます。詳細については、[使用例](./analyzer-overview#example-use) を参照してください。
 
-## Examples\{#examples}
+## 例\{#examples}
 
-analyzer 設定を collection schema に適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
+collection schema に analyzer 設定を適用する前に、`run_analyzer` method を使用してその動作を確認します。
 
-### Analyzer configuration\{#analyzer-configuration}
+### Analyzer 設定\{#analyzer-configuration}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -213,7 +213,7 @@ nlohmann::json analyzer_params = {
 };
 ```
 
-### Verification using `run_analyzer`\{#verification-using-runanalyzer}
+### `run_analyzer` を使用した検証\{#verification-using-runanalyzer}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -334,9 +334,8 @@ if (!status.IsOk()) {
 }
 ```
 
-### Expected output\{#expected-output}
+### 期待される出力\{#expected-output}
 
 ```python
 ['The', 'stop', 'filter', 'allows', 'control', 'over', 'common', 'stop', 'words', 'text', 'processing']
 ```
-

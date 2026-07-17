@@ -7,10 +7,10 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "`length` フィルターは、指定された長さの要件を満たさないトークンを削除し、テキスト処理中に保持されるトークンの長さを制御できるようにします。 | Cloud"
+description: "`length` filter は、指定された長さの要件を満たさない token を削除し、テキスト処理中に保持される token の長さを制御できるようにします。 | Cloud"
 type: origin
 token: MKdvwWBDRi5MMAkkn5PcD1x9nfh
-sidebar_position: 7
+sidebar_position: 6
 displayed_sidebar: default
 
 ---
@@ -21,11 +21,11 @@ import TabItem from '@theme/TabItem';
 
 # Length
 
-`length` フィルターは、指定された長さの要件を満たさないトークンを削除し、テキスト処理中に保持されるトークンの長さを制御できるようにします。
+`length` filter は、指定された長さの要件を満たさない token を削除し、テキスト処理中に保持される token の長さを制御できるようにします。
 
-## Configuration\{#configuration}
+## 設定\{#configuration}
 
-`length` フィルターは Zilliz Cloud のカスタムフィルターで、フィルター設定で `"type": "length"` を設定して指定します。`analyzer_params` 内で辞書として設定することで、長さの制限を定義できます。
+`length` filter は Zilliz Cloud のカスタム filter で、filter 設定で `"type": "length"` を設定して指定します。`analyzer_params` 内の辞書として設定し、長さの制限を定義できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -109,21 +109,21 @@ nlohmann::json analyzer_params = {
 };
 ```
 
-`length` フィルターは、以下の設定可能なパラメータを受け入れます。
+`length` filter は、次の設定可能なパラメーターを受け入れます。
 
-| Parameter | Description |
+| パラメーター | 説明 |
 | --- | --- |
-| `max` | トークンの最大長を設定します。この長さを超えるトークンは削除されます。 |
+| `max` | token の最大長を設定します。この長さより長い token は削除されます。 |
 
-`length` フィルターは tokenizer によって生成された用語に対して動作するため、tokenizer と組み合わせて使用する必要があります。Zilliz Cloud で利用可能な tokenizer の一覧については、[Standard Tokenizer](./standard-tokenizer) および関連ページを参照してください。
+`length` filter は tokenizer によって生成された term に対して動作するため、tokenizer と組み合わせて使用する必要があります。Zilliz Cloud で利用可能な tokenizer の一覧については、[Standard Tokenizer](./standard-tokenizer) とその関連ページを参照してください。
 
-`analyzer_params` を定義した後、collection スキーマを定義する際にそれらを `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud は効率的なトークン化とフィルタリングのために、指定された analyzer を使用してそのフィールド内のテキストを処理できます。詳細については、[Example use](./analyzer-overview#example-use) を参照してください。
+`analyzer_params` を定義した後、collection schema を定義する際にそれらを `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud は指定された analyzer を使用してそのフィールドのテキストを処理し、効率的なトークン化とフィルタリングを行えます。詳細については、[使用例](./analyzer-overview#example-use) を参照してください。
 
-## Examples\{#examples}
+## 例\{#examples}
 
-analyzer の設定を collection スキーマに適用する前に、`run_analyzer` メソッドを使用してその動作を検証してください。
+analyzer 設定を collection schema に適用する前に、`run_analyzer` メソッドを使用してその動作を確認します。
 
-### Analyzer configuration\{#analyzer-configuration}
+### Analyzer 設定\{#analyzer-configuration}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -192,7 +192,7 @@ nlohmann::json analyzer_params = {
 };
 ```
 
-### Verification using `run_analyzer`\{#verification-using-runanalyzer}
+### `run_analyzer` を使用した検証\{#verification-using-runanalyzer}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -313,9 +313,8 @@ if (!status.IsOk()) {
 }
 ```
 
-### Expected output\{#expected-output}
+### 期待される出力\{#expected-output}
 
 ```python
 ['The', 'length', 'filter', 'allows', 'control', 'over', 'token', 'length', 'for', 'text', 'processing']
 ```
-

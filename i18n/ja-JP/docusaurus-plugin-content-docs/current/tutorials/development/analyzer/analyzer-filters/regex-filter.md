@@ -7,10 +7,10 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "`regex` filter は正規表現フィルターです。tokenizer によって生成された token のうち、指定した式に一致するものだけが保持され、それ以外は破棄されます。 | Cloud"
+description: "`regex` フィルターは正規表現フィルターです。tokenizer によって生成された token は、指定した式に一致する場合にのみ保持され、それ以外は破棄されます。 | Cloud"
 type: origin
 token: AwmtwHGQii1j9Wk1W04cNxvBnth
-sidebar_position: 12
+sidebar_position: 11
 displayed_sidebar: default
 
 ---
@@ -21,11 +21,11 @@ import TabItem from '@theme/TabItem';
 
 # Regex
 
-`regex` filter は正規表現フィルターです。tokenizer によって生成された token のうち、指定した式に一致するものだけが保持され、それ以外は破棄されます。
+`regex` フィルターは正規表現フィルターです。tokenizer によって生成された token は、指定した式に一致する場合にのみ保持され、それ以外は破棄されます。
 
-## Configuration\{#configuration}
+## 設定\{#configuration}
 
-`regex` filter は Zilliz Cloud のカスタムフィルターです。これを使用するには、filter 設定で `"type": "regex"` を指定し、さらに `expr` パラメーターで目的の正規表現を指定します。
+`regex` フィルターは Zilliz Cloud のカスタムフィルターです。使用するには、フィルター設定で `"type": "regex"` を指定し、目的の正規表現を指定するための `expr` パラメータも指定します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -95,21 +95,21 @@ nlohmann::json analyzer_params = {
 };
 ```
 
-`regex` filter は、以下の設定可能なパラメーターを受け付けます。
+`regex` フィルターは、以下の設定可能なパラメータを受け付けます。
 
-| Parameter | Description |
+| パラメータ | 説明 |
 | --- | --- |
-| `expr` | 各 token に適用される正規表現パターンです。一致した token は保持され、一致しないものは破棄されます。<br/>正規表現の構文の詳細については、[Syntax](https://docs.rs/regex/latest/regex/#syntax) を参照してください。 |
+| `expr` | 各 token に適用される正規表現パターンです。一致する token は保持され、一致しないものは破棄されます。<br/>regex 構文の詳細については、[構文](https://docs.rs/regex/latest/regex/#syntax) を参照してください。 |
 
-`regex` filter は tokenizer によって生成された terms に対して動作するため、tokenizer と組み合わせて使用する必要があります。
+`regex` フィルターは tokenizer によって生成された用語に対して動作するため、tokenizer と組み合わせて使用する必要があります。
 
-`analyzer_params` を定義した後は、collection schema を定義する際にそれを `VARCHAR` フィールドへ適用できます。これにより、Zilliz Cloud はそのフィールド内のテキストを、指定された analyzer を使用して処理し、効率的な tokenization とフィルタリングを行えます。詳細については、[Example use](./analyzer-overview#example-use) を参照してください。
+`analyzer_params` を定義した後、collection schema を定義する際にそれらを `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud は効率的な tokenization とフィルタリングのために、指定された analyzer を使用してそのフィールド内のテキストを処理できます。詳細については、[使用例](./analyzer-overview#example-use) を参照してください。
 
-## Examples\{#examples}
+## 例\{#examples}
 
 analyzer 設定を collection schema に適用する前に、`run_analyzer` メソッドを使用してその動作を確認してください。
 
-### Analyzer configuration\{#analyzer-configuration}
+### Analyzer 設定\{#analyzer-configuration}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -304,4 +304,3 @@ if (!status.IsOk()) {
 ```python
 ['apple', 'banana']
 ```
-

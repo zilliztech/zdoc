@@ -7,10 +7,10 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "`removepunct` filter は、トークンストリームから独立した句読点トークンを削除します。句読点ではなく意味のある内容語に焦点を当てた、よりクリーンなテキスト処理を行いたい場合に使用します。 | Cloud"
+description: "`removepunct` filter は、token stream から独立した句読点 token を削除します。句読点ではなく意味のある内容語に重点を置いた、よりクリーンなテキスト処理を行いたい場合に使用します。 | Cloud"
 type: origin
 token: TVfnwtCEQico7Bk9bngcnV1cnGb
-sidebar_position: 11
+sidebar_position: 10
 displayed_sidebar: default
 
 ---
@@ -21,15 +21,15 @@ import TabItem from '@theme/TabItem';
 
 # Remove Punct
 
-`removepunct` filter は、トークンストリームから独立した句読点トークンを削除します。句読点ではなく意味のある内容語に焦点を当てた、よりクリーンなテキスト処理を行いたい場合に使用します。
+`removepunct` filter は、token stream から独立した句読点 token を削除します。句読点ではなく意味のある内容語に重点を置いた、よりクリーンなテキスト処理を行いたい場合に使用します。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" icon="📘" title="Notes">
 
-この filter は、句読点を個別のトークンとして保持する `jieba`、`lindera`、`icu` tokenizer で最も効果的です（例: `"Hello!"` → `["Hello", "!"]`）。`standard` や `whitespace` のような他の tokenizer はトークン化中に句読点を破棄するため、`removepunct` はそれらには効果がありません。
+この filter は、句読点を個別の token として保持する `jieba`、`lindera`、`icu` tokenizer で最も効果的です（例: `"Hello!"` → `["Hello", "!"]`）。`standard` や `whitespace` などの他の tokenizer は tokenization 中に句読点を破棄するため、`removepunct` はそれらには効果がありません。
 
 </Admonition>
 
-## Configuration\{#configuration}
+## 設定\{#configuration}
 
 `removepunct` filter は Zilliz Cloud に組み込まれています。使用するには、`analyzer_params` 内の `filter` セクションでその名前を指定するだけです。
 
@@ -87,15 +87,15 @@ nlohmann::json analyzer_params = {
 };
 ```
 
-`removepunct` filter は tokenizer によって生成された term に対して動作するため、tokenizer と組み合わせて使用する必要があります。
+`removepunct` filter は tokenizer によって生成された terms に対して動作するため、tokenizer と組み合わせて使用する必要があります。
 
-`analyzer_params` を定義した後、collection schema を定義する際にそれらを `VARCHAR` フィールドに適用できます。これにより、Zilliz Cloud は指定された analyzer を使用してそのフィールド内のテキストを処理し、効率的なトークン化とフィルタリングを行えます。詳細については、[使用例](./analyzer-overview#example-use) を参照してください。
+`analyzer_params` を定義した後、collection schema を定義する際にそれらを `VARCHAR` field に適用できます。これにより、Zilliz Cloud は指定された analyzer を使用して、その field 内のテキストを効率的に tokenization および filtering できます。詳細については、[使用例](./analyzer-overview#example-use)を参照してください。
 
-## Examples\{#examples}
+## 例\{#examples}
 
-analyzer の設定を collection schema に適用する前に、`run_analyzer` method を使用してその動作を確認してください。
+analyzer 設定を collection schema に適用する前に、`run_analyzer` method を使用してその動作を確認します。
 
-### Analyzer configuration\{#analyzer-configuration}
+### Analyzer 設定\{#analyzer-configuration}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -277,4 +277,3 @@ if (!status.IsOk()) {
 ```plaintext
 ['Привет', 'Как', 'дела']
 ```
-
