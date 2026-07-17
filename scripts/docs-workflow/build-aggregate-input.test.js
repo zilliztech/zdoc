@@ -2,7 +2,9 @@
 
 const assert = require('node:assert/strict')
 const test = require('node:test')
-const { buildAggregateInput } = require('./build-aggregate-input')
+const { buildAggregateInput, parseCandidateCounts } = require('./build-aggregate-input')
+
+const GUIDES_TRANSLATION_CANDIDATES = JSON.stringify({ total: 163, current_delta: 15, missing_target: 18, stale_source: 130 })
 
 test('builds selected terminal result rows and includes SHAs only for publications', () => {
   const result = buildAggregateInput({
@@ -20,6 +22,32 @@ test('builds artifact-only rows directly from producer terminal states', () => {
   assert.deepEqual(buildAggregateInput({ MODE: 'artifact_only', SELECTED_GROUP: 'guides', GUIDES_PRODUCER: 'artifact_ready' }), {
     mode: 'artifact_only', requestedGroups: ['guides'], groups: { guides: { source: 'artifact_ready', translation: 'skipped', translationRequested: false } }, finalVerification: 'skipped',
   })
+})
+
+test('includes optional Guides translation candidate counts when supplied', () => {
+  const result = buildAggregateInput({
+    MODE: 'publish', SELECTED_GROUP: 'guides', FINAL_VERIFICATION: 'passed',
+    GUIDES_PRODUCER: 'artifact_ready', GUIDES_SOURCE: 'no_changes',
+    GUIDES_TRANSLATOR: 'no_changes', GUIDES_TRANSLATION_CANDIDATES,
+  })
+  assert.deepEqual(result.groups.guides.translationCandidates, {
+    total: 163, current_delta: 15, missing_target: 18, stale_source: 130,
+  })
+})
+
+test('treats undefined and empty translation candidate inputs as absent', () => {
+  assert.equal(parseCandidateCounts(undefined), undefined)
+  assert.equal(parseCandidateCounts(''), undefined)
+})
+
+test('rejects malformed or invalid translation candidate counts', () => {
+  for (const value of [
+    '{',
+    JSON.stringify({ total: 163, current_delta: -1, missing_target: 18, stale_source: 146 }),
+    JSON.stringify({ total: 163, current_delta: 15.5, missing_target: 18, stale_source: 129.5 }),
+    JSON.stringify({ total: 163, current_delta: 15, missing_target: 18, stale_source: 130, surprise: 0 }),
+    JSON.stringify({ total: 164, current_delta: 15, missing_target: 18, stale_source: 130 }),
+  ]) assert.throws(() => parseCandidateCounts(value), /translation candidates/i)
 })
 
 test('maps producer, publisher, and translator failures to aggregate terminal states', () => {

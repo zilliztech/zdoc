@@ -123,6 +123,46 @@ test('incremental prefetch reuses unchanged media and refreshes changed media', 
   assert.deepEqual(manifest.entries.map(entry => entry.id), ['feishu-image:changed', 'figma:key:1:2'])
 })
 
+test('migrated source cache rebuilds missing media from baseline docs and refreshes changed scope', async () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'guides-media-migrated-source-'))
+  const sourceDir = path.join(root, 'sources')
+  const docsDir = path.join(root, 'docs')
+  const output = path.join(root, 'guides.json')
+  writeSource(sourceDir, 'changed.json', [{ image: { token: 'changed-image', caption: { content: 'Changed Image' } } }])
+  writeSource(sourceDir, 'unchanged.json', [{ image: { token: 'unchanged-image', caption: { content: 'Unchanged Image' } } }])
+  const unchanged = JSON.parse(fs.readFileSync(path.join(sourceDir, 'unchanged.json'), 'utf8'))
+  unchanged.node_token = 'unchanged-token'
+  fs.writeFileSync(path.join(sourceDir, 'unchanged.json'), JSON.stringify(unchanged))
+  fs.mkdirSync(docsDir)
+  fs.writeFileSync(path.join(docsDir, 'unchanged.md'), [
+    '---',
+    'token: unchanged-token',
+    '---',
+    '![Unchanged Image](https://images.test/unchanged-image.png "Unchanged Image")',
+  ].join('\n'))
+
+  const calls = []
+  const downloader = {
+    async __downloadImage(token) { calls.push(`image:${token}`); return Buffer.from(token) },
+    async __uploadToS3(_buffer, key) { calls.push(`upload:${key}`) },
+  }
+  const manifest = await prefetchGuidesMedia({
+    sourceDir,
+    output,
+    downloader,
+    sourceFiles: ['changed.json'],
+    requiredSourceFiles: ['changed.json', 'unchanged.json'],
+    bootstrapDocsDirs: [docsDir],
+    reuseExisting: false,
+  })
+
+  assert.deepEqual(calls, ['image:changed-image', 'upload:changed-image.png'])
+  assert.deepEqual(manifest.entries.map(entry => entry.id), [
+    'feishu-image:changed-image',
+    'feishu-image:unchanged-image',
+  ])
+})
+
 test('full bootstrap reuses media proven by validated baseline docs and fetches new media', async () => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'guides-media-bootstrap-'))
   const sourceDir = path.join(root, 'sources')

@@ -42,7 +42,7 @@ git config --get "remote.$remote.url" >/dev/null || die 'Remote is not configure
 repo_root=$(git rev-parse --show-toplevel)
 script_dir=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 node "$script_dir/validate-checkpoint-artifact.js" --artifact "$artifact" >/dev/null
-manifest_json=$(node -e "const {validateCheckpointArtifact}=require(process.argv[1]);validateCheckpointArtifact(process.argv[2]).then(m=>process.stdout.write(JSON.stringify({group:m.group,stage:m.stage,masterSha:m.masterSha,devBaselineSha:m.devBaselineSha,paths:[...new Set([...m.files.map(x=>x.path),...m.deletions])]}))).catch(e=>{console.error(e.message);process.exit(1)})" "$script_dir/validate-checkpoint-artifact.js" "$artifact")
+manifest_json=$(node -e "const {validateCheckpointArtifact}=require(process.argv[1]);validateCheckpointArtifact(process.argv[2]).then(m=>process.stdout.write(JSON.stringify({group:m.group,stage:m.stage,masterSha:m.masterSha,devBaselineSha:m.devBaselineSha}))).catch(e=>{console.error(e.message);process.exit(1)})" "$script_dir/validate-checkpoint-artifact.js" "$artifact")
 group=$(node -e 'process.stdout.write(JSON.parse(process.argv[1]).group)' "$manifest_json"); stage=$(node -e 'process.stdout.write(JSON.parse(process.argv[1]).stage)' "$manifest_json")
 master_sha=$(node -e 'process.stdout.write(JSON.parse(process.argv[1]).masterSha)' "$manifest_json"); baseline_sha=$(node -e 'process.stdout.write(JSON.parse(process.argv[1]).devBaselineSha)' "$manifest_json")
 root=${RUNNER_TEMP:-/tmp}; mkdir -p "$root"
@@ -58,10 +58,20 @@ while (( attempt <= max_attempts )); do
   apply_args=(--artifact "$artifact" --target "$active_worktree"); [[ -z "$baseline_dir" ]] || apply_args+=(--baseline-dir "$baseline_dir")
   node "$script_dir/apply-checkpoint-artifact.js" "${apply_args[@]}"
   (cd "$active_worktree" && bash -o errexit -o nounset -o pipefail -c "$validate_command")
-  paths_file=$(mktemp "$root/docs-paths.XXXXXX"); temp_files="$temp_files"$'\n'"$paths_file"
-  node -e 'for(const p of JSON.parse(process.argv[1]).paths)process.stdout.write(p+"\0")' "$manifest_json" > "$paths_file"
-  paths=(); while IFS= read -r -d '' p; do paths+=("$p"); done < "$paths_file"
-  (cd "$active_worktree" && git add --all -- "${paths[@]}")
+  stage_paths_dir=$(mktemp -d "$root/docs-stage-paths.XXXXXX"); temp_files="$temp_files"$'\n'"$stage_paths_dir"
+  stage_paths_file="$stage_paths_dir/paths.bin"
+  node "$script_dir/checkpoint-stage-paths.js" select \
+    --artifact "$artifact" \
+    --worktree "$active_worktree" \
+    --output "$stage_paths_file"
+  if [[ -s "$stage_paths_file" ]]; then
+    git -C "$active_worktree" add --all \
+      --pathspec-from-file="$stage_paths_file" \
+      --pathspec-file-nul
+  fi
+  node "$script_dir/checkpoint-stage-paths.js" verify \
+    --artifact "$artifact" \
+    --worktree "$active_worktree"
   if (cd "$active_worktree" && git diff --cached --quiet); then sha=$(git -C "$active_worktree" rev-parse HEAD); finish_output no_changes "$sha"; exit 0; fi
   git -C "$active_worktree" config user.name "$author_name"; git -C "$active_worktree" config user.email "$author_email"
   body=$(printf 'group: %s\nstage: %s\nmasterSha: %s\ndevBaselineSha: %s' "$group" "$stage" "$master_sha" "$baseline_sha")

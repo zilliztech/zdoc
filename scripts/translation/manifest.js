@@ -7,6 +7,17 @@ const { getContentGroup } = require('../docs-workflow/content-groups')
 const { selectManifestBatch } = require('./batches')
 
 const SHA = /^[0-9a-f]{40}$/
+const CANDIDATE_REASON_ORDER = Object.freeze({
+  current_delta: 0,
+  missing_target: 1,
+  stale_source: 2,
+})
+
+function candidateReason({ changedEnglish, sourcePath, targetExists }) {
+  if (changedEnglish?.has(sourcePath)) return 'current_delta'
+  if (!targetExists) return 'missing_target'
+  return 'stale_source'
+}
 
 function hashContent(text) {
   return crypto.createHash('sha256').update(text, 'utf8').digest('hex')
@@ -108,16 +119,15 @@ function buildManifest({ siteDir, locale = 'ja-JP', includeReference = false, ma
         sourceHash,
         locale,
         type: mapping.type,
+        reason: candidateReason({ changedEnglish, sourcePath, targetExists }),
       })
     }
   }
 
-  if (changedEnglish) {
-    items.sort((a, b) => (
-      Number(changedEnglish.has(b.sourcePath)) - Number(changedEnglish.has(a.sourcePath)) ||
-      a.sourcePath.localeCompare(b.sourcePath)
-    ))
-  }
+  items.sort((a, b) => (
+    CANDIDATE_REASON_ORDER[a.reason] - CANDIDATE_REASON_ORDER[b.reason] ||
+    a.sourcePath.localeCompare(b.sourcePath)
+  ))
   const selectedItems = maxFiles > 0 ? items.slice(0, maxFiles) : items
   return createManifest({ locale, group, sourceCheckpointSha, sourceDelta, items: selectedItems })
 }
@@ -166,8 +176,10 @@ function main() {
 if (require.main === module) main()
 
 module.exports = {
+  CANDIDATE_REASON_ORDER,
   buildManifest,
   cachePathForLocale,
+  candidateReason,
   hashContent,
   readCache,
   sourceMappingsForLocale,

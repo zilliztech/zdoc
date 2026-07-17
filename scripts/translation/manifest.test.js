@@ -4,8 +4,10 @@ const os = require('node:os')
 const path = require('node:path')
 
 const {
+  CANDIDATE_REASON_ORDER,
   buildManifest,
   cachePathForLocale,
+  candidateReason,
   hashContent,
   sourceMappingsForLocale,
   writeCache,
@@ -183,6 +185,90 @@ function testSourceDeltaPrioritizesCurrentChangesAndPreservesPendingBacklog() {
   })
 }
 
+function testManifestClassifiesAndOrdersTranslationCandidates() {
+  withTempDir(siteDir => {
+    const sha = 'c'.repeat(40)
+    const sources = {
+      current: 'docs/tutorials/z-current.md',
+      missing: 'docs/tutorials/a-missing.md',
+      stale: 'docs/tutorials/b-stale.md',
+      complete: 'docs/tutorials/complete.md',
+    }
+    const contents = {
+      current: '# Current\n',
+      missing: '# Missing\n',
+      stale: '# Stale\n',
+      complete: '# Complete\n',
+    }
+
+    for (const [name, sourcePath] of Object.entries(sources)) {
+      write(path.join(siteDir, sourcePath), contents[name])
+    }
+    for (const name of ['current', 'stale', 'complete']) {
+      write(
+        path.join(siteDir, 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials', path.basename(sources[name])),
+        `# ${name} in Japanese\n`,
+      )
+    }
+    writeCache(siteDir, 'ja-JP', {
+      files: {
+        [sources.current]: { sourceHash: 'old-current-hash' },
+        [sources.stale]: { sourceHash: 'old-stale-hash' },
+        [sources.complete]: { sourceHash: hashContent(contents.complete) },
+      },
+    })
+
+    const manifest = buildManifest({
+      siteDir,
+      group: 'guides',
+      sourceCheckpointSha: sha,
+      sourceDelta: {
+        changedEnglish: [sources.current],
+        deletedI18n: [],
+        renamed: [],
+      },
+    })
+
+    assert.deepEqual(
+      manifest.items.map(item => [item.sourcePath, item.reason]),
+      [
+        [sources.current, 'current_delta'],
+        [sources.missing, 'missing_target'],
+        [sources.stale, 'stale_source'],
+      ],
+    )
+  })
+}
+
+function testCurrentDeltaReasonTakesPrecedenceOverMissingTarget() {
+  assert.deepEqual(CANDIDATE_REASON_ORDER, {
+    current_delta: 0,
+    missing_target: 1,
+    stale_source: 2,
+  })
+  const sourcePath = 'docs/tutorials/current.md'
+  assert.equal(candidateReason({
+    changedEnglish: new Set([sourcePath]),
+    sourcePath,
+    targetExists: false,
+  }), 'current_delta')
+
+  withTempDir(siteDir => {
+    write(path.join(siteDir, sourcePath), '# Current without target\n')
+    const manifest = buildManifest({
+      siteDir,
+      group: 'guides',
+      sourceCheckpointSha: 'd'.repeat(40),
+      sourceDelta: {
+        changedEnglish: [sourcePath],
+        deletedI18n: [],
+        renamed: [],
+      },
+    })
+    assert.equal(manifest.items[0].reason, 'current_delta')
+  })
+}
+
 function run() {
   testBuildManifestIncludesChangedAndMissingDocs()
   testSourceMappingsCanIncludeReference()
@@ -190,6 +276,8 @@ function run() {
   testContentGroupsFilterBeforeMaxFilesAndRecordCheckpoint()
   testGroupValidationAndLegacyCompatibility()
   testSourceDeltaPrioritizesCurrentChangesAndPreservesPendingBacklog()
+  testManifestClassifiesAndOrdersTranslationCandidates()
+  testCurrentDeltaReasonTakesPrecedenceOverMissingTarget()
   console.log('translation manifest tests passed')
 }
 

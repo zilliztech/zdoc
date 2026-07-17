@@ -23,9 +23,10 @@ function reportStartedAt() {
 
 function isFreshGeneratedAt(value) {
   const startedAt = reportStartedAt()
-  if (!startedAt || !value) return true
+  if (startedAt === null) return true
+  if (typeof value !== 'string' || !value) return false
   const generatedAt = Date.parse(value)
-  if (Number.isNaN(generatedAt)) return true
+  if (Number.isNaN(generatedAt)) return false
   return generatedAt >= startedAt
 }
 
@@ -47,19 +48,22 @@ function compactMarkdown(markdown, maxLines = 80) {
 
 function githubFileUrl(file) {
   const repository = process.env.GITHUB_REPOSITORY
-  if (!repository) return null
+  const ref = (process.env.CARD_REPORT_REF || '').trim()
+  if (!repository || !/^[0-9a-f]{40}$/.test(ref)) return null
 
   const serverUrl = process.env.GITHUB_SERVER_URL || 'https://github.com'
-  const ref = process.env.CARD_REPORT_REF || process.env.GITHUB_REF_NAME || process.env.GITHUB_SHA
-  if (!ref) return null
-
   const encodedPath = file.split('/').map(encodeURIComponent).join('/')
-  return `${serverUrl}/${repository}/blob/${encodeURIComponent(ref)}/${encodedPath}`
+  return `${serverUrl}/${repository}/blob/${ref}/${encodedPath}`
 }
 
 function reportFileLine(file) {
   const url = githubFileUrl(file)
-  return url ? `Report file: [${file}](${url})` : `Report file: \`${file}\``
+  if (url) return `Report file: [${file}](${url})`
+  const artifactUrl = (process.env.CARD_REPORT_ARTIFACT_URL || '').trim()
+  if (/^https:\/\/github\.com\/[^/]+\/[^/]+\/actions\/runs\/\d+#artifacts$/.test(artifactUrl)) {
+    return `Current-run reports: [workflow artifacts](${artifactUrl})`
+  }
+  return `Report file: \`${file}\``
 }
 
 function reportFileLines(files) {
@@ -173,28 +177,68 @@ function incrementalPlanNote() {
   ].filter(Boolean).join('\n')
 }
 
-function collectNotes() {
-  return [
-    linkCheckNote(),
-    brokenContentLinksNote(),
-    canonicalLinkNote(),
-    incrementalPlanNote(),
-  ].filter(Boolean)
+const GUIDES_REPORTS = Object.freeze([
+  { key: 'content-links', title: 'Canonical content links audit', collect: brokenContentLinksNote },
+  { key: 'canonical-links', title: 'Canonical link audit', collect: canonicalLinkNote },
+  { key: 'incremental-plan', title: 'Incremental fetch plan', collect: incrementalPlanNote },
+])
+
+function guidesReportNotes() {
+  const found = []
+  const notes = []
+  for (const report of GUIDES_REPORTS) {
+    const note = report.collect()
+    if (!note) continue
+    found.push(report.key)
+    notes.push(note)
+  }
+  const expected = process.env.CARD_EXPECT_GUIDES_REPORTS === 'true'
+  const missing = expected ? GUIDES_REPORTS.filter(report => !found.includes(report.key)) : []
+  if (missing.length) {
+    notes.push([
+      '# Guides reports unavailable',
+      '',
+      'The Guides producer completed, but these current-run reports could not be loaded:',
+      '',
+      ...missing.map(report => `- ${report.title}`),
+      '',
+      'Inspect the workflow artifacts for this run.',
+    ].join('\n'))
+  }
+  return { notes, found, missing: missing.map(report => report.key) }
 }
 
-function collectCardNotes() {
+function collectNotesWithDiagnostics() {
+  const guides = guidesReportNotes()
+  return {
+    notes: [linkCheckNote(), ...guides.notes].filter(Boolean),
+    diagnostics: { found: guides.found, missing: guides.missing },
+  }
+}
+
+function collectNotes() {
+  return collectNotesWithDiagnostics().notes
+}
+
+function collectCardNotesWithDiagnostics() {
   let baseNotes = []
   try {
     const parsed = JSON.parse(process.env.CARD_BASE_NOTES_JSON || '[]')
     if (Array.isArray(parsed)) baseNotes = parsed.filter(note => typeof note === 'string' && note.trim())
   } catch (_) {}
-  return [...baseNotes, ...collectNotes()]
+  const collected = collectNotesWithDiagnostics()
+  const notes = [...baseNotes, ...collected.notes]
     .filter(note => typeof note === 'string' && note.trim())
     .slice(0, 12)
     .map(note => note.trim().slice(0, 12000))
+  return { notes, diagnostics: collected.diagnostics }
 }
 
-function writeGithubOutput(notes) {
+function collectCardNotes() {
+  return collectCardNotesWithDiagnostics().notes
+}
+
+function writeGithubOutput(notes, diagnostics = { found: [], missing: [] }) {
   const output = process.env.GITHUB_OUTPUT
   const notesFile = path.resolve(process.env.CARD_NOTES_FILE || 'tmp/card-notes.json')
   fs.mkdirSync(path.dirname(notesFile), { recursive: true })
@@ -203,12 +247,14 @@ function writeGithubOutput(notes) {
   const value = JSON.stringify(notes)
   fs.appendFileSync(output, `card_notes_json<<CARD_NOTES_JSON\n${value}\nCARD_NOTES_JSON\n`)
   fs.appendFileSync(output, `card_notes_file=${notesFile}\n`)
+  fs.appendFileSync(output, `guides_reports_found=${diagnostics.found.join(',')}\n`)
+  fs.appendFileSync(output, `guides_reports_missing=${diagnostics.missing.join(',')}\n`)
   return notesFile
 }
 
 if (require.main === module) {
-  const notes = collectCardNotes()
-  writeGithubOutput(notes)
+  const { notes, diagnostics } = collectCardNotesWithDiagnostics()
+  writeGithubOutput(notes, diagnostics)
   process.stdout.write(JSON.stringify(notes, null, 2) + '\n')
 }
 

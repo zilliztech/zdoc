@@ -12,6 +12,126 @@ test('GitHub Actions workflows satisfy documentation production safety policy', 
   assert.deepEqual(validateWorkflowPolicies(), [])
 })
 
+test('workflow policy rejects checkpoint publishers without idempotent scoped staging', () => {
+  const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'publisher-policy-'))
+  const publisherPath = path.join(directory, 'publish-checkpoint.sh')
+  try {
+    fs.writeFileSync(publisherPath, '(cd "$active_worktree" && git add --all -- "${paths[@]}")\n')
+    const errors = validateWorkflowPolicies(undefined, { publisherPath })
+    assert.ok(errors.includes('publish-checkpoint.sh: checkpoint publisher must select stageable manifest paths'))
+    assert.ok(errors.includes('publish-checkpoint.sh: checkpoint publisher must use NUL-delimited literal pathspec staging'))
+    assert.ok(errors.includes('publish-checkpoint.sh: checkpoint publisher must verify staged manifest scope'))
+    assert.ok(errors.includes('publish-checkpoint.sh: direct manifest pathspec staging is not idempotent'))
+  } finally {
+    fs.rmSync(directory, { recursive: true, force: true })
+  }
+})
+
+test('workflow policy rejects missing translation candidate reporting requirements', () => {
+  const sourceDirectory = path.join(process.cwd(), '.github/workflows')
+  const cases = [
+    {
+      file: '_prepare-translation-batches.yml',
+      token: 'candidate_counts',
+      expected: '_prepare-translation-batches.yml: must expose translation candidate counts',
+    },
+    {
+      file: '_prepare-translation-batches.yml',
+      token: 'summary.candidateCounts',
+      expected: '_prepare-translation-batches.yml: must emit classified translation candidate counts',
+    },
+    {
+      file: 'fetch-docs.yml',
+      token: 'GUIDES_TRANSLATION_CANDIDATES',
+      expected: 'fetch-docs.yml: must pass Guides candidate counts to aggregation',
+    },
+  ]
+
+  for (const fixture of cases) {
+    const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'candidate-policy-'))
+    try {
+      fs.cpSync(sourceDirectory, directory, { recursive: true })
+      const file = path.join(directory, fixture.file)
+      const source = fs.readFileSync(file, 'utf8')
+      assert.ok(source.includes(fixture.token), `${fixture.file} must contain ${fixture.token}`)
+      fs.writeFileSync(file, source.replaceAll(fixture.token, '__REMOVED_POLICY_TOKEN__'))
+      assert.ok(validateWorkflowPolicies(directory).includes(fixture.expected))
+    } finally {
+      fs.rmSync(directory, { recursive: true, force: true })
+    }
+  }
+})
+
+test('workflow policy rejects miswired translation candidate reporting values', () => {
+  const sourceDirectory = path.join(process.cwd(), '.github/workflows')
+  const cases = [
+    {
+      file: '_prepare-translation-batches.yml',
+      from: "      candidate_counts: { value: '${{ jobs.prepare.outputs.candidate_counts }}' }",
+      to: "      candidate_counts: { value: '{}' }",
+      expected: '_prepare-translation-batches.yml: must expose translation candidate counts',
+    },
+    {
+      file: '_prepare-translation-batches.yml',
+      from: '      candidate_counts: ${{ steps.summary.outputs.candidate_counts }}',
+      to: '      candidate_counts: ${{ steps.summary.outputs.pending_count }}',
+      expected: '_prepare-translation-batches.yml: must map prepare candidate counts from the summary step',
+    },
+    {
+      file: '_prepare-translation-batches.yml',
+      from: '            candidate_counts: JSON.stringify(summary.candidateCounts),',
+      to: '            candidate_counts: JSON.stringify({}),',
+      expected: '_prepare-translation-batches.yml: must emit classified translation candidate counts',
+    },
+    {
+      file: 'fetch-docs.yml',
+      from: '          GUIDES_TRANSLATION_CANDIDATES: ${{ needs.prepare_guides_translation_batches.outputs.candidate_counts }}',
+      to: '          GUIDES_TRANSLATION_CANDIDATES: ${{ needs.prepare_guides_translation_batches.outputs.pending_count }}',
+      expected: 'fetch-docs.yml: must pass Guides candidate counts to aggregation',
+    },
+  ]
+
+  for (const fixture of cases) {
+    const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'candidate-wiring-policy-'))
+    try {
+      fs.cpSync(sourceDirectory, directory, { recursive: true })
+      const file = path.join(directory, fixture.file)
+      const source = fs.readFileSync(file, 'utf8')
+      assert.ok(source.includes(fixture.from), `${fixture.file} must contain the expected candidate mapping`)
+      fs.writeFileSync(file, source.replace(fixture.from, fixture.to))
+      assert.ok(validateWorkflowPolicies(directory).includes(fixture.expected))
+    } finally {
+      fs.rmSync(directory, { recursive: true, force: true })
+    }
+  }
+})
+
+test('workflow policy independently requires checkpoint stage selection and verification', () => {
+  const publisherSource = fs.readFileSync('scripts/docs-workflow/publish-checkpoint.sh', 'utf8')
+  const cases = [
+    {
+      token: 'checkpoint-stage-paths.js" select',
+      expected: 'publish-checkpoint.sh: checkpoint publisher must select stageable manifest paths',
+    },
+    {
+      token: 'checkpoint-stage-paths.js" verify',
+      expected: 'publish-checkpoint.sh: checkpoint publisher must verify staged manifest scope',
+    },
+  ]
+
+  for (const fixture of cases) {
+    const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'publisher-policy-'))
+    const publisherPath = path.join(directory, 'publish-checkpoint.sh')
+    try {
+      assert.ok(publisherSource.includes(fixture.token))
+      fs.writeFileSync(publisherPath, publisherSource.replace(fixture.token, fixture.token.replace(/ (select|verify)$/, ' missing_$1')))
+      assert.ok(validateWorkflowPolicies(undefined, { publisherPath }).includes(fixture.expected))
+    } finally {
+      fs.rmSync(directory, { recursive: true, force: true })
+    }
+  }
+})
+
 test('docs production runs only on schedules or explicit manual dispatch', () => {
   const workflowPath = path.join(process.cwd(), '.github/workflows/fetch-docs.yml')
   const triggerBlock = fs.readFileSync(workflowPath, 'utf8').split('\npermissions:')[0]
@@ -97,6 +217,21 @@ test('central monitor owns live and terminal card presentation', () => {
   }
 })
 
+test('aggregate restores current Guides reports before building the final card artifact', () => {
+  const workflow = fs.readFileSync('.github/workflows/fetch-docs.yml', 'utf8')
+  const aggregate = workflow.slice(workflow.indexOf('  aggregate:'), workflow.indexOf('  finalize_card_fallback:'))
+  const restoreIndex = aggregate.indexOf('name: Restore committed report directories')
+  const downloadIndex = aggregate.indexOf('name: Download current Guides reports')
+  const collectIndex = aggregate.indexOf('name: Collect card report summaries')
+  assert.ok(restoreIndex >= 0)
+  assert.ok(downloadIndex > restoreIndex)
+  assert.ok(collectIndex > downloadIndex)
+  assert.match(aggregate, /name: docs-checkpoint-guides-\$\{\{ github\.run_id \}\}-reports/)
+  assert.match(aggregate, /path: plugins\/lark-docs\/meta\/reports/)
+  assert.match(aggregate, /CARD_EXPECT_GUIDES_REPORTS:.*produce_guides\.outputs\.status.*artifact_ready/)
+  assert.match(aggregate, /CARD_REPORT_ARTIFACT_URL:/)
+})
+
 test('workflow validator rejects distributed card ownership and broken monitor topology', () => {
   const sourceDirectory = path.join(process.cwd(), '.github/workflows')
   const cases = [
@@ -127,6 +262,98 @@ test('workflow validator rejects distributed card ownership and broken monitor t
     try {
       fs.cpSync(sourceDirectory, directory, { recursive: true })
       fixture.mutate(directory)
+      assert.match(validateWorkflowPolicies(directory).join('\n'), fixture.expected)
+    } finally {
+      fs.rmSync(directory, { recursive: true, force: true })
+    }
+  }
+})
+
+test('workflow validator rejects unsafe Guides cache migration shapes', () => {
+  const sourceDirectory = path.join(process.cwd(), '.github/workflows')
+  const cases = [
+    {
+      mutate(source) {
+        return source.replace(/      - id: source_cache_v1[\s\S]*?          key: \$\{\{ steps\.source_cache_keys\.outputs\.v1 \}\}\n/, '')
+      },
+      expected: /v1 exact migration fallback/,
+    },
+    {
+      mutate(source) {
+        return source.replace('steps.source_cache_check.outputs.source_valid }}" != true', 'steps.source_cache_check.outputs.media_valid }}" != true')
+      },
+      expected: /full fetch must depend only on source validity/,
+    },
+    {
+      mutate(source) {
+        return source.replace('rm -rf plugins/lark-docs/meta/media-cache', 'rm -rf plugins/lark-docs/meta/sources/guides plugins/lark-docs/meta/media-cache')
+      },
+      expected: /media invalidation must preserve source files/,
+    },
+    {
+      mutate(source) {
+        return source.replace('          key: ${{ steps.source_cache_keys.outputs.v2 }}', '          key: ${{ steps.source_cache_keys.outputs.v2 }}\n          restore-keys: guides-source-v2-')
+      },
+      expected: /restore must remain exact/,
+    },
+  ]
+
+  for (const fixture of cases) {
+    const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'guides-cache-policy-'))
+    try {
+      fs.cpSync(sourceDirectory, directory, { recursive: true })
+      const file = path.join(directory, '_fetch-guides-sources.yml')
+      fs.writeFileSync(file, fixture.mutate(fs.readFileSync(file, 'utf8')))
+      assert.match(validateWorkflowPolicies(directory).join('\n'), fixture.expected)
+    } finally {
+      fs.rmSync(directory, { recursive: true, force: true })
+    }
+  }
+})
+
+test('workflow validator rejects incomplete aggregate report ingestion', () => {
+  const sourceDirectory = path.join(process.cwd(), '.github/workflows')
+  const cases = [
+    {
+      mutate(source) {
+        return source.replace(/      - name: Download current Guides reports[\s\S]*?          path: plugins\/lark-docs\/meta\/reports\n/, '')
+      },
+      expected: /aggregate must download current Guides reports/,
+    },
+    {
+      mutate(source) {
+        return source
+          .replace('      - name: Restore committed report directories', '      - name: Collect card report summaries\n        run: true\n      - name: Restore committed report directories')
+          .replace('      - id: reports\n        name: Collect card report summaries', '      - id: reports\n        name: Collect card report summaries late')
+      },
+      expected: /downloaded before card collection/,
+    },
+    {
+      mutate(source) {
+        return source.replace('path: plugins/lark-docs/meta/reports', 'path: tmp/guides-reports')
+      },
+      expected: /collector report directory/,
+    },
+    {
+      mutate(source) {
+        return source.replace(/^\s+CARD_REPORT_ARTIFACT_URL:.*\n/m, '')
+      },
+      expected: /artifact-only card reports require a workflow artifact URL/,
+    },
+    {
+      mutate(source) {
+        return source.replace('CARD_REPORT_STARTED_AT: ${{ needs.prepare.outputs.card_started_at }}', 'APP_ID: ${{ secrets.APP_ID }}\n          CARD_REPORT_STARTED_AT: ${{ needs.prepare.outputs.card_started_at }}')
+      },
+      expected: /report ingestion must not receive Feishu credentials/,
+    },
+  ]
+
+  for (const fixture of cases) {
+    const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'aggregate-report-policy-'))
+    try {
+      fs.cpSync(sourceDirectory, directory, { recursive: true })
+      const file = path.join(directory, 'fetch-docs.yml')
+      fs.writeFileSync(file, fixture.mutate(fs.readFileSync(file, 'utf8')))
       assert.match(validateWorkflowPolicies(directory).join('\n'), fixture.expected)
     } finally {
       fs.rmSync(directory, { recursive: true, force: true })
@@ -225,12 +452,17 @@ test('guides workflows bootstrap full sources and persist only verified caches',
   const source = fs.readFileSync('.github/workflows/_fetch-guides-sources.yml', 'utf8')
   const assemble = fs.readFileSync('.github/workflows/_assemble-guides.yml', 'utf8')
   assert.match(caller, /^  actions: write$/m)
-  assert.match(source, /actions\/cache\/restore@v4/)
-  assert.match(source, /guides-source-cache\.js validate/)
+  assert.match(source, /id: source_cache_keys[\s\S]*--version 2[\s\S]*--version 1/)
+  assert.match(source, /id: source_cache_v2[\s\S]*actions\/cache\/restore@v4[\s\S]*steps\.source_cache_keys\.outputs\.v2/)
+  assert.match(source, /id: source_cache_v1[\s\S]*source_cache_v2\.outputs\.cache-hit != 'true'[\s\S]*actions\/cache\/restore@v4[\s\S]*steps\.source_cache_keys\.outputs\.v1/)
+  assert.match(source, /guides-source-cache\.js validate-source/)
+  assert.match(source, /guides-source-cache\.js validate-media/)
   assert.match(source, /plugins\/lark-docs\/meta\/media-cache\/guides\.json/)
   assert.match(source, /--media-manifest "?plugins\/lark-docs\/meta\/media-cache\/guides\.json"?/)
   assert.match(source, /--force-full-fetch/)
-  assert.match(source, /steps\.source_cache_check\.outputs\.valid/)
+  assert.match(source, /id: source_cache_check[\s\S]*source_valid[\s\S]*media_valid[\s\S]*cache_version/)
+  assert.match(source, /steps\.source_cache_check\.outputs\.source_valid[\s\S]*args\+=\(--force-full-fetch\)/)
+  assert.doesNotMatch(source, /media_valid[^\n]*[\s\S]{0,180}args\+=\(--force-full-fetch\)/)
   assert.match(assemble, /guides-source-cache\.js create/)
   assert.match(assemble, /--media-manifest "?plugins\/lark-docs\/meta\/media-cache\/guides\.json"?/)
   assert.match(assemble, /actions\/cache\/save@v4/)
@@ -250,7 +482,7 @@ test('guides media is prefetched once for the incremental render scope and share
   assert.match(source, /--snapshot plugins\/lark-docs\/meta\/reports\/guides-source-snapshot-candidate\.json/)
   assert.match(source, /--previous-manifest plugins\/lark-docs\/meta\/media-cache\/guides\.json/)
   assert.match(source, /--bootstrap-docs docs,docs-byoc/)
-  assert.match(source, /--reuse-existing.*steps\.source_cache_check\.outputs\.valid/)
+  assert.match(source, /--reuse-existing.*steps\.source_cache_check\.outputs\.source_valid/)
   assert.match(source, /--concurrency 4/)
   assert.match(source, /GUIDES_FIGMA_MAX_CONCURRENT: '1'/)
   assert.match(source, /GUIDES_FIGMA_MIN_TIME_MS: '1000'/)
@@ -324,6 +556,13 @@ test('guides translations run in parallel and publish batches in one short order
   assert.ok(publish.needs.includes('translate_guides_batches'))
   assert.ok(publish.needs.includes('publish_rest'))
   assert.equal(publish.uses, './.github/workflows/_publish-translation-batches.yml')
+
+  const publisher = fs.readFileSync('scripts/docs-workflow/publish-checkpoint.sh', 'utf8')
+  assert.match(publisher, /checkpoint-stage-paths\.js" select/)
+  assert.match(publisher, /--pathspec-from-file="\$stage_paths_file"/)
+  assert.match(publisher, /--pathspec-file-nul/)
+  assert.match(publisher, /checkpoint-stage-paths\.js" verify/)
+  assert.doesNotMatch(publisher, /git add --all -- "\$\{paths\[@\]\}"/)
 
   const reusable = fs.readFileSync('.github/workflows/_publish-translation-batches.yml', 'utf8')
   const reusableYaml = yaml.load(reusable)

@@ -13,7 +13,7 @@ const publishingWorkflows = new Set([
   '_translate-publish-batch.yml',
 ])
 
-function validateWorkflowPolicies(directory = workflowDirectory) {
+function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
   const errors = []
   const files = fs.readdirSync(directory).filter(file => file.endsWith('.yml')).sort()
 
@@ -86,6 +86,9 @@ function validateWorkflowPolicies(directory = workflowDirectory) {
 
     if (file === '_prepare-translation-batches.yml') {
       const requiredPatterns = [
+        [/^      candidate_counts: \{ value: '\$\{\{ jobs\.prepare\.outputs\.candidate_counts \}\}' \}$/m, 'must expose translation candidate counts'],
+        [/^      candidate_counts: \$\{\{ steps\.summary\.outputs\.candidate_counts \}\}$/m, 'must map prepare candidate counts from the summary step'],
+        [/^            candidate_counts: JSON\.stringify\(summary\.candidateCounts\),$/m, 'must emit classified translation candidate counts'],
         [/git cat-file -e "\$SOURCE_COMMIT_SHA\^" 2>\/dev\/null \|\| git fetch --no-tags --depth=2 origin "\$SOURCE_COMMIT_SHA"/, 'must recover source checkpoint ancestry after generated-state restore'],
         [/git cat-file -e "\$SOURCE_COMMIT_SHA\^"[\s\S]*git diff --name-status "\$SOURCE_COMMIT_SHA\^" "\$SOURCE_COMMIT_SHA"/, 'must verify the source checkpoint parent before deriving durable batches'],
         [/git diff --name-status "\$SOURCE_COMMIT_SHA\^" "\$SOURCE_COMMIT_SHA"/, 'must derive durable batches from the immutable source checkpoint diff'],
@@ -132,6 +135,7 @@ function validateWorkflowPolicies(directory = workflowDirectory) {
 
     if (file === 'fetch-docs.yml') {
       const requiredPatterns = [
+        [/^          GUIDES_TRANSLATION_CANDIDATES: \$\{\{ needs\.prepare_guides_translation_batches\.outputs\.candidate_counts \}\}$/m, 'must pass Guides candidate counts to aggregation'],
         [/render_guides_tables:[\s\S]*max-parallel: 4[\s\S]*fromJSON\(needs\.produce_guides_sources\.outputs\.table_matrix\)/, 'must render Guides target/table matrix with max-parallel 4'],
         [/produce_guides:[\s\S]*render_guides_tables\.result == 'skipped'/, 'must assemble an empty Guides render matrix'],
       ]
@@ -210,6 +214,24 @@ function validateWorkflowPolicies(directory = workflowDirectory) {
     if (!/name: docs-card-report-\$\{\{ github\.run_id \}\}/.test(aggregateSource) || !/name: Upload final card report artifact[\s\S]*if: \$\{\{ always\(\) \}\}[\s\S]*continue-on-error: true/.test(aggregateSource)) {
       errors.push('fetch-docs.yml: aggregate must always attempt the final card report artifact')
     }
+    const restoreReports = aggregateSource.indexOf('name: Restore committed report directories')
+    const downloadGuidesReports = aggregateSource.indexOf('name: Download current Guides reports')
+    const collectReports = aggregateSource.indexOf('name: Collect card report summaries')
+    if (downloadGuidesReports < 0) errors.push('fetch-docs.yml: aggregate must download current Guides reports')
+    if (!(restoreReports >= 0 && downloadGuidesReports > restoreReports && collectReports > downloadGuidesReports)) {
+      errors.push('fetch-docs.yml: current Guides reports must be downloaded before card collection')
+    }
+    if (!/name: Download current Guides reports[\s\S]*path: plugins\/lark-docs\/meta\/reports/.test(aggregateSource)) {
+      errors.push('fetch-docs.yml: Guides reports must restore into the collector report directory')
+    }
+    if (!/CARD_REPORT_ARTIFACT_URL:/.test(aggregateSource)) {
+      errors.push('fetch-docs.yml: artifact-only card reports require a workflow artifact URL')
+    }
+    const createReport = aggregateSource.indexOf('name: Create final card report artifact')
+    const reportIngestion = aggregateSource.slice(Math.max(0, restoreReports), createReport >= 0 ? createReport : aggregateSource.length)
+    if (/APP_ID|APP_SECRET|SPACE_ID|FIGMA_API_KEY|MODEL_API_KEY/.test(reportIngestion)) {
+      errors.push('fetch-docs.yml: aggregate report ingestion must not receive Feishu credentials')
+    }
     if (/name: Finish progress card|report-live-card\.sh/.test(callerSource)) errors.push('fetch-docs.yml: aggregate must not directly patch the card')
   }
 
@@ -231,6 +253,23 @@ function validateWorkflowPolicies(directory = workflowDirectory) {
         !/name: Upload Guides progress metadata[\s\S]*continue-on-error: true[\s\S]*name: docs-progress-metadata-\$\{\{ github\.run_id \}\}/.test(guidesSource)) {
       errors.push('_fetch-guides-sources.yml: Guides progress metadata must be best-effort and run-scoped')
     }
+    if (!/id: source_cache_v2[\s\S]*id: source_cache_v1/.test(guidesSource)) {
+      errors.push('_fetch-guides-sources.yml: Guides source cache requires a v1 exact migration fallback')
+    }
+    if (/restore-keys:/.test(guidesSource)) {
+      errors.push('_fetch-guides-sources.yml: Guides source cache restore must remain exact')
+    }
+    const sourceFetchBlock = guidesSource.slice(
+      guidesSource.indexOf('name: Fetch shared guides sources'),
+      guidesSource.indexOf('name: Prefetch shared guides media'),
+    )
+    if (!/steps\.source_cache_check\.outputs\.source_valid/.test(sourceFetchBlock) || /steps\.source_cache_check\.outputs\.media_valid/.test(sourceFetchBlock)) {
+      errors.push('_fetch-guides-sources.yml: full fetch must depend only on source validity')
+    }
+    const mediaInvalidation = guidesSource.match(/if \[\[ "\$media_valid" != true \]\]; then\n([\s\S]*?)\n\s+fi/)?.[1] || ''
+    if (!/rm -rf plugins\/lark-docs\/meta\/media-cache/.test(mediaInvalidation) || /plugins\/lark-docs\/meta\/sources\/guides/.test(mediaInvalidation)) {
+      errors.push('_fetch-guides-sources.yml: media invalidation must preserve source files')
+    }
   }
 
   for (const file of ['_assemble-guides.yml', '_publish-content-group.yml', '_translate-content-group.yml', '_publish-translation-batches.yml', '_translate-publish-batch.yml', '_verify-docs.yml']) {
@@ -243,6 +282,19 @@ function validateWorkflowPolicies(directory = workflowDirectory) {
     if (/contents: write|actions: write|SPACE_ID|FIGMA_API_KEY|MODEL_API_KEY|AWS_ACCESS_KEY_ID|AWS_SECRET_ACCESS_KEY/.test(monitorSource)) errors.push('_monitor-docs-progress.yml: monitor must not receive write or source-production credentials')
   } else if (callerSource) {
     errors.push('_monitor-docs-progress.yml: central monitor workflow is required')
+  }
+
+  const publisherPath = options.publisherPath || path.join(process.cwd(), 'scripts/docs-workflow/publish-checkpoint.sh')
+  const publisherSource = fs.readFileSync(publisherPath, 'utf8')
+  for (const [pattern, message] of [
+    [/checkpoint-stage-paths\.js" select/, 'checkpoint publisher must select stageable manifest paths'],
+    [/--pathspec-from-file="\$stage_paths_file"[\s\S]*--pathspec-file-nul/, 'checkpoint publisher must use NUL-delimited literal pathspec staging'],
+    [/checkpoint-stage-paths\.js" verify/, 'checkpoint publisher must verify staged manifest scope'],
+  ]) {
+    if (!pattern.test(publisherSource)) errors.push(`publish-checkpoint.sh: ${message}`)
+  }
+  if (/git add --all -- "\$\{paths\[@\]\}"/.test(publisherSource)) {
+    errors.push('publish-checkpoint.sh: direct manifest pathspec staging is not idempotent')
   }
 
   return errors

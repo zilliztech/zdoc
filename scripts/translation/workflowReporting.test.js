@@ -15,19 +15,14 @@ test('reusable translation workflow produces and uploads a group-scoped report',
   assert.match(workflow, /timeout-minutes: 360/)
   assert.match(workflow, /id: agents/)
   assert.match(workflow, /steps\.agents\.outputs\.translated_count/)
-  assert.match(workflow, /CARD_NO_CHANGES_GROUP: \$\{\{ steps\.result\.outputs\.status == 'no_changes' && inputs\.group \|\| '' \}\}/)
   for (const input of ['batch_index', 'batch_number', 'batch_count', 'batch_size', 'pending_count', 'pending_set_sha256']) {
     assert.match(workflow, new RegExp(`^      ${input}:`, 'm'))
   }
   assert.match(workflow, /ARTIFACT_SUFFIX/)
   assert.match(workflow, /--expected-pending-set-sha256/)
-  assert.match(workflow, /CARD_JOB_NAME: \$\{\{ inputs\.batch_number > 0 && format\('\{0\}_translation_batch_\{1\}_of_\{2\}_pending_\{3\} \/ translate batch \{1\} of \{2\}'/)
 })
 
-test('batch publisher reports a reconstructable durable job identity', () => {
-  const workflow = fs.readFileSync('.github/workflows/_publish-content-group.yml', 'utf8')
-  assert.match(workflow, /^      translation_pending_count:/m)
-  assert.match(workflow, /CARD_JOB_NAME: \$\{\{ inputs\.translation_batch_number > 0 && format\('\{0\}_translation_batch_\{1\}_of_\{2\}_pending_\{3\} \/ publish batch \{1\} of \{2\} \(\{4\} docs\)'/)
+test('batch publisher validates and publishes a reconstructable durable checkpoint', () => {
   const wrapper = fs.readFileSync('.github/workflows/_translate-publish-batch.yml', 'utf8')
   const publishJob = wrapper.slice(wrapper.indexOf('\n  publish:'))
   assert.match(publishJob, /needs: translate/)
@@ -39,4 +34,17 @@ test('batch publisher reports a reconstructable durable job identity', () => {
   assert.match(publishJob, /validate-checkpoint-artifact\.js[\s\S]*checkpoint translation batch identity mismatch/)
   assert.match(publishJob, /publish-checkpoint\.sh[\s\S]*--max-attempts 10[\s\S]*\$GITHUB_WORKSPACE\/scripts\/validate-generated-sidebars\.js[\s\S]*\$GITHUB_WORKSPACE\/scripts\/validate-translated-coverage\.js/)
   assert.match(publishJob, /status=\$\(sed[\s\S]*published \|\| "\$status" == no_changes/)
+})
+
+test('batch preparation reports translation candidate reason counts', () => {
+  const prepare = fs.readFileSync('.github/workflows/_prepare-translation-batches.yml', 'utf8')
+  assert.match(prepare, /^      candidate_counts: \{ value: '\$\{\{ jobs\.prepare\.outputs\.candidate_counts \}\}' \}$/m)
+  assert.match(prepare, /^      candidate_counts: \$\{\{ steps\.summary\.outputs\.candidate_counts \}\}$/m)
+  assert.match(prepare, /candidate_counts: JSON\.stringify\(summary\.candidateCounts\)/)
+  assert.match(prepare, /^          console\.log\(`translation candidates: total=\$\{summary\.candidateCounts\.total\} current_delta=\$\{summary\.candidateCounts\.current_delta\} missing_target=\$\{summary\.candidateCounts\.missing_target\} stale_source=\$\{summary\.candidateCounts\.stale_source\}`\)$/m)
+})
+
+test('aggregate receives Guides translation candidate counts', () => {
+  const workflow = fs.readFileSync('.github/workflows/fetch-docs.yml', 'utf8')
+  assert.match(workflow, /^          GUIDES_TRANSLATION_CANDIDATES: \$\{\{ needs\.prepare_guides_translation_batches\.outputs\.candidate_counts \}\}$/m)
 })

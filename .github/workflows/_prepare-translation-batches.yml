@@ -12,6 +12,7 @@ on:
       batch_count: { value: '${{ jobs.prepare.outputs.batch_count }}' }
       batch_size: { value: '${{ jobs.prepare.outputs.batch_size }}' }
       pending_set_sha256: { value: '${{ jobs.prepare.outputs.pending_set_sha256 }}' }
+      candidate_counts: { value: '${{ jobs.prepare.outputs.candidate_counts }}' }
 
 permissions:
   contents: read
@@ -26,6 +27,7 @@ jobs:
       batch_count: ${{ steps.summary.outputs.batch_count }}
       batch_size: ${{ steps.summary.outputs.batch_size }}
       pending_set_sha256: ${{ steps.summary.outputs.pending_set_sha256 }}
+      candidate_counts: ${{ steps.summary.outputs.candidate_counts }}
     env:
       GROUP: ${{ inputs.group }}
       SOURCE_COMMIT_SHA: ${{ inputs.source_commit_sha }}
@@ -57,12 +59,14 @@ jobs:
           const batchSize = getContentGroup(process.env.GROUP).durableTranslationBatchSize
           if (batchSize <= 0) throw new Error(`Durable translation batching is disabled for ${process.env.GROUP}`)
           const summary = createBatchSummary(manifest, batchSize)
+          console.log(`translation candidates: total=${summary.candidateCounts.total} current_delta=${summary.candidateCounts.current_delta} missing_target=${summary.candidateCounts.missing_target} stale_source=${summary.candidateCounts.stale_source}`)
           const lines = {
             matrix: JSON.stringify(summary.matrix),
             pending_count: String(summary.pendingCount),
             batch_count: String(summary.batchCount),
             batch_size: String(summary.batchSize),
             pending_set_sha256: summary.pendingSetSha256,
+            candidate_counts: JSON.stringify(summary.candidateCounts),
           }
           JSON.parse(lines.matrix)
           fs.appendFileSync(process.env.GITHUB_OUTPUT, Object.entries(lines).map(([key, value]) => `${key}=${value}\n`).join(''))
