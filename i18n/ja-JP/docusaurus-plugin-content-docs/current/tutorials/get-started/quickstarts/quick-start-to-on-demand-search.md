@@ -1,16 +1,16 @@
 ---
-title: "オンデマンド検索のクイックスタート | Cloud"
+title: "オンデマンド検索クイックスタート | Cloud"
 slug: /quick-start-to-on-demand-search
-sidebar_label: "オンデマンド検索のクイックスタート"
+sidebar_label: "オンデマンド検索クイックスタート"
 beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud はオンデマンドのコンピューティングリソースを提供し、必要に応じて類似検索やクエリを実行できます。以下の図に示すように、リクエストが到着しない場合、コンピューティングリソースは自動的に一時停止し、一時停止中のコンピューティングリソースには課金されません。 | Cloud"
+description: "Zilliz Cloud はオンデマンドのコンピューティングリソースを提供しており、必要に応じて類似検索やクエリを実行できます。以下の図に示すように、リクエストが到着しない場合、コンピューティングリソースは自動的に停止し、停止中のコンピューティングリソースには料金が発生しません。 | Cloud"
 type: origin
 token: GQN0wDCrni4n36kyeVQcF41Lned
-sidebar_position: 3
+sidebar_position: 1
 displayed_sidebar: default
 
 ---
@@ -19,21 +19,21 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# オンデマンド検索のクイックスタート
+# オンデマンド検索クイックスタート
 
-Zilliz Cloud はオンデマンドのコンピューティングリソースを提供し、必要に応じて類似検索やクエリを実行できます。以下の図に示すように、リクエストが到着しない場合、コンピューティングリソースは自動的に一時停止し、一時停止中のコンピューティングリソースには課金されません。
+Zilliz Cloud はオンデマンドのコンピューティングリソースを提供しており、必要に応じて類似検索やクエリを実行できます。以下の図に示すように、リクエストが到着しない場合、コンピューティングリソースは自動的に停止し、停止中のコンピューティングリソースには料金が発生しません。
 
 ![ZhWHbgOD0o56IpxbQ32ctGaInBe](https://zdoc-images.s3.us-west-2.amazonaws.com/zhwhbgod0o56ipxbq32ctgainbe.png "ZhWHbgOD0o56IpxbQ32ctGaInBe")
 
-## ステップ 1: プロジェクトエンドポイントに接続する。\{#step-1-connect-to-a-project-endpoint}
+## Step 1: project endpoint に接続する。\{#step-1-connect-to-a-project-endpoint}
 
-データベースで作業する前に、プロジェクトエンドポイントに接続します。プロジェクトエンドポイントは、Zilliz Cloud コンソールでオンデマンドコンピューティングを有効化した後、クイックスタートページで取得できます。
+データベースで作業を行う前に、project endpoint に接続します。project endpoint は、Zilliz Cloud コンソールでオンデマンドコンピューティングを有効にした後、クイックスタートページで取得できます。
 
 <Admonition type="info" icon="📘" title="注意">
 
-- マネージドコレクションの操作では、認証に **API キー** が必要です。このフローでは `username:password` 認証はサポートされていません。
+- Managed collection の操作では、認証のために **API key** が必要です。このフローでは `username:password` 認証はサポートされていません。
 
-- オンデマンドコンピューティング用データベース内のマネージドコレクションでは、ロード操作は不要です。
+- オンデマンドコンピューティング用データベース内の managed collection では、load 操作は不要です。
 
 </Admonition>
 
@@ -121,9 +121,9 @@ auto status = client->Connect(connect_param);
 </TabItem>
 </Tabs>
 
-## ステップ 2: （任意）データベースを作成する。\{#step-2-optional-create-a-database}
+## Step 2: （任意）データベースを作成する。\{#step-2-optional-create-a-database}
 
-Zilliz Cloud にはデフォルトのデータベースが用意されています。それを使用する場合は、このステップをスキップしてください。以下のようにデータベースを作成することもできます。
+Zilliz Cloud にはデフォルトのデータベースが用意されています。それを使う場合は、このステップをスキップしてください。以下のようにデータベースを作成することもできます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -203,11 +203,11 @@ auto status = client->CreateDatabase(request);
 </TabItem>
 </Tabs>
 
-## ステップ 3: マネージドコレクションを作成する。\{#step-3-create-a-managed-collection}
+## Step 3: managed collection を作成する。\{#step-3-create-a-managed-collection}
 
-データベースの準備ができたら、その中にマネージドコレクションを作成できます。コレクション列を外部データファイルにマッピングする外部コレクションとは異なり、マネージドコレクションではデータをインポートすることで、大幅なパフォーマンス向上が得られます。 
+データベースの準備ができたら、その中に managed collection を作成できます。外部データファイルに collection の列をマッピングする external collection とは異なり、managed collection では大幅なパフォーマンス向上のためにデータのインポートが必要です。 
 
-以下の例は、コレクションスキーマを設定してコレクションを作成する方法を示しています。
+以下の例では、collection schema を設定して collection を作成する方法を示します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -392,7 +392,7 @@ schema->AddField(milvus::FieldSchema("embedding", milvus::DataType::FLOAT_VECTOR
 </TabItem>
 </Tabs>
 
-次に、上記のスキーマを使用してコレクションを作成できます。デフォルトのデータベースを使用する場合は、`db_name` パラメータを安全にスキップできます。
+その後、上記の schema を使って collection を作成できます。デフォルトのデータベースを使用する場合は、`db_name` パラメータを安全に省略できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -497,9 +497,9 @@ status = client->CreateCollection(request);
 </TabItem>
 </Tabs>
 
-## ステップ 4: インデックスを作成する。\{#step-4-create-indexes}
+## Step 4: index を作成する。\{#step-4-create-indexes}
 
-すべてのベクトルフィールドに対してインデックスを作成する必要があります。また、必要に応じて選択したスカラーフィールドにも作成できます。
+すべての vector フィールドに対して index を作成する必要があり、必要に応じて選択した scalar フィールドにも作成できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -669,11 +669,11 @@ auto status = client->CreateIndex(request);
 </TabItem>
 </Tabs>
 
-## ステップ 5: データをインポートする\{#step-5-import-data}
+## Step 5: データをインポートする。\{#step-5-import-data}
 
 すべての設定が完了したら、処理済みデータをインポートできます。以下の例では、処理済みデータを外部ストレージバケットに保存していることを前提としています。
 
-バケットまたはストレージ統合内のデータ形式については、[Format Options](./data-import-format-options) を参照してください。
+バケット内のデータ形式またはストレージ統合については、[Format Options](./data-import-format-options) を参照してください。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
@@ -803,7 +803,7 @@ zilliz import start \
 </TabItem>
 </Tabs>
 
-返されたジョブ ID を使用して、その進行状況を監視できます。
+返されたジョブ ID を使って、進行状況を監視できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
@@ -893,9 +893,9 @@ zilliz import status \
 </TabItem>
 </Tabs>
 
-## ステップ 6: オンデマンドクラスターを作成する\{#step-6-create-an-on-demand-cluster}
+## Step 6: オンデマンド cluster を作成する\{#step-6-create-an-on-demand-cluster}
 
-コレクションの準備ができたら、オンデマンド検索のためにそれをオンデマンドクラスターにアタッチする必要があります。次のコマンドはクラスターを作成し、その ID を返します。
+collection の準備ができたら、オンデマンド検索のためにそれをオンデマンド cluster にアタッチする必要があります。以下のコマンドは cluster を作成し、その ID を返します。
 
 ```bash
 export CONTROL_PLANE_ENDPOINT="https://api.cloud.zilliz.com"
@@ -915,11 +915,11 @@ curl --request POST \
 # inxx-xxxxxxxxxxxxx
 ```
 
-デフォルトでは、クラスターは最後のリクエストから 60 秒後に自動的にサスペンドされます。ユースケースに応じた値に設定できます。
+デフォルトでは、最後のリクエストから 60 秒後に cluster は自動的に停止します。ユースケースに合わせて適切な値に設定できます。 
 
-## ステップ 7: 検索を実行する\{#step-7-conduct-searches}
+## Step 7: 検索を実行する。\{#step-7-conduct-searches}
 
-検索、クエリ、またはハイブリッド検索を実行する必要がある場合は、セッションを介して前のステップで作成したオンデマンドクラスターにアタッチできます。
+検索、クエリ、またはハイブリッド検索を実行する必要がある場合は、session を介して前のステップで作成したオンデマンド cluster にアタッチできます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"Zilliz CLI","value":"shell"}]}>
 <TabItem value='python'>
@@ -1078,5 +1078,5 @@ zilliz vector search \
 </TabItem>
 </Tabs>
 
-これでデータを探索し、最も価値の高いサブセットを見つけることができます。その後、サービングクラスターに接続し、そこへデータをインポートして、本番環境向けに提供できます。
+その後、データを探索して、最も価値の高いサブセットを見つけることができます。続いて serving cluster に接続し、そこへデータをインポートして、本番環境向けに提供できます。
 

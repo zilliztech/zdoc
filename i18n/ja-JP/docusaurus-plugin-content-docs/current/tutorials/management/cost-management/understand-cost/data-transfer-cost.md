@@ -7,10 +7,10 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "データ転送には、Zilliz Cloud に入ってくるトラフィック、Zilliz Cloud からインターネットへ出ていくトラフィック、または Zilliz Cloud 内の 2 つのリソース間のトラフィックが含まれます。Zilliz Cloud のデータ転送コストは、転送されたデータ量に基づいて課金されます。 | Cloud"
+description: "データ転送には、Zilliz Cloud に入ってくるトラフィック、Zilliz Cloud からインターネットへ出ていくトラフィック、または Zilliz Cloud 内の 2 つのリソース間のトラフィックがあります。Zilliz Cloud のデータ転送コストは、転送されたデータ量に基づいて請求されます。 | Cloud"
 type: origin
 token: BClgwKlHaiushBkPPssclTkYnef
-sidebar_position: 1
+sidebar_position: 6
 displayed_sidebar: default
 
 ---
@@ -20,15 +20,15 @@ import Admonition from '@theme/Admonition';
 
 # データ転送コスト
 
-データ転送には、Zilliz Cloud に入ってくるトラフィック、Zilliz Cloud からインターネットへ出ていくトラフィック、または Zilliz Cloud 内の 2 つのリソース間のトラフィックが含まれます。Zilliz Cloud のデータ転送コストは、転送されたデータ量に基づいて課金されます。 
+データ転送には、Zilliz Cloud に入ってくるトラフィック、Zilliz Cloud からインターネットへ出ていくトラフィック、または Zilliz Cloud 内の 2 つのリソース間のトラフィックがあります。Zilliz Cloud のデータ転送コストは、転送されたデータ量に基づいて請求されます。 
 
 <Admonition type="info" icon="📘" title="Notes">
 
-各組織には、最初の 100 GB をカバーする月額 &#36;10 のデータ転送割引が提供されます。
+各 organization には毎月 &#36;10 のデータ転送割引が適用され、最初の 100 GB が対象となります。
 
 </Admonition>
 
-次の表は、さまざまなデータ転送タイプを比較したものです。
+以下の表では、さまざまなデータ転送タイプを比較しています。
 
 <table>
    <tr>
@@ -37,41 +37,41 @@ import Admonition from '@theme/Admonition';
      <th><p><strong>料金</strong></p></th>
    </tr>
    <tr>
-     <td><p><strong>インターネット送信</strong></p></td>
-     <td><p>パブリックインターネット送信とは、Zilliz Cloud クラスターからパブリックインターネット、またはパブリックエンドポイント経由でアクセスした際の別のクラウドプロバイダーへのアウトバウンドトラフィックを指します。 </p><p>これは、パブリックエンドポイント経由の読み取り、書き込み、クエリ、または移行トラフィックが現在のクラウドプロバイダーのネットワークを離れるときに発生します。 </p><p>同じクラウドプロバイダーのバックボーン内にとどまるトラフィック（例: リージョン間）は、インターネット送信ではなく、リージョン間データ転送として別途課金されます。</p></td>
+     <td><p><strong>Internet egress</strong></p></td>
+     <td><p>Public Internet egress は、public endpoint 経由でアクセスされた場合に、Zilliz Cloud cluster からパブリックインターネット、または別のクラウドプロバイダーへ送信されるアウトバウンドトラフィックを指します。 </p><p>これは、public endpoint を介した read、write、query、または migration のトラフィックが現在のクラウドプロバイダーのネットワーク外へ出るときに発生します。 </p><p>同じクラウドプロバイダーのバックボーン内に留まるトラフィック（例: cross-region）は、Internet egress ではなく、cross-region data transfer として別途請求されます。</p></td>
      <td><p>最も高額であり、コストは送信元と宛先によって決まります。</p><p>詳細な料金については、<a href="https://zilliz.com/pricing/pricing-guide">Zilliz Cloud Pricing Guide</a> を参照してください。</p></td>
    </tr>
    <tr>
-     <td><p><strong>リージョン間</strong></p></td>
-     <td><p>リージョン間データ転送とは、同じクラウドプロバイダーの異なるリージョン間で移動されるデータを指します。これには以下が含まれます。</p><ul><li><p>リージョン間クラスター移行</p></li><li><p>リージョン間バックアップ</p><p>パブリックエンドポイント経由でアクセスした際に、同じクラウドプロバイダーの別リージョンにあるクラスターへのトラフィック。</p></li></ul></td>
+     <td><p><strong>Cross-region</strong></p></td>
+     <td><p>Cross-region data transfer は、同じクラウドプロバイダーの異なるリージョン間で移動されるデータを指します。これには次が含まれます。</p><ul><li><p>Cross-region cluster migration</p></li><li><p>Cross-region backup</p><p>public endpoint 経由でアクセスされた場合に、同じクラウドプロバイダーの他リージョンにある cluster へのトラフィック。</p></li></ul></td>
      <td><ul><li><p>AWS の場合、コストは送信元の大陸によって決まります。</p></li><li><p>Azure と Google Cloud の場合、コストは送信元と宛先の両方の大陸によって決まります。</p><p>詳細な料金については、<a href="https://zilliz.com/pricing/pricing-guide">Zilliz Cloud Pricing Guide</a> を参照してください。</p></li></ul></td>
    </tr>
    <tr>
-     <td><p><strong>同一リージョン内</strong></p></td>
-     <td><p>同一リージョン内データ転送とは、クラウドプロバイダーの同じリージョン内でのデータ転送を指します。これには以下が含まれます。</p><ul><li><p>監査ログを同一リージョン内のクラウドオブジェクトストレージへ転送すること</p></li><li><p>同じリージョンにデプロイされた Zilliz Cloud クラスター間のデータ移行。</p></li></ul></td>
+     <td><p><strong>Intra-region</strong></p></td>
+     <td><p>Intra-region data transfer は、クラウドプロバイダーの同一リージョン内でのデータ転送を指します。これには次が含まれます。</p><ul><li><p>audit logs の同一リージョン内クラウドオブジェクトストレージへの転送</p></li><li><p>同じリージョンにデプロイされた Zilliz Cloud clusters 間のデータ migration。</p></li></ul></td>
      <td><p>無料</p></td>
    </tr>
 </table>
 
-## データ転送コストの発生源\{#sources-of-data-transfer-cost}
+## データ転送コストの発生元\{#sources-of-data-transfer-cost}
 
 以下のシナリオでは、データ転送に対して課金されます。
 
-- [検索](./single-vector-search)/[クエリ](./get-and-scalar-query) などの操作
+- [search](./single-vector-search) / [query](./get-and-scalar-query) などの操作
 
-- [監査ログ](./audit-logs) をクラウドオブジェクトストレージへ転送すること
+- [audit logs](./audit-logs) のクラウドオブジェクトストレージへの転送
 
-- [オフライン移行](./offline-migration)
+- [Offline migration](./offline-migration)
 
-- [リージョン間バックアップ](/docs/backup-to-other-regions)
+- [Cross-region backup](/docs/backup-to-other-regions)
 
-- データ取り込み、検索、クエリ、および再ランキングのために、[OpenAI](./openai)、[Voyage AI](./voyage-ai)、[Cohere](./cohere) などのサードパーティモデルプロバイダーを使用すること。
+- データ取り込み、search、query、reranking のために、[OpenAI](./openai)、[Voyage AI](./voyage-ai)、[Cohere](./cohere) などのサードパーティモデルプロバイダーを使用する場合
 
 <Admonition type="info" icon="📘" title="📘 Note">
 
-データ転送が同じクラウドリージョン内で発生する場合、コストは &#36;0 になる可能性があります。
+データ転送が同じクラウドリージョン内で発生する場合、コストは &#36;0 になることがあります。
 
-検索やクエリなどの操作をプライベートエンドポイントを使って実行する場合、データ転送コストは発生しません。
+search や query などの操作を private endpoint で実行する場合、データ転送コストは発生しません。
 
 </Admonition>
 
@@ -81,49 +81,49 @@ import Admonition from '@theme/Admonition';
 Data Transfer Cost = Data Transfer Unit Price × Transferred Data Size
 ```
 
-- **データ転送単価**: クラスターのクラウドプロバイダーとリージョン、データ転送タイプ（パブリックインターネット、リージョン間、または同一リージョン内）によって決まります。詳細な料金については、[Zilliz Cloud Pricing Guide](https://zilliz.com/pricing/pricing-guide) を参照してください。
+- **Data Transfer Unit Price**: cluster のクラウドプロバイダーとリージョン、データ転送タイプ（public internet、cross-region、または intra-region）によって決まります。詳細な料金については、[Zilliz Cloud Pricing Guide](https://zilliz.com/pricing/pricing-guide) を参照してください。
 
-- **転送データサイズ**: GB 単位で測定され、ネットワーク経由で送信されたデータのサイズに基づいて計算されます。
+- **Transferred Data Size**: GB 単位で測定され、ネットワーク経由で送信されたデータのサイズに基づいて計算されます。
 
 ## 例\{#examples}
 
-以下は、ストレージコストの計算方法を理解するための例です。
+以下は、ストレージコストがどのように計算されるかを理解するための例です。
 
-### 例 1: パブリックインターネット送信\{#example-1-public-internet-egress}
+### 例 1: Public internet egress\{#example-1-public-internet-egress}
 
-クラスターが AWS us-east-1 (Virginia) にデプロイされており、パブリックインターネット経由でクライアントに検索結果を返すとします。
+cluster が AWS us-east-1 (Virginia) にデプロイされており、パブリックインターネット経由でクライアントに search 結果を返すとします。
 
-- **転送データサイズ**: 1 か月で 500 GB
+- **Transferred Data Size**: 1 か月で 500 GB
 
-- **転送タイプ**: パブリックインターネット送信
+- **Transfer Type**: Public Internet Egress
 
-- **送信元の大陸**: 北米
+- **Source Continent**: 北米
 
-- **単価**: &#36;0.09/GB（北米からのパブリックインターネット送信料金に基づく）
+- **Unit Price**: &#36;0.09/GB（北米からの public internet egress レートに基づく）
 
 データ転送コストは `$0.09 × 500 = $45.00` です。
 
-### 例 2: リージョン間転送\{#example-2-cross-region-transfer}
+### 例 2: Cross-region transfer\{#example-2-cross-region-transfer}
 
-クラスターが GCP us-west1 (Oregon) にデプロイされており、このクラスターを 2 つの異なるリージョン、GCP us-central1 (Iowa) と GCP europe-west3 (Frankfurt) にバックアップする必要があるとします。
+cluster が GCP us-west1 (Oregon) にデプロイされており、この cluster を 2 つの異なるリージョン、GCP us-central1 (Iowa) と GCP europe-west3 (Frankfurt) にバックアップする必要があるとします。
 
-- **バックアップファイルサイズ**: 20 GB
+- **Backup File Size**: 20 GB
 
-- **転送タイプ**: リージョン間転送
+- **Transfer Type**: Cross-region Transfer
 
-- **送信元の大陸**: 北米
+- **Source Continent**: 北米
 
-- **宛先の大陸**: 北米およびヨーロッパ
+- **Destination Continent**: 北米とヨーロッパ
 
-- **単価**: 
+- **Unit Price**: 
 
-    - 北米（GCP us-west1）から北米（GCP us-central1）へのデータ転送は、**&#36;0.02/GB** の料金で課金されます。
+    - 北米 (GCP us-west1) から北米 (GCP us-central1) へのデータ転送は、**&#36;0.02/GB** の料金で請求されます。
 
-    - 北米（GCP us-west1）からヨーロッパ（GCP europe-west3）へのデータ転送は、**&#36;0.05/GB** の料金で課金されます。
+    - 北米 (GCP us-west1) から Europ (GCP europe-west3) へのデータ転送は、**&#36;0.05/GB** の料金で請求されます。
 
 データ転送コストは `$0.02 × 20 + $0.05 x 20 = $1.40` です。
 
-### 例 3: 同一リージョン内転送\{#example-3-intra-region-transfer}
+### 例 3: Intra-region transfer\{#example-3-intra-region-transfer}
 
-クラスターが AWS us-east-1 (Virginia) にデプロイされており、そのクラスターに対して監査ログ記録を有効にしているとします。また、このクラスターの監査ログを同じクラウドリージョン内に作成された AWS S3 バケットに転送する必要があるとします。この場合のデータ転送コストは、同一リージョン内データ転送が無料であるため **&#36;0** になります。
+cluster が AWS us-east-1 (Virginia) にデプロイされており、その cluster の audit logging を有効にして、同じクラウドリージョンに作成された AWS S3 バケットに audit logs を転送する必要があるとします。この場合、intra-region data transfer は無料であるため、データ転送コストは **&#36;0** になります。
 

@@ -7,10 +7,10 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud の Dedicated cluster は従量課金モデルに従っており、主に cluster が消費したコンピューティングリソースに対して課金されます。これにより、事前にリソースを過剰プロビジョニングする必要なく、実際に使用した分だけを支払うことができます。 | Cloud"
+description: "Zilliz Cloud の Dedicated cluster は従量課金モデルに従っており、主に cluster が消費するコンピューティングリソースに対して課金されます。これにより、事前にリソースを過剰にプロビジョニングすることなく、実際に使用した分だけを支払うことができます。 | Cloud"
 type: origin
 token: J2prwh2KLis9oqkqNIAcU1d6nsd
-sidebar_position: 1
+sidebar_position: 2
 displayed_sidebar: default
 
 ---
@@ -20,31 +20,31 @@ import Admonition from '@theme/Admonition';
 
 # Dedicated Cluster のコスト
 
-Zilliz Cloud の Dedicated cluster は従量課金モデルに従っており、主に cluster が消費したコンピューティングリソースに対して課金されます。これにより、事前にリソースを過剰プロビジョニングする必要なく、実際に使用した分だけを支払うことができます。
+Zilliz Cloud の Dedicated clusters は従量課金モデルに従っており、主に cluster が消費するコンピューティングリソースに対して課金されます。これにより、事前にリソースを過剰にプロビジョニングすることなく、実際に使用した分だけを支払うことができます。
 
 Dedicated cluster の総コストは、以下のコンポーネントの合計です。
 
 - [ベクトルデータベースのコスト](./dedicated-cluster-cost#vector-database-cost)
 
-- [ストレージのコスト](./dedicated-cluster-cost#storage-cost)
+- [ストレージコスト](./dedicated-cluster-cost#storage-cost)
 
-上記 2 つの主要な課金項目に加えて、以下のオプションの追加料金が適用される場合があります。
+上記の2つの主要な課金項目に加えて、以下のオプションの追加料金が適用される場合があります。
 
 - [データ転送コスト](./data-transfer-cost)
 
-- [監査ログのコスト](./audit-log-cost)
+- [監査ログコスト](./audit-log-cost)
 
 ## ベクトルデータベースのコスト\{#vector-database-cost}
 
 ベクトルデータベースのコストには、Dedicated cluster のコンピューティングリソースの使用料金が含まれます。
 
-### コスト計算\{#cost-calculation}
+### コストの計算\{#cost-calculation}
 
 ```plaintext
 Vector Database Cost = Query CU Unit Price x Total Number of Query CU x Cluster Runtime
 ```
 
-- **Query CU Unit Price**: cluster のリージョン、タイプ、およびプロジェクトプランによって決まります。詳細な料金については、[Zilliz Cloud Pricing](http://zilliz.com/pricing) を参照してください。
+- **Query CU Unit Price**: cluster のリージョン、タイプ、プロジェクトプランによって決まります。詳細な料金については、[Zilliz Cloud Pricing](http://zilliz.com/pricing) を参照してください。
 
 - **Total Number of Query CU**: レプリカを考慮した、cluster 内の query CU の総数です。
 
@@ -52,15 +52,15 @@ Vector Database Cost = Query CU Unit Price x Total Number of Query CU x Cluster 
     Total Number of Query CU = Number of Query CU × Replica Count
     ```
 
-    たとえば、2 query CU と 2 レプリカを持つ cluster の総 CU 数は 4 です。
+    たとえば、2 query CU と 2 replicas を持つ cluster の総 CU 数は 4 CU です。
 
 - **Cluster Runtime**: cluster が課金対象ステータスにある合計時間（時間単位）です。
 
-    - 課金対象ステータス: Running、Modifying、Migrating など。
+    - 課金対象ステータス: Running、Modifying、Migrating など
 
-    - 非課金ステータス: Creating、Suspending、Resuming、Suspended など。非課金ステータスの間は CU の課金は停止しますが、ストレージ料金は引き続き適用されます。
+    - 非課金ステータス: Creating、Suspending、Resuming、Suspended など。非課金ステータス中は CU の課金は停止しますが、ストレージ料金は引き続き発生します。
 
-    <Admonition type="info" icon="📘" title="注">
+    <Admonition type="info" icon="📘" title="注意">
 
     [スケーリング](./auto-scaling) ジョブの実行中、Zilliz Cloud は引き続き以前の構成に基づいて cluster に課金します。新しい構成が課金に使用されるのは、スケーリングジョブが正常に完了した後のみです。これはスケールアップとスケールダウンの両方に適用されます。ジョブがまだ進行中の間、cluster は引き続き以前の利用可能な構成でサービスを提供します。
 
@@ -84,19 +84,19 @@ cluster の構成が以下のとおりであるとします。
 
 - **Cluster** **Runtime:** 720 時間（1 か月）。
 
-このプラン、クラウドプロバイダーとリージョン、および cluster タイプの情報をもとに、[Pricing Page](https://zilliz.com/pricing) で CU Unit Price が **&#36;0.248/hour** であることを確認できます。
+プラン、クラウドプロバイダーとリージョン、cluster タイプの情報に基づいて、[Pricing Page](https://zilliz.com/pricing) で CU Unit Price が **&#36;0.248/hour** であることを確認できます。
 
 ![find-cu-unit-price](https://zdoc-images.s3.us-west-2.amazonaws.com/find-cu-unit-price.png "find-cu-unit-price")
 
-query CU 数とレプリカ数に基づくと、query CU の総数は `8 CU x 2 Replica = 16 CU` です。
+query CU 数と replica count に基づくと、query CU の総数は `8 CU x 2 Replica = 16 CU` です。
 
-この例の Dedicated cluster のベクトルデータベースの総コストは `$0.248 x 16 x 720 = $2856.96` です。
+この例の Dedicated cluster のベクトルデータベース総コストは `$0.248 x 16 x 720 = $2856.96` です。
 
-## ストレージのコスト\{#storage-cost}
+## ストレージコスト\{#storage-cost}
 
-ストレージ料金は CU コストとは別に課金され、以下に依存します。
+ストレージコストは CU コストとは別に課金され、以下に依存します。
 
-- cluster のクラウドプロバイダー、リージョン、タイプ、およびプラン
+- cluster のクラウドプロバイダーとリージョン、タイプ、プラン
 
 - ストレージ使用量
 
@@ -104,14 +104,14 @@ query CU 数とレプリカ数に基づくと、query CU の総数は `8 CU x 2 
 
 ## FAQ\{#faqs}
 
-**Dedicated cluster を一時停止した場合、課金されますか？**
+**Dedicated cluster を停止した場合、課金されますか？**
 
-Dedicated cluster が一時停止されると、ベクトルデータベースのコストは停止しますが、cluster を削除するまでストレージ料金は継続します。
+Dedicated cluster が停止されると、ベクトルデータベースのコストは停止しますが、cluster を削除するまでストレージ料金は引き続き発生します。
 
-**cluster の作成中または一時停止中に課金されますか？**
+**cluster の作成中または停止中にも課金されますか？**
 
-Creating、Suspending、Resuming、または Suspended ステータスの間は、ベクトルデータベースのコストは課金されません。ただし、ストレージ料金は引き続き適用されます。
+Creating、Suspending、Resuming、または Suspended ステータスの間は、ベクトルデータベースのコストは課金されません。ただし、ストレージコストは引き続き発生します。
 
-**Dedicated cluster をスケーリングするとき、スケーリング中は旧構成と新構成のどちらに基づいて課金されますか？**
+**Dedicated cluster をスケーリングする場合、スケーリング中は旧構成と新構成のどちらに基づいて課金されますか？**
 
 [スケーリング](./auto-scaling) 中は、以前の構成に基づいて課金されます。新しい構成が課金に使用されるのは、スケーリングジョブが正常に完了した後のみです。 
