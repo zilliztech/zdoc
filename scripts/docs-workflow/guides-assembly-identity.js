@@ -280,14 +280,10 @@ function validateCommittedDescriptor(value) {
 
 function incrementalPlanHasDelta(value) {
   if (!value || typeof value !== 'object' || Array.isArray(value) || value.mode !== 'incremental') return true
-  for (const key of ['changed_tokens', 'removed_tokens']) {
-    try { sortedUniqueStrings(value[key], `Guides incremental plan ${key}`) } catch (_) { return true }
+  for (const key of ['changed_tokens', 'removed_tokens', 'changed_records', 'removed_records', 'expanded_tokens']) {
+    if (!Array.isArray(value[key]) || value[key].length !== 0) return true
   }
-  if (value.added_tokens !== undefined) {
-    try { sortedUniqueStrings(value.added_tokens, 'Guides incremental plan added_tokens') } catch (_) { return true }
-  }
-  if (value.changed_tokens.length || value.removed_tokens.length || (value.added_tokens || []).length) return true
-  for (const key of ['changed_records', 'removed_records', 'expanded_tokens']) if (Array.isArray(value[key]) && value[key].length) return true
+  if (value.added_tokens !== undefined && (!Array.isArray(value.added_tokens) || value.added_tokens.length !== 0)) return true
   return false
 }
 
@@ -306,9 +302,11 @@ function decideAssembly(options) {
   const {
     candidateSnapshot, incrementalPlan, tableCount,
     baselineDescriptorPath, baselineSaasSidebarPath, baselineByocSidebarPath,
-    repositoryRoot, masterSha, devBaselineSha, baselineSourceSha,
+    repositoryRoot, baselineRoot, masterSha, devBaselineSha, baselineSourceSha,
     generatedAt = new Date().toISOString(), fsImpl = fs,
   } = options || {}
+  if (typeof repositoryRoot !== 'string' || !repositoryRoot) throw new Error('repositoryRoot is required')
+  if (typeof baselineRoot !== 'string' || !baselineRoot) throw new Error('baselineRoot is required')
   requireSha(masterSha, SHA40, 'masterSha')
   requireSha(devBaselineSha, SHA40, 'devBaselineSha')
   requireSha(baselineSourceSha, SHA40, 'baselineSourceSha')
@@ -327,11 +325,12 @@ function decideAssembly(options) {
     semanticSourceGraphSha256 = hashCanonical(semanticSourceProjection(candidateSnapshot))
     navigationOwnershipSha256 = hashCanonical(navigationOwnershipProjection(candidateSnapshot))
   }
-  const baselineRootIdentity = recordDirectoryIdentity(repositoryRoot, fsImpl)
-  const generatorFingerprintSha256 = generatorFingerprint({ repositoryRoot, masterSha, fsImpl, rootIdentity: baselineRootIdentity })
-  const descriptor = descriptorFact(repositoryRoot, baselineDescriptorPath, fsImpl, baselineRootIdentity)
-  const saas = readRegularFileFact(repositoryRoot, baselineSaasSidebarPath, 'Baseline SaaS sidebar', fsImpl, baselineRootIdentity)
-  const byoc = readRegularFileFact(repositoryRoot, baselineByocSidebarPath, 'Baseline BYOC sidebar', fsImpl, baselineRootIdentity)
+  const masterRootIdentity = recordDirectoryIdentity(repositoryRoot, fsImpl)
+  const generatorFingerprintSha256 = generatorFingerprint({ repositoryRoot, masterSha, fsImpl, rootIdentity: masterRootIdentity })
+  const baselineRootIdentity = recordDirectoryIdentity(baselineRoot, fsImpl)
+  const descriptor = descriptorFact(baselineRoot, baselineDescriptorPath, fsImpl, baselineRootIdentity)
+  const saas = readRegularFileFact(baselineRoot, baselineSaasSidebarPath, 'Baseline SaaS sidebar', fsImpl, baselineRootIdentity)
+  const byoc = readRegularFileFact(baselineRoot, baselineByocSidebarPath, 'Baseline BYOC sidebar', fsImpl, baselineRootIdentity)
   const reasons = []
   if (baselineSourceSha !== devBaselineSha) reasons.push('baseline-source-sha-mismatch')
   if (unsupportedSnapshotSchema) reasons.push('unsupported-snapshot-schema')
@@ -487,7 +486,11 @@ function atomicWriteJson(repositoryRoot, outputPath, value, fsImpl = fs) {
   return value
 }
 
-function writeCommittedDescriptor({ repositoryRoot, outputPath, descriptor, fsImpl = fs }) {
+function writeCommittedDescriptor({ repositoryRoot, outputPath, descriptor, decision = null, fsImpl = fs }) {
+  if (decision) {
+    validateAssemblyDecision(decision)
+    if (decision.reasons.includes('unsupported-snapshot-schema')) throw new Error('Cannot commit a descriptor from an unsupported snapshot schema decision')
+  }
   validateCommittedDescriptor(descriptor)
   return atomicWriteJson(repositoryRoot, outputPath, descriptor, fsImpl)
 }
@@ -517,10 +520,11 @@ function parseFlags(values, required) {
 function main(argv = process.argv.slice(2)) {
   const [operation, ...values] = argv
   if (operation === 'decide') {
-    const args = parseFlags(values, ['repository-root', 'candidate-snapshot', 'incremental-plan', 'baseline-descriptor', 'baseline-saas-sidebar', 'baseline-byoc-sidebar', 'master-sha', 'dev-baseline-sha', 'baseline-source-sha', 'table-count', 'output'])
+    const args = parseFlags(values, ['repository-root', 'baseline-root', 'candidate-snapshot', 'incremental-plan', 'baseline-descriptor', 'baseline-saas-sidebar', 'baseline-byoc-sidebar', 'master-sha', 'dev-baseline-sha', 'baseline-source-sha', 'table-count', 'output'])
     if (!/^(0|[1-9][0-9]*)$/.test(args['table-count'])) throw new Error('--table-count must be a nonnegative decimal integer')
     const decision = decideAssembly({
       repositoryRoot: args['repository-root'],
+      baselineRoot: args['baseline-root'],
       candidateSnapshot: readJsonPath(args['repository-root'], args['candidate-snapshot'], 'Candidate snapshot'),
       incrementalPlan: readJsonPath(args['repository-root'], args['incremental-plan'], 'Incremental plan'),
       baselineDescriptorPath: args['baseline-descriptor'],
@@ -544,7 +548,7 @@ function main(argv = process.argv.slice(2)) {
     const saas = readRegularFileFact(args['repository-root'], args['saas-sidebar'], 'SaaS sidebar')
     const byoc = readRegularFileFact(args['repository-root'], args['byoc-sidebar'], 'BYOC sidebar')
     if (!saas.valid || !byoc.valid) throw new Error('Descriptor sidebars must be regular non-symlink files')
-    return writeCommittedDescriptor({ repositoryRoot: args['repository-root'], outputPath: args.output, descriptor: {
+    return writeCommittedDescriptor({ repositoryRoot: args['repository-root'], outputPath: args.output, decision, descriptor: {
       schemaVersion: 1,
       semanticSourceGraphSha256: decision.semanticSourceGraphSha256,
       navigationOwnershipSha256: decision.navigationOwnershipSha256,

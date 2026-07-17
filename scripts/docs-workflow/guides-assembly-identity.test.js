@@ -64,11 +64,15 @@ function snapshot(overrides = {}) {
 }
 
 function plan(overrides = {}) {
-  return { mode: 'incremental', changed_tokens: [], removed_tokens: [], added_tokens: [], ...overrides }
+  return {
+    mode: 'incremental', changed_tokens: [], removed_tokens: [], changed_records: [], removed_records: [], expanded_tokens: [],
+    added_tokens: [], ...overrides,
+  }
 }
 
 function fixture() {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'guides-assembly-'))
+  const baselineRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'guides-assembly-baseline-'))
   for (const [index, relative] of ALLOWLIST.entries()) {
     const target = path.join(root, relative)
     fs.mkdirSync(path.dirname(target), { recursive: true })
@@ -82,10 +86,15 @@ function fixture() {
     incremental: 'inputs/plan.json',
     decision: 'outputs/decision.json',
   }
-  fs.mkdirSync(path.join(root, 'baseline'), { recursive: true })
-  fs.writeFileSync(path.join(root, paths.saas), 'module.exports = ["saas"]\n')
-  fs.writeFileSync(path.join(root, paths.byoc), 'module.exports = ["byoc"]\n')
-  return { root, paths }
+  fs.mkdirSync(path.join(baselineRoot, 'baseline'), { recursive: true })
+  fs.writeFileSync(path.join(baselineRoot, paths.saas), 'module.exports = ["saas"]\n')
+  fs.writeFileSync(path.join(baselineRoot, paths.byoc), 'module.exports = ["byoc"]\n')
+  return { root, baselineRoot, paths }
+}
+
+function cleanup(f) {
+  fs.rmSync(f.root, { recursive: true, force: true })
+  fs.rmSync(f.baselineRoot, { recursive: true, force: true })
 }
 
 function validDescriptor(f, candidate = snapshot(), masterSha = SHA_A) {
@@ -94,13 +103,13 @@ function validDescriptor(f, candidate = snapshot(), masterSha = SHA_A) {
     semanticSourceGraphSha256: hash(JSON.stringify(semanticSourceProjection(candidate))),
     navigationOwnershipSha256: hash(JSON.stringify(navigationOwnershipProjection(candidate))),
     generatorFingerprintSha256: generatorFingerprint({ repositoryRoot: f.root, masterSha }),
-    saasSidebarSha256: hash(fs.readFileSync(path.join(f.root, f.paths.saas))),
-    byocSidebarSha256: hash(fs.readFileSync(path.join(f.root, f.paths.byoc))),
+    saasSidebarSha256: hash(fs.readFileSync(path.join(f.baselineRoot, f.paths.saas))),
+    byocSidebarSha256: hash(fs.readFileSync(path.join(f.baselineRoot, f.paths.byoc))),
   }
 }
 
 function writeDescriptor(f, descriptor) {
-  fs.writeFileSync(path.join(f.root, f.paths.descriptor), JSON.stringify(descriptor))
+  fs.writeFileSync(path.join(f.baselineRoot, f.paths.descriptor), JSON.stringify(descriptor))
 }
 
 function decide(f, overrides = {}) {
@@ -109,7 +118,8 @@ function decide(f, overrides = {}) {
     baselineDescriptorPath: f.paths.descriptor,
     baselineSaasSidebarPath: f.paths.saas,
     baselineByocSidebarPath: f.paths.byoc,
-    repositoryRoot: f.root, masterSha: SHA_A, devBaselineSha: SHA_B, baselineSourceSha: SHA_B,
+    repositoryRoot: f.root, baselineRoot: f.baselineRoot,
+    masterSha: SHA_A, devBaselineSha: SHA_B, baselineSourceSha: SHA_B,
     generatedAt: '2026-07-17T01:02:03.000Z',
     ...overrides,
   })
@@ -213,7 +223,7 @@ test('generator fingerprint changes with masterSha and approved file bytes', () 
     fs.rmSync(path.join(f.root, ALLOWLIST[0]))
     fs.symlinkSync(path.join(f.root, 'linked.js'), path.join(f.root, ALLOWLIST[0]))
     assert.throws(() => generatorFingerprint({ repositoryRoot: f.root, masterSha: SHA_A }), /symlink|regular/i)
-  } finally { fs.rmSync(f.root, { recursive: true, force: true }) }
+  } finally { cleanup(f) }
 })
 
 test('reuse requires the exact schema-3 identity, empty delta, baseline facts, and sidebar bytes', () => {
@@ -231,7 +241,32 @@ test('reuse requires the exact schema-3 identity, empty delta, baseline facts, a
     assert.equal(decision.baselineDescriptorValid, true)
     assert.equal(decision.baselineSourceSha, SHA_B)
     assert.deepEqual(validateAssemblyDecision(decision, { masterSha: SHA_A, devBaselineSha: SHA_B }), decision)
-  } finally { fs.rmSync(f.root, { recursive: true, force: true }) }
+  } finally { cleanup(f) }
+})
+
+test('assembly decision fingerprints only masterRoot and reads artifacts only from baselineRoot', () => {
+  const f = fixture()
+  try {
+    writeDescriptor(f, validDescriptor(f))
+    fs.mkdirSync(path.join(f.root, 'baseline'), { recursive: true })
+    fs.writeFileSync(path.join(f.root, f.paths.descriptor), '{"wrong":"descriptor"}')
+    fs.writeFileSync(path.join(f.root, f.paths.saas), 'wrong master saas')
+    fs.writeFileSync(path.join(f.root, f.paths.byoc), 'wrong master byoc')
+    assert.equal(decide(f).mode, 'reuse')
+
+    const baselineTooling = path.join(f.baselineRoot, ALLOWLIST[0])
+    fs.mkdirSync(path.dirname(baselineTooling), { recursive: true })
+    fs.writeFileSync(baselineTooling, 'baseline tooling must be ignored')
+    assert.equal(decide(f).mode, 'reuse')
+
+    fs.appendFileSync(path.join(f.root, ALLOWLIST[0]), 'master tooling changed')
+    assert.deepEqual(decide(f).reasons, ['generator-fingerprint-mismatch'])
+
+    fs.writeFileSync(path.join(f.root, ALLOWLIST[0]), 'allowlist-0\n')
+    fs.appendFileSync(path.join(f.baselineRoot, f.paths.saas), 'baseline changed')
+    assert.deepEqual(decide(f).reasons, ['saas-sidebar-hash-mismatch'])
+    assert.throws(() => decide(f, { baselineDescriptorPath: '../escape.json' }), /baseline|safe|relative|escape/i)
+  } finally { cleanup(f) }
 })
 
 test('regenerate reasons are bounded, deterministic, and non-cascading', () => {
@@ -241,19 +276,19 @@ test('regenerate reasons are bounded, deterministic, and non-cascading', () => {
     ['source-delta', f => decide(f, { incrementalPlan: plan({ added_tokens: ['doc'] }) })],
     ['source-delta', f => decide(f, { incrementalPlan: plan({ removed_tokens: ['doc'] }) })],
     ['table-render-required', f => decide(f, { tableCount: 1 })],
-    ['baseline-descriptor-missing', f => { fs.rmSync(path.join(f.root, f.paths.descriptor)); return decide(f) }],
-    ['baseline-descriptor-invalid', f => { fs.writeFileSync(path.join(f.root, f.paths.descriptor), '{bad'); return decide(f) }],
+    ['baseline-descriptor-missing', f => { fs.rmSync(path.join(f.baselineRoot, f.paths.descriptor)); return decide(f) }],
+    ['baseline-descriptor-invalid', f => { fs.writeFileSync(path.join(f.baselineRoot, f.paths.descriptor), '{bad'); return decide(f) }],
     ['baseline-descriptor-invalid', f => { writeDescriptor(f, { ...validDescriptor(f), extra: true }); return decide(f) }],
     ['baseline-descriptor-invalid', f => { writeDescriptor(f, { ...validDescriptor(f), schemaVersion: 0 }); return decide(f) }],
-    ['baseline-saas-sidebar-missing', f => { fs.rmSync(path.join(f.root, f.paths.saas)); return decide(f) }],
-    ['baseline-saas-sidebar-invalid', f => { const target = path.join(f.root, f.paths.saas); fs.rmSync(target); fs.mkdirSync(target); return decide(f) }],
-    ['baseline-saas-sidebar-invalid', f => { const target = path.join(f.root, f.paths.saas); fs.rmSync(target); fs.symlinkSync(path.join(f.root, f.paths.byoc), target); return decide(f) }],
-    ['baseline-byoc-sidebar-missing', f => { fs.rmSync(path.join(f.root, f.paths.byoc)); return decide(f) }],
+    ['baseline-saas-sidebar-missing', f => { fs.rmSync(path.join(f.baselineRoot, f.paths.saas)); return decide(f) }],
+    ['baseline-saas-sidebar-invalid', f => { const target = path.join(f.baselineRoot, f.paths.saas); fs.rmSync(target); fs.mkdirSync(target); return decide(f) }],
+    ['baseline-saas-sidebar-invalid', f => { const target = path.join(f.baselineRoot, f.paths.saas); fs.rmSync(target); fs.symlinkSync(path.join(f.baselineRoot, f.paths.byoc), target); return decide(f) }],
+    ['baseline-byoc-sidebar-missing', f => { fs.rmSync(path.join(f.baselineRoot, f.paths.byoc)); return decide(f) }],
     ['semantic-source-mismatch', (f, d) => decide(f, { candidateSnapshot: snapshot({ records: [{ ...snapshot().records[0], source_hash: 'c'.repeat(64) }] }) })],
     ['navigation-ownership-mismatch', f => decide(f, { candidateSnapshot: snapshot({ navigation_records: [{ ...snapshot().navigation_records[0], slug: 'other' }] }) })],
     ['generator-fingerprint-mismatch', f => decide(f, { masterSha: SHA_B })],
-    ['saas-sidebar-hash-mismatch', f => { fs.appendFileSync(path.join(f.root, f.paths.saas), 'tampered'); return decide(f) }],
-    ['byoc-sidebar-hash-mismatch', f => { fs.appendFileSync(path.join(f.root, f.paths.byoc), 'tampered'); return decide(f) }],
+    ['saas-sidebar-hash-mismatch', f => { fs.appendFileSync(path.join(f.baselineRoot, f.paths.saas), 'tampered'); return decide(f) }],
+    ['byoc-sidebar-hash-mismatch', f => { fs.appendFileSync(path.join(f.baselineRoot, f.paths.byoc), 'tampered'); return decide(f) }],
   ]
   for (const [expected, operation] of scenarios) {
     const f = fixture()
@@ -264,7 +299,7 @@ test('regenerate reasons are bounded, deterministic, and non-cascading', () => {
       assert.equal(decision.reasons.includes(expected), true, JSON.stringify(decision.reasons))
       assert.equal(decision.reasons.length <= 14, true)
       if (expected === 'baseline-descriptor-invalid') assert.deepEqual(decision.reasons, ['baseline-descriptor-invalid'])
-    } finally { fs.rmSync(f.root, { recursive: true, force: true }) }
+    } finally { cleanup(f) }
   }
 })
 
@@ -288,7 +323,7 @@ test('legacy schema-2 Guides candidates regenerate with deterministic unavailabl
       snapshot({ schema_version: 1 }), snapshot({ schema_version: 4 }), snapshot({ schema_version: '2' }),
       snapshot({ schema_version: undefined }), snapshot({ schema_version: 2, manual: 'other' }),
     ]) assert.throws(() => decide(f, { candidateSnapshot: invalid }), /schema|manual/i)
-  } finally { fs.rmSync(f.root, { recursive: true, force: true }) }
+  } finally { cleanup(f) }
 })
 
 test('full, missing, null, and internally inconsistent plan deltas regenerate', () => {
@@ -299,6 +334,7 @@ test('full, missing, null, and internally inconsistent plan deltas regenerate', 
       null,
       { mode: 'full', changed_tokens: [], removed_tokens: [] },
       { mode: 'incremental', changed_tokens: null, removed_tokens: [] },
+      { ...plan(), changed_tokens: [42] },
       { mode: 'incremental', changed_tokens: [], removed_tokens: [], changed_records: [{}] },
       { mode: 'incremental', changed_tokens: [], removed_tokens: [], removed_records: [{}] },
       { mode: 'incremental', changed_tokens: [], removed_tokens: [], expanded_tokens: ['doc'] },
@@ -307,7 +343,33 @@ test('full, missing, null, and internally inconsistent plan deltas regenerate', 
       assert.equal(decision.mode, 'regenerate')
       assert.equal(decision.reasons.includes('source-delta'), true)
     }
-  } finally { fs.rmSync(f.root, { recursive: true, force: true }) }
+    for (const key of ['changed_tokens', 'removed_tokens', 'changed_records', 'removed_records', 'expanded_tokens']) {
+      const incrementalPlan = plan()
+      delete incrementalPlan[key]
+      assert.equal(decide(f, { incrementalPlan }).reasons.includes('source-delta'), true, key)
+    }
+    for (const key of ['changed_records', 'removed_records', 'expanded_tokens']) {
+      assert.equal(decide(f, { incrementalPlan: { ...plan(), [key]: {} } }).reasons.includes('source-delta'), true, key)
+    }
+  } finally { cleanup(f) }
+})
+
+test('unsupported schema decisions cannot write committed descriptors but supported regenerate decisions can', () => {
+  const f = fixture()
+  try {
+    writeDescriptor(f, validDescriptor(f))
+    const unsupported = decide(f, { candidateSnapshot: snapshot({ schema_version: 2 }) })
+    assert.throws(() => writeCommittedDescriptor({
+      repositoryRoot: f.root, outputPath: 'output/unsupported.json', descriptor: validDescriptor(f), decision: unsupported,
+    }), /unsupported.*snapshot|schema/i)
+
+    const supportedRegenerate = decide(f, { baselineSourceSha: SHA_A })
+    assert.equal(supportedRegenerate.mode, 'regenerate')
+    writeCommittedDescriptor({
+      repositoryRoot: f.root, outputPath: 'output/supported.json', descriptor: validDescriptor(f), decision: supportedRegenerate,
+    })
+    assert.equal(fs.existsSync(path.join(f.root, 'output/supported.json')), true)
+  } finally { cleanup(f) }
 })
 
 test('target, navigation, and table digest changes select regeneration', () => {
@@ -323,7 +385,7 @@ test('target, navigation, and table digest changes select regeneration', () => {
       assert.equal(decision.mode, 'regenerate')
       assert.equal(decision.reasons.includes('navigation-ownership-mismatch'), true)
     }
-  } finally { fs.rmSync(f.root, { recursive: true, force: true }) }
+  } finally { cleanup(f) }
 })
 
 test('strict descriptor and decision validation reject extras, hashes, schemas, and expected SHA mismatches', () => {
@@ -343,7 +405,7 @@ test('strict descriptor and decision validation reject extras, hashes, schemas, 
     assert.throws(() => validateAssemblyDecision({ ...decision, mode: 'reuse', reasons: [], baselineDescriptorValid: false, baselineDescriptorSha256: null }), /reuse|descriptor/i)
     assert.throws(() => validateAssemblyDecision(decision, { masterSha: SHA_B }), /master.*mismatch/i)
     assert.throws(() => validateAssemblyDecision(decision, { devBaselineSha: SHA_A }), /baseline.*mismatch/i)
-  } finally { fs.rmSync(f.root, { recursive: true, force: true }) }
+  } finally { cleanup(f) }
 })
 
 test('malformed source, navigation, plans, digests, SHAs, and unsafe baseline paths are hard errors', () => {
@@ -356,9 +418,10 @@ test('malformed source, navigation, plans, digests, SHAs, and unsafe baseline pa
     writeDescriptor(f, validDescriptor(f))
     assert.equal(decide(f, { incrementalPlan: { mode: 'incremental' } }).reasons.includes('source-delta'), true)
     assert.throws(() => decide(f, { masterSha: 'bad' }), /master.*sha/i)
+    assert.throws(() => decide(f, { baselineRoot: undefined }), /baseline.*root/i)
     for (const tableCount of ['0', -1, 0.5, Number.MAX_SAFE_INTEGER + 1]) assert.throws(() => decide(f, { tableCount }), /tableCount/i)
     assert.throws(() => decide(f, { baselineDescriptorPath: '../escape.json' }), /safe|relative|escape/i)
-  } finally { fs.rmSync(f.root, { recursive: true, force: true }) }
+  } finally { cleanup(f) }
 })
 
 test('committed descriptor writes atomically and verifies exact sidebar hashes', () => {
@@ -376,7 +439,7 @@ test('committed descriptor writes atomically and verifies exact sidebar hashes',
     fs.mkdirSync(path.join(f.root, 'outside'))
     fs.symlinkSync(path.join(f.root, 'outside'), path.join(f.root, 'linked-parent'))
     assert.throws(() => writeCommittedDescriptor({ repositoryRoot: f.root, outputPath: 'linked-parent/descriptor.json', descriptor }), /parent|symlink|directory/i)
-  } finally { fs.rmSync(f.root, { recursive: true, force: true }) }
+  } finally { cleanup(f) }
 })
 
 test('CLI rejects duplicate, unknown, missing flags, positional extras, and validates a decision', () => {
@@ -389,6 +452,7 @@ test('CLI rejects duplicate, unknown, missing flags, positional extras, and vali
     fs.writeFileSync(path.join(f.root, f.paths.incremental), JSON.stringify(plan()))
     const args = [
       'decide', '--repository-root', f.root, '--candidate-snapshot', f.paths.candidate,
+      '--baseline-root', f.baselineRoot,
       '--incremental-plan', f.paths.incremental, '--baseline-descriptor', f.paths.descriptor,
       '--baseline-saas-sidebar', f.paths.saas, '--baseline-byoc-sidebar', f.paths.byoc,
       '--master-sha', SHA_A, '--dev-baseline-sha', SHA_B, '--baseline-source-sha', SHA_B,
@@ -400,17 +464,28 @@ test('CLI rejects duplicate, unknown, missing flags, positional extras, and vali
     assert.equal(decision.mode, 'reuse')
     const valid = spawnSync(process.execPath, [cli, 'validate-decision', '--repository-root', f.root, '--input', f.paths.decision, '--expected-master-sha', SHA_A, '--expected-dev-baseline-sha', SHA_B], { encoding: 'utf8' })
     assert.equal(valid.status, 0, valid.stderr)
+    const currentSaas = 'outputs/guides.sidebar.js'
+    const currentByoc = 'outputs/guides-byoc.sidebar.js'
+    fs.mkdirSync(path.join(f.root, 'outputs'), { recursive: true })
+    fs.copyFileSync(path.join(f.baselineRoot, f.paths.saas), path.join(f.root, currentSaas))
+    fs.copyFileSync(path.join(f.baselineRoot, f.paths.byoc), path.join(f.root, currentByoc))
     const descriptorOutput = 'outputs/committed.json'
-    const written = spawnSync(process.execPath, [cli, 'write-descriptor', '--repository-root', f.root, '--decision', f.paths.decision, '--saas-sidebar', f.paths.saas, '--byoc-sidebar', f.paths.byoc, '--output', descriptorOutput], { encoding: 'utf8' })
+    const written = spawnSync(process.execPath, [cli, 'write-descriptor', '--repository-root', f.root, '--decision', f.paths.decision, '--saas-sidebar', currentSaas, '--byoc-sidebar', currentByoc, '--output', descriptorOutput], { encoding: 'utf8' })
     assert.equal(written.status, 0, written.stderr)
-    const verified = spawnSync(process.execPath, [cli, 'verify-descriptor', '--repository-root', f.root, '--descriptor', descriptorOutput, '--saas-sidebar', f.paths.saas, '--byoc-sidebar', f.paths.byoc], { encoding: 'utf8' })
+    const verified = spawnSync(process.execPath, [cli, 'verify-descriptor', '--repository-root', f.root, '--descriptor', descriptorOutput, '--saas-sidebar', currentSaas, '--byoc-sidebar', currentByoc], { encoding: 'utf8' })
     assert.equal(verified.status, 0, verified.stderr)
-    fs.appendFileSync(path.join(f.root, f.paths.saas), 'tamper')
-    const rejected = spawnSync(process.execPath, [cli, 'verify-descriptor', '--repository-root', f.root, '--descriptor', descriptorOutput, '--saas-sidebar', f.paths.saas, '--byoc-sidebar', f.paths.byoc], { encoding: 'utf8' })
+    fs.appendFileSync(path.join(f.root, currentSaas), 'tamper')
+    const rejected = spawnSync(process.execPath, [cli, 'verify-descriptor', '--repository-root', f.root, '--descriptor', descriptorOutput, '--saas-sidebar', currentSaas, '--byoc-sidebar', currentByoc], { encoding: 'utf8' })
     assert.notEqual(rejected.status, 0)
+
+    const unsupportedPath = 'outputs/unsupported-decision.json'
+    fs.writeFileSync(path.join(f.root, unsupportedPath), JSON.stringify(decide(f, { candidateSnapshot: snapshot({ schema_version: 2 }) })))
+    const unsupportedWrite = spawnSync(process.execPath, [cli, 'write-descriptor', '--repository-root', f.root, '--decision', unsupportedPath, '--saas-sidebar', currentSaas, '--byoc-sidebar', currentByoc, '--output', 'outputs/unsupported.json'], { encoding: 'utf8' })
+    assert.notEqual(unsupportedWrite.status, 0)
+    assert.match(unsupportedWrite.stderr, /unsupported.*snapshot|schema/i)
     for (const extra of [['--unknown', 'x'], ['positional'], ['--table-count', '0']]) {
       const failed = spawnSync(process.execPath, [cli, ...args, ...extra], { encoding: 'utf8' })
       assert.notEqual(failed.status, 0)
     }
-  } finally { fs.rmSync(f.root, { recursive: true, force: true }) }
+  } finally { cleanup(f) }
 })
