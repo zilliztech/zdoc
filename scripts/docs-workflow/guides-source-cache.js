@@ -15,9 +15,15 @@ function sourceCacheKey(snapshotPath, { version = 2 } = {}) {
 }
 
 function sourceFiles(sourceDir) {
-  return fs.readdirSync(sourceDir).filter(file => file.endsWith('.json')).sort().map(file => {
-    const full = path.join(sourceDir, file), stat = fs.lstatSync(full)
+  const sourceRoot = path.resolve(sourceDir)
+  const sourceDirStat = fs.lstatSync(sourceRoot)
+  if (!sourceDirStat.isDirectory() || sourceDirStat.isSymbolicLink()) throw new Error('Unsafe source cache directory')
+  const canonicalSourceDir = fs.realpathSync(sourceRoot)
+  return fs.readdirSync(sourceRoot).filter(file => file.endsWith('.json')).sort().map(file => {
+    const full = path.join(sourceRoot, file), stat = fs.lstatSync(full)
     if (!stat.isFile() || stat.isSymbolicLink()) throw new Error(`Unsafe source cache file: ${file}`)
+    const relative = path.relative(canonicalSourceDir, fs.realpathSync(full))
+    if (!relative || relative === '..' || relative.startsWith(`..${path.sep}`) || path.isAbsolute(relative)) throw new Error(`Unsafe source cache file: ${file}`)
     const bytes = fs.readFileSync(full)
     return { path: file, size: bytes.length, sha256: sha(bytes) }
   })

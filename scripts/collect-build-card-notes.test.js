@@ -4,7 +4,7 @@ const os = require('node:os')
 const path = require('node:path')
 const { spawnSync } = require('node:child_process')
 const { test } = require('node:test')
-const { brokenContentLinksNote, collectCardNotes, collectNotes } = require('./collect-build-card-notes')
+const { brokenContentLinksNote, collectCardNotes, collectNotes, isFreshGeneratedAt } = require('./collect-build-card-notes')
 
 test('collectCardNotes preserves workflow summary notes before report notes', () => {
   withTempCwd(() => {
@@ -149,6 +149,40 @@ test('partial Guides reports preserve available notes and name only missing cate
     assert.match(notes[1], /Canonical content links audit/)
     assert.match(notes[1], /Canonical link audit/)
     assert.doesNotMatch(notes[1], /- Incremental fetch plan/)
+  })
+})
+
+for (const [label, generatedAt] of [['missing', undefined], ['malformed', 'not-a-timestamp']]) {
+  test(`expected Guides reports reject a ${label} generated_at after the current run boundary`, () => {
+    withTempCwd(() => {
+      process.env.CARD_REPORT_STARTED_AT = '2026-07-17T01:00:00.000Z'
+      process.env.CARD_EXPECT_GUIDES_REPORTS = 'true'
+      writeJson('plugins/lark-docs/meta/reports/guides-incremental-fetch-plan.json', {
+        generated_at: generatedAt,
+        mode: 'incremental',
+        build_env: 'uat',
+        changed_tokens: [],
+        expanded_tokens: [],
+        removed_tokens: [],
+        warnings: [],
+      })
+
+      const notes = collectNotes()
+
+      assert.equal(notes.length, 1)
+      assert.doesNotMatch(notes[0], /# Incremental Fetch Plan/)
+      assert.match(notes[0], /# Guides reports unavailable/)
+      assert.match(notes[0], /- Incremental fetch plan/)
+    })
+  })
+}
+
+test('generated_at remains optional when no valid run boundary is supplied', () => {
+  withTempCwd(() => {
+    delete process.env.CARD_REPORT_STARTED_AT
+    assert.equal(isFreshGeneratedAt(undefined), true)
+    process.env.CARD_REPORT_STARTED_AT = 'not-a-timestamp'
+    assert.equal(isFreshGeneratedAt('not-a-timestamp'), true)
   })
 })
 

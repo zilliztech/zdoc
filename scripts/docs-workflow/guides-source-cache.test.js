@@ -76,6 +76,22 @@ test('accepts a valid v1 source cache only when schema 1 is explicitly allowed',
   }).complete, true)
 })
 
+test('rejects a v1 source cache whose sources directory is a symlink', () => {
+  const f = fixture(), manifestPath = path.join(f.root, 'legacy-manifest.json')
+  writeLegacyManifest(f, manifestPath)
+  const realSourceDir = path.join(f.root, 'real-sources')
+  fs.renameSync(f.sourceDir, realSourceDir)
+  fs.symlinkSync(realSourceDir, f.sourceDir, 'dir')
+
+  assert.throws(() => validateSourceCache({
+    sourceDir: f.sourceDir,
+    snapshotPath: f.snapshotPath,
+    manifestPath,
+    rootToken: 'root',
+    acceptedSchemaVersions: [1, 2],
+  }), /unsafe|symlink|invalid/i)
+})
+
 test('creates and validates a snapshot-keyed source cache manifest', () => {
   const f = fixture(), manifestPath = path.join(f.root, 'manifest.json')
   assert.match(sourceCacheKey(f.snapshotPath), /^guides-source-v2-[0-9a-f]{64}$/)
@@ -83,6 +99,21 @@ test('creates and validates a snapshot-keyed source cache manifest', () => {
   assert.equal(manifest.files.length, 3)
   assert.match(manifest.mediaManifest.sha256, /^[0-9a-f]{64}$/)
   assert.equal(validateSourceCache({ sourceDir: f.sourceDir, snapshotPath: f.snapshotPath, manifestPath, mediaManifestPath: f.mediaManifestPath, rootToken: 'root' }).complete, true)
+})
+
+test('rejects a v2 source cache whose sources directory is a symlink', () => {
+  const f = fixture(), manifestPath = path.join(f.root, 'manifest.json')
+  createSourceCacheManifest({ sourceDir: f.sourceDir, snapshotPath: f.snapshotPath, manifestPath, mediaManifestPath: f.mediaManifestPath, rootToken: 'root' })
+  const realSourceDir = path.join(f.root, 'real-sources')
+  fs.renameSync(f.sourceDir, realSourceDir)
+  fs.symlinkSync(realSourceDir, f.sourceDir, 'dir')
+
+  assert.throws(() => validateSourceCache({
+    sourceDir: `${f.sourceDir}${path.sep}`,
+    snapshotPath: f.snapshotPath,
+    manifestPath,
+    rootToken: 'root',
+  }), /unsafe|symlink|invalid/i)
 })
 
 test('rejects tampered cached sources and snapshot identity changes', () => {
