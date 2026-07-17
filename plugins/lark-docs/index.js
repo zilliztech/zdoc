@@ -8,6 +8,7 @@ const { createSourceSnapshot, readSnapshot, validateCandidateSnapshot, writeSnap
 const { validateSourceCompleteness, assertSourceCompleteness } = require('./sourceCompleteness')
 const { cleanupRemovedIncrementalRecords } = require('./incrementalReconciliation')
 const { createOfflineMediaResolver } = require('./offlineMediaResolver')
+const LarkSourceIndex = require('./larkSourceIndex')
 const Utils = require('./larkUtils.js')
 const fs = require('node:fs')
 const path = require('node:path')
@@ -20,7 +21,107 @@ function validateOfflineOptions(opts) {
     if (!opts.mediaManifest) throw new Error('--offline requires --mediaManifest')
 }
 
-module.exports = function (context, options) {
+const GUIDES_SIDEBAR_TARGETS = Object.freeze(['zilliz.saas', 'zilliz.paas'])
+
+function resolveConfiguredTarget(targets, targetName) {
+    return targetName.split('.').reduce((value, key) => value?.[key], targets)
+}
+
+function parseSidebarTargets(value) {
+    if (typeof value !== 'string' || value.length === 0) throw new Error('--sidebarTargets requires targets')
+    return value.split(',')
+}
+
+function validateSidebarTargetRequest({
+    manualName, manual, targetNames, sidebarOnly, skipSourceDown, offline, mediaManifest,
+    skipSidebar=false, pubTarget=null,
+}) {
+    if (manualName !== 'guides' || manual?.sourceType !== 'wiki') {
+        throw new Error('--sidebarTargets is only supported for the Guides wiki manual')
+    }
+    if (!sidebarOnly) throw new Error('--sidebarTargets requires --sidebarOnly')
+    if (!skipSourceDown) throw new Error('--sidebarTargets requires --skipSourceDown')
+    if (!offline) throw new Error('--sidebarTargets requires --offline')
+    if (!mediaManifest) throw new Error('--sidebarTargets requires --mediaManifest')
+    if (skipSidebar) throw new Error('--sidebarTargets cannot be combined with --skipSidebar')
+    if (pubTarget) throw new Error('--sidebarTargets cannot be combined with --pubTarget')
+    if (!Array.isArray(targetNames)) throw new Error('--sidebarTargets requires targets')
+    if (new Set(targetNames).size !== targetNames.length) throw new Error('--sidebarTargets contains duplicate targets')
+    const unknown = targetNames.filter(target => !GUIDES_SIDEBAR_TARGETS.includes(target))
+    if (unknown.length > 0) throw new Error(`--sidebarTargets contains unknown targets: ${unknown.join(', ')}`)
+    if (targetNames.length !== GUIDES_SIDEBAR_TARGETS.length ||
+        GUIDES_SIDEBAR_TARGETS.some(target => !targetNames.includes(target))) {
+        throw new Error(`--sidebarTargets requires exactly ${GUIDES_SIDEBAR_TARGETS.join(',')}`)
+    }
+    for (const targetName of GUIDES_SIDEBAR_TARGETS) {
+        const targetConfig = resolveConfiguredTarget(manual.targets, targetName)
+        if (!targetConfig?.outputDir) throw new Error(`Missing Guides target configuration: ${targetName}`)
+        if (!(targetConfig.sidebarPath ?? manual.sidebarPath)) {
+            throw new Error(`Missing Guides sidebar path for target: ${targetName}`)
+        }
+    }
+    return [...GUIDES_SIDEBAR_TARGETS]
+}
+
+async function generateSidebarTargets(options) {
+    const targetNames = validateSidebarTargetRequest(options)
+    const { manual, sourceIndex, writerFactory, writeSidebar, linkShim=null, mediaResolver=null } = options
+    if (!sourceIndex || !Object.isFrozen(sourceIndex)) throw new Error('--sidebarTargets requires one immutable source index')
+    if (typeof writerFactory !== 'function') throw new Error('writerFactory is required')
+    if (typeof writeSidebar !== 'function') throw new Error('writeSidebar is required')
+
+    const writers = []
+    const generated = []
+    let primaryError = null
+    try {
+        for (const targetName of targetNames) {
+            const targetConfig = resolveConfiguredTarget(manual.targets, targetName)
+            const writer = writerFactory(
+                manual.root,
+                manual.base,
+                manual.displayedSidebar,
+                manual.docSourceDir,
+                targetConfig.imageDir ?? null,
+                targetName,
+                true,
+                false,
+                linkShim,
+                mediaResolver,
+                sourceIndex,
+            )
+            if (!writer || writers.some(entry => entry.writer === writer)) {
+                throw new Error('Each Guides sidebar target requires a distinct writer instance')
+            }
+            writers.push({ writer, targetName, targetConfig })
+        }
+
+        for (const { writer, targetName, targetConfig } of writers) {
+            const sidebarItems = await writer.generate_sidebar(targetConfig.outputDir, targetConfig.outputDir.split('/')[0])
+            generated.push({
+                targetName,
+                sidebarPath: targetConfig.sidebarPath ?? manual.sidebarPath,
+                sidebarItems,
+            })
+        }
+        for (const output of generated) await writeSidebar(output.sidebarPath, output.sidebarItems, output.targetName)
+        return generated
+    } catch (error) {
+        primaryError = error
+        throw error
+    } finally {
+        let cleanupError = null
+        for (const { writer } of writers) {
+            try {
+                writer.destroy()
+            } catch (error) {
+                cleanupError ||= error
+            }
+        }
+        if (!primaryError && cleanupError) throw cleanupError
+    }
+}
+
+function larkDocsPlugin(context, options) {
     return {
         name: "fetch-lark-docs",
         extendCli(cli) {
@@ -38,6 +139,7 @@ module.exports = function (context, options) {
                 .option('-post, --postProcess', 'Post process file paths')
                 .option('-s3, --uploadToS3', 'Upload images to S3 instead of local storage')
                 .option('-sidebar, --sidebarOnly', 'Only regenerate sidebar file from existing sources')
+                .option('--sidebarTargets <targets>', 'Generate the fixed combined Guides sidebar target set')
                 .option('-skipSidebar, --skipSidebar', 'Skip sidebar generation (preserve manual edits)')
                 .option('--validateLinks', 'Validate Feishu doc links in existing sources against canonical Base records')
                 .option('--skipLinkValidation', 'Skip content link validation report generation')
@@ -81,6 +183,23 @@ module.exports = function (context, options) {
                         console.log(`Fetching ${opts.manual} ...`)
                     } else {
                         throw new Error(`Please provide a valid manual tag... \nAvailable manual tags: \n- ${manuals.join('\n- ')}`)
+                    }
+
+                    const sidebarTargetNames = opts.sidebarTargets === undefined
+                        ? null
+                        : parseSidebarTargets(opts.sidebarTargets)
+                    if (sidebarTargetNames) {
+                        validateSidebarTargetRequest({
+                            manualName,
+                            manual,
+                            targetNames: sidebarTargetNames,
+                            sidebarOnly: !!opts.sidebarOnly,
+                            skipSourceDown: !!opts.skipSourceDown,
+                            offline: !!opts.offline,
+                            mediaManifest: opts.mediaManifest,
+                            skipSidebar: !!opts.skipSidebar,
+                            pubTarget: opts.pubTarget,
+                        })
                     }
 
                     const { root, base, sourceType, displayedSidebar, docSourceDir, fallbackSourceDir, targets, sidebarPath, overridePath, contentRoot } = manual
@@ -317,6 +436,39 @@ module.exports = function (context, options) {
 
                     // Sidebar-only mode: regenerate sidebar from existing sources without re-fetching
                     if (opts.sidebarOnly) {
+                        if (opts.sidebarTargets !== undefined) {
+                            if (opts.validateLinks) {
+                                await validateContentLinks({ force: true })
+                            }
+                            await auditCanonicalLinks()
+                            const mediaResolver = createOfflineMediaResolver({
+                                manifestPath: opts.mediaManifest,
+                                imageBedUrl: process.env.IMAGE_BED_URL || 'https://zdoc-images.s3.us-west-2.amazonaws.com',
+                            })
+                            const sourceIndex = LarkSourceIndex.load(docSourceDir)
+                            await generateSidebarTargets({
+                                manualName,
+                                manual,
+                                targetNames: sidebarTargetNames,
+                                sourceIndex,
+                                sidebarOnly: true,
+                                skipSourceDown: true,
+                                offline: true,
+                                mediaManifest: opts.mediaManifest,
+                                skipSidebar: false,
+                                pubTarget: null,
+                                linkShim: opts.linkShim,
+                                mediaResolver,
+                                writerFactory: (...args) => new docWriter(...args),
+                                writeSidebar: async (effectiveSidebarPath, sidebarItems) => {
+                                    const sidebarDir = path.dirname(effectiveSidebarPath)
+                                    if (!fs.existsSync(sidebarDir)) fs.mkdirSync(sidebarDir, { recursive: true })
+                                    fs.writeFileSync(effectiveSidebarPath, `module.exports = ${JSON.stringify(sidebarItems, null, 2)}\n`)
+                                    console.log(`Sidebar written to ${effectiveSidebarPath}`)
+                                },
+                            })
+                            return
+                        }
                         if (opts.validateLinks) {
                             await validateContentLinks({ force: true })
                         }
@@ -670,4 +822,8 @@ module.exports = function (context, options) {
     }
 }
 
+module.exports = larkDocsPlugin
 module.exports.validateOfflineOptions = validateOfflineOptions
+module.exports.generateSidebarTargets = generateSidebarTargets
+module.exports.parseSidebarTargets = parseSidebarTargets
+module.exports.validateSidebarTargetRequest = validateSidebarTargetRequest
