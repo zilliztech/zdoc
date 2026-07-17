@@ -253,11 +253,73 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
         !/name: Upload Guides progress metadata[\s\S]*continue-on-error: true[\s\S]*name: docs-progress-metadata-\$\{\{ github\.run_id \}\}/.test(guidesSource)) {
       errors.push('_fetch-guides-sources.yml: Guides progress metadata must be best-effort and run-scoped')
     }
-    if (!/id: source_cache_v3[\s\S]*id: source_cache_v2[\s\S]*id: source_cache_v1/.test(guidesSource)) {
-      errors.push('_fetch-guides-sources.yml: Guides source cache requires a v1 exact migration fallback')
+    let guidesWorkflow = {}
+    try { guidesWorkflow = yaml.load(guidesSource) } catch {}
+    const guidesSteps = guidesWorkflow.jobs?.fetch?.steps || []
+    const stepById = new Map(guidesSteps.filter(step => step.id).map(step => [step.id, step]))
+    const requiredCacheSteps = [
+      'Compute Guides cache generation keys',
+      'Restore Guides v4 cache candidate',
+      'Validate and promote Guides v4 cache candidate',
+      'Restore Guides v3 cache candidate',
+      'Validate Guides v3 cache candidate',
+      'Restore Guides v2 cache candidate',
+      'Validate Guides v2 cache candidate',
+      'Restore Guides v1 cache candidate',
+      'Validate Guides v1 cache candidate',
+    ]
+    let lastCacheStep = -1
+    for (const name of requiredCacheSteps) {
+      const index = guidesSteps.findIndex(step => step.name === name)
+      if (index <= lastCacheStep) {
+        errors.push('_fetch-guides-sources.yml: Guides cache candidates must restore and validate in v4, v3, v2, v1 order')
+        break
+      }
+      lastCacheStep = index
     }
-    if (/restore-keys:/.test(guidesSource)) {
-      errors.push('_fetch-guides-sources.yml: Guides source cache restore must remain exact')
+    const restoreKeyLines = guidesSource.match(/^\s+restore-keys:/gm) || []
+    const v4Restore = stepById.get('source_cache_v4')
+    const keyStep = stepById.get('source_cache_keys')
+    if (restoreKeyLines.length !== 1 || v4Restore?.if !== "${{ steps.source_cache_keys.outputs.v4_restore_enabled == 'true' }}" || v4Restore?.with?.['restore-keys'] !== '${{ steps.source_cache_keys.outputs.v4_prefix }}' || v4Restore?.with?.path !== 'tmp/guides-source-cache-v4' || v4Restore?.with?.key !== '${{ steps.source_cache_keys.outputs.v4_lookup }}' ||
+        !/guides-source-cache-generation\.js keys[\s\S]*\.prefix[\s\S]*v4_prefix[\s\S]*v4_restore_enabled/.test(keyStep?.run || '')) {
+      errors.push('_fetch-guides-sources.yml: Guides v4 restore requires the sole snapshot-scoped restore prefix and isolated payload path')
+    }
+    const v4Validation = stepById.get('source_cache_v4_check')?.run || ''
+    if (!/validate-source[\s\S]*"\$staged\/sources"[\s\S]*validate-media[\s\S]*"\$staged\/media-manifest\.json"/.test(v4Validation) ||
+        !/else[\s\S]*guides-source-cache-source-promotion\.js promote[\s\S]*--payload "\$staged"[\s\S]*source_valid=true/.test(v4Validation)) {
+      errors.push('_fetch-guides-sources.yml: v4 Guides source and media validity must remain independent before promotion')
+    }
+    for (const [id, preceding] of [['source_cache_v3', 'source_cache_v4_check'], ['source_cache_v2', 'source_cache_v3_check'], ['source_cache_v1', 'source_cache_v2_check']]) {
+      if (stepById.get(id)?.if !== `\${{ steps.${preceding}.outputs.source_valid != 'true' }}`) {
+        errors.push('_fetch-guides-sources.yml: legacy Guides fallback must depend on preceding source validity')
+        break
+      }
+    }
+    for (const [id, preceding] of [['source_cache_v3_check', 'source_cache_v4_check'], ['source_cache_v2_check', 'source_cache_v3_check'], ['source_cache_v1_check', 'source_cache_v2_check']]) {
+      const validation = stepById.get(id)
+      if (validation?.if || !new RegExp(`steps\\.${preceding}\\.outputs\\.source_valid[\\s\\S]*source_valid=true`).test(validation?.run || '')) {
+        errors.push('_fetch-guides-sources.yml: Guides validation chain must propagate prior source validity to stop fallback')
+        break
+      }
+    }
+    if (/cache-hit/.test(guidesSource)) errors.push('_fetch-guides-sources.yml: Guides fallback must never trust cache-hit before validation')
+    for (const [validationName, nextRestoreName, requiredCleanup] of [
+      ['Validate and promote Guides v4 cache candidate', 'Restore Guides v3 cache candidate', /rm -rf "\$staged" tmp\/guides-source-cache-v4[\s\S]*rm -rf plugins\/lark-docs\/meta\/sources\/guides plugins\/lark-docs\/meta\/source-cache plugins\/lark-docs\/meta\/media-cache/],
+      ['Validate Guides v3 cache candidate', 'Restore Guides v2 cache candidate', /rm -rf plugins\/lark-docs\/meta\/sources\/guides plugins\/lark-docs\/meta\/source-cache plugins\/lark-docs\/meta\/media-cache/],
+      ['Validate Guides v2 cache candidate', 'Restore Guides v1 cache candidate', /rm -rf plugins\/lark-docs\/meta\/sources\/guides plugins\/lark-docs\/meta\/source-cache plugins\/lark-docs\/meta\/media-cache/],
+    ]) {
+      const block = guidesSource.slice(guidesSource.indexOf(`name: ${validationName}`), guidesSource.indexOf(`name: ${nextRestoreName}`))
+      if (!requiredCleanup.test(block)) {
+        errors.push('_fetch-guides-sources.yml: rejected Guides cache residue must be removed before fallback restore')
+        break
+      }
+    }
+    for (const [validationName, nextRestoreName] of [['Validate Guides v3 cache candidate', 'Restore Guides v2 cache candidate'], ['Validate Guides v2 cache candidate', 'Restore Guides v1 cache candidate']]) {
+      const block = guidesSource.slice(guidesSource.indexOf(`name: ${validationName}`), guidesSource.indexOf(`name: ${nextRestoreName}`))
+      if (!/elif \[\[ "\$media_valid" != true \]\]; then\n\s+rm -rf plugins\/lark-docs\/meta\/media-cache/.test(block)) {
+        errors.push('_fetch-guides-sources.yml: invalid legacy media must preserve valid Guides sources and select recovery')
+        break
+      }
     }
     const sourceFetchBlock = guidesSource.slice(
       guidesSource.indexOf('name: Fetch shared guides sources'),
@@ -266,19 +328,24 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     if (!/steps\.source_cache_check\.outputs\.source_valid/.test(sourceFetchBlock) || /steps\.source_cache_check\.outputs\.media_valid/.test(sourceFetchBlock)) {
       errors.push('_fetch-guides-sources.yml: full fetch must depend only on source validity')
     }
-    const mediaInvalidation = guidesSource.match(/if \[\[ "\$media_valid" != true \]\]; then\n([\s\S]*?)\n\s+fi/)?.[1] || ''
-    if (!/rm -rf plugins\/lark-docs\/meta\/media-cache/.test(mediaInvalidation) || /plugins\/lark-docs\/meta\/sources\/guides/.test(mediaInvalidation)) {
-      errors.push('_fetch-guides-sources.yml: media invalidation must preserve source files')
-    }
     const mediaPrefetchBlock = guidesSource.slice(
       guidesSource.indexOf('name: Prefetch shared guides media'),
-      guidesSource.indexOf('id: table_matrix'),
+      guidesSource.indexOf('id: source_cache_result'),
     )
     if (!/steps\.source_cache_check\.outputs\.media_valid/.test(mediaPrefetchBlock) ||
         !/Media cache unavailable; rebuilding complete canonical media coverage/.test(mediaPrefetchBlock) ||
-        !/else[\s\S]*args\+=\(--reuse-existing true\)/.test(mediaPrefetchBlock) ||
-        !/if \[\[ "\$\{\{ steps\.source_cache_check\.outputs\.media_valid \}\}" == true \]\]; then[\s\S]*--plan plugins\/lark-docs\/meta\/reports\/guides-incremental-fetch-plan\.json/.test(mediaPrefetchBlock)) {
+        !/--snapshot plugins\/lark-docs\/meta\/reports\/guides-source-snapshot-candidate\.json/.test(mediaPrefetchBlock) ||
+        !/--report plugins\/lark-docs\/meta\/reports\/guides-media-prefetch\.json/.test(mediaPrefetchBlock) ||
+        !/if \[\[ "\$\{\{ steps\.source_cache_check\.outputs\.media_valid \}\}" == true \]\]; then[\s\S]*--mode incremental[\s\S]*--cache-state valid[\s\S]*--plan plugins\/lark-docs\/meta\/reports\/guides-incremental-fetch-plan\.json[\s\S]*--previous-manifest plugins\/lark-docs\/meta\/media-cache\/guides\.json/.test(mediaPrefetchBlock) ||
+        !/else[\s\S]*--mode recovery[\s\S]*--cache-state "\$cache_state"/.test(mediaPrefetchBlock)) {
       errors.push('_fetch-guides-sources.yml: invalid media cache must trigger full canonical media recovery')
+    }
+    const recoveryBranch = mediaPrefetchBlock.slice(mediaPrefetchBlock.indexOf('else'), mediaPrefetchBlock.indexOf('node scripts/docs-workflow/guides-media-prefetch.js'))
+    if (/--plan|--doc-token|--previous-manifest/.test(recoveryBranch)) errors.push('_fetch-guides-sources.yml: recovery media prefetch must use complete candidate snapshot coverage')
+    const resultStep = stepById.get('source_cache_result')
+    if (!resultStep || !/source_valid=true[\s\S]*media_valid=true[\s\S]*cache_version[\s\S]*cache_save_required/.test(resultStep.run || '') ||
+        !/cache_version" != v4/.test(resultStep.run || '') || !/media_prefetch\.outputs\.mode.*recovery/.test(resultStep.run || '') || !/candidate_key" != "\$baseline_key/.test(resultStep.run || '')) {
+      errors.push('_fetch-guides-sources.yml: Guides cache result must emit validity, version, and save requirement from legacy, recovery, or snapshot change')
     }
     const guidesAssemble = readWorkflow('_assemble-guides.yml')
     if (!/guides-source-cache\.js key --snapshot "\$snapshot" --version 3/.test(guidesAssemble)) {
