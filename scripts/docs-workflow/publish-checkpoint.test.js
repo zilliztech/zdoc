@@ -25,6 +25,30 @@ function artifact(root, baseline, workspace, extra = []) {
 }
 function publish(cwd, args, env = {}) { return spawnSync('bash', [script, ...args], { cwd, encoding: 'utf8', env: { ...process.env, ...env } }); }
 function args(a) { return ['--artifact', a, '--branch', 'dev', '--message', 'publish docs', '--max-attempts', '3', '--validate-command', 'test -f docs/a.md']; }
+function repeatedDeletionScenario() {
+  const fixture = setup();
+  const baseline = path.join(fixture.root, 'baseline');
+  const batchOne = path.join(fixture.root, 'batch-one');
+  const batchTwo = path.join(fixture.root, 'batch-two');
+  execFileSync('cp', ['-R', fixture.seed, baseline]);
+  execFileSync('cp', ['-R', fixture.seed, batchOne]);
+  execFileSync('cp', ['-R', fixture.seed, batchTwo]);
+  require('node:fs').unlinkSync(path.join(batchOne, 'docs/a.md'));
+  require('node:fs').unlinkSync(path.join(batchTwo, 'docs/a.md'));
+  writeFileSync(path.join(batchTwo, 'docs/batch-two.md'), 'translated\n');
+  const batchOneArtifact = artifact(fixture.root, baseline, batchOne);
+  const batchTwoArtifact = artifact(fixture.root, baseline, batchTwo);
+
+  const firstArgs = args(batchOneArtifact);
+  firstArgs[firstArgs.indexOf('test -f docs/a.md')] = 'test ! -e docs/a.md';
+  const first = publish(fixture.seed, firstArgs);
+  assert.equal(first.status, 0, `${first.stdout}\n${first.stderr}`);
+
+  const secondArgs = args(batchTwoArtifact);
+  secondArgs[secondArgs.indexOf('test -f docs/a.md')] = 'test ! -e docs/a.md && test -f docs/batch-two.md';
+  const second = publish(fixture.seed, secondArgs);
+  return { fixture, batchTwoArtifact, secondArgs, second };
+}
 function gitWrapper(root, mode, moveRepo) {
   const bin = path.join(root, 'bin'); mkdirSync(bin); const wrapper = path.join(bin, 'git');
   writeFileSync(wrapper, `#!/usr/bin/env bash\nset -eu\nif [[ " $* " == *" push "* ]]; then\n  echo push >> "$WRAPPER_LOG"\n  n=$(wc -l < "$WRAPPER_LOG" | tr -d ' ')\n  if [[ "$WRAPPER_MODE" == reject ]]; then echo 'remote: permission denied' >&2; exit 1; fi\n  if [[ "$WRAPPER_MODE" == race-once && "$n" == 1 || "$WRAPPER_MODE" == race-always ]]; then\n    "$REAL_GIT" -C "$MOVE_REPO" fetch origin dev >/dev/null 2>&1\n    "$REAL_GIT" -C "$MOVE_REPO" reset --hard origin/dev >/dev/null\n    echo "$n" >> "$MOVE_REPO/remote.txt"\n    "$REAL_GIT" -C "$MOVE_REPO" add remote.txt\n    "$REAL_GIT" -C "$MOVE_REPO" commit -m "remote move $n" >/dev/null\n    "$REAL_GIT" -C "$MOVE_REPO" push origin dev >/dev/null\n  fi\nfi\nexec "$REAL_GIT" "$@"\n`); chmodSync(wrapper, 0o755);
@@ -64,6 +88,29 @@ test('publishes owned deletions', () => {
   const publishArgs = args(artifact(s.root, s.seed, work)); publishArgs[publishArgs.indexOf('test -f docs/a.md')] = 'true';
   const r = publish(s.seed, publishArgs); assert.equal(r.status, 0, `${r.stdout}\n${r.stderr}`);
   git(s.seed, 'fetch', 'origin', 'dev'); assert.throws(() => git(s.seed, 'show', 'origin/dev:docs/a.md'));
+});
+
+test('publishes a later batch when its source deletion was already committed', () => {
+  const { fixture, second } = repeatedDeletionScenario();
+
+  assert.equal(second.status, 0, `${second.stdout}\n${second.stderr}`);
+  assert.match(second.stdout, /status=published/);
+  git(fixture.seed, 'fetch', 'origin', 'dev');
+  assert.equal(git(fixture.seed, 'show', 'origin/dev:docs/batch-two.md'), 'translated');
+  assert.throws(() => git(fixture.seed, 'show', 'origin/dev:docs/a.md'));
+});
+
+test('reapplying a batch with an already-applied deletion returns no_changes', () => {
+  const { fixture, second, secondArgs } = repeatedDeletionScenario();
+  assert.equal(second.status, 0, `${second.stdout}\n${second.stderr}`);
+  git(fixture.seed, 'fetch', 'origin', 'dev');
+  const before = git(fixture.seed, 'rev-parse', 'origin/dev');
+
+  const replay = publish(fixture.seed, secondArgs);
+
+  assert.equal(replay.status, 0, `${replay.stdout}\n${replay.stderr}`);
+  assert.match(replay.stdout, /status=no_changes/);
+  assert.match(replay.stdout, new RegExp(`commit_sha=${before}`));
 });
 
 test('returns no_changes without creating a commit', () => {

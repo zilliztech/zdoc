@@ -13,7 +13,7 @@ const publishingWorkflows = new Set([
   '_translate-publish-batch.yml',
 ])
 
-function validateWorkflowPolicies(directory = workflowDirectory) {
+function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
   const errors = []
   const files = fs.readdirSync(directory).filter(file => file.endsWith('.yml')).sort()
 
@@ -278,6 +278,19 @@ function validateWorkflowPolicies(directory = workflowDirectory) {
     if (/contents: write|actions: write|SPACE_ID|FIGMA_API_KEY|MODEL_API_KEY|AWS_ACCESS_KEY_ID|AWS_SECRET_ACCESS_KEY/.test(monitorSource)) errors.push('_monitor-docs-progress.yml: monitor must not receive write or source-production credentials')
   } else if (callerSource) {
     errors.push('_monitor-docs-progress.yml: central monitor workflow is required')
+  }
+
+  const publisherPath = options.publisherPath || path.join(process.cwd(), 'scripts/docs-workflow/publish-checkpoint.sh')
+  const publisherSource = fs.readFileSync(publisherPath, 'utf8')
+  for (const [pattern, message] of [
+    [/checkpoint-stage-paths\.js" select/, 'checkpoint publisher must select stageable manifest paths'],
+    [/--pathspec-from-file="\$stage_paths_file"[\s\S]*--pathspec-file-nul/, 'checkpoint publisher must use NUL-delimited literal pathspec staging'],
+    [/checkpoint-stage-paths\.js" verify/, 'checkpoint publisher must verify staged manifest scope'],
+  ]) {
+    if (!pattern.test(publisherSource)) errors.push(`publish-checkpoint.sh: ${message}`)
+  }
+  if (/git add --all -- "\$\{paths\[@\]\}"/.test(publisherSource)) {
+    errors.push('publish-checkpoint.sh: direct manifest pathspec staging is not idempotent')
   }
 
   return errors
