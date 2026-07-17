@@ -53,6 +53,10 @@ const FAILURE_CONCLUSIONS = new Set([
 const INFRASTRUCTURE_STEP = /^(?:actions\/checkout@|checkout|set up (?:node|pnpm)|setup (?:node|pnpm)|install dependencies|post |complete job|cleanup|clean up)/i
 
 const TASK_NAMES = new Map([
+  ['restore guides v4 cache candidate', 'Restore Guides v4 cache candidate'],
+  ['validate and promote guides v4 cache candidate', 'Validate Guides media cache'],
+  ['prefetch shared guides media', 'Prefetch shared Guides media'],
+  ['save guides v4 generation', 'Save Guides media cache'],
   ['validate combined guides output', 'Validate combined Guides output'],
   ['render guides table', 'Render Guides table'],
   ['restore guides source artifact', 'Restore Guides source artifact'],

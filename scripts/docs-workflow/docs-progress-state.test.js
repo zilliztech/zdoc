@@ -215,6 +215,10 @@ test('suppresses infrastructure steps and normalizes domain step names', () => {
   assert.equal(normalizeCurrentTask('Post Run actions/cache@v4'), null)
   assert.equal(normalizeCurrentTask('Prefetch shared Guides media'), 'Prefetch shared Guides media')
   assert.equal(normalizeCurrentTask('Validate combined guides output'), 'Validate combined Guides output')
+  assert.equal(normalizeCurrentTask('restore guides v4 cache candidate'), 'Restore Guides v4 cache candidate')
+  assert.equal(normalizeCurrentTask('validate and promote guides v4 cache candidate'), 'Validate Guides media cache')
+  assert.equal(normalizeCurrentTask('prefetch shared guides media'), 'Prefetch shared Guides media')
+  assert.equal(normalizeCurrentTask('save guides v4 generation'), 'Save Guides media cache')
 })
 
 test('selects the newest job attempt for each logical identity', () => {
@@ -231,7 +235,10 @@ test('selects the newest job attempt for each logical identity', () => {
 })
 
 test('accepts terminal reports and status without mutating them', () => {
-  const reports = [{ title: 'Link report', markdown: '# Link report\n\n- Broken links: 0', attention: false }]
+  const reports = [
+    { title: 'Link report', markdown: '# Link report\n\n- Broken links: 0', attention: false },
+    { title: 'Guides media', markdown: '# Guides media\n\n- Cache persistence: save-failed', attention: true },
+  ]
   const jobs = require('./fixtures/docs-progress/terminal-success.json')
   const state = deriveDocsProgressState({
     requestedGroups: ['python'],

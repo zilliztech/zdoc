@@ -36,6 +36,65 @@ function freshJsonReport(file) {
   return isFreshGeneratedAt(report.generated_at) ? report : null
 }
 
+function hasExactKeys(value, expected) {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return false
+  const keys = Object.keys(value)
+  return keys.length === expected.length && keys.every(key => expected.includes(key))
+}
+
+function isExactIsoTimestamp(value) {
+  return typeof value === 'string' && !Number.isNaN(Date.parse(value)) && new Date(value).toISOString() === value
+}
+
+function mediaPrefetchNote() {
+  try {
+    const report = freshJsonReport('plugins/lark-docs/meta/reports/guides-media-prefetch.json')
+    if (!report || !hasExactKeys(report, ['schemaVersion', 'generated_at', 'mode', 'cacheState', 'metrics']) ||
+        report.schemaVersion !== 1 || !isExactIsoTimestamp(report.generated_at) ||
+        !['incremental', 'recovery'].includes(report.mode) || !['valid', 'invalid', 'missing', 'legacy'].includes(report.cacheState)) return null
+    const metrics = report.metrics
+    const metricKeys = [
+      'canonicalReferencesRequired', 'selectedReferences', 'validatedManifestReuse',
+      'committedDocsReconstruction', 'resolvedByNetwork', 'staleEntriesDropped', 'finalManifestEntries',
+    ]
+    if (!hasExactKeys(metrics, metricKeys) || metricKeys.some(key => !Number.isSafeInteger(metrics[key]) || metrics[key] < 0)) return null
+    if (metrics.selectedReferences > metrics.canonicalReferencesRequired ||
+        metrics.finalManifestEntries !== metrics.canonicalReferencesRequired ||
+        metrics.finalManifestEntries !== metrics.validatedManifestReuse + metrics.committedDocsReconstruction + metrics.resolvedByNetwork) return null
+    return [
+      '# Guides media',
+      '',
+      `- Required: ${metrics.canonicalReferencesRequired}`,
+      `- Reused from validated manifest: ${metrics.validatedManifestReuse}`,
+      `- Reconstructed from committed docs: ${metrics.committedDocsReconstruction}`,
+      `- Freshly resolved over network: ${metrics.resolvedByNetwork}`,
+      `- Stale entries dropped: ${metrics.staleEntriesDropped}`,
+      `- Final manifest entries: ${metrics.finalManifestEntries}`,
+    ].join('\n')
+  } catch (_) {
+    return null
+  }
+}
+
+function cacheGenerationNote() {
+  try {
+    const report = freshJsonReport('plugins/lark-docs/meta/reports/guides-cache-generation.json')
+    if (!report || !hasExactKeys(report, ['schemaVersion', 'generated_at', 'sourceCacheVersion', 'saveRequired', 'persistence', 'saveKey']) ||
+        report.schemaVersion !== 1 || !isExactIsoTimestamp(report.generated_at) ||
+        !['v4', 'v3', 'v2', 'v1', 'none'].includes(report.sourceCacheVersion) || typeof report.saveRequired !== 'boolean' ||
+        !['saved', 'skipped-valid-v4', 'save-failed'].includes(report.persistence)) return null
+    const saveKeyValid = typeof report.saveKey === 'string' && /^guides-source-v4-[0-9a-f]{64}-[1-9][0-9]*-[1-9][0-9]*$/.test(report.saveKey)
+    if (report.persistence === 'skipped-valid-v4') {
+      if (report.sourceCacheVersion !== 'v4' || report.saveRequired !== false || report.saveKey !== null) return null
+    } else if (report.saveRequired !== true || !saveKeyValid) {
+      return null
+    }
+    return `- Cache persistence: ${report.persistence}`
+  } catch (_) {
+    return null
+  }
+}
+
 function compactMarkdown(markdown, maxLines = 80) {
   const lines = markdown.split(/\r?\n/)
   if (lines.length <= maxLines) return markdown
@@ -178,6 +237,8 @@ function incrementalPlanNote() {
 }
 
 const GUIDES_REPORTS = Object.freeze([
+  { key: 'media-prefetch', title: 'Guides media prefetch report', collect: mediaPrefetchNote },
+  { key: 'cache-generation', title: 'Guides cache persistence report', collect: cacheGenerationNote },
   { key: 'content-links', title: 'Canonical content links audit', collect: brokenContentLinksNote },
   { key: 'canonical-links', title: 'Canonical link audit', collect: canonicalLinkNote },
   { key: 'incremental-plan', title: 'Incremental fetch plan', collect: incrementalPlanNote },
@@ -185,12 +246,20 @@ const GUIDES_REPORTS = Object.freeze([
 
 function guidesReportNotes() {
   const found = []
-  const notes = []
+  const collected = new Map()
   for (const report of GUIDES_REPORTS) {
     const note = report.collect()
     if (!note) continue
     found.push(report.key)
-    notes.push(note)
+    collected.set(report.key, note)
+  }
+  const notes = []
+  const media = collected.get('media-prefetch')
+  const persistence = collected.get('cache-generation')
+  if (media || persistence) notes.push(media ? `${media}${persistence ? `\n${persistence}` : ''}` : `# Guides media\n\n${persistence}`)
+  for (const report of GUIDES_REPORTS) {
+    if (report.key === 'media-prefetch' || report.key === 'cache-generation') continue
+    if (collected.has(report.key)) notes.push(collected.get(report.key))
   }
   const expected = process.env.CARD_EXPECT_GUIDES_REPORTS === 'true'
   const missing = expected ? GUIDES_REPORTS.filter(report => !found.includes(report.key)) : []
@@ -260,6 +329,7 @@ if (require.main === module) {
 
 module.exports = {
   brokenContentLinksNote,
+  cacheGenerationNote,
   canonicalLinkNote,
   collectCardNotes,
   collectNotes,
@@ -267,5 +337,6 @@ module.exports = {
   freshJsonReport,
   githubFileUrl,
   isFreshGeneratedAt,
+  mediaPrefetchNote,
   reportFileLine,
 }

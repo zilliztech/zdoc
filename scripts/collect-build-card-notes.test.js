@@ -4,7 +4,14 @@ const os = require('node:os')
 const path = require('node:path')
 const { spawnSync } = require('node:child_process')
 const { test } = require('node:test')
-const { brokenContentLinksNote, collectCardNotes, collectNotes, isFreshGeneratedAt } = require('./collect-build-card-notes')
+const {
+  brokenContentLinksNote,
+  cacheGenerationNote,
+  collectCardNotes,
+  collectNotes,
+  isFreshGeneratedAt,
+  mediaPrefetchNote,
+} = require('./collect-build-card-notes')
 
 test('collectCardNotes preserves workflow summary notes before report notes', () => {
   withTempCwd(() => {
@@ -74,6 +81,165 @@ function writeFreshGuidesReports(generatedAt = '2026-07-17T01:05:00.000Z') {
     target: 'zilliz.saas',
     summary: { canonical_records: 1, scanned_sources: 1, internal_references: 1, valid_references: 1, broken_references: 0 },
   })
+  writeMediaReports({ generatedAt })
+}
+
+function writeMediaReports({ generatedAt = '2026-07-17T01:05:00.000Z', persistence = 'saved', media = {}, generation = {} } = {}) {
+  writeJson('plugins/lark-docs/meta/reports/guides-media-prefetch.json', {
+    schemaVersion: 1,
+    generated_at: generatedAt,
+    mode: 'incremental',
+    cacheState: 'valid',
+    metrics: {
+      canonicalReferencesRequired: 472,
+      selectedReferences: 22,
+      validatedManifestReuse: 450,
+      committedDocsReconstruction: 12,
+      resolvedByNetwork: 10,
+      staleEntriesDropped: 3,
+      finalManifestEntries: 472,
+    },
+    ...media,
+  })
+  const skipped = persistence === 'skipped-valid-v4'
+  writeJson('plugins/lark-docs/meta/reports/guides-cache-generation.json', {
+    schemaVersion: 1,
+    generated_at: generatedAt,
+    sourceCacheVersion: skipped ? 'v4' : 'v3',
+    saveRequired: !skipped,
+    persistence,
+    saveKey: skipped ? null : `guides-source-v4-${'a'.repeat(64)}-100-1`,
+    ...generation,
+  })
+}
+
+test('combines strict media provenance and cache persistence into one Guides media note', () => {
+  withTempCwd(() => {
+    process.env.CARD_REPORT_STARTED_AT = '2026-07-17T01:00:00.000Z'
+    process.env.CARD_EXPECT_GUIDES_REPORTS = 'true'
+    writeMediaReports()
+
+    const notes = collectNotes()
+
+    assert.equal(notes.length, 2)
+    assert.equal(notes[0], [
+      '# Guides media',
+      '',
+      '- Required: 472',
+      '- Reused from validated manifest: 450',
+      '- Reconstructed from committed docs: 12',
+      '- Freshly resolved over network: 10',
+      '- Stale entries dropped: 3',
+      '- Final manifest entries: 472',
+      '- Cache persistence: saved',
+    ].join('\n'))
+    assert.doesNotMatch(notes[0], /# Guides media[\s\S]*# Guides media/)
+    assert.match(notes[1], /Canonical content links audit/)
+    assert.doesNotMatch(notes[1], /Guides media prefetch|Guides cache persistence/)
+  })
+})
+
+test('save-failed remains a terminal Guides media fact', () => {
+  withTempCwd(() => {
+    process.env.CARD_REPORT_STARTED_AT = '2026-07-17T01:00:00.000Z'
+    writeMediaReports({ persistence: 'save-failed' })
+    assert.match(collectNotes()[0], /- Cache persistence: save-failed/)
+  })
+})
+
+test('skipped-valid-v4 is accepted only with no save requirement and a null key', () => {
+  withTempCwd(() => {
+    process.env.CARD_REPORT_STARTED_AT = '2026-07-17T01:00:00.000Z'
+    writeMediaReports({ persistence: 'skipped-valid-v4' })
+    assert.match(collectNotes()[0], /- Cache persistence: skipped-valid-v4/)
+  })
+})
+
+for (const [label, generation] of [
+  ['saved without a required save', { persistence: 'saved', saveRequired: false }],
+  ['skipped legacy cache', { persistence: 'skipped-valid-v4', sourceCacheVersion: 'v3', saveRequired: false, saveKey: null }],
+  ['skipped cache with a save key', { persistence: 'skipped-valid-v4', sourceCacheVersion: 'v4', saveRequired: false }],
+  ['failed save without its attempted key', { persistence: 'save-failed', saveRequired: true, saveKey: null }],
+]) {
+  test(`cache persistence collector rejects ${label}`, () => {
+    withTempCwd(() => {
+      process.env.CARD_REPORT_STARTED_AT = '2026-07-17T01:00:00.000Z'
+      writeMediaReports({ generation })
+      assert.equal(cacheGenerationNote(), null)
+    })
+  })
+}
+
+test('invalid media reconciliation is best-effort and reported unavailable', () => {
+  withTempCwd(() => {
+    process.env.CARD_REPORT_STARTED_AT = '2026-07-17T01:00:00.000Z'
+    process.env.CARD_EXPECT_GUIDES_REPORTS = 'true'
+    writeMediaReports({ media: { metrics: {
+      canonicalReferencesRequired: 472,
+      selectedReferences: 22,
+      validatedManifestReuse: 450,
+      committedDocsReconstruction: 12,
+      resolvedByNetwork: 9,
+      staleEntriesDropped: 3,
+      finalManifestEntries: 472,
+    } } })
+
+    assert.equal(mediaPrefetchNote(), null)
+    const notes = collectNotes()
+    assert.match(notes[0], /# Guides media\n\n- Cache persistence: saved/)
+    assert.match(notes.at(-1), /Guides media prefetch report/)
+  })
+})
+
+test('missing persistence report leaves media facts available and names only persistence as missing', () => {
+  withTempCwd(() => {
+    process.env.CARD_REPORT_STARTED_AT = '2026-07-17T01:00:00.000Z'
+    process.env.CARD_EXPECT_GUIDES_REPORTS = 'true'
+    writeMediaReports()
+    fs.rmSync('plugins/lark-docs/meta/reports/guides-cache-generation.json')
+
+    assert.equal(cacheGenerationNote(), null)
+    const notes = collectNotes()
+    assert.match(notes[0], /# Guides media/)
+    assert.doesNotMatch(notes[0], /Cache persistence/)
+    assert.match(notes.at(-1), /Guides cache persistence report/)
+    assert.doesNotMatch(notes.at(-1), /Guides media prefetch report/)
+  })
+})
+
+test('stale media and persistence reports are omitted at the current-run boundary', () => {
+  withTempCwd(() => {
+    process.env.CARD_REPORT_STARTED_AT = '2026-07-17T01:00:00.000Z'
+    process.env.CARD_EXPECT_GUIDES_REPORTS = 'true'
+    writeMediaReports({ generatedAt: '2026-07-17T00:59:59.999Z' })
+    assert.equal(mediaPrefetchNote(), null)
+    assert.equal(cacheGenerationNote(), null)
+    assert.match(collectNotes()[0], /Guides media prefetch report/)
+    assert.match(collectNotes()[0], /Guides cache persistence report/)
+  })
+})
+
+for (const [label, mutateMedia, mutateGeneration] of [
+  ['extra keys', report => { report.extra = true }, report => { report.extra = true }],
+  ['missing keys', report => { delete report.mode }, report => { delete report.saveKey }],
+  ['malformed values', report => { report.metrics.selectedReferences = -1 }, report => { report.persistence = 'unknown' }],
+]) {
+  test(`strict Guides media collectors reject ${label}`, () => {
+    withTempCwd(() => {
+      process.env.CARD_REPORT_STARTED_AT = '2026-07-17T01:00:00.000Z'
+      writeMediaReports()
+      const mediaFile = 'plugins/lark-docs/meta/reports/guides-media-prefetch.json'
+      const generationFile = 'plugins/lark-docs/meta/reports/guides-cache-generation.json'
+      const media = JSON.parse(fs.readFileSync(mediaFile, 'utf8'))
+      const generation = JSON.parse(fs.readFileSync(generationFile, 'utf8'))
+      mutateMedia(media)
+      mutateGeneration(generation)
+      writeJson(mediaFile, media)
+      writeJson(generationFile, generation)
+      assert.equal(mediaPrefetchNote(), null)
+      assert.equal(cacheGenerationNote(), null)
+    })
+  })
 }
 
 test('artifact-only Guides reports link to workflow artifacts rather than the tooling commit', () => {
@@ -88,7 +254,7 @@ test('artifact-only Guides reports link to workflow artifacts rather than the to
 
     const notes = collectNotes()
 
-    assert.equal(notes.length, 3)
+    assert.equal(notes.length, 4)
     assert.match(notes.join('\n'), /actions\/runs\/123#artifacts/)
     assert.doesNotMatch(notes.join('\n'), new RegExp(`/blob/${'a'.repeat(40)}/`))
     assert.doesNotMatch(notes.join('\n'), /Guides reports unavailable/)
