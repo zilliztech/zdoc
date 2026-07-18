@@ -2,6 +2,7 @@
 'use strict'
 
 const crypto = require('node:crypto')
+const { constants } = require('node:fs')
 const fs = require('node:fs/promises')
 const path = require('node:path')
 const { assertSourceCompleteness } = require('../../plugins/lark-docs/sourceCompleteness')
@@ -184,19 +185,86 @@ async function validateOutputDisjointness({ workspace, baselineDir, output }) {
   if (overlaps(outputCandidate, baselineRoot)) throw new Error('Guides artifact output overlaps baseline or is its ancestor')
 }
 
-async function requireExistingFileUnderRoot(root, relative, label) {
+async function pinDirectory(directory, label) {
+  const stat = await fs.lstat(directory)
+  if (stat.isSymbolicLink() || !stat.isDirectory() || await fs.realpath(directory) !== directory) {
+    throw new Error(`${label} must be a canonical real directory`)
+  }
+  return { path: directory, dev: stat.dev, ino: stat.ino }
+}
+
+async function verifyDirectoryChain(identities, label) {
+  for (const identity of identities) {
+    let stat
+    try { stat = await fs.lstat(identity.path) } catch (error) { throw new Error(`${label} ancestor identity changed: ${identity.path}: ${error.message}`) }
+    if (stat.isSymbolicLink() || !stat.isDirectory() || stat.dev !== identity.dev || stat.ino !== identity.ino) {
+      throw new Error(`${label} ancestor identity changed: ${identity.path}`)
+    }
+    let real
+    try { real = await fs.realpath(identity.path) } catch (error) { throw new Error(`${label} ancestor identity changed: ${identity.path}: ${error.message}`) }
+    if (real !== identity.path) throw new Error(`${label} ancestor identity changed: ${identity.path}`)
+  }
+}
+
+async function pinCanonicalRoot(directory, label) {
+  const root = await requireRealDirectory(directory, label)
+  return { path: root, ancestors: [await pinDirectory(root, label)] }
+}
+
+async function pinChildRoot(root, relative, label) {
+  await verifyDirectoryChain(root.ancestors, label)
+  let current = root.path
+  const ancestors = [...root.ancestors]
+  for (const segment of relative.split('/')) {
+    current = path.join(current, segment)
+    ancestors.push(await pinDirectory(current, label))
+  }
+  await verifyDirectoryChain(ancestors, label)
+  return { path: current, ancestors }
+}
+
+async function pinParentChain(root, relative, label, create) {
   requireManifestPath(relative, label)
-  const target = path.resolve(root, relative)
-  if (!target.startsWith(`${root}${path.sep}`)) throw new Error(`Unsafe ${label} path: ${relative}`)
-  let current = root
+  const target = path.resolve(root.path, relative)
+  if (!target.startsWith(`${root.path}${path.sep}`)) throw new Error(`Unsafe ${label} path: ${relative}`)
+  await verifyDirectoryChain(root.ancestors, label)
+  const ancestors = [...root.ancestors]
+  let current = root.path
   for (const segment of path.posix.dirname(relative).split('/').filter(segment => segment !== '.')) {
     current = path.join(current, segment)
-    const stat = await fs.lstat(current)
-    if (stat.isSymbolicLink() || !stat.isDirectory()) throw new Error(`${label} ancestor must be a real directory: ${relative}`)
+    if (create) {
+      await verifyDirectoryChain(ancestors, label)
+      try { await fs.mkdir(current) } catch (error) { if (error.code !== 'EEXIST') throw error }
+    }
+    ancestors.push(await pinDirectory(current, `${label} ancestor`))
   }
-  const stat = await fs.lstat(target)
-  if (stat.isSymbolicLink() || !stat.isFile()) throw new Error(`${label} must be a regular non-symlink file: ${relative}`)
-  return target
+  return { target, ancestors }
+}
+
+function sameFileIdentity(left, right) {
+  return left.dev === right.dev && left.ino === right.ino && left.size === right.size
+}
+
+async function readExistingFileUnderRoot(root, relative, label) {
+  const pinned = await pinParentChain(root, relative, label, false)
+  await verifyDirectoryChain(pinned.ancestors, label)
+  let handle
+  try {
+    handle = await fs.open(pinned.target, constants.O_RDONLY | constants.O_NOFOLLOW | constants.O_NONBLOCK)
+    const before = await handle.stat()
+    if (!before.isFile()) throw new Error(`${label} must be a regular non-symlink file: ${relative}`)
+    await verifyDirectoryChain(pinned.ancestors, label)
+    const bytes = await handle.readFile()
+    const after = await handle.stat()
+    if (!sameFileIdentity(before, after)) throw new Error(`${label} identity changed while reading: ${relative}`)
+    await verifyDirectoryChain(pinned.ancestors, label)
+    return bytes
+  } catch (error) {
+    if (error.code === 'ELOOP') throw new Error(`${label} must be a regular non-symlink file: ${relative}`)
+    throw error
+  } finally {
+    if (handle) await handle.close()
+  }
 }
 
 async function ensureTargetRoot(target) {
@@ -230,23 +298,38 @@ async function ensureTargetRoot(target) {
 }
 
 async function ensureMutationParent(root, relative, label) {
-  requireManifestPath(relative, label)
-  const destination = path.resolve(root, relative)
-  if (!destination.startsWith(`${root}${path.sep}`)) throw new Error(`Unsafe ${label} path: ${relative}`)
-  let current = root
-  for (const segment of path.posix.dirname(relative).split('/').filter(segment => segment !== '.')) {
-    current = path.join(current, segment)
-    let stat
-    try { stat = await fs.lstat(current) } catch (error) {
-      if (error.code !== 'ENOENT') throw error
-      await fs.mkdir(current)
-      stat = await fs.lstat(current)
-    }
-    if (stat.isSymbolicLink() || !stat.isDirectory() || await fs.realpath(current) !== current) {
-      throw new Error(`${label} ancestor must be a real directory: ${relative}`)
-    }
+  return pinParentChain(root, relative, label, true)
+}
+
+async function writePinnedFile(pinned, relative, bytes) {
+  await verifyDirectoryChain(pinned.ancestors, 'restore destination')
+  let exists = false
+  try {
+    const stat = await fs.lstat(pinned.target)
+    if (stat.isSymbolicLink() || !stat.isFile()) throw new Error(`Restore destination must be a regular non-symlink file: ${relative}`)
+    exists = true
+  } catch (error) { if (error.code !== 'ENOENT') throw error }
+  await verifyDirectoryChain(pinned.ancestors, 'restore destination')
+  const flags = constants.O_WRONLY | constants.O_NOFOLLOW | constants.O_NONBLOCK
+    | (exists ? 0 : constants.O_CREAT | constants.O_EXCL)
+  let handle
+  try {
+    handle = await fs.open(pinned.target, flags, 0o666)
+    const before = await handle.stat()
+    if (!before.isFile()) throw new Error(`Restore destination must be a regular non-symlink file: ${relative}`)
+    await verifyDirectoryChain(pinned.ancestors, 'restore destination')
+    if (exists) await handle.truncate(0)
+    await handle.writeFile(bytes)
+    const after = await handle.stat()
+    if (before.dev !== after.dev || before.ino !== after.ino) throw new Error(`Restore destination identity changed while writing: ${relative}`)
+    await verifyDirectoryChain(pinned.ancestors, 'restore destination')
+  } catch (error) {
+    if (error.code === 'ELOOP') throw new Error(`Restore destination must be a regular non-symlink file: ${relative}`)
+    throw error
+  } finally {
+    if (handle) await handle.close()
   }
-  return destination
+  await verifyDirectoryChain(pinned.ancestors, 'restore destination')
 }
 
 async function assertSourceStageCompleteness({ workspace, snapshotCandidatePath, rootToken }) {
@@ -275,6 +358,15 @@ async function createGuidesStageArtifact({ stage, workspace, baselineDir, output
   await validateOutputDisjointness({ workspace, baselineDir, output })
   if (stage === 'source') await assertSourceStageCompleteness({ workspace, snapshotCandidatePath, rootToken })
   const [current, baseline] = await Promise.all([collect(workspace, STAGE_PATHS[stage]), collect(baselineDir, STAGE_PATHS[stage])])
+  for (const relative of current.keys()) {
+    requireManifestPath(relative, 'collected file')
+    if (!allowed(stage, relative)) throw new Error(`Unauthorized collected file path: ${relative}`)
+  }
+  const deletions = [...baseline.keys()].filter(relative => !current.has(relative)).sort()
+  for (const relative of deletions) {
+    requireManifestPath(relative, 'collected deletion')
+    if (!allowed(stage, relative) || current.has(relative)) throw new Error(`Unauthorized or overlapping collected deletion path: ${relative}`)
+  }
   if (current.size === 0) throw new Error(`Guides ${stage} artifact has no files`)
   for (const required of REQUIRED_STAGE_FILES[stage]) {
     if (!current.has(required)) {
@@ -297,17 +389,15 @@ async function createGuidesStageArtifact({ stage, workspace, baselineDir, output
     await fs.writeFile(destination, bytes, { flag: 'wx' })
     files.push({ path: relative, sha256: crypto.createHash('sha256').update(bytes).digest('hex'), size: bytes.length })
   }
-  const deletions = [...baseline.keys()].filter(relative => !current.has(relative)).sort()
   const manifest = { schemaVersion: 1, manual: 'guides', stage, masterSha, devBaselineSha, sourceArtifactSha256, createdAt: new Date().toISOString(), files, deletions }
   await fs.writeFile(path.join(output, 'manifest.json'), `${JSON.stringify(manifest, null, 2)}\n`, { flag: 'wx' })
   await validateGuidesStageArtifact(output)
   return manifest
 }
 
-async function validateGuidesStageArtifact(directory, expected = {}) {
-  const artifactRoot = await requireRealDirectory(directory, 'Guides artifact')
-  const manifestPath = await requireExistingFileUnderRoot(artifactRoot, 'manifest.json', 'manifest')
-  const manifest = JSON.parse(await fs.readFile(manifestPath, 'utf8'))
+async function loadValidatedGuidesStageArtifact(directory, expected = {}) {
+  const artifactRoot = await pinCanonicalRoot(directory, 'Guides artifact')
+  const manifest = JSON.parse((await readExistingFileUnderRoot(artifactRoot, 'manifest.json', 'manifest')).toString('utf8'))
   if (manifest.schemaVersion !== 1 || manifest.manual !== 'guides' || !Object.hasOwn(STAGE_PATHS, manifest.stage)) throw new Error('Invalid guides artifact identity')
   if (!SHA.test(manifest.masterSha) || !SHA.test(manifest.devBaselineSha)) throw new Error('Invalid guides artifact SHA')
   if (expected.stage && manifest.stage !== expected.stage) throw new Error(`Expected guides stage ${expected.stage}`)
@@ -318,6 +408,7 @@ async function validateGuidesStageArtifact(directory, expected = {}) {
   let mediaManifest = null
   let mediaReport = null
   let assemblyDecision = null
+  const payloadBytes = new Map()
   if (!Array.isArray(manifest.files) || !Array.isArray(manifest.deletions)) throw new Error('Guides artifact files and deletions must be arrays')
   for (const file of manifest.files) {
     requireManifestPath(file?.path, 'manifest file')
@@ -328,10 +419,10 @@ async function validateGuidesStageArtifact(directory, expected = {}) {
     requireManifestPath(relative, 'manifest deletion')
     if (!allowed(manifest.stage, relative) || seen.has(relative)) throw new Error(`Unauthorized deletion: ${relative}`)
   }
-  const payloadRoot = await requireRealDirectory(path.join(artifactRoot, 'payload'), 'Guides artifact payload')
+  const payloadRoot = await pinChildRoot(artifactRoot, 'payload', 'Guides artifact payload')
   for (const file of manifest.files) {
-    const full = await requireExistingFileUnderRoot(payloadRoot, file.path, 'payload file')
-    const bytes = await fs.readFile(full)
+    const bytes = await readExistingFileUnderRoot(payloadRoot, file.path, 'payload file')
+    payloadBytes.set(file.path, bytes)
     if (bytes.length !== file.size) throw new Error(`Payload size mismatch: ${file.path}`)
     if (crypto.createHash('sha256').update(bytes).digest('hex') !== file.sha256) throw new Error(`Payload checksum mismatch: ${file.path}`)
     if (manifest.stage === 'source' && file.path === MEDIA_MANIFEST) mediaManifest = parseMediaManifest(bytes)
@@ -349,30 +440,36 @@ async function validateGuidesStageArtifact(directory, expected = {}) {
     if (!assemblyDecision) throw new Error('Guides source artifact is missing required assembly decision')
     validatePackagedMediaInventory(mediaManifest, mediaReport)
   }
-  return manifest
+  return { manifest, payloadBytes }
+}
+
+async function validateGuidesStageArtifact(directory, expected = {}) {
+  return (await loadValidatedGuidesStageArtifact(directory, expected)).manifest
 }
 
 async function restoreGuidesStageArtifact({ artifact, target, expected = {} }) {
-  const manifest = await validateGuidesStageArtifact(artifact, expected)
-  const artifactRoot = await requireRealDirectory(artifact, 'Guides artifact')
-  const payloadRoot = await requireRealDirectory(path.join(artifactRoot, 'payload'), 'Guides artifact payload')
-  const targetRoot = await ensureTargetRoot(target)
+  const { manifest, payloadBytes } = await loadValidatedGuidesStageArtifact(artifact, expected)
+  const targetPath = await ensureTargetRoot(target)
+  const targetRoot = { path: targetPath, ancestors: [await pinDirectory(targetPath, 'Guides restore target')] }
   for (const relative of manifest.deletions) {
-    const destination = await ensureMutationParent(targetRoot, relative, 'restore deletion')
+    const pinned = await ensureMutationParent(targetRoot, relative, 'restore deletion')
+    await verifyDirectoryChain(pinned.ancestors, 'restore deletion')
+    let stat
     try {
-      const stat = await fs.lstat(destination)
-      if (stat.isSymbolicLink()) throw new Error(`Restore deletion target must not be a symlink: ${relative}`)
-      await fs.rm(destination, { recursive: stat.isDirectory(), force: true })
-    } catch (error) { if (error.code !== 'ENOENT') throw error }
+      stat = await fs.lstat(pinned.target)
+    } catch (error) {
+      if (error.code !== 'ENOENT') throw error
+      await verifyDirectoryChain(pinned.ancestors, 'restore deletion')
+      continue
+    }
+    if (stat.isSymbolicLink()) throw new Error(`Restore deletion target must not be a symlink: ${relative}`)
+    await verifyDirectoryChain(pinned.ancestors, 'restore deletion')
+    await fs.rm(pinned.target, { recursive: stat.isDirectory(), force: true })
+    await verifyDirectoryChain(pinned.ancestors, 'restore deletion')
   }
   for (const file of manifest.files) {
-    const source = await requireExistingFileUnderRoot(payloadRoot, file.path, 'payload file')
-    const destination = await ensureMutationParent(targetRoot, file.path, 'restore destination')
-    try {
-      const stat = await fs.lstat(destination)
-      if (stat.isSymbolicLink() || !stat.isFile()) throw new Error(`Restore destination must be a regular non-symlink file: ${file.path}`)
-    } catch (error) { if (error.code !== 'ENOENT') throw error }
-    await fs.copyFile(source, destination)
+    const pinned = await ensureMutationParent(targetRoot, file.path, 'restore destination')
+    await writePinnedFile(pinned, file.path, payloadBytes.get(file.path))
   }
   return manifest
 }

@@ -3,6 +3,7 @@
 const assert = require('node:assert/strict')
 const crypto = require('node:crypto')
 const fs = require('node:fs')
+const fsp = require('node:fs/promises')
 const os = require('node:os')
 const path = require('node:path')
 const test = require('node:test')
@@ -246,6 +247,98 @@ test('artifact validation rejects symlink ancestors inside payload', async () =>
   await assert.rejects(validateGuidesStageArtifact(fixture.artifact), /symlink|ancestor|directory/i)
 })
 
+test('artifact validation detects a payload ancestor replacement before reading outside bytes', async () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'guides-stage-payload-race-'))
+  const fixture = prepareSourceWorkspace(root)
+  await createGuidesStageArtifact({ stage: 'source', workspace: fixture.workspace, baselineDir: fixture.baseline, output: fixture.artifact, masterSha: SHA, devBaselineSha: SHA, rootToken: 'root' })
+  const relative = 'plugins/lark-docs/meta/sources/guides/doc.json'
+  const target = fs.realpathSync(path.join(fixture.artifact, 'payload', relative))
+  const payloadMeta = path.join(fixture.artifact, 'payload/plugins/lark-docs/meta')
+  const displaced = `${payloadMeta}.real`
+  const outsideMeta = path.join(root, 'outside-meta')
+  write(outsideMeta, 'sources/guides/doc.json', 'outside-secret')
+  const outsideSentinel = path.join(outsideMeta, 'sentinel')
+  fs.writeFileSync(outsideSentinel, 'keep')
+  const originalReadFile = fsp.readFile
+  const originalOpen = fsp.open
+  let replaced = false
+  let outsideRead = false
+  function replaceAncestor() {
+    if (replaced) return
+    fs.renameSync(payloadMeta, displaced)
+    fs.symlinkSync(outsideMeta, payloadMeta)
+    replaced = true
+  }
+  fsp.readFile = async function (file, ...args) {
+    if (path.resolve(file) === target) {
+      replaceAncestor()
+      outsideRead = true
+    }
+    return originalReadFile.call(this, file, ...args)
+  }
+  fsp.open = async function (file, ...args) {
+    const raced = path.resolve(file) === target
+    if (raced) replaceAncestor()
+    const handle = await originalOpen.call(this, file, ...args)
+    if (!raced) return handle
+    return new Proxy(handle, {
+      get(object, property) {
+        if (property === 'readFile') return async (...readArgs) => { outsideRead = true; return object.readFile(...readArgs) }
+        const value = Reflect.get(object, property, object)
+        return typeof value === 'function' ? value.bind(object) : value
+      },
+    })
+  }
+  try {
+    await assert.rejects(validateGuidesStageArtifact(fixture.artifact), /identity|ancestor|symlink|changed/i)
+  } finally {
+    fsp.readFile = originalReadFile
+    fsp.open = originalOpen
+  }
+  assert.equal(outsideRead, false)
+  assert.equal(fs.readFileSync(outsideSentinel, 'utf8'), 'keep')
+})
+
+test('artifact validation pins the payload root identity across all file reads', async () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'guides-stage-payload-root-race-'))
+  const fixture = prepareSourceWorkspace(root)
+  await createGuidesStageArtifact({ stage: 'source', workspace: fixture.workspace, baselineDir: fixture.baseline, output: fixture.artifact, masterSha: SHA, devBaselineSha: SHA, rootToken: 'root' })
+  const payload = fs.realpathSync(path.join(fixture.artifact, 'payload'))
+  const displaced = `${payload}.real`
+  const replacement = path.join(root, 'replacement-payload')
+  fs.cpSync(payload, replacement, { recursive: true })
+  fs.writeFileSync(path.join(replacement, 'sentinel'), 'keep')
+  const trigger = path.join(payload, 'plugins/lark-docs/meta/media-cache/guides.json')
+  const originalOpen = fsp.open
+  let replaced = false
+  let outsideRead = false
+  fsp.open = async function (file, ...args) {
+    const resolved = path.resolve(file)
+    if (replaced && resolved.startsWith(`${payload}${path.sep}`)) outsideRead = true
+    const handle = await originalOpen.call(this, file, ...args)
+    if (resolved !== trigger) return handle
+    return new Proxy(handle, {
+      get(object, property) {
+        if (property === 'close') return async () => {
+          await object.close()
+          fs.renameSync(payload, displaced)
+          fs.renameSync(replacement, payload)
+          replaced = true
+        }
+        const value = Reflect.get(object, property, object)
+        return typeof value === 'function' ? value.bind(object) : value
+      },
+    })
+  }
+  try {
+    await assert.rejects(validateGuidesStageArtifact(fixture.artifact), /identity|ancestor|changed/i)
+  } finally {
+    fsp.open = originalOpen
+  }
+  assert.equal(outsideRead, false)
+  assert.equal(fs.readFileSync(path.join(payload, 'sentinel'), 'utf8'), 'keep')
+})
+
 test('restore rejects symlink target ancestors without outside writes or deletions', async () => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'guides-stage-restore-symlink-'))
   const fixture = prepareSourceWorkspace(root)
@@ -259,6 +352,47 @@ test('restore rejects symlink target ancestors without outside writes or deletio
   await assert.rejects(restoreGuidesStageArtifact({ artifact: fixture.artifact, target }), /symlink|ancestor|directory/i)
   assert.equal(fs.readFileSync(path.join(outside, 'sentinel'), 'utf8'), 'keep')
   assert.equal(fs.readdirSync(outside).length, 1)
+})
+
+test('restore detects a target ancestor replacement before overwriting outside bytes', async () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'guides-stage-restore-race-'))
+  const fixture = prepareSourceWorkspace(root)
+  await createGuidesStageArtifact({ stage: 'source', workspace: fixture.workspace, baselineDir: fixture.baseline, output: fixture.artifact, masterSha: SHA, devBaselineSha: SHA, rootToken: 'root' })
+  const target = path.join(root, 'target')
+  const targetMeta = path.join(target, 'plugins/lark-docs/meta')
+  const displaced = `${targetMeta}.real`
+  const outsideMeta = path.join(root, 'outside-meta')
+  fs.mkdirSync(targetMeta, { recursive: true })
+  const relative = 'plugins/lark-docs/meta/media-cache/guides.json'
+  const destinationPath = path.join(target, relative)
+  write(target, relative, 'inside-old')
+  const destination = fs.realpathSync(destinationPath)
+  write(outsideMeta, 'media-cache/guides.json', 'outside-sentinel')
+  const outsideSentinel = path.join(outsideMeta, 'media-cache/guides.json')
+  const originalCopyFile = fsp.copyFile
+  const originalOpen = fsp.open
+  let replaced = false
+  function replaceAncestor() {
+    if (replaced) return
+    fs.renameSync(targetMeta, displaced)
+    fs.symlinkSync(outsideMeta, targetMeta)
+    replaced = true
+  }
+  fsp.copyFile = async function (source, output, ...args) {
+    if (path.resolve(output) === destination) replaceAncestor()
+    return originalCopyFile.call(this, source, output, ...args)
+  }
+  fsp.open = async function (file, ...args) {
+    if (path.resolve(file) === destination) replaceAncestor()
+    return originalOpen.call(this, file, ...args)
+  }
+  try {
+    await assert.rejects(restoreGuidesStageArtifact({ artifact: fixture.artifact, target }), /identity|ancestor|symlink|changed/i)
+  } finally {
+    fsp.copyFile = originalCopyFile
+    fsp.open = originalOpen
+  }
+  assert.equal(fs.readFileSync(outsideSentinel, 'utf8'), 'outside-sentinel')
 })
 
 test('creation rejects overlapping or symlinked outputs before recursive removal', async () => {
@@ -304,6 +438,32 @@ test('invalid assembly decisions preserve an existing artifact byte-for-byte', a
   )
   assert.deepEqual(fs.readFileSync(path.join(fixture.artifact, 'manifest.json')), beforeManifest)
   assert.equal(fs.readFileSync(sentinel, 'utf8'), 'keep')
+})
+
+test('invalid collected workspace and baseline paths preserve an existing artifact byte-for-byte', async (t) => {
+  const cases = [
+    ['workspace backslash', 'workspace', 'plugins/lark-docs/meta/sources/guides/bad\\name.json'],
+    ['workspace newline', 'workspace', 'plugins/lark-docs/meta/sources/guides/bad\nname.json'],
+    ['baseline backslash', 'baseline', 'plugins/lark-docs/meta/sources/guides/bad\\name.json'],
+    ['baseline newline', 'baseline', 'plugins/lark-docs/meta/sources/guides/bad\nname.json'],
+  ]
+  for (const [name, location, relative] of cases) {
+    await t.test(name, async () => {
+      const root = fs.mkdtempSync(path.join(os.tmpdir(), 'guides-stage-collected-path-'))
+      const fixture = prepareSourceWorkspace(root)
+      await createGuidesStageArtifact({ stage: 'source', workspace: fixture.workspace, baselineDir: fixture.baseline, output: fixture.artifact, masterSha: SHA, devBaselineSha: SHA, rootToken: 'root' })
+      const beforeManifest = fs.readFileSync(path.join(fixture.artifact, 'manifest.json'))
+      const sentinel = path.join(fixture.artifact, 'sentinel')
+      fs.writeFileSync(sentinel, 'keep')
+      write(fixture[location], relative, '{}')
+      await assert.rejects(
+        createGuidesStageArtifact({ stage: 'source', workspace: fixture.workspace, baselineDir: fixture.baseline, output: fixture.artifact, masterSha: SHA, devBaselineSha: SHA, rootToken: 'root' }),
+        /unsafe|unauthorized|path/i,
+      )
+      assert.deepEqual(fs.readFileSync(path.join(fixture.artifact, 'manifest.json')), beforeManifest)
+      assert.equal(fs.readFileSync(sentinel, 'utf8'), 'keep')
+    })
+  }
 })
 
 test('source artifact rejects malformed media prefetch report contracts', async (t) => {
