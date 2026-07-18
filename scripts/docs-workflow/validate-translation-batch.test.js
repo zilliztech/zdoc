@@ -173,6 +173,54 @@ test('enforces authorized translation cache changes from the shared batch input'
   )
 })
 
+test('authorizes from authenticated cache buffers even if result cache path is replaced after validation', async () => {
+  const pair = await translationPair()
+  let hookCalled = false
+  await assert.doesNotReject(validateTranslationBatch({
+    artifactDir: pair.artifact,
+    baselineDir: pair.baseline,
+    batchNumber: 1,
+    batchCount: 1,
+    testHooks: {
+      async afterCheckpointValidation({ result }) {
+        hookCalled = true
+        const replacement = {
+          files: {
+            'docs/tutorials/new.md': cacheEntry(),
+            'docs/tutorials/unauthorized.md': {
+              sourceHash: 'e'.repeat(64),
+              targetPath: 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/unauthorized.md',
+              translatedAt: '2026-07-18T00:00:00.000Z',
+            },
+          },
+        }
+        await writeFile(path.join(result.resolvedDir, 'payload', CACHE_PATH), `${JSON.stringify(replacement, null, 2)}\n`)
+      },
+    },
+  }))
+  assert.equal(hookCalled, true)
+})
+
+test('does not reopen a baseline cache path replaced by a symlink after validation', async () => {
+  const pair = await translationPair()
+  let hookCalled = false
+  await assert.doesNotReject(validateTranslationBatch({
+    artifactDir: pair.artifact,
+    baselineDir: pair.baseline,
+    batchNumber: 1,
+    batchCount: 1,
+    testHooks: {
+      async afterCheckpointValidation({ result, baseline }) {
+        hookCalled = true
+        const baselineCache = path.join(baseline.resolvedDir, 'payload', CACHE_PATH)
+        await rm(baselineCache)
+        await symlink(path.join(result.resolvedDir, 'payload', CACHE_PATH), baselineCache)
+      },
+    },
+  }))
+  assert.equal(hookCalled, true)
+})
+
 test('accepts byte-identical reconciliation-only numbered pair with zero candidates', async () => {
   const batch = batchMetadata({ pendingCount: 0 })
   const pair = await translationPair({ batch, document: batchInput(batch), resultCache: {}, baselineCache: {} })

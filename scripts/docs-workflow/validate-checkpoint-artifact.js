@@ -3,7 +3,7 @@
 
 const crypto = require('node:crypto');
 const fs = require('node:fs');
-const { lstat, open, readFile, readlink, realpath, readdir } = require('node:fs/promises');
+const { lstat, open, readlink, realpath, readdir } = require('node:fs/promises');
 const path = require('node:path');
 const { getContentGroup } = require('./content-groups');
 const { validateBatchInput } = require('./translation-batch-input');
@@ -110,7 +110,10 @@ async function validateSchema2Root(artifactDir) {
 
 async function validateCheckpointArtifact(artifactDir, expected = {}) {
   const pinnedArtifactDir = await pinArtifactDirectory(artifactDir);
-  const manifest = JSON.parse(await readFile(path.join(pinnedArtifactDir, 'manifest.json'), 'utf8'));
+  const manifestPath = path.join(pinnedArtifactDir, 'manifest.json');
+  const manifestStat = await lstat(manifestPath);
+  if (manifestStat.isSymbolicLink() || !manifestStat.isFile()) throw new Error('Manifest must be a regular non-symlink file');
+  const manifest = JSON.parse((await readRegularNoFollow(manifestPath, 'Manifest')).toString('utf8'));
   await expected.testHooks?.afterManifestRead?.({ artifactDir: pinnedArtifactDir, manifest });
   if (manifest.schemaVersion === 1) exactKeys(manifest, SCHEMA_1_KEYS, 'manifest');
   else if (manifest.schemaVersion === 2) {
@@ -179,10 +182,12 @@ async function validateCheckpointArtifact(artifactDir, expected = {}) {
   for (const rel of directories) if (!filePaths.some((file) => file.startsWith(`${rel}/`))) throw new Error(`Unexpected payload directory: ${rel}`);
   for (const rel of filePaths) if (!actual.includes(rel)) throw new Error(`Missing payload file: ${rel}`);
   for (const rel of actual) if (!filePaths.includes(rel)) throw new Error(`Unexpected payload file: ${rel}`);
+  let translationCacheBytes = null;
   for (const entry of manifest.files) {
     const bytes = await readRegularNoFollow(path.join(payloadRoot, ...entry.path.split('/')));
     if (bytes.length !== entry.size) throw new Error(`Payload size mismatch: ${entry.path}`);
     if (crypto.createHash('sha256').update(bytes).digest('hex') !== entry.sha256) throw new Error(`Payload checksum mismatch: ${entry.path}`);
+    if (entry.path === cachePath) translationCacheBytes = Buffer.from(bytes);
   }
   let parsedBatchInput = null;
   let batchInputBytes = null;
@@ -209,6 +214,9 @@ async function validateCheckpointArtifact(artifactDir, expected = {}) {
     deepFreeze(parsedBatchInput);
   }
   Object.defineProperty(manifest, 'resolvedDir', { value: pinnedArtifactDir, enumerable: false });
+  if (translationArtifact) {
+    Object.defineProperty(manifest, 'translationCacheBytes', { get: () => Buffer.from(translationCacheBytes), enumerable: false });
+  }
   if (manifest.schemaVersion === 2) {
     Object.defineProperties(manifest, {
       parsedBatchInput: { value: parsedBatchInput, enumerable: false },

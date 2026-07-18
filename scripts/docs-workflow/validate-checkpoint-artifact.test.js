@@ -93,6 +93,7 @@ test('validates and deeply freezes a valid artifact', async () => {
   assert.equal(Object.isFrozen(result.validation.commands), true);
   assert.equal(result.resolvedDir, await realpath(f.dir));
   assert.equal(Object.keys(result).includes('resolvedDir'), false);
+  assert.equal(Object.hasOwn(result, 'translationCacheBytes'), false);
 });
 
 test('validates schema 2 numbered translation identity and returns immutable batch input facts', async () => {
@@ -108,6 +109,31 @@ test('validates schema 2 numbered translation identity and returns immutable bat
   exposed[0] = 0;
   assert.deepEqual(result.batchInputBytes, f.inputBytes);
   assert.equal(result.batchInput.sha256, f.manifest.batchInput.sha256);
+  const expectedCache = Buffer.from('{"files":{}}\n');
+  assert.deepEqual(result.translationCacheBytes, expectedCache);
+  const exposedCache = result.translationCacheBytes;
+  exposedCache[0] = 0;
+  assert.deepEqual(result.translationCacheBytes, expectedCache);
+  assert.equal(Object.keys(result).includes('translationCacheBytes'), false);
+});
+
+test('rejects symlinked manifest files before parsing for schema 1 and managed schema 2 artifacts', async () => {
+  let f = await artifact();
+  const schema1Target = `${f.dir}-manifest.json`;
+  await rename(path.join(f.dir, 'manifest.json'), schema1Target);
+  await symlink(schema1Target, path.join(f.dir, 'manifest.json'));
+  await assert.rejects(validateCheckpointArtifact(f.dir), /manifest.*(symlink|regular)|symlink.*manifest/i);
+
+  f = await schema2Artifact();
+  const publicPath = `${f.dir}-public`;
+  const version = path.join(path.dirname(publicPath), `.${path.basename(publicPath)}.version-test`);
+  await rename(f.dir, version);
+  await symlink(path.basename(version), publicPath);
+  const schema2Target = `${publicPath}-manifest.json`;
+  await require('node:fs/promises').rm(path.join(version, 'manifest.json'));
+  await writeFile(schema2Target, 'not json\n');
+  await symlink(schema2Target, path.join(version, 'manifest.json'));
+  await assert.rejects(validateCheckpointArtifact(publicPath), /manifest.*(symlink|regular)|symlink.*manifest/i);
 });
 
 test('schema 2 rejects tampered batch input bytes, descriptor facts, and semantic JSON', async () => {
@@ -196,7 +222,11 @@ test('schema versions are stage- and batching-specific after migration', async (
   await writeFile(path.join(unbatched.payload, '.translation-cache/ja-JP.json'), cache);
   unbatched.manifest.files = [{ path: '.translation-cache/ja-JP.json', sha256: crypto.createHash('sha256').update(cache).digest('hex'), size: cache.length }];
   await writeFile(path.join(unbatched.dir, 'manifest.json'), JSON.stringify(unbatched.manifest));
-  await assert.doesNotReject(validateCheckpointArtifact(unbatched.dir));
+  const unbatchedResult = await validateCheckpointArtifact(unbatched.dir);
+  assert.deepEqual(unbatchedResult.translationCacheBytes, cache);
+  const exposedCache = unbatchedResult.translationCacheBytes;
+  exposedCache[0] = 0;
+  assert.deepEqual(unbatchedResult.translationCacheBytes, cache);
 });
 
 test('schema 2 requires batch input identity to match checkpoint batch, group, and dev baseline SHA', async () => {

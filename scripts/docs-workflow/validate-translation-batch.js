@@ -1,8 +1,6 @@
 #!/usr/bin/env node
 'use strict'
 
-const fs = require('node:fs/promises')
-const path = require('node:path')
 const { validateCheckpointArtifact } = require('./validate-checkpoint-artifact')
 const { assertAuthorizedCacheChanges } = require('./translation-batch-input')
 
@@ -38,7 +36,7 @@ function parseArgs(argv) {
   return { artifactDir: values.artifact, baselineDir: values.baseline, batchNumber, batchCount }
 }
 
-async function validateTranslationBatch({ artifactDir, baselineDir, batchNumber, batchCount }) {
+async function validateTranslationBatch({ artifactDir, baselineDir, batchNumber, batchCount, testHooks }) {
   if (!Number.isSafeInteger(batchNumber) || batchNumber < 1) throw new Error('batch number must be a positive integer')
   if (!Number.isSafeInteger(batchCount) || batchCount < batchNumber) throw new Error('batch count must not be smaller than batch number')
   const manifests = await Promise.all([
@@ -59,18 +57,12 @@ async function validateTranslationBatch({ artifactDir, baselineDir, batchNumber,
   if (result.batchInput.sha256 !== baseline.batchInput.sha256 || result.batchInput.size !== baseline.batchInput.size || !result.batchInputBytes.equals(baseline.batchInputBytes)) {
     throw new Error('Baseline and result batch input bytes must be identical')
   }
+  await testHooks?.afterCheckpointValidation?.({ result, baseline })
 
-  const cachePath = 'payload/.translation-cache/ja-JP.json'
-  const baselineCache = path.join(baseline.resolvedDir, cachePath)
-  const resultCache = path.join(result.resolvedDir, cachePath)
-  for (const [label, file] of [['Baseline', baselineCache], ['Result', resultCache]]) {
-    const stat = await fs.lstat(file)
-    if (!stat.isFile() || stat.isSymbolicLink()) throw new Error(`${label} translation cache must be a regular file`)
-  }
   let before, after
   try {
-    before = JSON.parse(await fs.readFile(baselineCache, 'utf8'))
-    after = JSON.parse(await fs.readFile(resultCache, 'utf8'))
+    before = JSON.parse(baseline.translationCacheBytes.toString('utf8'))
+    after = JSON.parse(result.translationCacheBytes.toString('utf8'))
   } catch (error) {
     throw new Error(`Translation cache JSON is invalid: ${error.message}`)
   }
