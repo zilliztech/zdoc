@@ -190,6 +190,40 @@ test('workflow policy independently requires checkpoint stage selection and veri
   }
 })
 
+test('workflow policy rejects unsafe Guides recovery shortcuts', () => {
+  const shell = fs.readFileSync('scripts/docs-workflow/recover-translation-batches.sh', 'utf8')
+  const helper = fs.readFileSync('scripts/docs-workflow/recover-guides-translation.js', 'utf8')
+  const cases = [
+    { shell: shell.replace('recover-guides-translation.js', 'publish-checkpoint.sh'), helper, expected: 'recover-translation-batches.sh: recovery must be a strict delta-safe helper entrypoint' },
+    { shell, helper: helper.replaceAll('promoteStaging', 'unsafePromotion'), expected: 'recover-guides-translation.js: must use normal fast-forward staging promotion' },
+    { shell, helper: `${helper}\nexecFileSync('git', ['push', '--force', 'origin', 'HEAD:dev'])\n`, expected: 'recover-guides-translation.js: recovery must not replay batches, merge, rebase, eval, or force-push' },
+  ]
+  for (const fixture of cases) {
+    const directory = fs.realpathSync(fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'recovery-policy-')))
+    const shellPath = path.join(directory, 'recover.sh'), helperPath = path.join(directory, 'recover.js')
+    fs.writeFileSync(shellPath, fixture.shell); fs.writeFileSync(helperPath, fixture.helper)
+    try { assert.ok(validateWorkflowPolicies(undefined, { recoveryShellPath: shellPath, recoveryHelperPath: helperPath }).includes(fixture.expected)) }
+    finally { fs.rmSync(directory, { recursive: true, force: true }) }
+  }
+})
+
+test('workflow policy excludes staging namespace from push deployment triggers', () => {
+  const sourceDirectory = path.join(process.cwd(), '.github/workflows')
+  for (const mutate of [
+    source => source.replace('      - "dev"', '      - "**"'),
+    source => source.replace(/    branches:\n      - "dev"\n      - "master"\n/, ''),
+    source => source.replace(/  push:\n    branches:\n      - "dev"\n      - "master"/, '  push: {}'),
+  ]) {
+    const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'staging-trigger-policy-'))
+    try {
+      fs.cpSync(sourceDirectory, directory, { recursive: true })
+      const file = path.join(directory, 'check-404.yml')
+      fs.writeFileSync(file, mutate(fs.readFileSync(file, 'utf8')))
+      assert.ok(validateWorkflowPolicies(directory).includes('check-404.yml: push deployment triggers must exclude docs-translation-staging/**'))
+    } finally { fs.rmSync(directory, { recursive: true, force: true }) }
+  }
+})
+
 test('docs production runs only on schedules or explicit manual dispatch', () => {
   const workflowPath = path.join(process.cwd(), '.github/workflows/fetch-docs.yml')
   const triggerBlock = fs.readFileSync(workflowPath, 'utf8').split('\npermissions:')[0]

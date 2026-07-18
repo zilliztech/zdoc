@@ -624,6 +624,15 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     errors.push('_monitor-docs-progress.yml: central monitor workflow is required')
   }
 
+  for (const file of fs.readdirSync(directory).filter(name => /\.ya?ml$/.test(name))) {
+    const workflow = yaml.load(fs.readFileSync(path.join(directory, file), 'utf8'))
+    if (!workflow?.on || !Object.hasOwn(workflow.on, 'push')) continue
+    const branches = workflow.on.push?.branches
+    if (!Array.isArray(branches) || branches.some(branch => typeof branch !== 'string' || branch.includes('*') || branch.startsWith('docs-translation-staging/'))) {
+      errors.push(`${file}: push deployment triggers must exclude docs-translation-staging/**`)
+    }
+  }
+
   const publisherPath = options.publisherPath || path.join(process.cwd(), 'scripts/docs-workflow/publish-checkpoint.sh')
   const publisherSource = fs.readFileSync(publisherPath, 'utf8')
   for (const [pattern, message] of [
@@ -635,6 +644,25 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
   }
   if (/git add --all -- "\$\{paths\[@\]\}"/.test(publisherSource)) {
     errors.push('publish-checkpoint.sh: direct manifest pathspec staging is not idempotent')
+  }
+
+  const recoveryShell = fs.readFileSync(options.recoveryShellPath || path.join(process.cwd(), 'scripts/docs-workflow/recover-translation-batches.sh'), 'utf8')
+  const recoveryHelper = fs.readFileSync(options.recoveryHelperPath || path.join(process.cwd(), 'scripts/docs-workflow/recover-guides-translation.js'), 'utf8')
+  if (!/^set -euo pipefail$/m.test(recoveryShell) || !/recover-guides-translation\.js/.test(recoveryShell) || /publish-checkpoint|gh run download|for \(\(batch|eval|git push/.test(recoveryShell)) {
+    errors.push('recover-translation-batches.sh: recovery must be a strict delta-safe helper entrypoint')
+  }
+  for (const [pattern, message] of [
+    [/deterministicStagingRef/, 'must derive the exact run-attempt pending-set staging ref'],
+    [/assertGuidesSourceAuthority/, 'must verify all Guides source-authority paths'],
+    [/planTranslationBatchSet/, 'must replan complete validated pairs when the target moved'],
+    [/applyPhase/, 'must recompose through the delta-safe staging worktree path'],
+    [/validate-guides-translation-staging\.js/, 'must rerun the fixed seven-command validation gate'],
+    [/promoteStaging/, 'must use normal fast-forward staging promotion'],
+    [/deleteStagingWithLease/, 'must use exact leased staging cleanup'],
+    [/complete validated recovery pairs are unavailable/, 'must fail closed when target movement lacks complete recovery pairs'],
+  ]) if (!pattern.test(recoveryHelper)) errors.push(`recover-guides-translation.js: ${message}`)
+  if (/publish-checkpoint|gh run download|\[['"](?:merge|rebase)['"]|git[^\n]*push[^\n]*(?:--force|-f)|eval\(/.test(recoveryHelper)) {
+    errors.push('recover-guides-translation.js: recovery must not replay batches, merge, rebase, eval, or force-push')
   }
 
   return errors
