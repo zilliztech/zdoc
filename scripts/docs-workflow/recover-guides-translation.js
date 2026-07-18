@@ -18,11 +18,41 @@ function git(repository, args, options = {}) {
   return typeof output === 'string' ? output.trim() : ''
 }
 function assertSha(value, label) { if (!SHA.test(value || '')) throw new Error(`${label} must be a lowercase Git SHA`) }
+function deepFreeze(value) { if (value && typeof value === 'object' && !Object.isFrozen(value)) { for (const child of Object.values(value)) deepFreeze(child); Object.freeze(value) } return value }
 function realDirectory(value, label, privateMode = false) {
   if (typeof value !== 'string' || !path.isAbsolute(value)) throw new Error(`${label} must be absolute`)
   const resolved = path.resolve(value), stat = fs.lstatSync(resolved)
   if (stat.isSymbolicLink() || !stat.isDirectory() || fs.realpathSync(resolved) !== resolved || (process.getuid && stat.uid !== process.getuid()) || (privateMode && (stat.mode & 0o777) !== 0o700)) throw new Error(`${label} must be a real owned${privateMode ? ' private 0700' : ''} directory`)
   return resolved
+}
+function loadPairsManifest(file, trustedRoot) {
+  if (typeof file !== 'string' || !path.isAbsolute(file)) throw new Error('pairs manifest must be a real absolute regular file')
+  const resolved = path.resolve(file)
+  if (path.dirname(resolved) !== trustedRoot) throw new Error('pairs manifest must be directly inside the private trusted root')
+  let descriptor
+  try { descriptor = fs.openSync(resolved, fs.constants.O_RDONLY | (fs.constants.O_NOFOLLOW || 0)) } catch { throw new Error('pairs manifest must be a real absolute regular file') }
+  try {
+    const opened = fs.fstatSync(descriptor)
+    const linked = fs.lstatSync(resolved)
+    if (!opened.isFile() || linked.isSymbolicLink() || !linked.isFile() || opened.dev !== linked.dev || opened.ino !== linked.ino || fs.realpathSync(resolved) !== resolved || (process.getuid && opened.uid !== process.getuid()) || (opened.mode & 0o077) !== 0) throw new Error('pairs manifest must be a private owned regular file in the trusted root')
+    if (opened.size < 2 || opened.size > 1024 * 1024) throw new Error('pairs manifest size is invalid')
+    const manifest = JSON.parse(fs.readFileSync(descriptor, 'utf8'))
+    const after = fs.fstatSync(descriptor)
+    if (after.dev !== opened.dev || after.ino !== opened.ino || after.size !== opened.size || after.mtimeMs !== opened.mtimeMs) throw new Error('pairs manifest identity changed while reading')
+    return deepFreeze(manifest)
+  } finally { fs.closeSync(descriptor) }
+}
+function cleanupEntry(deps, repository, stagingRef, stagedSha) {
+  try {
+    const cleanupDebt = deps.deleteStagingWithLease({ repository, stagingRef, stagedSha }).cleanupDebt || null
+    return cleanupDebt ? { stagingRef, cleanupDebt } : null
+  } catch (error) { return { stagingRef, cleanupDebt: { kind: 'cleanup_failed', stagingRef, message: bounded(error) } } }
+}
+function summarizeCleanupDebt(entries) {
+  const debts = entries.filter(Boolean)
+  if (debts.length === 0) return null
+  if (debts.length === 1) return debts[0].cleanupDebt
+  return { kind: 'multiple_cleanup_debts', debts }
 }
 function remoteRefSha(repository, ref) {
   const output = git(repository, ['ls-remote', '--refs', 'origin', ref])
@@ -45,8 +75,8 @@ async function recreateCandidate(options, dependencies = {}) {
     },
     ...dependencies,
   }
-  if (options.pairsManifest === 'none') throw new Error('target moved and complete validated recovery pairs are unavailable')
-  const manifest = JSON.parse(fs.readFileSync(options.pairsManifest, 'utf8'))
+  if (!options.pairsManifestData) throw new Error('target moved and complete validated recovery pairs are unavailable')
+  const manifest = options.pairsManifestData
   if (!manifest || Object.keys(manifest).sort().join(',') !== 'expectedTargetSha,group,pairs,schemaVersion,sourceCheckpointSha' || manifest.schemaVersion !== 1 || manifest.group !== 'guides' || manifest.sourceCheckpointSha !== options.sourceCheckpointSha || manifest.expectedTargetSha !== options.expectedTargetSha || !Array.isArray(manifest.pairs) || !manifest.pairs.length) throw new Error('recovery pairs manifest is invalid or incomplete')
   const plan = await deps.planTranslationBatchSet({ pairs: manifest.pairs, sourceRepository: options.repository, sourceCheckpointSha: options.sourceCheckpointSha, targetRepository: options.repository, expectedTargetSha: options.currentTargetSha })
   if (plan.pendingSetSha256 !== options.pendingSetSha256) throw new Error('recovery plan pending-set identity mismatch')
@@ -94,11 +124,10 @@ async function recoverGuidesTranslation(options, dependencies = {}) {
   const recoveryRef = deterministicStagingRef({ runId: options.runId, runAttempt: options.recoveryAttempt, pendingSetSha256: options.pendingSetSha256 })
   let retainedRecoveryRef = null
   if (recoveryRef === stagingRef) throw new Error('recovery attempt must produce a distinct staging ref')
+  let pairsManifestData = null
   if (options.pairsManifest !== 'none') {
-    if (!path.isAbsolute(options.pairsManifest)) throw new Error('pairs manifest must be a real absolute regular file')
-    const manifestPath = path.resolve(options.pairsManifest), stat = fs.lstatSync(manifestPath)
-    if (stat.isSymbolicLink() || !stat.isFile() || fs.realpathSync(manifestPath) !== manifestPath) throw new Error('pairs manifest must be a real absolute regular file')
-    options = { ...options, pairsManifest: manifestPath }
+    pairsManifestData = loadPairsManifest(options.pairsManifest, trustedRoot)
+    options = { ...options, pairsManifest: path.resolve(options.pairsManifest), pairsManifestData }
   }
   for (const [label, value] of [['staged SHA', options.stagedSha], ['expected target SHA', options.expectedTargetSha], ['source checkpoint SHA', options.sourceCheckpointSha], ['master SHA', options.masterSha]]) assertSha(value, label)
   git(repository, ['check-ref-format', '--branch', options.targetBranch])
@@ -114,16 +143,15 @@ async function recoverGuidesTranslation(options, dependencies = {}) {
     deps.assertGuidesSourceAuthority({ sourceRepository: repository, sourceCheckpointSha: options.sourceCheckpointSha, targetRepository: repository, expectedTargetSha: currentTargetSha })
     deps.assertGuidesSourceAuthority({ sourceRepository: repository, sourceCheckpointSha: options.sourceCheckpointSha, targetRepository: repository, expectedTargetSha: options.stagedSha })
     if (currentTargetSha === options.stagedSha || deps.ancestor(repository, options.stagedSha, currentTargetSha)) {
-      let cleanupDebt = null
-      try { cleanupDebt = deps.deleteStagingWithLease({ repository, stagingRef, stagedSha: options.stagedSha }).cleanupDebt || null } catch (error) { cleanupDebt = { kind: 'cleanup_failed', message: bounded(error) } }
+      const cleanupDebt = summarizeCleanupDebt([cleanupEntry(deps, repository, stagingRef, options.stagedSha)])
       return Object.freeze({ status: 'published', publishedSha: currentTargetSha, stagingRef, cleanupDebt })
     }
     let candidate = { stagingRef, stagedSha: options.stagedSha, expectedTargetSha: options.expectedTargetSha }
     if (currentTargetSha !== options.expectedTargetSha) {
+      deps.beforeRecreateCandidate?.({ pairsManifest: options.pairsManifest })
       candidate = await deps.recreateCandidate({ ...options, repository, trustedRoot, currentTargetSha })
       if (candidate.noChanges) {
-        let cleanupDebt = null
-        try { cleanupDebt = deps.deleteStagingWithLease({ repository, stagingRef, stagedSha: options.stagedSha }).cleanupDebt || null } catch (error) { cleanupDebt = { kind: 'cleanup_failed', message: bounded(error) } }
+        const cleanupDebt = summarizeCleanupDebt([cleanupEntry(deps, repository, stagingRef, options.stagedSha)])
         return Object.freeze({ status: 'no_changes', publishedSha: currentTargetSha, stagingRef: null, cleanupDebt })
       }
       retainedRecoveryRef = candidate.stagingRef
@@ -137,14 +165,11 @@ async function recoverGuidesTranslation(options, dependencies = {}) {
       deps.validate(validationRepository, { masterSha: options.masterSha, stagedSha: candidate.stagedSha, validationFile, trustedRoot })
     } finally { deps.removeValidationWorktree(repository, validationWorktree) }
     const promoted = deps.promoteStaging({ repository, targetBranch: options.targetBranch, expectedTargetSha: candidate.expectedTargetSha, stagedSha: candidate.stagedSha })
-    let cleanupDebt = null
-    try { cleanupDebt = deps.deleteStagingWithLease({ repository, stagingRef: candidate.stagingRef, stagedSha: candidate.stagedSha }).cleanupDebt || null } catch (error) { cleanupDebt = { kind: 'cleanup_failed', message: bounded(error) } }
+    const cleanupEntries = [cleanupEntry(deps, repository, candidate.stagingRef, candidate.stagedSha)]
     if (candidate.stagingRef !== stagingRef) {
-      try {
-        const oldCleanup = deps.deleteStagingWithLease({ repository, stagingRef, stagedSha: options.stagedSha }).cleanupDebt || null
-        cleanupDebt ||= oldCleanup
-      } catch (error) { cleanupDebt ||= { kind: 'cleanup_failed', message: bounded(error) } }
+      cleanupEntries.push(cleanupEntry(deps, repository, stagingRef, options.stagedSha))
     }
+    const cleanupDebt = summarizeCleanupDebt(cleanupEntries)
     return Object.freeze({ status: 'published', publishedSha: promoted.publishedSha, stagingRef: candidate.stagingRef, cleanupDebt })
   } catch (error) {
     retainedRecoveryRef ||= error?.retainedStagingRef || null

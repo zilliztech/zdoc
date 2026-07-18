@@ -58,6 +58,11 @@ function remoteRef(options, ref) {
   try { return git(options.remote, 'show-ref', '--verify', '--hash', ref) } catch { return null }
 }
 
+function writePrivateJson(file, value) {
+  fs.writeFileSync(file, JSON.stringify(value), { mode: 0o600 })
+  fs.chmodSync(file, 0o600)
+}
+
 function fixture() {
   const repository = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'guides-recovery-repo-')))
   const trustedRoot = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'guides-recovery-root-')))
@@ -96,9 +101,9 @@ test('recovery identity rejects ref collisions, unsafe manifest paths, target mi
 
   const options = fixture(), file = path.join(options.trustedRoot, 'pairs.json')
   const manifest = { schemaVersion: 1, group: 'guides', sourceCheckpointSha: options.sourceCheckpointSha, expectedTargetSha: SHA('8'), pairs: [{ artifactDir: '/a', baselineDir: '/b' }] }
-  fs.writeFileSync(file, JSON.stringify(manifest)); options.pairsManifest = file; options.currentTargetSha = SHA('9')
+  writePrivateJson(file, manifest); options.pairsManifest = file; options.pairsManifestData = manifest; options.currentTargetSha = SHA('9')
   await assert.rejects(() => recreateCandidate(options, { planTranslationBatchSet() { throw new Error('must not plan') } }), /invalid or incomplete/)
-  manifest.expectedTargetSha = options.expectedTargetSha; fs.writeFileSync(file, JSON.stringify(manifest))
+  manifest.expectedTargetSha = options.expectedTargetSha; writePrivateJson(file, manifest)
   await assert.rejects(() => recreateCandidate(options, { async planTranslationBatchSet() { return { pendingSetSha256: 'f'.repeat(64) } } }), /pending-set identity mismatch/)
   await assert.rejects(() => recreateCandidate(options, { async planTranslationBatchSet() { return { pendingSetSha256: options.pendingSetSha256, masterSha: SHA('7') } } }), /master.*identity mismatch/)
 })
@@ -121,7 +126,8 @@ test('recomposition removes and prunes its mutable worktree after the recovery r
   const options = fixture(), file = path.join(options.trustedRoot, 'pairs.json')
   options.pairsManifest = file
   options.currentTargetSha = SHA('9')
-  fs.writeFileSync(file, JSON.stringify({ schemaVersion: 1, group: 'guides', sourceCheckpointSha: options.sourceCheckpointSha, expectedTargetSha: options.expectedTargetSha, pairs: [{ artifactDir: '/a', baselineDir: '/b' }] }))
+  options.pairsManifestData = { schemaVersion: 1, group: 'guides', sourceCheckpointSha: options.sourceCheckpointSha, expectedTargetSha: options.expectedTargetSha, pairs: [{ artifactDir: '/a', baselineDir: '/b' }] }
+  writePrivateJson(file, options.pairsManifestData)
   const calls = []
   const result = await recreateCandidate(options, {
     async planTranslationBatchSet() { return { pendingSetSha256: options.pendingSetSha256, masterSha: options.masterSha } },
@@ -139,7 +145,8 @@ test('recomposition failure still removes its worktree and reports cleanup failu
   const options = fixture(), file = path.join(options.trustedRoot, 'pairs.json')
   options.pairsManifest = file
   options.currentTargetSha = SHA('9')
-  fs.writeFileSync(file, JSON.stringify({ schemaVersion: 1, group: 'guides', sourceCheckpointSha: options.sourceCheckpointSha, expectedTargetSha: options.expectedTargetSha, pairs: [{ artifactDir: '/a', baselineDir: '/b' }] }))
+  options.pairsManifestData = { schemaVersion: 1, group: 'guides', sourceCheckpointSha: options.sourceCheckpointSha, expectedTargetSha: options.expectedTargetSha, pairs: [{ artifactDir: '/a', baselineDir: '/b' }] }
+  writePrivateJson(file, options.pairsManifestData)
   const values = {
     async planTranslationBatchSet() { return { pendingSetSha256: options.pendingSetSha256, masterSha: options.masterSha } },
     createInitialPublisherState() { return { status: 'planned' } },
@@ -153,7 +160,7 @@ test('recomposition failure still removes its worktree and reports cleanup failu
 test('post-push worktree cleanup failure reports the confirmed recovery ref alongside the original', async () => {
   const options = fixture(), file = path.join(options.trustedRoot, 'pairs.json')
   options.pairsManifest = file
-  fs.writeFileSync(file, JSON.stringify({ schemaVersion: 1, group: 'guides', sourceCheckpointSha: options.sourceCheckpointSha, expectedTargetSha: options.expectedTargetSha, pairs: [{ artifactDir: '/a', baselineDir: '/b' }] }))
+  writePrivateJson(file, { schemaVersion: 1, group: 'guides', sourceCheckpointSha: options.sourceCheckpointSha, expectedTargetSha: options.expectedTargetSha, pairs: [{ artifactDir: '/a', baselineDir: '/b' }] })
   const recoveryRef = 'refs/heads/docs-translation-staging/guides/12-3-eeeeeeeeeeee'
   const deps = dependencies(options, {
     remoteRefSha(_repository, ref) { return ref === REF ? options.stagedSha : SHA('9') },
@@ -169,6 +176,48 @@ test('post-push worktree cleanup failure reports the confirmed recovery ref alon
     },
   })
   await assert.rejects(() => recoverGuidesTranslation(options, deps.values), error => error.message.includes(REF) && error.message.includes(recoveryRef) && /post-push cleanup failed/.test(error.message))
+})
+
+test('pairs manifest is loaded once from the private trusted root before a pathname swap', async () => {
+  const options = fixture(), file = path.join(options.trustedRoot, 'pairs.json'), parked = path.join(options.trustedRoot, 'pairs-original.json')
+  const outside = path.join(fs.mkdtempSync(path.join(os.tmpdir(), 'guides-recovery-outside-')), 'pairs.json')
+  const safeManifest = { schemaVersion: 1, group: 'guides', sourceCheckpointSha: options.sourceCheckpointSha, expectedTargetSha: options.expectedTargetSha, pairs: [{ artifactDir: '/safe-artifact', baselineDir: '/safe-baseline' }] }
+  writePrivateJson(file, safeManifest)
+  writePrivateJson(outside, { ...safeManifest, pairs: [{ artifactDir: '/substituted-artifact', baselineDir: '/substituted-baseline' }] })
+  options.pairsManifest = file
+  let swapped = false
+  const deps = dependencies(options, {
+    remoteRefSha(_repository, ref) { return ref === REF ? options.stagedSha : SHA('9') },
+    beforeRecreateCandidate() {
+      fs.renameSync(file, parked)
+      fs.symlinkSync(outside, file)
+      swapped = true
+    },
+    recreateCandidate(values) {
+      return recreateCandidate(values, {
+        async planTranslationBatchSet({ pairs }) {
+          assert.equal(pairs[0].artifactDir, '/safe-artifact')
+          return { pendingSetSha256: options.pendingSetSha256, masterSha: options.masterSha }
+        },
+        async applyPhase() { return { status: 'no_changes' } },
+        removeRecoveryWorktree() {},
+      })
+    },
+  })
+  const result = await recoverGuidesTranslation(options, deps.values)
+  assert.equal(swapped, true)
+  assert.equal(result.status, 'no_changes')
+})
+
+test('pairs manifest must be a private owned file directly inside the trusted root', async () => {
+  const options = fixture(), manifest = { schemaVersion: 1, group: 'guides', sourceCheckpointSha: options.sourceCheckpointSha, expectedTargetSha: options.expectedTargetSha, pairs: [{ artifactDir: '/a', baselineDir: '/b' }] }
+  const outside = path.join(fs.mkdtempSync(path.join(os.tmpdir(), 'guides-recovery-outside-')), 'pairs.json')
+  writePrivateJson(outside, manifest)
+  await assert.rejects(() => recoverGuidesTranslation({ ...options, pairsManifest: outside }, dependencies(options).values), /trusted root/)
+  const publicFile = path.join(options.trustedRoot, 'pairs.json')
+  fs.writeFileSync(publicFile, JSON.stringify(manifest), { mode: 0o644 })
+  fs.chmodSync(publicFile, 0o644)
+  await assert.rejects(() => recoverGuidesTranslation({ ...options, pairsManifest: publicFile }, dependencies(options).values), /private|0600/)
 })
 
 test('default Git fetch and validation worktree paths operate against a local bare remote', async () => {
@@ -330,6 +379,20 @@ test('target movement can recompose complete pairs onto a distinct recovery ref 
   assert.equal(result.stagingRef, recoveryRef)
   assert.equal(promoted.expectedTargetSha, SHA('9'))
   assert.equal(promoted.stagedSha, SHA('f'))
+})
+
+test('recreated publication reports cleanup debt for both exact retained refs', async () => {
+  const options = fixture(), recoveryRef = 'refs/heads/docs-translation-staging/guides/12-3-eeeeeeeeeeee'
+  const deps = dependencies(options, {
+    remoteRefSha(_repository, ref) { return ref === REF ? options.stagedSha : SHA('9') },
+    async recreateCandidate() { return { noChanges: false, stagingRef: recoveryRef, stagedSha: SHA('f') } },
+    deleteStagingWithLease({ stagingRef }) { return { cleanupDebt: { kind: 'lease_mismatch', stagingRef } } },
+  })
+  const result = await recoverGuidesTranslation(options, deps.values)
+  assert.equal(result.status, 'published')
+  assert.equal(result.cleanupDebt.kind, 'multiple_cleanup_debts')
+  assert.deepEqual(result.cleanupDebt.debts.map(item => item.stagingRef), [recoveryRef, REF])
+  assert.deepEqual(result.cleanupDebt.debts.map(item => item.cleanupDebt.kind), ['lease_mismatch', 'lease_mismatch'])
 })
 
 test('recreated validation failure reports both retained candidate refs', async () => {
