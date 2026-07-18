@@ -351,6 +351,21 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
           aggregateStep?.env?.GUIDES_TRANSLATION_SHA !== '${{ needs.finalize_guides_translation.outputs.commit_sha }}') {
         errors.push(`${file}: aggregate must consume the exact finalized Guides translation result without fallback`)
       }
+      const aggregateSteps = workflow.jobs?.aggregate?.steps || []
+      const publicationDownload = aggregateSteps.find(step => step.name === 'Download Guides translation publication report')
+      const cardNotes = aggregateSteps.find(step => step.id === 'reports')
+      if (!publicationDownload || aggregateSteps.indexOf(publicationDownload) >= aggregateSteps.indexOf(cardNotes) || publicationDownload['continue-on-error'] !== true ||
+          publicationDownload.with?.name !== 'docs-translation-publication-guides-${{ github.run_id }}-${{ github.run_attempt }}' ||
+          publicationDownload.with?.path !== '${{ runner.temp }}/guides-translation-publication-evidence' || !/always\(\)/.test(publicationDownload.if || '') ||
+          cardNotes?.env?.CARD_GUIDES_PUBLICATION_REPORT !== '${{ runner.temp }}/guides-translation-publication-evidence/publication-report.json' ||
+          cardNotes?.env?.CARD_GUIDES_RUN_ID !== '${{ github.run_id }}' || cardNotes?.env?.CARD_GUIDES_RUN_ATTEMPT !== '${{ github.run_attempt }}' ||
+          cardNotes?.env?.CARD_GUIDES_SOURCE_SHA !== '${{ needs.publish_guides.outputs.commit_sha }}' || cardNotes?.env?.CARD_GUIDES_TARGET_SHA !== '${{ needs.publish_guides.outputs.commit_sha }}' ||
+          cardNotes?.env?.CARD_GUIDES_PENDING_SET_SHA256 !== '${{ needs.prepare_guides_translation_batches.outputs.pending_set_sha256 }}' ||
+          cardNotes?.env?.CARD_GUIDES_FINAL_PUBLISHER_STATUS !== '${{ needs.finalize_guides_translation.outputs.publisher_status }}' ||
+          cardNotes?.env?.CARD_GUIDES_FINAL_COMMIT_SHA !== '${{ needs.finalize_guides_translation.outputs.commit_sha }}' ||
+          /resolve_final|\|\|/.test(JSON.stringify({ path: cardNotes?.env?.CARD_GUIDES_PUBLICATION_REPORT, source: cardNotes?.env?.CARD_GUIDES_SOURCE_SHA, target: cardNotes?.env?.CARD_GUIDES_TARGET_SHA }))) {
+        errors.push(`${file}: aggregate must collect exact run-attempt Guides publication evidence before card notes`)
+      }
     }
 
     if (file === '_publish-content-group.yml') {

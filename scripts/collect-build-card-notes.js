@@ -1,6 +1,8 @@
 const fs = require('node:fs')
 const path = require('node:path')
 const { assemblyDecisionSha256, validateAssemblyDecision, validateAssemblyResult } = require('./docs-workflow/guides-assembly-identity')
+const { readPublicationReport } = require('./docs-workflow/translation-publication-report')
+const { deterministicStagingRef } = require('./docs-workflow/translation-staging')
 
 function readIfExists(file) {
   return fs.existsSync(file) ? fs.readFileSync(file, 'utf8').trim() : ''
@@ -104,6 +106,54 @@ function compactMarkdown(markdown, maxLines = 80) {
     '',
     `...truncated ${lines.length - maxLines} lines. See committed report file for full details.`,
   ].join('\n')
+}
+
+function boundedText(value) {
+  return String(value || '').replace(/[\0-\x1f\x7f]+/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 500)
+    .replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;')
+    .replace(/[\\`*_{}\[\]()#+.!|]/g, '\\$&')
+}
+
+function publicationReportNote(env = process.env) {
+  if (env.CARD_EXPECT_GUIDES_PUBLICATION_REPORT !== 'true') {
+    if (env.CARD_GUIDES_FINAL_PUBLISHER_STATUS !== 'no_changes') return null
+    const lines = ['# Guides translation publication', '', '- Status: No translation changes']
+    if (/^[0-9a-f]{40}$/.test(env.CARD_GUIDES_FINAL_COMMIT_SHA || '')) lines.push(`- Result SHA: ${env.CARD_GUIDES_FINAL_COMMIT_SHA}`)
+    return lines.join('\n')
+  }
+  const unavailable = () => {
+    let candidate = null
+    if (env.CARD_GUIDES_PUBLISHER_RESULT === 'cancelled' && /^[0-9a-f]{64}$/.test(env.CARD_GUIDES_PENDING_SET_SHA256 || '')) {
+      try { candidate = deterministicStagingRef({ runId: env.CARD_GUIDES_RUN_ID, runAttempt: env.CARD_GUIDES_RUN_ATTEMPT, pendingSetSha256: env.CARD_GUIDES_PENDING_SET_SHA256 }) } catch {}
+    }
+    return [
+      '# Guides translation publication', '',
+      `- Status: ${env.CARD_GUIDES_PUBLISHER_RESULT === 'cancelled' ? 'Cancelled' : 'Evidence unavailable'}`,
+      '- Publication report unavailable or invalid for this run.',
+      ...(candidate ? [`- Unconfirmed recovery candidate: ${candidate}`] : []),
+    ].join('\n')
+  }
+  try {
+    const runId = Number(env.CARD_GUIDES_RUN_ID)
+    const runAttempt = Number(env.CARD_GUIDES_RUN_ATTEMPT)
+    const report = readPublicationReport(env.CARD_GUIDES_PUBLICATION_REPORT, {
+      expectedRunId: runId,
+      expectedRunAttempt: runAttempt,
+      expectedMasterSha: env.CARD_GUIDES_MASTER_SHA,
+      expectedSourceCheckpointSha: env.CARD_GUIDES_SOURCE_SHA,
+      expectedTargetSha: env.CARD_GUIDES_TARGET_SHA,
+      expectedStagingSha: env.CARD_GUIDES_STAGING_SHA || undefined,
+    })
+    const label = report.status === 'published' ? 'Published' : report.status === 'no_changes' ? 'No translation changes' : report.status.split('_').map(word => word[0].toUpperCase() + word.slice(1)).join(' ')
+    const lines = ['# Guides translation publication', '', `- Status: ${label}`]
+    if (report.resultSha) lines.push(`- Result SHA: ${report.resultSha}`)
+    if (report.stagingRef) lines.push(`- Staging ref: ${report.stagingRef}`, `- Staging SHA: ${report.stagingSha}`)
+    if (report.failure.detail) lines.push(`- Failure: ${boundedText(report.failure.detail)}`, `- Recovery: ${boundedText(report.failure.recovery)}`)
+    if (report.cleanup.detail) lines.push(`- Cleanup debt: ${boundedText(report.cleanup.detail)}`)
+    return lines.join('\n').slice(0, 12000)
+  } catch (_) {
+    return unavailable()
+  }
 }
 
 function githubFileUrl(file) {
@@ -335,7 +385,9 @@ function collectCardNotesWithDiagnostics() {
     if (Array.isArray(parsed)) baseNotes = parsed.filter(note => typeof note === 'string' && note.trim())
   } catch (_) {}
   const collected = collectNotesWithDiagnostics()
-  const notes = [...baseNotes, ...collected.notes]
+  const publication = publicationReportNote()
+  const retainedBaseNotes = baseNotes.slice(0, publication ? 11 : 12)
+  const notes = [...retainedBaseNotes, publication, ...collected.notes]
     .filter(note => typeof note === 'string' && note.trim())
     .slice(0, 12)
     .map(note => note.trim().slice(0, 12000))
@@ -378,5 +430,6 @@ module.exports = {
   githubFileUrl,
   isFreshGeneratedAt,
   mediaPrefetchNote,
+  publicationReportNote,
   reportFileLine,
 }

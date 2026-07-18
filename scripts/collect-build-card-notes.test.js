@@ -13,7 +13,9 @@ const {
   collectNotes,
   isFreshGeneratedAt,
   mediaPrefetchNote,
+  publicationReportNote,
 } = require('./collect-build-card-notes')
+const { VALIDATION_SPECS, writePublicationReport } = require('./docs-workflow/translation-publication-report')
 
 function assemblyDecision(overrides = {}) {
   return {
@@ -65,8 +67,21 @@ function withTempCwd(callback) {
     CARD_REPORT_ARTIFACT_URL: process.env.CARD_REPORT_ARTIFACT_URL,
     CARD_EXPECT_GUIDES_REPORTS: process.env.CARD_EXPECT_GUIDES_REPORTS,
     CARD_BASE_NOTES_JSON: process.env.CARD_BASE_NOTES_JSON,
+    CARD_EXPECT_GUIDES_PUBLICATION_REPORT: process.env.CARD_EXPECT_GUIDES_PUBLICATION_REPORT,
+    CARD_GUIDES_PUBLICATION_REPORT: process.env.CARD_GUIDES_PUBLICATION_REPORT,
+    CARD_GUIDES_RUN_ID: process.env.CARD_GUIDES_RUN_ID,
+    CARD_GUIDES_RUN_ATTEMPT: process.env.CARD_GUIDES_RUN_ATTEMPT,
+    CARD_GUIDES_MASTER_SHA: process.env.CARD_GUIDES_MASTER_SHA,
+    CARD_GUIDES_SOURCE_SHA: process.env.CARD_GUIDES_SOURCE_SHA,
+    CARD_GUIDES_TARGET_SHA: process.env.CARD_GUIDES_TARGET_SHA,
+    CARD_GUIDES_STAGING_SHA: process.env.CARD_GUIDES_STAGING_SHA,
+    CARD_GUIDES_PUBLISHER_RESULT: process.env.CARD_GUIDES_PUBLISHER_RESULT,
+    CARD_GUIDES_PENDING_SET_SHA256: process.env.CARD_GUIDES_PENDING_SET_SHA256,
+    CARD_GUIDES_FINAL_TRANSLATOR_STATUS: process.env.CARD_GUIDES_FINAL_TRANSLATOR_STATUS,
+    CARD_GUIDES_FINAL_PUBLISHER_STATUS: process.env.CARD_GUIDES_FINAL_PUBLISHER_STATUS,
+    CARD_GUIDES_FINAL_COMMIT_SHA: process.env.CARD_GUIDES_FINAL_COMMIT_SHA,
   }
-  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'card-notes-'))
+  const dir = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'card-notes-')))
   try {
     process.chdir(dir)
     return callback(dir)
@@ -82,6 +97,116 @@ function withTempCwd(callback) {
     fs.rmSync(dir, { recursive: true, force: true })
   }
 }
+
+function publicationReport(status, overrides = {}) {
+  const staged = 'd'.repeat(40)
+  const stagingRef = 'refs/heads/docs-translation-staging/guides/123-2-eeeeeeeeeeee'
+  const receipts = VALIDATION_SPECS.map(spec => ({ id: spec.id, command: spec.command, result: 'success' }))
+  const base = {
+    schemaVersion: 1, runId: 123, runAttempt: 2, group: 'guides', masterSha: 'a'.repeat(40),
+    sourceCheckpointSha: 'b'.repeat(40), expectedTargetSha: 'c'.repeat(40), stagingRef: null, stagingSha: null,
+    status, validation: null, resultSha: null, cleanup: { status: 'not_required', detail: null },
+    failure: { gate: null, detail: null, recovery: null },
+  }
+  if (status === 'published') Object.assign(base, { stagingRef, stagingSha: staged, validation: receipts, resultSha: staged, cleanup: { status: 'deleted', detail: null } })
+  if (status === 'no_changes') base.resultSha = base.expectedTargetSha
+  if (status === 'validation_failed') Object.assign(base, { stagingRef, stagingSha: staged, validation: [{ ...receipts[0], result: 'failure' }], cleanup: { status: 'pending', detail: null }, failure: { gate: 'validation', detail: 'build failed', recovery: `Inspect ${stagingRef}.` } })
+  if (status === 'promotion_conflict') Object.assign(base, { stagingRef, stagingSha: staged, validation: receipts, cleanup: { status: 'pending', detail: null }, failure: { gate: 'promotion', detail: 'target moved', recovery: `Inspect ${stagingRef}.` } })
+  return { ...base, ...overrides }
+}
+
+function configurePublicationEnv(file, stagingSha = '') {
+  Object.assign(process.env, {
+    CARD_EXPECT_GUIDES_PUBLICATION_REPORT: 'true', CARD_GUIDES_PUBLICATION_REPORT: file,
+    CARD_GUIDES_RUN_ID: '123', CARD_GUIDES_RUN_ATTEMPT: '2', CARD_GUIDES_MASTER_SHA: 'a'.repeat(40),
+    CARD_GUIDES_SOURCE_SHA: 'b'.repeat(40), CARD_GUIDES_TARGET_SHA: 'c'.repeat(40),
+    CARD_GUIDES_STAGING_SHA: stagingSha, CARD_GUIDES_PUBLISHER_RESULT: 'success',
+    CARD_GUIDES_PENDING_SET_SHA256: 'e'.repeat(64), CARD_GUIDES_FINAL_TRANSLATOR_STATUS: 'translation_ready',
+    CARD_GUIDES_FINAL_PUBLISHER_STATUS: 'published', CARD_GUIDES_FINAL_COMMIT_SHA: stagingSha,
+  })
+}
+
+for (const [status, expected] of [
+  ['published', /Status: Published/],
+  ['no_changes', /Status: No translation changes/],
+  ['validation_failed', /Status: Validation Failed[\s\S]*Staging ref:[\s\S]*Staging SHA:[\s\S]*Recovery:/],
+  ['promotion_conflict', /Status: Promotion Conflict[\s\S]*target moved/],
+]) test(`collects a strict ${status} Guides publication note`, () => withTempCwd(dir => {
+  fs.chmodSync(dir, 0o700)
+  const file = path.join(dir, 'publication-report.json')
+  const report = publicationReport(status)
+  writePublicationReport(file, report, { trustedRoot: dir })
+  configurePublicationEnv(file, report.stagingSha || '')
+  const note = publicationReportNote()
+  assert.match(note, expected)
+  if (status !== 'published') assert.doesNotMatch(note, /Status: Published/)
+}))
+
+test('published cleanup debt remains Published and is called out', () => withTempCwd(dir => {
+  fs.chmodSync(dir, 0o700)
+  const file = path.join(dir, 'publication-report.json')
+  const report = publicationReport('published', { cleanup: { status: 'debt', detail: 'lease mismatch' } })
+  writePublicationReport(file, report, { trustedRoot: dir })
+  configurePublicationEnv(file, report.stagingSha)
+  assert.match(publicationReportNote(), /Status: Published[\s\S]*Cleanup debt: lease mismatch/)
+}))
+
+test('missing, stale, or cancelled publication evidence never invents staging identity', () => withTempCwd(dir => {
+  configurePublicationEnv(path.join(dir, 'missing.json'))
+  let note = publicationReportNote()
+  assert.match(note, /Evidence unavailable/)
+  assert.doesNotMatch(note, /refs\/heads|[0-9a-f]{40}/)
+  process.env.CARD_GUIDES_PUBLISHER_RESULT = 'cancelled'
+  note = publicationReportNote()
+  assert.match(note, /Status: Cancelled[\s\S]*Unconfirmed recovery candidate: refs\/heads\/docs-translation-staging\/guides\/123-2-eeeeeeeeeeee/)
+  assert.doesNotMatch(note, /Published|Staging SHA/)
+  process.env.CARD_GUIDES_PENDING_SET_SHA256 = 'invalid'
+  assert.doesNotMatch(publicationReportNote(), /recovery candidate/)
+}))
+
+test('zero-batch no_changes does not expect a publication artifact', () => withTempCwd(() => {
+  process.env.CARD_EXPECT_GUIDES_PUBLICATION_REPORT = 'false'
+  process.env.CARD_GUIDES_FINAL_PUBLISHER_STATUS = 'no_changes'
+  process.env.CARD_GUIDES_FINAL_COMMIT_SHA = ''
+  const note = publicationReportNote()
+  assert.match(note, /Status: No translation changes/)
+  assert.doesNotMatch(note, /SHA|refs\/heads|Published/)
+}))
+
+test('wrong-run publication report is rejected without leaking validated-looking identity', () => withTempCwd(dir => {
+  fs.chmodSync(dir, 0o700)
+  const file = path.join(dir, 'publication-report.json')
+  writePublicationReport(file, publicationReport('published'), { trustedRoot: dir })
+  configurePublicationEnv(file, 'd'.repeat(40))
+  process.env.CARD_GUIDES_RUN_ID = '124'
+  const note = publicationReportNote()
+  assert.match(note, /unavailable or invalid/)
+  assert.doesNotMatch(note, /Status: Published|refs\/heads|d{40}/)
+}))
+
+test('publication note is inserted immediately after base notes before the 12-note cap', () => withTempCwd(dir => {
+  fs.chmodSync(dir, 0o700)
+  const file = path.join(dir, 'publication-report.json')
+  writePublicationReport(file, publicationReport('no_changes'), { trustedRoot: dir })
+  configurePublicationEnv(file)
+  process.env.CARD_BASE_NOTES_JSON = JSON.stringify(Array.from({ length: 12 }, (_, index) => `# Base ${index + 1}`))
+  const notes = collectCardNotes()
+  assert.equal(notes.length, 12)
+  assert.equal(notes[11].startsWith('# Guides translation publication'), true)
+}))
+
+test('publication diagnostics are bounded and Markdown escaped', () => withTempCwd(dir => {
+  fs.chmodSync(dir, 0o700)
+  const file = path.join(dir, 'publication-report.json')
+  const staged = publicationReport('validation_failed')
+  staged.failure = { gate: 'validation', detail: '[click](https://evil.example) *bold* <tag> | # heading', recovery: `Inspect ${staged.stagingRef}; \`code\` & retry` }
+  writePublicationReport(file, staged, { trustedRoot: dir })
+  configurePublicationEnv(file, staged.stagingSha)
+  const note = publicationReportNote()
+  assert.doesNotMatch(note, /\[click\]\(https:\/\/evil\.example\)|<tag>|\*bold\*|\| # heading|`code`/)
+  assert.match(note, /\\\[click\\\]\\\(https:\/\/evil\\\.example\\\)/)
+  assert.match(note, /&lt;tag&gt;|&amp;/)
+}))
 
 function writeJson(file, value) {
   fs.mkdirSync(path.dirname(file), { recursive: true })

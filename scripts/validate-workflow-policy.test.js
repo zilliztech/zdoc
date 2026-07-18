@@ -145,6 +145,25 @@ test('workflow policy rejects Guides translation SHA authority regressions', () 
   }
 })
 
+test('workflow policy rejects Guides publication evidence collection regressions', () => {
+  const sourceDirectory = path.join(process.cwd(), '.github/workflows')
+  const cases = [
+    ['docs-translation-publication-guides-${{ github.run_id }}-${{ github.run_attempt }}', 'docs-translation-publication-guides-${{ github.run_id }}', 'fetch-docs.yml: aggregate must collect exact run-attempt Guides publication evidence before card notes'],
+    ['          CARD_GUIDES_TARGET_SHA: ${{ needs.publish_guides.outputs.commit_sha }}', '          CARD_GUIDES_TARGET_SHA: ${{ needs.resolve_final.outputs.final_dev_sha }}', 'fetch-docs.yml: aggregate must collect exact run-attempt Guides publication evidence before card notes'],
+  ]
+  for (const [from, to, expected] of cases) {
+    const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'guides-publication-evidence-policy-'))
+    try {
+      fs.cpSync(sourceDirectory, directory, { recursive: true })
+      const file = path.join(directory, 'fetch-docs.yml')
+      const source = fs.readFileSync(file, 'utf8')
+      assert.ok(source.includes(from))
+      fs.writeFileSync(file, source.replace(from, to))
+      assert.ok(validateWorkflowPolicies(directory).includes(expected))
+    } finally { fs.rmSync(directory, { recursive: true, force: true }) }
+  }
+})
+
 test('workflow policy independently requires checkpoint stage selection and verification', () => {
   const publisherSource = fs.readFileSync('scripts/docs-workflow/publish-checkpoint.sh', 'utf8')
   const cases = [
