@@ -182,12 +182,22 @@ function cacheDelta(beforeBytes, afterBytes) {
 function revalidateBatchPlan(batch, result, baseline) {
   const before = new Map(baseline.files.filter(entry => translationFile(entry.path)).map(entry => [entry.path, entry]))
   const after = new Map(result.files.filter(entry => translationFile(entry.path)).map(entry => [entry.path, entry]))
+  const candidateTargets = new Set(result.parsedBatchInput.candidates.map(candidate => candidate.targetPath))
+  const authorizedDeletions = new Set([
+    ...result.parsedBatchInput.sourceDelta.deletedI18n,
+    ...result.parsedBatchInput.sourceDelta.renamed.map(rename => rename.oldI18nPath),
+  ])
   const writes = [], deletions = []
   for (const relative of [...new Set([...before.keys(), ...after.keys()])].sort(compareText)) {
     const oldEntry = before.get(relative), newEntry = after.get(relative)
     if (oldEntry && newEntry && oldEntry.size === newEntry.size && oldEntry.sha256 === newEntry.sha256) continue
-    if (newEntry) writes.push({ path: relative, size: newEntry.size, sha256: newEntry.sha256, artifactRelativePath: `payload/${relative}` })
-    else deletions.push(relative)
+    if (newEntry) {
+      if (!candidateTargets.has(relative)) throw new Error(`Unauthorized translation write absent from batch candidates: ${relative}`)
+      writes.push({ path: relative, size: newEntry.size, sha256: newEntry.sha256, artifactRelativePath: `payload/${relative}` })
+    } else {
+      if (!authorizedDeletions.has(relative)) throw new Error(`Unauthorized translation deletion absent from source delta authority: ${relative}`)
+      deletions.push(relative)
+    }
   }
   const expected = { batchIndex: result.batch.batchIndex, batchNumber: result.batch.batchNumber, writes, deletions, cache: cacheDelta(baseline.translationCacheBytes, result.translationCacheBytes) }
   if (canonical(expected) !== canonical(batch)) throw new Error('Plan batch does not match the validated artifact pair')

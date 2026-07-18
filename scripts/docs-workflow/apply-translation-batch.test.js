@@ -362,6 +362,49 @@ test('revalidates recomputed nested plan facts, exact batch identity, and payloa
   assert.deepEqual(worktreeSnapshot(state.fixture.targetRepository), before)
 })
 
+test('rejects an artifact-compatible allowed-root write absent from batch candidates', async () => {
+  const state = await plannedSingleBatch()
+  const relative = `${SAAS_ROOT}/unauthorized.md`
+  const bytes = Buffer.from('# unauthorized translation\n')
+  write(path.join(state.pair.artifactDir, 'payload'), relative, bytes)
+  const manifestPath = path.join(state.pair.artifactDir, 'manifest.json')
+  const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'))
+  manifest.files.push({ path: relative, size: bytes.length, sha256: sha256(bytes) })
+  manifest.files.sort((a, b) => a.path.localeCompare(b.path))
+  fs.writeFileSync(manifestPath, JSON.stringify(manifest))
+  const plan = resignPlan(state.plan, changed => {
+    changed.batches[0].writes.push({ path: relative, size: bytes.length, sha256: sha256(bytes), artifactRelativePath: `payload/${relative}` })
+    changed.batches[0].writes.sort((a, b) => a.path.localeCompare(b.path))
+  })
+  const beforeTree = worktreeSnapshot(state.fixture.targetRepository)
+  const beforeStatus = worktreeStatus(state.fixture.targetRepository)
+  await assert.rejects(applyTranslationBatch({
+    plan, batchNumber: 1, artifactDir: state.pair.artifactDir, baselineDir: state.pair.baselineDir, targetDir: state.fixture.targetRepository,
+  }), /unauthorized translation write|batch candidates|candidate authority/i)
+  assert.deepEqual(worktreeSnapshot(state.fixture.targetRepository), beforeTree)
+  assert.deepEqual(worktreeStatus(state.fixture.targetRepository), beforeStatus)
+})
+
+test('rejects an artifact-compatible in-root deletion absent from source delta authority', async () => {
+  const state = await plannedSingleBatch()
+  const relative = `${SAAS_ROOT}/old.md`
+  fs.rmSync(path.join(state.pair.artifactDir, 'payload', ...relative.split('/')))
+  const manifestPath = path.join(state.pair.artifactDir, 'manifest.json')
+  const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'))
+  manifest.files = manifest.files.filter(entry => entry.path !== relative)
+  manifest.deletions.push(relative)
+  manifest.deletions.sort()
+  fs.writeFileSync(manifestPath, JSON.stringify(manifest))
+  const plan = resignPlan(state.plan, changed => { changed.batches[0].deletions.push(relative); changed.batches[0].deletions.sort() })
+  const beforeTree = worktreeSnapshot(state.fixture.targetRepository)
+  const beforeStatus = worktreeStatus(state.fixture.targetRepository)
+  await assert.rejects(applyTranslationBatch({
+    plan, batchNumber: 1, artifactDir: state.pair.artifactDir, baselineDir: state.pair.baselineDir, targetDir: state.fixture.targetRepository,
+  }), /unauthorized translation deletion|source delta|deletion authority/i)
+  assert.deepEqual(worktreeSnapshot(state.fixture.targetRepository), beforeTree)
+  assert.deepEqual(worktreeStatus(state.fixture.targetRepository), beforeStatus)
+})
+
 test('requires real artifact and baseline directories and rejects target drift before mutation', async () => {
   let state = await plannedSingleBatch()
   const artifactLink = path.join(state.fixture.root, 'artifact-link')
