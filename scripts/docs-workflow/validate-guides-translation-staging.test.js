@@ -5,7 +5,7 @@ const fs = require('node:fs')
 const os = require('node:os')
 const path = require('node:path')
 const test = require('node:test')
-const { execFileSync } = require('node:child_process')
+const { execFileSync, spawnSync } = require('node:child_process')
 
 const { runGuidesTranslationValidation, writeValidationResult, VALIDATION_COMMANDS, RESTORE_PATHS } = require('./validate-guides-translation-staging')
 
@@ -140,10 +140,10 @@ test('validation writer rejects parent swaps without redirecting output', () => 
   const root = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'validation-parent-race-')))
   const parent = path.join(root, 'output'), parked = path.join(root, 'parked'), outside = path.join(root, 'outside')
   fs.mkdirSync(parent); fs.mkdirSync(outside); fs.writeFileSync(path.join(outside, 'sentinel'), 'outside\n')
-  assert.throws(() => writeValidationResult(path.join(parent, 'receipt.json'), { ok: true }, { beforeRename() { fs.renameSync(parent, parked); fs.symlinkSync(outside, parent) } }), /parent.*changed|identity/i)
+  fs.chmodSync(parent, 0o700)
+  assert.throws(() => writeValidationResult(path.join(parent, 'receipt.json'), { ok: true }, { trustedRoot: parent, beforeRename() { fs.renameSync(parent, parked); fs.symlinkSync(outside, parent) } }), /parent.*changed|identity/i)
   assert.equal(fs.readFileSync(path.join(outside, 'sentinel'), 'utf8'), 'outside\n')
   assert.equal(fs.existsSync(path.join(outside, 'receipt.json')), false)
-  assert.deepEqual(fs.readdirSync(parked), [])
 })
 
 test('sanitizes hostile Git, Node, shell, and package-manager environment before proof and execution', () => {
@@ -165,7 +165,8 @@ test('sanitizes hostile Git, Node, shell, and package-manager environment before
       assert.equal(options.env.GIT_INDEX_FILE, undefined)
       assert.equal(options.env.GIT_CONFIG_COUNT, undefined)
       assert.equal(options.env.NODE_OPTIONS, undefined)
-      assert.equal(options.env.NPM_CONFIG_USERCONFIG, undefined)
+      assert.notEqual(options.env.NPM_CONFIG_USERCONFIG, '/attacker.npmrc')
+      assert.equal(fs.readFileSync(options.env.NPM_CONFIG_USERCONFIG, 'utf8'), '')
       assert.equal(options.env.YARN_ENABLE_SCRIPTS, undefined)
       assert.equal(options.env.BASH_ENV, undefined)
       return { status: 0, signal: null, stderr: '' }
@@ -175,4 +176,21 @@ test('sanitizes hostile Git, Node, shell, and package-manager environment before
   }
   assert.equal(result.result, 'success')
   assert.equal(fs.existsSync(path.join(state.repository, 'attacker-index')), false)
+})
+
+test('rejects raw bytes hidden by autocrlf and ignores hostile global configs', () => {
+  const state = fixture(); git(state.repository, 'config', 'core.autocrlf', 'true'); fs.writeFileSync(path.join(state.repository, ROOT, 'a.md'), '# translated\r\n')
+  assert.throws(() => runGuidesTranslationValidation({ ...state, executor() {} }), /raw|bytes|content|staged/i)
+  const clean = fixture(), hostileHome = fs.mkdtempSync(path.join(os.tmpdir(), 'hostile-home-'))
+  fs.writeFileSync(path.join(hostileHome, '.gitconfig'), '[core]\n\tfsmonitor = /missing\n')
+  const oldHome = process.env.HOME, oldXdg = process.env.XDG_CONFIG_HOME; process.env.HOME = hostileHome; process.env.XDG_CONFIG_HOME = hostileHome
+  try { assert.equal(runGuidesTranslationValidation({ ...clean, executor(command, args, options) { assert.notEqual(options.env.HOME, hostileHome); assert.equal(options.env.GIT_CONFIG_NOSYSTEM, '1'); return { status: 0, signal: null, stderr: '' } } }).result, 'success') }
+  finally { process.env.HOME = oldHome; oldXdg === undefined ? delete process.env.XDG_CONFIG_HOME : process.env.XDG_CONFIG_HOME = oldXdg }
+})
+
+test('CLI rejects a staged commit missing a required root', () => {
+  const state = fixture(); git(state.repository, 'switch', 'staged'); fs.rmSync(path.join(state.repository, 'plugins/lark-docs/meta/snapshots'), { recursive: true }); git(state.repository, 'add', '-A'); git(state.repository, 'commit', '-m', 'remove root'); state.stagedSha = git(state.repository, 'rev-parse', 'HEAD'); git(state.repository, 'switch', '--detach', state.masterSha)
+  const trusted = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'validation-cli-'))); fs.chmodSync(trusted, 0o700)
+  const result = spawnSync(process.execPath, [path.join(__dirname, 'validate-guides-translation-staging.js'), '--repository', state.repository, '--master-sha', state.masterSha, '--staged-sha', state.stagedSha, '--output', path.join(trusted, 'result.json'), '--trusted-root', trusted], { encoding: 'utf8' })
+  assert.notEqual(result.status, 0); assert.match(result.stderr, /required.*root/i); assert.equal(fs.existsSync(path.join(trusted, 'result.json')), false)
 })

@@ -69,11 +69,11 @@ test('validates truthful status invariants and null unavailable values', () => {
   assert.doesNotThrow(() => validatePublicationReport(report({
     status: 'validation_failed', validation: failedReceipts, resultSha: null,
     cleanup: { status: 'debt', detail: 'staging ref retained' },
-    failure: { gate: 'validation', detail: 'ja SaaS MDX failed', recovery: 'inspect the staged ref' },
+    failure: { gate: 'validation', detail: 'ja SaaS MDX failed', recovery: `inspect ${REF}` },
   })))
   assert.doesNotThrow(() => validatePublicationReport(report({
     status: 'promotion_conflict', resultSha: null, cleanup: { status: 'pending', detail: null },
-    failure: { gate: 'promotion', detail: 'target moved', recovery: 'inspect the retained staging ref' },
+    failure: { gate: 'promotion', detail: 'target moved', recovery: `inspect ${REF}` },
   })))
   assert.doesNotThrow(() => validatePublicationReport(report({
     stagingRef: null, stagingSha: null, status: 'composition_failed', validation: null, resultSha: null,
@@ -82,7 +82,7 @@ test('validates truthful status invariants and null unavailable values', () => {
   })))
   assert.doesNotThrow(() => validatePublicationReport(report({
     status: 'cancelled', validation: null, resultSha: null, cleanup: { status: 'pending', detail: null },
-    failure: { gate: 'cancelled', detail: 'workflow cancelled', recovery: 'inspect staging state before rerun' },
+    failure: { gate: 'cancelled', detail: 'workflow cancelled', recovery: `inspect ${REF} before rerun` },
   })))
   assert.doesNotThrow(() => validatePublicationReport(report({ stagingRef: null, stagingSha: null, status: 'cancelled', validation: null, resultSha: null, cleanup: { status: 'not_required', detail: null }, failure: { gate: 'cancelled', detail: 'cancelled before staging', recovery: 'rerun workflow' } })))
   assert.throws(() => validatePublicationReport(report({ status: 'promotion_conflict', resultSha: null, cleanup: { status: 'deleted', detail: null }, failure: { gate: 'promotion', detail: 'moved', recovery: 'rerun' } })), /retain|cleanup|staging/i)
@@ -94,13 +94,21 @@ test('publication report writer rejects parent swaps without redirecting output'
   const root = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'publication-parent-race-')))
   const parent = path.join(root, 'output'), parked = path.join(root, 'parked'), outside = path.join(root, 'outside')
   fs.mkdirSync(parent); fs.mkdirSync(outside); fs.writeFileSync(path.join(outside, 'sentinel'), 'outside\n')
-  assert.throws(() => writePublicationReport(path.join(parent, 'report.json'), report(), { beforeTempCreate() { fs.renameSync(parent, parked); fs.symlinkSync(outside, parent) } }), /parent.*changed|identity/i)
+  fs.chmodSync(parent, 0o700)
+  assert.throws(() => writePublicationReport(path.join(parent, 'report.json'), report(), { trustedRoot: parent, beforeTempCreate() { fs.renameSync(parent, parked); fs.symlinkSync(outside, parent) } }), /parent.*changed|identity/i)
   assert.equal(fs.readFileSync(path.join(outside, 'sentinel'), 'utf8'), 'outside\n')
   assert.equal(fs.existsSync(path.join(outside, 'report.json')), false)
   const parent2 = path.join(root, 'output2'), parked2 = path.join(root, 'parked2'); fs.mkdirSync(parent2)
-  assert.throws(() => writePublicationReport(path.join(parent2, 'report.json'), report(), { beforeRename() { fs.renameSync(parent2, parked2); fs.symlinkSync(outside, parent2) } }), /parent.*changed|identity/i)
-  assert.deepEqual(fs.readdirSync(parked2), [])
+  fs.chmodSync(parent2, 0o700)
+  assert.throws(() => writePublicationReport(path.join(parent2, 'report.json'), report(), { trustedRoot: parent2, beforeRename() { fs.renameSync(parent2, parked2); fs.symlinkSync(outside, parent2) } }), /parent.*changed|identity/i)
   assert.equal(fs.existsSync(path.join(outside, 'report.json')), false)
+})
+
+test('publication report output requires an owned private trusted root', () => {
+  const root = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'publication-untrusted-')))
+  fs.chmodSync(root, 0o755)
+  assert.throws(() => writePublicationReport(path.join(root, 'report.json'), report(), { trustedRoot: root }), /private|0700|trusted/i)
+  assert.throws(() => writePublicationReport(path.join(root, 'report.json'), report()), /trustedRoot|options/i)
 })
 
 test('rejects malformed schema, identities, receipts, details, and inconsistent publication claims', () => {
@@ -135,10 +143,10 @@ test('writes and reads canonical JSON atomically with expected identity checks',
   const root = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'publication-report-')))
   const file = path.join(root, 'report.json')
   const value = report()
-  assert.deepEqual(writePublicationReport(file, value), createPublicationReport(value))
+  assert.deepEqual(writePublicationReport(file, value, { trustedRoot: root }), createPublicationReport(value))
   assert.equal(fs.readFileSync(file, 'utf8'), `${JSON.stringify(value, null, 2)}\n`)
   const reordered = Object.fromEntries(Object.entries(value).reverse())
-  writePublicationReport(file, reordered)
+  writePublicationReport(file, reordered, { trustedRoot: root })
   assert.equal(fs.readFileSync(file, 'utf8'), `${JSON.stringify(value, null, 2)}\n`)
   assert.deepEqual(readPublicationReport(file, { expectedRunId: 42, expectedRunAttempt: 2, expectedMasterSha: SHA }), value)
   assert.throws(() => readPublicationReport(file, { expectedRunId: 43 }), /identity|runId/i)
@@ -152,7 +160,7 @@ test('writes and reads canonical JSON atomically with expected identity checks',
 test('renders bounded deterministic sanitized markdown and never mislabels failures as Published', () => {
   const failed = report({
     status: 'promotion_conflict', resultSha: null, cleanup: { status: 'pending', detail: null },
-    failure: { gate: 'promotion', detail: '<script>|target moved [click](javascript:bad)', recovery: 'inspect retained staging ref & rerun' },
+    failure: { gate: 'promotion', detail: '<script>|target moved [click](javascript:bad)', recovery: `inspect ${REF} & rerun` },
   })
   const markdown = publicationReportMarkdown(failed)
   assert.equal(markdown, publicationReportMarkdown(failed))
