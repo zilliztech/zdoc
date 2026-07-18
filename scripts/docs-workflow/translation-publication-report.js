@@ -85,11 +85,13 @@ function validatePublicationReport(report) {
   } else if (report.status === 'composition_failed') {
     if (presentPair(report) || report.validation !== null || report.resultSha !== null || report.failure.gate !== 'composition' || report.cleanup.status !== 'not_required') throw new Error('composition failure invariants are invalid')
   } else if (report.status === 'validation_failed') {
-    if (!presentPair(report) || !validation?.failed || report.resultSha !== null || report.failure.gate !== 'validation' || report.cleanup.status === 'not_required') throw new Error('validation failure invariants are invalid')
+    if (!presentPair(report) || !validation?.failed || report.resultSha !== null || report.failure.gate !== 'validation' || !['pending', 'debt'].includes(report.cleanup.status) || !/staging|ref|candidate/i.test(report.failure.recovery)) throw new Error('validation failure must retain the staging candidate')
   } else if (report.status === 'promotion_conflict') {
-    if (!presentPair(report) || !validation?.fullSuccess || report.resultSha !== null || report.failure.gate !== 'promotion' || report.cleanup.status === 'not_required') throw new Error('promotion conflict invariants are invalid')
+    if (!presentPair(report) || !validation?.fullSuccess || report.resultSha !== null || report.failure.gate !== 'promotion' || !['pending', 'debt'].includes(report.cleanup.status) || !/staging|ref|candidate/i.test(report.failure.recovery)) throw new Error('promotion conflict must retain the staging candidate')
   } else if (report.status === 'cancelled') {
     if (report.resultSha !== null || report.failure.gate !== 'cancelled') throw new Error('cancelled report invariants are invalid')
+    if (!presentPair(report) && (report.validation !== null || report.cleanup.status !== 'not_required')) throw new Error('cancelled report without staging cannot claim validation or cleanup')
+    if (presentPair(report) && (!['pending', 'debt'].includes(report.cleanup.status) || !/staging|ref|candidate/i.test(report.failure.recovery))) throw new Error('cancelled staged candidate must be retained or discoverable')
     if (report.validation !== null) validateReceipts(report.validation)
   }
   return report
@@ -130,18 +132,44 @@ function realParent(file) {
   if (fs.realpathSync(parent) !== parent) throw new Error('report path has a symlink ancestor')
   return resolved
 }
-function writePublicationReport(file, values) {
+function pinParent(target) {
+  const parent = path.dirname(target), stat = fs.lstatSync(parent)
+  if (stat.isSymbolicLink() || !stat.isDirectory() || fs.realpathSync(parent) !== parent) throw new Error('report parent must be a real directory')
+  const descriptor = fs.openSync(parent, fs.constants.O_RDONLY | (fs.constants.O_NOFOLLOW || 0)), pinned = fs.fstatSync(descriptor)
+  if (pinned.dev !== stat.dev || pinned.ino !== stat.ino) { fs.closeSync(descriptor); throw new Error('report parent identity changed') }
+  return { parent, descriptor, dev: pinned.dev, ino: pinned.ino }
+}
+function verifyParent(pin) {
+  const stat = fs.lstatSync(pin.parent), descriptor = fs.fstatSync(pin.descriptor)
+  if (stat.isSymbolicLink() || !stat.isDirectory() || fs.realpathSync(pin.parent) !== pin.parent || stat.dev !== pin.dev || stat.ino !== pin.ino || descriptor.dev !== pin.dev || descriptor.ino !== pin.ino) throw new Error('report parent identity changed')
+}
+function pinnedTemporary(pin, basename) {
+  const candidates = [pin.parent, ...fs.readdirSync(path.dirname(pin.parent)).map(name => path.join(path.dirname(pin.parent), name))]
+  for (const candidate of candidates) {
+    try { const stat = fs.lstatSync(candidate); if (!stat.isSymbolicLink() && stat.isDirectory() && stat.dev === pin.dev && stat.ino === pin.ino) return path.join(candidate, basename) } catch {}
+  }
+  return null
+}
+function writePublicationReport(file, values, options = {}) {
+  if (!options || typeof options !== 'object' || Array.isArray(options) || Object.keys(options).some(key => !['beforeTempCreate', 'beforeRename'].includes(key)) || Object.values(options).some(hook => typeof hook !== 'function')) throw new Error('report write options are invalid')
   const report = createPublicationReport(values), target = realParent(file)
   if (fs.existsSync(target)) { const stat = fs.lstatSync(target); if (stat.isSymbolicLink() || !stat.isFile()) throw new Error('report output must be a regular non-symlink file') }
+  const pin = pinParent(target)
   const bytes = Buffer.from(`${JSON.stringify(report, null, 2)}\n`)
-  const temporary = path.join(path.dirname(target), `.${path.basename(target)}.${process.pid}.${crypto.randomBytes(8).toString('hex')}.tmp`)
+  const temporaryName = `.${path.basename(target)}.${process.pid}.${crypto.randomBytes(8).toString('hex')}.tmp`, temporary = path.join(path.dirname(target), temporaryName)
   let descriptor
   try {
+    options.beforeTempCreate?.(); verifyParent(pin)
     descriptor = fs.openSync(temporary, fs.constants.O_WRONLY | fs.constants.O_CREAT | fs.constants.O_EXCL | (fs.constants.O_NOFOLLOW || 0), 0o600)
     fs.writeFileSync(descriptor, bytes); fs.fsyncSync(descriptor); fs.closeSync(descriptor); descriptor = undefined
+    options.beforeRename?.(); verifyParent(pin)
     fs.renameSync(temporary, target)
-    const directory = fs.openSync(path.dirname(target), fs.constants.O_RDONLY); try { fs.fsyncSync(directory) } finally { fs.closeSync(directory) }
-  } finally { if (descriptor !== undefined) fs.closeSync(descriptor); fs.rmSync(temporary, { force: true }) }
+    verifyParent(pin); fs.fsyncSync(pin.descriptor)
+  } finally {
+    if (descriptor !== undefined) fs.closeSync(descriptor)
+    try { const pinned = pinnedTemporary(pin, temporaryName); if (pinned) fs.rmSync(pinned, { force: true }) } catch {}
+    fs.closeSync(pin.descriptor)
+  }
   return report
 }
 function readPublicationReport(file, expectations = {}) {

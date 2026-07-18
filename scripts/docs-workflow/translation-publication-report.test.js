@@ -72,8 +72,8 @@ test('validates truthful status invariants and null unavailable values', () => {
     failure: { gate: 'validation', detail: 'ja SaaS MDX failed', recovery: 'inspect the staged ref' },
   })))
   assert.doesNotThrow(() => validatePublicationReport(report({
-    status: 'promotion_conflict', resultSha: null, cleanup: { status: 'deleted', detail: null },
-    failure: { gate: 'promotion', detail: 'target moved', recovery: 'rerun from the new target' },
+    status: 'promotion_conflict', resultSha: null, cleanup: { status: 'pending', detail: null },
+    failure: { gate: 'promotion', detail: 'target moved', recovery: 'inspect the retained staging ref' },
   })))
   assert.doesNotThrow(() => validatePublicationReport(report({
     stagingRef: null, stagingSha: null, status: 'composition_failed', validation: null, resultSha: null,
@@ -84,6 +84,23 @@ test('validates truthful status invariants and null unavailable values', () => {
     status: 'cancelled', validation: null, resultSha: null, cleanup: { status: 'pending', detail: null },
     failure: { gate: 'cancelled', detail: 'workflow cancelled', recovery: 'inspect staging state before rerun' },
   })))
+  assert.doesNotThrow(() => validatePublicationReport(report({ stagingRef: null, stagingSha: null, status: 'cancelled', validation: null, resultSha: null, cleanup: { status: 'not_required', detail: null }, failure: { gate: 'cancelled', detail: 'cancelled before staging', recovery: 'rerun workflow' } })))
+  assert.throws(() => validatePublicationReport(report({ status: 'promotion_conflict', resultSha: null, cleanup: { status: 'deleted', detail: null }, failure: { gate: 'promotion', detail: 'moved', recovery: 'rerun' } })), /retain|cleanup|staging/i)
+  assert.throws(() => validatePublicationReport(report({ stagingRef: null, stagingSha: null, status: 'cancelled', validation: [structuredClone(RECEIPTS[0])], resultSha: null, cleanup: { status: 'not_required', detail: null }, failure: { gate: 'cancelled', detail: 'cancelled', recovery: 'rerun' } })), /validation|staging/i)
+  assert.throws(() => validatePublicationReport(report({ stagingRef: null, stagingSha: null, status: 'cancelled', validation: null, resultSha: null, cleanup: { status: 'debt', detail: 'unknown ref' }, failure: { gate: 'cancelled', detail: 'cancelled', recovery: 'rerun' } })), /cleanup|staging/i)
+})
+
+test('publication report writer rejects parent swaps without redirecting output', () => {
+  const root = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'publication-parent-race-')))
+  const parent = path.join(root, 'output'), parked = path.join(root, 'parked'), outside = path.join(root, 'outside')
+  fs.mkdirSync(parent); fs.mkdirSync(outside); fs.writeFileSync(path.join(outside, 'sentinel'), 'outside\n')
+  assert.throws(() => writePublicationReport(path.join(parent, 'report.json'), report(), { beforeTempCreate() { fs.renameSync(parent, parked); fs.symlinkSync(outside, parent) } }), /parent.*changed|identity/i)
+  assert.equal(fs.readFileSync(path.join(outside, 'sentinel'), 'utf8'), 'outside\n')
+  assert.equal(fs.existsSync(path.join(outside, 'report.json')), false)
+  const parent2 = path.join(root, 'output2'), parked2 = path.join(root, 'parked2'); fs.mkdirSync(parent2)
+  assert.throws(() => writePublicationReport(path.join(parent2, 'report.json'), report(), { beforeRename() { fs.renameSync(parent2, parked2); fs.symlinkSync(outside, parent2) } }), /parent.*changed|identity/i)
+  assert.deepEqual(fs.readdirSync(parked2), [])
+  assert.equal(fs.existsSync(path.join(outside, 'report.json')), false)
 })
 
 test('rejects malformed schema, identities, receipts, details, and inconsistent publication claims', () => {
@@ -134,8 +151,8 @@ test('writes and reads canonical JSON atomically with expected identity checks',
 
 test('renders bounded deterministic sanitized markdown and never mislabels failures as Published', () => {
   const failed = report({
-    status: 'promotion_conflict', resultSha: null,
-    failure: { gate: 'promotion', detail: '<script>|target moved [click](javascript:bad)', recovery: 'rerun & inspect' },
+    status: 'promotion_conflict', resultSha: null, cleanup: { status: 'pending', detail: null },
+    failure: { gate: 'promotion', detail: '<script>|target moved [click](javascript:bad)', recovery: 'inspect retained staging ref & rerun' },
   })
   const markdown = publicationReportMarkdown(failed)
   assert.equal(markdown, publicationReportMarkdown(failed))

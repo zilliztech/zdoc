@@ -7,7 +7,7 @@ const path = require('node:path')
 const test = require('node:test')
 const { execFileSync } = require('node:child_process')
 
-const { runGuidesTranslationValidation, VALIDATION_COMMANDS } = require('./validate-guides-translation-staging')
+const { runGuidesTranslationValidation, writeValidationResult, VALIDATION_COMMANDS, RESTORE_PATHS } = require('./validate-guides-translation-staging')
 
 const ROOT = 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials'
 const ENV = { ...process.env, GIT_AUTHOR_NAME: 'Test', GIT_AUTHOR_EMAIL: 'test@example.com', GIT_COMMITTER_NAME: 'Test', GIT_COMMITTER_EMAIL: 'test@example.com' }
@@ -16,8 +16,8 @@ function git(cwd, ...args) { return execFileSync('git', args, { cwd, encoding: '
 function fixture() {
   const repository = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'validate-guides-staging-')))
   git(repository, 'init')
-  fs.mkdirSync(path.join(repository, ROOT), { recursive: true })
-  fs.writeFileSync(path.join(repository, ROOT, 'a.md'), '# old\n')
+  const seeds = ['docs/index.md', 'docs-byoc/index.md', 'reference/index.md', 'reference/keep.md', `${ROOT}/a.md`, 'i18n/ja-JP/other.md', '.translation-cache/ja-JP.json', 'config/generated/guides.sidebar.js', 'plugins/lark-docs/meta/snapshots/guides.json', 'plugins/lark-docs/meta/assembly/guides.json']
+  for (const relative of seeds) { fs.mkdirSync(path.dirname(path.join(repository, relative)), { recursive: true }); fs.writeFileSync(path.join(repository, relative), `${relative}\n`) }
   fs.writeFileSync(path.join(repository, 'tooling.js'), 'tooling\n')
   git(repository, 'add', '.')
   git(repository, 'commit', '-m', 'master tooling')
@@ -28,7 +28,7 @@ function fixture() {
   git(repository, 'commit', '-m', 'staged generated state')
   const stagedSha = git(repository, 'rev-parse', 'HEAD')
   git(repository, 'switch', '--detach', masterSha)
-  git(repository, 'checkout', stagedSha, '--', ROOT)
+  git(repository, 'checkout', stagedSha, '--', ...RESTORE_PATHS)
   return { repository, masterSha, stagedSha }
 }
 
@@ -118,6 +118,32 @@ test('rejects untracked generated files, index contamination, and symlinked stag
   git(symlink.repository, 'switch', '--detach', symlink.masterSha)
   git(symlink.repository, 'checkout', symlink.stagedSha, '--', ROOT)
   assert.throws(() => runGuidesTranslationValidation({ ...symlink, executor() {} }), /symlink|special/i)
+})
+
+test('rejects hybrid authoritative roots and executable-mode drift', () => {
+  for (const relative of ['docs/extra.md', 'docs-byoc/extra.md', 'reference/extra.md', 'i18n/ja-JP/extra.md', '.translation-cache/extra.json', 'config/generated/extra.js', 'plugins/lark-docs/meta/snapshots/extra.json', 'plugins/lark-docs/meta/assembly/extra.json']) {
+    const state = fixture()
+    git(state.repository, 'switch', 'staged'); fs.writeFileSync(path.join(state.repository, relative), 'staged only\n'); git(state.repository, 'add', relative); git(state.repository, 'commit', '-m', `change ${relative}`); state.stagedSha = git(state.repository, 'rev-parse', 'HEAD')
+    git(state.repository, 'switch', '--detach', state.masterSha); git(state.repository, 'checkout', state.stagedSha, '--', ROOT)
+    assert.throws(() => runGuidesTranslationValidation({ ...state, executor() {} }), /restored|staged|index|root/i)
+  }
+  const mode = fixture(); git(mode.repository, 'config', 'core.fileMode', 'false'); fs.chmodSync(path.join(mode.repository, ROOT, 'a.md'), 0o755)
+  assert.throws(() => runGuidesTranslationValidation({ ...mode, executor() {} }), /mode|executable/i)
+
+  const deletion = fixture(); git(deletion.repository, 'switch', 'staged'); fs.unlinkSync(path.join(deletion.repository, 'reference', 'index.md')); git(deletion.repository, 'add', '-A', 'reference'); git(deletion.repository, 'commit', '-m', 'delete staged reference file'); deletion.stagedSha = git(deletion.repository, 'rev-parse', 'HEAD')
+  git(deletion.repository, 'switch', '--detach', deletion.masterSha); git(deletion.repository, 'checkout', deletion.stagedSha, '--', ...RESTORE_PATHS); fs.unlinkSync(path.join(deletion.repository, 'reference', 'index.md')); git(deletion.repository, 'add', '-A', 'reference')
+  assert.equal(fs.existsSync(path.join(deletion.repository, 'reference', 'index.md')), false)
+  assert.equal(runGuidesTranslationValidation({ ...deletion, executor() { return { status: 0, signal: null, stderr: '' } } }).result, 'success')
+})
+
+test('validation writer rejects parent swaps without redirecting output', () => {
+  const root = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'validation-parent-race-')))
+  const parent = path.join(root, 'output'), parked = path.join(root, 'parked'), outside = path.join(root, 'outside')
+  fs.mkdirSync(parent); fs.mkdirSync(outside); fs.writeFileSync(path.join(outside, 'sentinel'), 'outside\n')
+  assert.throws(() => writeValidationResult(path.join(parent, 'receipt.json'), { ok: true }, { beforeRename() { fs.renameSync(parent, parked); fs.symlinkSync(outside, parent) } }), /parent.*changed|identity/i)
+  assert.equal(fs.readFileSync(path.join(outside, 'sentinel'), 'utf8'), 'outside\n')
+  assert.equal(fs.existsSync(path.join(outside, 'receipt.json')), false)
+  assert.deepEqual(fs.readdirSync(parked), [])
 })
 
 test('sanitizes hostile Git, Node, shell, and package-manager environment before proof and execution', () => {
