@@ -32,11 +32,17 @@ function boundedMessage(error, fallback) {
   return raw.replace(/\s+/g, ' ').trim().slice(0, MAX_DIAGNOSTIC)
 }
 
+function sanitizedGitEnvironment(overrides = {}) {
+  const environment = {}
+  for (const [key, value] of Object.entries(process.env)) if (!key.startsWith('GIT_')) environment[key] = value
+  return { ...environment, GIT_TERMINAL_PROMPT: '0', ...overrides }
+}
+
 function git(repository, args, options = {}) {
   return execFileSync('git', ['-C', repository, ...args], {
     encoding: options.buffer ? null : 'utf8',
     maxBuffer: 16 * 1024 * 1024,
-    env: options.env || process.env,
+    env: sanitizedGitEnvironment(options.env),
   })
 }
 
@@ -154,7 +160,7 @@ function safeDestination(worktree) {
   const stat = fs.lstatSync(resolved)
   if (stat.isSymbolicLink() || !stat.isDirectory() || fs.realpathSync(resolved) !== resolved) throw new Error('worktree destination must be a real empty directory')
   if (fs.readdirSync(resolved).length) throw new Error('worktree destination must be empty')
-  return { resolved, removeEmpty: true }
+  return { resolved, removeEmpty: true, mode: stat.mode & 0o7777 }
 }
 
 function resolvedDestination(worktree) {
@@ -178,16 +184,32 @@ function prepareStagingWorktree(options) {
   if (destination.removeEmpty) fs.rmdirSync(destination.resolved)
   try {
     git(repository, ['-c', 'core.hooksPath=/dev/null', 'worktree', 'add', '--detach', destination.resolved, expectedTargetSha])
+    const worktree = validateWorktree(destination.resolved)
+    assertSameRepository(repository, worktree)
+    if (head(worktree) !== expectedTargetSha) throw new Error('staging worktree HEAD does not match expected target SHA')
+    assertDetached(worktree)
+    assertClean(worktree)
+    return frozen({ worktree, headSha: expectedTargetSha, created: true, detached: true })
   } catch (error) {
-    if (destination.removeEmpty && !fs.existsSync(destination.resolved)) fs.mkdirSync(destination.resolved)
-    throw new Error(`failed to prepare staging worktree: ${boundedMessage(error, 'git worktree add failed')}`)
+    const cleanupErrors = []
+    const removal = gitResult(repository, ['worktree', 'remove', '--force', destination.resolved])
+    if (!removal.ok && fs.existsSync(destination.resolved)) {
+      try { fs.rmSync(destination.resolved, { recursive: true, force: true }) } catch (cleanupError) { cleanupErrors.push(cleanupError) }
+    }
+    const prune = gitResult(repository, ['worktree', 'prune'])
+    if (!prune.ok) cleanupErrors.push(prune.error)
+    if (destination.removeEmpty) {
+      try {
+        if (fs.existsSync(destination.resolved)) fs.rmSync(destination.resolved, { recursive: true, force: true })
+        fs.mkdirSync(destination.resolved, { mode: destination.mode })
+        fs.chmodSync(destination.resolved, destination.mode)
+      } catch (cleanupError) { cleanupErrors.push(cleanupError) }
+    } else if (fs.existsSync(destination.resolved)) {
+      try { fs.rmSync(destination.resolved, { recursive: true, force: true }) } catch (cleanupError) { cleanupErrors.push(cleanupError) }
+    }
+    const cleanup = cleanupErrors.length ? `; cleanup failed: ${boundedMessage(cleanupErrors[0], 'unknown cleanup failure')}` : ''
+    throw new Error(`failed to prepare staging worktree: ${boundedMessage(error, 'git worktree preparation failed')}${cleanup}`)
   }
-  const worktree = validateWorktree(destination.resolved)
-  assertSameRepository(repository, worktree)
-  if (head(worktree) !== expectedTargetSha) throw new Error('staging worktree HEAD does not match expected target SHA')
-  assertDetached(worktree)
-  assertClean(worktree)
-  return frozen({ worktree, headSha: expectedTargetSha, created: true, detached: true })
 }
 
 function batchNumber(value, label) {
@@ -226,7 +248,6 @@ function commitAppliedBatch(options) {
   }
   const message = `docs(i18n): apply Guides translation batch ${number}/${count}`
   const env = {
-    ...process.env,
     GIT_AUTHOR_NAME: BOT_NAME,
     GIT_AUTHOR_EMAIL: BOT_EMAIL,
     GIT_COMMITTER_NAME: BOT_NAME,
@@ -235,7 +256,6 @@ function commitAppliedBatch(options) {
     GIT_COMMITTER_DATE: BOT_DATE,
     GIT_CONFIG_NOSYSTEM: '1',
     GIT_CONFIG_GLOBAL: '/dev/null',
-    GIT_TERMINAL_PROMPT: '0',
   }
   try {
     git(worktree, [
@@ -339,7 +359,7 @@ function deleteStagingWithLease(options) {
         reason: 'lookup_failed',
       })
     }
-    if (!after) return frozen({ stagingRef, stagedSha, deleted: false, cleanupDebt: null, reason: 'absent' })
+    if (!after) return frozen({ stagingRef, stagedSha, deleted: true, cleanupDebt: null, reason: 'deleted', commandWarning: boundedMessage(error, 'staging ref delete command failed after deletion') })
     const debt = after && after !== stagedSha
       ? cleanupDebt('lease_mismatch', { stagingRef, expectedSha: stagedSha, actualSha: after })
       : cleanupDebt('delete_failed', { stagingRef, expectedSha: stagedSha, message: boundedMessage(error, 'staging ref delete push failed') })

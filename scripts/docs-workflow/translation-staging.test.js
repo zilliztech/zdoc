@@ -57,6 +57,43 @@ function remoteSha(repository, ref) {
   return output ? output.split(/\s+/)[0] : null
 }
 
+function withGitWrapper(root, mode, callback) {
+  const bin = path.join(root, `git-wrapper-${mode}`)
+  fs.mkdirSync(bin)
+  const wrapper = path.join(bin, 'git')
+  fs.writeFileSync(wrapper, `#!/usr/bin/env node
+const fs = require('node:fs')
+const { spawnSync } = require('node:child_process')
+const args = process.argv.slice(2)
+const worktree = args.indexOf('worktree')
+const add = worktree >= 0 && args[worktree + 1] === 'add'
+const destination = add ? args[args.indexOf('--detach') + 1] : null
+if (process.env.WRAPPER_MODE === 'add-fail' && add) {
+  fs.mkdirSync(destination, { recursive: true })
+  fs.writeFileSync(require('node:path').join(destination, 'partial'), 'partial\\n')
+  process.exit(42)
+}
+const result = spawnSync(process.env.REAL_GIT, args, { stdio: 'inherit', env: process.env })
+if (result.status !== 0) process.exit(result.status || 1)
+if (process.env.WRAPPER_MODE === 'postcondition-fail' && add) {
+  fs.writeFileSync(require('node:path').join(destination, 'injected-dirty-file'), 'dirty\\n')
+}
+if (process.env.WRAPPER_MODE === 'delete-reported-failure' && args.includes('push') && args.some(value => value.startsWith(':refs/heads/docs-translation-staging/guides/'))) process.exit(43)
+process.exit(0)
+`)
+  fs.chmodSync(wrapper, 0o755)
+  const saved = { PATH: process.env.PATH, REAL_GIT: process.env.REAL_GIT, WRAPPER_MODE: process.env.WRAPPER_MODE }
+  process.env.REAL_GIT = execFileSync('which', ['git'], { encoding: 'utf8', env: { ...process.env, PATH: saved.PATH } }).trim()
+  process.env.WRAPPER_MODE = mode
+  process.env.PATH = `${bin}:${saved.PATH}`
+  try { return callback() } finally {
+    for (const [key, value] of Object.entries(saved)) {
+      if (value === undefined) delete process.env[key]
+      else process.env[key] = value
+    }
+  }
+}
+
 function stagedBatch(state, count = 1) {
   const worktree = path.join(state.root, `staging-${Math.random().toString(16).slice(2)}`)
   prepareStagingWorktree({ repository: state.repository, expectedTargetSha: state.targetSha, worktree })
@@ -131,6 +168,86 @@ test('rejects worktree overlap in both directions before changing the repository
   assert.equal(fs.readFileSync(path.join(state.repository, 'README.md'), 'utf8'), 'docs\n')
   assert.equal(git(state.repository, 'rev-parse', 'HEAD'), beforeHead)
   assert.equal(git(state.repository, 'status', '--porcelain=v1', '--untracked-files=all'), beforeStatus)
+})
+
+test('worktree preparation rolls back add and postcondition failures transactionally', () => {
+  const state = setup()
+  const beforeHead = git(state.repository, 'rev-parse', 'HEAD')
+  const beforeStatus = git(state.repository, 'status', '--porcelain=v1', '--untracked-files=all')
+  const beforeWorktrees = git(state.repository, 'worktree', 'list', '--porcelain')
+
+  const existingEmpty = path.join(state.root, 'existing-empty')
+  fs.mkdirSync(existingEmpty, { mode: 0o1750 })
+  fs.chmodSync(existingEmpty, 0o1750)
+  withGitWrapper(state.root, 'add-fail', () => {
+    assert.throws(() => prepareStagingWorktree({ repository: state.repository, expectedTargetSha: state.targetSha, worktree: existingEmpty }), /prepare|worktree|failed/i)
+  })
+  assert.equal(fs.existsSync(existingEmpty), true)
+  assert.deepEqual(fs.readdirSync(existingEmpty), [])
+  assert.equal(fs.statSync(existingEmpty).mode & 0o7777, 0o1750)
+  assert.equal(git(state.repository, 'worktree', 'list', '--porcelain'), beforeWorktrees)
+
+  const absent = path.join(state.root, 'postcondition-failure')
+  withGitWrapper(state.root, 'postcondition-fail', () => {
+    assert.throws(() => prepareStagingWorktree({ repository: state.repository, expectedTargetSha: state.targetSha, worktree: absent }), /clean|postcondition|prepare/i)
+  })
+  assert.equal(fs.existsSync(absent), false)
+  assert.equal(git(state.repository, 'worktree', 'list', '--porcelain'), beforeWorktrees)
+  assert.equal(git(state.repository, 'rev-parse', 'HEAD'), beforeHead)
+  assert.equal(git(state.repository, 'status', '--porcelain=v1', '--untracked-files=all'), beforeStatus)
+})
+
+test('sanitizes hostile Git repository, index, object, and config environment overrides', () => {
+  const state = setup()
+  const attackerGit = path.join(state.root, 'attacker.git')
+  const attackerWorktree = path.join(state.root, 'attacker-worktree')
+  const attackerIndex = path.join(state.root, 'attacker-index')
+  const attackerObjects = path.join(state.root, 'attacker-objects')
+  const attackerHooks = path.join(state.root, 'attacker-hooks')
+  execFileSync('git', ['init', '--bare', attackerGit], { env: GIT_ENV })
+  fs.mkdirSync(attackerWorktree)
+  fs.mkdirSync(attackerObjects)
+  fs.mkdirSync(attackerHooks)
+  fs.writeFileSync(path.join(attackerWorktree, 'sentinel'), 'untouched\n')
+  fs.writeFileSync(path.join(attackerHooks, 'pre-commit'), '#!/bin/sh\nexit 1\n')
+  fs.chmodSync(path.join(attackerHooks, 'pre-commit'), 0o755)
+
+  const hostile = {
+    GIT_DIR: attackerGit,
+    GIT_WORK_TREE: attackerWorktree,
+    GIT_INDEX_FILE: attackerIndex,
+    GIT_COMMON_DIR: attackerGit,
+    GIT_OBJECT_DIRECTORY: attackerObjects,
+    GIT_ALTERNATE_OBJECT_DIRECTORIES: attackerObjects,
+    GIT_CONFIG_COUNT: '1',
+    GIT_CONFIG_KEY_0: 'core.hooksPath',
+    GIT_CONFIG_VALUE_0: attackerHooks,
+    GIT_NAMESPACE: 'attacker',
+    GIT_SHALLOW_FILE: path.join(state.root, 'attacker-shallow'),
+  }
+  const saved = Object.fromEntries(Object.keys(hostile).map(key => [key, process.env[key]]))
+  Object.assign(process.env, hostile)
+  let stagedSha, stagingRef
+  try {
+    const worktree = path.join(state.root, 'staging')
+    prepareStagingWorktree({ repository: state.repository, expectedTargetSha: state.targetSha, worktree })
+    addTranslation(worktree, '# sanitized\n')
+    stagedSha = commitAppliedBatch({ worktree, batchNumber: 1, batchCount: 1 }).stagedSha
+    stagingRef = deterministicStagingRef({ runId: 80, runAttempt: 1, pendingSetSha256: SHA256 })
+    pushStagingRef({ repository: state.repository, worktree, stagingRef, stagedSha })
+    promoteStaging({ repository: state.repository, targetBranch: 'docs-dev', expectedTargetSha: state.targetSha, stagedSha })
+    assert.equal(deleteStagingWithLease({ repository: state.repository, stagingRef, stagedSha }).deleted, true)
+  } finally {
+    for (const [key, value] of Object.entries(saved)) {
+      if (value === undefined) delete process.env[key]
+      else process.env[key] = value
+    }
+  }
+  assert.equal(remoteSha(state.repository, 'refs/heads/docs-dev'), stagedSha)
+  assert.equal(remoteSha(state.repository, stagingRef), null)
+  assert.equal(fs.readFileSync(path.join(attackerWorktree, 'sentinel'), 'utf8'), 'untouched\n')
+  assert.equal(fs.existsSync(attackerIndex), false)
+  assert.deepEqual(fs.readdirSync(attackerObjects), [])
 })
 
 test('creates deterministic commits for nonempty batches and retains combined batch history', () => {
@@ -385,11 +502,26 @@ test('cleanup post-delete verification failure is also nonfatal structured debt'
   assert.ok(result.cleanupDebt.message.length <= 240)
 })
 
-test('production Git invocation contains no shell execution and force is isolated to leased cleanup', () => {
+test('cleanup reports success when delete command fails but exact verification proves the ref absent', () => {
+  const state = setup()
+  const staged = stagedBatch(state)
+  const stagingRef = deterministicStagingRef({ runId: 96, runAttempt: 1, pendingSetSha256: SHA256 })
+  pushStagingRef({ repository: state.repository, worktree: staged.worktree, stagingRef, stagedSha: staged.stagedSha })
+  const result = withGitWrapper(state.root, 'delete-reported-failure', () => deleteStagingWithLease({ repository: state.repository, stagingRef, stagedSha: staged.stagedSha }))
+  assert.equal(result.deleted, true)
+  assert.equal(result.reason, 'deleted')
+  assert.equal(result.cleanupDebt, null)
+  assert.match(result.commandWarning, /failed|status|command/i)
+  assert.ok(result.commandWarning.length <= 240)
+  assert.equal(remoteSha(state.repository, stagingRef), null)
+})
+
+test('production Git invocation contains no shell execution and remote-ref force is isolated to leased cleanup', () => {
   const source = fs.readFileSync(path.join(__dirname, 'translation-staging.js'), 'utf8')
   assert.doesNotMatch(source, /execSync|spawnSync|shell\s*:/)
   assert.equal((source.match(/--force-with-lease/g) || []).length, 1)
-  assert.doesNotMatch(source.replace(/--force-with-lease/g, ''), /--force\b|['"]-f['"]/)
+  assert.equal((source.match(/\['worktree', 'remove', '--force'/g) || []).length, 1)
+  assert.doesNotMatch(source.replace(/--force-with-lease/g, '').replace(/\['worktree', 'remove', '--force'/g, ''), /--force\b|['"]-f['"]/)
 })
 
 test('deletes the exact staging ref after publication without changing the published target', () => {
