@@ -79,6 +79,14 @@ function rowsOrObjectFromCliJson(payload) {
   return payload?.data || payload?.item || payload
 }
 
+function pageInfoFromCliJson(payload) {
+  const data = payload?.data || {}
+  return {
+    hasMore: Boolean(data.has_more || data.hasMore || payload?.has_more || payload?.hasMore),
+    total: Number.isInteger(data.total) ? data.total : Number.isInteger(payload?.total) ? payload.total : null,
+  }
+}
+
 async function listTables(baseToken, runCommand = runJsonCommand) {
   const payload = await runCommand([
     'lark-cli', 'base', '+table-list',
@@ -87,6 +95,38 @@ async function listTables(baseToken, runCommand = runJsonCommand) {
     '--format', 'json',
   ])
   return rowsFromCliJson(payload)
+}
+
+async function listTableRecords({ baseToken, tableId, runCommand = runJsonCommand, limit = 200 }) {
+  const records = []
+  let offset = 0
+  for (;;) {
+    const argv = [
+      'lark-cli', 'base', '+record-list',
+      '--base-token', baseToken,
+      '--table-id', tableId,
+      '--field-id', 'Docs',
+      '--field-id', 'Slug',
+      '--field-id', 'Targets',
+      '--field-id', 'Publish Targets',
+      '--field-id', 'Status',
+      '--field-id', 'Placement Type',
+      '--limit', String(limit),
+      '--offset', String(offset),
+      '--format', 'json',
+      '--as', 'user',
+    ]
+    const payload = await runCommand(argv)
+    const pageRecords = recordsFromCliJson(payload)
+    records.push(...pageRecords)
+    const page = pageInfoFromCliJson(payload)
+    if (!pageRecords.length) break
+    offset += pageRecords.length
+    if (page.total !== null && offset >= page.total) break
+    if (page.total === null && pageRecords.length < limit) break
+    if (!page.hasMore && page.total === null) break
+  }
+  return records
 }
 
 async function expandLookupTokens(docToken, runCommand = runJsonCommand, docLink = null) {
@@ -126,21 +166,8 @@ async function searchTable({ baseToken, tableId, docToken, runCommand = runJsonC
   const searched = recordsFromCliJson(payload)
   if (searched.length) return searched
 
-  const listed = await runCommand([
-    'lark-cli', 'base', '+record-list',
-    '--base-token', baseToken,
-    '--table-id', tableId,
-    '--field-id', 'Docs',
-    '--field-id', 'Slug',
-    '--field-id', 'Targets',
-    '--field-id', 'Publish Targets',
-    '--field-id', 'Status',
-    '--field-id', 'Placement Type',
-    '--limit', '200',
-    '--format', 'json',
-    '--as', 'user',
-  ])
-  return recordsFromCliJson(listed).filter(record => recordContainsToken(record, docToken))
+  const listed = await listTableRecords({ baseToken, tableId, runCommand })
+  return listed.filter(record => recordContainsToken(record, docToken))
 }
 
 async function resolveDocInManual({ manuals, manualName, docToken, runCommand = runJsonCommand }) {
@@ -200,7 +227,9 @@ async function resolveDocToken({ manuals, docToken, docLink, runCommand = runJso
 
 module.exports = {
   expandLookupTokens,
+  listTableRecords,
   listTables,
+  pageInfoFromCliJson,
   parseBase,
   recordsFromCliJson,
   resolveDocInManual,

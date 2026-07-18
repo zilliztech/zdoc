@@ -1,7 +1,14 @@
 const assert = require('node:assert/strict')
 const { test } = require('node:test')
 
-const { expandLookupTokens, parseBase, recordsFromCliJson, resolveDocInManual, rowsFromCliJson } = require('./baseResolver')
+const {
+  expandLookupTokens,
+  listTableRecords,
+  parseBase,
+  recordsFromCliJson,
+  resolveDocInManual,
+  rowsFromCliJson,
+} = require('./baseResolver')
 
 test('parseBase distinguishes all tables, explicit table, and base-only configs', () => {
   assert.deepEqual(parseBase('base123:*'), {
@@ -145,4 +152,75 @@ test('recordsFromCliJson maps lark-cli record-list table rows to field objects',
       'Placement Type': ['canonical'],
     },
   }])
+})
+
+test('listTableRecords follows lark-cli record-list pagination', async () => {
+  const calls = []
+  const records = await listTableRecords({
+    baseToken: 'base123',
+    tableId: 'tbl123',
+    runCommand: async (argv) => {
+      calls.push(argv)
+      assert.equal(argv.includes('--page-token'), false)
+      const offset = Number(argv[argv.indexOf('--offset') + 1])
+      if (offset === 0) {
+        return {
+          data: {
+            items: [{ record_id: 'rec1', fields: { Docs: 'first page' } }],
+            has_more: true,
+            total: 2,
+          },
+        }
+      }
+      assert.equal(offset, 1)
+      return {
+        data: {
+          items: [{ record_id: 'rec2', fields: { Docs: 'DOC_TOKEN' } }],
+          has_more: false,
+        },
+      }
+    },
+  })
+
+  assert.deepEqual(records.map(record => record.record_id), ['rec1', 'rec2'])
+  assert.equal(calls.length, 2)
+})
+
+test('listTableRecords stops when a page returns no records despite has_more', async () => {
+  const calls = []
+  const records = await listTableRecords({
+    baseToken: 'base123',
+    tableId: 'tbl123',
+    limit: 2,
+    runCommand: async argv => {
+      calls.push(argv)
+      return { data: { items: [], has_more: true, total: 10 } }
+    },
+  })
+
+  assert.deepEqual(records, [])
+  assert.equal(calls.length, 1)
+  assert.equal(calls[0][calls[0].indexOf('--offset') + 1], '0')
+})
+
+test('listTableRecords stops when a page returns fewer records than the requested limit', async () => {
+  let calls = 0
+  const records = await listTableRecords({
+    baseToken: 'base123',
+    tableId: 'tbl123',
+    limit: 2,
+    runCommand: async () => {
+      calls++
+      if (calls > 1) throw new Error('unexpected extra page')
+      return {
+        data: {
+          items: [{ record_id: 'rec1', fields: { Docs: 'only record' } }],
+          has_more: true,
+        },
+      }
+    },
+  })
+
+  assert.deepEqual(records.map(record => record.record_id), ['rec1'])
+  assert.equal(calls, 1)
 })

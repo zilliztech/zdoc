@@ -7,7 +7,7 @@ description: Use when asked to publish Zilliz docs from Feishu/Lark doc links to
 
 ## Purpose
 
-Follow this for Feishu-triggered Zilliz docs publishing. The user usually provides natural Chinese instructions plus a list of Feishu doc links. Resolve those links through the manual root Base, update docs in the correct branch, build and check the site, preserve unfixed issues, and trigger Jenkins publishing.
+Follow this only for the final deployment stage after document content is updated and approved. It is not for syncing SDK sources, drafting or verifying content, or planning code-example changes; route those requests to `zdoc-local-doc-ops`. For an explicit publish request, resolve the Feishu links through the manual root Base, update docs in the correct branch, build and check the site, preserve unfixed issues, and trigger Jenkins publishing.
 
 ## Branch And Environment Rules
 
@@ -29,6 +29,18 @@ Follow this for Feishu-triggered Zilliz docs publishing. The user usually provid
 7. Fix build-breaking issues. Keep non-blocking or unresolved issues documented in the run summary rather than hiding them.
 8. Trigger the intranet Jenkins pipeline for the target branch/commit.
 9. Reply with the UAT/production URL, branch, commit SHA, changed files, fixed issues, and remaining issues.
+
+## Local Bot Runtime Notes
+
+- Prefer Feishu/Lark long-connection event delivery for local development. The bot host opens an outbound WebSocket to the open platform, so it does not need a public callback URL.
+- The local machine still needs outbound internet access to Feishu/Lark, and the app must subscribe to `im.message.receive_v1`.
+- React to matching messages immediately with the `Typing` emoji type (`敲键盘`) before doing Base lookup or builds.
+- Serialize execute-mode publish jobs. Do not run two branch switches, doc fetches, builds, or Jenkins triggers concurrently in the same checkout.
+- Refuse execute mode on a dirty worktree unless the operator explicitly opts in with `DOC_PUBLISH_ALLOW_DIRTY_WORKTREE=1`.
+- Route with an agent only for interpretation and planning. The bot must still validate the selected skill, environment, branch, doc links, production approval, and Jenkins target.
+- Never trust production approval from router output. Require an affirmative approval command on its own line in the original Feishu message; keep the release branch and document links on separate lines. Questions, denials, and conditional approval are not approval.
+- Bound router/worker agent subprocesses with timeouts and output caps; if they fail or hang, reply in Feishu with the blocker.
+- Run either `--listen local` or `--listen sdk` for one app subscription, not both, to avoid duplicate handling.
 
 ## Base Lookup
 
@@ -80,6 +92,8 @@ lark-cli base +record-list \
   --format json \
   --as user
 ```
+
+Continue with `--page-token <next_page_token>` while the response reports more pages.
 
 Accept only canonical publish records unless the request explicitly asks for a section/ref/link. In this repo, canonical records usually have `Placement Type = canonical`, a `Docs` link, and a `Slug`.
 
@@ -196,6 +210,9 @@ Trigger UAT for the `dev` branch:
 
 ```bash
 curl -X POST \
+  --fail-with-body \
+  --silent \
+  --show-error \
   "https://jenkins-3.zilliz.cc/job/zilliz-docs/job/zilliz-docs-dev/buildWithParameters" \
   --user "$JENKINS_USER:$JENKINS_TOKEN" \
   --data-urlencode "BRANCH=dev"
@@ -205,6 +222,9 @@ Trigger feature-branch dev-test if the request needs a non-`dev` preview:
 
 ```bash
 curl -X POST \
+  --fail-with-body \
+  --silent \
+  --show-error \
   "https://jenkins-3.zilliz.cc/job/zilliz-docs/job/zilliz-docs-dev-test/buildWithParameters" \
   --user "$JENKINS_USER:$JENKINS_TOKEN" \
   --data-urlencode "BRANCH=<feature_branch>" \
@@ -216,6 +236,9 @@ Trigger production only after UAT approval, using the approved release branch:
 
 ```bash
 curl -X POST \
+  --fail-with-body \
+  --silent \
+  --show-error \
   "https://jenkins-3.zilliz.cc/job/zilliz-docs/job/zilliz-docs-prod/buildWithParameters" \
   --user "$JENKINS_USER:$JENKINS_TOKEN" \
   --data-urlencode "BRANCH=vX.X.X"
@@ -225,6 +248,9 @@ Deploy an already-built production image by adding `image_tag`:
 
 ```bash
 curl -X POST \
+  --fail-with-body \
+  --silent \
+  --show-error \
   "https://jenkins-3.zilliz.cc/job/zilliz-docs/job/zilliz-docs-prod/buildWithParameters" \
   --user "$JENKINS_USER:$JENKINS_TOKEN" \
   --data-urlencode "BRANCH=vX.X.X" \
