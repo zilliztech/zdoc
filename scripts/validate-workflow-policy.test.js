@@ -751,7 +751,7 @@ test('reusable content publisher safely downloads, validates, and publishes chec
   assert.doesNotMatch(publicationBody, /secrets\./)
 })
 
-test('guides translations run in parallel and publish batches in one short ordered stage', () => {
+test('Guides translation batches publish through one validated staging ref', () => {
   const workflow = yaml.load(fs.readFileSync('.github/workflows/fetch-docs.yml', 'utf8'))
   const translate = workflow.jobs.translate_guides_batches
   assert.equal(translate.strategy['max-parallel'], undefined)
@@ -759,27 +759,153 @@ test('guides translations run in parallel and publish batches in one short order
   const publish = workflow.jobs.publish_guides_translation_batches
   assert.ok(publish.needs.includes('translate_guides_batches'))
   assert.ok(publish.needs.includes('publish_rest'))
+  assert.ok(publish.needs.includes('publish_guides'))
   assert.equal(publish.uses, './.github/workflows/_publish-translation-batches.yml')
+  assert.equal(publish.with.source_commit_sha, '${{ needs.publish_guides.outputs.commit_sha || needs.prepare.outputs.dev_baseline_sha }}')
+  assert.equal(publish.with.expected_target_sha, '${{ needs.publish_guides.outputs.commit_sha }}')
 
-  const publisher = fs.readFileSync('scripts/docs-workflow/publish-checkpoint.sh', 'utf8')
-  assert.match(publisher, /checkpoint-stage-paths\.js" select/)
-  assert.match(publisher, /--pathspec-from-file="\$stage_paths_file"/)
-  assert.match(publisher, /--pathspec-file-nul/)
-  assert.match(publisher, /checkpoint-stage-paths\.js" verify/)
-  assert.doesNotMatch(publisher, /git add --all -- "\$\{paths\[@\]\}"/)
+  const source = fs.readFileSync('.github/workflows/_publish-translation-batches.yml', 'utf8')
+  const reusable = yaml.load(source)
+  assert.equal(reusable.on.workflow_call.inputs.source_commit_sha.required, true)
+  assert.equal(reusable.on.workflow_call.inputs.expected_target_sha.required, true)
+  const steps = reusable.jobs.publish.steps
+  const requiredNames = [
+    'Validate Guides translation batch identities',
+    'Apply Guides translation batches to staging',
+    'Push Guides translation staging ref',
+    'Validate combined Guides translation',
+    'Promote validated Guides translation',
+    'Clean up Guides translation staging ref',
+    'Write Guides translation publication report',
+    'Upload Guides translation publication report',
+    'Emit Guides translation publication result',
+  ]
+  assert.deepEqual(steps.filter(step => requiredNames.includes(step.name)).map(step => step.name), requiredNames)
+  for (const output of ['status', 'commit_sha', 'staging_ref', 'staging_sha', 'report_artifact_name']) {
+    assert.equal(reusable.on.workflow_call.outputs[output].value, `\${{ jobs.publish.outputs.${output} }}`)
+    assert.equal(reusable.jobs.publish.outputs[output], `\${{ steps.result.outputs.${output} }}`)
+  }
+  assert.equal(steps.find(step => step.name === 'Check out immutable master tooling').with.ref, '${{ inputs.master_sha }}')
+  assert.equal(steps.find(step => step.name === 'Check out immutable master tooling').with['fetch-depth'], 0)
+  const capture = steps.find(step => step.name === 'Capture Guides translation publication identities')
+  const initialize = steps.find(step => step.name === 'Initialize Guides translation publisher')
+  assert.match(initialize.run, /! -L "\$trusted_root"[\s\S]*realpath -e -- "\$trusted_root"[\s\S]*stat -c '%u' -- "\$trusted_root"[\s\S]*id -u/)
+  assert.match(capture.run, /createInitialPublisherState/)
+  assert.match(capture.run, /SOURCE_COMMIT_SHA[\s\S]*EXPECTED_TARGET_SHA/)
+  assert.match(capture.run, /refs\/remotes\/origin\/\$TARGET_BRANCH\^\{commit\}[\s\S]*EXPECTED_TARGET_SHA/)
+  assert.ok(steps.indexOf(capture) < steps.findIndex(step => step.name === 'Download Guides translation checkpoints'))
 
-  const reusable = fs.readFileSync('.github/workflows/_publish-translation-batches.yml', 'utf8')
-  const reusableYaml = yaml.load(reusable)
-  const publishScript = reusableYaml.jobs.publish.steps.find(step => step.id === 'publish').run
-  assert.match(reusable, /for \(\(number=1; number<=BATCH_COUNT; number\+\+\)\)/)
-  assert.match(reusable, /validate-translation-batch\.js/)
-  assert.doesNotMatch(reusable, /node - <<['"]?NODE/)
-  assert.match(reusable, /--max-attempts 10/)
-  assert.match(reusable, /\$GITHUB_WORKSPACE\/scripts\/validate-generated-sidebars\.js[\s\S]*\$GITHUB_WORKSPACE\/scripts\/validate-translated-coverage\.js/)
-  assert.doesNotMatch(reusable, /pnpm run build/)
-  const syntax = spawnSync('bash', ['-n'], { input: publishScript, encoding: 'utf8' })
-  assert.equal(syntax.status, 0, syntax.stderr)
-  assert.doesNotMatch(reusable, /report-live-card|CARD_JOB_NAME|APP_ID|APP_SECRET|card_id|card_started_at|card_stages/)
+  const byName = new Map(steps.map(step => [step.name, step]))
+  const orchestration = fs.readFileSync('scripts/docs-workflow/translation-staging-publisher.js', 'utf8')
+  const identities = byName.get(requiredNames[0]).run
+  assert.match(identities, /translation-batch-set\.js plan/)
+  assert.match(identities, /PAIRS_MANIFEST/)
+  assert.match(identities, /expected-target-sha/)
+  assert.match(identities, /source-checkpoint-sha/)
+  assert.match(identities, /tar -tf[\s\S]*tar -tvf/)
+  assert.match(initialize.run, /mkdir -m 700/)
+  assert.match(identities, /bindPublisherBatchIdentity/)
+  assert.match(identities, /find "\$result_root" -mindepth 1 -maxdepth 1[\s\S]*! -L "\$result_root\/checkpoint-group\.tar"/)
+  assert.doesNotMatch(identities, /git fetch/)
+
+  const apply = byName.get(requiredNames[1]).run
+  assert.match(apply, /translation-staging-publisher[\s\S]*applyPhase/)
+  assert.match(orchestration, /prepareStagingWorktree[\s\S]*applyTranslationBatch[\s\S]*commitAppliedBatch/)
+
+  const push = byName.get(requiredNames[2]).run
+  assert.match(push, /translation-staging-publisher[\s\S]*pushPhase/)
+  assert.match(orchestration, /deterministicStagingRef[\s\S]*pushStagingRef[\s\S]*probeRemoteStaging/)
+  assert.match(push, /GITHUB_RUN_ID[\s\S]*GITHUB_RUN_ATTEMPT/)
+
+  const validate = byName.get(requiredNames[3]).run
+  assert.match(validate, /restore-generated-state\.sh --exact --ref "\$staged_sha"/)
+  assert.match(validate, /validate-guides-translation-staging\.js[\s\S]*--trusted-root/)
+  assert.match(validate, /recordValidationInfrastructureFailure/)
+  assert.doesNotMatch(validate, /validate-generated-sidebars|validate-translated-coverage|pnpm run build/)
+
+  assert.match(byName.get(requiredNames[4]).run, /status === 'no_changes'[\s\S]*promotePhase/)
+  assert.match(orchestration, /promoteStaging[\s\S]*probeRemoteTarget/)
+  assert.equal(byName.get(requiredNames[5]).if, '${{ always() }}')
+  assert.match(byName.get(requiredNames[5]).run, /cleanupPhase/)
+  assert.match(orchestration, /deleteStagingWithLease/)
+  assert.equal(byName.get(requiredNames[6]).if, '${{ always() }}')
+  assert.match(byName.get(requiredNames[6]).run, /createTerminalReport[\s\S]*writePublicationReport[\s\S]*trustedRoot/)
+  assert.equal(byName.get(requiredNames[7]).if, '${{ always() }}')
+  assert.equal(byName.get(requiredNames[7]).with.name, 'docs-translation-publication-guides-${{ github.run_id }}-${{ github.run_attempt }}')
+  assert.equal(byName.get(requiredNames[7]).with.path, '${{ runner.temp }}/guides-translation-publication/publication-report.json')
+  assert.equal(byName.get(requiredNames[8]).if, '${{ always() }}')
+  assert.match(byName.get(requiredNames[8]).run, /readPublicationReport[\s\S]*status[\s\S]*commit_sha[\s\S]*staging_ref[\s\S]*staging_sha[\s\S]*report_artifact_name/)
+
+  for (const step of steps.filter(step => typeof step.run === 'string')) {
+    const syntax = spawnSync('bash', ['-n'], { input: step.run, encoding: 'utf8' })
+    assert.equal(syntax.status, 0, `${step.name || step.id || 'unnamed'}: ${syntax.stderr}`)
+  }
+  assert.doesNotMatch(source, /publish-checkpoint\.sh|--max-attempts|tee [^\n]*publication|sed -n 's\/\^status|git push[^\n]*--force(?:\s|$)|APP_ID|APP_SECRET|FEISHU|report-live-card/)
+  assert.doesNotMatch(source, /for \(\(number=1; number<=BATCH_COUNT; number\+\+\)\)[\s\S]*git push/)
+  assert.match(orchestration, /status: 'no_changes'[\s\S]*resultSha: state\.expectedTargetSha/)
+
+  assert.equal(workflow.jobs.verify.uses, './.github/workflows/_verify-docs.yml')
+  assert.ok(workflow.jobs.verify.needs.includes('resolve_final'))
+})
+
+test('workflow policy rejects unsafe Guides staging publisher mutations', () => {
+  const sourceDirectory = path.join(process.cwd(), '.github/workflows')
+  const workflowName = '_publish-translation-batches.yml'
+  const cases = [
+    {
+      mutate(workflow) { workflow.on.workflow_call.inputs.source_commit_sha.required = false },
+      expected: `${workflowName}: publisher must require authenticated source and target identities`,
+    },
+    {
+      mutate(workflow) { workflow.jobs.publish.steps.find(step => step.name === 'Capture Guides translation publication identities').run = 'true' },
+      expected: `${workflowName}: publisher must authenticate and persist source and target identities before artifact download`,
+    },
+    {
+      mutate(workflow) { workflow.jobs.publish.steps.find(step => step.name === 'Promote validated Guides translation').run = workflow.jobs.publish.steps.find(step => step.name === 'Promote validated Guides translation').run.replace("if (state.status === 'no_changes') process.exit(0)\n", '') },
+      expected: `${workflowName}: publisher must skip no-change promotion and otherwise use the normal fast-forward staging helper`,
+    },
+    {
+      mutate(workflow) { workflow.jobs.publish.steps.find(step => step.name === 'Clean up Guides translation staging ref').if = '${{ success() }}' },
+      expected: `${workflowName}: cleanup, report, upload, and result steps must always run`,
+    },
+    {
+      mutate(workflow) { workflow.jobs.publish.steps.find(step => step.name === 'Promote validated Guides translation').run += '\nbash scripts/docs-workflow/publish-checkpoint.sh' },
+      expected: `${workflowName}: staging publisher must not use legacy or per-batch publication`,
+    },
+    {
+      mutate(workflow) { workflow.jobs.publish.steps.find(step => step.name === 'Promote validated Guides translation').run += '\ngit push --force origin HEAD:dev' },
+      expected: `${workflowName}: staging publisher must not force-update the target`,
+    },
+    {
+      mutate(workflow) { workflow.jobs.publish.steps.find(step => step.name === 'Validate combined Guides translation').run += '\npnpm run build' },
+      expected: `${workflowName}: combined staging validation must run only through the fixed validation wrapper`,
+    },
+    {
+      mutate(workflow) { workflow.jobs.publish.steps.find(step => step.name === 'Write Guides translation publication report').env = { APP_SECRET: '${{ secrets.APP_SECRET }}' } },
+      expected: `${workflowName}: staging publisher must not receive Feishu credentials`,
+    },
+    {
+      mutate(workflow) { workflow.jobs.publish.steps.find(step => step.name === 'Emit Guides translation publication result').run += "\nsed -n 's/^status=//p' output.log" },
+      expected: `${workflowName}: staging publisher must not derive state from logs`,
+    },
+    {
+      mutate(workflow) { workflow.jobs.publish.steps.find(step => step.name === 'Push Guides translation staging ref').name = 'Push translation' },
+      expected: `${workflowName}: required staging publisher steps are missing or out of order`,
+    },
+  ]
+  for (const fixture of cases) {
+    const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'staging-publisher-policy-'))
+    try {
+      fs.cpSync(sourceDirectory, directory, { recursive: true })
+      const file = path.join(directory, workflowName)
+      const workflow = yaml.load(fs.readFileSync(file, 'utf8'))
+      fixture.mutate(workflow)
+      fs.writeFileSync(file, yaml.dump(workflow, { lineWidth: -1, noRefs: true }))
+      assert.ok(validateWorkflowPolicies(directory).includes(fixture.expected), fixture.expected)
+    } finally {
+      fs.rmSync(directory, { recursive: true, force: true })
+    }
+  }
 })
 
 test('translation publishers form a short queue with scoped validation', () => {

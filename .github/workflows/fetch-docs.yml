@@ -351,12 +351,14 @@ jobs:
       REVIEW_AGENT_API_KEY: ${{ secrets.REVIEW_AGENT_API_KEY }}
 
   publish_guides_translation_batches:
-    needs: [prepare, publish_rest, prepare_guides_translation_batches, translate_guides_batches]
+    needs: [prepare, publish_guides, publish_rest, prepare_guides_translation_batches, translate_guides_batches]
     if: ${{ always() && needs.prepare.outputs.publish == 'true' && needs.prepare_guides_translation_batches.result == 'success' && needs.prepare_guides_translation_batches.outputs.batch_count != '0' && needs.translate_guides_batches.result == 'success' }}
     uses: ./.github/workflows/_publish-translation-batches.yml
     with:
       group: guides
       master_sha: ${{ needs.prepare.outputs.master_sha }}
+      source_commit_sha: ${{ needs.publish_guides.outputs.commit_sha || needs.prepare.outputs.dev_baseline_sha }}
+      expected_target_sha: ${{ needs.publish_guides.outputs.commit_sha }}
       target_branch: ${{ needs.prepare.outputs.target_branch }}
       batch_count: ${{ fromJSON(needs.prepare_guides_translation_batches.outputs.batch_count) }}
 

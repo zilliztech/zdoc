@@ -85,7 +85,7 @@ function validatePublicationReport(report) {
   } else if (report.status === 'composition_failed') {
     if (presentPair(report) || report.validation !== null || report.resultSha !== null || report.failure.gate !== 'composition' || report.cleanup.status !== 'not_required') throw new Error('composition failure invariants are invalid')
   } else if (report.status === 'validation_failed') {
-    if (!presentPair(report) || !validation?.failed || report.resultSha !== null || report.failure.gate !== 'validation' || !['pending', 'debt'].includes(report.cleanup.status) || !report.failure.recovery.includes(report.stagingRef)) throw new Error('validation failure recovery must include the exact retained staging ref')
+    if (!presentPair(report) || (validation !== null && !validation.failed) || report.resultSha !== null || report.failure.gate !== 'validation' || !['pending', 'debt'].includes(report.cleanup.status) || !report.failure.recovery.includes(report.stagingRef)) throw new Error('validation failure recovery must include the exact retained staging ref')
   } else if (report.status === 'promotion_conflict') {
     if (!presentPair(report) || !validation?.fullSuccess || report.resultSha !== null || report.failure.gate !== 'promotion' || !['pending', 'debt'].includes(report.cleanup.status) || !report.failure.recovery.includes(report.stagingRef)) throw new Error('promotion conflict recovery must include the exact retained staging ref')
   } else if (report.status === 'cancelled') {
