@@ -257,6 +257,55 @@ test('normalizes baseline identity and canonicalizes a missing source cache', as
   await assert.doesNotReject(planFor(fixture, [first, await createPair(fixture, 2)]))
 })
 
+test('uses a bounded number of Git processes for a large mutable baseline', async t => {
+  const fixture = await repositoryFixture()
+  for (let index = 0; index < 80; index += 1) {
+    write(fixture.sourceRepository, `${SAAS_ROOT}/bulk/file-${String(index).padStart(3, '0')}.md`, `# ${index}\n`)
+  }
+  write(fixture.sourceRepository, `${SAAS_ROOT}/bulk/binary.md`, Buffer.from([0x00, 0x0a, 0xff]))
+  git(fixture.sourceRepository, 'add', '.')
+  git(fixture.sourceRepository, 'commit', '-m', 'large mutable baseline')
+  fixture.sourceCheckpointSha = git(fixture.sourceRepository, 'rev-parse', 'HEAD')
+  const first = await createPair(fixture, 1)
+  const second = await createPair(fixture, 2)
+
+  const wrapperDir = path.join(fixture.root, 'git-wrapper')
+  const wrapper = path.join(wrapperDir, 'git')
+  const callLog = path.join(fixture.root, 'git-calls.jsonl')
+  const realGit = execFileSync('which', ['git'], { encoding: 'utf8' }).trim()
+  fs.mkdirSync(wrapperDir)
+  fs.writeFileSync(wrapper, [
+    '#!/usr/bin/env node',
+    "'use strict'",
+    "const fs = require('node:fs')",
+    "const { spawnSync } = require('node:child_process')",
+    "fs.appendFileSync(process.env.GIT_CALL_LOG, JSON.stringify(process.argv.slice(2)) + '\\n')",
+    "const result = spawnSync(process.env.REAL_GIT, process.argv.slice(2), { stdio: 'inherit' })",
+    'if (result.error) throw result.error',
+    'process.exit(result.status === null ? 1 : result.status)',
+    '',
+  ].join('\n'), { mode: 0o755 })
+
+  const previous = { PATH: process.env.PATH, REAL_GIT: process.env.REAL_GIT, GIT_CALL_LOG: process.env.GIT_CALL_LOG }
+  process.env.PATH = `${wrapperDir}${path.delimiter}${previous.PATH}`
+  process.env.REAL_GIT = realGit
+  process.env.GIT_CALL_LOG = callLog
+  try {
+    await planFor(fixture, [first, second])
+  } finally {
+    for (const [name, value] of Object.entries(previous)) {
+      if (value === undefined) delete process.env[name]
+      else process.env[name] = value
+    }
+  }
+
+  const calls = fs.readFileSync(callLog, 'utf8').trim().split('\n').map(line => JSON.parse(line))
+  const batchCalls = calls.filter(args => args.includes('cat-file') && args.includes('--batch'))
+  t.diagnostic(`Git process evidence: ${calls.length} total, ${batchCalls.length} batch reads for 81 mutable files`)
+  assert.ok(batchCalls.length >= 1 && batchCalls.length <= 2, `expected one or two batch reads, saw ${batchCalls.length}`)
+  assert.ok(calls.length <= 24, `expected at most 24 Git processes, saw ${calls.length}`)
+})
+
 test('rejects missing, duplicate, and inconsistent batch-count descriptors', async () => {
   const { fixture, first, second } = await twoPairFixture()
   await assert.rejects(planFor(fixture, [first]), /missing|complete|batch 2/i)
@@ -346,6 +395,14 @@ test('rejects source-authority drift in the expected target commit', async () =>
   write(state.fixture.targetRepository, 'docs/tutorials/a.md', '# committed drift\n')
   git(state.fixture.targetRepository, 'add', 'docs/tutorials/a.md')
   git(state.fixture.targetRepository, 'commit', '-m', 'drift target authority')
+  state.fixture.expectedTargetSha = git(state.fixture.targetRepository, 'rev-parse', 'HEAD')
+  await assert.rejects(planFor(state.fixture, [state.first, state.second]), /source authority|target.*drift|mismatch/i)
+})
+
+test('rejects committed source-authority mode drift with byte-identical content', async () => {
+  const state = await twoPairFixture()
+  git(state.fixture.targetRepository, 'update-index', '--chmod=+x', 'docs/tutorials/a.md')
+  git(state.fixture.targetRepository, 'commit', '-m', 'drift target authority mode')
   state.fixture.expectedTargetSha = git(state.fixture.targetRepository, 'rev-parse', 'HEAD')
   await assert.rejects(planFor(state.fixture, [state.first, state.second]), /source authority|target.*drift|mismatch/i)
 })

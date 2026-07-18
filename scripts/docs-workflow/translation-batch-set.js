@@ -122,7 +122,11 @@ function writePlanAtomic(output, plan, runnerTemp) {
 }
 
 function git(repository, args, options = {}) {
-  return execFileSync('git', ['-C', repository, ...args], { encoding: options.buffer ? null : 'utf8', maxBuffer: 64 * 1024 * 1024 })
+  return execFileSync('git', ['-C', repository, ...args], {
+    encoding: options.buffer ? null : 'utf8',
+    input: options.input,
+    maxBuffer: 64 * 1024 * 1024,
+  })
 }
 
 function assertCommit(repository, sha, label) {
@@ -143,14 +147,41 @@ function parseLsTree(buffer) {
 function gitTreeEntries(repository, sha, roots) {
   const entries = parseLsTree(git(repository, ['ls-tree', '-r', '-z', '--full-tree', sha, '--', ...roots], { buffer: true }))
   for (const entry of entries) {
-    if (entry.type !== 'blob' || !/^100[0-7]{3}$/.test(entry.mode)) throw new Error(`Git tree contains a non-regular entry: ${entry.path}`)
+    if (entry.type !== 'blob' || !['100644', '100755'].includes(entry.mode)) throw new Error(`Git tree contains a non-regular entry: ${entry.path}`)
   }
   return entries.sort((a, b) => compareText(a.path, b.path))
 }
 
-function gitBlob(repository, sha, relative) {
-  try { return git(repository, ['cat-file', 'blob', `${sha}:${relative}`], { buffer: true }) }
-  catch { throw new Error(`Missing regular Git blob at ${relative}`) }
+function gitBlobFacts(repository, requests) {
+  if (requests.length === 0) return []
+  let output
+  try {
+    const input = Buffer.from(`${requests.map(request => request.object).join('\n')}\n`)
+    output = git(repository, ['cat-file', '--batch'], { buffer: true, input })
+  } catch (error) {
+    throw new Error(`Git batch blob read failed: ${error.message}`)
+  }
+  let offset = 0
+  const facts = requests.map(request => {
+    const headerEnd = output.indexOf(0x0a, offset)
+    if (headerEnd < 0) throw new Error(`Git batch blob response is truncated: ${request.label}`)
+    const header = output.subarray(offset, headerEnd).toString('utf8')
+    const fields = header.split(' ')
+    if (fields.at(-1) === 'missing') throw new Error(`Missing regular Git blob at ${request.label}`)
+    if (fields.length !== 3 || fields[1] !== 'blob' || !/^(?:0|[1-9][0-9]*)$/.test(fields[2])) {
+      throw new Error(`Git batch returned a non-regular blob at ${request.label}`)
+    }
+    const size = Number(fields[2])
+    if (!Number.isSafeInteger(size)) throw new Error(`Git blob is too large at ${request.label}`)
+    const contentStart = headerEnd + 1
+    const contentEnd = contentStart + size
+    if (contentEnd >= output.length || output[contentEnd] !== 0x0a) throw new Error(`Git batch blob response is malformed: ${request.label}`)
+    const bytes = output.subarray(contentStart, contentEnd)
+    offset = contentEnd + 1
+    return { object: fields[0], size, sha256: digest(bytes) }
+  })
+  if (offset !== output.length) throw new Error('Git batch blob response contains unexpected trailing bytes')
+  return facts
 }
 
 function assertAuthorityRoots(repository, sha) {
@@ -165,10 +196,8 @@ function assertAuthorityRoots(repository, sha) {
 
 function authorityIdentityFromCommit(repository, sha) {
   assertAuthorityRoots(repository, sha)
-  return gitTreeEntries(repository, sha, SOURCE_AUTHORITY).map(entry => {
-    const bytes = gitBlob(repository, sha, entry.path)
-    return { path: entry.path, size: bytes.length, sha256: digest(bytes) }
-  })
+  return gitTreeEntries(repository, sha, SOURCE_AUTHORITY)
+    .map(({ path: relative, type, mode, object }) => ({ path: relative, type, mode, object }))
 }
 
 function assertGuidesSourceAuthority({ sourceRepository, sourceCheckpointSha, targetRepository, expectedTargetSha }) {
@@ -200,10 +229,9 @@ function normalizedBaselineIdentity(manifest) {
 }
 
 function sourceBaselineIdentity(repository, sha) {
-  const files = gitTreeEntries(repository, sha, MUTABLE_ROOTS).map(entry => {
-    const bytes = gitBlob(repository, sha, entry.path)
-    return { path: entry.path, size: bytes.length, sha256: digest(bytes) }
-  })
+  const entries = gitTreeEntries(repository, sha, MUTABLE_ROOTS)
+  const facts = gitBlobFacts(repository, entries.map(entry => ({ object: entry.object, label: entry.path })))
+  const files = entries.map((entry, index) => ({ path: entry.path, size: facts[index].size, sha256: facts[index].sha256 }))
   if (!files.some(entry => entry.path === CACHE_PATH)) files.push({ path: CACHE_PATH, size: DEFAULT_CACHE.length, sha256: digest(DEFAULT_CACHE) })
   files.sort((a, b) => compareText(a.path, b.path))
   return { files, deletions: [] }
@@ -219,10 +247,14 @@ function compareNonMutablePayload(result, baseline) {
   }
 }
 
-function assertCandidateSourceAuthority(document, repository, sha) {
-  for (const candidate of document.candidates) {
-    const bytes = gitBlob(repository, sha, candidate.sourcePath)
-    if (digest(bytes) !== candidate.sourceHash) throw new Error(`Batch candidate source authority mismatch: ${candidate.sourcePath}`)
+function assertCandidateSourceAuthority(documents, repository, sha) {
+  const candidates = documents.flatMap(document => document.candidates)
+  const facts = gitBlobFacts(repository, candidates.map(candidate => ({
+    object: `${sha}:${candidate.sourcePath}`,
+    label: candidate.sourcePath,
+  })))
+  for (let index = 0; index < candidates.length; index += 1) {
+    if (facts[index].sha256 !== candidates[index].sourceHash) throw new Error(`Batch candidate source authority mismatch: ${candidates[index].sourcePath}`)
   }
 }
 
@@ -329,12 +361,7 @@ async function validatePairDescriptor(pair) {
   exactKeys(pair, PAIR_KEYS, 'pair descriptor')
   const artifactDir = assertAbsolutePath(pair.artifactDir, 'result artifact directory')
   const baselineDir = assertAbsolutePath(pair.baselineDir, 'baseline artifact directory')
-  return validateTranslationBatch({
-    artifactDir,
-    baselineDir,
-    batchNumber: pair.batchNumber,
-    batchCount: pair.batchCount,
-  })
+  return validateTranslationBatch({ artifactDir, baselineDir })
 }
 
 async function planTranslationBatchSet({ pairs, sourceRepository, sourceCheckpointSha, targetRepository, expectedTargetSha }) {
@@ -360,10 +387,10 @@ async function planTranslationBatchSet({ pairs, sourceRepository, sourceCheckpoi
   if (validated.length !== first.batch.batchCount) throw new Error(`Incomplete translation batch set: expected ${first.batch.batchCount} pairs`)
   for (let number = 1; number <= first.batch.batchCount; number += 1) if (numbers[number - 1] !== number) throw new Error(`Missing or out-of-range translation batch ${number}`)
 
+  assertCandidateSourceAuthority(validated.map(({ result }) => result.parsedBatchInput), sourceRepository, sourceCheckpointSha)
   const batches = []
   for (const { result, baseline } of validated) {
     compareNonMutablePayload(result, baseline)
-    assertCandidateSourceAuthority(result.parsedBatchInput, sourceRepository, sourceCheckpointSha)
     batches.push(deriveBatchPlan(result, baseline))
   }
   assertNoMutationConflicts(batches)
