@@ -875,6 +875,66 @@ test('workflow policy rejects numbered translation batch validation regressions'
       mutate(steps) { steps.find(step => step.name === 'Create validated translation checkpoints').run += '\npnpm run build' },
       expected: `${workflowName}: checkpoint build attestation must remain restricted to unbatched runs`,
     },
+    {
+      mutate(steps) {
+        const step = steps.find(item => item.name === 'Create validated translation checkpoints')
+        step.run = step.run.replace(
+          'if (( ${{ inputs.batch_number }} == 0 )); then validation_args=(--validation-command "pnpm run build"); fi',
+          '# if (( ${{ inputs.batch_number }} == 0 )); then validation_args=(--validation-command "pnpm run build"); fi',
+        )
+      },
+      expected: `${workflowName}: checkpoint build attestation must remain restricted to unbatched runs`,
+    },
+    {
+      mutate(steps) {
+        const step = steps.find(item => item.name === 'Create validated translation checkpoints')
+        step.run = step.run.replace(
+          'if (( ${{ inputs.batch_number }} == 0 )); then validation_args=(--validation-command "pnpm run build"); fi',
+          'cat <<\'ATTESTATION\'\nif (( ${{ inputs.batch_number }} == 0 )); then validation_args=(--validation-command "pnpm run build"); fi\nATTESTATION',
+        )
+      },
+      expected: `${workflowName}: checkpoint build attestation must remain restricted to unbatched runs`,
+    },
+    {
+      mutate(steps) {
+        const step = steps.find(item => item.name === 'Create validated translation checkpoints')
+        step.run = step.run.replace(
+          'if (( ${{ inputs.batch_number }} == 0 )); then validation_args=(--validation-command "pnpm run build"); fi',
+          'echo \'if (( ${{ inputs.batch_number }} == 0 )); then validation_args=(--validation-command "pnpm run build"); fi\'',
+        )
+      },
+      expected: `${workflowName}: checkpoint build attestation must remain restricted to unbatched runs`,
+    },
+    {
+      mutate(steps) {
+        const step = steps.find(item => item.name === 'Create validated translation checkpoints')
+        step.run = step.run.replace(
+          'if (( ${{ inputs.batch_number }} == 0 )); then validation_args=(--validation-command "pnpm run build"); fi',
+          '\'if (( ${{ inputs.batch_number }} == 0 )); then validation_args=(--validation-command "pnpm run build"); fi\'',
+        )
+      },
+      expected: `${workflowName}: checkpoint build attestation must remain restricted to unbatched runs`,
+    },
+    {
+      mutate(steps) { steps.find(step => step.name === 'Validate translated batch outputs').run += '\nnpx docusaurus build' },
+      expected: `${workflowName}: full validation and build commands must exist only in the exact unbatched validation path`,
+    },
+    {
+      mutate(steps) { steps.find(step => step.name === 'Create validated translation checkpoints').run += '\nnpm run build' },
+      expected: `${workflowName}: checkpoint build attestation must remain restricted to unbatched runs`,
+    },
+    {
+      mutate(steps) { steps.find(step => step.name === 'Run translation agents').run += '\nyarn build' },
+      expected: `${workflowName}: full validation and build commands must exist only in the exact unbatched validation path`,
+    },
+    {
+      mutate(steps) { steps.find(step => step.name === 'Validate translated batch outputs').run += '\npnpm exec docusaurus build' },
+      expected: `${workflowName}: full validation and build commands must exist only in the exact unbatched validation path`,
+    },
+    {
+      mutate(steps) { steps.find(step => step.name === 'Validate translated batch outputs').run += '\ndocusaurus build' },
+      expected: `${workflowName}: full validation and build commands must exist only in the exact unbatched validation path`,
+    },
   ]
 
   for (const fixture of cases) {

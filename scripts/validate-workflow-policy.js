@@ -13,6 +13,43 @@ const publishingWorkflows = new Set([
   '_translate-publish-batch.yml',
 ])
 
+function executableShellLineEntries(source) {
+  const entries = []
+  let heredocDelimiter = null
+  for (const [index, raw] of String(source || '').split('\n').entries()) {
+    const trimmed = raw.trim()
+    if (heredocDelimiter !== null) {
+      if (trimmed === heredocDelimiter) heredocDelimiter = null
+      continue
+    }
+    if (!trimmed || trimmed.startsWith('#')) continue
+    entries.push({ index, raw, trimmed })
+    const heredoc = trimmed.match(/<<-?\s*(?:(['"])([A-Za-z_][A-Za-z0-9_]*)\1|([A-Za-z_][A-Za-z0-9_]*))/)
+    if (heredoc) heredocDelimiter = heredoc[2] || heredoc[3]
+  }
+  return entries
+}
+
+function containsFullValidationCommand(source) {
+  const commandBoundary = '(?:^|(?:&&|\\|\\||;|\\|)\\s*)'
+  const flags = '(?:\\s+--?[^\\s;&|]+)*'
+  const buildCommand = new RegExp(
+    `${commandBoundary}(?:` +
+    `npm${flags}\\s+(?:run|run-script)${flags}\\s+build\\b|` +
+    `pnpm${flags}\\s+(?:run${flags}\\s+build|build)\\b|` +
+    `yarn${flags}\\s+(?:run${flags}\\s+)?build\\b|` +
+    `bun${flags}\\s+(?:run${flags}\\s+build|build)\\b|` +
+    `npx${flags}\\s+(?:[^\\s;&|]+/)?docusaurus${flags}\\s+build\\b|` +
+    `pnpm${flags}\\s+exec${flags}\\s+(?:[^\\s;&|]+/)?docusaurus${flags}\\s+build\\b|` +
+    `yarn${flags}\\s+(?:[^\\s;&|]+/)?docusaurus${flags}\\s+build\\b|` +
+    `(?:[^\\s;&|]+/)?docusaurus${flags}\\s+build\\b` +
+    ')',
+  )
+  return executableShellLineEntries(source).some(({ trimmed }) =>
+    /\b(?:mdx-parse|validate-translated-coverage(?:\.js)?|run-doc-build-stage(?:\.js)?)\b/.test(trimmed) || buildCommand.test(trimmed),
+  )
+}
+
 function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
   const errors = []
   const files = fs.readdirSync(directory).filter(file => file.endsWith('.yml')).sort()
@@ -143,15 +180,15 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
         errors.push(`${file}: unbatched translations must retain full MDX, coverage, and build validation`)
       }
       for (const step of steps) {
-        if (step === unbatched) continue
-        const run = String(step?.run || '')
-        if (/mdx-parse|validate-translated-coverage|run-doc-build-stage/.test(run)) errors.push(`${file}: full-tree translated validation commands must exist only in the unbatched validation step`)
-        if (step !== checkpoint && /pnpm\s+run\s+build/.test(run)) errors.push(`${file}: full documentation builds must exist only in the unbatched validation path`)
+        if (step === unbatched || step === checkpoint) continue
+        if (containsFullValidationCommand(step?.run)) errors.push(`${file}: full validation and build commands must exist only in the exact unbatched validation path`)
       }
       const checkpointAttestation = 'if (( ${{ inputs.batch_number }} == 0 )); then validation_args=(--validation-command "pnpm run build"); fi'
-      const attestationCount = checkpointRun.split(checkpointAttestation).length - 1
-      const checkpointWithoutAttestation = checkpointRun.replace(checkpointAttestation, '')
-      if (attestationCount !== 1 || /pnpm\s+run\s+build|run-doc-build-stage|mdx-parse|validate-translated-coverage/.test(checkpointWithoutAttestation)) {
+      const checkpointLines = checkpointRun.split('\n')
+      const attestationEntries = executableShellLineEntries(checkpointRun).filter(entry => entry.trimmed === checkpointAttestation)
+      const attestationIndexes = new Set(attestationEntries.map(entry => entry.index))
+      const checkpointWithoutAttestation = checkpointLines.filter((line, index) => !attestationIndexes.has(index)).join('\n')
+      if (attestationEntries.length !== 1 || containsFullValidationCommand(checkpointWithoutAttestation)) {
         errors.push(`${file}: checkpoint build attestation must remain restricted to unbatched runs`)
       }
       if (!/validate-checkpoint-artifact\.js --artifact "\$BASELINE_CHECKPOINT_DIR"/.test(checkpointRun) || !/validate-checkpoint-artifact\.js --artifact "\$CHECKPOINT_DIR"/.test(checkpointRun)) {

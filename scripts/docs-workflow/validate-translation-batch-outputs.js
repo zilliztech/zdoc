@@ -5,6 +5,20 @@ const fs = require('node:fs')
 const path = require('node:path')
 const { createBatchInput, validateBatchInput } = require('./translation-batch-input')
 
+const MAX_EVIDENCE_BYTES = 8 * 1024 * 1024
+const OPTION_KEYS = Object.freeze([
+  'workspace',
+  'manifestPath',
+  'reportPath',
+  'batchInputPath',
+  'agentsOutcome',
+  'translatedCount',
+  'failedCount',
+  'remainingCount',
+])
+const OPTIONAL_OPTION_KEYS = Object.freeze(['testHooks'])
+const TEST_HOOK_KEYS = Object.freeze(['afterJsonLstat', 'afterJsonOpen'])
+
 const INPUT_KEYS = Object.freeze([
   'manifest',
   'report',
@@ -114,6 +128,7 @@ function readPinnedJson(workspace, relativePath, label, testHooks) {
     const before = fs.fstatSync(descriptor)
     if (!before.isFile()) fail(`${label} must be a regular file`)
     if (before.dev !== pinned.stat.dev || before.ino !== pinned.stat.ino) fail(`${label} identity changed before it was read`)
+    if (before.size > MAX_EVIDENCE_BYTES) fail(`${label} exceeds the maximum evidence size of ${MAX_EVIDENCE_BYTES} bytes`)
     testHooks?.afterJsonOpen?.({ label, filePath, descriptor, before })
     const bytes = Buffer.alloc(before.size)
     let offset = 0
@@ -147,9 +162,29 @@ function assertCounts(options) {
   }
 }
 
-function validateTranslationBatchOutputs(options) {
-  const workspace = assertWorkspace(options.workspace)
+function assertOptions(options) {
+  if (options === null || typeof options !== 'object' || Array.isArray(options)) fail('options must be an object with an exact schema')
+  const keys = Object.keys(options)
+  const missing = OPTION_KEYS.filter(key => !Object.hasOwn(options, key))
+  const unknown = keys.filter(key => !OPTION_KEYS.includes(key) && !OPTIONAL_OPTION_KEYS.includes(key))
+  if (missing.length || unknown.length) fail(`options has invalid keys (missing: ${missing.join(', ') || 'none'}; unknown: ${unknown.join(', ') || 'none'})`)
+  for (const key of ['workspace', 'manifestPath', 'reportPath', 'batchInputPath']) {
+    if (typeof options[key] !== 'string' || options[key].length === 0) fail(`${key} must be a non-empty string`)
+  }
+  if (!['success', 'skipped'].includes(options.agentsOutcome)) fail('agents outcome must be success or skipped')
+  if (options.testHooks !== undefined) {
+    if (options.testHooks === null || typeof options.testHooks !== 'object' || Array.isArray(options.testHooks)) fail('testHooks must be an object')
+    const hookKeys = Object.keys(options.testHooks)
+    const unknownHooks = hookKeys.filter(key => !TEST_HOOK_KEYS.includes(key))
+    if (unknownHooks.length) fail(`testHooks has invalid keys (unknown: ${unknownHooks.join(', ')})`)
+    for (const key of hookKeys) if (typeof options.testHooks[key] !== 'function') fail(`testHooks.${key} must be a function`)
+  }
   assertCounts(options)
+}
+
+function validateTranslationBatchOutputs(options) {
+  assertOptions(options)
+  const workspace = assertWorkspace(options.workspace)
   const manifest = readPinnedJson(workspace, options.manifestPath, 'manifest', options.testHooks)
   const batchInput = validateBatchInput(readPinnedJson(workspace, options.batchInputPath, 'batch input', options.testHooks))
   const expectedBatchInput = createBatchInput(manifest)

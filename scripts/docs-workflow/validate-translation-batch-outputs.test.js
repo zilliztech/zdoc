@@ -257,6 +257,16 @@ test('reads JSON inputs through pinned regular descriptors without following sym
   }
 })
 
+test('rejects oversized JSON evidence before allocation', () => {
+  const root = fixture()
+  try {
+    fs.truncateSync(path.join(root, 'tmp/translation-manifest.json'), 8 * 1024 * 1024 + 1)
+    assert.throws(() => validate(root), /manifest exceeds the maximum evidence size/)
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true })
+  }
+})
+
 test('accepts reconciliation-only batches only with skipped agents, zero counts, and no report requirement', () => {
   const reconciliationManifest = manifest({
     items: [],
@@ -345,6 +355,33 @@ test('CLI parsing is strict and converts result counts', () => {
       '--remaining-count', '0',
     ], { encoding: 'utf8' })
     assert.equal(cli.status, 0, cli.stderr)
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true })
+  }
+})
+
+test('module API rejects non-object, missing, unknown, and mistyped options', () => {
+  assert.throws(() => validateTranslationBatchOutputs(null), /options must be an object with an exact schema/)
+  const root = fixture()
+  const valid = {
+    workspace: root,
+    manifestPath: 'tmp/translation-manifest.json',
+    reportPath: 'tmp/translation-report.json',
+    batchInputPath: 'tmp/translation-batch-input.json',
+    agentsOutcome: 'success',
+    translatedCount: 1,
+    failedCount: 0,
+    remainingCount: 0,
+  }
+  try {
+    assert.throws(() => validateTranslationBatchOutputs({ ...valid, unexpected: true }), /options has invalid keys/)
+    const { reportPath, ...missing } = valid
+    assert.equal(reportPath, 'tmp/translation-report.json')
+    assert.throws(() => validateTranslationBatchOutputs(missing), /options has invalid keys/)
+    assert.throws(() => validateTranslationBatchOutputs({ ...valid, agentsOutcome: 'completed' }), /agents outcome must be success or skipped/)
+    assert.throws(() => validateTranslationBatchOutputs({ ...valid, translatedCount: '1' }), /translated count must be a non-negative safe integer/)
+    assert.throws(() => validateTranslationBatchOutputs({ ...valid, testHooks: { unexpected() {} } }), /testHooks has invalid keys/)
+    assert.throws(() => validateTranslationBatchOutputs({ ...valid, testHooks: { afterJsonOpen: true } }), /testHooks\.afterJsonOpen must be a function/)
   } finally {
     fs.rmSync(root, { recursive: true, force: true })
   }
