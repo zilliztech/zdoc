@@ -22,6 +22,15 @@ test('exports the translation batch input API', () => {
 const SHA = '1'.repeat(40)
 const HASH_A = 'a'.repeat(64)
 const HASH_B = 'b'.repeat(64)
+const SCRIPT = path.join(__dirname, 'translation-batch-input.js')
+
+function runCli(args) {
+  return spawnSync(process.execPath, [SCRIPT, ...args], { encoding: 'utf8' })
+}
+
+function temporaryDirectory(prefix) {
+  return fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), prefix)))
+}
 
 function candidate(name = 'a.md', hash = HASH_A, root = 'docs') {
   const plugin = root === 'docs' ? 'docs' : 'docs-byoc'
@@ -443,7 +452,7 @@ test('rejects malformed caches, prototype keys, and ambiguous paths', () => {
 })
 
 test('writes canonical JSON atomically and preserves an existing file on validation failure', () => {
-  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'translation-batch-input-'))
+  const dir = temporaryDirectory('translation-batch-input-')
   const output = path.join(dir, 'batch.json')
   fs.writeFileSync(output, 'old\n')
   assert.throws(() => writeBatchInput(output, { nope: true }), /schema|key|required/i)
@@ -454,25 +463,82 @@ test('writes canonical JSON atomically and preserves an existing file on validat
 })
 
 test('CLI create and validate use strict flags and reject symlink reads', () => {
-  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'translation-batch-cli-'))
+  const dir = temporaryDirectory('translation-batch-cli-')
   const manifest = path.join(dir, 'manifest.json')
   const output = path.join(dir, 'batch.json')
   fs.writeFileSync(manifest, JSON.stringify(selectedManifest()))
-  const script = path.join(__dirname, 'translation-batch-input.js')
-  const run = args => spawnSync(process.execPath, [script, ...args], { encoding: 'utf8' })
-  assert.equal(run(['create', '--manifest', manifest, '--output', output]).status, 0)
+  assert.equal(runCli(['create', '--manifest', manifest, '--output', output]).status, 0)
   assert.deepEqual(JSON.parse(fs.readFileSync(output, 'utf8')), batchInput())
-  assert.equal(run(['validate', '--input', output]).status, 0)
+  assert.equal(runCli(['validate', '--input', output]).status, 0)
   for (const args of [
     [], ['wat'], ['create', '--manifest', manifest],
     ['validate', '--input', output, '--input', output],
     ['validate', '--input', output, 'extra'],
     ['validate', '--input', output, '--unknown', 'x'],
-  ]) assert.notEqual(run(args).status, 0)
+  ]) assert.notEqual(runCli(args).status, 0)
 
   const link = path.join(dir, 'manifest-link.json')
   fs.symlinkSync(manifest, link)
-  const linked = run(['create', '--manifest', link, '--output', output])
+  const linked = runCli(['create', '--manifest', link, '--output', output])
   assert.notEqual(linked.status, 0)
   assert.match(linked.stderr, /symlink|regular/i)
+})
+
+test('CLI rejects manifest and batch inputs beneath a symlinked parent', () => {
+  const root = temporaryDirectory('translation-batch-input-parent-')
+  const outside = temporaryDirectory('translation-batch-input-outside-')
+  const alias = path.join(root, 'outside-alias')
+  const manifest = path.join(outside, 'manifest.json')
+  const input = path.join(outside, 'input.json')
+  fs.writeFileSync(manifest, JSON.stringify(selectedManifest()))
+  fs.writeFileSync(input, JSON.stringify(batchInput()))
+  fs.symlinkSync(outside, alias)
+
+  const create = runCli(['create', '--manifest', path.join(alias, 'manifest.json'), '--output', path.join(root, 'output.json')])
+  assert.notEqual(create.status, 0)
+  assert.match(create.stderr, /symlink|path chain|parent/i)
+  assert.equal(fs.existsSync(path.join(root, 'output.json')), false)
+
+  const validate = runCli(['validate', '--input', path.join(alias, 'input.json')])
+  assert.notEqual(validate.status, 0)
+  assert.match(validate.stderr, /symlink|path chain|parent/i)
+})
+
+test('CLI rejects output beneath a symlinked parent without touching outside files', () => {
+  const root = temporaryDirectory('translation-batch-output-parent-')
+  const outside = temporaryDirectory('translation-batch-output-outside-')
+  const manifest = path.join(root, 'manifest.json')
+  const alias = path.join(root, 'outside-alias')
+  const sentinel = path.join(outside, 'batch.json')
+  const missing = path.join(outside, 'missing.json')
+  fs.writeFileSync(manifest, JSON.stringify(selectedManifest()))
+  fs.writeFileSync(sentinel, 'outside sentinel\n')
+  fs.symlinkSync(outside, alias)
+
+  const replace = runCli(['create', '--manifest', manifest, '--output', path.join(alias, 'batch.json')])
+  assert.notEqual(replace.status, 0)
+  assert.match(replace.stderr, /symlink|path chain|parent/i)
+  assert.equal(fs.readFileSync(sentinel, 'utf8'), 'outside sentinel\n')
+
+  const create = runCli(['create', '--manifest', manifest, '--output', path.join(alias, 'missing.json')])
+  assert.notEqual(create.status, 0)
+  assert.match(create.stderr, /symlink|path chain|parent/i)
+  assert.equal(fs.existsSync(missing), false)
+})
+
+test('CLI rejects nested non-directory parents for reads and writes', () => {
+  const root = temporaryDirectory('translation-batch-nondirectory-')
+  const notDirectory = path.join(root, 'not-a-directory')
+  fs.writeFileSync(notDirectory, 'sentinel\n')
+
+  const read = runCli(['validate', '--input', path.join(notDirectory, 'input.json')])
+  assert.notEqual(read.status, 0)
+  assert.match(read.stderr, /directory|path chain|ENOTDIR/i)
+
+  const manifest = path.join(root, 'manifest.json')
+  fs.writeFileSync(manifest, JSON.stringify(selectedManifest()))
+  const write = runCli(['create', '--manifest', manifest, '--output', path.join(notDirectory, 'output.json')])
+  assert.notEqual(write.status, 0)
+  assert.match(write.stderr, /directory|path chain|ENOTDIR/i)
+  assert.equal(fs.readFileSync(notDirectory, 'utf8'), 'sentinel\n')
 })

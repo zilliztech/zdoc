@@ -306,18 +306,48 @@ function assertAuthorizedCacheChanges(beforeCache, afterCache, batchInput) {
   }
 }
 
+function validateFilePathChain(filePath, label, { allowMissingFinal }) {
+  if (typeof filePath !== 'string' || filePath.length === 0 || /[\0\r\n]/.test(filePath)) throw new Error(`${label} path is invalid`)
+  const absolute = path.resolve(filePath)
+  const root = path.parse(absolute).root
+  const components = absolute.slice(root.length).split(path.sep).filter(Boolean)
+  if (components.length === 0) throw new Error(`${label} path must name a file`)
+
+  let current = root
+  const rootStat = fs.lstatSync(current)
+  if (rootStat.isSymbolicLink() || !rootStat.isDirectory()) throw new Error(`${label} path chain root must be a non-symlink directory`)
+  for (const component of components.slice(0, -1)) {
+    current = path.join(current, component)
+    let stat
+    try {
+      stat = fs.lstatSync(current)
+    } catch (error) {
+      if (error.code === 'ENOENT') throw new Error(`${label} parent path does not exist: ${current}`)
+      throw error
+    }
+    if (stat.isSymbolicLink()) throw new Error(`${label} path chain contains a symlink parent: ${current}`)
+    if (!stat.isDirectory()) throw new Error(`${label} path chain contains a non-directory parent: ${current}`)
+  }
+
+  const absoluteFile = path.join(current, components.at(-1))
+  let stat
+  try {
+    stat = fs.lstatSync(absoluteFile)
+  } catch (error) {
+    if (error.code === 'ENOENT' && allowMissingFinal) return { absoluteFile, directory: current, exists: false }
+    throw error
+  }
+  if (stat.isSymbolicLink() || !stat.isFile()) throw new Error(`${label} must be a regular non-symlink file`)
+  return { absoluteFile, directory: current, exists: true }
+}
+
 function writeBatchInput(outputPath, input) {
   validateBatchInput(input)
-  if (typeof outputPath !== 'string' || outputPath.length === 0 || /[\0\r\n]/.test(outputPath)) throw new Error('Output path is invalid')
-  const directory = path.dirname(outputPath)
-  const existing = (() => {
-    try { return fs.lstatSync(outputPath) } catch (error) { if (error.code === 'ENOENT') return null; throw error }
-  })()
-  if (existing && (existing.isSymbolicLink() || !existing.isFile())) throw new Error('Output must be a regular non-symlink file')
-  const temporary = path.join(directory, `.${path.basename(outputPath)}.${process.pid}.${crypto.randomBytes(8).toString('hex')}.tmp`)
+  const output = validateFilePathChain(outputPath, 'Output', { allowMissingFinal: true })
+  const temporary = path.join(output.directory, `.${path.basename(output.absoluteFile)}.${process.pid}.${crypto.randomBytes(8).toString('hex')}.tmp`)
   try {
     fs.writeFileSync(temporary, `${JSON.stringify(input, null, 2)}\n`, { flag: 'wx' })
-    fs.renameSync(temporary, outputPath)
+    fs.renameSync(temporary, output.absoluteFile)
   } catch (error) {
     try { fs.unlinkSync(temporary) } catch (cleanupError) { if (cleanupError.code !== 'ENOENT') error.cleanupError = cleanupError }
     throw error
@@ -326,9 +356,8 @@ function writeBatchInput(outputPath, input) {
 }
 
 function readRegularJson(filePath, label) {
-  const stat = fs.lstatSync(filePath)
-  if (stat.isSymbolicLink() || !stat.isFile()) throw new Error(`${label} must be a regular non-symlink file`)
-  return JSON.parse(fs.readFileSync(filePath, 'utf8'))
+  const input = validateFilePathChain(filePath, label, { allowMissingFinal: false })
+  return JSON.parse(fs.readFileSync(input.absoluteFile, 'utf8'))
 }
 
 function parseCli(argv) {
