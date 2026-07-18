@@ -13,6 +13,42 @@ const publishingWorkflows = new Set([
   '_translate-publish-batch.yml',
 ])
 
+function executableShellLineEntries(source) {
+  const entries = []
+  let heredocDelimiter = null
+  for (const [index, raw] of String(source || '').split('\n').entries()) {
+    const trimmed = raw.trim()
+    if (heredocDelimiter !== null) {
+      if (trimmed === heredocDelimiter) heredocDelimiter = null
+      continue
+    }
+    if (!trimmed || trimmed.startsWith('#')) continue
+    entries.push({ index, raw, trimmed })
+    const heredoc = trimmed.match(/<<-?\s*(?:(['"])([A-Za-z_][A-Za-z0-9_]*)\1|([A-Za-z_][A-Za-z0-9_]*))/)
+    if (heredoc) heredocDelimiter = heredoc[2] || heredoc[3]
+  }
+  return entries
+}
+
+function containsFullValidationCommand(source) {
+  return executableShellLineEntries(source).some(({ trimmed }) => {
+    if (/\b(?:mdx-parse|validate-translated-coverage(?:\.js)?|run-doc-build-stage(?:\.js)?)\b/.test(trimmed)) return true
+    const segments = trimmed.split(/\s*(?:&&|\|\||;|\|)\s*/)
+    return segments.some(segment => {
+      const command = segment.trim().replace(/^(?:[A-Za-z_][A-Za-z0-9_]*=[^\s]+\s+)*/, '')
+      const match = command.match(/^(\S+)(?:\s+([\s\S]*))?$/)
+      if (!match) return false
+      const executable = path.posix.basename(match[1])
+      const rest = match[2] || ''
+      if (executable === 'npm') return /\b(?:run|run-script)\b[\s\S]*\bbuild\b/.test(rest)
+      if (['pnpm', 'yarn', 'bun'].includes(executable)) return /\bbuild\b/.test(rest)
+      if (executable === 'npx') return /\bdocusaurus\b[\s\S]*\bbuild\b/.test(rest)
+      if (executable === 'docusaurus') return /\bbuild\b/.test(rest)
+      return false
+    })
+  })
+}
+
 function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
   const errors = []
   const files = fs.readdirSync(directory).filter(file => file.endsWith('.yml')).sort()
@@ -107,9 +143,119 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
         [/applySourceDelta\.js --delta tmp\/source-delta\.json --report tmp\/source-delta-report\.json/, 'must apply translated output and cache deletions before manifest creation'],
         [/manifest\.js[\s\S]*--source-delta tmp\/source-delta\.json/, 'must prioritize current source changes and preserve reconciliation metadata'],
         [/steps\.source_delta\.outputs\.has_mutation == 'true'/, 'must create checkpoints for deletion-only translation mutations'],
-        [/validate-translated-coverage\.js --group "\$GROUP"/, 'must reject orphan translated documents before checkpoint creation'],
+        [/\(steps\.agents\.outputs\.failed_count \|\| '0'\) != '0'/, 'must create checkpoints for batches that only record failed translations'],
       ]
       for (const [pattern, message] of requiredPatterns) if (!pattern.test(source)) errors.push(`${file}: ${message}`)
+
+      const steps = workflow.jobs?.translate?.steps || []
+      const numbered = steps.find(step => step.name === 'Validate translated batch outputs')
+      const unbatched = steps.find(step => step.name === 'Validate unbatched translated group')
+      const checkpoint = steps.find(step => step.name === 'Create validated translation checkpoints')
+      const numberedCondition = String(numbered?.if || '')
+      const numberedRun = String(numbered?.run || '')
+      const unbatchedCondition = String(unbatched?.if || '')
+      const unbatchedRun = String(unbatched?.run || '')
+      const checkpointRun = String(checkpoint?.run || '')
+      const normalizeCondition = value => String(value || '').trim().replace(/\s+/g, ' ')
+      const expectedNumberedCondition = "${{ inputs.should_translate && inputs.group == 'guides' && inputs.batch_number > 0 && ((steps.agents.outputs.translated_count || '0') != '0' || (steps.agents.outputs.failed_count || '0') != '0' || steps.source_delta.outputs.has_mutation == 'true') }}"
+      const expectedUnbatchedCondition = "${{ inputs.should_translate && inputs.batch_number == 0 && ((steps.agents.outputs.translated_count || '0') != '0' || (steps.agents.outputs.failed_count || '0') != '0' || steps.source_delta.outputs.has_mutation == 'true') }}"
+
+      if (!numbered || normalizeCondition(numberedCondition) !== normalizeCondition(expectedNumberedCondition)) {
+        errors.push(`${file}: numbered Guides batches must use the dedicated mutation-aware local validation step`)
+      }
+      if (/mdx-parse/.test(numberedRun)) errors.push(`${file}: numbered Guides batches must not run full-tree MDX parsing`)
+      if (/validate-translated-coverage/.test(numberedRun)) errors.push(`${file}: numbered Guides batches must not run full-tree translated coverage`)
+      if (/pnpm\s+run\s+build/.test(numberedRun)) errors.push(`${file}: numbered Guides batches must not run a full documentation build`)
+      if (!/translation-batch-input\.js validate --input tmp\/translation-batch-input\.json/.test(numberedRun)) {
+        errors.push(`${file}: numbered Guides batches must validate the canonical batch input`)
+      }
+      if (!/validate-translation-batch-outputs\.js[\s\S]*--manifest tmp\/translation-manifest\.json[\s\S]*--report tmp\/translation-report\.json[\s\S]*--batch-input tmp\/translation-batch-input\.json[\s\S]*--workspace "\$GITHUB_WORKSPACE"[\s\S]*--agents-outcome "\$AGENTS_OUTCOME"[\s\S]*--translated-count "\$TRANSLATED_COUNT"[\s\S]*--failed-count "\$FAILED_COUNT"[\s\S]*--remaining-count "\$REMAINING_COUNT"/.test(numberedRun)) {
+        errors.push(`${file}: numbered Guides batches must validate agent report evidence and exact candidate output files`)
+      }
+
+      if (!unbatched || normalizeCondition(unbatchedCondition) !== normalizeCondition(expectedUnbatchedCondition)) {
+        errors.push(`${file}: full translated validation must be restricted to unbatched runs`)
+      }
+      if (!/mdx-parse/.test(unbatchedRun) || !/validate-translated-coverage\.js --group "\$GROUP"/.test(unbatchedRun) || !/pnpm run build/.test(unbatchedRun)) {
+        errors.push(`${file}: unbatched translations must retain full MDX, coverage, and build validation`)
+      }
+      for (const step of steps) {
+        if (step === unbatched || step === checkpoint) continue
+        if (containsFullValidationCommand(step?.run)) errors.push(`${file}: full validation and build commands must exist only in the exact unbatched validation path`)
+      }
+      const checkpointAttestation = 'if (( ${{ inputs.batch_number }} == 0 )); then validation_args=(--validation-command "pnpm run build"); fi'
+      const checkpointLines = checkpointRun.split('\n')
+      const attestationEntries = executableShellLineEntries(checkpointRun).filter(entry => entry.trimmed === checkpointAttestation)
+      const attestationIndexes = new Set(attestationEntries.map(entry => entry.index))
+      const checkpointWithoutAttestation = checkpointLines.filter((line, index) => !attestationIndexes.has(index)).join('\n')
+      if (attestationEntries.length !== 1 || containsFullValidationCommand(checkpointWithoutAttestation)) {
+        errors.push(`${file}: checkpoint build attestation must remain restricted to unbatched runs`)
+      }
+      if (!/validate-checkpoint-artifact\.js --artifact "\$BASELINE_CHECKPOINT_DIR"/.test(checkpointRun) || !/validate-checkpoint-artifact\.js --artifact "\$CHECKPOINT_DIR"/.test(checkpointRun)) {
+        errors.push(`${file}: translation checkpoints must validate baseline and result artifact integrity`)
+      }
+      if (!/if \(\( \$\{\{ inputs\.batch_number \}\} > 0 \)\) && \[\[ "\$GROUP" == guides \]\]; then[\s\S]*validate-translation-batch\.js[\s\S]*--artifact "\$CHECKPOINT_DIR"[\s\S]*--baseline "\$BASELINE_CHECKPOINT_DIR"[\s\S]*--batch-number "\$\{\{ inputs\.batch_number \}\}"[\s\S]*--batch-count "\$\{\{ inputs\.batch_count \}\}"[\s\S]*\n\s*fi/.test(checkpointRun)) {
+        errors.push(`${file}: numbered Guides checkpoints must validate baseline/result pair identity`)
+      }
+    }
+
+    if (file === '_publish-translation-batches.yml') {
+      const steps = workflow.jobs?.publish?.steps || []
+      for (const input of ['source_commit_sha', 'expected_target_sha']) {
+        if (workflow.on?.workflow_call?.inputs?.[input]?.required !== true) errors.push(`${file}: publisher must require authenticated source and target identities`)
+      }
+      const requiredNames = [
+        'Validate Guides translation batch identities',
+        'Apply Guides translation batches to staging',
+        'Push Guides translation staging ref',
+        'Validate combined Guides translation',
+        'Promote validated Guides translation',
+        'Clean up Guides translation staging ref',
+        'Write Guides translation publication report',
+        'Upload Guides translation publication report',
+        'Emit Guides translation publication result',
+      ]
+      const present = steps.filter(step => requiredNames.includes(step.name)).map(step => step.name)
+      if (present.length !== requiredNames.length || present.some((name, index) => name !== requiredNames[index])) errors.push(`${file}: required staging publisher steps are missing or out of order`)
+      const byName = new Map(steps.map(step => [step.name, step]))
+      const initialize = String(byName.get('Initialize Guides translation publisher')?.run || '')
+      if (!/! -L "\$trusted_root"/.test(initialize) || !/realpath -e -- "\$trusted_root"/.test(initialize) || !/stat -c '%u' -- "\$trusted_root"/.test(initialize) || !/id -u/.test(initialize)) errors.push(`${file}: publisher trusted root must be real, private, and owned by the runner user`)
+      const capture = byName.get('Capture Guides translation publication identities')
+      const captureIndex = steps.indexOf(capture)
+      const downloadIndex = steps.findIndex(step => step.name === 'Download Guides translation checkpoints')
+      if (!capture || captureIndex < 0 || downloadIndex < 0 || captureIndex >= downloadIndex || !/createInitialPublisherState/.test(capture.run || '') || !/SOURCE_COMMIT_SHA/.test(capture.run || '') || !/EXPECTED_TARGET_SHA/.test(capture.run || '') || !/refs\/remotes\/origin\/\$TARGET_BRANCH\^\{commit\}/.test(capture.run || '')) errors.push(`${file}: publisher must authenticate and persist source and target identities before artifact download`)
+      for (const name of requiredNames.slice(5)) if (String(byName.get(name)?.if || '') !== '${{ always() }}') errors.push(`${file}: cleanup, report, upload, and result steps must always run`)
+
+      const identities = String(byName.get(requiredNames[0])?.run || '')
+      const apply = String(byName.get(requiredNames[1])?.run || '')
+      const push = String(byName.get(requiredNames[2])?.run || '')
+      const validation = String(byName.get(requiredNames[3])?.run || '')
+      const promotion = String(byName.get(requiredNames[4])?.run || '')
+      const cleanup = String(byName.get(requiredNames[5])?.run || '')
+      const report = String(byName.get(requiredNames[6])?.run || '')
+      const result = String(byName.get(requiredNames[8])?.run || '')
+      const publisherHelperPath = path.join(process.cwd(), 'scripts', 'docs-workflow', 'translation-staging-publisher.js')
+      const publisherHelper = fs.existsSync(publisherHelperPath) ? fs.readFileSync(publisherHelperPath, 'utf8') : ''
+      if (!/translation-batch-set\.js plan/.test(identities) || !/PAIRS_MANIFEST/.test(identities) || !/--expected-target-sha/.test(identities) || !/--source-checkpoint-sha/.test(identities) || !/tar -tf/.test(identities) || !/tar -tvf/.test(identities) || !/bindPublisherBatchIdentity/.test(identities) || !/find "\$result_root" -mindepth 1 -maxdepth 1/.test(identities) || !/! -L "\$result_root\/checkpoint-group\.tar"/.test(identities) || /git fetch/.test(identities)) errors.push(`${file}: publisher must safely extract every exact pair and plan the complete batch set before staging`)
+      if (!/translation-staging-publisher/.test(apply) || !/applyPhase/.test(apply) || !/prepareStagingWorktree/.test(publisherHelper) || !/applyTranslationBatch/.test(publisherHelper) || !/commitAppliedBatch/.test(publisherHelper)) errors.push(`${file}: publisher must use one detached worktree and apply and commit batches in order`)
+      if (!/translation-staging-publisher/.test(push) || !/pushPhase/.test(push) || !/deterministicStagingRef/.test(publisherHelper) || !/pushStagingRef/.test(publisherHelper) || !/probeRemoteStaging/.test(publisherHelper)) errors.push(`${file}: publisher must push and reconcile the exact deterministic Guides staging ref`)
+      if (!/restore-generated-state\.sh --exact --ref "\$staged_sha"/.test(validation) || !/validate-guides-translation-staging\.js/.test(validation) || !/--trusted-root/.test(validation) || !/recordValidationInfrastructureFailure/.test(validation)) errors.push(`${file}: publisher must restore and validate the exact combined staged SHA through the fixed wrapper with retained failure evidence`)
+      if (containsFullValidationCommand(validation)) errors.push(`${file}: combined staging validation must run only through the fixed validation wrapper`)
+      if (!/status === 'no_changes'[\s\S]*promotePhase/.test(promotion) || !/promoteStaging/.test(publisherHelper) || !/probeRemoteTarget/.test(publisherHelper)) errors.push(`${file}: publisher must skip no-change promotion and otherwise use the normal fast-forward staging helper`)
+      if (!/cleanupPhase/.test(cleanup) || !/deleteStagingWithLease/.test(publisherHelper)) errors.push(`${file}: staging cleanup must use the exact SHA lease helper`)
+      if (!/createTerminalReport/.test(report) || !/writePublicationReport/.test(report) || !/trustedRoot/.test(report) || !/readPublicationReport/.test(result)) errors.push(`${file}: publisher must write and consume strict trusted publication evidence`)
+
+      const outputs = ['status', 'commit_sha', 'staging_ref', 'staging_sha', 'report_artifact_name']
+      for (const output of outputs) {
+        if (workflow.on?.workflow_call?.outputs?.[output]?.value !== `\${{ jobs.publish.outputs.${output} }}` || workflow.jobs?.publish?.outputs?.[output] !== `\${{ steps.result.outputs.${output} }}`) errors.push(`${file}: publisher output ${output} must come from the validated terminal result`)
+      }
+      const upload = byName.get(requiredNames[7])
+      if (upload?.with?.name !== 'docs-translation-publication-guides-${{ github.run_id }}-${{ github.run_attempt }}' || upload?.with?.path !== '${{ runner.temp }}/guides-translation-publication/publication-report.json') errors.push(`${file}: publisher must upload the exact run-attempt-scoped publication report`)
+      if (!/mkdir -m 700/.test(source) || !/stat -c '%a' -- "\$trusted_root"/.test(source) || !/TRUSTED_ROOT/.test(source) || !/STATE_FILE/.test(source) || !/status: 'no_changes'[\s\S]*resultSha: state\.expectedTargetSha/.test(publisherHelper)) errors.push(`${file}: publisher must keep strict private JSON state and preserve the exact no-change SHA`)
+      if (/publish-checkpoint\.sh|--max-attempts|for \(\(number=1; number<=BATCH_COUNT; number\+\+\)\)[\s\S]*publish-checkpoint/.test(source)) errors.push(`${file}: staging publisher must not use legacy or per-batch publication`)
+      if (/git push[^\n]*(?:--force(?:\s|$)|-f(?:\s|$))/.test(source)) errors.push(`${file}: staging publisher must not force-update the target`)
+      if (/APP_ID|APP_SECRET|FEISHU|report-live-card/.test(source)) errors.push(`${file}: staging publisher must not receive Feishu credentials`)
+      if (/sed -n ['"]s\/\^status=|tee [^\n]*(?:publication|state)|tail -1/.test(source)) errors.push(`${file}: staging publisher must not derive state from logs`)
     }
 
     if (file === '_render-guides-table.yml') {
@@ -128,7 +274,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       const requiredPatterns = [
         [/inputs\.table_count != '0'[\s\S]*pattern: guides-table-/, 'must skip table artifact download for an empty matrix'],
         [/restore-guides-table-artifacts\.js/, 'must restore validated table artifacts'],
-        [/fetch-lark-docs[\s\S]*-sidebar[\s\S]*--offline[\s\S]*--mediaManifest/, 'must generate combined sidebars offline'],
+        [/generate-guides-sidebars\.js --media-manifest plugins\/lark-docs\/meta\/media-cache\/guides\.json/, 'must generate both combined sidebars through the offline wrapper'],
       ]
       for (const [pattern, message] of requiredPatterns) if (!pattern.test(source)) errors.push(`${file}: ${message}`)
       const steps = workflow.jobs?.assemble?.steps || []
@@ -137,7 +283,11 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       if (!workflow.on?.workflow_call?.inputs?.cache_version?.required || !workflow.on?.workflow_call?.inputs?.cache_save_required?.required) {
         errors.push(`${file}: must receive Guides cache version and save requirement from source validation`)
       }
+      if (!workflow.on?.workflow_call?.inputs?.assembly_decision_sha256?.required) errors.push(`${file}: must receive the canonical Guides assembly decision hash`)
+      const decisionIndex = stepIndex('Validate Guides assembly decision')
+      const generateIndex = stepIndex('Generate combined Guides sidebars offline')
       const validateIndex = stepIndex('Validate combined guides output')
+      const finalizeIndex = stepIndex('Finalize Guides assembly identity')
       const selectIndex = stepIndex('Select promoted Guides source snapshot')
       const createIndex = stepIndex('Create Guides v4 generation payload')
       const saveIndex = stepIndex('Save Guides v4 generation')
@@ -145,6 +295,19 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       if (!(validateIndex >= 0 && validateIndex < selectIndex && selectIndex < createIndex && createIndex < saveIndex && saveIndex < reportIndex)) {
         errors.push(`${file}: Guides v4 generation must follow combined validation and promoted snapshot selection before save and reporting`)
       }
+      if (!(decisionIndex >= 0 && decisionIndex < generateIndex && generateIndex < validateIndex && validateIndex < finalizeIndex && finalizeIndex < selectIndex)) {
+        errors.push(`${file}: observe-only assembly must validate decision, generate, validate output, then finalize identity`)
+      }
+      const decisionStep = steps[decisionIndex]
+      if (!/validate-decision[\s\S]*decision-sha[\s\S]*inputs\.assembly_decision_sha256/.test(decisionStep?.run || '')) errors.push(`${file}: assembly must validate the restored decision against the plumbed canonical hash`)
+      const generatorStep = steps[generateIndex]
+      if (generatorStep?.if || generatorStep?.run !== 'node scripts/docs-workflow/generate-guides-sidebars.js --media-manifest plugins/lark-docs/meta/media-cache/guides.json') errors.push(`${file}: observe-only assembly generator must always run the fixed two-target wrapper once`)
+      const validationStep = steps[validateIndex]
+      if (!/validate-generated-sidebars\.js[\s\S]*run-doc-build-stage\.js --build "pnpm run build"/.test(validationStep?.run || '')) errors.push(`${file}: combined sidebar and full build validation must run before descriptor promotion`)
+      const finalizeStep = steps[finalizeIndex]
+      if (!/saas=config\/generated\/guides\.sidebar\.js[\s\S]*byoc=config\/generated\/guides-byoc\.sidebar\.js[\s\S]*cmp -s[^\n]*\$saas[\s\S]*cmp -s[^\n]*\$byoc[\s\S]*write-descriptor[\s\S]*--expected-decision-sha256 "\$\{\{ inputs\.assembly_decision_sha256 \}\}"[\s\S]*verify-descriptor[\s\S]*write-result[\s\S]*guides-assembly-result\.json/.test(finalizeStep?.run || '')) errors.push(`${file}: finalize must compare reuse bytes and write verified descriptor plus a separate result`)
+      if (/npx docusaurus fetch-lark-docs[\s\S]*-sidebar/.test(source) || /cp[^\n]*baseline[^\n]*config\/generated\/guides(?:-byoc)?\.sidebar\.js/.test(source)) errors.push(`${file}: observe-only assembly must not restore sidebars or use the legacy split generators`)
+      if (/--output plugins\/lark-docs\/meta\/reports\/guides-assembly-decision\.json/.test(finalizeStep?.run || '')) errors.push(`${file}: finalize must never mutate the immutable assembly decision`)
       const selection = stepById.get('promoted_snapshot')
       if (!/guides-cache-generation-lifecycle\.js select[\s\S]*--cache-version "\$\{\{ inputs\.cache_version \}\}"[\s\S]*--save-required "\$\{\{ inputs\.cache_save_required \}\}"[\s\S]*if \[\[ "\$selected" == candidate \]\]; then[\s\S]*promote-lark-doc-snapshot\.js/.test(selection?.run || '')) {
         errors.push(`${file}: unchanged valid-v4 assembly must preserve the baseline snapshot while save-required runs promote the candidate`)
@@ -171,8 +334,39 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
         [/render_guides_tables:[\s\S]*max-parallel: 4[\s\S]*fromJSON\(needs\.produce_guides_sources\.outputs\.table_matrix\)/, 'must render Guides target/table matrix with max-parallel 4'],
         [/produce_guides:[\s\S]*render_guides_tables\.result == 'skipped'/, 'must assemble an empty Guides render matrix'],
         [/produce_guides:[\s\S]*cache_version: \$\{\{ needs\.produce_guides_sources\.outputs\.cache_version \}\}[\s\S]*cache_save_required: \$\{\{ needs\.produce_guides_sources\.outputs\.cache_save_required \}\}/, 'must pass Guides cache version and save requirement into assembly'],
+        [/publish_guides_translation_batches:[\s\S]*needs: \[[^\]]*publish_guides[^\]]*\][\s\S]*source_commit_sha: \$\{\{ needs\.publish_guides\.outputs\.commit_sha \|\| needs\.prepare\.outputs\.dev_baseline_sha \}\}[\s\S]*expected_target_sha: \$\{\{ needs\.publish_guides\.outputs\.commit_sha \}\}/, 'must pass authenticated final Guides source and target identities'],
       ]
       for (const [pattern, message] of requiredPatterns) if (!pattern.test(source)) errors.push(`${file}: ${message}`)
+      const finalizeStep = workflow.jobs?.finalize_guides_translation?.steps?.find(step => step.id === 'result')
+      if (finalizeStep?.env?.BATCH_COUNT !== "${{ needs.prepare_guides_translation_batches.result != 'success' && '0' || needs.prepare_guides_translation_batches.outputs.batch_count }}" ||
+          finalizeStep?.env?.BATCH_RESULT !== '${{ needs.translate_guides_batches.result }}' ||
+          finalizeStep?.env?.PUBLISHER_RESULT !== '${{ needs.publish_guides_translation_batches.result }}' ||
+          finalizeStep?.env?.PUBLISHER_STATUS !== '${{ needs.publish_guides_translation_batches.outputs.status }}' ||
+          finalizeStep?.env?.PUBLISHER_COMMIT_SHA !== '${{ needs.publish_guides_translation_batches.outputs.commit_sha }}' ||
+          Object.hasOwn(finalizeStep?.env || {}, 'TARGET_BRANCH')) {
+        errors.push(`${file}: Guides translation finalizer must use only exact publisher status and commit outputs`)
+      }
+      const aggregateStep = workflow.jobs?.aggregate?.steps?.find(step => step.id === 'aggregate')
+      if (aggregateStep?.env?.GUIDES_TRANSLATOR !== '${{ needs.finalize_guides_translation.outputs.translator_status }}' ||
+          aggregateStep?.env?.GUIDES_TRANSLATION !== '${{ needs.finalize_guides_translation.outputs.publisher_status }}' ||
+          aggregateStep?.env?.GUIDES_TRANSLATION_SHA !== '${{ needs.finalize_guides_translation.outputs.commit_sha }}') {
+        errors.push(`${file}: aggregate must consume the exact finalized Guides translation result without fallback`)
+      }
+      const aggregateSteps = workflow.jobs?.aggregate?.steps || []
+      const publicationDownload = aggregateSteps.find(step => step.name === 'Download Guides translation publication report')
+      const cardNotes = aggregateSteps.find(step => step.id === 'reports')
+      if (!publicationDownload || aggregateSteps.indexOf(publicationDownload) >= aggregateSteps.indexOf(cardNotes) || publicationDownload['continue-on-error'] !== true ||
+          publicationDownload.with?.name !== 'docs-translation-publication-guides-${{ github.run_id }}-${{ github.run_attempt }}' ||
+          publicationDownload.with?.path !== '${{ runner.temp }}/guides-translation-publication-evidence' || !/always\(\)/.test(publicationDownload.if || '') ||
+          cardNotes?.env?.CARD_GUIDES_PUBLICATION_REPORT !== '${{ runner.temp }}/guides-translation-publication-evidence/publication-report.json' ||
+          cardNotes?.env?.CARD_GUIDES_RUN_ID !== '${{ github.run_id }}' || cardNotes?.env?.CARD_GUIDES_RUN_ATTEMPT !== '${{ github.run_attempt }}' ||
+          cardNotes?.env?.CARD_GUIDES_SOURCE_SHA !== '${{ needs.publish_guides.outputs.commit_sha }}' || cardNotes?.env?.CARD_GUIDES_TARGET_SHA !== '${{ needs.publish_guides.outputs.commit_sha }}' ||
+          cardNotes?.env?.CARD_GUIDES_PENDING_SET_SHA256 !== '${{ needs.prepare_guides_translation_batches.outputs.pending_set_sha256 }}' ||
+          cardNotes?.env?.CARD_GUIDES_FINAL_PUBLISHER_STATUS !== '${{ needs.finalize_guides_translation.outputs.publisher_status }}' ||
+          cardNotes?.env?.CARD_GUIDES_FINAL_COMMIT_SHA !== '${{ needs.finalize_guides_translation.outputs.commit_sha }}' ||
+          /resolve_final|\|\|/.test(JSON.stringify({ path: cardNotes?.env?.CARD_GUIDES_PUBLICATION_REPORT, source: cardNotes?.env?.CARD_GUIDES_SOURCE_SHA, target: cardNotes?.env?.CARD_GUIDES_TARGET_SHA }))) {
+        errors.push(`${file}: aggregate must collect exact run-attempt Guides publication evidence before card notes`)
+      }
     }
 
     if (file === '_publish-content-group.yml') {
@@ -259,6 +453,9 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     }
     if (!/CARD_REPORT_ARTIFACT_URL:/.test(aggregateSource)) {
       errors.push('fetch-docs.yml: artifact-only card reports require a workflow artifact URL')
+    }
+    if (!/produce_guides:[\s\S]*assembly_decision_sha256: \$\{\{ needs\.produce_guides_sources\.outputs\.assembly_decision_sha256 \}\}/.test(callerSource)) {
+      errors.push('fetch-docs.yml: must pass the canonical Guides assembly decision hash into assembly')
     }
     const createReport = aggregateSource.indexOf('name: Create final card report artifact')
     const reportIngestion = aggregateSource.slice(Math.max(0, restoreReports), createReport >= 0 ? createReport : aggregateSource.length)
@@ -403,6 +600,17 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
         !/guides-cache-save-decision\.js decide[\s\S]*--cache-version "\$cache_version"[\s\S]*--prefetch-mode[\s\S]*--candidate "\$candidate"[\s\S]*--baseline "\$baseline"/.test(resultStep.run || '') || /candidate_key|baseline_key/.test(resultStep.run || '')) {
       errors.push('_fetch-guides-sources.yml: Guides cache result must emit validity, version, and save requirement from legacy, recovery, or snapshot change')
     }
+    const tableIndex = guidesSteps.findIndex(step => step.name === 'Build Guides table render matrix')
+    const decisionIndex = guidesSteps.findIndex(step => step.name === 'Evaluate Guides assembly reuse')
+    const artifactIndex = guidesSteps.findIndex(step => step.name === 'Create shared source artifact')
+    const decisionStep = stepById.get('assembly_decision')
+    if (!(tableIndex >= 0 && tableIndex < decisionIndex && decisionIndex < artifactIndex) ||
+        !/git -C "\$RUNNER_TEMP\/baseline" rev-parse HEAD[\s\S]*guides-assembly-identity\.js decide[\s\S]*--table-count "\$\{\{ steps\.table_matrix\.outputs\.count \}\}"[\s\S]*validate-decision[\s\S]*decision-sha[\s\S]*assembly_decision_sha256/.test(decisionStep?.run || '')) {
+      errors.push('_fetch-guides-sources.yml: assembly reuse decision must follow final table planning and precede source artifact creation')
+    }
+    if (!/^      assembly_decision_sha256: \{ value: '\$\{\{ jobs\.fetch\.outputs\.assembly_decision_sha256 \}\}' \}$/m.test(guidesSource) || !/^      assembly_decision_sha256: \$\{\{ steps\.assembly_decision\.outputs\.assembly_decision_sha256 \}\}$/m.test(guidesSource)) {
+      errors.push('_fetch-guides-sources.yml: must expose the canonical assembly decision hash')
+    }
   }
 
   for (const file of ['_assemble-guides.yml', '_publish-content-group.yml', '_translate-content-group.yml', '_publish-translation-batches.yml', '_translate-publish-batch.yml', '_verify-docs.yml']) {
@@ -417,6 +625,15 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     errors.push('_monitor-docs-progress.yml: central monitor workflow is required')
   }
 
+  for (const file of fs.readdirSync(directory).filter(name => /\.ya?ml$/.test(name))) {
+    const workflow = yaml.load(fs.readFileSync(path.join(directory, file), 'utf8'))
+    if (!workflow?.on || !Object.hasOwn(workflow.on, 'push')) continue
+    const branches = workflow.on.push?.branches
+    if (!Array.isArray(branches) || branches.some(branch => typeof branch !== 'string' || branch.includes('*') || branch.startsWith('docs-translation-staging/'))) {
+      errors.push(`${file}: push deployment triggers must exclude docs-translation-staging/**`)
+    }
+  }
+
   const publisherPath = options.publisherPath || path.join(process.cwd(), 'scripts/docs-workflow/publish-checkpoint.sh')
   const publisherSource = fs.readFileSync(publisherPath, 'utf8')
   for (const [pattern, message] of [
@@ -428,6 +645,25 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
   }
   if (/git add --all -- "\$\{paths\[@\]\}"/.test(publisherSource)) {
     errors.push('publish-checkpoint.sh: direct manifest pathspec staging is not idempotent')
+  }
+
+  const recoveryShell = fs.readFileSync(options.recoveryShellPath || path.join(process.cwd(), 'scripts/docs-workflow/recover-translation-batches.sh'), 'utf8')
+  const recoveryHelper = fs.readFileSync(options.recoveryHelperPath || path.join(process.cwd(), 'scripts/docs-workflow/recover-guides-translation.js'), 'utf8')
+  if (!/^set -euo pipefail$/m.test(recoveryShell) || !/recover-guides-translation\.js/.test(recoveryShell) || /publish-checkpoint|gh run download|for \(\(batch|eval|git push/.test(recoveryShell)) {
+    errors.push('recover-translation-batches.sh: recovery must be a strict delta-safe helper entrypoint')
+  }
+  for (const [pattern, message] of [
+    [/deterministicStagingRef/, 'must derive the exact run-attempt pending-set staging ref'],
+    [/assertGuidesSourceAuthority/, 'must verify all Guides source-authority paths'],
+    [/planTranslationBatchSet/, 'must replan complete validated pairs when the target moved'],
+    [/applyPhase/, 'must recompose through the delta-safe staging worktree path'],
+    [/validate-guides-translation-staging\.js/, 'must rerun the fixed seven-command validation gate'],
+    [/promoteStaging/, 'must use normal fast-forward staging promotion'],
+    [/deleteStagingWithLease/, 'must use exact leased staging cleanup'],
+    [/complete validated recovery pairs are unavailable/, 'must fail closed when target movement lacks complete recovery pairs'],
+  ]) if (!pattern.test(recoveryHelper)) errors.push(`recover-guides-translation.js: ${message}`)
+  if (/publish-checkpoint|gh run download|\[['"](?:merge|rebase)['"]|git[^\n]*push[^\n]*(?:--force|-f)|eval\(/.test(recoveryHelper)) {
+    errors.push('recover-guides-translation.js: recovery must not replay batches, merge, rebase, eval, or force-push')
   }
 
   return errors

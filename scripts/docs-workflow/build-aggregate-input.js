@@ -44,6 +44,7 @@ function buildAggregateInput(env) {
     const entry = { source, translation, translationRequested: mode === 'publish' }
     if (source === 'source_published') entry.sourceCommitSha = env[`${prefix}_SOURCE_SHA`]
     if (translation === 'translation_published') entry.translationCommitSha = env[`${prefix}_TRANSLATION_SHA`]
+    if (translation === 'no_changes' && env[`${prefix}_TRANSLATION_SHA`]) entry.translationCommitSha = env[`${prefix}_TRANSLATION_SHA`]
     if (group === 'guides') {
       const translationCandidates = parseCandidateCounts(env.GUIDES_TRANSLATION_CANDIDATES)
       if (translationCandidates) entry.translationCandidates = translationCandidates

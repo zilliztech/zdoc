@@ -12,7 +12,7 @@ function deepFreeze(value) {
 const CONTENT_GROUPS = deepFreeze({
   guides: {
     manuals: ['guides'], snapshotManual: 'guides', translate: true, durableTranslationBatchSize: 30,
-    ownedPaths: ['docs', 'docs-byoc', 'config/generated/guides.sidebar.js', 'config/generated/guides-byoc.sidebar.js', 'plugins/lark-docs/meta/snapshots/guides-uat-last-success.json', 'plugins/lark-docs/meta/reports/guides-canonical-link-audit.json', 'plugins/lark-docs/meta/reports/guides-canonical-link-audit.md', 'plugins/lark-docs/meta/reports/guides-canonical-link-audit.csv', 'plugins/lark-docs/meta/reports/guides-incremental-fetch-plan.json', 'plugins/lark-docs/meta/reports/guides-incremental-fetch-plan.md', 'plugins/lark-docs/meta/reports/guides-broken-content-links.json'],
+    ownedPaths: ['docs', 'docs-byoc', 'config/generated/guides.sidebar.js', 'config/generated/guides-byoc.sidebar.js', 'plugins/lark-docs/meta/snapshots/guides-uat-last-success.json', 'plugins/lark-docs/meta/assembly/guides.json', 'plugins/lark-docs/meta/reports/guides-canonical-link-audit.json', 'plugins/lark-docs/meta/reports/guides-canonical-link-audit.md', 'plugins/lark-docs/meta/reports/guides-canonical-link-audit.csv', 'plugins/lark-docs/meta/reports/guides-incremental-fetch-plan.json', 'plugins/lark-docs/meta/reports/guides-incremental-fetch-plan.md', 'plugins/lark-docs/meta/reports/guides-broken-content-links.json'],
     commitMessage: 'docs(guides): publish fetched content',
   },
   python: {

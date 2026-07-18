@@ -5,7 +5,29 @@ const fs = require('node:fs')
 const os = require('node:os')
 const path = require('node:path')
 const test = require('node:test')
+const yaml = require('js-yaml')
 const { createDocsProgressMonitor, createGitHubActionsClient, readConfiguration, selectAggregateJob, validateArchiveEntries, validateProgressMetadata, withRetry } = require('./monitor-docs-progress')
+
+test('aggregate downloads exact Guides publication evidence before collecting notes', () => {
+  const workflow = yaml.load(fs.readFileSync('.github/workflows/fetch-docs.yml', 'utf8'))
+  const steps = workflow.jobs.aggregate.steps
+  const download = steps.find(step => step.name === 'Download Guides translation publication report')
+  const reports = steps.find(step => step.id === 'reports')
+  assert.ok(steps.indexOf(download) < steps.indexOf(reports))
+  assert.equal(download['continue-on-error'], true)
+  assert.equal(download.with.name, 'docs-translation-publication-guides-${{ github.run_id }}-${{ github.run_attempt }}')
+  assert.equal(download.with.path, '${{ runner.temp }}/guides-translation-publication-evidence')
+  assert.match(download.if, /always\(\)/)
+  assert.equal(reports.env.CARD_GUIDES_PUBLICATION_REPORT, '${{ runner.temp }}/guides-translation-publication-evidence/publication-report.json')
+  assert.equal(reports.env.CARD_GUIDES_RUN_ID, '${{ github.run_id }}')
+  assert.equal(reports.env.CARD_GUIDES_RUN_ATTEMPT, '${{ github.run_attempt }}')
+  assert.equal(reports.env.CARD_GUIDES_SOURCE_SHA, '${{ needs.publish_guides.outputs.commit_sha }}')
+  assert.equal(reports.env.CARD_GUIDES_TARGET_SHA, '${{ needs.publish_guides.outputs.commit_sha }}')
+  assert.equal(reports.env.CARD_GUIDES_PENDING_SET_SHA256, '${{ needs.prepare_guides_translation_batches.outputs.pending_set_sha256 }}')
+  assert.equal(reports.env.CARD_GUIDES_FINAL_PUBLISHER_STATUS, '${{ needs.finalize_guides_translation.outputs.publisher_status }}')
+  assert.equal(reports.env.CARD_GUIDES_FINAL_COMMIT_SHA, '${{ needs.finalize_guides_translation.outputs.commit_sha }}')
+  assert.doesNotMatch(JSON.stringify({ source: reports.env.CARD_GUIDES_SOURCE_SHA, target: reports.env.CARD_GUIDES_TARGET_SHA, staging: reports.env.CARD_GUIDES_STAGING_SHA }), /resolve_final|\|\|/)
+})
 
 const RUNNING = [{
   id: 1,

@@ -1,5 +1,8 @@
 const assert = require('node:assert/strict');
+const fs = require('node:fs');
 const Module = require('node:module');
+const os = require('node:os');
+const path = require('node:path');
 const LarkDocWriter = require('./larkDocWriter');
 
 function textRun(content, style = {}) {
@@ -551,6 +554,131 @@ async function testCodeTabGroupKeepsInferredMiddleLanguageInsideTabs() {
   assert.equal(depth, 0);
 }
 
+function testSourceIndexDelegatesLookupHelpersWithoutFilesystemEnumeration() {
+  const calls = [];
+  const indexedSource = { title: 'Indexed', slug: 'indexed', node_token: 'indexed-token' };
+  const sourceIndex = {
+    find(type, value, options) {
+      calls.push({ method: 'find', type, value, options });
+      return value === 'missing' ? undefined : indexedSource;
+    },
+    findAnyToken(token) {
+      calls.push({ method: 'findAnyToken', token });
+      return indexedSource;
+    },
+    findBaseSourceMeta(options) {
+      calls.push({ method: 'findBaseSourceMeta', options });
+      return indexedSource;
+    },
+  };
+  const mediaResolver = { resolveFeishuImage() {} };
+  const writer = new LarkDocWriter(
+    'root', 'base:*', 'default', '/missing/indexed-sources', 'static/img',
+    'zilliz.saas', true, false, null, mediaResolver, sourceIndex
+  );
+  const readdirSync = fs.readdirSync;
+  let enumerations = 0;
+  fs.readdirSync = function countedReaddir(...args) {
+    enumerations += 1;
+    return readdirSync.apply(this, args);
+  };
+
+  try {
+    assert.equal(writer.mediaResolver, mediaResolver);
+    assert.equal(writer.sourceIndex, sourceIndex);
+    assert.equal(writer.__fetch_doc_source(['token', 'obj_token'], 'indexed-token', 'indexed'), indexedSource);
+    assert.equal(writer.__fetch_doc_source('node_token', 'indexed-token'), indexedSource);
+    assert.equal(writer.__fetch_doc_source_by_any_token('indexed-token'), indexedSource);
+    assert.equal(writer.__fetch_base_source_meta('Indexed', 'indexed', 'indexed-token'), indexedSource);
+    assert.throws(
+      () => writer.__fetch_doc_source('node_token', 'missing', 'missing-slug'),
+      /Cannot find missing in \/missing\/indexed-sources/
+    );
+  } finally {
+    fs.readdirSync = readdirSync;
+    writer.destroy();
+  }
+
+  assert.equal(enumerations, 0);
+  assert.deepEqual(calls, [
+    {
+      method: 'find',
+      type: ['token', 'obj_token'],
+      value: 'indexed-token',
+      options: { slug: 'indexed' },
+    },
+    {
+      method: 'find',
+      type: 'node_token',
+      value: 'indexed-token',
+      options: { slug: '' },
+    },
+    { method: 'findAnyToken', token: 'indexed-token' },
+    {
+      method: 'findBaseSourceMeta',
+      options: { title: 'Indexed', slug: 'indexed', token: 'indexed-token' },
+    },
+    {
+      method: 'find',
+      type: 'node_token',
+      value: 'missing',
+      options: { slug: 'missing-slug' },
+    },
+  ]);
+}
+
+function testNullAndOmittedSourceIndexKeepLegacyFilesystemLookupSemantics() {
+  const sourceDir = fs.mkdtempSync(path.join(os.tmpdir(), 'lark-doc-writer-index-fallback-'));
+  const omittedWriter = new LarkDocWriter('root', 'base:*', 'default', sourceDir);
+  const nullWriter = new LarkDocWriter(
+    'root', 'base:*', 'default', sourceDir, 'static/img',
+    'zilliz.saas', false, false, null, null, null
+  );
+  fs.writeFileSync(path.join(sourceDir, 'first.json'), JSON.stringify({
+    title: 'First',
+    slug: 'first',
+    node_token: 'node-first',
+    origin_node_token: 'origin-first',
+    base_record_id: 'rec-first',
+  }));
+  fs.writeFileSync(path.join(sourceDir, 'duplicate-first.json'), JSON.stringify({
+    title: 'Duplicate First',
+    slug: 'duplicate-first',
+    node_token: 'duplicate-token',
+  }));
+  fs.writeFileSync(path.join(sourceDir, 'duplicate-second.json'), JSON.stringify({
+    title: 'Duplicate Second',
+    slug: 'duplicate-second',
+    node_token: 'duplicate-token',
+  }));
+
+  try {
+    assert.equal(omittedWriter.sourceIndex, null);
+    assert.equal(nullWriter.sourceIndex, null);
+    assert.equal(omittedWriter.__fetch_doc_source('node_token', 'node-first').title, 'First');
+    assert.equal(nullWriter.__fetch_doc_source('node_token', 'duplicate-token', 'duplicate-second').title, 'Duplicate Second');
+    assert.equal(omittedWriter.__fetch_doc_source('node_token', 'duplicate-token', 'missing-slug'), undefined);
+    assert.equal(nullWriter.__fetch_doc_source_by_any_token('origin-first').title, 'First');
+    assert.equal(omittedWriter.__fetch_doc_source_by_any_token('missing-token'), null);
+    assert.equal(
+      omittedWriter.__fetch_base_source_meta('First', 'first', 'origin-first').base_record_id,
+      'rec-first'
+    );
+    assert.equal(nullWriter.__fetch_base_source_meta('Missing', 'missing'), null);
+    assert.throws(
+      () => omittedWriter.__fetch_doc_source('node_token', 'missing-token'),
+      error => {
+        assert.equal(error.message, `2. Cannot find missing-token in ${sourceDir}`);
+        return true;
+      }
+    );
+  } finally {
+    omittedWriter.destroy();
+    nullWriter.destroy();
+    fs.rmSync(sourceDir, { recursive: true, force: true });
+  }
+}
+
 async function run() {
   testExampleHttpUrlsPreservesRawExampleUrls();
   testExampleHttpUrlsSkipsInlineCodeSpans();
@@ -572,6 +700,8 @@ async function run() {
   await testFeatureCardMarkerWithoutIconsFallsBackAndSuppressesMarker();
   await testCodeBlocksInferLanguageWhenFeishuOmitsLanguage();
   await testCodeTabGroupKeepsInferredMiddleLanguageInsideTabs();
+  testSourceIndexDelegatesLookupHelpersWithoutFilesystemEnumeration();
+  testNullAndOmittedSourceIndexKeepLegacyFilesystemLookupSemantics();
   await testBaseTablesRetriesPrematureClose();
   console.log('larkDocWriter tests passed');
 }

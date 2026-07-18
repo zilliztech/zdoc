@@ -103,6 +103,11 @@ jobs:
           fi
           node scripts/translation/manifest.js --locale ja-JP --output tmp/translation-manifest.json --max-files "${{ inputs.max_files }}" --group "$GROUP" --source-checkpoint-sha "$SOURCE_COMMIT_SHA" --source-delta tmp/source-delta.json "${batch_args[@]}"
           echo "count=$(node -p "require('./tmp/translation-manifest.json').items.length")" >> "$GITHUB_OUTPUT"
+          if (( ${{ inputs.batch_number }} > 0 )) && [[ "$GROUP" == guides ]]; then
+            node scripts/docs-workflow/translation-batch-input.js create \
+              --manifest tmp/translation-manifest.json \
+              --output tmp/translation-batch-input.json
+          fi
       - name: Run translation agents
         id: agents
         if: ${{ inputs.should_translate && steps.manifest.outputs.count != '0' }}
@@ -115,25 +120,57 @@ jobs:
           REVIEW_AGENT_BASE_URL: ${{ vars.REVIEW_AGENT_BASE_URL }}
           REVIEW_AGENT_MODEL: ${{ vars.REVIEW_AGENT_MODEL }}
           TRANSLATION_ALLOW_PARTIAL: "true"
-      - name: Validate translated group
-        if: ${{ inputs.should_translate && (steps.agents.outputs.translated_count != '0' || steps.source_delta.outputs.has_mutation == 'true') }}
+      - name: Validate unbatched translated group
+        if: ${{ inputs.should_translate && inputs.batch_number == 0 && ((steps.agents.outputs.translated_count || '0') != '0' || (steps.agents.outputs.failed_count || '0') != '0' || steps.source_delta.outputs.has_mutation == 'true') }}
         run: |
           case "$GROUP" in
             guides) for d in i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials; do test ! -d "$d" || npx docusaurus mdx-parse -d "$d"; done ;;
             *) test ! -d i18n/ja-JP/docusaurus-plugin-content-docs-reference/current || npx docusaurus mdx-parse -d i18n/ja-JP/docusaurus-plugin-content-docs-reference/current ;;
           esac
           node scripts/validate-translated-coverage.js --group "$GROUP"
-          if (( ${{ inputs.batch_number }} == 0 )) || [[ "${{ steps.manifest.outputs.count || '0' }}" == 0 ]]; then pnpm run build; fi
+          pnpm run build
+      - name: Validate translated batch outputs
+        if: ${{ inputs.should_translate && inputs.group == 'guides' && inputs.batch_number > 0 && ((steps.agents.outputs.translated_count || '0') != '0' || (steps.agents.outputs.failed_count || '0') != '0' || steps.source_delta.outputs.has_mutation == 'true') }}
+        env:
+          AGENTS_OUTCOME: ${{ steps.agents.outcome }}
+          TRANSLATED_COUNT: ${{ steps.agents.outputs.translated_count || '0' }}
+          FAILED_COUNT: ${{ steps.agents.outputs.failed_count || '0' }}
+          REMAINING_COUNT: ${{ steps.agents.outputs.remaining_count || '0' }}
+        run: |
+          set -euo pipefail
+          node scripts/docs-workflow/translation-batch-input.js validate --input tmp/translation-batch-input.json
+          node scripts/docs-workflow/validate-translation-batch-outputs.js \
+            --manifest tmp/translation-manifest.json \
+            --report tmp/translation-report.json \
+            --batch-input tmp/translation-batch-input.json \
+            --workspace "$GITHUB_WORKSPACE" \
+            --agents-outcome "$AGENTS_OUTCOME" \
+            --translated-count "$TRANSLATED_COUNT" \
+            --failed-count "$FAILED_COUNT" \
+            --remaining-count "$REMAINING_COUNT"
       - name: Create validated translation checkpoints
         id: checkpoint
-        if: ${{ inputs.should_translate && (steps.agents.outputs.translated_count != '0' || steps.source_delta.outputs.has_mutation == 'true') }}
+        if: ${{ inputs.should_translate && ((steps.agents.outputs.translated_count || '0') != '0' || (steps.agents.outputs.failed_count || '0') != '0' || steps.source_delta.outputs.has_mutation == 'true') }}
         run: |
           batch_args=()
-          if (( ${{ inputs.batch_number }} > 0 )); then batch_args=(--batch-index "${{ inputs.batch_index }}" --batch-number "${{ inputs.batch_number }}" --batch-count "${{ inputs.batch_count }}" --batch-size "${{ inputs.batch_size }}" --pending-count "${{ inputs.pending_count }}" --pending-set-sha256 "${{ inputs.pending_set_sha256 }}"); fi
-          node scripts/docs-workflow/create-checkpoint-artifact.js --group "$GROUP" --master-sha "$MASTER_SHA" --dev-baseline-sha "$SOURCE_COMMIT_SHA" --baseline-dir "$BASELINE_DIR" --workspace "$BASELINE_DIR" --output "$BASELINE_CHECKPOINT_DIR" --include-translation-cache "${batch_args[@]}"
-          node scripts/docs-workflow/create-checkpoint-artifact.js --group "$GROUP" --master-sha "$MASTER_SHA" --dev-baseline-sha "$SOURCE_COMMIT_SHA" --baseline-dir "$BASELINE_DIR" --workspace "$GITHUB_WORKSPACE" --output "$CHECKPOINT_DIR" --include-translation-cache --validation-command "pnpm run build" "${batch_args[@]}"
+          batch_input_args=()
+          validation_args=()
+          if (( ${{ inputs.batch_number }} > 0 )); then
+            batch_args=(--batch-index "${{ inputs.batch_index }}" --batch-number "${{ inputs.batch_number }}" --batch-count "${{ inputs.batch_count }}" --batch-size "${{ inputs.batch_size }}" --pending-count "${{ inputs.pending_count }}" --pending-set-sha256 "${{ inputs.pending_set_sha256 }}")
+            if [[ "$GROUP" == guides ]]; then batch_input_args=(--batch-input tmp/translation-batch-input.json); fi
+          fi
+          if (( ${{ inputs.batch_number }} == 0 )); then validation_args=(--validation-command "pnpm run build"); fi
+          node scripts/docs-workflow/create-checkpoint-artifact.js --group "$GROUP" --master-sha "$MASTER_SHA" --dev-baseline-sha "$SOURCE_COMMIT_SHA" --baseline-dir "$BASELINE_DIR" --workspace "$BASELINE_DIR" --output "$BASELINE_CHECKPOINT_DIR" --include-translation-cache "${batch_args[@]}" "${batch_input_args[@]}"
+          node scripts/docs-workflow/create-checkpoint-artifact.js --group "$GROUP" --master-sha "$MASTER_SHA" --dev-baseline-sha "$SOURCE_COMMIT_SHA" --baseline-dir "$BASELINE_DIR" --workspace "$GITHUB_WORKSPACE" --output "$CHECKPOINT_DIR" --include-translation-cache "${batch_args[@]}" "${batch_input_args[@]}" "${validation_args[@]}"
           node scripts/docs-workflow/validate-checkpoint-artifact.js --artifact "$BASELINE_CHECKPOINT_DIR" --group "$GROUP" --master-sha "$MASTER_SHA" --dev-baseline-sha "$SOURCE_COMMIT_SHA"
           node scripts/docs-workflow/validate-checkpoint-artifact.js --artifact "$CHECKPOINT_DIR" --group "$GROUP" --master-sha "$MASTER_SHA" --dev-baseline-sha "$SOURCE_COMMIT_SHA"
+          if (( ${{ inputs.batch_number }} > 0 )) && [[ "$GROUP" == guides ]]; then
+            node scripts/docs-workflow/validate-translation-batch.js \
+              --artifact "$CHECKPOINT_DIR" \
+              --baseline "$BASELINE_CHECKPOINT_DIR" \
+              --batch-number "${{ inputs.batch_number }}" \
+              --batch-count "${{ inputs.batch_count }}"
+          fi
           mkdir -p "$RUNNER_TEMP/baseline-upload" "$RUNNER_TEMP/translation-upload"
           tar --dereference -cf "$RUNNER_TEMP/baseline-upload/checkpoint-group.tar" -C "$(dirname "$BASELINE_CHECKPOINT_DIR")" "$(basename "$BASELINE_CHECKPOINT_DIR")"
           tar --dereference -cf "$RUNNER_TEMP/translation-upload/checkpoint-group.tar" -C "$(dirname "$CHECKPOINT_DIR")" "$(basename "$CHECKPOINT_DIR")"

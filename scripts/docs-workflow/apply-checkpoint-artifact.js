@@ -206,4 +206,4 @@ function parseArgs(args) {
   if (!result.artifactDir || !result.targetDir) throw new Error(usage()); return result;
 }
 if (require.main === module) (async () => { const args = parseArgs(process.argv.slice(2)); if (args.help) console.log(usage()); else await applyCheckpointArtifact(args); })().catch((error) => { console.error(`Checkpoint artifact apply failed: ${error.message}`); process.exitCode = 1; });
-module.exports = { applyCheckpointArtifact };
+module.exports = { applyCheckpointArtifact, mergeCache };

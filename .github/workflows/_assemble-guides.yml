@@ -11,6 +11,7 @@ on:
       target_branch: { required: true, type: string }
       cache_version: { required: true, type: string }
       cache_save_required: { required: true, type: string }
+      assembly_decision_sha256: { required: true, type: string }
       artifact_retention_days: { required: false, type: number, default: 3 }
     outputs:
       status: { value: '${{ jobs.assemble.outputs.status }}' }
@@ -67,10 +68,46 @@ jobs:
           node scripts/docs-workflow/restore-guides-table-artifacts.js --matrix-file "$RUNNER_TEMP/guides-table-matrix.json" --artifacts-root "$RUNNER_TEMP/table-artifacts" --target "$GITHUB_WORKSPACE" --source-artifact-sha256 "$source_sha"
         env:
           MATRIX_JSON: ${{ inputs.table_matrix }}
-      - name: Generate combined Guides sidebars offline
+      - id: assembly_decision
+        name: Validate Guides assembly decision
         run: |
-          npx docusaurus fetch-lark-docs -man guides -tar zilliz.saas -sidebar -skipS --offline --mediaManifest plugins/lark-docs/meta/media-cache/guides.json
-          npx docusaurus fetch-lark-docs -man guides -tar zilliz.paas -sidebar -skipS --offline --mediaManifest plugins/lark-docs/meta/media-cache/guides.json
+          decision=plugins/lark-docs/meta/reports/guides-assembly-decision.json
+          node scripts/docs-workflow/guides-assembly-identity.js validate-decision \
+            --repository-root "$GITHUB_WORKSPACE" --input "$decision" \
+            --expected-master-sha "${{ inputs.master_sha }}" \
+            --expected-dev-baseline-sha "${{ inputs.dev_baseline_sha }}"
+          observed_sha=$(node scripts/docs-workflow/guides-assembly-identity.js decision-sha \
+            --repository-root "$GITHUB_WORKSPACE" --input "$decision" \
+            --expected-master-sha "${{ inputs.master_sha }}" \
+            --expected-dev-baseline-sha "${{ inputs.dev_baseline_sha }}")
+          [[ "$observed_sha" == "${{ inputs.assembly_decision_sha256 }}" ]] || { echo 'Guides assembly decision SHA mismatch' >&2; exit 1; }
+          mode=$(node -e 'const d=require("./"+process.argv[1]);process.stdout.write(d.mode)' "$decision")
+          if [[ "$mode" == reuse ]]; then
+            node scripts/docs-workflow/guides-assembly-identity.js verify-descriptor \
+              --repository-root "$RUNNER_TEMP/baseline" \
+              --descriptor plugins/lark-docs/meta/assembly/guides.json \
+              --saas-sidebar config/generated/guides.sidebar.js \
+              --byoc-sidebar config/generated/guides-byoc.sidebar.js
+            node - "$decision" "$RUNNER_TEMP/baseline" <<'NODE'
+          const crypto = require('node:crypto')
+          const fs = require('node:fs')
+          const path = require('node:path')
+          const decision = JSON.parse(fs.readFileSync(process.argv[2], 'utf8'))
+          const baseline = process.argv[3]
+          const facts = [
+            ['plugins/lark-docs/meta/assembly/guides.json', 'baselineDescriptorSha256'],
+            ['config/generated/guides.sidebar.js', 'baselineSaasSidebarSha256'],
+            ['config/generated/guides-byoc.sidebar.js', 'baselineByocSidebarSha256'],
+          ]
+          for (const [relative, key] of facts) {
+            const actual = crypto.createHash('sha256').update(fs.readFileSync(path.join(baseline, relative))).digest('hex')
+            if (actual !== decision[key]) throw new Error(`Exact baseline ${relative} does not match decision ${key}`)
+          }
+          NODE
+          fi
+          printf 'mode=%s\nstarted_milliseconds=%s\n' "$mode" "$(node -e 'process.stdout.write(String(Date.now()))')" >> "$GITHUB_OUTPUT"
+      - name: Generate combined Guides sidebars offline
+        run: node scripts/docs-workflow/generate-guides-sidebars.js --media-manifest plugins/lark-docs/meta/media-cache/guides.json
         env:
           DOCS_BUILD_ENV: uat
           IMAGE_BED_URL: ${{ vars.IMAGE_BED_URL }}
@@ -79,6 +116,40 @@ jobs:
         run: |
           node scripts/validate-generated-sidebars.js
           node scripts/run-doc-build-stage.js --build "pnpm run build" --skipLinkChecks --skipCardReporting
+      - name: Finalize Guides assembly identity
+        run: |
+          decision=plugins/lark-docs/meta/reports/guides-assembly-decision.json
+          descriptor=plugins/lark-docs/meta/assembly/guides.json
+          saas=config/generated/guides.sidebar.js
+          byoc=config/generated/guides-byoc.sidebar.js
+          saas_equal=null
+          byoc_equal=null
+          if [[ "${{ steps.assembly_decision.outputs.mode }}" == reuse ]]; then
+            cmp -s "$RUNNER_TEMP/baseline/$saas" "$saas" || { echo 'Observe-only SaaS sidebar divergence from exact baseline' >&2; exit 1; }
+            cmp -s "$RUNNER_TEMP/baseline/$byoc" "$byoc" || { echo 'Observe-only BYOC sidebar divergence from exact baseline' >&2; exit 1; }
+            saas_equal=true
+            byoc_equal=true
+          fi
+          node scripts/docs-workflow/guides-assembly-identity.js write-descriptor \
+            --repository-root "$GITHUB_WORKSPACE" --decision "$decision" \
+            --expected-master-sha "${{ inputs.master_sha }}" \
+            --expected-dev-baseline-sha "${{ inputs.dev_baseline_sha }}" \
+            --expected-decision-sha256 "${{ inputs.assembly_decision_sha256 }}" \
+            --saas-sidebar "$saas" --byoc-sidebar "$byoc" --output "$descriptor"
+          node scripts/docs-workflow/guides-assembly-identity.js verify-descriptor \
+            --repository-root "$GITHUB_WORKSPACE" --descriptor "$descriptor" \
+            --saas-sidebar "$saas" --byoc-sidebar "$byoc"
+          finished_milliseconds=$(node -e 'process.stdout.write(String(Date.now()))')
+          elapsed_milliseconds=$((finished_milliseconds - ${{ steps.assembly_decision.outputs.started_milliseconds }}))
+          node scripts/docs-workflow/guides-assembly-identity.js write-result \
+            --repository-root "$GITHUB_WORKSPACE" --decision "$decision" \
+            --expected-master-sha "${{ inputs.master_sha }}" \
+            --expected-dev-baseline-sha "${{ inputs.dev_baseline_sha }}" \
+            --expected-decision-sha256 "${{ inputs.assembly_decision_sha256 }}" \
+            --elapsed-milliseconds "$elapsed_milliseconds" \
+            --saas-equal "$saas_equal" --byoc-equal "$byoc_equal" \
+            --descriptor-verified true \
+            --output plugins/lark-docs/meta/reports/guides-assembly-result.json
       - id: promoted_snapshot
         name: Select promoted Guides source snapshot
         run: |

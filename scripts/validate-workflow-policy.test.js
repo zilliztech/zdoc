@@ -106,6 +106,64 @@ test('workflow policy rejects miswired translation candidate reporting values', 
   }
 })
 
+test('workflow policy rejects Guides translation SHA authority regressions', () => {
+  const sourceDirectory = path.join(process.cwd(), '.github/workflows')
+  const cases = [
+    {
+      from: "          BATCH_COUNT: ${{ needs.prepare_guides_translation_batches.result != 'success' && '0' || needs.prepare_guides_translation_batches.outputs.batch_count }}",
+      to: "          BATCH_COUNT: ${{ needs.prepare_guides_translation_batches.outputs.batch_count || '0' }}",
+      expected: 'fetch-docs.yml: Guides translation finalizer must use only exact publisher status and commit outputs',
+    },
+    {
+      from: '          BATCH_RESULT: ${{ needs.translate_guides_batches.result }}',
+      to: '          BATCH_RESULT: ${{ needs.publish_guides_translation_batches.result }}',
+      expected: 'fetch-docs.yml: Guides translation finalizer must use only exact publisher status and commit outputs',
+    },
+    {
+      from: '          PUBLISHER_COMMIT_SHA: ${{ needs.publish_guides_translation_batches.outputs.commit_sha }}',
+      to: '          PUBLISHER_COMMIT_SHA: ${{ needs.resolve_final.outputs.final_dev_sha }}',
+      expected: 'fetch-docs.yml: Guides translation finalizer must use only exact publisher status and commit outputs',
+    },
+    {
+      from: '          GUIDES_TRANSLATION_SHA: ${{ needs.finalize_guides_translation.outputs.commit_sha }}',
+      to: '          GUIDES_TRANSLATION_SHA: ${{ needs.finalize_guides_translation.outputs.commit_sha || needs.resolve_final.outputs.final_dev_sha }}',
+      expected: 'fetch-docs.yml: aggregate must consume the exact finalized Guides translation result without fallback',
+    },
+  ]
+  for (const fixture of cases) {
+    const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'guides-sha-authority-policy-'))
+    try {
+      fs.cpSync(sourceDirectory, directory, { recursive: true })
+      const file = path.join(directory, 'fetch-docs.yml')
+      const source = fs.readFileSync(file, 'utf8')
+      assert.ok(source.includes(fixture.from))
+      fs.writeFileSync(file, source.replace(fixture.from, fixture.to))
+      assert.ok(validateWorkflowPolicies(directory).includes(fixture.expected))
+    } finally {
+      fs.rmSync(directory, { recursive: true, force: true })
+    }
+  }
+})
+
+test('workflow policy rejects Guides publication evidence collection regressions', () => {
+  const sourceDirectory = path.join(process.cwd(), '.github/workflows')
+  const cases = [
+    ['docs-translation-publication-guides-${{ github.run_id }}-${{ github.run_attempt }}', 'docs-translation-publication-guides-${{ github.run_id }}', 'fetch-docs.yml: aggregate must collect exact run-attempt Guides publication evidence before card notes'],
+    ['          CARD_GUIDES_TARGET_SHA: ${{ needs.publish_guides.outputs.commit_sha }}', '          CARD_GUIDES_TARGET_SHA: ${{ needs.resolve_final.outputs.final_dev_sha }}', 'fetch-docs.yml: aggregate must collect exact run-attempt Guides publication evidence before card notes'],
+  ]
+  for (const [from, to, expected] of cases) {
+    const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'guides-publication-evidence-policy-'))
+    try {
+      fs.cpSync(sourceDirectory, directory, { recursive: true })
+      const file = path.join(directory, 'fetch-docs.yml')
+      const source = fs.readFileSync(file, 'utf8')
+      assert.ok(source.includes(from))
+      fs.writeFileSync(file, source.replace(from, to))
+      assert.ok(validateWorkflowPolicies(directory).includes(expected))
+    } finally { fs.rmSync(directory, { recursive: true, force: true }) }
+  }
+})
+
 test('workflow policy independently requires checkpoint stage selection and verification', () => {
   const publisherSource = fs.readFileSync('scripts/docs-workflow/publish-checkpoint.sh', 'utf8')
   const cases = [
@@ -129,6 +187,40 @@ test('workflow policy independently requires checkpoint stage selection and veri
     } finally {
       fs.rmSync(directory, { recursive: true, force: true })
     }
+  }
+})
+
+test('workflow policy rejects unsafe Guides recovery shortcuts', () => {
+  const shell = fs.readFileSync('scripts/docs-workflow/recover-translation-batches.sh', 'utf8')
+  const helper = fs.readFileSync('scripts/docs-workflow/recover-guides-translation.js', 'utf8')
+  const cases = [
+    { shell: shell.replace('recover-guides-translation.js', 'publish-checkpoint.sh'), helper, expected: 'recover-translation-batches.sh: recovery must be a strict delta-safe helper entrypoint' },
+    { shell, helper: helper.replaceAll('promoteStaging', 'unsafePromotion'), expected: 'recover-guides-translation.js: must use normal fast-forward staging promotion' },
+    { shell, helper: `${helper}\nexecFileSync('git', ['push', '--force', 'origin', 'HEAD:dev'])\n`, expected: 'recover-guides-translation.js: recovery must not replay batches, merge, rebase, eval, or force-push' },
+  ]
+  for (const fixture of cases) {
+    const directory = fs.realpathSync(fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'recovery-policy-')))
+    const shellPath = path.join(directory, 'recover.sh'), helperPath = path.join(directory, 'recover.js')
+    fs.writeFileSync(shellPath, fixture.shell); fs.writeFileSync(helperPath, fixture.helper)
+    try { assert.ok(validateWorkflowPolicies(undefined, { recoveryShellPath: shellPath, recoveryHelperPath: helperPath }).includes(fixture.expected)) }
+    finally { fs.rmSync(directory, { recursive: true, force: true }) }
+  }
+})
+
+test('workflow policy excludes staging namespace from push deployment triggers', () => {
+  const sourceDirectory = path.join(process.cwd(), '.github/workflows')
+  for (const mutate of [
+    source => source.replace('      - "dev"', '      - "**"'),
+    source => source.replace(/    branches:\n      - "dev"\n      - "master"\n/, ''),
+    source => source.replace(/  push:\n    branches:\n      - "dev"\n      - "master"/, '  push: {}'),
+  ]) {
+    const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'staging-trigger-policy-'))
+    try {
+      fs.cpSync(sourceDirectory, directory, { recursive: true })
+      const file = path.join(directory, 'check-404.yml')
+      fs.writeFileSync(file, mutate(fs.readFileSync(file, 'utf8')))
+      assert.ok(validateWorkflowPolicies(directory).includes('check-404.yml: push deployment triggers must exclude docs-translation-staging/**'))
+    } finally { fs.rmSync(directory, { recursive: true, force: true }) }
   }
 })
 
@@ -664,6 +756,58 @@ test('Guides table matrix permits empty renders and exact assembly', () => {
   assert.doesNotMatch(assemble, /saas_artifact_name|byoc_artifact_name|guides-render\.tar/)
 })
 
+test('Guides assembly reuse remains observe-only with immutable decision and separate result', () => {
+  const source = fs.readFileSync('.github/workflows/_fetch-guides-sources.yml', 'utf8')
+  const assemble = fs.readFileSync('.github/workflows/_assemble-guides.yml', 'utf8')
+  const tableIndex = source.indexOf('name: Build Guides table render matrix')
+  const decisionIndex = source.indexOf('name: Evaluate Guides assembly reuse')
+  const artifactIndex = source.indexOf('name: Create shared source artifact')
+  assert.ok(tableIndex >= 0 && tableIndex < decisionIndex && decisionIndex < artifactIndex)
+  const sourceDecision = source.slice(decisionIndex, artifactIndex)
+  assert.match(sourceDecision, /guides-assembly-identity\.js decide/)
+  assert.match(sourceDecision, /--repository-root "\$GITHUB_WORKSPACE"/)
+  assert.match(sourceDecision, /--baseline-root "\$RUNNER_TEMP\/baseline"/)
+  assert.match(sourceDecision, /--candidate-snapshot plugins\/lark-docs\/meta\/reports\/guides-source-snapshot-candidate\.json/)
+  assert.match(sourceDecision, /--incremental-plan plugins\/lark-docs\/meta\/reports\/guides-incremental-fetch-plan\.json/)
+  assert.match(sourceDecision, /--table-count "\$\{\{ steps\.table_matrix\.outputs\.count \}\}"/)
+  assert.match(sourceDecision, /decision-sha[\s\S]*assembly_decision_sha256/)
+
+  const names = [
+    'Validate Guides assembly decision',
+    'Generate combined Guides sidebars offline',
+    'Validate combined guides output',
+    'Finalize Guides assembly identity',
+  ]
+  const indices = names.map(name => assemble.indexOf(`name: ${name}`))
+  assert.equal(indices.every(index => index >= 0), true)
+  assert.deepEqual([...indices].sort((a, b) => a - b), indices)
+  const generation = assemble.slice(indices[1], indices[2])
+  assert.match(generation, /node scripts\/docs-workflow\/generate-guides-sidebars\.js --media-manifest plugins\/lark-docs\/meta\/media-cache\/guides\.json/)
+  assert.doesNotMatch(generation, /\n\s+if:/)
+  assert.doesNotMatch(assemble, /npx docusaurus fetch-lark-docs[\s\S]*-sidebar/)
+  const validation = assemble.slice(indices[0], indices[1])
+  assert.match(validation, /decision-sha/)
+  assert.match(validation, /guides-assembly-decision\.json/)
+  assert.match(validation, /baseline\/config\/generated\/guides\.sidebar\.js|\$RUNNER_TEMP\/baseline[\s\S]*config\/generated\/guides\.sidebar\.js/)
+  const finalValidation = assemble.slice(indices[2], indices[3])
+  assert.match(finalValidation, /validate-generated-sidebars\.js/)
+  assert.match(finalValidation, /run-doc-build-stage\.js --build "pnpm run build"/)
+  const finalize = assemble.slice(indices[3], assemble.indexOf('name: Select promoted Guides source snapshot'))
+  assert.match(finalize, /saas=config\/generated\/guides\.sidebar\.js[\s\S]*cmp -s[^\n]*\$saas/)
+  assert.match(finalize, /byoc=config\/generated\/guides-byoc\.sidebar\.js[\s\S]*cmp -s[^\n]*\$byoc/)
+  assert.match(finalize, /write-descriptor[\s\S]*--expected-decision-sha256/)
+  assert.match(finalize, /verify-descriptor/)
+  assert.match(finalize, /write-result[\s\S]*guides-assembly-result\.json/)
+  assert.doesNotMatch(finalize, />\s*plugins\/lark-docs\/meta\/reports\/guides-assembly-decision\.json|--output plugins\/lark-docs\/meta\/reports\/guides-assembly-decision\.json/)
+  assert.doesNotMatch(assemble, /if:.*reuse[\s\S]{0,200}(?:cp|copyFile).*config\/generated\/guides(?:-byoc)?\.sidebar\.js/)
+  assert.doesNotMatch(assemble, /cp[^\n]*baseline[^\n]*config\/generated\/guides(?:-byoc)?\.sidebar\.js/)
+  assert.match(sourceDecision, /git -C "\$RUNNER_TEMP\/baseline" rev-parse HEAD/)
+  assert.match(source, /assembly_decision_sha256:/)
+  assert.match(assemble, /^      assembly_decision_sha256: \{ required: true, type: string \}$/m)
+  const caller = fs.readFileSync('.github/workflows/fetch-docs.yml', 'utf8')
+  assert.match(caller, /produce_guides:[\s\S]*assembly_decision_sha256: \$\{\{ needs\.produce_guides_sources\.outputs\.assembly_decision_sha256 \}\}/)
+})
+
 test('reusable content publisher safely downloads, validates, and publishes checkpoints', () => {
   const workflowPath = path.join(process.cwd(), '.github/workflows/_publish-content-group.yml')
   assert.equal(fs.existsSync(workflowPath), true, 'reusable content publisher workflow must exist')
@@ -699,7 +843,7 @@ test('reusable content publisher safely downloads, validates, and publishes chec
   assert.doesNotMatch(publicationBody, /secrets\./)
 })
 
-test('guides translations run in parallel and publish batches in one short ordered stage', () => {
+test('Guides translation batches publish through one validated staging ref', () => {
   const workflow = yaml.load(fs.readFileSync('.github/workflows/fetch-docs.yml', 'utf8'))
   const translate = workflow.jobs.translate_guides_batches
   assert.equal(translate.strategy['max-parallel'], undefined)
@@ -707,27 +851,153 @@ test('guides translations run in parallel and publish batches in one short order
   const publish = workflow.jobs.publish_guides_translation_batches
   assert.ok(publish.needs.includes('translate_guides_batches'))
   assert.ok(publish.needs.includes('publish_rest'))
+  assert.ok(publish.needs.includes('publish_guides'))
   assert.equal(publish.uses, './.github/workflows/_publish-translation-batches.yml')
+  assert.equal(publish.with.source_commit_sha, '${{ needs.publish_guides.outputs.commit_sha || needs.prepare.outputs.dev_baseline_sha }}')
+  assert.equal(publish.with.expected_target_sha, '${{ needs.publish_guides.outputs.commit_sha }}')
 
-  const publisher = fs.readFileSync('scripts/docs-workflow/publish-checkpoint.sh', 'utf8')
-  assert.match(publisher, /checkpoint-stage-paths\.js" select/)
-  assert.match(publisher, /--pathspec-from-file="\$stage_paths_file"/)
-  assert.match(publisher, /--pathspec-file-nul/)
-  assert.match(publisher, /checkpoint-stage-paths\.js" verify/)
-  assert.doesNotMatch(publisher, /git add --all -- "\$\{paths\[@\]\}"/)
+  const source = fs.readFileSync('.github/workflows/_publish-translation-batches.yml', 'utf8')
+  const reusable = yaml.load(source)
+  assert.equal(reusable.on.workflow_call.inputs.source_commit_sha.required, true)
+  assert.equal(reusable.on.workflow_call.inputs.expected_target_sha.required, true)
+  const steps = reusable.jobs.publish.steps
+  const requiredNames = [
+    'Validate Guides translation batch identities',
+    'Apply Guides translation batches to staging',
+    'Push Guides translation staging ref',
+    'Validate combined Guides translation',
+    'Promote validated Guides translation',
+    'Clean up Guides translation staging ref',
+    'Write Guides translation publication report',
+    'Upload Guides translation publication report',
+    'Emit Guides translation publication result',
+  ]
+  assert.deepEqual(steps.filter(step => requiredNames.includes(step.name)).map(step => step.name), requiredNames)
+  for (const output of ['status', 'commit_sha', 'staging_ref', 'staging_sha', 'report_artifact_name']) {
+    assert.equal(reusable.on.workflow_call.outputs[output].value, `\${{ jobs.publish.outputs.${output} }}`)
+    assert.equal(reusable.jobs.publish.outputs[output], `\${{ steps.result.outputs.${output} }}`)
+  }
+  assert.equal(steps.find(step => step.name === 'Check out immutable master tooling').with.ref, '${{ inputs.master_sha }}')
+  assert.equal(steps.find(step => step.name === 'Check out immutable master tooling').with['fetch-depth'], 0)
+  const capture = steps.find(step => step.name === 'Capture Guides translation publication identities')
+  const initialize = steps.find(step => step.name === 'Initialize Guides translation publisher')
+  assert.match(initialize.run, /! -L "\$trusted_root"[\s\S]*realpath -e -- "\$trusted_root"[\s\S]*stat -c '%u' -- "\$trusted_root"[\s\S]*id -u/)
+  assert.match(capture.run, /createInitialPublisherState/)
+  assert.match(capture.run, /SOURCE_COMMIT_SHA[\s\S]*EXPECTED_TARGET_SHA/)
+  assert.match(capture.run, /refs\/remotes\/origin\/\$TARGET_BRANCH\^\{commit\}[\s\S]*EXPECTED_TARGET_SHA/)
+  assert.ok(steps.indexOf(capture) < steps.findIndex(step => step.name === 'Download Guides translation checkpoints'))
 
-  const reusable = fs.readFileSync('.github/workflows/_publish-translation-batches.yml', 'utf8')
-  const reusableYaml = yaml.load(reusable)
-  const publishScript = reusableYaml.jobs.publish.steps.find(step => step.id === 'publish').run
-  assert.match(reusable, /for \(\(number=1; number<=BATCH_COUNT; number\+\+\)\)/)
-  assert.match(reusable, /validate-translation-batch\.js/)
-  assert.doesNotMatch(reusable, /node - <<['"]?NODE/)
-  assert.match(reusable, /--max-attempts 10/)
-  assert.match(reusable, /\$GITHUB_WORKSPACE\/scripts\/validate-generated-sidebars\.js[\s\S]*\$GITHUB_WORKSPACE\/scripts\/validate-translated-coverage\.js/)
-  assert.doesNotMatch(reusable, /pnpm run build/)
-  const syntax = spawnSync('bash', ['-n'], { input: publishScript, encoding: 'utf8' })
-  assert.equal(syntax.status, 0, syntax.stderr)
-  assert.doesNotMatch(reusable, /report-live-card|CARD_JOB_NAME|APP_ID|APP_SECRET|card_id|card_started_at|card_stages/)
+  const byName = new Map(steps.map(step => [step.name, step]))
+  const orchestration = fs.readFileSync('scripts/docs-workflow/translation-staging-publisher.js', 'utf8')
+  const identities = byName.get(requiredNames[0]).run
+  assert.match(identities, /translation-batch-set\.js plan/)
+  assert.match(identities, /PAIRS_MANIFEST/)
+  assert.match(identities, /expected-target-sha/)
+  assert.match(identities, /source-checkpoint-sha/)
+  assert.match(identities, /tar -tf[\s\S]*tar -tvf/)
+  assert.match(initialize.run, /mkdir -m 700/)
+  assert.match(identities, /bindPublisherBatchIdentity/)
+  assert.match(identities, /find "\$result_root" -mindepth 1 -maxdepth 1[\s\S]*! -L "\$result_root\/checkpoint-group\.tar"/)
+  assert.doesNotMatch(identities, /git fetch/)
+
+  const apply = byName.get(requiredNames[1]).run
+  assert.match(apply, /translation-staging-publisher[\s\S]*applyPhase/)
+  assert.match(orchestration, /prepareStagingWorktree[\s\S]*applyTranslationBatch[\s\S]*commitAppliedBatch/)
+
+  const push = byName.get(requiredNames[2]).run
+  assert.match(push, /translation-staging-publisher[\s\S]*pushPhase/)
+  assert.match(orchestration, /deterministicStagingRef[\s\S]*pushStagingRef[\s\S]*probeRemoteStaging/)
+  assert.match(push, /GITHUB_RUN_ID[\s\S]*GITHUB_RUN_ATTEMPT/)
+
+  const validate = byName.get(requiredNames[3]).run
+  assert.match(validate, /restore-generated-state\.sh --exact --ref "\$staged_sha"/)
+  assert.match(validate, /validate-guides-translation-staging\.js[\s\S]*--trusted-root/)
+  assert.match(validate, /recordValidationInfrastructureFailure/)
+  assert.doesNotMatch(validate, /validate-generated-sidebars|validate-translated-coverage|pnpm run build/)
+
+  assert.match(byName.get(requiredNames[4]).run, /status === 'no_changes'[\s\S]*promotePhase/)
+  assert.match(orchestration, /promoteStaging[\s\S]*probeRemoteTarget/)
+  assert.equal(byName.get(requiredNames[5]).if, '${{ always() }}')
+  assert.match(byName.get(requiredNames[5]).run, /cleanupPhase/)
+  assert.match(orchestration, /deleteStagingWithLease/)
+  assert.equal(byName.get(requiredNames[6]).if, '${{ always() }}')
+  assert.match(byName.get(requiredNames[6]).run, /createTerminalReport[\s\S]*writePublicationReport[\s\S]*trustedRoot/)
+  assert.equal(byName.get(requiredNames[7]).if, '${{ always() }}')
+  assert.equal(byName.get(requiredNames[7]).with.name, 'docs-translation-publication-guides-${{ github.run_id }}-${{ github.run_attempt }}')
+  assert.equal(byName.get(requiredNames[7]).with.path, '${{ runner.temp }}/guides-translation-publication/publication-report.json')
+  assert.equal(byName.get(requiredNames[8]).if, '${{ always() }}')
+  assert.match(byName.get(requiredNames[8]).run, /readPublicationReport[\s\S]*status[\s\S]*commit_sha[\s\S]*staging_ref[\s\S]*staging_sha[\s\S]*report_artifact_name/)
+
+  for (const step of steps.filter(step => typeof step.run === 'string')) {
+    const syntax = spawnSync('bash', ['-n'], { input: step.run, encoding: 'utf8' })
+    assert.equal(syntax.status, 0, `${step.name || step.id || 'unnamed'}: ${syntax.stderr}`)
+  }
+  assert.doesNotMatch(source, /publish-checkpoint\.sh|--max-attempts|tee [^\n]*publication|sed -n 's\/\^status|git push[^\n]*--force(?:\s|$)|APP_ID|APP_SECRET|FEISHU|report-live-card/)
+  assert.doesNotMatch(source, /for \(\(number=1; number<=BATCH_COUNT; number\+\+\)\)[\s\S]*git push/)
+  assert.match(orchestration, /status: 'no_changes'[\s\S]*resultSha: state\.expectedTargetSha/)
+
+  assert.equal(workflow.jobs.verify.uses, './.github/workflows/_verify-docs.yml')
+  assert.ok(workflow.jobs.verify.needs.includes('resolve_final'))
+})
+
+test('workflow policy rejects unsafe Guides staging publisher mutations', () => {
+  const sourceDirectory = path.join(process.cwd(), '.github/workflows')
+  const workflowName = '_publish-translation-batches.yml'
+  const cases = [
+    {
+      mutate(workflow) { workflow.on.workflow_call.inputs.source_commit_sha.required = false },
+      expected: `${workflowName}: publisher must require authenticated source and target identities`,
+    },
+    {
+      mutate(workflow) { workflow.jobs.publish.steps.find(step => step.name === 'Capture Guides translation publication identities').run = 'true' },
+      expected: `${workflowName}: publisher must authenticate and persist source and target identities before artifact download`,
+    },
+    {
+      mutate(workflow) { workflow.jobs.publish.steps.find(step => step.name === 'Promote validated Guides translation').run = workflow.jobs.publish.steps.find(step => step.name === 'Promote validated Guides translation').run.replace("if (state.status === 'no_changes') process.exit(0)\n", '') },
+      expected: `${workflowName}: publisher must skip no-change promotion and otherwise use the normal fast-forward staging helper`,
+    },
+    {
+      mutate(workflow) { workflow.jobs.publish.steps.find(step => step.name === 'Clean up Guides translation staging ref').if = '${{ success() }}' },
+      expected: `${workflowName}: cleanup, report, upload, and result steps must always run`,
+    },
+    {
+      mutate(workflow) { workflow.jobs.publish.steps.find(step => step.name === 'Promote validated Guides translation').run += '\nbash scripts/docs-workflow/publish-checkpoint.sh' },
+      expected: `${workflowName}: staging publisher must not use legacy or per-batch publication`,
+    },
+    {
+      mutate(workflow) { workflow.jobs.publish.steps.find(step => step.name === 'Promote validated Guides translation').run += '\ngit push --force origin HEAD:dev' },
+      expected: `${workflowName}: staging publisher must not force-update the target`,
+    },
+    {
+      mutate(workflow) { workflow.jobs.publish.steps.find(step => step.name === 'Validate combined Guides translation').run += '\npnpm run build' },
+      expected: `${workflowName}: combined staging validation must run only through the fixed validation wrapper`,
+    },
+    {
+      mutate(workflow) { workflow.jobs.publish.steps.find(step => step.name === 'Write Guides translation publication report').env = { APP_SECRET: '${{ secrets.APP_SECRET }}' } },
+      expected: `${workflowName}: staging publisher must not receive Feishu credentials`,
+    },
+    {
+      mutate(workflow) { workflow.jobs.publish.steps.find(step => step.name === 'Emit Guides translation publication result').run += "\nsed -n 's/^status=//p' output.log" },
+      expected: `${workflowName}: staging publisher must not derive state from logs`,
+    },
+    {
+      mutate(workflow) { workflow.jobs.publish.steps.find(step => step.name === 'Push Guides translation staging ref').name = 'Push translation' },
+      expected: `${workflowName}: required staging publisher steps are missing or out of order`,
+    },
+  ]
+  for (const fixture of cases) {
+    const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'staging-publisher-policy-'))
+    try {
+      fs.cpSync(sourceDirectory, directory, { recursive: true })
+      const file = path.join(directory, workflowName)
+      const workflow = yaml.load(fs.readFileSync(file, 'utf8'))
+      fixture.mutate(workflow)
+      fs.writeFileSync(file, yaml.dump(workflow, { lineWidth: -1, noRefs: true }))
+      assert.ok(validateWorkflowPolicies(directory).includes(fixture.expected), fixture.expected)
+    } finally {
+      fs.rmSync(directory, { recursive: true, force: true })
+    }
+  }
 })
 
 test('translation publishers form a short queue with scoped validation', () => {
@@ -742,27 +1012,174 @@ test('translation publishers form a short queue with scoped validation', () => {
 })
 
 test('reusable translation producer creates group-scoped checkpoint artifacts without publishing', () => {
-  const workflow = fs.readFileSync(path.join(process.cwd(), '.github/workflows/_translate-content-group.yml'), 'utf8')
-  for (const input of ['group', 'source_commit_sha', 'master_sha', 'should_translate']) assert.match(workflow, new RegExp(`^      ${input}:`, 'm'))
-  for (const output of ['status', 'artifact_name', 'baseline_artifact_name', 'translated_count']) assert.match(workflow, new RegExp(`^      ${output}:`, 'm'))
-  assert.match(workflow, /^  contents: read$/m)
-  assert.match(workflow, /actions\/checkout@v4[\s\S]*ref: \$\{\{ inputs\.master_sha \}\}/)
-  assert.match(workflow, /restore-generated-state\.sh --exact --ref "\$SOURCE_COMMIT_SHA"/)
-  assert.match(workflow, /git cat-file -e "\$SOURCE_COMMIT_SHA\^" 2>\/dev\/null \|\| git fetch --no-tags --depth=2 origin "\$SOURCE_COMMIT_SHA"/)
-  assert.match(workflow, /git cat-file -e "\$SOURCE_COMMIT_SHA\^"[\s\S]*git diff --name-status "\$SOURCE_COMMIT_SHA\^" "\$SOURCE_COMMIT_SHA"/)
-  assert.match(workflow, /git diff --name-status "\$SOURCE_COMMIT_SHA\^" "\$SOURCE_COMMIT_SHA"/)
-  assert.match(workflow, /sourceDelta\.js --group "\$GROUP"[\s\S]*--output tmp\/source-delta\.json/)
-  assert.match(workflow, /applySourceDelta\.js --delta tmp\/source-delta\.json --report tmp\/source-delta-report\.json/)
-  assert.match(workflow, /manifest\.js[\s\S]*--group "\$GROUP"[\s\S]*--source-checkpoint-sha "\$SOURCE_COMMIT_SHA"[\s\S]*--source-delta tmp\/source-delta\.json/)
-  assert.match(workflow, /steps\.source_delta\.outputs\.has_mutation == 'true'/)
-  assert.match(workflow, /validate-translated-coverage\.js --group "\$GROUP"/)
-  assert.match(workflow, /agentRunner\.js[\s\S]*TRANSLATION_ALLOW_PARTIAL: "true"/)
-  assert.match(workflow, /--include-translation-cache/)
-  assert.match(workflow, /translation-checkpoint-\$\{\{ inputs\.group \}\}-\$\{\{ github\.run_id \}\}/)
-  assert.match(workflow, /translation-baseline-\$\{\{ inputs\.group \}\}-\$\{\{ github\.run_id \}\}/)
-  assert.match(workflow, /id: result[\s\S]*if: \$\{\{ always\(\) \}\}/)
-  for (const status of ['translation_ready', 'no_changes', 'failed']) assert.match(workflow, new RegExp(`status=${status}`))
-  assert.doesNotMatch(workflow, /git push|git-auto-commit|contents: write/)
+  const source = fs.readFileSync(path.join(process.cwd(), '.github/workflows/_translate-content-group.yml'), 'utf8')
+  const workflow = yaml.load(source)
+  const steps = workflow.jobs.translate.steps
+  const numbered = steps.find(step => step.name === 'Validate translated batch outputs')
+  const unbatched = steps.find(step => step.name === 'Validate unbatched translated group')
+  const checkpoint = steps.find(step => step.name === 'Create validated translation checkpoints')
+
+  for (const input of ['group', 'source_commit_sha', 'master_sha', 'should_translate']) assert.match(source, new RegExp(`^      ${input}:`, 'm'))
+  for (const output of ['status', 'artifact_name', 'baseline_artifact_name', 'translated_count']) assert.match(source, new RegExp(`^      ${output}:`, 'm'))
+  assert.match(source, /^  contents: read$/m)
+  assert.match(source, /actions\/checkout@v4[\s\S]*ref: \$\{\{ inputs\.master_sha \}\}/)
+  assert.match(source, /restore-generated-state\.sh --exact --ref "\$SOURCE_COMMIT_SHA"/)
+  assert.match(source, /git cat-file -e "\$SOURCE_COMMIT_SHA\^" 2>\/dev\/null \|\| git fetch --no-tags --depth=2 origin "\$SOURCE_COMMIT_SHA"/)
+  assert.match(source, /git cat-file -e "\$SOURCE_COMMIT_SHA\^"[\s\S]*git diff --name-status "\$SOURCE_COMMIT_SHA\^" "\$SOURCE_COMMIT_SHA"/)
+  assert.match(source, /git diff --name-status "\$SOURCE_COMMIT_SHA\^" "\$SOURCE_COMMIT_SHA"/)
+  assert.match(source, /sourceDelta\.js --group "\$GROUP"[\s\S]*--output tmp\/source-delta\.json/)
+  assert.match(source, /applySourceDelta\.js --delta tmp\/source-delta\.json --report tmp\/source-delta-report\.json/)
+  assert.match(source, /manifest\.js[\s\S]*--group "\$GROUP"[\s\S]*--source-checkpoint-sha "\$SOURCE_COMMIT_SHA"[\s\S]*--source-delta tmp\/source-delta\.json/)
+  assert.match(source, /steps\.source_delta\.outputs\.has_mutation == 'true'/)
+  assert.match(source, /\(steps\.agents\.outputs\.failed_count \|\| '0'\) != '0'/)
+  assert.match(source, /agentRunner\.js[\s\S]*TRANSLATION_ALLOW_PARTIAL: "true"/)
+
+  assert.ok(numbered, 'numbered Guides batches need a dedicated local-output validation step')
+  assert.match(numbered.if, /inputs\.should_translate/)
+  assert.match(numbered.if, /inputs\.group == 'guides'/)
+  assert.match(numbered.if, /inputs\.batch_number > 0/)
+  assert.match(numbered.if, /steps\.agents\.outputs\.translated_count \|\| '0'/)
+  assert.match(numbered.if, /steps\.agents\.outputs\.failed_count \|\| '0'/)
+  assert.match(numbered.if, /steps\.source_delta\.outputs\.has_mutation == 'true'/)
+  assert.doesNotMatch(numbered.run, /mdx-parse|validate-translated-coverage|pnpm run build/)
+  assert.match(numbered.run, /translation-batch-input\.js validate --input tmp\/translation-batch-input\.json/)
+  assert.match(numbered.run, /validate-translation-batch-outputs\.js[\s\S]*--manifest tmp\/translation-manifest\.json[\s\S]*--report tmp\/translation-report\.json[\s\S]*--batch-input tmp\/translation-batch-input\.json[\s\S]*--workspace "\$GITHUB_WORKSPACE"[\s\S]*--agents-outcome "\$AGENTS_OUTCOME"[\s\S]*--translated-count "\$TRANSLATED_COUNT"[\s\S]*--failed-count "\$FAILED_COUNT"[\s\S]*--remaining-count "\$REMAINING_COUNT"/)
+
+  assert.ok(unbatched, 'unbatched translations need their existing full validation')
+  assert.match(unbatched.if, /inputs\.batch_number == 0/)
+  assert.match(unbatched.if, /steps\.agents\.outputs\.failed_count \|\| '0'/)
+  assert.match(unbatched.run, /mdx-parse/)
+  assert.match(unbatched.run, /validate-translated-coverage\.js --group "\$GROUP"/)
+  assert.match(unbatched.run, /pnpm run build/)
+
+  assert.match(checkpoint.run, /--include-translation-cache/)
+  assert.match(checkpoint.run, /validate-checkpoint-artifact\.js --artifact "\$BASELINE_CHECKPOINT_DIR"/)
+  assert.match(checkpoint.run, /validate-checkpoint-artifact\.js --artifact "\$CHECKPOINT_DIR"/)
+  assert.match(checkpoint.run, /if \(\( \$\{\{ inputs\.batch_number \}\} > 0 \)\) && \[\[ "\$GROUP" == guides \]\]; then[\s\S]*validate-translation-batch\.js[\s\S]*--artifact "\$CHECKPOINT_DIR"[\s\S]*--baseline "\$BASELINE_CHECKPOINT_DIR"[\s\S]*--batch-number "\$\{\{ inputs\.batch_number \}\}"[\s\S]*--batch-count "\$\{\{ inputs\.batch_count \}\}"[\s\S]*\n\s*fi/)
+
+  assert.match(source, /translation-checkpoint-\$\{\{ inputs\.group \}\}-\$\{\{ github\.run_id \}\}/)
+  assert.match(source, /translation-baseline-\$\{\{ inputs\.group \}\}-\$\{\{ github\.run_id \}\}/)
+  assert.match(source, /id: result[\s\S]*if: \$\{\{ always\(\) \}\}/)
+  for (const status of ['translation_ready', 'no_changes', 'failed']) assert.match(source, new RegExp(`status=${status}`))
+  assert.doesNotMatch(source, /git push|git-auto-commit|contents: write/)
+})
+
+test('workflow policy rejects numbered translation batch validation regressions', () => {
+  const sourceDirectory = path.join(process.cwd(), '.github/workflows')
+  const workflowName = '_translate-content-group.yml'
+  const cases = [
+    {
+      mutate(steps) { steps.find(step => step.name === 'Validate translated batch outputs').run += '\nnode scripts/validate-translated-coverage.js --group "$GROUP"' },
+      expected: `${workflowName}: numbered Guides batches must not run full-tree translated coverage`,
+    },
+    {
+      mutate(steps) { steps.find(step => step.name === 'Validate translated batch outputs').if = "${{ inputs.should_translate && inputs.group == 'guides' && (inputs.batch_number > 0 || inputs.batch_number == 0) && (steps.agents.outputs.translated_count != '0' || steps.source_delta.outputs.has_mutation == 'true') }}" },
+      expected: `${workflowName}: numbered Guides batches must use the dedicated mutation-aware local validation step`,
+    },
+    {
+      mutate(steps) { steps.find(step => step.name === 'Validate unbatched translated group').if = '${{ inputs.should_translate }}' },
+      expected: `${workflowName}: full translated validation must be restricted to unbatched runs`,
+    },
+    {
+      mutate(steps) { steps.find(step => step.name === 'Validate unbatched translated group').if = '${{ inputs.should_translate && (inputs.batch_number == 0 || inputs.batch_number > 0) }}' },
+      expected: `${workflowName}: full translated validation must be restricted to unbatched runs`,
+    },
+    {
+      mutate(steps) { steps.find(step => step.name === 'Validate translated batch outputs').run = 'node scripts/docs-workflow/translation-batch-input.js validate --input tmp/translation-batch-input.json' },
+      expected: `${workflowName}: numbered Guides batches must validate agent report evidence and exact candidate output files`,
+    },
+    {
+      mutate(steps) { steps.find(step => step.name === 'Create validated translation checkpoints').run = steps.find(step => step.name === 'Create validated translation checkpoints').run.replace(/\n\s*node scripts\/docs-workflow\/validate-translation-batch\.js[\s\S]*?--batch-count "\$\{\{ inputs\.batch_count \}\}"/, '') },
+      expected: `${workflowName}: numbered Guides checkpoints must validate baseline/result pair identity`,
+    },
+    {
+      mutate(steps) { steps.find(step => step.name === 'Create validated translation checkpoints').run += '\npnpm run build' },
+      expected: `${workflowName}: checkpoint build attestation must remain restricted to unbatched runs`,
+    },
+    {
+      mutate(steps) {
+        const step = steps.find(item => item.name === 'Create validated translation checkpoints')
+        step.run = step.run.replace(
+          'if (( ${{ inputs.batch_number }} == 0 )); then validation_args=(--validation-command "pnpm run build"); fi',
+          '# if (( ${{ inputs.batch_number }} == 0 )); then validation_args=(--validation-command "pnpm run build"); fi',
+        )
+      },
+      expected: `${workflowName}: checkpoint build attestation must remain restricted to unbatched runs`,
+    },
+    {
+      mutate(steps) {
+        const step = steps.find(item => item.name === 'Create validated translation checkpoints')
+        step.run = step.run.replace(
+          'if (( ${{ inputs.batch_number }} == 0 )); then validation_args=(--validation-command "pnpm run build"); fi',
+          'cat <<\'ATTESTATION\'\nif (( ${{ inputs.batch_number }} == 0 )); then validation_args=(--validation-command "pnpm run build"); fi\nATTESTATION',
+        )
+      },
+      expected: `${workflowName}: checkpoint build attestation must remain restricted to unbatched runs`,
+    },
+    {
+      mutate(steps) {
+        const step = steps.find(item => item.name === 'Create validated translation checkpoints')
+        step.run = step.run.replace(
+          'if (( ${{ inputs.batch_number }} == 0 )); then validation_args=(--validation-command "pnpm run build"); fi',
+          'echo \'if (( ${{ inputs.batch_number }} == 0 )); then validation_args=(--validation-command "pnpm run build"); fi\'',
+        )
+      },
+      expected: `${workflowName}: checkpoint build attestation must remain restricted to unbatched runs`,
+    },
+    {
+      mutate(steps) {
+        const step = steps.find(item => item.name === 'Create validated translation checkpoints')
+        step.run = step.run.replace(
+          'if (( ${{ inputs.batch_number }} == 0 )); then validation_args=(--validation-command "pnpm run build"); fi',
+          '\'if (( ${{ inputs.batch_number }} == 0 )); then validation_args=(--validation-command "pnpm run build"); fi\'',
+        )
+      },
+      expected: `${workflowName}: checkpoint build attestation must remain restricted to unbatched runs`,
+    },
+    {
+      mutate(steps) { steps.find(step => step.name === 'Validate translated batch outputs').run += '\nnpx docusaurus build' },
+      expected: `${workflowName}: full validation and build commands must exist only in the exact unbatched validation path`,
+    },
+    {
+      mutate(steps) { steps.find(step => step.name === 'Create validated translation checkpoints').run += '\nnpm run build' },
+      expected: `${workflowName}: checkpoint build attestation must remain restricted to unbatched runs`,
+    },
+    {
+      mutate(steps) { steps.find(step => step.name === 'Run translation agents').run += '\nyarn build' },
+      expected: `${workflowName}: full validation and build commands must exist only in the exact unbatched validation path`,
+    },
+    {
+      mutate(steps) { steps.find(step => step.name === 'Validate translated batch outputs').run += '\npnpm exec docusaurus build' },
+      expected: `${workflowName}: full validation and build commands must exist only in the exact unbatched validation path`,
+    },
+    {
+      mutate(steps) { steps.find(step => step.name === 'Validate translated batch outputs').run += '\ndocusaurus build' },
+      expected: `${workflowName}: full validation and build commands must exist only in the exact unbatched validation path`,
+    },
+    ...[
+      'npm --prefix . run build',
+      'pnpm --dir . run build',
+      'yarn --cwd . build',
+      'npx -p @docusaurus/core docusaurus build',
+    ].map(command => ({
+      mutate(steps) { steps.find(step => step.name === 'Validate translated batch outputs').run += `\n${command}` },
+      expected: `${workflowName}: full validation and build commands must exist only in the exact unbatched validation path`,
+    })),
+  ]
+
+  for (const fixture of cases) {
+    const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'numbered-translation-policy-'))
+    try {
+      fs.cpSync(sourceDirectory, directory, { recursive: true })
+      const file = path.join(directory, workflowName)
+      const workflow = yaml.load(fs.readFileSync(file, 'utf8'))
+      fixture.mutate(workflow.jobs.translate.steps)
+      fs.writeFileSync(file, yaml.dump(workflow, { lineWidth: -1, noRefs: true }))
+      assert.ok(validateWorkflowPolicies(directory).includes(fixture.expected), fixture.expected)
+    } finally {
+      fs.rmSync(directory, { recursive: true, force: true })
+    }
+  }
 })
 
 test('durable translation batch preparation uses the same source delta as batch execution', () => {

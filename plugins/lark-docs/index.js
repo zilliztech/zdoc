@@ -8,6 +8,7 @@ const { createSourceSnapshot, readSnapshot, validateCandidateSnapshot, writeSnap
 const { validateSourceCompleteness, assertSourceCompleteness } = require('./sourceCompleteness')
 const { cleanupRemovedIncrementalRecords } = require('./incrementalReconciliation')
 const { createOfflineMediaResolver } = require('./offlineMediaResolver')
+const LarkSourceIndex = require('./larkSourceIndex')
 const Utils = require('./larkUtils.js')
 const fs = require('node:fs')
 const path = require('node:path')
@@ -20,7 +21,346 @@ function validateOfflineOptions(opts) {
     if (!opts.mediaManifest) throw new Error('--offline requires --mediaManifest')
 }
 
-module.exports = function (context, options) {
+const GUIDES_SIDEBAR_TARGETS = Object.freeze(['zilliz.saas', 'zilliz.paas'])
+
+function resolveConfiguredTarget(targets, targetName) {
+    return targetName.split('.').reduce((value, key) => value?.[key], targets)
+}
+
+function parseSidebarTargets(value) {
+    if (typeof value !== 'string' || value.length === 0) throw new Error('--sidebarTargets requires targets')
+    return value.split(',')
+}
+
+function validateSidebarTargetRequest({
+    manualName, manual, targetNames, sidebarOnly, skipSourceDown, offline, mediaManifest,
+    skipSidebar=false, pubTarget=null, incrementalPlanOnly=false,
+}) {
+    if (manualName !== 'guides' || manual?.sourceType !== 'wiki') {
+        throw new Error('--sidebarTargets is only supported for the Guides wiki manual')
+    }
+    if (!sidebarOnly) throw new Error('--sidebarTargets requires --sidebarOnly')
+    if (!skipSourceDown) throw new Error('--sidebarTargets requires --skipSourceDown')
+    if (!offline) throw new Error('--sidebarTargets requires --offline')
+    if (!mediaManifest) throw new Error('--sidebarTargets requires --mediaManifest')
+    if (skipSidebar) throw new Error('--sidebarTargets cannot be combined with --skipSidebar')
+    if (pubTarget) throw new Error('--sidebarTargets cannot be combined with --pubTarget')
+    if (incrementalPlanOnly) throw new Error('--incrementalPlanOnly cannot be combined with --sidebarTargets')
+    if (!Array.isArray(targetNames)) throw new Error('--sidebarTargets requires targets')
+    if (new Set(targetNames).size !== targetNames.length) throw new Error('--sidebarTargets contains duplicate targets')
+    const unknown = targetNames.filter(target => !GUIDES_SIDEBAR_TARGETS.includes(target))
+    if (unknown.length > 0) throw new Error(`--sidebarTargets contains unknown targets: ${unknown.join(', ')}`)
+    if (targetNames.length !== GUIDES_SIDEBAR_TARGETS.length ||
+        GUIDES_SIDEBAR_TARGETS.some(target => !targetNames.includes(target))) {
+        throw new Error(`--sidebarTargets requires exactly ${GUIDES_SIDEBAR_TARGETS.join(',')}`)
+    }
+    for (const targetName of GUIDES_SIDEBAR_TARGETS) {
+        const targetConfig = resolveConfiguredTarget(manual.targets, targetName)
+        if (!targetConfig?.outputDir) throw new Error(`Missing Guides target configuration: ${targetName}`)
+        if (!(targetConfig.sidebarPath ?? manual.sidebarPath)) {
+            throw new Error(`Missing Guides sidebar path for target: ${targetName}`)
+        }
+    }
+    return [...GUIDES_SIDEBAR_TARGETS]
+}
+
+function sidebarModuleContents(sidebarItems) {
+    return `module.exports = ${JSON.stringify(sidebarItems, null, 2)}\n`
+}
+
+function safeWorkspacePath(workspace, relativePath, fsImpl) {
+    if (!relativePath || path.isAbsolute(relativePath) || relativePath.includes('\\')) {
+        throw new Error(`Unsafe sidebar path: ${relativePath}`)
+    }
+    const normalized = path.normalize(relativePath)
+    if (normalized === '.' || normalized === '..' || normalized.startsWith(`..${path.sep}`)) {
+        throw new Error(`Unsafe sidebar path: ${relativePath}`)
+    }
+    const root = fsImpl.realpathSync(workspace)
+    const target = path.resolve(root, normalized)
+    if (!target.startsWith(`${root}${path.sep}`)) throw new Error(`Sidebar path escapes workspace: ${relativePath}`)
+    return { root, target }
+}
+
+function ensureSafeDirectory(root, directory, fsImpl) {
+    const relative = path.relative(root, directory)
+    let current = root
+    for (const segment of relative.split(path.sep).filter(Boolean)) {
+        current = path.join(current, segment)
+        let stat
+        try {
+            stat = fsImpl.lstatSync(current)
+        } catch (error) {
+            if (error.code !== 'ENOENT') throw error
+            fsImpl.mkdirSync(current)
+            stat = fsImpl.lstatSync(current)
+        }
+        if (stat.isSymbolicLink()) throw new Error(`Sidebar ancestor must not be a symlink: ${current}`)
+        if (!stat.isDirectory()) throw new Error(`Sidebar ancestor must be a directory: ${current}`)
+    }
+}
+
+function uniqueSiblingPath(finalPath, kind, fsImpl) {
+    for (let attempt = 0; attempt < 100; attempt += 1) {
+        const candidate = `${finalPath}.${kind}-${process.pid}-${Date.now()}-${attempt}`
+        try {
+            fsImpl.lstatSync(candidate)
+        } catch (error) {
+            if (error.code === 'ENOENT') return candidate
+            throw error
+        }
+    }
+    throw new Error(`Cannot allocate sidebar ${kind} path for ${finalPath}`)
+}
+
+function removePathIfPresent(target, fsImpl) {
+    try {
+        const stat = fsImpl.lstatSync(target)
+        fsImpl.rmSync(target, { recursive: stat.isDirectory(), force: true })
+    } catch (error) {
+        if (error.code !== 'ENOENT') throw error
+    }
+}
+
+function transactionOperationError(operation, target, error) {
+    return new Error(`${operation} (${target}): ${error.message}`, { cause: error })
+}
+
+function aggregateTransactionError(label, primaryError, recoveryErrors) {
+    if (recoveryErrors.length === 0) return primaryError
+    const errors = [primaryError, ...recoveryErrors]
+    return new AggregateError(errors, `${label}: ${errors.map(error => error.message).join('; ')}`, { cause: primaryError })
+}
+
+function recordDirectoryIdentity(root, directory, fsImpl) {
+    const stat = fsImpl.lstatSync(directory)
+    if (stat.isSymbolicLink() || !stat.isDirectory()) throw new Error(`Sidebar output parent must be a real directory: ${directory}`)
+    const realDirectory = fsImpl.realpathSync(directory)
+    if (realDirectory !== directory || (realDirectory !== root && !realDirectory.startsWith(`${root}${path.sep}`))) {
+        throw new Error(`Sidebar output parent escapes workspace: ${directory}`)
+    }
+    return Object.freeze({ directory, realDirectory, device: stat.dev, inode: stat.ino })
+}
+
+function verifyDirectoryIdentity(identity, fsImpl) {
+    let stat
+    let realDirectory
+    try {
+        stat = fsImpl.lstatSync(identity.directory)
+        realDirectory = fsImpl.realpathSync(identity.directory)
+    } catch (error) {
+        throw new Error(`Sidebar output directory identity unavailable for ${identity.directory}: ${error.message}`, { cause: error })
+    }
+    if (stat.isSymbolicLink() || !stat.isDirectory()
+        || stat.dev !== identity.device || stat.ino !== identity.inode || realDirectory !== identity.realDirectory) {
+        throw new Error(`Sidebar output directory identity changed: ${identity.directory}`)
+    }
+}
+
+function attemptTransactionOperation(errors, operation, target, callback) {
+    try {
+        callback()
+        return true
+    } catch (error) {
+        errors.push(transactionOperationError(operation, target, error))
+        return false
+    }
+}
+
+function removeEntryPathIfPresent(entry, target, fsImpl) {
+    verifyDirectoryIdentity(entry.directoryIdentity, fsImpl)
+    removePathIfPresent(target, fsImpl)
+    verifyDirectoryIdentity(entry.directoryIdentity, fsImpl)
+}
+
+function writeStagedFile(entry, fsImpl) {
+    const { tempPath: target, contents, directoryIdentity } = entry
+    const noFollow = fsImpl.constants.O_NOFOLLOW
+    if (typeof noFollow !== 'number') throw new Error('Secure sidebar staging requires O_NOFOLLOW support')
+    const flags = fsImpl.constants.O_WRONLY | fsImpl.constants.O_CREAT | fsImpl.constants.O_EXCL | noFollow
+    let descriptor
+    let primaryError = null
+    try {
+        verifyDirectoryIdentity(directoryIdentity, fsImpl)
+        descriptor = fsImpl.openSync(target, flags, 0o644)
+        verifyDirectoryIdentity(directoryIdentity, fsImpl)
+        fsImpl.writeFileSync(descriptor, contents, 'utf8')
+        fsImpl.fsyncSync(descriptor)
+        verifyDirectoryIdentity(directoryIdentity, fsImpl)
+    } catch (error) {
+        primaryError = error
+    }
+    if (descriptor !== undefined) {
+        try {
+            fsImpl.closeSync(descriptor)
+        } catch (error) {
+            if (!primaryError) primaryError = error
+            else primaryError = aggregateTransactionError('Sidebar staged file close failed', primaryError, [
+                transactionOperationError('close staged sidebar', target, error),
+            ])
+        }
+    }
+    if (primaryError) throw primaryError
+}
+
+function writeSidebarPairTransactional({ workspace=process.cwd(), outputs, fsImpl=fs }) {
+    if (!Array.isArray(outputs) || outputs.length !== 2) throw new Error('Exactly two sidebar outputs are required')
+    const entries = outputs.map(output => {
+        const { root, target } = safeWorkspacePath(workspace, output.sidebarPath, fsImpl)
+        const directory = path.dirname(target)
+        ensureSafeDirectory(root, directory, fsImpl)
+        const directoryIdentity = recordDirectoryIdentity(root, directory, fsImpl)
+        let hadOriginal = false
+        try {
+            const stat = fsImpl.lstatSync(target)
+            if (stat.isSymbolicLink()) throw new Error(`Sidebar target must not be a symlink: ${target}`)
+            if (!stat.isFile()) throw new Error(`Sidebar target must be a regular file: ${target}`)
+            hadOriginal = true
+        } catch (error) {
+            if (error.code !== 'ENOENT') throw error
+        }
+        return {
+            finalPath: target,
+            tempPath: uniqueSiblingPath(target, 'tmp', fsImpl),
+            backupPath: hadOriginal ? uniqueSiblingPath(target, 'backup', fsImpl) : null,
+            hadOriginal,
+            backupMade: false,
+            committed: false,
+            directoryIdentity,
+            contents: sidebarModuleContents(output.sidebarItems),
+        }
+    })
+    if (new Set(entries.map(entry => entry.finalPath)).size !== entries.length) {
+        throw new Error('Sidebar output paths must be distinct')
+    }
+
+    let transactionCommitted = false
+    try {
+        for (const entry of entries) writeStagedFile(entry, fsImpl)
+        for (const entry of entries) {
+            if (!entry.hadOriginal) continue
+            verifyDirectoryIdentity(entry.directoryIdentity, fsImpl)
+            const stat = fsImpl.lstatSync(entry.finalPath)
+            if (stat.isSymbolicLink() || !stat.isFile()) throw new Error(`Unsafe sidebar target: ${entry.finalPath}`)
+            fsImpl.renameSync(entry.finalPath, entry.backupPath)
+            entry.backupMade = true
+            verifyDirectoryIdentity(entry.directoryIdentity, fsImpl)
+        }
+        for (const entry of entries) {
+            verifyDirectoryIdentity(entry.directoryIdentity, fsImpl)
+            fsImpl.renameSync(entry.tempPath, entry.finalPath)
+            entry.committed = true
+            verifyDirectoryIdentity(entry.directoryIdentity, fsImpl)
+        }
+        transactionCommitted = true
+    } catch (primaryError) {
+        const recoveryErrors = []
+        for (const entry of entries) {
+            if (entry.backupMade) {
+                const removed = attemptTransactionOperation(recoveryErrors, 'remove uncommitted sidebar', entry.finalPath, () => {
+                    removeEntryPathIfPresent(entry, entry.finalPath, fsImpl)
+                })
+                if (removed) {
+                    const restored = attemptTransactionOperation(recoveryErrors, 'restore sidebar backup', `${entry.backupPath} -> ${entry.finalPath}`, () => {
+                        verifyDirectoryIdentity(entry.directoryIdentity, fsImpl)
+                        fsImpl.renameSync(entry.backupPath, entry.finalPath)
+                        entry.backupMade = false
+                        verifyDirectoryIdentity(entry.directoryIdentity, fsImpl)
+                    })
+                    if (restored) entry.committed = false
+                }
+            } else if (entry.committed) {
+                attemptTransactionOperation(recoveryErrors, 'remove new sidebar', entry.finalPath, () => {
+                    removeEntryPathIfPresent(entry, entry.finalPath, fsImpl)
+                    entry.committed = false
+                })
+            }
+        }
+        for (const entry of entries) {
+            attemptTransactionOperation(recoveryErrors, 'remove staged sidebar residue', entry.tempPath, () => {
+                removeEntryPathIfPresent(entry, entry.tempPath, fsImpl)
+            })
+        }
+        throw aggregateTransactionError('Sidebar pair transaction and recovery failed', primaryError, recoveryErrors)
+    }
+
+    if (!transactionCommitted) throw new Error('Sidebar pair transaction did not reach commit')
+    const cleanupErrors = []
+    for (const entry of entries) {
+        if (!entry.backupMade) continue
+        const removed = attemptTransactionOperation(cleanupErrors, 'remove committed sidebar backup residue', entry.backupPath, () => {
+            removeEntryPathIfPresent(entry, entry.backupPath, fsImpl)
+        })
+        if (removed) entry.backupMade = false
+    }
+    if (cleanupErrors.length > 0) {
+        throw new AggregateError(cleanupErrors, `Sidebar pair committed but backup cleanup failed: ${cleanupErrors.map(error => error.message).join('; ')}`)
+    }
+    return outputs
+}
+
+async function generateSidebarTargets(options) {
+    const targetNames = validateSidebarTargetRequest(options)
+    const { manual, sourceIndex, writerFactory, writeSidebarPair, linkShim=null, mediaResolver=null } = options
+    if (!sourceIndex || !Object.isFrozen(sourceIndex)) throw new Error('--sidebarTargets requires one immutable source index')
+    for (const method of ['find', 'findAnyToken', 'findBaseSourceMeta']) {
+        if (typeof sourceIndex[method] !== 'function') throw new Error(`Immutable source index requires ${method}`)
+    }
+    if (typeof writerFactory !== 'function') throw new Error('writerFactory is required')
+    if (typeof writeSidebarPair !== 'function') throw new Error('writeSidebarPair is required')
+
+    const writers = []
+    const generated = []
+    let primaryError = null
+    try {
+        for (const targetName of targetNames) {
+            const targetConfig = resolveConfiguredTarget(manual.targets, targetName)
+            const writer = writerFactory(
+                manual.root,
+                manual.base,
+                manual.displayedSidebar,
+                manual.docSourceDir,
+                targetConfig.imageDir ?? null,
+                targetName,
+                true,
+                false,
+                linkShim,
+                mediaResolver,
+                sourceIndex,
+            )
+            if (!writer || writers.some(entry => entry.writer === writer)) {
+                throw new Error('Each Guides sidebar target requires a distinct writer instance')
+            }
+            writers.push({ writer, targetName, targetConfig })
+        }
+
+        for (const { writer, targetName, targetConfig } of writers) {
+            const sidebarItems = await writer.generate_sidebar(targetConfig.outputDir, targetConfig.outputDir.split('/')[0])
+            generated.push({
+                targetName,
+                sidebarPath: targetConfig.sidebarPath ?? manual.sidebarPath,
+                sidebarItems,
+            })
+        }
+        await writeSidebarPair(generated)
+        return generated
+    } catch (error) {
+        primaryError = error
+        throw error
+    } finally {
+        let cleanupError = null
+        for (const { writer } of writers) {
+            try {
+                writer.destroy()
+            } catch (error) {
+                cleanupError ||= error
+            }
+        }
+        if (!primaryError && cleanupError) throw cleanupError
+    }
+}
+
+function larkDocsPlugin(context, options) {
     return {
         name: "fetch-lark-docs",
         extendCli(cli) {
@@ -38,6 +378,7 @@ module.exports = function (context, options) {
                 .option('-post, --postProcess', 'Post process file paths')
                 .option('-s3, --uploadToS3', 'Upload images to S3 instead of local storage')
                 .option('-sidebar, --sidebarOnly', 'Only regenerate sidebar file from existing sources')
+                .option('--sidebarTargets <targets>', 'Generate the fixed combined Guides sidebar target set')
                 .option('-skipSidebar, --skipSidebar', 'Skip sidebar generation (preserve manual edits)')
                 .option('--validateLinks', 'Validate Feishu doc links in existing sources against canonical Base records')
                 .option('--skipLinkValidation', 'Skip content link validation report generation')
@@ -81,6 +422,24 @@ module.exports = function (context, options) {
                         console.log(`Fetching ${opts.manual} ...`)
                     } else {
                         throw new Error(`Please provide a valid manual tag... \nAvailable manual tags: \n- ${manuals.join('\n- ')}`)
+                    }
+
+                    const sidebarTargetNames = opts.sidebarTargets === undefined
+                        ? null
+                        : parseSidebarTargets(opts.sidebarTargets)
+                    if (sidebarTargetNames) {
+                        validateSidebarTargetRequest({
+                            manualName,
+                            manual,
+                            targetNames: sidebarTargetNames,
+                            sidebarOnly: !!opts.sidebarOnly,
+                            skipSourceDown: !!opts.skipSourceDown,
+                            offline: !!opts.offline,
+                            mediaManifest: opts.mediaManifest,
+                            skipSidebar: !!opts.skipSidebar,
+                            pubTarget: opts.pubTarget,
+                            incrementalPlanOnly: !!opts.incrementalPlanOnly,
+                        })
                     }
 
                     const { root, base, sourceType, displayedSidebar, docSourceDir, fallbackSourceDir, targets, sidebarPath, overridePath, contentRoot } = manual
@@ -300,23 +659,55 @@ module.exports = function (context, options) {
                             .filter(file => file.startsWith(`${targetConfig.outputDir}/`) && fs.existsSync(file))
                     }
 
-                    if (opts.validateLinks && opts.pubTarget === undefined && !opts.sourceOnly && opts.docToken === undefined) {
+                    if (opts.validateLinks && !opts.sidebarOnly && opts.pubTarget === undefined && !opts.sourceOnly && opts.docToken === undefined) {
                         await validateContentLinks({ force: true })
                         return
                     }
 
-                    if (opts.incrementalPlanOnly && opts.pubTarget === undefined && !opts.sourceOnly && opts.docToken === undefined) {
+                    if (opts.incrementalPlanOnly && !opts.sidebarOnly && opts.pubTarget === undefined && !opts.sourceOnly && opts.docToken === undefined) {
                         await planIncrementalSourceFetch()
                         return
                     }
 
-                    if ((opts.auditCanonicalLinks || opts.failOnBrokenCanonicalLinks) && opts.pubTarget === undefined && !opts.sourceOnly && opts.docToken === undefined) {
+                    if ((opts.auditCanonicalLinks || opts.failOnBrokenCanonicalLinks) && !opts.sidebarOnly && opts.pubTarget === undefined && !opts.sourceOnly && opts.docToken === undefined) {
                         await auditCanonicalLinks()
                         return
                     }
 
                     // Sidebar-only mode: regenerate sidebar from existing sources without re-fetching
                     if (opts.sidebarOnly) {
+                        if (opts.sidebarTargets !== undefined) {
+                            if (opts.validateLinks) {
+                                await validateContentLinks({ force: true })
+                            }
+                            await auditCanonicalLinks()
+                            const mediaResolver = createOfflineMediaResolver({
+                                manifestPath: opts.mediaManifest,
+                                imageBedUrl: process.env.IMAGE_BED_URL || 'https://zdoc-images.s3.us-west-2.amazonaws.com',
+                            })
+                            const sourceIndex = LarkSourceIndex.load(docSourceDir)
+                            await generateSidebarTargets({
+                                manualName,
+                                manual,
+                                targetNames: sidebarTargetNames,
+                                sourceIndex,
+                                sidebarOnly: true,
+                                skipSourceDown: true,
+                                offline: true,
+                                mediaManifest: opts.mediaManifest,
+                                skipSidebar: false,
+                                pubTarget: null,
+                                incrementalPlanOnly: false,
+                                linkShim: opts.linkShim,
+                                mediaResolver,
+                                writerFactory: (...args) => new docWriter(...args),
+                                writeSidebarPair: async outputs => {
+                                    writeSidebarPairTransactional({ outputs })
+                                    for (const output of outputs) console.log(`Sidebar written to ${output.sidebarPath}`)
+                                },
+                            })
+                            return
+                        }
                         if (opts.validateLinks) {
                             await validateContentLinks({ force: true })
                         }
@@ -670,4 +1061,10 @@ module.exports = function (context, options) {
     }
 }
 
+module.exports = larkDocsPlugin
 module.exports.validateOfflineOptions = validateOfflineOptions
+module.exports.generateSidebarTargets = generateSidebarTargets
+module.exports.writeSidebarPairTransactional = writeSidebarPairTransactional
+module.exports.sidebarModuleContents = sidebarModuleContents
+module.exports.parseSidebarTargets = parseSidebarTargets
+module.exports.validateSidebarTargetRequest = validateSidebarTargetRequest

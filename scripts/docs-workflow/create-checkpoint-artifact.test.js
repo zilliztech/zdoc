@@ -2,7 +2,7 @@
 
 const assert = require('node:assert/strict');
 const { spawnSync } = require('node:child_process');
-const { lstat, mkdtemp, mkdir, readFile, readdir, symlink, utimes, writeFile } = require('node:fs/promises');
+const { lstat, mkdtemp, mkdir, readFile, readdir, realpath, symlink, utimes, writeFile } = require('node:fs/promises');
 const os = require('node:os');
 const path = require('node:path');
 const test = require('node:test');
@@ -13,9 +13,48 @@ const { validateCheckpointArtifact } = require('./validate-checkpoint-artifact')
 
 const SHA_A = 'a'.repeat(40);
 const SHA_B = 'b'.repeat(40);
+const HASH = 'c'.repeat(64);
+
+function numberedBatch(overrides = {}) {
+  return { batchIndex: 0, batchNumber: 1, batchCount: 1, batchSize: 30, pendingCount: 1, pendingSetSha256: HASH, ...overrides };
+}
+
+function canonicalBatchInput(batch = numberedBatch(), overrides = {}) {
+  const reconciliationOnly = batch.pendingCount === 0;
+  return {
+    schemaVersion: 1,
+    group: 'guides',
+    sourceCheckpointSha: SHA_B,
+    batch,
+    candidates: reconciliationOnly ? [] : [{
+      sourcePath: 'docs/tutorials/new.md',
+      targetPath: 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/new.md',
+      sourceHash: 'd'.repeat(64),
+    }],
+    sourceDelta: reconciliationOnly ? {
+      deletedI18n: ['i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/old.md'],
+      renamed: [],
+    } : { deletedI18n: [], renamed: [] },
+    ...overrides,
+  };
+}
+
+async function writeCanonicalBatchInput(f, batch = numberedBatch(), overrides = {}) {
+  const file = path.join(path.dirname(f.output), `batch-input-${Math.random().toString(16).slice(2)}.json`);
+  const bytes = Buffer.from(`${JSON.stringify(canonicalBatchInput(batch, overrides), null, 2)}\n`);
+  await writeFile(file, bytes);
+  return { file, bytes };
+}
+
+async function prepareGuidesTranslation(f) {
+  await mkdir(path.join(f.baselineDir, '.translation-cache'), { recursive: true });
+  await mkdir(path.join(f.workspace, '.translation-cache'), { recursive: true });
+  await writeFile(path.join(f.baselineDir, '.translation-cache/ja-JP.json'), '{"files":{}}\n');
+  await writeFile(path.join(f.workspace, '.translation-cache/ja-JP.json'), '{"files":{}}\n');
+}
 
 async function fixture() {
-  const root = await mkdtemp(path.join(os.tmpdir(), 'checkpoint-create-'));
+  const root = await realpath(await mkdtemp(path.join(os.tmpdir(), 'checkpoint-create-')));
   const baselineDir = path.join(root, 'baseline');
   const workspace = path.join(root, 'workspace');
   const output = path.join(root, 'artifact');
@@ -53,7 +92,7 @@ test('creates a deterministic, sorted artifact with changed, new, binary, and de
   assert.equal(manifest.files.every((entry) => /^[0-9a-f]{64}$/.test(entry.sha256)), true);
 });
 
-test('creates, validates, and applies a translation artifact with three-way cache merge', async () => {
+test('keeps unbatched translation artifacts on schema 1 and applies their cache merge', async () => {
   const f = await fixture(); const target = path.join(path.dirname(f.output), 'target');
   await mkdir(path.join(f.baselineDir, '.translation-cache'), { recursive: true });
   await mkdir(path.join(f.workspace, '.translation-cache'), { recursive: true });
@@ -64,10 +103,11 @@ test('creates, validates, and applies a translation artifact with three-way cach
   const translated = 'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/python/python/topic.md';
   await mkdir(path.dirname(path.join(f.workspace, translated)), { recursive: true });
   await writeFile(path.join(f.workspace, translated), '# translated');
-  const batch = { batchIndex: 1, batchNumber: 2, batchCount: 4, batchSize: 30, pendingCount: 97, pendingSetSha256: 'c'.repeat(64) };
-  const manifest = await createCheckpointArtifact({ group: 'python', masterSha: SHA_A, devBaselineSha: SHA_B, ...f, includeTranslationCache: true, batch });
+  const manifest = await createCheckpointArtifact({ group: 'python', masterSha: SHA_A, devBaselineSha: SHA_B, ...f, includeTranslationCache: true });
   assert.equal(manifest.stage, 'translation'); assert.equal(manifest.files.some((entry) => entry.path === '.translation-cache/ja-JP.json'), true);
-  assert.deepEqual(manifest.batch, batch);
+  assert.equal(manifest.schemaVersion, 1);
+  assert.equal(manifest.batch, undefined);
+  assert.deepEqual(manifest.validation, { commands: [], passed: true });
   assert.equal(manifest.files.some((entry) => entry.path === translated), true);
   await assert.doesNotReject(validateCheckpointArtifact(f.output));
   await applyCheckpointArtifact({ artifactDir: f.output, targetDir: target, baselineDir: f.baselineDir });
@@ -76,14 +116,115 @@ test('creates, validates, and applies a translation artifact with three-way cach
 
 test('allows a reconciliation-only translation batch with zero pending model files', async () => {
   const f = await fixture();
+  await prepareGuidesTranslation(f);
+  const batch = numberedBatch({ pendingCount: 0 });
+  const batchInput = await writeCanonicalBatchInput(f, batch);
+  const manifest = await createCheckpointArtifact({ group: 'guides', masterSha: SHA_A, devBaselineSha: SHA_B, ...f, includeTranslationCache: true, batch, batchInputPath: batchInput.file });
+  assert.equal(manifest.schemaVersion, 2);
+  assert.deepEqual(manifest.batch, batch);
+  assert.equal(manifest.validation, undefined);
+  await assert.doesNotReject(validateCheckpointArtifact(f.output));
+});
+
+test('numbered Guides artifact creation requires batch input and records exact schema 2 bytes', async () => {
+  const f = await fixture();
+  await prepareGuidesTranslation(f);
+  const batch = numberedBatch();
+  await assert.rejects(
+    createCheckpointArtifact({ group: 'guides', masterSha: SHA_A, devBaselineSha: SHA_B, ...f, includeTranslationCache: true, batch }),
+    /batch input.*required|batchInputPath/i,
+  );
+
+  const input = await writeCanonicalBatchInput(f, batch);
+  const manifest = await createCheckpointArtifact({
+    group: 'guides', masterSha: SHA_A, devBaselineSha: SHA_B, ...f,
+    includeTranslationCache: true, batch, batchInputPath: input.file,
+  });
+  assert.equal(manifest.schemaVersion, 2);
+  assert.equal(Object.hasOwn(manifest, 'validation'), false);
+  assert.deepEqual(manifest.batchInput, {
+    path: 'batch-input.json',
+    size: input.bytes.length,
+    sha256: require('node:crypto').createHash('sha256').update(input.bytes).digest('hex'),
+  });
+  assert.deepEqual(await readFile(path.join(f.output, 'batch-input.json')), input.bytes);
+  assert.deepEqual(Object.keys(manifest).sort(), [
+    'batch', 'batchInput', 'createdAt', 'deletions', 'devBaselineSha', 'files', 'group', 'masterSha',
+    'ownershipVersion', 'schemaVersion', 'snapshotManual', 'stage',
+  ].sort());
+});
+
+test('numbered creation rejects malformed, symlinked, and non-file batch inputs', async () => {
+  const batch = numberedBatch();
+  for (const kind of ['semantic', 'symlink', 'directory']) {
+    const f = await fixture();
+    await prepareGuidesTranslation(f);
+    const input = await writeCanonicalBatchInput(f, batch);
+    let batchInputPath = input.file;
+    if (kind === 'semantic') await writeFile(input.file, `${JSON.stringify({ ...canonicalBatchInput(batch), extra: true }, null, 2)}\n`);
+    if (kind === 'symlink') {
+      batchInputPath = `${input.file}.link`;
+      await symlink(input.file, batchInputPath);
+    }
+    if (kind === 'directory') {
+      batchInputPath = `${input.file}.dir`;
+      await mkdir(batchInputPath);
+    }
+    await assert.rejects(
+      createCheckpointArtifact({ group: 'guides', masterSha: SHA_A, devBaselineSha: SHA_B, ...f, includeTranslationCache: true, batch, batchInputPath }),
+      /batch input|schema|key|symlink|regular|file/i,
+      kind,
+    );
+  }
+});
+
+test('source and unbatched translation artifacts reject batch input and retain schema 1 validation', async () => {
+  let f = await fixture();
+  let input = await writeCanonicalBatchInput(f);
+  await assert.rejects(
+    createCheckpointArtifact({ group: 'python', masterSha: SHA_A, devBaselineSha: SHA_B, ...f, batchInputPath: input.file }),
+    /batch input.*numbered|not allowed/i,
+  );
+
+  f = await fixture();
+  await prepareGuidesTranslation(f);
+  input = await writeCanonicalBatchInput(f);
+  await assert.rejects(
+    createCheckpointArtifact({ group: 'guides', masterSha: SHA_A, devBaselineSha: SHA_B, ...f, includeTranslationCache: true, batchInputPath: input.file }),
+    /batch input.*numbered|not allowed/i,
+  );
+  const manifest = await createCheckpointArtifact({
+    group: 'guides', masterSha: SHA_A, devBaselineSha: SHA_B, ...f,
+    includeTranslationCache: true, validationCommands: ['pnpm run build'],
+  });
+  assert.equal(manifest.schemaVersion, 1);
+  assert.deepEqual(manifest.validation, { commands: ['pnpm run build'], passed: true });
+});
+
+test('numbered schema 2 creation is Guides-only and cannot claim build validation', async () => {
+  let f = await fixture();
   await mkdir(path.join(f.baselineDir, '.translation-cache'), { recursive: true });
   await mkdir(path.join(f.workspace, '.translation-cache'), { recursive: true });
-  await writeFile(path.join(f.baselineDir, '.translation-cache/ja-JP.json'), '{"files":{}}');
-  await writeFile(path.join(f.workspace, '.translation-cache/ja-JP.json'), '{"files":{}}');
-  const batch = { batchIndex: 0, batchNumber: 1, batchCount: 1, batchSize: 30, pendingCount: 0, pendingSetSha256: 'd'.repeat(64) };
-  const manifest = await createCheckpointArtifact({ group: 'python', masterSha: SHA_A, devBaselineSha: SHA_B, ...f, includeTranslationCache: true, batch });
-  assert.deepEqual(manifest.batch, batch);
-  await assert.doesNotReject(validateCheckpointArtifact(f.output));
+  await writeFile(path.join(f.baselineDir, '.translation-cache/ja-JP.json'), '{"files":{}}\n');
+  await writeFile(path.join(f.workspace, '.translation-cache/ja-JP.json'), '{"files":{}}\n');
+  const batch = numberedBatch();
+  let input = await writeCanonicalBatchInput(f, batch);
+  await assert.rejects(
+    createCheckpointArtifact({ group: 'python', masterSha: SHA_A, devBaselineSha: SHA_B, ...f, includeTranslationCache: true, batch, batchInputPath: input.file }),
+    /schema 2.*guides|numbered.*guides/i,
+  );
+
+  f = await fixture();
+  await prepareGuidesTranslation(f);
+  input = await writeCanonicalBatchInput(f, batch);
+  await assert.rejects(
+    createCheckpointArtifact({
+      group: 'guides', masterSha: SHA_A, devBaselineSha: SHA_B, ...f,
+      includeTranslationCache: true, batch, batchInputPath: input.file,
+      validationCommands: ['pnpm run build'],
+    }),
+    /must not claim|validation.*numbered/i,
+  );
 });
 
 test('translation cache option is strict and source artifacts cannot smuggle cache', async () => {
@@ -302,11 +443,37 @@ test('creation CLI rejects unknown, duplicate, missing-value, and individually m
   const cli = path.join(__dirname, 'create-checkpoint-artifact.js');
   const base = ['--group', 'python', '--master-sha', SHA_A, '--dev-baseline-sha', SHA_B, '--baseline-dir', '/tmp/base', '--workspace', '/tmp/work', '--output', '/tmp/out'];
   for (const args of [
-    [...base, '--wat', 'x'], [...base, '--group', 'python'], [...base, '--output'],
+    [...base, '--wat', 'x'], [...base, '--group', 'python'], [...base, '--output'], [...base, '--batch-input', 'one', '--batch-input', 'two'],
     ...['group', 'master-sha', 'dev-baseline-sha', 'baseline-dir', 'workspace', 'output'].map((missing) => base.filter((_, i) => base[i] !== `--${missing}` && base[i - 1] !== `--${missing}`)),
   ]) {
     const result = spawnSync(process.execPath, [cli, ...args], { encoding: 'utf8' });
     assert.notEqual(result.status, 0, args.join(' '));
     assert.match(result.stderr, /failed|usage|required|duplicate|unknown/i);
   }
+});
+
+test('creation CLI accepts a complete numbered Guides batch input', async () => {
+  const f = await fixture();
+  await prepareGuidesTranslation(f);
+  const batch = numberedBatch();
+  const input = await writeCanonicalBatchInput(f, batch);
+  const cli = path.join(__dirname, 'create-checkpoint-artifact.js');
+  const result = spawnSync(process.execPath, [cli,
+    '--group', 'guides', '--master-sha', SHA_A, '--dev-baseline-sha', SHA_B,
+    '--baseline-dir', f.baselineDir, '--workspace', f.workspace, '--output', f.output,
+    '--include-translation-cache', '--batch-index', '0', '--batch-number', '1', '--batch-count', '1',
+    '--batch-size', '30', '--pending-count', '1', '--pending-set-sha256', HASH,
+    '--batch-input', input.file,
+  ], { encoding: 'utf8' });
+  assert.equal(result.status, 0, result.stderr);
+  assert.equal(JSON.parse(await readFile(path.join(f.output, 'manifest.json'), 'utf8')).schemaVersion, 2);
+});
+
+test('translation workflow creates one numbered Guides batch input and passes it to both schema 2 checkpoints', async () => {
+  const workflow = await readFile(path.join(__dirname, '../../.github/workflows/_translate-content-group.yml'), 'utf8');
+  assert.match(workflow, /inputs\.batch_number[\s\S]*GROUP[\s\S]*translation-batch-input\.js create[\s\S]*--manifest tmp\/translation-manifest\.json[\s\S]*--output tmp\/translation-batch-input\.json/);
+  assert.match(workflow, /batch_input_args=\(\)[\s\S]*batch_input_args=\(--batch-input tmp\/translation-batch-input\.json\)/);
+  assert.match(workflow, /create-checkpoint-artifact\.js[^\n]*BASELINE_CHECKPOINT_DIR[^\n]*batch_input_args/);
+  assert.match(workflow, /create-checkpoint-artifact\.js[^\n]*CHECKPOINT_DIR[^\n]*batch_input_args[^\n]*validation_args/);
+  assert.match(workflow, /inputs\.batch_number[^\n]*== 0[^\n]*validation_args=\(--validation-command "pnpm run build"\)/);
 });

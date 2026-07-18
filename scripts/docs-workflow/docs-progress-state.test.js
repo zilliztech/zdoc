@@ -139,21 +139,42 @@ test('keeps dependency text when GitHub exposes a queued publisher job', () => {
   assert.equal(node.currentTask, 'Waiting for Java publisher')
 })
 
-test('keeps partially published Guides batches running instead of completed', () => {
+for (const step of [
+  'Validate Guides translation batch identities',
+  'Apply Guides translation batches to staging',
+  'Push Guides translation staging ref',
+  'Validate combined Guides translation',
+  'Promote validated Guides translation',
+  'Clean up Guides translation staging ref',
+]) test(`shows ${step} as in progress without claiming Published`, () => {
   const jobs = [
     { id: 1, name: 'produce_guides_sources / fetch', status: 'completed', conclusion: 'success' },
     { id: 2, name: 'produce_guides / assemble', status: 'completed', conclusion: 'success' },
     { id: 3, name: 'publish_guides / publish', status: 'completed', conclusion: 'success' },
-    { id: 4, name: 'guides_translation_batch_1_of_2_pending_40 / translate batch 1 of 2', status: 'completed', conclusion: 'success' },
-    { id: 5, name: 'guides_translation_batch_2_of_2_pending_40 / translate batch 2 of 2', status: 'completed', conclusion: 'success' },
-    { id: 6, name: 'guides_translation_batch_1_of_2_pending_40 / publish batch 1 of 2 (20 docs)', status: 'completed', conclusion: 'success' },
-    { id: 7, name: 'guides_translation_batch_2_of_2_pending_40 / publish batch 2 of 2', status: 'queued', conclusion: null },
+    { id: 4, name: 'guides_translation_batch_1_of_1_pending_20 / translate', status: 'completed', conclusion: 'success' },
+    { id: 5, name: 'publish_guides_translation_batches / publish', status: 'in_progress', conclusion: null, steps: [{ name: step, status: 'in_progress', conclusion: null }] },
   ]
   const state = deriveDocsProgressState({ requestedGroups: ['guides'], publishEnabled: true, jobs })
-  assert.equal(state.manuals[0].phase, 'translation')
   assert.equal(state.manuals[0].status, 'running')
-  assert.equal(state.manuals[0].currentTask, 'Publish Guides translation batches')
-  assert.equal(state.manuals[0].detail, '20 documents published · 20 remaining · 1/2 batches')
+  assert.equal(state.manuals[0].currentTask, step)
+  assert.doesNotMatch(JSON.stringify(state), /Published/)
+})
+
+test('publisher failure is not hidden by later always-run successful or skipped steps', () => {
+  const state = deriveDocsProgressState({ requestedGroups: ['guides'], publishEnabled: true, jobs: [
+    { id: 1, name: 'produce_guides_sources / fetch', status: 'completed', conclusion: 'success' },
+    { id: 2, name: 'produce_guides / assemble', status: 'completed', conclusion: 'success' },
+    { id: 3, name: 'publish_guides / publish', status: 'completed', conclusion: 'success' },
+    { id: 4, name: 'guides_translation_batch_1_of_1_pending_20 / translate', status: 'completed', conclusion: 'success' },
+    { id: 5, name: 'publish_guides_translation_batches / publish', status: 'completed', conclusion: 'failure', steps: [
+      { name: 'Validate combined Guides translation', status: 'completed', conclusion: 'failure' },
+      { name: 'Clean up Guides translation staging ref', status: 'completed', conclusion: 'success' },
+      { name: 'Write Guides translation publication report', status: 'completed', conclusion: 'success' },
+      { name: 'Emit Guides translation publication result', status: 'completed', conclusion: 'success' },
+    ] },
+  ] })
+  assert.equal(state.manuals[0].status, 'failed')
+  assert.equal(state.manuals[0].currentTask, 'Validate combined Guides translation')
 })
 
 test('recognizes the compact Guides batch names exposed by reusable workflows', () => {
@@ -219,6 +240,10 @@ test('suppresses infrastructure steps and normalizes domain step names', () => {
   assert.equal(normalizeCurrentTask('validate and promote guides v4 cache candidate'), 'Validate Guides media cache')
   assert.equal(normalizeCurrentTask('prefetch shared guides media'), 'Prefetch shared Guides media')
   assert.equal(normalizeCurrentTask('save guides v4 generation'), 'Save Guides media cache')
+  assert.equal(normalizeCurrentTask('evaluate guides assembly reuse'), 'Evaluate Guides assembly reuse')
+  assert.equal(normalizeCurrentTask('validate guides assembly decision'), 'Validate Guides assembly decision')
+  assert.equal(normalizeCurrentTask('generate combined guides sidebars offline'), 'Generate combined Guides sidebars offline')
+  assert.equal(normalizeCurrentTask('finalize guides assembly identity'), 'Finalize Guides assembly identity')
 })
 
 test('selects the newest job attempt for each logical identity', () => {

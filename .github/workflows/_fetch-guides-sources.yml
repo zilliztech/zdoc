@@ -15,6 +15,7 @@ on:
       media_valid: { value: '${{ jobs.fetch.outputs.media_valid }}' }
       cache_version: { value: '${{ jobs.fetch.outputs.cache_version }}' }
       cache_save_required: { value: '${{ jobs.fetch.outputs.cache_save_required }}' }
+      assembly_decision_sha256: { value: '${{ jobs.fetch.outputs.assembly_decision_sha256 }}' }
     secrets:
       APP_ID: { required: true }
       APP_SECRET: { required: true }
@@ -41,6 +42,7 @@ jobs:
       media_valid: ${{ steps.source_cache_result.outputs.media_valid }}
       cache_version: ${{ steps.source_cache_result.outputs.cache_version }}
       cache_save_required: ${{ steps.source_cache_result.outputs.cache_save_required }}
+      assembly_decision_sha256: ${{ steps.assembly_decision.outputs.assembly_decision_sha256 }}
     steps:
       - uses: actions/checkout@v4
         with: { ref: '${{ inputs.master_sha }}', fetch-depth: 0 }
@@ -372,6 +374,35 @@ jobs:
           count=$(node -e 'const value=JSON.parse(process.argv[1]);process.stdout.write(String(value.length))' "$matrix")
           echo "matrix={\"include\":$matrix}" >> "$GITHUB_OUTPUT"
           echo "count=$count" >> "$GITHUB_OUTPUT"
+      - id: assembly_decision
+        name: Evaluate Guides assembly reuse
+        run: |
+          baseline_source_sha=$(git -C "$RUNNER_TEMP/baseline" rev-parse HEAD)
+          [[ "$baseline_source_sha" == "${{ inputs.dev_baseline_sha }}" ]] || { echo 'Exact Guides baseline SHA mismatch' >&2; exit 1; }
+          node scripts/docs-workflow/guides-assembly-identity.js decide \
+            --repository-root "$GITHUB_WORKSPACE" \
+            --baseline-root "$RUNNER_TEMP/baseline" \
+            --candidate-snapshot plugins/lark-docs/meta/reports/guides-source-snapshot-candidate.json \
+            --incremental-plan plugins/lark-docs/meta/reports/guides-incremental-fetch-plan.json \
+            --baseline-descriptor plugins/lark-docs/meta/assembly/guides.json \
+            --baseline-saas-sidebar config/generated/guides.sidebar.js \
+            --baseline-byoc-sidebar config/generated/guides-byoc.sidebar.js \
+            --master-sha "${{ inputs.master_sha }}" \
+            --dev-baseline-sha "${{ inputs.dev_baseline_sha }}" \
+            --baseline-source-sha "$baseline_source_sha" \
+            --table-count "${{ steps.table_matrix.outputs.count }}" \
+            --output plugins/lark-docs/meta/reports/guides-assembly-decision.json
+          node scripts/docs-workflow/guides-assembly-identity.js validate-decision \
+            --repository-root "$GITHUB_WORKSPACE" \
+            --input plugins/lark-docs/meta/reports/guides-assembly-decision.json \
+            --expected-master-sha "${{ inputs.master_sha }}" \
+            --expected-dev-baseline-sha "${{ inputs.dev_baseline_sha }}"
+          decision_sha=$(node scripts/docs-workflow/guides-assembly-identity.js decision-sha \
+            --repository-root "$GITHUB_WORKSPACE" \
+            --input plugins/lark-docs/meta/reports/guides-assembly-decision.json \
+            --expected-master-sha "${{ inputs.master_sha }}" \
+            --expected-dev-baseline-sha "${{ inputs.dev_baseline_sha }}")
+          echo "assembly_decision_sha256=$decision_sha" >> "$GITHUB_OUTPUT"
       - name: Create Guides progress metadata
         continue-on-error: true
         run: |

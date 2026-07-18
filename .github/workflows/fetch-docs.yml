@@ -188,6 +188,7 @@ jobs:
       target_branch: ${{ needs.prepare.outputs.target_branch }}
       cache_version: ${{ needs.produce_guides_sources.outputs.cache_version }}
       cache_save_required: ${{ needs.produce_guides_sources.outputs.cache_save_required }}
+      assembly_decision_sha256: ${{ needs.produce_guides_sources.outputs.assembly_decision_sha256 }}
       artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
   produce_python:
     needs: prepare
@@ -350,12 +351,14 @@ jobs:
       REVIEW_AGENT_API_KEY: ${{ secrets.REVIEW_AGENT_API_KEY }}
 
   publish_guides_translation_batches:
-    needs: [prepare, publish_rest, prepare_guides_translation_batches, translate_guides_batches]
+    needs: [prepare, publish_guides, publish_rest, prepare_guides_translation_batches, translate_guides_batches]
     if: ${{ always() && needs.prepare.outputs.publish == 'true' && needs.prepare_guides_translation_batches.result == 'success' && needs.prepare_guides_translation_batches.outputs.batch_count != '0' && needs.translate_guides_batches.result == 'success' }}
     uses: ./.github/workflows/_publish-translation-batches.yml
     with:
       group: guides
       master_sha: ${{ needs.prepare.outputs.master_sha }}
+      source_commit_sha: ${{ needs.publish_guides.outputs.commit_sha || needs.prepare.outputs.dev_baseline_sha }}
+      expected_target_sha: ${{ needs.publish_guides.outputs.commit_sha }}
       target_branch: ${{ needs.prepare.outputs.target_branch }}
       batch_count: ${{ fromJSON(needs.prepare_guides_translation_batches.outputs.batch_count) }}
 
@@ -375,9 +378,11 @@ jobs:
         env:
           PUBLISH: ${{ needs.prepare.outputs.publish }}
           PREP_RESULT: ${{ needs.prepare_guides_translation_batches.result }}
-          BATCH_COUNT: ${{ needs.prepare_guides_translation_batches.outputs.batch_count }}
-          BATCH_RESULT: ${{ needs.publish_guides_translation_batches.result }}
-          TARGET_BRANCH: ${{ needs.prepare.outputs.target_branch }}
+          BATCH_COUNT: ${{ needs.prepare_guides_translation_batches.result != 'success' && '0' || needs.prepare_guides_translation_batches.outputs.batch_count }}
+          BATCH_RESULT: ${{ needs.translate_guides_batches.result }}
+          PUBLISHER_RESULT: ${{ needs.publish_guides_translation_batches.result }}
+          PUBLISHER_STATUS: ${{ needs.publish_guides_translation_batches.outputs.status }}
+          PUBLISHER_COMMIT_SHA: ${{ needs.publish_guides_translation_batches.outputs.commit_sha }}
         run: node scripts/docs-workflow/finalize-translation-batches.js
 
   publish_python:
@@ -730,6 +735,13 @@ jobs:
         with:
           name: docs-checkpoint-guides-${{ github.run_id }}-reports
           path: plugins/lark-docs/meta/reports
+      - name: Download Guides translation publication report
+        if: ${{ always() && needs.prepare_guides_translation_batches.outputs.batch_count != '' && needs.prepare_guides_translation_batches.outputs.batch_count != '0' }}
+        continue-on-error: true
+        uses: actions/download-artifact@v4
+        with:
+          name: docs-translation-publication-guides-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/guides-translation-publication-evidence
       - id: reports
         name: Collect card report summaries
         if: ${{ always() }}
@@ -740,6 +752,19 @@ jobs:
           CARD_REPORT_ARTIFACT_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}#artifacts
           CARD_EXPECT_GUIDES_REPORTS: ${{ (needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'guides') && needs.produce_guides.outputs.status == 'artifact_ready' }}
           CARD_BASE_NOTES_JSON: ${{ steps.aggregate.outputs.notes_json }}
+          CARD_EXPECT_GUIDES_PUBLICATION_REPORT: ${{ needs.prepare_guides_translation_batches.outputs.batch_count != '' && needs.prepare_guides_translation_batches.outputs.batch_count != '0' }}
+          CARD_GUIDES_PUBLICATION_REPORT: ${{ runner.temp }}/guides-translation-publication-evidence/publication-report.json
+          CARD_GUIDES_RUN_ID: ${{ github.run_id }}
+          CARD_GUIDES_RUN_ATTEMPT: ${{ github.run_attempt }}
+          CARD_GUIDES_MASTER_SHA: ${{ needs.prepare.outputs.master_sha }}
+          CARD_GUIDES_SOURCE_SHA: ${{ needs.publish_guides.outputs.commit_sha }}
+          CARD_GUIDES_TARGET_SHA: ${{ needs.publish_guides.outputs.commit_sha }}
+          CARD_GUIDES_STAGING_SHA: ${{ needs.publish_guides_translation_batches.outputs.staging_sha }}
+          CARD_GUIDES_PUBLISHER_RESULT: ${{ needs.publish_guides_translation_batches.result }}
+          CARD_GUIDES_PENDING_SET_SHA256: ${{ needs.prepare_guides_translation_batches.outputs.pending_set_sha256 }}
+          CARD_GUIDES_FINAL_TRANSLATOR_STATUS: ${{ needs.finalize_guides_translation.outputs.translator_status }}
+          CARD_GUIDES_FINAL_PUBLISHER_STATUS: ${{ needs.finalize_guides_translation.outputs.publisher_status }}
+          CARD_GUIDES_FINAL_COMMIT_SHA: ${{ needs.finalize_guides_translation.outputs.commit_sha }}
         run: node scripts/collect-build-card-notes.js
       - name: Create final card report artifact
         if: ${{ always() }}

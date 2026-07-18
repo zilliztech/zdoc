@@ -5,11 +5,16 @@ on:
     inputs:
       group: { required: true, type: string }
       master_sha: { required: true, type: string }
+      source_commit_sha: { required: true, type: string }
+      expected_target_sha: { required: true, type: string }
       target_branch: { required: true, type: string }
       batch_count: { required: true, type: number }
     outputs:
       status: { value: '${{ jobs.publish.outputs.status }}' }
       commit_sha: { value: '${{ jobs.publish.outputs.commit_sha }}' }
+      staging_ref: { value: '${{ jobs.publish.outputs.staging_ref }}' }
+      staging_sha: { value: '${{ jobs.publish.outputs.staging_sha }}' }
+      report_artifact_name: { value: '${{ jobs.publish.outputs.report_artifact_name }}' }
 
 permissions:
   actions: read
@@ -18,86 +23,347 @@ permissions:
 jobs:
   publish:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 180
     outputs:
-      status: ${{ steps.publish.outputs.status }}
-      commit_sha: ${{ steps.publish.outputs.commit_sha }}
+      status: ${{ steps.result.outputs.status }}
+      commit_sha: ${{ steps.result.outputs.commit_sha }}
+      staging_ref: ${{ steps.result.outputs.staging_ref }}
+      staging_sha: ${{ steps.result.outputs.staging_sha }}
+      report_artifact_name: ${{ steps.result.outputs.report_artifact_name }}
     env:
       GROUP: ${{ inputs.group }}
       MASTER_SHA: ${{ inputs.master_sha }}
+      SOURCE_COMMIT_SHA: ${{ inputs.source_commit_sha }}
+      EXPECTED_TARGET_SHA: ${{ inputs.expected_target_sha }}
       TARGET_BRANCH: ${{ inputs.target_branch }}
       BATCH_COUNT: ${{ inputs.batch_count }}
     steps:
-      - uses: actions/checkout@v4
-        with: { ref: '${{ inputs.master_sha }}', fetch-depth: 0 }
+      - name: Initialize Guides translation publisher
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ -n "${RUNNER_TEMP:-}" && "$RUNNER_TEMP" == /* ]]
+          trusted_root="$RUNNER_TEMP/guides-translation-publication"
+          if [[ -e "$trusted_root" || -L "$trusted_root" ]]; then
+            [[ -d "$trusted_root" && ! -L "$trusted_root" ]]
+            [[ "$(stat -c '%a' -- "$trusted_root")" == 700 ]]
+          else
+            mkdir -m 700 -- "$trusted_root"
+          fi
+          [[ "$(realpath -e -- "$trusted_root")" == "$trusted_root" ]]
+          [[ "$(stat -c '%u' -- "$trusted_root")" == "$(id -u)" ]]
+          [[ "$(stat -c '%a' -- "$trusted_root")" == 700 ]]
+          printf '%s\n' \
+            "TRUSTED_ROOT=$trusted_root" \
+            "STATE_FILE=$trusted_root/publisher-state.json" \
+            "PAIRS_MANIFEST=$trusted_root/pairs-manifest.json" \
+            "PLAN_FILE=$trusted_root/translation-plan.json" \
+            "STAGING_WORKTREE=$trusted_root/staging-worktree" \
+            "VALIDATION_FILE=$trusted_root/validation-result.json" \
+            "REPORT_FILE=$trusted_root/publication-report.json" >> "$GITHUB_ENV"
+
+      - name: Check out immutable master tooling
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.master_sha }}
+          fetch-depth: 0
+
+      - name: Capture Guides translation publication identities
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ "$GROUP" == guides ]]
+          [[ "$MASTER_SHA" =~ ^[0-9a-f]{40}$ ]]
+          [[ "$SOURCE_COMMIT_SHA" =~ ^[0-9a-f]{40}$ ]]
+          [[ "$EXPECTED_TARGET_SHA" =~ ^[0-9a-f]{40}$ ]]
+          [[ "$BATCH_COUNT" =~ ^[1-9][0-9]*$ ]]
+          [[ "$GITHUB_RUN_ID" =~ ^[1-9][0-9]*$ ]]
+          [[ "$GITHUB_RUN_ATTEMPT" =~ ^[1-9][0-9]*$ ]]
+          git check-ref-format --branch "$TARGET_BRANCH"
+          node - <<'NODE'
+          const fs = require('node:fs')
+          const { createInitialPublisherState } = require('./scripts/docs-workflow/translation-staging-publisher')
+          const state = createInitialPublisherState({
+            masterSha: process.env.MASTER_SHA,
+            sourceCheckpointSha: process.env.SOURCE_COMMIT_SHA,
+            expectedTargetSha: process.env.EXPECTED_TARGET_SHA,
+          })
+          const temporary = `${process.env.STATE_FILE}.${process.pid}.tmp`
+          fs.writeFileSync(temporary, `${JSON.stringify(state, null, 2)}\n`, { flag: 'wx', mode: 0o600 })
+          fs.renameSync(temporary, process.env.STATE_FILE)
+          NODE
+          git fetch --no-tags origin "+refs/heads/$TARGET_BRANCH:refs/remotes/origin/$TARGET_BRANCH"
+          [[ "$(git rev-parse "refs/remotes/origin/$TARGET_BRANCH^{commit}")" == "$EXPECTED_TARGET_SHA" ]]
+          git fetch --no-tags origin "$SOURCE_COMMIT_SHA"
+
       - uses: pnpm/action-setup@v4
         with: { version: 9 }
       - uses: actions/setup-node@v4
         with: { node-version: '20', cache: pnpm }
-      - run: pnpm install --frozen-lockfile
-      - name: Download translation checkpoints
+      - name: Install immutable master tooling
+        run: pnpm install --frozen-lockfile
+
+      - name: Download Guides translation checkpoints
         uses: actions/download-artifact@v4
         with:
           pattern: translation-checkpoint-${{ inputs.group }}-${{ github.run_id }}-batch-*
           path: ${{ runner.temp }}/translation-checkpoints
-      - name: Download translation baselines
+      - name: Download Guides translation baselines
         uses: actions/download-artifact@v4
         with:
           pattern: translation-baseline-${{ inputs.group }}-${{ github.run_id }}-batch-*
           path: ${{ runner.temp }}/translation-baselines
-      - id: publish
-        name: Publish prepared batches in order
+
+      - name: Validate Guides translation batch identities
         shell: bash
         run: |
           set -euo pipefail
+          [[ "$GROUP" == guides ]]
           [[ "$MASTER_SHA" =~ ^[0-9a-f]{40}$ ]]
+          [[ "$SOURCE_COMMIT_SHA" =~ ^[0-9a-f]{40}$ ]]
+          [[ "$EXPECTED_TARGET_SHA" =~ ^[0-9a-f]{40}$ ]]
           [[ "$BATCH_COUNT" =~ ^[1-9][0-9]*$ ]]
           git check-ref-format --branch "$TARGET_BRANCH"
 
           extract_archive() {
             local archive=$1 destination=$2
-            tar -tf "$archive" | node -e 'const fs=require("fs");for(const raw of fs.readFileSync(0,"utf8").split("\n").filter(Boolean)){const p=raw.endsWith("/")?raw.slice(0,-1):raw;if(!p||p.startsWith("/")||p.split("/").some(x=>x===""||x==="..")||(p!=="checkpoint-group"&&!p.startsWith("checkpoint-group/")))throw Error("unsafe checkpoint archive path: "+raw)}'
-            tar -tvf "$archive" | node -e 'const fs=require("fs");for(const line of fs.readFileSync(0,"utf8").split("\n").filter(Boolean))if(!["-","d"].includes(line[0]))throw Error("unsafe checkpoint archive entry: "+line)'
+            [[ -f "$archive" && ! -L "$archive" ]]
+            tar -tf "$archive" | node -e '
+              const fs = require("node:fs")
+              const paths = fs.readFileSync(0, "utf8").split("\n").filter(Boolean)
+              const seen = new Set()
+              for (const raw of paths) {
+                const value = raw.endsWith("/") ? raw.slice(0, -1) : raw
+                if (!value || value.startsWith("/") || value.includes("\\") || value.split("/").some(part => !part || part === "." || part === "..") || (value !== "checkpoint-group" && !value.startsWith("checkpoint-group/")) || seen.has(value)) throw new Error(`unsafe or ambiguous checkpoint archive path: ${raw}`)
+                seen.add(value)
+              }
+            '
+            tar -tvf "$archive" | node -e '
+              const fs = require("node:fs")
+              for (const line of fs.readFileSync(0, "utf8").split("\n").filter(Boolean)) if (!["-", "d"].includes(line[0])) throw new Error(`unsafe checkpoint archive entry: ${line}`)
+            '
             mkdir -p "$destination"
-            tar -xf "$archive" -C "$destination"
+            chmod 700 "$destination"
+            tar -xf "$archive" -C "$destination" --no-same-owner --no-same-permissions
           }
 
-          final_status=no_changes
-          final_sha=
-          [[ $(find "$RUNNER_TEMP/translation-checkpoints" -mindepth 1 -maxdepth 1 -type d | wc -l) -eq "$BATCH_COUNT" ]]
-          [[ $(find "$RUNNER_TEMP/translation-baselines" -mindepth 1 -maxdepth 1 -type d | wc -l) -eq "$BATCH_COUNT" ]]
+          [[ $(find "$RUNNER_TEMP/translation-checkpoints" -mindepth 1 -maxdepth 1 | wc -l) -eq "$BATCH_COUNT" ]]
+          [[ $(find "$RUNNER_TEMP/translation-baselines" -mindepth 1 -maxdepth 1 | wc -l) -eq "$BATCH_COUNT" ]]
           for ((number=1; number<=BATCH_COUNT; number++)); do
-            checkpoint_root="$RUNNER_TEMP/translation-checkpoints/translation-checkpoint-$GROUP-${GITHUB_RUN_ID}-batch-$number"
+            result_root="$RUNNER_TEMP/translation-checkpoints/translation-checkpoint-$GROUP-${GITHUB_RUN_ID}-batch-$number"
             baseline_root="$RUNNER_TEMP/translation-baselines/translation-baseline-$GROUP-${GITHUB_RUN_ID}-batch-$number"
-            checkpoint_extract="$RUNNER_TEMP/checkpoint-$number"
-            baseline_extract="$RUNNER_TEMP/baseline-$number"
-            extract_archive "$checkpoint_root/checkpoint-group.tar" "$checkpoint_extract"
-            extract_archive "$baseline_root/checkpoint-group.tar" "$baseline_extract"
-
-            artifact_dir="$checkpoint_extract/checkpoint-group"
-            baseline_dir="$baseline_extract/checkpoint-group"
-            node scripts/docs-workflow/validate-checkpoint-artifact.js --artifact "$artifact_dir" --group "$GROUP" --master-sha "$MASTER_SHA"
-            node scripts/docs-workflow/validate-checkpoint-artifact.js --artifact "$baseline_dir" --group "$GROUP" --master-sha "$MASTER_SHA"
-            node scripts/docs-workflow/validate-translation-batch.js \
-              --artifact "$artifact_dir" \
-              --baseline "$baseline_dir" \
-              --batch-number "$number" \
-              --batch-count "$BATCH_COUNT"
-
-            output="$RUNNER_TEMP/publication-batch-$number.txt"
-            bash scripts/docs-workflow/publish-checkpoint.sh \
-              --artifact "$artifact_dir" \
-              --baseline-dir "$baseline_dir/payload" \
-              --branch "$TARGET_BRANCH" \
-              --message "i18n($GROUP): publish batch $number of $BATCH_COUNT" \
-              --max-attempts 10 \
-              --validate-command "node \"$GITHUB_WORKSPACE/scripts/validate-generated-sidebars.js\" && node \"$GITHUB_WORKSPACE/scripts/validate-translated-coverage.js\" --group \"$GROUP\"" | tee "$output"
-
-            status=$(sed -n 's/^status=//p' "$output" | tail -1)
-            commit_sha=$(sed -n 's/^commit_sha=//p' "$output" | tail -1)
-            [[ "$status" == published || "$status" == no_changes ]]
-            [[ "$commit_sha" =~ ^[0-9a-f]{40}$ ]]
-            [[ "$status" == published ]] && final_status=published
-            final_sha="$commit_sha"
+            [[ -d "$result_root" && ! -L "$result_root" && $(find "$result_root" -mindepth 1 -maxdepth 1 | wc -l) -eq 1 ]]
+            [[ -d "$baseline_root" && ! -L "$baseline_root" && $(find "$baseline_root" -mindepth 1 -maxdepth 1 | wc -l) -eq 1 ]]
+            [[ -f "$result_root/checkpoint-group.tar" && ! -L "$result_root/checkpoint-group.tar" ]]
+            [[ -f "$baseline_root/checkpoint-group.tar" && ! -L "$baseline_root/checkpoint-group.tar" ]]
+            extract_archive "$result_root/checkpoint-group.tar" "$TRUSTED_ROOT/result-$number"
+            extract_archive "$baseline_root/checkpoint-group.tar" "$TRUSTED_ROOT/baseline-$number"
           done
-          printf 'status=%s\ncommit_sha=%s\n' "$final_status" "$final_sha" >> "$GITHUB_OUTPUT"
+
+          node - <<'NODE'
+          const fs = require('node:fs')
+          const path = require('node:path')
+          const { validateTranslationBatch } = require('./scripts/docs-workflow/validate-translation-batch')
+          const { bindPublisherBatchIdentity, validatePublisherState } = require('./scripts/docs-workflow/translation-staging-publisher')
+
+          const root = fs.realpathSync(process.env.TRUSTED_ROOT)
+          const count = Number(process.env.BATCH_COUNT)
+          const atomic = (file, value) => {
+            const temporary = `${file}.${process.pid}.tmp`
+            const descriptor = fs.openSync(temporary, 'wx', 0o600)
+            try { fs.writeFileSync(descriptor, `${JSON.stringify(value, null, 2)}\n`); fs.fsyncSync(descriptor) } finally { fs.closeSync(descriptor) }
+            fs.renameSync(temporary, file)
+          }
+          ;(async () => {
+            const pairs = []
+            let pendingSetSha256 = null
+            for (let number = 1; number <= count; number += 1) {
+              const artifactDir = path.join(root, `result-${number}`, 'checkpoint-group')
+              const baselineDir = path.join(root, `baseline-${number}`, 'checkpoint-group')
+              const pair = await validateTranslationBatch({ artifactDir, baselineDir, batchNumber: number, batchCount: count })
+              pendingSetSha256 ||= pair.result.batch.pendingSetSha256
+              if (pair.result.devBaselineSha !== process.env.SOURCE_COMMIT_SHA || pair.result.batch.pendingSetSha256 !== pendingSetSha256) throw new Error('translation batch set identity mismatch')
+              pairs.push({ artifactDir, baselineDir })
+            }
+            const state = validatePublisherState(JSON.parse(fs.readFileSync(process.env.STATE_FILE, 'utf8')))
+            if (state.sourceCheckpointSha !== process.env.SOURCE_COMMIT_SHA || state.expectedTargetSha !== process.env.EXPECTED_TARGET_SHA) throw new Error('persisted publication identity mismatch')
+            atomic(process.env.PAIRS_MANIFEST, { schemaVersion: 1, group: 'guides', sourceCheckpointSha: state.sourceCheckpointSha, expectedTargetSha: state.expectedTargetSha, pairs })
+            atomic(process.env.STATE_FILE, bindPublisherBatchIdentity(state, pendingSetSha256))
+          })().catch(error => { console.error(error); process.exitCode = 1 })
+          NODE
+
+          source_sha=$(node -p "require(process.env.STATE_FILE).sourceCheckpointSha")
+          target_sha=$(node -p "require(process.env.STATE_FILE).expectedTargetSha")
+          node scripts/docs-workflow/translation-batch-set.js plan \
+            --pairs-manifest "$PAIRS_MANIFEST" \
+            --source-repository "$GITHUB_WORKSPACE" \
+            --source-checkpoint-sha "$source_sha" \
+            --target-repository "$GITHUB_WORKSPACE" \
+            --expected-target-sha "$target_sha" \
+            --output "$PLAN_FILE"
+
+      - name: Apply Guides translation batches to staging
+        shell: bash
+        run: |
+          set -euo pipefail
+          node - <<'NODE'
+          const fs = require('node:fs')
+          const { applyPhase } = require('./scripts/docs-workflow/translation-staging-publisher')
+          const read = file => JSON.parse(fs.readFileSync(file, 'utf8'))
+          const write = (file, value) => { const temporary = `${file}.${process.pid}.tmp`; fs.writeFileSync(temporary, `${JSON.stringify(value, null, 2)}\n`, { flag: 'wx', mode: 0o600 }); fs.renameSync(temporary, file) }
+          ;(async () => {
+            const state = read(process.env.STATE_FILE)
+            const plan = read(process.env.PLAN_FILE)
+            const pairs = read(process.env.PAIRS_MANIFEST).pairs
+            try {
+              write(process.env.STATE_FILE, await applyPhase({ state, plan, pairs, repository: process.env.GITHUB_WORKSPACE, worktree: process.env.STAGING_WORKTREE }))
+            } catch (error) {
+              if (error.state) write(process.env.STATE_FILE, error.state)
+              throw error
+            }
+          })().catch(error => { console.error(error); process.exitCode = 1 })
+          NODE
+
+      - name: Push Guides translation staging ref
+        shell: bash
+        run: |
+          set -euo pipefail
+          node - <<'NODE'
+          const fs = require('node:fs')
+          const { pushPhase } = require('./scripts/docs-workflow/translation-staging-publisher')
+          const read = file => JSON.parse(fs.readFileSync(file, 'utf8'))
+          const write = (file, value) => { const temporary = `${file}.${process.pid}.tmp`; fs.writeFileSync(temporary, `${JSON.stringify(value, null, 2)}\n`, { flag: 'wx', mode: 0o600 }); fs.renameSync(temporary, file) }
+          const state = read(process.env.STATE_FILE)
+          try {
+            write(process.env.STATE_FILE, pushPhase({ state, repository: process.env.GITHUB_WORKSPACE, worktree: process.env.STAGING_WORKTREE, runId: process.env.GITHUB_RUN_ID, runAttempt: process.env.GITHUB_RUN_ATTEMPT }))
+          } catch (error) {
+            if (error.state) write(process.env.STATE_FILE, error.state)
+            throw error
+          }
+          NODE
+
+      - name: Validate combined Guides translation
+        shell: bash
+        run: |
+          set -euo pipefail
+          if node -e "process.exit(require(process.env.STATE_FILE).status === 'no_changes' ? 0 : 1)"; then exit 0; fi
+          staged_sha=$(node -p "require(process.env.STATE_FILE).stagingSha")
+          set +e
+          bash scripts/restore-generated-state.sh --exact --ref "$staged_sha"
+          restore_status=$?
+          validation_status=$restore_status
+          validation_failure_detail='Exact staged-state restore failed before validation.'
+          if (( restore_status == 0 )); then
+            node scripts/docs-workflow/validate-guides-translation-staging.js \
+              --repository "$GITHUB_WORKSPACE" \
+              --master-sha "$MASTER_SHA" \
+              --staged-sha "$staged_sha" \
+              --output "$VALIDATION_FILE" \
+              --trusted-root "$TRUSTED_ROOT"
+            validation_status=$?
+            validation_failure_detail='Combined Guides validation wrapper failed before writing evidence.'
+          fi
+          set -e
+          if (( validation_status == 0 )) && [[ ! -f "$VALIDATION_FILE" ]]; then validation_status=1; fi
+          VALIDATION_STATUS=$validation_status VALIDATION_FAILURE_DETAIL=$validation_failure_detail node - <<'NODE'
+          const fs = require('node:fs')
+          const { recordValidationPhase, recordValidationInfrastructureFailure } = require('./scripts/docs-workflow/translation-staging-publisher')
+          const state = JSON.parse(fs.readFileSync(process.env.STATE_FILE, 'utf8'))
+          const write = value => { const temporary = `${process.env.STATE_FILE}.${process.pid}.tmp`; fs.writeFileSync(temporary, `${JSON.stringify(value, null, 2)}\n`, { flag: 'wx', mode: 0o600 }); fs.renameSync(temporary, process.env.STATE_FILE) }
+          if (fs.existsSync(process.env.VALIDATION_FILE)) {
+            const validation = JSON.parse(fs.readFileSync(process.env.VALIDATION_FILE, 'utf8'))
+            write(recordValidationPhase({ state, validation, validationFile: process.env.VALIDATION_FILE, exitCode: Number(process.env.VALIDATION_STATUS) }))
+          } else {
+            write(recordValidationInfrastructureFailure({ state, detail: process.env.VALIDATION_FAILURE_DETAIL }))
+          }
+          NODE
+          exit "$validation_status"
+
+      - name: Promote validated Guides translation
+        shell: bash
+        run: |
+          set -euo pipefail
+          node - <<'NODE'
+          const fs = require('node:fs')
+          const { promotePhase } = require('./scripts/docs-workflow/translation-staging-publisher')
+          const read = file => JSON.parse(fs.readFileSync(file, 'utf8'))
+          const write = (file, value) => { const temporary = `${file}.${process.pid}.tmp`; fs.writeFileSync(temporary, `${JSON.stringify(value, null, 2)}\n`, { flag: 'wx', mode: 0o600 }); fs.renameSync(temporary, file) }
+          const state = read(process.env.STATE_FILE)
+          if (state.status === 'no_changes') process.exit(0)
+          const validation = read(process.env.VALIDATION_FILE)
+          const next = promotePhase({ state, validation, repository: process.env.GITHUB_WORKSPACE, targetBranch: process.env.TARGET_BRANCH })
+          write(process.env.STATE_FILE, next)
+          if (next.status === 'promotion_conflict') throw new Error(next.failure.detail)
+          NODE
+
+      - name: Clean up Guides translation staging ref
+        if: ${{ always() }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          node - <<'NODE'
+          const fs = require('node:fs')
+          const { cleanupPhase } = require('./scripts/docs-workflow/translation-staging-publisher')
+          const state = JSON.parse(fs.readFileSync(process.env.STATE_FILE, 'utf8'))
+          const write = value => { const temporary = `${process.env.STATE_FILE}.${process.pid}.tmp`; fs.writeFileSync(temporary, `${JSON.stringify(value, null, 2)}\n`, { flag: 'wx', mode: 0o600 }); fs.renameSync(temporary, process.env.STATE_FILE) }
+          write(cleanupPhase({ state, repository: process.env.GITHUB_WORKSPACE }))
+          NODE
+
+      - name: Write Guides translation publication report
+        if: ${{ always() }}
+        env:
+          JOB_STATUS: ${{ job.status }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          node - <<'NODE'
+          const fs = require('node:fs')
+          const { writePublicationReport } = require('./scripts/docs-workflow/translation-publication-report')
+          const { createTerminalReport } = require('./scripts/docs-workflow/translation-staging-publisher')
+          const state = JSON.parse(fs.readFileSync(process.env.STATE_FILE, 'utf8'))
+          const validation = state.validationFile && fs.existsSync(state.validationFile) ? JSON.parse(fs.readFileSync(state.validationFile, 'utf8')) : null
+          writePublicationReport(process.env.REPORT_FILE, createTerminalReport({ state, runId: process.env.GITHUB_RUN_ID, runAttempt: process.env.GITHUB_RUN_ATTEMPT, jobStatus: process.env.JOB_STATUS, validation }), { trustedRoot: process.env.TRUSTED_ROOT })
+          NODE
+
+      - name: Upload Guides translation publication report
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        continue-on-error: true
+        with:
+          name: docs-translation-publication-guides-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/guides-translation-publication/publication-report.json
+          if-no-files-found: warn
+
+      - name: Emit Guides translation publication result
+        id: result
+        if: ${{ always() }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          node - <<'NODE'
+          const fs = require('node:fs')
+          const { readPublicationReport } = require('./scripts/docs-workflow/translation-publication-report')
+          const { terminalOutputs } = require('./scripts/docs-workflow/translation-staging-publisher')
+          const state = JSON.parse(fs.readFileSync(process.env.STATE_FILE, 'utf8'))
+          const report = readPublicationReport(process.env.REPORT_FILE, {
+            expectedRunId: Number(process.env.GITHUB_RUN_ID),
+            expectedRunAttempt: Number(process.env.GITHUB_RUN_ATTEMPT),
+            expectedMasterSha: state.masterSha,
+            expectedSourceCheckpointSha: state.sourceCheckpointSha,
+            expectedTargetSha: state.expectedTargetSha,
+            expectedStagingSha: state.stagingSha || undefined,
+          })
+          const output = terminalOutputs(report)
+          const lines = {
+            status: output.status,
+            commit_sha: output.commitSha,
+            staging_ref: output.stagingRef,
+            staging_sha: output.stagingSha,
+            report_artifact_name: `docs-translation-publication-guides-${process.env.GITHUB_RUN_ID}-${process.env.GITHUB_RUN_ATTEMPT}`,
+          }
+          fs.appendFileSync(process.env.GITHUB_OUTPUT, Object.entries(lines).map(([key, value]) => `${key}=${value}\n`).join(''))
+          NODE
+
+      - name: Fail unsuccessful Guides translation publication
+        if: ${{ always() && steps.result.outputs.status != 'published' && steps.result.outputs.status != 'no_changes' }}
+        run: exit 1

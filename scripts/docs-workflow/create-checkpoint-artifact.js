@@ -7,6 +7,7 @@ const { lstat, mkdir, mkdtemp, open, readlink, realpath, readdir, rename, rm, sy
 const path = require('node:path');
 const { getContentGroup } = require('./content-groups');
 const { validateCheckpointArtifact } = require('./validate-checkpoint-artifact');
+const { validateBatchInput } = require('./translation-batch-input');
 
 const SHA = /^[0-9a-f]{40}$/;
 const DEFAULT_GC_GRACE_MS = 24 * 60 * 60 * 1000;
@@ -69,6 +70,32 @@ async function readRegularNoFollow(file, expected) {
   } finally { await handle.close(); }
 }
 
+async function readCanonicalBatchInput(file, { group, devBaselineSha, batch }) {
+  if (typeof file !== 'string' || !file) throw new Error('Numbered translation artifact batch input path is required');
+  const absolute = path.resolve(file), root = path.parse(absolute).root;
+  let current = root;
+  for (const component of absolute.slice(root.length).split(path.sep).filter(Boolean).slice(0, -1)) {
+    current = path.join(current, component);
+    const stat = await lstat(current);
+    if (stat.isSymbolicLink()) throw new Error(`Batch input path contains a symlink parent: ${current}`);
+    if (!stat.isDirectory()) throw new Error(`Batch input path contains a non-directory parent: ${current}`);
+  }
+  const stat = await lstat(absolute);
+  if (stat.isSymbolicLink() || !stat.isFile()) throw new Error('Batch input must be a regular non-symlink file');
+  const bytes = await readRegularNoFollow(absolute, stat);
+  let document;
+  try { document = JSON.parse(bytes.toString('utf8')); }
+  catch (error) { throw new Error(`Batch input JSON is invalid: ${error.message}`); }
+  validateBatchInput(document);
+  const canonical = Buffer.from(`${JSON.stringify(document, null, 2)}\n`);
+  if (!bytes.equals(canonical)) throw new Error('Batch input must use canonical JSON bytes');
+  if (document.group !== group) throw new Error('Batch input group mismatch');
+  if (document.sourceCheckpointSha !== devBaselineSha) throw new Error('Batch input source checkpoint/dev baseline mismatch');
+  const keys = ['batchIndex', 'batchNumber', 'batchCount', 'batchSize', 'pendingCount', 'pendingSetSha256'];
+  if (keys.some((key) => document.batch[key] !== batch[key])) throw new Error('Batch input batch identity mismatch');
+  return { bytes, document, sha256: crypto.createHash('sha256').update(bytes).digest('hex') };
+}
+
 async function collect(root, ownedPaths) {
   const files = new Map();
   async function visit(rel) {
@@ -119,7 +146,16 @@ async function createCheckpointArtifact(options) {
   if (!SHA.test(masterSha || '')) throw new Error('Invalid master SHA');
   if (!SHA.test(devBaselineSha || '')) throw new Error('Invalid dev baseline SHA');
   if (options.validationCommands !== undefined && (!Array.isArray(options.validationCommands) || !options.validationCommands.every((command) => typeof command === 'string'))) throw new Error('validationCommands must be an array of strings');
+  const numberedTranslation = batch !== undefined;
+  if (numberedTranslation) {
+    if (groupName !== 'guides') throw new Error('Numbered schema 2 translation artifacts currently require group guides');
+    if (typeof options.batchInputPath !== 'string' || !options.batchInputPath) throw new Error('Numbered translation artifact batch input path is required');
+    if (options.validationCommands?.length) throw new Error('Numbered translation artifacts must not claim validation commands');
+  } else if (options.batchInputPath !== undefined) throw new Error('Batch input is only allowed for numbered translation artifacts');
   for (const name of ['baselineDir', 'workspace', 'output']) if (typeof options[name] !== 'string' || !options[name]) throw new Error(`Missing required argument: ${name}`);
+  const batchInput = numberedTranslation
+    ? await readCanonicalBatchInput(options.batchInputPath, { group: groupName, devBaselineSha, batch })
+    : null;
   const baselineDir = path.resolve(options.baselineDir), workspace = path.resolve(options.workspace), requestedOutput = path.resolve(options.output);
   const initialSafety = await safeOutputLocation(requestedOutput, workspace, baselineDir);
   const output = initialSafety.canonicalOutput;
@@ -168,8 +204,12 @@ async function createCheckpointArtifact(options) {
       await writeFile(destination, bytes, { flag: 'wx' });
       files.push({ path: rel, sha256: crypto.createHash('sha256').update(bytes).digest('hex'), size: bytes.length });
     }
+    if (batchInput) await writeFile(path.join(staging, 'batch-input.json'), batchInput.bytes, { flag: 'wx' });
     const createdAt = options.createdAt === undefined ? new Date().toISOString() : new Date(options.createdAt).toISOString();
-    const manifest = { schemaVersion: 1, stage: options.includeTranslationCache ? 'translation' : 'source', group: groupName, masterSha, devBaselineSha, createdAt, ownershipVersion: 1, files, deletions, snapshotManual: group.snapshotManual, validation: { commands: options.validationCommands || [], passed: true }, ...(batch ? { batch } : {}) };
+    const common = { stage: options.includeTranslationCache ? 'translation' : 'source', group: groupName, masterSha, devBaselineSha, createdAt, ownershipVersion: 1, files, deletions, snapshotManual: group.snapshotManual };
+    const manifest = batchInput
+      ? { schemaVersion: 2, ...common, batch, batchInput: { path: 'batch-input.json', size: batchInput.bytes.length, sha256: batchInput.sha256 } }
+      : { schemaVersion: 1, ...common, validation: { commands: options.validationCommands || [], passed: true } };
     const temporary = path.join(staging, `.manifest.${process.pid}.tmp`);
     await writeFile(temporary, `${JSON.stringify(manifest, null, 2)}\n`, { flag: 'wx' });
     await rename(temporary, path.join(staging, 'manifest.json'));
@@ -191,12 +231,12 @@ async function createCheckpointArtifact(options) {
   }
 }
 
-function usage() { return 'Usage: node create-checkpoint-artifact.js --group <group> --master-sha <sha> --dev-baseline-sha <sha> --baseline-dir <dir> --workspace <dir> --output <dir> [--include-translation-cache] [--batch-index <n> --batch-number <n> --batch-count <n> --batch-size <n> --pending-count <n> --pending-set-sha256 <sha>] [--validation-command <string> ...]'; }
+function usage() { return 'Usage: node create-checkpoint-artifact.js --group <group> --master-sha <sha> --dev-baseline-sha <sha> --baseline-dir <dir> --workspace <dir> --output <dir> [--include-translation-cache] [--batch-index <n> --batch-number <n> --batch-count <n> --batch-size <n> --pending-count <n> --pending-set-sha256 <sha> --batch-input <path>] [--validation-command <string> ...]'; }
 function parseArgs(args) {
   if (args.length === 1 && args[0] === '--help') return { help: true };
   if (args.includes('--help')) throw new Error('--help must be used alone');
   const result = { validationCommands: [] };
-  const names = { group: 'group', 'master-sha': 'masterSha', 'dev-baseline-sha': 'devBaselineSha', 'baseline-dir': 'baselineDir', workspace: 'workspace', output: 'output' };
+  const names = { group: 'group', 'master-sha': 'masterSha', 'dev-baseline-sha': 'devBaselineSha', 'baseline-dir': 'baselineDir', workspace: 'workspace', output: 'output', 'batch-input': 'batchInputPath' };
   const batchNames = { 'batch-index': 'batchIndex', 'batch-number': 'batchNumber', 'batch-count': 'batchCount', 'batch-size': 'batchSize', 'pending-count': 'pendingCount', 'pending-set-sha256': 'pendingSetSha256' };
   const seen = new Set();
   for (let i = 0; i < args.length;) {
@@ -212,7 +252,7 @@ function parseArgs(args) {
     else throw new Error(`Unknown argument: --${key}`);
     i += 2;
   }
-  for (const [flag, name] of Object.entries(names)) if (result[name] === undefined) throw new Error(`Missing required argument: --${flag}`);
+  for (const [flag, name] of Object.entries(names)) if (flag !== 'batch-input' && result[name] === undefined) throw new Error(`Missing required argument: --${flag}`);
   const presentBatch = Object.values(batchNames).filter((name) => result[name] !== undefined);
   if (presentBatch.length !== 0 && presentBatch.length !== Object.keys(batchNames).length) throw new Error('All translation batch arguments must be provided together');
   if (presentBatch.length) {

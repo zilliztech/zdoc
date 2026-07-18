@@ -38,6 +38,14 @@ test('configures durable translation batches for Guides only', () => {
   assert.throws(() => { getContentGroup('guides').durableTranslationBatchSize = 10; }, TypeError);
 });
 
+test('Guides exclusively owns the committed assembly descriptor', () => {
+  const descriptor = 'plugins/lark-docs/meta/assembly/guides.json';
+  assert.equal(getContentGroup('guides').ownedPaths.filter((owned) => owned === descriptor).length, 1);
+  for (const group of listContentGroups().filter((name) => name !== 'guides')) {
+    assert.equal(getContentGroup(group).ownedPaths.includes(descriptor), false, group);
+  }
+});
+
 test('production ownership is disjoint', () => {
   assert.doesNotThrow(() => assertDisjointOwnership());
 });

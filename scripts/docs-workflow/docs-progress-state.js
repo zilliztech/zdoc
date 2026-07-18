@@ -57,9 +57,21 @@ const TASK_NAMES = new Map([
   ['validate and promote guides v4 cache candidate', 'Validate Guides media cache'],
   ['prefetch shared guides media', 'Prefetch shared Guides media'],
   ['save guides v4 generation', 'Save Guides media cache'],
+  ['evaluate guides assembly reuse', 'Evaluate Guides assembly reuse'],
+  ['validate guides assembly decision', 'Validate Guides assembly decision'],
+  ['generate combined guides sidebars offline', 'Generate combined Guides sidebars offline'],
+  ['finalize guides assembly identity', 'Finalize Guides assembly identity'],
   ['validate combined guides output', 'Validate combined Guides output'],
   ['render guides table', 'Render Guides table'],
   ['restore guides source artifact', 'Restore Guides source artifact'],
+  ['validate guides translation batch identities', 'Validate Guides translation batch identities'],
+  ['apply guides translation batches to staging', 'Apply Guides translation batches to staging'],
+  ['push guides translation staging ref', 'Push Guides translation staging ref'],
+  ['validate combined guides translation', 'Validate combined Guides translation'],
+  ['promote validated guides translation', 'Promote validated Guides translation'],
+  ['clean up guides translation staging ref', 'Clean up Guides translation staging ref'],
+  ['write guides translation publication report', 'Write Guides translation publication report'],
+  ['emit guides translation publication result', 'Emit Guides translation publication result'],
 ])
 
 function logicalJobIdentity(job) {
@@ -105,8 +117,11 @@ function selectEffectiveJobs(jobs) {
 
 function normalizeCurrentTask(name) {
   const task = String(name || '').trim()
-  if (!task || INFRASTRUCTURE_STEP.test(task)) return null
-  return TASK_NAMES.get(task.toLowerCase()) || task
+  if (!task) return null
+  const mapped = TASK_NAMES.get(task.toLowerCase())
+  if (mapped) return mapped
+  if (INFRASTRUCTURE_STEP.test(task)) return null
+  return task
 }
 
 function jobStatus(job) {
@@ -190,14 +205,12 @@ function parseGuidesBatch(job) {
   const phaseText = parts.slice(1).join(' / ')
   const phase = phaseText.match(/^(translate|publish)(?:\s+batch\s+\d+\s+of\s+\d+(?:\s+\(\d+ docs\))?)?$/)
   if (!identity || !phase) return null
-  const published = phaseText.match(/\((\d+) docs\)$/)
   return {
     job,
     phase: phase[1],
     batchNumber: Number(identity[1]),
     batchCount: Number(identity[2]),
     pendingCount: Number(identity[3]),
-    publishedCount: published ? Number(published[1]) : null,
   }
 }
 
@@ -209,12 +222,10 @@ function guidesBatchPhase(effectiveJobs, phase) {
   const running = batches.filter(item => jobStatus(item.job) === 'running').length
   const failed = batches.filter(item => jobStatus(item.job) === 'failed').length
   const waiting = Math.max(0, total - completed - running - failed)
-  const published = batches.filter(item => jobStatus(item.job) === 'completed' && Number.isSafeInteger(item.publishedCount)).reduce((sum, item) => sum + item.publishedCount, 0)
-  const pending = Math.max(...batches.map(item => item.pendingCount))
   return {
     status: failed ? 'failed' : completed === total ? 'completed' : (running || completed > 0) ? 'running' : 'waiting',
-    currentTask: phase === 'translate' ? 'Translate Guides batches' : 'Publish Guides translation batches',
-    detail: phase === 'publish' ? `${published} documents published · ${Math.max(0, pending - published)} remaining · ${completed}/${total} batches` : `${completed}/${total} complete · ${running} active · ${waiting} pending · ${failed} failed`,
+    currentTask: phase === 'translate' ? 'Translate Guides batches' : 'Stage Guides translation publication',
+    detail: `${completed}/${total} complete · ${running} active · ${waiting} pending · ${failed} failed`,
   }
 }
 
@@ -246,7 +257,7 @@ function deriveManualPhases({ group, effectiveJobs, publishEnabled, guidesTableT
     : guidesTranslate || phaseResult(translateJob, `Translate ${GROUP_LABELS[group]}`)
 
   const guidesPublish = group === 'guides'
-    ? guidesBatchPhase(effectiveJobs, 'publish') || phaseResult(byIdentity.get('publish_guides_translation_batches'), 'Publish Guides translation batches')
+    ? phaseResult(byIdentity.get('publish_guides_translation_batches'), 'Stage Guides translation publication')
     : null
   const translationJob = byIdentity.get(`publish_${group}_translation`)
   if (phases.translate.status !== 'completed') {

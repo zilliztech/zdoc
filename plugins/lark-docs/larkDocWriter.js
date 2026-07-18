@@ -49,7 +49,8 @@ class larkDocWriter {
         skip_image_download=false,
         upload_to_s3=false,
         linkReplacementShimPath=null,
-        mediaResolver=null
+        mediaResolver=null,
+        sourceIndex=null
     ) {
         this.root_token = root_token
         const baseParts = base_token.split(':')
@@ -73,6 +74,7 @@ class larkDocWriter {
         this.linkReplacementShimPath = linkReplacementShimPath
         this.linkReplacementShim = this.__load_link_replacement_shim(linkReplacementShimPath)
         this.mediaResolver = mediaResolver
+        this.sourceIndex = sourceIndex
     }
 
     destroy() {
@@ -177,7 +179,10 @@ class larkDocWriter {
 
     async __sidebar_items(currentPath, contentRoot, token) {
         let node
-        try { node = this.__fetch_doc_source('node_token', token) } catch (e) { return [] }
+        try { node = this.__fetch_doc_source('node_token', token) } catch (e) {
+            if (this.sourceIndex) throw e
+            return []
+        }
         if (!node.has_child) return []
 
         const children = (node.children || []).filter(c => c.obj_type !== 'bitable' && c != null)
@@ -193,7 +198,9 @@ class larkDocWriter {
             }
             if (childToken) seenChildTokens.set(childToken, child.title || child.name || child.slug || childToken)
             let childSource = null
-            try { childSource = this.__fetch_doc_source('node_token', child.node_token, child.slug) } catch (e) {}
+            try { childSource = this.__fetch_doc_source('node_token', child.node_token, child.slug) } catch (e) {
+                if (this.sourceIndex) throw e
+            }
 
             if (childSource?.base_placement_type === 'section') {
                 if (!this.__base_source_is_publishable(childSource)) continue
@@ -300,7 +307,9 @@ class larkDocWriter {
                 }
             } else if (child.slug !== 'faqs') {
                 let childSource = null
-                try { childSource = this.__fetch_doc_source('node_token', child.node_token, child.slug) } catch (e) {}
+                try { childSource = this.__fetch_doc_source('node_token', child.node_token, child.slug) } catch (e) {
+                    if (this.sourceIndex) throw e
+                }
                 if (childSource && !this.__has_renderable_page(childSource)) continue
                 const docId = node_path.join(currentPath, slug)
                     .replace(/\\/g, '/')
@@ -353,6 +362,7 @@ class larkDocWriter {
     }
 
     __fetch_base_source_meta(title, slug, token=null) {
+        if (this.sourceIndex) return this.sourceIndex.findBaseSourceMeta({ title, slug, token })
         if (!slug || !fs.existsSync(this.docSourceDir)) return null
         const files = fs.readdirSync(this.docSourceDir).filter(file => file.endsWith('.json'))
         const sources = files.map(file => JSON.parse(fs.readFileSync(`${this.docSourceDir}/${file}`, 'utf8')))
@@ -376,6 +386,7 @@ class larkDocWriter {
     }
 
     __fetch_doc_source_by_any_token(token) {
+        if (this.sourceIndex) return this.sourceIndex.findAnyToken(token)
         const tokenKeys = ['node_token', 'origin_node_token', 'obj_token', 'token']
         const files = fs.readdirSync(this.docSourceDir).filter(file => file.endsWith('.json'))
         for (const file of files) {
@@ -414,7 +425,8 @@ class larkDocWriter {
             if (!parentToken || parentToken === this.root_token) break
             try {
                 current = this.__fetch_doc_source('node_token', parentToken)
-            } catch (_) {
+            } catch (error) {
+                if (this.sourceIndex) throw error
                 break
             }
         }
@@ -429,6 +441,11 @@ class larkDocWriter {
     }
 
     __fetch_doc_source (type, value, slug="") {
+        if (this.sourceIndex) {
+            const source = this.sourceIndex.find(type, value, { slug })
+            if (!source) throw new Error(`Cannot find ${value} in ${this.docSourceDir}`)
+            return source
+        }
         const file = fs.readdirSync(this.docSourceDir).filter(file => {
             const page = JSON.parse(fs.readFileSync(`${this.docSourceDir}/${file}`, {encoding: 'utf-8', flag: 'r'}))
             

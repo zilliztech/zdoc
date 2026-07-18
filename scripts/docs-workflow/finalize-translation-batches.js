@@ -1,56 +1,107 @@
 #!/usr/bin/env node
 'use strict'
 
-const { execFileSync } = require('node:child_process')
 const fs = require('node:fs')
 
 const TERMINAL_RESULTS = new Set(['success', 'failure', 'cancelled', 'skipped'])
+const SUCCESS_PUBLISHER_STATUSES = new Set(['published', 'no_changes'])
+const FAILURE_PUBLISHER_STATUSES = new Set(['composition_failed', 'staged', 'validation_failed', 'promotion_conflict'])
+const SHA = /^[0-9a-f]{40}$/
 
 function finalizeTranslationBatches(options) {
   const publish = options.publish
   const preparationResult = options.preparationResult
   const batchResult = options.batchResult
-  const batchCount = Number(options.batchCount)
+  const publisherResult = options.publisherResult
+  const batchCount = parseBatchCount(options.batchCount)
+  const publisherStatus = options.publisherStatus || ''
+  const publisherCommitSha = options.publisherCommitSha || ''
 
   if (typeof publish !== 'boolean') throw new Error('publish must be a boolean')
   if (!TERMINAL_RESULTS.has(preparationResult)) throw new Error(`invalid preparation result: ${preparationResult}`)
   if (!TERMINAL_RESULTS.has(batchResult)) throw new Error(`invalid batch result: ${batchResult}`)
-  if (!Number.isSafeInteger(batchCount) || batchCount < 0) throw new Error('batch count must be a non-negative safe integer')
+  if (!TERMINAL_RESULTS.has(publisherResult)) throw new Error(`invalid publisher result: ${publisherResult}`)
+  if (typeof options.publisherStatus !== 'string' || typeof options.publisherCommitSha !== 'string') throw new Error('publisher status and commit SHA must be strings')
 
-  if (!publish) return statuses('skipped', 'skipped')
-  if (preparationResult === 'success' && batchCount === 0) return statuses('no_changes', 'no_changes')
-  if (preparationResult === 'success' && batchCount > 0 && batchResult === 'success') {
-    if (!/^[0-9a-f]{40}$/.test(options.commitSha || '')) throw new Error('successful batch publication requires a 40-character commit SHA')
-    return statuses('translation_ready', 'published', options.commitSha)
+  if (!publish) {
+    if (preparationResult !== 'skipped' || batchResult !== 'skipped' || publisherResult !== 'skipped' || batchCount !== 0) throw new Error('disabled publication requires skipped preparation, translation, and publisher results with zero batches')
+    assertNoPublisherClaim(publisherStatus, publisherCommitSha, 'disabled publication')
+    return statuses('skipped', 'skipped')
   }
-  return statuses('failed', 'failed')
+  if (preparationResult !== 'success') {
+    assertNoPublisherClaim(publisherStatus, publisherCommitSha, 'unsuccessful preparation')
+    if (batchResult !== 'skipped' || publisherResult !== 'skipped') throw new Error('unsuccessful preparation requires skipped translation and publisher jobs')
+    const terminal = preparationResult === 'failure' ? 'failed' : preparationResult
+    return statuses(terminal, terminal)
+  }
+  if (batchCount === 0) {
+    if (batchResult !== 'skipped' || publisherResult !== 'skipped') throw new Error('zero-batch no_changes requires skipped translation and publisher jobs')
+    assertNoPublisherClaim(publisherStatus, publisherCommitSha, 'zero-batch no_changes')
+    return statuses('no_changes', 'no_changes')
+  }
+  if (batchResult !== 'success') {
+    if (publisherResult !== 'skipped') throw new Error('unsuccessful translation requires a skipped publisher job')
+    assertNoPublisherClaim(publisherStatus, publisherCommitSha, 'skipped publisher')
+    const translatorStatus = batchResult === 'failure' ? 'failed' : batchResult
+    return statuses(translatorStatus, 'skipped')
+  }
+  if (publisherResult === 'success') {
+    if (!SUCCESS_PUBLISHER_STATUSES.has(publisherStatus)) throw new Error('successful publisher job requires published or no_changes output')
+    if (!SHA.test(publisherCommitSha)) throw new Error(`${publisherStatus} publisher status requires an exact lowercase commit SHA`)
+    return statuses('translation_ready', publisherStatus, publisherCommitSha)
+  }
+  if (publisherCommitSha) throw new Error('unsuccessful publisher job must not emit a commit SHA')
+  if (publisherResult === 'failure') {
+    if (publisherStatus && !FAILURE_PUBLISHER_STATUSES.has(publisherStatus)) throw new Error('failed publisher job has contradictory publisher status')
+    return statuses('translation_ready', 'failed')
+  }
+  if (publisherResult === 'cancelled') {
+    if (publisherStatus && publisherStatus !== 'cancelled') throw new Error('cancelled publisher job has contradictory publisher status')
+    return statuses('translation_ready', 'cancelled')
+  }
+  if (publisherStatus) throw new Error('skipped publisher job must not claim a publisher status')
+  return statuses('translation_ready', 'skipped')
+}
+
+function assertNoPublisherClaim(status, sha, context) {
+  if (status || sha) throw new Error(`${context} must not claim publisher status or commit SHA`)
+}
+
+function parseBatchCount(value) {
+  if (typeof value === 'number') {
+    if (Number.isSafeInteger(value) && value >= 0) return value
+  } else if (typeof value === 'string' && /^(?:0|[1-9][0-9]*)$/.test(value)) {
+    const parsed = Number(value)
+    if (Number.isSafeInteger(parsed)) return parsed
+  }
+  throw new Error('batch count must be a canonical non-negative safe integer')
 }
 
 function statuses(translatorStatus, publisherStatus, commitSha = '') {
   return { translatorStatus, publisherStatus, commitSha }
 }
 
-function readEnvironment() {
-  return {
-    publish: process.env.PUBLISH === 'true',
-    preparationResult: process.env.PREP_RESULT || 'skipped',
-    batchCount: process.env.BATCH_COUNT || '0',
-    batchResult: process.env.BATCH_RESULT || 'skipped',
-  }
+function requiredEnvironment(env, name) {
+  if (!Object.hasOwn(env, name) || typeof env[name] !== 'string' || env[name] === '') throw new Error(`${name} is required`)
+  return env[name]
 }
 
-function resolveTargetCommit(targetBranch) {
-  if (!targetBranch || !targetBranch.trim()) throw new Error('TARGET_BRANCH is required')
-  execFileSync('git', ['check-ref-format', '--branch', targetBranch], { stdio: 'inherit' })
-  execFileSync('git', ['fetch', '--no-tags', 'origin', `refs/heads/${targetBranch}:refs/remotes/origin/${targetBranch}`], { stdio: 'inherit' })
-  return execFileSync('git', ['rev-parse', `refs/remotes/origin/${targetBranch}`], { encoding: 'utf8' }).trim()
+function readEnvironment(env = process.env) {
+  const publishValue = requiredEnvironment(env, 'PUBLISH')
+  if (!['true', 'false'].includes(publishValue)) throw new Error('PUBLISH must be exactly true or false')
+  return {
+    publish: publishValue === 'true',
+    preparationResult: requiredEnvironment(env, 'PREP_RESULT'),
+    batchCount: requiredEnvironment(env, 'BATCH_COUNT'),
+    batchResult: requiredEnvironment(env, 'BATCH_RESULT'),
+    publisherResult: requiredEnvironment(env, 'PUBLISHER_RESULT'),
+    publisherStatus: env.PUBLISHER_STATUS || '',
+    publisherCommitSha: env.PUBLISHER_COMMIT_SHA || '',
+  }
 }
 
 function main() {
   const input = readEnvironment()
-  if (input.publish && input.preparationResult === 'success' && Number(input.batchCount) > 0 && input.batchResult === 'success') {
-    input.commitSha = resolveTargetCommit(process.env.TARGET_BRANCH)
-  }
   const result = finalizeTranslationBatches(input)
   const output = [
     `translator_status=${result.translatorStatus}`,
@@ -64,4 +115,4 @@ function main() {
 
 if (require.main === module) main()
 
-module.exports = { finalizeTranslationBatches }
+module.exports = { finalizeTranslationBatches, readEnvironment }
