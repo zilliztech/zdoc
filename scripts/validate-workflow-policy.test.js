@@ -823,12 +823,7 @@ test('reusable translation producer creates group-scoped checkpoint artifacts wi
   assert.match(numbered.if, /steps\.source_delta\.outputs\.has_mutation == 'true'/)
   assert.doesNotMatch(numbered.run, /mdx-parse|validate-translated-coverage|pnpm run build/)
   assert.match(numbered.run, /translation-batch-input\.js validate --input tmp\/translation-batch-input\.json/)
-  assert.match(numbered.run, /AGENTS_OUTCOME/)
-  assert.match(numbered.run, /validationErrors/)
-  assert.match(numbered.run, /review\.pass/)
-  assert.match(numbered.run, /lstatSync/)
-  assert.match(numbered.run, /isSymbolicLink/)
-  assert.match(numbered.run, /isFile/)
+  assert.match(numbered.run, /validate-translation-batch-outputs\.js[\s\S]*--manifest tmp\/translation-manifest\.json[\s\S]*--report tmp\/translation-report\.json[\s\S]*--batch-input tmp\/translation-batch-input\.json[\s\S]*--workspace "\$GITHUB_WORKSPACE"[\s\S]*--agents-outcome "\$AGENTS_OUTCOME"[\s\S]*--translated-count "\$TRANSLATED_COUNT"[\s\S]*--failed-count "\$FAILED_COUNT"[\s\S]*--remaining-count "\$REMAINING_COUNT"/)
 
   assert.ok(unbatched, 'unbatched translations need their existing full validation')
   assert.match(unbatched.if, /inputs\.batch_number == 0/)
@@ -857,7 +852,15 @@ test('workflow policy rejects numbered translation batch validation regressions'
       expected: `${workflowName}: numbered Guides batches must not run full-tree translated coverage`,
     },
     {
+      mutate(steps) { steps.find(step => step.name === 'Validate translated batch outputs').if = "${{ inputs.should_translate && inputs.group == 'guides' && (inputs.batch_number > 0 || inputs.batch_number == 0) && (steps.agents.outputs.translated_count != '0' || steps.source_delta.outputs.has_mutation == 'true') }}" },
+      expected: `${workflowName}: numbered Guides batches must use the dedicated mutation-aware local validation step`,
+    },
+    {
       mutate(steps) { steps.find(step => step.name === 'Validate unbatched translated group').if = '${{ inputs.should_translate }}' },
+      expected: `${workflowName}: full translated validation must be restricted to unbatched runs`,
+    },
+    {
+      mutate(steps) { steps.find(step => step.name === 'Validate unbatched translated group').if = '${{ inputs.should_translate && (inputs.batch_number == 0 || inputs.batch_number > 0) }}' },
       expected: `${workflowName}: full translated validation must be restricted to unbatched runs`,
     },
     {
@@ -867,6 +870,10 @@ test('workflow policy rejects numbered translation batch validation regressions'
     {
       mutate(steps) { steps.find(step => step.name === 'Create validated translation checkpoints').run = steps.find(step => step.name === 'Create validated translation checkpoints').run.replace(/\n\s*node scripts\/docs-workflow\/validate-translation-batch\.js[\s\S]*?--batch-count "\$\{\{ inputs\.batch_count \}\}"/, '') },
       expected: `${workflowName}: numbered Guides checkpoints must validate baseline/result pair identity`,
+    },
+    {
+      mutate(steps) { steps.find(step => step.name === 'Create validated translation checkpoints').run += '\npnpm run build' },
+      expected: `${workflowName}: checkpoint build attestation must remain restricted to unbatched runs`,
     },
   ]
 

@@ -139,94 +139,15 @@ jobs:
         run: |
           set -euo pipefail
           node scripts/docs-workflow/translation-batch-input.js validate --input tmp/translation-batch-input.json
-          node - <<'NODE'
-          const fs = require('node:fs')
-          const path = require('node:path')
-
-          function fail(message) {
-            throw new Error(`Numbered translation batch validation failed: ${message}`)
-          }
-
-          function readJson(file) {
-            try {
-              return JSON.parse(fs.readFileSync(file, 'utf8'))
-            } catch (error) {
-              fail(`${file} is missing or invalid: ${error.message}`)
-            }
-          }
-
-          function count(name) {
-            const value = process.env[name]
-            if (!/^(?:0|[1-9]\d*)$/.test(value || '')) fail(`${name} is not a non-negative integer`)
-            return Number(value)
-          }
-
-          function assertRegularOutput(relativePath) {
-            const segments = relativePath.split('/')
-            let current = process.cwd()
-            for (const [index, segment] of segments.entries()) {
-              current = path.join(current, segment)
-              let stat
-              try {
-                stat = fs.lstatSync(current)
-              } catch (error) {
-                fail(`candidate output ${relativePath} is missing: ${error.message}`)
-              }
-              if (stat.isSymbolicLink()) fail(`candidate output ${relativePath} has a symbolic-link path component`)
-              if (index < segments.length - 1 && !stat.isDirectory()) fail(`candidate output ${relativePath} has a non-directory ancestor`)
-              if (index === segments.length - 1 && !stat.isFile()) fail(`candidate output ${relativePath} is not a regular file`)
-            }
-          }
-
-          const manifest = readJson('tmp/translation-manifest.json')
-          const batchInput = readJson('tmp/translation-batch-input.json')
-          if (!Array.isArray(manifest.items) || !Array.isArray(batchInput.candidates)) fail('manifest and canonical batch input must list candidates')
-          if (manifest.items.length !== batchInput.candidates.length) fail('manifest and canonical batch input candidate counts differ')
-
-          const manifestBySource = new Map()
-          for (const item of manifest.items) {
-            if (!item || typeof item.sourcePath !== 'string' || manifestBySource.has(item.sourcePath)) fail('manifest candidate identities must be unique')
-            manifestBySource.set(item.sourcePath, item)
-          }
-          for (const candidate of batchInput.candidates) {
-            const item = manifestBySource.get(candidate.sourcePath)
-            if (!item || item.targetPath !== candidate.targetPath || item.sourceHash !== candidate.sourceHash) fail(`canonical candidate identity mismatch for ${candidate.sourcePath}`)
-            assertRegularOutput(candidate.targetPath)
-          }
-
-          const translatedCount = count('TRANSLATED_COUNT')
-          const failedCount = count('FAILED_COUNT')
-          const remainingCount = count('REMAINING_COUNT')
-          if (batchInput.candidates.length === 0) {
-            if (process.env.AGENTS_OUTCOME !== 'skipped' || translatedCount !== 0 || failedCount !== 0 || remainingCount !== 0) fail('reconciliation-only batches must skip agents with zero result counts')
-            process.exit(0)
-          }
-
-          if (process.env.AGENTS_OUTCOME !== 'success') fail('translation agents did not complete successfully')
-          if (translatedCount !== batchInput.candidates.length || failedCount !== 0 || remainingCount !== 0) fail('translation agent output counts do not cover the complete batch')
-
-          const report = readJson('tmp/translation-report.json')
-          if (report.locale !== manifest.locale || !Array.isArray(report.results) || !report.checkpoint || typeof report.checkpoint !== 'object') fail('translation report has an invalid envelope')
-          if (report.results.length !== batchInput.candidates.length) fail('translation report result count does not cover the complete batch')
-          const checkpoint = report.checkpoint
-          if (checkpoint.processed !== batchInput.candidates.length || checkpoint.translated !== batchInput.candidates.length || checkpoint.failed !== 0 || checkpoint.remaining !== 0) fail('translation report checkpoint does not attest complete success')
-
-          const resultBySource = new Map()
-          for (const result of report.results) {
-            if (!result || typeof result.sourcePath !== 'string' || resultBySource.has(result.sourcePath)) fail('translation report result identities must be unique')
-            resultBySource.set(result.sourcePath, result)
-          }
-          for (const item of manifest.items) {
-            const result = resultBySource.get(item.sourcePath)
-            if (!result) fail(`translation report is missing ${item.sourcePath}`)
-            for (const field of ['sourcePath', 'targetPath', 'sourceHash', 'locale', 'type', 'reason']) {
-              if (result[field] !== item[field]) fail(`translation report ${field} mismatch for ${item.sourcePath}`)
-            }
-            if (result.status !== 'translated' || result.error) fail(`translation provider result is not successful for ${item.sourcePath}`)
-            if (!result.review || result.review.pass !== true) fail(`translation reviewer did not pass ${item.sourcePath}`)
-            if (!Object.hasOwn(result, 'validationErrors') || !Array.isArray(result.validationErrors) || result.validationErrors.length !== 0) fail(`per-document validation evidence is not clean for ${item.sourcePath}`)
-          }
-          NODE
+          node scripts/docs-workflow/validate-translation-batch-outputs.js \
+            --manifest tmp/translation-manifest.json \
+            --report tmp/translation-report.json \
+            --batch-input tmp/translation-batch-input.json \
+            --workspace "$GITHUB_WORKSPACE" \
+            --agents-outcome "$AGENTS_OUTCOME" \
+            --translated-count "$TRANSLATED_COUNT" \
+            --failed-count "$FAILED_COUNT" \
+            --remaining-count "$REMAINING_COUNT"
       - name: Create validated translation checkpoints
         id: checkpoint
         if: ${{ inputs.should_translate && (steps.agents.outputs.translated_count != '0' || steps.source_delta.outputs.has_mutation == 'true') }}
