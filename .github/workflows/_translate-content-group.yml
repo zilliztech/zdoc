@@ -121,7 +121,7 @@ jobs:
           REVIEW_AGENT_MODEL: ${{ vars.REVIEW_AGENT_MODEL }}
           TRANSLATION_ALLOW_PARTIAL: "true"
       - name: Validate unbatched translated group
-        if: ${{ inputs.should_translate && inputs.batch_number == 0 && (steps.agents.outputs.translated_count != '0' || steps.source_delta.outputs.has_mutation == 'true') }}
+        if: ${{ inputs.should_translate && inputs.batch_number == 0 && ((steps.agents.outputs.translated_count || '0') != '0' || (steps.agents.outputs.failed_count || '0') != '0' || steps.source_delta.outputs.has_mutation == 'true') }}
         run: |
           case "$GROUP" in
             guides) for d in i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials; do test ! -d "$d" || npx docusaurus mdx-parse -d "$d"; done ;;
@@ -130,7 +130,7 @@ jobs:
           node scripts/validate-translated-coverage.js --group "$GROUP"
           pnpm run build
       - name: Validate translated batch outputs
-        if: ${{ inputs.should_translate && inputs.group == 'guides' && inputs.batch_number > 0 && (steps.agents.outputs.translated_count != '0' || steps.source_delta.outputs.has_mutation == 'true') }}
+        if: ${{ inputs.should_translate && inputs.group == 'guides' && inputs.batch_number > 0 && ((steps.agents.outputs.translated_count || '0') != '0' || (steps.agents.outputs.failed_count || '0') != '0' || steps.source_delta.outputs.has_mutation == 'true') }}
         env:
           AGENTS_OUTCOME: ${{ steps.agents.outcome }}
           TRANSLATED_COUNT: ${{ steps.agents.outputs.translated_count || '0' }}
@@ -150,7 +150,7 @@ jobs:
             --remaining-count "$REMAINING_COUNT"
       - name: Create validated translation checkpoints
         id: checkpoint
-        if: ${{ inputs.should_translate && (steps.agents.outputs.translated_count != '0' || steps.source_delta.outputs.has_mutation == 'true') }}
+        if: ${{ inputs.should_translate && ((steps.agents.outputs.translated_count || '0') != '0' || (steps.agents.outputs.failed_count || '0') != '0' || steps.source_delta.outputs.has_mutation == 'true') }}
         run: |
           batch_args=()
           batch_input_args=()

@@ -11,6 +11,8 @@ const {
   createProgressCoordinator,
   isRetryableProviderError,
   loadChunkLimits,
+  parseNonNegativeInteger,
+  processItemWithRetry,
   processManifestItem,
   protectEsmStatements,
   restoreProtectedEsm,
@@ -208,6 +210,14 @@ function testChunkLimitConfiguration() {
     }),
     /TRANSLATION_CHUNK_MAX_CHARS must be greater than or equal to TRANSLATION_CHUNK_TARGET_CHARS/,
   )
+}
+
+function testFileRetryConfiguration() {
+  assert.equal(parseNonNegativeInteger(undefined, 1), 1)
+  assert.equal(parseNonNegativeInteger('0', 1), 0)
+  assert.equal(parseNonNegativeInteger('2', 1), 2)
+  assert.equal(parseNonNegativeInteger('-1', 1), 1)
+  assert.equal(parseNonNegativeInteger('1.5', 1), 1)
 }
 
 function testStripCodeFencePreservesDocumentClosingFence() {
@@ -452,6 +462,47 @@ async function testWorkerPoolIsolatesItemFailures() {
   assert.match(results[2].error, /provider failed/)
 }
 
+async function testFileRetryRecoversFailedTranslation() {
+  const warnings = []
+  let attempts = 0
+  const result = await processItemWithRetry({ sourcePath: 'docs/retry.md' }, {
+    maxRetries: 1,
+    log: { warn: message => warnings.push(message) },
+    processItem: async item => {
+      attempts += 1
+      if (attempts === 1) return { ...item, status: 'failed', error: 'review failed' }
+      return { ...item, status: 'translated' }
+    },
+  })
+
+  assert.equal(attempts, 2)
+  assert.equal(result.status, 'translated')
+  assert.equal(result.attempts, 2)
+  assert.deepEqual(result.retryFailures, [{ attempt: 1, error: 'review failed' }])
+  assert.equal(warnings.length, 1)
+}
+
+async function testFileRetryRecordsPersistentFailure() {
+  let attempts = 0
+  const result = await processItemWithRetry({ sourcePath: 'docs/fail.md' }, {
+    maxRetries: 1,
+    log: { warn: () => {} },
+    processItem: async item => {
+      attempts += 1
+      throw new Error(`provider failed ${attempts}`)
+    },
+  })
+
+  assert.equal(attempts, 2)
+  assert.equal(result.status, 'failed')
+  assert.equal(result.attempts, 2)
+  assert.equal(result.error, 'provider failed 2')
+  assert.deepEqual(result.retryFailures, [
+    { attempt: 1, error: 'provider failed 1' },
+    { attempt: 2, error: 'provider failed 2' },
+  ])
+}
+
 async function testWorkerPoolStopsAssigningNewItems() {
   const items = Array.from({ length: 5 }, (_, index) => ({ id: index }))
   let processed = 0
@@ -514,6 +565,7 @@ async function run() {
   await testFileTimeoutRejectsSlowWork()
   testRetryableProviderErrors()
   testChunkLimitConfiguration()
+  testFileRetryConfiguration()
   testStripCodeFencePreservesDocumentClosingFence()
   testStripCodeFenceRemovesResponseWrapper()
   testChunkMessagesContainContinuityContext()
@@ -526,6 +578,8 @@ async function run() {
   await testFailedChunkDoesNotWritePartialTarget()
   await testWorkerPoolLimitsConcurrencyAndProcessesExactlyOnce()
   await testWorkerPoolIsolatesItemFailures()
+  await testFileRetryRecoversFailedTranslation()
+  await testFileRetryRecordsPersistentFailure()
   await testWorkerPoolStopsAssigningNewItems()
   await testProgressCoordinatorCheckpointsCacheAndReport()
   console.log('translation agent runner tests passed')

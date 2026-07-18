@@ -10,6 +10,7 @@ const { assembleRestDocument, parseRestDocument, translateRestSpecs } = require(
 
 const DEFAULT_MANIFEST = 'tmp/translation-manifest.json'
 const DEFAULT_PROVIDER_RETRIES = 3
+const DEFAULT_FILE_RETRIES = 1
 const DEFAULT_PROVIDER_TIMEOUT_MS = 300000
 const DEFAULT_FILE_TIMEOUT_MS = 900000
 
@@ -20,6 +21,11 @@ function sleep(ms) {
 function parsePositiveInteger(value, fallback) {
   const parsed = Number(value)
   return Number.isFinite(parsed) && parsed > 0 ? parsed : fallback
+}
+
+function parseNonNegativeInteger(value, fallback) {
+  const parsed = Number(value)
+  return Number.isInteger(parsed) && parsed >= 0 ? parsed : fallback
 }
 
 function loadChunkLimits(env = process.env) {
@@ -130,6 +136,40 @@ async function withTimeout(promise, timeoutMs, message) {
     ])
   } finally {
     clearTimeout(timeout)
+  }
+}
+
+function summarizeFailedResult(result) {
+  if (result?.error) return String(result.error)
+  if (Array.isArray(result?.validationErrors) && result.validationErrors.length) return result.validationErrors.join('; ')
+  if (Array.isArray(result?.review?.issues) && result.review.issues.length) {
+    return result.review.issues.map(issue => issue?.comment || issue?.type || JSON.stringify(issue)).join('; ')
+  }
+  return 'translation returned failed status'
+}
+
+async function processItemWithRetry(item, options) {
+  const maxRetries = parseNonNegativeInteger(options.maxRetries, DEFAULT_FILE_RETRIES)
+  const failures = []
+
+  for (let attempt = 0; attempt <= maxRetries; attempt++) {
+    let result
+    try {
+      result = await options.processItem(item, attempt)
+    } catch (error) {
+      result = { ...item, status: 'failed', error: String(error?.message || error) }
+    }
+
+    if (result.status === 'translated') {
+      return failures.length ? { ...result, attempts: attempt + 1, retryFailures: failures } : result
+    }
+
+    failures.push({ attempt: attempt + 1, error: summarizeFailedResult(result) })
+    if (attempt < maxRetries) {
+      options.log?.warn?.(`[translation-agent] retrying ${item.sourcePath} after failed attempt ${attempt + 1}/${maxRetries + 1}: ${failures.at(-1).error}`)
+    } else {
+      return { ...result, attempts: attempt + 1, retryFailures: failures }
+    }
   }
 }
 
@@ -523,6 +563,7 @@ async function main() {
   const maxProviderRetries = parsePositiveInteger(process.env.TRANSLATION_AGENT_RETRIES, DEFAULT_PROVIDER_RETRIES)
   const providerTimeoutMs = parsePositiveInteger(process.env.TRANSLATION_AGENT_TIMEOUT_MS, DEFAULT_PROVIDER_TIMEOUT_MS)
   const fileTimeoutMs = parsePositiveInteger(process.env.TRANSLATION_FILE_TIMEOUT_MS, DEFAULT_FILE_TIMEOUT_MS)
+  const fileRetries = parseNonNegativeInteger(process.env.TRANSLATION_FILE_RETRIES ?? DEFAULT_FILE_RETRIES, DEFAULT_FILE_RETRIES)
   const concurrency = parsePositiveInteger(process.env.TRANSLATION_CONCURRENCY, 4)
   const checkpointFiles = parsePositiveInteger(process.env.TRANSLATION_CHECKPOINT_FILES, 10)
   const checkpointIntervalMs = parsePositiveInteger(process.env.TRANSLATION_CHECKPOINT_INTERVAL_MS, 300000)
@@ -562,24 +603,24 @@ async function main() {
       shouldStopAssigning: () => stopRequested || Date.now() - startedAt >= softDeadlineMs,
       processItem: async item => {
         console.log(`[translation-agent] ${item.sourcePath}`)
-        try {
-          return await withTimeout(
-        processManifestItem({
-          siteDir,
-          item,
-          callModel,
-          maxReviewRounds,
-          chunkTargetChars: chunkLimits.targetChars,
-          chunkMaxChars: chunkLimits.maxChars,
-        }),
-        fileTimeoutMs,
-        `Timed out translating ${item.sourcePath} after ${fileTimeoutMs}ms`,
-      )
-        } catch (error) {
-          const result = { ...item, status: 'failed', error: String(error?.message || error) }
-          console.error(`[translation-agent] failed ${item.sourcePath}: ${result.error}`)
-          return result
-        }
+        const result = await processItemWithRetry(item, {
+          maxRetries: fileRetries,
+          log: console,
+          processItem: () => withTimeout(
+            processManifestItem({
+              siteDir,
+              item,
+              callModel,
+              maxReviewRounds,
+              chunkTargetChars: chunkLimits.targetChars,
+              chunkMaxChars: chunkLimits.maxChars,
+            }),
+            fileTimeoutMs,
+            `Timed out translating ${item.sourcePath} after ${fileTimeoutMs}ms`,
+          ),
+        })
+        if (result.status !== 'translated') console.error(`[translation-agent] failed ${item.sourcePath}: ${summarizeFailedResult(result)}`)
+        return result
       },
       onResult: coordinator.record,
     })
@@ -599,7 +640,7 @@ async function main() {
     fs.appendFileSync(process.env.GITHUB_OUTPUT, `failed_count=${failed.length}\n`)
     fs.appendFileSync(process.env.GITHUB_OUTPUT, `remaining_count=${remainingCount}\n`)
   }
-  if ((failed.length && (!allowPartial || translatedCount === 0)) || (remainingCount > 0 && translatedCount === 0)) process.exit(1)
+  if ((failed.length && !allowPartial) || (remainingCount > 0 && translatedCount === 0)) process.exit(1)
 }
 
 if (require.main === module) {
@@ -620,6 +661,8 @@ module.exports = {
   normalizeBaseUrl,
   parseReview,
   parsePositiveInteger,
+  parseNonNegativeInteger,
+  processItemWithRetry,
   processManifestItem,
   protectEsmStatements,
   runWorkerPool,
