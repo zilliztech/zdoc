@@ -31,23 +31,22 @@ function executableShellLineEntries(source) {
 }
 
 function containsFullValidationCommand(source) {
-  const commandBoundary = '(?:^|(?:&&|\\|\\||;|\\|)\\s*)'
-  const flags = '(?:\\s+--?[^\\s;&|]+)*'
-  const buildCommand = new RegExp(
-    `${commandBoundary}(?:` +
-    `npm${flags}\\s+(?:run|run-script)${flags}\\s+build\\b|` +
-    `pnpm${flags}\\s+(?:run${flags}\\s+build|build)\\b|` +
-    `yarn${flags}\\s+(?:run${flags}\\s+)?build\\b|` +
-    `bun${flags}\\s+(?:run${flags}\\s+build|build)\\b|` +
-    `npx${flags}\\s+(?:[^\\s;&|]+/)?docusaurus${flags}\\s+build\\b|` +
-    `pnpm${flags}\\s+exec${flags}\\s+(?:[^\\s;&|]+/)?docusaurus${flags}\\s+build\\b|` +
-    `yarn${flags}\\s+(?:[^\\s;&|]+/)?docusaurus${flags}\\s+build\\b|` +
-    `(?:[^\\s;&|]+/)?docusaurus${flags}\\s+build\\b` +
-    ')',
-  )
-  return executableShellLineEntries(source).some(({ trimmed }) =>
-    /\b(?:mdx-parse|validate-translated-coverage(?:\.js)?|run-doc-build-stage(?:\.js)?)\b/.test(trimmed) || buildCommand.test(trimmed),
-  )
+  return executableShellLineEntries(source).some(({ trimmed }) => {
+    if (/\b(?:mdx-parse|validate-translated-coverage(?:\.js)?|run-doc-build-stage(?:\.js)?)\b/.test(trimmed)) return true
+    const segments = trimmed.split(/\s*(?:&&|\|\||;|\|)\s*/)
+    return segments.some(segment => {
+      const command = segment.trim().replace(/^(?:[A-Za-z_][A-Za-z0-9_]*=[^\s]+\s+)*/, '')
+      const match = command.match(/^(\S+)(?:\s+([\s\S]*))?$/)
+      if (!match) return false
+      const executable = path.posix.basename(match[1])
+      const rest = match[2] || ''
+      if (executable === 'npm') return /\b(?:run|run-script)\b[\s\S]*\bbuild\b/.test(rest)
+      if (['pnpm', 'yarn', 'bun'].includes(executable)) return /\bbuild\b/.test(rest)
+      if (executable === 'npx') return /\bdocusaurus\b[\s\S]*\bbuild\b/.test(rest)
+      if (executable === 'docusaurus') return /\bbuild\b/.test(rest)
+      return false
+    })
+  })
 }
 
 function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {

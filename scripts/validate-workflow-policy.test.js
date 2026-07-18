@@ -935,6 +935,15 @@ test('workflow policy rejects numbered translation batch validation regressions'
       mutate(steps) { steps.find(step => step.name === 'Validate translated batch outputs').run += '\ndocusaurus build' },
       expected: `${workflowName}: full validation and build commands must exist only in the exact unbatched validation path`,
     },
+    ...[
+      'npm --prefix . run build',
+      'pnpm --dir . run build',
+      'yarn --cwd . build',
+      'npx -p @docusaurus/core docusaurus build',
+    ].map(command => ({
+      mutate(steps) { steps.find(step => step.name === 'Validate translated batch outputs').run += `\n${command}` },
+      expected: `${workflowName}: full validation and build commands must exist only in the exact unbatched validation path`,
+    })),
   ]
 
   for (const fixture of cases) {
