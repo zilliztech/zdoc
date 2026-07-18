@@ -271,19 +271,38 @@ function sourceForDeletedI18n(targetPath) {
   return `${mapping.sourceRoot}/${targetPath.slice(mapping.targetRoot.length + 1)}`
 }
 
+function cacheEntriesEqual(before, after) {
+  return before !== undefined && after !== undefined && CACHE_ENTRY_KEYS.every(field => before[field] === after[field])
+}
+
 function assertAuthorizedCacheChanges(beforeCache, afterCache, batchInput) {
   validateBatchInput(batchInput)
   validateCache(beforeCache, 'before cache')
   validateCache(afterCache, 'after cache')
-  const authorized = new Set(batchInput.candidates.map(item => item.sourcePath))
-  for (const entry of batchInput.sourceDelta.renamed) authorized.add(entry.oldPath)
-  for (const targetPath of batchInput.sourceDelta.deletedI18n) authorized.add(sourceForDeletedI18n(targetPath))
+  const candidates = new Map(batchInput.candidates.map(item => [item.sourcePath, item]))
+  const removalOnly = new Set(batchInput.sourceDelta.renamed.map(entry => entry.oldPath))
+  for (const targetPath of batchInput.sourceDelta.deletedI18n) removalOnly.add(sourceForDeletedI18n(targetPath))
+  for (const key of candidates.keys()) {
+    if (removalOnly.has(key)) throw new Error(`Cache key has conflicting candidate and removal-only authority: ${key}`)
+  }
   const keys = new Set([...Object.keys(beforeCache.files), ...Object.keys(afterCache.files)])
   for (const key of keys) {
     const before = beforeCache.files[key]
     const after = afterCache.files[key]
-    const equal = before !== undefined && after !== undefined && CACHE_ENTRY_KEYS.every(field => before[field] === after[field])
-    if (!equal && !authorized.has(key)) throw new Error(`Unauthorized translation cache change: ${key}`)
+    if (cacheEntriesEqual(before, after)) continue
+    const candidate = candidates.get(key)
+    if (candidate) {
+      if (after === undefined) throw new Error(`Candidate cache entry removal is unauthorized: ${key}`)
+      if (after.sourceHash !== candidate.sourceHash || after.targetPath !== candidate.targetPath) {
+        throw new Error(`Candidate cache entry does not match batch input: ${key}`)
+      }
+      continue
+    }
+    if (removalOnly.has(key)) {
+      if (before !== undefined && after === undefined) continue
+      throw new Error(`Removal-only cache entry was added or modified: ${key}`)
+    }
+    throw new Error(`Unauthorized translation cache change: ${key}`)
   }
 }
 

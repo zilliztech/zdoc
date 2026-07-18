@@ -338,7 +338,7 @@ test('authorizes only candidate, rename, and deletion-derived cache changes', ()
   const after = structuredClone(before)
   delete after.files['docs/tutorials/old.md']
   delete after.files['docs/tutorials/deleted.md']
-  after.files['docs/tutorials/new.md'] = cacheEntry('docs/tutorials/new.md', HASH_B)
+  after.files['docs/tutorials/new.md'] = cacheEntry('docs/tutorials/new.md', HASH_A)
   assert.doesNotThrow(() => assertAuthorizedCacheChanges(before, after, input))
 
   for (const key of ['reference/api/node/a.md', 'docs/tutorials/stable.md']) {
@@ -360,6 +360,69 @@ test('authorizes only candidate, rename, and deletion-derived cache changes', ()
   assert.doesNotThrow(() => assertAuthorizedCacheChanges(beforeRename, afterOldRemoval, renameOnly))
   const afterNewAddition = { files: { 'docs/tutorials/new.md': cacheEntry('docs/tutorials/new.md') } }
   assert.throws(() => assertAuthorizedCacheChanges({ files: {} }, afterNewAddition, renameOnly), /unauthorized|cache|change/i)
+})
+
+test('binds candidate cache additions and changes to exact batch values', () => {
+  const input = batchInput()
+  const key = input.candidates[0].sourcePath
+  const exact = cacheEntry(key, input.candidates[0].sourceHash)
+  assert.doesNotThrow(() => assertAuthorizedCacheChanges({ files: {} }, { files: { [key]: exact } }, input))
+
+  const previous = cacheEntry(key, HASH_B)
+  const changed = { ...exact, translatedAt: '2026-07-18T01:00:00.000Z' }
+  assert.doesNotThrow(() => assertAuthorizedCacheChanges({ files: { [key]: previous } }, { files: { [key]: changed } }, input))
+  assert.doesNotThrow(() => assertAuthorizedCacheChanges({ files: { [key]: previous } }, { files: { [key]: previous } }, input))
+
+  for (const result of [
+    { ...exact, sourceHash: HASH_B },
+    { ...exact, targetPath: 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/wrong.md' },
+    { ...exact, translatedAt: 'today' },
+  ]) {
+    assert.throws(
+      () => assertAuthorizedCacheChanges({ files: {} }, { files: { [key]: result } }, input),
+      /candidate|cache|hash|target|timestamp/i,
+    )
+  }
+  assert.throws(
+    () => assertAuthorizedCacheChanges(
+      { files: { [key]: exact } },
+      { files: { [key]: { ...exact, sourceHash: HASH_B } } },
+      input,
+    ),
+    /candidate|cache|hash/i,
+  )
+
+  assert.throws(
+    () => assertAuthorizedCacheChanges({ files: { [key]: exact } }, { files: {} }, input),
+    /candidate|removal|unauthorized/i,
+  )
+})
+
+test('allows deletion and rename-old cache identities to be removed only', () => {
+  const input = batchInput()
+  const renameOld = input.sourceDelta.renamed[0].oldPath
+  const deletionKey = 'docs/tutorials/deleted.md'
+  input.sourceDelta.deletedI18n.push('i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/deleted.md')
+  input.sourceDelta.deletedI18n.sort()
+
+  for (const key of [renameOld, deletionKey]) {
+    const existing = cacheEntry(key)
+    assert.doesNotThrow(() => assertAuthorizedCacheChanges({ files: { [key]: existing } }, { files: {} }, input))
+    assert.doesNotThrow(() => assertAuthorizedCacheChanges({ files: {} }, { files: {} }, input))
+    assert.doesNotThrow(() => assertAuthorizedCacheChanges({ files: { [key]: existing } }, { files: { [key]: existing } }, input))
+    assert.throws(
+      () => assertAuthorizedCacheChanges({ files: {} }, { files: { [key]: existing } }, input),
+      /removal|unauthorized|cache/i,
+    )
+    assert.throws(
+      () => assertAuthorizedCacheChanges(
+        { files: { [key]: existing } },
+        { files: { [key]: { ...existing, sourceHash: HASH_B } } },
+        input,
+      ),
+      /removal|unauthorized|cache/i,
+    )
+  }
 })
 
 test('rejects malformed caches, prototype keys, and ambiguous paths', () => {
