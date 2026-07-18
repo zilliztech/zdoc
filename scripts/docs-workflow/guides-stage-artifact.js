@@ -173,22 +173,25 @@ async function resolveOutputCandidate(output, trustedPaths) {
   const trusted = commonAncestor([...trustedPaths, absolute])
   const trustedStat = await fs.lstat(trusted)
   if (trustedStat.isSymbolicLink() || !trustedStat.isDirectory()) throw new Error(`Guides artifact output trusted root must be a real directory: ${trusted}`)
-  let current = await fs.realpath(trusted)
+  let deepestExisting = await fs.realpath(trusted)
+  let missing = []
   const components = path.relative(trusted, absolute).split(path.sep).filter(Boolean)
   for (let index = 0; index < components.length; index += 1) {
-    current = path.join(current, components[index])
+    const current = path.join(deepestExisting, components[index])
     try {
       const stat = await fs.lstat(current)
       if (stat.isSymbolicLink()) throw new Error(`Guides artifact output path must not use symlinks: ${current}`)
       if (index < components.length - 1 && !stat.isDirectory()) throw new Error(`Guides artifact output ancestor must be a directory: ${current}`)
+      deepestExisting = current
     } catch (error) {
       if (error.code !== 'ENOENT') throw error
-      current = path.join(current, ...components.slice(index + 1))
+      missing = components.slice(index)
       break
     }
   }
-  if (current === path.parse(current).root) throw new Error('Unsafe output root')
-  return current
+  const candidate = path.join(await fs.realpath(deepestExisting), ...missing)
+  if (candidate === path.parse(candidate).root) throw new Error('Unsafe output root')
+  return candidate
 }
 
 async function validateOutputDisjointness({ workspace, baselineDir, output }) {

@@ -442,6 +442,65 @@ test('creation rejects an existing output reached through a symlinked ancestor b
   assert.equal(fs.existsSync(path.join(victimArtifact, 'manifest.json')), false)
 })
 
+test('creation canonicalizes the deepest existing output component for overlap checks', async () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'guides-stage-output-canonical-case-'))
+  const fixture = prepareSourceWorkspace(root)
+  const mixedCase = path.join(root, 'WorkSpace')
+  fs.renameSync(fixture.workspace, mixedCase)
+  fixture.workspace = mixedCase
+  const alias = path.join(root, 'workspace')
+  const canonicalAlias = path.join(fs.realpathSync(root), 'workspace')
+  const canonicalWorkspace = fs.realpathSync(mixedCase)
+  const sentinel = path.join(mixedCase, 'sentinel')
+  fs.writeFileSync(sentinel, 'keep')
+  const originalLstat = fsp.lstat
+  const originalRealpath = fsp.realpath
+  fsp.lstat = function (file, ...args) {
+    if (path.resolve(file) === canonicalAlias) return originalLstat.call(this, canonicalWorkspace, ...args)
+    return originalLstat.call(this, file, ...args)
+  }
+  fsp.realpath = function (file, ...args) {
+    if (path.resolve(file) === canonicalAlias) return Promise.resolve(canonicalWorkspace)
+    return originalRealpath.call(this, file, ...args)
+  }
+  try {
+    await assert.rejects(
+      createGuidesStageArtifact({ stage: 'source', workspace: fixture.workspace, baselineDir: fixture.baseline, output: alias, masterSha: SHA, devBaselineSha: SHA, rootToken: 'root' }),
+      /output.*(workspace|overlap|ancestor|inside|unsafe)/i,
+    )
+  } finally {
+    fsp.lstat = originalLstat
+    fsp.realpath = originalRealpath
+  }
+  assert.equal(fs.readFileSync(sentinel, 'utf8'), 'keep')
+  assert.equal(fs.existsSync(path.join(mixedCase, 'manifest.json')), false)
+})
+
+test('creation rejects workspace and baseline output aliases on case-insensitive filesystems', async (t) => {
+  for (const protectedRoot of ['workspace', 'baseline']) {
+    await t.test(protectedRoot, async (subtest) => {
+      const root = fs.mkdtempSync(path.join(os.tmpdir(), 'guides-stage-output-case-alias-'))
+      const fixture = prepareSourceWorkspace(root)
+      const mixedCase = path.join(root, protectedRoot === 'workspace' ? 'WorkSpace' : 'BaseLine')
+      fs.renameSync(fixture[protectedRoot], mixedCase)
+      const alias = path.join(root, protectedRoot)
+      if (!fs.existsSync(alias) || fs.realpathSync(alias) !== fs.realpathSync(mixedCase)) {
+        subtest.skip('filesystem is case-sensitive')
+        return
+      }
+      fixture[protectedRoot] = mixedCase
+      const sentinel = path.join(mixedCase, 'sentinel')
+      fs.writeFileSync(sentinel, 'keep')
+      await assert.rejects(
+        createGuidesStageArtifact({ stage: 'source', workspace: fixture.workspace, baselineDir: fixture.baseline, output: alias, masterSha: SHA, devBaselineSha: SHA, rootToken: 'root' }),
+        /output.*(workspace|baseline|overlap|ancestor|inside|unsafe)/i,
+      )
+      assert.equal(fs.readFileSync(sentinel, 'utf8'), 'keep')
+      assert.equal(fs.existsSync(path.join(mixedCase, 'manifest.json')), false)
+    })
+  }
+})
+
 test('invalid assembly decisions preserve an existing artifact byte-for-byte', async () => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'guides-stage-preserve-output-'))
   const fixture = prepareSourceWorkspace(root)
