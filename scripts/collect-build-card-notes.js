@@ -147,7 +147,7 @@ function assemblyIdentityNote() {
     validateAssemblyDecision(decision)
     const lines = ['# Guides assembly', '']
     if (decision.mode === 'reuse') lines.push('- Decision: Reuse eligible (observe-only)')
-    else lines.push(`- Decision: Regenerated: ${decision.reasons.join(', ')}`)
+    else lines.push(`- Decision: Regeneration required (observe-only): ${decision.reasons.join(', ')}`)
     let result = freshJsonReport(resultFile)
     if (result) {
       try {
