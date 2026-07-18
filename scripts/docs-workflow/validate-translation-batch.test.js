@@ -13,15 +13,50 @@ const { validateTranslationBatch } = require('./validate-translation-batch')
 const MASTER_SHA = 'a'.repeat(40)
 const DEV_SHA = 'b'.repeat(40)
 const CACHE_PATH = '.translation-cache/ja-JP.json'
+const PENDING_SHA = 'c'.repeat(64)
 
-async function translationArtifact({ batchNumber, batchCount }) {
+function batchMetadata(overrides = {}) {
+  return { batchIndex: 0, batchNumber: 1, batchCount: 1, batchSize: 30, pendingCount: 1, pendingSetSha256: PENDING_SHA, ...overrides }
+}
+
+function batchInput(batch = batchMetadata(), overrides = {}) {
+  const reconciliationOnly = batch.pendingCount === 0
+  return {
+    schemaVersion: 1,
+    group: 'guides',
+    sourceCheckpointSha: DEV_SHA,
+    batch,
+    candidates: reconciliationOnly ? [] : [{
+      sourcePath: 'docs/tutorials/new.md',
+      targetPath: 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/new.md',
+      sourceHash: 'd'.repeat(64),
+    }],
+    sourceDelta: reconciliationOnly ? {
+      deletedI18n: ['i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/old.md'],
+      renamed: [],
+    } : { deletedI18n: [], renamed: [] },
+    ...overrides,
+  }
+}
+
+function cacheEntry(sourceHash = 'd'.repeat(64)) {
+  return {
+    sourceHash,
+    targetPath: 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/new.md',
+    translatedAt: '2026-07-18T00:00:00.000Z',
+  }
+}
+
+async function translationArtifact({ batch = batchMetadata(), document = batchInput(batch), cacheFiles = {}, manifest = {} } = {}) {
   const dir = await mkdtemp(path.join(os.tmpdir(), 'translation-batch-'))
   const payload = path.join(dir, 'payload')
-  const cache = Buffer.from('{"files":{}}\n')
+  const cache = Buffer.from(`${JSON.stringify({ files: cacheFiles }, null, 2)}\n`)
+  const inputBytes = Buffer.from(`${JSON.stringify(document, null, 2)}\n`)
   await mkdir(path.join(payload, '.translation-cache'), { recursive: true })
   await writeFile(path.join(payload, CACHE_PATH), cache)
-  const manifest = {
-    schemaVersion: 1,
+  await writeFile(path.join(dir, 'batch-input.json'), inputBytes)
+  const checkpoint = {
+    schemaVersion: 2,
     stage: 'translation',
     group: 'guides',
     masterSha: MASTER_SHA,
@@ -35,49 +70,45 @@ async function translationArtifact({ batchNumber, batchCount }) {
     }],
     deletions: [],
     snapshotManual: 'guides',
-    validation: { commands: ['pnpm run build'], passed: true },
-    batch: {
-      batchIndex: batchNumber - 1,
-      batchNumber,
-      batchCount,
-      batchSize: 30,
-      pendingCount: 151,
-      pendingSetSha256: 'c'.repeat(64),
-    },
+    batch,
+    batchInput: { path: 'batch-input.json', size: inputBytes.length, sha256: crypto.createHash('sha256').update(inputBytes).digest('hex') },
+    ...manifest,
   }
-  await writeFile(path.join(dir, 'manifest.json'), JSON.stringify(manifest))
+  await writeFile(path.join(dir, 'manifest.json'), JSON.stringify(checkpoint))
   return dir
 }
 
-async function translationPair(options) {
+async function translationPair(options = {}) {
+  const batch = options.batch || batchMetadata()
+  const document = options.document || batchInput(batch)
   return {
-    artifact: await translationArtifact(options),
-    baseline: await translationArtifact(options),
+    artifact: await translationArtifact({ batch, document, cacheFiles: options.resultCache || { 'docs/tutorials/new.md': cacheEntry() }, manifest: options.resultManifest }),
+    baseline: await translationArtifact({ batch, document, cacheFiles: options.baselineCache || {}, manifest: options.baselineManifest }),
   }
 }
 
 test('validates matching translated and baseline batch artifacts', async () => {
-  const pair = await translationPair({ batchNumber: 2, batchCount: 6 })
+  const pair = await translationPair()
   await assert.doesNotReject(validateTranslationBatch({
     artifactDir: pair.artifact,
     baselineDir: pair.baseline,
-    batchNumber: 2,
-    batchCount: 6,
+    batchNumber: 1,
+    batchCount: 1,
   }))
 })
 
 test('rejects batch identity mismatches', async () => {
-  const pair = await translationPair({ batchNumber: 2, batchCount: 6 })
+  const pair = await translationPair()
   await assert.rejects(validateTranslationBatch({
     artifactDir: pair.artifact,
     baselineDir: pair.baseline,
-    batchNumber: 3,
-    batchCount: 6,
+    batchNumber: 1,
+    batchCount: 2,
   }), /batch identity mismatch/i)
 })
 
 test('requires the baseline translation cache payload', async () => {
-  const pair = await translationPair({ batchNumber: 1, batchCount: 1 })
+  const pair = await translationPair()
   await rm(path.join(pair.baseline, 'payload', CACHE_PATH))
   await assert.rejects(validateTranslationBatch({
     artifactDir: pair.artifact,
@@ -88,7 +119,7 @@ test('requires the baseline translation cache payload', async () => {
 })
 
 test('rejects a symlinked baseline translation cache', async () => {
-  const pair = await translationPair({ batchNumber: 1, batchCount: 1 })
+  const pair = await translationPair()
   const cache = path.join(pair.baseline, 'payload', CACHE_PATH)
   await rm(cache)
   await symlink(path.join(pair.artifact, 'payload', CACHE_PATH), cache)
@@ -98,6 +129,54 @@ test('rejects a symlinked baseline translation cache', async () => {
     batchNumber: 1,
     batchCount: 1,
   }), /cache|symlink/i)
+})
+
+test('requires byte-identical batch inputs and complete checkpoint identity', async () => {
+  let pair = await translationPair()
+  const differentDocument = batchInput(batchMetadata(), {
+    candidates: [{
+      sourcePath: 'docs/tutorials/other.md',
+      targetPath: 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/other.md',
+      sourceHash: 'e'.repeat(64),
+    }],
+  })
+  pair.artifact = await translationArtifact({ document: differentDocument, cacheFiles: {} })
+  await assert.rejects(validateTranslationBatch({ artifactDir: pair.artifact, baselineDir: pair.baseline, batchNumber: 1, batchCount: 1 }), /batch input.*identical|bytes|mismatch/i)
+
+  pair = await translationPair({ resultManifest: { masterSha: 'e'.repeat(40) } })
+  await assert.rejects(validateTranslationBatch({ artifactDir: pair.artifact, baselineDir: pair.baseline, batchNumber: 1, batchCount: 1 }), /identity|master|mismatch/i)
+
+  pair = await translationPair()
+  const otherSource = 'e'.repeat(40)
+  pair.artifact = await translationArtifact({
+    document: batchInput(batchMetadata(), { sourceCheckpointSha: otherSource }),
+    cacheFiles: { 'docs/tutorials/new.md': cacheEntry() },
+    manifest: { devBaselineSha: otherSource },
+  })
+  await assert.rejects(validateTranslationBatch({ artifactDir: pair.artifact, baselineDir: pair.baseline, batchNumber: 1, batchCount: 1 }), /identity|baseline|source|mismatch/i)
+})
+
+test('enforces authorized translation cache changes from the shared batch input', async () => {
+  const stable = {
+    sourceHash: 'e'.repeat(64),
+    targetPath: 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/stable.md',
+    translatedAt: '2026-07-18T00:00:00.000Z',
+  }
+  const changedStable = { ...stable, sourceHash: 'f'.repeat(64) }
+  const pair = await translationPair({
+    baselineCache: { 'docs/tutorials/stable.md': stable },
+    resultCache: { 'docs/tutorials/new.md': cacheEntry(), 'docs/tutorials/stable.md': changedStable },
+  })
+  await assert.rejects(
+    validateTranslationBatch({ artifactDir: pair.artifact, baselineDir: pair.baseline, batchNumber: 1, batchCount: 1 }),
+    /unauthorized.*cache|cache change/i,
+  )
+})
+
+test('accepts byte-identical reconciliation-only numbered pair with zero candidates', async () => {
+  const batch = batchMetadata({ pendingCount: 0 })
+  const pair = await translationPair({ batch, document: batchInput(batch), resultCache: {}, baselineCache: {} })
+  await assert.doesNotReject(validateTranslationBatch({ artifactDir: pair.artifact, baselineDir: pair.baseline, batchNumber: 1, batchCount: 1 }))
 })
 
 test('CLI rejects malformed and incomplete arguments', () => {

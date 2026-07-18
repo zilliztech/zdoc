@@ -4,6 +4,9 @@
 const fs = require('node:fs/promises')
 const path = require('node:path')
 const { validateCheckpointArtifact } = require('./validate-checkpoint-artifact')
+const { assertAuthorizedCacheChanges } = require('./translation-batch-input')
+
+const BATCH_KEYS = ['batchIndex', 'batchNumber', 'batchCount', 'batchSize', 'pendingCount', 'pendingSetSha256']
 
 function usage() {
   return 'Usage: node validate-translation-batch.js --artifact <dir> --baseline <dir> --batch-number <number> --batch-count <count>'
@@ -43,13 +46,35 @@ async function validateTranslationBatch({ artifactDir, baselineDir, batchNumber,
     validateCheckpointArtifact(baselineDir),
   ])
   for (const manifest of manifests) {
+    if (manifest.schemaVersion !== 2 || manifest.stage !== 'translation') throw new Error('Numbered translation batch checkpoints must use schema 2')
     if (manifest.batch?.batchNumber !== batchNumber || manifest.batch?.batchCount !== batchCount) {
       throw new Error('Checkpoint translation batch identity mismatch')
     }
   }
-  const cache = path.join(manifests[1].resolvedDir, 'payload/.translation-cache/ja-JP.json')
-  const stat = await fs.lstat(cache)
-  if (!stat.isFile() || stat.isSymbolicLink()) throw new Error('Baseline translation cache must be a regular file')
+  const [result, baseline] = manifests
+  for (const field of ['group', 'masterSha', 'devBaselineSha']) {
+    if (result[field] !== baseline[field]) throw new Error(`Checkpoint translation ${field} identity mismatch`)
+  }
+  if (BATCH_KEYS.some(key => result.batch[key] !== baseline.batch[key])) throw new Error('Checkpoint translation batch identity mismatch')
+  if (result.batchInput.sha256 !== baseline.batchInput.sha256 || result.batchInput.size !== baseline.batchInput.size || !result.batchInputBytes.equals(baseline.batchInputBytes)) {
+    throw new Error('Baseline and result batch input bytes must be identical')
+  }
+
+  const cachePath = 'payload/.translation-cache/ja-JP.json'
+  const baselineCache = path.join(baseline.resolvedDir, cachePath)
+  const resultCache = path.join(result.resolvedDir, cachePath)
+  for (const [label, file] of [['Baseline', baselineCache], ['Result', resultCache]]) {
+    const stat = await fs.lstat(file)
+    if (!stat.isFile() || stat.isSymbolicLink()) throw new Error(`${label} translation cache must be a regular file`)
+  }
+  let before, after
+  try {
+    before = JSON.parse(await fs.readFile(baselineCache, 'utf8'))
+    after = JSON.parse(await fs.readFile(resultCache, 'utf8'))
+  } catch (error) {
+    throw new Error(`Translation cache JSON is invalid: ${error.message}`)
+  }
+  assertAuthorizedCacheChanges(before, after, result.parsedBatchInput)
 }
 
 if (require.main === module) {

@@ -103,6 +103,11 @@ jobs:
           fi
           node scripts/translation/manifest.js --locale ja-JP --output tmp/translation-manifest.json --max-files "${{ inputs.max_files }}" --group "$GROUP" --source-checkpoint-sha "$SOURCE_COMMIT_SHA" --source-delta tmp/source-delta.json "${batch_args[@]}"
           echo "count=$(node -p "require('./tmp/translation-manifest.json').items.length")" >> "$GITHUB_OUTPUT"
+          if (( ${{ inputs.batch_number }} > 0 )) && [[ "$GROUP" == guides ]]; then
+            node scripts/docs-workflow/translation-batch-input.js create \
+              --manifest tmp/translation-manifest.json \
+              --output tmp/translation-batch-input.json
+          fi
       - name: Run translation agents
         id: agents
         if: ${{ inputs.should_translate && steps.manifest.outputs.count != '0' }}
@@ -129,9 +134,15 @@ jobs:
         if: ${{ inputs.should_translate && (steps.agents.outputs.translated_count != '0' || steps.source_delta.outputs.has_mutation == 'true') }}
         run: |
           batch_args=()
-          if (( ${{ inputs.batch_number }} > 0 )); then batch_args=(--batch-index "${{ inputs.batch_index }}" --batch-number "${{ inputs.batch_number }}" --batch-count "${{ inputs.batch_count }}" --batch-size "${{ inputs.batch_size }}" --pending-count "${{ inputs.pending_count }}" --pending-set-sha256 "${{ inputs.pending_set_sha256 }}"); fi
-          node scripts/docs-workflow/create-checkpoint-artifact.js --group "$GROUP" --master-sha "$MASTER_SHA" --dev-baseline-sha "$SOURCE_COMMIT_SHA" --baseline-dir "$BASELINE_DIR" --workspace "$BASELINE_DIR" --output "$BASELINE_CHECKPOINT_DIR" --include-translation-cache "${batch_args[@]}"
-          node scripts/docs-workflow/create-checkpoint-artifact.js --group "$GROUP" --master-sha "$MASTER_SHA" --dev-baseline-sha "$SOURCE_COMMIT_SHA" --baseline-dir "$BASELINE_DIR" --workspace "$GITHUB_WORKSPACE" --output "$CHECKPOINT_DIR" --include-translation-cache --validation-command "pnpm run build" "${batch_args[@]}"
+          batch_input_args=()
+          validation_args=()
+          if (( ${{ inputs.batch_number }} > 0 )); then
+            batch_args=(--batch-index "${{ inputs.batch_index }}" --batch-number "${{ inputs.batch_number }}" --batch-count "${{ inputs.batch_count }}" --batch-size "${{ inputs.batch_size }}" --pending-count "${{ inputs.pending_count }}" --pending-set-sha256 "${{ inputs.pending_set_sha256 }}")
+            if [[ "$GROUP" == guides ]]; then batch_input_args=(--batch-input tmp/translation-batch-input.json); fi
+          fi
+          if (( ${{ inputs.batch_number }} == 0 )); then validation_args=(--validation-command "pnpm run build"); fi
+          node scripts/docs-workflow/create-checkpoint-artifact.js --group "$GROUP" --master-sha "$MASTER_SHA" --dev-baseline-sha "$SOURCE_COMMIT_SHA" --baseline-dir "$BASELINE_DIR" --workspace "$BASELINE_DIR" --output "$BASELINE_CHECKPOINT_DIR" --include-translation-cache "${batch_args[@]}" "${batch_input_args[@]}"
+          node scripts/docs-workflow/create-checkpoint-artifact.js --group "$GROUP" --master-sha "$MASTER_SHA" --dev-baseline-sha "$SOURCE_COMMIT_SHA" --baseline-dir "$BASELINE_DIR" --workspace "$GITHUB_WORKSPACE" --output "$CHECKPOINT_DIR" --include-translation-cache "${batch_args[@]}" "${batch_input_args[@]}" "${validation_args[@]}"
           node scripts/docs-workflow/validate-checkpoint-artifact.js --artifact "$BASELINE_CHECKPOINT_DIR" --group "$GROUP" --master-sha "$MASTER_SHA" --dev-baseline-sha "$SOURCE_COMMIT_SHA"
           node scripts/docs-workflow/validate-checkpoint-artifact.js --artifact "$CHECKPOINT_DIR" --group "$GROUP" --master-sha "$MASTER_SHA" --dev-baseline-sha "$SOURCE_COMMIT_SHA"
           mkdir -p "$RUNNER_TEMP/baseline-upload" "$RUNNER_TEMP/translation-upload"

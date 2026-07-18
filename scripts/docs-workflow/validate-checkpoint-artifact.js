@@ -6,11 +6,15 @@ const fs = require('node:fs');
 const { lstat, open, readFile, readlink, realpath, readdir } = require('node:fs/promises');
 const path = require('node:path');
 const { getContentGroup } = require('./content-groups');
+const { validateBatchInput } = require('./translation-batch-input');
 
-const TOP_KEYS = ['schemaVersion', 'stage', 'group', 'masterSha', 'devBaselineSha', 'createdAt', 'ownershipVersion', 'files', 'deletions', 'snapshotManual', 'validation'];
+const COMMON_KEYS = ['schemaVersion', 'stage', 'group', 'masterSha', 'devBaselineSha', 'createdAt', 'ownershipVersion', 'files', 'deletions', 'snapshotManual'];
+const SCHEMA_1_KEYS = [...COMMON_KEYS, 'validation'];
+const SCHEMA_2_KEYS = [...COMMON_KEYS, 'batch', 'batchInput'];
 const FILE_KEYS = ['path', 'sha256', 'size'];
 const VALIDATION_KEYS = ['commands', 'passed'];
 const BATCH_KEYS = ['batchIndex', 'batchNumber', 'batchCount', 'batchSize', 'pendingCount', 'pendingSetSha256'];
+const BATCH_INPUT_KEYS = ['path', 'size', 'sha256'];
 
 function exactKeys(value, keys, label) {
   if (!value || typeof value !== 'object' || Array.isArray(value)) throw new Error(`${label} must be an object`);
@@ -40,15 +44,15 @@ function deepFreeze(value) {
   return Object.freeze(value);
 }
 
-async function readPayloadNoFollow(file) {
+async function readRegularNoFollow(file, label = 'Payload') {
   // On platforms without O_NOFOLLOW, the directory walk's lstat and descriptor fstat checks are the fallback.
   const handle = await open(file, fs.constants.O_RDONLY | (fs.constants.O_NOFOLLOW || 0));
   try {
     const before = await handle.stat();
-    if (!before.isFile()) throw new Error(`Payload is not a regular file: ${file}`);
+    if (!before.isFile()) throw new Error(`${label} is not a regular file: ${file}`);
     const bytes = await handle.readFile();
     const after = await handle.stat();
-    if (before.dev !== after.dev || before.ino !== after.ino || before.size !== after.size) throw new Error(`Payload file changed during validation: ${file}`);
+    if (before.dev !== after.dev || before.ino !== after.ino || before.size !== after.size) throw new Error(`${label} file changed during validation: ${file}`);
     return bytes;
   } finally { await handle.close(); }
 }
@@ -92,22 +96,37 @@ async function pinArtifactDirectory(artifactDir) {
   return canonical;
 }
 
+async function validateSchema2Root(artifactDir) {
+  const expected = new Set(['manifest.json', 'payload', 'batch-input.json']);
+  const entries = await readdir(artifactDir);
+  for (const name of entries) if (!expected.has(name)) throw new Error(`Unexpected schema 2 artifact root entry: ${name}`);
+  for (const name of expected) {
+    if (!entries.includes(name)) throw new Error(`Missing schema 2 artifact root entry: ${name}`);
+    const stat = await lstat(path.join(artifactDir, name));
+    if (stat.isSymbolicLink()) throw new Error(`Schema 2 artifact root entry must not be a symlink: ${name}`);
+    if (name === 'payload' ? !stat.isDirectory() : !stat.isFile()) throw new Error(`Invalid schema 2 artifact root entry type: ${name}`);
+  }
+}
+
 async function validateCheckpointArtifact(artifactDir, expected = {}) {
   const pinnedArtifactDir = await pinArtifactDirectory(artifactDir);
   const manifest = JSON.parse(await readFile(path.join(pinnedArtifactDir, 'manifest.json'), 'utf8'));
   await expected.testHooks?.afterManifestRead?.({ artifactDir: pinnedArtifactDir, manifest });
-  const manifestKeys = Object.keys(manifest);
-  for (const key of manifestKeys) if (![...TOP_KEYS, 'batch'].includes(key)) throw new Error(`Unexpected manifest key: ${key}`);
-  for (const key of TOP_KEYS) if (!Object.hasOwn(manifest, key)) throw new Error(`Missing manifest key: ${key}`);
-  if (manifest.schemaVersion !== 1) throw new Error(`Unsupported schemaVersion: ${manifest.schemaVersion}`);
+  if (manifest.schemaVersion === 1) exactKeys(manifest, SCHEMA_1_KEYS, 'manifest');
+  else if (manifest.schemaVersion === 2) {
+    exactKeys(manifest, SCHEMA_2_KEYS, 'manifest');
+    await validateSchema2Root(pinnedArtifactDir);
+  }
+  else throw new Error(`Unsupported schemaVersion: ${manifest.schemaVersion}`);
   if (manifest.stage !== 'source' && manifest.stage !== 'translation') throw new Error(`Invalid artifact stage: ${manifest.stage}`);
   if (manifest.ownershipVersion !== 1) throw new Error(`Unsupported ownershipVersion: ${manifest.ownershipVersion}`);
   if (typeof manifest.group !== 'string') throw new Error('group must be a string');
   const group = getContentGroup(manifest.group);
   if (manifest.stage === 'translation' && !group.translate) throw new Error('Translation stage is not enabled for this group');
   const translationArtifact = manifest.stage === 'translation' && group.translate;
-  if (manifest.batch !== undefined) {
-    if (!translationArtifact) throw new Error('Batch metadata is only allowed for translation artifacts');
+  if (manifest.schemaVersion === 2) {
+    if (!translationArtifact || manifest.stage !== 'translation') throw new Error('Schema 2 is only allowed for numbered translation artifacts');
+    if (manifest.group !== 'guides') throw new Error('Schema 2 numbered translation artifacts currently require group guides');
     exactKeys(manifest.batch, BATCH_KEYS, 'batch');
     const batch = manifest.batch;
     for (const key of ['batchIndex', 'batchNumber', 'batchCount', 'batchSize', 'pendingCount']) if (!Number.isSafeInteger(batch[key])) throw new Error(`Invalid batch ${key}`);
@@ -118,8 +137,10 @@ async function validateCheckpointArtifact(artifactDir, expected = {}) {
   if (!sha.test(manifest.devBaselineSha)) throw new Error('Invalid devBaselineSha');
   if (typeof manifest.createdAt !== 'string' || Number.isNaN(Date.parse(manifest.createdAt)) || new Date(manifest.createdAt).toISOString() !== manifest.createdAt) throw new Error('Invalid createdAt timestamp');
   if (manifest.snapshotManual !== group.snapshotManual) throw new Error('snapshotManual mismatch');
-  exactKeys(manifest.validation, VALIDATION_KEYS, 'validation');
-  if (!Array.isArray(manifest.validation.commands) || !manifest.validation.commands.every((x) => typeof x === 'string') || manifest.validation.passed !== true) throw new Error('Invalid validation');
+  if (manifest.schemaVersion === 1) {
+    exactKeys(manifest.validation, VALIDATION_KEYS, 'validation');
+    if (!Array.isArray(manifest.validation.commands) || !manifest.validation.commands.every((x) => typeof x === 'string') || manifest.validation.passed !== true) throw new Error('Invalid validation');
+  }
   if (!Array.isArray(manifest.files) || !Array.isArray(manifest.deletions)) throw new Error('files and deletions must be arrays');
   const cachePath = '.translation-cache/ja-JP.json';
   const cacheFileCount = manifest.files.filter((entry) => entry?.path === cachePath).length;
@@ -159,11 +180,41 @@ async function validateCheckpointArtifact(artifactDir, expected = {}) {
   for (const rel of filePaths) if (!actual.includes(rel)) throw new Error(`Missing payload file: ${rel}`);
   for (const rel of actual) if (!filePaths.includes(rel)) throw new Error(`Unexpected payload file: ${rel}`);
   for (const entry of manifest.files) {
-    const bytes = await readPayloadNoFollow(path.join(payloadRoot, ...entry.path.split('/')));
+    const bytes = await readRegularNoFollow(path.join(payloadRoot, ...entry.path.split('/')));
     if (bytes.length !== entry.size) throw new Error(`Payload size mismatch: ${entry.path}`);
     if (crypto.createHash('sha256').update(bytes).digest('hex') !== entry.sha256) throw new Error(`Payload checksum mismatch: ${entry.path}`);
   }
+  let parsedBatchInput = null;
+  let batchInputBytes = null;
+  if (manifest.schemaVersion === 2) {
+    exactKeys(manifest.batchInput, BATCH_INPUT_KEYS, 'batchInput');
+    if (manifest.batchInput.path !== 'batch-input.json') throw new Error('Schema 2 batch input path must be exactly batch-input.json');
+    if (!Number.isSafeInteger(manifest.batchInput.size) || manifest.batchInput.size < 0) throw new Error('Invalid batch input size');
+    if (!/^[0-9a-f]{64}$/.test(manifest.batchInput.sha256)) throw new Error('Invalid batch input SHA-256');
+    const inputPath = path.join(pinnedArtifactDir, 'batch-input.json');
+    const stat = await lstat(inputPath);
+    if (stat.isSymbolicLink() || !stat.isFile()) throw new Error('Batch input must be a regular non-symlink file');
+    batchInputBytes = await readRegularNoFollow(inputPath, 'Batch input');
+    if (batchInputBytes.length !== manifest.batchInput.size) throw new Error('Batch input size mismatch');
+    const batchInputSha256 = crypto.createHash('sha256').update(batchInputBytes).digest('hex');
+    if (batchInputSha256 !== manifest.batchInput.sha256) throw new Error('Batch input checksum mismatch');
+    try { parsedBatchInput = JSON.parse(batchInputBytes.toString('utf8')); }
+    catch (error) { throw new Error(`Batch input JSON is invalid: ${error.message}`); }
+    validateBatchInput(parsedBatchInput);
+    const canonicalBytes = Buffer.from(`${JSON.stringify(parsedBatchInput, null, 2)}\n`);
+    if (!batchInputBytes.equals(canonicalBytes)) throw new Error('Batch input bytes are not canonical JSON');
+    if (parsedBatchInput.group !== manifest.group) throw new Error('Batch input group mismatch');
+    if (parsedBatchInput.sourceCheckpointSha !== manifest.devBaselineSha) throw new Error('Batch input source checkpoint/dev baseline mismatch');
+    if (BATCH_KEYS.some((key) => parsedBatchInput.batch[key] !== manifest.batch[key])) throw new Error('Batch input batch identity mismatch');
+    deepFreeze(parsedBatchInput);
+  }
   Object.defineProperty(manifest, 'resolvedDir', { value: pinnedArtifactDir, enumerable: false });
+  if (manifest.schemaVersion === 2) {
+    Object.defineProperties(manifest, {
+      parsedBatchInput: { value: parsedBatchInput, enumerable: false },
+      batchInputBytes: { get: () => Buffer.from(batchInputBytes), enumerable: false },
+    });
+  }
   return deepFreeze(manifest);
 }
 
