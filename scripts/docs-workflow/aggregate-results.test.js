@@ -44,6 +44,33 @@ test('aggregates final terminal results and ignores earlier failed attempts', ()
   assert.match(result.markdown, /Overall status: success/);
 });
 
+test('renders the verified Guides publisher SHA even when the source target has advanced', () => {
+  const advancedTarget = 'c'.repeat(40);
+  const result = aggregateResults(payload({
+    groups: {
+      ...payload().groups,
+      guides: { ...payload().groups.guides, sourceCommitSha: advancedTarget, translationCommitSha: SHA_B },
+    },
+  }));
+  assert.match(result.markdown, new RegExp(`\\| guides \\| source_published \\| translation_published \\| ${advancedTarget} \\| ${SHA_B} \\|`));
+  assert.doesNotMatch(result.markdown, new RegExp(`\\| guides [^\\n]*\\| ${advancedTarget} \\| ${advancedTarget} \\|`));
+});
+
+test('renders an optional verified no_changes translation SHA without requiring one for zero batches', () => {
+  const withSha = aggregateResults({
+    requestedGroups: ['guides'],
+    groups: { guides: { source: 'no_changes', translation: 'no_changes', translationRequested: true, translationCommitSha: SHA_B } },
+    finalVerification: 'passed',
+  });
+  assert.match(withSha.markdown, new RegExp(`\\| guides \\| no_changes \\| no_changes \\|  \\| ${SHA_B} \\|`));
+  const withoutSha = aggregateResults({
+    requestedGroups: ['guides'],
+    groups: { guides: { source: 'no_changes', translation: 'no_changes', translationRequested: true } },
+    finalVerification: 'passed',
+  });
+  assert.equal(withoutSha.overallStatus, 'success');
+});
+
 test('fails for any unsuccessful requested source or requested translation', () => {
   for (const [group, entry] of [
     ['guides', { source: 'publish_failed', translation: 'skipped', translationRequested: false }],

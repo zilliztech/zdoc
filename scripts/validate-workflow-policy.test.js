@@ -106,6 +106,45 @@ test('workflow policy rejects miswired translation candidate reporting values', 
   }
 })
 
+test('workflow policy rejects Guides translation SHA authority regressions', () => {
+  const sourceDirectory = path.join(process.cwd(), '.github/workflows')
+  const cases = [
+    {
+      from: "          BATCH_COUNT: ${{ needs.prepare_guides_translation_batches.result != 'success' && '0' || needs.prepare_guides_translation_batches.outputs.batch_count }}",
+      to: "          BATCH_COUNT: ${{ needs.prepare_guides_translation_batches.outputs.batch_count || '0' }}",
+      expected: 'fetch-docs.yml: Guides translation finalizer must use only exact publisher status and commit outputs',
+    },
+    {
+      from: '          BATCH_RESULT: ${{ needs.translate_guides_batches.result }}',
+      to: '          BATCH_RESULT: ${{ needs.publish_guides_translation_batches.result }}',
+      expected: 'fetch-docs.yml: Guides translation finalizer must use only exact publisher status and commit outputs',
+    },
+    {
+      from: '          PUBLISHER_COMMIT_SHA: ${{ needs.publish_guides_translation_batches.outputs.commit_sha }}',
+      to: '          PUBLISHER_COMMIT_SHA: ${{ needs.resolve_final.outputs.final_dev_sha }}',
+      expected: 'fetch-docs.yml: Guides translation finalizer must use only exact publisher status and commit outputs',
+    },
+    {
+      from: '          GUIDES_TRANSLATION_SHA: ${{ needs.finalize_guides_translation.outputs.commit_sha }}',
+      to: '          GUIDES_TRANSLATION_SHA: ${{ needs.finalize_guides_translation.outputs.commit_sha || needs.resolve_final.outputs.final_dev_sha }}',
+      expected: 'fetch-docs.yml: aggregate must consume the exact finalized Guides translation result without fallback',
+    },
+  ]
+  for (const fixture of cases) {
+    const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'guides-sha-authority-policy-'))
+    try {
+      fs.cpSync(sourceDirectory, directory, { recursive: true })
+      const file = path.join(directory, 'fetch-docs.yml')
+      const source = fs.readFileSync(file, 'utf8')
+      assert.ok(source.includes(fixture.from))
+      fs.writeFileSync(file, source.replace(fixture.from, fixture.to))
+      assert.ok(validateWorkflowPolicies(directory).includes(fixture.expected))
+    } finally {
+      fs.rmSync(directory, { recursive: true, force: true })
+    }
+  }
+})
+
 test('workflow policy independently requires checkpoint stage selection and verification', () => {
   const publisherSource = fs.readFileSync('scripts/docs-workflow/publish-checkpoint.sh', 'utf8')
   const cases = [

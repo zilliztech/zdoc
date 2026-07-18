@@ -378,9 +378,11 @@ jobs:
         env:
           PUBLISH: ${{ needs.prepare.outputs.publish }}
           PREP_RESULT: ${{ needs.prepare_guides_translation_batches.result }}
-          BATCH_COUNT: ${{ needs.prepare_guides_translation_batches.outputs.batch_count }}
-          BATCH_RESULT: ${{ needs.publish_guides_translation_batches.result }}
-          TARGET_BRANCH: ${{ needs.prepare.outputs.target_branch }}
+          BATCH_COUNT: ${{ needs.prepare_guides_translation_batches.result != 'success' && '0' || needs.prepare_guides_translation_batches.outputs.batch_count }}
+          BATCH_RESULT: ${{ needs.translate_guides_batches.result }}
+          PUBLISHER_RESULT: ${{ needs.publish_guides_translation_batches.result }}
+          PUBLISHER_STATUS: ${{ needs.publish_guides_translation_batches.outputs.status }}
+          PUBLISHER_COMMIT_SHA: ${{ needs.publish_guides_translation_batches.outputs.commit_sha }}
         run: node scripts/docs-workflow/finalize-translation-batches.js
 
   publish_python:

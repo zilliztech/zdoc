@@ -43,7 +43,8 @@ function validate(input) {
     if (typeof entry.translationRequested !== 'boolean') invalid(`${group} translationRequested must be boolean`);
     for (const key of ['sourceCommitSha', 'translationCommitSha']) if (entry[key] !== undefined && (typeof entry[key] !== 'string' || !SHA.test(entry[key]))) invalid(`${group} ${key} must be a lowercase 40-character SHA`);
     if ((entry.source === 'source_published') !== (entry.sourceCommitSha !== undefined)) invalid(`${group} sourceCommitSha must exist exactly for source_published`);
-    if ((entry.translation === 'translation_published') !== (entry.translationCommitSha !== undefined)) invalid(`${group} translationCommitSha must exist exactly for translation_published`);
+    if (entry.translation === 'translation_published' && entry.translationCommitSha === undefined) invalid(`${group} translationCommitSha is required for translation_published`);
+    if (!['translation_published', 'no_changes'].includes(entry.translation) && entry.translationCommitSha !== undefined) invalid(`${group} translationCommitSha is only allowed for published or no_changes translation`);
     if (entry.translationCandidates !== undefined) validateCandidateCounts(entry.translationCandidates, group);
   }
   if (!FINAL_STATES.has(input.finalVerification)) invalid('finalVerification has unknown state');

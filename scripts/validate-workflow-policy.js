@@ -336,6 +336,21 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
         [/publish_guides_translation_batches:[\s\S]*needs: \[[^\]]*publish_guides[^\]]*\][\s\S]*source_commit_sha: \$\{\{ needs\.publish_guides\.outputs\.commit_sha \|\| needs\.prepare\.outputs\.dev_baseline_sha \}\}[\s\S]*expected_target_sha: \$\{\{ needs\.publish_guides\.outputs\.commit_sha \}\}/, 'must pass authenticated final Guides source and target identities'],
       ]
       for (const [pattern, message] of requiredPatterns) if (!pattern.test(source)) errors.push(`${file}: ${message}`)
+      const finalizeStep = workflow.jobs?.finalize_guides_translation?.steps?.find(step => step.id === 'result')
+      if (finalizeStep?.env?.BATCH_COUNT !== "${{ needs.prepare_guides_translation_batches.result != 'success' && '0' || needs.prepare_guides_translation_batches.outputs.batch_count }}" ||
+          finalizeStep?.env?.BATCH_RESULT !== '${{ needs.translate_guides_batches.result }}' ||
+          finalizeStep?.env?.PUBLISHER_RESULT !== '${{ needs.publish_guides_translation_batches.result }}' ||
+          finalizeStep?.env?.PUBLISHER_STATUS !== '${{ needs.publish_guides_translation_batches.outputs.status }}' ||
+          finalizeStep?.env?.PUBLISHER_COMMIT_SHA !== '${{ needs.publish_guides_translation_batches.outputs.commit_sha }}' ||
+          Object.hasOwn(finalizeStep?.env || {}, 'TARGET_BRANCH')) {
+        errors.push(`${file}: Guides translation finalizer must use only exact publisher status and commit outputs`)
+      }
+      const aggregateStep = workflow.jobs?.aggregate?.steps?.find(step => step.id === 'aggregate')
+      if (aggregateStep?.env?.GUIDES_TRANSLATOR !== '${{ needs.finalize_guides_translation.outputs.translator_status }}' ||
+          aggregateStep?.env?.GUIDES_TRANSLATION !== '${{ needs.finalize_guides_translation.outputs.publisher_status }}' ||
+          aggregateStep?.env?.GUIDES_TRANSLATION_SHA !== '${{ needs.finalize_guides_translation.outputs.commit_sha }}') {
+        errors.push(`${file}: aggregate must consume the exact finalized Guides translation result without fallback`)
+      }
     }
 
     if (file === '_publish-content-group.yml') {
