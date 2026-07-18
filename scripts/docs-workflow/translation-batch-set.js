@@ -287,6 +287,7 @@ function deriveBatchPlan(result, baseline) {
 
 function assertNoMutationConflicts(batches) {
   const ledger = new Map()
+  const cacheLedger = new Map()
   const paths = []
   for (const batch of batches) {
     for (const write of batch.writes) {
@@ -301,6 +302,19 @@ function assertNoMutationConflicts(batches) {
       if (previous?.type === 'write') throw new Error(`Translation write/delete conflict: ${relative}`)
       if (!previous) ledger.set(relative, { type: 'delete' })
       paths.push(relative)
+    }
+    for (const change of [...batch.cache.additions, ...batch.cache.updates]) {
+      const entry = change.entry || change.after
+      const previous = cacheLedger.get(change.sourcePath)
+      if (previous?.type === 'remove') throw new Error(`Translation cache set/removal conflict: ${change.sourcePath}`)
+      if (previous?.type === 'set' && canonical(previous.entry) !== canonical(entry)) throw new Error(`Different translation cache final entries conflict: ${change.sourcePath}`)
+      if (!previous) cacheLedger.set(change.sourcePath, { type: 'set', entry })
+    }
+    for (const removal of batch.cache.removals) {
+      const previous = cacheLedger.get(removal.sourcePath)
+      if (previous?.type === 'set') throw new Error(`Translation cache set/removal conflict: ${removal.sourcePath}`)
+      if (previous?.type === 'remove' && canonical(previous.before) !== canonical(removal.before)) throw new Error(`Different translation cache removals conflict: ${removal.sourcePath}`)
+      if (!previous) cacheLedger.set(removal.sourcePath, { type: 'remove', before: removal.before })
     }
   }
   const unique = [...new Set(paths)].sort(compareText)

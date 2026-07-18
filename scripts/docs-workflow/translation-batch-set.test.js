@@ -112,7 +112,7 @@ async function createPair(fixture, batchNumber, options = {}) {
   const baselineDir = path.join(fixture.root, `baseline-${suffix}`)
   const workspace = path.join(fixture.root, `workspace-${suffix}`)
   copyTree(fixture.sourceRepository, baselineDir)
-  write(baselineDir, CACHE_PATH, DEFAULT_CACHE)
+  if (!fs.existsSync(path.join(baselineDir, CACHE_PATH))) write(baselineDir, CACHE_PATH, DEFAULT_CACHE)
   await options.mutateBaseline?.(baselineDir)
   copyTree(baselineDir, workspace)
 
@@ -121,12 +121,13 @@ async function createPair(fixture, batchNumber, options = {}) {
   const sourceBytes = fs.readFileSync(path.join(fixture.sourceRepository, ...sourcePath.split('/')))
   const resultBytes = Buffer.from(options.resultBytes || `# 翻訳 ${batchNumber}\n`)
   for (const deleted of options.deletions || []) fs.rmSync(path.join(workspace, ...deleted.split('/')), { force: true, recursive: true })
-  if (options.write !== false) write(workspace, targetPath, resultBytes)
+  const includeCandidate = options.write !== false
+  if (includeCandidate && options.writePayload !== false) write(workspace, targetPath, resultBytes)
   await options.mutateResult?.(workspace)
 
   const baselineCache = JSON.parse(fs.readFileSync(path.join(baselineDir, CACHE_PATH), 'utf8'))
   const resultCache = structuredClone(baselineCache)
-  if (options.write !== false) {
+  if (includeCandidate && options.updateCandidateCache !== false) {
     resultCache.files[sourcePath] = {
       sourceHash: sha256(sourceBytes),
       targetPath,
@@ -144,7 +145,7 @@ async function createPair(fixture, batchNumber, options = {}) {
     group: 'guides',
     sourceCheckpointSha: options.sourceCheckpointSha || fixture.sourceCheckpointSha,
     batch,
-    candidates: options.write === false ? [] : [{ sourcePath, targetPath, sourceHash: sha256(sourceBytes) }],
+    candidates: includeCandidate ? [{ sourcePath, targetPath, sourceHash: sha256(sourceBytes) }] : [],
     sourceDelta: { deletedI18n, renamed: [] },
   }
   if (options.batchInput) Object.assign(batchInput, options.batchInput)
@@ -165,6 +166,15 @@ async function createPair(fixture, batchNumber, options = {}) {
   await createCheckpointArtifact({ ...common, workspace: baselineDir, output: baselineOutput })
   await createCheckpointArtifact({ ...common, workspace, output: resultOutput })
   return { artifactDir: fs.realpathSync(resultOutput), baselineDir: fs.realpathSync(baselineOutput), targetPath, resultBytes, sourcePath }
+}
+
+async function repositoryFixtureWithCache(sourcePath, entry) {
+  const fixture = await repositoryFixture()
+  write(fixture.sourceRepository, CACHE_PATH, `${JSON.stringify({ files: { [sourcePath]: entry } }, null, 2)}\n`)
+  git(fixture.sourceRepository, 'add', CACHE_PATH)
+  git(fixture.sourceRepository, 'commit', '-m', 'source cache baseline')
+  fixture.sourceCheckpointSha = git(fixture.sourceRepository, 'rev-parse', 'HEAD')
+  return fixture
 }
 
 async function twoPairFixture(options1 = {}, options2 = {}) {
@@ -247,14 +257,27 @@ test('normalizes baseline identity and canonicalizes a missing source cache', as
   await assert.doesNotReject(planFor(fixture, [first, await createPair(fixture, 2)]))
 })
 
-test('rejects missing, duplicate, and out-of-range batch descriptors', async () => {
+test('rejects missing, duplicate, and inconsistent batch-count descriptors', async () => {
   const { fixture, first, second } = await twoPairFixture()
   await assert.rejects(planFor(fixture, [first]), /missing|complete|batch 2/i)
   await assert.rejects(planFor(fixture, [first, first, second]), /duplicate.*batch/i)
-  const outOfRange = await createPair(fixture, 3, {
+  const inconsistentCount = await createPair(fixture, 3, {
     batch: { batchIndex: 2, batchNumber: 3, batchCount: 3, pendingCount: 3 },
   })
-  await assert.rejects(planFor(fixture, [first, second, outOfRange]), /range|identity|batch|complete/i)
+  await assert.rejects(planFor(fixture, [first, second, inconsistentCount]), /identity|batch|complete/i)
+})
+
+test('rejects an artifact whose batch number is genuinely outside its declared batch count', async () => {
+  const { fixture, first, second } = await twoPairFixture()
+  for (const directory of [first.artifactDir, first.baselineDir]) {
+    const manifestPath = path.join(directory, 'manifest.json')
+    const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'))
+    manifest.batch.batchIndex = 2
+    manifest.batch.batchNumber = 3
+    manifest.batch.batchCount = 2
+    fs.writeFileSync(manifestPath, JSON.stringify(manifest))
+  }
+  await assert.rejects(planFor(fixture, [first, second]), /invalid batch metadata/i)
 })
 
 test('rejects cross-batch identity mismatches', async () => {
@@ -283,6 +306,24 @@ test('rejects baseline disagreement and baseline drift from source checkpoint tr
 test('rejects English payload changes while ignoring unchanged full English payload', async () => {
   const state = await twoPairFixture({}, { mutateResult(root) { write(root, 'docs/tutorials/a.md', '# changed English\n') } })
   await assert.rejects(planFor(state.fixture, [state.first, state.second]), /english|owned.*baseline|source payload/i)
+})
+
+test('rejects direct tutorial writes and deletions absent from batch authority', async () => {
+  let state = await twoPairFixture({}, {
+    mutateResult(root) { write(root, `${SAAS_ROOT}/unauthorized.md`, '# unauthorized\n') },
+  })
+  await assert.rejects(
+    planFor(state.fixture, [state.first, state.second]),
+    /Unauthorized translation write: .*unauthorized\.md/,
+  )
+
+  state = await twoPairFixture({}, {
+    mutateResult(root) { fs.rmSync(path.join(root, ...`${SAAS_ROOT}/old.md`.split('/'))) },
+  })
+  await assert.rejects(
+    planFor(state.fixture, [state.first, state.second]),
+    /Unauthorized translation deletion: .*old\.md/,
+  )
 })
 
 test('compares target source authority from the expected commit while the checkout remains elsewhere', async () => {
@@ -366,6 +407,66 @@ test('allows identical overlapping deletions and rejects unauthorized cache chan
     },
   })
   await assert.rejects(planFor(state.fixture, [state.first, state.second]), /unauthorized.*cache|cache change/i)
+})
+
+test('allows identical cache final states and removals across batches', async () => {
+  let state = await twoPairFixture(
+    { targetPath: `${SAAS_ROOT}/same.md`, resultBytes: '# 同じ\n' },
+    { targetPath: `${SAAS_ROOT}/same.md`, resultBytes: '# 同じ\n' },
+  )
+  let plan = await planFor(state.fixture, [state.first, state.second])
+  assert.deepEqual(plan.batches[0].cache.additions, plan.batches[1].cache.additions)
+
+  const sourcePath = 'docs/tutorials/old.md'
+  const targetPath = `${SAAS_ROOT}/old.md`
+  const baselineEntry = {
+    sourceHash: 'e'.repeat(64),
+    targetPath,
+    translatedAt: '2026-07-17T00:00:00.000Z',
+  }
+  let fixture = await repositoryFixtureWithCache(sourcePath, baselineEntry)
+  let first = await createPair(fixture, 1, { targetPath, writePayload: false })
+  let second = await createPair(fixture, 2, { targetPath, writePayload: false })
+  plan = await planFor(fixture, [first, second])
+  assert.deepEqual(plan.batches[0].cache.updates, plan.batches[1].cache.updates)
+
+  fixture = await repositoryFixtureWithCache(sourcePath, baselineEntry)
+  first = await createPair(fixture, 1, {
+    targetPath: `${SAAS_ROOT}/a.md`, writePayload: false, updateCandidateCache: false,
+    deletions: [targetPath], cacheRemovals: [sourcePath],
+  })
+  second = await createPair(fixture, 2, {
+    targetPath: `${SAAS_ROOT}/b.md`, writePayload: false, updateCandidateCache: false,
+    deletions: [targetPath], cacheRemovals: [sourcePath],
+  })
+  plan = await planFor(fixture, [first, second])
+  assert.deepEqual(plan.batches[0].cache.removals, plan.batches[1].cache.removals)
+})
+
+test('rejects different cache final entries and update-removal overlaps across batches', async () => {
+  let state = await twoPairFixture(
+    { targetPath: `${SAAS_ROOT}/same.md`, resultBytes: '# 同じ\n' },
+    {
+      targetPath: `${SAAS_ROOT}/same.md`, resultBytes: '# 同じ\n',
+      mutateResultCache(cache) { cache.files['docs/tutorials/same.md'].translatedAt = '2026-07-19T00:00:00.000Z' },
+    },
+  )
+  await assert.rejects(planFor(state.fixture, [state.first, state.second]), /cache.*conflict|different.*cache/i)
+
+  const sourcePath = 'docs/tutorials/old.md'
+  const targetPath = `${SAAS_ROOT}/old.md`
+  const baselineEntry = {
+    sourceHash: 'e'.repeat(64),
+    targetPath,
+    translatedAt: '2026-07-17T00:00:00.000Z',
+  }
+  const fixture = await repositoryFixtureWithCache(sourcePath, baselineEntry)
+  const first = await createPair(fixture, 1, { targetPath, writePayload: false })
+  const second = await createPair(fixture, 2, {
+    targetPath: `${SAAS_ROOT}/b.md`, writePayload: false, updateCandidateCache: false,
+    deletions: [targetPath], cacheRemovals: [sourcePath],
+  })
+  await assert.rejects(planFor(fixture, [first, second]), /cache.*conflict|update.*removal|removal.*update/i)
 })
 
 test('authorizes the old Japanese path deletion from a validated rename', async () => {
@@ -470,6 +571,17 @@ test('CLI strictly validates the pairs manifest and expected source and target S
     assert.notEqual(result.status, 0)
     assert.match(result.stderr, /manifest|key|pair|source|target|sha|mismatch/i)
   }
+})
+
+test('CLI rejects malformed pairs-manifest JSON', async () => {
+  const { fixture } = await twoPairFixture()
+  const runnerTemp = path.join(fixture.root, 'runner-temp')
+  fs.mkdirSync(runnerTemp)
+  const manifestPath = path.join(fixture.root, 'malformed-pairs.json')
+  fs.writeFileSync(manifestPath, '{"schemaVersion":1,\n')
+  const result = runCli(fixture, manifestPath, path.join(runnerTemp, 'plan.json'), runnerTemp)
+  assert.notEqual(result.status, 0)
+  assert.match(result.stderr, /pairs manifest.*invalid|json|unexpected/i)
 })
 
 test('CLI rejects unsafe and symlinked inputs or outputs and preserves existing output on failure', async () => {
