@@ -157,13 +157,24 @@ function safeDestination(worktree) {
   return { resolved, removeEmpty: true }
 }
 
+function resolvedDestination(worktree) {
+  if (typeof worktree !== 'string' || !path.isAbsolute(worktree) || /[\0\r\n]/.test(worktree)) throw new Error('worktree must be an absolute path')
+  return path.resolve(worktree)
+}
+
+function overlaps(one, two) {
+  const relative = path.relative(one, two)
+  return relative === '' || (!relative.startsWith('..') && !path.isAbsolute(relative))
+}
+
 function prepareStagingWorktree(options) {
   exactKeys(options, ['repository', 'expectedTargetSha', 'worktree'], 'prepare options')
   const repository = repositoryRoot(options.repository)
   const expectedTargetSha = validateSha(options.expectedTargetSha, 'expectedTargetSha')
+  const requestedWorktree = resolvedDestination(options.worktree)
+  if (overlaps(repository, requestedWorktree) || overlaps(requestedWorktree, repository)) throw new Error('repository and worktree destination must not overlap')
   assertCommit(repository, expectedTargetSha, 'expectedTargetSha')
-  const destination = safeDestination(options.worktree)
-  if (destination.resolved === repository) throw new Error('worktree destination must differ from repository')
+  const destination = safeDestination(requestedWorktree)
   if (destination.removeEmpty) fs.rmdirSync(destination.resolved)
   try {
     git(repository, ['-c', 'core.hooksPath=/dev/null', 'worktree', 'add', '--detach', destination.resolved, expectedTargetSha])
@@ -256,8 +267,6 @@ function pushStagingRef(options) {
   assertDetached(worktree)
   if (head(worktree) !== stagedSha) throw new Error('staging worktree HEAD does not match stagedSha')
   assertClean(worktree)
-  const lineageBase = head(repository)
-  assertAncestor(repository, lineageBase, stagedSha, 'staged SHA does not descend from repository target lineage')
   let existing
   try { existing = remoteRefSha(repository, stagingRef) } catch (error) { throw new Error(`remote staging ref lookup failed: ${boundedMessage(error, 'git ls-remote failed')}`) }
   if (existing && existing !== stagedSha) throw new Error('remote staging ref already exists at a different SHA')

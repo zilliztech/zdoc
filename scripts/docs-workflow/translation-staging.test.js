@@ -113,6 +113,26 @@ test('prepares one detached clean worktree at the exact target while retaining u
   assert.throws(() => prepareStagingWorktree({ repository: state.repository, expectedTargetSha: state.targetSha, worktree: path.join(linkedParent, 'child') }), /symlink|real path/i)
 })
 
+test('rejects worktree overlap in both directions before changing the repository or destination', () => {
+  const state = setup()
+  const beforeHead = git(state.repository, 'rev-parse', 'HEAD')
+  const beforeStatus = git(state.repository, 'status', '--porcelain=v1', '--untracked-files=all')
+  const nestedAbsent = path.join(state.repository, '.translation-staging-worktree')
+  assert.throws(() => prepareStagingWorktree({ repository: state.repository, expectedTargetSha: state.targetSha, worktree: nestedAbsent }), /overlap/i)
+  assert.equal(fs.existsSync(nestedAbsent), false)
+
+  const nestedEmpty = path.join(state.repository, '.empty-staging-worktree')
+  fs.mkdirSync(nestedEmpty)
+  assert.throws(() => prepareStagingWorktree({ repository: state.repository, expectedTargetSha: state.targetSha, worktree: nestedEmpty }), /overlap/i)
+  assert.equal(fs.existsSync(nestedEmpty), true)
+  assert.deepEqual(fs.readdirSync(nestedEmpty), [])
+
+  assert.throws(() => prepareStagingWorktree({ repository: state.repository, expectedTargetSha: state.targetSha, worktree: state.root }), /overlap/i)
+  assert.equal(fs.readFileSync(path.join(state.repository, 'README.md'), 'utf8'), 'docs\n')
+  assert.equal(git(state.repository, 'rev-parse', 'HEAD'), beforeHead)
+  assert.equal(git(state.repository, 'status', '--porcelain=v1', '--untracked-files=all'), beforeStatus)
+})
+
 test('creates deterministic commits for nonempty batches and retains combined batch history', () => {
   const state = setup()
   const worktree = path.join(state.root, 'staging')
@@ -178,6 +198,25 @@ test('pushes only the exact clean detached staged SHA and is idempotent at the s
   assert.throws(() => pushStagingRef({ repository: state.repository, worktree, stagingRef, stagedSha }), /clean|dirty/i)
 })
 
+test('pushes a valid target-descendant staging candidate when the primary checkout is on sibling tooling history', () => {
+  const state = setup()
+  fs.mkdirSync(path.join(state.repository, 'tooling'))
+  fs.writeFileSync(path.join(state.repository, 'tooling', 'workflow.js'), 'tooling only\n')
+  git(state.repository, 'add', 'tooling/workflow.js')
+  git(state.repository, 'commit', '-m', 'tooling commit pinned by primary checkout')
+  const toolingSha = git(state.repository, 'rev-parse', 'HEAD')
+
+  const worktree = path.join(state.root, 'staging')
+  prepareStagingWorktree({ repository: state.repository, expectedTargetSha: state.targetSha, worktree })
+  addTranslation(worktree, '# target translation\n')
+  const stagedSha = commitAppliedBatch({ worktree, batchNumber: 1, batchCount: 1 }).stagedSha
+  assert.throws(() => git(state.repository, 'merge-base', '--is-ancestor', toolingSha, stagedSha))
+
+  const stagingRef = deterministicStagingRef({ runId: 79, runAttempt: 1, pendingSetSha256: SHA256 })
+  assert.deepEqual(pushStagingRef({ repository: state.repository, worktree, stagingRef, stagedSha }), { stagingRef, stagedSha, remoteSha: stagedSha, pushed: true })
+  assert.equal(remoteSha(state.repository, stagingRef), stagedSha)
+})
+
 test('rejects ambiguous exact remote-ref lookup output', () => {
   const state = setup()
   const { worktree, stagedSha } = stagedBatch(state)
@@ -201,22 +240,12 @@ test('rejects ambiguous exact remote-ref lookup output', () => {
   }
 })
 
-test('rejects non-descendant staging history and an existing remote staging ref at another SHA', () => {
+test('rejects an existing remote staging ref at another SHA', () => {
   const state = setup()
   const one = stagedBatch(state)
   const ref = deterministicStagingRef({ runId: 8, runAttempt: 1, pendingSetSha256: SHA256 })
   git(state.repository, 'push', 'origin', `${state.targetSha}:${ref}`)
   assert.throws(() => pushStagingRef({ repository: state.repository, worktree: one.worktree, stagingRef: ref, stagedSha: one.stagedSha }), /remote staging ref.*different|wrong SHA/i)
-
-  const orphan = path.join(state.root, 'orphan')
-  execFileSync('git', ['init', orphan], { env: GIT_ENV })
-  fs.writeFileSync(path.join(orphan, 'orphan.md'), 'orphan\n')
-  git(orphan, 'add', 'orphan.md')
-  git(orphan, 'commit', '-m', 'orphan')
-  const orphanSha = git(orphan, 'rev-parse', 'HEAD')
-  git(state.repository, 'fetch', orphan, orphanSha)
-  git(one.worktree, 'reset', '--hard', orphanSha)
-  assert.throws(() => pushStagingRef({ repository: state.repository, worktree: one.worktree, stagingRef: deterministicStagingRef({ runId: 9, runAttempt: 1, pendingSetSha256: SHA256 }), stagedSha: orphanSha }), /descend|lineage/i)
 })
 
 test('promotes the exact staged SHA with a normal push and rejects target movement or invalid lineage', () => {
@@ -235,6 +264,16 @@ test('promotes the exact staged SHA with a normal push and rejects target moveme
   assert.throws(() => promoteStaging({ repository: moved.repository, targetBranch: 'docs-dev', expectedTargetSha: moved.targetSha, stagedSha: staged.stagedSha }), /target.*moved|expected target/i)
   assert.throws(() => promoteStaging({ repository: moved.repository, targetBranch: 'refs/heads/docs-dev', expectedTargetSha: moved.targetSha, stagedSha: staged.stagedSha }), /target branch|invalid/i)
   assert.throws(() => promoteStaging({ repository: moved.repository, targetBranch: '-force', expectedTargetSha: moved.targetSha, stagedSha: staged.stagedSha }), /target branch|invalid/i)
+
+  const unrelated = setup()
+  const orphan = path.join(unrelated.root, 'orphan')
+  execFileSync('git', ['init', orphan], { env: GIT_ENV })
+  fs.writeFileSync(path.join(orphan, 'orphan.md'), 'orphan\n')
+  git(orphan, 'add', 'orphan.md')
+  git(orphan, 'commit', '-m', 'unrelated publication candidate')
+  const orphanSha = git(orphan, 'rev-parse', 'HEAD')
+  git(unrelated.repository, 'fetch', orphan, orphanSha)
+  assert.throws(() => promoteStaging({ repository: unrelated.repository, targetBranch: 'docs-dev', expectedTargetSha: unrelated.targetSha, stagedSha: orphanSha }), /descend.*expected target/i)
 })
 
 test('ignores stale remote tracking state and rejects target movement injected during the normal promotion push', () => {
