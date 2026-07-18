@@ -794,27 +794,95 @@ test('translation publishers form a short queue with scoped validation', () => {
 })
 
 test('reusable translation producer creates group-scoped checkpoint artifacts without publishing', () => {
-  const workflow = fs.readFileSync(path.join(process.cwd(), '.github/workflows/_translate-content-group.yml'), 'utf8')
-  for (const input of ['group', 'source_commit_sha', 'master_sha', 'should_translate']) assert.match(workflow, new RegExp(`^      ${input}:`, 'm'))
-  for (const output of ['status', 'artifact_name', 'baseline_artifact_name', 'translated_count']) assert.match(workflow, new RegExp(`^      ${output}:`, 'm'))
-  assert.match(workflow, /^  contents: read$/m)
-  assert.match(workflow, /actions\/checkout@v4[\s\S]*ref: \$\{\{ inputs\.master_sha \}\}/)
-  assert.match(workflow, /restore-generated-state\.sh --exact --ref "\$SOURCE_COMMIT_SHA"/)
-  assert.match(workflow, /git cat-file -e "\$SOURCE_COMMIT_SHA\^" 2>\/dev\/null \|\| git fetch --no-tags --depth=2 origin "\$SOURCE_COMMIT_SHA"/)
-  assert.match(workflow, /git cat-file -e "\$SOURCE_COMMIT_SHA\^"[\s\S]*git diff --name-status "\$SOURCE_COMMIT_SHA\^" "\$SOURCE_COMMIT_SHA"/)
-  assert.match(workflow, /git diff --name-status "\$SOURCE_COMMIT_SHA\^" "\$SOURCE_COMMIT_SHA"/)
-  assert.match(workflow, /sourceDelta\.js --group "\$GROUP"[\s\S]*--output tmp\/source-delta\.json/)
-  assert.match(workflow, /applySourceDelta\.js --delta tmp\/source-delta\.json --report tmp\/source-delta-report\.json/)
-  assert.match(workflow, /manifest\.js[\s\S]*--group "\$GROUP"[\s\S]*--source-checkpoint-sha "\$SOURCE_COMMIT_SHA"[\s\S]*--source-delta tmp\/source-delta\.json/)
-  assert.match(workflow, /steps\.source_delta\.outputs\.has_mutation == 'true'/)
-  assert.match(workflow, /validate-translated-coverage\.js --group "\$GROUP"/)
-  assert.match(workflow, /agentRunner\.js[\s\S]*TRANSLATION_ALLOW_PARTIAL: "true"/)
-  assert.match(workflow, /--include-translation-cache/)
-  assert.match(workflow, /translation-checkpoint-\$\{\{ inputs\.group \}\}-\$\{\{ github\.run_id \}\}/)
-  assert.match(workflow, /translation-baseline-\$\{\{ inputs\.group \}\}-\$\{\{ github\.run_id \}\}/)
-  assert.match(workflow, /id: result[\s\S]*if: \$\{\{ always\(\) \}\}/)
-  for (const status of ['translation_ready', 'no_changes', 'failed']) assert.match(workflow, new RegExp(`status=${status}`))
-  assert.doesNotMatch(workflow, /git push|git-auto-commit|contents: write/)
+  const source = fs.readFileSync(path.join(process.cwd(), '.github/workflows/_translate-content-group.yml'), 'utf8')
+  const workflow = yaml.load(source)
+  const steps = workflow.jobs.translate.steps
+  const numbered = steps.find(step => step.name === 'Validate translated batch outputs')
+  const unbatched = steps.find(step => step.name === 'Validate unbatched translated group')
+  const checkpoint = steps.find(step => step.name === 'Create validated translation checkpoints')
+
+  for (const input of ['group', 'source_commit_sha', 'master_sha', 'should_translate']) assert.match(source, new RegExp(`^      ${input}:`, 'm'))
+  for (const output of ['status', 'artifact_name', 'baseline_artifact_name', 'translated_count']) assert.match(source, new RegExp(`^      ${output}:`, 'm'))
+  assert.match(source, /^  contents: read$/m)
+  assert.match(source, /actions\/checkout@v4[\s\S]*ref: \$\{\{ inputs\.master_sha \}\}/)
+  assert.match(source, /restore-generated-state\.sh --exact --ref "\$SOURCE_COMMIT_SHA"/)
+  assert.match(source, /git cat-file -e "\$SOURCE_COMMIT_SHA\^" 2>\/dev\/null \|\| git fetch --no-tags --depth=2 origin "\$SOURCE_COMMIT_SHA"/)
+  assert.match(source, /git cat-file -e "\$SOURCE_COMMIT_SHA\^"[\s\S]*git diff --name-status "\$SOURCE_COMMIT_SHA\^" "\$SOURCE_COMMIT_SHA"/)
+  assert.match(source, /git diff --name-status "\$SOURCE_COMMIT_SHA\^" "\$SOURCE_COMMIT_SHA"/)
+  assert.match(source, /sourceDelta\.js --group "\$GROUP"[\s\S]*--output tmp\/source-delta\.json/)
+  assert.match(source, /applySourceDelta\.js --delta tmp\/source-delta\.json --report tmp\/source-delta-report\.json/)
+  assert.match(source, /manifest\.js[\s\S]*--group "\$GROUP"[\s\S]*--source-checkpoint-sha "\$SOURCE_COMMIT_SHA"[\s\S]*--source-delta tmp\/source-delta\.json/)
+  assert.match(source, /steps\.source_delta\.outputs\.has_mutation == 'true'/)
+  assert.match(source, /agentRunner\.js[\s\S]*TRANSLATION_ALLOW_PARTIAL: "true"/)
+
+  assert.ok(numbered, 'numbered Guides batches need a dedicated local-output validation step')
+  assert.match(numbered.if, /inputs\.should_translate/)
+  assert.match(numbered.if, /inputs\.group == 'guides'/)
+  assert.match(numbered.if, /inputs\.batch_number > 0/)
+  assert.match(numbered.if, /steps\.agents\.outputs\.translated_count != '0'/)
+  assert.match(numbered.if, /steps\.source_delta\.outputs\.has_mutation == 'true'/)
+  assert.doesNotMatch(numbered.run, /mdx-parse|validate-translated-coverage|pnpm run build/)
+  assert.match(numbered.run, /translation-batch-input\.js validate --input tmp\/translation-batch-input\.json/)
+  assert.match(numbered.run, /AGENTS_OUTCOME/)
+  assert.match(numbered.run, /validationErrors/)
+  assert.match(numbered.run, /review\.pass/)
+  assert.match(numbered.run, /lstatSync/)
+  assert.match(numbered.run, /isSymbolicLink/)
+  assert.match(numbered.run, /isFile/)
+
+  assert.ok(unbatched, 'unbatched translations need their existing full validation')
+  assert.match(unbatched.if, /inputs\.batch_number == 0/)
+  assert.match(unbatched.run, /mdx-parse/)
+  assert.match(unbatched.run, /validate-translated-coverage\.js --group "\$GROUP"/)
+  assert.match(unbatched.run, /pnpm run build/)
+
+  assert.match(checkpoint.run, /--include-translation-cache/)
+  assert.match(checkpoint.run, /validate-checkpoint-artifact\.js --artifact "\$BASELINE_CHECKPOINT_DIR"/)
+  assert.match(checkpoint.run, /validate-checkpoint-artifact\.js --artifact "\$CHECKPOINT_DIR"/)
+  assert.match(checkpoint.run, /if \(\( \$\{\{ inputs\.batch_number \}\} > 0 \)\) && \[\[ "\$GROUP" == guides \]\]; then[\s\S]*validate-translation-batch\.js[\s\S]*--artifact "\$CHECKPOINT_DIR"[\s\S]*--baseline "\$BASELINE_CHECKPOINT_DIR"[\s\S]*--batch-number "\$\{\{ inputs\.batch_number \}\}"[\s\S]*--batch-count "\$\{\{ inputs\.batch_count \}\}"[\s\S]*\n\s*fi/)
+
+  assert.match(source, /translation-checkpoint-\$\{\{ inputs\.group \}\}-\$\{\{ github\.run_id \}\}/)
+  assert.match(source, /translation-baseline-\$\{\{ inputs\.group \}\}-\$\{\{ github\.run_id \}\}/)
+  assert.match(source, /id: result[\s\S]*if: \$\{\{ always\(\) \}\}/)
+  for (const status of ['translation_ready', 'no_changes', 'failed']) assert.match(source, new RegExp(`status=${status}`))
+  assert.doesNotMatch(source, /git push|git-auto-commit|contents: write/)
+})
+
+test('workflow policy rejects numbered translation batch validation regressions', () => {
+  const sourceDirectory = path.join(process.cwd(), '.github/workflows')
+  const workflowName = '_translate-content-group.yml'
+  const cases = [
+    {
+      mutate(steps) { steps.find(step => step.name === 'Validate translated batch outputs').run += '\nnode scripts/validate-translated-coverage.js --group "$GROUP"' },
+      expected: `${workflowName}: numbered Guides batches must not run full-tree translated coverage`,
+    },
+    {
+      mutate(steps) { steps.find(step => step.name === 'Validate unbatched translated group').if = '${{ inputs.should_translate }}' },
+      expected: `${workflowName}: full translated validation must be restricted to unbatched runs`,
+    },
+    {
+      mutate(steps) { steps.find(step => step.name === 'Validate translated batch outputs').run = 'node scripts/docs-workflow/translation-batch-input.js validate --input tmp/translation-batch-input.json' },
+      expected: `${workflowName}: numbered Guides batches must validate agent report evidence and exact candidate output files`,
+    },
+    {
+      mutate(steps) { steps.find(step => step.name === 'Create validated translation checkpoints').run = steps.find(step => step.name === 'Create validated translation checkpoints').run.replace(/\n\s*node scripts\/docs-workflow\/validate-translation-batch\.js[\s\S]*?--batch-count "\$\{\{ inputs\.batch_count \}\}"/, '') },
+      expected: `${workflowName}: numbered Guides checkpoints must validate baseline/result pair identity`,
+    },
+  ]
+
+  for (const fixture of cases) {
+    const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'numbered-translation-policy-'))
+    try {
+      fs.cpSync(sourceDirectory, directory, { recursive: true })
+      const file = path.join(directory, workflowName)
+      const workflow = yaml.load(fs.readFileSync(file, 'utf8'))
+      fixture.mutate(workflow.jobs.translate.steps)
+      fs.writeFileSync(file, yaml.dump(workflow, { lineWidth: -1, noRefs: true }))
+      assert.ok(validateWorkflowPolicies(directory).includes(fixture.expected), fixture.expected)
+    } finally {
+      fs.rmSync(directory, { recursive: true, force: true })
+    }
+  }
 })
 
 test('durable translation batch preparation uses the same source delta as batch execution', () => {

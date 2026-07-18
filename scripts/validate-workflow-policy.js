@@ -107,9 +107,56 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
         [/applySourceDelta\.js --delta tmp\/source-delta\.json --report tmp\/source-delta-report\.json/, 'must apply translated output and cache deletions before manifest creation'],
         [/manifest\.js[\s\S]*--source-delta tmp\/source-delta\.json/, 'must prioritize current source changes and preserve reconciliation metadata'],
         [/steps\.source_delta\.outputs\.has_mutation == 'true'/, 'must create checkpoints for deletion-only translation mutations'],
-        [/validate-translated-coverage\.js --group "\$GROUP"/, 'must reject orphan translated documents before checkpoint creation'],
       ]
       for (const [pattern, message] of requiredPatterns) if (!pattern.test(source)) errors.push(`${file}: ${message}`)
+
+      const steps = workflow.jobs?.translate?.steps || []
+      const numbered = steps.find(step => step.name === 'Validate translated batch outputs')
+      const unbatched = steps.find(step => step.name === 'Validate unbatched translated group')
+      const checkpoint = steps.find(step => step.name === 'Create validated translation checkpoints')
+      const numberedCondition = String(numbered?.if || '')
+      const numberedRun = String(numbered?.run || '')
+      const unbatchedCondition = String(unbatched?.if || '')
+      const unbatchedRun = String(unbatched?.run || '')
+      const checkpointRun = String(checkpoint?.run || '')
+
+      if (!numbered || !/inputs\.should_translate/.test(numberedCondition) || !/inputs\.group == 'guides'/.test(numberedCondition) || !/inputs\.batch_number > 0/.test(numberedCondition) || !/steps\.agents\.outputs\.translated_count != '0'/.test(numberedCondition) || !/steps\.source_delta\.outputs\.has_mutation == 'true'/.test(numberedCondition)) {
+        errors.push(`${file}: numbered Guides batches must use the dedicated mutation-aware local validation step`)
+      }
+      if (/mdx-parse/.test(numberedRun)) errors.push(`${file}: numbered Guides batches must not run full-tree MDX parsing`)
+      if (/validate-translated-coverage/.test(numberedRun)) errors.push(`${file}: numbered Guides batches must not run full-tree translated coverage`)
+      if (/pnpm run build/.test(numberedRun)) errors.push(`${file}: numbered Guides batches must not run a full documentation build`)
+      if (!/translation-batch-input\.js validate --input tmp\/translation-batch-input\.json/.test(numberedRun)) {
+        errors.push(`${file}: numbered Guides batches must validate the canonical batch input`)
+      }
+      if (!/AGENTS_OUTCOME/.test(numberedRun) || !/translation-report\.json/.test(numberedRun) || !/review\.pass/.test(numberedRun) || !/validationErrors/.test(numberedRun) || !/lstatSync/.test(numberedRun) || !/isSymbolicLink/.test(numberedRun) || !/isFile/.test(numberedRun)) {
+        errors.push(`${file}: numbered Guides batches must validate agent report evidence and exact candidate output files`)
+      }
+      if (!/batchInput\.candidates\.length === 0[\s\S]*AGENTS_OUTCOME !== 'skipped'/.test(numberedRun)) {
+        errors.push(`${file}: reconciliation-only numbered Guides batches must validate without running translation agents`)
+      }
+
+      if (!unbatched || !/inputs\.batch_number == 0/.test(unbatchedCondition)) {
+        errors.push(`${file}: full translated validation must be restricted to unbatched runs`)
+      }
+      if (!/mdx-parse/.test(unbatchedRun) || !/validate-translated-coverage\.js --group "\$GROUP"/.test(unbatchedRun) || !/pnpm run build/.test(unbatchedRun)) {
+        errors.push(`${file}: unbatched translations must retain full MDX, coverage, and build validation`)
+      }
+      for (const step of steps) {
+        if (step === unbatched) continue
+        const run = String(step?.run || '')
+        if (/mdx-parse|validate-translated-coverage/.test(run)) errors.push(`${file}: full-tree translated validation commands must exist only in the unbatched validation step`)
+        if (step !== checkpoint && /pnpm run build/.test(run)) errors.push(`${file}: full documentation builds must exist only in the unbatched validation path`)
+      }
+      if (/pnpm run build/.test(checkpointRun) && !/if \(\( \$\{\{ inputs\.batch_number \}\} == 0 \)\); then validation_args=\(--validation-command "pnpm run build"\); fi/.test(checkpointRun)) {
+        errors.push(`${file}: checkpoint build attestation must remain restricted to unbatched runs`)
+      }
+      if (!/validate-checkpoint-artifact\.js --artifact "\$BASELINE_CHECKPOINT_DIR"/.test(checkpointRun) || !/validate-checkpoint-artifact\.js --artifact "\$CHECKPOINT_DIR"/.test(checkpointRun)) {
+        errors.push(`${file}: translation checkpoints must validate baseline and result artifact integrity`)
+      }
+      if (!/if \(\( \$\{\{ inputs\.batch_number \}\} > 0 \)\) && \[\[ "\$GROUP" == guides \]\]; then[\s\S]*validate-translation-batch\.js[\s\S]*--artifact "\$CHECKPOINT_DIR"[\s\S]*--baseline "\$BASELINE_CHECKPOINT_DIR"[\s\S]*--batch-number "\$\{\{ inputs\.batch_number \}\}"[\s\S]*--batch-count "\$\{\{ inputs\.batch_count \}\}"[\s\S]*\n\s*fi/.test(checkpointRun)) {
+        errors.push(`${file}: numbered Guides checkpoints must validate baseline/result pair identity`)
+      }
     }
 
     if (file === '_render-guides-table.yml') {
