@@ -208,6 +208,36 @@ test('publication diagnostics are bounded and Markdown escaped', () => withTempC
   assert.match(note, /&lt;tag&gt;|&amp;/)
 }))
 
+test('publication note attention is exact without changing overall workflow status', () => withTempCwd(dir => {
+  fs.chmodSync(dir, 0o700)
+  const file = path.join(dir, 'publication-report.json')
+  const render = (report, expectedAttention) => {
+    writePublicationReport(file, report, { trustedRoot: dir })
+    configurePublicationEnv(file, report.stagingSha || '')
+    const card = createCardReport({ runId: 123, overallStatus: 'success', summary: 'Documentation workflow succeeded.', reports: [publicationReportNote()] })
+    assert.equal(card.overallStatus, 'success')
+    assert.equal(card.reports[0].attention, expectedAttention)
+  }
+  render(publicationReport('published'), false)
+  render(publicationReport('no_changes'), false)
+  render(publicationReport('validation_failed'), true)
+  render(publicationReport('promotion_conflict'), true)
+  render(publicationReport('published', { cleanup: { status: 'debt', detail: 'lease mismatch' } }), true)
+
+  configurePublicationEnv(path.join(dir, 'missing.json'))
+  let card = createCardReport({ runId: 123, overallStatus: 'success', summary: 'ok', reports: [publicationReportNote()] })
+  assert.equal(card.reports[0].attention, true)
+  process.env.CARD_GUIDES_PUBLISHER_RESULT = 'cancelled'
+  card = createCardReport({ runId: 123, overallStatus: 'success', summary: 'ok', reports: [publicationReportNote()] })
+  assert.equal(card.reports[0].attention, true)
+
+  process.env.CARD_EXPECT_GUIDES_PUBLICATION_REPORT = 'false'
+  process.env.CARD_GUIDES_FINAL_PUBLISHER_STATUS = 'no_changes'
+  process.env.CARD_GUIDES_FINAL_COMMIT_SHA = ''
+  card = createCardReport({ runId: 123, overallStatus: 'success', summary: 'ok', reports: [publicationReportNote()] })
+  assert.equal(card.reports[0].attention, false)
+}))
+
 function writeJson(file, value) {
   fs.mkdirSync(path.dirname(file), { recursive: true })
   fs.writeFileSync(file, JSON.stringify(value, null, 2))

@@ -75,10 +75,17 @@ function hasGuidesCacheSaveFailure(markdown) {
     /(?:^|\n)[ \t]*-[ \t]+Cache persistence:[ \t]+save-failed[ \t]*(?=\n|$)/.test(markdown)
 }
 
+function hasGuidesPublicationAttention(markdown) {
+  return /^[ \t]*# Guides translation publication[ \t]*$/m.test(markdown) && (
+    /(?:^|\n)[ \t]*-[ \t]+Status:[ \t]+(?:Evidence unavailable|Cancelled|Composition Failed|Staged|Validation Failed|Promotion Conflict)[ \t]*(?=\n|$)/.test(markdown) ||
+    /(?:^|\n)[ \t]*-[ \t]+(?:Failure|Cleanup debt):[ \t]+\S/.test(markdown)
+  )
+}
+
 function reportNeedsAttention(markdown) {
   const text = String(markdown)
   return hasPositiveMetric(text, ['warnings?', 'errors?', 'failures?', 'broken(?: content)? links?', 'broken references?']) ||
-    /^\s*#{1,6}\s+.*\b(?:warning|failed?|error)\b/im.test(text) || hasGuidesCacheSaveFailure(text)
+    /^\s*#{1,6}\s+.*\b(?:warning|failed?|error)\b/im.test(text) || hasGuidesCacheSaveFailure(text) || hasGuidesPublicationAttention(text)
 }
 
 function cleanText(value, max) {

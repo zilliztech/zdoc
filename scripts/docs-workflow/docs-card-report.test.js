@@ -28,6 +28,21 @@ test('validates and deeply freezes an exact card report', () => {
   assert.equal(Object.isFrozen(report.reports[0]), true)
 })
 
+test('marks only exact problematic Guides publication facts for attention', () => {
+  for (const [status, expected] of [
+    ['Published', false], ['No translation changes', false], ['Evidence unavailable', true], ['Cancelled', true],
+    ['Composition Failed', true], ['Staged', true], ['Validation Failed', true], ['Promotion Conflict', true],
+  ]) {
+    const report = createCardReport({ runId: 1, overallStatus: 'success', summary: 'ok', reports: [`# Guides translation publication\n\n- Status: ${status}`] })
+    assert.equal(report.overallStatus, 'success')
+    assert.equal(report.reports[0].attention, expected, status)
+  }
+  const debt = createCardReport({ runId: 1, overallStatus: 'success', summary: 'ok', reports: ['# Guides translation publication\n\n- Status: Published\n- Cleanup debt: lease mismatch'] })
+  assert.equal(debt.reports[0].attention, true)
+  const unrelated = createCardReport({ runId: 1, overallStatus: 'success', summary: 'ok', reports: ['# Unrelated\n\n- Status: Cancelled'] })
+  assert.equal(unrelated.reports[0].attention, false)
+})
+
 test('rejects unknown keys, invalid enums, invalid timestamps, controls, and run mismatches', () => {
   const invalid = [
     { ...valid(), extra: true },
