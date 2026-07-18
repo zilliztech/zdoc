@@ -261,6 +261,21 @@ test('reapplying an already satisfied batch is fully idempotent', async () => {
   assert.equal(git(state.fixture.targetRepository, 'status', '--porcelain=v1', '--untracked-files=all'), beforeStatus)
 })
 
+test('pins a canonical frozen plan before caller mutation can cross the first async boundary', async () => {
+  const state = await plannedSingleBatch()
+  const mutablePlan = structuredClone(state.plan)
+  const applying = applyTranslationBatch({
+    plan: mutablePlan, batchNumber: 1, artifactDir: state.pair.artifactDir, baselineDir: state.pair.baselineDir, targetDir: state.fixture.targetRepository,
+  })
+  mutablePlan.batches[0].writes.splice(0)
+  mutablePlan.batches[0].deletions.push(`${SAAS_ROOT}/old.md`)
+  mutablePlan.batches[0].cache.additions.splice(0)
+  const result = await applying
+  assert.deepEqual(result.changedPaths, [`${SAAS_ROOT}/a.md`])
+  assert.equal(fs.readFileSync(path.join(state.fixture.targetRepository, SAAS_ROOT, 'a.md'), 'utf8'), '# 翻訳 A\n')
+  assert.equal(fs.existsSync(path.join(state.fixture.targetRepository, SAAS_ROOT, 'old.md')), true)
+})
+
 test('semantic cache equality is idempotent despite formatting and key order', async () => {
   const state = await plannedTwoBatches()
   await applyTranslationBatch({ plan: state.plan, batchNumber: 1, artifactDir: state.first.artifactDir, baselineDir: state.first.baselineDir, targetDir: state.fixture.targetRepository })
@@ -455,6 +470,10 @@ test('strictly validates options, hooks, plan checksum, and fixed mutation roots
     plan.batches[0].writes[0].artifactRelativePath = 'payload/reference/api/python/unsafe.md'
   })
   await assert.rejects(applyTranslationBatch({ ...base, plan: outside }), /outside.*fixed Guides translation roots/i)
+
+  const exotic = structuredClone(state.plan)
+  Object.defineProperty(exotic, 'toJSON', { value() { return null }, enumerable: false })
+  await assert.rejects(applyTranslationBatch({ ...base, plan: exotic }), /canonical plan clone|survive.*clone|plan.*object/i)
 })
 
 test('preserves dirty unrelated state and never mutates HEAD or the Git index', async () => {
@@ -571,6 +590,34 @@ test('guards a newly created cache parent against a during-write swap', async ()
   assert.equal(fs.readFileSync(path.join(outside, 'ja-JP.json'), 'utf8'), 'outside cache sentinel\n')
 })
 
+test('detects target file replacement between lstat and no-follow open before mutation', async () => {
+  const oldPath = `${SAAS_ROOT}/old.md`
+  const state = await plannedSingleBatch({ deletions: [oldPath] })
+  const target = path.join(state.fixture.targetRepository, oldPath)
+  const parked = `${target}.parked`
+  const originalOpen = fsp.open
+  let replaced = false
+  fsp.open = async function (file, ...args) {
+    if (!replaced && path.resolve(file) === target) {
+      replaced = true
+      await fsp.rename(target, parked)
+      await fsp.writeFile(target, '# 古い\n', { mode: 0o600 })
+    }
+    return originalOpen.call(this, file, ...args)
+  }
+  try {
+    await assert.rejects(applyTranslationBatch({
+      plan: state.plan, batchNumber: 1, artifactDir: state.pair.artifactDir, baselineDir: state.pair.baselineDir, targetDir: state.fixture.targetRepository,
+    }), /identity changed|replacement/i)
+  } finally {
+    fsp.open = originalOpen
+  }
+  assert.equal(fs.readFileSync(target, 'utf8'), '# 古い\n')
+  assert.equal(fs.statSync(target).mode & 0o777, 0o600)
+  assert.equal(fs.existsSync(path.join(state.fixture.targetRepository, SAAS_ROOT, 'a.md')), false)
+  assert.equal(fs.existsSync(path.join(state.fixture.targetRepository, CACHE_PATH)), false)
+})
+
 test('rollback failures preserve the original diagnostic and still remove the external journal', async () => {
   const state = await plannedSingleBatch()
   const prefix = `.${path.basename(state.fixture.targetRepository)}.translation-batch-`
@@ -590,4 +637,31 @@ test('rollback failures preserve the original diagnostic and still remove the ex
     return true
   })
   assert.equal(fs.readdirSync(path.dirname(state.fixture.targetRepository)).some(name => name.startsWith(prefix)), false)
+})
+
+test('successful application reports external journal cleanup failure without claiming rollback', async () => {
+  const state = await plannedSingleBatch()
+  const prefix = `.${path.basename(state.fixture.targetRepository)}.translation-batch-`
+  const originalRm = fsp.rm
+  let journal
+  fsp.rm = async function (target, ...args) {
+    if (path.basename(target).startsWith(prefix)) {
+      journal = target
+      throw new Error('injected external journal cleanup failure')
+    }
+    return originalRm.call(this, target, ...args)
+  }
+  try {
+    await assert.rejects(applyTranslationBatch({
+      plan: state.plan, batchNumber: 1, artifactDir: state.pair.artifactDir, baselineDir: state.pair.baselineDir, targetDir: state.fixture.targetRepository,
+    }), error => {
+      assert.match(error.message, /application completed.*journal cleanup failed|journal cleanup.*manual/i)
+      assert.doesNotMatch(error.message, /rollback failed|rollback was attempted/i)
+      return true
+    })
+  } finally {
+    fsp.rm = originalRm
+    if (journal) await originalRm(journal, { recursive: true, force: true })
+  }
+  assert.equal(fs.readFileSync(path.join(state.fixture.targetRepository, SAAS_ROOT, 'a.md'), 'utf8'), '# 翻訳 A\n')
 })

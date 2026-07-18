@@ -37,6 +37,11 @@ function canonicalize(value) {
 }
 function semanticEqual(one, two) { return canonical(canonicalize(one)) === canonical(canonicalize(two)) }
 
+function deepFreeze(value) {
+  for (const child of Object.values(value)) if (child && typeof child === 'object' && !Object.isFrozen(child)) deepFreeze(child)
+  return Object.freeze(value)
+}
+
 function exactKeys(value, keys, label) {
   if (!isObject(value)) throw new Error(`${label} must be an object`)
   const missing = keys.filter(key => !Object.hasOwn(value, key))
@@ -108,6 +113,20 @@ function validatePlan(plan) {
   }
   if (digest(Buffer.from(canonical(body))) !== plan.planSha256) throw new Error('Plan checksum mismatch')
   return plan
+}
+
+function pinPlan(input) {
+  validatePlan(input)
+  let serialized, clone
+  try {
+    serialized = canonical(input)
+    clone = JSON.parse(serialized)
+    validatePlan(clone)
+  } catch (error) {
+    throw new Error(`Plan cannot survive canonical plan cloning: ${error.message}`, { cause: error })
+  }
+  if (canonical(clone) !== serialized) throw new Error('Plan cannot survive exact canonical plan cloning')
+  return deepFreeze(clone)
 }
 
 function validateOptions(options) {
@@ -203,18 +222,23 @@ function revalidateBatchPlan(batch, result, baseline) {
   if (canonical(expected) !== canonical(batch)) throw new Error('Plan batch does not match the validated artifact pair')
 }
 
-async function readRegular(file, expected, label) {
-  const stat = await fsp.lstat(file)
+async function readPinnedRegular(file, expected, label, initialStat) {
+  const stat = initialStat || await fsp.lstat(file)
   if (stat.isSymbolicLink() || !stat.isFile()) throw new Error(`${label} must be a regular non-symlink file`)
   const handle = await fsp.open(file, fs.constants.O_RDONLY | (fs.constants.O_NOFOLLOW || 0))
   try {
     const before = await handle.stat()
+    if (!before.isFile() || before.dev !== stat.dev || before.ino !== stat.ino) throw new Error(`${label} identity changed before open`)
     const bytes = await handle.readFile()
     const after = await handle.stat()
     if (before.dev !== after.dev || before.ino !== after.ino || before.size !== after.size) throw new Error(`${label} changed during read`)
     if (expected && (bytes.length !== expected.size || digest(bytes) !== expected.sha256)) throw new Error(`${label} checksum or size mismatch`)
-    return bytes
+    return { bytes, mode: before.mode & 0o777 }
   } finally { await handle.close() }
+}
+
+async function readRegular(file, expected, label) {
+  return (await readPinnedRegular(file, expected, label)).bytes
 }
 
 async function maybeState(file) {
@@ -223,7 +247,7 @@ async function maybeState(file) {
   if (stat.isSymbolicLink()) throw new Error(`Target symlink is not allowed: ${file}`)
   if (stat.isDirectory()) return { type: 'directory', mode: stat.mode & 0o777 }
   if (!stat.isFile()) throw new Error(`Unsupported target path type: ${file}`)
-  return { type: 'file', mode: stat.mode & 0o777, bytes: await readRegular(file, null, 'target file') }
+  return { type: 'file', ...(await readPinnedRegular(file, null, 'target file', stat)) }
 }
 
 function sameBytes(state, bytes) { return state.type === 'file' && state.bytes.equals(bytes) }
@@ -372,7 +396,7 @@ async function assertPriorBatchState(target, plan, batchNumber) {
 async function applyTranslationBatch(options) {
   const normalizedOptions = { hooks: {}, ...options }
   validateOptions(normalizedOptions)
-  const plan = validatePlan(normalizedOptions.plan)
+  const plan = pinPlan(normalizedOptions.plan)
   const batch = plan.batches[normalizedOptions.batchNumber - 1]
   if (!batch || batch.batchNumber !== normalizedOptions.batchNumber) throw new Error('Requested batch is not present in the plan')
   const artifactDir = realDirectory(normalizedOptions.artifactDir, 'artifactDir')
@@ -478,6 +502,7 @@ async function applyTranslationBatch(options) {
     throw error
   } finally {
     let rollbackError
+    let cleanupError
     if (!complete) {
       try {
         await normalizedOptions.hooks.beforeRollback?.({ error: originalError })
@@ -487,8 +512,10 @@ async function applyTranslationBatch(options) {
         if (!afterStatus.equals(guard.status)) throw new Error('rollback did not restore exact pre-batch Git status')
       } catch (error) { rollbackError = error }
     }
-    try { await fsp.rm(journal, { recursive: true, force: true }) } catch (error) { rollbackError ||= error }
+    try { await fsp.rm(journal, { recursive: true, force: true }) } catch (error) { cleanupError = error }
+    if (complete && cleanupError) throw new Error(`Batch application completed but external journal cleanup failed: ${cleanupError.message}; remove ${journal} manually`, { cause: cleanupError })
     if (rollbackError) throw new Error(`Batch apply failed: ${originalError?.message || 'unknown error'}; rollback failed: ${rollbackError.message}`, { cause: originalError })
+    if (cleanupError) throw new Error(`Batch apply failed: ${originalError?.message || 'unknown error'}; rollback completed but external journal cleanup failed: ${cleanupError.message}; remove ${journal} manually`, { cause: originalError })
   }
 }
 
