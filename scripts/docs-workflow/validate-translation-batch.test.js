@@ -3,7 +3,7 @@
 const assert = require('node:assert/strict')
 const crypto = require('node:crypto')
 const { spawnSync } = require('node:child_process')
-const { mkdtemp, mkdir, rm, symlink, writeFile } = require('node:fs/promises')
+const { mkdtemp, mkdir, realpath, rm, symlink, writeFile } = require('node:fs/promises')
 const os = require('node:os')
 const path = require('node:path')
 const test = require('node:test')
@@ -89,12 +89,23 @@ async function translationPair(options = {}) {
 
 test('validates matching translated and baseline batch artifacts', async () => {
   const pair = await translationPair()
-  await assert.doesNotReject(validateTranslationBatch({
+  const validated = await validateTranslationBatch({
     artifactDir: pair.artifact,
     baselineDir: pair.baseline,
     batchNumber: 1,
     batchCount: 1,
-  }))
+  })
+  assert.equal(validated.result.resolvedDir, await realpath(pair.artifact))
+  assert.equal(validated.baseline.resolvedDir, await realpath(pair.baseline))
+  assert.equal(validated.result.batch.batchNumber, 1)
+  assert.equal(Object.isFrozen(validated.result), true)
+})
+
+test('infers the expected batch identity from the pinned result when omitted by a caller', async () => {
+  const pair = await translationPair()
+  const validated = await validateTranslationBatch({ artifactDir: pair.artifact, baselineDir: pair.baseline })
+  assert.equal(validated.result.batch.batchNumber, 1)
+  assert.equal(validated.result.batch.batchCount, 1)
 })
 
 test('rejects batch identity mismatches', async () => {

@@ -37,12 +37,17 @@ function parseArgs(argv) {
 }
 
 async function validateTranslationBatch({ artifactDir, baselineDir, batchNumber, batchCount, testHooks }) {
-  if (!Number.isSafeInteger(batchNumber) || batchNumber < 1) throw new Error('batch number must be a positive integer')
-  if (!Number.isSafeInteger(batchCount) || batchCount < batchNumber) throw new Error('batch count must not be smaller than batch number')
+  const inferBatchIdentity = batchNumber === undefined && batchCount === undefined
+  if (!inferBatchIdentity && (!Number.isSafeInteger(batchNumber) || batchNumber < 1)) throw new Error('batch number must be a positive integer')
+  if (!inferBatchIdentity && (!Number.isSafeInteger(batchCount) || batchCount < batchNumber)) throw new Error('batch count must not be smaller than batch number')
   const manifests = await Promise.all([
     validateCheckpointArtifact(artifactDir),
     validateCheckpointArtifact(baselineDir),
   ])
+  if (inferBatchIdentity) {
+    batchNumber = manifests[0].batch?.batchNumber
+    batchCount = manifests[0].batch?.batchCount
+  }
   for (const manifest of manifests) {
     if (manifest.schemaVersion !== 2 || manifest.stage !== 'translation') throw new Error('Numbered translation batch checkpoints must use schema 2')
     if (manifest.batch?.batchNumber !== batchNumber || manifest.batch?.batchCount !== batchCount) {
@@ -67,6 +72,7 @@ async function validateTranslationBatch({ artifactDir, baselineDir, batchNumber,
     throw new Error(`Translation cache JSON is invalid: ${error.message}`)
   }
   assertAuthorizedCacheChanges(before, after, result.parsedBatchInput)
+  return Object.freeze({ result, baseline })
 }
 
 if (require.main === module) {
