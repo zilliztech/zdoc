@@ -90,6 +90,7 @@ paths=(
   "config/generated"
   "plugins/lark-docs/meta/snapshots"
   "plugins/lark-docs/meta/assembly"
+  "plugins/lark-docs/meta/reports"
 )
 
 for restore_path in "${paths[@]}"; do

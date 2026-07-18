@@ -18,6 +18,7 @@ const restorePaths = [
   'config/generated',
   'plugins/lark-docs/meta/snapshots',
   'plugins/lark-docs/meta/assembly',
+  'plugins/lark-docs/meta/reports',
 ]
 
 function git(cwd, ...args) {
@@ -152,6 +153,26 @@ test('exact restore carries the Guides descriptor and translation checkpoints do
     })
     assert.equal(manifest.files.some((file) => file.path === descriptor), true)
     assert.equal(manifest.deletions.includes(descriptor), false)
+  } finally {
+    fs.rmSync(fixture.root, { recursive: true, force: true })
+  }
+})
+
+test('exact restore carries Guides report payloads used by translation checkpoints', async () => {
+  const fixture = createFixture()
+  const report = 'plugins/lark-docs/meta/reports/guides-incremental-fetch-plan.json'
+  try {
+    write(fixture.source, report, '{"generated_at":"source"}\n')
+    git(fixture.source, 'add', report)
+    git(fixture.source, 'commit', '-m', 'advance guides report')
+    const sourceSha = git(fixture.source, 'rev-parse', 'HEAD')
+    git(fixture.source, 'push', 'origin', 'dev')
+
+    write(fixture.work, report, '{"generated_at":"tooling"}\n')
+    const result = run(fixture.work, ['--exact', '--ref', sourceSha])
+
+    assert.equal(result.status, 0, result.stderr)
+    assert.equal(fs.readFileSync(path.join(fixture.work, report), 'utf8'), '{"generated_at":"source"}\n')
   } finally {
     fs.rmSync(fixture.root, { recursive: true, force: true })
   }
