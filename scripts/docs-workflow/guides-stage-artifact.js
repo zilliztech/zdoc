@@ -153,33 +153,49 @@ async function requireRealDirectory(directory, label) {
   return fs.realpath(absolute)
 }
 
-async function resolveOutputCandidate(output) {
+function commonAncestor(paths) {
+  let common = path.resolve(paths[0])
+  while (!paths.every(value => {
+    const candidate = path.resolve(value)
+    return candidate === common || candidate.startsWith(`${common}${path.sep}`)
+  })) {
+    const parent = path.dirname(common)
+    if (parent === common) return common
+    common = parent
+  }
+  return common
+}
+
+async function resolveOutputCandidate(output, trustedPaths) {
   if (typeof output !== 'string' || !output) throw new Error('Guides artifact output is required')
   const absolute = path.resolve(output)
   if (absolute === path.parse(absolute).root) throw new Error('Unsafe output root')
-  const missing = []
-  let current = absolute
-  while (true) {
+  const trusted = commonAncestor([...trustedPaths, absolute])
+  const trustedStat = await fs.lstat(trusted)
+  if (trustedStat.isSymbolicLink() || !trustedStat.isDirectory()) throw new Error(`Guides artifact output trusted root must be a real directory: ${trusted}`)
+  let current = await fs.realpath(trusted)
+  const components = path.relative(trusted, absolute).split(path.sep).filter(Boolean)
+  for (let index = 0; index < components.length; index += 1) {
+    current = path.join(current, components[index])
     try {
       const stat = await fs.lstat(current)
       if (stat.isSymbolicLink()) throw new Error(`Guides artifact output path must not use symlinks: ${current}`)
-      const real = await fs.realpath(current)
-      return path.join(real, ...missing.reverse())
+      if (index < components.length - 1 && !stat.isDirectory()) throw new Error(`Guides artifact output ancestor must be a directory: ${current}`)
     } catch (error) {
       if (error.code !== 'ENOENT') throw error
-      missing.push(path.basename(current))
-      const parent = path.dirname(current)
-      if (parent === current) throw new Error('Unsafe output path')
-      current = parent
+      current = path.join(current, ...components.slice(index + 1))
+      break
     }
   }
+  if (current === path.parse(current).root) throw new Error('Unsafe output root')
+  return current
 }
 
 async function validateOutputDisjointness({ workspace, baselineDir, output }) {
   const [workspaceRoot, baselineRoot, outputCandidate] = await Promise.all([
     requireRealDirectory(workspace, 'Guides workspace'),
     requireRealDirectory(baselineDir, 'Guides baseline'),
-    resolveOutputCandidate(output),
+    resolveOutputCandidate(output, [workspace, baselineDir]),
   ])
   if (overlaps(outputCandidate, workspaceRoot)) throw new Error('Guides artifact output overlaps workspace or is its ancestor')
   if (overlaps(outputCandidate, baselineRoot)) throw new Error('Guides artifact output overlaps baseline or is its ancestor')

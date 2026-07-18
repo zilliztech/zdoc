@@ -424,6 +424,24 @@ test('creation rejects overlapping or symlinked outputs before recursive removal
   assert.equal(fs.readFileSync(sentinel, 'utf8'), 'keep')
 })
 
+test('creation rejects an existing output reached through a symlinked ancestor before removal', async () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'guides-stage-existing-output-symlink-'))
+  const fixture = prepareSourceWorkspace(root)
+  const victim = path.join(root, 'victim')
+  const victimArtifact = path.join(victim, 'artifact')
+  const sentinel = path.join(victimArtifact, 'sentinel')
+  fs.mkdirSync(victimArtifact, { recursive: true })
+  fs.writeFileSync(sentinel, 'keep')
+  const linkedParent = path.join(root, 'linked-output-parent')
+  fs.symlinkSync(victim, linkedParent)
+  await assert.rejects(
+    createGuidesStageArtifact({ stage: 'source', workspace: fixture.workspace, baselineDir: fixture.baseline, output: path.join(linkedParent, 'artifact'), masterSha: SHA, devBaselineSha: SHA, rootToken: 'root' }),
+    /output.*symlink|symlink.*output|unsafe output/i,
+  )
+  assert.equal(fs.readFileSync(sentinel, 'utf8'), 'keep')
+  assert.equal(fs.existsSync(path.join(victimArtifact, 'manifest.json')), false)
+})
+
 test('invalid assembly decisions preserve an existing artifact byte-for-byte', async () => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'guides-stage-preserve-output-'))
   const fixture = prepareSourceWorkspace(root)
