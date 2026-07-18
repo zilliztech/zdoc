@@ -219,6 +219,10 @@ test('suppresses infrastructure steps and normalizes domain step names', () => {
   assert.equal(normalizeCurrentTask('validate and promote guides v4 cache candidate'), 'Validate Guides media cache')
   assert.equal(normalizeCurrentTask('prefetch shared guides media'), 'Prefetch shared Guides media')
   assert.equal(normalizeCurrentTask('save guides v4 generation'), 'Save Guides media cache')
+  assert.equal(normalizeCurrentTask('evaluate guides assembly reuse'), 'Evaluate Guides assembly reuse')
+  assert.equal(normalizeCurrentTask('validate guides assembly decision'), 'Validate Guides assembly decision')
+  assert.equal(normalizeCurrentTask('generate combined guides sidebars offline'), 'Generate combined Guides sidebars offline')
+  assert.equal(normalizeCurrentTask('finalize guides assembly identity'), 'Finalize Guides assembly identity')
 })
 
 test('selects the newest job attempt for each logical identity', () => {

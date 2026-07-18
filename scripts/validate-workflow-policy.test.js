@@ -664,6 +664,58 @@ test('Guides table matrix permits empty renders and exact assembly', () => {
   assert.doesNotMatch(assemble, /saas_artifact_name|byoc_artifact_name|guides-render\.tar/)
 })
 
+test('Guides assembly reuse remains observe-only with immutable decision and separate result', () => {
+  const source = fs.readFileSync('.github/workflows/_fetch-guides-sources.yml', 'utf8')
+  const assemble = fs.readFileSync('.github/workflows/_assemble-guides.yml', 'utf8')
+  const tableIndex = source.indexOf('name: Build Guides table render matrix')
+  const decisionIndex = source.indexOf('name: Evaluate Guides assembly reuse')
+  const artifactIndex = source.indexOf('name: Create shared source artifact')
+  assert.ok(tableIndex >= 0 && tableIndex < decisionIndex && decisionIndex < artifactIndex)
+  const sourceDecision = source.slice(decisionIndex, artifactIndex)
+  assert.match(sourceDecision, /guides-assembly-identity\.js decide/)
+  assert.match(sourceDecision, /--repository-root "\$GITHUB_WORKSPACE"/)
+  assert.match(sourceDecision, /--baseline-root "\$RUNNER_TEMP\/baseline"/)
+  assert.match(sourceDecision, /--candidate-snapshot plugins\/lark-docs\/meta\/reports\/guides-source-snapshot-candidate\.json/)
+  assert.match(sourceDecision, /--incremental-plan plugins\/lark-docs\/meta\/reports\/guides-incremental-fetch-plan\.json/)
+  assert.match(sourceDecision, /--table-count "\$\{\{ steps\.table_matrix\.outputs\.count \}\}"/)
+  assert.match(sourceDecision, /decision-sha[\s\S]*assembly_decision_sha256/)
+
+  const names = [
+    'Validate Guides assembly decision',
+    'Generate combined Guides sidebars offline',
+    'Validate combined guides output',
+    'Finalize Guides assembly identity',
+  ]
+  const indices = names.map(name => assemble.indexOf(`name: ${name}`))
+  assert.equal(indices.every(index => index >= 0), true)
+  assert.deepEqual([...indices].sort((a, b) => a - b), indices)
+  const generation = assemble.slice(indices[1], indices[2])
+  assert.match(generation, /node scripts\/docs-workflow\/generate-guides-sidebars\.js --media-manifest plugins\/lark-docs\/meta\/media-cache\/guides\.json/)
+  assert.doesNotMatch(generation, /\n\s+if:/)
+  assert.doesNotMatch(assemble, /npx docusaurus fetch-lark-docs[\s\S]*-sidebar/)
+  const validation = assemble.slice(indices[0], indices[1])
+  assert.match(validation, /decision-sha/)
+  assert.match(validation, /guides-assembly-decision\.json/)
+  assert.match(validation, /baseline\/config\/generated\/guides\.sidebar\.js|\$RUNNER_TEMP\/baseline[\s\S]*config\/generated\/guides\.sidebar\.js/)
+  const finalValidation = assemble.slice(indices[2], indices[3])
+  assert.match(finalValidation, /validate-generated-sidebars\.js/)
+  assert.match(finalValidation, /run-doc-build-stage\.js --build "pnpm run build"/)
+  const finalize = assemble.slice(indices[3], assemble.indexOf('name: Select promoted Guides source snapshot'))
+  assert.match(finalize, /saas=config\/generated\/guides\.sidebar\.js[\s\S]*cmp -s[^\n]*\$saas/)
+  assert.match(finalize, /byoc=config\/generated\/guides-byoc\.sidebar\.js[\s\S]*cmp -s[^\n]*\$byoc/)
+  assert.match(finalize, /write-descriptor[\s\S]*--expected-decision-sha256/)
+  assert.match(finalize, /verify-descriptor/)
+  assert.match(finalize, /write-result[\s\S]*guides-assembly-result\.json/)
+  assert.doesNotMatch(finalize, />\s*plugins\/lark-docs\/meta\/reports\/guides-assembly-decision\.json|--output plugins\/lark-docs\/meta\/reports\/guides-assembly-decision\.json/)
+  assert.doesNotMatch(assemble, /if:.*reuse[\s\S]{0,200}(?:cp|copyFile).*config\/generated\/guides(?:-byoc)?\.sidebar\.js/)
+  assert.doesNotMatch(assemble, /cp[^\n]*baseline[^\n]*config\/generated\/guides(?:-byoc)?\.sidebar\.js/)
+  assert.match(sourceDecision, /git -C "\$RUNNER_TEMP\/baseline" rev-parse HEAD/)
+  assert.match(source, /assembly_decision_sha256:/)
+  assert.match(assemble, /^      assembly_decision_sha256: \{ required: true, type: string \}$/m)
+  const caller = fs.readFileSync('.github/workflows/fetch-docs.yml', 'utf8')
+  assert.match(caller, /produce_guides:[\s\S]*assembly_decision_sha256: \$\{\{ needs\.produce_guides_sources\.outputs\.assembly_decision_sha256 \}\}/)
+})
+
 test('reusable content publisher safely downloads, validates, and publishes checkpoints', () => {
   const workflowPath = path.join(process.cwd(), '.github/workflows/_publish-content-group.yml')
   assert.equal(fs.existsSync(workflowPath), true, 'reusable content publisher workflow must exist')

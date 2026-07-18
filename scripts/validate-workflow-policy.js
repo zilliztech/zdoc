@@ -128,7 +128,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       const requiredPatterns = [
         [/inputs\.table_count != '0'[\s\S]*pattern: guides-table-/, 'must skip table artifact download for an empty matrix'],
         [/restore-guides-table-artifacts\.js/, 'must restore validated table artifacts'],
-        [/fetch-lark-docs[\s\S]*-sidebar[\s\S]*--offline[\s\S]*--mediaManifest/, 'must generate combined sidebars offline'],
+        [/generate-guides-sidebars\.js --media-manifest plugins\/lark-docs\/meta\/media-cache\/guides\.json/, 'must generate both combined sidebars through the offline wrapper'],
       ]
       for (const [pattern, message] of requiredPatterns) if (!pattern.test(source)) errors.push(`${file}: ${message}`)
       const steps = workflow.jobs?.assemble?.steps || []
@@ -137,7 +137,11 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       if (!workflow.on?.workflow_call?.inputs?.cache_version?.required || !workflow.on?.workflow_call?.inputs?.cache_save_required?.required) {
         errors.push(`${file}: must receive Guides cache version and save requirement from source validation`)
       }
+      if (!workflow.on?.workflow_call?.inputs?.assembly_decision_sha256?.required) errors.push(`${file}: must receive the canonical Guides assembly decision hash`)
+      const decisionIndex = stepIndex('Validate Guides assembly decision')
+      const generateIndex = stepIndex('Generate combined Guides sidebars offline')
       const validateIndex = stepIndex('Validate combined guides output')
+      const finalizeIndex = stepIndex('Finalize Guides assembly identity')
       const selectIndex = stepIndex('Select promoted Guides source snapshot')
       const createIndex = stepIndex('Create Guides v4 generation payload')
       const saveIndex = stepIndex('Save Guides v4 generation')
@@ -145,6 +149,19 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       if (!(validateIndex >= 0 && validateIndex < selectIndex && selectIndex < createIndex && createIndex < saveIndex && saveIndex < reportIndex)) {
         errors.push(`${file}: Guides v4 generation must follow combined validation and promoted snapshot selection before save and reporting`)
       }
+      if (!(decisionIndex >= 0 && decisionIndex < generateIndex && generateIndex < validateIndex && validateIndex < finalizeIndex && finalizeIndex < selectIndex)) {
+        errors.push(`${file}: observe-only assembly must validate decision, generate, validate output, then finalize identity`)
+      }
+      const decisionStep = steps[decisionIndex]
+      if (!/validate-decision[\s\S]*decision-sha[\s\S]*inputs\.assembly_decision_sha256/.test(decisionStep?.run || '')) errors.push(`${file}: assembly must validate the restored decision against the plumbed canonical hash`)
+      const generatorStep = steps[generateIndex]
+      if (generatorStep?.if || generatorStep?.run !== 'node scripts/docs-workflow/generate-guides-sidebars.js --media-manifest plugins/lark-docs/meta/media-cache/guides.json') errors.push(`${file}: observe-only assembly generator must always run the fixed two-target wrapper once`)
+      const validationStep = steps[validateIndex]
+      if (!/validate-generated-sidebars\.js[\s\S]*run-doc-build-stage\.js --build "pnpm run build"/.test(validationStep?.run || '')) errors.push(`${file}: combined sidebar and full build validation must run before descriptor promotion`)
+      const finalizeStep = steps[finalizeIndex]
+      if (!/saas=config\/generated\/guides\.sidebar\.js[\s\S]*byoc=config\/generated\/guides-byoc\.sidebar\.js[\s\S]*cmp -s[^\n]*\$saas[\s\S]*cmp -s[^\n]*\$byoc[\s\S]*write-descriptor[\s\S]*--expected-decision-sha256 "\$\{\{ inputs\.assembly_decision_sha256 \}\}"[\s\S]*verify-descriptor[\s\S]*write-result[\s\S]*guides-assembly-result\.json/.test(finalizeStep?.run || '')) errors.push(`${file}: finalize must compare reuse bytes and write verified descriptor plus a separate result`)
+      if (/npx docusaurus fetch-lark-docs[\s\S]*-sidebar/.test(source) || /cp[^\n]*baseline[^\n]*config\/generated\/guides(?:-byoc)?\.sidebar\.js/.test(source)) errors.push(`${file}: observe-only assembly must not restore sidebars or use the legacy split generators`)
+      if (/--output plugins\/lark-docs\/meta\/reports\/guides-assembly-decision\.json/.test(finalizeStep?.run || '')) errors.push(`${file}: finalize must never mutate the immutable assembly decision`)
       const selection = stepById.get('promoted_snapshot')
       if (!/guides-cache-generation-lifecycle\.js select[\s\S]*--cache-version "\$\{\{ inputs\.cache_version \}\}"[\s\S]*--save-required "\$\{\{ inputs\.cache_save_required \}\}"[\s\S]*if \[\[ "\$selected" == candidate \]\]; then[\s\S]*promote-lark-doc-snapshot\.js/.test(selection?.run || '')) {
         errors.push(`${file}: unchanged valid-v4 assembly must preserve the baseline snapshot while save-required runs promote the candidate`)
@@ -259,6 +276,9 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     }
     if (!/CARD_REPORT_ARTIFACT_URL:/.test(aggregateSource)) {
       errors.push('fetch-docs.yml: artifact-only card reports require a workflow artifact URL')
+    }
+    if (!/produce_guides:[\s\S]*assembly_decision_sha256: \$\{\{ needs\.produce_guides_sources\.outputs\.assembly_decision_sha256 \}\}/.test(callerSource)) {
+      errors.push('fetch-docs.yml: must pass the canonical Guides assembly decision hash into assembly')
     }
     const createReport = aggregateSource.indexOf('name: Create final card report artifact')
     const reportIngestion = aggregateSource.slice(Math.max(0, restoreReports), createReport >= 0 ? createReport : aggregateSource.length)
@@ -402,6 +422,17 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     if (!resultStep || !/source_valid=true[\s\S]*media_valid=true[\s\S]*cache_version[\s\S]*cache_save_required/.test(resultStep.run || '') ||
         !/guides-cache-save-decision\.js decide[\s\S]*--cache-version "\$cache_version"[\s\S]*--prefetch-mode[\s\S]*--candidate "\$candidate"[\s\S]*--baseline "\$baseline"/.test(resultStep.run || '') || /candidate_key|baseline_key/.test(resultStep.run || '')) {
       errors.push('_fetch-guides-sources.yml: Guides cache result must emit validity, version, and save requirement from legacy, recovery, or snapshot change')
+    }
+    const tableIndex = guidesSteps.findIndex(step => step.name === 'Build Guides table render matrix')
+    const decisionIndex = guidesSteps.findIndex(step => step.name === 'Evaluate Guides assembly reuse')
+    const artifactIndex = guidesSteps.findIndex(step => step.name === 'Create shared source artifact')
+    const decisionStep = stepById.get('assembly_decision')
+    if (!(tableIndex >= 0 && tableIndex < decisionIndex && decisionIndex < artifactIndex) ||
+        !/git -C "\$RUNNER_TEMP\/baseline" rev-parse HEAD[\s\S]*guides-assembly-identity\.js decide[\s\S]*--table-count "\$\{\{ steps\.table_matrix\.outputs\.count \}\}"[\s\S]*validate-decision[\s\S]*decision-sha[\s\S]*assembly_decision_sha256/.test(decisionStep?.run || '')) {
+      errors.push('_fetch-guides-sources.yml: assembly reuse decision must follow final table planning and precede source artifact creation')
+    }
+    if (!/^      assembly_decision_sha256: \{ value: '\$\{\{ jobs\.fetch\.outputs\.assembly_decision_sha256 \}\}' \}$/m.test(guidesSource) || !/^      assembly_decision_sha256: \$\{\{ steps\.assembly_decision\.outputs\.assembly_decision_sha256 \}\}$/m.test(guidesSource)) {
+      errors.push('_fetch-guides-sources.yml: must expose the canonical assembly decision hash')
     }
   }
 

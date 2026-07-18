@@ -18,6 +18,10 @@ const DECISION_KEYS = Object.freeze([
   'baselineSaasSidebarPresent', 'baselineSaasSidebarValid', 'baselineSaasSidebarSha256',
   'baselineByocSidebarPresent', 'baselineByocSidebarValid', 'baselineByocSidebarSha256',
 ])
+const RESULT_KEYS = Object.freeze([
+  'schemaVersion', 'generated_at', 'mode', 'decisionSha256', 'reasons', 'elapsedMilliseconds', 'byteComparison',
+])
+const BYTE_COMPARISON_KEYS = Object.freeze(['required', 'saasEqual', 'byocEqual', 'descriptorVerified'])
 const REASONS = Object.freeze([
   'baseline-source-sha-mismatch', 'unsupported-snapshot-schema', 'source-delta', 'table-render-required',
   'baseline-descriptor-missing', 'baseline-descriptor-invalid',
@@ -396,6 +400,12 @@ function nullableSha256(value, label) {
   return requireSha(value, SHA256, label)
 }
 
+function validateReasons(value, label) {
+  if (!Array.isArray(value) || value.length > REASONS.length || value.some(reason => typeof reason !== 'string' || reason.length > 64 || !REASONS.includes(reason))) throw new Error(`${label} reasons are invalid`)
+  if (new Set(value).size !== value.length || value.some((reason, index) => REASONS.indexOf(reason) <= (index ? REASONS.indexOf(value[index - 1]) : -1))) throw new Error(`${label} reasons must be unique and deterministically ordered`)
+  return value
+}
+
 function validateAssemblyDecision(value, expected = {}) {
   exactKeys(value, DECISION_KEYS, 'Guides assembly decision')
   if (value.schemaVersion !== 1) throw new Error('Unsupported Guides assembly decision schemaVersion')
@@ -406,8 +416,7 @@ function validateAssemblyDecision(value, expected = {}) {
   for (const key of ['baselineDescriptorSha256', 'baselineSaasSidebarSha256', 'baselineByocSidebarSha256']) nullableSha256(value[key], `Guides assembly ${key}`)
   if (!Number.isSafeInteger(value.tableCount) || value.tableCount < 0) throw new Error('Guides assembly tableCount must be a nonnegative safe integer')
   if (!['reuse', 'regenerate'].includes(value.mode)) throw new Error('Guides assembly mode is invalid')
-  if (!Array.isArray(value.reasons) || value.reasons.length > REASONS.length || value.reasons.some(reason => typeof reason !== 'string' || reason.length > 64 || !REASONS.includes(reason))) throw new Error('Guides assembly reasons are invalid')
-  if (new Set(value.reasons).size !== value.reasons.length || value.reasons.some((reason, index) => REASONS.indexOf(reason) <= (index ? REASONS.indexOf(value.reasons[index - 1]) : -1))) throw new Error('Guides assembly reasons must be unique and deterministically ordered')
+  validateReasons(value.reasons, 'Guides assembly')
   if ((value.mode === 'reuse') !== (value.reasons.length === 0)) throw new Error('Guides assembly mode and reasons disagree')
   if (value.mode === 'reuse') {
     if (value.baselineSourceSha !== value.devBaselineSha) throw new Error('Guides assembly reuse requires exact baseline provenance')
@@ -437,6 +446,57 @@ function validateAssemblyDecision(value, expected = {}) {
 
 function assemblyDecisionSha256(decision) {
   return hashCanonical(validateAssemblyDecision(decision))
+}
+
+function validateAssemblyResult(value, decision = null) {
+  exactKeys(value, RESULT_KEYS, 'Guides assembly result')
+  if (value.schemaVersion !== 1) throw new Error('Unsupported Guides assembly result schemaVersion')
+  if (typeof value.generated_at !== 'string' || !Number.isFinite(Date.parse(value.generated_at)) || new Date(value.generated_at).toISOString() !== value.generated_at) throw new Error('Guides assembly result generated_at must be an ISO string')
+  if (!['reuse_observed', 'regenerated'].includes(value.mode)) throw new Error('Guides assembly result mode is invalid')
+  requireSha(value.decisionSha256, SHA256, 'Guides assembly result decisionSha256')
+  validateReasons(value.reasons, 'Guides assembly result')
+  if (!Number.isSafeInteger(value.elapsedMilliseconds) || value.elapsedMilliseconds < 0) throw new Error('Guides assembly result elapsedMilliseconds must be a nonnegative safe integer')
+  exactKeys(value.byteComparison, BYTE_COMPARISON_KEYS, 'Guides assembly result byteComparison')
+  const comparison = value.byteComparison
+  if (typeof comparison.required !== 'boolean' || typeof comparison.descriptorVerified !== 'boolean') throw new Error('Guides assembly result byte comparison booleans are invalid')
+  for (const key of ['saasEqual', 'byocEqual']) if (comparison[key] !== null && typeof comparison[key] !== 'boolean') throw new Error(`Guides assembly result ${key} must be boolean or null`)
+  if (!comparison.descriptorVerified) throw new Error('Guides assembly result requires a verified descriptor')
+  if (value.mode === 'reuse_observed') {
+    if (value.reasons.length !== 0 || !comparison.required || comparison.saasEqual !== true || comparison.byocEqual !== true) throw new Error('Guides assembly reuse observation requires exact baseline byte equality')
+  } else if (comparison.required || comparison.saasEqual !== null || comparison.byocEqual !== null) {
+    throw new Error('Regenerated Guides assembly result must not claim baseline byte comparison')
+  }
+  if (decision) {
+    validateAssemblyDecision(decision)
+    if (value.decisionSha256 !== assemblyDecisionSha256(decision)) throw new Error('Guides assembly result decision SHA mismatch')
+    if (value.mode !== (decision.mode === 'reuse' ? 'reuse_observed' : 'regenerated')) throw new Error('Guides assembly result mode disagrees with decision')
+    if (JSON.stringify(value.reasons) !== JSON.stringify(decision.reasons)) throw new Error('Guides assembly result reasons disagree with decision')
+  }
+  return value
+}
+
+function writeAssemblyResult({ repositoryRoot, outputPath, decision, expectedMasterSha, expectedDevBaselineSha, expectedDecisionSha256, elapsedMilliseconds, saasEqual, byocEqual, descriptorVerified, generatedAt = new Date().toISOString(), fsImpl = fs }) {
+  requireSha(expectedMasterSha, SHA40, 'Expected masterSha')
+  requireSha(expectedDevBaselineSha, SHA40, 'Expected devBaselineSha')
+  requireSha(expectedDecisionSha256, SHA256, 'Expected decision SHA-256')
+  validateAssemblyDecision(decision, { masterSha: expectedMasterSha, devBaselineSha: expectedDevBaselineSha })
+  if (assemblyDecisionSha256(decision) !== expectedDecisionSha256) throw new Error('Assembly decision SHA-256 mismatch')
+  const result = {
+    schemaVersion: 1,
+    generated_at: new Date(generatedAt).toISOString(),
+    mode: decision.mode === 'reuse' ? 'reuse_observed' : 'regenerated',
+    decisionSha256: expectedDecisionSha256,
+    reasons: [...decision.reasons],
+    elapsedMilliseconds,
+    byteComparison: {
+      required: decision.mode === 'reuse',
+      saasEqual,
+      byocEqual,
+      descriptorVerified,
+    },
+  }
+  validateAssemblyResult(result, decision)
+  return atomicWriteJson(repositoryRoot, outputPath, result, fsImpl)
 }
 
 function ensureOutputParent(repositoryRoot, relativePath, fsImpl = fs) {
@@ -593,6 +653,15 @@ function main(argv = process.argv.slice(2)) {
       masterSha: args['expected-master-sha'], devBaselineSha: args['expected-dev-baseline-sha'],
     })
   }
+  if (operation === 'decision-sha') {
+    const args = parseFlags(values, ['repository-root', 'input', 'expected-master-sha', 'expected-dev-baseline-sha'])
+    const decision = validateAssemblyDecision(readJsonPath(args['repository-root'], args.input, 'Guides assembly decision'), {
+      masterSha: args['expected-master-sha'], devBaselineSha: args['expected-dev-baseline-sha'],
+    })
+    const sha256 = assemblyDecisionSha256(decision)
+    process.stdout.write(`${sha256}\n`)
+    return sha256
+  }
   if (operation === 'write-descriptor') {
     const args = parseFlags(values, ['repository-root', 'decision', 'expected-master-sha', 'expected-dev-baseline-sha', 'expected-decision-sha256', 'saas-sidebar', 'byoc-sidebar', 'output'])
     const decision = validateAssemblyDecision(readJsonPath(args['repository-root'], args.decision, 'Guides assembly decision'), {
@@ -624,7 +693,28 @@ function main(argv = process.argv.slice(2)) {
     if (!byoc.valid || byoc.sha256 !== descriptor.byocSidebarSha256) throw new Error('BYOC sidebar hash mismatch')
     return descriptor
   }
-  throw new Error('Unknown operation; expected decide, validate-decision, write-descriptor, or verify-descriptor')
+  if (operation === 'write-result') {
+    const args = parseFlags(values, ['repository-root', 'decision', 'expected-master-sha', 'expected-dev-baseline-sha', 'expected-decision-sha256', 'elapsed-milliseconds', 'saas-equal', 'byoc-equal', 'descriptor-verified', 'output'])
+    if (!/^(0|[1-9][0-9]*)$/.test(args['elapsed-milliseconds'])) throw new Error('--elapsed-milliseconds must be a nonnegative decimal integer')
+    const parseComparison = (value, label) => {
+      if (value === 'true') return true
+      if (value === 'false') return false
+      if (value === 'null') return null
+      throw new Error(`${label} must be true, false, or null`)
+    }
+    const decision = validateAssemblyDecision(readJsonPath(args['repository-root'], args.decision, 'Guides assembly decision'), {
+      masterSha: args['expected-master-sha'], devBaselineSha: args['expected-dev-baseline-sha'],
+    })
+    return writeAssemblyResult({
+      repositoryRoot: args['repository-root'], outputPath: args.output, decision,
+      expectedMasterSha: args['expected-master-sha'], expectedDevBaselineSha: args['expected-dev-baseline-sha'],
+      expectedDecisionSha256: args['expected-decision-sha256'], elapsedMilliseconds: Number(args['elapsed-milliseconds']),
+      saasEqual: parseComparison(args['saas-equal'], '--saas-equal'),
+      byocEqual: parseComparison(args['byoc-equal'], '--byoc-equal'),
+      descriptorVerified: parseComparison(args['descriptor-verified'], '--descriptor-verified'),
+    })
+  }
+  throw new Error('Unknown operation; expected decide, validate-decision, decision-sha, write-descriptor, verify-descriptor, or write-result')
 }
 
 if (require.main === module) {
@@ -638,6 +728,8 @@ module.exports = {
   navigationOwnershipProjection,
   semanticSourceProjection,
   validateAssemblyDecision,
+  validateAssemblyResult,
   validateCommittedDescriptor,
+  writeAssemblyResult,
   writeCommittedDescriptor,
 }

@@ -188,6 +188,7 @@ jobs:
       target_branch: ${{ needs.prepare.outputs.target_branch }}
       cache_version: ${{ needs.produce_guides_sources.outputs.cache_version }}
       cache_save_required: ${{ needs.produce_guides_sources.outputs.cache_save_required }}
+      assembly_decision_sha256: ${{ needs.produce_guides_sources.outputs.assembly_decision_sha256 }}
       artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
   produce_python:
     needs: prepare

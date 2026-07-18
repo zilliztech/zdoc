@@ -15,7 +15,9 @@ const {
   navigationOwnershipProjection,
   semanticSourceProjection,
   validateAssemblyDecision,
+  validateAssemblyResult,
   validateCommittedDescriptor,
+  writeAssemblyResult,
   writeCommittedDescriptor,
 } = require('./guides-assembly-identity')
 
@@ -555,6 +557,65 @@ test('strict descriptor and decision validation reject extras, hashes, schemas, 
   } finally { cleanup(f) }
 })
 
+test('assembly result is strict, bounded, and bound to the immutable decision', () => {
+  const f = fixture()
+  try {
+    writeDescriptor(f, validDescriptor(f))
+    const reuseDecision = decide(f)
+    const reuseHash = assemblyDecisionSha256(reuseDecision)
+    const reuse = writeAssemblyResult({
+      repositoryRoot: f.root,
+      outputPath: 'outputs/reuse-result.json',
+      decision: reuseDecision,
+      expectedMasterSha: SHA_A,
+      expectedDevBaselineSha: SHA_B,
+      expectedDecisionSha256: reuseHash,
+      elapsedMilliseconds: 42,
+      saasEqual: true,
+      byocEqual: true,
+      descriptorVerified: true,
+      generatedAt: '2026-07-17T02:03:04.000Z',
+    })
+    assert.deepEqual(reuse, {
+      schemaVersion: 1,
+      generated_at: '2026-07-17T02:03:04.000Z',
+      mode: 'reuse_observed',
+      decisionSha256: reuseHash,
+      reasons: [],
+      elapsedMilliseconds: 42,
+      byteComparison: { required: true, saasEqual: true, byocEqual: true, descriptorVerified: true },
+    })
+    assert.deepEqual(validateAssemblyResult(JSON.parse(fs.readFileSync(path.join(f.root, 'outputs/reuse-result.json'), 'utf8')), reuseDecision), reuse)
+
+    const regenerateDecision = decide(f, { baselineSourceSha: SHA_A })
+    const regenerated = writeAssemblyResult({
+      repositoryRoot: f.root,
+      outputPath: 'outputs/regenerated-result.json',
+      decision: regenerateDecision,
+      expectedMasterSha: SHA_A,
+      expectedDevBaselineSha: SHA_B,
+      expectedDecisionSha256: assemblyDecisionSha256(regenerateDecision),
+      elapsedMilliseconds: 0,
+      saasEqual: null,
+      byocEqual: null,
+      descriptorVerified: true,
+      generatedAt: '2026-07-17T02:03:05.000Z',
+    })
+    assert.equal(regenerated.mode, 'regenerated')
+    assert.deepEqual(regenerated.reasons, ['baseline-source-sha-mismatch'])
+    assert.deepEqual(regenerated.byteComparison, { required: false, saasEqual: null, byocEqual: null, descriptorVerified: true })
+
+    for (const invalid of [
+      { ...reuse, extra: true },
+      { ...reuse, mode: 'regenerated' },
+      { ...reuse, reasons: ['source-delta'] },
+      { ...reuse, elapsedMilliseconds: -1 },
+      { ...reuse, byteComparison: { ...reuse.byteComparison, saasEqual: false } },
+      { ...regenerated, byteComparison: { ...regenerated.byteComparison, required: true } },
+    ]) assert.throws(() => validateAssemblyResult(invalid, invalid.mode === 'reuse_observed' ? reuseDecision : regenerateDecision), /result|mode|reason|elapsed|comparison|reuse|regenerat/i)
+  } finally { cleanup(f) }
+})
+
 test('malformed source, navigation, plans, digests, SHAs, and unsafe baseline paths are hard errors', () => {
   assert.throws(() => semanticSourceProjection(snapshot({ records: [{ ...snapshot().records[0], outgoing_tokens: 'bad' }] })), /outgoing/i)
   assert.throws(() => navigationOwnershipProjection(snapshot({ navigation_records: [{ ...snapshot().navigation_records[0], order: 'bad' }] })), /order/i)
@@ -714,5 +775,33 @@ test('CLI rejects duplicate, unknown, missing flags, positional extras, and vali
       const failed = spawnSync(process.execPath, [cli, ...args, ...extra], { encoding: 'utf8' })
       assert.notEqual(failed.status, 0)
     }
+  } finally { cleanup(f) }
+})
+
+test('CLI emits the canonical decision hash and writes a validated runtime result', () => {
+  const f = fixture()
+  const cli = path.resolve(__dirname, 'guides-assembly-identity.js')
+  try {
+    writeDescriptor(f, validDescriptor(f))
+    const decision = decide(f)
+    fs.mkdirSync(path.join(f.root, 'outputs'), { recursive: true })
+    fs.writeFileSync(path.join(f.root, f.paths.decision), JSON.stringify(decision))
+    const expectedHash = assemblyDecisionSha256(decision)
+    const hashResult = spawnSync(process.execPath, [
+      cli, 'decision-sha', '--repository-root', f.root, '--input', f.paths.decision,
+      '--expected-master-sha', SHA_A, '--expected-dev-baseline-sha', SHA_B,
+    ], { encoding: 'utf8' })
+    assert.equal(hashResult.status, 0, hashResult.stderr)
+    assert.equal(hashResult.stdout.trim(), expectedHash)
+
+    const result = spawnSync(process.execPath, [
+      cli, 'write-result', '--repository-root', f.root, '--decision', f.paths.decision,
+      '--expected-master-sha', SHA_A, '--expected-dev-baseline-sha', SHA_B,
+      '--expected-decision-sha256', expectedHash, '--elapsed-milliseconds', '7',
+      '--saas-equal', 'true', '--byoc-equal', 'true', '--descriptor-verified', 'true',
+      '--output', 'outputs/result.json',
+    ], { encoding: 'utf8' })
+    assert.equal(result.status, 0, result.stderr)
+    assert.equal(JSON.parse(fs.readFileSync(path.join(f.root, 'outputs/result.json'), 'utf8')).mode, 'reuse_observed')
   } finally { cleanup(f) }
 })
