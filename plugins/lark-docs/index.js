@@ -787,8 +787,11 @@ function larkDocsPlugin(context, options) {
                         const mediaResolver = opts.offline
                             ? createOfflineMediaResolver({ manifestPath: opts.mediaManifest, imageBedUrl: process.env.IMAGE_BED_URL || 'https://zdoc-images.s3.us-west-2.amazonaws.com' })
                             : null
+                        const sourceIndex = opts.offline && opts.skipSourceDown && (sourceType === 'wiki' || sourceType === 'onePager')
+                            ? LarkSourceIndex.load(docSourceDir)
+                            : null
                         const writer = sourceType === 'wiki' || sourceType === 'onePager' ?
-                            new docWriter(root, base, displayedSidebar, docSourceDir, imageDir, opts.pubTarget, opts.skipImageDown, opts.uploadToS3, opts.linkShim, mediaResolver) :
+                            new docWriter(root, base, displayedSidebar, docSourceDir, imageDir, opts.pubTarget, opts.skipImageDown, opts.uploadToS3, opts.linkShim, mediaResolver, sourceIndex) :
                             new driveWriter(root, base, displayedSidebar, docSourceDir, imageDir, opts.pubTarget, opts.skipImageDown, opts.uploadToS3, opts.manual)
 
                         // Ensure S3 connections are always closed, even on error or Ctrl+C
