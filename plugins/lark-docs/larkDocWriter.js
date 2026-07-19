@@ -363,7 +363,7 @@ class larkDocWriter {
 
     __fetch_base_source_meta(title, slug, token=null) {
         if (this.sourceIndex) return this.sourceIndex.findBaseSourceMeta({ title, slug, token })
-        if (!slug || !fs.existsSync(this.docSourceDir)) return null
+        if ((!slug && !token) || !fs.existsSync(this.docSourceDir)) return null
         const files = fs.readdirSync(this.docSourceDir).filter(file => file.endsWith('.json'))
         const sources = files.map(file => JSON.parse(fs.readFileSync(`${this.docSourceDir}/${file}`, 'utf8')))
         if (token) {
@@ -1073,7 +1073,7 @@ class larkDocWriter {
     }
 
     async __is_to_publish (title, slug, token=null) {
-        if (slug && fs.existsSync(this.docSourceDir)) {
+        if ((slug || token) && fs.existsSync(this.docSourceDir)) {
             const baseSource = this.__fetch_base_source_meta(title, slug, token)
             if (baseSource) {
                 if (baseSource.base_placement_type === 'section') {

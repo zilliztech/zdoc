@@ -30,3 +30,34 @@ test('offline writer rejects missing local Base metadata without querying Bitabl
     writer.destroy()
   }
 })
+
+test('offline writer resolves empty-slug Base section metadata by token', async () => {
+  const sourceDir = fs.mkdtempSync(path.join(os.tmpdir(), 'offline-writer-section-'))
+  fs.writeFileSync(path.join(sourceDir, 'section.json'), JSON.stringify({
+    node_token: 'base:tblSection:recSection',
+    origin_node_token: 'base:tblSection:recSection',
+    title: 'Section',
+    slug: '',
+    base_nav_virtual: true,
+    base_placement_type: 'section',
+    has_child: true,
+  }))
+  const writer = new LarkDocWriter('root', 'base:*', 'default', sourceDir, 'static/img', 'zilliz.saas', true, false, null, {
+    resolveFeishuImage() {}, resolveBoard() {}, resolveFigma() {},
+  })
+  let listed = false
+  writer.__listed_docs = async () => { listed = true }
+  try {
+    const result = await writer.__is_to_publish('Section', '', 'base:tblSection:recSection')
+    assert.deepEqual(result, {
+      publish: true,
+      title: 'Section',
+      slug: '',
+      beta: null,
+      labels: 'Section',
+    })
+    assert.equal(listed, false)
+  } finally {
+    writer.destroy()
+  }
+})
