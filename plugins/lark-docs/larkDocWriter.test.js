@@ -4,6 +4,7 @@ const Module = require('node:module');
 const os = require('node:os');
 const path = require('node:path');
 const LarkDocWriter = require('./larkDocWriter');
+const LarkSourceIndex = require('./larkSourceIndex');
 
 function textRun(content, style = {}) {
   return {
@@ -627,6 +628,48 @@ function testSourceIndexDelegatesLookupHelpersWithoutFilesystemEnumeration() {
   ]);
 }
 
+function testSourceIndexSourcesAreClonedBeforeWriterMutation() {
+  const sourceDir = fs.mkdtempSync(path.join(os.tmpdir(), 'lark-doc-writer-clone-index-'));
+  fs.writeFileSync(path.join(sourceDir, 'source.json'), JSON.stringify({
+    title: 'Indexed',
+    slug: 'indexed',
+    node_token: 'indexed-token',
+    blocks: {
+      items: [
+        {
+          block_id: 'paragraph',
+          block_type: 2,
+          text: {
+            elements: [
+              {
+                text_run: {
+                  content: 'price is $5',
+                  text_element_style: {},
+                },
+              },
+            ],
+          },
+        },
+      ],
+    },
+  }));
+  const sourceIndex = LarkSourceIndex.load(sourceDir);
+  const writer = new LarkDocWriter(
+    'root', 'base:*', 'default', sourceDir, 'static/img',
+    'zilliz.saas', true, false, null, null, sourceIndex
+  );
+
+  try {
+    const source = writer.__fetch_doc_source_by_any_token('indexed-token');
+    assert.equal(Object.isFrozen(source), false);
+    assert.equal(Object.isFrozen(source.blocks.items[0].text.elements[0].text_run), false);
+    source.blocks.items[0].text.elements[0].text_run.content = 'mutated';
+  } finally {
+    writer.destroy();
+    fs.rmSync(sourceDir, { recursive: true, force: true });
+  }
+}
+
 function testNullAndOmittedSourceIndexKeepLegacyFilesystemLookupSemantics() {
   const sourceDir = fs.mkdtempSync(path.join(os.tmpdir(), 'lark-doc-writer-index-fallback-'));
   const omittedWriter = new LarkDocWriter('root', 'base:*', 'default', sourceDir);
@@ -701,6 +744,7 @@ async function run() {
   await testCodeBlocksInferLanguageWhenFeishuOmitsLanguage();
   await testCodeTabGroupKeepsInferredMiddleLanguageInsideTabs();
   testSourceIndexDelegatesLookupHelpersWithoutFilesystemEnumeration();
+  testSourceIndexSourcesAreClonedBeforeWriterMutation();
   testNullAndOmittedSourceIndexKeepLegacyFilesystemLookupSemantics();
   await testBaseTablesRetriesPrematureClose();
   console.log('larkDocWriter tests passed');

@@ -346,6 +346,12 @@ class larkDocWriter {
         return isPublishable && targets.includes(this.targets.toLowerCase())
     }
 
+    __clone_indexed_source(source) {
+        if (!source || !Object.isFrozen(source)) return source
+        if (typeof structuredClone === 'function') return structuredClone(source)
+        return JSON.parse(JSON.stringify(source))
+    }
+
     __base_source_has_publish_constraints(source) {
         const status = this.__plain_value(source.base_status)
         const targetsField = source.base_targets
@@ -386,7 +392,7 @@ class larkDocWriter {
     }
 
     __fetch_doc_source_by_any_token(token) {
-        if (this.sourceIndex) return this.sourceIndex.findAnyToken(token)
+        if (this.sourceIndex) return this.__clone_indexed_source(this.sourceIndex.findAnyToken(token))
         const tokenKeys = ['node_token', 'origin_node_token', 'obj_token', 'token']
         const files = fs.readdirSync(this.docSourceDir).filter(file => file.endsWith('.json'))
         for (const file of files) {
@@ -444,7 +450,7 @@ class larkDocWriter {
         if (this.sourceIndex) {
             const source = this.sourceIndex.find(type, value, { slug })
             if (!source) throw new Error(`Cannot find ${value} in ${this.docSourceDir}`)
-            return source
+            return this.__clone_indexed_source(source)
         }
         const file = fs.readdirSync(this.docSourceDir).filter(file => {
             const page = JSON.parse(fs.readFileSync(`${this.docSourceDir}/${file}`, {encoding: 'utf-8', flag: 'r'}))
