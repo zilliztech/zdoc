@@ -17,6 +17,7 @@ const RESTORE_PATHS = Object.freeze([
   'config/generated',
   'plugins/lark-docs/meta/snapshots',
   'plugins/lark-docs/meta/assembly',
+  'plugins/lark-docs/meta/reports',
 ])
 const VALIDATION_COMMANDS = Object.freeze(VALIDATION_SPECS.map(spec => Object.freeze({ id: spec.id, command: spec.executable, args: spec.args, rendered: spec.command })))
 

@@ -10,13 +10,14 @@ const { execFileSync, spawnSync } = require('node:child_process')
 const { runGuidesTranslationValidation, writeValidationResult, VALIDATION_COMMANDS, RESTORE_PATHS } = require('./validate-guides-translation-staging')
 
 const ROOT = 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials'
+const REPORT = 'plugins/lark-docs/meta/reports/guides-incremental-fetch-plan.json'
 const ENV = { ...process.env, GIT_AUTHOR_NAME: 'Test', GIT_AUTHOR_EMAIL: 'test@example.com', GIT_COMMITTER_NAME: 'Test', GIT_COMMITTER_EMAIL: 'test@example.com' }
 function git(cwd, ...args) { return execFileSync('git', args, { cwd, encoding: 'utf8', env: ENV }).trim() }
 
 function fixture() {
   const repository = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'validate-guides-staging-')))
   git(repository, 'init')
-  const seeds = ['docs/index.md', 'docs-byoc/index.md', 'reference/index.md', 'reference/keep.md', `${ROOT}/a.md`, 'i18n/ja-JP/other.md', '.translation-cache/ja-JP.json', 'config/generated/guides.sidebar.js', 'plugins/lark-docs/meta/snapshots/guides.json', 'plugins/lark-docs/meta/assembly/guides.json']
+  const seeds = ['docs/index.md', 'docs-byoc/index.md', 'reference/index.md', 'reference/keep.md', `${ROOT}/a.md`, 'i18n/ja-JP/other.md', '.translation-cache/ja-JP.json', 'config/generated/guides.sidebar.js', 'plugins/lark-docs/meta/snapshots/guides.json', 'plugins/lark-docs/meta/assembly/guides.json', REPORT]
   for (const relative of seeds) { fs.mkdirSync(path.dirname(path.join(repository, relative)), { recursive: true }); fs.writeFileSync(path.join(repository, relative), `${relative}\n`) }
   fs.writeFileSync(path.join(repository, 'tooling.js'), 'tooling\n')
   git(repository, 'add', '.')
@@ -24,13 +25,21 @@ function fixture() {
   const masterSha = git(repository, 'rev-parse', 'HEAD')
   git(repository, 'switch', '-c', 'staged')
   fs.writeFileSync(path.join(repository, ROOT, 'a.md'), '# translated\n')
-  git(repository, 'add', ROOT)
+  fs.writeFileSync(path.join(repository, REPORT), '{"generated_at":"staged"}\n')
+  git(repository, 'add', ROOT, REPORT)
   git(repository, 'commit', '-m', 'staged generated state')
   const stagedSha = git(repository, 'rev-parse', 'HEAD')
   git(repository, 'switch', '--detach', masterSha)
   git(repository, 'checkout', stagedSha, '--', ...RESTORE_PATHS)
   return { repository, masterSha, stagedSha }
 }
+
+test('accepts changed Guides reports restored from the exact staged commit', () => {
+  const state = fixture()
+  git(state.repository, 'checkout', state.stagedSha, '--', REPORT)
+  const result = runGuidesTranslationValidation({ ...state, executor() { return { status: 0, signal: null, stderr: '' } } })
+  assert.equal(result.result, 'success')
+})
 
 test('runs only the seven hard-coded commands in exact order and returns immutable proof and receipts', () => {
   const state = fixture()
