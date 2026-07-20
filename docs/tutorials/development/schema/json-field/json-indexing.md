@@ -78,7 +78,7 @@ When in doubt, start with `AUTOINDEX` for scalar paths. Use `INVERTED` explicitl
 | --- | --- |
 | `BOOL`, `DOUBLE`, `VARCHAR` | Chooses between `BITMAP` and `STL_SORT` based on value cardinality. |
 | `ARRAY_BOOL`, `ARRAY_DOUBLE`, `ARRAY_VARCHAR` | Not supported. Use `INVERTED` explicitly as the index type. |
-| `JSON` | Uses `INVERTED` for whole-object or sub-object indexing. |
+| `JSON` | Uses `INVERTED` for whole-object or sub-object indexing. This mode is deprecated starting in Milvus 3.0.0. |
 
 For scalar cast types (`BOOL`, `DOUBLE`, and `VARCHAR`), `AUTOINDEX` is the recommended starting point when you want Zilliz Cloud to choose the internal index layout. During index build, Zilliz Cloud measures the **cardinality** of the values at the JSON path. Cardinality means the number of distinct values at that path.
 
@@ -150,7 +150,7 @@ Use the following matrix as a quick reference for supported `(cast type, index t
 | `ARRAY_BOOL` | Array of booleans. | `[true, false]` | — | ✓ | — | — |
 | `ARRAY_DOUBLE` | Array of numbers. | `[1.2, 3.14]` | — | ✓ | — | — |
 | `ARRAY_VARCHAR` | Array of strings. | `["tag1", "tag2"]` | — | ✓ | — | — |
-| `JSON` | An entire JSON object or sub-object with automatic type inference and flattening. | any nested object | ✓ | ✓ | — | — |
+| `JSON` | An entire JSON object or sub-object with automatic type inference and flattening. Deprecated starting in Milvus 3.0.0. | any nested object | Yes (deprecated) | Yes (deprecated) | — | — |
 
 For cells marked `—`, Zilliz Cloud rejects the request at index-creation time. For array cast types, use `INVERTED` explicitly (`AUTOINDEX` does not cover arrays).
 
