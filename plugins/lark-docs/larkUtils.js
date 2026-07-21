@@ -414,8 +414,11 @@ class larkUtils {
                     candidatesByToken.set(token, candidates)
                 })
 
-            const resolveSource = (token, missingMessage) => {
-                const candidates = candidatesByToken.get(token) || []
+            const resolveSource = (token, missingMessage, parentToken=null) => {
+                const tokenCandidates = candidatesByToken.get(token) || []
+                const candidates = parentToken
+                    ? tokenCandidates.filter(candidate => candidate.source[PARENT] === parentToken)
+                    : tokenCandidates
                 if (candidates.length === 0) {
                     throw new Error(missingMessage)
                 }
@@ -430,7 +433,7 @@ class larkUtils {
                 const folder = resolveSource(folderToken, `[fallback-source] Missing reconciled folder ${folderToken}`)
 
                 folder.children.forEach(child => {
-                    resolveSource(child[TOKEN], `[fallback-source] Unresolved child ${child[TOKEN]} under ${folderToken}`)
+                    resolveSource(child[TOKEN], `[fallback-source] Unresolved child ${child[TOKEN]} under ${folderToken}`, folderToken)
                 })
             })
         }

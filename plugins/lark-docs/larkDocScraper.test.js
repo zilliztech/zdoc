@@ -1242,6 +1242,9 @@ async function testDriveIncrementalEnforcesMaterializedRenderBoundary() {
   };
   let writerFailureToken = null;
   let writeMalformedSource = false;
+  let invalidSourceType = null;
+  let omitDocumentBlocks = false;
+  let omitFolderChildren = false;
   let action = null;
 
   class FakeScraper {
@@ -1249,15 +1252,21 @@ async function testDriveIncrementalEnforcesMaterializedRenderBoundary() {
     async fetch(recursive) {
       assert.equal(recursive, true);
       fs.mkdirSync(sourceDir, { recursive: true });
-      fs.writeFileSync(path.join(sourceDir, 'root.json'), JSON.stringify({
-        token: 'root-token', type: 'folder', name: 'Root', children: [{ token: 'present-token' }],
-      }));
-      fs.writeFileSync(path.join(sourceDir, 'present-placement-a.json'), JSON.stringify({
-        token: 'present-token', parent_token: 'root-token', type: 'docx', name: 'Present A', blocks: { items: [] },
-      }));
-      fs.writeFileSync(path.join(sourceDir, 'present-placement-b.json'), JSON.stringify({
-        token: 'present-token', parent_token: 'root-token', type: 'docx', name: 'Present B', blocks: { items: [] },
-      }));
+      const rootSource = { token: 'root-token', type: 'folder', name: 'Root', children: [{ token: 'present-token' }] };
+      if (omitFolderChildren) delete rootSource.children;
+      fs.writeFileSync(path.join(sourceDir, 'root.json'), JSON.stringify(rootSource));
+      const presentA = {
+        token: 'present-token', parent_token: 'root-token', type: invalidSourceType || 'docx', name: 'Present A', blocks: { items: [] },
+      };
+      const presentB = {
+        token: 'present-token', parent_token: 'root-token', type: invalidSourceType || 'docx', name: 'Present B', blocks: { items: [] },
+      };
+      if (omitDocumentBlocks) {
+        delete presentA.blocks;
+        delete presentB.blocks;
+      }
+      fs.writeFileSync(path.join(sourceDir, 'present-placement-a.json'), JSON.stringify(presentA));
+      fs.writeFileSync(path.join(sourceDir, 'present-placement-b.json'), JSON.stringify(presentB));
       if (writeMalformedSource) {
         fs.writeFileSync(path.join(sourceDir, 'malformed-source.json'), '{invalid');
       }
@@ -1363,6 +1372,36 @@ async function testDriveIncrementalEnforcesMaterializedRenderBoundary() {
         skipSidebar: true, skipLinkValidation: true,
       }),
       /Cannot parse Drive source malformed-source\.json:/
+    );
+
+    writeMalformedSource = false;
+    invalidSourceType = 'unknown';
+    await assert.rejects(
+      () => action({
+        manual: 'pymilvus30', pubTarget: 'zilliz', incremental: true, buildEnv: 'uat',
+        skipSidebar: true, skipLinkValidation: true,
+      }),
+      /Cannot classify Drive source present-placement-a\.json: unsupported type unknown/
+    );
+
+    invalidSourceType = null;
+    omitDocumentBlocks = true;
+    await assert.rejects(
+      () => action({
+        manual: 'pymilvus30', pubTarget: 'zilliz', incremental: true, buildEnv: 'uat',
+        skipSidebar: true, skipLinkValidation: true,
+      }),
+      /Cannot classify Drive source present-placement-a\.json: docx source requires blocks\.items/
+    );
+
+    omitDocumentBlocks = false;
+    omitFolderChildren = true;
+    await assert.rejects(
+      () => action({
+        manual: 'pymilvus30', pubTarget: 'zilliz', incremental: true, buildEnv: 'uat',
+        skipSidebar: true, skipLinkValidation: true,
+      }),
+      /Cannot classify Drive source root\.json: folder source requires children/
     );
   } finally {
     console.warn = originalWarn;

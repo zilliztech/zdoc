@@ -251,8 +251,7 @@ class larkDriveWriter extends larkDocWriter {
         while (current && current.parent_token && current.parent_token !== this.root_token) {
             const currentParent = this.__drive_parent_for_source(current)
             if (!currentParent) {
-                // Parent not in cache — stop walking and write to the nearest known path
-                break
+                throw new Error(`Cannot resolve Drive parent ${current.parent_token} for ${current.token}`)
             }
             relPath = this.__slug_value(currentParent.slug) + '/' + relPath
             current = currentParent

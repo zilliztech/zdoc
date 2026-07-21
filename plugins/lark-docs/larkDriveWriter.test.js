@@ -402,6 +402,32 @@ async function testWriteSubtreePreservesMeaningfulCategoryMetadata() {
   }
 }
 
+async function testWriteSubtreeRejectsMissingIntermediateParent() {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'lark-drive-writer-'));
+  const out = fs.mkdtempSync(path.join(os.tmpdir(), 'lark-drive-output-'));
+  const writer = new larkDriveWriter('root', '', 'pythonSidebar', dir, '/tmp', 'zilliz', true, false, 'pymilvus30');
+  writer.__is_to_publish = async () => ({ publish: true });
+  writer.write_doc = async () => {
+    throw new Error('document must not be written without its placement ancestry');
+  };
+
+  try {
+    writeJson(dir, 'orphan.json', {
+      token: 'orphan', parent_token: 'missing-parent', name: 'Orphan', type: 'docx',
+      slug: 'orphan', blocks: { items: [] },
+    });
+
+    await assert.rejects(
+      () => writer.write_subtree(out, 'orphan'),
+      /Cannot resolve Drive parent missing-parent for orphan/
+    );
+  } finally {
+    writer.destroy();
+    fs.rmSync(dir, { recursive: true, force: true });
+    fs.rmSync(out, { recursive: true, force: true });
+  }
+}
+
 async function testWriteSubtreeKeepsDuplicateFolderDescendantsInTheirPlacements() {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'lark-drive-writer-'));
   const out = fs.mkdtempSync(path.join(os.tmpdir(), 'lark-drive-output-'));
@@ -465,6 +491,7 @@ async function run() {
   await testWriteDocAppliesSharedMdxPatches();
   testDuplicateRouteSlugUsesParentDirectoryName();
   await testWriteSubtreePreservesMeaningfulCategoryMetadata();
+  await testWriteSubtreeRejectsMissingIntermediateParent();
   await testWriteSubtreeUsesDriveTokenAndParentTokenFields();
   await testWriteSubtreeRendersEveryDuplicateTokenPlacement();
   await testWriteSubtreeKeepsDuplicateFolderDescendantsInTheirPlacements();

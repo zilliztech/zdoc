@@ -30,7 +30,18 @@ function driveIncrementalRenderTokens(plan, docSourceDir) {
         } catch (error) {
             throw new Error(`Cannot parse Drive source ${file}: ${error.message}`, { cause: error })
         }
-        if (typeof source.token === 'string' && source.token) materializedTokens.add(source.token)
+        if (typeof source.token === 'string' && source.token) {
+            if (source.type !== 'folder' && source.type !== 'docx') {
+                throw new Error(`Cannot classify Drive source ${file}: unsupported type ${source.type ?? '(missing)'}`)
+            }
+            if (source.type === 'docx' && !Array.isArray(source.blocks?.items)) {
+                throw new Error(`Cannot classify Drive source ${file}: docx source requires blocks.items`)
+            }
+            if (source.type === 'folder' && !Array.isArray(source.children)) {
+                throw new Error(`Cannot classify Drive source ${file}: folder source requires children`)
+            }
+            materializedTokens.add(source.token)
+        }
     }
 
     const expandedTokens = plan.expanded_tokens || []

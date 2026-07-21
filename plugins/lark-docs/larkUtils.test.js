@@ -406,6 +406,58 @@ function testDriveFallbackRejectsDuplicateTokensInTouchedFolderGraph() {
   });
 }
 
+function testDriveFallbackAcceptsDuplicateTokenInAnotherPlacement() {
+  withTempSourceDirs((sourceDir, fallbackDir) => {
+    writeJson(sourceDir, 'V3_ROOT', {
+      token: 'V3_ROOT', name: 'v3.0.x', children: [
+        { name: 'FieldSchema', token: 'NEW_FIELD_FOLDER', parent_token: 'V3_ROOT', type: 'folder' },
+        { name: 'Other', token: 'OTHER_FOLDER', parent_token: 'V3_ROOT', type: 'folder' },
+      ],
+    });
+    writeJson(sourceDir, 'NEW_FIELD_FOLDER', {
+      token: 'NEW_FIELD_FOLDER', name: 'FieldSchema', slug: 'FieldSchema', type: 'folder',
+      parent_token: 'V3_ROOT', children: [
+        { name: 'shared-child', token: 'SHARED_DOC', parent_token: 'NEW_FIELD_FOLDER', type: 'docx' },
+      ],
+    });
+    writeJson(sourceDir, 'OTHER_FOLDER', {
+      token: 'OTHER_FOLDER', name: 'Other', slug: 'Other', type: 'folder',
+      parent_token: 'V3_ROOT', children: [
+        { name: 'shared-child', token: 'SHARED_DOC', parent_token: 'OTHER_FOLDER', type: 'docx' },
+      ],
+    });
+    writeJson(sourceDir, 'shared-field', {
+      token: 'SHARED_DOC', name: 'shared-child', slug: 'FieldSchema-shared-child', type: 'docx',
+      parent_token: 'NEW_FIELD_FOLDER', blocks: { items: [] },
+    });
+    writeJson(sourceDir, 'shared-other', {
+      token: 'SHARED_DOC', name: 'shared-child', slug: 'Other-shared-child', type: 'docx',
+      parent_token: 'OTHER_FOLDER', blocks: { items: [] },
+    });
+
+    writeJson(fallbackDir, 'V26_ROOT', {
+      token: 'V26_ROOT', name: 'v2.6.x', children: [
+        { name: 'FieldSchema', token: 'OLD_FIELD_FOLDER', parent_token: 'V26_ROOT', type: 'folder' },
+      ],
+    });
+    writeJson(fallbackDir, 'OLD_FIELD_FOLDER', {
+      token: 'OLD_FIELD_FOLDER', name: 'FieldSchema', slug: 'FieldSchema', type: 'folder',
+      parent_token: 'V26_ROOT', children: [
+        { name: 'fallback-only', token: 'FALLBACK_ONLY', parent_token: 'OLD_FIELD_FOLDER', type: 'docx' },
+      ],
+    });
+    writeJson(fallbackDir, 'FALLBACK_ONLY', {
+      token: 'FALLBACK_ONLY', name: 'fallback-only', slug: 'FieldSchema-fallback-only', type: 'docx',
+      parent_token: 'OLD_FIELD_FOLDER', blocks: { items: [] },
+    });
+
+    new larkUtils().fetch_fallback_sources(sourceDir, fallbackDir, 'drive', 'V3_ROOT');
+
+    const fieldSchema = readJson(sourceDir, 'NEW_FIELD_FOLDER');
+    assert.deepEqual(fieldSchema.children.map(child => child.token).sort(), ['FALLBACK_ONLY', 'SHARED_DOC']);
+  });
+}
+
 function testDriveFallbackIgnoresDuplicateTokensOutsideTouchedFolders() {
   withTempSourceDirs((sourceDir, fallbackDir) => {
     writeJson(sourceDir, 'V3_ROOT', {
@@ -539,6 +591,7 @@ function run() {
   testDriveFallbackRejectsDanglingSourceOnlyChild();
   testDriveFallbackPrefersMaterializedMappedDocumentOverFallbackSlug();
   testDriveFallbackRejectsDuplicateTokensInTouchedFolderGraph();
+  testDriveFallbackAcceptsDuplicateTokenInAnotherPlacement();
   testDriveFallbackIgnoresDuplicateTokensOutsideTouchedFolders();
   testDriveFallbackRetainsMaterializedRootChildWhenReplacementBodyIsMissing();
   testPreProcessRemovesRootMarkdownFiles();
