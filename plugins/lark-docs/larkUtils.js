@@ -287,18 +287,20 @@ class larkUtils {
             const fallbackSourcesByToken = new Map(fallbackSources.map(source => [source[TOKEN], source]))
 
             fallbackRoot.children.forEach(child => {
-                var pair = sourceRoot.children.find(s => s[TITLE] === child[TITLE])
+                const pairIndex = sourceRoot.children.findIndex(s => s[TITLE] === child[TITLE])
+                const pair = pairIndex === -1 ? null : sourceRoot.children[pairIndex]
                 var fallbackChildSource = fallbackSourcesByToken.get(child[TOKEN])
 
-                if (!pair) {
+                if (materializedPair(pair)) {
+                    recordReplacement(child[TOKEN], pair[TOKEN])
+                } else {
                     child[PARENT] = sourceRoot[TOKEN]
                     if (fallbackChildSource) {
                         fallbackChildSource[PARENT] = sourceRoot[TOKEN]
                     }
-                    sourceRoot.children.push(child)
+                    if (pairIndex === -1) sourceRoot.children.push(child)
+                    else sourceRoot.children.splice(pairIndex, 1, child)
                     // fallbackSources.find(fb => fb.token === child.token).parent_token = sourceRoot.token
-                } else {
-                    recordReplacement(child[TOKEN], pair[TOKEN])
                 }
             })
 

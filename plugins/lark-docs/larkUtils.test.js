@@ -183,6 +183,42 @@ function testDriveFallbackRetainsMaterializedTokenWhenReplacementBodyIsMissing()
   });
 }
 
+function testDriveFallbackRetainsMaterializedRootChildWhenReplacementBodyIsMissing() {
+  withTempSourceDirs((sourceDir, fallbackDir) => {
+    writeJson(sourceDir, 'V3_ROOT', {
+      token: 'V3_ROOT',
+      name: 'v3.0.x',
+      children: [
+        { name: 'FieldSchema', token: 'NEW_FOLDER', parent_token: 'V3_ROOT', type: 'folder' },
+      ],
+    });
+
+    writeJson(fallbackDir, 'V26_ROOT', {
+      token: 'V26_ROOT',
+      name: 'v2.6.x',
+      children: [
+        { name: 'FieldSchema', token: 'OLD_FOLDER', parent_token: 'V26_ROOT', type: 'folder' },
+      ],
+    });
+    writeJson(fallbackDir, 'OLD_FOLDER', {
+      token: 'OLD_FOLDER',
+      name: 'FieldSchema',
+      type: 'folder',
+      parent_token: 'V26_ROOT',
+      children: [],
+    });
+
+    new larkUtils().fetch_fallback_sources(sourceDir, fallbackDir, 'drive', 'V3_ROOT');
+
+    const root = readJson(sourceDir, 'V3_ROOT');
+    assert.deepEqual(root.children.map(child => child.token), ['OLD_FOLDER']);
+    const folder = readJson(sourceDir, 'OLD_FOLDER');
+    assert.equal(folder.token, 'OLD_FOLDER');
+    assert.equal(folder.parent_token, 'V3_ROOT');
+    assert.equal(fs.existsSync(path.join(sourceDir, 'NEW_FOLDER.json')), false);
+  });
+}
+
 function testPreProcessRemovesRootMarkdownFiles() {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'lark-utils-preprocess-'));
 
@@ -242,6 +278,7 @@ function testPreProcessPreservesHomeByDefault() {
 function run() {
   testDriveFallbackMatchesUnsluggedFoldersByTitleAndParent();
   testDriveFallbackRetainsMaterializedTokenWhenReplacementBodyIsMissing();
+  testDriveFallbackRetainsMaterializedRootChildWhenReplacementBodyIsMissing();
   testPreProcessRemovesRootMarkdownFiles();
   testPreProcessPreservesSelectedFiles();
   testPreProcessPreservesHomeByDefault();
