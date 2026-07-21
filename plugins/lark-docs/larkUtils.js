@@ -269,6 +269,7 @@ class larkUtils {
         var replaces = []
         var replacesByToken = new Map()
         const touchedFolderTokens = new Set()
+        const fallbackSourcesSatisfiedByMaterializedMappings = new Set()
         const folderSource = source => source?.type === 'folder' || source?.children
         const docSource = source => source?.type === 'docx' || !source?.children
         const materializedPair = pair => pair && sourcesByToken.has(pair[TOKEN])
@@ -359,14 +360,21 @@ class larkUtils {
             const originalToken = fallback[TOKEN]
             // docx
             if (docSource(fallback)) {
-                const expectedParent = replacesByToken.get(fallback[PARENT]) || fallback[PARENT]
-                var source = sources.find(source => source?.slug === fallback?.slug && source[PARENT] === expectedParent && docSource(source))
-                if (source) {
-                    recordReplacement(originalToken, source[TOKEN])
-                    fallback[TOKEN] = source[TOKEN]
-                    fallback[PARENT] = source[PARENT]
-                    fallback.url = source.url
-                    fallback.blocks = source.blocks
+                const mappedToken = replacesByToken.get(originalToken)
+                const mappedSource = mappedToken ? sourcesByToken.get(mappedToken) : null
+
+                if (mappedSource && docSource(mappedSource)) {
+                    fallbackSourcesSatisfiedByMaterializedMappings.add(fallback)
+                } else {
+                    const expectedParent = replacesByToken.get(fallback[PARENT]) || fallback[PARENT]
+                    var source = sources.find(source => source?.slug === fallback?.slug && source[PARENT] === expectedParent && docSource(source))
+                    if (source) {
+                        recordReplacement(originalToken, source[TOKEN])
+                        fallback[TOKEN] = source[TOKEN]
+                        fallback[PARENT] = source[PARENT]
+                        fallback.url = source.url
+                        fallback.blocks = source.blocks
+                    }
                 }
             }
 
@@ -378,6 +386,7 @@ class larkUtils {
         // write the fallback sources to the doc source directory
         fallbackSources.forEach(fallback => {
             if (handledFallbackRoot && fallback === fallbackRoot) return
+            if (fallbackSourcesSatisfiedByMaterializedMappings.has(fallback)) return
 
             const token = fallback[TOKEN]
             console.log(`0. Copied ${token}.json`)

@@ -271,7 +271,7 @@ function testDriveFallbackRejectsDanglingSourceOnlyChild() {
   });
 }
 
-function testDriveFallbackRejectsDuplicateFinalTokenIdentities() {
+function testDriveFallbackPrefersMaterializedMappedDocumentOverFallbackSlug() {
   withTempSourceDirs((sourceDir, fallbackDir) => {
     writeJson(sourceDir, 'V3_ROOT', {
       token: 'V3_ROOT',
@@ -325,9 +325,80 @@ function testDriveFallbackRejectsDuplicateFinalTokenIdentities() {
       blocks: { items: [{ block_id: 'fallback-page', block_type: 1 }] },
     });
 
+    new larkUtils().fetch_fallback_sources(sourceDir, fallbackDir, 'drive', 'V3_ROOT');
+
+    const fieldSchema = readJson(sourceDir, 'NEW_FIELD_FOLDER');
+    assert.deepEqual(fieldSchema.children.map(child => child.token), ['NEW_DOC']);
+
+    const document = readJson(sourceDir, 'NEW_DOC');
+    assert.equal(document.slug, 'source-child-slug');
+    assert.deepEqual(document.blocks, { items: [{ block_id: 'source-page', block_type: 1 }] });
+    assert.equal(fs.existsSync(path.join(sourceDir, 'OLD_DOC.json')), false);
+  });
+}
+
+function testDriveFallbackRejectsDuplicateTokensInTouchedFolderGraph() {
+  withTempSourceDirs((sourceDir, fallbackDir) => {
+    writeJson(sourceDir, 'V3_ROOT', {
+      token: 'V3_ROOT',
+      name: 'v3.0.x',
+      children: [
+        { name: 'FieldSchema', token: 'NEW_FIELD_FOLDER', parent_token: 'V3_ROOT', type: 'folder' },
+      ],
+    });
+    writeJson(sourceDir, 'NEW_FIELD_FOLDER', {
+      token: 'NEW_FIELD_FOLDER',
+      name: 'FieldSchema',
+      slug: 'FieldSchema',
+      type: 'folder',
+      parent_token: 'V3_ROOT',
+      children: [
+        { name: 'duplicate-child', token: 'DUPLICATE_DOC', parent_token: 'NEW_FIELD_FOLDER', type: 'docx' },
+      ],
+    });
+    writeJson(sourceDir, 'duplicate-a', {
+      token: 'DUPLICATE_DOC',
+      name: 'duplicate-child-a',
+      slug: 'duplicate-child-a',
+      type: 'docx',
+      parent_token: 'NEW_FIELD_FOLDER',
+    });
+    writeJson(sourceDir, 'duplicate-b', {
+      token: 'DUPLICATE_DOC',
+      name: 'duplicate-child-b',
+      slug: 'duplicate-child-b',
+      type: 'docx',
+      parent_token: 'NEW_FIELD_FOLDER',
+    });
+
+    writeJson(fallbackDir, 'V26_ROOT', {
+      token: 'V26_ROOT',
+      name: 'v2.6.x',
+      children: [
+        { name: 'FieldSchema', token: 'OLD_FIELD_FOLDER', parent_token: 'V26_ROOT', type: 'folder' },
+      ],
+    });
+    writeJson(fallbackDir, 'OLD_FIELD_FOLDER', {
+      token: 'OLD_FIELD_FOLDER',
+      name: 'FieldSchema',
+      slug: 'FieldSchema',
+      type: 'folder',
+      parent_token: 'V26_ROOT',
+      children: [
+        { name: 'fallback-only', token: 'FALLBACK_ONLY', parent_token: 'OLD_FIELD_FOLDER', type: 'docx' },
+      ],
+    });
+    writeJson(fallbackDir, 'FALLBACK_ONLY', {
+      token: 'FALLBACK_ONLY',
+      name: 'fallback-only',
+      slug: 'FieldSchema-fallback-only',
+      type: 'docx',
+      parent_token: 'OLD_FIELD_FOLDER',
+    });
+
     assert.throws(
       () => new larkUtils().fetch_fallback_sources(sourceDir, fallbackDir, 'drive', 'V3_ROOT'),
-      /\[fallback-source\] Duplicate token NEW_DOC in NEW_DOC\.json and OLD_DOC\.json/
+      /\[fallback-source\] Duplicate token DUPLICATE_DOC in duplicate-a\.json and duplicate-b\.json/
     );
   });
 }
@@ -463,7 +534,8 @@ function run() {
   testDriveFallbackRetainsMaterializedTokenWhenReplacementBodyIsMissing();
   testDriveFallbackRejectsDanglingChildWhenBothBodiesAreMissing();
   testDriveFallbackRejectsDanglingSourceOnlyChild();
-  testDriveFallbackRejectsDuplicateFinalTokenIdentities();
+  testDriveFallbackPrefersMaterializedMappedDocumentOverFallbackSlug();
+  testDriveFallbackRejectsDuplicateTokensInTouchedFolderGraph();
   testDriveFallbackIgnoresDuplicateTokensOutsideTouchedFolders();
   testDriveFallbackRetainsMaterializedRootChildWhenReplacementBodyIsMissing();
   testPreProcessRemovesRootMarkdownFiles();
