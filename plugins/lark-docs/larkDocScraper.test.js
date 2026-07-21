@@ -1222,6 +1222,106 @@ async function testDriveIncrementalRefreshesSourcesBeforePlanningRenderDelta() {
   }
 }
 
+async function testDriveIncrementalSkipsUnmaterializedExpandedTokensAtRenderBoundary() {
+  const originalLoad = Module._load;
+  const originalWarn = console.warn;
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'lark-drive-render-scope-'));
+  const sourceDir = path.join(tempDir, 'sources');
+  const outputDir = path.join(tempDir, 'output');
+  const writtenTokens = [];
+  const warnings = [];
+  let action = null;
+
+  class FakeScraper {
+    constructor() { this.base_app_token = 'base-token'; this.records = []; }
+    async fetch(recursive) {
+      assert.equal(recursive, true);
+      fs.mkdirSync(sourceDir, { recursive: true });
+      fs.writeFileSync(path.join(sourceDir, 'root.json'), JSON.stringify({
+        token: 'root-token', type: 'folder', name: 'Root', children: [{ token: 'present-token' }],
+      }));
+      fs.writeFileSync(path.join(sourceDir, 'present-placement-a.json'), JSON.stringify({
+        token: 'present-token', parent_token: 'root-token', type: 'docx', name: 'Present A', blocks: { items: [] },
+      }));
+      fs.writeFileSync(path.join(sourceDir, 'present-placement-b.json'), JSON.stringify({
+        token: 'present-token', parent_token: 'root-token', type: 'docx', name: 'Present B', blocks: { items: [] },
+      }));
+    }
+  }
+  class FakeDriveWriter {
+    async write_subtree(_targetDir, token) {
+      writtenTokens.push(token);
+      if (token === 'missing-token') throw new Error('unexpected absent-token write attempt: missing-token');
+    }
+    destroy() {}
+  }
+  class FakeUtils {
+    post_process_file_paths() {}
+  }
+
+  Module._load = function patchedLoad(request, parent, isMain) {
+    if (parent?.filename?.endsWith('/plugins/lark-docs/index.js')) {
+      if (request === './larkDocScraper.js') return FakeScraper;
+      if (request === './larkDriveWriter.js') return FakeDriveWriter;
+      if (request === './larkUtils.js') return FakeUtils;
+      if (request === './incrementalReconciliation') return { cleanupRemovedIncrementalRecords() {} };
+      if (request === './incrementalFetchPlanner') return {
+        planIncrementalFetch() {
+          return {
+            manual: 'pymilvus30',
+            mode: 'incremental',
+            expanded_tokens: ['present-token', 'missing-token'],
+            removed_records: [],
+            reasons_by_token: {
+              'missing-token': ['outgoing reference from source-token'],
+            },
+          };
+        },
+        writeIncrementalFetchPlanReports() { return { markdownPath: path.join(tempDir, 'plan.md') }; },
+      };
+      if (request === './sourceSnapshot') return {
+        readSnapshot() { return { schema_version: 2, manual: 'pymilvus30', records: [] }; },
+        createSourceSnapshot() { throw new Error('candidate snapshot should not be written'); },
+        validateCandidateSnapshot() {},
+        writeSnapshot() {},
+      };
+      if (request === './sourceCompleteness') return {
+        validateSourceCompleteness() { throw new Error('fresh Drive sources must not validate the stale cache'); },
+        assertSourceCompleteness() {},
+      };
+    }
+    return originalLoad.apply(this, arguments);
+  };
+  console.warn = message => warnings.push(message);
+
+  try {
+    delete require.cache[require.resolve('./index')];
+    const plugin = require('./index')(null, {
+      pymilvus30: {
+        root: 'root-token', base: 'base-token', sourceType: 'drive', displayedSidebar: [],
+        docSourceDir: sourceDir,
+        targets: { zilliz: { outputDir, imageDir: path.join(tempDir, 'images'), preserveOutput: true } },
+      },
+    });
+    const command = { option() { return this; }, action(callback) { action = callback; return this; } };
+    plugin.extendCli({ command() { return command; } });
+    await action({
+      manual: 'pymilvus30', pubTarget: 'zilliz', incremental: true, buildEnv: 'uat',
+      skipSidebar: true, skipLinkValidation: true,
+    });
+
+    assert.deepEqual(writtenTokens, ['present-token']);
+    assert.deepEqual(warnings, [
+      '[incremental-fetch] Skipping unmaterialized Drive token missing-token: outgoing reference from source-token',
+    ]);
+  } finally {
+    console.warn = originalWarn;
+    Module._load = originalLoad;
+    delete require.cache[require.resolve('./index')];
+    fs.rmSync(tempDir, { recursive: true, force: true });
+  }
+}
+
 async function run() {
   await testFeishuJsonFetchesAreThrottled();
   await testWikiRootFetchRetriesPrematureClose();
@@ -1248,6 +1348,7 @@ async function run() {
   await testWikiMetadataProgressLogsResolutionCounts();
   await testIncrementalSourceFetchWritesCandidateFromRetainedScan();
   await testDriveIncrementalRefreshesSourcesBeforePlanningRenderDelta();
+  await testDriveIncrementalSkipsUnmaterializedExpandedTokensAtRenderBoundary();
   console.log('lark-docs scraper tests passed');
 }
 

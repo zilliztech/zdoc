@@ -21,6 +21,23 @@ function validateOfflineOptions(opts) {
     if (!opts.mediaManifest) throw new Error('--offline requires --mediaManifest')
 }
 
+function driveIncrementalRenderTokens(plan, docSourceDir) {
+    const materializedTokens = new Set()
+    for (const file of fs.readdirSync(docSourceDir).filter(file => file.endsWith('.json')).sort()) {
+        const source = JSON.parse(fs.readFileSync(path.join(docSourceDir, file), 'utf8'))
+        if (typeof source.token === 'string' && source.token) materializedTokens.add(source.token)
+    }
+
+    const expandedTokens = plan.expanded_tokens || []
+    const skippedTokens = [...new Set(expandedTokens.filter(token => !materializedTokens.has(token)))].sort()
+    for (const token of skippedTokens) {
+        const reasons = Array.isArray(plan.reasons_by_token?.[token]) ? plan.reasons_by_token[token] : []
+        const reasonText = reasons.length > 0 ? `: ${reasons.join('; ')}` : ''
+        console.warn(`[incremental-fetch] Skipping unmaterialized Drive token ${token}${reasonText}`)
+    }
+    return expandedTokens.filter(token => materializedTokens.has(token))
+}
+
 const GUIDES_SIDEBAR_TARGETS = Object.freeze(['zilliz.saas', 'zilliz.paas'])
 
 function resolveConfiguredTarget(targets, targetName) {
@@ -858,7 +875,9 @@ function larkDocsPlugin(context, options) {
                                 }
 
                                 if (sourcePlan?.mode === 'incremental') {
-                                    const tokensToWrite = sourcePlan.expanded_tokens || []
+                                    const tokensToWrite = sourceType === 'drive'
+                                        ? driveIncrementalRenderTokens(sourcePlan, docSourceDir)
+                                        : sourcePlan.expanded_tokens || []
                                     if (tokensToWrite.length === 0) {
                                         console.log('[incremental-fetch] No changed or expanded docs to write.')
                                     } else {
