@@ -1252,7 +1252,7 @@ async function testDriveIncrementalEnforcesMaterializedRenderBoundary() {
     async fetch(recursive) {
       assert.equal(recursive, true);
       fs.mkdirSync(sourceDir, { recursive: true });
-      const rootSource = { token: 'root-token', type: 'folder', name: 'Root', children: [{ token: 'present-token' }] };
+      const rootSource = { token: 'root-token', name: 'Root', children: [{ token: 'present-token' }] };
       if (omitFolderChildren) delete rootSource.children;
       fs.writeFileSync(path.join(sourceDir, 'root.json'), JSON.stringify(rootSource));
       const presentA = {

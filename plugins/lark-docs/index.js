@@ -21,7 +21,7 @@ function validateOfflineOptions(opts) {
     if (!opts.mediaManifest) throw new Error('--offline requires --mediaManifest')
 }
 
-function driveIncrementalRenderTokens(plan, docSourceDir) {
+function driveIncrementalRenderTokens(plan, docSourceDir, rootToken) {
     const materializedTokens = new Set()
     for (const file of fs.readdirSync(docSourceDir).filter(file => file.endsWith('.json')).sort()) {
         let source
@@ -31,13 +31,14 @@ function driveIncrementalRenderTokens(plan, docSourceDir) {
             throw new Error(`Cannot parse Drive source ${file}: ${error.message}`, { cause: error })
         }
         if (typeof source.token === 'string' && source.token) {
-            if (source.type !== 'folder' && source.type !== 'docx') {
+            const sourceType = source.type ?? (source.token === rootToken ? 'folder' : null)
+            if (sourceType !== 'folder' && sourceType !== 'docx') {
                 throw new Error(`Cannot classify Drive source ${file}: unsupported type ${source.type ?? '(missing)'}`)
             }
-            if (source.type === 'docx' && !Array.isArray(source.blocks?.items)) {
+            if (sourceType === 'docx' && !Array.isArray(source.blocks?.items)) {
                 throw new Error(`Cannot classify Drive source ${file}: docx source requires blocks.items`)
             }
-            if (source.type === 'folder' && !Array.isArray(source.children)) {
+            if (sourceType === 'folder' && !Array.isArray(source.children)) {
                 throw new Error(`Cannot classify Drive source ${file}: folder source requires children`)
             }
             materializedTokens.add(source.token)
@@ -907,7 +908,7 @@ function larkDocsPlugin(context, options) {
 
                                 if (sourcePlan?.mode === 'incremental') {
                                     const tokensToWrite = sourceType === 'drive'
-                                        ? driveIncrementalRenderTokens(sourcePlan, docSourceDir)
+                                        ? driveIncrementalRenderTokens(sourcePlan, docSourceDir, root)
                                         : sourcePlan.expanded_tokens || []
                                     if (tokensToWrite.length === 0) {
                                         console.log('[incremental-fetch] No changed or expanded docs to write.')
