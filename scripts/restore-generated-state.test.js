@@ -7,6 +7,7 @@ const os = require('node:os')
 const path = require('node:path')
 const test = require('node:test')
 const { createCheckpointArtifact } = require('./docs-workflow/create-checkpoint-artifact')
+const { RESTORE_PATHS } = require('./docs-workflow/validate-guides-translation-staging')
 
 const scriptPath = path.resolve('scripts/restore-generated-state.sh')
 const restorePaths = [
@@ -83,6 +84,7 @@ test('source preserves the fixed restore path list exactly', () => {
   assert.ok(match)
   const actualPaths = [...match[1].matchAll(/^\s*"([^"]+)"\s*$/gm)].map((entry) => entry[1])
   assert.deepEqual(actualPaths, restorePaths)
+  assert.deepEqual(actualPaths, RESTORE_PATHS)
 })
 
 test('default branch mode restores generated state from dev and skips missing paths', () => {
