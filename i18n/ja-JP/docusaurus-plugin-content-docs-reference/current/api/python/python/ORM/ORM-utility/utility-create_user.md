@@ -1,6 +1,6 @@
 ---
 title: "create_user() | Python | ORM"
-slug: /python/python/utility-create_user
+slug: /python/python/ORM-utility/utility-create_user
 sidebar_label: "create_user()"
 beta: NEAR DEPRECATE
 added_since: Inherit
@@ -34,7 +34,7 @@ import TabItem from '@theme/TabItem';
 
 この操作は、対応するパスワードを持つ新しいユーザーを作成します。
 
-## リクエスト構文\{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```python
 create_user(
@@ -56,13 +56,13 @@ utility.create_user(
 )
 ```
 
-**パラメーター:**
+**PARAMETERS:**
 
 - **user** (*string*) - 
 
     **[REQUIRED]**
 
-    作成する新しいユーザーの名前。値は英字で始まる必要があり、アンダースコア、英字、数字のみを含めることができます。
+    作成する新しいユーザーの名前。値は英字で始まる必要があり、アンダースコア、文字、数字のみを含めることができます。
 
 - **password** (*string*) - 
 
@@ -80,23 +80,23 @@ utility.create_user(
 
 - **timeout** (*float* | *None*)  
 
-    この操作のタイムアウト時間。これを **None** に設定すると、何らかの応答が到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
+    この操作のタイムアウト時間。これを **None** に設定すると、何らかのレスポンスが到着するか、何らかのエラーが発生した時点でこの操作がタイムアウトすることを示します。
 
-**戻り値の型:**
+**RETURN TYPE:**
 
 *NoneType*
 
-**戻り値:**
+**RETURNS:**
 
 None
 
-**例外:**
+**EXCEPTIONS:**
 
 - **MilvusException**
 
-    この操作の実行中に何らかのエラーが発生した場合、この例外が発生します。
+    この操作中に何らかのエラーが発生した場合、この例外が発生します。
 
-## 例\{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus import connections, utility
@@ -108,7 +108,7 @@ connections.connect()
 user = utility.create_user(user="admin", password="123456")
 ```
 
-## 関連する操作\{#related-operations}
+## Related operations\{#related-operations}
 
 以下の操作は `create_user()` に関連しています
 

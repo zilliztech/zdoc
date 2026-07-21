@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、ユーザーに割り当てられたロールとユーザーの説明を返します。 | Python | MilvusClient"
+description: "ユーザーアカウントに関連付けられた `roles` と `description` を返します。ユーザーが存在しない場合は空の辞書を返します。 | Python | MilvusClient"
 type: docx
 token: TwTnduPOioywHDx8hPQc80tRnKg
 sidebar_position: 6
 keywords: 
   - Milvus とは
-  - Milvus database
-  - Milvus lite
-  - Milvus benchmark
+  - Milvus データベース
+  - Milvus Lite
+  - Milvus ベンチマーク
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - describe_user()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,49 +31,64 @@ import Admonition from '@theme/Admonition';
 
 # describe_user()
 
-この操作は、ユーザーに割り当てられたロールとユーザーの説明を返します。
+ユーザーアカウントに関連付けられた `roles` と `description` を返します。ユーザーが存在しない場合は空の辞書を返します。
 
 ## リクエスト構文\{#request-syntax}
 
 ```python
 describe_user(
     user_name: str,
-    timeout: Optional[float] = None
+    timeout: Optional[float] = None,
+    **kwargs
 ) -> dict
 ```
 
 **パラメータ:**
 
 - **user_name** (*str*) -
+**[REQUIRED]**
+説明するユーザーアカウントの名前。
 
-    **[REQUIRED]**
+- **timeout** (*Optional[float]*) -
+デフォルト: `None`
+RPC の完了を待機する最大時間（秒単位）。
 
-    説明を取得するユーザーの名前。
-
-- **timeout** (*float*) -
-
-    この操作のタイムアウト時間。
+- **kwargs** (*Any*) -
+追加のリクエストコンテキストオプション。
 
 **戻り値の型:**
 
 *dict*
 
-`user_name`、`roles`、`description` を含む辞書。
+**戻り値:**
+
+`user_name`、`roles`、および `description` を含む辞書。ユーザーが見つからない場合は空の辞書を返します。
+
+- **user_name** (*str*) -
+説明対象のユーザーアカウントの名前。
+
+- **roles** (*list[str]*) -
+ユーザーアカウントに割り当てられたロール。
+
+- **description** (*str*) -
+ユーザーアカウントに保存されている説明。
 
 **例外:**
 
 - **MilvusException**
-
-    この操作中にエラーが発生した場合に送出される例外です。
-
-- **ParamError**
-
-    パラメータの値が無効な場合に送出される例外です。
+サーバーがリクエストを拒否した場合、または RPC が失敗した場合に発生します。正確な失敗の詳細については、サーバーのエラーメッセージを確認してください。
 
 ## 例\{#examples}
 
 ```python
-user_info = client.describe_user(user_name="analyst_user")
-print(user_info["roles"])
-print(user_info["description"])
+from pymilvus import MilvusClient
+
+client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT", token="YOUR_CLUSTER_TOKEN")
+user = client.describe_user("analyst")
+print(user)
+# {
+#     "user_name": "analyst",
+#     "roles": ["read_only"],
+#     "description": "Analytics account",
+# }
 ```

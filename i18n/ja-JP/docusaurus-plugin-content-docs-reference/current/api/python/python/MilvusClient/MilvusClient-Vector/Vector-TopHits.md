@@ -7,13 +7,13 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "`TopHits` インスタンスは、検索集約の各バケットから返される代表的なヒットを定義します。各バケットごとに返すヒット数と、必要に応じて各バケット内でヒットをどのようにソートするかを指定します。 | Python | MilvusClient"
+description: "A `TopHits` インスタンスは、search aggregation の各 bucket から返される代表的なヒットを定義します。bucket ごとに返すヒット数と、必要に応じて各 bucket 内でのヒットの並べ替え方法を指定します。 | Python | MilvusClient"
 type: docx
 token: EgeGdZL4LoCuv2xVUfFc9eDAnkd
-sidebar_position: 11
+sidebar_position: 12
 keywords: 
   - milvus open source
-  - how does milvus work
+  - milvus の仕組み
   - Zilliz vector database
   - Zilliz database
   - zilliz
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # TopHits
 
-`TopHits` インスタンスは、検索集約の各バケットから返される代表的なヒットを定義します。各バケットごとに返すヒット数と、必要に応じて各バケット内でヒットをどのようにソートするかを指定します。
+`TopHits` インスタンスは、search aggregation の各 bucket から返される代表的なヒットを定義します。bucket ごとに返すヒット数と、必要に応じて各 bucket 内でのヒットの並べ替え方法を指定します。
 
-このドラフトは Search Aggregation API の設計入力に基づいています。公開前に、最終的なコンストラクターシグネチャ、import パス、検証ルール、およびプロパティ名を PyMilvus のソースと照らし合わせて確認してください。
+このドラフトは Search Aggregation API の設計入力に基づいています。公開前に、最終的なコンストラクタのシグネチャ、インポートパス、バリデーションルール、およびプロパティ名を PyMilvus のソースと照合して確認してください。
 
 ```python
 class pymilvus.TopHits
@@ -56,13 +56,13 @@ TopHits(
 
     **[REQUIRED]**
 
-    各バケットから返す代表ヒットの数です。
+    各 bucket から返す代表的なヒット数。
 
-    たとえば、`TopHits(size=3)` は各バケットから最大 3 件のヒットを返します。
+    たとえば、`TopHits(size=3)` は各 bucket から最大 3 件のヒットを返します。
 
 - **sort** (*list[dict[str, str]] | None*) -
 
-    ヒットレベルのソートルールのリストです。
+    ヒットレベルの並べ替えルールのリスト。
 
     各項目はフィールドと並び順の方向を定義します。
 
@@ -70,11 +70,11 @@ TopHits(
     sort=[{"field": "rating", "order": "desc"}]
     ```
 
-    `field` の値はドキュメントレベルのフィールドまたは `_score` でなければなりません。`order` の値は `asc` または `desc` でなければなりません。
+    `field` の値はドキュメントレベルのフィールドまたは `_score` である必要があります。`order` の値は `asc` または `desc` である必要があります。
 
-    `sort` はバケット内のヒットの順序のみを制御します。どのバケットが返されるか、バケットがどのように並べられるか、またはバケットごとのメトリクスがどのように計算されるかには影響しません。
+    `sort` は bucket 内でのヒットの順序のみを制御します。どの bucket が返されるか、bucket がどのように並べられるか、または bucket ごとのメトリクスがどのように計算されるかには影響しません。
 
-    `sort` を省略した場合、ヒットはベクトル類似度スコアで並べられます。
+    `sort` を省略した場合、ヒットは vector 類似度スコアによって並べられます。
 
 **RETURN TYPE:**
 
@@ -88,7 +88,7 @@ TopHits(
 
 - **ParamError**
 
-    `TopHits` の指定が無効な場合に、この例外が発生することがあります。例として、正でない `size`、未対応のソート方向、未対応のソートフィールド、または `sort` でのバケットレベルのメトリクスエイリアスの使用が含まれます。
+    `TopHits` の指定が無効な場合、この例外が発生することがあります。たとえば、正でない `size`、サポートされていない並び順、サポートされていない並べ替えフィールド、または `sort` における bucket レベルのメトリクスエイリアスの使用などが該当します。
 
     最終的な例外タイプは SDK の確認待ちです。
 

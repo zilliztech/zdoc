@@ -1,6 +1,6 @@
 ---
 title: "update_password() | Python | ORM"
-slug: /python/python/utility-update_password
+slug: /python/python/ORM-utility/utility-update_password
 sidebar_label: "update_password()"
 beta: NEAR DEPRECATE
 added_since: Inherit
@@ -57,7 +57,7 @@ update_password(
 
     **[REQUIRED]**
 
-    指定されたユーザーの元のパスワード。
+    指定したユーザーの元のパスワード。
 
     これに誤ったパスワードを設定すると、**MilvusException** が発生します。
 
@@ -65,19 +65,19 @@ update_password(
 
     **[REQUIRED]**
 
-    指定されたユーザーの新しいパスワード。 
+    指定したユーザーの新しいパスワード。 
 
-    パスワードは 8 ～ 64 文字の文字列である必要があり、次の文字種のうち少なくとも 3 種類を含める必要があります: 大文字、小文字、数字、特殊文字。
+    パスワードは 8 ～ 64 文字の文字列で、次の文字種のうち少なくとも 3 種類を含む必要があります: 大文字、小文字、数字、特殊文字。
 
 - **using** (*string*) - 
 
-    使用する connection のエイリアス。
+    使用する接続のエイリアス。
 
-    デフォルト値は **default** で、この操作がデフォルト connection を使用することを示します。
+    デフォルト値は **default** で、この操作がデフォルト接続を使用することを示します。
 
 - **timeout** (*float* | *None*)  
 
-    この操作のタイムアウト時間。これを **None** に設定すると、何らかのレスポンスが到着するか、エラーが発生した時点でこの操作はタイムアウトします。
+    この操作のタイムアウト時間。これを **None** に設定すると、何らかの応答が返されるか、エラーが発生した時点でこの操作はタイムアウトします。
 
 **RETURN TYPE:**
 
@@ -91,7 +91,7 @@ None
 
 - **MilvusException**
 
-    この操作中に何らかのエラーが発生した場合、この例外が発生します。
+    この操作中に何らかのエラーが発生すると、この例外が発生します。
 
 ## Examples\{#examples}
 

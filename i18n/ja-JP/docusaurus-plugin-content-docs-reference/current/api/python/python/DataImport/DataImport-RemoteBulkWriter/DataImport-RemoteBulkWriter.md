@@ -12,7 +12,7 @@ type: docx
 token: BDP4dew9to9tQoxNEMPcBR5xnZb
 sidebar_position: 4
 keywords: 
-  - 近似最近傍探索
+  - approximate nearest neighbor search
   - DiskANN
   - Sparse vector
   - Vector Dimension
@@ -43,7 +43,7 @@ class pymilvus.RemoteBulkWriter
 
 <Admonition type="info" icon="📘" title="Notes">
 
-**RemoteBulkWriter** オブジェクトは、生データを Zilliz Cloud が理解できる形式に書き換え、AWS-S3 互換バケットに書き込むことを目的としています。
+**RemoteBulkWriter** オブジェクトは、生データを Zilliz Cloud が理解できる形式に書き換えて AWS-S3 互換バケットに保存することを目的としています。
 
 </Admonition>
 
@@ -62,35 +62,35 @@ writer = RemoteBulkWriter(
 
 **PARAMETERS:**
 
-- **schema** (*[CollectionSchema](./ORM-CollectionSchema)*) -
+- **schema** (*CollectionSchema*) -
 
     **[REQUIRED]**
 
-    書き換えられたデータのインポート先となる対象 collection の schema。
+    書き換えられたデータのインポート先となるターゲット collection の schema です。
 
 - **remote_path** (*str*) -
 
     **[REQUIRED]**
 
-    書き換えられたデータを格納するディレクトリへのパス。
+    書き換えられたデータを保存するディレクトリのパスです。
 
 - **connect_param** (*[ConnectParam](./RemoteBulkWriter-S3ConnectParam)*) -
 
-    リモートバケットへの接続に使用されるパラメータ。
+    リモートバケットへの接続に使用するパラメータです。
 
 - **chunk_size** (*int*) -
 
-    ファイルセグメントの最大サイズ。
+    ファイルセグメントの最大サイズです。
 
-    生データの書き換え時に、Zilliz Cloud は生データを複数のセグメントに分割します。
+    生データの書き換え中、Zilliz Cloud は生データをセグメントに分割します。
 
-    デフォルト値は 536,870,912 バイト、つまり 512 MB です。
+    デフォルト値は 536,870,912 バイトで、512 MB です。
 
     <Admonition type="info" icon="📘" title="Note">
 
     BulkWriter はどのようにデータをセグメント化しますか？
     
-        **BulkWriter** がデータをセグメント化する方法は、対象のファイルタイプによって異なります。
+        **BulkWriter** によるデータのセグメント化方法は、ターゲットのファイルタイプによって異なります。
     
         生成されたファイルが指定されたセグメントサイズを超える場合、**BulkWriter** は複数のファイルを作成し、それぞれがセグメントサイズを超えないように連番で名前を付けます。
 
@@ -98,11 +98,11 @@ writer = RemoteBulkWriter(
 
 - **file_type** (*[BulkFileType](./DataImport-BulkFileType)*) -
 
-    出力ファイルのタイプ。
+    出力ファイルのタイプです。
 
     デフォルト値は **BulkFileType.PARQUET** です。 
 
-    使用可能なオプションは **BulkFileType.JSON**、**BulkFileType.PARQUET**、**BulkFileType.CSV** です。
+    指定可能なオプションは **BulkFileType.JSON**、**BulkFileType.PARQUET**、**BulkFileType.CSV** です。
 
 - **config** (*dict*)
 
@@ -117,11 +117,11 @@ writer = RemoteBulkWriter(
 
     - **sep** (*string*)
 
-        CSV ファイルの区切り文字。値は長さ 1 の文字列である必要があり、デフォルトは `","` です。次の文字列は使用できません: `"\0"`, `"\n"`, `"\r"`, `"""`.
+        CSV ファイルの区切り文字です。値は長さ 1 の文字列である必要があり、デフォルトは `","` です。次の文字列は使用できません: `"\0"`、`"\n"`、`"\r"`、`"""`。
 
     - **nullkey** (*string*)
 
-        null 値を表す特殊文字列。デフォルト値は空文字列です: `""`.
+        null 値を表す特別な文字列です。デフォルト値は空文字列です: `""`。
 
 **RETURN TYPE:**
 
@@ -135,17 +135,17 @@ writer = RemoteBulkWriter(
 
 - **SchemaNotReadyException**
 
-    提供された schema が無効な場合にこの例外が発生します。
+    指定された schema が無効な場合に、この例外が発生します。
 
 ## Properties\{#properties}
 
 - **data_path** (*pathlib.PosixPath*) -
 
-    出力ディレクトリへのパス。
+    出力ディレクトリのパスです。
 
 - **batch_files** (*str*) -
 
-    生成されたファイル名のリスト。
+    生成されたファイル名のリストです。
 
 ## Classes\{#classes}
 

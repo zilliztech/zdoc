@@ -7,10 +7,10 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作では、collection に対して現在ロードされているすべての segment を一覧表示し、行数、ソート状態、ストレージレベル、メモリサイズに関する情報を含みます。 | Python | MilvusClient"
+description: "この操作は、collection の現在ロードされているすべてのセグメントを一覧表示し、行数、ソート状態、ストレージレベル、メモリサイズに関する情報を含みます。 | Python | MilvusClient"
 type: docx
 token: QWlfd7SO1ojpdHxM968coTYQnYg
-sidebar_position: 22
+sidebar_position: 23
 keywords: 
   - DiskANN
   - Sparse vector
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # list_loaded_segments()
 
-この操作では、collection に対して現在ロードされているすべての segment を一覧表示し、行数、ソート状態、ストレージレベル、メモリサイズに関する情報を含みます。
+この操作は、collection の現在ロードされているすべてのセグメントを一覧表示し、行数、ソート状態、ストレージレベル、メモリサイズに関する情報を含みます。
 
 <Admonition type="info" icon="📘" title="注意">
 
@@ -48,7 +48,7 @@ client.list_loaded_segments(
 ) -> List[LoadedSegmentInfo]
 ```
 
-**パラメータ:**
+**パラメーター:**
 
 - **collection_name** (*str*) -
 
@@ -58,7 +58,7 @@ client.list_loaded_segments(
 
 - **timeout** (*float* | *None*) -
 
-    この操作のタイムアウト時間。これを **None** に設定すると、何らかのレスポンスが返されるか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
+    この操作のタイムアウト時間です。これを **None** に設定すると、レスポンスが返されるか、エラーが発生した時点でこの操作はタイムアウトします。
 
 **戻り値の型:**
 
@@ -66,13 +66,13 @@ client.list_loaded_segments(
 
 **戻り値:**
 
-segment_id、collection_id、collection_name、num_rows、is_sorted、state、level、storage_version、mem_size を含む、ロード済み segment 情報オブジェクトのリスト。
+segment_id、collection_id、collection_name、num_rows、is_sorted、state、level、storage_version、mem_size を含む、ロード済みセグメント情報オブジェクトのリスト。
 
 **例外:**
 
 - **MilvusException**
 
-    この操作中に何らかのエラーが発生した場合、この例外が発生します。
+    この操作中に何らかのエラーが発生した場合に、この例外が発生します。
 
 ## 例\{#example}
 
