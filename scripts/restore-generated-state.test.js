@@ -89,6 +89,7 @@ test('source supports branch and immutable ref modes with one resolved ref', () 
   assert.match(script, /resolved_ref=["']?FETCH_HEAD/)
   assert.match(script, /git ls-tree --name-only "\$\{?resolved_ref\}?" -- "\$\{?restore_path\}?"/)
   assert.match(script, /git checkout "\$\{?resolved_ref\}?" -- "\$\{?restore_path\}?"/)
+  assert.match(script, /git restore --source="\$\{?resolved_ref\}?" --staged --worktree -- "\$\{?restore_path\}?"/)
   assert.doesNotMatch(script, /\beval\b/)
 })
 
