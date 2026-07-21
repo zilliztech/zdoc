@@ -21,12 +21,36 @@ function safeSourceFileName(value) {
   return typeof value === 'string' && value !== '' && path.basename(value) === value ? value : null;
 }
 
+function drivePlacementAncestryTokens(sourceRoot) {
+  if (!fs.existsSync(sourceRoot)) return new Set();
+  const structuralTokens = new Set();
+  const referencedTokens = new Set();
+  for (const file of fs.readdirSync(sourceRoot).filter(file => file.endsWith('.json')).sort()) {
+    let source;
+    try {
+      source = JSON.parse(fs.readFileSync(path.join(sourceRoot, file), 'utf8'));
+    } catch (error) {
+      throw new Error(`Cannot parse incremental Drive source ${file}: ${error.message}`, { cause: error });
+    }
+    if (!source || typeof source !== 'object' || Array.isArray(source)) continue;
+    if (typeof source.token === 'string' && source.token && (source.type === 'folder' || Array.isArray(source.children))) {
+      structuralTokens.add(source.token);
+    }
+    if (typeof source.parent_token === 'string' && source.parent_token) referencedTokens.add(source.parent_token);
+    for (const child of Array.isArray(source.children) ? source.children : []) {
+      if (typeof child?.token === 'string' && child.token) referencedTokens.add(child.token);
+    }
+  }
+  return new Set([...structuralTokens].filter(token => referencedTokens.has(token)));
+}
+
 function cleanupRemovedIncrementalRecords({
   plan,
   docSourceDir,
   targetOutputDir,
   cwd = process.cwd(),
   determineFilePath = null,
+  preservePlacementAncestry = false,
 }) {
   const root = path.resolve(cwd);
   const sourceRoot = path.resolve(docSourceDir);
@@ -37,7 +61,10 @@ function cleanupRemovedIncrementalRecords({
 
   const removedSources = [];
   const removedOutputs = [];
+  const placementAncestryTokens = preservePlacementAncestry ? drivePlacementAncestryTokens(sourceRoot) : new Set();
   for (const record of plan?.removed_records || []) {
+    const recordTokens = [record.doc_token, record.node_token, record.origin_node_token, record.obj_token].filter(Boolean);
+    const preserveSource = recordTokens.some(token => placementAncestryTokens.has(token));
     const sourceCandidates = [
       record.source_file,
       record.doc_token ? `${record.doc_token}.json` : null,
@@ -47,6 +74,7 @@ function cleanupRemovedIncrementalRecords({
     ].map(safeSourceFileName).filter(Boolean);
 
     for (const fileName of new Set(sourceCandidates)) {
+      if (preserveSource) continue;
       const sourcePath = path.join(sourceRoot, fileName);
       if (!fs.existsSync(sourcePath)) continue;
       fs.rmSync(sourcePath, { force: true });

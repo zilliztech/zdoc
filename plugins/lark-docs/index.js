@@ -887,6 +887,7 @@ function larkDocsPlugin(context, options) {
                                         plan: sourcePlan,
                                         docSourceDir,
                                         targetOutputDir: outputDir,
+                                        preservePlacementAncestry: sourceType === 'drive',
                                         determineFilePath: (token, targetDir) => utils.determine_file_path(token, targetDir),
                                     })
                                 } else if (targetConfig.preserveOutput) {

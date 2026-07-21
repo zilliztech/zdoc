@@ -58,6 +58,37 @@ test('cleanupRemovedIncrementalRecords falls back to token lookup for old snapsh
   assert.equal(fs.existsSync(path.join(outputDir, 'old.md')), false);
 });
 
+test('cleanupRemovedIncrementalRecords preserves a removed source still needed as placement ancestry', () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'incremental-reconcile-'));
+  const sourceDir = path.join(root, 'sources');
+  const outputDir = path.join(root, 'reference/api/python/python');
+  write(path.join(sourceDir, 'removed-folder.json'), JSON.stringify({
+    token: 'removed-folder', type: 'folder', children: [{ token: 'changed-child' }],
+  }));
+  write(path.join(sourceDir, 'changed-child.json'), JSON.stringify({
+    token: 'changed-child', parent_token: 'removed-folder', type: 'docx', blocks: { items: [] },
+  }));
+  write(path.join(outputDir, 'removed-folder.md'), '---\ntoken: removed-folder\n---\n');
+
+  const result = cleanupRemovedIncrementalRecords({
+    cwd: root,
+    docSourceDir: sourceDir,
+    targetOutputDir: outputDir,
+    preservePlacementAncestry: true,
+    plan: {
+      removed_records: [{
+        doc_token: 'removed-folder',
+        source_file: 'removed-folder.json',
+        output_paths: ['reference/api/python/python/removed-folder.md'],
+      }],
+    },
+  });
+
+  assert.equal(fs.existsSync(path.join(sourceDir, 'removed-folder.json')), true);
+  assert.equal(fs.existsSync(path.join(outputDir, 'removed-folder.md')), false);
+  assert.deepEqual(result.removedSources, []);
+});
+
 test('cleanupRemovedIncrementalRecords rejects output paths outside the selected group', () => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'incremental-reconcile-'));
   const outputDir = path.join(root, 'reference/api/python/python');
