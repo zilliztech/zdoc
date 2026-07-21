@@ -1222,6 +1222,100 @@ async function testDriveIncrementalRefreshesSourcesBeforePlanningRenderDelta() {
   }
 }
 
+async function testDriveFallbackIncrementalRebuildsCompleteOutput() {
+  const originalLoad = Module._load;
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'lark-drive-fallback-render-'));
+  const sourceDir = path.join(tempDir, 'sources');
+  const fallbackDir = path.join(tempDir, 'fallback');
+  const outputDir = path.join(tempDir, 'output');
+  const sidebarPath = path.join(tempDir, 'generated', 'python.sidebar.js');
+  const calls = [];
+  let action = null;
+
+  fs.mkdirSync(fallbackDir, { recursive: true });
+
+  class FakeScraper {
+    constructor() { this.base_app_token = 'base-token'; this.records = []; }
+    async fetch(recursive) {
+      assert.equal(recursive, true);
+      fs.mkdirSync(sourceDir, { recursive: true });
+      fs.writeFileSync(path.join(sourceDir, 'root.json'), JSON.stringify({
+        token: 'root-token', name: 'Root', children: [{ token: 'fallback-doc' }],
+      }));
+      fs.writeFileSync(path.join(sourceDir, 'fallback-doc.json'), JSON.stringify({
+        token: 'fallback-doc', parent_token: 'root-token', type: 'docx', name: 'Fallback doc',
+        blocks: { items: [] },
+      }));
+    }
+  }
+  class FakeDriveWriter {
+    async write_docs(target, token) { calls.push(['write_docs', target, token]); }
+    async write_subtree(target, token) { calls.push(['write_subtree', target, token]); }
+    async generate_sidebar(target, contentRoot) {
+      calls.push(['generate_sidebar', target, contentRoot]);
+      return [];
+    }
+    destroy() {}
+  }
+  class FakeUtils {
+    fetch_fallback_sources(target, fallback, type, root) { calls.push(['fallback', target, fallback, type, root]); }
+    pre_process_file_paths(target, preserved) { calls.push(['pre_process', target, preserved]); }
+    post_process_file_paths(target) { calls.push(['post_process', target]); }
+  }
+
+  Module._load = function patchedLoad(request, parent, isMain) {
+    if (parent?.filename?.endsWith('/plugins/lark-docs/index.js')) {
+      if (request === './larkDocScraper.js') return FakeScraper;
+      if (request === './larkDriveWriter.js') return FakeDriveWriter;
+      if (request === './larkUtils.js') return FakeUtils;
+      if (request === './incrementalReconciliation') return { cleanupRemovedIncrementalRecords() { calls.push(['cleanup_removed']); } };
+      if (request === './incrementalFetchPlanner') return {
+        planIncrementalFetch() { return { manual: 'pymilvus30', mode: 'incremental', expanded_tokens: [], removed_records: [] }; },
+        writeIncrementalFetchPlanReports() { return { markdownPath: path.join(tempDir, 'plan.md') }; },
+      };
+      if (request === './sourceSnapshot') return {
+        readSnapshot() { return { schema_version: 2, manual: 'pymilvus30', records: [] }; },
+        createSourceSnapshot() { throw new Error('candidate snapshot should not be written'); },
+        validateCandidateSnapshot() {},
+        writeSnapshot() {},
+      };
+      if (request === './sourceCompleteness') return {
+        validateSourceCompleteness() { throw new Error('fresh Drive sources must not validate the stale cache'); },
+        assertSourceCompleteness() {},
+      };
+    }
+    return originalLoad.apply(this, arguments);
+  };
+
+  try {
+    delete require.cache[require.resolve('./index')];
+    const plugin = require('./index')(null, {
+      pymilvus30: {
+        root: 'root-token', base: 'base-token', sourceType: 'drive', displayedSidebar: [],
+        docSourceDir: sourceDir, fallbackSourceDir: fallbackDir, sidebarPath,
+        targets: { zilliz: { outputDir, imageDir: path.join(tempDir, 'images') } },
+      },
+    });
+    const command = { option() { return this; }, action(callback) { action = callback; return this; } };
+    plugin.extendCli({ command() { return command; } });
+    await action({
+      manual: 'pymilvus30', pubTarget: 'zilliz', incremental: true, buildEnv: 'uat',
+      skipLinkValidation: true,
+    });
+
+    assert.deepEqual(calls.filter(([name]) => name === 'write_subtree'), []);
+    assert.deepEqual(calls.find(([name]) => name === 'pre_process'), ['pre_process', outputDir, []]);
+    assert.deepEqual(calls.find(([name]) => name === 'write_docs'), ['write_docs', outputDir, 'root-token']);
+    assert.deepEqual(calls.find(([name]) => name === 'generate_sidebar'), ['generate_sidebar', outputDir, outputDir.split('/')[0]]);
+    assert.deepEqual(calls.find(([name]) => name === 'post_process'), ['post_process', outputDir]);
+    assert.equal(fs.existsSync(sidebarPath), true);
+  } finally {
+    Module._load = originalLoad;
+    delete require.cache[require.resolve('./index')];
+    fs.rmSync(tempDir, { recursive: true, force: true });
+  }
+}
+
 async function testDriveIncrementalEnforcesMaterializedRenderBoundary() {
   const originalLoad = Module._load;
   const originalWarn = console.warn;
@@ -1437,6 +1531,7 @@ async function run() {
   await testWikiMetadataProgressLogsResolutionCounts();
   await testIncrementalSourceFetchWritesCandidateFromRetainedScan();
   await testDriveIncrementalRefreshesSourcesBeforePlanningRenderDelta();
+  await testDriveFallbackIncrementalRebuildsCompleteOutput();
   await testDriveIncrementalEnforcesMaterializedRenderBoundary();
   console.log('lark-docs scraper tests passed');
 }

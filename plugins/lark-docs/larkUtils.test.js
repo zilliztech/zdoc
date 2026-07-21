@@ -406,6 +406,54 @@ function testDriveFallbackRejectsDuplicateTokensInTouchedFolderGraph() {
   });
 }
 
+function testDriveFallbackPrefersCanonicalTokenFileOverAliasDuplicate() {
+  withTempSourceDirs((sourceDir, fallbackDir) => {
+    writeJson(sourceDir, 'V3_ROOT', {
+      token: 'V3_ROOT', name: 'v3.0.x', children: [
+        { name: 'FieldSchema', token: 'NEW_FIELD_FOLDER', parent_token: 'V3_ROOT', type: 'folder' },
+      ],
+    });
+    writeJson(sourceDir, 'NEW_FIELD_FOLDER', {
+      token: 'NEW_FIELD_FOLDER', name: 'FieldSchema', slug: 'FieldSchema', type: 'folder',
+      parent_token: 'V3_ROOT', children: [
+        { name: 'canonical-child', token: 'CANONICAL_DOC', parent_token: 'NEW_FIELD_FOLDER', type: 'docx' },
+      ],
+    });
+    writeJson(sourceDir, 'alias-placement', {
+      token: 'CANONICAL_DOC', name: 'alias-child', slug: 'FieldSchema-alias-child', type: 'docx',
+      parent_token: 'NEW_FIELD_FOLDER', blocks: { items: [] },
+    });
+    writeJson(sourceDir, 'CANONICAL_DOC', {
+      token: 'CANONICAL_DOC', name: 'canonical-child', slug: 'FieldSchema-canonical-child', type: 'docx',
+      parent_token: 'NEW_FIELD_FOLDER', blocks: { items: [] },
+    });
+
+    writeJson(fallbackDir, 'V26_ROOT', {
+      token: 'V26_ROOT', name: 'v2.6.x', children: [
+        { name: 'FieldSchema', token: 'OLD_FIELD_FOLDER', parent_token: 'V26_ROOT', type: 'folder' },
+      ],
+    });
+    writeJson(fallbackDir, 'OLD_FIELD_FOLDER', {
+      token: 'OLD_FIELD_FOLDER', name: 'FieldSchema', slug: 'FieldSchema', type: 'folder',
+      parent_token: 'V26_ROOT', children: [
+        { name: 'fallback-only', token: 'FALLBACK_ONLY', parent_token: 'OLD_FIELD_FOLDER', type: 'docx' },
+      ],
+    });
+    writeJson(fallbackDir, 'FALLBACK_ONLY', {
+      token: 'FALLBACK_ONLY', name: 'fallback-only', slug: 'FieldSchema-fallback-only', type: 'docx',
+      parent_token: 'OLD_FIELD_FOLDER', blocks: { items: [] },
+    });
+
+    assert.doesNotThrow(
+      () => new larkUtils().fetch_fallback_sources(sourceDir, fallbackDir, 'drive', 'V3_ROOT')
+    );
+    assert.deepEqual(
+      readJson(sourceDir, 'NEW_FIELD_FOLDER').children.map(child => child.token).sort(),
+      ['CANONICAL_DOC', 'FALLBACK_ONLY']
+    );
+  });
+}
+
 function testDriveFallbackAcceptsDuplicateTokenInAnotherPlacement() {
   withTempSourceDirs((sourceDir, fallbackDir) => {
     writeJson(sourceDir, 'V3_ROOT', {
@@ -591,6 +639,7 @@ function run() {
   testDriveFallbackRejectsDanglingSourceOnlyChild();
   testDriveFallbackPrefersMaterializedMappedDocumentOverFallbackSlug();
   testDriveFallbackRejectsDuplicateTokensInTouchedFolderGraph();
+  testDriveFallbackPrefersCanonicalTokenFileOverAliasDuplicate();
   testDriveFallbackAcceptsDuplicateTokenInAnotherPlacement();
   testDriveFallbackIgnoresDuplicateTokensOutsideTouchedFolders();
   testDriveFallbackRetainsMaterializedRootChildWhenReplacementBodyIsMissing();

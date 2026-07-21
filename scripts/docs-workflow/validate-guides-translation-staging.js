@@ -24,10 +24,10 @@ const VALIDATION_COMMANDS = Object.freeze(VALIDATION_SPECS.map(spec => Object.fr
 function isolatedEnvironment() {
   const root = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'guides-validation-env-'))); fs.chmodSync(root, 0o700)
   const xdg = path.join(root, 'xdg'), corepack = path.join(root, 'corepack'), cache = path.join(root, 'npm-cache'); fs.mkdirSync(xdg); fs.mkdirSync(corepack); fs.mkdirSync(cache)
-  const npmrc = path.join(root, 'npmrc'); fs.writeFileSync(npmrc, '')
+  const userNpmrc = path.join(root, 'user-npmrc'), globalNpmrc = path.join(root, 'global-npmrc'); fs.writeFileSync(userNpmrc, ''); fs.writeFileSync(globalNpmrc, '')
   const environment = {}
   for (const key of ['PATH', 'TMPDIR', 'TMP', 'TEMP', 'LANG', 'LC_ALL', 'TZ', 'TERM', 'SSL_CERT_FILE', 'SSL_CERT_DIR']) if (process.env[key] !== undefined) environment[key] = process.env[key]
-  Object.assign(environment, { HOME: root, XDG_CONFIG_HOME: xdg, CI: 'true', NO_UPDATE_NOTIFIER: '1', GIT_TERMINAL_PROMPT: '0', GIT_CONFIG_NOSYSTEM: '1', GIT_CONFIG_GLOBAL: '/dev/null', NPM_CONFIG_USERCONFIG: npmrc, NPM_CONFIG_GLOBALCONFIG: npmrc, NPM_CONFIG_CACHE: cache, COREPACK_HOME: corepack, YARN_RC_FILENAME: path.join(root, 'yarnrc.yml') })
+  Object.assign(environment, { HOME: root, XDG_CONFIG_HOME: xdg, CI: 'true', NO_UPDATE_NOTIFIER: '1', GIT_TERMINAL_PROMPT: '0', GIT_CONFIG_NOSYSTEM: '1', GIT_CONFIG_GLOBAL: '/dev/null', NPM_CONFIG_USERCONFIG: userNpmrc, NPM_CONFIG_GLOBALCONFIG: globalNpmrc, NPM_CONFIG_CACHE: cache, COREPACK_HOME: corepack, YARN_RC_FILENAME: path.join(root, 'yarnrc.yml') })
   return { root, environment }
 }
 function git(repository, args, environment, buffer = false) {

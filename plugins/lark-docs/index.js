@@ -881,6 +881,8 @@ function larkDocsPlugin(context, options) {
                                         return
                                     }
                                 }
+                                const rebuildCompleteDriveFallback = sourcePlan?.mode === 'incremental' &&
+                                    sourceType === 'drive' && fallbackSourceDir !== undefined
 
                                 if (sourcePlan?.mode === 'incremental') {
                                     cleanupRemovedIncrementalRecords({
@@ -907,7 +909,11 @@ function larkDocsPlugin(context, options) {
                                     return
                                 }
 
-                                if (sourcePlan?.mode === 'incremental') {
+                                if (rebuildCompleteDriveFallback) {
+                                    console.log('[incremental-fetch] Rebuilding complete Drive fallback output from the refreshed source chain.')
+                                    utils.pre_process_file_paths(outputDir, injectedDocFilesToPreserve(targetConfig))
+                                    await writer.write_docs(outputDir, root)
+                                } else if (sourcePlan?.mode === 'incremental') {
                                     const tokensToWrite = sourceType === 'drive'
                                         ? driveIncrementalRenderTokens(sourcePlan, docSourceDir, root)
                                         : sourcePlan.expanded_tokens || []
@@ -923,7 +929,7 @@ function larkDocsPlugin(context, options) {
                                 }
 
                                 const effectiveSidebarPath = targetConfig.sidebarPath ?? sidebarPath
-                                const shouldUpdateSidebar = !sourcePlan || sourcePlan.mode !== 'incremental' ||
+                                const shouldUpdateSidebar = rebuildCompleteDriveFallback || !sourcePlan || sourcePlan.mode !== 'incremental' ||
                                     (sourcePlan.expanded_tokens || []).length > 0 ||
                                     (sourcePlan.removed_records || []).length > 0
                                 if (effectiveSidebarPath && !opts.skipSidebar && shouldUpdateSidebar) {
@@ -935,7 +941,7 @@ function larkDocsPlugin(context, options) {
                                     console.log(`Sidebar written to ${effectiveSidebarPath}`)
                                 }
 
-                                if (!sourcePlan || sourcePlan.mode !== 'incremental' || (sourcePlan.expanded_tokens || []).length > 0) {
+                                if (rebuildCompleteDriveFallback || !sourcePlan || sourcePlan.mode !== 'incremental' || (sourcePlan.expanded_tokens || []).length > 0) {
                                     utils.post_process_file_paths(outputDir)
                                 }
                             } finally {
