@@ -101,7 +101,7 @@ for restore_path in "${paths[@]}"; do
 
   if [ "$exact" = true ]; then
     rm -rf -- "$restore_path"
-    if [ "$source_has_path" = true ] || git ls-files -- "$restore_path" | grep -q .; then
+    if [ "$source_has_path" = true ] || git ls-files --error-unmatch -- "$restore_path" >/dev/null 2>&1; then
       git restore --source="${resolved_ref}" --staged --worktree -- "$restore_path"
     else
       echo "[restore-generated-state] ${restore_path} not found on ${resolved_ref}; skipping"

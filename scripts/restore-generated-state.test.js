@@ -142,6 +142,31 @@ test('exact immutable ref mode removes managed paths absent from the source comm
   }
 })
 
+test('exact immutable ref mode removes a large tracked root absent from the source commit', () => {
+  const fixture = createFixture()
+  try {
+    for (let index = 0; index < 15000; index += 1) {
+      write(fixture.work, `docs/generated-${String(index).padStart(5, '0')}.md`, `${index}\n`)
+    }
+    git(fixture.work, 'add', 'docs')
+
+    fs.rmSync(path.join(fixture.source, 'docs'), { recursive: true })
+    git(fixture.source, 'add', '-A', 'docs')
+    git(fixture.source, 'commit', '-m', 'remove generated docs root')
+    const sourceSha = git(fixture.source, 'rev-parse', 'HEAD')
+    git(fixture.source, 'push', 'origin', 'dev')
+
+    const result = run(fixture.work, ['--exact', '--ref', sourceSha])
+
+    assert.equal(result.status, 0, result.stderr)
+    assert.equal(fs.existsSync(path.join(fixture.work, 'docs')), false)
+    assert.equal(lines(git(fixture.work, 'ls-files', '--', 'docs')).length, 0)
+    assert.equal(lines(git(fixture.work, 'ls-tree', '-r', '--name-only', sourceSha, '--', 'docs')).length, 0)
+  } finally {
+    fs.rmSync(fixture.root, { recursive: true, force: true, maxRetries: 3, retryDelay: 100 })
+  }
+})
+
 test('exact immutable ref mode makes the index equal a source tree that deletes files', () => {
   const fixture = createFixture()
   try {
