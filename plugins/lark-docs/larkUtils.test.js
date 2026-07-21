@@ -126,6 +126,63 @@ function testDriveFallbackMatchesUnsluggedFoldersByTitleAndParent() {
   });
 }
 
+function testDriveFallbackRetainsMaterializedTokenWhenReplacementBodyIsMissing() {
+  withTempSourceDirs((sourceDir, fallbackDir) => {
+    writeJson(sourceDir, 'V3_ROOT', {
+      token: 'V3_ROOT',
+      name: 'v3.0.x',
+      children: [
+        { name: 'FieldSchema', token: 'NEW_FIELD_FOLDER', parent_token: 'V3_ROOT', type: 'folder' },
+      ],
+    });
+    writeJson(sourceDir, 'NEW_FIELD_FOLDER', {
+      token: 'NEW_FIELD_FOLDER',
+      name: 'FieldSchema',
+      slug: 'FieldSchema',
+      type: 'folder',
+      parent_token: 'V3_ROOT',
+      children: [
+        { name: 'construct_from_dict()', token: 'NEW_DOC_TOKEN', parent_token: 'NEW_FIELD_FOLDER', type: 'docx' },
+      ],
+    });
+
+    writeJson(fallbackDir, 'V26_ROOT', {
+      token: 'V26_ROOT',
+      name: 'v2.6.x',
+      children: [
+        { name: 'FieldSchema', token: 'OLD_FIELD_FOLDER', parent_token: 'V26_ROOT', type: 'folder' },
+      ],
+    });
+    writeJson(fallbackDir, 'OLD_FIELD_FOLDER', {
+      token: 'OLD_FIELD_FOLDER',
+      name: 'FieldSchema',
+      slug: 'FieldSchema',
+      type: 'folder',
+      parent_token: 'V26_ROOT',
+      children: [
+        { name: 'construct_from_dict()', token: 'OLD_DOC_TOKEN', parent_token: 'OLD_FIELD_FOLDER', type: 'docx' },
+      ],
+    });
+    writeJson(fallbackDir, 'OLD_DOC_TOKEN', {
+      token: 'OLD_DOC_TOKEN',
+      name: 'construct_from_dict()',
+      slug: 'FieldSchema-construct_from_dict',
+      type: 'docx',
+      parent_token: 'OLD_FIELD_FOLDER',
+      blocks: { items: [{ block_id: 'fallback-page', block_type: 1 }] },
+    });
+
+    new larkUtils().fetch_fallback_sources(sourceDir, fallbackDir, 'drive', 'V3_ROOT');
+
+    const fieldSchema = readJson(sourceDir, 'NEW_FIELD_FOLDER');
+    assert.deepEqual(fieldSchema.children.map(child => child.token), ['OLD_DOC_TOKEN']);
+    const document = readJson(sourceDir, 'OLD_DOC_TOKEN');
+    assert.equal(document.token, 'OLD_DOC_TOKEN');
+    assert.equal(document.parent_token, 'NEW_FIELD_FOLDER');
+    assert.equal(fs.existsSync(path.join(sourceDir, 'NEW_DOC_TOKEN.json')), false);
+  });
+}
+
 function testPreProcessRemovesRootMarkdownFiles() {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'lark-utils-preprocess-'));
 
@@ -184,6 +241,7 @@ function testPreProcessPreservesHomeByDefault() {
 
 function run() {
   testDriveFallbackMatchesUnsluggedFoldersByTitleAndParent();
+  testDriveFallbackRetainsMaterializedTokenWhenReplacementBodyIsMissing();
   testPreProcessRemovesRootMarkdownFiles();
   testPreProcessPreservesSelectedFiles();
   testPreProcessPreservesHomeByDefault();
