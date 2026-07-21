@@ -329,9 +329,11 @@ function testDriveFallbackPrefersMaterializedMappedDocumentOverFallbackSlug() {
 
     const fieldSchema = readJson(sourceDir, 'NEW_FIELD_FOLDER');
     assert.deepEqual(fieldSchema.children.map(child => child.token), ['NEW_DOC']);
+    assert.equal(fieldSchema.children[0].parent_token, 'NEW_FIELD_FOLDER');
 
     const document = readJson(sourceDir, 'NEW_DOC');
     assert.equal(document.token, 'NEW_DOC');
+    assert.equal(document.parent_token, 'NEW_FIELD_FOLDER');
     assert.equal(document.slug, 'source-child-slug');
     assert.deepEqual(document.blocks, { items: [{ block_id: 'source-page', block_type: 1 }] });
     assert.equal(fs.existsSync(path.join(sourceDir, 'OLD_DOC.json')), false);
