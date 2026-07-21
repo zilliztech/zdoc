@@ -1,6 +1,6 @@
 ---
 title: "create_user() | Python | ORM"
-slug: /python/python/utility-create_user
+slug: /python/python/ORM-utility/utility-create_user
 sidebar_label: "create_user()"
 beta: NEAR DEPRECATE
 added_since: Inherit

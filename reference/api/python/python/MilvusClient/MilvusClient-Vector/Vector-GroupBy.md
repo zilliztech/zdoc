@@ -10,7 +10,7 @@ notebook: false
 description: "A `GroupBy` instance defines one bucket level in a search aggregation. It specifies which fields form the bucket key, how many buckets to return, which metrics to compute for each bucket, how to order buckets, whether to return representative hits, and whether to create nested child buckets. | Python | MilvusClient"
 type: docx
 token: CFS4dOq2LowXPSxB124cBwQsn0c
-sidebar_position: 10
+sidebar_position: 11
 keywords: 
   - Retrieval Augmented Generation
   - Large language model

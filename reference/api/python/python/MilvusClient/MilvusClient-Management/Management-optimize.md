@@ -10,7 +10,7 @@ notebook: false
 description: "- isl0 (bool) - | Python | MilvusClient"
 type: docx
 token: MhRidjHwYorxaexS8WXcaxWQnjd
-sidebar_position: 24
+sidebar_position: 25
 keywords: 
   - open source vector database
   - Vector index

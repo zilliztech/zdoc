@@ -10,7 +10,7 @@ notebook: false
 description: "This operation lists all currently loaded segments for a collection, including information about row count, sort status, storage level, and memory size. | Python | MilvusClient"
 type: docx
 token: QWlfd7SO1ojpdHxM968coTYQnYg
-sidebar_position: 22
+sidebar_position: 23
 keywords: 
   - DiskANN
   - Sparse vector

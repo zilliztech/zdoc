@@ -10,7 +10,7 @@ notebook: false
 description: "A `TopHits` instance defines the representative hits returned from each bucket in a search aggregation. It specifies how many hits to return per bucket and, optionally, how to sort hits within each bucket. | Python | MilvusClient"
 type: docx
 token: EgeGdZL4LoCuv2xVUfFc9eDAnkd
-sidebar_position: 11
+sidebar_position: 12
 keywords: 
   - milvus open source
   - how does milvus work

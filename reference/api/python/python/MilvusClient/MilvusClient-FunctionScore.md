@@ -10,7 +10,7 @@ notebook: false
 description: "A FunctionScore instance combines multiple Function](./MilvusClient-Function)s in a configurable manner. You can use a FunctionScore instance as a ranker to combine multiple reranking [Functions. | Python | MilvusClient"
 type: docx
 token: PfJNdkuMDoCqqcxm6S2cDD6TnFh
-sidebar_position: 12
+sidebar_position: 13
 keywords: 
   - Sparse vector
   - Vector Dimension

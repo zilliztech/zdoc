@@ -89,11 +89,11 @@ client.list_users()
 
 ## Related methods\{#related-methods}
 
-- [create_user()](./Authentication-create_user)
+- [create_user()](./utility-create_user)
 
 - [describe_user()](./Authentication-describe_user)
 
 - [drop_user()](./Authentication-drop_user)
 
-- [update_password()](./Authentication-update_password)
+- [update_password()](./utility-update_password)
 
