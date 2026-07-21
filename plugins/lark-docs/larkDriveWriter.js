@@ -76,6 +76,7 @@ class larkDriveWriter extends larkDocWriter {
                 return source
             })
             .filter(source => source.token === token)
+            .sort((left, right) => left.__source_file.localeCompare(right.__source_file))
     }
 
     __drive_source_for_child(child, parentSlug=null) {
@@ -202,25 +203,55 @@ class larkDriveWriter extends larkDocWriter {
 
     async write_subtree(outputDir, token) {
         if (!this.outputRoot) this.outputRoot = outputDir
-        const node = this.__fetch_doc_source('token', token)
 
         if (token === this.root_token) {
             await this.write_docs(outputDir, token)
             return
         }
 
+        const nodes = this.__drive_source_candidates(token)
+        if (nodes.length === 0) {
+            this.__fetch_doc_source('token', token)
+            return
+        }
+
+        for (const node of nodes) {
+            await this.__write_subtree_source(outputDir, node)
+        }
+    }
+
+    __drive_parent_for_source(source) {
+        const candidates = this.__drive_source_candidates(source.parent_token)
+        const contextual = candidates.find(parent => (parent.children || []).some(child => {
+            if (child.token !== source.token) return false
+            return this.__drive_source_for_child(child, parent.slug)?.__source_file === source.__source_file
+        }))
+        return contextual || candidates[0] || null
+    }
+
+    __drive_sidebar_position(parent, source) {
+        const index = (parent?.children || []).findIndex(child => {
+            if (child.token !== source.token) return false
+            return this.__drive_source_for_child(child, parent.slug)?.__source_file === source.__source_file
+        })
+        return index >= 0 ? index + 1 : 1
+    }
+
+    async __write_subtree_source(outputDir, node) {
+        const parent = node.parent_token ? this.__drive_parent_for_source(node) : null
+        const sidebarPosition = this.__drive_sidebar_position(parent, node)
+
         let relPath = ''
         let current = node
 
         while (current && current.parent_token && current.parent_token !== this.root_token) {
-            try {
-                const parent = this.__fetch_doc_source('token', current.parent_token)
-                relPath = this.__slug_value(parent.slug) + '/' + relPath
-                current = parent
-            } catch {
+            const currentParent = this.__drive_parent_for_source(current)
+            if (!currentParent) {
                 // Parent not in cache — stop walking and write to the nearest known path
                 break
             }
+            relPath = this.__slug_value(currentParent.slug) + '/' + relPath
+            current = currentParent
         }
 
         const parentPath = `${outputDir}/${relPath}`.replace(/\/+/g, '/')
@@ -245,8 +276,9 @@ class larkDriveWriter extends larkDocWriter {
                 deprecateSince: meta.deprecateSince || 'false',
                 page_type: node.type,
                 page_token: node.token,
-                sidebar_position: 1,
+                sidebar_position: sidebarPosition,
                 sidebar_label: meta.labels,
+                page_description: docCardList ? meta.description : undefined,
                 doc_card_list: docCardList,
             })
         }
@@ -261,7 +293,7 @@ class larkDriveWriter extends larkDocWriter {
             } else {
                 console.log(`${nodePath}/ [meaningless category — no index page generated]`)
             }
-            await this.write_docs(nodePath, token)
+            await this.write_docs(nodePath, node.token)
         } else {
             await writeCurrentPage(parentPath, false)
         }
