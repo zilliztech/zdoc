@@ -243,6 +243,7 @@ class larkUtils {
 
             return JSON.parse(raw)
         })
+        const sourcesByToken = new Map(sources.map(source => [source[TOKEN], source]))
 
         // list all files in the fallback source directory
         files = fs.readdirSync(fallbackSourceDir)
@@ -269,6 +270,7 @@ class larkUtils {
         var replacesByToken = new Map()
         const folderSource = source => source?.type === 'folder' || source?.children
         const docSource = source => source?.type === 'docx' || !source?.children
+        const materializedPair = pair => pair && sourcesByToken.has(pair[TOKEN])
         const hasSlug = source => source?.slug !== undefined && source?.slug !== null && source?.slug !== ''
         const recordReplacement = (from, to) => {
             if (!from || !to || from === to || replacesByToken.has(from)) return
@@ -321,8 +323,10 @@ class larkUtils {
                 fallback.url = source.url
 
                 fallback.children.forEach(child => {
-                    var pair = source.children.find(s => s[TITLE] === child[TITLE])
-                    if (pair) {
+                    const pairIndex = source.children.findIndex(s => s[TITLE] === child[TITLE])
+                    const pair = pairIndex === -1 ? null : source.children[pairIndex]
+
+                    if (materializedPair(pair)) {
                         recordReplacement(child[TOKEN], pair[TOKEN])
 
                         child[PARENT] = pair[PARENT]
@@ -330,6 +334,8 @@ class larkUtils {
                         child[TOKEN] = pair[TOKEN]
                     } else {
                         child[PARENT] = source[TOKEN]
+                        if (pairIndex === -1) source.children.push(child)
+                        else source.children.splice(pairIndex, 1, child)
                         // fallbackSources.find(fb => fb.token === child.token).parent_token = source.token
                     }
                 })
