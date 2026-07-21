@@ -41,7 +41,7 @@ The following model providers can be integrated with Zilliz Cloud:
 | **OpenAI** | Text embedding models | API key. To obtain one, see the [OpenAI API quickstart](https://developers.openai.com/api/docs/quickstart#create-and-export-an-api-key). |
 | **Cohere** | Text embedding and reranking models | API key. To obtain one, see [API Keys and Rate Limits](https://docs.cohere.com/docs/rate-limits). |
 | **Voyage AI** | Text embedding and reranking models | API key. To obtain one, see [API Key and Python Client](https://docs.voyageai.com/docs/api-key-and-installation). |
-| **Hugging Face** | Text embedding models | User Access Token with **Make calls to Inference Providers** permission. To obtain one, see [Inference Providers](https://huggingface.co/docs/inference-providers/en/index#getting-started). |
+| **Hugging Face** | Text embedding and Sentence Similarity models | User Access Token with **Make calls to Inference Providers** permission. To obtain one, see [User Access Tokens](https://huggingface.co/docs/hub/en/security-tokens). |
 
 ## Before you start\{#before-you-start}
 
@@ -51,7 +51,13 @@ Before creating a model provider integration, make sure that:
 
 - You have the credential required by the selected model provider. See [Supported model providers](./integrate-with-model-providers).
 
-- If you plan to use Hugging Face, identify an Inference Provider supported by the embedding model you intend to use. Select `hf-inference` to use Hugging Face Serverless Inference API. For partner-routed inference, use the provider name supported by the selected model. Model and provider availability is managed by Hugging Face and may change over time.
+- If you plan to use Hugging Face, identify the Task API and Inference Provider required by the feature:
+
+    - A **Text Embedding Function** calls the Hugging Face Feature Extraction Task API. The integration defaults to `hf-inference`. You can also enter a partner Inference Provider supported by the selected embedding model.
+
+    - **Hugging Face Ranker** calls the Hugging Face Sentence Similarity Task API and requires `hf-inference`. A model exposed only through `text-ranking`, `text-classification`, or another task is not compatible with this ranker.
+
+Model and provider availability is managed by Hugging Face and may change over time.
 
 ## Create an integration in the Zilliz Cloud console\{#create-an-integration-in-the-zilliz-cloud-console}
 
@@ -73,9 +79,9 @@ To create a model provider integration:
 
     - **Integration Name**: A unique name for this integration (e.g., `test`).
 
-    - **Integration Description** *(optional)*: A description for this integration (e.g., `for model provider`).
+    - **Integration Description***(optional)*: A description for this integration (e.g., `for model provider`).
 
-    - **Provider** *(Hugging Face only)*: Select the Hugging Face Inference Provider that serves the embedding model you intend to use. Use `hf-inference` for Hugging Face Serverless Inference API. For partner-routed inference, enter the provider name supported by the selected model.
+    - **Provider***(Hugging Face only)*: Defaults to `hf-inference`, which uses Hugging Face Serverless Inference API. Keep the default value when creating an integration for Hugging Face Ranker. For a Text Embedding Function, you can instead enter a partner Inference Provider supported by the selected embedding model.
 
 1. Click **Next**. You'll be redirected to the **Credential Information** step:
 
@@ -89,7 +95,7 @@ To create a model provider integration:
 
 Once created, the integration becomes available for use by model-based functions and rankers.
 
-For Hugging Face, **Validate Integration** verifies that Zilliz Cloud can authenticate with the supplied User Access Token. Model existence, Feature Extraction support, compatibility between the selected model and Inference Provider, and vector dimension are validated when you configure or execute a Text Embedding Function. Zilliz Cloud masks the User Access Token after the integration is created.
+For Hugging Face, **Validate Integration** verifies that Zilliz Cloud can authenticate with the supplied User Access Token. Feature-specific compatibility is validated when you configure or execute the Function or Ranker. A Text Embedding Function requires a compatible Feature Extraction model. Hugging Face Ranker requires a model served by `hf-inference` for Sentence Similarity. Zilliz Cloud masks the User Access Token after the integration is created.
 
 ## Manage integrations\{#manage-integrations}
 
@@ -117,9 +123,11 @@ If an integration is removed or becomes invalid, collections or rankers that ref
 
 After creating a model provider integration, you can:
 
-- Use it with a **Text Embedding Function** to convert text into dense vectors. To use a Hugging Face integration, see Hugging Face.
+- Use it with a **Text Embedding Function** to convert text into dense vectors.
 
 - Use a Cohere or Voyage AI integration with a model-based Ranker to rerank search results.
+
+- Use a Hugging Face integration with Hugging Face Ranker to rerank search results using Sentence Similarity scores.
 
 For detailed instructions, refer to:
 
@@ -132,6 +140,8 @@ For detailed instructions, refer to:
 - [Voyage AI](./voyage-ai)
 
 - Hugging Face
+
+- Hugging Face Ranker
 
 - [Cohere Ranker](./cohere-model-ranker)
 
