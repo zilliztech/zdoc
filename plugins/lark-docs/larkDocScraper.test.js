@@ -1222,7 +1222,7 @@ async function testDriveIncrementalRefreshesSourcesBeforePlanningRenderDelta() {
   }
 }
 
-async function testDriveIncrementalSkipsUnmaterializedExpandedTokensAtRenderBoundary() {
+async function testDriveIncrementalEnforcesMaterializedRenderBoundary() {
   const originalLoad = Module._load;
   const originalWarn = console.warn;
   const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'lark-drive-render-scope-'));
@@ -1230,6 +1230,18 @@ async function testDriveIncrementalSkipsUnmaterializedExpandedTokensAtRenderBoun
   const outputDir = path.join(tempDir, 'output');
   const writtenTokens = [];
   const warnings = [];
+  const plan = {
+    manual: 'pymilvus30',
+    mode: 'incremental',
+    expanded_tokens: ['present-token', 'missing-token'],
+    changed_tokens: [],
+    removed_records: [],
+    reasons_by_token: {
+      'missing-token': ['outgoing reference from source-token'],
+    },
+  };
+  let writerFailureToken = null;
+  let writeMalformedSource = false;
   let action = null;
 
   class FakeScraper {
@@ -1246,12 +1258,15 @@ async function testDriveIncrementalSkipsUnmaterializedExpandedTokensAtRenderBoun
       fs.writeFileSync(path.join(sourceDir, 'present-placement-b.json'), JSON.stringify({
         token: 'present-token', parent_token: 'root-token', type: 'docx', name: 'Present B', blocks: { items: [] },
       }));
+      if (writeMalformedSource) {
+        fs.writeFileSync(path.join(sourceDir, 'malformed-source.json'), '{invalid');
+      }
     }
   }
   class FakeDriveWriter {
     async write_subtree(_targetDir, token) {
       writtenTokens.push(token);
-      if (token === 'missing-token') throw new Error('unexpected absent-token write attempt: missing-token');
+      if (token === writerFailureToken) throw new Error(`materialized writer failure: ${token}`);
     }
     destroy() {}
   }
@@ -1266,17 +1281,7 @@ async function testDriveIncrementalSkipsUnmaterializedExpandedTokensAtRenderBoun
       if (request === './larkUtils.js') return FakeUtils;
       if (request === './incrementalReconciliation') return { cleanupRemovedIncrementalRecords() {} };
       if (request === './incrementalFetchPlanner') return {
-        planIncrementalFetch() {
-          return {
-            manual: 'pymilvus30',
-            mode: 'incremental',
-            expanded_tokens: ['present-token', 'missing-token'],
-            removed_records: [],
-            reasons_by_token: {
-              'missing-token': ['outgoing reference from source-token'],
-            },
-          };
-        },
+        planIncrementalFetch() { return plan; },
         writeIncrementalFetchPlanReports() { return { markdownPath: path.join(tempDir, 'plan.md') }; },
       };
       if (request === './sourceSnapshot') return {
@@ -1314,6 +1319,51 @@ async function testDriveIncrementalSkipsUnmaterializedExpandedTokensAtRenderBoun
     assert.deepEqual(warnings, [
       '[incremental-fetch] Skipping unmaterialized Drive token missing-token: outgoing reference from source-token',
     ]);
+
+    writtenTokens.length = 0;
+    warnings.length = 0;
+    writerFailureToken = 'present-token';
+    await assert.rejects(
+      () => action({
+        manual: 'pymilvus30', pubTarget: 'zilliz', incremental: true, buildEnv: 'uat',
+        skipSidebar: true, skipLinkValidation: true,
+      }),
+      /materialized writer failure: present-token/
+    );
+    assert.deepEqual(writtenTokens, ['present-token']);
+
+    writtenTokens.length = 0;
+    warnings.length = 0;
+    writerFailureToken = null;
+    plan.changed_tokens = ['missing-token'];
+    await assert.rejects(
+      () => action({
+        manual: 'pymilvus30', pubTarget: 'zilliz', incremental: true, buildEnv: 'uat',
+        skipSidebar: true, skipLinkValidation: true,
+      }),
+      /Cannot render changed Drive token missing-token because it is absent from the completed source cache/
+    );
+    assert.deepEqual(writtenTokens, []);
+
+    plan.changed_tokens = [];
+    plan.reasons_by_token = {};
+    await assert.rejects(
+      () => action({
+        manual: 'pymilvus30', pubTarget: 'zilliz', incremental: true, buildEnv: 'uat',
+        skipSidebar: true, skipLinkValidation: true,
+      }),
+      /Cannot skip unmaterialized Drive token missing-token because it is not a reference-only expansion/
+    );
+
+    plan.reasons_by_token = { 'missing-token': ['outgoing reference from source-token'] };
+    writeMalformedSource = true;
+    await assert.rejects(
+      () => action({
+        manual: 'pymilvus30', pubTarget: 'zilliz', incremental: true, buildEnv: 'uat',
+        skipSidebar: true, skipLinkValidation: true,
+      }),
+      /Cannot parse Drive source malformed-source\.json:/
+    );
   } finally {
     console.warn = originalWarn;
     Module._load = originalLoad;
@@ -1348,7 +1398,7 @@ async function run() {
   await testWikiMetadataProgressLogsResolutionCounts();
   await testIncrementalSourceFetchWritesCandidateFromRetainedScan();
   await testDriveIncrementalRefreshesSourcesBeforePlanningRenderDelta();
-  await testDriveIncrementalSkipsUnmaterializedExpandedTokensAtRenderBoundary();
+  await testDriveIncrementalEnforcesMaterializedRenderBoundary();
   console.log('lark-docs scraper tests passed');
 }
 

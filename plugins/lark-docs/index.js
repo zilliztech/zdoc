@@ -24,12 +24,32 @@ function validateOfflineOptions(opts) {
 function driveIncrementalRenderTokens(plan, docSourceDir) {
     const materializedTokens = new Set()
     for (const file of fs.readdirSync(docSourceDir).filter(file => file.endsWith('.json')).sort()) {
-        const source = JSON.parse(fs.readFileSync(path.join(docSourceDir, file), 'utf8'))
+        let source
+        try {
+            source = JSON.parse(fs.readFileSync(path.join(docSourceDir, file), 'utf8'))
+        } catch (error) {
+            throw new Error(`Cannot parse Drive source ${file}: ${error.message}`, { cause: error })
+        }
         if (typeof source.token === 'string' && source.token) materializedTokens.add(source.token)
     }
 
     const expandedTokens = plan.expanded_tokens || []
     const skippedTokens = [...new Set(expandedTokens.filter(token => !materializedTokens.has(token)))].sort()
+    const changedTokens = new Set(plan.changed_tokens || [])
+    const missingChangedTokens = skippedTokens.filter(token => changedTokens.has(token))
+    if (missingChangedTokens.length > 0) {
+        const label = missingChangedTokens.length === 1 ? 'token' : 'tokens'
+        throw new Error(`Cannot render changed Drive ${label} ${missingChangedTokens.join(', ')} because ${missingChangedTokens.length === 1 ? 'it is' : 'they are'} absent from the completed source cache`)
+    }
+    const nonReferenceTokens = skippedTokens.filter(token => {
+        const reasons = plan.reasons_by_token?.[token]
+        return !Array.isArray(reasons) || reasons.length === 0 ||
+            reasons.some(reason => typeof reason !== 'string' || !/^(incoming reference to|outgoing reference from) /.test(reason))
+    })
+    if (nonReferenceTokens.length > 0) {
+        const label = nonReferenceTokens.length === 1 ? 'token' : 'tokens'
+        throw new Error(`Cannot skip unmaterialized Drive ${label} ${nonReferenceTokens.join(', ')} because ${nonReferenceTokens.length === 1 ? 'it is' : 'they are'} not a reference-only expansion`)
+    }
     for (const token of skippedTokens) {
         const reasons = Array.isArray(plan.reasons_by_token?.[token]) ? plan.reasons_by_token[token] : []
         const reasonText = reasons.length > 0 ? `: ${reasons.join('; ')}` : ''
