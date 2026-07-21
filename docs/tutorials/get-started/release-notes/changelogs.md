@@ -169,21 +169,21 @@ import Grid from '@site/src/components/Grid';
 
             - [External collections and backfill](./create-external-collection)
 
-            - [Nullable vectors](./nullable-fields),
+            - [Nullable vectors](./nullable-fields)
 
-            - [Embedding list searches and filtering](./use-array-of-structs),
+            - [Embedding list searches and filtering](./use-array-of-structs)
 
             - [MinHash function](./minhash-function)
 
-            - Order by for [searches](./single-vector-search#sort-search-results-by-scalar-fields) and [queries](./get-and-scalar-query#sort-query-results),
+            - Order by for [searches](./single-vector-search#sort-search-results-by-scalar-fields) and [queries](./get-and-scalar-query#sort-query-results)
 
-            - [Snapshots](./snapshots),
+            - [Snapshots](./snapshots)
 
-            - [Entity TTL](./set-collection-ttl),
+            - [Entity TTL](./set-collection-ttl)
 
-            - Force merge,
+            - Force merge
 
-            - Custom dictionaries and tokenizers, and
+            - Custom dictionaries and tokenizers
 
             - Spark semantic deduplication and abnormal detection
 
