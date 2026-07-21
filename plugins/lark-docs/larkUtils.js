@@ -422,6 +422,8 @@ class larkUtils {
                 if (candidates.length === 0) {
                     throw new Error(missingMessage)
                 }
+                const canonical = candidates.find(candidate => candidate.file === `${token}.json`)
+                if (canonical) return canonical.source
                 if (candidates.length > 1) {
                     const filenames = candidates.map(candidate => candidate.file).sort()
                     throw new Error(`[fallback-source] Duplicate token ${token} in ${filenames.join(' and ')}`)

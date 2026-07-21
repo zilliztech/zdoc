@@ -197,7 +197,7 @@ test('validation writer rejects parent swaps without redirecting output', () => 
 
 test('sanitizes hostile Git, Node, shell, and package-manager environment before proof and execution', () => {
   const state = fixture()
-  const saved = { GIT_DIR: process.env.GIT_DIR, GIT_INDEX_FILE: process.env.GIT_INDEX_FILE, GIT_CONFIG_COUNT: process.env.GIT_CONFIG_COUNT, GIT_CONFIG_KEY_0: process.env.GIT_CONFIG_KEY_0, GIT_CONFIG_VALUE_0: process.env.GIT_CONFIG_VALUE_0, NODE_OPTIONS: process.env.NODE_OPTIONS, NPM_CONFIG_USERCONFIG: process.env.NPM_CONFIG_USERCONFIG, YARN_ENABLE_SCRIPTS: process.env.YARN_ENABLE_SCRIPTS, BASH_ENV: process.env.BASH_ENV }
+  const saved = { GIT_DIR: process.env.GIT_DIR, GIT_INDEX_FILE: process.env.GIT_INDEX_FILE, GIT_CONFIG_COUNT: process.env.GIT_CONFIG_COUNT, GIT_CONFIG_KEY_0: process.env.GIT_CONFIG_KEY_0, GIT_CONFIG_VALUE_0: process.env.GIT_CONFIG_VALUE_0, NODE_OPTIONS: process.env.NODE_OPTIONS, NPM_CONFIG_USERCONFIG: process.env.NPM_CONFIG_USERCONFIG, NPM_CONFIG_GLOBALCONFIG: process.env.NPM_CONFIG_GLOBALCONFIG, YARN_ENABLE_SCRIPTS: process.env.YARN_ENABLE_SCRIPTS, BASH_ENV: process.env.BASH_ENV }
   process.env.GIT_DIR = path.join(state.repository, 'attacker.git')
   process.env.GIT_INDEX_FILE = path.join(state.repository, 'attacker-index')
   process.env.GIT_CONFIG_COUNT = '1'
@@ -205,6 +205,7 @@ test('sanitizes hostile Git, Node, shell, and package-manager environment before
   process.env.GIT_CONFIG_VALUE_0 = '/attacker'
   process.env.NODE_OPTIONS = '--require=/attacker.js'
   process.env.NPM_CONFIG_USERCONFIG = '/attacker.npmrc'
+  process.env.NPM_CONFIG_GLOBALCONFIG = '/attacker-global.npmrc'
   process.env.YARN_ENABLE_SCRIPTS = 'true'
   process.env.BASH_ENV = '/attacker-bash-env'
   let result
@@ -215,7 +216,10 @@ test('sanitizes hostile Git, Node, shell, and package-manager environment before
       assert.equal(options.env.GIT_CONFIG_COUNT, undefined)
       assert.equal(options.env.NODE_OPTIONS, undefined)
       assert.notEqual(options.env.NPM_CONFIG_USERCONFIG, '/attacker.npmrc')
+      assert.notEqual(options.env.NPM_CONFIG_GLOBALCONFIG, '/attacker-global.npmrc')
+      assert.notEqual(options.env.NPM_CONFIG_USERCONFIG, options.env.NPM_CONFIG_GLOBALCONFIG)
       assert.equal(fs.readFileSync(options.env.NPM_CONFIG_USERCONFIG, 'utf8'), '')
+      assert.equal(fs.readFileSync(options.env.NPM_CONFIG_GLOBALCONFIG, 'utf8'), '')
       assert.equal(options.env.YARN_ENABLE_SCRIPTS, undefined)
       assert.equal(options.env.BASH_ENV, undefined)
       return { status: 0, signal: null, stderr: '' }
