@@ -12,11 +12,21 @@ const { runGuidesTranslationValidation, writeValidationResult, VALIDATION_COMMAN
 const ROOT = 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials'
 const REPORT = 'plugins/lark-docs/meta/reports/guides-incremental-fetch-plan.json'
 const ENV = { ...process.env, GIT_AUTHOR_NAME: 'Test', GIT_AUTHOR_EMAIL: 'test@example.com', GIT_COMMITTER_NAME: 'Test', GIT_COMMITTER_EMAIL: 'test@example.com' }
+const restoreScript = path.resolve('scripts/restore-generated-state.sh')
 function git(cwd, ...args) { return execFileSync('git', args, { cwd, encoding: 'utf8', env: ENV }).trim() }
+
+function restoreExact(repository, stagedSha) {
+  return spawnSync('bash', [restoreScript, '--exact', '--ref', stagedSha], {
+    cwd: repository,
+    encoding: 'utf8',
+    env: ENV,
+  })
+}
 
 function fixture() {
   const repository = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'validate-guides-staging-')))
   git(repository, 'init')
+  git(repository, 'remote', 'add', 'origin', repository)
   const seeds = ['docs/index.md', 'docs-byoc/index.md', 'reference/index.md', 'reference/keep.md', `${ROOT}/a.md`, 'i18n/ja-JP/other.md', '.translation-cache/ja-JP.json', 'config/generated/guides.sidebar.js', 'plugins/lark-docs/meta/snapshots/guides.json', 'plugins/lark-docs/meta/assembly/guides.json', REPORT]
   for (const relative of seeds) { fs.mkdirSync(path.dirname(path.join(repository, relative)), { recursive: true }); fs.writeFileSync(path.join(repository, relative), `${relative}\n`) }
   fs.writeFileSync(path.join(repository, 'tooling.js'), 'tooling\n')
@@ -140,9 +150,17 @@ test('rejects hybrid authoritative roots and executable-mode drift', () => {
   assert.throws(() => runGuidesTranslationValidation({ ...mode, executor() {} }), /mode|executable/i)
 
   const deletion = fixture(); git(deletion.repository, 'switch', 'staged'); fs.unlinkSync(path.join(deletion.repository, 'reference', 'index.md')); git(deletion.repository, 'add', '-A', 'reference'); git(deletion.repository, 'commit', '-m', 'delete staged reference file'); deletion.stagedSha = git(deletion.repository, 'rev-parse', 'HEAD')
-  git(deletion.repository, 'switch', '--detach', deletion.masterSha); git(deletion.repository, 'checkout', deletion.stagedSha, '--', ...RESTORE_PATHS); fs.unlinkSync(path.join(deletion.repository, 'reference', 'index.md')); git(deletion.repository, 'add', '-A', 'reference')
+  git(deletion.repository, 'switch', '--detach', deletion.masterSha)
+  const restored = restoreExact(deletion.repository, deletion.stagedSha)
+  assert.equal(restored.status, 0, restored.stderr)
   assert.equal(fs.existsSync(path.join(deletion.repository, 'reference', 'index.md')), false)
-  assert.equal(runGuidesTranslationValidation({ ...deletion, executor() { return { status: 0, signal: null, stderr: '' } } }).result, 'success')
+  assert.equal(
+    runGuidesTranslationValidation({
+      ...deletion,
+      executor() { return { status: 0, signal: null, stderr: '' } },
+    }).result,
+    'success',
+  )
 })
 
 test('validation writer rejects parent swaps without redirecting output', () => {
