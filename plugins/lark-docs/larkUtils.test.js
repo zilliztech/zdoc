@@ -126,6 +126,408 @@ function testDriveFallbackMatchesUnsluggedFoldersByTitleAndParent() {
   });
 }
 
+function testDriveFallbackRetainsMaterializedTokenWhenReplacementBodyIsMissing() {
+  withTempSourceDirs((sourceDir, fallbackDir) => {
+    writeJson(sourceDir, 'V3_ROOT', {
+      token: 'V3_ROOT',
+      name: 'v3.0.x',
+      children: [
+        { name: 'FieldSchema', token: 'NEW_FIELD_FOLDER', parent_token: 'V3_ROOT', type: 'folder' },
+      ],
+    });
+    writeJson(sourceDir, 'NEW_FIELD_FOLDER', {
+      token: 'NEW_FIELD_FOLDER',
+      name: 'FieldSchema',
+      slug: 'FieldSchema',
+      type: 'folder',
+      parent_token: 'V3_ROOT',
+      children: [
+        { name: 'construct_from_dict()', token: 'NEW_DOC_TOKEN', parent_token: 'NEW_FIELD_FOLDER', type: 'docx' },
+      ],
+    });
+
+    writeJson(fallbackDir, 'V26_ROOT', {
+      token: 'V26_ROOT',
+      name: 'v2.6.x',
+      children: [
+        { name: 'FieldSchema', token: 'OLD_FIELD_FOLDER', parent_token: 'V26_ROOT', type: 'folder' },
+      ],
+    });
+    writeJson(fallbackDir, 'OLD_FIELD_FOLDER', {
+      token: 'OLD_FIELD_FOLDER',
+      name: 'FieldSchema',
+      slug: 'FieldSchema',
+      type: 'folder',
+      parent_token: 'V26_ROOT',
+      children: [
+        { name: 'construct_from_dict()', token: 'OLD_DOC_TOKEN', parent_token: 'OLD_FIELD_FOLDER', type: 'docx' },
+      ],
+    });
+    writeJson(fallbackDir, 'OLD_DOC_TOKEN', {
+      token: 'OLD_DOC_TOKEN',
+      name: 'construct_from_dict()',
+      slug: 'FieldSchema-construct_from_dict',
+      type: 'docx',
+      parent_token: 'OLD_FIELD_FOLDER',
+      blocks: { items: [{ block_id: 'fallback-page', block_type: 1 }] },
+    });
+
+    new larkUtils().fetch_fallback_sources(sourceDir, fallbackDir, 'drive', 'V3_ROOT');
+
+    const fieldSchema = readJson(sourceDir, 'NEW_FIELD_FOLDER');
+    assert.deepEqual(fieldSchema.children.map(child => child.token), ['OLD_DOC_TOKEN']);
+    const document = readJson(sourceDir, 'OLD_DOC_TOKEN');
+    assert.equal(document.token, 'OLD_DOC_TOKEN');
+    assert.equal(document.parent_token, 'NEW_FIELD_FOLDER');
+    assert.equal(fs.existsSync(path.join(sourceDir, 'NEW_DOC_TOKEN.json')), false);
+  });
+}
+
+function testDriveFallbackRejectsDanglingChildWhenBothBodiesAreMissing() {
+  withTempSourceDirs((sourceDir, fallbackDir) => {
+    writeJson(sourceDir, 'V3_ROOT', {
+      token: 'V3_ROOT',
+      name: 'v3.0.x',
+      children: [
+        { name: 'FieldSchema', token: 'NEW_FIELD_FOLDER', parent_token: 'V3_ROOT', type: 'folder' },
+      ],
+    });
+    writeJson(sourceDir, 'NEW_FIELD_FOLDER', {
+      token: 'NEW_FIELD_FOLDER',
+      name: 'FieldSchema',
+      slug: 'FieldSchema',
+      type: 'folder',
+      parent_token: 'V3_ROOT',
+      children: [
+        { name: 'construct_from_dict()', token: 'NEW_DOC_TOKEN', parent_token: 'NEW_FIELD_FOLDER', type: 'docx' },
+      ],
+    });
+
+    writeJson(fallbackDir, 'V26_ROOT', {
+      token: 'V26_ROOT',
+      name: 'v2.6.x',
+      children: [
+        { name: 'FieldSchema', token: 'OLD_FIELD_FOLDER', parent_token: 'V26_ROOT', type: 'folder' },
+      ],
+    });
+    writeJson(fallbackDir, 'OLD_FIELD_FOLDER', {
+      token: 'OLD_FIELD_FOLDER',
+      name: 'FieldSchema',
+      slug: 'FieldSchema',
+      type: 'folder',
+      parent_token: 'V26_ROOT',
+      children: [
+        { name: 'construct_from_dict()', token: 'OLD_DOC_TOKEN', parent_token: 'OLD_FIELD_FOLDER', type: 'docx' },
+      ],
+    });
+
+    assert.throws(
+      () => new larkUtils().fetch_fallback_sources(sourceDir, fallbackDir, 'drive', 'V3_ROOT'),
+      /\[fallback-source\] Unresolved child OLD_DOC_TOKEN under NEW_FIELD_FOLDER/
+    );
+  });
+}
+
+function testDriveFallbackRejectsDanglingSourceOnlyChild() {
+  withTempSourceDirs((sourceDir, fallbackDir) => {
+    writeJson(sourceDir, 'V3_ROOT', {
+      token: 'V3_ROOT',
+      name: 'v3.0.x',
+      children: [
+        { name: 'FieldSchema', token: 'NEW_FIELD_FOLDER', parent_token: 'V3_ROOT', type: 'folder' },
+      ],
+    });
+    writeJson(sourceDir, 'NEW_FIELD_FOLDER', {
+      token: 'NEW_FIELD_FOLDER',
+      name: 'FieldSchema',
+      slug: 'FieldSchema',
+      type: 'folder',
+      parent_token: 'V3_ROOT',
+      children: [
+        { name: 'source-only-child', token: 'DANGLING', parent_token: 'NEW_FIELD_FOLDER', type: 'docx' },
+      ],
+    });
+
+    writeJson(fallbackDir, 'V26_ROOT', {
+      token: 'V26_ROOT',
+      name: 'v2.6.x',
+      children: [
+        { name: 'FieldSchema', token: 'OLD_FIELD_FOLDER', parent_token: 'V26_ROOT', type: 'folder' },
+      ],
+    });
+    writeJson(fallbackDir, 'OLD_FIELD_FOLDER', {
+      token: 'OLD_FIELD_FOLDER',
+      name: 'FieldSchema',
+      slug: 'FieldSchema',
+      type: 'folder',
+      parent_token: 'V26_ROOT',
+      children: [],
+    });
+
+    assert.throws(
+      () => new larkUtils().fetch_fallback_sources(sourceDir, fallbackDir, 'drive', 'V3_ROOT'),
+      /\[fallback-source\] Unresolved child DANGLING under NEW_FIELD_FOLDER/
+    );
+  });
+}
+
+function testDriveFallbackPrefersMaterializedMappedDocumentOverFallbackSlug() {
+  withTempSourceDirs((sourceDir, fallbackDir) => {
+    writeJson(sourceDir, 'V3_ROOT', {
+      token: 'V3_ROOT',
+      name: 'v3.0.x',
+      children: [
+        { name: 'FieldSchema', token: 'NEW_FIELD_FOLDER', parent_token: 'V3_ROOT', type: 'folder' },
+      ],
+    });
+    writeJson(sourceDir, 'NEW_FIELD_FOLDER', {
+      token: 'NEW_FIELD_FOLDER',
+      name: 'FieldSchema',
+      slug: 'FieldSchema',
+      type: 'folder',
+      parent_token: 'V3_ROOT',
+      children: [
+        { name: 'shared-child', token: 'NEW_DOC', parent_token: 'NEW_FIELD_FOLDER', type: 'docx' },
+      ],
+    });
+    writeJson(sourceDir, 'NEW_DOC', {
+      token: 'NEW_DOC',
+      name: 'shared-child',
+      slug: 'source-child-slug',
+      type: 'docx',
+      parent_token: 'NEW_FIELD_FOLDER',
+      blocks: { items: [{ block_id: 'source-page', block_type: 1 }] },
+    });
+
+    writeJson(fallbackDir, 'V26_ROOT', {
+      token: 'V26_ROOT',
+      name: 'v2.6.x',
+      children: [
+        { name: 'FieldSchema', token: 'OLD_FIELD_FOLDER', parent_token: 'V26_ROOT', type: 'folder' },
+      ],
+    });
+    writeJson(fallbackDir, 'OLD_FIELD_FOLDER', {
+      token: 'OLD_FIELD_FOLDER',
+      name: 'FieldSchema',
+      slug: 'FieldSchema',
+      type: 'folder',
+      parent_token: 'V26_ROOT',
+      children: [
+        { name: 'shared-child', token: 'OLD_DOC', parent_token: 'OLD_FIELD_FOLDER', type: 'docx' },
+      ],
+    });
+    writeJson(fallbackDir, 'OLD_DOC', {
+      token: 'OLD_DOC',
+      name: 'shared-child',
+      slug: 'fallback-child-slug',
+      type: 'docx',
+      parent_token: 'OLD_FIELD_FOLDER',
+      blocks: { items: [{ block_id: 'fallback-page', block_type: 1 }] },
+    });
+
+    new larkUtils().fetch_fallback_sources(sourceDir, fallbackDir, 'drive', 'V3_ROOT');
+
+    const fieldSchema = readJson(sourceDir, 'NEW_FIELD_FOLDER');
+    assert.deepEqual(fieldSchema.children.map(child => child.token), ['NEW_DOC']);
+    assert.equal(fieldSchema.children[0].parent_token, 'NEW_FIELD_FOLDER');
+
+    const document = readJson(sourceDir, 'NEW_DOC');
+    assert.equal(document.token, 'NEW_DOC');
+    assert.equal(document.parent_token, 'NEW_FIELD_FOLDER');
+    assert.equal(document.slug, 'source-child-slug');
+    assert.deepEqual(document.blocks, { items: [{ block_id: 'source-page', block_type: 1 }] });
+    assert.equal(fs.existsSync(path.join(sourceDir, 'OLD_DOC.json')), false);
+  });
+}
+
+function testDriveFallbackRejectsDuplicateTokensInTouchedFolderGraph() {
+  withTempSourceDirs((sourceDir, fallbackDir) => {
+    writeJson(sourceDir, 'V3_ROOT', {
+      token: 'V3_ROOT',
+      name: 'v3.0.x',
+      children: [
+        { name: 'FieldSchema', token: 'NEW_FIELD_FOLDER', parent_token: 'V3_ROOT', type: 'folder' },
+      ],
+    });
+    writeJson(sourceDir, 'NEW_FIELD_FOLDER', {
+      token: 'NEW_FIELD_FOLDER',
+      name: 'FieldSchema',
+      slug: 'FieldSchema',
+      type: 'folder',
+      parent_token: 'V3_ROOT',
+      children: [
+        { name: 'duplicate-child', token: 'DUPLICATE_DOC', parent_token: 'NEW_FIELD_FOLDER', type: 'docx' },
+      ],
+    });
+    writeJson(sourceDir, 'duplicate-a', {
+      token: 'DUPLICATE_DOC',
+      name: 'duplicate-child-a',
+      slug: 'duplicate-child-a',
+      type: 'docx',
+      parent_token: 'NEW_FIELD_FOLDER',
+    });
+    writeJson(sourceDir, 'duplicate-b', {
+      token: 'DUPLICATE_DOC',
+      name: 'duplicate-child-b',
+      slug: 'duplicate-child-b',
+      type: 'docx',
+      parent_token: 'NEW_FIELD_FOLDER',
+    });
+
+    writeJson(fallbackDir, 'V26_ROOT', {
+      token: 'V26_ROOT',
+      name: 'v2.6.x',
+      children: [
+        { name: 'FieldSchema', token: 'OLD_FIELD_FOLDER', parent_token: 'V26_ROOT', type: 'folder' },
+      ],
+    });
+    writeJson(fallbackDir, 'OLD_FIELD_FOLDER', {
+      token: 'OLD_FIELD_FOLDER',
+      name: 'FieldSchema',
+      slug: 'FieldSchema',
+      type: 'folder',
+      parent_token: 'V26_ROOT',
+      children: [
+        { name: 'fallback-only', token: 'FALLBACK_ONLY', parent_token: 'OLD_FIELD_FOLDER', type: 'docx' },
+      ],
+    });
+    writeJson(fallbackDir, 'FALLBACK_ONLY', {
+      token: 'FALLBACK_ONLY',
+      name: 'fallback-only',
+      slug: 'FieldSchema-fallback-only',
+      type: 'docx',
+      parent_token: 'OLD_FIELD_FOLDER',
+    });
+
+    assert.throws(
+      () => new larkUtils().fetch_fallback_sources(sourceDir, fallbackDir, 'drive', 'V3_ROOT'),
+      /\[fallback-source\] Duplicate token DUPLICATE_DOC in duplicate-a\.json and duplicate-b\.json/
+    );
+  });
+}
+
+function testDriveFallbackAcceptsDuplicateTokenInAnotherPlacement() {
+  withTempSourceDirs((sourceDir, fallbackDir) => {
+    writeJson(sourceDir, 'V3_ROOT', {
+      token: 'V3_ROOT', name: 'v3.0.x', children: [
+        { name: 'FieldSchema', token: 'NEW_FIELD_FOLDER', parent_token: 'V3_ROOT', type: 'folder' },
+        { name: 'Other', token: 'OTHER_FOLDER', parent_token: 'V3_ROOT', type: 'folder' },
+      ],
+    });
+    writeJson(sourceDir, 'NEW_FIELD_FOLDER', {
+      token: 'NEW_FIELD_FOLDER', name: 'FieldSchema', slug: 'FieldSchema', type: 'folder',
+      parent_token: 'V3_ROOT', children: [
+        { name: 'shared-child', token: 'SHARED_DOC', parent_token: 'NEW_FIELD_FOLDER', type: 'docx' },
+      ],
+    });
+    writeJson(sourceDir, 'OTHER_FOLDER', {
+      token: 'OTHER_FOLDER', name: 'Other', slug: 'Other', type: 'folder',
+      parent_token: 'V3_ROOT', children: [
+        { name: 'shared-child', token: 'SHARED_DOC', parent_token: 'OTHER_FOLDER', type: 'docx' },
+      ],
+    });
+    writeJson(sourceDir, 'shared-field', {
+      token: 'SHARED_DOC', name: 'shared-child', slug: 'FieldSchema-shared-child', type: 'docx',
+      parent_token: 'NEW_FIELD_FOLDER', blocks: { items: [] },
+    });
+    writeJson(sourceDir, 'shared-other', {
+      token: 'SHARED_DOC', name: 'shared-child', slug: 'Other-shared-child', type: 'docx',
+      parent_token: 'OTHER_FOLDER', blocks: { items: [] },
+    });
+
+    writeJson(fallbackDir, 'V26_ROOT', {
+      token: 'V26_ROOT', name: 'v2.6.x', children: [
+        { name: 'FieldSchema', token: 'OLD_FIELD_FOLDER', parent_token: 'V26_ROOT', type: 'folder' },
+      ],
+    });
+    writeJson(fallbackDir, 'OLD_FIELD_FOLDER', {
+      token: 'OLD_FIELD_FOLDER', name: 'FieldSchema', slug: 'FieldSchema', type: 'folder',
+      parent_token: 'V26_ROOT', children: [
+        { name: 'fallback-only', token: 'FALLBACK_ONLY', parent_token: 'OLD_FIELD_FOLDER', type: 'docx' },
+      ],
+    });
+    writeJson(fallbackDir, 'FALLBACK_ONLY', {
+      token: 'FALLBACK_ONLY', name: 'fallback-only', slug: 'FieldSchema-fallback-only', type: 'docx',
+      parent_token: 'OLD_FIELD_FOLDER', blocks: { items: [] },
+    });
+
+    new larkUtils().fetch_fallback_sources(sourceDir, fallbackDir, 'drive', 'V3_ROOT');
+
+    const fieldSchema = readJson(sourceDir, 'NEW_FIELD_FOLDER');
+    assert.deepEqual(fieldSchema.children.map(child => child.token).sort(), ['FALLBACK_ONLY', 'SHARED_DOC']);
+  });
+}
+
+function testDriveFallbackIgnoresDuplicateTokensOutsideTouchedFolders() {
+  withTempSourceDirs((sourceDir, fallbackDir) => {
+    writeJson(sourceDir, 'V3_ROOT', {
+      token: 'V3_ROOT',
+      name: 'v3.0.x',
+      children: [],
+    });
+    writeJson(sourceDir, 'unrelated-a', {
+      token: 'UNRELATED_DUP',
+      name: 'unrelated-a',
+      slug: 'unrelated-a',
+      type: 'docx',
+      parent_token: 'UNRELATED_FOLDER',
+    });
+    writeJson(sourceDir, 'unrelated-b', {
+      token: 'UNRELATED_DUP',
+      name: 'unrelated-b',
+      slug: 'unrelated-b',
+      type: 'docx',
+      parent_token: 'UNRELATED_FOLDER',
+    });
+
+    writeJson(fallbackDir, 'V26_ROOT', {
+      token: 'V26_ROOT',
+      name: 'v2.6.x',
+      children: [],
+    });
+
+    assert.doesNotThrow(
+      () => new larkUtils().fetch_fallback_sources(sourceDir, fallbackDir, 'drive', 'V3_ROOT')
+    );
+  });
+}
+
+function testDriveFallbackRetainsMaterializedRootChildWhenReplacementBodyIsMissing() {
+  withTempSourceDirs((sourceDir, fallbackDir) => {
+    writeJson(sourceDir, 'V3_ROOT', {
+      token: 'V3_ROOT',
+      name: 'v3.0.x',
+      children: [
+        { name: 'FieldSchema', token: 'NEW_FOLDER', parent_token: 'V3_ROOT', type: 'folder' },
+      ],
+    });
+
+    writeJson(fallbackDir, 'V26_ROOT', {
+      token: 'V26_ROOT',
+      name: 'v2.6.x',
+      children: [
+        { name: 'FieldSchema', token: 'OLD_FOLDER', parent_token: 'V26_ROOT', type: 'folder' },
+      ],
+    });
+    writeJson(fallbackDir, 'OLD_FOLDER', {
+      token: 'OLD_FOLDER',
+      name: 'FieldSchema',
+      type: 'folder',
+      parent_token: 'V26_ROOT',
+      children: [],
+    });
+
+    new larkUtils().fetch_fallback_sources(sourceDir, fallbackDir, 'drive', 'V3_ROOT');
+
+    const root = readJson(sourceDir, 'V3_ROOT');
+    assert.deepEqual(root.children.map(child => child.token), ['OLD_FOLDER']);
+    const folder = readJson(sourceDir, 'OLD_FOLDER');
+    assert.equal(folder.token, 'OLD_FOLDER');
+    assert.equal(folder.parent_token, 'V3_ROOT');
+    assert.equal(fs.existsSync(path.join(sourceDir, 'NEW_FOLDER.json')), false);
+  });
+}
+
 function testPreProcessRemovesRootMarkdownFiles() {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'lark-utils-preprocess-'));
 
@@ -184,6 +586,14 @@ function testPreProcessPreservesHomeByDefault() {
 
 function run() {
   testDriveFallbackMatchesUnsluggedFoldersByTitleAndParent();
+  testDriveFallbackRetainsMaterializedTokenWhenReplacementBodyIsMissing();
+  testDriveFallbackRejectsDanglingChildWhenBothBodiesAreMissing();
+  testDriveFallbackRejectsDanglingSourceOnlyChild();
+  testDriveFallbackPrefersMaterializedMappedDocumentOverFallbackSlug();
+  testDriveFallbackRejectsDuplicateTokensInTouchedFolderGraph();
+  testDriveFallbackAcceptsDuplicateTokenInAnotherPlacement();
+  testDriveFallbackIgnoresDuplicateTokensOutsideTouchedFolders();
+  testDriveFallbackRetainsMaterializedRootChildWhenReplacementBodyIsMissing();
   testPreProcessRemovesRootMarkdownFiles();
   testPreProcessPreservesSelectedFiles();
   testPreProcessPreservesHomeByDefault();

@@ -243,6 +243,7 @@ class larkUtils {
 
             return JSON.parse(raw)
         })
+        const sourcesByToken = new Map(sources.map(source => [source[TOKEN], source]))
 
         // list all files in the fallback source directory
         files = fs.readdirSync(fallbackSourceDir)
@@ -267,8 +268,11 @@ class larkUtils {
 
         var replaces = []
         var replacesByToken = new Map()
+        const touchedFolderTokens = new Set()
+        const fallbackSourcesSatisfiedByMaterializedMappings = new Set()
         const folderSource = source => source?.type === 'folder' || source?.children
         const docSource = source => source?.type === 'docx' || !source?.children
+        const materializedPair = pair => pair && sourcesByToken.has(pair[TOKEN])
         const hasSlug = source => source?.slug !== undefined && source?.slug !== null && source?.slug !== ''
         const recordReplacement = (from, to) => {
             if (!from || !to || from === to || replacesByToken.has(from)) return
@@ -285,18 +289,21 @@ class larkUtils {
             const fallbackSourcesByToken = new Map(fallbackSources.map(source => [source[TOKEN], source]))
 
             fallbackRoot.children.forEach(child => {
-                var pair = sourceRoot.children.find(s => s[TITLE] === child[TITLE])
+                const pairIndex = sourceRoot.children.findIndex(s => s[TITLE] === child[TITLE])
+                const pair = pairIndex === -1 ? null : sourceRoot.children[pairIndex]
                 var fallbackChildSource = fallbackSourcesByToken.get(child[TOKEN])
 
-                if (!pair) {
+                if (materializedPair(pair)) {
+                    recordReplacement(child[TOKEN], pair[TOKEN])
+                } else {
                     child[PARENT] = sourceRoot[TOKEN]
                     if (fallbackChildSource) {
                         fallbackChildSource[PARENT] = sourceRoot[TOKEN]
                     }
-                    sourceRoot.children.push(child)
+                    if (pairIndex === -1) sourceRoot.children.push(child)
+                    else sourceRoot.children.splice(pairIndex, 1, child)
+                    touchedFolderTokens.add(sourceRoot[TOKEN])
                     // fallbackSources.find(fb => fb.token === child.token).parent_token = sourceRoot.token
-                } else {
-                    recordReplacement(child[TOKEN], pair[TOKEN])
                 }
             })
 
@@ -321,15 +328,21 @@ class larkUtils {
                 fallback.url = source.url
 
                 fallback.children.forEach(child => {
-                    var pair = source.children.find(s => s[TITLE] === child[TITLE])
-                    if (pair) {
+                    const pairIndex = source.children.findIndex(s => s[TITLE] === child[TITLE])
+                    const pair = pairIndex === -1 ? null : source.children[pairIndex]
+
+                    if (materializedPair(pair)) {
                         recordReplacement(child[TOKEN], pair[TOKEN])
 
                         child[PARENT] = pair[PARENT]
                         child.url = pair.url
                         child[TOKEN] = pair[TOKEN]
+                        touchedFolderTokens.add(source[TOKEN])
                     } else {
                         child[PARENT] = source[TOKEN]
+                        if (pairIndex === -1) source.children.push(child)
+                        else source.children.splice(pairIndex, 1, child)
+                        touchedFolderTokens.add(source[TOKEN])
                         // fallbackSources.find(fb => fb.token === child.token).parent_token = source.token
                     }
                 })
@@ -337,6 +350,7 @@ class larkUtils {
                 source.children.forEach(s => {
                     if (!(fallback.children.find(fb => fb[TITLE] === s[TITLE]))) {
                         fallback.children.push(s)
+                        touchedFolderTokens.add(source[TOKEN])
                     }
                 })
             }
@@ -346,14 +360,21 @@ class larkUtils {
             const originalToken = fallback[TOKEN]
             // docx
             if (docSource(fallback)) {
-                const expectedParent = replacesByToken.get(fallback[PARENT]) || fallback[PARENT]
-                var source = sources.find(source => source?.slug === fallback?.slug && source[PARENT] === expectedParent && docSource(source))
-                if (source) {
-                    recordReplacement(originalToken, source[TOKEN])
-                    fallback[TOKEN] = source[TOKEN]
-                    fallback[PARENT] = source[PARENT]
-                    fallback.url = source.url
-                    fallback.blocks = source.blocks
+                const mappedToken = replacesByToken.get(originalToken)
+                const mappedSource = mappedToken ? sourcesByToken.get(mappedToken) : null
+
+                if (mappedSource && docSource(mappedSource)) {
+                    fallbackSourcesSatisfiedByMaterializedMappings.add(fallback)
+                } else {
+                    const expectedParent = replacesByToken.get(fallback[PARENT]) || fallback[PARENT]
+                    var source = sources.find(source => source?.slug === fallback?.slug && source[PARENT] === expectedParent && docSource(source))
+                    if (source) {
+                        recordReplacement(originalToken, source[TOKEN])
+                        fallback[TOKEN] = source[TOKEN]
+                        fallback[PARENT] = source[PARENT]
+                        fallback.url = source.url
+                        fallback.blocks = source.blocks
+                    }
                 }
             }
 
@@ -365,6 +386,7 @@ class larkUtils {
         // write the fallback sources to the doc source directory
         fallbackSources.forEach(fallback => {
             if (handledFallbackRoot && fallback === fallbackRoot) return
+            if (fallbackSourcesSatisfiedByMaterializedMappings.has(fallback)) return
 
             const token = fallback[TOKEN]
             console.log(`0. Copied ${token}.json`)
@@ -378,6 +400,43 @@ class larkUtils {
             
             fs.writeFileSync(file, raw, {encoding: 'utf-8', flag: 'w'})
         })
+
+        if (sourceType === 'drive') {
+            const candidatesByToken = new Map()
+            fs.readdirSync(docSourceDir)
+                .filter(file => file.endsWith('.json'))
+                .sort()
+                .forEach(file => {
+                    const source = JSON.parse(fs.readFileSync(node_path.join(docSourceDir, file), {encoding: 'utf-8', flag: 'r'}))
+                    const token = source[TOKEN]
+                    const candidates = candidatesByToken.get(token) || []
+                    candidates.push({source, file})
+                    candidatesByToken.set(token, candidates)
+                })
+
+            const resolveSource = (token, missingMessage, parentToken=null) => {
+                const tokenCandidates = candidatesByToken.get(token) || []
+                const candidates = parentToken
+                    ? tokenCandidates.filter(candidate => candidate.source[PARENT] === parentToken)
+                    : tokenCandidates
+                if (candidates.length === 0) {
+                    throw new Error(missingMessage)
+                }
+                if (candidates.length > 1) {
+                    const filenames = candidates.map(candidate => candidate.file).sort()
+                    throw new Error(`[fallback-source] Duplicate token ${token} in ${filenames.join(' and ')}`)
+                }
+                return candidates[0].source
+            }
+
+            touchedFolderTokens.forEach(folderToken => {
+                const folder = resolveSource(folderToken, `[fallback-source] Missing reconciled folder ${folderToken}`)
+
+                folder.children.forEach(child => {
+                    resolveSource(child[TOKEN], `[fallback-source] Unresolved child ${child[TOKEN]} under ${folderToken}`, folderToken)
+                })
+            })
+        }
     }
 
     __convert_link(file, path, outputDir) {

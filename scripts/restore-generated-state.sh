@@ -94,10 +94,19 @@ paths=(
 )
 
 for restore_path in "${paths[@]}"; do
+  source_has_path=false
+  if git ls-tree --name-only "${resolved_ref}" -- "${restore_path}" | grep -Fxq "${restore_path}"; then
+    source_has_path=true
+  fi
+
   if [ "$exact" = true ]; then
     rm -rf -- "$restore_path"
-  fi
-  if git ls-tree --name-only "${resolved_ref}" -- "${restore_path}" | grep -Fxq "${restore_path}"; then
+    if [ "$source_has_path" = true ] || git ls-files --error-unmatch -- "$restore_path" >/dev/null 2>&1; then
+      git restore --source="${resolved_ref}" --staged --worktree -- "$restore_path"
+    else
+      echo "[restore-generated-state] ${restore_path} not found on ${resolved_ref}; skipping"
+    fi
+  elif [ "$source_has_path" = true ]; then
     git checkout "${resolved_ref}" -- "${restore_path}"
   else
     echo "[restore-generated-state] ${restore_path} not found on ${resolved_ref}; skipping"

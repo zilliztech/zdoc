@@ -1222,6 +1222,195 @@ async function testDriveIncrementalRefreshesSourcesBeforePlanningRenderDelta() {
   }
 }
 
+async function testDriveIncrementalEnforcesMaterializedRenderBoundary() {
+  const originalLoad = Module._load;
+  const originalWarn = console.warn;
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'lark-drive-render-scope-'));
+  const sourceDir = path.join(tempDir, 'sources');
+  const outputDir = path.join(tempDir, 'output');
+  const writtenTokens = [];
+  const warnings = [];
+  const plan = {
+    manual: 'pymilvus30',
+    mode: 'incremental',
+    expanded_tokens: ['present-token', 'missing-token'],
+    changed_tokens: [],
+    removed_records: [],
+    reasons_by_token: {
+      'missing-token': ['outgoing reference from source-token'],
+    },
+  };
+  let writerFailureToken = null;
+  let writeMalformedSource = false;
+  let invalidSourceType = null;
+  let omitDocumentBlocks = false;
+  let omitFolderChildren = false;
+  let action = null;
+
+  class FakeScraper {
+    constructor() { this.base_app_token = 'base-token'; this.records = []; }
+    async fetch(recursive) {
+      assert.equal(recursive, true);
+      fs.mkdirSync(sourceDir, { recursive: true });
+      const rootSource = { token: 'root-token', name: 'Root', children: [{ token: 'present-token' }] };
+      if (omitFolderChildren) delete rootSource.children;
+      fs.writeFileSync(path.join(sourceDir, 'root.json'), JSON.stringify(rootSource));
+      const presentA = {
+        token: 'present-token', parent_token: 'root-token', type: invalidSourceType || 'docx', name: 'Present A', blocks: { items: [] },
+      };
+      const presentB = {
+        token: 'present-token', parent_token: 'root-token', type: invalidSourceType || 'docx', name: 'Present B', blocks: { items: [] },
+      };
+      if (omitDocumentBlocks) {
+        delete presentA.blocks;
+        delete presentB.blocks;
+      }
+      fs.writeFileSync(path.join(sourceDir, 'present-placement-a.json'), JSON.stringify(presentA));
+      fs.writeFileSync(path.join(sourceDir, 'present-placement-b.json'), JSON.stringify(presentB));
+      if (writeMalformedSource) {
+        fs.writeFileSync(path.join(sourceDir, 'malformed-source.json'), '{invalid');
+      }
+    }
+  }
+  class FakeDriveWriter {
+    async write_subtree(_targetDir, token) {
+      writtenTokens.push(token);
+      if (token === writerFailureToken) throw new Error(`materialized writer failure: ${token}`);
+    }
+    destroy() {}
+  }
+  class FakeUtils {
+    post_process_file_paths() {}
+  }
+
+  Module._load = function patchedLoad(request, parent, isMain) {
+    if (parent?.filename?.endsWith('/plugins/lark-docs/index.js')) {
+      if (request === './larkDocScraper.js') return FakeScraper;
+      if (request === './larkDriveWriter.js') return FakeDriveWriter;
+      if (request === './larkUtils.js') return FakeUtils;
+      if (request === './incrementalReconciliation') return { cleanupRemovedIncrementalRecords() {} };
+      if (request === './incrementalFetchPlanner') return {
+        planIncrementalFetch() { return plan; },
+        writeIncrementalFetchPlanReports() { return { markdownPath: path.join(tempDir, 'plan.md') }; },
+      };
+      if (request === './sourceSnapshot') return {
+        readSnapshot() { return { schema_version: 2, manual: 'pymilvus30', records: [] }; },
+        createSourceSnapshot() { throw new Error('candidate snapshot should not be written'); },
+        validateCandidateSnapshot() {},
+        writeSnapshot() {},
+      };
+      if (request === './sourceCompleteness') return {
+        validateSourceCompleteness() { throw new Error('fresh Drive sources must not validate the stale cache'); },
+        assertSourceCompleteness() {},
+      };
+    }
+    return originalLoad.apply(this, arguments);
+  };
+  console.warn = message => warnings.push(message);
+
+  try {
+    delete require.cache[require.resolve('./index')];
+    const plugin = require('./index')(null, {
+      pymilvus30: {
+        root: 'root-token', base: 'base-token', sourceType: 'drive', displayedSidebar: [],
+        docSourceDir: sourceDir,
+        targets: { zilliz: { outputDir, imageDir: path.join(tempDir, 'images'), preserveOutput: true } },
+      },
+    });
+    const command = { option() { return this; }, action(callback) { action = callback; return this; } };
+    plugin.extendCli({ command() { return command; } });
+    await action({
+      manual: 'pymilvus30', pubTarget: 'zilliz', incremental: true, buildEnv: 'uat',
+      skipSidebar: true, skipLinkValidation: true,
+    });
+
+    assert.deepEqual(writtenTokens, ['present-token']);
+    assert.deepEqual(warnings, [
+      '[incremental-fetch] Skipping unmaterialized Drive token missing-token: outgoing reference from source-token',
+    ]);
+
+    writtenTokens.length = 0;
+    warnings.length = 0;
+    writerFailureToken = 'present-token';
+    await assert.rejects(
+      () => action({
+        manual: 'pymilvus30', pubTarget: 'zilliz', incremental: true, buildEnv: 'uat',
+        skipSidebar: true, skipLinkValidation: true,
+      }),
+      /materialized writer failure: present-token/
+    );
+    assert.deepEqual(writtenTokens, ['present-token']);
+
+    writtenTokens.length = 0;
+    warnings.length = 0;
+    writerFailureToken = null;
+    plan.changed_tokens = ['missing-token'];
+    await assert.rejects(
+      () => action({
+        manual: 'pymilvus30', pubTarget: 'zilliz', incremental: true, buildEnv: 'uat',
+        skipSidebar: true, skipLinkValidation: true,
+      }),
+      /Cannot render changed Drive token missing-token because it is absent from the completed source cache/
+    );
+    assert.deepEqual(writtenTokens, []);
+
+    plan.changed_tokens = [];
+    plan.reasons_by_token = {};
+    await assert.rejects(
+      () => action({
+        manual: 'pymilvus30', pubTarget: 'zilliz', incremental: true, buildEnv: 'uat',
+        skipSidebar: true, skipLinkValidation: true,
+      }),
+      /Cannot skip unmaterialized Drive token missing-token because it is not a reference-only expansion/
+    );
+
+    plan.reasons_by_token = { 'missing-token': ['outgoing reference from source-token'] };
+    writeMalformedSource = true;
+    await assert.rejects(
+      () => action({
+        manual: 'pymilvus30', pubTarget: 'zilliz', incremental: true, buildEnv: 'uat',
+        skipSidebar: true, skipLinkValidation: true,
+      }),
+      /Cannot parse Drive source malformed-source\.json:/
+    );
+
+    writeMalformedSource = false;
+    invalidSourceType = 'unknown';
+    await assert.rejects(
+      () => action({
+        manual: 'pymilvus30', pubTarget: 'zilliz', incremental: true, buildEnv: 'uat',
+        skipSidebar: true, skipLinkValidation: true,
+      }),
+      /Cannot classify Drive source present-placement-a\.json: unsupported type unknown/
+    );
+
+    invalidSourceType = null;
+    omitDocumentBlocks = true;
+    await assert.rejects(
+      () => action({
+        manual: 'pymilvus30', pubTarget: 'zilliz', incremental: true, buildEnv: 'uat',
+        skipSidebar: true, skipLinkValidation: true,
+      }),
+      /Cannot classify Drive source present-placement-a\.json: docx source requires blocks\.items/
+    );
+
+    omitDocumentBlocks = false;
+    omitFolderChildren = true;
+    await assert.rejects(
+      () => action({
+        manual: 'pymilvus30', pubTarget: 'zilliz', incremental: true, buildEnv: 'uat',
+        skipSidebar: true, skipLinkValidation: true,
+      }),
+      /Cannot classify Drive source root\.json: folder source requires children/
+    );
+  } finally {
+    console.warn = originalWarn;
+    Module._load = originalLoad;
+    delete require.cache[require.resolve('./index')];
+    fs.rmSync(tempDir, { recursive: true, force: true });
+  }
+}
+
 async function run() {
   await testFeishuJsonFetchesAreThrottled();
   await testWikiRootFetchRetriesPrematureClose();
@@ -1248,6 +1437,7 @@ async function run() {
   await testWikiMetadataProgressLogsResolutionCounts();
   await testIncrementalSourceFetchWritesCandidateFromRetainedScan();
   await testDriveIncrementalRefreshesSourcesBeforePlanningRenderDelta();
+  await testDriveIncrementalEnforcesMaterializedRenderBoundary();
   console.log('lark-docs scraper tests passed');
 }
 

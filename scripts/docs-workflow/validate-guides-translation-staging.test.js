@@ -12,7 +12,34 @@ const { runGuidesTranslationValidation, writeValidationResult, VALIDATION_COMMAN
 const ROOT = 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials'
 const REPORT = 'plugins/lark-docs/meta/reports/guides-incremental-fetch-plan.json'
 const ENV = { ...process.env, GIT_AUTHOR_NAME: 'Test', GIT_AUTHOR_EMAIL: 'test@example.com', GIT_COMMITTER_NAME: 'Test', GIT_COMMITTER_EMAIL: 'test@example.com' }
+const restoreScript = path.resolve(__dirname, '..', 'restore-generated-state.sh')
 function git(cwd, ...args) { return execFileSync('git', args, { cwd, encoding: 'utf8', env: ENV }).trim() }
+
+function commitStatus(repository, sha) {
+  return spawnSync('git', ['cat-file', '-e', `${sha}^{commit}`], {
+    cwd: repository,
+    encoding: 'utf8',
+    env: ENV,
+  }).status
+}
+
+function restoreExact(repository, stagedSha) {
+  return spawnSync('bash', [restoreScript, '--exact', '--ref', stagedSha], {
+    cwd: repository,
+    encoding: 'utf8',
+    env: ENV,
+  })
+}
+
+function cloneMaster(repository) {
+  const root = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'validate-guides-tooling-')))
+  const toolingRepository = path.join(root, 'repository')
+  execFileSync('git', ['clone', '--no-local', '--single-branch', '--branch', 'master', repository, toolingRepository], {
+    encoding: 'utf8',
+    env: ENV,
+  })
+  return { repository: fs.realpathSync(toolingRepository), root }
+}
 
 function fixture() {
   const repository = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'validate-guides-staging-')))
@@ -129,7 +156,7 @@ test('rejects untracked generated files, index contamination, and symlinked stag
   assert.throws(() => runGuidesTranslationValidation({ ...symlink, executor() {} }), /symlink|special/i)
 })
 
-test('rejects hybrid authoritative roots and executable-mode drift', () => {
+test('rejects hybrid authoritative roots and executable-mode drift', t => {
   for (const relative of ['docs/extra.md', 'docs-byoc/extra.md', 'reference/extra.md', 'i18n/ja-JP/extra.md', '.translation-cache/extra.json', 'config/generated/extra.js', 'plugins/lark-docs/meta/snapshots/extra.json', 'plugins/lark-docs/meta/assembly/extra.json']) {
     const state = fixture()
     git(state.repository, 'switch', 'staged'); fs.writeFileSync(path.join(state.repository, relative), 'staged only\n'); git(state.repository, 'add', relative); git(state.repository, 'commit', '-m', `change ${relative}`); state.stagedSha = git(state.repository, 'rev-parse', 'HEAD')
@@ -140,9 +167,22 @@ test('rejects hybrid authoritative roots and executable-mode drift', () => {
   assert.throws(() => runGuidesTranslationValidation({ ...mode, executor() {} }), /mode|executable/i)
 
   const deletion = fixture(); git(deletion.repository, 'switch', 'staged'); fs.unlinkSync(path.join(deletion.repository, 'reference', 'index.md')); git(deletion.repository, 'add', '-A', 'reference'); git(deletion.repository, 'commit', '-m', 'delete staged reference file'); deletion.stagedSha = git(deletion.repository, 'rev-parse', 'HEAD')
-  git(deletion.repository, 'switch', '--detach', deletion.masterSha); git(deletion.repository, 'checkout', deletion.stagedSha, '--', ...RESTORE_PATHS); fs.unlinkSync(path.join(deletion.repository, 'reference', 'index.md')); git(deletion.repository, 'add', '-A', 'reference')
-  assert.equal(fs.existsSync(path.join(deletion.repository, 'reference', 'index.md')), false)
-  assert.equal(runGuidesTranslationValidation({ ...deletion, executor() { return { status: 0, signal: null, stderr: '' } } }).result, 'success')
+  git(deletion.repository, 'switch', '--detach', deletion.masterSha)
+  const tooling = cloneMaster(deletion.repository)
+  t.after(() => fs.rmSync(tooling.root, { recursive: true, force: true }))
+  assert.notEqual(commitStatus(tooling.repository, deletion.stagedSha), 0)
+  const restored = restoreExact(tooling.repository, deletion.stagedSha)
+  assert.equal(restored.status, 0, restored.stderr)
+  assert.equal(commitStatus(tooling.repository, deletion.stagedSha), 0)
+  assert.equal(fs.existsSync(path.join(tooling.repository, 'reference', 'index.md')), false)
+  assert.equal(
+    runGuidesTranslationValidation({
+      ...deletion,
+      repository: tooling.repository,
+      executor() { return { status: 0, signal: null, stderr: '' } },
+    }).result,
+    'success',
+  )
 })
 
 test('validation writer rejects parent swaps without redirecting output', () => {

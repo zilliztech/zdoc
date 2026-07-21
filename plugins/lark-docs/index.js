@@ -21,6 +21,55 @@ function validateOfflineOptions(opts) {
     if (!opts.mediaManifest) throw new Error('--offline requires --mediaManifest')
 }
 
+function driveIncrementalRenderTokens(plan, docSourceDir, rootToken) {
+    const materializedTokens = new Set()
+    for (const file of fs.readdirSync(docSourceDir).filter(file => file.endsWith('.json')).sort()) {
+        let source
+        try {
+            source = JSON.parse(fs.readFileSync(path.join(docSourceDir, file), 'utf8'))
+        } catch (error) {
+            throw new Error(`Cannot parse Drive source ${file}: ${error.message}`, { cause: error })
+        }
+        if (typeof source.token === 'string' && source.token) {
+            const sourceType = source.type ?? (source.token === rootToken ? 'folder' : null)
+            if (sourceType !== 'folder' && sourceType !== 'docx') {
+                throw new Error(`Cannot classify Drive source ${file}: unsupported type ${source.type ?? '(missing)'}`)
+            }
+            if (sourceType === 'docx' && !Array.isArray(source.blocks?.items)) {
+                throw new Error(`Cannot classify Drive source ${file}: docx source requires blocks.items`)
+            }
+            if (sourceType === 'folder' && !Array.isArray(source.children)) {
+                throw new Error(`Cannot classify Drive source ${file}: folder source requires children`)
+            }
+            materializedTokens.add(source.token)
+        }
+    }
+
+    const expandedTokens = plan.expanded_tokens || []
+    const skippedTokens = [...new Set(expandedTokens.filter(token => !materializedTokens.has(token)))].sort()
+    const changedTokens = new Set(plan.changed_tokens || [])
+    const missingChangedTokens = skippedTokens.filter(token => changedTokens.has(token))
+    if (missingChangedTokens.length > 0) {
+        const label = missingChangedTokens.length === 1 ? 'token' : 'tokens'
+        throw new Error(`Cannot render changed Drive ${label} ${missingChangedTokens.join(', ')} because ${missingChangedTokens.length === 1 ? 'it is' : 'they are'} absent from the completed source cache`)
+    }
+    const nonReferenceTokens = skippedTokens.filter(token => {
+        const reasons = plan.reasons_by_token?.[token]
+        return !Array.isArray(reasons) || reasons.length === 0 ||
+            reasons.some(reason => typeof reason !== 'string' || !/^(incoming reference to|outgoing reference from) /.test(reason))
+    })
+    if (nonReferenceTokens.length > 0) {
+        const label = nonReferenceTokens.length === 1 ? 'token' : 'tokens'
+        throw new Error(`Cannot skip unmaterialized Drive ${label} ${nonReferenceTokens.join(', ')} because ${nonReferenceTokens.length === 1 ? 'it is' : 'they are'} not a reference-only expansion`)
+    }
+    for (const token of skippedTokens) {
+        const reasons = Array.isArray(plan.reasons_by_token?.[token]) ? plan.reasons_by_token[token] : []
+        const reasonText = reasons.length > 0 ? `: ${reasons.join('; ')}` : ''
+        console.warn(`[incremental-fetch] Skipping unmaterialized Drive token ${token}${reasonText}`)
+    }
+    return expandedTokens.filter(token => materializedTokens.has(token))
+}
+
 const GUIDES_SIDEBAR_TARGETS = Object.freeze(['zilliz.saas', 'zilliz.paas'])
 
 function resolveConfiguredTarget(targets, targetName) {
@@ -838,6 +887,7 @@ function larkDocsPlugin(context, options) {
                                         plan: sourcePlan,
                                         docSourceDir,
                                         targetOutputDir: outputDir,
+                                        preservePlacementAncestry: sourceType === 'drive',
                                         determineFilePath: (token, targetDir) => utils.determine_file_path(token, targetDir),
                                     })
                                 } else if (targetConfig.preserveOutput) {
@@ -858,7 +908,9 @@ function larkDocsPlugin(context, options) {
                                 }
 
                                 if (sourcePlan?.mode === 'incremental') {
-                                    const tokensToWrite = sourcePlan.expanded_tokens || []
+                                    const tokensToWrite = sourceType === 'drive'
+                                        ? driveIncrementalRenderTokens(sourcePlan, docSourceDir, root)
+                                        : sourcePlan.expanded_tokens || []
                                     if (tokensToWrite.length === 0) {
                                         console.log('[incremental-fetch] No changed or expanded docs to write.')
                                     } else {

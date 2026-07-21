@@ -261,6 +261,227 @@ function testDuplicateRouteSlugUsesParentDirectoryName() {
   );
 }
 
+async function testWriteSubtreeUsesDriveTokenAndParentTokenFields() {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'lark-drive-writer-'));
+  const out = fs.mkdtempSync(path.join(os.tmpdir(), 'lark-drive-output-'));
+  const writer = new larkDriveWriter('root', '', 'pythonSidebar', dir, '/tmp', 'zilliz', true, false, 'pymilvus30');
+  const writes = [];
+  writer.__is_to_publish = async () => ({ publish: true, labels: 'Leaf' });
+  writer.write_doc = async options => writes.push(options);
+
+  try {
+    writeJson(dir, 'root.json', {
+      token: 'root',
+      name: 'Root',
+      type: 'folder',
+      slug: 'root',
+      children: [{ token: 'parent' }],
+    });
+    writeJson(dir, 'parent.json', {
+      token: 'parent',
+      parent_token: 'root',
+      name: 'Parent',
+      type: 'folder',
+      slug: 'parent-slug',
+      children: [{ token: 'sibling' }, { token: 'leaf' }],
+    });
+    writeJson(dir, 'leaf.json', {
+      token: 'leaf',
+      parent_token: 'parent',
+      name: 'Leaf',
+      type: 'docx',
+      slug: 'leaf-slug',
+      blocks: { items: [] },
+    });
+
+    await writer.write_subtree(out, 'leaf');
+
+    assert.equal(writes.length, 1);
+    assert.equal(path.resolve(writes[0].path), path.join(out, 'parent-slug'));
+    assert.equal(writes[0].page_title, 'Leaf');
+    assert.equal(writes[0].page_slug, 'leaf-slug');
+    assert.equal(writes[0].page_token, 'leaf');
+    assert.equal(writes[0].sidebar_position, 2);
+    assert.equal(writes[0].doc_card_list, false);
+    assert.ok(fs.existsSync(path.join(out, 'parent-slug')));
+  } finally {
+    writer.destroy();
+    fs.rmSync(dir, { recursive: true, force: true });
+    fs.rmSync(out, { recursive: true, force: true });
+  }
+}
+
+async function testWriteSubtreeRendersEveryDuplicateTokenPlacement() {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'lark-drive-writer-'));
+  const out = fs.mkdtempSync(path.join(os.tmpdir(), 'lark-drive-output-'));
+  const writer = new larkDriveWriter('root', '', 'pythonSidebar', dir, '/tmp', 'zilliz', true, false, 'pymilvus30');
+  const writes = [];
+  writer.__is_to_publish = async () => ({ publish: true });
+  writer.write_doc = async options => writes.push(options);
+
+  try {
+    writeJson(dir, 'root.json', {
+      token: 'root', name: 'Root', type: 'folder', slug: 'root',
+      children: [{ token: 'parent-a' }, { token: 'parent-b' }],
+    });
+    writeJson(dir, 'parent-a.json', {
+      token: 'parent-a', parent_token: 'root', name: 'A', type: 'folder', slug: 'parent-a',
+      children: [{ token: 'shared' }],
+    });
+    writeJson(dir, 'parent-b.json', {
+      token: 'parent-b', parent_token: 'root', name: 'B', type: 'folder', slug: 'parent-b',
+      children: [{ token: 'shared' }],
+    });
+    writeJson(dir, 'shared-a.json', {
+      token: 'shared', parent_token: 'parent-a', name: 'Shared A', type: 'docx',
+      slug: 'parent-a-shared', blocks: { items: [] },
+    });
+    writeJson(dir, 'shared-b.json', {
+      token: 'shared', parent_token: 'parent-b', name: 'Shared B', type: 'docx',
+      slug: 'parent-b-shared', blocks: { items: [] },
+    });
+
+    await writer.write_subtree(out, 'shared');
+
+    assert.deepEqual(
+      writes.map(write => [path.relative(out, write.path), write.page_slug]),
+      [['parent-a', 'parent-a-shared'], ['parent-b', 'parent-b-shared']]
+    );
+  } finally {
+    writer.destroy();
+    fs.rmSync(dir, { recursive: true, force: true });
+    fs.rmSync(out, { recursive: true, force: true });
+  }
+}
+
+async function testWriteSubtreePreservesMeaningfulCategoryMetadata() {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'lark-drive-writer-'));
+  const out = fs.mkdtempSync(path.join(os.tmpdir(), 'lark-drive-output-'));
+  const writer = new larkDriveWriter('root', '', 'pythonSidebar', dir, '/tmp', 'zilliz', true, false, 'pymilvus30');
+  const writes = [];
+  writer.__is_to_publish = async () => ({
+    publish: true,
+    description: 'Category description',
+    tag: 'beta',
+    labels: 'Category label',
+    addSince: '2.5.0',
+    lastModified: '2026-07-21',
+    deprecateSince: 'false',
+  });
+  writer.write_doc = async options => writes.push(options);
+
+  try {
+    writeJson(dir, 'root.json', {
+      token: 'root', name: 'Root', type: 'folder', slug: 'root', children: [{ token: 'parent' }],
+    });
+    writeJson(dir, 'parent.json', {
+      token: 'parent', parent_token: 'root', name: 'Parent', type: 'folder', slug: 'parent-slug',
+      children: [{ token: 'category' }],
+    });
+    writeJson(dir, 'category.json', {
+      token: 'category', parent_token: 'parent', name: 'Category', type: 'folder', slug: 'category-slug',
+      children: [],
+      blocks: { items: [{ block_type: 1 }, { block_type: 9 }] },
+    });
+
+    await writer.write_subtree(out, 'category');
+
+    assert.equal(writes.length, 1);
+    assert.equal(path.resolve(writes[0].path), path.join(out, 'parent-slug', 'category-slug'));
+    assert.equal(writes[0].page_description, 'Category description');
+    assert.equal(writes[0].page_beta, 'beta');
+    assert.equal(writes[0].sidebar_label, 'Category label');
+    assert.equal(writes[0].addedSince, '2.5.0');
+    assert.equal(writes[0].lastModified, '2026-07-21');
+    assert.equal(writes[0].deprecateSince, 'false');
+    assert.equal(writes[0].doc_card_list, true);
+  } finally {
+    writer.destroy();
+    fs.rmSync(dir, { recursive: true, force: true });
+    fs.rmSync(out, { recursive: true, force: true });
+  }
+}
+
+async function testWriteSubtreeRejectsMissingIntermediateParent() {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'lark-drive-writer-'));
+  const out = fs.mkdtempSync(path.join(os.tmpdir(), 'lark-drive-output-'));
+  const writer = new larkDriveWriter('root', '', 'pythonSidebar', dir, '/tmp', 'zilliz', true, false, 'pymilvus30');
+  writer.__is_to_publish = async () => ({ publish: true });
+  writer.write_doc = async () => {
+    throw new Error('document must not be written without its placement ancestry');
+  };
+
+  try {
+    writeJson(dir, 'orphan.json', {
+      token: 'orphan', parent_token: 'missing-parent', name: 'Orphan', type: 'docx',
+      slug: 'orphan', blocks: { items: [] },
+    });
+
+    await assert.rejects(
+      () => writer.write_subtree(out, 'orphan'),
+      /Cannot resolve Drive parent missing-parent for orphan/
+    );
+  } finally {
+    writer.destroy();
+    fs.rmSync(dir, { recursive: true, force: true });
+    fs.rmSync(out, { recursive: true, force: true });
+  }
+}
+
+async function testWriteSubtreeKeepsDuplicateFolderDescendantsInTheirPlacements() {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'lark-drive-writer-'));
+  const out = fs.mkdtempSync(path.join(os.tmpdir(), 'lark-drive-output-'));
+  const writer = new larkDriveWriter('root', '', 'pythonSidebar', dir, '/tmp', 'zilliz', true, false, 'pymilvus30');
+  const writes = [];
+  writer.__is_to_publish = async () => ({ publish: true });
+  writer.write_doc = async options => writes.push(options);
+
+  try {
+    writeJson(dir, 'root.json', {
+      token: 'root', name: 'Root', type: 'folder', slug: 'root',
+      children: [{ token: 'parent-a' }, { token: 'parent-b' }],
+    });
+    writeJson(dir, 'parent-a.json', {
+      token: 'parent-a', parent_token: 'root', name: 'A', type: 'folder', slug: 'parent-a',
+      children: [{ token: 'shared-folder' }],
+    });
+    writeJson(dir, 'parent-b.json', {
+      token: 'parent-b', parent_token: 'root', name: 'B', type: 'folder', slug: 'parent-b',
+      children: [{ token: 'shared-folder' }],
+    });
+    writeJson(dir, 'shared-folder-a.json', {
+      token: 'shared-folder', parent_token: 'parent-a', name: 'Shared A', type: 'folder',
+      slug: 'parent-a-shared', children: [{ token: 'leaf-a' }],
+    });
+    writeJson(dir, 'shared-folder-b.json', {
+      token: 'shared-folder', parent_token: 'parent-b', name: 'Shared B', type: 'folder',
+      slug: 'parent-b-shared', children: [{ token: 'leaf-b' }],
+    });
+    writeJson(dir, 'leaf-a.json', {
+      token: 'leaf-a', parent_token: 'shared-folder', name: 'Leaf A', type: 'docx',
+      slug: 'parent-a-leaf', blocks: { items: [] },
+    });
+    writeJson(dir, 'leaf-b.json', {
+      token: 'leaf-b', parent_token: 'shared-folder', name: 'Leaf B', type: 'docx',
+      slug: 'parent-b-leaf', blocks: { items: [] },
+    });
+
+    await writer.write_subtree(out, 'shared-folder');
+
+    assert.deepEqual(
+      writes.map(write => [path.relative(out, write.path), write.page_slug]),
+      [
+        [path.join('parent-a', 'parent-a-shared'), 'parent-a-leaf'],
+        [path.join('parent-b', 'parent-b-shared'), 'parent-b-leaf'],
+      ]
+    );
+  } finally {
+    writer.destroy();
+    fs.rmSync(dir, { recursive: true, force: true });
+    fs.rmSync(out, { recursive: true, force: true });
+  }
+}
+
 async function run() {
   testDuplicateTokenSourceUsesParentSlugContext();
   testDuplicateTokenSourceUsesUtilityParentContext();
@@ -269,6 +490,11 @@ async function run() {
   await testSidebarItemsDeduplicateRepeatedChildTokens();
   await testWriteDocAppliesSharedMdxPatches();
   testDuplicateRouteSlugUsesParentDirectoryName();
+  await testWriteSubtreePreservesMeaningfulCategoryMetadata();
+  await testWriteSubtreeRejectsMissingIntermediateParent();
+  await testWriteSubtreeUsesDriveTokenAndParentTokenFields();
+  await testWriteSubtreeRendersEveryDuplicateTokenPlacement();
+  await testWriteSubtreeKeepsDuplicateFolderDescendantsInTheirPlacements();
   console.log('larkDriveWriter tests passed');
 }
 

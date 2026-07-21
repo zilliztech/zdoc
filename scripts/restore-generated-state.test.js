@@ -7,6 +7,7 @@ const os = require('node:os')
 const path = require('node:path')
 const test = require('node:test')
 const { createCheckpointArtifact } = require('./docs-workflow/create-checkpoint-artifact')
+const { RESTORE_PATHS } = require('./docs-workflow/validate-guides-translation-staging')
 
 const scriptPath = path.resolve('scripts/restore-generated-state.sh')
 const restorePaths = [
@@ -23,6 +24,20 @@ const restorePaths = [
 
 function git(cwd, ...args) {
   return execFileSync('git', args, { cwd, encoding: 'utf8' }).trim()
+}
+
+function lines(value) {
+  return value ? value.split('\n') : []
+}
+
+function indexInventory(cwd, relativePath) {
+  return lines(git(cwd, 'ls-files', '-s', '--', relativePath))
+    .map(entry => entry.replace(/ 0\t/, '\t'))
+}
+
+function treeInventory(cwd, commit, relativePath) {
+  return lines(git(cwd, 'ls-tree', '-r', commit, '--', relativePath))
+    .map(entry => entry.replace(' blob ', ' '))
 }
 
 function write(root, relativePath, contents) {
@@ -74,6 +89,7 @@ test('source supports branch and immutable ref modes with one resolved ref', () 
   assert.match(script, /resolved_ref=["']?FETCH_HEAD/)
   assert.match(script, /git ls-tree --name-only "\$\{?resolved_ref\}?" -- "\$\{?restore_path\}?"/)
   assert.match(script, /git checkout "\$\{?resolved_ref\}?" -- "\$\{?restore_path\}?"/)
+  assert.match(script, /git restore --source="\$\{?resolved_ref\}?" --staged --worktree -- "\$\{?restore_path\}?"/)
   assert.doesNotMatch(script, /\beval\b/)
 })
 
@@ -83,6 +99,7 @@ test('source preserves the fixed restore path list exactly', () => {
   assert.ok(match)
   const actualPaths = [...match[1].matchAll(/^\s*"([^"]+)"\s*$/gm)].map((entry) => entry[1])
   assert.deepEqual(actualPaths, restorePaths)
+  assert.deepEqual(actualPaths, RESTORE_PATHS)
 })
 
 test('default branch mode restores generated state from dev and skips missing paths', () => {
@@ -120,6 +137,55 @@ test('exact immutable ref mode removes managed paths absent from the source comm
 
     assert.equal(result.status, 0, result.stderr)
     assert.equal(fs.existsSync(path.join(fixture.work, 'config/generated')), false)
+  } finally {
+    fs.rmSync(fixture.root, { recursive: true, force: true })
+  }
+})
+
+test('exact immutable ref mode removes a large tracked root absent from the source commit', () => {
+  const fixture = createFixture()
+  try {
+    for (let index = 0; index < 15000; index += 1) {
+      write(fixture.work, `docs/generated-${String(index).padStart(5, '0')}.md`, `${index}\n`)
+    }
+    git(fixture.work, 'add', 'docs')
+
+    fs.rmSync(path.join(fixture.source, 'docs'), { recursive: true })
+    git(fixture.source, 'add', '-A', 'docs')
+    git(fixture.source, 'commit', '-m', 'remove generated docs root')
+    const sourceSha = git(fixture.source, 'rev-parse', 'HEAD')
+    git(fixture.source, 'push', 'origin', 'dev')
+
+    const result = run(fixture.work, ['--exact', '--ref', sourceSha])
+
+    assert.equal(result.status, 0, result.stderr)
+    assert.equal(fs.existsSync(path.join(fixture.work, 'docs')), false)
+    assert.equal(lines(git(fixture.work, 'ls-files', '--', 'docs')).length, 0)
+    assert.equal(lines(git(fixture.work, 'ls-tree', '-r', '--name-only', sourceSha, '--', 'docs')).length, 0)
+  } finally {
+    fs.rmSync(fixture.root, { recursive: true, force: true, maxRetries: 3, retryDelay: 100 })
+  }
+})
+
+test('exact immutable ref mode makes the index equal a source tree that deletes files', () => {
+  const fixture = createFixture()
+  try {
+    write(fixture.source, 'docs/keep.md', 'kept from source\n')
+    fs.rmSync(path.join(fixture.source, 'docs/state.txt'))
+    git(fixture.source, 'add', '-A', 'docs')
+    git(fixture.source, 'commit', '-m', 'replace generated docs inventory')
+    const sourceSha = git(fixture.source, 'rev-parse', 'HEAD')
+    git(fixture.source, 'push', 'origin', 'dev')
+
+    const result = run(fixture.work, ['--exact', '--ref', sourceSha])
+
+    assert.equal(result.status, 0, result.stderr)
+    assert.equal(fs.existsSync(path.join(fixture.work, 'docs/state.txt')), false)
+    assert.equal(fs.readFileSync(path.join(fixture.work, 'docs/keep.md'), 'utf8'), 'kept from source\n')
+    assert.deepEqual(
+      indexInventory(fixture.work, 'docs'),
+      treeInventory(fixture.work, sourceSha, 'docs'),
+    )
   } finally {
     fs.rmSync(fixture.root, { recursive: true, force: true })
   }

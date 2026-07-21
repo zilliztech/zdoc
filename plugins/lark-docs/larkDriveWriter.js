@@ -76,6 +76,7 @@ class larkDriveWriter extends larkDocWriter {
                 return source
             })
             .filter(source => source.token === token)
+            .sort((left, right) => left.__source_file.localeCompare(right.__source_file))
     }
 
     __drive_source_for_child(child, parentSlug=null) {
@@ -104,6 +105,11 @@ class larkDriveWriter extends larkDocWriter {
     }
 
     async write_docs(path, token) {
+        const node = this.__fetch_doc_source('token', token)
+        await this.__write_docs_source(path, node)
+    }
+
+    async __write_docs_source(path, node) {
         const forEachAsync = async (array, callback) => {
             for (let index = 0; index < array.length; index++) {
                 await callback(array[index], index, array);
@@ -111,7 +117,6 @@ class larkDriveWriter extends larkDocWriter {
         }
         
         var current_path = path
-        const node = this.__fetch_doc_source('token', token)
 
         if (node.children) {
             await forEachAsync(node.children, async (child, index) => {
@@ -192,11 +197,108 @@ class larkDriveWriter extends larkDocWriter {
                                 console.log(`${node_path.join(current_path, slug)}/ [meaningless category — no index page generated]`)
                             }
 
-                            await this.write_docs(node_path.join(current_path, slug), token)
+                            await this.__write_docs_source(node_path.join(current_path, slug), source)
                         }
                     }
                 }    
             })
+        }
+    }
+
+    async write_subtree(outputDir, token) {
+        if (!this.outputRoot) this.outputRoot = outputDir
+
+        if (token === this.root_token) {
+            await this.write_docs(outputDir, token)
+            return
+        }
+
+        const nodes = this.__drive_source_candidates(token)
+        if (nodes.length === 0) {
+            this.__fetch_doc_source('token', token)
+            return
+        }
+
+        for (const node of nodes) {
+            await this.__write_subtree_source(outputDir, node)
+        }
+    }
+
+    __drive_parent_for_source(source) {
+        const candidates = this.__drive_source_candidates(source.parent_token)
+        const contextual = candidates.find(parent => (parent.children || []).some(child => {
+            if (child.token !== source.token) return false
+            return this.__drive_source_for_child(child, parent.slug)?.__source_file === source.__source_file
+        }))
+        return contextual || candidates[0] || null
+    }
+
+    __drive_sidebar_position(parent, source) {
+        const index = (parent?.children || []).findIndex(child => {
+            if (child.token !== source.token) return false
+            return this.__drive_source_for_child(child, parent.slug)?.__source_file === source.__source_file
+        })
+        return index >= 0 ? index + 1 : 1
+    }
+
+    async __write_subtree_source(outputDir, node) {
+        const parent = node.parent_token ? this.__drive_parent_for_source(node) : null
+        const sidebarPosition = this.__drive_sidebar_position(parent, node)
+
+        let relPath = ''
+        let current = node
+
+        while (current && current.parent_token && current.parent_token !== this.root_token) {
+            const currentParent = this.__drive_parent_for_source(current)
+            if (!currentParent) {
+                throw new Error(`Cannot resolve Drive parent ${current.parent_token} for ${current.token}`)
+            }
+            relPath = this.__slug_value(currentParent.slug) + '/' + relPath
+            current = currentParent
+        }
+
+        const parentPath = `${outputDir}/${relPath}`.replace(/\/+/g, '/')
+        if (!fs.existsSync(parentPath)) {
+            fs.mkdirSync(parentPath, { recursive: true })
+        }
+
+        const slug = this.__slug_value(node.slug)
+        const meta = await this.__is_to_publish(node.name, node.slug, node.token)
+        if (!meta.publish) return
+
+        const writeCurrentPage = async (pagePath, docCardList) => {
+            console.log(`${pagePath}/${slug}.md`.replace(/\/+/g, '/'))
+            await this.write_doc({
+                path: pagePath,
+                page_title: node.name,
+                page_slug: slug,
+                page_beta: meta.tag || 'false',
+                notebook: 'false',
+                addedSince: meta.addSince || 'false',
+                lastModified: meta.lastModified || 'false',
+                deprecateSince: meta.deprecateSince || 'false',
+                page_type: node.type,
+                page_token: node.token,
+                sidebar_position: sidebarPosition,
+                sidebar_label: meta.labels,
+                page_description: docCardList ? meta.description : undefined,
+                doc_card_list: docCardList,
+            })
+        }
+
+        if (node.children) {
+            const nodePath = `${parentPath}/${slug}`.replace(/\/+/g, '/')
+            if (!fs.existsSync(nodePath)) {
+                fs.mkdirSync(nodePath, { recursive: true })
+            }
+            if (this.categorize_node(node) === 'meaningful') {
+                await writeCurrentPage(nodePath, true)
+            } else {
+                console.log(`${nodePath}/ [meaningless category — no index page generated]`)
+            }
+            await this.__write_docs_source(nodePath, node)
+        } else {
+            await writeCurrentPage(parentPath, false)
         }
     }
 
