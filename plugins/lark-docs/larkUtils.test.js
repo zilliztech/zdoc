@@ -228,6 +228,110 @@ function testDriveFallbackRejectsDanglingChildWhenBothBodiesAreMissing() {
   });
 }
 
+function testDriveFallbackRejectsDanglingSourceOnlyChild() {
+  withTempSourceDirs((sourceDir, fallbackDir) => {
+    writeJson(sourceDir, 'V3_ROOT', {
+      token: 'V3_ROOT',
+      name: 'v3.0.x',
+      children: [
+        { name: 'FieldSchema', token: 'NEW_FIELD_FOLDER', parent_token: 'V3_ROOT', type: 'folder' },
+      ],
+    });
+    writeJson(sourceDir, 'NEW_FIELD_FOLDER', {
+      token: 'NEW_FIELD_FOLDER',
+      name: 'FieldSchema',
+      slug: 'FieldSchema',
+      type: 'folder',
+      parent_token: 'V3_ROOT',
+      children: [
+        { name: 'source-only-child', token: 'DANGLING', parent_token: 'NEW_FIELD_FOLDER', type: 'docx' },
+      ],
+    });
+
+    writeJson(fallbackDir, 'V26_ROOT', {
+      token: 'V26_ROOT',
+      name: 'v2.6.x',
+      children: [
+        { name: 'FieldSchema', token: 'OLD_FIELD_FOLDER', parent_token: 'V26_ROOT', type: 'folder' },
+      ],
+    });
+    writeJson(fallbackDir, 'OLD_FIELD_FOLDER', {
+      token: 'OLD_FIELD_FOLDER',
+      name: 'FieldSchema',
+      slug: 'FieldSchema',
+      type: 'folder',
+      parent_token: 'V26_ROOT',
+      children: [],
+    });
+
+    assert.throws(
+      () => new larkUtils().fetch_fallback_sources(sourceDir, fallbackDir, 'drive', 'V3_ROOT'),
+      /\[fallback-source\] Unresolved child DANGLING under NEW_FIELD_FOLDER/
+    );
+  });
+}
+
+function testDriveFallbackRejectsDuplicateFinalTokenIdentities() {
+  withTempSourceDirs((sourceDir, fallbackDir) => {
+    writeJson(sourceDir, 'V3_ROOT', {
+      token: 'V3_ROOT',
+      name: 'v3.0.x',
+      children: [
+        { name: 'FieldSchema', token: 'NEW_FIELD_FOLDER', parent_token: 'V3_ROOT', type: 'folder' },
+      ],
+    });
+    writeJson(sourceDir, 'NEW_FIELD_FOLDER', {
+      token: 'NEW_FIELD_FOLDER',
+      name: 'FieldSchema',
+      slug: 'FieldSchema',
+      type: 'folder',
+      parent_token: 'V3_ROOT',
+      children: [
+        { name: 'shared-child', token: 'NEW_DOC', parent_token: 'NEW_FIELD_FOLDER', type: 'docx' },
+      ],
+    });
+    writeJson(sourceDir, 'NEW_DOC', {
+      token: 'NEW_DOC',
+      name: 'shared-child',
+      slug: 'source-child-slug',
+      type: 'docx',
+      parent_token: 'NEW_FIELD_FOLDER',
+      blocks: { items: [{ block_id: 'source-page', block_type: 1 }] },
+    });
+
+    writeJson(fallbackDir, 'V26_ROOT', {
+      token: 'V26_ROOT',
+      name: 'v2.6.x',
+      children: [
+        { name: 'FieldSchema', token: 'OLD_FIELD_FOLDER', parent_token: 'V26_ROOT', type: 'folder' },
+      ],
+    });
+    writeJson(fallbackDir, 'OLD_FIELD_FOLDER', {
+      token: 'OLD_FIELD_FOLDER',
+      name: 'FieldSchema',
+      slug: 'FieldSchema',
+      type: 'folder',
+      parent_token: 'V26_ROOT',
+      children: [
+        { name: 'shared-child', token: 'OLD_DOC', parent_token: 'OLD_FIELD_FOLDER', type: 'docx' },
+      ],
+    });
+    writeJson(fallbackDir, 'OLD_DOC', {
+      token: 'OLD_DOC',
+      name: 'shared-child',
+      slug: 'fallback-child-slug',
+      type: 'docx',
+      parent_token: 'OLD_FIELD_FOLDER',
+      blocks: { items: [{ block_id: 'fallback-page', block_type: 1 }] },
+    });
+
+    assert.throws(
+      () => new larkUtils().fetch_fallback_sources(sourceDir, fallbackDir, 'drive', 'V3_ROOT'),
+      /\[fallback-source\] Duplicate token NEW_DOC in NEW_DOC\.json and OLD_DOC\.json/
+    );
+  });
+}
+
 function testDriveFallbackRetainsMaterializedRootChildWhenReplacementBodyIsMissing() {
   withTempSourceDirs((sourceDir, fallbackDir) => {
     writeJson(sourceDir, 'V3_ROOT', {
@@ -324,6 +428,8 @@ function run() {
   testDriveFallbackMatchesUnsluggedFoldersByTitleAndParent();
   testDriveFallbackRetainsMaterializedTokenWhenReplacementBodyIsMissing();
   testDriveFallbackRejectsDanglingChildWhenBothBodiesAreMissing();
+  testDriveFallbackRejectsDanglingSourceOnlyChild();
+  testDriveFallbackRejectsDuplicateFinalTokenIdentities();
   testDriveFallbackRetainsMaterializedRootChildWhenReplacementBodyIsMissing();
   testPreProcessRemovesRootMarkdownFiles();
   testPreProcessPreservesSelectedFiles();

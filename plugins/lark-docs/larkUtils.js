@@ -348,6 +348,7 @@ class larkUtils {
                 source.children.forEach(s => {
                     if (!(fallback.children.find(fb => fb[TITLE] === s[TITLE]))) {
                         fallback.children.push(s)
+                        touchedFolderTokens.add(source[TOKEN])
                     }
                 })
             }
@@ -391,10 +392,20 @@ class larkUtils {
         })
 
         if (sourceType === 'drive') {
-            const mergedByToken = new Map(fs.readdirSync(docSourceDir)
+            const mergedByToken = new Map()
+            const mergedFilenameByToken = new Map()
+            fs.readdirSync(docSourceDir)
                 .filter(file => file.endsWith('.json'))
-                .map(file => JSON.parse(fs.readFileSync(node_path.join(docSourceDir, file), {encoding: 'utf-8', flag: 'r'})))
-                .map(source => [source[TOKEN], source]))
+                .sort()
+                .forEach(file => {
+                    const source = JSON.parse(fs.readFileSync(node_path.join(docSourceDir, file), {encoding: 'utf-8', flag: 'r'}))
+                    const token = source[TOKEN]
+                    if (mergedByToken.has(token)) {
+                        throw new Error(`[fallback-source] Duplicate token ${token} in ${mergedFilenameByToken.get(token)} and ${file}`)
+                    }
+                    mergedByToken.set(token, source)
+                    mergedFilenameByToken.set(token, file)
+                })
 
             touchedFolderTokens.forEach(folderToken => {
                 const folder = mergedByToken.get(folderToken)
