@@ -336,6 +336,7 @@ class larkUtils {
                         child[PARENT] = pair[PARENT]
                         child.url = pair.url
                         child[TOKEN] = pair[TOKEN]
+                        touchedFolderTokens.add(source[TOKEN])
                     } else {
                         child[PARENT] = source[TOKEN]
                         if (pairIndex === -1) source.children.push(child)
@@ -392,31 +393,35 @@ class larkUtils {
         })
 
         if (sourceType === 'drive') {
-            const mergedByToken = new Map()
-            const mergedFilenameByToken = new Map()
+            const candidatesByToken = new Map()
             fs.readdirSync(docSourceDir)
                 .filter(file => file.endsWith('.json'))
                 .sort()
                 .forEach(file => {
                     const source = JSON.parse(fs.readFileSync(node_path.join(docSourceDir, file), {encoding: 'utf-8', flag: 'r'}))
                     const token = source[TOKEN]
-                    if (mergedByToken.has(token)) {
-                        throw new Error(`[fallback-source] Duplicate token ${token} in ${mergedFilenameByToken.get(token)} and ${file}`)
-                    }
-                    mergedByToken.set(token, source)
-                    mergedFilenameByToken.set(token, file)
+                    const candidates = candidatesByToken.get(token) || []
+                    candidates.push({source, file})
+                    candidatesByToken.set(token, candidates)
                 })
 
-            touchedFolderTokens.forEach(folderToken => {
-                const folder = mergedByToken.get(folderToken)
-                if (!folder) {
-                    throw new Error(`[fallback-source] Missing reconciled folder ${folderToken}`)
+            const resolveSource = (token, missingMessage) => {
+                const candidates = candidatesByToken.get(token) || []
+                if (candidates.length === 0) {
+                    throw new Error(missingMessage)
                 }
+                if (candidates.length > 1) {
+                    const filenames = candidates.map(candidate => candidate.file).sort()
+                    throw new Error(`[fallback-source] Duplicate token ${token} in ${filenames.join(' and ')}`)
+                }
+                return candidates[0].source
+            }
+
+            touchedFolderTokens.forEach(folderToken => {
+                const folder = resolveSource(folderToken, `[fallback-source] Missing reconciled folder ${folderToken}`)
 
                 folder.children.forEach(child => {
-                    if (!mergedByToken.has(child[TOKEN])) {
-                        throw new Error(`[fallback-source] Unresolved child ${child[TOKEN]} under ${folderToken}`)
-                    }
+                    resolveSource(child[TOKEN], `[fallback-source] Unresolved child ${child[TOKEN]} under ${folderToken}`)
                 })
             })
         }

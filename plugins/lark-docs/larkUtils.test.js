@@ -332,6 +332,40 @@ function testDriveFallbackRejectsDuplicateFinalTokenIdentities() {
   });
 }
 
+function testDriveFallbackIgnoresDuplicateTokensOutsideTouchedFolders() {
+  withTempSourceDirs((sourceDir, fallbackDir) => {
+    writeJson(sourceDir, 'V3_ROOT', {
+      token: 'V3_ROOT',
+      name: 'v3.0.x',
+      children: [],
+    });
+    writeJson(sourceDir, 'unrelated-a', {
+      token: 'UNRELATED_DUP',
+      name: 'unrelated-a',
+      slug: 'unrelated-a',
+      type: 'docx',
+      parent_token: 'UNRELATED_FOLDER',
+    });
+    writeJson(sourceDir, 'unrelated-b', {
+      token: 'UNRELATED_DUP',
+      name: 'unrelated-b',
+      slug: 'unrelated-b',
+      type: 'docx',
+      parent_token: 'UNRELATED_FOLDER',
+    });
+
+    writeJson(fallbackDir, 'V26_ROOT', {
+      token: 'V26_ROOT',
+      name: 'v2.6.x',
+      children: [],
+    });
+
+    assert.doesNotThrow(
+      () => new larkUtils().fetch_fallback_sources(sourceDir, fallbackDir, 'drive', 'V3_ROOT')
+    );
+  });
+}
+
 function testDriveFallbackRetainsMaterializedRootChildWhenReplacementBodyIsMissing() {
   withTempSourceDirs((sourceDir, fallbackDir) => {
     writeJson(sourceDir, 'V3_ROOT', {
@@ -430,6 +464,7 @@ function run() {
   testDriveFallbackRejectsDanglingChildWhenBothBodiesAreMissing();
   testDriveFallbackRejectsDanglingSourceOnlyChild();
   testDriveFallbackRejectsDuplicateFinalTokenIdentities();
+  testDriveFallbackIgnoresDuplicateTokensOutsideTouchedFolders();
   testDriveFallbackRetainsMaterializedRootChildWhenReplacementBodyIsMissing();
   testPreProcessRemovesRootMarkdownFiles();
   testPreProcessPreservesSelectedFiles();
