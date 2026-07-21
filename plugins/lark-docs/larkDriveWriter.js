@@ -105,6 +105,11 @@ class larkDriveWriter extends larkDocWriter {
     }
 
     async write_docs(path, token) {
+        const node = this.__fetch_doc_source('token', token)
+        await this.__write_docs_source(path, node)
+    }
+
+    async __write_docs_source(path, node) {
         const forEachAsync = async (array, callback) => {
             for (let index = 0; index < array.length; index++) {
                 await callback(array[index], index, array);
@@ -112,7 +117,6 @@ class larkDriveWriter extends larkDocWriter {
         }
         
         var current_path = path
-        const node = this.__fetch_doc_source('token', token)
 
         if (node.children) {
             await forEachAsync(node.children, async (child, index) => {
@@ -193,7 +197,7 @@ class larkDriveWriter extends larkDocWriter {
                                 console.log(`${node_path.join(current_path, slug)}/ [meaningless category — no index page generated]`)
                             }
 
-                            await this.write_docs(node_path.join(current_path, slug), token)
+                            await this.__write_docs_source(node_path.join(current_path, slug), source)
                         }
                     }
                 }    
@@ -293,7 +297,7 @@ class larkDriveWriter extends larkDocWriter {
             } else {
                 console.log(`${nodePath}/ [meaningless category — no index page generated]`)
             }
-            await this.write_docs(nodePath, node.token)
+            await this.__write_docs_source(nodePath, node)
         } else {
             await writeCurrentPage(parentPath, false)
         }
