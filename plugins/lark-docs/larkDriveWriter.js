@@ -200,6 +200,73 @@ class larkDriveWriter extends larkDocWriter {
         }
     }
 
+    async write_subtree(outputDir, token) {
+        if (!this.outputRoot) this.outputRoot = outputDir
+        const node = this.__fetch_doc_source('token', token)
+
+        if (token === this.root_token) {
+            await this.write_docs(outputDir, token)
+            return
+        }
+
+        let relPath = ''
+        let current = node
+
+        while (current && current.parent_token && current.parent_token !== this.root_token) {
+            try {
+                const parent = this.__fetch_doc_source('token', current.parent_token)
+                relPath = this.__slug_value(parent.slug) + '/' + relPath
+                current = parent
+            } catch {
+                // Parent not in cache — stop walking and write to the nearest known path
+                break
+            }
+        }
+
+        const parentPath = `${outputDir}/${relPath}`.replace(/\/+/g, '/')
+        if (!fs.existsSync(parentPath)) {
+            fs.mkdirSync(parentPath, { recursive: true })
+        }
+
+        const slug = this.__slug_value(node.slug)
+        const meta = await this.__is_to_publish(node.name, node.slug, node.token)
+        if (!meta.publish) return
+
+        const writeCurrentPage = async (pagePath, docCardList) => {
+            console.log(`${pagePath}/${slug}.md`.replace(/\/+/g, '/'))
+            await this.write_doc({
+                path: pagePath,
+                page_title: node.name,
+                page_slug: slug,
+                page_beta: meta.tag || 'false',
+                notebook: 'false',
+                addedSince: meta.addSince || 'false',
+                lastModified: meta.lastModified || 'false',
+                deprecateSince: meta.deprecateSince || 'false',
+                page_type: node.type,
+                page_token: node.token,
+                sidebar_position: 1,
+                sidebar_label: meta.labels,
+                doc_card_list: docCardList,
+            })
+        }
+
+        if (node.children) {
+            const nodePath = `${parentPath}/${slug}`.replace(/\/+/g, '/')
+            if (!fs.existsSync(nodePath)) {
+                fs.mkdirSync(nodePath, { recursive: true })
+            }
+            if (this.categorize_node(node) === 'meaningful') {
+                await writeCurrentPage(nodePath, true)
+            } else {
+                console.log(`${nodePath}/ [meaningless category — no index page generated]`)
+            }
+            await this.write_docs(nodePath, token)
+        } else {
+            await writeCurrentPage(parentPath, false)
+        }
+    }
+
     async write_doc(options) {
         const {
             path,

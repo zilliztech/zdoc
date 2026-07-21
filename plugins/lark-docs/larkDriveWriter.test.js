@@ -261,6 +261,49 @@ function testDuplicateRouteSlugUsesParentDirectoryName() {
   );
 }
 
+async function testWriteSubtreeUsesDriveTokenAndParentTokenFields() {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'lark-drive-writer-'));
+  const out = fs.mkdtempSync(path.join(os.tmpdir(), 'lark-drive-output-'));
+  const writer = new larkDriveWriter('root', '', 'pythonSidebar', dir, '/tmp', 'zilliz', true, false, 'pymilvus30');
+  const writes = [];
+  writer.__is_to_publish = async () => ({ publish: true, labels: 'Leaf' });
+  writer.write_doc = async options => writes.push(options);
+
+  writeJson(dir, 'root.json', {
+    token: 'root',
+    name: 'Root',
+    type: 'folder',
+    slug: 'root',
+    children: [{ token: 'parent' }],
+  });
+  writeJson(dir, 'parent.json', {
+    token: 'parent',
+    parent_token: 'root',
+    name: 'Parent',
+    type: 'folder',
+    slug: 'parent-slug',
+    children: [{ token: 'leaf' }],
+  });
+  writeJson(dir, 'leaf.json', {
+    token: 'leaf',
+    parent_token: 'parent',
+    name: 'Leaf',
+    type: 'docx',
+    slug: 'leaf-slug',
+    blocks: { items: [] },
+  });
+
+  await writer.write_subtree(out, 'leaf');
+
+  assert.equal(writes.length, 1);
+  assert.equal(path.resolve(writes[0].path), path.join(out, 'parent-slug'));
+  assert.equal(writes[0].page_title, 'Leaf');
+  assert.equal(writes[0].page_slug, 'leaf-slug');
+  assert.equal(writes[0].page_token, 'leaf');
+  assert.equal(writes[0].doc_card_list, false);
+  assert.ok(fs.existsSync(path.join(out, 'parent-slug')));
+}
+
 async function run() {
   testDuplicateTokenSourceUsesParentSlugContext();
   testDuplicateTokenSourceUsesUtilityParentContext();
@@ -269,6 +312,7 @@ async function run() {
   await testSidebarItemsDeduplicateRepeatedChildTokens();
   await testWriteDocAppliesSharedMdxPatches();
   testDuplicateRouteSlugUsesParentDirectoryName();
+  await testWriteSubtreeUsesDriveTokenAndParentTokenFields();
   console.log('larkDriveWriter tests passed');
 }
 
