@@ -268,6 +268,7 @@ class larkUtils {
 
         var replaces = []
         var replacesByToken = new Map()
+        const touchedFolderTokens = new Set()
         const folderSource = source => source?.type === 'folder' || source?.children
         const docSource = source => source?.type === 'docx' || !source?.children
         const materializedPair = pair => pair && sourcesByToken.has(pair[TOKEN])
@@ -300,6 +301,7 @@ class larkUtils {
                     }
                     if (pairIndex === -1) sourceRoot.children.push(child)
                     else sourceRoot.children.splice(pairIndex, 1, child)
+                    touchedFolderTokens.add(sourceRoot[TOKEN])
                     // fallbackSources.find(fb => fb.token === child.token).parent_token = sourceRoot.token
                 }
             })
@@ -338,6 +340,7 @@ class larkUtils {
                         child[PARENT] = source[TOKEN]
                         if (pairIndex === -1) source.children.push(child)
                         else source.children.splice(pairIndex, 1, child)
+                        touchedFolderTokens.add(source[TOKEN])
                         // fallbackSources.find(fb => fb.token === child.token).parent_token = source.token
                     }
                 })
@@ -386,6 +389,26 @@ class larkUtils {
             
             fs.writeFileSync(file, raw, {encoding: 'utf-8', flag: 'w'})
         })
+
+        if (sourceType === 'drive') {
+            const mergedByToken = new Map(fs.readdirSync(docSourceDir)
+                .filter(file => file.endsWith('.json'))
+                .map(file => JSON.parse(fs.readFileSync(node_path.join(docSourceDir, file), {encoding: 'utf-8', flag: 'r'})))
+                .map(source => [source[TOKEN], source]))
+
+            touchedFolderTokens.forEach(folderToken => {
+                const folder = mergedByToken.get(folderToken)
+                if (!folder) {
+                    throw new Error(`[fallback-source] Missing reconciled folder ${folderToken}`)
+                }
+
+                folder.children.forEach(child => {
+                    if (!mergedByToken.has(child[TOKEN])) {
+                        throw new Error(`[fallback-source] Unresolved child ${child[TOKEN]} under ${folderToken}`)
+                    }
+                })
+            })
+        }
     }
 
     __convert_link(file, path, outputDir) {
