@@ -1,6 +1,7 @@
 import {LocalizeError} from './errors.js';
 import type {ResolvedGlossaryTerm} from './glossary.js';
 import type {ChangeKind, SemanticNodeKind} from './model.js';
+import {assertExactStructuredSlotIds} from './structured-content.js';
 
 export interface PreservedToken {
   kind: 'inline_code' | 'code_block' | 'bold_span' | 'url' | 'resource_token' | 'citation';
@@ -19,6 +20,19 @@ export interface LinkMapping {
   targetUrl?: string;
 }
 
+export interface StructuredTranslationSlot {
+  slotId: string;
+  sourceText: string;
+  targetCurrent?: string;
+  preserved: PreservedToken[];
+}
+
+export interface StructuredTranslationShape {
+  kind: 'list' | 'table';
+  topologyHash: string;
+  slots: StructuredTranslationSlot[];
+}
+
 export interface TranslationRequest {
   operationId: string;
   changeKind: ChangeKind;
@@ -32,18 +46,27 @@ export interface TranslationRequest {
   linkMappings: LinkMapping[];
   warnings: string[];
   targetNodeKind: SemanticNodeKind;
+  structured?: StructuredTranslationShape;
 }
 
 export interface TranslationResponse {
   operationId: string;
   translatedText?: string;
+  slots?: Array<{slotId: string; translatedText: string}>;
   decision?: 'delete';
   targetNodeKind?: SemanticNodeKind;
 }
 
 export type ValidatedTranslation =
   | {operationId: string; decision: 'delete'}
-  | {operationId: string; translatedText: string; targetNodeKind: SemanticNodeKind};
+  | {operationId: string; translatedText: string; targetNodeKind: SemanticNodeKind}
+  | {
+      operationId: string;
+      topologyHash: string;
+      slots: Array<{slotId: string; translatedText: string}>;
+      translatedText: string;
+      targetNodeKind: 'list' | 'table';
+    };
 
 function countOccurrences(text: string, value: string): number {
   if (!value) return 0;
@@ -63,6 +86,93 @@ function listOutline(value: string): Array<{indent: number; ordered: boolean}> |
     outline.push({indent: match[1]!.length, ordered: Boolean(match[2])});
   }
   return outline;
+}
+
+function validateTextContent(input: {
+  operationId: string;
+  sourceText: string;
+  translatedText: string;
+  preserved: PreservedToken[];
+  glossary: ResolvedGlossaryTerm[];
+  linkMappings: LinkMapping[];
+  slotId?: string;
+}): void {
+  const label = input.slotId
+    ? `Operation ${input.operationId} slot ${input.slotId}`
+    : `Operation ${input.operationId}`;
+  for (const token of input.preserved) {
+    if (token.kind === 'bold_span') {
+      const boldCount = [...input.translatedText.matchAll(/\*\*[^*]+\*\*/g)].length;
+      if (boldCount !== token.count) {
+        throw validationError(
+          'preserved_token_mismatch',
+          `${label} did not preserve ${token.count} bold span(s).`,
+          token,
+        );
+      }
+      continue;
+    }
+    if (token.kind === 'url') {
+      const mapping = input.linkMappings.find((candidate) => candidate.sourceUrl === token.value);
+      if (!mapping && token.value.includes('#')) {
+        const baseUrl = token.value.slice(0, token.value.indexOf('#'));
+        const baseMapping = input.linkMappings.find((candidate) => candidate.sourceUrl === baseUrl);
+        if (baseMapping?.targetUrl) {
+          throw validationError(
+            'unresolved_internal_anchor',
+            `${label} has no verified Chinese block mapping for ${token.value}.`,
+            {sourceUrl: token.value, targetDocumentUrl: baseMapping.targetUrl},
+          );
+        }
+      }
+      if (mapping?.targetUrl) {
+        if (
+          countOccurrences(input.translatedText, mapping.targetUrl) !== token.count
+          || countOccurrences(input.translatedText, token.value) !== 0
+        ) {
+          throw validationError(
+            'internal_link_not_localized',
+            `${label} must rewrite ${token.value} to ${mapping.targetUrl}.`,
+            mapping,
+          );
+        }
+        continue;
+      }
+    }
+    const requiredValue = token.kind === 'inline_code' && !token.value.startsWith('`')
+      ? `\`${token.value}\``
+      : token.value;
+    if (countOccurrences(input.translatedText, requiredValue) !== token.count) {
+      throw validationError(
+        'preserved_token_mismatch',
+        `${label} did not preserve ${token.kind} ${token.value}.`,
+        token,
+      );
+    }
+  }
+  for (const term of input.glossary) {
+    for (const variant of term.prohibitedVariants) {
+      if (variant && input.translatedText.includes(variant)) {
+        throw validationError(
+          'prohibited_glossary_variant',
+          `${label} contains prohibited glossary variant ${variant}.`,
+        );
+      }
+    }
+    if (!input.sourceText.toLowerCase().includes(term.source.toLowerCase())) continue;
+    if (term.disposition === 'translate' && term.target && !input.translatedText.includes(term.target)) {
+      throw validationError(
+        'approved_glossary_missing',
+        `${label} must use approved term ${term.target}.`,
+      );
+    }
+    if (term.disposition === 'keep_as_is' && !input.translatedText.includes(term.source)) {
+      throw validationError(
+        'keep_as_is_missing',
+        `${label} must preserve ${term.source}.`,
+      );
+    }
+  }
 }
 
 export function validateTranslations(
@@ -103,6 +213,54 @@ export function validateTranslations(
         message: 'Move operations are report-only in the first release.',
       });
     }
+    if (request.structured) {
+      if (!/^[a-f0-9]{64}$/.test(request.structured.topologyHash)) {
+        throw validationError(
+          'structured_topology_mismatch',
+          `Operation ${request.operationId} has an invalid immutable topology hash.`,
+          {topologyHash: request.structured.topologyHash},
+        );
+      }
+      if (request.targetNodeKind !== request.structured.kind || (
+        response.targetNodeKind !== undefined && response.targetNodeKind !== request.targetNodeKind
+      )) {
+        throw validationError('translation_node_kind_mismatch', `Operation ${request.operationId} changed node kind.`);
+      }
+      if (response.translatedText !== undefined || response.decision !== undefined || !response.slots) {
+        throw validationError(
+          'structured_slot_mismatch',
+          `Operation ${request.operationId} requires structured slot translations.`,
+        );
+      }
+      assertExactStructuredSlotIds(request.structured.slots, response.slots);
+      const slots = response.slots.map((slot, index) => {
+        const translatedText = slot.translatedText;
+        if (!translatedText.trim()) {
+          throw validationError(
+            'translation_missing_text',
+            `Operation ${request.operationId} slot ${slot.slotId} has no translated text.`,
+          );
+        }
+        const requestedSlot = request.structured!.slots[index]!;
+        validateTextContent({
+          operationId: request.operationId,
+          slotId: requestedSlot.slotId,
+          sourceText: requestedSlot.sourceText,
+          translatedText,
+          preserved: requestedSlot.preserved,
+          glossary: request.glossary,
+          linkMappings: request.linkMappings,
+        });
+        return {slotId: slot.slotId, translatedText};
+      });
+      return {
+        operationId: request.operationId,
+        topologyHash: request.structured.topologyHash,
+        slots,
+        translatedText: slots.map((slot) => slot.translatedText).join('\n'),
+        targetNodeKind: request.structured.kind,
+      };
+    }
     const text = response.translatedText?.trim();
     if (!text) {
       throw validationError('translation_missing_text', `Operation ${request.operationId} has no translated text.`);
@@ -121,80 +279,14 @@ export function validateTranslations(
         );
       }
     }
-    for (const token of request.preserved) {
-      if (token.kind === 'bold_span') {
-        const boldCount = [...text.matchAll(/\*\*[^*]+\*\*/g)].length;
-        if (boldCount !== token.count) {
-          throw validationError(
-            'preserved_token_mismatch',
-            `Operation ${request.operationId} did not preserve ${token.count} bold span(s).`,
-            token,
-          );
-        }
-        continue;
-      }
-      if (token.kind === 'url') {
-        const mapping = request.linkMappings.find((candidate) => candidate.sourceUrl === token.value);
-        if (!mapping && token.value.includes('#')) {
-          const baseUrl = token.value.slice(0, token.value.indexOf('#'));
-          const baseMapping = request.linkMappings.find((candidate) => candidate.sourceUrl === baseUrl);
-          if (baseMapping?.targetUrl) {
-            throw validationError(
-              'unresolved_internal_anchor',
-              `Operation ${request.operationId} has no verified Chinese block mapping for ${token.value}.`,
-              {sourceUrl: token.value, targetDocumentUrl: baseMapping.targetUrl},
-            );
-          }
-        }
-        if (mapping?.targetUrl) {
-          if (
-            countOccurrences(text, mapping.targetUrl) !== token.count
-            || countOccurrences(text, token.value) !== 0
-          ) {
-            throw validationError(
-              'internal_link_not_localized',
-              `Operation ${request.operationId} must rewrite ${token.value} to ${mapping.targetUrl}.`,
-              mapping,
-            );
-          }
-          continue;
-        }
-      }
-      const requiredValue = token.kind === 'inline_code' && !token.value.startsWith('`')
-        ? `\`${token.value}\``
-        : token.value;
-      if (countOccurrences(text, requiredValue) !== token.count) {
-        throw validationError(
-          'preserved_token_mismatch',
-          `Operation ${request.operationId} did not preserve ${token.kind} ${token.value}.`,
-          token,
-        );
-      }
-    }
-    for (const term of request.glossary) {
-      for (const variant of term.prohibitedVariants) {
-        if (variant && text.includes(variant)) {
-          throw validationError(
-            'prohibited_glossary_variant',
-            `Operation ${request.operationId} contains prohibited glossary variant ${variant}.`,
-          );
-        }
-      }
-      const source = request.sourceAfter ?? request.sourceBefore ?? '';
-      if (!source.toLowerCase().includes(term.source.toLowerCase())) continue;
-      if (term.disposition === 'translate' && term.target && !text.includes(term.target)) {
-        throw validationError(
-          'approved_glossary_missing',
-          `Operation ${request.operationId} must use approved term ${term.target}.`,
-        );
-      }
-      if (term.disposition === 'keep_as_is' && !text.includes(term.source)) {
-        throw validationError(
-          'keep_as_is_missing',
-          `Operation ${request.operationId} must preserve ${term.source}.`,
-        );
-      }
-    }
+    validateTextContent({
+      operationId: request.operationId,
+      sourceText: request.sourceAfter ?? request.sourceBefore ?? '',
+      translatedText: text,
+      preserved: request.preserved,
+      glossary: request.glossary,
+      linkMappings: request.linkMappings,
+    });
     return {
       operationId: request.operationId,
       translatedText: text,

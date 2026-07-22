@@ -194,4 +194,106 @@ describe('translation response validation', () => {
       targetNodeKind: 'list',
     }])).toThrowError(expect.objectContaining({subtype: 'list_structure_mismatch'}));
   });
+
+  it('validates structured responses by exact slot identity and immutable topology hash', () => {
+    const structured: TranslationRequest = {
+      ...request,
+      operationId: 'op-table',
+      sourceBefore: undefined,
+      sourceAfter: undefined,
+      targetCurrent: undefined,
+      targetNodeKind: 'table',
+      preserved: [],
+      glossary: [],
+      structured: {
+        kind: 'table',
+        topologyHash: 'a'.repeat(64),
+        slots: [
+          {slotId: 'row-0/cell-0/paragraph-0', sourceText: 'Parameter', preserved: []},
+          {slotId: 'row-1/cell-0/paragraph-0', sourceText: 'model', preserved: []},
+        ],
+      },
+    };
+
+    expect(validateTranslations([structured], [{
+      operationId: 'op-table',
+      slots: [
+        {slotId: 'row-0/cell-0/paragraph-0', translatedText: '  参数  '},
+        {slotId: 'row-1/cell-0/paragraph-0', translatedText: '模型'},
+      ],
+    }])).toEqual([{
+      operationId: 'op-table',
+      topologyHash: 'a'.repeat(64),
+      slots: [
+        {slotId: 'row-0/cell-0/paragraph-0', translatedText: '  参数  '},
+        {slotId: 'row-1/cell-0/paragraph-0', translatedText: '模型'},
+      ],
+      translatedText: '  参数  \n模型',
+      targetNodeKind: 'table',
+    }]);
+
+    expect(() => validateTranslations([structured], [{
+      operationId: 'op-table',
+      slots: [{slotId: 'unknown', translatedText: '错误'}],
+    }])).toThrowError(expect.objectContaining({subtype: 'structured_slot_mismatch'}));
+
+    expect(() => validateTranslations([{
+      ...structured,
+      structured: {...structured.structured!, topologyHash: 'not-a-hash'},
+    }], [{
+      operationId: 'op-table',
+      slots: [
+        {slotId: 'row-0/cell-0/paragraph-0', translatedText: '参数'},
+        {slotId: 'row-1/cell-0/paragraph-0', translatedText: '模型'},
+      ],
+    }])).toThrowError(expect.objectContaining({subtype: 'structured_topology_mismatch'}));
+  });
+
+  it('applies glossary, links, and protected-token validation to each structured slot', () => {
+    const structured: TranslationRequest = {
+      ...request,
+      operationId: 'op-list-slots',
+      sourceBefore: undefined,
+      sourceAfter: undefined,
+      targetCurrent: undefined,
+      targetNodeKind: 'list',
+      preserved: [],
+      structured: {
+        kind: 'list',
+        topologyHash: 'b'.repeat(64),
+        slots: [
+          {
+            slotId: 'item-0/text',
+            sourceText: 'Monitor cluster metrics with `curl`.',
+            preserved: [{kind: 'inline_code', value: 'curl', count: 1}],
+          },
+          {
+            slotId: 'item-1/text',
+            sourceText: 'Read the guide at https://docs.example.com/en/setup.',
+            preserved: [{kind: 'url', value: 'https://docs.example.com/en/setup', count: 1}],
+          },
+        ],
+      },
+      linkMappings: [{
+        sourceUrl: 'https://docs.example.com/en/setup',
+        targetUrl: 'https://docs.example.com/zh/setup',
+      }],
+    };
+
+    expect(validateTranslations([structured], [{
+      operationId: 'op-list-slots',
+      slots: [
+        {slotId: 'item-0/text', translatedText: '使用 `curl` 监控集群指标。'},
+        {slotId: 'item-1/text', translatedText: '阅读 https://docs.example.com/zh/setup 中的指南。'},
+      ],
+    }])).toHaveLength(1);
+
+    expect(() => validateTranslations([structured], [{
+      operationId: 'op-list-slots',
+      slots: [
+        {slotId: 'item-0/text', translatedText: '监控集群指标。'},
+        {slotId: 'item-1/text', translatedText: '阅读 https://docs.example.com/zh/setup 中的指南，并运行 `curl`。'},
+      ],
+    }])).toThrowError(expect.objectContaining({subtype: 'preserved_token_mismatch'}));
+  });
 });
