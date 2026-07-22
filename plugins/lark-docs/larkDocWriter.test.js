@@ -519,6 +519,33 @@ async function testCodeBlocksInferLanguageWhenFeishuOmitsLanguage() {
   assert.doesNotMatch(python + java, /```plaintext/);
 }
 
+async function testCodeVariantsFilterBeforeFencing() {
+  const blocks = [
+    codeBlock('code-python', 'page', [
+      'params={',
+      '    "provider": "openai",',
+      '    # include-next-line zilliz',
+      '    "integration_id": "YOUR_INTEGRATION_ID",',
+      '    # include-next-line milvus',
+      '    "credential": "YOUR_API_KEY",',
+      '',
+      '    "dim": "1536",',
+      '}',
+    ].join('\n'), { language: 49 }),
+  ];
+  const writer = createWriter(blocks);
+  writer.targets = 'zilliz.saas';
+
+  try {
+    const markdown = await writer.__markdown(blocks, 0);
+    assert.match(markdown, /```python\nparams=\{\n    "provider": "openai",\n    "integration_id": "YOUR_INTEGRATION_ID",\n\n    "dim": "1536",\n\}\n```/);
+    assert.doesNotMatch(markdown, /include-next-line|credential/);
+    assert.doesNotMatch(markdown, /openai",\n\n    "integration_id/);
+  } finally {
+    writer.destroy();
+  }
+}
+
 async function testCodeTabGroupKeepsInferredMiddleLanguageInsideTabs() {
   const blocks = [
     codeBlock('code-python', 'page', 'from pymilvus import MilvusClient\nclient.create_collection(collection_name="c", schema=schema)', { language: 49 }),
@@ -742,6 +769,7 @@ async function run() {
   await testMarkedGridWithUnsupportedIconFallsBackAndSuppressesMarker();
   await testFeatureCardMarkerWithoutIconsFallsBackAndSuppressesMarker();
   await testCodeBlocksInferLanguageWhenFeishuOmitsLanguage();
+  await testCodeVariantsFilterBeforeFencing();
   await testCodeTabGroupKeepsInferredMiddleLanguageInsideTabs();
   testSourceIndexDelegatesLookupHelpersWithoutFilesystemEnumeration();
   testSourceIndexSourcesAreClonedBeforeWriterMutation();

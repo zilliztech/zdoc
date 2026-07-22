@@ -12,6 +12,7 @@ const {
     getFencedCodeRanges,
     createFencedCodeBlock,
 } = require('../mdx-parse/mdxPatcher')
+const { filterCodeVariants } = require('./codeVariantFilter')
 const Downloader = require('./larkImageDownloader.js')
 const slugify = require('slugify')
 const fs = require('node:fs')
@@ -2223,6 +2224,7 @@ class larkDocWriter {
             return content
         }))).join('') 
         let lang = this.__code_language(code, elements) || 'plaintext'
+        elements = filterCodeVariants(elements, this.targets)
 
         // if (lang === 'C++') return; // to be removed once c++ is supported
 
