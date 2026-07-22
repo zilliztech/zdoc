@@ -13,6 +13,7 @@ import {describe, expect, it} from 'vitest';
 
 import type {
   LocalizationDocxEngine,
+  SnapshotReference,
   TranslationMemory,
   TranslationMemoryEntry,
   TranslationMemoryQuery,
@@ -78,6 +79,38 @@ function engineSnapshot(
         .filter((child) => child.parent_id === documentId)
         .map((child) => child.block_id as string),
     }, ...children],
+  });
+}
+
+async function supportedHuggingFaceSnapshot(): Promise<DocumentSnapshot> {
+  const stored = JSON.parse(await readFile(
+    fixture('hugging-face-source-snapshot.json'),
+    'utf8',
+  )) as DocumentSnapshot;
+  const omitted = new Set([
+    'note-callout',
+    'callout-title',
+    'callout-body',
+    'synced-reference',
+    'unknown-block',
+  ]);
+  const kept = stored.nodes.filter((node) => !omitted.has(node.blockId));
+  const embedded = new Set(kept.flatMap((node) => (
+    Array.isArray(node.raw.children)
+      ? node.raw.children.flatMap((child) => typeof child === 'object' && child && 'block_id' in child
+          ? [String(child.block_id)]
+          : [])
+      : []
+  )));
+  const blocks = kept
+    .filter((node) => !embedded.has(node.blockId))
+    .map((node) => structuredClone(node.raw) as ProviderBlock);
+  const root = blocks.find((block) => block.block_id === stored.rootBlockId)!;
+  root.children = (root.children ?? []).filter((blockId) => !omitted.has(blockId));
+  return createDocumentSnapshot({
+    documentId: stored.documentId,
+    revision: stored.revision,
+    blocks,
   });
 }
 
@@ -435,6 +468,81 @@ describe('bootstrap and planning workflows', () => {
         type: 'compatibility',
         subtype: 'engine_apply_pending',
       });
+    expect(docs.fetches).toEqual([]);
+  });
+
+  it('plans revision 44 list and table slots for an existing empty target', async () => {
+    const cwd = await mkdtemp(join(tmpdir(), 'zdoc-localize-structured-empty-target-'));
+    const docs = new MutableDocs();
+    const engine = new MemoryEngine();
+    engine.documents.set('source-url', await supportedHuggingFaceSnapshot());
+    engine.documents.set('target-url', engineSnapshot('target', '4', 'Hugging Face'));
+    const registry = new LocalRegistryStore(cwd);
+    const snapshots = new LocalSnapshotStore(cwd);
+    await registry.savePair({
+      pairId: 'hugging-face-en-zh', sourceLocale: 'en', targetLocale: 'zh-CN',
+      sourceDocUrl: 'source-url', targetDocUrl: 'target-url', mode: 'mirror',
+      status: 'needs_bootstrap',
+    });
+    const workflows = new LocalizationWorkflows({
+      cwd, registry, snapshots, memory: new MemoryTranslationMemory(), engine, docs,
+      clock: {now: () => new Date('2026-07-22T00:00:00.000Z')},
+      ids: {next: () => 'run-hugging-face-structured'},
+    });
+
+    const result = await workflows.createPlan('hugging-face-en-zh');
+    const list = result.translationRequests.find((request) => request.targetNodeKind === 'list');
+    const table = result.translationRequests.find((request) => request.targetNodeKind === 'table');
+    const run = await registry.getRun(result.runId);
+    const bundle = await snapshots.getBundle(run!.metadata!.bundleRef as SnapshotReference);
+
+    expect(result.state).toBe('translation_required');
+    expect(result.blocker).toBeUndefined();
+    expect(list?.structured).toMatchObject({
+      kind: 'list',
+      topologyHash: expect.stringMatching(/^[a-f0-9]{64}$/),
+      slots: [
+        expect.objectContaining({slotId: 'item-0/text', sourceText: 'Create a Hugging Face account.'}),
+        expect.objectContaining({slotId: 'item-0/child-0/item-0/text', sourceText: '**Generate an access token.**'}),
+      ],
+    });
+    expect(table?.structured).toMatchObject({
+      kind: 'table',
+      topologyHash: expect.stringMatching(/^[a-f0-9]{64}$/),
+      slots: [
+        expect.objectContaining({slotId: 'row-0/cell-0/paragraph-0', sourceText: '**Parameter**'}),
+        expect.objectContaining({slotId: 'row-0/cell-1/paragraph-0', sourceText: '**Description**'}),
+        expect.objectContaining({
+          slotId: 'row-1/cell-1/paragraph-0',
+          sourceText: 'The model used to generate embeddings.',
+        }),
+      ],
+    });
+    expect(table?.structured?.slots).not.toContainEqual(expect.objectContaining({sourceText: '`model_name`'}));
+    expect(run?.metadata).toMatchObject({planVersion: 3});
+    expect(bundle.files).toMatchObject({
+      'source-snapshot.json': expect.stringContaining('nested-parent'),
+      'target-snapshot.json': expect.stringContaining('"revision": "4"'),
+      'translation-requests.json': expect.stringContaining('"topologyHash"'),
+    });
+    const responses = result.translationRequests.map((request) => request.structured
+      ? {
+          operationId: request.operationId,
+          targetNodeKind: request.targetNodeKind,
+          slots: request.structured.slots.map((slot) => ({
+            slotId: slot.slotId,
+            translatedText: slot.sourceText,
+          })),
+        }
+      : {
+          operationId: request.operationId,
+          targetNodeKind: request.targetNodeKind,
+          translatedText: request.sourceAfter ?? request.sourceBefore ?? '保留',
+        });
+    await expect(workflows.completePlan(result.runId, responses)).rejects.toMatchObject({
+      type: 'compatibility',
+      subtype: 'structured_review_pending',
+    });
     expect(docs.fetches).toEqual([]);
   });
 

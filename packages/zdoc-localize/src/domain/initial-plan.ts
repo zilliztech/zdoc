@@ -66,6 +66,18 @@ export function buildInitialPlanInputs(
       });
     } else if (node.kind === 'code') {
       operation = {...common, policy: 'verbatim_code', effect: 'write', proposedText: node.text};
+    } else if (node.kind === 'list' || node.kind === 'table') {
+      if (node.writable && node.structure?.kind === node.kind) {
+        operation = {...common, policy: 'translation', effect: 'write'};
+        translatableAligned.push({
+          change,
+          confidence: 'high',
+          ...(previousOperationId ? {anchorOperationId: previousOperationId} : {}),
+          score: 100,
+        });
+      } else {
+        unsupported.push(node);
+      }
     } else if (node.writable) {
       operation = {...common, policy: 'translation', effect: 'write'};
       translatableAligned.push({

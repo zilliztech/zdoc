@@ -27,6 +27,11 @@ import {renderDiagnosticMarkdown} from '../domain/markdown-renderer.js';
 import {findReverseInsertionAnchor} from '../domain/recovery.js';
 import {resolveGlossary, type ResolvedGlossaryTerm} from '../domain/glossary.js';
 import {transitionRun} from '../domain/state-machine.js';
+import {
+  extractTranslationSlots,
+  structuredTopologyHash,
+  type StructuredContent,
+} from '../domain/structured-content.js';
 import type {
   AlignedChange,
   DocumentPair,
@@ -39,6 +44,7 @@ import type {
 import {
   type LinkMapping,
   type PreservedToken,
+  type StructuredTranslationShape,
   type TranslationMemoryExample,
   type TranslationRequest,
   type TranslationResponse,
@@ -315,6 +321,7 @@ function buildRequest(
   const sourceNode = aligned.change.after ?? aligned.change.before!;
   const currentTarget = targetNode(aligned, target);
   const preserved = tokensFrom(aligned.change.after ?? aligned.change.before);
+  const structured = structuredTranslationShape(sourceNode, currentTarget);
   const warnings: string[] = [];
   for (const token of preserved.filter((item) => item.kind === 'url')) {
     const hashIndex = token.value.indexOf('#');
@@ -345,6 +352,32 @@ function buildRequest(
     linkMappings,
     warnings,
     targetNodeKind: currentTarget?.kind ?? sourceNode.kind,
+    ...(structured ? {structured} : {}),
+  };
+}
+
+function structuredContent(node: SemanticNode | undefined): StructuredContent | undefined {
+  if (!node || (node.kind !== 'list' && node.kind !== 'table')) return undefined;
+  return node.structure?.kind === node.kind ? node.structure : undefined;
+}
+
+function structuredTranslationShape(
+  sourceNode: SemanticNode,
+  currentTarget: SemanticNode | undefined,
+): StructuredTranslationShape | undefined {
+  const source = structuredContent(sourceNode);
+  if (!source) return undefined;
+  const target = structuredContent(currentTarget);
+  const targetSlots = target && structuredTopologyHash(target) === structuredTopologyHash(source)
+    ? new Map(extractTranslationSlots(target).map((slot) => [slot.slotId, slot.sourceText]))
+    : new Map<string, string>();
+  return {
+    kind: source.kind,
+    topologyHash: structuredTopologyHash(source),
+    slots: extractTranslationSlots(source).map((slot) => ({
+      ...slot,
+      ...(targetSlots.has(slot.slotId) ? {targetCurrent: targetSlots.get(slot.slotId)} : {}),
+    })),
   };
 }
 
@@ -958,6 +991,12 @@ export class LocalizationWorkflows {
         ...currentDocumentArtifacts(sourceFetch, targetFetch, {source, target}),
         ...snapshotArtifact('source-current', sourceRead),
         ...snapshotArtifact('target-current', targetRead),
+        ...(sourceRead.snapshot
+          ? {'source-snapshot.json': `${JSON.stringify(sourceRead.snapshot, null, 2)}\n`}
+          : {}),
+        ...(targetRead.snapshot
+          ? {'target-snapshot.json': `${JSON.stringify(targetRead.snapshot, null, 2)}\n`}
+          : {}),
         'changes.json': `${JSON.stringify(initial.changes, null, 2)}\n`,
         'alignments.json': `${JSON.stringify(initial.translatableAligned, null, 2)}\n`,
         'initial-operations.json': initialOperationsText,
@@ -975,6 +1014,7 @@ export class LocalizationWorkflows {
       aligned: initial.translatableAligned,
       initialOperations: initial.operations,
       glossaryHash: translationInputs.glossaryHash,
+      planVersion: 3,
       documentHashDomain: hashDomain,
     }, {sourceToRevision: source.revisionId, targetPlanRevision: target.revisionId}));
     return {
@@ -1078,6 +1118,14 @@ export class LocalizationWorkflows {
       throw new LocalizeError({type: 'verification_failed', subtype: 'plan_bundle_incomplete', message: 'Planning snapshot is missing translation requests or target XML.'});
     }
     const requests = JSON.parse(requestJson) as TranslationRequest[];
+    if (requests.some((request) => request.structured)) {
+      throw new LocalizeError({
+        type: 'compatibility',
+        subtype: 'structured_review_pending',
+        message: 'Structured translations require the plan v3 review protocol before review compilation.',
+        hint: 'Complete the structured review renderer before compiling list or table translations.',
+      });
+    }
     const validated = validateTranslations(requests, responses);
     const aligned = metadata.aligned as AlignedChange[] | undefined
       ?? (bundle.files['alignments.json'] ? JSON.parse(bundle.files['alignments.json']) as AlignedChange[] : undefined);
