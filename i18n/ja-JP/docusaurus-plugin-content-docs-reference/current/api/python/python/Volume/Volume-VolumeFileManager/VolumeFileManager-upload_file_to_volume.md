@@ -9,7 +9,7 @@ deprecate_since: false
 notebook: false
 description: "この操作は、指定されたソースパスにあるローカルファイルを、指定された managed volume 内のターゲットファイルパスにアップロードします。 | Python"
 type: docx
-token: Fr3rdPTuXoC0Lzx7urIcwBqWnDb
+token: SAR6dnlmmohi30x0x2KcioyXnib
 sidebar_position: 1
 keywords: 
   - 画像類似検索
@@ -39,7 +39,7 @@ import Admonition from '@theme/Admonition';
 
 </Admonition>
 
-## リクエスト構文\{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```python
 upload_file_to_volume(
@@ -48,25 +48,25 @@ upload_file_to_volume(
 )
 ```
 
-**パラメーター**
+**PARAMETERS**
 
 - **source_file_path** (*str*) -
 
     **[REQUIRED]**
 
-    指定された volume にアップロードするローカルデータファイルへのパス。
+    指定された volume にアップロードするローカルデータファイルのパス。
 
 - **target_volume_path** (*str*) -
 
     **[REQUIRED]**
 
-    この操作後に指定された volume 内でのデータファイルのパス。
+    この操作後に、指定された volume 内でデータファイルが配置されるパス。
 
-**戻り値の型**
+**RETURN TYPE**
 
 オブジェクト。
 
-**戻り値**
+**RETURNS**
 
 以下のデータ構造を持つオブジェクト:
 
@@ -87,9 +87,9 @@ upload_file_to_volume(
 
     **[REQUIRED]**
 
-    この操作後に指定された volume 内でのデータファイルのパス。
+    この操作後に、指定された volume 内でデータファイルが配置されるパス。
 
-## 例\{#example}
+## Example\{#example}
 
 ```python
 from pymilvus.bulk_writer.volume_file_manager import VolumeFileManager

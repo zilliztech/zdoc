@@ -6926,9 +6926,9 @@
       "translatedAt": "2026-07-13T11:52:16.412Z"
     },
     "reference/api/python/python/Volume/Volume-VolumeFileManager/VolumeFileManager-upload_file_to_volume.md": {
-      "sourceHash": "1ee709c94567237eb251b428f3ac94e26784dc43a8ba7eda9f589d28e32d2bcf",
+      "sourceHash": "45e28a8555ec9aa0be9f8ec11401aabd0efb1cf2feed13703041efeddb7114ad",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/python/python/Volume/Volume-VolumeFileManager/VolumeFileManager-upload_file_to_volume.md",
-      "translatedAt": "2026-07-13T11:51:57.723Z"
+      "translatedAt": "2026-07-22T03:27:17.738Z"
     },
     "reference/api/python/python/Volume/Volume-VolumeManager/Volume-VolumeManager.md": {
       "sourceHash": "c7f378b02ee104a8b08ab1395f6a5c6a6f9279e6f3728b808ead4f1a648f70de",
