@@ -12,6 +12,7 @@ import type {
   LocalizationDocxEngine,
   LocalizationReceipt,
   RegistryStore,
+  SnapshotBundle,
   SnapshotReference,
   SnapshotStore,
   TranslationMemory,
@@ -81,9 +82,11 @@ export interface WorkflowDependencies {
 interface PlanningDocument {
   fetched: FetchedDocument;
   semantic: SemanticDocument;
+  snapshot?: DocumentSnapshot;
 }
 
 type InitializationDocument = FetchedDocument | DocumentSnapshot;
+type DocumentHashDomain = 'legacy-xml-v1' | 'docx-engine-v1';
 type LegacyInitializationDisposition =
   | {kind: 'incremental'}
   | {kind: 'create_target'}
@@ -386,12 +389,23 @@ function planningDocumentFromSnapshot(snapshot: DocumentSnapshot): PlanningDocum
   const semantic = semanticDocumentFromSnapshot(snapshot);
   return {
     semantic,
+    snapshot,
     fetched: {
       documentId: snapshot.documentId,
       revisionId: semantic.revisionId,
       content: semantic.rawXml,
     },
   };
+}
+
+function snapshotArtifact(name: string, document: PlanningDocument): Record<string, string> {
+  return document.snapshot
+    ? {[`${name}.snapshot.json`]: `${JSON.stringify(document.snapshot, null, 2)}\n`}
+    : {};
+}
+
+function documentHashDomain(document: PlanningDocument): DocumentHashDomain {
+  return document.snapshot ? 'docx-engine-v1' : 'legacy-xml-v1';
 }
 
 function planningDocumentFromFetch(fetched: FetchedDocument): PlanningDocument {
@@ -440,6 +454,8 @@ export class LocalizationWorkflows {
       files: {
         ...documentArtifacts('source', sourceFetch.content, source),
         ...documentArtifacts('target', targetFetch.content, target),
+        ...snapshotArtifact('source', sourceRead),
+        ...snapshotArtifact('target', targetRead),
         'bootstrap-audit.json': JSON.stringify(audit, null, 2),
       },
     };
@@ -453,6 +469,7 @@ export class LocalizationWorkflows {
       sourceHash: source.canonicalHash,
       targetRevision: target.revisionId,
       targetHash: target.canonicalHash,
+      documentHashDomain: documentHashDomain(sourceRead),
     }, {sourceToRevision: source.revisionId, targetPlanRevision: target.revisionId}));
     return {runId, state: 'review_required', audit, auditPath};
   }
@@ -478,18 +495,23 @@ export class LocalizationWorkflows {
     if (!sourceXml || !targetXml) {
       throw new LocalizeError({type: 'verification_failed', subtype: 'bootstrap_snapshot_incomplete', message: 'Bootstrap snapshot is incomplete.'});
     }
-    const source = parseFeishuDocument(sourceXml, {
-      documentId: 'source-baseline',
-      revisionId: Number(run.metadata.sourceRevision),
-    });
-    const target = parseFeishuDocument(targetXml, {
-      documentId: 'target-baseline',
-      revisionId: Number(run.metadata.targetRevision),
-    });
+    const hashDomain = this.hashDomainForRun(run);
+    const source = hashDomain === 'docx-engine-v1'
+      ? semanticDocumentFromSnapshot(this.requireStoredSnapshot(bundle, 'source'))
+      : parseFeishuDocument(sourceXml, {
+          documentId: 'source-baseline',
+          revisionId: Number(run.metadata.sourceRevision),
+        });
+    const target = hashDomain === 'docx-engine-v1'
+      ? semanticDocumentFromSnapshot(this.requireStoredSnapshot(bundle, 'target'))
+      : parseFeishuDocument(targetXml, {
+          documentId: 'target-baseline',
+          revisionId: Number(run.metadata.targetRevision),
+        });
     const pair = await this.requirePair(run.pairId);
     const [currentSourceRead, currentTargetRead] = await Promise.all([
-      this.readPlanningDocument(pair.sourceDocUrl),
-      this.readPlanningDocument(this.requireTarget(pair)),
+      this.readPlanningDocument(pair.sourceDocUrl, hashDomain),
+      this.readPlanningDocument(this.requireTarget(pair), hashDomain),
     ]);
     const currentSource = currentSourceRead.semantic;
     const currentTarget = currentTargetRead.semantic;
@@ -557,13 +579,22 @@ export class LocalizationWorkflows {
     if (!baselineXml) {
       throw new LocalizeError({type: 'verification_failed', subtype: 'source_baseline_missing', message: 'The localization baseline snapshot has no source XML.'});
     }
+    const baselineSnapshot = baselineBundle.files['source.snapshot.json']
+      ? JSON.parse(baselineBundle.files['source.snapshot.json']) as DocumentSnapshot
+      : undefined;
+    const hashDomain: DocumentHashDomain = baselineSnapshot ? 'docx-engine-v1' : 'legacy-xml-v1';
     const [sourceRead, targetRead] = await Promise.all([
-      this.readPlanningDocument(pair.sourceDocUrl),
-      this.readPlanningDocument(this.requireTarget(pair)),
+      this.readPlanningDocument(pair.sourceDocUrl, hashDomain),
+      this.readPlanningDocument(this.requireTarget(pair), hashDomain),
     ]);
     const sourceFetch = sourceRead.fetched;
     const targetFetch = targetRead.fetched;
-    const baseline = parseFeishuDocument(baselineXml, {documentId: sourceFetch.documentId, revisionId: receipt.sourceRevision});
+    const baseline = baselineSnapshot
+      ? semanticDocumentFromSnapshot(baselineSnapshot)
+      : parseFeishuDocument(baselineXml, {
+          documentId: sourceFetch.documentId,
+          revisionId: receipt.sourceRevision,
+        });
     const source = sourceRead.semantic;
     const target = targetRead.semantic;
     pair = await this.savePairTitles(pair, source.title, target.title);
@@ -584,12 +615,16 @@ export class LocalizationWorkflows {
     const contentChanges = changes.filter((change) => !resourcePlanning.consumedChangeIds.has(change.changeId));
 
     if (contentChanges.length === 0 && resourcePlanning.operations.length === 0) {
-      await this.dependencies.registry.saveRun(this.newRun(runId, pairId, 'completed', {kind: 'localization', noChanges: true}, revisions));
+      await this.dependencies.registry.saveRun(this.newRun(runId, pairId, 'completed', {
+        kind: 'localization', noChanges: true, documentHashDomain: hashDomain,
+      }, revisions));
       return {runId, state: 'completed', changes, translationRequests: []};
     }
     if (pair.mode === 'independent') {
       const error = new LocalizeError({type: 'unsupported_content', subtype: 'independent_document', message: 'Independent documents are report-only.'});
-      await this.dependencies.registry.saveRun(this.newRun(runId, pairId, 'blocked', {kind: 'localization', changes, blocker: 'independent document'}, {...revisions, ...runErrorProjection(error)}));
+      await this.dependencies.registry.saveRun(this.newRun(runId, pairId, 'blocked', {
+        kind: 'localization', changes, blocker: 'independent document', documentHashDomain: hashDomain,
+      }, {...revisions, ...runErrorProjection(error)}));
       return {runId, state: 'blocked', changes, translationRequests: [], blocker: 'independent documents are report-only'};
     }
     if (pair.mode === 'selective') {
@@ -599,6 +634,8 @@ export class LocalizationWorkflows {
         files: {
           'source-baseline.xml': baselineXml,
           ...currentDocumentArtifacts(sourceFetch, targetFetch, {source, target}),
+          ...snapshotArtifact('source-current', sourceRead),
+          ...snapshotArtifact('target-current', targetRead),
           'changes.json': JSON.stringify(changes, null, 2),
           'current-correspondences.json': JSON.stringify(currentCorrespondences, null, 2),
         },
@@ -611,6 +648,7 @@ export class LocalizationWorkflows {
         sourceHash: source.canonicalHash,
         targetRevision: target.revisionId,
         targetHash: target.canonicalHash,
+        documentHashDomain: hashDomain,
       }, revisions));
       return {runId, state: 'classification_required', changes, translationRequests: []};
     }
@@ -623,7 +661,9 @@ export class LocalizationWorkflows {
     if (low) {
       const blocker = low.blocker ?? 'low-confidence alignment';
       const error = new LocalizeError({type: 'alignment_blocked', subtype: 'low_confidence_alignment', message: blocker});
-      await this.dependencies.registry.saveRun(this.newRun(runId, pairId, 'blocked', {kind: 'localization', changes, aligned, blocker}, {...revisions, ...runErrorProjection(error)}));
+      await this.dependencies.registry.saveRun(this.newRun(runId, pairId, 'blocked', {
+        kind: 'localization', changes, aligned, blocker, documentHashDomain: hashDomain,
+      }, {...revisions, ...runErrorProjection(error)}));
       return {runId, state: 'blocked', changes, translationRequests: [], blocker};
     }
     const unsupported = aligned.find((item) => {
@@ -633,7 +673,9 @@ export class LocalizationWorkflows {
     if (unsupported) {
       const blocker = `changed ${unsupported.change.after?.kind ?? unsupported.change.before?.kind} content is report-only`;
       const error = new LocalizeError({type: 'unsupported_content', subtype: 'report_only_content', message: blocker});
-      await this.dependencies.registry.saveRun(this.newRun(runId, pairId, 'blocked', {kind: 'localization', changes, aligned, blocker}, {...revisions, ...runErrorProjection(error)}));
+      await this.dependencies.registry.saveRun(this.newRun(runId, pairId, 'blocked', {
+        kind: 'localization', changes, aligned, blocker, documentHashDomain: hashDomain,
+      }, {...revisions, ...runErrorProjection(error)}));
       return {runId, state: 'blocked', changes, translationRequests: [], blocker};
     }
 
@@ -652,6 +694,8 @@ export class LocalizationWorkflows {
       files: {
         'source-baseline.xml': baselineXml,
         ...currentDocumentArtifacts(sourceFetch, targetFetch, {source, target}),
+        ...snapshotArtifact('source-current', sourceRead),
+        ...snapshotArtifact('target-current', targetRead),
         'changes.json': JSON.stringify(changes, null, 2),
         'alignments.json': JSON.stringify(aligned, null, 2),
         'resource-operations.json': JSON.stringify(resourcePlanning.operations, null, 2),
@@ -670,6 +714,7 @@ export class LocalizationWorkflows {
       aligned,
       resourceOperations: resourcePlanning.operations,
       glossaryHash: translationInputs.glossaryHash,
+      documentHashDomain: hashDomain,
     }, revisions));
     return {runId, state: 'translation_required', changes, translationRequests, translationRequestsPath};
   }
@@ -789,6 +834,7 @@ export class LocalizationWorkflows {
     const sourceRead = await this.readPlanningDocument(pair.sourceDocUrl);
     const sourceFetch = sourceRead.fetched;
     const source = sourceRead.semantic;
+    const hashDomain = documentHashDomain(sourceRead);
     pair = await this.savePairTitles(pair, source.title);
     const runId = this.dependencies.ids.next();
     const reportOnly = source.nodes.filter((node) => !node.writable && node.kind !== 'code');
@@ -798,6 +844,7 @@ export class LocalizationWorkflows {
       await this.dependencies.registry.saveRun(this.newRun(runId, pair.pairId, 'blocked', {
         kind: 'creation',
         blocker,
+        documentHashDomain: hashDomain,
         reportOnlyNodes: reportOnly.map((node) => ({kind: node.kind, blockId: node.remote.blockId, text: node.text})),
       }, {sourceToRevision: source.revisionId, targetPlanRevision: 0, ...runErrorProjection(error)}));
       return {runId, state: 'blocked', changes: [], translationRequests: [], blocker};
@@ -829,6 +876,7 @@ export class LocalizationWorkflows {
           {documentId: 'new-target', revisionId: 0, content: ''},
           {source, target},
         ),
+        ...snapshotArtifact('source-current', sourceRead),
         'changes.json': `${JSON.stringify(changes, null, 2)}\n`,
         'alignments.json': `${JSON.stringify(aligned, null, 2)}\n`,
         'translation-requests.json': `${JSON.stringify(translationInputs.requests, null, 2)}\n`,
@@ -844,6 +892,7 @@ export class LocalizationWorkflows {
       changes,
       aligned,
       glossaryHash: translationInputs.glossaryHash,
+      documentHashDomain: hashDomain,
     }, {sourceToRevision: source.revisionId, targetPlanRevision: 0}));
     return {
       runId,
@@ -878,6 +927,7 @@ export class LocalizationWorkflows {
     const targetFetch = targetRead.fetched;
     const source = sourceRead.semantic;
     const target = targetRead.semantic;
+    const hashDomain = documentHashDomain(sourceRead);
     pair = await this.savePairTitles(pair, source.title, target.title);
     const runId = this.dependencies.ids.next();
     const initial = buildInitialPlanInputs(source, target);
@@ -887,6 +937,7 @@ export class LocalizationWorkflows {
       await this.dependencies.registry.saveRun(this.newRun(runId, pair.pairId, 'blocked', {
         kind: 'initialization',
         blocker,
+        documentHashDomain: hashDomain,
         unsupportedNodes: initial.unsupported.map((node) => ({kind: node.kind, blockId: node.remote.blockId, text: node.text})),
       }, {sourceToRevision: source.revisionId, targetPlanRevision: target.revisionId, ...runErrorProjection(error)}));
       return {runId, state: 'blocked', changes: initial.changes, translationRequests: [], blocker};
@@ -905,6 +956,8 @@ export class LocalizationWorkflows {
       runId,
       files: {
         ...currentDocumentArtifacts(sourceFetch, targetFetch, {source, target}),
+        ...snapshotArtifact('source-current', sourceRead),
+        ...snapshotArtifact('target-current', targetRead),
         'changes.json': `${JSON.stringify(initial.changes, null, 2)}\n`,
         'alignments.json': `${JSON.stringify(initial.translatableAligned, null, 2)}\n`,
         'initial-operations.json': initialOperationsText,
@@ -922,6 +975,7 @@ export class LocalizationWorkflows {
       aligned: initial.translatableAligned,
       initialOperations: initial.operations,
       glossaryHash: translationInputs.glossaryHash,
+      documentHashDomain: hashDomain,
     }, {sourceToRevision: source.revisionId, targetPlanRevision: target.revisionId}));
     return {
       runId,
@@ -1252,12 +1306,15 @@ export class LocalizationWorkflows {
         targetNodeKind: request.targetNodeKind,
       }];
     }));
-    const [sourceFetch, targetFetch] = await Promise.all([
-      this.dependencies.docs.fetch(pair.sourceDocUrl),
-      this.dependencies.docs.fetch(targetUrl),
+    const hashDomain = this.hashDomainForRun(run);
+    const [sourceRead, targetRead] = await Promise.all([
+      this.readPlanningDocument(pair.sourceDocUrl, hashDomain),
+      this.readPlanningDocument(targetUrl, hashDomain),
     ]);
-    const source = parseFeishuDocument(sourceFetch.content, {documentId: sourceFetch.documentId, revisionId: sourceFetch.revisionId});
-    const target = parseFeishuDocument(targetFetch.content, {documentId: targetFetch.documentId, revisionId: targetFetch.revisionId});
+    const sourceFetch = sourceRead.fetched;
+    const targetFetch = targetRead.fetched;
+    const source = sourceRead.semantic;
+    const target = targetRead.semantic;
     if (source.revisionId !== plan.sourceRevision || source.canonicalHash !== plan.sourceHash) {
       const error = new LocalizeError({type: 'stale_plan', subtype: 'source_changed', message: 'The remote English document changed after planning.', hint: 'Regenerate the localization plan.'});
       await this.markRun(run, 'stale', {staleReason: 'source_changed'}, error);
@@ -1285,6 +1342,15 @@ export class LocalizationWorkflows {
         await this.markRun(run, 'stale', {staleReason: 'target_block_changed', operationId: operation.operationId}, error);
         throw error;
       }
+    }
+
+    if (hashDomain === 'docx-engine-v1') {
+      throw new LocalizeError({
+        type: 'compatibility',
+        subtype: 'engine_apply_pending',
+        message: 'Engine-backed stale checks passed, but physical apply is disabled until the prepared-batch apply path is installed.',
+        hint: 'Complete the shared Docx engine preview/apply migration before writing this run.',
+      });
     }
 
     const prewriteRef = await this.dependencies.snapshots.putBundle({
@@ -2074,12 +2140,22 @@ export class LocalizationWorkflows {
     if (!sourceXml) {
       throw new LocalizeError({type: 'verification_failed', subtype: 'creation_source_missing', message: 'The creation bundle has no source document.'});
     }
-    const sourceFetch = await this.dependencies.docs.fetch(pair.sourceDocUrl);
-    const source = parseFeishuDocument(sourceFetch.content, {documentId: sourceFetch.documentId, revisionId: sourceFetch.revisionId});
+    const hashDomain = this.hashDomainForRun(run);
+    const sourceRead = await this.readPlanningDocument(pair.sourceDocUrl, hashDomain);
+    const sourceFetch = sourceRead.fetched;
+    const source = sourceRead.semantic;
     if (source.revisionId !== plan.sourceRevision || source.canonicalHash !== plan.sourceHash) {
       const error = new LocalizeError({type: 'stale_plan', subtype: 'source_changed', message: 'The remote English document changed after planning.'});
       await this.markRun(run, 'stale', {staleReason: 'source_changed'}, error);
       throw error;
+    }
+    if (hashDomain === 'docx-engine-v1') {
+      throw new LocalizeError({
+        type: 'compatibility',
+        subtype: 'engine_apply_pending',
+        message: 'Engine-backed stale checks passed, but document creation apply is disabled until the engine apply path is installed.',
+        hint: 'Complete the shared Docx engine preview/apply migration before creating this target.',
+      });
     }
     const plannedSource = parseFeishuDocument(sourceXml, {documentId: source.documentId, revisionId: source.revisionId});
     const operationBySourceId = new Map(plan.operations.map((operation) => [operation.sourceNodeId, operation]));
@@ -2534,13 +2610,44 @@ export class LocalizationWorkflows {
     return this.createPlan(run.pairId);
   }
 
-  private async readPlanningDocument(selector: string): Promise<PlanningDocument> {
+  private async readPlanningDocument(
+    selector: string,
+    hashDomain?: DocumentHashDomain,
+  ): Promise<PlanningDocument> {
+    if (hashDomain === 'legacy-xml-v1') {
+      return planningDocumentFromFetch(await this.dependencies.docs.fetch(selector));
+    }
     if (this.dependencies.engine) {
       return planningDocumentFromSnapshot(
         await this.dependencies.engine.snapshot(engineSelector(selector)),
       );
     }
+    if (hashDomain === 'docx-engine-v1') {
+      throw new LocalizeError({
+        type: 'configuration',
+        subtype: 'docx_engine_missing',
+        message: 'This run was planned with the shared Docx engine, but no engine is configured.',
+      });
+    }
     return planningDocumentFromFetch(await this.dependencies.docs.fetch(selector));
+  }
+
+  private hashDomainForRun(run: RunRecord): DocumentHashDomain {
+    return run.metadata?.documentHashDomain === 'docx-engine-v1'
+      ? 'docx-engine-v1'
+      : 'legacy-xml-v1';
+  }
+
+  private requireStoredSnapshot(bundle: SnapshotBundle, name: string): DocumentSnapshot {
+    const value = bundle.files[`${name}.snapshot.json`];
+    if (!value) {
+      throw new LocalizeError({
+        type: 'verification_failed',
+        subtype: 'engine_snapshot_missing',
+        message: `Engine-backed run is missing ${name}.snapshot.json.`,
+      });
+    }
+    return JSON.parse(value) as DocumentSnapshot;
   }
 
   private async inspectLegacyInitialization(

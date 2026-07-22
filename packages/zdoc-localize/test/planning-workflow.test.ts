@@ -48,7 +48,9 @@ class MutableDocs {
 
 class MemoryEngine implements LocalizationDocxEngine {
   readonly documents = new Map<string, DocumentSnapshot>();
+  readonly requests: DocumentSelector[] = [];
   async snapshot(selector: DocumentSelector): Promise<DocumentSnapshot> {
+    this.requests.push(selector);
     const key = selector.kind === 'url' ? selector.url : selector.token;
     const result = this.documents.get(key);
     if (!result) throw new Error(`Missing fake engine document ${key}`);
@@ -88,6 +90,87 @@ class MemoryWhiteboards implements WhiteboardGateway {
 }
 
 describe('bootstrap and planning workflows', () => {
+  it('accepts an unchanged engine-backed bootstrap without crossing hash domains', async () => {
+    const cwd = await mkdtemp(join(tmpdir(), 'zdoc-localize-engine-bootstrap-'));
+    const docs = new MutableDocs();
+    const engine = new MemoryEngine();
+    engine.documents.set('source-url', engineSnapshot('source', '44', 'Guide', [{
+      block_id: 'source-body', parent_id: 'source', block_type: 2,
+      text: {elements: [{text_run: {content: 'English body.', text_element_style: {}}}]},
+    }]));
+    engine.documents.set('target-url', engineSnapshot('target', '4', '指南', [{
+      block_id: 'target-body', parent_id: 'target', block_type: 2,
+      text: {elements: [{text_run: {content: '中文正文。', text_element_style: {}}}]},
+    }]));
+    const registry = new LocalRegistryStore(cwd);
+    await registry.savePair({
+      pairId: 'pair-engine-bootstrap', sourceLocale: 'en', targetLocale: 'zh-CN',
+      sourceDocUrl: 'source-url', targetDocUrl: 'target-url', mode: 'mirror',
+      status: 'needs_bootstrap',
+    });
+    const workflows = new LocalizationWorkflows({
+      cwd, registry, snapshots: new LocalSnapshotStore(cwd), memory: new MemoryTranslationMemory(),
+      engine, docs, clock: {now: () => new Date('2026-07-16T00:00:00.000Z')},
+      ids: {next: () => 'run-engine-bootstrap'},
+    });
+
+    const planned = await workflows.planBootstrap('pair-engine-bootstrap');
+    await expect(workflows.acceptBootstrap(planned.runId)).resolves.toBeUndefined();
+
+    expect(await registry.getReceipt('pair-engine-bootstrap')).toMatchObject({
+      sourceRevision: 44,
+      sourceHash: engine.documents.get('source-url')!.canonicalHash,
+      targetRevision: 4,
+      targetHash: engine.documents.get('target-url')!.canonicalHash,
+    });
+    expect(docs.fetches).toEqual([]);
+  });
+
+  it('keeps a legacy receipt in the legacy hash domain when an engine is configured', async () => {
+    const cwd = await mkdtemp(join(tmpdir(), 'zdoc-localize-legacy-receipt-engine-'));
+    const sourceXml = '<title id="source">Guide</title><p id="source-body">English body.</p>';
+    const targetXml = '<title id="target">指南</title><p id="target-body">中文正文。</p>';
+    const source = parseFeishuDocument(sourceXml, {documentId: 'source', revisionId: 3});
+    const target = parseFeishuDocument(targetXml, {documentId: 'target', revisionId: 8});
+    const docs = new MutableDocs();
+    docs.documents.set('source-url', {documentId: 'source', revisionId: 3, content: sourceXml});
+    docs.documents.set('target-url', {documentId: 'target', revisionId: 8, content: targetXml});
+    const engine = new MemoryEngine();
+    engine.documents.set('source-url', engineSnapshot('source', '3', 'Guide', [{
+      block_id: 'source-body', parent_id: 'source', block_type: 2,
+      text: {elements: [{text_run: {content: 'English body.', text_element_style: {}}}]},
+    }]));
+    engine.documents.set('target-url', engineSnapshot('target', '8', '指南', [{
+      block_id: 'target-body', parent_id: 'target', block_type: 2,
+      text: {elements: [{text_run: {content: '中文正文。', text_element_style: {}}}]},
+    }]));
+    const registry = new LocalRegistryStore(cwd);
+    const snapshots = new LocalSnapshotStore(cwd);
+    const sourceSnapshotRef = await snapshots.putBundle({
+      runId: 'legacy-baseline', files: {'source.xml': sourceXml},
+    });
+    await registry.savePair({
+      pairId: 'pair-legacy-engine', sourceLocale: 'en', targetLocale: 'zh-CN',
+      sourceDocUrl: 'source-url', targetDocUrl: 'target-url', mode: 'mirror', status: 'active',
+    });
+    await registry.saveReceipt({
+      pairId: 'pair-legacy-engine', sourceRevision: 3, sourceHash: source.canonicalHash,
+      sourceSnapshotRef, targetRevision: 8, targetHash: target.canonicalHash,
+      runId: 'legacy-baseline', completedAt: '2026-07-15T00:00:00.000Z', correspondences: [],
+    });
+    const workflows = new LocalizationWorkflows({
+      cwd, registry, snapshots, memory: new MemoryTranslationMemory(), engine, docs,
+      clock: {now: () => new Date('2026-07-16T00:00:00.000Z')},
+      ids: {next: () => 'run-legacy-engine'},
+    });
+
+    await expect(workflows.createPlan('pair-legacy-engine')).resolves.toMatchObject({
+      state: 'completed', changes: [],
+    });
+    expect(engine.requests).toEqual([]);
+    expect(docs.fetches).toEqual(['source-url', 'target-url']);
+  });
+
   it('plans changed native synced code as verify-only without translation requests', async () => {
     const cwd = await mkdtemp(join(tmpdir(), 'zdoc-localize-native-sync-plan-'));
     const docs = new MutableDocs();
@@ -344,6 +427,14 @@ describe('bootstrap and planning workflows', () => {
       expect.objectContaining({policy: 'whiteboard_mirror'}),
       expect.objectContaining({policy: 'manual_synced_reference'}),
     ]));
+    expect(docs.fetches).toEqual([]);
+
+    const preview = await workflows.previewApply(result.runId, completed.reviewPath);
+    await expect(workflows.apply(result.runId, completed.reviewPath, preview.approvalToken))
+      .rejects.toMatchObject({
+        type: 'compatibility',
+        subtype: 'engine_apply_pending',
+      });
     expect(docs.fetches).toEqual([]);
   });
 
