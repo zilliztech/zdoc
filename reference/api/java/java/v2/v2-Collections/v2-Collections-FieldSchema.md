@@ -52,7 +52,6 @@ CreateCollectionReq.FieldSchema.builder()
     .isPartitionKey(Boolean isPartitionKey)
     .isClusteringKey(Boolean isClusteringKey)
     .autoID(Boolean autoID)
-
     .isNullable(Boolean isNullable)
     .defaultValue(Object defaultValue)
     .enableAnalyzer(Boolean enableAnalyzer)
