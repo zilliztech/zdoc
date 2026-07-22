@@ -1463,6 +1463,18 @@ class larkDocWriter {
             blocks = this.blocks;
             markdown.push(await this.__page(this.page_blocks[0]['page']));
         }
+
+        blocks = blocks.flatMap((block, index) => {
+            const blockType = block ? this.block_types[block['block_type'] - 1] : null
+            const nextBlock = blocks[index + 1]
+            const nextType = nextBlock ? this.block_types[nextBlock['block_type'] - 1] : null
+            if (blockType !== 'source_synced' || nextType !== 'code') return [block]
+
+            const children = (block.children || []).map(child => this.__retrieve_block_by_id(child)).filter(Boolean)
+            const lastChild = children.at(-1)
+            const lastChildType = lastChild ? this.block_types[lastChild['block_type'] - 1] : null
+            return lastChildType === 'code' ? children : [block]
+        })
     
         for (let idx = 0; idx < blocks.length; idx++) {
             const block = blocks[idx];
@@ -2010,8 +2022,13 @@ class larkDocWriter {
         }
 
         let content = await this.__text_elements(block['bullet']['elements'])
+        content = this.__list_item_content(content, indent)
 
         return ' '.repeat(indent) + '- ' + content + '\n\n' + children;
+    }
+
+    __list_item_content(content, indent) {
+        return content.replace(/\r?\n/g, `<br/>\n${' '.repeat(indent + 2)}`)
     }
 
     async __ordered(block, indent) {
