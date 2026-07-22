@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "FieldSchema インスタンスは、collection 内の特定の field のデータ型および関連属性を定義します。 | Java | v2"
+description: "FieldSchema インスタンスは、コレクション内の特定のフィールドのデータ型と関連属性を定義します。 | Java | v2"
 type: docx
 token: ZwKPdk2rzoQUU7xm4CHcPiZqnjh
 sidebar_position: 16
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # FieldSchema
 
-**FieldSchema** インスタンスは、collection 内の特定の field のデータ型および関連属性を定義します。
+**FieldSchema** インスタンスは、コレクション内の特定のフィールドのデータ型と関連属性を定義します。
 
 ```java
 io.milvus.v2.service.collection.request.CreateCollectionReq.FieldSchema
@@ -39,7 +39,7 @@ io.milvus.v2.service.collection.request.CreateCollectionReq.FieldSchema
 
 ## Constructor\{#constructor}
 
-field 名、データ型、その他のパラメータを定義して、field の schema を構築します。
+フィールド名、データ型、およびその他のパラメータを定義して、フィールドのスキーマを構築します。
 
 ```java
 CreateCollectionReq.FieldSchema.builder()
@@ -52,7 +52,6 @@ CreateCollectionReq.FieldSchema.builder()
     .isPartitionKey(Boolean isPartitionKey)
     .isClusteringKey(Boolean isClusteringKey)
     .autoID(Boolean autoID)
-
     .isNullable(Boolean isNullable)
     .defaultValue(Object defaultValue)
     .enableAnalyzer(Boolean enableAnalyzer)
@@ -68,79 +67,79 @@ CreateCollectionReq.FieldSchema.builder()
 
 - `name(String name)` -
 
-    field の名前です。
+    フィールドの名前。
 
 - `description(String description)` -
 
-    field の説明です。
+    フィールドの説明。
 
 - `dataType(DataType dataType)` -
 
-    field のデータ型です。異なる field のデータ型を選択する際は、次のオプションから選べます: primary key field — **DataType.Int64** または **DataType.VarChar** を使用します。scalar fields — **DataType.Bool**、**DataType.Int8**、**DataType.Int16**、**DataType.Int32**、**DataType.Int64**、**DataType.Float**、**DataType.Double**、**DataType.VarChar**、**DataType.JSON**、または **DataType.Array** から選択します。vector fields — **DataType.BinaryVector** または **DataType.FloatVector** を選択します。
+    フィールドのデータ型。各フィールドに対してデータ型を選択する際は、以下のオプションから選択できます: プライマリキーフィールド — **DataType.Int64** または **DataType.VarChar** を使用; スカラーフィールド — **DataType.Bool**、**DataType.Int8**、**DataType.Int16**、**DataType.Int32**、**DataType.Int64**、**DataType.Float**、**DataType.Double**、**DataType.VarChar**、**DataType.JSON**、または **DataType.Array** から選択; ベクトルフィールド — **DataType.BinaryVector** または **DataType.FloatVector** を選択。
 
 - `maxLength(Integer maxLength)` -
 
-    値に含めることができる最大文字数です。この field の **[dataType](./v2-Collections-DataType)** が **DataType.VarChar** に設定されている場合は必須です。
+    値に含めることができる最大文字数。これは、このフィールドの **[dataType](./v2-Collections-DataType)** が **DataType.VarChar** に設定されている場合に必須です。
 
 - `dimension(Integer dimension)` -
 
-    値が持つべき次元数です。この field の **[dataType](./v2-Collections-DataType)** が **DataType.FloatVector** に設定されている場合は必須です。
+    値が持つべき次元数。これは、このフィールドの **[dataType](./v2-Collections-DataType)** が **DataType.FloatVector** に設定されている場合に必須です。
 
 - `isPrimaryKey(Boolean isPrimaryKey)` -
 
-    現在の field が primary field かどうかを示します。これを **True** に設定すると、現在の field が primary field になります。
+    現在のフィールドがプライマリフィールドであるかどうか。これを **True** に設定すると、現在のフィールドがプライマリフィールドになります。
 
 - `isPartitionKey(Boolean isPartitionKey)` -
 
-    現在の field が partition-key field かどうかを示します。これを **True** に設定すると、現在の field が partition key になります。
+    現在のフィールドがパーティションキーフィールドであるかどうか。これを **True** に設定すると、現在のフィールドがパーティションキーになります。
 
 - `isClusteringKey(Boolean isClusteringKey)` -
 
-    現在の field が clustering key かどうかを示します。clustering key は、ディスク上の segment グループ化を制御し、この field でフィルタするクエリを高速化します。
+    現在のフィールドがクラスタリングキーであるかどうか。クラスタリングキーは、ディスク上のセグメントのグループ化を制御し、このフィールドでフィルタするクエリを高速化します。
 
 - `autoID(Boolean autoID)` -
 
-    primary field の自動インクリメントを許可するかどうかを示します。これを **True** に設定すると、primary field は自動的にインクリメントされます。この場合、エラーを避けるために挿入するデータに primary field を含めてはいけません。このパラメータは、**isPrimaryKey** が **True** に設定されている field に設定してください。
+    プライマリフィールドの自動インクリメントを許可するかどうか。これを **True** に設定すると、プライマリフィールドは自動インクリメントされます。この場合、エラーを避けるために、挿入するデータにはプライマリフィールドを含めないでください。このパラメータは、**isPrimaryKey** が **True** に設定されているフィールドで設定してください。
 
 - `elementType(DataType elementType)` -
 
-    array field 内の要素のデータ型です。この field の **[dataType](./v2-Collections-DataType)** が **DataType.Array** に設定されている場合は必須です。 
+    配列フィールド内の要素のデータ型。これは、このフィールドの **[dataType](./v2-Collections-DataType)** が **DataType.Array** に設定されている場合に必須です。 
 
 - `maxCapacity(Integer maxCapacity)` -
 
-    array field に含めることができる要素の最大数です。この field の **[dataType](./v2-Collections-DataType)** が **DataType.Array** に設定されている場合は必須です。 
+    配列フィールドに含めることができる要素の最大数。これは、このフィールドの **[dataType](./v2-Collections-DataType)** が **DataType.Array** に設定されている場合に必須です。 
 
 - `isNullable(Boolean isNullable)` -
 
-    この field に `null` 値を許可します。デフォルト: `false`。詳細は Nullable & Default を参照してください。
+    このフィールドで `null` 値を許可します。デフォルト: `false`。詳細については、Nullable & Default を参照してください。
 
 - `defaultValue(Object defaultValue)` -
 
-    挿入時に field が存在しない場合に使用される field のデフォルト値を設定します。実行時の型は `dataType` と一致している必要があります。
+    insert にフィールドが含まれていない場合に使用されるフィールドのデフォルト値を設定します。ランタイム型は `dataType` と一致する必要があります。
 
 - `enableAnalyzer(Boolean enableAnalyzer)` -
 
-    指定した `VARCHAR` field に対してテキスト解析を有効にするかどうかを示します。`true` に設定すると、Milvus は field のテキスト内容をトークン化およびフィルタリングするテキスト analyzer を使用します。フルテキスト検索には必須です。
+    指定した `VARCHAR` フィールドに対してテキスト解析を有効にするかどうか。`true` に設定すると、Milvus はこのフィールドのテキスト内容をトークン化およびフィルタリングするテキストアナライザーを使用します。全文検索に必須です。
 
 - `analyzerParams(Map<String, Object> analyzerParams)` -
 
-    `DataType.VarChar` field 用の field ごとの analyzer 設定（tokenizer、filters）です。`enableAnalyzer` と組み合わせて使用します。
+    `DataType.VarChar` フィールド用のフィールドごとのアナライザー設定（tokenizer、filters）。`enableAnalyzer` と組み合わせて使用します。
 
 - `enableMatch(Boolean enableMatch)` -
 
-    指定した `VARCHAR` field に対してキーワードマッチングを有効にするかどうかを示します。`true` の場合、Milvus はその field に inverted index を作成し、高速で効率的なキーワード検索を可能にします。`enableMatch` は `enableAnalyzer` と連携して、構造化された用語ベースのテキスト検索を提供します。
+    指定した `VARCHAR` フィールドに対してキーワードマッチを有効にするかどうか。`true` の場合、Milvus はこのフィールド用の転置インデックスを作成し、高速かつ効率的なキーワード検索を可能にします。`enableMatch` は `enableAnalyzer` と連携して、構造化された用語ベースのテキスト検索を提供します。
 
 - `typeParams(Map<String, String> typeParams)` -
 
-    専用の builder method として公開されていない、型ごとの汎用パラメータです。指定すると、ここでの値が上で設定した対応するパラメータ値を上書きします。
+    専用の builder method として公開されていない、型ごとの汎用パラメータ。一度指定すると、ここでの値が上で設定した対応するパラメータ値を上書きします。
 
 - `multiAnalyzerParams(Map<String, Object> multiAnalyzerParams)` -
 
-    複数の analyzer をテキスト field に設定し、そのテキスト field に多言語ドキュメントを保存できる multi-language analyzer です。
+    複数のアナライザーをテキストフィールドに設定し、このテキストフィールドに多言語ドキュメントを保存できるようにする多言語アナライザー。
 
 - `externalField(String externalField)` -
 
-    この Milvus field を、schema の `externalSource` で識別される外部ソース内の列にマッピングします。external collections で使用されます。
+    この Milvus フィールドを、スキーマの `externalSource` で識別される外部ソース内の列にマッピングします。外部コレクションで使用されます。
 
 **RETURN TYPE:**
 
@@ -154,7 +153,7 @@ CreateCollectionReq.FieldSchema.builder()
 
 - **MilvusClientExceptions**
 
-    この操作中に何らかのエラーが発生した場合、この例外がスローされます。
+    この操作中に何らかのエラーが発生した場合に、この例外がスローされます。
 
 ## Example\{#example}
 
