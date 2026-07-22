@@ -9,7 +9,7 @@ deprecate_since: false
 notebook: false
 description: "This operation uploads the local file at the specified source path to the target file path within the specified managed volume. | Python"
 type: docx
-token: Fr3rdPTuXoC0Lzx7urIcwBqWnDb
+token: SAR6dnlmmohi30x0x2KcioyXnib
 sidebar_position: 1
 keywords: 
   - image similarity search
