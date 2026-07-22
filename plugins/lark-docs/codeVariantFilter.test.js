@@ -127,3 +127,61 @@ test('rejects malformed comment directives with line diagnostics', () => {
     /indentation at line 2 does not match line 1/
   )
 })
+
+test('filters standalone legacy tags without directive gaps', () => {
+  const source = [
+    'params={',
+    '<include target="zilliz">',
+    '    "integration_id": "YOUR_INTEGRATION_ID",',
+    '</include>',
+    '<include target="milvus">',
+    '    "credential": "YOUR_API_KEY",',
+    '</include>',
+    '    "dim": "1536",',
+    '}',
+  ].join('\n')
+
+  assert.equal(filterCodeVariants(source, 'zilliz.saas'), [
+    'params={',
+    '    "integration_id": "YOUR_INTEGRATION_ID",',
+    '    "dim": "1536",',
+    '}',
+  ].join('\n'))
+
+  assert.equal(filterCodeVariants(source, 'milvus'), [
+    'params={',
+    '    "credential": "YOUR_API_KEY",',
+    '    "dim": "1536",',
+    '}',
+  ].join('\n'))
+})
+
+test('removes an inline legacy parameter line without leaving indentation', () => {
+  const source = [
+    'search_params = {',
+    '    <include target="zilliz">\'params\': {\'level\': 10},</include>',
+    '}',
+  ].join('\n')
+
+  assert.equal(filterCodeVariants(source, 'zilliz.saas'), [
+    'search_params = {',
+    '    \'params\': {\'level\': 10},',
+    '}',
+  ].join('\n'))
+  assert.equal(filterCodeVariants(source, 'milvus'), [
+    'search_params = {',
+    '}',
+  ].join('\n'))
+})
+
+test('preserves mixed inline legacy fragments on retained code lines', () => {
+  const source = 'token=TOKEN  # <exclude target="paas">API key or </exclude>username:password'
+  assert.equal(
+    filterCodeVariants(source, 'zilliz.paas'),
+    'token=TOKEN  # username:password'
+  )
+  assert.equal(
+    filterCodeVariants(source, 'zilliz.saas'),
+    'token=TOKEN  # API key or username:password'
+  )
+})

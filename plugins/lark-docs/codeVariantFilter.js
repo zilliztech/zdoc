@@ -115,8 +115,94 @@ function filterCommentDirectives(content, targets) {
   return hadTrailingNewline && rendered ? `${rendered}\n` : rendered
 }
 
+const LEGACY_TAG = /<\/?(?:include|exclude)(?:\s+target="[^"]+")?\s*>/gi
+
+function parseLegacyTag(token) {
+  const close = token.match(/^<\/(include|exclude)\s*>$/i)
+  if (close) return { closing: true, kind: close[1].toLowerCase(), target: null }
+
+  const open = token.match(/^<(include|exclude)\s+target="([^"]+)"\s*>$/i)
+  if (!open) return null
+  return {
+    closing: false,
+    kind: open[1].toLowerCase(),
+    target: open[2].trim().toLowerCase(),
+  }
+}
+
+function filterLegacyTags(content, targets) {
+  const input = String(content ?? '')
+  const hadTrailingNewline = input.endsWith('\n')
+  const lines = input.split('\n')
+  if (hadTrailingNewline) lines.pop()
+
+  const parts = activeTargetParts(targets)
+  const regions = []
+  const output = []
+  const regionsEnabled = () => regions.every(region => region.enabled)
+
+  for (const line of lines) {
+    LEGACY_TAG.lastIndex = 0
+    let lastIndex = 0
+    let rendered = ''
+    let hadTag = false
+    let hadActiveText = false
+    let match
+
+    while ((match = LEGACY_TAG.exec(line)) !== null) {
+      hadTag = true
+      const before = line.slice(lastIndex, match.index)
+      if (regionsEnabled()) {
+        rendered += before
+        if (before.length > 0) hadActiveText = true
+      }
+
+      const tag = parseLegacyTag(match[0])
+      if (!tag) {
+        if (regionsEnabled()) rendered += match[0]
+        lastIndex = LEGACY_TAG.lastIndex
+        continue
+      }
+
+      if (tag.closing) {
+        const current = regions.at(-1)
+        if (!current || current.kind !== tag.kind) {
+          console.warn(`Ignoring unmatched legacy </${tag.kind}> code variant tag`)
+        } else {
+          regions.pop()
+        }
+      } else {
+        regions.push({
+          kind: tag.kind,
+          enabled: directiveEnabled(tag.kind, tag.target, parts),
+        })
+      }
+      lastIndex = LEGACY_TAG.lastIndex
+    }
+
+    const after = line.slice(lastIndex)
+    if (regionsEnabled()) {
+      rendered += after
+      if (after.length > 0) hadActiveText = true
+    }
+
+    if (!hadTag && line === '' && regionsEnabled()) {
+      output.push(line)
+    } else if (rendered.trim() !== '' || (hadActiveText && !hadTag)) {
+      output.push(rendered)
+    }
+  }
+
+  if (regions.length > 0) {
+    console.warn(`Unclosed legacy <${regions.at(-1).kind}> code variant tag`)
+  }
+
+  const rendered = output.join('\n')
+  return hadTrailingNewline && rendered ? `${rendered}\n` : rendered
+}
+
 function filterCodeVariants(content, targets) {
-  return filterCommentDirectives(content, targets)
+  return filterLegacyTags(filterCommentDirectives(content, targets), targets)
 }
 
 module.exports = {
