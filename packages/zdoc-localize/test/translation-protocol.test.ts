@@ -162,6 +162,19 @@ describe('translation response validation', () => {
     }])).toHaveLength(1);
   });
 
+  it('does not count an empty bold marker as a preserved legacy bold span', () => {
+    const boldRequest = {
+      ...request,
+      glossary: [],
+      preserved: [{kind: 'bold_span' as const, value: 'Zilliz Cloud', count: 1}],
+      linkMappings: [],
+    };
+
+    expect(() => validateTranslations([boldRequest], [{
+      operationId: 'op-1', translatedText: '使用 ****。', targetNodeKind: 'paragraph',
+    }])).toThrowError(expect.objectContaining({subtype: 'preserved_token_mismatch'}));
+  });
+
   it('requires an explicit delete decision', () => {
     const deletion: TranslationRequest = {...request, operationId: 'op-delete', changeKind: 'delete'};
     expect(validateTranslations([deletion], [{operationId: 'op-delete', decision: 'delete'}])).toEqual([

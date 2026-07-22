@@ -272,6 +272,24 @@ describe('structured translation content', () => {
     expect(translated.items[0]!.content).toEqual(markedList.items[0]!.content);
   });
 
+  it('does not let an empty marker preserve a structured bold span topology', () => {
+    const boldList: Extract<SemanticNodeStructure, {kind: 'list'}> = {
+      kind: 'list',
+      ordered: false,
+      items: [{
+        content: [{kind: 'text', text: 'Important', bold: true}],
+        children: [],
+      }],
+    };
+
+    expect(() => applySlotTranslations(boldList, [{
+      slotId: 'item-0/text',
+      translatedText: '****',
+    }], structuredTopologyHash(boldList))).toThrowError(expect.objectContaining({
+      subtype: 'structured_topology_mismatch',
+    }));
+  });
+
   it('preserves intentional leading and trailing whitespace in a slot', () => {
     const spacedList: Extract<SemanticNodeStructure, {kind: 'list'}> = {
       kind: 'list',

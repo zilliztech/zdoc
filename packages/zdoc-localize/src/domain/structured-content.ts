@@ -238,6 +238,7 @@ function inlineTopology(content: InlineContent[]): unknown[] {
       italic: part.italic === true,
       underline: part.underline === true,
       strike: part.strike === true,
+      ...(part.text.length === 0 ? {empty: true} : {}),
     };
   });
 }

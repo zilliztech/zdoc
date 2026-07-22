@@ -87,7 +87,7 @@ function countParsedBoldSpans(text: string): number {
   let count = 0;
   let previousMarks: string | undefined;
   for (const part of parseStructuredInlineMarkdown(text)) {
-    if (part.kind !== 'text') {
+    if (part.kind !== 'text' || part.text.length === 0) {
       previousMarks = undefined;
       continue;
     }
