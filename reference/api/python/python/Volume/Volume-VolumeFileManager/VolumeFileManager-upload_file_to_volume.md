@@ -7,7 +7,7 @@ added_since: false
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "This operation uploads the local file at the specified source path to the target file path within the specified managed volume. | Python"
+description: "Adds concurrency, retry, multipart-size, path, and progress callback controls. | Python"
 type: docx
 token: SAR6dnlmmohi30x0x2KcioyXnib
 sidebar_position: 1
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # upload_file_to_volume()
 
-This operation uploads the local file at the specified source path to the target file path within the specified managed volume.
+Adds concurrency, retry, multipart-size, path, and progress callback controls.
 
 <Admonition type="info" icon="📘" title="Notes">
 
@@ -44,73 +44,70 @@ This applies only to managed volumes. External volumes are read-only.
 ```python
 upload_file_to_volume(
     source_file_path: str,
-    target_volume_path: str
-)
+    target_volume_path: str,
+    upload_concurrency: int = 5,
+    max_retries: int = 5,
+    retry_interval: float = 5.0,
+    progress_callback: Callable[[UploadProgress], None] | None = None,
+    part_size: int = 0,
+) -> dict
 ```
 
-**PARAMETERS**
+**PARAMETERS:**
 
 - **source_file_path** (*str*) -
-
-    **[REQUIRED]**
-
-    The path to the local data file to be uploaded to the specified volume.
+**[REQUIRED]**
+The local file or directory path to upload.
 
 - **target_volume_path** (*str*) -
+**[REQUIRED]**
+The destination path in the Zilliz Cloud volume.
 
-    **[REQUIRED]**
+- **upload_concurrency** (*int*) -
+Default: `5`
+The maximum number of files to upload concurrently.
 
-    The path to the data file within the specified volume after this operation.
+- **max_retries** (*int*) -
+Default: `5`
+The maximum number of upload attempts for each file.
 
-**RETURN TYPE**
+- **retry_interval** (*float*) -
+Default: `5.0`
+The delay, in seconds, between upload attempts.
 
-An object.
+- **progress_callback** (*Callable[[UploadProgress], None] | None*) -
+Default: `None`
+The callback invoked with upload progress snapshots.
 
-**RETURNS**
+- **part_size** (*int*) -
+Default: `0`
+The multipart upload part size, in bytes. Use `0` to select the size automatically.
 
-An object with the following data structure:
+**RETURN TYPE:**
 
-```json
-{
-    "volumeName": "my_volume",
-    "path": "path/to/your/data/file/in/the/volume"
-}
-```
+*dict*
 
-- **volumeName** (*str*) -
+**RETURNS:**
 
-    **[REQUIRED]**
+Dictionary containing volumeName, volume_name, and the uploaded target path.
 
-    The name of the target volume of this operation.
+**EXCEPTIONS:**
 
-- **path** (*str*) -
+- **MilvusException**
+Raised when the server rejects the request or the RPC fails. Inspect the server error message for exact failure details.
 
-    **[REQUIRED]**
+## Examples\{#examples}
 
-    The path to the data file within the specified volume after this operation.
-
-## Example\{#example}
+The example demonstrates upload file to volume usage.
 
 ```python
-from pymilvus.bulk_writer.volume_file_manager import VolumeFileManager
+from pymilvus.bulk_writer import VolumeFileManager, VolumeManager
 
-volume_file_manager = VolumeFileManager(
-    cloud_endpoint="https://api.cloud.zilliz.com",
-    api_key="YOUR_API_KEY",
-    volume_name="my_volume"
-)
+manager = VolumeManager(cloud_endpoint="https://api.cloud.zilliz.com", api_key="YOUR_API_KEY")
+manager.create_volume(project_id="proj-xxxx", region_id="aws-us-west-2", volume_name="book-volume", volume_type="EXTERNAL")
+manager.describe_volume("book-volume")
+manager.list_volumes(project_id="proj-xxxx", volume_type="EXTERNAL")
 
-result = volume_file_manager.upload_file_to_volume(
-    source_file_path="/path/to/your/local/data/file", 
-    target_volume_path="data/"
-)
-
-print(f"\nuploadFileToVolume results\n: {result}")
-
-# target_volume_path results: 
-# 
-# {
-#     "volumeName": "my_volume",
-#     "path": "data/"
-# }
+file_manager = VolumeFileManager(cloud_endpoint="https://api.cloud.zilliz.com", api_key="YOUR_API_KEY", volume_name="book-volume")
+file_manager.upload_file_to_volume(source_file_path="./data/books.parquet", target_volume_path="datasets/books/books.parquet", upload_concurrency=4)
 ```

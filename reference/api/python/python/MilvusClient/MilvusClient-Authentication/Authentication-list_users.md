@@ -95,5 +95,5 @@ client.list_users()
 
 - [drop_user()](./Authentication-drop_user)
 
-- [update_password()](./utility-update_password)
+- [update_password()](./Authentication-update_password)
 

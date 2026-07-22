@@ -7,7 +7,7 @@ added_since: false
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "This function retrieves detailed metadata for a specific volume. | Python"
+description: "New public volume-description method. | Python"
 type: docx
 token: MwfQdhukeoxOh0xPLySc0wJjn5f
 sidebar_position: 3
@@ -31,109 +31,47 @@ import Admonition from '@theme/Admonition';
 
 # describe_volume()
 
-This function retrieves detailed metadata for a specific volume.
+New public volume-description method.
 
 ## Request Syntax\{#request-syntax}
 
 ```python
-volume_manager.describe_volume(
+describe_volume(
     volume_name: str,
-)
+) -> requests.Response
 ```
 
 **PARAMETERS:**
 
 - **volume_name** (*str*) -
-
-    The name of the volume to describe.
+**[REQUIRED]**
+The name of the Zilliz Cloud volume to describe.
 
 **RETURN TYPE:**
+
 *requests.Response*
 
-Returns volume details, including status and storage configuration.
+**RETURNS:**
+
+HTTP response containing details for the requested volume.
 
 **EXCEPTIONS:**
 
-An object with the following data structure:
-
-```json
-{
-    "count": 1,
-    "currentPage": 1,
-    "pageSize": 10,
-    "volumes": [
-        {
-            "volumeName": "my_volume",
-            "type": "EXTERNAL",
-            "regionId": "aws-us-west-2",
-            "storageIntegrationId": "integ-xxx",
-            "path": "data/",
-            "status": "RUNNING",
-            "createTime": "2024-04-15T12:00:00Z"
-        }        
-    ]
-}
-```
-
-**PARAMETERS**
-
 - **MilvusException**
-
-    The total number of volumes found.
-
-- **currentPage** (*int*) -
-
-    The current page.
-
-- **pageSize** (*int*) -
-
-    The maximum number of volumes per page.
-
-- **volumes** (*list*) -
-
-    A volume list.
-
-    - **volumeName** (*str*) -
-
-        The name of a volume.
-
-    - **type** (*str*) -
-
-        The type of a volume. Possible values are `EXTERNAL` and `MANAGED`.
-
-    - **regionId** (*str*) -
-
-        The region to which the volume belongs.
-
-    - **storageIntegrationId** (*str*) -
-
-        The ID of the integrated storage from which the volume is created. This is available only when the volume is external.
-
-    - **path** (*str*) -
-
-        The path in the integrated storage from which the volume is created. This is available only when the volume is external.
-
-    - **status** (*str*) -
-
-        The name of a volume.
-
-        The status of the current volume.
-
-    - **createTime** (*str*) -
-
-        The time at which the volume is created.
+Raised when the server rejects the request or the RPC fails. Inspect the server error message for exact failure details.
 
 ## Examples\{#examples}
 
+The example demonstrates describe volume usage.
+
 ```python
-from pymilvus.bulk_writer import VolumeManager
+from pymilvus.bulk_writer import VolumeFileManager, VolumeManager
 
-volume_manager = VolumeManager(
-    cloud_endpoint="https://api.cloud.zilliz.com",
-    api_key="YOUR_API_KEY",
-)
+manager = VolumeManager(cloud_endpoint="https://api.cloud.zilliz.com", api_key="YOUR_API_KEY")
+manager.create_volume(project_id="proj-xxxx", region_id="aws-us-west-2", volume_name="book-volume", volume_type="EXTERNAL")
+manager.describe_volume("book-volume")
+manager.list_volumes(project_id="proj-xxxx", volume_type="EXTERNAL")
 
-resp = volume_manager.describe_volume(volume_name="books-volume")
-print(resp.json())
+file_manager = VolumeFileManager(cloud_endpoint="https://api.cloud.zilliz.com", api_key="YOUR_API_KEY", volume_name="book-volume")
+file_manager.upload_file_to_volume(source_file_path="./data/books.parquet", target_volume_path="datasets/books/books.parquet", upload_concurrency=4)
 ```
-

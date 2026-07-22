@@ -1,6 +1,6 @@
 ---
 title: "update_password() | Python | ORM"
-slug: /python/python/ORM-utility/utility-update_password
+slug: /python/python/utility-update_password
 sidebar_label: "update_password()"
 beta: NEAR DEPRECATE
 added_since: Inherit

@@ -100,5 +100,5 @@ client.drop_user(user_name="user_1")
 
 - [list_users()](./Authentication-list_users)
 
-- [update_password()](./utility-update_password)
+- [update_password()](./Authentication-update_password)
 

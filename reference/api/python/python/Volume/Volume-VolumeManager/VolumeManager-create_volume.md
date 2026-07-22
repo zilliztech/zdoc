@@ -7,7 +7,7 @@ added_since: false
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "This function creates a new Zilliz Cloud volume in a project and region, with support for managed or external volume configuration. | Python"
+description: "Adds project/region and external-volume parameters. | Python"
 type: docx
 token: GtNKdyeDCoPxQXxvohIcYQ47nee
 sidebar_position: 1
@@ -31,84 +31,72 @@ import Admonition from '@theme/Admonition';
 
 # create_volume()
 
-This function creates a new Zilliz Cloud volume in a project and region, with support for managed or external volume configuration.
+Adds project/region and external-volume parameters.
 
 ## Request Syntax\{#request-syntax}
 
 ```python
-volume_manager.create_volume(
+create_volume(
     project_id: str,
     region_id: str,
     volume_name: str,
-    volume_type: str | None = None,
-    storage_integration_id: str | None = None,
-    path: str | None = None,
-)
+    volume_type: Optional[str] = None,
+    storage_integration_id: Optional[str] = None,
+    path: Optional[str] = None,
+) -> requests.Response
 ```
 
 **PARAMETERS:**
 
 - **project_id** (*str*) -
-
-    **[REQUIRED]**
-
-    Project ID that owns the volume.
+**[REQUIRED]**
+The ID of the Zilliz Cloud project in which to create the volume.
 
 - **region_id** (*str*) -
-
-    **[REQUIRED]**
-
-    Region ID where the volume is created.
+**[REQUIRED]**
+The ID of the Zilliz Cloud region in which to create the volume.
 
 - **volume_name** (*str*) -
+**[REQUIRED]**
+The name of the volume to create.
 
-    **[REQUIRED]**
+- **volume_type** (*Optional[str]*) -
+Default: `None`
+The volume type. Supported values are `MANAGED` and `EXTERNAL`; the default is `MANAGED`.
 
-    Name of the volume.
+- **storage_integration_id** (*Optional[str]*) -
+Default: `None`
+The storage integration ID required for an `EXTERNAL` volume.
 
-- **volume_type** (*str*) -
-
-    Volume type. Supported values are `MANAGED` and `EXTERNAL`. If omitted, `MANAGED` is used.
-
-- **storage_integration_id** (*str*) -
-
-    Storage Integration ID. Required when `volume_type="EXTERNAL"`.
-
-- **path** (*str*) -
-
-    Path for external storage. If set, it must end with `/`.
+- **path** (*Optional[str]*) -
+Default: `None`
+The storage path for an `EXTERNAL` volume. When omitted, the storage integration root is used; a supplied path must end with `/`.
 
 **RETURN TYPE:**
+
 *requests.Response*
 
-Returns the volume creation response.
+**RETURNS:**
 
-HTTP response from the create volume API.
+HTTP response describing the volume creation request.
 
 **EXCEPTIONS:**
 
 - **MilvusException**
-
-    Raised when volume creation fails.
+Raised when the server rejects the request or the RPC fails. Inspect the server error message for exact failure details.
 
 ## Examples\{#examples}
 
+The example demonstrates create volume usage.
+
 ```python
-from pymilvus.bulk_writer import VolumeManager
+from pymilvus.bulk_writer import VolumeFileManager, VolumeManager
 
-volume_manager = VolumeManager(
-    cloud_endpoint="https://api.cloud.zilliz.com",
-    api_key="YOUR_API_KEY",
-)
+manager = VolumeManager(cloud_endpoint="https://api.cloud.zilliz.com", api_key="YOUR_API_KEY")
+manager.create_volume(project_id="proj-xxxx", region_id="aws-us-west-2", volume_name="book-volume", volume_type="EXTERNAL")
+manager.describe_volume("book-volume")
+manager.list_volumes(project_id="proj-xxxx", volume_type="EXTERNAL")
 
-resp = volume_manager.create_volume(
-    project_id="proj-xxx",
-    region_id="aws-us-west-2",
-    volume_name="books-volume",
-    volume_type="EXTERNAL",
-    storage_integration_id="integ-xxx",
-    path="book-data/",
-)
-
-print(resp.json())
+file_manager = VolumeFileManager(cloud_endpoint="https://api.cloud.zilliz.com", api_key="YOUR_API_KEY", volume_name="book-volume")
+file_manager.upload_file_to_volume(source_file_path="./data/books.parquet", target_volume_path="datasets/books/books.parquet", upload_concurrency=4)
 ```

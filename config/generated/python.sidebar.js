@@ -239,9 +239,9 @@ module.exports = [
           },
           {
             "type": "doc",
-            "id": "api/python/python/MilvusClient/MilvusClient-Authentication/utility-update_password",
+            "id": "api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-update_password",
             "label": "update_password()",
-            "key": "doc:api/python/python/MilvusClient/MilvusClient-Authentication/utility-updatepassword"
+            "key": "doc:api/python/python/MilvusClient/MilvusClient-Authentication/authentication-updatepassword"
           }
         ]
       },

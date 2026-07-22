@@ -10,7 +10,7 @@ notebook: false
 description: "This operation flushes all collections in the current database. This ensures all inserted data is written to persistent storage. | Python | MilvusClient"
 type: docx
 token: QejKdv2qKo97mQxEV0CcaSM5nLh
-sidebar_position: 16
+sidebar_position: 17
 keywords: 
   - Knowledge base
   - natural language processing
