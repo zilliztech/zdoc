@@ -149,9 +149,7 @@ cohere_ranker = Function(
         "provider": "cohere",
         "model_name": "rerank-english-v3.0",
         "queries": ["renewable energy developments"],
-
         "integration_id": "YOUR_INTEGRATION_ID",
-
     }
 )
 ```

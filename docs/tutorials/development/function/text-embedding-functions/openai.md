@@ -211,9 +211,7 @@ text_embedding_function = Function(
     params={                                  # Provider-specific configuration (highest priority)
         "provider": "openai",                 # Embedding model provider
         "model_name": "text-embedding-3-small",     # Embedding model
-
         "integration_id": "YOUR_INTEGRATION_ID",    # Integration ID generated in the Zilliz Cloud console for the selected model provider
-
         # "dim": "1536",       # Optional: shorten the vector dimension
         # "user": "user123"    # Optional: identifier for API tracking
     }
@@ -237,9 +235,7 @@ Function function = Function.builder()
         .outputFieldNames(Collections.singletonList("dense"))
         .param("provider", "openai")
         .param("model_name", "text-embedding-3-small")
-
         .param("integration_id", "YOUR_INTEGRATION_ID")
-
         .build();
 schema.addFunction(function);
 ```
@@ -278,9 +274,7 @@ function->AddInputFieldName("document");
 function->AddOutputFieldName("dense");
 function->AddParam("provider", "openai");
 function->AddParam("model_name", "text-embedding-3-small");
-
 function->AddParam("integration_id", "YOUR_INTEGRATION_ID");
-
 collection_schema->AddFunction(function);
 ```
 

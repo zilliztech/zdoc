@@ -1,10 +1,23 @@
 {
-  "generated_at": "2026-07-22T03:17:40.936Z",
+  "generated_at": "2026-07-22T10:55:25.147Z",
   "manual": "guides",
   "build_env": "uat",
   "mode": "incremental",
   "source_dir": "./plugins/lark-docs/meta/sources/guides",
   "changed_records": [
+    {
+      "record_id": "recvlW2f6U37Y8",
+      "table_id": "tblZMzoITXNsyKmQ",
+      "table_name": "Management",
+      "title": "Subscribe to a Public Offer on Microsoft Marketplace",
+      "labels": "Microsoft Marketplace (Public Offer)",
+      "slug": "subscribe-on-azure-marketplace",
+      "doc_token": "LbFXwpruviFWWokwtkhcVmnhnFh",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/LbFXwpruviFWWokwtkhcVmnhnFh",
+      "reasons": [
+        "wiki node edit time changed"
+      ]
+    },
     {
       "record_id": "recvlW61fR9it6",
       "table_id": "tblb929onfgAPW90",
@@ -20,23 +33,36 @@
     }
   ],
   "changed_tokens": [
-    "B1cSwfWcri4VJLkCR20cHIs6nCf"
+    "B1cSwfWcri4VJLkCR20cHIs6nCf",
+    "LbFXwpruviFWWokwtkhcVmnhnFh"
   ],
   "expanded_tokens": [
+    "AAqUwQW3qia3akkjfDNc0kwanlh",
     "B1cSwfWcri4VJLkCR20cHIs6nCf",
     "BClgwKlHaiushBkPPssclTkYnef",
     "GLG4wi6zhisaxYkBkmacXqItnbJ",
+    "HriHwEU3qiQrgskz3a0cdkcpnyf",
     "IrQ2wm2oaiAWl4kqQhkc303Rnlg",
+    "LbFXwpruviFWWokwtkhcVmnhnFh",
+    "MYHwwhKtri4MMJku6BbcMjF4n1d",
     "Mtxfwvu2fiOLwXkcURCcJxDPnLd",
+    "OzLjwMmWliJdEBkz0gPcVZrqnZb",
     "P4KNwDdqaivEZFk7RpOcYeyhn2N",
     "PpGlwYU6PiSsfVkZ7doco50vnKg",
+    "RLu1wO0FpiisJxkkViQcq039nff",
+    "TfzMwdLsWibd0UkGpGAcLhuInvb",
     "V7xfwDariioU5GkcmfXctzSEnyc",
     "WVaVw8J7UiYZ52kaqVUcktqAnAf",
+    "Y6Qqw4a3XiWPlCkQYMqcLEORnAU",
+    "YWhwwvlxOiGk9gkTm0Pc2w00npe",
     "ZBEiwpvlbijhYDkmnNScc7zyn5d"
   ],
   "removed_records": [],
   "removed_tokens": [],
   "reasons_by_token": {
+    "LbFXwpruviFWWokwtkhcVmnhnFh": [
+      "wiki node edit time changed"
+    ],
     "B1cSwfWcri4VJLkCR20cHIs6nCf": [
       "wiki node edit time changed"
     ],
@@ -66,6 +92,30 @@
     ],
     "ZBEiwpvlbijhYDkmnNScc7zyn5d": [
       "incoming reference to B1cSwfWcri4VJLkCR20cHIs6nCf"
+    ],
+    "RLu1wO0FpiisJxkkViQcq039nff": [
+      "outgoing reference from LbFXwpruviFWWokwtkhcVmnhnFh"
+    ],
+    "HriHwEU3qiQrgskz3a0cdkcpnyf": [
+      "outgoing reference from LbFXwpruviFWWokwtkhcVmnhnFh"
+    ],
+    "TfzMwdLsWibd0UkGpGAcLhuInvb": [
+      "outgoing reference from LbFXwpruviFWWokwtkhcVmnhnFh"
+    ],
+    "AAqUwQW3qia3akkjfDNc0kwanlh": [
+      "outgoing reference from LbFXwpruviFWWokwtkhcVmnhnFh"
+    ],
+    "OzLjwMmWliJdEBkz0gPcVZrqnZb": [
+      "outgoing reference from LbFXwpruviFWWokwtkhcVmnhnFh"
+    ],
+    "MYHwwhKtri4MMJku6BbcMjF4n1d": [
+      "incoming reference to LbFXwpruviFWWokwtkhcVmnhnFh"
+    ],
+    "Y6Qqw4a3XiWPlCkQYMqcLEORnAU": [
+      "incoming reference to LbFXwpruviFWWokwtkhcVmnhnFh"
+    ],
+    "YWhwwvlxOiGk9gkTm0Pc2w00npe": [
+      "incoming reference to LbFXwpruviFWWokwtkhcVmnhnFh"
     ]
   },
   "warnings": [],
@@ -160,7 +210,7 @@
     "tblZMzoITXNsyKmQ": "Management"
   },
   "snapshot_basis": {
-    "generated_at": "2026-07-21T11:01:34.592Z",
+    "generated_at": "2026-07-22T03:18:19.673Z",
     "records": 373
   },
   "source_scope": "partial"

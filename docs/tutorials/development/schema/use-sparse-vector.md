@@ -305,14 +305,12 @@ The process of creating an index for sparse vectors is similar to that for [dens
 
 ```python
 index_params = client.prepare_index_params()
-
 index_params.add_index(
     field_name="sparse_vector",
     index_name="sparse_auto_index",
     index_type="AUTOINDEX",
     metric_type="IP"
 )
-
 ```
 
 </TabItem>
@@ -324,14 +322,12 @@ import io.milvus.v2.common.IndexParam;
 import java.util.*;
 
 List<IndexParam> indexes = new ArrayList<>();
-
 indexes.add(IndexParam.builder()
         .fieldName("sparse_vector")
         .indexName("sparse_auto_index")
         .indexType(IndexParam.IndexType.AUTOINDEX)
         .metricType(IndexParam.MetricType.IP)
         .build());
-
 ```
 
 </TabItem>
@@ -339,14 +335,12 @@ indexes.add(IndexParam.builder()
 <TabItem value='javascript'>
 
 ```javascript
-
 const indexParams = await client.createIndex({
     field_name: 'sparse_vector',
     metric_type: MetricType.IP,
     index_name: 'sparse_auto_index',
     index_type: IndexType.AUTOINDEX,
 });
-
 ```
 
 </TabItem>
@@ -363,7 +357,6 @@ indexOption := milvusclient.NewCreateIndexOption("my_collection", "sparse_vector
 <TabItem value='bash'>
 
 ```bash
-
 export indexParams='[
         {
             "fieldName": "sparse_vector",
@@ -372,16 +365,13 @@ export indexParams='[
             "indexType": "AUTOINDEX"
         }
     ]'
-
 ```
 
 </TabItem>
 </Tabs>
 
 ```c++
-
 milvus::IndexDesc sparse_index("sparse_vector", "sparse_auto_index", milvus::IndexType::AUTOINDEX, milvus::MetricType::IP);
-
 ```
 
 This example uses the `SPARSE_INVERTED_INDEX` index type with `IP` as the metric. For more details, see the following resources:

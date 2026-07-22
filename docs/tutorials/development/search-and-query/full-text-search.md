@@ -411,10 +411,8 @@ index_params = client.prepare_index_params()
 
 index_params.add_index(
     field_name="sparse",
-
     index_type="AUTOINDEX", 
     metric_type="BM25"
-
 )
 ```
 

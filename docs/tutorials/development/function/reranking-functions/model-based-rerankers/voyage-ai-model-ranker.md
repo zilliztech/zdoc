@@ -149,9 +149,7 @@ voyage_ranker = Function(
         "model_name": "rerank-2.5",
         "queries": ["renewable energy developments"],
         "truncation": True,
-
         "integration_id": "YOUR_INTEGRATION_ID",
-
     }
 )
 ```
