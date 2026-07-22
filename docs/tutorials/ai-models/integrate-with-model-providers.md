@@ -30,13 +30,17 @@ A text embedding or reranking model hosted by an external provider cannot be cal
 
 Creating a model provider integration does not incur charges. The external provider may charge for model inference, and sending data to the provider may incur [data transfer costs](./data-transfer-cost).
 
-Model availability, task support, stability, latency, and output quality depend on the external provider and selected model. Zilliz Cloud provides the integration and credential-handling path but does not control these properties. Before production use, verify that the provider currently serves the model for the required task and evaluate its reliability, performance, and output quality for your workload.
-
 </Admonition>
 
 ## Supported model providers\{#supported-model-providers}
 
 The following model providers can be integrated with Zilliz Cloud:
+
+<Admonition type="info" icon="📘" title="Notes">
+
+When selecting a model from an external provider, verify that the provider currently serves the model for the required task. Model availability, task support, stability, latency, and output quality depend on the provider and selected model. Evaluate these properties for your workload before using the model in production.
+
+</Admonition>
 
 | Model provider | Supported Zilliz Cloud features | Required credential |
 | --- | --- | --- |

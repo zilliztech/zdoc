@@ -1,19 +1,19 @@
 {
-  "generated_at": "2026-07-22T10:55:25.147Z",
+  "generated_at": "2026-07-22T18:39:30.379Z",
   "manual": "guides",
   "build_env": "uat",
   "mode": "incremental",
   "source_dir": "./plugins/lark-docs/meta/sources/guides",
   "changed_records": [
     {
-      "record_id": "recvlW2f6U37Y8",
+      "record_id": "recvlW2nZUCBal",
       "table_id": "tblZMzoITXNsyKmQ",
       "table_name": "Management",
-      "title": "Subscribe to a Public Offer on Microsoft Marketplace",
-      "labels": "Microsoft Marketplace (Public Offer)",
-      "slug": "subscribe-on-azure-marketplace",
-      "doc_token": "LbFXwpruviFWWokwtkhcVmnhnFh",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/LbFXwpruviFWWokwtkhcVmnhnFh",
+      "title": "On-Demand Compute Cost",
+      "labels": "On-Demand Compute",
+      "slug": "on-demand-compute-cost",
+      "doc_token": "O1qjwpv0Ri9afmkSUwWcU2aTn5f",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/O1qjwpv0Ri9afmkSUwWcU2aTn5f",
       "reasons": [
         "wiki node edit time changed"
       ]
@@ -34,33 +34,32 @@
   ],
   "changed_tokens": [
     "B1cSwfWcri4VJLkCR20cHIs6nCf",
-    "LbFXwpruviFWWokwtkhcVmnhnFh"
+    "O1qjwpv0Ri9afmkSUwWcU2aTn5f"
   ],
   "expanded_tokens": [
-    "AAqUwQW3qia3akkjfDNc0kwanlh",
     "B1cSwfWcri4VJLkCR20cHIs6nCf",
     "BClgwKlHaiushBkPPssclTkYnef",
+    "CUuywySLVil4MKkmYZecUl9snLg",
+    "EmcowmwYpiFbWgkmnqfcMf3knVc",
     "GLG4wi6zhisaxYkBkmacXqItnbJ",
-    "HriHwEU3qiQrgskz3a0cdkcpnyf",
     "IrQ2wm2oaiAWl4kqQhkc303Rnlg",
-    "LbFXwpruviFWWokwtkhcVmnhnFh",
-    "MYHwwhKtri4MMJku6BbcMjF4n1d",
+    "LJplw7Q9Gi09GMkiy8PcbYp6nrg",
+    "MUL3wkn7Yi3YoFkYk59csf8bnNc",
     "Mtxfwvu2fiOLwXkcURCcJxDPnLd",
-    "OzLjwMmWliJdEBkz0gPcVZrqnZb",
+    "NRF1wGr3AiWWC1kVfWucZD6Xneb",
+    "O1qjwpv0Ri9afmkSUwWcU2aTn5f",
     "P4KNwDdqaivEZFk7RpOcYeyhn2N",
+    "PBEbwjRu9iyyaFkZnuzcINHCnke",
     "PpGlwYU6PiSsfVkZ7doco50vnKg",
-    "RLu1wO0FpiisJxkkViQcq039nff",
-    "TfzMwdLsWibd0UkGpGAcLhuInvb",
+    "RsGAwmgAYiE6fgkOiokcijsBnEg",
     "V7xfwDariioU5GkcmfXctzSEnyc",
     "WVaVw8J7UiYZ52kaqVUcktqAnAf",
-    "Y6Qqw4a3XiWPlCkQYMqcLEORnAU",
-    "YWhwwvlxOiGk9gkTm0Pc2w00npe",
     "ZBEiwpvlbijhYDkmnNScc7zyn5d"
   ],
   "removed_records": [],
   "removed_tokens": [],
   "reasons_by_token": {
-    "LbFXwpruviFWWokwtkhcVmnhnFh": [
+    "O1qjwpv0Ri9afmkSUwWcU2aTn5f": [
       "wiki node edit time changed"
     ],
     "B1cSwfWcri4VJLkCR20cHIs6nCf": [
@@ -93,29 +92,26 @@
     "ZBEiwpvlbijhYDkmnNScc7zyn5d": [
       "incoming reference to B1cSwfWcri4VJLkCR20cHIs6nCf"
     ],
-    "RLu1wO0FpiisJxkkViQcq039nff": [
-      "outgoing reference from LbFXwpruviFWWokwtkhcVmnhnFh"
+    "EmcowmwYpiFbWgkmnqfcMf3knVc": [
+      "outgoing reference from O1qjwpv0Ri9afmkSUwWcU2aTn5f"
     ],
-    "HriHwEU3qiQrgskz3a0cdkcpnyf": [
-      "outgoing reference from LbFXwpruviFWWokwtkhcVmnhnFh"
+    "RsGAwmgAYiE6fgkOiokcijsBnEg": [
+      "outgoing reference from O1qjwpv0Ri9afmkSUwWcU2aTn5f"
     ],
-    "TfzMwdLsWibd0UkGpGAcLhuInvb": [
-      "outgoing reference from LbFXwpruviFWWokwtkhcVmnhnFh"
+    "LJplw7Q9Gi09GMkiy8PcbYp6nrg": [
+      "outgoing reference from O1qjwpv0Ri9afmkSUwWcU2aTn5f"
     ],
-    "AAqUwQW3qia3akkjfDNc0kwanlh": [
-      "outgoing reference from LbFXwpruviFWWokwtkhcVmnhnFh"
+    "PBEbwjRu9iyyaFkZnuzcINHCnke": [
+      "outgoing reference from O1qjwpv0Ri9afmkSUwWcU2aTn5f"
     ],
-    "OzLjwMmWliJdEBkz0gPcVZrqnZb": [
-      "outgoing reference from LbFXwpruviFWWokwtkhcVmnhnFh"
+    "CUuywySLVil4MKkmYZecUl9snLg": [
+      "incoming reference to O1qjwpv0Ri9afmkSUwWcU2aTn5f"
     ],
-    "MYHwwhKtri4MMJku6BbcMjF4n1d": [
-      "incoming reference to LbFXwpruviFWWokwtkhcVmnhnFh"
+    "MUL3wkn7Yi3YoFkYk59csf8bnNc": [
+      "incoming reference to O1qjwpv0Ri9afmkSUwWcU2aTn5f"
     ],
-    "Y6Qqw4a3XiWPlCkQYMqcLEORnAU": [
-      "incoming reference to LbFXwpruviFWWokwtkhcVmnhnFh"
-    ],
-    "YWhwwvlxOiGk9gkTm0Pc2w00npe": [
-      "incoming reference to LbFXwpruviFWWokwtkhcVmnhnFh"
+    "NRF1wGr3AiWWC1kVfWucZD6Xneb": [
+      "incoming reference to O1qjwpv0Ri9afmkSUwWcU2aTn5f"
     ]
   },
   "warnings": [],
@@ -210,7 +206,7 @@
     "tblZMzoITXNsyKmQ": "Management"
   },
   "snapshot_basis": {
-    "generated_at": "2026-07-22T03:18:19.673Z",
+    "generated_at": "2026-07-22T10:56:59.453Z",
     "records": 373
   },
   "source_scope": "partial"
