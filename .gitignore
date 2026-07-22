@@ -67,3 +67,4 @@ dist/
 
 data/
 .build-card-state.json
+.codegraph
