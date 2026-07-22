@@ -53,11 +53,17 @@ function canonicalInlineContent(content: InlineContent[]): InlineContent[] {
   return result;
 }
 
+const escapedInlineCharacters = new Set(['\\', '`', '*', '~', '[', ']', '(', ')', '<', '>']);
+
+function escapeInlineValue(value: string): string {
+  return [...value].map((character) => escapedInlineCharacters.has(character) ? `\\${character}` : character).join('');
+}
+
 function inlineMarkdown(content: InlineContent[]): string {
   return canonicalInlineContent(content).map((part) => {
-    if (part.kind === 'code') return `\`${part.text}\``;
-    if (part.kind === 'link') return `[${part.text}](${part.url})`;
-    let text = part.text;
+    if (part.kind === 'code') return `\`${escapeInlineValue(part.text)}\``;
+    if (part.kind === 'link') return `[${escapeInlineValue(part.text)}](${escapeInlineValue(part.url)})`;
+    let text = escapeInlineValue(part.text);
     if (part.strike) text = `~~${text}~~`;
     if (part.italic) text = `*${text}*`;
     if (part.bold) text = `**${text}**`;
@@ -327,53 +333,113 @@ function markedText(
   return content.map((part) => part.kind === 'text' ? {...part, ...marks} : part);
 }
 
-function parseInlineMarkdown(value: string): InlineContent[] {
+function findUnescaped(value: string, marker: string, start: number): number {
+  for (let index = start; index <= value.length - marker.length; index += 1) {
+    if (value[index] === '\\') {
+      index += 1;
+      continue;
+    }
+    if (value.startsWith(marker, index)) return index;
+  }
+  return -1;
+}
+
+function decodeEscapedValue(value: string): string {
+  let result = '';
+  for (let index = 0; index < value.length; index += 1) {
+    const character = value[index]!;
+    if (character === '\\' && index + 1 < value.length && escapedInlineCharacters.has(value[index + 1]!)) {
+      result += value[index + 1]!;
+      index += 1;
+    } else {
+      result += character;
+    }
+  }
+  return result;
+}
+
+function parseLink(value: string, offset: number): {content: InlineContent; end: number} | undefined {
+  const labelEnd = findUnescaped(value, ']', offset + 1);
+  if (labelEnd < 0 || value[labelEnd + 1] !== '(') return undefined;
+  let depth = 1;
+  let urlEnd = labelEnd + 2;
+  for (; urlEnd < value.length; urlEnd += 1) {
+    if (value[urlEnd] === '\\') {
+      urlEnd += 1;
+      continue;
+    }
+    if (value[urlEnd] === '(') depth += 1;
+    else if (value[urlEnd] === ')' && --depth === 0) break;
+  }
+  if (depth !== 0) return undefined;
+  return {
+    content: {
+      kind: 'link',
+      text: decodeEscapedValue(value.slice(offset + 1, labelEnd)),
+      url: decodeEscapedValue(value.slice(labelEnd + 2, urlEnd)),
+    },
+    end: urlEnd + 1,
+  };
+}
+
+export function parseStructuredInlineMarkdown(value: string): InlineContent[] {
   const parts: InlineContent[] = [];
+  let plainText = '';
   let offset = 0;
+  const flushPlainText = (): void => {
+    if (!plainText) return;
+    parts.push({kind: 'text', text: plainText});
+    plainText = '';
+  };
   const wrapped = (
     open: string,
     close: string,
     marks: Pick<Extract<InlineContent, {kind: 'text'}>, 'bold' | 'italic' | 'underline' | 'strike'>,
   ): boolean => {
     if (!value.startsWith(open, offset)) return false;
-    const closeIndex = value.indexOf(close, offset + open.length);
+    const closeIndex = findUnescaped(value, close, offset + open.length);
     if (closeIndex < 0) return false;
+    flushPlainText();
     parts.push(...markedText(
-      parseInlineMarkdown(value.slice(offset + open.length, closeIndex)),
+      parseStructuredInlineMarkdown(value.slice(offset + open.length, closeIndex)),
       marks,
     ));
     offset = closeIndex + close.length;
     return true;
   };
   while (offset < value.length) {
+    if (value[offset] === '\\' && offset + 1 < value.length && escapedInlineCharacters.has(value[offset + 1]!)) {
+      plainText += value[offset + 1]!;
+      offset += 2;
+      continue;
+    }
     if (wrapped('<u>', '</u>', {underline: true})) continue;
     if (wrapped('***', '***', {bold: true, italic: true})) continue;
     if (wrapped('**', '**', {bold: true})) continue;
     if (wrapped('~~', '~~', {strike: true})) continue;
     if (wrapped('*', '*', {italic: true})) continue;
     if (value[offset] === '`') {
-      const closeIndex = value.indexOf('`', offset + 1);
+      const closeIndex = findUnescaped(value, '`', offset + 1);
       if (closeIndex >= 0) {
-        parts.push({kind: 'code', text: value.slice(offset + 1, closeIndex)});
+        flushPlainText();
+        parts.push({kind: 'code', text: decodeEscapedValue(value.slice(offset + 1, closeIndex))});
         offset = closeIndex + 1;
         continue;
       }
     }
     if (value[offset] === '[') {
-      const link = /^\[([^\]]+)\]\(([^)]+)\)/.exec(value.slice(offset));
+      const link = parseLink(value, offset);
       if (link) {
-        parts.push({kind: 'link', text: link[1]!, url: link[2]!});
-        offset += link[0].length;
+        flushPlainText();
+        parts.push(link.content);
+        offset = link.end;
         continue;
       }
     }
-    const nextOffsets = ['<u>', '***', '**', '~~', '*', '`', '[']
-      .map((marker) => value.indexOf(marker, offset + 1))
-      .filter((index) => index >= 0);
-    const next = nextOffsets.length > 0 ? Math.min(...nextOffsets) : value.length;
-    parts.push({kind: 'text', text: value.slice(offset, next)});
-    offset = next;
+    plainText += value[offset]!;
+    offset += 1;
   }
+  flushPlainText();
   return parts.length > 0 ? parts : [{kind: 'text', text: value}];
 }
 
@@ -403,7 +469,7 @@ export function applySlotTranslations<T extends StructuredContent>(
         `Structured slot ${translation.slotId} has no translated text.`,
       );
     }
-    if ('content' in location) location.replace(canonicalInlineContent(parseInlineMarkdown(translatedText)));
+    if ('content' in location) location.replace(canonicalInlineContent(parseStructuredInlineMarkdown(translatedText)));
     else location.replace(translatedText);
   });
 

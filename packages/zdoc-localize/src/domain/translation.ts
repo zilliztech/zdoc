@@ -1,7 +1,7 @@
 import {LocalizeError} from './errors.js';
 import type {ResolvedGlossaryTerm} from './glossary.js';
 import type {ChangeKind, SemanticNodeKind} from './model.js';
-import {assertExactStructuredSlotIds} from './structured-content.js';
+import {assertExactStructuredSlotIds, parseStructuredInlineMarkdown} from './structured-content.js';
 
 export interface PreservedToken {
   kind: 'inline_code' | 'code_block' | 'bold_span' | 'url' | 'resource_token' | 'citation';
@@ -77,6 +77,40 @@ function validationError(subtype: string, message: string, details?: unknown): L
   return new LocalizeError({type: 'validation', subtype, message, details});
 }
 
+function countParsedInlineCode(text: string, value: string): number {
+  return parseStructuredInlineMarkdown(text)
+    .filter((part) => part.kind === 'code' && part.text === value)
+    .length;
+}
+
+function countParsedBoldSpans(text: string): number {
+  let count = 0;
+  let previousMarks: string | undefined;
+  for (const part of parseStructuredInlineMarkdown(text)) {
+    if (part.kind !== 'text') {
+      previousMarks = undefined;
+      continue;
+    }
+    const marks = JSON.stringify({
+      bold: part.bold === true,
+      italic: part.italic === true,
+      underline: part.underline === true,
+      strike: part.strike === true,
+    });
+    if (part.bold === true && marks !== previousMarks) count += 1;
+    previousMarks = marks;
+  }
+  return count;
+}
+
+function countParsedUrl(text: string, value: string): number {
+  return parseStructuredInlineMarkdown(text).reduce((count, part) => {
+    if (part.kind === 'link') return count + (part.url === value ? 1 : 0);
+    if (part.kind === 'text') return count + countOccurrences(part.text, value);
+    return count;
+  }, 0);
+}
+
 function listOutline(value: string): Array<{indent: number; ordered: boolean}> | undefined {
   const lines = value.split('\n').filter((line) => line.trim());
   const outline: Array<{indent: number; ordered: boolean}> = [];
@@ -96,13 +130,14 @@ function validateTextContent(input: {
   glossary: ResolvedGlossaryTerm[];
   linkMappings: LinkMapping[];
   slotId?: string;
+  structured?: boolean;
 }): void {
   const label = input.slotId
     ? `Operation ${input.operationId} slot ${input.slotId}`
     : `Operation ${input.operationId}`;
   for (const token of input.preserved) {
     if (token.kind === 'bold_span') {
-      const boldCount = [...input.translatedText.matchAll(/\*\*[^*]+\*\*/g)].length;
+      const boldCount = countParsedBoldSpans(input.translatedText);
       if (boldCount !== token.count) {
         throw validationError(
           'preserved_token_mismatch',
@@ -127,8 +162,8 @@ function validateTextContent(input: {
       }
       if (mapping?.targetUrl) {
         if (
-          countOccurrences(input.translatedText, mapping.targetUrl) !== token.count
-          || countOccurrences(input.translatedText, token.value) !== 0
+          countParsedUrl(input.translatedText, mapping.targetUrl) !== token.count
+          || countParsedUrl(input.translatedText, token.value) !== 0
         ) {
           throw validationError(
             'internal_link_not_localized',
@@ -138,11 +173,21 @@ function validateTextContent(input: {
         }
         continue;
       }
+      if (countParsedUrl(input.translatedText, token.value) !== token.count) {
+        throw validationError(
+          'preserved_token_mismatch',
+          `${label} did not preserve ${token.kind} ${token.value}.`,
+          token,
+        );
+      }
+      continue;
     }
-    const requiredValue = token.kind === 'inline_code' && !token.value.startsWith('`')
-      ? `\`${token.value}\``
-      : token.value;
-    if (countOccurrences(input.translatedText, requiredValue) !== token.count) {
+    const actualCount = token.kind === 'inline_code'
+      ? countParsedInlineCode(input.translatedText, !input.structured && token.value.startsWith('`') && token.value.endsWith('`')
+        ? token.value.slice(1, -1)
+        : token.value)
+      : countOccurrences(input.translatedText, token.value);
+    if (actualCount !== token.count) {
       throw validationError(
         'preserved_token_mismatch',
         `${label} did not preserve ${token.kind} ${token.value}.`,
@@ -250,6 +295,7 @@ export function validateTranslations(
           preserved: requestedSlot.preserved,
           glossary: request.glossary,
           linkMappings: request.linkMappings,
+          structured: true,
         });
         return {slotId: slot.slotId, translatedText};
       });

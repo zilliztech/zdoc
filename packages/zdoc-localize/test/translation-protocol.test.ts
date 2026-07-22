@@ -154,6 +154,12 @@ describe('translation response validation', () => {
     expect(validateTranslations([boldRequest], [{
       operationId: 'op-1', translatedText: '使用 **Zilliz Cloud**。', targetNodeKind: 'paragraph',
     }])).toHaveLength(1);
+    expect(validateTranslations([boldRequest], [{
+      operationId: 'op-1', translatedText: '使用 ***Zilliz Cloud***。', targetNodeKind: 'paragraph',
+    }])).toHaveLength(1);
+    expect(validateTranslations([boldRequest], [{
+      operationId: 'op-1', translatedText: String.raw`使用 ***Zilliz \*Cloud\****。`, targetNodeKind: 'paragraph',
+    }])).toHaveLength(1);
   });
 
   it('requires an explicit delete decision', () => {
@@ -295,5 +301,41 @@ describe('translation response validation', () => {
         {slotId: 'item-1/text', translatedText: '阅读 https://docs.example.com/zh/setup 中的指南，并运行 `curl`。'},
       ],
     }])).toThrowError(expect.objectContaining({subtype: 'preserved_token_mismatch'}));
+  });
+
+  it('validates escaped structured links and exact code payloads through their parsed values', () => {
+    const sourceUrl = 'https://docs.example.com/a_(b)/finish)';
+    const targetUrl = 'https://docs.example.com/zh_(b)/finish)';
+    const structured: TranslationRequest = {
+      ...request,
+      operationId: 'op-escaped-inline',
+      sourceBefore: undefined,
+      sourceAfter: undefined,
+      targetCurrent: undefined,
+      targetNodeKind: 'list',
+      preserved: [],
+      glossary: [],
+      linkMappings: [{sourceUrl, targetUrl}],
+      structured: {
+        kind: 'list',
+        topologyHash: 'c'.repeat(64),
+        slots: [{
+          slotId: 'item-0/text',
+          sourceText: String.raw`[Guide \] advanced](https://docs.example.com/a_\(b\)/finish\)) and ` + '`' + String.raw`\`curl\`` + '`',
+          preserved: [
+            {kind: 'url', value: sourceUrl, count: 1},
+            {kind: 'inline_code', value: '`curl`', count: 1},
+          ],
+        }],
+      },
+    };
+
+    expect(validateTranslations([structured], [{
+      operationId: 'op-escaped-inline',
+      slots: [{
+        slotId: 'item-0/text',
+        translatedText: String.raw`[高级指南 \]](https://docs.example.com/zh_\(b\)/finish\))，并运行 ` + '`' + String.raw`\`curl\`` + '`。',
+      }],
+    }])).toHaveLength(1);
   });
 });

@@ -200,6 +200,78 @@ describe('structured translation content', () => {
     }], topologyHash)).toThrowError(expect.objectContaining({subtype: 'structured_topology_mismatch'}));
   });
 
+  it('round-trips literal Markdown markers, delimiter characters, and embedded code backticks', () => {
+    const literalList: Extract<SemanticNodeStructure, {kind: 'list'}> = {
+      kind: 'list',
+      ordered: false,
+      items: [{
+        content: [
+          {kind: 'text', text: String.raw`*required* [literal] <u>not underlined</u> \\ path `},
+          {kind: 'code', text: 'model`name\\value'},
+        ],
+        children: [],
+      }],
+    };
+    const slot = extractTranslationSlots(literalList)[0]!;
+
+    expect(slot.sourceText).toBe(String.raw`\*required\* \[literal\] \<u\>not underlined\</u\> \\\\ path ` + '`' + String.raw`model\`name\\value` + '`');
+    const translated = applySlotTranslations(literalList, [{
+      slotId: slot.slotId,
+      translatedText: slot.sourceText,
+    }], structuredTopologyHash(literalList));
+
+    expect(translated.items[0]!.content).toEqual(literalList.items[0]!.content);
+  });
+
+  it('round-trips link labels and URLs containing Markdown delimiters', () => {
+    const linkedList: Extract<SemanticNodeStructure, {kind: 'list'}> = {
+      kind: 'list',
+      ordered: false,
+      items: [{
+        content: [{
+          kind: 'link',
+          text: 'Guide [advanced] ] setup',
+          url: 'https://docs.example.com/a_(b)/finish)?mode=(safe)',
+        }],
+        children: [],
+      }],
+    };
+    const slot = extractTranslationSlots(linkedList)[0]!;
+
+    expect(slot.sourceText).toBe(String.raw`[Guide \[advanced\] \] setup](https://docs.example.com/a_\(b\)/finish\)?mode=\(safe\))`);
+    const translated = applySlotTranslations(linkedList, [{
+      slotId: slot.slotId,
+      translatedText: slot.sourceText,
+    }], structuredTopologyHash(linkedList));
+
+    expect(translated.items[0]!.content).toEqual(linkedList.items[0]!.content);
+  });
+
+  it('round-trips every supported mark combination with exact whitespace', () => {
+    const markedList: Extract<SemanticNodeStructure, {kind: 'list'}> = {
+      kind: 'list',
+      ordered: false,
+      items: [{
+        content: [{
+          kind: 'text',
+          text: '  *literal*  ',
+          bold: true,
+          italic: true,
+          underline: true,
+          strike: true,
+        }],
+        children: [],
+      }],
+    };
+    const slot = extractTranslationSlots(markedList)[0]!;
+    const translated = applySlotTranslations(markedList, [{
+      slotId: slot.slotId,
+      translatedText: slot.sourceText,
+    }], structuredTopologyHash(markedList));
+
+    expect(translated.items[0]!.content).toEqual(markedList.items[0]!.content);
+  });
+
   it('preserves intentional leading and trailing whitespace in a slot', () => {
     const spacedList: Extract<SemanticNodeStructure, {kind: 'list'}> = {
       kind: 'list',
