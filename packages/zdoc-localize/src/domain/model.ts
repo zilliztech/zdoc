@@ -1,3 +1,5 @@
+import type {DesiredNode, InlineContent} from 'feishu-docx-engine';
+
 export type RunState =
   | 'scanning'
   | 'classification_required'
@@ -32,6 +34,20 @@ export type SemanticNodeKind =
   | 'resource'
   | 'opaque';
 
+export interface StructuredListItem {
+  content: InlineContent[];
+  children: Array<{ordered: boolean; items: StructuredListItem[]}>;
+}
+
+export interface StructuredTableRow {
+  cells: Array<{content: DesiredNode[]}>;
+}
+
+export type SemanticNodeStructure =
+  | {kind: 'list'; ordered: boolean; items: StructuredListItem[]}
+  | {kind: 'table'; rows: StructuredTableRow[]}
+  | {kind: 'code'; language: string; caption?: string};
+
 export interface SemanticNode {
   nodeId: string;
   kind: SemanticNodeKind;
@@ -43,6 +59,7 @@ export interface SemanticNode {
   xml: string;
   writable: boolean;
   fingerprint: string;
+  structure?: SemanticNodeStructure;
   remote: {
     blockId?: string;
     blockIds?: string[];

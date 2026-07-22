@@ -1,0 +1,680 @@
+{
+  "documentId": "hugging-face-source",
+  "revision": "44",
+  "rootBlockId": "doc",
+  "canonicalHash": "1850f56f02862a801189ac8e007637fb10d14d3e977ba92a46b839eb65ccb891",
+  "nodes": [
+    {
+      "blockId": "doc",
+      "childBlockIds": [
+        "overview-heading",
+        "overview-text",
+        "before-heading",
+        "before-intro",
+        "nested-parent",
+        "parameters-heading",
+        "parameters-table",
+        "example-code",
+        "note-callout",
+        "architecture-board",
+        "synced-source",
+        "synced-reference",
+        "unknown-block"
+      ],
+      "blockType": 1,
+      "kind": "page",
+      "canonicalHash": "52484e8b9337a4c81d06690c0770704d5b587bdb78c8fca769df467a61e89bf7",
+      "raw": {
+        "block_id": "doc",
+        "block_type": 1,
+        "revision_id": 17,
+        "page": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Hugging Face",
+                "text_element_style": {}
+              }
+            }
+          ]
+        },
+        "children": [
+          "overview-heading",
+          "overview-text",
+          "before-heading",
+          "before-intro",
+          "nested-parent",
+          "parameters-heading",
+          "parameters-table",
+          "example-code",
+          "note-callout",
+          "architecture-board",
+          "synced-source",
+          "synced-reference",
+          "unknown-block"
+        ]
+      }
+    },
+    {
+      "blockId": "overview-heading",
+      "parentBlockId": "doc",
+      "childBlockIds": [],
+      "blockType": 3,
+      "kind": "heading",
+      "canonicalHash": "bbcdd2a14e8897a51cb0d7eab4b58b033431bc1adca64268dd0f0d304bf28ada",
+      "raw": {
+        "block_id": "overview-heading",
+        "parent_id": "doc",
+        "block_type": 3,
+        "heading1": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Hugging Face embedding functions",
+                "text_element_style": {}
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "blockId": "overview-text",
+      "parentBlockId": "doc",
+      "childBlockIds": [],
+      "blockType": 2,
+      "kind": "paragraph",
+      "canonicalHash": "abf19fce1b19ff5f897750096a19f34f1d45e1e5a1863beb168eefb2e467b4c5",
+      "raw": {
+        "block_id": "overview-text",
+        "parent_id": "doc",
+        "block_type": 2,
+        "document_revision_id": 17,
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Use Hugging Face models to generate embeddings.",
+                "text_element_style": {}
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "blockId": "before-heading",
+      "parentBlockId": "doc",
+      "childBlockIds": [],
+      "blockType": 4,
+      "kind": "heading",
+      "canonicalHash": "5cbde1be8d78ab15b6be10fcac3957fc92158e5ecdd6768b7c623c3c358f1053",
+      "raw": {
+        "block_id": "before-heading",
+        "parent_id": "doc",
+        "block_type": 4,
+        "heading2": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Before you start",
+                "text_element_style": {}
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "blockId": "before-intro",
+      "parentBlockId": "doc",
+      "childBlockIds": [],
+      "blockType": 2,
+      "kind": "paragraph",
+      "canonicalHash": "ab02734056ea96c0ab77fbbb6959d88b7624f1a124bdaa9561fa090c91dfcfa8",
+      "raw": {
+        "block_id": "before-intro",
+        "parent_id": "doc",
+        "block_type": 2,
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Install the required packages:",
+                "text_element_style": {}
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "blockId": "nested-parent",
+      "parentBlockId": "doc",
+      "childBlockIds": [
+        "nested-child"
+      ],
+      "blockType": 12,
+      "kind": "list",
+      "canonicalHash": "e59b16f4ff955f8e337ad15fb49e95a5bdc7c8f76a778b3615056d3d45f80112",
+      "raw": {
+        "block_id": "nested-parent",
+        "parent_id": "doc",
+        "block_type": 12,
+        "bullet": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Create a Hugging Face account.",
+                "text_element_style": {}
+              }
+            }
+          ]
+        },
+        "children": [
+          {
+            "block_id": "nested-child",
+            "parent_id": "nested-parent",
+            "block_type": 13,
+            "ordered": {
+              "elements": [
+                {
+                  "text_run": {
+                    "content": "Generate an access token.",
+                    "text_element_style": {
+                      "bold": true
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "blockId": "nested-child",
+      "parentBlockId": "nested-parent",
+      "childBlockIds": [],
+      "blockType": 13,
+      "kind": "list",
+      "canonicalHash": "60c8f742f5d34afd2857156480a7a0b861ed395af68f22e127276298ae8abba0",
+      "raw": {
+        "block_id": "nested-child",
+        "parent_id": "nested-parent",
+        "block_type": 13,
+        "ordered": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Generate an access token.",
+                "text_element_style": {
+                  "bold": true
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "blockId": "parameters-heading",
+      "parentBlockId": "doc",
+      "childBlockIds": [],
+      "blockType": 5,
+      "kind": "heading",
+      "canonicalHash": "9aed32e6cc14f48ac9fcf5a29e77494728201a9b0395eb6f8e4d7f69dbbd000a",
+      "raw": {
+        "block_id": "parameters-heading",
+        "parent_id": "doc",
+        "block_type": 5,
+        "heading3": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Parameters",
+                "text_element_style": {}
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "blockId": "parameters-table",
+      "parentBlockId": "doc",
+      "childBlockIds": [
+        "parameter-cell",
+        "description-cell",
+        "model-cell",
+        "model-description-cell"
+      ],
+      "blockType": 31,
+      "kind": "table",
+      "canonicalHash": "1a04d27f4147bbcf4797683b1163b6ee3402cef9fdb72a5edc4e72322c846a5b",
+      "raw": {
+        "block_id": "parameters-table",
+        "parent_id": "doc",
+        "block_type": 31,
+        "children": [
+          "parameter-cell",
+          "description-cell",
+          "model-cell",
+          "model-description-cell"
+        ],
+        "table": {
+          "property": {
+            "row_size": 2,
+            "column_size": 2
+          },
+          "cells": [
+            "parameter-cell",
+            "description-cell",
+            "model-cell",
+            "model-description-cell"
+          ]
+        }
+      }
+    },
+    {
+      "blockId": "parameter-cell",
+      "parentBlockId": "parameters-table",
+      "childBlockIds": [
+        "parameter-label"
+      ],
+      "blockType": 32,
+      "kind": "opaque",
+      "canonicalHash": "b4f582054eedb6438aa50ae26959179ca442fb8ca1f0246172c006d3c3cbd421",
+      "raw": {
+        "block_id": "parameter-cell",
+        "parent_id": "parameters-table",
+        "block_type": 32,
+        "children": [
+          "parameter-label"
+        ]
+      }
+    },
+    {
+      "blockId": "parameter-label",
+      "parentBlockId": "parameter-cell",
+      "childBlockIds": [],
+      "blockType": 2,
+      "kind": "paragraph",
+      "canonicalHash": "6ba8dd3890acabb88726a8576eddf9a0ed363e778e3ddc10fba1d2dad9e4cec5",
+      "raw": {
+        "block_id": "parameter-label",
+        "parent_id": "parameter-cell",
+        "block_type": 2,
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Parameter",
+                "text_element_style": {
+                  "bold": true
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "blockId": "description-cell",
+      "parentBlockId": "parameters-table",
+      "childBlockIds": [
+        "description-label"
+      ],
+      "blockType": 32,
+      "kind": "opaque",
+      "canonicalHash": "987fab96e85e2f22b076c9f5ec96184506e4c5a2a849c7d62b5f74407d6d931f",
+      "raw": {
+        "block_id": "description-cell",
+        "parent_id": "parameters-table",
+        "block_type": 32,
+        "children": [
+          "description-label"
+        ]
+      }
+    },
+    {
+      "blockId": "description-label",
+      "parentBlockId": "description-cell",
+      "childBlockIds": [],
+      "blockType": 2,
+      "kind": "paragraph",
+      "canonicalHash": "7ee725a935da875b337f7da7dece0ec018fbed1085e416b7e84321b8c57f6e83",
+      "raw": {
+        "block_id": "description-label",
+        "parent_id": "description-cell",
+        "block_type": 2,
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Description",
+                "text_element_style": {
+                  "bold": true
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "blockId": "model-cell",
+      "parentBlockId": "parameters-table",
+      "childBlockIds": [
+        "model-label"
+      ],
+      "blockType": 32,
+      "kind": "opaque",
+      "canonicalHash": "f950702bd83fc3d61d1ac0fc74e0f352768eb614f75144d863c72650f2e17b76",
+      "raw": {
+        "block_id": "model-cell",
+        "parent_id": "parameters-table",
+        "block_type": 32,
+        "children": [
+          "model-label"
+        ]
+      }
+    },
+    {
+      "blockId": "model-label",
+      "parentBlockId": "model-cell",
+      "childBlockIds": [],
+      "blockType": 2,
+      "kind": "paragraph",
+      "canonicalHash": "9239ef85106c07a548a4b588a036eb5ef61c9e7002d5dc094871588679949c82",
+      "raw": {
+        "block_id": "model-label",
+        "parent_id": "model-cell",
+        "block_type": 2,
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "model_name",
+                "text_element_style": {
+                  "inline_code": true
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "blockId": "model-description-cell",
+      "parentBlockId": "parameters-table",
+      "childBlockIds": [
+        "model-description"
+      ],
+      "blockType": 32,
+      "kind": "opaque",
+      "canonicalHash": "a39862ac5ae9ed90844936761c07926008f4b728453e29e470d9d0767248d8b9",
+      "raw": {
+        "block_id": "model-description-cell",
+        "parent_id": "parameters-table",
+        "block_type": 32,
+        "children": [
+          "model-description"
+        ]
+      }
+    },
+    {
+      "blockId": "model-description",
+      "parentBlockId": "model-description-cell",
+      "childBlockIds": [],
+      "blockType": 2,
+      "kind": "paragraph",
+      "canonicalHash": "bcbf065cd27e0f219346ea91552c3abc23f78cc562e9d937d107974e943b64a6",
+      "raw": {
+        "block_id": "model-description",
+        "parent_id": "model-description-cell",
+        "block_type": 2,
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "The model used to generate embeddings.",
+                "text_element_style": {}
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "blockId": "example-code",
+      "parentBlockId": "doc",
+      "childBlockIds": [],
+      "blockType": 14,
+      "kind": "code",
+      "canonicalHash": "6f18bcfe981f9591f1a53d454cacb3c9144463c5946cc35fb5b2075290a8fada",
+      "raw": {
+        "block_id": "example-code",
+        "parent_id": "doc",
+        "block_type": 14,
+        "code": {
+          "style": {
+            "language": 49
+          },
+          "elements": [
+            {
+              "text_run": {
+                "content": "ef = HuggingFaceEmbeddingFunction()",
+                "text_element_style": {}
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "blockId": "note-callout",
+      "parentBlockId": "doc",
+      "childBlockIds": [
+        "callout-title",
+        "callout-body"
+      ],
+      "blockType": 19,
+      "kind": "callout",
+      "canonicalHash": "73a7d1b1c9a337ca93444540ef5e1b117ad16cf14e63a26b18899385be49a3bc",
+      "raw": {
+        "block_id": "note-callout",
+        "parent_id": "doc",
+        "block_type": 19,
+        "callout": {
+          "emoji_id": "memo"
+        },
+        "children": [
+          {
+            "block_id": "callout-title",
+            "parent_id": "note-callout",
+            "block_type": 2,
+            "text": {
+              "elements": [
+                {
+                  "text_run": {
+                    "content": "Notes",
+                    "text_element_style": {}
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "block_id": "callout-body",
+            "parent_id": "note-callout",
+            "block_type": 2,
+            "text": {
+              "elements": [
+                {
+                  "text_run": {
+                    "content": "Keep the token private.",
+                    "text_element_style": {}
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "blockId": "callout-title",
+      "parentBlockId": "note-callout",
+      "childBlockIds": [],
+      "blockType": 2,
+      "kind": "paragraph",
+      "canonicalHash": "4bcb0b1bb8d8a3c3e19fe2f6e8db696d5186d98c7a13ca6b1e1b30ff8c256d1c",
+      "raw": {
+        "block_id": "callout-title",
+        "parent_id": "note-callout",
+        "block_type": 2,
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Notes",
+                "text_element_style": {}
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "blockId": "callout-body",
+      "parentBlockId": "note-callout",
+      "childBlockIds": [],
+      "blockType": 2,
+      "kind": "paragraph",
+      "canonicalHash": "3a19b859ed276dc6a04c05513ff986de43196bea19bafe7906a5960e7c3d818a",
+      "raw": {
+        "block_id": "callout-body",
+        "parent_id": "note-callout",
+        "block_type": 2,
+        "text": {
+          "elements": [
+            {
+              "text_run": {
+                "content": "Keep the token private.",
+                "text_element_style": {}
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "blockId": "architecture-board",
+      "parentBlockId": "doc",
+      "childBlockIds": [],
+      "blockType": 43,
+      "kind": "whiteboard",
+      "canonicalHash": "9bb33fbab803cac7453569d357c5d9a74db0af1a0e09e5b4dbe33274c7126e97",
+      "raw": {
+        "block_id": "architecture-board",
+        "parent_id": "doc",
+        "block_type": 43,
+        "board": {
+          "token": "whiteboard-stable-token"
+        }
+      }
+    },
+    {
+      "blockId": "synced-source",
+      "parentBlockId": "doc",
+      "childBlockIds": [
+        "synced-code"
+      ],
+      "blockType": 49,
+      "kind": "synced_source",
+      "canonicalHash": "2830cc89cbfeebddf696078dc00a9f2255d11e546a9e7004c0070dad6bdbb519",
+      "raw": {
+        "block_id": "synced-source",
+        "parent_id": "doc",
+        "block_type": 49,
+        "source_synced": {
+          "align": 1,
+          "elements": [
+            {
+              "text_run": {
+                "content": "Synced code examples",
+                "text_element_style": {}
+              }
+            }
+          ]
+        },
+        "children": [
+          "synced-code"
+        ]
+      }
+    },
+    {
+      "blockId": "synced-code",
+      "parentBlockId": "synced-source",
+      "childBlockIds": [],
+      "blockType": 14,
+      "kind": "code",
+      "canonicalHash": "34db3f07fd08aef534fdbd85d0eac7a401341d631b3e9bf218e8681879dad5df",
+      "raw": {
+        "block_id": "synced-code",
+        "parent_id": "synced-source",
+        "block_type": 14,
+        "code": {
+          "style": {
+            "language": 49
+          },
+          "elements": [
+            {
+              "text_run": {
+                "content": "print(embedding)",
+                "text_element_style": {}
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "blockId": "synced-reference",
+      "parentBlockId": "doc",
+      "childBlockIds": [],
+      "blockType": 50,
+      "kind": "synced_reference",
+      "canonicalHash": "2b69798aa53ad6f36fd6ae5324f661f3b7760ae5ba00b37f64fd9308e6c416e8",
+      "raw": {
+        "block_id": "synced-reference",
+        "parent_id": "doc",
+        "block_type": 50,
+        "reference_synced": {
+          "source_document_id": "english-source-document",
+          "source_block_id": "english-source-block"
+        }
+      }
+    },
+    {
+      "blockId": "unknown-block",
+      "parentBlockId": "doc",
+      "childBlockIds": [],
+      "blockType": 48,
+      "kind": "opaque",
+      "canonicalHash": "637f696ff34f7e52481aaa1c814aaa91cbe529be8bb1b8d6e3213cd869e3e525",
+      "raw": {
+        "block_id": "unknown-block",
+        "parent_id": "doc",
+        "block_type": 48,
+        "link_preview": {
+          "url": "https://huggingface.co"
+        },
+        "custom": {
+          "revision": "semantic-v1"
+        }
+      }
+    }
+  ]
+}
