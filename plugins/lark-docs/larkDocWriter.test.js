@@ -71,6 +71,16 @@ function codeBlock(block_id, parent_id, content, style = { wrap: false }) {
   };
 }
 
+function sourceSyncedBlock(block_id, parent_id, children) {
+  return {
+    block_id,
+    block_type: 49,
+    parent_id,
+    source_synced: {},
+    children,
+  };
+}
+
 function gridBlock(block_id, children, columnSize = children.length) {
   return {
     block_id,
@@ -582,6 +592,38 @@ async function testCodeTabGroupKeepsInferredMiddleLanguageInsideTabs() {
   assert.equal(depth, 0);
 }
 
+async function testCodeTabGroupCrossesSourceSyncedBoundary() {
+  const blocks = [
+    sourceSyncedBlock('synced-code', 'page', ['code-python', 'code-java']),
+    codeBlock('code-python', 'synced-code', 'from pymilvus import MilvusClient', { language: 49 }),
+    codeBlock('code-java', 'synced-code', 'import io.milvus.param.Constant;', { language: 29 }),
+    codeBlock('code-cpp', 'page', 'auto status = client->Search(request, response);', { language: 9 }),
+  ];
+  const writer = createWriter(blocks);
+  const markdown = await writer.__markdown([blocks[0], blocks[3]], 0);
+
+  assert.match(markdown, /"label":"C\+\+","value":"c\+\+"/);
+  assert.match(markdown, /<TabItem value='c\+\+'>/);
+  assert.doesNotMatch(markdown, /<\/Tabs>\s*```c\+\+/);
+  await assertMdxCompiles(markdown);
+}
+
+async function testBulletPreservesInlineLineBreaks() {
+  const blocks = [
+    bulletBlock('parameter', 'page', [
+      textRun('collection_name', { bold: true }),
+      textRun(' (str) -\n'),
+      textRun('[REQUIRED]', { bold: true }),
+      textRun('\nThe name of the target collection.'),
+    ]),
+  ];
+  const writer = createWriter(blocks);
+  const markdown = await writer.__markdown(blocks, 0);
+
+  assert.equal(markdown.trimEnd(), '- **collection_name** (str) -<br/>\n  **[REQUIRED]**<br/>\n  The name of the target collection.');
+  await assertMdxCompiles(markdown);
+}
+
 function testSourceIndexDelegatesLookupHelpersWithoutFilesystemEnumeration() {
   const calls = [];
   const indexedSource = { title: 'Indexed', slug: 'indexed', node_token: 'indexed-token' };
@@ -771,6 +813,8 @@ async function run() {
   await testCodeBlocksInferLanguageWhenFeishuOmitsLanguage();
   await testCodeVariantsFilterBeforeFencing();
   await testCodeTabGroupKeepsInferredMiddleLanguageInsideTabs();
+  await testBulletPreservesInlineLineBreaks();
+  await testCodeTabGroupCrossesSourceSyncedBoundary();
   testSourceIndexDelegatesLookupHelpersWithoutFilesystemEnumeration();
   testSourceIndexSourcesAreClonedBeforeWriterMutation();
   testNullAndOmittedSourceIndexKeepLegacyFilesystemLookupSemantics();
