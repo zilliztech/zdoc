@@ -76,7 +76,35 @@ The name of the collection to search.
 
 - **reqs** (*List[AnnSearchRequest]*) -
 **[REQUIRED]**
-The vector search requests combined by the hybrid search.
+The ANN search requests combined by the hybrid search. Construct each request with `AnnSearchRequest(data, anns_field, param, limit, expr=None, expr_params=None, filter=None)`.
+
+    - **data** (*Union[List, SparseMatrixInputType]*) -
+**[REQUIRED]**
+The query vectors or sparse matrix used for this ANN search request.
+
+    - **anns_field** (*str*) -
+**[REQUIRED]**
+The name of the vector field to search.
+
+    - **param** (*Dict*) -
+**[REQUIRED]**
+The ANN search parameters, such as the metric type and search-specific settings.
+
+    - **limit** (*int*) -
+**[REQUIRED]**
+The maximum number of matches returned by this ANN search request.
+
+    - **expr** (*Optional[str]*) -
+Default: `None`
+The Boolean filtering expression applied before the ANN search. Do not provide both `expr` and `filter`.
+
+    - **expr_params** (*Optional[dict]*) -
+Default: `None`
+The values substituted into expression-template placeholders.
+
+    - **filter** (*Optional[str]*) -
+Default: `None`
+The alias for `expr`. Do not provide both values. The resolved expression is available through the read-only `filter` property as `request.filter`.
 
 - **ranker** (*Union[BaseRanker, Function]*) -
 **[REQUIRED]**
@@ -116,14 +144,25 @@ Raised when the server rejects the request or the RPC fails. Inspect the server 
 
 ## Examples\{#examples}
 
-Demonstrates hybrid search usage.
+The example constructs an ANN request and runs a hybrid search.
 
 ```python
 from pymilvus import AnnSearchRequest, MilvusClient
 
 client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
-request = AnnSearchRequest(data=[[0.1, 0.2, 0.3]], anns_field="vector", param={"metric_type": "COSINE"}, limit=10, filter='category == "paper"')
-results = client.hybrid_search(collection_name="book_chunks", reqs=[request], ranker=None, limit=10)
+request = AnnSearchRequest(
+    data=[[0.1, 0.2, 0.3]],
+    anns_field="vector",
+    param={"metric_type": "COSINE"},
+    limit=10,
+    filter='category == "paper"',
+)
+results = client.hybrid_search(
+    collection_name="book_chunks",
+    reqs=[request],
+    ranker=None,
+    limit=10,
+)
 print(request.filter)
 print(results)
 ```
