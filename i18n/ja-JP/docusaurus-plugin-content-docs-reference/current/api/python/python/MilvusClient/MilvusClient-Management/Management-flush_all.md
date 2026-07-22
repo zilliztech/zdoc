@@ -7,14 +7,14 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、現在のデータベース内のすべてのコレクションを flush します。これにより、挿入されたすべてのデータが永続ストレージに書き込まれることが保証されます。 | Python | MilvusClient"
+description: "この操作は、現在のデータベース内のすべての collection を flush します。これにより、挿入されたすべてのデータが永続ストレージに書き込まれることが保証されます。 | Python | MilvusClient"
 type: docx
 token: QejKdv2qKo97mQxEV0CcaSM5nLh
-sidebar_position: 16
+sidebar_position: 17
 keywords: 
   - ナレッジベース
   - 自然言語処理
-  - AI チャットボット
+  - AIチャットボット
   - コサイン距離
   - zilliz
   - zilliz cloud
@@ -31,11 +31,11 @@ import Admonition from '@theme/Admonition';
 
 # flush_all()
 
-この操作は、現在のデータベース内のすべてのコレクションを flush します。これにより、挿入されたすべてのデータが永続ストレージに書き込まれることが保証されます。
+この操作は、現在のデータベース内のすべての collection を flush します。これにより、挿入されたすべてのデータが永続ストレージに書き込まれることが保証されます。
 
 <Admonition type="info" icon="📘" title="注意">
 
-これは管理対象のコレクションにのみ適用されます。
+これは managed collection にのみ適用されます。
 
 </Admonition>
 

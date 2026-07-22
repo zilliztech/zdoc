@@ -7,18 +7,18 @@ added_since: Inherit
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "この関数は、cloud project databases の project/region スコープのジョブを含む、bulk import ジョブの現在のステータスを返します。 | Python"
+description: "projectid、regionid、dbname、および DB-Name ヘッダーの動作を追加します。 | Python"
 type: docx
 token: CNQIdgQvXoux0KxpXHxca8EMnjg
 sidebar_position: 2
 keywords: 
-  - Vector embeddings
-  - Vector store
-  - オープンソース vector database
-  - Vector index
+  - ベクトル埋め込み
+  - ベクトルストア
+  - オープンソースのベクトルデータベース
+  - ベクトルインデックス
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - get_import_progress()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # get_import_progress()
 
-この関数は、cloud project databases の project/region スコープのジョブを含む、bulk import ジョブの現在のステータスを返します。
+project_id、region_id、db_name、および DB-Name ヘッダーの動作を追加します。
 
-## リクエスト構文\{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```python
 get_import_progress(
@@ -44,91 +44,81 @@ get_import_progress(
     region_id: str = "",
     api_key: str = "",
     db_name: str = "",
-    
-    project_id: str = "",
-    region_id: str = "",
-    
-    verify: bool | str = True,
-    cert: str | tuple | None = None,
+    verify: Optional[Union[bool, str]] = True,
+    cert: Optional[Union[str, tuple]] = None,
     **kwargs,
-)
+) -> requests.Response
 ```
 
 **PARAMETERS:**
 
 - **url** (*str*) -
+**[REQUIRED]**
 
-    **[REQUIRED]**
-
-    bulk import API のサーバーエンドポイント。
+    `https://api.cloud.zilliz.com` である Zilliz Cloud API サーバーのエンドポイント。
 
 - **job_id** (*str*) -
-
-    **[REQUIRED]**
-
-    `bulk_import()` によって返される import ジョブ ID。
+**[REQUIRED]**
+確認対象のインポートジョブの ID。
 
 - **cluster_id** (*str*) -
-
-    Cloud cluster ID。
-
-- **api_key** (*str*) -
-
-    Cloud 認証用の API key。
-
-- **db_name** (*str*) -
-
-    リクエストルーティング用のデータベース名。
+Default: `""`
+対象の Zilliz Cloud クラスターの ID。
 
 - **project_id** (*str*) -
-
-    有効な Zilliz Cloud project ID。 
-
-    これは、オンデマンドコンピュート用のデータベースに bulk import する場合に適用されます。
+Default: `""`
+対象のプロジェクトデータベースを含む Zilliz Cloud プロジェクトの ID。
 
 - **region_id** (*str*) -
+Default: `""`
+対象のプロジェクトデータベースを含む Zilliz Cloud リージョンの ID。
 
-    有効な Zilliz Cloud region ID。
+- **api_key** (*str*) -
+Default: `""`
 
-    これは、オンデマンドコンピュート用のデータベースに bulk import する場合に適用されます。
+    リクエストの認証に使用される Zilliz Cloud API キー。
 
-- **verify** (*bool | str*) -
+- **db_name** (*str*) -
+Default: `""`
+ロールベースのアクセス制御のために `DB-Name` ヘッダーで送信されるデータベース名。
 
-    TLS 検証設定。
+- **verify** (*Optional[Union[bool, str]]*) -
+Default: `True`
+TLS 検証設定です。デフォルトのトラストストアで検証するには `True` を使用するか、CA 証明書のパスを指定します。
 
-- **cert** (*str | tuple*) -
+- **cert** (*Optional[Union[str, tuple]]*) -
+Default: `None`
+クライアント証明書のパス、または相互 TLS のための証明書と秘密鍵のペア。
 
-    クライアント証明書パス、または `(cert, key)` タプル。
-
-- **project_id** (*str*) -
-
-    追加の HTTP リクエストオプション。
+- **kwargs** (*Any*) -
+HTTP リクエストに転送される追加オプション。
 
 **RETURN TYPE:**
+
 *requests.Response*
 
-現在の import-job progress ペイロードを返します。
+**RETURNS:**
+
+現在の bulk-import ジョブの状態と進行状況を含む HTTP レスポンス。
 
 **EXCEPTIONS:**
 
 - **MilvusException**
+サーバーがリクエストを拒否した場合、または RPC が失敗した場合に発生します。正確な失敗の詳細については、サーバーのエラーメッセージを確認してください。
 
-    progress の参照に失敗したときに発生します。
+## Examples\{#examples}
 
-## 例\{#examples}
+この例では、Zilliz Cloud からインポートの進行状況を取得します。
 
 ```python
 from pymilvus.bulk_writer import get_import_progress
 
-resp = get_import_progress(
+response = get_import_progress(
     url="https://api.cloud.zilliz.com",
     api_key="YOUR_API_KEY",
-    project_id="proj-xxx",
+    project_id="proj-xxxx",
     region_id="aws-us-west-2",
-    job_id="448996221577371648",
-    db_name="book_db",
+    job_id="job-123",
 )
-
-print(resp.json())
+print(response.json())
 ```
-

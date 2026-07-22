@@ -7,7 +7,7 @@ added_since: Inherit
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "この関数は、オプションの collection およびページネーションフィルターを使用して一括インポートジョブを一覧表示し、プロジェクトデータベース向けの project/region フィルターも含みます。 | Python"
+description: "projectid と regionid のフィルタリングを追加します。 | Python"
 type: docx
 token: N13hd7jVjoA6B1xlgwic2GKRn5f
 sidebar_position: 3
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # list_import_jobs()
 
-この関数は、オプションの collection およびページネーションフィルターを使用して一括インポートジョブを一覧表示し、プロジェクトデータベース向けの project/region フィルターも含みます。
+project_id と region_id のフィルタリングを追加します。
 
 ## リクエスト構文\{#request-syntax}
 
@@ -46,100 +46,88 @@ list_import_jobs(
     api_key: str = "",
     page_size: int = 10,
     current_page: int = 1,
-    
-    project_id: str = "",
-    region_id: str = "",
-    
-    verify: bool | str = True,
-    cert: str | tuple | None = None,
+    verify: Optional[Union[bool, str]] = True,
+    cert: Optional[Union[str, tuple]] = None,
     **kwargs,
-)
+) -> requests.Response
 ```
 
-**パラメーター:**
+**パラメータ:**
 
 - **url** (*str*) -
+**[必須]**
 
-    **[必須]**
-
-    一括インポート API 用のサーバーエンドポイント。
+    `https://api.cloud.zilliz.com` である Zilliz Cloud API サーバーのエンドポイント。
 
 - **collection_name** (*str*) -
-
-    オプションの collection フィルター。
+Default: `""`
+インポートジョブを一覧表示する対象 collection の名前。
 
 - **db_name** (*str*) -
-
-    オプションのデータベースフィルター。
+Default: `""`
+インポートジョブを一覧表示する対象データベースの名前。
 
 - **cluster_id** (*str*) -
-
-    Cloud cluster ID。
-
-- **api_key** (*str*) -
-
-    cloud 認証用の API key。
-
-- **page_size** (*int*) -
-
-    1ページあたりに返されるジョブ数。
-
-- **current_page** (*int*) -
-
-    問い合わせるページ番号。
+Default: `""`
+対象の Zilliz Cloud cluster の ID。
 
 - **project_id** (*str*) -
-
-    有効な Zilliz Cloud project ID。 
-
-    これは、オンデマンドコンピュート用のデータベースに一括インポートする場合に適用されます。
+Default: `""`
+対象 project データベースを含む Zilliz Cloud project の ID。
 
 - **region_id** (*str*) -
+Default: `""`
+対象 project データベースを含む Zilliz Cloud リージョンの ID。
 
-    有効な Zilliz Cloud region ID。
+- **api_key** (*str*) -
+Default: `""`
 
-    これは、オンデマンドコンピュート用のデータベースに一括インポートする場合に適用されます。
+    リクエストの認証に使用される Zilliz Cloud API key。
 
-- **verify** (*bool | str*) -
+- **page_size** (*int*) -
+Default: `10`
+1 ページあたりに返されるインポートジョブの最大数。
 
-    TLS 検証設定。
+- **current_page** (*int*) -
+Default: `1`
+返される 1 始まりのページ番号。
 
-- **cert** (*str | tuple*) -
+- **verify** (*Optional[Union[bool, str]]*) -
+Default: `True`
+TLS 検証設定。デフォルトのトラストストアで検証するには `True` を使用し、CA 証明書パスを指定することもできます。
 
-    クライアント証明書のパス、または `(cert, key)` タプル。
+- **cert** (*Optional[Union[str, tuple]]*) -
+Default: `None`
+クライアント証明書のパス、または相互 TLS 用の証明書と秘密鍵のペア。
 
-- **project_id** (*str*) -
-
-    追加の HTTP リクエストオプション。
+- **kwargs** (*Any*) -
+HTTP リクエストに転送される追加オプション。
 
 **戻り値の型:**
+
 *requests.Response*
 
-インポートジョブのページ分割された一覧を返します。
+**戻り値:**
 
-ページ分割されたインポートジョブの概要を含む HTTP レスポンス。
+一致するインポートジョブとページネーション情報を含む HTTP レスポンス。
 
 **例外:**
 
 - **MilvusException**
-
-    ジョブ一覧の取得に失敗した場合に発生します。
+サーバーがリクエストを拒否した場合、または RPC が失敗した場合に発生します。正確な失敗の詳細はサーバーのエラーメッセージを確認してください。
 
 ## 例\{#examples}
+
+この例では、Zilliz Cloud からインポートジョブを一覧表示します。
 
 ```python
 from pymilvus.bulk_writer import list_import_jobs
 
-resp = list_import_jobs(
+response = list_import_jobs(
     url="https://api.cloud.zilliz.com",
     api_key="YOUR_API_KEY",
-    project_id="proj-xxx",
+    project_id="proj-xxxx",
     region_id="aws-us-west-2",
-    collection_name="book_catalog",
-    page_size=20,
-    current_page=1,
 )
-
-print(resp.json())
+print(response.json())
 ```
-

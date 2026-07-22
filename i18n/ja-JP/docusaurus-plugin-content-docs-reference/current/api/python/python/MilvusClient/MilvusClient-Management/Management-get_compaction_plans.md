@@ -10,7 +10,7 @@ notebook: false
 description: "この操作は、特定の compaction ジョブの compaction plan を返します。これには、どの segment が結合されるかを示す merge plan が含まれます。 | Python | MilvusClient"
 type: docx
 token: Qa8ZdRkOKocH60xujcLcOxuBnkh
-sidebar_position: 17
+sidebar_position: 18
 keywords: 
   - HNSW
   - 非構造化データとは
@@ -33,9 +33,9 @@ import Admonition from '@theme/Admonition';
 
 この操作は、特定の compaction ジョブの compaction plan を返します。これには、どの segment が結合されるかを示す merge plan が含まれます。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="注意">
 
-これは managed collection にのみ適用されます。
+これは管理対象の collection にのみ適用されます。
 
 </Admonition>
 
@@ -58,7 +58,7 @@ client.get_compaction_plans(
 
 - **timeout** (*float* | *None*) -
 
-    この操作のタイムアウト時間です。これを **None** に設定すると、レスポンスが到着するかエラーが発生した時点で、この操作はタイムアウトします。
+    この操作のタイムアウト時間です。これを **None** に設定すると、応答が到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
 
 **戻り値の型:**
 

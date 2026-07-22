@@ -5321,19 +5321,19 @@
       "translatedAt": "2026-07-13T11:00:17.324Z"
     },
     "reference/api/python/python/DataImport/DataImport-BulkImport/BulkImport-bulk_import.md": {
-      "sourceHash": "96974614d1bb254846f851c4609fcdb6ceffb7f5c9575e561847884f7d705b59",
+      "sourceHash": "831fe9db82a59527a9913c6455b13ca308d186d5f6f5e0371e2358fe31b7fdc3",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/python/python/DataImport/DataImport-BulkImport/BulkImport-bulk_import.md",
-      "translatedAt": "2026-07-14T05:45:52.516Z"
+      "translatedAt": "2026-07-22T11:05:12.557Z"
     },
     "reference/api/python/python/DataImport/DataImport-BulkImport/BulkImport-get_import_progress.md": {
-      "sourceHash": "42bdd1171f1fec64dadbd8caa7b90cd4c3a4657f6fb3d15e9cc985131979c113",
+      "sourceHash": "f1a4454a5d5ff294f5cd0355d3bbf2357d8c71c3d23efc4b09522b3ed2366b77",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/python/python/DataImport/DataImport-BulkImport/BulkImport-get_import_progress.md",
-      "translatedAt": "2026-07-13T11:00:40.839Z"
+      "translatedAt": "2026-07-22T11:05:34.925Z"
     },
     "reference/api/python/python/DataImport/DataImport-BulkImport/BulkImport-list_import_jobs.md": {
-      "sourceHash": "0dc526bb500f49c4fc1043d024b67cf472b111a162d516e5646fd9888de0d6ee",
+      "sourceHash": "9e11796fff9a5b3f6e075c8ee08c542e1d0b804aeac631ca3f07f48866421987",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/python/python/DataImport/DataImport-BulkImport/BulkImport-list_import_jobs.md",
-      "translatedAt": "2026-07-14T03:12:00.284Z"
+      "translatedAt": "2026-07-22T11:05:06.316Z"
     },
     "reference/api/python/python/DataImport/DataImport-LocalBulkWriter/DataImport-LocalBulkWriter.md": {
       "sourceHash": "39a8d1fffa033a15dd059402b25743fae77b8235f75e956eb874d1bf964aae07",
@@ -5376,9 +5376,9 @@
       "translatedAt": "2026-07-13T11:01:37.825Z"
     },
     "reference/api/python/python/DataImport/DataImport-VolumeBulkWriter/DataImport-VolumeBulkWriter.md": {
-      "sourceHash": "a6e178ad065992fef9976160774d229a24627cb1a77ca3f10eeeda1a7f95f0d9",
+      "sourceHash": "1b5a9047a433d3a4b3c7ba19c473ef2fe0b743b3e749b79b1b6448bb3de5a774",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/python/python/DataImport/DataImport-VolumeBulkWriter/DataImport-VolumeBulkWriter.md",
-      "translatedAt": "2026-07-13T11:01:48.691Z"
+      "translatedAt": "2026-07-22T11:05:07.752Z"
     },
     "reference/api/python/python/DataImport/DataImport-VolumeBulkWriter/VolumeBulkWriter-append_row.md": {
       "sourceHash": "1fdea3003baddb4733146b8a6094f52f0c625016e3098bd5404401c4cf21c291",
@@ -5691,9 +5691,9 @@
       "translatedAt": "2026-07-13T11:09:46.707Z"
     },
     "reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-describe_role.md": {
-      "sourceHash": "cff4c8faae83bc8a9d705464b888d17d837433f645d65f1f9cc7198c08ab2eb4",
+      "sourceHash": "30c47f2f652419f1a8874833126d208dec702725b2dc1dedbfbd42444406eaf9",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-describe_role.md",
-      "translatedAt": "2026-07-13T11:09:56.460Z"
+      "translatedAt": "2026-07-22T11:05:28.493Z"
     },
     "reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-describe_user.md": {
       "sourceHash": "b0605d634eebe404b0c41d4942a41ba294ca4545c44a52383374f672a123a9e8",
@@ -5706,9 +5706,9 @@
       "translatedAt": "2026-07-13T11:10:10.715Z"
     },
     "reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-drop_user.md": {
-      "sourceHash": "ef63cea05247c3fe024ea5c7c65a78106d84bb59ededc1b960d031cf69a2048c",
+      "sourceHash": "cafdb56f00cf7ec6eb3f4364a7134afb523904a6b0756c061a0f02a4e3a029f7",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-drop_user.md",
-      "translatedAt": "2026-07-21T18:50:48.745Z"
+      "translatedAt": "2026-07-22T11:05:23.001Z"
     },
     "reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-grant_privilege_v2.md": {
       "sourceHash": "7a168499dfa55b7962fa569d67640f9468f9afc9247dd2d4115ee054aba73ede",
@@ -5731,9 +5731,9 @@
       "translatedAt": "2026-07-13T11:10:55.061Z"
     },
     "reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-list_users.md": {
-      "sourceHash": "2a7d2254d2b9e6bdc1da1c21c28438b22c1fc1b3d4d41877b1ce19630d20695c",
+      "sourceHash": "11cb2e88051a74d8d9c494e32cf58fbee165227696569ab3f48fe92ea3be47e8",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-list_users.md",
-      "translatedAt": "2026-07-21T18:51:02.799Z"
+      "translatedAt": "2026-07-22T11:05:28.689Z"
     },
     "reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-revoke_privilege_v2.md": {
       "sourceHash": "8048ef3f0f862c2504553e20aff69a45c6def9add7d9c5514146afdf19526d35",
@@ -5745,15 +5745,15 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-revoke_role.md",
       "translatedAt": "2026-07-13T11:11:06.135Z"
     },
+    "reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-update_password.md": {
+      "sourceHash": "ed7c1138549f3b3d22c21ade522e9e1b2d493c450d36ca3a83f9976e33d0192f",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-update_password.md",
+      "translatedAt": "2026-07-22T11:05:42.875Z"
+    },
     "reference/api/python/python/MilvusClient/MilvusClient-Authentication/utility-create_user.md": {
       "sourceHash": "1ddd157edd3fa817070724443d267e8c51d26eda20fcf5db5aa8555c972d608c",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/python/python/MilvusClient/MilvusClient-Authentication/utility-create_user.md",
       "translatedAt": "2026-07-21T18:51:22.076Z"
-    },
-    "reference/api/python/python/MilvusClient/MilvusClient-Authentication/utility-update_password.md": {
-      "sourceHash": "cfc930c70a980a4fbb0b4c37b3dd4242ba38323da0382ae099395d15aa155a45",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/python/python/MilvusClient/MilvusClient-Authentication/utility-update_password.md",
-      "translatedAt": "2026-07-21T18:51:45.677Z"
     },
     "reference/api/python/python/MilvusClient/MilvusClient-Client/Client-AsyncMilvusClient.md": {
       "sourceHash": "acfda13c9c32623a0a9a2c55524cde068078f992d5d33ac7ade4f2588ef5cbf4",
@@ -6066,9 +6066,9 @@
       "translatedAt": "2026-07-13T11:19:37.678Z"
     },
     "reference/api/python/python/MilvusClient/MilvusClient-Management/Management-compact.md": {
-      "sourceHash": "d582e81fe0eb5e6c6262a18c4c4043c595de6d37f8fb04105a3808184384871b",
+      "sourceHash": "919c7f116a0ab6652ced8e8af31729eabe01b9525581caaaabf813a80218b6ff",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/python/python/MilvusClient/MilvusClient-Management/Management-compact.md",
-      "translatedAt": "2026-07-13T11:19:50.467Z"
+      "translatedAt": "2026-07-22T11:05:51.327Z"
     },
     "reference/api/python/python/MilvusClient/MilvusClient-Management/Management-create_index.md": {
       "sourceHash": "398932ee483d21e74d203790f29220d5e4d1ceac320a75cca83b27458c2b7829",
@@ -6096,9 +6096,9 @@
       "translatedAt": "2026-07-13T11:20:39.544Z"
     },
     "reference/api/python/python/MilvusClient/MilvusClient-Management/Management-flush_all.md": {
-      "sourceHash": "a7a9869d03306ca3f3160aeef107a836cde406f7d6febc5a46b412b0a0721390",
+      "sourceHash": "54c747568c72233a191209b4a63f85afb4e182cde485e0bfd3968e596bf9a3a9",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/python/python/MilvusClient/MilvusClient-Management/Management-flush_all.md",
-      "translatedAt": "2026-07-13T11:21:11.097Z"
+      "translatedAt": "2026-07-22T11:05:43.744Z"
     },
     "reference/api/python/python/MilvusClient/MilvusClient-Management/Management-get_compact_state.md": {
       "sourceHash": "986b8cc3df0eab98332269b61bdb1d8229e4ae2068dd665222f530cd073c79e6",
@@ -6106,19 +6106,19 @@
       "translatedAt": "2026-07-13T11:20:55.716Z"
     },
     "reference/api/python/python/MilvusClient/MilvusClient-Management/Management-get_compaction_plans.md": {
-      "sourceHash": "6d545e8eafd2bdc0e719ac15228f426633d8378e287b6e03b9e6082618023b0d",
+      "sourceHash": "e828a815ca4e867c9ab6cec1d2dc043acdca3a5b424afaf239f5c5a173cdc545",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/python/python/MilvusClient/MilvusClient-Management/Management-get_compaction_plans.md",
-      "translatedAt": "2026-07-13T11:21:19.394Z"
+      "translatedAt": "2026-07-22T11:05:56.909Z"
     },
     "reference/api/python/python/MilvusClient/MilvusClient-Management/Management-get_compaction_state.md": {
-      "sourceHash": "3a5178f5636ac75966d96910c5d12fa00bb685ba5da9c70cad0f1b20c4818dbe",
+      "sourceHash": "a69a6daa028234f8d98087d44d893f43141969ffb80f1870d029def765c91bb5",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/python/python/MilvusClient/MilvusClient-Management/Management-get_compaction_state.md",
-      "translatedAt": "2026-07-13T11:21:31.118Z"
+      "translatedAt": "2026-07-22T11:06:03.479Z"
     },
     "reference/api/python/python/MilvusClient/MilvusClient-Management/Management-get_flush_all_state.md": {
-      "sourceHash": "1e67dc5992cd549ddc2ca1c14a2744b49a126c625247523c032d0f2a09698424",
+      "sourceHash": "d805489f83ba360b9bfbace834d894dad4bf2ad67113036c8f0e430b2e2d40cd",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/python/python/MilvusClient/MilvusClient-Management/Management-get_flush_all_state.md",
-      "translatedAt": "2026-07-13T11:21:38.919Z"
+      "translatedAt": "2026-07-22T11:06:04.940Z"
     },
     "reference/api/python/python/MilvusClient/MilvusClient-Management/Management-get_load_state.md": {
       "sourceHash": "17d8a4b26f9f7c65ebdfecde03919d327c024fb06c41e4ef4c69718ec1935ae4",
@@ -6131,14 +6131,14 @@
       "translatedAt": "2026-07-13T11:22:02.200Z"
     },
     "reference/api/python/python/MilvusClient/MilvusClient-Management/Management-list_loaded_segments.md": {
-      "sourceHash": "5def585746a9784675bcfcfcaf3d4070226f4df9080e244b23bbdbc92524cb92",
+      "sourceHash": "341bcffece45c1e85e3f6744696acfb6d4e163c64e7754b4da930248d9362718",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/python/python/MilvusClient/MilvusClient-Management/Management-list_loaded_segments.md",
-      "translatedAt": "2026-07-21T18:51:29.203Z"
+      "translatedAt": "2026-07-22T11:06:08.364Z"
     },
     "reference/api/python/python/MilvusClient/MilvusClient-Management/Management-list_persistent_segments.md": {
-      "sourceHash": "1b983828146583b1dae82e43f872372923da2d01316216cb36d64e9f6d23b7d0",
+      "sourceHash": "cfb582fd5cda52badc266349de6f9b023c409d69def29dabbc4da5174dc9e794",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/python/python/MilvusClient/MilvusClient-Management/Management-list_persistent_segments.md",
-      "translatedAt": "2026-07-21T18:51:40.269Z"
+      "translatedAt": "2026-07-22T11:06:15.964Z"
     },
     "reference/api/python/python/MilvusClient/MilvusClient-Management/Management-load_collection.md": {
       "sourceHash": "42cfc8c74bb2aa48cd24ed88758fc2f3a5a9029436e7d86793cbd4c054eb26cc",
@@ -6146,9 +6146,9 @@
       "translatedAt": "2026-07-13T11:22:27.002Z"
     },
     "reference/api/python/python/MilvusClient/MilvusClient-Management/Management-optimize.md": {
-      "sourceHash": "ab47449a917ab6fb1f65bd30bf3d0f525a17a0565d5cf1f2f9a54e4f6283d0df",
+      "sourceHash": "2bc15774fa48a74edd46d41b6ed0fbd32c12e599524ddfdb1d06b7e357eaf06a",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/python/python/MilvusClient/MilvusClient-Management/Management-optimize.md",
-      "translatedAt": "2026-07-21T18:52:01.709Z"
+      "translatedAt": "2026-07-22T11:06:32.810Z"
     },
     "reference/api/python/python/MilvusClient/MilvusClient-Management/Management-prepare_index_params.md": {
       "sourceHash": "ff276ac296e673872455803c336c263415812c9c0b36bf313b2ba8fd3051dbdd",
@@ -6246,9 +6246,9 @@
       "translatedAt": "2026-07-13T11:25:22.085Z"
     },
     "reference/api/python/python/MilvusClient/MilvusClient-StructFieldSchema/MilvusClient-StructFieldSchema.md": {
-      "sourceHash": "383d054b3d191d3f64c4930a2da336fbb4d55cf05f2f73ac7b065499a6dfba62",
+      "sourceHash": "393ee20fc2c31d4adbebaaf5baf84b05ffebfb9730e6ab77d4bfcfbd8a2a4e03",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/python/python/MilvusClient/MilvusClient-StructFieldSchema/MilvusClient-StructFieldSchema.md",
-      "translatedAt": "2026-07-13T11:25:07.331Z"
+      "translatedAt": "2026-07-22T11:06:20.284Z"
     },
     "reference/api/python/python/MilvusClient/MilvusClient-StructFieldSchema/StructFieldSchema-add_field.md": {
       "sourceHash": "5819dacb66594b5c6896747df8e01789cc123d91c8674825f1f9a3de99a85552",
@@ -6286,9 +6286,9 @@
       "translatedAt": "2026-07-13T11:26:17.867Z"
     },
     "reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-hybrid_search.md": {
-      "sourceHash": "7e98219e2d37634fbc6d50ce83778bfe1fecb644c1e72240621fcf0c5a195ef6",
+      "sourceHash": "932b47c72d15c8e558e351b1834c642aa1a6ca490ebbc3b68565369c591df826",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/python/python/MilvusClient/MilvusClient-Vector/Vector-hybrid_search.md",
-      "translatedAt": "2026-07-13T11:27:05.641Z"
+      "translatedAt": "2026-07-22T11:06:37.689Z"
     },
     "reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-insert.md": {
       "sourceHash": "ce6ca435d3244730dc6770822e035435a7a997f37675e42b59b3434782cee2ce",
@@ -6316,9 +6316,9 @@
       "translatedAt": "2026-07-13T11:28:33.055Z"
     },
     "reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-upsert.md": {
-      "sourceHash": "6bd4331343fb36fc339a5ea65687beabf151fff9a352aee270b5eb68a2c48f83",
+      "sourceHash": "f7ddd009d7639eeeddf7ab903f2b5daee3663ff0c8d8c72493c867499725dc92",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/python/python/MilvusClient/MilvusClient-Vector/Vector-upsert.md",
-      "translatedAt": "2026-07-13T11:29:21.326Z"
+      "translatedAt": "2026-07-22T11:07:14.571Z"
     },
     "reference/api/python/python/ORM/ORM-Collection/Collection-compact.md": {
       "sourceHash": "21a183da34b9270f71afd0e9d763c7547f5c2a2565fe701ca066c48185a87952",
@@ -6856,9 +6856,9 @@
       "translatedAt": "2026-07-13T11:50:12.913Z"
     },
     "reference/api/python/python/ORM/ORM-utility/utility-update_password.md": {
-      "sourceHash": "b34125367902765176686736545ca410030244603eaf512a66d3f7193f040085",
+      "sourceHash": "a2aa0d403659295d7e6d78aadc1b31f71477c7532d1c4ea3c1236cc27202d0c4",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/python/python/ORM/ORM-utility/utility-update_password.md",
-      "translatedAt": "2026-07-21T18:52:21.742Z"
+      "translatedAt": "2026-07-22T11:07:07.157Z"
     },
     "reference/api/python/python/ORM/ORM-utility/utility-wait_for_index_building_complete.md": {
       "sourceHash": "eefcbfa58b2311f1289074aa793b1b781d35911dd8e5a8080d3f621bdf4e8ec6",
@@ -6926,9 +6926,9 @@
       "translatedAt": "2026-07-13T11:52:16.412Z"
     },
     "reference/api/python/python/Volume/Volume-VolumeFileManager/VolumeFileManager-upload_file_to_volume.md": {
-      "sourceHash": "45e28a8555ec9aa0be9f8ec11401aabd0efb1cf2feed13703041efeddb7114ad",
+      "sourceHash": "6f91204e9b6ac6130baa863ea4bf451cc2f1731fe5b0c66e696209c67caf2433",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/python/python/Volume/Volume-VolumeFileManager/VolumeFileManager-upload_file_to_volume.md",
-      "translatedAt": "2026-07-22T03:27:17.738Z"
+      "translatedAt": "2026-07-22T11:06:55.744Z"
     },
     "reference/api/python/python/Volume/Volume-VolumeManager/Volume-VolumeManager.md": {
       "sourceHash": "c7f378b02ee104a8b08ab1395f6a5c6a6f9279e6f3728b808ead4f1a648f70de",
@@ -6936,9 +6936,9 @@
       "translatedAt": "2026-07-13T11:51:57.575Z"
     },
     "reference/api/python/python/Volume/Volume-VolumeManager/VolumeManager-create_volume.md": {
-      "sourceHash": "5e0f1ca7ad800c25bf40c4cd537a288525f161f701a4f08187077b1015314283",
+      "sourceHash": "30f998e9028e1db44bbc030e14527417e703800d1e4a8299aa7d70777063cf4b",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/python/python/Volume/Volume-VolumeManager/VolumeManager-create_volume.md",
-      "translatedAt": "2026-07-13T11:52:39.868Z"
+      "translatedAt": "2026-07-22T11:06:59.865Z"
     },
     "reference/api/python/python/Volume/Volume-VolumeManager/VolumeManager-delete_volume.md": {
       "sourceHash": "7d8111a1c43f6b747aa4b8da8e96e015bab39c1ec648440c553a0e5e7e80f17f",
@@ -6946,14 +6946,14 @@
       "translatedAt": "2026-07-13T11:52:15.140Z"
     },
     "reference/api/python/python/Volume/Volume-VolumeManager/VolumeManager-describe_volume.md": {
-      "sourceHash": "1c846927bbc1aebda29634dde036c457db7a5534eca83232ba34406f9abfd665",
+      "sourceHash": "b285fb6ec8005b07253364b978fa9d128dffca6306e05e0c891cde8b0a69d0e9",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/python/python/Volume/Volume-VolumeManager/VolumeManager-describe_volume.md",
-      "translatedAt": "2026-07-13T11:52:20.471Z"
+      "translatedAt": "2026-07-22T11:07:14.297Z"
     },
     "reference/api/python/python/Volume/Volume-VolumeManager/VolumeManager-list_volumes.md": {
-      "sourceHash": "6b7f1a82dcb166f82b92071025268a16ba83dac1c45327c565966ff2b4d40eff",
+      "sourceHash": "d002b79a6e38ff44be79317135e9d461210250aca53f85573cc6c8a17f68bf96",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/python/python/Volume/Volume-VolumeManager/VolumeManager-list_volumes.md",
-      "translatedAt": "2026-07-13T11:52:30.341Z"
+      "translatedAt": "2026-07-22T11:07:18.219Z"
     },
     "reference/api/python/python/python.md": {
       "sourceHash": "b425d9a120d21593587828e77078279204a12d38c20f6de7593212d54a6be458",

@@ -46,7 +46,7 @@ drop_user(
 
 - **user_name** (*str*) -
 
-    **[必須]**
+    **[REQUIRED]**
 
     削除するユーザーの名前。
 
@@ -54,7 +54,7 @@ drop_user(
 
     この操作のタイムアウト時間。 
 
-    これを **None** に設定すると、何らかのレスポンスが返されるか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
+    これを **None** に設定すると、何らかのレスポンスが到着した時点、またはエラーが発生した時点でこの操作はタイムアウトします。
 
 **戻り値の型:**
 
@@ -68,11 +68,11 @@ None
 
 - **MilvusException**
 
-    この操作中に何らかのエラーが発生した場合に、この例外が発生します。
+    この操作中に何らかのエラーが発生した場合、この例外が発生します。
 
 - **BaseException**
 
-    この操作が失敗した場合に、この例外が発生します。
+    この操作が失敗した場合、この例外が発生します。
 
 ## 例\{#example}
 
@@ -100,5 +100,5 @@ client.drop_user(user_name="user_1")
 
 - [list_users()](./Authentication-list_users)
 
-- [update_password()](./utility-update_password)
+- [update_password()](./Authentication-update_password)
 

@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "StructFieldSchema インスタンスは、struct の配列フィールド内の struct 要素のスキーマを表します。スキーマは struct 要素の構造を概略化したものです。 | Python | MilvusClient"
+description: "コンストラクタの動作が変更されました。既存のクラスページに新しい nullable プロパティが記載されました。 | Python | MilvusClient"
 type: docx
 token: ZnKKd2PsyoRc1MxtC1BcJQjgnBh
 sidebar_position: 3
@@ -31,50 +31,26 @@ import Admonition from '@theme/Admonition';
 
 # StructFieldSchema
 
-StructFieldSchema インスタンスは、struct の配列フィールド内の struct 要素のスキーマを表します。スキーマは struct 要素の構造を概略化したものです。
+コンストラクタの動作が変更されました。既存のクラスページに新しい nullable プロパティが記載されました。
+
+## Request Syntax\{#request-syntax}
 
 ```python
-class pymilvus.StructFieldSchema
-```
-
-## Constructor\{#constructor}
-
-フィールド、データ型、その他のパラメータを定義して、struct の配列フィールド内の struct 要素のスキーマを構築します。
-
-```python
-CollectionSchema(
-    fields: list,
-    description: str
+StructFieldSchema(
+    nullable: bool = False,
+    description: str = "",
 )
 ```
 
 **PARAMETERS:**
 
-- **name** (*str*) -
+- **nullable** (*bool*) -
+デフォルト: `False`
+struct フィールドに null 値を含めることを許可するフラグです。
 
-    **[REQUIRED]**
-
-    スキーマの名前。 
-
-- **fields** (*list*) -
-
-    **[REQUIRED]**
-
-    struct の配列フィールド内の struct のスキーマに含まれるフィールドを定義する **[FieldSchema](./ORM-FieldSchema)** オブジェクトのリスト。
-
-    <Admonition type="info" icon="📘" title="Note">
-
-    フィールドスキーマとは何ですか？
-    
-        フィールドスキーマは単一のフィールドのメタデータを表し、それを保持します。一方、**StructFieldSchema** は **[FieldSchema](./ORM-FieldSchema)** オブジェクトのリストをまとめて、struct の配列フィールド内の struct のスキーマを定義します。
-
-    </Admonition>
-
-- **description** (*string*) -
-
-    スキーマの説明。
-
-    説明が指定されていない場合は、空文字列に設定されます。
+- **description** (*str*) -
+デフォルト: `""`
+struct フィールドの説明です。
 
 **RETURN TYPE:**
 
@@ -82,54 +58,26 @@ CollectionSchema(
 
 **RETURNS:**
 
-**StructFieldSchema** オブジェクト。
+ネストされたフィールドと nullable/default メタデータを含む struct フィールドスキーマインスタンス。
 
 **EXCEPTIONS:**
 
-- **FieldsTypeException**: 
+- **MilvusException**
+サーバーがリクエストを拒否した場合、または RPC が失敗した場合に発生します。正確な失敗の詳細については、サーバーのエラーメッセージを確認してください。
 
-    **fields** パラメータがリストではない場合に、この例外が発生します。
+## Examples\{#examples}
 
-- **FieldTypeException**: 
-
-    **fields** リスト内のフィールドが **[FieldSchema](./ORM-FieldSchema)** オブジェクトではない場合に、この例外が発生します。
+StructFieldSchema の使用方法を示します。
 
 ```python
-from pymilvus import StructFieldSchema, FieldSchema, DataType
+from pymilvus import CollectionSchema, DataType, FieldSchema, StructFieldSchema
 
-vector = FieldSchema(
-    name="vector",
-    dtype=DataType.FLOAT_VECTOR,
-    dim=768
-)
+chunk = StructFieldSchema(nullable=True, description="Optional chunk metadata")
+chunk.add_field("source", DataType.VARCHAR, max_length=128)
 
-varchar = FieldSchema(
-    name="varchar",
-    dtype=DataType.VARCHAR,
-    max_length=512
-)
-
-# Construct a schema with the predefined fields
-schema = StructFieldSchema(
-    name="struct_schema",
-    fields=[vector, varchar],
-    description="example_schema"
-)
+schema = CollectionSchema(fields=[
+    FieldSchema(name="id", dtype=DataType.INT64, is_primary=True),
+    FieldSchema(name="vector", dtype=DataType.FLOAT_VECTOR, dim=3),
+])
+print(schema)
 ```
-
-## Properties\{#properties}
-
-- **fields** (*list*) -
-
-    struct の配列フィールド内の struct のスキーマに含まれるフィールドを定義する **[FieldSchema](./ORM-FieldSchema)** オブジェクトのリスト。
-
-- **description** (*string*) -
-
-    スキーマの説明。
-
-    説明が指定されていない場合は、空文字列になります。
-
-## Methods\{#methods}
-
-以下は、`StructFieldSchema` クラスのメソッドです:
-

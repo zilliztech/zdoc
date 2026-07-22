@@ -7,18 +7,18 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "`flush-all` 操作が完了したかどうかを返します。`flushall()` の呼び出し後に、flush のステータスを確認するために使用します。 | Python | MilvusClient"
+description: "この操作は、flush-all 操作が完了したかどうかを返します。`flushall()` を呼び出した後、flush のステータスを確認するために使用します。 | Python | MilvusClient"
 type: docx
 token: G31wdmzVFo687JxZTAGctQlKnir
-sidebar_position: 19
+sidebar_position: 20
 keywords: 
   - AI チャットボット
-  - コサイン距離
+  - cosine distance
   - ベクトルデータベースとは
   - vectordb
   - zilliz
   - zilliz cloud
-  - クラウド
+  - cloud
   - get_flush_all_state()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # get_flush_all_state()
 
-この操作は、`flush-all` 操作が完了したかどうかを返します。`flush_all()` を呼び出した後に、flush のステータスを確認するために使用します。
+この操作は、flush-all 操作が完了したかどうかを返します。`flush_all()` を呼び出した後、flush のステータスを確認するために使用します。
 
 <Admonition type="info" icon="📘" title="注意">
 
@@ -59,13 +59,13 @@ client.get_flush_all_state(
 
 **戻り値:**
 
-flush-all 操作が完了している場合は **True**、そうでない場合は **False** です。
+flush-all 操作が完了している場合は **True**、そうでない場合は **False**。
 
 **例外:**
 
 - **MilvusException**
 
-    この操作中に何らかのエラーが発生した場合、この例外が発生します。
+    この操作中に何らかのエラーが発生すると、この例外が発生します。
 
 ## 例\{#example}
 

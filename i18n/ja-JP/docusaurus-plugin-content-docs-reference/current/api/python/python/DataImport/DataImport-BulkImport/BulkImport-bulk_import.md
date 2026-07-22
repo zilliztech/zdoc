@@ -7,15 +7,15 @@ added_since: Inherit
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "この関数は、オープンソースの Milvus または Zilliz Cloud に対して一括インポートジョブを送信します。これには、プロジェクトデータベース向けの project/region ルーティングが含まれます。 | Python"
+description: "projectid/regionid ルーティングと project-database インポート動作を追加します。 | Python"
 type: docx
 token: HVwRdVSbAo2jUexpxmdczdqPnzh
 sidebar_position: 1
 keywords: 
   - ベクトル埋め込みとは
-  - vector database tutorial
+  - vector database チュートリアル
   - ベクトルデータベースはどのように動作するか
-  - vector db comparison
+  - vector db 比較
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,166 +31,130 @@ import Admonition from '@theme/Admonition';
 
 # bulk_import()
 
-この関数は、オープンソースの Milvus または Zilliz Cloud に対して一括インポートジョブを送信します。これには、プロジェクトデータベース向けの project/region ルーティングが含まれます。
+project_id/region_id ルーティングと project-database インポート動作を追加します。
 
-## リクエスト構文\{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```python
 bulk_import(
     url: str,
     collection_name: str,
     db_name: str = "",
-    files: list[list[str]] | None = None,
     object_url: str = "",
-    object_urls: list[list[str]] | None = None,
+    object_urls: Optional[List[List[str]]] = None,
     cluster_id: str = "",
+    project_id: str = "",
+    region_id: str = "",
     api_key: str = "",
     access_key: str = "",
     secret_key: str = "",
     token: str = "",
     volume_name: str = "",
-    data_paths: list[list[str]] | None = None,
-    
-    project_id: str = "",
-    region_id: str = "",
-    
-    verify: bool | str = True,
-    cert: str | tuple | None = None,
+    data_paths: Optional[List[List[str]]] = None,
+    verify: Optional[Union[bool, str]] = True,
+    cert: Optional[Union[str, tuple]] = None,
     **kwargs,
-)
+) -> requests.Response
 ```
 
-**パラメーター:**
+**PARAMETERS:**
 
 - **url** (*str*) -
+**[REQUIRED]**
 
-    **[REQUIRED]**
-
-    Milvus または Zilliz Cloud の一括インポート API 用サーバーエンドポイント。
+    Zilliz Cloud API サーバーのエンドポイントです。`https://api.cloud.zilliz.com` になります。
 
 - **collection_name** (*str*) -
-
-    **[REQUIRED]**
-
-    対象の collection 名。
+**[REQUIRED]**
+対象 collection の名前です。
 
 - **db_name** (*str*) -
-
-    対象のデータベース名。
-
-- **files** (*list[list[str]]*) -
-
-    インポート用のローカルファイルグループ。
+Default: `""`
+対象 database の名前です。
 
 - **object_url** (*str*) -
+Default: `""`
+非推奨のオブジェクトストレージ URL です。新しい Zilliz Cloud 統合では `object_urls` を使用してください。
 
-    クラウドインポート用のオブジェクトストレージ URL。
-
-- **object_urls** (*list[list[str]]*) -
-
-    クラウドインポート用のオブジェクトストレージ URL グループ。
+- **object_urls** (*Optional[List[List[str]]]*) -
+Default: `None`
+インポートデータを含むオブジェクトストレージ URL です。各ネストされたリストは 1 つのオブジェクトまたはフォルダを識別します。
 
 - **cluster_id** (*str*) -
-
-    インポートジョブ用のクラウド cluster ID。
-
-- **access_key** (*str*) -
-
-    オブジェクトストレージの access key。
-
-- **secret_key** (*str*) -
-
-    オブジェクトストレージの secret key。
-
-- **token** (*str*) -
-
-    オブジェクトストレージアクセス用の一時セッショントークン。
-
-- **volume_name** (*str*) -
-
-    ボリュームベースのインポート用 volume 名。
-
-- **data_paths** (*list[list[str]]*) -
-
-    データファイルの volume 相対パス。
+Default: `""`
+対象の Zilliz Cloud cluster の ID です。
 
 - **project_id** (*str*) -
-
-    有効な Zilliz Cloud project ID。 
-
-    これは、オンデマンドコンピュート用データベースに一括インポートする場合に適用されます。
+Default: `""`
+対象の project database を含む Zilliz Cloud project の ID です。
 
 - **region_id** (*str*) -
+Default: `""`
+対象の project database を含む Zilliz Cloud region の ID です。
 
-    有効な Zilliz Cloud region ID。
+- **api_key** (*str*) -
+Default: `""`
 
-    これは、オンデマンドコンピュート用データベースに一括インポートする場合に適用されます。
+    リクエストの認証に使用される Zilliz Cloud API key です。
 
-- **verify** (*bool | str*) -
+- **access_key** (*str*) -
+Default: `""`
+Zilliz Cloud が使用するオブジェクトストレージ認証情報の access key です。
 
-    TLS 検証設定。
+- **secret_key** (*str*) -
+Default: `""`
+Zilliz Cloud が使用するオブジェクトストレージ認証情報の secret key です。
 
-- **cert** (*str | tuple*) -
+- **token** (*str*) -
+Default: `""`
+Zilliz Cloud が使用する一時的なオブジェクトストレージ認証情報のセッショントークンです。
 
-    クライアント証明書パス、または `(cert, key)` タプル。
+- **volume_name** (*str*) -
+Default: `""`
+インポートデータを含む Zilliz Cloud volume の名前です。
 
-- **kwargs** (*dict*) -
+- **data_paths** (*Optional[List[List[str]]]*) -
+Default: `None`
+インポートデータを含む Zilliz Cloud volume 内のパスです。
 
-    `partition_name` や `options` などのオプションフィールド。
+- **verify** (*Optional[Union[bool, str]]*) -
+Default: `True`
+TLS 検証設定です。デフォルトの trust store で検証するには `True` を使用するか、CA 証明書パスを指定します。
 
-**戻り値の型:**
+- **cert** (*Optional[Union[str, tuple]]*) -
+Default: `None`
+クライアント証明書のパス、または相互 TLS 用の証明書と秘密鍵のペアです。
+
+- **kwargs** (*Any*) -
+HTTP リクエストに転送される追加オプションです。
+
+**RETURN TYPE:**
+
 *requests.Response*
 
-インポートジョブ作成レスポンスを返します。
+**RETURNS:**
 
-作成されたインポートジョブのメタデータを含む HTTP レスポンス。
+bulk-import エンドポイントによって返される HTTP レスポンスです。送信されたジョブ識別子については JSON ペイロードを確認してください。
 
-**例外:**
+**EXCEPTIONS:**
 
 - **MilvusException**
+サーバーがリクエストを拒否した場合、または RPC が失敗した場合に発生します。正確な失敗の詳細については、サーバーのエラーメッセージを確認してください。
 
-    リクエスト送信に失敗した場合、またはサーバーがジョブを拒否した場合に発生します。
+## Examples\{#examples}
 
-## 例\{#examples}
+この例では、オブジェクトストレージのデータを Zilliz Cloud に送信します。
 
 ```python
 from pymilvus.bulk_writer import bulk_import
 
-resp = bulk_import(
+response = bulk_import(
     url="https://api.cloud.zilliz.com",
     api_key="YOUR_API_KEY",
-    project_id="proj-xxx",
+    project_id="proj-xxxx",
     region_id="aws-us-west-2",
-    collection_name="book_catalog",
-    files=[
-        ["s3://demo-bucket/books/part-0001.parquet"],
-        ["s3://demo-bucket/books/part-0002.parquet"],
-    ],
-    access_key="AKIA...",
-    secret_key="SECRET...",
+    collection_name="book_chunks",
+    object_urls=[["s3://bucket/books/part-0001.parquet"]],
 )
-
-print(resp.json())
+print(response.json())
 ```
-
-<include  target="milvus">
-
-```python
-from pymilvus.bulk_writer import bulk_import
-
-resp = bulk_import(
-    url="https://YOUR_CLUSTER_ENDPOINT",
-    api_key="username:password", # replace this with your actual credentials
-    collection_name="book_catalog",
-    files=[
-        ["s3://demo-bucket/books/part-0001.parquet"],
-        ["s3://demo-bucket/books/part-0002.parquet"],
-    ],
-    access_key="AKIA...",
-    secret_key="SECRET...",
-)
-
-print(resp.json())
-```
-
-</include>

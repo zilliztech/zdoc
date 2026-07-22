@@ -10,15 +10,15 @@ notebook: false
 description: "- isl0 (bool) - | Python | MilvusClient"
 type: docx
 token: MhRidjHwYorxaexS8WXcaxWQnjd
-sidebar_position: 25
+sidebar_position: 26
 keywords: 
-  - オープンソースベクトルデータベース
+  - オープンソース ベクトルデータベース
   - Vector index
-  - オープンソースベクトルデータベース
-  - オープンソース vector db
+  - ベクトルデータベース オープンソース
+  - オープンソース ベクトルDB
   - zilliz
   - zilliz cloud
-  - クラウド
+  - cloud
   - optimize()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -37,11 +37,11 @@ import Admonition from '@theme/Admonition';
 
 - **target_size** (*int*) -
 
-    compaction 後のターゲット segment サイズです。正の整数である必要があります。省略した場合は、サーバーのデフォルトが使用されます。
+    compaction 後のターゲット segment サイズ。正の整数である必要があります。省略した場合は、サーバーのデフォルト値が使用されます。
 
 - **target_size_unit** (*str*) -
 
-    `target_size` の単位です。サポートされる値は `"b"`、`"kb"`、`"mb"`、`"gb"`、`"tb"`、`"pb"` です。クライアントは、リクエスト送信前にこの値を MB に変換します。
+    `target_size` の単位。サポートされる値は `"b"`、`"kb"`、`"mb"`、`"gb"`、`"tb"`、`"pb"` です。クライアントは、リクエスト送信前にこの値を MB に変換します。
 
 この操作は collection 内の小さな segment を compaction し、進行状況をポーリングできる compaction ジョブ ID を返します。
 
@@ -55,7 +55,7 @@ import Admonition from '@theme/Admonition';
 
 このメソッドは dedicated serving cluster と on-demand compute にのみ適用されます。 
 
-- serving cluster の collection でこの操作を行うには、cluster endpoint を指定して **[MilvusClient](./Client-MilvusClient)** を作成してください。
+- serving cluster の collection に対してこの操作を行う場合は、cluster endpoint を使用して **[MilvusClient](./Client-MilvusClient)** を作成してください。
 
     - **Free & Serverless**
 
@@ -65,7 +65,7 @@ import Admonition from '@theme/Admonition';
 
         `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
 
-- on-demand compute の collection でこの操作を行うには、project endpoint を指定して **[MilvusClient](./Client-MilvusClient)** を作成し、その後、検索のために on-demand cluster に接続する session を作成してください。
+- on-demand compute 用の collection に対してこの操作を行う場合は、project endpoints を使用して **[MilvusClient](./Client-MilvusClient)** を作成し、その後、検索のために on-demand cluster にアタッチする session を作成してください。
 
     `https://{project-id}.{region}.api.zillizcloud.com`
 
@@ -95,7 +95,7 @@ client.optimize(
 
 - **is_clustering** (*bool*) -
 
-    ターゲット segment サイズ。形式: `"1000MB"`、`"1GB"`、`"1.2gb"`。指定しない場合は、システムのデフォルトが使用されます。
+    ターゲット segment サイズ。形式: `"1000MB"`、`"1GB"`、`"1.2gb"`。指定しない場合、システムのデフォルト値が使用されます。
 
 - **wait** (*bool*) -
 
@@ -103,7 +103,7 @@ client.optimize(
 
 - **timeout** (*float*) -
 
-    最適化を待機する最大時間（秒）。`wait=True` の場合にのみ適用されます。
+    最適化の待機時間の最大秒数。`wait=True` の場合にのみ適用されます。
 
 **RETURN TYPE:**
 *OptimizeResult | OptimizeTask*
@@ -118,11 +118,11 @@ client.optimize(
 
 - **ParamError**
 
-    `collection_name` が無効な場合、または `target_size` の形式が正しくない場合に、この例外が発生します。
+    `collection_name` が無効な場合、または `target_size` の形式が不正な場合にこの例外が発生します。
 
 - **MilvusException**
 
-    index の構築失敗、compaction の失敗、またはタイムアウトが発生した場合に、この例外が発生します。
+    index の構築失敗、compaction の失敗、またはタイムアウトが発生した場合にこの例外が発生します。
 
 ## Examples\{#examples}
 

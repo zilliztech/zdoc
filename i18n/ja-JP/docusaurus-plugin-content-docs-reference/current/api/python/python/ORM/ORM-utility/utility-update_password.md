@@ -1,6 +1,6 @@
 ---
 title: "update_password() | Python | ORM"
-slug: /python/python/ORM-utility/utility-update_password
+slug: /python/python/utility-update_password
 sidebar_label: "update_password()"
 beta: NEAR DEPRECATE
 added_since: Inherit
@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 この操作は、特定のユーザーのパスワードを更新します。
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```python
 update_password(
@@ -45,13 +45,13 @@ update_password(
 )
 ```
 
-**PARAMETERS:**
+**パラメータ：**
 
 - **user** (*str*) - 
 
     **[REQUIRED]**
 
-    パスワードをリセットする対象の特定のユーザー。
+    パスワードをリセットする対象の特定ユーザー。
 
 - **old_password** (*str*) - 
 
@@ -67,7 +67,7 @@ update_password(
 
     指定したユーザーの新しいパスワード。 
 
-    パスワードは 8 ～ 64 文字の文字列で、次の文字種のうち少なくとも 3 種類を含む必要があります: 大文字、小文字、数字、特殊文字。
+    パスワードは 8 ～ 64 文字の文字列である必要があり、次の文字種のうち少なくとも 3 種類を含める必要があります: 大文字、小文字、数字、特殊文字。
 
 - **using** (*string*) - 
 
@@ -77,23 +77,23 @@ update_password(
 
 - **timeout** (*float* | *None*)  
 
-    この操作のタイムアウト時間。これを **None** に設定すると、何らかの応答が返されるか、エラーが発生した時点でこの操作はタイムアウトします。
+    この操作のタイムアウト時間。これを **None** に設定すると、何らかのレスポンスが到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
 
-**RETURN TYPE:**
+**戻り値の型：**
 
 *NoneType*
 
-**RETURNS:**
+**戻り値：**
 
 None
 
-**EXCEPTIONS:**
+**例外：**
 
 - **MilvusException**
 
-    この操作中に何らかのエラーが発生すると、この例外が発生します。
+    この操作中に何らかのエラーが発生した場合に、この例外が送出されます。
 
-## Examples\{#examples}
+## 例\{#examples}
 
 ```python
 from pymilvus import connections, utility
@@ -113,7 +113,7 @@ update_password(
 )
 ```
 
-## Related operations\{#related-operations}
+## 関連する操作\{#related-operations}
 
 以下の操作は `update_password()` に関連しています
 

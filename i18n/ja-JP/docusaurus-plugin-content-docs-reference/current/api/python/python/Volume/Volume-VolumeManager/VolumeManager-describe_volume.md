@@ -7,7 +7,7 @@ added_since: false
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この関数は、特定の volume の詳細なメタデータを取得します。 | Python"
+description: "新しい公開 volume 説明メソッド。 | Python"
 type: docx
 token: MwfQdhukeoxOh0xPLySc0wJjn5f
 sidebar_position: 3
@@ -31,109 +31,47 @@ import Admonition from '@theme/Admonition';
 
 # describe_volume()
 
-この関数は、特定の volume の詳細なメタデータを取得します。
+新しい公開 volume 説明メソッド。
 
 ## Request Syntax\{#request-syntax}
 
 ```python
-volume_manager.describe_volume(
+describe_volume(
     volume_name: str,
-)
+) -> requests.Response
 ```
 
 **PARAMETERS:**
 
 - **volume_name** (*str*) -
-
-    説明する volume の名前。
+**[REQUIRED]**
+説明する Zilliz Cloud volume の名前。
 
 **RETURN TYPE:**
+
 *requests.Response*
 
-ステータスやストレージ構成を含む volume の詳細を返します。
+**RETURNS:**
+
+要求された volume の詳細を含む HTTP レスポンス。
 
 **EXCEPTIONS:**
 
-以下のデータ構造を持つオブジェクトです。
-
-```json
-{
-    "count": 1,
-    "currentPage": 1,
-    "pageSize": 10,
-    "volumes": [
-        {
-            "volumeName": "my_volume",
-            "type": "EXTERNAL",
-            "regionId": "aws-us-west-2",
-            "storageIntegrationId": "integ-xxx",
-            "path": "data/",
-            "status": "RUNNING",
-            "createTime": "2024-04-15T12:00:00Z"
-        }        
-    ]
-}
-```
-
-**PARAMETERS**
-
 - **MilvusException**
-
-    見つかった volume の総数。
-
-- **currentPage** (*int*) -
-
-    現在のページ。
-
-- **pageSize** (*int*) -
-
-    1ページあたりの volume の最大数。
-
-- **volumes** (*list*) -
-
-    volume のリスト。
-
-    - **volumeName** (*str*) -
-
-        volume の名前。
-
-    - **type** (*str*) -
-
-        volume のタイプ。指定可能な値は `EXTERNAL` と `MANAGED` です。
-
-    - **regionId** (*str*) -
-
-        volume が属するリージョン。
-
-    - **storageIntegrationId** (*str*) -
-
-        volume の作成元となる統合ストレージの ID。これは volume が external の場合にのみ使用できます。
-
-    - **path** (*str*) -
-
-        volume の作成元となる統合ストレージ内のパス。これは volume が external の場合にのみ使用できます。
-
-    - **status** (*str*) -
-
-        volume の名前。
-
-        現在の volume のステータス。
-
-    - **createTime** (*str*) -
-
-        volume が作成された時刻。
+サーバーがリクエストを拒否した場合、または RPC が失敗した場合に発生します。正確な失敗の詳細については、サーバーのエラーメッセージを確認してください。
 
 ## Examples\{#examples}
 
+この例では、describe volume の使用方法を示します。
+
 ```python
-from pymilvus.bulk_writer import VolumeManager
+from pymilvus.bulk_writer import VolumeFileManager, VolumeManager
 
-volume_manager = VolumeManager(
-    cloud_endpoint="https://api.cloud.zilliz.com",
-    api_key="YOUR_API_KEY",
-)
+manager = VolumeManager(cloud_endpoint="https://api.cloud.zilliz.com", api_key="YOUR_API_KEY")
+manager.create_volume(project_id="proj-xxxx", region_id="aws-us-west-2", volume_name="book-volume", volume_type="EXTERNAL")
+manager.describe_volume("book-volume")
+manager.list_volumes(project_id="proj-xxxx", volume_type="EXTERNAL")
 
-resp = volume_manager.describe_volume(volume_name="books-volume")
-print(resp.json())
+file_manager = VolumeFileManager(cloud_endpoint="https://api.cloud.zilliz.com", api_key="YOUR_API_KEY", volume_name="book-volume")
+file_manager.upload_file_to_volume(source_file_path="./data/books.parquet", target_volume_path="datasets/books/books.parquet", upload_concurrency=4)
 ```
-

@@ -7,7 +7,7 @@ added_since: false
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この関数は、プロジェクトとリージョン内に新しい Zilliz Cloud ボリュームを作成し、マネージドまたは外部ボリューム設定をサポートします。 | Python"
+description: "project/region と external-volume パラメータを追加します。 | Python"
 type: docx
 token: GtNKdyeDCoPxQXxvohIcYQ47nee
 sidebar_position: 1
@@ -31,84 +31,72 @@ import Admonition from '@theme/Admonition';
 
 # create_volume()
 
-この関数は、プロジェクトとリージョン内に新しい Zilliz Cloud ボリュームを作成し、マネージドまたは外部ボリューム設定をサポートします。
+project/region および external-volume パラメータを追加します。
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```python
-volume_manager.create_volume(
+create_volume(
     project_id: str,
     region_id: str,
     volume_name: str,
-    volume_type: str | None = None,
-    storage_integration_id: str | None = None,
-    path: str | None = None,
-)
+    volume_type: Optional[str] = None,
+    storage_integration_id: Optional[str] = None,
+    path: Optional[str] = None,
+) -> requests.Response
 ```
 
-**PARAMETERS:**
+**パラメータ:**
 
 - **project_id** (*str*) -
-
-    **[REQUIRED]**
-
-    ボリュームを所有するプロジェクト ID。
+**[必須]**
+volume を作成する Zilliz Cloud project の ID。
 
 - **region_id** (*str*) -
-
-    **[REQUIRED]**
-
-    ボリュームが作成されるリージョン ID。
+**[必須]**
+volume を作成する Zilliz Cloud region の ID。
 
 - **volume_name** (*str*) -
+**[必須]**
+作成する volume の名前。
 
-    **[REQUIRED]**
+- **volume_type** (*Optional[str]*) -
+デフォルト: `None`
+volume のタイプ。サポートされる値は `MANAGED` と `EXTERNAL` で、デフォルトは `MANAGED` です。
 
-    ボリュームの名前。
+- **storage_integration_id** (*Optional[str]*) -
+デフォルト: `None`
+`EXTERNAL` volume に必要な storage integration ID。
 
-- **volume_type** (*str*) -
+- **path** (*Optional[str]*) -
+デフォルト: `None`
+`EXTERNAL` volume のストレージパス。省略した場合は storage integration のルートが使用されます。指定するパスは `/` で終わる必要があります。
 
-    ボリュームのタイプ。サポートされる値は `MANAGED` と `EXTERNAL` です。省略した場合は `MANAGED` が使用されます。
+**戻り値の型:**
 
-- **storage_integration_id** (*str*) -
-
-    Storage Integration ID。`volume_type="EXTERNAL"` の場合に必須です。
-
-- **path** (*str*) -
-
-    外部ストレージのパス。設定する場合は `/` で終わる必要があります。
-
-**RETURN TYPE:**
 *requests.Response*
 
-ボリューム作成レスポンスを返します。
+**戻り値:**
 
-create volume API からの HTTP レスポンス。
+volume 作成リクエストを説明する HTTP レスポンス。
 
-**EXCEPTIONS:**
+**例外:**
 
 - **MilvusException**
+サーバーがリクエストを拒否した場合、または RPC が失敗した場合に発生します。正確な失敗の詳細については、サーバーのエラーメッセージを確認してください。
 
-    ボリュームの作成に失敗した場合に発生します。
+## 例\{#examples}
 
-## Examples\{#examples}
+この例は、create volume の使用方法を示しています。
 
 ```python
-from pymilvus.bulk_writer import VolumeManager
+from pymilvus.bulk_writer import VolumeFileManager, VolumeManager
 
-volume_manager = VolumeManager(
-    cloud_endpoint="https://api.cloud.zilliz.com",
-    api_key="YOUR_API_KEY",
-)
+manager = VolumeManager(cloud_endpoint="https://api.cloud.zilliz.com", api_key="YOUR_API_KEY")
+manager.create_volume(project_id="proj-xxxx", region_id="aws-us-west-2", volume_name="book-volume", volume_type="EXTERNAL")
+manager.describe_volume("book-volume")
+manager.list_volumes(project_id="proj-xxxx", volume_type="EXTERNAL")
 
-resp = volume_manager.create_volume(
-    project_id="proj-xxx",
-    region_id="aws-us-west-2",
-    volume_name="books-volume",
-    volume_type="EXTERNAL",
-    storage_integration_id="integ-xxx",
-    path="book-data/",
-)
-
-print(resp.json())
+file_manager = VolumeFileManager(cloud_endpoint="https://api.cloud.zilliz.com", api_key="YOUR_API_KEY", volume_name="book-volume")
+file_manager.upload_file_to_volume(source_file_path="./data/books.parquet", target_volume_path="datasets/books/books.parquet", upload_concurrency=4)
 ```

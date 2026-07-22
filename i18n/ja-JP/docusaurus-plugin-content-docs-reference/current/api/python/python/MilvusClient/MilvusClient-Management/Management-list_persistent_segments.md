@@ -7,18 +7,18 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作では、collection のすべての永続化された（フラッシュ済みの）segment を一覧表示します。行数、ソート状態、ストレージレベルに関する情報が含まれます。 | Python | MilvusClient"
+description: "この操作は、collection の永続的な（フラッシュ済みの）すべての segment を一覧表示します。これには、行数、ソート状態、ストレージレベルに関する情報が含まれます。 | Python | MilvusClient"
 type: docx
 token: QsGNdp1t3oHaunxgIZGc3PdSnof
-sidebar_position: 24
+sidebar_position: 25
 keywords: 
-  - ベクトルデータベース比較
+  - ベクターデータベース比較
   - Faiss
   - 動画検索
   - AI Hallucination
   - zilliz
   - zilliz cloud
-  - クラウド
+  - cloud
   - list_persistent_segments()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # list_persistent_segments()
 
-この操作では、collection のすべての永続化された（フラッシュ済みの）segment を一覧表示します。行数、ソート状態、ストレージレベルに関する情報が含まれます。
+この操作は、collection の永続的な（フラッシュ済みの）すべての segment を一覧表示します。これには、行数、ソート状態、ストレージレベルに関する情報が含まれます。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" icon="📘" title="注記">
 
 これは managed collection にのみ適用されます。
 
@@ -58,7 +58,7 @@ client.list_persistent_segments(
 
 - **timeout** (*float* | *None*) -
 
-    この操作のタイムアウト時間。これを **None** に設定すると、レスポンスが到着するかエラーが発生した時点でこの操作はタイムアウトします。
+    この操作のタイムアウト時間。これを **None** に設定すると、レスポンスが到着した時点、または何らかのエラーが発生した時点でこの操作はタイムアウトします。
 
 **戻り値の型:**
 
@@ -66,7 +66,7 @@ client.list_persistent_segments(
 
 **戻り値:**
 
-segment_id、collection_id、collection_name、num_rows、is_sorted、state、level、および storage_version を含む永続 segment 情報オブジェクトのリスト。
+segment_id、collection_id、collection_name、num_rows、is_sorted、state、level、storage_version を含む、永続 segment 情報オブジェクトのリスト。
 
 **例外:**
 

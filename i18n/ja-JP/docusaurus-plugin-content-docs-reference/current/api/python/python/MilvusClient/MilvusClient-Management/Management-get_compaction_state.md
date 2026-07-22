@@ -10,7 +10,7 @@ notebook: false
 description: "`compact()` を呼び出した後に compaction が完了したことを確認するために使用します。この操作は compaction ジョブの現在の状態を返します。 | Python | MilvusClient"
 type: docx
 token: MSDVdu103obklexX8GvcW5cWnCf
-sidebar_position: 18
+sidebar_position: 19
 keywords: 
   - ハイブリッドベクトル検索
   - 動画重複排除
@@ -33,15 +33,15 @@ import Admonition from '@theme/Admonition';
 
 この操作は compaction ジョブの現在の状態を返します。`compact()` を呼び出した後に、compaction が完了したことを確認するために使用します。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" icon="📘" title="注記">
 
 このメソッドは以前は `get_compact_state()` という名前でした。動作は同一です。
 
 </Admonition>
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" icon="📘" title="注記">
 
-これは managed collections にのみ適用されます。
+これは managed collection にのみ適用されます。
 
 </Admonition>
 
@@ -54,17 +54,17 @@ client.get_compaction_state(
 ) -> str
 ```
 
-**パラメーター:**
+**パラメータ:**
 
 - **job_id** (*int*) -
 
-    **[REQUIRED]**
+    **[必須]**
 
     `compact()` によって返される compaction ジョブの ID。
 
 - **timeout** (*float* | *None*) -
 
-    この操作のタイムアウト時間です。これを **None** に設定すると、レスポンスが到着した時点、または何らかのエラーが発生した時点でこの操作はタイムアウトします。
+    この操作のタイムアウト時間です。これを **None** に設定すると、応答が到着した時点、またはエラーが発生した時点でこの操作はタイムアウトします。
 
 **戻り値の型:**
 
@@ -72,13 +72,13 @@ client.get_compaction_state(
 
 **戻り値:**
 
-compaction ジョブの状態名。指定可能な値は `"UndefiedState"`、`"Executing"`、`"Completed"` です。
+compaction ジョブの状態名。取り得る値は `"UndefiedState"`、`"Executing"`、`"Completed"` です。
 
 **例外:**
 
 - **MilvusException**
 
-    ジョブ ID が無効である場合、またはサーバーでエラーが発生した場合にこの例外が発生します。
+    ジョブ ID が無効な場合、またはサーバーでエラーが発生した場合にこの例外が発生します。
 
 ## 例\{#example}
 
@@ -87,7 +87,7 @@ from pymilvus import MilvusClient
 
 client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
 
-# Start compaction and check its state
+# compaction を開始してその状態を確認する
 job_id = client.compact(collection_name="my_collection")
 state = client.get_compaction_state(job_id=job_id)
 print(state)  # "Executing" or "Completed"

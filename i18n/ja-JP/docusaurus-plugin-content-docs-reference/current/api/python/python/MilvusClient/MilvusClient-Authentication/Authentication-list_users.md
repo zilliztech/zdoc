@@ -45,7 +45,7 @@ list_users(
 
 - **timeout** (*float* | *None*)  
 
-    この操作のタイムアウト時間です。 
+    この操作のタイムアウト時間。 
 
     これを **None** に設定すると、何らかのレスポンスが到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
 
@@ -61,11 +61,11 @@ list_users(
 
 - **MilvusException**
 
-    この操作中に何らかのエラーが発生した場合に、この例外が発生します。
+    この操作中に何らかのエラーが発生した場合、この例外が発生します。
 
 - **BaseException**
 
-    この操作が失敗した場合に、この例外が発生します。
+    この操作が失敗した場合、この例外が発生します。
 
 ## 例\{#example}
 
@@ -95,5 +95,5 @@ client.list_users()
 
 - [drop_user()](./Authentication-drop_user)
 
-- [update_password()](./utility-update_password)
+- [update_password()](./Authentication-update_password)
 
