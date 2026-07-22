@@ -3,9 +3,16 @@ import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {fileURLToPath} from 'node:url';
 
+import {
+  createDocumentSnapshot,
+  type DocumentSelector,
+  type DocumentSnapshot,
+  type ProviderBlock,
+} from 'feishu-docx-engine';
 import {describe, expect, it} from 'vitest';
 
 import type {
+  LocalizationDocxEngine,
   TranslationMemory,
   TranslationMemoryEntry,
   TranslationMemoryQuery,
@@ -30,11 +37,46 @@ class MemoryTranslationMemory implements TranslationMemory {
 
 class MutableDocs {
   readonly documents = new Map<string, FetchedDocument>();
+  readonly fetches: string[] = [];
   async fetch(doc: string): Promise<FetchedDocument> {
+    this.fetches.push(doc);
     const result = this.documents.get(doc);
     if (!result) throw new Error(`Missing fake document ${doc}`);
     return result;
   }
+}
+
+class MemoryEngine implements LocalizationDocxEngine {
+  readonly documents = new Map<string, DocumentSnapshot>();
+  async snapshot(selector: DocumentSelector): Promise<DocumentSnapshot> {
+    const key = selector.kind === 'url' ? selector.url : selector.token;
+    const result = this.documents.get(key);
+    if (!result) throw new Error(`Missing fake engine document ${key}`);
+    return result;
+  }
+  prepare(): never { throw new Error('not used'); }
+  async apply(): Promise<never> { throw new Error('not used'); }
+  async assessRecovery(): Promise<never> { throw new Error('not used'); }
+}
+
+function engineSnapshot(
+  documentId: string,
+  revision: string,
+  title: string,
+  children: ProviderBlock[] = [],
+): DocumentSnapshot {
+  return createDocumentSnapshot({
+    documentId,
+    revision,
+    blocks: [{
+      block_id: documentId,
+      block_type: 1,
+      page: {elements: [{text_run: {content: title, text_element_style: {}}}]},
+      children: children
+        .filter((child) => child.parent_id === documentId)
+        .map((child) => child.block_id as string),
+    }, ...children],
+  });
 }
 
 class MemoryWhiteboards implements WhiteboardGateway {
@@ -234,26 +276,39 @@ describe('bootstrap and planning workflows', () => {
   it('plans full initialization for a title-only existing target', async () => {
     const cwd = await mkdtemp(join(tmpdir(), 'zdoc-localize-empty-target-plan-'));
     const docs = new MutableDocs();
-    docs.documents.set('source-url', {
-      documentId: 'source',
-      revisionId: 31,
-      content: '<title id="source">Hugging Face</title>'
-        + '<p id="intro">English body.</p>'
-        + '<pre id="code" lang="python"><code>print("hello")</code></pre>'
-        + '<whiteboard id="board" token="board-source"></whiteboard>'
-        + '<synced-source id="sync-source"><pre id="sync-code"><code>print("synced")</code></pre></synced-source>',
-    });
-    docs.documents.set('target-url', {
-      documentId: 'target', revisionId: 4,
-      content: '<title id="target">Hugging Face</title>',
-    });
+    const engine = new MemoryEngine();
+    engine.documents.set('source-url', engineSnapshot('source', '31', 'Hugging Face', [{
+      block_id: 'intro', parent_id: 'source', block_type: 2,
+      text: {elements: [{text_run: {content: 'English body.', text_element_style: {}}}]},
+    }, {
+      block_id: 'code', parent_id: 'source', block_type: 14,
+      code: {
+        style: {language: 49},
+        elements: [{text_run: {content: 'print("hello")', text_element_style: {}}}],
+      },
+    }, {
+      block_id: 'board', parent_id: 'source', block_type: 43,
+      board: {token: 'board-source'},
+    }, {
+      block_id: 'sync-source', parent_id: 'source', block_type: 49,
+      source_synced: {elements: [{text_run: {content: 'Synced code', text_element_style: {}}}]},
+      children: ['sync-code'],
+    }, {
+      block_id: 'sync-code', parent_id: 'sync-source', block_type: 14,
+      code: {
+        style: {language: 49},
+        elements: [{text_run: {content: 'print("synced")', text_element_style: {}}}],
+      },
+    }]));
+    engine.documents.set('target-url', engineSnapshot('target', '4', 'Hugging Face'));
     const registry = new LocalRegistryStore(cwd);
     await registry.savePair({
       pairId: 'pair-empty-plan', sourceLocale: 'en', targetLocale: 'zh-CN', sourceDocUrl: 'source-url',
       targetDocUrl: 'target-url', mode: 'mirror', status: 'needs_bootstrap',
     });
     const workflows = new LocalizationWorkflows({
-      cwd, registry, snapshots: new LocalSnapshotStore(cwd), memory: new MemoryTranslationMemory(), docs,
+      cwd, registry, snapshots: new LocalSnapshotStore(cwd), memory: new MemoryTranslationMemory(),
+      engine, docs,
       clock: {now: () => new Date('2026-07-16T00:00:00.000Z')}, ids: {next: () => 'run-empty-plan'},
     });
 
@@ -289,6 +344,7 @@ describe('bootstrap and planning workflows', () => {
       expect.objectContaining({policy: 'whiteboard_mirror'}),
       expect.objectContaining({policy: 'manual_synced_reference'}),
     ]));
+    expect(docs.fetches).toEqual([]);
   });
 
   it('does not auto-correspond a shifted structural group during bootstrap', async () => {

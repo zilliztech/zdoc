@@ -1,22 +1,48 @@
+import {
+  createDocumentSnapshot,
+  type DocumentSelector,
+  type DocumentSnapshot,
+} from 'feishu-docx-engine';
 import {describe, expect, it} from 'vitest';
 
-import type {DocumentGateway, FetchedDocument, LocalizationReceipt} from '../src/application/ports.js';
+import type {LocalizationDocxEngine, LocalizationReceipt} from '../src/application/ports.js';
 import {InitializationInspector} from '../src/application/initialization-inspector.js';
 import {isStrictlyEmptyTarget} from '../src/domain/initialization.js';
 import type {DocumentPair} from '../src/domain/model.js';
 import {parseFeishuDocument} from '../src/domain/xml-parser.js';
 
-class MemoryDocs implements DocumentGateway {
-  readonly documents = new Map<string, FetchedDocument>();
-  async fetch(doc: string): Promise<FetchedDocument> {
-    const found = this.documents.get(doc);
-    if (!found) throw new Error(`Missing ${doc}`);
+class MemoryEngine implements LocalizationDocxEngine {
+  readonly documents = new Map<string, DocumentSnapshot>();
+  readonly requests: DocumentSelector[] = [];
+  async snapshot(selector: DocumentSelector): Promise<DocumentSnapshot> {
+    this.requests.push(selector);
+    const key = selector.kind === 'url' ? selector.url : selector.token;
+    const found = this.documents.get(key);
+    if (!found) throw new Error(`Missing ${key}`);
     return found;
   }
-  async replaceBlock(): Promise<{revisionId?: number}> { throw new Error('not used'); }
-  async insertAfter(): Promise<{revisionId?: number}> { throw new Error('not used'); }
-  async deleteBlocks(): Promise<{revisionId?: number}> { throw new Error('not used'); }
-  async createDocument(): Promise<{documentId: string}> { throw new Error('not used'); }
+  prepare(): never { throw new Error('not used'); }
+  async apply(): Promise<never> { throw new Error('not used'); }
+  async assessRecovery(): Promise<never> { throw new Error('not used'); }
+}
+
+function snapshot(documentId: string, revision: string, title: string, body?: string): DocumentSnapshot {
+  const bodyId = body ? `${documentId}-body` : undefined;
+  return createDocumentSnapshot({
+    documentId,
+    revision,
+    blocks: [{
+      block_id: documentId,
+      block_type: 1,
+      page: {elements: [{text_run: {content: title, text_element_style: {}}}]},
+      children: bodyId ? [bodyId] : [],
+    }, ...(bodyId ? [{
+      block_id: bodyId,
+      parent_id: documentId,
+      block_type: 2,
+      text: {elements: [{text_run: {content: body, text_element_style: {}}}]},
+    }] : [])],
+  });
 }
 
 const pair = (overrides: Partial<DocumentPair> = {}): DocumentPair => ({
@@ -49,22 +75,21 @@ describe('initialization inspection', () => {
   });
 
   it('classifies create, initialize, adopt, and incremental dispositions', async () => {
-    const docs = new MemoryDocs();
-    docs.documents.set('source-url', {
-      documentId: 'source', revisionId: 3, content: '<title id="source">English</title><p id="p">Body</p>',
-    });
-    docs.documents.set('target-url', {
-      documentId: 'target', revisionId: 4, content: '<title id="target">Temporary</title>',
-    });
-    docs.documents.set('target-body-url', {
-      documentId: 'target-body', revisionId: 5, content: '<title id="target-body">中文</title><p id="p">正文</p>',
-    });
-    const inspector = new InitializationInspector(docs);
+    const engine = new MemoryEngine();
+    engine.documents.set('source-url', snapshot('source', '44', 'English', 'Body'));
+    engine.documents.set('target-url', snapshot('target', '4', 'Temporary'));
+    engine.documents.set('target-body-url', snapshot('target-body', '5', '中文', '正文'));
+    const inspector = new InitializationInspector(engine);
     const receipt = {pairId: 'pair-1'} as LocalizationReceipt;
 
     await expect(inspector.inspect(pair({targetDocUrl: undefined, targetParentToken: 'parent'}))).resolves.toEqual({kind: 'create_target'});
-    await expect(inspector.inspect(pair())).resolves.toMatchObject({kind: 'initialize_empty_target'});
+    await expect(inspector.inspect(pair())).resolves.toMatchObject({
+      kind: 'initialize_empty_target',
+      source: {revision: '44'},
+      target: {revision: '4'},
+    });
     await expect(inspector.inspect(pair({targetDocUrl: 'target-body-url'}))).resolves.toMatchObject({kind: 'adopt_existing_target'});
     await expect(inspector.inspect(pair(), receipt)).resolves.toEqual({kind: 'incremental'});
+    expect(engine.requests).toHaveLength(4);
   });
 });

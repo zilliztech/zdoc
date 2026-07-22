@@ -1,11 +1,15 @@
 import {mkdir, readFile, writeFile} from 'node:fs/promises';
 import {join, relative, resolve, sep} from 'node:path';
 
+import type {DocumentSelector, DocumentSnapshot} from 'feishu-docx-engine';
+
 import type {
   Clock,
+  DocumentCreationGateway,
   DocumentGateway,
   FetchedDocument,
   IdGenerator,
+  LocalizationDocxEngine,
   LocalizationReceipt,
   RegistryStore,
   SnapshotReference,
@@ -15,6 +19,7 @@ import type {
 } from './ports.js';
 import {alignChanges, rebaseCorrespondences} from '../domain/alignment.js';
 import {diffDocuments} from '../domain/diff.js';
+import {semanticDocumentFromSnapshot} from '../domain/docx-semantic.js';
 import {LocalizeError} from '../domain/errors.js';
 import {canonicalHash} from '../domain/hash.js';
 import {renderDiagnosticMarkdown} from '../domain/markdown-renderer.js';
@@ -41,7 +46,7 @@ import {
 import {parseFeishuDocument} from '../domain/xml-parser.js';
 import {isStrictlyEmptyTarget} from '../domain/initialization.js';
 import {buildInitialPlanInputs} from '../domain/initial-plan.js';
-import {InitializationInspector} from './initialization-inspector.js';
+import {InitializationInspector, type InitializationDisposition} from './initialization-inspector.js';
 import {
   manualSyncMarker,
   syncedReferencePlaceholder,
@@ -65,11 +70,25 @@ export interface WorkflowDependencies {
   registry: RegistryStore;
   snapshots: SnapshotStore;
   memory: TranslationMemory;
+  engine?: LocalizationDocxEngine;
   docs: DocumentGateway;
+  documentCreation?: DocumentCreationGateway;
   whiteboards?: WhiteboardGateway;
   clock: Clock;
   ids: IdGenerator;
 }
+
+interface PlanningDocument {
+  fetched: FetchedDocument;
+  semantic: SemanticDocument;
+}
+
+type InitializationDocument = FetchedDocument | DocumentSnapshot;
+type LegacyInitializationDisposition =
+  | {kind: 'incremental'}
+  | {kind: 'create_target'}
+  | {kind: 'initialize_empty_target'; source: FetchedDocument; target: FetchedDocument}
+  | {kind: 'adopt_existing_target'; source: FetchedDocument; target: FetchedDocument};
 
 export interface BootstrapAudit {
   correspondences: HistoricalCorrespondence[];
@@ -334,18 +353,54 @@ function documentArtifacts(name: string, content: string, document: SemanticDocu
   };
 }
 
-function currentDocumentArtifacts(source: FetchedDocument, target: FetchedDocument): Record<string, string> {
-  const sourceDocument = parseFeishuDocument(source.content, {
+function currentDocumentArtifacts(
+  source: FetchedDocument,
+  target: FetchedDocument,
+  semantic?: {source: SemanticDocument; target: SemanticDocument},
+): Record<string, string> {
+  const sourceDocument = semantic?.source ?? parseFeishuDocument(source.content, {
     documentId: source.documentId,
     revisionId: source.revisionId,
   });
-  const targetDocument = parseFeishuDocument(target.content, {
+  const targetDocument = semantic?.target ?? parseFeishuDocument(target.content, {
     documentId: target.documentId,
     revisionId: target.revisionId,
   });
   return {
     ...documentArtifacts('source-current', source.content, sourceDocument),
     ...documentArtifacts('target-current', target.content, targetDocument),
+  };
+}
+
+function engineSelector(value: string): DocumentSelector {
+  return /^https?:\/\//.test(value)
+    ? {kind: 'url', url: value}
+    : {kind: 'docx', token: value};
+}
+
+function isDocumentSnapshot(value: InitializationDocument): value is DocumentSnapshot {
+  return 'revision' in value && 'nodes' in value;
+}
+
+function planningDocumentFromSnapshot(snapshot: DocumentSnapshot): PlanningDocument {
+  const semantic = semanticDocumentFromSnapshot(snapshot);
+  return {
+    semantic,
+    fetched: {
+      documentId: snapshot.documentId,
+      revisionId: semantic.revisionId,
+      content: semantic.rawXml,
+    },
+  };
+}
+
+function planningDocumentFromFetch(fetched: FetchedDocument): PlanningDocument {
+  return {
+    fetched,
+    semantic: parseFeishuDocument(fetched.content, {
+      documentId: fetched.documentId,
+      revisionId: fetched.revisionId,
+    }),
   };
 }
 
@@ -369,18 +424,14 @@ export class LocalizationWorkflows {
   async planBootstrap(pairId: string): Promise<BootstrapPlanResult> {
     const pair = await this.requirePair(pairId);
     const targetUrl = this.requireTarget(pair);
-    const [sourceFetch, targetFetch] = await Promise.all([
-      this.dependencies.docs.fetch(pair.sourceDocUrl),
-      this.dependencies.docs.fetch(targetUrl),
+    const [sourceRead, targetRead] = await Promise.all([
+      this.readPlanningDocument(pair.sourceDocUrl),
+      this.readPlanningDocument(targetUrl),
     ]);
-    const source = parseFeishuDocument(sourceFetch.content, {
-      documentId: sourceFetch.documentId,
-      revisionId: sourceFetch.revisionId,
-    });
-    const target = parseFeishuDocument(targetFetch.content, {
-      documentId: targetFetch.documentId,
-      revisionId: targetFetch.revisionId,
-    });
+    const sourceFetch = sourceRead.fetched;
+    const targetFetch = targetRead.fetched;
+    const source = sourceRead.semantic;
+    const target = targetRead.semantic;
     await this.savePairTitles(pair, source.title, target.title);
     const audit = bootstrapAlignment(source, target);
     const runId = this.dependencies.ids.next();
@@ -436,18 +487,12 @@ export class LocalizationWorkflows {
       revisionId: Number(run.metadata.targetRevision),
     });
     const pair = await this.requirePair(run.pairId);
-    const [currentSourceFetch, currentTargetFetch] = await Promise.all([
-      this.dependencies.docs.fetch(pair.sourceDocUrl),
-      this.dependencies.docs.fetch(this.requireTarget(pair)),
+    const [currentSourceRead, currentTargetRead] = await Promise.all([
+      this.readPlanningDocument(pair.sourceDocUrl),
+      this.readPlanningDocument(this.requireTarget(pair)),
     ]);
-    const currentSource = parseFeishuDocument(currentSourceFetch.content, {
-      documentId: currentSourceFetch.documentId,
-      revisionId: currentSourceFetch.revisionId,
-    });
-    const currentTarget = parseFeishuDocument(currentTargetFetch.content, {
-      documentId: currentTargetFetch.documentId,
-      revisionId: currentTargetFetch.revisionId,
-    });
+    const currentSource = currentSourceRead.semantic;
+    const currentTarget = currentTargetRead.semantic;
     if (currentSource.revisionId !== source.revisionId || currentSource.canonicalHash !== source.canonicalHash) {
       const error = new LocalizeError({
         type: 'stale_plan',
@@ -496,7 +541,9 @@ export class LocalizationWorkflows {
       throw new LocalizeError({type: 'validation', subtype: 'pair_excluded', message: `Pair ${pairId} is excluded from localization.`});
     }
     const receipt = await this.dependencies.registry.getReceipt(pairId);
-    const disposition = await new InitializationInspector(this.dependencies.docs).inspect(pair, receipt);
+    const disposition: InitializationDisposition | LegacyInitializationDisposition = this.dependencies.engine
+      ? await new InitializationInspector(this.dependencies.engine).inspect(pair, receipt)
+      : await this.inspectLegacyInitialization(pair, receipt);
     if (disposition.kind === 'create_target') return this.createDocumentPlan(pair);
     if (disposition.kind === 'initialize_empty_target') {
       return this.createExistingTargetPlan(pair, disposition.source, disposition.target);
@@ -510,13 +557,15 @@ export class LocalizationWorkflows {
     if (!baselineXml) {
       throw new LocalizeError({type: 'verification_failed', subtype: 'source_baseline_missing', message: 'The localization baseline snapshot has no source XML.'});
     }
-    const [sourceFetch, targetFetch] = await Promise.all([
-      this.dependencies.docs.fetch(pair.sourceDocUrl),
-      this.dependencies.docs.fetch(this.requireTarget(pair)),
+    const [sourceRead, targetRead] = await Promise.all([
+      this.readPlanningDocument(pair.sourceDocUrl),
+      this.readPlanningDocument(this.requireTarget(pair)),
     ]);
+    const sourceFetch = sourceRead.fetched;
+    const targetFetch = targetRead.fetched;
     const baseline = parseFeishuDocument(baselineXml, {documentId: sourceFetch.documentId, revisionId: receipt.sourceRevision});
-    const source = parseFeishuDocument(sourceFetch.content, {documentId: sourceFetch.documentId, revisionId: sourceFetch.revisionId});
-    const target = parseFeishuDocument(targetFetch.content, {documentId: targetFetch.documentId, revisionId: targetFetch.revisionId});
+    const source = sourceRead.semantic;
+    const target = targetRead.semantic;
     pair = await this.savePairTitles(pair, source.title, target.title);
     const changes = diffDocuments(baseline, source);
     const currentCorrespondences = rebaseCorrespondences(receipt.correspondences, baseline, source);
@@ -544,12 +593,12 @@ export class LocalizationWorkflows {
       return {runId, state: 'blocked', changes, translationRequests: [], blocker: 'independent documents are report-only'};
     }
     if (pair.mode === 'selective') {
-      await this.persistPlanArtifacts(runId, sourceFetch, targetFetch, changes, []);
+      await this.persistPlanArtifacts(runId, sourceFetch, targetFetch, changes, [], {source, target});
       const bundleRef = await this.dependencies.snapshots.putBundle({
         runId,
         files: {
           'source-baseline.xml': baselineXml,
-          ...currentDocumentArtifacts(sourceFetch, targetFetch),
+          ...currentDocumentArtifacts(sourceFetch, targetFetch, {source, target}),
           'changes.json': JSON.stringify(changes, null, 2),
           'current-correspondences.json': JSON.stringify(currentCorrespondences, null, 2),
         },
@@ -596,12 +645,13 @@ export class LocalizationWorkflows {
       targetFetch,
       changes,
       translationRequests,
+      {source, target},
     );
     const bundleRef = await this.dependencies.snapshots.putBundle({
       runId,
       files: {
         'source-baseline.xml': baselineXml,
-        ...currentDocumentArtifacts(sourceFetch, targetFetch),
+        ...currentDocumentArtifacts(sourceFetch, targetFetch, {source, target}),
         'changes.json': JSON.stringify(changes, null, 2),
         'alignments.json': JSON.stringify(aligned, null, 2),
         'resource-operations.json': JSON.stringify(resourcePlanning.operations, null, 2),
@@ -736,11 +786,9 @@ export class LocalizationWorkflows {
         message: `Pair ${pair.pairId} needs a target parent token before a Chinese document can be created.`,
       });
     }
-    const sourceFetch = await this.dependencies.docs.fetch(pair.sourceDocUrl);
-    const source = parseFeishuDocument(sourceFetch.content, {
-      documentId: sourceFetch.documentId,
-      revisionId: sourceFetch.revisionId,
-    });
+    const sourceRead = await this.readPlanningDocument(pair.sourceDocUrl);
+    const sourceFetch = sourceRead.fetched;
+    const source = sourceRead.semantic;
     pair = await this.savePairTitles(pair, source.title);
     const runId = this.dependencies.ids.next();
     const reportOnly = source.nodes.filter((node) => !node.writable && node.kind !== 'code');
@@ -771,11 +819,16 @@ export class LocalizationWorkflows {
       {documentId: 'new-target', revisionId: 0, content: ''},
       changes,
       translationInputs.requests,
+      {source, target},
     );
     const bundleRef = await this.dependencies.snapshots.putBundle({
       runId,
       files: {
-        ...currentDocumentArtifacts(sourceFetch, {documentId: 'new-target', revisionId: 0, content: ''}),
+        ...currentDocumentArtifacts(
+          sourceFetch,
+          {documentId: 'new-target', revisionId: 0, content: ''},
+          {source, target},
+        ),
         'changes.json': `${JSON.stringify(changes, null, 2)}\n`,
         'alignments.json': `${JSON.stringify(aligned, null, 2)}\n`,
         'translation-requests.json': `${JSON.stringify(translationInputs.requests, null, 2)}\n`,
@@ -803,8 +856,8 @@ export class LocalizationWorkflows {
 
   private async createExistingTargetPlan(
     pair: DocumentPair,
-    sourceFetch: FetchedDocument,
-    targetFetch: FetchedDocument,
+    sourceInput: InitializationDocument,
+    targetInput: InitializationDocument,
   ): Promise<PlanningResult> {
     if (pair.mode !== 'mirror') {
       const runId = this.dependencies.ids.next();
@@ -815,14 +868,16 @@ export class LocalizationWorkflows {
       }, runErrorProjection(error)));
       return {runId, state: 'blocked', changes: [], translationRequests: [], blocker};
     }
-    const source = parseFeishuDocument(sourceFetch.content, {
-      documentId: sourceFetch.documentId,
-      revisionId: sourceFetch.revisionId,
-    });
-    const target = parseFeishuDocument(targetFetch.content, {
-      documentId: targetFetch.documentId,
-      revisionId: targetFetch.revisionId,
-    });
+    const sourceRead = isDocumentSnapshot(sourceInput)
+      ? planningDocumentFromSnapshot(sourceInput)
+      : planningDocumentFromFetch(sourceInput);
+    const targetRead = isDocumentSnapshot(targetInput)
+      ? planningDocumentFromSnapshot(targetInput)
+      : planningDocumentFromFetch(targetInput);
+    const sourceFetch = sourceRead.fetched;
+    const targetFetch = targetRead.fetched;
+    const source = sourceRead.semantic;
+    const target = targetRead.semantic;
     pair = await this.savePairTitles(pair, source.title, target.title);
     const runId = this.dependencies.ids.next();
     const initial = buildInitialPlanInputs(source, target);
@@ -843,12 +898,13 @@ export class LocalizationWorkflows {
       targetFetch,
       initial.changes,
       translationInputs.requests,
+      {source, target},
     );
     const initialOperationsText = `${JSON.stringify(initial.operations, null, 2)}\n`;
     const bundleRef = await this.dependencies.snapshots.putBundle({
       runId,
       files: {
-        ...currentDocumentArtifacts(sourceFetch, targetFetch),
+        ...currentDocumentArtifacts(sourceFetch, targetFetch, {source, target}),
         'changes.json': `${JSON.stringify(initial.changes, null, 2)}\n`,
         'alignments.json': `${JSON.stringify(initial.translatableAligned, null, 2)}\n`,
         'initial-operations.json': initialOperationsText,
@@ -2060,7 +2116,7 @@ export class LocalizationWorkflows {
     run = await this.markRun(run, 'applying', {prewriteRef: creationSnapshot, appliedOperations: 0});
     let created: {documentId: string; documentUrl?: string; revisionId?: number};
     try {
-      created = await this.dependencies.docs.createDocument({
+      created = await (this.dependencies.documentCreation ?? this.dependencies.docs).createDocument({
         title,
         parentToken: pair.targetParentToken,
         xml: body.join(''),
@@ -2478,14 +2534,40 @@ export class LocalizationWorkflows {
     return this.createPlan(run.pairId);
   }
 
+  private async readPlanningDocument(selector: string): Promise<PlanningDocument> {
+    if (this.dependencies.engine) {
+      return planningDocumentFromSnapshot(
+        await this.dependencies.engine.snapshot(engineSelector(selector)),
+      );
+    }
+    return planningDocumentFromFetch(await this.dependencies.docs.fetch(selector));
+  }
+
+  private async inspectLegacyInitialization(
+    pair: DocumentPair,
+    receipt?: LocalizationReceipt,
+  ): Promise<LegacyInitializationDisposition> {
+    if (receipt) return {kind: 'incremental'};
+    const targetSelector = pair.targetDocUrl ?? pair.targetDocToken;
+    if (!targetSelector) return {kind: 'create_target'};
+    const [source, target] = await Promise.all([
+      this.dependencies.docs.fetch(pair.sourceDocUrl),
+      this.dependencies.docs.fetch(targetSelector),
+    ]);
+    return isStrictlyEmptyTarget(planningDocumentFromFetch(target).semantic)
+      ? {kind: 'initialize_empty_target', source, target}
+      : {kind: 'adopt_existing_target', source, target};
+  }
+
   private async persistPlanArtifacts(
     runId: string,
     source: FetchedDocument,
     target: FetchedDocument,
     changes: SemanticChange[],
     requests: TranslationRequest[],
+    semantic?: {source: SemanticDocument; target: SemanticDocument},
   ): Promise<string | undefined> {
-    await Promise.all(Object.entries(currentDocumentArtifacts(source, target)).map(([name, content]) => (
+    await Promise.all(Object.entries(currentDocumentArtifacts(source, target, semantic)).map(([name, content]) => (
       this.writeRunFile(runId, name, content)
     )));
     await this.writeRunFile(runId, 'changes.json', `${JSON.stringify(changes, null, 2)}\n`);

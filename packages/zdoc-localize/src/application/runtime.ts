@@ -2,6 +2,8 @@ import {randomUUID} from 'node:crypto';
 import {mkdir} from 'node:fs/promises';
 import {join} from 'node:path';
 
+import {createFeishuDocxEngine, LarkCliTransport} from 'feishu-docx-engine';
+
 import {LarkBaseRegistry} from '../adapters/lark-base-registry.js';
 import {LarkDocsAdapter} from '../adapters/lark-docs-adapter.js';
 import {LarkDriveSnapshotStore} from '../adapters/lark-drive-snapshots.js';
@@ -12,12 +14,19 @@ import {ConfigStore} from '../storage/config-store.js';
 import {LocalRegistryStore} from '../storage/local-registry-store.js';
 import {LocalSnapshotStore} from '../storage/local-snapshot-store.js';
 import {SqliteTranslationMemory} from '../storage/sqlite-translation-memory.js';
-import type {RegistryStore, SnapshotStore} from './ports.js';
+import type {
+  DocumentCreationGateway,
+  LocalizationDocxEngine,
+  RegistryStore,
+  SnapshotStore,
+} from './ports.js';
 import {LocalizationWorkflows} from './workflows.js';
 
 export interface Runtime {
   registry: RegistryStore;
   snapshots: SnapshotStore;
+  engine: LocalizationDocxEngine;
+  documentCreation: DocumentCreationGateway;
   docs: LarkDocsAdapter;
   whiteboards: LarkWhiteboardAdapter;
   workflows: LocalizationWorkflows;
@@ -28,6 +37,9 @@ export async function createRuntime(cwd: string): Promise<Runtime> {
   const config = await new ConfigStore(cwd).read();
   const runner = new NodeProcessRunner();
   const docs = new LarkDocsAdapter(runner);
+  const engine = createFeishuDocxEngine({
+    transport: new LarkCliTransport({identity: 'user'}),
+  });
   const whiteboards = new LarkWhiteboardAdapter(runner);
   let registry: RegistryStore;
   let snapshots: SnapshotStore;
@@ -60,7 +72,9 @@ export async function createRuntime(cwd: string): Promise<Runtime> {
     registry,
     snapshots,
     memory,
+    engine,
     docs,
+    documentCreation: docs,
     whiteboards,
     clock: {now: () => new Date()},
     ids: {next: () => randomUUID()},
@@ -69,6 +83,8 @@ export async function createRuntime(cwd: string): Promise<Runtime> {
   return {
     registry,
     snapshots,
+    engine,
+    documentCreation: docs,
     docs,
     whiteboards,
     workflows,

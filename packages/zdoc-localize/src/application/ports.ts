@@ -1,3 +1,5 @@
+import type {FeishuDocxEngine} from 'feishu-docx-engine';
+
 import type {GlossaryEntry} from '../domain/glossary.js';
 import type {DocumentPair, RunRecord} from '../domain/model.js';
 import type {StoredCorrespondence} from '../domain/native-sync.js';
@@ -8,11 +10,19 @@ export interface FetchedDocument {
   content: string;
 }
 
-export interface DocumentGateway {
+export interface DocumentGateway extends DocumentCreationGateway {
   fetch(doc: string, revisionId?: number): Promise<FetchedDocument>;
   replaceBlock(input: {doc: string; blockId: string; revisionId: number; xml: string}): Promise<DocumentWriteResult>;
   insertAfter(input: {doc: string; blockId: string; revisionId: number; xml: string}): Promise<DocumentWriteResult>;
   deleteBlocks(input: {doc: string; blockIds: string[]; revisionId: number}): Promise<DocumentWriteResult>;
+}
+
+export type LocalizationDocxEngine = Pick<
+  FeishuDocxEngine,
+  'snapshot' | 'prepare' | 'apply' | 'assessRecovery'
+>;
+
+export interface DocumentCreationGateway {
   createDocument(input: {title: string; parentToken?: string; xml: string}): Promise<{
     documentId: string;
     documentUrl?: string;

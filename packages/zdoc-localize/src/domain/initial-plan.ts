@@ -64,6 +64,8 @@ export function buildInitialPlanInputs(
         targetNodeId: targetTitle.nodeId,
         score: 100,
       });
+    } else if (node.kind === 'code') {
+      operation = {...common, policy: 'verbatim_code', effect: 'write', proposedText: node.text};
     } else if (node.writable) {
       operation = {...common, policy: 'translation', effect: 'write'};
       translatableAligned.push({
@@ -72,8 +74,6 @@ export function buildInitialPlanInputs(
         ...(previousOperationId ? {anchorOperationId: previousOperationId} : {}),
         score: 100,
       });
-    } else if (node.kind === 'code') {
-      operation = {...common, policy: 'verbatim_code', effect: 'write', proposedText: node.text};
     } else if (node.kind === 'whiteboard' && node.remote.token) {
       operation = {
         ...common,
