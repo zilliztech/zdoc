@@ -6286,9 +6286,9 @@
       "translatedAt": "2026-07-13T11:26:17.867Z"
     },
     "reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-hybrid_search.md": {
-      "sourceHash": "932b47c72d15c8e558e351b1834c642aa1a6ca490ebbc3b68565369c591df826",
+      "sourceHash": "f707bd69637ce74d05400bc9c7320a08e4ef9af5f14fcf4056d3ce9f004b319a",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/python/python/MilvusClient/MilvusClient-Vector/Vector-hybrid_search.md",
-      "translatedAt": "2026-07-22T11:06:37.689Z"
+      "translatedAt": "2026-07-22T18:58:19.325Z"
     },
     "reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-insert.md": {
       "sourceHash": "ce6ca435d3244730dc6770822e035435a7a997f37675e42b59b3434782cee2ce",
