@@ -64,6 +64,38 @@ describe('structured translation content', () => {
     })), '0'.repeat(64))).toThrowError(expect.objectContaining({subtype: 'structured_topology_mismatch'}));
   });
 
+  it('treats adjacent equivalent plain-text runs as one semantic span in lists and tables', () => {
+    const split = [{kind: 'text' as const, text: 'Hello '}, {kind: 'text' as const, text: 'world'}];
+    const list: Extract<SemanticNodeStructure, {kind: 'list'}> = {
+      kind: 'list',
+      ordered: false,
+      items: [{content: split, children: []}],
+    };
+    const table: Extract<SemanticNodeStructure, {kind: 'table'}> = {
+      kind: 'table',
+      rows: [{cells: [{content: [{kind: 'paragraph', content: split}]}]}],
+    };
+
+    expect(extractTranslationSlots(list)[0]!.sourceText).toBe('Hello world');
+    expect(structuredTopologyHash(list)).toBe(structuredTopologyHash({
+      ...list,
+      items: [{content: [{kind: 'text', text: 'Hello world'}], children: []}],
+    }));
+    const translatedList = applySlotTranslations(list, [
+      {slotId: 'item-0/text', translatedText: '你好，世界'},
+    ], structuredTopologyHash(list));
+    expect(translatedList.items[0]!.content).toEqual([{kind: 'text', text: '你好，世界'}]);
+
+    expect(extractTranslationSlots(table)[0]!.sourceText).toBe('Hello world');
+    const translatedTable = applySlotTranslations(table, [
+      {slotId: 'row-0/cell-0/paragraph-0', translatedText: '你好，世界'},
+    ], structuredTopologyHash(table));
+    expect(translatedTable.rows[0]!.cells[0]!.content[0]).toEqual({
+      kind: 'paragraph',
+      content: [{kind: 'text', text: '你好，世界'}],
+    });
+  });
+
   it('uses stable table row/cell/node indices and preserves code-only cells exactly', () => {
     const table: Extract<SemanticNodeStructure, {kind: 'table'}> = {
       kind: 'table',

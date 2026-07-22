@@ -30,8 +30,31 @@ function structuredError(subtype: string, message: string, details?: unknown): L
   return new LocalizeError({type: 'validation', subtype, message, details});
 }
 
+function equivalentTextMarks(
+  left: Extract<InlineContent, {kind: 'text'}>,
+  right: Extract<InlineContent, {kind: 'text'}>,
+): boolean {
+  return (left.bold === true) === (right.bold === true)
+    && (left.italic === true) === (right.italic === true)
+    && (left.underline === true) === (right.underline === true)
+    && (left.strike === true) === (right.strike === true);
+}
+
+function canonicalInlineContent(content: InlineContent[]): InlineContent[] {
+  const result: InlineContent[] = [];
+  for (const part of content) {
+    const previous = result.at(-1);
+    if (part.kind === 'text' && previous?.kind === 'text' && equivalentTextMarks(previous, part)) {
+      previous.text += part.text;
+    } else {
+      result.push({...part});
+    }
+  }
+  return result;
+}
+
 function inlineMarkdown(content: InlineContent[]): string {
-  return content.map((part) => {
+  return canonicalInlineContent(content).map((part) => {
     if (part.kind === 'code') return `\`${part.text}\``;
     if (part.kind === 'link') return `[${part.text}](${part.url})`;
     let text = part.text;
@@ -51,7 +74,7 @@ function preservedTokens(content: InlineContent[]): PreservedToken[] {
     if (existing) existing.count += 1;
     else tokens.set(key, {kind, value, count: 1});
   };
-  for (const part of content) {
+  for (const part of canonicalInlineContent(content)) {
     if (part.kind === 'code') add('inline_code', part.text);
     else if (part.kind === 'link') add('url', part.url);
     else if (part.bold) add('bold_span', '');
@@ -200,7 +223,7 @@ export function extractTranslationSlots(content: StructuredContent): StructuredT
 }
 
 function inlineTopology(content: InlineContent[]): unknown[] {
-  return content.map((part) => {
+  return canonicalInlineContent(content).map((part) => {
     if (part.kind === 'code') return {kind: part.kind, text: part.text};
     if (part.kind === 'link') return {kind: part.kind};
     return {
@@ -380,7 +403,7 @@ export function applySlotTranslations<T extends StructuredContent>(
         `Structured slot ${translation.slotId} has no translated text.`,
       );
     }
-    if ('content' in location) location.replace(parseInlineMarkdown(translatedText));
+    if ('content' in location) location.replace(canonicalInlineContent(parseInlineMarkdown(translatedText)));
     else location.replace(translatedText);
   });
 
