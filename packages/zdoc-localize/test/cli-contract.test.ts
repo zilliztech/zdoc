@@ -27,6 +27,16 @@ describe('CLI contract', () => {
       data: {
         cliVersion: '0.1.1',
         schemaVersion: 1,
+        docxEngine: {
+          version: '0.1.0',
+          schemaVersion: 1,
+          capabilities: expect.arrayContaining([
+            'nested-list-create-v1',
+            'native-table-create-v1',
+            'whiteboard-overwrite-v1',
+            'partial-write-evidence-v1',
+          ]),
+        },
         commands: expect.arrayContaining([
           'doctor',
           'pair',
@@ -43,6 +53,9 @@ describe('CLI contract', () => {
           'existing-empty-target-initialization-v1',
           'manual-synced-reference-v1',
           'whiteboard-mirror-v1',
+          'docx-engine-v1',
+          'structured-list-localization-v1',
+          'native-table-localization-v1',
         ]),
       },
     });
@@ -108,7 +121,6 @@ describe('CLI contract', () => {
     const diagnostics = new DiagnosticRunner([
       {exitCode: 0, stdout: '1.2.3\n', stderr: ''},
       {exitCode: 0, stdout: '{"ok":true,"data":{"authenticated":true}}\n', stderr: ''},
-      {exitCode: 0, stdout: '0.3.0\n', stderr: ''},
     ]);
 
     const result = await runCli(['doctor', '--format', 'json'], {cwd, diagnosticRunner: diagnostics});
@@ -121,8 +133,12 @@ describe('CLI contract', () => {
         expect.objectContaining({id: 'lark-auth', status: 'passed'}),
         expect.objectContaining({id: 'registry-access', status: 'passed'}),
         expect.objectContaining({id: 'sqlite', status: 'passed'}),
-        expect.objectContaining({id: 'feishu-md-sync', status: 'passed'}),
+        expect.objectContaining({id: 'feishu-docx-engine', status: 'passed', detail: '0.1.0'}),
     ]));
+    expect(diagnostics.calls).toEqual([
+      {executable: 'lark-cli', args: ['--version']},
+      {executable: 'lark-cli', args: ['auth', 'status', '--json', '--verify']},
+    ]);
   });
 
   it('exposes plan completion, apply, and recovery command contracts', async () => {

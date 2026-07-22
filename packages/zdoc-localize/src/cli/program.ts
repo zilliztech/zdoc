@@ -3,6 +3,7 @@ import {constants} from 'node:fs';
 import {join, resolve, sep} from 'node:path';
 
 import {Command, CommanderError, Option} from 'commander';
+import {ENGINE_CAPABILITIES, ENGINE_SCHEMA_VERSION, ENGINE_VERSION} from 'feishu-docx-engine';
 
 import {createRuntime, type Runtime} from '../application/runtime.js';
 import {feishuRegistrySchema} from '../adapters/lark-base-schema.js';
@@ -46,6 +47,9 @@ const features = [
   'existing-empty-target-initialization-v1',
   'manual-synced-reference-v1',
   'whiteboard-mirror-v1',
+  'docx-engine-v1',
+  'structured-list-localization-v1',
+  'native-table-localization-v1',
 ] as const;
 
 class MemoryIo {
@@ -144,6 +148,11 @@ function createProgram(
     .action((options: {format: string}) => emit(io, {
       cliVersion: CLI_VERSION,
       schemaVersion: SCHEMA_VERSION,
+      docxEngine: {
+        version: ENGINE_VERSION,
+        schemaVersion: ENGINE_SCHEMA_VERSION,
+        capabilities: [...ENGINE_CAPABILITIES],
+      },
       commands: [...commands],
       features: [...features],
     }, options.format));
@@ -179,6 +188,11 @@ function createProgram(
       };
       await runCheck('lark-cli-version', 'lark-cli', ['--version']);
       await runCheck('lark-auth', 'lark-cli', ['auth', 'status', '--json', '--verify']);
+      checks.push({
+        id: 'feishu-docx-engine',
+        status: ENGINE_SCHEMA_VERSION === 1 ? 'passed' : 'failed',
+        detail: ENGINE_VERSION,
+      });
       try {
         await withRuntime(cwd, runtimeFactory, async (runtime) => {
           await runtime.registry.listPairs();
@@ -195,7 +209,6 @@ function createProgram(
       } else {
         checks.push({id: 'drive-state-folder', status: 'skipped', detail: 'Local registry mode does not use a shared Drive state folder.'});
       }
-      await runCheck('feishu-md-sync', 'feishu-md-sync', ['--version'], true);
       emit(io, {
         mode: config?.mode ?? 'local',
         healthy: checks.every((check) => check.status !== 'failed'),
