@@ -5296,9 +5296,9 @@
       "translatedAt": "2026-07-13T11:12:29.737Z"
     },
     "reference/api/nodejs/nodejs/Vector/Vector-search.md": {
-      "sourceHash": "5b4fbf32aa10b6be4cd00487cdd036f00612aeba0e466ac19d7f5bf9fb1f6127",
+      "sourceHash": "ded3b9dae344032c6685e65cbdc1ec6fe0929b8e5884a234872b7127f9e1ad30",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/nodejs/nodejs/Vector/Vector-search.md",
-      "translatedAt": "2026-07-23T03:30:15.997Z"
+      "translatedAt": "2026-07-23T11:02:58.201Z"
     },
     "reference/api/nodejs/nodejs/Vector/Vector-searchIterator.md": {
       "sourceHash": "e69f9529c43bdfe9589bcc9baf71aae099a81edfade65408742f8284626a5901",
