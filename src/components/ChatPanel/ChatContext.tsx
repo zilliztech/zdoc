@@ -412,11 +412,11 @@ export function ChatProvider({chatEndpoint, agentConfigCode, debugDefault = fals
             currentEvent = '';
             let parsedForDebug: unknown = data;
             try { parsedForDebug = JSON.parse(data); } catch {}
-            const effectiveEvent = eventName || (
-              parsedForDebug && typeof parsedForDebug === 'object' && 'type' in parsedForDebug
+            const effectiveEvent = eventName || (data === '[DONE]'
+              ? 'done'
+              : parsedForDebug && typeof parsedForDebug === 'object' && 'type' in parsedForDebug
                 ? String((parsedForDebug as {type?: unknown}).type || '')
-                : ''
-            );
+                : '');
             eventCounts[effectiveEvent] = (eventCounts[effectiveEvent] || 0) + 1;
             chatDebug('chat.client.sse.event', {requestId, sseEvent: effectiveEvent, payload: parsedForDebug});
             for (const update of parseAgentStreamEvent(eventName, data, streamState)) {
