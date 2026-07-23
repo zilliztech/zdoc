@@ -55,7 +55,7 @@ This method applies only to dedicated serving clusters and on-demand compute.
 
 ## Request syntax\{#request-syntax}
 
-```plaintext
+```python
 search(
     self,
     collection_name: str,
