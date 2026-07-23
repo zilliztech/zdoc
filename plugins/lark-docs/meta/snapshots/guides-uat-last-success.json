@@ -9,7 +9,7 @@
   "source_branch": "dev",
   "publish_url": "https://docs.cloud-uat3.zilliz.com",
   "link_check_remote": "https://docs.zilliz.com",
-  "generated_at": "2026-07-23T03:18:27.212Z",
+  "generated_at": "2026-07-23T10:56:22.474Z",
   "source_dir": "./plugins/lark-docs/meta/sources/guides",
   "base_app_token": "Ac7xbs2k1ad7bjsCXr0ccHe9nMh",
   "records": [
@@ -15069,7 +15069,7 @@
       "doc_token": "DMrCwn4LXi1uKBkbHGfcpGnsnyh",
       "doc_link": "https://zilliverse.feishu.cn/wiki/DMrCwn4LXi1uKBkbHGfcpGnsnyh",
       "source_file": "DMrCwn4LXi1uKBkbHGfcpGnsnyh.json",
-      "source_hash": "b2dabbdbc74bd49d0231ab09120e9d9b6d2ec2928c42d6193ddca808e62c7cfc",
+      "source_hash": "d0b254d685970923724fdfa4ed25b603a4ca1f5aa303bd1bf48b9fc2db31d574",
       "node_metadata": {
         "requested_token": "DMrCwn4LXi1uKBkbHGfcpGnsnyh",
         "requested_node_token": "DMrCwn4LXi1uKBkbHGfcpGnsnyh",
@@ -16465,7 +16465,7 @@
       "labels": "",
       "slug": "",
       "targets": [],
-      "progress": "WIP",
+      "progress": "",
       "doc_token": "ETsNwO7T0iR5GDkvuMxcJG7JnIb",
       "doc_link": "https://zilliverse.feishu.cn/wiki/ETsNwO7T0iR5GDkvuMxcJG7JnIb",
       "ref_target": "ETsNwO7T0iR5GDkvuMxcJG7JnIb",
@@ -16527,12 +16527,31 @@
       "ref_target_token": null
     },
     {
+      "record_id": "recvqaXfcnxuuw",
+      "table_id": "tblb929onfgAPW90",
+      "table_name": "AI Models",
+      "placement_type": "ref",
+      "parent_record_ids": [
+        "recvm15s2lILTX"
+      ],
+      "order": 9,
+      "title": "Hugging Face Ranker",
+      "labels": "",
+      "slug": "",
+      "targets": [],
+      "progress": "",
+      "doc_token": "P4UywHFH2iDFJWk2kwwcs22SnRc",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/P4UywHFH2iDFJWk2kwwcs22SnRc",
+      "ref_target": "P4UywHFH2iDFJWk2kwwcs22SnRc",
+      "ref_target_token": null
+    },
+    {
       "record_id": "recvlW5vVAVhPw",
       "table_id": "tblb929onfgAPW90",
       "table_name": "AI Models",
       "placement_type": "canonical",
       "parent_record_ids": [],
-      "order": 9,
+      "order": 10,
       "title": "Hosted Models",
       "labels": "Hosted Models",
       "slug": "hosted-models",
@@ -24814,7 +24833,7 @@
   ],
   "table_digests": {
     "tbl9BeCMjBmalJVb": "b5c584a08c6614b1a6513677e7f10a01ccaa2331d170bc5da495727da0e7aa5d",
-    "tblb929onfgAPW90": "fb507b0d114a7604601e42e6544da9ca76e633548eb9476c9c6e63b22fba6094",
+    "tblb929onfgAPW90": "ca5ee2933128e6197f0ae457395dc20b155cef4fa29c761bf20a4c8e9409c474",
     "tblgHPdSvZP8gUz6": "9c6f5f6977adcc929e83f26ce008d37e8c25645131fbadf5f1db452aa8fb59b1",
     "tblh7utKxg0dgdTo": "e957283d759af547c8441bab5a98aab25589546eef17182e30be7cec0e1c55d3",
     "tblLMqwkNDtAEK5p": "f20d86eeeff4b8bcde7934ea618e47141e12bd36ac1470ca8d32e71a01849817",

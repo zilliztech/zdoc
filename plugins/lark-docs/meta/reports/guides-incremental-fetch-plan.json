@@ -1,78 +1,17 @@
 {
-  "generated_at": "2026-07-23T03:17:35.582Z",
+  "generated_at": "2026-07-23T10:56:16.313Z",
   "manual": "guides",
   "build_env": "uat",
   "mode": "incremental",
   "source_dir": "./plugins/lark-docs/meta/sources/guides",
-  "changed_records": [
-    {
-      "record_id": "recvlW61fR9it6",
-      "table_id": "tblb929onfgAPW90",
-      "table_name": "AI Models",
-      "title": "Integrate with Model Providers",
-      "labels": "Model Providers",
-      "slug": "integrate-with-model-providers",
-      "doc_token": "B1cSwfWcri4VJLkCR20cHIs6nCf",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/B1cSwfWcri4VJLkCR20cHIs6nCf",
-      "reasons": [
-        "wiki node edit time changed"
-      ]
-    }
-  ],
-  "changed_tokens": [
-    "B1cSwfWcri4VJLkCR20cHIs6nCf"
-  ],
-  "expanded_tokens": [
-    "B1cSwfWcri4VJLkCR20cHIs6nCf",
-    "BClgwKlHaiushBkPPssclTkYnef",
-    "GLG4wi6zhisaxYkBkmacXqItnbJ",
-    "IrQ2wm2oaiAWl4kqQhkc303Rnlg",
-    "Mtxfwvu2fiOLwXkcURCcJxDPnLd",
-    "P4KNwDdqaivEZFk7RpOcYeyhn2N",
-    "PpGlwYU6PiSsfVkZ7doco50vnKg",
-    "V7xfwDariioU5GkcmfXctzSEnyc",
-    "WVaVw8J7UiYZ52kaqVUcktqAnAf",
-    "ZBEiwpvlbijhYDkmnNScc7zyn5d"
-  ],
+  "changed_records": [],
+  "changed_tokens": [],
+  "expanded_tokens": [],
   "removed_records": [],
   "removed_tokens": [],
-  "reasons_by_token": {
-    "B1cSwfWcri4VJLkCR20cHIs6nCf": [
-      "wiki node edit time changed"
-    ],
-    "BClgwKlHaiushBkPPssclTkYnef": [
-      "outgoing reference from B1cSwfWcri4VJLkCR20cHIs6nCf"
-    ],
-    "V7xfwDariioU5GkcmfXctzSEnyc": [
-      "outgoing reference from B1cSwfWcri4VJLkCR20cHIs6nCf"
-    ],
-    "IrQ2wm2oaiAWl4kqQhkc303Rnlg": [
-      "outgoing reference from B1cSwfWcri4VJLkCR20cHIs6nCf"
-    ],
-    "WVaVw8J7UiYZ52kaqVUcktqAnAf": [
-      "outgoing reference from B1cSwfWcri4VJLkCR20cHIs6nCf"
-    ],
-    "P4KNwDdqaivEZFk7RpOcYeyhn2N": [
-      "outgoing reference from B1cSwfWcri4VJLkCR20cHIs6nCf"
-    ],
-    "Mtxfwvu2fiOLwXkcURCcJxDPnLd": [
-      "outgoing reference from B1cSwfWcri4VJLkCR20cHIs6nCf"
-    ],
-    "PpGlwYU6PiSsfVkZ7doco50vnKg": [
-      "outgoing reference from B1cSwfWcri4VJLkCR20cHIs6nCf"
-    ],
-    "GLG4wi6zhisaxYkBkmacXqItnbJ": [
-      "incoming reference to B1cSwfWcri4VJLkCR20cHIs6nCf"
-    ],
-    "ZBEiwpvlbijhYDkmnNScc7zyn5d": [
-      "incoming reference to B1cSwfWcri4VJLkCR20cHIs6nCf"
-    ]
-  },
+  "reasons_by_token": {},
   "warnings": [],
   "affected_tables": [
-    "tbl9BeCMjBmalJVb",
-    "tblWv7PjNDsexddH",
-    "tblZMzoITXNsyKmQ",
     "tblb929onfgAPW90"
   ],
   "current_table_targets": {
@@ -160,7 +99,7 @@
     "tblZMzoITXNsyKmQ": "Management"
   },
   "snapshot_basis": {
-    "generated_at": "2026-07-22T18:40:30.274Z",
+    "generated_at": "2026-07-23T03:18:27.212Z",
     "records": 373
   },
   "source_scope": "partial"
