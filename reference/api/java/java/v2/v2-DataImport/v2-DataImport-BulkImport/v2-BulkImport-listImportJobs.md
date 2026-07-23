@@ -7,9 +7,9 @@ added_since: v2.5.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "This operation lists all existing import jobs regarding the specified collection. | Java | v2"
+description: "Lists bulk import jobs in Milvus or Zilliz Cloud. | Java | v2"
 type: docx
-token: CN9sdiCicoERZpx9GhmcLa4Wn7g
+token: KZc2dLt74oh6VzxS4EYc7cEsn3d
 sidebar_position: 4
 keywords: 
   - milvus vector db
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # listImportJobs()
 
-This operation lists all existing import jobs regarding the specified collection.
+Lists bulk import jobs in Milvus or Zilliz Cloud.
 
 ```java
 public static String listImportJobs(String url, BaseListImportJobsRequest request)
@@ -39,61 +39,57 @@ public static String listImportJobs(String url, BaseListImportJobsRequest reques
 
 ## Request Syntax\{#request-syntax}
 
+Use this request to list import jobs in Zilliz Cloud.
+
 ```java
-bulkImport.listImportJobs(
-    url,
-    request
-)
+CloudListImportJobsRequest.builder()
+    .apiKey(apiKey)
+    .clusterId(clusterId)
+    .projectId(projectId)
+    .regionId(regionId)
+    .pageSize(pageSize)
+    .currentPage(currentPage)
+    .build();
 ```
 
 **PARAMETERS:**
 
-- **url** (*String*) -
+- **apiKey** (*String*) -<br/>
+  Authentication credential. Use the Zilliz Cloud API key for Cloud requests or `username:password` for Milvus requests.
 
-    Zilliz Cloud's Control Plane API endpoint. The endpoint URL should be in the following format:
+- **clusterId** (*String*) -<br/>
+  Cluster identifier for cluster-based deployments. For project database deployments, use `projectId` and `regionId` instead.
 
-    ```python
-    https://api.cloud.zilliz.com
-    ```
+- **projectId** (*String*) -<br/>
+  Project identifier for project database deployments. Use with `regionId` instead of `clusterId`.
 
-- **request** (*[BaseListImportRequest](./v2-BulkImport-listImportJobs#baselistimportrequest)*) -  
+- **regionId** (*String*) -<br/>
+  Region identifier for project database deployments. Use with `projectId` instead of `clusterId`.
 
-    A **BaseImportRequest** instance.
+- **pageSize** (*Integer*) -<br/>
+  Number of import jobs to return per page.
 
-**RETURN TYPE:**
-
-*String*
+- **currentPage** (*Integer*) -<br/>
+  One-based page number to return.
 
 **RETURNS:**
 
-A list of import job IDs of the specified collection.
+*String*
 
-## BaseListImportRequest\{#baselistimportrequest}
-
-A **BaseListImportRequest** instance is implemented in **CloudListImportRequest**.
-
-### CloudListImportRequest\{#cloudlistimportrequest}
-
-```java
-CloudListImportRequest.builder()
-    .apiKey(String apiKey)
-    .collectionName(String collectionName)
-    .build()
-```
-
-**BUILDER METHODS:**
-
-- `apiKey(String apiKey)`
-
-    A valid Zilliz Cloud API key with sufficient permissions to manipulate the cluster.
-
-- `collectionName(String collectionName)`
-
-    The name of the target collection of this operation.
+A JSON response containing the matching import jobs and pagination details.
 
 ## Example\{#example}
 
-```java
+Lists import jobs for a Zilliz Cloud project database.
 
+```java
+CloudListImportJobsRequest request = CloudListImportJobsRequest.builder()
+    .projectId(PROJECT_ID)
+    .regionId(REGION_ID)
+    .currentPage(1)
+    .pageSize(10)
+    .apiKey(API_KEY)
+    .build();
+String response = BulkImportUtils.listImportJobs("https://api.cloud.zilliz.com", request);
 ```
 
