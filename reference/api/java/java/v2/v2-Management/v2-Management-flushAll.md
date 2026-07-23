@@ -10,7 +10,7 @@ notebook: false
 description: "This operation flushes insert buffers for all collections in a database. Use it before backup, verification, or workflows that require all recent writes to be persisted. | Java | v2"
 type: docx
 token: KQqgduahOo13yOxiRMgcfXQxnxd
-sidebar_position: 25
+sidebar_position: 22
 keywords: 
   - approximate nearest neighbor search
   - DiskANN

@@ -10,7 +10,7 @@ notebook: false
 description: "This operation returns the progress and current state of a previously started external collection refresh job. | Java | v2"
 type: docx
 token: FzEydqTwRoajhnxZOftcKxKpndg
-sidebar_position: 27
+sidebar_position: 29
 keywords: 
   - lexical search
   - nearest neighbor search

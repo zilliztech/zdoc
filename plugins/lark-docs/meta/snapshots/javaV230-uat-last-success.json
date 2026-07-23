@@ -8,7 +8,7 @@
   "source_branch": "dev",
   "publish_url": "https://docs.cloud-uat3.zilliz.com",
   "link_check_remote": "https://docs.zilliz.com",
-  "generated_at": "2026-07-22T18:40:22.468Z",
+  "generated_at": "2026-07-23T03:19:10.500Z",
   "source_dir": "./plugins/lark-docs/meta/sources/java/v3.0.x/v2",
   "base_app_token": "AOFDbSmwma9XrNsLa8KcQgt9ngc",
   "records": [
@@ -425,7 +425,7 @@
       "doc_token": "NtxedWgOpof2Qtx8BU2ckktunWc",
       "doc_link": "https://zilliverse.feishu.cn/docx/NtxedWgOpof2Qtx8BU2ckktunWc",
       "source_file": "NtxedWgOpof2Qtx8BU2ckktunWc.json",
-      "source_hash": "ea04b267075b1ee25b1235aa077daef3f129ca697b0d6462173cfb7bca1fae2a",
+      "source_hash": "4f29243ef8bc26bb89ded9e5e5fc44b694de3b3a470d0a26df1daa36f96007fd",
       "node_metadata": null,
       "node_token": null,
       "origin_node_token": null,
@@ -4156,7 +4156,7 @@
       "doc_token": "QHyGdm4FyoFwCzxDgUUc9yQrnPf",
       "doc_link": "https://zilliverse.feishu.cn/docx/QHyGdm4FyoFwCzxDgUUc9yQrnPf",
       "source_file": "QHyGdm4FyoFwCzxDgUUc9yQrnPf.json",
-      "source_hash": "6a73d114bbff4e888f17d3d9a1d40ee2333f3179b59d54d64b4ecf9900d72790",
+      "source_hash": "fe22b862d8a87bfb59ab591121e9f2c99ef0cac0abe7d142dd27a353d25f676f",
       "node_metadata": null,
       "node_token": null,
       "origin_node_token": null,
@@ -4178,8 +4178,8 @@
       "slug": "v2-VolumeManager-createVolume",
       "doc_token": "Efi4dCKhFoYpEZxRfWRcvFEXnBg",
       "doc_link": "https://zilliverse.feishu.cn/docx/Efi4dCKhFoYpEZxRfWRcvFEXnBg",
-      "source_file": "Efi4dCKhFoYpEZxRfWRcvFEXnBg.json",
-      "source_hash": "3bd278c2c80c0f62e18cba96b52d0bc3b21b0416c2f22c4d38c8d1ff28034c7f",
+      "source_file": null,
+      "source_hash": null,
       "node_metadata": null,
       "node_token": null,
       "origin_node_token": null,
@@ -4188,9 +4188,7 @@
       "obj_edit_time": null,
       "revision_id": null,
       "outgoing_tokens": [],
-      "output_paths": [
-        "reference/api/java/java/v2/v2-Volume/v2-Volume-VolumeManager/v2-VolumeManager-createVolume.md"
-      ]
+      "output_paths": []
     },
     {
       "record_id": "recuTIqpOYyIAo",
@@ -4202,7 +4200,7 @@
       "doc_token": "OalndLUMRoUqpMxr2QscYTCenre",
       "doc_link": "https://zilliverse.feishu.cn/docx/OalndLUMRoUqpMxr2QscYTCenre",
       "source_file": "OalndLUMRoUqpMxr2QscYTCenre.json",
-      "source_hash": "534ed7809b5a86d57cc73608128d7d536cb853401ee118fb47f7c3445f751579",
+      "source_hash": "fd977fd3ad784e65f202ef5f0d5445af7c1b5c67d1282784b384b26f486f7b58",
       "node_metadata": null,
       "node_token": null,
       "origin_node_token": null,
@@ -4224,8 +4222,8 @@
       "slug": "v2-VolumeManager-listVolumes",
       "doc_token": "Cde1dlUbDosa86xjuShcoKgQnvg",
       "doc_link": "https://zilliverse.feishu.cn/docx/Cde1dlUbDosa86xjuShcoKgQnvg",
-      "source_file": "Cde1dlUbDosa86xjuShcoKgQnvg.json",
-      "source_hash": "92c0717f2cfbffc991aaa6c1d6952b908704895306237a69624144008342c1da",
+      "source_file": null,
+      "source_hash": null,
       "node_metadata": null,
       "node_token": null,
       "origin_node_token": null,
@@ -4234,9 +4232,7 @@
       "obj_edit_time": null,
       "revision_id": null,
       "outgoing_tokens": [],
-      "output_paths": [
-        "reference/api/java/java/v2/v2-Volume/v2-Volume-VolumeManager/v2-VolumeManager-listVolumes.md"
-      ]
+      "output_paths": []
     },
     {
       "record_id": "recuTIqpOY6psD",

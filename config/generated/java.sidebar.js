@@ -644,27 +644,27 @@ module.exports = [
       },
       {
         "type": "doc",
-        "id": "api/java/java/v2/v2-Management/v2-Management-getCompactionPlans",
-        "label": "getCompactionPlans()",
-        "key": "doc:api/java/java/v2/v2-Management/v2-management-getcompactionplans"
-      },
-      {
-        "type": "doc",
-        "id": "api/java/java/v2/v2-Management/v2-Management-getServerVersion",
-        "label": "getServerVersion()",
-        "key": "doc:api/java/java/v2/v2-Management/v2-management-getserverversion"
-      },
-      {
-        "type": "doc",
         "id": "api/java/java/v2/v2-Management/v2-Management-flushAll",
         "label": "flushAll()",
         "key": "doc:api/java/java/v2/v2-Management/v2-management-flushall"
       },
       {
         "type": "doc",
+        "id": "api/java/java/v2/v2-Management/v2-Management-getCompactionPlans",
+        "label": "getCompactionPlans()",
+        "key": "doc:api/java/java/v2/v2-Management/v2-management-getcompactionplans"
+      },
+      {
+        "type": "doc",
         "id": "api/java/java/v2/v2-Management/v2-Management-getFlushAllState",
         "label": "getFlushAllState()",
         "key": "doc:api/java/java/v2/v2-Management/v2-management-getflushallstate"
+      },
+      {
+        "type": "doc",
+        "id": "api/java/java/v2/v2-Management/v2-Management-getServerVersion",
+        "label": "getServerVersion()",
+        "key": "doc:api/java/java/v2/v2-Management/v2-management-getserverversion"
       },
       {
         "type": "doc",

@@ -10,7 +10,7 @@ notebook: false
 description: "This operation returns the version string of the connected . | Java | v2"
 type: docx
 token: FuDHdadxHoX9qSxe4aac4wzNnRh
-sidebar_position: 23
+sidebar_position: 26
 keywords: 
   - hnsw algorithm
   - vector similarity search

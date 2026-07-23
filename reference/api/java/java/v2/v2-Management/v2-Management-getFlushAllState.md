@@ -10,7 +10,7 @@ notebook: false
 description: "This operation checks whether a previous flush-all action has finished. Use it when you call `flushAll` asynchronously and need to poll for completion. | Java | v2"
 type: docx
 token: U55Vd0IR9oz8m9xS76scr4KDnNh
-sidebar_position: 26
+sidebar_position: 24
 keywords: 
   - knn algorithm
   - HNSW

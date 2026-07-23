@@ -9,7 +9,7 @@ deprecate_since: false
 notebook: false
 description: "This operation creates volume. | Java | v2"
 type: docx
-token: Efi4dCKhFoYpEZxRfWRcvFEXnBg
+token: OcuYdF6ywosIARxetOOc6co7nmU
 sidebar_position: 1
 keywords: 
   - Managed vector database

@@ -50,13 +50,13 @@ batchDescribeCollection(BatchDescribeCollectionReq.builder()
 
 **BUILDER METHODS:**
 
-- `databaseName(String databaseName)` -
-The name of the database. Defaults to the current database if not specified.
+- `databaseName(String databaseName)` -<br/>
+  The name of the database. Defaults to the current database if not specified.
 
 - `collectionNames(List<String> collectionNames)` -
 
-- `collectionIds(List<Long> collectionIds)` -
-A list of collection IDs to describe in batch.
+- `collectionIds(List<Long> collectionIds)` -<br/>
+  A list of collection IDs to describe in batch.
 
 **RETURNS:**
 
