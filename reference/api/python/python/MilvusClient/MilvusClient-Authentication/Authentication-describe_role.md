@@ -45,16 +45,16 @@ describe_role(
 
 **PARAMETERS:**
 
-- **role_name** (*str*) -
-**[REQUIRED]**
-The name of the role to describe.
+- **role_name** (*str*) -<br/>
+  **[REQUIRED]**<br/>
+  The name of the role to describe.
 
-- **timeout** (*Optional[float]*) -
-Default: `None`
-The maximum time, in seconds, to wait for the RPC to complete.
+- **timeout** (*Optional[float]*) -<br/>
+  Default: `None`<br/>
+  The maximum time, in seconds, to wait for the RPC to complete.
 
-- **kwargs** (*Any*) -
-The additional request context options.
+- **kwargs** (*Any*) -<br/>
+  The additional request context options.
 
 **RETURN TYPE:**
 
@@ -66,8 +66,8 @@ Dictionary with role, description, and privileges.
 
 **EXCEPTIONS:**
 
-- **MilvusException**
-Raised when the server rejects the request or the RPC fails. Inspect the server error message for exact failure details.
+- **MilvusException**<br/>
+  Raised when the server rejects the request or the RPC fails. Inspect the server error message for exact failure details.
 
 ## Examples\{#examples}
 

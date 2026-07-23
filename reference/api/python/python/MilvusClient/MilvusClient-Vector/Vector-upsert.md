@@ -53,32 +53,32 @@ upsert(
 
 **PARAMETERS:**
 
-- **collection_name** (*str*) -
-**[REQUIRED]**
-The name of the collection into which entities are upserted.
+- **collection_name** (*str*) -<br/>
+  **[REQUIRED]**<br/>
+  The name of the collection into which entities are upserted.
 
-- **data** (*Union[Dict, List[Dict]]*) -
-**[REQUIRED]**
-The entities to upsert. Iterable input is converted to a list when necessary.
+- **data** (*Union[Dict, List[Dict]]*) -<br/>
+  **[REQUIRED]**<br/>
+  The entities to upsert. Iterable input is converted to a list when necessary.
 
-- **timeout** (*Optional[float]*) -
-Default: `None`
-The maximum time, in seconds, to wait for the RPC. This value overrides the client default.
+- **timeout** (*Optional[float]*) -<br/>
+  Default: `None`<br/>
+  The maximum time, in seconds, to wait for the RPC. This value overrides the client default.
 
-- **partition_name** (*Optional[str]*) -
-Default: `""`
-The name of the partition into which entities are upserted.
+- **partition_name** (*Optional[str]*) -<br/>
+  Default: `""`<br/>
+  The name of the partition into which entities are upserted.
 
-- **kwargs** (*Any*) -
-The additional upsert options.
+- **kwargs** (*Any*) -<br/>
+  The additional upsert options.
 
-    - **partial_update** (*bool*) -
-Default: `False`
-The flag that controls whether only specified fields are updated. When `True`, unspecified fields remain unchanged.
+    - **partial_update** (*bool*) -<br/>
+      Default: `False`<br/>
+      The flag that controls whether only specified fields are updated. When `True`, unspecified fields remain unchanged.
 
-    - **field_ops** (*Optional[Dict[str, Any]]*) -
-Default: `None`
-The per-field merge operations applied during a partial update. Each value can be a `FieldOp` factory result, `array_append`, `array_remove`, or `replace`, or a `FieldPartialUpdateOp` message. Any operation other than `replace` enables partial updates.
+    - **field_ops** (*Optional[Dict[str, Any]]*) -<br/>
+      Default: `None`<br/>
+      The per-field merge operations applied during a partial update. Each value can be a `FieldOp` factory result, `array_append`, `array_remove`, or `replace`, or a `FieldPartialUpdateOp` message. Any operation other than `replace` enables partial updates.
 
 **RETURN TYPE:**
 
@@ -90,8 +90,8 @@ Mutation result containing the primary keys and counts reported for the upsert o
 
 **EXCEPTIONS:**
 
-- **MilvusException**
-Raised when the server rejects the request or the RPC fails. Inspect the server error message for exact failure details.
+- **MilvusException**<br/>
+  Raised when the server rejects the request or the RPC fails. Inspect the server error message for exact failure details.
 
 ## Examples\{#examples}
 

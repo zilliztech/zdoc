@@ -46,21 +46,21 @@ list_volumes(
 
 **PARAMETERS:**
 
-- **project_id** (*str*) -
-**[REQUIRED]**
-The ID of the Zilliz Cloud project whose volumes are listed.
+- **project_id** (*str*) -<br/>
+  **[REQUIRED]**<br/>
+  The ID of the Zilliz Cloud project whose volumes are listed.
 
-- **current_page** (*int*) -
-Default: `1`
-The one-based page number to return.
+- **current_page** (*int*) -<br/>
+  Default: `1`<br/>
+  The one-based page number to return.
 
-- **page_size** (*int*) -
-Default: `10`
-The maximum number of volumes to return per page.
+- **page_size** (*int*) -<br/>
+  Default: `10`<br/>
+  The maximum number of volumes to return per page.
 
-- **volume_type** (*Optional[str]*) -
-Default: `None`
-The volume type by which to filter results. Supported values are `MANAGED` and `EXTERNAL`.
+- **volume_type** (*Optional[str]*) -<br/>
+  Default: `None`<br/>
+  The volume type by which to filter results. Supported values are `MANAGED` and `EXTERNAL`.
 
 **RETURN TYPE:**
 
@@ -72,8 +72,8 @@ HTTP response containing a page of volumes for the project.
 
 **EXCEPTIONS:**
 
-- **MilvusException**
-Raised when the server rejects the request or the RPC fails. Inspect the server error message for exact failure details.
+- **MilvusException**<br/>
+  Raised when the server rejects the request or the RPC fails. Inspect the server error message for exact failure details.
 
 ## Examples\{#examples}
 

@@ -43,9 +43,9 @@ describe_volume(
 
 **PARAMETERS:**
 
-- **volume_name** (*str*) -
-**[REQUIRED]**
-The name of the Zilliz Cloud volume to describe.
+- **volume_name** (*str*) -<br/>
+  **[REQUIRED]**<br/>
+  The name of the Zilliz Cloud volume to describe.
 
 **RETURN TYPE:**
 
@@ -57,8 +57,8 @@ HTTP response containing details for the requested volume.
 
 **EXCEPTIONS:**
 
-- **MilvusException**
-Raised when the server rejects the request or the RPC fails. Inspect the server error message for exact failure details.
+- **MilvusException**<br/>
+  Raised when the server rejects the request or the RPC fails. Inspect the server error message for exact failure details.
 
 ## Examples\{#examples}
 

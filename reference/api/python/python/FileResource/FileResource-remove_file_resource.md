@@ -45,11 +45,11 @@ remove_file_resource(
 
 **PARAMETERS**:
 
-- **name** (*str*) -
- The name of the resource to remove, as originally passed to `add_file_resource()`.
+- **name** (*str*) -<br/>
+   The name of the resource to remove, as originally passed to `add_file_resource()`.
 
-- **timeout** (*float* | *None*) -
- The timeout duration (in seconds) for this operation. A value of `None` indicates that no timeout is applied.
+- **timeout** (*float* | *None*) -<br/>
+   The timeout duration (in seconds) for this operation. A value of `None` indicates that no timeout is applied.
 
 **RETURNS**:
 

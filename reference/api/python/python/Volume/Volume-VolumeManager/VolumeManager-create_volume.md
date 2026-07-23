@@ -48,29 +48,29 @@ create_volume(
 
 **PARAMETERS:**
 
-- **project_id** (*str*) -
-**[REQUIRED]**
-The ID of the Zilliz Cloud project in which to create the volume.
+- **project_id** (*str*) -<br/>
+  **[REQUIRED]**<br/>
+  The ID of the Zilliz Cloud project in which to create the volume.
 
-- **region_id** (*str*) -
-**[REQUIRED]**
-The ID of the Zilliz Cloud region in which to create the volume.
+- **region_id** (*str*) -<br/>
+  **[REQUIRED]**<br/>
+  The ID of the Zilliz Cloud region in which to create the volume.
 
-- **volume_name** (*str*) -
-**[REQUIRED]**
-The name of the volume to create.
+- **volume_name** (*str*) -<br/>
+  **[REQUIRED]**<br/>
+  The name of the volume to create.
 
-- **volume_type** (*Optional[str]*) -
-Default: `None`
-The volume type. Supported values are `MANAGED` and `EXTERNAL`; the default is `MANAGED`.
+- **volume_type** (*Optional[str]*) -<br/>
+  Default: `None`<br/>
+  The volume type. Supported values are `MANAGED` and `EXTERNAL`; the default is `MANAGED`.
 
-- **storage_integration_id** (*Optional[str]*) -
-Default: `None`
-The storage integration ID required for an `EXTERNAL` volume.
+- **storage_integration_id** (*Optional[str]*) -<br/>
+  Default: `None`<br/>
+  The storage integration ID required for an `EXTERNAL` volume.
 
-- **path** (*Optional[str]*) -
-Default: `None`
-The storage path for an `EXTERNAL` volume. When omitted, the storage integration root is used; a supplied path must end with `/`.
+- **path** (*Optional[str]*) -<br/>
+  Default: `None`<br/>
+  The storage path for an `EXTERNAL` volume. When omitted, the storage integration root is used; a supplied path must end with `/`.
 
 **RETURN TYPE:**
 
@@ -82,8 +82,8 @@ HTTP response describing the volume creation request.
 
 **EXCEPTIONS:**
 
-- **MilvusException**
-Raised when the server rejects the request or the RPC fails. Inspect the server error message for exact failure details.
+- **MilvusException**<br/>
+  Raised when the server rejects the request or the RPC fails. Inspect the server error message for exact failure details.
 
 ## Examples\{#examples}
 

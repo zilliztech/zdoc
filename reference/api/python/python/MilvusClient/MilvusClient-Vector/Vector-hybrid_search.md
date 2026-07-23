@@ -70,64 +70,64 @@ hybrid_search(
 
 **PARAMETERS:**
 
-- **collection_name** (*str*) -
-**[REQUIRED]**
-The name of the collection to search.
+- **collection_name** (*str*) -<br/>
+  **[REQUIRED]**<br/>
+  The name of the collection to search.
 
-- **reqs** (*List[AnnSearchRequest]*) -
-**[REQUIRED]**
-The ANN search requests combined by the hybrid search. Construct each request with `AnnSearchRequest(data, anns_field, param, limit, expr=None, expr_params=None, filter=None)`.
+- **reqs** (*List[AnnSearchRequest]*) -<br/>
+  **[REQUIRED]**<br/>
+  The ANN search requests combined by the hybrid search. Construct each request with `AnnSearchRequest(data, anns_field, param, limit, expr=None, expr_params=None, filter=None)`.
 
-    - **data** (*Union[List, SparseMatrixInputType]*) -
-**[REQUIRED]**
-The query vectors or sparse matrix used for this ANN search request.
+    - **data** (*Union[List, SparseMatrixInputType]*) -<br/>
+      **[REQUIRED]**<br/>
+      The query vectors or sparse matrix used for this ANN search request.
 
-    - **anns_field** (*str*) -
-**[REQUIRED]**
-The name of the vector field to search.
+    - **anns_field** (*str*) -<br/>
+      **[REQUIRED]**<br/>
+      The name of the vector field to search.
 
-    - **param** (*Dict*) -
-**[REQUIRED]**
-The ANN search parameters, such as the metric type and search-specific settings.
+    - **param** (*Dict*) -<br/>
+      **[REQUIRED]**<br/>
+      The ANN search parameters, such as the metric type and search-specific settings.
 
-    - **limit** (*int*) -
-**[REQUIRED]**
-The maximum number of matches returned by this ANN search request.
+    - **limit** (*int*) -<br/>
+      **[REQUIRED]**<br/>
+      The maximum number of matches returned by this ANN search request.
 
-    - **expr** (*Optional[str]*) -
-Default: `None`
-The Boolean filtering expression applied before the ANN search. Do not provide both `expr` and `filter`.
+    - **expr** (*Optional[str]*) -<br/>
+      Default: `None`<br/>
+      The Boolean filtering expression applied before the ANN search. Do not provide both `expr` and `filter`.
 
-    - **expr_params** (*Optional[dict]*) -
-Default: `None`
-The values substituted into expression-template placeholders.
+    - **expr_params** (*Optional[dict]*) -<br/>
+      Default: `None`<br/>
+      The values substituted into expression-template placeholders.
 
-    - **filter** (*Optional[str]*) -
-Default: `None`
-The alias for `expr`. Do not provide both values. The resolved expression is available through the read-only `filter` property as `request.filter`.
+    - **filter** (*Optional[str]*) -<br/>
+      Default: `None`<br/>
+      The alias for `expr`. Do not provide both values. The resolved expression is available through the read-only `filter` property as `request.filter`.
 
-- **ranker** (*Union[BaseRanker, Function]*) -
-**[REQUIRED]**
-The ranker used to combine and order results from the search requests.
+- **ranker** (*Union[BaseRanker, Function]*) -<br/>
+  **[REQUIRED]**<br/>
+  The ranker used to combine and order results from the search requests.
 
-- **limit** (*int*) -
-Default: `10`
-The maximum number of records to return, also known as `topk`.
+- **limit** (*int*) -<br/>
+  Default: `10`<br/>
+  The maximum number of records to return, also known as `topk`.
 
-- **output_fields** (*Optional[List[str]]*) -
-Default: `None`
-The scalar fields to include in each search result.
+- **output_fields** (*Optional[List[str]]*) -<br/>
+  Default: `None`<br/>
+  The scalar fields to include in each search result.
 
-- **timeout** (*Optional[float]*) -
-Default: `None`
-The maximum time, in seconds, to wait for the RPC. When omitted, the client waits until the server responds or an error occurs.
+- **timeout** (*Optional[float]*) -<br/>
+  Default: `None`<br/>
+  The maximum time, in seconds, to wait for the RPC. When omitted, the client waits until the server responds or an error occurs.
 
-- **partition_names** (*Optional[List[str]]*) -
-Default: `None`
-The names of the partitions to search.
+- **partition_names** (*Optional[List[str]]*) -<br/>
+  Default: `None`<br/>
+  The names of the partitions to search.
 
-- **kwargs** (*Any*) -
-The additional search options, including the pagination offset and consistency level.
+- **kwargs** (*Any*) -<br/>
+  The additional search options, including the pagination offset and consistency level.
 
 **RETURN TYPE:**
 
@@ -139,8 +139,8 @@ Search results for the combined ANN requests after applying each request's expre
 
 **EXCEPTIONS:**
 
-- **MilvusException**
-Raised when the server rejects the request or the RPC fails. Inspect the server error message for exact failure details.
+- **MilvusException**<br/>
+  Raised when the server rejects the request or the RPC fails. Inspect the server error message for exact failure details.
 
 ## Examples\{#examples}
 

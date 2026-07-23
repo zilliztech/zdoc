@@ -47,19 +47,19 @@ restore_snapshot(
 
 **PARAMETERS:**
 
-- **collection_name** (*str*) -
-**[REQUIRED]**
-The name of the target collection to restore the snapshot into.
+- **collection_name** (*str*) -<br/>
+  **[REQUIRED]**<br/>
+  The name of the target collection to restore the snapshot into.
 
-- **snapshot_name** (*str*) -
-**[REQUIRED]**
-The name of the snapshot to restore.
+- **snapshot_name** (*str*) -<br/>
+  **[REQUIRED]**<br/>
+  The name of the snapshot to restore.
 
-- **rewrite_data** (*bool*) -
-Whether to overwrite existing data in the target collection. Defaults to *False*.
+- **rewrite_data** (*bool*) -<br/>
+  Whether to overwrite existing data in the target collection. Defaults to *False*.
 
-- **timeout** (*Optional[float]*) -
-An optional duration of time in seconds to allow for the RPC.
+- **timeout** (*Optional[float]*) -<br/>
+  An optional duration of time in seconds to allow for the RPC.
 
 **RETURN TYPE:**
 

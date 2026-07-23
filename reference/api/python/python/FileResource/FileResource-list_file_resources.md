@@ -44,8 +44,8 @@ list_file_resources(
 
 **PARAMETERS**:
 
-- **timeout** (*float* | *None*) -
- The timeout duration (in seconds) for this operation. A value of `None` indicates that no timeout is applied.
+- **timeout** (*float* | *None*) -<br/>
+   The timeout duration (in seconds) for this operation. A value of `None` indicates that no timeout is applied.
 
 **RETURNS**:
 
@@ -53,11 +53,11 @@ list_file_resources(
 
 Each element of the returned list exposes the following attributes:
 
-- **name** (*str*) -
- The name under which the resource was registered.
+- **name** (*str*) -<br/>
+   The name under which the resource was registered.
 
-- **path** (*str*) -
- The object-store key of the registered file, including the `rootPath` prefix.
+- **path** (*str*) -<br/>
+   The object-store key of the registered file, including the `rootPath` prefix.
 
 ## Examples\{#examples}
 

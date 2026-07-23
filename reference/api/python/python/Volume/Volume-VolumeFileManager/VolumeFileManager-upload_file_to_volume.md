@@ -55,33 +55,33 @@ upload_file_to_volume(
 
 **PARAMETERS:**
 
-- **source_file_path** (*str*) -
-**[REQUIRED]**
-The local file or directory path to upload.
+- **source_file_path** (*str*) -<br/>
+  **[REQUIRED]**<br/>
+  The local file or directory path to upload.
 
-- **target_volume_path** (*str*) -
-**[REQUIRED]**
-The destination path in the Zilliz Cloud volume.
+- **target_volume_path** (*str*) -<br/>
+  **[REQUIRED]**<br/>
+  The destination path in the Zilliz Cloud volume.
 
-- **upload_concurrency** (*int*) -
-Default: `5`
-The maximum number of files to upload concurrently.
+- **upload_concurrency** (*int*) -<br/>
+  Default: `5`<br/>
+  The maximum number of files to upload concurrently.
 
-- **max_retries** (*int*) -
-Default: `5`
-The maximum number of upload attempts for each file.
+- **max_retries** (*int*) -<br/>
+  Default: `5`<br/>
+  The maximum number of upload attempts for each file.
 
-- **retry_interval** (*float*) -
-Default: `5.0`
-The delay, in seconds, between upload attempts.
+- **retry_interval** (*float*) -<br/>
+  Default: `5.0`<br/>
+  The delay, in seconds, between upload attempts.
 
-- **progress_callback** (*Callable[[UploadProgress], None] | None*) -
-Default: `None`
-The callback invoked with upload progress snapshots.
+- **progress_callback** (*Callable[[UploadProgress], None] | None*) -<br/>
+  Default: `None`<br/>
+  The callback invoked with upload progress snapshots.
 
-- **part_size** (*int*) -
-Default: `0`
-The multipart upload part size, in bytes. Use `0` to select the size automatically.
+- **part_size** (*int*) -<br/>
+  Default: `0`<br/>
+  The multipart upload part size, in bytes. Use `0` to select the size automatically.
 
 **RETURN TYPE:**
 
@@ -93,8 +93,8 @@ Dictionary containing volumeName, volume_name, and the uploaded target path.
 
 **EXCEPTIONS:**
 
-- **MilvusException**
-Raised when the server rejects the request or the RPC fails. Inspect the server error message for exact failure details.
+- **MilvusException**<br/>
+  Raised when the server rejects the request or the RPC fails. Inspect the server error message for exact failure details.
 
 ## Examples\{#examples}
 

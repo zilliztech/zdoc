@@ -45,11 +45,11 @@ list_restore_snapshot_jobs(
 
 **PARAMETERS:**
 
-- **collection_name** (*str*) -
-An optional collection name to filter restore jobs. If empty, all restore jobs are listed.
+- **collection_name** (*str*) -<br/>
+  An optional collection name to filter restore jobs. If empty, all restore jobs are listed.
 
-- **timeout** (*Optional[float]*) -
-An optional duration of time in seconds to allow for the RPC.
+- **timeout** (*Optional[float]*) -<br/>
+  An optional duration of time in seconds to allow for the RPC.
 
 **RETURN TYPE:**
 

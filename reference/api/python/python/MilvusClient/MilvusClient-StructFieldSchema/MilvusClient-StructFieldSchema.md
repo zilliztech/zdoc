@@ -44,13 +44,13 @@ StructFieldSchema(
 
 **PARAMETERS:**
 
-- **nullable** (*bool*) -
-Default: `False`
-The flag that allows the struct field to contain null values.
+- **nullable** (*bool*) -<br/>
+  Default: `False`<br/>
+  The flag that allows the struct field to contain null values.
 
-- **description** (*str*) -
-Default: `""`
-The description of the struct field.
+- **description** (*str*) -<br/>
+  Default: `""`<br/>
+  The description of the struct field.
 
 **RETURN TYPE:**
 
@@ -62,8 +62,8 @@ Struct field schema instance containing nested fields and nullable/default metad
 
 **EXCEPTIONS:**
 
-- **MilvusException**
-Raised when the server rejects the request or the RPC fails. Inspect the server error message for exact failure details.
+- **MilvusException**<br/>
+  Raised when the server rejects the request or the RPC fails. Inspect the server error message for exact failure details.
 
 ## Examples\{#examples}
 

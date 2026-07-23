@@ -49,32 +49,32 @@ update_password(
 
 **PARAMETERS:**
 
-- **user_name** (*str*) -
-**[REQUIRED]**
-The name of the user whose password is changed.
+- **user_name** (*str*) -<br/>
+  **[REQUIRED]**<br/>
+  The name of the user whose password is changed.
 
-- **old_password** (*str*) -
-**[REQUIRED]**
-The current password of the user.
+- **old_password** (*str*) -<br/>
+  **[REQUIRED]**<br/>
+  The current password of the user.
 
-- **new_password** (*str*) -
-**[REQUIRED]**
-The new password for the user.
+- **new_password** (*str*) -<br/>
+  **[REQUIRED]**<br/>
+  The new password for the user.
 
-- **reset_connection** (*Optional[bool]*) -
-Default: `False`
-The flag that reconnects the client with the new password after the update.
+- **reset_connection** (*Optional[bool]*) -<br/>
+  Default: `False`<br/>
+  The flag that reconnects the client with the new password after the update.
 
-- **timeout** (*Optional[float]*) -
-Default: `None`
-The maximum time, in seconds, to wait for the RPC to complete.
+- **timeout** (*Optional[float]*) -<br/>
+  Default: `None`<br/>
+  The maximum time, in seconds, to wait for the RPC to complete.
 
-- **description** (*Optional[str]*) -
-Default: `None`
-The optional updated description of the user account.
+- **description** (*Optional[str]*) -<br/>
+  Default: `None`<br/>
+  The optional updated description of the user account.
 
-- **kwargs** (*Any*) -
-The additional request context options.
+- **kwargs** (*Any*) -<br/>
+  The additional request context options.
 
 **RETURN TYPE:**
 
@@ -86,8 +86,8 @@ Returns no value after the password is updated successfully.
 
 **EXCEPTIONS:**
 
-- **MilvusException**
-Raised when the server rejects the request or the RPC fails. Inspect the server error message for exact failure details.
+- **MilvusException**<br/>
+  Raised when the server rejects the request or the RPC fails. Inspect the server error message for exact failure details.
 
 ## Examples\{#examples}
 

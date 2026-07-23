@@ -52,46 +52,46 @@ get_import_progress(
 
 **PARAMETERS:**
 
-- **url** (*str*) -
-**[REQUIRED]**
+- **url** (*str*) -<br/>
+  **[REQUIRED]**
 
     The Zilliz Cloud API server endpoint, which is `https://api.cloud.zilliz.com`.
 
-- **job_id** (*str*) -
-**[REQUIRED]**
-The ID of the import job to inspect.
+- **job_id** (*str*) -<br/>
+  **[REQUIRED]**<br/>
+  The ID of the import job to inspect.
 
-- **cluster_id** (*str*) -
-Default: `""`
-The ID of the target Zilliz Cloud cluster.
+- **cluster_id** (*str*) -<br/>
+  Default: `""`<br/>
+  The ID of the target Zilliz Cloud cluster.
 
-- **project_id** (*str*) -
-Default: `""`
-The ID of the Zilliz Cloud project containing the target project database.
+- **project_id** (*str*) -<br/>
+  Default: `""`<br/>
+  The ID of the Zilliz Cloud project containing the target project database.
 
-- **region_id** (*str*) -
-Default: `""`
-The ID of the Zilliz Cloud region containing the target project database.
+- **region_id** (*str*) -<br/>
+  Default: `""`<br/>
+  The ID of the Zilliz Cloud region containing the target project database.
 
-- **api_key** (*str*) -
-Default: `""`
+- **api_key** (*str*) -<br/>
+  Default: `""`
 
     The Zilliz Cloud API key used to authenticate the request.
 
-- **db_name** (*str*) -
-Default: `""`
-The database name sent in the `DB-Name` header for role-based access control.
+- **db_name** (*str*) -<br/>
+  Default: `""`<br/>
+  The database name sent in the `DB-Name` header for role-based access control.
 
-- **verify** (*Optional[Union[bool, str]]*) -
-Default: `True`
-The TLS verification setting. Use `True` to verify with the default trust store or provide a CA certificate path.
+- **verify** (*Optional[Union[bool, str]]*) -<br/>
+  Default: `True`<br/>
+  The TLS verification setting. Use `True` to verify with the default trust store or provide a CA certificate path.
 
-- **cert** (*Optional[Union[str, tuple]]*) -
-Default: `None`
-The client certificate path, or a certificate and private-key pair for mutual TLS.
+- **cert** (*Optional[Union[str, tuple]]*) -<br/>
+  Default: `None`<br/>
+  The client certificate path, or a certificate and private-key pair for mutual TLS.
 
-- **kwargs** (*Any*) -
-The additional options forwarded to the HTTP request.
+- **kwargs** (*Any*) -<br/>
+  The additional options forwarded to the HTTP request.
 
 **RETURN TYPE:**
 
@@ -103,8 +103,8 @@ HTTP response containing the current bulk-import job state and progress.
 
 **EXCEPTIONS:**
 
-- **MilvusException**
-Raised when the server rejects the request or the RPC fails. Inspect the server error message for exact failure details.
+- **MilvusException**<br/>
+  Raised when the server rejects the request or the RPC fails. Inspect the server error message for exact failure details.
 
 ## Examples\{#examples}
 

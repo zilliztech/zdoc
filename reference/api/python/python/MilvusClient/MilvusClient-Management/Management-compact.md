@@ -49,32 +49,32 @@ compact(
 
 **PARAMETERS:**
 
-- **collection_name** (*str*) -
-**[REQUIRED]**
-The name of the collection to compact.
+- **collection_name** (*str*) -<br/>
+  **[REQUIRED]**<br/>
+  The name of the collection to compact.
 
-- **is_clustering** (*Optional[bool]*) -
-Default: `False`
-The flag that requests a clustering compaction.
+- **is_clustering** (*Optional[bool]*) -<br/>
+  Default: `False`<br/>
+  The flag that requests a clustering compaction.
 
-- **is_l0** (*Optional[bool]*) -
-Default: `False`
-The flag that requests a level-zero compaction.
+- **is_l0** (*Optional[bool]*) -<br/>
+  Default: `False`<br/>
+  The flag that requests a level-zero compaction.
 
-- **target_size** (*Optional[int]*) -
-Default: `None`
-The desired segment size after compaction. The value must be a positive integer; the server default is used when omitted.
+- **target_size** (*Optional[int]*) -<br/>
+  Default: `None`<br/>
+  The desired segment size after compaction. The value must be a positive integer; the server default is used when omitted.
 
-- **target_size_unit** (*str*) -
-Default: `"mb"`
-The unit for `target_size`. Supported values are `b`, `kb`, `mb`, `gb`, `tb`, and `pb`; the default is `mb`.
+- **target_size_unit** (*str*) -<br/>
+  Default: `"mb"`<br/>
+  The unit for `target_size`. Supported values are `b`, `kb`, `mb`, `gb`, `tb`, and `pb`; the default is `mb`.
 
-- **timeout** (*Optional[float]*) -
-Default: `None`
-The maximum time, in seconds, to wait for the RPC. When omitted, the client waits until the server responds or an error occurs.
+- **timeout** (*Optional[float]*) -<br/>
+  Default: `None`<br/>
+  The maximum time, in seconds, to wait for the RPC. When omitted, the client waits until the server responds or an error occurs.
 
-- **kwargs** (*Any*) -
-The additional request context options.
+- **kwargs** (*Any*) -<br/>
+  The additional request context options.
 
 **RETURN TYPE:**
 
@@ -86,8 +86,8 @@ Compaction job identifier returned by Milvus.
 
 **EXCEPTIONS:**
 
-- **MilvusException**
-Raised when the server rejects the request or the RPC fails. Inspect the server error message for exact failure details.
+- **MilvusException**<br/>
+  Raised when the server rejects the request or the RPC fails. Inspect the server error message for exact failure details.
 
 ## Examples\{#examples}
 

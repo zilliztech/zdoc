@@ -46,14 +46,14 @@ add_file_resource(
 
 **PARAMETERS**:
 
-- **name** (*str*) -
- The unique name to register the resource under. This value is what you later pass as `resource_name` in analyzer configurations that reference this resource.
+- **name** (*str*) -<br/>
+   The unique name to register the resource under. This value is what you later pass as `resource_name` in analyzer configurations that reference this resource.
 
-- **path** (*str*) -
- The object key of the file in the object store configured for the Milvus cluster, **including the rootPath prefix**. For example, if the cluster's `rootPath` is `file` and you uploaded the file to `s3://<bucket>/file/dict.txt`, set `path` to `"file/dict.txt"`. A path that does not resolve to an existing object causes the call to fail with `MilvusException` (`code=65535`, `message="file resource path not exist"`).
+- **path** (*str*) -<br/>
+   The object key of the file in the object store configured for the Milvus cluster, **including the rootPath prefix**. For example, if the cluster's `rootPath` is `file` and you uploaded the file to `s3://<bucket>/file/dict.txt`, set `path` to `"file/dict.txt"`. A path that does not resolve to an existing object causes the call to fail with `MilvusException` (`code=65535`, `message="file resource path not exist"`).
 
-- **timeout** (*float* | *None*) -
- The timeout duration (in seconds) for this operation. A value of `None` indicates that no timeout is applied.
+- **timeout** (*float* | *None*) -<br/>
+   The timeout duration (in seconds) for this operation. A value of `None` indicates that no timeout is applied.
 
 **RETURNS**:
 

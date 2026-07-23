@@ -45,16 +45,16 @@ describe_user(
 
 **PARAMETERS:**
 
-- **user_name** (*str*) -
-**[REQUIRED]**
-Name of the user account to describe.
+- **user_name** (*str*) -<br/>
+  **[REQUIRED]**<br/>
+  Name of the user account to describe.
 
-- **timeout** (*Optional[float]*) -
-Default: `None`
-Maximum time, in seconds, to wait for the RPC to complete.
+- **timeout** (*Optional[float]*) -<br/>
+  Default: `None`<br/>
+  Maximum time, in seconds, to wait for the RPC to complete.
 
-- **kwargs** (*Any*) -
-Additional request context options.
+- **kwargs** (*Any*) -<br/>
+  Additional request context options.
 
 **RETURN TYPE:**
 
@@ -64,19 +64,19 @@ Additional request context options.
 
 Dictionary with `user_name`, `roles`, and `description`. Returns an empty dictionary when the user is not found.
 
-- **user_name** (*str*) -
-Name of the described user account.
+- **user_name** (*str*) -<br/>
+  Name of the described user account.
 
-- **roles** (*list[str]*) -
-Roles assigned to the user account.
+- **roles** (*list[str]*) -<br/>
+  Roles assigned to the user account.
 
-- **description** (*str*) -
-Description stored for the user account.
+- **description** (*str*) -<br/>
+  Description stored for the user account.
 
 **EXCEPTIONS:**
 
-- **MilvusException**
-Raised when the server rejects the request or the RPC fails. Inspect the server error message for exact failure details.
+- **MilvusException**<br/>
+  Raised when the server rejects the request or the RPC fails. Inspect the server error message for exact failure details.
 
 ## Examples\{#examples}
 

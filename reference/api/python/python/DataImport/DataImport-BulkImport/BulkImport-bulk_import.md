@@ -59,74 +59,74 @@ bulk_import(
 
 **PARAMETERS:**
 
-- **url** (*str*) -
-**[REQUIRED]**
+- **url** (*str*) -<br/>
+  **[REQUIRED]**
 
     The Zilliz Cloud API server endpoint, which is `https://api.cloud.zilliz.com`.
 
-- **collection_name** (*str*) -
-**[REQUIRED]**
-The name of the target collection.
+- **collection_name** (*str*) -<br/>
+  **[REQUIRED]**<br/>
+  The name of the target collection.
 
-- **db_name** (*str*) -
-Default: `""`
-The name of the target database.
+- **db_name** (*str*) -<br/>
+  Default: `""`<br/>
+  The name of the target database.
 
-- **object_url** (*str*) -
-Default: `""`
-The deprecated object-storage URL. Use `object_urls` for new Zilliz Cloud integrations.
+- **object_url** (*str*) -<br/>
+  Default: `""`<br/>
+  The deprecated object-storage URL. Use `object_urls` for new Zilliz Cloud integrations.
 
-- **object_urls** (*Optional[List[List[str]]]*) -
-Default: `None`
-The object-storage URLs containing the import data. Each nested list identifies one object or folder.
+- **object_urls** (*Optional[List[List[str]]]*) -<br/>
+  Default: `None`<br/>
+  The object-storage URLs containing the import data. Each nested list identifies one object or folder.
 
-- **cluster_id** (*str*) -
-Default: `""`
-The ID of the target Zilliz Cloud cluster.
+- **cluster_id** (*str*) -<br/>
+  Default: `""`<br/>
+  The ID of the target Zilliz Cloud cluster.
 
-- **project_id** (*str*) -
-Default: `""`
-The ID of the Zilliz Cloud project containing the target project database.
+- **project_id** (*str*) -<br/>
+  Default: `""`<br/>
+  The ID of the Zilliz Cloud project containing the target project database.
 
-- **region_id** (*str*) -
-Default: `""`
-The ID of the Zilliz Cloud region containing the target project database.
+- **region_id** (*str*) -<br/>
+  Default: `""`<br/>
+  The ID of the Zilliz Cloud region containing the target project database.
 
-- **api_key** (*str*) -
-Default: `""`
+- **api_key** (*str*) -<br/>
+  Default: `""`
 
     The Zilliz Cloud API key used to authenticate the request.
 
-- **access_key** (*str*) -
-Default: `""`
-The access key for the object-storage credentials used by Zilliz Cloud.
+- **access_key** (*str*) -<br/>
+  Default: `""`<br/>
+  The access key for the object-storage credentials used by Zilliz Cloud.
 
-- **secret_key** (*str*) -
-Default: `""`
-The secret key for the object-storage credentials used by Zilliz Cloud.
+- **secret_key** (*str*) -<br/>
+  Default: `""`<br/>
+  The secret key for the object-storage credentials used by Zilliz Cloud.
 
-- **token** (*str*) -
-Default: `""`
-The session token for temporary object-storage credentials used by Zilliz Cloud.
+- **token** (*str*) -<br/>
+  Default: `""`<br/>
+  The session token for temporary object-storage credentials used by Zilliz Cloud.
 
-- **volume_name** (*str*) -
-Default: `""`
-The name of the Zilliz Cloud volume containing the import data.
+- **volume_name** (*str*) -<br/>
+  Default: `""`<br/>
+  The name of the Zilliz Cloud volume containing the import data.
 
-- **data_paths** (*Optional[List[List[str]]]*) -
-Default: `None`
-The paths within the Zilliz Cloud volume that contain the import data.
+- **data_paths** (*Optional[List[List[str]]]*) -<br/>
+  Default: `None`<br/>
+  The paths within the Zilliz Cloud volume that contain the import data.
 
-- **verify** (*Optional[Union[bool, str]]*) -
-Default: `True`
-The TLS verification setting. Use `True` to verify with the default trust store or provide a CA certificate path.
+- **verify** (*Optional[Union[bool, str]]*) -<br/>
+  Default: `True`<br/>
+  The TLS verification setting. Use `True` to verify with the default trust store or provide a CA certificate path.
 
-- **cert** (*Optional[Union[str, tuple]]*) -
-Default: `None`
-The client certificate path, or a certificate and private-key pair for mutual TLS.
+- **cert** (*Optional[Union[str, tuple]]*) -<br/>
+  Default: `None`<br/>
+  The client certificate path, or a certificate and private-key pair for mutual TLS.
 
-- **kwargs** (*Any*) -
-The additional options forwarded to the HTTP request.
+- **kwargs** (*Any*) -<br/>
+  The additional options forwarded to the HTTP request.
 
 **RETURN TYPE:**
 
@@ -138,8 +138,8 @@ HTTP response returned by the bulk-import endpoint. Inspect the JSON payload for
 
 **EXCEPTIONS:**
 
-- **MilvusException**
-Raised when the server rejects the request or the RPC fails. Inspect the server error message for exact failure details.
+- **MilvusException**<br/>
+  Raised when the server rejects the request or the RPC fails. Inspect the server error message for exact failure details.
 
 ## Examples\{#examples}
 

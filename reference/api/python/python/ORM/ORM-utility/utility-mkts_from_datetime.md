@@ -45,12 +45,12 @@ mkts_from_datetime(
 
 **PARAMETERS:**
 
-- **d_time** (*datetime*) -
-**[REQUIRED]**
-A **datetime.datetime** object.
+- **d_time** (*datetime*) -<br/>
+  **[REQUIRED]**<br/>
+  A **datetime.datetime** object.
 
-- **milliseconds** (*float*) -
-An incremental time interval in milliseconds.
+- **milliseconds** (*float*) -<br/>
+  An incremental time interval in milliseconds.
 
 - **delta** (*Optional[timedelta]*) -
 

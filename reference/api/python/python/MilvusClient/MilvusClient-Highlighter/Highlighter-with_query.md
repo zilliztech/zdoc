@@ -45,14 +45,14 @@ with_query(
 
 **PARAMETERS**:
 
-- **field** (*str*) -
-The target text field name whose content should be annotated when matches are found by the filtering expression. Must correspond to a **VARCHAR** text field in the collection schema.
+- **field** (*str*) -<br/>
+  The target text field name whose content should be annotated when matches are found by the filtering expression. Must correspond to a **VARCHAR** text field in the collection schema.
 
-- **text** (*str*) -
-The terms or phrase to highlight from the filtering expression. For example, **"my doc"** will highlight matches of **"my"** and **"doc"** in the specified field.
+- **text** (*str*) -<br/>
+  The terms or phrase to highlight from the filtering expression. For example, **"my doc"** will highlight matches of **"my"** and **"doc"** in the specified field.
 
-- **query_type** (*str*) -
-The filtering type that provides the terms to highlight. For text-based filtering, use **"TextMatch"** to correspond to the **TEXT_MATCH** condition.
+- **query_type** (*str*) -<br/>
+  The filtering type that provides the terms to highlight. For text-based filtering, use **"TextMatch"** to correspond to the **TEXT_MATCH** condition.
 
 **RETURNS**:
 

@@ -45,12 +45,12 @@ get_restore_snapshot_state(
 
 **PARAMETERS:**
 
-- **job_id** (*int*) -
-**[REQUIRED]**
-The restore job ID returned by `restore_snapshot()`.
+- **job_id** (*int*) -<br/>
+  **[REQUIRED]**<br/>
+  The restore job ID returned by `restore_snapshot()`.
 
-- **timeout** (*Optional[float]*) -
-An optional duration of time in seconds to allow for the RPC.
+- **timeout** (*Optional[float]*) -<br/>
+  An optional duration of time in seconds to allow for the RPC.
 
 **RETURN TYPE:**
 
