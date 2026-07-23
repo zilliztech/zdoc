@@ -1,16 +1,16 @@
 ---
 title: "uploadFilesAsync | Java | v2"
-slug: /java/java/v2-VolumeFileManager-uploadFilesAsync
+slug: /java/java/v2-Volume-VolumeFileManager/v2-VolumeFileManager-uploadFilesAsync
 sidebar_label: "uploadFilesAsync"
 beta: false
 added_since: false
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、指定されたソースパスにあるローカルファイルを、指定された volume 内のターゲットファイルパスにアップロードします。 | Java | v2"
+description: "ローカルファイルまたはディレクトリを非同期で volume にアップロードします。 | Java | v2"
 type: docx
-token: GE25dbBmMoU8glxCWbJckYObnN1
-sidebar_position: 1
+token: K8JSdXyEJoN8XKxDWebc8TfPnge
+sidebar_position: 4
 keywords: 
   - Hierarchical Navigable Small Worlds
   - Dense embedding
@@ -29,9 +29,9 @@ displayed_sidbar: javaSidebar
 import Admonition from '@theme/Admonition';
 
 
-# uploadFilesAsync
+# uploadFilesAsync()
 
-この操作は、指定されたソースパスにあるローカルファイルを、指定された volume 内のターゲットファイルパスにアップロードします。
+ローカルファイルまたはディレクトリを非同期で volume にアップロードします。
 
 ```java
 public CompletableFuture<UploadFilesResult> uploadFilesAsync(UploadFilesRequest request)
@@ -40,78 +40,69 @@ public CompletableFuture<UploadFilesResult> uploadFilesAsync(UploadFilesRequest 
 ## Request Syntax\{#request-syntax}
 
 ```java
-uploadFileAsync(UploadFilesRequest.builder()
-    .sourceFilePath(String sourceFilePath)
-    .targetVolumePath(String targetVolumePath)
+UploadFilesRequest.builder()
+    .sourceFilePath(sourceFilePath)
+    .targetVolumePath(targetVolumePath)
+    .uploadConcurrency(uploadConcurrency)
+    .maxRetries(maxRetries)
+    .retryIntervalMillis(retryIntervalMillis)
+    .progressListener(progressListener)
+    .partSizeBytes(partSizeBytes)
     .build();
-)
 ```
 
-**PARAMETERS**
+**BUILDER METHODS:**
 
-- **sourceFilePath** (*str*) -
+- `sourceFilePath(String sourceFilePath)`
 
-    **[REQUIRED]**
+    アップロードするローカルファイルまたはディレクトリのフルパス。ディレクトリパスは `/` で終わる必要があります。
 
-    指定された volume にアップロードするローカルデータファイルへのパス。
+- `targetVolumePath(String targetVolumePath)`
 
-- **targetVolumePath** (*str*) -
+    volume 内の宛先ディレクトリ。ルートディレクトリの場合は空のままにし、フォルダの場合は `/` で終わるようにします。
 
-    **[REQUIRED]**
+- `uploadConcurrency(int uploadConcurrency)`
 
-    この操作後に、指定された volume 内でデータファイルが配置されるパス。
+    同時にアップロードするファイルの最大数。デフォルトは **5** です。
 
-**RETURN TYPE**
+- `maxRetries(int maxRetries)`
+
+    各ファイルの最大リトライ回数。デフォルトは **5** です。
+
+- `retryIntervalMillis(long retryIntervalMillis)`
+
+    リトライ間隔（ミリ秒）。デフォルトは **5,000** ミリ秒です。
+
+- `progressListener(ProgressListener progressListener)`
+
+    アップロード進捗のスナップショットを受け取る、オプションの `ProgressListener` コールバック。
+
+- `partSizeBytes(long partSizeBytes)`
+
+    マルチパートアップロードの各パートサイズ（バイト単位）。値が **0** 以下の場合、パートサイズは自動的に選択されます。
+
+**RETURNS:**
 
 *CompletableFuture&lt;UploadFilesResult&gt;*
 
-**RETURNS**
+**EXCEPTIONS:**
 
-**CompletableFuture&lt;UploadFilesResult&gt;** インスタンスを返します。これは、以下の属性を持つ **UploadFilesResult** インスタンスに解決されます。
+- **MilvusClientExceptions**
 
-- **volumeName** (*str*) -
-
-    **[REQUIRED]**
-
-    この操作のターゲット volume の名前。
-
-- **path** (*str*) -
-
-    **[REQUIRED]**
-
-    この操作後に、指定された volume 内でデータファイルが配置されるパス。
+    この操作中に何らかのエラーが発生した場合にスローされます。正確な失敗理由については例外メッセージを確認してください。
 
 ## Example\{#example}
 
+### Java example\{#java-example}
+
+ローカルファイルまたはディレクトリを非同期で volume にアップロードします。
+
 ```java
-import com.google.gson.Gson;
-import java.util.concurrent.CompletableFuture;
-import io.milvus.bulkwriter.VolumeFileManager;
-import io.milvus.bulkwriter.VolumeFileManagerParam;
-import io.milvus.bulkwriter.request.volume.UploadFilesRequest;
-import io.milvus.bulkwriter.model.UploadFilesResult;
-
-VolumeFileManagerParam volumeFileManagerParam = VolumeFileManagerParam.newBuilder()
-    .withCloudEndpoint("https://api.cloud.zilliz.com")
-    .withApiKey("YOUR_API_KEY")
-    .withVolumeName("my_volume")
-    .build();
-
-VolumeFileManager volumeFileManager = new VolumeFileManager(volumeFileManagerParam);
-
-UploadFilesRequest request = UploadFilesRequest.builder()
-    .sourceFilePath("/path/to/your/local/data/file")
-    .targetVolumePath("data/")
-    .build();
-
-UploadFilesResult result = volumeFileManager.uploadFilesAsync(request).get();
-
-System.out.println("\nuploadFiles results: " + new Gson().toJson(result));
-
-// uploadFiles results: 
-// 
-// {
-//     "volumeName": "my_volume",
-//     "path": "data/"
-// }
+CompletableFuture<UploadFilesResult> future = volumeFileManager.uploadFilesAsync(
+    UploadFilesRequest.builder()
+        .sourceFilePath("/data/books.json")
+        .targetVolumePath("imports/books.json")
+        .uploadConcurrency(5)
+        .build());
+UploadFilesResult result = future.get();
 ```

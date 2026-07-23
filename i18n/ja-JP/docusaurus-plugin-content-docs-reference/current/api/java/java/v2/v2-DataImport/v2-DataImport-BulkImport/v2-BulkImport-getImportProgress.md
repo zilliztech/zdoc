@@ -7,18 +7,18 @@ added_since: v2.5.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、指定された bulk-import ジョブの進行状況を取得します。 | Java | v2"
+description: "Milvus または Zilliz Cloud の一括インポートジョブの現在の状態と進行状況を取得します。 | Java | v2"
 type: docx
-token: EjnFdC5EfoIkoExSBOxcEC2hnbg
+token: OFZ3dUGwmoarOBx6FHScZwwtn8f
 sidebar_position: 3
 keywords: 
   - Deep Learning
-  - ナレッジベース
-  - 自然言語処理
-  - AI チャットボット
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
   - zilliz
   - zilliz cloud
-  - クラウド
+  - cloud
   - getImportProgress()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,69 +31,60 @@ import Admonition from '@theme/Admonition';
 
 # getImportProgress()
 
-この操作は、指定された bulk-import ジョブの進行状況を取得します。
+Milvus または Zilliz Cloud の一括インポートジョブの現在の状態と進行状況を取得します。
 
 ```java
 public static String getImportProgress(String url, BaseDescribeImportRequest request)
 ```
 
-## リクエスト構文\{#request-syntax}
+## Request Syntax\{#request-syntax}
 
-```java
-bulkImport.getImportProgress(
-    url,
-    request
-)
-```
-
-**パラメーター:**
-
-- **url** (*String*) -
-
-    Zilliz Cloud の Control Plane API エンドポイント。エンドポイント URL は次の形式である必要があります。
-
-    ```python
-    https://api.cloud.zilliz.com
-    ```
-
-- **request** (*[BaseDescribeImportRequest](./v2-BulkImport-getImportProgress#basedescribeimportrequest)*) -  
-
-    **BaseImportRequest** インスタンス。
-
-**戻り値の型:**
-
-*String*
-
-**戻り値:**
-
-指定された import ジョブの進行状況。
-
-## BaseDescribeImportRequest\{#basedescribeimportrequest}
-
-**BaseDescribeImportRequest** インスタンスは **CloudDescribeImportRequest** で実装されています。
-
-### CloudDescribeImportRequest\{#clouddescribeimportrequest}
+Zilliz Cloud で作成されたインポートジョブには、このリクエストを使用します。
 
 ```java
 CloudDescribeImportRequest.builder()
-    .apiKey(String apiKey)
-    .jobId(String jobId)
-    .build()
+    .apiKey(apiKey)
+    .clusterId(clusterId)
+    .projectId(projectId)
+    .regionId(regionId)
+    .jobId(jobId)
+    .build();
 ```
 
-**ビルダーメソッド:**
+**PARAMETERS:**
 
-- `apiKey(String apiKey)`
+- **apiKey** (*String*) -<br/>
+  認証資格情報。Cloud リクエストには Zilliz Cloud API キーを使用し、Milvus リクエストには `username:password` を使用します。
 
-    クラスターを操作するための十分な権限を持つ、有効な Zilliz Cloud API キー。
+- **clusterId** (*String*) -<br/>
+  クラスター型デプロイメント用のクラスター識別子。プロジェクトデータベースデプロイメントでは、代わりに `projectId` と `regionId` を使用します。
 
-- `jobId(String jobId)`
+- **projectId** (*String*) -<br/>
+  プロジェクトデータベースデプロイメント用のプロジェクト識別子。`clusterId` の代わりに `regionId` と一緒に使用します。
 
-    既存の import ジョブの ID。
+- **regionId** (*String*) -<br/>
+  プロジェクトデータベースデプロイメント用のリージョン識別子。`clusterId` の代わりに `projectId` と一緒に使用します。
 
-## 例\{#example}
+- **jobId** (*String*) -<br/>
+  確認対象のインポートジョブの識別子。
+
+**RETURNS:**
+
+*String*
+
+インポートジョブの状態、進行状況、および関連する詳細を含む JSON レスポンス。
+
+## Example\{#example}
+
+プロジェクト識別子とリージョン識別子を使用してインポートの進行状況を取得します。
 
 ```java
-
+CloudDescribeImportRequest request = CloudDescribeImportRequest.builder()
+    .projectId(PROJECT_ID)
+    .regionId(REGION_ID)
+    .jobId(jobId)
+    .apiKey(API_KEY)
+    .build();
+String response = BulkImportUtils.getImportProgress("https://api.cloud.zilliz.com", request);
 ```
 

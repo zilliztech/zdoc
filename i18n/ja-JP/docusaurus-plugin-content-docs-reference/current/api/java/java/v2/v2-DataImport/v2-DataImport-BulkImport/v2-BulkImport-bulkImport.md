@@ -7,15 +7,15 @@ added_since: v2.5.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、準備済みのデータファイルを Zilliz Cloud にインポートします。データファイルの準備方法については、Prepare Data Import を参照してください。 | Java | v2"
+description: "Milvus または Zilliz Cloud 内の準備済みデータファイルから bulk import ジョブを作成します。 | Java | v2"
 type: docx
-token: S0ITdsnpYoDpH9xKv9fcBhe5nWA
+token: HlcKdFOnpouIUjxL5hLcUU1GnFb
 sidebar_position: 2
 keywords: 
   - 情報検索
   - 次元削減
   - hnsw algorithm
-  - ベクトル類似検索
+  - vector similarity search
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,128 +31,97 @@ import Admonition from '@theme/Admonition';
 
 # bulkImport()
 
-この操作は、準備済みのデータファイルを Zilliz Cloud にインポートします。データファイルの準備方法については、[Prepare Data Import](/docs/prepare-data-import) を参照してください。
+Milvus または Zilliz Cloud 内の準備済みデータファイルから bulk import ジョブを作成します。
 
 ```java
 public static String bulkImport(String url, BaseImportRequest request)
 ```
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
-```java
-bulkImport.bulkImport(
-    url, 
-    request
-)
-```
-
-**PARAMETERS:**
-
-- **url** (*String*) -
-
-    Zilliz Cloud の Control Plane API エンドポイント。エンドポイント URL は次の形式である必要があります。
-
-    ```python
-    https://api.cloud.zilliz.com
-    ```
-
-- **request** (*[BaseImportRequest](./v2-BulkImport-bulkImport#baseimportrequest)*) -  
-
-    **BaseImportRequest** インスタンス。
-
-**RETURN TYPE:**
-
-*String*
-
-**RETURNS:**
-
-作成されたインポートジョブの ID。
-
-## BaseImportRequest\{#baseimportrequest}
-
-**BaseImportRequest** インスタンスは **CloudImportRequest** で実装されます。
-
-### CloudImportRequest\{#cloudimportrequest}
+bucket データを Zilliz Cloud にインポートする場合は、このリクエストを使用します。
 
 ```java
 CloudImportRequest.builder()
-    .apiKey(String apiKey)
-    .objectUrl(String objectUrl)
-    .accessKey(String accessKey)
-    .secrectKey(String secrectKey)
-    .clusterId(String clusterId)
-    .dbName(String dbName)
-    .collectionName(String collectionName)
-    .partitionName(String partitionName)
-    .build()
+    .apiKey(apiKey)
+    .clusterId(clusterId)
+    .projectId(projectId)
+    .regionId(regionId)
+    .dbName(dbName)
+    .collectionName(collectionName)
+    .partitionName(partitionName)
+    .objectUrls(objectUrls)
+    .objectUrl(objectUrl)
+    .accessKey(accessKey)
+    .secretKey(secretKey)
+    .token(token)
+    .options(options)
+    .build();
 ```
 
-**BUILDER METHODS:**
+**パラメータ:**
 
-- `apiKey(String apiKey)`
+- **apiKey** (*String*) -<br/>
+  認証資格情報です。Cloud リクエストには Zilliz Cloud API key を使用し、Milvus リクエストには `username:password` を使用します。
 
-    クラスターを操作するための十分な権限を持つ、有効な Zilliz Cloud API キー。
+- **clusterId** (*String*) -<br/>
+  cluster ベースのデプロイ用の cluster 識別子です。プロジェクトデータベースのデプロイでは、代わりに `projectId` と `regionId` を使用します。
 
-- `objectUrl(String objectUrl)`
+- **projectId** (*String*) -<br/>
+  プロジェクトデータベースのデプロイ用のプロジェクト識別子です。`clusterId` の代わりに `regionId` と組み合わせて使用します。
 
-    ブロックストレージバケットのいずれかにあるデータファイルの URL。以下は、よく知られたブロックストレージサービスの例です。
+- **regionId** (*String*) -<br/>
+  プロジェクトデータベースのデプロイ用のリージョン識別子です。`clusterId` の代わりに `projectId` と組み合わせて使用します。
 
-    ```python
-    # Google Cloud Storage
-    gs://{bucket-name}/{object-path}/
-    
-    # AWS S3
-    s3://{bucket-name}/{object-path}/
-    ```
+- **dbName** (*String*) -<br/>
+  デフォルト: `default`<br/>
+  Dedicated デプロイ用の対象データベース名です。
 
-- `accessKey(String accessKey)`
+- **collectionName** (*String*) -<br/>
+  対象 collection 名です。
 
-    データファイルへのアクセスを認証するために使用されるアクセスキー。
+- **partitionName** (*String*) -<br/>
+  デフォルト: `default`<br/>
+  collection が partition key を使用しない場合の対象 partition 名です。
 
-- `secrectKey(String secrectKey)`
+- **objectUrls** (*List&lt;List&lt;String&gt;&gt;*) -<br/>
+  インポートする bucket フォルダまたはファイルです。複数のパスとファイルグループをサポートします。
 
-    データファイルへのアクセスを認証するために使用されるシークレットキー。
+- **objectUrl** (*String*) -<br/>
+  非推奨の単一 bucket フォルダまたはファイル URL です。新しい統合では `objectUrls` を使用してください。
 
-- `clusterId(String clusterId)`
+- **accessKey** (*String*) -<br/>
+  ストレージ access key です。`secretKey` と、必要に応じて一時的な認証情報用の `token` と一緒に使用します。
 
-    この操作の対象クラスターのインスタンス ID。
+- **secretKey** (*String*) -<br/>
+  ストレージ secret key です。`accessKey` と、必要に応じて一時的な認証情報用の `token` と一緒に使用します。
 
-    Zilliz Cloud コンソールの詳細ページでクラスターのインスタンス ID を取得できます。
+- **token** (*String*) -<br/>
+  短期認証情報を使用する場合の一時的なストレージ認証情報トークンです。
 
-- `dbName(String dbName)`
+- **options** (*Map&lt;String, Object&gt;*) -<br/>
+  サービスに渡される追加のインポートオプションです。
 
-    対象データベースの名前。このパラメータの値のデフォルトは `default` です。
+**戻り値:**
 
-- `collectionName(String collectionName)`
+*String*
 
-    この操作の対象クラスター内のコレクションの名前。
+`data.jobId` に作成されたインポートジョブの識別子を含む JSON レスポンスです。
 
-- `partitionName(String partitionName)`
+## 例\{#example}
 
-    この操作の対象クラスター内のパーティションの名前。デフォルト値は `default` です。
-
-## Example\{#example}
+Zilliz Cloud のプロジェクトデータベース用のインポートジョブを作成します。
 
 ```java
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import io.milvus.bulkwriter.request.import_.MilvusImportRequest;
-import io.milvus.bulkwriter.restful.BulkImportUtils;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-CloudImportRequest cloudImportRequest = CloudImportRequest.builder()
-        .objectUrl(objectUrl).accessKey(accessKey).secretKey(secretKey)
-        .clusterId(clusterId).collectionName(collectionName)
-        .apiKey(apiKey)
-        .build();
-String bulkImportResult = BulkImportUtils.bulkImport(url, cloudImportRequest);
-
-Gson GSON_INSTANCE = new Gson();
-JsonObject result = GSON_INSTANCE.fromJson(bulkImportResult, JsonObject.class);
-String jobId = result.getAsJsonObject("data").get("jobId").getAsString();
-System.out.println("Create a bulkInert task, job id: " + jobId);
+CloudImportRequest request = CloudImportRequest.builder()
+    .projectId(PROJECT_ID)
+    .regionId(REGION_ID)
+    .collectionName("books")
+    .objectUrls(List.of(List.of("s3://bucket/books.parquet")))
+    .accessKey(ACCESS_KEY)
+    .secretKey(SECRET_KEY)
+    .apiKey(API_KEY)
+    .build();
+String response = BulkImportUtils.bulkImport("https://api.cloud.zilliz.com", request);
 ```
 

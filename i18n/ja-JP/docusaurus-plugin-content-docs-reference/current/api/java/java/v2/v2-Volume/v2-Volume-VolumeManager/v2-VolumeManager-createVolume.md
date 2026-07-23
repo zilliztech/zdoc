@@ -7,9 +7,9 @@ added_since: false
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は volume を作成します。 | Java | v2"
+description: "指定されたストレージ統合とパスを使用する volume を作成します。 | Java | v2"
 type: docx
-token: OcuYdF6ywosIARxetOOc6co7nmU
+token: ZQwMd6bo5otETvxWWHDcUpTMn8g
 sidebar_position: 1
 keywords: 
   - マネージド vector データベース
@@ -18,7 +18,7 @@ keywords:
   - セマンティック検索とは
   - zilliz
   - zilliz cloud
-  - クラウド
+  - cloud
   - createVolume()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # createVolume()
 
-この操作は volume を作成します。
+指定されたストレージ統合とパスを使用する volume を作成します。
 
 ```java
 public void createVolume(CreateVolumeRequest request)
@@ -40,66 +40,61 @@ public void createVolume(CreateVolumeRequest request)
 ## リクエスト構文\{#request-syntax}
 
 ```java
-createVolume(CreateVolumeRequest.builder()
-    .projectId(String projectId)
-    .regionId(String regionId)
-    .volumeName(String volumeName)
+CreateVolumeRequest.builder()
+    .projectId(projectId)
+    .regionId(regionId)
+    .volumeName(volumeName)
+    .type(type)
+    .storageIntegrationId(storageIntegrationId)
+    .path(path)
     .build();
-)
 ```
 
-**パラメータ**
+**BUILDER メソッド:**
 
-- **projectId** (*str*) -
+- `projectId(String projectId)`
 
-    **[必須]**
+    Zilliz Cloud project の ID。
 
-    作成する volume が属するプロジェクトの ID。
+- `regionId(String regionId)`
 
-- **regionId** (*str*) -
+    クラウドリージョンの ID。
 
-    **[必須]**
+- `volumeName(String volumeName)`
 
-    volume を作成するクラウドリージョンの ID。[List Cloud Regions](/reference/restful/list-cloud-regions-v2) を使用して、指定可能な値を確認できます。
+    volume の名前。
 
-- **volumeName** (*str*) -
+- `type(String type)`
 
-    **[必須]**
+    volume のタイプ: `MANAGED` または `EXTERNAL`。デフォルトは `MANAGED` です。
 
-    作成する volume の名前。
+- `storageIntegrationId(String storageIntegrationId)`
 
-**戻り値の型**
+    外部 volume で使用されるストレージ統合の ID。
 
-*void*
+- `path(String path)`
 
-**戻り値**
+    外部 volume のストレージパス。設定されている場合、パスは `/` で終わる必要があります。未設定の場合は、ストレージ統合のルートが使用されます。
 
-なし
+**例外:**
+
+- **MilvusClientExceptions**
+
+    この操作中に何らかのエラーが発生した場合にスローされます。正確な失敗理由は例外メッセージを確認してください。
 
 ## 例\{#example}
 
+### Java の例\{#java-example}
+
+指定されたストレージ統合とパスを使用する volume を作成します。
+
 ```java
-import io.milvus.bulkwriter.VolumeManager;
-import io.milvus.bulkwriter.VolumeManagerParam;
-import io.milvus.bulkwriter.request.volume.CreateVolumeRequest;
-
-VolumeManagerParam volumeManagerParam = VolumeManagerParam.newBuilder()
-    .withCloudEndpoint("https://api.cloud.zilliz.com")
-    .withApiKey("YOUR_API_KEY")
-    .build();
-        
-VolumeManager volumeManager = new VolumeManager(volumeManagerParam);
-
-CreateVolumeRequest request = CreateVolumeRequest.builder()
-    .projectId("proj-xxxxxxxxxxxxxxxxxxxxxxx")
-    .regionId("aws-us-west-1")
-    .volumeName("my_volume")
-    .build();
-
-volumeManager.createVolume(request);
-
-System.out.printf("\nVolume %s created%n", "my_volume");
-
-// Volume my_volume created
+volumeManager.createVolume(CreateVolumeRequest.builder()
+    .projectId(PROJECT_ID)
+    .regionId(REGION_ID)
+    .volumeName("bulk-data")
+    .type("S3")
+    .storageIntegrationId(STORAGE_INTEGRATION_ID)
+    .path("s3://bucket/prefix")
+    .build());
 ```
-

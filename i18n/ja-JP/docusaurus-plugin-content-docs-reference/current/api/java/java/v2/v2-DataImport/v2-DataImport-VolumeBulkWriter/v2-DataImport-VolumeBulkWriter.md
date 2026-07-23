@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "VolumeBulkWriter インスタンスは、生データを Milvus が理解できる形式で Zilliz Cloud Volume に書き換えます。 | Java | v2"
+description: "VolumeBulkWriter を構成します。collection schema、出力パス、volume 接続を含みます。 | Java | v2"
 type: docx
 token: NtxedWgOpof2Qtx8BU2ckktunWc
 sidebar_position: 7
@@ -31,140 +31,71 @@ import Admonition from '@theme/Admonition';
 
 # VolumeBulkWriter
 
-**VolumeBulkWriter** インスタンスは、生データを Milvus が理解できる形式で Zilliz Cloud Volume に書き換えます。
+collection schema、出力パス、volume 接続を含む VolumeBulkWriter を構成します。
 
 ```java
-io.milvus.bulkwriter.VolumeBulkWriter
+public class VolumeBulkWriter
 ```
 
-## Constructor\{#constructor}
+<Admonition type="info" icon="📘" title="注意">
 
-スキーマ、出力パス、セグメントサイズ、およびファイルタイプによって **VolumeBulkWriter** インスタンスを構築します。
-
-<Admonition type="info" icon="📘" title="Notes">
-
-**VolumeBulkWriter** オブジェクトは、生データを Milvus が理解できる形式で Zilliz Cloud Volume に書き換えることを目的としています。
+**VolumeBulkWriter** オブジェクトは、Milvus が理解できる形式で生データを Zilliz Cloud Volume に書き換えることを目的としています。
 
 </Admonition>
 
-```java
-VolumeBulkWriter(VolumeBulkWriterParam bulkWriterParam)
-```
+**ビルダーメソッド:**
 
-**PARAMETERS:**
+- `withCollectionSchema(CollectionSchemaParam collectionSchema)`
 
-- **bulkWriterParam** (*VolumeBulkWriterParam*) -
-
-    [VolumeBulkWriterParam](./v2-DataImport-VolumeBulkWriter#volumebulkwriterparam) インスタンス。
-
-## VolumeBulkWriterParam\{#volumebulkwriterparam}
-
-**VolumeBulkWriterParam** を使用すると、**VolumeBulkWriter** クラスをインスタンス化できるように、**VolumeBulkWriter** インスタンスのプロパティを 1 か所で設定できます。
-
-```java
-VolumeBulkWriterParam.newBuilder()
-    .withCollectionSchema(CreateCollectionReq.CollectionSchema collectionSchema)
-    .withLocalPath(String localPath)
-    .withChunkSize(long chunkSize)
-    .withFileType(BulkFileType fileType)
-    .withConfig(String key, Object val)
-    .withCloudEndpoint(string cloudEndpoint)
-    .withApiKey(string apiKey)
-    .withVolumeName(string volumeName)
-    .build()
-```
-
-**BUILDER METHODS:**
+    `CollectionSchemaParam` で定義された、ターゲット collection の schema です。ビルダーはこれを内部で v2 collection schema に変換します。
 
 - `withCollectionSchema(CreateCollectionReq.CollectionSchema collectionSchema)`
 
-    **CreateCollectionReq.CollectionSchema** をインスタンス化して定義された、対象コレクションのスキーマです。
+    [`CreateCollectionReq.CollectionSchema`](./v2-Collections-CollectionSchema) で定義された、ターゲット collection の schema です。
 
-- `withLocalPath(String localPath)`
+- `withRemotePath(String remotePath)`
 
-    書き換えられたデータを保持するディレクトリへのパスです。
+    書き換えられたデータファイルが保存される、ターゲット volume 内のパスです。
 
 - `withChunkSize(long chunkSize)`
 
-    ファイルセグメントの最大サイズです。生データの書き換え中、Milvus はそれをセグメントに分割します。
-
-    デフォルト値はバイト単位で **536,870,912**、つまり **512 MB** です。
-
-    <Admonition type="info" icon="📘" title="**BulkWriter はどのようにデータをセグメント化しますか？**">
-
-    BulkWriter がデータをセグメント化する方法は、対象のファイルタイプによって異なります。
-    
-    生成されたファイルが指定されたセグメントサイズを超える場合、BulkWriter は複数のファイルを作成し、それぞれがセグメントサイズを超えないように連番で名前を付けます。
-
-    </Admonition>
+    生成される各ファイルセグメントの最大サイズです。単位はバイトです。デフォルト値は **134,217,728** バイト（**128 MB**）です。
 
 - `withFileType(BulkFileType fileType)`
 
-    出力ファイルのタイプです。使用可能なオプションは [BulkFileType](./v2-DataImport-BulkFileType) に記載されています。
+    出力ファイル形式です。使用可能な値については、[`BulkFileType`](./v2-DataImport-BulkFileType) を参照してください。
 
-- `withConfig(String key, Object val)`
+- `withConfig(String key, Object value)`
 
-    CSV ファイルを処理するためのオプション設定を指定するディクショナリです。このパラメータは、`withFileType()` で `fileType` を `CSV` に設定した場合にのみ適用されます。ディクショナリには以下のフィールドが含まれます。
+    出力ファイル処理のためのオプションのキーと値の設定です。`CSV` 出力の場合、区切り文字を設定するには `sep` を使用し、null 値を表す文字列を設定するには `nullkey` を使用します。
 
-    - **sep** (*string*) -
+- `withCloudEndpoint(String cloudEndpoint)`
 
-        CSV ファイルの区切り文字です。値は長さ 1 の文字列である必要があり、デフォルトは `","` です。次の文字列は使用できません: `"\0"`, `"\n"`, `"\r"`, `"""`.
+    Zilliz Cloud のパブリック API エンドポイントです。この値を `https://api.cloud.zilliz.com` に設定します。
 
-    - **nullkey** (*string*) -
+- `withApiKey(String apiKey)`
 
-        null 値を表す特別な文字列です。デフォルト値は空文字列です: `""`.
+    リクエストの認証に使用される Zilliz Cloud API key です。
 
-- `withCloudEndpoint(string cloudEndpoint)`
+- `withVolumeName(String volumeName)`
 
-    Zilliz Cloud のパブリックエンドポイントは常に `https:*//*api.cloud.zilliz.com` です。
+    ターゲット Zilliz Cloud volume の名前です。
 
-- `withApiKey(string apiKey)`
+- `withConnectType(ConnectType connectType)`
 
-    この操作に関連するリソースを操作するための十分な権限を持つ、有効な Zilliz Cloud API キーです。
-
-- `withVolumeName(string volumeName)`
-
-    有効なボリューム名です。指定した名前のボリュームが存在することを確認してください。
+    volume へのアクセスに使用される接続戦略です。デフォルト値は `ConnectType.AUTO` です。
 
 ## Example\{#example}
 
+collection schema、出力パス、volume 接続を含む VolumeBulkWriter を構成します。
+
 ```java
-import com.google.gson.JsonObject;
-import io.milvus.bulkwriter.VolumeBulkWriter;
-import io.milvus.bulkwriter.VolumeBulkWriterParam;
-import io.milvus.bulkwriter.common.clientenum.BulkFileType;
-import io.milvus.v2.service.collection.request.CreateCollectionReq;
-
-private static void volumeWriter(CreateCollectionReq.CollectionSchema collectionSchema) throws Exception {
-    VolumeBulkWriterParam bulkWriterParam = VolumeBulkWriterParam.newBuilder()
-            .withCollectionSchema(collectionSchema)
-            .withRemotePath("/tmp/bulk_writer")
-            .withFileType(BulkFileType.PARQUET)
-            .withChunkSize(128 * 1024 * 1024)
-            .withCloudEndpoint("https://api.cloud.zilliz.com")
-            .withApiKey("YOUR_API_KEY")
-            .withVolumeName("my_volume")
-            .build();
-
-    try (VolumeBulkWriter volumeBulkWriter = new VolumeBulkWriter(bulkWriterParam)) {
-        // append rows
-        Gson GSON_INSTANCE = new Gson();
-        for (int i = 0; i < 10000; i++) {
-            JsonObject row = new JsonObject();
-            row.addProperty("path", "path_" + i);
-            row.add("vector", GSON_INSTANCE.toJsonTree(GeneratorUtils.genFloatVector(DIM)));
-            row.addProperty("label", "label_" + i);
-
-            volumeBulkWriter.appendRow(row);
-        }
-
-        volumeBulkWriter.commit(false);
-        UploadFilesResult uploadResult = volumeBulkWriter.getVolumeUploadResult();
-        System.out.printf("Data files have been uploaded: %s%n", uploadResult);
-    } catch (Exception e) {
-        System.out.println("Local writer catch exception: " + e);
-        throw e;
-    }
-}
+VolumeBulkWriterParam params = VolumeBulkWriterParam.newBuilder()
+    .withCollectionSchema(collectionSchema)
+    .withRemotePath("imports/books")
+    .withCloudEndpoint(CLOUD_ENDPOINT)
+    .withApiKey(API_KEY)
+    .withVolumeName("bulk-data")
+    .build();
+VolumeBulkWriter writer = new VolumeBulkWriter(params);
 ```
-
