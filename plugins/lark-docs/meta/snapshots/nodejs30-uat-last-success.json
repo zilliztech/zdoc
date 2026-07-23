@@ -8,7 +8,7 @@
   "source_branch": "dev",
   "publish_url": "https://docs.cloud-uat3.zilliz.com",
   "link_check_remote": "https://docs.zilliz.com",
-  "generated_at": "2026-07-23T03:18:00.557Z",
+  "generated_at": "2026-07-23T10:56:47.696Z",
   "source_dir": "./plugins/lark-docs/meta/sources/node/v3.0.x",
   "base_app_token": "LlrPbysPZau2dGsSVuicHmvCn0e",
   "records": [
@@ -2564,7 +2564,7 @@
       "doc_token": "HYv3d0NiRoc09Bx4rz0cIhqknb5",
       "doc_link": "https://zilliverse.feishu.cn/docx/HYv3d0NiRoc09Bx4rz0cIhqknb5",
       "source_file": "HYv3d0NiRoc09Bx4rz0cIhqknb5.json",
-      "source_hash": "d50a5140700c4fc7198bef6d97688c5cd56a5e4ec841be9447085030a5ee2af0",
+      "source_hash": "a371afca34e6d8aa8c7241a8a9810d318c213f2e5ab54075c2fc1fba35e3f131",
       "node_metadata": null,
       "node_token": null,
       "origin_node_token": null,

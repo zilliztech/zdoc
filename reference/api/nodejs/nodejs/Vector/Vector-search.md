@@ -347,7 +347,7 @@ This method returns a promise that resolves to a **SearchResults&lt;T&gt;** obje
 
 ## Example\{#example}
 
-```javascript
+```markdown
 const milvusClient = new MilvusClient({
     address: 'YOUR_CLUSTER_ENDPOINT',
     token: 'YOUR_CLUSTER_TOKEN',
