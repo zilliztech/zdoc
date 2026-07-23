@@ -7,18 +7,18 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、必要に応じて collection 名でフィルタリングし、すべての external-collection refresh job を一覧表示します。 | Java | v2"
+description: "この操作は、必要に応じて collection 名でフィルタリングし、すべての external-collection リフレッシュジョブを一覧表示します。 | Java | v2"
 type: docx
 token: P9MFdEHMKoAfshxQhamcWrGknWg
-sidebar_position: 28
+sidebar_position: 30
 keywords: 
   - Retrieval Augmented Generation
-  - 大規模言語モデル
-  - ベクトル化
-  - k 近傍法アルゴリズム
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
   - zilliz
   - zilliz cloud
-  - クラウド
+  - cloud
   - listRefreshExternalCollectionJobs()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # listRefreshExternalCollectionJobs()
 
-この操作は、必要に応じて collection 名でフィルタリングし、すべての external-collection refresh job を一覧表示します。
+この操作は、必要に応じて collection 名でフィルタリングし、すべての external-collection リフレッシュジョブを一覧表示します。
 
 ```java
 public ListRefreshExternalCollectionJobsResp listRefreshExternalCollectionJobs(ListRefreshExternalCollectionJobsReq request)
 ```
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```java
 listRefreshExternalCollectionJobs(ListRefreshExternalCollectionJobsReq.builder()
@@ -47,29 +47,29 @@ listRefreshExternalCollectionJobs(ListRefreshExternalCollectionJobsReq.builder()
 );
 ```
 
-**BUILDER METHODS:**
+**BUILDER メソッド:**
 
 - `databaseName(String databaseName)` -
 
-    データベースの名前です。指定しない場合は現在のデータベースがデフォルトで使用されます。
+    データベース名。指定しない場合は現在のデータベースがデフォルトで使用されます。
 
 - `collectionName(String collectionName)` -
 
-    フィルタリング対象の collection 名です。空の場合、データベース内のすべての collection にまたがる job が返されます。
+    フィルタリング対象の collection 名。空の場合、データベース内のすべての collection にまたがるジョブが返されます。
 
-**RETURNS:**
+**戻り値:**
 
 *ListRefreshExternalCollectionJobsResp*
 
-レスポンスは `getJobs()` を通じてアクセス可能な `List<RefreshExternalCollectionJobInfo>` をラップします。各 job info エントリには `jobId`、`collectionName`、`state`、`progress`、`reason`、`externalSource`、`startTime`、`endTime` が含まれます。これは `getRefreshExternalCollectionProgress()` によって返されるエントリと同じ形式です。
+レスポンスは、`getJobs()` を通じてアクセスできる `List<RefreshExternalCollectionJobInfo>` をラップしています。各ジョブ情報エントリでは、`jobId`、`collectionName`、`state`、`progress`、`reason`、`externalSource`、`startTime`、`endTime` が公開されます。これらは `getRefreshExternalCollectionProgress()` によって返されるエントリと同じ形式です。
 
-**EXCEPTIONS:**
+**例外:**
 
 - **MilvusClientException**
 
-    この例外は、この操作中に何らかのエラーが発生した場合にスローされます。
+    この操作中に何らかのエラーが発生した場合、この例外がスローされます。
 
-## Example\{#example}
+## 例\{#example}
 
 ```java
 import io.milvus.v2.service.utility.request.ListRefreshExternalCollectionJobsReq;

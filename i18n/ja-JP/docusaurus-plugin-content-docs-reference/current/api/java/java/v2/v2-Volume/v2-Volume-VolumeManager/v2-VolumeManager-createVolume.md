@@ -9,16 +9,16 @@ deprecate_since: false
 notebook: false
 description: "この操作は volume を作成します。 | Java | v2"
 type: docx
-token: Efi4dCKhFoYpEZxRfWRcvFEXnBg
+token: OcuYdF6ywosIARxetOOc6co7nmU
 sidebar_position: 1
 keywords: 
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
+  - マネージド vector データベース
+  - Pinecone vector データベース
+  - 音声検索
+  - セマンティック検索とは
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - createVolume()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -48,23 +48,23 @@ createVolume(CreateVolumeRequest.builder()
 )
 ```
 
-**パラメーター**
+**パラメータ**
 
 - **projectId** (*str*) -
 
-    **[REQUIRED]**
+    **[必須]**
 
     作成する volume が属するプロジェクトの ID。
 
 - **regionId** (*str*) -
 
-    **[REQUIRED]**
+    **[必須]**
 
-    volume を作成するクラウドリージョンの ID。使用可能な値は [クラウドリージョンの一覧](/reference/restful/list-cloud-regions-v2) で確認できます。
+    volume を作成するクラウドリージョンの ID。[List Cloud Regions](/reference/restful/list-cloud-regions-v2) を使用して、指定可能な値を確認できます。
 
 - **volumeName** (*str*) -
 
-    **[REQUIRED]**
+    **[必須]**
 
     作成する volume の名前。
 

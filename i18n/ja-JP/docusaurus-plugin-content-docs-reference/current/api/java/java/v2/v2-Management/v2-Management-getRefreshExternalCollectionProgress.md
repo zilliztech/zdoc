@@ -7,18 +7,18 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、以前に開始された external collection refresh ジョブの進行状況と現在の状態を返します。 | Java | v2"
+description: "この操作は、以前に開始された外部コレクションのリフレッシュジョブの進行状況と現在の状態を返します。 | Java | v2"
 type: docx
 token: FzEydqTwRoajhnxZOftcKxKpndg
-sidebar_position: 27
+sidebar_position: 29
 keywords: 
-  - 語彙検索
-  - 最近傍探索
+  - lexical search
+  - nearest neighbor search
   - Agentic RAG
   - rag llm architecture
   - zilliz
   - zilliz cloud
-  - クラウド
+  - cloud
   - getRefreshExternalCollectionProgress()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # getRefreshExternalCollectionProgress()
 
-この操作は、以前に開始された external collection refresh ジョブの進行状況と現在の状態を返します。
+この操作は、以前に開始された外部コレクションのリフレッシュジョブの進行状況と現在の状態を返します。
 
 ```java
 public GetRefreshExternalCollectionProgressResp getRefreshExternalCollectionProgress(GetRefreshExternalCollectionProgressReq request)
 ```
 
-## リクエスト構文\{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```java
 getRefreshExternalCollectionProgress(GetRefreshExternalCollectionProgressReq.builder()
@@ -46,7 +46,7 @@ getRefreshExternalCollectionProgress(GetRefreshExternalCollectionProgressReq.bui
 );
 ```
 
-**BUILDER メソッド:**
+**BUILDER METHODS:**
 
 - `jobId(long jobId)` -
 
@@ -54,11 +54,11 @@ getRefreshExternalCollectionProgress(GetRefreshExternalCollectionProgressReq.bui
 
     `refreshExternalCollection()` によって返されるジョブ ID。
 
-**戻り値:**
+**RETURNS:**
 
 *GetRefreshExternalCollectionProgressResp*
 
-レスポンスは `getJobInfo()` でアクセス可能な単一の `RefreshExternalCollectionJobInfo` をラップします。ジョブ情報のフィールド:
+レスポンスは、`getJobInfo()` を介してアクセス可能な単一の `RefreshExternalCollectionJobInfo` をラップします。ジョブ情報のフィールドは次のとおりです。
 
 - `jobId` (*long*) - ジョブ識別子。
 
@@ -76,13 +76,13 @@ getRefreshExternalCollectionProgress(GetRefreshExternalCollectionProgressReq.bui
 
 - `endTime` (*long*) - ジョブ終了タイムスタンプ（epoch ミリ秒）。まだ実行中の場合は 0。
 
-**例外:**
+**EXCEPTIONS:**
 
 - **MilvusClientException**
 
     この例外は、この操作中に何らかのエラーが発生した場合にスローされます。
 
-## 例\{#example}
+## Example\{#example}
 
 ```java
 import io.milvus.v2.service.utility.request.GetRefreshExternalCollectionProgressReq;

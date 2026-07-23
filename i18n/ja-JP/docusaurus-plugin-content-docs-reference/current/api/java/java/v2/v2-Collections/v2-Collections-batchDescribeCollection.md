@@ -50,13 +50,13 @@ batchDescribeCollection(BatchDescribeCollectionReq.builder()
 
 **BUILDER METHODS:**
 
-- `databaseName(String databaseName)` -
-データベースの名前。指定しない場合、現在のデータベースがデフォルトで使用されます。
+- `databaseName(String databaseName)` -<br/>
+  データベースの名前。指定しない場合は、現在のデータベースがデフォルトで使用されます。
 
 - `collectionNames(List<String> collectionNames)` -
 
-- `collectionIds(List<Long> collectionIds)` -
-バッチで説明を取得するコレクション ID のリスト。
+- `collectionIds(List<Long> collectionIds)` -<br/>
+  バッチで説明を取得するコレクション ID のリスト。
 
 **RETURNS:**
 
@@ -68,7 +68,7 @@ batchDescribeCollection(BatchDescribeCollectionReq.builder()
 
 - **MilvusClientException**
 
-    この例外は、この操作中に何らかのエラーが発生した場合にスローされます。
+    この例外は、この操作の実行中に何らかのエラーが発生した場合にスローされます。
 
 ## Example\{#example}
 

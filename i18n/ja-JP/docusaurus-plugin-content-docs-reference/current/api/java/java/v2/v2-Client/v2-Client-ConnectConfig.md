@@ -7,14 +7,14 @@ added_since: v2.6.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "`MilvusClientV2` インスタンスの作成時に使用される接続設定は、ConnectConfig builder に保持されます。builder パターンを使用して、認証、TLS、タイムアウト、keepalive 設定を含むすべての接続パラメータを構成します。 | Java | v2"
+description: "`MilvusClientV2` インスタンスの作成時に使用される接続設定は、ConnectConfig builder に保持されます。builder パターンを使用して、認証、TLS、タイムアウト、keepalive 設定を含むすべての接続パラメータを設定します。 | Java | v2"
 type: docx
 token: ErNidktYPodbDxxow0xcV5qHnof
-sidebar_position: 4
+sidebar_position: 5
 keywords: 
   - Pinecone vector database
-  - Audio search
-  - semantic search とは
+  - 音声検索
+  - セマンティック検索とは
   - Embedding model
   - zilliz
   - zilliz cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # ConnectConfig
 
-`MilvusClientV2` インスタンスの作成時に使用される接続設定は、ConnectConfig builder に保持されます。builder パターンを使用して、認証、TLS、タイムアウト、keepalive 設定を含むすべての接続パラメータを構成します。
+ConnectConfig builder は、`MilvusClientV2` インスタンスの作成時に使用される接続設定を保持します。builder パターンを使用して、認証、TLS、タイムアウト、keepalive 設定を含むすべての接続パラメータを設定します。
 
 ```java
 ConnectConfig.builder()
@@ -64,19 +64,19 @@ ConnectConfig.builder()
 
     **[必須]**
 
-    サーバーエンドポイント URI。ローカルの Milvus インスタンスには `http://host:port` を、Zilliz Cloud には HTTPS URL を受け付けます。
+    サーバーエンドポイント URI。ローカルの Milvus インスタンスには `http://host:port` を受け付け、Zilliz Cloud には HTTPS URL を受け付けます。
 
 - `token(String token)` -
 
-    認証用の API key または `"username:password"` 文字列。Zilliz Cloud の API key に使用するか、username/password 認証の短縮記法として使用します。デフォルト: `null`。
+    認証用の API key または `"username:password"` 文字列。Zilliz Cloud の API key に使用するか、username/password 認証の簡略記法として使用します。デフォルト: `null`。
 
 - `username(String username)` -
 
-    認証用のユーザー名。`password()` と組み合わせて使用します。`token()` が設定されている場合は無視されます。デフォルト: `null`。
+    認証用のユーザー名。`password()` と一緒に使用します。`token()` が設定されている場合は無視されます。デフォルト: `null`。
 
 - `password(String password)` -
 
-    認証用のパスワード。`username()` と組み合わせて使用します。デフォルト: `null`。
+    認証用のパスワード。`username()` と一緒に使用します。デフォルト: `null`。
 
 - `dbName(String dbName)` -
 
@@ -84,7 +84,7 @@ ConnectConfig.builder()
 
 - `connectTimeoutMs(long connectTimeoutMs)` -
 
-    接続中に gRPC チャネルが READY 状態に到達するまで待機するタイムアウト時間（ミリ秒）。デフォルト: `10000`。
+    接続中に gRPC channel が READY 状態になるまで待機するタイムアウト（ミリ秒）。デフォルト: `10000`。
 
 - `keepAliveTimeMs(long keepAliveTimeMs)` -
 
@@ -92,15 +92,15 @@ ConnectConfig.builder()
 
 - `keepAliveTimeoutMs(long keepAliveTimeoutMs)` -
 
-    接続を閉じる前に keepalive ping の確認応答を待機するタイムアウト時間（ミリ秒）。デフォルト: `5000`。
+    接続を閉じる前に keepalive ping の確認応答を待機するタイムアウト（ミリ秒）。デフォルト: `5000`。
 
 - `keepAliveWithoutCalls(boolean keepAliveWithoutCalls)` -
 
-    `true` の場合、アクティブな RPC がないときでも keepalive ping が送信されます。デフォルト: `true`。
+    `true` の場合、アクティブな RPC がない場合でも keepalive ping が送信されます。デフォルト: `true`。
 
 - `rpcDeadlineMs(long rpcDeadlineMs)` -
 
-    単一の RPC 呼び出しに許可される最大時間（ミリ秒）。`0` を指定すると deadline は無効になります。デフォルト: `0`。
+    単一の RPC 呼び出しに許可される最大時間（ミリ秒）。値が `0` の場合、deadline は無効になります。デフォルト: `0`。
 
 - `secure(Boolean secure)` -
 
@@ -108,7 +108,7 @@ ConnectConfig.builder()
 
 - `enablePrecheck(boolean enablePrecheck)` -
 
-    `true` の場合、client を返す前に接続性チェックを実行します。デフォルト: `false`。
+    `true` の場合、client を返す前に接続確認を実行します。デフォルト: `false`。
 
 - `idleTimeoutMs(long idleTimeoutMs)` -
 
@@ -140,20 +140,20 @@ ConnectConfig.builder()
 
 - `option(Map<String, String> option)` -
 
-    接続時に `ClientInfo.reserved` フィールドでサーバーに転送される任意のキーと値のペア。クライアント側のメタデータや、サーバーが理解できる feature flag を渡すのに役立ちます。デフォルト値は空の map です。
+    接続時に `ClientInfo.reserved` フィールド内でサーバーに転送される任意のキーと値のペア。クライアント側のメタデータや、サーバーが理解できる feature flag を渡すのに役立ちます。デフォルト値は空の map です。
 
-## Example\{#example}
+## 例\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 
-// ローカルの Milvus インスタンスに接続
+// Connect to a local Milvus instance
 ConnectConfig config = ConnectConfig.builder()
     .uri("YOUR_CLUSTER_ENDPOINT")
     .build();
 
-// API key を使用して Zilliz Cloud に接続
+// Connect to Zilliz Cloud with an API key
 // ConnectConfig config = ConnectConfig.builder()
 //     .uri("https://your-instance.zilliz.com")
 //     .token("your-api-key")

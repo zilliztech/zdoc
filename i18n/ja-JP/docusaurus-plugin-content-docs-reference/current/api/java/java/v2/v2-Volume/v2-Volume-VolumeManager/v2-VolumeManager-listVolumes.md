@@ -7,9 +7,9 @@ added_since: false
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、特定の project 内のすべての volume をページネーション形式で一覧表示します。 | Java | v2"
+description: "この操作は、特定のプロジェクト内のすべてのボリュームをページ分割して一覧表示します。 | Java | v2"
 type: docx
-token: Cde1dlUbDosa86xjuShcoKgQnvg
+token: Vc1pdBcbsoOO9yxEzaLcF5eWn5e
 sidebar_position: 3
 keywords: 
   - llm hallucinations
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # listVolumes()
 
-この操作は、特定の project 内のすべての volume をページネーション形式で一覧表示します。
+この操作は、特定のプロジェクト内のすべてのボリュームをページ分割して一覧表示します。
 
 ```java
 public ListVolumesResponse listVolumes(ListVolumesRequest request)
@@ -54,19 +54,19 @@ listVolumes(ListVolumesRequest.builder()
 
     **[REQUIRED]**
 
-    作成対象の volume が属する project の ID。
+    作成するボリュームが属するプロジェクトの ID。
 
 - **currentPage** (*int*) -
 
-    volume リストの現在のページです。指定した場合、指定されたページ上の volume のみが返されます。
+    ボリューム一覧の現在のページです。指定すると、指定したページ上のボリュームのみが返されます。
 
-    このパラメータは任意で、デフォルト値は `1` です。これは最初のページが返されることを示します。
+    このパラメータは任意で、デフォルト値は `1` です。これは、最初のページが返されることを示します。
 
 - **pageSize** (*int*) -
 
-    volume リストの現在のページサイズです。指定した場合、指定した数の volume のみが返されます。
+    ボリューム一覧の現在のページサイズです。指定すると、指定した数のボリュームのみが返されます。
 
-    このパラメータは任意で、デフォルト値は `10` です。これは最大 10 件の volume のリストが返されることを示します。
+    このパラメータは任意で、デフォルト値は `10` です。これは、最大 10 個のボリュームのリストが返されることを示します。
 
 **RETURN TYPE**
 
@@ -74,11 +74,11 @@ listVolumes(ListVolumesRequest.builder()
 
 **RETURNS**
 
-volume のリストをページネーション形式で含む **ListVolumesResponse** オブジェクト。
+ページ分割されたボリュームの一覧を含む **ListVolumesResponse** オブジェクト。
 
 - **count** (*Integer*) -
 
-    見つかった volume の総数。
+    見つかったボリュームの総数。
 
 - **currentPage** (*Integer*) -
 
@@ -86,7 +86,7 @@ volume のリストをページネーション形式で含む **ListVolumesRespo
 
 - **pageSize** (*Integer*) -
 
-    1 ページあたりの volume の最大数。
+    1 ページあたりの最大ボリューム数。
 
 - **volumes** (*List&lt;VolumeInfo&gt;*) -
 
@@ -94,7 +94,7 @@ volume のリストをページネーション形式で含む **ListVolumesRespo
 
     - **volumeName** (*String*) -
 
-        volume の名前。
+        ボリュームの名前。
 
 ## Example\{#example}
 

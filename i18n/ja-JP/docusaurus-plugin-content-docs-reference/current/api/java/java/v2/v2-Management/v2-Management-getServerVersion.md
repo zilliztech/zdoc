@@ -7,10 +7,10 @@ added_since: v2.6.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "この操作は、接続された . のバージョン文字列を返します | Java | v2"
+description: "この操作は、接続先サーバーのバージョン文字列を返します。 | Java | v2"
 type: docx
 token: FuDHdadxHoX9qSxe4aac4wzNnRh
-sidebar_position: 23
+sidebar_position: 26
 keywords: 
   - hnsw algorithm
   - vector similarity search
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # getServerVersion()
 
-この操作は、接続された . のバージョン文字列を返します。
+この操作は、接続先サーバーのバージョン文字列を返します。
 
 ```java
 public String getServerVersion()
@@ -47,7 +47,7 @@ public String getServerVersion()
 
 - **MilvusClientException**
 
-    この例外は、この操作中に何らかのエラーが発生した場合に送出されます。
+    この例外は、この操作中に何らかのエラーが発生した場合にスローされます。
 
 ## Example\{#example}
 

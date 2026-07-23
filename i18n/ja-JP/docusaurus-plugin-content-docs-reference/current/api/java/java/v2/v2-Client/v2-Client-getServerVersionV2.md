@@ -7,18 +7,18 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作はサーバーのバージョン情報を取得します。バージョン文字列に加えて、ビルド時刻、Git commit、Go version、deploy mode が必要な場合は `detail(true)` を使用します。 | Java | v2"
+description: "この操作はサーバーのバージョン情報を取得します。バージョン文字列に加えてビルド時刻、Git commit、Go version、deploy mode が必要な場合は `detail(true)` を使用してください。 | Java | v2"
 type: docx
 token: KrSgdfCaJosFp5xwHIAcV0tAnec
-sidebar_position: 5
+sidebar_position: 6
 keywords: 
   - 画像検索
-  - LLM
+  - LLMs
   - 機械学習
   - RAG
   - zilliz
   - zilliz cloud
-  - クラウド
+  - cloud
   - getServerVersionV2()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # getServerVersionV2()
 
-この操作はサーバーのバージョン情報を取得します。バージョン文字列に加えて、ビルド時刻、Git commit、Go version、deploy mode が必要な場合は `detail(true)` を使用します。
+この操作はサーバーのバージョン情報を取得します。バージョン文字列に加えてビルド時刻、Git commit、Go version、deploy mode が必要な場合は `detail(true)` を使用してください。
 
 ```java
 public GetServerVersionResp getServerVersionV2(GetServerVersionReq request)
@@ -45,21 +45,21 @@ getServerVersionV2(GetServerVersionReq.builder()
     .build());
 ```
 
-**BUILDER METHODS:**
+**BUILDER メソッド:**
 
 - `detail(Boolean detail)`
 
     詳細なサーバービルド情報を取得するかどうかを指定します。デフォルトは `Boolean.FALSE` です。
 
-**RETURNS:**
+**戻り値:**
 
 *GetServerVersionResp*
 
-**EXCEPTIONS:**
+**例外:**
 
 - **MilvusClientException**
 
-    検証に失敗した場合、またはこの操作に対してサーバーがエラーを返した場合に、この例外が発生します。
+    検証に失敗した場合、またはこの操作に対してサーバーがエラーを返した場合に、この例外がスローされます。
 
 ## 例\{#example}
 
