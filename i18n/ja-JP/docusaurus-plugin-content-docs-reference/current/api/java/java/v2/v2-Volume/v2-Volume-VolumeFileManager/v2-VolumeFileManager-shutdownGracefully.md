@@ -15,10 +15,10 @@ keywords:
   - Zilliz ベクトルデータベース
   - Zilliz データベース
   - 非構造化データ
-  - ベクトルデータベース
+  - vector database
   - zilliz
   - zilliz cloud
-  - クラウド
+  - cloud
   - shutdownGracefully()
   - javaV230
 displayed_sidebar: javaSidebar

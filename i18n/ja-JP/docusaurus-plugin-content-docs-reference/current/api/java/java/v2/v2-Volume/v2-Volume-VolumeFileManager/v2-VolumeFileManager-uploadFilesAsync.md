@@ -10,7 +10,7 @@ notebook: false
 description: "ローカルファイルまたはディレクトリを非同期で volume にアップロードします。 | Java | v2"
 type: docx
 token: K8JSdXyEJoN8XKxDWebc8TfPnge
-sidebar_position: 4
+sidebar_position: 5
 keywords: 
   - Hierarchical Navigable Small Worlds
   - Dense embedding
@@ -55,31 +55,67 @@ UploadFilesRequest.builder()
 
 - `sourceFilePath(String sourceFilePath)`
 
-    アップロードするローカルファイルまたはディレクトリのフルパス。ディレクトリパスは `/` で終わる必要があります。
+    アップロードするローカルファイルまたはディレクトリのフルパスです。ディレクトリパスは `/` で終わる必要があります。
 
 - `targetVolumePath(String targetVolumePath)`
 
-    volume 内の宛先ディレクトリ。ルートディレクトリの場合は空のままにし、フォルダの場合は `/` で終わるようにします。
+    volume 内の宛先ディレクトリです。ルートディレクトリの場合は空のままにし、フォルダの場合は `/` で終わるようにします。
 
 - `uploadConcurrency(int uploadConcurrency)`
 
-    同時にアップロードするファイルの最大数。デフォルトは **5** です。
+    同時にアップロードされるファイルの最大数です。デフォルトは **5** です。
 
 - `maxRetries(int maxRetries)`
 
-    各ファイルの最大リトライ回数。デフォルトは **5** です。
+    各ファイルの最大リトライ回数です。デフォルトは **5** です。
 
 - `retryIntervalMillis(long retryIntervalMillis)`
 
-    リトライ間隔（ミリ秒）。デフォルトは **5,000** ミリ秒です。
+    リトライ間の間隔（ミリ秒単位）です。デフォルトは **5,000** ミリ秒です。
 
 - `progressListener(ProgressListener progressListener)`
 
-    アップロード進捗のスナップショットを受け取る、オプションの `ProgressListener` コールバック。
+    `UploadProgress` スナップショットを受け取るオプションの `UploadFilesRequest.ProgressListener` コールバックです。
+
+    - `UploadProgress` -
+
+        `UploadFilesRequest.ProgressListener.onProgress(...)` に渡されるスナップショットです。
+
+        - `getUploadedBytes()` -
+
+            すべてのファイルにわたってアップロードされたバイト数を返します。
+
+        - `getTotalBytes()` -
+
+            アップロード対象として予定されている合計バイト数を返します。
+
+        - `getCompletedFiles()` -
+
+            正常にアップロードされたファイル数を返します。
+
+        - `getTotalFiles()` -
+
+            アップロード対象として予定されている合計ファイル数を返します。
+
+        - `getCurrentFile()` -
+
+            現在アップロード中のファイルのパスを返します。
+
+        - `getCurrentFileUploadedBytes()` -
+
+            現在のファイルでアップロード済みのバイト数を返します。
+
+        - `getCurrentFileTotalBytes()` -
+
+            現在のファイルの合計バイト数を返します。
+
+        - `getPercent()` -
+
+            アップロード全体の進捗率を返します。
 
 - `partSizeBytes(long partSizeBytes)`
 
-    マルチパートアップロードの各パートサイズ（バイト単位）。値が **0** 以下の場合、パートサイズは自動的に選択されます。
+    マルチパートアップロードの各パートサイズ（バイト単位）です。**0** 以下の値を指定すると、パートサイズは自動的に選択されます。
 
 **RETURNS:**
 
@@ -89,11 +125,9 @@ UploadFilesRequest.builder()
 
 - **MilvusClientExceptions**
 
-    この操作中に何らかのエラーが発生した場合にスローされます。正確な失敗理由については例外メッセージを確認してください。
+    この操作中に何らかのエラーが発生した場合に送出されます。正確な失敗理由については例外メッセージを確認してください。
 
 ## Example\{#example}
-
-### Java example\{#java-example}
 
 ローカルファイルまたはディレクトリを非同期で volume にアップロードします。
 
@@ -103,6 +137,11 @@ CompletableFuture<UploadFilesResult> future = volumeFileManager.uploadFilesAsync
         .sourceFilePath("/data/books.json")
         .targetVolumePath("imports/books.json")
         .uploadConcurrency(5)
+        .progressListener(progress ->
+            System.out.printf("Uploaded %.2f%% (%d/%d bytes)%n",
+                progress.getPercent(),
+                progress.getUploadedBytes(),
+                progress.getTotalBytes()))
         .build());
 UploadFilesResult result = future.get();
 ```

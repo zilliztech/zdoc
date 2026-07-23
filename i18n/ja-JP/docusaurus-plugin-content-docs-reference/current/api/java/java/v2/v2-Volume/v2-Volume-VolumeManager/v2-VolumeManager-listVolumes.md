@@ -7,7 +7,7 @@ added_since: false
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "オプションの project、type、ページネーションフィルターを使用して volume を一覧表示します。 | Java | v2"
+description: "オプションの project、type、およびページネーションフィルターを使用して volume を一覧表示します。 | Java | v2"
 type: docx
 token: CWVPd10ixoosYHxkJSScNe8mnoh
 sidebar_position: 3
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # listVolumes()
 
-オプションの project、type、ページネーションフィルターを使用して volume を一覧表示します。
+オプションの project、type、およびページネーションフィルターを使用して volume を一覧表示します。
 
 ```java
 public ListVolumesResponse listVolumes(ListVolumesRequest request)
@@ -60,7 +60,7 @@ ListVolumesRequest.builder()
 
 - `currentPage(Integer currentPage)`
 
-    返されるページ番号。
+    返すページ番号。
 
 - `type(String type)`
 
@@ -78,9 +78,7 @@ ListVolumesRequest.builder()
 
 ## Example\{#example}
 
-### Java example\{#java-example}
-
-オプションの project、type、ページネーションフィルターを使用して volume を一覧表示します。
+オプションの project、type、およびページネーションフィルターを使用して volume を一覧表示します。
 
 ```java
 ListVolumesResponse response = volumeManager.listVolumes(

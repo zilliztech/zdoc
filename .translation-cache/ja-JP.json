@@ -4585,10 +4585,15 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/java/java/v2/v2-Volume/v2-Volume-VolumeFileManager/v2-Volume-VolumeFileManager.md",
       "translatedAt": "2026-07-13T11:13:35.526Z"
     },
+    "reference/api/java/java/v2/v2-Volume/v2-Volume-VolumeFileManager/v2-VolumeFileManager-shutdownGracefully.md": {
+      "sourceHash": "42c8a564954d84ddbaca49f6d478322ed11a74ee90ae71f8aa47a2d7ce5ce30f",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/java/java/v2/v2-Volume/v2-Volume-VolumeFileManager/v2-VolumeFileManager-shutdownGracefully.md",
+      "translatedAt": "2026-07-23T18:48:37.997Z"
+    },
     "reference/api/java/java/v2/v2-Volume/v2-Volume-VolumeFileManager/v2-VolumeFileManager-uploadFilesAsync.md": {
-      "sourceHash": "caa96aed2dcf69af78e8b83495e541e58a36d69a926950b54270140445353fb2",
+      "sourceHash": "01454b6e85f71dd8b8a90532cc5a8360c71173474cc7b47a20e1416a8ab6b364",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/java/java/v2/v2-Volume/v2-Volume-VolumeFileManager/v2-VolumeFileManager-uploadFilesAsync.md",
-      "translatedAt": "2026-07-23T11:00:05.663Z"
+      "translatedAt": "2026-07-23T18:48:52.675Z"
     },
     "reference/api/java/java/v2/v2-Volume/v2-Volume-VolumeManager/v2-Volume-VolumeManager.md": {
       "sourceHash": "2bfb1b59bfeadd32c6f7f81118a477b716c701593099eb8af6839fc861fff7da",
@@ -4596,9 +4601,9 @@
       "translatedAt": "2026-07-13T11:13:37.846Z"
     },
     "reference/api/java/java/v2/v2-Volume/v2-Volume-VolumeManager/v2-VolumeManager-createVolume.md": {
-      "sourceHash": "0538fbfb0eeecc92dfe03454d4becc8cd8a8136a1149fc61751f49b882b81682",
+      "sourceHash": "39726fdab5ab580616509bab37e33269c1cf42264e57abbb1814027a30d82b65",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/java/java/v2/v2-Volume/v2-Volume-VolumeManager/v2-VolumeManager-createVolume.md",
-      "translatedAt": "2026-07-23T11:00:30.572Z"
+      "translatedAt": "2026-07-23T18:49:06.647Z"
     },
     "reference/api/java/java/v2/v2-Volume/v2-Volume-VolumeManager/v2-VolumeManager-deleteVolume.md": {
       "sourceHash": "ea73acc256d48b9b130c47063cae3b326d9c3888a556091288df16a87a8d9e53",
@@ -4606,14 +4611,9 @@
       "translatedAt": "2026-07-13T11:14:10.521Z"
     },
     "reference/api/java/java/v2/v2-Volume/v2-Volume-VolumeManager/v2-VolumeManager-listVolumes.md": {
-      "sourceHash": "cf68b5d63814dd8b6b32a21dcc5b36f66e1ac3c0f0f0b45c4e7a35790cd281dc",
+      "sourceHash": "6cb992de448347f8b552f1ef4b131f4883637969e560cbfe66085bb2d750f871",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/java/java/v2/v2-Volume/v2-Volume-VolumeManager/v2-VolumeManager-listVolumes.md",
-      "translatedAt": "2026-07-23T11:00:19.721Z"
-    },
-    "reference/api/java/java/v2/v2-Volume/v2-VolumeFileManager-shutdownGracefully.md": {
-      "sourceHash": "42c8a564954d84ddbaca49f6d478322ed11a74ee90ae71f8aa47a2d7ce5ce30f",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/java/java/v2/v2-Volume/v2-VolumeFileManager-shutdownGracefully.md",
-      "translatedAt": "2026-07-13T11:13:56.565Z"
+      "translatedAt": "2026-07-23T18:48:37.091Z"
     },
     "reference/api/nodejs/nodejs/Authentication/Authentication-addUserToRole.md": {
       "sourceHash": "2327f0fb04431ab8a2df5f813d10b724f1e7f6fa118e428d253afcb4ed21a32c",
