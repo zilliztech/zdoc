@@ -33,9 +33,9 @@ import Admonition from '@theme/Admonition';
 
 この操作は入力データを処理し、トークン化された出力を生成します。
 
-## リクエスト構文\{#request-syntax}
+## Request Syntax\{#request-syntax}
 
-```plaintext
+```python
 run_analyzer(
     texts: Union[str, List[str]],
     analyzer_params: Union[str, Dict, None] = None,
@@ -45,7 +45,7 @@ run_analyzer(
 )
 ```
 
-**パラメータ:**
+**PARAMETERS:**
 
 - `texts` (*Union[str, List[str]]*) -
 
@@ -67,23 +67,23 @@ run_analyzer(
 
     この操作のタイムアウト時間です。これを *None* に設定すると、レスポンスまたはエラーが発生した時点でこの操作はタイムアウトします。
 
-**戻り値の型:**
+**RETURN TYPE:**
 
 *List[str], List[List[str]]*
 
-**戻り値:**
+**RETURNS:**
 
 以下を含むタプル:
 
-- 主要なトークン化出力を表す文字列のリスト。
+- 主なトークン化出力を表す文字列のリスト。
 
 - 詳細なトークン情報を表す文字列リストのリスト（詳細出力が有効な場合）。
 
-**例外:**
+**EXCEPTIONS:**
 
-- `MilvusException` - この操作中にエラーが発生した場合に送出されます。
+- `MilvusException` - この操作中に何らかのエラーが発生した場合に発生します。
 
-## 例\{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus import MilvusClient
