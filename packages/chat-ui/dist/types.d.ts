@@ -22,5 +22,6 @@ export interface ChatMessage {
     agentType?: AgentType;
     hookAppend?: string;
     toolCallCount?: number;
+    status?: string;
 }
 //# sourceMappingURL=types.d.ts.map

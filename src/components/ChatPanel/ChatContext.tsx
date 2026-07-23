@@ -2,6 +2,7 @@ import React, {createContext, useContext, useState, useRef, useCallback, useEffe
 import {useLocation} from '@docusaurus/router';
 import type {Source, ChatMessage, ChatHistoryEntry, AgentType, ConfidenceLevel, GroundingCitation} from './types';
 import {getFeedbackEndpoint} from './endpoints';
+import {createAgentStreamState, parseAgentStreamEvent, type AgentStreamUpdate} from './agentStream';
 export type {Source, FeedbackRating, ChatMessage, ChatHistoryEntry, AgentType, ConfidenceLevel, GroundingCitation} from './types';
 
 export interface ContextChip {
@@ -301,11 +302,11 @@ export function ChatProvider({chatEndpoint, agentConfigCode, debugDefault = fals
       const decoder = new TextDecoder();
       let buffer = '';
       let assistantText = '';
-      let pendingSources: Source[] | undefined;
-      let pendingGrounding: GroundingCitation[] | undefined;
-      let pendingConfidence: ConfidenceLevel | undefined;
-      let pendingAgent: {type: AgentType; name: string} | undefined;
       let currentEvent = '';
+      const streamState = createAgentStreamState();
+      let sourceCount = 0;
+      let confidence: ConfidenceLevel | undefined;
+      let agentType: AgentType | undefined;
 
       const updateLastAssistant = (patch: Partial<ChatMessage>) => {
         setMessages(prev => {
@@ -316,6 +317,55 @@ export function ChatProvider({chatEndpoint, agentConfigCode, debugDefault = fals
           }
           return updated;
         });
+      };
+
+      const applyUpdate = (update: AgentStreamUpdate) => {
+        if (update.type === 'session') {
+          sessionIdRef.current = update.sessionId;
+          return;
+        }
+        if (update.type === 'text') {
+          assistantText += update.text;
+          updateLastAssistant({text: assistantText, status: undefined});
+          return;
+        }
+        if (update.type === 'agent') {
+          agentType = update.agentType;
+          updateLastAssistant({agent: update.name, agentType: update.agentType});
+          return;
+        }
+        if (update.type === 'status') {
+          updateLastAssistant({status: update.status, toolCallCount: undefined});
+          return;
+        }
+        if (update.type === 'tool-call') {
+          updateLastAssistant({toolCallCount: update.count, status: undefined});
+          return;
+        }
+        if (update.type === 'sources') {
+          sourceCount = update.sources.length;
+          updateLastAssistant({sources: update.sources});
+          return;
+        }
+        if (update.type === 'grounding') {
+          updateLastAssistant({grounding: update.citations});
+          return;
+        }
+        if (update.type === 'confidence') {
+          confidence = update.level;
+          updateLastAssistant({confidence: update.level});
+          return;
+        }
+        if (update.type === 'error') {
+          if (!assistantText) {
+            assistantText = update.message;
+            updateLastAssistant({text: assistantText, status: undefined});
+          } else {
+            updateLastAssistant({status: undefined});
+          }
+          return;
+        }
+        updateLastAssistant({status: undefined});
       };
 
       while (true) {
@@ -333,70 +383,30 @@ export function ChatProvider({chatEndpoint, agentConfigCode, debugDefault = fals
         buffer = done ? '' : (lines.pop() || '');
 
         for (const line of lines) {
-          if (line.startsWith('event: ')) {
-            currentEvent = line.slice(7);
+            if (line.startsWith('event: ')) {
+            currentEvent = line.slice(7).trim();
           } else if (line.startsWith('data: ')) {
-            const data = line.slice(6);
-            eventCounts[currentEvent] = (eventCounts[currentEvent] || 0) + 1;
+            const data = line.slice(6).trim();
+            const eventName = currentEvent;
+            currentEvent = '';
             let parsedForDebug: unknown = data;
             try { parsedForDebug = JSON.parse(data); } catch {}
-            chatDebug('chat.client.sse.event', {requestId, sseEvent: currentEvent, payload: parsedForDebug});
-            if (currentEvent === 'session') {
-              try {
-                const parsed = JSON.parse(data) as {sessionId: string};
-                sessionIdRef.current = parsed.sessionId;
-              } catch { /* skip */ }
-            } else if (currentEvent === 'agent') {
-              try {
-                pendingAgent = JSON.parse(data) as {type: AgentType; name: string};
-                updateLastAssistant({agent: pendingAgent.name, agentType: pendingAgent.type});
-              } catch { /* skip */ }
-            } else if (currentEvent === 'tool-call') {
-              try {
-                const parsed = JSON.parse(data) as {tool: string; count: number};
-                updateLastAssistant({toolCallCount: parsed.count});
-              } catch { /* skip */ }
-            } else if (currentEvent === 'delta') {
-              try {
-                const parsed = JSON.parse(data) as {text: string};
-                assistantText += parsed.text;
-                chatDebug('chat.client.delta.applied', {requestId, deltaChars: parsed.text.length, assistantChars: assistantText.length});
-                updateLastAssistant({text: assistantText});
-              } catch { /* skip malformed chunk */ }
-            } else if (currentEvent === 'sources') {
-              try {
-                const parsed = JSON.parse(data) as {sources: Source[]};
-                pendingSources = parsed.sources;
-              } catch { /* skip */ }
-            } else if (currentEvent === 'grounding') {
-              try {
-                const parsed = JSON.parse(data) as {citations: GroundingCitation[]};
-                pendingGrounding = parsed.citations;
-              } catch { /* skip */ }
-            } else if (currentEvent === 'confidence') {
-              try {
-                const parsed = JSON.parse(data) as {level: ConfidenceLevel; retrieval_score: number};
-                pendingConfidence = parsed.level;
-              } catch { /* skip */ }
-            } else if (currentEvent === 'hook-append') {
-              try {
-                const parsed = JSON.parse(data) as {text: string};
-                assistantText += parsed.text;
-                setMessages(prev => {
-                  const updated = [...prev];
-                  const last = updated[updated.length - 1];
-                  if (last && last.role === 'assistant') {
-                    updated[updated.length - 1] = {...last, text: assistantText, hookAppend: (last.hookAppend || '') + parsed.text};
-                  }
-                  return updated;
+            const effectiveEvent = eventName || (
+              parsedForDebug && typeof parsedForDebug === 'object' && 'type' in parsedForDebug
+                ? String((parsedForDebug as {type?: unknown}).type || '')
+                : ''
+            );
+            eventCounts[effectiveEvent] = (eventCounts[effectiveEvent] || 0) + 1;
+            chatDebug('chat.client.sse.event', {requestId, sseEvent: effectiveEvent, payload: parsedForDebug});
+            for (const update of parseAgentStreamEvent(eventName, data, streamState)) {
+              if (update.type === 'text') {
+                chatDebug('chat.client.delta.applied', {
+                  requestId,
+                  deltaChars: update.text.length,
+                  assistantChars: assistantText.length + update.text.length,
                 });
-              } catch { /* skip */ }
-            } else if (currentEvent === 'error') {
-              try {
-                const parsed = JSON.parse(data) as {error: string};
-                assistantText = parsed.error;
-                updateLastAssistant({text: assistantText});
-              } catch { /* skip */ }
+              }
+              applyUpdate(update);
             }
           }
         }
@@ -409,25 +419,9 @@ export function ChatProvider({chatEndpoint, agentConfigCode, debugDefault = fals
         durationMs: Date.now() - startedAt,
         eventCounts,
         assistantText,
-        sourceCount: pendingSources?.length ?? 0,
-        confidence: pendingConfidence,
-        agentType: pendingAgent?.type,
-      });
-
-      // Attach sources, confidence, and agent to the last assistant message
-      setMessages(prev => {
-        const updated = [...prev];
-        const last = updated[updated.length - 1];
-        if (last && last.role === 'assistant') {
-          updated[updated.length - 1] = {
-            ...last,
-            ...(pendingSources && pendingSources.length > 0 ? {sources: pendingSources} : {}),
-            ...(pendingGrounding && pendingGrounding.length > 0 ? {grounding: pendingGrounding} : {}),
-            ...(pendingConfidence ? {confidence: pendingConfidence} : {}),
-            ...(pendingAgent ? {agent: pendingAgent.name, agentType: pendingAgent.type} : {}),
-          };
-        }
-        return updated;
+        sourceCount,
+        confidence,
+        agentType,
       });
     } catch (err: unknown) {
       if (err instanceof DOMException && err.name === 'AbortError') {

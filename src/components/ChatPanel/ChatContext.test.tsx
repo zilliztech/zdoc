@@ -25,6 +25,23 @@ function sseResponse(events: unknown[]): Response {
   });
 }
 
+function rawSseResponse(events: unknown[]): Response {
+  const encoder = new TextEncoder();
+  const stream = new ReadableStream({
+    start(controller) {
+      for (const event of events) {
+        const data = typeof event === 'string' ? event : JSON.stringify(event);
+        controller.enqueue(encoder.encode(`data: ${data}\n\n`));
+      }
+      controller.close();
+    },
+  });
+  return new Response(stream, {
+    status: 200,
+    headers: {'Content-Type': 'text/event-stream'},
+  });
+}
+
 function wrapper(debugDefault = false) {
   return function Wrapper({children}: {children: React.ReactNode}) {
     return (
@@ -111,5 +128,34 @@ describe('ChatProvider request debugging', () => {
     expect(logs).not.toContain('server-session-1');
     expect(logs).not.toContain('short secret notice');
     expect(logs).not.toContain('nested secret payload');
+  });
+
+  it('renders raw agent events without duplicate text', async () => {
+    vi.mocked(fetch).mockResolvedValueOnce(rawSseResponse([
+      {type: 'connected', session_id: 'pending_1'},
+      {type: 'session_id', session_id: 'server-session-1'},
+      {type: 'status', phase: 'Searching docs'},
+      {type: 'chunk', data: {type: 'tool_use', name: 'search'}},
+      {type: 'stream_event', event_type: 'block_start', block_index: 0, block_type: 'text'},
+      {type: 'stream_event', event_type: 'delta', block_index: 0, delta: 'one answer'},
+      {type: 'chunk', data: {type: 'text', text: 'one answer'}},
+      {type: 'sources', sources: [{title: 'Source', url: '/docs/source'}]},
+      {type: 'confidence', level: 'high'},
+      {type: 'completed'},
+      '[DONE]',
+    ]));
+
+    const {result} = renderHook(() => useChatContext(), {wrapper: wrapper(false)});
+    await act(async () => {
+      await result.current.send('question');
+    });
+
+    expect(result.current.messages.at(-1)).toMatchObject({
+      role: 'assistant',
+      text: 'one answer',
+      toolCallCount: 1,
+      confidence: 'high',
+      sources: [{title: 'Source', url: '/docs/source'}],
+    });
   });
 });
