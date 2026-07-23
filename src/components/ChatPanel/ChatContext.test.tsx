@@ -42,6 +42,30 @@ function rawSseResponse(events: unknown[]): Response {
   });
 }
 
+function controlledRawSseResponse(): {
+  response: Response;
+  enqueue: (event: unknown) => void;
+  close: () => void;
+} {
+  const encoder = new TextEncoder();
+  let streamController: ReadableStreamDefaultController<Uint8Array>;
+  const stream = new ReadableStream<Uint8Array>({
+    start(controller) {
+      streamController = controller;
+    },
+  });
+  return {
+    response: new Response(stream, {status: 200, headers: {'Content-Type': 'text/event-stream'}}),
+    enqueue(event) {
+      const data = typeof event === 'string' ? event : JSON.stringify(event);
+      streamController.enqueue(encoder.encode(`data: ${data}\n\n`));
+    },
+    close() {
+      streamController.close();
+    },
+  };
+}
+
 function wrapper(debugDefault = false) {
   return function Wrapper({children}: {children: React.ReactNode}) {
     return (
@@ -157,5 +181,90 @@ describe('ChatProvider request debugging', () => {
       confidence: 'high',
       sources: [{title: 'Source', url: '/docs/source'}],
     });
+  });
+
+  it('reuses the server session and conversation id on the next turn', async () => {
+    vi.mocked(fetch)
+      .mockResolvedValueOnce(rawSseResponse([
+        {type: 'session_id', session_id: 'server-session-1'},
+        {type: 'chunk', data: {type: 'text', text: 'first answer'}},
+        '[DONE]',
+      ]))
+      .mockResolvedValueOnce(rawSseResponse([
+        {type: 'chunk', data: {type: 'text', text: 'second answer'}},
+        '[DONE]',
+      ]));
+    const {result} = renderHook(() => useChatContext(), {wrapper: wrapper(false)});
+
+    await act(async () => result.current.send('first question'));
+    await act(async () => result.current.send('second question'));
+
+    const firstInit = vi.mocked(fetch).mock.calls[0][1] as RequestInit;
+    const secondInit = vi.mocked(fetch).mock.calls[1][1] as RequestInit;
+    expect(JSON.parse(secondInit.body as string)).toMatchObject({
+      message: 'second question',
+      session_id: 'server-session-1',
+      conversationId: 'client-conversation-1',
+    });
+    expect((secondInit.headers as Record<string, string>)['X-Conversation-ID']).toBe(
+      (firstInit.headers as Record<string, string>)['X-Conversation-ID'],
+    );
+  });
+
+  it('stores and restores session transport state with chat history', async () => {
+    vi.mocked(fetch)
+      .mockResolvedValueOnce(rawSseResponse([
+        {type: 'session_id', session_id: 'server-session-1'},
+        {type: 'chunk', data: {type: 'text', text: 'first answer'}},
+        '[DONE]',
+      ]))
+      .mockResolvedValueOnce(rawSseResponse([{type: 'chunk', data: {type: 'text', text: 'follow-up'}}]));
+    const {result} = renderHook(() => useChatContext(), {wrapper: wrapper(false)});
+
+    await act(async () => result.current.send('first question'));
+    await waitFor(() => expect(result.current.chatHistory).toHaveLength(1));
+    const chatId = result.current.chatHistory[0].id;
+
+    act(() => result.current.newChat());
+    act(() => result.current.loadChat(chatId));
+    await act(async () => result.current.send('history follow-up'));
+
+    const followUpInit = vi.mocked(fetch).mock.calls[1][1] as RequestInit;
+    expect(JSON.parse(followUpInit.body as string)).toMatchObject({
+      session_id: 'server-session-1',
+      conversationId: 'client-conversation-1',
+    });
+  });
+
+  it('posts an interrupt and ignores late stream events after stop', async () => {
+    const controlled = controlledRawSseResponse();
+    vi.mocked(fetch)
+      .mockResolvedValueOnce(controlled.response)
+      .mockResolvedValueOnce(new Response(null, {status: 204}));
+    const {result} = renderHook(() => useChatContext(), {wrapper: wrapper(false)});
+
+    let sendPromise: Promise<void>;
+    act(() => {
+      sendPromise = result.current.send('long question');
+    });
+    controlled.enqueue({type: 'session_id', session_id: 'server-session-1'});
+    controlled.enqueue({type: 'chunk', data: {type: 'text', text: 'partial'}});
+    await waitFor(() => expect(result.current.messages.at(-1)?.text).toBe('partial'));
+
+    act(() => result.current.stop());
+    expect(fetch).toHaveBeenNthCalledWith(2, '/api/chat/interrupt', expect.objectContaining({
+      method: 'POST',
+      keepalive: true,
+      headers: expect.objectContaining({'X-Conversation-ID': 'client-conversation-1'}),
+    }));
+    expect(JSON.parse(vi.mocked(fetch).mock.calls[1][1]?.body as string)).toEqual({
+      session_id: 'server-session-1',
+      conversationId: 'client-conversation-1',
+    });
+
+    controlled.enqueue({type: 'chunk', data: {type: 'text', text: ' late text'}});
+    controlled.close();
+    await act(async () => sendPromise!);
+    expect(result.current.messages.at(-1)?.text).toBe('partial');
   });
 });
