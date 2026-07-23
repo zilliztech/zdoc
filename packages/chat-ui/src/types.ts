@@ -25,4 +25,5 @@ export interface ChatMessage {
   agentType?: AgentType;
   hookAppend?: string;
   toolCallCount?: number;
+  status?: string;
 }

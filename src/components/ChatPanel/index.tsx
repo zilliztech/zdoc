@@ -428,11 +428,7 @@ export default function ChatPanel({onToggle, isExpanded, toggleMode = 'expand'}:
                     isStreaming && i === messages.length - 1 && !msg.text ? (
                       <span className={styles.thinkingRow}>
                         <ThinkingGlyph />
-                        {msg.toolCallCount ? (
-                          <ThinkingText label="Searching" />
-                        ) : (
-                          <ThinkingText />
-                        )}
+                        <ThinkingText label={msg.status || (msg.toolCallCount ? 'Searching' : 'Thinking')} />
                       </span>
                   ) : (
                     <>
@@ -440,11 +436,7 @@ export default function ChatPanel({onToggle, isExpanded, toggleMode = 'expand'}:
                       {isStreaming && i === messages.length - 1 && showStreamPauseIndicator && msg.text && (
                         <span className={`${styles.thinkingRow} ${styles.trailingThinkingRow}`}>
                           <ThinkingGlyph />
-                          {msg.toolCallCount ? (
-                            <ThinkingText label="Searching" />
-                          ) : (
-                            <ThinkingText />
-                          )}
+                          <ThinkingText label={msg.status || (msg.toolCallCount ? 'Searching' : 'Thinking')} />
                         </span>
                       )}
                     </>
