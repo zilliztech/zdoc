@@ -154,6 +154,21 @@ describe('ChatProvider request debugging', () => {
     expect(logs).not.toContain('nested secret payload');
   });
 
+  it('reports the data-only done marker as a done debug event', async () => {
+    const debugSpy = vi.spyOn(console, 'debug').mockImplementation(() => {});
+    vi.mocked(fetch).mockResolvedValueOnce(rawSseResponse(['[DONE]']));
+    const {result} = renderHook(() => useChatContext(), {wrapper: wrapper(true)});
+
+    await act(async () => {
+      await result.current.send('question');
+    });
+
+    const sseEvents = debugSpy.mock.calls
+      .filter(call => call[0] === '[chat-debug]' && call[1]?.event === 'chat.client.sse.event')
+      .map(call => call[1]?.sseEvent);
+    expect(sseEvents).toContain('done');
+  });
+
   it('renders raw agent events without duplicate text', async () => {
     vi.mocked(fetch).mockResolvedValueOnce(rawSseResponse([
       {type: 'connected', session_id: 'pending_1'},
