@@ -79,7 +79,7 @@ function summarizeClientValue(value: unknown, key?: string, sensitiveContainer =
   const normalized = key?.replace(/[^a-z0-9]/gi, '').toLowerCase();
   const nextSensitiveContainer = sensitiveContainer || Boolean(normalized && /payload|data|messages|content|text|query|response|answer|context|error/.test(normalized));
   if (typeof value === 'string') {
-    if (normalized === 'userid' || normalized === 'sessionid') return '[redacted]';
+    if (normalized === 'userid' || normalized === 'sessionid' || normalized === 'conversationid') return '[redacted]';
     if (nextSensitiveContainer || value.length > 100) return summarizeClientText(value);
     return value;
   }
@@ -118,7 +118,14 @@ function loadHistory(): ChatHistoryEntry[] {
   }
 }
 
-export function ChatProvider({chatEndpoint, debugDefault = false, children}: {chatEndpoint: string; debugDefault?: boolean; children: React.ReactNode}) {
+interface ChatProviderProps {
+  chatEndpoint: string;
+  agentConfigCode: string;
+  debugDefault?: boolean;
+  children: React.ReactNode;
+}
+
+export function ChatProvider({chatEndpoint, agentConfigCode, debugDefault = false, children}: ChatProviderProps) {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState('');
   const [isStreaming, setIsStreaming] = useState(false);
@@ -129,6 +136,7 @@ export function ChatProvider({chatEndpoint, debugDefault = false, children}: {ch
   contextChipsRef.current = contextChips;
   const abortRef = useRef<AbortController | null>(null);
   const sessionIdRef = useRef<string | null>(null);
+  const conversationIdRef = useRef<string | null>(null);
   const messagesRef = useRef(messages);
   messagesRef.current = messages;
   const activeChatIdRef = useRef(activeChatId);
@@ -235,33 +243,32 @@ export function ChatProvider({chatEndpoint, debugDefault = false, children}: {ch
     try {
       controller = new AbortController();
       abortRef.current = controller;
-      const apiMessages = updatedMessages
-        .filter(m => m.role === 'user' || (m.role === 'assistant' && m.text))
-        .map(m => {
-          const content = m.hookAppend ? m.text.replace(m.hookAppend, '') : m.text;
-          return {role: m.role, content};
-        });
-      const userId = getUserId();
+      if (!conversationIdRef.current) conversationIdRef.current = uuid();
+      const conversationId = conversationIdRef.current;
       const requestBody = {
-        messages: apiMessages,
-        pageContext,
-        pageUrl: location.pathname,
-        sessionId: sessionIdRef.current,
-        userId,
-        screenResolution: `${screen.width}x${screen.height}`,
+        message: outgoing,
+        session_id: sessionIdRef.current,
+        conversationId,
+        streaming_mode: 'token',
+        site: 'docs.zilliz.com',
+        agent_config: {agent_config_code: agentConfigCode},
       };
       chatDebug('chat.client.fetch.started', {
         requestId,
         endpointPath: chatEndpoint,
         pagePath: location.pathname,
-        messageCount: apiMessages.length,
         hasSessionId: Boolean(sessionIdRef.current),
-        hasUserId: Boolean(userId),
-        screenResolution: `${screen.width}x${screen.height}`,
+        conversationId,
+        agentConfigCode,
       });
       const res = await fetch(chatEndpoint, {
         method: 'POST',
-        headers: {'Content-Type': 'application/json', 'X-Request-ID': requestId},
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'text/event-stream',
+          'X-Request-ID': requestId,
+          'X-Conversation-ID': conversationId,
+        },
         body: JSON.stringify(requestBody),
         signal: controller.signal,
       });
@@ -436,7 +443,7 @@ export function ChatProvider({chatEndpoint, debugDefault = false, children}: {ch
         abortRef.current = null;
       }
     }
-  }, [chatDebug, chatEndpoint, location.pathname]);
+  }, [agentConfigCode, chatDebug, chatEndpoint, location.pathname]);
 
   const rateFeedback = useCallback((messageIndex: number, rating: 'up' | 'down') => {
     setMessages(prev => {

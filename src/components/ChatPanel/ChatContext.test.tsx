@@ -27,7 +27,15 @@ function sseResponse(events: unknown[]): Response {
 
 function wrapper(debugDefault = false) {
   return function Wrapper({children}: {children: React.ReactNode}) {
-    return <ChatProvider chatEndpoint="/api/chat" debugDefault={debugDefault}>{children}</ChatProvider>;
+    return (
+      <ChatProvider
+        chatEndpoint="/api/chat"
+        agentConfigCode="zilliz_agent_dev"
+        debugDefault={debugDefault}
+      >
+        {children}
+      </ChatProvider>
+    );
   };
 }
 
@@ -38,7 +46,7 @@ describe('ChatProvider request debugging', () => {
     vi.stubGlobal('crypto', {
       randomUUID: vi.fn(() => {
         uuidCount++;
-        return uuidCount === 1 ? 'client-request-1' : 'client-user-1';
+        return uuidCount === 1 ? 'client-request-1' : 'client-conversation-1';
       }),
       getRandomValues: (arr: Uint8Array) => arr.fill(1),
     });
@@ -57,7 +65,7 @@ describe('ChatProvider request debugging', () => {
     localStorage.clear();
   });
 
-  it('sends a request ID header with chat requests', async () => {
+  it('sends the docs agent request contract', async () => {
     const {result} = renderHook(() => useChatContext(), {wrapper: wrapper(false)});
 
     await act(async () => {
@@ -66,12 +74,19 @@ describe('ChatProvider request debugging', () => {
 
     const [url, init] = vi.mocked(fetch).mock.calls[0];
     expect(url).toBe('/api/chat');
-    expect((init as RequestInit).headers).toMatchObject({'Content-Type': 'application/json', 'X-Request-ID': 'client-request-1'});
-    expect(JSON.parse((init as RequestInit).body as string)).toMatchObject({
-      messages: [{role: 'user', content: 'secret user prompt'}],
-      pageUrl: '/docs/home',
-      sessionId: null,
-      userId: 'client-user-1',
+    expect((init as RequestInit).headers).toMatchObject({
+      'Content-Type': 'application/json',
+      Accept: 'text/event-stream',
+      'X-Request-ID': 'client-request-1',
+      'X-Conversation-ID': 'client-conversation-1',
+    });
+    expect(JSON.parse((init as RequestInit).body as string)).toEqual({
+      message: 'secret user prompt',
+      session_id: null,
+      conversationId: 'client-conversation-1',
+      streaming_mode: 'token',
+      site: 'docs.zilliz.com',
+      agent_config: {agent_config_code: 'zilliz_agent_dev'},
     });
   });
 
@@ -92,7 +107,7 @@ describe('ChatProvider request debugging', () => {
     expect(logs).toContain('client-request-1');
     expect(logs).not.toContain('secret user prompt');
     expect(logs).not.toContain('assistant secret answer');
-    expect(logs).not.toContain('client-user-1');
+    expect(logs).not.toContain('client-conversation-1');
     expect(logs).not.toContain('server-session-1');
     expect(logs).not.toContain('short secret notice');
     expect(logs).not.toContain('nested secret payload');
