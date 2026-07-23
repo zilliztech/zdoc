@@ -49,15 +49,15 @@ await milvusClient.getRefreshExternalCollectionProgress({
 
 **PARAMETERS:**
 
-- **job_id** (*number | string*) -
-**[REQUIRED]**
-The job ID returned by refreshExternalCollection().
+- **job_id** (*number | string*) -<br/>
+  **[REQUIRED]**<br/>
+  The job ID returned by refreshExternalCollection().
 
-- **timeout** (*number*) -
-An optional duration of time in milliseconds to allow for the RPC. If it is set to undefined, the client keeps waiting until the server responds or an error occurs. Default is undefined.
+- **timeout** (*number*) -<br/>
+  An optional duration of time in milliseconds to allow for the RPC. If it is set to undefined, the client keeps waiting until the server responds or an error occurs. Default is undefined.
 
-- **client_request_id** (*string*) -
-A trace ID for request tracking. Optional.
+- **client_request_id** (*string*) -<br/>
+  A trace ID for request tracking. Optional.
 
 **RETURNS** *Promise&lt;GetRefreshExternalCollectionProgressResponse&gt;*
 
@@ -72,8 +72,8 @@ This method returns a promise that resolves to a **GetRefreshExternalCollectionP
 
 **PARAMETERS:**
 
-- **job_info** (*RefreshExternalCollectionJobInfo*) -
-The current state of the refresh job.
+- **job_info** (*RefreshExternalCollectionJobInfo*) -<br/>
+  The current state of the refresh job.
 
     - **job_id** (*string*) -
 
@@ -107,8 +107,8 @@ The current state of the refresh job.
 
         The time at which the job ended, or an empty string when the job is still running.
 
-- **ResStatus**
-A **ResStatus** object.
+- **ResStatus**<br/>
+  A **ResStatus** object.
 
     - **code** (*number*) -
 

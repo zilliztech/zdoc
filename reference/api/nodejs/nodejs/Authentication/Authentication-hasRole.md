@@ -71,11 +71,11 @@ This method returns a promise that resolves to a **HasRoleResponse** object.
 
 **PARAMETERS:**
 
-- **hasRole** (*boolean*) -
-A boolean that indicates whether the requested role exists. It is **true** when the role exists and **false** when it does not.
+- **hasRole** (*boolean*) -<br/>
+  A boolean that indicates whether the requested role exists. It is **true** when the role exists and **false** when it does not.
 
-- **ResStatus**
-A **ResStatus** object.
+- **ResStatus**<br/>
+  A **ResStatus** object.
 
     - **code** (*number*) -
 

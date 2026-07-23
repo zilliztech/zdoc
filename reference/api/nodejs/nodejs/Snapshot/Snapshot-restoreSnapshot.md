@@ -53,29 +53,29 @@ await milvusClient.restoreSnapshot({
 
 **PARAMETERS:**
 
-- **snapshot_name** (*string*) -
-**[REQUIRED]**
-The name of the snapshot to restore from.
+- **snapshot_name** (*string*) -<br/>
+  **[REQUIRED]**<br/>
+  The name of the snapshot to restore from.
 
-- **source_collection_name** (*string*) -
-**[REQUIRED]**
-The name of the source collection.
+- **source_collection_name** (*string*) -<br/>
+  **[REQUIRED]**<br/>
+  The name of the source collection.
 
-- **target_collection_name** (*string*) -
-**[REQUIRED]**
-The name of the target collection to restore to.
+- **target_collection_name** (*string*) -<br/>
+  **[REQUIRED]**<br/>
+  The name of the target collection to restore to.
 
-- **source_db_name** (*string*) -
-The source database name. Optional.
+- **source_db_name** (*string*) -<br/>
+  The source database name. Optional.
 
-- **target_db_name** (*string*) -
-The target database name. Optional.
+- **target_db_name** (*string*) -<br/>
+  The target database name. Optional.
 
-- **timeout** (*number*) -
-An optional duration of time in milliseconds to allow for the RPC. If it is set to undefined, the client keeps waiting until the server responds or an error occurs. Default is undefined.
+- **timeout** (*number*) -<br/>
+  An optional duration of time in milliseconds to allow for the RPC. If it is set to undefined, the client keeps waiting until the server responds or an error occurs. Default is undefined.
 
-- **client_request_id** (*string*) -
-A trace ID for request tracking. Optional.
+- **client_request_id** (*string*) -<br/>
+  A trace ID for request tracking. Optional.
 
 **RETURNS** *Promise&lt;RestoreSnapshotResponse&gt;*
 
@@ -90,11 +90,11 @@ This method returns a promise that resolves to a **RestoreSnapshotResponse** obj
 
 **PARAMETERS:**
 
-- **job_id** (*string*) -
-The identifier of the asynchronous restore job. Pass this value to `getRestoreSnapshotState()` to poll for completion.
+- **job_id** (*string*) -<br/>
+  The identifier of the asynchronous restore job. Pass this value to `getRestoreSnapshotState()` to poll for completion.
 
-- **ResStatus**
-A **ResStatus** object.
+- **ResStatus**<br/>
+  A **ResStatus** object.
 
     - **code** (*number*) -
 

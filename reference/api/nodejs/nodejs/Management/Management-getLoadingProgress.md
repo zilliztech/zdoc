@@ -81,11 +81,11 @@ This method returns a promise that resolves to a **GetLoadingProgressResponse** 
 
 **PARAMETERS:**
 
-- **progress** (*string*) -
-The completion percentage of the load operation as an integer between **"0"** and **"100"**. The collection is fully loaded once this value reaches **"100"**.
+- **progress** (*string*) -<br/>
+  The completion percentage of the load operation as an integer between **"0"** and **"100"**. The collection is fully loaded once this value reaches **"100"**.
 
-- **ResStatus**
-A **ResStatus** object.
+- **ResStatus**<br/>
+  A **ResStatus** object.
 
     - **code** (*number*) -
 

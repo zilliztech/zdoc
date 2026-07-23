@@ -104,17 +104,17 @@ This method returns a promise that resolves to a **DescribeAliasResponse** objec
 
 **PARAMETERS:**
 
-- **db_name** (*string*) -
-The database that owns the alias.
+- **db_name** (*string*) -<br/>
+  The database that owns the alias.
 
-- **alias** (*string*) -
-The alias name.
+- **alias** (*string*) -<br/>
+  The alias name.
 
-- **collection** (*string*) -
-The collection name to which the alias currently points.
+- **collection** (*string*) -<br/>
+  The collection name to which the alias currently points.
 
-- **ResStatus**
-A **ResStatus** object.
+- **ResStatus**<br/>
+  A **ResStatus** object.
 
     - **code** (*number*) -
 

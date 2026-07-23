@@ -78,11 +78,11 @@ This method returns a promise that resolves to a **BoolResponse** object.
 
 **PARAMETERS:**
 
-- **value** (*boolean*) -
-A boolean that indicates whether the requested collection exists. It is **true** when the collection exists and **false** when it does not.
+- **value** (*boolean*) -<br/>
+  A boolean that indicates whether the requested collection exists. It is **true** when the collection exists and **false** when it does not.
 
-- **ResStatus**
-A **ResStatus** object.
+- **ResStatus**<br/>
+  A **ResStatus** object.
 
     - **code** (*number*) -
 

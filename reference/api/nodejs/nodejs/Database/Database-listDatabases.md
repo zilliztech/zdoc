@@ -68,17 +68,17 @@ This method returns a promise that resolves to a **ListDatabasesResponse** objec
 
 **PARAMETERS:**
 
-- **db_names** (*string[]*) -
-A list of database names defined in the current Milvus instance.
+- **db_names** (*string[]*) -<br/>
+  A list of database names defined in the current Milvus instance.
 
-- **db_ids** (*string[]*) -
-The internal database identifiers, in the same order as **db_names**.
+- **db_ids** (*string[]*) -<br/>
+  The internal database identifiers, in the same order as **db_names**.
 
-- **created_timestamp** (*string[]*) -
-The creation timestamps of the databases, in the same order as **db_names**.
+- **created_timestamp** (*string[]*) -<br/>
+  The creation timestamps of the databases, in the same order as **db_names**.
 
-- **ResStatus**
-A **ResStatus** object.
+- **ResStatus**<br/>
+  A **ResStatus** object.
 
     - **code** (*number*) -
 

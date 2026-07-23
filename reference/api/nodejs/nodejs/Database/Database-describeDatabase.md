@@ -74,20 +74,20 @@ This method returns a promise that resolves to a **DescribeDatabaseResponse** ob
 
 **PARAMETERS:**
 
-- **db_name** (*string*) -
-The database name.
+- **db_name** (*string*) -<br/>
+  The database name.
 
-- **dbID** (*number*) -
-The internal database identifier.
+- **dbID** (*number*) -<br/>
+  The internal database identifier.
 
-- **created_timestamp** (*number*) -
-The creation timestamp of the database, in milliseconds.
+- **created_timestamp** (*number*) -<br/>
+  The creation timestamp of the database, in milliseconds.
 
-- **properties** (*KeyValuePair[]*) -
-Database-level properties (for example, **database.replica.number**, **database.resource_groups**) declared at creation or set via `alterDatabaseProperties()`.
+- **properties** (*KeyValuePair[]*) -<br/>
+  Database-level properties (for example, **database.replica.number**, **database.resource_groups**) declared at creation or set via `alterDatabaseProperties()`.
 
-- **ResStatus**
-A **ResStatus** object.
+- **ResStatus**<br/>
+  A **ResStatus** object.
 
     - **code** (*number*) -
 

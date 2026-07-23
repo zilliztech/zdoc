@@ -71,11 +71,11 @@ This method returns a promise that resolves to a **SelectRoleResponse** object.
 
 **PARAMETERS:**
 
-- **results** (*RoleResult[]*) -
-A list of **RoleResult** objects, one per role defined in the current Milvus instance. For the full **RoleResult** field reference, refer to the `describeRole()` doc.
+- **results** (*RoleResult[]*) -<br/>
+  A list of **RoleResult** objects, one per role defined in the current Milvus instance. For the full **RoleResult** field reference, refer to the `describeRole()` doc.
 
-- **ResStatus**
-A **ResStatus** object.
+- **ResStatus**<br/>
+  A **ResStatus** object.
 
     - **code** (*number*) -
 

@@ -86,11 +86,11 @@ This method returns a promise that resolves to a **ListIndexResponse** object.
 
 **PARAMETERS:**
 
-- **indexes** (*string[]*) -
-A list of index names defined on the requested collection.
+- **indexes** (*string[]*) -<br/>
+  A list of index names defined on the requested collection.
 
-- **ResStatus**
-A **ResStatus** object.
+- **ResStatus**<br/>
+  A **ResStatus** object.
 
     - **code** (*number*) -
 

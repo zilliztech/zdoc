@@ -51,22 +51,22 @@ await milvusClient.describeSnapshot({
 
 **PARAMETERS:**
 
-- **collection_name** (*string*) -
-**[REQUIRED]**
-The name of the collection the snapshot belongs to.
+- **collection_name** (*string*) -<br/>
+  **[REQUIRED]**<br/>
+  The name of the collection the snapshot belongs to.
 
-- **snapshot_name** (*string*) -
-**[REQUIRED]**
-The name of the snapshot to describe.
+- **snapshot_name** (*string*) -<br/>
+  **[REQUIRED]**<br/>
+  The name of the snapshot to describe.
 
-- **db_name** (*string*) -
-The name of the database. Optional.
+- **db_name** (*string*) -<br/>
+  The name of the database. Optional.
 
-- **timeout** (*number*) -
-An optional duration of time in milliseconds to allow for the RPC. If it is set to undefined, the client keeps waiting until the server responds or an error occurs. Default is undefined.
+- **timeout** (*number*) -<br/>
+  An optional duration of time in milliseconds to allow for the RPC. If it is set to undefined, the client keeps waiting until the server responds or an error occurs. Default is undefined.
 
-- **client_request_id** (*string*) -
-A trace ID for request tracking. Optional.
+- **client_request_id** (*string*) -<br/>
+  A trace ID for request tracking. Optional.
 
 **RETURNS** *Promise&lt;DescribeSnapshotResponse&gt;*
 
@@ -86,26 +86,26 @@ This method returns a promise that resolves to a **DescribeSnapshotResponse** ob
 
 **PARAMETERS:**
 
-- **name** (*string*) -
-The snapshot name.
+- **name** (*string*) -<br/>
+  The snapshot name.
 
-- **description** (*string*) -
-The description supplied at snapshot creation, or an empty string if none was provided.
+- **description** (*string*) -<br/>
+  The description supplied at snapshot creation, or an empty string if none was provided.
 
-- **collection_name** (*string*) -
-The collection that owns the snapshot.
+- **collection_name** (*string*) -<br/>
+  The collection that owns the snapshot.
 
-- **partition_names** (*string[]*) -
-The partition names captured by the snapshot.
+- **partition_names** (*string[]*) -<br/>
+  The partition names captured by the snapshot.
 
-- **create_ts** (*string*) -
-The hybrid timestamp at which the snapshot was created.
+- **create_ts** (*string*) -<br/>
+  The hybrid timestamp at which the snapshot was created.
 
-- **s3_location** (*string*) -
-The object-store URI where the snapshot data is persisted.
+- **s3_location** (*string*) -<br/>
+  The object-store URI where the snapshot data is persisted.
 
-- **ResStatus**
-A **ResStatus** object.
+- **ResStatus**<br/>
+  A **ResStatus** object.
 
     - **code** (*number*) -
 

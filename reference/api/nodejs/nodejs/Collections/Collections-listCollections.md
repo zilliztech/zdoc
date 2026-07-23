@@ -80,17 +80,17 @@ This method returns a promise that resolves to a **ShowCollectionsResponse** obj
 
 **PARAMETERS:**
 
-- **data** (*CollectionData[]*) -
-A list of collection data objects. Each entry contains the collection name, ID, timestamp, and loaded percentage.
+- **data** (*CollectionData[]*) -<br/>
+  A list of collection data objects. Each entry contains the collection name, ID, timestamp, and loaded percentage.
 
-- **created_timestamps** (*string[]*) -
-A list of hybrid timestamps indicating when each collection was created.
+- **created_timestamps** (*string[]*) -<br/>
+  A list of hybrid timestamps indicating when each collection was created.
 
-- **created_utc_timestamps** (*string[]*) -
-A list of UTC timestamps indicating when each collection was created.
+- **created_utc_timestamps** (*string[]*) -<br/>
+  A list of UTC timestamps indicating when each collection was created.
 
-- **ResStatus**
-A **ResStatus** object.
+- **ResStatus**<br/>
+  A **ResStatus** object.
 
     - **code** (*number*) -
 

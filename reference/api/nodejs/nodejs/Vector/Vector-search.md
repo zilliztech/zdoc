@@ -291,8 +291,8 @@ This method returns a promise that resolves to a **SearchResults&lt;T&gt;** obje
 
 **PARAMETERS:**
 
-- **results** (*SearchResultData[]* | *SearchResultData[][]*) -
-The hits returned for each query vector. When a single query vector is supplied, this is a flat **SearchResultData[]**. When a batch of query vectors is supplied, this is a nested **SearchResultData[][]** with one inner list per query.
+- **results** (*SearchResultData[]* | *SearchResultData[][]*) -<br/>
+  The hits returned for each query vector. When a single query vector is supplied, this is a flat **SearchResultData[]**. When a batch of query vectors is supplied, this is a nested **SearchResultData[][]** with one inner list per query.
 
     - **id** (*string*) -
 
@@ -318,20 +318,20 @@ The hits returned for each query vector. When a single query vector is supplied,
 
         Each requested **output_fields** entry is added as a key on the hit, carrying the value from the matched row.
 
-- **recalls** (*number[]*) -
-The estimated recall score for each query, when the search engine produced one.
+- **recalls** (*number[]*) -<br/>
+  The estimated recall score for each query, when the search engine produced one.
 
-- **session_ts** (*number*) -
-The session timestamp Milvus used to evaluate the search.
+- **session_ts** (*number*) -<br/>
+  The session timestamp Milvus used to evaluate the search.
 
-- **collection_name** (*string*) -
-The collection that was searched.
+- **collection_name** (*string*) -<br/>
+  The collection that was searched.
 
-- **all_search_count** (*number*) -
-Optional. Set when the search reports the total candidate count examined.
+- **all_search_count** (*number*) -<br/>
+  Optional. Set when the search reports the total candidate count examined.
 
-- **ResStatus**
-A **ResStatus** object.
+- **ResStatus**<br/>
+  A **ResStatus** object.
 
     - **code** (*number*) -
 

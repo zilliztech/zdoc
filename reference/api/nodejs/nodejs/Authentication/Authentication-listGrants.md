@@ -66,11 +66,11 @@ This method returns a promise that resolves to a **SelectGrantResponse** object.
 
 **PARAMETERS:**
 
-- **entities** (*GrantEntity[]*) -
-A list of grants attached to the requested role. Each entry pairs a privilege with the target object and the principal that granted it. For the full **GrantEntity** field reference, refer to the `describeRole()` doc.
+- **entities** (*GrantEntity[]*) -<br/>
+  A list of grants attached to the requested role. Each entry pairs a privilege with the target object and the principal that granted it. For the full **GrantEntity** field reference, refer to the `describeRole()` doc.
 
-- **ResStatus**
-A **ResStatus** object.
+- **ResStatus**<br/>
+  A **ResStatus** object.
 
     - **code** (*number*) -
 

@@ -84,11 +84,11 @@ This method returns a promise that resolves to a **FlushResult** object.
 
 **PARAMETERS:**
 
-- **coll_segIDs** (*Record&lt;string, \{ data: number[] }&gt;*) -
-A mapping from collection name to the segment IDs that were sealed by this flush. Use the returned IDs with `getFlushState()` to confirm persistence.
+- **coll_segIDs** (*Record&lt;string, \{ data: number[] }&gt;*) -<br/>
+  A mapping from collection name to the segment IDs that were sealed by this flush. Use the returned IDs with `getFlushState()` to confirm persistence.
 
-- **ResStatus**
-A **ResStatus** object.
+- **ResStatus**<br/>
+  A **ResStatus** object.
 
     - **code** (*number*) -
 

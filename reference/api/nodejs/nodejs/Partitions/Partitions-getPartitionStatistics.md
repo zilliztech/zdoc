@@ -86,14 +86,14 @@ This method returns a promise that resolves to a **StatisticsResponse** object.
 
 **PARAMETERS:**
 
-- **stats** (*KeyValuePair[]*) -
-The raw statistics list returned by Milvus. Each entry has a **key** (for example, **row_count**) and a **value** as a string.
+- **stats** (*KeyValuePair[]*) -<br/>
+  The raw statistics list returned by Milvus. Each entry has a **key** (for example, **row_count**) and a **value** as a string.
 
-- **data** (*Record&lt;string, any&gt;*) -
-A flattened, key-indexed view of **stats** for convenience. For example, `data.row_count` returns the partition row count as a string.
+- **data** (*Record&lt;string, any&gt;*) -<br/>
+  A flattened, key-indexed view of **stats** for convenience. For example, `data.row_count` returns the partition row count as a string.
 
-- **ResStatus**
-A **ResStatus** object.
+- **ResStatus**<br/>
+  A **ResStatus** object.
 
     - **code** (*number*) -
 

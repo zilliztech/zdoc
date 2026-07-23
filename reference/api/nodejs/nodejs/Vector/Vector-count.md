@@ -83,11 +83,11 @@ This method returns a promise that resolves to a **CountResult** object.
 
 **PARAMETERS:**
 
-- **data** (*number*) -
-The number of rows in the collection that match the supplied filter expression. When no expression is supplied, this is the total row count.
+- **data** (*number*) -<br/>
+  The number of rows in the collection that match the supplied filter expression. When no expression is supplied, this is the total row count.
 
-- **ResStatus**
-A **ResStatus** object.
+- **ResStatus**<br/>
+  A **ResStatus** object.
 
     - **code** (*number*) -
 

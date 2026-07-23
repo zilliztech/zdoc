@@ -66,8 +66,8 @@ This method returns a promise that resolves to a **ListPrivilegeGroupsResponse**
 
 **PARAMETERS:**
 
-- **privilege_groups** (*PrivelegeGroup[]*) -
-A list of privilege groups defined in the current Milvus instance.
+- **privilege_groups** (*PrivelegeGroup[]*) -<br/>
+  A list of privilege groups defined in the current Milvus instance.
 
     - **group_name** (*string*) -
 
@@ -85,8 +85,8 @@ A list of privilege groups defined in the current Milvus instance.
 
             The privilege name (for example, **Insert**, **Search**, **CreateCollection**).
 
-- **ResStatus**
-A **ResStatus** object.
+- **ResStatus**<br/>
+  A **ResStatus** object.
 
     - **code** (*number*) -
 

@@ -79,11 +79,11 @@ This method returns a promise that resolves to a **GetFlushStateResponse** objec
 
 **PARAMETERS:**
 
-- **flushed** (*boolean*) -
-Whether all targeted segments are flushed to persistent storage. It is **true** when every requested segment ID is sealed and persisted, otherwise **false**.
+- **flushed** (*boolean*) -<br/>
+  Whether all targeted segments are flushed to persistent storage. It is **true** when every requested segment ID is sealed and persisted, otherwise **false**.
 
-- **ResStatus**
-A **ResStatus** object.
+- **ResStatus**<br/>
+  A **ResStatus** object.
 
     - **code** (*number*) -
 

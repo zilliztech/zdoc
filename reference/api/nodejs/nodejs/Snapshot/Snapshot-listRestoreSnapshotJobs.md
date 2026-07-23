@@ -50,17 +50,17 @@ await milvusClient.listRestoreSnapshotJobs({
 
 **PARAMETERS:**
 
-- **collection_name** (*string*) -
-Optional filter by target collection name.
+- **collection_name** (*string*) -<br/>
+  Optional filter by target collection name.
 
-- **db_name** (*string*) -
-Optional filter by database name.
+- **db_name** (*string*) -<br/>
+  Optional filter by database name.
 
-- **timeout** (*number*) -
-An optional duration of time in milliseconds to allow for the RPC. If it is set to undefined, the client keeps waiting until the server responds or an error occurs. Default is undefined.
+- **timeout** (*number*) -<br/>
+  An optional duration of time in milliseconds to allow for the RPC. If it is set to undefined, the client keeps waiting until the server responds or an error occurs. Default is undefined.
 
-- **client_request_id** (*string*) -
-A trace ID for request tracking. Optional.
+- **client_request_id** (*string*) -<br/>
+  A trace ID for request tracking. Optional.
 
 **RETURNS** *Promise&lt;ListRestoreSnapshotJobsResponse&gt;*
 
@@ -75,11 +75,11 @@ This method returns a promise that resolves to a **ListRestoreSnapshotJobsRespon
 
 **PARAMETERS:**
 
-- **jobs** (*RestoreSnapshotJobInfo[]*) -
-A list of restore jobs that match the requested database and collection filters. For the full **RestoreSnapshotJobInfo** field reference, refer to the `getRestoreSnapshotState()` doc.
+- **jobs** (*RestoreSnapshotJobInfo[]*) -<br/>
+  A list of restore jobs that match the requested database and collection filters. For the full **RestoreSnapshotJobInfo** field reference, refer to the `getRestoreSnapshotState()` doc.
 
-- **ResStatus**
-A **ResStatus** object.
+- **ResStatus**<br/>
+  A **ResStatus** object.
 
     - **code** (*number*) -
 

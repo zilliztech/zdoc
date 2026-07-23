@@ -49,15 +49,15 @@ await milvusClient.unpinSnapshotData({
 
 **PARAMETERS:**
 
-- **pin_id** (*number | string*) -
-**[REQUIRED]**
-The pin ID returned by pinSnapshotData().
+- **pin_id** (*number | string*) -<br/>
+  **[REQUIRED]**<br/>
+  The pin ID returned by pinSnapshotData().
 
-- **timeout** (*number*) -
-An optional duration of time in milliseconds to allow for the RPC. If it is set to undefined, the client keeps waiting until the server responds or an error occurs. Default is undefined.
+- **timeout** (*number*) -<br/>
+  An optional duration of time in milliseconds to allow for the RPC. If it is set to undefined, the client keeps waiting until the server responds or an error occurs. Default is undefined.
 
-- **client_request_id** (*string*) -
-A trace ID for request tracking. Optional.
+- **client_request_id** (*string*) -<br/>
+  A trace ID for request tracking. Optional.
 
 **RETURNS:**
 

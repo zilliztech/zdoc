@@ -71,14 +71,14 @@ This method returns a promise that resolves to a **CompactionResponse** object.
 
 **PARAMETERS:**
 
-- **compactionID** (*string*) -
-The identifier of the compaction operation. Pass this value to `getCompactionState()` or `getCompactionStateWithPlans()` to poll progress.
+- **compactionID** (*string*) -<br/>
+  The identifier of the compaction operation. Pass this value to `getCompactionState()` or `getCompactionStateWithPlans()` to poll progress.
 
-- **compactionPlanCount** (*number*) -
-The number of compaction plans generated for this operation.
+- **compactionPlanCount** (*number*) -<br/>
+  The number of compaction plans generated for this operation.
 
-- **ResStatus**
-A **ResStatus** object.
+- **ResStatus**<br/>
+  A **ResStatus** object.
 
     - **code** (*number*) -
 
