@@ -15,10 +15,10 @@ keywords:
   - 情報検索
   - 次元削減
   - hnsw algorithm
-  - vector similarity search
+  - ベクトル類似検索
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - drop_snapshot()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -45,12 +45,12 @@ drop_snapshot(
 
 **パラメータ:**
 
-- **snapshot_name** (*str*) -
-**[必須]**
-削除するスナップショットの名前。
+- **snapshot_name** (*str*) -<br/>
+  **[必須]**<br/>
+  削除するスナップショットの名前。
 
-- **timeout** (*Optional[float]*) -
-RPC の実行に許可する任意の時間（秒）。
+- **timeout** (*Optional[float]*) -<br/>
+  RPC に許可する秒単位の任意の時間。
 
 **戻り値の型:**
 
@@ -60,7 +60,7 @@ RPC の実行に許可する任意の時間（秒）。
 
 - **MilvusException**
 
-    スナップショットが存在しない場合、または操作が失敗した場合。
+    スナップショットが存在しない場合、または操作に失敗した場合。
 
 ## 例\{#examples}
 

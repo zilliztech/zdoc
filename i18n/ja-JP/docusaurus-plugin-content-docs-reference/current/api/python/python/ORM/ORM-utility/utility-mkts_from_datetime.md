@@ -43,14 +43,14 @@ mkts_from_datetime(
 )
 ```
 
-**パラメータ:**
+**パラメーター:**
 
-- **d_time** (*datetime*) -
-**[必須]**
-**datetime.datetime** オブジェクト。
+- **d_time** (*datetime*) -<br/>
+  **[必須]**<br/>
+  **datetime.datetime** オブジェクト。
 
-- **milliseconds** (*float*) -
-ミリ秒単位の増分時間間隔。
+- **milliseconds** (*float*) -<br/>
+  ミリ秒単位の増分時間間隔。
 
 - **delta** (*Optional[timedelta]*) -
 
@@ -61,7 +61,7 @@ mkts_from_datetime(
 *int*
 
 **戻り値:**
-ハイブリッドタイムスタンプ。**0** から **18446744073709551615** の範囲の非負整数です。
+ハイブリッドタイムスタンプ。**0** から **18446744073709551615** までの範囲の非負整数です。
 
 ## 例\{#examples}
 
@@ -76,9 +76,9 @@ ts = mkts_from_datetime(
 )
 ```
 
-## 関連操作\{#related-operations}
+## 関連する操作\{#related-operations}
 
-以下の操作は `mkts_from_datetime()` に関連しています。
+次の操作は `mkts_from_datetime()` に関連しています。
 
 - [hybridts_to_datetime()](./utility-hybridts_to_datetime)
 

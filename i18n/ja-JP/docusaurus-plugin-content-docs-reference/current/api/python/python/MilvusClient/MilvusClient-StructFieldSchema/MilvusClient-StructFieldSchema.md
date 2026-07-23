@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "コンストラクタの動作が変更されました。既存のクラスページに新しい nullable プロパティが記載されました。 | Python | MilvusClient"
+description: "コンストラクターの動作が変更されました。既存のクラスページに新しい nullable プロパティが記載されています。 | Python | MilvusClient"
 type: docx
 token: ZnKKd2PsyoRc1MxtC1BcJQjgnBh
 sidebar_position: 3
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # StructFieldSchema
 
-コンストラクタの動作が変更されました。既存のクラスページに新しい nullable プロパティが記載されました。
+コンストラクターの動作が変更されました。既存のクラスページに新しい nullable プロパティが記載されています。
 
 ## Request Syntax\{#request-syntax}
 
@@ -44,13 +44,13 @@ StructFieldSchema(
 
 **PARAMETERS:**
 
-- **nullable** (*bool*) -
-デフォルト: `False`
-struct フィールドに null 値を含めることを許可するフラグです。
+- **nullable** (*bool*) -<br/>
+  デフォルト: `False`<br/>
+  struct field に null 値を含めることを許可するフラグです。
 
-- **description** (*str*) -
-デフォルト: `""`
-struct フィールドの説明です。
+- **description** (*str*) -<br/>
+  デフォルト: `""`<br/>
+  struct field の説明です。
 
 **RETURN TYPE:**
 
@@ -58,12 +58,12 @@ struct フィールドの説明です。
 
 **RETURNS:**
 
-ネストされたフィールドと nullable/default メタデータを含む struct フィールドスキーマインスタンス。
+ネストされた field と nullable/default メタデータを含む struct field schema インスタンス。
 
 **EXCEPTIONS:**
 
-- **MilvusException**
-サーバーがリクエストを拒否した場合、または RPC が失敗した場合に発生します。正確な失敗の詳細については、サーバーのエラーメッセージを確認してください。
+- **MilvusException**<br/>
+  サーバーがリクエストを拒否した場合、または RPC が失敗した場合に発生します。正確な失敗の詳細については、サーバーのエラーメッセージを確認してください。
 
 ## Examples\{#examples}
 

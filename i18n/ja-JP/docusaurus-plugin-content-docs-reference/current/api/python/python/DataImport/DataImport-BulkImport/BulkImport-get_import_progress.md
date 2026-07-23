@@ -12,10 +12,10 @@ type: docx
 token: CNQIdgQvXoux0KxpXHxca8EMnjg
 sidebar_position: 2
 keywords: 
-  - ベクトル埋め込み
-  - ベクトルストア
-  - オープンソースのベクトルデータベース
-  - ベクトルインデックス
+  - ベクター埋め込み
+  - ベクターストア
+  - オープンソースのベクターデータベース
+  - ベクターインデックス
   - zilliz
   - zilliz cloud
   - クラウド
@@ -52,46 +52,46 @@ get_import_progress(
 
 **PARAMETERS:**
 
-- **url** (*str*) -
-**[REQUIRED]**
+- **url** (*str*) -<br/>
+  **[REQUIRED]**
 
     `https://api.cloud.zilliz.com` である Zilliz Cloud API サーバーのエンドポイント。
 
-- **job_id** (*str*) -
-**[REQUIRED]**
-確認対象のインポートジョブの ID。
+- **job_id** (*str*) -<br/>
+  **[REQUIRED]**<br/>
+  確認するインポートジョブの ID。
 
-- **cluster_id** (*str*) -
-Default: `""`
-対象の Zilliz Cloud クラスターの ID。
+- **cluster_id** (*str*) -<br/>
+  Default: `""`<br/>
+  対象の Zilliz Cloud クラスターの ID。
 
-- **project_id** (*str*) -
-Default: `""`
-対象のプロジェクトデータベースを含む Zilliz Cloud プロジェクトの ID。
+- **project_id** (*str*) -<br/>
+  Default: `""`<br/>
+  対象プロジェクトデータベースを含む Zilliz Cloud プロジェクトの ID。
 
-- **region_id** (*str*) -
-Default: `""`
-対象のプロジェクトデータベースを含む Zilliz Cloud リージョンの ID。
+- **region_id** (*str*) -<br/>
+  Default: `""`<br/>
+  対象プロジェクトデータベースを含む Zilliz Cloud リージョンの ID。
 
-- **api_key** (*str*) -
-Default: `""`
+- **api_key** (*str*) -<br/>
+  Default: `""`
 
     リクエストの認証に使用される Zilliz Cloud API キー。
 
-- **db_name** (*str*) -
-Default: `""`
-ロールベースのアクセス制御のために `DB-Name` ヘッダーで送信されるデータベース名。
+- **db_name** (*str*) -<br/>
+  Default: `""`<br/>
+  ロールベースアクセス制御のために `DB-Name` ヘッダーで送信されるデータベース名。
 
-- **verify** (*Optional[Union[bool, str]]*) -
-Default: `True`
-TLS 検証設定です。デフォルトのトラストストアで検証するには `True` を使用するか、CA 証明書のパスを指定します。
+- **verify** (*Optional[Union[bool, str]]*) -<br/>
+  Default: `True`<br/>
+  TLS 検証設定。デフォルトのトラストストアで検証するには `True` を使用するか、CA 証明書のパスを指定します。
 
-- **cert** (*Optional[Union[str, tuple]]*) -
-Default: `None`
-クライアント証明書のパス、または相互 TLS のための証明書と秘密鍵のペア。
+- **cert** (*Optional[Union[str, tuple]]*) -<br/>
+  Default: `None`<br/>
+  クライアント証明書のパス、または相互 TLS 用の証明書と秘密鍵のペア。
 
-- **kwargs** (*Any*) -
-HTTP リクエストに転送される追加オプション。
+- **kwargs** (*Any*) -<br/>
+  HTTP リクエストに転送される追加オプション。
 
 **RETURN TYPE:**
 
@@ -103,8 +103,8 @@ HTTP リクエストに転送される追加オプション。
 
 **EXCEPTIONS:**
 
-- **MilvusException**
-サーバーがリクエストを拒否した場合、または RPC が失敗した場合に発生します。正確な失敗の詳細については、サーバーのエラーメッセージを確認してください。
+- **MilvusException**<br/>
+  サーバーがリクエストを拒否した場合、または RPC が失敗した場合に発生します。正確な失敗の詳細については、サーバーのエラーメッセージを確認してください。
 
 ## Examples\{#examples}
 

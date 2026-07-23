@@ -12,13 +12,13 @@ type: docx
 token: TwTnduPOioywHDx8hPQc80tRnKg
 sidebar_position: 6
 keywords: 
-  - Milvus とは
-  - Milvus データベース
-  - Milvus Lite
-  - Milvus ベンチマーク
+  - milvus とは
+  - milvus データベース
+  - milvus lite
+  - milvus benchmark
   - zilliz
   - zilliz cloud
-  - クラウド
+  - cloud
   - describe_user()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -43,40 +43,40 @@ describe_user(
 ) -> dict
 ```
 
-**パラメータ:**
+**PARAMETERS:**
 
-- **user_name** (*str*) -
-**[REQUIRED]**
-説明するユーザーアカウントの名前。
+- **user_name** (*str*) -<br/>
+  **[REQUIRED]**<br/>
+  説明対象のユーザーアカウント名。
 
-- **timeout** (*Optional[float]*) -
-デフォルト: `None`
-RPC の完了を待機する最大時間（秒単位）。
+- **timeout** (*Optional[float]*) -<br/>
+  デフォルト: `None`<br/>
+  RPC の完了を待機する最大時間（秒）。
 
-- **kwargs** (*Any*) -
-追加のリクエストコンテキストオプション。
+- **kwargs** (*Any*) -<br/>
+  追加のリクエストコンテキストオプション。
 
-**戻り値の型:**
+**RETURN TYPE:**
 
 *dict*
 
-**戻り値:**
+**RETURNS:**
 
-`user_name`、`roles`、および `description` を含む辞書。ユーザーが見つからない場合は空の辞書を返します。
+`user_name`、`roles`、`description` を含む辞書。ユーザーが見つからない場合は空の辞書を返します。
 
-- **user_name** (*str*) -
-説明対象のユーザーアカウントの名前。
+- **user_name** (*str*) -<br/>
+  説明されたユーザーアカウントの名前。
 
-- **roles** (*list[str]*) -
-ユーザーアカウントに割り当てられたロール。
+- **roles** (*list[str]*) -<br/>
+  ユーザーアカウントに割り当てられたロール。
 
-- **description** (*str*) -
-ユーザーアカウントに保存されている説明。
+- **description** (*str*) -<br/>
+  ユーザーアカウントに保存された説明。
 
-**例外:**
+**EXCEPTIONS:**
 
-- **MilvusException**
-サーバーがリクエストを拒否した場合、または RPC が失敗した場合に発生します。正確な失敗の詳細については、サーバーのエラーメッセージを確認してください。
+- **MilvusException**<br/>
+  サーバーがリクエストを拒否した場合、または RPC が失敗した場合に発生します。正確な失敗の詳細については、サーバーのエラーメッセージを確認してください。
 
 ## 例\{#examples}
 

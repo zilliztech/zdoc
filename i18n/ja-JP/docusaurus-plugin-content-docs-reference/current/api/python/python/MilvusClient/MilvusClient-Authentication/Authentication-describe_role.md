@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "レスポンスはロールの説明を公開するようになりました。Async バリアントは sync メソッドのパラメータとレスポンス契約を共有します。中間ラッパーフィールドは公開 describe_role() レスポンス辞書に変換されました。 | Python | MilvusClient"
+description: "レスポンスでロールの説明が公開されるようになりました。非同期バリアントは同期メソッドのパラメータおよびレスポンス契約を共有します。中間ラッパーフィールドは公開の describe_role() レスポンス辞書に変換されました。 | Python | MilvusClient"
 type: docx
 token: TYczdPuSNoV9lExR8iCcNIg9nGe
 sidebar_position: 5
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # describe_role()
 
-レスポンスはロールの説明を公開するようになりました。Async バリアントは sync メソッドのパラメータとレスポンス契約を共有します。中間ラッパーフィールドは公開 describe_role() レスポンス辞書に変換されました。
+レスポンスでロールの説明が公開されるようになりました。非同期バリアントは同期メソッドのパラメータおよびレスポンス契約を共有します。中間ラッパーフィールドは公開の describe_role() レスポンス辞書に変換されました。
 
 ## Request Syntax\{#request-syntax}
 
@@ -45,16 +45,16 @@ describe_role(
 
 **PARAMETERS:**
 
-- **role_name** (*str*) -
-**[REQUIRED]**
-説明するロールの名前。
+- **role_name** (*str*) -<br/>
+  **[REQUIRED]**<br/>
+  説明を取得するロールの名前。
 
-- **timeout** (*Optional[float]*) -
-Default: `None`
-RPC の完了を待機する最大時間（秒）。
+- **timeout** (*Optional[float]*) -<br/>
+  デフォルト: `None`<br/>
+  RPC の完了を待機する最大時間（秒単位）。
 
-- **kwargs** (*Any*) -
-追加のリクエストコンテキストオプション。
+- **kwargs** (*Any*) -<br/>
+  追加のリクエストコンテキストオプション。
 
 **RETURN TYPE:**
 
@@ -66,12 +66,12 @@ RPC の完了を待機する最大時間（秒）。
 
 **EXCEPTIONS:**
 
-- **MilvusException**
-サーバーがリクエストを拒否した場合、または RPC が失敗した場合に発生します。正確な失敗の詳細については、サーバーエラーメッセージを確認してください。
+- **MilvusException**<br/>
+  サーバーがリクエストを拒否した場合、または RPC が失敗した場合に発生します。正確な失敗の詳細については、サーバーのエラーメッセージを確認してください。
 
 ## Examples\{#examples}
 
-ロール記述の使用方法を示します。
+ロールの説明取得の使用方法を示します。
 
 ```python
 from pymilvus import MilvusClient

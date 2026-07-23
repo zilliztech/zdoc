@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "ユーザー認証情報/説明関連のシグネチャ動作を更新します。Async バリアントは sync メソッドのパラメータとレスポンス契約を共有します。 | Python | MilvusClient"
+description: "ユーザーの認証情報/説明関連のシグネチャ動作を更新します。Async バリアントは sync メソッドのパラメータおよびレスポンス契約を共有します。 | Python | MilvusClient"
 type: docx
 token: Q8QIdA1DioRRL9xUtlgcCPLHnPc
 sidebar_position: 20
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # update_password()
 
-ユーザー認証情報/説明関連のシグネチャ動作を更新します。Async バリアントは sync メソッドのパラメータとレスポンス契約を共有します。
+ユーザーの認証情報/説明関連のシグネチャ動作を更新します。Async バリアントは sync メソッドのパラメータおよびレスポンス契約を共有します。
 
 ## Request Syntax\{#request-syntax}
 
@@ -49,32 +49,32 @@ update_password(
 
 **PARAMETERS:**
 
-- **user_name** (*str*) -
-**[REQUIRED]**
-パスワードを変更するユーザーの名前。
+- **user_name** (*str*) -<br/>
+  **[REQUIRED]**<br/>
+  パスワードを変更するユーザーの名前。
 
-- **old_password** (*str*) -
-**[REQUIRED]**
-ユーザーの現在のパスワード。
+- **old_password** (*str*) -<br/>
+  **[REQUIRED]**<br/>
+  ユーザーの現在のパスワード。
 
-- **new_password** (*str*) -
-**[REQUIRED]**
-ユーザーの新しいパスワード。
+- **new_password** (*str*) -<br/>
+  **[REQUIRED]**<br/>
+  ユーザーの新しいパスワード。
 
-- **reset_connection** (*Optional[bool]*) -
-Default: `False`
-更新後に新しいパスワードでクライアントを再接続するフラグ。
+- **reset_connection** (*Optional[bool]*) -<br/>
+  Default: `False`<br/>
+  更新後に新しいパスワードでクライアントを再接続するフラグ。
 
-- **timeout** (*Optional[float]*) -
-Default: `None`
-RPC の完了を待機する最大時間（秒）。
+- **timeout** (*Optional[float]*) -<br/>
+  Default: `None`<br/>
+  RPC の完了を待機する最大時間（秒）。
 
-- **description** (*Optional[str]*) -
-Default: `None`
-ユーザーアカウントの任意の更新済み説明。
+- **description** (*Optional[str]*) -<br/>
+  Default: `None`<br/>
+  ユーザーアカウントの更新後の説明（任意）。
 
-- **kwargs** (*Any*) -
-追加のリクエストコンテキストオプション。
+- **kwargs** (*Any*) -<br/>
+  追加のリクエストコンテキストオプション。
 
 **RETURN TYPE:**
 
@@ -86,8 +86,8 @@ Default: `None`
 
 **EXCEPTIONS:**
 
-- **MilvusException**
-サーバーがリクエストを拒否した場合、または RPC が失敗した場合に発生します。正確な失敗の詳細については、サーバーのエラーメッセージを確認してください。
+- **MilvusException**<br/>
+  サーバーがリクエストを拒否した場合、または RPC が失敗した場合に発生します。正確な失敗の詳細については、サーバーのエラーメッセージを確認してください。
 
 ## Examples\{#examples}
 

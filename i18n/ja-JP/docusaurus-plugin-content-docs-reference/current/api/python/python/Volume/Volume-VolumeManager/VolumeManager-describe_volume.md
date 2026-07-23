@@ -7,7 +7,7 @@ added_since: false
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "新しい公開 volume 説明メソッド。 | Python"
+description: "新しい公開ボリューム説明メソッド。 | Python"
 type: docx
 token: MwfQdhukeoxOh0xPLySc0wJjn5f
 sidebar_position: 3
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # describe_volume()
 
-新しい公開 volume 説明メソッド。
+新しい公開ボリューム説明メソッド。
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```python
 describe_volume(
@@ -41,28 +41,28 @@ describe_volume(
 ) -> requests.Response
 ```
 
-**PARAMETERS:**
+**パラメーター:**
 
-- **volume_name** (*str*) -
-**[REQUIRED]**
-説明する Zilliz Cloud volume の名前。
+- **volume_name** (*str*) -<br/>
+  **[REQUIRED]**<br/>
+  説明対象の Zilliz Cloud ボリュームの名前。
 
-**RETURN TYPE:**
+**戻り値の型:**
 
 *requests.Response*
 
-**RETURNS:**
+**戻り値:**
 
-要求された volume の詳細を含む HTTP レスポンス。
+要求されたボリュームの詳細を含む HTTP レスポンス。
 
-**EXCEPTIONS:**
+**例外:**
 
-- **MilvusException**
-サーバーがリクエストを拒否した場合、または RPC が失敗した場合に発生します。正確な失敗の詳細については、サーバーのエラーメッセージを確認してください。
+- **MilvusException**<br/>
+  サーバーがリクエストを拒否した場合、または RPC が失敗した場合に発生します。正確な失敗の詳細については、サーバーのエラーメッセージを確認してください。
 
-## Examples\{#examples}
+## 例\{#examples}
 
-この例では、describe volume の使用方法を示します。
+この例では describe_volume の使用方法を示します。
 
 ```python
 from pymilvus.bulk_writer import VolumeFileManager, VolumeManager

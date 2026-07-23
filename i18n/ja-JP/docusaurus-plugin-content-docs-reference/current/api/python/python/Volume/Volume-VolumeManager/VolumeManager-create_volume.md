@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 project/region および external-volume パラメータを追加します。
 
-## リクエスト構文\{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```python
 create_volume(
@@ -46,48 +46,48 @@ create_volume(
 ) -> requests.Response
 ```
 
-**パラメータ:**
+**PARAMETERS:**
 
-- **project_id** (*str*) -
-**[必須]**
-volume を作成する Zilliz Cloud project の ID。
+- **project_id** (*str*) -<br/>
+  **[REQUIRED]**<br/>
+  volume を作成する Zilliz Cloud project の ID。
 
-- **region_id** (*str*) -
-**[必須]**
-volume を作成する Zilliz Cloud region の ID。
+- **region_id** (*str*) -<br/>
+  **[REQUIRED]**<br/>
+  volume を作成する Zilliz Cloud region の ID。
 
-- **volume_name** (*str*) -
-**[必須]**
-作成する volume の名前。
+- **volume_name** (*str*) -<br/>
+  **[REQUIRED]**<br/>
+  作成する volume の名前。
 
-- **volume_type** (*Optional[str]*) -
-デフォルト: `None`
-volume のタイプ。サポートされる値は `MANAGED` と `EXTERNAL` で、デフォルトは `MANAGED` です。
+- **volume_type** (*Optional[str]*) -<br/>
+  Default: `None`<br/>
+  volume のタイプ。サポートされる値は `MANAGED` と `EXTERNAL` で、デフォルトは `MANAGED` です。
 
-- **storage_integration_id** (*Optional[str]*) -
-デフォルト: `None`
-`EXTERNAL` volume に必要な storage integration ID。
+- **storage_integration_id** (*Optional[str]*) -<br/>
+  Default: `None`<br/>
+  `EXTERNAL` volume に必要な storage integration ID。
 
-- **path** (*Optional[str]*) -
-デフォルト: `None`
-`EXTERNAL` volume のストレージパス。省略した場合は storage integration のルートが使用されます。指定するパスは `/` で終わる必要があります。
+- **path** (*Optional[str]*) -<br/>
+  Default: `None`<br/>
+  `EXTERNAL` volume のストレージパス。省略した場合は storage integration のルートが使用されます。指定する path は `/` で終わる必要があります。
 
-**戻り値の型:**
+**RETURN TYPE:**
 
 *requests.Response*
 
-**戻り値:**
+**RETURNS:**
 
 volume 作成リクエストを説明する HTTP レスポンス。
 
-**例外:**
+**EXCEPTIONS:**
 
-- **MilvusException**
-サーバーがリクエストを拒否した場合、または RPC が失敗した場合に発生します。正確な失敗の詳細については、サーバーのエラーメッセージを確認してください。
+- **MilvusException**<br/>
+  サーバーがリクエストを拒否した場合、または RPC が失敗した場合に発生します。正確な失敗の詳細については、サーバーのエラーメッセージを確認してください。
 
-## 例\{#examples}
+## Examples\{#examples}
 
-この例は、create volume の使用方法を示しています。
+この例では、create volume の使用方法を示します。
 
 ```python
 from pymilvus.bulk_writer import VolumeFileManager, VolumeManager

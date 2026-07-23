@@ -7,7 +7,7 @@ added_since: false
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "同時実行、再試行、マルチパートサイズ、パス、進行状況コールバックの制御を追加します。 | Python"
+description: "同時実行、リトライ、マルチパートサイズ、パス、および進捗コールバックの制御を追加します。 | Python"
 type: docx
 token: SAR6dnlmmohi30x0x2KcioyXnib
 sidebar_position: 1
@@ -31,11 +31,11 @@ import Admonition from '@theme/Admonition';
 
 # upload_file_to_volume()
 
-同時実行、再試行、マルチパートサイズ、パス、進行状況コールバックの制御を追加します。
+同時実行、リトライ、マルチパートサイズ、パス、および進捗コールバックの制御を追加します。
 
 <Admonition type="info" icon="📘" title="注意">
 
-これは管理対象 volume にのみ適用されます。外部 volume は読み取り専用です。
+これはマネージドボリュームにのみ適用されます。外部ボリュームは読み取り専用です。
 
 </Admonition>
 
@@ -55,33 +55,33 @@ upload_file_to_volume(
 
 **PARAMETERS:**
 
-- **source_file_path** (*str*) -
-**[REQUIRED]**
-アップロードするローカルファイルまたはディレクトリのパス。
+- **source_file_path** (*str*) -<br/>
+  **[REQUIRED]**<br/>
+  アップロードするローカルファイルまたはディレクトリのパス。
 
-- **target_volume_path** (*str*) -
-**[REQUIRED]**
-Zilliz Cloud volume 内の宛先パス。
+- **target_volume_path** (*str*) -<br/>
+  **[REQUIRED]**<br/>
+  Zilliz Cloud volume 内の送信先パス。
 
-- **upload_concurrency** (*int*) -
-Default: `5`
-同時にアップロードするファイルの最大数。
+- **upload_concurrency** (*int*) -<br/>
+  デフォルト: `5`<br/>
+  同時にアップロードするファイルの最大数。
 
-- **max_retries** (*int*) -
-Default: `5`
-各ファイルに対するアップロード試行の最大回数。
+- **max_retries** (*int*) -<br/>
+  デフォルト: `5`<br/>
+  各ファイルに対するアップロード試行の最大回数。
 
-- **retry_interval** (*float*) -
-Default: `5.0`
-アップロード試行の間の待機時間（秒）。
+- **retry_interval** (*float*) -<br/>
+  デフォルト: `5.0`<br/>
+  アップロード試行の間隔（秒）。
 
-- **progress_callback** (*Callable[[UploadProgress], None] | None*) -
-Default: `None`
-アップロード進行状況のスナップショットとともに呼び出されるコールバック。
+- **progress_callback** (*Callable[[UploadProgress], None] | None*) -<br/>
+  デフォルト: `None`<br/>
+  アップロード進捗のスナップショットを受け取って呼び出されるコールバック。
 
-- **part_size** (*int*) -
-Default: `0`
-マルチパートアップロードのパートサイズ（バイト単位）。サイズを自動選択するには `0` を使用します。
+- **part_size** (*int*) -<br/>
+  デフォルト: `0`<br/>
+  マルチパートアップロードのパートサイズ（バイト単位）。サイズを自動的に選択するには `0` を使用します。
 
 **RETURN TYPE:**
 
@@ -89,12 +89,12 @@ Default: `0`
 
 **RETURNS:**
 
-volumeName、volume_name、およびアップロードされたターゲットパスを含む辞書。
+volumeName、volume_name、およびアップロードされた対象パスを含む辞書。
 
 **EXCEPTIONS:**
 
-- **MilvusException**
-サーバーがリクエストを拒否した場合、または RPC が失敗した場合に発生します。正確な失敗の詳細については、サーバーのエラーメッセージを確認してください。
+- **MilvusException**<br/>
+  サーバーがリクエストを拒否した場合、または RPC が失敗した場合に発生します。正確な失敗の詳細については、サーバーエラーメッセージを確認してください。
 
 ## Examples\{#examples}
 

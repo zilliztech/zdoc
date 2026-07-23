@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # list_import_jobs()
 
-project_id と region_id のフィルタリングを追加します。
+project_id および region_id のフィルタリングを追加します。
 
-## リクエスト構文\{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```python
 list_import_jobs(
@@ -52,71 +52,71 @@ list_import_jobs(
 ) -> requests.Response
 ```
 
-**パラメータ:**
+**PARAMETERS:**
 
-- **url** (*str*) -
-**[必須]**
+- **url** (*str*) -<br/>
+  **[REQUIRED]**
 
-    `https://api.cloud.zilliz.com` である Zilliz Cloud API サーバーのエンドポイント。
+    `https://api.cloud.zilliz.com` である Zilliz Cloud API サーバーエンドポイント。
 
-- **collection_name** (*str*) -
-Default: `""`
-インポートジョブを一覧表示する対象 collection の名前。
+- **collection_name** (*str*) -<br/>
+  Default: `""`<br/>
+  インポートジョブを一覧表示する対象のコレクションの名前。
 
-- **db_name** (*str*) -
-Default: `""`
-インポートジョブを一覧表示する対象データベースの名前。
+- **db_name** (*str*) -<br/>
+  Default: `""`<br/>
+  インポートジョブを一覧表示する対象のデータベース名。
 
-- **cluster_id** (*str*) -
-Default: `""`
-対象の Zilliz Cloud cluster の ID。
+- **cluster_id** (*str*) -<br/>
+  Default: `""`<br/>
+  対象の Zilliz Cloud クラスターの ID。
 
-- **project_id** (*str*) -
-Default: `""`
-対象 project データベースを含む Zilliz Cloud project の ID。
+- **project_id** (*str*) -<br/>
+  Default: `""`<br/>
+  対象のプロジェクトデータベースを含む Zilliz Cloud プロジェクトの ID。
 
-- **region_id** (*str*) -
-Default: `""`
-対象 project データベースを含む Zilliz Cloud リージョンの ID。
+- **region_id** (*str*) -<br/>
+  Default: `""`<br/>
+  対象のプロジェクトデータベースを含む Zilliz Cloud リージョンの ID。
 
-- **api_key** (*str*) -
-Default: `""`
+- **api_key** (*str*) -<br/>
+  Default: `""`
 
-    リクエストの認証に使用される Zilliz Cloud API key。
+    リクエストの認証に使用する Zilliz Cloud API キー。
 
-- **page_size** (*int*) -
-Default: `10`
-1 ページあたりに返されるインポートジョブの最大数。
+- **page_size** (*int*) -<br/>
+  Default: `10`<br/>
+  1 ページあたりに返されるインポートジョブの最大数。
 
-- **current_page** (*int*) -
-Default: `1`
-返される 1 始まりのページ番号。
+- **current_page** (*int*) -<br/>
+  Default: `1`<br/>
+  返されるページ番号。1 始まりです。
 
-- **verify** (*Optional[Union[bool, str]]*) -
-Default: `True`
-TLS 検証設定。デフォルトのトラストストアで検証するには `True` を使用し、CA 証明書パスを指定することもできます。
+- **verify** (*Optional[Union[bool, str]]*) -<br/>
+  Default: `True`<br/>
+  TLS 検証設定。デフォルトの信頼ストアで検証するには `True` を使用するか、CA 証明書のパスを指定します。
 
-- **cert** (*Optional[Union[str, tuple]]*) -
-Default: `None`
-クライアント証明書のパス、または相互 TLS 用の証明書と秘密鍵のペア。
+- **cert** (*Optional[Union[str, tuple]]*) -<br/>
+  Default: `None`<br/>
+  クライアント証明書のパス、または相互 TLS 用の証明書と秘密鍵のペア。
 
-- **kwargs** (*Any*) -
-HTTP リクエストに転送される追加オプション。
+- **kwargs** (*Any*) -<br/>
+  HTTP リクエストに転送される追加オプション。
 
-**戻り値の型:**
+**RETURN TYPE:**
 
 *requests.Response*
 
-**戻り値:**
+**RETURNS:**
 
 一致するインポートジョブとページネーション情報を含む HTTP レスポンス。
 
-**例外:**
+**EXCEPTIONS:**
 
-- **MilvusException**
-サーバーがリクエストを拒否した場合、または RPC が失敗した場合に発生します。正確な失敗の詳細はサーバーのエラーメッセージを確認してください。
+- **MilvusException**<br/>
+  サーバーがリクエストを拒否した場合、または RPC が失敗した場合に発生します。正確な失敗の詳細については、サーバーのエラーメッセージを確認してください。
 
-## 例\{#examples}
+## Examples\{#examples}
 
 この例では、Zilliz Cloud からインポートジョブを一覧表示します。
 

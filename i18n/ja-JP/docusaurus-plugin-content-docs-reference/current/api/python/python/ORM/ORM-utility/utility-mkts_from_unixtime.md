@@ -13,9 +13,9 @@ token: ZdKEd2ua6o9AHHxKq25ctNSdncb
 sidebar_position: 36
 keywords: 
   - vectordb
-  - マルチモーダルベクトルデータベース検索
-  - 検索拡張生成
-  - 大規模言語モデル
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
   - zilliz
   - zilliz cloud
   - cloud
@@ -62,21 +62,21 @@ utility.mkts_from_unixtime(
 
     UNIX エポックタイムスタンプです。
 
-    UNIX エポックタイムスタンプは、1970 年 1 月 1 日（UTC/GMT の午前 0 時）からの経過時間を秒単位で表す整数です。
+    UNIX エポックタイムスタンプは、1970 年 1 月 1 日（UTC/GMT の午前 0 時）から経過した時間を秒単位で表す整数です。
 
-- **milliseconds** (*float*) -
-ミリ秒単位の増分時間間隔です。
+- **milliseconds** (*float*) -<br/>
+  ミリ秒単位の増分時間間隔です。
 
 - **delta** (*Optional[timedelta]*) -
 
-    2 つの [`date`](https://docs.python.org/3/library/datetime.html#datetime.date)、[`time`](https://docs.python.org/3/library/datetime.html#datetime.time)、または [`datetime`](https://docs.python.org/3/library/datetime.html#datetime.datetime) インスタンス間の差をマイクロ秒精度で表す期間を示す **datetime.timedelta** オブジェクトです。
+    マイクロ秒精度で 2 つの [`date`](https://docs.python.org/3/library/datetime.html#datetime.date)、[`time`](https://docs.python.org/3/library/datetime.html#datetime.time)、または [`datetime`](https://docs.python.org/3/library/datetime.html#datetime.datetime) インスタンス間の差を表す期間を示す **datetime.timedelta** オブジェクトです。
 
 **RETURN TYPE:**
 
 *int*
 
 **RETURNS:**
-ハイブリッドタイムスタンプ。**0** から **18446744073709551615** までの範囲を取る非負の整数です。
+ハイブリッドタイムスタンプを返します。これは **0** から **18446744073709551615** の範囲の非負整数です。
 
 ## **Examples**\{#examples}
 
@@ -109,7 +109,7 @@ mkts_from_unixtime(
 
 ## Related operations\{#related-operations}
 
-以下の操作は `mkts_from_unixtime()` に関連しています。
+次の操作は `mkts_from_unixtime()` に関連しています。
 
 - [mkts_from_datetime()](./utility-mkts_from_datetime)
 

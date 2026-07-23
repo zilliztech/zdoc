@@ -53,8 +53,8 @@ mkts_from_hybridts(
 
     ハイブリッドタイムスタンプは、**0** から **18446744073709551615** までの非負整数です。
 
-- **milliseconds** (*float*) -
-ミリ秒単位の増分時間間隔。
+- **milliseconds** (*float*) -<br/>
+  ミリ秒単位の増分時間間隔。
 
 - **delta** (*Optional[timedelta]*) -
 
@@ -65,7 +65,7 @@ mkts_from_hybridts(
 *int*
 
 **RETURNS:**
-ハイブリッドタイムスタンプ。これは **0** から **18446744073709551615** までの非負整数です。
+ハイブリッドタイムスタンプ。これは、**0** から **18446744073709551615** までの非負整数です。
 
 ## **Examples**\{#examples}
 
@@ -99,7 +99,7 @@ mkts_from_hybridts(
 )
 ```
 
-## Related operations\{#related-operations}
+## 関連操作\{#related-operations}
 
 以下の操作は `mkts_from_hybridts()` に関連しています。
 

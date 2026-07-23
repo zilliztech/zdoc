@@ -13,9 +13,9 @@ token: HVwRdVSbAo2jUexpxmdczdqPnzh
 sidebar_position: 1
 keywords: 
   - ベクトル埋め込みとは
-  - vector database チュートリアル
-  - ベクトルデータベースはどのように動作するか
-  - vector db 比較
+  - ベクトルデータベース チュートリアル
+  - ベクトルデータベースの仕組み
+  - vector db comparison
   - zilliz
   - zilliz cloud
   - cloud
@@ -59,74 +59,74 @@ bulk_import(
 
 **PARAMETERS:**
 
-- **url** (*str*) -
-**[REQUIRED]**
+- **url** (*str*) -<br/>
+  **[REQUIRED]**
 
-    Zilliz Cloud API サーバーのエンドポイントです。`https://api.cloud.zilliz.com` になります。
+    `https://api.cloud.zilliz.com` である Zilliz Cloud API サーバーエンドポイント。
 
-- **collection_name** (*str*) -
-**[REQUIRED]**
-対象 collection の名前です。
+- **collection_name** (*str*) -<br/>
+  **[REQUIRED]**<br/>
+  対象 collection の名前。
 
-- **db_name** (*str*) -
-Default: `""`
-対象 database の名前です。
+- **db_name** (*str*) -<br/>
+  Default: `""`<br/>
+  対象 database の名前。
 
-- **object_url** (*str*) -
-Default: `""`
-非推奨のオブジェクトストレージ URL です。新しい Zilliz Cloud 統合では `object_urls` を使用してください。
+- **object_url** (*str*) -<br/>
+  Default: `""`<br/>
+  非推奨のオブジェクトストレージ URL。新しい Zilliz Cloud 連携では `object_urls` を使用してください。
 
-- **object_urls** (*Optional[List[List[str]]]*) -
-Default: `None`
-インポートデータを含むオブジェクトストレージ URL です。各ネストされたリストは 1 つのオブジェクトまたはフォルダを識別します。
+- **object_urls** (*Optional[List[List[str]]]*) -<br/>
+  Default: `None`<br/>
+  インポートデータを含むオブジェクトストレージ URL。各ネストされたリストは 1 つのオブジェクトまたはフォルダを識別します。
 
-- **cluster_id** (*str*) -
-Default: `""`
-対象の Zilliz Cloud cluster の ID です。
+- **cluster_id** (*str*) -<br/>
+  Default: `""`<br/>
+  対象の Zilliz Cloud cluster の ID。
 
-- **project_id** (*str*) -
-Default: `""`
-対象の project database を含む Zilliz Cloud project の ID です。
+- **project_id** (*str*) -<br/>
+  Default: `""`<br/>
+  対象 project database を含む Zilliz Cloud project の ID。
 
-- **region_id** (*str*) -
-Default: `""`
-対象の project database を含む Zilliz Cloud region の ID です。
+- **region_id** (*str*) -<br/>
+  Default: `""`<br/>
+  対象 project database を含む Zilliz Cloud リージョンの ID。
 
-- **api_key** (*str*) -
-Default: `""`
+- **api_key** (*str*) -<br/>
+  Default: `""`
 
-    リクエストの認証に使用される Zilliz Cloud API key です。
+    リクエストの認証に使用される Zilliz Cloud API key。
 
-- **access_key** (*str*) -
-Default: `""`
-Zilliz Cloud が使用するオブジェクトストレージ認証情報の access key です。
+- **access_key** (*str*) -<br/>
+  Default: `""`<br/>
+  Zilliz Cloud が使用するオブジェクトストレージ認証情報の access key。
 
-- **secret_key** (*str*) -
-Default: `""`
-Zilliz Cloud が使用するオブジェクトストレージ認証情報の secret key です。
+- **secret_key** (*str*) -<br/>
+  Default: `""`<br/>
+  Zilliz Cloud が使用するオブジェクトストレージ認証情報の secret key。
 
-- **token** (*str*) -
-Default: `""`
-Zilliz Cloud が使用する一時的なオブジェクトストレージ認証情報のセッショントークンです。
+- **token** (*str*) -<br/>
+  Default: `""`<br/>
+  Zilliz Cloud が使用する一時的なオブジェクトストレージ認証情報のセッショントークン。
 
-- **volume_name** (*str*) -
-Default: `""`
-インポートデータを含む Zilliz Cloud volume の名前です。
+- **volume_name** (*str*) -<br/>
+  Default: `""`<br/>
+  インポートデータを含む Zilliz Cloud volume の名前。
 
-- **data_paths** (*Optional[List[List[str]]]*) -
-Default: `None`
-インポートデータを含む Zilliz Cloud volume 内のパスです。
+- **data_paths** (*Optional[List[List[str]]]*) -<br/>
+  Default: `None`<br/>
+  インポートデータを含む Zilliz Cloud volume 内のパス。
 
-- **verify** (*Optional[Union[bool, str]]*) -
-Default: `True`
-TLS 検証設定です。デフォルトの trust store で検証するには `True` を使用するか、CA 証明書パスを指定します。
+- **verify** (*Optional[Union[bool, str]]*) -<br/>
+  Default: `True`<br/>
+  TLS 検証設定。デフォルトの trust store で検証するには `True` を使用するか、CA 証明書パスを指定します。
 
-- **cert** (*Optional[Union[str, tuple]]*) -
-Default: `None`
-クライアント証明書のパス、または相互 TLS 用の証明書と秘密鍵のペアです。
+- **cert** (*Optional[Union[str, tuple]]*) -<br/>
+  Default: `None`<br/>
+  クライアント証明書のパス、または相互 TLS 用の証明書と秘密鍵のペア。
 
-- **kwargs** (*Any*) -
-HTTP リクエストに転送される追加オプションです。
+- **kwargs** (*Any*) -<br/>
+  HTTP リクエストに転送される追加オプション。
 
 **RETURN TYPE:**
 
@@ -134,12 +134,12 @@ HTTP リクエストに転送される追加オプションです。
 
 **RETURNS:**
 
-bulk-import エンドポイントによって返される HTTP レスポンスです。送信されたジョブ識別子については JSON ペイロードを確認してください。
+bulk-import エンドポイントから返される HTTP レスポンス。送信されたジョブ識別子については JSON ペイロードを確認してください。
 
 **EXCEPTIONS:**
 
-- **MilvusException**
-サーバーがリクエストを拒否した場合、または RPC が失敗した場合に発生します。正確な失敗の詳細については、サーバーのエラーメッセージを確認してください。
+- **MilvusException**<br/>
+  サーバーがリクエストを拒否した場合、または RPC が失敗した場合に発生します。正確な失敗の詳細についてはサーバーエラーメッセージを確認してください。
 
 ## Examples\{#examples}
 

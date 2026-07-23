@@ -7,14 +7,14 @@ added_since: v2.4.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "targetsize/targetsizeunit と正のサイズ検証を追加します。Async バリアントは sync メソッドの契約を共有します。 | Python | MilvusClient"
+description: "targetsize/targetsizeunit と正のサイズ検証を追加します。非同期バリアントは同期メソッドの契約を共有します。 | Python | MilvusClient"
 type: docx
 token: ZANCdUPeBoCis1xylRUcR90Pndb
 sidebar_position: 2
 keywords: 
   - ハイブリッド検索
   - レキシカル検索
-  - 最近傍探索
+  - 最近傍検索
   - Agentic RAG
   - zilliz
   - zilliz cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # compact()
 
-target_size/target_size_unit と正のサイズ検証を追加します。Async バリアントは sync メソッドの契約を共有します。
+target_size/target_size_unit と正のサイズ検証を追加します。非同期バリアントは同期メソッドの契約を共有します。
 
 ## Request Syntax\{#request-syntax}
 
@@ -49,32 +49,32 @@ compact(
 
 **PARAMETERS:**
 
-- **collection_name** (*str*) -
-**[REQUIRED]**
-compact する collection の名前。
+- **collection_name** (*str*) -<br/>
+  **[REQUIRED]**<br/>
+  compact する collection の名前。
 
-- **is_clustering** (*Optional[bool]*) -
-Default: `False`
-クラスタリング compact を要求するフラグです。
+- **is_clustering** (*Optional[bool]*) -<br/>
+  デフォルト: `False`<br/>
+  クラスタリング compaction を要求するフラグ。
 
-- **is_l0** (*Optional[bool]*) -
-Default: `False`
-レベルゼロ compact を要求するフラグです。
+- **is_l0** (*Optional[bool]*) -<br/>
+  デフォルト: `False`<br/>
+  level-zero compaction を要求するフラグ。
 
-- **target_size** (*Optional[int]*) -
-Default: `None`
-compact 後の希望するセグメントサイズ。この値は正の整数である必要があります。省略した場合はサーバーのデフォルトが使用されます。
+- **target_size** (*Optional[int]*) -<br/>
+  デフォルト: `None`<br/>
+  compaction 後の望ましいセグメントサイズ。値は正の整数である必要があります。省略した場合は、サーバーのデフォルトが使用されます。
 
-- **target_size_unit** (*str*) -
-Default: `"mb"`
-`target_size` の単位。サポートされる値は `b`、`kb`、`mb`、`gb`、`tb`、および `pb` です。デフォルトは `mb` です。
+- **target_size_unit** (*str*) -<br/>
+  デフォルト: `"mb"`<br/>
+  `target_size` の単位。サポートされる値は `b`、`kb`、`mb`、`gb`、`tb`、`pb` で、デフォルトは `mb` です。
 
-- **timeout** (*Optional[float]*) -
-Default: `None`
-RPC を待機する最大時間（秒）。省略した場合、クライアントはサーバーが応答するかエラーが発生するまで待機します。
+- **timeout** (*Optional[float]*) -<br/>
+  デフォルト: `None`<br/>
+  RPC を待機する最大時間（秒）。省略した場合、クライアントはサーバーが応答するかエラーが発生するまで待機します。
 
-- **kwargs** (*Any*) -
-追加のリクエストコンテキストオプション。
+- **kwargs** (*Any*) -<br/>
+  追加のリクエストコンテキストオプション。
 
 **RETURN TYPE:**
 
@@ -86,8 +86,8 @@ Milvus によって返される compaction ジョブ識別子。
 
 **EXCEPTIONS:**
 
-- **MilvusException**
-サーバーがリクエストを拒否した場合、または RPC が失敗した場合に発生します。正確な失敗の詳細については、サーバーのエラーメッセージを確認してください。
+- **MilvusException**<br/>
+  サーバーがリクエストを拒否した場合、または RPC が失敗した場合に発生します。正確な失敗の詳細については、サーバーのエラーメッセージを確認してください。
 
 ## Examples\{#examples}
 

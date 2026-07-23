@@ -7,7 +7,7 @@ added_since: false
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "project_id および volume_type のフィルタリングを追加します。 | Python"
+description: "project_id と volume_type のフィルタリングを追加します。 | Python"
 type: docx
 token: SyiHdehPHoO4l4x11tqcjzpOnLd
 sidebar_position: 4
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # list_volumes()
 
-project_id および volume_type のフィルタリングを追加します。
+project_id と volume_type のフィルタリングを追加します。
 
 ## Request Syntax\{#request-syntax}
 
@@ -46,21 +46,21 @@ list_volumes(
 
 **PARAMETERS:**
 
-- **project_id** (*str*) -
-**[REQUIRED]**
-volumes を一覧表示する対象の Zilliz Cloud project の ID。
+- **project_id** (*str*) -<br/>
+  **[REQUIRED]**<br/>
+  volume を一覧表示する対象の Zilliz Cloud project の ID。
 
-- **current_page** (*int*) -
-Default: `1`
-返されるページ番号。1 始まりです。
+- **current_page** (*int*) -<br/>
+  Default: `1`<br/>
+  返される、1 から始まるページ番号。
 
-- **page_size** (*int*) -
-Default: `10`
-1 ページあたりに返される volumes の最大数。
+- **page_size** (*int*) -<br/>
+  Default: `10`<br/>
+  1 ページあたりに返される volume の最大数。
 
-- **volume_type** (*Optional[str]*) -
-Default: `None`
-結果をフィルタリングする volume type。サポートされる値は `MANAGED` および `EXTERNAL` です。
+- **volume_type** (*Optional[str]*) -<br/>
+  Default: `None`<br/>
+  結果をフィルタリングする volume のタイプ。サポートされる値は `MANAGED` および `EXTERNAL` です。
 
 **RETURN TYPE:**
 
@@ -68,16 +68,16 @@ Default: `None`
 
 **RETURNS:**
 
-project の volumes の 1 ページ分を含む HTTP レスポンス。
+project の volume の 1 ページ分を含む HTTP レスポンス。
 
 **EXCEPTIONS:**
 
-- **MilvusException**
-サーバーがリクエストを拒否した場合、または RPC が失敗した場合に発生します。正確な失敗の詳細については、サーバーのエラーメッセージを確認してください。
+- **MilvusException**<br/>
+  サーバーがリクエストを拒否した場合、または RPC が失敗した場合に発生します。正確な失敗の詳細については、サーバーのエラーメッセージを確認してください。
 
 ## Examples\{#examples}
 
-この例は、list volumes の使用方法を示しています。
+この例では、list volumes の使用方法を示します。
 
 ```python
 from pymilvus.bulk_writer import VolumeFileManager, VolumeManager

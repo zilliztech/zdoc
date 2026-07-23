@@ -7,7 +7,7 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、すべての restore snapshot ジョブを一覧表示します。必要に応じて collection 名でフィルタリングし、特定の collection を対象とする restore ジョブを表示できます。 | Python | MilvusClient"
+description: "この操作は、すべてのスナップショット復元ジョブを一覧表示します。必要に応じてコレクション名でフィルタリングし、特定のコレクションを対象とする復元ジョブを確認できます。 | Python | MilvusClient"
 type: docx
 token: PtHQdGNfaoI4Mux05rbcRWTVnMp
 sidebar_position: 5
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # list_restore_snapshot_jobs()
 
-この操作は、すべての restore snapshot ジョブを一覧表示します。必要に応じて collection 名でフィルタリングし、特定の collection を対象とする restore ジョブを表示できます。
+この操作は、すべてのスナップショット復元ジョブを一覧表示します。必要に応じてコレクション名でフィルタリングし、特定のコレクションを対象とする復元ジョブを確認できます。
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```python
 list_restore_snapshot_jobs(
@@ -43,21 +43,21 @@ list_restore_snapshot_jobs(
 ) -> List[RestoreSnapshotJobInfo]
 ```
 
-**PARAMETERS:**
+**パラメーター:**
 
-- **collection_name** (*str*) -
-restore ジョブをフィルタリングするための省略可能な collection 名です。空の場合、すべての restore ジョブが一覧表示されます。
+- **collection_name** (*str*) -<br/>
+  復元ジョブをフィルタリングするための任意のコレクション名です。空の場合、すべての復元ジョブが一覧表示されます。
 
-- **timeout** (*Optional[float]*) -
-RPC に許可する秒単位の省略可能な時間です。
+- **timeout** (*Optional[float]*) -<br/>
+  RPC に許容する秒単位の任意の時間です。
 
-**RETURN TYPE:**
+**戻り値の型:**
 
 *List[RestoreSnapshotJobInfo]*
 
-**RETURNS:**
+**戻り値:**
 
-各 restore ジョブ情報を含む RestoreSnapshotJobInfo オブジェクトのリストです。各オブジェクトには次のフィールドが含まれます。
+各復元ジョブ情報を含む RestoreSnapshotJobInfo オブジェクトのリストです。各オブジェクトには次のフィールドが含まれます。
 
 ```python
 {
@@ -73,31 +73,31 @@ RPC に許可する秒単位の省略可能な時間です。
 }
 ```
 
-**PARAMETERS:**
+**パラメーター:**
 
 - **job_id** (*int*) -
 
-    restore ジョブ ID。
+    復元ジョブ ID。
 
 - **snapshot_name** (*str*) -
 
-    復元対象の snapshot 名。
+    復元中のスナップショット名。
 
 - **db_name** (*str*) -
 
-    対象 database 名。
+    対象データベース名。
 
 - **collection_name** (*str*) -
 
-    対象 collection 名。
+    対象コレクション名。
 
 - **state** (*str*) -
 
-    現在の状態。指定可能な値: *RestoreSnapshotNone*, *RestoreSnapshotPending*, *RestoreSnapshotExecuting*, *RestoreSnapshotCompleted*, *RestoreSnapshotFailed*。
+    現在の状態。指定可能な値: *RestoreSnapshotNone*、*RestoreSnapshotPending*、*RestoreSnapshotExecuting*、*RestoreSnapshotCompleted*、*RestoreSnapshotFailed*。
 
 - **progress** (*int*) -
 
-    進行率のパーセンテージ (0-100)。
+    進行率の割合 (0-100)。
 
 - **reason** (*str*) -
 
@@ -111,13 +111,13 @@ RPC に許可する秒単位の省略可能な時間です。
 
     所要時間（ミリ秒）。
 
-**EXCEPTIONS:**
+**例外:**
 
 - **MilvusException**
 
     操作が失敗した場合。
 
-## Examples\{#examples}
+## 例\{#examples}
 
 ```python
 from pymilvus import MilvusClient

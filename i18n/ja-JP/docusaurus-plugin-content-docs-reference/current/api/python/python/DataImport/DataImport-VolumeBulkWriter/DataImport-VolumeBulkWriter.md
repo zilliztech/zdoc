@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "接続およびローカル出力パスの動作を追加します。 | Python"
+description: "接続とローカル出力パスの動作を追加します。 | Python"
 type: docx
 token: L9ozd33RroJ0NZxHUc0czKjpnbh
 sidebar_position: 3
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # VolumeBulkWriter
 
-接続およびローカル出力パスの動作を追加します。
+接続とローカル出力パスの動作を追加します。
 
 ## Request Syntax\{#request-syntax}
 
@@ -52,44 +52,44 @@ VolumeBulkWriter(
 
 **PARAMETERS:**
 
-- **schema** (*CollectionSchema*) -
-**[REQUIRED]**
-行を検証し、bulk ファイルを生成するために使用される collection schema。
+- **schema** (*CollectionSchema*) -<br/>
+  **[REQUIRED]**<br/>
+  行の検証とバルクファイルの生成に使用される collection スキーマです。
 
-- **remote_path** (*str*) -
-**[REQUIRED]**
-コミットされたファイルがアップロードされる、ターゲット volume 内のディレクトリ。
+- **remote_path** (*str*) -<br/>
+  **[REQUIRED]**<br/>
+  コミット済みファイルがアップロードされる、ターゲット volume 内のディレクトリです。
 
-- **cloud_endpoint** (*str*) -
-**[REQUIRED]**
-`https://api.cloud.zilliz.com` である Zilliz Cloud API サーバーのエンドポイント。
+- **cloud_endpoint** (*str*) -<br/>
+  **[REQUIRED]**<br/>
+  `https://api.cloud.zilliz.com` である Zilliz Cloud API サーバーのエンドポイントです。
 
-- **api_key** (*str*) -
-**[REQUIRED]**
-Zilliz Cloud で認証するために使用される API key。
+- **api_key** (*str*) -<br/>
+  **[REQUIRED]**<br/>
+  Zilliz Cloud で認証するために使用される API key です。
 
-- **volume_name** (*str*) -
-**[REQUIRED]**
-ターゲット Zilliz Cloud volume の名前。
+- **volume_name** (*str*) -<br/>
+  **[REQUIRED]**<br/>
+  対象の Zilliz Cloud volume の名前です。
 
-- **chunk_size** (*int*) -
-Default: `1024 * MB`
-writer が新しいファイルの作成を開始する前の、ローカル chunk の最大サイズ（バイト単位）。
+- **chunk_size** (*int*) -<br/>
+  デフォルト: `1024 * MB`<br/>
+  writer が新しいファイルの作成を開始する前の、ローカルチャンクの最大サイズ（バイト単位）です。
 
-- **file_type** ([BulkFileType](./DataImport-BulkFileType)) -
-Default: `BulkFileType.PARQUET`
-writer によって生成される bulk ファイル形式。
+- **file_type** ([BulkFileType](./DataImport-BulkFileType)) -<br/>
+  デフォルト: `BulkFileType.PARQUET`<br/>
+  writer によって生成されるバルクファイル形式です。
 
-- **config** (*Optional[dict]*) -
-Default: `None`
-任意の writer 設定。
+- **config** (*Optional[dict]*) -<br/>
+  デフォルト: `None`<br/>
+  任意の writer 設定です。
 
-- **connect_type** (*ConnectType*) -
-Default: `ConnectType.AUTO`
-volume 操作に使用される接続モード。
+- **connect_type** (*ConnectType*) -<br/>
+  デフォルト: `ConnectType.AUTO`<br/>
+  volume 操作に使用される接続モードです。
 
-- **kwargs** (*Any*) -
-`LocalBulkWriter` に転送される追加オプション。
+- **kwargs** (*Any*) -<br/>
+  `LocalBulkWriter` に転送される追加オプションです。
 
 **RETURN TYPE:**
 
@@ -97,12 +97,12 @@ volume 操作に使用される接続モード。
 
 **RETURNS:**
 
-bulk ファイルをローカルでステージングし、コミット済みファイルを設定された Zilliz Cloud volume にアップロードする writer。
+バルクファイルをローカルにステージングし、コミット済みファイルを設定済みの Zilliz Cloud volume にアップロードする writer です。
 
 **EXCEPTIONS:**
 
-- **MilvusException**
-サーバーがリクエストを拒否した場合、または RPC が失敗した場合に発生します。正確な失敗の詳細については、サーバーのエラーメッセージを確認してください。
+- **MilvusException**<br/>
+  サーバーがリクエストを拒否した場合、または RPC が失敗した場合に発生します。正確な失敗の詳細については、サーバーエラーメッセージを確認してください。
 
 ## Examples\{#examples}
 

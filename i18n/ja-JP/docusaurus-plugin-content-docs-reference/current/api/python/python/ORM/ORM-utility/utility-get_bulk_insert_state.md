@@ -60,8 +60,8 @@ res = utility.get_bulk_insert_state(task_id=task_id)
 
 **PARAMETERS:**
 
-- **task_id** (*int*) -
-**[REQUIRED]**
+- **task_id** (*int*) -<br/>
+  **[REQUIRED]**
 
     **do_bulk_insert()** 関数によって返されるタスク ID。
 
@@ -73,7 +73,7 @@ res = utility.get_bulk_insert_state(task_id=task_id)
 
 - **timeout** (*float* | *None*)  
 
-    この操作のタイムアウト時間です。これを **None** に設定すると、いずれかの応答が到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
+    この操作のタイムアウト時間。これを **None** に設定すると、何らかのレスポンスが到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
 
 RETURN TYPE:
 
@@ -112,7 +112,7 @@ RETURN TYPE:
 
 - **state** (*int*)
 
-    指定された bulk_insert タスクの状態を整数で表したものです。指定可能な値は以下の整数です。
+    指定された bulk_insert タスクの状態を整数で表したものです。取り得る値は以下の整数です。
 
     - **0**: タスクが保留状態であることを示します
 
@@ -126,11 +126,11 @@ RETURN TYPE:
 
     - **7**: タスクが失敗し、データがクリーンアップされたことを示します。
 
-    - **100**: タスクが不明な状態であることを示します。
+    - **100**: タスクが不明な状態にあることを示します。
 
 - **state_name** (*str*)
 
-    指定された bulk_insert タスクの状態名です。指定可能な値は以下のとおりです。
+    指定された bulk_insert タスクの状態名です。取り得る値は以下のとおりです。
 
     - **Pending**: タスクが保留状態であることを示します
 
@@ -144,11 +144,11 @@ RETURN TYPE:
 
     - **FailedAndCleaned**: タスクが失敗し、データがクリーンアップされたことを示します。
 
-    - **Unknown**: タスクが不明な状態であることを示します。
+    - **Unknown**: タスクが不明な状態にあることを示します。
 
 - **row_count** (*int*)
 
-    現在の bulk-insert タスクで挿入されたエンティティの数。
+    現在の bulk-insert タスクで挿入されたエンティティ数。
 
 - **progress** (*int*) 
 
@@ -156,11 +156,11 @@ RETURN TYPE:
 
 - **infos** (*dict*)
 
-    現在の bulk-insert タスクに関する情報を含む辞書です。指定可能なキーは以下のとおりです。
+    現在の bulk-insert タスクに関する情報を含む辞書です。取り得るキーは以下のとおりです。
 
     - **files** (*str*)
 
-        現在の bulk-insert タスクに含まれるファイル名をカンマ区切りの文字列で表したもの。
+        現在の bulk-insert タスクに含まれるファイル名を、カンマ区切りの文字列で表したものです。
 
     - **[collection](./ORM-Collection)** (*str*)
 
@@ -172,11 +172,11 @@ RETURN TYPE:
 
     - **failed_reason** (*str*)
 
-        bulk-insert の失敗理由。タスクが成功した場合、これは空文字列です。
+        bulk-insert が失敗した場合の理由。タスクが成功した場合、これは空文字列です。
 
     - **progress_percent** (str)
 
-        現在の bulk-insert タスクの進行状況をパーセンテージで表したもの。
+        現在の bulk-insert タスクの進行状況をパーセンテージで表したものです。
 
     - **persist_cost** (str)
 
@@ -184,15 +184,15 @@ RETURN TYPE:
 
 - **ids** (*list*) 
 
-    挿入されたエンティティの ID を含むリスト。
+    挿入されたエンティティの ID を格納したリスト。
 
 - **id_ranges** (*google._upb._message.RepeatedScalarContainer*)
 
-- 挿入されたエンティティの ID の範囲。
+- 挿入されたエンティティの ID 範囲。
 
 - **files** (str)
 
-    現在の bulk-insert タスクに含まれるファイル名をカンマ区切りの文字列で表したもの。
+    現在の bulk-insert タスクに含まれるファイル名を、カンマ区切りの文字列で表したものです。
 
 - **create_timestamp** (int)
 
@@ -200,7 +200,7 @@ RETURN TYPE:
 
 - **create_time_str** (str)
 
-    現在の bulk-insert タスクが作成された時点のタイムスタンプを、人が読める文字列で表したもの。
+    現在の bulk-insert タスクが作成された時点のタイムスタンプを、人が読める文字列で表したものです。
 
 - **collection_name** (str)
 
@@ -210,7 +210,7 @@ RETURN TYPE:
 
 - **MilvusException**
 
-    この操作中に何らかのエラーが発生した場合、この例外が発生します。
+    この操作の実行中に何らかのエラーが発生した場合、この例外がスローされます。
 
 ## Examples\{#examples}
 

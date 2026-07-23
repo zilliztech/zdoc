@@ -7,7 +7,7 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作はすべての snapshot 名を一覧表示します。必要に応じて collection 名でフィルタリングし、特定の collection に属する snapshot を一覧表示できます。 | Python | MilvusClient"
+description: "この操作はすべてのスナップショット名を一覧表示します。必要に応じて collection 名でフィルタリングし、特定の collection に属するスナップショットを一覧表示できます。 | Python | MilvusClient"
 type: docx
 token: WgmLdM6nUogd7LxGtmfc5dBKnku
 sidebar_position: 6
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # list_snapshots()
 
-この操作はすべての snapshot 名を一覧表示します。必要に応じて collection 名でフィルタリングし、特定の collection に属する snapshot を一覧表示できます。
+この操作はすべてのスナップショット名を一覧表示します。必要に応じて collection 名でフィルタリングし、特定の collection に属するスナップショットを一覧表示できます。
 
 ## リクエスト構文\{#request-syntax}
 
@@ -45,17 +45,17 @@ list_snapshots(
 
 **パラメータ:**
 
-- **collection_name** (*str*) -
-snapshot をフィルタリングするための任意の collection 名です。空の場合、すべての snapshot が一覧表示されます。
+- **collection_name** (*str*) -<br/>
+  スナップショットをフィルタリングするための任意の collection 名です。空の場合は、すべてのスナップショットが一覧表示されます。
 
-- **timeout** (*Optional[float]*) -
-RPC に許可する秒単位の任意の時間です。
+- **timeout** (*Optional[float]*) -<br/>
+  RPC に許可する秒単位の任意の時間です。
 
 **戻り値の型:**
 
 *List[str]*
 
-snapshot 名のリストです。
+スナップショット名のリスト。
 
 **例外:**
 
@@ -70,11 +70,11 @@ from pymilvus import MilvusClient
 
 client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
 
-# 特定の collection のすべての snapshot を一覧表示
+# 特定の collection のすべてのスナップショットを一覧表示
 snapshots = client.list_snapshots(collection_name="my_collection")
 print(snapshots)
 # ['backup_20260401', 'backup_20260418']
 
-# すべての collection にわたるすべての snapshot を一覧表示
+# すべての collection にまたがるすべてのスナップショットを一覧表示
 all_snapshots = client.list_snapshots()
 ```

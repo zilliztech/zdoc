@@ -7,15 +7,15 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、collection の特定時点のスナップショットを作成します。スナップショットを使用して、災害復旧や移行のために collection データとメタデータをバックアップします。 | Python | MilvusClient"
+description: "この操作は、collection の特定時点の snapshot を作成します。snapshot は、災害復旧や移行のために collection のデータとメタデータをバックアップする際に使用します。 | Python | MilvusClient"
 type: docx
 token: C8vld732kopQNMxbHyLcrORNnze
 sidebar_position: 1
 keywords: 
   - Faiss
-  - 動画検索
-  - AI 幻覚
-  - AI エージェント
+  - Video search
+  - AI Hallucination
+  - AI Agent
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # create_snapshot()
 
-この操作は、collection の特定時点のスナップショットを作成します。スナップショットを使用して、災害復旧や移行のために collection データとメタデータをバックアップします。
+この操作は、collection の特定時点の snapshot を作成します。snapshot は、災害復旧や移行のために collection のデータとメタデータをバックアップする際に使用します。
 
-## リクエスト構文\{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```python
 create_snapshot(
@@ -45,33 +45,33 @@ create_snapshot(
 ) -> None
 ```
 
-**パラメーター:**
+**PARAMETERS:**
 
-- **collection_name** (*str*) -
-**[必須]**
-スナップショットを作成する collection の名前。
+- **collection_name** (*str*) -<br/>
+  **[REQUIRED]**<br/>
+  snapshot を作成する collection の名前です。
 
-- **snapshot_name** (*str*) -
-**[必須]**
-スナップショットの一意の名前。既存のスナップショット名と競合してはいけません。
+- **snapshot_name** (*str*) -<br/>
+  **[REQUIRED]**<br/>
+  snapshot の一意な名前です。既存の snapshot 名と重複してはいけません。
 
-- **description** (*str*) -
-スナップショットの任意の人間が読める説明。
+- **description** (*str*) -<br/>
+  snapshot の任意の人が読める説明です。
 
-- **timeout** (*Optional[float]*) -
-RPC に許可する時間の長さ（秒単位）の任意値。指定しない場合は、クライアント側のデフォルトタイムアウトが使用されます。
+- **timeout** (*Optional[float]*) -<br/>
+  RPC に許可する秒単位の任意の時間です。指定しない場合は、クライアント側のデフォルトのタイムアウトが使用されます。
 
-**戻り値の型:**
+**RETURN TYPE:**
 
 *None*
 
-**例外:**
+**EXCEPTIONS:**
 
 - **MilvusException**
 
-    collection が存在しない場合、スナップショット名がすでに使用されている場合、またはその他の理由で操作が失敗した場合。
+    collection が存在しない場合、snapshot 名がすでに使用されている場合、またはその他の理由で操作に失敗した場合。
 
-## 例\{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus import MilvusClient
