@@ -84,8 +84,6 @@ CreateVolumeRequest.builder()
 
 ## Example\{#example}
 
-### Java example\{#java-example}
-
 Creates a volume backed by the specified storage integration and path.
 
 ```java

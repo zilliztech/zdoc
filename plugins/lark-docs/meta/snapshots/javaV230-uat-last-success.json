@@ -8,7 +8,7 @@
   "source_branch": "dev",
   "publish_url": "https://docs.cloud-uat3.zilliz.com",
   "link_check_remote": "https://docs.zilliz.com",
-  "generated_at": "2026-07-23T10:57:18.085Z",
+  "generated_at": "2026-07-23T18:46:28.031Z",
   "source_dir": "./plugins/lark-docs/meta/sources/java/v3.0.x/v2",
   "base_app_token": "AOFDbSmwma9XrNsLa8KcQgt9ngc",
   "records": [
@@ -4276,7 +4276,7 @@
       "doc_token": "TuyKdaa1SoOstTx9DglcWfzknTh",
       "doc_link": "https://zilliverse.feishu.cn/docx/TuyKdaa1SoOstTx9DglcWfzknTh",
       "source_file": "TuyKdaa1SoOstTx9DglcWfzknTh.json",
-      "source_hash": "84fea6287da46bd9811af6fe8e8a46573c502e7521c0b134dfe44688f4d8ee30",
+      "source_hash": "f8f5c766f5b45761a0e2fa7e3aa70abdda010448c01b946e8bbbb29200de0f86",
       "node_metadata": null,
       "node_token": null,
       "origin_node_token": null,
@@ -4286,7 +4286,7 @@
       "revision_id": null,
       "outgoing_tokens": [],
       "output_paths": [
-        "reference/api/java/java/v2/v2-Volume/v2-VolumeFileManager-shutdownGracefully.md"
+        "reference/api/java/java/v2/v2-Volume/v2-Volume-VolumeFileManager/v2-VolumeFileManager-shutdownGracefully.md"
       ]
     },
     {

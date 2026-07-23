@@ -10,7 +10,7 @@ notebook: false
 description: "Uploads a local file or directory to a volume asynchronously. | Java | v2"
 type: docx
 token: K8JSdXyEJoN8XKxDWebc8TfPnge
-sidebar_position: 4
+sidebar_position: 5
 keywords: 
   - Hierarchical Navigable Small Worlds
   - Dense embedding
@@ -75,7 +75,43 @@ UploadFilesRequest.builder()
 
 - `progressListener(ProgressListener progressListener)`
 
-    The optional `ProgressListener` callback that receives upload progress snapshots.
+    The optional `UploadFilesRequest.ProgressListener` callback that receives `UploadProgress` snapshots.
+
+    - `UploadProgress` -
+
+        The snapshot passed to `UploadFilesRequest.ProgressListener.onProgress(...)`.
+
+        - `getUploadedBytes()` -
+
+            Returns the bytes uploaded across all files.
+
+        - `getTotalBytes()` -
+
+            Returns the total bytes scheduled for upload.
+
+        - `getCompletedFiles()` -
+
+            Returns the number of files uploaded successfully.
+
+        - `getTotalFiles()` -
+
+            Returns the total number of files scheduled for upload.
+
+        - `getCurrentFile()` -
+
+            Returns the path of the file currently being uploaded.
+
+        - `getCurrentFileUploadedBytes()` -
+
+            Returns the uploaded bytes for the current file.
+
+        - `getCurrentFileTotalBytes()` -
+
+            Returns the total bytes in the current file.
+
+        - `getPercent()` -
+
+            Returns the aggregate upload percentage.
 
 - `partSizeBytes(long partSizeBytes)`
 
@@ -93,8 +129,6 @@ UploadFilesRequest.builder()
 
 ## Example\{#example}
 
-### Java example\{#java-example}
-
 Uploads a local file or directory to a volume asynchronously.
 
 ```java
@@ -103,6 +137,11 @@ CompletableFuture<UploadFilesResult> future = volumeFileManager.uploadFilesAsync
         .sourceFilePath("/data/books.json")
         .targetVolumePath("imports/books.json")
         .uploadConcurrency(5)
+        .progressListener(progress ->
+            System.out.printf("Uploaded %.2f%% (%d/%d bytes)%n",
+                progress.getPercent(),
+                progress.getUploadedBytes(),
+                progress.getTotalBytes()))
         .build());
 UploadFilesResult result = future.get();
 ```

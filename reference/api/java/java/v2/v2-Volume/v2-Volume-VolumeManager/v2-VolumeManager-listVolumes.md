@@ -78,8 +78,6 @@ ListVolumesRequest.builder()
 
 ## Example\{#example}
 
-### Java example\{#java-example}
-
 Lists volumes with optional project, type, and pagination filters.
 
 ```java

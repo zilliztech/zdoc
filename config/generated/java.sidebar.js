@@ -1180,6 +1180,12 @@ module.exports = [
             "id": "api/java/java/v2/v2-Volume/v2-Volume-VolumeFileManager/v2-Volume-VolumeFileManager",
             "label": "VolumeFileManager",
             "key": "doc:api/java/java/v2/v2-Volume/v2-Volume-VolumeFileManager/v2-volume-volumefilemanager"
+          },
+          {
+            "type": "doc",
+            "id": "api/java/java/v2/v2-Volume/v2-Volume-VolumeFileManager/v2-VolumeFileManager-shutdownGracefully",
+            "label": "shutdownGracefully()",
+            "key": "doc:api/java/java/v2/v2-Volume/v2-Volume-VolumeFileManager/v2-volumefilemanager-shutdowngracefully"
           }
         ]
       },
@@ -1213,12 +1219,6 @@ module.exports = [
             "key": "doc:api/java/java/v2/v2-Volume/v2-Volume-VolumeManager/v2-volume-volumemanager"
           }
         ]
-      },
-      {
-        "type": "doc",
-        "id": "api/java/java/v2/v2-Volume/v2-VolumeFileManager-shutdownGracefully",
-        "label": "shutdownGracefully()",
-        "key": "doc:api/java/java/v2/v2-Volume/v2-volumefilemanager-shutdowngracefully"
       }
     ]
   }
