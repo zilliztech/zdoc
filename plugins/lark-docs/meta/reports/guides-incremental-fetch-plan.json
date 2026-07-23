@@ -1,23 +1,10 @@
 {
-  "generated_at": "2026-07-22T18:39:30.379Z",
+  "generated_at": "2026-07-23T03:17:35.582Z",
   "manual": "guides",
   "build_env": "uat",
   "mode": "incremental",
   "source_dir": "./plugins/lark-docs/meta/sources/guides",
   "changed_records": [
-    {
-      "record_id": "recvlW2nZUCBal",
-      "table_id": "tblZMzoITXNsyKmQ",
-      "table_name": "Management",
-      "title": "On-Demand Compute Cost",
-      "labels": "On-Demand Compute",
-      "slug": "on-demand-compute-cost",
-      "doc_token": "O1qjwpv0Ri9afmkSUwWcU2aTn5f",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/O1qjwpv0Ri9afmkSUwWcU2aTn5f",
-      "reasons": [
-        "wiki node edit time changed"
-      ]
-    },
     {
       "record_id": "recvlW61fR9it6",
       "table_id": "tblb929onfgAPW90",
@@ -33,25 +20,16 @@
     }
   ],
   "changed_tokens": [
-    "B1cSwfWcri4VJLkCR20cHIs6nCf",
-    "O1qjwpv0Ri9afmkSUwWcU2aTn5f"
+    "B1cSwfWcri4VJLkCR20cHIs6nCf"
   ],
   "expanded_tokens": [
     "B1cSwfWcri4VJLkCR20cHIs6nCf",
     "BClgwKlHaiushBkPPssclTkYnef",
-    "CUuywySLVil4MKkmYZecUl9snLg",
-    "EmcowmwYpiFbWgkmnqfcMf3knVc",
     "GLG4wi6zhisaxYkBkmacXqItnbJ",
     "IrQ2wm2oaiAWl4kqQhkc303Rnlg",
-    "LJplw7Q9Gi09GMkiy8PcbYp6nrg",
-    "MUL3wkn7Yi3YoFkYk59csf8bnNc",
     "Mtxfwvu2fiOLwXkcURCcJxDPnLd",
-    "NRF1wGr3AiWWC1kVfWucZD6Xneb",
-    "O1qjwpv0Ri9afmkSUwWcU2aTn5f",
     "P4KNwDdqaivEZFk7RpOcYeyhn2N",
-    "PBEbwjRu9iyyaFkZnuzcINHCnke",
     "PpGlwYU6PiSsfVkZ7doco50vnKg",
-    "RsGAwmgAYiE6fgkOiokcijsBnEg",
     "V7xfwDariioU5GkcmfXctzSEnyc",
     "WVaVw8J7UiYZ52kaqVUcktqAnAf",
     "ZBEiwpvlbijhYDkmnNScc7zyn5d"
@@ -59,9 +37,6 @@
   "removed_records": [],
   "removed_tokens": [],
   "reasons_by_token": {
-    "O1qjwpv0Ri9afmkSUwWcU2aTn5f": [
-      "wiki node edit time changed"
-    ],
     "B1cSwfWcri4VJLkCR20cHIs6nCf": [
       "wiki node edit time changed"
     ],
@@ -91,27 +66,6 @@
     ],
     "ZBEiwpvlbijhYDkmnNScc7zyn5d": [
       "incoming reference to B1cSwfWcri4VJLkCR20cHIs6nCf"
-    ],
-    "EmcowmwYpiFbWgkmnqfcMf3knVc": [
-      "outgoing reference from O1qjwpv0Ri9afmkSUwWcU2aTn5f"
-    ],
-    "RsGAwmgAYiE6fgkOiokcijsBnEg": [
-      "outgoing reference from O1qjwpv0Ri9afmkSUwWcU2aTn5f"
-    ],
-    "LJplw7Q9Gi09GMkiy8PcbYp6nrg": [
-      "outgoing reference from O1qjwpv0Ri9afmkSUwWcU2aTn5f"
-    ],
-    "PBEbwjRu9iyyaFkZnuzcINHCnke": [
-      "outgoing reference from O1qjwpv0Ri9afmkSUwWcU2aTn5f"
-    ],
-    "CUuywySLVil4MKkmYZecUl9snLg": [
-      "incoming reference to O1qjwpv0Ri9afmkSUwWcU2aTn5f"
-    ],
-    "MUL3wkn7Yi3YoFkYk59csf8bnNc": [
-      "incoming reference to O1qjwpv0Ri9afmkSUwWcU2aTn5f"
-    ],
-    "NRF1wGr3AiWWC1kVfWucZD6Xneb": [
-      "incoming reference to O1qjwpv0Ri9afmkSUwWcU2aTn5f"
     ]
   },
   "warnings": [],
@@ -206,7 +160,7 @@
     "tblZMzoITXNsyKmQ": "Management"
   },
   "snapshot_basis": {
-    "generated_at": "2026-07-22T10:56:59.453Z",
+    "generated_at": "2026-07-22T18:40:30.274Z",
     "records": 373
   },
   "source_scope": "partial"

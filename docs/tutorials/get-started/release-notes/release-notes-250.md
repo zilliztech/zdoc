@@ -66,5 +66,28 @@ This release also includes a series of enhancements:
 
 - Improved experience of several web console pages.
 
-- Stability Enhancements: addressing known issues to further enhance the reliability of our service.
+- Stability Enhancements: addressing known issues to further enhance the reliability of our service.<br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
 

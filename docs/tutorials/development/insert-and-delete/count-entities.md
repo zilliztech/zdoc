@@ -61,7 +61,7 @@ Instead of obtaining the entity count programmatically, you can also access the 
 
 To get the precise entity count, load the collection and run a query with `count(*)` as the output field and set the consistency level for the query to `Strong`.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -208,7 +208,8 @@ curl --request POST \
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 #include "milvus/MilvusClientV2.h"
@@ -253,13 +254,16 @@ if (!status.IsOk()) {
 std::cout << response.Results().GetRowCount() << std::endl;
 ```
 
+</TabItem>
+</Tabs>
+
 ## Use `get_collection_stats()`\{#use-getcollectionstats}
 
 As described above, the `get_collection_stats()` returns an estimated number of entities in a collection, which may differ from the actual entity count. You can use this as a reference without loading a collection. 
 
 The following example assumes that a collection named `test_collection` exists.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -368,7 +372,8 @@ milvusClient.getCollectionStats({
 ```
 
 </TabItem>
-</Tabs>
+
+<TabItem value='c++'>
 
 ```c++
 #include "milvus/MilvusClientV2.h"
@@ -398,6 +403,9 @@ if (!status.IsOk()) {
 }
 std::cout << response.Stats().RowCount() << std::endl;
 ```
+
+</TabItem>
+</Tabs>
 
 ## Entity counts on the Zilliz Cloud console\{#entity-counts-on-the-zilliz-cloud-console}
 

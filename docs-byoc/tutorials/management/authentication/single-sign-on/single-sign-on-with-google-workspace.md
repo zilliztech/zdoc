@@ -164,8 +164,8 @@ Before users can access Zilliz Cloud through SSO, turn on your SAML app:
 
         - If the **Service status** is set to **Inherited** and you want to keep the updated setting, even if the parent setting changes, click **Override**.
 
-        - If the **Service status** is set to **Overridden**, either click **Inherit** to revert to the same setting as its parent, or click **Save** to keep the new setting, even if the parent setting changes.
-Note: Learn more about [organizational structure](https://support.google.com/a/answer/4352075).
+        - If the **Service status** is set to **Overridden**, either click **Inherit** to revert to the same setting as its parent, or click **Save** to keep the new setting, even if the parent setting changes.<br/>
+          Note: Learn more about [organizational structure](https://support.google.com/a/answer/4352075).
 
 1. (Optional) To turn on a service for a set of users across or within organizational units, select an access group. For details, go to [Use groups to customize service access](https://support.google.com/a/answer/9050643).
 

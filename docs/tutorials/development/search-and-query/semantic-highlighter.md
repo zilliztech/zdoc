@@ -198,8 +198,8 @@ You can use the `threshold` parameter to control when a text span is considered 
 
     The default threshold of 0.5 is used. Semantic matches returned by the highlighting model with scores below 0.5 will be filtered out. In this case, the `fragments` and `scores` fields will only contain matching results with scores ≥ 0.5.
 
-- **If** `threshold` **is set**
-Only spans whose semantic score is **greater than or equal to** the configured `threshold` are returned. Spans below this score are discarded, which may result in an empty `fragments` / `scores` array for some entities.
+- **If** `threshold` **is set**<br/>
+  Only spans whose semantic score is **greater than or equal to** the configured `threshold` are returned. Spans below this score are discarded, which may result in an empty `fragments` / `scores` array for some entities.
 
 Example configuration:
 

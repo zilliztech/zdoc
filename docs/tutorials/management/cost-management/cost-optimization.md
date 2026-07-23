@@ -55,17 +55,17 @@ Choosing the right deployment method is your most impactful decision. Selecting 
 
 ### Selection decision tree\{#selection-decision-tree}
 
-- **Data < 1M vectors, QPS < 50?**
-→ Use **Serverless**. Pay only for operations with zero idle cost. Do not provision Dedicated resources for "potential" traffic.
+- **Data < 1M vectors, QPS < 50?**<br/>
+  → Use **Serverless**. Pay only for operations with zero idle cost. Do not provision Dedicated resources for "potential" traffic.
 
-- **Data 1M–50M vectors, need stable low latency?**
-→ **Capacity-optimized** cluster is the most cost-effective solution. It is 3x cheaper than the performance-optimized option and offers sub-hundred-millisecond latency, which is more than sufficient for most RAG and recommendation scenarios. Use **performance-optimized** cluster only for extreme requirements (e.g., &lt;10 ms p99 real-time search).
+- **Data 1M–50M vectors, need stable low latency?**<br/>
+  → **Capacity-optimized** cluster is the most cost-effective solution. It is 3x cheaper than the performance-optimized option and offers sub-hundred-millisecond latency, which is more than sufficient for most RAG and recommendation scenarios. Use **performance-optimized** cluster only for extreme requirements (e.g., &lt;10 ms p99 real-time search).
 
-- **Data > 50M vectors, infrequent access?**
-→ Use **Tiered-storage** cluster. It is 3x cheaper than the capacity-optimized option and ideal for scenarios with massive data where only a subset is frequently queried (e.g., historical log analysis).
+- **Data > 50M vectors, infrequent access?**<br/>
+  → Use **Tiered-storage** cluster. It is 3x cheaper than the capacity-optimized option and ideal for scenarios with massive data where only a subset is frequently queried (e.g., historical log analysis).
 
-- **Compliance or existing Cloud Discounts (RI/SP)?**
-→ **BYOC (Bring Your Own Cloud)**. Clusters run in your VPC, allowing you to leverage enterprise-level cloud discounts and meet data sovereignty requirements.
+- **Compliance or existing Cloud Discounts (RI/SP)?**<br/>
+  → **BYOC (Bring Your Own Cloud)**. Clusters run in your VPC, allowing you to leverage enterprise-level cloud discounts and meet data sovereignty requirements.
 
 ### Recommendation: capacity-optimized—the best fit for most scenarios\{#recommendation-capacity-optimizedthe-best-fit-for-most-scenarios}
 
