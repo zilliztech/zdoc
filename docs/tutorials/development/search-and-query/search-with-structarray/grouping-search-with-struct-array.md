@@ -97,7 +97,7 @@ Without grouping, the same `doc_id` can appear multiple times if several chunks 
 
 You can combine grouping search with StructArray scalar filtering. Use `element_filter` when the scalar condition should constrain which Struct elements participate in element-level vector search.
 
-```plaintext
+```python
 filter_expr = (
     'category == "search" && '
     'element_filter(chunks, '

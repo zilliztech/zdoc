@@ -202,7 +202,7 @@ After you create a StructArray field, refer to its subfields with the `structArr
 
 Clusters compatible with Milvus v3.0.x support nullable StructArray fields. A nullable StructArray field allows an entity to store `null` for the entire StructArray field.
 
-```plaintext
+```python
 schema.add_field(
     field_name="chunks",
     datatype=DataType.ARRAY,
@@ -225,7 +225,7 @@ Clusters compatible with Milvus v3.0.x support adding a StructArray field to an 
 
 To add a StructArray field to an existing collection, define the Struct schema first. Then call `add_collection_struct_field()` and set `nullable=True`.
 
-```plaintext
+```python
 chunk_schema = client.create_struct_field_schema()
 chunk_schema.add_field(
     field_name="text",
@@ -273,7 +273,7 @@ After the StructArray field is added, existing entities return `null` for the ne
 
 After a StructArray field is created, you cannot add new subfields to that existing StructArray field. If you need additional element attributes later, call `drop_collection_field()` to drop the StructArray field, and then add a new StructArray field with the updated Struct schema.
 
-```plaintext
+```python
 client.drop_collection_field(
     collection_name="tech_articles",
     field_name="chunks",

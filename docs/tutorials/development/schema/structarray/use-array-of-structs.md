@@ -30,7 +30,7 @@ A **StructArray**, also known as an array of structs, stores an ordered set of S
 
 For example, a collection can store one article as an entity and store its chunks in a StructArray field named `chunks`. Each chunk can include text, section metadata, quality scores, and one or more vector embeddings.
 
-```plaintext
+```json
 {
   "doc_id": 1,
   "title": "Vector search tuning guide",

@@ -58,7 +58,7 @@ In an insert payload, `chunks` is a regular field whose value is an array of Str
 
 The `chunks` value is an array of Struct elements. Each element is an object whose keys are subfield names.
 
-```plaintext
+```json
 {
   "doc_id": 1,
   "title": "StructArray indexing patterns",
@@ -185,7 +185,7 @@ print(result)
 
 If the `chunks` field is nullable, an entity can set the entire `chunks` field to null. In Python, use `None` to represent a null value.
 
-```plaintext
+```python
 client.insert(
     collection_name="tech_articles",
     data=[
@@ -212,7 +212,7 @@ Nullable StructArray fields are available only in clusters compatible with Milvu
 
 You can query the collection and return the StructArray field or selected subfields.
 
-```plaintext
+```python
 rows = client.query(
     collection_name="tech_articles",
     filter="doc_id in [1, 2, 3]",

@@ -62,7 +62,7 @@ The following example creates two vector indexes. The first index uses a `MAX_SI
 
 Use `AUTOINDEX` for StructArray vector subfields.
 
-```plaintext
+```python
 index_params = client.prepare_index_params()
 
 index_params.add_index(
@@ -97,7 +97,7 @@ Create scalar indexes on StructArray scalar subfields when you use them in filte
 
 Use `AUTOINDEX` for StructArray scalar subfields.
 
-```plaintext
+```python
 index_params = client.prepare_index_params()
 
 index_params.add_index(
@@ -131,6 +131,26 @@ client.create_index(
 ```
 
 Scalar indexes are optional but useful when StructArray scalar subfields appear frequently in filters, such as `element_filter(chunks, $[quality_score] > 0.9)` or `MATCH_ANY(chunks, $[section] == "index")`.
+
+## Applicable metric types\{#applicable-metric-types}
+
+Use the following table to understand the metric types applicable to a StructArray field.
+
+| Metric Type | Description |
+| --- | --- |
+| `MAX_SIM_COSINE` (`MAX_SIM`) | Measures the similarity between 2 vectors based on Cosine, and then calculates the similarity between 2 vector lists using MaxSim. |
+| `MAX_SIM_L2` | Measures the similarity between 2 vectors based on L2, and then calculates the similarity between 2 vector lists using MaxSim. |
+| `MAX_SIM_IP` | Measures the similarity between 2 vectors based on IP, and then calculates the similarity between 2 vector lists using MaxSim. |
+| `MAX_SIM_HAMMING` | Measures the similarity between 2 vectors based on Hamming, and then calculates the similarity between 2 vector lists using MaxSim. |
+| `MAX_SIM_JACCARD` | Measures the similarity between 2 vectors based on Jaccard, and then calculates the similarity between 2 vector lists using MaxSim. |
+
+The following formula applies when you calculate the distance between the query embedding list and a vector subfield in a StructArray field.
+
+$$
+Distance(\{q\}, \{v\})=\Sigma_\{i=1\}^\{n\}(Max_\{j=1\}^\{m\}Distance(q_i,v_j))
+$$
+
+In the above formula, $q$refers to an embedding list of $n$elements, while $v$ refers to a StrctArray subfield containing $m$elements.
 
 ## Index metric compatibility\{#index-metric-compatibility}
 

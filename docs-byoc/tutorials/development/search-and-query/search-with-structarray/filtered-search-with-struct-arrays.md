@@ -77,7 +77,7 @@ The filter above selects only entities whose top-level `category` field is `"sea
 
 Use `element_filter(structArrayField, predicate)` when the scalar conditions must apply to the same Struct element that participates in element-level vector search. Inside the predicate, use `$[subfield]` to refer to scalar subfields of the current Struct element.
 
-```plaintext
+```python
 query_vector = [0.19, 0.24, 0.30, 0.37]
 
 filter_expr = (
@@ -135,7 +135,7 @@ Use `MATCH_*` operators when the filter should decide whether a parent entity qu
 | `MATCH_MOST` | At most `N` Struct elements must satisfy the predicate. | `MATCH_MOST(chunks, $[section] == "appendix", threshold=1)` |
 | `MATCH_EXACT` | Exactly `N` Struct elements must satisfy the predicate. | `MATCH_EXACT(chunks, $[section] == "summary", threshold=1)` |
 
-```plaintext
+```python
 filter_expr = (
     'category == "search" && '
     'MATCH_ANY(chunks, $[section] == "index" && $[quality_score] > 0.9)'

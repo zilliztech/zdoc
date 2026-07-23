@@ -106,7 +106,7 @@ When all `AnnSearchRequest` objects target element-level vector subfields under 
 
 The following example assumes the `chunks` StructArray field has two element-level vector subfields, `chunks[emb]` and `chunks[code_emb]`, and both use regular vector metrics.
 
-```plaintext
+```python
 index_chunk_req = AnnSearchRequest(
     data=[query_vector],
     anns_field="chunks[emb]",
@@ -153,7 +153,7 @@ If a hybrid search mixes a StructArray element-level `AnnSearchRequest` with a c
 
 Use `element_scope` inside the `params` of the StructArray element-level `AnnSearchRequest` when you need to control how multiple matched elements from the same entity are collapsed.
 
-```plaintext
+```python
 title_req = AnnSearchRequest(
     data=[query_vector],
     anns_field="title_vector",
