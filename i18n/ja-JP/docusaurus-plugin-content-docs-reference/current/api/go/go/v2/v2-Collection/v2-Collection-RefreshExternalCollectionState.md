@@ -7,7 +7,7 @@ added_since: v3.0.0
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この型は、外部コレクションの更新ジョブの状態を表します。 | Go | v2"
+description: "この型は、外部 collection の更新ジョブの状態を表します。 | Go | v2"
 type: docx
 token: Or8Gd2JEIo1swQxD3QTccFoBn9b
 sidebar_position: 29
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # RefreshExternalCollectionState
 
-この型は、外部コレクションの更新ジョブの状態を表します。
+この型は、外部 collection の更新ジョブの状態を表します。
 
 ```go
 type RefreshExternalCollectionState milvuspb.RefreshExternalCollectionState
@@ -39,12 +39,12 @@ type RefreshExternalCollectionState milvuspb.RefreshExternalCollectionState
 
 **定数:**
 
-- **RefreshStatePending** -
-ジョブは保留中で、まだ開始されていません。
+- **RefreshStatePending** -<br/>
+  ジョブは保留中で、まだ開始されていません。
 
-- **RefreshStateInProgress** -
-ジョブは現在進行中です。
+- **RefreshStateInProgress** -<br/>
+  ジョブは現在進行中です。
 
-- **RefreshStateCompleted** -
-ジョブは正常に完了しました。
+- **RefreshStateCompleted** -<br/>
+  ジョブは正常に完了しました。
 

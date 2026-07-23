@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この関数は、RESTful import API を介して Milvus または Zilliz Cloud cluster に bulk import ジョブを送信します。すでに object storage にステージングされている、またはファイルパスのリストでアクセス可能な大規模データセットを読み込む必要がある場合に使用します。呼び出しはジョブ ID を返してすぐに完了します。`GetImportProgress()` でジョブの進行状況を追跡し、`ListImportJobs()` で未完了のジョブを一覧表示できます。 | Go | v2"
+description: "この関数は、RESTful import API を介して Milvus または Zilliz Cloud クラスターに bulk import ジョブを送信します。オブジェクトストレージにすでに配置されている、またはファイルパスのリストでアクセスできる大規模データセットをロードする必要がある場合に使用します。この呼び出しはジョブ ID を返して即座に完了します。ジョブの進行状況は `GetImportProgress()` で追跡し、未完了のジョブは `ListImportJobs()` で一覧表示できます。 | Go | v2"
 type: docx
 token: KrkGdWfDqoZjS1xmQM5cA3xGnbE
 sidebar_position: 1
@@ -31,11 +31,11 @@ import Admonition from '@theme/Admonition';
 
 # BulkImport()
 
-この関数は、RESTful import API を介して Milvus または Zilliz Cloud cluster に bulk import ジョブを送信します。すでに object storage にステージングされている、またはファイルパスのリストでアクセス可能な大規模データセットを読み込む必要がある場合に使用します。呼び出しはジョブ ID を返してすぐに完了します。`GetImportProgress()` でジョブの進行状況を追跡し、`ListImportJobs()` で未完了のジョブを一覧表示できます。
+この関数は、RESTful import API を介して Milvus または Zilliz Cloud クラスターに bulk import ジョブを送信します。オブジェクトストレージにすでに配置されている、またはファイルパスのリストでアクセスできる大規模データセットをロードする必要がある場合に使用します。この呼び出しはジョブ ID を返して即座に完了します。ジョブの進行状況は `GetImportProgress()` で追跡し、未完了のジョブは `ListImportJobs()` で一覧表示できます。
 
 <Admonition type="info" icon="📘" title="注意">
 
-`BulkImport()` は `*milvusclient.Client` のメソッドではなく、`github.com/milvus-io/milvus/client/v2/bulkwriter` のパッケージレベル関数です。これは REST `/v2/vectordb/jobs/import/create` エンドポイントと直接通信するため、Milvus オープンソース cluster（`NewBulkImportOption` を使用）と Zilliz Cloud（`NewCloudBulkImportOption` を使用）の両方で動作します。
+`BulkImport()` は `*milvusclient.Client` のメソッドではなく、`github.com/milvus-io/milvus/client/v2/bulkwriter` のパッケージレベル関数です。これは REST `/v2/vectordb/jobs/import/create` エンドポイントを直接利用するため、Milvus オープンソースのクラスター（`NewBulkImportOption` を使用）と Zilliz Cloud（`NewCloudBulkImportOption` を使用）の両方で動作します。
 
 </Admonition>
 
@@ -43,7 +43,7 @@ import Admonition from '@theme/Admonition';
 func BulkImport(ctx context.Context, option *BulkImportOption) (*BulkImportResponse, error)
 ```
 
-## リクエスト構文\{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```go
 option := bulkwriter.NewBulkImportOption(uri, collectionName, files).
@@ -53,29 +53,29 @@ option := bulkwriter.NewBulkImportOption(uri, collectionName, files).
 resp, err := bulkwriter.BulkImport(ctx, option)
 ```
 
-**パラメーター:**
+**PARAMETERS:**
 
-- **ctx** (*context.Context*) -
-キャンセルおよび期限のための context です。HTTP リクエストはこの context を継承するため、これをキャンセルすると進行中の呼び出しは中断されます。
+- **ctx** (*context.Context*) -<br/>
+  キャンセルと期限のための context です。HTTP リクエストはこの context を継承するため、これをキャンセルすると進行中の呼び出しは中断されます。
 
-- **option** (*BulkImportOption*) -
-セルフホスト型 Milvus 用の `NewBulkImportOption()` または Zilliz Cloud 用の `NewCloudBulkImportOption()` で作成された、完全に設定済みの import option です。必須です。
+- **option** (*BulkImportOption*) -<br/>
+  セルフホストの Milvus 用に `NewBulkImportOption()`、または Zilliz Cloud 用に `NewCloudBulkImportOption()` で作成された、完全に設定済みの import オプションです。必須です。
 
-**戻り値の型:**
+**RETURN TYPE:**
 
 *\*BulkImportResponse, error*
 
-**戻り値:**
+**RETURNS:**
 
-`Data.JobID` に割り当てられたジョブ ID を含む `BulkImportResponse`。リクエストをマーシャリングできない場合、HTTP 呼び出しが失敗した場合、またはサーバーがゼロ以外のステータスを返した場合はエラーを返します。
+`Data.JobID` に割り当てられたジョブ ID を含む `BulkImportResponse` を返します。リクエストをマーシャリングできない場合、HTTP 呼び出しに失敗した場合、またはサーバーがゼロ以外のステータスを返した場合はエラーを返します。
 
-**例外:**
+**EXCEPTIONS:**
 
 - **error**
 
-    失敗の詳細は `err != nil` を確認してください。一般的な失敗には、不正な option ペイロード、ネットワークエラー、認証拒否（`WithAPIKey` が誤って設定されている場合）、およびレスポンスステータスを通じて通知されるサーバー側の検証エラーが含まれます。
+    失敗の詳細は `err != nil` を確認してください。一般的な失敗には、不正なオプションペイロード、ネットワークエラー、認証拒否（`WithAPIKey` が誤って設定されている場合）、およびレスポンスのステータスを通じて示されるサーバー側の検証エラーが含まれます。
 
-## 例\{#example}
+## Example\{#example}
 
 ```go
 import (

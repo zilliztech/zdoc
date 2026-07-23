@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "このクラスは、`BulkImport()` パッケージ関数によって返されるレスポンスを表します。共通の `Status` および `Message` フィールドのために `ResponseBase` を埋め込み、割り当てられたインポートジョブ ID を `Data.JobID` として公開します。`Data` を読み取る前に、埋め込まれた `CheckStatus()` メソッドを使用して呼び出しが成功したことを確認してください。 | Go | v2"
+description: "`BulkImport()` パッケージ関数によって返されるレスポンスを表すクラスです。共通の `Status` フィールドと `Message` フィールドのために `ResponseBase` を埋め込み、割り当てられたインポートジョブ ID を `Data.JobID` で公開します。`Data` を読み取る前に、埋め込まれた `CheckStatus()` メソッドを使用して呼び出しが成功したことを確認してください。 | Go | v2"
 type: docx
 token: A3WWdqm52oLqtuxaR9EcjmybnwT
 sidebar_position: 3
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # BulkImportResponse
 
-このクラスは、`BulkImport()` パッケージ関数によって返されるレスポンスを表します。共通の `Status` および `Message` フィールドのために `ResponseBase` を埋め込み、割り当てられたインポートジョブ ID を `Data.JobID` として公開します。`Data` を読み取る前に、埋め込まれた `CheckStatus()` メソッドを使用して呼び出しが成功したことを確認してください。
+このクラスは、`BulkImport()` パッケージ関数によって返されるレスポンスを表します。共通の `Status` フィールドと `Message` フィールドのために `ResponseBase` を埋め込み、割り当てられたインポートジョブ ID を `Data.JobID` で公開します。`Data` を読み取る前に、埋め込まれた `CheckStatus()` メソッドを使用して呼び出しが成功したことを確認してください。
 
 ```go
 type BulkImportResponse struct {
@@ -44,14 +44,14 @@ type BulkImportResponse struct {
 
 **FIELDS:**
 
-- **Status** (*int*) -
-`ResponseBase` から継承されます。値が `0` の場合は成功を示し、それ以外の値はエラーを示します。
+- **Status** (*int*) -<br/>
+  `ResponseBase` から継承されます。値が `0` の場合は成功を示し、それ以外の値はエラーを示します。
 
-- **Message** (*string*) -
-`ResponseBase` から継承されます。`Status` がゼロ以外の場合の、人が読めるエラー説明です。
+- **Message** (*string*) -<br/>
+  `ResponseBase` から継承されます。`Status` がゼロ以外の場合の、人が読める形式のエラー説明です。
 
-- **Data.JobID** (*string*) -
-送信された bulk import ジョブに割り当てられる一意の識別子です。完了状況を追跡するには、これを `GetImportProgress()` に渡します。
+- **Data.JobID** (*string*) -<br/>
+  送信された bulk import ジョブに割り当てられる一意の識別子です。完了状況を追跡するには、これを `GetImportProgress()` に渡します。
 
 **METHODS:**
 

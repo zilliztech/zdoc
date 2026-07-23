@@ -13,12 +13,12 @@ token: YKm9dpXcVoy277xHVT2cIymfnRj
 sidebar_position: 12
 keywords: 
   - ベクトルインデックス
-  - オープンソース vector database
+  - オープンソースのベクトルデータベース
   - オープンソース vector db
-  - vector database の例
+  - ベクトルデータベースの例
   - zilliz
   - zilliz cloud
-  - クラウド
+  - cloud
   - Search()
   - gov230
 displayed_sidebar: goSidebar
@@ -37,7 +37,7 @@ import Admonition from '@theme/Admonition';
 func (c *Client) Search(ctx context.Context, option SearchOption, callOptions ...grpc.CallOption) ([]ResultSet, error)
 ```
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 **ベクトル検索:**
 
@@ -72,77 +72,77 @@ option := milvusclient.NewSearchByIDsOption(collectionName, limit, ids).
 resultSets, err := cli.Search(ctx, option)
 ```
 
-**PARAMETERS:**
+**パラメータ:**
 
 - **option** (*SearchOption*) -
 
-    検索オプション。ベクトル検索には `NewSearchOption` を、PK ベースの検索には `NewSearchByIDsOption` を使用します。
+    検索オプションです。ベクトル検索には `NewSearchOption` を、PK ベースの検索には `NewSearchByIDsOption` を使用します。
 
-**BUILDER METHODS:**
+**ビルダーメソッド:**
 
-- `NewSearchOption(collectionName string, limit int, vectors []entity.Vector)`
-ベクトルベースの ANN 検索用の検索オプションを作成します。
+- `NewSearchOption(collectionName string, limit int, vectors []entity.Vector)`<br/>
+  ベクトルベースの ANN 検索用の検索オプションを作成します。
 
-- `NewSearchByIDsOption(collectionName string, limit int, ids column.Column)`
-主キー ID によって entity を検索するための検索オプションを作成します。
+- `NewSearchByIDsOption(collectionName string, limit int, ids column.Column)`<br/>
+  主キー ID によって entity を検索するための検索オプションを作成します。
 
-- `WithPartitions(partitionNames ...string)`
-検索対象を指定した partition 名に制限します。
+- `WithPartitions(partitionNames ...string)`<br/>
+  検索を指定した partition 名に制限します。
 
-- `WithFilter(expr string)`
-検索結果にブール式フィルターを適用します。
+- `WithFilter(expr string)`<br/>
+  検索結果にブール式フィルターを適用します。
 
-- `WithTemplateParam(key string, val any)`
-式評価用のテンプレートパラメーターを設定します。
+- `WithTemplateParam(key string, val any)`<br/>
+  式評価用のテンプレートパラメータを設定します。
 
-- `WithOffset(offset int)`
-一致結果を返す前にスキップする結果数を設定します。
+- `WithOffset(offset int)`<br/>
+  一致結果を返す前にスキップする結果数を設定します。
 
-- `WithOutputFields(fieldNames ...string)`
-結果セットで返すフィールドを指定します。
+- `WithOutputFields(fieldNames ...string)`<br/>
+  結果セットで返すフィールドを指定します。
 
-- `WithConsistencyLevel(consistencyLevel entity.ConsistencyLevel)`
-検索の整合性レベルを設定します。
+- `WithConsistencyLevel(consistencyLevel entity.ConsistencyLevel)`<br/>
+  検索の整合性レベルを設定します。
 
-- `WithANNSField(annsField string)`
-collection に複数のベクトルフィールドがある場合に、検索対象のベクトルフィールドを指定します。
+- `WithANNSField(annsField string)`<br/>
+  collection に複数のベクトルフィールドがある場合に、検索対象のベクトルフィールドを指定します。
 
-- `WithGroupByField(groupByField string)`
-検索結果を指定したフィールドでグループ化します。
+- `WithGroupByField(groupByField string)`<br/>
+  検索結果を指定したフィールドでグループ化します。
 
-- `WithGroupSize(groupSize int)`
-グループ化が有効な場合に、各グループごとに返す結果数を設定します。
+- `WithGroupSize(groupSize int)`<br/>
+  グループ化が有効な場合に、各グループごとに返す結果数を設定します。
 
-- `WithStrictGroupSize(strictGroupSize bool)`
-厳密なグループサイズ制限を適用します。
+- `WithStrictGroupSize(strictGroupSize bool)`<br/>
+  厳密なグループサイズ制限を適用します。
 
-- `WithIgnoreGrowing(ignoreGrowing bool)`
-検索中に growing セグメントを無視します。
+- `WithIgnoreGrowing(ignoreGrowing bool)`<br/>
+  検索中に growing セグメントを無視します。
 
-- `WithAnnParam(ap index.AnnParam)`
-近似最近傍検索パラメーター（例: nprobe、ef）を設定します。
+- `WithAnnParam(ap index.AnnParam)`<br/>
+  近似最近傍検索パラメータ（例: nprobe、ef）を設定します。
 
-- `WithSearchParam(key, value string)`
-カスタム検索パラメーターのキーと値のペアを設定します。
+- `WithSearchParam(key, value string)`<br/>
+  カスタム検索パラメータのキーと値のペアを設定します。
 
-- `WithFunctionReranker(fr *entity.Function)`
-関数ベースの reranker を検索結果に適用します。
+- `WithFunctionReranker(fr *entity.Function)`<br/>
+  関数ベースの reranker を検索結果に適用します。
 
-**RETURN TYPE:**
+**戻り値の型:**
 
 *[]ResultSet, error*
 
-**RETURNS:**
+**戻り値:**
 
-スコアとフィールドを含む、一致した entity の検索またはクエリ結果です。操作が失敗した場合はエラーを返します。
+一致した entity とそのスコアおよびフィールドを含む検索またはクエリ結果です。操作が失敗した場合はエラーを返します。
 
-**EXCEPTIONS:**
+**例外:**
 
 - **error**
 
     失敗の詳細は err != nil を確認してください。
 
-## Example\{#example}
+## 例\{#example}
 
 ```go
 import (

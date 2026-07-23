@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 BulkImportOption
 
-この型は、RESTful import API の bulk import リクエストを設定します。self-hosted Milvus では `NewBulkImportOption()` を使用し、Zilliz Cloud では `NewCloudBulkImportOption()` を使用して構築します。構築後、`With*` ビルダーメソッドをチェーンして、partition 名、API key、追加オプションなどの任意フィールドを指定します。
+この型は、RESTful import API の一括インポートリクエストを設定します。セルフホスト型 Milvus では `NewBulkImportOption()` を使用して、Zilliz Cloud では `NewCloudBulkImportOption()` を使用して構築します。構築後、`With*` ビルダーメソッドをチェーンして、パーティション名、API キー、追加オプションなどの任意フィールドを指定します。
 
 ```go
 type BulkImportOption struct {
@@ -52,52 +52,52 @@ type BulkImportOption struct {
 
 **FIELDS:**
 
-- **URL** (*string*) -
-Milvus または Zilliz Cloud cluster のベース URL です。パスは含めないでください。関数が `/v2/vectordb/jobs/import/create` を自動的に追加します。
+- **URL** (*string*) -<br/>
+  Milvus または Zilliz Cloud クラスターのベース URL。パスは含めないでください。関数が自動的に `/v2/vectordb/jobs/import/create` を追加します。
 
-- **CollectionName** (*string*) -
-対象 collection の名前です。必須です。
+- **CollectionName** (*string*) -<br/>
+  対象コレクションの名前。必須です。
 
-- **Files** (*[][]string*) -
-import するファイルパスの一覧です。各内部スライスは、一緒に import されるファイルのバッチを表します。`NewBulkImportOption()` とともに使用します。cloud import では任意です。
+- **Files** (*[][]string*) -<br/>
+  インポートするファイルパスの一覧。各内部スライスは、まとめてインポートされるファイルのバッチを表します。`NewBulkImportOption()` と一緒に使用します。クラウドインポートでは任意です。
 
-- **PartitionName** (*string*) -
-collection 内の対象 partition です。任意です。省略した場合、データはデフォルト partition に格納されます。
+- **PartitionName** (*string*) -<br/>
+  コレクション内の対象パーティション。任意です。省略した場合、データはデフォルトパーティションに格納されます。
 
-- **APIKey** (*string*) -
-`Bearer` ヘッダーとして送信される認可トークンです。任意です。サーバーがトークンベース認証を強制する場合は必須です。
+- **APIKey** (*string*) -<br/>
+  `Bearer` ヘッダーとして送信される認可トークン。任意ですが、サーバーがトークンベース認証を強制する場合は必須です。
 
-- **ObjectURL** (*string*) -
-cloud import 用の S3 または互換オブジェクト URL です。`NewCloudBulkImportOption()` とともに使用します。任意です。
+- **ObjectURL** (*string*) -<br/>
+  クラウドインポート用の S3 または互換オブジェクト URL。`NewCloudBulkImportOption()` と一緒に使用します。任意です。
 
-- **ClusterID** (*string*) -
-Zilliz Cloud cluster ID です。`NewCloudBulkImportOption()` とともに使用します。任意です。
+- **ClusterID** (*string*) -<br/>
+  Zilliz Cloud クラスター ID。`NewCloudBulkImportOption()` と一緒に使用します。任意です。
 
-- **AccessKey** (*string*) -
-オブジェクトストア用の access key です。任意です。
+- **AccessKey** (*string*) -<br/>
+  オブジェクトストア用のアクセスキー。任意です。
 
-- **SecretKey** (*string*) -
-オブジェクトストア用の secret key です。任意です。
+- **SecretKey** (*string*) -<br/>
+  オブジェクトストア用のシークレットキー。任意です。
 
-- **Options** (*map[string]string*) -
-import API に転送される追加のキーと値のパラメーターです。エントリを追加するには `WithOption()` を使用します。
+- **Options** (*map[string]string*) -<br/>
+  import API に転送される追加のキーと値のパラメータ。エントリを追加するには `WithOption()` を使用します。
 
 **BUILDER METHODS:**
 
-- `WithPartition(partitionName string)`
-これは import されたデータの対象 partition を設定します。
+- `WithPartition(partitionName string)`<br/>
+  これは、インポートされるデータの対象パーティションを設定します。
 
-- `WithAPIKey(key string)`
-これは `Bearer` ヘッダーとして送信される認可トークンを設定します。
+- `WithAPIKey(key string)`<br/>
+  これは、`Bearer` ヘッダーとして送信される認可トークンを設定します。
 
-- `WithOption(key, value string)`
-これはリクエストペイロードに追加のキーと値のパラメーターを追加します。さらにエントリを追加するには複数回呼び出します。
+- `WithOption(key, value string)`<br/>
+  これは、リクエストペイロードに追加のキーと値のパラメータを追加します。さらにエントリを追加するには複数回呼び出します。
 
 **CONSTRUCTORS:**
 
-- `NewBulkImportOption(uri string, collectionName string, files [][]string)`
-これは self-hosted Milvus clusters 用の BulkImportOption を作成します。`files` 引数はバッチの一覧で、各バッチはファイルパスのスライスです。
+- `NewBulkImportOption(uri string, collectionName string, files [][]string)`<br/>
+  これは、セルフホスト型 Milvus クラスター用の BulkImportOption を作成します。`files` 引数はバッチの一覧で、各バッチはファイルパスのスライスです。
 
-- `NewCloudBulkImportOption(uri string, collectionName string, apiKey string, objectURL string, clusterID string, accessKey string, secretKey string)`
-これは Zilliz Cloud clusters 用の BulkImportOption を作成します。cloud object storage では `Files` の代わりに `ObjectURL` を使用します。
+- `NewCloudBulkImportOption(uri string, collectionName string, apiKey string, objectURL string, clusterID string, accessKey string, secretKey string)`<br/>
+  これは、Zilliz Cloud クラスター用の BulkImportOption を作成します。クラウドオブジェクトストレージでは `Files` の代わりに `ObjectURL` を使用します。
 

@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、Milvus または Zilliz Cloud サーバーへの接続を確立するための設定を提供します。`New()` を呼び出す際に、この struct へのポインタを渡してください。 | Go | v2"
+description: "この操作は、Milvus または Zilliz Cloud サーバーへの接続を確立するための設定を提供します。`New()` を呼び出すときに、この構造体へのポインタを渡します。 | Go | v2"
 type: docx
 token: NNQmdw1DloRDi6xeO0acaMfdnib
 sidebar_position: 1
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # ClientConfig
 
-この操作は、Milvus または Zilliz Cloud サーバーへの接続を確立するための設定を提供します。`New()` を呼び出す際に、この struct へのポインタを渡してください。
+この操作は、Milvus または Zilliz Cloud サーバーへの接続を確立するための設定を提供します。`New()` を呼び出すときに、この構造体へのポインタを渡します。
 
 ```go
 type ClientConfig struct {
@@ -48,51 +48,51 @@ type ClientConfig struct {
 }
 ```
 
-**PARAMETERS:**
+**パラメータ:**
 
-- **Address** (*string*) -
-[必須] `host:port` 形式の Milvus サーバーのアドレスです（例: `YOUR_CLUSTER_ENDPOINT`）。Zilliz Cloud の場合は、完全な HTTPS エンドポイントを使用します。
+- **Address** (*string*) -<br/>
+  [必須] `host:port` 形式（例: `YOUR_CLUSTER_ENDPOINT`）の Milvus サーバーのアドレスです。Zilliz Cloud の場合は、完全な HTTPS エンドポイントを使用します。
 
-- **Username** (*string*) -
-パスワードベース認証用のユーザー名です。
+- **Username** (*string*) -<br/>
+  パスワードベース認証用のユーザー名です。
 
-- **Password** (*string*) -
-パスワードベース認証用のパスワードです。
+- **Password** (*string*) -<br/>
+  パスワードベース認証用のパスワードです。
 
-- **DBName** (*string*) -
-接続先データベースの名前です。設定されていない場合は、デフォルトデータベースを使用します。
+- **DBName** (*string*) -<br/>
+  接続先データベースの名前です。設定されていない場合は、デフォルトのデータベースを使用します。
 
-- **EnableTLSAuth** (*bool*) -
-接続で TLS を有効にするかどうかを指定します。アドレスが `https` スキームを使用している場合は、自動的に `true` に設定されます。
+- **EnableTLSAuth** (*bool*) -<br/>
+  接続で TLS を有効にするかどうかです。アドレスが `https` スキームを使用している場合は、自動的に `true` に設定されます。
 
-- **APIKey** (*string*) -
-Zilliz Cloud または認証が有効な Milvus インスタンス用の API key です。クラウドデプロイでは、ユーザー名/パスワードより優先されます。
+- **APIKey** (*string*) -<br/>
+  Zilliz Cloud または認証済み Milvus インスタンス用の API key です。クラウドデプロイメントでは、ユーザー名/パスワードよりも優先して使用されます。
 
-- **DialOptions** ([]*grpc.DialOption*) -
-接続をカスタマイズするための追加の gRPC ダイヤルオプションです。指定した場合、デフォルトオプションとマージされます。
+- **DialOptions** ([]*grpc.DialOption*) -<br/>
+  接続をカスタマイズするための追加の gRPC ダイヤルオプションです。指定された場合、デフォルトオプションとマージされます。
 
-- **RetryRateLimit** (*RetryRateLimitOption*) -
-レート制限エラー発生時の自動再試行の設定です。
+- **RetryRateLimit** (*RetryRateLimitOption*) -<br/>
+  レート制限エラー発生時の自動再試行に関する設定です。
 
-- **DisableConn** (*bool*) -
-`true` の場合、クライアントは即座に接続を確立しません。テストや遅延接続のシナリオで役立ちます。
+- **DisableConn** (*bool*) -<br/>
+  `true` の場合、クライアントはすぐには接続を確立しません。テストや遅延接続のシナリオで便利です。
 
-- **ServerVersion** (*string*) -
-接続先サーバーのバージョン文字列です。接続後に自動的に設定されます。
+- **ServerVersion** (*string*) -<br/>
+  接続先サーバーのバージョン文字列です。接続後に自動的に設定されます。
 
-**BUILDER METHODS:**
+**ビルダーメソッド:**
 
-- `WithTLSConfig(tlsConfig *tls.Config)`
-セキュアな接続のためのカスタム TLS 設定を行います。
+- `WithTLSConfig(tlsConfig *tls.Config)`<br/>
+  セキュアな接続のためのカスタム TLS 設定を行います。
 
-- `WithGrpcAuthority(authority string)`
-接続用の gRPC authority ヘッダーを設定します。プロキシやロードバランサー経由で接続する場合に便利です。
+- `WithGrpcAuthority(authority string)`<br/>
+  接続用の gRPC authority ヘッダーを設定します。プロキシやロードバランサー経由で接続する場合に便利です。
 
-**RETURN TYPE:**
+**戻り値の型:**
 
 *ClientConfig*
 
-**RETURNS:**
+**戻り値:**
 
 メソッドチェーンのために更新された `ClientConfig` へのポインタです。
 
