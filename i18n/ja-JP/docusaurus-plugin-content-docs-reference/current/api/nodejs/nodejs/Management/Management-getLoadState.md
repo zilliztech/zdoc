@@ -7,14 +7,14 @@ added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、指定された collection または partition がロードされているかどうかを表示します。 | Node.js"
+description: "この操作は、指定した collection または partition がロードされているかどうかを表示します。 | Node.js"
 type: docx
 token: J17ZdPNwqo4nt3x5b8pc0H5Nnph
 sidebar_position: 14
 keywords: 
-  - semantic search とは
+  - セマンティック検索とは
   - Embedding model
-  - image similarity search
+  - 画像類似検索
   - Context Window
   - zilliz
   - zilliz cloud
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # getLoadState()
 
-この操作は、指定された collection または partition がロードされているかどうかを表示します。
+この操作は、指定した collection または partition がロードされているかどうかを表示します。
 
 ```javascript
 await milvusClient.getLoadState(data)
 ```
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```javascript
 await milvusClient.getLoadState({
@@ -48,7 +48,7 @@ await milvusClient.getLoadState({
  })
 ```
 
-**PARAMETERS:**
+**パラメータ:**
 
 - **db_name** (*string*) -
 
@@ -56,7 +56,7 @@ await milvusClient.getLoadState({
 
 - **collection_name** (*string*) -
 
-    **[REQUIRED]**
+    **[必須]**
 
     collection の名前。
 
@@ -68,7 +68,7 @@ await milvusClient.getLoadState({
 
     この操作のタイムアウト時間。これを **None** に設定すると、レスポンスが返されるかエラーが発生した時点でこの操作はタイムアウトします。
 
-**RETURNS** *Promise&lt;GetLoadStateResponse&gt;*
+**戻り値** *Promise&lt;GetLoadStateResponse&gt;*
 
 このメソッドは、**GetLoadStateResponse** オブジェクトに解決される promise を返します。
 
@@ -79,13 +79,13 @@ await milvusClient.getLoadState({
 }
 ```
 
-**PARAMETERS:**
+**パラメータ:**
 
-- **state** (*LoadState*) -
-現在のロード状態。取り得る値は **LoadStateNotExist**、**LoadStateNotLoad**、**LoadStateLoading**、および **LoadStateLoaded** です。
+- **state** (*LoadState*) -<br/>
+  現在のロード状態。指定可能な値は **LoadStateNotExist**、**LoadStateNotLoad**、**LoadStateLoading**、**LoadStateLoaded** です。
 
-- **ResStatus**
-**ResStatus** オブジェクト。
+- **ResStatus**<br/>
+  **ResStatus** オブジェクト。
 
     - **code** (*number*) -
 
@@ -99,7 +99,7 @@ await milvusClient.getLoadState({
 
         報告されたエラーの理由を示す理由。この操作が成功した場合は空文字列のままです。
 
-## Example\{#example}
+## 例\{#example}
 
 ```java
 const milvusClient = new MilvusClient({

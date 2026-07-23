@@ -45,13 +45,13 @@ await milvusClient.listDatabases({
 })
 ```
 
-**パラメータ:**
+**パラメーター:**
 
 - **timeout** (*number*) -
 
     この操作のタイムアウト時間。 
 
-    これを **None** に設定すると、レスポンスが返されるか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
+    これを **None** に設定すると、応答が到着した時点、または何らかのエラーが発生した時点で、この操作はタイムアウトします。
 
 **戻り値** *Promise&lt;ListDatabasesResponse&gt;*
 
@@ -66,19 +66,19 @@ await milvusClient.listDatabases({
 }
 ```
 
-**パラメータ:**
+**パラメーター:**
 
-- **db_names** (*string[]*) -
-現在の Milvus インスタンスで定義されているデータベース名のリスト。
+- **db_names** (*string[]*) -<br/>
+  現在の Milvus インスタンスで定義されているデータベース名の一覧。
 
-- **db_ids** (*string[]*) -
-**db_names** と同じ順序の内部データベース識別子。
+- **db_ids** (*string[]*) -<br/>
+  **db_names** と同じ順序の、データベースの内部識別子。
 
-- **created_timestamp** (*string[]*) -
-**db_names** と同じ順序のデータベースの作成タイムスタンプ。
+- **created_timestamp** (*string[]*) -<br/>
+  **db_names** と同じ順序の、データベースの作成タイムスタンプ。
 
-- **ResStatus**
-**ResStatus** オブジェクト。
+- **ResStatus**<br/>
+  **ResStatus** オブジェクト。
 
     - **code** (*number*) -
 
@@ -90,7 +90,7 @@ await milvusClient.listDatabases({
 
     - **reason** (*string*) -
 
-        報告されたエラーの理由を示す内容。この操作が成功した場合は空文字列のままです。
+        報告されたエラーの理由を示す理由。この操作が成功した場合は空文字列のままです。
 
 ## 例\{#example}
 

@@ -50,13 +50,13 @@ await milvusClient.hasRole({
 
 - **roleName** (*string*) -
 
-    **[必須]**
+    **[REQUIRED]**
 
     確認するロールの名前。
 
 - **timeout** (*number*) -
 
-    ミリ秒単位の RPC タイムアウト。任意。
+    ミリ秒単位の RPC タイムアウト。省略可能です。
 
 **戻り値** *Promise&lt;HasRoleResponse&gt;*
 
@@ -71,23 +71,23 @@ await milvusClient.hasRole({
 
 **パラメータ:**
 
-- **hasRole** (*boolean*) -
-要求されたロールが存在するかどうかを示す boolean 値です。ロールが存在する場合は **true**、存在しない場合は **false** です。
+- **hasRole** (*boolean*) -<br/>
+  要求されたロールが存在するかどうかを示す boolean 値です。ロールが存在する場合は **true**、存在しない場合は **false** です。
 
-- **ResStatus**
-**ResStatus** オブジェクト。
+- **ResStatus**<br/>
+  **ResStatus** オブジェクト。
 
     - **code** (*number*) -
 
-        操作結果を示すコード。この操作が成功した場合は **0** のままです。
+        操作結果を示すコードです。この操作が成功した場合、**0** のままです。
 
     - **error_code** (*string* | *number*) -
 
-        発生したエラーを示すエラーコード。この操作が成功した場合は **Success** のままです。
+        発生したエラーを示すエラーコードです。この操作が成功した場合、**Success** のままです。
 
     - **reason** (*string*) -
 
-        報告されたエラーの理由を示します。この操作が成功した場合は空文字列のままです。
+        報告されたエラーの理由を示します。この操作が成功した場合、空文字列のままです。
 
 ## 例\{#example}
 

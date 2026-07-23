@@ -13,12 +13,12 @@ token: DCK5d56UZop0kGxpQu8cLqlvndg
 sidebar_position: 2
 keywords: 
   - ハイブリッド検索
-  - レキシカル検索
+  - 語彙検索
   - 最近傍探索
   - Agentic RAG
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - compact()
   - nodejs30
 displayed_sidebar: nodeSidebar
@@ -37,17 +37,17 @@ import Admonition from '@theme/Admonition';
 await milvusClient.compact(data)
 ```
 
-## リクエスト構文\{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```javascript
 milvusClient.compact()
 ```
 
-**パラメーター:**
+**PARAMETERS:**
 
 - **collection_name** (*str*) -
 
-    **[必須]**
+    **[REQUIRED]**
 
     エイリアスを再割り当てする対象 collection の名前。
 
@@ -55,9 +55,9 @@ milvusClient.compact()
 
     この操作のタイムアウト時間。 
 
-    これを **None** に設定すると、何らかのレスポンスが到着した時点、または何らかのエラーが発生した時点でこの操作はタイムアウトします。
+    **None** に設定すると、レスポンスが到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
 
-**戻り値** *Promise&lt;CompactionResponse&gt;*
+**RETURNS** *Promise&lt;CompactionResponse&gt;*
 
 このメソッドは、**CompactionResponse** オブジェクトに解決される promise を返します。
 
@@ -69,30 +69,30 @@ milvusClient.compact()
 }
 ```
 
-**パラメーター:**
+**PARAMETERS:**
 
-- **compactionID** (*string*) -
-compaction 操作の識別子です。進行状況をポーリングするには、この値を `getCompactionState()` または `getCompactionStateWithPlans()` に渡します。
+- **compactionID** (*string*) -<br/>
+  compaction 操作の識別子です。進行状況をポーリングするには、この値を `getCompactionState()` または `getCompactionStateWithPlans()` に渡します。
 
-- **compactionPlanCount** (*number*) -
-この操作のために生成された compaction plan の数。
+- **compactionPlanCount** (*number*) -<br/>
+  この操作に対して生成された compaction plan の数。
 
-- **ResStatus**
-**ResStatus** オブジェクト。
+- **ResStatus**<br/>
+  **ResStatus** オブジェクト。
 
     - **code** (*number*) -
 
-        操作結果を示すコード。この操作が成功した場合は **0** のままです。
+        操作結果を示すコードです。この操作が成功した場合は **0** のままです。
 
     - **error_code** (*string* | *number*) -
 
-        発生したエラーを示すエラーコード。この操作が成功した場合は **Success** のままです。
+        発生したエラーを示すエラーコードです。この操作が成功した場合は **Success** のままです。
 
     - **reason** (*string*) -
 
-        報告されたエラーの理由を示す理由。この操作が成功した場合は空文字列のままです。
+        報告されたエラーの理由を示す内容です。この操作が成功した場合は空文字列のままです。
 
-## 例\{#example}
+## Example\{#example}
 
 ```java
 const milvusClient = new MilvusClient({

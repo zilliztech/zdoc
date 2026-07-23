@@ -14,7 +14,7 @@ sidebar_position: 13
 keywords: 
   - 自然言語検索
   - 類似検索
-  - マルチモーダル RAG
+  - マルチモーダルRAG
   - llm hallucinations
   - zilliz
   - zilliz cloud
@@ -37,7 +37,7 @@ import Admonition from '@theme/Admonition';
 await milvusClient.hasCollection(data)
 ```
 
-## リクエスト構文\{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```javascript
 await milvusClient.hasCollection({ 
@@ -47,25 +47,25 @@ await milvusClient.hasCollection({
 })
 ```
 
-**パラメータ:**
+**PARAMETERS:**
 
 - **db_name** (*str*) -
 
-    対象の collection を保持するデータベースの名前です。
+    対象の collection を保持するデータベースの名前。
 
 - **collection_name** (*str*) -
 
-    **[必須]**
+    **[REQUIRED]**
 
-    collection の名前です。
+    collection の名前。
 
 - **timeout** (*number*) -
 
-    この操作のタイムアウト時間です。 
+    この操作のタイムアウト時間。 
 
-    これを **None** に設定すると、いずれかのレスポンスが返されるか、エラーが発生した時点でこの操作はタイムアウトします。
+    これを **None** に設定すると、何らかのレスポンスが返るか、エラーが発生した時点でこの操作はタイムアウトします。
 
-**戻り値** *Promise&lt;BoolResponse&gt;*
+**RETURNS** *Promise&lt;BoolResponse&gt;*
 
 このメソッドは、**BoolResponse** オブジェクトに解決される promise を返します。
 
@@ -76,27 +76,27 @@ await milvusClient.hasCollection({
 }
 ```
 
-**パラメータ:**
+**PARAMETERS:**
 
-- **value** (*boolean*) -
-要求された collection が存在するかどうかを示すブール値です。collection が存在する場合は **true**、存在しない場合は **false** です。
+- **value** (*boolean*) -<br/>
+  要求された collection が存在するかどうかを示す boolean 値。collection が存在する場合は **true**、存在しない場合は **false** です。
 
-- **ResStatus**
-**ResStatus** オブジェクトです。
+- **ResStatus**<br/>
+  **ResStatus** オブジェクト。
 
     - **code** (*number*) -
 
-        操作結果を示すコードです。この操作が成功した場合、**0** のままです。
+        操作結果を示すコード。この操作が成功した場合は **0** のままです。
 
     - **error_code** (*string* | *number*) -
 
-        発生したエラーを示すエラーコードです。この操作が成功した場合、**Success** のままです。
+        発生したエラーを示すエラーコード。この操作が成功した場合は **Success** のままです。
 
     - **reason** (*string*) -
 
-        報告されたエラーの理由を示す理由です。この操作が成功した場合、空文字列のままです。
+        報告されたエラーの理由を示す理由。この操作が成功した場合は空文字列のままです。
 
-## 例\{#example}
+## Example\{#example}
 
 ```java
 const milvusClient = new MilvusClient({

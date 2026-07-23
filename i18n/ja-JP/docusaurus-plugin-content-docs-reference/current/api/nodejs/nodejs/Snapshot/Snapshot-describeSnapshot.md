@@ -7,15 +7,15 @@ added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、特定の snapshot に関する詳細情報を取得します。 | Node.js"
+description: "この操作は、特定のスナップショットに関する詳細情報を取得します。 | Node.js"
 type: docx
 token: KNOwdbcYXoVwGEx8ysScLO1CnUd
 sidebar_position: 2
 keywords: 
-  - vector 検索アルゴリズム
-  - 質問応答システム
+  - vector search algorithms
+  - Question answering system
   - llm-as-a-judge
-  - ハイブリッド vector 検索
+  - hybrid vector search
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # describeSnapshot()
 
-この操作は、特定の snapshot に関する詳細情報を取得します。
+この操作は、特定のスナップショットに関する詳細情報を取得します。
 
 ```typescript
 await milvusClient.describeSnapshot(data: DescribeSnapshotReq)
@@ -49,28 +49,28 @@ await milvusClient.describeSnapshot({
 })
 ```
 
-**PARAMETERS:**
+**パラメータ:**
 
-- **collection_name** (*string*) -
-**[REQUIRED]**
-snapshot が属する collection の名前。
+- **collection_name** (*string*) -<br/>
+  **[必須]**<br/>
+  スナップショットが属するコレクションの名前。
 
-- **snapshot_name** (*string*) -
-**[REQUIRED]**
-詳細を取得する snapshot の名前。
+- **snapshot_name** (*string*) -<br/>
+  **[必須]**<br/>
+  説明対象のスナップショット名。
 
-- **db_name** (*string*) -
-database の名前。オプションです。
+- **db_name** (*string*) -<br/>
+  データベース名。任意です。
 
-- **timeout** (*number*) -
-RPC に許可する任意の時間（ミリ秒）。`undefined` に設定すると、サーバーが応答するかエラーが発生するまでクライアントは待機し続けます。デフォルトは `undefined` です。
+- **timeout** (*number*) -<br/>
+  RPC に許可する任意の時間（ミリ秒）。`undefined` に設定すると、クライアントはサーバーが応答するかエラーが発生するまで待機し続けます。デフォルトは `undefined` です。
 
-- **client_request_id** (*string*) -
-リクエスト追跡用のトレース ID。オプションです。
+- **client_request_id** (*string*) -<br/>
+  リクエスト追跡用のトレース ID。任意です。
 
-**RETURNS** *Promise&lt;DescribeSnapshotResponse&gt;*
+**戻り値** *Promise&lt;DescribeSnapshotResponse&gt;*
 
-このメソッドは、**DescribeSnapshotResponse** オブジェクトに解決される promise を返します。
+このメソッドは、**DescribeSnapshotResponse** オブジェクトに解決される Promise を返します。
 
 ```typescript
 {
@@ -84,28 +84,28 @@ RPC に許可する任意の時間（ミリ秒）。`undefined` に設定する�
 }
 ```
 
-**PARAMETERS:**
+**パラメータ:**
 
-- **name** (*string*) -
-snapshot 名。
+- **name** (*string*) -<br/>
+  スナップショット名。
 
-- **description** (*string*) -
-snapshot 作成時に指定された説明。指定されていない場合は空文字列です。
+- **description** (*string*) -<br/>
+  スナップショット作成時に指定された説明です。指定されていない場合は空文字列になります。
 
-- **collection_name** (*string*) -
-この snapshot を所有する collection。
+- **collection_name** (*string*) -<br/>
+  スナップショットを所有するコレクション。
 
-- **partition_names** (*string[]*) -
-snapshot によって取得された partition 名。
+- **partition_names** (*string[]*) -<br/>
+  スナップショットによってキャプチャされたパーティション名。
 
-- **create_ts** (*string*) -
-snapshot が作成された時点の hybrid timestamp。
+- **create_ts** (*string*) -<br/>
+  スナップショットが作成された時点のハイブリッドタイムスタンプ。
 
-- **s3_location** (*string*) -
-snapshot データが永続化されるオブジェクトストア URI。
+- **s3_location** (*string*) -<br/>
+  スナップショットデータが永続化されるオブジェクトストア URI。
 
-- **ResStatus**
-**ResStatus** オブジェクト。
+- **ResStatus**<br/>
+  **ResStatus** オブジェクト。
 
     - **code** (*number*) -
 
@@ -119,7 +119,7 @@ snapshot データが永続化されるオブジェクトストア URI。
 
         報告されたエラーの理由を示します。この操作が成功した場合は空文字列のままです。
 
-## Example\{#example}
+## 例\{#example}
 
 ```javascript
 import { MilvusClient } from '@zilliz/milvus2-sdk-node';

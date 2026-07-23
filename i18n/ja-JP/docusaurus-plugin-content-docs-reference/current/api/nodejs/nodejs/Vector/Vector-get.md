@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、ID によって特定のエンティティを取得します。 | Node.js"
+description: "この操作は、ID によって特定の entity を取得します。 | Node.js"
 type: docx
 token: IbxXdvdZlonJk9xnlk2cZlIinCh
 sidebar_position: 3
 keywords: 
-  - vector データベース比較
+  - vector データベースの比較
   - Faiss
   - 動画検索
   - AI ハルシネーション
   - zilliz
   - zilliz cloud
-  - クラウド
+  - cloud
   - get()
   - nodejs30
 displayed_sidebar: nodeSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # get()
 
-この操作は、ID によって特定のエンティティを取得します。
+この操作は、ID によって特定の entity を取得します。
 
 ```javascript
 await milvusClient.get(data)
@@ -69,7 +69,7 @@ await milvusClient.get({
 
     **[REQUIRED]**
 
-    特定のエンティティ ID、またはエンティティ ID のリスト。
+    特定の entity ID、または entity ID のリスト。
 
 - **consistency_level** (*string*) -
 
@@ -77,9 +77,9 @@ await milvusClient.get({
 
 - **limit** (*number*) -
 
-    返されるエンティティの総数。
+    返される entity の総数。
 
-    このパラメータは、**param** 内の **offset** と組み合わせて使用することで、ページネーションを有効にできます。
+    ページネーションを有効にするために、このパラメータを **param** 内の **offset** と組み合わせて使用できます。
 
     この値と **param** 内の **offset** の合計は 16,384 未満である必要があります。 
 
@@ -87,7 +87,7 @@ await milvusClient.get({
 
     検索結果でスキップするレコード数。 
 
-    このパラメータは、`limit` と組み合わせて使用することで、ページネーションを有効にできます。
+    ページネーションを有効にするために、このパラメータを `limit` と組み合わせて使用できます。
 
     この値と `limit` の合計は 16,384 未満である必要があります。 
 
@@ -97,15 +97,15 @@ await milvusClient.get({
 
 - **output_fields** (*string[]*) -
 
-    返される各エンティティに含めるフィールド名のリスト。
+    返される各 entity に含める field 名のリスト。
 
-    デフォルト値は **None** です。指定しない場合、すべてのフィールドが出力フィールドとして選択されます。
+    デフォルト値は **None** です。指定しない場合、すべての field が出力 field として選択されます。
 
 - **timeout** (*number*) -
 
     この操作のタイムアウト時間。 
 
-    これを **None** に設定すると、何らかのレスポンスが到着した時点、またはエラーが発生した時点でこの操作はタイムアウトします。
+    これを **None** に設定すると、何らかのレスポンスが到着するかエラーが発生した時点で、この操作はタイムアウトします。
 
 **RETURNS** *Promise&lt;QueryResults&gt;*
 
@@ -120,11 +120,11 @@ await milvusClient.get({
 
 **PARAMETERS:**
 
-- **data** (*Record&lt;string, any&gt;[]*) -
-指定された **ids** に一致する主キーを持つ行。各エントリはフィールド名をキーとし、要求された各 **output_fields** エントリの値と主キーを保持します。
+- **data** (*Record&lt;string, any&gt;[]*) -<br/>
+  主キーが指定された **ids** と一致する行。各エントリは field 名をキーとし、要求された各 **output_fields** エントリの値に加えて主キーを保持します。
 
-- **ResStatus**
-**ResStatus** オブジェクト。
+- **ResStatus**<br/>
+  **ResStatus** オブジェクト。
 
     - **code** (*number*) -
 

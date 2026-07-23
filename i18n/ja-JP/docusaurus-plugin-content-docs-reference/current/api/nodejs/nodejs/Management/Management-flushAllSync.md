@@ -15,7 +15,7 @@ keywords:
   - milvus db
   - milvus vector db
   - Zilliz Cloud
-  - Milvus とは
+  - what is milvus
   - zilliz
   - zilliz cloud
   - cloud
@@ -49,18 +49,18 @@ await milvusClient.flushAllSync({
 
 **パラメータ:**
 
-- **db_name** (*string*) -
-データベースの名前です。省略可能です。
+- **db_name** (*string*) -<br/>
+  データベース名。オプションです。
 
-- **timeout** (*number*) -
-RPC に許可する時間の長さをミリ秒単位で指定する省略可能な値です。`undefined` に設定されている場合、クライアントはサーバーが応答するかエラーが発生するまで待機し続けます。デフォルトは `undefined` です。
+- **timeout** (*number*) -<br/>
+  RPC に許可するミリ秒単位の任意の時間です。`undefined` に設定すると、サーバーが応答するかエラーが発生するまでクライアントは待機し続けます。デフォルトは `undefined` です。
 
-- **client_request_id** (*string*) -
-リクエスト追跡用のトレース ID です。省略可能です。
+- **client_request_id** (*string*) -<br/>
+  リクエスト追跡用のトレース ID。オプションです。
 
 **戻り値** *Promise&lt;GetFlushAllStateResponse&gt;*
 
-このメソッドは **GetFlushAllStateResponse** オブジェクトに解決される promise を返します。
+このメソッドは、**GetFlushAllStateResponse** オブジェクトに解決される promise を返します。
 
 ```typescript
 {
@@ -71,11 +71,11 @@ RPC に許可する時間の長さをミリ秒単位で指定する省略可能�
 
 **パラメータ:**
 
-- **flushed** (*boolean*) -
-flush-all 操作が完全に完了したかどうかを示します。`flushAllSync()` は完了するまでブロックするため、成功時にはこの値は **true** になります。
+- **flushed** (*boolean*) -<br/>
+  flush-all 操作が完全に完了したかどうか。`flushAllSync()` は完了までブロックするため、成功時にはこの値は **true** です。
 
-- **ResStatus**
-**ResStatus** オブジェクトです。
+- **ResStatus**<br/>
+  **ResStatus** オブジェクトです。
 
     - **code** (*number*) -
 
@@ -87,7 +87,7 @@ flush-all 操作が完全に完了したかどうかを示します。`flushAllS
 
     - **reason** (*string*) -
 
-        報告されたエラーの理由を示します。この操作が成功した場合は空文字列のままです。
+        報告されたエラーの理由を示す理由です。この操作が成功した場合は空文字列のままです。
 
 ## 例\{#example}
 

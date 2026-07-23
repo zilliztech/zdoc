@@ -12,10 +12,10 @@ type: docx
 token: HqE5d2jOroEuObxIjkZcHkX4nWX
 sidebar_position: 12
 keywords: 
-  - k 近傍アルゴリズム
+  - k nearest neighbor algorithm
   - ANNS
   - Vector search
-  - knn アルゴリズム
+  - knn algorithm
   - zilliz
   - zilliz cloud
   - cloud
@@ -37,7 +37,7 @@ import Admonition from '@theme/Admonition';
 await milvusClient.getIndexState(data)
 ```
 
-## リクエスト構文\{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```javascript
 await milvusClient.getIndexState({
@@ -49,7 +49,7 @@ await milvusClient.getIndexState({
 });
 ```
 
-**パラメータ:**
+**PARAMETERS:**
 
 - **db_name** (*string*) -
 
@@ -67,13 +67,13 @@ await milvusClient.getIndexState({
 
 - **field_name** (*string*) -
 
-    対象フィールドの名前。このパラメータと `index_name` は相互排他的です。このパラメータを使用する場合は、指定したフィールド上に index が構築されていることを確認してください。
+    対象フィールドの名前。このパラメータと `index_name` は相互排他的です。このパラメータを使用する場合は、指定されたフィールドに対して index が構築されていることを確認してください。
 
 - **timeout** (number) -
 
-    この操作のタイムアウト時間です。これを **None** に設定すると、何らかのレスポンスが到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
+    この操作のタイムアウト時間です。これを **None** に設定すると、レスポンスが到着するか、エラーが発生した時点でこの操作はタイムアウトします。
 
-**戻り値** *Promise&lt;GetIndexStateResponse&gt;*
+**RETURNS** *Promise&lt;GetIndexStateResponse&gt;*
 
 このメソッドは、**GetIndexStateResponse** オブジェクトに解決される promise を返します。
 
@@ -84,13 +84,13 @@ await milvusClient.getIndexState({
 }
 ```
 
-**パラメータ:**
+**PARAMETERS:**
 
-- **state** (*IndexState*) -
-index の現在のビルド状態。取り得る値は **IndexStateNone**、**Unissued**、**InProgress**、**Finished**、**Failed** です。
+- **state** (*IndexState*) -<br/>
+  index の現在の構築状態。指定可能な値は **IndexStateNone**、**Unissued**、**InProgress**、**Finished**、および **Failed** です。
 
-- **ResStatus**
-**ResStatus** オブジェクト。
+- **ResStatus**<br/>
+  **ResStatus** オブジェクト。
 
     - **code** (*number*) -
 
@@ -104,7 +104,7 @@ index の現在のビルド状態。取り得る値は **IndexStateNone**、**Un
 
         報告されたエラーの理由を示す理由です。この操作が成功した場合は空文字列のままです。
 
-## 例\{#example}
+## Example\{#example}
 
 ```java
 const milvusClient = new MilvusClient(MILUVS_ADDRESS);

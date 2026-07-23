@@ -37,7 +37,7 @@ import Admonition from '@theme/Admonition';
 await milvusClient.getFlushAllState(data: GetFlushAllStateReq)
 ```
 
-## リクエスト構文\{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```typescript
 await milvusClient.getFlushAllState({
@@ -51,20 +51,20 @@ await milvusClient.getFlushAllState({
 
 **PARAMETERS:**
 
-- **flush_all_ts** (*number*) -
-flush-all タイムスタンプ。オプションであり、非推奨です。
+- **flush_all_ts** (*number*) -<br/>
+  flush-all のタイムスタンプです。オプションであり、非推奨です。
 
-- **flush_all_tss** (*Record&lt;string, number&gt;*) -
-データベース名から flush-all タイムスタンプへのマップです。オプションです。
+- **flush_all_tss** (*Record&lt;string, number&gt;*) -<br/>
+  データベース名から flush-all タイムスタンプへのマップです。オプションです。
 
-- **db_name** (*string*) -
-データベースの名前。オプションであり、非推奨です。
+- **db_name** (*string*) -<br/>
+  データベースの名前です。オプションであり、非推奨です。
 
-- **timeout** (*number*) -
-RPC に許可するオプションの時間（ミリ秒単位）です。`undefined` に設定されている場合、サーバーが応答するかエラーが発生するまで、クライアントは待機し続けます。デフォルトは `undefined` です。
+- **timeout** (*number*) -<br/>
+  RPC に許容するオプションの時間（ミリ秒）です。`undefined` に設定されている場合、サーバーが応答するかエラーが発生するまで、クライアントは待機し続けます。デフォルトは `undefined` です。
 
-- **client_request_id** (*string*) -
-リクエスト追跡のためのトレース ID です。オプションです。
+- **client_request_id** (*string*) -<br/>
+  リクエスト追跡用のトレース ID です。オプションです。
 
 **RETURNS** *Promise&lt;GetFlushAllStateResponse&gt;*
 
@@ -79,11 +79,11 @@ RPC に許可するオプションの時間（ミリ秒単位）です。`undefi
 
 **PARAMETERS:**
 
-- **flushed** (*boolean*) -
-指定されたタイムスタンプで識別される flush-all 操作が完全に完了したかどうかを示します。すべての channel が要求された flush タイムスタンプに到達すると **true**、そうでない場合は **false** です。
+- **flushed** (*boolean*) -<br/>
+  指定されたタイムスタンプによって識別される flush-all 操作が完全に完了したかどうかを示します。すべての channel が要求された flush タイムスタンプに到達した場合は **true**、それ以外は **false** です。
 
-- **ResStatus**
-**ResStatus** オブジェクトです。
+- **ResStatus**<br/>
+  **ResStatus** オブジェクトです。
 
     - **code** (*number*) -
 
@@ -97,7 +97,7 @@ RPC に許可するオプションの時間（ミリ秒単位）です。`undefi
 
         報告されたエラーの理由を示す理由です。この操作が成功した場合は空文字列のままです。
 
-## 例\{#example}
+## Example\{#example}
 
 ```javascript
 import { MilvusClient } from '@zilliz/milvus2-sdk-node';

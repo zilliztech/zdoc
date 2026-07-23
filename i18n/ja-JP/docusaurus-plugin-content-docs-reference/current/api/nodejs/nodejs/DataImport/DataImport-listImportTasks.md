@@ -57,7 +57,7 @@ await milvusClient.listImportTasks({
 
 - **limit** (*number*) -
 
-    返されるタスクの最大数。すべてのタスクを取得するには `0` に設定します。省略可能です。
+    返されるタスクの最大数。すべてのタスクを取得するには `0` を設定します。省略可能です。
 
 - **timeout** (*number*) -
 
@@ -76,8 +76,8 @@ await milvusClient.listImportTasks({
 
 **PARAMETERS:**
 
-- **tasks** (*GetImportStateResponse[]*) -
-インポートタスク記述子のリスト。各エントリには、タスクの状態、行数、セグメント ID、および作成タイムスタンプが含まれます。
+- **tasks** (*GetImportStateResponse[]*) -<br/>
+  インポートタスク記述子のリスト。各エントリには、タスクの状態、行数、セグメント ID、および作成タイムスタンプが含まれます。
 
     - **state** (*ImportState*) -
 
@@ -89,7 +89,7 @@ await milvusClient.listImportTasks({
 
     - **id_list** (*number[]*) -
 
-        利用可能な場合、インポートされた行に割り当てられた自動生成プライマリキー。
+        利用可能な場合、インポートされた行に割り当てられた自動生成主キー。
 
     - **infos** (*KeyValuePair[]*) -
 
@@ -111,8 +111,8 @@ await milvusClient.listImportTasks({
 
         タスクの作成タイムスタンプ。
 
-- **ResStatus**
-**ResStatus** オブジェクトです。
+- **ResStatus**<br/>
+  **ResStatus** オブジェクト。
 
     - **code** (*number*) -
 

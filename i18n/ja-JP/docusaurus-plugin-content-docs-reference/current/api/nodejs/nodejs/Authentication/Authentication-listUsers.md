@@ -43,15 +43,15 @@ await milvusClient.listUsers(data)
 milvusClient.listUsers()
 ```
 
-**PARAMETERS:**
+**パラメーター:**
 
 - **timeout** (*number*)  
 
-    この操作のタイムアウト時間。
+    この操作のタイムアウト時間。 
 
-    これを **None** に設定すると、いずれかのレスポンスが到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
+    これを **None** に設定すると、何らかのレスポンスが返されるか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
 
-**RETURNS** *Promise&lt;ListCredUsersResponse&gt;*
+**戻り値** *Promise&lt;ListCredUsersResponse&gt;*
 
 このメソッドは、**ListCredUsersResponse** オブジェクトに解決される promise を返します。
 
@@ -62,13 +62,13 @@ milvusClient.listUsers()
 }
 ```
 
-**PARAMETERS:**
+**パラメーター:**
 
-- **usernames** (*string[]*) -
-現在の Milvus インスタンスに存在するユーザー名のリスト。
+- **usernames** (*string[]*) -<br/>
+  現在の Milvus インスタンスに存在するユーザー名のリスト。
 
-- **ResStatus**
-**ResStatus** オブジェクト。
+- **ResStatus**<br/>
+  **ResStatus** オブジェクト。
 
     - **code** (*number*) -
 
@@ -80,7 +80,7 @@ milvusClient.listUsers()
 
     - **reason** (*string*) -
 
-        報告されたエラーの理由を示す理由です。この操作が成功した場合は空文字列のままです。
+        報告されたエラーの理由を示します。この操作が成功した場合は空文字列のままです。
 
 ## 例\{#example}
 

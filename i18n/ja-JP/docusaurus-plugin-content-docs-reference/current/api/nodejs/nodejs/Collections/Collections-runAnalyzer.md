@@ -7,7 +7,7 @@ added_since: v2.5.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、テスト目的で提供されたテキストに対して analyzer を実行します。 | Node.js"
+description: "この操作は、テスト目的で指定されたテキストに対して analyzer を実行します。 | Node.js"
 type: docx
 token: LsMldPd8GodoVqxCAZUcWYjdnwh
 sidebar_position: 18
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # runAnalyzer()
 
-この操作は、テスト目的で提供されたテキストに対して analyzer を実行します。
+この操作は、テスト目的で指定されたテキストに対して analyzer を実行します。
 
 ```javascript
 await milvusClient.runAnalyzer(data)
@@ -56,11 +56,11 @@ milvusClient({
 
 - **text** (*string* | *string[]*) -
 
-    解析対象の入力テキスト、またはテキストのリストです。
+    分析対象の入力テキスト、またはテキストのリストです。
 
 - **with_detail** (*boolean*) -
 
-    詳細な解析出力を返すかどうかを示すオプションのフラグです。
+    詳細な分析結果を返すかどうかを示すオプションのフラグです。
 
 - **with_hash** (*boolean*) -
 
@@ -79,8 +79,8 @@ milvusClient({
 
 **PARAMETERS:**
 
-- **results** (*AnalyzerResult[]*) -
-トークン化の出力です。**text** が単一の文字列である場合、このリストには 1 つのエントリがあります。**text** が配列である場合、エントリは入力順に対応します。
+- **results** (*AnalyzerResult[]*) -<br/>
+  トークン化の出力です。**text** が単一の文字列である場合、このリストには 1 つのエントリがあります。**text** が配列である場合、エントリは入力順に対応します。
 
     - **tokens** (*AnalyzerToken[]*) -
 
@@ -108,7 +108,7 @@ milvusClient({
 
         - **hash** (*number*) -
 
-        トークンのハッシュです。リクエストで **with_hash** が **true** に設定されている場合に値が入ります。
+        トークンのハッシュ値です。リクエストで **with_hash** を **true** に設定した場合に設定されます。
 
         - **token** (*string*) -
 
@@ -132,10 +132,10 @@ milvusClient({
 
         - **hash** (*number*) -
 
-            トークンのハッシュです。リクエストで **with_hash** が **true** に設定されている場合に値が入ります。
+            トークンのハッシュ値です。リクエストで **with_hash** を **true** に設定した場合に設定されます。
 
-- **ResStatus**
-**ResStatus** オブジェクトです。
+- **ResStatus**<br/>
+  **ResStatus** オブジェクトです。
 
     - **code** (*number*) -
 

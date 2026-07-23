@@ -45,13 +45,13 @@ await milvusClient.listPrivilegeGroups(data?)
  })
 ```
 
-**パラメータ:**
+**パラメーター:**
 
 - **timeout** (*number*)  
 
     この操作のタイムアウト時間。 
 
-    これを **None** に設定すると、レスポンスが返されるか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
+    これを **None** に設定すると、いずれかのレスポンスが到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
 
 **戻り値** *Promise&lt;ListPrivilegeGroupsResponse&gt;*
 
@@ -64,10 +64,10 @@ await milvusClient.listPrivilegeGroups(data?)
 }
 ```
 
-**パラメータ:**
+**パラメーター:**
 
-- **privilege_groups** (*PrivelegeGroup[]*) -
-現在の Milvus インスタンスで定義されている privilege group の一覧。
+- **privilege_groups** (*PrivelegeGroup[]*) -<br/>
+  現在の Milvus インスタンスで定義されている privilege group の一覧。
 
     - **group_name** (*string*) -
 
@@ -85,8 +85,8 @@ await milvusClient.listPrivilegeGroups(data?)
 
             権限名（例: **Insert**、**Search**、**CreateCollection**）。
 
-- **ResStatus**
-**ResStatus** オブジェクト。
+- **ResStatus**<br/>
+  **ResStatus** オブジェクト。
 
     - **code** (*number*) -
 
@@ -98,7 +98,7 @@ await milvusClient.listPrivilegeGroups(data?)
 
     - **reason** (*string*) -
 
-        報告されたエラーの理由を示す理由。この操作が成功した場合は空文字列のままです。
+        報告されたエラーの理由を示す内容。この操作が成功した場合は空文字列のままです。
 
 ## 例\{#example}
 

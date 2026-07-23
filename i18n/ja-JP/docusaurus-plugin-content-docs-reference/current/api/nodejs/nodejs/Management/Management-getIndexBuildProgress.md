@@ -7,14 +7,14 @@ added_since: v2.4.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、指定した index のビルド進捗を取得します。 | Node.js"
+description: "この操作は、指定された index のビルド進行状況を取得します。 | Node.js"
 type: docx
 token: G6CGdbM4QoNgr5xS1ZAc94lhnFd
 sidebar_position: 11
 keywords: 
   - Pinecone vector database
   - Audio search
-  - semantic search とは
+  - what is semantic search
   - Embedding model
   - zilliz
   - zilliz cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # getIndexBuildProgress()
 
-この操作は、指定した index のビルド進捗を取得します。
+この操作は、指定された index のビルド進行状況を取得します。
 
 ```javascript
 await milvusClient.getIndexBuildProgress(data)
@@ -65,17 +65,17 @@ await milvusClient.getIndexBuildProgress({
 
     **[REQUIRED]**
 
-    対象の index の名前。このパラメータと `field_name` は相互排他的です。 
+    対象 index の名前。このパラメータと `field_name` は相互排他的です。 
 
 - **field_name** (*string*) -
 
     **[REQUIRED]**
 
-    対象の field の名前。このパラメータと `index_name` は相互排他的です。このパラメータを使用する場合は、指定した field に対して index がすでに構築されていることを確認してください。
+    対象 field の名前。このパラメータと `index_name` は相互排他的です。このパラメータを使用する場合は、指定した field に対して index が構築されていることを確認してください。
 
 - **timeout** (number) -
 
-    この操作のタイムアウト時間。これを **None** に設定すると、レスポンスが到着した時点、または何らかのエラーが発生した時点でこの操作はタイムアウトします。
+    この操作のタイムアウト時間です。これを **None** に設定すると、レスポンスが到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
 
 **RETURNS** *Promise&lt;GetIndexBuildProgressResponse&gt;*
 
@@ -91,26 +91,26 @@ await milvusClient.getIndexBuildProgress({
 
 **PARAMETERS:**
 
-- **indexed_rows** (*number*) -
-これまでに index 化された行数。
+- **indexed_rows** (*number*) -<br/>
+  これまでに index 化された行数。
 
-- **total_rows** (*number*) -
-index がカバーする行の総数。**indexed_rows** が **total_rows** と等しくなると、ビルドは完了です。
+- **total_rows** (*number*) -<br/>
+  index が対象とする行の総数です。**indexed_rows** が **total_rows** と等しくなると、ビルドは完了です。
 
-- **ResStatus**
-**ResStatus** オブジェクト。
+- **ResStatus**<br/>
+  **ResStatus** オブジェクト。
 
     - **code** (*number*) -
 
-        操作結果を示すコード。この操作が成功した場合は **0** のままです。
+        操作結果を示すコードです。この操作が成功した場合は **0** のままです。
 
     - **error_code** (*string* | *number*) -
 
-        発生したエラーを示すエラーコード。この操作が成功した場合は **Success** のままです。
+        発生したエラーを示すエラーコードです。この操作が成功した場合は **Success** のままです。
 
     - **reason** (*string*) -
 
-        報告されたエラーの理由を示す理由。この操作が成功した場合は空文字列のままです。
+        報告されたエラーの理由を示します。この操作が成功した場合は空文字列のままです。
 
 ## Example\{#example}
 

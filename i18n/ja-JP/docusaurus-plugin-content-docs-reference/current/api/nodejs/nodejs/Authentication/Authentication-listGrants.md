@@ -12,13 +12,13 @@ type: docx
 token: CJ9DdmU1ooquOnxcK5AciA3sn3g
 sidebar_position: 18
 keywords: 
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
+  - 管理されたベクトルデータベース
+  - Pinecone ベクトルデータベース
+  - 音声検索
+  - セマンティック検索とは
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - listGrants()
   - nodejs30
 displayed_sidebar: nodeSidebar
@@ -37,7 +37,7 @@ import Admonition from '@theme/Admonition';
 await milvusClient.listGrants(data)
 ```
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```javascript
  milvusClient.listGrants({
@@ -45,15 +45,15 @@ await milvusClient.listGrants(data)
  });
 ```
 
-**PARAMETERS:**
+**パラメータ:**
 
 - roleName (*string*)  
 
     対象のロール名
 
-    これを存在しないロールの名前に設定すると、エラーが発生する可能性があります。
+    これを存在しないロール名に設定すると、エラーが発生する可能性があります。
 
-**RETURNS** *Promise&lt;SelectGrantResponse&gt;*
+**戻り値** *Promise&lt;SelectGrantResponse&gt;*
 
 このメソッドは、**SelectGrantResponse** オブジェクトに解決される promise を返します。
 
@@ -64,27 +64,27 @@ await milvusClient.listGrants(data)
 }
 ```
 
-**PARAMETERS:**
+**パラメータ:**
 
-- **entities** (*GrantEntity[]*) -
-要求されたロールに関連付けられた付与された権限の一覧。各エントリは、権限とその対象オブジェクト、およびそれを付与したプリンシパルの組み合わせです。**GrantEntity** の完全なフィールドリファレンスについては、`describeRole()` のドキュメントを参照してください。
+- **entities** (*GrantEntity[]*) -<br/>
+  要求されたロールに関連付けられた grant の一覧です。各エントリは、権限、対象オブジェクト、およびそれを付与した principal を組み合わせたものです。**GrantEntity** の完全なフィールドリファレンスについては、`describeRole()` のドキュメントを参照してください。
 
-- **ResStatus**
-**ResStatus** オブジェクト。
+- **ResStatus**<br/>
+  **ResStatus** オブジェクト。
 
     - **code** (*number*) -
 
-        操作結果を示すコードです。この操作が成功した場合は **0** のままです。
+        操作結果を示すコードです。この操作が成功した場合は常に **0** です。
 
     - **error_code** (*string* | *number*) -
 
-        発生したエラーを示すエラーコードです。この操作が成功した場合は **Success** のままです。
+        発生したエラーを示すエラーコードです。この操作が成功した場合は常に **Success** です。
 
     - **reason** (*string*) -
 
         報告されたエラーの理由を示します。この操作が成功した場合は空文字列のままです。
 
-## Example\{#example}
+## 例\{#example}
 
 ```javascript
  milvusClient.listGrants({

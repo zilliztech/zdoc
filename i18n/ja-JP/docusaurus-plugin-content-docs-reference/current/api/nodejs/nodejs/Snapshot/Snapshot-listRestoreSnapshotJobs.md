@@ -7,7 +7,7 @@ added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、すべてのスナップショット復元ジョブを一覧表示します。対象コレクション名とデータベース名でフィルタリングできます。 | Node.js"
+description: "この操作はすべてのスナップショット復元ジョブを一覧表示します。対象のコレクション名とデータベース名でフィルタリングできます。 | Node.js"
 type: docx
 token: TIXDdW1BmoPA3FxX0ONczHFqnKf
 sidebar_position: 5
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # listRestoreSnapshotJobs()
 
-この操作は、すべてのスナップショット復元ジョブを一覧表示します。対象コレクション名とデータベース名でフィルタリングできます。
+この操作はすべてのスナップショット復元ジョブを一覧表示します。対象のコレクション名とデータベース名でフィルタリングできます。
 
 ```typescript
 await milvusClient.listRestoreSnapshotJobs(data?: ListRestoreSnapshotJobsReq)
@@ -50,17 +50,17 @@ await milvusClient.listRestoreSnapshotJobs({
 
 **PARAMETERS:**
 
-- **collection_name** (*string*) -
-対象コレクション名でのオプションのフィルターです。
+- **collection_name** (*string*) -<br/>
+  対象のコレクション名での任意フィルターです。
 
-- **db_name** (*string*) -
-データベース名でのオプションのフィルターです。
+- **db_name** (*string*) -<br/>
+  データベース名での任意フィルターです。
 
-- **timeout** (*number*) -
-RPC に許可するオプションの時間の長さ（ミリ秒）です。`undefined` に設定すると、サーバーが応答するかエラーが発生するまで、クライアントは待機し続けます。デフォルトは `undefined` です。
+- **timeout** (*number*) -<br/>
+  RPC の許容待機時間（ミリ秒、省略可）です。`undefined` に設定されている場合、クライアントはサーバーが応答するかエラーが発生するまで待機し続けます。デフォルトは `undefined` です。
 
-- **client_request_id** (*string*) -
-リクエスト追跡用のトレース ID です。オプションです。
+- **client_request_id** (*string*) -<br/>
+  リクエスト追跡用のトレース ID です。任意です。
 
 **RETURNS** *Promise&lt;ListRestoreSnapshotJobsResponse&gt;*
 
@@ -75,23 +75,23 @@ RPC に許可するオプションの時間の長さ（ミリ秒）です。`und
 
 **PARAMETERS:**
 
-- **jobs** (*RestoreSnapshotJobInfo[]*) -
-要求されたデータベースおよびコレクションフィルターに一致する復元ジョブのリストです。**RestoreSnapshotJobInfo** の完全なフィールドリファレンスについては、`getRestoreSnapshotState()` のドキュメントを参照してください。
+- **jobs** (*RestoreSnapshotJobInfo[]*) -<br/>
+  リクエストされたデータベースおよびコレクションフィルターに一致する復元ジョブのリストです。**RestoreSnapshotJobInfo** の完全なフィールドリファレンスについては、`getRestoreSnapshotState()` のドキュメントを参照してください。
 
-- **ResStatus**
-**ResStatus** オブジェクトです。
+- **ResStatus**<br/>
+  **ResStatus** オブジェクトです。
 
     - **code** (*number*) -
 
-        操作結果を示すコードです。この操作が成功した場合、**0** のままです。
+        操作結果を示すコードです。この操作が成功した場合は常に **0** です。
 
     - **error_code** (*string* | *number*) -
 
-        発生したエラーを示すエラーコードです。この操作が成功した場合、**Success** のままです。
+        発生したエラーを示すエラーコードです。この操作が成功した場合は常に **Success** です。
 
     - **reason** (*string*) -
 
-        報告されたエラーの理由を示す理由です。この操作が成功した場合、空文字列のままです。
+        報告されたエラーの理由を示す理由です。この操作が成功した場合は空文字列のままです。
 
 ## Example\{#example}
 

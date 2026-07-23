@@ -7,18 +7,18 @@ added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、スナップショットから新規または既存のコレクションにコレクションを復元します。 | Node.js"
+description: "この操作は、スナップショットからコレクションを新規または既存のコレクションに復元します。 | Node.js"
 type: docx
 token: PpuUdB9bLoL1UUxfIH4cxXkXnSb
 sidebar_position: 8
 keywords: 
   - 自然言語処理
-  - AIチャットボット
+  - AI チャットボット
   - コサイン距離
   - ベクトルデータベースとは
   - zilliz
   - zilliz cloud
-  - クラウド
+  - cloud
   - restoreSnapshot()
   - nodejs30
 displayed_sidebar: nodeSidebar
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # restoreSnapshot()
 
-この操作は、スナップショットから新規または既存のコレクションにコレクションを復元します。
+この操作は、スナップショットからコレクションを新規または既存のコレクションに復元します。
 
 ```typescript
 await milvusClient.restoreSnapshot(data: RestoreSnapshotReq)
 ```
 
-## リクエスト構文\{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```typescript
 await milvusClient.restoreSnapshot({
@@ -51,35 +51,35 @@ await milvusClient.restoreSnapshot({
 })
 ```
 
-**パラメータ:**
+**PARAMETERS:**
 
-- **snapshot_name** (*string*) -
-**[必須]**
-復元元のスナップショットの名前。
+- **snapshot_name** (*string*) -<br/>
+  **[REQUIRED]**<br/>
+  復元元のスナップショットの名前。
 
-- **source_collection_name** (*string*) -
-**[必須]**
-ソースコレクションの名前。
+- **source_collection_name** (*string*) -<br/>
+  **[REQUIRED]**<br/>
+  ソースコレクションの名前。
 
-- **target_collection_name** (*string*) -
-**[必須]**
-復元先のターゲットコレクションの名前。
+- **target_collection_name** (*string*) -<br/>
+  **[REQUIRED]**<br/>
+  復元先のターゲットコレクションの名前。
 
-- **source_db_name** (*string*) -
-ソースデータベース名。省略可能です。
+- **source_db_name** (*string*) -<br/>
+  ソースデータベース名。省略可能です。
 
-- **target_db_name** (*string*) -
-ターゲットデータベース名。省略可能です。
+- **target_db_name** (*string*) -<br/>
+  ターゲットデータベース名。省略可能です。
 
-- **timeout** (*number*) -
-RPC に許可するオプションの時間（ミリ秒）。`undefined` に設定されている場合、クライアントはサーバーが応答するかエラーが発生するまで待機し続けます。デフォルトは `undefined` です。
+- **timeout** (*number*) -<br/>
+  RPC に許可する任意の時間（ミリ秒）。`undefined` に設定されている場合、クライアントはサーバーが応答するかエラーが発生するまで待機し続けます。デフォルトは `undefined` です。
 
-- **client_request_id** (*string*) -
-リクエスト追跡用のトレース ID。省略可能です。
+- **client_request_id** (*string*) -<br/>
+  リクエスト追跡用のトレース ID。省略可能です。
 
-**戻り値** *Promise&lt;RestoreSnapshotResponse&gt;*
+**RETURNS** *Promise&lt;RestoreSnapshotResponse&gt;*
 
-このメソッドは、**RestoreSnapshotResponse** オブジェクトに解決される promise を返します。
+このメソッドは **RestoreSnapshotResponse** オブジェクトに解決される promise を返します。
 
 ```typescript
 {
@@ -88,13 +88,13 @@ RPC に許可するオプションの時間（ミリ秒）。`undefined` に設�
 }
 ```
 
-**パラメータ:**
+**PARAMETERS:**
 
-- **job_id** (*string*) -
-非同期復元ジョブの識別子。完了をポーリングするには、この値を `getRestoreSnapshotState()` に渡します。
+- **job_id** (*string*) -<br/>
+  非同期復元ジョブの識別子。この値を `getRestoreSnapshotState()` に渡して、完了までポーリングします。
 
-- **ResStatus**
-**ResStatus** オブジェクト。
+- **ResStatus**<br/>
+  **ResStatus** オブジェクト。
 
     - **code** (*number*) -
 
@@ -106,9 +106,9 @@ RPC に許可するオプションの時間（ミリ秒）。`undefined` に設�
 
     - **reason** (*string*) -
 
-        報告されたエラーの理由を示します。この操作が成功した場合は空文字列のままです。
+        報告されたエラーの理由を示す理由。この操作が成功した場合は空文字列のままです。
 
-## 例\{#example}
+## Example\{#example}
 
 ```javascript
 import { MilvusClient } from '@zilliz/milvus2-sdk-node';

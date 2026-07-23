@@ -7,13 +7,13 @@ added_since: v2.6.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は collection の replicas を取得し、各 replica の ID、ノード割り当て、シャードの詳細を含む情報を返します。 | Node.js"
+description: "この操作は collection のレプリカを取得し、各レプリカの ID、ノード割り当て、シャードの詳細を含む情報を返します。 | Node.js"
 type: docx
 token: XKRWdKvQVolmduxrtrDc0dhjnzc
 sidebar_position: 28
 keywords: 
   - 画像類似検索
-  - コンテキストウィンドウ
+  - Context Window
   - 自然言語検索
   - 類似検索
   - zilliz
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # getReplicas()
 
-この操作は collection の replicas を取得し、各 replica の ID、ノード割り当て、シャードの詳細を含む情報を返します。
+この操作は collection のレプリカを取得し、各レプリカの ID、ノード割り当て、シャードの詳細を含む情報を返します。
 
 ```javascript
 await milvusClient.getReplicas(data: GetReplicaReq)
 ```
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```javascript
 await milvusClient.getReplicas({
@@ -47,25 +47,25 @@ await milvusClient.getReplicas({
 })
 ```
 
-**PARAMETERS:**
+**パラメータ:**
 
 - **collectionID** (*number | string*) -
 
-    **[REQUIRED]**
+    **[必須]**
 
     collection の ID。
 
 - **with_shard_nodes** (*boolean*) -
 
-    レスポンスに shard node 情報を含めるかどうか。任意です。
+    レスポンスにシャードノード情報を含めるかどうか。任意です。
 
 - **timeout** (*number*) -
 
     ミリ秒単位の RPC タイムアウト。任意です。
 
-**RETURNS** *Promise&lt;ReplicasResponse&gt;*
+**戻り値** *Promise&lt;ReplicasResponse&gt;*
 
-このメソッドは **ReplicasResponse** オブジェクトに解決される promise を返します。
+このメソッドは、**ReplicasResponse** オブジェクトに解決される promise を返します。
 
 ```typescript
 {
@@ -74,14 +74,14 @@ await milvusClient.getReplicas({
 }
 ```
 
-**PARAMETERS:**
+**パラメータ:**
 
-- **replicas** (*ReplicaInfo[]*) -
-要求された collection を現在提供している replicas のリスト。
+- **replicas** (*ReplicaInfo[]*) -<br/>
+  要求された collection を現在処理しているレプリカの一覧。
 
     - **replicaID** (*string*) -
 
-        replica 識別子。
+        レプリカ識別子。
 
     - **collectionID** (*string*) -
 
@@ -89,7 +89,7 @@ await milvusClient.getReplicas({
 
     - **partition_ids** (*string[]*) -
 
-        この replica がカバーする partition 識別子。
+        このレプリカが対象とする partition 識別子。
 
     - **shard_replicas** (*ShardReplica[]*) -
 
@@ -97,50 +97,50 @@ await milvusClient.getReplicas({
 
         - **leaderID** (*string*) -
 
-        shard リーダーとして動作する query node ID。
+        シャードリーダーとして機能するクエリノード ID。
 
         - **leader_addr** (*string*) -
 
-        リーダー query node のアドレス。
+        リーダークエリノードのアドレス。
 
         - **dm_channel_name** (*string*) -
 
-        この shard が提供する DML channel。
+        このシャードが処理する DML チャネル。
 
         - **node_ids** (*string[]*) -
 
-        この shard のデータを保持する query node ID。
+        このシャードのデータを保持するクエリノード ID。
 
         - **leaderID** (*string*) -
 
-            shard リーダーとして動作する query node ID。
+            シャードリーダーとして機能するクエリノード ID。
 
         - **leader_addr** (*string*) -
 
-            リーダー query node のアドレス。
+            リーダークエリノードのアドレス。
 
         - **dm_channel_name** (*string*) -
 
-            この shard が提供する DML channel。
+            このシャードが処理する DML チャネル。
 
         - **node_ids** (*string[]*) -
 
-            この shard のデータを保持する query node ID。
+            このシャードのデータを保持するクエリノード ID。
 
     - **node_ids** (*string[]*) -
 
-        この replica に参加している query node ID。
+        このレプリカに参加しているクエリノード ID。
 
     - **resource_group_name** (*string*) -
 
-        この replica のノードを所有する resource group。
+        このレプリカのノードを所有する resource group。
 
     - **num_outbound_node** (*Record&lt;string, number&gt;*) -
 
-        resource group ごとの outbound node 数。リバランシング時に使用されます。
+        resource group ごとのアウトバウンドノード数。リバランシング中に使用されます。
 
-- **ResStatus**
-A **ResStatus** オブジェクト。
+- **ResStatus**<br/>
+  **ResStatus** オブジェクト。
 
     - **code** (*number*) -
 
@@ -154,7 +154,7 @@ A **ResStatus** オブジェクト。
 
         報告されたエラーの理由を示す理由。この操作が成功した場合は空文字列のままです。
 
-## Example\{#example}
+## 例\{#example}
 
 ```javascript
 import { MilvusClient } from '@zilliz/milvus2-sdk-node';

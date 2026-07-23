@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は特定の alias を記述します。 | Node.js"
+description: "この操作は、特定のエイリアスの情報を取得します。 | Node.js"
 type: docx
 token: YCzNdg5yWoeZVrxj7jGcb1UXnBd
 sidebar_position: 7
 keywords: 
-  - k 近傍アルゴリズム
+  - k nearest neighbor algorithm
   - ANNS
-  - ベクトル検索
-  - knn アルゴリズム
+  - Vector search
+  - knn algorithm
   - zilliz
   - zilliz cloud
-  - クラウド
+  - cloud
   - describeAlias()
   - nodejs30
 displayed_sidebar: nodeSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # describeAlias()
 
-この操作は特定の alias を記述します。
+この操作は、特定のエイリアスの情報を取得します。
 
 ```javascript
 await milvusClient.describeAlias(data)
@@ -47,39 +47,39 @@ await milvusClient.describeAlias({
 })
 ```
 
-**パラメータ:**
+**パラメーター:**
 
 - **db_name** (*str*) -
 
-    対象の collection を保持するデータベースの名前。
+    対象のコレクションを保持するデータベースの名前。
 
 - **alias** (*str*) -
 
     **[REQUIRED]**
 
-    collection の alias。alias は事前に存在している必要があります。
+    コレクションのエイリアス。エイリアスは事前に存在している必要があります。
 
-    <Admonition type="info" icon="📘" title="Note">
+    <Admonition type="info" icon="📘" title="注">
 
-    collection alias とは何ですか？
+    コレクションエイリアスとは何ですか？
     
-        collection alias は、collection に付けられる追加の名前です。collection alias は、コードを変更せずにアプリケーションを新しい collection に切り替えたい場合に便利です。 
+        コレクションエイリアスは、コレクションの追加名です。コレクションエイリアスは、コードを変更せずにアプリケーションを新しいコレクションに切り替えたい場合に便利です。 
     
-        Zilliz Cloud では、collection alias はグローバルに一意な識別子です。1 つの alias は、厳密に 1 つの collection にしか割り当てられません。逆に、1 つの collection は複数の alias を持つことができます。
+        Zilliz Cloud では、コレクションエイリアスはグローバルに一意の識別子です。1 つのエイリアスは、ちょうど 1 つのコレクションにのみ割り当てることができます。逆に、1 つのコレクションには複数のエイリアスを持たせることができます。
     
-        以下は、ある collection の alias を別の collection に再割り当てする例です。
+        以下は、あるコレクションのエイリアスを別のコレクションに再割り当てする例です。
     
-        `collection_1` と `collection_2` という 2 つの collection があるとします。また、もともと `collection_1` に割り当てられていた `bob` という名前の collection alias もあります。
+        `collection_1` と `collection_2` という 2 つのコレクションがあるとします。また、`bob` という名前のコレクションエイリアスがあり、もともと `collection_1` に割り当てられていました。
     
-        - `collection_1` の alias = ["bob"]
+        - `collection_1` のエイリアス = ["bob"]
     
-        - `collection_2` の alias = []
+        - `collection_2` のエイリアス = []
     
         `alter_alias("collection_2", "bob")` を呼び出した後:
     
-        - `collection_1` の alias = []
+        - `collection_1` のエイリアス = []
     
-        - `collection_2` の alias = ["bob"]
+        - `collection_2` のエイリアス = ["bob"]
 
     </Admonition>
 
@@ -87,7 +87,7 @@ await milvusClient.describeAlias({
 
     **[REQUIRED]**
 
-    指定された alias を持つ collection の名前。
+    指定されたエイリアスを持つコレクションの名前。
 
 **戻り値** *Promise&lt;DescribeAliasResponse&gt;*
 
@@ -102,19 +102,19 @@ await milvusClient.describeAlias({
 }
 ```
 
-**パラメータ:**
+**パラメーター:**
 
-- **db_name** (*string*) -
-alias を所有するデータベース。
+- **db_name** (*string*) -<br/>
+  エイリアスを所有するデータベース。
 
-- **alias** (*string*) -
-alias 名。
+- **alias** (*string*) -<br/>
+  エイリアス名。
 
-- **collection** (*string*) -
-alias が現在指している collection 名。
+- **collection** (*string*) -<br/>
+  エイリアスが現在指しているコレクション名。
 
-- **ResStatus**
-**ResStatus** オブジェクト。
+- **ResStatus**<br/>
+  **ResStatus** オブジェクト。
 
     - **code** (*number*) -
 

@@ -7,7 +7,7 @@ added_since: v2.4.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、特定の segment の flush ステータスを返します。 | Node.js"
+description: "この操作は、特定の segment の flush 状態を返します。 | Node.js"
 type: docx
 token: X8qWdMHg5oQQK6xZdBYcGNOnn3c
 sidebar_position: 10
@@ -18,7 +18,7 @@ keywords:
   - 自然言語処理
   - zilliz
   - zilliz cloud
-  - クラウド
+  - cloud
   - getFlushState()
   - nodejs30
 displayed_sidebar: nodeSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # getFlushState()
 
-この操作は、特定の segment の flush ステータスを返します。
+この操作は、特定の segment の flush 状態を返します。
 
 ```javascript
 await milvusClient.getFlushState(data)
@@ -39,7 +39,7 @@ await milvusClient.getFlushState(data)
 
 <Admonition type="info" icon="📘" title="注意">
 
-Milvus は一定間隔でデータを自動的に永続ストレージへ flush します。この自動データ永続化メカニズムを利用することを推奨します。
+Milvus は一定間隔でデータを自動的に永続ストレージへ flush します。この自動データ永続化メカニズムに依存することを推奨します。
 
 </Admonition>
 
@@ -58,13 +58,13 @@ await milvusClient.getFlushState({
 
     **[REQUIRED]**
 
-    対象となる segment ID のリスト。
+    対象 segment ID のリスト。
 
 - **timeout** (*number*)  
 
     この操作のタイムアウト時間。 
 
-    これを **None** に設定すると、レスポンスが返されるか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
+    これを **None** に設定すると、何らかのレスポンスが到着した時点、または何らかのエラーが発生した時点でこの操作はタイムアウトします。
 
 **RETURNS** *Promise&lt;GetFlushStateResponse&gt;*
 
@@ -79,11 +79,11 @@ await milvusClient.getFlushState({
 
 **PARAMETERS:**
 
-- **flushed** (*boolean*) -
-すべての対象 segment が永続ストレージに flush 済みかどうか。要求されたすべての segment ID が sealed され、永続化されている場合は **true**、そうでない場合は **false** です。
+- **flushed** (*boolean*) -<br/>
+  対象のすべての segment が永続ストレージに flush されているかどうか。要求されたすべての segment ID が sealed され、永続化されている場合は **true**、それ以外は **false** です。
 
-- **ResStatus**
-**ResStatus** オブジェクト。
+- **ResStatus**<br/>
+  **ResStatus** オブジェクト。
 
     - **code** (*number*) -
 

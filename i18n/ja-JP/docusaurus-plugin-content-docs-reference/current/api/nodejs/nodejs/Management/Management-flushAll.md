@@ -7,14 +7,14 @@ added_since: v2.6.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作はすべての collections を flush し、すべての segments を seal して、データをディスクに永続化します。 | Node.js"
+description: "この操作は、すべての collection を flush し、すべての segment を seal して、データをディスクに永続化します。 | Node.js"
 type: docx
 token: Zyi9dGUnQodt7MxIq17cyN54nOd
 sidebar_position: 22
 keywords: 
   - Pinecone vector database
   - Audio search
-  - semantic search とは
+  - what is semantic search
   - Embedding model
   - zilliz
   - zilliz cloud
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # flushAll()
 
-この操作はすべての collections を flush し、すべての segments を seal して、データをディスクに永続化します。
+この操作は、すべての collection を flush し、すべての segment を seal して、データをディスクに永続化します。
 
 ```typescript
 await milvusClient.flushAll(data?: FlushAllReq)
 ```
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```typescript
 await milvusClient.flushAll({
@@ -47,18 +47,18 @@ await milvusClient.flushAll({
 })
 ```
 
-**PARAMETERS:**
+**パラメータ:**
 
-- **db_name** (*string*) -
-データベースの名前です。任意です。
+- **db_name** (*string*) -<br/>
+  データベースの名前です。省略可能です。
 
-- **timeout** (*number*) -
-RPC に許可する任意の時間の長さ（ミリ秒）です。`undefined` に設定すると、サーバーが応答するかエラーが発生するまでクライアントは待機し続けます。デフォルトは `undefined` です。
+- **timeout** (*number*) -<br/>
+  RPC に許可する時間の長さをミリ秒単位で指定する省略可能な値です。`undefined` に設定した場合、クライアントはサーバーが応答するかエラーが発生するまで待機し続けます。デフォルトは `undefined` です。
 
-- **client_request_id** (*string*) -
-リクエスト追跡用のトレース ID です。任意です。
+- **client_request_id** (*string*) -<br/>
+  リクエスト追跡のためのトレース ID です。省略可能です。
 
-**RETURNS** *Promise&lt;FlushAllResponse&gt;*
+**戻り値** *Promise&lt;FlushAllResponse&gt;*
 
 このメソッドは、**FlushAllResponse** オブジェクトに解決される promise を返します。
 
@@ -72,19 +72,19 @@ RPC に許可する任意の時間の長さ（ミリ秒）です。`undefined` �
 }
 ```
 
-**PARAMETERS:**
+**パラメータ:**
 
-- **flush_all_ts** (*number*) -
-flush を識別する単一のハイブリッドタイムスタンプです。非推奨です。マルチクラスターのデプロイでは **flush_all_tss** の使用を推奨します。
+- **flush_all_ts** (*number*) -<br/>
+  flush を識別する単一の hybrid timestamp です。非推奨です。マルチ cluster デプロイメントでは **flush_all_tss** を優先してください。
 
-- **flush_all_tss** (*Record&lt;string, number&gt;*) -
-cluster ID から、その cluster で flush が完了した時点のハイブリッドタイムスタンプへのマッピングです。
+- **flush_all_tss** (*Record&lt;string, number&gt;*) -<br/>
+  cluster ID から、その cluster で flush が完了した時点の hybrid timestamp へのマッピングです。
 
-- **flush_all_msgs** (*Record&lt;string, any&gt;*) -
-物理チャネル名から、ストレージ層で使用される flush メタデータへのマッピングです。
+- **flush_all_msgs** (*Record&lt;string, any&gt;*) -<br/>
+  physical channel 名から、ストレージレイヤーで使用される flush メタデータへのマッピングです。
 
-- **cluster_info** (*FlushClusterInfo*) -
-flush に参加した cluster トポロジーです。
+- **cluster_info** (*FlushClusterInfo*) -<br/>
+  flush に参加した cluster トポロジーです。
 
     - **cluster_id** (*string*) -
 
@@ -96,10 +96,10 @@ flush に参加した cluster トポロジーです。
 
     - **pchannels** (*string[]*) -
 
-        flush の対象となる物理チャネルです。
+        flush の対象となる physical channel です。
 
-- **ResStatus**
-**ResStatus** オブジェクトです。
+- **ResStatus**<br/>
+  **ResStatus** オブジェクトです。
 
     - **code** (*number*) -
 
@@ -113,7 +113,7 @@ flush に参加した cluster トポロジーです。
 
         報告されたエラーの理由を示す理由です。この操作が成功した場合は空文字列のままです。
 
-## Example\{#example}
+## 例\{#example}
 
 ```javascript
 import { MilvusClient } from '@zilliz/milvus2-sdk-node';

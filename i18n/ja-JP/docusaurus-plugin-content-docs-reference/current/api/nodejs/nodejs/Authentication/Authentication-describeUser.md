@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "これはメソッドテンプレートです。 | Node.js"
+description: "これはメソッドのテンプレートです。 | Node.js"
 type: docx
 token: Da9KdvvWroKX9cxOwsmcLRBxnVb
 sidebar_position: 10
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # describeUser()
 
-これはメソッドテンプレートです。
+これはメソッドのテンプレートです。
 
 ```javascript
 await milvusClient.describeUser(data)
 ```
 
-## リクエスト構文\{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```javascript
 await milvusClient.describeUser({
@@ -47,25 +47,25 @@ await milvusClient.describeUser({
 })
 ```
 
-**PARAMETERS:**
+**パラメータ:**
 
 - **username** (*string*) -
 
-    **[REQUIRED]**
+    **[必須]**
 
-    説明するユーザーの名前。
+    説明対象のユーザー名。
 
 - **includeRoleInfo** (*boolean*) -
 
-    ロール情報を含めるかどうかを示すブール値。
+    ロール情報を含めるかどうかを示すブール値です。
 
 - **timeout** (*number*)  
 
-    この操作のタイムアウト時間。 
+    この操作のタイムアウト時間です。 
 
-    これを **None** に設定すると、レスポンスが到着するか、何らかのエラーが発生した時点でこの操作はタイムアウトします。
+    これを **None** に設定すると、レスポンスが到着した時点、またはエラーが発生した時点でこの操作はタイムアウトします。
 
-**RETURNS** *Promise&lt;SelectUserResponse&gt;*
+**戻り値** *Promise&lt;SelectUserResponse&gt;*
 
 このメソッドは、**SelectUserResponse** オブジェクトに解決される promise を返します。
 
@@ -76,14 +76,14 @@ await milvusClient.describeUser({
 }
 ```
 
-**PARAMETERS:**
+**パラメータ:**
 
-- **results** (*UserResult[]*) -
-**UserResult** オブジェクトのリスト。`describeUser()` では、このリストには要求されたユーザーを説明する単一のエントリが含まれます。
+- **results** (*UserResult[]*) -<br/>
+  **UserResult** オブジェクトのリストです。`describeUser()` の場合、このリストには要求されたユーザーを説明する単一のエントリが含まれます。
 
     - **user** (*User*) -
 
-        ユーザーを識別する **User** オブジェクト。
+        ユーザーを識別する **User** オブジェクトです。
 
         - **name** (*string*) -
 
@@ -95,7 +95,7 @@ await milvusClient.describeUser({
 
     - **roles** (*RoleEntity[]*) -
 
-        このユーザーに割り当てられたロールのリスト。
+        このユーザーに割り当てられているロールのリストです。
 
         - **name** (*string*) -
 
@@ -105,22 +105,22 @@ await milvusClient.describeUser({
 
             ロール名。
 
-- **ResStatus**
-**ResStatus** オブジェクト。
+- **ResStatus**<br/>
+  **ResStatus** オブジェクトです。
 
     - **code** (*number*) -
 
-        操作結果を示すコード。この操作が成功した場合は **0** のままです。
+        操作結果を示すコードです。この操作が成功した場合は **0** のままです。
 
     - **error_code** (*string* | *number*) -
 
-        発生したエラーを示すエラーコード。この操作が成功した場合は **Success** のままです。
+        発生したエラーを示すエラーコードです。この操作が成功した場合は **Success** のままです。
 
     - **reason** (*string*) -
 
-        報告されたエラーの理由を示す理由。この操作が成功した場合は空文字列のままです。
+        報告されたエラーの理由を示します。この操作が成功した場合は空文字列のままです。
 
-## 例\{#example}
+## Example\{#example}
 
 ```java
 milvusClient.describeUser({username: 'name'})

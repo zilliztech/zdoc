@@ -7,14 +7,14 @@ added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、特定の collection にデータを挿入または更新します。 | Node.js"
+description: "この操作は、特定の collection 内のデータを挿入または更新します。 | Node.js"
 type: docx
 token: LEptdqqfcoqdtCx0LO1c3yxvnBo
 sidebar_position: 8
 keywords: 
   - Vector embeddings
   - Vector store
-  - オープンソースの vector database
+  - オープンソース vector database
   - Vector index
   - zilliz
   - zilliz cloud
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # upsert()
 
-この操作は、特定の collection にデータを挿入または更新します。
+この操作は、特定の collection 内のデータを挿入または更新します。
 
 ```typescript
 await milvusClient.upsert(data)
 ```
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```typescript
 await milvusClient.upsert({
@@ -51,27 +51,27 @@ await milvusClient.upsert({
 })
 ```
 
-**PARAMETERS:**
+**パラメーター:**
 
 - **collection_name** (*string*) -
 
-    **[REQUIRED]**
+    **[必須]**
 
-    既存の collection の名前です。
+    既存の collection の名前。
 
 - **data** (*RowData[]*) -
 
-    **[REQUIRED]**
+    **[必須]**
 
-    upsert するデータです。各要素は、キーが collection スキーマのフィールド名と一致するプレーンな JavaScript オブジェクトです。プライマリキーが既存レコードと一致するエンティティは更新され、それ以外の場合は新しいエンティティが挿入されます。
+    upsert するデータ。各要素は、キーが collection スキーマのフィールド名に一致するプレーンな JavaScript オブジェクトです。主キーが既存レコードと一致する entity は更新され、それ以外は新しい entity が挿入されます。
 
 - **db_name** (*string*) -
 
-    対象の collection を保持するデータベースの名前です。
+    対象の collection を保持するデータベースの名前。
 
 - **hash_keys** (*number[]*) -
 
-    内部使用のために予約されています。明示的に必要とされない限り、このパラメータは設定しないでください。
+    内部利用のために予約されています。明示的に必要とされない限り、このパラメーターは設定しないでください。
 
 - **partial_update** (*boolean*) -
 
@@ -79,17 +79,17 @@ await milvusClient.upsert({
 
 - **partition_name** (*string*) -
 
-    現在の collection 内の partition の名前です。指定した場合、データはその partition に upsert されます。
+    現在の collection 内の partition の名前。指定した場合、データはその partition に対して upsert されます。
 
 - **timeout** (*number*) -
 
-    この操作のタイムアウト時間です。これを `None` に設定すると、何らかのレスポンスが到着した時点、または何らかのエラーが発生した時点で、この操作はタイムアウトします。
+    この操作のタイムアウト時間。これを `None` に設定すると、レスポンスが到着するかエラーが発生した時点でこの操作はタイムアウトします。
 
 - **field_ops** (*FieldPartialUpdateOp[]*) -
 
-    array フィールドに対する部分更新操作です。任意です。
+    配列フィールドに対する部分更新操作。任意。
 
-**RETURNS** *Promise&lt;MutationResult&gt;*
+**戻り値** *Promise&lt;MutationResult&gt;*
 
 このメソッドは、**MutationResult** オブジェクトに解決される promise を返します。
 
@@ -107,48 +107,48 @@ await milvusClient.upsert({
 }
 ```
 
-**PARAMETERS:**
+**パラメーター:**
 
-- **succ_index** (*number[]*) -
-入力データ内で upsert に成功した行の 0 始まりの位置です。
+- **succ_index** (*number[]*) -<br/>
+  upsert に成功した行の、入力データ内での 0 始まりの位置。
 
-- **err_index** (*number[]*) -
-拒否された行の 0 始まりの位置です。すべての行が成功した場合、このリストは空です。
+- **err_index** (*number[]*) -<br/>
+  拒否された行の 0 始まりの位置。すべての行が成功した場合、このリストは空です。
 
-- **acknowledged** (*boolean*) -
-書き込みが Milvus によって確認されたかどうかです。
+- **acknowledged** (*boolean*) -<br/>
+  書き込みが Milvus によって確認されたかどうか。
 
-- **insert_cnt** (*string*) -
-この操作によって新たに挿入された行数で、文字列としてフォーマットされます。
+- **insert_cnt** (*string*) -<br/>
+  この操作で新たに挿入された行数。文字列としてフォーマットされます。
 
-- **delete_cnt** (*string*) -
-置き換え用の領域を確保するために論理削除された行数です。
+- **delete_cnt** (*string*) -<br/>
+  置き換えのための空きを作るために論理削除された行数。
 
-- **upsert_cnt** (*string*) -
-この操作によって upsert された行の合計数です。
+- **upsert_cnt** (*string*) -<br/>
+  この操作で upsert された行の総数。
 
-- **timestamp** (*string*) -
-書き込みが可視になった時点のハイブリッドタイムスタンプです。
+- **timestamp** (*string*) -<br/>
+  書き込みが可視になった時点のハイブリッドタイムスタンプ。
 
-- **IDs** (*StringArrayId* | *NumberArrayId*) -
-upsert された行に含まれるプライマリキーです。フィールドの完全なリファレンスについては、`insert()` ドキュメントを参照してください。
+- **IDs** (*StringArrayId* | *NumberArrayId*) -<br/>
+  upsert された行に含まれる主キー。完全なフィールドリファレンスについては、`insert()` ドキュメントを参照してください。
 
-- **ResStatus**
-**ResStatus** オブジェクトです。
+- **ResStatus**<br/>
+  **ResStatus** オブジェクト。
 
     - **code** (*number*) -
 
-        操作結果を示すコードです。この操作が成功した場合は **0** のままです。
+        操作結果を示すコード。この操作が成功した場合は **0** のままです。
 
     - **error_code** (*string* | *number*) -
 
-        発生したエラーを示すエラーコードです。この操作が成功した場合は **Success** のままです。
+        発生したエラーを示すエラーコード。この操作が成功した場合は **Success** のままです。
 
     - **reason** (*string*) -
 
-        報告されたエラーの理由を示す理由です。この操作が成功した場合は空文字列のままです。
+        報告されたエラーの理由を示す理由。この操作が成功した場合は空文字列のままです。
 
-## Example\{#example}
+## 例\{#example}
 
 ```javascript
 import { MilvusClient } from '@zilliz/milvus2-sdk-node';

@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、ID またはブール式を使用してエンティティを削除します。 | Node.js"
+description: "この操作は、ID またはブール式によってエンティティを削除します。 | Node.js"
 type: docx
 token: KOZHdyeQvo4htOxhO8BcbEudnNd
 sidebar_position: 2
@@ -15,7 +15,7 @@ keywords:
   - 安価なベクトルデータベース
   - マネージドベクトルデータベース
   - Pinecone ベクトルデータベース
-  - オーディオ検索
+  - 音声検索
   - zilliz
   - zilliz cloud
   - クラウド
@@ -32,7 +32,7 @@ import TabItem from '@theme/TabItem';
 
 # delete()
 
-この操作は、ID またはブール式を使用してエンティティを削除します。
+この操作は、ID またはブール式によってエンティティを削除します。
 
 ```javascript
 await milvusClient.delete(data)
@@ -40,7 +40,7 @@ await milvusClient.delete(data)
 
 ## リクエスト構文\{#request-syntax}
 
-このメソッドには、次の代替形式があります。
+このメソッドには、次の代替方法があります。
 
 ### DeleteByIdsReq を使用する場合\{#with-deletebyidsreq}
 
@@ -55,7 +55,7 @@ await milvusClient.delete({
  })
 ```
 
-**パラメーター:**
+**パラメータ:**
 
 - **db_name** (*string*) -
 
@@ -75,19 +75,19 @@ await milvusClient.delete({
 
     **[REQUIRED]**
 
-    特定のエンティティ ID、またはエンティティ ID のリスト。
+    特定のエンティティ ID またはエンティティ ID のリスト。
 
     デフォルト値は **None** で、scalar フィルタリング条件が適用されることを示します。
 
 - **consistency_level** (*ConsistencyLevelEnum*) -
 
-    対象 collection の整合性レベル。デフォルト値は **Bounded** (**1**) で、**Strong** (**0**)、**Bounded** (**1**)、**Session** (**2**)、**Eventually** (**3**) を選択できます。
+    対象 collection の整合性レベル。値のデフォルトは **Bounded** (**1**) で、**Strong** (**0**)、**Bounded** (**1**)、**Session** (**2**)、**Eventually** (**3**) を選択できます。
 
 - **timeout** (*number*) -
 
     この操作のタイムアウト時間。 
 
-    これを **None** に設定すると、何らかのレスポンスが返るか、エラーが発生した時点でこの操作はタイムアウトします。
+    これを **None** に設定すると、何らかの応答が到着した時点、または何らかのエラーが発生した時点でこの操作はタイムアウトします。
 
 **戻り値** *Promise&lt;MutationResult&gt;*
 
@@ -107,34 +107,34 @@ await milvusClient.delete({
 }
 ```
 
-**パラメーター:**
+**パラメータ:**
 
-- **succ_index** (*number[]*) -
-入力された ID のうち、行に一致して削除済みとしてマークされたものの 0 ベースの位置。
+- **succ_index** (*number[]*) -<br/>
+  行に一致し、削除済みとしてマークされた入力 ID の 0 ベース位置。
 
-- **err_index** (*number[]*) -
-どの行にも一致しなかった入力 ID の 0 ベースの位置。
+- **err_index** (*number[]*) -<br/>
+  どの行にも一致しなかった入力 ID の 0 ベース位置。
 
-- **acknowledged** (*boolean*) -
-削除が Milvus によって確認されたかどうか。
+- **acknowledged** (*boolean*) -<br/>
+  削除が Milvus によって確認されたかどうか。
 
-- **insert_cnt** (*string*) -
-`delete()` では常に **"0"**。
+- **insert_cnt** (*string*) -<br/>
+  `delete()` では常に **"0"** です。
 
-- **delete_cnt** (*string*) -
-この操作によって論理削除された行数。
+- **delete_cnt** (*string*) -<br/>
+  この操作によって論理削除された行数。
 
-- **upsert_cnt** (*string*) -
-`delete()` では常に **"0"**。
+- **upsert_cnt** (*string*) -<br/>
+  `delete()` では常に **"0"** です。
 
-- **timestamp** (*string*) -
-削除が可視になった時点のハイブリッドタイムスタンプ。
+- **timestamp** (*string*) -<br/>
+  削除が可視になったハイブリッドタイムスタンプ。
 
-- **IDs** (*StringArrayId* | *NumberArrayId*) -
-この削除の対象となった主キー。フィールドの完全なリファレンスについては、`insert()` ドキュメントを参照してください。
+- **IDs** (*StringArrayId* | *NumberArrayId*) -<br/>
+  この削除の対象となった主キー。完全なフィールドリファレンスについては、`insert()` のドキュメントを参照してください。
 
-- **ResStatus**
-**ResStatus** オブジェクト。
+- **ResStatus**<br/>
+  **ResStatus** オブジェクト。
 
     - **code** (*number*) -
 

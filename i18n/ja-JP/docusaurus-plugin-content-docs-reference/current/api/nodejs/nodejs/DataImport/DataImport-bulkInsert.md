@@ -14,7 +14,7 @@ sidebar_position: 9
 keywords: 
   - 自然言語検索
   - 類似性検索
-  - マルチモーダルRAG
+  - マルチモーダル RAG
   - llm hallucinations
   - zilliz
   - zilliz cloud
@@ -54,31 +54,31 @@ await milvusClient.bulkInsert({
 
 - **db_name** (*string*) -
 
-    対象 collection が属するデータベースの名前。
+    対象の collection が属するデータベースの名前。
 
 - **collection_name** (*string*) -
 
     **[REQUIRED]**
 
-    対象 collection の名前。
+    対象の collection の名前。
 
 - **partition_name** (*string*) -
 
-    対象 partition の名前。
+    対象の partition の名前。
 
 - **files** (*string[]*) -
 
-    インポート元となるデータファイルのパスのリスト。
+    インポート元となるデータファイルのパス一覧。
 
 - **timeout** (*number*) -
 
     この操作のタイムアウト時間。 
 
-    これを **None** に設定すると、いずれかのレスポンスが到着するか、エラーが発生した時点でこの操作はタイムアウトします。
+    これを **None** に設定すると、応答が返るかエラーが発生した時点でこの操作はタイムアウトします。
 
 - **options** (*KeyValuePair&lt;string, string | number&gt;[]*) -   
 
-    現在の操作に対する追加オプション（キーと値のペア）。
+    現在の操作に対する追加オプション。キーと値のペアで指定します。
 
 **RETURN TYPE:**
 
@@ -97,23 +97,23 @@ await milvusClient.bulkInsert({
 
 **PARAMETERS:**
 
-- **tasks** (*number[]*) -
-データノードにディスパッチされた非同期インポートタスクの識別子。完了をポーリングするには、これらの値を `listImportTasks()` に渡します。
+- **tasks** (*number[]*) -<br/>
+  data node にディスパッチされた非同期インポートタスクの識別子です。完了をポーリングするには、これらの値を `listImportTasks()` に渡します。
 
-- **ResStatus**
-**ResStatus** オブジェクト。
+- **ResStatus**<br/>
+  **ResStatus** オブジェクト。
 
     - **code** (*number*) -
 
-        操作結果を示すコード。この操作が成功した場合は **0** のままです。
+        操作結果を示すコードです。この操作が成功した場合は **0** のままです。
 
     - **error_code** (*string* | *number*) -
 
-        発生したエラーを示すエラーコード。この操作が成功した場合は **Success** のままです。
+        発生したエラーを示すエラーコードです。この操作が成功した場合は **Success** のままです。
 
     - **reason** (*string*) -
 
-        報告されたエラーの理由を示す理由。この操作が成功した場合は空文字列のままです。
+        報告されたエラーの理由を示します。この操作が成功した場合は空文字列のままです。
 
 ## Examples\{#examples}
 

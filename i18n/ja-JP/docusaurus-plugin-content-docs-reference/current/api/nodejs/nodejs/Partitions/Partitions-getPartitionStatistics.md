@@ -13,9 +13,9 @@ token: XDXid6aZ8oCHnVxxFpPcKAB9n0c
 sidebar_position: 3
 keywords: 
   - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - 自然言語処理データベース
+  - 安価な vector データベース
+  - マネージド vector データベース
   - zilliz
   - zilliz cloud
   - cloud
@@ -52,25 +52,25 @@ await milvusClient.getPartitionStatistics({
 
 - **db_name** (*string*) -
 
-    対象の collection を保持するデータベースの名前。
+    対象の collection を保持するデータベースの名前です。
 
 - **collection_name** (*string*) -
 
     **[REQUIRED]**
 
-    既存の collection の名前。
+    既存の collection の名前です。
 
 - **partition_name** (*string*) -
 
     **[REQUIRED]**
 
-    既存の partition の名前。
+    既存の partition の名前です。
 
 - **timeout** (*number*)  
 
-    この操作のタイムアウト時間。 
+    この操作のタイムアウト時間です。 
 
-    これを **None** に設定すると、何らかのレスポンスが到着した時点、または何らかのエラーが発生した時点で、この操作はタイムアウトします。
+    これを **None** に設定すると、何らかのレスポンスが到着するかエラーが発生した時点で、この操作はタイムアウトします。
 
 **RETURNS** *Promise&lt;StatisticsResponse&gt;*
 
@@ -86,14 +86,14 @@ await milvusClient.getPartitionStatistics({
 
 **PARAMETERS:**
 
-- **stats** (*KeyValuePair[]*) -
-Milvus によって返される生の統計情報リストです。各エントリには、**key**（たとえば **row_count**）と、文字列としての **value** が含まれます。
+- **stats** (*KeyValuePair[]*) -<br/>
+  Milvus によって返される生の統計情報リストです。各エントリには **key**（たとえば **row_count**）と、文字列としての **value** があります。
 
-- **data** (*Record&lt;string, any&gt;*) -
-利便性のために、**stats** をフラット化してキーでインデックス可能にしたビューです。たとえば、`data.row_count` は partition の行数を文字列として返します。
+- **data** (*Record&lt;string, any&gt;*) -<br/>
+  利便性のための、**stats** をフラット化してキーで参照できるビューです。たとえば、`data.row_count` は partition の行数を文字列として返します。
 
-- **ResStatus**
-**ResStatus** オブジェクト。
+- **ResStatus**<br/>
+  **ResStatus** オブジェクトです。
 
     - **code** (*number*) -
 
@@ -105,7 +105,7 @@ Milvus によって返される生の統計情報リストです。各エント�
 
     - **reason** (*string*) -
 
-        報告されたエラーの理由を示す理由です。この操作が成功した場合は空文字列のままです。
+        報告されたエラーの理由を示します。この操作が成功した場合は空文字列のままです。
 
 ## Example\{#example}
 

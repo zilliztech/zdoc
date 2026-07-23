@@ -7,15 +7,15 @@ added_since: v2.4.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、segment を手動で seal し、データをディスクに永続化します。すべてのデータが collection に挿入された後でこの操作を呼び出すことを推奨します。 | Node.js"
+description: "この操作は、segment を手動でシールし、データをディスクに永続化します。すべてのデータが collection に挿入された後に、この操作を呼び出すことを推奨します。 | Node.js"
 type: docx
 token: E2XJd4ZHvoc7QlxyrEJcrOJOn9f
 sidebar_position: 7
 keywords: 
   - HNSW
   - 非構造化データとは
-  - Vector embeddings
-  - Vector store
+  - ベクトル埋め込み
+  - ベクトルストア
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # flush()
 
-この操作は、segment を手動で seal し、データをディスクに永続化します。すべてのデータが collection に挿入された後でこの操作を呼び出すことを推奨します。
+この操作は、segment を手動でシールし、データをディスクに永続化します。すべてのデータが collection に挿入された後に、この操作を呼び出すことを推奨します。
 
 ```javascript
 await milvusClient.flush(data)
@@ -39,7 +39,7 @@ await milvusClient.flush(data)
 
 <Admonition type="info" icon="📘" title="注意">
 
-Milvus は一定間隔でデータを自動的に永続ストレージへ flush します。 この自動データ永続化メカニズムに依存することを推奨します。
+Milvus は一定間隔でデータを永続ストレージに自動的に flush します。この自動データ永続化メカニズムに依存することを推奨します。
 
 </Admonition>
 
@@ -53,11 +53,11 @@ await milvusClient.flush({
 })
 ```
 
-**PARAMETERS:**
+**パラメーター:**
 
 - **db_name** (*string*) -
 
-    対象 collection が属する対象データベースの名前。
+    対象の collection が属する対象データベースの名前。
 
 - **collection_names** (*string[]*) -
 
@@ -69,9 +69,9 @@ await milvusClient.flush({
 
     この操作のタイムアウト時間。 
 
-    これを **None** に設定すると、何らかの応答が返るか何らかのエラーが発生した時点で、この操作はタイムアウトします。
+    これを **None** に設定すると、レスポンスが到着した時点、またはエラーが発生した時点でこの操作はタイムアウトします。
 
-**RETURNS** *Promise&lt;FlushResult&gt;*
+**戻り値** *Promise&lt;FlushResult&gt;*
 
 このメソッドは、**FlushResult** オブジェクトに解決される promise を返します。
 
@@ -82,25 +82,25 @@ await milvusClient.flush({
 }
 ```
 
-**PARAMETERS:**
+**パラメーター:**
 
-- **coll_segIDs** (*Record&lt;string, \{ data: number[] }&gt;*) -
-collection 名から、この flush によって seal された segment ID へのマッピングです。永続化を確認するには、返された ID を `getFlushState()` とともに使用してください。
+- **coll_segIDs** (*Record&lt;string, \{ data: number[] }&gt;*) -<br/>
+  collection 名から、この flush によってシールされた segment ID へのマッピングです。永続化を確認するには、返された ID を `getFlushState()` とともに使用します。
 
-- **ResStatus**
-**ResStatus** オブジェクト。
+- **ResStatus**<br/>
+  **ResStatus** オブジェクト。
 
     - **code** (*number*) -
 
-        操作結果を示すコード。この操作が成功した場合は **0** のままです。
+        操作結果を示すコードです。この操作が成功した場合は **0** のままです。
 
     - **error_code** (*string* | *number*) -
 
-        発生したエラーを示すエラーコード。この操作が成功した場合は **Success** のままです。
+        発生したエラーを示すエラーコードです。この操作が成功した場合は **Success** のままです。
 
     - **reason** (*string*) -
 
-        報告されたエラーの理由を示す理由。この操作が成功した場合は空文字列のままです。
+        報告されたエラーの理由を示します。この操作が成功した場合は空文字列のままです。
 
 ## Example\{#example}
 

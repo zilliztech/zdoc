@@ -7,7 +7,7 @@ added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、external collection のすべての refresh ジョブを一覧表示します。collection 名とデータベース名でフィルタリングできます。 | Node.js"
+description: "この操作は、外部コレクションのすべてのリフレッシュジョブを一覧表示します。コレクション名とデータベース名でフィルタリングできます。 | Node.js"
 type: docx
 token: AG5zdQCpXoy11MxWgD0ciYBRnJb
 sidebar_position: 30
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # listRefreshExternalCollectionJobs()
 
-この操作は、external collection のすべての refresh ジョブを一覧表示します。collection 名とデータベース名でフィルタリングできます。
+この操作は、外部コレクションのすべてのリフレッシュジョブを一覧表示します。コレクション名とデータベース名でフィルタリングできます。
 
 ```typescript
 await milvusClient.listRefreshExternalCollectionJobs(data?: ListRefreshExternalCollectionJobsReq)
@@ -48,21 +48,21 @@ await milvusClient.listRefreshExternalCollectionJobs({
 })
 ```
 
-**PARAMETERS:**
+**パラメータ:**
 
-- **collection_name** (*string*) -
-collection 名でフィルタリングするためのオプション項目です。
+- **collection_name** (*string*) -<br/>
+  コレクション名による任意のフィルタです。
 
-- **db_name** (*string*) -
-データベース名でフィルタリングするためのオプション項目です。
+- **db_name** (*string*) -<br/>
+  データベース名による任意のフィルタです。
 
-- **timeout** (*number*) -
-RPC に許可する時間の長さ（ミリ秒）のオプション値です。`undefined` に設定されている場合、サーバーが応答するかエラーが発生するまでクライアントは待機し続けます。デフォルトは `undefined` です。
+- **timeout** (*number*) -<br/>
+  RPC に許可する任意の時間長（ミリ秒）です。`undefined` に設定されている場合、サーバーが応答するかエラーが発生するまで、クライアントは待機し続けます。デフォルトは `undefined` です。
 
-- **client_request_id** (*string*) -
-リクエスト追跡用のトレース ID です。オプションです。
+- **client_request_id** (*string*) -<br/>
+  リクエスト追跡用のトレース ID です。任意です。
 
-**RETURNS** *Promise&lt;ListRefreshExternalCollectionJobsResponse&gt;*
+**戻り値** *Promise&lt;ListRefreshExternalCollectionJobsResponse&gt;*
 
 このメソッドは、**ListRefreshExternalCollectionJobsResponse** オブジェクトに解決される promise を返します。
 
@@ -73,13 +73,13 @@ RPC に許可する時間の長さ（ミリ秒）のオプション値です。`
 }
 ```
 
-**PARAMETERS:**
+**パラメータ:**
 
-- **jobs** (*RefreshExternalCollectionJobInfo[]*) -
-要求された database および collection フィルターに一致する refresh ジョブの一覧です。**RefreshExternalCollectionJobInfo** の完全なフィールド参照については、`getRefreshExternalCollectionProgress()` のドキュメントを参照してください。
+- **jobs** (*RefreshExternalCollectionJobInfo[]*) -<br/>
+  リクエストされたデータベースおよびコレクションフィルタに一致するリフレッシュジョブの一覧です。**RefreshExternalCollectionJobInfo** の完全なフィールドリファレンスについては、`getRefreshExternalCollectionProgress()` のドキュメントを参照してください。
 
-- **ResStatus**
-**ResStatus** オブジェクトです。
+- **ResStatus**<br/>
+  **ResStatus** オブジェクトです。
 
     - **code** (*number*) -
 
@@ -91,7 +91,7 @@ RPC に許可する時間の長さ（ミリ秒）のオプション値です。`
 
     - **reason** (*string*) -
 
-        報告されたエラーの理由を示す理由です。この操作が成功した場合は空文字列のままです。
+        報告されたエラーの理由を示します。この操作が成功した場合は空文字列のままです。
 
 ## 例\{#example}
 

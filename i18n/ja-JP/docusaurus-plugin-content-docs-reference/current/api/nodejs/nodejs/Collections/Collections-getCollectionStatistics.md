@@ -37,7 +37,7 @@ import Admonition from '@theme/Admonition';
 await milvusClient.getCollectionStatistics(data)
 ```
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```javascript
 await milvusClient.getCollectionStatistics({ 
@@ -47,23 +47,23 @@ await milvusClient.getCollectionStatistics({
 })
 ```
 
-**パラメータ:**
+**パラメーター:**
 
 - **db_name** (*string*) -
 
-    対象の collection を保持するデータベースの名前。
+    対象の collection を保持するデータベースの名前です。
 
 - **collection_name** (*string*) -
 
-    **[REQUIRED]**
+    **[必須]**
 
-    collection の名前。
+    collection の名前です。
 
 - **timeout** (*number*) -
 
-    この操作のタイムアウト時間。 
+    この操作のタイムアウト時間です。 
 
-    これを **None** に設定すると、何らかのレスポンスが返されるかエラーが発生した時点でこの操作はタイムアウトします。
+    これを **None** に設定すると、いずれかのレスポンスが返されるかエラーが発生した時点でこの操作はタイムアウトします。
 
 **戻り値** *Promise&lt;StatisticsResponse&gt;*
 
@@ -77,30 +77,30 @@ await milvusClient.getCollectionStatistics({
 }
 ```
 
-**パラメータ:**
+**パラメーター:**
 
-- **stats** (*KeyValuePair[]*) -
-Milvus によって返される生の統計情報リスト。各エントリには **key**（たとえば **row_count**）と、文字列としての **value** が含まれます。
+- **stats** (*KeyValuePair[]*) -<br/>
+  Milvus によって返される生の統計情報リストです。各エントリには **key**（たとえば **row_count**）と、文字列としての **value** があります。
 
-- **data** (*Record&lt;string, any&gt;*) -
-利便性のために **stats** をフラット化し、キーでインデックス付けしたビュー。たとえば、`data.row_count` は行数を文字列として返します。
+- **data** (*Record&lt;string, any&gt;*) -<br/>
+  利便性のために **stats** をフラット化し、キーでインデックスしたビューです。たとえば、`data.row_count` は行数を文字列として返します。
 
-- **ResStatus**
-**ResStatus** オブジェクト。
+- **ResStatus**<br/>
+  **ResStatus** オブジェクトです。
 
     - **code** (*number*) -
 
-        操作結果を示すコード。この操作が成功した場合は **0** のままです。
+        操作結果を示すコードです。この操作が成功した場合は **0** のままです。
 
     - **error_code** (*string* | *number*) -
 
-        発生したエラーを示すエラーコード。この操作が成功した場合は **Success** のままです。
+        発生したエラーを示すエラーコードです。この操作が成功した場合は **Success** のままです。
 
     - **reason** (*string*) -
 
-        報告されたエラーの理由を示す理由。この操作が成功した場合は空文字列のままです。
+        報告されたエラーの理由を示す理由です。この操作が成功した場合は空文字列のままです。
 
-## Example\{#example}
+## 例\{#example}
 
 ```java
 const milvusClient = new MilvusClient({
