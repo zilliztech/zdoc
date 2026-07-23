@@ -138,6 +138,7 @@ export function ChatProvider({chatEndpoint, agentConfigCode, debugDefault = fals
   const abortRef = useRef<AbortController | null>(null);
   const sessionIdRef = useRef<string | null>(null);
   const conversationIdRef = useRef<string | null>(null);
+  const requestGenerationRef = useRef(0);
   const messagesRef = useRef(messages);
   messagesRef.current = messages;
   const activeChatIdRef = useRef(activeChatId);
@@ -166,7 +167,13 @@ export function ChatProvider({chatEndpoint, agentConfigCode, debugDefault = fals
       setChatHistory(prev =>
         prev.map(entry =>
           entry.id === activeChatIdRef.current
-            ? {...entry, title, messages: [...messages]}
+            ? {
+                ...entry,
+                title,
+                messages: [...messages],
+                sessionId: sessionIdRef.current,
+                conversationId: conversationIdRef.current,
+              }
             : entry
         )
       );
@@ -174,7 +181,14 @@ export function ChatProvider({chatEndpoint, agentConfigCode, debugDefault = fals
       const id = uuid();
       setActiveChatId(id);
       activeChatIdRef.current = id;
-      setChatHistory(prev => [{id, title, messages: [...messages], createdAt: Date.now()}, ...prev]);
+      setChatHistory(prev => [{
+        id,
+        title,
+        messages: [...messages],
+        createdAt: Date.now(),
+        sessionId: sessionIdRef.current,
+        conversationId: conversationIdRef.current,
+      }, ...prev]);
     }
   }, [messages]);
 
@@ -229,6 +243,8 @@ export function ChatProvider({chatEndpoint, agentConfigCode, debugDefault = fals
     setIsStreaming(true);
 
     const requestId = uuid();
+    const generation = requestGenerationRef.current + 1;
+    requestGenerationRef.current = generation;
     const startedAt = Date.now();
     const eventCounts: Record<string, number> = {};
     const pageContext = getPageContext();
@@ -241,6 +257,8 @@ export function ChatProvider({chatEndpoint, agentConfigCode, debugDefault = fals
     });
 
     let controller: AbortController | null = null;
+    const isCurrentRequest = () =>
+      requestGenerationRef.current === generation && !controller?.signal.aborted;
     try {
       controller = new AbortController();
       abortRef.current = controller;
@@ -273,6 +291,7 @@ export function ChatProvider({chatEndpoint, agentConfigCode, debugDefault = fals
         body: JSON.stringify(requestBody),
         signal: controller.signal,
       });
+      if (!isCurrentRequest()) return;
       chatDebug('chat.client.fetch.response', {
         requestId,
         status: res.status,
@@ -320,6 +339,7 @@ export function ChatProvider({chatEndpoint, agentConfigCode, debugDefault = fals
       };
 
       const applyUpdate = (update: AgentStreamUpdate) => {
+        if (!isCurrentRequest()) return;
         if (update.type === 'session') {
           sessionIdRef.current = update.sessionId;
           return;
@@ -370,6 +390,7 @@ export function ChatProvider({chatEndpoint, agentConfigCode, debugDefault = fals
 
       while (true) {
         const {done, value} = await reader.read();
+        if (!isCurrentRequest()) break;
         if (done) {
           if (buffer.trim()) {
             buffer += '\n';
@@ -399,6 +420,7 @@ export function ChatProvider({chatEndpoint, agentConfigCode, debugDefault = fals
             eventCounts[effectiveEvent] = (eventCounts[effectiveEvent] || 0) + 1;
             chatDebug('chat.client.sse.event', {requestId, sseEvent: effectiveEvent, payload: parsedForDebug});
             for (const update of parseAgentStreamEvent(eventName, data, streamState)) {
+              if (!isCurrentRequest()) break;
               if (update.type === 'text') {
                 chatDebug('chat.client.delta.applied', {
                   requestId,
@@ -432,9 +454,11 @@ export function ChatProvider({chatEndpoint, agentConfigCode, debugDefault = fals
         setMessages(prev => [...prev, {role: 'assistant', text: `Error: ${errorMsg}`}]);
       }
     } finally {
-      setIsStreaming(false);
-      if (abortRef.current === controller) {
-        abortRef.current = null;
+      if (requestGenerationRef.current === generation) {
+        setIsStreaming(false);
+        if (abortRef.current === controller) {
+          abortRef.current = null;
+        }
       }
     }
   }, [agentConfigCode, chatDebug, chatEndpoint, location.pathname]);
@@ -465,31 +489,54 @@ export function ChatProvider({chatEndpoint, agentConfigCode, debugDefault = fals
   }, [chatEndpoint, location.pathname]);
 
   const stop = useCallback(() => {
-    if (abortRef.current) {
-      abortRef.current.abort();
-      abortRef.current = null;
+    const sessionId = sessionIdRef.current;
+    const conversationId = conversationIdRef.current;
+    if (sessionId && conversationId) {
+      void fetch(`${chatEndpoint.replace(/\/+$/, '')}/interrupt`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Conversation-ID': conversationId,
+        },
+        body: JSON.stringify({session_id: sessionId, conversationId}),
+        keepalive: true,
+      }).catch(() => {});
     }
+    requestGenerationRef.current += 1;
+    abortRef.current?.abort();
+    abortRef.current = null;
     setIsStreaming(false);
-  }, []);
+    setMessages(prev => prev.map((message, index) =>
+      index === prev.length - 1 && message.role === 'assistant'
+        ? {...message, status: undefined}
+        : message,
+    ));
+  }, [chatEndpoint]);
 
   const newChat = useCallback(() => {
-    if (abortRef.current) abortRef.current.abort();
+    requestGenerationRef.current += 1;
+    abortRef.current?.abort();
+    abortRef.current = null;
     setMessages([]);
     setInput('');
     setIsStreaming(false);
     setActiveChatId(null);
     sessionIdRef.current = null;
+    conversationIdRef.current = null;
   }, []);
 
   const loadChat = useCallback((id: string) => {
-    if (abortRef.current) abortRef.current.abort();
+    requestGenerationRef.current += 1;
+    abortRef.current?.abort();
+    abortRef.current = null;
     const entry = chatHistory.find(e => e.id === id);
     if (!entry) return;
     setMessages([...entry.messages]);
     setActiveChatId(id);
     setInput('');
     setIsStreaming(false);
-    sessionIdRef.current = null;
+    sessionIdRef.current = entry.sessionId ?? null;
+    conversationIdRef.current = entry.conversationId ?? null;
   }, [chatHistory]);
 
   // Listen for chat-send events from the search bar / DocRoot
@@ -513,6 +560,7 @@ export function ChatProvider({chatEndpoint, agentConfigCode, debugDefault = fals
       setActiveChatId(null);
       setInput('');
       sessionIdRef.current = null;
+      conversationIdRef.current = null;
     }
   }, []);
 
