@@ -44,17 +44,17 @@ type GetImportProgressOption struct {
 
 **FIELDS:**
 
-- **URL** (*string*) -
-The base URL of the Milvus or Zilliz Cloud cluster. Do not include the path; the function appends `/v2/vectordb/jobs/import/describe` automatically.
+- **URL** (*string*) -<br/>
+  The base URL of the Milvus or Zilliz Cloud cluster. Do not include the path; the function appends `/v2/vectordb/jobs/import/describe` automatically.
 
-- **JobID** (*string*) -
-The unique identifier of the import job to inspect. Pass the value returned by `BulkImport()`. Required.
+- **JobID** (*string*) -<br/>
+  The unique identifier of the import job to inspect. Pass the value returned by `BulkImport()`. Required.
 
-- **ClusterID** (*string*) -
-The Zilliz Cloud cluster ID. Optional; used only for cloud imports.
+- **ClusterID** (*string*) -<br/>
+  The Zilliz Cloud cluster ID. Optional; used only for cloud imports.
 
-- **APIKey** (*string*) -
-The authorization token sent as a `Bearer` header. Optional; required when the server enforces token-based auth.
+- **APIKey** (*string*) -<br/>
+  The authorization token sent as a `Bearer` header. Optional; required when the server enforces token-based auth.
 
 **BUILDER METHODS:**
 
@@ -64,9 +64,9 @@ The authorization token sent as a `Bearer` header. Optional; required when the s
 
 **CONSTRUCTORS:**
 
-- `NewGetImportProgressOption(uri string, jobID string)`
-This creates a GetImportProgressOption for self-hosted Milvus clusters.
+- `NewGetImportProgressOption(uri string, jobID string)`<br/>
+  This creates a GetImportProgressOption for self-hosted Milvus clusters.
 
-- `NewCloudGetImportProgressOption(uri string, jobID string, apiKey string, clusterID string)`
-This creates a GetImportProgressOption for Zilliz Cloud clusters, pre-filling `APIKey` and `ClusterID`.
+- `NewCloudGetImportProgressOption(uri string, jobID string, apiKey string, clusterID string)`<br/>
+  This creates a GetImportProgressOption for Zilliz Cloud clusters, pre-filling `APIKey` and `ClusterID`.
 

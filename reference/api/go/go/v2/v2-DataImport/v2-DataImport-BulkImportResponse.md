@@ -44,14 +44,14 @@ type BulkImportResponse struct {
 
 **FIELDS:**
 
-- **Status** (*int*) -
-Inherited from `ResponseBase`. A value of `0` indicates success; any other value indicates an error.
+- **Status** (*int*) -<br/>
+  Inherited from `ResponseBase`. A value of `0` indicates success; any other value indicates an error.
 
-- **Message** (*string*) -
-Inherited from `ResponseBase`. Human-readable error description when `Status` is non-zero.
+- **Message** (*string*) -<br/>
+  Inherited from `ResponseBase`. Human-readable error description when `Status` is non-zero.
 
-- **Data.JobID** (*string*) -
-The unique identifier assigned to the submitted bulk import job. Pass this to `GetImportProgress()` to track completion.
+- **Data.JobID** (*string*) -<br/>
+  The unique identifier assigned to the submitted bulk import job. Pass this to `GetImportProgress()` to track completion.
 
 **METHODS:**
 

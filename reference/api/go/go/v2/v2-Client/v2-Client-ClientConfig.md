@@ -50,43 +50,43 @@ type ClientConfig struct {
 
 **PARAMETERS:**
 
-- **Address** (*string*) -
-[REQUIRED] The address of the Milvus server in `host:port` format (e.g., `YOUR_CLUSTER_ENDPOINT`). For Zilliz Cloud, use the full HTTPS endpoint.
+- **Address** (*string*) -<br/>
+  [REQUIRED] The address of the Milvus server in `host:port` format (e.g., `YOUR_CLUSTER_ENDPOINT`). For Zilliz Cloud, use the full HTTPS endpoint.
 
-- **Username** (*string*) -
-The username for password-based authentication.
+- **Username** (*string*) -<br/>
+  The username for password-based authentication.
 
-- **Password** (*string*) -
-The password for password-based authentication.
+- **Password** (*string*) -<br/>
+  The password for password-based authentication.
 
-- **DBName** (*string*) -
-The name of the database to connect to. Uses the default database if not set.
+- **DBName** (*string*) -<br/>
+  The name of the database to connect to. Uses the default database if not set.
 
-- **EnableTLSAuth** (*bool*) -
-Whether to enable TLS for the connection. Automatically set to `true` if the address uses the `https` scheme.
+- **EnableTLSAuth** (*bool*) -<br/>
+  Whether to enable TLS for the connection. Automatically set to `true` if the address uses the `https` scheme.
 
-- **APIKey** (*string*) -
-An API key for Zilliz Cloud or authenticated Milvus instances. Preferred over username/password for cloud deployments.
+- **APIKey** (*string*) -<br/>
+  An API key for Zilliz Cloud or authenticated Milvus instances. Preferred over username/password for cloud deployments.
 
-- **DialOptions** ([]*grpc.DialOption*) -
-Additional gRPC dial options to customize the connection. Merged with the default options if provided.
+- **DialOptions** ([]*grpc.DialOption*) -<br/>
+  Additional gRPC dial options to customize the connection. Merged with the default options if provided.
 
-- **RetryRateLimit** (*RetryRateLimitOption*) -
-Configuration for automatic retry on rate-limit errors.
+- **RetryRateLimit** (*RetryRateLimitOption*) -<br/>
+  Configuration for automatic retry on rate-limit errors.
 
-- **DisableConn** (*bool*) -
-If `true`, the client will not establish a connection immediately. Useful for testing or lazy connection scenarios.
+- **DisableConn** (*bool*) -<br/>
+  If `true`, the client will not establish a connection immediately. Useful for testing or lazy connection scenarios.
 
-- **ServerVersion** (*string*) -
-The version string of the connected server. Populated automatically after connection.
+- **ServerVersion** (*string*) -<br/>
+  The version string of the connected server. Populated automatically after connection.
 
 **BUILDER METHODS:**
 
-- `WithTLSConfig(tlsConfig *tls.Config)`
-This sets a custom TLS configuration for secure connections.
+- `WithTLSConfig(tlsConfig *tls.Config)`<br/>
+  This sets a custom TLS configuration for secure connections.
 
-- `WithGrpcAuthority(authority string)`
-This sets the gRPC authority header for the connection, useful when connecting through a proxy or load balancer.
+- `WithGrpcAuthority(authority string)`<br/>
+  This sets the gRPC authority header for the connection, useful when connecting through a proxy or load balancer.
 
 **RETURN TYPE:**
 

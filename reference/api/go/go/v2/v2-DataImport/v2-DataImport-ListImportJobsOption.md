@@ -46,34 +46,34 @@ type ListImportJobsOption struct {
 
 **FIELDS:**
 
-- **URL** (*string*) -
-The base URL of the Milvus or Zilliz Cloud cluster. Do not include the path; the function appends `/v2/vectordb/jobs/import/list` automatically.
+- **URL** (*string*) -<br/>
+  The base URL of the Milvus or Zilliz Cloud cluster. Do not include the path; the function appends `/v2/vectordb/jobs/import/list` automatically.
 
-- **CollectionName** (*string*) -
-The name of the collection whose import jobs should be listed. Required.
+- **CollectionName** (*string*) -<br/>
+  The name of the collection whose import jobs should be listed. Required.
 
-- **ClusterID** (*string*) -
-The Zilliz Cloud cluster ID. Optional; used only for cloud imports.
+- **ClusterID** (*string*) -<br/>
+  The Zilliz Cloud cluster ID. Optional; used only for cloud imports.
 
-- **APIKey** (*string*) -
-The authorization token sent as a `Bearer` header. Optional; required when the server enforces token-based auth.
+- **APIKey** (*string*) -<br/>
+  The authorization token sent as a `Bearer` header. Optional; required when the server enforces token-based auth.
 
-- **PageSize** (*int*) -
-The number of jobs to return per page. Default is `10`. Use `WithPageSize()` to override.
+- **PageSize** (*int*) -<br/>
+  The number of jobs to return per page. Default is `10`. Use `WithPageSize()` to override.
 
-- **CurrentPage** (*int*) -
-The page index, starting from `1`. Default is `1`. Use `WithCurrentPage()` to override.
+- **CurrentPage** (*int*) -<br/>
+  The page index, starting from `1`. Default is `1`. Use `WithCurrentPage()` to override.
 
 **BUILDER METHODS:**
 
-- `WithAPIKey(key string)`
-This sets the authorization token sent as a `Bearer` header.
+- `WithAPIKey(key string)`<br/>
+  This sets the authorization token sent as a `Bearer` header.
 
-- `WithPageSize(pageSize int)`
-This sets the number of jobs returned per page.
+- `WithPageSize(pageSize int)`<br/>
+  This sets the number of jobs returned per page.
 
-- `WithCurrentPage(currentPage int)`
-This sets the page index, starting from `1`.
+- `WithCurrentPage(currentPage int)`<br/>
+  This sets the page index, starting from `1`.
 
 **CONSTRUCTORS:**
 

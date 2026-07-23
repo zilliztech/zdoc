@@ -56,11 +56,11 @@ resp, err := bulkwriter.ListImportJobs(ctx, option)
 
 **PARAMETERS:**
 
-- **ctx** (*context.Context*) -
-The context for cancellation and deadlines. The HTTP request inherits this context, so canceling it aborts the in-flight call.
+- **ctx** (*context.Context*) -<br/>
+  The context for cancellation and deadlines. The HTTP request inherits this context, so canceling it aborts the in-flight call.
 
-- **option** (*ListImportJobsOption*) -
-The list option created with `NewListImportJobsOption()`. Defaults to `CurrentPage: 1, PageSize: 10` if not modified by `WithCurrentPage()` or `WithPageSize()`. Required.
+- **option** (*ListImportJobsOption*) -<br/>
+  The list option created with `NewListImportJobsOption()`. Defaults to `CurrentPage: 1, PageSize: 10` if not modified by `WithCurrentPage()` or `WithPageSize()`. Required.
 
 **RETURN TYPE:**
 

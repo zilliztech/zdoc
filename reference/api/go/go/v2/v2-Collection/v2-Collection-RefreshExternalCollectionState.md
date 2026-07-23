@@ -39,12 +39,12 @@ type RefreshExternalCollectionState milvuspb.RefreshExternalCollectionState
 
 **CONSTANTS:**
 
-- **RefreshStatePending** -
-The job is pending and has not started yet.
+- **RefreshStatePending** -<br/>
+  The job is pending and has not started yet.
 
-- **RefreshStateInProgress** -
-The job is currently in progress.
+- **RefreshStateInProgress** -<br/>
+  The job is currently in progress.
 
-- **RefreshStateCompleted** -
-The job has completed successfully.
+- **RefreshStateCompleted** -<br/>
+  The job has completed successfully.
 

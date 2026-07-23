@@ -55,11 +55,11 @@ resp, err := bulkwriter.BulkImport(ctx, option)
 
 **PARAMETERS:**
 
-- **ctx** (*context.Context*) -
-The context for cancellation and deadlines. The HTTP request inherits this context, so canceling it aborts the in-flight call.
+- **ctx** (*context.Context*) -<br/>
+  The context for cancellation and deadlines. The HTTP request inherits this context, so canceling it aborts the in-flight call.
 
-- **option** (*BulkImportOption*) -
-The fully populated import option created with `NewBulkImportOption()` for self-hosted Milvus or `NewCloudBulkImportOption()` for Zilliz Cloud. Required.
+- **option** (*BulkImportOption*) -<br/>
+  The fully populated import option created with `NewBulkImportOption()` for self-hosted Milvus or `NewCloudBulkImportOption()` for Zilliz Cloud. Required.
 
 **RETURN TYPE:**
 

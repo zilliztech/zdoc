@@ -54,11 +54,11 @@ resp, err := bulkwriter.GetImportProgress(ctx, option)
 
 **PARAMETERS:**
 
-- **ctx** (*context.Context*) -
-The context for cancellation and deadlines. The HTTP request inherits this context, so canceling it aborts the in-flight call.
+- **ctx** (*context.Context*) -<br/>
+  The context for cancellation and deadlines. The HTTP request inherits this context, so canceling it aborts the in-flight call.
 
-- **option** (*GetImportProgressOption*) -
-The progress option created with `NewGetImportProgressOption()` for self-hosted Milvus or `NewCloudGetImportProgressOption()` for Zilliz Cloud. The job ID returned by `BulkImport()` is required. Required.
+- **option** (*GetImportProgressOption*) -<br/>
+  The progress option created with `NewGetImportProgressOption()` for self-hosted Milvus or `NewCloudGetImportProgressOption()` for Zilliz Cloud. The job ID returned by `BulkImport()` is required. Required.
 
 **RETURN TYPE:**
 
