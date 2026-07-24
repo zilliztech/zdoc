@@ -34,13 +34,21 @@ describe('site profile resolution', () => {
     expect(enProfile.outputDir).not.toBe(zhCNProfile.outputDir);
   });
 
-  it('registers the migrated English Guides plugin explicitly', () => {
-    expect(enProfile.content).toEqual([{
-      id: 'default',
-      sourcePath: 'content/en/guides',
-      routeBasePath: 'docs',
-      sidebarPath: 'generated/en/sidebars/guides.sidebar.js',
-    }]);
+  it('registers only the migrated English Guides and BYOC plugins explicitly', () => {
+    expect(enProfile.content).toEqual([
+      {
+        id: 'default',
+        sourcePath: 'content/en/guides',
+        routeBasePath: 'docs',
+        sidebarPath: 'generated/en/sidebars/guides.sidebar.js',
+      },
+      {
+        id: 'byoc',
+        sourcePath: 'content/en/byoc',
+        routeBasePath: 'docs/byoc',
+        sidebarPath: 'generated/en/sidebars/guides-byoc.sidebar.js',
+      },
+    ]);
   });
 
   it('returns the same deeply frozen profile object', () => {

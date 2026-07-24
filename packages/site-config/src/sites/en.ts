@@ -15,6 +15,12 @@ export const enProfile = deepFreeze(SiteProfileSchema.parse({
       routeBasePath: 'docs',
       sidebarPath: 'generated/en/sidebars/guides.sidebar.js',
     },
+    {
+      id: 'byoc',
+      sourcePath: 'content/en/byoc',
+      routeBasePath: 'docs/byoc',
+      sidebarPath: 'generated/en/sidebars/guides-byoc.sidebar.js',
+    },
   ],
   manuals: [],
   staticRoots: ['apps/docs/static/shared'],
